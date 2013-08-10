@@ -19,6 +19,8 @@ If you choose a default form on the settings page, that form will be embedded at
 (in single view only) across your site. If you wish to turn off form embedding or select a different form for
 an individual post or page, you can do so within the ConvertKit meta box on the editing form.
 
+Finally, you can insert the default form into the middle of post or page content by using the `[convertkit]` shortcode.
+
 == Installation ==
 
 1. Upload `wp-convertkit` to the `/wp-content/plugins/` directory
