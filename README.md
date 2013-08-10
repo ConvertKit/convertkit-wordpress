@@ -1,16 +1,16 @@
-=== WP ConvertKit ===
+# WP ConvertKit
 
 Contributors: nickohrn
 Tags: api, optin, web service, admin
 Requires at least: 3.6
 Tested up to: 3.6
 Stable tag: 1.0.0
-License: GPLv3
+License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.txt
 
 Quickly and easily integrate [ConvertKit](https://convertkit.com) into your WordPress site.
 
-== Description ==
+## Description
 
 [ConvertKit](https://convertkit.com) makes it easy to capture more leads and sell more products by easily
 embedding email capture forms anywhere. This plugin makes it a little bit easier for those of us using WordPress
@@ -22,7 +22,7 @@ an individual post or page, you can do so within the ConvertKit meta box on the 
 
 Finally, you can insert the default form into the middle of post or page content by using the `[convertkit]` shortcode.
 
-== Installation ==
+## Installation
 
 1. Upload `wp-convertkit` to the `/wp-content/plugins/` directory
 1. Activate the plugin through the 'Plugins' menu in WordPress
@@ -31,7 +31,8 @@ Finally, you can insert the default form into the middle of post or page content
 1. Select your default form and form orientation and save the settings
 1. If you wish, choose particular forms for each post or page by visiting the edit screen and choosing the correct form
 
-== Changelog ==
+## Changelog
 
-= 1.0.0 =
+### 1.0.0
+
 * Initial release
