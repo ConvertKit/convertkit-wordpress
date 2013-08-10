@@ -81,7 +81,7 @@ if(!class_exists('WP_ConvertKit')) {
 		}
 
 		public static function append_form($content) {
-			if(is_singular() || is_page()) {
+			if(is_singular(array('post')) || is_page()) {
 				$content .= wp_convertkit_get_form_embed(self::_get_meta(get_the_ID()));
 			}
 
