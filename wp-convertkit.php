@@ -157,7 +157,15 @@ if(!class_exists('WP_ConvertKit')) {
 			$post_id = empty($post_id) ? get_the_ID() : $post_id;
 
 			$meta = get_post_meta($post_id, self::POST_META_KEY, true);
-			$meta = empty($meta) ? self::_get_meta_defaults() : $meta;
+
+			if(empty($meta)) {
+				$meta = self::_get_meta_defaults();
+
+				$old_value = intval(get_post_meta($post_id, '_convertkit_convertkit_form', true));
+				if(0 !== $old_value) {
+					$meta['form'] = $old_value;
+				}
+			}
 
 			return is_null($meta_key) ? $meta : (isset($meta[$meta_key]) ? $meta[$meta_key] : false);
 		}
