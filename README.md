@@ -1,11 +1,11 @@
 # WP ConvertKit
 
-Contributors: nickohrn
-Tags: admin, api, forms, web service
-Requires at least: 3.6
-Tested up to: 3.6
-Stable tag: 1.0.0
-License: GPLv2 or later
+Contributors: nickohrn  
+Tags: admin, api, forms, web service  
+Requires at least: 3.6  
+Tested up to: 3.6  
+Stable tag: 1.0.0  
+License: GPLv2 or later  
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Quickly and easily integrate [ConvertKit](https://convertkit.com) into your WordPress site.
