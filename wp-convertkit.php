@@ -43,6 +43,8 @@ if(!class_exists('WP_ConvertKit')) {
 
 				add_action('admin_init', array(__CLASS__, 'register_settings'));
 				add_action('admin_menu', array(__CLASS__, 'add_settings_page'));
+			} else {
+				add_action('template_redirect', array(__CLASS__, 'page_takeover'));
 			}
 
 			add_action('save_post', array(__CLASS__, 'save_post_meta'), 10, 2);
@@ -78,12 +80,10 @@ if(!class_exists('WP_ConvertKit')) {
 		}
 
 		public static function display_settings_page() {
-			$key = self::_get_settings('api_key');
-
-			$forms = self::_get_forms($key);
-			$landing_pages = self::_get_landing_pages($key);
-
 			$settings = self::_get_settings();
+
+			$forms = self::_get_forms();
+			$landing_pages = self::_get_landing_pages();
 
 			include('views/backend/settings/settings.php');
 		}
@@ -107,15 +107,18 @@ if(!class_exists('WP_ConvertKit')) {
 		/// Page / Post Editing
 
 		public static function add_meta_boxes($post) {
-			/*$api_key = self::_get_settings('api_key');
+			$forms = self::_get_forms();
+			$landing_pages = self::_get_landing_pages();
 
-			if(!empty($api_key)) {
+			if(!empty($forms) || ('page' === $post->post_type && !empty($landing_pages))) {
 				add_meta_box('wp-convertkit-meta-box', __('ConvertKit'), array(__CLASS__, 'display_meta_box'), $post->post_type, 'normal');
-			}*/
+			}
 		}
 
 		public static function display_meta_box($post) {
-			$forms = self::_get_forms(self::_get_settings('api_key'));
+			$forms = self::_get_forms();
+			$landing_pages = self::_get_landing_pages();
+
 			$meta = self::_get_meta($post->ID);
 			$settings_link = self::_get_settings_page_link();
 
@@ -123,15 +126,12 @@ if(!class_exists('WP_ConvertKit')) {
 		}
 
 		public static function save_post_meta($post_id, $post) {
-			/*$data = stripslashes_deep($_POST);
-			if(wp_is_post_autosave($post_id)
-				|| wp_is_post_revision($post_id)
-				|| !isset($data['wp-convertkit-save-meta-nonce'])
-				|| !wp_verify_nonce($data['wp-convertkit-save-meta-nonce'], 'wp-convertkit-save-meta')) {
+			$data = stripslashes_deep($_POST);
+			if(wp_is_post_autosave($post_id) || wp_is_post_revision($post_id) || !isset($data['wp-convertkit-save-meta-nonce']) || !wp_verify_nonce($data['wp-convertkit-save-meta-nonce'], 'wp-convertkit-save-meta')) {
 				return;
 			}
 
-			self::_set_meta($post_id, $data['wp-convertkit']);*/
+			self::_set_meta($post_id, $data['wp-convertkit']);
 		}
 
 		/// Page / Post Display
@@ -142,6 +142,19 @@ if(!class_exists('WP_ConvertKit')) {
 			}
 
 			return $content;
+		}
+
+		public static function page_takeover() {
+			$queried_object = get_queried_object();
+			if(isset($queried_object->post_type) && 'page' === $queried_object->post_type && ($landing_page_url = self::_get_meta($queried_object->ID, 'landing_page'))) {
+				$landing_page = self::_get_landing_page($landing_page_url);
+
+				if(!empty($landing_page)) {
+					echo $landing_page;
+					exit;
+				}
+			}
+
 		}
 
 		/// Shortcodes
@@ -159,6 +172,7 @@ if(!class_exists('WP_ConvertKit')) {
 				self::$meta_defaults = array(
 					'form' => -1,
 					'form_orientation' => 'default',
+					'landing_page' => '',
 				);
 			}
 
@@ -169,15 +183,18 @@ if(!class_exists('WP_ConvertKit')) {
 			$post_id = empty($post_id) ? get_the_ID() : $post_id;
 
 			$meta = get_post_meta($post_id, self::POST_META_KEY, true);
+			$meta_defaults = self::_get_meta_defaults();
 
 			if(empty($meta)) {
-				$meta = self::_get_meta_defaults();
+				$meta = $meta_defaults;
 
 				$old_value = intval(get_post_meta($post_id, '_convertkit_convertkit_form', true));
 				if(0 !== $old_value) {
 					$meta['form'] = $old_value;
 				}
 			}
+
+			$meta = shortcode_atts($meta_defaults, $meta);
 
 			return is_null($meta_key) ? $meta : (isset($meta[$meta_key]) ? $meta[$meta_key] : false);
 		}
@@ -231,7 +248,9 @@ if(!class_exists('WP_ConvertKit')) {
 			return md5($key . self::TRANSIENT_FORMS);
 		}
 
-		private static function _get_forms($key) {
+		private static function _get_forms($key = null) {
+			$key = is_null($key) ? self::_get_settings('api_key') : $key;
+
 			if(empty($key)) {
 				$forms = array();
 			} else {
@@ -253,35 +272,73 @@ if(!class_exists('WP_ConvertKit')) {
 			return $forms;
 		}
 
-		private static function _get_landing_page_transient_key($id) {
-			return md5($id . self::TRANSIENT_LANDING_PAGES);
+		private static function _get_landing_page_transient_key($url) {
+			return md5($url . self::TRANSIENT_LANDING_PAGES);
 		}
 
-		private static function _get_landing_page($id) {
-			if(empty($key)) {
-				$landing_page = array();
+		private static function _get_landing_page($url) {
+			if(empty($url)) {
+				$landing_page = '';
 			} else {
-				$transient = self::_get_landing_page_transient_key($id);
+				$transient = self::_get_landing_page_transient_key($url);
 
-				$landing_page = get_transient($transient);
+				$landing_page = false;// get_transient($transient);
 
 				if(false === $landing_page) {
-					$landing_page = false;
+					$response = wp_remote_get($url);
 
-					if($landing_page) {
-						set_transient($transient, $landing_page, MINUTE_IN_SECONDS * 15);
+					if(!is_wp_error($response)) {
+						if(!function_exists('str_get_html')) {
+							require_once('vendor/simple-html-dom/simple-html-dom.php');
+						}
+
+						if(!function_exists('url_to_absolute')) {
+							require_once('vendor/url-to-absolute/url-to-absolute.php');
+						}
+
+						$url_parts = parse_url($url);
+
+						$body = wp_remote_retrieve_body($response);
+						$html = str_get_html($body);
+						foreach($html->find('a, link') as $element) {
+							if(isset($element->href)) {
+								$element->href = url_to_absolute($url, $element->href);
+							}
+						}
+
+						foreach($html->find('img, script') as $element) {
+							if(isset($element->src)) {
+								$element->src = url_to_absolute($url, $element->src);
+							}
+						}
+
+						foreach($html->find('form') as $element) {
+							if(isset($element->action)) {
+								$element->action = url_to_absolute($url, $element->action);
+							} else {
+								$element->action = $url;
+							}
+						}
+
+						$landing_page = $html->save();
+
+						if($landing_page) {
+							set_transient($transient, $landing_page, MINUTE_IN_SECONDS * 15);
+						}
 					}
 				}
 			}
 
-			return $landing_pages;
+			return $landing_page;
 		}
 
 		private static function _get_landing_pages_transient_key($key) {
 			return md5($key . self::TRANSIENT_LANDING_PAGES);
 		}
 
-		private static function _get_landing_pages($key) {
+		private static function _get_landing_pages($key = null) {
+			$key = is_null($key) ? self::_get_settings('api_key') : $key;
+
 			if(empty($key)) {
 				$landing_pages = array();
 			} else {
@@ -314,6 +371,8 @@ if(!class_exists('WP_ConvertKit')) {
 		// Template Tags
 
 		public static function get_form_embed($attributes) {
+			return '';
+
 			$attributes = shortcode_atts(array(
 				'form' => -1,
 				'form_orientation' => 'default',
@@ -329,9 +388,9 @@ if(!class_exists('WP_ConvertKit')) {
 			$embed = '';
 
 			if($form > 0) {
-				$url = add_query_arg(array('orient' => $form_orientation), sprintf('https://convertkit.com/app/landing_pages/%d.js', $form));
+				$url = add_query_arg(array('orient' => $form_orientation), sprintf('https://app.convertkit.com/landing_pages/%d.js', $form));
 
-				$embed = sprintf('<script src="%s"></script>', $url);
+				$embed = sprintf('<iframe width="100%%" src="%s"></iframe>', $url);
 			}
 
 			return $embed;
