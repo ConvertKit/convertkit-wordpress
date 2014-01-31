@@ -1,38 +1,38 @@
 <div class="wrap">
 	<?php screen_icon(); ?>
-	<h2><?php _e('ConvertKit Settings'); ?></h2>
+	<h2><?php _e('ConvertKit Settings', 'wp_convertkit'); ?></h2>
 
-	<form method="post" action="<?php esc_attr_e(esc_url($settings_link)); ?>">
+	<form action="options.php" method="post">
 		<table class="form-table">
 			<tbody>
 				<tr valign="top">
-					<th scope="row"><label for="wp-convertkit-api_key"><?php _e('API Key'); ?></label></th>
+					<th scope="row"><label for="<?php echo esc_attr(self::_settings_id('api_key')); ?>"><?php _e('API Key'); ?></label></th>
 					<td>
-						<input class="regular-text code" type="text" name="wp-convertkit[api_key]" id="wp-convertkit-api_key" value="<?php esc_attr_e($settings['api_key']); ?>" /><br />
-						<small><a href="https://convertkit.com/app/account/edit" target="_blank"><?php _e('Get your ConvertKit key now'); ?></a></small>
+						<input class="regular-text code" type="text" name="<?php echo esc_attr(self::_settings_name('api_key')); ?>" id="<?php echo esc_attr(self::_settings_id('api_key')); ?>" value="<?php echo esc_attr($settings['api_key']); ?>" />
+						<p class="description"><a href="https://app.convertkit.com/account/edit" target="_blank"><?php _e('Get your ConvertKit API Key'); ?></a></p>
 					</td>
 				</tr>
 
 				<tr valign="top">
-					<th scope="row"><label for="wp-convertkit-default_form"><?php _e('Default Form'); ?></label></th>
+					<th scope="row"><label for="<?php echo esc_attr(self::_settings_id('default_form')); ?>"><?php _e('Default Form'); ?></label></th>
 					<td>
-						<select name="wp-convertkit[default_form]" id="wp-convertkit-default_form">
+						<select name="<?php echo esc_attr(self::_settings_name('default_form')); ?>" id="<?php echo esc_attr(self::_settings_id('default_form')); ?>">
 							<option <?php selected(0, $settings['default_form']); ?> value="0"><?php _e('None'); ?></option>
 							<?php foreach($forms as $form) { ?>
-							<option <?php selected($form['id'], $settings['default_form']); ?> value="<?php esc_attr_e($form['id']); ?>"><?php esc_html_e($form['name']); ?></option>
+							<option <?php selected($form['id'], $settings['default_form']); ?> value="<?php echo esc_attr($form['id']); ?>"><?php esc_html_e($form['name']); ?></option>
 							<?php } ?>
 						</select>
-						<?php if(empty($settings['api_key'])) { ?>
-							<br />
-							<small><?php _e('Enter your API Key above to get your available forms'); ?></small>
+
+						<?php if(!$forms) { ?>
+						<p class="description"><?php _e('Enter your API Key above to get your available forms'); ?></p>
 						<?php } ?>
 					</td>
 				</tr>
 
 				<tr valign="top">
-					<th scope="row"><label for="wp-convertkit-default_form_orientation"><?php _e('Default Form Orientation'); ?></label></th>
+					<th scope="row"><label for="<?php echo esc_attr(self::_settings_id('default_form_orientation')); ?>"><?php _e('Default Form Orientation'); ?></label></th>
 					<td>
-						<select name="wp-convertkit[default_form_orientation]" id="wp-convertkit-default_form_orientation">
+						<select name="<?php echo esc_attr(self::_settings_name('default_form_orientation')); ?>" id="<?php echo esc_attr(self::_settings_id('default_form_orientation')); ?>">
 							<option <?php selected('horizontal', $settings['default_form_orientation']); ?> value="horizontal"><?php _e('Horizontal'); ?></option>
 							<option <?php selected('vertical', $settings['default_form_orientation']); ?> value="vertical"><?php _e('Vertical'); ?></option>
 						</select>
@@ -42,15 +42,13 @@
 		</table>
 
 		<p class="submit">
-			<?php wp_nonce_field('wp-convertkit-save-settings', 'wp-convertkit-save-settings-nonce'); ?>
-			<input type="submit" class="button button-primary" name="wp-convertkit-save-settings" value="<?php _e('Save Changes'); ?>" />
+			<?php settings_fields(self::SETTINGS_NAME); ?>
+			<input type="submit" class="button button-primary" name="<?php echo esc_attr(self::_settings_id('save')); ?>-settings" value="<?php _e('Save Changes'); ?>" />
 		</p>
 
-		<p>
-			<em>
-				<?php _e('If you have questions or problems, please contact'); ?>
-				<a href="mailto:support@convertkit.com?subject=<?php esc_attr_e(urlencode(__('ConvertKit WordPress Plugin - Support'))); ?>">support@convertkit.com</a>
-			</em>
+		<p class="description">
+			<?php _e('If you have questions or problems, please contact', 'wp_convertkit'); ?>
+			<a href="mailto:support@convertkit.com?subject=<?php echo esc_attr(urlencode(__('ConvertKit WordPress Plugin - Support', 'wp_convertkit'))); ?>">support@convertkit.com</a>
 		</p>
 	</form>
 </div>

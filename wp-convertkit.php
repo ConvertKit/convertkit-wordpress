@@ -3,26 +3,30 @@
  Plugin Name: WP ConvertKit
  Plugin URI: http://convertkit.com
  Description: Quickly and easily integrate ConvertKit forms into your site.
- Version: 1.0.0-RC1
+ Version: 1.0.0.RC.2
  Author: Nick Ohrn of Plugin-Developer.com
  Author URI: http://plugin-developer.com/
  */
 
 if(!class_exists('WP_ConvertKit')) {
 	class WP_ConvertKit {
-		/// CONSTANTS
 
-		//// VERSION
-		const VERSION = '1.0.0-RC1';
+		// Plugin Version
+		const VERSION = '1.0.0.RC.2';
 
-		//// KEYS
+		// DB Keys
 		const POST_META_KEY = '_wp_convertkit_post_meta';
-		const SETTINGS_KEY = '_wp_convertkit_settings';
+		const SETTINGS_NAME = '_wp_convertkit_settings';
 
-		//// SLUGS
+		// Transient Keys
+		const TRANSIENT_FORMS = '_wpc_api_forms';
+		const TRANSIENT_LANDING_PAGE = '_wpc_api_landing_page';
+		const TRANSIENT_LANDING_PAGES = '_wpc_api_landing_pages';
+
+		// Page Slugs
 		const SETTINGS_PAGE_SLUG = 'wp-convertkit-settings';
 
-		/// DATA
+		// Data Caching
 		private static $meta_defaults = null;
 		private static $settings_defaults = null;
 
@@ -37,7 +41,8 @@ if(!class_exists('WP_ConvertKit')) {
 				add_action('add_meta_boxes_page', array(__CLASS__, 'add_meta_boxes'));
 				add_action('add_meta_boxes_post', array(__CLASS__, 'add_meta_boxes'));
 
-				add_action('admin_menu', array(__CLASS__, 'add_administrative_interface_items'));
+				add_action('admin_init', array(__CLASS__, 'register_settings'));
+				add_action('admin_menu', array(__CLASS__, 'add_settings_page'));
 			}
 
 			add_action('save_post', array(__CLASS__, 'save_post_meta'), 10, 2);
@@ -50,72 +55,64 @@ if(!class_exists('WP_ConvertKit')) {
 				add_filter('the_content', array(__CLASS__, 'append_form'));
 			}
 
-			add_filter('option_' . self::SETTINGS_KEY, array(__CLASS__, 'sanitize_settings'));
-			add_filter('plugin_action_links_' . plugin_basename(__FILE__), array(__CLASS__, 'add_settings_link'));
+			add_filter('option_' . self::SETTINGS_NAME, array(__CLASS__, 'sanitize_settings'));
+			add_filter('plugin_action_links_' . plugin_basename(__FILE__), array(__CLASS__, 'add_settings_page_link'));
 		}
 
 		private static function register_shortcodes() {
 			add_shortcode('convertkit', array(__CLASS__, 'shortcode'));
 		}
 
-		/// CALLBACKS
+		// Callbacks
 
-		public static function add_administrative_interface_items() {
+		/// Settings Related
+
+		public static function add_settings_page() {
 			$settings = add_options_page(__('ConvertKit Settings'), __('ConvertKit'), 'manage_options', self::SETTINGS_PAGE_SLUG, array(__CLASS__, 'display_settings_page'));
-
-			add_action("load-{$settings}", array(__CLASS__, 'process_settings_save'));
 		}
 
-		public static function add_meta_boxes($post) {
-			$api_key = self::_get_settings('api_key');
-
-			if(!empty($api_key)) {
-				add_meta_box('wp-convertkit-meta-box', __('ConvertKit'), array(__CLASS__, 'display_meta_box'), $post->post_type, 'normal');
-			}
-		}
-
-		public static function add_settings_link($links) {
-			$settings_link = sprintf('<a href="%s">%s</a>', add_query_arg(array('page' => self::SETTINGS_PAGE_SLUG), admin_url('options-general.php')), __('Settings'));
+		public static function add_settings_page_link($links) {
+			$settings_link = sprintf('<a href="%s">%s</a>', self::_get_settings_page_link(), __('Settings'));
 
 			return array('settings' => $settings_link) + $links;
 		}
 
-		public static function append_form($content) {
-			if(is_singular(array('post')) || is_page()) {
-				$content .= wp_convertkit_get_form_embed(self::_get_meta(get_the_ID()));
-			}
+		public static function display_settings_page() {
+			$key = self::_get_settings('api_key');
 
-			return $content;
+			$forms = self::_get_forms($key);
+			$landing_pages = self::_get_landing_pages($key);
+
+			$settings = self::_get_settings();
+
+			include('views/backend/settings/settings.php');
 		}
 
-		public static function process_settings_save() {
-			$data = stripslashes_deep($_POST);
-
-			if(current_user_can('manage_options')
-				&& isset($data['wp-convertkit-save-settings-nonce'])
-				&& wp_verify_nonce($data['wp-convertkit-save-settings-nonce'], 'wp-convertkit-save-settings')) {
-
-				self::_process_save_settings($data);
-			}
+		public static function register_settings() {
+			register_setting(self::SETTINGS_NAME, self::SETTINGS_NAME, array(__CLASS__, 'sanitize_settings'));
 		}
 
 		public static function sanitize_settings($settings) {
 			return shortcode_atts(self::_get_settings_defaults(), $settings);
 		}
 
-		public static function save_post_meta($post_id, $post) {
-			$data = stripslashes_deep($_POST);
-			if(wp_is_post_autosave($post_id)
-				|| wp_is_post_revision($post_id)
-				|| !isset($data['wp-convertkit-save-meta-nonce'])
-				|| !wp_verify_nonce($data['wp-convertkit-save-meta-nonce'], 'wp-convertkit-save-meta')) {
-				return;
-			}
-
-			self::_set_meta($post_id, $data['wp-convertkit']);
+		private static function _settings_id($name) {
+			return self::SETTINGS_NAME . '-' . $name;
 		}
 
-		/// DISPLAY CALLBACKS
+		private static function _settings_name($name) {
+			return self::SETTINGS_NAME . '[' . $name . ']';
+		}
+
+		/// Page / Post Editing
+
+		public static function add_meta_boxes($post) {
+			/*$api_key = self::_get_settings('api_key');
+
+			if(!empty($api_key)) {
+				add_meta_box('wp-convertkit-meta-box', __('ConvertKit'), array(__CLASS__, 'display_meta_box'), $post->post_type, 'normal');
+			}*/
+		}
 
 		public static function display_meta_box($post) {
 			$forms = self::_get_forms(self::_get_settings('api_key'));
@@ -125,22 +122,37 @@ if(!class_exists('WP_ConvertKit')) {
 			include('views/backend/meta-boxes/meta-box.php');
 		}
 
-		public static function display_settings_page() {
-			$forms = self::_get_forms(self::_get_settings('api_key'));
-			$settings = self::_get_settings();
-			$settings_link = self::_get_settings_page_link();
+		public static function save_post_meta($post_id, $post) {
+			/*$data = stripslashes_deep($_POST);
+			if(wp_is_post_autosave($post_id)
+				|| wp_is_post_revision($post_id)
+				|| !isset($data['wp-convertkit-save-meta-nonce'])
+				|| !wp_verify_nonce($data['wp-convertkit-save-meta-nonce'], 'wp-convertkit-save-meta')) {
+				return;
+			}
 
-
-			include('views/backend/settings/settings.php');
+			self::_set_meta($post_id, $data['wp-convertkit']);*/
 		}
 
-		/// SHORTCODE CALLBACKS
+		/// Page / Post Display
+
+		public static function append_form($content) {
+			if(is_singular(array('post')) || is_page()) {
+				$content .= wp_convertkit_get_form_embed(self::_get_meta(get_the_ID()));
+			}
+
+			return $content;
+		}
+
+		/// Shortcodes
 
 		public static function shortcode($attributes, $content = null) {
 			return wp_convertkit_get_form_embed($attributes);
 		}
 
-		/// POST META
+		// Data Retrieval
+
+		/// Page / Post Meta Data
 
 		private static function _get_meta_defaults() {
 			if(is_null(self::$meta_defaults)) {
@@ -178,14 +190,14 @@ if(!class_exists('WP_ConvertKit')) {
 			return $meta;
 		}
 
-		/// SETTINGS
+		/// Settings
 
 		private static function _get_settings_defaults() {
 			if(is_null(self::$settings_defaults)) {
 				self::$settings_defaults = array(
 					'api_key' => '',
 					'default_form' => 0,
-					'default_form_orientation' => 'horizontal'
+					'default_form_orientation' => 'horizontal',
 				);
 			}
 
@@ -193,30 +205,47 @@ if(!class_exists('WP_ConvertKit')) {
 		}
 
 		private static function _get_settings($settings_key = null) {
-			$settings = get_option(self::SETTINGS_KEY, self::_get_settings_defaults());
+			$settings = get_option(self::SETTINGS_NAME, self::_get_settings_defaults());
 
 			return is_null($settings_key) ? $settings : (isset($settings[$settings_key]) ? $settings[$settings_key] : null);
 		}
 
-		private static function _set_settings($settings) {
-			update_option(self::SETTINGS_KEY, $settings);
-		}
-
 		/// API
 
-		private static function _get_forms($api_key) {
-			$forms = array();
+		private static function _get_api_response($path = '', $key = '', $version = '2') {
+			$args = array('k' => $key, 'v' => $version);
+			$url = add_query_arg($args, path_join('https://api.convertkit.com/', $path));
 
-			if(!empty($api_key)) {
-				$request_url = add_query_arg(compact('api_key'), 'https://convertkit.com/app/api/v1/forms.json');
-				$response = wp_remote_get($request_url, array('sslverify' => false));
+			$response = wp_remote_get($url);
 
-				if(!is_wp_error($response)) {
-					$decoded = json_decode(wp_remote_retrieve_body($response), true);
-					if(is_array($decoded)) {
-						foreach($decoded as $decoded_item) {
-							$forms[] = $decoded_item['landing_page'];
-						}
+			if(is_wp_error($response)) {
+				$data = $response;
+			} else {
+				$data = json_decode(wp_remote_retrieve_body($response), true);
+			}
+
+			return $data;
+		}
+
+		private static function _get_forms_transient_key($key) {
+			return md5($key . self::TRANSIENT_FORMS);
+		}
+
+		private static function _get_forms($key) {
+			if(empty($key)) {
+				$forms = array();
+			} else {
+				$transient = self::_get_forms_transient_key($key);
+
+				$forms = get_transient($transient);
+
+				if(false === $forms) {
+					$forms = self::_get_api_response('forms', $key);
+					$forms = is_wp_error($forms) ? false : $forms;
+					$forms = (isset($forms['error']) || isset($forms['error_message'])) ? false : $forms;
+
+					if($forms) {
+						set_transient($transient, $forms, MINUTE_IN_SECONDS * 15);
 					}
 				}
 			}
@@ -224,13 +253,57 @@ if(!class_exists('WP_ConvertKit')) {
 			return $forms;
 		}
 
-		/// UTILITY
-
-		private static function _redirect($url, $code = 302) {
-			wp_redirect($url, $code); exit;
+		private static function _get_landing_page_transient_key($id) {
+			return md5($id . self::TRANSIENT_LANDING_PAGES);
 		}
 
-		//// LINKS
+		private static function _get_landing_page($id) {
+			if(empty($key)) {
+				$landing_page = array();
+			} else {
+				$transient = self::_get_landing_page_transient_key($id);
+
+				$landing_page = get_transient($transient);
+
+				if(false === $landing_page) {
+					$landing_page = false;
+
+					if($landing_page) {
+						set_transient($transient, $landing_page, MINUTE_IN_SECONDS * 15);
+					}
+				}
+			}
+
+			return $landing_pages;
+		}
+
+		private static function _get_landing_pages_transient_key($key) {
+			return md5($key . self::TRANSIENT_LANDING_PAGES);
+		}
+
+		private static function _get_landing_pages($key) {
+			if(empty($key)) {
+				$landing_pages = array();
+			} else {
+				$transient = self::_get_landing_pages_transient_key($key);
+
+				$landing_pages = get_transient($transient);
+
+				if(false === $landing_pages) {
+					$landing_pages = self::_get_api_response('landing_pages', $key);
+					$landing_pages = is_wp_error($landing_pages) ? false : $landing_pages;
+					$landing_pages = isset($landing_pages['error']) || isset($landing_pages['error_message']) ? false : $landing_pages;
+
+					if($landing_pages) {
+						set_transient($transient, $landing_pages, MINUTE_IN_SECONDS * 15);
+					}
+				}
+			}
+
+			return $landing_pages;
+		}
+
+		// Links
 
 		private static function _get_settings_page_link($query_args = array()) {
 			$query_args = array('page' => self::SETTINGS_PAGE_SLUG) + $query_args;
@@ -238,18 +311,7 @@ if(!class_exists('WP_ConvertKit')) {
 			return add_query_arg($query_args, admin_url('options-general.php'));
 		}
 
-		//// PROCESSING
-
-		private static function _process_save_settings($data) {
-			self::_set_settings($data['wp-convertkit']);
-
-			add_settings_error('general', 'settings_updated', __('Settings saved.'), 'updated');
-			set_transient('settings_errors', get_settings_errors(), 30);
-
-			self::_redirect(self::_get_settings_page_link(array('settings-updated' => 'true')));
-		}
-
-		/// TEMPLATE TAGS
+		// Template Tags
 
 		public static function get_form_embed($attributes) {
 			$attributes = shortcode_atts(array(
@@ -277,6 +339,5 @@ if(!class_exists('WP_ConvertKit')) {
 	}
 
 	require_once('lib/template-tags.php');
-	require_once('lib/utility.php');
 	WP_ConvertKit::init();
 }
