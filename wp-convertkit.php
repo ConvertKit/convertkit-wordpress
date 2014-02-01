@@ -19,6 +19,7 @@ if(!class_exists('WP_ConvertKit')) {
 		const SETTINGS_NAME = '_wp_convertkit_settings';
 
 		// Transient Keys
+		const TRANSIENT_FORM = '_wpc_api_form';
 		const TRANSIENT_FORMS = '_wpc_api_forms';
 		const TRANSIENT_LANDING_PAGE = '_wpc_api_landing_page';
 		const TRANSIENT_LANDING_PAGES = '_wpc_api_landing_pages';
@@ -244,6 +245,66 @@ if(!class_exists('WP_ConvertKit')) {
 			return $data;
 		}
 
+		private static function _get_form_transient_key($url) {
+			return md5($url . self::TRANSIENT_FORM);
+		}
+
+		private static function _get_form($url) {
+			if(empty($url)) {
+				$form = '';
+			} else {
+				$transient = self::_get_form_transient_key($url);
+
+				$form = get_transient($transient);
+
+				if(false === $form) {
+					$response = wp_remote_get($url);
+
+					if(!is_wp_error($response)) {
+						if(!function_exists('str_get_html')) {
+							require_once('vendor/simple-html-dom/simple-html-dom.php');
+						}
+
+						if(!function_exists('url_to_absolute')) {
+							require_once('vendor/url-to-absolute/url-to-absolute.php');
+						}
+
+						$url_parts = parse_url($url);
+
+						$body = wp_remote_retrieve_body($response);
+						$html = str_get_html($body);
+						foreach($html->find('a, link') as $element) {
+							if(isset($element->href)) {
+								$element->href = url_to_absolute($url, $element->href);
+							}
+						}
+
+						foreach($html->find('img, script') as $element) {
+							if(isset($element->src)) {
+								$element->src = url_to_absolute($url, $element->src);
+							}
+						}
+
+						foreach($html->find('form') as $element) {
+							if(isset($element->action)) {
+								$element->action = url_to_absolute($url, $element->action);
+							} else {
+								$element->action = $url;
+							}
+						}
+
+						$form = $html->save();
+
+						if($form) {
+							set_transient($transient, $form, MINUTE_IN_SECONDS * 1);
+						}
+					}
+				}
+			}
+
+			return $form;
+		}
+
 		private static function _get_forms_transient_key($key) {
 			return md5($key . self::TRANSIENT_FORMS);
 		}
@@ -264,7 +325,7 @@ if(!class_exists('WP_ConvertKit')) {
 					$forms = (isset($forms['error']) || isset($forms['error_message'])) ? false : $forms;
 
 					if($forms) {
-						set_transient($transient, $forms, MINUTE_IN_SECONDS * 15);
+						set_transient($transient, $forms, MINUTE_IN_SECONDS * 1);
 					}
 				}
 			}
@@ -273,7 +334,7 @@ if(!class_exists('WP_ConvertKit')) {
 		}
 
 		private static function _get_landing_page_transient_key($url) {
-			return md5($url . self::TRANSIENT_LANDING_PAGES);
+			return md5($url . self::TRANSIENT_LANDING_PAGE);
 		}
 
 		private static function _get_landing_page($url) {
@@ -282,9 +343,10 @@ if(!class_exists('WP_ConvertKit')) {
 			} else {
 				$transient = self::_get_landing_page_transient_key($url);
 
-				$landing_page = false;// get_transient($transient);
+				$landing_page = get_transient($transient);
 
 				if(false === $landing_page) {
+					error_log($url);
 					$response = wp_remote_get($url);
 
 					if(!is_wp_error($response)) {
@@ -323,7 +385,7 @@ if(!class_exists('WP_ConvertKit')) {
 						$landing_page = $html->save();
 
 						if($landing_page) {
-							set_transient($transient, $landing_page, MINUTE_IN_SECONDS * 15);
+							set_transient($transient, $landing_page, MINUTE_IN_SECONDS * 1);
 						}
 					}
 				}
@@ -352,7 +414,7 @@ if(!class_exists('WP_ConvertKit')) {
 					$landing_pages = isset($landing_pages['error']) || isset($landing_pages['error_message']) ? false : $landing_pages;
 
 					if($landing_pages) {
-						set_transient($transient, $landing_pages, MINUTE_IN_SECONDS * 15);
+						set_transient($transient, $landing_pages, MINUTE_IN_SECONDS * 1);
 					}
 				}
 			}
@@ -371,8 +433,6 @@ if(!class_exists('WP_ConvertKit')) {
 		// Template Tags
 
 		public static function get_form_embed($attributes) {
-			return '';
-
 			$attributes = shortcode_atts(array(
 				'form' => -1,
 				'form_orientation' => 'default',
@@ -380,20 +440,27 @@ if(!class_exists('WP_ConvertKit')) {
 
 			extract($attributes);
 
-			$form = intval(($form < 0) ? self::_get_settings('default_form') : $form);
+			$form_id = intval(($form < 0) ? self::_get_settings('default_form') : $form);
+			$form = false;
 
-			$form_orientation = ('default' === $form_orientation) ? self::_get_settings('default_form_orientation') : $form_orientation;
-			$form_orientation = 'vertical' === $form_orientation ? 'vert' : false;
-
-			$embed = '';
-
-			if($form > 0) {
-				$url = add_query_arg(array('orient' => $form_orientation), sprintf('https://app.convertkit.com/landing_pages/%d.js', $form));
-
-				$embed = sprintf('<iframe width="100%%" src="%s"></iframe>', $url);
+			$forms_available = self::_get_forms();
+			foreach($forms_available as $form_available) {
+				if($form_available['id'] == $form_id) {
+					$form = $form_available;
+					break;
+				}
 			}
 
-			return $embed;
+			$form_markup = self::_get_form($form['embed']);
+			$form_orientation = ('default' === $form_orientation) ? self::_get_settings('default_form_orientation') : $form_orientation;
+
+			if('vertical' !== $form_orientation) {
+				$form_markup = str_replace('vertical', 'horizontal', $form_markup);
+			}
+
+			$form_markup .= '<style type="text/css">.ck_embed_form { margin: 0 auto; }</style>';
+
+			return $form_markup;
 		}
 	}
 
