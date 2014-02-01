@@ -346,7 +346,6 @@ if(!class_exists('WP_ConvertKit')) {
 				$landing_page = get_transient($transient);
 
 				if(false === $landing_page) {
-					error_log($url);
 					$response = wp_remote_get($url);
 
 					if(!is_wp_error($response)) {
