@@ -3,7 +3,7 @@
  Plugin Name: WP ConvertKit
  Plugin URI: http://convertkit.com
  Description: Quickly and easily integrate ConvertKit forms into your site.
- Version: 1.1.x
+ Version: 1.1.0.RC.1
  Author: Nick Ohrn of Plugin-Developer.com
  Author URI: http://plugin-developer.com/
  */
@@ -12,7 +12,7 @@ if(!class_exists('WP_ConvertKit')) {
 	class WP_ConvertKit {
 
 		// Plugin Version
-		const VERSION = '1.1.x';
+		const VERSION = '1.1.0.RC.1';
 
 		// DB Keys
 		const POST_META_KEY = '_wp_convertkit_post_meta';
@@ -28,6 +28,7 @@ if(!class_exists('WP_ConvertKit')) {
 		const SETTINGS_PAGE_SLUG = 'wp-convertkit-settings';
 
 		// Data Caching
+		private static $cache_period = 0;
 		private static $meta_defaults = null;
 		private static $settings_defaults = null;
 
@@ -35,6 +36,8 @@ if(!class_exists('WP_ConvertKit')) {
 			self::add_actions();
 			self::add_filters();
 			self::register_shortcodes();
+
+			self::$cache_period = MINUTE_IN_SECONDS * 10;
 		}
 
 		private static function add_actions() {
@@ -296,7 +299,7 @@ if(!class_exists('WP_ConvertKit')) {
 						$form = $html->save();
 
 						if($form) {
-							set_transient($transient, $form, MINUTE_IN_SECONDS * 1);
+							set_transient($transient, $form, self::$cache_period);
 						}
 					}
 				}
@@ -325,7 +328,7 @@ if(!class_exists('WP_ConvertKit')) {
 					$forms = (isset($forms['error']) || isset($forms['error_message'])) ? false : $forms;
 
 					if($forms) {
-						set_transient($transient, $forms, MINUTE_IN_SECONDS * 1);
+						set_transient($transient, $forms, self::$cache_period);
 					}
 				}
 			}
@@ -384,7 +387,7 @@ if(!class_exists('WP_ConvertKit')) {
 						$landing_page = $html->save();
 
 						if($landing_page) {
-							set_transient($transient, $landing_page, MINUTE_IN_SECONDS * 1);
+							set_transient($transient, $landing_page, self::$cache_period);
 						}
 					}
 				}
@@ -413,7 +416,7 @@ if(!class_exists('WP_ConvertKit')) {
 					$landing_pages = isset($landing_pages['error']) || isset($landing_pages['error_message']) ? false : $landing_pages;
 
 					if($landing_pages) {
-						set_transient($transient, $landing_pages, MINUTE_IN_SECONDS * 1);
+						set_transient($transient, $landing_pages, self::$cache_period);
 					}
 				}
 			}
