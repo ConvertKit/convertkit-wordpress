@@ -1,18 +1,18 @@
 <?php
 /*
  Plugin Name: WP ConvertKit
- Plugin URI: http://convertkit.com
+ Plugin URI: http://convertkit.com/
  Description: Quickly and easily integrate ConvertKit forms into your site.
- Version: 1.1.0
- Author: Nick Ohrn of Plugin-Developer.com
- Author URI: http://plugin-developer.com/
+ Version: 1.2.0
+ Author: Nick Horn and contributors
+ Author URI: http://convertkit.com/
  */
 
 if(!class_exists('WP_ConvertKit')) {
 	class WP_ConvertKit {
 
 		// Plugin Version
-		const VERSION = '1.1.0';
+		const VERSION = '1.2.0';
 
 		// DB Keys
 		const POST_META_KEY = '_wp_convertkit_post_meta';
@@ -175,7 +175,6 @@ if(!class_exists('WP_ConvertKit')) {
 			if(is_null(self::$meta_defaults)) {
 				self::$meta_defaults = array(
 					'form' => -1,
-					'form_orientation' => 'default',
 					'landing_page' => '',
 				);
 			}
@@ -218,7 +217,6 @@ if(!class_exists('WP_ConvertKit')) {
 				self::$settings_defaults = array(
 					'api_key' => '',
 					'default_form' => 0,
-					'default_form_orientation' => 'horizontal',
 				);
 			}
 
@@ -389,7 +387,6 @@ if(!class_exists('WP_ConvertKit')) {
 		public static function get_form_embed($attributes) {
 			$attributes = shortcode_atts(array(
 				'form' => -1,
-				'form_orientation' => 'default',
 			), $attributes);
 
 			extract($attributes);
@@ -406,13 +403,6 @@ if(!class_exists('WP_ConvertKit')) {
 			}
 
 			$form_markup = self::_get_form($form['embed']);
-			$form_orientation = ('default' === $form_orientation) ? self::_get_settings('default_form_orientation') : $form_orientation;
-
-			if('vertical' !== $form_orientation) {
-				$form_markup = str_replace('vertical', 'horizontal', $form_markup);
-			}
-
-			$form_markup .= '<style type="text/css">.ck_embed_form { margin: 0 auto; }</style>';
 
 			return $form_markup;
 		}

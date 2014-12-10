@@ -25,17 +25,6 @@
 			</td>
 		</tr>
 
-		<tr valign="top">
-			<th scope="row"><label for="wp-convertkit-form_orientation"><?php _e('Form Orientation'); ?></label></th>
-			<td>
-				<select name="wp-convertkit[form_orientation]" id="wp-convertkit-form_orientation">
-					<option <?php selected('default', $meta['form_orientation']); ?> value="default"><?php _e('Default'); ?></option>
-					<option <?php selected('horizontal', $meta['form_orientation']); ?> value="horizontal"><?php _e('Horizontal'); ?></option>
-					<option <?php selected('vertical', $meta['form_orientation']); ?> value="vertical"><?php _e('Vertical'); ?></option>
-				</select>
-			</td>
-		</tr>
-
 		<?php if('page' === $post->post_type) { ?>
 		<tr valign="top">
 			<th scope="row"><label for=""><?php _e('Landing Page'); ?></label></th>

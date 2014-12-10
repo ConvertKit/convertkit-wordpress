@@ -28,10 +28,14 @@ Finally, you can insert the default form into the middle of post or page content
 1. Activate the plugin through the 'Plugins' menu in WordPress
 1. Visit the settings page by clicking on the link under the plugin's name
 1. Enter your ConvertKit API key, which you can find [here](https://convertkit.com/app/account/edit), and save the settings
-1. Select your default form and form orientation and save the settings
+1. Select your default form and save the settings
 1. If you wish, choose particular forms for each post or page by visiting the edit screen and choosing the correct form
 
 ## Changelog
+
+### 1.2.0
+
+* Updated to use responsive forms
 
 ### 1.0.0
 

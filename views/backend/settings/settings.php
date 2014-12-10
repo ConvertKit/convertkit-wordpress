@@ -29,15 +29,6 @@
 					</td>
 				</tr>
 
-				<tr valign="top">
-					<th scope="row"><label for="<?php echo esc_attr(self::_settings_id('default_form_orientation')); ?>"><?php _e('Default Form Orientation'); ?></label></th>
-					<td>
-						<select name="<?php echo esc_attr(self::_settings_name('default_form_orientation')); ?>" id="<?php echo esc_attr(self::_settings_id('default_form_orientation')); ?>">
-							<option <?php selected('horizontal', $settings['default_form_orientation']); ?> value="horizontal"><?php _e('Horizontal'); ?></option>
-							<option <?php selected('vertical', $settings['default_form_orientation']); ?> value="vertical"><?php _e('Vertical'); ?></option>
-						</select>
-					</td>
-				</tr>
 			</tbody>
 		</table>
 
