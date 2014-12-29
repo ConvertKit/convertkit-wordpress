@@ -395,14 +395,16 @@ if(!class_exists('WP_ConvertKit')) {
 			$form = false;
 
 			$forms_available = self::_get_forms();
-			foreach($forms_available as $form_available) {
-				if($form_available['id'] == $form_id) {
-					$form = $form_available;
-					break;
-				}
-			}
+      if ($forms_available) {
+  			foreach($forms_available as $form_available) {
+  				if($form_available['id'] == $form_id) {
+  					$form = $form_available;
+  					break;
+  				}
+  			}
 
-			$form_markup = self::_get_form($form['embed']);
+  			$form_markup = self::_get_form($form['embed']);
+      }
 
 			return $form_markup;
 		}
