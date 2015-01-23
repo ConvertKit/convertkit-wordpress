@@ -33,6 +33,10 @@ Finally, you can insert the default form into the middle of post or page content
 
 ## Changelog
 
+### 1.2.1
+
+* Fixed a warning that appeared sometimes when no forms were loaded.
+
 ### 1.2.0
 
 * Updated to use responsive forms
