@@ -300,9 +300,13 @@ if(!class_exists('WP_ConvertKit')) {
 			if(empty($key)) {
 				self::$forms = array();
 			} else if(is_null(self::$forms)) {
-				$forms = self::_get_api_response('forms', $key);
-				$forms = is_wp_error($forms) ? false : $forms;
-				$forms = (isset($forms['error']) || isset($forms['error_message'])) ? false : $forms;
+				$api_response = self::_get_api_response('forms', $key);
+      	
+				if (is_wp_error($forms) || isset($forms['error']) || isset($forms['error_message'])) {
+				    self::$forms = array()
+				} else {
+				    self::$forms = $api_response
+				}
 
 				self::$forms = $forms;
 			}
