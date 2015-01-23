@@ -3,7 +3,7 @@
  Plugin Name: WP ConvertKit
  Plugin URI: http://convertkit.com/
  Description: Quickly and easily integrate ConvertKit forms into your site.
- Version: 1.2.0
+ Version: 1.2.1
  Author: Nick Horn and contributors
  Author URI: http://convertkit.com/
  */
@@ -12,7 +12,7 @@ if(!class_exists('WP_ConvertKit')) {
 	class WP_ConvertKit {
 
 		// Plugin Version
-		const VERSION = '1.2.0';
+		const VERSION = '1.2.1';
 
 		// DB Keys
 		const POST_META_KEY = '_wp_convertkit_post_meta';
@@ -298,13 +298,15 @@ if(!class_exists('WP_ConvertKit')) {
 			$key = is_null($key) ? self::_get_settings('api_key') : $key;
 
 			if(empty($key)) {
-				self::$forms = false;
+				self::$forms = array();
 			} else if(is_null(self::$forms)) {
-				$forms = self::_get_api_response('forms', $key);
-				$forms = is_wp_error($forms) ? false : $forms;
-				$forms = (isset($forms['error']) || isset($forms['error_message'])) ? false : $forms;
+				$api_response = self::_get_api_response('forms', $key);
 
-				self::$forms = $forms;
+				if (is_wp_error($api_response) || isset($api_response['error']) || isset($api_response['error_message'])) {
+					self::$forms = array();
+				} else {
+					self::$forms = $api_response;
+				}
 			}
 
 			return self::$forms;
