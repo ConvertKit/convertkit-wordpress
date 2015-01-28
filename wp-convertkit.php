@@ -26,8 +26,7 @@ if(!class_exists('WP_ConvertKit')) {
 		private static $meta_defaults = null;
 		private static $settings_defaults = null;
 
-		private static $forms = null;
-		private static $landing_pages = null;
+		private static $resources = array();
 
 		private static $forms_markup = array();
 		private static $landing_pages_markup = array();
@@ -86,8 +85,8 @@ if(!class_exists('WP_ConvertKit')) {
 		public static function display_settings_page() {
 			$settings = self::_get_settings();
 
-			$forms = self::_get_forms();
-			$landing_pages = self::_get_landing_pages();
+			$forms = self::_get_resource_list('forms');
+			$landing_pages = self::_get_resource_list('landing_pages');
 
 			include('views/backend/settings/settings.php');
 		}
@@ -111,8 +110,8 @@ if(!class_exists('WP_ConvertKit')) {
 		/// Page / Post Editing
 
 		public static function add_meta_boxes($post) {
-			$forms = self::_get_forms();
-			$landing_pages = self::_get_landing_pages();
+			$forms = self::_get_resource_list('forms');
+			$landing_pages = self::_get_resource_list('landing_pages');
 
 			if(!empty($forms) || ('page' === $post->post_type && !empty($landing_pages))) {
 				add_meta_box('wp-convertkit-meta-box', __('ConvertKit'), array(__CLASS__, 'display_meta_box'), $post->post_type, 'normal');
@@ -120,8 +119,8 @@ if(!class_exists('WP_ConvertKit')) {
 		}
 
 		public static function display_meta_box($post) {
-			$forms = self::_get_forms();
-			$landing_pages = self::_get_landing_pages();
+			$forms = self::_get_resource_list('forms');
+			$landing_pages = self::_get_resource_list('landing_pages');
 
 			$meta = self::_get_meta($post->ID);
 			$settings_link = self::_get_settings_page_link();
@@ -294,22 +293,22 @@ if(!class_exists('WP_ConvertKit')) {
 			return $form;
 		}
 
-		private static function _get_forms($key = null) {
+		private static function _get_resource_list($resource, $key = null) {
 			$key = is_null($key) ? self::_get_settings('api_key') : $key;
 
 			if(empty($key)) {
-				self::$forms = array();
-			} else if(is_null(self::$forms)) {
+				self::$resources[$resource] = array();
+			} else if(is_null(self::$resources[$resource])) {
 				$api_response = self::_get_api_response('forms', $key);
 
 				if (is_wp_error($api_response) || isset($api_response['error']) || isset($api_response['error_message'])) {
-					self::$forms = array();
+					self::$resources[$resource] = array();
 				} else {
-					self::$forms = $api_response;
+					self::$resources[$resource] = $api_response;
 				}
 			}
 
-			return self::$forms;
+			return self::$resources[$resource];
 		}
 
 		private static function _get_landing_page($url) {
@@ -360,22 +359,6 @@ if(!class_exists('WP_ConvertKit')) {
 			return $landing_page;
 		}
 
-		private static function _get_landing_pages($key = null) {
-			$key = is_null($key) ? self::_get_settings('api_key') : $key;
-
-			if(empty($key)) {
-				self::$landing_pages = false;
-			} else if(is_null(self::$landing_pages)) {
-				$landing_pages = self::_get_api_response('landing_pages', $key);
-				$landing_pages = is_wp_error($landing_pages) ? false : $landing_pages;
-				$landing_pages = (isset($landing_pages['error']) || isset($landing_pages['error_message'])) ? false : $landing_pages;
-
-				self::$landing_pages = $landing_pages;
-			}
-
-			return self::$landing_pages;
-		}
-
 		// Links
 
 		private static function _get_settings_page_link($query_args = array()) {
@@ -396,7 +379,7 @@ if(!class_exists('WP_ConvertKit')) {
 			$form_id = intval(($form < 0) ? self::_get_settings('default_form') : $form);
 			$form = false;
 
-			$forms_available = self::_get_forms();
+			$forms_available = self::_get_resource_list('forms');
 			foreach($forms_available as $form_available) {
 				if($form_available['id'] == $form_id) {
 					$form = $form_available;
