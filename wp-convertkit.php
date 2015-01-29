@@ -21,7 +21,7 @@ if(!class_exists('WP_ConvertKit')) {
 		const SETTINGS_NAME = '_wp_convertkit_settings';
 
 		// Page Slugs
-		const SETTINGS_PAGE_SLUG = 'wp-convertkit-settings';
+		const SETTINGS_PAGE_SLUG = '_wp_convertkit_settings';
 
 		private static $api;
 
@@ -235,4 +235,4 @@ if(!class_exists('WP_ConvertKit')) {
 	WP_ConvertKit::init();
 }
 
-include 'admin/general.php';
+include 'admin/settings.php';
