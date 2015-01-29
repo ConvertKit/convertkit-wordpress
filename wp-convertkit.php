@@ -28,9 +28,10 @@ if(!class_exists('WP_ConvertKit')) {
 		// Data Caching
 		private static $cache_period = 0;
 		private static $meta_defaults = null;
-		private static $settings_defaults = null;
-
-		private static $resources = array();
+		private static $settings_defaults = array(
+			'api_key'      => '',
+			'default_form' => 0,
+		);
 
 		private static $forms_markup = array();
 		private static $landing_pages_markup = array();
@@ -49,9 +50,6 @@ if(!class_exists('WP_ConvertKit')) {
 			if(is_admin()) {
 				add_action('add_meta_boxes_page', array(__CLASS__, 'add_meta_boxes'));
 				add_action('add_meta_boxes_post', array(__CLASS__, 'add_meta_boxes'));
-
-				add_action('admin_init', array(__CLASS__, 'register_settings'));
-				add_action('admin_menu', array(__CLASS__, 'add_settings_page'));
 			} else {
 				add_action('template_redirect', array(__CLASS__, 'page_takeover'));
 			}
@@ -60,13 +58,10 @@ if(!class_exists('WP_ConvertKit')) {
 		}
 
 		private static function add_filters() {
-			if(is_admin()) {
-
-			} else {
+			if(!is_admin()) {
 				add_filter('the_content', array(__CLASS__, 'append_form'));
 			}
 
-			add_filter('option_' . self::SETTINGS_NAME, array(__CLASS__, 'sanitize_settings'));
 			add_filter('plugin_action_links_' . plugin_basename(__FILE__), array(__CLASS__, 'add_settings_page_link'));
 		}
 
@@ -78,39 +73,10 @@ if(!class_exists('WP_ConvertKit')) {
 
 		/// Settings Related
 
-		public static function add_settings_page() {
-			$settings = add_options_page(__('ConvertKit Settings'), __('ConvertKit'), 'manage_options', self::SETTINGS_PAGE_SLUG, array(__CLASS__, 'display_settings_page'));
-		}
-
 		public static function add_settings_page_link($links) {
 			$settings_link = sprintf('<a href="%s">%s</a>', self::_get_settings_page_link(), __('Settings'));
 
 			return array('settings' => $settings_link) + $links;
-		}
-
-		public static function display_settings_page() {
-			$settings = self::_get_settings();
-
-			$forms = self::$api->_get_resources('forms');
-			$landing_pages = self::$api->_get_resources('landing_pages');
-
-			include('views/backend/settings/settings.php');
-		}
-
-		public static function register_settings() {
-			register_setting(self::SETTINGS_NAME, self::SETTINGS_NAME, array(__CLASS__, 'sanitize_settings'));
-		}
-
-		public static function sanitize_settings($settings) {
-			return shortcode_atts(self::_get_settings_defaults(), $settings);
-		}
-
-		private static function _settings_id($name) {
-			return self::SETTINGS_NAME . '-' . $name;
-		}
-
-		private static function _settings_name($name) {
-			return self::SETTINGS_NAME . '[' . $name . ']';
 		}
 
 		/// Page / Post Editing
@@ -217,19 +183,8 @@ if(!class_exists('WP_ConvertKit')) {
 
 		/// Settings
 
-		private static function _get_settings_defaults() {
-			if(is_null(self::$settings_defaults)) {
-				self::$settings_defaults = array(
-					'api_key' => '',
-					'default_form' => 0,
-				);
-			}
-
-			return self::$settings_defaults;
-		}
-
 		private static function _get_settings($settings_key = null) {
-			$settings = get_option(self::SETTINGS_NAME, self::_get_settings_defaults());
+			$settings = get_option(self::SETTINGS_NAME, self::$settings_defaults);
 
 			return is_null($settings_key) ? $settings : (isset($settings[$settings_key]) ? $settings[$settings_key] : null);
 		}
@@ -279,3 +234,5 @@ if(!class_exists('WP_ConvertKit')) {
 	require_once('lib/template-tags.php');
 	WP_ConvertKit::init();
 }
+
+include 'admin/general.php';
