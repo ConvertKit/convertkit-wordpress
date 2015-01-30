@@ -46,11 +46,15 @@ class ConvertKitSettingsGeneral extends ConvertKitSettingsSection {
    * Renders the input for api key entry
    */
   public function api_key_callback() {
-    printf(
+    $html = sprintf(
       '<input type="text" class="regular-text code" id="api_key" name="%s[api_key]" value="%s" />',
       $this->settings_name,
       isset($this->options['api_key']) ? esc_attr($this->options['api_key']) : ''
     );
+
+    $html .= '<p class="description"><a href="">Get your ConvertKit API Key</a></p>';
+
+    echo $html;
   }
 
   /**
@@ -61,9 +65,18 @@ class ConvertKitSettingsGeneral extends ConvertKitSettingsSection {
     $html = sprintf('<select id="default_form" name="%s[default_form]">', $this->settings_name);
       $html .= '<option value="default">None</option>';
       foreach($forms as $form) {
-        $html .= '<option value="' . esc_attr($form['id']) . '"' . selected( $this->options['default_form'], $form['id'], false) . '>' . esc_html($form['name']) . '</option>';
+        $html .= sprintf(
+          '<option value="%s" %s>%s</option>',
+          esc_attr($form['id']),
+          selected($this->options['default_form'], $form['id'], false),
+          esc_html($form['name'])
+        );
       }
     $html .= '</select>';
+
+    if (empty($forms)) {
+      $html .= '<p class="description">Enter your API Key above to get your available forms.</p>';
+    }
 
     echo $html;
   }

@@ -63,6 +63,10 @@ class ConvertKitSettings {
         settings_fields($this->settings_page);
         submit_button();
         ?>
+        <p class="description">
+          If you have questions or problems, please contact
+          <a href="mailto:support@convertkit.com">support@convertkit.com</a>
+        </p>
       </form>
     </div>
     <?php
