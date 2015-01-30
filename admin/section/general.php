@@ -81,5 +81,3 @@ class ConvertKitSettingsGeneral extends ConvertKitSettingsSection {
     echo $html;
   }
 }
-
-$convertkit_settings->register_section("ConvertKitSettingsGeneral");

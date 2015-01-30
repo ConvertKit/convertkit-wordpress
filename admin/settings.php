@@ -38,6 +38,8 @@ class ConvertKitSettings {
       $this->settings_name,
       array($this, 'sanitize_settings')
     );
+
+    $this->register_sections();
   }
 
   /**
@@ -101,7 +103,18 @@ class ConvertKitSettings {
    * @param string $section A section class name
    */
   public function register_section($section) {
-    array_push($this->sections, new $section());
+    $section_instance = new $section();
+
+    if ($section_instance->is_registerable) {
+      array_push($this->sections, $section_instance);
+    }
+  }
+
+  /**
+   * Register each section
+   */
+  public function register_sections() {
+    $this->register_section('ConvertKitSettingsGeneral');
   }
 
   /**

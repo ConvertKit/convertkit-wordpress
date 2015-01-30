@@ -1,6 +1,7 @@
 <?php
 
 abstract class ConvertKitSettingsSection {
+  public $is_registerable = true;
   public $name;
   public $title;
   public $tab_text;
@@ -18,7 +19,7 @@ abstract class ConvertKitSettingsSection {
     $this->options  = $convertkit_settings->options;
     if (empty($this->tab_text)) $this->tab_text = $this->title;
 
-    add_action('admin_init', array($this, 'register_section'));
+    $this->register_section();
   }
 
   /**
