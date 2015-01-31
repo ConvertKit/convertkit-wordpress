@@ -5,7 +5,7 @@ require_once "base.php";
 class ConvertKitSettingsGeneral extends ConvertKitSettingsSection {
 
   public function __construct() {
-    $this->settings_page = 'wp_convertkit_general_options';
+    $this->settings_key  = WP_ConvertKit::SETTINGS_PAGE_SLUG;
     $this->name          = 'general';
     $this->title         = 'ConvertKit General Settings';
     $this->tab_text      = 'General';
@@ -21,7 +21,7 @@ class ConvertKitSettingsGeneral extends ConvertKitSettingsSection {
       'api_key',
       'API Key',
       array($this, 'api_key_callback'),
-      $this->settings_page,
+      $this->settings_key,
       $this->name
     );
 
@@ -29,7 +29,7 @@ class ConvertKitSettingsGeneral extends ConvertKitSettingsSection {
       'default_form',
       'Default Form',
       array($this, 'default_form_callback'),
-      $this->settings_page,
+      $this->settings_key,
       $this->name,
       $this->api->_get_resources('forms')
     );
@@ -48,7 +48,7 @@ class ConvertKitSettingsGeneral extends ConvertKitSettingsSection {
   public function api_key_callback() {
     $html = sprintf(
       '<input type="text" class="regular-text code" id="api_key" name="%s[api_key]" value="%s" />',
-      $this->settings_name,
+      $this->settings_key,
       isset($this->options['api_key']) ? esc_attr($this->options['api_key']) : ''
     );
 
@@ -62,7 +62,7 @@ class ConvertKitSettingsGeneral extends ConvertKitSettingsSection {
    * @param  array $forms Form listing
    */
   public function default_form_callback($forms) {
-    $html = sprintf('<select id="default_form" name="%s[default_form]">', $this->settings_name);
+    $html = sprintf('<select id="default_form" name="%s[default_form]">', $this->settings_key);
       $html .= '<option value="default">None</option>';
       foreach($forms as $form) {
         $html .= sprintf(

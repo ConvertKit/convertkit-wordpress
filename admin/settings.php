@@ -3,14 +3,11 @@
 class ConvertKitSettings {
   public $api;
   public $sections = array();
-  public $options;
 
-  public $settings_page  = WP_ConvertKit::SETTINGS_PAGE_SLUG;
-  public $settings_name  = WP_ConvertKit::SETTINGS_NAME;
+  public $settings_key  = WP_ConvertKit::SETTINGS_PAGE_SLUG;
 
   public function __construct() {
-    $this->api     = new ConvertKitAPI(get_option( $this->settings_name )['api_key']);
-    $this->options = get_option( $this->settings_name );
+    $this->api     = new ConvertKitAPI(get_option( $this->settings_key )['api_key']);
 
     add_action('admin_menu', array($this, 'add_settings_page'));
     add_action('admin_init', array($this, 'register_settings'));
@@ -24,7 +21,7 @@ class ConvertKitSettings {
       __('ConvertKit Settings'),
       __('ConvertKit'),
       'manage_options',
-      $this->settings_page,
+      $this->settings_key,
       array($this, 'display_settings_page')
     );
   }
@@ -33,12 +30,6 @@ class ConvertKitSettings {
    * Register main settings
    */
   public function register_settings() {
-    register_setting(
-      $this->settings_name,
-      $this->settings_name,
-      array($this, 'sanitize_settings')
-    );
-
     $this->register_sections();
   }
 
@@ -59,10 +50,10 @@ class ConvertKitSettings {
         <?php
         foreach($this->sections as $section):
           if ($active_section == $section->name):
-            do_settings_sections($section->settings_page);
+            do_settings_sections($section->settings_key);
+            settings_fields($section->settings_key);
           endif;
         endforeach;
-        settings_fields($this->settings_page);
         submit_button();
         ?>
         <p class="description">
@@ -85,8 +76,8 @@ class ConvertKitSettings {
       <?php
       foreach($this->sections as $section):
         printf(
-          '<a href="?page=%s&tab=%s" class="nav-tab %s">%s</a>',
-          $this->settings_page,
+          '<a href="?page=%s&tab=%s" class="nav-tab right %s">%s</a>',
+          $this->settings_key,
           $section->name,
           $active_section == $section->name ? 'nav-tab-active' : '',
           esc_html($section->tab_text)
@@ -115,19 +106,7 @@ class ConvertKitSettings {
    */
   public function register_sections() {
     $this->register_section('ConvertKitSettingsGeneral');
-  }
-
-  /**
-   * Sanitizes the settings
-   *
-   * @param  array $settings The settings fields submitted
-   * @return array           Sanitized settings
-   */
-  public function sanitize_settings($settings) {
-    return shortcode_atts(array(
-      'api_key'      => '',
-      'default_form' => 0
-    ), $settings);
+    $this->register_section('ConvertKitSettingsWishlistMember');
   }
 }
 
