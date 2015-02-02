@@ -18,7 +18,7 @@ class ConvertKitAPI {
     $this->api_key = $api_key;
   }
 
-  public function _get_resources($resource) {
+  public function get_resources($resource) {
     if(is_null($this->resources[$resource])) {
       $api_response = $this->_get_api_response($resource);
 
@@ -32,7 +32,7 @@ class ConvertKitAPI {
     return $this->resources[$resource];
   }
 
-  public function _get_resource($url) {
+  public function get_resource($url) {
     $resource = '';
 
     if(!empty($url) && isset($this->markup[$url])) {

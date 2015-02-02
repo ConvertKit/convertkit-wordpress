@@ -82,8 +82,8 @@ if(!class_exists('WP_ConvertKit')) {
 		/// Page / Post Editing
 
 		public static function add_meta_boxes($post) {
-			$forms = self::$api->_get_resources('forms');
-			$landing_pages = self::$api->_get_resources('landing_pages');
+			$forms = self::$api->get_resources('forms');
+			$landing_pages = self::$api->get_resources('landing_pages');
 
 			if(!empty($forms) || ('page' === $post->post_type && !empty($landing_pages))) {
 				add_meta_box('wp-convertkit-meta-box', __('ConvertKit'), array(__CLASS__, 'display_meta_box'), $post->post_type, 'normal');
@@ -91,8 +91,8 @@ if(!class_exists('WP_ConvertKit')) {
 		}
 
 		public static function display_meta_box($post) {
-			$forms = self::$api->_get_resources('forms');
-			$landing_pages = self::$api->_get_resources('landing_pages');
+			$forms = self::$api->get_resources('forms');
+			$landing_pages = self::$api->get_resources('landing_pages');
 
 			$meta = self::_get_meta($post->ID);
 			$settings_link = self::_get_settings_page_link();
@@ -122,7 +122,7 @@ if(!class_exists('WP_ConvertKit')) {
 		public static function page_takeover() {
 			$queried_object = get_queried_object();
 			if(isset($queried_object->post_type) && 'page' === $queried_object->post_type && ($landing_page_url = self::_get_meta($queried_object->ID, 'landing_page'))) {
-				$landing_page = self::$api->_get_resource($landing_page_url);
+				$landing_page = self::$api->get_resource($landing_page_url);
 
 				if(!empty($landing_page)) {
 					echo $landing_page;
@@ -217,7 +217,7 @@ if(!class_exists('WP_ConvertKit')) {
 			$form_id = intval(($form < 0) ? self::_get_settings('default_form') : $form);
 			$form = false;
 
-			$forms_available = self::$api->_get_resources('forms');
+			$forms_available = self::$api->get_resources('forms');
 			foreach($forms_available as $form_available) {
 				if($form_available['id'] == $form_id) {
 					$form = $form_available;
@@ -225,7 +225,7 @@ if(!class_exists('WP_ConvertKit')) {
 				}
 			}
 
-			$form_markup = self::$api->_get_resource($form['embed']);
+			$form_markup = self::$api->get_resource($form['embed']);
 
 			return $form_markup;
 		}

@@ -31,7 +31,7 @@ class ConvertKitSettingsGeneral extends ConvertKitSettingsSection {
       array($this, 'default_form_callback'),
       $this->settings_key,
       $this->name,
-      $this->api->_get_resources('forms')
+      $this->api->get_resources('forms')
     );
   }
 
