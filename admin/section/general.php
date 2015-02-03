@@ -52,7 +52,7 @@ class ConvertKitSettingsGeneral extends ConvertKitSettingsSection {
       isset($this->options['api_key']) ? esc_attr($this->options['api_key']) : ''
     );
 
-    $html .= '<p class="description"><a href="">Get your ConvertKit API Key</a></p>';
+    $html .= '<p class="description"><a href="https://app.convertkit.com/account/edit" target="_blank">Get your ConvertKit API Key</a></p>';
 
     echo $html;
   }
