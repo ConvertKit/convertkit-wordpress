@@ -9,6 +9,7 @@
  */
 
 require_once('lib/convertkit-api.php');
+require_once('lib/integration/wishlist_member.php');
 
 if(!class_exists('WP_ConvertKit')) {
 	class WP_ConvertKit {
