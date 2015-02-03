@@ -25,7 +25,10 @@ class ConvertKitAPI {
       if (is_wp_error($api_response) || isset($api_response['error']) || isset($api_response['error_message'])) {
         $this->resources[$resource] = array();
       } else {
-        $this->resources[$resource] = $api_response;
+        $this->resources[$resource] = array_map(function($item) use ($resource) {
+          $item['resource_id'] = sprintf('%1$s|%2$s', $resource, $item['id']);
+          return $item;
+        }, $api_response);
       }
     }
 
@@ -78,6 +81,18 @@ class ConvertKitAPI {
     }
 
     return $resource;
+  }
+
+  public function get_all_forms() {
+    $forms         = $this->get_resources('forms');
+    $landing_pages = $this->get_resources('landing_pages');
+
+    $all_forms     = array_merge(array_values($forms), array_values($landing_pages));
+    usort($all_forms, function($a, $b) {
+      return strcmp($a["name"], $b["name"]);
+    });
+
+    return $all_forms;
   }
 
   private function _get_api_response($path = '', $version = '2') {

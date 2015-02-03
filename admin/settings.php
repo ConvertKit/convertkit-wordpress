@@ -106,4 +106,5 @@ if( is_admin() ) {
   $convertkit_settings = new ConvertKitSettings();
 
   include 'section/general.php';
+  include 'section/wishlist_member.php';
 }

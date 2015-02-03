@@ -39,7 +39,7 @@ class ConvertKitSettingsGeneral extends ConvertKitSettingsSection {
    * Prints help info for this section
    */
   public function print_section_info() {
-    print 'General settings for the ConvertKit App';
+    print '<p>General settings for the ConvertKit App.</p>';
   }
 
   /**
