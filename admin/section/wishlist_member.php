@@ -118,8 +118,8 @@ class ConvertKitSettingsWishlistMember extends ConvertKitSettingsSection {
       } else {
         ?>
         <p>
-          To set up this integration, you will first need to enter your ConvertKit
-          API key in the
+          To set up this integration, you will first need to enter a valid
+          ConvertKit API key in the
           <a href="?page=_wp_convertkit_settings&tab=general">General Settings</a>.
         </p>
         <?php

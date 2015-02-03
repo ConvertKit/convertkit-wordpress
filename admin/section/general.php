@@ -7,7 +7,7 @@ class ConvertKitSettingsGeneral extends ConvertKitSettingsSection {
   public function __construct() {
     $this->settings_key  = WP_ConvertKit::SETTINGS_PAGE_SLUG;
     $this->name          = 'general';
-    $this->title         = 'ConvertKit General Settings';
+    $this->title         = 'General Settings';
     $this->tab_text      = 'General';
 
     parent::__construct();
@@ -39,7 +39,12 @@ class ConvertKitSettingsGeneral extends ConvertKitSettingsSection {
    * Prints help info for this section
    */
   public function print_section_info() {
-    print '<p>General settings for the ConvertKit App.</p>';
+    ?>
+    <p>
+      Connect your ConvertKit account to Wordpress to start using your forms
+      and landing pages within your site.
+    </p>
+    <?php
   }
 
   /**

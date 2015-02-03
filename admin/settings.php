@@ -18,12 +18,14 @@ class ConvertKitSettings {
    */
   public function add_settings_page() {
     $settings = add_options_page(
-      __('ConvertKit Settings'),
+      __('ConvertKit'),
       __('ConvertKit'),
       'manage_options',
       $this->settings_key,
       array($this, 'display_settings_page')
     );
+
+    add_action('admin_print_styles', array($this, 'admin_styles'));
   }
 
   /**
@@ -34,10 +36,16 @@ class ConvertKitSettings {
 
     ?>
     <div class="wrap">
-      <?php screen_icon(); ?>
-      <h2><?php _e('ConvertKit Settings', 'wp_convertkit'); ?></h2>
-
-      <?php if(count($this->sections) > 1) $this->display_section_nav($active_section); ?>
+      <?php
+      screen_icon();
+      if(count($this->sections) > 1) {
+        $this->display_section_nav($active_section);
+      } else {
+        ?>
+        <h2><?php _e('ConvertKit', 'wp_convertkit'); ?></h2>
+        <?php
+      }
+      ?>
 
       <form method="post" action="options.php">
         <?php
@@ -57,6 +65,13 @@ class ConvertKitSettings {
   }
 
   /**
+   * Queue up the admin styles
+   */
+  public function admin_styles() {
+    wp_enqueue_style('wp-convertkit-admin');
+  }
+
+  /**
    * Render a tab for each section
    *
    * @param string $active_section The currently active section
@@ -64,6 +79,9 @@ class ConvertKitSettings {
   public function display_section_nav($active_section) {
     ?>
     <h2 class="nav-tab-wrapper">
+      <span class="nav-tab-title">
+        <?php _e('ConvertKit', 'wp_convertkit'); ?>
+      </span>
       <?php
       foreach($this->sections as $section):
         printf(
@@ -96,6 +114,8 @@ class ConvertKitSettings {
    * Register each section
    */
   public function register_sections() {
+    wp_register_style( 'wp-convertkit-admin', plugins_url('../resources/backend/wp-convertkit.css', __FILE__) );
+
     $this->register_section('ConvertKitSettingsGeneral');
     $this->register_section('ConvertKitSettingsWishlistMember');
   }
