@@ -36,10 +36,7 @@ class ConvertKitAPI {
       if (is_wp_error($api_response) || isset($api_response['error']) || isset($api_response['error_message'])) {
         $this->resources[$resource] = array();
       } else {
-        $this->resources[$resource] = array_map(function($item) use ($resource) {
-          $item['resource_id'] = sprintf('%1$s|%2$s', $resource, $item['id']);
-          return $item;
-        }, $api_response);
+        $this->resources[$resource] = $api_response;
       }
     }
 
@@ -47,35 +44,33 @@ class ConvertKitAPI {
   }
 
   /**
-   * Special method to return unified array of forms and landing pages
+   * Adds a subscriber to a form
    *
-   * @return array Mixed array of landing pages and forms
+   * @param string $form_id Form ID
+   * @param array  $options Array of user data
    */
-  public function get_all_forms() {
-    $forms         = $this->get_resources('forms');
-    $landing_pages = $this->get_resources('landing_pages');
-
-    $all_forms     = array_merge(array_values($forms), array_values($landing_pages));
-    usort($all_forms, function($a, $b) {
-      return strcmp($a["name"], $b["name"]);
-    });
-
-    return $all_forms;
-  }
-
-  /**
-   * Adds a subscriber to a resource
-   *
-   * @param string $resource_type Resource type
-   * @param string $resource_id   Resource ID
-   * @param array  $options       Array of user data
-   */
-  public function add_resource_subscriber($resource_type, $resource_id, $options) {
-    $request = sprintf('%1$s/%2$s/subscribe', $resource_type, $resource_id);
+  public function form_subscribe($form_id, $options) {
+    $request = sprintf('forms/%s/subscribe', $form_id);
 
     $args    = array(
       'email' => $options['email'],
       'fname' => $options['fname']
+    );
+
+    return $this->make_request($request, 'POST', $args);
+  }
+
+  /**
+   * Unsubscribes a subscriber from a form
+   *
+   * @param string $form_id Resource ID
+   * @param array  $options Array of user data
+   */
+  public function form_unsubscribe($form_id, $options) {
+    $request = sprintf('forms/%s/unsubscribe', $form_id);
+
+    $args    = array(
+      'email' => $options['email']
     );
 
     return $this->make_request($request, 'POST', $args);

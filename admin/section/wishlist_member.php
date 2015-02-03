@@ -46,18 +46,42 @@ class ConvertKitSettingsWishlistMember extends ConvertKitSettingsSection {
    */
   public function register_fields() {
 
-    $all_forms = $this->api->get_all_forms();
+    $forms = $this->api->get_resources('forms');
 
     foreach($this->wlm_levels as $wlm_level) {
       add_settings_field(
-        $wlm_level['id'],
-        $wlm_level['name'],
+        sprintf('%s_title', $wlm_level['id']),
+        'WishList Membership Level',
+        array($this, 'wlm_title_callback'),
+        $this->settings_key,
+        $this->name,
+        array(
+          'wlm_level_id'   => $wlm_level['id'],
+          'wlm_level_name' => $wlm_level['name'],
+          'sortable'       => true
+        )
+      );
+
+      add_settings_field(
+        sprintf('%s_form', $wlm_level['id']),
+        'ConvertKit Form',
         array($this, 'wlm_level_callback'),
         $this->settings_key,
         $this->name,
         array(
           'wlm_level_id' => $wlm_level['id'],
-          'forms'        => $all_forms
+          'forms'        => $forms
+        )
+      );
+
+      add_settings_field(
+        sprintf('%s_unsubscribe', $wlm_level['id']),
+        'Unsubscribe',
+        array($this, 'wlm_unsubscribe_callback'),
+        $this->settings_key,
+        $this->name,
+        array(
+          'wlm_level_id' => $wlm_level['id']
         )
       );
     }
@@ -81,18 +105,28 @@ class ConvertKitSettingsWishlistMember extends ConvertKitSettingsSection {
   public function do_settings_table() {
     global $wp_settings_fields;
 
-    $table = new MultiValueFieldTable;
-
-    $table->add_column('title', 'WishList Membership Level', true);
-    $table->add_column('ck_form_select', 'ConvertKit Form');
-
-    $fields = $wp_settings_fields[$this->settings_key][$this->name];
+    $table   = new MultiValueFieldTable;
+    $columns = array();
+    $rows    = array();
+    $fields  = $wp_settings_fields[$this->settings_key][$this->name];
 
     foreach ($fields as $field) {
-      $table->add_item(array(
-        'title'          => $field['title'],
-        'ck_form_select' => call_user_func($field['callback'], $field['args'])
-      ));
+      list($wlm_level_id, $field_type) = explode('_', $field['id']);
+
+      if (!in_array($field_type, $columns)) {
+        $table->add_column($field_type, $field['title'], $field['args']['sortable']);
+        array_push($columns, $field_type);
+      }
+
+      if (!isset($rows[$wlm_level_id])) {
+        $rows[$wlm_level_id] = array();
+      }
+
+      $rows[$wlm_level_id][$field_type] = call_user_func($field['callback'], $field['args']);
+    }
+
+    foreach ($rows as $row) {
+      $table->add_item($row);
     }
 
     $table->prepare_items();
@@ -128,25 +162,56 @@ class ConvertKitSettingsWishlistMember extends ConvertKitSettingsSection {
   }
 
   /**
-   * Renders a form select list for a wlm level
+   * Title for WishList Membership Level
    *
-   * @param array $options WLM level and CK forms
+   * @param  array  $arguments Arguments from add_settings_field()
+   * @return html              WishList Membership Level title
+   */
+  public function wlm_title_callback($arguments) {
+    return $arguments['wlm_level_name'];
+  }
+
+  /**
+   * CK Form select for WishList Membership Level
+   *
+   * @param  array  $arguments Arguments from add_settings_field()
+   * @return html              Select element
    */
   public function wlm_level_callback($arguments) {
     $wlm_level_id = $arguments['wlm_level_id'];
     $forms  = $arguments['forms'];
 
-    $html = sprintf('<select id="%1$s_%2$s" name="%1$s[%2$s]">', $this->settings_key, $wlm_level_id);
+    $html = sprintf('<select id="%1$s_%2$s_form" name="%1$s[%2$s_form]">', $this->settings_key, $wlm_level_id);
       $html .= '<option value="default">None</option>';
       foreach($forms as $form) {
         $html .= sprintf(
           '<option value="%s" %s>%s</option>',
-          esc_attr($form['resource_id']),
-          selected($this->options[$wlm_level_id], $form['resource_id'], false),
+          esc_attr($form['id']),
+          selected($this->options[$wlm_level_id . '_form'], $form['id'], false),
           esc_html($form['name'])
         );
       }
     $html .= '</select>';
+
+    return $html;
+  }
+
+  /**
+   * Unsubscribe field for WishList Membership Level
+   *
+   * @param  array  $arguments Arguments from add_settings_field()
+   * @return html              Checkbox and label
+   */
+  public function wlm_unsubscribe_callback($arguments) {
+    $wlm_level_id = $arguments['wlm_level_id'];
+
+    $html = sprintf(
+      '<input type="checkbox" id="%1$s_%2$s_unsubscribe" value="1" name="%1$s[%2$s_unsubscribe]" %3$s>',
+      $this->settings_key,
+      $wlm_level_id,
+      checked($this->options[$wlm_level_id . '_unsubscribe'], 1, false)
+    );
+    $html .= sprintf('<label for="%1$s_%2$s_unsubscribe">Unsubscribe if removed from level</label>', $this->settings_key, $wlm_level_id);
 
     return $html;
   }
@@ -161,7 +226,8 @@ class ConvertKitSettingsWishlistMember extends ConvertKitSettingsSection {
     $defaults = array();
 
     foreach ($this->wlm_levels as $wlm_level) {
-      $defaults[$wlm_level['id']] = '0';
+      $defaults[$wlm_level['id'] . '_form'] = '0';
+      $defaults[$wlm_level['id'] . '_unsubscribe'] = '0';
     }
 
     return shortcode_atts($defaults, $settings);

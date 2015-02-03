@@ -35,7 +35,7 @@ class ConvertKitSettings {
     $active_section = (isset($_GET['tab'])) ? $_GET['tab'] : $this->sections[0]->name;
 
     ?>
-    <div class="wrap">
+    <div class="wrap convertkit-settings-wrap">
       <?php
       screen_icon();
       if(count($this->sections) > 1) {

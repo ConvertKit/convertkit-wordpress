@@ -1,3 +1,7 @@
+.convertkit-settings-wrap .widefat td {
+  vertical-align: middle;
+}
+
 .nav-tab-wrapper .nav-tab-title {
   left: -10px;
   position: relative;
