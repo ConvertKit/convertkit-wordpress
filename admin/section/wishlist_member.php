@@ -83,7 +83,6 @@ class ConvertKitSettingsWishlistMember extends ConvertKitSettingsSection {
 
     $table = new MultiValueFieldTable;
 
-    $table->add_column('cb', '<input type="checkbox />"');
     $table->add_column('title', 'WishList Membership Level', true);
     $table->add_column('ck_form_select', 'ConvertKit Form');
 
