@@ -41,8 +41,14 @@ class ConvertKitSettingsGeneral extends ConvertKitSettingsSection {
   public function print_section_info() {
     ?>
     <p>
-      Connect your ConvertKit account to Wordpress to start using your forms
-      and landing pages within your site.
+      Choosing a default form will embed it at the bottom of every post or page
+      (in single view only) across your site. If you wish to turn off form
+      embedding or select a different form for an individual post or page, you
+      can do so within the ConvertKit meta box on the editing form.
+    </p>
+    <p>
+      The default form can be inserted into the middle of post or page content
+      by using the <code>[convertkit]</code> shortcode.
     </p>
     <?php
   }

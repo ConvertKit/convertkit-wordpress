@@ -4,7 +4,7 @@
  Plugin URI: http://convertkit.com/
  Description: Quickly and easily integrate ConvertKit forms into your site.
  Version: 1.2.1
- Author: Nick Horn and contributors
+ Author: ConvertKit
  Author URI: http://convertkit.com/
  */
 
