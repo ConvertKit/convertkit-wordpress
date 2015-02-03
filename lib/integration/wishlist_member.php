@@ -27,9 +27,10 @@ if(!class_exists('ConvertKitWishlistIntegration')) {
     }
 
     /**
-     * Callback function for wishlistmember_add_member_levels action
+     * Callback function for wishlistmember_add_user_levels action
      *
-     * @param string $member_id ID for member that has just had a level added
+     * @param string $member_id ID for member that has just had levels added
+     * @param array  $levels    Levels to which member was added
      */
     public function add_user_levels($member_id, $levels) {
       $member = $this->get_member($member_id);
@@ -44,6 +45,12 @@ if(!class_exists('ConvertKitWishlistIntegration')) {
       }
     }
 
+    /**
+     * Callback function for wishlistmember_remove_user_levels action
+     *
+     * @param  string $member_id ID for member that has just had levels removed
+     * @param  array  $levels    Levels from which member was removed
+     */
     public function remove_user_levels($member_id, $levels) {
       $member = $this->get_member($member_id);
 
@@ -78,6 +85,13 @@ if(!class_exists('ConvertKitWishlistIntegration')) {
       );
     }
 
+    /**
+     * Unsubscribes a member from a ConvertKit resource
+     *
+     * @param  array  $member  UserInfo from WishList Member
+     * @param  string $form_id ConvertKit form id
+     * @return object          Response object from API
+     */
     public function member_resource_unsubscribe($member, $form_id) {
       return $this->api->form_unsubscribe(
         $form_id,
@@ -87,6 +101,12 @@ if(!class_exists('ConvertKitWishlistIntegration')) {
       );
     }
 
+    /**
+     * Gets a WLM member using the wlmapi functions
+     *
+     * @param  string $id The member id
+     * @return array      The member fields from the API request
+     */
     public function get_member($id) {
       if (!function_exists('wlmapi_get_member')) return false;
 
