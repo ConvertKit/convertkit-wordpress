@@ -67,7 +67,12 @@ class ConvertKitSettingsWishlistMember extends ConvertKitSettingsSection {
    * Prints help info for this section
    */
   public function print_section_info() {
-    print '<p>WishList Member integration settings.</p>';
+    ?>
+    <p>
+      ConvertKit seamlessly integrates with WishList Member to let you capture
+      all of your WishList Membership registrations within your ConvertKit forms.
+    </p>
+    <?php
   }
 
   /**
@@ -107,8 +112,19 @@ class ConvertKitSettingsWishlistMember extends ConvertKitSettingsSection {
       if ($section['title']) echo "<h3>{$section['title']}</h3>\n";
       if ($section['callback']) call_user_func($section['callback'], $section);
 
-      $this->do_settings_table();
-      settings_fields($this->settings_key);
+      if (!empty($this->api->get_resources('forms'))) {
+        $this->do_settings_table();
+        settings_fields($this->settings_key);
+        submit_button();
+      } else {
+        ?>
+        <p>
+          To set up this integration, you will first need to enter your ConvertKit
+          API key in the
+          <a href="?page=_wp_convertkit_settings&tab=general">General Settings</a>.
+        </p>
+        <?php
+      }
     }
   }
 

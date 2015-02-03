@@ -50,6 +50,7 @@ abstract class ConvertKitSettingsSection {
   public function render() {
     do_settings_sections( $this->settings_key );
     settings_fields(      $this->settings_key );
+    submit_button();
   }
 
   /**

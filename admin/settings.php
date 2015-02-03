@@ -46,7 +46,6 @@ class ConvertKitSettings {
             $section->render();
           endif;
         endforeach;
-        submit_button();
         ?>
         <p class="description">
           If you have questions or problems, please contact
