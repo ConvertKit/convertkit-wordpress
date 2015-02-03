@@ -45,16 +45,11 @@ abstract class ConvertKitSettingsSection {
   }
 
   /**
-   * Sanitizes the settings
-   *
-   * @param  array $settings The settings fields submitted
-   * @return array           Sanitized settings
+   * Renders the section
    */
-  public function sanitize_settings($settings) {
-    return shortcode_atts(array(
-      'api_key'      => '',
-      'default_form' => 0
-    ), $settings);
+  public function render() {
+    do_settings_sections( $this->settings_key );
+    settings_fields(      $this->settings_key );
   }
 
   /**

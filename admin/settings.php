@@ -10,7 +10,7 @@ class ConvertKitSettings {
     $this->api     = new ConvertKitAPI(get_option( $this->settings_key )['api_key']);
 
     add_action('admin_menu', array($this, 'add_settings_page'));
-    add_action('admin_init', array($this, 'register_settings'));
+    add_action('admin_init', array($this, 'register_sections'));
   }
 
   /**
@@ -24,13 +24,6 @@ class ConvertKitSettings {
       $this->settings_key,
       array($this, 'display_settings_page')
     );
-  }
-
-  /**
-   * Register main settings
-   */
-  public function register_settings() {
-    $this->register_sections();
   }
 
   /**
@@ -50,8 +43,7 @@ class ConvertKitSettings {
         <?php
         foreach($this->sections as $section):
           if ($active_section == $section->name):
-            do_settings_sections($section->settings_key);
-            settings_fields($section->settings_key);
+            $section->render();
           endif;
         endforeach;
         submit_button();

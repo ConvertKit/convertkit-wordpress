@@ -59,7 +59,8 @@ class ConvertKitSettingsGeneral extends ConvertKitSettingsSection {
 
   /**
    * Renders the form select list
-   * @param  array $forms Form listing
+   *
+   * @param array $forms Form listing
    */
   public function default_form_callback($forms) {
     $html = sprintf('<select id="default_form" name="%s[default_form]">', $this->settings_key);
@@ -79,5 +80,18 @@ class ConvertKitSettingsGeneral extends ConvertKitSettingsSection {
     }
 
     echo $html;
+  }
+
+  /**
+   * Sanitizes the settings
+   *
+   * @param  array $settings The settings fields submitted
+   * @return array           Sanitized settings
+   */
+  public function sanitize_settings($settings) {
+    return shortcode_atts(array(
+      'api_key'      => '',
+      'default_form' => 0
+    ), $settings);
   }
 }
