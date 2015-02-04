@@ -222,14 +222,21 @@ class ConvertKitSettingsWishlistMember extends ConvertKitSettingsSection {
    * @param  array $settings The settings fields submitted
    * @return array           Sanitized settings
    */
-  public function sanitize_settings($settings) {
-    $defaults = array();
+  public function sanitize_settings($input) {
+    // Settings page can be paginated; combine input with existing options
+    $output = $this->options;
 
-    foreach ($this->wlm_levels as $wlm_level) {
-      $defaults[$wlm_level['id'] . '_form'] = '0';
-      $defaults[$wlm_level['id'] . '_unsubscribe'] = '0';
+    foreach($input as $key => $value) {
+      list($level_id, $setting) = explode('_', $key);
+
+      // Unsubscribe must be manually set when moving from true to false
+      if (!isset($input["{$level_id}_unsubscribe"])) {
+        $output["{$level_id}_unsubscribe"] = 0;
+      }
+
+      $output[$key] = stripslashes( $input[$key] );
     }
 
-    return shortcode_atts($defaults, $settings);
+    return apply_filters("sanitize{$this->settings_key}", $output, $input);
   }
 }
