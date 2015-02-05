@@ -4,9 +4,12 @@
  Plugin URI: http://convertkit.com/
  Description: Quickly and easily integrate ConvertKit forms into your site.
  Version: 1.2.1
- Author: Nick Horn and contributors
+ Author: ConvertKit
  Author URI: http://convertkit.com/
  */
+
+require_once('lib/convertkit-api.php');
+require_once('lib/integration/wishlist_member.php');
 
 if(!class_exists('WP_ConvertKit')) {
 	class WP_ConvertKit {
@@ -19,15 +22,17 @@ if(!class_exists('WP_ConvertKit')) {
 		const SETTINGS_NAME = '_wp_convertkit_settings';
 
 		// Page Slugs
-		const SETTINGS_PAGE_SLUG = 'wp-convertkit-settings';
+		const SETTINGS_PAGE_SLUG = '_wp_convertkit_settings';
+
+		private static $api;
 
 		// Data Caching
 		private static $cache_period = 0;
 		private static $meta_defaults = null;
-		private static $settings_defaults = null;
-
-		private static $forms = null;
-		private static $landing_pages = null;
+		private static $settings_defaults = array(
+			'api_key'      => '',
+			'default_form' => 0,
+		);
 
 		private static $forms_markup = array();
 		private static $landing_pages_markup = array();
@@ -38,15 +43,14 @@ if(!class_exists('WP_ConvertKit')) {
 			self::register_shortcodes();
 
 			self::$cache_period = MINUTE_IN_SECONDS * 10;
+
+			self::_api_connect();
 		}
 
 		private static function add_actions() {
 			if(is_admin()) {
 				add_action('add_meta_boxes_page', array(__CLASS__, 'add_meta_boxes'));
 				add_action('add_meta_boxes_post', array(__CLASS__, 'add_meta_boxes'));
-
-				add_action('admin_init', array(__CLASS__, 'register_settings'));
-				add_action('admin_menu', array(__CLASS__, 'add_settings_page'));
 			} else {
 				add_action('template_redirect', array(__CLASS__, 'page_takeover'));
 			}
@@ -55,13 +59,10 @@ if(!class_exists('WP_ConvertKit')) {
 		}
 
 		private static function add_filters() {
-			if(is_admin()) {
-
-			} else {
+			if(!is_admin()) {
 				add_filter('the_content', array(__CLASS__, 'append_form'));
 			}
 
-			add_filter('option_' . self::SETTINGS_NAME, array(__CLASS__, 'sanitize_settings'));
 			add_filter('plugin_action_links_' . plugin_basename(__FILE__), array(__CLASS__, 'add_settings_page_link'));
 		}
 
@@ -73,46 +74,17 @@ if(!class_exists('WP_ConvertKit')) {
 
 		/// Settings Related
 
-		public static function add_settings_page() {
-			$settings = add_options_page(__('ConvertKit Settings'), __('ConvertKit'), 'manage_options', self::SETTINGS_PAGE_SLUG, array(__CLASS__, 'display_settings_page'));
-		}
-
 		public static function add_settings_page_link($links) {
 			$settings_link = sprintf('<a href="%s">%s</a>', self::_get_settings_page_link(), __('Settings'));
 
 			return array('settings' => $settings_link) + $links;
 		}
 
-		public static function display_settings_page() {
-			$settings = self::_get_settings();
-
-			$forms = self::_get_forms();
-			$landing_pages = self::_get_landing_pages();
-
-			include('views/backend/settings/settings.php');
-		}
-
-		public static function register_settings() {
-			register_setting(self::SETTINGS_NAME, self::SETTINGS_NAME, array(__CLASS__, 'sanitize_settings'));
-		}
-
-		public static function sanitize_settings($settings) {
-			return shortcode_atts(self::_get_settings_defaults(), $settings);
-		}
-
-		private static function _settings_id($name) {
-			return self::SETTINGS_NAME . '-' . $name;
-		}
-
-		private static function _settings_name($name) {
-			return self::SETTINGS_NAME . '[' . $name . ']';
-		}
-
 		/// Page / Post Editing
 
 		public static function add_meta_boxes($post) {
-			$forms = self::_get_forms();
-			$landing_pages = self::_get_landing_pages();
+			$forms = self::$api->get_resources('forms');
+			$landing_pages = self::$api->get_resources('landing_pages');
 
 			if(!empty($forms) || ('page' === $post->post_type && !empty($landing_pages))) {
 				add_meta_box('wp-convertkit-meta-box', __('ConvertKit'), array(__CLASS__, 'display_meta_box'), $post->post_type, 'normal');
@@ -120,8 +92,8 @@ if(!class_exists('WP_ConvertKit')) {
 		}
 
 		public static function display_meta_box($post) {
-			$forms = self::_get_forms();
-			$landing_pages = self::_get_landing_pages();
+			$forms = self::$api->get_resources('forms');
+			$landing_pages = self::$api->get_resources('landing_pages');
 
 			$meta = self::_get_meta($post->ID);
 			$settings_link = self::_get_settings_page_link();
@@ -151,7 +123,7 @@ if(!class_exists('WP_ConvertKit')) {
 		public static function page_takeover() {
 			$queried_object = get_queried_object();
 			if(isset($queried_object->post_type) && 'page' === $queried_object->post_type && ($landing_page_url = self::_get_meta($queried_object->ID, 'landing_page'))) {
-				$landing_page = self::_get_landing_page($landing_page_url);
+				$landing_page = self::$api->get_resource($landing_page_url);
 
 				if(!empty($landing_page)) {
 					echo $landing_page;
@@ -212,168 +184,18 @@ if(!class_exists('WP_ConvertKit')) {
 
 		/// Settings
 
-		private static function _get_settings_defaults() {
-			if(is_null(self::$settings_defaults)) {
-				self::$settings_defaults = array(
-					'api_key' => '',
-					'default_form' => 0,
-				);
-			}
-
-			return self::$settings_defaults;
-		}
-
 		private static function _get_settings($settings_key = null) {
-			$settings = get_option(self::SETTINGS_NAME, self::_get_settings_defaults());
+			$settings = get_option(self::SETTINGS_NAME, self::$settings_defaults);
 
 			return is_null($settings_key) ? $settings : (isset($settings[$settings_key]) ? $settings[$settings_key] : null);
 		}
 
 		/// API
 
-		private static function _get_api_response($path = '', $key = '', $version = '2') {
-			$args = array('k' => $key, 'v' => $version);
-			$url = add_query_arg($args, path_join('https://api.convertkit.com/', $path));
+		private static function _api_connect() {
+			$api_key = self::_get_settings('api_key');
 
-			$response = wp_remote_get($url);
-
-			if(is_wp_error($response)) {
-				$data = $response;
-			} else {
-				$data = json_decode(wp_remote_retrieve_body($response), true);
-			}
-
-			return $data;
-		}
-
-		private static function _get_form($url) {
-			$form = '';
-
-			if(!empty($url) && isset(self::$forms_markup[$url])) {
-				$form = self::$forms_markup[$url];
-			} else if(!empty($url)) {
-				$response = wp_remote_get($url);
-
-				if(!is_wp_error($response)) {
-					if(!function_exists('str_get_html')) {
-						require_once('vendor/simple-html-dom/simple-html-dom.php');
-					}
-
-					if(!function_exists('url_to_absolute')) {
-						require_once('vendor/url-to-absolute/url-to-absolute.php');
-					}
-
-					$url_parts = parse_url($url);
-
-					$body = wp_remote_retrieve_body($response);
-					$html = str_get_html($body);
-					foreach($html->find('a, link') as $element) {
-						if(isset($element->href)) {
-							$element->href = url_to_absolute($url, $element->href);
-						}
-					}
-
-					foreach($html->find('img, script') as $element) {
-						if(isset($element->src)) {
-							$element->src = url_to_absolute($url, $element->src);
-						}
-					}
-
-					foreach($html->find('form') as $element) {
-						if(isset($element->action)) {
-							$element->action = url_to_absolute($url, $element->action);
-						} else {
-							$element->action = $url;
-						}
-					}
-
-					self::$forms_markup[$url] = $form = $html->save();
-				}
-			}
-
-			return $form;
-		}
-
-		private static function _get_forms($key = null) {
-			$key = is_null($key) ? self::_get_settings('api_key') : $key;
-
-			if(empty($key)) {
-				self::$forms = array();
-			} else if(is_null(self::$forms)) {
-				$api_response = self::_get_api_response('forms', $key);
-
-				if (is_wp_error($api_response) || isset($api_response['error']) || isset($api_response['error_message'])) {
-					self::$forms = array();
-				} else {
-					self::$forms = $api_response;
-				}
-			}
-
-			return self::$forms;
-		}
-
-		private static function _get_landing_page($url) {
-			$landing_page = '';
-
-			if(!empty($url) && isset(self::$landing_pages_markup[$url])) {
-				$landing_page = self::$landing_pages_markup[$url];
-			} else if(!empty($url)) {
-				$response = wp_remote_get($url);
-
-				if(!is_wp_error($response)) {
-					if(!function_exists('str_get_html')) {
-						require_once('vendor/simple-html-dom/simple-html-dom.php');
-					}
-
-					if(!function_exists('url_to_absolute')) {
-						require_once('vendor/url-to-absolute/url-to-absolute.php');
-					}
-
-					$url_parts = parse_url($url);
-
-					$body = wp_remote_retrieve_body($response);
-					$html = str_get_html($body);
-					foreach($html->find('a, link') as $element) {
-						if(isset($element->href)) {
-							$element->href = url_to_absolute($url, $element->href);
-						}
-					}
-
-					foreach($html->find('img, script') as $element) {
-						if(isset($element->src)) {
-							$element->src = url_to_absolute($url, $element->src);
-						}
-					}
-
-					foreach($html->find('form') as $element) {
-						if(isset($element->action)) {
-							$element->action = url_to_absolute($url, $element->action);
-						} else {
-							$element->action = $url;
-						}
-					}
-
-					self::$landing_pages_markup[$url] = $landing_page = $html->save();
-				}
-			}
-
-			return $landing_page;
-		}
-
-		private static function _get_landing_pages($key = null) {
-			$key = is_null($key) ? self::_get_settings('api_key') : $key;
-
-			if(empty($key)) {
-				self::$landing_pages = false;
-			} else if(is_null(self::$landing_pages)) {
-				$landing_pages = self::_get_api_response('landing_pages', $key);
-				$landing_pages = is_wp_error($landing_pages) ? false : $landing_pages;
-				$landing_pages = (isset($landing_pages['error']) || isset($landing_pages['error_message'])) ? false : $landing_pages;
-
-				self::$landing_pages = $landing_pages;
-			}
-
-			return self::$landing_pages;
+			self::$api = new ConvertKitAPI($api_key);
 		}
 
 		// Links
@@ -396,7 +218,7 @@ if(!class_exists('WP_ConvertKit')) {
 			$form_id = intval(($form < 0) ? self::_get_settings('default_form') : $form);
 			$form = false;
 
-			$forms_available = self::_get_forms();
+			$forms_available = self::$api->get_resources('forms');
 			foreach($forms_available as $form_available) {
 				if($form_available['id'] == $form_id) {
 					$form = $form_available;
@@ -404,7 +226,7 @@ if(!class_exists('WP_ConvertKit')) {
 				}
 			}
 
-			$form_markup = self::_get_form($form['embed']);
+			$form_markup = self::$api->get_resource($form['embed']);
 
 			return $form_markup;
 		}
@@ -413,3 +235,5 @@ if(!class_exists('WP_ConvertKit')) {
 	require_once('lib/template-tags.php');
 	WP_ConvertKit::init();
 }
+
+include 'admin/settings.php';

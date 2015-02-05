@@ -1,6 +1,6 @@
 # WP ConvertKit
 
-Contributors: nickohrn  
+Contributors: nickohrn, davidlamarwheeler  
 Tags: admin, api, forms, web service  
 Requires at least: 3.6  
 Tested up to: 3.6  
@@ -27,11 +27,16 @@ Finally, you can insert the default form into the middle of post or page content
 1. Upload `wp-convertkit` to the `/wp-content/plugins/` directory
 1. Activate the plugin through the 'Plugins' menu in WordPress
 1. Visit the settings page by clicking on the link under the plugin's name
-1. Enter your ConvertKit API key, which you can find [here](https://convertkit.com/app/account/edit), and save the settings
+1. Enter your ConvertKit API key, which you can find [here](https://app.convertkit.com/account/edit), and save the settings
 1. Select your default form and save the settings
 1. If you wish, choose particular forms for each post or page by visiting the edit screen and choosing the correct form
 
 ## Changelog
+
+### 1.3.0
+
+* Added WishList Member integration
+* Updated API methods
 
 ### 1.2.1
 
