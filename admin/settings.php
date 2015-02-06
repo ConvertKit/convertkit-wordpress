@@ -7,7 +7,8 @@ class ConvertKitSettings {
   public $settings_key  = WP_ConvertKit::SETTINGS_PAGE_SLUG;
 
   public function __construct() {
-    $this->api     = new ConvertKitAPI(get_option( $this->settings_key )['api_key']);
+    $general_options = get_option($this->settings_key);
+    $this->api       = new ConvertKitAPI($general_options['api_key']);
 
     add_action('admin_menu', array($this, 'add_settings_page'));
     add_action('admin_init', array($this, 'register_sections'));
