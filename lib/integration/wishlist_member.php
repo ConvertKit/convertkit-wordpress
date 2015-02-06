@@ -8,8 +8,9 @@ if(!class_exists('ConvertKitWishlistIntegration')) {
     protected $options;
 
     public function __construct() {
-      $this->options = get_option('_wp_convertkit_integration_wishlistmember_settings');
-      $this->api     = new ConvertKitAPI(get_option('_wp_convertkit_settings')['api_key']);
+      $general_options = get_option('_wp_convertkit_settings');
+      $this->options   = get_option('_wp_convertkit_integration_wishlistmember_settings');
+      $this->api       = new ConvertKitAPI($general_options['api_key']);
 
       add_action(
         'wishlistmember_add_user_levels',     // hook
