@@ -33,6 +33,10 @@ Finally, you can insert the default form into the middle of post or page content
 
 ## Changelog
 
+### 1.3.2
+
+* Another fix for a pesky bug causing syntax errors
+
 ### 1.3.1
 
 * Fixes a bug causing syntax error when getting options
