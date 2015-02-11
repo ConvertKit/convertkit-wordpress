@@ -145,7 +145,9 @@ class ConvertKitSettingsWishlistMember extends ConvertKitSettingsSection {
       if ($section['title']) echo "<h3>{$section['title']}</h3>\n";
       if ($section['callback']) call_user_func($section['callback'], $section);
 
-      if (!empty($this->api->get_resources('forms'))) {
+      $forms = $this->api->get_resources('forms');
+
+      if (!empty($forms)) {
         $this->do_settings_table();
         settings_fields($this->settings_key);
         submit_button();
