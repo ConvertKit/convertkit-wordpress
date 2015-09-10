@@ -1,14 +1,14 @@
 === ConvertKit ===
-Contributors: nickohrn, davidlamarwheeler  
+Contributors: nickohrn, davidlamarwheeler
 Donate link: https://convertkit.com
 Tags: email, marketing, embed form, convertkit, capture
-Requires at least: 3.6  
-Tested up to: 3.6  
-Stable tag: 1.0.0  
+Requires at least: 3.6
+Tested up to: 4.3
+Stable tag: 1.3.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-ConvertKit is an email marketing platform for capturing leads from your WordPress blog. 
+ConvertKit is an email marketing platform for capturing leads from your WordPress blog.
 
 == Description ==
 
@@ -44,6 +44,10 @@ Yes, for it to work you must first have an account on ConvertKit.com
 
 == Changelog ==
 
+### 1.3.3
+
+* Updated for compatibility with WordPress 4.3
+
 ### 1.3.2
 
 * Another fix for a pesky bug causing syntax errors
@@ -70,4 +74,3 @@ Yes, for it to work you must first have an account on ConvertKit.com
 * Initial release
 
 == Upgrade notice ==
-

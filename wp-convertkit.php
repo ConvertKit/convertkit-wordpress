@@ -3,7 +3,7 @@
  Plugin Name: WP ConvertKit
  Plugin URI: http://convertkit.com/
  Description: Quickly and easily integrate ConvertKit forms into your site.
- Version: 1.2.1
+ Version: 1.3.3
  Author: ConvertKit
  Author URI: http://convertkit.com/
  */
