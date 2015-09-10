@@ -55,6 +55,15 @@ class MultiValueFieldTable extends WP_List_Table {
   }
 
   /**
+   * Get a list of columns
+   *
+   * @return array
+   */
+  public function get_columns() {
+    return $this->_columns;
+  }
+
+  /**
    * Add a column to the table
    *
    * @param string  $key      Machine-readable column name
