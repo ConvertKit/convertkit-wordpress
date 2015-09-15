@@ -1,4 +1,4 @@
-=== ConvertKit ===
+# ConvertKit
 Contributors: nickohrn, davidlamarwheeler
 Donate link: https://convertkit.com
 Tags: email, marketing, embed form, convertkit, capture
@@ -10,7 +10,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 ConvertKit is an email marketing platform for capturing leads from your WordPress blog.
 
-== Description ==
+## Description
 
 [ConvertKit](https://convertkit.com) makes it easy to capture more leads and sell more products by easily
 embedding email capture forms anywhere. This plugin makes it a little bit easier for those of us using WordPress
@@ -22,7 +22,7 @@ an individual post or page, you can do so within the ConvertKit meta box on the 
 
 Finally, you can insert the default form into the middle of post or page content by using the `[convertkit]` shortcode.
 
-== Installation ==
+## Installation
 
 1. Upload `wp-convertkit` to the `/wp-content/plugins/` directory
 2. Activate the plugin through the 'Plugins' menu in WordPress
@@ -31,18 +31,18 @@ Finally, you can insert the default form into the middle of post or page content
 5. Select your default form and save the settings
 6. If you wish, choose particular forms for each post or page by visiting the edit screen and choosing the correct form
 
-== Frequently asked questions ==
+## Frequently asked questions
 
-= Does this plugin require a paid service? =
+### Does this plugin require a paid service? =
 
 Yes, for it to work you must first have an account on ConvertKit.com
 
-== Screenshots ==
+## Screenshots
 
 1. Insert modal forms into any post
 2. Add stunning landing pages
 
-== Changelog ==
+## Changelog
 
 ### 1.3.3
 
@@ -72,5 +72,3 @@ Yes, for it to work you must first have an account on ConvertKit.com
 ### 1.0.0
 
 * Initial release
-
-== Upgrade notice ==

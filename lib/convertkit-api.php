@@ -30,7 +30,7 @@ class ConvertKitAPI {
    * @return object           API response
    */
   public function get_resources($resource) {
-    if(is_null($this->resources[$resource])) {
+    if(!array_key_exists($resource, $this->resources)) {
       $api_response = $this->_get_api_response($resource);
 
       if (is_wp_error($api_response) || isset($api_response['error']) || isset($api_response['error_message'])) {
