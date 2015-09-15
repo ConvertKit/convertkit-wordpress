@@ -1,5 +1,5 @@
 # ConvertKit
-Contributors: nickohrn, davidlamarwheeler
+Contributors: nickohrn, davidlamarwheeler, nathanbarry
 Donate link: https://convertkit.com
 Tags: email, marketing, embed form, convertkit, capture
 Requires at least: 3.6
