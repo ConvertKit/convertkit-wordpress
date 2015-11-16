@@ -8,7 +8,8 @@ class ConvertKitSettings {
 
   public function __construct() {
     $general_options = get_option($this->settings_key);
-    $this->api       = new ConvertKitAPI($general_options['api_key']);
+    $api_key         = $general_options && array_key_exists("api_key", $general_options) ? $general_options['api_key'] : null;
+    $this->api       = new ConvertKitAPI($api_key);
 
     add_action('admin_menu', array($this, 'add_settings_page'));
     add_action('admin_init', array($this, 'register_sections'));
