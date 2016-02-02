@@ -218,6 +218,10 @@ if(!class_exists('WP_ConvertKit')) {
 			$form_id = intval(($form < 0) ? self::_get_settings('default_form') : $form);
 			$form = false;
 
+			if ($form_id == 0) {
+				return "";
+			}
+
 			$forms_available = self::$api->get_resources('forms');
 			foreach($forms_available as $form_available) {
 				if($form_available['id'] == $form_id) {
