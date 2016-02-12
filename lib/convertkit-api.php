@@ -82,7 +82,7 @@ class ConvertKitAPI {
     if(!empty($url) && isset($this->markup[$url])) {
       $resource = $this->markup[$url];
     } else if(!empty($url)) {
-      $response = wp_remote_get($url);
+      $response = wp_remote_get($url, array( 'timeout' => 2 ));
 
       if(!is_wp_error($response)) {
         if(!function_exists('str_get_html')) {
@@ -128,7 +128,7 @@ class ConvertKitAPI {
     $args = array('k' => $this->api_key, 'v' => $this->api_version);
     $url = add_query_arg($args, path_join($this->api_url_base, $path));
 
-    $response = wp_remote_get($url);
+    $response = wp_remote_get($url, array( 'timeout' => 2 ));
 
     if(is_wp_error($response)) {
       $data = $response;
