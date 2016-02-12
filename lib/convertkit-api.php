@@ -33,7 +33,7 @@ class ConvertKitAPI {
     if(!array_key_exists($resource, $this->resources)) {
       $api_response = $this->_get_api_response($resource);
 
-      if (is_wp_error($api_response) || isset($api_response['error']) || isset($api_response['error_message'])) {
+      if (is_null($api_response) || is_wp_error($api_response) || isset($api_response['error']) || isset($api_response['error_message'])) {
         $this->resources[$resource] = array();
       } else {
         $this->resources[$resource] = $api_response;
