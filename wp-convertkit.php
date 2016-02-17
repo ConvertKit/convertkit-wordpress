@@ -15,7 +15,7 @@ if(!class_exists('WP_ConvertKit')) {
 	class WP_ConvertKit {
 
 		// Plugin Version
-		const VERSION = '1.3.6';
+		const VERSION = '1.3.7';
 
 		// DB Keys
 		const POST_META_KEY = '_wp_convertkit_post_meta';

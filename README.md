@@ -44,6 +44,11 @@ Yes, for it to work you must first have an account on ConvertKit.com
 
 ## Changelog
 
+### 1.3.7
+
+* Fix crash when API response is slow
+* Avoid calling API endpoints when no forms need to be shown
+
 ### 1.3.6
 
 * Fixes issue with illegal offset showing warning message
