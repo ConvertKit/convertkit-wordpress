@@ -4,7 +4,7 @@ Donate link: https://convertkit.com
 Tags: email, marketing, embed form, convertkit, capture
 Requires at least: 3.6
 Tested up to: 4.3
-Stable tag: 1.3.6
+Stable tag: 1.3.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -44,9 +44,12 @@ Yes, for it to work you must first have an account on ConvertKit.com
 
 ## Changelog
 
-### 1.3.7
+### 1.3.8
 
 * Fix crash when API response is slow
+
+### 1.3.7
+
 * Avoid calling API endpoints when no forms need to be shown
 
 ### 1.3.6
