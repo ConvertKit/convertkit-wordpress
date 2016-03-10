@@ -44,7 +44,7 @@ Yes, for it to work you must first have an account on ConvertKit.com
 
 == Changelog ==
 
-### 1.3.8
+### 1.3.9
 
 * Fix WishList Member email sent to CK API when shopping cart used.
 
