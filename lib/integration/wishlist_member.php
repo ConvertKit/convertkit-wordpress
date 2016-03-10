@@ -78,10 +78,17 @@ if(!class_exists('ConvertKitWishlistIntegration')) {
      * @return object          Response object from API
      */
     public function member_resource_subscribe($member, $form_id) {
+
+      // Check for temp email
+      if ( preg_match('/temp_[a-f0-9]{32}/', $member['user_email'] ) ) {
+        $email = $member['wlm_origemail'];
+      } else {
+        $email = $member['user_email'];
+      }
       return $this->api->form_subscribe(
         $form_id,
         array(
-          'email' => $member['user_email'],
+          'email' => $email,
           'fname' => $member['display_name']
         )
       );
