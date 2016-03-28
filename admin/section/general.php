@@ -76,14 +76,14 @@ class ConvertKitSettingsGeneral extends ConvertKitSettingsSection {
   public function default_form_callback($forms) {
     $html = sprintf('<select id="default_form" name="%s[default_form]">', $this->settings_key);
       $html .= '<option value="default">None</option>';
-      foreach($forms as $form) {
-        $html .= sprintf(
-          '<option value="%s" %s>%s</option>',
-          esc_attr($form['id']),
-          selected($this->options['default_form'], $form['id'], false),
-          esc_html($form['name'])
-        );
-      }
+        foreach ( $forms as $form ) {
+            $html .= sprintf(
+                '<option value="%s" %s>%s</option>',
+                esc_attr( $form['id'] ),
+                selected( $this->options['default_form'], $form['id'], false ),
+                esc_html( $form['name'] )
+            );
+        }
     $html .= '</select>';
 
     if (empty($forms)) {

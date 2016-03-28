@@ -230,7 +230,7 @@ if(!class_exists('WP_ConvertKit')) {
 				}
 			}
 
-			$form_markup = self::$api->get_resource($form['embed']);
+			$form_markup = self::$api->get_resource($form['embed_url']);
 
 			return $form_markup;
 		}
