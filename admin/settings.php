@@ -39,7 +39,6 @@ class ConvertKitSettings {
     ?>
     <div class="wrap convertkit-settings-wrap">
       <?php
-      screen_icon();
       if(count($this->sections) > 1) {
         $this->display_section_nav($active_section);
       } else {
