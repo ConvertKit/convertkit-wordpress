@@ -30,13 +30,31 @@ class ConvertKitAPI {
 	 * @return object API response
 	 */
 	public function get_resources($resource) {
+
 		if(!array_key_exists($resource, $this->resources)) {
-			$api_response = $this->_get_api_response($resource);
+			// v3 only has 'forms' resource.
+			$api_response = $this->_get_api_response('forms');
 
 			if (is_null($api_response) || is_wp_error($api_response) || isset($api_response['error']) || isset($api_response['error_message'])) {
 				$this->resources[$resource] = array();
 			} else {
-				$this->resources[$resource] = $api_response;
+				$_resource = array();
+				// v3 doesn't have landing_pages resource. Instead check 'type' for 'hosted'
+				if ( 'forms' == $resource ) {
+					foreach ( $api_response as $form ){
+						if ( 'embed' == $form['type'] ){
+							$_resource[] = $form;
+						}
+					}
+				} elseif ( 'landing_pages' == $resource ) {
+					foreach ( $api_response as $landing_page ){
+						if ( 'hosted' == $landing_page['type'] ){
+							$_resource[] = $landing_page;
+						}
+					}
+				}
+
+				$this->resources[$resource] = $_resource;
 			}
 		}
 
@@ -130,12 +148,10 @@ class ConvertKitAPI {
 		$args = array('api_key' => $this->api_key);
 		$api_path = $this->api_url_base . $this->api_version;
 		$url = add_query_arg($args, path_join($api_path, $path));
-error_log("URL1: " . $url);
-
 		$response = wp_remote_get($url, array( 'timeout' => 2 ));
 
 		if(is_wp_error($response)) {
-			$data = $response;
+			return array();
 		} else {
 			$data = json_decode(wp_remote_retrieve_body($response), true);
 		}
@@ -153,7 +169,7 @@ error_log("URL1: " . $url);
 	 */
 	public function make_request($request, $method = 'GET', $args = array()) {
 		$url = $this->build_request_url($request, $args);
-error_log("URL: " . $url );
+
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, $url);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);

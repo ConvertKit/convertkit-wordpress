@@ -32,7 +32,7 @@
 				<select name="wp-convertkit[landing_page]" id="wp-convertkit-landing_page">
 					<option <?php selected('', $meta['landing_page']); ?> value="0"><?php _e('None'); ?></option>
 					<?php foreach($landing_pages as $landing_page) { ?>
-					<option <?php selected($landing_page['hosted_page'], $meta['landing_page']); ?> value="<?php echo esc_attr($landing_page['hosted_page']); ?>"><?php esc_html_e($landing_page['name']); ?></option>
+					<option <?php selected($landing_page['url'], $meta['landing_page']); ?> value="<?php echo esc_attr($landing_page['url']); ?>"><?php esc_html_e($landing_page['name']); ?></option>
 					<?php } ?>
 				</select>
 
