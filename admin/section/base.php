@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Class ConvertKitSettingsSection
+ */
 abstract class ConvertKitSettingsSection {
   public $is_registerable = true;
   public $name;
@@ -10,6 +13,9 @@ abstract class ConvertKitSettingsSection {
   public $api;
   public $options;
 
+  /**
+   * Constructor
+   */
   public function __construct() {
     global $convertkit_settings;
 

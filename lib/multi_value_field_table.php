@@ -4,6 +4,9 @@ if(!class_exists('WP_List_Table')){
   require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
 }
 
+/**
+ * Class MultiValueFieldTable
+ */
 class MultiValueFieldTable extends WP_List_Table {
   private $_bulk_actions     = array();
   private $_columns          = array();

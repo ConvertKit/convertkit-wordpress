@@ -5,11 +5,19 @@
  */
 class ConvertKitAPI {
 
+	/** @var String  */
 	protected $api_key;
 
+	/** @var string  */
 	protected $api_version = 'v3';
+
+	/** @var string  */
 	protected $api_url_base = 'https://api.convertkit.com/';
+
+	/** @var array  */
 	protected $resources = array();
+
+	/** @var array  */
 	protected $markup = array();
 
 	/**
@@ -96,6 +104,12 @@ class ConvertKitAPI {
 		return $this->make_request($request, 'POST', $args);
 	}
 
+	/**
+	 * Get markup from ConvertKit for the provided $url
+	 *
+	 * @param $url
+	 * @return string
+	 */
 	public function get_resource($url) {
 		$resource = '';
 
@@ -144,6 +158,12 @@ class ConvertKitAPI {
 		return $resource;
 	}
 
+	/**
+	 * Do a remote request.
+	 *
+	 * @param string $path
+	 * @return array
+	 */
 	private function _get_api_response($path = '') {
 		$args = array('api_key' => $this->api_key);
 		$api_path = $this->api_url_base . $this->api_version;

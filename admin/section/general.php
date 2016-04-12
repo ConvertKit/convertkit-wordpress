@@ -2,8 +2,14 @@
 
 require_once "base.php";
 
+/**
+ * Class ConvertKitSettingsGeneral
+ */
 class ConvertKitSettingsGeneral extends ConvertKitSettingsSection {
 
+  /**
+   * Constructor
+   */
   public function __construct() {
     $this->settings_key  = WP_ConvertKit::SETTINGS_PAGE_SLUG;
     $this->name          = 'general';

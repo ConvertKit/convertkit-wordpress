@@ -3,10 +3,17 @@
 require_once plugin_dir_path( __FILE__ ) . "../../lib/convertkit-api.php";
 
 if(!class_exists('ConvertKitWishlistIntegration')) {
+
+  /**
+   * Class ConvertKitWishlistIntegration
+   */
   class ConvertKitWishlistIntegration {
     protected $api;
     protected $options;
 
+    /**
+     * Constructor
+     */
     public function __construct() {
       $general_options = get_option('_wp_convertkit_settings');
       $this->options   = get_option('_wp_convertkit_integration_wishlistmember_settings');
