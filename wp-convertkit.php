@@ -288,7 +288,7 @@ if(!class_exists('WP_ConvertKit')) {
 				'form' => -1,
 			), $attributes);
 
-			extract($attributes);
+			$form = $attributes['form'];
 
 			$form_id = intval(($form < 0) ? self::_get_settings('default_form') : $form);
 			$form = false;
