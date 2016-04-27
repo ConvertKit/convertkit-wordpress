@@ -79,10 +79,8 @@ class ConvertKitSettings {
    */
   public function display_section_nav($active_section) {
     ?>
+      <h1>  <?php _e('ConvertKit', 'wp_convertkit'); ?></h1>
     <h2 class="nav-tab-wrapper">
-      <span class="nav-tab-title">
-        <?php _e('ConvertKit', 'wp_convertkit'); ?>
-      </span>
       <?php
       foreach($this->sections as $section):
         printf(
