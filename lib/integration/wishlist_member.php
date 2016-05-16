@@ -3,15 +3,23 @@
 require_once plugin_dir_path( __FILE__ ) . "../../lib/convertkit-api.php";
 
 if(!class_exists('ConvertKitWishlistIntegration')) {
+
+  /**
+   * Class ConvertKitWishlistIntegration
+   */
   class ConvertKitWishlistIntegration {
     protected $api;
     protected $options;
 
+    /**
+     * Constructor
+     */
     public function __construct() {
       $general_options = get_option('_wp_convertkit_settings');
       $this->options   = get_option('_wp_convertkit_integration_wishlistmember_settings');
       $api_key         = $general_options && array_key_exists("api_key", $general_options) ? $general_options['api_key'] : null;
-      $this->api       = new ConvertKitAPI($api_key);
+      $api_secret      = $general_options && array_key_exists("api_secret", $general_options) ? $general_options['api_secret'] : null;
+      $this->api       = new ConvertKitAPI($api_key,$api_secret);
 
       add_action(
         'wishlistmember_add_user_levels',     // hook
@@ -48,12 +56,15 @@ if(!class_exists('ConvertKitWishlistIntegration')) {
     }
 
     /**
+     * Note: Form level unsubscribe is not available in v3 of the API.
+     *
      * Callback function for wishlistmember_remove_user_levels action
      *
      * @param  string $member_id ID for member that has just had levels removed
      * @param  array  $levels    Levels from which member was removed
      */
     public function remove_user_levels($member_id, $levels) {
+    /*
       $member = $this->get_member($member_id);
 
       foreach ($levels as $wlm_level_id) {
@@ -68,6 +79,7 @@ if(!class_exists('ConvertKitWishlistIntegration')) {
           );
         }
       }
+    */
     }
 
     /**
@@ -103,7 +115,6 @@ if(!class_exists('ConvertKitWishlistIntegration')) {
      */
     public function member_resource_unsubscribe($member, $form_id) {
       return $this->api->form_unsubscribe(
-        $form_id,
         array(
           'email' => $member['user_email']
         )

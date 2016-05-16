@@ -3,6 +3,9 @@
 require_once "base.php";
 require_once plugin_dir_path( __FILE__ ) . "../../lib/multi_value_field_table.php";
 
+/**
+ * Class ConvertKitSettingsWishlistMember
+ */
 class ConvertKitSettingsWishlistMember extends ConvertKitSettingsSection {
 
   /**
@@ -11,6 +14,9 @@ class ConvertKitSettingsWishlistMember extends ConvertKitSettingsSection {
    */
   private $wlm_levels;
 
+  /**
+   * Cont
+   */
   public function __construct() {
     if (!function_exists('wlmapi_get_levels')) {
       return $this->is_registerable = false;
