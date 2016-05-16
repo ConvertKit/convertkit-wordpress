@@ -5,8 +5,11 @@
  */
 class ConvertKitAPI {
 
-	/** @var String  */
+	/** @var string  */
 	protected $api_key;
+
+	/** @var string */
+	protected $api_secret;
 
 	/** @var string  */
 	protected $api_version = 'v3';
@@ -23,10 +26,12 @@ class ConvertKitAPI {
 	/**
 	 * Constructor for ConvertKitAPI instance
 	 *
-	 * @param String $api_key ConvertKit API Key
+	 * @param string $api_key ConvertKit API Key
+	 * @param string $api_secret ConvertKit API Secret
 	 */
-	public function __construct($api_key) {
+	public function __construct($api_key, $api_secret) {
 		$this->api_key = $api_key;
+		$this->api_secret = $api_secret;
 	}
 
 	/**
@@ -90,14 +95,14 @@ class ConvertKitAPI {
 	/**
 	 * Remove subscription from a form
 	 *
-	 * @param string $form_id Resource ID
 	 * @param array $options Array of user data
 	 * @return object Response object
 	 */
-	public function form_unsubscribe($form_id, $options) {
-		$request = sprintf('forms/%s/unsubscribe', $form_id);
+	public function form_unsubscribe($options) {
+		$request = 'unsubscribe';
 
 		$args = array(
+			'api_secret' => $this->api_secret,
 			'email' => $options['email']
 		);
 
@@ -197,7 +202,6 @@ class ConvertKitAPI {
 		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
 
 		$results = curl_exec($ch);
-
 		curl_close($ch);
 
 		return json_decode($results);

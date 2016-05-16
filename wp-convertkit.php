@@ -46,6 +46,9 @@ if(!class_exists('WP_ConvertKit')) {
 		/** @var array  */
 		private static $landing_pages_markup = array();
 
+		/** @var string  */
+		private static $forms_version = '5';
+
 		/**
 		 * Initialize the class
 		 */
@@ -261,8 +264,9 @@ if(!class_exists('WP_ConvertKit')) {
 		 */
 		private static function _api_connect() {
 			$api_key = self::_get_settings('api_key');
+			$api_secret = self::_get_settings('api_secret');
 
-			self::$api = new ConvertKitAPI($api_key);
+			self::$api = new ConvertKitAPI($api_key,$api_secret);
 		}
 
 		/**
@@ -305,7 +309,14 @@ if(!class_exists('WP_ConvertKit')) {
 				}
 			}
 
-			$form_markup = self::$api->get_resource($form['embed_url']);
+			$url = add_query_arg( array(
+					'api_key' => self::_get_settings('api_key'),
+					'v' => self::$forms_version,
+					),
+				'https://forms.convertkit.com/' . $form['id'] . '.html'
+			);
+
+			$form_markup = self::$api->get_resource( $url );
 
 			return $form_markup;
 		}

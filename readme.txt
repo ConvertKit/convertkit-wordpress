@@ -3,7 +3,7 @@ Contributors: nickohrn, davidlamarwheeler, nathanbarry
 Donate link: https://convertkit.com
 Tags: email, marketing, embed form, convertkit, capture
 Requires at least: 3.6
-Tested up to: 4.4.2
+Tested up to: 4.5.2
 Stable tag: 1.4.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html

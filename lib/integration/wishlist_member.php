@@ -18,7 +18,8 @@ if(!class_exists('ConvertKitWishlistIntegration')) {
       $general_options = get_option('_wp_convertkit_settings');
       $this->options   = get_option('_wp_convertkit_integration_wishlistmember_settings');
       $api_key         = $general_options && array_key_exists("api_key", $general_options) ? $general_options['api_key'] : null;
-      $this->api       = new ConvertKitAPI($api_key);
+      $api_secret      = $general_options && array_key_exists("api_secret", $general_options) ? $general_options['api_secret'] : null;
+      $this->api       = new ConvertKitAPI($api_key,$api_secret);
 
       add_action(
         'wishlistmember_add_user_levels',     // hook
@@ -110,7 +111,6 @@ if(!class_exists('ConvertKitWishlistIntegration')) {
      */
     public function member_resource_unsubscribe($member, $form_id) {
       return $this->api->form_unsubscribe(
-        $form_id,
         array(
           'email' => $member['user_email']
         )
