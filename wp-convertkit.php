@@ -336,7 +336,7 @@ if(!class_exists('WP_ConvertKit')) {
 				$settings['default_form'] = '';
 				update_option( self::SETTINGS_NAME, $settings );
 				update_option( 'convertkit_version', self::VERSION );
-				error_log( "AGAIN???" );
+				
 			}
 
 		}
