@@ -311,6 +311,10 @@ if(!class_exists('WP_ConvertKit')) {
 				}
 			}
 
+			// The Form ID is not found
+			if ( ! $form )
+				return;
+
 			$url = add_query_arg( array(
 					'api_key' => self::_get_settings('api_key'),
 					'v' => self::$forms_version,
