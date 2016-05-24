@@ -345,7 +345,6 @@ if(!class_exists('WP_ConvertKit')) {
 					$posts = get_option( '_wp_convertkit_upgrade_posts' );
 
 					if ( ! $posts ) {
-						error_log( " no posts, so getting a list");
 
 						$args = array(
 							'post_type' => array( 'post', 'page' ),
@@ -376,10 +375,10 @@ if(!class_exists('WP_ConvertKit')) {
 					foreach ( $posts as $key => $post_id ) {
 						$post_settings = get_post_meta( $post_id, '_wp_convertkit_post_meta', true );
 
-						if ( isset( $post_settings['form'] ) )
+						if ( isset( $post_settings['form'] ) && ( 0 < $post_settings['form'] ) )
 							$post_settings['form'] = isset( $mappings[ $post_settings['form'] ] ) ? $mappings[ $post_settings['form'] ] : 0;
-						if ( isset( $post_settings['landing_page'] ) )
-							$post_settings['landing_page'] = isset( $mappings[ $post_settings['form'] ] ) ? $mappings[ $post_settings['form'] ] : 0;
+						if ( isset( $post_settings['landing_page'] ) && ( 0 < $post_settings['landing_page'] ) )
+							$post_settings['landing_page'] = isset( $mappings[ $post_settings['landing_page'] ] ) ? $mappings[ $post_settings['landing_page'] ] : 0;
 
 						update_post_meta( $post_id, '_wp_convertkit_post_meta', $post_settings );
 
