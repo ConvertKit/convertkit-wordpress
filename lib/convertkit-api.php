@@ -15,7 +15,7 @@ class ConvertKitAPI {
 	protected $api_version = 'v3';
 
 	/** @var string  */
-	protected $api_url_base = 'https://api.convertkit.com/';
+	protected $api_url_base = 'http://api.blue.convertkit.com/';
 
 	/** @var array  */
 	protected $resources = array();
@@ -45,25 +45,38 @@ class ConvertKitAPI {
 	public function get_resources($resource) {
 
 		if(!array_key_exists($resource, $this->resources)) {
-			// v3 only has 'forms' resource.
-			$api_response = $this->_get_api_response('forms');
+
+			if ( $resource == 'landing_pages' ) {
+				$api_response = $this->_get_api_response( 'forms' );
+			} else {
+				$api_response = $this->_get_api_response( $resource );
+			}
 
 			if (is_null($api_response) || is_wp_error($api_response) || isset($api_response['error']) || isset($api_response['error_message'])) {
 				$this->resources[$resource] = array();
 			} else {
 				$_resource = array();
+
 				// v3 doesn't have landing_pages resource. Instead check 'type' for 'hosted'
 				if ( 'forms' == $resource ) {
-					foreach ( $api_response as $form ){
+
+					$response = isset( $api_response['forms']) ? $api_response['forms'] : array();
+					foreach( $response as $form ){
 						if ( 'embed' == $form['type'] ){
 							$_resource[] = $form;
 						}
 					}
 				} elseif ( 'landing_pages' == $resource ) {
-					foreach ( $api_response as $landing_page ){
+
+					$response = isset( $api_response['forms']) ? $api_response['forms'] : array();
+					foreach( $response as $landing_page ){
 						if ( 'hosted' == $landing_page['type'] ){
 							$_resource[] = $landing_page;
 						}
+					}
+				} elseif ( 'subscription_forms' == $resource ) {
+					foreach( $api_response as $mapping ){
+						$_resource[ $mapping['id'] ] =  $mapping['form_id'];
 					}
 				}
 
@@ -173,7 +186,7 @@ class ConvertKitAPI {
 		$args = array('api_key' => $this->api_key);
 		$api_path = $this->api_url_base . $this->api_version;
 		$url = add_query_arg($args, path_join($api_path, $path));
-		$response = wp_remote_get($url, array( 'timeout' => 2 ));
+		$response = wp_remote_get($url, array( 'timeout' => 2, 'sslverify' => false));
 
 		if(is_wp_error($response)) {
 			return array();
@@ -181,7 +194,7 @@ class ConvertKitAPI {
 			$data = json_decode(wp_remote_retrieve_body($response), true);
 		}
 
-		return isset($data[$path]) ? $data[$path] : array();
+		return $data;
 	}
 
 	/**

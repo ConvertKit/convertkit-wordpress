@@ -336,11 +336,67 @@ if(!class_exists('WP_ConvertKit')) {
 
 			if ( ! $current_version) {
 
+				// Run 1.4.1 upgrade
 				$settings = self::_get_settings( );
-				$settings['default_form'] = '';
-				update_option( self::SETTINGS_NAME, $settings );
-				update_option( 'convertkit_version', self::VERSION );
-				
+
+				if ( isset( $settings['api_key'] ) ) {
+
+					// Get all posts and pages to track what has been updated
+					$posts = get_option( '_wp_convertkit_upgrade_posts' );
+
+					if ( ! $posts ) {
+						error_log( " no posts, so getting a list");
+
+						$args = array(
+							'post_type' => array( 'post', 'page' ),
+							'fields' => 'ids',
+						);
+
+						$result = new WP_Query( $args );
+						if (! is_wp_error( $result ) ) {
+							$posts = $result->posts;
+							update_option( '_wp_convertkit_upgrade_posts', $posts );
+						}
+					}
+
+					// Get form mappings
+					$mappings = self::$api->get_resources('subscription_forms');;
+
+					// 1. Update global form. Set 'api_version' so this is only done once.
+					if ( ! isset( $settings['api_version'] ) ) {
+						$old_form_id              = $settings['default_form'];
+						$settings['default_form'] = isset( $mappings[ $old_form_id ] ) ? $mappings[ $old_form_id ] : 0;
+						$settings['api_version']  = 'v3';
+						update_option( self::SETTINGS_NAME, $settings );
+					}
+
+					// 2. Scan posts/pages for _wp_convertkit_post_meta and update IDs
+					//    Scan content for shortcode and update
+					//    Remove page_id from posts array after page is updated.
+					foreach ( $posts as $key => $post_id ) {
+						$post_settings = get_post_meta( $post_id, '_wp_convertkit_post_meta', true );
+
+						if ( isset( $post_settings['form'] ) )
+							$post_settings['form'] = isset( $mappings[ $post_settings['form'] ] ) ? $mappings[ $post_settings['form'] ] : 0;
+						if ( isset( $post_settings['landing_page'] ) )
+							$post_settings['landing_page'] = isset( $mappings[ $post_settings['form'] ] ) ? $mappings[ $post_settings['form'] ] : 0;
+
+						update_post_meta( $post_id, '_wp_convertkit_post_meta', $post_settings );
+
+						unset($posts[ $key ]);
+						update_option( '_wp_convertkit_upgrade_posts', $posts );
+					}
+
+					// Done scanning posts, upgrade complete.
+					if ( empty( $posts ) )
+						update_option( 'convertkit_version', self::VERSION );
+
+				} else {
+
+					update_option( 'convertkit_version', self::VERSION );
+
+				}
+
 			}
 
 		}
