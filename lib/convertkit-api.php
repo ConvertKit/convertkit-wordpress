@@ -57,15 +57,10 @@ class ConvertKitAPI {
 			} else {
 				$_resource = array();
 
-				// v3 doesn't have landing_pages resource. Instead check 'type' for 'hosted'
 				if ( 'forms' == $resource ) {
-
 					$response = isset( $api_response['forms']) ? $api_response['forms'] : array();
-					foreach( $response as $form ){
-						if ( 'embed' == $form['type'] ){
-							$_resource[] = $form;
-						}
-					}
+					$_resource[] = $response;
+
 				} elseif ( 'landing_pages' == $resource ) {
 
 					$response = isset( $api_response['forms']) ? $api_response['forms'] : array();
