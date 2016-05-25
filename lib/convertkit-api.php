@@ -15,7 +15,7 @@ class ConvertKitAPI {
 	protected $api_version = 'v3';
 
 	/** @var string  */
-	protected $api_url_base = 'http://api.blue.convertkit.com/';
+	protected $api_url_base = 'http://api.convertkit.com/';
 
 	/** @var array  */
 	protected $resources = array();
