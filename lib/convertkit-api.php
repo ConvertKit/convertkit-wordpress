@@ -59,8 +59,9 @@ class ConvertKitAPI {
 
 				if ( 'forms' == $resource ) {
 					$response = isset( $api_response['forms']) ? $api_response['forms'] : array();
-					$_resource[] = $response;
-
+					foreach( $response as $form ) {
+						$_resource[] = $form;
+					}
 				} elseif ( 'landing_pages' == $resource ) {
 
 					$response = isset( $api_response['forms']) ? $api_response['forms'] : array();

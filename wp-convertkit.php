@@ -285,46 +285,65 @@ if(!class_exists('WP_ConvertKit')) {
 
 		/**
 		 * Retrieve hosted form markup form the API and format
+		 * Supports attribute `form` for V2 of the API
+		 * and `id` for V3 of the API
 		 *
 		 * @param $attributes
 		 * @return string
 		 */
 		public static function get_form_embed($attributes) {
-			$attributes = shortcode_atts(array(
+
+			$attributes = shortcode_atts( array(
 				'form' => -1,
-			), $attributes);
+			), $attributes );
 
-			$form = $attributes['form'];
-
-			$form_id = intval(($form < 0) ? self::_get_settings('default_form') : $form);
 			$form = false;
 
-			if ($form_id == 0) {
-				return "";
-			}
+			if ( isset( $attributes['id'] ) ){
+				// There is an 'id' attribute so use v3 api to retrieve.
 
-			$forms_available = self::$api->get_resources('forms');
-			foreach($forms_available as $form_available) {
-				if($form_available['id'] == $form_id) {
-					$form = $form_available;
-					break;
+				$forms_available = self::$api->get_resources( 'forms' );
+				foreach ( $forms_available as $form_available ) {
+					if ( $form_available['id'] == $attributes['id'] ) {
+						$form = $form_available;
+						break;
+					}
 				}
+
+				// TODO make v3 api call and return form markup
+
+
+			} else {
+
+				$form = $attributes['form'];
+				$form_id = intval(($form < 0) ? self::_get_settings('default_form') : $form);
+
+				// TODO add check for default_form which will be using V3 ID?
+
+				$form = false;
+				if ($form_id == 0) {
+					return "";
+				}
+
+				// TODO get_resources uses V3 so will this work with a V2 form_id?
+				$forms_available = self::$api->get_resources('forms');
+				foreach($forms_available as $form_available) {
+					if($form_available['id'] == $form_id) {
+						$form = $form_available;
+						break;
+					}
+				}
+				$url = add_query_arg( array(
+					'api_key' => self::_get_settings('api_key'),
+					'v' => '2',
+				),
+					'https://forms.convertkit.com/' . $form['id'] . '.html'
+				);
+				$form_markup = self::$api->get_resource( $url );
+				return $form_markup;
+
 			}
 
-			// The Form ID is not found
-			if ( ! $form )
-				return;
-
-			$url = add_query_arg( array(
-					'api_key' => self::_get_settings('api_key'),
-					'v' => self::$forms_version,
-					),
-				'https://forms.convertkit.com/' . $form['id'] . '.html'
-			);
-
-			$form_markup = self::$api->get_resource( $url );
-
-			return $form_markup;
 		}
 
 		/**
