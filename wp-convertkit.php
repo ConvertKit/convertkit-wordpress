@@ -160,7 +160,9 @@ if(!class_exists('WP_ConvertKit')) {
 		 */
 		public static function append_form($content) {
 			if(is_singular(array('post')) || is_page()) {
-				$content .= wp_convertkit_get_form_embed(self::_get_meta(get_the_ID()));
+				$attributes = self::_get_meta(get_the_ID());
+				$form = apply_filters('wp_convertkit_get_form_embed', WP_ConvertKit::get_form_embed($attributes), $attributes);
+				$content .= $form;
 			}
 
 			return $content;
@@ -190,7 +192,10 @@ if(!class_exists('WP_ConvertKit')) {
 		 * @return mixed|void
 		 */
 		public static function shortcode($attributes, $content = null) {
-			return wp_convertkit_get_form_embed($attributes);
+
+			$form = apply_filters('wp_convertkit_get_form_embed', WP_ConvertKit::get_form_embed($attributes), $attributes);
+
+			return $form;
 		}
 
 		/**
@@ -420,7 +425,6 @@ if(!class_exists('WP_ConvertKit')) {
 		}
 	}
 
-	require_once('lib/template-tags.php');
 	WP_ConvertKit::init();
 }
 
