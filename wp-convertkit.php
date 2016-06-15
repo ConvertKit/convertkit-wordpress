@@ -158,11 +158,29 @@ if(!class_exists('WP_ConvertKit')) {
 		 * @param $content
 		 * @return string
 		 */
-		public static function append_form($content) {
+		public static function append_form( $content ) {
+
 			if(is_singular(array('post')) || is_page()) {
-				$attributes = self::_get_meta(get_the_ID());
-				$form = apply_filters('wp_convertkit_get_form_embed', WP_ConvertKit::get_form_embed($attributes), $attributes);
-				$content .= $form;
+
+				$attributes = self::_get_meta( get_the_ID() );
+
+				if ( isset( $attributes['form'] ) && ( 0 < $attributes['form'] ) ) {
+					$form_id = $attributes['form'];
+				} else {
+					$form_id = self::_get_settings('default_form');
+				}
+
+				if ( 0 < $form_id ) {
+					$url = add_query_arg( array(
+						'api_key' => self::_get_settings( 'api_key' ),
+						'v'       => self::$forms_version,
+					),
+						'https://forms.convertkit.com/' . $form_id . '.html'
+					);
+
+					$form_markup = self::$api->get_resource( $url );
+					$content .= $form_markup;
+				}
 			}
 
 			return $content;
@@ -173,7 +191,9 @@ if(!class_exists('WP_ConvertKit')) {
 		 */
 		public static function page_takeover() {
 			$queried_object = get_queried_object();
-			if(isset($queried_object->post_type) && 'page' === $queried_object->post_type && ($landing_page_url = self::_get_meta($queried_object->ID, 'landing_page'))) {
+			if(isset($queried_object->post_type)
+			   && 'page' === $queried_object->post_type
+			   && ($landing_page_url = self::_get_meta($queried_object->ID, 'landing_page'))) {
 				$landing_page = self::$api->get_resource($landing_page_url);
 
 				if(!empty($landing_page)) {
@@ -296,27 +316,54 @@ if(!class_exists('WP_ConvertKit')) {
 		 * @param $attributes
 		 * @return string
 		 */
-		public static function get_form_embed($attributes) {
+		public static function get_form_embed( $attributes ) {
 
-			$attributes = shortcode_atts( array(
-				'form' => -1,
-			), $attributes );
+			//$attributes = shortcode_atts( array(
+			//	'form' => -1,
+			//), $attributes );
 
-			$form = false;
+			if ( isset( $attributes['id'] ) ) {
 
-			if ( isset( $attributes['id'] ) ){
 				// There is an 'id' attribute so use v3 api to retrieve.
-
 				$forms_available = self::$api->get_resources( 'forms' );
 				foreach ( $forms_available as $form_available ) {
 					if ( $form_available['id'] == $attributes['id'] ) {
-						$form = $form_available;
+						$url = $form_available['embed_url'];
 						break;
 					}
 				}
 
-				// TODO make v3 api call and return form markup
+				$form_markup = self::$api->get_resource( $url );
+				return $form_markup;
 
+			} elseif ( isset( $attributes['form'] ) ) {
+				// TODO add v2 api call
+				$form = $attributes['form'];
+				$form_id = intval(($form < 0) ? self::_get_settings('default_form') : $form);
+
+				// TODO add check for default_form which will be using V3 ID?
+
+				$form = false;
+				if ($form_id == 0) {
+					return "";
+				}
+
+				// TODO get_resources uses V3 so will this work with a V2 form_id?
+				$forms_available = self::$api->get_resources('forms');
+				foreach($forms_available as $form_available) {
+					if($form_available['id'] == $form_id) {
+						$form = $form_available;
+						break;
+					}
+				}
+				$url = add_query_arg( array(
+					'api_key' => self::_get_settings('api_key'),
+					'v' => '2',
+				),
+					'https://forms.convertkit.com/' . $form['id'] . '.html'
+				);
+				$form_markup = self::$api->get_resource( $url );
+				return $form_markup;
 
 			} else {
 
