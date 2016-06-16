@@ -53,7 +53,7 @@ class ConvertKitAPI {
 			}
 
 			if (is_null($api_response) || is_wp_error($api_response) || isset($api_response['error']) || isset($api_response['error_message'])) {
-				$this->resources[$resource] = array();
+				$this->resources[$resource] = array( array('id' => '-2', 'name' => 'Error contacting API' ) );
 			} else {
 				$_resource = array();
 

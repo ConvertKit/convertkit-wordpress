@@ -341,7 +341,7 @@ if(!class_exists('WP_ConvertKit')) {
 			return add_query_arg($query_args, admin_url('options-general.php'));
 		}
 
-		
+
 		/**
 		 * Run version specific upgrade.
 		 */
