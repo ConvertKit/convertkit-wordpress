@@ -213,9 +213,39 @@ if(!class_exists('WP_ConvertKit')) {
 		 */
 		public static function shortcode($attributes, $content = null) {
 
-			$form = apply_filters('wp_convertkit_get_form_embed', WP_ConvertKit::get_form_embed($attributes), $attributes);
+			if ( isset( $attributes['id'] ) ) {
+				$form_id = $attributes['id'];
+				$url = add_query_arg( array(
+					'api_key' => self::_get_settings( 'api_key' ),
+					'v'       => self::$forms_version,
+				),
+					'https://forms.convertkit.com/' . $form_id . '.html'
+				);
+			} elseif ( isset( $attributes['form'] ) ) {
+				$form_id = $attributes['form'];
+				$url = add_query_arg( array(
+					'k' => self::_get_settings( 'api_key' ),
+					'v' => '2',
+				),
+					'https://api.convertkit.com/forms/' . $form_id . '/embed'
+				);
+			} else {
+				$form_id = self::_get_settings( 'default_form' );
+				$url = add_query_arg( array(
+					'api_key' => self::_get_settings( 'api_key' ),
+					'v'       => self::$forms_version,
+				),
+					'https://forms.convertkit.com/' . $form_id . '.html'
+				);
+			}
 
-			return $form;
+			if ( 0 < $form_id ) {
+				$form_markup = self::$api->get_resource( $url );
+			} else {
+				$form_markup = '';
+			}
+
+			return apply_filters('wp_convertkit_get_form_embed', $form_markup, $attributes );
 		}
 
 		/**
