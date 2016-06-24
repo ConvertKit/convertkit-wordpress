@@ -362,8 +362,9 @@ if(!class_exists('WP_ConvertKit')) {
 					if ( ! $posts ) {
 
 						$args = array(
-							'post_type' => array( 'post', 'page' ),
-							'fields' => 'ids',
+							'post_type'      => array( 'post', 'page' ),
+							'fields'         => 'ids',
+							'posts_per_page' => -1,
 						);
 
 						$result = new WP_Query( $args );
@@ -402,8 +403,10 @@ if(!class_exists('WP_ConvertKit')) {
 					}
 
 					// Done scanning posts, upgrade complete.
-					if ( empty( $posts ) )
+					if ( empty( $posts ) ) {
 						update_option( 'convertkit_version', self::VERSION );
+						delete_option( '_wp_convertkit_upgrade_posts' );
+					}
 
 				} else {
 
