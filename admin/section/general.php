@@ -87,7 +87,7 @@ class ConvertKitSettingsGeneral extends ConvertKitSettingsSection {
 	 */
 	public function api_secret_callback() {
 		$html = sprintf(
-			'<input type="password" class="regular-text code" id="api_key" name="%s[api_secret]" value="%s" />',
+			'<input type="text" class="regular-text code" id="api_key" name="%s[api_secret]" value="%s" />',
 			$this->settings_key,
 			isset($this->options['api_secret']) ? esc_attr($this->options['api_secret']) : ''
 		);

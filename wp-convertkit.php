@@ -3,7 +3,7 @@
  Plugin Name: WP ConvertKit
  Plugin URI: http://convertkit.com/
  Description: Quickly and easily integrate ConvertKit forms into your site.
- Version: 1.4.0
+ Version: 1.4.1
  Author: ConvertKit
  Author URI: http://convertkit.com/
  */
@@ -17,7 +17,7 @@ if(!class_exists('WP_ConvertKit')) {
 	 */
 	class WP_ConvertKit {
 
-		const VERSION = '1.4.0';
+		const VERSION = '1.4.1';
 
 		const POST_META_KEY = '_wp_convertkit_post_meta';
 
@@ -74,6 +74,8 @@ if(!class_exists('WP_ConvertKit')) {
 			}
 
 			add_action('save_post', array(__CLASS__, 'save_post_meta'), 10, 2);
+
+			add_action('init', array(__CLASS__, 'upgrade') , 10);
 		}
 
 		/**
@@ -156,9 +158,32 @@ if(!class_exists('WP_ConvertKit')) {
 		 * @param $content
 		 * @return string
 		 */
-		public static function append_form($content) {
+		public static function append_form( $content ) {
+
 			if(is_singular(array('post')) || is_page()) {
-				$content .= wp_convertkit_get_form_embed(self::_get_meta(get_the_ID()));
+
+				$attributes = self::_get_meta( get_the_ID() );
+
+				$form_id = 0;
+
+				if ( isset( $attributes['form'] ) && ( 0 < $attributes['form'] ) ) {
+					$form_id = $attributes['form'];
+				} else {
+					if ( -1 == $attributes['form'] )
+					$form_id = self::_get_settings('default_form');
+				}
+
+				if ( 0 < $form_id ) {
+					$url = add_query_arg( array(
+						'api_key' => self::_get_settings( 'api_key' ),
+						'v'       => self::$forms_version,
+					),
+						'https://forms.convertkit.com/' . $form_id . '.html'
+					);
+
+					$form_markup = self::$api->get_resource( $url );
+					$content .= $form_markup;
+				}
 			}
 
 			return $content;
@@ -169,7 +194,9 @@ if(!class_exists('WP_ConvertKit')) {
 		 */
 		public static function page_takeover() {
 			$queried_object = get_queried_object();
-			if(isset($queried_object->post_type) && 'page' === $queried_object->post_type && ($landing_page_url = self::_get_meta($queried_object->ID, 'landing_page'))) {
+			if(isset($queried_object->post_type)
+			   && 'page' === $queried_object->post_type
+			   && ($landing_page_url = self::_get_meta($queried_object->ID, 'landing_page'))) {
 				$landing_page = self::$api->get_resource($landing_page_url);
 
 				if(!empty($landing_page)) {
@@ -188,7 +215,40 @@ if(!class_exists('WP_ConvertKit')) {
 		 * @return mixed|void
 		 */
 		public static function shortcode($attributes, $content = null) {
-			return wp_convertkit_get_form_embed($attributes);
+
+			if ( isset( $attributes['id'] ) ) {
+				$form_id = $attributes['id'];
+				$url = add_query_arg( array(
+					'api_key' => self::_get_settings( 'api_key' ),
+					'v'       => self::$forms_version,
+				),
+					'https://forms.convertkit.com/' . $form_id . '.html'
+				);
+			} elseif ( isset( $attributes['form'] ) ) {
+				$form_id = $attributes['form'];
+				$url = add_query_arg( array(
+					'k' => self::_get_settings( 'api_key' ),
+					'v' => '2',
+				),
+					'https://api.convertkit.com/forms/' . $form_id . '/embed'
+				);
+			} else {
+				$form_id = self::_get_settings( 'default_form' );
+				$url = add_query_arg( array(
+					'api_key' => self::_get_settings( 'api_key' ),
+					'v'       => self::$forms_version,
+				),
+					'https://forms.convertkit.com/' . $form_id . '.html'
+				);
+			}
+
+			if ( 0 < $form_id ) {
+				$form_markup = self::$api->get_resource( $url );
+			} else {
+				$form_markup = '';
+			}
+
+			return apply_filters('wp_convertkit_get_form_embed', $form_markup, $attributes );
 		}
 
 		/**
@@ -281,48 +341,84 @@ if(!class_exists('WP_ConvertKit')) {
 			return add_query_arg($query_args, admin_url('options-general.php'));
 		}
 
+
 		/**
-		 * Retrieve hosted form markup form the API and format
-		 *
-		 * @param $attributes
-		 * @return string
+		 * Run version specific upgrade.
 		 */
-		public static function get_form_embed($attributes) {
-			$attributes = shortcode_atts(array(
-				'form' => -1,
-			), $attributes);
+		public static function upgrade() {
 
-			$form = $attributes['form'];
+			$current_version = get_option( 'convertkit_version' );
 
-			$form_id = intval(($form < 0) ? self::_get_settings('default_form') : $form);
-			$form = false;
+			if ( ! $current_version) {
 
-			if ($form_id == 0) {
-				return "";
-			}
+				// Run 1.4.1 upgrade
+				$settings = self::_get_settings( );
 
-			$forms_available = self::$api->get_resources('forms');
-			foreach($forms_available as $form_available) {
-				if($form_available['id'] == $form_id) {
-					$form = $form_available;
-					break;
+				if ( isset( $settings['api_key'] ) ) {
+
+					// Get all posts and pages to track what has been updated
+					$posts = get_option( '_wp_convertkit_upgrade_posts' );
+
+					if ( ! $posts ) {
+
+						$args = array(
+							'post_type'      => array( 'post', 'page' ),
+							'fields'         => 'ids',
+							'posts_per_page' => -1,
+						);
+
+						$result = new WP_Query( $args );
+						if (! is_wp_error( $result ) ) {
+							$posts = $result->posts;
+							update_option( '_wp_convertkit_upgrade_posts', $posts );
+						}
+					}
+
+					// Get form mappings
+					$mappings = self::$api->get_resources('subscription_forms');;
+
+					// 1. Update global form. Set 'api_version' so this is only done once.
+					if ( ! isset( $settings['api_version'] ) ) {
+						$old_form_id              = $settings['default_form'];
+						$settings['default_form'] = isset( $mappings[ $old_form_id ] ) ? $mappings[ $old_form_id ] : 0;
+						$settings['api_version']  = 'v3';
+						update_option( self::SETTINGS_NAME, $settings );
+					}
+
+					// 2. Scan posts/pages for _wp_convertkit_post_meta and update IDs
+					//    Scan content for shortcode and update
+					//    Remove page_id from posts array after page is updated.
+					foreach ( $posts as $key => $post_id ) {
+						$post_settings = get_post_meta( $post_id, '_wp_convertkit_post_meta', true );
+
+						if ( isset( $post_settings['form'] ) && ( 0 < $post_settings['form'] ) )
+							$post_settings['form'] = isset( $mappings[ $post_settings['form'] ] ) ? $mappings[ $post_settings['form'] ] : 0;
+						if ( isset( $post_settings['landing_page'] ) && ( 0 < $post_settings['landing_page'] ) )
+							$post_settings['landing_page'] = isset( $mappings[ $post_settings['landing_page'] ] ) ? $mappings[ $post_settings['landing_page'] ] : 0;
+
+						update_post_meta( $post_id, '_wp_convertkit_post_meta', $post_settings );
+
+						unset($posts[ $key ]);
+						update_option( '_wp_convertkit_upgrade_posts', $posts );
+					}
+
+					// Done scanning posts, upgrade complete.
+					if ( empty( $posts ) ) {
+						update_option( 'convertkit_version', self::VERSION );
+						delete_option( '_wp_convertkit_upgrade_posts' );
+					}
+
+				} else {
+
+					update_option( 'convertkit_version', self::VERSION );
+
 				}
+
 			}
 
-			$url = add_query_arg( array(
-					'api_key' => self::_get_settings('api_key'),
-					'v' => self::$forms_version,
-					),
-				'https://forms.convertkit.com/' . $form['id'] . '.html'
-			);
-
-			$form_markup = self::$api->get_resource( $url );
-
-			return $form_markup;
 		}
 	}
 
-	require_once('lib/template-tags.php');
 	WP_ConvertKit::init();
 }
 
