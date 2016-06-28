@@ -1,10 +1,10 @@
 === ConvertKit ===
-Contributors: nickohrn, davidlamarwheeler, nathanbarry, growdev
+Contributors: nathanbarry, davidlamarwheeler, growdev, nickohrn
 Donate link: https://convertkit.com
 Tags: email, marketing, embed form, convertkit, capture
 Requires at least: 3.6
-Tested up to: 4.5.2
-Stable tag: 1.4.0
+Tested up to: 4.5.3
+Stable tag: 1.4.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -43,6 +43,10 @@ Yes, for it to work you must first have an account on ConvertKit.com
 2. Add stunning landing pages
 
 == Changelog ==
+
+### 1.4.1
+
+* Add upgrade routine to change ID to form_id for API version 3.0
 
 ### 1.4.0
 
