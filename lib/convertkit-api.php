@@ -15,7 +15,7 @@ class ConvertKitAPI {
 	protected $api_version = 'v3';
 
 	/** @var string  */
-	protected $api_url_base = 'http://api.convertkit.com/';
+	protected $api_url_base = 'https://api.convertkit.com/';
 
 	/** @var array  */
 	protected $resources = array();
@@ -91,11 +91,12 @@ class ConvertKitAPI {
 	 * @return object
 	 */
 	public function form_subscribe($form_id, $options) {
-		$request = sprintf('forms/%s/subscribe', $form_id);
+		$request = $this->api_version . sprintf('/forms/%s/subscribe', $form_id);
 
 		$args = array(
-			'email' => $options['email'],
-			'fname' => $options['fname']
+			'api_key' => $this->api_key,
+			'email'   => $options['email'],
+			'name'   => $options['fname'],
 		);
 
 		return $this->make_request($request, 'POST', $args);
@@ -108,7 +109,7 @@ class ConvertKitAPI {
 	 * @return object Response object
 	 */
 	public function form_unsubscribe($options) {
-		$request = 'unsubscribe';
+		$request = $this->api_version . '/unsubscribe';
 
 		$args = array(
 			'api_secret' => $this->api_secret,
@@ -203,7 +204,8 @@ class ConvertKitAPI {
 	 */
 	public function make_request($request, $method = 'GET', $args = array()) {
 		$url = $this->build_request_url($request, $args);
-
+//TODO remove
+error_log ("URL: " . $url . "\n");
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, $url);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -223,7 +225,7 @@ class ConvertKitAPI {
 	 * @return array Request arguments
 	 */
 	public function filter_request_arguments($args = array()) {
-		return array_merge($args, array('k' => $this->api_key, 'v' => $this->api_version));
+		return array_merge($args, array('api_key' => $this->api_key, 'v' => $this->api_version));
 	}
 
 	/**
