@@ -98,15 +98,12 @@ if(!class_exists('ConvertKitWishlistIntegration')) {
 				$email = $member['user_email'];
 			}
 
-		    // Wishlist Member combines first and last name into 'display_name'
-			$first_name = $member['display_name'];
-			$last_name  = $member['display_name'];
+		    // Note Wishlist Member combines first and last name into 'display_name'
 			return $this->api->form_subscribe(
 				$form_id,
 				array(
-					'email'      => $email,
-					'first_name' => $first_name,
-					'last_name'  => $last_name,
+					'email' => $email,
+					'name'  => $member['display_name'],
 				)
 			);
 		}

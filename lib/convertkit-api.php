@@ -96,7 +96,7 @@ class ConvertKitAPI {
 		$args = array(
 			'api_key' => $this->api_key,
 			'email'   => $options['email'],
-			'name'   => $options['fname'],
+			'name'   => $options['name'],
 		);
 
 		return $this->make_request($request, 'POST', $args);
@@ -204,8 +204,7 @@ class ConvertKitAPI {
 	 */
 	public function make_request($request, $method = 'GET', $args = array()) {
 		$url = $this->build_request_url($request, $args);
-//TODO remove
-error_log ("URL: " . $url . "\n");
+
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, $url);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -219,16 +218,6 @@ error_log ("URL: " . $url . "\n");
 	}
 
 	/**
-	 * Merge default request arguments with those of this request
-	 *
-	 * @param array $args Request arguments
-	 * @return array Request arguments
-	 */
-	public function filter_request_arguments($args = array()) {
-		return array_merge($args, array('api_key' => $this->api_key, 'v' => $this->api_version));
-	}
-
-	/**
 	 * Build the full request URL
 	 *
 	 * @param string $request Request path
@@ -236,7 +225,7 @@ error_log ("URL: " . $url . "\n");
 	 * @return string	Request URL
 	 */
 	public function build_request_url($request, array $args) {
-		return $this->api_url_base . $request . '?' . http_build_query($this->filter_request_arguments($args));
+		return $this->api_url_base . $request . '?' . http_build_query( $args );
 	}
 
 }
