@@ -116,7 +116,7 @@ class ConvertKitAPI {
 			'email' => $options['email']
 		);
 
-		return $this->make_request($request, 'POST', $args);
+		return $this->make_request($request, 'PUT', $args);
 	}
 
 	/**
@@ -210,6 +210,10 @@ class ConvertKitAPI {
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($ch, CURLOPT_HEADER, false);
 		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
+		if ( 'PUT' == $method ){
+			curl_setopt($ch, CURLOPT_PUT, true);
+			//curl_setopt($ch, CURLOPT_HTTPHEADER, array('X-HTTP-Method-Override: PUT'));
+		}
 
 		$results = curl_exec($ch);
 		curl_close($ch);

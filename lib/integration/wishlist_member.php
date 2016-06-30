@@ -64,7 +64,7 @@ if(!class_exists('ConvertKitWishlistIntegration')) {
 	     * @param  array  $levels    Levels from which member was removed
 	     */
 		public function remove_user_levels($member_id, $levels) {
-	    /*
+
 	      $member = $this->get_member($member_id);
 
 	      foreach ($levels as $wlm_level_id) {
@@ -79,7 +79,7 @@ if(!class_exists('ConvertKitWishlistIntegration')) {
 	          );
 	        }
 	      }
-	    */
+
 	    }
 
 	    /**
