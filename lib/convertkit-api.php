@@ -15,7 +15,7 @@ class ConvertKitAPI {
 	protected $api_version = 'v3';
 
 	/** @var string  */
-	protected $api_url_base = 'http://api.convertkit.com/';
+	protected $api_url_base = 'https://api.convertkit.com/';
 
 	/** @var array  */
 	protected $resources = array();
@@ -91,11 +91,12 @@ class ConvertKitAPI {
 	 * @return object
 	 */
 	public function form_subscribe($form_id, $options) {
-		$request = sprintf('forms/%s/subscribe', $form_id);
+		$request = $this->api_version . sprintf('/forms/%s/subscribe', $form_id);
 
 		$args = array(
-			'email' => $options['email'],
-			'fname' => $options['fname']
+			'api_key' => $this->api_key,
+			'email'   => $options['email'],
+			'name'   => $options['name'],
 		);
 
 		return $this->make_request($request, 'POST', $args);
@@ -108,14 +109,14 @@ class ConvertKitAPI {
 	 * @return object Response object
 	 */
 	public function form_unsubscribe($options) {
-		$request = 'unsubscribe';
+		$request = $this->api_version . '/unsubscribe';
 
 		$args = array(
 			'api_secret' => $this->api_secret,
 			'email' => $options['email']
 		);
 
-		return $this->make_request($request, 'POST', $args);
+		return $this->make_request($request, 'PUT', $args);
 	}
 
 	/**
@@ -209,21 +210,15 @@ class ConvertKitAPI {
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($ch, CURLOPT_HEADER, false);
 		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
+		if ( 'PUT' == $method ){
+			curl_setopt($ch, CURLOPT_PUT, true);
+			//curl_setopt($ch, CURLOPT_HTTPHEADER, array('X-HTTP-Method-Override: PUT'));
+		}
 
 		$results = curl_exec($ch);
 		curl_close($ch);
 
 		return json_decode($results);
-	}
-
-	/**
-	 * Merge default request arguments with those of this request
-	 *
-	 * @param array $args Request arguments
-	 * @return array Request arguments
-	 */
-	public function filter_request_arguments($args = array()) {
-		return array_merge($args, array('k' => $this->api_key, 'v' => $this->api_version));
 	}
 
 	/**
@@ -234,7 +229,7 @@ class ConvertKitAPI {
 	 * @return string	Request URL
 	 */
 	public function build_request_url($request, array $args) {
-		return $this->api_url_base . $request . '?' . http_build_query($this->filter_request_arguments($args));
+		return $this->api_url_base . $request . '?' . http_build_query( $args );
 	}
 
 }
