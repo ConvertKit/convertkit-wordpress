@@ -47,6 +47,15 @@ class ConvertKitSettingsGeneral extends ConvertKitSettingsSection {
 			$this->name,
 			$this->api->get_resources('forms')
 		);
+
+		add_settings_field(
+			'debug',
+			'Debug',
+			array($this, 'debug_callback'),
+			$this->settings_key,
+			$this->name
+		);
+
 	}
 
 	/**
@@ -65,6 +74,7 @@ class ConvertKitSettingsGeneral extends ConvertKitSettingsSection {
 	      by using the <code>[convertkit]</code> shortcode.
 	    </p>
 	    <?php
+
 	}
 
 	/**
@@ -87,7 +97,7 @@ class ConvertKitSettingsGeneral extends ConvertKitSettingsSection {
 	 */
 	public function api_secret_callback() {
 		$html = sprintf(
-			'<input type="text" class="regular-text code" id="api_key" name="%s[api_secret]" value="%s" />',
+			'<input type="text" class="regular-text code" id="api_secret" name="%s[api_secret]" value="%s" />',
 			$this->settings_key,
 			isset($this->options['api_secret']) ? esc_attr($this->options['api_secret']) : ''
 		);
@@ -103,8 +113,13 @@ class ConvertKitSettingsGeneral extends ConvertKitSettingsSection {
 	 * @param array $forms Form listing
 	 */
 	public function default_form_callback($forms) {
-		$html = sprintf('<select id="default_form" name="%s[default_form]">', $this->settings_key);
-		$html .= '<option value="default">None</option>';
+
+		// check for error in response
+		if ( isset( $forms[0]['id'] ) && '-2' == $forms[0]['id'] ) {
+			$html = '<p class="error">' . __('Error connecting to API. Please verify your site can connect to <code>https://api.convertkit.com</code>','convertkit') . '</p>';
+		} else {
+			$html = sprintf( '<select id="default_form" name="%s[default_form]">', $this->settings_key );
+			$html .= '<option value="default">None</option>';
 			foreach ( $forms as $form ) {
 				$html .= sprintf(
 					'<option value="%s" %s>%s</option>',
@@ -113,11 +128,36 @@ class ConvertKitSettingsGeneral extends ConvertKitSettingsSection {
 					esc_html( $form['name'] )
 				);
 			}
-		$html .= '</select>';
+			$html .= '</select>';
+		}
 
-		if (empty($forms)) {
+		if ( empty( $this->options['api_key'] ) ) {
 			$html .= '<p class="description">Enter your API Key above to get your available forms.</p>';
 		}
+
+		if (empty($forms)) {
+			$html .= '<p class="description">There are no forms setup in your account. You can go <a href="https://app.convertkit.com/landing_pages/new" target="_blank">here</a> to create one.</p>';
+		}
+
+		echo $html;
+	}
+
+	/**
+	 * Renders the input for debug setting
+	 */
+	public function debug_callback() {
+
+		$debug = '';
+		if ( isset( $this->options['debug'] ) && 'on' == $this->options['debug'] ) {
+			$debug = 'checked';
+		}
+
+		$html = sprintf(
+			'<input type="checkbox" class="" id="debug" name="%s[debug]"  %s />%s',
+			$this->settings_key,
+			$debug,
+			__('Save connection data to a log file.','convertkit')
+		);
 
 		echo $html;
 	}
@@ -132,7 +172,8 @@ class ConvertKitSettingsGeneral extends ConvertKitSettingsSection {
 		return shortcode_atts(array(
 			'api_key'      => '',
 			'api_secret'   => '',
-			'default_form' => 0
+			'default_form' => 0,
+			'debug' => ''
 		), $settings);
 	}
 }

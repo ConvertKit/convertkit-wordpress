@@ -11,6 +11,9 @@ class ConvertKitAPI {
 	/** @var string */
 	protected $api_secret;
 
+	/** @var  string */
+	protected $debug;
+
 	/** @var string  */
 	protected $api_version = 'v3';
 
@@ -29,9 +32,10 @@ class ConvertKitAPI {
 	 * @param string $api_key ConvertKit API Key
 	 * @param string $api_secret ConvertKit API Secret
 	 */
-	public function __construct($api_key, $api_secret) {
+	public function __construct($api_key, $api_secret, $debug) {
 		$this->api_key = $api_key;
 		$this->api_secret = $api_secret;
+		$this->debug = $debug;
 	}
 
 	/**
@@ -183,13 +187,18 @@ class ConvertKitAPI {
 		$args = array('api_key' => $this->api_key);
 		$api_path = $this->api_url_base . $this->api_version;
 		$url = add_query_arg($args, path_join($api_path, $path));
+
+		$this->log( "API Request (_get_api_response): " . $url );
 		$response = wp_remote_get($url, array( 'timeout' => 10, 'sslverify' => false));
 
 		if(is_wp_error($response)) {
-			return array();
+			$this->log( "Error: " . $response->get_error_message() );
+			return array( 'error' => $response->get_error_message() );
 		} else {
 			$data = json_decode(wp_remote_retrieve_body($response), true);
 		}
+
+		$this->log( "API Response (_get_api_response): " . print_r( $data, true) );
 
 		return $data;
 	}
@@ -203,7 +212,9 @@ class ConvertKitAPI {
 	 * @return object Response object
 	 */
 	public function make_request($request, $method = 'GET', $args = array()) {
+
 		$url = $this->build_request_url($request, $args);
+		$this->log( "API Request (make_request): " . $url );
 
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, $url);
@@ -212,11 +223,12 @@ class ConvertKitAPI {
 		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
 		if ( 'PUT' == $method ){
 			curl_setopt($ch, CURLOPT_PUT, true);
-			//curl_setopt($ch, CURLOPT_HTTPHEADER, array('X-HTTP-Method-Override: PUT'));
 		}
 
 		$results = curl_exec($ch);
 		curl_close($ch);
+
+		$this->log( "API Response (make_request): " . json_decode($results) );
 
 		return json_decode($results);
 	}
@@ -230,6 +242,24 @@ class ConvertKitAPI {
 	 */
 	public function build_request_url($request, array $args) {
 		return $this->api_url_base . $request . '?' . http_build_query( $args );
+	}
+
+	/**
+	 * @param $message
+	 */
+	public function log( $message ) {
+
+		if ( 'on' == $this->debug ) {
+			$dir = dirname( __FILE__ );
+
+			$handle = fopen( trailingslashit( $dir ) . 'log.txt', 'a' );
+			if ( $handle ) {
+				$time   = date_i18n( 'm-d-Y @ H:i:s -' );
+				fwrite( $handle, $time . " " . $message . "\n" );
+				fclose( $handle );
+			}
+		}
+
 	}
 
 }
