@@ -3,12 +3,13 @@
  Plugin Name: WP ConvertKit
  Plugin URI: http://convertkit.com/
  Description: Quickly and easily integrate ConvertKit forms into your site.
- Version: 1.4.2
+ Version: 1.4.3
  Author: ConvertKit
  Author URI: http://convertkit.com/
  */
 
 require_once plugin_dir_path( __FILE__ ) . "/lib/convertkit-api.php";
+require_once plugin_dir_path( __FILE__ ) . "/lib/class-ck-widget-form.php";
 require_once plugin_dir_path( __FILE__ ) . "/lib/integration/wishlist_member.php";
 
 if(!class_exists('WP_ConvertKit')) {
@@ -17,7 +18,7 @@ if(!class_exists('WP_ConvertKit')) {
 	 */
 	class WP_ConvertKit {
 
-		const VERSION = '1.4.2';
+		const VERSION = '1.4.3';
 
 		const POST_META_KEY = '_wp_convertkit_post_meta';
 
@@ -47,7 +48,7 @@ if(!class_exists('WP_ConvertKit')) {
 		private static $landing_pages_markup = array();
 
 		/** @var string  */
-		private static $forms_version = '5';
+		private static $forms_version = '6';
 
 		/**
 		 * Initialize the class
@@ -72,6 +73,8 @@ if(!class_exists('WP_ConvertKit')) {
 			} else {
 				add_action('template_redirect', array(__CLASS__, 'page_takeover'));
 			}
+
+			add_action('widgets_init', array(__CLASS__,'ck_register_widgets'));
 
 			add_action('save_post', array(__CLASS__, 'save_post_meta'), 10, 2);
 
@@ -208,6 +211,13 @@ if(!class_exists('WP_ConvertKit')) {
 		}
 
 		/**
+		 * Register widget.
+		 */
+		public static function ck_register_widgets(){
+			register_widget( 'CK_Widget_Form' );
+		}
+
+		/**
 		 * Shortcode callback
 		 *
 		 * @param $attributes
@@ -325,9 +335,28 @@ if(!class_exists('WP_ConvertKit')) {
 		private static function _api_connect() {
 			$api_key = self::_get_settings('api_key');
 			$api_secret = self::_get_settings('api_secret');
+			$debug = self::_get_settings('debug');
 
-			self::$api = new ConvertKitAPI($api_key,$api_secret);
+			self::$api = new ConvertKitAPI($api_key,$api_secret,$debug);
 		}
+
+		/**
+		 * Get instance of the CK API
+		 *
+		 * @return ConvertKitAPI
+		 */
+		public static function get_api(){
+			return self::$api;
+		}
+
+		public static function get_api_key(){
+			return self::_get_settings( 'api_key' );
+		}
+
+		public static function get_forms_version(){
+			return self::$forms_version;
+		}
+
 
 		/**
 		 * Get link to the plugin settings page

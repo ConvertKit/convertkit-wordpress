@@ -9,7 +9,8 @@ class ConvertKitSettings {
 		$general_options = get_option($this->settings_key);
 		$api_key         = $general_options && array_key_exists("api_key", $general_options) ? $general_options['api_key'] : null;
 		$api_secret      = $general_options && array_key_exists("api_secret", $general_options) ? $general_options['api_secret'] : null;
-		$this->api       = new ConvertKitAPI( $api_key, $api_secret );
+		$debug           = $general_options && array_key_exists("debug", $general_options) ? $general_options['debug'] : null;
+		$this->api       = new ConvertKitAPI( $api_key, $api_secret, $debug );
 
 		add_action('admin_menu', array($this, 'add_settings_page'));
 		add_action('admin_init', array($this, 'register_sections'));
@@ -56,8 +57,7 @@ class ConvertKitSettings {
 			endforeach;
 		?>
 			<p class="description">
-				If you have questions or problems, please contact
-				<a href="mailto:support@convertkit.com">support@convertkit.com</a>
+				If you need help setting up the plugin please refer to the <a href="http://help.convertkit.com/article/99-the-convertkit-wordpress-plugin" target="_blank">plugin documentation.</a>
 			</p>
 		</form>
 		</div>

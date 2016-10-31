@@ -19,7 +19,8 @@ if(!class_exists('ConvertKitWishlistIntegration')) {
 			$this->options   = get_option('_wp_convertkit_integration_wishlistmember_settings');
 			$api_key         = $general_options && array_key_exists("api_key", $general_options) ? $general_options['api_key'] : null;
 			$api_secret      = $general_options && array_key_exists("api_secret", $general_options) ? $general_options['api_secret'] : null;
-			$this->api       = new ConvertKitAPI($api_key,$api_secret);
+			$debug           = $general_options && array_key_exists("debug", $general_options) ? $general_options['debug'] : null;
+			$this->api       = new ConvertKitAPI($api_key,$api_secret,$debug);
 
 			add_action(
 				'wishlistmember_add_user_levels',     // hook
