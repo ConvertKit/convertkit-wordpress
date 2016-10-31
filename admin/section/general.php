@@ -169,6 +169,9 @@ class ConvertKitSettingsGeneral extends ConvertKitSettingsSection {
 	 * @return array           Sanitized settings
 	 */
 	public function sanitize_settings($settings) {
+
+		// clear api transient
+		delete_transient( 'convertkit_get_api_response' );
 		return shortcode_atts(array(
 			'api_key'      => '',
 			'api_secret'   => '',
