@@ -184,21 +184,33 @@ class ConvertKitAPI {
 	 * @return array
 	 */
 	private function _get_api_response($path = '') {
+
 		$args = array('api_key' => $this->api_key);
 		$api_path = $this->api_url_base . $this->api_version;
 		$url = add_query_arg($args, path_join($api_path, $path));
 
 		$this->log( "API Request (_get_api_response): " . $url );
-		$response = wp_remote_get($url, array( 'timeout' => 10, 'sslverify' => false));
 
-		if(is_wp_error($response)) {
-			$this->log( "Error: " . $response->get_error_message() );
-			return array( 'error' => $response->get_error_message() );
+		$data = get_transient( 'convertkit_get_api_response' );
+
+		if ( ! $data ) {
+
+			$response = wp_remote_get( $url, array( 'timeout' => 10, 'sslverify' => false ) );
+
+			if ( is_wp_error( $response ) ) {
+				$this->log( "Error: " . $response->get_error_message() );
+
+				return array( 'error' => $response->get_error_message() );
+			} else {
+				$data = json_decode( wp_remote_retrieve_body( $response ), true );
+			}
+
+			set_transient( 'convertkit_get_api_response', $data, 300 );
+
+			$this->log( "API Response (_get_api_response): " . print_r( $data, true ) );
 		} else {
-			$data = json_decode(wp_remote_retrieve_body($response), true);
+			$this->log( "Transient Response (_get_api_response)" );
 		}
-
-		$this->log( "API Response (_get_api_response): " . print_r( $data, true) );
 
 		return $data;
 	}
