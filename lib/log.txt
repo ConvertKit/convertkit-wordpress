@@ -1,4 +1,0 @@
-10-31-2016 @ 22:07:16 - API Request (_get_api_response): https://api.convertkit.com/v3/forms?api_key=ERJye1W7eFgwGoIOKSf_Rg
-10-31-2016 @ 22:07:16 - Transient Response (_get_api_response)
-10-31-2016 @ 22:07:17 - API Request (_get_api_response): https://api.convertkit.com/v3/forms?api_key=ERJye1W7eFgwGoIOKSf_Rg
-10-31-2016 @ 22:07:17 - Transient Response (_get_api_response)
