@@ -3,8 +3,8 @@ Contributors: nathanbarry, davidlamarwheeler, growdev, nickohrn
 Donate link: https://convertkit.com
 Tags: email, marketing, embed form, convertkit, capture
 Requires at least: 3.6
-Tested up to: 4.5.3
-Stable tag: 1.4.2
+Tested up to: 4.6.1
+Stable tag: 1.4.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -43,6 +43,14 @@ Yes, for it to work you must first have an account on ConvertKit.com
 2. Add stunning landing pages
 
 == Changelog ==
+
+### 1.4.3
+
+* Add WP widget for form
+* Updates form version to v6
+* Add logger to help troubleshoot issues
+* Add link to CK account if no forms available
+* Add notice if can't connect to API
 
 ### 1.4.2
 
