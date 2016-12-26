@@ -2,3 +2,4 @@ convertkit-svn
 node_modules/
 .env
 .DS_Store
+lib/log.txt
