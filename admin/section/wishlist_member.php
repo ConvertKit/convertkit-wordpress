@@ -1,6 +1,4 @@
 <?php
-
-require_once "base.php";
 require_once plugin_dir_path( __FILE__ ) . "../../lib/multi_value_field_table.php";
 
 /**
