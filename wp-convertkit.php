@@ -20,7 +20,7 @@ if(!class_exists('WP_ConvertKit')) {
 	 */
 	class WP_ConvertKit {
 
-		const VERSION = '1.4.3';
+		const VERSION = '1.4.4';
 
 		const POST_META_KEY = '_wp_convertkit_post_meta';
 
@@ -69,6 +69,7 @@ if(!class_exists('WP_ConvertKit')) {
 		 * Add WP Actions
 		 */
 		private static function add_actions() {
+			add_action( 'plugins_loaded', array(__CLASS__, 'load_textdomain' ) );
 			if(is_admin()) {
 				add_action('add_meta_boxes_page', array(__CLASS__, 'add_meta_boxes'));
 				add_action('add_meta_boxes_post', array(__CLASS__, 'add_meta_boxes'));
@@ -81,6 +82,13 @@ if(!class_exists('WP_ConvertKit')) {
 			add_action('save_post', array(__CLASS__, 'save_post_meta'), 10, 2);
 
 			add_action('init', array(__CLASS__, 'upgrade') , 10);
+		}
+
+		/**
+		 * Load plugin textdomain
+		 */
+		public static function load_textdomain() {
+			load_plugin_textdomain( 'convertkit', FALSE, basename( dirname( __FILE__ ) ) . '/languages/' );
 		}
 
 		/**
