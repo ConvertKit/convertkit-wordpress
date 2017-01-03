@@ -1,16 +1,18 @@
 <?php
-/*
- Plugin Name: WP ConvertKit
- Plugin URI: http://convertkit.com/
- Description: Quickly and easily integrate ConvertKit forms into your site.
- Version: 1.4.3
- Author: ConvertKit
- Author URI: http://convertkit.com/
+/**
+ * Plugin Name: WP ConvertKit
+ * Plugin URI: http://convertkit.com/
+ * Description: Quickly and easily integrate ConvertKit forms into your site.
+ * Version: 1.4.3
+ * Author: ConvertKit
+ * Author URI: http://convertkit.com/
+ * Text Domain: convertkit
  */
 
 require_once plugin_dir_path( __FILE__ ) . "/lib/convertkit-api.php";
 require_once plugin_dir_path( __FILE__ ) . "/lib/class-ck-widget-form.php";
 require_once plugin_dir_path( __FILE__ ) . "/lib/integration/wishlist_member.php";
+require_once plugin_dir_path( __FILE__ ) . "/lib/integration/contactform7.php";
 
 if(!class_exists('WP_ConvertKit')) {
 	/**

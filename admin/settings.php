@@ -116,12 +116,15 @@ class ConvertKitSettings {
 
 		$this->register_section('ConvertKitSettingsGeneral');
 		$this->register_section('ConvertKitSettingsWishlistMember');
+		$this->register_section('ConvertKitSettingsContactForm7');
 	}
 }
 
 if( is_admin() ) {
 	$convertkit_settings = new ConvertKitSettings();
 
+	include 'section/base.php';
 	include 'section/general.php';
 	include 'section/wishlist_member.php';
+	include 'section/contactform7.php';
 }

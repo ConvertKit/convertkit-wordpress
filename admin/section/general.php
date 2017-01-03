@@ -1,7 +1,4 @@
 <?php
-
-require_once "base.php";
-
 /**
  * Class ConvertKitSettingsGeneral
  */
