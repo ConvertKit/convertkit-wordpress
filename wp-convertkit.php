@@ -1,16 +1,18 @@
 <?php
-/*
- Plugin Name: WP ConvertKit
- Plugin URI: http://convertkit.com/
- Description: Quickly and easily integrate ConvertKit forms into your site.
- Version: 1.4.3
- Author: ConvertKit
- Author URI: http://convertkit.com/
+/**
+ * Plugin Name: WP ConvertKit
+ * Plugin URI: http://convertkit.com/
+ * Description: Quickly and easily integrate ConvertKit forms into your site.
+ * Version: 1.4.4
+ * Author: ConvertKit
+ * Author URI: http://convertkit.com/
+ * Text Domain: convertkit
  */
 
 require_once plugin_dir_path( __FILE__ ) . "/lib/convertkit-api.php";
 require_once plugin_dir_path( __FILE__ ) . "/lib/class-ck-widget-form.php";
 require_once plugin_dir_path( __FILE__ ) . "/lib/integration/wishlist_member.php";
+require_once plugin_dir_path( __FILE__ ) . "/lib/integration/contactform7.php";
 
 if(!class_exists('WP_ConvertKit')) {
 	/**
@@ -106,7 +108,7 @@ if(!class_exists('WP_ConvertKit')) {
 		 * @return array
 		 */
 		public static function add_settings_page_link($links) {
-			$settings_link = sprintf('<a href="%s">%s</a>', self::_get_settings_page_link(), __('Settings'));
+			$settings_link = sprintf('<a href="%s">%s</a>', self::_get_settings_page_link(), __('Settings', 'convertkit'));
 
 			return array('settings' => $settings_link) + $links;
 		}
@@ -121,7 +123,7 @@ if(!class_exists('WP_ConvertKit')) {
 			$landing_pages = self::$api->get_resources('landing_pages');
 
 			if(!empty($forms) || ('page' === $post->post_type && !empty($landing_pages))) {
-				add_meta_box('wp-convertkit-meta-box', __('ConvertKit'), array(__CLASS__, 'display_meta_box'), $post->post_type, 'normal');
+				add_meta_box('wp-convertkit-meta-box', __('ConvertKit', 'convertkit'), array(__CLASS__, 'display_meta_box'), $post->post_type, 'normal');
 			}
 		}
 

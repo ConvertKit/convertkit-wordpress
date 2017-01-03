@@ -1,7 +1,4 @@
 <?php
-
-require_once "base.php";
-
 /**
  * Class ConvertKitSettingsGeneral
  */
@@ -13,8 +10,8 @@ class ConvertKitSettingsGeneral extends ConvertKitSettingsSection {
 	public function __construct() {
 		$this->settings_key  = WP_ConvertKit::SETTINGS_PAGE_SLUG;
 		$this->name          = 'general';
-		$this->title         = 'General Settings';
-		$this->tab_text      = 'General';
+		$this->title         = __( 'General Settings', 'convertkit' );
+		$this->tab_text      = __( 'General', 'convertkit' );
 
         parent::__construct();
 	}
@@ -63,16 +60,9 @@ class ConvertKitSettingsGeneral extends ConvertKitSettingsSection {
 	 */
 	public function print_section_info() {
 	    ?>
-	    <p>
-	      Choosing a default form will embed it at the bottom of every post or page
-	      (in single view only) across your site. If you wish to turn off form
-	      embedding or select a different form for an individual post or page, you
-	      can do so within the ConvertKit meta box on the editing form.
-	    </p>
-	    <p>
-	      The default form can be inserted into the middle of post or page content
-	      by using the <code>[convertkit]</code> shortcode.
-	    </p>
+	    <p><?php _e( 'Choosing a default form will embed it at the bottom of every post or page (in single view only) across your site.', 'convertkit' ); ?></p>
+		<p><?php _e( 'If you wish to turn off form embedding or select a different form for an individual post or page, you can do so using the ConvertKit meta box on the edit page.', 'convertkit' ); ?></p>
+	    <p><?php _e( 'The default form can be inserted into the middle of post or page content by using the <code>[convertkit]</code> shortcode.', 'convertkit' ); ?></p>
 	    <?php
 
 	}
@@ -87,7 +77,7 @@ class ConvertKitSettingsGeneral extends ConvertKitSettingsSection {
 			isset($this->options['api_key']) ? esc_attr($this->options['api_key']) : ''
 		);
 
-		$html .= '<p class="description"><a href="https://app.convertkit.com/account/edit" target="_blank">Get your ConvertKit API Key</a></p>';
+		$html .= '<p class="description"><a href="https://app.convertkit.com/account/edit" target="_blank">' . __('Get your ConvertKit API Key', 'convertkit' ) . '</a></p>';
 
 		echo $html;
 	}
@@ -102,7 +92,7 @@ class ConvertKitSettingsGeneral extends ConvertKitSettingsSection {
 			isset($this->options['api_secret']) ? esc_attr($this->options['api_secret']) : ''
 		);
 
-		$html .= '<p class="description"><a href="https://app.convertkit.com/account/edit" target="_blank">Get your ConvertKit API Secret.</a> This setting is required to unsubscribe subscribers.</p>';
+		$html .= '<p class="description"><a href="https://app.convertkit.com/account/edit" target="_blank">' . __( 'Get your ConvertKit API Secret.', 'convertkit' ) . '</a>' . ' ' .  __( 'This setting is required to unsubscribe subscribers.', 'convertkit' ) . '</p>';
 
 		echo $html;
 	}
@@ -119,7 +109,7 @@ class ConvertKitSettingsGeneral extends ConvertKitSettingsSection {
 			$html = '<p class="error">' . __('Error connecting to API. Please verify your site can connect to <code>https://api.convertkit.com</code>','convertkit') . '</p>';
 		} else {
 			$html = sprintf( '<select id="default_form" name="%s[default_form]">', $this->settings_key );
-			$html .= '<option value="default">None</option>';
+			$html .= '<option value="default">' . __( 'None', 'convertkit' ) . '</option>';
 			foreach ( $forms as $form ) {
 				$html .= sprintf(
 					'<option value="%s" %s>%s</option>',
@@ -132,11 +122,11 @@ class ConvertKitSettingsGeneral extends ConvertKitSettingsSection {
 		}
 
 		if ( empty( $this->options['api_key'] ) ) {
-			$html .= '<p class="description">Enter your API Key above to get your available forms.</p>';
+			$html .= '<p class="description">' . __( 'Enter your API Key above to get your available forms.', 'convertkit' ) . '</p>';
 		}
 
 		if (empty($forms)) {
-			$html .= '<p class="description">There are no forms setup in your account. You can go <a href="https://app.convertkit.com/landing_pages/new" target="_blank">here</a> to create one.</p>';
+			$html .= '<p class="description">' . __('There are no forms setup in your account. You can go <a href="https://app.convertkit.com/landing_pages/new" target="_blank">here</a> to create one.', 'convertkit' ) . '</p>';
 		}
 
 		echo $html;

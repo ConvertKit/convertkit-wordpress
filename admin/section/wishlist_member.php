@@ -1,6 +1,4 @@
 <?php
-
-require_once "base.php";
 require_once plugin_dir_path( __FILE__ ) . "../../lib/multi_value_field_table.php";
 
 /**
@@ -57,7 +55,7 @@ class ConvertKitSettingsWishlistMember extends ConvertKitSettingsSection {
     foreach($this->wlm_levels as $wlm_level) {
       add_settings_field(
         sprintf('%s_title', $wlm_level['id']),
-        'WishList Membership Level',
+        __( 'WishList Membership Level', 'convertkit' ),
         array($this, 'wlm_title_callback'),
         $this->settings_key,
         $this->name,
@@ -70,7 +68,7 @@ class ConvertKitSettingsWishlistMember extends ConvertKitSettingsSection {
 
       add_settings_field(
         sprintf('%s_form', $wlm_level['id']),
-        'ConvertKit Form',
+        __( 'ConvertKit Form', 'convertkit' ),
         array($this, 'wlm_level_callback'),
         $this->settings_key,
         $this->name,
@@ -82,7 +80,7 @@ class ConvertKitSettingsWishlistMember extends ConvertKitSettingsSection {
 
       add_settings_field(
         sprintf('%s_unsubscribe', $wlm_level['id']),
-        'Unsubscribe',
+        __( 'Unsubscribe', 'convertkit' ),
         array($this, 'wlm_unsubscribe_callback'),
         $this->settings_key,
         $this->name,
@@ -97,11 +95,8 @@ class ConvertKitSettingsWishlistMember extends ConvertKitSettingsSection {
    * Prints help info for this section
    */
   public function print_section_info() {
-    ?>
-    <p>
-      ConvertKit seamlessly integrates with WishList Member to let you capture
-      all of your WishList Membership registrations within your ConvertKit forms.
-    </p>
+    ?><p><?php echo __('ConvertKit seamlessly integrates with WishList Member to let you capture all of your WishList Membership registrations within your ConvertKit forms.', 'convertkit');
+    ?></p>
     <?php
   }
 
@@ -159,10 +154,9 @@ class ConvertKitSettingsWishlistMember extends ConvertKitSettingsSection {
         submit_button();
       } else {
         ?>
-        <p>
-          To set up this integration, you will first need to enter a valid
-          ConvertKit API key in the
-          <a href="?page=_wp_convertkit_settings&tab=general">General Settings</a>.
+        <p><?php
+          echo __('To set up this integration, you will first need to enter a valid ConvertKit API key in the', 'convertkit' );
+         ?><a href="?page=_wp_convertkit_settings&tab=general"><?php echo __( 'General Settings', 'convertkit'); ?></a>.
         </p>
         <?php
       }
@@ -173,7 +167,7 @@ class ConvertKitSettingsWishlistMember extends ConvertKitSettingsSection {
    * Title for WishList Membership Level
    *
    * @param  array  $arguments Arguments from add_settings_field()
-   * @return html              WishList Membership Level title
+   * @return string              WishList Membership Level title
    */
   public function wlm_title_callback($arguments) {
     return $arguments['wlm_level_name'];
@@ -183,14 +177,14 @@ class ConvertKitSettingsWishlistMember extends ConvertKitSettingsSection {
    * CK Form select for WishList Membership Level
    *
    * @param  array  $arguments Arguments from add_settings_field()
-   * @return html              Select element
+   * @return string              Select element
    */
   public function wlm_level_callback($arguments) {
     $wlm_level_id = $arguments['wlm_level_id'];
     $forms  = $arguments['forms'];
 
     $html = sprintf('<select id="%1$s_%2$s_form" name="%1$s[%2$s_form]">', $this->settings_key, $wlm_level_id);
-      $html .= '<option value="default">None</option>';
+      $html .= '<option value="default">' . __( 'None', 'convertkit' ) . '</option>';
       foreach($forms as $form) {
         $html .= sprintf(
           '<option value="%s" %s>%s</option>',
@@ -208,7 +202,7 @@ class ConvertKitSettingsWishlistMember extends ConvertKitSettingsSection {
    * Unsubscribe field for WishList Membership Level
    *
    * @param  array  $arguments Arguments from add_settings_field()
-   * @return html              Checkbox and label
+   * @return string              Checkbox and label
    */
   public function wlm_unsubscribe_callback($arguments) {
     $wlm_level_id = $arguments['wlm_level_id'];
@@ -219,7 +213,7 @@ class ConvertKitSettingsWishlistMember extends ConvertKitSettingsSection {
       $wlm_level_id,
       checked($this->options[$wlm_level_id . '_unsubscribe'], 1, false)
     );
-    $html .= sprintf('<label for="%1$s_%2$s_unsubscribe">Unsubscribe if removed from level</label>', $this->settings_key, $wlm_level_id);
+    $html .= sprintf('<label for="%1$s_%2$s_unsubscribe">%3$s</label>', $this->settings_key, $wlm_level_id, __( 'Unsubscribe if removed from level', 'convertkit' ));
 
     return $html;
   }
@@ -227,7 +221,7 @@ class ConvertKitSettingsWishlistMember extends ConvertKitSettingsSection {
   /**
    * Sanitizes the settings
    *
-   * @param  array $settings The settings fields submitted
+   * @param  array $input The settings fields submitted
    * @return array           Sanitized settings
    */
   public function sanitize_settings($input) {
