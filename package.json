@@ -1,0 +1,31 @@
+{
+  "name": "convertkit",
+  "title": "ConvertKit",
+  "author": "ConvertKit",
+  "license": "GPL-2.0",
+  "version": "1.4.3",
+  "description": "",
+  "homepage": "https://github.com/convertkit/ConvertKit-WordPress",
+  "main": "Gruntfile.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/convertkit/ConvertKit-WordPress.git"
+  },
+  "dependencies": {
+    "grunt": "^0.4.5"
+  },
+  "devDependencies": {
+    "exec": "^0.1.2",
+    "grunt": "^0.4.5",
+    "grunt-bump": "0.0.16",
+    "grunt-checktextdomain": "^1.0.1",
+    "grunt-exec": "^0.4.6",
+    "grunt-phpcs": "^0.2.3",
+    "grunt-phpunit": "^0.3.6",
+    "grunt-potomo": "^3.2.1",
+    "grunt-prompt": "^1.3.0",
+    "grunt-semver": "^0.1.6",
+    "grunt-wp-i18n": "^0.5.4",
+    "semver": "^4.1.0"
+  }
+}
