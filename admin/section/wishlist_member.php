@@ -213,7 +213,7 @@ class ConvertKitSettingsWishlistMember extends ConvertKitSettingsSection {
       $wlm_level_id,
       checked($this->options[$wlm_level_id . '_unsubscribe'], 1, false)
     );
-    $html .= sprintf('<label for="%1$s_%2$s_unsubscribe">%3</label>', $this->settings_key, $wlm_level_id, __( 'Unsubscribe if removed from level', 'convertkit' ));
+    $html .= sprintf('<label for="%1$s_%2$s_unsubscribe">%3$s</label>', $this->settings_key, $wlm_level_id, __( 'Unsubscribe if removed from level', 'convertkit' ));
 
     return $html;
   }

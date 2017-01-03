@@ -60,8 +60,8 @@ class ConvertKitSettingsGeneral extends ConvertKitSettingsSection {
 	 */
 	public function print_section_info() {
 	    ?>
-	    <p><?php _e( 'Choosing a default form will embed it at the bottom of every post or page (in single view only) across your site.', 'convertkit' );
-			     _e( 'If you wish to turn off form embedding or select a different form for an individual post or page, you can do so within the ConvertKit meta box on the editing form.', 'convertkit' ); ?></p>
+	    <p><?php _e( 'Choosing a default form will embed it at the bottom of every post or page (in single view only) across your site.', 'convertkit' ); ?></p>
+		<p><?php _e( 'If you wish to turn off form embedding or select a different form for an individual post or page, you can do so using the ConvertKit meta box on the edit page.', 'convertkit' ); ?></p>
 	    <p><?php _e( 'The default form can be inserted into the middle of post or page content by using the <code>[convertkit]</code> shortcode.', 'convertkit' ); ?></p>
 	    <?php
 
@@ -92,7 +92,7 @@ class ConvertKitSettingsGeneral extends ConvertKitSettingsSection {
 			isset($this->options['api_secret']) ? esc_attr($this->options['api_secret']) : ''
 		);
 
-		$html .= '<p class="description"><a href="https://app.convertkit.com/account/edit" target="_blank">' . __( 'Get your ConvertKit API Secret.', 'convertkit' ) . '</a>' . __( 'This setting is required to unsubscribe subscribers.', 'convertkit' ) . '</p>';
+		$html .= '<p class="description"><a href="https://app.convertkit.com/account/edit" target="_blank">' . __( 'Get your ConvertKit API Secret.', 'convertkit' ) . '</a>' . ' ' .  __( 'This setting is required to unsubscribe subscribers.', 'convertkit' ) . '</p>';
 
 		echo $html;
 	}
