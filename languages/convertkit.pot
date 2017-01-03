@@ -1,0 +1,224 @@
+# Copyright (C) 2017 ConvertKit
+# This file is distributed under the same license as the WP ConvertKit package.
+msgid ""
+msgstr ""
+"Project-Id-Version: WP ConvertKit 1.4.3\n"
+"Report-Msgid-Bugs-To: "
+"https://github.com/convertkit/ConvertKit-WordPress/issues\n"
+"POT-Creation-Date: 2017-01-03 21:39:52+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2017-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: ConvertKit <support@convertkit.com>\n"
+"X-Generator: grunt-wp-i18n 0.5.4\n"
+"X-Poedit-KeywordsList: "
+"__;_e;_x:1,2c;_ex:1,2c;_n:1,2;_nx:1,2,4c;_n_noop:1,2;_nx_noop:1,2,3c;esc_"
+"attr__;esc_html__;esc_attr_e;esc_html_e;esc_attr_x:1,2c;esc_html_x:1,2c;\n"
+"Language: en_US\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-Country: United States\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-Basepath: ../\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-Bookmarks: \n"
+"X-Textdomain-Support: yes\n"
+
+#: admin/section/contactform7.php:121
+msgid ""
+"ConvertKit seamlessly integrates with Contact Form 7 to let you add "
+"subscribers using Contact Form 7 forms."
+msgstr ""
+
+#: admin/section/contactform7.php:123
+msgid ""
+"The Contact Form 7 form must have <code>text*</code> fields named "
+"<code>your-name</code> and <code>your-email</code>. "
+msgstr ""
+
+#: admin/section/contactform7.php:124
+msgid "These fields will be sent to ConvertKit for the subscription."
+msgstr ""
+
+#: admin/section/contactform7.php:182
+msgid ""
+"To set up this integration, you will first need to enter a valid ConvertKit "
+"API key in the %s."
+msgstr ""
+
+#: admin/section/contactform7.php:183 admin/section/general.php:13
+#: admin/section/wishlist_member.php:159
+msgid "General Settings"
+msgstr ""
+
+#: admin/section/contactform7.php:211 admin/section/general.php:112
+#: admin/section/wishlist_member.php:187
+#: views/backend/meta-boxes/meta-box.php:8
+#: views/backend/meta-boxes/meta-box.php:33
+msgid "None"
+msgstr ""
+
+#: admin/section/general.php:14
+msgid "General"
+msgstr ""
+
+#: admin/section/general.php:63
+msgid ""
+"Choosing a default form will embed it at the bottom of every post or page "
+"(in single view only) across your site."
+msgstr ""
+
+#: admin/section/general.php:64
+msgid ""
+"If you wish to turn off form embedding or select a different form for an "
+"individual post or page, you can do so within the ConvertKit meta box on "
+"the editing form."
+msgstr ""
+
+#: admin/section/general.php:65
+msgid ""
+"The default form can be inserted into the middle of post or page content by "
+"using the <code>[convertkit]</code> shortcode."
+msgstr ""
+
+#: admin/section/general.php:80
+msgid "Get your ConvertKit API Key"
+msgstr ""
+
+#: admin/section/general.php:95
+msgid "Get your ConvertKit API Secret."
+msgstr ""
+
+#: admin/section/general.php:95
+msgid "This setting is required to unsubscribe subscribers."
+msgstr ""
+
+#: admin/section/general.php:109
+msgid ""
+"Error connecting to API. Please verify your site can connect to "
+"<code>https://api.convertkit.com</code>"
+msgstr ""
+
+#: admin/section/general.php:125
+msgid "Enter your API Key above to get your available forms."
+msgstr ""
+
+#: admin/section/general.php:129
+msgid ""
+"There are no forms setup in your account. You can go <a "
+"href=\"https://app.convertkit.com/landing_pages/new\" "
+"target=\"_blank\">here</a> to create one."
+msgstr ""
+
+#: admin/section/general.php:149
+msgid "Save connection data to a log file."
+msgstr ""
+
+#: admin/section/wishlist_member.php:58
+msgid "WishList Membership Level"
+msgstr ""
+
+#: admin/section/wishlist_member.php:71 lib/class-ck-widget-form.php:59
+#: lib/class-ck-widget-form.php:63
+msgid "ConvertKit Form"
+msgstr ""
+
+#: admin/section/wishlist_member.php:83
+msgid "Unsubscribe"
+msgstr ""
+
+#: admin/section/wishlist_member.php:98
+msgid ""
+"ConvertKit seamlessly integrates with WishList Member to let you capture "
+"all of your WishList Membership registrations within your ConvertKit forms."
+msgstr ""
+
+#: admin/section/wishlist_member.php:158
+msgid ""
+"To set up this integration, you will first need to enter a valid ConvertKit "
+"API key in the"
+msgstr ""
+
+#: admin/section/wishlist_member.php:216
+msgid "Unsubscribe if removed from level"
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "ConvertKit"
+msgstr ""
+
+#: admin/settings.php:58
+msgid ""
+"If you need help setting up the plugin please refer to the <a "
+"href=\"http://help.convertkit.com/article/99-the-convertkit-wordpress-"
+"plugin\" target=\"_blank\">plugin documentation.</a>"
+msgstr ""
+
+#: lib/class-ck-widget-form.php:57
+msgid "Display a ConvertKit form."
+msgstr ""
+
+#: lib/class-ck-widget-form.php:64
+msgid "Title"
+msgstr ""
+
+#: lib/class-ck-widget-form.php:69 views/backend/meta-boxes/meta-box.php:4
+msgid "Form"
+msgstr ""
+
+#: lib/class-ck-widget-form.php:191
+msgid "No forms were returned from ConvertKit."
+msgstr ""
+
+#: lib/class-ck-widget-form.php:192
+msgid "Please check the <a href=\"%s\">settings</a>."
+msgstr ""
+
+#: views/backend/meta-boxes/meta-box.php:7
+msgid "Default"
+msgstr ""
+
+#: views/backend/meta-boxes/meta-box.php:16
+msgid ""
+"Choose <code>Default</code> to use the form specified on the <a href=\"%s\" "
+"target=\"_blank\">settings page</a>,"
+msgstr ""
+
+#: views/backend/meta-boxes/meta-box.php:17
+msgid ""
+"<code>None</code> to not display a form, or any other option to specify a "
+"particular form for this piece of content."
+msgstr ""
+
+#: views/backend/meta-boxes/meta-box.php:22
+msgid "To make changes to your forms,"
+msgstr ""
+
+#: views/backend/meta-boxes/meta-box.php:23
+msgid "sign in to ConvertKit"
+msgstr ""
+
+#: views/backend/meta-boxes/meta-box.php:30
+msgid "Landing Page"
+msgstr ""
+
+#: views/backend/meta-boxes/meta-box.php:39
+msgid "Select a landing page to make it appear in place of this page."
+msgstr ""
+
+#: wp-convertkit.php:111
+msgid "Settings"
+msgstr ""
+
+#. Plugin Name of the plugin/theme
+msgid "WP ConvertKit"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "http://convertkit.com/"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid "Quickly and easily integrate ConvertKit forms into your site."
+msgstr ""

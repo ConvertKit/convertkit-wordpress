@@ -179,8 +179,8 @@ class ConvertKitSettingsContactForm7 extends ConvertKitSettingsSection {
 				submit_button();
 			} else {
 				?>
-				<p><?php echo sprintf( __( 'To set up this integration, you will first need to enter a valid ConvertKit API key in the %s.', ''),
-					'<a href="?page=_wp_convertkit_settings&tab=general">General Settings</a>');
+				<p><?php echo sprintf( __( 'To set up this integration, you will first need to enter a valid ConvertKit API key in the %s.', 'convertkit'),
+					'<a href="?page=_wp_convertkit_settings&tab=general">' . __('General Settings', 'convertkit') . '</a>');
 				?></p>
 				<?php
 			}
@@ -208,7 +208,7 @@ class ConvertKitSettingsContactForm7 extends ConvertKitSettingsSection {
 		$forms  = $args['forms'];
 
 		$html = sprintf('<select id="%1$s_%2$s" name="%1$s[%2$s]">', $this->settings_key, $cf7_form_id);
-		$html .= '<option value="default">None</option>';
+		$html .= '<option value="default">' . __( 'None', 'convertkit') . '</option>';
 		foreach($forms as $form) {
 			$html .=
 				'<option value="' .

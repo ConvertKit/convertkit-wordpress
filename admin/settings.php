@@ -21,8 +21,8 @@ class ConvertKitSettings {
 	 */
 	public function add_settings_page() {
 		$settings = add_options_page(
-			__('ConvertKit'),
-			__('ConvertKit'),
+			__('ConvertKit', 'convertkit'),
+			__('ConvertKit', 'convertkit'),
 			'manage_options',
 			$this->settings_key,
 			array($this, 'display_settings_page')
@@ -43,7 +43,7 @@ class ConvertKitSettings {
 				$this->display_section_nav($active_section);
 			} else {
 				?>
-				<h2><?php _e('ConvertKit', 'wp_convertkit'); ?></h2>
+				<h2><?php _e('ConvertKit', 'convertkit'); ?></h2>
 				<?php
 			}
 		?>
@@ -55,10 +55,7 @@ class ConvertKitSettings {
 					$section->render();
 				endif;
 			endforeach;
-		?>
-			<p class="description">
-				If you need help setting up the plugin please refer to the <a href="http://help.convertkit.com/article/99-the-convertkit-wordpress-plugin" target="_blank">plugin documentation.</a>
-			</p>
+		?><p class="description"><?php _e( 'If you need help setting up the plugin please refer to the <a href="http://help.convertkit.com/article/99-the-convertkit-wordpress-plugin" target="_blank">plugin documentation.</a>', 'convertkit' ); ?></p>
 		</form>
 		</div>
 		<?php
@@ -78,7 +75,7 @@ class ConvertKitSettings {
 	 */
 	public function display_section_nav($active_section) {
         ?>
-        <h1>  <?php _e('ConvertKit', 'wp_convertkit'); ?></h1>
+        <h1><?php _e('ConvertKit', 'convertkit'); ?></h1>
         <h2 class="nav-tab-wrapper">
         <?php
 		foreach($this->sections as $section):
