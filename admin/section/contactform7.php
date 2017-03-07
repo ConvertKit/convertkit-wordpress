@@ -232,6 +232,7 @@ class ConvertKitSettingsContactForm7 extends ConvertKitSettingsSection {
 	/**
 	 * Display email in first column
 	 *
+	 * @param array $args
 	 * @return string
 	 */
 	public function cf7_email_callback( $args ) {
@@ -241,6 +242,7 @@ class ConvertKitSettingsContactForm7 extends ConvertKitSettingsSection {
 	/**
 	 * Display form title in first column
 	 *
+	 * @param array $args
 	 * @return string
 	 */
 	public function cf7_name_callback( $args ) {
