@@ -63,8 +63,6 @@ class ConvertKitSettingsContactForm7 extends ConvertKitSettingsSection {
 
 		foreach($this->forms as $form) {
 
-			$cf7_fields = array();
-
 			add_settings_field(
 				sprintf('%s_title', $form['id']),
 				'Contact Form 7 Form',
@@ -74,19 +72,20 @@ class ConvertKitSettingsContactForm7 extends ConvertKitSettingsSection {
 				array(
 					'cf7_form_id'   => $form['id'],
 					'cf7_form_name' => $form['name'],
-					'sortable'       => true
+					'sortable'      => true
 				)
 			);
 
 			add_settings_field(
-				$form['id'],
+				sprintf('%s_form', $form['id']),
 				'ConvertKit Form',
 				array($this, 'cf7_form_callback'),
 				$this->settings_key,
 				$this->name,
 				array(
 					'cf7_form_id' => $form['id'],
-					'forms'        => $forms
+					'forms'       => $forms,
+					'sortable'    => false
 				)
 			);
 
@@ -98,6 +97,7 @@ class ConvertKitSettingsContactForm7 extends ConvertKitSettingsSection {
 				$this->name,
 				array(
 					'cf7_email_id' => 'your-email',
+					'sortable'     => false
 				)
 			);
 
@@ -109,6 +109,7 @@ class ConvertKitSettingsContactForm7 extends ConvertKitSettingsSection {
 				$this->name,
 				array(
 					'cf7_name_id' => 'your-name',
+					'sortable'    => false
 				)
 			);
 
