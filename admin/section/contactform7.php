@@ -1,6 +1,8 @@
 <?php
 /**
  * Class ConvertKitSettingsContactForm7
+ *
+ * @since 1.4.4
  */
 class ConvertKitSettingsContactForm7 extends ConvertKitSettingsSection {
 
@@ -161,6 +163,9 @@ class ConvertKitSettingsContactForm7 extends ConvertKitSettingsSection {
 
 	/**
 	 * Renders the section
+	 *
+	 * Called from ConvertKitSettings::display_settings_page()
+	 * @return void
 	 */
 	public function render() {
 		global $wp_settings_sections;
