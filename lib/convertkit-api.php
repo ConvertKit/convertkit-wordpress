@@ -189,7 +189,7 @@ class ConvertKitAPI {
 		$api_path = $this->api_url_base . $this->api_version;
 		$url = add_query_arg($args, path_join($api_path, $path));
 
-		//$this->log( "API Request (_get_api_response): " . $url );
+		$this->log( "API Request (_get_api_response): " . $url );
 
 		$data = get_transient( 'convertkit_get_api_response' );
 
@@ -207,9 +207,9 @@ class ConvertKitAPI {
 
 			set_transient( 'convertkit_get_api_response', $data, 300 );
 
-			//$this->log( "API Response (_get_api_response): " . print_r( $data, true ) );
+			$this->log( "API Response (_get_api_response): " . print_r( $data, true ) );
 		} else {
-			//$this->log( "Transient Response (_get_api_response)" );
+			$this->log( "Transient Response (_get_api_response)" );
 		}
 
 		return $data;
