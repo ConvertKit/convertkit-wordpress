@@ -49,7 +49,7 @@ Yes, for it to work you must first have an account on ConvertKit.com
 * Do not show 404 page content when shortcode is used with form ID that does not exist
 * If ConvertKit API is unavailable fail gracefullyl
 * Fix for Contact Form 7 message sending when no ConvertKit forms are mapped
-* Removed archived froms from the list of available forms in settings page
+* Removed archived forms from the list of available forms in settings page
 
 ### 1.4.4
 * Added i18n support
