@@ -64,6 +64,8 @@ class ConvertKitAPI {
 				if ( 'forms' == $resource ) {
 					$response = isset( $api_response['forms']) ? $api_response['forms'] : array();
 					foreach( $response as $form ) {
+						if ( isset( $form['archived'] ) && $form['archived'] )
+							continue;
 						$_resource[] = $form;
 					}
 				} elseif ( 'landing_pages' == $resource ) {
@@ -71,11 +73,15 @@ class ConvertKitAPI {
 					$response = isset( $api_response['forms']) ? $api_response['forms'] : array();
 					foreach( $response as $landing_page ){
 						if ( 'hosted' == $landing_page['type'] ){
+							if ( isset( $landing_page['archived'] ) && $landing_page['archived'] )
+								continue;
 							$_resource[] = $landing_page;
 						}
 					}
 				} elseif ( 'subscription_forms' == $resource ) {
 					foreach( $api_response as $mapping ){
+						if ( isset( $mapping['archived'] ) && $mapping['archived'] )
+							continue;
 						$_resource[ $mapping['id'] ] =  $mapping['form_id'];
 					}
 				}
