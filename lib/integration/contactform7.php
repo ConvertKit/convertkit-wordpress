@@ -28,7 +28,7 @@ class ConvertKitContactForm7Integration {
 	 *
 	 * If a mapping is found and options exist then the form submitter is subscribed.
 	 *
-	 * @param $contact_form WPCF7_ContactForm
+	 * @param WPCF7_ContactForm $contact_form
 	 * @param $result
 	 */
 	public function handle_wpcf7_submit( $contact_form, $result ) {
@@ -41,18 +41,18 @@ class ConvertKitContactForm7Integration {
 
 			$mapping = get_option( '_wp_convertkit_integration_contactform7_settings' );
 
-			foreach ( $mapping as $cf7_id => $ck_id ) {
-
-				if ( $cf7_id == $contact_form->id() ) {
+			if ( is_array( $mapping ) ) {
+				if ( isset( $mapping[ $contact_form->id() ]) && 'default' != $mapping[ $contact_form->id() ] ) {
 					$submission = WPCF7_Submission::get_instance();
+
 					if ( $submission ) {
 						$posted_data = $submission->get_posted_data();
 
-						$name    = $posted_data[ 'your-name' ];
-						$email   = $posted_data[ 'your-email' ];
+						$name  = $posted_data['your-name'];
+						$email = $posted_data['your-email'];
 
 						if ( ! empty( $email ) ) {
-							$this->api->form_subscribe( $ck_id, array( 'email' => $email, 'name' => $name ) );
+							$this->api->form_subscribe( $mapping[ $contact_form->id() ], array( 'email' => $email, 'name' => $name ) );
 						}
 					}
 				}

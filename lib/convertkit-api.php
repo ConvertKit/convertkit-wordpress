@@ -64,6 +64,8 @@ class ConvertKitAPI {
 				if ( 'forms' == $resource ) {
 					$response = isset( $api_response['forms']) ? $api_response['forms'] : array();
 					foreach( $response as $form ) {
+						if ( isset( $form['archived'] ) && $form['archived'] )
+							continue;
 						$_resource[] = $form;
 					}
 				} elseif ( 'landing_pages' == $resource ) {
@@ -71,11 +73,15 @@ class ConvertKitAPI {
 					$response = isset( $api_response['forms']) ? $api_response['forms'] : array();
 					foreach( $response as $landing_page ){
 						if ( 'hosted' == $landing_page['type'] ){
+							if ( isset( $landing_page['archived'] ) && $landing_page['archived'] )
+								continue;
 							$_resource[] = $landing_page;
 						}
 					}
 				} elseif ( 'subscription_forms' == $resource ) {
 					foreach( $api_response as $mapping ){
+						if ( isset( $mapping['archived'] ) && $mapping['archived'] )
+							continue;
 						$_resource[ $mapping['id'] ] =  $mapping['form_id'];
 					}
 				}
@@ -170,7 +176,13 @@ class ConvertKitAPI {
 					}
 				}
 
-				$this->markup[$url] = $resource = $html->save();
+				// if the markup includes DOCTYPE this is probably a 404
+				if ( strpos( $html, 'DOCTYPE html' ) ){
+					$this->log('Error: URL (' . $url .') returning page content. ' . $html->save() );
+					$this->markup[$url] = $resource = '';
+				} else {
+					$this->markup[$url] = $resource = $html->save();
+				}
 			}
 		}
 
@@ -189,7 +201,7 @@ class ConvertKitAPI {
 		$api_path = $this->api_url_base . $this->api_version;
 		$url = add_query_arg($args, path_join($api_path, $path));
 
-		//$this->log( "API Request (_get_api_response): " . $url );
+		$this->log( "API Request (_get_api_response): " . $url );
 
 		$data = get_transient( 'convertkit_get_api_response' );
 
@@ -207,9 +219,9 @@ class ConvertKitAPI {
 
 			set_transient( 'convertkit_get_api_response', $data, 300 );
 
-			//$this->log( "API Response (_get_api_response): " . print_r( $data, true ) );
+			$this->log( "API Response (_get_api_response): " . print_r( $data, true ) );
 		} else {
-			//$this->log( "Transient Response (_get_api_response)" );
+			$this->log( "Transient Response (_get_api_response)" );
 		}
 
 		return $data;

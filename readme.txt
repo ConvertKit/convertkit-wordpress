@@ -3,8 +3,8 @@ Contributors: nathanbarry, davidlamarwheeler, growdev, nickohrn
 Donate link: https://convertkit.com
 Tags: email, marketing, embed form, convertkit, capture
 Requires at least: 3.6
-Tested up to: 4.7
-Stable tag: 1.4.4
+Tested up to: 4.7.3
+Stable tag: 1.4.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -43,6 +43,13 @@ Yes, for it to work you must first have an account on ConvertKit.com
 2. Add stunning landing pages
 
 == Changelog ==
+
+### 1.4.5 2017-03-28
+* Uncommented logging around api calls.
+* Do not show 404 page content when shortcode is used with form ID that does not exist
+* If ConvertKit API is unavailable fail gracefullyl
+* Fix for Contact Form 7 message sending when no ConvertKit forms are mapped
+* Removed archived froms from the list of available forms in settings page
 
 ### 1.4.4
 * Added i18n support
