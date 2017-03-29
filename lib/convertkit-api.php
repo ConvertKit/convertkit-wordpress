@@ -176,12 +176,11 @@ class ConvertKitAPI {
 					}
 				}
 
-				// if the markup includes DOCTYPE this is probably a 404
-				if ( strpos( $html, 'DOCTYPE html' ) ){
-					$this->log('Error: URL (' . $url .') returning page content. ' . $html->save() );
-					$this->markup[$url] = $resource = '';
-				} else {
+				// check `status_code` for 200, otherwise log error
+				if ( '200' == $response['response']['code'] ) {
 					$this->markup[$url] = $resource = $html->save();
+				} else {
+					$this->log('Status Code (' . $response['response']['code'] . ') for URL (' . $url .'): ' . $html->save() );
 				}
 			}
 		}
