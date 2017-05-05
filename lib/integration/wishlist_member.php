@@ -66,20 +66,20 @@ if(!class_exists('ConvertKitWishlistIntegration')) {
 	     */
 		public function remove_user_levels($member_id, $levels) {
 
-	      $member = $this->get_member($member_id);
+	        $member = $this->get_member($member_id);
 
-	      foreach ($levels as $wlm_level_id) {
-	        if (
-	          isset($this->options[$wlm_level_id . '_form'])
-	          && isset($this->options[$wlm_level_id . '_unsubscribe'])
-	          && $this->options[$wlm_level_id . '_unsubscribe'] == '1'
-	        ) {
-	          $this->member_resource_unsubscribe(
-	            $member,
-	            $this->options[$wlm_level_id . '_form']
-	          );
-	        }
-	      }
+			foreach ($levels as $wlm_level_id) {
+				// get the mapping if it is set
+				$unsubscribe = (isset($this->options[$wlm_level_id . '_unsubscribe'])) ? $this->options[$wlm_level_id . '_unsubscribe'] : 0;
+
+				if ( $unsubscribe && 'unsubscribe' == $unsubscribe ) {
+					// If mapping is set to "Unsubscribe from all"
+					$this->member_resource_unsubscribe( $member );
+				} elseif ( $unsubscribe ) {
+					// If mapping is a positive integer then tag customer
+					$this->member_tag( $member, $this->options[$wlm_level_id . '_unsubscribe'] );
+				}
+			}
 
 	    }
 
@@ -113,10 +113,9 @@ if(!class_exists('ConvertKitWishlistIntegration')) {
 	     * Unsubscribes a member from a ConvertKit resource
 	     *
 	     * @param  array  $member  UserInfo from WishList Member
-	     * @param  string $form_id ConvertKit form id
 	     * @return object          Response object from API
 	     */
-	    public function member_resource_unsubscribe($member, $form_id) {
+	    public function member_resource_unsubscribe( $member ) {
 			return $this->api->form_unsubscribe(
 				array(
 					'email' => $member['user_email']
@@ -124,7 +123,23 @@ if(!class_exists('ConvertKitWishlistIntegration')) {
 			);
 	    }
 
-	    /**
+		/**
+		 * Tag a member
+		 *
+		 * @param  array  $member  UserInfo from WishList Member
+		 * @param  string $tag     ConvertKit Tag ID
+		 * @return object          Response object from API
+		 */
+		public function member_tag($member, $tag) {
+			return $this->api->add_tag(
+				$tag,
+				array(
+					'email' => $member['user_email']
+				)
+			);
+		}
+
+		/**
 	     * Gets a WLM member using the wlmapi functions
 	     *
 	     * @param  string $id The member id

@@ -135,6 +135,24 @@ class ConvertKitAPI {
 	}
 
 	/**
+	 * Adds a tag to a subscriber
+	 *
+	 * @param int $tag Tag ID
+	 * @param array $options Array of user data
+	 * @return object
+	 */
+	public function add_tag($tag, $options) {
+		$request = $this->api_version . sprintf('/tags/%s/subscribe', $tag);
+
+		$args = array(
+			'api_key' => $this->api_key,
+			'email'   => $options['email'],
+		);
+
+		return $this->make_request($request, 'POST', $args);
+	}
+
+	/**
 	 * Get markup from ConvertKit for the provided $url
 	 *
 	 * @param $url

@@ -210,28 +210,19 @@ class ConvertKitSettingsWishlistMember extends ConvertKitSettingsSection {
     $wlm_level_id = $arguments['wlm_level_id'];
     $tags  = $arguments['tags'];
 
-    $html = sprintf('<select id="%1$s_%2$s_form" name="%1$s[%2$s_form]">', $this->settings_key, $wlm_level_id);
-    $html .= '<option value="default">' . __( 'None', 'convertkit' ) . '</option>';
+    $html = sprintf('<select id="%1$s_%2$s_form" name="%1$s[%2$s_unsubscribe]">', $this->settings_key, $wlm_level_id);
+    $html .= '<option value="0">' . __( 'None', 'convertkit' ) . '</option>';
     foreach($tags as $tag) {
       $html .= sprintf(
           '<option value="%s" %s>%s</option>',
           esc_attr($tag['id']),
-          selected($this->options[$wlm_level_id . '_tag'], $tag['id'], false),
+          selected($this->options[$wlm_level_id . '_unsubscribe'], $tag['id'], false),
           esc_html( 'Tag: ' . $tag['name'] )
       );
     }
     $html .= '<option value="unsubscribe">' . __('Unsubscribe from all', 'convertkit' ) . '</option>';
     $html .= '</select>';
 
-    /*
-    $html = sprintf(
-      '<input type="checkbox" id="%1$s_%2$s_unsubscribe" value="1" name="%1$s[%2$s_unsubscribe]" %3$s>',
-      $this->settings_key,
-      $wlm_level_id,
-      checked($this->options[$wlm_level_id . '_unsubscribe'], 1, false)
-    );
-    $html .= sprintf('<label for="%1$s_%2$s_unsubscribe">%3$s</label>', $this->settings_key, $wlm_level_id, __( 'Unsubscribe if removed from level', 'convertkit' ));
-   */
     return $html;
   }
 
@@ -247,11 +238,6 @@ class ConvertKitSettingsWishlistMember extends ConvertKitSettingsSection {
 
     foreach($input as $key => $value) {
       list($level_id, $setting) = explode('_', $key);
-
-      // Unsubscribe must be manually set when moving from true to false
-      if (!isset($input["{$level_id}_unsubscribe"])) {
-        $output["{$level_id}_unsubscribe"] = 0;
-      }
 
       $output[$key] = stripslashes( $input[$key] );
     }
