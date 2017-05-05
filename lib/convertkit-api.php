@@ -84,6 +84,11 @@ class ConvertKitAPI {
 							continue;
 						$_resource[ $mapping['id'] ] =  $mapping['form_id'];
 					}
+				} elseif ( 'tags' == $resource ) {
+					$response = isset( $api_response['tags']) ? $api_response['tags'] : array();
+					foreach ( $response as $tag ) {
+						$_resource[] = $tag;
+					}
 				}
 
 				$this->resources[$resource] = $_resource;
@@ -141,7 +146,7 @@ class ConvertKitAPI {
 		if(!empty($url) && isset($this->markup[$url])) {
 			$resource = $this->markup[$url];
 		} else if(!empty($url)) {
-			$response = wp_remote_get($url, array( 'timeout' => 10 ));
+			$response = wp_remote_get($url, array( 'timeout' => 10, 'Accept-Encoding' => 'gzip' ));
 
 			if(!is_wp_error($response)) {
 				if(!function_exists('str_get_html')) {
@@ -202,11 +207,11 @@ class ConvertKitAPI {
 
 		$this->log( "API Request (_get_api_response): " . $url );
 
-		$data = get_transient( 'convertkit_get_api_response' );
+		$data = get_transient( 'convertkit_get_api_response_' . $path );
 
 		if ( ! $data ) {
 
-			$response = wp_remote_get( $url, array( 'timeout' => 10, 'sslverify' => false ) );
+			$response = wp_remote_get( $url, array( 'timeout' => 10, 'sslverify' => false, 'Accept-Encoding' => 'gzip' ) );
 
 			if ( is_wp_error( $response ) ) {
 				$this->log( "Error: " . $response->get_error_message() );
@@ -216,11 +221,11 @@ class ConvertKitAPI {
 				$data = json_decode( wp_remote_retrieve_body( $response ), true );
 			}
 
-			set_transient( 'convertkit_get_api_response', $data, 300 );
+			set_transient( 'convertkit_get_api_response_' . $path, $data, 120 );
 
-			$this->log( "API Response (_get_api_response): " . print_r( $data, true ) );
+			$this->log( "API Response " . $path . " (_get_api_response): " . print_r( $data, true ) );
 		} else {
-			$this->log( "Transient Response (_get_api_response)" );
+			$this->log( "Transient Response " . $path . "  (_get_api_response)" );
 		}
 
 		return $data;
