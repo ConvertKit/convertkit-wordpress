@@ -113,7 +113,7 @@ class ConvertKitSettings {
 
 		$this->register_section('ConvertKitSettingsGeneral');
 		$this->register_section('ConvertKitSettingsWishlistMember');
-		$this->register_section('ConvertKitSettingsContactForm7');
+		$this->register_section('ConvertKit_Settings_ContactForm7');
 	}
 }
 
@@ -123,5 +123,5 @@ if( is_admin() ) {
 	include 'section/class-convertkit-settings-base.php';
 	include 'section/general.php';
 	include 'section/wishlist_member.php';
-	include 'section/contactform7.php';
+	include 'section/class-convertkit-settings-contactform7.php';
 }

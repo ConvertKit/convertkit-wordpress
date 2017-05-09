@@ -1,12 +1,23 @@
 <?php
 /**
- * Class ConvertKitSettingsContactForm7
+ * ConvertKit Contact Form 7 Settings class
+ *
+ * @package ConvertKit
+ * @author ConvertKit
+ */
+
+/**
+ * Class ConvertKit_Settings_ContactForm7
  *
  * @since 1.4.4
  */
 class ConvertKit_Settings_ContactForm7 extends ConvertKit_Settings_Base {
 
-	/** @var array Contact Form 7 forms */
+	/**
+	 * Contact Form 7 forms
+	 *
+	 * @var array
+	 */
 	private $forms;
 
 	/**
@@ -14,7 +25,7 @@ class ConvertKit_Settings_ContactForm7 extends ConvertKit_Settings_Base {
 	 */
 	public function __construct() {
 
-		if (!defined('WPCF7_VERSION')) {
+		if ( ! defined( 'WPCF7_VERSION' ) ) {
 			$this->is_registerable = false;
 			return;
 		}
@@ -31,8 +42,6 @@ class ConvertKit_Settings_ContactForm7 extends ConvertKit_Settings_Base {
 
 	/**
 	 * Gets available forms from CF7
-	 *
-	 * @return array
 	 */
 	public function get_cf7_forms() {
 
@@ -42,10 +51,11 @@ class ConvertKit_Settings_ContactForm7 extends ConvertKit_Settings_Base {
 			'numberposts' => -1,
 			'orderby' => 'ID',
 			'order' => 'ASC',
-			'post_type' => 'wpcf7_contact_form' )
+			'post_type' => 'wpcf7_contact_form',
+			)
 		);
 
-		foreach( $posts as $post ){
+		foreach ( $posts as $post ) {
 			$forms[] = array(
 				'id' => $post->ID,
 				'name' => $post->post_title,
@@ -59,61 +69,61 @@ class ConvertKit_Settings_ContactForm7 extends ConvertKit_Settings_Base {
 	 */
 	public function register_fields() {
 
-		$forms = $this->api->get_resources('forms');
+		$forms = $this->api->get_resources( 'forms' );
 
-		foreach($this->forms as $form) {
+		foreach ( $this->forms as $form ) {
 
 			add_settings_field(
-				sprintf('%s_title', $form['id']),
+				sprintf( '%s_title', $form['id'] ),
 				'Contact Form 7 Form',
-				array($this, 'cf7_title_callback'),
+				array( $this, 'cf7_title_callback' ),
 				$this->settings_key,
 				$this->name,
 				array(
 					'cf7_form_id'   => $form['id'],
 					'cf7_form_name' => $form['name'],
-					'sortable'      => true
+					'sortable'      => true,
 				)
 			);
 
 			add_settings_field(
-				sprintf('%s_form', $form['id']),
+				sprintf( '%s_form', $form['id'] ),
 				'ConvertKit Form',
-				array($this, 'cf7_form_callback'),
+				array( $this, 'cf7_form_callback' ),
 				$this->settings_key,
 				$this->name,
 				array(
 					'cf7_form_id' => $form['id'],
 					'forms'       => $forms,
-					'sortable'    => false
+					'sortable'    => false,
 				)
 			);
 
 			add_settings_field(
-				sprintf('%s_email', $form['id']),
+				sprintf( '%s_email', $form['id'] ),
 				'CF7 Email Field',
-				array($this, 'cf7_email_callback'),
+				array( $this, 'cf7_email_callback' ),
 				$this->settings_key,
 				$this->name,
 				array(
 					'cf7_email_id' => 'your-email',
-					'sortable'     => false
+					'sortable'     => false,
 				)
 			);
 
 			add_settings_field(
-				sprintf('%s_name', $form['id']),
+				sprintf( '%s_name', $form['id'] ),
 				'CF7 Name Field',
-				array($this, 'cf7_name_callback'),
+				array( $this, 'cf7_name_callback' ),
 				$this->settings_key,
 				$this->name,
 				array(
 					'cf7_name_id' => 'your-name',
-					'sortable'    => false
+					'sortable'    => false,
 				)
 			);
 
-		}
+		} // End foreach().
 	}
 
 	/**
@@ -121,10 +131,10 @@ class ConvertKit_Settings_ContactForm7 extends ConvertKit_Settings_Base {
 	 */
 	public function print_section_info() {
 		?><p><?php
-		echo __( 'ConvertKit seamlessly integrates with Contact Form 7 to let you add subscribers using Contact Form 7 forms.', 'convertkit' );
+		_e( 'ConvertKit seamlessly integrates with Contact Form 7 to let you add subscribers using Contact Form 7 forms.', 'convertkit' );
 		?></p><p><?php
-		echo __( 'The Contact Form 7 form must have <code>text*</code> fields named <code>your-name</code> and <code>your-email</code>. ', 'convertkit' );
-		echo __( 'These fields will be sent to ConvertKit for the subscription.', 'convertkit' );
+		_e( 'The Contact Form 7 form must have <code>text*</code> fields named <code>your-name</code> and <code>your-email</code>. ', 'convertkit' );
+		_e( 'These fields will be sent to ConvertKit for the subscription.', 'convertkit' );
 		?></p><?php
 	}
 
@@ -137,25 +147,25 @@ class ConvertKit_Settings_ContactForm7 extends ConvertKit_Settings_Base {
 		$table   = new MultiValueFieldTable;
 		$columns = array();
 		$rows    = array();
-		$fields  = $wp_settings_fields[$this->settings_key][$this->name];
+		$fields  = $wp_settings_fields[ $this->settings_key ][ $this->name ];
 
-		foreach ($fields as $field) {
-			list($cf7_form_id, $field_type) = explode('_', $field['id']);
+		foreach ( $fields as $field ) {
+			list( $cf7_form_id, $field_type ) = explode( '_', $field['id'] );
 
-			if (!in_array($field_type, $columns)) {
-				$table->add_column($field_type, $field['title'], $field['args']['sortable']);
-				array_push($columns, $field_type);
+			if ( ! in_array( $field_type, $columns, true ) ) {
+				$table->add_column( $field_type, $field['title'], $field['args']['sortable'] );
+				array_push( $columns, $field_type );
 			}
 
-			if (!isset($rows[$cf7_form_id])) {
-				$rows[$cf7_form_id] = array();
+			if ( ! isset( $rows[ $cf7_form_id ] ) ) {
+				$rows[ $cf7_form_id ] = array();
 			}
 
-			$rows[$cf7_form_id][$field_type] = call_user_func($field['callback'], $field['args']);
+			$rows[ $cf7_form_id ][ $field_type ] = call_user_func( $field['callback'], $field['args'] );
 		}
 
-		foreach ($rows as $row) {
-			$table->add_item($row);
+		foreach ( $rows as $row ) {
+			$table->add_item( $row );
 		}
 
 		$table->prepare_items();
@@ -166,27 +176,34 @@ class ConvertKit_Settings_ContactForm7 extends ConvertKit_Settings_Base {
 	 * Renders the section
 	 *
 	 * Called from ConvertKitSettings::display_settings_page()
+	 *
 	 * @return void
 	 */
 	public function render() {
 		global $wp_settings_sections;
 
-		if (!isset($wp_settings_sections[$this->settings_key])) return;
+		if ( ! isset( $wp_settings_sections[ $this->settings_key ] ) ) {
+			return;
+		}
 
-		foreach ($wp_settings_sections[$this->settings_key] as $section) {
-			if ($section['title']) echo "<h3>{$section['title']}</h3>\n";
-			if ($section['callback']) call_user_func($section['callback'], $section);
+		foreach ( $wp_settings_sections[ $this->settings_key ] as $section ) {
+			if ( $section['title'] ) {
+				echo "<h3>{$section['title']}</h3>\n";
+			}
+			if ( $section['callback'] ) {
+				call_user_func( $section['callback'], $section );
+			}
 
-			$forms = $this->api->get_resources('forms');
+			$forms = $this->api->get_resources( 'forms' );
 
-			if (!empty($forms)) {
+			if ( ! empty( $forms ) ) {
 				$this->do_settings_table();
-				settings_fields($this->settings_key);
+				settings_fields( $this->settings_key );
 				submit_button();
 			} else {
 				?>
-				<p><?php echo sprintf( __( 'To set up this integration, you will first need to enter a valid ConvertKit API key in the %s.', 'convertkit'),
-					'<a href="?page=_wp_convertkit_settings&tab=general">' . __('General Settings', 'convertkit') . '</a>');
+				<p><?php echo sprintf( __( 'To set up this integration, you will first need to enter a valid ConvertKit API key in the %s.', 'convertkit' ),
+				'<a href="?page=_wp_convertkit_settings&tab=general">' . __( 'General Settings', 'convertkit' ) . '</a>');
 				?></p>
 				<?php
 			}
@@ -196,7 +213,7 @@ class ConvertKit_Settings_ContactForm7 extends ConvertKit_Settings_Base {
 	/**
 	 * Display form title in first column
 	 *
-	 * @param  array
+	 * @param  array $args Name argument.
 	 * @return string
 	 */
 	public function cf7_title_callback( $args ) {
@@ -206,22 +223,21 @@ class ConvertKit_Settings_ContactForm7 extends ConvertKit_Settings_Base {
 	/**
 	 * Display CF7 to CK mapping
 	 *
-	 * @param  array $args
+	 * @param  array $args Settings to display.
 	 * @return string $html
 	 */
 	public function cf7_form_callback( $args ) {
 		$cf7_form_id = $args['cf7_form_id'];
 		$forms  = $args['forms'];
 
-		$html = sprintf('<select id="%1$s_%2$s" name="%1$s[%2$s]">', $this->settings_key, $cf7_form_id);
-		$html .= '<option value="default">' . __( 'None', 'convertkit') . '</option>';
-		foreach($forms as $form) {
+		$html = sprintf( '<select id="%1$s_%2$s" name="%1$s[%2$s]">', $this->settings_key, $cf7_form_id );
+		$html .= '<option value="default">' . __( 'None', 'convertkit' ) . '</option>';
+		foreach ( $forms as $form ) {
 			$html .=
 				'<option value="' .
-				esc_attr($form['id']).'" ' .
-				selected($this->options[$cf7_form_id], $form['id'], false) .
-				'>' .
-				esc_html($form['name']) . '</option>';
+				esc_attr( $form['id'] ) . '" ' .
+				selected( $this->options[ $cf7_form_id ], $form['id'], false ) . '>' .
+				esc_html( $form['name'] ) . '</option>';
 		}
 		$html .= '</select>';
 
@@ -232,7 +248,7 @@ class ConvertKit_Settings_ContactForm7 extends ConvertKit_Settings_Base {
 	/**
 	 * Display email in first column
 	 *
-	 * @param array $args
+	 * @param array $args Email setting.
 	 * @return string
 	 */
 	public function cf7_email_callback( $args ) {
@@ -242,7 +258,7 @@ class ConvertKit_Settings_ContactForm7 extends ConvertKit_Settings_Base {
 	/**
 	 * Display form title in first column
 	 *
-	 * @param array $args
+	 * @param array $args Name setting.
 	 * @return string
 	 */
 	public function cf7_name_callback( $args ) {
@@ -252,17 +268,17 @@ class ConvertKit_Settings_ContactForm7 extends ConvertKit_Settings_Base {
 	/**
 	 * Sanitizes the settings
 	 *
-	 * @param  array $input
+	 * @param  array $input Values to be sanitized.
 	 * @return array sanitized settings
 	 */
-	public function sanitize_settings($input) {
-		// Settings page can be paginated; combine input with existing options
+	public function sanitize_settings( $input ) {
+		// Settings page can be paginated; combine input with existing options.
 		$output = $this->options;
 
-		foreach($input as $key => $value) {
-			$output[$key] = stripslashes( $input[$key] );
+		foreach ( $input as $key => $value ) {
+			$output[ $key ] = stripslashes( $input[ $key ] );
 		}
-
-		return apply_filters( 'sanitize{$this->settings_key}', $output, $input);
+		$sanitize_hook = 'sanitize' . $this->settings_key;
+		return apply_filters( $sanitize_hook, $output, $input );
 	}
 }
