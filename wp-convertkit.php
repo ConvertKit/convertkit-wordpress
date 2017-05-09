@@ -461,4 +461,4 @@ if(!class_exists('WP_ConvertKit')) {
 	WP_ConvertKit::init();
 }
 
-include 'admin/settings.php';
+include 'admin/class-convertkit-settings.php';
