@@ -111,8 +111,8 @@ class ConvertKitSettings {
 	public function register_sections() {
 		wp_register_style( 'wp-convertkit-admin', plugins_url('../resources/backend/wp-convertkit.css', __FILE__) );
 
-		$this->register_section('ConvertKitSettingsGeneral');
-		$this->register_section('ConvertKitSettingsWishlistMember');
+		$this->register_section('ConvertKit_Settings_General');
+		$this->register_section('ConvertKit_Setting_Wishlist');
 		$this->register_section('ConvertKit_Settings_ContactForm7');
 	}
 }
@@ -121,7 +121,7 @@ if( is_admin() ) {
 	$convertkit_settings = new ConvertKitSettings();
 
 	include 'section/class-convertkit-settings-base.php';
-	include 'section/general.php';
-	include 'section/wishlist_member.php';
+	include 'section/class-convertkit-settings-general.php';
+	include 'section/class-convertkit-settings-wishlist.php';
 	include 'section/class-convertkit-settings-contactform7.php';
 }

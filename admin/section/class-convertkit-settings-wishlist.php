@@ -1,10 +1,17 @@
 <?php
+/**
+ * ConvertKit Wishlist Member Settings class
+ *
+ * @package ConvertKit
+ * @author ConvertKit
+ */
+
 require_once plugin_dir_path( __FILE__ ) . "../../lib/multi_value_field_table.php";
 
 /**
- * Class ConvertKitSettingsWishlistMember
+ * Class ConvertKit_Setting_Wishlist
  */
-class ConvertKitSettingsWishlistMember extends ConvertKit_Settings_Base {
+class ConvertKit_Setting_Wishlist extends ConvertKit_Settings_Base {
 
   /**
    * WLM levels
