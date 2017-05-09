@@ -1,4 +1,10 @@
 <?php
+/**
+ * ConvertKit Form Widget class
+ *
+ * @package ConvertKit
+ * @author ConvertKit
+ */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -61,37 +67,36 @@ class CK_Widget_Form extends WP_Widget {
 			'title'  => array(
 				'type'  => 'text',
 				'std'   => __( 'ConvertKit Form', 'convertkit' ),
-				'label' => __( 'Title', 'convertkit' )
+				'label' => __( 'Title', 'convertkit' ),
 			),
 			'form' => array(
 				'type'    => 'select',
 				'std'     => '',
 				'label'   => __( 'Form', 'convertkit' ),
-				'options' => $this->get_forms()
+				'options' => $this->get_forms(),
 			),
 		);
 
 		$widget_ops = array(
 			'classname'   => $this->widget_cssclass,
 			'description' => $this->widget_description,
-			'customize_selective_refresh' => true
+			'customize_selective_refresh' => true,
 		);
 
 		parent::__construct( $this->widget_id, $this->widget_name, $widget_ops );
-
 
 	}
 
 	/**
 	 * Output the html at the start of a widget.
 	 *
-	 * @param  array $args
-	 * @return string
+	 * @param array $args Widget arguments.
+	 * @param array $instance Widget settings.
 	 */
 	public function widget_start( $args, $instance ) {
 		echo $args['before_widget'];
-
-		if ( $title = apply_filters( 'widget_title', empty( $instance['title'] ) ? '' : $instance['title'], $instance, $this->id_base ) ) {
+		$title = apply_filters( 'widget_title', empty( $instance['title'] ) ? '' : $instance['title'], $instance, $this->id_base );
+		if ( $title ) {
 			echo $args['before_title'] . $title . $args['after_title'];
 		}
 	}
@@ -99,8 +104,7 @@ class CK_Widget_Form extends WP_Widget {
 	/**
 	 * Output the html at the end of a widget.
 	 *
-	 * @param  array $args
-	 * @return string
+	 * @param array $args After widget setting.
 	 */
 	public function widget_end( $args ) {
 		echo $args['after_widget'];
@@ -111,8 +115,8 @@ class CK_Widget_Form extends WP_Widget {
 	 *
 	 * @see WP_Widget
 	 *
-	 * @param array $args
-	 * @param array $instance
+	 * @param array $args Widget arguments.
+	 * @param array $instance Widget settings.
 	 */
 	public function widget( $args, $instance ) {
 
@@ -124,9 +128,9 @@ class CK_Widget_Form extends WP_Widget {
 		$form_id = $instance['form'];
 
 		$url = add_query_arg( array(
-			'api_key' => WP_ConvertKit::get_api_key(),
-			'v'       => WP_ConvertKit::get_forms_version(),
-		),
+				'api_key' => WP_ConvertKit::get_api_key(),
+				'v'       => WP_ConvertKit::get_forms_version(),
+			),
 			'https://forms.convertkit.com/' . $form_id . '.html'
 		);
 
@@ -148,7 +152,7 @@ class CK_Widget_Form extends WP_Widget {
 	/**
 	 * Outputs the settings update form.
 	 *
-	 * @param array $instance
+	 * @param array $instance Widget settings.
 	 * @return null
 	 */
 	public function form( $instance ) {
@@ -183,22 +187,23 @@ class CK_Widget_Form extends WP_Widget {
 					break;
 
 				case 'select' :
-
-					if ( empty ( $setting['options'] ) ) {
-						$query_args = array('page' => WP_ConvertKit::SETTINGS_PAGE_SLUG);
-						$settings_page_url =  add_query_arg($query_args, admin_url('options-general.php'));
+					if ( empty( $setting['options'] ) ) {
+						$query_args = array(
+							'page' => WP_ConvertKit::SETTINGS_PAGE_SLUG,
+						);
+						$settings_page_url = add_query_arg( $query_args, admin_url( 'options-general.php' ) );
 						?>
-						<p><?php echo __('No forms were returned from ConvertKit.','convertkit'); ?></p>
-						<p><?php echo sprintf( __('Please check the <a href="%s">settings</a>.','convertkit'), $settings_page_url); ?></p>
+						<p><?php echo __( 'No forms were returned from ConvertKit.','convertkit' ); ?></p>
+						<p><?php echo sprintf( __( 'Please check the <a href="%s">settings</a>.','convertkit' ), $settings_page_url ); ?></p>
 						<?php
-					}else {
+					} else {
 						?>
 						<p>
 							<label
 								for="<?php echo $this->get_field_id( $key ); ?>"><?php echo $setting['label']; ?></label>
 							<select class="widefat <?php echo esc_attr( $class ); ?>"
-							        id="<?php echo esc_attr( $this->get_field_id( $key ) ); ?>"
-							        name="<?php echo $this->get_field_name( $key ); ?>">
+							id="<?php echo esc_attr( $this->get_field_id( $key ) ); ?>"
+							name="<?php echo $this->get_field_name( $key ); ?>">
 								<?php foreach ( $setting['options'] as $option_key => $option_value ) : ?>
 									<option
 										value="<?php echo esc_attr( $option_key ); ?>" <?php selected( $option_key, $value ); ?>><?php echo esc_html( $option_value ); ?></option>
@@ -229,16 +234,16 @@ class CK_Widget_Form extends WP_Widget {
 					</p>
 					<?php
 					break;
-			}
-		}
+			} // End switch().
+		} // End foreach().
 	}
 
 	/**
 	 * Updates a particular instance of a widget.
 	 *
 	 * @see    WP_Widget->update
-	 * @param  array $new_instance
-	 * @param  array $old_instance
+	 * @param  array $new_instance Updated widget settings.
+	 * @param  array $old_instance Original widget settings.
 	 * @return array
 	 */
 	public function update( $new_instance, $old_instance ) {
@@ -278,7 +283,6 @@ class CK_Widget_Form extends WP_Widget {
 					$instance[ $key ] = sanitize_text_field( $new_instance[ $key ] );
 					break;
 			}
-
 		}
 
 		return $instance;
@@ -289,14 +293,14 @@ class CK_Widget_Form extends WP_Widget {
 	 *
 	 * @return array
 	 */
-	public function get_forms(){
+	public function get_forms() {
 
 		$api = WP_ConvertKit::get_api();
 		$forms_array = array();
 
 		if ( $api && ! is_wp_error( $api ) ) {
-			$forms = $api->get_resources('forms');
-			foreach( $forms as $form ) {
+			$forms = $api->get_resources( 'forms' );
+			foreach ( $forms as $form ) {
 				$forms_array[ $form['id'] ] = $form['name'];
 			}
 		}
