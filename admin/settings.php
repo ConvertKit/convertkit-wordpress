@@ -120,7 +120,7 @@ class ConvertKitSettings {
 if( is_admin() ) {
 	$convertkit_settings = new ConvertKitSettings();
 
-	include 'section/base.php';
+	include 'section/class-convertkit-settings-base.php';
 	include 'section/general.php';
 	include 'section/wishlist_member.php';
 	include 'section/contactform7.php';

@@ -2,7 +2,7 @@
 /**
  * Class ConvertKitSettingsGeneral
  */
-class ConvertKitSettingsGeneral extends ConvertKitSettingsSection {
+class ConvertKitSettingsGeneral extends ConvertKit_Settings_Base {
 
 	/**
 	 * Constructor

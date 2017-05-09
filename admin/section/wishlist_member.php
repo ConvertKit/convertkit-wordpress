@@ -4,7 +4,7 @@ require_once plugin_dir_path( __FILE__ ) . "../../lib/multi_value_field_table.ph
 /**
  * Class ConvertKitSettingsWishlistMember
  */
-class ConvertKitSettingsWishlistMember extends ConvertKitSettingsSection {
+class ConvertKitSettingsWishlistMember extends ConvertKit_Settings_Base {
 
   /**
    * WLM levels
