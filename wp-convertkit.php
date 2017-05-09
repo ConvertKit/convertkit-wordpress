@@ -9,7 +9,7 @@
  * Text Domain: convertkit
  */
 
-require_once plugin_dir_path( __FILE__ ) . "/lib/convertkit-api.php";
+require_once plugin_dir_path( __FILE__ ) . "/lib/class-convertkit-api.php";
 require_once plugin_dir_path( __FILE__ ) . "/lib/class-ck-widget-form.php";
 require_once plugin_dir_path( __FILE__ ) . "/lib/integration/wishlist_member.php";
 require_once plugin_dir_path( __FILE__ ) . "/lib/integration/contactform7.php";
@@ -347,7 +347,7 @@ if(!class_exists('WP_ConvertKit')) {
 			$api_secret = self::_get_settings('api_secret');
 			$debug = self::_get_settings('debug');
 
-			self::$api = new ConvertKitAPI($api_key,$api_secret,$debug);
+			self::$api = new ConvertKit_API($api_key,$api_secret,$debug);
 		}
 
 		/**
