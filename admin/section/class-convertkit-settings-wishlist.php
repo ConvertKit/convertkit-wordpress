@@ -102,7 +102,7 @@ class ConvertKit_Settings_Wishlist extends ConvertKit_Settings_Base {
 	 * Prints help info for this section
 	 */
 	public function print_section_info() {
-		?><p><?php echo __( ' ConvertKit seamlessly integrates with WishList Member to let you capture all of your WishList Membership registrations within your ConvertKit forms.', 'convertkit' );
+		?><p><?php esc_html_e( ' ConvertKit seamlessly integrates with WishList Member to let you capture all of your WishList Membership registrations within your ConvertKit forms.', 'convertkit' );
 		?></p><?php
 	}
 
@@ -152,26 +152,15 @@ class ConvertKit_Settings_Wishlist extends ConvertKit_Settings_Base {
 
 		foreach ( $wp_settings_sections[ $this->settings_key ] as $section ) {
 			if ( $section['title'] ) {
-				echo "<h3>{$section['title']}</h3>\n";
+				echo '<h3>' . esc_html( $section['title'] ) . '</h3>';
 			}
 			if ( $section['callback'] ) {
 				call_user_func( $section['callback'], $section );
 			}
 
-			$forms = $this->api->get_resources( 'forms' );
-
-			if ( ! empty( $forms ) ) {
-				$this->do_settings_table();
-				settings_fields( $this->settings_key );
-				submit_button();
-			} else {
-				?>
-				<p><?php
-				echo __( 'To set up this integration, you will first need to enter a valid ConvertKit API key in the', 'convertkit' );
-				?><a href="?page=_wp_convertkit_settings&tab=general"><?php echo __( 'General Settings', 'convertkit' ); ?></a>.
-				</p>
-				<?php
-			}
+			$this->do_settings_table();
+			settings_fields( $this->settings_key );
+			submit_button();
 		}
 	}
 

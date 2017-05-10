@@ -66,9 +66,9 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 	 */
 	public function print_section_info() {
 		?>
-		<p><?php _e( 'Choosing a default form will embed it at the bottom of every post or page (in single view only) across your site.', 'convertkit' ); ?></p>
-		<p><?php _e( 'If you wish to turn off form embedding or select a different form for an individual post or page, you can do so using the ConvertKit meta box on the edit page.', 'convertkit' ); ?></p>
-		<p><?php _e( 'The default form can be inserted into the middle of post or page content by using the <code>[convertkit]</code> shortcode.', 'convertkit' ); ?></p>
+		<p><?php esc_html_e( 'Choosing a default form will embed it at the bottom of every post or page (in single view only) across your site.', 'convertkit' ); ?></p>
+		<p><?php esc_html_e( 'If you wish to turn off form embedding or select a different form for an individual post or page, you can do so using the ConvertKit meta box on the edit page.', 'convertkit' ); ?></p>
+		<p><?php printf( esc_html__( 'The default form can be inserted into the middle of post or page content by using the %s shortcode.', 'convertkit' ), '<code>[convertkit]</code>' ); ?></p>
 		<?php
 	}
 
@@ -149,14 +149,13 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 			$debug = 'checked';
 		}
 
-		$html = sprintf(
+		echo sprintf(
 			'<input type="checkbox" class="" id="debug" name="%s[debug]"  %s />%s',
 			$this->settings_key,
 			$debug,
 			__( 'Save connection data to a log file.','convertkit' )
 		);
 
-		echo $html;
 	}
 
 	/**

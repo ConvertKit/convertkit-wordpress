@@ -13,7 +13,7 @@ class ConvertKit_Settings {
 	/**
 	 * ConvertKit API instance
 	 *
-	 * @var ConvertKitAPI
+	 * @var ConvertKit_API
 	 */
 	public $api;
 
@@ -64,7 +64,12 @@ class ConvertKit_Settings {
 	 * Options page callback
 	 */
 	public function display_settings_page() {
-		$active_section = isset( $_GET['tab'] ) ? $_GET['tab'] : $this->sections[0]->name;
+		if ( isset( $_GET['tab'] ) ) {
+			$active_section = sanitize_text_field( wp_unslash( $_GET['tab'] ) ); // Input var okay.
+		} else {
+			$active_section = $this->sections[0]->name;
+		}
+
 		?>
 		<div class="wrap convertkit-settings-wrap">
 		<?php
@@ -72,7 +77,7 @@ class ConvertKit_Settings {
 			$this->display_section_nav( $active_section );
 		} else {
 			?>
-			<h2><?php _e( 'ConvertKit', 'convertkit' ); ?></h2>
+			<h2><?php esc_html_e( 'ConvertKit', 'convertkit' ); ?></h2>
 			<?php
 		}
 		?>
@@ -84,7 +89,8 @@ class ConvertKit_Settings {
 				$section->render();
 			endif;
 		endforeach;
-		?><p class="description"><?php _e( 'If you need help setting up the plugin please refer to the <a href="http://help.convertkit.com/article/99-the-convertkit-wordpress-plugin" target="_blank">plugin documentation.</a>', 'convertkit' ); ?></p>
+		?><p class="description"><?php
+				printf( 'If you need help setting up the plugin please refer to the %s plugin documentation.</a>', '<a href="http://help.convertkit.com/article/99-the-convertkit-wordpress-plugin" target="_blank">' ); ?></p>
 		</form>
 		</div>
 		<?php
@@ -104,14 +110,14 @@ class ConvertKit_Settings {
 	 */
 	public function display_section_nav( $active_section ) {
 		?>
-		<h1><?php _e( 'ConvertKit', 'convertkit' ); ?></h1>
+		<h1><?php esc_html_e( 'ConvertKit', 'convertkit' ); ?></h1>
 		<h2 class="nav-tab-wrapper">
 		<?php
 		foreach ( $this->sections as $section ) :
 			printf(
 				'<a href="?page=%s&tab=%s" class="nav-tab right %s">%s</a>',
-				$this->settings_key,
-				$section->name,
+				esc_html( $this->settings_key ),
+				esc_html( $section->name ),
 				$active_section === $section->name ? 'nav-tab-active' : '',
 				esc_html( $section->tab_text )
 			);
@@ -148,7 +154,7 @@ class ConvertKit_Settings {
 if ( is_admin() ) {
 	$convertkit_settings = new ConvertKit_Settings();
 
-	include plugin_dir_path( __FILE__ ) . '../lib/multi_value_field_table.php';
+	include plugin_dir_path( __FILE__ ) . '../lib/class-multi-value-field-table.php';
 	include 'section/class-convertkit-settings-base.php';
 	include 'section/class-convertkit-settings-general.php';
 	include 'section/class-convertkit-settings-wishlist.php';

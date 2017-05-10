@@ -11,8 +11,8 @@
 
 require_once plugin_dir_path( __FILE__ ) . "/lib/class-convertkit-api.php";
 require_once plugin_dir_path( __FILE__ ) . "/lib/class-ck-widget-form.php";
-require_once plugin_dir_path( __FILE__ ) . "/lib/integration/wishlist_member.php";
-require_once plugin_dir_path( __FILE__ ) . "/lib/integration/contactform7.php";
+require_once plugin_dir_path( __FILE__ ) . "/lib/integration/class-convertkit-wishlist-integration.php";
+require_once plugin_dir_path( __FILE__ ) . "/lib/integration/class-convertkit-contactform7-integration.php";
 
 if(!class_exists('WP_ConvertKit')) {
 	/**
@@ -28,7 +28,7 @@ if(!class_exists('WP_ConvertKit')) {
 
 		const SETTINGS_PAGE_SLUG = '_wp_convertkit_settings';
 
-		/** @var ConvertKitAPI */
+		/** @var ConvertKit_API */
 		private static $api;
 
 		/** @var int Data Caching */

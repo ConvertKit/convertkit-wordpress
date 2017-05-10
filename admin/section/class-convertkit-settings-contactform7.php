@@ -47,20 +47,22 @@ class ConvertKit_Settings_ContactForm7 extends ConvertKit_Settings_Base {
 
 		$forms = array();
 
-		$posts = get_posts( array(
-			'numberposts' => -1,
+		$args = array(
 			'orderby' => 'ID',
 			'order' => 'ASC',
 			'post_type' => 'wpcf7_contact_form',
-			)
 		);
 
-		foreach ( $posts as $post ) {
+		$result = new WP_Query( $args );
+
+		foreach ( $result->posts as $post ) {
 			$forms[] = array(
 				'id' => $post->ID,
 				'name' => $post->post_title,
 			);
 		}
+
+		wp_reset_postdata();
 		$this->forms = $forms;
 	}
 
@@ -131,10 +133,10 @@ class ConvertKit_Settings_ContactForm7 extends ConvertKit_Settings_Base {
 	 */
 	public function print_section_info() {
 		?><p><?php
-		_e( 'ConvertKit seamlessly integrates with Contact Form 7 to let you add subscribers using Contact Form 7 forms.', 'convertkit' );
+		esc_html_e( 'ConvertKit seamlessly integrates with Contact Form 7 to let you add subscribers using Contact Form 7 forms.', 'convertkit' );
 		?></p><p><?php
-		_e( 'The Contact Form 7 form must have <code>text*</code> fields named <code>your-name</code> and <code>your-email</code>. ', 'convertkit' );
-		_e( 'These fields will be sent to ConvertKit for the subscription.', 'convertkit' );
+		printf( 'The Contact Form 7 form must have <code>text*</code> fields named <code>your-name</code> and <code>your-email</code>. ' );
+		esc_html_e( 'These fields will be sent to ConvertKit for the subscription.', 'convertkit' );
 		?></p><?php
 	}
 
@@ -188,25 +190,16 @@ class ConvertKit_Settings_ContactForm7 extends ConvertKit_Settings_Base {
 
 		foreach ( $wp_settings_sections[ $this->settings_key ] as $section ) {
 			if ( $section['title'] ) {
-				echo "<h3>{$section['title']}</h3>\n";
+				?><?php
+				echo '<h3>' . esc_html( $section['title'] ) . '</h3>';
 			}
 			if ( $section['callback'] ) {
 				call_user_func( $section['callback'], $section );
 			}
 
-			$forms = $this->api->get_resources( 'forms' );
-
-			if ( ! empty( $forms ) ) {
-				$this->do_settings_table();
-				settings_fields( $this->settings_key );
-				submit_button();
-			} else {
-				?>
-				<p><?php echo sprintf( __( 'To set up this integration, you will first need to enter a valid ConvertKit API key in the %s.', 'convertkit' ),
-				'<a href="?page=_wp_convertkit_settings&tab=general">' . __( 'General Settings', 'convertkit' ) . '</a>');
-				?></p>
-				<?php
-			}
+			$this->do_settings_table();
+			settings_fields( $this->settings_key );
+			submit_button();
 		}
 	}
 
@@ -231,7 +224,7 @@ class ConvertKit_Settings_ContactForm7 extends ConvertKit_Settings_Base {
 		$forms  = $args['forms'];
 
 		$html = sprintf( '<select id="%1$s_%2$s" name="%1$s[%2$s]">', $this->settings_key, $cf7_form_id );
-		$html .= '<option value="default">' . __( 'None', 'convertkit' ) . '</option>';
+		$html .= '<option value="default">' . esc_html__( 'None', 'convertkit' ) . '</option>';
 		foreach ( $forms as $form ) {
 			$html .=
 				'<option value="' .
