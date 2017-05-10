@@ -39,7 +39,7 @@ class ConvertKit_Settings {
 		$api_key         = $general_options && array_key_exists( 'api_key', $general_options ) ? $general_options['api_key'] : null;
 		$api_secret      = $general_options && array_key_exists( 'api_secret', $general_options ) ? $general_options['api_secret'] : null;
 		$debug           = $general_options && array_key_exists( 'debug', $general_options ) ? $general_options['debug'] : null;
-		$this->api       = new ConvertKitAPI( $api_key, $api_secret, $debug );
+		$this->api       = new ConvertKit_API( $api_key, $api_secret, $debug );
 
 		add_action( 'admin_menu', array( $this, 'add_settings_page' ) );
 		add_action( 'admin_init', array( $this, 'register_sections' ) );

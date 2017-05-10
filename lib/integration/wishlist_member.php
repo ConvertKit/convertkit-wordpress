@@ -1,6 +1,6 @@
 <?php
 
-require_once plugin_dir_path( __FILE__ ) . "../../lib/convertkit-api.php";
+require_once plugin_dir_path( __FILE__ ) . "../../lib/class-convertkit-api.php";
 
 if(!class_exists('ConvertKitWishlistIntegration')) {
 
@@ -20,7 +20,7 @@ if(!class_exists('ConvertKitWishlistIntegration')) {
 			$api_key         = $general_options && array_key_exists("api_key", $general_options) ? $general_options['api_key'] : null;
 			$api_secret      = $general_options && array_key_exists("api_secret", $general_options) ? $general_options['api_secret'] : null;
 			$debug           = $general_options && array_key_exists("debug", $general_options) ? $general_options['debug'] : null;
-			$this->api       = new ConvertKitAPI($api_key,$api_secret,$debug);
+			$this->api       = new ConvertKit_API($api_key,$api_secret,$debug);
 
 			add_action(
 				'wishlistmember_add_user_levels',     // hook

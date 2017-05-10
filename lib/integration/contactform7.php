@@ -1,6 +1,6 @@
 <?php
 
-require_once plugin_dir_path( __FILE__ ) . "../../lib/convertkit-api.php";
+require_once plugin_dir_path( __FILE__ ) . "../../lib/class-convertkit-api.php";
 
 /**
  * Class ConvertKitContactForm7Integration
@@ -18,7 +18,7 @@ class ConvertKitContactForm7Integration {
 		$api_key         = $general_options && array_key_exists("api_key", $general_options) ? $general_options['api_key'] : null;
 		$api_secret      = $general_options && array_key_exists("api_secret", $general_options) ? $general_options['api_secret'] : null;
 		$debug           = $general_options && array_key_exists("debug", $general_options) ? $general_options['debug'] : null;
-		$this->api       = new ConvertKitAPI($api_key,$api_secret,$debug);
+		$this->api       = new ConvertKit_API($api_key,$api_secret,$debug);
 
 		add_action( 'wpcf7_submit', array( $this, 'handle_wpcf7_submit' ), 10, 2);
 	}
