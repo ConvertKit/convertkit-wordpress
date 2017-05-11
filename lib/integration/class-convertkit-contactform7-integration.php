@@ -1,26 +1,40 @@
 <?php
+/**
+ * Contact Form 7 Integration
+ *
+ * @package ConvertKit
+ * @author ConvertKit
+ */
 
-require_once plugin_dir_path( __FILE__ ) . "../../lib/class-convertkit-api.php";
+require_once plugin_dir_path( __FILE__ ) . '../../lib/class-convertkit-api.php';
 
 /**
- * Class ConvertKitContactForm7Integration
+ * Class ConvertKit_ContactForm7_Integration
  */
-class ConvertKitContactForm7Integration {
+class ConvertKit_ContactForm7_Integration {
+
+	/**
+	 * @var ConvertKit_API
+	 */
 	protected $api;
+
+	/**
+	 * @var mixed|void
+	 */
 	protected $options;
 
 	/**
 	 * Constructor
 	 */
 	public function __construct() {
-		$general_options = get_option('_wp_convertkit_settings');
-		$this->options   = get_option('_wp_convertkit_integration_wishlistmember_settings');
-		$api_key         = $general_options && array_key_exists("api_key", $general_options) ? $general_options['api_key'] : null;
-		$api_secret      = $general_options && array_key_exists("api_secret", $general_options) ? $general_options['api_secret'] : null;
-		$debug           = $general_options && array_key_exists("debug", $general_options) ? $general_options['debug'] : null;
-		$this->api       = new ConvertKit_API($api_key,$api_secret,$debug);
+		$general_options = get_option( '_wp_convertkit_settings' );
+		$this->options   = get_option( '_wp_convertkit_integration_wishlistmember_settings' );
+		$api_key         = $general_options && array_key_exists( 'api_key', $general_options ) ? $general_options['api_key'] : null;
+		$api_secret      = $general_options && array_key_exists( 'api_secret', $general_options ) ? $general_options['api_secret'] : null;
+		$debug           = $general_options && array_key_exists( 'debug', $general_options ) ? $general_options['debug'] : null;
+		$this->api       = new ConvertKit_API( $api_key, $api_secret, $debug );
 
-		add_action( 'wpcf7_submit', array( $this, 'handle_wpcf7_submit' ), 10, 2);
+		add_action( 'wpcf7_submit', array( $this, 'handle_wpcf7_submit' ), 10, 2 );
 	}
 
 	/**
@@ -37,12 +51,12 @@ class ConvertKitContactForm7Integration {
 			return;
 		}
 
-		if ( 'mail_sent' == $result['status'] ) {
+		if ( 'mail_sent' === $result['status'] ) {
 
 			$mapping = get_option( '_wp_convertkit_integration_contactform7_settings' );
 
 			if ( is_array( $mapping ) ) {
-				if ( isset( $mapping[ $contact_form->id() ]) && 'default' != $mapping[ $contact_form->id() ] ) {
+				if ( isset( $mapping[ $contact_form->id() ] ) && 'default' !== $mapping[ $contact_form->id() ] ) {
 					$submission = WPCF7_Submission::get_instance();
 
 					if ( $submission ) {
@@ -52,7 +66,12 @@ class ConvertKitContactForm7Integration {
 						$email = $posted_data['your-email'];
 
 						if ( ! empty( $email ) ) {
-							$this->api->form_subscribe( $mapping[ $contact_form->id() ], array( 'email' => $email, 'name' => $name ) );
+							$this->api->form_subscribe( $mapping[ $contact_form->id() ],
+								array(
+									'email' => $email,
+									'name' => $name,
+								)
+							);
 						}
 					}
 				}
@@ -62,4 +81,4 @@ class ConvertKitContactForm7Integration {
 
 }
 
-$convertkit_contactform7_integration = new ConvertKitContactForm7Integration;
+new ConvertKit_ContactForm7_Integration();
