@@ -14,7 +14,7 @@ if ( ! class_exists( 'WP_List_Table' ) ) {
 }
 
 /**
- * Class MultiValueFieldTable
+ * Class Multi_Value_Field_Table
  */
 class Multi_Value_Field_Table extends WP_List_Table {
 	private $_bulk_actions     = array();

@@ -146,7 +146,7 @@ class ConvertKit_Settings_ContactForm7 extends ConvertKit_Settings_Base {
 	public function do_settings_table() {
 		global $wp_settings_fields;
 
-		$table   = new MultiValueFieldTable;
+		$table   = new Multi_Value_Field_Table;
 		$columns = array();
 		$rows    = array();
 		$fields  = $wp_settings_fields[ $this->settings_key ][ $this->name ];
