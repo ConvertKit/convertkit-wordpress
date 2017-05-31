@@ -211,17 +211,17 @@ class ConvertKit_Settings_Wishlist extends ConvertKit_Settings_Base {
 		$wlm_level_id = $arguments['wlm_level_id'];
 		$tags = $arguments['tags'];
 
-		$html = sprintf('<select id="%1$s_%2$s_form" name="%1$s[%2$s_unsubscribe]">', $this->settings_key, $wlm_level_id);
+		$html = sprintf( '<select id="%1$s_%2$s_form" name="%1$s[%2$s_unsubscribe]">', $this->settings_key, $wlm_level_id );
 		$html .= '<option value="0">' . __( 'None', 'convertkit' ) . '</option>';
-		foreach($tags as $tag) {
+		foreach ( $tags as $tag ) {
 			$html .= sprintf(
 				'<option value="%s" %s>%s</option>',
-				esc_attr($tag['id']),
-				selected($this->options[$wlm_level_id . '_unsubscribe'], $tag['id'], false),
+				esc_attr( $tag['id'] ),
+				selected( $this->options[ $wlm_level_id . '_unsubscribe' ], $tag['id'], false ),
 				esc_html( 'Tag: ' . $tag['name'] )
 			);
 		}
-		$html .= '<option value="unsubscribe">' . __('Unsubscribe from all', 'convertkit' ) . '</option>';
+		$html .= '<option value="unsubscribe">' . __( 'Unsubscribe from all', 'convertkit' ) . '</option>';
 		$html .= '</select>';
 
 		return $html;

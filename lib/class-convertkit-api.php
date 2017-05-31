@@ -81,15 +81,15 @@ class ConvertKit_API {
 	 * @param array $options Array of user data
 	 * @return object
 	 */
-	public function add_tag($tag, $options) {
-		$request = $this->api_version . sprintf('/tags/%s/subscribe', $tag);
+	public function add_tag( $tag, $options ) {
+		$request = $this->api_version . sprintf( '/tags/%s/subscribe', $tag );
 
 		$args = array(
 			'api_key' => $this->api_key,
 			'email'   => $options['email'],
 		);
 
-		return $this->make_request($request, 'POST', $args);
+		return $this->make_request( $request, 'POST', $args );
 	}
 
 	/**
@@ -147,7 +147,7 @@ class ConvertKit_API {
 						$_resource[ $mapping['id'] ] = $mapping['form_id'];
 					}
 				} elseif ( 'tags' === $resource ) {
-					$response = isset( $api_response['tags']) ? $api_response['tags'] : array();
+					$response = isset( $api_response['tags'] ) ? $api_response['tags'] : array();
 					foreach ( $response as $tag ) {
 						$_resource[] = $tag;
 					}
