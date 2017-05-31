@@ -128,7 +128,9 @@ if ( ! class_exists( 'WP_ConvertKit' ) ) {
 		public static function add_settings_page_link( $links ) {
 			$settings_link = sprintf( '<a href="%s">%s</a>', self::_get_settings_page_link(), __( 'Settings', 'convertkit' ) );
 
-			return array( 'settings' => $settings_link ) + $links;
+			return array(
+				'settings' => $settings_link,
+				) + $links;
 		}
 
 		/**
@@ -167,12 +169,27 @@ if ( ! class_exists( 'WP_ConvertKit' ) ) {
 		 * @param WP_Post $post The post.
 		 */
 		public static function save_post_meta( $post_id, $post ) {
-			$data = stripslashes_deep( $_POST );
-			if ( wp_is_post_autosave( $post_id ) || wp_is_post_revision( $post_id ) || ! isset( $data['wp-convertkit-save-meta-nonce'] ) || ! wp_verify_nonce( $data['wp-convertkit-save-meta-nonce'], 'wp-convertkit-save-meta' ) ) {
+			if ( wp_is_post_autosave( $post_id )
+				  || wp_is_post_revision( $post_id )
+				  || ! isset( $_POST['wp-convertkit-save-meta-nonce'] ) // WPCS input var okay.
+				  || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['wp-convertkit-save-meta-nonce'] ) ), 'wp-convertkit-save-meta' ) ) { // WPCS input var okay.
 				return;
 			}
-
-			self::_set_meta( $post_id, $data['wp-convertkit'] );
+			if ( isset( $_POST['wp-convertkit'] ) ) { // WPCS input var okay.
+				$form = '';
+				if ( isset( $_POST['wp-convertkit']['form'] ) ) { // WPCS input var okay.
+					$form = sanitize_text_field( wp_unslash( $_POST['wp-convertkit']['form'] ) ); // WPCS input var okay.
+				}
+				$landing_page = '';
+				if ( isset( $_POST['wp-convertkit']['landing_page'] ) ) { // WPCS input var okay.
+					$landing_page = sanitize_text_field( wp_unslash( $_POST['wp-convertkit']['landing_page'] ) ); // WPCS input var okay.
+				}
+				$meta = array(
+					'form' => $form,
+					'landing_page' => $landing_page,
+				);
+				update_post_meta( $post_id, self::POST_META_KEY, $meta );
+			}
 		}
 
 		/**
@@ -219,12 +236,14 @@ if ( ! class_exists( 'WP_ConvertKit' ) ) {
 		public static function page_takeover() {
 			$queried_object = get_queried_object();
 			if ( isset( $queried_object->post_type )
-				&& 'page' === $queried_object->post_type
-				&& ( $landing_page_url = self::_get_meta( $queried_object->ID, 'landing_page' ) ) ) {
+				&& 'page' === $queried_object->post_type ) {
+
+				$landing_page_url = self::_get_meta( $queried_object->ID, 'landing_page' );
+
 				$landing_page = self::$api->get_resource( $landing_page_url );
 
 				if ( ! empty( $landing_page ) ) {
-					echo $landing_page;
+					echo $landing_page; // WPCS: XSS ok.
 					exit;
 				}
 			}
@@ -260,7 +279,7 @@ if ( ! class_exists( 'WP_ConvertKit' ) ) {
 				$url = add_query_arg( array(
 					'k' => self::_get_settings( 'api_key' ),
 					'v' => '2',
-				),
+					),
 					'https://api.convertkit.com/forms/' . $form_id . '/embed'
 				);
 			} else {
@@ -327,21 +346,6 @@ if ( ! class_exists( 'WP_ConvertKit' ) ) {
 		}
 
 		/**
-		 * Set selected post meta
-		 * @param int   $post_id Post ID.
-		 * @param array $meta Meta to save.
-		 *
-		 * @return mixed
-		 */
-		private static function _set_meta( $post_id, $meta ) {
-			$post_id = empty( $post_id ) ? get_the_ID() : $post_id;
-
-			update_post_meta( $post_id, self::POST_META_KEY, $meta );
-
-			return $meta;
-		}
-
-		/**
 		 * Get plugin settings
 		 *
 		 * @param null $settings_key
@@ -396,7 +400,9 @@ if ( ! class_exists( 'WP_ConvertKit' ) ) {
 		 * @return string
 		 */
 		private static function _get_settings_page_link( $query_args = array() ) {
-			$query_args = array( 'page' => self::SETTINGS_PAGE_SLUG ) + $query_args;
+			$query_args = array(
+				'page' => self::SETTINGS_PAGE_SLUG,
+			) + $query_args;
 
 			return add_query_arg( $query_args, admin_url( 'options-general.php' ) );
 		}
@@ -421,7 +427,6 @@ if ( ! class_exists( 'WP_ConvertKit' ) ) {
 						$args = array(
 							'post_type'      => array( 'post', 'page' ),
 							'fields'         => 'ids',
-							'posts_per_page' => -1,
 						);
 
 						$result = new WP_Query( $args );

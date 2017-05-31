@@ -194,6 +194,7 @@ class CK_Widget_Form extends WP_Widget {
 						$settings_page_url = add_query_arg( $query_args, admin_url( 'options-general.php' ) );
 						?>
 						<p><?php echo __( 'No forms were returned from ConvertKit.','convertkit' ); ?></p>
+						<?php /* translators: 1: settings page url */ ?>
 						<p><?php echo sprintf( __( 'Please check the <a href="%s">settings</a>.','convertkit' ), $settings_page_url ); ?></p>
 						<?php
 					} else {

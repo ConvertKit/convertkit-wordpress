@@ -224,7 +224,7 @@ class ConvertKit_API {
 				}
 
 				// Check `status_code` for 200, otherwise log error.
-				if ( '200' === $response['response']['code'] ) {
+				if ( 200 === $response['response']['code'] ) {
 					$resource = $html->save();
 					$this->markup[ $url ] = $resource;
 				} else {
