@@ -1,11 +1,11 @@
 <?php
 /**
- * Plugin Name: WP ConvertKit
- * Plugin URI: http://convertkit.com/
+ * Plugin Name: ConvertKit
+ * Plugin URI: https://convertkit.com/
  * Description: Quickly and easily integrate ConvertKit forms into your site.
  * Version: 1.4.6
  * Author: ConvertKit
- * Author URI: http://convertkit.com/
+ * Author URI: https://convertkit.com/
  * Text Domain: convertkit
  */
 
