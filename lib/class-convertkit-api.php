@@ -276,7 +276,7 @@ class ConvertKit_API {
 
 			set_transient( 'convertkit_get_api_response', $data, 300 );
 
-			$this->log( 'API Response (_get_api_response): ' . print_r( $data, true ) );
+			$this->log( 'API Response (_get_api_response): ' . wp_json_encode( $data ) );
 		} else {
 			$this->log( 'Transient Response (_get_api_response)' );
 		}
@@ -294,7 +294,7 @@ class ConvertKit_API {
 	 */
 	private function make_request( $request, $method, $args = array() ) {
 
-		$this->log( 'API Request (make_request): ' . $request . ' Args: ' . json_encode( $args ) );
+		$this->log( 'API Request (make_request): ' . $request . ' Args: ' . wp_json_encode( $args ) );
 
 		$url = $this->api_url_base . $request;
 
@@ -305,23 +305,21 @@ class ConvertKit_API {
 		$settings = array(
 			'headers' => $headers,
 			'method'  => $method,
-			'body'    => json_encode( $args ),
+			'body'    => wp_json_encode( $args ),
 		);
 
 		$result = wp_remote_request( $url, $settings );
 
 		if ( is_wp_error( $result ) ) {
 			$this->log( 'API Response (make_request): WPError: ' . $result->get_error_message() );
-		} elseif ( isset( $result['response']['code'] ) && '200' == $result['response']['code'] ) {
+		} elseif ( isset( $result['response']['code'] ) && '200' === $result['response']['code'] ) {
 			if ( isset( $result['body'] ) ) {
 				$this->log( 'API Response (make_request): ' . $result['body'] );
 			} else {
 				$this->log( 'API Response (make_request): Response code 200, but body is not set.' );
 			}
 		} else {
-			$this->log( 'API Response (make_request): Result code: '
-			            . $result['response']['code'] . ' '
-			            . $result['response']['message'] );
+			$this->log( 'API Response (make_request): Result code: ' . $result['response']['code'] . ' ' . $result['response']['message'] );
 		}
 
 	}
@@ -334,14 +332,19 @@ class ConvertKit_API {
 	public function log( $message ) {
 
 		if ( 'on' === $this->debug ) {
-			$dir = dirname( __FILE__ );
+			require_once( ABSPATH . '/wp-admin/includes/file.php' );
+			WP_Filesystem();
+			global $wp_filesystem;
 
-			$handle = fopen( trailingslashit( $dir ) . 'log.txt', 'a' );
-			if ( $handle ) {
-				$time   = date_i18n( 'm-d-Y @ H:i:s -' );
-				fwrite( $handle, $time . ' ' . $message . "\n" );
-				fclose( $handle );
-			}
+			$dir = dirname( __FILE__ );
+			$time   = date_i18n( 'm-d-Y @ H:i:s -' );
+			$file = trailingslashit( $dir ) . 'log.txt';
+
+			$wp_filesystem->put_contents(
+				$file,
+				$time . ' ' . $message . "\n",
+				FS_CHMOD_FILE
+			);
 		}
 
 	}
