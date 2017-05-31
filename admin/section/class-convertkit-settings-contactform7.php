@@ -226,10 +226,14 @@ class ConvertKit_Settings_ContactForm7 extends ConvertKit_Settings_Base {
 		$html = sprintf( '<select id="%1$s_%2$s" name="%1$s[%2$s]">', $this->settings_key, $cf7_form_id );
 		$html .= '<option value="default">' . esc_html__( 'None', 'convertkit' ) . '</option>';
 		foreach ( $forms as $form ) {
+			$selected = '';
+			if ( isset( $this->options[ $cf7_form_id ] ) ) {
+				$selected = selected( $this->options[ $cf7_form_id ], $form['id'], false );
+			}
 			$html .=
 				'<option value="' .
 				esc_attr( $form['id'] ) . '" ' .
-				selected( $this->options[ $cf7_form_id ], $form['id'], false ) . '>' .
+				$selected . '>' .
 				esc_html( $form['name'] ) . '</option>';
 		}
 		$html .= '</select>';
