@@ -16,14 +16,16 @@
 					<option <?php selected( -1, $meta['form'] ); ?> value="-1"><?php esc_html_e( 'Default', 'convertkit' ); ?></option>
 					<option <?php selected( 0, $meta['form'] ); ?> value="0"><?php esc_html_e( 'None', 'convertkit' ); ?></option>
 					<?php foreach ( $forms as $form ) { ?>
-					<option <?php selected( $form['id'], $meta['form'] ); ?> value="<?php echo esc_attr( $form['id'], 'convertkit' ); ?>"><?php echo $form['name']; ?></option>
+					<option <?php selected( $form['id'], $meta['form'] ); ?> value="<?php echo $form['id']; // WPCS: XSS ok. ?>">
+						<?php echo $form['name']; // WPCS: XSS ok. ?></option>
 					<?php } ?>
 				</select>
 
 				<p class="description">
 					<?php
-					printf( __( 'Choose <code>Default</code> to use the form specified on the <a href="%s" target="_blank">settings page</a>,', 'convertkit' ), esc_attr( esc_url( $settings_link ) ) );
-					echo __( '<code>None</code> to not display a form, or any other option to specify a particular form for this piece of content.', 'convertkit' );
+					/* translators: 1: settings url */
+					printf( __( 'Choose <code>Default</code> to use the form specified on the <a href="%s" target="_blank">settings page</a>,', 'convertkit' ), esc_attr( esc_url( $settings_link ) ) ); // WPCS: XSS ok.
+					echo __( '<code>None</code> to not display a form, or any other option to specify a particular form for this piece of content.', 'convertkit' ); // WPCS: XSS ok.
 					?>
 				</p>
 
@@ -39,7 +41,7 @@
 			<th scope="row"><label for=""><?php esc_html_e( 'Landing Page', 'convertkit' ); ?></label></th>
 			<td>
 				<select name="wp-convertkit[landing_page]" id="wp-convertkit-landing_page">
-					<option <?php selected( '', $meta['landing_page'] ); ?> value="0"><?php _e( 'None', 'convertkit' ); ?></option>
+					<option <?php selected( '', $meta['landing_page'] ); ?> value="0"><?php _e( 'None', 'convertkit' ); // WPCS: XSS ok. ?></option>
 					<?php foreach ( $landing_pages as $landing_page ) { ?>
 					<option <?php selected( $landing_page['url'], $meta['landing_page'] ); ?> value="<?php echo esc_attr( $landing_page['url'], 'convertkit' ); ?>"><?php $landing_page['name']; ?></option>
 					<?php } ?>
