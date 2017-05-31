@@ -144,8 +144,18 @@ class Multi_Value_Field_Table extends WP_List_Table {
 	 */
 	public function reorder( $data ) {
 		function usort_reorder( $a, $b ) {
-			$orderby = ( ! empty( $_REQUEST['orderby'] ) ) ? $_REQUEST['orderby'] : 'title'; //If no sort, default to title.
-			$order   = ( ! empty( $_REQUEST['order'] ) ) ? $_REQUEST['order'] : 'asc'; //If no order, default to asc.
+
+			if ( empty( $_REQUEST['orderby'] ) ) { // WPCS: CSRF ok.
+				$orderby = 'title';
+			} else {
+				$orderby = sanitize_text_field( wp_unslash( $_REQUEST['orderby'] ) ); // WPCS: CSRF ok.
+			}
+
+			if ( empty( $_REQUEST['order'] ) ) { // WPCS: CSRF ok.
+				$order = 'asc';
+			} else {
+				$order = sanitize_text_field( wp_unslash( $_REQUEST['order'] ) ); // WPCS: CSRF ok.
+			}
 			$result  = strcmp( $a[ $orderby ], $b[ $orderby ] ); //Determine sort order.
 			return ( 'asc' === $order ) ? $result : -$result; //Send final sort direction to usort.
 		}
