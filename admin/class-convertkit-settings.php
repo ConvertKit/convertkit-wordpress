@@ -64,8 +64,8 @@ class ConvertKit_Settings {
 	 * Options page callback
 	 */
 	public function display_settings_page() {
-		if ( isset( $_GET['tab'] ) ) {
-			$active_section = sanitize_text_field( wp_unslash( $_GET['tab'] ) ); // Input var okay.
+		if ( isset( $_GET['tab'] ) ) { // WPCS: CSRF ok.
+			$active_section = sanitize_text_field( wp_unslash( $_GET['tab'] ) ); // WPCS: CSRF ok.
 		} else {
 			$active_section = $this->sections[0]->name;
 		}

@@ -67,7 +67,8 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 	public function print_section_info() {
 		?>
 		<p><?php esc_html_e( 'Choosing a default form will embed it at the bottom of every post or page (in single view only) across your site.', 'convertkit' ); ?></p>
-		<p><?php esc_html_e( 'If you wish to turn off form embedding or select a different form for an individual post or page, you can do so using the ConvertKit meta box on the edit page.', 'convertkit' ); ?></p>
+		<p><?php esc_html_e( 'If you wish to turn off form embedding or select a different form for an individual post or page, you can do so using the ConvertKit meta box on the edit page.', 'convertkit' ); ?></p><?php
+		/* translators: 1: shortcode */ ?>
 		<p><?php printf( esc_html__( 'The default form can be inserted into the middle of post or page content by using the %s shortcode.', 'convertkit' ), '<code>[convertkit]</code>' ); ?></p>
 		<?php
 	}
@@ -84,7 +85,7 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 
 		$html .= '<p class="description"><a href="https://app.convertkit.com/account/edit" target="_blank">' . __( 'Get your ConvertKit API Key', 'convertkit' ) . '</a></p>';
 
-		echo $html;
+		echo $html; // WPCS: XSS ok.
 	}
 
 	/**
@@ -101,7 +102,7 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 		$html .= __( 'Get your ConvertKit API Secret.', 'convertkit' ) . '</a>';
 		$html .= ' ' . __( 'This setting is required to unsubscribe subscribers.', 'convertkit' ) . '</p>';
 
-		echo $html;
+		echo $html; // WPCS: XSS ok.
 	}
 
 	/**
@@ -136,7 +137,7 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 			$html .= '<p class="description">' . __( 'There are no forms setup in your account. You can go <a href="https://app.convertkit.com/landing_pages/new" target="_blank">here</a> to create one.', 'convertkit' ) . '</p>';
 		}
 
-		echo $html;
+		echo $html; // WPCS: XSS ok.
 	}
 
 	/**
