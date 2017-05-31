@@ -142,7 +142,6 @@ class ConvertKit_API {
 	 *
 	 * @param string $form_id Form ID.
 	 * @param array  $options Array of user data.
-	 * @return object
 	 */
 	public function form_subscribe( $form_id, $options ) {
 		$request = $this->api_version . sprintf( '/forms/%s/subscribe', $form_id );
@@ -153,14 +152,14 @@ class ConvertKit_API {
 			'name'    => $options['name'],
 		);
 
-		return $this->make_request( $request, 'POST', $args );
+		$this->make_request( $request, 'POST', $args );
+		return;
 	}
 
 	/**
 	 * Remove subscription from a form
 	 *
 	 * @param array $options Array of user data.
-	 * @return object Response object
 	 */
 	public function form_unsubscribe( $options ) {
 		$request = $this->api_version . '/unsubscribe';
@@ -170,7 +169,8 @@ class ConvertKit_API {
 			'email'      => $options['email'],
 		);
 
-		return $this->make_request( $request, 'PUT', $args );
+		$this->make_request( $request, 'PUT', $args );
+		return;
 	}
 
 	/**
@@ -200,8 +200,6 @@ class ConvertKit_API {
 				if ( ! function_exists( 'url_to_absolute' ) ) {
 					require_once( dirname( __FILE__ ) . '/../vendor/url-to-absolute/url-to-absolute.php' );
 				}
-
-				$url_parts = parse_url( $url );
 
 				$body = wp_remote_retrieve_body( $response );
 				$html = str_get_html( $body );
@@ -294,37 +292,38 @@ class ConvertKit_API {
 	 * @param array  $args Request arguments.
 	 * @return object Response object
 	 */
-	public function make_request( $request, $method = 'GET', $args = array() ) {
+	private function make_request( $request, $method, $args = array() ) {
 
-		$url = $this->build_request_url( $request, $args );
-		$this->log( 'API Request (make_request): ' . $url );
+		$this->log( 'API Request (make_request): ' . $request . ' Args: ' . json_encode( $args ) );
 
-		$ch = curl_init();
-		curl_setopt( $ch, CURLOPT_URL, $url );
-		curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
-		curl_setopt( $ch, CURLOPT_HEADER, false );
-		curl_setopt( $ch, CURLOPT_CUSTOMREQUEST, $method );
-		if ( 'PUT' === $method ) {
-			curl_setopt( $ch, CURLOPT_PUT, true );
+		$url = $this->api_url_base . $request;
+
+		$headers = array(
+			'Content-Type' => 'application/json; charset=utf-8',
+		);
+
+		$settings = array(
+			'headers' => $headers,
+			'method'  => $method,
+			'body'    => json_encode( $args ),
+		);
+
+		$result = wp_remote_request( $url, $settings );
+
+		if ( is_wp_error( $result ) ) {
+			$this->log( 'API Response (make_request): WPError: ' . $result->get_error_message() );
+		} elseif ( isset( $result['response']['code'] ) && '200' == $result['response']['code'] ) {
+			if ( isset( $result['body'] ) ) {
+				$this->log( 'API Response (make_request): ' . $result['body'] );
+			} else {
+				$this->log( 'API Response (make_request): Response code 200, but body is not set.' );
+			}
+		} else {
+			$this->log( 'API Response (make_request): Result code: '
+			            . $result['response']['code'] . ' '
+			            . $result['response']['message'] );
 		}
 
-		$results = curl_exec( $ch );
-		curl_close( $ch );
-
-		$this->log( 'API Response (make_request): ' . print_r( json_decode( $results ), true ) );
-
-		return json_decode( $results );
-	}
-
-	/**
-	 * Build the full request URL
-	 *
-	 * @param string $request Request path.
-	 * @param array  $args Request arguments.
-	 * @return string Request URL
-	 */
-	public function build_request_url( $request, array $args ) {
-		return $this->api_url_base . $request . '?' . http_build_query( $args );
 	}
 
 	/**
