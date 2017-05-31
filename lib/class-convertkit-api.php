@@ -75,6 +75,24 @@ class ConvertKit_API {
 	}
 
 	/**
+	 * Adds a tag to a subscriber
+	 *
+	 * @param int $tag Tag ID
+	 * @param array $options Array of user data
+	 * @return object
+	 */
+	public function add_tag($tag, $options) {
+		$request = $this->api_version . sprintf('/tags/%s/subscribe', $tag);
+
+		$args = array(
+			'api_key' => $this->api_key,
+			'email'   => $options['email'],
+		);
+
+		return $this->make_request($request, 'POST', $args);
+	}
+
+	/**
 	 * Gets a resource index
 	 *
 	 * GET /{$resource}/
@@ -127,6 +145,11 @@ class ConvertKit_API {
 							continue;
 						}
 						$_resource[ $mapping['id'] ] = $mapping['form_id'];
+					}
+				} elseif ( 'tags' === $resource ) {
+					$response = isset( $api_response['tags']) ? $api_response['tags'] : array();
+					foreach ( $response as $tag ) {
+						$_resource[] = $tag;
 					}
 				}
 
@@ -187,6 +210,7 @@ class ConvertKit_API {
 				$url,
 				array(
 					'timeout' => 10,
+					'Accept-Encoding' => 'gzip',
 				)
 			);
 
@@ -250,7 +274,7 @@ class ConvertKit_API {
 
 		$this->log( 'API Request (_get_api_response): ' . $url );
 
-		$data = get_transient( 'convertkit_get_api_response' );
+		$data = get_transient( 'convertkit_get_api_response_' . $path );
 
 		if ( ! $data ) {
 
@@ -258,6 +282,7 @@ class ConvertKit_API {
 				$url,
 				array(
 					'timeout' => 10,
+					'Accept-Encoding' => 'gzip',
 					'sslverify' => false,
 				)
 			);
@@ -272,11 +297,11 @@ class ConvertKit_API {
 				$data = json_decode( wp_remote_retrieve_body( $response ), true );
 			}
 
-			set_transient( 'convertkit_get_api_response', $data, 300 );
+			set_transient( 'convertkit_get_api_response_' . $path , $data, 300 );
 
 			$this->log( 'API Response (_get_api_response): ' . wp_json_encode( $data ) );
 		} else {
-			$this->log( 'Transient Response (_get_api_response)' );
+			$this->log( 'Transient Response ' . $path . ' (_get_api_response)' );
 		}
 
 		return $data;

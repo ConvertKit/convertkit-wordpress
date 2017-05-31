@@ -89,16 +89,16 @@ class ConvertKit_Wishlist_Integration {
 
 		$member = $this->get_member( $member_id );
 
-		foreach ( $levels as $wlm_level_id ) {
-			if (
-				isset( $this->options[ $wlm_level_id . '_form' ] )
-				&& isset( $this->options[ $wlm_level_id . '_unsubscribe' ] )
-				&& '1' === $this->options[ $wlm_level_id . '_unsubscribe' ]
-			) {
-				$this->member_resource_unsubscribe(
-					$member,
-					$this->options[ $wlm_level_id . '_form' ]
-				);
+		foreach ($levels as $wlm_level_id) {
+			// get the mapping if it is set
+			$unsubscribe = (isset($this->options[$wlm_level_id . '_unsubscribe'])) ? $this->options[$wlm_level_id . '_unsubscribe'] : 0;
+
+			if ( $unsubscribe && 'unsubscribe' == $unsubscribe ) {
+				// If mapping is set to "Unsubscribe from all"
+				$this->member_resource_unsubscribe( $member );
+			} elseif ( $unsubscribe ) {
+				// If mapping is a positive integer then tag customer
+				$this->member_tag( $member, $this->options[$wlm_level_id . '_unsubscribe'] );
 			}
 		}
 
@@ -137,7 +137,7 @@ class ConvertKit_Wishlist_Integration {
 	 * @param  string $form_id ConvertKit form id.
 	 * @return object Response object from API
 	 */
-	public function member_resource_unsubscribe( $member, $form_id ) {
+	public function member_resource_unsubscribe( $member ) {
 		return $this->api->form_unsubscribe(
 			array(
 				'email' => $member['user_email'],
@@ -145,6 +145,22 @@ class ConvertKit_Wishlist_Integration {
 		);
 	}
 
+	/**
+	 * Tag a member
+	 *
+	 * @param  array  $member  UserInfo from WishList Member
+	 * @param  string $tag     ConvertKit Tag ID
+	 * @return object          Response object from API
+	 */
+	public function member_tag($member, $tag) {
+		return $this->api->add_tag(
+			$tag,
+			array(
+				'email' => $member['user_email']
+			)
+		);
+	}
+	
 	/**
 	 * Gets a WLM member using the wlmapi functions
 	 *
