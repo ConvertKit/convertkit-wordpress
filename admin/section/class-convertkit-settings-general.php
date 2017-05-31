@@ -150,7 +150,7 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 			$debug = 'checked';
 		}
 
-		echo sprintf(
+		echo sprintf( // WPCS: XSS OK
 			'<input type="checkbox" class="" id="debug" name="%s[debug]"  %s />%s',
 			$this->settings_key,
 			$debug,
