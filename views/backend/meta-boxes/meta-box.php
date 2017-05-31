@@ -42,8 +42,9 @@
 			<td>
 				<select name="wp-convertkit[landing_page]" id="wp-convertkit-landing_page">
 					<option <?php selected( '', $meta['landing_page'] ); ?> value="0"><?php _e( 'None', 'convertkit' ); // WPCS: XSS ok. ?></option>
-					<?php foreach ( $landing_pages as $landing_page ) { ?>
-					<option <?php selected( $landing_page['url'], $meta['landing_page'] ); ?> value="<?php echo esc_attr( $landing_page['url'], 'convertkit' ); ?>"><?php $landing_page['name']; ?></option>
+					<?php foreach ( $landing_pages as $landing_page ) {
+						$name = sanitize_text_field( $landing_page['name'] ); ?>
+					<option <?php selected( $landing_page['url'], $meta['landing_page'] ); ?> value="<?php echo esc_attr( $landing_page['url'], 'convertkit' ); ?>"><?php echo esc_attr( $name ); ?></option>
 					<?php } ?>
 				</select>
 				<p class="description"><?php esc_html_e( 'Select a landing page to make it appear in place of this page.', 'convertkit' ); ?></p>

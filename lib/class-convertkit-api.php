@@ -153,7 +153,6 @@ class ConvertKit_API {
 		);
 
 		$this->make_request( $request, 'POST', $args );
-		return;
 	}
 
 	/**
@@ -170,7 +169,6 @@ class ConvertKit_API {
 		);
 
 		$this->make_request( $request, 'PUT', $args );
-		return;
 	}
 
 	/**
