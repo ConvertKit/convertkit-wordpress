@@ -209,7 +209,7 @@ if ( ! class_exists( 'WP_ConvertKit' ) ) {
 				if ( isset( $attributes['form'] ) && ( 0 < $attributes['form'] ) ) {
 					$form_id = $attributes['form'];
 				} else {
-					if ( -1 === $attributes['form'] ) {
+					if ( '-1' === $attributes['form'] ) {
 						$form_id = self::_get_settings( 'default_form' );
 					}
 				}
