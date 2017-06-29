@@ -4,7 +4,7 @@ Donate link: https://convertkit.com
 Tags: email, marketing, embed form, convertkit, capture
 Requires at least: 3.6
 Tested up to: 4.7.3
-Stable tag: 1.4.6
+Stable tag: 1.4.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -43,6 +43,12 @@ Yes, for it to work you must first have an account on ConvertKit.com
 2. Add stunning landing pages
 
 == Changelog ==
+
+### 1.4.7 2017-06-01
+* Code refactor with WordPress Code Standards
+* Added ability to tag a customer when WishList Member membership lapses
+* Added WishList Member tag a customer
+* Removed curl and replaced with wp_remote_request
 
 ### 1.4.6 2017-03-29
 * Fix for landing pages not appearing.
