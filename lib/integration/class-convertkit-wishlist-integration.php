@@ -44,14 +44,14 @@ class ConvertKit_Wishlist_Integration {
 		add_action(
 			'wishlistmember_add_user_levels',
 			array( $this, 'add_user_levels' ),
-			null,
+			10,
 			2
 		);
 
 		add_action(
 			'wishlistmember_remove_user_levels',
 			array( $this, 'remove_user_levels' ),
-			null,
+			10,
 			2
 		);
 	}
