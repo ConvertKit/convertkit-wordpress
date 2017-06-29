@@ -41,19 +41,12 @@ class ConvertKit_Wishlist_Integration {
 		$debug           = $general_options && array_key_exists( 'debug', $general_options ) ? $general_options['debug'] : null;
 		$this->api       = new ConvertKit_API( $api_key,$api_secret,$debug );
 
-		add_action(
-			'wishlistmember_add_user_levels',
-			array( $this, 'add_user_levels' ),
-			10,
-			2
-		);
+		// When a user has levels added or registers check for a mapping to a ConvertKit form.
+		add_action( 'wishlistmember_add_user_levels', array( $this, 'add_user_levels' ), 10, 2 );
 
-		add_action(
-			'wishlistmember_remove_user_levels',
-			array( $this, 'remove_user_levels' ),
-			10,
-			2
-		);
+		// When a user has levels removed check for a mapping to a ConvertKit tag, or if the subscriber
+		// should be removed from ConvertKit.
+		add_action( 'wishlistmember_remove_user_levels', array( $this, 'remove_user_levels' ), 10, 2 );
 	}
 
 	/**
