@@ -3,8 +3,8 @@ Contributors: nathanbarry, davidlamarwheeler, growdev, nickohrn
 Donate link: https://convertkit.com
 Tags: email, marketing, embed form, convertkit, capture
 Requires at least: 3.6
-Tested up to: 4.7.3
-Stable tag: 1.4.7
+Tested up to: 4.8
+Stable tag: 1.4.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -43,6 +43,12 @@ Yes, for it to work you must first have an account on ConvertKit.com
 2. Add stunning landing pages
 
 == Changelog ==
+
+### 1.4.8 2017-07-13
+* Fixed API response not getting unzipped
+* Added check for multibyte string PHP extension
+* Fixed CF7 mapping not showing all forms
+* Changed log file to write locally instead of using WP_Filesystem
 
 ### 1.4.7 2017-06-01
 * Code refactor with WordPress Code Standards
