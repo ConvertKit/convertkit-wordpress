@@ -374,10 +374,8 @@ class ConvertKit_API {
 			$handle = fopen( trailingslashit( $dir ) . 'log.txt', 'a' );
 			if ( $handle ) {
 				$time   = date_i18n( 'm-d-Y @ H:i:s -' );
-				$response = fwrite( $handle, $time . ' ' . $message . "\n" );
+				fwrite( $handle, $time . ' ' . $message . "\n" );
 				fclose( $handle );
-			} else {
-				echo "<strong>handle false</strong>";
 			}
 		}
 
