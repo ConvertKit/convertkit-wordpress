@@ -89,6 +89,13 @@ class ConvertKit_Settings {
 				$section->render();
 			endif;
 		endforeach;
+
+		// Check for Multibyte string PHP extension.
+		if ( ! extension_loaded( 'mbstring' ) ) {
+			?><p><strong><?php
+			echo  sprintf( __( 'Note: Your server does not support the %s functions - this is required for better character encoding. Please contact your webhost to have it installed.', 'woocommerce' ), '<a href="https://php.net/manual/en/mbstring.installation.php">mbstring</a>' ) . '</mark>';
+			?></strong></p><?php
+		}
 		?><p class="description"><?php
 				printf( 'If you need help setting up the plugin please refer to the %s plugin documentation.</a>', '<a href="http://help.convertkit.com/article/99-the-convertkit-wordpress-plugin" target="_blank">' ); ?></p>
 		</form>

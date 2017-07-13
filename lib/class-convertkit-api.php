@@ -206,6 +206,8 @@ class ConvertKit_API {
 		if ( ! empty( $url ) && isset( $this->markup[ $url ] ) ) {
 			$resource = $this->markup[ $url ];
 		} elseif ( ! empty( $url ) ) {
+			$this->log( 'API Request (get_resource): ' . $url );
+
 			$response = wp_remote_get(
 				$url,
 				array(
@@ -215,6 +217,7 @@ class ConvertKit_API {
 			);
 
 			if ( ! is_wp_error( $response ) ) {
+
 				if ( ! function_exists( 'str_get_html' ) ) {
 					require_once( dirname( __FILE__ ) . '/../vendor/simple-html-dom/simple-html-dom.php' );
 				}
@@ -223,7 +226,15 @@ class ConvertKit_API {
 					require_once( dirname( __FILE__ ) . '/../vendor/url-to-absolute/url-to-absolute.php' );
 				}
 
+				// Maybe inflate response body.
+				// @see https://wordpress.stackexchange.com/questions/10088/how-do-i-troubleshoot-responses-with-wp-http-api
+				$inflate = @gzinflate( $response['body'] );
+				if( false !== $inflate ) {
+					$response['body'] = $inflate;
+				}
+
 				$body = wp_remote_retrieve_body( $response );
+
 				$html = str_get_html( $body );
 				foreach ( $html->find( 'a, link' ) as $element ) {
 					if ( isset( $element->href ) ) {
@@ -252,6 +263,10 @@ class ConvertKit_API {
 				} else {
 					$this->log( 'Status Code (' . $response['response']['code'] . ') for URL (' . $url . '): ' . $html->save() );
 				}
+			} else {
+				$this->log( 'API Response was WP_Error (get_resource): ' .
+				            'Code: ' . $response->get_error_code() . ' ' .
+				            'Message: ' . $response->get_error_message() );
 			} // End if().
 		} // End if().
 
@@ -355,19 +370,13 @@ class ConvertKit_API {
 	public function log( $message ) {
 
 		if ( 'on' === $this->debug ) {
-			require_once( ABSPATH . '/wp-admin/includes/file.php' );
-			WP_Filesystem();
-			global $wp_filesystem;
-
 			$dir = dirname( __FILE__ );
-			$time   = date_i18n( 'm-d-Y @ H:i:s -' );
-			$file = trailingslashit( $dir ) . 'log.txt';
-
-			$wp_filesystem->put_contents(
-				$file,
-				$time . ' ' . $message . "\n",
-				FS_CHMOD_FILE
-			);
+			$handle = fopen( trailingslashit( $dir ) . 'log.txt', 'a' );
+			if ( $handle ) {
+				$time   = date_i18n( 'm-d-Y @ H:i:s -' );
+				fwrite( $handle, $time . ' ' . $message . "\n" );
+				fclose( $handle );
+			}
 		}
 
 	}

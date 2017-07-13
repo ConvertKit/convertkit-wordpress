@@ -49,6 +49,7 @@ class ConvertKit_Settings_ContactForm7 extends ConvertKit_Settings_Base {
 
 		$args = array(
 			'orderby' => 'ID',
+			'posts_per_page' => '100',
 			'order' => 'ASC',
 			'post_type' => 'wpcf7_contact_form',
 		);
