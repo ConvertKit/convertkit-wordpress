@@ -3,7 +3,7 @@
  * Plugin Name: ConvertKit
  * Plugin URI: https://convertkit.com/
  * Description: Quickly and easily integrate ConvertKit forms into your site.
- * Version: 1.4.8
+ * Version: 1.4.9
  * Author: ConvertKit
  * Author URI: https://convertkit.com/
  * Text Domain: convertkit
@@ -20,7 +20,7 @@ if ( ! class_exists( 'WP_ConvertKit' ) ) {
 	 */
 	class WP_ConvertKit {
 
-		const VERSION = '1.4.8';
+		const VERSION = '1.4.9';
 
 		const POST_META_KEY = '_wp_convertkit_post_meta';
 
@@ -309,7 +309,7 @@ if ( ! class_exists( 'WP_ConvertKit' ) ) {
 		private static function _get_meta_defaults() {
 			if ( is_null( self::$meta_defaults ) ) {
 				self::$meta_defaults = array(
-					'form' => -1,
+					'form' => '-1',
 					'landing_page' => '',
 				);
 			}
