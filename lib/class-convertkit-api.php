@@ -195,6 +195,80 @@ class ConvertKit_API {
 	}
 
 	/**
+	 * Get the ConvertKit subscriber ID associated with email address if it exists.
+	 * Return 0 if subscriber not found.
+	 *
+	 * @param $email_address
+	 * @return int $subscriber_id
+	 */
+	public function get_subscriber_id( $email_address ) {
+
+		$url = add_query_arg( array(
+			'api_secret' => WP_ConvertKit::get_api_secret(),
+			'email_address' => $email_address,
+		),
+			'https://api.convertkit.com/v3/subscribers'
+		);
+
+		$this->log( "get_subscriber_id for: " . $email_address );
+
+		$result = $this->get_resource( $url );
+		if ( is_wp_error( $result ) ){
+			$this->log( 'Error getting resource for: ' . $url . '. Error: ' . $result->get_error_messages() );
+			return 0;
+		}
+
+		$subs = json_decode( $result );
+
+		$subscribers = is_array( $subs->subscribers ) ? $subs->subscribers : array();
+		if ( $subscribers ) {
+			$subscriber = array_pop( $subscribers );
+			$this->log( 'Found ' . count( $subscribers ) . ' subscribers');
+			$this->log( 'ID ' . $subscriber->id . ') ' . $subscriber->email_address );
+			return $subscriber->id;
+		}
+
+		// subscriber not found
+		return 0;
+
+	}
+
+	/**
+	 * Get a list of the tags for a subscriber.
+	 *
+	 * @param $subscriber_id
+	 * @return array $subscriber_tags Array of tags for customer with key of tag_id
+	 */
+	public function get_subscriber_tags( $subscriber_id ) {
+
+		$url = add_query_arg( array(
+			'api_key' => WP_ConvertKit::get_api_key(),
+		),
+			'https://api.convertkit.com/v3/subscribers/' . $subscriber_id . '/tags'
+		);
+
+		$this->log( 'get_subscriber_tags for: ' . $subscriber_id );
+
+		$result = $this->get_resource( $url );
+		if ( is_wp_error( $result ) ){
+			$this->log( 'Error getting resource for: ' . $url . '. Error: ' . $result->get_error_messages() );
+			return array();
+		}
+		$result = json_decode( $result );
+		$tags = isset( $result->tags ) ? $result->tags : array();
+
+		if ( empty( $tags ) ){
+			$this->log( 'No tags found for customer.' );
+		} else {
+			$this->log( 'Found ' . count( $tags ) . 'tags for subscriber');
+			$tags = wp_list_pluck( $tags, 'name', 'id' );
+		}
+
+		return $tags;
+
+	}
+
+	/**
 	 * Get markup from ConvertKit for the provided $url
 	 *
 	 * @param string $url URL of API action.

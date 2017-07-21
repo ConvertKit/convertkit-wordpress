@@ -3,7 +3,7 @@
  * Plugin Name: ConvertKit
  * Plugin URI: https://convertkit.com/
  * Description: Quickly and easily integrate ConvertKit forms into your site.
- * Version: 1.4.9
+ * Version: 1.5.0-alpha
  * Author: ConvertKit
  * Author URI: https://convertkit.com/
  * Text Domain: convertkit
@@ -11,6 +11,8 @@
 
 require_once plugin_dir_path( __FILE__ ) . '/lib/class-convertkit-api.php';
 require_once plugin_dir_path( __FILE__ ) . '/lib/class-ck-widget-form.php';
+require_once plugin_dir_path( __FILE__ ) . '/lib/class-convertkit-user-history.php';
+require_once plugin_dir_path( __FILE__ ) . '/lib/class-convertkit-custom-content.php';
 require_once plugin_dir_path( __FILE__ ) . '/lib/integration/class-convertkit-wishlist-integration.php';
 require_once plugin_dir_path( __FILE__ ) . '/lib/integration/class-convertkit-contactform7-integration.php';
 
@@ -20,7 +22,7 @@ if ( ! class_exists( 'WP_ConvertKit' ) ) {
 	 */
 	class WP_ConvertKit {
 
-		const VERSION = '1.4.9';
+		const VERSION = '1.5.0';
 
 		const POST_META_KEY = '_wp_convertkit_post_meta';
 
@@ -85,6 +87,7 @@ if ( ! class_exists( 'WP_ConvertKit' ) ) {
 				add_action( 'add_meta_boxes_post', array( __CLASS__, 'add_meta_boxes' ) );
 			} else {
 				add_action( 'template_redirect', array( __CLASS__, 'page_takeover' ) );
+				add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ) );
 			}
 
 			add_action( 'widgets_init', array( __CLASS__, 'ck_register_widgets' ) );
@@ -251,6 +254,17 @@ if ( ! class_exists( 'WP_ConvertKit' ) ) {
 		}
 
 		/**
+		 * Enqueue scripts
+		 */
+		public static function enqueue_scripts() {
+			// TODO replace with version when done with development
+			//wp_enqueue_script( 'convertkit-js', 'resources/frontend/wp-convertkit.js', array(), WP_ConvertKit::VERSION );
+			wp_enqueue_script( 'jquery-cookie', plugin_dir_url( __FILE__ ) . 'resources/frontend/jquery.cookie.min.js', array( 'jquery' ), '1.4.0' );
+			wp_enqueue_script( 'convertkit-js', plugin_dir_url( __FILE__ ) . 'resources/frontend/wp-convertkit.js', array(), time() );
+			wp_localize_script( 'jquery-cookie', 'ck_data', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) ) );
+		}
+
+		/**
 		 * Register widget.
 		 */
 		public static function ck_register_widgets() {
@@ -351,7 +365,7 @@ if ( ! class_exists( 'WP_ConvertKit' ) ) {
 		 * @param null $settings_key
 		 * @return mixed|null|void
 		 */
-		private static function _get_settings( $settings_key = null ) {
+		public static function _get_settings( $settings_key = null ) {
 			$settings = get_option( self::SETTINGS_NAME, self::$settings_defaults );
 
 			return is_null( $settings_key ) ? $settings : ( isset( $settings[ $settings_key ] ) ? $settings[ $settings_key ] : null);
@@ -384,6 +398,15 @@ if ( ! class_exists( 'WP_ConvertKit' ) ) {
 		 */
 		public static function get_api_key() {
 			return self::_get_settings( 'api_key' );
+		}
+
+		/**
+		 * Get ConvertKit API secret
+		 *
+		 * @return mixed|null|void
+		 */
+		public static function get_api_secret() {
+			return self::_get_settings( 'api_secret' );
 		}
 
 		/**

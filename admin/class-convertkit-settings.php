@@ -155,6 +155,7 @@ class ConvertKit_Settings {
 		$this->register_section( 'ConvertKit_Settings_General' );
 		$this->register_section( 'ConvertKit_Settings_Wishlist' );
 		$this->register_section( 'ConvertKit_Settings_ContactForm7' );
+		$this->register_section( 'ConvertKit_Settings_Custom_Content' );
 	}
 }
 
@@ -166,4 +167,5 @@ if ( is_admin() ) {
 	include 'section/class-convertkit-settings-general.php';
 	include 'section/class-convertkit-settings-wishlist.php';
 	include 'section/class-convertkit-settings-contactform7.php';
+	include 'section/class-convertkit-settings-custom-content.php';
 }
