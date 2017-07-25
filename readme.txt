@@ -44,8 +44,9 @@ Yes, for it to work you must first have an account on ConvertKit.com
 
 == Changelog ==
 
-### 1.4.9 2017-07-20
+### 1.4.9 2017-07-24
 * Fix _get_meta_defaults() because Posts and Pages set to Default were not showing forms.
+* Updated ConvertKit_API::_get_api_response() to inflate response body if necessary.
 
 ### 1.4.8 2017-07-13
 * Fixed API response not getting unzipped
@@ -66,7 +67,7 @@ Yes, for it to work you must first have an account on ConvertKit.com
 ### 1.4.5 2017-03-28
 * Uncommented logging around api calls.
 * Do not show 404 page content when shortcode is used with form ID that does not exist
-* If ConvertKit API is unavailable fail gracefullyl
+* If ConvertKit API is unavailable fail gracefully
 * Fix for Contact Form 7 message sending when no ConvertKit forms are mapped
 * Removed archived forms from the list of available forms in settings page
 
