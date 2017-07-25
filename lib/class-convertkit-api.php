@@ -309,12 +309,21 @@ class ConvertKit_API {
 					'error' => $response->get_error_message(),
 				);
 			} else {
-				$data = json_decode( wp_remote_retrieve_body( $response ), true );
+
+				// Maybe inflate response body.
+				// @see https://wordpress.stackexchange.com/questions/10088/how-do-i-troubleshoot-responses-with-wp-http-api
+				$inflate = @gzinflate( $response['body'] );
+				if( false !== $inflate ) {
+					$response['body'] = $inflate;
+				}
+
+				$body = wp_remote_retrieve_body( $response );
+				$data = json_decode( $body, true );
 			}
 
 			set_transient( 'convertkit_get_api_response_' . $path , $data, 300 );
 
-			$this->log( 'API Response (_get_api_response): ' . wp_json_encode( $data ) );
+			$this->log( 'API Response (_get_api_response): ' . $body );
 		} else {
 			$this->log( 'Transient Response ' . $path . ' (_get_api_response)' );
 		}
