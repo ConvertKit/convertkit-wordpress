@@ -9,7 +9,7 @@
 /**
  * Class ConvertKit_Settings_Custom_Content
  *
- * @since 1.4.4
+ * @since 1.5.0
  */
 class ConvertKit_Settings_Custom_Content extends ConvertKit_Settings_Base {
 
@@ -20,7 +20,7 @@ class ConvertKit_Settings_Custom_Content extends ConvertKit_Settings_Base {
 
 		$this->settings_key  = '_wp_convertkit_integration_custom_content_settings';
 		$this->name          = 'custom_content';
-		$this->title         = 'Custom Content Integration Settings';
+		$this->title         = 'Custom Content Settings';
 		$this->tab_text      = 'Custom Content';
 
 		parent::__construct();
@@ -88,7 +88,7 @@ class ConvertKit_Settings_Custom_Content extends ConvertKit_Settings_Base {
 	public function render() {
 		$this->do_settings_sections( $this->settings_key );
 		settings_fields( $this->settings_key );
-		$this->do_settings_table();
+		//$this->do_settings_table();
 		submit_button();
 	}
 
@@ -192,15 +192,16 @@ class ConvertKit_Settings_Custom_Content extends ConvertKit_Settings_Base {
 	 */
 	public function enable_callback() {
 
-		$debug = '';
+		$enable = '';
 		if ( isset( $this->options['enable'] ) && 'on' === $this->options['enable'] ) {
-			$debug = 'checked';
+			$enable = 'checked';
 		}
 
 		echo sprintf( // WPCS: XSS OK
-			'<input type="checkbox" class="" id="enable" name="%s[enable]"  %s />%s',
+			'<input type="checkbox" class="" id="%s[enable]" name="%s[enable]" %s />%s',
 			$this->settings_key,
-			$debug,
+			$this->settings_key,
+			$enable,
 			__( 'If this is checked custom content will be displayed.','convertkit' )
 		);
 
@@ -230,25 +231,12 @@ class ConvertKit_Settings_Custom_Content extends ConvertKit_Settings_Base {
 	 */
 	public function print_section_info() {
 		?><p><?php
-		esc_html_e( 'ConvertKit seamlessly integrates with Contact Form 7 to let you add subscribers using Contact Form 7 forms.', 'convertkit' );
-		?></p><p><?php
-		printf( 'The Contact Form 7 form must have <code>text*</code> fields named <code>your-name</code> and <code>your-email</code>. ' );
-		esc_html_e( 'These fields will be sent to ConvertKit for the subscription.', 'convertkit' );
+		esc_html_e( 'ConvertKit custom content will apply tags to site visitors so you can present them with content based on their browsing history.', 'convertkit' );
+		/*
+		 ?></p><p><?php
+		esc_html_e( 'Select a tag ', 'convertkit' );
 		?></p><?php
-	}
-
-	/**
-	 * Not used anymore
-	 * TODO: Delete
-	 */
-	public function mapping_callback() {
-
-		$value = isset( $this->options['mapping'] ) ? esc_attr( $this->options['mapping'] ) : '';
-		echo '<textarea class="regular-text code" id="mapping" name="' . $this->settings_key . '[mapping]" style="height:150px">';
-		echo $value;
-		echo '</textarea>';
-		echo '<p class="description"> Map pages to tags using page id and tag name one per line. Example: [55,newsletter]</p>';
-
+		*/
 	}
 
 	/**
@@ -298,7 +286,7 @@ class ConvertKit_Settings_Custom_Content extends ConvertKit_Settings_Base {
 	public function sanitize_settings( $input ) {
 		// Settings page can be paginated; combine input with existing options.
 		$output = $this->options;
-		//unset( $output['mapping'] );
+		unset( $input['mapping'] );
 
 		foreach ( $input as $key => $value ) {
 			if ( is_array( $value ) ) {
@@ -309,6 +297,11 @@ class ConvertKit_Settings_Custom_Content extends ConvertKit_Settings_Base {
 				$output[ $key ] = stripslashes( $input[ $key ] );
 			}
 		}
+
+		if ( ! isset( $input['enable'] ) ) {
+			$output['enable'] = '';
+		}
+
 		$sanitize_hook = 'sanitize' . $this->settings_key;
 		return apply_filters( $sanitize_hook, $output, $input );
 	}

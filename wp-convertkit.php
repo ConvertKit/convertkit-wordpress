@@ -16,6 +16,8 @@ require_once plugin_dir_path( __FILE__ ) . '/lib/class-convertkit-custom-content
 require_once plugin_dir_path( __FILE__ ) . '/lib/integration/class-convertkit-wishlist-integration.php';
 require_once plugin_dir_path( __FILE__ ) . '/lib/integration/class-convertkit-contactform7-integration.php';
 
+define( 'CONVERTKIT_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
+
 if ( ! class_exists( 'WP_ConvertKit' ) ) {
 	/**
 	 * Class WP_ConvertKit
@@ -158,9 +160,16 @@ if ( ! class_exists( 'WP_ConvertKit' ) ) {
 		public static function display_meta_box( $post ) {
 			$forms = self::$api->get_resources( 'forms' );
 			$landing_pages = self::$api->get_resources( 'landing_pages' );
+			$tags = $tags = self::$api->get_resources( 'tags' );
 
 			$meta = self::_get_meta( $post->ID );
 			$settings_link = self::_get_settings_page_link();
+			$content_settings = get_option( '_wp_convertkit_integration_custom_content_settings' );
+			if ( is_array( $content_settings ) && isset( $content_settings['enable'] ) && 'on' === $content_settings['enable'] ) {
+				$show_custom_content = true;
+			} else {
+				$show_custom_content = false;
+			}
 
 			include( 'views/backend/meta-boxes/meta-box.php' );
 		}
@@ -187,9 +196,19 @@ if ( ! class_exists( 'WP_ConvertKit' ) ) {
 				if ( isset( $_POST['wp-convertkit']['landing_page'] ) ) { // WPCS input var okay.
 					$landing_page = sanitize_text_field( wp_unslash( $_POST['wp-convertkit']['landing_page'] ) ); // WPCS input var okay.
 				}
+				$tag = '';
+				if ( isset( $_POST['wp-convertkit']['tag'] ) ) { // WPCS input var okay.
+					$tag = sanitize_text_field( wp_unslash( $_POST['wp-convertkit']['tag'] ) ); // WPCS input var okay.
+				}
+				// Update global mapping
+				$content_settings = get_option( '_wp_convertkit_integration_custom_content_settings', array() );
+				$content_settings['mapping'][ $post_id ] = $tag;
+				update_option( '_wp_convertkit_integration_custom_content_settings', $content_settings );
+
 				$meta = array(
 					'form' => $form,
 					'landing_page' => $landing_page,
+					'tag' => $tag,
 				);
 				update_post_meta( $post_id, self::POST_META_KEY, $meta );
 			}
@@ -325,6 +344,7 @@ if ( ! class_exists( 'WP_ConvertKit' ) ) {
 				self::$meta_defaults = array(
 					'form' => '-1',
 					'landing_page' => '',
+					'tag' => '',
 				);
 			}
 
@@ -503,3 +523,4 @@ if ( ! class_exists( 'WP_ConvertKit' ) ) {
 } // End if().
 
 include 'admin/class-convertkit-settings.php';
+include 'admin/class-convertkit-tinymce.php';

@@ -79,7 +79,7 @@ class ConvertKit_Custom_Content {
 	 * @return mixed|void
 	 */
 	public static function shortcode( $attributes, $content ) {
-		error_log( print_r( $attributes, true ) );
+		error_log( "\n\nATTRIBUTES: " . print_r( $attributes, true ) );
 
 		// we only care about the 'tag' attribute.
 		if ( isset( $attributes['tag'] ) ) {
@@ -90,7 +90,7 @@ class ConvertKit_Custom_Content {
 				// user is logged in so get tags from user meta
 				$tags = get_user_meta( $user_id, 'convertkit_tags', true );
 				$tags = ! empty( $tags ) ? json_decode( $tags, true ) : array();
-				if ( in_array( $tag, $tags ) ) {
+				if ( isset( $tags[ $tag ] ) ) {
 					return apply_filters( 'wp_convertkit_shortcode_custom_content', $content, $attributes );
 				}
 			} else {

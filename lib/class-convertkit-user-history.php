@@ -81,6 +81,7 @@ class ConvertKit_User_History {
 		error_log( '-------- in add_history ---------' );
 		error_log( 'visitor_cookie: ' . $visitor_cookie );
 		error_log( 'url: ' . $url );
+		error_log( 'user_id: ' . $user_id );
 
 		if ( empty( $visitor_cookie ) ) {
 			$visitor_cookie = md5( time() );  // TODO verify uniqueness
@@ -213,6 +214,17 @@ class ConvertKit_User_History {
 			'email' => $user_email,
 		);
 
+		foreach( $post_ids as $post_id ) {
+			$meta = get_post_meta( $post_id, '_wp_convertkit_post_meta', true );
+			$tag = isset( $meta['tag'] ) ? $meta['tag'] : 0;
+			if ( $tag ) {
+				$api->add_tag( $tag, $args );
+				$api->log( "tagging user (" . $user_id . ")" . " with tag (" . $tag . ")" );
+			} else {
+				$api->log( "post_id (" . $post_id . ") not found in user history" );
+			}
+		}
+		/*
 		foreach( $mapping as $post_id => $tag ) {
 			if ( in_array( $post_id, $post_ids ) ) {
 				$api->add_tag( $tag, $args );
@@ -222,11 +234,10 @@ class ConvertKit_User_History {
 			}
 
 		}
-
+		*/
 		// delete all rows
-		// TODO activate this when done testing
-		// $this->delete( 'user_id', $user_id, '=' );
-		// $this->delete( 'subscriber_id', $subscriber_id, '=' );
+		$this->delete( 'user_id', $user_id, '=' );
+		$this->delete( 'subscriber_id', $subscriber_id, '=' );
 	}
 
 	/**

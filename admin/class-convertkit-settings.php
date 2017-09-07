@@ -43,6 +43,17 @@ class ConvertKit_Settings {
 
 		add_action( 'admin_menu', array( $this, 'add_settings_page' ) );
 		add_action( 'admin_init', array( $this, 'register_sections' ) );
+
+		// AJAX callback for TinyMCE button to get list of tags
+		add_action( 'wp_ajax_convertkit_get_tags', array( $this, 'get_tags' ) );
+		// Funtion to output
+		add_action( 'admin_footer', array( $this, 'add_tags_footer' ) );
+
+		if ( WP_DEBUG ){
+			add_action( 'show_user_profile', array( $this, 'add_customer_meta_fields' ) );
+			add_action( 'edit_user_profile', array( $this, 'add_customer_meta_fields' ) );
+
+		}
 	}
 
 	/**
@@ -156,6 +167,91 @@ class ConvertKit_Settings {
 		$this->register_section( 'ConvertKit_Settings_Wishlist' );
 		$this->register_section( 'ConvertKit_Settings_ContactForm7' );
 		$this->register_section( 'ConvertKit_Settings_Custom_Content' );
+	}
+
+	/**
+	 * Ajax callback to return formatted list of available tags
+	 *
+	 * Since 1.5.0
+	 */
+	public function get_tags(){
+		check_ajax_referer( 'convertkit-tinymce', 'security' );
+
+		$tags = $this->api->get_resources( 'tags' );
+		$values = array();
+		foreach ( $tags as $tag ) {
+			$values[] = array(
+				'value' => $tag['id'],
+				'text' => $tag['name'],
+			);
+		}
+		wp_send_json( $values );
+	}
+
+	/**
+	 * Add tags to the footer
+	 *
+	 * @since 1.5.0
+	 */
+	public function add_tags_footer() {
+		// create nonce
+		global $pagenow;
+		if( $pagenow != 'admin.php' ) {
+			$nonce = wp_create_nonce( 'convertkit-tinymce' );
+			?><script type="text/javascript">
+				jQuery( document ).ready( function( $ ) {
+					var data = {
+						'action'	: 'convertkit_get_tags', // wp ajax action
+						'security'	: '<?php echo $nonce; ?>' // nonce value created earlier
+					};
+					jQuery.post( ajaxurl, data, function( response ) {
+						if( response === '-1' ){
+							console.log( 'error convertkit_get_tags' );
+						} else {
+							if ( typeof( tinyMCE ) != 'undefined' ) {
+								if (tinyMCE.activeEditor != null) {
+									tinyMCE.activeEditor.settings.ckTags = response;
+									console.log('added tags');
+								}
+							}
+						}
+					});
+				});
+			</script>
+			<?php
+		}
+	}
+
+	/**
+	 * Show customer's tags
+	 * @param $user
+	 */
+	public function add_customer_meta_fields( $user ) {
+
+		$tags = get_user_meta( $user->ID, 'convertkit_tags', true );
+		?>
+		<h2><?php esc_attr_e( 'ConvertKit Tags', 'convertkit' ) ?></h2>
+		<table class="form-table" id="<?php echo esc_attr( 'fieldset-convertkit' ); ?>">
+			<?php
+				?>
+				<tr>
+					<th><label for="tags"><?php esc_attr_e( 'Tags', 'convertkit' ) ?></label></th>
+					<td><textarea id="tags" name="tags" disabled="disabled"><?php
+						if ( empty( $tags ) ) {
+							esc_html_e( 'No ConvertKit Tags assigned to this user.' ,'convertkit' );
+						} else {
+							$tags = json_decode( $tags );
+							foreach ( $tags as $key => $tag ) {
+								esc_html_e( $tag . ' (' . $key . ')' ."\n" );
+							}
+						}
+						?></textarea>
+					</td>
+				</tr>
+				<?php
+			?>
+		</table>
+		<?php
 	}
 }
 

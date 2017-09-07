@@ -363,7 +363,7 @@ class ConvertKit_API {
 
 		$this->log( 'API Request (_get_api_response): ' . $url );
 
-		$data = get_transient( 'convertkit_get_api_response_' . $path );
+		$data = get_transient( 'convertkit_get_api_response_' . $path  . $this->api_key );
 
 		if ( ! $data ) {
 
@@ -386,7 +386,7 @@ class ConvertKit_API {
 				$data = json_decode( wp_remote_retrieve_body( $response ), true );
 			}
 
-			set_transient( 'convertkit_get_api_response_' . $path , $data, 300 );
+			set_transient( 'convertkit_get_api_response_' . $path . $this->api_key , $data, 300 );
 
 			$this->log( 'API Response (_get_api_response): ' . wp_json_encode( $data ) );
 		} else {

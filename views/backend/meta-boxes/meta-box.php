@@ -51,6 +51,26 @@
 			</td>
 		</tr>
 		<?php } ?>
+
+		<?php // custom content mapping
+		if ( $show_custom_content ) {
+			$meta_tag = isset( $meta['tag'] ) ? $meta['tag'] : '';
+			?>
+		<tr valign="top">
+			<th scope="row"><label for=""><?php esc_html_e( 'Custom Content', 'convertkit' ); ?></label></th>
+			<td>
+				<select name="wp-convertkit[tag]" id="wp-convertkit-tag">
+					<option <?php selected( '', $meta_tag ); ?> value="0"><?php _e( 'None', 'convertkit' ); // WPCS: XSS ok. ?></option>
+					<?php foreach ( $tags as $tag ) {
+						$name = sanitize_text_field( $tag['name'] );
+						 ?>
+					<option <?php selected( $tag['id'], $meta_tag ); ?> value="<?php echo esc_attr( $tag['id'], 'convertkit' ); ?>"><?php echo esc_attr( $name ); ?></option>
+					<?php } ?>
+				</select>
+				<p class="description"><?php esc_html_e( 'Select a tag to apply to viewers of this page.', 'convertkit' ); ?></p>
+			</td>
+		</tr>
+		<?php } ?>
 	</tbody>
 </table>
 
