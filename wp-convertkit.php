@@ -456,6 +456,7 @@ if ( ! class_exists( 'WP_ConvertKit' ) ) {
 		public static function upgrade() {
 
 			$current_version = get_option( 'convertkit_version' );
+			$convertkit_user_history_table = get_option( 'convertkit_user_history_table' );
 
 			if ( ! $current_version ) {
 				// Run 1.4.1 upgrade.
@@ -515,6 +516,12 @@ if ( ! class_exists( 'WP_ConvertKit' ) ) {
 				} else {
 					update_option( 'convertkit_version', self::VERSION );
 				} // End if().
+			} else if ( version_compare( $current_version, '1.5.0', '<')  || ! $convertkit_user_history_table ) {
+
+				// Create User History table
+				ConvertKit_User_History::create_table();
+				update_option( 'convertkit_version', self::VERSION );
+
 			} // End if().
 		}
 	}

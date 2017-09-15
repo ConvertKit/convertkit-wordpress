@@ -103,12 +103,18 @@ class ConvertKit_User_History {
 
 	/**
 	 * Runs after the customer has been tagged and subscriber_id has been retrieved
+	 *
+	 * @param $user_login
+	 * @param $user
 	 */
 	public function login_action( $user_login, $user ) {
 
+		$api = WP_ConvertKit::get_api();
+		$api->log( '----login_action for user: ' . $user->ID );
+
 		$subscriber_id = get_user_meta( $user->ID, 'convertkit_subscriber_id', true );
 
-		if( isset( $_COOKIE['ck_visit'] ) ) {
+		if ( isset( $_COOKIE['ck_visit'] ) ) {
 			$user_cookie = sanitize_text_field( $_COOKIE['ck_visit'] );
 			$this->associate_history_with_user( $user_cookie, $subscriber_id, $user->ID );
 		}
@@ -117,7 +123,6 @@ class ConvertKit_User_History {
 			$this->process_history( $subscriber_id, $user->ID, $user->user_email );
 		}
 
-		$api = WP_ConvertKit::get_api();
 		$tags = $api->get_subscriber_tags( $subscriber_id );
 		update_user_meta( $user->ID, 'convertkit_tags', json_encode( $tags ) );
 	}
@@ -361,7 +366,7 @@ class ConvertKit_User_History {
 			visit_id bigint(20) NOT NULL AUTO_INCREMENT,
 			visitor_cookie mediumtext NOT NULL,
 			user_id bigint(20) NOT NULL,
-			subscriber_id biging(20) NOT NULL,
+			subscriber_id bigint(20) NOT NULL,
 			url mediumtext NOT NULL,
 			ip tinytext NOT NULL,
 			date datetime NOT NULL,

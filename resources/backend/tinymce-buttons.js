@@ -1,8 +1,7 @@
 (function(tinymce) {
     tinymce.PluginManager.add('convertkit_button', function( editor, url ) {
         editor.addButton('convertkit_button', {
-            icon: false,
-            text: 'CK',
+            icon: 'convertkit',
             tooltip: 'ConvertKit Custom Content',
             onclick: function() {
                 editor.windowManager.open( {
