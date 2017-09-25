@@ -79,27 +79,45 @@ class ConvertKit_Custom_Content {
 	 * @return mixed|void
 	 */
 	public static function shortcode( $attributes, $content ) {
-		error_log( "\n\nATTRIBUTES: " . print_r( $attributes, true ) );
+		error_log( "\n\nshortcode callback\n" );
+		error_log( "ATTRIBUTES: " . print_r( $attributes, true ) );
 
 		// we only care about the 'tag' attribute.
 		if ( isset( $attributes['tag'] ) ) {
+			$tags = array();
 			$tag = $attributes['tag'];
 
 			$user_id = get_current_user_id();
 			if ( $user_id ) {
 				// user is logged in so get tags from user meta
+				error_log( "shortcode: user logged in, get tags from db" );
 				$tags = get_user_meta( $user_id, 'convertkit_tags', true );
 				$tags = ! empty( $tags ) ? json_decode( $tags, true ) : array();
-				if ( isset( $tags[ $tag ] ) ) {
-					return apply_filters( 'wp_convertkit_shortcode_custom_content', $content, $attributes );
-				}
-			} else {
+			} elseif ( isset($_COOKIE['ck_subscriber_id'] ) ) {
+				error_log( "shortcode: cookie found, calling API" );
+				$api = WP_ConvertKit::get_api();
 				// get cookie and check API for customer tags.
-				return;// apply_filters( 'wp_convertkit_shortcode_custom_content', $content, $attributes );
+				$subscriber_id = absint( $_COOKIE['ck_subscriber_id'] );
+				if ( $subscriber_id ) {
+					$tags = $api->get_subscriber_tags( $subscriber_id );
+				}
+			} elseif ( isset( $_GET['ck_subscriber_id'] ) ) {
+				error_log( "shortcode: URL param found, calling API" );
+				$api = WP_ConvertKit::get_api();
+				// get cookie and check API for customer tags.
+				$subscriber_id = absint( $_GET['ck_subscriber_id'] );
+				if ( $subscriber_id ) {
+					$tags = $api->get_subscriber_tags( $subscriber_id );
+				}
 			}
+
+			if ( isset( $tags[ $tag ] ) ) {
+				return apply_filters( 'wp_convertkit_shortcode_custom_content', $content, $attributes );
+			}
+
 		}
 
-		return;
+		return null;
 
 	}
 

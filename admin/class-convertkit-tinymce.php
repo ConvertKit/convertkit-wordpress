@@ -44,7 +44,6 @@ class ConvertKit_TinyMCE {
 	public function add_tinymce_plugin( $plugins ) {
 
 		$plugins['convertkit_button'] = CONVERTKIT_PLUGIN_URL . 'resources/backend/tinymce-buttons.js?' . time();
-
 		return $plugins;
 	}
 

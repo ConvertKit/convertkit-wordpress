@@ -65,7 +65,27 @@ class ConvertKit_User_History {
 		add_action( 'wp_ajax_ck_add_user_visit', array( $this, 'add_user_history' ) );
 
 		add_action( 'wp_login', array( $this, 'login_action' ), 50, 2 );
+
+		add_action( 'init', array( __CLASS__, 'add_cookie' ), 5 );
 	}
+
+
+	/**
+	 * If the user arrives at the site with a URL parameter of 'ck_subscriber_id' then cookie the user with that value.
+	 *
+	 * @see https://app.convertkit.com/account/edit#email_settings
+	 */
+	public static function add_cookie() {
+
+		if ( isset( $_GET['ck_subscriber_id'] ) ) {
+			$subscriber_id = absint( $_GET['ck_subscriber_id'] );
+			if ( $subscriber_id ) {
+				setcookie( 'ck_subscriber_id', $subscriber_id, 2 * MONTH_IN_SECONDS, COOKIEPATH, COOKIE_DOMAIN );
+			}
+		}
+
+	}
+
 
 	/**
 	 * Track the visitor

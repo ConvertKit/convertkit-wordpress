@@ -1,12 +1,13 @@
 jQuery(document).ready(function($) {
 
+    // Manage visit cookie
     var user = $.cookie( 'ck_visit' );
 
     if ( user ) {
-        console.log( 'found cookie: ' + user );
+        console.log( 'found user cookie: ' + user );
     } else {
         user = 0;
-        console.log('no cookie');
+        console.log('no user cookie');
         console.log('ajax call: ' + ck_data.ajaxurl);
     }
 
@@ -19,13 +20,13 @@ jQuery(document).ready(function($) {
         },
         url: ck_data.ajaxurl,
         success: function (response) {
-            console.log( 'setting cookie' );
+            console.log( 'setting user cookie' );
             $.cookie( 'ck_visit', response, { expires: 365, path: '/' } );
         }
 
     }).fail(function (response) {
         if ( window.console && window.console.log ) {
-            console.log( "ERROR" + response );
+            console.log( "AJAX ERROR" + response );
         }
     });
 
