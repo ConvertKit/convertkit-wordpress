@@ -47,7 +47,7 @@ class ConvertKit_Settings_Custom_Content extends ConvertKit_Settings_Base {
 			$this->settings_key,
 			$this->name
 		);
-		
+
 	}
 
 	/**
@@ -56,20 +56,22 @@ class ConvertKit_Settings_Custom_Content extends ConvertKit_Settings_Base {
 	public function render() {
 		$this->do_settings_sections( $this->settings_key );
 		settings_fields( $this->settings_key );
-		//$this->do_settings_table();
 		submit_button();
 	}
 
 	/**
 	 * Display the page's settings section
+	 *
+	 * @param $page
 	 */
 	function do_settings_sections( $page ) {
 		global $wp_settings_sections, $wp_settings_fields;
 
-		if ( ! isset( $wp_settings_sections[$page] ) )
+		if ( ! isset( $wp_settings_sections[ $page ] ) ) {
 			return;
+		}
 
-		foreach ( (array) $wp_settings_sections[$page] as $section ) {
+		foreach ( (array) $wp_settings_sections[ $page ] as $section ) {
 
 			if ( $section['title'] ) {
 				echo "<h2>{$section['title']}</h2>\n";
@@ -94,13 +96,14 @@ class ConvertKit_Settings_Custom_Content extends ConvertKit_Settings_Base {
 	 * @param $page
 	 * @param $section
 	 */
-	function do_settings_fields($page, $section) {
+	function do_settings_fields( $page, $section ) {
 		global $wp_settings_fields;
 
-		if ( ! isset( $wp_settings_fields[$page][$section] ) )
+		if ( ! isset( $wp_settings_fields[ $page ][ $section ] ) ) {
 			return;
+		}
 
-		foreach ( (array) $wp_settings_fields[$page][$section] as $field ) {
+		foreach ( (array) $wp_settings_fields[ $page ][ $section ] as $field ) {
 			if ( ! strpos( $field['id'], '_' ) ) {
 				$class = '';
 
