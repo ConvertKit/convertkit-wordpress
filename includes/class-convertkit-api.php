@@ -234,6 +234,38 @@ class ConvertKit_API {
 	}
 
 	/**
+	 * @param $subscriber_id
+	 *
+	 * @return int
+	 */
+	public function get_subscriber( $subscriber_id ) {
+		$url = add_query_arg( array(
+			'api_secret' => WP_ConvertKit::get_api_secret(),
+		),
+			'https://api.convertkit.com/v3/subscribers/' . $subscriber_id
+		);
+
+		$this->log( "get_subscriber info for id: " . $subscriber_id );
+
+		$result = $this->get_resource( $url );
+		if ( is_wp_error( $result ) ){
+			$this->log( 'Error getting resource for: ' . $url . '. Error: ' . $result->get_error_messages() );
+			return 0;
+		}
+
+		$result = json_decode( $result );
+
+		if ( isset( $result->subscriber ) ) {
+			$subscriber = $result->subscriber;
+			$this->log( 'Found: (' . $subscriber->id . ') ' . $subscriber->email_address );
+			return $subscriber;
+		}
+
+		// subscriber not found
+		return 0;
+	}
+
+	/**
 	 * Get a list of the tags for a subscriber.
 	 *
 	 * @param $subscriber_id

@@ -256,9 +256,9 @@ class WP_ConvertKit {
 	 */
 	public static function enqueue_scripts() {
 		// TODO replace with version when done with development
-		//wp_enqueue_script( 'convertkit-js', 'resources/frontend/wp-convertkit.js', array(), CONVERTKIT_PLUGIN_VERSION );
-		wp_enqueue_script( 'jquery-cookie', plugin_dir_url( __FILE__ ) . 'resources/frontend/jquery.cookie.min.js', array( 'jquery' ), '1.4.0' );
-		wp_enqueue_script( 'convertkit-js', plugin_dir_url( __FILE__ ) . 'resources/frontend/wp-convertkit.js', array(), time() );
+		//wp_enqueue_script( 'convertkit-js', CONVERTKIT_PLUGIN_URL . '/resources/frontend/wp-convertkit.js', array(), CONVERTKIT_PLUGIN_VERSION );
+		wp_enqueue_script( 'jquery-cookie', CONVERTKIT_PLUGIN_URL . '/resources/frontend/jquery.cookie.min.js', array( 'jquery' ), '1.4.0' );
+		wp_enqueue_script( 'convertkit-js', CONVERTKIT_PLUGIN_URL . '/resources/frontend/wp-convertkit.js', array(), time() );
 		wp_localize_script( 'jquery-cookie', 'ck_data', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) ) );
 	}
 

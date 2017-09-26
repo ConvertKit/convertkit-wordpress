@@ -86,8 +86,8 @@ class ConvertKit_Custom_Content {
 		if ( isset( $attributes['tag'] ) ) {
 			$tags = array();
 			$tag = $attributes['tag'];
-
 			$user_id = get_current_user_id();
+
 			if ( $user_id ) {
 				// user is logged in so get tags from user meta
 				error_log( "shortcode: user logged in, get tags from db" );

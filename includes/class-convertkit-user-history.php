@@ -60,32 +60,46 @@ class ConvertKit_User_History {
 	public function add_actions() {
 
 		// TODO this is the non-js way to track user browsing. doesn't work great with cached sites.
-		//add_action( 'template_redirect', array( $this, 'add_history' ) );
+		add_action( 'the_post', array( $this, 'maybe_tag_subscriber' ), 50 );
 		add_action( 'wp_ajax_nopriv_ck_add_user_visit', array( $this, 'add_user_history' ) );
 		add_action( 'wp_ajax_ck_add_user_visit', array( $this, 'add_user_history' ) );
-
 		add_action( 'wp_login', array( $this, 'login_action' ), 50, 2 );
 
-		add_action( 'init', array( __CLASS__, 'add_cookie' ), 5 );
 	}
-
 
 	/**
 	 * If the user arrives at the site with a URL parameter of 'ck_subscriber_id' then cookie the user with that value.
 	 *
 	 * @see https://app.convertkit.com/account/edit#email_settings
+	 * @param $post
 	 */
-	public static function add_cookie() {
+	public static function maybe_tag_subscriber( $post ) {
 
-		if ( isset( $_GET['ck_subscriber_id'] ) ) {
-			$subscriber_id = absint( $_GET['ck_subscriber_id'] );
-			if ( $subscriber_id ) {
-				setcookie( 'ck_subscriber_id', $subscriber_id, 2 * MONTH_IN_SECONDS, COOKIEPATH, COOKIE_DOMAIN );
+		if ( isset( $_COOKIE['ck_subscriber_id']) && absint( $_COOKIE['ck_subscriber_id'] ) ) {
+			$subscriber_id = absint( $_COOKIE['ck_subscriber_id'] );
+			$api  = WP_ConvertKit::get_api();
+			$meta = get_post_meta( $post->ID, '_wp_convertkit_post_meta', true );
+			$tag  = isset( $meta['tag'] ) ? $meta['tag'] : 0;
+
+			// get subscriber's email to add tag ith
+			$subscriber = $api->get_subscriber( $subscriber_id );
+
+			if ( $subscriber ) {
+				// tag subscriber
+				$args = array(
+					'email' => $subscriber->email_address,
+				);
+
+				if ( $tag ) {
+					$api->add_tag( $tag, $args );
+					$api->log( "tagging subscriber (" . $subscriber_id . ")" . " with tag (" . $tag . ")" );
+				} else {
+					$api->log( "post_id (" . $post->ID . ") not found in user history" );
+				}
 			}
 		}
 
 	}
-
 
 	/**
 	 * Track the visitor
@@ -93,6 +107,7 @@ class ConvertKit_User_History {
 	public function add_user_history() {
 
 		$visitor_cookie = isset( $_POST['user'] ) ? sanitize_text_field( $_POST['user'] ): '';
+		$subscriber_id   = isset( $_POST['subscriber_id'] ) ? sanitize_text_field( $_POST['subscriber_id'] ): '';
 		$user_id        = get_current_user_id();
 		$url            = isset( $_POST['url'] ) ? sanitize_text_field( $_POST['url'] ): '';
 		$ip             = $this->get_user_ip();
@@ -100,24 +115,30 @@ class ConvertKit_User_History {
 
 		error_log( '-------- in add_history ---------' );
 		error_log( 'visitor_cookie: ' . $visitor_cookie );
+		error_log( 'subscriber_id: ' . $subscriber_id );
 		error_log( 'url: ' . $url );
 		error_log( 'user_id: ' . $user_id );
 
 		if ( empty( $visitor_cookie ) ) {
-			$visitor_cookie = md5( time() );  // TODO verify uniqueness
-
+			$visitor_cookie = md5( time() );
 			error_log( 'no user adding one: ' . $visitor_cookie );
 		}
 
 		$this->insert( array(
 			'visitor_cookie' => $visitor_cookie,
 			'user_id'        => $user_id,
+			'subscriber_id'  => $subscriber_id,
 			'url'            => $url,
 			'ip'             => $ip,
 			'date'           => $date,
 		) );
 
-		echo $visitor_cookie;
+		echo json_encode(
+			array(
+				'user' => $visitor_cookie,
+				'subscriber_id' => $subscriber_id,
+			)
+		) ;
 		exit;
 	}
 
@@ -226,9 +247,6 @@ class ConvertKit_User_History {
 		$urls = wp_list_pluck( $visits, 'url' );
 		$urls = array_unique( $urls );
 
-		// get mapping
-		$mapping = isset( $this->options['mapping'] ) ? $this->options['mapping'] : array();
-
 		// get post ids
 		$post_ids = $this->get_post_ids_from_url( $urls );
 
@@ -249,17 +267,7 @@ class ConvertKit_User_History {
 				$api->log( "post_id (" . $post_id . ") not found in user history" );
 			}
 		}
-		/*
-		foreach( $mapping as $post_id => $tag ) {
-			if ( in_array( $post_id, $post_ids ) ) {
-				$api->add_tag( $tag, $args );
-				$api->log( "tagging user (" . $user_id . ")" . " with tag (" . $tag . ")" );
-			} else {
-				$api->log( "post_id (" . $post_id . ") not found in user history" );
-			}
 
-		}
-		*/
 		// delete all rows
 		$this->delete( 'user_id', $user_id, '=' );
 		$this->delete( 'subscriber_id', $subscriber_id, '=' );
