@@ -224,10 +224,10 @@ class ConvertKit_API {
 		if ( $subscribers ) {
 			$subscriber = array_pop( $subscribers );
 			$this->log( 'Found ' . count( $subscribers ) . ' subscribers');
-			$this->log( 'ID ' . $subscriber->id . ') ' . $subscriber->email_address );
+			$this->log( 'ID (' . $subscriber->id . ') ' . $subscriber->email_address );
 			return $subscriber->id;
 		}
-
+		$this->log( 'Subscriber not found with email ' . $email_address);
 		// subscriber not found
 		return 0;
 

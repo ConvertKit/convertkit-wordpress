@@ -81,7 +81,7 @@ class ConvertKit_User_History {
 			$meta = get_post_meta( $post->ID, '_wp_convertkit_post_meta', true );
 			$tag  = isset( $meta['tag'] ) ? $meta['tag'] : 0;
 
-			// get subscriber's email to add tag ith
+			// get subscriber's email to add tag with
 			$subscriber = $api->get_subscriber( $subscriber_id );
 
 			if ( $subscriber ) {
@@ -106,12 +106,21 @@ class ConvertKit_User_History {
 	 */
 	public function add_user_history() {
 
-		$visitor_cookie = isset( $_POST['user'] ) ? sanitize_text_field( $_POST['user'] ): '';
-		$subscriber_id   = isset( $_POST['subscriber_id'] ) ? sanitize_text_field( $_POST['subscriber_id'] ): '';
+		$visitor_cookie = isset( $_POST['user'] ) ? sanitize_text_field( $_POST['user'] ): 0;
+		$subscriber_id   = isset( $_POST['subscriber_id'] ) ? sanitize_text_field( $_POST['subscriber_id'] ): 0;
 		$user_id        = get_current_user_id();
 		$url            = isset( $_POST['url'] ) ? sanitize_text_field( $_POST['url'] ): '';
 		$ip             = $this->get_user_ip();
 		$date           = date( 'Y-m-d H:i:s', time() );
+
+
+		if ( ! $subscriber_id && $user_id ) {
+			$api = WP_ConvertKit::get_api();
+			$user_info = get_userdata( $user_id );
+			$api->log( "Trying to get subscriber_id with email: " .  $user_info->user_email );
+			$subscriber_id = $api->get_subscriber_id( $user_info->user_email );
+		}
+
 
 		error_log( '-------- in add_history ---------' );
 		error_log( 'visitor_cookie: ' . $visitor_cookie );
