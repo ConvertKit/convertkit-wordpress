@@ -2,6 +2,8 @@
 /**
  * ConvertKit Custom Content class
  *
+ * This class handles the Custom Content tab on the Settings > ConvertKit page.
+ *
  * @package ConvertKit
  * @author ConvertKit
  */
@@ -45,41 +47,7 @@ class ConvertKit_Settings_Custom_Content extends ConvertKit_Settings_Base {
 			$this->settings_key,
 			$this->name
 		);
-
-		$pages = get_all_page_ids();
-		$tags = $this->api->get_resources( 'tags' );
-
-		foreach( $pages as $page_id ) {
-
-			$title = get_the_title( $page_id );
-			add_settings_field(
-				sprintf( '%s_title', $page_id ),
-				'Page',
-				array( $this, 'cc_title_callback' ),
-				$this->settings_key,
-				$this->name,
-				array(
-					'page_id'   => $page_id,
-					'page_name' => $title,
-					'sortable'  => true,
-				)
-			);
-
-			add_settings_field(
-				sprintf( '%s_tag', $page_id ),
-				'ConvertKit Tag',
-				array( $this, 'cc_form_callback' ),
-				$this->settings_key,
-				$this->name,
-				array(
-					'page_id'  => $page_id,
-					'tags'     => $tags,
-					'sortable' => false,
-				)
-			);
-
-		}
-
+		
 	}
 
 	/**
@@ -93,44 +61,7 @@ class ConvertKit_Settings_Custom_Content extends ConvertKit_Settings_Base {
 	}
 
 	/**
-	 * Render the settings table. Designed to mimic WP's do_settings_fields
-	 */
-	public function do_settings_table() {
-		global $wp_settings_fields;
-
-		$table   = new Multi_Value_Field_Table;
-		$columns = array();
-		$rows    = array();
-		$fields  = $wp_settings_fields[ $this->settings_key ][ $this->name ];
-
-		foreach ( $fields as $field ) {
-			if ( strpos( $field['id'], '_' ) ) {
-				list( $cf7_form_id, $field_type ) = explode( '_', $field['id'] );
-
-				if ( ! in_array( $field_type, $columns, true ) ) {
-					$table->add_column( $field_type, $field['title'], $field['args']['sortable'] );
-					array_push( $columns, $field_type );
-				}
-
-				if ( ! isset( $rows[ $cf7_form_id ] ) ) {
-					$rows[ $cf7_form_id ] = array();
-				}
-
-				$rows[ $cf7_form_id ][ $field_type ] = call_user_func( $field['callback'], $field['args'] );
-			}
-		}
-
-		foreach ( $rows as $row ) {
-			$table->add_item( $row );
-		}
-
-		$table->prepare_items();
-		$table->display_no_nonce();
-
-	}
-
-	/**
-	 *
+	 * Display the page's settings section
 	 */
 	function do_settings_sections( $page ) {
 		global $wp_settings_sections, $wp_settings_fields;
@@ -157,6 +88,12 @@ class ConvertKit_Settings_Custom_Content extends ConvertKit_Settings_Base {
 		}
 	}
 
+	/**
+	 * Display individual settings fields
+	 *
+	 * @param $page
+	 * @param $section
+	 */
 	function do_settings_fields($page, $section) {
 		global $wp_settings_fields;
 
@@ -207,6 +144,9 @@ class ConvertKit_Settings_Custom_Content extends ConvertKit_Settings_Base {
 
 	}
 
+	/**
+	 * Callback to dispaly the tracking callback
+	 */
 	public function expire_callback() {
 		$value = isset( $this->options['expire'] ) ? esc_attr( $this->options['expire'] ) : '';
 
@@ -232,49 +172,6 @@ class ConvertKit_Settings_Custom_Content extends ConvertKit_Settings_Base {
 	public function print_section_info() {
 		?><p><?php
 		esc_html_e( 'ConvertKit custom content will apply tags to site visitors so you can present them with content based on their browsing history.', 'convertkit' );
-		/*
-		 ?></p><p><?php
-		esc_html_e( 'Select a tag ', 'convertkit' );
-		?></p><?php
-		*/
-	}
-
-	/**
-	 * Display page title in first column
-	 *
-	 * @param  array $args Name argument.
-	 * @return string
-	 */
-	public function cc_title_callback( $args ) {
-		return $args['page_name'];
-	}
-
-	/**
-	 * Display Page to CK tag mapping
-	 *
-	 * @param  array $args Settings to display.
-	 * @return string $html
-	 */
-	public function cc_form_callback( $args ) {
-		$page_id = $args['page_id'];
-		$tags  = $args['tags'];
-
-		$html = sprintf( '<select id="%1$s_%2$s" name="%1$s[mapping][%2$s]">', $this->settings_key, $page_id );
-		$html .= '<option value="0">' . esc_html__( 'None', 'convertkit' ) . '</option>';
-		foreach ( $tags as $tag ) {
-			$selected = '';
-			if ( isset( $this->options[ $page_id ] ) ) {
-				$selected = selected( $this->options[ $page_id ], $tag['id'], false );
-			}
-			$html .=
-				'<option value="' .
-				esc_attr( $tag['id'] ) . '" ' .
-				$selected . '>' .
-				esc_html( $tag['name'] ) . '</option>';
-		}
-		$html .= '</select>';
-
-		return $html;
 	}
 
 	/**
