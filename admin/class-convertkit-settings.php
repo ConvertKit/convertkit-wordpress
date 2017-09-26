@@ -49,10 +49,9 @@ class ConvertKit_Settings {
 		// Funtion to output
 		add_action( 'admin_footer', array( $this, 'add_tags_footer' ) );
 
-		if ( WP_DEBUG ){
+		if ( WP_DEBUG ) {
 			add_action( 'show_user_profile', array( $this, 'add_customer_meta_fields' ) );
 			add_action( 'edit_user_profile', array( $this, 'add_customer_meta_fields' ) );
-
 		}
 	}
 
@@ -253,15 +252,4 @@ class ConvertKit_Settings {
 		</table>
 		<?php
 	}
-}
-
-if ( is_admin() ) {
-	$convertkit_settings = new ConvertKit_Settings();
-
-	include plugin_dir_path( __FILE__ ) . '../lib/class-multi-value-field-table.php';
-	include 'section/class-convertkit-settings-base.php';
-	include 'section/class-convertkit-settings-general.php';
-	include 'section/class-convertkit-settings-wishlist.php';
-	include 'section/class-convertkit-settings-contactform7.php';
-	include 'section/class-convertkit-settings-custom-content.php';
 }

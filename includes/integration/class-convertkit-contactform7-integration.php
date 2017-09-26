@@ -6,7 +6,7 @@
  * @author ConvertKit
  */
 
-require_once plugin_dir_path( __FILE__ ) . '../../lib/class-convertkit-api.php';
+require_once plugin_dir_path( __FILE__ ) . '../class-convertkit-api.php';
 
 /**
  * Class ConvertKit_ContactForm7_Integration
