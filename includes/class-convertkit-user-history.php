@@ -2,7 +2,7 @@
 /**
  * Class ConvertKit_User_History
  *
- * @since 2.0
+ * @since 1.5.0
  */
 class ConvertKit_User_History {
 

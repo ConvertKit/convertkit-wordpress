@@ -63,6 +63,4 @@ class ConvertKit_TinyMCE {
 
 }
 
-if ( is_admin() ) {
-	$convertkit_tinymce = new ConvertKit_TinyMCE();
-}
+new ConvertKit_TinyMCE();

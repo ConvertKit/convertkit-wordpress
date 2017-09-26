@@ -46,7 +46,7 @@ class ConvertKit_Settings {
 
 		// AJAX callback for TinyMCE button to get list of tags
 		add_action( 'wp_ajax_convertkit_get_tags', array( $this, 'get_tags' ) );
-		// Funtion to output
+		// Function to output
 		add_action( 'admin_footer', array( $this, 'add_tags_footer' ) );
 
 		if ( WP_DEBUG ) {

@@ -5,7 +5,6 @@
  * @package ConvertKit
  * @author ConvertKit
  */
-
 ?>
 <table class="form-table">
 	<tbody>
@@ -20,7 +19,6 @@
 						<?php echo $form['name']; // WPCS: XSS ok. ?></option>
 					<?php } ?>
 				</select>
-
 				<p class="description">
 					<?php
 					/* translators: 1: settings url */
@@ -35,7 +33,6 @@
 				</p>
 			</td>
 		</tr>
-
 		<?php if ( 'page' === $post->post_type ) { ?>
 		<tr valign="top">
 			<th scope="row"><label for=""><?php esc_html_e( 'Landing Page', 'convertkit' ); ?></label></th>
@@ -51,7 +48,6 @@
 			</td>
 		</tr>
 		<?php } ?>
-
 		<?php // custom content mapping
 		if ( $show_custom_content ) {
 			$meta_tag = isset( $meta['tag'] ) ? $meta['tag'] : '';
@@ -75,4 +71,3 @@
 </table>
 
 <?php wp_nonce_field( 'wp-convertkit-save-meta', 'wp-convertkit-save-meta-nonce' );
-
