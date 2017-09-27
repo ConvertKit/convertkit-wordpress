@@ -15,7 +15,7 @@ jQuery(document).ready(function($) {
     if ( subscriber_id ) {
         console.log( 'found subscriber_id cookie: ' + subscriber_id );
     } else {
-        subscriber_id = getQueryVariable('ck_subscriber_id');
+        subscriber_id = ckGetQueryVariable('ck_subscriber_id');
         if ( subscriber_id ) {
             console.log( 'found subscriber_id url param: ' + subscriber_id );
         } else {
@@ -58,15 +58,45 @@ jQuery(document).ready(function($) {
         }
     });
 
-    function getQueryVariable(variable)
+    /**
+     * This function will check for the `ck_subscriber_id` query parameter
+     * and if it exists return the value and remove it from the URL.
+     *
+     * @param variable
+     * @returns {*}
+     */
+    function ckGetQueryVariable(variable)
     {
         var query = window.location.search.substring(1);
         var vars = query.split("&");
         for (var i=0;i<vars.length;i++) {
             var pair = vars[i].split("=");
-            if(pair[0] == variable){return pair[1];}
+            if(pair[0] == variable){
+                ckRemoveSubscriberId();
+                return pair[1];
+            }
         }
         return(false);
+    }
+
+    /**
+     * Remove the
+     *
+     * The 'ck_subscriber_id' should only be set on URLs included on
+     * links from a ConvertKit email with no other URL parameters.
+     * This function removes the parameters so a customer won't share
+     * a URL with their subscriber ID in it.
+     *
+     * TODO: Improve this so it preserves other URL parameters
+     *
+     * @param key
+     * @param url
+     */
+    function ckRemoveSubscriberId(key,url)
+    {
+        var clean_url = url.substring(0, url.indexOf("?"));
+        var title = document.getElementsByTagName("title")[0].innerHTML;
+        window.history.pushState( null, title, clean_url );
     }
 
 });

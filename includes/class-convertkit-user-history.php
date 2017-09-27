@@ -59,45 +59,9 @@ class ConvertKit_User_History {
 	 */
 	public function add_actions() {
 
-		// TODO this is the non-js way to track user browsing. doesn't work great with cached sites.
-		add_action( 'the_post', array( $this, 'maybe_tag_subscriber' ), 50 );
 		add_action( 'wp_ajax_nopriv_ck_add_user_visit', array( $this, 'add_user_history' ) );
 		add_action( 'wp_ajax_ck_add_user_visit', array( $this, 'add_user_history' ) );
 		add_action( 'wp_login', array( $this, 'login_action' ), 50, 2 );
-
-	}
-
-	/**
-	 * If the user arrives at the site with a URL parameter of 'ck_subscriber_id' then cookie the user with that value.
-	 *
-	 * @see https://app.convertkit.com/account/edit#email_settings
-	 * @param $post
-	 */
-	public static function maybe_tag_subscriber( $post ) {
-
-		if ( isset( $_COOKIE['ck_subscriber_id']) && absint( $_COOKIE['ck_subscriber_id'] ) ) {
-			$subscriber_id = absint( $_COOKIE['ck_subscriber_id'] );
-			$api  = WP_ConvertKit::get_api();
-			$meta = get_post_meta( $post->ID, '_wp_convertkit_post_meta', true );
-			$tag  = isset( $meta['tag'] ) ? $meta['tag'] : 0;
-
-			// get subscriber's email to add tag with
-			$subscriber = $api->get_subscriber( $subscriber_id );
-
-			if ( $subscriber ) {
-				// tag subscriber
-				$args = array(
-					'email' => $subscriber->email_address,
-				);
-
-				if ( $tag ) {
-					$api->add_tag( $tag, $args );
-					$api->log( "tagging subscriber (" . $subscriber_id . ")" . " with tag (" . $tag . ")" );
-				} else {
-					$api->log( "post_id (" . $post->ID . ") not found in user history" );
-				}
-			}
-		}
 
 	}
 
@@ -120,7 +84,6 @@ class ConvertKit_User_History {
 			$api->log( "Trying to get subscriber_id with email: " .  $user_info->user_email );
 			$subscriber_id = $api->get_subscriber_id( $user_info->user_email );
 		}
-
 
 		error_log( '-------- in add_history ---------' );
 		error_log( 'visitor_cookie: ' . $visitor_cookie );

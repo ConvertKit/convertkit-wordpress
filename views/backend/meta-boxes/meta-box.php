@@ -53,7 +53,7 @@
 			$meta_tag = isset( $meta['tag'] ) ? $meta['tag'] : '';
 			?>
 		<tr valign="top">
-			<th scope="row"><label for=""><?php esc_html_e( 'Custom Content', 'convertkit' ); ?></label></th>
+			<th scope="row"><label for=""><?php esc_html_e( 'Add a Tag', 'convertkit' ); ?></label></th>
 			<td>
 				<select name="wp-convertkit[tag]" id="wp-convertkit-tag">
 					<option <?php selected( '', $meta_tag ); ?> value="0"><?php _e( 'None', 'convertkit' ); // WPCS: XSS ok. ?></option>
