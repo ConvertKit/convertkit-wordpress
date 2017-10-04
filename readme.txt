@@ -1,10 +1,10 @@
 === ConvertKit ===
-Contributors: nathanbarry, davidlamarwheeler, growdev, nickohrn
+Contributors: nathanbarry, growdev
 Donate link: https://convertkit.com
 Tags: email, marketing, embed form, convertkit, capture
 Requires at least: 3.6
-Tested up to: 4.8
-Stable tag: 1.4.9
+Tested up to: 4.8.2
+Stable tag: 1.4.10
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -43,6 +43,12 @@ Yes, for it to work you must first have an account on ConvertKit.com
 2. Add stunning landing pages
 
 == Changelog ==
+
+### 1.4.10 2017-10-04
+* Removed transient for API calls.
+* Changed widget to use option setting instead of making API call.
+* Reduced number of API calls while site is being browsed.
+* Updated contributors
 
 ### 1.4.9 2017-07-24
 * Fix _get_meta_defaults() because Posts and Pages set to Default were not showing forms.
