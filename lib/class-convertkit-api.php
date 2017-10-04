@@ -122,12 +122,15 @@ class ConvertKit_API {
 
 				if ( 'forms' === $resource ) {
 					$response = isset( $api_response['forms'] ) ? $api_response['forms'] : array();
+					$forms = array();
 					foreach ( $response as $form ) {
 						if ( isset( $form['archived'] ) && $form['archived'] ) {
 							continue;
 						}
 						$_resource[] = $form;
+						$forms[ $form['id'] ] = $form['name'];
 					}
+					update_option( 'convertkit_forms', $forms );
 				} elseif ( 'landing_pages' === $resource ) {
 
 					$response = isset( $api_response['forms'] ) ? $api_response['forms'] : array();
@@ -289,44 +292,35 @@ class ConvertKit_API {
 
 		$this->log( 'API Request (_get_api_response): ' . $url );
 
-		$data = get_transient( 'convertkit_get_api_response_' . $path );
+		$response = wp_remote_get(
+			$url,
+			array(
+				'timeout' => 10,
+				'Accept-Encoding' => 'gzip',
+				'sslverify' => false,
+			)
+		);
 
-		if ( ! $data ) {
+		if ( is_wp_error( $response ) ) {
+			$this->log( 'Error: ' . $response->get_error_message() );
 
-			$response = wp_remote_get(
-				$url,
-				array(
-					'timeout' => 10,
-					'Accept-Encoding' => 'gzip',
-					'sslverify' => false,
-				)
+			return array(
+				'error' => $response->get_error_message(),
 			);
+		} else {
 
-			if ( is_wp_error( $response ) ) {
-				$this->log( 'Error: ' . $response->get_error_message() );
-
-				return array(
-					'error' => $response->get_error_message(),
-				);
-			} else {
-
-				// Maybe inflate response body.
-				// @see https://wordpress.stackexchange.com/questions/10088/how-do-i-troubleshoot-responses-with-wp-http-api
-				$inflate = @gzinflate( $response['body'] );
-				if( false !== $inflate ) {
-					$response['body'] = $inflate;
-				}
-
-				$body = wp_remote_retrieve_body( $response );
-				$data = json_decode( $body, true );
+			// Maybe inflate response body.
+			// @see https://wordpress.stackexchange.com/questions/10088/how-do-i-troubleshoot-responses-with-wp-http-api
+			$inflate = @gzinflate( $response['body'] );
+			if( false !== $inflate ) {
+				$response['body'] = $inflate;
 			}
 
-			set_transient( 'convertkit_get_api_response_' . $path , $data, 300 );
-
-			$this->log( 'API Response (_get_api_response): ' . $body );
-		} else {
-			$this->log( 'Transient Response ' . $path . ' (_get_api_response)' );
+			$body = wp_remote_retrieve_body( $response );
+			$data = json_decode( $body, true );
 		}
+
+		$this->log( 'API Response (_get_api_response): ' . $body );
 
 		return $data;
 	}
