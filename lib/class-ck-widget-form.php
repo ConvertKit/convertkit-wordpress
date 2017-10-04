@@ -63,6 +63,9 @@ class CK_Widget_Form extends WP_Widget {
 		$this->widget_description = __( 'Display a ConvertKit form.', 'convertkit' );
 		$this->widget_id          = 'convertkit_form';
 		$this->widget_name        = __( 'ConvertKit Form', 'convertkit' );
+
+		$forms                    = get_option( 'convertkit_forms', array() );
+
 		$this->settings           = array(
 			'title'  => array(
 				'type'  => 'text',
@@ -73,7 +76,7 @@ class CK_Widget_Form extends WP_Widget {
 				'type'    => 'select',
 				'std'     => '',
 				'label'   => __( 'Form', 'convertkit' ),
-				'options' => $this->get_forms(),
+				'options' => $forms,
 			),
 		);
 
@@ -287,26 +290,6 @@ class CK_Widget_Form extends WP_Widget {
 		}
 
 		return $instance;
-	}
-
-	/**
-	 * Get Forms from API
-	 *
-	 * @return array
-	 */
-	public function get_forms() {
-
-		$api = WP_ConvertKit::get_api();
-		$forms_array = array();
-
-		if ( $api && ! is_wp_error( $api ) ) {
-			$forms = $api->get_resources( 'forms' );
-			foreach ( $forms as $form ) {
-				$forms_array[ $form['id'] ] = $form['name'];
-			}
-		}
-
-		return $forms_array;
 	}
 
 }

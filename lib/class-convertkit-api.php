@@ -122,12 +122,15 @@ class ConvertKit_API {
 
 				if ( 'forms' === $resource ) {
 					$response = isset( $api_response['forms'] ) ? $api_response['forms'] : array();
+					$forms = array();
 					foreach ( $response as $form ) {
 						if ( isset( $form['archived'] ) && $form['archived'] ) {
 							continue;
 						}
 						$_resource[] = $form;
+						$forms[ $form['id'] ] = $form['name'];
 					}
+					update_option( 'convertkit_forms', $forms );
 				} elseif ( 'landing_pages' === $resource ) {
 
 					$response = isset( $api_response['forms'] ) ? $api_response['forms'] : array();
@@ -316,8 +319,6 @@ class ConvertKit_API {
 			$body = wp_remote_retrieve_body( $response );
 			$data = json_decode( $body, true );
 		}
-
-		set_transient( 'convertkit_get_api_response_' . $path , $data, 300 );
 
 		$this->log( 'API Response (_get_api_response): ' . $body );
 
