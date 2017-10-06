@@ -423,7 +423,7 @@ class ConvertKit_API {
 			$data = json_decode( $body, true );
 		}
 
-		$this->log( 'API Response (_get_api_response): ' . $body );
+		//$this->log( 'API Response (_get_api_response): ' . $body );
 
 		return $data;
 	}

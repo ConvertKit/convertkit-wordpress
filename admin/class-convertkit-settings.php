@@ -165,7 +165,6 @@ class ConvertKit_Settings {
 		$this->register_section( 'ConvertKit_Settings_General' );
 		$this->register_section( 'ConvertKit_Settings_Wishlist' );
 		$this->register_section( 'ConvertKit_Settings_ContactForm7' );
-		$this->register_section( 'ConvertKit_Settings_Custom_Content' );
 	}
 
 	/**

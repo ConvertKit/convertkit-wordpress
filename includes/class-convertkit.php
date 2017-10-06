@@ -143,12 +143,6 @@ class WP_ConvertKit {
 
 		$meta = self::_get_meta( $post->ID );
 		$settings_link = self::_get_settings_page_link();
-		$content_settings = get_option( '_wp_convertkit_integration_custom_content_settings' );
-		if ( is_array( $content_settings ) && isset( $content_settings['enable'] ) && 'on' === $content_settings['enable'] ) {
-			$show_custom_content = true;
-		} else {
-			$show_custom_content = false;
-		}
 
 		include( CONVERTKIT_PLUGIN_PATH . '/views/backend/meta-boxes/meta-box.php' );
 	}
@@ -180,9 +174,9 @@ class WP_ConvertKit {
 				$tag = sanitize_text_field( wp_unslash( $_POST['wp-convertkit']['tag'] ) ); // WPCS input var okay.
 			}
 			// Update global mapping
-			$content_settings = get_option( '_wp_convertkit_integration_custom_content_settings', array() );
-			$content_settings['mapping'][ $post_id ] = $tag;
-			update_option( '_wp_convertkit_integration_custom_content_settings', $content_settings );
+			//$content_settings = get_option( '_wp_convertkit_integration_custom_content_settings', array() );
+			//$content_settings['mapping'][ $post_id ] = $tag;
+			//update_option( '_wp_convertkit_integration_custom_content_settings', $content_settings );
 
 			$meta = array(
 				'form' => $form,

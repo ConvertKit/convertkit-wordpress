@@ -49,7 +49,6 @@
 		</tr>
 		<?php } ?>
 		<?php // custom content mapping
-		if ( $show_custom_content ) {
 			$meta_tag = isset( $meta['tag'] ) ? $meta['tag'] : '';
 			?>
 		<tr valign="top">
@@ -66,7 +65,6 @@
 				<p class="description"><?php esc_html_e( 'Select a tag to apply to viewers of this page.', 'convertkit' ); ?></p>
 			</td>
 		</tr>
-		<?php } ?>
 	</tbody>
 </table>
 

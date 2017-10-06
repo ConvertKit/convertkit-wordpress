@@ -72,7 +72,7 @@ jQuery(document).ready(function($) {
         for (var i=0;i<vars.length;i++) {
             var pair = vars[i].split("=");
             if(pair[0] == variable){
-                ckRemoveSubscriberId();
+                ckRemoveSubscriberId( window.location.href );
                 return pair[1];
             }
         }
@@ -94,6 +94,7 @@ jQuery(document).ready(function($) {
      */
     function ckRemoveSubscriberId(key,url)
     {
+        url = window.location.href;
         var clean_url = url.substring(0, url.indexOf("?"));
         var title = document.getElementsByTagName("title")[0].innerHTML;
         window.history.pushState( null, title, clean_url );
