@@ -88,11 +88,10 @@ class ConvertKit_Custom_Content {
 		$ip             = $this->get_user_ip();
 		$date           = date( 'Y-m-d H:i:s', time() );
 
-
 		if ( ! $subscriber_id && $user_id ) {
 			$api = WP_ConvertKit::get_api();
 			$user_info = get_userdata( $user_id );
-			WP_ConvertKit::log( "Trying to get subscriber_id with email: " .  $user_info->user_email );
+			WP_ConvertKit::log( 'Trying to get subscriber_id with email: ' . $user_info->user_email );
 			$subscriber_id = $api->get_subscriber_id( $user_info->user_email );
 		}
 
@@ -121,7 +120,7 @@ class ConvertKit_Custom_Content {
 				'user' => $visitor_cookie,
 				'subscriber_id' => $subscriber_id,
 			)
-		) ;
+		);
 		exit;
 	}
 
@@ -133,7 +132,7 @@ class ConvertKit_Custom_Content {
 		$email   = isset( $_POST['email'] ) ? sanitize_text_field( $_POST['email'] ): 0;
 
 		$api = WP_ConvertKit::get_api();
-		WP_ConvertKit::log( "Trying to get subscriber_id with email: " .  $email );
+		WP_ConvertKit::log( 'Trying to get subscriber_id with email: ' . $email );
 		$subscriber_id = $api->get_subscriber_id( $email );
 
 		WP_ConvertKit::log( '-------- in get_subscriber ---------' );
@@ -144,7 +143,7 @@ class ConvertKit_Custom_Content {
 			array(
 				'subscriber_id' => $subscriber_id,
 			)
-		) ;
+		);
 		exit;
 	}
 
@@ -165,21 +164,21 @@ class ConvertKit_Custom_Content {
 			$api = WP_ConvertKit::get_api();
 
 			if ( isset( $_COOKIE['ck_subscriber_id'] ) ) {
-				WP_ConvertKit::log( "shortcode: cookie found, calling API" );
+				WP_ConvertKit::log( 'shortcode: cookie found, calling API' );
 				// get cookie and check API for customer tags.
 				$subscriber_id = absint( $_COOKIE['ck_subscriber_id'] );
 				if ( $subscriber_id ) {
 					$tags = $api->get_subscriber_tags( $subscriber_id );
 				}
 			} elseif ( isset( $_COOKIE['ck_subscriber_id'] ) ) {
-				WP_ConvertKit::log( "shortcode: cookie param found, calling API" );
+				WP_ConvertKit::log( 'shortcode: cookie param found, calling API' );
 				// get cookie and check API for customer tags.
 				$subscriber_id = absint( $_GET['ck_subscriber_id'] );
 				if ( $subscriber_id ) {
 					$tags = $api->get_subscriber_tags( $subscriber_id );
 				}
 			} elseif ( isset( $_GET['ck_subscriber_id'] ) ) {
-				WP_ConvertKit::log( "shortcode: URL param found, calling API" );
+				WP_ConvertKit::log( 'shortcode: URL param found, calling API' );
 				// get cookie and check API for customer tags.
 				$subscriber_id = absint( $_GET['ck_subscriber_id'] );
 				if ( $subscriber_id ) {
@@ -190,11 +189,8 @@ class ConvertKit_Custom_Content {
 			if ( isset( $tags[ $tag ] ) ) {
 				return apply_filters( 'wp_convertkit_shortcode_custom_content', $content, $attributes );
 			}
-
 		}
-
 		return null;
-
 	}
 
 	/**
@@ -205,7 +201,7 @@ class ConvertKit_Custom_Content {
 	 */
 	public static function maybe_tag_subscriber( $post ) {
 
-		if ( isset( $_COOKIE['ck_subscriber_id']) && absint( $_COOKIE['ck_subscriber_id'] ) ) {
+		if ( isset( $_COOKIE['ck_subscriber_id'] ) && absint( $_COOKIE['ck_subscriber_id'] ) ) {
 			$subscriber_id = absint( $_COOKIE['ck_subscriber_id'] );
 			$api  = WP_ConvertKit::get_api();
 			$meta = get_post_meta( $post->ID, '_wp_convertkit_post_meta', true );
@@ -222,9 +218,9 @@ class ConvertKit_Custom_Content {
 
 				if ( $tag ) {
 					$api->add_tag( $tag, $args );
-					WP_ConvertKit::log( "tagging subscriber (" . $subscriber_id . ")" . " with tag (" . $tag . ")" );
+					WP_ConvertKit::log( 'tagging subscriber (' . $subscriber_id . ')' . ' with tag (' . $tag . ')' );
 				} else {
-					WP_ConvertKit::log( "post_id (" . $post->ID . ") not found in user history" );
+					WP_ConvertKit::log( 'post_id (' . $post->ID . ') not found in user history' );
 				}
 			}
 		}
@@ -254,9 +250,6 @@ class ConvertKit_Custom_Content {
 			update_user_meta( $user->ID, 'convertkit_tags', json_encode( $tags ) );
 		}
 
-
-		//$subscriber_id = get_user_meta( $user->ID, 'convertkit_subscriber_id', true );
-
 		if ( isset( $_COOKIE['ck_visit'] ) ) {
 			$user_cookie = sanitize_text_field( $_COOKIE['ck_visit'] );
 			$this->associate_history_with_user( $user_cookie, $subscriber_id, $user->ID );
@@ -269,7 +262,6 @@ class ConvertKit_Custom_Content {
 		$tags = $api->get_subscriber_tags( $subscriber_id );
 		update_user_meta( $user->ID, 'convertkit_tags', json_encode( $tags ) );
 
-
 	}
 
 	/**
@@ -279,11 +271,11 @@ class ConvertKit_Custom_Content {
 	 */
 	public function associate_history_with_user( $cookie, $subscriber_id = 0, $user_id = 0 ) {
 
-		if( $user_id ){
+		if ( $user_id ) {
 			$this->update( 'user_id', strval( $user_id ), 'visitor_cookie', $cookie );
 		}
 
-		if( $subscriber_id ){
+		if ( $subscriber_id ) {
 			$this->update( 'subscriber_id', strval( $subscriber_id ), 'visitor_cookie', $cookie );
 		}
 	}
@@ -295,7 +287,7 @@ class ConvertKit_Custom_Content {
 
 		$expire_months = isset( $this->options['expire'] ) ? absint( $this->options['expire'] ) : 4 ;
 		$expire_range = apply_filters( 'convertkit_user_history_expire', $expire_months );
-		$expire_date = date( 'Y-m-d H:i:s', strtotime( '-' . $expire_range .' months' ) );
+		$expire_date = date( 'Y-m-d H:i:s', strtotime( '-' . $expire_range . ' months' ) );
 		$rows = $this->delete( 'date', $expire_date, '<' );
 
 	}
@@ -305,21 +297,16 @@ class ConvertKit_Custom_Content {
 	 * @see https://stackoverflow.com/questions/13646690/how-to-get-real-ip-from-visitor
 	 * @return mixed
 	 */
-	public function get_user_ip(){
+	public function get_user_ip() {
 		$client  = @$_SERVER['HTTP_CLIENT_IP'];
 		$forward = @$_SERVER['HTTP_X_FORWARDED_FOR'];
 		$remote  = $_SERVER['REMOTE_ADDR'];
 
-		if(filter_var($client, FILTER_VALIDATE_IP))
-		{
+		if ( filter_var( $client, FILTER_VALIDATE_IP ) ) {
 			$ip = $client;
-		}
-		elseif(filter_var($forward, FILTER_VALIDATE_IP))
-		{
+		} elseif ( filter_var( $forward, FILTER_VALIDATE_IP ) ) {
 			$ip = $forward;
-		}
-		else
-		{
+		} else {
 			$ip = $remote;
 		}
 
@@ -361,14 +348,14 @@ class ConvertKit_Custom_Content {
 			'email' => $user_email,
 		);
 
-		foreach( $post_ids as $post_id ) {
+		foreach ( $post_ids as $post_id ) {
 			$meta = get_post_meta( $post_id, '_wp_convertkit_post_meta', true );
 			$tag = isset( $meta['tag'] ) ? $meta['tag'] : 0;
 			if ( $tag ) {
 				$api->add_tag( $tag, $args );
-				WP_ConvertKit::log( "tagging user (" . $user_id . ")" . " with tag (" . $tag . ")" );
+				WP_ConvertKit::log( 'tagging user (' . $user_id . ')' . ' with tag (' . $tag . ')' );
 			} else {
-				WP_ConvertKit::log( "post_id (" . $post_id . ") not found in user history" );
+				WP_ConvertKit::log( 'post_id (' . $post_id . ') not found in user history' );
 			}
 		}
 
@@ -430,7 +417,7 @@ class ConvertKit_Custom_Content {
 	 *
 	 * @return false|int
 	 */
-	private function get( $field, $value, $operator ){
+	private function get( $field, $value, $operator ) {
 		global $wpdb;
 
 		$table_name = $wpdb->prefix . 'convertkit_user_history';
@@ -475,7 +462,7 @@ class ConvertKit_Custom_Content {
 		global $wpdb;
 
 		$table_name = $wpdb->prefix . 'convertkit_user_history';
-		$sql = 'DELETE from ' . $table_name . ' WHERE ' . $column . ' ' . $operator .  ' \'' . $value . '\'';
+		$sql = 'DELETE from ' . $table_name . ' WHERE ' . $column . ' ' . $operator . ' \'' . $value . '\'';
 		$rows = $wpdb->query( $sql );
 
 		return $rows;
@@ -494,7 +481,7 @@ class ConvertKit_Custom_Content {
 		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 
 		$table_name = $wpdb->prefix . 'convertkit_user_history';
-		$sql = "CREATE TABLE " . $table_name . " (
+		$sql = 'CREATE TABLE ' . $table_name . ' (
 			visit_id bigint(20) NOT NULL AUTO_INCREMENT,
 			visitor_cookie mediumtext NOT NULL,
 			user_id bigint(20) NOT NULL,
@@ -503,7 +490,7 @@ class ConvertKit_Custom_Content {
 			ip tinytext NOT NULL,
 			date datetime NOT NULL,
 			PRIMARY KEY  (visit_id)
-			) CHARACTER SET utf8 COLLATE utf8_general_ci;";
+			) CHARACTER SET utf8 COLLATE utf8_general_ci;';
 
 		dbDelta( $sql );
 
