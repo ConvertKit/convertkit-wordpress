@@ -336,7 +336,7 @@ class ConvertKit_API {
 				// Maybe inflate response body.
 				// @see https://wordpress.stackexchange.com/questions/10088/how-do-i-troubleshoot-responses-with-wp-http-api
 				$inflate = @gzinflate( $response['body'] );
-				if( false !== $inflate ) {
+				if( $inflate ) {
 					$response['body'] = $inflate;
 				}
 
@@ -414,7 +414,7 @@ class ConvertKit_API {
 			// Maybe inflate response body.
 			// @see https://wordpress.stackexchange.com/questions/10088/how-do-i-troubleshoot-responses-with-wp-http-api
 			$inflate = @gzinflate( $response['body'] );
-			if( false !== $inflate ) {
+			if( $inflate ) {
 				$response['body'] = $inflate;
 			}
 
