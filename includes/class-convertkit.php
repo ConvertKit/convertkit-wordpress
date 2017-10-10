@@ -423,6 +423,26 @@ class WP_ConvertKit {
 		return add_query_arg( $query_args, admin_url( 'options-general.php' ) );
 	}
 
+
+	/**
+	 * Output data to log file
+	 *
+	 * @param string $message String to add to log.
+	 */
+	static function log( $message ) {
+
+		if ( 'on' === self::_get_settings( 'debug' ) ) {
+			$dir = CONVERTKIT_PLUGIN_PATH;
+			$handle = fopen( trailingslashit( $dir ) . 'log.txt', 'a' );
+			if ( $handle ) {
+				$time   = date_i18n( 'm-d-Y @ H:i:s -' );
+				fwrite( $handle, $time . ' ' . $message . "\n" );
+				fclose( $handle );
+			}
+		}
+
+	}
+
 	/**
 	 * Run version specific upgrade.
 	 */

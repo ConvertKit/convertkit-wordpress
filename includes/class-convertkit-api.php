@@ -211,11 +211,11 @@ class ConvertKit_API {
 			'https://api.convertkit.com/v3/subscribers'
 		);
 
-		$this->log( "get_subscriber_id for: " . $email_address );
+		WP_ConvertKit::log( "get_subscriber_id for: " . $email_address );
 
 		$result = $this->get_resource( $url );
 		if ( is_wp_error( $result ) ){
-			$this->log( 'Error getting resource for: ' . $url . '. Error: ' . $result->get_error_messages() );
+			WP_ConvertKit::log( 'Error getting resource for: ' . $url . '. Error: ' . $result->get_error_messages() );
 			return 0;
 		}
 
@@ -224,11 +224,11 @@ class ConvertKit_API {
 		$subscribers = is_array( $subs->subscribers ) ? $subs->subscribers : array();
 		if ( $subscribers ) {
 			$subscriber = array_pop( $subscribers );
-			$this->log( 'Found ' . count( $subscribers ) . ' subscribers');
-			$this->log( 'ID (' . $subscriber->id . ') ' . $subscriber->email_address );
+			WP_ConvertKit::log( 'Found ' . count( $subscribers ) . ' subscribers');
+			WP_ConvertKit::log( 'ID (' . $subscriber->id . ') ' . $subscriber->email_address );
 			return $subscriber->id;
 		}
-		$this->log( 'Subscriber not found with email ' . $email_address);
+		WP_ConvertKit::log( 'Subscriber not found with email ' . $email_address);
 		// subscriber not found
 		return 0;
 
@@ -246,11 +246,11 @@ class ConvertKit_API {
 			'https://api.convertkit.com/v3/subscribers/' . $subscriber_id
 		);
 
-		$this->log( "get_subscriber info for id: " . $subscriber_id );
+		WP_ConvertKit::log( "get_subscriber info for id: " . $subscriber_id );
 
 		$result = $this->get_resource( $url );
 		if ( is_wp_error( $result ) ){
-			$this->log( 'Error getting resource for: ' . $url . '. Error: ' . $result->get_error_messages() );
+			WP_ConvertKit::log( 'Error getting resource for: ' . $url . '. Error: ' . $result->get_error_messages() );
 			return 0;
 		}
 
@@ -258,7 +258,7 @@ class ConvertKit_API {
 
 		if ( isset( $result->subscriber ) ) {
 			$subscriber = $result->subscriber;
-			$this->log( 'Found: (' . $subscriber->id . ') ' . $subscriber->email_address );
+			WP_ConvertKit::log( 'Found: (' . $subscriber->id . ') ' . $subscriber->email_address );
 			return $subscriber;
 		}
 
@@ -280,20 +280,20 @@ class ConvertKit_API {
 			'https://api.convertkit.com/v3/subscribers/' . $subscriber_id . '/tags'
 		);
 
-		$this->log( 'get_subscriber_tags for: ' . $subscriber_id );
+		WP_ConvertKit::log( 'get_subscriber_tags for: ' . $subscriber_id );
 
 		$result = $this->get_resource( $url );
 		if ( is_wp_error( $result ) ){
-			$this->log( 'Error getting resource for: ' . $url . '. Error: ' . $result->get_error_messages() );
+			WP_ConvertKit::log( 'Error getting resource for: ' . $url . '. Error: ' . $result->get_error_messages() );
 			return array();
 		}
 		$result = json_decode( $result );
 		$tags = isset( $result->tags ) ? $result->tags : array();
 
 		if ( empty( $tags ) ){
-			$this->log( 'No tags found for customer.' );
+			WP_ConvertKit::log( 'No tags found for customer.' );
 		} else {
-			$this->log( 'Found ' . count( $tags ) . 'tags for subscriber');
+			WP_ConvertKit::log( 'Found ' . count( $tags ) . 'tags for subscriber');
 			$tags = wp_list_pluck( $tags, 'name', 'id' );
 		}
 
@@ -313,7 +313,7 @@ class ConvertKit_API {
 		if ( ! empty( $url ) && isset( $this->markup[ $url ] ) ) {
 			$resource = $this->markup[ $url ];
 		} elseif ( ! empty( $url ) ) {
-			$this->log( 'API Request (get_resource): ' . $url );
+			WP_ConvertKit::log( 'API Request (get_resource): ' . $url );
 
 			$response = wp_remote_get(
 				$url,
@@ -368,10 +368,10 @@ class ConvertKit_API {
 					$resource = $html->save();
 					$this->markup[ $url ] = $resource;
 				} else {
-					$this->log( 'Status Code (' . $response['response']['code'] . ') for URL (' . $url . '): ' . $html->save() );
+					WP_ConvertKit::log( 'Status Code (' . $response['response']['code'] . ') for URL (' . $url . '): ' . $html->save() );
 				}
 			} else {
-				$this->log( 'API Response was WP_Error (get_resource): ' .
+				WP_ConvertKit::log( 'API Response was WP_Error (get_resource): ' .
 				            'Code: ' . $response->get_error_code() . ' ' .
 				            'Message: ' . $response->get_error_message() );
 			} // End if().
@@ -404,7 +404,7 @@ class ConvertKit_API {
 		);
 
 		if ( is_wp_error( $response ) ) {
-			$this->log( 'Error: ' . $response->get_error_message() );
+			WP_ConvertKit::log( 'Error: ' . $response->get_error_message() );
 
 			return array(
 				'error' => $response->get_error_message(),
@@ -422,8 +422,6 @@ class ConvertKit_API {
 			$data = json_decode( $body, true );
 		}
 
-		//$this->log( 'API Response (_get_api_response): ' . $body );
-
 		return $data;
 	}
 
@@ -437,7 +435,7 @@ class ConvertKit_API {
 	 */
 	private function make_request( $request, $method, $args = array() ) {
 
-		$this->log( 'API Request (make_request): ' . $request . ' Args: ' . wp_json_encode( $args ) );
+		WP_ConvertKit::log( 'API Request (make_request): ' . $request . ' Args: ' . wp_json_encode( $args ) );
 
 		$url = $this->api_url_base . $request;
 
@@ -454,34 +452,15 @@ class ConvertKit_API {
 		$result = wp_remote_request( $url, $settings );
 
 		if ( is_wp_error( $result ) ) {
-			$this->log( 'API Response (make_request): WPError: ' . $result->get_error_message() );
+			WP_ConvertKit::log( 'API Response (make_request): WPError: ' . $result->get_error_message() );
 		} elseif ( isset( $result['response']['code'] ) && '200' === $result['response']['code'] ) {
 			if ( isset( $result['body'] ) ) {
-				$this->log( 'API Response (make_request): ' . $result['body'] );
+				WP_ConvertKit::log( 'API Response (make_request): ' . $result['body'] );
 			} else {
-				$this->log( 'API Response (make_request): Response code 200, but body is not set.' );
+				WP_ConvertKit::log( 'API Response (make_request): Response code 200, but body is not set.' );
 			}
 		} else {
-			$this->log( 'API Response (make_request): Result code: ' . $result['response']['code'] . ' ' . $result['response']['message'] );
-		}
-
-	}
-
-	/**
-	 * Output data to log file
-	 *
-	 * @param string $message String to add to log.
-	 */
-	public function log( $message ) {
-
-		if ( 'on' === $this->debug ) {
-			$dir = dirname( __FILE__ );
-			$handle = fopen( trailingslashit( $dir ) . 'log.txt', 'a' );
-			if ( $handle ) {
-				$time   = date_i18n( 'm-d-Y @ H:i:s -' );
-				fwrite( $handle, $time . ' ' . $message . "\n" );
-				fclose( $handle );
-			}
+			WP_ConvertKit::log( 'API Response (make_request): Result code: ' . $result['response']['code'] . ' ' . $result['response']['message'] );
 		}
 
 	}
