@@ -20,7 +20,6 @@ define( 'CONVERTKIT_PLUGIN_VERSION', '1.5.0' );
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-api.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-ck-widget-form.php';
-require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-user-history.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-custom-content.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/integration/class-convertkit-wishlist-integration.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/integration/class-convertkit-contactform7-integration.php';
