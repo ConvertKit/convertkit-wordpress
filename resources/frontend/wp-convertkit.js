@@ -24,6 +24,9 @@ jQuery(document).ready(function($) {
         }
     }
 
+    /**
+     * On each page add a user visit to the table.
+     */
     $.ajax({
         type: "POST",
         data: {
@@ -36,7 +39,7 @@ jQuery(document).ready(function($) {
         success: function (response) {
 
             var values = JSON.parse(response);
-
+            console.log( values );
             console.log('user cookie ' + values.user );
             if (0 != values.user) {
                 $.cookie('ck_visit', values.user, {expires: 365, path: '/'});
@@ -80,14 +83,12 @@ jQuery(document).ready(function($) {
     }
 
     /**
-     * Remove the
+     * Remove the url subscriber_id url param
      *
      * The 'ck_subscriber_id' should only be set on URLs included on
      * links from a ConvertKit email with no other URL parameters.
      * This function removes the parameters so a customer won't share
      * a URL with their subscriber ID in it.
-     *
-     * TODO: Improve this so it preserves other URL parameters
      *
      * @param key
      * @param url
@@ -98,6 +99,60 @@ jQuery(document).ready(function($) {
         var clean_url = url.substring(0, url.indexOf("?"));
         var title = document.getElementsByTagName("title")[0].innerHTML;
         window.history.pushState( null, title, clean_url );
+    }
+
+    /**
+     * When a ConvertKit form is submitted grab the email address
+     * and do an API call to get the ck_subscriber_id.
+     * If found add cookie.
+     *
+     */
+    jQuery("#ck_subscribe_button").click( function() {
+
+        var email = jQuery("#ck_emailField").val();
+
+        sleep( 2000 );
+
+        $.ajax({
+            type: "POST",
+            data: {
+                action: 'ck_get_subscriber',
+                email: email
+            },
+            url: ck_data.ajaxurl,
+            success: function (response) {
+
+                var values = JSON.parse(response);
+                console.log( values );
+                console.log('subscriber_id: ' + values.subscriber_id);
+
+                if ( 0 != values.subscriber_id) {
+                    $.cookie('ck_subscriber_id', values.subscriber_id, {expires: 365, path: '/'});
+                } else {
+                    console.log('not setting subscriber cookie');
+                }
+            }
+
+        }).fail(function (response) {
+            if ( window.console && window.console.log ) {
+                console.log( "AJAX ERROR" + response );
+            }
+        });
+
+
+    });
+
+    /**
+     * Utility function to hold off ajax call
+     * @param milliseconds
+     */
+    function sleep(milliseconds) {
+        var start = new Date().getTime();
+        for (var i = 0; i < 1e7; i++) {
+            if ((new Date().getTime() - start) > milliseconds){
+                break;
+            }
+        }
     }
 
 });
