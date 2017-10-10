@@ -206,6 +206,7 @@ class ConvertKit_API {
 		$url = add_query_arg( array(
 			'api_secret' => WP_ConvertKit::get_api_secret(),
 			'email_address' => $email_address,
+			'status' => 'all',
 		),
 			'https://api.convertkit.com/v3/subscribers'
 		);
@@ -392,8 +393,6 @@ class ConvertKit_API {
 		);
 		$api_path = $this->api_url_base . $this->api_version;
 		$url = add_query_arg( $args, path_join( $api_path, $path ) );
-
-		$this->log( 'API Request (_get_api_response): ' . $url );
 
 		$response = wp_remote_get(
 			$url,
