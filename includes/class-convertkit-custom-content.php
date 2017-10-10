@@ -96,15 +96,15 @@ class ConvertKit_Custom_Content {
 			$subscriber_id = $api->get_subscriber_id( $user_info->user_email );
 		}
 
-		error_log( '-------- in add_history ---------' );
-		error_log( 'visitor_cookie: ' . $visitor_cookie );
-		error_log( 'subscriber_id: ' . $subscriber_id );
-		error_log( 'url: ' . $url );
-		error_log( 'user_id: ' . $user_id );
+		WP_ConvertKit::log( '-------- in add_history ---------' );
+		WP_ConvertKit::log( 'visitor_cookie: ' . $visitor_cookie );
+		WP_ConvertKit::log( 'subscriber_id: ' . $subscriber_id );
+		WP_ConvertKit::log( 'url: ' . $url );
+		WP_ConvertKit::log( 'user_id: ' . $user_id );
 
 		if ( empty( $visitor_cookie ) ) {
 			$visitor_cookie = md5( time() );
-			error_log( 'no user adding one: ' . $visitor_cookie );
+			WP_ConvertKit::log( 'no user adding one: ' . $visitor_cookie );
 		}
 
 		$this->insert( array(
@@ -136,9 +136,9 @@ class ConvertKit_Custom_Content {
 		WP_ConvertKit::log( "Trying to get subscriber_id with email: " .  $email );
 		$subscriber_id = $api->get_subscriber_id( $email );
 
-		error_log( '-------- in get_subscriber ---------' );
-		error_log( 'email: ' . $email );
-		error_log( 'subscriber_id: ' . $subscriber_id );
+		WP_ConvertKit::log( '-------- in get_subscriber ---------' );
+		WP_ConvertKit::log( 'email: ' . $email );
+		WP_ConvertKit::log( 'subscriber_id: ' . $subscriber_id );
 
 		echo json_encode(
 			array(
@@ -164,28 +164,22 @@ class ConvertKit_Custom_Content {
 			$user_id = get_current_user_id();
 			$api = WP_ConvertKit::get_api();
 
-			//if ( $user_id ) {
-			// user is logged in so get tags from user meta
-			//error_log( "shortcode: user logged in, get tags from db" );
-			//$tags = get_user_meta( $user_id, 'convertkit_tags', true );
-			//$tags = ! empty( $tags ) ? json_decode( $tags, true ) : array();
-			//} else
 			if ( isset( $_COOKIE['ck_subscriber_id'] ) ) {
-				error_log( "shortcode: cookie found, calling API" );
+				WP_ConvertKit::log( "shortcode: cookie found, calling API" );
 				// get cookie and check API for customer tags.
 				$subscriber_id = absint( $_COOKIE['ck_subscriber_id'] );
 				if ( $subscriber_id ) {
 					$tags = $api->get_subscriber_tags( $subscriber_id );
 				}
 			} elseif ( isset( $_COOKIE['ck_subscriber_id'] ) ) {
-				error_log( "shortcode: cookie param found, calling API" );
+				WP_ConvertKit::log( "shortcode: cookie param found, calling API" );
 				// get cookie and check API for customer tags.
 				$subscriber_id = absint( $_GET['ck_subscriber_id'] );
 				if ( $subscriber_id ) {
 					$tags = $api->get_subscriber_tags( $subscriber_id );
 				}
 			} elseif ( isset( $_GET['ck_subscriber_id'] ) ) {
-				error_log( "shortcode: URL param found, calling API" );
+				WP_ConvertKit::log( "shortcode: URL param found, calling API" );
 				// get cookie and check API for customer tags.
 				$subscriber_id = absint( $_GET['ck_subscriber_id'] );
 				if ( $subscriber_id ) {
