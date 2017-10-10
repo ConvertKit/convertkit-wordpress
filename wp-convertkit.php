@@ -33,7 +33,6 @@ if ( is_admin() ) {
 	require_once CONVERTKIT_PLUGIN_PATH . '/admin/section/class-convertkit-settings-general.php';
 	require_once CONVERTKIT_PLUGIN_PATH . '/admin/section/class-convertkit-settings-wishlist.php';
 	require_once CONVERTKIT_PLUGIN_PATH . '/admin/section/class-convertkit-settings-contactform7.php';
-	require_once CONVERTKIT_PLUGIN_PATH . '/admin/section/class-convertkit-settings-custom-content.php';
 
 	$convertkit_settings = new ConvertKit_Settings();
 }
