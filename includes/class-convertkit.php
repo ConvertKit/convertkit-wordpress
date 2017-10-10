@@ -30,7 +30,7 @@ class WP_ConvertKit {
 	 * @var array
 	 */
 	private static $settings_defaults = array(
-		'api_key'      => '',
+		'api_key' => '',
 		'default_form' => 0,
 	);
 
@@ -113,8 +113,8 @@ class WP_ConvertKit {
 		$settings_link = sprintf( '<a href="%s">%s</a>', self::_get_settings_page_link(), __( 'Settings', 'convertkit' ) );
 
 		return array(
-			       'settings' => $settings_link,
-		       ) + $links;
+			'settings' => $settings_link,
+		) + $links;
 	}
 
 	/**
@@ -139,7 +139,8 @@ class WP_ConvertKit {
 	public static function display_meta_box( $post ) {
 		$forms = self::$api->get_resources( 'forms' );
 		$landing_pages = self::$api->get_resources( 'landing_pages' );
-		$tags = $tags = self::$api->get_resources( 'tags' );
+		$tags = self::$api->get_resources( 'tags' );
+		$tags = self::$api->get_resources( 'tags' );
 
 		$meta = self::_get_meta( $post->ID );
 		$settings_link = self::_get_settings_page_link();
@@ -155,9 +156,9 @@ class WP_ConvertKit {
 	 */
 	public static function save_post_meta( $post_id, $post ) {
 		if ( wp_is_post_autosave( $post_id )
-		     || wp_is_post_revision( $post_id )
-		     || ! isset( $_POST['wp-convertkit-save-meta-nonce'] ) // WPCS input var okay.
-		     || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['wp-convertkit-save-meta-nonce'] ) ), 'wp-convertkit-save-meta' ) ) { // WPCS input var okay.
+			|| wp_is_post_revision( $post_id )
+			|| ! isset( $_POST['wp-convertkit-save-meta-nonce'] ) // WPCS input var okay.
+			|| ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['wp-convertkit-save-meta-nonce'] ) ), 'wp-convertkit-save-meta' ) ) { // WPCS input var okay.
 			return;
 		}
 		if ( isset( $_POST['wp-convertkit'] ) ) { // WPCS input var okay.
@@ -173,10 +174,6 @@ class WP_ConvertKit {
 			if ( isset( $_POST['wp-convertkit']['tag'] ) ) { // WPCS input var okay.
 				$tag = sanitize_text_field( wp_unslash( $_POST['wp-convertkit']['tag'] ) ); // WPCS input var okay.
 			}
-			// Update global mapping
-			//$content_settings = get_option( '_wp_convertkit_integration_custom_content_settings', array() );
-			//$content_settings['mapping'][ $post_id ] = $tag;
-			//update_option( '_wp_convertkit_integration_custom_content_settings', $content_settings );
 
 			$meta = array(
 				'form' => $form,
@@ -210,10 +207,11 @@ class WP_ConvertKit {
 			}
 
 			if ( 0 < $form_id ) {
-				$url = add_query_arg( array(
-					'api_key' => self::_get_settings( 'api_key' ),
-					'v'       => self::$forms_version,
-				),
+				$url = add_query_arg(
+					array(
+						'api_key' => self::_get_settings( 'api_key' ),
+						'v'       => self::$forms_version,
+					),
 					'https://forms.convertkit.com/' . $form_id . '.html'
 				);
 
@@ -231,7 +229,7 @@ class WP_ConvertKit {
 	public static function page_takeover() {
 		$queried_object = get_queried_object();
 		if ( isset( $queried_object->post_type )
-		     && 'page' === $queried_object->post_type ) {
+			&& 'page' === $queried_object->post_type ) {
 
 			$landing_page_url = self::_get_meta( $queried_object->ID, 'landing_page' );
 
@@ -249,10 +247,8 @@ class WP_ConvertKit {
 	 * Enqueue scripts
 	 */
 	public static function enqueue_scripts() {
-		// TODO replace with version when done with development
-		//wp_enqueue_script( 'convertkit-js', CONVERTKIT_PLUGIN_URL . '/resources/frontend/wp-convertkit.js', array(), CONVERTKIT_PLUGIN_VERSION );
+		wp_enqueue_script( 'convertkit-js', CONVERTKIT_PLUGIN_URL . '/resources/frontend/wp-convertkit.js', array(), CONVERTKIT_PLUGIN_VERSION );
 		wp_enqueue_script( 'jquery-cookie', CONVERTKIT_PLUGIN_URL . '/resources/frontend/jquery.cookie.min.js', array( 'jquery' ), '1.4.0' );
-		wp_enqueue_script( 'convertkit-js', CONVERTKIT_PLUGIN_URL . '/resources/frontend/wp-convertkit.js', array(), time() );
 		wp_localize_script( 'jquery-cookie', 'ck_data', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) ) );
 	}
 
@@ -274,26 +270,29 @@ class WP_ConvertKit {
 
 		if ( isset( $attributes['id'] ) ) {
 			$form_id = $attributes['id'];
-			$url = add_query_arg( array(
-				'api_key' => self::_get_settings( 'api_key' ),
-				'v'       => self::$forms_version,
-			),
+			$url = add_query_arg(
+				array(
+					'api_key' => self::_get_settings( 'api_key' ),
+					'v'       => self::$forms_version,
+				),
 				'https://forms.convertkit.com/' . $form_id . '.html'
 			);
 		} elseif ( isset( $attributes['form'] ) ) {
 			$form_id = $attributes['form'];
-			$url = add_query_arg( array(
-				'k' => self::_get_settings( 'api_key' ),
-				'v' => '2',
-			),
+			$url = add_query_arg(
+				array(
+					'k' => self::_get_settings( 'api_key' ),
+					'v' => '2',
+				),
 				'https://api.convertkit.com/forms/' . $form_id . '/embed'
 			);
 		} else {
 			$form_id = self::_get_settings( 'default_form' );
-			$url = add_query_arg( array(
-				'api_key' => self::_get_settings( 'api_key' ),
-				'v'       => self::$forms_version,
-			),
+			$url = add_query_arg(
+				array(
+					'api_key' => self::_get_settings( 'api_key' ),
+					'v'       => self::$forms_version,
+				),
 				'https://forms.convertkit.com/' . $form_id . '.html'
 			);
 		}
@@ -417,8 +416,8 @@ class WP_ConvertKit {
 	 */
 	private static function _get_settings_page_link( $query_args = array() ) {
 		$query_args = array(
-			              'page' => self::SETTINGS_PAGE_SLUG,
-		              ) + $query_args;
+			'page' => self::SETTINGS_PAGE_SLUG,
+			) + $query_args;
 
 		return add_query_arg( $query_args, admin_url( 'options-general.php' ) );
 	}
@@ -435,7 +434,7 @@ class WP_ConvertKit {
 			$dir = CONVERTKIT_PLUGIN_PATH;
 			$handle = fopen( trailingslashit( $dir ) . 'log.txt', 'a' );
 			if ( $handle ) {
-				$time   = date_i18n( 'm-d-Y @ H:i:s -' );
+				$time = date_i18n( 'm-d-Y @ H:i:s -' );
 				fwrite( $handle, $time . ' ' . $message . "\n" );
 				fclose( $handle );
 			}
@@ -509,10 +508,10 @@ class WP_ConvertKit {
 			} else {
 				update_option( 'convertkit_version', CONVERTKIT_PLUGIN_VERSION );
 			} // End if().
-		} else if ( version_compare( $current_version, '1.5.0', '<')  || ! $convertkit_user_history_table ) {
+		} elseif ( version_compare( $current_version, '1.5.0', '<' )  || ! $convertkit_user_history_table ) {
 
 			// Create User History table
-			ConvertKit_User_History::create_table();
+			ConvertKit_Custom_Content::create_table();
 			update_option( 'convertkit_version', CONVERTKIT_PLUGIN_VERSION );
 
 		} // End if().

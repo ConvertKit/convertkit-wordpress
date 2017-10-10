@@ -56,9 +56,10 @@
 			<td>
 				<select name="wp-convertkit[tag]" id="wp-convertkit-tag">
 					<option <?php selected( '', $meta_tag ); ?> value="0"><?php _e( 'None', 'convertkit' ); // WPCS: XSS ok. ?></option>
-					<?php foreach ( $tags as $tag ) {
+					<?php
+					foreach ( $tags as $tag ) {
 						$name = sanitize_text_field( $tag['name'] );
-						 ?>
+					?>
 					<option <?php selected( $tag['id'], $meta_tag ); ?> value="<?php echo esc_attr( $tag['id'], 'convertkit' ); ?>"><?php echo esc_attr( $name ); ?></option>
 					<?php } ?>
 				</select>
