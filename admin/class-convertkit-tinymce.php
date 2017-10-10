@@ -26,9 +26,8 @@ class ConvertKit_TinyMCE {
 	 */
 	public function add_buttons() {
 		if ( ! current_user_can( 'edit_posts' ) && ! current_user_can( 'edit_pages' ) ) {
-            return;
+			return;
 		}
-		// TODO: Maybe limit this to only show for post_type = [post, page]
 		add_filter( 'mce_external_plugins', array( $this, 'add_tinymce_plugin' ) );
 		add_filter( 'mce_buttons', array( $this, 'register_mce_button' ) );
 

@@ -172,7 +172,7 @@ class ConvertKit_Settings {
 	 *
 	 * Since 1.5.0
 	 */
-	public function get_tags(){
+	public function get_tags() {
 		check_ajax_referer( 'convertkit-tinymce', 'security' );
 
 		$tags = $this->api->get_resources( 'tags' );
@@ -194,7 +194,7 @@ class ConvertKit_Settings {
 	public function add_tags_footer() {
 		// create nonce
 		global $pagenow;
-		if( $pagenow != 'admin.php' ) {
+		if ( $pagenow !== 'admin.php' ) {
 			$nonce = wp_create_nonce( 'convertkit-tinymce' );
 			?><script type="text/javascript">
 				jQuery( document ).ready( function( $ ) {
@@ -234,16 +234,17 @@ class ConvertKit_Settings {
 				?>
 				<tr>
 					<th><label for="tags"><?php esc_attr_e( 'Tags', 'convertkit' ) ?></label></th>
-					<td><textarea id="tags" name="tags" disabled="disabled"><?php
-						if ( empty( $tags ) ) {
-							esc_html_e( 'No ConvertKit Tags assigned to this user.' ,'convertkit' );
-						} else {
-							$tags = json_decode( $tags );
-							foreach ( $tags as $key => $tag ) {
-								esc_html_e( $tag . ' (' . $key . ')' ."\n" );
-							}
+					<td><textarea id="tags" name="tags" disabled="disabled">
+					<?php
+					if ( empty( $tags ) ) {
+						esc_html_e( 'No ConvertKit Tags assigned to this user.' ,'convertkit' );
+					} else {
+						$tags = json_decode( $tags );
+						foreach ( $tags as $key => $tag ) {
+							echo $tag . ' (' . $key . ')' . "\n";
 						}
-						?></textarea>
+					}
+					?></textarea>
 					</td>
 				</tr>
 				<?php

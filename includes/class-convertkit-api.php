@@ -203,18 +203,19 @@ class ConvertKit_API {
 	 */
 	public function get_subscriber_id( $email_address ) {
 
-		$url = add_query_arg( array(
-			'api_secret' => WP_ConvertKit::get_api_secret(),
-			'email_address' => $email_address,
-			'status' => 'all',
-		),
+		$url = add_query_arg(
+			array(
+				'api_secret' => WP_ConvertKit::get_api_secret(),
+				'email_address' => $email_address,
+				'status' => 'all',
+			),
 			'https://api.convertkit.com/v3/subscribers'
 		);
 
-		WP_ConvertKit::log( "get_subscriber_id for: " . $email_address );
+		WP_ConvertKit::log( 'get_subscriber_id for: ' . $email_address );
 
 		$result = $this->get_resource( $url );
-		if ( is_wp_error( $result ) ){
+		if ( is_wp_error( $result ) ) {
 			WP_ConvertKit::log( 'Error getting resource for: ' . $url . '. Error: ' . $result->get_error_messages() );
 			return 0;
 		}
@@ -224,11 +225,11 @@ class ConvertKit_API {
 		$subscribers = is_array( $subs->subscribers ) ? $subs->subscribers : array();
 		if ( $subscribers ) {
 			$subscriber = array_pop( $subscribers );
-			WP_ConvertKit::log( 'Found ' . count( $subscribers ) . ' subscribers');
+			WP_ConvertKit::log( 'Found ' . count( $subscribers ) . ' subscribers' );
 			WP_ConvertKit::log( 'ID (' . $subscriber->id . ') ' . $subscriber->email_address );
 			return $subscriber->id;
 		}
-		WP_ConvertKit::log( 'Subscriber not found with email ' . $email_address);
+		WP_ConvertKit::log( 'Subscriber not found with email ' . $email_address );
 		// subscriber not found
 		return 0;
 
@@ -240,16 +241,17 @@ class ConvertKit_API {
 	 * @return int
 	 */
 	public function get_subscriber( $subscriber_id ) {
-		$url = add_query_arg( array(
-			'api_secret' => WP_ConvertKit::get_api_secret(),
-		),
+		$url = add_query_arg(
+			array(
+				'api_secret' => WP_ConvertKit::get_api_secret(),
+			),
 			'https://api.convertkit.com/v3/subscribers/' . $subscriber_id
 		);
 
-		WP_ConvertKit::log( "get_subscriber info for id: " . $subscriber_id );
+		WP_ConvertKit::log( 'get_subscriber info for id: ' . $subscriber_id );
 
 		$result = $this->get_resource( $url );
-		if ( is_wp_error( $result ) ){
+		if ( is_wp_error( $result ) ) {
 			WP_ConvertKit::log( 'Error getting resource for: ' . $url . '. Error: ' . $result->get_error_messages() );
 			return 0;
 		}
@@ -274,26 +276,27 @@ class ConvertKit_API {
 	 */
 	public function get_subscriber_tags( $subscriber_id ) {
 
-		$url = add_query_arg( array(
-			'api_key' => WP_ConvertKit::get_api_key(),
-		),
+		$url = add_query_arg(
+			array(
+				'api_key' => WP_ConvertKit::get_api_key(),
+			),
 			'https://api.convertkit.com/v3/subscribers/' . $subscriber_id . '/tags'
 		);
 
 		WP_ConvertKit::log( 'get_subscriber_tags for: ' . $subscriber_id );
 
 		$result = $this->get_resource( $url );
-		if ( is_wp_error( $result ) ){
+		if ( is_wp_error( $result ) ) {
 			WP_ConvertKit::log( 'Error getting resource for: ' . $url . '. Error: ' . $result->get_error_messages() );
 			return array();
 		}
 		$result = json_decode( $result );
 		$tags = isset( $result->tags ) ? $result->tags : array();
 
-		if ( empty( $tags ) ){
+		if ( empty( $tags ) ) {
 			WP_ConvertKit::log( 'No tags found for customer.' );
 		} else {
-			WP_ConvertKit::log( 'Found ' . count( $tags ) . 'tags for subscriber');
+			WP_ConvertKit::log( 'Found ' . count( $tags ) . 'tags for subscriber' );
 			$tags = wp_list_pluck( $tags, 'name', 'id' );
 		}
 
@@ -336,7 +339,7 @@ class ConvertKit_API {
 				// Maybe inflate response body.
 				// @see https://wordpress.stackexchange.com/questions/10088/how-do-i-troubleshoot-responses-with-wp-http-api
 				$inflate = @gzinflate( $response['body'] );
-				if( $inflate ) {
+				if ( $inflate ) {
 					$response['body'] = $inflate;
 				}
 
@@ -372,8 +375,9 @@ class ConvertKit_API {
 				}
 			} else {
 				WP_ConvertKit::log( 'API Response was WP_Error (get_resource): ' .
-				            'Code: ' . $response->get_error_code() . ' ' .
-				            'Message: ' . $response->get_error_message() );
+					'Code: ' . $response->get_error_code() . ' ' .
+					'Message: ' . $response->get_error_message()
+				);
 			} // End if().
 		} // End if().
 
@@ -414,7 +418,7 @@ class ConvertKit_API {
 			// Maybe inflate response body.
 			// @see https://wordpress.stackexchange.com/questions/10088/how-do-i-troubleshoot-responses-with-wp-http-api
 			$inflate = @gzinflate( $response['body'] );
-			if( $inflate ) {
+			if ( $inflate ) {
 				$response['body'] = $inflate;
 			}
 
