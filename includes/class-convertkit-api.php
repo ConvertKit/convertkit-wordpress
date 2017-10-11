@@ -429,8 +429,6 @@ class ConvertKit_API {
 			$data = json_decode( $body, true );
 		}
 
-		WP_ConvertKit::log( 'API Response (_get_api_response): ' . $body );
-
 		return $data;
 	}
 
