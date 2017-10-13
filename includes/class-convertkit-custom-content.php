@@ -63,17 +63,8 @@ class ConvertKit_Custom_Content {
 		add_action( 'wp_ajax_nopriv_ck_get_subscriber', array( $this, 'get_subscriber' ) );
 		add_action( 'wp_ajax_ck_get_subscriber', array( $this, 'get_subscriber' ) );
 
-		add_action( 'wp_login', array( $this, 'login_action' ), 50, 2 );
-
 		add_action( 'the_post', array( $this, 'maybe_tag_subscriber' ), 50 );
 
-	}
-
-	/**
-	 *
-	 */
-	public function register_shortcodes() {
-		add_shortcode( 'convertkit_content', array( $this, 'shortcode' ) );
 	}
 
 	/**
@@ -106,6 +97,8 @@ class ConvertKit_Custom_Content {
 			WP_ConvertKit::log( 'no user adding one: ' . $visitor_cookie );
 		}
 
+		/*
+		 * TODO: Removed for release.
 		$this->insert( array(
 			'visitor_cookie' => $visitor_cookie,
 			'user_id'        => $user_id,
@@ -114,6 +107,7 @@ class ConvertKit_Custom_Content {
 			'ip'             => $ip,
 			'date'           => $date,
 		) );
+		*/
 
 		echo json_encode(
 			array(
@@ -145,6 +139,13 @@ class ConvertKit_Custom_Content {
 			)
 		);
 		exit;
+	}
+
+	/**
+	 * Register shortcode
+	 */
+	public function register_shortcodes() {
+		add_shortcode( 'convertkit_content', array( $this, 'shortcode' ) );
 	}
 
 	/**
@@ -293,6 +294,7 @@ class ConvertKit_Custom_Content {
 	}
 
 	/**
+	 * Get IP of visitor
 	 *
 	 * @see https://stackoverflow.com/questions/13646690/how-to-get-real-ip-from-visitor
 	 * @return mixed
@@ -314,6 +316,8 @@ class ConvertKit_Custom_Content {
 	}
 
 	/**
+	 * Process the rows collected in the history table
+	 *
 	 * @param int $subscriber_id
 	 * @param int $user_id
 	 * @param string $user_email
@@ -365,8 +369,9 @@ class ConvertKit_Custom_Content {
 	}
 
 	/**
-	 * @param $urls
+	 * Get post_id from a URL
 	 *
+	 * @param $urls
 	 * @return array
 	 */
 	public function get_post_ids_from_url( $urls ) {
@@ -387,6 +392,8 @@ class ConvertKit_Custom_Content {
 	 */
 
 	/**
+	 * Insert table row
+	 *
 	 * @param $data
 	 */
 	private function insert( $data ) {
@@ -428,6 +435,8 @@ class ConvertKit_Custom_Content {
 	}
 
 	/**
+	 * Update table row
+	 *
 	 * @param $column
 	 * @param $value
 	 * @param $compare
@@ -452,6 +461,8 @@ class ConvertKit_Custom_Content {
 	}
 
 	/**
+	 * Delete table row
+	 *
 	 * @param string $column
 	 * @param string $value
 	 * @param string $operator

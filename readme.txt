@@ -4,7 +4,7 @@ Donate link: https://convertkit.com
 Tags: email, marketing, embed form, convertkit, capture
 Requires at least: 3.6
 Tested up to: 4.8.2
-Stable tag: 1.4.10
+Stable tag: 1.5.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -21,6 +21,8 @@ If you choose a default form on the settings page, that form will be embedded at
 an individual post or page, you can do so within the ConvertKit meta box on the editing form.
 
 Finally, you can insert the default form into the middle of post or page content by using the `[convertkit]` shortcode.
+
+Full plugin documentation is located [here](http://help.convertkit.com/article/99-the-convertkit-wordpress-plugin)
 
 == Installation ==
 
@@ -43,6 +45,12 @@ Yes, for it to work you must first have an account on ConvertKit.com
 2. Add stunning landing pages
 
 == Changelog ==
+
+### 1.5.0 2017-10-13
+* Added saving subscriber_id after visitor fills out ConvertKit form
+* Added saving subscriber_id when visitor lands on site from ConvertKit email link
+* Added "Add a tag" to Posts/Page metabox
+* Added convertkit_content shortcode to show content to subscribers who have a tag
 
 ### 1.4.10 2017-10-04
 * Removed transient for API calls.
