@@ -19,7 +19,7 @@ class ConvertKit_Settings_Wishlist extends ConvertKit_Settings_Base {
 	private $wlm_levels;
 
 	/**
-	 * Construct
+	 * Constructor
 	 */
 	public function __construct() {
 		if ( ! function_exists( 'wlmapi_get_levels' ) ) {

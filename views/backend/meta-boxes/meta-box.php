@@ -5,7 +5,6 @@
  * @package ConvertKit
  * @author ConvertKit
  */
-
 ?>
 <table class="form-table">
 	<tbody>
@@ -20,7 +19,6 @@
 						<?php echo $form['name']; // WPCS: XSS ok. ?></option>
 					<?php } ?>
 				</select>
-
 				<p class="description">
 					<?php
 					/* translators: 1: settings url */
@@ -35,7 +33,6 @@
 				</p>
 			</td>
 		</tr>
-
 		<?php if ( 'page' === $post->post_type ) { ?>
 		<tr valign="top">
 			<th scope="row"><label for=""><?php esc_html_e( 'Landing Page', 'convertkit' ); ?></label></th>
@@ -51,8 +48,25 @@
 			</td>
 		</tr>
 		<?php } ?>
+		<?php // custom content mapping
+			$meta_tag = isset( $meta['tag'] ) ? $meta['tag'] : '';
+			?>
+		<tr valign="top">
+			<th scope="row"><label for=""><?php esc_html_e( 'Add a Tag', 'convertkit' ); ?></label></th>
+			<td>
+				<select name="wp-convertkit[tag]" id="wp-convertkit-tag">
+					<option <?php selected( '', $meta_tag ); ?> value="0"><?php _e( 'None', 'convertkit' ); // WPCS: XSS ok. ?></option>
+					<?php
+					foreach ( $tags as $tag ) {
+						$name = sanitize_text_field( $tag['name'] );
+					?>
+					<option <?php selected( $tag['id'], $meta_tag ); ?> value="<?php echo esc_attr( $tag['id'], 'convertkit' ); ?>"><?php echo esc_attr( $name ); ?></option>
+					<?php } ?>
+				</select>
+				<p class="description"><?php esc_html_e( 'Select a tag to apply to viewers of this page.', 'convertkit' ); ?></p>
+			</td>
+		</tr>
 	</tbody>
 </table>
 
 <?php wp_nonce_field( 'wp-convertkit-save-meta', 'wp-convertkit-save-meta-nonce' );
-

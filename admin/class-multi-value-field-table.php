@@ -163,4 +163,43 @@ class Multi_Value_Field_Table extends WP_List_Table {
 
 		return $data;
 	}
+
+
+	/**
+	 * Display the table without the nonce at the top.
+	 *
+	 * @since 3.1.0
+	 * @access public
+	 */
+	public function display_no_nonce() {
+		$singular = $this->_args['singular'];
+
+		$this->display_tablenav( 'bottom' );
+
+		$this->screen->render_screen_reader_content( 'heading_list' );
+		?>
+		<table class="wp-list-table <?php echo implode( ' ', $this->get_table_classes() ); ?>">
+			<thead>
+			<tr>
+				<?php $this->print_column_headers(); ?>
+			</tr>
+			</thead>
+
+			<tbody id="the-list"<?php
+			if ( $singular ) {
+				echo " data-wp-lists='list:$singular'";
+			} ?>>
+			<?php $this->display_rows_or_placeholder(); ?>
+			</tbody>
+
+			<tfoot>
+			<tr>
+				<?php $this->print_column_headers( false ); ?>
+			</tr>
+			</tfoot>
+
+		</table>
+		<?php
+		$this->display_tablenav( 'bottom' );
+	}
 }
