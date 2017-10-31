@@ -3,4 +3,5 @@ node_modules/
 .env
 .DS_Store
 inc/log.txt
+log.txt
 includes/log.txt
