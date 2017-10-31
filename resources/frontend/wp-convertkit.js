@@ -4,23 +4,15 @@ jQuery(document).ready(function($) {
     var user = $.cookie( 'ck_visit' );
     var subscriber_id = $.cookie( 'ck_subscriber_id' );
 
-    if ( user ) {
-        console.log( 'found user cookie: ' + user );
-    } else {
+    if ( ! user ) {
         user = 0;
-        console.log('no user cookie');
-        console.log('ajax call: ' + ck_data.ajaxurl);
     }
 
     if ( subscriber_id ) {
-        console.log( 'found subscriber_id cookie: ' + subscriber_id );
     } else {
         subscriber_id = ckGetQueryVariable('ck_subscriber_id');
-        if ( subscriber_id ) {
-            console.log( 'found subscriber_id url param: ' + subscriber_id );
-        } else {
+        if ( ! subscriber_id ) {
             subscriber_id = 0;
-            console.log('no subscriber cookie or url param');
         }
     }
 
@@ -39,19 +31,12 @@ jQuery(document).ready(function($) {
         success: function (response) {
 
             var values = JSON.parse(response);
-            console.log( values );
-            console.log('user cookie ' + values.user );
             if (0 != values.user) {
                 $.cookie('ck_visit', values.user, {expires: 365, path: '/'});
-            } else {
-                console.log('not setting user cookie');
             }
 
-            console.log('subscriber cookie ' + values.subscriber_id);
             if ( 0 != values.subscriber_id) {
                 $.cookie('ck_subscriber_id', values.subscriber_id, {expires: 365, path: '/'});
-            } else {
-                console.log('not setting subscriber cookie');
             }
         }
 
@@ -123,13 +108,9 @@ jQuery(document).ready(function($) {
             success: function (response) {
 
                 var values = JSON.parse(response);
-                console.log( values );
-                console.log('subscriber_id: ' + values.subscriber_id);
 
                 if ( 0 != values.subscriber_id) {
                     $.cookie('ck_subscriber_id', values.subscriber_id, {expires: 365, path: '/'});
-                } else {
-                    console.log('not setting subscriber cookie');
                 }
             }
 

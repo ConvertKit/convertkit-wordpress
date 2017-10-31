@@ -46,6 +46,11 @@ Yes, for it to work you must first have an account on ConvertKit.com
 
 == Changelog ==
 
+### 1.5.1 2017-10-31
+* Fixed encoding of javascript.
+* Fixed localization of data.
+* Removing console.log from js.
+
 ### 1.5.0 2017-10-13
 * Added saving subscriber_id after visitor fills out ConvertKit form
 * Added saving subscriber_id when visitor lands on site from ConvertKit email link
