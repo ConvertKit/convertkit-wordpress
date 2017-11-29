@@ -93,7 +93,7 @@ class WP_ConvertKit {
 			add_filter( 'the_content', array( __CLASS__, 'append_form' ) );
 		}
 
-		add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( __CLASS__, 'add_settings_page_link' ) );
+		add_filter( 'plugin_action_links_' . CONVERTKIT_PLUGIN_FILE, array( __CLASS__, 'add_settings_page_link' ) );
 	}
 
 	/**
