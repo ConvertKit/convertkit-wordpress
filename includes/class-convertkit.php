@@ -236,11 +236,28 @@ class WP_ConvertKit {
 			$landing_page = self::$api->get_resource( $landing_page_url );
 
 			if ( ! empty( $landing_page ) ) {
+				$script = WP_ConvertKit::get_ck_script();
+				$script .= "\n</head>";
+				$landing_page = str_replace( '</head>', $script, $landing_page );
 				echo $landing_page; // WPCS: XSS ok.
 				exit;
 			}
 		}
+	}
 
+	/**
+	 * Generate HTML for including ConvertKit JS in a landing page.
+	 *
+	 * During the landing page takeover the normal WordPress enqueue routine is not run so we need to add these
+	 * javascript if we want subscribers tagged correctly.
+	 *
+	 * @since 1.5.2
+	 */
+	public static function get_ck_script(){
+		$script = "<script type='text/javascript' src='" . CONVERTKIT_PLUGIN_URL . "resources/frontend/jquery.cookie.min.js?ver=1.4.0'></script>";
+		$script .= "<script type='text/javascript' src='" . CONVERTKIT_PLUGIN_URL . "resources/frontend/wp-convertkit.js?ver=" . CONVERTKIT_PLUGIN_VERSION ."'></script>";
+		$script .= "<script type='text/javascript'>/* <![CDATA[ */var ck_data = {\"ajaxurl\":\"" . admin_url( 'admin-ajax.php' ) . "\"};/* ]]> */</script>";
+		return $script;
 	}
 
 	/**
