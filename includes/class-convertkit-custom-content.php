@@ -57,13 +57,12 @@ class ConvertKit_Custom_Content {
 	 */
 	public function add_actions() {
 
-		add_action( 'wp_ajax_nopriv_ck_add_user_visit', array( $this, 'add_user_history' ) );
-		add_action( 'wp_ajax_ck_add_user_visit', array( $this, 'add_user_history' ) );
-
 		add_action( 'wp_ajax_nopriv_ck_get_subscriber', array( $this, 'get_subscriber' ) );
 		add_action( 'wp_ajax_ck_get_subscriber', array( $this, 'get_subscriber' ) );
 
-		add_action( 'the_post', array( $this, 'maybe_tag_subscriber' ), 50 );
+		if ( ! is_admin() ) {
+			add_action( 'the_post', array( $this, 'maybe_tag_subscriber' ), 50 );
+		}
 
 	}
 
