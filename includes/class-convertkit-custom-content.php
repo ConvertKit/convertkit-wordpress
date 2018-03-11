@@ -218,7 +218,7 @@ class ConvertKit_Custom_Content {
 
 				if ( $tag ) {
 					$api->add_tag( $tag, $args );
-					WP_ConvertKit::log( 'tagging subscriber (' . $subscriber_id . ')' . ' with tag (' . $tag . ')' );
+					WP_ConvertKit::log( 'Tagging ' . $subscriber->email_address . ' (' . $subscriber_id . ')' . ' with tag (' . $tag . ')' );
 				} else {
 					WP_ConvertKit::log( 'post_id (' . $post->ID . ') not found in user history' );
 				}
