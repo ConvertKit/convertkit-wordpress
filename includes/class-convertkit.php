@@ -258,7 +258,7 @@ class WP_ConvertKit {
 	 *
 	 * @since 1.5.2
 	 */
-	public static function get_ck_script(){
+	public static function get_ck_script() {
 		$script = "<script type='text/javascript' src='" . CONVERTKIT_PLUGIN_URL . "resources/frontend/jquery.cookie.min.js?ver=1.4.0'></script>";
 		$script .= "<script type='text/javascript' src='" . CONVERTKIT_PLUGIN_URL . "resources/frontend/wp-convertkit.js?ver=" . CONVERTKIT_PLUGIN_VERSION ."'></script>";
 		$script .= "<script type='text/javascript'>/* <![CDATA[ */var ck_data = {\"ajaxurl\":\"" . admin_url( 'admin-ajax.php' ) . "\"};/* ]]> */</script>";
@@ -464,7 +464,7 @@ class WP_ConvertKit {
 			}
 
 		}
-		
+
 		return $form_id;
 	}
 
