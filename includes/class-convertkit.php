@@ -198,9 +198,14 @@ class WP_ConvertKit {
 
 			$form_id = 0;
 
+			// Get category form
+			$form_id = self::get_category_form( get_the_ID() );
+
+			// Get post/page form setting
 			if ( isset( $attributes['form'] ) && ( 0 < $attributes['form'] ) ) {
 				$form_id = $attributes['form'];
 			} else {
+				// Get global default form
 				if ( '-1' === $attributes['form'] ) {
 					$form_id = self::_get_settings( 'default_form' );
 				}
@@ -440,6 +445,28 @@ class WP_ConvertKit {
 		return add_query_arg( $query_args, admin_url( 'options-general.php' ) );
 	}
 
+	/**
+	 * Get default form for the post's categories.
+	 * If there are multiple set the last one found will be returned.
+	 *
+	 * @param int $id
+	 * @return int $form_id
+	 */
+	private static function get_category_form( $id ) {
+		$categories = wp_get_post_categories( $id );
+
+		$form_id = 0;
+		foreach ( $categories as $category ) {
+
+			$id = get_term_meta( $category, 'ck_default_form', true );
+			if ( $id ) {
+				$form_id = $id;
+			}
+
+		}
+		
+		return $form_id;
+	}
 
 	/**
 	 * Output data to log file
