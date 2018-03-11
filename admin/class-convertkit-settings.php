@@ -49,6 +49,10 @@ class ConvertKit_Settings {
 		// Function to output
 		add_action( 'admin_footer', array( $this, 'add_tags_footer' ) );
 
+		// Category default forms
+		add_action( 'edit_category_form_fields', array( $this, 'category_form_fields' ), 20 );
+		add_action( 'edited_category', array( $this, 'save_category_fields' ), 20 );
+
 		if ( WP_DEBUG ) {
 			add_action( 'show_user_profile', array( $this, 'add_customer_meta_fields' ) );
 			add_action( 'edit_user_profile', array( $this, 'add_customer_meta_fields' ) );
@@ -252,4 +256,60 @@ class ConvertKit_Settings {
 		</table>
 		<?php
 	}
+
+	/**
+	 * Display the ConvertKit forms dropdown
+	 *
+	 * @since 1.5.3
+	 * @param WP_Term $tag
+	 */
+	public function category_form_fields( $tag ) {
+		global $convertkit_settings;
+
+		$forms = $convertkit_settings->api->get_resources( 'forms' );
+		$default_form = get_term_meta( $tag->term_id, 'ck_default_form', true );
+
+		echo '<tr class="form-field term-description-wrap"><th scope="row"><label for="description">ConvertKit Form</label></th><td>';
+
+		// Check for error in response.
+		if ( isset( $forms[0]['id'] ) && '-2' === $forms[0]['id'] ) {
+			$html = '<p class="error">' . __( 'Error connecting to API. Please verify your site can connect to <code>https://api.convertkit.com</code>','convertkit' ) . '</p>';
+		} else {
+			$html = '<select id="ck_default_form" name="ck_default_form">';
+			$html .= '<option value="default">' . __( 'None', 'convertkit' ) . '</option>';
+			foreach ( $forms as $form ) {
+				$html .= sprintf(
+					'<option value="%s" %s>%s</option>',
+					esc_attr( $form['id'] ),
+					selected( $default_form, $form['id'], false ),
+					esc_html( $form['name'] )
+				);
+			}
+			$html .= '</select>';
+		}
+
+		if ( empty( $forms ) ) {
+			$html .= '<p class="description">' . __( 'There are no forms setup in your account. You can go <a href="https://app.convertkit.com/landing_pages/new" target="_blank">here</a> to create one.', 'convertkit' ) . '</p>';
+		}
+
+		$html .= '<p class="description">' . __( 'This form will be automatically added to posts in this category.', 'convertkit' ) . '</p></td></tr>';
+
+		echo $html; // WPCS: XSS ok.
+
+	}
+
+	/**
+	 * Set the default ConvertKit form for
+	 *
+	 * @param int $tag_id
+	 */
+	public function save_category_fields( $tag_id ) {
+		$ck_default_form = isset( $_POST['ck_default_form'] ) ? intval( $_POST['ck_default_form']  ) : 0;
+		if ( $ck_default_form ) {
+			update_term_meta( $tag_id, 'ck_default_form', $ck_default_form );
+			error_log( 'setting: ' . $ck_default_form );
+		}
+
+	}
+
 }
