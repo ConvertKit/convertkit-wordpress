@@ -63,7 +63,9 @@ class ConvertKit_Custom_Content {
 		add_action( 'wp_ajax_nopriv_ck_get_subscriber', array( $this, 'get_subscriber' ) );
 		add_action( 'wp_ajax_ck_get_subscriber', array( $this, 'get_subscriber' ) );
 
-		add_action( 'the_post', array( $this, 'maybe_tag_subscriber' ), 50 );
+		if ( ! is_admin() ) {
+			add_action( 'the_post', array( $this, 'maybe_tag_subscriber' ), 50 );
+		}
 
 	}
 
