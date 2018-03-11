@@ -196,18 +196,18 @@ class WP_ConvertKit {
 
 			$attributes = self::_get_meta( get_the_ID() );
 
-			$form_id = 0;
-
-			// Get category form
-			$form_id = self::get_category_form( get_the_ID() );
-
 			// Get post/page form setting
 			if ( isset( $attributes['form'] ) && ( 0 < $attributes['form'] ) ) {
 				$form_id = $attributes['form'];
 			} else {
-				// Get global default form
-				if ( '-1' === $attributes['form'] ) {
-					$form_id = self::_get_settings( 'default_form' );
+				// Get category form
+				$form_id = self::get_category_form( get_the_ID() );
+
+				if ( 0 === $form_id ) {
+					// Get global default form
+					if ( '-1' === $attributes['form'] ) {
+						$form_id = self::_get_settings( 'default_form' );
+					}
 				}
 			}
 
