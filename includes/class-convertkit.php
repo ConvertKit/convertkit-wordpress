@@ -265,7 +265,7 @@ class WP_ConvertKit {
 	 */
 	public static function enqueue_scripts() {
 		wp_enqueue_script( 'jquery-cookie', CONVERTKIT_PLUGIN_URL . 'resources/frontend/jquery.cookie.min.js', array( 'jquery' ), '1.4.0' );
-		wp_register_script( 'convertkit-js', CONVERTKIT_PLUGIN_URL . 'resources/frontend/wp-convertkit.js', array(), CONVERTKIT_PLUGIN_VERSION );
+		wp_register_script( 'convertkit-js', CONVERTKIT_PLUGIN_URL . 'resources/frontend/wp-convertkit.js', array( 'jquery-cookie' ), CONVERTKIT_PLUGIN_VERSION );
 		wp_localize_script( 'convertkit-js', 'ck_data', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) ) );
 		wp_enqueue_script( 'convertkit-js' );
 	}
