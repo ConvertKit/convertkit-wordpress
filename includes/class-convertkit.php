@@ -196,13 +196,18 @@ class WP_ConvertKit {
 
 			$attributes = self::_get_meta( get_the_ID() );
 
-			$form_id = 0;
-
+			// Get post/page form setting
 			if ( isset( $attributes['form'] ) && ( 0 < $attributes['form'] ) ) {
 				$form_id = $attributes['form'];
 			} else {
-				if ( '-1' === $attributes['form'] ) {
-					$form_id = self::_get_settings( 'default_form' );
+				// Get category form
+				$form_id = self::get_category_form( get_the_ID() );
+
+				if ( 0 === $form_id ) {
+					// Get global default form
+					if ( '-1' === $attributes['form'] ) {
+						$form_id = self::_get_settings( 'default_form' );
+					}
 				}
 			}
 
@@ -253,10 +258,10 @@ class WP_ConvertKit {
 	 *
 	 * @since 1.5.2
 	 */
-	public static function get_ck_script(){
+	public static function get_ck_script() {
 		$script = "<script type='text/javascript' src='" . CONVERTKIT_PLUGIN_URL . "resources/frontend/jquery.cookie.min.js?ver=1.4.0'></script>";
-		$script .= "<script type='text/javascript' src='" . CONVERTKIT_PLUGIN_URL . "resources/frontend/wp-convertkit.js?ver=" . CONVERTKIT_PLUGIN_VERSION ."'></script>";
-		$script .= "<script type='text/javascript'>/* <![CDATA[ */var ck_data = {\"ajaxurl\":\"" . admin_url( 'admin-ajax.php' ) . "\"};/* ]]> */</script>";
+		$script .= "<script type='text/javascript' src='" . CONVERTKIT_PLUGIN_URL . 'resources/frontend/wp-convertkit.js?ver=' . CONVERTKIT_PLUGIN_VERSION . "'></script>";
+		$script .= "<script type='text/javascript'>/* <![CDATA[ */var ck_data = {\"ajaxurl\":\"" . admin_url( 'admin-ajax.php' ) . '\"};/* ]]> */</script>';
 		return $script;
 	}
 
@@ -265,8 +270,11 @@ class WP_ConvertKit {
 	 */
 	public static function enqueue_scripts() {
 		wp_enqueue_script( 'jquery-cookie', CONVERTKIT_PLUGIN_URL . 'resources/frontend/jquery.cookie.min.js', array( 'jquery' ), '1.4.0' );
-		wp_register_script( 'convertkit-js', CONVERTKIT_PLUGIN_URL . 'resources/frontend/wp-convertkit.js', array(), CONVERTKIT_PLUGIN_VERSION );
-		wp_localize_script( 'convertkit-js', 'ck_data', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) ) );
+
+    wp_register_script( 'convertkit-js', CONVERTKIT_PLUGIN_URL . 'resources/frontend/wp-convertkit.js', array( 'jquery-cookie' ), CONVERTKIT_PLUGIN_VERSION );
+		wp_localize_script( 'convertkit-js', 'ck_data', array(
+			'ajaxurl' => admin_url( 'admin-ajax.php' ),
+		) );
 		wp_enqueue_script( 'convertkit-js' );
 	}
 
@@ -440,6 +448,27 @@ class WP_ConvertKit {
 		return add_query_arg( $query_args, admin_url( 'options-general.php' ) );
 	}
 
+	/**
+	 * Get default form for the post's categories.
+	 * If there are multiple set the last one found will be returned.
+	 *
+	 * @param int $id
+	 * @return int $form_id
+	 */
+	private static function get_category_form( $id ) {
+		$categories = wp_get_post_categories( $id );
+
+		$form_id = 0;
+		foreach ( $categories as $category ) {
+
+			$id = get_term_meta( $category, 'ck_default_form', true );
+			if ( $id ) {
+				$form_id = $id;
+			}
+		}
+
+		return $form_id;
+	}
 
 	/**
 	 * Output data to log file

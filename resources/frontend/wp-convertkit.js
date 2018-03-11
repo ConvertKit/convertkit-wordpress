@@ -4,48 +4,6 @@ jQuery(document).ready(function($) {
     var user = $.cookie( 'ck_visit' );
     var subscriber_id = $.cookie( 'ck_subscriber_id' );
 
-    if ( ! user ) {
-        user = 0;
-    }
-
-    if ( subscriber_id ) {
-    } else {
-        subscriber_id = ckGetQueryVariable('ck_subscriber_id');
-        if ( ! subscriber_id ) {
-            subscriber_id = 0;
-        }
-    }
-
-    /**
-     * On each page add a user visit to the table.
-     */
-    $.ajax({
-        type: "POST",
-        data: {
-            action: 'ck_add_user_visit',
-            user: user,
-            subscriber_id: subscriber_id,
-            url: document.URL
-        },
-        url: ck_data.ajaxurl,
-        success: function (response) {
-
-            var values = JSON.parse(response);
-            if (0 != values.user) {
-                $.cookie('ck_visit', values.user, {expires: 365, path: '/'});
-            }
-
-            if ( 0 != values.subscriber_id) {
-                $.cookie('ck_subscriber_id', values.subscriber_id, {expires: 365, path: '/'});
-            }
-        }
-
-    }).fail(function (response) {
-        if ( window.console && window.console.log ) {
-            console.log( "AJAX ERROR" + response );
-        }
-    });
-
     /**
      * This function will check for the `ck_subscriber_id` query parameter
      * and if it exists return the value and remove it from the URL.
