@@ -307,7 +307,6 @@ class ConvertKit_Settings {
 		$ck_default_form = isset( $_POST['ck_default_form'] ) ? intval( $_POST['ck_default_form']  ) : 0;
 		if ( $ck_default_form ) {
 			update_term_meta( $tag_id, 'ck_default_form', $ck_default_form );
-			error_log( 'setting: ' . $ck_default_form );
 		}
 
 	}
