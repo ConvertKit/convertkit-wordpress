@@ -1,8 +1,10 @@
 jQuery(document).ready(function($) {
 
-    // Manage visit cookie
-    var user = $.cookie( 'ck_visit' );
-    var subscriber_id = $.cookie( 'ck_subscriber_id' );
+    // Add ck_subscriber_id to cookie
+    subscriber_id = ckGetQueryVariable('ck_subscriber_id');
+    if ( 0 < subscriber_id ) {
+        $.cookie('ck_subscriber_id', subscriber_id, {expires: 365, path: '/'});
+    }
 
     /**
      * This function will check for the `ck_subscriber_id` query parameter
