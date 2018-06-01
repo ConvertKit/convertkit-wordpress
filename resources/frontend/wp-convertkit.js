@@ -1,10 +1,33 @@
 jQuery(document).ready(function($) {
 
-    // Add ck_subscriber_id to cookie
-    subscriber_id = ckGetQueryVariable('ck_subscriber_id');
-    if ( 0 < subscriber_id ) {
-        $.cookie('ck_subscriber_id', subscriber_id, {expires: 365, path: '/'});
+    // Manage visit cookie
+    var subscriber_id = $.cookie( 'ck_subscriber_id' );
+
+    if ( ! subscriber_id ) {
+        subscriber_id = ckGetQueryVariable('ck_subscriber_id');
     }
+
+    /* Check if subscriber_id is valid and maybe do add tags */
+    $.ajax({
+        type: "POST",
+        data: {
+            action: 'ck_add_user_visit',
+            subscriber_id: subscriber_id,
+            url: document.URL
+        },
+        url: ck_data.ajaxurl,
+        success: function (response) {
+            var values = JSON.parse(response);
+            if ( 0 != values.subscriber_id) {
+                $.cookie('ck_subscriber_id', values.subscriber_id, {expires: 365, path: '/'});
+            }
+        }
+
+    }).fail(function (response) {
+        if ( window.console && window.console.log ) {
+            console.log( "AJAX ERROR" + response );
+        }
+    });
 
     /**
      * This function will check for the `ck_subscriber_id` query parameter
@@ -21,10 +44,10 @@ jQuery(document).ready(function($) {
             var pair = vars[i].split("=");
             if(pair[0] == variable){
                 ckRemoveSubscriberId( window.location.href );
-                return pair[1];
+                return parseInt( pair[1] );
             }
         }
-        return(false);
+        return(0);
     }
 
     /**
