@@ -3,8 +3,8 @@ Contributors: nathanbarry, growdev
 Donate link: https://convertkit.com
 Tags: email, marketing, embed form, convertkit, capture
 Requires at least: 3.6
-Tested up to: 4.9.5
-Stable tag: 1.5.4
+Tested up to: 4.9.6
+Stable tag: 1.5.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -45,6 +45,11 @@ Yes, for it to work you must first have an account on ConvertKit.com
 2. Add stunning landing pages
 
 == Changelog ==
+
+### 1.5.5 2018-06-01
+* Fix for error in javascript added to landing pages.
+* Fix for applying tags based on page views on initial visit. This adds an ajax call
+to each visit which some customers expressed concern about. We will add a way to remove this in an upcoming version.
 
 ### 1.5.4 2018-05-19
 * Fix for adding ck_subscriber_id to cookie

@@ -261,7 +261,7 @@ class WP_ConvertKit {
 	public static function get_ck_script() {
 		$script = "<script type='text/javascript' src='" . CONVERTKIT_PLUGIN_URL . "resources/frontend/jquery.cookie.min.js?ver=1.4.0'></script>";
 		$script .= "<script type='text/javascript' src='" . CONVERTKIT_PLUGIN_URL . 'resources/frontend/wp-convertkit.js?ver=' . CONVERTKIT_PLUGIN_VERSION . "'></script>";
-		$script .= "<script type='text/javascript'>/* <![CDATA[ */var ck_data = {\"ajaxurl\":\"" . admin_url( 'admin-ajax.php' ) . '\"};/* ]]> */</script>';
+		$script .= "<script type='text/javascript'>/* <![CDATA[ */var ck_data = {\"ajaxurl\":\"" . admin_url( 'admin-ajax.php' ) . '"};/* ]]> */</script>';
 		return $script;
 	}
 
@@ -271,7 +271,7 @@ class WP_ConvertKit {
 	public static function enqueue_scripts() {
 		wp_enqueue_script( 'jquery-cookie', CONVERTKIT_PLUGIN_URL . 'resources/frontend/jquery.cookie.min.js', array( 'jquery' ), '1.4.0' );
 
-    wp_register_script( 'convertkit-js', CONVERTKIT_PLUGIN_URL . 'resources/frontend/wp-convertkit.js', array( 'jquery-cookie' ), CONVERTKIT_PLUGIN_VERSION );
+        wp_register_script( 'convertkit-js', CONVERTKIT_PLUGIN_URL . 'resources/frontend/wp-convertkit.js', array( 'jquery-cookie' ), CONVERTKIT_PLUGIN_VERSION );
 		wp_localize_script( 'convertkit-js', 'ck_data', array(
 			'ajaxurl' => admin_url( 'admin-ajax.php' ),
 		) );
