@@ -57,6 +57,8 @@ class ConvertKit_Custom_Content {
 	 */
 	public function add_actions() {
 
+		add_action( 'wp_ajax_nopriv_ck_add_user_visit', array( $this, 'maybe_tag_subscriber_ajax' ) );
+		add_action( 'wp_ajax_ck_add_user_visit', array( $this, 'maybe_tag_subscriber_ajax' ) );
 		add_action( 'wp_ajax_nopriv_ck_get_subscriber', array( $this, 'get_subscriber' ) );
 		add_action( 'wp_ajax_ck_get_subscriber', array( $this, 'get_subscriber' ) );
 
@@ -67,9 +69,38 @@ class ConvertKit_Custom_Content {
 	}
 
 	/**
+	 * This method is called by a javascript ajax call when a ck_subscriber_id was passed via the query args.
+	 *
+	 * @since 1.5.5
+	 */
+	public function maybe_tag_subscriber_ajax(){
+
+		// get post_id from url
+		$url            = isset( $_POST['url'] ) ? sanitize_text_field( $_POST['url'] ): '';
+		$post_id = url_to_postid( $url );
+		$post = get_post( $post_id );
+
+		// set cookie
+		$subscriber_id   = isset( $_POST['subscriber_id'] ) ? sanitize_text_field( $_POST['subscriber_id'] ): 0;
+		$_COOKIE['ck_subscriber_id'] = absint( $subscriber_id );
+
+		ConvertKit_Custom_Content::maybe_tag_subscriber( $post );
+		echo json_encode(
+			array(
+				'subscriber_id' => $subscriber_id,
+			)
+		);
+		exit;
+	}
+
+	/**
 	 * Track the visitor
+	 *
+	 * @since 1.5.0
 	 */
 	public function add_user_history() {
+		/*
+		$subscriber_id   = isset( $_POST['subscriber_id'] ) ? sanitize_text_field( $_POST['subscriber_id'] ): 0;
 
 		$visitor_cookie = isset( $_POST['user'] ) ? sanitize_text_field( $_POST['user'] ): 0;
 		$subscriber_id   = isset( $_POST['subscriber_id'] ) ? sanitize_text_field( $_POST['subscriber_id'] ): 0;
@@ -96,8 +127,6 @@ class ConvertKit_Custom_Content {
 			WP_ConvertKit::log( 'no user adding one: ' . $visitor_cookie );
 		}
 
-		/*
-		 * TODO: Removed for release.
 		$this->insert( array(
 			'visitor_cookie' => $visitor_cookie,
 			'user_id'        => $user_id,
@@ -106,15 +135,15 @@ class ConvertKit_Custom_Content {
 			'ip'             => $ip,
 			'date'           => $date,
 		) );
-		*/
+
 
 		echo json_encode(
 			array(
-				'user' => $visitor_cookie,
 				'subscriber_id' => $subscriber_id,
 			)
 		);
 		exit;
+		*/
 	}
 
 	/**
@@ -128,9 +157,7 @@ class ConvertKit_Custom_Content {
 		WP_ConvertKit::log( 'Trying to get subscriber_id with email: ' . $email );
 		$subscriber_id = $api->get_subscriber_id( $email );
 
-		WP_ConvertKit::log( '-------- in get_subscriber ---------' );
-		WP_ConvertKit::log( 'email: ' . $email );
-		WP_ConvertKit::log( 'subscriber_id: ' . $subscriber_id );
+		WP_ConvertKit::log( 'In get_subscriber. email: ' . $email  . ', subscriber_id: ' . $subscriber_id );
 
 		echo json_encode(
 			array(
@@ -194,10 +221,11 @@ class ConvertKit_Custom_Content {
 	}
 
 	/**
-	 * If the user arrives at the site with a URL parameter of 'ck_subscriber_id' then cookie the user with that value.
+	 * If the user views page with a cookie 'ck_subscriber_id' then check if tags need to be applied based on visit.
 	 *
 	 * @see https://app.convertkit.com/account/edit#email_settings
 	 * @param $post
+	 * @param null|int $subscriber_id
 	 */
 	public static function maybe_tag_subscriber( $post ) {
 
@@ -220,7 +248,7 @@ class ConvertKit_Custom_Content {
 					$api->add_tag( $tag, $args );
 					WP_ConvertKit::log( 'Tagging ' . $subscriber->email_address . ' (' . $subscriber_id . ')' . ' with tag (' . $tag . ')' );
 				} else {
-					WP_ConvertKit::log( 'post_id (' . $post->ID . ') not found in user history' );
+					WP_ConvertKit::log( 'post_id (' . $post->ID . ') post does not have tags defined.' );
 				}
 			}
 		}
