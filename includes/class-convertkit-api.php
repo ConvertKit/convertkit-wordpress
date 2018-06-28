@@ -143,6 +143,7 @@ class ConvertKit_API {
 							$_resource[] = $landing_page;
 						}
 					}
+					update_option( 'convertkit_landing_pages', $_resource );
 				} elseif ( 'subscription_forms' === $resource ) {
 					foreach ( $api_response as $mapping ) {
 						if ( isset( $mapping['archived'] ) && $mapping['archived'] ) {
@@ -150,11 +151,13 @@ class ConvertKit_API {
 						}
 						$_resource[ $mapping['id'] ] = $mapping['form_id'];
 					}
+					update_option( 'convertkit_subscription_forms', $_resource );
 				} elseif ( 'tags' === $resource ) {
 					$response = isset( $api_response['tags'] ) ? $api_response['tags'] : array();
 					foreach ( $response as $tag ) {
 						$_resource[] = $tag;
 					}
+					update_option( 'convertkit_tags', $_resource );
 				}
 
 				$this->resources[ $resource ] = $_resource;
