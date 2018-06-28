@@ -140,8 +140,7 @@ class WP_ConvertKit {
 		$forms = self::$api->get_resources( 'forms' );
 		$landing_pages = self::$api->get_resources( 'landing_pages' );
 		$tags = self::$api->get_resources( 'tags' );
-		$tags = self::$api->get_resources( 'tags' );
-
+		
 		$meta = self::_get_meta( $post->ID );
 		$settings_link = self::_get_settings_page_link();
 
