@@ -128,7 +128,8 @@ class ConvertKit_API {
 							continue;
 						}
 						$_resource[] = $form;
-						$forms[ $form['id'] ] = $form['name'];
+						$forms[ $form['id'] ] = $form;
+
 					}
 					update_option( 'convertkit_forms', $forms );
 				} elseif ( 'landing_pages' === $resource ) {
