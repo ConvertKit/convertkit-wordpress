@@ -123,12 +123,7 @@ class WP_ConvertKit {
 	 * @param WP_Post $post The current post.
 	 */
 	public static function add_meta_boxes( $post ) {
-		//$forms = self::$api->get_resources( 'forms' );
-		//$landing_pages = self::$api->get_resources( 'landing_pages' );
-
-		//if ( ! empty( $forms ) || ( 'page' === $post->post_type && ! empty( $landing_pages ) ) ) {
-			add_meta_box( 'wp-convertkit-meta-box', __( 'ConvertKit', 'convertkit' ), array( __CLASS__, 'display_meta_box' ), $post->post_type, 'normal' );
-		//}
+		add_meta_box( 'wp-convertkit-meta-box', __( 'ConvertKit', 'convertkit' ), array( __CLASS__, 'display_meta_box' ), $post->post_type, 'normal' );
 	}
 
 	/**

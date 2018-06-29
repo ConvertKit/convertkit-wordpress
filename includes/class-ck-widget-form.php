@@ -129,26 +129,34 @@ class CK_Widget_Form extends WP_Widget {
 
 		$api = WP_ConvertKit::get_api();
 		$form_id = $instance['form'];
+		$forms = get_option( 'convertkit_forms' );
 
-		$url = add_query_arg( array(
-				'api_key' => WP_ConvertKit::get_api_key(),
-				'v'       => WP_ConvertKit::get_forms_version(),
-			),
-			'https://forms.convertkit.com/' . $form_id . '.html'
-		);
+		if ( isset( $forms[ $form_id ]['uid'] ) ) {
+			// new form
+			$tag = '<script async data-uid="' . $forms[ $form_id ]['uid'] . '" src="' . $forms[ $form_id ]['embed_js'] . '"></script>';
+			echo $tag;
+		} else {
+			// old form
+            $url = add_query_arg( array(
+                    'api_key' => WP_ConvertKit::get_api_key(),
+                    'v'       => WP_ConvertKit::get_forms_version(),
+                ),
+                'https://forms.convertkit.com/' . $form_id . '.html'
+            );
 
-		$form_markup = $api->get_resource( $url );
+            $form_markup = $api->get_resource( $url );
 
-		if ( $api && ! is_wp_error( $api ) ) {
-			ob_start();
+            if ( $api && ! is_wp_error( $api ) ) {
+                ob_start();
 
-			$this->widget_start( $args, $instance );
-			echo $form_markup;
-			$this->widget_end( $args );
+                $this->widget_start( $args, $instance );
+                echo $form_markup;
+                $this->widget_end( $args );
 
-			$content = ob_get_clean();
+                $content = ob_get_clean();
 
-			echo $content;
+                echo $content;
+            }
 		}
 	}
 
@@ -210,7 +218,7 @@ class CK_Widget_Form extends WP_Widget {
 							name="<?php echo $this->get_field_name( $key ); ?>">
 								<?php foreach ( $setting['options'] as $option_key => $option_value ) : ?>
 									<option
-										value="<?php echo esc_attr( $option_key ); ?>" <?php selected( $option_key, $value ); ?>><?php echo esc_html( $option_value ); ?></option>
+										value="<?php echo esc_attr( $option_key ); ?>" <?php selected( $option_key, $value ); ?>><?php echo esc_html( $option_value['name'] ); ?></option>
 								<?php endforeach; ?>
 							</select>
 						</p>

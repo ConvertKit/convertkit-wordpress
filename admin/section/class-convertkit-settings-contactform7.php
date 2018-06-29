@@ -72,7 +72,7 @@ class ConvertKit_Settings_ContactForm7 extends ConvertKit_Settings_Base {
 	 */
 	public function register_fields() {
 
-		$forms = $this->api->get_resources( 'forms' );
+		$forms = get_option( 'convertkit_forms' );
 
 		foreach ( $this->forms as $form ) {
 
