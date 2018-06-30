@@ -571,7 +571,7 @@ class WP_ConvertKit {
 			// Refresh the forms meta to get new forms builder settings
 			$api_key = self::_get_settings( 'api_key' );
 			if ( ! empty( $api_key ) ) {
-				self::api->update_resources( $api_key );
+				self::$api->update_resources( $api_key );
 				error_log("UPGRADE RESOURCES!!!" );
 			}
 			update_option( 'convertkit_version', CONVERTKIT_PLUGIN_VERSION );
