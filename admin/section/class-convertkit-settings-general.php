@@ -27,6 +27,7 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 	 * Register and add settings
 	 */
 	public function register_fields() {
+	    $forms = get_option( 'convertkit_forms' );
 		add_settings_field(
 			'api_key',
 			'API Key',
@@ -49,7 +50,7 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 			array( $this, 'default_form_callback' ),
 			$this->settings_key,
 			$this->name,
-			$this->api->get_resources( 'forms' )
+			$forms
 		);
 
 		add_settings_field(
@@ -167,8 +168,9 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 	 */
 	public function sanitize_settings( $settings ) {
 
-		// Clear the api transient.
-		delete_transient( 'convertkit_get_api_response' );
+		if ( isset( $settings['api_key'] ) ) {
+			$this->api->update_resources( $settings['api_key'] );
+        }
 		return shortcode_atts( array(
 			'api_key'      => '',
 			'api_secret'   => '',

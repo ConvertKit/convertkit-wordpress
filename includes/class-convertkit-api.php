@@ -93,6 +93,63 @@ class ConvertKit_API {
 	}
 
 	/**
+	 * Update resources in local options table.
+	 *
+	 * @param string $api_key
+	 */
+	public function update_resources( $api_key ) {
+
+		$this->api_key = $api_key;
+
+		$forms = array();
+		$landing_pages = array();
+		$tags = array();
+
+		WP_ConvertKit::log( 'Updating resource with API key: ' . $api_key );
+		// Forms and Landing Pages
+		$api_response = $this->_get_api_response( 'forms' );
+
+		if ( is_null( $api_response ) || is_wp_error( $api_response ) || isset( $api_response['error'] ) || isset( $api_response['error_message'] ) ) {
+			$error_message = isset( $api_response['error'] ) ? $api_response['error'] : 'unknown error';
+			$error_message .= is_wp_error( $api_response ) ? $api_response->get_error_message() : '';
+			WP_ConvertKit::log( 'Error contacting API: ' . $error_message );
+
+			$forms[0] = array(
+				'id' => '-2',
+				'name' => 'Error contacting API',
+			);
+			update_option( 'convertkit_forms', $forms );
+			update_option( 'convertkit_landing_pages', $landing_pages );
+			update_option( 'convertkit_tags', $tags );
+
+		} else {
+
+			$response = isset( $api_response['forms'] ) ? $api_response['forms'] : array();
+			foreach ( $response as $form ) {
+				if ( isset( $form['archived'] ) && $form['archived'] ) {
+					continue;
+				}
+
+				if ( 'hosted' === $form['type'] ) {
+					$landing_pages[ $form['id'] ] = $form;
+				} else {
+					$forms[ $form['id'] ] = $form;
+				}
+			}
+			update_option( 'convertkit_forms', $forms );
+			update_option( 'convertkit_landing_pages', $landing_pages );
+
+			// Tags
+			$api_response = $this->_get_api_response( 'tags' );
+			$response     = isset( $api_response['tags'] ) ? $api_response['tags'] : array();
+			foreach ( $response as $tag ) {
+				$tags[] = $tag;
+			}
+			update_option( 'convertkit_tags', $tags );
+		}
+	}
+
+	/**
 	 * Gets a resource index
 	 *
 	 * GET /{$resource}/
@@ -128,7 +185,8 @@ class ConvertKit_API {
 							continue;
 						}
 						$_resource[] = $form;
-						$forms[ $form['id'] ] = $form['name'];
+						$forms[ $form['id'] ] = $form;
+
 					}
 					update_option( 'convertkit_forms', $forms );
 				} elseif ( 'landing_pages' === $resource ) {
@@ -142,6 +200,7 @@ class ConvertKit_API {
 							$_resource[] = $landing_page;
 						}
 					}
+					update_option( 'convertkit_landing_pages', $_resource );
 				} elseif ( 'subscription_forms' === $resource ) {
 					foreach ( $api_response as $mapping ) {
 						if ( isset( $mapping['archived'] ) && $mapping['archived'] ) {
@@ -149,11 +208,13 @@ class ConvertKit_API {
 						}
 						$_resource[ $mapping['id'] ] = $mapping['form_id'];
 					}
+					update_option( 'convertkit_subscription_forms', $_resource );
 				} elseif ( 'tags' === $resource ) {
 					$response = isset( $api_response['tags'] ) ? $api_response['tags'] : array();
 					foreach ( $response as $tag ) {
 						$_resource[] = $tag;
 					}
+					update_option( 'convertkit_tags', $_resource );
 				}
 
 				$this->resources[ $resource ] = $_resource;

@@ -4,7 +4,7 @@ Donate link: https://convertkit.com
 Tags: email, marketing, embed form, convertkit, capture
 Requires at least: 3.6
 Tested up to: 4.9.6
-Stable tag: 1.5.5
+Stable tag: 1.6.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -45,6 +45,12 @@ Yes, for it to work you must first have an account on ConvertKit.com
 2. Add stunning landing pages
 
 == Changelog ==
+
+### 1.6.0 2018-06-30
+* Add support for new form builder
+* Remove unnecessary API calls
+* Store form/landing page/tag data in WP Options
+* Add update routine for refreshing local convertkit data
 
 ### 1.5.5 2018-06-01
 * Fix for error in javascript added to landing pages.
