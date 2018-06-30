@@ -567,6 +567,14 @@ class WP_ConvertKit {
 			ConvertKit_Custom_Content::create_table();
 			update_option( 'convertkit_version', CONVERTKIT_PLUGIN_VERSION );
 
-		} // End if().
+		} elseif ( version_compare( $current_version, '1.6.0', '<' ) ) {
+			// Refresh the forms meta to get new forms builder settings
+			$api_key = self::_get_settings( 'api_key' );
+			if ( ! empty( $api_key ) ) {
+				self::api->update_resources( $api_key );
+				error_log("UPGRADE RESOURCES!!!" );
+			}
+			update_option( 'convertkit_version', CONVERTKIT_PLUGIN_VERSION );
+		}// End if().
 	}
 }
