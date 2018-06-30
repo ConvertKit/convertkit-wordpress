@@ -123,12 +123,7 @@ class WP_ConvertKit {
 	 * @param WP_Post $post The current post.
 	 */
 	public static function add_meta_boxes( $post ) {
-		$forms = self::$api->get_resources( 'forms' );
-		$landing_pages = self::$api->get_resources( 'landing_pages' );
-
-		if ( ! empty( $forms ) || ( 'page' === $post->post_type && ! empty( $landing_pages ) ) ) {
-			add_meta_box( 'wp-convertkit-meta-box', __( 'ConvertKit', 'convertkit' ), array( __CLASS__, 'display_meta_box' ), $post->post_type, 'normal' );
-		}
+		add_meta_box( 'wp-convertkit-meta-box', __( 'ConvertKit', 'convertkit' ), array( __CLASS__, 'display_meta_box' ), $post->post_type, 'normal' );
 	}
 
 	/**
@@ -137,10 +132,10 @@ class WP_ConvertKit {
 	 * @param $post
 	 */
 	public static function display_meta_box( $post ) {
-		$forms = self::$api->get_resources( 'forms' );
-		$landing_pages = self::$api->get_resources( 'landing_pages' );
-		$tags = self::$api->get_resources( 'tags' );
-		$tags = self::$api->get_resources( 'tags' );
+
+		$forms = get_option( 'convertkit_forms' );
+		$landing_pages = get_option( 'convertkit_landing_pages' );
+		$tags = get_option( 'convertkit_tags' );
 
 		$meta = self::_get_meta( $post->ID );
 		$settings_link = self::_get_settings_page_link();
@@ -212,16 +207,27 @@ class WP_ConvertKit {
 			}
 
 			if ( 0 < $form_id ) {
-				$url = add_query_arg(
-					array(
-						'api_key' => self::_get_settings( 'api_key' ),
-						'v'       => self::$forms_version,
-					),
-					'https://forms.convertkit.com/' . $form_id . '.html'
-				);
 
-				$form_markup = self::$api->get_resource( $url );
-				$content .= $form_markup;
+				$forms = get_option( 'convertkit_forms' );
+
+				if ( isset( $forms[ $form_id ]['uid'] ) ) {
+					// new form
+					$tag = '<script async data-uid="' . $forms[ $form_id ]['uid'] . '" src="' . $forms[ $form_id ]['embed_js'] . '"></script>';
+					$content .= $tag;
+
+				} else {
+					// old form
+					$url = add_query_arg(
+						array(
+							'api_key' => self::_get_settings( 'api_key' ),
+							'v'       => self::$forms_version,
+						),
+						'https://forms.convertkit.com/' . $form_id . '.html'
+					);
+
+					$form_markup = self::$api->get_resource( $url );
+					$content .= $form_markup;
+				}
 			}
 		}
 
@@ -296,13 +302,22 @@ class WP_ConvertKit {
 
 		if ( isset( $attributes['id'] ) ) {
 			$form_id = $attributes['id'];
-			$url = add_query_arg(
-				array(
-					'api_key' => self::_get_settings( 'api_key' ),
-					'v'       => self::$forms_version,
-				),
-				'https://forms.convertkit.com/' . $form_id . '.html'
-			);
+			$forms = get_option( 'convertkit_forms' );
+
+			if ( isset( $forms[ $form_id ]['uid'] ) ) {
+				// new form
+				$form_markup = '<script async data-uid="' . $forms[ $form_id ]['uid'] . '" src="' . $forms[ $form_id ]['embed_js'] . '"></script>';
+				return apply_filters( 'wp_convertkit_get_form_embed', $form_markup, $attributes );
+			} else {
+				// old form
+				$url = add_query_arg(
+					array(
+						'api_key' => self::_get_settings( 'api_key' ),
+						'v'       => self::$forms_version,
+					),
+					'https://forms.convertkit.com/' . $form_id . '.html'
+				);
+			}
 		} elseif ( isset( $attributes['form'] ) ) {
 			$form_id = $attributes['form'];
 			$url = add_query_arg(
@@ -561,6 +576,13 @@ class WP_ConvertKit {
 			ConvertKit_Custom_Content::create_table();
 			update_option( 'convertkit_version', CONVERTKIT_PLUGIN_VERSION );
 
-		} // End if().
+		} elseif ( version_compare( $current_version, '1.6.0', '<' ) ) {
+			// Refresh the forms meta to get new forms builder settings
+			$api_key = self::_get_settings( 'api_key' );
+			if ( ! empty( $api_key ) ) {
+				self::$api->update_resources( $api_key );
+			}
+			update_option( 'convertkit_version', CONVERTKIT_PLUGIN_VERSION );
+		}// End if().
 	}
 }

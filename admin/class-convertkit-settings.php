@@ -179,7 +179,7 @@ class ConvertKit_Settings {
 	public function get_tags() {
 		check_ajax_referer( 'convertkit-tinymce', 'security' );
 
-		$tags = $this->api->get_resources( 'tags' );
+		$tags = get_option( 'convertkit_tags' );
 		$values = array();
 		foreach ( $tags as $tag ) {
 			$values[] = array(
@@ -264,9 +264,8 @@ class ConvertKit_Settings {
 	 * @param WP_Term $tag
 	 */
 	public function category_form_fields( $tag ) {
-		global $convertkit_settings;
 
-		$forms = $convertkit_settings->api->get_resources( 'forms' );
+		$forms = get_option( 'convertkit_forms' );
 		$default_form = get_term_meta( $tag->term_id, 'ck_default_form', true );
 
 		echo '<tr class="form-field term-description-wrap"><th scope="row"><label for="description">ConvertKit Form</label></th><td>';

@@ -57,8 +57,8 @@ class ConvertKit_Settings_Wishlist extends ConvertKit_Settings_Base {
 	 */
 	public function register_fields() {
 
-		$forms = $this->api->get_resources( 'forms' );
-		$tags  = $this->api->get_resources( 'tags' );
+		$forms = get_option( 'convertkit_forms' );
+		$tags  = get_option( 'convertkit_tags' );
 
 		foreach ( $this->wlm_levels as $wlm_level ) {
 			add_settings_field(
