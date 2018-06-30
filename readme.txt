@@ -46,6 +46,12 @@ Yes, for it to work you must first have an account on ConvertKit.com
 
 == Changelog ==
 
+### 1.6.0 2018-06-30
+* Add support for new form builder
+* Remove unnecessary API calls
+* Store form/landing page/tag data in WP Options
+* Add update routine for refreshing local convertkit data
+
 ### 1.5.5 2018-06-01
 * Fix for error in javascript added to landing pages.
 * Fix for applying tags based on page views on initial visit. This adds an ajax call
