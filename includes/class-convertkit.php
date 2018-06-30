@@ -572,7 +572,6 @@ class WP_ConvertKit {
 			$api_key = self::_get_settings( 'api_key' );
 			if ( ! empty( $api_key ) ) {
 				self::$api->update_resources( $api_key );
-				error_log("UPGRADE RESOURCES!!!" );
 			}
 			update_option( 'convertkit_version', CONVERTKIT_PLUGIN_VERSION );
 		}// End if().
