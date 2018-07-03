@@ -4,7 +4,7 @@ Donate link: https://convertkit.com
 Tags: email, marketing, embed form, convertkit, capture
 Requires at least: 3.6
 Tested up to: 4.9.6
-Stable tag: 1.6.0
+Stable tag: 1.6.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -45,6 +45,11 @@ Yes, for it to work you must first have an account on ConvertKit.com
 2. Add stunning landing pages
 
 == Changelog ==
+
+### 1.6.1 2018-07-03
+* Fix for landing pages not showing in the admin area drop down
+* Fix for showing new landing pages on the front end of the site
+* Added jquery to landing pages as new landing page builder does not include it
 
 ### 1.6.0 2018-06-30
 * Add support for new form builder
