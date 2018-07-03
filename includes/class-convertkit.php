@@ -242,16 +242,29 @@ class WP_ConvertKit {
 		if ( isset( $queried_object->post_type )
 			&& 'page' === $queried_object->post_type ) {
 
-			$landing_page_url = self::_get_meta( $queried_object->ID, 'landing_page' );
+			$landing_page_id = self::_get_meta( $queried_object->ID, 'landing_page' );
 
-			$landing_page = self::$api->get_resource( $landing_page_url );
-
-			if ( ! empty( $landing_page ) ) {
-				$script = WP_ConvertKit::get_ck_script();
-				$script .= "\n</head>";
-				$landing_page = str_replace( '</head>', $script, $landing_page );
-				echo $landing_page; // WPCS: XSS ok.
-				exit;
+			if ( strstr( $landing_page_id, 'http') ) {
+				// Old landing page
+				$landing_page = self::$api->get_resource( $landing_page_id );
+				if ( ! empty( $landing_page ) ) {
+					$script       = WP_ConvertKit::get_ck_script();
+					$script       .= "</head>";
+					$landing_page = str_replace( '</head>', $script, $landing_page );
+					echo $landing_page; // WPCS: XSS ok.
+					exit;
+				}
+			} else {
+				// New landing page
+				$landing_pages = get_option( 'convertkit_landing_pages' );
+				$landing_page = self::$api->get_resource( $landing_pages[$landing_page_id]['embed_url'] );
+				if ( ! empty( $landing_page ) ) {
+					$script       = WP_ConvertKit::get_ck_script( true );
+					$script       .= "</head>";
+					$landing_page = str_replace( '</head>', $script, $landing_page );
+					echo $landing_page; // WPCS: XSS ok.
+					exit;
+				}
 			}
 		}
 	}
@@ -263,9 +276,16 @@ class WP_ConvertKit {
 	 * javascript if we want subscribers tagged correctly.
 	 *
 	 * @since 1.5.2
+	 * @param bool $include_jquery
+	 * @return string
 	 */
-	public static function get_ck_script() {
-		$script = "<script type='text/javascript' src='" . CONVERTKIT_PLUGIN_URL . "resources/frontend/jquery.cookie.min.js?ver=1.4.0'></script>";
+	public static function get_ck_script( $include_jquery = false) {
+		$script = '';
+		if ( $include_jquery ) {
+			$scripts = new WP_Scripts();
+			$script .= "<script type='text/javascript' src='" . trailingslashit( $scripts->base_url ) . "wp-includes/js/jquery/jquery.js?ver=1.4.0'></script>";
+		}
+		$script .= "<script type='text/javascript' src='" . CONVERTKIT_PLUGIN_URL . "resources/frontend/jquery.cookie.min.js?ver=1.4.0'></script>";
 		$script .= "<script type='text/javascript' src='" . CONVERTKIT_PLUGIN_URL . 'resources/frontend/wp-convertkit.js?ver=' . CONVERTKIT_PLUGIN_VERSION . "'></script>";
 		$script .= "<script type='text/javascript'>/* <![CDATA[ */var ck_data = {\"ajaxurl\":\"" . admin_url( 'admin-ajax.php' ) . '"};/* ]]> */</script>';
 		return $script;
@@ -576,7 +596,7 @@ class WP_ConvertKit {
 			ConvertKit_Custom_Content::create_table();
 			update_option( 'convertkit_version', CONVERTKIT_PLUGIN_VERSION );
 
-		} elseif ( version_compare( $current_version, '1.6.0', '<' ) ) {
+		} elseif ( version_compare( $current_version, '1.6.1', '<' ) ) {
 			// Refresh the forms meta to get new forms builder settings
 			$api_key = self::_get_settings( 'api_key' );
 			if ( ! empty( $api_key ) ) {
