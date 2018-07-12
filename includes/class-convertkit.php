@@ -244,6 +244,11 @@ class WP_ConvertKit {
 
 			$landing_page_id = self::_get_meta( $queried_object->ID, 'landing_page' );
 
+			if ( '0' === $landing_page_id ) {
+				// Set to None
+				return;
+			}
+
 			if ( strstr( $landing_page_id, 'http') ) {
 				// Old landing page
 				$landing_page = self::$api->get_resource( $landing_page_id );
