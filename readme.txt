@@ -3,8 +3,8 @@ Contributors: nathanbarry, growdev
 Donate link: https://convertkit.com
 Tags: email, marketing, embed form, convertkit, capture
 Requires at least: 3.6
-Tested up to: 4.9.6
-Stable tag: 1.6.1
+Tested up to: 4.9.7
+Stable tag: 1.6.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -45,6 +45,10 @@ Yes, for it to work you must first have an account on ConvertKit.com
 2. Add stunning landing pages
 
 == Changelog ==
+
+### 1.6.2 2018-07-12
+* Fix for this message when Landing Page is set to None: PHP Notice:  Undefined offset: 0
+* Fix for new form builder being used in shortcode with "form" attribute instead of "id"
 
 ### 1.6.1 2018-07-03
 * Fix for landing pages not showing in the admin area drop down
