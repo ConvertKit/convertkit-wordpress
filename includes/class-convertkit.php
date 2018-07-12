@@ -345,13 +345,21 @@ class WP_ConvertKit {
 			}
 		} elseif ( isset( $attributes['form'] ) ) {
 			$form_id = $attributes['form'];
-			$url = add_query_arg(
-				array(
-					'k' => self::_get_settings( 'api_key' ),
-					'v' => '2',
-				),
-				'https://api.convertkit.com/forms/' . $form_id . '/embed'
-			);
+			$forms = get_option( 'convertkit_forms' );
+
+			if ( isset( $forms[ $form_id ]['uid'] ) ) {
+				// new form
+				$form_markup = '<script async data-uid="' . $forms[ $form_id ]['uid'] . '" src="' . $forms[ $form_id ]['embed_js'] . '"></script>';
+				return apply_filters( 'wp_convertkit_get_form_embed', $form_markup, $attributes );
+			} else {
+				$url = add_query_arg(
+					array(
+						'k' => self::_get_settings( 'api_key' ),
+						'v' => '2',
+					),
+					'https://api.convertkit.com/forms/' . $form_id . '/embed'
+				);
+			}
 		} else {
 			$form_id = self::_get_settings( 'default_form' );
 			$url = add_query_arg(
