@@ -5,7 +5,7 @@ Welcome to the Seva for WordPress repository on GitHub. Here you can view the pl
 If you are not a developer please download the plugin from [WordPress.org](https://wordpress.org/plugins/convertkit/).
 
 
-##Support
+## Support
 
 If you are having issues setting up this plugin on your WordPress site, or have issues with your Seva forms please do the
 following:
