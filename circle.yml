@@ -17,12 +17,6 @@ test:
       composer global require wp-coding-standards/wpcs
       phpcs --config-set installed_paths $HOME/.composer/vendor/wp-coding-standards/wpcs
   override:
-    - phpcs
-    - |
-      rm -rf $WP_TESTS_DIR $WP_CORE_DIR
-      bash bin/install-wp-tests.sh wordpress_test ubuntu '' 127.0.0.1 3.6
-      phpunit
-      WP_MULTISITE=1 phpunit
     - |
       rm -rf $WP_TESTS_DIR $WP_CORE_DIR
       bash bin/install-wp-tests.sh wordpress_test ubuntu '' 127.0.0.1 latest
