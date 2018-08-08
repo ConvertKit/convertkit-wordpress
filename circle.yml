@@ -5,7 +5,7 @@ machine:
 
   php:
     version:
-      5.6.5
+      7.0.4
 
   environment:
     WP_VERSION: latest
