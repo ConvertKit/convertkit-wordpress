@@ -36,6 +36,7 @@ elif [[ $WP_VERSION =~ [0-9]+\.[0-9]+\.[0-9]+ ]]; then
 	fi
 elif [[ $WP_VERSION == 'nightly' || $WP_VERSION == 'trunk' ]]; then
 	WP_TESTS_TAG="trunk"
+	WP_TESTS_TAG_GIT="master"
 else
 	# http serves a single offer, whereas https serves multiple. we only want one
 	download http://api.wordpress.org/core/version-check/1.7/ /tmp/wp-latest.json
@@ -46,6 +47,7 @@ else
 		exit 1
 	fi
 	WP_TESTS_TAG="tags/$LATEST_VERSION"
+	WP_TESTS_TAG_GIT="$LATEST_VERSION"
 fi
 
 set -ex
@@ -104,8 +106,9 @@ install_test_suite() {
 	if [ ! -d $WP_TESTS_DIR ]; then
 		# set up testing suite
 		mkdir -p $WP_TESTS_DIR
-		svn co --quiet https://develop.svn.wordpress.org/${WP_TESTS_TAG}/tests/phpunit/includes/ $WP_TESTS_DIR/includes
-		svn co --quiet https://develop.svn.wordpress.org/${WP_TESTS_TAG}/tests/phpunit/data/ $WP_TESTS_DIR/data
+		git clone --branch=$WP_TESTS_TAG_GIT --depth=1 https://github.com/WordPress/wordpress-develop $WP_TESTS_DIR/wordpress-develop
+		mv $WP_TESTS_DIR/wordpress-develop/tests/phpunit/includes $WP_TESTS_DIR/includes
+ 		mv $WP_TESTS_DIR/wordpress-develop/tests/phpunit/data $WP_TESTS_DIR/data
 	fi
 
 	if [ ! -f wp-tests-config.php ]; then
