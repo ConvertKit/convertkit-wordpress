@@ -25,7 +25,7 @@ jobs:
       - run: echo 'export PATH="$HOME/.composer/vendor/bin:$PATH"' >> $BASH_ENV
       - run: composer global require "phpunit/phpunit=5.7.*"
       - checkout
-      - run: bin/install-wp-tests.sh wordpress_test root '' 127.0.0.1 4.4.16
+      - run: bin/install-wp-tests.sh wordpress_test root '' 127.0.0.1 4.4
       - run: phpunit
       - run: WP_MULTISITE=1 phpunit
 
