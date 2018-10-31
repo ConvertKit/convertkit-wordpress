@@ -33,6 +33,7 @@ elif [[ $WP_VERSION =~ [0-9]+\.[0-9]+\.[0-9]+ ]]; then
 		WP_TESTS_TAG="tags/${WP_VERSION%??}"
 	else
 		WP_TESTS_TAG="tags/$WP_VERSION"
+		WP_TESTS_TAG_GIT="$WP_VERSION"
 	fi
 elif [[ $WP_VERSION == 'nightly' || $WP_VERSION == 'trunk' ]]; then
 	WP_TESTS_TAG="trunk"
