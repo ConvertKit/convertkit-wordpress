@@ -81,7 +81,6 @@ workflows:
   version: 2
   test:
     jobs:
-      - phpcs
       - tests-php-5.6-wp-4.4.16
       - tests-php-7.1-wp-latest
       - tests-php-7.2-wp-latest
