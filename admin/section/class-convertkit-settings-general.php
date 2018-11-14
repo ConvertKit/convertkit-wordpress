@@ -20,7 +20,23 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 		$this->title        = __( 'General Settings', 'convertkit' );
 		$this->tab_text     = __( 'General', 'convertkit' );
 
+		add_action( 'wp_ajax_ck_refresh_forms', array( $this, 'refresh_resources' ) );
+
 		parent::__construct();
+	}
+
+	/**
+	 * Refreshing Resources on AJAX
+	 */
+	public function refresh_resources() {
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error( __( 'You don\'t have enough permissions.', 'convertkit' ) );
+			wp_die();
+		}
+		$api_key = WP_ConvertKit::get_api_key();
+		$this->api->update_resources( $api_key );
+		wp_send_json_success( get_option( 'convertkit_forms', array() ) );
+		wp_die();
 	}
 
 	/**
@@ -51,6 +67,14 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 			$this->settings_key,
 			$this->name,
 			$forms
+		);
+
+		add_settings_field(
+			'refresh_forms',
+			'',
+			array( $this, 'refresh_forms_callback' ),
+			$this->settings_key,
+			$this->name
 		);
 
 		add_settings_field(
@@ -119,13 +143,16 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 		} else {
 			$html = sprintf( '<select id="default_form" name="%s[default_form]">', $this->settings_key );
 			$html .= '<option value="default">' . __( 'None', 'convertkit' ) . '</option>';
-			foreach ( $forms as $form ) {
-				$html .= sprintf(
-					'<option value="%s" %s>%s</option>',
-					esc_attr( $form['id'] ),
-					selected( $this->options['default_form'], $form['id'], false ),
-					esc_html( $form['name'] )
-				);
+			if ( $forms ) {
+				foreach ( $forms as $form ) {
+					$form = (array) $form;
+					$html .= sprintf(
+						'<option value="%s" %s>%s</option>',
+						esc_attr( $form['id'] ),
+						selected( $this->options['default_form'], $form['id'], false ),
+						esc_html( $form['name'] )
+					);
+				}
 			}
 			$html .= '</select>';
 		}
@@ -139,6 +166,14 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 		}
 
 		echo $html; // WPCS: XSS ok.
+	}
+
+	/**
+	 * Callback for settings field
+	 */
+	public function refresh_forms_callback() {
+		$html = '<input type="submit" name="refresh" id="refreshCKForms" class="button" value="Refresh forms"><span id="refreshCKSpinner" class="spinner"></span>';
+		echo $html; // WPCSS: XSS ok.
 	}
 
 	/**
@@ -169,8 +204,12 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 	public function sanitize_settings( $settings ) {
 
 		if ( isset( $settings['api_key'] ) ) {
-			$this->api->update_resources( $settings['api_key'] );
-        }
+			$forms = get_option( 'convertkit_forms' );
+			if ( ! $forms ) {
+				// No Forms? Let's update the resources.
+				$this->api->update_resources( $settings['api_key'] );
+			}
+		}
 		return shortcode_atts( array(
 			'api_key'      => '',
 			'api_secret'   => '',
