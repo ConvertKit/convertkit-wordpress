@@ -1,17 +1,18 @@
-# Seva for WordPress
+# ConvertKit for WordPress
+[![CircleCI](https://circleci.com/gh/ConvertKit/ConvertKit-WordPress.svg?style=svg)](https://circleci.com/gh/ConvertKit/ConvertKit-WordPress)
 
-Welcome to the Seva for WordPress repository on GitHub. Here you can view the plugin source code, review open issues, and see releases of the plugin.
+Welcome to the ConvertKit for WordPress repository on GitHub. Here you can view the plugin source code, review open issues, and see releases of the plugin.
 
 If you are not a developer please download the plugin from [WordPress.org](https://wordpress.org/plugins/convertkit/).
 
 
 ## Support
 
-If you are having issues setting up this plugin on your WordPress site, or have issues with your Seva forms please do the
+If you are having issues setting up this plugin on your WordPress site, or have issues with your ConvertKit forms please do the
 following:
 
 * Check the [Knowledge Base](https://help.convertkit.com/) for an answer to your question.
-* If you're still having trouble contact [Seva Support](https://convertkit.com/support/).
+* If you're still having trouble contact [ConvertKit Support](https://convertkit.com/support/).
 
 ## Getting Started
 
@@ -28,7 +29,5 @@ of your local WordPress install.
 7. Check the Debug checkbox
 8. Press Save Changes
 
-If your API Key is correct, and your computer can connect to the Seva API the Default Form dropdown will populate with 
-the forms defined on your Seva account. Set a default form and press Save Changes.
-
-
+If your API Key is correct, and your computer can connect to the ConvertKit API the Default Form dropdown will populate with 
+the forms defined on your ConvertKit account. Set a default form and press Save Changes.

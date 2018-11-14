@@ -1,0 +1,87 @@
+version: 2
+jobs:
+
+  phpcs:
+    docker:
+      - image: circleci/php:7.1.22-stretch
+    working_directory: ~/convertkit-test
+    steps:
+      - run: sudo cp /usr/local/etc/php/php.ini-development /usr/local/etc/php/php.ini
+      - run: echo 'export PATH="$HOME/.composer/vendor/bin:$PATH"' >> $BASH_ENV
+      - run: composer global require "wp-coding-standards/wpcs"
+      - run: phpcs --config-set installed_paths $HOME/.composer/vendor/wp-coding-standards/wpcs
+      - checkout
+      - run: phpcs
+
+  tests-php-5.6-wp-4.4.16:
+    docker:
+      - image: circleci/php:5.6.38-stretch
+      - image: circleci/mysql:5.7.23-ram
+    working_directory: ~/convertkit-test
+    steps:
+      - run: sudo apt-get install mysql-client
+      - run: sudo cp /usr/local/etc/php/php.ini-development /usr/local/etc/php/php.ini
+      - run: sudo docker-php-ext-install mysqli
+      - run: echo 'export PATH="$HOME/.composer/vendor/bin:$PATH"' >> $BASH_ENV
+      - run: composer global require "phpunit/phpunit=5.7.*"
+      - checkout
+      - run: bin/install-wp-tests.sh wordpress_test root '' 127.0.0.1 4.4.16
+      - run: phpunit
+      - run: WP_MULTISITE=1 phpunit
+
+  tests-php-7.1-wp-latest:
+    docker:
+      - image: circleci/php:7.1.22-stretch
+      - image: circleci/mysql:5.7.23-ram
+    working_directory: ~/convertkit-test
+    steps:
+      - run: sudo apt-get install mysql-client
+      - run: sudo cp /usr/local/etc/php/php.ini-development /usr/local/etc/php/php.ini
+      - run: sudo docker-php-ext-install mysqli
+      - run: echo 'export PATH="$HOME/.composer/vendor/bin:$PATH"' >> $BASH_ENV
+      - run: composer global require "phpunit/phpunit=5.7.*"
+      - checkout
+      - run: bin/install-wp-tests.sh wordpress_test root '' 127.0.0.1 latest
+      - run: phpunit
+      - run: WP_MULTISITE=1 phpunit
+
+  tests-php-7.2-wp-latest:
+    docker:
+      - image: circleci/php:7.2.10-stretch
+      - image: circleci/mysql:5.7.23-ram
+    working_directory: ~/convertkit-test
+    steps:
+      - run: sudo apt-get install mysql-client
+      - run: sudo cp /usr/local/etc/php/php.ini-development /usr/local/etc/php/php.ini
+      - run: sudo docker-php-ext-install mysqli
+      - run: echo 'export PATH="$HOME/.composer/vendor/bin:$PATH"' >> $BASH_ENV
+      - run: composer global require "phpunit/phpunit=5.7.*"
+      - checkout
+      - run: bin/install-wp-tests.sh wordpress_test root '' 127.0.0.1 latest
+      - run: phpunit
+      - run: WP_MULTISITE=1 phpunit
+
+  tests-php-7.2-wp-trunk:
+    docker:
+      - image: circleci/php:7.2.10-stretch
+      - image: circleci/mysql:5.7.23-ram
+    working_directory: ~/convertkit-test
+    steps:
+      - run: sudo apt-get install mysql-client
+      - run: sudo cp /usr/local/etc/php/php.ini-development /usr/local/etc/php/php.ini
+      - run: sudo docker-php-ext-install mysqli
+      - run: echo 'export PATH="$HOME/.composer/vendor/bin:$PATH"' >> $BASH_ENV
+      - run: composer global require "phpunit/phpunit=5.7.*"
+      - checkout
+      - run: bin/install-wp-tests.sh wordpress_test root '' 127.0.0.1 trunk
+      - run: phpunit
+      - run: WP_MULTISITE=1 phpunit
+
+workflows:
+  version: 2
+  test:
+    jobs:
+      - tests-php-5.6-wp-4.4.16
+      - tests-php-7.1-wp-latest
+      - tests-php-7.2-wp-latest
+      - tests-php-7.2-wp-trunk
