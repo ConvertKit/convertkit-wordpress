@@ -3,7 +3,7 @@
   "title": "ConvertKit",
   "author": "ConvertKit",
   "license": "GPL-2.0",
-  "version": "1.4.4",
+  "version": "1.6.2",
   "description": "",
   "homepage": "https://github.com/convertkit/ConvertKit-WordPress",
   "main": "Gruntfile.js",
@@ -17,6 +17,9 @@
   "devDependencies": {
     "exec": "^0.1.2",
     "grunt-bump": "^0.8.0",
+    "exec": "^0.1.2",
+    "grunt": "^1.0.3",
+    "grunt-bump": "0.0.16",
     "grunt-checktextdomain": "^1.0.1",
     "grunt-exec": "^0.4.6",
     "grunt-phpcs": "^0.2.3",
