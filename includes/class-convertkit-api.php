@@ -443,8 +443,8 @@ class ConvertKit_API {
 				}
 			} else {
 				WP_ConvertKit::log( 'API Response was WP_Error (get_resource): ' .
-					'Code: ' . $response->get_error_code() . ' ' .
-					'Message: ' . $response->get_error_message()
+									'Code: ' . $response->get_error_code() . ' ' .
+									'Message: ' . $response->get_error_message()
 				);
 			} // End if().
 		} // End if().

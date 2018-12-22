@@ -33,9 +33,30 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 			wp_send_json_error( __( 'You don\'t have enough permissions.', 'convertkit' ) );
 			wp_die();
 		}
-		$api_key = WP_ConvertKit::get_api_key();
+
+		$api_key = isset( $_REQUEST['api_key'] ) ? $_REQUEST['api_key'] : WP_ConvertKit::get_api_key();
+
+		if ( ! $api_key ) {
+			update_option( 'convertkit_forms', array() );
+			wp_send_json_error( __( 'There is no API key.', 'convertkit' ) );
+			wp_die();
+		}
+
 		$this->api->update_resources( $api_key );
-		wp_send_json_success( get_option( 'convertkit_forms', array() ) );
+
+		$forms = get_option( 'convertkit_forms', array() );
+		if ( isset( $forms[0] ) && isset( $forms[0]['id'] ) && '-2' === $forms[0]['id'] ) {
+			wp_send_json_error( __( 'Error connecting to API. Please verify your site can connect to <code>https://api.convertkit.com</code>','convertkit' ) );
+			wp_die();
+		}
+
+		$html = '';
+
+		ob_start();
+		$this->default_form_callback( $forms );
+		$html = ob_get_clean();
+
+		wp_send_json_success( $html );
 		wp_die();
 	}
 
@@ -43,7 +64,7 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 	 * Register and add settings
 	 */
 	public function register_fields() {
-	    $forms = get_option( 'convertkit_forms' );
+		$forms = get_option( 'convertkit_forms' );
 		add_settings_field(
 			'api_key',
 			'API Key',
@@ -91,10 +112,10 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 	 */
 	public function print_section_info() {
 		?>
-		<p><?php esc_html_e( 'Choosing a default form will embed it at the bottom of every post or page (in single view only) across your site.', 'convertkit' ); ?></p>
-		<p><?php esc_html_e( 'If you wish to turn off form embedding or select a different form for an individual post or page, you can do so using the ConvertKit meta box on the edit page.', 'convertkit' ); ?></p><?php
+        <p><?php esc_html_e( 'Choosing a default form will embed it at the bottom of every post or page (in single view only) across your site.', 'convertkit' ); ?></p>
+        <p><?php esc_html_e( 'If you wish to turn off form embedding or select a different form for an individual post or page, you can do so using the ConvertKit meta box on the edit page.', 'convertkit' ); ?></p><?php
 		/* translators: 1: shortcode */ ?>
-		<p><?php printf( esc_html__( 'The default form can be inserted into the middle of post or page content by using the %s shortcode.', 'convertkit' ), '<code>[convertkit]</code>' ); ?></p>
+        <p><?php printf( esc_html__( 'The default form can be inserted into the middle of post or page content by using the %s shortcode.', 'convertkit' ), '<code>[convertkit]</code>' ); ?></p>
 		<?php
 	}
 
@@ -110,6 +131,11 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 
 		$html .= '<p class="description"><a href="https://app.convertkit.com/account/edit" target="_blank">' . __( 'Get your ConvertKit API Key', 'convertkit' ) . '</a></p>';
 
+		$has_api = isset( $this->options['api_key'] ) ? esc_attr( $this->options['api_key'] ) : false;
+
+		if ( ! $has_api ) {
+			$html .= '<p class="description">' . __( 'Add you API Key to get started', 'convertkit' ) . '</p>';
+		}
 		echo $html; // WPCS: XSS ok.
 	}
 
@@ -136,12 +162,12 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 	 * @param array $forms Form listing.
 	 */
 	public function default_form_callback( $forms ) {
-
+		$html = '<div id="default_form_container">';
 		// Check for error in response.
 		if ( isset( $forms[0]['id'] ) && '-2' === $forms[0]['id'] ) {
-			$html = '<p class="error">' . __( 'Error connecting to API. Please verify your site can connect to <code>https://api.convertkit.com</code>','convertkit' ) . '</p>';
+			$html .= '<p id="default_form_error" class="error">' . __( 'Error connecting to API. Please verify your site can connect to <code>https://api.convertkit.com</code>','convertkit' ) . '</p>';
 		} else {
-			$html = sprintf( '<select id="default_form" name="%s[default_form]">', $this->settings_key );
+			$html .= sprintf( '<select id="default_form" name="%s[default_form]">', $this->settings_key );
 			$html .= '<option value="default">' . __( 'None', 'convertkit' ) . '</option>';
 			if ( $forms ) {
 				foreach ( $forms as $form ) {
@@ -165,14 +191,16 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 			$html .= '<p class="description">' . __( 'There are no forms setup in your account. You can go <a href="https://app.convertkit.com/landing_pages/new" target="_blank">here</a> to create one.', 'convertkit' ) . '</p>';
 		}
 
+		$html .= '</div>';
+
 		echo $html; // WPCS: XSS ok.
 	}
 
-	/**
-	 * Callback for settings field
-	 */
 	public function refresh_forms_callback() {
-		$html = '<input type="submit" name="refresh" id="refreshCKForms" class="button" value="Refresh forms"><span id="refreshCKSpinner" class="spinner"></span>';
+		$has_api = isset( $this->options['api_key'] ) ? esc_attr( $this->options['api_key'] ) : false;
+
+		$html = '<input ' . ( $has_api ? '' : 'style="display:none;"' ) . ' type="submit" name="refresh" id="refreshCKForms" class="button" value="' . __( 'Refresh forms', 'convertkit' ) . '"><span id="refreshCKSpinner" class="spinner"></span>';
+
 		echo $html; // WPCSS: XSS ok.
 	}
 

@@ -11,6 +11,7 @@
 
         this.hooks = function () {
             $(document).on('click', '#refreshCKForms', this.refreshForms);
+            $(document).on( 'keyup', '#api_key', this.hideShowRefreshButton );
         };
 
         this.startSpinner = function () {
@@ -26,21 +27,10 @@
             self.startSpinner();
             $.ajax({
                 url: window.ajaxurl,
-                data: { action: 'ck_refresh_forms' },
+                data: { action: 'ck_refresh_forms', api_key: $('#api_key').val() },
                 success: function (resp) {
                     if ( resp.success ) {
-                        $('#default_form').html('');
-                        $('#default_form').append($('<option>', {
-                            value: 'default',
-                            text: ck_admin.option_none
-                        }));
-                        for( var form_id in resp.data ) {
-                            var form = resp.data[ form_id ];
-                            $('#default_form').append($('<option>', {
-                                value: form_id,
-                                text: form.name
-                            }));
-                        }
+                        $('#default_form_container').parent().html( resp.data );
                     } else {
                         alert( resp.data );
                     }
@@ -54,6 +44,15 @@
             });
         };
 
+        this.hideShowRefreshButton = function(e) {
+            var value = $(this).val();
+
+            if ( value ) {
+                $('#refreshCKForms').show();
+            } else {
+                $('#refreshCKForms').hide();
+            }
+        };
     }
 
     // Doc Ready
