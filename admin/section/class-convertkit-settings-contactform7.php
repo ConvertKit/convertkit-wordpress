@@ -224,7 +224,7 @@ class ConvertKit_Settings_ContactForm7 extends ConvertKit_Settings_Base {
 		$cf7_form_id = $args['cf7_form_id'];
 		$forms  = $args['forms'];
 
-		$html = sprintf( '<select id="%1$s_%2$s" name="%1$s[%2$s]">', $this->settings_key, $cf7_form_id );
+		$html = sprintf( '<select id="%1$s_%2$s" class="widefat" name="%1$s[%2$s]">', $this->settings_key, $cf7_form_id );
 		$html .= '<option value="default">' . esc_html__( 'None', 'convertkit' ) . '</option>';
 		foreach ( $forms as $form ) {
 			$selected = '';
@@ -274,7 +274,7 @@ class ConvertKit_Settings_ContactForm7 extends ConvertKit_Settings_Base {
 		$output = $this->options;
 
 		foreach ( $input as $key => $value ) {
-			$output[ $key ] = stripslashes( $input[ $key ] );
+			$output[ $key ] = sanitize_text_field( $input[ $key ] );
 		}
 		$sanitize_hook = 'sanitize' . $this->settings_key;
 		return apply_filters( $sanitize_hook, $output, $input );
