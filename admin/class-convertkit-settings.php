@@ -44,6 +44,8 @@ class ConvertKit_Settings {
 		add_action( 'admin_menu', array( $this, 'add_settings_page' ) );
 		add_action( 'admin_init', array( $this, 'register_sections' ) );
 
+		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
+
 		// AJAX callback for TinyMCE button to get list of tags
 		add_action( 'wp_ajax_convertkit_get_tags', array( $this, 'get_tags' ) );
 		// Function to output
@@ -56,6 +58,21 @@ class ConvertKit_Settings {
 		if ( WP_DEBUG ) {
 			add_action( 'show_user_profile', array( $this, 'add_customer_meta_fields' ) );
 			add_action( 'edit_user_profile', array( $this, 'add_customer_meta_fields' ) );
+		}
+	}
+
+	/**
+	 * Enqueue Scripts in Admin
+	 *
+	 * @param $hook
+	 */
+	public function enqueue_scripts( $hook ) {
+
+		if ( 'settings_page__wp_convertkit_settings' === $hook ) {
+			wp_enqueue_script( 'ck-admin-js', plugins_url( '../resources/backend/wp-convertkit.js', __FILE__ ), array( 'jquery' ), CONVERTKIT_PLUGIN_VERSION, true );
+			wp_localize_script( 'ck-admin-js', 'ck_admin', array(
+				'option_none' => __( 'None', 'convertkit' ),
+			));
 		}
 	}
 
@@ -85,35 +102,35 @@ class ConvertKit_Settings {
 		}
 
 		?>
-		<div class="wrap convertkit-settings-wrap">
-		<?php
-		if ( count( $this->sections ) > 1 ) {
-			$this->display_section_nav( $active_section );
-		} else {
-			?>
-			<h2><?php esc_html_e( 'ConvertKit', 'convertkit' ); ?></h2>
+        <div class="wrap convertkit-settings-wrap">
 			<?php
-		}
-		?>
+			if ( count( $this->sections ) > 1 ) {
+				$this->display_section_nav( $active_section );
+			} else {
+				?>
+                <h2><?php esc_html_e( 'ConvertKit', 'convertkit' ); ?></h2>
+				<?php
+			}
+			?>
 
-		<form method="post" action="options.php">
-		<?php
-		foreach ( $this->sections as $section ) :
-			if ( $active_section === $section->name ) :
-				$section->render();
-			endif;
-		endforeach;
+            <form method="post" action="options.php">
+				<?php
+				foreach ( $this->sections as $section ) :
+					if ( $active_section === $section->name ) :
+						$section->render();
+					endif;
+				endforeach;
 
-		// Check for Multibyte string PHP extension.
-		if ( ! extension_loaded( 'mbstring' ) ) {
-			?><p><strong><?php
-			echo  sprintf( __( 'Note: Your server does not support the %s functions - this is required for better character encoding. Please contact your webhost to have it installed.', 'woocommerce' ), '<a href="https://php.net/manual/en/mbstring.installation.php">mbstring</a>' ) . '</mark>';
-			?></strong></p><?php
-		}
-		?><p class="description"><?php
-				printf( 'If you need help setting up the plugin please refer to the %s plugin documentation.</a>', '<a href="http://help.convertkit.com/article/99-the-convertkit-wordpress-plugin" target="_blank">' ); ?></p>
-		</form>
-		</div>
+				// Check for Multibyte string PHP extension.
+				if ( ! extension_loaded( 'mbstring' ) ) {
+					?><p><strong><?php
+						echo  sprintf( __( 'Note: Your server does not support the %s functions - this is required for better character encoding. Please contact your webhost to have it installed.', 'woocommerce' ), '<a href="https://php.net/manual/en/mbstring.installation.php">mbstring</a>' ) . '</mark>';
+						?></strong></p><?php
+				}
+				?><p class="description"><?php
+					printf( 'If you need help setting up the plugin please refer to the %s plugin documentation.</a>', '<a href="http://help.convertkit.com/article/99-the-convertkit-wordpress-plugin" target="_blank">' ); ?></p>
+            </form>
+        </div>
 		<?php
 	}
 
@@ -131,20 +148,20 @@ class ConvertKit_Settings {
 	 */
 	public function display_section_nav( $active_section ) {
 		?>
-		<h1><?php esc_html_e( 'ConvertKit', 'convertkit' ); ?></h1>
-		<h2 class="nav-tab-wrapper">
-		<?php
-		foreach ( $this->sections as $section ) :
-			printf(
-				'<a href="?page=%s&tab=%s" class="nav-tab right %s">%s</a>',
-				esc_html( $this->settings_key ),
-				esc_html( $section->name ),
-				$active_section === $section->name ? 'nav-tab-active' : '',
-				esc_html( $section->tab_text )
-			);
-		endforeach;
-		?>
-		</h2>
+        <h1><?php esc_html_e( 'ConvertKit', 'convertkit' ); ?></h1>
+        <h2 class="nav-tab-wrapper">
+			<?php
+			foreach ( $this->sections as $section ) :
+				printf(
+					'<a href="?page=%s&tab=%s" class="nav-tab right %s">%s</a>',
+					esc_html( $this->settings_key ),
+					esc_html( $section->name ),
+					$active_section === $section->name ? 'nav-tab-active' : '',
+					esc_html( $section->tab_text )
+				);
+			endforeach;
+			?>
+        </h2>
 		<?php
 	}
 
@@ -201,25 +218,25 @@ class ConvertKit_Settings {
 		if ( $pagenow !== 'admin.php' ) {
 			$nonce = wp_create_nonce( 'convertkit-tinymce' );
 			?><script type="text/javascript">
-				jQuery( document ).ready( function( $ ) {
-					var data = {
-						'action'	: 'convertkit_get_tags', // wp ajax action
-						'security'	: '<?php echo $nonce; ?>' // nonce value created earlier
-					};
-					jQuery.post( ajaxurl, data, function( response ) {
-						if( response === '-1' ){
-							console.log( 'error convertkit_get_tags' );
-						} else {
-							if ( typeof( tinyMCE ) != 'undefined' ) {
-								if (tinyMCE.activeEditor != null) {
-									tinyMCE.activeEditor.settings.ckTags = response;
-									console.log('added tags');
-								}
-							}
-						}
-					});
-				});
-			</script>
+                jQuery( document ).ready( function( $ ) {
+                    var data = {
+                        'action'	: 'convertkit_get_tags', // wp ajax action
+                        'security'	: '<?php echo $nonce; ?>' // nonce value created earlier
+                    };
+                    jQuery.post( ajaxurl, data, function( response ) {
+                        if( response === '-1' ){
+                            console.log( 'error convertkit_get_tags' );
+                        } else {
+                            if ( typeof( tinyMCE ) != 'undefined' ) {
+                                if (tinyMCE.activeEditor != null) {
+                                    tinyMCE.activeEditor.settings.ckTags = response;
+                                    console.log('added tags');
+                                }
+                            }
+                        }
+                    });
+                });
+            </script>
 			<?php
 		}
 	}
@@ -232,13 +249,13 @@ class ConvertKit_Settings {
 
 		$tags = get_user_meta( $user->ID, 'convertkit_tags', true );
 		?>
-		<h2><?php esc_attr_e( 'ConvertKit Tags', 'convertkit' ) ?></h2>
-		<table class="form-table" id="<?php echo esc_attr( 'fieldset-convertkit' ); ?>">
+        <h2><?php esc_attr_e( 'ConvertKit Tags', 'convertkit' ) ?></h2>
+        <table class="form-table" id="<?php echo esc_attr( 'fieldset-convertkit' ); ?>">
 			<?php
-				?>
-				<tr>
-					<th><label for="tags"><?php esc_attr_e( 'Tags', 'convertkit' ) ?></label></th>
-					<td><textarea id="tags" name="tags" disabled="disabled">
+			?>
+            <tr>
+                <th><label for="tags"><?php esc_attr_e( 'Tags', 'convertkit' ) ?></label></th>
+                <td><textarea id="tags" name="tags" disabled="disabled">
 					<?php
 					if ( empty( $tags ) ) {
 						esc_html_e( 'No ConvertKit Tags assigned to this user.' ,'convertkit' );
@@ -249,11 +266,11 @@ class ConvertKit_Settings {
 						}
 					}
 					?></textarea>
-					</td>
-				</tr>
-				<?php
+                </td>
+            </tr>
+			<?php
 			?>
-		</table>
+        </table>
 		<?php
 	}
 
@@ -268,7 +285,7 @@ class ConvertKit_Settings {
 		$forms = get_option( 'convertkit_forms' );
 		$default_form = get_term_meta( $tag->term_id, 'ck_default_form', true );
 
-		echo '<tr class="form-field term-description-wrap"><th scope="row"><label for="description">ConvertKit Form</label></th><td>';
+		echo '<tr class="form-field ck-term-description-wrap"><th scope="row"><label for="description">ConvertKit Form</label></th><td>';
 
 		// Check for error in response.
 		if ( isset( $forms[0]['id'] ) && '-2' === $forms[0]['id'] ) {

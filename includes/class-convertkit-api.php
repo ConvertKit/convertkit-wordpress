@@ -108,8 +108,12 @@ class ConvertKit_API {
 		WP_ConvertKit::log( 'Updating resource with API key: ' . $api_key );
 		// Forms and Landing Pages
 		$api_response = $this->_get_api_response( 'forms' );
+		WP_ConvertKit::log( 'API Response: ' . print_r( $api_response, true ) );
 
-		if ( is_null( $api_response ) || is_wp_error( $api_response ) || isset( $api_response['error'] ) || isset( $api_response['error_message'] ) ) {
+		if ( is_null( $api_response )
+			 || is_wp_error( $api_response )
+			 || isset( $api_response['error'] )
+			 || isset( $api_response['error_message'] ) ) {
 			$error_message = isset( $api_response['error'] ) ? $api_response['error'] : 'unknown error';
 			$error_message .= is_wp_error( $api_response ) ? $api_response->get_error_message() : '';
 			WP_ConvertKit::log( 'Error contacting API: ' . $error_message );
@@ -439,8 +443,8 @@ class ConvertKit_API {
 				}
 			} else {
 				WP_ConvertKit::log( 'API Response was WP_Error (get_resource): ' .
-					'Code: ' . $response->get_error_code() . ' ' .
-					'Message: ' . $response->get_error_message()
+									'Code: ' . $response->get_error_code() . ' ' .
+									'Message: ' . $response->get_error_message()
 				);
 			} // End if().
 		} // End if().
