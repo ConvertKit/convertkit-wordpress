@@ -4,7 +4,7 @@ Donate link: https://convertkit.com
 Tags: email, marketing, embed form, convertkit, capture
 Requires at least: 3.6
 Tested up to: 4.9.7
-Stable tag: 1.6.2
+Stable tag: 1.6.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -45,6 +45,10 @@ Yes, for it to work you must first have an account on ConvertKit.com
 2. Add stunning landing pages
 
 == Changelog ==
+
+### 1.6.3 2019-01-07
+* Fixes issues with Contact Form 7 integration not saving form settings.
+* Adds button to refresh on settings page, to fetch new forms added to the connected ConvertKit account.
 
 ### 1.6.2 2018-07-12
 * Fix for this message when Landing Page is set to None: PHP Notice:  Undefined offset: 0
