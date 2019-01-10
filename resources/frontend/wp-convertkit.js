@@ -78,7 +78,7 @@ jQuery(document).ready(function($) {
     jQuery(".formkit-form").submit( function() {
         var email = jQuery("input[name=email_address]").val();
 
-        sleep( 2000 );
+        sleep( 1000 );
 
         $.ajax({
             type: "POST",
