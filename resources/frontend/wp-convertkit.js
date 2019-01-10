@@ -75,8 +75,7 @@ jQuery(document).ready(function($) {
      * If found add cookie.
      *
      */
-    jQuery(".formkit-submit").click( function() {
-
+    jQuery(".formkit-form").submit( function() {
         var email = jQuery("input[name=email_address]").val();
 
         sleep( 2000 );
