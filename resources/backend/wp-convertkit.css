@@ -18,3 +18,12 @@
         background-size: 18px 17px !important;
     }
 }
+
+.gutenberg-editor-page #wp-convertkit-meta-box select { width: 100%; }
+.gutenberg-editor-page #wp-convertkit-meta-box tr,
+.gutenberg-editor-page #wp-convertkit-meta-box th,
+.gutenberg-editor-page #wp-convertkit-meta-box td {
+    display: block;
+    width: 100%;
+    padding: 10px 0;
+}

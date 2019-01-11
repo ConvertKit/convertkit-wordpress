@@ -63,6 +63,7 @@ class WP_ConvertKit {
 	 */
 	private static function add_actions() {
 		add_action( 'plugins_loaded', array( __CLASS__, 'load_textdomain' ) );
+
 		if ( is_admin() ) {
 			add_action( 'add_meta_boxes_page', array( __CLASS__, 'add_meta_boxes' ) );
 			add_action( 'add_meta_boxes_post', array( __CLASS__, 'add_meta_boxes' ) );
@@ -123,7 +124,11 @@ class WP_ConvertKit {
 	 * @param WP_Post $post The current post.
 	 */
 	public static function add_meta_boxes( $post ) {
-		add_meta_box( 'wp-convertkit-meta-box', __( 'ConvertKit', 'convertkit' ), array( __CLASS__, 'display_meta_box' ), $post->post_type, 'normal' );
+		$context = 'normal';
+		if ( function_exists( 'is_gutenberg_page' ) ) {
+			$context = is_gutenberg_page() ? 'side' : 'normal';
+		}
+		add_meta_box( 'wp-convertkit-meta-box', __( 'ConvertKit', 'convertkit' ), array( __CLASS__, 'display_meta_box' ), $post->post_type, $context );
 	}
 
 	/**
@@ -307,6 +312,7 @@ class WP_ConvertKit {
 			'ajaxurl' => admin_url( 'admin-ajax.php' ),
 		) );
 		wp_enqueue_script( 'convertkit-js' );
+
 	}
 
 	/**
@@ -329,9 +335,10 @@ class WP_ConvertKit {
 			$form_id = $attributes['id'];
 			$forms = get_option( 'convertkit_forms' );
 
-			if ( isset( $forms[ $form_id ]['uid'] ) ) {
+			if ( isset( $forms[ $form_id ] ) && property_exists( (object) $forms[ $form_id ], 'uid' ) ) {
+				$forms[ $form_id ] = (object) $forms[ $form_id ];
 				// new form
-				$form_markup = '<script async data-uid="' . $forms[ $form_id ]['uid'] . '" src="' . $forms[ $form_id ]['embed_js'] . '"></script>';
+				$form_markup = '<script async data-uid="' . $forms[ $form_id ]->uid . '" src="' . $forms[ $form_id ]->embed_js . '"></script>';
 				return apply_filters( 'wp_convertkit_get_form_embed', $form_markup, $attributes );
 			} else {
 				// old form

@@ -31,3 +31,17 @@ of your local WordPress install.
 
 If your API Key is correct, and your computer can connect to the ConvertKit API the Default Form dropdown will populate with 
 the forms defined on your ConvertKit account. Set a default form and press Save Changes.
+
+
+## Contributing
+
+Make sure to have `npm` installed.
+
+Position yourself in the plugin folder and install dependencies if it's your first time by typing: `npm install`.
+
+Before writing CSS or JavaScript run `npm run watch`.
+
+## Production
+
+To make the JS and CSS ready for production run `npm run build`.
+
