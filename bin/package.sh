@@ -16,4 +16,13 @@ unzip convertkit.zip
 NEW_DIR=$(echo $RELEASE_VERSION | sed -e 's/\//-/g')
 cd ConvertKit-WordPress-$NEW_DIR
 
-composer install --no-dev
+if [ -e composer.json ]
+then
+    composer install --no-dev
+fi
+
+if [ -e .distignore ]
+then
+    wp dist-archive ./
+fi
+
