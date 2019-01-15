@@ -1,0 +1,17 @@
+.github
+bin
+tests
+vendor
+.env
+.gitignore
+.git
+.travis.yml
+circle.yml
+Gruntfile.js
+log.txt
+package.json
+package-lock.json
+phpcs.xml.dist
+phpunit.xml
+phpunit.xml.dist
+README.md
