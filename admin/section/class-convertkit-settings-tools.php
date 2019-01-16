@@ -133,10 +133,9 @@ class ConvertKit_Settings_Tools extends ConvertKit_Settings_Base {
 
 	/**
 	 * Sanitizes the settings.
-	 * We are also using this to clear the Log file.
+     * We are also using this to clear the Log file.
 	 *
 	 * @param  array $settings The settings fields submitted.
-	 *
 	 * @return array           Sanitized settings.
 	 */
 	public function sanitize_settings( $settings ) {
