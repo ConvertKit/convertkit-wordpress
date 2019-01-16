@@ -7,6 +7,8 @@ vendor
 .git
 .travis.yml
 circle.yml
+composer.json
+composer.lock
 Gruntfile.js
 log.txt
 package.json
