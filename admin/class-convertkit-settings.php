@@ -44,6 +44,8 @@ class ConvertKit_Settings {
 		add_action( 'admin_menu', array( $this, 'add_settings_page' ) );
 		add_action( 'admin_init', array( $this, 'register_sections' ) );
 
+		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
+
 		// AJAX callback for TinyMCE button to get list of tags
 		add_action( 'wp_ajax_convertkit_get_tags', array( $this, 'get_tags' ) );
 		// Function to output
@@ -56,6 +58,20 @@ class ConvertKit_Settings {
 		if ( WP_DEBUG ) {
 			add_action( 'show_user_profile', array( $this, 'add_customer_meta_fields' ) );
 			add_action( 'edit_user_profile', array( $this, 'add_customer_meta_fields' ) );
+		}
+	}
+
+	/**
+	 * Enqueue Scripts in Admin
+	 *
+	 * @param $hook
+	 */
+	public function enqueue_scripts( $hook ) {
+		if ( 'settings_page__wp_convertkit_settings' === $hook ) {
+			wp_enqueue_script( 'ck-admin-js', plugins_url( '../resources/backend/wp-convertkit.js', __FILE__ ), array( 'jquery' ), CONVERTKIT_PLUGIN_VERSION, true );
+			wp_localize_script( 'ck-admin-js', 'ck_admin', array(
+				'option_none' => __( 'None', 'convertkit' ),
+			));
 		}
 	}
 
