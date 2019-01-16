@@ -12,7 +12,11 @@ download() {
 download https://github.com/ConvertKit/ConvertKit-WordPress/archive/$RELEASE_VERSION.zip $DOWNLOAD_LOCATION/convertkit.zip
 
 cd $DOWNLOAD_LOCATION
+
 unzip convertkit.zip
+
+rm convertkit.zip
+
 NEW_DIR=$(echo $RELEASE_VERSION | sed -e 's/\//-/g')
 cd ConvertKit-WordPress-$NEW_DIR
 
@@ -23,6 +27,6 @@ fi
 
 if [ -e .distignore ]
 then
-    wp dist-archive ./
+    wp dist-archive ./ $DOWNLOAD_LOCATION/convertkit-packaged.zip
 fi
 
