@@ -235,14 +235,14 @@ class ConvertKit_Settings_Wishlist extends ConvertKit_Settings_Base {
 	 */
 	public function sanitize_settings( $input ) {
 		// Settings page can be paginated; combine input with existing options.
-		$output = $this->options;
+		// If saved options are not an array, start fresh. Fixes rogue saved options
+		$output = is_array( $this->options ) ? $this->options : array();
 
 		foreach ( $input as $key => $value ) {
-			list( $level_id, $setting ) = explode( '_', $key );
-
-			$output[ $key ] = stripslashes( $input[ $key ] );
+			$output[ $key ] = sanitize_text_field( $value );
 		}
 		$sanitize_filter = 'sanitize' . $this->settings_key;
+
 		return apply_filters( $sanitize_filter, $output, $input );
 	}
 }
