@@ -20,6 +20,7 @@ jQuery(document).ready(function($) {
             var values = JSON.parse(response);
             if ( 0 != values.subscriber_id) {
                 $.cookie('ck_subscriber_id', values.subscriber_id, {expires: 365, path: '/'});
+                ckRemoveSubscriberId( window.location.href );
             }
         }
 
@@ -43,7 +44,6 @@ jQuery(document).ready(function($) {
         for (var i=0;i<vars.length;i++) {
             var pair = vars[i].split("=");
             if(pair[0] == variable){
-                ckRemoveSubscriberId( window.location.href );
                 return parseInt( pair[1] );
             }
         }
