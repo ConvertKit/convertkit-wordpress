@@ -75,11 +75,10 @@ jQuery(document).ready(function($) {
      * If found add cookie.
      *
      */
-    jQuery("#ck_subscribe_button").click( function() {
+    jQuery(document).on('click', '.formkit-submit', function() {
+        var email = jQuery("input[name=email_address]").val();
 
-        var email = jQuery("#ck_emailField").val();
-
-        sleep( 2000 );
+        sleep( 1000 );
 
         $.ajax({
             type: "POST",
@@ -102,8 +101,6 @@ jQuery(document).ready(function($) {
                 console.log( "AJAX ERROR" + response );
             }
         });
-
-
     });
 
     /**
@@ -120,3 +117,4 @@ jQuery(document).ready(function($) {
     }
 
 });
+
