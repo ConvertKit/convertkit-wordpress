@@ -76,15 +76,17 @@ class ConvertKit_Custom_Content {
 	public function maybe_tag_subscriber_ajax(){
 
 		// get post_id from url
-		$url            = isset( $_POST['url'] ) ? sanitize_text_field( $_POST['url'] ): '';
+		$url     = isset( $_POST['url'] ) ? sanitize_text_field( $_POST['url'] ) : '';
 		$post_id = url_to_postid( $url );
-		$post = get_post( $post_id );
+		$post    = get_post( $post_id );
 
 		// set cookie
-		$subscriber_id   = isset( $_POST['subscriber_id'] ) ? sanitize_text_field( $_POST['subscriber_id'] ): 0;
+		$subscriber_id               = isset( $_POST['subscriber_id'] ) ? sanitize_text_field( $_POST['subscriber_id'] ) : 0;
 		$_COOKIE['ck_subscriber_id'] = absint( $subscriber_id );
 
-		ConvertKit_Custom_Content::maybe_tag_subscriber( $post );
+		if ( isset( $post ) ) {
+			ConvertKit_Custom_Content::maybe_tag_subscriber( $post );
+		}
 		echo json_encode(
 			array(
 				'subscriber_id' => $subscriber_id,
@@ -224,8 +226,7 @@ class ConvertKit_Custom_Content {
 	 * If the user views page with a cookie 'ck_subscriber_id' then check if tags need to be applied based on visit.
 	 *
 	 * @see https://app.convertkit.com/account/edit#email_settings
-	 * @param $post
-	 * @param null|int $subscriber_id
+	 * @param $post WP_Post
 	 */
 	public static function maybe_tag_subscriber( $post ) {
 
