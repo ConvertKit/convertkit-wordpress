@@ -3,8 +3,8 @@ Contributors: nathanbarry, growdev
 Donate link: https://convertkit.com
 Tags: email, marketing, embed form, convertkit, capture
 Requires at least: 3.6
-Tested up to: 4.9.7
-Stable tag: 1.6.3
+Tested up to: 5.0.3
+Stable tag: 1.6.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -45,6 +45,13 @@ Yes, for it to work you must first have an account on ConvertKit.com
 2. Add stunning landing pages
 
 == Changelog ==
+
+### 1.6.4 2019-01-18
+* Added tools tab with debug log and system info boxes
+* Fixed a bug that would show a PHP notice in some cases
+* Fixed two bugs that would sometimes result in the custom content feature failing
+* Fixed a bug that would sometimes cause WishList Member integration settings to not save
+
 
 ### 1.6.3 2019-01-07
 * Fixes issues with Contact Form 7 integration not saving form settings.
