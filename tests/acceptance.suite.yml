@@ -30,3 +30,15 @@ modules:
             adminUsername: 'travis'
             adminPassword: 'password'
             adminPath: '/wp-admin'
+        WPLoader:
+            wpRootFolder: '/Users/travis/sites/ck'
+            dbName: 'wp_test_ck'
+            dbHost: 'localhost'
+            dbUser: 'root'
+            dbPassword: ''
+            tablePrefix: 'wp_'
+            domain: 'https://ck.test'
+            adminEmail: 'travis@memberup.co'
+            title: "Test"
+            plugins: [ 'ConvertKit-WordPress/wp-convertkit.php', 'contact-form-7/wp-contact-form-7.php' ]
+            activatePlugins: [ 'ConvertKit-WordPress/wp-convertkit.php', 'contact-form-7/wp-contact-form-7.php' ]

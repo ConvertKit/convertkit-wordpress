@@ -31,6 +31,11 @@ class SignInCest {
 		$I->seeElement('option', ['value' => 'default']);
 		$I->seeElement('option', ['value' => '820085']);
 
+//		$source = $I->grabPageSource();
+//		var_dump($source);
+//		error_log($source);
+//		codecept_debug($source);
+
 		$I->seeOptionIsSelected('form select[id=_wp_convertkit_integration_contactform7_settings_5]', 'None');
 
 		$I->selectOption('form select[id=_wp_convertkit_integration_contactform7_settings_5]', 'Clean form');
