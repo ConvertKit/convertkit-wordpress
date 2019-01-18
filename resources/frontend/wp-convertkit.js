@@ -20,6 +20,7 @@ jQuery(document).ready(function($) {
             var values = JSON.parse(response);
             if ( 0 != values.subscriber_id) {
                 $.cookie('ck_subscriber_id', values.subscriber_id, {expires: 365, path: '/'});
+                ckRemoveSubscriberId( window.location.href );
             }
         }
 
@@ -43,7 +44,6 @@ jQuery(document).ready(function($) {
         for (var i=0;i<vars.length;i++) {
             var pair = vars[i].split("=");
             if(pair[0] == variable){
-                ckRemoveSubscriberId( window.location.href );
                 return parseInt( pair[1] );
             }
         }
@@ -75,11 +75,10 @@ jQuery(document).ready(function($) {
      * If found add cookie.
      *
      */
-    jQuery("#ck_subscribe_button").click( function() {
+    jQuery(document).on('click', '.formkit-submit', function() {
+        var email = jQuery("input[name=email_address]").val();
 
-        var email = jQuery("#ck_emailField").val();
-
-        sleep( 2000 );
+        sleep( 1000 );
 
         $.ajax({
             type: "POST",
@@ -102,8 +101,6 @@ jQuery(document).ready(function($) {
                 console.log( "AJAX ERROR" + response );
             }
         });
-
-
     });
 
     /**
@@ -120,3 +117,4 @@ jQuery(document).ready(function($) {
     }
 
 });
+

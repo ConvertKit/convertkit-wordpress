@@ -6,3 +6,5 @@ inc/log.txt
 log.txt
 includes/log.txt
 vendor
+tests/_output
+tests/_support

@@ -244,7 +244,7 @@ class WP_ConvertKit {
 
 			$landing_page_id = self::_get_meta( $queried_object->ID, 'landing_page' );
 
-			if ( '0' === $landing_page_id ) {
+			if ( '0' === $landing_page_id || empty( $landing_page_id ) ) {
 				// Set to None
 				return;
 			}

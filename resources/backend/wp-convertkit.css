@@ -18,3 +18,12 @@
         background-size: 18px 17px !important;
     }
 }
+
+.ck-debug-log .ck-inline-button {
+    margin-left: 5px;
+}
+
+textarea.monospace {
+    font-family: monospace;
+    padding: 20px;
+}
