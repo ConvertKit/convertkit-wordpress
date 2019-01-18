@@ -61,6 +61,13 @@ abstract class ConvertKit_Settings_Base {
 	public $options;
 
 	/**
+	 * If false, we will hide the submit button.
+	 *
+	 * @var bool
+	 */
+	protected $show_submit = true;
+
+	/**
 	 * Constructor
 	 */
 	public function __construct() {
@@ -105,7 +112,9 @@ abstract class ConvertKit_Settings_Base {
 	public function render() {
 		do_settings_sections( $this->settings_key );
 		settings_fields( $this->settings_key );
-		submit_button();
+		if ( $this->show_submit ) {
+			submit_button();
+		}
 	}
 
 	/**

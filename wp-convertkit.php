@@ -31,6 +31,7 @@ if ( is_admin() ) {
 	require_once CONVERTKIT_PLUGIN_PATH . '/admin/class-convertkit-tinymce.php';
 	require_once CONVERTKIT_PLUGIN_PATH . '/admin/section/class-convertkit-settings-base.php';
 	require_once CONVERTKIT_PLUGIN_PATH . '/admin/section/class-convertkit-settings-general.php';
+	require_once CONVERTKIT_PLUGIN_PATH . '/admin/section/class-convertkit-settings-tools.php';
 	require_once CONVERTKIT_PLUGIN_PATH . '/admin/section/class-convertkit-settings-wishlist.php';
 	require_once CONVERTKIT_PLUGIN_PATH . '/admin/section/class-convertkit-settings-contactform7.php';
 
