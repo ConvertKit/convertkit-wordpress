@@ -7,8 +7,9 @@ jQuery(document).ready(function($) {
         subscriber_id = ckGetQueryVariable('ck_subscriber_id');
     }
 
-    // Only POST to admin-ajax.php if we have a subscriber_id to use
-    if ( subscriber_id ) {
+    // Only POST to admin-ajax.php if we have a subscriber_id to use...
+    // ...and the current post has a tag assigned to it
+    if ( subscriber_id && ck_data.post_has_tag ) {
         /* Check if subscriber_id is valid and maybe do add tags */
         $.ajax({
             type: "POST",
