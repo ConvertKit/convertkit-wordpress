@@ -105,6 +105,14 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 			$this->settings_key,
 			$this->name
 		);
+
+		add_settings_field(
+			'no_scripts',
+			'Disable javascript',
+			array( $this, 'no_scripts_callback' ),
+			$this->settings_key,
+			$this->name
+		);
 	}
 
 	/**
@@ -224,6 +232,24 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 	}
 
 	/**
+	 * Renders the input for no_scripts setting
+	 */
+	public function no_scripts_callback() {
+
+		$no_scripts = '';
+		if ( isset( $this->options['no_scripts'] ) && 'on' === $this->options['no_scripts'] ) {
+			$no_scripts = 'checked';
+		}
+
+		echo sprintf( // WPCS: XSS OK
+			'<label><input type="checkbox" class="" id="no_scripts" name="%s[no_scripts]"  %s />%s</label>',
+			$this->settings_key,
+			$no_scripts,
+			__( 'Prevent plugin from loading javascript files. This will disable the custom content and tagging features of the plugin. Does not apply to landing pages. Use with caution!','convertkit' )
+		);
+
+	}
+	/**
 	 * Sanitizes the settings
 	 *
 	 * @param  array $settings The settings fields submitted.
@@ -238,11 +264,16 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 				$this->api->update_resources( $settings['api_key'] );
 			}
 		}
-		return shortcode_atts( array(
-			'api_key'      => '',
-			'api_secret'   => '',
-			'default_form' => 0,
-			'debug' => '',
-		), $settings );
+
+		return shortcode_atts(
+			array(
+				'api_key'      => '',
+				'api_secret'   => '',
+				'default_form' => 0,
+				'debug'        => '',
+				'no_scripts'   => '',
+			),
+			$settings
+		);
 	}
 }
