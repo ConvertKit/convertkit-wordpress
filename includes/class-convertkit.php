@@ -304,6 +304,9 @@ class WP_ConvertKit {
 	 */
 	public static function enqueue_scripts() {
 
+		// Only check for tags if we're on a singular post; otherwise, no tags
+		$has_tag = is_singular() ? self::post_has_tag( get_post() ) : false;
+
 		// Only load scripts if no scripts setting is not checked
 		$no_scripts = self::_get_settings( 'no_scripts' );
 		if ( ! $no_scripts ) {
@@ -325,7 +328,8 @@ class WP_ConvertKit {
 				'convertkit-js',
 				'ck_data',
 				array(
-					'ajaxurl' => admin_url( 'admin-ajax.php' )
+					'ajaxurl' => admin_url( 'admin-ajax.php' ),
+					'post_has_tag' => $has_tag,
 				)
 			);
 
@@ -641,5 +645,20 @@ class WP_ConvertKit {
 			}
 			update_option( 'convertkit_version', CONVERTKIT_PLUGIN_VERSION );
 		}// End if().
+	}
+
+
+	/**
+	 * @param $post WP_Post
+	 *
+	 * @return boolean
+	 */
+	public static function post_has_tag( $post ) {
+		$meta = get_post_meta( $post->ID, '_wp_convertkit_post_meta', true );
+
+		if ( isset( $meta['tag'] ) ) {
+			return ( $meta['tag'] == 0 ) ? false : true;
+		}
+		return false;
 	}
 }
