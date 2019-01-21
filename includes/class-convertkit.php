@@ -345,7 +345,7 @@ class WP_ConvertKit {
 	 *
 	 * @param array $attributes Shortcode attributes.
 	 * @param null $content
-	 * @return mixed|void
+	 * @return string
 	 */
 	public static function shortcode( $attributes, $content = null ) {
 
@@ -453,7 +453,7 @@ class WP_ConvertKit {
 	 * Get plugin settings
 	 *
 	 * @param null $settings_key
-	 * @return mixed|null|void
+	 * @return mixed|null
 	 */
 	public static function _get_settings( $settings_key = null ) {
 		$settings = get_option( self::SETTINGS_NAME, self::$settings_defaults );
