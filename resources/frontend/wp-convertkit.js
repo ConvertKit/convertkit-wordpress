@@ -1,34 +1,37 @@
 jQuery(document).ready(function($) {
 
     // Manage visit cookie
-    var subscriber_id = $.cookie( 'ck_subscriber_id' );
+    var subscriber_id = parseInt($.cookie('ck_subscriber_id')) ? parseInt($.cookie('ck_subscriber_id')) : false;
 
     if ( ! subscriber_id ) {
         subscriber_id = ckGetQueryVariable('ck_subscriber_id');
     }
 
-    /* Check if subscriber_id is valid and maybe do add tags */
-    $.ajax({
-        type: "POST",
-        data: {
-            action: 'ck_add_user_visit',
-            subscriber_id: subscriber_id,
-            url: document.URL
-        },
-        url: ck_data.ajaxurl,
-        success: function (response) {
-            var values = JSON.parse(response);
-            if ( 0 != values.subscriber_id) {
-                $.cookie('ck_subscriber_id', values.subscriber_id, {expires: 365, path: '/'});
-                ckRemoveSubscriberId( window.location.href );
+    // Only POST to admin-ajax.php if we have a subscriber_id to use
+    if ( subscriber_id ) {
+        /* Check if subscriber_id is valid and maybe do add tags */
+        $.ajax({
+            type: "POST",
+            data: {
+                action: 'ck_add_user_visit',
+                subscriber_id: subscriber_id,
+                url: document.URL
+            },
+            url: ck_data.ajaxurl,
+            success: function (response) {
+                var values = JSON.parse(response);
+                if ( 0 != values.subscriber_id) {
+                    $.cookie('ck_subscriber_id', values.subscriber_id, {expires: 365, path: '/'});
+                    ckRemoveSubscriberId( window.location.href );
+                }
             }
-        }
 
-    }).fail(function (response) {
-        if ( window.console && window.console.log ) {
-            console.log( "AJAX ERROR" + response );
-        }
-    });
+        }).fail(function (response) {
+            if ( window.console && window.console.log ) {
+                console.log( "AJAX ERROR" + response );
+            }
+        });
+    }
 
     /**
      * This function will check for the `ck_subscriber_id` query parameter
@@ -47,7 +50,7 @@ jQuery(document).ready(function($) {
                 return parseInt( pair[1] );
             }
         }
-        return(0);
+        return false;
     }
 
     /**
