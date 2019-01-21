@@ -223,7 +223,7 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 		}
 
 		echo sprintf( // WPCS: XSS OK
-			'<input type="checkbox" class="" id="debug" name="%s[debug]"  %s />%s',
+			'<label><input type="checkbox" class="" id="debug" name="%s[debug]"  %s />%s</label>',
 			$this->settings_key,
 			$debug,
 			__( 'Save connection data to a log file.','convertkit' )
