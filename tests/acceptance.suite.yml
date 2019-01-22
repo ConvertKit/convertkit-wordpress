@@ -11,6 +11,7 @@ modules:
         - WPDb
         - WPBrowser
         - \Helper\Acceptance
+        - WPCLI
     config:
         WPDb:
             dsn: 'mysql:host=localhost;dbname=wp_test_ck'
@@ -40,5 +41,8 @@ modules:
             domain: 'https://ck.test'
             adminEmail: 'travis@memberup.co'
             title: "Test"
-            plugins: [ 'ConvertKit-WordPress/wp-convertkit.php', 'contact-form-7/wp-contact-form-7.php' ]
-            activatePlugins: [ 'ConvertKit-WordPress/wp-convertkit.php', 'contact-form-7/wp-contact-form-7.php' ]
+            plugins: ['ConvertKit-WordPress/wp-convertkit.php', 'contact-form-7/wp-contact-form-7.php']
+            activatePlugins: ['ConvertKit-WordPress/wp-convertkit.php', 'contact-form-7/wp-contact-form-7.php']
+        WPCLI:
+            path: /Users/travis/sites/ck
+            throw: true
