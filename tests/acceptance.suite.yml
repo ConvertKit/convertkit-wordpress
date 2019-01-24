@@ -1,0 +1,48 @@
+# Codeception Test Suite Configuration
+#
+# Suite for acceptance tests.
+# Perform tests in browser using the WPWebDriver or WPBrowser.
+# Use WPDb to set up your initial database fixture.
+# If you need both WPWebDriver and WPBrowser tests - create a separate suite.
+
+actor: AcceptanceTester
+modules:
+    enabled:
+        - WPDb
+        - WPBrowser
+        - \Helper\Acceptance
+        - WPCLI
+    config:
+        WPDb:
+            dsn: 'mysql:host=localhost;dbname=wp_test_ck'
+            user: 'root'
+            password: ''
+            dump: 'tests/_data/dump.sql'
+            #import the dump before the tests; this means the test site database will be repopulated before the tests.
+            populate: true
+            # re-import the dump between tests; this means the test site database will be repopulated between the tests.
+            cleanup: true
+            waitlock: 0
+            url: 'https://ck.test'
+            urlReplacement: true #replace the hardcoded dump URL with the one above
+            tablePrefix: 'wp_'
+        WPBrowser:
+            url: 'https://ck.test'
+            adminUsername: 'travis'
+            adminPassword: 'password'
+            adminPath: '/wp-admin'
+        WPLoader:
+            wpRootFolder: '/Users/travis/sites/ck'
+            dbName: 'wp_test_ck'
+            dbHost: 'localhost'
+            dbUser: 'root'
+            dbPassword: ''
+            tablePrefix: 'wp_'
+            domain: 'https://ck.test'
+            adminEmail: 'travis@memberup.co'
+            title: "Test"
+            plugins: ['ConvertKit-WordPress/wp-convertkit.php', 'contact-form-7/wp-contact-form-7.php']
+            activatePlugins: ['ConvertKit-WordPress/wp-convertkit.php', 'contact-form-7/wp-contact-form-7.php']
+        WPCLI:
+            path: /Users/travis/sites/ck
+            throw: true
