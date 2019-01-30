@@ -15,7 +15,7 @@ if ( class_exists( 'WP_ConvertKit' ) ) {
 
 define( 'CONVERTKIT_PLUGIN_FILE', plugin_basename( __FILE__ ) );
 define( 'CONVERTKIT_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
-define( 'CONVERTKIT_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
+define( 'CONVERTKIT_PLUGIN_PATH', __DIR__ );
 define( 'CONVERTKIT_PLUGIN_VERSION', '1.6.4' );
 
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit.php';
