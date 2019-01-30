@@ -397,11 +397,11 @@ class ConvertKit_API {
 			if ( ! is_wp_error( $response ) ) {
 
 				if ( ! function_exists( 'str_get_html' ) ) {
-					require_once( dirname( __FILE__ ) . '/../lib/simple-html-dom/simple-html-dom.php' );
+					require_once( CONVERTKIT_PLUGIN_PATH . '/lib/simple-html-dom/simple-html-dom.php' );
 				}
 
 				if ( ! function_exists( 'url_to_absolute' ) ) {
-					require_once( dirname( __FILE__ ) . '/../lib/url-to-absolute/url-to-absolute.php' );
+					require_once( CONVERTKIT_PLUGIN_PATH . '/lib/url-to-absolute/url-to-absolute.php' );
 				}
 
 				// Maybe inflate response body.
