@@ -227,22 +227,21 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 	 * Sanitizes the settings
 	 *
 	 * @param  array $settings The settings fields submitted.
-	 * @return array           Sanitized settings.
+	 *
+	 * @return array Sanitized settings.
 	 */
 	public function sanitize_settings( $settings ) {
-
-		if ( isset( $settings['api_key'] ) ) {
-			$forms = get_option( 'convertkit_forms' );
-			if ( ! $forms ) {
-				// No Forms? Let's update the resources.
-				$this->api->update_resources( $settings['api_key'] );
-			}
-		}
-		return shortcode_atts( array(
+		$defaults = array(
 			'api_key'      => '',
 			'api_secret'   => '',
 			'default_form' => 0,
-			'debug' => '',
-		), $settings );
+			'debug'        => '',
+		);
+
+		if ( isset( $settings['api_key'] ) ) {
+			$this->api->update_resources( $settings['api_key'] );
+		}
+
+		return wp_parse_args( $settings, $defaults );
 	}
 }
