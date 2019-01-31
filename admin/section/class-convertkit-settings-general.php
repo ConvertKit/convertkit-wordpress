@@ -105,6 +105,14 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 			$this->settings_key,
 			$this->name
 		);
+
+		add_settings_field(
+			'no_scripts',
+			'Disable javascript',
+			array( $this, 'no_scripts_callback' ),
+			$this->settings_key,
+			$this->name
+		);
 	}
 
 	/**
@@ -215,7 +223,7 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 		}
 
 		echo sprintf( // WPCS: XSS OK
-			'<input type="checkbox" class="" id="debug" name="%s[debug]"  %s />%s',
+			'<label><input type="checkbox" class="" id="debug" name="%s[debug]"  %s />%s</label>',
 			$this->settings_key,
 			$debug,
 			__( 'Save connection data to a log file.','convertkit' )
@@ -223,6 +231,24 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 
 	}
 
+	/**
+	 * Renders the input for no_scripts setting
+	 */
+	public function no_scripts_callback() {
+
+		$no_scripts = '';
+		if ( isset( $this->options['no_scripts'] ) && 'on' === $this->options['no_scripts'] ) {
+			$no_scripts = 'checked';
+		}
+
+		echo sprintf( // WPCS: XSS OK
+			'<label><input type="checkbox" class="" id="no_scripts" name="%s[no_scripts]"  %s />%s</label>',
+			$this->settings_key,
+			$no_scripts,
+			__( 'Prevent plugin from loading javascript files. This will disable the custom content and tagging features of the plugin. Does not apply to landing pages. Use with caution!','convertkit' )
+		);
+
+	}
 	/**
 	 * Sanitizes the settings
 	 *
@@ -236,6 +262,7 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 			'api_secret'   => '',
 			'default_form' => 0,
 			'debug'        => '',
+      'no_scripts'   => '',
 		);
 
 		if ( isset( $settings['api_key'] ) ) {
