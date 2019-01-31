@@ -189,7 +189,6 @@ class ConvertKit_Custom_Content {
 		if ( isset( $attributes['tag'] ) ) {
 			$tags = array();
 			$tag = $attributes['tag'];
-			$user_id = get_current_user_id();
 			$api = WP_ConvertKit::get_api();
 
 			if ( isset( $_COOKIE['ck_subscriber_id'] ) ) {
