@@ -62,15 +62,15 @@ jQuery(document).ready(function($) {
      * This function removes the parameters so a customer won't share
      * a URL with their subscriber ID in it.
      *
-     * @param key
      * @param url
      */
-    function ckRemoveSubscriberId(key,url)
+    function ckRemoveSubscriberId(url)
     {
-        url = window.location.href;
-        var clean_url = url.substring(0, url.indexOf("?"));
+        var clean_url = url.substring(0, url.indexOf("?ck_subscriber_id"));
         var title = document.getElementsByTagName("title")[0].innerHTML;
-        window.history.pushState( null, title, clean_url );
+        if ( clean_url ) {
+            window.history.pushState( null, title, clean_url );
+        }
     }
 
     /**
