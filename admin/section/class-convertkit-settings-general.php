@@ -129,7 +129,8 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 			isset( $this->options['api_key'] ) ? esc_attr( $this->options['api_key'] ) : ''
 		);
 
-		$html .= '<p class="description"><a href="https://app.convertkit.com/account/edit" target="_blank">' . __( 'Get your ConvertKit API Key', 'convertkit' ) . '</a></p>';
+		$html .= '<p class="description"><a href="https://app.convertkit.com/account/edit" target="_blank">' . __( 'Get your ConvertKit API Key.', 'convertkit' ) . '</a>';
+		$html .= ' ' . __( 'Required for proper plugin function.', 'convertkit' ) . '</p>';
 
 		$has_api = isset( $this->options['api_key'] ) ? esc_attr( $this->options['api_key'] ) : false;
 
@@ -151,7 +152,7 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 
 		$html .= '<p class="description"><a href="https://app.convertkit.com/account/edit" target="_blank">';
 		$html .= __( 'Get your ConvertKit API Secret.', 'convertkit' ) . '</a>';
-		$html .= ' ' . __( 'This setting is required to unsubscribe subscribers.', 'convertkit' ) . '</p>';
+		$html .= ' ' . __( 'Required for proper plugin function.', 'convertkit' ) . '</p>';
 
 		echo $html; // WPCS: XSS ok.
 	}
