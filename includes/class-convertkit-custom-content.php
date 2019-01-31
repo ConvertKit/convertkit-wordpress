@@ -199,13 +199,6 @@ class ConvertKit_Custom_Content {
 				if ( $subscriber_id ) {
 					$tags = $api->get_subscriber_tags( $subscriber_id );
 				}
-			} elseif ( isset( $_COOKIE['ck_subscriber_id'] ) ) {
-				WP_ConvertKit::log( 'shortcode: cookie param found, calling API' );
-				// get cookie and check API for customer tags.
-				$subscriber_id = absint( $_GET['ck_subscriber_id'] );
-				if ( $subscriber_id ) {
-					$tags = $api->get_subscriber_tags( $subscriber_id );
-				}
 			} elseif ( isset( $_GET['ck_subscriber_id'] ) ) {
 				WP_ConvertKit::log( 'shortcode: URL param found, calling API' );
 				// get cookie and check API for customer tags.
