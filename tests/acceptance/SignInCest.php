@@ -2,7 +2,15 @@
 
 use Dotenv\Dotenv;
 
+/**
+ * Class SignInCest
+ */
 class SignInCest {
+	/**
+	 * @param AcceptanceTester $I
+	 *
+	 * @throws \Codeception\Exception\ModuleException
+	 */
 	public function _before( AcceptanceTester $I ) {
 
 		$dotenv = new Dotenv( dirname( dirname( __DIR__ ) ) );
@@ -18,6 +26,10 @@ class SignInCest {
 	}
 
 	// tests
+
+	/**
+	 * @param AcceptanceTester $I
+	 */
 	public function testSettingsPage( AcceptanceTester $I ) {
 
 		$I->loginAsAdmin();
@@ -41,6 +53,9 @@ class SignInCest {
 		$I->seeOptionIsSelected( 'form select[id=_wp_convertkit_integration_contactform7_settings_5]', 'Clean form' );
 	}
 
+	/**
+	 * @param AcceptanceTester $I
+	 */
 	public function testJavascriptNotLoaded( AcceptanceTester $I ) {
 
 		$I->amOnPage( '/wp-admin/options-general.php?page=_wp_convertkit_settings' );
@@ -53,6 +68,9 @@ class SignInCest {
 		$I->dontSeeInSource('wp-convertkit.js');
 	}
 
+	/**
+	 * @param AcceptanceTester $I
+	 */
 	public function testJavascriptLoaded( AcceptanceTester $I ) {
 
 		$I->amOnPage( '/wp-admin/options-general.php?page=_wp_convertkit_settings' );
