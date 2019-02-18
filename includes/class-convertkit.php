@@ -30,8 +30,11 @@ class WP_ConvertKit {
 	 * @var array
 	 */
 	private static $settings_defaults = array(
-		'api_key' => '',
+		'api_key'      => '',
+		'api_secret'   => '',
 		'default_form' => 0,
+		'debug'        => false,
+		'no_scripts'   => false,
 	);
 
 	/**
@@ -300,13 +303,38 @@ class WP_ConvertKit {
 	 * Enqueue scripts
 	 */
 	public static function enqueue_scripts() {
-		wp_enqueue_script( 'jquery-cookie', CONVERTKIT_PLUGIN_URL . 'resources/frontend/jquery.cookie.min.js', array( 'jquery' ), '1.4.0' );
 
-        wp_register_script( 'convertkit-js', CONVERTKIT_PLUGIN_URL . 'resources/frontend/wp-convertkit.js', array( 'jquery-cookie' ), CONVERTKIT_PLUGIN_VERSION );
-		wp_localize_script( 'convertkit-js', 'ck_data', array(
-			'ajaxurl' => admin_url( 'admin-ajax.php' ),
-		) );
-		wp_enqueue_script( 'convertkit-js' );
+		// Only check for tags if we're on a singular post; otherwise, no tags
+		$has_tag = is_singular() ? self::post_has_tag( get_post() ) : false;
+
+		// Only load scripts if no scripts setting is not checked
+		$no_scripts = self::_get_settings( 'no_scripts' );
+		if ( ! $no_scripts ) {
+			wp_register_script(
+				'jquery-cookie',
+				CONVERTKIT_PLUGIN_URL . 'resources/frontend/jquery.cookie.min.js',
+				array( 'jquery' ),
+				'1.4.0'
+			);
+
+			wp_register_script(
+				'convertkit-js',
+				CONVERTKIT_PLUGIN_URL . 'resources/frontend/wp-convertkit.js',
+				array( 'jquery-cookie' ),
+				CONVERTKIT_PLUGIN_VERSION
+			);
+
+			wp_localize_script(
+				'convertkit-js',
+				'ck_data',
+				array(
+					'ajaxurl' => admin_url( 'admin-ajax.php' ),
+					'post_has_tag' => $has_tag,
+				)
+			);
+
+			wp_enqueue_script( 'convertkit-js' );
+		}
 	}
 
 	/**
@@ -321,7 +349,7 @@ class WP_ConvertKit {
 	 *
 	 * @param array $attributes Shortcode attributes.
 	 * @param null $content
-	 * @return mixed|void
+	 * @return string
 	 */
 	public static function shortcode( $attributes, $content = null ) {
 
@@ -429,7 +457,7 @@ class WP_ConvertKit {
 	 * Get plugin settings
 	 *
 	 * @param null $settings_key
-	 * @return mixed|null|void
+	 * @return mixed|null
 	 */
 	public static function _get_settings( $settings_key = null ) {
 		$settings = get_option( self::SETTINGS_NAME, self::$settings_defaults );
@@ -617,5 +645,20 @@ class WP_ConvertKit {
 			}
 			update_option( 'convertkit_version', CONVERTKIT_PLUGIN_VERSION );
 		}// End if().
+	}
+
+
+	/**
+	 * @param $post WP_Post
+	 *
+	 * @return boolean
+	 */
+	public static function post_has_tag( $post ) {
+		$meta = get_post_meta( $post->ID, '_wp_convertkit_post_meta', true );
+
+		if ( isset( $meta['tag'] ) ) {
+			return ( $meta['tag'] == 0 ) ? false : true;
+		}
+		return false;
 	}
 }

@@ -49,7 +49,7 @@ abstract class ConvertKit_Settings_Base {
 	/**
 	 * API instance
 	 *
-	 * @var ConvertKitAPI
+	 * @var ConvertKit_API
 	 */
 	public $api;
 

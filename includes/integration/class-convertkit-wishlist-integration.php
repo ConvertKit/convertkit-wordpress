@@ -9,7 +9,7 @@
 /**
  * API class require.
  */
-require_once plugin_dir_path( __FILE__ ) . '../class-convertkit-api.php';
+require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-api.php';
 
 /**
  * Class ConvertKit_Wishlist_Integration
