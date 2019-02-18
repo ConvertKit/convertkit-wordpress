@@ -285,7 +285,7 @@ class ConvertKit_Settings {
 		$forms = get_option( 'convertkit_forms' );
 		$default_form = get_term_meta( $tag->term_id, 'ck_default_form', true );
 
-		echo '<tr class="form-field term-description-wrap"><th scope="row"><label for="description">ConvertKit Form</label></th><td>';
+		echo '<tr class="form-field"><th scope="row"><label for="description">ConvertKit Form</label></th><td>';
 
 		// Check for error in response.
 		if ( isset( $forms[0]['id'] ) && '-2' === $forms[0]['id'] ) {
@@ -323,7 +323,9 @@ class ConvertKit_Settings {
 		$ck_default_form = isset( $_POST['ck_default_form'] ) ? intval( $_POST['ck_default_form']  ) : 0;
 		if ( $ck_default_form ) {
 			update_term_meta( $tag_id, 'ck_default_form', $ck_default_form );
-		}
+		} else {
+			update_term_meta( $tag_id, 'ck_default_form', 'default' );
+        }
 
 	}
 
