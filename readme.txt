@@ -4,7 +4,7 @@ Donate link: https://convertkit.com
 Tags: email, marketing, embed form, convertkit, capture
 Requires at least: 3.6
 Tested up to: 5.0.3
-Stable tag: 1.6.4
+Stable tag: 1.7.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -45,6 +45,16 @@ Yes, for it to work you must first have an account on ConvertKit.com
 2. Add stunning landing pages
 
 == Changelog ==
+
+### 1.7.0 2019-02-18
+* New: Significantly improve performance of plugin by only attempting to tag visitors if needed (not on every page)
+* New: Add option to disable javascript entirely (prevents tagging and custom content features from working)
+* Fix conflict with Yoast SEO plugin
+* Fix bug that prevented plugin from working with PHP 7.3
+* Fix bug that prevented changing a category default form back to None
+* Clarify that both API key and secret are required
+* Fix bug that stripped out URL query parameters unrelated to ConvertKit
+* Better handle refreshing list of forms in the connected ConvertKit account
 
 ### 1.6.4 2019-01-18
 * Added tools tab with debug log and system info boxes
