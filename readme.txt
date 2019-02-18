@@ -4,7 +4,7 @@ Donate link: https://convertkit.com
 Tags: email, marketing, embed form, convertkit, capture
 Requires at least: 3.6
 Tested up to: 5.0.3
-Stable tag: 1.7.1
+Stable tag: 1.7.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -46,7 +46,10 @@ Yes, for it to work you must first have an account on ConvertKit.com
 
 == Changelog ==
 
-### 1.7.0 2019-02-18
+### 1.7.2 2019-02-18
+* Fix bug that caused fatal error on upgrade
+
+### 1.7.1 2019-02-18
 * Fix bug that caused fatal error on upgrade
 
 ### 1.7.0 2019-02-18
