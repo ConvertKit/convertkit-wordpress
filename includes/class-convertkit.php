@@ -201,7 +201,7 @@ class WP_ConvertKit {
 				// Get category form
 				$form_id = self::get_category_form( get_the_ID() );
 
-				if ( 0 === $form_id ) {
+				if ( 0 === $form_id || 'default' === $form_id ) {
 					// Get global default form
 					if ( '-1' === $attributes['form'] ) {
 						$form_id = self::_get_settings( 'default_form' );
