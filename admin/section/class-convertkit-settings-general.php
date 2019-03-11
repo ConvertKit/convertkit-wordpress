@@ -51,10 +51,10 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 		} else if ( ! $update_resources ) {
 			/**
 			 * There are two reasons $update_resources could be false:
-             * 1) Saving failed because the wp_options table does not use the utf8mb4 character set
-             * 2) No updates were needed (values passed to update_option() were the same as current values) for one of forms, landing pages, or tags
-             *
-             * So, if $update_resources is false, we check the character set, and if it's not utf8mb4 then we show a warning
+			 * 1) Saving failed because the wp_options table does not use the utf8mb4 character set
+			 * 2) No updates were needed (values passed to update_option() were the same as current values) for one of forms, landing pages, or tags
+			 *
+			 * So, if $update_resources is false, we check the character set, and if it's not utf8mb4 then we show a warning
 			 */
 			global $wpdb;
 			if ( $wpdb->get_col_charset( 'wp_options', 'option_value' ) !== 'utf8mb4' ) {
