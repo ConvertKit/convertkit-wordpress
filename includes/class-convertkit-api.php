@@ -6,6 +6,9 @@
  * @author ConvertKit
  */
 
+use oldmine\RelativeToAbsoluteUrl\RelativeToAbsoluteUrl;
+use KubAT\PhpSimple\HtmlDomParser;
+
 /**
  * ConvertKit_API Class
  * Establishes API connection to ConvertKit App
@@ -396,10 +399,6 @@ class ConvertKit_API {
 
 			if ( ! is_wp_error( $response ) ) {
 
-				if ( ! function_exists( 'url_to_absolute' ) ) {
-					require_once( CONVERTKIT_PLUGIN_PATH . '/lib/url-to-absolute/url-to-absolute.php' );
-				}
-
 				// Maybe inflate response body.
 				// @see https://wordpress.stackexchange.com/questions/10088/how-do-i-troubleshoot-responses-with-wp-http-api
 				$inflate = @gzinflate( $response['body'] );
@@ -410,22 +409,22 @@ class ConvertKit_API {
 				$body = wp_remote_retrieve_body( $response );
 
 				/** @var \simple_html_dom\simple_html_dom $html */
-				$html = \KubAT\PhpSimple\HtmlDomParser::str_get_html( $body );
+				$html = HtmlDomParser::str_get_html( $body );
 				foreach ( $html->find( 'a, link' ) as $element ) {
 					if ( isset( $element->href ) ) {
-						$element->href = url_to_absolute( $url, $element->href );
+						$element->href = RelativeToAbsoluteUrl::urlToAbsolute( $url, $element->href );
 					}
 				}
 
 				foreach ( $html->find( 'img, script' ) as $element ) {
 					if ( isset( $element->src ) ) {
-						$element->src = url_to_absolute( $url, $element->src );
+						$element->src = RelativeToAbsoluteUrl::urlToAbsolute( $url, $element->src );
 					}
 				}
 
 				foreach ( $html->find( 'form' ) as $element ) {
 					if ( isset( $element->action ) ) {
-						$element->action = url_to_absolute( $url, $element->action );
+						$element->action = RelativeToAbsoluteUrl::urlToAbsolute( $url, $element->action );
 					} else {
 						$element->action = $url;
 					}

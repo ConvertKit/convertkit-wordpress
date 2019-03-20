@@ -3,12 +3,21 @@
     "description": "ConvertKit WordPress plugin",
     "type": "project",
     "license": "GPLv3",
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/ConvertKit/relative-to-absolute-url"
+        }
+    ],
     "require": {
-        "kub-at/php-simple-html-dom-parser": "^1.7"
+        "kub-at/php-simple-html-dom-parser": "~1.7.1",
+        "oldmine/relative-to-absolute-url": "dev-master"
     },
     "require-dev": {
         "phpunit/phpunit": "^6.5",
         "vlucas/phpdotenv": "^2.4",
         "lucatume/wp-browser": "^2.2"
-    }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }
