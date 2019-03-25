@@ -122,9 +122,10 @@ class ConvertKit_API {
 				'id' => '-2',
 				'name' => 'Error contacting API',
 			);
-			update_option( 'convertkit_forms', $forms );
-			update_option( 'convertkit_landing_pages', $landing_pages );
-			update_option( 'convertkit_tags', $tags );
+
+			$update_forms         = update_option( 'convertkit_forms', $forms );
+			$update_landing_pages = update_option( 'convertkit_landing_pages', $landing_pages );
+			$update_tags          = update_option( 'convertkit_tags', $tags );
 
 		} else {
 
@@ -140,8 +141,8 @@ class ConvertKit_API {
 					$forms[ $form['id'] ] = $form;
 				}
 			}
-			update_option( 'convertkit_forms', $forms );
-			update_option( 'convertkit_landing_pages', $landing_pages );
+			$update_forms         = update_option( 'convertkit_forms', $forms );
+			$update_landing_pages = update_option( 'convertkit_landing_pages', $landing_pages );
 
 			// Tags
 			$api_response = $this->_get_api_response( 'tags' );
@@ -149,8 +150,10 @@ class ConvertKit_API {
 			foreach ( $response as $tag ) {
 				$tags[] = $tag;
 			}
-			update_option( 'convertkit_tags', $tags );
+			$update_tags = update_option( 'convertkit_tags', $tags );
 		}
+
+		return $update_forms && $update_landing_pages && $update_tags;
 	}
 
 	/**
