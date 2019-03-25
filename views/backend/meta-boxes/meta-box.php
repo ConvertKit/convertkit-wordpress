@@ -9,13 +9,13 @@
 <table class="form-table">
 	<tbody>
 		<?php if ( $post->ID == get_option( 'page_for_posts' ) ) : ?>
-			<tr valign="top">
+            <tr valign="top">
                 <td>
                     <p class="description">
-		                <?php _e( 'The ConvertKit plugin does not show forms on the blog archive page.', 'convertkit' ); ?>
+						<?php _e( 'The ConvertKit plugin does not show forms on the blog archive page.', 'convertkit' ); ?>
                     </p>
                 </td>
-			</tr>
+            </tr>
 		<?php else : ?>
 			<tr valign="top">
 				<th scope="row"><label for="wp-convertkit-form"><?php esc_html_e( 'Form', 'convertkit' ); ?></label></th>
