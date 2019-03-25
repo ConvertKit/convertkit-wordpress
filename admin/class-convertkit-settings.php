@@ -99,37 +99,68 @@ class ConvertKit_Settings {
 		} else {
 			$active_section = $this->sections[0]->name;
 		}
-
 		?>
-		<div class="wrap convertkit-settings-wrap">
-		<?php
-		if ( count( $this->sections ) > 1 ) {
-			$this->display_section_nav( $active_section );
-		} else {
-			?>
-			<h2><?php esc_html_e( 'ConvertKit', 'convertkit' ); ?></h2>
+        <div class="wrap convertkit-settings-wrap">
 			<?php
-		}
-		?>
+			if ( count( $this->sections ) > 1 ) {
+				$this->display_section_nav( $active_section );
+			} else {
+				?>
+                <h2><?php esc_html_e( 'ConvertKit', 'convertkit' ); ?></h2>
+				<?php
+			}
+			?>
 
-		<form method="post" action="options.php">
-		<?php
-		foreach ( $this->sections as $section ) :
-			if ( $active_section === $section->name ) :
-				$section->render();
-			endif;
-		endforeach;
+            <form method="post" action="options.php">
+				<?php
+				foreach ( $this->sections as $section ) :
+					if ( $active_section === $section->name ) :
+						$section->render();
+					endif;
+				endforeach;
 
-		// Check for Multibyte string PHP extension.
-		if ( ! extension_loaded( 'mbstring' ) ) {
-			?><p><strong><?php
-			echo  sprintf( __( 'Note: Your server does not support the %s functions - this is required for better character encoding. Please contact your webhost to have it installed.', 'woocommerce' ), '<a href="https://php.net/manual/en/mbstring.installation.php">mbstring</a>' ) . '</mark>';
-			?></strong></p><?php
-		}
-		?><p class="description"><?php
-				printf( 'If you need help setting up the plugin please refer to the %s plugin documentation.</a>', '<a href="http://help.convertkit.com/article/99-the-convertkit-wordpress-plugin" target="_blank">' ); ?></p>
-		</form>
-		</div>
+				/**
+				 * Check for utf8mb4 support.
+				 * Lack of support will cause problems if any content pulled in from ConvertKit contains emoji characters
+				 */
+				global $wpdb;
+				if ( $wpdb->get_col_charset( 'wp_options', 'option_value' ) !== 'utf8mb4' ) {
+					?>
+                    <div class="inline notice notice-warning">
+                        <p>
+                            <strong>
+		                        <?php
+		                        echo sprintf( __( 'Notice: Your database does not appear to support the %s. If you experience difficulties connecting to ConvertKit this may be why. Please contact your webhost to have your database upgraded.',
+		                                          'convertkit' ),
+		                                      '<a href="https://make.wordpress.org/core/2015/04/02/the-utf8mb4-upgrade/">utf8mb4 character set</a>' );
+		                        ?>
+                            </strong>
+                        </p>
+                    </div>
+					<?php
+				}
+
+				// Check for Multibyte string PHP extension.
+				if ( ! extension_loaded( 'mbstring' ) ) {
+					?>
+                    <div class="inline notice notice-warning">
+                        <p>
+                            <strong>
+		                        <?php
+		                        echo sprintf( __( 'Notice: Your server does not support the %s function - this is required for better character encoding. Please contact your webhost to have it installed.',
+		                                          'convertkit' ),
+		                                      '<a href="https://php.net/manual/en/mbstring.installation.php">mbstring</a>' );
+		                        ?>
+                            </strong>
+                        </p>
+                    </div>
+					<?php
+				}
+				?><p class="description"><?php
+					printf( 'If you need help setting up the plugin please refer to the %s plugin documentation.</a>',
+					        '<a href="http://help.convertkit.com/article/99-the-convertkit-wordpress-plugin" target="_blank">' ); ?></p>
+            </form>
+        </div>
 		<?php
 	}
 

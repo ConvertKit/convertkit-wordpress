@@ -42,15 +42,26 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 			wp_die();
 		}
 
-		$this->api->update_resources( $api_key );
+		$update_resources = $this->api->update_resources( $api_key );
 
 		$forms = get_option( 'convertkit_forms', array() );
-		if ( isset( $forms[0] ) && isset( $forms[0]['id'] ) && '-2' === $forms[0]['id'] ) {
-			wp_send_json_error( __( 'Error connecting to API. Please verify your site can connect to <code>https://api.convertkit.com</code>','convertkit' ) );
+		if ( $update_resources && isset( $forms[0] ) && isset( $forms[0]['id'] ) && '-2' === $forms[0]['id'] ) {
+			wp_send_json_error( __( 'Error connecting to API. Please verify your site can connect to https://api.convertkit.com','convertkit' ) );
 			wp_die();
+		} else if ( ! $update_resources ) {
+			/**
+			 * There are two reasons $update_resources could be false:
+			 * 1) Saving failed because the wp_options table does not use the utf8mb4 character set
+			 * 2) No updates were needed (values passed to update_option() were the same as current values) for one of forms, landing pages, or tags
+			 *
+			 * So, if $update_resources is false, we check the character set, and if it's not utf8mb4 then we show a warning
+			 */
+			global $wpdb;
+			if ( $wpdb->get_col_charset( 'wp_options', 'option_value' ) !== 'utf8mb4' ) {
+				wp_send_json_error( __( 'Updating forms from ConvertKit may have failed. If so, this may be because your database uses the out of date utf8 character set, instead of the newer utf8mb4 character set. Please contact your host to upgrade your database.','convertkit' ) );
+				wp_die();
+            }
 		}
-
-		$html = '';
 
 		ob_start();
 		$this->default_form_callback( $forms );
