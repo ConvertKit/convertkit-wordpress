@@ -3,8 +3,8 @@ Contributors: nathanbarry, growdev, travisnorthcutt
 Donate link: https://convertkit.com
 Tags: email, marketing, embed form, convertkit, capture
 Requires at least: 3.6
-Tested up to: 5.1.0
-Stable tag: 1.7.2
+Tested up to: 5.1.1
+Stable tag: 1.7.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -45,6 +45,13 @@ Yes, for it to work you must first have an account on ConvertKit.com
 2. Add stunning landing pages
 
 == Changelog ==
+
+### 1.7.3 2019-03-26
+* Adds checks and notices for outdated character set (utf8 vs. utf8mb4) use
+* Add notice to metabox on blog archive page that our plugin does not do anything on this page
+* Update library to make plugin work with PHP 7.3 (previously, landing pages did not work)
+* Fix issue where global default form would never show for some categories
+* Fix include path for system status box on tools tab
 
 ### 1.7.2 2019-02-18
 * Fix bug that caused fatal error on upgrade
