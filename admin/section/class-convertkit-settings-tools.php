@@ -170,7 +170,7 @@ class ConvertKit_Settings_Tools extends ConvertKit_Settings_Base {
 		global $wpdb;
 
 		if ( ! class_exists( 'Browser' ) ) {
-			require_once CONVERTKIT_PLUGIN_PATH . 'lib/browser.php';
+			require_once CONVERTKIT_PLUGIN_PATH . '/lib/browser.php';
         }
 
 		$browser = new Browser();
