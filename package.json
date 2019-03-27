@@ -3,7 +3,7 @@
   "title": "ConvertKit",
   "author": "ConvertKit",
   "license": "GPL-2.0",
-  "version": "1.7.3",
+  "version": "1.7.4",
   "description": "",
   "homepage": "https://github.com/convertkit/ConvertKit-WordPress",
   "main": "Gruntfile.js",
