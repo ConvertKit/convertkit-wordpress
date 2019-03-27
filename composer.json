@@ -11,7 +11,7 @@
     ],
     "require": {
         "kub-at/php-simple-html-dom-parser": "~1.7.1",
-        "oldmine/relative-to-absolute-url": "dev-master"
+        "oldmine/relative-to-absolute-url": "~1.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^6.5",
