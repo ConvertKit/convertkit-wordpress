@@ -1,11 +1,9 @@
 <?php
 
-use Dotenv\Dotenv;
-
 /**
  * Class SignInCest
  */
-class SignInCest {
+class DatabaseCharacterSetCest {
 	/**
 	 * @param AcceptanceTester $I
 	 *
@@ -26,14 +24,15 @@ class SignInCest {
 	 */
 	public function testSettingsPage( AcceptanceTester $I ) {
 
-//		$query = new WP_Query();
-//		codecept_debug($query);
+		global $wpdb;
 
 		$I->amOnPage( '/wp-admin/options-general.php?page=_wp_convertkit_settings' );
-		$I->see('Choosing a default form');
+		$I->click( '#submit' );
+
+
+//		return $wpdb->query( "ALTER TABLE $table CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci" );
 //		$I->fillField( "#api_key", $this->ck_api_key );
 //		$I->fillField( "#api_secret", $this->ck_api_secret );
-//		$I->click( '#submit' );
 //		$I->seeElement( 'option', [ 'value' => 'default' ] );
 //		$I->seeElement( 'option', [ 'value' => '820085' ] );
 //
