@@ -160,6 +160,32 @@ class ConvertKit_API {
 	}
 
 	/**
+	 * Attempts to update our saved forms.
+	 *
+	 * If the update fails, we compare the existing stored option value to what we were trying to insert.
+	 * If they are equal, the update likely failed because of that, which is fine, so we return true.
+	 *
+	 * If they are not equal, the update likely failed
+	 * @param $forms
+	 *
+	 * @return bool
+	 */
+	public function update_forms( $forms ) {
+		$update = update_option( 'convertkit_forms', $forms );
+
+		if ( $update === false ) {
+			$old = get_option( 'convertkit_forms' );
+			if ( $forms === $old ) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+
+		return $update;
+	}
+
+	/**
 	 * Gets a resource index
 	 *
 	 * GET /{$resource}/

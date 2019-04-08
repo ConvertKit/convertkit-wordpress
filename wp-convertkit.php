@@ -18,7 +18,10 @@ define( 'CONVERTKIT_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'CONVERTKIT_PLUGIN_PATH', __DIR__ );
 define( 'CONVERTKIT_PLUGIN_VERSION', '1.7.4' );
 
-require_once CONVERTKIT_PLUGIN_PATH . '/vendor/autoload.php';
+var_dump(CONVERTKIT_PLUGIN_PATH);
+//require_once CONVERTKIT_PLUGIN_PATH . '/vendor/autoload.php';
+
+require_once __DIR__ . '/vendor/autoload.php';
 
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-api.php';

@@ -9,16 +9,13 @@ actor: AcceptanceTester
 modules:
     enabled:
         - WPDb
-        - WPWebDriver
-#        - WPBrowser
+        - WPBrowser
         - WPLoader
         - \Helper\Acceptance
         - WPCLI
-#        - Codeception\Extension\RunProcess:
-#              - chromedriver
     config:
         WPDb:
-            dsn: 'mysql:host=localhost;dbname=%TEST_DB_NAME%'
+            dsn: 'mysql:host=localhost;dbname=%TEST_SITE_DB_NAME%'
             user: '%TEST_SITE_DB_USER%'
             password: ''
             dump: 'tests/_data/dump.sql'
@@ -29,15 +26,7 @@ modules:
             waitlock: 10
             url: '%TEST_SITE_WP_URL%'
             urlReplacement: true #replace the hardcoded dump URL with the one above
-            tablePrefix: 'wp_'
-        WPWebDriver:
-            url: '%TEST_SITE_WP_URL%'
-            port: 9515
-            browser: chrome
-            window_size: 1024x768
-            adminUsername: '%TEST_SITE_ADMIN_USERNAME%'
-            adminPassword: '%TEST_SITE_ADMIN_PASSWORD%'
-            adminPath: '/wp-admin'
+            tablePrefix: '%TEST_SITE_TABLE_PREFIX%'
         WPLoader:
             wpRootFolder: '%WP_ROOT_FOLDER%'
             dbName: '%TEST_SITE_DB_NAME%'
@@ -45,7 +34,7 @@ modules:
             dbUser: '%TEST_SITE_DB_USER%'
             dbPassword: ''
             wpDebug: true
-            tablePrefix: '%TEST_TABLE_PREFIX%'
+            tablePrefix: '%TEST_SITE_TABLE_PREFIX%'
             domain: '%TEST_SITE_WP_DOMAIN%'
             loadOnly: true
         WPBrowser:

@@ -24,13 +24,13 @@ class DatabaseCharacterSetCest {
 	 */
 	public function testSettingsPage( AcceptanceTester $I ) {
 
-		global $wpdb;
+		$res = $this->makeDatabaseUtf8();
+		codecept_debug($res);
 
 		$I->amOnPage( '/wp-admin/options-general.php?page=_wp_convertkit_settings' );
-		$I->click( '#submit' );
 
 
-//		return $wpdb->query( "ALTER TABLE $table CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci" );
+
 //		$I->fillField( "#api_key", $this->ck_api_key );
 //		$I->fillField( "#api_secret", $this->ck_api_secret );
 //		$I->seeElement( 'option', [ 'value' => 'default' ] );
@@ -48,31 +48,12 @@ class DatabaseCharacterSetCest {
 	}
 
 	/**
-	 * @param AcceptanceTester $I
+	 * @return bool|false|int
 	 */
-//	public function testJavascriptNotLoaded( AcceptanceTester $I ) {
-//
-//		$I->amOnPage( '/wp-admin/options-general.php?page=_wp_convertkit_settings' );
-//		$I->checkOption('#debug');
-//		$I->checkOption('#no_scripts');
-//		$I->click('Save Changes');
-//
-//		$I->amOnPage('/');
-//
-//		$I->dontSeeInSource('wp-convertkit.js');
-//	}
-//
-//	/**
-//	 * @param AcceptanceTester $I
-//	 */
-//	public function testJavascriptLoaded( AcceptanceTester $I ) {
-//
-//		$I->amOnPage( '/wp-admin/options-general.php?page=_wp_convertkit_settings' );
-//		$I->uncheckOption('#no_scripts');
-//		$I->click('Save Changes');
-//
-//		$I->amOnPage('/');
-//
-//		$I->seeInSource('wp-convertkit.js');
-//	}
+	public function makeDatabaseUtf8() {
+		global $wpdb;
+		$table = $wpdb->prefix . 'options';
+		return $wpdb->query( "ALTER TABLE $table CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci" );
+	}
+
 }
