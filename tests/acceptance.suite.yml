@@ -15,7 +15,7 @@ modules:
         - WPCLI
     config:
         WPDb:
-            dsn: 'mysql:host=localhost;dbname=%TEST_SITE_DB_NAME%'
+            dsn: 'mysql:host=%TEST_SITE_DB_HOST%;dbname=%TEST_SITE_DB_NAME%'
             user: '%TEST_SITE_DB_USER%'
             password: ''
             dump: 'tests/_data/dump.sql'
@@ -43,5 +43,5 @@ modules:
             adminPassword: '%TEST_SITE_ADMIN_PASSWORD%'
             adminPath: '/wp-admin'
         WPCLI:
-            path: /Users/travis/sites/ck
+            path: %WP_ROOT_FOLDER%
             throw: true
