@@ -17,7 +17,7 @@ modules:
         WPDb:
             dsn: 'mysql:host=%TEST_SITE_DB_HOST%;dbname=%TEST_SITE_DB_NAME%'
             user: '%TEST_SITE_DB_USER%'
-            password: ''
+            password: '%TEST_SITE_DB_PASSWORD%'
             dump: 'tests/_data/dump.sql'
             #import the dump before the tests; this means the test site database will be repopulated before the tests.
             populate: true
@@ -32,7 +32,7 @@ modules:
             dbName: '%TEST_SITE_DB_NAME%'
             dbHost: '%TEST_DB_HOST%'
             dbUser: '%TEST_SITE_DB_USER%'
-            dbPassword: ''
+            dbPassword: '%TEST_SITE_DB_PASSWORD%'
             wpDebug: true
             tablePrefix: '%TEST_SITE_TABLE_PREFIX%'
             domain: '%TEST_SITE_WP_DOMAIN%'

@@ -24,8 +24,17 @@ class DatabaseCharacterSetCest {
 	 */
 	public function testSettingsPage( AcceptanceTester $I ) {
 
-		$res = $this->makeDatabaseUtf8();
-		codecept_debug($res);
+		$charset = $this->_optionValueCharacterSet();
+		$this->_debug($charset);
+
+		$this->_makeDatabaseUtf8();
+
+		$charset = $this->_optionValueCharacterSet();
+		$this->_debug($charset);
+
+
+		$charset = $this->_optionValueCharacterSet();
+		$this->_debug($charset);
 
 		$I->amOnPage( '/wp-admin/options-general.php?page=_wp_convertkit_settings' );
 
@@ -50,10 +59,39 @@ class DatabaseCharacterSetCest {
 	/**
 	 * @return bool|false|int
 	 */
-	public function makeDatabaseUtf8() {
+	public function _makeDatabaseUtf8() {
+		global $wpdb;
+		$table = $wpdb->prefix . 'options';
+		return $wpdb->query( "ALTER TABLE $table CONVERT TO CHARACTER SET utf8 COLLATE utf8_unicode_ci" );
+	}
+
+	/**
+	 * @return bool|false|int
+	 */
+	public function _makeDatabaseUtf8mb4() {
 		global $wpdb;
 		$table = $wpdb->prefix . 'options';
 		return $wpdb->query( "ALTER TABLE $table CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci" );
+	}
+
+	public function _optionValueCharacterSet() {
+		global $wpdb;
+
+		$charset = $wpdb->get_results( "SELECT CHARACTER_SET_NAME FROM information_schema.columns WHERE TABLE_SCHEMA = 'local' AND TABLE_NAME = 'wp_options' AND COLUMN_NAME = 'option_value'");
+
+		return $charset;
+	}
+
+	public function _debug( $string = '' ) {
+		codecept_debug('####################################');
+		codecept_debug('####################################');
+		codecept_debug('');
+
+		codecept_debug($string);
+
+		codecept_debug('');
+		codecept_debug('####################################');
+		codecept_debug('####################################');
 	}
 
 }
