@@ -129,11 +129,11 @@ class ConvertKit_Settings {
                     <div class="inline notice notice-warning">
                         <p>
                             <strong>
-	                            <?php
-	                            echo sprintf( __( 'Notice: Your database does not appear to support the %s. If you experience difficulties connecting to ConvertKit this may be why. Please contact your webhost to have your database upgraded.',
-	                                              'convertkit' ),
-	                                          '<a href="https://make.wordpress.org/core/2015/04/02/the-utf8mb4-upgrade/">utf8mb4 character set</a>' );
-	                            ?>
+		                        <?php
+		                        echo sprintf( __( 'Notice: Your database does not appear to support the %s. <em>If you experience difficulties</em> connecting to ConvertKit, this may be why. Please contact your webhost to have your database upgraded. If you do not notice any issues, you may safely ignore this message.',
+		                                          'convertkit' ),
+		                                      '<a href="https://make.wordpress.org/core/2015/04/02/the-utf8mb4-upgrade/">utf8mb4 character set</a>' );
+		                        ?>
                             </strong>
                         </p>
                     </div>
