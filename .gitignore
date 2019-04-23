@@ -1,6 +1,7 @@
 convertkit-svn
 node_modules/
 .env
+.env.testing
 .DS_Store
 inc/log.txt
 log.txt

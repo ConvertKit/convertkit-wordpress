@@ -10,39 +10,38 @@ modules:
     enabled:
         - WPDb
         - WPBrowser
+        - WPLoader
         - \Helper\Acceptance
         - WPCLI
     config:
         WPDb:
-            dsn: 'mysql:host=localhost;dbname=wp_test_ck'
-            user: 'root'
-            password: ''
+            dsn: 'mysql:host=%TEST_SITE_DB_HOST%;dbname=%TEST_SITE_DB_NAME%'
+            user: '%TEST_SITE_DB_USER%'
+            password: '%TEST_SITE_DB_PASSWORD%'
             dump: 'tests/_data/dump.sql'
             #import the dump before the tests; this means the test site database will be repopulated before the tests.
             populate: true
             # re-import the dump between tests; this means the test site database will be repopulated between the tests.
             cleanup: true
-            waitlock: 0
-            url: 'https://ck.test'
+            waitlock: 10
+            url: '%TEST_SITE_WP_URL%'
             urlReplacement: true #replace the hardcoded dump URL with the one above
-            tablePrefix: 'wp_'
-        WPBrowser:
-            url: 'https://ck.test'
-            adminUsername: 'travis'
-            adminPassword: 'password'
-            adminPath: '/wp-admin'
+            tablePrefix: '%TEST_SITE_TABLE_PREFIX%'
         WPLoader:
-            wpRootFolder: '/Users/travis/sites/ck'
-            dbName: 'wp_test_ck'
-            dbHost: 'localhost'
-            dbUser: 'root'
-            dbPassword: ''
-            tablePrefix: 'wp_'
-            domain: 'https://ck.test'
-            adminEmail: 'travis@memberup.co'
-            title: "Test"
-            plugins: ['ConvertKit-WordPress/wp-convertkit.php', 'contact-form-7/wp-contact-form-7.php']
-            activatePlugins: ['ConvertKit-WordPress/wp-convertkit.php', 'contact-form-7/wp-contact-form-7.php']
+            wpRootFolder: '%WP_ROOT_FOLDER%'
+            dbName: '%TEST_SITE_DB_NAME%'
+            dbHost: '%TEST_DB_HOST%'
+            dbUser: '%TEST_SITE_DB_USER%'
+            dbPassword: '%TEST_SITE_DB_PASSWORD%'
+            wpDebug: true
+            tablePrefix: '%TEST_SITE_TABLE_PREFIX%'
+            domain: '%TEST_SITE_WP_DOMAIN%'
+            loadOnly: true
+        WPBrowser:
+            url: '%TEST_SITE_WP_URL%'
+            adminUsername: '%TEST_SITE_ADMIN_USERNAME%'
+            adminPassword: '%TEST_SITE_ADMIN_PASSWORD%'
+            adminPath: '/wp-admin'
         WPCLI:
-            path: /Users/travis/sites/ck
+            path: %WP_ROOT_FOLDER%
             throw: true
