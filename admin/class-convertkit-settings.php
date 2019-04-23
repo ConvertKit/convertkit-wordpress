@@ -123,7 +123,22 @@ class ConvertKit_Settings {
 				 * Check for utf8mb4 support.
 				 * Lack of support will cause problems if any content pulled in from ConvertKit contains emoji characters
 				 */
-                $this->maybe_warn_utf8();
+				global $wpdb;
+				if ( $wpdb->get_col_charset( 'wp_options', 'option_value' ) !== 'utf8mb4' ) {
+					?>
+                    <div class="inline notice notice-warning">
+                        <p>
+                            <strong>
+	                            <?php
+	                            echo sprintf( __( 'Notice: Your database does not appear to support the %s. If you experience difficulties connecting to ConvertKit this may be why. Please contact your webhost to have your database upgraded.',
+	                                              'convertkit' ),
+	                                          '<a href="https://make.wordpress.org/core/2015/04/02/the-utf8mb4-upgrade/">utf8mb4 character set</a>' );
+	                            ?>
+                            </strong>
+                        </p>
+                    </div>
+					<?php
+				}
 
 				// Check for Multibyte string PHP extension.
 				if ( ! extension_loaded( 'mbstring' ) ) {
@@ -147,33 +162,6 @@ class ConvertKit_Settings {
             </form>
         </div>
 		<?php
-	}
-
-	public function maybe_warn_utf8() {
-		global $wpdb;
-		if ( $wpdb->get_col_charset( 'wp_options', 'option_value' ) !== 'utf8mb4' ) {
-            return $this->show_utf8_warning();
-	    }
-		else {
-		    return false;
-        }
-	}
-
-	public function show_utf8_warning() {
-		?>
-        <div class="inline notice notice-warning">
-            <p>
-                <strong>
-					<?php
-					echo sprintf( __( 'Notice: Your database does not appear to support the %s. If you experience difficulties connecting to ConvertKit this may be why. Please contact your webhost to have your database upgraded.',
-					                  'convertkit' ),
-					              '<a href="https://make.wordpress.org/core/2015/04/02/the-utf8mb4-upgrade/">utf8mb4 character set</a>' );
-					?>
-                </strong>
-            </p>
-        </div>
-		<?php
-        return true;
 	}
 
 	/**
