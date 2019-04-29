@@ -9,7 +9,8 @@ actor: AcceptanceTester
 modules:
     enabled:
         - WPDb
-        - WPBrowser
+#        - WPBrowser
+        - WPWebDriver
         - WPLoader
         - \Helper\Acceptance
         - WPCLI
@@ -27,6 +28,18 @@ modules:
             url: '%TEST_SITE_WP_URL%'
             urlReplacement: true #replace the hardcoded dump URL with the one above
             tablePrefix: '%TEST_SITE_TABLE_PREFIX%'
+        WPWebDriver:
+            url: '%TEST_SITE_WP_URL%'
+            host: '10.0.2.2'
+            browser: chrome
+            port: 9515
+            window_size: 1024x768
+            adminUsername: '%TEST_SITE_ADMIN_USERNAME%'
+            adminPassword: '%TEST_SITE_ADMIN_PASSWORD%'
+            adminPath: '/wp-admin'
+            capabilities:
+                javascriptEnabled: true,
+                unexpectedAlertBehaviour: 'ignore'
         WPLoader:
             wpRootFolder: '%WP_ROOT_FOLDER%'
             dbName: '%TEST_SITE_DB_NAME%'
