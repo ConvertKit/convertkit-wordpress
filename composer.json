@@ -7,10 +7,14 @@
         {
             "type": "vcs",
             "url": "https://github.com/ConvertKit/relative-to-absolute-url"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/ConvertKit/php-simple-html-dom-parser"
         }
     ],
     "require": {
-        "kub-at/php-simple-html-dom-parser": "~1.7.1",
+        "kub-at/php-simple-html-dom-parser": "~1.8.2",
         "oldmine/relative-to-absolute-url": "~1.0"
     },
     "require-dev": {
