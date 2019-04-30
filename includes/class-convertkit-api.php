@@ -126,9 +126,9 @@ class ConvertKit_API {
 				'name' => 'Error contacting API',
 			);
 
-			$update_forms         = update_option( 'convertkit_forms', $forms );
-			$update_landing_pages = update_option( 'convertkit_landing_pages', $landing_pages );
-			$update_tags          = update_option( 'convertkit_tags', $tags );
+			$update_forms         = $this->maybe_update_option( 'convertkit_forms', $forms );
+			$update_landing_pages = $this->maybe_update_option( 'convertkit_landing_pages', $landing_pages );
+			$update_tags          = $this->maybe_update_option( 'convertkit_tags', $tags );
 
 		} else {
 
@@ -144,8 +144,8 @@ class ConvertKit_API {
 					$forms[ $form['id'] ] = $form;
 				}
 			}
-			$update_forms         = update_option( 'convertkit_forms', $forms );
-			$update_landing_pages = update_option( 'convertkit_landing_pages', $landing_pages );
+			$update_forms         = $this->maybe_update_option( 'convertkit_forms', $forms );
+			$update_landing_pages = $this->maybe_update_option( 'convertkit_landing_pages', $landing_pages );
 
 			// Tags
 			$api_response = $this->_get_api_response( 'tags' );
@@ -153,10 +153,34 @@ class ConvertKit_API {
 			foreach ( $response as $tag ) {
 				$tags[] = $tag;
 			}
-			$update_tags = update_option( 'convertkit_tags', $tags );
+			$update_tags = $this->maybe_update_option( 'convertkit_tags', $tags );
 		}
 
 		return $update_forms && $update_landing_pages && $update_tags;
+	}
+
+	/**
+	 * Attempt to store updated forms, tags, or landing pages retrieved from the ConvertKit API.
+	 * If they match what is already stored, WordPress's built in update_option() function will return
+	 * false, which is unhelpful. So, if it returns false, we check if what we tried to store matches what is
+	 * already stored, and if so, we return true.
+	 *
+	 * This way, we know if there was a failure or not.
+	 *
+	 * @param string $option_name
+	 * @param mixed $option_value
+	 *
+	 * return bool true if option was updated or if no update was needed, false if failure
+	 */
+	public function maybe_update_option( $option_name, $option_value ) {
+		$result = update_option( $option_name, $option_value );
+
+		if ( !$result ) {
+			$old = get_option( $option_name, $option_value );
+			$result = $old === $option_value ? true : false;
+		}
+
+		return $result;
 	}
 
 	/**

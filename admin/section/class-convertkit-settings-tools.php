@@ -66,8 +66,9 @@ class ConvertKit_Settings_Tools extends ConvertKit_Settings_Base {
 	 * View the Log
 	 */
 	public function view_log() {
+	    // Only try to get file contents if the file exists; otherwise default to empty string
 		$log_file = trailingslashit( CONVERTKIT_PLUGIN_PATH ) . 'log.txt';
-		$log      = file_get_contents( $log_file );
+		$log      = file_exists( $log_file ) ? file_get_contents( $log_file ) : '';
 
 		?>
         <div class="metabox-holder">

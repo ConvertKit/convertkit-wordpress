@@ -4,7 +4,7 @@ Donate link: https://convertkit.com
 Tags: email, marketing, embed form, convertkit, capture
 Requires at least: 3.6
 Tested up to: 5.1.1
-Stable tag: 1.7.4
+Stable tag: 1.7.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -45,6 +45,10 @@ Yes, for it to work you must first have an account on ConvertKit.com
 2. Add stunning landing pages
 
 == Changelog ==
+### 1.7.5 2019-04-30
+* Fix false positive detection of character set issues related to using emojis in forms & landing pages
+* Don't show error on tools tab on first visit with logging turned on
+* Fix code conflict with some other plugins that resulted in PHP warnings being displayed
 
 ### 1.7.4 2019-03-27
 * Fixed problem with a library that was only compatible with PHP 7+
