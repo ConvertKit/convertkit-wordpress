@@ -209,7 +209,7 @@ class WP_ConvertKit {
 				}
 			}
 
-			if ( 0 < $form_id ) {
+			if ( 0 < $form_id && !is_array( $form_id ) ) {
 
 				$forms = get_option( 'convertkit_forms' );
 
