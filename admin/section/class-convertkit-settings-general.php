@@ -186,6 +186,7 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 		// Check for error in response.
 		if ( isset( $forms[0]['id'] ) && '-2' === $forms[0]['id'] ) {
 			$html .= '<p id="default_form_error" class="error">' . __( 'Error connecting to API. Please verify your site can connect to <code>https://api.convertkit.com</code>','convertkit' ) . '</p>';
+			$html .= sprintf( '<input hidden id="default_form" name="%s[default_form]" value="">', $this->settings_key );
 		} else {
 			$html .= sprintf( '<select id="default_form" name="%s[default_form]">', $this->settings_key );
 			$html .= '<option value="default">' . __( 'None', 'convertkit' ) . '</option>';
