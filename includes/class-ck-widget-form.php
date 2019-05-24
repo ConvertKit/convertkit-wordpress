@@ -127,14 +127,16 @@ class CK_Widget_Form extends WP_Widget {
 			return;
 		}
 
-		$api = WP_ConvertKit::get_api();
+		$api     = WP_ConvertKit::get_api();
 		$form_id = $instance['form'];
-		$forms = get_option( 'convertkit_forms' );
+		$forms   = get_option( 'convertkit_forms' );
 
 		if ( isset( $forms[ $form_id ]['uid'] ) ) {
 			// new form
+			$this->widget_start( $args, $instance );
 			$tag = '<script async data-uid="' . $forms[ $form_id ]['uid'] . '" src="' . $forms[ $form_id ]['embed_js'] . '"></script>';
 			echo $tag;
+			$this->widget_end( $args );
 		} else {
 			// old form
             $url = add_query_arg( array(
@@ -144,19 +146,19 @@ class CK_Widget_Form extends WP_Widget {
                 'https://forms.convertkit.com/' . $form_id . '.html'
             );
 
-            $form_markup = $api->get_resource( $url );
+			$form_markup = $api->get_resource( $url );
 
-            if ( $api && ! is_wp_error( $api ) ) {
-                ob_start();
+			if ( $api && ! is_wp_error( $api ) ) {
+				ob_start();
 
-                $this->widget_start( $args, $instance );
-                echo $form_markup;
-                $this->widget_end( $args );
+				$this->widget_start( $args, $instance );
+				echo $form_markup;
+				$this->widget_end( $args );
 
-                $content = ob_get_clean();
+				$content = ob_get_clean();
 
-                echo $content;
-            }
+				echo $content;
+			}
 		}
 	}
 
