@@ -45,6 +45,13 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 		$update_resources = $this->api->update_resources( $api_key );
 
 		$forms = get_option( 'convertkit_forms', array() );
+		/**
+		 * Alphabetize
+		 */
+		usort( $forms, function( $a, $b ) {
+			return strcmp( $a['name'], $b['name'] );
+		});
+
 		if ( $update_resources && isset( $forms[0] ) && isset( $forms[0]['id'] ) && '-2' === $forms[0]['id'] ) {
 			wp_send_json_error( __( 'Error connecting to API. Please verify your site can connect to https://api.convertkit.com','convertkit' ) );
 			wp_die();
