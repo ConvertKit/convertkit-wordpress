@@ -33,7 +33,7 @@ modules:
             host: '10.0.2.2'
             browser: chrome
             port: 9515
-            window_size: 1024x768
+            window_size: 1200x1400
             adminUsername: '%TEST_SITE_ADMIN_USERNAME%'
             adminPassword: '%TEST_SITE_ADMIN_PASSWORD%'
             adminPath: '/wp-admin'
