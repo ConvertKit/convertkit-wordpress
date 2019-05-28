@@ -206,13 +206,15 @@ class ConvertKit_Settings {
 	public function get_tags() {
 		check_ajax_referer( 'convertkit-tinymce', 'security' );
 
-		$tags = get_option( 'convertkit_tags' );
+		$tags   = get_option( 'convertkit_tags' );
 		$values = array();
-		foreach ( $tags as $tag ) {
-			$values[] = array(
-				'value' => $tag['id'],
-				'text' => $tag['name'],
-			);
+		if ( is_array( $tags ) ) {
+			foreach ( $tags as $tag ) {
+				$values[] = array(
+					'value' => $tag['id'],
+					'text'  => $tag['name'],
+				);
+			}
 		}
 		wp_send_json( $values );
 	}
