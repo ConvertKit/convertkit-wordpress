@@ -140,6 +140,21 @@ class WP_ConvertKit {
 		$landing_pages = get_option( 'convertkit_landing_pages' );
 		$tags = get_option( 'convertkit_tags' );
 
+		/**
+		 * Alphabetize
+		 */
+		usort( $forms, function( $a, $b ) {
+			return strcmp( $a['name'], $b['name'] );
+		});
+
+		usort( $landing_pages, function( $a, $b ) {
+			return strcmp( $a['name'], $b['name'] );
+		});
+
+		usort( $tags, function( $a, $b ) {
+			return strcmp( $a['name'], $b['name'] );
+		});
+
 		$meta = self::_get_meta( $post->ID );
 		$settings_link = self::_get_settings_page_link();
 
@@ -209,7 +224,7 @@ class WP_ConvertKit {
 				}
 			}
 
-			if ( 0 < $form_id ) {
+			if ( 0 < $form_id && !is_array( $form_id ) ) {
 
 				$forms = get_option( 'convertkit_forms' );
 

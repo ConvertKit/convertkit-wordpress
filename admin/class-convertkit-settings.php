@@ -119,27 +119,6 @@ class ConvertKit_Settings {
 					endif;
 				endforeach;
 
-				/**
-				 * Check for utf8mb4 support.
-				 * Lack of support will cause problems if any content pulled in from ConvertKit contains emoji characters
-				 */
-				global $wpdb;
-				if ( $wpdb->get_col_charset( 'wp_options', 'option_value' ) !== 'utf8mb4' ) {
-					?>
-                    <div class="inline notice notice-warning">
-                        <p>
-                            <strong>
-		                        <?php
-		                        echo sprintf( __( 'Notice: Your database does not appear to support the %s. <em>If you experience difficulties</em> connecting to ConvertKit, this may be why. Please contact your webhost to have your database upgraded. If you do not notice any issues, you may safely ignore this message.',
-		                                          'convertkit' ),
-		                                      '<a href="https://make.wordpress.org/core/2015/04/02/the-utf8mb4-upgrade/">utf8mb4 character set</a>' );
-		                        ?>
-                            </strong>
-                        </p>
-                    </div>
-					<?php
-				}
-
 				// Check for Multibyte string PHP extension.
 				if ( ! extension_loaded( 'mbstring' ) ) {
 					?>
@@ -227,13 +206,15 @@ class ConvertKit_Settings {
 	public function get_tags() {
 		check_ajax_referer( 'convertkit-tinymce', 'security' );
 
-		$tags = get_option( 'convertkit_tags' );
+		$tags   = get_option( 'convertkit_tags' );
 		$values = array();
-		foreach ( $tags as $tag ) {
-			$values[] = array(
-				'value' => $tag['id'],
-				'text' => $tag['name'],
-			);
+		if ( is_array( $tags ) ) {
+			foreach ( $tags as $tag ) {
+				$values[] = array(
+					'value' => $tag['id'],
+					'text'  => $tag['name'],
+				);
+			}
 		}
 		wp_send_json( $values );
 	}

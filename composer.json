@@ -15,7 +15,7 @@
     ],
     "require": {
         "kub-at/php-simple-html-dom-parser": "~1.8.2",
-        "oldmine/relative-to-absolute-url": "~1.0"
+        "oldmine/relative-to-absolute-url": "~1.7"
     },
     "require-dev": {
         "lucatume/wp-browser": "^2.2"
