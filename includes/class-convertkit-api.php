@@ -170,7 +170,7 @@ class ConvertKit_API {
 	 * @param string $option_name
 	 * @param mixed $option_value
 	 *
-	 * return bool true if option was updated or if no update was needed, false if failure
+	 * @return bool true if option was updated or if no update was needed, false if failure
 	 */
 	public function maybe_update_option( $option_name, $option_value ) {
 		$result = update_option( $option_name, $option_value );
