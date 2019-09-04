@@ -356,9 +356,16 @@ class ConvertKit_Settings_Tools extends ConvertKit_Settings_Base {
 
 		$return  = apply_filters( 'convertkit_sysinfo_after_php_config', $return );
 
+		$curl_version_info = function_exists( 'curl_version' ) ? curl_version() : array(
+		    'version' => 'Unknown; cURL not avaible',
+            'ssl_version' => 'Unknown; cURL not avaible'
+        );
+
 		// PHP extensions and such
 		$return .= "\n" . '-- PHP Extensions' . "\n\n";
 		$return .= 'cURL:                     ' . ( function_exists( 'curl_init' ) ? 'Supported' : 'Not Supported' ) . "\n";
+		$return .= 'cURL version:             ' . $curl_version_info['version'] . "\n";
+		$return .= 'ssl version:              ' . $curl_version_info['ssl_version'] . "\n";
 		$return .= 'fsockopen:                ' . ( function_exists( 'fsockopen' ) ? 'Supported' : 'Not Supported' ) . "\n";
 		$return .= 'SOAP Client:              ' . ( class_exists( 'SoapClient' ) ? 'Installed' : 'Not Installed' ) . "\n";
 		$return .= 'Suhosin:                  ' . ( extension_loaded( 'suhosin' ) ? 'Installed' : 'Not Installed' ) . "\n";
