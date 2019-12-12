@@ -83,6 +83,16 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 	 */
 	public function register_fields() {
 		$forms = get_option( 'convertkit_forms' );
+		$account_name = get_option( 'convertkit_account_name' );
+        add_settings_field(
+            'account_name',
+            'Account Name',
+            array( $this, 'account_name_callback' ),
+            $this->settings_key,
+            $this->name,
+            $account_name
+        );
+
 		add_settings_field(
 			'api_key',
 			'API Key',
@@ -145,6 +155,25 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 		<?php
 	}
 
+    /**
+     * Renders the input for api key entry
+     */
+    public function account_name_callback( $account_name ) {
+	    $has_api = isset( $this->options['api_key'] ) ? esc_attr( $this->options['api_key'] ) : false;
+
+	    if ( ! $has_api ) {
+		    $html = '<p class="description">' . __( 'Add your API Key and Secret to get started', 'convertkit' ) . '</p>';
+	    } else {
+		    $html = sprintf(
+			    '<span>%s</span>',
+			    isset( $account_name ) ? esc_attr( $account_name ) : ''
+		    );
+		    $html .= '<p class="description">' . __( 'The name of your connected ConvertKit account', 'convertkit' ) . '</p>';
+	    }
+
+	    echo $html; // WPCS: XSS ok.
+    }
+
 	/**
 	 * Renders the input for api key entry
 	 */
@@ -161,7 +190,7 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 		$has_api = isset( $this->options['api_key'] ) ? esc_attr( $this->options['api_key'] ) : false;
 
 		if ( ! $has_api ) {
-			$html .= '<p class="description">' . __( 'Add you API Key to get started', 'convertkit' ) . '</p>';
+			$html .= '<p class="description">' . __( 'Add your API Key and Secret to get started', 'convertkit' ) . '</p>';
 		}
 		echo $html; // WPCS: XSS ok.
 	}
@@ -212,7 +241,7 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 		}
 
 		if ( empty( $this->options['api_key'] ) ) {
-			$html .= '<p class="description">' . __( 'Enter your API Key above to get your available forms.', 'convertkit' ) . '</p>';
+			$html .= '<p class="description">' . __( 'Enter your API Key and Secret above to get your available forms.', 'convertkit' ) . '</p>';
 		}
 
 		if ( empty( $forms ) ) {
@@ -277,16 +306,16 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 	 * @return array Sanitized settings.
 	 */
 	public function sanitize_settings( $settings ) {
-		$defaults = array(
-			'api_key'      => '',
-			'api_secret'   => '',
-			'default_form' => 0,
-			'debug'        => '',
-      'no_scripts'   => '',
-		);
+        $defaults = array(
+            'api_key'      => '',
+            'api_secret'   => '',
+            'default_form' => 0,
+            'debug'        => '',
+            'no_scripts'   => '',
+        );
 
-		if ( isset( $settings['api_key'] ) ) {
-			$this->api->update_resources( $settings['api_key'] );
+		if ( isset( $settings['api_key'] ) && isset( $settings['api_secret'] ) ) {
+			$this->api->update_resources( $settings['api_key'], $settings['api_secret'] );
 		}
 
 		return wp_parse_args( $settings, $defaults );
