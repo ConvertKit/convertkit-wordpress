@@ -100,7 +100,7 @@ class ConvertKit_API {
 	 *
 	 * @param string $api_key
 	 */
-	public function update_resources( $api_key ) {
+	public function update_resources( $api_key, $api_secret ) {
 
 		$this->api_key = $api_key;
 
@@ -154,9 +154,18 @@ class ConvertKit_API {
 				$tags[] = $tag;
 			}
 			$update_tags = $this->maybe_update_option( 'convertkit_tags', $tags );
+			
+			$this->update_account_name( $api_secret );
 		}
 
+
 		return $update_forms && $update_landing_pages && $update_tags;
+	}
+
+	public function update_account_name( $api_secret ) {
+		$response = $this->_get_api_response( 'account', $api_secret );
+
+		return $this->maybe_update_option( 'convertkit_account_name', $response['name'] );
 	}
 
 	/**
@@ -481,11 +490,16 @@ class ConvertKit_API {
 	 * @param string $path Part of URL.
 	 * @return array
 	 */
-	private function _get_api_response( $path = '' ) {
+	private function _get_api_response( $path = '', $api_secret = null ) {
 
 		$args = array(
 			'api_key' => $this->api_key,
 		);
+
+		if ( $api_secret ) {
+			$args['api_secret'] = $api_secret;
+		}
+
 		$api_path = $this->api_url_base . $this->api_version;
 		$url = add_query_arg( $args, path_join( $api_path, $path ) );
 
