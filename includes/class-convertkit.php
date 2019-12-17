@@ -208,7 +208,8 @@ class WP_ConvertKit {
 			$attributes = self::_get_meta( get_the_ID() );
 
 			// Get post/page form setting
-			if ( isset( $attributes['form'] ) && ( 0 < $attributes['form'] ) ) {
+			// If post form id is 0, then it's "None", and we need to stop here completely
+			if ( isset( $attributes['form'] ) && ( 0 <= $attributes['form'] ) ) {
 				$form_id = $attributes['form'];
 			} else {
 				// Get category form
