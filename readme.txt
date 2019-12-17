@@ -3,8 +3,8 @@ Contributors: nathanbarry, growdev, travisnorthcutt
 Donate link: https://convertkit.com
 Tags: email, marketing, embed form, convertkit, capture
 Requires at least: 3.6
-Tested up to: 5.2.2
-Stable tag: 1.8.1
+Tested up to: 5.3.1
+Stable tag: 1.9.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -45,6 +45,11 @@ Yes, for it to work you must first have an account on ConvertKit.com
 2. Add stunning landing pages
 
 == Changelog ==
+### 1.9.0 2019-12-17
+* Allow appending forms to WooCommerce products
+* Fix bug that prevented setting "none" for form on a post from overriding category setting
+* Add account name to settings page
+
 ### 1.8.1 2019-05-30
 * Fix bug that could result in fatal error with certain other plugins active
 * Add additional server debug info for tech support
