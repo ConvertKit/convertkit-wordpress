@@ -69,7 +69,9 @@ class WP_ConvertKit {
 		if ( is_admin() ) {
 			add_action( 'add_meta_boxes_page', array( __CLASS__, 'add_meta_boxes' ) );
 			add_action( 'add_meta_boxes_post', array( __CLASS__, 'add_meta_boxes' ) );
+			add_action( 'add_meta_boxes_product', array( __CLASS__, 'add_meta_boxes' ) );
 		} else {
+			add_action( 'template_redirect', array( __CLASS__, 'append_custom_post_type_forms' ) );
 			add_action( 'template_redirect', array( __CLASS__, 'page_takeover' ) );
 			add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ) );
 		}
@@ -197,6 +199,7 @@ class WP_ConvertKit {
 
 	/**
 	 * Page/Post display callback
+	 * In the future, other post types that use the_content can be handled here with conditional cases
 	 *
 	 * @param string $content The post content.
 	 * @return string
@@ -204,51 +207,79 @@ class WP_ConvertKit {
 	public static function append_form( $content ) {
 
 		if ( is_singular( array( 'post' ) ) || is_page() ) {
+			$content .= self::get_form_for_post( get_the_ID(), 'default_form' );
+		}
 
-			$attributes = self::_get_meta( get_the_ID() );
+		return $content;
+	}
 
-			// Get post/page form setting
-			// If post form id is 0, then it's "None", and we need to stop here completely
-			if ( isset( $attributes['form'] ) && ( 0 <= $attributes['form'] ) ) {
-				$form_id = $attributes['form'];
-			} else {
-				// Get category form
-				$form_id = self::get_category_form( get_the_ID() );
+	/**
+	 * Handle custom post types that don't reliably use the_content
+	 */
+	public static function append_custom_post_type_forms() {
+		add_action( 'woocommerce_after_single_product_summary', array( __CLASS__, 'append_woocommerce_product_form' ) );
+	}
 
-				if ( 0 === $form_id || 'default' === $form_id ) {
-					// Get global default form
-					if ( '-1' === $attributes['form'] ) {
-						$form_id = self::_get_settings( 'default_form' );
-					}
-				}
-			}
+	/**
+	 * Append form to WooCommerce products
+	 */
+	public static function append_woocommerce_product_form() {
+		$form = self::get_form_for_post( get_the_ID(), 'product_form' );
+		echo $form;
+	}
 
-			if ( 0 < $form_id && !is_array( $form_id ) ) {
+	/**
+	 * @param  integer  $post_id
+	 * @param  string  $settings_key  The settings key used for the post type on the ConvertKit plugin settings page
+	 *                             Usually of the form {post_type_name}_form
+	 *
+	 * @return string
+	 */
+	public static function get_form_for_post( $post_id, $settings_key ) {
+		$form       = '';
+		$attributes = self::_get_meta( $post_id );
 
-				$forms = get_option( 'convertkit_forms' );
+		// Get post/page form setting
+		// If post form id is 0, then it's "None", and we need to stop here completely
+		if ( isset( $attributes['form'] ) && ( 0 <= $attributes['form'] ) ) {
+			$form_id = $attributes['form'];
+		} else {
+			// Get category form
+			$form_id = self::get_category_form( $post_id );
 
-				if ( isset( $forms[ $form_id ]['uid'] ) ) {
-					// new form
-					$tag = '<script async data-uid="' . $forms[ $form_id ]['uid'] . '" src="' . $forms[ $form_id ]['embed_js'] . '"></script>';
-					$content .= $tag;
 
-				} else {
-					// old form
-					$url = add_query_arg(
-						array(
-							'api_key' => self::_get_settings( 'api_key' ),
-							'v'       => self::$forms_version,
-						),
-						'https://forms.convertkit.com/' . $form_id . '.html'
-					);
-
-					$form_markup = self::$api->get_resource( $url );
-					$content .= $form_markup;
+			if ( 0 === $form_id || 'default' === $form_id ) {
+				// Get default form for post type
+				if ( '-1' === $attributes['form'] ) {
+					$form_id = self::_get_settings( $settings_key );
 				}
 			}
 		}
 
-		return $content;
+		if ( 0 < $form_id && ! is_array( $form_id ) ) {
+
+			$forms = get_option( 'convertkit_forms' );
+
+			if ( isset( $forms[ $form_id ]['uid'] ) ) {
+				// new form
+				$tag  = '<script async data-uid="' . $forms[ $form_id ]['uid'] . '" src="' . $forms[ $form_id ]['embed_js'] . '"></script>';
+				$form = $tag;
+			} else {
+				// old form
+				$url = add_query_arg(
+					array(
+						'api_key' => self::_get_settings( 'api_key' ),
+						'v'       => self::$forms_version,
+					),
+					'https://forms.convertkit.com/' . $form_id . '.html'
+				);
+
+				$form_markup = self::$api->get_resource( $url );
+				$form        = $form_markup;
+			}
+		}
+
+		return $form;
 	}
 
 	/**

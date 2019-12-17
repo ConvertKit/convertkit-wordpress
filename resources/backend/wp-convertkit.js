@@ -30,7 +30,8 @@
                 data: { action: 'ck_refresh_forms', api_key: $('#api_key').val() },
                 success: function (resp) {
                     if ( resp.success ) {
-                        $('#default_form_container').parent().html( resp.data );
+                        $('#default_form_container').parent().html( resp.data.default );
+                        $('#product_form_container').parent().html( resp.data.woocommerce );
                     } else {
                         alert( resp.data );
                     }

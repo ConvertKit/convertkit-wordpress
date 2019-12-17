@@ -74,7 +74,23 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 		$this->default_form_callback( $forms );
 		$html = ob_get_clean();
 
-		wp_send_json_success( $html );
+		$woocommerce = false;
+		if ( post_type_exists( 'product' ) ) {
+			$args = array(
+				$forms,
+				get_post_type_object( 'product' )
+			);
+			ob_start();
+			$this->custom_post_types_callback( $args );
+			$woocommerce = ob_get_clean();
+		}
+
+		$data = array(
+			'default'     => $html,
+			'woocommerce' => $woocommerce
+		);
+
+		wp_send_json_success( $data );
 		wp_die();
 	}
 
@@ -111,12 +127,17 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 
 		add_settings_field(
 			'default_form',
-			'Default Form',
+			'Default Form (Posts & Pages)',
 			array( $this, 'default_form_callback' ),
 			$this->settings_key,
 			$this->name,
 			$forms
 		);
+
+		/**
+		 * Register fields for supported custom post types
+		 */
+		$this->register_custom_post_type_fields( $forms );
 
 		add_settings_field(
 			'refresh_forms',
@@ -141,6 +162,48 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 			$this->settings_key,
 			$this->name
 		);
+	}
+
+	/**
+	 * Register fields for supported custom post types
+	 *
+	 * @param  array  $forms  Form listing.
+	 */
+	private function register_custom_post_type_fields( $forms ) {
+
+		// Gets all publicly visible custom post types
+		$post_types = get_post_types( array(
+			'public'   => true,
+			'_builtin' => false
+		), 'objects', 'and' );
+
+		$supported_post_types = array(
+			'product'
+		);
+
+		/**
+		 * Filters result to just the post types we support
+		 * This is important because not all post types output the same way; e.g. WooCommerce products
+		 * don't reliably use the_content that we can filter, so we may need custom code to handle
+		 * each post type when we want to add a form to it.
+		 */
+		$post_types = array_filter( $post_types, function ( $post_type ) use ( $supported_post_types ) {
+			return in_array( $post_type->name, $supported_post_types );
+		} );
+
+		foreach ( $post_types as $post_type ) {
+			add_settings_field(
+				'custom_post_types',
+				'Default form (' . $post_type->label . ')',
+				array( $this, 'custom_post_types_callback' ),
+				$this->settings_key,
+				$this->name,
+				array(
+					$forms,
+					$post_type
+				)
+			);
+		}
 	}
 
 	/**
@@ -225,27 +288,18 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 			$html .= sprintf( '<input hidden id="default_form" name="%s[default_form]" value="">', $this->settings_key );
 		} else {
 			$html .= sprintf( '<select id="default_form" name="%s[default_form]">', $this->settings_key );
-			$html .= '<option value="default">' . __( 'None', 'convertkit' ) . '</option>';
-			if ( $forms ) {
-				foreach ( $forms as $form ) {
-					$form = (array) $form;
-					$html .= sprintf(
-						'<option value="%s" %s>%s</option>',
-						esc_attr( $form['id'] ),
-						selected( $this->options['default_form'], $form['id'], false ),
-						esc_html( $form['name'] )
-					);
-				}
-			}
+			$html .= $this->forms_options_list( $forms, $this->options['default_form'] );
 			$html .= '</select>';
 		}
 
 		if ( empty( $this->options['api_key'] ) ) {
-			$html .= '<p class="description">' . __( 'Enter your API Key and Secret above to get your available forms.', 'convertkit' ) . '</p>';
+			$html .= '<p class="description">' . __( 'Enter your API Key above to get your available forms.',
+					'convertkit' ) . '</p>';
 		}
 
 		if ( empty( $forms ) ) {
-			$html .= '<p class="description">' . __( 'There are no forms setup in your account. You can go <a href="https://app.convertkit.com/landing_pages/new" target="_blank">here</a> to create one.', 'convertkit' ) . '</p>';
+			$html .= '<p class="description">' . __( 'There are no forms setup in your account. You can go <a href="https://app.convertkit.com/landing_pages/new" target="_blank">here</a> to create one.',
+					'convertkit' ) . '</p>';
 		}
 
 		$html .= '</div>';
@@ -253,6 +307,58 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 		echo $html; // WPCS: XSS ok.
 	}
 
+	/**
+	 * Callback used to generate settings for custom post types
+	 *
+	 * @param  array  $args
+	 */
+	public function custom_post_types_callback( $args ) {
+
+		list( $forms, $post_type ) = $args;
+		$html = '<div id="' . $post_type->name . '_form_container">';
+
+		$options_key = $post_type->name . '_form';
+
+		$selected = array_key_exists( $options_key, $this->options ) ? $this->options[ $options_key ] : false;
+
+		$html .= sprintf( '<select id="%s_form" name="%s[%s_form]" class=%s">', $post_type->name, $this->settings_key,
+			$post_type->name, 'form-select-list' );
+		$html .= $this->forms_options_list( $forms, $selected );
+		$html .= '</select>';
+
+		$html .= '</div>';
+
+		echo $html;
+	}
+
+	/**
+	 * Generates string of <option> elements to fill <select> element with list of forms
+	 *
+	 * @param  array  $forms
+	 * @param $selected
+	 *
+	 * @return string
+	 */
+	private function forms_options_list( $forms, $selected ) {
+		$html = '<option value="default">' . __( 'None', 'convertkit' ) . '</option>';
+		if ( $forms ) {
+			foreach ( $forms as $form ) {
+				$form = (array) $form;
+				$html .= sprintf(
+					'<option value="%s" %s>%s</option>',
+					esc_attr( $form['id'] ),
+					selected( $selected, $form['id'], false ),
+					esc_html( $form['name'] )
+				);
+			}
+		}
+
+		return $html;
+	}
+
+	/**
+	 * Callback used to generate button for refreshing forms from connected ConvertKit account
+	 */
 	public function refresh_forms_callback() {
 		$has_api = isset( $this->options['api_key'] ) ? esc_attr( $this->options['api_key'] ) : false;
 
