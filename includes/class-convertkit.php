@@ -685,8 +685,10 @@ class WP_ConvertKit {
 		} elseif ( version_compare( $current_version, '1.6.1', '<' ) ) {
 			// Refresh the forms meta to get new forms builder settings
 			$api_key = self::_get_settings( 'api_key' );
-			if ( ! empty( $api_key ) ) {
-				self::$api->update_resources( $api_key );
+			$api_secret = self::_get_settings( 'api_secret' );
+
+			if ( ! empty( $api_key ) && ! empty( $api_secret ) ) {
+				self::$api->update_resources( $api_key, $api_secret );
 			}
 			update_option( 'convertkit_version', CONVERTKIT_PLUGIN_VERSION );
 		}// End if().

@@ -34,15 +34,22 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 			wp_die();
 		}
 
-		$api_key = isset( $_REQUEST['api_key'] ) ? $_REQUEST['api_key'] : WP_ConvertKit::get_api_key();
+		$api_key    = isset( $_REQUEST['api_key'] ) ? $_REQUEST['api_key'] : WP_ConvertKit::get_api_key();
+		$api_secret = isset( $_REQUEST['api_secret'] ) ? $_REQUEST['api_secret'] : WP_ConvertKit::get_api_secret();
 
-		if ( ! $api_key ) {
+		if ( !$api_key ) {
 			update_option( 'convertkit_forms', array() );
-			wp_send_json_error( __( 'There is no API key.', 'convertkit' ) );
+			wp_send_json_error( __( 'Please enter your API key, click "save changes", and try again.', 'convertkit' ) );
 			wp_die();
 		}
 
-		$update_resources = $this->api->update_resources( $api_key );
+		if ( !$api_secret ) {
+			update_option( 'convertkit_forms', array() );
+			wp_send_json_error( __( 'Please enter your API secret, click "save changes", and try again.', 'convertkit' ) );
+			wp_die();
+		}
+
+		$update_resources = $this->api->update_resources( $api_key, $api_secret );
 
 		$forms = get_option( 'convertkit_forms', array() );
 		/**
