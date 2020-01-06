@@ -137,7 +137,7 @@ class ConvertKit_Settings {
 				}
 				?><p class="description"><?php
 					printf( 'If you need help setting up the plugin please refer to the %s plugin documentation.</a>',
-					        '<a href="http://help.convertkit.com/article/99-the-convertkit-wordpress-plugin" target="_blank">' ); ?></p>
+					        '<a href="https://help.convertkit.com/en/articles/2502591-the-convertkit-wordpress-plugin" target="_blank">' ); ?></p>
             </form>
         </div>
 		<?php
