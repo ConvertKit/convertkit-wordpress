@@ -22,7 +22,7 @@ an individual post or page, you can do so within the ConvertKit meta box on the 
 
 Finally, you can insert the default form into the middle of post or page content by using the `[convertkit]` shortcode.
 
-Full plugin documentation is located [here](http://help.convertkit.com/article/99-the-convertkit-wordpress-plugin)
+Full plugin documentation is located [here](https://help.convertkit.com/en/articles/2502591-the-convertkit-wordpress-plugin)
 
 == Installation ==
 
