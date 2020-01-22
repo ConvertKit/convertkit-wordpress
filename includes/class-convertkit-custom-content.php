@@ -85,8 +85,13 @@ class ConvertKit_Custom_Content {
 		$_COOKIE['ck_subscriber_id'] = absint( $subscriber_id );
 
 		if ( isset( $post ) ) {
-			ConvertKit_Custom_Content::maybe_tag_subscriber( $post );
+			$message = ConvertKit_Custom_Content::maybe_tag_subscriber( $post );
+			if( $message ) {
+				echo json_encode( $message );
+				exit;
+			}
 		}
+
 		echo json_encode(
 			array(
 				'subscriber_id' => $subscriber_id,
@@ -219,6 +224,7 @@ class ConvertKit_Custom_Content {
 	 *
 	 * @see https://app.convertkit.com/account/edit#email_settings
 	 * @param $post WP_Post
+	 * @return string|boolean
 	 */
 	public static function maybe_tag_subscriber( $post ) {
 
@@ -243,8 +249,15 @@ class ConvertKit_Custom_Content {
 				} else {
 					WP_ConvertKit::log( 'post_id (' . $post->ID . ') post does not have tags defined.' );
 				}
+			} else {
+				http_response_code(404);
+				unset( $_COOKIE['ck_subscriber_id'] );
+
+				return 'Subscriber with ID ' . $subscriber_id . ' not found';
 			}
 		}
+
+		return false;
 
 	}
 

@@ -29,8 +29,13 @@ jQuery(document).ready(function($) {
 
         }).fail(function (response) {
             if ( window.console && window.console.log ) {
-                console.log( "AJAX ERROR" + response );
+                if ( response.responseText ) {
+                    console.log( "Error: " + response.responseText );
+                } else {
+                    console.log( "AJAX ERROR" + response );
+                }
             }
+            ckRemoveSubscriberId( window.location.href );
         });
     }
 
