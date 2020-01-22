@@ -154,7 +154,7 @@ class ConvertKit_API {
 				$tags[] = $tag;
 			}
 			$update_tags = $this->maybe_update_option( 'convertkit_tags', $tags );
-			
+
 			$this->update_account_name( $api_secret );
 		}
 
@@ -447,7 +447,7 @@ class ConvertKit_API {
 				/** @var \simple_html_dom\simple_html_dom $html */
 				$html = HtmlDomParser::str_get_html( $body );
 				foreach ( $html->find( 'a, link' ) as $element ) {
-					if ( isset( $element->href ) ) {
+					if ( isset( $element->href ) && strpos( $element->href, 'fonts.googleapis.com' ) === false ) {
 						$element->href = RelativeToAbsoluteUrl::urlToAbsolute( $url, $element->href );
 					}
 				}
