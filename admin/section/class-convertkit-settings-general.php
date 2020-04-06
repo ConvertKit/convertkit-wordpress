@@ -384,13 +384,16 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 			$debug = 'checked';
 		}
 
-		echo sprintf( // WPCS: XSS OK
+		$html = sprintf( // WPCS: XSS OK
 			'<label><input type="checkbox" class="" id="debug" name="%s[debug]"  %s />%s</label>',
 			$this->settings_key,
 			$debug,
 			__( 'Save connection data to a log file.','convertkit' )
 		);
 
+		$html .= '<p class="description">' . __( 'You can ignore this unless you\'re working with our support team to resolve an issue.', 'convertkit' ) . '</p>';
+
+		echo $html;
 	}
 
 	/**
