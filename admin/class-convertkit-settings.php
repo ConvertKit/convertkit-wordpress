@@ -294,7 +294,7 @@ class ConvertKit_Settings {
 	 */
 	public function category_form_fields( $tag ) {
 
-		$forms = get_option( 'convertkit_forms' );
+		$fors = $this->get_forms();
 		$default_form = get_term_meta( $tag->term_id, 'ck_default_form', true );
 
 		echo '<tr class="form-field"><th scope="row"><label for="description">ConvertKit Form</label></th><td>';
@@ -339,6 +339,22 @@ class ConvertKit_Settings {
 			update_term_meta( $tag_id, 'ck_default_form', 'default' );
         }
 
+	}
+
+	/**
+	 * Returns our list of ConvertKit forms.
+	 * Fetches new forms if stored transient is older than 2 minutes
+	 *
+	 * @return bool|mixed|void
+	 */
+	public function get_forms() {
+		if ( false === ( $forms = get_transient( 'convertkit_forms' ) ) ) {
+			$this->api->update_resources( $this->api_key, $this->api_secret );
+			$forms = get_option( 'convertkit_forms' );
+			set_transient( 'convertkit_forms', $forms, 2 * MINUTE_IN_SECONDS );
+		}
+
+		return $forms;
 	}
 
 }

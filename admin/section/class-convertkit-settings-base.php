@@ -126,4 +126,22 @@ abstract class ConvertKit_Settings_Base {
 	 * Prints help info for this section
 	 */
 	abstract public function print_section_info();
+
+	/**
+	 * Returns our list of ConvertKit forms.
+	 * Fetches new forms if stored transient is older than 2 minutes
+	 *
+	 * @return bool|mixed|void
+	 */
+	public function get_forms() {
+		error_log('transient');
+		error_log(print_r(debug_backtrace(2), true));
+		if ( false === ( $forms = get_transient( 'convertkit_forms' ) ) ) {
+			$this->api->update_resources( $this->options['api_key'], $this->options['api_secret'] );
+			$forms = get_option( 'convertkit_forms' );
+			set_transient( 'convertkit_forms', $forms, 2 * MINUTE_IN_SECONDS );
+		}
+
+		return $forms;
+	}
 }

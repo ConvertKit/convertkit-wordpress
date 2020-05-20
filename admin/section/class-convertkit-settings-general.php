@@ -105,7 +105,7 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 	 * Register and add settings
 	 */
 	public function register_fields() {
-		$forms = get_option( 'convertkit_forms' );
+		$forms = $this->get_forms();
 		$account_name = get_option( 'convertkit_account_name' );
         add_settings_field(
             'account_name',
