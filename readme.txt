@@ -37,7 +37,7 @@ Full plugin documentation is located [here](https://help.convertkit.com/en/artic
 
 = Does this plugin require a paid service? =
 
-Yes, for it to work you must first have an account on ConvertKit.com
+No. You must first have an account on ConvertKit.com, but you do not have to use a paid plan!
 
 == Screenshots ==
 
