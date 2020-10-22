@@ -12,9 +12,11 @@ ConvertKit is an email marketing platform for capturing leads from your WordPres
 
 == Description ==
 
-[ConvertKit](https://convertkit.com) makes it easy to capture more leads and sell more products by easily embedding email capture forms anywhere. This plugin makes it a little bit easier for those of us using WordPress blogs, by automatically appending a lead capture form to any post or page.
+[ConvertKit](https://convertkit.com) makes it easy to capture more leads and sell more products by easily embedding email capture forms anywhere. This plugin makes it even easier for those of us using WordPress by automatically appending a lead capture form to any post or page.
 
-If you choose a default form on the settings page, that form will be embedded at the bottom of every post or page (in single view only) across your site. If you wish to turn off form embedding or select a different form for an individual post or page, you can do so within the ConvertKit meta box on the editing form.
+If you choose a default form on the settings page, that form will be embedded at the bottom of every post or page (in single view only) across your site.
+
+If you wish to turn off form embedding or select a different form for an individual post or page, you can do so within the ConvertKit meta box on the editing form.
 
 Finally, you can insert the default form into the middle of post or page content by using the `[convertkit]` shortcode.
 
