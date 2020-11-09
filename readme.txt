@@ -44,8 +44,8 @@ No. You must first have an account on ConvertKit.com, but you do not have to use
 3. Set up form and landing page automations in ConvertKit
 4. Manage the WordPress plugin from a simple settings page in the WordPress admin
 5. Track subscriber growth
-6.
-7.
+6. An example of a ConvertKit landing page
+7. Another ConvertKit landing page example
 
 == Changelog ==
 
