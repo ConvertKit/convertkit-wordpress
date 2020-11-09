@@ -2,8 +2,8 @@
 Contributors: nathanbarry, growdev, travisnorthcutt
 Donate link: https://convertkit.com
 Tags: email, marketing, embed form, convertkit, capture
-Requires at least: 3.6
-Tested up to: 5.5.1
+Requires at least: 4.8
+Tested up to: 5.5.3
 Stable tag: 1.9.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -50,7 +50,10 @@ No. You must first have an account on ConvertKit.com, but you do not have to use
 == Changelog ==
 
 ### 1.9.3 2020-10-22
-* Test WordPress up to version 5.5.1
+* Increase maxiumum supported WordPress version to 5.5.3
+* Increase minimum supported WordPress verion to 4.7
+* Miscellaneous readme updates
+* Update some dev dependencies, e.g. grunt-bump
 
 ### 1.9.2 2019-12-20
 * Fix issue that prevented Google fonts from loading on landing pages
