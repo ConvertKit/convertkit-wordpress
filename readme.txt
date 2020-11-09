@@ -39,8 +39,13 @@ No. You must first have an account on ConvertKit.com, but you do not have to use
 
 == Screenshots ==
 
-1. Insert modal forms into any post
-2. Add stunning landing pages
+1. Create and customize stunning landing pages in ConvertKit
+2. Set WordPress Pages to use ConvertKit landing page content from a simple metabox in the WordPress admin editor
+3.
+4.
+5.
+6.
+7.
 
 == Changelog ==
 
