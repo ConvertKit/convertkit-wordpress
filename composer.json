@@ -21,5 +21,42 @@
         "lucatume/wp-browser": "^2.2"
     },
     "minimum-stability": "dev",
-    "prefer-stable": true
+    "prefer-stable": true,
+    "scripts": {
+        "dist": [
+            "rm -rf ./vendor",
+            "@composer install --no-dev -a",
+            "@composer archive --format=zip --file convertkit-wordpress",
+            "mv convertkit-wordpress.zip $HOME/Desktop"
+        ]
+    },
+    "archive": {
+        "exclude": [
+            "!vendor/*",
+            ".circleci",
+            ".github",
+            "bin",
+            "tests",
+            ".distignore",
+            ".env",
+            ".gitignore",
+            ".git",
+            ".wordpress-org",
+            ".travis.yml",
+            "circle.yml",
+            "codeception.dist.yml",
+            "composer.json",
+            "composer.lock",
+            "Gruntfile.js",
+            "log.txt",
+            "package.json",
+            "package-lock.json",
+            "phpcs.xml.dist",
+            "phpunit.xml",
+            "phpunit.xml.dist",
+            "node_modules",
+            "README.md",
+            "tags"
+        ]
+    }
 }
