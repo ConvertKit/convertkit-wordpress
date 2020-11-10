@@ -294,7 +294,7 @@ class ConvertKit_Settings {
 	 */
 	public function category_form_fields( $tag ) {
 
-		$fors = $this->get_forms();
+		$forms = $this->get_forms();
 		$default_form = get_term_meta( $tag->term_id, 'ck_default_form', true );
 
 		echo '<tr class="form-field"><th scope="row"><label for="description">ConvertKit Form</label></th><td>';
