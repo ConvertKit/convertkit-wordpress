@@ -49,11 +49,12 @@ No. You must first have an account on ConvertKit.com, but you do not have to use
 
 == Changelog ==
 
-### 1.9.3 2020-10-22
+### 1.9.3 2020-11-10
+* Fix: Fix occasional "undefined variable" notice when viewing ConvertKit forms dropdown
+* Fix: Only log transients from `get_form()` method when debugging is enabled
 * Increase maxiumum supported WordPress version to 5.5.3
 * Increase minimum supported WordPress verion to 4.7
 * Miscellaneous readme updates
-* Update some dev dependencies, e.g. grunt-bump
 
 ### 1.9.2 2019-12-20
 * Fix issue that prevented Google fonts from loading on landing pages
