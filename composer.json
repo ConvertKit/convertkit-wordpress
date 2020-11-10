@@ -55,7 +55,7 @@
             "phpunit.xml",
             "phpunit.xml.dist",
             "node_modules",
-            "README.md",
+            "readme.md",
             "tags"
         ]
     }
