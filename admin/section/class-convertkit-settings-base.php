@@ -73,8 +73,9 @@ abstract class ConvertKit_Settings_Base {
 	public function __construct() {
 		global $convertkit_settings;
 
-		$this->api      = $convertkit_settings->api;
-		$this->options  = get_option( $this->settings_key );
+		$this->api     = $convertkit_settings->api;
+		$this->options = get_option( $this->settings_key );
+
 		if ( empty( $this->tab_text ) ) {
 			$this->tab_text = $this->title;
 		}
@@ -134,11 +135,19 @@ abstract class ConvertKit_Settings_Base {
 	 * @return bool|mixed|void
 	 */
 	public function get_forms() {
-		error_log('transient');
-		error_log(print_r(debug_backtrace(2), true));
-		if ( false === ( $forms = get_transient( 'convertkit_forms' ) ) ) {
+
+		if ( convertkit_wp_debug_enabled() ) {
+			error_log( 'transient' );
+			error_log( print_r( debug_backtrace( 2 ), true ) );
+		}
+
+		$forms = get_transient( 'convertkit_forms' );
+
+		if ( false === $forms ) {
 			$this->api->update_resources( $this->options['api_key'], $this->options['api_secret'] );
+
 			$forms = get_option( 'convertkit_forms' );
+
 			set_transient( 'convertkit_forms', $forms, 2 * MINUTE_IN_SECONDS );
 		}
 
