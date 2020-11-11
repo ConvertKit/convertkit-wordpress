@@ -510,7 +510,6 @@ class ConvertKit_API {
 			array(
 				'timeout' => 10,
 				'Accept-Encoding' => 'gzip',
-				'sslverify' => false,
 			)
 		);
 

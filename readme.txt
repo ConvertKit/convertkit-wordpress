@@ -2,9 +2,9 @@
 Contributors: nathanbarry, growdev, travisnorthcutt
 Donate link: https://convertkit.com
 Tags: email, marketing, embed form, convertkit, capture
-Requires at least: 3.6
-Tested up to: 5.3.2
-Stable tag: 1.9.2
+Requires at least: 4.8
+Tested up to: 5.5.3
+Stable tag: 1.9.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -12,17 +12,15 @@ ConvertKit is an email marketing platform for capturing leads from your WordPres
 
 == Description ==
 
-[ConvertKit](https://convertkit.com) makes it easy to capture more leads and sell more products by easily
-embedding email capture forms anywhere. This plugin makes it a little bit easier for those of us using WordPress
-blogs, by automatically appending a lead capture form to any post or page.
+[ConvertKit](https://convertkit.com) makes it easy to capture more leads and sell more products by easily embedding email capture forms anywhere. This plugin makes it even easier for those of us using WordPress by automatically appending a lead capture form to any post or page.
 
-If you choose a default form on the settings page, that form will be embedded at the bottom of every post or page
-(in single view only) across your site. If you wish to turn off form embedding or select a different form for
-an individual post or page, you can do so within the ConvertKit meta box on the editing form.
+If you choose a default form on the settings page, that form will be embedded at the bottom of every post or page (in single view only) across your site.
+
+If you wish to turn off form embedding or select a different form for an individual post or page, you can do so within the ConvertKit meta box on the editing form.
 
 Finally, you can insert the default form into the middle of post or page content by using the `[convertkit]` shortcode.
 
-Full plugin documentation is located [here](https://help.convertkit.com/en/articles/2502591-the-convertkit-wordpress-plugin)
+Full plugin documentation is located [here](https://help.convertkit.com/en/articles/2502591-the-convertkit-wordpress-plugin).
 
 == Installation ==
 
@@ -37,14 +35,26 @@ Full plugin documentation is located [here](https://help.convertkit.com/en/artic
 
 = Does this plugin require a paid service? =
 
-Yes, for it to work you must first have an account on ConvertKit.com
+No. You must first have an account on ConvertKit.com, but you do not have to use a paid plan!
 
 == Screenshots ==
 
-1. Insert modal forms into any post
-2. Add stunning landing pages
+1. Create and customize stunning landing pages in ConvertKit
+2. Set WordPress Pages to use ConvertKit landing page content from a simple metabox in the WordPress admin editor
+3. Set up form and landing page automations in ConvertKit
+4. Manage the WordPress plugin from a simple settings page in the WordPress admin
+5. Track subscriber growth
+6. An example of a ConvertKit landing page
+7. Another ConvertKit landing page example
 
 == Changelog ==
+
+### 1.9.3 2020-11-11
+* New: Increase minimum supported WordPress verion to 4.7 and maxiumum supported WordPress version to 5.5.3
+* Fix: Fix occasional "undefined variable" notice when viewing ConvertKit forms dropdown
+* Fix: Only log transients from `get_form()` method when debugging is enabled
+* Tweak: Remove `sslverify => false` argument from main ConertKit API call
+
 ### 1.9.2 2019-12-20
 * Fix issue that prevented Google fonts from loading on landing pages
 * Fix issue that resulted in multiple failed API calls for non-existent subscribers passed in via query parameter
