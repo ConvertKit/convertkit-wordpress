@@ -49,7 +49,7 @@ No. You must first have an account on ConvertKit.com, but you do not have to use
 
 == Changelog ==
 
-### 1.9.3 2020-11-10
+### 1.9.3 2020-11-11
 * New: Increase minimum supported WordPress verion to 4.7 and maxiumum supported WordPress version to 5.5.3
 * Fix: Fix occasional "undefined variable" notice when viewing ConvertKit forms dropdown
 * Fix: Only log transients from `get_form()` method when debugging is enabled
