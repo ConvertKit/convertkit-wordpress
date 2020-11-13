@@ -1,5 +1,5 @@
 === ConvertKit ===
-Contributors: nathanbarry, growdev, travisnorthcutt
+Contributors: nathanbarry, growdev, travisnorthcutt, ggwicz
 Donate link: https://convertkit.com
 Tags: email, marketing, embed form, convertkit, capture
 Requires at least: 4.8
@@ -50,10 +50,10 @@ No. You must first have an account on ConvertKit.com, but you do not have to use
 == Changelog ==
 
 ### 1.9.3 2020-11-11
-* New: Increase minimum supported WordPress verion to 4.7 and maxiumum supported WordPress version to 5.5.3
+* New: Increase minimum supported WordPress version to 4.7 and maximum supported WordPress version to 5.5.3
 * Fix: Fix occasional "undefined variable" notice when viewing ConvertKit forms dropdown
 * Fix: Only log transients from `get_form()` method when debugging is enabled
-* Tweak: Remove `sslverify => false` argument from main ConertKit API call
+* Tweak: Remove `sslverify => false` argument from main ConvertKit API call
 
 ### 1.9.2 2019-12-20
 * Fix issue that prevented Google fonts from loading on landing pages
@@ -166,7 +166,7 @@ to each visit which some customers expressed concern about. We will add a way to
 ### 1.4.10 2017-10-04
 * Removed transient for API calls.
 * Changed widget to use option setting instead of making API call.
-* Reduced number of API calls while site is being browsed.
+* Reduced number of API calls while the site is being browsed.
 * Updated contributors
 
 ### 1.4.9 2017-07-24
@@ -275,3 +275,4 @@ to each visit which some customers expressed concern about. We will add a way to
 * Initial release
 
 == Upgrade notice ==
+
