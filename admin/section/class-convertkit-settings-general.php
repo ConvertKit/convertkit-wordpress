@@ -37,17 +37,19 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 		$api_key    = isset( $_REQUEST['api_key'] ) ? $_REQUEST['api_key'] : WP_ConvertKit::get_api_key();
 		$api_secret = isset( $_REQUEST['api_secret'] ) ? $_REQUEST['api_secret'] : WP_ConvertKit::get_api_secret();
 
-		if ( !$api_key ) {
+		if ( ! $api_key ) {
 			update_option( 'convertkit_forms', array() );
 			wp_send_json_error( __( 'Please enter your API key, click "save changes", and try again.', 'convertkit' ) );
 			wp_die();
 		}
 
-		if ( !$api_secret ) {
+		if ( ! $api_secret ) {
 			update_option( 'convertkit_forms', array() );
 			wp_send_json_error( __( 'Please enter your API secret, click "save changes", and try again.', 'convertkit' ) );
 			wp_die();
 		}
+
+		delete_transient( 'convertkit_forms' );
 
 		$update_resources = $this->api->update_resources( $api_key, $api_secret );
 
@@ -71,6 +73,7 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 			 * So, if $update_resources is false, we check the character set, and if it's not utf8mb4 then we show a warning
 			 */
 			global $wpdb;
+
 			if ( $wpdb->get_col_charset( 'wp_options', 'option_value' ) !== 'utf8mb4' ) {
 				wp_send_json_error( __( 'Updating forms from ConvertKit may have failed. If so, this may be because your database uses the out of date utf8 character set, instead of the newer utf8mb4 character set. Please contact your host to upgrade your database.','convertkit' ) );
 				wp_die();
