@@ -2,9 +2,9 @@
 Contributors: nathanbarry, growdev, travisnorthcutt, ggwicz
 Donate link: https://convertkit.com
 Tags: email, marketing, embed form, convertkit, capture
-Requires at least: 4.8
-Tested up to: 5.5.3
-Stable tag: 1.9.3
+Requires at least: 4.9
+Tested up to: 5.6.2
+Stable tag: 1.9.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -49,8 +49,15 @@ No. You must first have an account on ConvertKit.com, but you do not have to use
 
 == Changelog ==
 
+### 1.9.4 2021-02-22
+* New: Increase minimum supported WordPress version to 4.9 and maximum supported WordPress version to 5.6.2
+* Fix: Restore original plugin file name (`wp-convertkit.php`), which reverts the breaking file name change (`plugin.php`) released in 1.9.3
+* Fix: Fixed inconsistent refreshing of forms in the ConvertKit forms dropdown
+* Fix: Fixed occasional "undefined variable" notices regarding the API key and API secret
+* Tweak: Add ConvertKit plugin information to useragent of plugin API requests
+
 ### 1.9.3 2020-11-11
-* New: Increase minimum supported WordPress version to 4.7 and maximum supported WordPress version to 5.5.3
+* New: Increase minimum supported WordPress version to 4.8 and maximum supported WordPress version to 5.5.3
 * Fix: Fix occasional "undefined variable" notice when viewing ConvertKit forms dropdown
 * Fix: Only log transients from `get_form()` method when debugging is enabled
 * Tweak: Remove `sslverify => false` argument from main ConvertKit API call

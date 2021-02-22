@@ -432,6 +432,7 @@ class ConvertKit_API {
 				array(
 					'timeout' => 10,
 					'Accept-Encoding' => 'gzip',
+					'user-agent' => convertkit_wp_get_user_agent(),
 				)
 			);
 
@@ -510,6 +511,7 @@ class ConvertKit_API {
 			array(
 				'timeout' => 10,
 				'Accept-Encoding' => 'gzip',
+				'user-agent' => convertkit_wp_get_user_agent(),
 			)
 		);
 

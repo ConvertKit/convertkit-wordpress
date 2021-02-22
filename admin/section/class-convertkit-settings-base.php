@@ -144,11 +144,15 @@ abstract class ConvertKit_Settings_Base {
 		$forms = get_transient( 'convertkit_forms' );
 
 		if ( false === $forms ) {
-			$this->api->update_resources( $this->options['api_key'], $this->options['api_secret'] );
 
-			$forms = get_option( 'convertkit_forms' );
+			if ( ! empty( $this->options['api_key'] ) && ! empty( $this->options['api_secret'] ) ) {
 
-			set_transient( 'convertkit_forms', $forms, 2 * MINUTE_IN_SECONDS );
+				$this->api->update_resources( $this->options['api_key'], $this->options['api_secret'] );
+
+				$forms = get_option( 'convertkit_forms' );
+
+				set_transient( 'convertkit_forms', $forms, 2 * MINUTE_IN_SECONDS );
+			}
 		}
 
 		return $forms;
