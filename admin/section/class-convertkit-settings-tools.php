@@ -242,7 +242,7 @@ class ConvertKit_Settings_Tools extends ConvertKit_Settings_Base {
 		$params = array(
 			'sslverify'     => false,
 			'timeout'       => 60,
-			'user-agent'    => 'ConvertKit/' . CONVERTKIT_PLUGIN_VERSION,
+			'user-agent'    => convertkit_wp_get_user_agent(),
 			'body'          => $request
 		);
 
