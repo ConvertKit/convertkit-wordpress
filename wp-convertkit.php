@@ -7,10 +7,12 @@
  * Author: ConvertKit
  * Author URI: https://convertkit.com/
  * Text Domain: convertkit
+ *
+ * @package convertkit-wordpress
  */
 
 if ( class_exists( 'WP_ConvertKit' ) ) {
-    return;
+	return;
 }
 
 define( 'CONVERTKIT_PLUGIN_FILE', plugin_basename( __FILE__ ) );
@@ -29,16 +31,16 @@ require_once CONVERTKIT_PLUGIN_PATH . '/includes/integration/class-convertkit-wi
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/integration/class-convertkit-contactform7-integration.php';
 
 if ( is_admin() ) {
-    require_once CONVERTKIT_PLUGIN_PATH . '/admin/class-convertkit-settings.php';
-    require_once CONVERTKIT_PLUGIN_PATH . '/admin/class-multi-value-field-table.php';
-    require_once CONVERTKIT_PLUGIN_PATH . '/admin/class-convertkit-tinymce.php';
-    require_once CONVERTKIT_PLUGIN_PATH . '/admin/section/class-convertkit-settings-base.php';
-    require_once CONVERTKIT_PLUGIN_PATH . '/admin/section/class-convertkit-settings-general.php';
-    require_once CONVERTKIT_PLUGIN_PATH . '/admin/section/class-convertkit-settings-tools.php';
-    require_once CONVERTKIT_PLUGIN_PATH . '/admin/section/class-convertkit-settings-wishlist.php';
-    require_once CONVERTKIT_PLUGIN_PATH . '/admin/section/class-convertkit-settings-contactform7.php';
+	require_once CONVERTKIT_PLUGIN_PATH . '/admin/class-convertkit-settings.php';
+	require_once CONVERTKIT_PLUGIN_PATH . '/admin/class-multi-value-field-table.php';
+	require_once CONVERTKIT_PLUGIN_PATH . '/admin/class-convertkit-tinymce.php';
+	require_once CONVERTKIT_PLUGIN_PATH . '/admin/section/class-convertkit-settings-base.php';
+	require_once CONVERTKIT_PLUGIN_PATH . '/admin/section/class-convertkit-settings-general.php';
+	require_once CONVERTKIT_PLUGIN_PATH . '/admin/section/class-convertkit-settings-tools.php';
+	require_once CONVERTKIT_PLUGIN_PATH . '/admin/section/class-convertkit-settings-wishlist.php';
+	require_once CONVERTKIT_PLUGIN_PATH . '/admin/section/class-convertkit-settings-contactform7.php';
 
-    $convertkit_settings = new ConvertKit_Settings();
+	$convertkit_settings = new ConvertKit_Settings();
 }
 
 WP_ConvertKit::init();
