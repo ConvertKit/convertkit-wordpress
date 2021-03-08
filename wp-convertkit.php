@@ -23,7 +23,7 @@ define( 'CONVERTKIT_PLUGIN_VERSION', '1.9.4' );
 require_once CONVERTKIT_PLUGIN_PATH . '/vendor/autoload.php';
 
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/functions.php';
-require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit.php';
+require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-wp-convertkit.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-api.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-ck-widget-form.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-custom-content.php';
