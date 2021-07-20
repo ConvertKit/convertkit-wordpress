@@ -166,7 +166,29 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 			$this->settings_key,
 			$this->name
 		);
+		add_settings_field(
+			'clear_logs',
+			'',
+			array( $this, 'clear_logs' ),
+			$this->settings_key,
+			$this->name
+		);
 
+		add_settings_field(
+			'debug',
+			'Debug',
+			array( $this, 'debug_callback' ),
+			$this->settings_key,
+			$this->name
+		);
+
+		add_settings_field(
+			'debug',
+			'Debug',
+			array( $this, 'debug_callback' ),
+			$this->settings_key,
+			$this->name
+		);
 		add_settings_field(
 			'debug',
 			'Debug',
