@@ -4,7 +4,7 @@ Donate link: https://convertkit.com
 Tags: email, marketing, embed form, convertkit, capture
 Requires at least: 4.9
 Tested up to: 5.8
-Stable tag: 1.9.5
+Stable tag: 1.9.5.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -48,6 +48,9 @@ No. You must first have an account on ConvertKit.com, but you do not have to use
 7. Another ConvertKit landing page example
 
 == Changelog ==
+
+### 1.9.5.1 2021-07-27
+* Fix: Updated GitHub zip URL for build.
 
 ### 1.9.5 2021-07-21
 * Fix: Changed how API responses are logged.
