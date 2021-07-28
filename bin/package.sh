@@ -9,7 +9,7 @@ download() {
     curl -s "$1" > "$2";
 }
 
-download https://codeload.github.com/ConvertKit/convertkit-wordpress/zip/$RELEASE_VERSION $DOWNLOAD_LOCATION/convertkit.zip
+download https://github.com/ConvertKit/ConvertKit-WordPress/archive/$RELEASE_VERSION.zip $DOWNLOAD_LOCATION/convertkit.zip
 
 cd $DOWNLOAD_LOCATION
 
