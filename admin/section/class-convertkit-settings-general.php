@@ -176,21 +176,6 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 		);
 
 		add_settings_field(
-			'debug',
-			'Debug',
-			array( $this, 'debug_callback' ),
-			$this->settings_key,
-			$this->name
-		);
-		add_settings_field(
-			'debug',
-			'Debug',
-			array( $this, 'debug_callback' ),
-			$this->settings_key,
-			$this->name
-		);
-
-		add_settings_field(
 			'no_scripts',
 			'Disable javascript',
 			array( $this, 'no_scripts_callback' ),
@@ -428,7 +413,7 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 			__( 'Save connection data to a log file.', 'convertkit' )
 		);
 
-		$html .= '<p class="description">' . __( 'You can ignore this unless you\'re working with our support team to resolve an issue. Decheck this option to improve performance.', 'convertkit' ) . '</p>';
+		$html .= '<p class="description">' . __( 'You can ignore this unless you\'re working with our support team to resolve an issue.', 'convertkit' ) . '</p>';
 
 		echo $html;
 	}
