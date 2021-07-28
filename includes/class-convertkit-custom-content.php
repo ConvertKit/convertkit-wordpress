@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Class ConvertKit_Custom_Content
  *
@@ -8,46 +7,42 @@
 class ConvertKit_Custom_Content {
 
 	/**
-	 * Name of the database table to store user visits.
+	 * Name of the database table to store user visits
 	 *
 	 * @var string
 	 */
 	public $table = 'convertkit_user_history';
 
 	/**
-	 * Name of the cookie to store user visits.
+	 * Name of the cookie to store user visits
 	 *
 	 * @var string
 	 */
 	public $cookie;
 
 	/**
-	 * Version of the visits database.
-	 *
-	 * @var string
+	 * Version of the visits database
 	 */
 	public $version = '1.0.0';
 
 	/**
-	 * How long the cookie will last.
+	 * How long the cookie will last
 	 *
-	 * @var int
+	 * @var
 	 */
 	public $cookie_life;
 
 	/**
-	 * Custom content settings.
-	 *
 	 * @var mixed|void
 	 */
 	protected $options;
 
 	/**
-	 * Constructor.
+	 * Constructor
 	 */
 	public function __construct() {
 
-		$this->options = get_option( '_wp_convertkit_integration_custom_content_settings' );
+		$this->options   = get_option( '_wp_convertkit_integration_custom_content_settings' );
 
 		$this->table       = 'convertkit_user_history';
 		$this->cookie      = 'convertkit_history';
@@ -58,7 +53,7 @@ class ConvertKit_Custom_Content {
 	}
 
 	/**
-	 * Add actions related to user history.
+	 * Add actions related to user history
 	 */
 	public function add_actions() {
 
@@ -78,21 +73,20 @@ class ConvertKit_Custom_Content {
 	 *
 	 * @since 1.5.5
 	 */
-	public function maybe_tag_subscriber_ajax() {
+	public function maybe_tag_subscriber_ajax(){
 
-		// Get post_id from URL.
+		// get post_id from url
 		$url     = isset( $_POST['url'] ) ? sanitize_text_field( $_POST['url'] ) : '';
 		$post_id = url_to_postid( $url );
 		$post    = get_post( $post_id );
 
-		// Set cookie.
+		// set cookie
 		$subscriber_id               = isset( $_POST['subscriber_id'] ) ? sanitize_text_field( $_POST['subscriber_id'] ) : 0;
 		$_COOKIE['ck_subscriber_id'] = absint( $subscriber_id );
 
 		if ( isset( $post ) ) {
 			$message = ConvertKit_Custom_Content::maybe_tag_subscriber( $post );
-
-			if ( $message ) {
+			if( $message ) {
 				echo json_encode( $message );
 				exit;
 			}
@@ -107,41 +101,91 @@ class ConvertKit_Custom_Content {
 	}
 
 	/**
-	 * Get ck_subscriber_id with email via AJAX.
+	 * Track the visitor
+	 *
+	 * @since 1.5.0
 	 */
-	public function get_subscriber() {
+	public function add_user_history() {
+		/*
+		$subscriber_id   = isset( $_POST['subscriber_id'] ) ? sanitize_text_field( $_POST['subscriber_id'] ): 0;
 
-		$email = isset( $_POST['email'] ) ? sanitize_text_field( $_POST['email'] ) : 0;
-		$api   = WP_ConvertKit::get_api();
+		$visitor_cookie = isset( $_POST['user'] ) ? sanitize_text_field( $_POST['user'] ): 0;
+		$subscriber_id   = isset( $_POST['subscriber_id'] ) ? sanitize_text_field( $_POST['subscriber_id'] ): 0;
+		$user_id        = get_current_user_id();
+		$url            = isset( $_POST['url'] ) ? sanitize_text_field( $_POST['url'] ): '';
+		$ip             = $this->get_user_ip();
+		$date           = date( 'Y-m-d H:i:s', time() );
 
-		WP_ConvertKit::log( 'Trying to get subscriber_id with email: ' . $email );
+		if ( ! $subscriber_id && $user_id ) {
+			$api = WP_ConvertKit::get_api();
+			$user_info = get_userdata( $user_id );
+			WP_ConvertKit::log( 'Trying to get subscriber_id with email: ' . $user_info->user_email );
+			$subscriber_id = $api->get_subscriber_id( $user_info->user_email );
+		}
 
-		$subscriber_id = $api->get_subscriber_id( $email );
+		WP_ConvertKit::log( '-------- in add_history ---------' );
+		WP_ConvertKit::log( 'visitor_cookie: ' . $visitor_cookie );
+		WP_ConvertKit::log( 'subscriber_id: ' . $subscriber_id );
+		WP_ConvertKit::log( 'url: ' . $url );
+		WP_ConvertKit::log( 'user_id: ' . $user_id );
 
-		WP_ConvertKit::log( sprintf( 'In get_subscriber. email: %1$s, subscriber_id: %2$s', $email, $subscriber_id ) );
+		if ( empty( $visitor_cookie ) ) {
+			$visitor_cookie = md5( time() );
+			WP_ConvertKit::log( 'no user adding one: ' . $visitor_cookie );
+		}
+
+		$this->insert( array(
+			'visitor_cookie' => $visitor_cookie,
+			'user_id'        => $user_id,
+			'subscriber_id'  => $subscriber_id,
+			'url'            => $url,
+			'ip'             => $ip,
+			'date'           => $date,
+		) );
+
 
 		echo json_encode(
 			array(
 				'subscriber_id' => $subscriber_id,
 			)
 		);
+		exit;
+		*/
+	}
 
+	/**
+	 * Get ck_subscriber_id with email via AJAX
+	 */
+	public function get_subscriber() {
+
+		$email   = isset( $_POST['email'] ) ? sanitize_text_field( $_POST['email'] ): 0;
+
+		$api = WP_ConvertKit::get_api();
+		WP_ConvertKit::log( 'Trying to get subscriber_id with email: ' . $email );
+		$subscriber_id = $api->get_subscriber_id( $email );
+
+		WP_ConvertKit::log( 'In get_subscriber. email: ' . $email  . ', subscriber_id: ' . $subscriber_id );
+
+		echo json_encode(
+			array(
+				'subscriber_id' => $subscriber_id,
+			)
+		);
 		exit;
 	}
 
 	/**
-	 * Register shortcode.
+	 * Register shortcode
 	 */
 	public function register_shortcodes() {
 		add_shortcode( 'convertkit_content', array( $this, 'shortcode' ) );
 	}
 
 	/**
-	 * Shortcode callback.
+	 * Shortcode callback
 	 *
-	 * @param array  $attributes Shortcode attributes.
-	 * @param string $content Shortcode content.
-	 *
+	 * @param array $attributes Shortcode attributes.
+	 * @param string $content
 	 * @return mixed|void
 	 */
 	public static function shortcode( $attributes, $content ) {
@@ -149,26 +193,20 @@ class ConvertKit_Custom_Content {
 		// The 'tag' attribute is required.
 		if ( isset( $attributes['tag'] ) ) {
 			$tags = array();
-			$tag  = $attributes['tag'];
-			$api  = WP_ConvertKit::get_api();
+			$tag = $attributes['tag'];
+			$api = WP_ConvertKit::get_api();
 
 			if ( isset( $_COOKIE['ck_subscriber_id'] ) ) {
-
 				WP_ConvertKit::log( 'shortcode: cookie found, calling API' );
-
-				// Get cookie and check API for customer tags.
+				// get cookie and check API for customer tags.
 				$subscriber_id = absint( $_COOKIE['ck_subscriber_id'] );
-
 				if ( $subscriber_id ) {
 					$tags = $api->get_subscriber_tags( $subscriber_id );
 				}
 			} elseif ( isset( $_GET['ck_subscriber_id'] ) ) {
-
 				WP_ConvertKit::log( 'shortcode: URL param found, calling API' );
-
-				// Get cookie and check API for customer tags.
+				// get cookie and check API for customer tags.
 				$subscriber_id = absint( $_GET['ck_subscriber_id'] );
-
 				if ( $subscriber_id ) {
 					$tags = $api->get_subscriber_tags( $subscriber_id );
 				}
@@ -185,24 +223,22 @@ class ConvertKit_Custom_Content {
 	 * If the user views page with a cookie 'ck_subscriber_id' then check if tags need to be applied based on visit.
 	 *
 	 * @see https://app.convertkit.com/account/edit#email_settings
-	 *
-	 * @param WP_Post $post WP_Post object for the post.
-	 *
+	 * @param $post WP_Post
 	 * @return string|boolean
 	 */
 	public static function maybe_tag_subscriber( $post ) {
 
 		if ( isset( $_COOKIE['ck_subscriber_id'] ) && absint( $_COOKIE['ck_subscriber_id'] ) ) {
 			$subscriber_id = absint( $_COOKIE['ck_subscriber_id'] );
-			$api           = WP_ConvertKit::get_api();
-			$meta          = get_post_meta( $post->ID, '_wp_convertkit_post_meta', true );
-			$tag           = isset( $meta['tag'] ) ? $meta['tag'] : 0;
+			$api  = WP_ConvertKit::get_api();
+			$meta = get_post_meta( $post->ID, '_wp_convertkit_post_meta', true );
+			$tag  = isset( $meta['tag'] ) ? $meta['tag'] : 0;
 
-			// Get subscriber's email to add tag with.
+			// get subscriber's email to add tag with
 			$subscriber = $api->get_subscriber( $subscriber_id );
 
 			if ( $subscriber ) {
-				// Tag subscriber.
+				// tag subscriber
 				$args = array(
 					'email' => $subscriber->email_address,
 				);
@@ -214,9 +250,7 @@ class ConvertKit_Custom_Content {
 					WP_ConvertKit::log( 'post_id (' . $post->ID . ') post does not have tags defined.' );
 				}
 			} else {
-
-				http_response_code( 404 );
-
+				http_response_code(404);
 				unset( $_COOKIE['ck_subscriber_id'] );
 
 				return 'Subscriber with ID ' . $subscriber_id . ' not found';
@@ -230,25 +264,22 @@ class ConvertKit_Custom_Content {
 	/**
 	 * Runs after the customer has been tagged and subscriber_id has been retrieved
 	 *
-	 * @param string  $user_login User loging name.
-	 * @param WP_User $user WP_User object of the user.
+	 * @param $user_login
+	 * @param $user
 	 */
 	public function login_action( $user_login, $user ) {
 
 		$user_email = $user->user_email;
-		$api        = WP_ConvertKit::get_api();
 
+		$api = WP_ConvertKit::get_api();
 		WP_ConvertKit::log( '----login_action for user: ' . $user->ID );
 
-		// Get subscriber id from email and cookie.
+		// Get subscriber id from email and cookie
 		$subscriber_id = $api->get_subscriber_id( $user_email );
-
 		if ( $subscriber_id ) {
 			update_user_meta( $user->ID, 'convertkit_subscriber_id', $subscriber_id );
-
 			setcookie( 'convertkit_subscriber', $subscriber_id, time() + ( 21 * DAY_IN_SECONDS ), '/' );
-
-			// Get tags and add to user meta.
+			// get tags and add to user meta
 			$tags = $api->get_subscriber_tags( $subscriber_id );
 			update_user_meta( $user->ID, 'convertkit_tags', json_encode( $tags ) );
 		}
@@ -263,16 +294,14 @@ class ConvertKit_Custom_Content {
 		}
 
 		$tags = $api->get_subscriber_tags( $subscriber_id );
-
 		update_user_meta( $user->ID, 'convertkit_tags', json_encode( $tags ) );
+
 	}
 
 	/**
-	 * Associates history of viewing custom content with a specified user.
-	 *
-	 * @param string $cookie Visitory cookie name.
-	 * @param int    $subscriber_id Subscriber ID.
-	 * @param int    $user_id User ID.
+	 * @param string $cookie
+	 * @param int $subscriber_id
+	 * @param int $user_id
 	 */
 	public function associate_history_with_user( $cookie, $subscriber_id = 0, $user_id = 0 ) {
 
@@ -289,22 +318,23 @@ class ConvertKit_Custom_Content {
 	 * Remove rows in the convertkit_user_history table older than the Expire setting.
 	 */
 	public function remove_expired_rows() {
-		$expire_months = isset( $this->options['expire'] ) ? absint( $this->options['expire'] ) : 4;
-		$expire_range  = apply_filters( 'convertkit_user_history_expire', $expire_months );
-		$expire_date   = date( 'Y-m-d H:i:s', strtotime( '-' . $expire_range . ' months' ) ); // phpcs:ignore -- Okay use of date() function.
-		$rows          = $this->delete( 'date', $expire_date, '<' );
+
+		$expire_months = isset( $this->options['expire'] ) ? absint( $this->options['expire'] ) : 4 ;
+		$expire_range = apply_filters( 'convertkit_user_history_expire', $expire_months );
+		$expire_date = date( 'Y-m-d H:i:s', strtotime( '-' . $expire_range . ' months' ) );
+		$rows = $this->delete( 'date', $expire_date, '<' );
+
 	}
 
 	/**
-	 * Get IP of visitor.
+	 * Get IP of visitor
 	 *
 	 * @see https://stackoverflow.com/questions/13646690/how-to-get-real-ip-from-visitor
-	 *
 	 * @return mixed
 	 */
 	public function get_user_ip() {
-		$client  = @$_SERVER['HTTP_CLIENT_IP']; // phpcs:ignore -- @todo Determine better way to get IP without suppressing errors.
-		$forward = @$_SERVER['HTTP_X_FORWARDED_FOR'];  // phpcs:ignore -- @todo Determine better way to get IP without suppressing errors.
+		$client  = @$_SERVER['HTTP_CLIENT_IP'];
+		$forward = @$_SERVER['HTTP_X_FORWARDED_FOR'];
 		$remote  = $_SERVER['REMOTE_ADDR'];
 
 		if ( filter_var( $client, FILTER_VALIDATE_IP ) ) {
@@ -321,43 +351,43 @@ class ConvertKit_Custom_Content {
 	/**
 	 * Process the rows collected in the history table
 	 *
-	 * @param int    $subscriber_id Subscriber ID.
-	 * @param int    $user_id User ID.
-	 * @param string $user_email User email address.
+	 * @param int $subscriber_id
+	 * @param int $user_id
+	 * @param string $user_email
 	 */
 	public function process_history( $subscriber_id = 0, $user_id = 0, $user_email ) {
 
-		// @todo This needs to work with batch processing for larger user history.
-		$user_rows = array();
-		$sub_rows  = array();
+		// TODO this needs to work with batch processing for larger user history
 
-		// Get all rows.
+		$user_rows = array();
+		$sub_rows = array();
+
+		// get all rows
 		if ( $user_id ) {
 			$user_rows = $this->get( 'user_id', $user_id, '=' );
 		}
-
 		if ( $subscriber_id ) {
 			$sub_rows = $this->get( 'subscriber_id', $subscriber_id, '=' );
 		}
 
-		// Get unique URLs visited.
+		// get unique urls visited
 		$visits = array_merge( $user_rows, $sub_rows );
-		$urls   = wp_list_pluck( $visits, 'url' );
-		$urls   = array_unique( $urls );
+		$urls = wp_list_pluck( $visits, 'url' );
+		$urls = array_unique( $urls );
 
-		// Get post IDs.
+		// get post ids
 		$post_ids = $this->get_post_ids_from_url( $urls );
 
-		// For each matching post_id tag customer.
-		$api  = WP_ConvertKit::get_api(); // @todo Remove when there is a general logger for plugin.
+		// for each matching post_id tag customer
+
+		$api = WP_ConvertKit::get_api(); // TODO remove when there is a general logger for plugin
 		$args = array(
 			'email' => $user_email,
 		);
 
 		foreach ( $post_ids as $post_id ) {
 			$meta = get_post_meta( $post_id, '_wp_convertkit_post_meta', true );
-			$tag  = isset( $meta['tag'] ) ? $meta['tag'] : 0;
-
+			$tag = isset( $meta['tag'] ) ? $meta['tag'] : 0;
 			if ( $tag ) {
 				$api->add_tag( $tag, $args );
 				WP_ConvertKit::log( 'tagging user (' . $user_id . ')' . ' with tag (' . $tag . ')' );
@@ -366,15 +396,15 @@ class ConvertKit_Custom_Content {
 			}
 		}
 
-		// Delete all rows.
+		// delete all rows
 		$this->delete( 'user_id', $user_id, '=' );
 		$this->delete( 'subscriber_id', $subscriber_id, '=' );
 	}
 
 	/**
-	 * Get post_id from a URL.
+	 * Get post_id from a URL
 	 *
-	 * @param array $urls Array of WordPress post URLs.
+	 * @param $urls
 	 * @return array
 	 */
 	public function get_post_ids_from_url( $urls ) {
@@ -395,9 +425,9 @@ class ConvertKit_Custom_Content {
 	 */
 
 	/**
-	 * Insert table row.
+	 * Insert table row
 	 *
-	 * @param mixed $data Data describing visitor viewing custom content.
+	 * @param $data
 	 */
 	private function insert( $data ) {
 		global $wpdb;
@@ -415,14 +445,15 @@ class ConvertKit_Custom_Content {
 		$wpdb->insert( $wpdb->prefix . $this->table, $data, $table_columns );
 
 		do_action( 'ck_data_after_insert', $data );
+
 	}
 
 	/**
-	 * Get rows from the database.
+	 * Get rows from the database
 	 *
-	 * @param string $field Database field.
-	 * @param mixed  $value Database value.
-	 * @param string $operator Database query operator.
+	 * @param $field
+	 * @param $value
+	 * @param $operator
 	 *
 	 * @return false|int
 	 */
@@ -430,19 +461,19 @@ class ConvertKit_Custom_Content {
 		global $wpdb;
 
 		$table_name = $wpdb->prefix . 'convertkit_user_history';
-		$sql        = 'SELECT * from ' . $table_name . ' WHERE ' . $field . ' ' . $operator . ' \'' . $value . '\'';
-		$rows       = $wpdb->get_results( $sql ); // phpcs:ignore -- @todo Replace with query that uses $wpdb->prepare().
+		$sql = 'SELECT * from ' . $table_name . ' WHERE ' . $field . ' ' . $operator . ' \'' . $value . '\'';
+		$rows = $wpdb->get_results( $sql );
 
 		return $rows;
 	}
 
 	/**
-	 * Update table row.
+	 * Update table row
 	 *
-	 * @param string $column DB query column.
-	 * @param string $value DB query value.
-	 * @param string $compare DB query comparison operator.
-	 * @param string $compare_value DB query comparison value.
+	 * @param $column
+	 * @param $value
+	 * @param $compare
+	 * @param $compare_value
 	 *
 	 * @return int
 	 */
@@ -450,11 +481,9 @@ class ConvertKit_Custom_Content {
 		global $wpdb;
 
 		$table_name = $wpdb->prefix . 'convertkit_user_history';
-
 		$data = array(
 			$column => $value,
 		);
-
 		$where = array(
 			$compare => $compare_value,
 		);
@@ -465,11 +494,11 @@ class ConvertKit_Custom_Content {
 	}
 
 	/**
-	 * Delete table row.
+	 * Delete table row
 	 *
-	 * @param string $column DB query column.
-	 * @param string $value DB query value.
-	 * @param string $operator DB query operator.
+	 * @param string $column
+	 * @param string $value
+	 * @param string $operator
 	 *
 	 * @return false|int
 	 */
@@ -477,8 +506,8 @@ class ConvertKit_Custom_Content {
 		global $wpdb;
 
 		$table_name = $wpdb->prefix . 'convertkit_user_history';
-		$sql        = 'DELETE from ' . $table_name . ' WHERE ' . $column . ' ' . $operator . ' \'' . $value . '\'';
-		$rows       = $wpdb->query( $sql ); // phpcs:ignore -- @todo Replace with query that uses $wpdb->prepare().
+		$sql = 'DELETE from ' . $table_name . ' WHERE ' . $column . ' ' . $operator . ' \'' . $value . '\'';
+		$rows = $wpdb->query( $sql );
 
 		return $rows;
 	}
@@ -496,7 +525,6 @@ class ConvertKit_Custom_Content {
 		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 
 		$table_name = $wpdb->prefix . 'convertkit_user_history';
-
 		$sql = 'CREATE TABLE ' . $table_name . ' (
 			visit_id bigint(20) NOT NULL AUTO_INCREMENT,
 			visitor_cookie mediumtext NOT NULL,
@@ -510,7 +538,7 @@ class ConvertKit_Custom_Content {
 
 		dbDelta( $sql );
 
-		update_option( 'convertkit_user_history_table', '1.0.0' );
+		update_option( 'convertkit_user_history_table' , '1.0.0' );
 	}
 
 }

@@ -1,4 +1,4 @@
-<?php // phpcs:disable
+<?php
 
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
