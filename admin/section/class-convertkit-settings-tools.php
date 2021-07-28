@@ -67,9 +67,26 @@ class ConvertKit_Settings_Tools extends ConvertKit_Settings_Base {
 	 */
 	public function view_log() {
 	    // Only try to get file contents if the file exists; otherwise default to empty string
-		$log_file = trailingslashit( CONVERTKIT_PLUGIN_PATH ) . 'log.txt';
-		$log      = file_exists( $log_file ) ? file_get_contents( $log_file ) : '';
-
+			$log_file = trailingslashit(CONVERTKIT_PLUGIN_PATH) . 'log.txt';
+			$log = "No logs have been generated.";
+			if (file_exists($log_file)) :
+				$log = file_get_contents($log_file);
+				$fp = fopen($log_file, 'r');
+				$log = "";
+				$log_limit = 1000;
+				for ($i = 0; $i < $log_limit; $i++) {
+					if (feof($fp)) {
+						$log .= 'End of file reached.';
+						break;
+					}
+					if ($i === $log_limit - 1) {
+						$log .= '--- 1,000 lines reached, end of log print. Click "Clear Log" if your logs are taking too long to load. ---';
+						break;
+					}
+					$log .= fgets($fp);
+				}
+				fclose($fp);
+			endif;
 		?>
         <div class="metabox-holder">
             <div class="postbox ck-debug-log">

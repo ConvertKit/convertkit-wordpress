@@ -394,7 +394,7 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 			__( 'Save connection data to a log file.','convertkit' )
 		);
 
-		$html .= '<p class="description">' . __( 'You can ignore this unless you\'re working with our support team to resolve an issue.', 'convertkit' ) . '</p>';
+		$html .= '<p class="description">' . __( 'You can ignore this unless you\'re working with our support team to resolve an issue. Decheck this option to improve performance.', 'convertkit' ) . '</p>';
 
 		echo $html;
 	}

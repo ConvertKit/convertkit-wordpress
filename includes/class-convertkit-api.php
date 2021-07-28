@@ -113,7 +113,7 @@ class ConvertKit_API {
 		WP_ConvertKit::log( 'Updating resource with API key: ' . $api_key );
 		// Forms and Landing Pages
 		$api_response = $this->_get_api_response( 'forms' );
-		WP_ConvertKit::log( 'API Response: ' . print_r( $api_response, true ) );
+		WP_ConvertKit::log( 'API Response: Success (Returned ' . count($api_response['forms']) . " forms.)");
 
 		if ( is_null( $api_response )
 			 || is_wp_error( $api_response )
