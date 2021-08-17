@@ -92,6 +92,15 @@ class ConvertKit_API {
 			'email'   => $options['email'],
 		);
 
+		/**
+		 * Define the arguments for adding a tag to a subscriber.
+		 * 
+		 * @param 	array 	$args 		Request Arguments
+		 * @param 	int 	$tag 		Tag ID
+		 * @param 	array 	$options 	User Data
+		 */
+		$args = apply_filters( 'wp_convertkit_api_add_tag_args', $args, $tag, $options );
+
 		return $this->make_request( $request, 'POST', $args );
 	}
 
@@ -284,6 +293,15 @@ class ConvertKit_API {
 			'name'    => $options['name'],
 		);
 
+		/**
+		 * Define the arguments for adding a subscriber to a form.
+		 * 
+		 * @param 	array 	$args 		Request Arguments
+		 * @param 	int 	$form_id 	Form ID
+		 * @param 	array 	$options 	User Data
+		 */
+		$args = apply_filters( 'wp_convertkit_api_form_subscribe_args', $args, $form_id, $options );
+
 		$this->make_request( $request, 'POST', $args );
 	}
 
@@ -299,6 +317,14 @@ class ConvertKit_API {
 			'api_secret' => $this->api_secret,
 			'email'      => $options['email'],
 		);
+
+		/**
+		 * Define the arguments for removing a subscriber from a form.
+		 * 
+		 * @param 	array 	$args 		Request Arguments
+		 * @param 	array 	$options 	User Data
+		 */
+		$args = apply_filters( 'wp_convertkit_api_form_unsubscribe_args', $args, $options );
 
 		$this->make_request( $request, 'PUT', $args );
 	}
