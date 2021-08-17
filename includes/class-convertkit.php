@@ -336,9 +336,9 @@ class WP_ConvertKit {
 		$script = '';
 		if ( $include_jquery ) {
 			$scripts = new WP_Scripts();
-			$script .= "<script type='text/javascript' src='" . trailingslashit( $scripts->base_url ) . "wp-includes/js/jquery/jquery.js?ver=1.4.0'></script>";
+			$script .= "<script type='text/javascript' src='" . trailingslashit( $scripts->base_url ) . "wp-includes/js/jquery/jquery.js?ver=" . CONVERTKIT_PLUGIN_VERSION . "'></script>";
 		}
-		$script .= "<script type='text/javascript' src='" . CONVERTKIT_PLUGIN_URL . "resources/frontend/jquery.cookie.min.js?ver=1.4.0'></script>";
+		$script .= "<script type='text/javascript' src='" . CONVERTKIT_PLUGIN_URL . "resources/frontend/jquery.cookie.min.js?ver=" . CONVERTKIT_PLUGIN_VERSION . "'></script>";
 		$script .= "<script type='text/javascript' src='" . CONVERTKIT_PLUGIN_URL . 'resources/frontend/wp-convertkit.js?ver=' . CONVERTKIT_PLUGIN_VERSION . "'></script>";
 		$script .= "<script type='text/javascript'>/* <![CDATA[ */var ck_data = {\"ajaxurl\":\"" . admin_url( 'admin-ajax.php' ) . '"};/* ]]> */</script>';
 		return $script;
@@ -359,7 +359,7 @@ class WP_ConvertKit {
 				'jquery-cookie',
 				CONVERTKIT_PLUGIN_URL . 'resources/frontend/jquery.cookie.min.js',
 				array( 'jquery' ),
-				'1.4.0'
+				CONVERTKIT_PLUGIN_VERSION
 			);
 
 			wp_register_script(
