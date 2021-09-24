@@ -355,7 +355,7 @@ class ConvertKit_Custom_Content {
 	 * @param int $user_id
 	 * @param string $user_email
 	 */
-	public function process_history( $subscriber_id = 0, $user_id = 0, $user_email ) {
+	public function process_history( $subscriber_id, $user_id, $user_email ) {
 
 		// TODO this needs to work with batch processing for larger user history
 
@@ -363,13 +363,9 @@ class ConvertKit_Custom_Content {
 		$sub_rows = array();
 
 		// get all rows
-		if ( $user_id ) {
-			$user_rows = $this->get( 'user_id', $user_id, '=' );
-		}
-		if ( $subscriber_id ) {
-			$sub_rows = $this->get( 'subscriber_id', $subscriber_id, '=' );
-		}
-
+		$user_rows = $this->get( 'user_id', $user_id, '=' );
+		$sub_rows = $this->get( 'subscriber_id', $subscriber_id, '=' );
+		
 		// get unique urls visited
 		$visits = array_merge( $user_rows, $sub_rows );
 		$urls = wp_list_pluck( $visits, 'url' );
