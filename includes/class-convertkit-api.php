@@ -440,10 +440,12 @@ class ConvertKit_API {
 
 				// Maybe inflate response body.
 				// @see https://wordpress.stackexchange.com/questions/10088/how-do-i-troubleshoot-responses-with-wp-http-api
+				/*
 				$inflate = @gzinflate( $response['body'] );
 				if ( $inflate ) {
 					$response['body'] = $inflate;
 				}
+				*/
 
 				$body = wp_remote_retrieve_body( $response );
 
@@ -525,10 +527,12 @@ class ConvertKit_API {
 
 			// Maybe inflate response body.
 			// @see https://wordpress.stackexchange.com/questions/10088/how-do-i-troubleshoot-responses-with-wp-http-api
+			/*
 			$inflate = @gzinflate( $response['body'] );
 			if ( $inflate ) {
 				$response['body'] = $inflate;
 			}
+			*/
 
 			$body = wp_remote_retrieve_body( $response );
 			$data = json_decode( $body, true );
