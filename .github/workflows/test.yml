@@ -1,0 +1,104 @@
+name: Run Tests
+
+on: [ push ]
+
+jobs:
+  tests:
+    # Name
+    name: WordPress ${{ matrix.wp-versions }} on PHP ${{ matrix.php-versions }}
+
+    # Virtual Environment to use
+    # @see: https://github.com/actions/virtual-environments
+    runs-on: ubuntu-20.04
+
+    # Environment
+    env:
+      ROOT_DIR: /home/runner/work/convertkit/convertkit/src
+      PLUGIN_DIR: /home/runner/work/convertkit/convertkit/src/wp-content/plugins/convertkit
+      DB_NAME: test
+      DB_USER: root
+      DB_PASS: root
+      DB_HOST: localhost
+
+    # Testing strategy
+    strategy:
+      matrix:
+        wp-versions: [ '5.8' ] #['5.0', '5.1', '5.2', '5.3', '5.4', '5.5', '5.6', '5.7', '5.8']
+        php-versions: [ '7.2' ] #['7.1', '7.2', '7.3', '7.4', '8.0', '8.1']
+
+    # Steps to install, configure and run tests
+    steps:
+      - name: Start MySQL
+        run: sudo systemctl start mysql.service
+
+      - name: Create MySQL Database
+        run: |
+          mysql -e 'CREATE DATABASE test;' -u${{ env.DB_USER }} -p${{ env.DB_PASS }}
+          mysql -e 'SHOW DATABASES;' -u${{ env.DB_USER }} -p${{ env.DB_PASS }}
+
+      - name: Permit MySQL Password Auth for MySQL 8.0
+        run: mysql -e "ALTER USER '${{ env.DB_USER }}'@'${{ env.DB_HOST }}' IDENTIFIED WITH mysql_native_password BY '${{ env.DB_PASS }}';"  -u${{ env.DB_USER }} -p${{ env.DB_PASS }} 
+
+      - name: Checkout WordPress
+        uses: actions/checkout@v2
+        with:
+          repository: WordPress/wordpress-develop
+          ref: ${{ matrix.wp-versions }}
+          path: ''
+
+      - name: Checkout Plugin
+        uses: actions/checkout@v2
+        with:
+          path: ${{ env.PLUGIN_DIR }}
+
+      - name: Install PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-versions }}
+
+      - name: Install WP-CLI
+        run: |
+          curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+          chmod +x wp-cli.phar
+          sudo mv wp-cli.phar /usr/local/bin/wp-cli
+
+      - name: Setup wp-config.php
+        working-directory: src
+        run: wp-cli config create --dbname=${{ env.DB_NAME }} --dbuser=${{ env.DB_USER }} --dbpass=${{ env.DB_PASS }} --dbhost=${{ env.DB_HOST }} --locale=en_DB
+
+      - name: Install WordPress
+        working-directory: src
+        run: wp-cli core install --url=127.0.0.1 --title=ConvertKit --admin_user=admin --admin_password=password --admin_email=wordpress@convertkit.local
+
+      - name: Run Composer
+        working-directory: ${{ env.PLUGIN_DIR }}
+        run: composer update
+
+      - name: Copy nginx configuration file
+        run: sudo cp ${{ env.PLUGIN_DIR }}/tests/nginx/php-${{ matrix.php-versions }}.conf /etc/nginx/conf.d/php-${{ matrix.php-versions }}.conf
+
+      - name: Test nginx
+        run: sudo nginx -t
+
+      - name: Start nginx
+        run: sudo systemctl start nginx.service
+
+      - name: Run Acceptance Tests
+        working-directory: ${{ env.PLUGIN_DIR }}
+        run: php vendor/bin/codecept run acceptance
+
+      - name: Run Functional Tests
+        working-directory: ${{ env.PLUGIN_DIR }}
+        run: php vendor/bin/codecept run functional
+
+      - name: Run WPUnit Tests
+        working-directory: ${{ env.PLUGIN_DIR }}
+        run: php vendor/bin/codecept run wpunit
+
+      - name: Run Unit Tests
+        working-directory: ${{ env.PLUGIN_DIR }}
+        run: php vendor/bin/codecept run unit
+
+      - name: Run WordPress Coding Standards Tests
+        working-directory: ${{ env.PLUGIN_DIR }}
+        run: php vendor/bin/phpcs ./ -v
