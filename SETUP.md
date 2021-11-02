@@ -64,6 +64,9 @@ TEST_TABLE_PREFIX=wp_ // Dont' change; this refers to the WordPress database tab
 TEST_SITE_WP_URL=http://convertkit.local // Your local WordPress URL
 TEST_SITE_WP_DOMAIN=convertkit.local // Your local WordPress domain
 TEST_SITE_ADMIN_EMAIL=wordpress@convertkit.local // Don't change
+CONVERTKIT_API_KEY=// A valid ConvertKit API Key
+CONVERTKIT_API_SECRET=// A valid ConvertKit API Secret
+CONVERTKIT_API_FORM_NAME="Mills form" // The name of a form that exists on the ConvertKit Account for the above API credentials
 ```
 
 ### Install Testing Suite

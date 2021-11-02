@@ -13,16 +13,11 @@ class Acceptance extends \Codeception\Module
 	 */
     public function checkNoWarningsAndNoticesOnScreen($I)
     {
-    	// Check that the <body> class does not have a php-error class, which indicates an error in activation.
+    	// Check that the <body> class does not have a php-error class, which indicates a suppressed PHP function call error.
         $I->dontSeeElement('body.php-error');
 
-        // Check that no Xdebug errors exist
+        // Check that no Xdebug errors exist.
         $I->dontSeeElement('.xdebug-error');
-
-        // Check that no PHP Warnings were output in the source code.
-    	$I->cantSeeInSource('Warning');
-
-    	// Check that no PHP Notices were output in the source code.
-		$I->cantSeeInSource('Notice');
+        $I->dontSeeElement('.xe-notice');
     }
 }
