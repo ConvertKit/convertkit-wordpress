@@ -1,0 +1,137 @@
+# Setup Guide
+
+This document describes how to setup your development environment, so that it is ready to run, develop and test the ConvertKit WordPress Plugin.
+
+Suggestions are provided for the LAMP/LEMP stack and Git client are for those who prefer the UI over a command line and/or are less familiar with 
+WordPress, PHP, MySQL and Git - but you're free to use your preferred software.
+
+## Setup
+
+### LAMP/LEMP stack
+
+Any Apache/nginx, PHP 7.x+ and MySQL 5.8+ stack running WordPress.  For example, but not limited to:
+- Local by Flywheel (recommended)
+- Docker
+- MAMP
+- WAMP
+- VVV
+
+### Composer
+
+If [Composer](https://getcomposer.org) is not installed on your local environment, enter the following commands at the command line to install it:
+
+```bash
+php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+php -r "if (hash_file('sha384', 'composer-setup.php') === '906a84df04cea2aa72f40b5f787e49f22d4c2f19492ac310e8cba5b96ac8b64115ac402c8cd292b8a03482574915d1a8') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
+php composer-setup.php
+php -r "unlink('composer-setup.php');"
+sudo mv composer.phar /usr/local/bin/composer
+```
+
+Confirm that installation was successful by entering the `composer` command at the command line
+
+### Clone Repository
+
+Using your preferred Git client or command line, clone this repository into the `wp-content/plugins/` folder of your local WordPress installation.
+
+If you prefer to clone the repository elsewhere, and them symlink it to your local WordPress installation, that will work as well.
+
+If you're new to this, use [GitHub Desktop](https://desktop.github.com/) or [Tower](https://www.git-tower.com/mac)
+
+### Create Test Database
+
+Create a blank `test` database in MySQL, with a MySQL user who can read and write to it.
+
+### Configure Testing Environment
+
+Copy the `.env.example` file to `.env.testing` in the root of this repository, changing folder and database credentials as necessary:
+```
+TEST_SITE_DB_DSN=mysql:host=localhost;dbname=test  // Your local MySQL host and database name
+TEST_SITE_DB_HOST=localhost // Your local MySQL host
+TEST_SITE_DB_NAME=test // If you followed the instructions above, your test database should be called test :)
+TEST_SITE_DB_USER=root // Your local MySQL user
+TEST_SITE_DB_PASSWORD=root // Your local MySQL password
+TEST_SITE_TABLE_PREFIX=wp_ // Dont' change; this refers to the WordPress database table prefix used  for testing that's stored in _tests/data/dump.sql
+TEST_SITE_ADMIN_USERNAME=admin // Don't change; this refers to the WordPress admin login used for testing that's stored in _tests/data/dump.sql
+TEST_SITE_ADMIN_PASSWORD=password // Don't change; this refers to the WordPress admin login used for testing that's stored in _tests/data/dump.sql
+TEST_SITE_WP_ADMIN_PATH=/wp-admin // Don't change
+WP_ROOT_FOLDER="/Users/tim/Local Sites/convertkit/app/public" // Location of your WordPress installation
+TEST_DB_NAME=test // If you followed the instructions above, your test database should be called test :)
+TEST_DB_HOST=localhost // Your local MySQL host
+TEST_DB_USER=root // Your local MySQL user
+TEST_DB_PASSWORD=root // Your local MySQL password
+TEST_TABLE_PREFIX=wp_ // Dont' change; this refers to the WordPress database table prefix used  for testing that's stored in _tests/data/dump.sql
+TEST_SITE_WP_URL=http://convertkit.local // Your local WordPress URL
+TEST_SITE_WP_DOMAIN=convertkit.local // Your local WordPress domain
+TEST_SITE_ADMIN_EMAIL=wordpress@convertkit.local // Don't change
+```
+
+### Install Testing Suite
+
+In the Plugin's directory, at the command line, run `composer update`.
+
+This will install the necessary libraries used for testing, including wp-browser, Codeception, PHPUnit and PHP_CodeSniffer, which we'll cover later on.
+
+### Configure wp-config.php
+
+In the root of your WordPress installation, find the `wp-config.php` file.
+
+Change the following line from (your database name itself may vary):
+
+```php
+define( 'DB_NAME', 'local' );
+```
+
+to:
+
+```php
+if( isset( $_SERVER['HTTP_X_TEST_REQUEST'] ) && $_SERVER['HTTP_X_TEST_REQUEST'] ) {
+    define( 'DB_NAME', 'test' );
+} else {
+    define( 'DB_NAME', 'local' );
+}
+```
+
+When wp-browser performs its tests, it always includes the `HTTP_X_TEST_REQUEST` header.  Our change above tells WordPress to use the test 
+database for our test requests, whilst using the local/default database for any other requests.
+
+### Running the Test Suite
+
+In the Plugin's directory, run the tests to make sure there are no errors and that you have correctly setup your environment:
+
+```bash
+vendor/bin/codecept build
+vendor/bin/codecept run acceptance
+vendor/bin/codecept run functional
+vendor/bin/codecept run wpunit
+vendor/bin/codecept run unit
+```
+
+@TODO screenshot here
+
+Don't worry if you don't understand these commands; if your output looks similar to the above screenshot, with no errors, your environment
+is setup successfully.
+
+### Running CodeSniffer
+
+In the Plugin's directory, run the following command to run PHP_CodeSniffer, which will check the code meets WordPress' Coding Standards:
+
+```bash
+vendor/bin/phpcs ./ -v
+```
+
+@TODO screenshot here
+
+Again, don't worry if you don't understand these commands; if your output looks similar to the above screenshot, with no errors, your environment
+is setup successfully.
+
+### Add your API Key to the Plugin
+
+Refer to the [ConvertKit Help Article](https://help.convertkit.com/en/articles/2502591-getting-started-the-wordpress-plugin) to get started with
+using the WordPress Plugin.
+
+### Next Steps
+
+@TODO Write development guide.
+
+With your development environment setup, you'll probably want to start development, which is covered in the [Development Guide](DEVELOPMENT.md)

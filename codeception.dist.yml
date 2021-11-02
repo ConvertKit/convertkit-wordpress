@@ -4,6 +4,8 @@ paths:
     data: tests/_data
     support: tests/_support
     envs: tests/_envs
+settings:
+    error_level: E_ALL & ~E_STRICT & ~E_DEPRECATED
 actor_suffix: Tester
 extensions:
     enabled:
@@ -18,3 +20,4 @@ extensions:
         - Codeception\Command\GenerateWPXMLRPC
 params:
     - .env.testing
+    - .env.dist.testing

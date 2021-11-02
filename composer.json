@@ -1,6 +1,6 @@
 {
     "name": "convertkit/convertkit-wordpress",
-    "description": "ConvertKit WordPress plugin",
+    "description": "ConvertKit WordPress Plugin",
     "type": "project",
     "license": "GPLv3",
     "repositories": [
@@ -18,7 +18,17 @@
         "oldmine/relative-to-absolute-url": "~1.7"
     },
     "require-dev": {
-        "lucatume/wp-browser": "^2.2"
+        "lucatume/wp-browser": "^3.0",
+        "codeception/module-asserts": "^1.0",                                      
+        "codeception/module-phpbrowser": "^1.0",                                   
+        "codeception/module-webdriver": "^1.0",                                    
+        "codeception/module-db": "^1.0",                                           
+        "codeception/module-filesystem": "^1.0",                                   
+        "codeception/module-cli": "^1.0",                                          
+        "codeception/util-universalframework": "^1.0",
+        "squizlabs/php_codesniffer": "3.*",
+        "dealerdirect/phpcodesniffer-composer-installer": "^0.7",
+        "wp-coding-standards/wpcs": "*"
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
