@@ -14,7 +14,7 @@ class Acceptance extends \Codeception\Module
     public function checkNoWarningsAndNoticesOnScreen($I)
     {
     	// Check that the <body> class does not have a php-error class, which indicates a suppressed PHP function call error.
-        $I->dontSeeElement('body.php-error');
+        $I->dontSeeElement('.php-error');
 
         // Check that no Xdebug errors exist.
         $I->dontSeeElement('.xdebug-error');
@@ -49,6 +49,9 @@ class Acceptance extends \Codeception\Module
 
         // Check that the Plugin activated successfully.
         $I->seePluginActivated('convertkit');
+
+        // Check that no PHP warnings or notices were output.
+    	$I->checkNoWarningsAndNoticesOnScreen($I);
     }
 
     /**
