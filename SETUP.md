@@ -89,14 +89,22 @@ to:
 
 ```php
 if( isset( $_SERVER['HTTP_X_TEST_REQUEST'] ) && $_SERVER['HTTP_X_TEST_REQUEST'] ) {
+    // WPBrowser request, performed when Codeception tests are run. Connect to test DB.
+    define( 'DB_NAME', 'test' );
+} elseif( isset( $_SERVER['HTTP_USER_AGENT'] ) && strpos( $_SERVER['HTTP_USER_AGENT'], 'HeadlessChrome' ) !== false ) {
+    // WPWebDriver request, performed when Codeception tests are run. Connect to test DB.
     define( 'DB_NAME', 'test' );
 } else {
+    // Connect to local DB.
     define( 'DB_NAME', 'local' );
 }
 ```
 
-When wp-browser performs its tests, it always includes the `HTTP_X_TEST_REQUEST` header.  Our change above tells WordPress to use the test 
-database for our test requests, whilst using the local/default database for any other requests.
+When Codeception tests are run, they will include either:
+- The `HTTP_X_TEST_REQUEST` header for tests run using WPBrowser.
+- The `HeadlessChrome` HTTP User Agent for tests run using WPWebDriver.
+
+Our change above tells WordPress to use the test database for our test requests, whilst using the local/default database for any other requests.
 
 ### Install ChromeDriver
 
@@ -141,7 +149,7 @@ In the Plugin's directory, run the following command to run PHP_CodeSniffer, whi
 vendor/bin/phpcs ./ -v
 ```
 
-@TODO screenshot here
+![Codeception Test Results](/.github/docs/codesniffer.png?raw=true)
 
 Again, don't worry if you don't understand these commands; if your output looks similar to the above screenshot, with no errors, your environment
 is setup successfully.
@@ -152,7 +160,5 @@ Refer to the [ConvertKit Help Article](https://help.convertkit.com/en/articles/2
 using the WordPress Plugin.
 
 ### Next Steps
-
-@TODO Write development guide.
 
 With your development environment setup, you'll probably want to start development, which is covered in the [Development Guide](DEVELOPMENT.md)
