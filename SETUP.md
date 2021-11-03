@@ -98,9 +98,27 @@ if( isset( $_SERVER['HTTP_X_TEST_REQUEST'] ) && $_SERVER['HTTP_X_TEST_REQUEST'] 
 When wp-browser performs its tests, it always includes the `HTTP_X_TEST_REQUEST` header.  Our change above tells WordPress to use the test 
 database for our test requests, whilst using the local/default database for any other requests.
 
+### Install ChromeDriver
+
+ChromeDriver is a headless (i.e. non-GUI) browser that our test suite uses to run Acceptance tests, interacting with the ConvertKit
+Plugin just as a user would - including full JavaScript execution, user inputs etc.
+
+Download chromedriver for your Google Chrome version and OS from https://sites.google.com/chromium.org/driver/downloads?authuser=0
+
+For Mac users, copy the unzipped executable to `/usr/local/bin`.
+
 ### Running the Test Suite
 
-In the Plugin's directory, run the tests to make sure there are no errors and that you have correctly setup your environment:
+First, run the ChromeDriver in a separate Terminal window:
+
+```bash
+chromedriver --url-base=/wd/hub
+```
+
+![ChromeDriver Screenshot](/.github/docs/chromedriver.png?raw=true)
+
+In a second Terminal window, in the Plugin's directory, run the tests to make sure there are no errors and that you have correctly
+setup your environment:
 
 ```bash
 vendor/bin/codecept build
@@ -110,7 +128,7 @@ vendor/bin/codecept run wpunit
 vendor/bin/codecept run unit
 ```
 
-@TODO screenshot here
+![Codeception Test Results](/.github/docs/codeception.png?raw=true)
 
 Don't worry if you don't understand these commands; if your output looks similar to the above screenshot, with no errors, your environment
 is setup successfully.
