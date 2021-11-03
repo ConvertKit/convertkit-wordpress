@@ -11,23 +11,10 @@ class PluginSettingsToolsCest
 	 */
     public function _before(AcceptanceTester $I)
     {
-    	// Login as the Administrator
-    	$I->loginAsAdmin();
+    	$I->activateConvertKitPlugin($I);
 
-    	// Go to the Plugins screen in the WordPress Administration interface.
-        $I->amOnPluginsPage();
-
-        // Activate the Plugin.
-        $I->activatePlugin('convertkit');
-
-        // Check that the Plugin activated successfully.
-        $I->seePluginActivated('convertkit');
-
-        // Go to the Plugin's Settings Screen.
-    	$I->amOnAdminPage('options-general.php?page=_wp_convertkit_settings&tab=tools');
-
-    	// Check that no PHP warnings or notices were output.
-    	$I->checkNoWarningsAndNoticesOnScreen($I);
+    	// Go to the Plugin's Settings > Tools Screen.
+    	$I->loadConvertKitSettingsToolsScreen($I);
     }
 
     /**

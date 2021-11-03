@@ -11,20 +11,7 @@ class PluginSettingsGeneralCest
 	 */
     public function _before(AcceptanceTester $I)
     {
-    	// Login as the Administrator
-    	$I->loginAsAdmin();
-
-    	// Go to the Plugins screen in the WordPress Administration interface.
-        $I->amOnPluginsPage();
-
-        // Activate the Plugin.
-        $I->activatePlugin('convertkit');
-
-        // Check that the Plugin activated successfully.
-        $I->seePluginActivated('convertkit');
-
-        // Go to the Plugin's Settings Screen.
-    	$I->amOnAdminPage('options-general.php?page=_wp_convertkit_settings');
+    	$I->activateConvertKitPlugin($I);
     }
 
     /**
@@ -37,6 +24,9 @@ class PluginSettingsGeneralCest
 	 */
     public function testSaveBlankSettings(AcceptanceTester $I)
     {
+    	// Go to the Plugin's Settings Screen.
+    	$I->loadConvertKitSettingsGeneralScreen($I);
+
     	// Click the Save Changes button.
     	$I->click('Save Changes');
 
@@ -55,7 +45,10 @@ class PluginSettingsGeneralCest
 	 */
     public function testSaveInvalidAPICredentials(AcceptanceTester $I)
     {
-    	// Complete API Fields.
+    	// Go to the Plugin's Settings Screen.
+    	$I->loadConvertKitSettingsGeneralScreen($I);
+
+    	// Complete API Fields with incorrect data.
     	$I->fillField('_wp_convertkit_settings[api_key]', 'fakeApiKey');
 		$I->fillField('_wp_convertkit_settings[api_secret]', 'fakeApiSecret');
 
@@ -76,7 +69,10 @@ class PluginSettingsGeneralCest
 	 */
     public function testSaveValidAPICredentials(AcceptanceTester $I)
     {
-    	// Complete API Fields.
+    	// Go to the Plugin's Settings Screen.
+    	$I->loadConvertKitSettingsGeneralScreen($I);
+
+    	// Complete API Fields with correct data.
     	$I->fillField('_wp_convertkit_settings[api_key]', $_ENV['CONVERTKIT_API_KEY']);
 		$I->fillField('_wp_convertkit_settings[api_secret]', $_ENV['CONVERTKIT_API_SECRET']);
 
@@ -101,8 +97,11 @@ class PluginSettingsGeneralCest
 	 */
     public function testChangeDefaultFormSetting(AcceptanceTester $I)
     {
-    	// Save API Credentials.
-    	$this->testSaveValidAPICredentials($I);
+    	// Setup Plugin.
+    	$I->setupConvertKitPlugin($I);
+
+    	// Go to the Plugin's Settings Screen.
+    	$I->loadConvertKitSettingsGeneralScreen($I);
 
     	// Change form from 'Default' to the name of the form in the .env file.
     	$I->selectOption('#default_form', $_ENV['CONVERTKIT_API_FORM_NAME']);
@@ -127,6 +126,9 @@ class PluginSettingsGeneralCest
 	 */
     public function testEnableDebugAndDisableJavaScriptSettings(AcceptanceTester $I)
     {
+    	// Go to the Plugin's Settings Screen.
+    	$I->loadConvertKitSettingsGeneralScreen($I);
+    	
     	// Tick fields.
     	$I->checkOption('#debug');
 		$I->checkOption('#no_scripts');
