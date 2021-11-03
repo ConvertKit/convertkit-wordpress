@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "17a41d66c454922221b5a65436ceac8e",
+    "content-hash": "44721e420673a36f83a1b30106de0c0d",
     "packages": [
         {
             "name": "kub-at/php-simple-html-dom-parser",

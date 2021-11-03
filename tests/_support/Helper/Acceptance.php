@@ -7,7 +7,7 @@ namespace Helper;
 class Acceptance extends \Codeception\Module
 {
 	/**
-     * Helper method to confirm that there are non PHP errors, warnings or notices output
+     * Helper method to assert that there are non PHP errors, warnings or notices output
      * 
      * @since 	1.0.0
 	 */
@@ -19,5 +19,15 @@ class Acceptance extends \Codeception\Module
         // Check that no Xdebug errors exist.
         $I->dontSeeElement('.xdebug-error');
         $I->dontSeeElement('.xe-notice');
+    }
+
+    /**
+     * Helper method to assert that the field's value contains the given value.
+     * 
+     * @since 	1.0.0
+     */
+    public function seeFieldContains($I, $element, $value)
+    {
+    	$this->assertNotFalse(strpos($I->grabValueFrom($element), $value));
     }
 }
