@@ -141,17 +141,20 @@ chromedriver --url-base=/wd/hub
 ```
 
 In a second Terminal window, run the test to confirm it works:
-`vendor/bin/codecept build`
-`vendor/bin/codecept run acceptance`
+```bash
+vendor/bin/codecept build
+vendor/bin/codecept run acceptance
+```
 
 The console will show the successful result:
-[]
+
+@TODO Add Screenshot
 
 For a full list of available wp-browser and Codeception functions that can be used for testing, see:
 - [wp-browser](https://wpbrowser.wptestkit.dev/modules)
 - [Codeception](https://codeception.com/docs/03-AcceptanceTests)
 
-## Writing and using Helpers
+## Using Helpers
 
 Helpers extend testing by registering functions that we might want to use across multiple tests, which are not provided by wp-browser, 
 Codeception or PHPUnit.  This helps achieve the principle of DRY code (Don't Repeat Yourself).
@@ -164,6 +167,16 @@ which checks that
 
 Our Acceptance Tests can now call `$I->checkNoWarningsAndNoticesOnScreen($I)`, instead of having to write several lines of code to perform each 
 error check for every test.
+
+Further Acceptance Test Helpers that are provided include:
+- `activateConvertKitPlugin()`: Logs in to WordPress as the `admin` user, and activates the ConvertKit Plugin.
+- `setupConvertKitPlugin()`: Enters the ConvertKit API Key and Secret in the Plugin's Settings screen, saving it.
+- `loadConvertKitSettingsGeneralScreen()`: Loads the Plugin's Settings screen at Settings > ConvertKit > General.
+- `loadConvertKitSettingsToolsScreen()`: Loads the Plugin's Tools screen at Settings > ConvertKit > Tools.
+
+The above helpers automatically check for PHP and Xdebug errors.
+
+## Writing Helpers
 
 With this methodology, if two or more of your tests perform the same checks, you should:
 - add a function to the applicable file in the `tests/_support/Helper` directory (e.g. `tests/_support/Helper/Acceptance.php`),
