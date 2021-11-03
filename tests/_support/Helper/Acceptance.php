@@ -55,6 +55,29 @@ class Acceptance extends \Codeception\Module
     }
 
     /**
+     * Helper method to deactivate the Plugin.
+     * 
+     * @since 	1.0.0
+     */
+    public function deactivateConvertKitPlugin($I)
+    {
+    	// Login as the Administrator
+    	$I->loginAsAdmin();
+
+    	// Go to the Plugins screen in the WordPress Administration interface.
+        $I->amOnPluginsPage();
+
+        // Deactivate the Plugin.
+        $I->deactivatePlugin('convertkit');
+
+        // Check that the Plugin deactivated successfully.
+        $I->seePluginDeactivated('convertkit');
+
+        // Check that no PHP warnings or notices were output.
+    	$I->checkNoWarningsAndNoticesOnScreen($I);
+    }
+
+    /**
      * Helper method to setup the Plugin's API Key and Secret.
      * 
      * @since 	1.0.0
@@ -76,6 +99,39 @@ class Acceptance extends \Codeception\Module
 
     	// Check that no PHP warnings or notices were output.
     	$I->checkNoWarningsAndNoticesOnScreen($I);
+
+    	// Check the value of the fields match the inputs provided.
+    	$I->seeInField('_wp_convertkit_settings[api_key]', $_ENV['CONVERTKIT_API_KEY']);
+    	$I->seeInField('_wp_convertkit_settings[api_secret]', $_ENV['CONVERTKIT_API_SECRET']);
+    }
+
+    /**
+     * Helper method to setup the Plugin's Default Form setting.
+     * 
+     * @since 	1.0.0
+     */
+    public function setupConvertKitPluginDefaultForm($I)
+    {
+        // Go to the Plugin's Settings Screen.
+    	$I->loadConvertKitSettingsGeneralScreen($I);
+
+    	// Check that no PHP warnings or notices were output.
+    	$I->checkNoWarningsAndNoticesOnScreen($I);
+
+    	// Select option.
+    	$I->selectOption('_wp_convertkit_settings[default_form]', $_ENV['CONVERTKIT_API_FORM_NAME']);
+
+    	// Click the Save Changes button.
+    	$I->click('Save Changes');
+
+    	// Check that no PHP warnings or notices were output.
+    	$I->checkNoWarningsAndNoticesOnScreen($I);
+
+    	// Check the value of the fields match the inputs provided.
+    	$I->seeInField('_wp_convertkit_settings[default_form]', $_ENV['CONVERTKIT_API_FORM_NAME']);
+
+    	// Return Form ID
+    	return $I->grabValueFrom('_wp_convertkit_settings[default_form]');
     }
 
     /**

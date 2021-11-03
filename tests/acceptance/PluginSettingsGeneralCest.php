@@ -69,22 +69,7 @@ class PluginSettingsGeneralCest
 	 */
     public function testSaveValidAPICredentials(AcceptanceTester $I)
     {
-    	// Go to the Plugin's Settings Screen.
-    	$I->loadConvertKitSettingsGeneralScreen($I);
-
-    	// Complete API Fields with correct data.
-    	$I->fillField('_wp_convertkit_settings[api_key]', $_ENV['CONVERTKIT_API_KEY']);
-		$I->fillField('_wp_convertkit_settings[api_secret]', $_ENV['CONVERTKIT_API_SECRET']);
-
-    	// Click the Save Changes button.
-    	$I->click('Save Changes');
-
-    	// Check that no PHP warnings or notices were output.
-    	$I->checkNoWarningsAndNoticesOnScreen($I);
-
-    	// Check the value of the fields match the inputs provided.
-    	$I->seeInField('_wp_convertkit_settings[api_key]', $_ENV['CONVERTKIT_API_KEY']);
-    	$I->seeInField('_wp_convertkit_settings[api_secret]', $_ENV['CONVERTKIT_API_SECRET']);
+    	$I->setupConvertKitPlugin($I);
     }
 
     /**

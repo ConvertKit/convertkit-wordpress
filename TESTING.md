@@ -218,6 +218,8 @@ vendor/bin/codecept run wpunit
 vendor/bin/codecept run unit
 ```
 
+If a test fails, you can inspect the output and screenshot at `tests/_output`.
+
 Any errors should be corrected by making applicable code or test changes.
 
 ## Run PHP CodeSniffer
