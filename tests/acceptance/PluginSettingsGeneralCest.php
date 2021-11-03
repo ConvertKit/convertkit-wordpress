@@ -22,6 +22,9 @@ class PluginSettingsGeneralCest
 
         // Check that the Plugin activated successfully.
         $I->seePluginActivated('convertkit');
+
+        // Go to the Plugin's Settings Screen.
+    	$I->amOnAdminPage('options-general.php?page=_wp_convertkit_settings');
     }
 
     /**
@@ -34,9 +37,6 @@ class PluginSettingsGeneralCest
 	 */
     public function testSaveBlankSettings(AcceptanceTester $I)
     {
-    	// Go to the Plugin's Settings Screen.
-    	$I->amOnAdminPage('options-general.php?page=_wp_convertkit_settings');
-
     	// Click the Save Changes button.
     	$I->click('Save Changes');
 
@@ -55,9 +55,6 @@ class PluginSettingsGeneralCest
 	 */
     public function testSaveInvalidAPICredentials(AcceptanceTester $I)
     {
-    	// Go to the Plugin's Settings Screen.
-    	$I->amOnAdminPage('options-general.php?page=_wp_convertkit_settings');
-
     	// Complete API Fields.
     	$I->fillField('_wp_convertkit_settings[api_key]', 'fakeApiKey');
 		$I->fillField('_wp_convertkit_settings[api_secret]', 'fakeApiSecret');
@@ -79,9 +76,6 @@ class PluginSettingsGeneralCest
 	 */
     public function testSaveValidAPICredentials(AcceptanceTester $I)
     {
-    	// Go to the Plugin's Settings Screen.
-    	$I->amOnAdminPage('options-general.php?page=_wp_convertkit_settings');
-
     	// Complete API Fields.
     	$I->fillField('_wp_convertkit_settings[api_key]', $_ENV['CONVERTKIT_API_KEY']);
 		$I->fillField('_wp_convertkit_settings[api_secret]', $_ENV['CONVERTKIT_API_SECRET']);
@@ -133,9 +127,6 @@ class PluginSettingsGeneralCest
 	 */
     public function testEnableDebugAndDisableJavaScriptSettings(AcceptanceTester $I)
     {
-    	// Go to the Plugin's Settings Screen.
-    	$I->amOnAdminPage('options-general.php?page=_wp_convertkit_settings');
-
     	// Tick fields.
     	$I->checkOption('#debug');
 		$I->checkOption('#no_scripts');
