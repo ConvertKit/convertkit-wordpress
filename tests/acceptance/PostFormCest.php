@@ -35,6 +35,12 @@ class PostFormCest
         // Check that no PHP warnings or notices were output.
     	$I->checkNoWarningsAndNoticesOnScreen($I);
 
+    	// Check that the metabox is displayed.
+    	$I->seeElementInDOM('#wp-convertkit-meta-box');
+
+    	// Check that the Form option is displayed.
+    	$I->seeElementInDOM('#wp-convertkit-form');
+
     	// Change Form to Default
     	$I->selectOption('#wp-convertkit-form', 'Default');
 
@@ -83,6 +89,12 @@ class PostFormCest
         // Check that no PHP warnings or notices were output.
     	$I->checkNoWarningsAndNoticesOnScreen($I);
 
+    	// Check that the metabox is displayed.
+    	$I->seeElementInDOM('#wp-convertkit-meta-box');
+
+    	// Check that the Form option is displayed.
+    	$I->seeElementInDOM('#wp-convertkit-form');
+
     	// Change Form to Default
     	$I->selectOption('#wp-convertkit-form', 'Default');
 
@@ -127,6 +139,12 @@ class PostFormCest
 
         // Check that no PHP warnings or notices were output.
     	$I->checkNoWarningsAndNoticesOnScreen($I);
+
+    	// Check that the metabox is displayed.
+    	$I->seeElementInDOM('#wp-convertkit-meta-box');
+
+    	// Check that the Form option is displayed.
+    	$I->seeElementInDOM('#wp-convertkit-form');
 
     	// Change Form to 'None'
     	$I->selectOption('#wp-convertkit-form', 'None');
@@ -173,6 +191,12 @@ class PostFormCest
         // Check that no PHP warnings or notices were output.
     	$I->checkNoWarningsAndNoticesOnScreen($I);
 
+    	// Check that the metabox is displayed.
+    	$I->seeElementInDOM('#wp-convertkit-meta-box');
+
+    	// Check that the Form option is displayed.
+    	$I->seeElementInDOM('#wp-convertkit-form');
+
     	// Change Form to value specified in the .env file.
     	$I->selectOption('#wp-convertkit-form', $_ENV['CONVERTKIT_API_FORM_NAME']);
 
@@ -193,7 +217,7 @@ class PostFormCest
     	});
 
     	// Get Form ID.
-    	$formID = $I->grabValueFrom('#wp-convertkit-form');;
+    	$formID = $I->grabValueFrom('#wp-convertkit-form');
 
 	    // Load the Post on the frontend site
 	    $I->amOnPage('/convertkit-form-specific');
@@ -215,58 +239,50 @@ class PostFormCest
 	 */
     public function testAddNewPostUsingDefaultFormWithCategoryFormSpecified(AcceptanceTester $I)
     {
-    	// Programmatically create a Category.
-    	$termID = $I->factory()->term->create([
-            'name'     => 'ConvertKit',
-            'taxonomy' => 'category',
-            'slug'     => 'convertkit',
-        ]);
+    	// Create Category.
+    	$termID = $I->haveTermInDatabase( 'ConvertKit', 'category' );
+    	$termID = $termID[0];
+    	
+    	// Create Post, assigned to ConvertKit Category.
+    	$postID = $I->havePostInDatabase([
+    		'post_type' 	=> 'post',
+    		'post_title' 	=> 'ConvertKit Form inherited from ConvertKit Category',
+    		'tax_input' => [
+    			[ 'category' => $termID ],
+    		],
+    	]);
 
-        var_dump( $termID );
-        die();
+    	// Edit the Term, defining a Form.
+    	$I->amOnAdminPage('term.php?taxonomy=category&tag_ID=' . $termID);
 
-        /*
-		$post = $I->factory()->post->create( [
-			                                     'post_category' => array( $category_id )
-		                                     ] );
+    	// Check that no PHP warnings or notices were output.
+    	$I->checkNoWarningsAndNoticesOnScreen($I);
 
-		$slug = get_post_field( 'post_name', $post );
+    	// Check that the Form option is displayed.
+    	$I->seeElementInDOM('#ck_default_form');
 
-		$I->amOnPage($slug);
+    	// Change Form to value specified in the .env file.
+    	$I->selectOption('#ck_default_form', $_ENV['CONVERTKIT_API_FORM_NAME']);
 
-		$I->cantSeeInSource( 'Warning' );
-		$I->cantSeeInSource( 'Notice' );
+    	// Click Update
+    	$I->click('Update');
 
-    	// Navigate to Post > Add New
-        $I->amOnAdminPage('post-new.php');
+    	// Check that the update succeeded.
+    	$I->seeElementInDOM('div.notice-success');
+
+    	// Check that no PHP warnings or notices were output.
+    	$I->checkNoWarningsAndNoticesOnScreen($I);
+
+    	// Get Form ID.
+    	$formID = $I->grabValueFrom('#ck_default_form');
+
+	    // Load the Post on the frontend site
+	    $I->amOnPage('/?p=' . $postID);
 
         // Check that no PHP warnings or notices were output.
     	$I->checkNoWarningsAndNoticesOnScreen($I);
 
-    	// Change Form to Default
-    	$I->selectOption('#wp-convertkit-form', 'Default');
-
-    	// Define a Post Title.
-    	$I->fillField('#post-title-0', 'ConvertKit: Form: Default: None');
-
-    	// Click the Publish button.
-    	$I->click('.editor-post-publish-button__button');
-    	
-    	// When the pre-publish panel displays, click Publish again.
-    	$I->performOn('.editor-post-publish-panel__prepublish', function($I) {
-    		$I->click('.editor-post-publish-panel__header-publish-button .editor-post-publish-button__button');	
-    	});
-
-    	// Check the value of the Form field matches the input provided.
-    	$I->performOn( '.post-publish-panel__postpublish-buttons', function($I) {
-    		$I->seeOptionIsSelected('#wp-convertkit-form', 'Default');
-    	});
-
-		// Load the Post on the frontend site.
-	    $I->amOnPage('/convertkit-form-default-none');
-
-	    // Confirm that no ConvertKit Form is displayed.
-	    $I->dontSeeElementInDOM('form[data-sv-form]');
-	    */
+	    // Confirm that the ConvertKit Form displays.
+	    $I->seeElementInDOM('form[data-sv-form="' . $formID . '"]');
     }
 }
