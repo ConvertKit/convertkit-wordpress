@@ -66,7 +66,13 @@ TEST_SITE_WP_DOMAIN=convertkit.local // Your local WordPress domain
 TEST_SITE_ADMIN_EMAIL=wordpress@convertkit.local // Don't change
 CONVERTKIT_API_KEY=// A valid ConvertKit API Key
 CONVERTKIT_API_SECRET=// A valid ConvertKit API Secret
-CONVERTKIT_API_FORM_NAME="Mills form" // The name of a form that exists on the ConvertKit Account for the above API credentials
+CONVERTKIT_API_FORM_NAME="" // The name of a form that exists on the ConvertKit Account for the above API credentials
+CONVERTKIT_API_FORM_ID="" // The ID of the CONVERTKIT_API_FORM_NAME
+CONVERTKIT_API_LANDING_PAGE_NAME="" // The name of a landing page that exists on the ConvertKit Account for the above API credentials
+CONVERTKIT_API_LANDING_PAGE_ID="" // The ID of the CONVERTKIT_API_LANDING_PAGE_NAME
+CONVERTKIT_API_TAG_NAME="" // The name of a tag that exists on the ConvertKit Account for the above API credentials
+CONVERTKIT_API_TAG_ID="" // The ID of the CONVERTKIT_API_TAG_NAME
+CONVERTKIT_API_SUBSCRIBER_ID="" // The ID of a valid subscriber on the ConvertKit Account for the above API credentials, who is also tagged with the above tag
 ```
 
 ### Install Testing Suite
