@@ -106,7 +106,7 @@ class Acceptance extends \Codeception\Module
     }
 
     /**
-     * Helper method to setup the Plugin's Default Form setting.
+     * Helper method to setup the Plugin's Default Form setting for Pages and Posts.
      * 
      * @since 	1.0.0
      */
@@ -132,6 +132,35 @@ class Acceptance extends \Codeception\Module
 
     	// Return Form ID
     	return $I->grabValueFrom('_wp_convertkit_settings[default_form]');
+    }
+
+    /**
+     * Helper method to setup the Plugin's Default Form setting for WooCommerce Products.
+     * 
+     * @since 	1.0.0
+     */
+    public function setupConvertKitPluginDefaultFormForWooCommerceProducts($I)
+    {
+        // Go to the Plugin's Settings Screen.
+    	$I->loadConvertKitSettingsGeneralScreen($I);
+
+    	// Check that no PHP warnings or notices were output.
+    	$I->checkNoWarningsAndNoticesOnScreen($I);
+
+    	// Select option.
+    	$I->selectOption('_wp_convertkit_settings[product_form]', $_ENV['CONVERTKIT_API_FORM_NAME']);
+
+    	// Click the Save Changes button.
+    	$I->click('Save Changes');
+
+    	// Check that no PHP warnings or notices were output.
+    	$I->checkNoWarningsAndNoticesOnScreen($I);
+
+    	// Check the value of the fields match the inputs provided.
+    	$I->seeInField('_wp_convertkit_settings[product_form]', $_ENV['CONVERTKIT_API_FORM_NAME']);
+
+    	// Return Form ID
+    	return $I->grabValueFrom('_wp_convertkit_settings[product_form]');
     }
 
     /**

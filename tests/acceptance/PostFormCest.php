@@ -20,8 +20,9 @@ class PostFormCest
     }
 
     /**
-	 * Test that the 'None' option for the Default Form setting in the Plugin Settings works when
-	 * creating and viewing a new WordPress Post.
+	 * Test that the 'Default' option for the Default Form setting in the Plugin Settings works when
+	 * creating and viewing a new WordPress Post, and there is no Default Form specified in the Plugin
+	 * settings.
 	 * 
 	 * @since 	1.0.0
 	 * 

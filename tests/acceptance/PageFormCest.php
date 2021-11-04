@@ -20,8 +20,9 @@ class PageFormCest
     }
 
     /**
-	 * Test that the 'None' option for the Default Form setting in the Plugin Settings works when
-	 * creating and viewing a new WordPress Page.
+	 * Test that the 'Default' option for the Default Form setting in the Plugin Settings works when
+	 * creating and viewing a new WordPress Page, and there is no Default Form specified in the Plugin
+	 * settings.
 	 * 
 	 * @since 	1.0.0
 	 * 
