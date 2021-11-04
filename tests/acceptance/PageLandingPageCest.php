@@ -57,6 +57,9 @@ class PageLandingPageCest
 	    // Load the Page on the frontend site.
 	    $I->amOnPage('/convertkit-landing-page-none');
 
+        // Check that no PHP warnings or notices were output.
+    	$I->checkNoWarningsAndNoticesOnScreen($I);
+
 	    // Confirm that no ConvertKit Landing Page is displayed.
 	    $I->dontSeeElementInDOM('form[data-sv-form]');
     }
@@ -101,6 +104,9 @@ class PageLandingPageCest
 
 	    // Load the Page on the frontend site
 	    $I->amOnPage('/convertkit-landing-page-specific');
+
+        // Check that no PHP warnings or notices were output.
+    	$I->checkNoWarningsAndNoticesOnScreen($I);
 
 	    // Confirm that the ConvertKit Landing Page displays.
 	    $I->dontSeeElementInDOM('body.page'); // WordPress didn't load its template, which is correct.
