@@ -35,6 +35,12 @@ class PageTagCest
         // Check that no PHP warnings or notices were output.
     	$I->checkNoWarningsAndNoticesOnScreen($I);
 
+    	// Check that the metabox is displayed.
+    	$I->seeElementInDOM('#wp-convertkit-meta-box');
+
+    	// Check that the Form option is displayed.
+    	$I->seeElementInDOM('#wp-convertkit-tag');
+
     	// Change Tag to 'None'
     	$I->selectOption('#wp-convertkit-tag', 'None');
 
@@ -79,6 +85,12 @@ class PageTagCest
 
         // Check that no PHP warnings or notices were output.
     	$I->checkNoWarningsAndNoticesOnScreen($I);
+
+    	// Check that the metabox is displayed.
+    	$I->seeElementInDOM('#wp-convertkit-meta-box');
+
+    	// Check that the Form option is displayed.
+    	$I->seeElementInDOM('#wp-convertkit-tag');
 
     	// Change Tag to value specified in the .env file.
     	$I->selectOption('#wp-convertkit-tag', $_ENV['CONVERTKIT_API_TAG_NAME']);

@@ -35,6 +35,12 @@ class PageLandingPageCest
         // Check that no PHP warnings or notices were output.
     	$I->checkNoWarningsAndNoticesOnScreen($I);
 
+    	// Check that the metabox is displayed.
+    	$I->seeElementInDOM('#wp-convertkit-meta-box');
+
+    	// Check that the Form option is displayed.
+    	$I->seeElementInDOM('#wp-convertkit-landing_page');
+
     	// Change Landing Page to 'None'
     	$I->selectOption('#wp-convertkit-landing_page', 'None');
 
@@ -79,6 +85,12 @@ class PageLandingPageCest
 
         // Check that no PHP warnings or notices were output.
     	$I->checkNoWarningsAndNoticesOnScreen($I);
+
+    	// Check that the metabox is displayed.
+    	$I->seeElementInDOM('#wp-convertkit-meta-box');
+
+    	// Check that the Form option is displayed.
+    	$I->seeElementInDOM('#wp-convertkit-landing_page');
 
     	// Change Landing Page to value specified in the .env file.
     	$I->selectOption('#wp-convertkit-landing_page', $_ENV['CONVERTKIT_API_LANDING_PAGE_NAME']);

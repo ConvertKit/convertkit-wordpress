@@ -35,6 +35,12 @@ class PageFormCest
         // Check that no PHP warnings or notices were output.
     	$I->checkNoWarningsAndNoticesOnScreen($I);
 
+    	// Check that the metabox is displayed.
+    	$I->seeElementInDOM('#wp-convertkit-meta-box');
+
+    	// Check that the Form option is displayed.
+    	$I->seeElementInDOM('#wp-convertkit-form');
+
     	// Change Form to Default
     	$I->selectOption('#wp-convertkit-form', 'Default');
 
@@ -83,6 +89,12 @@ class PageFormCest
         // Check that no PHP warnings or notices were output.
     	$I->checkNoWarningsAndNoticesOnScreen($I);
 
+    	// Check that the metabox is displayed.
+    	$I->seeElementInDOM('#wp-convertkit-meta-box');
+
+    	// Check that the Form option is displayed.
+    	$I->seeElementInDOM('#wp-convertkit-form');
+
     	// Change Form to Default
     	$I->selectOption('#wp-convertkit-form', 'Default');
 
@@ -128,6 +140,12 @@ class PageFormCest
         // Check that no PHP warnings or notices were output.
     	$I->checkNoWarningsAndNoticesOnScreen($I);
 
+    	// Check that the metabox is displayed.
+    	$I->seeElementInDOM('#wp-convertkit-meta-box');
+
+    	// Check that the Form option is displayed.
+    	$I->seeElementInDOM('#wp-convertkit-form');
+
     	// Change Form to 'None'
     	$I->selectOption('#wp-convertkit-form', 'None');
 
@@ -172,6 +190,12 @@ class PageFormCest
 
         // Check that no PHP warnings or notices were output.
     	$I->checkNoWarningsAndNoticesOnScreen($I);
+
+    	// Check that the metabox is displayed.
+    	$I->seeElementInDOM('#wp-convertkit-meta-box');
+
+    	// Check that the Form option is displayed.
+    	$I->seeElementInDOM('#wp-convertkit-form');
 
     	// Change Form to value specified in the .env file.
     	$I->selectOption('#wp-convertkit-form', $_ENV['CONVERTKIT_API_FORM_NAME']);
