@@ -72,6 +72,7 @@ CONVERTKIT_API_LANDING_PAGE_NAME="" // The name of a landing page that exists on
 CONVERTKIT_API_LANDING_PAGE_ID="" // The ID of the CONVERTKIT_API_LANDING_PAGE_NAME
 CONVERTKIT_API_TAG_NAME="" // The name of a tag that exists on the ConvertKit Account for the above API credentials
 CONVERTKIT_API_TAG_ID="" // The ID of the CONVERTKIT_API_TAG_NAME
+CONVERTKIT_API_SUBSCRIBER_EMAIL="" // The email of the CONVERTKIT_API_SUBSCRIBER_ID
 CONVERTKIT_API_SUBSCRIBER_ID="" // The ID of a valid subscriber on the ConvertKit Account for the above API credentials, who is also tagged with the above tag
 ```
 
