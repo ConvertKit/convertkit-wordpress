@@ -84,10 +84,11 @@ jobs:
 
       - name: Start nginx
         run: sudo systemctl start nginx.service
+        
+      - name: Install chromedriver
+        uses: nanasess/setup-chromedriver@master
 
       - name: Start chromedriver
-        uses: actions/checkout@v2
-        uses: nanasess/setup-chromedriver@master
         run: |
           export DISPLAY=:99
           chromedriver --url-base=/wd/hub &
