@@ -86,6 +86,14 @@ jobs:
         working-directory: src
         run: wp-cli config set WP_DEBUG true --raw
 
+      - name: Enable WP_DEBUG_LOG
+        working-directory: src
+        run: wp-cli config set WP_DEBUG_LOG true --raw
+
+      - name: Disable WP_DEBUG_DISPLAY
+        working-directory: src
+        run: wp-cli config set WP_DEBUG_DISPLAY false --raw
+
       - name: Copy nginx configuration file
         run: sudo cp ${{ env.PLUGIN_DIR }}/tests/nginx/php-${{ matrix.php-versions }}.conf /etc/nginx/conf.d/php-${{ matrix.php-versions }}.conf
 
@@ -124,11 +132,38 @@ jobs:
         working-directory: ${{ env.PLUGIN_DIR }}
         run: composer dump-autoload
 
-      - name: Read vendor/autoload.php
+      - name: Build Tests
+        working-directory: ${{ env.PLUGIN_DIR }}
+        run: php vendor/bin/codecept build
+
+      # The tests to run
+      - name: Run Acceptance Tests
+        working-directory: ${{ env.PLUGIN_DIR }}
+        run: php vendor/bin/codecept run acceptance ActivateDeactivatePluginCest:testPluginActivation
+
+      - name: Run Functional Tests
+        working-directory: ${{ env.PLUGIN_DIR }}
+        run: php vendor/bin/codecept run functional
+
+      - name: Run WPUnit Tests
+        working-directory: ${{ env.PLUGIN_DIR }}
+        run: php vendor/bin/codecept run wpunit
+
+      - name: Run Unit Tests
+        working-directory: ${{ env.PLUGIN_DIR }}
+        run: php vendor/bin/codecept run unit
+
+      - name: Run WordPress Coding Standards Tests
+        working-directory: ${{ env.PLUGIN_DIR }}
+        run: php vendor/bin/phpcs ./ -v
+
+      - name: Read debug.log file
+        if: always()
         id: package
         uses: juliangruber/read-file-action@v1
         with:
-          path: ${{ env.PLUGIN_DIR }}/vendor/autoload.php
+          path: ${{ env.ROOT_DIR }}/wp-content/debug.log
 
-      - name: Echo .env.dist.testing
+      - name: Echo debug.log file
+        if: always()
         run: echo "${{ steps.package.outputs.content }}"
