@@ -19,6 +19,8 @@ jobs:
       DB_USER: root
       DB_PASS: root
       DB_HOST: localhost
+      CONVERTKIT_API_KEY: "${{ secrets.CONVERTKIT_API_KEY }}"
+      CONVERTKIT_API_SECRET: "${{ secrets.CONVERTKIT_API_SECRET }}"
 
     # Testing strategy
     strategy:
@@ -82,6 +84,14 @@ jobs:
 
       - name: Start nginx
         run: sudo systemctl start nginx.service
+
+      - name: Start chromedriver
+      - uses: actions/checkout@v2
+      - uses: nanasess/setup-chromedriver@master
+      - run: |
+          export DISPLAY=:99
+          chromedriver --url-base=/wd/hub &
+          sudo Xvfb -ac :99 -screen 0 1280x1024x24 > /dev/null 2>&1 & # optional
 
       - name: Run Acceptance Tests
         working-directory: ${{ env.PLUGIN_DIR }}

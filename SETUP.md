@@ -51,7 +51,7 @@ TEST_SITE_DB_HOST=localhost // Your local MySQL host
 TEST_SITE_DB_NAME=test // If you followed the instructions above, your test database should be called test :)
 TEST_SITE_DB_USER=root // Your local MySQL user
 TEST_SITE_DB_PASSWORD=root // Your local MySQL password
-TEST_SITE_TABLE_PREFIX=wp_ // Dont' change; this refers to the WordPress database table prefix used  for testing that's stored in _tests/data/dump.sql
+TEST_SITE_TABLE_PREFIX=wp_ // Don't change; this refers to the WordPress database table prefix used  for testing that's stored in _tests/data/dump.sql
 TEST_SITE_ADMIN_USERNAME=admin // Don't change; this refers to the WordPress admin login used for testing that's stored in _tests/data/dump.sql
 TEST_SITE_ADMIN_PASSWORD=password // Don't change; this refers to the WordPress admin login used for testing that's stored in _tests/data/dump.sql
 TEST_SITE_WP_ADMIN_PATH=/wp-admin // Don't change
@@ -60,7 +60,7 @@ TEST_DB_NAME=test // If you followed the instructions above, your test database 
 TEST_DB_HOST=localhost // Your local MySQL host
 TEST_DB_USER=root // Your local MySQL user
 TEST_DB_PASSWORD=root // Your local MySQL password
-TEST_TABLE_PREFIX=wp_ // Dont' change; this refers to the WordPress database table prefix used  for testing that's stored in _tests/data/dump.sql
+TEST_TABLE_PREFIX=wp_ // Don't change; this refers to the WordPress database table prefix used  for testing that's stored in _tests/data/dump.sql
 TEST_SITE_WP_URL=http://convertkit.local // Your local WordPress URL
 TEST_SITE_WP_DOMAIN=convertkit.local // Your local WordPress domain
 TEST_SITE_ADMIN_EMAIL=wordpress@convertkit.local // Don't change
@@ -75,6 +75,14 @@ CONVERTKIT_API_TAG_ID="" // The ID of the CONVERTKIT_API_TAG_NAME
 CONVERTKIT_API_SUBSCRIBER_EMAIL="" // The email of the CONVERTKIT_API_SUBSCRIBER_ID
 CONVERTKIT_API_SUBSCRIBER_ID="" // The ID of a valid subscriber on the ConvertKit Account for the above API credentials, who is also tagged with the above tag
 ```
+
+Create a `codeception.yml` file in the root of the repository, with the following contents:
+```yaml
+params:
+    - .env.testing
+```
+
+This tells Codeception to read the above `.env.testing` file when testing on the local development enviornment.
 
 ### Install Testing Suite
 
