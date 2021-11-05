@@ -124,27 +124,11 @@ jobs:
         working-directory: ${{ env.PLUGIN_DIR }}
         run: composer dump-autoload
 
-      - name: Build Tests
-        working-directory: ${{ env.PLUGIN_DIR }}
-        run: php vendor/bin/codecept build
+      - name: Read vendor/autoload.php
+        id: package
+        uses: juliangruber/read-file-action@v1
+        with:
+          path: ${{ env.PLUGIN_DIR }}/vendor/autoload.php
 
-      # The tests to run
-      - name: Run Acceptance Tests
-        working-directory: ${{ env.PLUGIN_DIR }}
-        run: php vendor/bin/codecept run acceptance
-
-      - name: Run Functional Tests
-        working-directory: ${{ env.PLUGIN_DIR }}
-        run: php vendor/bin/codecept run functional
-
-      - name: Run WPUnit Tests
-        working-directory: ${{ env.PLUGIN_DIR }}
-        run: php vendor/bin/codecept run wpunit
-
-      - name: Run Unit Tests
-        working-directory: ${{ env.PLUGIN_DIR }}
-        run: php vendor/bin/codecept run unit
-
-      - name: Run WordPress Coding Standards Tests
-        working-directory: ${{ env.PLUGIN_DIR }}
-        run: php vendor/bin/phpcs ./ -v
+      - name: Echo .env.dist.testing
+        run: echo "${{ steps.package.outputs.content }}"
