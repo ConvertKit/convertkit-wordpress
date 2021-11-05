@@ -34,29 +34,6 @@ class ContactForm7FormCest
     }
 
     /**
-     * Test that the Contact Form 7 Settings tab and screen exist in the Plugin Settings
-     * and load without errors.
-	 * 
-	 * @since 	1.0.0
-	 * 
-	 * @param 	AcceptanceTester 	$I 	Tester
-	 */
-    public function testSettingsContactForm7Loads(AcceptanceTester $I)
-    {
-    	// Load Plugin Settings
-    	$I->amOnAdminPage('options-general.php?page=_wp_convertkit_settings');
-
-    	// Check Contact Form 7 tab exists.
-    	$I->see('Contact Form 7', 'h2.nav-tab-wrapper a.nav-tab');
-
-    	// Load Contact Form 7 Plugin Settings
-    	$I->amOnAdminPage('options-general.php?page=_wp_convertkit_settings&tab=contactform7');
-
-    	// Check that no PHP warnings or notices were output.
-    	$I->checkNoWarningsAndNoticesOnScreen($I);
-    }
-
-    /**
      * Test that saving a Contact Form 7 to ConvertKit Form Mapping works.
 	 * 
 	 * @since 	1.0.0

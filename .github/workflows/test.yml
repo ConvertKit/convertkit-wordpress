@@ -86,10 +86,6 @@ jobs:
         working-directory: src
         run: wp-cli config set WP_DEBUG true --raw
 
-      - name: Run Composer
-        working-directory: ${{ env.PLUGIN_DIR }}
-        run: composer update
-
       - name: Copy nginx configuration file
         run: sudo cp ${{ env.PLUGIN_DIR }}/tests/nginx/php-${{ matrix.php-versions }}.conf /etc/nginx/conf.d/php-${{ matrix.php-versions }}.conf
 
@@ -119,6 +115,14 @@ jobs:
             CONVERTKIT_API_KEY=${{ env.CONVERTKIT_API_KEY }}
             CONVERTKIT_API_SECRET=${{ env.CONVERTKIT_API_SECRET }}
           write-mode: append
+
+      - name: Run Composer
+        working-directory: ${{ env.PLUGIN_DIR }}
+        run: composer update
+
+      - name: Build PHP Autoloader
+        working-directory: ${{ env.PLUGIN_DIR }}
+        run: composer dump-autoload
 
       - name: Build Tests
         working-directory: ${{ env.PLUGIN_DIR }}
