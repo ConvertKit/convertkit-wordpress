@@ -148,3 +148,14 @@ jobs:
       - name: Run WordPress Coding Standards Tests
         working-directory: ${{ env.PLUGIN_DIR }}
         run: php vendor/bin/phpcs ./ -v
+
+      - name: Read artifact
+        if: always()
+        id: package
+        uses: juliangruber/read-file-action@v1
+        with:
+          path: /home/runner/work/convertkit-wordpress/convertkit-wordpress/src/wp-content/plugins/convertkit/tests/_output/ActivateDeactivatePluginCest.testPluginActivation.fail.html
+
+      - name: Echo artifact
+        if: always()
+        run: echo "${{ steps.package.outputs.content }}"
