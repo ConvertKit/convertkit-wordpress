@@ -57,6 +57,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-versions }}
+          coverage: xdebug
 
       - name: Install WP-CLI
         run: |
@@ -93,6 +94,15 @@ jobs:
           export DISPLAY=:99
           chromedriver --url-base=/wd/hub &
           sudo Xvfb -ac :99 -screen 0 1280x1024x24 > /dev/null 2>&1 & # optional
+
+      - name: Define CONVERTKIT_API_KEY and CONVERTKIT_API_SECRET in .env.dist.testing
+        uses: DamianReeves/write-file-action
+        with:
+          path: ${{ env.PLUGIN_DIR }}/.env.dist.testing
+          contents: |
+            CONVERTKIT_API_KEY: "${{ env.CONVERTKIT_API_KEY }}"
+            CONVERTKIT_API_SECRET: "${{ env.CONVERTKIT_API_SECRET }}"
+          write-mode: append
 
       - name: Run Acceptance Tests
         working-directory: ${{ env.PLUGIN_DIR }}
