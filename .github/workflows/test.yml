@@ -15,8 +15,8 @@ jobs:
     # Accessible by using ${{ env.NAME }}
     # Use ${{ secrets.NAME }} to include any GitHub Secrets in ${{ env.NAME }}
     env:
-      ROOT_DIR: /home/runner/work/convertkit-wordpress/convertkit-wordpress/src
-      PLUGIN_DIR: /home/runner/work/convertkit-wordpress/convertkit-wordpress/src/wp-content/plugins/convertkit
+      ROOT_DIR: /home/runner/work/convertkit-wordpress/convertkit-wordpress/wordpress
+      PLUGIN_DIR: /home/runner/work/convertkit-wordpress/convertkit-wordpress/wordpress/wp-content/plugins/convertkit
       DB_NAME: test
       DB_USER: root
       DB_PASS: root
@@ -28,7 +28,7 @@ jobs:
     # Defines the WordPress and PHP Versions matrix to run tests on
     strategy:
       matrix:
-        wp-versions: [ '5.8' ] #['5.0', '5.1', '5.2', '5.3', '5.4', '5.5', '5.6', '5.7', '5.8']
+        wp-versions: [ '5.8.1' ] #['5.0', '5.1', '5.2', '5.3', '5.4', '5.5', '5.6', '5.7', '5.8']
         php-versions: [ '7.2' ] #['7.1', '7.2', '7.3', '7.4', '8.0', '8.1']
 
     # Steps to install, configure and run tests
@@ -44,13 +44,14 @@ jobs:
       - name: Permit MySQL Password Auth for MySQL 8.0
         run: mysql -e "ALTER USER '${{ env.DB_USER }}'@'${{ env.DB_HOST }}' IDENTIFIED WITH mysql_native_password BY '${{ env.DB_PASS }}';"  -u${{ env.DB_USER }} -p${{ env.DB_PASS }} 
 
-      # Checkout (copy) the core WordPress system from GitHub to this VM
-      - name: Checkout WordPress
-        uses: actions/checkout@v2
-        with:
-          repository: WordPress/wordpress-develop
-          ref: ${{ matrix.wp-versions }}
-          path: ''
+      - name: Download WordPress
+        run: wget https://wordpress.org/wordpress-${{ matrix.wp-versions }}.tar.gz
+
+      - name: Extract WordPress
+        run: tar xfz wordpress-${{ matrix.wp-versions }}.tar.gz
+
+      - name: List
+        run: ls
 
       # Checkout (copy) this repository's Plugin to this VM
       - name: Checkout Plugin
@@ -71,19 +72,19 @@ jobs:
           sudo mv wp-cli.phar /usr/local/bin/wp-cli
 
       - name: Setup wp-config.php
-        working-directory: src
+        working-directory: ${{ env.ROOT_DIR }}
         run: wp-cli config create --dbname=${{ env.DB_NAME }} --dbuser=${{ env.DB_USER }} --dbpass=${{ env.DB_PASS }} --dbhost=${{ env.DB_HOST }} --locale=en_DB
 
       - name: Install WordPress
-        working-directory: src
+        working-directory: ${{ env.ROOT_DIR }}
         run: wp-cli core install --url=127.0.0.1 --title=ConvertKit --admin_user=admin --admin_password=password --admin_email=wordpress@convertkit.local
 
       - name: Install and Activate third party WordPress Plugins
-        working-directory: src
+        working-directory: ${{ env.ROOT_DIR }}
         run: wp-cli plugin install ${{ env.INSTALL_PLUGINS }} --activate
 
       - name: Enable WP_DEBUG
-        working-directory: src
+        working-directory: ${{ env.ROOT_DIR }}
         run: wp-cli config set WP_DEBUG true --raw
 
       - name: Copy nginx configuration file
@@ -132,30 +133,3 @@ jobs:
       - name: Run Acceptance Tests
         working-directory: ${{ env.PLUGIN_DIR }}
         run: php vendor/bin/codecept run acceptance ActivateDeactivatePluginCest:testPluginActivation
-
-      - name: Run Functional Tests
-        working-directory: ${{ env.PLUGIN_DIR }}
-        run: php vendor/bin/codecept run functional
-
-      - name: Run WPUnit Tests
-        working-directory: ${{ env.PLUGIN_DIR }}
-        run: php vendor/bin/codecept run wpunit
-
-      - name: Run Unit Tests
-        working-directory: ${{ env.PLUGIN_DIR }}
-        run: php vendor/bin/codecept run unit
-
-      - name: Run WordPress Coding Standards Tests
-        working-directory: ${{ env.PLUGIN_DIR }}
-        run: php vendor/bin/phpcs ./ -v
-
-      - name: Read artifact
-        if: always()
-        id: package
-        uses: juliangruber/read-file-action@v1
-        with:
-          path: /home/runner/work/convertkit-wordpress/convertkit-wordpress/src/wp-content/plugins/convertkit/tests/_output/ActivateDeactivatePluginCest.testPluginActivation.fail.html
-
-      - name: Echo artifact
-        if: always()
-        run: echo "${{ steps.package.outputs.content }}"
