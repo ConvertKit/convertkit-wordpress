@@ -1,6 +1,6 @@
 name: Run Tests
 
-on: [ push ] #Todo change to PR when this is working
+on: [ pull_request ]
 
 jobs:
   tests:
