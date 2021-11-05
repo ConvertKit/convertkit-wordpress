@@ -86,14 +86,6 @@ jobs:
         working-directory: src
         run: wp-cli config set WP_DEBUG true --raw
 
-      - name: Enable WP_DEBUG_LOG
-        working-directory: src
-        run: wp-cli config set WP_DEBUG_LOG true --raw
-
-      - name: Disable WP_DEBUG_DISPLAY
-        working-directory: src
-        run: wp-cli config set WP_DEBUG_DISPLAY false --raw
-
       - name: Copy nginx configuration file
         run: sudo cp ${{ env.PLUGIN_DIR }}/tests/nginx/php-${{ matrix.php-versions }}.conf /etc/nginx/conf.d/php-${{ matrix.php-versions }}.conf
 
@@ -156,14 +148,3 @@ jobs:
       - name: Run WordPress Coding Standards Tests
         working-directory: ${{ env.PLUGIN_DIR }}
         run: php vendor/bin/phpcs ./ -v
-
-      - name: Read debug.log file
-        if: always()
-        id: package
-        uses: juliangruber/read-file-action@v1
-        with:
-          path: ${{ env.ROOT_DIR }}/wp-content/debug.log
-
-      - name: Echo debug.log file
-        if: always()
-        run: echo "${{ steps.package.outputs.content }}"
