@@ -102,14 +102,55 @@ class PluginSettingsGeneralCest
     }
 
     /**
-	 * Test that no PHP errors or notices are displayed on the Plugin's Setting screen,
-	 * when Debug or Disable JavaScript settings are enabled.
+	 * Test that no PHP errors or notices are displayed on the Plugin's Setting screen
+	 * when Debug settings are enabled and disabled.
 	 * 
 	 * @since 	1.0.0
 	 * 
 	 * @param 	AcceptanceTester 	$I 	Tester
 	 */
-    public function testEnableDebugAndDisableJavaScriptSettings(AcceptanceTester $I)
+    public function testEnableAndDisableDebugSettings(AcceptanceTester $I)
+    {
+    	// Setup API Keys in ConvertKit Plugin.
+    	$I->setupConvertKitPlugin($I);
+
+    	// Go to the Plugin's Settings Screen.
+    	$I->loadConvertKitSettingsGeneralScreen($I);
+    	
+    	// Tick field.
+    	$I->checkOption('#debug');
+
+    	// Click the Save Changes button.
+    	$I->click('Save Changes');
+
+    	// Check that no PHP warnings or notices were output.
+    	$I->checkNoWarningsAndNoticesOnScreen($I);
+
+    	// Check the field remains ticked.
+    	$I->seeCheckboxIsChecked('#debug');	
+
+    	// Untick field.
+    	$I->uncheckOption('#debug');
+
+    	// Click the Save Changes button.
+    	$I->click('Save Changes');
+
+    	// Check that no PHP warnings or notices were output.
+    	$I->checkNoWarningsAndNoticesOnScreen($I);
+
+    	// Check the field remains unticked.
+    	$I->dontSeeCheckboxIsChecked('#debug');	
+    }
+
+    /**
+	 * Test that no PHP errors or notices are displayed on the Plugin's Setting screen
+	 * when the Disable JavaScript settings are enabled and disabled.
+	 * 
+	 * @since 	1.0.0
+	 * 
+	 * @param 	AcceptanceTester 	$I 	Tester
+	 */
+    public function testEnableAndDisableJavaScriptSettings(AcceptanceTester $I)
     {
     	// Go to the Plugin's Settings Screen.
     	$I->loadConvertKitSettingsGeneralScreen($I);
