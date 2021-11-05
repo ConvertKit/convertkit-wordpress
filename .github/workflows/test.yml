@@ -1,6 +1,6 @@
 name: Run Tests
 
-on: [ push ]
+on: [ push ] #Todo change to PR when this is working
 
 jobs:
   tests:
@@ -13,8 +13,8 @@ jobs:
 
     # Environment
     env:
-      ROOT_DIR: /home/runner/work/convertkit/convertkit/src
-      PLUGIN_DIR: /home/runner/work/convertkit/convertkit/src/wp-content/plugins/convertkit
+      ROOT_DIR: /home/runner/work/convertkit-wordpress/convertkit-wordpress/src
+      PLUGIN_DIR: /home/runner/work/convertkit-wordpress/convertkit-wordpress/src/wp-content/plugins/convertkit
       DB_NAME: test
       DB_USER: root
       DB_PASS: root
