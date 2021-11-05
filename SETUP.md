@@ -74,6 +74,7 @@ CONVERTKIT_API_TAG_NAME="" // The name of a tag that exists on the ConvertKit Ac
 CONVERTKIT_API_TAG_ID="" // The ID of the CONVERTKIT_API_TAG_NAME
 CONVERTKIT_API_SUBSCRIBER_EMAIL="" // The email of the CONVERTKIT_API_SUBSCRIBER_ID
 CONVERTKIT_API_SUBSCRIBER_ID="" // The ID of a valid subscriber on the ConvertKit Account for the above API credentials, who is also tagged with the above tag
+
 ```
 
 Create a `codeception.yml` file in the root of the repository, with the following contents:
@@ -126,7 +127,7 @@ Our change above tells WordPress to use the test database for our test requests,
 ChromeDriver is a headless (i.e. non-GUI) browser that our test suite uses to run Acceptance tests, interacting with the ConvertKit
 Plugin just as a user would - including full JavaScript execution, user inputs etc.
 
-Download chromedriver for your Google Chrome version and OS from https://sites.google.com/chromium.org/driver/downloads?authuser=0
+Download ChromeDriver for your Google Chrome version and OS from https://sites.google.com/chromium.org/driver/downloads?authuser=0
 
 For Mac users, copy the unzipped executable to `/usr/local/bin`.
 
@@ -140,8 +141,8 @@ chromedriver --url-base=/wd/hub
 
 ![ChromeDriver Screenshot](/.github/docs/chromedriver.png?raw=true)
 
-In a second Terminal window, in the Plugin's directory, run the tests to make sure there are no errors and that you have correctly
-setup your environment:
+In a second Terminal window, in the Plugin's directory, build and run the tests to make sure there are no errors and that you have 
+correctly setup your environment:
 
 ```bash
 vendor/bin/codecept build
@@ -153,8 +154,8 @@ vendor/bin/codecept run unit
 
 ![Codeception Test Results](/.github/docs/codeception.png?raw=true)
 
-Don't worry if you don't understand these commands; if your output looks similar to the above screenshot, with no errors, your environment
-is setup successfully.
+Don't worry if you don't understand these commands; if your output looks similar to the above screenshot, and no test is prefixed with `E`, 
+your environment is setup successfully.
 
 ### Running CodeSniffer
 

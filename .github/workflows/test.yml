@@ -11,7 +11,9 @@ jobs:
     # @see: https://github.com/actions/virtual-environments
     runs-on: ubuntu-20.04
 
-    # Environment
+    # Environment Variables
+    # Accessible by using ${{ env.NAME }}
+    # Use ${{ secrets.NAME }} to include any GitHub Secrets in ${{ env.NAME }}
     env:
       ROOT_DIR: /home/runner/work/convertkit-wordpress/convertkit-wordpress/src
       PLUGIN_DIR: /home/runner/work/convertkit-wordpress/convertkit-wordpress/src/wp-content/plugins/convertkit
@@ -19,10 +21,11 @@ jobs:
       DB_USER: root
       DB_PASS: root
       DB_HOST: localhost
-      CONVERTKIT_API_KEY: "${{ secrets.CONVERTKIT_API_KEY }}"
-      CONVERTKIT_API_SECRET: "${{ secrets.CONVERTKIT_API_SECRET }}"
+      INSTALL_PLUGINS: "contact-form-7 disable-welcome-messages-and-tips woocommerce" # Don't include this repository's Plugin here.
+      CONVERTKIT_API_KEY: ${{ secrets.CONVERTKIT_API_KEY }} # ConvertKit API Key, stored in the repository's Settings > Secrets
+      CONVERTKIT_API_SECRET: ${{ secrets.CONVERTKIT_API_SECRET }} # ConvertKit API Secret, stored in the repository's Settings > Secrets
 
-    # Testing strategy
+    # Defines the WordPress and PHP Versions matrix to run tests on
     strategy:
       matrix:
         wp-versions: [ '5.8' ] #['5.0', '5.1', '5.2', '5.3', '5.4', '5.5', '5.6', '5.7', '5.8']
@@ -41,6 +44,7 @@ jobs:
       - name: Permit MySQL Password Auth for MySQL 8.0
         run: mysql -e "ALTER USER '${{ env.DB_USER }}'@'${{ env.DB_HOST }}' IDENTIFIED WITH mysql_native_password BY '${{ env.DB_PASS }}';"  -u${{ env.DB_USER }} -p${{ env.DB_PASS }} 
 
+      # Checkout (copy) the core WordPress system from GitHub to this VM
       - name: Checkout WordPress
         uses: actions/checkout@v2
         with:
@@ -48,6 +52,7 @@ jobs:
           ref: ${{ matrix.wp-versions }}
           path: ''
 
+      # Checkout (copy) this repository's Plugin to this VM
       - name: Checkout Plugin
         uses: actions/checkout@v2
         with:
@@ -73,6 +78,14 @@ jobs:
         working-directory: src
         run: wp-cli core install --url=127.0.0.1 --title=ConvertKit --admin_user=admin --admin_password=password --admin_email=wordpress@convertkit.local
 
+      - name: Install and Activate third party WordPress Plugins
+        working-directory: src
+        run: wp-cli plugin install ${{ env.INSTALL_PLUGINS }} --activate
+
+      - name: Enable WP_DEBUG
+        working-directory: src
+        run: wp-cli config set WP_DEBUG true --raw
+
       - name: Run Composer
         working-directory: ${{ env.PLUGIN_DIR }}
         run: composer update
@@ -95,15 +108,23 @@ jobs:
           chromedriver --url-base=/wd/hub &
           sudo Xvfb -ac :99 -screen 0 1280x1024x24 > /dev/null 2>&1 & # optional
 
-      - name: Define CONVERTKIT_API_KEY and CONVERTKIT_API_SECRET in .env.dist.testing
+      # Write any secrets, such as API keys, to the .env.dist.testing file now
+      # Make sure your committed .env.dist.testing file ends with a newline
+      - name: Define GitHub Secrets in .env.dist.testing
         uses: DamianReeves/write-file-action@v1.0
         with:
           path: ${{ env.PLUGIN_DIR }}/.env.dist.testing
           contents: |
-            CONVERTKIT_API_KEY: "${{ env.CONVERTKIT_API_KEY }}"
-            CONVERTKIT_API_SECRET: "${{ env.CONVERTKIT_API_SECRET }}"
+
+            CONVERTKIT_API_KEY=${{ env.CONVERTKIT_API_KEY }}
+            CONVERTKIT_API_SECRET=${{ env.CONVERTKIT_API_SECRET }}
           write-mode: append
 
+      - name: Build Tests
+        working-directory: ${{ env.PLUGIN_DIR }}
+        run: php vendor/bin/codecept build
+
+      # The tests to run
       - name: Run Acceptance Tests
         working-directory: ${{ env.PLUGIN_DIR }}
         run: php vendor/bin/codecept run acceptance
