@@ -3,20 +3,6 @@
     "description": "ConvertKit WordPress Plugin",
     "type": "project",
     "license": "GPLv3",
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/ConvertKit/relative-to-absolute-url"
-        },
-        {
-            "type": "vcs",
-            "url": "https://github.com/ConvertKit/php-simple-html-dom-parser"
-        }
-    ],
-    "require": {
-        "kub-at/php-simple-html-dom-parser": "~1.8.2",
-        "oldmine/relative-to-absolute-url": "~1.7"
-    },
     "require-dev": {
         "lucatume/wp-browser": "^3.0",
         "codeception/module-asserts": "^1.3",                                      
@@ -32,14 +18,6 @@
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
-    "scripts": {
-        "dist": [
-            "rm -rf ./vendor",
-            "@composer install --no-dev -a",
-            "@composer archive --format=zip --file convertkit-wordpress",
-            "mv convertkit-wordpress.zip $HOME/Desktop"
-        ]
-    },
     "archive": {
         "exclude": [
             "!vendor/*",
