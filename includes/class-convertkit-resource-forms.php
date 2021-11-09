@@ -29,7 +29,10 @@ class ConvertKit_Resource_Forms extends ConvertKit_Resource {
 	public $resources = array();
 
 	/**
-	 * Returns the HTML/JS markup for the given Form ID
+	 * Returns the HTML/JS markup for the given Form ID.
+	 * 
+	 * Legacy Forms will return HTML
+	 * Current Forms will return a <script> embed string.
 	 * 
 	 * @since 	1.9.6
 	 * 
@@ -53,6 +56,28 @@ class ConvertKit_Resource_Forms extends ConvertKit_Resource {
 			);
 		}
 
+		// If no uid is present in the Form API data, this is a legacy form that's served by directly fetching the HTML
+		// from forms.convertkit.com.
+		if ( ! isset( $this->resources[ $id ]['uid'] ) ) {
+			// Initialize Settings.
+			$settings = new ConvertKit_Settings;
+
+			// Bail if no API Key is specified in the Plugin Settings.
+			if ( ! $settings->has_api_key() ) {
+				return new WP_Error(
+					'convertkit_resource_forms_get_html',
+					__( 'ConvertKit Legacy Form could not be fetched as no API Key specified in Plugin Settings', 'convertkit' )
+				);
+			}
+
+			// Initialize the API.
+			$api = new ConvertKit_API( $settings->get_api_key(), $settings->get_api_secret(), $settings->debug_enabled() );
+
+			// Return Legacy Form HTML.
+			return $api->get_form_html( $id );
+		}
+
+		// If here, return Form <script> embed.
 		return '<script async data-uid="' . $this->resources[ $id ]['uid'] . '" src="' . $this->resources[ $id ]['embed_js'] . '"></script>';
 
 	}
