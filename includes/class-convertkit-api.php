@@ -407,6 +407,32 @@ class ConvertKit_API {
 	}
 
 	/**
+	 * Get HTMl from ConvertKit for the given Legacy Form ID.
+	 * 
+	 * This isn't specifically an API function, but for now it's best suited here.
+	 *
+	 * @param 	int 	$id 	Form ID
+	 * @return 	string 			HTML
+	 */
+	public function get_form_html( $id ) {
+
+		// Define Legacy Form URL.
+		$url = add_query_arg(
+			array(
+				'api_key' => $this->get_api_key(),
+				'v'       => 6
+			),
+			'https://forms.convertkit.com/' . $id . '.html'
+		);
+
+		// Get HTML.
+		$body = $this->get_html( $url );
+
+		return $body;
+
+	}
+
+	/**
 	 * Get HTML from ConvertKit for the given Landing Page URL.
 	 * 
 	 * This isn't specifically an API function, but for now it's best suited here.
@@ -416,7 +442,32 @@ class ConvertKit_API {
 	 */
 	public function get_landing_page_html( $url ) {
 
-		// Get HTML from URL.
+		// Get HTML.
+		$body = $this->get_html( $url );
+
+        // Inject JS for subscriber forms to work.
+		$scripts = new WP_Scripts();
+		$script = "<script type='text/javascript' src='" . trailingslashit( $scripts->base_url ) . "wp-includes/js/jquery/jquery.js?ver=1.4.0'></script>";
+		$script .= "<script type='text/javascript' src='" . CONVERTKIT_PLUGIN_URL . 'resources/frontend/js/convertkit.js?ver=' . CONVERTKIT_PLUGIN_VERSION . "'></script>";
+		$script .= "<script type='text/javascript'>/* <![CDATA[ */var ck_data = {\"ajaxurl\":\"" . admin_url( 'admin-ajax.php' ) . '"};/* ]]> */</script>';
+		
+		$body = str_replace( '</head>', '</head>' . $script, $body );
+
+		return $body;   
+
+    }
+
+    /**
+	 * Get HTML for the given URL.
+	 * 
+	 * This isn't specifically an API function, but for now it's best suited here.
+	 *
+	 * @param 	string 	$url 	URL of Form or Landing Page
+	 * @return 	string 			HTML
+	 */
+    private function get_html( $url ) {
+
+    	// Get HTML from URL.
 		$result = wp_remote_get( $url, array(
             'Accept-Encoding' 	=> 'gzip',
             'timeout'   		=> $this->get_timeout(),
@@ -449,17 +500,7 @@ class ConvertKit_API {
         $this->convert_relative_to_absolute_urls( $html->getElementsByTagName( 'form' ), 'action', $url_scheme_host_only );
 
         // Fetch the edited HTML.
-		$body = $html->saveHTML();
-
-        // Inject JS for subscriber forms to work.
-		$scripts = new WP_Scripts();
-		$script = "<script type='text/javascript' src='" . trailingslashit( $scripts->base_url ) . "wp-includes/js/jquery/jquery.js?ver=1.4.0'></script>";
-		$script .= "<script type='text/javascript' src='" . CONVERTKIT_PLUGIN_URL . 'resources/frontend/js/convertkit.js?ver=' . CONVERTKIT_PLUGIN_VERSION . "'></script>";
-		$script .= "<script type='text/javascript'>/* <![CDATA[ */var ck_data = {\"ajaxurl\":\"" . admin_url( 'admin-ajax.php' ) . '"};/* ]]> */</script>';
-		
-		$body = str_replace( '</head>', '</head>' . $script, $body );
-
-		return $body;   
+		return $html->saveHTML();
 
     }
 
