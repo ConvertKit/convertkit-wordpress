@@ -12,9 +12,6 @@ function convertKitTinyMCERegisterPlugin( block ) {
 
 		tinymce.PluginManager.add( 'convertkit_' + block.name, function( editor, url ) {
 
-			console.log( url );
-			console.log( block );
-
 			// Add Button to Visual Editor Toolbar.
 			editor.addButton( 'convertkit_' + block.name, {
 				title: 	block.title,

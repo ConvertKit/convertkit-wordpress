@@ -75,6 +75,9 @@ class ConvertKit_Admin_TinyMCE {
         wp_enqueue_script( 'convertkit-admin-modal', CONVERTKIT_PLUGIN_URL . 'resources/backend/js/modal.js', array( 'jquery' ), CONVERTKIT_PLUGIN_VERSION, true );
         wp_localize_script( 'convertkit-quicktags', 'convertkit_quicktags', $blocks );
 
+        // Enqueue Quicktag CSS.
+        wp_enqueue_style( 'convertkit-admin-quicktags', CONVERTKIT_PLUGIN_URL . '/resources/backend/css/quicktags.css' );
+
         // Output Backbone View Template.
         ?>
         <script type="text/template" id="tmpl-convertkit-quicktags-modal">

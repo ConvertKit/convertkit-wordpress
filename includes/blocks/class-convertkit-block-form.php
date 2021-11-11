@@ -46,7 +46,7 @@ class ConvertKit_Block_Form extends ConvertKit_Block {
         return array(
             'title'     => __( 'ConvertKit Form', 'convertkit' ),
             'description'   => __( 'Displays a ConvertKit Form.', 'convertkit' ),
-            'icon'      => '',
+            'icon'      => 'resources/backend/images/block-icon-form.svg',
             'category'  => 'convertkit',
             'keywords'  => array(
                 __( 'ConvertKit', 'convertkit' ),
@@ -55,8 +55,8 @@ class ConvertKit_Block_Form extends ConvertKit_Block {
 
             // TinyMCE / QuickTags Modal Width and Height.
             'modal'     => array(
-                'width'     => 600,
-                'height'    => 153,
+                'width'     => 500,
+                'height'    => 100,
             ),
 
             // 

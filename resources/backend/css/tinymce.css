@@ -1,16 +1,6 @@
 /**
  * TinyMCE and QuickTag Modals
  */
-.mce-i-convertkit{
-    background: url('ck.png') no-repeat center !important;
-}
-@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
-    .mceIcon.mce_stagShortcodes,
-    .mce-i-stagtools {
-        background-image: url('ck-2x.png') !important;
-        background-size: 18px 17px !important;
-    }
-}
 .convertkit-option {
     display: grid;
     grid-template-areas: "left right";
@@ -49,4 +39,8 @@
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
+}
+.convertkit-option input,
+.convertkit-option select {
+    border: 1px solid #8c8f94;
 }

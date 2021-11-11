@@ -23,8 +23,9 @@ function convertKitQuickTagRegister( block ) {
 			$.post( 
 	            ajaxurl,
 	            {
-	                'action': 	'convertkit_output_tinymce_modal',
+	                'action': 	'convertkit_admin_tinymce_output_modal',
 	                'block': 	block.name
+
 	            },
 	            function( response ) {
 
