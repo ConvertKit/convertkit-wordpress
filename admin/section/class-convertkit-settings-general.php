@@ -50,6 +50,8 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 		$this->title        = __( 'General Settings', 'convertkit' );
 		$this->tab_text     = __( 'General', 'convertkit' );
 
+		add_action( 'convertkit_settings_base_render_before', array( $this, 'render_before' ) );
+
 		parent::__construct();
 
 	}
@@ -83,21 +85,27 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 			$this->name
 		);
 
-		// Show Default Form options for each Post Type if the API is configured.
-		if ( $this->settings->has_api_key_and_secret() ) {
-			foreach ( convertkit_get_supported_post_types() as $supported_post_type ) {
-				add_settings_field(
-					$supported_post_type . '_form',
-					sprintf(
-						__( 'Default Form (%s)', 'convertkit' ),
-						$supported_post_type
-					),
-					array( $this, 'custom_post_types_callback' ),
-					$this->settings_key,
-					$this->name,
-					$supported_post_type
-				);
-			}
+		foreach ( convertkit_get_supported_post_types() as $supported_post_type ) {
+			// Get Post Type's Label.
+			$post_type = get_post_type_object( $supported_post_type );
+
+			// Skip if the Post Type doesn't exist.
+			if ( ! $post_type ) {
+				continue;
+			} 
+
+			// Add Settings Field.
+			add_settings_field(
+				$supported_post_type . '_form',
+				sprintf(
+					__( 'Default Form (%s)', 'convertkit' ),
+					$post_type->label
+				),
+				array( $this, 'custom_post_types_callback' ),
+				$this->settings_key,
+				$this->name,
+				$supported_post_type
+			);
 		}
 
 		add_settings_field(
@@ -110,7 +118,7 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 
 		add_settings_field(
 			'no_scripts',
-			__( 'Disable Javascript', 'convertkit' ),
+			__( 'Disable JavaScript', 'convertkit' ),
 			array( $this, 'no_scripts_callback' ),
 			$this->settings_key,
 			$this->name
@@ -164,33 +172,27 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 
 	}
 
-	/**
-	 * Renders the section
-	 */
-	public function render() {
+	public function render_before() {
 
-		// Initialize the API.
-		if ( $this->settings->has_api_key_and_secret() ) {
-			$this->api = new ConvertKit_API( 
-				$this->settings->get_api_key(),
-				$this->settings->get_api_secret(), 
-				$this->settings->debug_enabled()
-			);
-
-			// Get Account Details.
-	    	$this->account = $this->api->account();
-
-	    	// Bail if we couldn't fetch the Account details.
-	    	if ( is_wp_error( $this->account ) ) {
-	    		$this->output_error( $this->account->get_error_message() );
-	    	}
+		// Initialize the API if an API Key and Secret is defined.
+		if ( ! $this->settings->has_api_key_and_secret() ) {
+			return;
 		}
 
-		do_settings_sections( $this->settings_key );
+		$this->api = new ConvertKit_API( 
+			$this->settings->get_api_key(),
+			$this->settings->get_api_secret(), 
+			$this->settings->debug_enabled()
+		);
 
-		settings_fields( $this->settings_key );
+		// Get Account Details, which we'll use in account_name_callback(), but also lets us test
+		// whether the API credentials are valid.
+    	$this->account = $this->api->account();
 
-		submit_button();
+    	// Show an error message if Account Details could not be fetched e.g. API credentials supplied are invalid.
+    	if ( is_wp_error( $this->account ) ) {
+    		$this->output_error( $this->account->get_error_message() );
+    	}
 
 	}
 
@@ -202,8 +204,8 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
     public function account_name_callback() {
 
     	// Output a notice telling the user to enter their API Key and Secret if they haven't done so yet.
-    	if ( ! $this->settings->has_api_key_and_secret() ) {
-    		echo '<p class="description">' . __( 'Add your API Key and Secret to get started', 'convertkit' ) . '</p>';
+    	if ( ! $this->settings->has_api_key_and_secret() || is_wp_error( $this->account ) ) {
+    		echo '<p class="description">' . __( 'Add a valid API Key and Secret to get started', 'convertkit' ) . '</p>';
     		return;
     	}
 
@@ -239,7 +241,7 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 			'api_key',
 			$this->settings->get_api_key(),
 			sprintf(
-				__( '%s Required for proper plugin function. Alternatively specify your API Key in the %s file using %s', 'convertkit' ),
+				__( '%s Required for proper plugin function.<br />Alternatively specify your API Key in the %s file using %s', 'convertkit' ),
 				'<a href="https://app.convertkit.com/account_settings/advanced_settings" target="_blank">' . __( 'Get your ConvertKit API Key.', 'convertkit' ) . '</a>',
 				'<code>wp-config.php</code>',
 				'<code>define(\'CONVERTKIT_API_KEY\', \'your-api-key\');</code>'
@@ -269,7 +271,7 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 			'api_secret',
 			$this->settings->get_api_secret(),
 			sprintf(
-				__( '%s Required for proper plugin function. Alternatively specify your API Key in the %s file using %s', 'convertkit' ),
+				__( '%s Required for proper plugin function.<br />Alternatively specify your API Key in the %s file using %s', 'convertkit' ),
 				'<a href="https://app.convertkit.com/account_settings/advanced_settings" target="_blank">' . __( 'Get your ConvertKit API Secret.', 'convertkit' ) . '</a>',
 				'<code>wp-config.php</code>',
 				'<code>define(\'CONVERTKIT_API_SECRET\', \'your-api-secret\');</code>'
@@ -279,7 +281,7 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 	}
 
 	/**
-	 * Renders the input for the Defalult Form setting for the given Post Type.
+	 * Renders the input for the Default Form setting for the given Post Type.
 	 *
 	 * @param  1.9.6
 	 * 
@@ -336,7 +338,7 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 			'no_scripts',
 			'on',
 			$this->settings->scripts_disabled(),
-			__( 'Prevent plugin from loading Javascript files. This will disable the custom content and tagging features of the plugin. Does not apply to landing pages. Use with caution!','convertkit' )
+			__( 'Prevent plugin from loading JavaScript files. This will disable the custom content and tagging features of the plugin. Does not apply to landing pages. Use with caution!','convertkit' )
 		);
 
 	}

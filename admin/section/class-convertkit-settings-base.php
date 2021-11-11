@@ -96,11 +96,15 @@ abstract class ConvertKit_Settings_Base {
 	 */
 	public function render() {
 
+		do_action( 'convertkit_settings_base_render_before' );
+
 		do_settings_sections( $this->settings_key );
 
 		settings_fields( $this->settings_key );
 
 		submit_button();
+
+		do_action( 'convertkit_settings_base_render_after' );
 
 	}
 
