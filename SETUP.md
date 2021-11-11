@@ -66,14 +66,16 @@ TEST_SITE_WP_DOMAIN=convertkit.local // Your local WordPress domain
 TEST_SITE_ADMIN_EMAIL=wordpress@convertkit.local // Don't change
 CONVERTKIT_API_KEY=// A valid ConvertKit API Key
 CONVERTKIT_API_SECRET=// A valid ConvertKit API Secret
-CONVERTKIT_API_FORM_NAME="" // The name of a form that exists on the ConvertKit Account for the above API credentials
-CONVERTKIT_API_FORM_ID="" // The ID of the CONVERTKIT_API_FORM_NAME
-CONVERTKIT_API_LANDING_PAGE_NAME="" // The name of a landing page that exists on the ConvertKit Account for the above API credentials
-CONVERTKIT_API_LANDING_PAGE_ID="" // The ID of the CONVERTKIT_API_LANDING_PAGE_NAME
-CONVERTKIT_API_TAG_NAME="" // The name of a tag that exists on the ConvertKit Account for the above API credentials
-CONVERTKIT_API_TAG_ID="" // The ID of the CONVERTKIT_API_TAG_NAME
-CONVERTKIT_API_SUBSCRIBER_EMAIL="" // The email of the CONVERTKIT_API_SUBSCRIBER_ID
-CONVERTKIT_API_SUBSCRIBER_ID="" // The ID of a valid subscriber on the ConvertKit Account for the above API credentials, who is also tagged with the above tag
+CONVERTKIT_API_FORM_NAME="Page Form" // The name of a form that exists on the ConvertKit Account for the above API credentials
+CONVERTKIT_API_FORM_ID="2765139" // The ID of the CONVERTKIT_API_FORM_NAME
+CONVERTKIT_API_LANDING_PAGE_NAME="Landing Page" // The name of a landing page that exists on the ConvertKit Account for the above API credentials
+CONVERTKIT_API_LANDING_PAGE_ID="2765196" // The ID of the CONVERTKIT_API_LANDING_PAGE_NAME
+CONVERTKIT_API_LEGACY_FORM_NAME="Legacy Form" // The name of a legacy form that exists on the ConvertKit Account for the above API credentials
+CONVERTKIT_API_LEGACY_FORM_ID="470099" // The ID of the CONVERTKIT_API_LEGACY_FORM_NAME
+CONVERTKIT_API_TAG_NAME="wordpress" // The name of a tag that exists on the ConvertKit Account for the above API credentials
+CONVERTKIT_API_TAG_ID="2744672" // The ID of the CONVERTKIT_API_TAG_NAME
+CONVERTKIT_API_SUBSCRIBER_EMAIL="tim@n7studios.co.uk" // The email of the CONVERTKIT_API_SUBSCRIBER_ID
+CONVERTKIT_API_SUBSCRIBER_ID="1501843245" // The ID of a valid subscriber on the ConvertKit Account for the above API credentials, who is also tagged with the above tag
 
 ```
 
@@ -164,8 +166,6 @@ In the Plugin's directory, run the following command to run PHP_CodeSniffer, whi
 ```bash
 vendor/bin/phpcs ./ -v
 ```
-
-![Codeception Test Results](/.github/docs/codesniffer.png?raw=true)
 
 Again, don't worry if you don't understand these commands; if your output looks similar to the above screenshot, with no errors, your environment
 is setup successfully.
