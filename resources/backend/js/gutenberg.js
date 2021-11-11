@@ -3,8 +3,11 @@ convertkit_is_gutenberg_active = ( ( typeof wp !== 'undefined' && typeof wp.data
 
 if ( convertkit_is_gutenberg_active && wp.data.dispatch( 'core/edit-post' ) !== null ) {
 
+	console.log( convertkit_blocks );
+
 	for ( const block in convertkit_blocks ) {
 
+		console.log( 'convertkit block' );
 		console.log( convertkit_blocks[ block ] );
 		
 		// convertKitGutenbergRegisterBlock( convertkit_blocks[ block ] );
