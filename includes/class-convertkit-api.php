@@ -419,7 +419,7 @@ class ConvertKit_API {
 		// Define Legacy Form URL.
 		$url = add_query_arg(
 			array(
-				'api_key' => $this->get_api_key(),
+				'api_key' => $this->api_key,
 				'v'       => 6
 			),
 			'https://forms.convertkit.com/' . $id . '.html'
@@ -564,6 +564,8 @@ class ConvertKit_API {
 		}
 
 		// Iterate through forms, determining if each form is a form or landing page.
+		$forms = array();
+		$landing_pages = array();
 		foreach ( $response['forms'] as $form ) {
 			// Skip archived forms.
 			if ( isset( $form['archived'] ) && $form['archived'] ) {
@@ -582,7 +584,7 @@ class ConvertKit_API {
 		}
 
 		return array(
-			'forms' => $forms,
+			'forms' 		=> $forms,
 			'landing_pages' => $landing_pages,
 		);
 
