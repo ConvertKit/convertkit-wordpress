@@ -146,6 +146,13 @@ class ConvertKit_API {
 	 */
 	public function form_subscribe( $form_id, $email, $first_name ) {
 
+		// Backward compat. if $email is an array comprising of email and name keys
+		if ( is_array( $email ) ) {
+			_deprecated_function( __FUNCTION__, '1.9.6', 'form_subscribe( $form_id, $email, $first_name )' );
+			$first_name = $email['name'];
+			$email = $email['email'];
+		}
+
 		$this->log( 'API: form_subscribe(): [ form_id: ' . $form_id . ', email: ' . $email . ', first_name: ' . $first_name . ' ]' );
 
 		$response = $this->post( 'forms/' . $form_id . '/subscribe', array(
@@ -382,6 +389,29 @@ class ConvertKit_API {
 	}
 
 	/**
+	 * Returns the subscriber's ID by their email address.
+	 * 
+	 * @since 	1.9.6
+	 * 
+	 * @param 	string 	$email_address 	Email Address
+	 * @return 	mixed 					WP_Error | int
+	 */
+	public function get_subscriber_id( $email_address ) {
+
+		// Get subscriber.
+		$subscriber = $this->get_subscriber_by_email( $email_address );
+
+		// Bail if an error occured.
+		if ( is_wp_error( $subscriber ) ) {
+			return $subscriber;
+		}
+
+		// Return ID
+		return $subscriber->id;
+
+	}
+
+	/**
 	 * Unsubscribes an email address.
 	 * 
 	 * @since 	1.9.6
@@ -454,6 +484,98 @@ class ConvertKit_API {
 		$body = str_replace( '</head>', '</head>' . $script, $body );
 
 		return $body;   
+
+    }
+
+    /**
+     * Backward compat. function for updating Forms, Landing Pages and Tags in WordPress options table.
+     * 
+     * @since 	1.0.0
+     */
+    public function update_resources( $api_key, $api_secret ) {
+
+    	// Warn the developer that they shouldn't use this function.
+        _deprecated_function( __FUNCTION__, '1.9.6', 'refresh() in ConvertKit_Resource_Forms, ConvertKit_Resource_Landing_Pages and ConvertKit_Resource_Tags classes.' );
+
+        // Initialize resource classes.
+        $forms = new ConvertKit_Resource_Forms;
+		$landing_pages = new ConvertKit_Resource_Landing_Pages;
+		$tags = new ConvertKit_Resource_Tags;
+
+		// Refresh resources by calling the API and storing the results.
+		$forms->refresh();
+		$landing_pages->refresh();
+		$tags->refresh();
+
+    }
+
+    /**
+     * Backward compat. function for getting a ConvertKit subscriber by their ID.
+     * 
+     * @since 	1.9.6
+     */
+    public function get_subscriber( $id ) {
+
+    	// Warn the developer that they shouldn't use this function.
+        _deprecated_function( __FUNCTION__, '1.9.6', 'get_subscriber_by_id()' );
+
+        // Pass request to new function.
+        return $this->get_subscriber_by_id( $id );
+
+    }
+
+    /**
+     * Backward compat. function for subscribing a ConvertKit subscriber to the given Tag.
+     * 
+     * @since 	1.9.6
+     * 
+     * @param 	int 	$tag 	Tag ID
+     * @param 	array 	$args 	Arguments
+     * @return 	mixed 			WP_Error | array
+     */
+    public function add_tag( $tag, $args ) {
+
+    	// Warn the developer that they shouldn't use this function.
+        _deprecated_function( __FUNCTION__, '1.9.6', 'tag_subscribe( $tag_id, $email_address )' );
+
+        // Pass request to new function.
+        return $this->tag_subscribe( $tag, $args['email'] );
+
+    }
+
+    /**
+     * Backward compat. function for fetching Legacy Form or Landing Page markup for the given URL.
+     * 
+     * @since 	1.9.6
+     * 
+     * @param 	string 	$url 	URL
+     * @return 	mixed 			WP_Error | string
+     */
+    public function get_resource( $url ) {
+
+    	// Warn the developer that they shouldn't use this function.
+        _deprecated_function( __FUNCTION__, '1.9.6', 'get_form_html( $form_id ) or get_landing_page_html( $url )' );
+
+        // Pass request to new function.
+        return $this->get_landing_page_html( $url );
+
+    }
+
+    /**
+     * Backward compat. function for fetching Legacy Form or Landing Page markup for the given URL.
+     * 
+     * @since 	1.9.6
+     * 
+     * @param 	array 	$args 	Arguments (single email key)
+     * @return 	mixed 			WP_Error | array
+     */
+    public function form_unsubscribe( $args ) {
+
+    	// Warn the developer that they shouldn't use this function.
+        _deprecated_function( __FUNCTION__, '1.9.6', 'unsubscribe( $email_address )' );
+
+        // Pass request to new function.
+        return $this->unsubscribe( $args['email'] );
 
     }
 
