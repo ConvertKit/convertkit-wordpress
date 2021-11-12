@@ -8,14 +8,14 @@
 class ConvertKit_Admin_Upgrade {
 
 	/**
-     * Runs the upgrade routine once the plugin has loaded
-     *
-     * @since   1.9.6
-     */
-    public function run() {
+	 * Runs the upgrade routine once the plugin has loaded
+	 *
+	 * @since   1.9.6
+	 */
+	public function run() {
 
-        // Get installed Plugin version.
-        $current_version = get_option( 'convertkit_version' );
+		// Get installed Plugin version.
+		$current_version = get_option( 'convertkit_version' );
 
 		/**
 		 * 1.4.1: Change ID to form_id for API version 3.0.

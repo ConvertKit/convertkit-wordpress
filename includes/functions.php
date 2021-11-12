@@ -43,7 +43,7 @@ function convertkit_get_supported_post_types() {
  */
 function convertkit_get_blocks() {
 
-    $blocks = array();
+	$blocks = array();
 
 	/**
 	 * Registers blocks / shortcodes for the ConvertKit Plugin.
@@ -122,104 +122,104 @@ function convertkit_wp_get_user_agent() {
  */
 function convertkit_is_admin_or_frontend_editor() {
 
-    // If we're in the wp-admin, return true.
-    if ( is_admin() ) {
-        return true;
-    }
+	// If we're in the wp-admin, return true.
+	if ( is_admin() ) {
+		return true;
+	}
 
-    // Pro.
-    if ( isset( $_SERVER ) ) {
-        if ( strpos( sanitize_text_field( $_SERVER['REQUEST_URI'] ), '/pro/' ) !== false ) {
-            return true;
-        }
-        if ( strpos( sanitize_text_field( $_SERVER['REQUEST_URI'] ), '/x/' ) !== false ) {
-            return true;
-        }
-        if ( strpos( sanitize_text_field( $_SERVER['REQUEST_URI'] ), 'cornerstone-endpoint' ) !== false ) {
-            return true;
-        }
-    }
+	// Pro.
+	if ( isset( $_SERVER ) ) {
+		if ( strpos( sanitize_text_field( $_SERVER['REQUEST_URI'] ), '/pro/' ) !== false ) {
+			return true;
+		}
+		if ( strpos( sanitize_text_field( $_SERVER['REQUEST_URI'] ), '/x/' ) !== false ) {
+			return true;
+		}
+		if ( strpos( sanitize_text_field( $_SERVER['REQUEST_URI'] ), 'cornerstone-endpoint' ) !== false ) {
+			return true;
+		}
+	}
 
-    // If the request global exists, check for specific request keys which tell us that we're using a frontend editor.
-    if ( isset( $_REQUEST ) && ! empty( $_REQUEST ) ) {
-        // Avada Live.
-        if ( array_key_exists( 'fb-edit', $_REQUEST ) ) {
-            return true;
-        }
+	// If the request global exists, check for specific request keys which tell us that we're using a frontend editor.
+	if ( isset( $_REQUEST ) && ! empty( $_REQUEST ) ) {
+		// Avada Live.
+		if ( array_key_exists( 'fb-edit', $_REQUEST ) ) {
+			return true;
+		}
 
-        // Beaver Builder.
-        if ( array_key_exists( 'fl_builder', $_REQUEST ) ) {
-            return true;
-        }
+		// Beaver Builder.
+		if ( array_key_exists( 'fl_builder', $_REQUEST ) ) {
+			return true;
+		}
 
-        // Brizy.
-        if ( array_key_exists( 'brizy-edit', $_REQUEST ) ) {
-            return true;
-        }
+		// Brizy.
+		if ( array_key_exists( 'brizy-edit', $_REQUEST ) ) {
+			return true;
+		}
 
-        // Cornerstone (AJAX).
-        if ( array_key_exists( '_cs_nonce', $_REQUEST ) ) {
-            return true;
-        }
+		// Cornerstone (AJAX).
+		if ( array_key_exists( '_cs_nonce', $_REQUEST ) ) {
+			return true;
+		}
 
-        // Divi.
-        if ( array_key_exists( 'et_fb', $_REQUEST ) ) {
-            return true;
-        }
+		// Divi.
+		if ( array_key_exists( 'et_fb', $_REQUEST ) ) {
+			return true;
+		}
 
-        // Elementor.
-        if ( array_key_exists( 'action', $_REQUEST ) && sanitize_text_field( $_REQUEST['action'] ) == 'elementor' ) {
-            return true;
-        }
+		// Elementor.
+		if ( array_key_exists( 'action', $_REQUEST ) && sanitize_text_field( $_REQUEST['action'] ) == 'elementor' ) {
+			return true;
+		}
 
-        // Kallyas.
-        if ( array_key_exists( 'zn_pb_edit', $_REQUEST ) ) {
-            return true;
-        }
+		// Kallyas.
+		if ( array_key_exists( 'zn_pb_edit', $_REQUEST ) ) {
+			return true;
+		}
 
-        // Oxygen.
-        if ( array_key_exists( 'ct_builder', $_REQUEST ) ) {
-            return true;
-        }
+		// Oxygen.
+		if ( array_key_exists( 'ct_builder', $_REQUEST ) ) {
+			return true;
+		}
 
-        // Thrive Architect.
-        if ( array_key_exists( 'tve', $_REQUEST ) ) {
-            return true;
-        }
+		// Thrive Architect.
+		if ( array_key_exists( 'tve', $_REQUEST ) ) {
+			return true;
+		}
 
-        // Visual Composer.
-        if ( array_key_exists( 'vcv-editable', $_REQUEST ) ) {
-            return true;
-        }
+		// Visual Composer.
+		if ( array_key_exists( 'vcv-editable', $_REQUEST ) ) {
+			return true;
+		}
 
-        // WPBakery Page Builder.
-        if ( array_key_exists( 'vc_editable', $_REQUEST ) ) {
-            return true;
-        }
+		// WPBakery Page Builder.
+		if ( array_key_exists( 'vc_editable', $_REQUEST ) ) {
+			return true;
+		}
 
-        // Zion Builder.
-        if ( array_key_exists( 'action', $_REQUEST ) && sanitize_text_field( $_REQUEST['action'] ) == 'zion_builder_active' ) {
-            return true;
-        }
-    }
+		// Zion Builder.
+		if ( array_key_exists( 'action', $_REQUEST ) && sanitize_text_field( $_REQUEST['action'] ) == 'zion_builder_active' ) {
+			return true;
+		}
+	}
 
-    // Assume we're not in the Administration interface
-    $is_admin_or_frontend_editor = false;
+	// Assume we're not in the Administration interface
+	$is_admin_or_frontend_editor = false;
 
-    /**
-     * Filters whether the current request is a WordPress Administration / Frontend Editor request or not.
-     *
-     * Page Builders can set this to true to allow Page Generator Pro to load its functionality.
-     *
-     * @since   1.9.6
-     *
-     * @param   bool    $is_admin_or_frontend_editor    Is WordPress Administration / Frontend Editor request.
-     * @param   array   $_REQUEST                       $_REQUEST data                
-     */
-    $is_admin_or_frontend_editor = apply_filters( 'convertkit_is_admin_or_frontend_editor', $is_admin_or_frontend_editor, $_REQUEST );
+	/**
+	 * Filters whether the current request is a WordPress Administration / Frontend Editor request or not.
+	 *
+	 * Page Builders can set this to true to allow Page Generator Pro to load its functionality.
+	 *
+	 * @since   1.9.6
+	 *
+	 * @param   bool    $is_admin_or_frontend_editor    Is WordPress Administration / Frontend Editor request.
+	 * @param   array   $_REQUEST                       $_REQUEST data                
+	 */
+	$is_admin_or_frontend_editor = apply_filters( 'convertkit_is_admin_or_frontend_editor', $is_admin_or_frontend_editor, $_REQUEST );
    
-    // Return filtered result .
-    return $is_admin_or_frontend_editor;
+	// Return filtered result .
+	return $is_admin_or_frontend_editor;
 
 }
 
@@ -232,14 +232,14 @@ function convertkit_is_admin_or_frontend_editor() {
  */
 function convertkit_is_cli() {
 
-    if ( ! defined( 'WP_CLI' ) ) {
-        return false;
-    }
-    if ( ! WP_CLI ) {
-        return false;
-    }
+	if ( ! defined( 'WP_CLI' ) ) {
+		return false;
+	}
+	if ( ! WP_CLI ) {
+		return false;
+	}
 
-    return true;
+	return true;
 
 }
 
@@ -252,14 +252,14 @@ function convertkit_is_cli() {
  */
 function convertkit_is_cron() {
 
-    if ( ! defined( 'DOING_CRON' ) ) {
-        return false;
-    }
-    if ( ! DOING_CRON ) {
-        return false;
-    }
+	if ( ! defined( 'DOING_CRON' ) ) {
+		return false;
+	}
+	if ( ! DOING_CRON ) {
+		return false;
+	}
 
-    return true;
+	return true;
 
 }
 
@@ -272,7 +272,7 @@ function convertkit_is_cron() {
  */
 function convertkit_is_frontend() {
 
-    return ! convertkit_is_admin_or_frontend_editor();
+	return ! convertkit_is_admin_or_frontend_editor();
 
 }
 

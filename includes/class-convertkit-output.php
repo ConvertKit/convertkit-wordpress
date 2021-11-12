@@ -326,30 +326,30 @@ class ConvertKit_Output {
 		
 	}
 
-    /**
-     * Gets the subscriber ID from the request (either the cookie or the URL).
-     * 
-     * @since 	1.9.6
-     * 
-     * @return 	mixed 	Subscriber ID
-     */
-    public function get_subscriber_id_from_request() {
+	/**
+	 * Gets the subscriber ID from the request (either the cookie or the URL).
+	 * 
+	 * @since 	1.9.6
+	 * 
+	 * @return 	mixed 	Subscriber ID
+	 */
+	public function get_subscriber_id_from_request() {
 
-    	// If the subscriber ID is stored as a cookie (i.e. the user subscribed via a form
-    	// from this Plugin on this site, which sets this cookie), return it as the subscriber ID.
-    	if ( isset( $_COOKIE['ck_subscriber_id'] ) ) {
-    		return absint( $_COOKIE['ck_subscriber_id'] );
-    	}
+		// If the subscriber ID is stored as a cookie (i.e. the user subscribed via a form
+		// from this Plugin on this site, which sets this cookie), return it as the subscriber ID.
+		if ( isset( $_COOKIE['ck_subscriber_id'] ) ) {
+			return absint( $_COOKIE['ck_subscriber_id'] );
+		}
 
-    	// If the subscriber ID is included in the URL as a query parameter
-    	// (i.e. 'Add subscriber_id parameter in email links' is enabled at https://app.convertkit.com/account_settings/advanced_settings,
-    	// return it as the subscriber ID.
+		// If the subscriber ID is included in the URL as a query parameter
+		// (i.e. 'Add subscriber_id parameter in email links' is enabled at https://app.convertkit.com/account_settings/advanced_settings,
+		// return it as the subscriber ID.
 		if ( isset( $_GET['ck_subscriber_id'] ) ) {
-    		return absint( $_GET['ck_subscriber_id'] );
-    	}
+			return absint( $_GET['ck_subscriber_id'] );
+		}
 
-    	return 0;
+		return 0;
 
-    }
+	}
 
 }

@@ -75,12 +75,12 @@ class ConvertKit_Settings_Tools extends ConvertKit_Settings_Base {
 		$log = new ConvertKit_Log;
 
 		// Download.
-        header( "Content-type: application/octet-stream" );
-        header( "Content-Disposition: attachment; filename=" . $log->get_filename() . ".txt" );
-        header( "Pragma: no-cache" );
-        header( "Expires: 0" );
-        readfile( $log->get_filename() );
-        exit();
+		header( "Content-type: application/octet-stream" );
+		header( "Content-Disposition: attachment; filename=" . $log->get_filename() . ".txt" );
+		header( "Pragma: no-cache" );
+		header( "Expires: 0" );
+		readfile( $log->get_filename() );
+		exit();
 
 	}
 
@@ -106,18 +106,18 @@ class ConvertKit_Settings_Tools extends ConvertKit_Settings_Base {
 		$system_info = new ConvertKit_System_Info;
 
 		// Write contents to temporary file.
-    	$tmpfile = tmpfile();
-    	$filename = stream_get_meta_data( $tmpfile )['uri'];
-    	file_put_contents( $filename, $system_info->get() );
+		$tmpfile = tmpfile();
+		$filename = stream_get_meta_data( $tmpfile )['uri'];
+		file_put_contents( $filename, $system_info->get() );
 
 		// Download.
-        header( "Content-type: application/octet-stream" );
-        header( "Content-Disposition: attachment; filename=system-info.txt" );
-        header( "Pragma: no-cache" );
-        header( "Expires: 0" );
-        readfile( $filename );
-        unlink( $filename );
-        exit();
+		header( "Content-type: application/octet-stream" );
+		header( "Content-Disposition: attachment; filename=system-info.txt" );
+		header( "Pragma: no-cache" );
+		header( "Expires: 0" );
+		readfile( $filename );
+		unlink( $filename );
+		exit();
 
 	}
 

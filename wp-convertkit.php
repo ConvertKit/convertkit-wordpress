@@ -11,7 +11,7 @@
 
 // Bail if ConvertKit is alread loaded.
 if ( class_exists( 'WP_ConvertKit' ) ) {
-    return;
+	return;
 }
 
 // Define ConverKit Plugin paths and version number.
@@ -59,16 +59,16 @@ if ( is_admin() ) {
 	require_once CONVERTKIT_PLUGIN_PATH . '/admin/class-convertkit-admin-category.php';
 	require_once CONVERTKIT_PLUGIN_PATH . '/admin/class-convertkit-admin-gutenberg.php';
 	require_once CONVERTKIT_PLUGIN_PATH . '/admin/class-convertkit-admin-post.php';
-    require_once CONVERTKIT_PLUGIN_PATH . '/admin/class-convertkit-admin-settings.php';
-    require_once CONVERTKIT_PLUGIN_PATH . '/admin/class-convertkit-admin-tinymce.php';
-    require_once CONVERTKIT_PLUGIN_PATH . '/admin/class-convertkit-admin-upgrade.php';
-    require_once CONVERTKIT_PLUGIN_PATH . '/admin/class-convertkit-admin-user.php';
-    require_once CONVERTKIT_PLUGIN_PATH . '/admin/class-multi-value-field-table.php';
-    require_once CONVERTKIT_PLUGIN_PATH . '/admin/section/class-convertkit-settings-base.php';
-    require_once CONVERTKIT_PLUGIN_PATH . '/admin/section/class-convertkit-settings-general.php';
-    require_once CONVERTKIT_PLUGIN_PATH . '/admin/section/class-convertkit-settings-tools.php';
+	require_once CONVERTKIT_PLUGIN_PATH . '/admin/class-convertkit-admin-settings.php';
+	require_once CONVERTKIT_PLUGIN_PATH . '/admin/class-convertkit-admin-tinymce.php';
+	require_once CONVERTKIT_PLUGIN_PATH . '/admin/class-convertkit-admin-upgrade.php';
+	require_once CONVERTKIT_PLUGIN_PATH . '/admin/class-convertkit-admin-user.php';
+	require_once CONVERTKIT_PLUGIN_PATH . '/admin/class-multi-value-field-table.php';
+	require_once CONVERTKIT_PLUGIN_PATH . '/admin/section/class-convertkit-settings-base.php';
+	require_once CONVERTKIT_PLUGIN_PATH . '/admin/section/class-convertkit-settings-general.php';
+	require_once CONVERTKIT_PLUGIN_PATH . '/admin/section/class-convertkit-settings-tools.php';
 
-    // Contact Form 7 Integration
+	// Contact Form 7 Integration
 	require_once CONVERTKIT_PLUGIN_PATH . '/includes/integrations/contactform7/class-convertkit-contactform7-admin-settings.php';
 
 	// WishList Member Integration
@@ -81,8 +81,8 @@ if ( is_admin() ) {
  * @since   1.9.6
  */
 function WP_ConvertKit() {
-    
-    return WP_ConvertKit::get_instance();
+	
+	return WP_ConvertKit::get_instance();
 
 }
 

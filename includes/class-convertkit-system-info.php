@@ -8,8 +8,8 @@ class ConvertKit_System_Info {
 	
 	/**
 	 * Get system info
-     *
-     * Adapted from Easy Digital Downloads
+	 *
+	 * Adapted from Easy Digital Downloads
 	 *
 	 * @since       2.0
 	 * @global      object $wpdb Used to query the database using the WordPress Database API
@@ -21,7 +21,7 @@ class ConvertKit_System_Info {
 
 		if ( ! class_exists( 'Browser' ) ) {
 			require_once CONVERTKIT_PLUGIN_PATH . '/lib/browser.php';
-        }
+		}
 
 		$browser = new Browser();
 
@@ -114,7 +114,7 @@ class ConvertKit_System_Info {
 		// ConvertKit configuration
 		$return .= "\n" . '-- ConvertKit Configuration' . "\n\n";
 		$return .= 'Version:                  ' . CONVERTKIT_PLUGIN_VERSION . "\n";
-        // @TODO add info on form settings, incl. integrations, etc.
+		// @TODO add info on form settings, incl. integrations, etc.
 
 		$return  = apply_filters( 'convertkit_sysinfo_after_convertkit_config', $return );
 
@@ -206,9 +206,9 @@ class ConvertKit_System_Info {
 		$return  = apply_filters( 'convertkit_sysinfo_after_php_config', $return );
 
 		$curl_version_info = function_exists( 'curl_version' ) ? curl_version() : array(
-		    'version' => 'Unknown; cURL not avaible',
-            'ssl_version' => 'Unknown; cURL not avaible'
-        );
+			'version' => 'Unknown; cURL not avaible',
+			'ssl_version' => 'Unknown; cURL not avaible'
+		);
 
 		// PHP extensions and such
 		$return .= "\n" . '-- PHP Extensions' . "\n\n";
@@ -243,8 +243,8 @@ class ConvertKit_System_Info {
 
 	/**
 	 * Get user host
-     *
-     * Adapted from Easy Digital Downloads
+	 *
+	 * Adapted from Easy Digital Downloads
 	 *
 	 * Returns the webhost this site is using if possible
 	 *

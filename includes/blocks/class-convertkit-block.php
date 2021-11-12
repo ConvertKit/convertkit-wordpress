@@ -7,71 +7,71 @@
  */
 class ConvertKit_Block {
 
-    /**
-     * Registers this block with the ConvertKit Plugin.
-     *
-     * @since   1.9.6
-     * 
-     * @param   array   $blocks     Blocks to Register
-     * @return  array               Blocks to Register
-     */
-    public function register( $blocks ) {
+	/**
+	 * Registers this block with the ConvertKit Plugin.
+	 *
+	 * @since   1.9.6
+	 * 
+	 * @param   array   $blocks     Blocks to Register
+	 * @return  array               Blocks to Register
+	 */
+	public function register( $blocks ) {
 
-        $blocks[ $this->get_name() ] = array_merge(
-            $this->get_overview(),
-            array(
-                'name'          => $this->get_name(),
-                'fields'        => $this->get_fields(),
-                'tabs'          => $this->get_tabs(),
-                'default_values'=> $this->get_default_values(),
-            )
-        );
+		$blocks[ $this->get_name() ] = array_merge(
+			$this->get_overview(),
+			array(
+				'name'          => $this->get_name(),
+				'fields'        => $this->get_fields(),
+				'tabs'          => $this->get_tabs(),
+				'default_values'=> $this->get_default_values(),
+			)
+		);
 
-        return $blocks;
+		return $blocks;
 
-    }
+	}
 
-    /**
-     * Returns the given block's field's Default Value
-     *
-     * @since   1.9.6
-     */
-    public function get_default_value( $field ) {
+	/**
+	 * Returns the given block's field's Default Value
+	 *
+	 * @since   1.9.6
+	 */
+	public function get_default_value( $field ) {
 
-        $defaults = $this->get_default_values();
-        if ( isset( $defaults[ $field ] ) ) {
-            return $defaults[ $field ];
-        }
+		$defaults = $this->get_default_values();
+		if ( isset( $defaults[ $field ] ) ) {
+			return $defaults[ $field ];
+		}
 
-        return '';
-        
-    }
+		return '';
+		
+	}
 
-    /**
-     * Removes any HTML that might be wrongly included in the shorcode attribute's values
-     * due to e.g. copy and pasting from Documentation or other examples.
-     * 
-     * @since   1.9.6
-     * 
-     * @param   array   $atts   Shortcode Attributes
-     * @return  array           Shortcode Attributes
-     */
-    public function sanitize_atts( $atts ) {
+	/**
+	 * Removes any HTML that might be wrongly included in the shorcode attribute's values
+	 * due to e.g. copy and pasting from Documentation or other examples.
+	 * 
+	 * @since   1.9.6
+	 * 
+	 * @param   array   $atts   Shortcode Attributes
+	 * @return  array           Shortcode Attributes
+	 */
+	public function sanitize_atts( $atts ) {
 
-        if ( ! is_array( $atts ) ) {
-            return $atts;
-        }
+		if ( ! is_array( $atts ) ) {
+			return $atts;
+		}
 
-        foreach ( $atts as $key => $value ) {
-            if ( is_array( $value ) ) {
-                continue;
-            }
-            
-            $atts[ $key ] = strip_tags( $value );
-        }
+		foreach ( $atts as $key => $value ) {
+			if ( is_array( $value ) ) {
+				continue;
+			}
+			
+			$atts[ $key ] = strip_tags( $value );
+		}
 
-        return $atts;
+		return $atts;
 
-    }
+	}
 
 }

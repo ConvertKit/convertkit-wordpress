@@ -61,13 +61,13 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 	 */
 	public function register_fields() {
 
-        add_settings_field(
-            'account_name',
-            __( 'Account Name', 'convertkit' ),
-            array( $this, 'account_name_callback' ),
-            $this->settings_key,
-            $this->name
-        );
+		add_settings_field(
+			'account_name',
+			__( 'Account Name', 'convertkit' ),
+			array( $this, 'account_name_callback' ),
+			$this->settings_key,
+			$this->name
+		);
 
 		add_settings_field(
 			'api_key',
@@ -164,10 +164,10 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 	public function print_section_info() {
 
 		?>
-        <p><?php esc_html_e( 'Choosing a default form will embed it at the bottom of every post or page (in single view only) across your site.', 'convertkit' ); ?></p>
-        <p><?php esc_html_e( 'If you wish to turn off form embedding or select a different form for an individual post or page, you can do so using the ConvertKit meta box on the edit page.', 'convertkit' ); ?></p><?php
+		<p><?php esc_html_e( 'Choosing a default form will embed it at the bottom of every post or page (in single view only) across your site.', 'convertkit' ); ?></p>
+		<p><?php esc_html_e( 'If you wish to turn off form embedding or select a different form for an individual post or page, you can do so using the ConvertKit meta box on the edit page.', 'convertkit' ); ?></p><?php
 		/* translators: 1: shortcode */ ?>
-        <p><?php printf( esc_html__( 'The default form can be inserted into the middle of post or page content by using the %s shortcode.', 'convertkit' ), '<code>[convertkit]</code>' ); ?></p>
+		<p><?php printf( esc_html__( 'The default form can be inserted into the middle of post or page content by using the %s shortcode.', 'convertkit' ), '<code>[convertkit]</code>' ); ?></p>
 		<?php
 
 	}
@@ -187,38 +187,38 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 
 		// Get Account Details, which we'll use in account_name_callback(), but also lets us test
 		// whether the API credentials are valid.
-    	$this->account = $this->api->account();
+		$this->account = $this->api->account();
 
-    	// Show an error message if Account Details could not be fetched e.g. API credentials supplied are invalid.
-    	if ( is_wp_error( $this->account ) ) {
-    		$this->output_error( $this->account->get_error_message() );
-    	}
+		// Show an error message if Account Details could not be fetched e.g. API credentials supplied are invalid.
+		if ( is_wp_error( $this->account ) ) {
+			$this->output_error( $this->account->get_error_message() );
+		}
 
 	}
 
-    /**
-     * Outputs the Account Name
-     * 
-     * @since 	1.9.6
-     */
-    public function account_name_callback() {
+	/**
+	 * Outputs the Account Name
+	 * 
+	 * @since 	1.9.6
+	 */
+	public function account_name_callback() {
 
-    	// Output a notice telling the user to enter their API Key and Secret if they haven't done so yet.
-    	if ( ! $this->settings->has_api_key_and_secret() || is_wp_error( $this->account ) ) {
-    		echo '<p class="description">' . __( 'Add a valid API Key and Secret to get started', 'convertkit' ) . '</p>';
-    		return;
-    	}
+		// Output a notice telling the user to enter their API Key and Secret if they haven't done so yet.
+		if ( ! $this->settings->has_api_key_and_secret() || is_wp_error( $this->account ) ) {
+			echo '<p class="description">' . __( 'Add a valid API Key and Secret to get started', 'convertkit' ) . '</p>';
+			return;
+		}
 
-    	// Output Account Name.
-	    $html = sprintf(
-		    '<code>%s</code>',
-		    isset( $this->account['name'] ) ? esc_attr( $this->account['name'] ) : __( '(Not specified)', 'convertkit' )
-	    );
-	    $html .= '<p class="description">' . __( 'The name of your connected ConvertKit account.', 'convertkit' ) . '</p>';
+		// Output Account Name.
+		$html = sprintf(
+			'<code>%s</code>',
+			isset( $this->account['name'] ) ? esc_attr( $this->account['name'] ) : __( '(Not specified)', 'convertkit' )
+		);
+		$html .= '<p class="description">' . __( 'The name of your connected ConvertKit account.', 'convertkit' ) . '</p>';
    
-	    echo $html; // WPCS: XSS ok.
+		echo $html; // WPCS: XSS ok.
 
-    }
+	}
 
 	/**
 	 * Renders the input for the API Key setting.

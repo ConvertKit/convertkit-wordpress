@@ -126,14 +126,14 @@ class ConvertKit_Admin_Settings {
 		$this->maybe_display_notices();
 		?>
 
-        <div class="wrap">
+		<div class="wrap">
 			<?php
 			if ( count( $this->sections ) > 1 ) {
 				$this->display_section_nav( $active_section );
 			}
 			?>
 
-            <form method="post" action="options.php">
+			<form method="post" action="options.php">
 				<?php
 				// Iterate through sections to find the active section to render.
 				if ( isset( $this->sections[ $active_section ] ) ) {
@@ -146,11 +146,11 @@ class ConvertKit_Admin_Settings {
 				<p class="description">
 					<?php
 					printf( 'If you need help setting up the plugin please refer to the %s plugin documentation.</a>',
-					        '<a href="https://help.convertkit.com/en/articles/2502591-the-convertkit-wordpress-plugin" target="_blank">' );
+							'<a href="https://help.convertkit.com/en/articles/2502591-the-convertkit-wordpress-plugin" target="_blank">' );
 					?>
 				</p>
-            </form>
-        </div>
+			</form>
+		</div>
 		<?php
 
 	}
@@ -171,8 +171,8 @@ class ConvertKit_Admin_Settings {
 				'message' 	=> sprintf( 
 					/* translators: link to php.net manual */
 					__( 'Notice: Your server does not support the %s function - this is required for better character encoding. Please contact your webhost to have it installed.', 'convertkit' ),
-                    '<a href="https://php.net/manual/en/mbstring.installation.php">mbstring</a>'
-                ),
+					'<a href="https://php.net/manual/en/mbstring.installation.php">mbstring</a>'
+				),
 			);
 		}
 	
@@ -187,10 +187,10 @@ class ConvertKit_Admin_Settings {
 			foreach ( $notices as $notice ) {
 				?>
 				<div class="inline notice notice-<?php echo $notice['type']; ?>">
-	                <p>
-	                	<?php echo $notice['message']; ?>
-	                </p>
-	            </div>
+					<p>
+						<?php echo $notice['message']; ?>
+					</p>
+				</div>
 				<?php
 			}
 			?>

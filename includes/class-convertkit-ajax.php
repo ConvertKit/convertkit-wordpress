@@ -51,7 +51,7 @@ class ConvertKit_AJAX {
 			wp_send_json_error( __( 'ConvertKit: API Keys not defined in Plugin Settings.', 'convertkit' ) );
 		}
 
-        // Initialize the API.
+		// Initialize the API.
 		$api = new ConvertKit_API( $settings->get_api_key(), $settings->get_api_secret(), $settings->debug_enabled() );
 
 		// Get subscriber by ID, to ensure they exist.
@@ -98,7 +98,7 @@ class ConvertKit_AJAX {
 			wp_send_json_error( __( 'ConvertKit: API Keys not defined in Plugin Settings.', 'convertkit' ) );
 		}
 
-        // Initialize the API.
+		// Initialize the API.
 		$api = new ConvertKit_API( $settings->get_api_key(), $settings->get_api_secret(), $settings->debug_enabled() );
 
 		// Get subscriber by email address.
@@ -151,7 +151,7 @@ class ConvertKit_AJAX {
 			wp_send_json_error( __( 'ConvertKit: API Keys not defined in Plugin Settings.', 'convertkit' ) );
 		}
 
-        // Initialize the API.
+		// Initialize the API.
 		$api = new ConvertKit_API( $settings->get_api_key(), $settings->get_api_secret(), $settings->debug_enabled() );
 
 		// Get subscriber's email address by subscriber ID.
