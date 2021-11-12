@@ -4,14 +4,14 @@ use Codeception\Util\Locator;
 /**
  * Tests for ConvertKit Forms integration with Contact Form 7.
  * 
- * @since 	1.0.0
+ * @since 	1.9.6
  */
 class ContactForm7FormCest
 {
 	/**
 	 * Run common actions before running the test functions in this class.
 	 * 
-	 * @since 	1.0.0
+	 * @since 	1.9.6
 	 * 
 	 * @param 	AcceptanceTester 	$I 	Tester
 	 */
@@ -36,7 +36,7 @@ class ContactForm7FormCest
     /**
      * Test that saving a Contact Form 7 to ConvertKit Form Mapping works.
 	 * 
-	 * @since 	1.0.0
+	 * @since 	1.9.6
 	 * 
 	 * @param 	AcceptanceTester 	$I 	Tester
 	 */
@@ -96,7 +96,7 @@ class ContactForm7FormCest
     /**
      * Creates a Contact Form 7 Form
      * 
-     * @since 	1.0.0
+     * @since 	1.9.6
 	 * 
 	 * @param 	AcceptanceTester 	$I 	Tester
 	 * @return 	int 					Form ID
@@ -115,7 +115,7 @@ class ContactForm7FormCest
     /**
      * Gets the first(default) Contact Form 7 Form
      * 
-     * @since 	1.0.0
+     * @since 	1.9.6
 	 * 
 	 * @param 	AcceptanceTester 	$I 	Tester
 	 * @return 	int 					Form ID

@@ -5,7 +5,7 @@ class PluginSettingsGeneralCest
 	/**
 	 * Run common actions before running the test functions in this class.
 	 * 
-	 * @since 	1.0.0
+	 * @since 	1.9.6
 	 * 
 	 * @param 	AcceptanceTester 	$I 	Tester
 	 */
@@ -18,7 +18,7 @@ class PluginSettingsGeneralCest
 	 * Test that no PHP errors or notices are displayed on the Plugin's Setting screen when the Save Changes
 	 * button is pressed and no settings are specified.
 	 * 
-	 * @since 	1.0.0
+	 * @since 	1.9.6
 	 * 
 	 * @param 	AcceptanceTester 	$I 	Tester
 	 */
@@ -39,7 +39,7 @@ class PluginSettingsGeneralCest
 	 * and a warning is displayed that the supplied API credentials are invalid, when
 	 * saving invalid API credentials.
 	 * 
-	 * @since 	1.0.0
+	 * @since 	1.9.6
 	 * 
 	 * @param 	AcceptanceTester 	$I 	Tester
 	 */
@@ -63,7 +63,7 @@ class PluginSettingsGeneralCest
 	 * Test that no PHP errors or notices are displayed on the Plugin's Setting screen,
 	 * when valid API credentials are saved.
 	 * 
-	 * @since 	1.0.0
+	 * @since 	1.9.6
 	 * 
 	 * @param 	AcceptanceTester 	$I 	Tester
 	 */
@@ -76,7 +76,7 @@ class PluginSettingsGeneralCest
 	 * Test that no PHP errors or notices are displayed on the Plugin's Setting screen,
 	 * when the Default Form is changed.
 	 * 
-	 * @since 	1.0.0
+	 * @since 	1.9.6
 	 * 
 	 * @param 	AcceptanceTester 	$I 	Tester
 	 */
@@ -87,9 +87,10 @@ class PluginSettingsGeneralCest
 
     	// Go to the Plugin's Settings Screen.
     	$I->loadConvertKitSettingsGeneralScreen($I);
-
-    	// Change form from 'Default' to the name of the form in the .env file.
-    	$I->selectOption('#default_form', $_ENV['CONVERTKIT_API_FORM_NAME']);
+    	
+    	// Select Default Form for Pages and Posts.
+    	$I->selectOption('_wp_convertkit_settings[page_form]', $_ENV['CONVERTKIT_API_FORM_NAME']);
+    	$I->selectOption('_wp_convertkit_settings[post_form]', $_ENV['CONVERTKIT_API_FORM_NAME']);
 
     	// Click the Save Changes button.
     	$I->click('Save Changes');
@@ -97,15 +98,16 @@ class PluginSettingsGeneralCest
     	// Check that no PHP warnings or notices were output.
     	$I->checkNoWarningsAndNoticesOnScreen($I);
 
-    	// Check the value of the Default Form field matches the input provided.
-    	$I->seeOptionIsSelected('#default_form', $_ENV['CONVERTKIT_API_FORM_NAME']);
+    	// Check the value of the fields match the inputs provided.
+    	$I->seeInField('_wp_convertkit_settings[page_form]', $_ENV['CONVERTKIT_API_FORM_NAME']);
+    	$I->seeInField('_wp_convertkit_settings[post_form]', $_ENV['CONVERTKIT_API_FORM_NAME']);
     }
 
     /**
 	 * Test that no PHP errors or notices are displayed on the Plugin's Setting screen
 	 * when Debug settings are enabled and disabled.
 	 * 
-	 * @since 	1.0.0
+	 * @since 	1.9.6
 	 * 
 	 * @param 	AcceptanceTester 	$I 	Tester
 	 */
@@ -146,7 +148,7 @@ class PluginSettingsGeneralCest
 	 * Test that no PHP errors or notices are displayed on the Plugin's Setting screen
 	 * when the Disable JavaScript settings are enabled and disabled.
 	 * 
-	 * @since 	1.0.0
+	 * @since 	1.9.6
 	 * 
 	 * @param 	AcceptanceTester 	$I 	Tester
 	 */

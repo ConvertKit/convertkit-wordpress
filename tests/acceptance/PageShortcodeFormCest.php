@@ -2,14 +2,14 @@
 /**
  * Tests for the ConvertKit Form shortcode.
  * 
- * @since 	1.0.0
+ * @since 	1.9.6
  */
-class PageShortcodeForm
+class PageShortcodeFormCest
 {
 	/**
 	 * Run common actions before running the test functions in this class.
 	 * 
-	 * @since 	1.0.0
+	 * @since 	1.9.6
 	 * 
 	 * @param 	AcceptanceTester 	$I 	Tester
 	 */
@@ -22,7 +22,7 @@ class PageShortcodeForm
     /**
 	 * Test the [convertkit form] shortcode works when a valid Form ID is specified.
 	 * 
-	 * @since 	1.0.0
+	 * @since 	1.9.6
 	 * 
 	 * @param 	AcceptanceTester 	$I 	Tester
 	 */
@@ -47,7 +47,7 @@ class PageShortcodeForm
     /**
 	 * Test the [convertkit form] shortcode does not output errors when an invalid Form ID is specified.
 	 * 
-	 * @since 	1.0.0
+	 * @since 	1.9.6
 	 * 
 	 * @param 	AcceptanceTester 	$I 	Tester
 	 */
@@ -72,7 +72,7 @@ class PageShortcodeForm
     /**
 	 * Test the [convertkit id] shortcode works when a valid Form ID is specified.
 	 * 
-	 * @since 	1.0.0
+	 * @since 	1.9.6
 	 * 
 	 * @param 	AcceptanceTester 	$I 	Tester
 	 */
@@ -97,7 +97,7 @@ class PageShortcodeForm
     /**
 	 * Test the [convertkit form] shortcode does not output errors when an invalid Form ID is specified.
 	 * 
-	 * @since 	1.0.0
+	 * @since 	1.9.6
 	 * 
 	 * @param 	AcceptanceTester 	$I 	Tester
 	 */

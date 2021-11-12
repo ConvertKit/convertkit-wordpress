@@ -2,14 +2,14 @@
 /**
  * Tests for the ConvertKit Custom Content shortcode.
  * 
- * @since 	1.0.0
+ * @since 	1.9.6
  */
 class PageShortcodeCustomContentCest
 {
 	/**
 	 * Run common actions before running the test functions in this class.
 	 * 
-	 * @since 	1.0.0
+	 * @since 	1.9.6
 	 * 
 	 * @param 	AcceptanceTester 	$I 	Tester
 	 */
@@ -23,7 +23,7 @@ class PageShortcodeCustomContentCest
 	 * Test the [convertkit_content] shortcode works when a valid Tag ID is specified,
 	 * and a valid Subscriber ID is used who is subscribed to the tag.
 	 * 
-	 * @since 	1.0.0
+	 * @since 	1.9.6
 	 * 
 	 * @param 	AcceptanceTester 	$I 	Tester
 	 */
@@ -58,7 +58,7 @@ class PageShortcodeCustomContentCest
 	 * Test the [convertkit_content] shortcode works when a valid Tag ID is specified,
 	 * and an invalid Subscriber ID is used.
 	 * 
-	 * @since 	1.0.0
+	 * @since 	1.9.6
 	 * 
 	 * @param 	AcceptanceTester 	$I 	Tester
 	 */

@@ -5,7 +5,7 @@ class ActivateDeactivatePluginCest
 	/**
 	 * Run common actions before running the test functions in this class.
 	 * 
-	 * @since 	1.0.0
+	 * @since 	1.9.6
 	 * 
 	 * @param 	AcceptanceTester 	$I 	Tester
 	 */
@@ -17,7 +17,7 @@ class ActivateDeactivatePluginCest
 	 * Activate the Plugin and confirm a success notification
 	 * is displayed with no errors.
 	 * 
-	 * @since 	1.0.0
+	 * @since 	1.9.6
 	 * 
 	 * @param 	AcceptanceTester 	$I 	Tester
 	 */
@@ -30,7 +30,7 @@ class ActivateDeactivatePluginCest
 	 * Deactivate the Plugin and confirm a success notification
 	 * is displayed with no errors.
 	 * 
-	 * @since 	1.0.0
+	 * @since 	1.9.6
 	 * 
 	 * @param 	AcceptanceTester 	$I 	Tester
 	 */

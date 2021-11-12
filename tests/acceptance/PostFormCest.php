@@ -2,14 +2,14 @@
 /**
  * Tests for ConvertKit Forms on WordPress Posts.
  * 
- * @since 	1.0.0
+ * @since 	1.9.6
  */
 class PostFormCest
 {
 	/**
 	 * Run common actions before running the test functions in this class.
 	 * 
-	 * @since 	1.0.0
+	 * @since 	1.9.6
 	 * 
 	 * @param 	AcceptanceTester 	$I 	Tester
 	 */
@@ -24,7 +24,7 @@ class PostFormCest
 	 * creating and viewing a new WordPress Post, and there is no Default Form specified in the Plugin
 	 * settings.
 	 * 
-	 * @since 	1.0.0
+	 * @since 	1.9.6
 	 * 
 	 * @param 	AcceptanceTester 	$I 	Tester
 	 */
@@ -75,7 +75,7 @@ class PostFormCest
 	 * Test that the Default Form specified in the Plugin Settings works when
 	 * creating and viewing a new WordPress Post.
 	 * 
-	 * @since 	1.0.0
+	 * @since 	1.9.6
 	 * 
 	 * @param 	AcceptanceTester 	$I 	Tester
 	 */
@@ -129,7 +129,7 @@ class PostFormCest
 	 * Test that 'None' Form specified in the Post Settings works when
 	 * creating and viewing a new WordPress Post.
 	 * 
-	 * @since 	1.0.0
+	 * @since 	1.9.6
 	 * 
 	 * @param 	AcceptanceTester 	$I 	Tester
 	 */
@@ -180,7 +180,7 @@ class PostFormCest
 	 * Test that the Form specified in the Post Settings works when
 	 * creating and viewing a new WordPress Post.
 	 * 
-	 * @since 	1.0.0
+	 * @since 	1.9.6
 	 * 
 	 * @param 	AcceptanceTester 	$I 	Tester
 	 */
@@ -234,7 +234,7 @@ class PostFormCest
 	 * Test that the Form specified in the Category assigned to the WordPress Post is used when the WordPress Post
 	 * is set to use the Default Form.
 	 * 
-	 * @since 	1.0.0
+	 * @since 	1.9.6
 	 * 
 	 * @param 	AcceptanceTester 	$I 	Tester
 	 */

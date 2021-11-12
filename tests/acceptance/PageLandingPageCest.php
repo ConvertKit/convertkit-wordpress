@@ -2,14 +2,14 @@
 /**
  * Tests for ConvertKit Landing Pages on WordPress Pages.
  * 
- * @since 	1.0.0
+ * @since 	1.9.6
  */
 class PageLandingPageCest
 {
 	/**
 	 * Run common actions before running the test functions in this class.
 	 * 
-	 * @since 	1.0.0
+	 * @since 	1.9.6
 	 * 
 	 * @param 	AcceptanceTester 	$I 	Tester
 	 */
@@ -23,7 +23,7 @@ class PageLandingPageCest
 	 * Test that 'None' Landing Page specified in the Page Settings works when
 	 * creating and viewing a new WordPress Page.
 	 * 
-	 * @since 	1.0.0
+	 * @since 	1.9.6
 	 * 
 	 * @param 	AcceptanceTester 	$I 	Tester
 	 */
@@ -74,7 +74,7 @@ class PageLandingPageCest
 	 * Test that the Landing Page specified in the Page Settings works when
 	 * creating and viewing a new WordPress Page.
 	 * 
-	 * @since 	1.0.0
+	 * @since 	1.9.6
 	 * 
 	 * @param 	AcceptanceTester 	$I 	Tester
 	 */

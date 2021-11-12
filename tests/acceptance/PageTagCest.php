@@ -2,14 +2,14 @@
 /**
  * Tests for ConvertKit Tags on WordPress Pages.
  * 
- * @since 	1.0.0
+ * @since 	1.9.6
  */
 class PageTagCest
 {
 	/**
 	 * Run common actions before running the test functions in this class.
 	 * 
-	 * @since 	1.0.0
+	 * @since 	1.9.6
 	 * 
 	 * @param 	AcceptanceTester 	$I 	Tester
 	 */
@@ -23,7 +23,7 @@ class PageTagCest
 	 * Test that 'None' Tag specified in the Page Settings works when
 	 * creating and viewing a new WordPress Page.
 	 * 
-	 * @since 	1.0.0
+	 * @since 	1.9.6
 	 * 
 	 * @param 	AcceptanceTester 	$I 	Tester
 	 */
@@ -66,15 +66,15 @@ class PageTagCest
         // Check that no PHP warnings or notices were output.
     	$I->checkNoWarningsAndNoticesOnScreen($I);
 
-	    // Confirm that the post_has_tag parameter is not set to true in the source code.
-	    $I->dontSeeInSource('"post_has_tag":"1"');
+	    // Confirm that the tag parameter is not set to the Tag ID.
+	    $I->dontSeeInSource('"tag":"' . $_ENV['CONVERTKIT_API_TAG_ID'] . '"');
     }
 
     /**
 	 * Test that the Tag specified in the Page Settings works when
 	 * creating and viewing a new WordPress Page.
 	 * 
-	 * @since 	1.0.0
+	 * @since 	1.9.6
 	 * 
 	 * @param 	AcceptanceTester 	$I 	Tester
 	 */
@@ -121,6 +121,6 @@ class PageTagCest
     	$I->checkNoWarningsAndNoticesOnScreen($I);
 
 	    // Confirm that the post_has_tag parameter is set to true in the source code.
-	    $I->seeInSource('"post_has_tag":"1"');
+	    $I->seeInSource('"tag":"' . $_ENV['CONVERTKIT_API_TAG_ID'] . '"');
     }
 }

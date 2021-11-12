@@ -5,7 +5,7 @@ class PluginSettingsToolsCest
 	/**
 	 * Run common actions before running the test functions in this class.
 	 * 
-	 * @since 	1.0.0
+	 * @since 	1.9.6
 	 * 
 	 * @param 	AcceptanceTester 	$I 	Tester
 	 */
@@ -18,7 +18,7 @@ class PluginSettingsToolsCest
 	 * Test that the Debug Log section is populated when debugging is enabled and an action is
 	 * performed that will populate the log.
 	 * 
-	 * @since 	1.0.0
+	 * @since 	1.9.6
 	 * 
 	 * @param 	AcceptanceTester 	$I 	Tester
 	 */
@@ -52,7 +52,7 @@ class PluginSettingsToolsCest
     /**
 	 * Test that the System Info section is populated.
 	 * 
-	 * @since 	1.0.0
+	 * @since 	1.9.6
 	 * 
 	 * @param 	AcceptanceTester 	$I 	Tester
 	 */

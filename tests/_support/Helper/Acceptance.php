@@ -118,8 +118,9 @@ class Acceptance extends \Codeception\Module
     	// Check that no PHP warnings or notices were output.
     	$I->checkNoWarningsAndNoticesOnScreen($I);
 
-    	// Select option.
-    	$I->selectOption('_wp_convertkit_settings[default_form]', $_ENV['CONVERTKIT_API_FORM_NAME']);
+    	// Select Default Form for Pages and Posts.
+    	$I->selectOption('_wp_convertkit_settings[page_form]', $_ENV['CONVERTKIT_API_FORM_NAME']);
+    	$I->selectOption('_wp_convertkit_settings[post_form]', $_ENV['CONVERTKIT_API_FORM_NAME']);
 
     	// Click the Save Changes button.
     	$I->click('Save Changes');
@@ -128,10 +129,11 @@ class Acceptance extends \Codeception\Module
     	$I->checkNoWarningsAndNoticesOnScreen($I);
 
     	// Check the value of the fields match the inputs provided.
-    	$I->seeInField('_wp_convertkit_settings[default_form]', $_ENV['CONVERTKIT_API_FORM_NAME']);
+    	$I->seeInField('_wp_convertkit_settings[page_form]', $_ENV['CONVERTKIT_API_FORM_NAME']);
+    	$I->seeInField('_wp_convertkit_settings[post_form]', $_ENV['CONVERTKIT_API_FORM_NAME']);
 
-    	// Return Form ID
-    	return $I->grabValueFrom('_wp_convertkit_settings[default_form]');
+    	// Return Form ID for Pages
+    	return $I->grabValueFrom('_wp_convertkit_settings[page_form]');
     }
 
     /**

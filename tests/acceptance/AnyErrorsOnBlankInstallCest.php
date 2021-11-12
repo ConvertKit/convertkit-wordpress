@@ -5,7 +5,7 @@ class AnyErrorsOnBlankInstallCest
 	/**
 	 * Run common actions before running the test functions in this class.
 	 * 
-	 * @since 	1.0.0
+	 * @since 	1.9.6
 	 * 
 	 * @param 	AcceptanceTester 	$I 	Tester
 	 */
@@ -19,7 +19,7 @@ class AnyErrorsOnBlankInstallCest
 	 * Check that no PHP errors or notices are displayed on the Plugin's Settings > General screen when the Plugin is activated
 	 * and not configured.
 	 * 
-	 * @since 	1.0.0
+	 * @since 	1.9.6
 	 * 
 	 * @param 	AcceptanceTester 	$I 	Tester
 	 */
@@ -33,7 +33,7 @@ class AnyErrorsOnBlankInstallCest
 	 * Check that no PHP errors or notices are displayed on the Plugin's Setting > Tools screen when the Plugin is activated
 	 * and not configured.
 	 * 
-	 * @since 	1.0.0
+	 * @since 	1.9.6
 	 * 
 	 * @param 	AcceptanceTester 	$I 	Tester
 	 */
@@ -46,7 +46,7 @@ class AnyErrorsOnBlankInstallCest
     /**
 	 * Check that no errors are displayed on Pages > Add New
 	 * 
-	 * @since 	1.0.0
+	 * @since 	1.9.6
 	 * 
 	 * @param 	AcceptanceTester 	$I 	Tester
 	 */
@@ -62,7 +62,7 @@ class AnyErrorsOnBlankInstallCest
     /**
 	 * Check that no errors are displayed on Posts > Add New
 	 * 
-	 * @since 	1.0.0
+	 * @since 	1.9.6
 	 * 
 	 * @param 	AcceptanceTester 	$I 	Tester
 	 */
@@ -78,7 +78,7 @@ class AnyErrorsOnBlankInstallCest
     /**
 	 * Check that no errors are displayed on Posts > Categories > Edit Uncategorized
 	 * 
-	 * @since 	1.0.0
+	 * @since 	1.9.6
 	 * 
 	 * @param 	AcceptanceTester 	$I 	Tester
 	 */

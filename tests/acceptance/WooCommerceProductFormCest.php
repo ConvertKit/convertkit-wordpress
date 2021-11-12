@@ -2,14 +2,14 @@
 /**
  * Tests for ConvertKit Forms on WooCommerce Products.
  * 
- * @since 	1.0.0
+ * @since 	1.9.6
  */
 class WooCommerceFormCest
 {
 	/**
 	 * Run common actions before running the test functions in this class.
 	 * 
-	 * @since 	1.0.0
+	 * @since 	1.9.6
 	 * 
 	 * @param 	AcceptanceTester 	$I 	Tester
 	 */
@@ -36,7 +36,7 @@ class WooCommerceFormCest
 	 * creating and viewing a new WooCommerce Product, and there is no Default Form specified in the Plugin
 	 * settings.
 	 * 
-	 * @since 	1.0.0
+	 * @since 	1.9.6
 	 * 
 	 * @param 	AcceptanceTester 	$I 	Tester
 	 */
@@ -80,7 +80,7 @@ class WooCommerceFormCest
 	 * Test that the Default Form specified in the Plugin Settings works when
 	 * creating and viewing a new WooCommerce Product.
 	 * 
-	 * @since 	1.0.0
+	 * @since 	1.9.6
 	 * 
 	 * @param 	AcceptanceTester 	$I 	Tester
 	 */
@@ -127,7 +127,7 @@ class WooCommerceFormCest
 	 * Test that 'None' Form specified in the Product Settings works when
 	 * creating and viewing a new WooCommerce Product.
 	 * 
-	 * @since 	1.0.0
+	 * @since 	1.9.6
 	 * 
 	 * @param 	AcceptanceTester 	$I 	Tester
 	 */
@@ -171,7 +171,7 @@ class WooCommerceFormCest
 	 * Test that the Form specified in the Product Settings works when
 	 * creating and viewing a new WooCommerce Product.
 	 * 
-	 * @since 	1.0.0
+	 * @since 	1.9.6
 	 * 
 	 * @param 	AcceptanceTester 	$I 	Tester
 	 */

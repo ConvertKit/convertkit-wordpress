@@ -2,14 +2,14 @@
 /**
  * Tests for ConvertKit Forms on WordPress Pages.
  * 
- * @since 	1.0.0
+ * @since 	1.9.6
  */
 class PageFormCest
 {
 	/**
 	 * Run common actions before running the test functions in this class.
 	 * 
-	 * @since 	1.0.0
+	 * @since 	1.9.6
 	 * 
 	 * @param 	AcceptanceTester 	$I 	Tester
 	 */
@@ -24,7 +24,7 @@ class PageFormCest
 	 * creating and viewing a new WordPress Page, and there is no Default Form specified in the Plugin
 	 * settings.
 	 * 
-	 * @since 	1.0.0
+	 * @since 	1.9.6
 	 * 
 	 * @param 	AcceptanceTester 	$I 	Tester
 	 */
@@ -75,7 +75,7 @@ class PageFormCest
 	 * Test that the Default Form specified in the Plugin Settings works when
 	 * creating and viewing a new WordPress Page.
 	 * 
-	 * @since 	1.0.0
+	 * @since 	1.9.6
 	 * 
 	 * @param 	AcceptanceTester 	$I 	Tester
 	 */
@@ -129,7 +129,7 @@ class PageFormCest
 	 * Test that 'None' Form specified in the Page Settings works when
 	 * creating and viewing a new WordPress Page.
 	 * 
-	 * @since 	1.0.0
+	 * @since 	1.9.6
 	 * 
 	 * @param 	AcceptanceTester 	$I 	Tester
 	 */
@@ -180,7 +180,7 @@ class PageFormCest
 	 * Test that the Form specified in the Page Settings works when
 	 * creating and viewing a new WordPress Page.
 	 * 
-	 * @since 	1.0.0
+	 * @since 	1.9.6
 	 * 
 	 * @param 	AcceptanceTester 	$I 	Tester
 	 */
