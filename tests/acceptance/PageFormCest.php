@@ -13,13 +13,13 @@ class PageFormCest
 	 * 
 	 * @param 	AcceptanceTester 	$I 	Tester
 	 */
-    public function _before(AcceptanceTester $I)
-    {
-    	$I->activateConvertKitPlugin($I);
-    	$I->setupConvertKitPlugin($I);
-    }
+	public function _before(AcceptanceTester $I)
+	{
+		$I->activateConvertKitPlugin($I);
+		$I->setupConvertKitPlugin($I);
+	}
 
-    /**
+	/**
 	 * Test that the 'Default' option for the Default Form setting in the Plugin Settings works when
 	 * creating and viewing a new WordPress Page, and there is no Default Form specified in the Plugin
 	 * settings.
@@ -28,50 +28,50 @@ class PageFormCest
 	 * 
 	 * @param 	AcceptanceTester 	$I 	Tester
 	 */
-    public function testAddNewPageUsingDefaultFormWithNoDefaultFormSpecifiedInPlugin(AcceptanceTester $I)
-    {
-    	// Navigate to Pages > Add New
-        $I->amOnAdminPage('post-new.php?post_type=page');
+	public function testAddNewPageUsingDefaultFormWithNoDefaultFormSpecifiedInPlugin(AcceptanceTester $I)
+	{
+		// Navigate to Pages > Add New
+		$I->amOnAdminPage('post-new.php?post_type=page');
 
-        // Check that no PHP warnings or notices were output.
-    	$I->checkNoWarningsAndNoticesOnScreen($I);
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
 
-    	// Check that the metabox is displayed.
-    	$I->seeElementInDOM('#wp-convertkit-meta-box');
+		// Check that the metabox is displayed.
+		$I->seeElementInDOM('#wp-convertkit-meta-box');
 
-    	// Check that the Form option is displayed.
-    	$I->seeElementInDOM('#wp-convertkit-form');
+		// Check that the Form option is displayed.
+		$I->seeElementInDOM('#wp-convertkit-form');
 
-    	// Change Form to Default
-    	$I->selectOption('#wp-convertkit-form', 'Default');
+		// Change Form to Default
+		$I->selectOption('#wp-convertkit-form', 'Default');
 
-    	// Define a Page Title.
-    	$I->fillField('#post-title-0', 'ConvertKit: Form: Default: None');
+		// Define a Page Title.
+		$I->fillField('#post-title-0', 'ConvertKit: Form: Default: None');
 
-    	// Click the Publish button.
-    	$I->click('.editor-post-publish-button__button');
-    	
-    	// When the pre-publish panel displays, click Publish again.
-    	$I->performOn('.editor-post-publish-panel__prepublish', function($I) {
-    		$I->click('.editor-post-publish-panel__header-publish-button .editor-post-publish-button__button');	
-    	});
+		// Click the Publish button.
+		$I->click('.editor-post-publish-button__button');
+		
+		// When the pre-publish panel displays, click Publish again.
+		$I->performOn('.editor-post-publish-panel__prepublish', function($I) {
+			$I->click('.editor-post-publish-panel__header-publish-button .editor-post-publish-button__button');	
+		});
 
-    	// Check the value of the Form field matches the input provided.
-    	$I->performOn( '.post-publish-panel__postpublish-buttons', function($I) {
-    		$I->seeOptionIsSelected('#wp-convertkit-form', 'Default');
-    	});
+		// Check the value of the Form field matches the input provided.
+		$I->performOn( '.post-publish-panel__postpublish-buttons', function($I) {
+			$I->seeOptionIsSelected('#wp-convertkit-form', 'Default');
+		});
 
 		// Load the Page on the frontend site.
-	    $I->amOnPage('/convertkit-form-default-none');
+		$I->amOnPage('/convertkit-form-default-none');
 
-        // Check that no PHP warnings or notices were output.
-    	$I->checkNoWarningsAndNoticesOnScreen($I);
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
 
-	    // Confirm that no ConvertKit Form is displayed.
-	    $I->dontSeeElementInDOM('form[data-sv-form]');
-    }
+		// Confirm that no ConvertKit Form is displayed.
+		$I->dontSeeElementInDOM('form[data-sv-form]');
+	}
 
-    /**
+	/**
 	 * Test that the Default Form specified in the Plugin Settings works when
 	 * creating and viewing a new WordPress Page.
 	 * 
@@ -79,53 +79,53 @@ class PageFormCest
 	 * 
 	 * @param 	AcceptanceTester 	$I 	Tester
 	 */
-    public function testAddNewPageUsingDefaultForm(AcceptanceTester $I)
-    {
-    	// Specify the Default Form in the Plugin Settings.
-    	$defaultFormID = $I->setupConvertKitPluginDefaultForm($I);
+	public function testAddNewPageUsingDefaultForm(AcceptanceTester $I)
+	{
+		// Specify the Default Form in the Plugin Settings.
+		$defaultFormID = $I->setupConvertKitPluginDefaultForm($I);
 
-    	// Navigate to Pages > Add New
-        $I->amOnAdminPage('post-new.php?post_type=page');
+		// Navigate to Pages > Add New
+		$I->amOnAdminPage('post-new.php?post_type=page');
 
-        // Check that no PHP warnings or notices were output.
-    	$I->checkNoWarningsAndNoticesOnScreen($I);
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
 
-    	// Check that the metabox is displayed.
-    	$I->seeElementInDOM('#wp-convertkit-meta-box');
+		// Check that the metabox is displayed.
+		$I->seeElementInDOM('#wp-convertkit-meta-box');
 
-    	// Check that the Form option is displayed.
-    	$I->seeElementInDOM('#wp-convertkit-form');
+		// Check that the Form option is displayed.
+		$I->seeElementInDOM('#wp-convertkit-form');
 
-    	// Change Form to Default
-    	$I->selectOption('#wp-convertkit-form', 'Default');
+		// Change Form to Default
+		$I->selectOption('#wp-convertkit-form', 'Default');
 
-    	// Define a Page Title.
-    	$I->fillField('#post-title-0', 'ConvertKit: Form: Default');
+		// Define a Page Title.
+		$I->fillField('#post-title-0', 'ConvertKit: Form: Default');
 
-    	// Click the Publish button.
-    	$I->click('.editor-post-publish-button__button');
-    	
-    	// When the pre-publish panel displays, click Publish again.
-    	$I->performOn('.editor-post-publish-panel__prepublish', function($I) {
-    		$I->click('.editor-post-publish-panel__header-publish-button .editor-post-publish-button__button');	
-    	});
+		// Click the Publish button.
+		$I->click('.editor-post-publish-button__button');
+		
+		// When the pre-publish panel displays, click Publish again.
+		$I->performOn('.editor-post-publish-panel__prepublish', function($I) {
+			$I->click('.editor-post-publish-panel__header-publish-button .editor-post-publish-button__button');	
+		});
 
-    	// Check the value of the Form field matches the input provided.
-    	$I->performOn( '.post-publish-panel__postpublish-buttons', function($I) {
-    		$I->seeOptionIsSelected('#wp-convertkit-form', 'Default');
-    	});
+		// Check the value of the Form field matches the input provided.
+		$I->performOn( '.post-publish-panel__postpublish-buttons', function($I) {
+			$I->seeOptionIsSelected('#wp-convertkit-form', 'Default');
+		});
 
-	    // Load the Page on the frontend site
-	    $I->amOnPage('/convertkit-form-default');
+		// Load the Page on the frontend site
+		$I->amOnPage('/convertkit-form-default');
 
-        // Check that no PHP warnings or notices were output.
-    	$I->checkNoWarningsAndNoticesOnScreen($I);
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
 
-	    // Confirm that the ConvertKit Default Form displays.
-	    $I->seeElementInDOM('form[data-sv-form="' . $defaultFormID . '"]');
-    }
+		// Confirm that the ConvertKit Default Form displays.
+		$I->seeElementInDOM('form[data-sv-form="' . $defaultFormID . '"]');
+	}
 
-    /**
+	/**
 	 * Test that 'None' Form specified in the Page Settings works when
 	 * creating and viewing a new WordPress Page.
 	 * 
@@ -133,50 +133,50 @@ class PageFormCest
 	 * 
 	 * @param 	AcceptanceTester 	$I 	Tester
 	 */
-    public function testAddNewPageUsingNoForm(AcceptanceTester $I)
-    {
-    	// Navigate to Pages > Add New
-        $I->amOnAdminPage('post-new.php?post_type=page');
+	public function testAddNewPageUsingNoForm(AcceptanceTester $I)
+	{
+		// Navigate to Pages > Add New
+		$I->amOnAdminPage('post-new.php?post_type=page');
 
-        // Check that no PHP warnings or notices were output.
-    	$I->checkNoWarningsAndNoticesOnScreen($I);
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
 
-    	// Check that the metabox is displayed.
-    	$I->seeElementInDOM('#wp-convertkit-meta-box');
+		// Check that the metabox is displayed.
+		$I->seeElementInDOM('#wp-convertkit-meta-box');
 
-    	// Check that the Form option is displayed.
-    	$I->seeElementInDOM('#wp-convertkit-form');
+		// Check that the Form option is displayed.
+		$I->seeElementInDOM('#wp-convertkit-form');
 
-    	// Change Form to 'None'
-    	$I->selectOption('#wp-convertkit-form', 'None');
+		// Change Form to 'None'
+		$I->selectOption('#wp-convertkit-form', 'None');
 
-    	// Define a Page Title.
-    	$I->fillField('#post-title-0', 'ConvertKit: Form: None');
+		// Define a Page Title.
+		$I->fillField('#post-title-0', 'ConvertKit: Form: None');
 
-    	// Click the Publish button.
-    	$I->click('.editor-post-publish-button__button');
+		// Click the Publish button.
+		$I->click('.editor-post-publish-button__button');
 
-    	// When the pre-publish panel displays, click Publish again.
-    	$I->performOn('.editor-post-publish-panel__prepublish', function($I) {
-    		$I->click('.editor-post-publish-panel__header-publish-button .editor-post-publish-button__button');	
-    	});
+		// When the pre-publish panel displays, click Publish again.
+		$I->performOn('.editor-post-publish-panel__prepublish', function($I) {
+			$I->click('.editor-post-publish-panel__header-publish-button .editor-post-publish-button__button');	
+		});
 
-    	// Check the value of the Form field matches the input provided.
-    	$I->performOn( '.post-publish-panel__postpublish-buttons', function($I) {
-    		$I->seeOptionIsSelected('#wp-convertkit-form', 'None');
-    	});
+		// Check the value of the Form field matches the input provided.
+		$I->performOn( '.post-publish-panel__postpublish-buttons', function($I) {
+			$I->seeOptionIsSelected('#wp-convertkit-form', 'None');
+		});
 
-	    // Load the Page on the frontend site.
-	    $I->amOnPage('/convertkit-form-none');
+		// Load the Page on the frontend site.
+		$I->amOnPage('/convertkit-form-none');
 
-        // Check that no PHP warnings or notices were output.
-    	$I->checkNoWarningsAndNoticesOnScreen($I);
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
 
-	    // Confirm that no ConvertKit Form is displayed.
-	    $I->dontSeeElementInDOM('form[data-sv-form]');
-    }
+		// Confirm that no ConvertKit Form is displayed.
+		$I->dontSeeElementInDOM('form[data-sv-form]');
+	}
 
-    /**
+	/**
 	 * Test that the Form specified in the Page Settings works when
 	 * creating and viewing a new WordPress Page.
 	 * 
@@ -184,49 +184,49 @@ class PageFormCest
 	 * 
 	 * @param 	AcceptanceTester 	$I 	Tester
 	 */
-    public function testAddNewPageUsingDefinedForm(AcceptanceTester $I)
-    {
-    	// Navigate to Pages > Add New
-        $I->amOnAdminPage('post-new.php?post_type=page');
+	public function testAddNewPageUsingDefinedForm(AcceptanceTester $I)
+	{
+		// Navigate to Pages > Add New
+		$I->amOnAdminPage('post-new.php?post_type=page');
 
-        // Check that no PHP warnings or notices were output.
-    	$I->checkNoWarningsAndNoticesOnScreen($I);
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
 
-    	// Check that the metabox is displayed.
-    	$I->seeElementInDOM('#wp-convertkit-meta-box');
+		// Check that the metabox is displayed.
+		$I->seeElementInDOM('#wp-convertkit-meta-box');
 
-    	// Check that the Form option is displayed.
-    	$I->seeElementInDOM('#wp-convertkit-form');
+		// Check that the Form option is displayed.
+		$I->seeElementInDOM('#wp-convertkit-form');
 
-    	// Change Form to value specified in the .env file.
-    	$I->selectOption('#wp-convertkit-form', $_ENV['CONVERTKIT_API_FORM_NAME']);
+		// Change Form to value specified in the .env file.
+		$I->selectOption('#wp-convertkit-form', $_ENV['CONVERTKIT_API_FORM_NAME']);
 
-    	// Define a Page Title.
-    	$I->fillField('#post-title-0', 'ConvertKit: Form: Specific');
+		// Define a Page Title.
+		$I->fillField('#post-title-0', 'ConvertKit: Form: Specific');
 
-    	// Click the Publish button.
-    	$I->click('.editor-post-publish-button__button');
-    	
-    	// When the pre-publish panel displays, click Publish again.
-    	$I->performOn('.editor-post-publish-panel__prepublish', function($I) {
-    		$I->click('.editor-post-publish-panel__header-publish-button .editor-post-publish-button__button');	
-    	});
+		// Click the Publish button.
+		$I->click('.editor-post-publish-button__button');
+		
+		// When the pre-publish panel displays, click Publish again.
+		$I->performOn('.editor-post-publish-panel__prepublish', function($I) {
+			$I->click('.editor-post-publish-panel__header-publish-button .editor-post-publish-button__button');	
+		});
 
-    	// Check the value of the Form field matches the input provided.
-    	$I->performOn( '.post-publish-panel__postpublish-buttons', function($I) {
-    		$I->seeOptionIsSelected('#wp-convertkit-form', $_ENV['CONVERTKIT_API_FORM_NAME']);
-    	});
+		// Check the value of the Form field matches the input provided.
+		$I->performOn( '.post-publish-panel__postpublish-buttons', function($I) {
+			$I->seeOptionIsSelected('#wp-convertkit-form', $_ENV['CONVERTKIT_API_FORM_NAME']);
+		});
 
-    	// Get Form ID.
-    	$formID = $I->grabValueFrom('#wp-convertkit-form');;
+		// Get Form ID.
+		$formID = $I->grabValueFrom('#wp-convertkit-form');;
 
-	    // Load the Page on the frontend site
-	    $I->amOnPage('/convertkit-form-specific');
+		// Load the Page on the frontend site
+		$I->amOnPage('/convertkit-form-specific');
 
-        // Check that no PHP warnings or notices were output.
-    	$I->checkNoWarningsAndNoticesOnScreen($I);
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
 
-	    // Confirm that the ConvertKit Form displays.
-	    $I->seeElementInDOM('form[data-sv-form="' . $formID . '"]');
-    }
+		// Confirm that the ConvertKit Form displays.
+		$I->seeElementInDOM('form[data-sv-form="' . $formID . '"]');
+	}
 }
