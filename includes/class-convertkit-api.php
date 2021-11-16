@@ -43,13 +43,6 @@ class ConvertKit_API {
 	protected $api_url_base = 'https://api.convertkit.com/';
 
 	/**
-	 * Holds HTML markup for fetched Forms and Landing Pages.
-	 * 
-	 * @var 	array
-	 */ 
-	private $markup = array();
-
-	/**
 	 * Holds the log class for writing to the log file
 	 * 
 	 * @var 	ConvertKit_Log

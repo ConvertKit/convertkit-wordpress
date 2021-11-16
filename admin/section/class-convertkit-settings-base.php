@@ -191,7 +191,7 @@ abstract class ConvertKit_Settings_Base {
 
 		$html = sprintf(
 			'<select id="%s" name="%s[%s]" size="1">',
-			$name,
+			$this->settings_key . '_' . $name,
 			$this->settings_key,
 			$name
 		);

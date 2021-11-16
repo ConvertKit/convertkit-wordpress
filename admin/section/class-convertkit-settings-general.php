@@ -261,7 +261,7 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 		if ( $this->settings->is_api_secret_a_constant() ) {
 			echo $this->get_masked_value(
 				$this->settings->get_api_secret(),
-				__( 'Your API Key has been defined in your wp-config.php file. For security, it is not displayed here.', 'convertkit' )
+				__( 'Your API Secret has been defined in your wp-config.php file. For security, it is not displayed here.', 'convertkit' )
 			);
 			return;
 		}
@@ -293,6 +293,11 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 		if ( ! $this->forms ) {
 			$this->forms = new ConvertKit_Resource_Forms;
 			$this->forms->refresh();
+		}
+
+		// Bail if no Forms exist.
+		if ( ! $this->forms->exist() ) {
+			return;
 		}
 
 		// Build array of select options.
