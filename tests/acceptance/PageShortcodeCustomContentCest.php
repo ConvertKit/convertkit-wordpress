@@ -27,7 +27,7 @@ class PageShortcodeCustomContentCest
 	 * 
 	 * @param 	AcceptanceTester 	$I 	Tester
 	 */
-	public function testFormShortcodeWithValidTagParameterAndValidSubsciberID(AcceptanceTester $I)
+	public function testFormShortcodeWithValidTagParameterAndValidSubscriberID(AcceptanceTester $I)
 	{
 		// Create Page with Shortcode.
 		$I->havePageInDatabase([
@@ -62,7 +62,7 @@ class PageShortcodeCustomContentCest
 	 * 
 	 * @param 	AcceptanceTester 	$I 	Tester
 	 */
-	public function testFormShortcodeWithValidTagParameterAndInvalidSubsciberID(AcceptanceTester $I)
+	public function testFormShortcodeWithValidTagParameterAndInvalidSubscriberID(AcceptanceTester $I)
 	{
 		// Create Page with Shortcode.
 		$I->havePageInDatabase([

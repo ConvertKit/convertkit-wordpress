@@ -64,7 +64,7 @@ class ContactForm7FormCest
 
 		// Check the value of the Form field matches the input provided.
 		$I->seeOptionIsSelected('#_wp_convertkit_integration_contactform7_settings_' . $contactForm7ID, $_ENV['CONVERTKIT_API_FORM_NAME']);
-	
+		
 		// Create Page with Contact Form 7 Shortcode.
 		$I->havePageInDatabase([
 			'post_title'	=> 'ConvertKit: Contact Form 7 Shortcode',

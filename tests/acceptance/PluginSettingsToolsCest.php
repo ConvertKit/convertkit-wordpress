@@ -46,7 +46,7 @@ class PluginSettingsToolsCest
 
 		// Check that the Debug Log textarea contains some expected output i.e.
 		// does not show the 'No logs have been generated.' message.
-		$I->dontSeeInField('textarea[name="convertkit-debug-log-contents"]', 'No logs have been generated.');
+		$I->dontSeeInField('#debug-log-textarea', 'No logs have been generated.');
 	}
 
 	/**

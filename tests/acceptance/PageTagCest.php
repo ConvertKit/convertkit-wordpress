@@ -15,8 +15,15 @@ class PageTagCest
 	 */
 	public function _before(AcceptanceTester $I)
 	{
+		// Activate and Setup ConvertKit plugin
 		$I->activateConvertKitPlugin($I);
 		$I->setupConvertKitPlugin($I);
+
+		// Navigate to Pages > Add New
+		$I->amOnAdminPage('post-new.php?post_type=page');
+
+		// Close the Gutenberg "Welcome to the block editor" dialog if it's displayed
+		$I->maybeCloseGutenbergWelcomeModal($I);
 	}
 
 	/**

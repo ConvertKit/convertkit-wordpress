@@ -32,6 +32,23 @@ class Acceptance extends \Codeception\Module
 	}
 
 	/**
+	 * Helper method to close the Gutenberg "Welcome to the block editor" dialog, which
+	 * might show for each Page/Post test performed due to there being no persistence
+	 * remembering that the user dismissed the dialog.
+	 * 
+	 * @since 	1.0.0
+	 */
+	public function maybeCloseGutenbergWelcomeModal($I)
+	{
+		try {
+			$I->performOn('.components-modal__screen-overlay', [
+				'click' => '.components-modal__screen-overlay .components-modal__header button.components-button'
+			], 3);
+		} catch ( \Facebook\WebDriver\Exception\TimeoutException $e ) {
+		}
+	}
+
+	/**
 	 * Helper method to activate the Plugin.
 	 * 
 	 * @since 	1.0.0
