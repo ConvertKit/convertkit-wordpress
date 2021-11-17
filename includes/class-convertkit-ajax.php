@@ -36,8 +36,7 @@ class ConvertKit_AJAX {
 	public function store_subscriber_id_in_cookie() {
 
 		// Check nonce
-		// @TODO Fix
-		// check_ajax_referer( 'convertkit' );
+		check_ajax_referer( 'convertkit', 'convertkit_nonce' );
 
 		// Bail if required request parameters not submitted
 		if ( ! isset( $_REQUEST['subscriber_id'] ) ) {
@@ -83,8 +82,7 @@ class ConvertKit_AJAX {
 	public function store_subscriber_email_as_id_in_cookie() {
 
 		// Check nonce
-		// @TODO Fix
-		// check_ajax_referer( 'convertkit' );
+		check_ajax_referer( 'convertkit', 'convertkit_nonce' );
 
 		// Bail if required request parameters not submitted
 		if ( ! isset( $_REQUEST['email'] ) ) {
@@ -128,20 +126,15 @@ class ConvertKit_AJAX {
 	public function tag_subscriber() {
 
 		// Check nonce
-		// @TODO Fix
-		//check_ajax_referer( 'convertkit' );
+		check_ajax_referer( 'convertkit', 'convertkit_nonce' );
 
 		// Bail if required request parameters not submitted
-		if ( ! isset( $_REQUEST['post_id'] ) ) {
-			wp_send_json_error( __( 'ConvertKit: Required parameter `post_id` not included in AJAX request.', 'convertkit' ) );
-		}
 		if ( ! isset( $_REQUEST['subscriber_id'] ) ) {
 			wp_send_json_error( __( 'ConvertKit: Required parameter `subscriber_id` not included in AJAX request.', 'convertkit' ) );
 		}
 		if ( ! isset( $_REQUEST['tag'] ) ) {
 			wp_send_json_error( __( 'ConvertKit: Required parameter `tag` not included in AJAX request.', 'convertkit' ) );
 		}
-		$post_id = sanitize_text_field( $_REQUEST['post_id'] ); // @TODO Currently unused.
 		$subscriber_id = sanitize_text_field( $_REQUEST['subscriber_id'] );
 		$tag = sanitize_text_field( $_REQUEST['tag'] );
 
