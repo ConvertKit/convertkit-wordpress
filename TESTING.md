@@ -148,7 +148,7 @@ vendor/bin/codecept run acceptance
 
 The console will show the successful result:
 
-@TODO Add Screenshot
+![Codeception Test Results](/.github/docs/codeception.png?raw=true)
 
 For a full list of available wp-browser and Codeception functions that can be used for testing, see:
 - [wp-browser](https://wpbrowser.wptestkit.dev/modules)
