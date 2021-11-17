@@ -114,8 +114,7 @@ class ConvertKit_System_Info {
 		// ConvertKit configuration
 		$return .= "\n" . '-- ConvertKit Configuration' . "\n\n";
 		$return .= 'Version:                  ' . CONVERTKIT_PLUGIN_VERSION . "\n";
-		// @TODO add info on form settings, incl. integrations, etc.
-
+		
 		$return  = apply_filters( 'convertkit_sysinfo_after_convertkit_config', $return );
 
 		// Get plugins that have an update
