@@ -1,5 +1,12 @@
 <?php
 /**
+ * ConvertKit Forms Resource class.
+ *
+ * @package ConvertKit
+ * @author ConvertKit
+ */
+
+/**
  * Reads ConvertKit Forms from the options table, and refreshes
  * ConvertKit Forms data stored locally from the API.
  *
@@ -36,7 +43,7 @@ class ConvertKit_Resource_Forms extends ConvertKit_Resource {
 	 *
 	 * @since   1.9.6
 	 *
-	 * @param   int $id     Form ID
+	 * @param   int $id     Form ID.
 	 * @return  mixed           WP_Error | string
 	 */
 	public function get_html( $id ) {

@@ -1,5 +1,12 @@
 <?php
 /**
+ * ConvertKit API class.
+ *
+ * @package ConvertKit
+ * @author ConvertKit
+ */
+
+/**
  * ConvertKit API class
  *
  * @package ConvertKit

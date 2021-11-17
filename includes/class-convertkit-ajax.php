@@ -1,5 +1,12 @@
 <?php
 /**
+ * ConvertKit AJAX class.
+ *
+ * @package ConvertKit
+ * @author ConvertKit
+ */
+
+/**
  * Registers AJAX actions for the Plugin.
  *
  * @since   1.9.6

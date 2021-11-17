@@ -1,5 +1,12 @@
 <?php
 /**
+ * ConvertKit Plugin Settings class.
+ *
+ * @package ConvertKit
+ * @author ConvertKit
+ */
+
+/**
  * Class to read ConvertKit Plugin Settings.
  *
  * @since   1.9.6
@@ -161,7 +168,7 @@ class ConvertKit_Settings {
 	 *
 	 * @since   1.9.6
 	 *
-	 * @param   string $post_type  Post Type
+	 * @param   string $post_type  Post Type.
 	 * @return  string              Default Form (default|form id)
 	 */
 	public function get_default_form( $post_type ) {
@@ -172,7 +179,7 @@ class ConvertKit_Settings {
 		}
 
 		// Backward compat. where older Plugin versions would store API errors in the option value
-		// with id = -2 and name = 'Error contacting API'
+		// with id = -2 and name = 'Error contacting API'.
 		if ( is_array( $this->settings[ $post_type . '_form' ] ) ) {
 			return 'default';
 		}
@@ -186,7 +193,7 @@ class ConvertKit_Settings {
 	 *
 	 * @since   1.9.6
 	 *
-	 * @param   string $post_type  Post Type
+	 * @param   string $post_type  Post Type.
 	 * @return  bool                Post Type has a Default Form setting specified in Plugin Settings.
 	 */
 	public function has_default_form( $post_type ) {
@@ -204,7 +211,7 @@ class ConvertKit_Settings {
 	 */
 	public function debug_enabled() {
 
-		return ( $this->settings['debug'] == 'on' ? true : false );
+		return ( $this->settings['debug'] === 'on' ? true : false );
 
 	}
 
@@ -217,7 +224,7 @@ class ConvertKit_Settings {
 	 */
 	public function scripts_disabled() {
 
-		return ( $this->settings['no_scripts'] == 'on' ? true : false );
+		return ( $this->settings['no_scripts'] === 'on' ? true : false );
 
 	}
 
@@ -232,15 +239,15 @@ class ConvertKit_Settings {
 	public function get_defaults() {
 
 		$defaults = array(
-			'api_key'    => '', // string
-			'api_secret' => '', // string
-			'debug'      => '', // blank|on
-			'no_scripts' => '', // blank|on
+			'api_key'    => '', // string.
+			'api_secret' => '', // string.
+			'debug'      => '', // blank|on.
+			'no_scripts' => '', // blank|on.
 		);
 
-		// Add Post Type Default Forms
+		// Add Post Type Default Forms.
 		foreach ( convertkit_get_supported_post_types() as $post_type ) {
-			$defaults[ $post_type . '_form' ] = 0; // -1, 0 or Form ID
+			$defaults[ $post_type . '_form' ] = 0; // -1, 0 or Form ID.
 		}
 
 		/**

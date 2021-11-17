@@ -1,5 +1,12 @@
 <?php
 /**
+ * ConvertKit Output class.
+ *
+ * @package ConvertKit
+ * @author ConvertKit
+ */
+
+/**
  * Outputs Forms and Landing Pages on the frontend web site, based on
  * the Post and Plugin's configuration.
  *
@@ -136,7 +143,7 @@ class ConvertKit_Output {
 		}
 
 		// Output Landing Page.
-		echo $landing_page; // WPCS: XSS ok.
+		echo $landing_page; // phpcs:ignore
 		exit;
 
 	}
@@ -144,7 +151,7 @@ class ConvertKit_Output {
 	/**
 	 * Appends a form to the singular Page, Post or Custom Post Type's Content.
 	 *
-	 * @param   string $content    Post Content
+	 * @param   string $content    Post Content.
 	 * @return  string              Post Content with Form Appended, if applicable
 	 */
 	public function append_form_to_content( $content ) {
@@ -217,7 +224,7 @@ class ConvertKit_Output {
 	 *
 	 * @since   1.9.6
 	 *
-	 * @param   int $post_id    Post ID
+	 * @param   int $post_id    Post ID.
 	 * @return  mixed               bool | int (ConvertKit Form ID)
 	 */
 	private function get_post_form_id( $post_id ) {
@@ -253,7 +260,7 @@ class ConvertKit_Output {
 
 		// If no Categories exist, use the Default Form.
 		if ( ! is_array( $categories ) || is_wp_error( $categories ) || ! count( $categories ) ) {
-			// Get Post Type
+			// Get Post Type.
 			return $this->settings->get_default_form( get_post_type( $post_id ) );
 		}
 
@@ -302,7 +309,8 @@ class ConvertKit_Output {
 			'convertkit-js',
 			CONVERTKIT_PLUGIN_URL . 'resources/frontend/js/convertkit.js',
 			array( 'jquery' ),
-			CONVERTKIT_PLUGIN_VERSION
+			CONVERTKIT_PLUGIN_VERSION,
+			true
 		);
 		wp_localize_script(
 			'convertkit-js',
@@ -317,7 +325,7 @@ class ConvertKit_Output {
 			)
 		);
 
-		// Bail if the no scripts setting is enabled
+		// Bail if the no scripts setting is enabled.
 		if ( $settings->scripts_disabled() ) {
 			return;
 		}
@@ -345,8 +353,8 @@ class ConvertKit_Output {
 		// If the subscriber ID is included in the URL as a query parameter
 		// (i.e. 'Add subscriber_id parameter in email links' is enabled at https://app.convertkit.com/account_settings/advanced_settings,
 		// return it as the subscriber ID.
-		if ( isset( $_GET['ck_subscriber_id'] ) ) {
-			return absint( $_GET['ck_subscriber_id'] );
+		if ( isset( $_GET['ck_subscriber_id'] ) ) { // phpcs:ignore
+			return absint( $_GET['ck_subscriber_id'] ); // phpcs:ignore
 		}
 
 		return 0;

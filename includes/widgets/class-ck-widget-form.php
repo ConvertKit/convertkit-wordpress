@@ -41,7 +41,6 @@ class CK_Widget_Form extends WP_Widget {
 	 * Outputs the settings update form.
 	 *
 	 * @param array $instance Widget settings.
-	 * @return null
 	 */
 	public function form( $instance ) {
 
@@ -51,24 +50,24 @@ class CK_Widget_Form extends WP_Widget {
 		if ( ! $forms->exist() ) {
 			?>
 			<p>
-				<?php esc_html_e( 'To display a ConvertKit Form, at least one form must be defined in your ConvertKit Account.' ); ?>
+				<?php esc_html_e( 'To display a ConvertKit Form, at least one form must be defined in your ConvertKit Account.', 'convertkit' ); ?>
 			</p>
 			<?php
 		}
 
 		?>
 		<p>
-			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php esc_html_e( 'Title', 'convertkit' ); ?></label>
-			<input type="text" name="<?php echo $this->get_field_name( 'title' ); ?>" class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" value="<?php esc_attr( $instance['title'] ); ?>" />
+			<label for="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>"><?php esc_html_e( 'Title', 'convertkit' ); ?></label>
+			<input type="text" name="<?php echo esc_attr( $this->get_field_name( 'title' ) ); ?>" class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>" value="<?php esc_attr( $instance['title'] ); ?>" />
 		</p>
 		<p>
-			<label for="<?php echo $this->get_field_id( 'form' ); ?>"><?php esc_html_e( 'Form', 'convertkit' ); ?></label>
-			<select name="<?php echo $this->get_field_name( 'form' ); ?>" class="widefat" id="<?php echo $this->get_field_id( 'form' ); ?>" size="1">
+			<label for="<?php echo esc_attr( $this->get_field_id( 'form' ) ); ?>"><?php esc_html_e( 'Form', 'convertkit' ); ?></label>
+			<select name="<?php echo esc_attr( $this->get_field_name( 'form' ) ); ?>" class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'form' ) ); ?>" size="1">
 				<?php
 				foreach ( $forms->get() as $form ) {
 					?>
-					<option value="<?php echo $form['id']; ?>"<?php selected( $form['id'], $instance['form'] ); ?>>
-						<?php echo $form['name']; ?>
+					<option value="<?php echo esc_attr( $form['id'] ); ?>"<?php selected( $form['id'], $instance['form'] ); ?>>
+						<?php echo esc_attr( $form['name'] ); ?>
 					</option>
 					<?php
 				}
@@ -87,10 +86,10 @@ class CK_Widget_Form extends WP_Widget {
 	 */
 	public function widget_start( $args, $instance ) {
 
-		echo $args['before_widget'];
+		echo $args['before_widget']; // phpcs:ignore
 		$title = apply_filters( 'widget_title', empty( $instance['title'] ) ? '' : $instance['title'], $instance, $this->id_base );
 		if ( $title ) {
-			echo $args['before_title'] . $title . $args['after_title'];
+			echo $args['before_title'] . $title . $args['after_title']; // phpcs:ignore
 		}
 
 	}
@@ -102,7 +101,7 @@ class CK_Widget_Form extends WP_Widget {
 	 */
 	public function widget_end( $args ) {
 
-		echo $args['after_widget'];
+		echo $args['after_widget']; // phpcs:ignore
 
 	}
 
@@ -132,7 +131,7 @@ class CK_Widget_Form extends WP_Widget {
 
 		// Output Form.
 		$this->widget_start( $args, $instance );
-		echo $form;
+		echo $form; // phpcs:ignore
 		$this->widget_end( $args );
 
 	}
@@ -143,10 +142,9 @@ class CK_Widget_Form extends WP_Widget {
 	 *
 	 * @see    WP_Widget->update
 	 * @param  array $new_instance Updated widget settings.
-	 * @param  array $old_instance Original widget settings.
 	 * @return array
 	 */
-	public function update( $new_instance, $old_instance ) {
+	public function update( $new_instance ) {
 
 		return array(
 			'title' => sanitize_text_field( $new_instance['title'] ),

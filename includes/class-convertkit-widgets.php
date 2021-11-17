@@ -1,5 +1,12 @@
 <?php
 /**
+ * ConvertKit Widgets class.
+ *
+ * @package ConvertKit
+ * @author ConvertKit
+ */
+
+/**
  * Registers Widgets.
  *
  * @since   1.0.0

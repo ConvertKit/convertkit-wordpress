@@ -1,5 +1,12 @@
 <?php
 /**
+ * ConvertKit Landing Pages Resource class.
+ *
+ * @package ConvertKit
+ * @author ConvertKit
+ */
+
+/**
  * Reads ConvertKit Landing Pages from the options table, and refreshes
  * ConvertKit Landing Pages data stored locally from the API.
  *
@@ -33,7 +40,7 @@ class ConvertKit_Resource_Landing_Pages extends ConvertKit_Resource {
 	 *
 	 * @since   1.9.6
 	 *
-	 * @param   int $id     Form ID
+	 * @param   int $id     Form ID.
 	 * @return  mixed           WP_Error | string
 	 */
 	public function get_html( $id ) {
@@ -41,7 +48,7 @@ class ConvertKit_Resource_Landing_Pages extends ConvertKit_Resource {
 		// Cast ID to integer.
 		$id = absint( $id );
 
-		// Bail if the resource doesn't exist
+		// Bail if the resource doesn't exist.
 		if ( ! isset( $this->resources[ $id ] ) ) {
 			return new WP_Error(
 				'convertkit_resource_landing_pages_get_html',
@@ -53,7 +60,7 @@ class ConvertKit_Resource_Landing_Pages extends ConvertKit_Resource {
 			);
 		}
 
-		// Get markup
+		// Get markup.
 		$api = new ConvertKit_API();
 		return $api->get_landing_page_html( $this->resources[ $id ]['embed_url'] );
 

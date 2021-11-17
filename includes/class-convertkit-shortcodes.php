@@ -1,5 +1,12 @@
 <?php
 /**
+ * ConvertKit Shortcodes class.
+ *
+ * @package ConvertKit
+ * @author ConvertKit
+ */
+
+/**
  * Registers blocks defined in the `convertkit_blocks` filter as WordPress Shortcodes.
  *
  * @package ConvertKit

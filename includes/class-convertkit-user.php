@@ -1,5 +1,12 @@
 <?php
 /**
+ * ConvertKit User class.
+ *
+ * @package ConvertKit
+ * @author ConvertKit
+ */
+
+/**
  * Class to read ConvertKit Settings for the given User.
  *
  * @since   1.9.6

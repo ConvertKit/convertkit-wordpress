@@ -1,5 +1,12 @@
 <?php
 /**
+ * ConvertKit Resource class.
+ *
+ * @package ConvertKit
+ * @author ConvertKit
+ */
+
+/**
  * Abstract class defining variables and functions for a ConvertKit API Resource
  * (forms, landing pages, tags).
  *

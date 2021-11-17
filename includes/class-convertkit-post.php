@@ -1,5 +1,12 @@
 <?php
 /**
+ * ConvertKit Post class.
+ *
+ * @package ConvertKit
+ * @author ConvertKit
+ */
+
+/**
  * Class to read ConvertKit Settings for the given Post, Page or Custom Post.
  *
  * @since   1.9.6

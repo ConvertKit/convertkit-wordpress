@@ -1,5 +1,12 @@
 <?php
 /**
+ * ConvertKit System Info class.
+ *
+ * @package ConvertKit
+ * @author ConvertKit
+ */
+
+/**
  * Class to read system information.
  *
  * @since   1.9.6

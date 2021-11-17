@@ -1,5 +1,12 @@
 <?php
 /**
+ * ConvertKit Tags Resource class.
+ *
+ * @package ConvertKit
+ * @author ConvertKit
+ */
+
+/**
  * Reads ConvertKit Tags from the options table, and refreshes
  * ConvertKit Tags data stored locally from the API.
  *

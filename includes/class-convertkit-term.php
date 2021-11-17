@@ -1,5 +1,12 @@
 <?php
 /**
+ * ConvertKit Term class.
+ *
+ * @package ConvertKit
+ * @author ConvertKit
+ */
+
+/**
  * Class to read ConvertKit Settings for the given Taxonomy Term.
  *
  * @since   1.9.6

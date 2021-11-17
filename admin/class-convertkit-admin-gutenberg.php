@@ -23,7 +23,7 @@ class ConvertKit_Admin_Gutenberg {
 
 		// Register Gutenberg Block Categories and Blocks.
 		if ( get_bloginfo( 'version' ) >= 5.8 ) {
-			// Filter changed in 5.8
+			// Filter changed in 5.8.
 			add_filter( 'block_categories_all', array( $this, 'add_block_categories' ), 10, 2 );
 		} else {
 			add_filter( 'block_categories', array( $this, 'add_block_categories' ), 10, 2 );
@@ -39,13 +39,13 @@ class ConvertKit_Admin_Gutenberg {
 	 *
 	 * @since   1.9.6
 	 *
-	 * @param   array   $categories     Block Categories
-	 * @param   WP_Post $post           WordPress Post
+	 * @param   array   $categories     Block Categories.
+	 * @param   WP_Post $post           WordPress Post.
 	 * @return  array                   Block Categories
 	 */
 	public function add_block_categories( $categories, $post ) {
 
-		// Define block categories
+		// Define block categories.
 		$categories = array_merge(
 			$categories,
 			array(
@@ -66,7 +66,7 @@ class ConvertKit_Admin_Gutenberg {
 		 */
 		$categories = apply_filters( 'convertkit_admin_gutenberg_add_block_categories', $categories, $post );
 
-		// Return filtered results
+		// Return filtered results.
 		return $categories;
 
 	}
@@ -86,18 +86,18 @@ class ConvertKit_Admin_Gutenberg {
 		// Get blocks.
 		$blocks = convertkit_get_blocks();
 
-		// Bail if no blocks are available
+		// Bail if no blocks are available.
 		if ( ! is_array( $blocks ) || ! count( $blocks ) ) {
 			return;
 		}
 
-		// Get registered blocks
+		// Get registered blocks.
 		$registered_blocks = array_keys( WP_Block_Type_Registry::get_instance()->get_all_registered() );
 
-		// Iterate through blocks, registering them
+		// Iterate through blocks, registering them.
 		foreach ( $blocks as $block => $properties ) {
 			// Skip if this block has already been registered.
-			if ( is_array( $registered_blocks ) && in_array( 'convertkit/' . $block, $registered_blocks ) ) {
+			if ( is_array( $registered_blocks ) && in_array( 'convertkit/' . $block, $registered_blocks, true ) ) {
 				continue;
 			}
 
@@ -135,7 +135,7 @@ class ConvertKit_Admin_Gutenberg {
 		$blocks = convertkit_get_blocks();
 
 		// Enqueue Gutenberg Javascript, and set the blocks data.
-		wp_enqueue_script( 'convertkit-gutenberg', CONVERTKIT_PLUGIN_URL . '/resources/backend/js/gutenberg.js', array( 'jquery' ), CONVERTKIT_PLUGIN_VERSION );
+		wp_enqueue_script( 'convertkit-gutenberg', CONVERTKIT_PLUGIN_URL . '/resources/backend/js/gutenberg.js', array( 'jquery' ), CONVERTKIT_PLUGIN_VERSION, true );
 		wp_localize_script( 'convertkit-gutenberg', 'convertkit_blocks', $blocks );
 
 	}

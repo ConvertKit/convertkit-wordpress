@@ -1,5 +1,12 @@
 <?php
 /**
+ * ConvertKit Log class.
+ *
+ * @package ConvertKit
+ * @author ConvertKit
+ */
+
+/**
  * Class to read and write to the ConvertKit log file.
  *
  * @since   1.9.6
