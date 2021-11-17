@@ -1,5 +1,3 @@
-console.log( convertkit );
-
 /**
  * Tags the given subscriber ID with the given tag
  * 
@@ -11,10 +9,13 @@ console.log( convertkit );
  */
 function convertKitTagSubscriber( subscriber_id, tag, post_id ) {
 
-    console.log( 'convertKitTagSubscriber' );
-    console.log( subscriber_id );
-    console.log( tag );
-    console.log( post_id );
+    if ( convertkit.debug ) {
+        console.log( 'convertKitTagSubscriber' );
+        console.log( convertkit );
+        console.log( subscriber_id );
+        console.log( tag );
+        console.log( post_id );
+    }
 
     ( function( $ ) {
 
@@ -22,18 +23,22 @@ function convertKitTagSubscriber( subscriber_id, tag, post_id ) {
             type: 'POST',
             data: {
                 action: 'convertkit_tag_subscriber',
-                nonce: convertkit.nonce,
+                convertkit_nonce: convertkit.nonce,
                 subscriber_id: subscriber_id,
                 tag: tag,
                 post_id: post_id
             },
             url: convertkit.ajaxurl,
             success: function ( response ) {
-                console.log( response );
+                if ( convertkit.debug ) {
+                    console.log( response );
+                }
                 convertKitRemoveSubscriberIDFromURL( window.location.href );
             }
         } ).fail( function (response) {
-            console.log( response );
+            if ( convertkit.debug ) {
+                console.log( response );
+            }
             convertKitRemoveSubscriberIDFromURL( window.location.href );
         } );
 
@@ -56,8 +61,10 @@ function convertKitTagSubscriber( subscriber_id, tag, post_id ) {
  */
 function convertStoreSubscriberIDInCookie( subscriber_id ) {
 
-    console.log( 'convertStoreSubscriberIDInCookie' );
-    console.log( subscriber_id );
+    if ( convertkit.debug ) {
+        console.log( 'convertStoreSubscriberIDInCookie' );
+        console.log( subscriber_id );
+    }
 
     ( function( $ ) {
 
@@ -65,15 +72,19 @@ function convertStoreSubscriberIDInCookie( subscriber_id ) {
             type: 'POST',
             data: {
                 action: 'convertkit_store_subscriber_id_in_cookie',
-                nonce: convertkit.nonce,
+                convertkit_nonce: convertkit.nonce,
                 subscriber_id: subscriber_id
             },
             url: convertkit.ajaxurl,
             success: function ( response ) {
-                console.log( response );
+                if ( convertkit.debug ) {
+                    console.log( response );
+                }
             }
         } ).fail( function (response) {
-            console.log( response );
+            if ( convertkit.debug ) {
+                console.log( response );
+            }
         } );
 
     } )( jQuery );
@@ -95,8 +106,10 @@ function convertStoreSubscriberIDInCookie( subscriber_id ) {
  */
 function convertStoreSubscriberEmailAsIDInCookie( email_address ) {
 
-    console.log( 'convertStoreSubscriberEmailAsIDInCookie' );
-    console.log( email_address );
+    if ( convertkit.debug ) {
+        console.log( 'convertStoreSubscriberEmailAsIDInCookie' );
+        console.log( email_address );
+    }
 
     ( function( $ ) {
 
@@ -104,15 +117,19 @@ function convertStoreSubscriberEmailAsIDInCookie( email_address ) {
             type: 'POST',
             data: {
                 action: 'convertkit_store_subscriber_email_as_id_in_cookie',
-                nonce: convertkit.nonce,
+                convertkit_nonce: convertkit.nonce,
                 email:  email_address
             },
             url: convertkit.ajaxurl,
             success: function ( response ) {
-                console.log( response );
+                if ( convertkit.debug ) {
+                    console.log( response );
+                }
             }
         } ).fail( function (response) {
-            console.log( response );
+            if ( convertkit.debug ) {
+                console.log( response );
+            }
         } );
 
     } )( jQuery );
