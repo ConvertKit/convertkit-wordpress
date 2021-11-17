@@ -1,5 +1,12 @@
 <?php
 /**
+ * ConvertKit Admin Post class.
+ *
+ * @package ConvertKit
+ * @author ConvertKit
+ */
+
+/**
  * Registers a metabox on Posts, Pages and public facing Custom Post Types
  * and saves its settings when the Post is saved in the WordPress Administration
  * interface.
@@ -17,7 +24,7 @@ class ConvertKit_Admin_Post {
 	public function __construct() {
 
 		add_action( 'add_meta_boxes', array( $this, 'add_meta_boxes' ) );
-		add_action( 'save_post', array( $this, 'save_post_meta' ), 10, 2 );
+		add_action( 'save_post', array( $this, 'save_post_meta' ) );
 
 	}
 
@@ -26,13 +33,13 @@ class ConvertKit_Admin_Post {
 	 *
 	 * @since   1.9.6
 	 *
-	 * @param   string $post_type  Post Type
+	 * @param   string $post_type  Post Type.
 	 */
 	public function add_meta_boxes( $post_type ) {
 
 		// Don't register the meta box if this Post Type isn't supported.
 		$supported_post_types = convertkit_get_supported_post_types();
-		if ( ! in_array( $post_type, $supported_post_types ) ) {
+		if ( ! in_array( $post_type, $supported_post_types, true ) ) {
 			return;
 		}
 
@@ -51,7 +58,7 @@ class ConvertKit_Admin_Post {
 	public function display_meta_box( $post ) {
 
 		// Don't register the meta box if this Post is the blog archive page.
-		if ( $post->ID == get_option( 'page_for_posts' ) ) {
+		if ( $post->ID === get_option( 'page_for_posts' ) ) {
 			return;
 		}
 
@@ -63,13 +70,13 @@ class ConvertKit_Admin_Post {
 			return;
 		}
 
-		// Fetch Post Settings, Forms, Landing Pages and Tags
-		$convertkit_post = new ConvertKit_Post( $post->ID );
-		$convertkit_forms = new ConvertKit_Resource_Forms();
+		// Fetch Post Settings, Forms, Landing Pages and Tags.
+		$convertkit_post          = new ConvertKit_Post( $post->ID );
+		$convertkit_forms         = new ConvertKit_Resource_Forms();
 		$convertkit_landing_pages = new ConvertKit_Resource_Landing_Pages();
-		$convertkit_tags = new ConvertKit_Resource_Tags();
+		$convertkit_tags          = new ConvertKit_Resource_Tags();
 
-		// Get settings page link
+		// Get settings page link.
 		$settings_link = convertkit_get_settings_link();
 
 		// Load metabox view.
@@ -82,10 +89,9 @@ class ConvertKit_Admin_Post {
 	 *
 	 * @since   1.9.6
 	 *
-	 * @param   int     $post_id    Post ID.
-	 * @param   WP_Post $post       Post object.
+	 * @param   int $post_id    Post ID.
 	 */
-	public function save_post_meta( $post_id, $post ) {
+	public function save_post_meta( $post_id ) {
 
 		// Bail if this is an autosave.
 		if ( wp_is_post_autosave( $post_id ) ) {

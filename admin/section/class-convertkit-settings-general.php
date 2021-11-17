@@ -1,5 +1,12 @@
 <?php
 /**
+ * ConvertKit Settings General class.
+ *
+ * @package ConvertKit
+ * @author ConvertKit
+ */
+
+/**
  * Registers General Settings that can be edited at Settings > ConvertKit > General.
  *
  * @package ConvertKit
@@ -98,6 +105,7 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 			add_settings_field(
 				$supported_post_type . '_form',
 				sprintf(
+					/* translators: Post Type Name */
 					__( 'Default Form (%s)', 'convertkit' ),
 					$post_type->label
 				),
@@ -128,8 +136,6 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 
 	/**
 	 * Register fields for supported custom post types.
-	 *
-	 * @param  array $forms  Form listing.
 	 */
 	private function register_custom_post_type_fields() {
 
@@ -146,6 +152,7 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 			add_settings_field(
 				'custom_post_types',
 				sprintf(
+					/* translators: Post Type Name */
 					__( 'Default Form (%s)', 'convertkit' ),
 					$supported_post_type
 				),
@@ -166,14 +173,24 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 		?>
 		<p><?php esc_html_e( 'Choosing a default form will embed it at the bottom of every post or page (in single view only) across your site.', 'convertkit' ); ?></p>
 		<p><?php esc_html_e( 'If you wish to turn off form embedding or select a different form for an individual post or page, you can do so using the ConvertKit meta box on the edit page.', 'convertkit' ); ?></p>
-							 <?php
-								/* translators: 1: shortcode */
-								?>
-		<p><?php printf( esc_html__( 'The default form can be inserted into the middle of post or page content by using the %s shortcode.', 'convertkit' ), '<code>[convertkit]</code>' ); ?></p>
+		<p>
+			<?php
+			printf(
+				/* translators: [convertkit] shortcode, wrapped in <code> tags */
+				esc_html__( 'The default form can be inserted into the middle of post or page content by using the %s shortcode.', 'convertkit' ),
+				'<code>[convertkit]</code>'
+			);
+			?>
+		</p>
 		<?php
 
 	}
 
+	/**
+	 * Performs actions prior to rendering the settings form.
+	 *
+	 * @since 1.9.6
+	 */
 	public function render_before() {
 
 		// Initialize the API if an API Key and Secret is defined.
@@ -214,12 +231,11 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 		// Output Account Name.
 		$html  = sprintf(
 			'<code>%s</code>',
-			isset( $this->account['name'] ) ? esc_attr( $this->account['name'] ) : __( '(Not specified)', 'convertkit' )
+			isset( $this->account['name'] ) ? esc_attr( $this->account['name'] ) : esc_html__( '(Not specified)', 'convertkit' )
 		);
 		$html .= '<p class="description">' . esc_html__( 'The name of your connected ConvertKit account.', 'convertkit' ) . '</p>';
 
-		echo $html; // WPCS: XSS ok.
-
+		echo $html; // phpcs:ignore
 	}
 
 	/**
@@ -231,20 +247,21 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 
 		// If the API Key is stored as a constant, it cannot be edited here.
 		if ( $this->settings->is_api_key_a_constant() ) {
-			echo $this->get_masked_value(
+			echo $this->get_masked_value( // phpcs:ignore
 				$this->settings->get_api_key(),
-				__( 'Your API Key has been defined in your wp-config.php file. For security, it is not displayed here.', 'convertkit' )
+				esc_html__( 'Your API Key has been defined in your wp-config.php file. For security, it is not displayed here.', 'convertkit' )
 			);
 			return;
 		}
 
 		// Output field.
-		echo $this->get_text_field(
+		echo $this->get_text_field( // phpcs:ignore
 			'api_key',
-			$this->settings->get_api_key(),
+			$this->settings->get_api_key(), // phpcs:ignore
 			sprintf(
-				__( '%1$s Required for proper plugin function.<br />Alternatively specify your API Key in the %2$s file using %3$s', 'convertkit' ),
-				'<a href="https://app.convertkit.com/account_settings/advanced_settings" target="_blank">' . __( 'Get your ConvertKit API Key.', 'convertkit' ) . '</a>',
+				/* translators: %1$s: Link to ConvertKit Account, %2$s: wp-config.php, %3$s: <code> block for API Key definition */
+				esc_html__( '%1$s Required for proper plugin function.<br />Alternatively specify your API Key in the %2$s file using %3$s', 'convertkit' ),
+				'<a href="https://app.convertkit.com/account_settings/advanced_settings" target="_blank">' . esc_html__( 'Get your ConvertKit API Key.', 'convertkit' ) . '</a>',
 				'<code>wp-config.php</code>',
 				'<code>define(\'CONVERTKIT_API_KEY\', \'your-api-key\');</code>'
 			)
@@ -261,20 +278,21 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 
 		// If the API Secret is stored as a constant, it cannot be edited here.
 		if ( $this->settings->is_api_secret_a_constant() ) {
-			echo $this->get_masked_value(
+			echo $this->get_masked_value( // phpcs:ignore
 				$this->settings->get_api_secret(),
-				__( 'Your API Secret has been defined in your wp-config.php file. For security, it is not displayed here.', 'convertkit' )
+				esc_html__( 'Your API Secret has been defined in your wp-config.php file. For security, it is not displayed here.', 'convertkit' )
 			);
 			return;
 		}
 
 		// Output field.
-		echo $this->get_text_field(
+		echo $this->get_text_field( // phpcs:ignore
 			'api_secret',
-			$this->settings->get_api_secret(),
+			$this->settings->get_api_secret(), // phpcs:ignore
 			sprintf(
-				__( '%1$s Required for proper plugin function.<br />Alternatively specify your API Key in the %2$s file using %3$s', 'convertkit' ),
-				'<a href="https://app.convertkit.com/account_settings/advanced_settings" target="_blank">' . __( 'Get your ConvertKit API Secret.', 'convertkit' ) . '</a>',
+				/* translators: %1$s: Link to ConvertKit Account, %2$s: wp-config.php, %3$s: <code> block for API Secret definition */
+				esc_html__( '%1$s Required for proper plugin function.<br />Alternatively specify your API Key in the %2$s file using %3$s', 'convertkit' ),
+				'<a href="https://app.convertkit.com/account_settings/advanced_settings" target="_blank">' . esc_html__( 'Get your ConvertKit API Secret.', 'convertkit' ) . '</a>',
 				'<code>wp-config.php</code>',
 				'<code>define(\'CONVERTKIT_API_SECRET\', \'your-api-secret\');</code>'
 			)
@@ -285,9 +303,9 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 	/**
 	 * Renders the input for the Default Form setting for the given Post Type.
 	 *
-	 * @param  1.9.6
+	 * @since  1.9.6
 	 *
-	 * @param   string $post_type  Post Type
+	 * @param   string $post_type  Post Type.
 	 */
 	public function custom_post_types_callback( $post_type ) {
 
@@ -304,14 +322,14 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 
 		// Build array of select options.
 		$options = array(
-			'default' => __( 'None', 'convertkit' ),
+			'default' => esc_html__( 'None', 'convertkit' ),
 		);
 		foreach ( $this->forms->get() as $form ) {
 			$options[ esc_attr( $form['id'] ) ] = esc_html( $form['name'] );
 		}
 
 		// Output field.
-		echo $this->get_select_field( $post_type . '_form', $this->settings->get_default_form( $post_type ), $options );
+		echo $this->get_select_field( $post_type . '_form', $this->settings->get_default_form( $post_type ), $options ); // phpcs:ignore
 
 	}
 
@@ -323,12 +341,12 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 	public function debug_callback() {
 
 		// Output field.
-		echo $this->get_checkbox_field(
+		echo $this->get_checkbox_field( // phpcs:ignore
 			'debug',
 			'on',
-			$this->settings->debug_enabled(),
-			__( 'Save connection data to a log file.', 'convertkit' ),
-			__( 'You can ignore this unless you\'re working with our support team to resolve an issue. Decheck this option to improve performance.', 'convertkit' )
+			$this->settings->debug_enabled(), // phpcs:ignore
+			esc_html__( 'Save connection data to a log file.', 'convertkit' ),
+			esc_html__( 'You can ignore this unless you\'re working with our support team to resolve an issue. Decheck this option to improve performance.', 'convertkit' )
 		);
 
 	}
@@ -341,11 +359,11 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 	public function no_scripts_callback() {
 
 		// Output field.
-		echo $this->get_checkbox_field(
+		echo $this->get_checkbox_field( // phpcs:ignore
 			'no_scripts',
 			'on',
-			$this->settings->scripts_disabled(),
-			__( 'Prevent plugin from loading JavaScript files. This will disable the custom content and tagging features of the plugin. Does not apply to landing pages. Use with caution!', 'convertkit' )
+			$this->settings->scripts_disabled(), // phpcs:ignore
+			esc_html__( 'Prevent plugin from loading JavaScript files. This will disable the custom content and tagging features of the plugin. Does not apply to landing pages. Use with caution!', 'convertkit' )
 		);
 
 	}

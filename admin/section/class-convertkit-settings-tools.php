@@ -1,4 +1,11 @@
-<?php
+// phpcs:ignore<?php
+/**
+ * ConvertKit Settings Tools class.
+ *
+ * @package ConvertKit
+ * @author ConvertKit
+ */
+
 /**
  * Registers Tools for debugging and system information that can be accessed at Settings > ConvertKit > Tools.
  *
@@ -32,14 +39,13 @@ class ConvertKit_Settings_Tools extends ConvertKit_Settings_Base {
 	 */
 	private function maybe_clear_log() {
 
-		// Bail if the submit button for clearing the debug log was not clicked.
-		if ( ! array_key_exists( 'convertkit-clear-debug-log', $_REQUEST ) ) {
+		// Bail if nonce is invalid.
+		if ( ! $this->verify_nonce() ) {
 			return;
 		}
 
-		// Bail if nonce is invalid.
-		if ( ! $this->verify_nonce() ) {
-			wp_die( 'Invalid nonce' );
+		// Bail if the submit button for clearing the debug log was not clicked.
+		if ( ! array_key_exists( 'convertkit-clear-debug-log', $_REQUEST ) ) { // phpcs:ignore
 			return;
 		}
 
@@ -48,8 +54,8 @@ class ConvertKit_Settings_Tools extends ConvertKit_Settings_Base {
 		$log->clear();
 
 		// Redirect to Tools screen.
-		wp_redirect( 'options-general.php?page=_wp_convertkit_settings&tab=tools' );
-		die();
+		wp_safe_redirect( 'options-general.php?page=_wp_convertkit_settings&tab=tools' );
+		exit();
 
 	}
 
@@ -61,13 +67,15 @@ class ConvertKit_Settings_Tools extends ConvertKit_Settings_Base {
 	 */
 	private function maybe_download_log() {
 
-		// Bail if the submit button for downloading the debug log was not clicked.
-		if ( ! array_key_exists( 'convertkit-download-debug-log', $_REQUEST ) ) {
-			return;
-		}
+		global $wp_filesystem;
 
 		// Bail if nonce is invalid.
 		if ( ! $this->verify_nonce() ) {
+			return;
+		}
+
+		// Bail if the submit button for downloading the debug log was not clicked.
+		if ( ! array_key_exists( 'convertkit-download-debug-log', $_REQUEST ) ) { // phpcs:ignore
 			return;
 		}
 
@@ -79,7 +87,7 @@ class ConvertKit_Settings_Tools extends ConvertKit_Settings_Base {
 		header( 'Content-Disposition: attachment; filename=' . $log->get_filename() . '.txt' );
 		header( 'Pragma: no-cache' );
 		header( 'Expires: 0' );
-		readfile( $log->get_filename() );
+		echo $wp_filesystem->get_contents( $log->get_filename() ); // phpcs:ignore
 		exit();
 
 	}
@@ -92,13 +100,13 @@ class ConvertKit_Settings_Tools extends ConvertKit_Settings_Base {
 	 */
 	private function maybe_download_system_info() {
 
-		// Bail if the submit button for downloading the system info was not clicked.
-		if ( ! array_key_exists( 'convertkit-download-system-info', $_REQUEST ) ) {
+		// Bail if nonce is invalid.
+		if ( ! $this->verify_nonce() ) {
 			return;
 		}
 
-		// Bail if nonce is invalid.
-		if ( ! $this->verify_nonce() ) {
+		// Bail if the submit button for downloading the system info was not clicked.
+		if ( ! array_key_exists( 'convertkit-download-system-info', $_REQUEST ) ) { // phpcs:ignore
 			return;
 		}
 
@@ -108,15 +116,18 @@ class ConvertKit_Settings_Tools extends ConvertKit_Settings_Base {
 		// Write contents to temporary file.
 		$tmpfile  = tmpfile();
 		$filename = stream_get_meta_data( $tmpfile )['uri'];
-		file_put_contents( $filename, $system_info->get() );
+		$wp_filesystem->put_contents(
+			$filename,
+			$system_info->get()
+		);
 
 		// Download.
 		header( 'Content-type: application/octet-stream' );
 		header( 'Content-Disposition: attachment; filename=system-info.txt' );
 		header( 'Pragma: no-cache' );
 		header( 'Expires: 0' );
-		readfile( $filename );
-		unlink( $filename );
+		echo $wp_filesystem->get_contents( $filename ); // phpcs:ignore
+		$wp_filesystem->delete( $filename );
 		exit();
 
 	}

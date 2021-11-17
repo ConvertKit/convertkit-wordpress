@@ -1,5 +1,12 @@
 <?php
 /**
+ * ConvertKit Admin TinyMCE class.
+ *
+ * @package ConvertKit
+ * @author ConvertKit
+ */
+
+/**
  * ConvertKit TinyMCE class. Registers buttons.
  *
  * @since 1.5.0
@@ -34,6 +41,9 @@ class ConvertKit_Admin_TinyMCE {
 	 */
 	public function output_modal() {
 
+		// Check nonce.
+		check_ajax_referer( 'convertkit_admin_tinymce', 'nonce' );
+
 		// Get blocks.
 		$blocks = convertkit_get_blocks();
 
@@ -65,7 +75,7 @@ class ConvertKit_Admin_TinyMCE {
 		// Get blocks.
 		$blocks = convertkit_get_blocks();
 
-		// Bail if no blocks are available
+		// Bail if no blocks are available.
 		if ( ! is_array( $blocks ) || ! count( $blocks ) ) {
 			return;
 		}
@@ -76,7 +86,7 @@ class ConvertKit_Admin_TinyMCE {
 		wp_localize_script( 'convertkit-quicktags', 'convertkit_quicktags', $blocks );
 
 		// Enqueue Quicktag CSS.
-		wp_enqueue_style( 'convertkit-admin-quicktags', CONVERTKIT_PLUGIN_URL . '/resources/backend/css/quicktags.css' );
+		wp_enqueue_style( 'convertkit-admin-quicktags', CONVERTKIT_PLUGIN_URL . '/resources/backend/css/quicktags.css', false, CONVERTKIT_PLUGIN_VERSION );
 
 		// Output Backbone View Template.
 		?>
@@ -95,8 +105,8 @@ class ConvertKit_Admin_TinyMCE {
 	 *
 	 * @since   1.5.0
 	 *
-	 * @param   array $plugins    JS Plugins
-	 * @return  array               JS Plugins
+	 * @param   array $plugins    JS Plugins.
+	 * @return  array             JS Plugins
 	 */
 	public function register_tinymce_plugins( $plugins ) {
 
@@ -111,7 +121,16 @@ class ConvertKit_Admin_TinyMCE {
 		// Enqueue TinyMCE CSS and JS.
 		wp_enqueue_script( 'convertkit-admin-tinymce', CONVERTKIT_PLUGIN_URL . 'resources/backend/js/tinymce.js', array( 'jquery' ), CONVERTKIT_PLUGIN_VERSION, true );
 		wp_enqueue_script( 'convertkit-admin-modal', CONVERTKIT_PLUGIN_URL . 'resources/backend/js/modal.js', array( 'jquery' ), CONVERTKIT_PLUGIN_VERSION, true );
-		wp_enqueue_style( 'convertkit-admin-tinymce', CONVERTKIT_PLUGIN_URL . '/resources/backend/css/tinymce.css' );
+		wp_enqueue_style( 'convertkit-admin-tinymce', CONVERTKIT_PLUGIN_URL . '/resources/backend/css/tinymce.css', false, CONVERTKIT_PLUGIN_VERSION );
+
+		// Localize JS.
+		wp_localize_script(
+			'convertkit_admin_tinymce',
+			'convertkit_admin_tinymce',
+			array(
+				'nonce' => wp_create_nonce( 'convertkit_admin_tinymce' ),
+			)
+		);
 
 		// Register TinyMCE Javascript Plugin.
 		foreach ( $blocks as $block => $properties ) {
@@ -127,8 +146,8 @@ class ConvertKit_Admin_TinyMCE {
 	 *
 	 * @since   1.5.0
 	 *
-	 * @param   array $buttons    Buttons
-	 * @return  array               Buttons
+	 * @param   array $buttons    Buttons.
+	 * @return  array             Buttons
 	 */
 	public function register_tinymce_buttons( $buttons ) {
 

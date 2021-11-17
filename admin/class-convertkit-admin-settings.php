@@ -1,5 +1,12 @@
 <?php
 /**
+ * ConvertKit Admin Settings class.
+ *
+ * @package ConvertKit
+ * @author ConvertKit
+ */
+
+/**
  * Registers a screen at Settings > ConvertKit in the WordPress Administration
  * interface, and handles saving its data.
  *
@@ -41,12 +48,12 @@ class ConvertKit_Admin_Settings {
 	 *
 	 * @since   1.9.6
 	 *
-	 * @param   $hook   Hook
+	 * @param   string $hook   Hook.
 	 */
 	public function enqueue_scripts( $hook ) {
 
 		// Bail if we are not on the Settings screen.
-		if ( $hook != 'settings_page_' . self::SETTINGS_PAGE_SLUG ) {
+		if ( $hook !== 'settings_page_' . self::SETTINGS_PAGE_SLUG ) {
 			return;
 		}
 
@@ -64,17 +71,17 @@ class ConvertKit_Admin_Settings {
 	 *
 	 * @since   1.9.6
 	 *
-	 * @param   $hook   Hook
+	 * @param   string $hook   Hook.
 	 */
 	public function enqueue_styles( $hook ) {
 
 		// Bail if we are not on the Settings screen.
-		if ( $hook != 'settings_page_' . self::SETTINGS_PAGE_SLUG ) {
+		if ( $hook !== 'settings_page_' . self::SETTINGS_PAGE_SLUG ) {
 			return;
 		}
 
 		// Enqueue CSS.
-		wp_enqueue_style( 'convertkit-admin-settings', CONVERTKIT_PLUGIN_URL . '/resources/backend/css/settings.css' );
+		wp_enqueue_style( 'convertkit-admin-settings', CONVERTKIT_PLUGIN_URL . '/resources/backend/css/settings.css', false, CONVERTKIT_PLUGIN_VERSION );
 
 		/**
 		 * Enqueue CSS for the Settings Screen at Settings > ConvertKit
@@ -136,7 +143,7 @@ class ConvertKit_Admin_Settings {
 				?>
 
 				<hr />
-				
+
 				<p class="description">
 					<?php
 					printf(
@@ -160,8 +167,8 @@ class ConvertKit_Admin_Settings {
 	 */
 	private function get_active_section() {
 
-		if ( isset( $_GET['tab'] ) ) { // WPCS: CSRF ok.
-			return sanitize_text_field( wp_unslash( $_GET['tab'] ) ); // WPCS: CSRF ok.
+		if ( isset( $_GET['tab'] ) ) { // phpcs:ignore
+			return sanitize_text_field( wp_unslash( $_GET['tab'] ) ); // phpcs:ignore
 		}
 
 		// First registered section will be the active section.
@@ -200,9 +207,9 @@ class ConvertKit_Admin_Settings {
 			// Output inline notices.
 			foreach ( $notices as $notice ) {
 				?>
-				<div class="inline notice notice-<?php echo $notice['type']; ?>">
+				<div class="inline notice notice-<?php echo esc_attr( $notice['type'] ); ?>">
 					<p>
-						<?php echo $notice['message']; ?>
+						<?php echo esc_attr( $notice['message'] ); ?>
 					</p>
 				</div>
 				<?php
@@ -216,7 +223,7 @@ class ConvertKit_Admin_Settings {
 	/**
 	 * Define links to display below the Plugin Name on the WP_List_Table at in the Plugins screen.
 	 *
-	 * @param   array $links      Links
+	 * @param   array $links      Links.
 	 * @return  array               Links
 	 */
 	public static function add_settings_page_link( $links ) {
@@ -246,7 +253,7 @@ class ConvertKit_Admin_Settings {
 		foreach ( $this->sections as $section ) {
 			printf(
 				'<a href="?page=%s&tab=%s" class="nav-tab right %s">%s</a>',
-				sanitize_text_field( $_REQUEST['page'] ),
+				sanitize_text_field( $_REQUEST['page'] ), // phpcs:ignore
 				esc_html( $section->name ),
 				$active_section === $section->name ? 'nav-tab-active' : '',
 				esc_html( $section->tab_text )

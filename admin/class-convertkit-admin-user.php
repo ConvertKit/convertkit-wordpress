@@ -1,5 +1,12 @@
 <?php
 /**
+ * ConvertKit Admin User class.
+ *
+ * @package ConvertKit
+ * @author ConvertKit
+ */
+
+/**
  * Displays ConvertKit Tags assigned to a WordPress User.
  *
  * @package ConvertKit

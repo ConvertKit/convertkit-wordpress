@@ -1,5 +1,12 @@
 <?php
 /**
+ * ConvertKit Admin Gutenberg class.
+ *
+ * @package ConvertKit
+ * @author ConvertKit
+ */
+
+/**
  * Registers blocks defined in the `convertkit_blocks` filter in Gutenberg.
  *
  * @package ConvertKit

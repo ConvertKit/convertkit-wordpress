@@ -43,6 +43,7 @@
 				?>
 			</p>
 			<?php
+			wp_nonce_field( 'wp-convertkit-save-meta', 'wp-convertkit-save-meta-nonce' );
 		}
 		?>
 	</td>

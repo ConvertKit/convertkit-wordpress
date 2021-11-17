@@ -1,5 +1,12 @@
 <?php
 /**
+ * ConvertKit Admin Category class.
+ *
+ * @package ConvertKit
+ * @author ConvertKit
+ */
+
+/**
  * Registers fields on Categories and saves its settings when the Category
  * is saved in the WordPress Administration interface.
  *
@@ -25,7 +32,7 @@ class ConvertKit_Admin_Category {
 	 *
 	 * @since   1.9.6
 	 *
-	 * @param   WP_Term $term   Category
+	 * @param   WP_Term $term   Category.
 	 */
 	public function category_form_fields( $term ) {
 
@@ -35,8 +42,8 @@ class ConvertKit_Admin_Category {
 			return;
 		}
 
-		// Fetch Category Settings and Forms
-		$convertkit_term = new ConvertKit_Term( $term->term_id );
+		// Fetch Category Settings and Forms.
+		$convertkit_term  = new ConvertKit_Term( $term->term_id );
 		$convertkit_forms = new ConvertKit_Resource_Forms();
 
 		// Load metabox view.
@@ -49,9 +56,19 @@ class ConvertKit_Admin_Category {
 	 *
 	 * @since   1.9.6
 	 *
-	 * @param   int $term_id    Term ID
+	 * @param   int $term_id    Term ID.
 	 */
 	public function save_category_fields( $term_id ) {
+
+		// Bail if no nonce field exists.
+		if ( ! isset( $_POST['wp-convertkit-save-meta-nonce'] ) ) {
+			return;
+		}
+
+		// Bail if the nonce verification fails.
+		if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['wp-convertkit-save-meta-nonce'] ) ), 'wp-convertkit-save-meta' ) ) {
+			return;
+		}
 
 		// Bail if no ConvertKit settings were posted.
 		if ( ! isset( $_POST['wp-convertkit'] ) ) {

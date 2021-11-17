@@ -1,5 +1,12 @@
 <?php
 /**
+ * ConvertKit Admin Upgrade class.
+ *
+ * @package ConvertKit
+ * @author ConvertKit
+ */
+
+/**
  * Runs upgrade routines when the Plugin is updated to a newer version
  * in WordPress.
  *
