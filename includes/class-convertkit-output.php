@@ -309,6 +309,7 @@ class ConvertKit_Output {
 			'convertkit',
 			array(
 				'ajaxurl' 		=> admin_url( 'admin-ajax.php' ),
+				'debug'			=> $settings->debug_enabled(),
 				'nonce'			=> wp_create_nonce( 'convertkit' ),
 				'subscriber_id' => $this->get_subscriber_id_from_request(),
 				'tag' 	  		=> ( ( is_singular() && $convertkit_post->has_tag() ) ? $convertkit_post->get_tag() : false ),
