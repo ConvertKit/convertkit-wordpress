@@ -1,7 +1,7 @@
 <?php
 /**
  * ConvertKit Block definition for Gutenberg and Shortcode.
- * 
+ *
  * @package ConvertKit
  * @author  ConvertKit
  */
@@ -11,8 +11,8 @@ class ConvertKit_Block {
 	 * Registers this block with the ConvertKit Plugin.
 	 *
 	 * @since   1.9.6
-	 * 
-	 * @param   array   $blocks     Blocks to Register
+	 *
+	 * @param   array $blocks     Blocks to Register
 	 * @return  array               Blocks to Register
 	 */
 	public function register( $blocks ) {
@@ -20,10 +20,10 @@ class ConvertKit_Block {
 		$blocks[ $this->get_name() ] = array_merge(
 			$this->get_overview(),
 			array(
-				'name'          => $this->get_name(),
-				'fields'        => $this->get_fields(),
-				'tabs'          => $this->get_tabs(),
-				'default_values'=> $this->get_default_values(),
+				'name'           => $this->get_name(),
+				'fields'         => $this->get_fields(),
+				'tabs'           => $this->get_tabs(),
+				'default_values' => $this->get_default_values(),
 			)
 		);
 
@@ -44,16 +44,16 @@ class ConvertKit_Block {
 		}
 
 		return '';
-		
+
 	}
 
 	/**
 	 * Removes any HTML that might be wrongly included in the shorcode attribute's values
 	 * due to e.g. copy and pasting from Documentation or other examples.
-	 * 
+	 *
 	 * @since   1.9.6
-	 * 
-	 * @param   array   $atts   Shortcode Attributes
+	 *
+	 * @param   array $atts   Shortcode Attributes
 	 * @return  array           Shortcode Attributes
 	 */
 	public function sanitize_atts( $atts ) {
@@ -66,7 +66,7 @@ class ConvertKit_Block {
 			if ( is_array( $value ) ) {
 				continue;
 			}
-			
+
 			$atts[ $key ] = strip_tags( $value );
 		}
 

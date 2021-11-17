@@ -1,40 +1,40 @@
 <?php
 /**
  * Class to read ConvertKit Settings for the given Taxonomy Term.
- * 
- * @since 	1.9.6
+ *
+ * @since   1.9.6
  */
 class ConvertKit_Term {
 
 	/**
 	 * Holds the Term Meta Key that stores ConvertKit settings on a per-Taxonomy Term basis
-	 * 
-	 * @var 	string
+	 *
+	 * @var     string
 	 */
 	const TERM_META_KEY = 'ck_default_form';
 
 	/**
 	 * Holds the Term ID
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @var 	int
+	 *
+	 * @since   1.9.6
+	 *
+	 * @var     int
 	 */
 	public $term_id = 0;
 
 	/**
 	 * Holds the Term's Settings
-	 * 
-	 * @var 	array
+	 *
+	 * @var     array
 	 */
 	private $settings = false;
 
 	/**
 	 * Constructor. Populates the settings based on the given Term ID.
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @param 	int 	$term_id 	Term ID
+	 *
+	 * @since   1.9.6
+	 *
+	 * @param   int $term_id    Term ID
 	 */
 	public function __construct( $term_id ) {
 
@@ -56,10 +56,10 @@ class ConvertKit_Term {
 
 	/**
 	 * Returns settings for the Term.
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @return 	array
+	 *
+	 * @since   1.9.6
+	 *
+	 * @return  array
 	 */
 	public function get() {
 
@@ -69,10 +69,10 @@ class ConvertKit_Term {
 
 	/**
 	 * Returns the form setting for the Term.
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @return 	string
+	 *
+	 * @since   1.9.6
+	 *
+	 * @return  string
 	 */
 	public function get_form() {
 
@@ -82,10 +82,10 @@ class ConvertKit_Term {
 
 	/**
 	 * Whether the Term has a ConvertKit Form defined.
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @return 	string
+	 *
+	 * @since   1.9.6
+	 *
+	 * @return  string
 	 */
 	public function has_form() {
 
@@ -95,10 +95,10 @@ class ConvertKit_Term {
 
 	/**
 	 * Whether the Term is set to use the Plugin's Default Form Setting.
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @return 	string
+	 *
+	 * @since   1.9.6
+	 *
+	 * @return  string
 	 */
 	public function uses_default_form() {
 
@@ -108,10 +108,10 @@ class ConvertKit_Term {
 
 	/**
 	 * Whether the Term is set to use NO Form.
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @return 	string
+	 *
+	 * @since   1.9.6
+	 *
+	 * @return  string
 	 */
 	public function uses_no_form() {
 
@@ -121,10 +121,10 @@ class ConvertKit_Term {
 
 	/**
 	 * Saves Term settings to the Term.
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @param 	array 	$meta 	Settings
+	 *
+	 * @since   1.9.6
+	 *
+	 * @param   array $meta   Settings
 	 */
 	public function save( $meta ) {
 
@@ -135,10 +135,10 @@ class ConvertKit_Term {
 	/**
 	 * The default settings, used to populate the Term's Settings when a Term
 	 * has no Settings.
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @return 	array
+	 *
+	 * @since   1.9.6
+	 *
+	 * @return  array
 	 */
 	public function get_default_settings() {
 
@@ -147,10 +147,10 @@ class ConvertKit_Term {
 		/**
 		 * The default settings, used to populate the Term's Settings when a Term
 		 * has no Settings.
-		 * 
-		 * @since 	1.9.6
-		 * 
-		 * @param 	string 	$defaults 	Default Form
+		 *
+		 * @since   1.9.6
+		 *
+		 * @param   string  $defaults   Default Form
 		 */
 		$defaults = apply_filters( 'convertkit_term_get_default_settings', $defaults );
 

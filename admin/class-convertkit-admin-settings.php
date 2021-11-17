@@ -17,8 +17,8 @@ class ConvertKit_Admin_Settings {
 
 	/**
 	 * Holds the Settings Page Slug
-	 * 
-	 * @var 	string
+	 *
+	 * @var     string
 	 */
 	const SETTINGS_PAGE_SLUG = '_wp_convertkit_settings';
 
@@ -26,22 +26,22 @@ class ConvertKit_Admin_Settings {
 	 * Constructor
 	 */
 	public function __construct() {
-		
+
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_styles' ) );
-		
+
 		add_action( 'admin_menu', array( $this, 'add_settings_page' ) );
 		add_action( 'admin_init', array( $this, 'register_sections' ) );
 		add_filter( 'plugin_action_links_' . CONVERTKIT_PLUGIN_FILE, array( $this, 'add_settings_page_link' ) );
-		
+
 	}
 
 	/**
 	 * Enqueue JavaScript in Admin
 	 *
-	 * @since 	1.9.6
-	 * 
-	 * @param 	$hook 	Hook
+	 * @since   1.9.6
+	 *
+	 * @param   $hook   Hook
 	 */
 	public function enqueue_scripts( $hook ) {
 
@@ -52,8 +52,8 @@ class ConvertKit_Admin_Settings {
 
 		/**
 		 * Enqueue JavaScript for the Settings Screen at Settings > ConvertKit
-		 * 
-		 * @since 	1.9.6
+		 *
+		 * @since   1.9.6
 		 */
 		do_action( 'convertkit_admin_settings_enqueue_scripts' );
 
@@ -61,10 +61,10 @@ class ConvertKit_Admin_Settings {
 
 	/**
 	 * Enqueue CSS for the Settings Screens at Settings > ConvertKit
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @param 	$hook 	Hook
+	 *
+	 * @since   1.9.6
+	 *
+	 * @param   $hook   Hook
 	 */
 	public function enqueue_styles( $hook ) {
 
@@ -78,8 +78,8 @@ class ConvertKit_Admin_Settings {
 
 		/**
 		 * Enqueue CSS for the Settings Screen at Settings > ConvertKit
-		 * 
-		 * @since 	1.9.6
+		 *
+		 * @since   1.9.6
 		 */
 		do_action( 'convertkit_admin_settings_enqueue_styles' );
 
@@ -87,8 +87,8 @@ class ConvertKit_Admin_Settings {
 
 	/**
 	 * Adds the options page
-	 * 
-	 * @since 	1.9.6
+	 *
+	 * @since   1.9.6
 	 */
 	public function add_settings_page() {
 
@@ -104,8 +104,8 @@ class ConvertKit_Admin_Settings {
 
 	/**
 	 * Outputs the settings screen.
-	 * 
-	 * @since 	1.9.6
+	 *
+	 * @since   1.9.6
 	 */
 	public function display_settings_page() {
 
@@ -139,8 +139,10 @@ class ConvertKit_Admin_Settings {
 				
 				<p class="description">
 					<?php
-					printf( 'If you need help setting up the plugin please refer to the %s plugin documentation.</a>',
-							'<a href="https://help.convertkit.com/en/articles/2502591-the-convertkit-wordpress-plugin" target="_blank">' );
+					printf(
+						'If you need help setting up the plugin please refer to the %s plugin documentation.</a>',
+						'<a href="https://help.convertkit.com/en/articles/2502591-the-convertkit-wordpress-plugin" target="_blank">'
+					);
 					?>
 				</p>
 			</form>
@@ -151,17 +153,17 @@ class ConvertKit_Admin_Settings {
 
 	/**
 	 * Gets the active tab section that the user is viewing on the Plugin Settings screen.
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @return 	string 	Tab Name
+	 *
+	 * @since   1.9.6
+	 *
+	 * @return  string  Tab Name
 	 */
 	private function get_active_section() {
-	
+
 		if ( isset( $_GET['tab'] ) ) { // WPCS: CSRF ok.
 			return sanitize_text_field( wp_unslash( $_GET['tab'] ) ); // WPCS: CSRF ok.
 		}
-		
+
 		// First registered section will be the active section.
 		return current( $this->sections )->name;
 
@@ -169,8 +171,8 @@ class ConvertKit_Admin_Settings {
 
 	/**
 	 * Display notice(s) immediately after the settings screen header.
-	 * 
-	 * @since 	1.9.6
+	 *
+	 * @since   1.9.6
 	 */
 	private function maybe_display_notices() {
 
@@ -179,15 +181,15 @@ class ConvertKit_Admin_Settings {
 		// Check the mbstring extension is loaded.
 		if ( ! extension_loaded( 'mbstring' ) ) {
 			$notices[] = array(
-				'type' 		=> 'warning',
-				'message' 	=> sprintf( 
+				'type'    => 'warning',
+				'message' => sprintf(
 					/* translators: link to php.net manual */
 					__( 'Notice: Your server does not support the %s function - this is required for better character encoding. Please contact your webhost to have it installed.', 'convertkit' ),
 					'<a href="https://php.net/manual/en/mbstring.installation.php">mbstring</a>'
 				),
 			);
 		}
-	
+
 		// Bail if no notices exist.
 		if ( ! count( $notices ) ) {
 			return;
@@ -214,18 +216,18 @@ class ConvertKit_Admin_Settings {
 	/**
 	 * Define links to display below the Plugin Name on the WP_List_Table at in the Plugins screen.
 	 *
-	 * @param 	array 	$links 		Links
-	 * @return 	array 				Links
+	 * @param   array $links      Links
+	 * @return  array               Links
 	 */
 	public static function add_settings_page_link( $links ) {
 
-		return array_merge( 
-			array( 
-				'settings' => sprintf( 
+		return array_merge(
+			array(
+				'settings' => sprintf(
 					'<a href="%s">%s</a>',
 					convertkit_get_settings_link(),
 					__( 'Settings', 'convertkit' )
-				)
+				),
 			),
 			$links
 		);
@@ -233,8 +235,8 @@ class ConvertKit_Admin_Settings {
 	}
 	/**
 	 * Output tabs, one for each registered settings section.
-	 * 
-	 * @param 	string 	$active_section 	Currently displayed/selected section.
+	 *
+	 * @param   string $active_section     Currently displayed/selected section.
 	 */
 	public function display_section_nav( $active_section ) {
 
@@ -258,23 +260,23 @@ class ConvertKit_Admin_Settings {
 
 	/**
 	 * Registers settings sections at Settings > ConvertKit.
-	 * 
+	 *
 	 * Each section has its own tab.
-	 * 
-	 * @since 	1.9.6
+	 *
+	 * @since   1.9.6
 	 */
 	public function register_sections() {
 
 		// Register the General and Tools settings sections.
 		$sections = array(
-			'general' 		=> new ConvertKit_Settings_General,
-			'tools' 		=> new ConvertKit_Settings_Tools,
+			'general' => new ConvertKit_Settings_General(),
+			'tools'   => new ConvertKit_Settings_Tools(),
 		);
 
 		/**
 		 * Registers settings sections at Settings > ConvertKit.
-		 * 
-		 * @since 	1.9.6
+		 *
+		 * @since   1.9.6
 		 */
 		$sections = apply_filters( 'convertkit_admin_settings_register_sections', $sections );
 

@@ -1,30 +1,30 @@
 <?php
 /**
  * Class to read ConvertKit Contact Form 7 Integration Settings.
- * 
- * @since 	1.9.6
+ *
+ * @since   1.9.6
  */
 class ConvertKit_ContactForm7_Settings {
 
 	/**
 	 * Holds the Settings Key that stores this integration's settings.
-	 * 
-	 * @var 	string
+	 *
+	 * @var     string
 	 */
 	const SETTINGS_NAME = '_wp_convertkit_integration_contactform7_settings';
 
 	/**
 	 * Holds the Settings
-	 * 
-	 * @var 	array
+	 *
+	 * @var     array
 	 */
 	private $settings = array();
 
 	/**
 	 * Constructor. Reads settings from options table, falling back to defaults
 	 * if no settings exist.
-	 * 
-	 * @since 	1.9.6
+	 *
+	 * @since   1.9.6
 	 */
 	public function __construct() {
 
@@ -42,10 +42,10 @@ class ConvertKit_ContactForm7_Settings {
 
 	/**
 	 * Returns Integration settings.
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @return 	array
+	 *
+	 * @since   1.9.6
+	 *
+	 * @return  array
 	 */
 	public function get() {
 
@@ -55,10 +55,10 @@ class ConvertKit_ContactForm7_Settings {
 
 	/**
 	 * Checks if any settings are defined.
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @return 	bool
+	 *
+	 * @since   1.9.6
+	 *
+	 * @return  bool
 	 */
 	public function has_settings() {
 
@@ -75,11 +75,11 @@ class ConvertKit_ContactForm7_Settings {
 
 	/**
 	 * Returns the ConvertKit Form ID that is mapped against the given Contact Form 7 Form ID.
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @param 	int 	$cf7_form_id 	Contact Form 7 Form ID
-	 * @return 	mixed 					bool (false) | ConvertKit Form ID
+	 *
+	 * @since   1.9.6
+	 *
+	 * @param   int $cf7_form_id    Contact Form 7 Form ID
+	 * @return  mixed                   bool (false) | ConvertKit Form ID
 	 */
 	public function get_convertkit_form_id_by_cf7_form_id( $cf7_form_id ) {
 
@@ -101,10 +101,10 @@ class ConvertKit_ContactForm7_Settings {
 	 * The default settings, used when this integration's Settings haven't been saved
 	 * e.g. on a new installation or when the integration's Plugin has just been activated
 	 * for the first time.
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @return 	array
+	 *
+	 * @since   1.9.6
+	 *
+	 * @return  array
 	 */
 	public function get_defaults() {
 

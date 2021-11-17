@@ -9,8 +9,8 @@ class ConvertKit_Wishlist {
 
 	/**
 	 * Constructor. Registers required hooks with WishList Member.
-	 * 
-	 * @since 	1.9.6
+	 *
+	 * @since   1.9.6
 	 */
 	public function __construct() {
 
@@ -26,11 +26,11 @@ class ConvertKit_Wishlist {
 	/**
 	 * When a user has levels added or registers, subscribe them to a ConvertKit Form
 	 * if the given WishList Member Level is mapped to a ConvertKit Form.
-	 * 
-	 * @since 	1.9.6
 	 *
-	 * @param 	string 	$member_id 	ID for member that has just had levels added.
-	 * @param 	array  	$levels 	Levels to which member was added.
+	 * @since   1.9.6
+	 *
+	 * @param   string $member_id  ID for member that has just had levels added.
+	 * @param   array  $levels     Levels to which member was added.
 	 */
 	public function add_user_levels( $member_id, $levels ) {
 
@@ -43,8 +43,8 @@ class ConvertKit_Wishlist {
 		}
 
 		// Initialize Wishlist Settings class.
-		$wlm_settings = new ConvertKit_Wishlist_Settings;
-		
+		$wlm_settings = new ConvertKit_Wishlist_Settings();
+
 		// Iterate through the member's levels.
 		foreach ( $levels as $wlm_level_id ) {
 			// If no ConvertKit Form is mapped to this level, skip it.
@@ -52,7 +52,7 @@ class ConvertKit_Wishlist {
 			if ( ! $convertkit_form_id ) {
 				continue;
 			}
-			
+
 			// Subscribe the user to the ConvertKit Form for this level.
 			$this->member_resource_subscribe( $member, $convertkit_form_id );
 		}
@@ -78,8 +78,8 @@ class ConvertKit_Wishlist {
 		}
 
 		// Initialize Wishlist Settings class.
-		$wlm_settings = new ConvertKit_Wishlist_Settings;
-		
+		$wlm_settings = new ConvertKit_Wishlist_Settings();
+
 		// Iterate through the member's levels.
 		foreach ( $levels as $wlm_level_id ) {
 			// If no ConvertKit Tag is mapped to this level, skip it.
@@ -103,14 +103,14 @@ class ConvertKit_Wishlist {
 	/**
 	 * Subscribes a member to a ConvertKit Form.
 	 *
-	 * @param  	array  $member  UserInfo from WishList Member.
-	 * @param  	string $form_id ConvertKit Form ID.
-	 * @return 	mixed 			API Response (WP_Error | array)
+	 * @param   array  $member  UserInfo from WishList Member.
+	 * @param   string $form_id ConvertKit Form ID.
+	 * @return  mixed           API Response (WP_Error | array)
 	 */
 	public function member_resource_subscribe( $member, $form_id ) {
 
 		// Bail if the API hasn't been configured.
-		$settings = new ConvertKit_Settings;
+		$settings = new ConvertKit_Settings();
 		if ( ! $settings->has_api_key_and_secret() ) {
 			return;
 		}
@@ -128,7 +128,7 @@ class ConvertKit_Wishlist {
 		// Extract the first name
 		$first_name = '';
 		if ( isset( $member['display_name'] ) && ! empty( $member['display_name'] ) ) {
-			$name = explode( ' ', $member['display_name'] );
+			$name       = explode( ' ', $member['display_name'] );
 			$first_name = $name[0];
 		}
 
@@ -143,13 +143,13 @@ class ConvertKit_Wishlist {
 	/**
 	 * Unsubscribes a member from ConvertKit.
 	 *
-	 * @param  	array  $member  UserInfo from WishList Member.
-	 * @return 	mixed 			API Response (WP_Error | array)
+	 * @param   array $member  UserInfo from WishList Member.
+	 * @return  mixed           API Response (WP_Error | array)
 	 */
 	public function member_resource_unsubscribe( $member ) {
 
 		// Bail if the API hasn't been configured.
-		$settings = new ConvertKit_Settings;
+		$settings = new ConvertKit_Settings();
 		if ( ! $settings->has_api_key_and_secret() ) {
 			return;
 		}
@@ -164,14 +164,14 @@ class ConvertKit_Wishlist {
 	/**
 	 * Tag a ConvertKit User with the given Tag ID.
 	 *
-	 * @param  	array  $member  UserInfo from WishList Member
-	 * @param  	string $tag     ConvertKit Tag ID
-	 * @return 	mixed 			API Response (WP_Error | array)
+	 * @param   array  $member  UserInfo from WishList Member
+	 * @param   string $tag     ConvertKit Tag ID
+	 * @return  mixed           API Response (WP_Error | array)
 	 */
 	public function member_tag( $member, $tag_id ) {
 
 		// Bail if the API hasn't been configured.
-		$settings = new ConvertKit_Settings;
+		$settings = new ConvertKit_Settings();
 		if ( ! $settings->has_api_key_and_secret() ) {
 			return;
 		}
@@ -207,8 +207,11 @@ class ConvertKit_Wishlist {
 }
 
 // Bootstrap
-add_action( 'convertkit_initialize_global', function() {
+add_action(
+	'convertkit_initialize_global',
+	function() {
 
-	new ConvertKit_Wishlist;
+		new ConvertKit_Wishlist();
 
-} );
+	}
+);

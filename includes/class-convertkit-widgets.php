@@ -1,15 +1,15 @@
 <?php
 /**
  * Registers Widgets.
- * 
- * @since 	1.0.0
+ *
+ * @since   1.0.0
  */
 class ConvertKit_Widgets {
 
 	/**
 	 * Constructor.
-	 * 
-	 * @since 	1.0.0
+	 *
+	 * @since   1.0.0
 	 */
 	public function __construct() {
 
@@ -19,13 +19,13 @@ class ConvertKit_Widgets {
 
 	/**
 	 * Register widget.
-	 * 
-	 * @since 	1.0.0
+	 *
+	 * @since   1.0.0
 	 */
 	public function register_widgets() {
 
 		register_widget( 'CK_Widget_Form' );
-		
+
 	}
 
 }

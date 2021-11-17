@@ -1,7 +1,7 @@
 <?php
 /**
  * ConvertKit Form Block for Gutenberg and Shortcode.
- * 
+ *
  * @package ConvertKit
  * @author  ConvertKit
  */
@@ -9,7 +9,7 @@ class ConvertKit_Block_Form extends ConvertKit_Block {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @since   1.9.6
 	 */
 	public function __construct() {
@@ -44,26 +44,25 @@ class ConvertKit_Block_Form extends ConvertKit_Block {
 	public function get_overview() {
 
 		return array(
-			'title'     => __( 'ConvertKit Form', 'convertkit' ),
-			'description'   => __( 'Displays a ConvertKit Form.', 'convertkit' ),
-			'icon'      => 'resources/backend/images/block-icon-form.svg',
-			'category'  => 'convertkit',
-			'keywords'  => array(
+			'title'                         => __( 'ConvertKit Form', 'convertkit' ),
+			'description'                   => __( 'Displays a ConvertKit Form.', 'convertkit' ),
+			'icon'                          => 'resources/backend/images/block-icon-form.svg',
+			'category'                      => 'convertkit',
+			'keywords'                      => array(
 				__( 'ConvertKit', 'convertkit' ),
 				__( 'Form', 'convertkit' ),
 			),
 
 			// TinyMCE / QuickTags Modal Width and Height.
-			'modal'     => array(
-				'width'     => 500,
-				'height'    => 100,
+			'modal'                         => array(
+				'width'  => 500,
+				'height' => 100,
 			),
 
-			// 
 			'shortcode_include_closing_tag' => false,
 
 			// Function to call when rendering the block/shortcode on the frontend web site.
-			'render_callback' => array( $this, 'render' ),
+			'render_callback'               => array( $this, 'render' ),
 		);
 
 	}
@@ -81,8 +80,8 @@ class ConvertKit_Block_Form extends ConvertKit_Block {
 		}
 
 		// Get ConvertKit Forms.
-		$forms = array();
-		$convertkit_forms = new ConvertKit_Resource_Forms;
+		$forms            = array();
+		$convertkit_forms = new ConvertKit_Resource_Forms();
 		if ( $convertkit_forms->exist() ) {
 			foreach ( $convertkit_forms->get() as $form ) {
 				$forms[ absint( $form['id'] ) ] = sanitize_text_field( $form['name'] );
@@ -113,8 +112,8 @@ class ConvertKit_Block_Form extends ConvertKit_Block {
 
 		return array(
 			'general' => array(
-				'label'     => __( 'General', 'convertkit' ),
-				'fields'    => array(
+				'label'  => __( 'General', 'convertkit' ),
+				'fields' => array(
 					'form',
 					'tag',
 				),
@@ -131,8 +130,8 @@ class ConvertKit_Block_Form extends ConvertKit_Block {
 	public function get_default_values() {
 
 		return array(
-			'form' 	=> '',
-			'id' 	=> '', // Backward compat.
+			'form' => '',
+			'id'   => '', // Backward compat.
 		);
 
 	}
@@ -142,13 +141,13 @@ class ConvertKit_Block_Form extends ConvertKit_Block {
 	 *
 	 * @since   1.9.6
 	 *
-	 * @param   array   $atts   Block / Shortcode Attributes
+	 * @param   array $atts   Block / Shortcode Attributes
 	 * @return  string          Output
 	 */
 	public function render( $atts ) {
 
 		// Parse shortcode attributes, defining fallback defaults if required
-		$atts = shortcode_atts( 
+		$atts = shortcode_atts(
 			$this->get_default_values(),
 			$this->sanitize_atts( $atts ),
 			$this->get_name()
@@ -169,8 +168,8 @@ class ConvertKit_Block_Form extends ConvertKit_Block {
 		}
 
 		// Get Form HTML.
-		$forms = new ConvertKit_Resource_Forms;
-		$form = $forms->get_html( $form_id );
+		$forms = new ConvertKit_Resource_Forms();
+		$form  = $forms->get_html( $form_id );
 
 		// Bail if an error occured.
 		if ( is_wp_error( $form ) ) {
@@ -179,11 +178,11 @@ class ConvertKit_Block_Form extends ConvertKit_Block {
 
 		/**
 		 * Filter the block's content immediately before it is output.
-		 * 
-		 * @since 	1.9.6
-		 * 
-		 * @param 	string 	$form 	ConvertKit Form HTML.
-		 * @param 	array 	$atts 	Block Attributes.
+		 *
+		 * @since   1.9.6
+		 *
+		 * @param   string  $form   ConvertKit Form HTML.
+		 * @param   array   $atts   Block Attributes.
 		 */
 		$form = apply_filters( 'convertkit_block_form_render', $form, $atts );
 

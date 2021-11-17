@@ -9,8 +9,8 @@ class ConvertKit_ContactForm7 {
 
 	/**
 	 * Constructor. Registers required hooks with Contact Form 7.
-	 * 
-	 * @since 	1.9.6
+	 *
+	 * @since   1.9.6
 	 */
 	public function __construct() {
 
@@ -22,11 +22,11 @@ class ConvertKit_ContactForm7 {
 	 * Sends a Contact Form 7's Form Name and Email values through the ConvertKit API
 	 * if a ConvertKit Form is mapped to this Contact Form 7 Form in the ConvertKit
 	 * Settings.
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @param 	WPCF7_ContactForm 	$contact_form 	Contact Form 7 Form
-	 * @param 	array 				$result 		Submission Result
+	 *
+	 * @since   1.9.6
+	 *
+	 * @param   WPCF7_ContactForm $contact_form   Contact Form 7 Form
+	 * @param   array             $result         Submission Result
 	 */
 	public function handle_wpcf7_submit( $contact_form, $result ) {
 
@@ -42,8 +42,8 @@ class ConvertKit_ContactForm7 {
 		}
 
 		// Get ConvertKit Form ID mapped to this Contact Form 7 Form.
-		$contact_form_7_settings = new ConvertKit_ContactForm7_Settings;
-		$convertkit_form_id = $contact_form_7_settings->get_convertkit_form_id_by_cf7_form_id( $contact_form->id() );
+		$contact_form_7_settings = new ConvertKit_ContactForm7_Settings();
+		$convertkit_form_id      = $contact_form_7_settings->get_convertkit_form_id_by_cf7_form_id( $contact_form->id() );
 
 		// If no ConvertKit Form is mapped to this Contact Form 7 Form, bail.
 		if ( ! $convertkit_form_id ) {
@@ -51,7 +51,7 @@ class ConvertKit_ContactForm7 {
 		}
 
 		// Bail if the API hasn't been configured.
-		$settings = new ConvertKit_Settings;
+		$settings = new ConvertKit_Settings();
 		if ( ! $settings->has_api_key_and_secret() ) {
 			return;
 		}
@@ -65,10 +65,10 @@ class ConvertKit_ContactForm7 {
 		}
 
 		// Get email and first name
-		$email = $form_data['your-email'];
+		$email      = $form_data['your-email'];
 		$first_name = '';
 		if ( isset( $form_data['your-name'] ) && ! empty( $form_data['your-name'] ) ) {
-			$name = explode( ' ', $form_data['your-name'] );
+			$name       = explode( ' ', $form_data['your-name'] );
 			$first_name = $name[0];
 		}
 
@@ -84,8 +84,11 @@ class ConvertKit_ContactForm7 {
 }
 
 // Bootstrap
-add_action( 'convertkit_initialize_global', function() {
+add_action(
+	'convertkit_initialize_global',
+	function() {
 
-	new ConvertKit_ContactForm7;
+		new ConvertKit_ContactForm7();
 
-} );
+	}
+);

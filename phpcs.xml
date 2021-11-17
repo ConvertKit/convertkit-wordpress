@@ -3,9 +3,10 @@
 	<description>WordPress Coding Standards for Plugins</description>
 
 	<!-- Exclude some directories. -->
+	<exclude-pattern>/lib/*</exclude-pattern>
 	<exclude-pattern>/vendor/*</exclude-pattern>
 	<exclude-pattern>/tests/*</exclude-pattern>
-
+	
 	<!-- Exclude minified Javascript files. -->
 	<exclude-pattern>*.min.js</exclude-pattern>
 
@@ -27,6 +28,7 @@
 		<exclude name="WordPress.WhiteSpace.ControlStructureSpacing"/>
 		<exclude name="WordPress.Security.EscapeOutput"/>
 		-->
+		<exclude name="WordPress.PHP.YodaConditions" />
 	</rule>
 
 	<!-- Check that code is documented to WordPress Standards. -->
@@ -43,15 +45,6 @@
 	<rule ref="WordPress.WP.I18n">
 		<properties>
 			<property name="text_domain" type="array">
-				<element value="convertkit"/>
-			</property>
-		</properties>
-	</rule>
-
-	<!-- Globals should be prefixed with convertkit. -->
-	<rule ref="WordPress.NamingConventions.PrefixAllGlobals">
-		<properties>
-			<property name="prefixes" type="array">
 				<element value="convertkit"/>
 			</property>
 		</properties>

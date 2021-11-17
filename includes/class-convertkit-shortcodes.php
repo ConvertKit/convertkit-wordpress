@@ -1,7 +1,7 @@
 <?php
 /**
  * Registers blocks defined in the `convertkit_blocks` filter as WordPress Shortcodes.
- * 
+ *
  * @package ConvertKit
  * @author  ConvertKit
  */
@@ -9,8 +9,8 @@ class ConvertKit_Shortcodes {
 
 	/**
 	 * Constructor
-	 * 
-	 * @since 	1.9.6
+	 *
+	 * @since   1.9.6
 	 */
 	public function __construct() {
 
@@ -20,8 +20,8 @@ class ConvertKit_Shortcodes {
 
 	/**
 	 * Register ConvertKit blocks as shortcodes.
-	 * 
-	 * @since 	1.9.6
+	 *
+	 * @since   1.9.6
 	 */
 	public function init() {
 
@@ -37,19 +37,24 @@ class ConvertKit_Shortcodes {
 		foreach ( $blocks as $block => $properties ) {
 
 			// Register shortcode.
-			add_shortcode( 'convertkit_' . $block, array(
-				$properties['render_callback'][0],
-				$properties['render_callback'][1]
-			) );
+			add_shortcode(
+				'convertkit_' . $block,
+				array(
+					$properties['render_callback'][0],
+					$properties['render_callback'][1],
+				)
+			);
 
 			// For the Form block, register the [convertkit] shortcode for backward compatibility.
 			if ( $block == 'form' ) {
-				add_shortcode( 'convertkit', array(
-					$properties['render_callback'][0],
-					$properties['render_callback'][1]
-				) );
+				add_shortcode(
+					'convertkit',
+					array(
+						$properties['render_callback'][0],
+						$properties['render_callback'][1],
+					)
+				);
 			}
-
 		}
 
 	}

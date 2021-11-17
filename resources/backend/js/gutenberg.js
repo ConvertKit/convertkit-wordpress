@@ -9,7 +9,7 @@ if ( convertkit_is_gutenberg_active && wp.data.dispatch( 'core/edit-post' ) !== 
 
 		console.log( 'convertkit block' );
 		console.log( convertkit_blocks[ block ] );
-		
+
 		// convertKitGutenbergRegisterBlock( convertkit_blocks[ block ] );
 
 	}
@@ -19,9 +19,9 @@ if ( convertkit_is_gutenberg_active && wp.data.dispatch( 'core/edit-post' ) !== 
 /**
  * Registers the given block as a TinyMCE Plugin, with a button in
  * the Visual Editor toolbar.
- * 
+ *
  * @since 	1.9.6
- * 
+ *
  * @param 	object 	block 	Block
  */
 function convertKitGutenbergRegisterBlock( block ) {
@@ -41,7 +41,7 @@ function convertKitGutenbergRegisterBlock( block ) {
 			case 'text_multiple':
 				type = 'array';
 				break;
-			
+
 			case 'select_multiple':
 				type = 'array';
 				break;
@@ -61,10 +61,10 @@ function convertKitGutenbergRegisterBlock( block ) {
 	( function( blocks, editor, element, components, block ) {
 
 		// Define some constants for the various items we'll use
-		const el = element.createElement;
-		const { registerBlockType } = blocks;
+		const el                              = element.createElement;
+		const { registerBlockType }           = blocks;
 		const { RichText, InspectorControls } = editor;
-		const { Fragment } = element;
+		const { Fragment }                    = element;
 		const {
 			TextControl,
 			CheckboxControl,
@@ -77,16 +77,18 @@ function convertKitGutenbergRegisterBlock( block ) {
 			Panel,
 			PanelBody,
 			PanelRow
-		} = components;
+		}                                     = components;
 
 		// Build Icon, if it's an object
 		var icon = 'dashicons-tablet';
 		if ( typeof block.icon !== 'undefined' ) {
 			if ( block.icon.search( 'svg' ) >= 0 ) {
 				// SVG
-				icon = element.RawHTML( {
-					children: block.icon
-				} );
+				icon = element.RawHTML(
+					{
+						children: block.icon
+					}
+				);
 			} else {
 				// Dashicon
 				icon = block.icon;
@@ -94,344 +96,345 @@ function convertKitGutenbergRegisterBlock( block ) {
 		}
 
 		// Register Block
-	    registerBlockType( 'convertkit/' + block.name, {
-	        title:      block.title,
-	        description:block.description,
-	        category:   block.category,
-	        icon:       icon,
-	        keywords: 	block.keywords,
+		registerBlockType(
+			'convertkit/' + block.name,
+			{
+				title:      block.title,
+				description:block.description,
+				category:   block.category,
+				icon:       icon,
+				keywords: 	block.keywords,
 
-	        // Define the block attributes
-	        attributes: blockAttributes,
-	   
-	        // Editor
-	        edit: function( props ) {
+				// Define the block attributes
+				attributes: blockAttributes,
 
-	        	// Build Inspector Control Panels, which will appear in the Sidebar when editing the Block
-	        	var panels = [],
-	        		initialOpen = true;
-	            for ( const panel in block.tabs ) {
+				// Editor
+				edit: function( props ) {
 
-	            	// Build Inspector Control Panel Rows, one for each Field
-	            	var rows = [];
-	            	for ( var i in block.tabs[ panel ].fields ) {
-	            		const attribute = block.tabs[ panel ].fields[ i ], // e.g. 'term'
-	            			  field = block.fields[ attribute ]; // field array
+					// Build Inspector Control Panels, which will appear in the Sidebar when editing the Block
+					var panels  = [],
+					initialOpen = true;
+					for ( const panel in block.tabs ) {
 
-	            		var fieldElement,
-	            			fieldClassNames = [],
-	            			fieldProperties = {},
-	            			fieldOptions = [],
-	            			fieldSuggestions = [],
-	            			fieldData = {};
+						// Build Inspector Control Panel Rows, one for each Field
+						var rows = [];
+						for ( var i in block.tabs[ panel ].fields ) {
+							const attribute = block.tabs[ panel ].fields[ i ], // e.g. 'term'
+							  field         = block.fields[ attribute ]; // field array
 
-	            		// Build values for <select> inputs
-	            		if ( typeof field.values !== 'undefined' ) {
-	            			for ( var value in field.values ) {
-            					fieldOptions.push( {
-            						label: field.values[ value ],
-            						value: value
-            					} );
-            					fieldSuggestions.push( '[' + value + '] ' + field.values[ value ] ); // NEVER CHANGE THIS EVER
-            				}
-	            		}
+							var fieldElement,
+							fieldClassNames  = [],
+							fieldProperties  = {},
+							fieldOptions     = [],
+							fieldSuggestions = [],
+							fieldData        = {};
 
-	            		// Build data- attributes
-	            		if ( typeof field.data !== 'undefined' ) {
-	            			for ( var key in field.data ) {
-	            				fieldData[ 'data-' + key ] = field.data[ key ];
-	            			}
-	            		}
+							// Build values for <select> inputs
+							if ( typeof field.values !== 'undefined' ) {
+								for ( var value in field.values ) {
+									fieldOptions.push(
+										{
+											label: field.values[ value ],
+											value: value
+										}
+									);
+									fieldSuggestions.push( '[' + value + '] ' + field.values[ value ] ); // NEVER CHANGE THIS EVER
+								}
+							}
 
-	            		// Build CSS class name(s)
-	            		if ( typeof field.class !== 'undefined' ) {
-	            			fieldClassNames.push( field.class );
-	            		}
-	            		if ( typeof field.condition !== 'undefined' ) {
-	            			fieldClassNames.push( field.condition.value );
-	            		}
+							// Build data- attributes
+							if ( typeof field.data !== 'undefined' ) {
+								for ( var key in field.data ) {
+									fieldData[ 'data-' + key ] = field.data[ key ];
+								}
+							}
 
-	            		// Define Field Element based on the Field Type
-	            		switch ( field.type ) {
+							// Build CSS class name(s)
+							if ( typeof field.class !== 'undefined' ) {
+								fieldClassNames.push( field.class );
+							}
+							if ( typeof field.condition !== 'undefined' ) {
+								fieldClassNames.push( field.condition.value );
+							}
 
-	            			case 'select':
-	            				// Define field properties
-	            				fieldProperties = {
-			                        label: 		field.label,
-			                        help: 		field.description,
-			                        className: 	fieldClassNames.join( ' ' ),
-			                        options: 	fieldOptions,
-			                        value: 		props.attributes[ attribute ],
-			                        onChange: function( value ) {
-			                        	var newValue = {};
-			                        	newValue[ attribute ] = value;
-			                            props.setAttributes( newValue );
-			                        }
-			                    };
+							// Define Field Element based on the Field Type
+							switch ( field.type ) {
 
-			                    // Add data- attributes
-		                    	for ( var key in fieldData ) { 
-		                    		fieldProperties[ key ] = fieldData[ key ];
-		                    	}
+								case 'select':
+									// Define field properties
+									fieldProperties = {
+										label: 		field.label,
+										help: 		field.description,
+										className: 	fieldClassNames.join( ' ' ),
+										options: 	fieldOptions,
+										value: 		props.attributes[ attribute ],
+										onChange: function( value ) {
+											var newValue          = {};
+											newValue[ attribute ] = value;
+											props.setAttributes( newValue );
+										}
+									};
 
-			                    // Define field element
-	            				fieldElement = el(
-	            					SelectControl,
-	            					fieldProperties
-	            				);
-	            				break;
+									// Add data- attributes
+									for ( var key in fieldData ) {
+										fieldProperties[ key ] = fieldData[ key ];
+									}
 
-	            			case 'select_multiple':
-	            				// Convert values to labels
-	            				var values = [];
-	            				for ( var index in props.attributes[ attribute ] ) {
-	            					values.push( '[' + props.attributes[ attribute ][ index ] + '] ' + field.values[ props.attributes[ attribute ][ index ] ] );
-	            				}
+									// Define field element
+									fieldElement = el(
+										SelectControl,
+										fieldProperties
+									);
+									break;
 
-	            				// Define field properties
-	            				fieldProperties = {
-			                        label: 			field.label,
-			                        help: 			field.description,
-			                        className: 		fieldClassNames.join( ' ' ),
-			                        suggestions: 	fieldSuggestions,
-			                        maxSuggestions: 5,
-			                        value: 			values,
-			                        onChange: function( values ) {
-			                        	// Extract values between square brackets, and remove the rest
-			                        	var newValues = [];
-			                        	for ( index = 0; index < values.length; index++ ) {
-			                        		var matches = values[ index ].match( /\[(.*?)\]/ );
-			                        		if ( matches ) {
-			                        			newValues.push( matches[1] );
-			                        		}
-			                        	}
+								case 'select_multiple':
+									// Convert values to labels
+									var values = [];
+									for ( var index in props.attributes[ attribute ] ) {
+										values.push( '[' + props.attributes[ attribute ][ index ] + '] ' + field.values[ props.attributes[ attribute ][ index ] ] );
+									}
 
-			                        	var newValue = {};
-			                        	newValue[ attribute ] = newValues;
-			                            props.setAttributes( newValue );
-			                        },
-			                    };
+									// Define field properties
+									fieldProperties = {
+										label: 			field.label,
+										help: 			field.description,
+										className: 		fieldClassNames.join( ' ' ),
+										suggestions: 	fieldSuggestions,
+										maxSuggestions: 5,
+										value: 			values,
+										onChange: function( values ) {
+											// Extract values between square brackets, and remove the rest
+											var newValues = [];
+											for ( index = 0; index < values.length; index++ ) {
+												var matches = values[ index ].match( /\[(.*?)\]/ );
+												if ( matches ) {
+													newValues.push( matches[1] );
+												}
+											}
 
-			                    // Add data- attributes
-			                    for ( var key in fieldData ) { 
-		                    		fieldProperties[ key ] = fieldData[ key ];
-		                    	}
+											var newValue          = {};
+											newValue[ attribute ] = newValues;
+											props.setAttributes( newValue );
+										},
+									};
 
-			                    // Define field element
-	            				fieldElement = el(
-	            					FormTokenField,
-	            					fieldProperties
-	            				);
-	            				break;
+									// Add data- attributes
+									for ( var key in fieldData ) {
+										fieldProperties[ key ] = fieldData[ key ];
+									}
 
-	            			case 'text_multiple':
-	            				// Define field properties
-	            				fieldProperties = {
-			                        label: 			field.label,
-			                        help: 			field.description,
-			                        className: 		fieldClassNames.join( ' ' ),
-			                        value: 			props.attributes[ attribute ],
-			                        onChange: function( values ) {
-			                            var newValue = {};
-			                        	newValue[ attribute ] = values;
-			                            props.setAttributes( newValue );
-			                        }
-			                    };
+									// Define field element
+									fieldElement = el(
+										FormTokenField,
+										fieldProperties
+									);
+									break;
 
-			                    // Add data- attributes
-			                    for ( var key in fieldData ) { 
-		                    		fieldProperties[ key ] = fieldData[ key ];
-		                    	}
+								case 'text_multiple':
+									// Define field properties
+									fieldProperties = {
+										label: 			field.label,
+										help: 			field.description,
+										className: 		fieldClassNames.join( ' ' ),
+										value: 			props.attributes[ attribute ],
+										onChange: function( values ) {
+											var newValue          = {};
+											newValue[ attribute ] = values;
+											props.setAttributes( newValue );
+										}
+									};
 
-			                    // Define field element
-	            				fieldElement = el(
-	            					FormTokenField,
-	            					fieldProperties
-	            				);
-	            				break;
+									// Add data- attributes
+									for ( var key in fieldData ) {
+										fieldProperties[ key ] = fieldData[ key ];
+									}
 
-	            			case 'toggle':
-	            				// Define field properties
-	            				fieldProperties = {
-			                        label: 		field.label,
-			                        help: 		field.description,
-			                        className: 	fieldClassNames.join( ' ' ),
-			                        checked: 	props.attributes[ attribute ],
-			                        onChange: function( value ) {
-			                        	var newValue = {};
-			                        	newValue[ attribute ] = value;
-			                            props.setAttributes( newValue );
-			                        },
-			                    }
+									// Define field element
+									fieldElement = el(
+										FormTokenField,
+										fieldProperties
+									);
+									break;
 
-			                    // Add data- attributes
-			                    for ( var key in fieldData ) { 
-		                    		fieldProperties[ key ] = fieldData[ key ];
-		                    	}
-			                    
-			                    // Define field element
-	            				fieldElement = el(
-	            					ToggleControl,
-	            					fieldProperties
-	            				);
-	            				break;
+								case 'toggle':
+									// Define field properties
+									fieldProperties = {
+										label: 		field.label,
+										help: 		field.description,
+										className: 	fieldClassNames.join( ' ' ),
+										checked: 	props.attributes[ attribute ],
+										onChange: function( value ) {
+											var newValue          = {};
+											newValue[ attribute ] = value;
+											props.setAttributes( newValue );
+										},
+									}
 
-	            			case 'number':
-	            				// Define field properties
-	            				fieldProperties = {
-			                        type: 		field.type,
-			                        label: 		field.label,
-			                        help: 		field.description,
-			                        min: 		field.min,
-			                        max: 		field.max,
-			                        step: 		field.step,
-			                        className: 	fieldClassNames.join( ' ' ),
-			                        value: 		props.attributes[ attribute ],
-			                        onChange: function( value ) {
-			                        	// Cast value to integer if a value exists
-			                        	if ( value.length > 0 ) {
-			                        		value = Number( value );
-			                        	}
+									// Add data- attributes
+									for ( var key in fieldData ) {
+										fieldProperties[ key ] = fieldData[ key ];
+									}
 
-			                        	var newValue = {};
-			                        	newValue[ attribute ] = value;
-			                            props.setAttributes( newValue );
-			                        },
-			                    };
+									// Define field element
+									fieldElement = el(
+										ToggleControl,
+										fieldProperties
+									);
+									break;
 
-			                    // Add data- attributes
-			                    for ( var key in fieldData ) { 
-		                    		fieldProperties[ key ] = fieldData[ key ];
-		                    	}
+								case 'number':
+									// Define field properties
+									fieldProperties = {
+										type: 		field.type,
+										label: 		field.label,
+										help: 		field.description,
+										min: 		field.min,
+										max: 		field.max,
+										step: 		field.step,
+										className: 	fieldClassNames.join( ' ' ),
+										value: 		props.attributes[ attribute ],
+										onChange: function( value ) {
+											// Cast value to integer if a value exists
+											if ( value.length > 0 ) {
+												value = Number( value );
+											}
 
-			                    // Define field element
-	            				fieldElement = el(
-				                    TextControl,
-				                    fieldProperties
-				                );
-	            				break;
+											var newValue          = {};
+											newValue[ attribute ] = value;
+											props.setAttributes( newValue );
+										},
+									};
 
-	            			case 'autocomplete':
-	            				// Define field properties
-	            				fieldProperties = {
-	            					list: 		'autocomplete-' + i,
-			                     	type: 		'text',
-			                        label: 		field.label,
-			                        help: 		field.description,
-			                        className: 	fieldClassNames.join( ' ' ),
-			                        options: 	field.values,
-			                        value: 		props.attributes[ attribute ],
-			                        onChange: function( value ) {
-			                        	var newValue = {};
-			                        	newValue[ attribute ] = value;
-			                            props.setAttributes( newValue );
-			                        },
-			                    };
+									// Add data- attributes
+									for ( var key in fieldData ) {
+										fieldProperties[ key ] = fieldData[ key ];
+									}
 
-			                    // Add data- attributes
-			                    for ( var key in fieldData ) { 
-		                    		fieldProperties[ key ] = fieldData[ key ];
-		                    	}
+									// Define field element
+									fieldElement = el(
+										TextControl,
+										fieldProperties
+									);
+									break;
 
-			                    // Define field element
-	            				fieldElement = el(
-				                    WPZincAutocompleterControl,
-				                    fieldProperties
-				                );
-	            				break;
+								case 'autocomplete':
+									// Define field properties
+									fieldProperties = {
+										list: 		'autocomplete-' + i,
+										type: 		'text',
+										label: 		field.label,
+										help: 		field.description,
+										className: 	fieldClassNames.join( ' ' ),
+										options: 	field.values,
+										value: 		props.attributes[ attribute ],
+										onChange: function( value ) {
+											var newValue          = {};
+											newValue[ attribute ] = value;
+											props.setAttributes( newValue );
+										},
+									};
 
-	            			default:
-	            				// Define field properties
-	            				fieldProperties = {
-			                     	type: 		field.type,
-			                        label: 		field.label,
-			                        help: 		field.description,
-			                        className: 	fieldClassNames.join( ' ' ),
-			                        value: 		props.attributes[ attribute ],
-			                        onChange: function( value ) {
-			                        	var newValue = {};
-			                        	newValue[ attribute ] = value;
-			                            props.setAttributes( newValue );
-			                        },
-			                    };
+									// Add data- attributes
+									for ( var key in fieldData ) {
+										fieldProperties[ key ] = fieldData[ key ];
+									}
 
-			                    // Add data- attributes
-			                    for ( var key in fieldData ) { 
-		                    		fieldProperties[ key ] = fieldData[ key ];
-		                    	}
+									// Define field element
+									fieldElement = el(
+										WPZincAutocompleterControl,
+										fieldProperties
+									);
+									break;
 
-			                    // Define field element
-	            				fieldElement = el(
-				                    TextControl,
-				                    fieldProperties
-				                );
-	            				break;
-	            		}
+								default:
+									// Define field properties
+									fieldProperties = {
+										type: 		field.type,
+										label: 		field.label,
+										help: 		field.description,
+										className: 	fieldClassNames.join( ' ' ),
+										value: 		props.attributes[ attribute ],
+										onChange: function( value ) {
+											var newValue          = {};
+											newValue[ attribute ] = value;
+											props.setAttributes( newValue );
+										},
+									};
 
-	            		// Add Field as a Row
-	            		rows.push(
-	            			el( 
-	            				PanelRow,
-	            				{},
-	            				fieldElement
-	            			)
-	            		);
-	            	}
+									// Add data- attributes
+									for ( var key in fieldData ) {
+										fieldProperties[ key ] = fieldData[ key ];
+									}
 
-	            	// Add the Panel Rows to a new Panel
-	            	panels.push(
-	            		el( 
-	            			PanelBody,
-	            			{
-	            				title: block.tabs[ panel ].label,
-	            				initialOpen: initialOpen
-	            			},
-	            			rows
-	            		)
-	            	);
+									// Define field element
+									fieldElement = el(
+										TextControl,
+										fieldProperties
+									);
+									break;
+							}
 
-	            	// Don't open any further panels
-	            	initialOpen = false;
-	            }
+							// Add Field as a Row
+							rows.push(
+								el(
+									PanelRow,
+									{},
+									fieldElement
+								)
+							);
+						}
 
-	            // Return
-	            return (
-					el( 
-						Fragment, 
+						// Add the Panel Rows to a new Panel
+						panels.push(
+							el(
+								PanelBody,
+								{
+									title: block.tabs[ panel ].label,
+									initialOpen: initialOpen
+								},
+								rows
+							)
+						);
+
+						// Don't open any further panels
+						initialOpen = false;
+					}
+
+					// Return
+					return (
+					el(
+						Fragment,
 						{},
-			            el(
-			            	InspectorControls,
-			            	{},
-			            	panels
-			            ),
+						el(
+							InspectorControls,
+							{},
+							panels
+						),
+						// Block Markup
+						el(
+							'div',
+							{},
+							'[convertkit-' + block.name + ']'
+						)
+					)
+					);
+				},
 
-			            // Block Markup
-			            el(
-			            	'div',
-			            	{},
-			            	'[convertkit-' + block.name + ']'
-			            )
-			        )
-			    );
-	        },
+				// Output
+				save: function( props ) {
 
-	        // Output
-	        save: function( props ) {
+					return null;
 
-	        	return null;
-
-	        }
-	    } );
+				}
+			}
+		);
 
 	} (
-	    window.wp.blocks,
-	    window.wp.blockEditor,
-	    window.wp.element,
-	    window.wp.components,
-	    block
+		window.wp.blocks,
+		window.wp.blockEditor,
+		window.wp.element,
+		window.wp.components,
+		block
 	) );
 
 }
-
-
-

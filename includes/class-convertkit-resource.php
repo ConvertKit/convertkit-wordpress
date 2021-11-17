@@ -2,15 +2,15 @@
 /**
  * Abstract class defining variables and functions for a ConvertKit API Resource
  * (forms, landing pages, tags).
- * 
- * @since 	1.9.6
+ *
+ * @since   1.9.6
  */
 class ConvertKit_Resource {
 
 	/**
 	 * Constructor. Populate the resources array of e.g. forms, landing pages or tags.
-	 * 
-	 * @since 	1.9.6
+	 *
+	 * @since   1.9.6
 	 */
 	public function __construct() {
 
@@ -30,10 +30,10 @@ class ConvertKit_Resource {
 
 	/**
 	 * Returns all resources.
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @return 	array
+	 *
+	 * @since   1.9.6
+	 *
+	 * @return  array
 	 */
 	public function get() {
 
@@ -43,10 +43,10 @@ class ConvertKit_Resource {
 
 	/**
 	 * Returns whether any resources exist in the options table.
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @return 	bool
+	 *
+	 * @since   1.9.6
+	 *
+	 * @return  bool
 	 */
 	public function exist() {
 
@@ -64,16 +64,16 @@ class ConvertKit_Resource {
 
 	/**
 	 * Fetches resources (forms, landing pages or tags) from the API, storing them in the options table.
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @param 	string 	$type 	Resource Type (forms|landing_pages|tags)
-	 * @return 	mixed 			WP_Error | array
+	 *
+	 * @since   1.9.6
+	 *
+	 * @param   string $type   Resource Type (forms|landing_pages|tags)
+	 * @return  mixed           WP_Error | array
 	 */
 	public function refresh() {
 
 		// Bail if the API Key and Secret hasn't been defined in the Plugin Settings.
-		$settings = new ConvertKit_Settings;
+		$settings = new ConvertKit_Settings();
 		if ( ! $settings->has_api_key_and_secret() ) {
 			return;
 		}
@@ -113,19 +113,22 @@ class ConvertKit_Resource {
 
 	/**
 	 * Sorts the given array of resources by name.
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @param  	array 	$data 	Forms or Landing Pages from API.
-	 * @return 	array 			Sorted Forms or Landing Pages.
+	 *
+	 * @since   1.9.6
+	 *
+	 * @param   array $data   Forms or Landing Pages from API.
+	 * @return  array           Sorted Forms or Landing Pages.
 	 */
 	private function sort_alphabetically( $data ) {
 
-		return usort( $data, function( $a, $b ) {
+		return usort(
+			$data,
+			function( $a, $b ) {
 
-			return strcmp( $a['name'], $b['name'] );
+				return strcmp( $a['name'], $b['name'] );
 
-		} );
+			}
+		);
 
 	}
 

@@ -9,8 +9,8 @@ class ConvertKit_WooCommerce_Product_Form {
 
 	/**
 	 * Constructor.
-	 * 
-	 * @since 	1.9.6
+	 *
+	 * @since   1.9.6
 	 */
 	public function __construct() {
 
@@ -21,10 +21,10 @@ class ConvertKit_WooCommerce_Product_Form {
 
 	/**
 	 * Register ConvertKit Form support for WooCommerce Products.
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @return 	array 	$post_types 	Post Types
+	 *
+	 * @since   1.9.6
+	 *
+	 * @return  array   $post_types     Post Types
 	 */
 	public function register_post_type_support( $post_types ) {
 
@@ -41,8 +41,8 @@ class ConvertKit_WooCommerce_Product_Form {
 
 	/**
 	 * Output the ConvertKit Form after the Product's Summary.
-	 * 
-	 * @since 	1.9.6
+	 *
+	 * @since   1.9.6
 	 */
 	public function output_form() {
 
@@ -52,7 +52,7 @@ class ConvertKit_WooCommerce_Product_Form {
 		}
 
 		// Bail if not a singular Product
-		if ( ! is_singular( 'product') ) {
+		if ( ! is_singular( 'product' ) ) {
 			return;
 		}
 
@@ -66,8 +66,8 @@ class ConvertKit_WooCommerce_Product_Form {
 
 	/**
 	 * Append the ConvertKit Form to the Product's Summary.
-	 * 
-	 * @since 	1.9.6
+	 *
+	 * @since   1.9.6
 	 */
 	public function append_form_to_product_summary() {
 
@@ -77,10 +77,10 @@ class ConvertKit_WooCommerce_Product_Form {
 
 	/**
 	 * Determines if the WooCommerce Plugin is active.
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @return 	bool 	Plugin Active.
+	 *
+	 * @since   1.9.6
+	 *
+	 * @return  bool    Plugin Active.
 	 */
 	public function is_active() {
 
@@ -91,8 +91,11 @@ class ConvertKit_WooCommerce_Product_Form {
 }
 
 // Bootstrap.
-add_action( 'convertkit_initialize_global', function() {
+add_action(
+	'convertkit_initialize_global',
+	function() {
 
-	new ConvertKit_WooCommerce_Product_Form;
+		new ConvertKit_WooCommerce_Product_Form();
 
-} );
+	}
+);

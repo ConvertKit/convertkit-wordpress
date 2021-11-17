@@ -1,15 +1,15 @@
 <?php
 /**
  * Registers AJAX actions for the Plugin.
- * 
- * @since 	1.9.6
+ *
+ * @since   1.9.6
  */
 class ConvertKit_AJAX {
 
 	/**
 	 * Constructor.
-	 * 
-	 * @since 	1.9.6
+	 *
+	 * @since   1.9.6
 	 */
 	public function __construct() {
 
@@ -26,12 +26,12 @@ class ConvertKit_AJAX {
 
 	/**
 	 * Stores the ConvertKit Subscriber's ID in the `ck_subscriber_id` cookie.
-	 * 
+	 *
 	 * Typically performed when the user subscribes via a ConvertKit Form on the web site
-	 * that is set to "Send subscriber to thank you page", and the Plugin's JavaScript is not 
+	 * that is set to "Send subscriber to thank you page", and the Plugin's JavaScript is not
 	 * disabled, permitting convertkit.js to run.
-	 * 
-	 * @since 	1.9.6
+	 *
+	 * @since   1.9.6
 	 */
 	public function store_subscriber_id_in_cookie() {
 
@@ -45,7 +45,7 @@ class ConvertKit_AJAX {
 		$id = sanitize_text_field( $_REQUEST['subscriber_id'] );
 
 		// Bail if the API hasn't been configured.
-		$settings = new ConvertKit_Settings;
+		$settings = new ConvertKit_Settings();
 		if ( ! $settings->has_api_key_and_secret() ) {
 			wp_send_json_error( __( 'ConvertKit: API Keys not defined in Plugin Settings.', 'convertkit' ) );
 		}
@@ -65,19 +65,21 @@ class ConvertKit_AJAX {
 		setcookie( 'ck_subscriber_id', $subscriber['id'], time() + ( 365 * DAY_IN_SECONDS ), '/' );
 
 		// Return the subscriber ID.
-		wp_send_json_success( array(
-			'id' => $subscriber['id'],
-		) );
+		wp_send_json_success(
+			array(
+				'id' => $subscriber['id'],
+			)
+		);
 
 	}
 
 	/**
 	 * Stores the ConvertKit Subscriber Email's ID in the `ck_subscriber_id` cookie.
-	 * 
+	 *
 	 * Typically performed when the user subscribes via a ConvertKit Form on the web site
 	 * and the Plugin's JavaScript is not disabled, permitting convertkit.js to run.
-	 * 
-	 * @since 	1.9.6
+	 *
+	 * @since   1.9.6
 	 */
 	public function store_subscriber_email_as_id_in_cookie() {
 
@@ -91,7 +93,7 @@ class ConvertKit_AJAX {
 		$email = sanitize_text_field( $_REQUEST['email'] );
 
 		// Bail if the API hasn't been configured.
-		$settings = new ConvertKit_Settings;
+		$settings = new ConvertKit_Settings();
 		if ( ! $settings->has_api_key_and_secret() ) {
 			wp_send_json_error( __( 'ConvertKit: API Keys not defined in Plugin Settings.', 'convertkit' ) );
 		}
@@ -111,17 +113,19 @@ class ConvertKit_AJAX {
 		setcookie( 'ck_subscriber_id', $subscriber['id'], time() + ( 365 * DAY_IN_SECONDS ), '/' );
 
 		// Return the subscriber ID.
-		wp_send_json_success( array(
-			'id' => $subscriber['id'],
-		) );
+		wp_send_json_success(
+			array(
+				'id' => $subscriber['id'],
+			)
+		);
 
 	}
 
 	/**
 	 * Tags a subscriber when their subscriber ID is present in the cookie or URL,
 	 * and the Page's ConvertKit Settings specify a Tag.
-	 * 
-	 * @since 	1.9.6
+	 *
+	 * @since   1.9.6
 	 */
 	public function tag_subscriber() {
 
@@ -136,10 +140,10 @@ class ConvertKit_AJAX {
 			wp_send_json_error( __( 'ConvertKit: Required parameter `tag` not included in AJAX request.', 'convertkit' ) );
 		}
 		$subscriber_id = sanitize_text_field( $_REQUEST['subscriber_id'] );
-		$tag = sanitize_text_field( $_REQUEST['tag'] );
+		$tag           = sanitize_text_field( $_REQUEST['tag'] );
 
 		// Bail if the API hasn't been configured.
-		$settings = new ConvertKit_Settings;
+		$settings = new ConvertKit_Settings();
 		if ( ! $settings->has_api_key_and_secret() ) {
 			wp_send_json_error( __( 'ConvertKit: API Keys not defined in Plugin Settings.', 'convertkit' ) );
 		}

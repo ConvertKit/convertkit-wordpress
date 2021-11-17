@@ -1,5 +1,11 @@
 <?php
 /**
+ * ConvertKit WordPress Plugin.
+ *
+ * @package ConvertKit
+ * @author ConvertKit
+ *
+ * @wordpress-plugin
  * Plugin Name: ConvertKit
  * Plugin URI: https://convertkit.com/
  * Description: Quickly and easily integrate ConvertKit forms into your site.
@@ -43,18 +49,18 @@ require_once CONVERTKIT_PLUGIN_PATH . '/includes/blocks/class-convertkit-block-c
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/blocks/class-convertkit-block-form.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/widgets/class-ck-widget-form.php';
 
-// Contact Form 7 Integration
+// Contact Form 7 Integration.
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/integrations/contactform7/class-convertkit-contactform7.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/integrations/contactform7/class-convertkit-contactform7-settings.php';
 
-// WishList Member Integration
+// WishList Member Integration.
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/integrations/wishlist/class-convertkit-wishlist.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/integrations/wishlist/class-convertkit-wishlist-settings.php';
 
-// WooCommerce Integration
+// WooCommerce Integration.
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/integrations/woocommerce/class-convertkit-woocommerce-product-form.php';
 
-// Load files that are only used in the WordPress Administration interface. 
+// Load files that are only used in the WordPress Administration interface.
 if ( is_admin() ) {
 	require_once CONVERTKIT_PLUGIN_PATH . '/admin/class-convertkit-admin-category.php';
 	require_once CONVERTKIT_PLUGIN_PATH . '/admin/class-convertkit-admin-gutenberg.php';
@@ -68,10 +74,10 @@ if ( is_admin() ) {
 	require_once CONVERTKIT_PLUGIN_PATH . '/admin/section/class-convertkit-settings-general.php';
 	require_once CONVERTKIT_PLUGIN_PATH . '/admin/section/class-convertkit-settings-tools.php';
 
-	// Contact Form 7 Integration
+	// Contact Form 7 Integration.
 	require_once CONVERTKIT_PLUGIN_PATH . '/includes/integrations/contactform7/class-convertkit-contactform7-admin-settings.php';
 
-	// WishList Member Integration
+	// WishList Member Integration.
 	require_once CONVERTKIT_PLUGIN_PATH . '/includes/integrations/wishlist/class-convertkit-wishlist-admin-settings.php';
 }
 
@@ -80,11 +86,11 @@ if ( is_admin() ) {
  *
  * @since   1.9.6
  */
-function WP_ConvertKit() {
-	
+function wp_convertkit() {
+
 	return WP_ConvertKit::get_instance();
 
 }
 
 // Finally, initialize the Plugin.
-WP_ConvertKit();
+wp_convertkit();

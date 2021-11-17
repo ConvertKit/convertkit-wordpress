@@ -1,11 +1,21 @@
+<?php
+/**
+ * Settings > Tools view
+ *
+ * @package ConvertKit
+ * @author ConvertKit
+ */
+
+?>
+
 <div class="metabox-holder">
 
 	<div class="postbox">
 		<h3><span><?php esc_html_e( 'Debug Log', 'convertkit' ); ?></span></h3>
 		<div class="inside">
 			<p class="description">
-				<?php _e( 'Use this tool to help debug ConvertKit plugin functionality.', 'convertkit' ); ?><br />
-				<?php _e( 'For performance, the last 500 lines of the log are displayed. Use the Download Log option to review the full log.', 'convertkit' ); ?><br />
+				<?php esc_html_e( 'Use this tool to help debug ConvertKit plugin functionality.', 'convertkit' ); ?><br />
+				<?php esc_html_e( 'For performance, the last 500 lines of the log are displayed. Use the Download Log option to review the full log.', 'convertkit' ); ?><br />
 			</p>
 
 			<textarea readonly="readonly" id="debug-log-textarea" class="large-text convertkit-monospace" rows="15"><?php echo esc_textarea( $log->read() ); ?></textarea>
@@ -30,7 +40,7 @@
 					);
 					?>
 				</p>
-				<p><?php _e( 'Log file', 'convertkit' ); ?>: <code><?php echo $log->get_filename(); ?></code></p>
+				<p><?php esc_html_e( 'Log file', 'convertkit' ); ?>: <code><?php echo esc_attr( $log->get_filename() ); ?></code></p>
 				<?php
 			}
 			?>
@@ -40,7 +50,7 @@
 	<div class="postbox">
 		<h3><span><?php esc_html_e( 'System Info', 'convertkit' ); ?></span></h3>
 		<div class="inside">
-			<p><?php _e( 'Use this tool to send system info to support when necessary.', 'convertkit' ); ?></p>
+			<p><?php esc_html_e( 'Use this tool to send system info to support when necessary.', 'convertkit' ); ?></p>
 
 			<textarea readonly="readonly" id="system-info-textarea" class="large-text convertkit-monospace" rows="15"><?php echo esc_textarea( $system_info->get() ); ?></textarea>
 

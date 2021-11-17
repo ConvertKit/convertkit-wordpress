@@ -3,115 +3,131 @@
  *
  * @since   1.9.6
  */
-jQuery( document ).ready( function( $ ) {
-    
-    // Cancel
-    $( 'body' ).on( 'click', 'form.convertkit-tinymce-popup button.close', function( e ) {
+jQuery( document ).ready(
+	function( $ ) {
 
-        // TinyMCE
-        if ( typeof tinyMCE !== 'undefined' && tinyMCE.activeEditor && ! tinyMCE.activeEditor.isHidden() ) {
-            tinymce.activeEditor.windowManager.close();
-            return;
-        }
+		// Cancel
+		$( 'body' ).on(
+			'click',
+			'form.convertkit-tinymce-popup button.close',
+			function( e ) {
 
-        // Text Editor
-        convertKitQuickTagsModal.close();
+				// TinyMCE
+				if ( typeof tinyMCE !== 'undefined' && tinyMCE.activeEditor && ! tinyMCE.activeEditor.isHidden() ) {
+					 tinymce.activeEditor.windowManager.close();
+					 return;
+				}
 
-    } );
+				// Text Editor
+				convertKitQuickTagsModal.close();
 
-    // Insert
-    $( 'body' ).on( 'click', 'form.convertkit-tinymce-popup div.buttons input[type=button]', function( e ) {
+			}
+		);
 
-        // Prevent default action
-        e.preventDefault();
+		// Insert
+		$( 'body' ).on(
+			'click',
+			'form.convertkit-tinymce-popup div.buttons input[type=button]',
+			function( e ) {
 
-        // Get containing form
-        var form = $( this ).closest( 'form.convertkit-tinymce-popup' );
+				// Prevent default action
+				e.preventDefault();
 
-        // Build Shortcode
-        var shortcode = '[' + $( 'input[name="shortcode"]', $( form ) ).val(),
-            shortcodeClose = ( $( 'input[name="close_shortcode"]', $( form ) ).val() == '1' ? true : false );
+				// Get containing form
+				var form = $( this ).closest( 'form.convertkit-tinymce-popup' );
 
-        $( 'input, select', $( form ) ).each( function( i ) {
-            // Skip if no data-shortcode attribute
-            if ( typeof $( this ).data( 'shortcode' ) === 'undefined' ) {
-                return true;
-            }
+				// Build Shortcode
+				var shortcode  = '[' + $( 'input[name="shortcode"]', $( form ) ).val(),
+				shortcodeClose = ( $( 'input[name="close_shortcode"]', $( form ) ).val() == '1' ? true : false );
 
-            // Skip if the value is empty
-            if ( ! $( this ).val() ) {
-                return true;
-            }
-            if ( $( this ).val().length == 0 ) {
-                return true;
-            }
+				$( 'input, select', $( form ) ).each(
+					function( i ) {
+						// Skip if no data-shortcode attribute
+						if ( typeof $( this ).data( 'shortcode' ) === 'undefined' ) {
+								 return true;
+						}
 
-            // Get shortcode attribute
-            var key = $( this ).data( 'shortcode' ),
-                trim = ( $( this ).data( 'trim' ) == '0' ? false : true ),
-                val = $( this ).val();
+						// Skip if the value is empty
+						if ( ! $( this ).val() ) {
+							return true;
+						}
+						if ( $( this ).val().length == 0 ) {
+							return true;
+						}
 
-            // Skip if the shortcode is empty
-            if ( ! key.length ) {
-                return true;
-            }
+						// Get shortcode attribute
+						var key = $( this ).data( 'shortcode' ),
+						trim    = ( $( this ).data( 'trim' ) == '0' ? false : true ),
+						val     = $( this ).val();
 
-            // Trim the value, unless the shortcode attribute disables string trimming
-            if ( trim ) {
-                val = val.trim();
-            }
+						// Skip if the shortcode is empty
+						if ( ! key.length ) {
+							 return true;
+						}
 
-            // Append attribute and value to shortcode string
-            shortcode += ' ' + key.trim() + '="' + val + '"';
-        } );
+						// Trim the value, unless the shortcode attribute disables string trimming
+						if ( trim ) {
+							val = val.trim();
+						}
 
-        // Close Shortcode
-        shortcode += ']';
+						// Append attribute and value to shortcode string
+						shortcode += ' ' + key.trim() + '="' + val + '"';
+					}
+				);
 
-        // If the shortcode includes a closing element, append it now.
-        if ( shortcodeClose ) {
-            shortcode += '[/' + $( 'input[name="shortcode"]', $( form ) ).val() + ']';
-        }
+				// Close Shortcode
+				shortcode += ']';
 
-        /**
-         * Finish building the link, and insert it, depending on whether we were initialized from
-         * the Visual Editor or Text Editor
-         */
-        if ( typeof tinyMCE !== 'undefined' && tinyMCE.activeEditor && ! tinyMCE.activeEditor.isHidden() ) {
-            // Insert into editor
-            tinyMCE.activeEditor.execCommand( 'mceReplaceContent', false, shortcode );
+				// If the shortcode includes a closing element, append it now.
+				if ( shortcodeClose ) {
+					shortcode += '[/' + $( 'input[name="shortcode"]', $( form ) ).val() + ']';
+				}
 
-            // Close modal
-            tinyMCE.activeEditor.windowManager.close();
+				/**
+				 * Finish building the link, and insert it, depending on whether we were initialized from
+				 * the Visual Editor or Text Editor
+				 */
+				if ( typeof tinyMCE !== 'undefined' && tinyMCE.activeEditor && ! tinyMCE.activeEditor.isHidden() ) {
+					// Insert into editor
+					tinyMCE.activeEditor.execCommand( 'mceReplaceContent', false, shortcode );
 
-            // Done
-            return;
-        }
+					// Close modal
+					tinyMCE.activeEditor.windowManager.close();
 
-        // Text Editor
-        if ( typeof QTags !== 'undefined' ) {
-            // Insert into editor
-            QTags.insertContent( shortcode );
+					// Done
+					return;
+				}
 
-            // Close modal
-            convertKitQuickTagsModal.close();
+				// Text Editor
+				if ( typeof QTags !== 'undefined' ) {
+					// Insert into editor
+					QTags.insertContent( shortcode );
 
-            // Done
-            return;
-        }
+					// Close modal
+					convertKitQuickTagsModal.close();
 
-    } );
+					// Done
+					return;
+				}
 
-} );
+			}
+		);
+
+	}
+);
 
 // QuickTags: Setup Backbone Modal and Template
 if ( typeof wp !== 'undefined' && typeof wp.media !== 'undefined' ) {
-    var convertKitQuickTagsModal = new wp.media.view.Modal( {
-        controller: { trigger: function() {} },
-        className: 'convertkit-quicktags-modal'
-    } );
-    var convertKitQuickTagsModalContent = wp.Backbone.View.extend( {
-        template: wp.template( 'convertkit-quicktags-modal' )
-    } );
-    convertKitQuickTagsModal.content( new convertKitQuickTagsModalContent() );
+	var convertKitQuickTagsModal        = new wp.media.view.Modal(
+		{
+			controller: { trigger: function() {} },
+			className: 'convertkit-quicktags-modal'
+		}
+	);
+	var convertKitQuickTagsModalContent = wp.Backbone.View.extend(
+		{
+			template: wp.template( 'convertkit-quicktags-modal' )
+		}
+	);
+	convertKitQuickTagsModal.content( new convertKitQuickTagsModalContent() );
 }

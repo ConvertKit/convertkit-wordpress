@@ -42,7 +42,7 @@ class ConvertKit_Admin_TinyMCE {
 
 		// If the block is not registered, return a view in the modal to tell the user.
 		if ( ! isset( $blocks[ $block_name ] ) ) {
-			require_once( CONVERTKIT_PLUGIN_PATH . '/views/backend/tinymce/modal-missing.php' ); 
+			require_once CONVERTKIT_PLUGIN_PATH . '/views/backend/tinymce/modal-missing.php';
 			die();
 		}
 
@@ -50,15 +50,15 @@ class ConvertKit_Admin_TinyMCE {
 		$block = $blocks[ $block_name ];
 
 		// Output the modal.
-		require_once( CONVERTKIT_PLUGIN_PATH . '/views/backend/tinymce/modal.php' ); 
+		require_once CONVERTKIT_PLUGIN_PATH . '/views/backend/tinymce/modal.php';
 		die();
 
 	}
 
 	/**
 	 * Registers QuickTags JS for the TinyMCE Text (non-Visual) Editor
-	 * 
-	 * @since 	3.0.0
+	 *
+	 * @since   3.0.0
 	 */
 	public function register_quicktags() {
 
@@ -95,8 +95,8 @@ class ConvertKit_Admin_TinyMCE {
 	 *
 	 * @since   1.5.0
 	 *
-	 * @param   array   $plugins    JS Plugins
-	 * @return  array 		        JS Plugins
+	 * @param   array $plugins    JS Plugins
+	 * @return  array               JS Plugins
 	 */
 	public function register_tinymce_plugins( $plugins ) {
 
@@ -115,7 +115,7 @@ class ConvertKit_Admin_TinyMCE {
 
 		// Register TinyMCE Javascript Plugin.
 		foreach ( $blocks as $block => $properties ) {
-			$plugins['convertkit_' . $block ] = CONVERTKIT_PLUGIN_URL . 'resources/backend/js/tinymce-' . $block . '.js';
+			$plugins[ 'convertkit_' . $block ] = CONVERTKIT_PLUGIN_URL . 'resources/backend/js/tinymce-' . $block . '.js';
 		}
 
 		return $plugins;
@@ -127,8 +127,8 @@ class ConvertKit_Admin_TinyMCE {
 	 *
 	 * @since   1.5.0
 	 *
-	 * @param   array   $buttons    Buttons
-	 * @return  array 		        Buttons
+	 * @param   array $buttons    Buttons
+	 * @return  array               Buttons
 	 */
 	public function register_tinymce_buttons( $buttons ) {
 

@@ -1,7 +1,7 @@
 <?php
 /**
  * Registers blocks defined in the `convertkit_blocks` filter in Gutenberg.
- * 
+ *
  * @package ConvertKit
  * @author  ConvertKit
  */
@@ -9,7 +9,7 @@ class ConvertKit_Admin_Gutenberg {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @since   1.9.6
 	 */
 	public function __construct() {
@@ -45,7 +45,7 @@ class ConvertKit_Admin_Gutenberg {
 				array(
 					'slug'  => 'convertkit',
 					'title' => 'ConvertKit',
-				)
+				),
 			)
 		);
 
@@ -86,7 +86,7 @@ class ConvertKit_Admin_Gutenberg {
 
 		// Get registered blocks
 		$registered_blocks = array_keys( WP_Block_Type_Registry::get_instance()->get_all_registered() );
-	   
+
 		// Iterate through blocks, registering them
 		foreach ( $blocks as $block => $properties ) {
 			// Skip if this block has already been registered.
@@ -95,13 +95,16 @@ class ConvertKit_Admin_Gutenberg {
 			}
 
 			// Register block.
-			register_block_type( 'convertkit/' . $block, array(
-				'editor_script'     => 'convertkit-gutenberg',
-				'render_callback'   => array( 
-					$properties['render_callback'][0],
-					$properties['render_callback'][1]
-				),
-			) );
+			register_block_type(
+				'convertkit/' . $block,
+				array(
+					'editor_script'   => 'convertkit-gutenberg',
+					'render_callback' => array(
+						$properties['render_callback'][0],
+						$properties['render_callback'][1],
+					),
+				)
+			);
 		}
 
 		// Enqueue Gutenberg script.
@@ -111,8 +114,8 @@ class ConvertKit_Admin_Gutenberg {
 
 	/**
 	 * Enqueues the Gutenberg script.
-	 * 
-	 * @since 	1.9.6
+	 *
+	 * @since   1.9.6
 	 */
 	public function enqueue_script() {
 

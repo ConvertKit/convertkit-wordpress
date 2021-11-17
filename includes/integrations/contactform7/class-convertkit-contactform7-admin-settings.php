@@ -13,15 +13,15 @@ class ConvertKit_Admin_Settings_ContactForm7 extends ConvertKit_Settings_Base {
 	public function __construct() {
 
 		// Define the class that reads/writes settings.
-		$this->settings 	= new ConvertKit_ContactForm7_Settings;
+		$this->settings = new ConvertKit_ContactForm7_Settings();
 
 		// Define the settings key.
-		$this->settings_key  = $this->settings::SETTINGS_NAME;
+		$this->settings_key = $this->settings::SETTINGS_NAME;
 
 		// Define the programmatic name, Title and Tab Text.
-		$this->name          = 'contactform7';
-		$this->title         = __( 'Contact Form 7 Integration Settings', 'convertkit' );
-		$this->tab_text      = __( 'Contact Form 7', 'convertkit' );
+		$this->name     = 'contactform7';
+		$this->title    = __( 'Contact Form 7 Integration Settings', 'convertkit' );
+		$this->tab_text = __( 'Contact Form 7', 'convertkit' );
 
 		parent::__construct();
 
@@ -35,7 +35,6 @@ class ConvertKit_Admin_Settings_ContactForm7 extends ConvertKit_Settings_Base {
 		// No fields are registered, because they are output in a WP_List_Table
 		// in this class' render() function.
 		// This function is deliberately blank.
-
 	}
 
 	/**
@@ -61,15 +60,15 @@ class ConvertKit_Admin_Settings_ContactForm7 extends ConvertKit_Settings_Base {
 	/**
 	 * Outputs the section as a WP_List_Table of Contact Form 7 Forms, with options to choose
 	 * a ConvertKit Form mapping for each.
-	 * 
-	 * @since 	1.9.6
+	 *
+	 * @since   1.9.6
 	 */
 	public function render() {
 
 		do_settings_sections( $this->settings_key );
 
 		// Get Forms.
-		$forms = new ConvertKit_Resource_Forms;
+		$forms = new ConvertKit_Resource_Forms();
 
 		// Bail with an error if no ConvertKit Forms exist.
 		if ( ! $forms->exist() ) {
@@ -95,7 +94,7 @@ class ConvertKit_Admin_Settings_ContactForm7 extends ConvertKit_Settings_Base {
 		}
 
 		// Setup WP_List_Table
-		$table   = new Multi_Value_Field_Table;
+		$table = new Multi_Value_Field_Table();
 		$table->add_column( 'title', __( 'Contact Form 7 Form', 'convertkit' ), true );
 		$table->add_column( 'form', __( 'ConvertKit Form', 'convertkit' ), false );
 		$table->add_column( 'email', __( 'Contact Form 7 Email Field', 'convertkit' ), false );
@@ -103,16 +102,18 @@ class ConvertKit_Admin_Settings_ContactForm7 extends ConvertKit_Settings_Base {
 
 		// Iterate through Contact Form 7 Forms, adding a table row for each Contact Form 7 Form.
 		foreach ( $cf7_forms as $cf7_form ) {
-			$table->add_item( array(
-				'title' => $cf7_form['name'],
-				'form' 	=> $this->get_select_field(
-					$cf7_form['id'],
-					$this->settings->get_convertkit_form_id_by_cf7_form_id( $cf7_form['id'] ),
-					$options
-				),
-				'email' => 'your-email',
-				'name' 	=> 'your-name',
-			) );
+			$table->add_item(
+				array(
+					'title' => $cf7_form['name'],
+					'form'  => $this->get_select_field(
+						$cf7_form['id'],
+						$this->settings->get_convertkit_form_id_by_cf7_form_id( $cf7_form['id'] ),
+						$options
+					),
+					'email' => 'your-email',
+					'name'  => 'your-name',
+				)
+			);
 		}
 
 		// Prepare and display WP_List_Table.
@@ -121,10 +122,10 @@ class ConvertKit_Admin_Settings_ContactForm7 extends ConvertKit_Settings_Base {
 
 		// Register settings field.
 		settings_fields( $this->settings_key );
-		
+
 		// Render submit button.
 		submit_button();
-		
+
 	}
 
 	/**
@@ -134,12 +135,14 @@ class ConvertKit_Admin_Settings_ContactForm7 extends ConvertKit_Settings_Base {
 
 		$forms = array();
 
-		$result = new WP_Query( array(
-			'post_type' 	=> 'wpcf7_contact_form',
-			'posts_per_page'=> -1,
-			'orderby' 		=> 'ID',
-			'order' 		=> 'ASC',
-		) );
+		$result = new WP_Query(
+			array(
+				'post_type'      => 'wpcf7_contact_form',
+				'posts_per_page' => -1,
+				'orderby'        => 'ID',
+				'order'          => 'ASC',
+			)
+		);
 
 		if ( ! is_array( $result->posts ) ) {
 			return false;
@@ -150,8 +153,8 @@ class ConvertKit_Admin_Settings_ContactForm7 extends ConvertKit_Settings_Base {
 
 		foreach ( $result->posts as $post ) {
 			$forms[] = array(
-				'id' 	=> $post->ID,
-				'name' 	=> $post->post_title,
+				'id'   => $post->ID,
+				'name' => $post->post_title,
 			);
 		}
 
@@ -162,15 +165,18 @@ class ConvertKit_Admin_Settings_ContactForm7 extends ConvertKit_Settings_Base {
 }
 
 // Register Admin Settings section.
-add_filter( 'convertkit_admin_settings_register_sections', function( $sections ) {
+add_filter(
+	'convertkit_admin_settings_register_sections',
+	function( $sections ) {
 
-	// Bail if Contact Form 7 isn't enabled.
-	if ( ! defined( 'WPCF7_VERSION' ) ) {
+		// Bail if Contact Form 7 isn't enabled.
+		if ( ! defined( 'WPCF7_VERSION' ) ) {
+			return $sections;
+		}
+
+		// Register this class as a section at Settings > ConvertKit.
+		$sections['contactform7'] = new ConvertKit_Admin_Settings_ContactForm7();
 		return $sections;
+
 	}
-
-	// Register this class as a section at Settings > ConvertKit.
-	$sections['contactform7'] = new ConvertKit_Admin_Settings_ContactForm7;
-	return $sections;
-
-} );
+);

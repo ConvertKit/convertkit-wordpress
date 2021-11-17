@@ -1,12 +1,19 @@
 <?php
-// Build a string of data- attributes
-$data_attributes = '';
+/**
+ * TinyMCE Modal Field view
+ *
+ * @package ConvertKit
+ * @author ConvertKit
+ */
+
+// Build a string of data- attributes.
+$data_attributes                   = '';
 $data_attributes_shortcode_defined = false;
 if ( isset( $field['data'] ) ) {
 	foreach ( $field['data'] as $data_attribute => $data_attribute_value ) {
 		$data_attributes .= ' data-' . $data_attribute . '="' . $data_attribute_value . '"';
 
-		if ( $data_attribute == 'shortcode' ) {
+		if ( $data_attribute === 'shortcode' ) {
 			$data_attributes_shortcode_defined = true;
 		}
 	}
@@ -24,12 +31,12 @@ switch ( $field['type'] ) {
 	case 'text_multiple':
 		?>
 		<input type="text" 
-				id="tinymce_modal_<?php echo $field_name; ?>"
-				name="<?php echo $field_name; ?>"
-				value="<?php echo ( isset( $field['default_value'] ) ? $field['default_value'] : '' ); ?>" 
-				<?php echo $data_attributes; ?>
-				placeholder="<?php echo ( isset( $field['placeholder'] ) ? $field['placeholder'] : '' ); ?>"
-				class="widefat <?php echo ( isset( $field['class'] ) ? $field['class'] : '' ); ?>" />
+				id="tinymce_modal_<?php echo esc_attr( $field_name ); ?>"
+				name="<?php echo esc_attr( $field_name ); ?>"
+				value="<?php echo esc_attr( isset( $field['default_value'] ) ? $field['default_value'] : '' ); ?>" 
+				<?php echo $data_attributes; // phpcs:ignore ?>
+				placeholder="<?php echo esc_attr( isset( $field['placeholder'] ) ? $field['placeholder'] : '' ); ?>"
+				class="widefat <?php echo esc_attr( isset( $field['class'] ) ? $field['class'] : '' ); ?>" />
 		<?php
 		break;
 
@@ -39,14 +46,14 @@ switch ( $field['type'] ) {
 	case 'number':
 		?>
 		<input type="number" 
-				id="tinymce_modal_<?php echo $field_name; ?>"
-				name="<?php echo $field_name; ?>" 
-				value="<?php echo ( isset( $field['default_value'] ) ? $field['default_value'] : '' ); ?>" 
-				<?php echo $data_attributes; ?>
-				min="<?php echo $field['min']; ?>" 
-				max="<?php echo $field['max']; ?>" 
-				step="<?php echo $field['step']; ?>"
-				class="widefat <?php echo ( isset( $field['class'] ) ? $field['class'] : '' ); ?>" />
+				id="tinymce_modal_<?php echo esc_attr( $field_name ); ?>"
+				name="<?php echo esc_attr( $field_name ); ?>" 
+				value="<?php echo esc_attr( isset( $field['default_value'] ) ? $field['default_value'] : '' ); ?>" 
+				<?php echo $data_attributes; // phpcs:ignore ?>
+				min="<?php echo esc_attr( $field['min'] ); ?>" 
+				max="<?php echo esc_attr( $field['max'] ); ?>" 
+				step="<?php echo esc_attr( $field['step'] ); ?>"
+				class="widefat <?php echo esc_attr( isset( $field['class'] ) ? $field['class'] : '' ); ?>" />
 		<?php
 		break;
 
@@ -55,17 +62,17 @@ switch ( $field['type'] ) {
 	 */
 	case 'select':
 		?>
-		<select name="<?php echo $field_name; ?>"
-				id="tinymce_modal_<?php echo $field_name; ?>"
-				<?php echo $data_attributes; ?>
+		<select name="<?php echo esc_attr( $field_name ); ?>"
+				id="tinymce_modal_<?php echo esc_attr( $field_name ); ?>"
+				<?php echo $data_attributes; // phpcs:ignore ?>
 				size="1"
-				class="widefat <?php echo ( isset( $field['class'] ) ? $field['class'] : '' ); ?>">
+				class="widefat <?php echo esc_attr( isset( $field['class'] ) ? $field['class'] : '' ); ?>">
 			<?php
 			$field['default_value'] = ( isset( $field['default_value'] ) ? $field['default_value'] : '' );
 			foreach ( $field['values'] as $value => $label ) {
 				?>
-				<option value="<?php echo $value; ?>"<?php selected( $field['default_value'], $value ); ?>>
-					<?php echo $label; ?>
+				<option value="<?php echo esc_attr( $value ); ?>"<?php selected( $field['default_value'], $value ); ?>>
+					<?php echo esc_attr( $label ); ?>
 				</option>
 				<?php
 			}
@@ -79,19 +86,19 @@ switch ( $field['type'] ) {
 	 */
 	case 'select_multiple':
 		?>
-		<select name="<?php echo $field_name; ?>[]"
-				id="tinymce_modal_<?php echo $field_name; ?>"
-				<?php echo $data_attributes; ?>
+		<select name="<?php echo esc_attr( $field_name ); ?>[]"
+				id="tinymce_modal_<?php echo esc_attr( $field_name ); ?>"
+				<?php echo $data_attributes; // phpcs:ignore ?>
 				size="1"
 				multiple="multiple"
-				class="widefat <?php echo ( isset( $field['class'] ) ? $field['class'] : '' ); ?>">
+				class="widefat <?php echo esc_attr( isset( $field['class'] ) ? $field['class'] : '' ); ?>">
 			<?php
 			$field['default_value'] = ( isset( $field['default_value'] ) ? $field['default_value'] : '' );
 			if ( isset( $field['values'] ) && is_array( $field['values'] ) && count( $field['values'] ) > 0 ) {
 				foreach ( $field['values'] as $value => $label ) {
 					?>
-					<option value="<?php echo $value; ?>"<?php selected( $field['default_value'], $value ); ?>>
-						<?php echo $label; ?>
+					<option value="<?php echo esc_attr( $value ); ?>"<?php selected( $field['default_value'], $value ); ?>>
+						<?php echo esc_attr( $label ); ?>
 					</option>
 					<?php
 				}
@@ -106,16 +113,16 @@ switch ( $field['type'] ) {
 	 */
 	case 'toggle':
 		?>
-		<select name="<?php echo $field_name; ?>"
-				id="tinymce_modal_<?php echo $field_name; ?>"
-				<?php echo $data_attributes; ?>
+		<select name="<?php echo esc_attr( $field_name ); ?>"
+				id="tinymce_modal_<?php echo esc_attr( $field_name ); ?>"
+				<?php echo $data_attributes; // phpcs:ignore ?>
 				size="1"
-				class="widefat <?php echo ( isset( $field['class'] ) ? $field['class'] : '' ); ?>">
+				class="widefat <?php echo esc_attr( isset( $field['class'] ) ? $field['class'] : '' ); ?>">
 			<?php
 			$field['default_value'] = ( isset( $field['default_value'] ) ? $field['default_value'] : '' );
 			?>
-			<option value="0"<?php selected( $field['default_value'], 0 ); ?>><?php _e( 'No', 'convertkit' ); ?></option>
-			<option value="1"<?php selected( $field['default_value'], 1 ); ?>><?php _e( 'Yes', 'convertkit' ); ?></option>
+			<option value="0"<?php selected( $field['default_value'], 0 ); ?>><?php esc_html_e( 'No', 'convertkit' ); ?></option>
+			<option value="1"<?php selected( $field['default_value'], 1 ); ?>><?php esc_html_e( 'Yes', 'convertkit' ); ?></option>
 		</select>
 		<?php
 		break;
@@ -124,7 +131,7 @@ switch ( $field['type'] ) {
 if ( isset( $field['description'] ) ) {
 	?>
 	<p class="description">
-		<?php echo $field['description']; ?>
+		<?php echo esc_attr( $field['description'] ); ?>
 	</p>
 	<?php
 }

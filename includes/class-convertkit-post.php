@@ -1,40 +1,40 @@
 <?php
 /**
  * Class to read ConvertKit Settings for the given Post, Page or Custom Post.
- * 
- * @since 	1.9.6
+ *
+ * @since   1.9.6
  */
 class ConvertKit_Post {
 
 	/**
 	 * Holds the Post Meta Key that stores ConvertKit settings on a per-Post basis
-	 * 
-	 * @var 	string
+	 *
+	 * @var     string
 	 */
 	const POST_META_KEY = '_wp_convertkit_post_meta';
 
 	/**
 	 * Holds the Post ID
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @var 	int
+	 *
+	 * @since   1.9.6
+	 *
+	 * @var     int
 	 */
 	public $post_id = 0;
 
 	/**
 	 * Holds the Post's Settings
-	 * 
-	 * @var 	array
+	 *
+	 * @var     array
 	 */
 	private $settings = false;
 
 	/**
 	 * Constructor. Populates the settings based on the given Post ID.
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @param 	int 	$post-id 	Post ID
+	 *
+	 * @since   1.9.6
+	 *
+	 * @param   int $post-id    Post ID
 	 */
 	public function __construct( $post_id ) {
 
@@ -46,7 +46,7 @@ class ConvertKit_Post {
 		if ( ! $meta ) {
 			// Fallback to default settings.
 			$meta = $this->get_default_settings();
-			
+
 			// Backward compat check for older Plugin version settings.
 			$old_value = intval( get_post_meta( $post_id, '_convertkit_convertkit_form', true ) );
 			if ( 0 !== $old_value ) {
@@ -61,10 +61,10 @@ class ConvertKit_Post {
 
 	/**
 	 * Returns settings for the Post.
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @return 	array
+	 *
+	 * @since   1.9.6
+	 *
+	 * @return  array
 	 */
 	public function get() {
 
@@ -74,10 +74,10 @@ class ConvertKit_Post {
 
 	/**
 	 * Returns the form setting for the Post.
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @return 	string
+	 *
+	 * @since   1.9.6
+	 *
+	 * @return  string
 	 */
 	public function get_form() {
 
@@ -87,10 +87,10 @@ class ConvertKit_Post {
 
 	/**
 	 * Returns the landing page setting for the Post.
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @return 	string
+	 *
+	 * @since   1.9.6
+	 *
+	 * @return  string
 	 */
 	public function get_landing_page() {
 
@@ -100,10 +100,10 @@ class ConvertKit_Post {
 
 	/**
 	 * Returns the tag setting for the Post.
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @return 	string
+	 *
+	 * @since   1.9.6
+	 *
+	 * @return  string
 	 */
 	public function get_tag() {
 
@@ -113,10 +113,10 @@ class ConvertKit_Post {
 
 	/**
 	 * Whether the Post has a ConvertKit Form defined.
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @return 	string
+	 *
+	 * @since   1.9.6
+	 *
+	 * @return  string
 	 */
 	public function has_form() {
 
@@ -126,10 +126,10 @@ class ConvertKit_Post {
 
 	/**
 	 * Whether the Post is set to use the Plugin's Default Form Setting.
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @return 	string
+	 *
+	 * @since   1.9.6
+	 *
+	 * @return  string
 	 */
 	public function uses_default_form() {
 
@@ -139,10 +139,10 @@ class ConvertKit_Post {
 
 	/**
 	 * Whether the Post's Form setting is set to 'None'
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @return 	string
+	 *
+	 * @since   1.9.6
+	 *
+	 * @return  string
 	 */
 	public function uses_no_form() {
 
@@ -152,10 +152,10 @@ class ConvertKit_Post {
 
 	/**
 	 * Whether the Post has a ConvertKit Landing Page defined.
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @return 	string
+	 *
+	 * @since   1.9.6
+	 *
+	 * @return  string
 	 */
 	public function has_landing_page() {
 
@@ -165,10 +165,10 @@ class ConvertKit_Post {
 
 	/**
 	 * Whether the Post has a ConvertKit Tag defined.
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @return 	string
+	 *
+	 * @since   1.9.6
+	 *
+	 * @return  string
 	 */
 	public function has_tag() {
 
@@ -178,10 +178,10 @@ class ConvertKit_Post {
 
 	/**
 	 * Saves Post settings to the Post.
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @param 	array 	$meta 	Settings
+	 *
+	 * @since   1.9.6
+	 *
+	 * @param   array $meta   Settings
 	 */
 	public function save( $meta ) {
 
@@ -192,17 +192,17 @@ class ConvertKit_Post {
 	/**
 	 * The default settings, used to populate the Post's Settings when a Post
 	 * has no Settings.
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @return 	array
+	 *
+	 * @since   1.9.6
+	 *
+	 * @return  array
 	 */
 	public function get_default_settings() {
 
 		$defaults = array(
-			'form' 			=> '-1', // -1: Plugin Default Form, 0: No Form, 1+: Specific Form ID on ConvertKit.
-			'landing_page' 	=> '',
-			'tag' 			=> '',
+			'form'         => '-1', // -1: Plugin Default Form, 0: No Form, 1+: Specific Form ID on ConvertKit.
+			'landing_page' => '',
+			'tag'          => '',
 		);
 
 		$defaults = apply_filters( 'convertkit_post_get_default_settings', $defaults );

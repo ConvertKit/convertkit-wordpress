@@ -10,7 +10,7 @@
  * Include WP_List_Table if not defined.
  */
 if ( ! class_exists( 'WP_List_Table' ) ) {
-	require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
+	require_once ABSPATH . 'wp-admin/includes/class-wp-list-table.php';
 }
 
 /**
@@ -25,11 +25,13 @@ class Multi_Value_Field_Table extends WP_List_Table {
 	function __construct() {
 		global $status, $page;
 
-		parent::__construct( array(
-			'singular' => 'item',
-			'plural'   => 'items',
-			'ajax'     => false,
-		) );
+		parent::__construct(
+			array(
+				'singular' => 'item',
+				'plural'   => 'items',
+				'ajax'     => false,
+			)
+		);
 	}
 
 	/**
@@ -46,7 +48,7 @@ class Multi_Value_Field_Table extends WP_List_Table {
 	/**
 	 * Provide a callback function to render the checkbox column
 	 *
-	 * @param  array  $item  A row's worth of data.
+	 * @param  array $item  A row's worth of data.
 	 * @return string The formatted string with a checkbox
 	 */
 	public function column_cb( $item ) {
@@ -126,15 +128,17 @@ class Multi_Value_Field_Table extends WP_List_Table {
 
 		$sorted_data = $this->reorder( $this->_data );
 
-		$data = array_slice( $sorted_data, ( ( $current_page - 1 ) * $per_page ),$per_page );
+		$data = array_slice( $sorted_data, ( ( $current_page - 1 ) * $per_page ), $per_page );
 
 		$this->items = $data;
 
-		$this->set_pagination_args( array(
-			'total_items' => $total_items,
-			'per_page'    => $per_page,
-			'total_pages' => ceil( $total_items / $per_page ),
-		));
+		$this->set_pagination_args(
+			array(
+				'total_items' => $total_items,
+				'per_page'    => $per_page,
+				'total_pages' => ceil( $total_items / $per_page ),
+			)
+		);
 	}
 
 	/**
@@ -156,8 +160,8 @@ class Multi_Value_Field_Table extends WP_List_Table {
 			} else {
 				$order = sanitize_text_field( wp_unslash( $_REQUEST['order'] ) ); // WPCS: CSRF ok.
 			}
-			$result  = strcmp( $a[ $orderby ], $b[ $orderby ] ); //Determine sort order.
-			return ( 'asc' === $order ) ? $result : -$result; //Send final sort direction to usort.
+			$result = strcmp( $a[ $orderby ], $b[ $orderby ] ); // Determine sort order.
+			return ( 'asc' === $order ) ? $result : -$result; // Send final sort direction to usort.
 		}
 		usort( $data, 'usort_reorder' );
 
@@ -185,10 +189,13 @@ class Multi_Value_Field_Table extends WP_List_Table {
 			</tr>
 			</thead>
 
-			<tbody id="the-list"<?php
+			<tbody id="the-list"
+			<?php
 			if ( $singular ) {
 				echo " data-wp-lists='list:$singular'";
-			} ?>>
+			}
+			?>
+			>
 			<?php $this->display_rows_or_placeholder(); ?>
 			</tbody>
 

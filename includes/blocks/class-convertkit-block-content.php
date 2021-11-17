@@ -1,7 +1,7 @@
 <?php
 /**
  * ConvertKit Custom Content Block for Gutenberg and Shortcode.
- * 
+ *
  * @package ConvertKit
  * @author  ConvertKit
  */
@@ -9,7 +9,7 @@ class ConvertKit_Block_Content extends ConvertKit_Block {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @since   1.9.6
 	 */
 	public function __construct() {
@@ -43,26 +43,25 @@ class ConvertKit_Block_Content extends ConvertKit_Block {
 	public function get_overview() {
 
 		return array(
-			'title'     => __( 'ConvertKit Custom Content', 'convertkit' ),
-			'description'   => __( 'Displays ConvertKit Custom Content for a subscriber if their tag matches the Page\'s tag.', 'convertkit' ),
-			'icon'      => 'resources/backend/images/block-icon-content.png',
-			'category'  => 'convertkit',
-			'keywords'  => array(
+			'title'                         => __( 'ConvertKit Custom Content', 'convertkit' ),
+			'description'                   => __( 'Displays ConvertKit Custom Content for a subscriber if their tag matches the Page\'s tag.', 'convertkit' ),
+			'icon'                          => 'resources/backend/images/block-icon-content.png',
+			'category'                      => 'convertkit',
+			'keywords'                      => array(
 				__( 'ConvertKit', 'convertkit' ),
 				__( 'Content', 'convertkit' ),
 			),
 
 			// TinyMCE / QuickTags Modal Width and Height.
-			'modal'     => array(
-				'width'     => 500,
-				'height'    => 100,
+			'modal'                         => array(
+				'width'  => 500,
+				'height' => 100,
 			),
 
-			// 
 			'shortcode_include_closing_tag' => true,
 
 			// Function to call when rendering the block/shortcode on the frontend web site.
-			'render_callback' => array( $this, 'render' ),
+			'render_callback'               => array( $this, 'render' ),
 		);
 
 	}
@@ -80,8 +79,8 @@ class ConvertKit_Block_Content extends ConvertKit_Block {
 		}
 
 		// Get ConvertKit Tags.
-		$tags = array();
-		$convertkit_tags = new ConvertKit_Resource_Tags;
+		$tags            = array();
+		$convertkit_tags = new ConvertKit_Resource_Tags();
 		if ( $convertkit_tags->exist() ) {
 			foreach ( $convertkit_tags->get() as $tag ) {
 				$tags[ absint( $tag['id'] ) ] = sanitize_text_field( $tag['name'] );
@@ -112,8 +111,8 @@ class ConvertKit_Block_Content extends ConvertKit_Block {
 
 		return array(
 			'general' => array(
-				'label'     => __( 'General', 'convertkit' ),
-				'fields'    => array(
+				'label'  => __( 'General', 'convertkit' ),
+				'fields' => array(
 					'tag',
 				),
 			),
@@ -139,14 +138,14 @@ class ConvertKit_Block_Content extends ConvertKit_Block {
 	 *
 	 * @since   1.9.6
 	 *
-	 * @param   array   $atts   	Block / Shortcode Attributes
-	 * @param 	string 	$content 	Content
-	 * @return  string          	Output
+	 * @param   array  $atts       Block / Shortcode Attributes
+	 * @param   string $content    Content
+	 * @return  string              Output
 	 */
 	public function render( $atts, $content = '' ) {
 
 		// Parse shortcode attributes, defining fallback defaults if required.
-		$atts = shortcode_atts( 
+		$atts = shortcode_atts(
 			$this->get_default_values(),
 			$this->sanitize_atts( $atts ),
 			$this->get_name()
@@ -164,7 +163,7 @@ class ConvertKit_Block_Content extends ConvertKit_Block {
 		}
 
 		// Bail if the API hasn't been configured.
-		$settings = new ConvertKit_Settings;
+		$settings = new ConvertKit_Settings();
 		if ( ! $settings->has_api_key_and_secret() ) {
 			return '<!-- ConvertKit Custom Content: No API Key and Secret -->';
 		}
@@ -190,14 +189,14 @@ class ConvertKit_Block_Content extends ConvertKit_Block {
 			/**
 			 * Filters the content in the ConvertKit Custom Content block/shortcode
 			 * immediately before it is output.
-			 * 
-			 * @since 	1.9.6
-			 * 
-			 * @param 	string 	$content 		Content
-			 * @param 	array 	$atts 			Block / Shortcode Attributes
-			 * @param 	int 	$subscriber_id 	ConvertKit Subscriber's ID
-			 * @param 	array 	$tags 			ConvertKit Subscriber's Tags
-			 * @param 	array 	$tag 			ConvertKit Subscriber's Tag that matches $atts['tag']
+			 *
+			 * @since   1.9.6
+			 *
+			 * @param   string  $content        Content
+			 * @param   array   $atts           Block / Shortcode Attributes
+			 * @param   int     $subscriber_id  ConvertKit Subscriber's ID
+			 * @param   array   $tags           ConvertKit Subscriber's Tags
+			 * @param   array   $tag            ConvertKit Subscriber's Tag that matches $atts['tag']
 			 */
 			$content = apply_filters( 'convertkit_block_content_render', $content, $atts, $subscriber_id, $tags, $tag );
 
@@ -206,7 +205,7 @@ class ConvertKit_Block_Content extends ConvertKit_Block {
 
 			return $content;
 		}
-		
+
 		// If here, the subscriber does not have the block's tag.
 		return '<!-- ConvertKit Custom Content: Subscriber does not have tag -->';
 

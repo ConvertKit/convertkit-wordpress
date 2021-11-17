@@ -13,15 +13,15 @@ class ConvertKit_Admin_Settings_Wishlist extends ConvertKit_Settings_Base {
 	public function __construct() {
 
 		// Define the class that reads/writes settings.
-		$this->settings 	= new ConvertKit_Wishlist_Settings;
+		$this->settings = new ConvertKit_Wishlist_Settings();
 
 		// Define the settings key.
-		$this->settings_key  = $this->settings::SETTINGS_NAME;
+		$this->settings_key = $this->settings::SETTINGS_NAME;
 
 		// Define the programmatic name, Title and Tab Text.
-		$this->name          = 'wishlist-member';
-		$this->title         = __( 'WishList Member Integration Settings', 'convertkit' );
-		$this->tab_text      = __( 'WishList Member', 'convertkit' );
+		$this->name     = 'wishlist-member';
+		$this->title    = __( 'WishList Member Integration Settings', 'convertkit' );
+		$this->tab_text = __( 'WishList Member', 'convertkit' );
 
 		parent::__construct();
 
@@ -35,7 +35,6 @@ class ConvertKit_Admin_Settings_Wishlist extends ConvertKit_Settings_Base {
 		// No fields are registered, because they are output in a WP_List_Table
 		// in this class' render() function.
 		// This function is deliberately blank.
-
 	}
 
 	/**
@@ -56,8 +55,8 @@ class ConvertKit_Admin_Settings_Wishlist extends ConvertKit_Settings_Base {
 	/**
 	 * Outputs the section as a WP_List_Table of WishList Member Levels, with options to choose
 	 * a ConvertKit Form and Tag mapping for each.
-	 * 
-	 * @since 	1.9.6
+	 *
+	 * @since   1.9.6
 	 */
 	public function render() {
 
@@ -73,8 +72,8 @@ class ConvertKit_Admin_Settings_Wishlist extends ConvertKit_Settings_Base {
 		}
 
 		// Get Forms and Tags.
-		$forms = new ConvertKit_Resource_Forms;
-		$tags = new ConvertKit_Resource_Tags;
+		$forms = new ConvertKit_Resource_Forms();
+		$tags  = new ConvertKit_Resource_Tags();
 
 		// Bail with an error if no ConvertKit Forms exist.
 		if ( ! $forms->exist() ) {
@@ -106,26 +105,28 @@ class ConvertKit_Admin_Settings_Wishlist extends ConvertKit_Settings_Base {
 		$tag_options['unsubscribe'] = __( 'Unsubscribe from all', 'convertkit' );
 
 		// Setup WP_List_Table
-		$table   = new Multi_Value_Field_Table;
+		$table = new Multi_Value_Field_Table();
 		$table->add_column( 'title', __( 'WishList Membership Level', 'convertkit' ), true );
 		$table->add_column( 'form', __( 'ConvertKit Form', 'convertkit' ), false );
 		$table->add_column( 'unsubscribe', __( 'Unsubscribe Action', 'convertkit' ), false );
 
 		// Iterate through WishList Member Levels, adding a table row for each Level.
 		foreach ( $wlm_levels as $wlm_level ) {
-			$table->add_item( array(
-				'title' => $wlm_level['name'],
-				'form' 	=> $this->get_select_field(
-					$wlm_level['id'],
-					$this->settings->get_convertkit_form_id_by_wishlist_member_level_id( $wlm_level['id'] ),
-					$form_options
-				),
-				'unsubscribe' 	=> $this->get_select_field(
-					$wlm_level['id'],
-					$this->settings->get_convertkit_tag_id_by_wishlist_member_level_id( $wlm_level['id'] ),
-					$tag_options
-				),
-			) );
+			$table->add_item(
+				array(
+					'title'       => $wlm_level['name'],
+					'form'        => $this->get_select_field(
+						$wlm_level['id'],
+						$this->settings->get_convertkit_form_id_by_wishlist_member_level_id( $wlm_level['id'] ),
+						$form_options
+					),
+					'unsubscribe' => $this->get_select_field(
+						$wlm_level['id'],
+						$this->settings->get_convertkit_tag_id_by_wishlist_member_level_id( $wlm_level['id'] ),
+						$tag_options
+					),
+				)
+			);
 		}
 
 		// Prepare and display WP_List_Table.
@@ -134,10 +135,10 @@ class ConvertKit_Admin_Settings_Wishlist extends ConvertKit_Settings_Base {
 
 		// Register settings field.
 		settings_fields( $this->settings_key );
-		
+
 		// Render submit button.
 		submit_button();
-		
+
 	}
 
 	/**
@@ -162,15 +163,18 @@ class ConvertKit_Admin_Settings_Wishlist extends ConvertKit_Settings_Base {
 }
 
 // Register Admin Settings section.
-add_filter( 'convertkit_admin_settings_register_sections', function( $sections ) {
+add_filter(
+	'convertkit_admin_settings_register_sections',
+	function( $sections ) {
 
-	// Bail if WishList Member isn't enabled.
-	if ( ! function_exists( 'wlmapi_get_levels' ) ) {
+		// Bail if WishList Member isn't enabled.
+		if ( ! function_exists( 'wlmapi_get_levels' ) ) {
+			return $sections;
+		}
+
+		// Register this class as a section at Settings > ConvertKit.
+		$sections['wishlist-member'] = new ConvertKit_Admin_Settings_Wishlist();
 		return $sections;
+
 	}
-
-	// Register this class as a section at Settings > ConvertKit.
-	$sections['wishlist-member'] = new ConvertKit_Admin_Settings_Wishlist;
-	return $sections;
-
-} );
+);

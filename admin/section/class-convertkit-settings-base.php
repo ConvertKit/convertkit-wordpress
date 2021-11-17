@@ -37,10 +37,10 @@ abstract class ConvertKit_Settings_Base {
 
 	/**
 	 * Holds the settings class for the section.
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @var 	mixed 	ConvertKit_Settings
+	 *
+	 * @since   1.9.6
+	 *
+	 * @var     mixed   ConvertKit_Settings
 	 */
 	public $settings;
 
@@ -56,7 +56,7 @@ abstract class ConvertKit_Settings_Base {
 
 		// Register the settings section.
 		$this->register_section();
-		
+
 	}
 
 	/**
@@ -110,10 +110,10 @@ abstract class ConvertKit_Settings_Base {
 
 	/**
 	 * Outputs the given error message in an inline notice.
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @param 	string 	$error_message 	Error Message.
+	 *
+	 * @since   1.9.6
+	 *
+	 * @param   string $error_message  Error Message.
 	 */
 	public function output_error( $error_message ) {
 
@@ -129,11 +129,11 @@ abstract class ConvertKit_Settings_Base {
 
 	/**
 	 * Returns a masked value.
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @param 	string 	$value 			Value
-	 * @param 	mixed 	$description 	Description (false|string)
+	 *
+	 * @since   1.9.6
+	 *
+	 * @param   string $value          Value
+	 * @param   mixed  $description    Description (false|string)
 	 */
 	public function get_masked_value( $value, $description = false ) {
 
@@ -143,7 +143,7 @@ abstract class ConvertKit_Settings_Base {
 		);
 
 		if ( $description ) {
-			$html .= $this->get_description ( $description );
+			$html .= $this->get_description( $description );
 		}
 
 		return $html;
@@ -152,12 +152,12 @@ abstract class ConvertKit_Settings_Base {
 
 	/**
 	 * Returns a text field.
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @param 	string 	$name 			Name
-	 * @param 	string 	$value 			Value
-	 * @param 	mixed 	$description 	Description (false|string)
+	 *
+	 * @since   1.9.6
+	 *
+	 * @param   string $name           Name
+	 * @param   string $value          Value
+	 * @param   mixed  $description    Description (false|string)
 	 */
 	public function get_text_field( $name, $value = '', $description = false ) {
 
@@ -170,7 +170,7 @@ abstract class ConvertKit_Settings_Base {
 		);
 
 		if ( $description ) {
-			$html .= $this->get_description ( $description );
+			$html .= $this->get_description( $description );
 		}
 
 		return $html;
@@ -179,13 +179,13 @@ abstract class ConvertKit_Settings_Base {
 
 	/**
 	 * Returns a select dropdown field.
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @param 	string 	$name 			Name
-	 * @param 	string 	$value 			Value
-	 * @param 	array 	$options 		Options / Choices
-	 * @param 	mixed 	$description 	Description (false|string)
+	 *
+	 * @since   1.9.6
+	 *
+	 * @param   string $name           Name
+	 * @param   string $value          Value
+	 * @param   array  $options        Options / Choices
+	 * @param   mixed  $description    Description (false|string)
 	 */
 	public function get_select_field( $name, $value = '', $options = array(), $description = '' ) {
 
@@ -208,7 +208,7 @@ abstract class ConvertKit_Settings_Base {
 		$html .= '</select>';
 
 		if ( $description ) {
-			$html .= $this->get_description ( $description );
+			$html .= $this->get_description( $description );
 		}
 
 		return $html;
@@ -217,14 +217,14 @@ abstract class ConvertKit_Settings_Base {
 
 	/**
 	 * Returns a checkbox field.
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @param 	string 	$name 			Name
-	 * @param 	string 	$value 			Value
-	 * @param 	bool 	$checked 		Should checkbox be checked/ticked
-	 * @param 	mixed 	$label 			Label (false|string)
-	 * @param 	mixed 	$description 	Description (false|string)
+	 *
+	 * @since   1.9.6
+	 *
+	 * @param   string $name           Name
+	 * @param   string $value          Value
+	 * @param   bool   $checked        Should checkbox be checked/ticked
+	 * @param   mixed  $label          Label (false|string)
+	 * @param   mixed  $description    Description (false|string)
 	 */
 	public function get_checkbox_field( $name, $value, $checked = false, $label = '', $description = '' ) {
 
@@ -263,11 +263,11 @@ abstract class ConvertKit_Settings_Base {
 
 	/**
 	 * Returns the given text wrapped in a paragraph with the description class.
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @param 	string 	$description 	Description
-	 * @return 	string 					HTML Description
+	 *
+	 * @since   1.9.6
+	 *
+	 * @param   string $description    Description
+	 * @return  string                  HTML Description
 	 */
 	private function get_description( $description ) {
 
@@ -277,11 +277,11 @@ abstract class ConvertKit_Settings_Base {
 
 	/**
 	 * Sanitizes the settings prior to being saved.
-	 * 
-	 * @since 	1.9.6
 	 *
-	 * @param  	array 	$settings 	Submitted Settings Fields
-	 * @return 	array 				Sanitized Settings with Defaults
+	 * @since   1.9.6
+	 *
+	 * @param   array $settings   Submitted Settings Fields
+	 * @return  array               Sanitized Settings with Defaults
 	 */
 	public function sanitize_settings( $settings ) {
 

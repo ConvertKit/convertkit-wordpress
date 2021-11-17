@@ -16,14 +16,14 @@ class WP_ConvertKit {
 	/**
 	 * Holds singleton initialized classes that include
 	 * action and filter hooks.
-	 * 
-	 * @since 	1.9.6
+	 *
+	 * @since   1.9.6
 	 */
 	private $classes = array();
 
 	/**
 	 * Constructor. Acts as a bootstrap to load the rest of the plugin
-	 * 
+	 *
 	 * @since   1.9.6
 	 */
 	public function __construct() {
@@ -37,7 +37,7 @@ class WP_ConvertKit {
 
 		// Load language files.
 		add_action( 'init', array( $this, 'load_language_files' ) );
-		
+
 	}
 
 	/**
@@ -47,18 +47,18 @@ class WP_ConvertKit {
 	 */
 	private function initialize_admin() {
 
-		// Bail if this request isn't for the WordPress Administration interface 
+		// Bail if this request isn't for the WordPress Administration interface
 		if ( ! is_admin() ) {
 			return;
 		}
 
-		$this->classes['admin_category'] = new ConvertKit_Admin_Category(); 
+		$this->classes['admin_category']  = new ConvertKit_Admin_Category();
 		$this->classes['admin_gutenberg'] = new ConvertKit_Admin_Gutenberg();
-		$this->classes['admin_post'] = new ConvertKit_Admin_Post(); 
-		$this->classes['admin_settings'] = new ConvertKit_Admin_Settings(); 
-		$this->classes['admin_tinymce'] = new ConvertKit_Admin_TinyMCE(); 
-		$this->classes['admin_upgrade'] = new ConvertKit_Admin_Upgrade(); 
-		$this->classes['admin_user'] = new ConvertKit_Admin_User(); 
+		$this->classes['admin_post']      = new ConvertKit_Admin_Post();
+		$this->classes['admin_settings']  = new ConvertKit_Admin_Settings();
+		$this->classes['admin_tinymce']   = new ConvertKit_Admin_TinyMCE();
+		$this->classes['admin_upgrade']   = new ConvertKit_Admin_Upgrade();
+		$this->classes['admin_user']      = new ConvertKit_Admin_User();
 
 		// Run upgrade routine.
 		add_action( 'init', array( $this->classes['admin_upgrade'], 'run' ), 2 );
@@ -134,7 +134,7 @@ class WP_ConvertKit {
 		 * @since   1.9.6
 		 */
 		do_action( 'convertkit_initialize_frontend' );
-		
+
 	}
 
 	/**
@@ -145,11 +145,11 @@ class WP_ConvertKit {
 	 */
 	private function initialize_global() {
 
-		$this->classes['ajax'] = new ConvertKit_AJAX();
+		$this->classes['ajax']                      = new ConvertKit_AJAX();
 		$this->classes['blocks_convertkit_content'] = new ConvertKit_Block_Content();
-		$this->classes['blocks_convertkit_form'] = new ConvertKit_Block_Form();
-		$this->classes['shortcodes'] = new ConvertKit_Shortcodes();
-		$this->classes['widgets'] = new ConvertKit_Widgets();
+		$this->classes['blocks_convertkit_form']    = new ConvertKit_Block_Form();
+		$this->classes['shortcodes']                = new ConvertKit_Shortcodes();
+		$this->classes['widgets']                   = new ConvertKit_Widgets();
 
 		/**
 		 * Initialize integration classes for the frontend web site.
@@ -157,7 +157,7 @@ class WP_ConvertKit {
 		 * @since   1.9.6
 		 */
 		do_action( 'convertkit_initialize_global' );
-	
+
 	}
 
 	/**
@@ -263,11 +263,11 @@ class WP_ConvertKit {
 		 * @since   1.9.6
 		 *
 		 * @param   bool    $is_admin_or_frontend_editor    Is WordPress Administration / Frontend Editor request.
-		 * @param   array   $_REQUEST                       $_REQUEST data                
+		 * @param   array   $_REQUEST                       $_REQUEST data
 		 */
 		$is_admin_or_frontend_editor = apply_filters( 'convertkit_is_admin_or_frontend_editor', $is_admin_or_frontend_editor, $_REQUEST );
-	   
-		// Return filtered result 
+
+		// Return filtered result
 		return $is_admin_or_frontend_editor;
 
 	}
@@ -328,7 +328,7 @@ class WP_ConvertKit {
 	 *
 	 * @since   1.9.6
 	 *
-	 * @param   string  $name   Class Name
+	 * @param   string $name   Class Name
 	 * @return  object          Class Object
 	 */
 	public function get_class( $name ) {
@@ -343,12 +343,12 @@ class WP_ConvertKit {
 				sprintf(
 					__( 'ConvertKit Error: Could not load Plugin class <strong>%1$s</strong>' ),
 					$name
-				) 
+				)
 			);
-			 
+
 			// Depending on the request, return or display an error
 			// Admin UI
-			if ( is_admin() ) {  
+			if ( is_admin() ) {
 				wp_die(
 					$error,
 					__( 'ConvertKit Error', 'convertkit' ),
@@ -377,7 +377,7 @@ class WP_ConvertKit {
 	public static function get_instance() {
 
 		if ( ! isset( self::$instance ) && ! ( self::$instance instanceof self ) ) {
-			self::$instance = new self;
+			self::$instance = new self();
 		}
 
 		return self::$instance;

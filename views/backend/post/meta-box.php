@@ -1,10 +1,11 @@
 <?php
 /**
- * MetaBox template
+ * Metabox view
  *
  * @package ConvertKit
  * @author ConvertKit
  */
+
 ?>
 <table class="form-table">
 	<tbody>
@@ -15,7 +16,7 @@
 			</th>
 			<td>
 				<?php
-				if ( ! $forms->exist() ) {
+				if ( ! $convertkit_forms->exist() ) {
 					esc_html_e( 'No Forms exist in ConvertKit.', 'convertkit' );
 				} else {
 					?>
@@ -26,11 +27,11 @@
 						<option value="0"<?php selected( 0, $convertkit_post->get_form() ); ?>>
 							<?php esc_html_e( 'None', 'convertkit' ); ?>
 						</option>
-						<?php 
-						foreach ( $forms->get() as $form ) { 
+						<?php
+						foreach ( $convertkit_forms->get() as $convertkit_form ) {
 							?>
-							<option value="<?php echo $form['id']; ?>"<?php selected( $form['id'], $convertkit_post->get_form() ); ?>>
-								<?php echo $form['name']; ?>
+							<option value="<?php echo esc_attr( $convertkit_form['id'] ); ?>"<?php selected( $convertkit_form['id'], $convertkit_post->get_form() ); ?>>
+								<?php echo esc_attr( $convertkit_form['name'] ); ?>
 							</option>
 							<?php
 						}
@@ -38,16 +39,16 @@
 					</select>
 					<p class="description">
 						<?php
-						/* translators: settings url */
-						printf( 
-							__( '<code>Default</code>: Uses the form specified on the <a href="%s" target="_blank">settings page</a>.', 'convertkit' ), 
+						printf(
+							/* translators: settings url */
+							esc_html__( '<code>Default</code>: Uses the form specified on the <a href="%s" target="_blank">settings page</a>.', 'convertkit' ),
 							esc_attr( esc_url( $settings_link ) )
 						);
 						?>
 						<br />
-						<?php _e( '<code>None</code>: do not display a form.', 'convertkit' ); ?>
+						<?php esc_html_e( 'None: do not display a form.', 'convertkit' ); ?>
 						<br />
-						<?php _e( 'Any other option will display that form after the main content.', 'convertkit' ); ?>
+						<?php esc_html_e( 'Any other option will display that form after the main content.', 'convertkit' ); ?>
 					</p>
 					<?php
 				}
@@ -56,17 +57,18 @@
 				<p class="description">
 					<?php
 					echo sprintf(
+						/* translators: Link to sign in to ConvertKit */
 						esc_html__( 'To make changes to your forms, %s', 'convertkit' ),
-						'<a href="https://app.convertkit.com/" target="_blank">' . esc_html__( 'sign in to ConvertKit','convertkit' ) . '</a>'
+						'<a href="https://app.convertkit.com/" target="_blank">' . esc_html__( 'sign in to ConvertKit', 'convertkit' ) . '</a>'
 					);
 					?>
 				</p>
 			</td>
 		</tr>
-		
+
 		<!-- Landing Page -->
-		<?php 
-		if ( 'page' === $post->post_type ) { 
+		<?php
+		if ( 'page' === $post->post_type ) {
 			?>
 			<tr valign="top">
 				<th scope="row">
@@ -74,27 +76,26 @@
 				</th>
 				<td>
 					<?php
-					if ( ! $landing_pages->exist() ) {
+					if ( ! $convertkit_landing_pages->exist() ) {
 						esc_html_e( 'No Landing Pages exist in ConvertKit.', 'convertkit' );
 					} else {
 						?>
 						<select name="wp-convertkit[landing_page]" id="wp-convertkit-landing_page">
 							<option <?php selected( '', $convertkit_post->get_landing_page() ); ?> value="0">
-								<?php _e( 'None', 'convertkit' ); ?>
+								<?php esc_html_e( 'None', 'convertkit' ); ?>
 							</option>
-							<?php 
-							foreach ( $landing_pages->get() as $landing_page ) {
-								$name = sanitize_text_field( $landing_page['name'] );
-								if ( isset( $landing_page['url'] ) ) {
+							<?php
+							foreach ( $convertkit_landing_pages->get() as $convertkit_landing_page ) {
+								if ( isset( $convertkit_landing_page['url'] ) ) {
 									?>
-									<option value="<?php echo esc_attr( $landing_page['url'] ); ?>"<?php selected( $landing_page['url'], $convertkit_post->get_landing_page() ); ?>>
-										<?php echo esc_attr( $name ); ?>
+									<option value="<?php echo esc_attr( $convertkit_landing_page['url'] ); ?>"<?php selected( $convertkit_landing_page['url'], $convertkit_post->get_landing_page() ); ?>>
+										<?php echo esc_attr( $convertkit_landing_page['name'] ); ?>
 									</option>
 									<?php
 								} else {
 									?>
-									<option value="<?php echo esc_attr( $landing_page['id'] ); ?>"<?php selected( $landing_page['id'], $convertkit_post->get_landing_page() ); ?>>
-										<?php echo esc_attr( $name ); ?>
+									<option value="<?php echo esc_attr( $convertkit_landing_page['id'] ); ?>"<?php selected( $convertkit_landing_page['id'], $convertkit_post->get_landing_page() ); ?>>
+										<?php echo esc_attr( $convertkit_landing_page['name'] ); ?>
 									</option>
 									<?php
 								}
@@ -111,8 +112,9 @@
 					<p class="description">
 						<?php
 						echo sprintf(
+							/* translators: Link to sign in to ConvertKit */
 							esc_html__( 'To make changes to your landing pages, %s', 'convertkit' ),
-							'<a href="https://app.convertkit.com/" target="_blank">' . esc_html__( 'sign in to ConvertKit','convertkit' ) . '</a>'
+							'<a href="https://app.convertkit.com/" target="_blank">' . esc_html__( 'sign in to ConvertKit', 'convertkit' ) . '</a>'
 						);
 						?>
 					</p>
@@ -129,20 +131,19 @@
 			</th>
 			<td>
 				<?php
-				if ( ! $tags->exist() ) {
+				if ( ! $convertkit_tags->exist() ) {
 					esc_html_e( 'No Tags exist in ConvertKit.', 'convertkit' );
 				} else {
 					?>
 					<select name="wp-convertkit[tag]" id="wp-convertkit-tag">
 						<option value="0"<?php selected( '', $convertkit_post->get_tag() ); ?>>
-							<?php _e( 'None', 'convertkit' ); ?>
+							<?php esc_html_e( 'None', 'convertkit' ); ?>
 						</option>
 						<?php
-						foreach ( $tags->get() as $tag ) {
-							$name = sanitize_text_field( $tag['name'] );
+						foreach ( $convertkit_tags->get() as $convertkit_tag ) {
 							?>
 							<option value="<?php echo esc_attr( $tag['id'] ); ?>"<?php selected( $tag['id'], $convertkit_post->get_tag() ); ?>>
-								<?php echo esc_attr( $name ); ?>
+								<?php echo esc_attr( $tag['name'] ); ?>
 							</option>
 							<?php
 						}

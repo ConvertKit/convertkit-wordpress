@@ -27,8 +27,8 @@ class ConvertKit_Settings_Tools extends ConvertKit_Settings_Base {
 
 	/**
 	 * Clears the Log.
-	 * 
-	 * @since 	1.9.6
+	 *
+	 * @since   1.9.6
 	 */
 	private function maybe_clear_log() {
 
@@ -44,7 +44,7 @@ class ConvertKit_Settings_Tools extends ConvertKit_Settings_Base {
 		}
 
 		// Clear Log.
-		$log = new ConvertKit_Log;
+		$log = new ConvertKit_Log();
 		$log->clear();
 
 		// Redirect to Tools screen.
@@ -56,8 +56,8 @@ class ConvertKit_Settings_Tools extends ConvertKit_Settings_Base {
 	/**
 	 * Prompts a browser download for the log file, if the user clicked
 	 * the Download Log button.
-	 * 
-	 * @since 	1.9.6
+	 *
+	 * @since   1.9.6
 	 */
 	private function maybe_download_log() {
 
@@ -72,13 +72,13 @@ class ConvertKit_Settings_Tools extends ConvertKit_Settings_Base {
 		}
 
 		// Get Log and download.
-		$log = new ConvertKit_Log;
+		$log = new ConvertKit_Log();
 
 		// Download.
-		header( "Content-type: application/octet-stream" );
-		header( "Content-Disposition: attachment; filename=" . $log->get_filename() . ".txt" );
-		header( "Pragma: no-cache" );
-		header( "Expires: 0" );
+		header( 'Content-type: application/octet-stream' );
+		header( 'Content-Disposition: attachment; filename=' . $log->get_filename() . '.txt' );
+		header( 'Pragma: no-cache' );
+		header( 'Expires: 0' );
 		readfile( $log->get_filename() );
 		exit();
 
@@ -87,8 +87,8 @@ class ConvertKit_Settings_Tools extends ConvertKit_Settings_Base {
 	/**
 	 * Prompts a browser download for the system information, if the user clicked
 	 * the Download System Info button.
-	 * 
-	 * @since 	1.9.6
+	 *
+	 * @since   1.9.6
 	 */
 	private function maybe_download_system_info() {
 
@@ -103,18 +103,18 @@ class ConvertKit_Settings_Tools extends ConvertKit_Settings_Base {
 		}
 
 		// Get System Info.
-		$system_info = new ConvertKit_System_Info;
+		$system_info = new ConvertKit_System_Info();
 
 		// Write contents to temporary file.
-		$tmpfile = tmpfile();
+		$tmpfile  = tmpfile();
 		$filename = stream_get_meta_data( $tmpfile )['uri'];
 		file_put_contents( $filename, $system_info->get() );
 
 		// Download.
-		header( "Content-type: application/octet-stream" );
-		header( "Content-Disposition: attachment; filename=system-info.txt" );
-		header( "Pragma: no-cache" );
-		header( "Expires: 0" );
+		header( 'Content-type: application/octet-stream' );
+		header( 'Content-Disposition: attachment; filename=system-info.txt' );
+		header( 'Pragma: no-cache' );
+		header( 'Expires: 0' );
 		readfile( $filename );
 		unlink( $filename );
 		exit();
@@ -124,10 +124,10 @@ class ConvertKit_Settings_Tools extends ConvertKit_Settings_Base {
 	/**
 	 * Verifies if the _convertkit_settings_tools_nonce nonce was included in the request,
 	 * and if so whether the nonce action is valid.
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @return 	bool
+	 *
+	 * @since   1.9.6
+	 *
+	 * @return  bool
 	 */
 	private function verify_nonce() {
 
@@ -135,9 +135,9 @@ class ConvertKit_Settings_Tools extends ConvertKit_Settings_Base {
 		if ( ! isset( $_REQUEST['_convertkit_settings_tools_nonce'] ) ) {
 			return false;
 		}
-		
-		return wp_verify_nonce( $_REQUEST['_convertkit_settings_tools_nonce'], 'convertkit-settings-tools');
-		
+
+		return wp_verify_nonce( $_REQUEST['_convertkit_settings_tools_nonce'], 'convertkit-settings-tools' );
+
 	}
 
 	/**
@@ -147,22 +147,21 @@ class ConvertKit_Settings_Tools extends ConvertKit_Settings_Base {
 
 		// No fields are registered for the Debug Log.
 		// This function is deliberately blank.
-
 	}
 
 	/**
 	 * Outputs the Debug Log and System Info view.
-	 * 
-	 * @since 	1.9.6
+	 *
+	 * @since   1.9.6
 	 */
 	public function render() {
 
 		// Get Log and System Info.
-		$log = new ConvertKit_Log;
-		$system_info = new ConvertKit_System_Info;
+		$log         = new ConvertKit_Log();
+		$system_info = new ConvertKit_System_Info();
 
 		// Output view.
-		require_once( CONVERTKIT_PLUGIN_PATH . '/views/backend/settings/tools.php' );
+		require_once CONVERTKIT_PLUGIN_PATH . '/views/backend/settings/tools.php';
 
 	}
 

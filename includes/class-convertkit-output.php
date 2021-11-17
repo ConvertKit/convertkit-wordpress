@@ -2,52 +2,52 @@
 /**
  * Outputs Forms and Landing Pages on the frontend web site, based on
  * the Post and Plugin's configuration.
- * 
- * @since 	1.9.6
+ *
+ * @since   1.9.6
  */
 class ConvertKit_Output {
 
 	/**
 	 * Holds the ConvertKit Plugin Settings class
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @var 	ConvertKit_Settings
+	 *
+	 * @since   1.9.6
+	 *
+	 * @var     ConvertKit_Settings
 	 */
 	private $settings = false;
 
 	/**
 	 * Holds the ConvertKit Post Settings class
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @var 	ConvertKit_Post_Settings
+	 *
+	 * @since   1.9.6
+	 *
+	 * @var     ConvertKit_Post_Settings
 	 */
 	private $post_settings = false;
 
 	/**
 	 * Holds the available ConvertKit Forms
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @var 	ConvertKit_Resource_Forms
+	 *
+	 * @since   1.9.6
+	 *
+	 * @var     ConvertKit_Resource_Forms
 	 */
 	private $forms = false;
 
 	/**
 	 * Holds the available ConvertKit Landing Pages
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @var 	ConvertKit_Resource_Landing_Pages
+	 *
+	 * @since   1.9.6
+	 *
+	 * @var     ConvertKit_Resource_Landing_Pages
 	 */
 	private $landing_pages = false;
 
 	/**
 	 * Constructor. Registers actions and filters to output ConvertKit Forms and Landing Pages
 	 * on the frontend web site.
-	 * 
-	 * @since 	1.9.6
+	 *
+	 * @since   1.9.6
 	 */
 	public function __construct() {
 
@@ -61,19 +61,19 @@ class ConvertKit_Output {
 	/**
 	 * Runs the `convertkit_output_output_form` action for singular Post Types that don't use the_content()
 	 * or apply_filters( 'the_content' ) to output a ConvertKit Form.
-	 * 
-	 * @since 	1.9.6
+	 *
+	 * @since   1.9.6
 	 */
 	public function output_form() {
 
 		/**
 		 * Outputs a ConvertKit Form on singular Post Types that don't use the_content()
 		 * or apply_filters( 'the_content' ).
-		 * 
-		 * @since 	1.9.6
 		 *
-		 * @param 	string 	$content 	Post Content
-		 * @return 	string 				Post Content with Form Appended, if applicable
+		 * @since   1.9.6
+		 *
+		 * @param   string  $content    Post Content
+		 * @return  string              Post Content with Form Appended, if applicable
 		 */
 		do_action( 'convertkit_output_output_form' );
 
@@ -81,8 +81,8 @@ class ConvertKit_Output {
 
 	/**
 	 * Outputs a ConvertKit Landing Page if configured, replacing all output for the singular Post Type.
-	 * 
-	 * @since 	1.9.6
+	 *
+	 * @since   1.9.6
 	 */
 	public function page_takeover() {
 
@@ -107,13 +107,13 @@ class ConvertKit_Output {
 		/**
 		 * Define the ConvertKit Landing Page ID to display for the given Post ID,
 		 * overriding the Post settings.
-		 * 
+		 *
 		 * Return false to not display any ConvertKit Landing Page.
-		 * 
-		 * @since 	1.9.6
-		 * 
-		 * @param 	int 	$landing_page_id 	Landing Page ID
-		 * @param 	int 	$post_id 			Post ID
+		 *
+		 * @since   1.9.6
+		 *
+		 * @param   int     $landing_page_id    Landing Page ID
+		 * @param   int     $post_id            Post ID
 		 */
 		$landing_page_id = apply_filters( 'convertkit_output_append_form_to_content_form_id', $landing_page_id, $post_id );
 
@@ -124,12 +124,12 @@ class ConvertKit_Output {
 
 		// Get available ConvertKit Landing Pages, if they have not yet been loaded.
 		if ( ! $this->landing_pages ) {
-			$this->landing_pages = new ConvertKit_Resource_Landing_Pages;
+			$this->landing_pages = new ConvertKit_Resource_Landing_Pages();
 		}
-		
+
 		// Get Landing Page.
 		$landing_page = $this->landing_pages->get_html( $this->post_settings->get_landing_page() );
-		
+
 		// Bail if an error occured.
 		if ( is_wp_error( $landing_page ) ) {
 			return;
@@ -144,8 +144,8 @@ class ConvertKit_Output {
 	/**
 	 * Appends a form to the singular Page, Post or Custom Post Type's Content.
 	 *
-	 * @param 	string 	$content 	Post Content
-	 * @return 	string 				Post Content with Form Appended, if applicable
+	 * @param   string $content    Post Content
+	 * @return  string              Post Content with Form Appended, if applicable
 	 */
 	public function append_form_to_content( $content ) {
 
@@ -161,16 +161,16 @@ class ConvertKit_Output {
 		/**
 		 * Define the ConvertKit Form ID to display for the given Post ID,
 		 * overriding the Post, Category or Plugin settings.
-		 * 
+		 *
 		 * Return false to not display any ConvertKit Form.
-		 * 
-		 * @since 	1.9.6
-		 * 
-		 * @param 	int 	$form_id 	Form ID
-		 * @param 	int 	$post_id 	Post ID
+		 *
+		 * @since   1.9.6
+		 *
+		 * @param   int     $form_id    Form ID
+		 * @param   int     $post_id    Post ID
 		 */
 		$form_id = apply_filters( 'convertkit_output_append_form_to_content_form_id', $form_id, $post_id );
-		
+
 		// Return the Post Content, unedited, if no Form ID exists.
 		if ( ! $form_id ) {
 			return $content;
@@ -178,12 +178,12 @@ class ConvertKit_Output {
 
 		// Get available ConvertKit Forms, if they have not yet been loaded.
 		if ( ! $this->forms ) {
-			$this->forms = new ConvertKit_Resource_Forms;
+			$this->forms = new ConvertKit_Resource_Forms();
 		}
-		
+
 		// Get Form HTML.
 		$form = $this->forms->get_html( $form_id );
-		
+
 		// Return the Post Content, unedited, if an error occured.
 		if ( is_wp_error( $form ) ) {
 			return $content;
@@ -194,13 +194,13 @@ class ConvertKit_Output {
 
 		/**
 		 * Filter the Post's Content, which includes a ConvertKit Form, immediately before it is output.
-		 * 
-		 * @since 	1.9.6
-		 * 
-		 * @param 	string 	$content 	Post Content
-		 * @param 	string 	$form 		ConvertKit Form HTML
-		 * @param 	int 	$post_id 	Post ID
-		 * @param 	int 	$form_id 	ConvertKit Form ID
+		 *
+		 * @since   1.9.6
+		 *
+		 * @param   string  $content    Post Content
+		 * @param   string  $form       ConvertKit Form HTML
+		 * @param   int     $post_id    Post ID
+		 * @param   int     $form_id    ConvertKit Form ID
 		 */
 		$content = apply_filters( 'convertkit_frontend_append_form', $content, $form, $post_id, $form_id );
 
@@ -210,21 +210,21 @@ class ConvertKit_Output {
 
 	/**
 	 * Returns the Post, Category or Plugin ConvertKit Form ID for the given Post.
-	 * 
+	 *
 	 * If the Post specifies a form to use, returns that Form ID.
 	 * If the Post uses the 'Default' setting, and an assigned Category has a Form ID, uses the Category's Form ID.
 	 * Otherwise falls back to the Plugin's Default Form ID (if any).
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @param 	int 	$post_id 	Post ID
-	 * @return 	mixed 				bool | int (ConvertKit Form ID)
+	 *
+	 * @since   1.9.6
+	 *
+	 * @param   int $post_id    Post ID
+	 * @return  mixed               bool | int (ConvertKit Form ID)
 	 */
 	private function get_post_form_id( $post_id ) {
 
 		// Get Settings, if they have not yet been loaded.
 		if ( ! $this->settings ) {
-			$this->settings = new ConvertKit_Settings;
+			$this->settings = new ConvertKit_Settings();
 		}
 
 		// Get ConvertKit Post's Settings, if they have not yet been loaded.
@@ -263,7 +263,7 @@ class ConvertKit_Output {
 		 * assigned, the last Category with a Form in the wp_get_post_categories() call will be used.
 		 */
 		$categories = array_reverse( $categories );
-		foreach( $categories as $term_id ) {
+		foreach ( $categories as $term_id ) {
 			// Load Term Settings.
 			$term_settings = new ConvertKit_Term( $term_id );
 
@@ -275,13 +275,13 @@ class ConvertKit_Output {
 
 		// If here, use the Plugin's Default Form.
 		return $this->settings->get_default_form( get_post_type( $post_id ) );
-		
+
 	}
 
 	/**
 	 * Enqueue scripts.
-	 * 
-	 * @since 	1.9.6
+	 *
+	 * @since   1.9.6
 	 */
 	public function enqueue_scripts() {
 
@@ -294,7 +294,7 @@ class ConvertKit_Output {
 		}
 
 		// Get ConvertKit Settings and Post's Settings.
-		$settings = new ConvertKit_Settings;
+		$settings        = new ConvertKit_Settings();
 		$convertkit_post = new ConvertKit_Post( $post->ID );
 
 		// Register scripts that we might use.
@@ -308,12 +308,12 @@ class ConvertKit_Output {
 			'convertkit-js',
 			'convertkit',
 			array(
-				'ajaxurl' 		=> admin_url( 'admin-ajax.php' ),
-				'debug'			=> $settings->debug_enabled(),
-				'nonce'			=> wp_create_nonce( 'convertkit' ),
+				'ajaxurl'       => admin_url( 'admin-ajax.php' ),
+				'debug'         => $settings->debug_enabled(),
+				'nonce'         => wp_create_nonce( 'convertkit' ),
 				'subscriber_id' => $this->get_subscriber_id_from_request(),
-				'tag' 	  		=> ( ( is_singular() && $convertkit_post->has_tag() ) ? $convertkit_post->get_tag() : false ),
-				'post_id'		=> $post->ID,
+				'tag'           => ( ( is_singular() && $convertkit_post->has_tag() ) ? $convertkit_post->get_tag() : false ),
+				'post_id'       => $post->ID,
 			)
 		);
 
@@ -324,15 +324,15 @@ class ConvertKit_Output {
 
 		// Enqueue.
 		wp_enqueue_script( 'convertkit-js' );
-		
+
 	}
 
 	/**
 	 * Gets the subscriber ID from the request (either the cookie or the URL).
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @return 	mixed 	Subscriber ID
+	 *
+	 * @since   1.9.6
+	 *
+	 * @return  mixed   Subscriber ID
 	 */
 	public function get_subscriber_id_from_request() {
 

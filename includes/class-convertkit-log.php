@@ -1,24 +1,24 @@
 <?php
 /**
  * Class to read and write to the ConvertKit log file.
- * 
- * @since 	1.9.6
+ *
+ * @since   1.9.6
  */
 class ConvertKit_Log {
 
 	/**
 	 * The path and filename of the log file.
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @var 	string
+	 *
+	 * @since   1.9.6
+	 *
+	 * @var     string
 	 */
 	private $log_file;
 
 	/**
 	 * Constructor. Defines the log file location.
-	 * 
-	 * @since 	1.9.6
+	 *
+	 * @since   1.9.6
 	 */
 	public function __construct() {
 
@@ -28,9 +28,9 @@ class ConvertKit_Log {
 
 	/**
 	 * Returns the path and filename of the log file.
-	 * 
-	 * @since 	1.9.6
-	 * 
+	 *
+	 * @since   1.9.6
+	 *
 	 * @return string
 	 */
 	public function get_filename() {
@@ -41,10 +41,10 @@ class ConvertKit_Log {
 
 	/**
 	 * Whether the log file exists.
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @return 	bool
+	 *
+	 * @since   1.9.6
+	 *
+	 * @return  bool
 	 */
 	public function exists() {
 
@@ -54,10 +54,10 @@ class ConvertKit_Log {
 
 	/**
 	 * Adds an entry to the log file.
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @param 	string 	$entry 	Log Line Entry
+	 *
+	 * @since   1.9.6
+	 *
+	 * @param   string $entry  Log Line Entry
 	 */
 	public function add( $entry ) {
 
@@ -71,11 +71,11 @@ class ConvertKit_Log {
 
 	/**
 	 * Reads the given number of lines from the log file.
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @param 	int 	$number_of_lines 	Number of Lines
-	 * @return 	string 						Log file data
+	 *
+	 * @since   1.9.6
+	 *
+	 * @param   int $number_of_lines    Number of Lines
+	 * @return  string                      Log file data
 	 */
 	public function read( $number_of_lines = 500 ) {
 
@@ -92,10 +92,10 @@ class ConvertKit_Log {
 			return '';
 		}
 
-		// Return a limited number of log lines for output. 
+		// Return a limited number of log lines for output.
 		unset( $log );
 		$log = '';
-		$fp = fopen( $this->log_file, 'r' );
+		$fp  = fopen( $this->log_file, 'r' );
 		for ( $i = 0; $i < $number_of_lines; $i++ ) {
 			if ( feof( $fp ) ) {
 				break;
@@ -105,15 +105,15 @@ class ConvertKit_Log {
 		}
 
 		fclose( $fp );
-		
+
 		return $log;
 
 	}
 
 	/**
 	 * Clears the log file without deleting it.
-	 * 
-	 * @since 	1.9.6
+	 *
+	 * @since   1.9.6
 	 */
 	public function clear() {
 
@@ -123,8 +123,8 @@ class ConvertKit_Log {
 
 	/**
 	 * Deletes the log file
-	 * 
-	 * @since 	1.9.6
+	 *
+	 * @since   1.9.6
 	 */
 	public function delete() {
 

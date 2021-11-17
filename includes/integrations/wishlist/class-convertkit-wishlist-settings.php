@@ -1,30 +1,30 @@
 <?php
 /**
  * Class to read ConvertKit Wishlist Integration Settings.
- * 
- * @since 	1.9.6
+ *
+ * @since   1.9.6
  */
 class ConvertKit_Wishlist_Settings {
 
 	/**
 	 * Holds the Settings Key that stores this integration's settings.
-	 * 
-	 * @var 	string
+	 *
+	 * @var     string
 	 */
 	const SETTINGS_NAME = '_wp_convertkit_integration_wishlistmember_settings';
 
 	/**
 	 * Holds the Settings
-	 * 
-	 * @var 	array
+	 *
+	 * @var     array
 	 */
 	private $settings = array();
 
 	/**
 	 * Constructor. Reads settings from options table, falling back to defaults
 	 * if no settings exist.
-	 * 
-	 * @since 	1.9.6
+	 *
+	 * @since   1.9.6
 	 */
 	public function __construct() {
 
@@ -42,10 +42,10 @@ class ConvertKit_Wishlist_Settings {
 
 	/**
 	 * Returns Integration settings.
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @return 	array
+	 *
+	 * @since   1.9.6
+	 *
+	 * @return  array
 	 */
 	public function get() {
 
@@ -55,10 +55,10 @@ class ConvertKit_Wishlist_Settings {
 
 	/**
 	 * Checks if any settings are defined.
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @return 	bool
+	 *
+	 * @since   1.9.6
+	 *
+	 * @return  bool
 	 */
 	public function has_settings() {
 
@@ -75,11 +75,11 @@ class ConvertKit_Wishlist_Settings {
 
 	/**
 	 * Returns the ConvertKit Form ID that is mapped against the given WishList Member Level ID.
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @param 	int 	$wlm_level_id 	WishList Member Level ID
-	 * @return 	mixed 					bool (false) | ConvertKit Form ID
+	 *
+	 * @since   1.9.6
+	 *
+	 * @param   int $wlm_level_id   WishList Member Level ID
+	 * @return  mixed                   bool (false) | ConvertKit Form ID
 	 */
 	public function get_convertkit_form_id_by_wishlist_member_level_id( $wlm_level_id ) {
 
@@ -99,11 +99,11 @@ class ConvertKit_Wishlist_Settings {
 
 	/**
 	 * Returns the ConvertKit Tag ID that is mapped against the given WishList Member Level ID.
-	 * 
-	 * @since 	2.0.0
-	 * 
-	 * @param 	int 	$wlm_level_id 	WishList Member Level ID
-	 * @return 	mixed 					bool (false) | ConvertKit Tag ID
+	 *
+	 * @since   2.0.0
+	 *
+	 * @param   int $wlm_level_id   WishList Member Level ID
+	 * @return  mixed                   bool (false) | ConvertKit Tag ID
 	 */
 	public function get_convertkit_tag_id_by_wishlist_member_level( $wlm_level_id ) {
 
@@ -125,10 +125,10 @@ class ConvertKit_Wishlist_Settings {
 	 * The default settings, used when this integration's Settings haven't been saved
 	 * e.g. on a new installation or when the integration's Plugin has just been activated
 	 * for the first time.
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @return 	array
+	 *
+	 * @since   1.9.6
+	 *
+	 * @return  array
 	 */
 	public function get_defaults() {
 

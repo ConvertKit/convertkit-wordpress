@@ -1,30 +1,30 @@
 <?php
 /**
  * Class to read ConvertKit Plugin Settings.
- * 
- * @since 	1.9.6
+ *
+ * @since   1.9.6
  */
 class ConvertKit_Settings {
 
 	/**
 	 * Holds the Settings Key that stores site wide ConvertKit settings
-	 * 
-	 * @var 	string
+	 *
+	 * @var     string
 	 */
 	const SETTINGS_NAME = '_wp_convertkit_settings';
 
 	/**
 	 * Holds the Settings
-	 * 
-	 * @var 	array
+	 *
+	 * @var     array
 	 */
 	private $settings = array();
 
 	/**
 	 * Constructor. Reads settings from options table, falling back to defaults
 	 * if no settings exist.
-	 * 
-	 * @since 	1.9.6
+	 *
+	 * @since   1.9.6
 	 */
 	public function __construct() {
 
@@ -42,10 +42,10 @@ class ConvertKit_Settings {
 
 	/**
 	 * Returns Plugin settings.
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @return 	array
+	 *
+	 * @since   1.9.6
+	 *
+	 * @return  array
 	 */
 	public function get() {
 
@@ -55,10 +55,10 @@ class ConvertKit_Settings {
 
 	/**
 	 * Returns the API Key Plugin setting.
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @return 	string
+	 *
+	 * @since   1.9.6
+	 *
+	 * @return  string
 	 */
 	public function get_api_key() {
 
@@ -74,10 +74,10 @@ class ConvertKit_Settings {
 
 	/**
 	 * Returns whether the API Key has been set in the Plugin settings.
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @return 	bool
+	 *
+	 * @since   1.9.6
+	 *
+	 * @return  bool
 	 */
 	public function has_api_key() {
 
@@ -87,10 +87,10 @@ class ConvertKit_Settings {
 
 	/**
 	 * Returns whether the API Key is stored as a constant in the wp-config.php file.
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @return 	bool
+	 *
+	 * @since   1.9.6
+	 *
+	 * @return  bool
 	 */
 	public function is_api_key_a_constant() {
 
@@ -100,10 +100,10 @@ class ConvertKit_Settings {
 
 	/**
 	 * Returns the API Secret Plugin setting.
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @return 	string
+	 *
+	 * @since   1.9.6
+	 *
+	 * @return  string
 	 */
 	public function get_api_secret() {
 
@@ -119,10 +119,10 @@ class ConvertKit_Settings {
 
 	/**
 	 * Returns whether the API Secret has been set in the Plugin settings.
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @return 	bool
+	 *
+	 * @since   1.9.6
+	 *
+	 * @return  bool
 	 */
 	public function has_api_secret() {
 
@@ -132,10 +132,10 @@ class ConvertKit_Settings {
 
 	/**
 	 * Returns whether the API Secret is stored as a constant in the wp-config.php file.
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @return 	bool
+	 *
+	 * @since   1.9.6
+	 *
+	 * @return  bool
 	 */
 	public function is_api_secret_a_constant() {
 
@@ -145,10 +145,10 @@ class ConvertKit_Settings {
 
 	/**
 	 * Returns whether the API Key and Secret have been set in the Plugin settings.
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @return 	bool
+	 *
+	 * @since   1.9.6
+	 *
+	 * @return  bool
 	 */
 	public function has_api_key_and_secret() {
 
@@ -158,11 +158,11 @@ class ConvertKit_Settings {
 
 	/**
 	 * Returns the Default Form Plugin setting.
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @param 	string 	$post_type 	Post Type
-	 * @return 	string 				Default Form (default|form id)			
+	 *
+	 * @since   1.9.6
+	 *
+	 * @param   string $post_type  Post Type
+	 * @return  string              Default Form (default|form id)
 	 */
 	public function get_default_form( $post_type ) {
 
@@ -173,34 +173,34 @@ class ConvertKit_Settings {
 
 		// Backward compat. where older Plugin versions would store API errors in the option value
 		// with id = -2 and name = 'Error contacting API'
-		if ( is_array( $this->settings[ $post_type . '_form'] ) ) {
+		if ( is_array( $this->settings[ $post_type . '_form' ] ) ) {
 			return 'default';
 		}
 
-		return $this->settings[ $post_type . '_form'];
+		return $this->settings[ $post_type . '_form' ];
 
 	}
 
 	/**
 	 * Returns whether the Default Form has been set in the Plugin settings.
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @param 	string 	$post_type 	Post Type
-	 * @return 	bool 				Post Type has a Default Form setting specified in Plugin Settings.
+	 *
+	 * @since   1.9.6
+	 *
+	 * @param   string $post_type  Post Type
+	 * @return  bool                Post Type has a Default Form setting specified in Plugin Settings.
 	 */
 	public function has_default_form( $post_type ) {
 
-		return ( ! empty( $this->settings[ $post_type . '_form'] ) ? true : false );
+		return ( ! empty( $this->settings[ $post_type . '_form' ] ) ? true : false );
 
 	}
 
 	/**
 	 * Returns whether debugging is enabled in the Plugin settings.
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @return 	string
+	 *
+	 * @since   1.9.6
+	 *
+	 * @return  string
 	 */
 	public function debug_enabled() {
 
@@ -210,10 +210,10 @@ class ConvertKit_Settings {
 
 	/**
 	 * Returns whether scripts are disabled in the Plugin settings.
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @return 	string
+	 *
+	 * @since   1.9.6
+	 *
+	 * @return  string
 	 */
 	public function scripts_disabled() {
 
@@ -224,18 +224,18 @@ class ConvertKit_Settings {
 	/**
 	 * The default settings, used when the ConvertKit Plugin Settings haven't been saved
 	 * e.g. on a new installation.
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @return 	array
+	 *
+	 * @since   1.9.6
+	 *
+	 * @return  array
 	 */
 	public function get_defaults() {
 
 		$defaults = array(
-			'api_key'      => '', // string
-			'api_secret'   => '', // string
-			'debug'        => '', // blank|on
-			'no_scripts'   => '', // blank|on
+			'api_key'    => '', // string
+			'api_secret' => '', // string
+			'debug'      => '', // blank|on
+			'no_scripts' => '', // blank|on
 		);
 
 		// Add Post Type Default Forms
@@ -246,10 +246,10 @@ class ConvertKit_Settings {
 		/**
 		 * The default settings, used when the ConvertKit Plugin Settings haven't been saved
 		 * e.g. on a new installation.
-		 * 
-		 * @since 	1.9.6
-		 * 
-		 * @param 	array 	$defaults
+		 *
+		 * @since   1.9.6
+		 *
+		 * @param   array   $defaults
 		 */
 		$defaults = apply_filters( 'convertkit_settings_get_defaults', $defaults );
 

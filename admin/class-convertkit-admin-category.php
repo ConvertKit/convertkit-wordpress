@@ -10,8 +10,8 @@ class ConvertKit_Admin_Category {
 
 	/**
 	 * Registers action and filter hooks.
-	 * 
-	 * @since 	1.9.6
+	 *
+	 * @since   1.9.6
 	 */
 	public function __construct() {
 
@@ -23,33 +23,33 @@ class ConvertKit_Admin_Category {
 	/**
 	 * Display the ConvertKit Forms dropdown when editing a Category
 	 *
-	 * @since 	1.9.6
-	 * 
-	 * @param 	WP_Term 	$term 	Category
+	 * @since   1.9.6
+	 *
+	 * @param   WP_Term $term   Category
 	 */
 	public function category_form_fields( $term ) {
 
 		// Don't show the form fields if the API hasn't been configured.
-		$settings = new ConvertKit_Settings;
+		$settings = new ConvertKit_Settings();
 		if ( ! $settings->has_api_key_and_secret() ) {
 			return;
 		}
 
 		// Fetch Category Settings and Forms
 		$convertkit_term = new ConvertKit_Term( $term->term_id );
-		$forms = new ConvertKit_Resource_Forms;
+		$convertkit_forms = new ConvertKit_Resource_Forms();
 
 		// Load metabox view.
-		include( CONVERTKIT_PLUGIN_PATH . '/views/backend/term/fields.php' );
+		include CONVERTKIT_PLUGIN_PATH . '/views/backend/term/fields.php';
 
 	}
 
 	/**
 	 * Save Term Settings.
 	 *
-	 * @since 	1.9.6
-	 * 
-	 * @param 	int 	$term_id 	Term ID
+	 * @since   1.9.6
+	 *
+	 * @param   int $term_id    Term ID
 	 */
 	public function save_category_fields( $term_id ) {
 

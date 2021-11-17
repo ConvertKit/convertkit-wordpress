@@ -2,8 +2,8 @@
 /**
  * Runs upgrade routines when the Plugin is updated to a newer version
  * in WordPress.
- * 
- * @since 	1.9.6
+ *
+ * @since   1.9.6
  */
 class ConvertKit_Admin_Upgrade {
 
@@ -53,7 +53,7 @@ class ConvertKit_Admin_Upgrade {
 	 */
 	private function migrate_default_form_settings() {
 
-		$convertkit_settings = new ConvertKit_Settings;
+		$convertkit_settings = new ConvertKit_Settings();
 
 		// Bail if no default_form setting exists.
 		$settings = get_option( $convertkit_settings::SETTINGS_NAME );
@@ -65,8 +65,8 @@ class ConvertKit_Admin_Upgrade {
 		}
 
 		// Restructure settings.
-		$settings[ 'page_form' ] = $settings['default_form']; 
-		$settings[ 'post_form' ] = $settings['default_form']; 
+		$settings['page_form'] = $settings['default_form'];
+		$settings['post_form'] = $settings['default_form'];
 
 		// Remove obsolete default_form setting.
 		unset( $settings['default_form'] );
@@ -82,9 +82,9 @@ class ConvertKit_Admin_Upgrade {
 	 */
 	private function refresh_resources() {
 
-		$forms = new ConvertKit_Resource_Forms;
-		$landing_pages = new ConvertKit_Resource_Landing_Pages;
-		$tags = new ConvertKit_Resource_Tags;
+		$forms         = new ConvertKit_Resource_Forms();
+		$landing_pages = new ConvertKit_Resource_Landing_Pages();
+		$tags          = new ConvertKit_Resource_Tags();
 
 		$forms->refresh();
 		$landing_pages->refresh();
@@ -94,13 +94,13 @@ class ConvertKit_Admin_Upgrade {
 
 	/**
 	 * 1.4.1: Change ID to form_id for API version 3.0.
-	 * 
-	 * @since 	1.4.1
+	 *
+	 * @since   1.4.1
 	 */
 	private function change_id_to_form_id() {
 
 		// Bail if the API isn't configured.
-		$settings = new ConvertKit_Settings;
+		$settings = new ConvertKit_Settings();
 		if ( ! $settings->has_api_key_and_secret() ) {
 			return;
 		}
@@ -109,8 +109,8 @@ class ConvertKit_Admin_Upgrade {
 		$posts = get_option( '_wp_convertkit_upgrade_posts' );
 		if ( ! $posts ) {
 			$args = array(
-				'post_type'      => array( 'post', 'page' ),
-				'fields'         => 'ids',
+				'post_type' => array( 'post', 'page' ),
+				'fields'    => 'ids',
 			);
 
 			$result = new WP_Query( $args );
@@ -133,7 +133,7 @@ class ConvertKit_Admin_Upgrade {
 		}
 
 		// 1. Update global form.
-		$settings_data = $settings->get();
+		$settings_data                 = $settings->get();
 		$settings_data['default_form'] = isset( $mappings[ $settings->get_default_form() ] ) ? $mappings[ $settings->get_default_form() ] : 0;
 		update_option( $settings::SETTINGS_NAME, $settings );
 

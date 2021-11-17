@@ -44,71 +44,77 @@ class ConvertKit_API {
 
 	/**
 	 * Holds the log class for writing to the log file
-	 * 
-	 * @var 	ConvertKit_Log
+	 *
+	 * @var     ConvertKit_Log
 	 */
 	private $log;
 
 	/**
 	 * Sets up the API with the required credentials.
-	 * 
-	 * @since 	1.9.6
 	 *
-	 * @param 	string 	$api_key 		ConvertKit API Key.
-	 * @param 	string 	$api_secret 	ConvertKit API Secret.
-	 * @param 	string 	$debug 			Save data to log.
+	 * @since   1.9.6
+	 *
+	 * @param   string $api_key        ConvertKit API Key.
+	 * @param   string $api_secret     ConvertKit API Secret.
+	 * @param   string $debug          Save data to log.
 	 */
 	public function __construct( $api_key = false, $api_secret = false, $debug = false ) {
 
 		// Set API credentials and debugging.
-		$this->api_key = $api_key;
+		$this->api_key    = $api_key;
 		$this->api_secret = $api_secret;
-		$this->debug = $debug;
-		$this->log = new ConvertKit_Log;
+		$this->debug      = $debug;
+		$this->log        = new ConvertKit_Log();
 
 	}
 
 	/**
 	 * Gets account information from the API.
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @return 	mixed 	WP_Error | array
+	 *
+	 * @since   1.9.6
+	 *
+	 * @return  mixed   WP_Error | array
 	 */
 	public function account() {
 
 		$this->log( 'API: account()' );
 
-		return $this->get( 'account', array(
-			'api_secret' => $this->api_secret,
-		) );
+		return $this->get(
+			'account',
+			array(
+				'api_secret' => $this->api_secret,
+			)
+		);
 
 	}
 
 	/**
 	 * Gets all subscription forms from the API.
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @return 	mixed 	WP_Error | array
+	 *
+	 * @since   1.9.6
+	 *
+	 * @return  mixed   WP_Error | array
 	 */
 	public function get_subscription_forms() {
 
 		$this->log( 'API: get_subscription_forms()' );
 
 		// Send request
-		$response = $this->get( 'subscription_forms', array(
-			'api_key' => $this->api_key,
-		) );
+		$response = $this->get(
+			'subscription_forms',
+			array(
+				'api_key' => $this->api_key,
+			)
+		);
 
 	}
 
 	/**
 	 * Gets all forms from the API.
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @return 	mixed 	WP_Error | array
+	 *
+	 * @since   1.9.6
+	 *
+	 * @return  mixed   WP_Error | array
 	 */
 	public function get_forms() {
 
@@ -129,13 +135,13 @@ class ConvertKit_API {
 
 	/**
 	 * Subscribes an email address to a form.
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @param 	string 	$form_id 	Form ID
-	 * @param 	string 	$email 		Email Address
-	 * @param 	string 	$first_name First Name
-	 * @return 	mixed 				WP_Error | array
+	 *
+	 * @since   1.9.6
+	 *
+	 * @param   string $form_id    Form ID
+	 * @param   string $email      Email Address
+	 * @param   string $first_name First Name
+	 * @return  mixed               WP_Error | array
 	 */
 	public function form_subscribe( $form_id, $email, $first_name ) {
 
@@ -143,16 +149,19 @@ class ConvertKit_API {
 		if ( is_array( $email ) ) {
 			_deprecated_function( __FUNCTION__, '1.9.6', 'form_subscribe( $form_id, $email, $first_name )' );
 			$first_name = $email['name'];
-			$email = $email['email'];
+			$email      = $email['email'];
 		}
 
 		$this->log( 'API: form_subscribe(): [ form_id: ' . $form_id . ', email: ' . $email . ', first_name: ' . $first_name . ' ]' );
 
-		$response = $this->post( 'forms/' . $form_id . '/subscribe', array(
-			'api_secret' 	=> $this->api_secret,
-			'email'			=> $email,
-			'first_name'	=> $first_name,
-		) );
+		$response = $this->post(
+			'forms/' . $form_id . '/subscribe',
+			array(
+				'api_secret' => $this->api_secret,
+				'email'      => $email,
+				'first_name' => $first_name,
+			)
+		);
 
 		if ( is_wp_error( $response ) ) {
 			$this->log( 'API: form_subscribe(): Error: ' . $response->get_error_message() );
@@ -164,10 +173,10 @@ class ConvertKit_API {
 
 	/**
 	 * Gets all landing pages from the API.
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @return 	mixed 	WP_Error | array
+	 *
+	 * @since   1.9.6
+	 *
+	 * @return  mixed   WP_Error | array
 	 */
 	public function get_landing_pages() {
 
@@ -188,10 +197,10 @@ class ConvertKit_API {
 
 	/**
 	 * Fetches all tags from the API.
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @return 	mixed 	WP_Error | array
+	 *
+	 * @since   1.9.6
+	 *
+	 * @return  mixed   WP_Error | array
 	 */
 	public function get_tags() {
 
@@ -200,10 +209,13 @@ class ConvertKit_API {
 		$tags = array();
 
 		// Send request
-		$response = $this->get( 'tags', array(
-			'api_key' => $this->api_key,
-		) );
-		
+		$response = $this->get(
+			'tags',
+			array(
+				'api_key' => $this->api_key,
+			)
+		);
+
 		// If an error occured, return WP_Error.
 		if ( is_wp_error( $response ) ) {
 			$this->log( 'API: get_tags(): Error: ' . $response->get_error_message() );
@@ -230,21 +242,24 @@ class ConvertKit_API {
 
 	/**
 	 * Subscribes an email address to a tag.
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @param 	string 	$tag_id 	Tag ID
-	 * @param 	string 	$email 		Email Address
-	 * @return 	mixed 				WP_Error | array
+	 *
+	 * @since   1.9.6
+	 *
+	 * @param   string $tag_id     Tag ID
+	 * @param   string $email      Email Address
+	 * @return  mixed               WP_Error | array
 	 */
 	public function tag_subscribe( $tag_id, $email ) {
 
 		$this->log( 'API: tag_subscribe(): [ tag_id: ' . $tag_id . ', email: ' . $email . ']' );
 
-		$response = $this->post( 'tags/' . $tag_id . '/subscribe', array(
-			'api_key'	=> $this->api_key,
-			'email'		=> $email,
-		) );
+		$response = $this->post(
+			'tags/' . $tag_id . '/subscribe',
+			array(
+				'api_key' => $this->api_key,
+				'email'   => $email,
+			)
+		);
 
 		if ( is_wp_error( $response ) ) {
 			$this->log( 'API: tag_subscribe(): Error: ' . $response->get_error_message() );
@@ -256,22 +271,25 @@ class ConvertKit_API {
 
 	/**
 	 * Gets a subscriber by their email address.
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @param 	string 	$email 	Email Address
-	 * @return 	mixed 			WP_Error | array
+	 *
+	 * @since   1.9.6
+	 *
+	 * @param   string $email  Email Address
+	 * @return  mixed           WP_Error | array
 	 */
 	public function get_subscriber_by_email( $email ) {
 
 		$this->log( 'API: get_subscriber_by_email(): [ email: ' . $email . ']' );
 
 		// Send request
-		$response = $this->get( 'subscribers', array(
-			'api_secret'	=> $this->api_secret,
-			'email_address' => $email,
-		) );
-		
+		$response = $this->get(
+			'subscribers',
+			array(
+				'api_secret'    => $this->api_secret,
+				'email_address' => $email,
+			)
+		);
+
 		// If an error occured, return WP_Error.
 		if ( is_wp_error( $response ) ) {
 			$this->log( 'API: tag_subscriber(): Error: ' . $response->get_error_message() );
@@ -280,7 +298,7 @@ class ConvertKit_API {
 
 		// If no subscribers exist, return WP_Error.
 		if ( ! absint( $response['total_subscribers'] ) ) {
-			$error = new WP_Error( 
+			$error = new WP_Error(
 				'convertkit_api_error',
 				sprintf(
 					__( 'No subscriber(s) exist in ConvertKit matching the email address %s.', 'convertkit' ),
@@ -289,7 +307,7 @@ class ConvertKit_API {
 			);
 
 			$this->log( 'API: get_subscriber_by_email(): Error: ' . $error->get_error_message() );
-			
+
 			return $error;
 		}
 
@@ -299,21 +317,24 @@ class ConvertKit_API {
 
 	/**
 	 * Gets a subscriber by their ConvertKit subscriber ID.
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @param 	int 	$subscriber_id 	Subscriber ID
-	 * @return 	mixed 					WP_Error | array
+	 *
+	 * @since   1.9.6
+	 *
+	 * @param   int $subscriber_id  Subscriber ID
+	 * @return  mixed                   WP_Error | array
 	 */
 	public function get_subscriber_by_id( $subscriber_id ) {
 
 		$this->log( 'API: get_subscriber_by_id(): [ subscriber_id: ' . $subscriber_id . ']' );
 
 		// Send request
-		$response = $this->get( 'subscribers/' . $subscriber_id, array(
-			'api_secret' => $this->api_secret,
-		) );
-		
+		$response = $this->get(
+			'subscribers/' . $subscriber_id,
+			array(
+				'api_secret' => $this->api_secret,
+			)
+		);
+
 		// If an error occured, eturn WP_Error.
 		if ( is_wp_error( $response ) ) {
 			$this->log( 'API: get_subscriber_by_id(): Error: ' . $response->get_error_message() );
@@ -322,7 +343,7 @@ class ConvertKit_API {
 
 		// If no subscriber exists, return WP_Error.
 		if ( ! isset( $response['subscriber'] ) ) {
-			$error = new WP_Error( 
+			$error = new WP_Error(
 				'convertkit_api_error',
 				sprintf(
 					__( 'No subscriber exist in ConvertKit matching the subscriber ID %s.', 'convertkit' ),
@@ -331,7 +352,7 @@ class ConvertKit_API {
 			);
 
 			$this->log( 'API: get_subscriber_by_id(): Error: ' . $error->get_error_message() );
-			
+
 			return $error;
 		}
 
@@ -341,20 +362,23 @@ class ConvertKit_API {
 
 	/**
 	 * Gets a list of tags for the given ConvertKit subscriber ID.
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @param 	int 	$subscriber_id 	Subscriber ID
-	 * @return 	mixed 					WP_Error | array
+	 *
+	 * @since   1.9.6
+	 *
+	 * @param   int $subscriber_id  Subscriber ID
+	 * @return  mixed                   WP_Error | array
 	 */
 	public function get_subscriber_tags( $subscriber_id ) {
 
 		$this->log( 'API: get_subscriber_tags(): [ subscriber_id: ' . $subscriber_id . ']' );
 
 		// Send request
-		$response = $this->get( 'subscribers/' . $subscriber_id . '/tags', array(
-			'api_key' => $this->api_key,
-		) );
+		$response = $this->get(
+			'subscribers/' . $subscriber_id . '/tags',
+			array(
+				'api_key' => $this->api_key,
+			)
+		);
 
 		// If an error occured, return WP_Error.
 		if ( is_wp_error( $response ) ) {
@@ -364,7 +388,7 @@ class ConvertKit_API {
 
 		// If no tags exists, return WP_Error.
 		if ( ! isset( $response['tags'] ) ) {
-			$error = new WP_Error( 
+			$error = new WP_Error(
 				'convertkit_api_error',
 				sprintf(
 					__( 'No tags exist in ConvertKit for the subscriber ID %s.', 'convertkit' ),
@@ -373,7 +397,7 @@ class ConvertKit_API {
 			);
 
 			$this->log( 'API: get_subscriber_tags(): Error: ' . $error->get_error_message() );
-			
+
 			return $error;
 		}
 
@@ -383,11 +407,11 @@ class ConvertKit_API {
 
 	/**
 	 * Returns the subscriber's ID by their email address.
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @param 	string 	$email_address 	Email Address
-	 * @return 	mixed 					WP_Error | int
+	 *
+	 * @since   1.9.6
+	 *
+	 * @param   string $email_address  Email Address
+	 * @return  mixed                   WP_Error | int
 	 */
 	public function get_subscriber_id( $email_address ) {
 
@@ -406,20 +430,23 @@ class ConvertKit_API {
 
 	/**
 	 * Unsubscribes an email address.
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @param 	string 	$email 		Email Address
-	 * @return 	mixed 				WP_Error | array
+	 *
+	 * @since   1.9.6
+	 *
+	 * @param   string $email      Email Address
+	 * @return  mixed               WP_Error | array
 	 */
 	public function unsubscribe( $email ) {
 
 		$this->log( 'API: unsubscribe(): [ email: ' . $email . ']' );
 
-		$response = $this->post( 'unsubscribe', array(
-			'api_secret' 	=> $this->api_secret,
-			'email'			=> $email,
-		) );
+		$response = $this->post(
+			'unsubscribe',
+			array(
+				'api_secret' => $this->api_secret,
+				'email'      => $email,
+			)
+		);
 
 		if ( is_wp_error( $response ) ) {
 			$this->log( 'API: unsubscribe(): Error: ' . $response->get_error_message() );
@@ -431,11 +458,11 @@ class ConvertKit_API {
 
 	/**
 	 * Get HTMl from ConvertKit for the given Legacy Form ID.
-	 * 
+	 *
 	 * This isn't specifically an API function, but for now it's best suited here.
 	 *
-	 * @param 	int 	$id 	Form ID
-	 * @return 	string 			HTML
+	 * @param   int $id     Form ID
+	 * @return  string          HTML
 	 */
 	public function get_form_html( $id ) {
 
@@ -443,7 +470,7 @@ class ConvertKit_API {
 		$url = add_query_arg(
 			array(
 				'api_key' => $this->api_key,
-				'v'       => 6
+				'v'       => 6,
 			),
 			'https://forms.convertkit.com/' . $id . '.html'
 		);
@@ -457,11 +484,11 @@ class ConvertKit_API {
 
 	/**
 	 * Get HTML from ConvertKit for the given Landing Page URL.
-	 * 
+	 *
 	 * This isn't specifically an API function, but for now it's best suited here.
 	 *
-	 * @param 	string 	$url 	URL of Landing Page
-	 * @return 	string 			HTML
+	 * @param   string $url    URL of Landing Page
+	 * @return  string          HTML
 	 */
 	public function get_landing_page_html( $url ) {
 
@@ -470,20 +497,20 @@ class ConvertKit_API {
 
 		// Inject JS for subscriber forms to work.
 		$scripts = new WP_Scripts();
-		$script = "<script type='text/javascript' src='" . trailingslashit( $scripts->base_url ) . "wp-includes/js/jquery/jquery.js?ver=1.4.0'></script>";
+		$script  = "<script type='text/javascript' src='" . trailingslashit( $scripts->base_url ) . "wp-includes/js/jquery/jquery.js?ver=1.4.0'></script>";
 		$script .= "<script type='text/javascript' src='" . CONVERTKIT_PLUGIN_URL . 'resources/frontend/js/convertkit.js?ver=' . CONVERTKIT_PLUGIN_VERSION . "'></script>";
 		$script .= "<script type='text/javascript'>/* <![CDATA[ */var ck_data = {\"ajaxurl\":\"" . admin_url( 'admin-ajax.php' ) . '"};/* ]]> */</script>';
-		
+
 		$body = str_replace( '</head>', '</head>' . $script, $body );
 
-		return $body;   
+		return $body;
 
 	}
 
 	/**
 	 * Backward compat. function for updating Forms, Landing Pages and Tags in WordPress options table.
-	 * 
-	 * @since 	1.0.0
+	 *
+	 * @since   1.0.0
 	 */
 	public function update_resources( $api_key, $api_secret ) {
 
@@ -491,9 +518,9 @@ class ConvertKit_API {
 		_deprecated_function( __FUNCTION__, '1.9.6', 'refresh() in ConvertKit_Resource_Forms, ConvertKit_Resource_Landing_Pages and ConvertKit_Resource_Tags classes.' );
 
 		// Initialize resource classes.
-		$forms = new ConvertKit_Resource_Forms;
-		$landing_pages = new ConvertKit_Resource_Landing_Pages;
-		$tags = new ConvertKit_Resource_Tags;
+		$forms         = new ConvertKit_Resource_Forms();
+		$landing_pages = new ConvertKit_Resource_Landing_Pages();
+		$tags          = new ConvertKit_Resource_Tags();
 
 		// Refresh resources by calling the API and storing the results.
 		$forms->refresh();
@@ -504,8 +531,8 @@ class ConvertKit_API {
 
 	/**
 	 * Backward compat. function for getting a ConvertKit subscriber by their ID.
-	 * 
-	 * @since 	1.9.6
+	 *
+	 * @since   1.9.6
 	 */
 	public function get_subscriber( $id ) {
 
@@ -519,12 +546,12 @@ class ConvertKit_API {
 
 	/**
 	 * Backward compat. function for subscribing a ConvertKit subscriber to the given Tag.
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @param 	int 	$tag 	Tag ID
-	 * @param 	array 	$args 	Arguments
-	 * @return 	mixed 			WP_Error | array
+	 *
+	 * @since   1.9.6
+	 *
+	 * @param   int   $tag    Tag ID
+	 * @param   array $args   Arguments
+	 * @return  mixed           WP_Error | array
 	 */
 	public function add_tag( $tag, $args ) {
 
@@ -538,11 +565,11 @@ class ConvertKit_API {
 
 	/**
 	 * Backward compat. function for fetching Legacy Form or Landing Page markup for the given URL.
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @param 	string 	$url 	URL
-	 * @return 	mixed 			WP_Error | string
+	 *
+	 * @since   1.9.6
+	 *
+	 * @param   string $url    URL
+	 * @return  mixed           WP_Error | string
 	 */
 	public function get_resource( $url ) {
 
@@ -556,11 +583,11 @@ class ConvertKit_API {
 
 	/**
 	 * Backward compat. function for fetching Legacy Form or Landing Page markup for the given URL.
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @param 	array 	$args 	Arguments (single email key)
-	 * @return 	mixed 			WP_Error | array
+	 *
+	 * @since   1.9.6
+	 *
+	 * @param   array $args   Arguments (single email key)
+	 * @return  mixed           WP_Error | array
 	 */
 	public function form_unsubscribe( $args ) {
 
@@ -574,20 +601,23 @@ class ConvertKit_API {
 
 	/**
 	 * Get HTML for the given URL.
-	 * 
+	 *
 	 * This isn't specifically an API function, but for now it's best suited here.
 	 *
-	 * @param 	string 	$url 	URL of Form or Landing Page
-	 * @return 	string 			HTML
+	 * @param   string $url    URL of Form or Landing Page
+	 * @return  string          HTML
 	 */
 	private function get_html( $url ) {
 
 		// Get HTML from URL.
-		$result = wp_remote_get( $url, array(
-			'Accept-Encoding' 	=> 'gzip',
-			'timeout'   		=> $this->get_timeout(),
-			'user-agent'		=> $this->get_user_agent(),
-		) );
+		$result = wp_remote_get(
+			$url,
+			array(
+				'Accept-Encoding' => 'gzip',
+				'timeout'         => $this->get_timeout(),
+				'user-agent'      => $this->get_user_agent(),
+			)
+		);
 
 		// If an error occured, return it now.
 		if ( is_wp_error( $result ) ) {
@@ -596,15 +626,15 @@ class ConvertKit_API {
 
 		// Fetch HTTP response code and body.
 		$http_response_code = wp_remote_retrieve_response_code( $result );
-		$body = wp_remote_retrieve_body( $result );
+		$body               = wp_remote_retrieve_body( $result );
 
 		// Get just the scheme and host from the URL.
-		$url_scheme = parse_url( $url );
+		$url_scheme           = parse_url( $url );
 		$url_scheme_host_only = $url_scheme['scheme'] . '://' . $url_scheme['host'];
 
 		// Load the landing page HTML into a DOMDocument.
 		libxml_use_internal_errors( true );
-		$html = new DOMDocument;
+		$html = new DOMDocument();
 		$html->loadHTML( $body );
 
 		// Convert any relative URLs to absolute URLs in the HTML DOM.
@@ -622,12 +652,12 @@ class ConvertKit_API {
 	/**
 	 * Converts any relative URls to absolute, fully qualified HTTP(s) URLs for the given
 	 * DOM Elements
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @param 	array 	$elements 	Elements
-	 * @param 	string 	$attribute 	HTML Attribute
-	 * @param 	string 	$url 		Absolute URL to prepend to relative URLs
+	 *
+	 * @since   1.9.6
+	 *
+	 * @param   array  $elements   Elements
+	 * @param   string $attribute  HTML Attribute
+	 * @param   string $url        Absolute URL to prepend to relative URLs
 	 */
 	private function convert_relative_to_absolute_urls( $elements, $attribute, $url ) {
 
@@ -653,17 +683,20 @@ class ConvertKit_API {
 
 	/**
 	 * Gets all forms and landing pages from the API.
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @return 	mixed 	WP_Error | array
+	 *
+	 * @since   1.9.6
+	 *
+	 * @return  mixed   WP_Error | array
 	 */
 	private function get_forms_landing_pages() {
 
 		// Send request
-		$response = $this->get( 'forms', array(
-			'api_key' => $this->api_key,
-		) );
+		$response = $this->get(
+			'forms',
+			array(
+				'api_key' => $this->api_key,
+			)
+		);
 
 		// If an error occured, return WP_Error.
 		if ( is_wp_error( $response ) ) {
@@ -672,14 +705,14 @@ class ConvertKit_API {
 
 		// If no forms exist
 		if ( ! isset( $response['forms'] ) ) {
-			return  new WP_Error(
+			return new WP_Error(
 				'convertkit_api_error',
 				__( 'No forms exist in ConvertKit. Visit your ConvertKit account and create your first form.', 'convertkit' )
 			);
 		}
 
 		// Iterate through forms, determining if each form is a form or landing page.
-		$forms = array();
+		$forms         = array();
 		$landing_pages = array();
 		foreach ( $response['forms'] as $form ) {
 			// Skip archived forms.
@@ -699,7 +732,7 @@ class ConvertKit_API {
 		}
 
 		return array(
-			'forms' 		=> $forms,
+			'forms'         => $forms,
 			'landing_pages' => $landing_pages,
 		);
 
@@ -710,8 +743,8 @@ class ConvertKit_API {
 	 *
 	 * @since   1.9.6
 	 *
-	 * @param   string  $endpoint       API Endpoint
-	 * @param   array   $params         Params
+	 * @param   string $endpoint       API Endpoint
+	 * @param   array  $params         Params
 	 * @return  mixed                   WP_Error | object
 	 */
 	private function get( $endpoint, $params ) {
@@ -725,8 +758,8 @@ class ConvertKit_API {
 	 *
 	 * @since  1.9.6
 	 *
-	 * @param   string  $endpoint       API Endpoint
-	 * @param   array   $params         Params
+	 * @param   string $endpoint       API Endpoint
+	 * @param   array  $params         Params
 	 * @return  mixed                   WP_Error | object
 	 */
 	private function post( $endpoint, $params ) {
@@ -740,9 +773,9 @@ class ConvertKit_API {
 	 *
 	 * @since   1.9.6
 	 *
-	 * @param   string  $endpoint       API Endpoint (required)
-	 * @param   string  $method         HTTP Method (optional)
-	 * @param   mixed   $params         Params (array|boolean|string)
+	 * @param   string $endpoint       API Endpoint (required)
+	 * @param   string $method         HTTP Method (optional)
+	 * @param   mixed  $params         Params (array|boolean|string)
 	 * @return  mixed                   WP_Error | object
 	 */
 	private function request( $endpoint, $method = 'get', $params = array() ) {
@@ -750,23 +783,29 @@ class ConvertKit_API {
 		// Send request.
 		switch ( $method ) {
 			case 'get':
-				$result = wp_remote_get( $this->add_api_credentials_to_url( $this->get_api_url( $endpoint ), $params ), array(
-					'Accept-Encoding' 	=> 'gzip',
-					'timeout'   		=> $this->get_timeout(),
-					'user-agent'		=> $this->get_user_agent(),
-				) );
+				$result = wp_remote_get(
+					$this->add_api_credentials_to_url( $this->get_api_url( $endpoint ), $params ),
+					array(
+						'Accept-Encoding' => 'gzip',
+						'timeout'         => $this->get_timeout(),
+						'user-agent'      => $this->get_user_agent(),
+					)
+				);
 				break;
-			
+
 			case 'post':
-				$result = wp_remote_post( $this->get_api_url( $endpoint ), array(
-					'Accept-Encoding' 	=> 'gzip',
-					'headers'			=> array(
-						'Content-Type' => 'application/json; charset=utf-8',
-					),
-					'body'      		=> wp_json_encode( $params ),
-					'timeout'   		=> $this->get_timeout(),
-					'user-agent'		=> $this->get_user_agent(),
-				) );
+				$result = wp_remote_post(
+					$this->get_api_url( $endpoint ),
+					array(
+						'Accept-Encoding' => 'gzip',
+						'headers'         => array(
+							'Content-Type' => 'application/json; charset=utf-8',
+						),
+						'body'            => wp_json_encode( $params ),
+						'timeout'         => $this->get_timeout(),
+						'user-agent'      => $this->get_user_agent(),
+					)
+				);
 				break;
 		}
 
@@ -777,8 +816,8 @@ class ConvertKit_API {
 
 		// Fetch HTTP response code and body.
 		$http_response_code = wp_remote_retrieve_response_code( $result );
-		$body = wp_remote_retrieve_body( $result );
-		$response = json_decode( $body, true );
+		$body               = wp_remote_retrieve_body( $result );
+		$response           = json_decode( $body, true );
 
 		// If an error message or code exists in the response, return a WP_Error.
 		if ( isset( $response['error'] ) ) {
@@ -816,8 +855,8 @@ class ConvertKit_API {
 
 	/**
 	 * Gets a customized version of the WordPress default user agent; includes WP Version, PHP version, and ConvertKit plugin version.
-	 * 
-	 * @since 	1.9.6
+	 *
+	 * @since   1.9.6
 	 *
 	 * @return string
 	 */
@@ -833,16 +872,16 @@ class ConvertKit_API {
 			CONVERTKIT_PLUGIN_VERSION,
 			home_url( '/' )
 		);
-		
+
 	}
 
 	/**
 	 * Returns the full API URL for the given endpoint.
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @param 	string 	$endpoint 	Endpoint.
-	 * @return 	string 				API URL.
+	 *
+	 * @since   1.9.6
+	 *
+	 * @param   string $endpoint   Endpoint.
+	 * @return  string              API URL.
 	 */
 	private function get_api_url( $endpoint ) {
 
@@ -853,25 +892,31 @@ class ConvertKit_API {
 	/**
 	 * Adds either the API Key or API Secret to the URL, depending on whether
 	 * the API Key or API Secret is in the array of parameters.
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @param 	string 	$url 		URL
-	 * @param 	array 	$params 	Parameters for request
-	 * @return 	string 				URL with API Key or API Secret
+	 *
+	 * @since   1.9.6
+	 *
+	 * @param   string $url        URL
+	 * @param   array  $params     Parameters for request
+	 * @return  string              URL with API Key or API Secret
 	 */
 	private function add_api_credentials_to_url( $url, $params ) {
 
 		if ( isset( $params['api_key'] ) ) {
-			return add_query_arg( array(
-				'api_key' => $params['api_key'],
-			), $url );
+			return add_query_arg(
+				array(
+					'api_key' => $params['api_key'],
+				),
+				$url
+			);
 		}
 
 		if ( isset( $params['api_secret'] ) ) {
-			return add_query_arg( array(
-				'api_secret' => $params['api_secret'],
-			), $url );
+			return add_query_arg(
+				array(
+					'api_secret' => $params['api_secret'],
+				),
+				$url
+			);
 		}
 
 		return $url;
@@ -880,10 +925,10 @@ class ConvertKit_API {
 
 	/**
 	 * Adds the given entry to the log file, if debugging is enabled.
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @param 	string 	$entry 	Log Entry
+	 *
+	 * @since   1.9.6
+	 *
+	 * @param   string $entry  Log Entry
 	 */
 	private function log( $entry ) {
 

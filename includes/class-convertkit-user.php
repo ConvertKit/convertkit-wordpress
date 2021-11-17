@@ -1,40 +1,40 @@
 <?php
 /**
  * Class to read ConvertKit Settings for the given User.
- * 
- * @since 	1.9.6
+ *
+ * @since   1.9.6
  */
 class ConvertKit_User {
 
 	/**
 	 * Holds the Meta Key that stores ConvertKit settings on a per-User basis
-	 * 
-	 * @var 	string
+	 *
+	 * @var     string
 	 */
 	const META_KEY = 'convertkit_tags';
 
 	/**
 	 * Holds the User ID
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @var 	int
+	 *
+	 * @since   1.9.6
+	 *
+	 * @var     int
 	 */
 	public $user_id = 0;
 
 	/**
 	 * Holds the User's Settings
-	 * 
-	 * @var 	array
+	 *
+	 * @var     array
 	 */
 	private $settings = false;
 
 	/**
 	 * Constructor. Populates the settings based on the given User ID.
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @param 	int 	$user_id 	User ID
+	 *
+	 * @since   1.9.6
+	 *
+	 * @param   int $user_id    User ID
 	 */
 	public function __construct( $user_id ) {
 
@@ -55,10 +55,10 @@ class ConvertKit_User {
 
 	/**
 	 * Returns settings for the User.
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @return 	array
+	 *
+	 * @since   1.9.6
+	 *
+	 * @return  array
 	 */
 	public function get() {
 
@@ -68,10 +68,10 @@ class ConvertKit_User {
 
 	/**
 	 * Saves User settings to the User.
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @param 	array 	$meta 	Settings
+	 *
+	 * @since   1.9.6
+	 *
+	 * @param   array $meta   Settings
 	 */
 	public function save( $meta ) {
 
@@ -82,10 +82,10 @@ class ConvertKit_User {
 	/**
 	 * The default settings, used to populate the User's Settings when a User
 	 * has no Settings.
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @return 	array
+	 *
+	 * @since   1.9.6
+	 *
+	 * @return  array
 	 */
 	public function get_default_settings() {
 

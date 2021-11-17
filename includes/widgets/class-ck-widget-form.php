@@ -25,11 +25,15 @@ class CK_Widget_Form extends WP_Widget {
 	 */
 	public function __construct() {
 
-		parent::__construct( 'convertkit_form', __( 'ConvertKit Form', 'convertkit' ), array(
-			'classname'   => 'convertkit widget_convertkit_form',
-			'description' => __( 'Display a ConvertKit form.', 'convertkit' ),
-			'customize_selective_refresh' => true,
-		) );
+		parent::__construct(
+			'convertkit_form',
+			__( 'ConvertKit Form', 'convertkit' ),
+			array(
+				'classname'                   => 'convertkit widget_convertkit_form',
+				'description'                 => __( 'Display a ConvertKit form.', 'convertkit' ),
+				'customize_selective_refresh' => true,
+			)
+		);
 
 	}
 
@@ -41,24 +45,24 @@ class CK_Widget_Form extends WP_Widget {
 	 */
 	public function form( $instance ) {
 
-		$forms = new ConvertKit_Resource_Forms;
+		$forms = new ConvertKit_Resource_Forms();
 
 		// Bail if no Forms exist.
 		if ( ! $forms->exist() ) {
 			?>
 			<p>
-				<?php _e( 'To display a ConvertKit Form, at least one form must be defined in your ConvertKit Account.' ); ?>
+				<?php esc_html_e( 'To display a ConvertKit Form, at least one form must be defined in your ConvertKit Account.' ); ?>
 			</p>
 			<?php
 		}
 
 		?>
 		<p>
-			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title', 'convertkit' ); ?></label>
+			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php esc_html_e( 'Title', 'convertkit' ); ?></label>
 			<input type="text" name="<?php echo $this->get_field_name( 'title' ); ?>" class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" value="<?php esc_attr( $instance['title'] ); ?>" />
 		</p>
 		<p>
-			<label for="<?php echo $this->get_field_id( 'form' ); ?>"><?php _e( 'Form', 'convertkit' ); ?></label>
+			<label for="<?php echo $this->get_field_id( 'form' ); ?>"><?php esc_html_e( 'Form', 'convertkit' ); ?></label>
 			<select name="<?php echo $this->get_field_name( 'form' ); ?>" class="widefat" id="<?php echo $this->get_field_id( 'form' ); ?>" size="1">
 				<?php
 				foreach ( $forms->get() as $form ) {
@@ -99,7 +103,7 @@ class CK_Widget_Form extends WP_Widget {
 	public function widget_end( $args ) {
 
 		echo $args['after_widget'];
-		
+
 	}
 
 	/**
@@ -118,9 +122,9 @@ class CK_Widget_Form extends WP_Widget {
 		}
 
 		// Get Form.
-		$forms = new ConvertKit_Resource_Forms;
-		$form = $forms->get_html( $instance['form'] );
-		
+		$forms = new ConvertKit_Resource_Forms();
+		$form  = $forms->get_html( $instance['form'] );
+
 		// Bail if the Form has an error.
 		if ( is_wp_error( $form ) ) {
 			return;
@@ -146,7 +150,7 @@ class CK_Widget_Form extends WP_Widget {
 
 		return array(
 			'title' => sanitize_text_field( $new_instance['title'] ),
-			'form' => sanitize_text_field( $new_instance['form'] ),
+			'form'  => sanitize_text_field( $new_instance['form'] ),
 		);
 
 	}
