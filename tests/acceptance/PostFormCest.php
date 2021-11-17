@@ -267,10 +267,10 @@ class PostFormCest
 		$I->checkNoWarningsAndNoticesOnScreen($I);
 
 		// Check that the Form option is displayed.
-		$I->seeElementInDOM('#ck_default_form');
+		$I->seeElementInDOM('#wp-convertkit-form');
 
 		// Change Form to value specified in the .env file.
-		$I->selectOption('#ck_default_form', $_ENV['CONVERTKIT_API_FORM_NAME']);
+		$I->selectOption('#wp-convertkit-form', $_ENV['CONVERTKIT_API_FORM_NAME']);
 
 		// Click Update
 		$I->click('Update');
@@ -282,7 +282,7 @@ class PostFormCest
 		$I->checkNoWarningsAndNoticesOnScreen($I);
 
 		// Get Form ID.
-		$formID = $I->grabValueFrom('#ck_default_form');
+		$formID = $I->grabValueFrom('#wp-convertkit-form');
 
 		// Load the Post on the frontend site
 		$I->amOnPage('/?p=' . $postID);

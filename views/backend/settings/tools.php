@@ -8,7 +8,7 @@
 				<?php _e( 'For performance, the last 500 lines of the log are displayed. Use the Download Log option to review the full log.', 'convertkit' ); ?><br />
 			</p>
 
-			<textarea readonly="readonly" class="large-text convertkit-monospace" rows="15"><?php echo esc_textarea( $log->read() ); ?></textarea>
+			<textarea readonly="readonly" id="debug-log-textarea" class="large-text convertkit-monospace" rows="15"><?php echo esc_textarea( $log->read() ); ?></textarea>
 
 			<?php
 			if ( $log->exists() ) {
@@ -42,7 +42,7 @@
 		<div class="inside">
 			<p><?php _e( 'Use this tool to send system info to support when necessary.', 'convertkit' ); ?></p>
 
-			<textarea readonly="readonly" class="large-text convertkit-monospace" rows="15"><?php echo esc_textarea( $system_info->get() ); ?></textarea>
+			<textarea readonly="readonly" id="system-info-textarea" class="large-text convertkit-monospace" rows="15"><?php echo esc_textarea( $system_info->get() ); ?></textarea>
 
 			<p class="submit">
 				<?php
