@@ -74,7 +74,6 @@ class ConvertKit_Resource {
 	 *
 	 * @since   1.9.6
 	 *
-	 * @param   string $type   Resource Type (forms|landing_pages|tags)
 	 * @return  mixed           WP_Error | array
 	 */
 	public function refresh() {

@@ -1,5 +1,12 @@
 <?php
 /**
+ * ConvertKit Wishlist class.
+ *
+ * @package ConvertKit
+ * @author ConvertKit
+ */
+
+/**
  * Wishlist Integration
  *
  * @package ConvertKit
@@ -89,7 +96,7 @@ class ConvertKit_Wishlist {
 			}
 
 			// If the Tag ID is 'unsubscribe', unsubscribe the member from tags.
-			if ( $convertkit_tag_id == 'unsubscribe' ) {
+			if ( $convertkit_tag_id === 'unsubscribe' ) {
 				$this->member_resource_unsubscribe( $member );
 				continue;
 			}
@@ -125,7 +132,7 @@ class ConvertKit_Wishlist {
 			$email = $member['user_email'];
 		}
 
-		// Extract the first name
+		// Extract the first name.
 		$first_name = '';
 		if ( isset( $member['display_name'] ) && ! empty( $member['display_name'] ) ) {
 			$name       = explode( ' ', $member['display_name'] );
@@ -164,8 +171,8 @@ class ConvertKit_Wishlist {
 	/**
 	 * Tag a ConvertKit User with the given Tag ID.
 	 *
-	 * @param   array  $member  UserInfo from WishList Member
-	 * @param   string $tag     ConvertKit Tag ID
+	 * @param   array  $member  UserInfo from WishList Member.
+	 * @param   string $tag_id  ConvertKit Tag ID.
 	 * @return  mixed           API Response (WP_Error | array)
 	 */
 	public function member_tag( $member, $tag_id ) {
@@ -206,7 +213,7 @@ class ConvertKit_Wishlist {
 
 }
 
-// Bootstrap
+// Bootstrap.
 add_action(
 	'convertkit_initialize_global',
 	function() {

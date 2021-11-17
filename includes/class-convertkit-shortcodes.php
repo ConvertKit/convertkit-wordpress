@@ -35,7 +35,7 @@ class ConvertKit_Shortcodes {
 		// Get blocks.
 		$blocks = convertkit_get_blocks();
 
-		// Bail if no blocks are available
+		// Bail if no blocks are available.
 		if ( ! is_array( $blocks ) || ! count( $blocks ) ) {
 			return;
 		}
@@ -53,7 +53,7 @@ class ConvertKit_Shortcodes {
 			);
 
 			// For the Form block, register the [convertkit] shortcode for backward compatibility.
-			if ( $block == 'form' ) {
+			if ( $block === 'form' ) {
 				add_shortcode(
 					'convertkit',
 					array(

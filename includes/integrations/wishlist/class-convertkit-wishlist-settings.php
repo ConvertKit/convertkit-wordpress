@@ -1,5 +1,12 @@
 <?php
 /**
+ * ConvertKit Wishlist Settings class.
+ *
+ * @package ConvertKit
+ * @author ConvertKit
+ */
+
+/**
  * Class to read ConvertKit Wishlist Integration Settings.
  *
  * @since   1.9.6
@@ -78,7 +85,7 @@ class ConvertKit_Wishlist_Settings {
 	 *
 	 * @since   1.9.6
 	 *
-	 * @param   int $wlm_level_id   WishList Member Level ID
+	 * @param   int $wlm_level_id   WishList Member Level ID.
 	 * @return  mixed                   bool (false) | ConvertKit Form ID
 	 */
 	public function get_convertkit_form_id_by_wishlist_member_level_id( $wlm_level_id ) {
@@ -102,7 +109,7 @@ class ConvertKit_Wishlist_Settings {
 	 *
 	 * @since   2.0.0
 	 *
-	 * @param   int $wlm_level_id   WishList Member Level ID
+	 * @param   int $wlm_level_id   WishList Member Level ID.
 	 * @return  mixed                   bool (false) | ConvertKit Tag ID
 	 */
 	public function get_convertkit_tag_id_by_wishlist_member_level( $wlm_level_id ) {

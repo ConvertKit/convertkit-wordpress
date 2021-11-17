@@ -64,15 +64,20 @@ class ConvertKit_Log {
 	 *
 	 * @since   1.9.6
 	 *
-	 * @param   string $entry  Log Line Entry
+	 * @param   string $entry  Log Line Entry.
 	 */
 	public function add( $entry ) {
 
+		global $wp_filesystem;
+
 		// Prefix the entry with a date and time.
-		$entry = '(' . date( 'Y-m-d H:i:s' ) . ') ' . $entry . "\n";
+		$entry = '(' . gmdate( 'Y-m-d H:i:s' ) . ') ' . $entry . "\n";
 
 		// Append to log file.
-		file_put_contents( $this->log_file, $entry, FILE_APPEND );
+		$wp_filesystem->put_contents(
+			$this->log_file,
+			$entry
+		);
 
 	}
 
@@ -81,10 +86,12 @@ class ConvertKit_Log {
 	 *
 	 * @since   1.9.6
 	 *
-	 * @param   int $number_of_lines    Number of Lines
+	 * @param   int $number_of_lines    Number of Lines.
 	 * @return  string                      Log file data
 	 */
 	public function read( $number_of_lines = 500 ) {
+
+		global $wp_filesystem;
 
 		// Bail if the log file does not exist.
 		if ( ! file_exists( $this->log_file ) ) {
@@ -92,8 +99,8 @@ class ConvertKit_Log {
 		}
 
 		// Open log file.
-		$log = file_get_contents( $this->log_file );
-
+		$log = $wp_filesystem->get_contents( $this->log_file ); // phpcs:ignore
+		
 		// Bail if the log file is empty.
 		if ( empty( $log ) ) {
 			return '';

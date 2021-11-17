@@ -1,5 +1,12 @@
 <?php
 /**
+ * ConvertKit Contact Form 7 Settings class.
+ *
+ * @package ConvertKit
+ * @author ConvertKit
+ */
+
+/**
  * Class to read ConvertKit Contact Form 7 Integration Settings.
  *
  * @since   1.9.6
@@ -78,7 +85,7 @@ class ConvertKit_ContactForm7_Settings {
 	 *
 	 * @since   1.9.6
 	 *
-	 * @param   int $cf7_form_id    Contact Form 7 Form ID
+	 * @param   int $cf7_form_id    Contact Form 7 Form ID.
 	 * @return  mixed                   bool (false) | ConvertKit Form ID
 	 */
 	public function get_convertkit_form_id_by_cf7_form_id( $cf7_form_id ) {

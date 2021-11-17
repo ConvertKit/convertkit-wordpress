@@ -1,8 +1,18 @@
 <?php
 /**
- * Class WP_ConvertKit
+ * ConvertKit class.
+ *
+ * @package ConvertKit
+ * @author ConvertKit
  */
-class WP_ConvertKit {
+
+/**
+ * Class ConvertKit
+ *
+ * @package ConvertKit
+ * @author ConvertKit
+ */
+class ConvertKit {
 
 	/**
 	 * Holds the class object.
@@ -18,6 +28,8 @@ class WP_ConvertKit {
 	 * action and filter hooks.
 	 *
 	 * @since   1.9.6
+	 * 
+	 * @var 	array
 	 */
 	private $classes = array();
 
@@ -47,7 +59,7 @@ class WP_ConvertKit {
 	 */
 	private function initialize_admin() {
 
-		// Bail if this request isn't for the WordPress Administration interface
+		// Bail if this request isn't for the WordPress Administration interface.
 		if ( ! is_admin() ) {
 			return;
 		}
@@ -79,7 +91,7 @@ class WP_ConvertKit {
 	 */
 	private function initialize_admin_or_frontend_editor() {
 
-		// Bail if this request isn't for the WordPress Administration interface and isn't for a frontend Page Builder
+		// Bail if this request isn't for the WordPress Administration interface and isn't for a frontend Page Builder.
 		if ( ! $this->is_admin_or_frontend_editor() ) {
 			return;
 		}
@@ -100,7 +112,7 @@ class WP_ConvertKit {
 	 */
 	private function initialize_cli_cron() {
 
-		// Bail if this isn't a CLI or CRON request
+		// Bail if this isn't a CLI or CRON request.
 		if ( ! $this->is_cli() && ! $this->is_cron() ) {
 			return;
 		}
@@ -170,12 +182,12 @@ class WP_ConvertKit {
 	 */
 	public function is_admin_or_frontend_editor() {
 
-		// If we're in the wp-admin, return true
+		// If we're in the wp-admin, return true.
 		if ( is_admin() ) {
 			return true;
 		}
 
-		// Pro
+		// Pro.
 		if ( isset( $_SERVER ) ) {
 			if ( strpos( sanitize_text_field( $_SERVER['REQUEST_URI'] ), '/pro/' ) !== false ) {
 				return true;
@@ -189,70 +201,70 @@ class WP_ConvertKit {
 		}
 
 		// If the request global exists, check for specific request keys which tell us
-		// that we're using a frontend editor
-		if ( isset( $_REQUEST ) && ! empty( $_REQUEST ) ) {
-			// Avada Live
-			if ( array_key_exists( 'fb-edit', $_REQUEST ) ) {
+		// that we're using a frontend editor.
+		if ( isset( $_REQUEST ) && ! empty( $_REQUEST ) ) { // phpcs:ignore
+			// Avada Live.
+			if ( array_key_exists( 'fb-edit', $_REQUEST ) ) { // phpcs:ignore
 				return true;
 			}
 
-			// Beaver Builder
-			if ( array_key_exists( 'fl_builder', $_REQUEST ) ) {
+			// Beaver Builder.
+			if ( array_key_exists( 'fl_builder', $_REQUEST ) ) { // phpcs:ignore
 				return true;
 			}
 
-			// Brizy
-			if ( array_key_exists( 'brizy-edit', $_REQUEST ) ) {
+			// Brizy.
+			if ( array_key_exists( 'brizy-edit', $_REQUEST ) ) { // phpcs:ignore
 				return true;
 			}
 
-			// Cornerstone (AJAX)
-			if ( array_key_exists( '_cs_nonce', $_REQUEST ) ) {
+			// Cornerstone (AJAX).
+			if ( array_key_exists( '_cs_nonce', $_REQUEST ) ) { // phpcs:ignore
 				return true;
 			}
 
-			// Divi
-			if ( array_key_exists( 'et_fb', $_REQUEST ) ) {
+			// Divi.
+			if ( array_key_exists( 'et_fb', $_REQUEST ) ) { // phpcs:ignore
 				return true;
 			}
 
-			// Elementor
-			if ( array_key_exists( 'action', $_REQUEST ) && sanitize_text_field( $_REQUEST['action'] ) == 'elementor' ) {
+			// Elementor.
+			if ( array_key_exists( 'action', $_REQUEST ) && sanitize_text_field( $_REQUEST['action'] ) === 'elementor' ) { // phpcs:ignore
 				return true;
 			}
 
-			// Kallyas
-			if ( array_key_exists( 'zn_pb_edit', $_REQUEST ) ) {
+			// Kallyas.
+			if ( array_key_exists( 'zn_pb_edit', $_REQUEST ) ) { // phpcs:ignore
 				return true;
 			}
 
-			// Oxygen
-			if ( array_key_exists( 'ct_builder', $_REQUEST ) ) {
+			// Oxygen.
+			if ( array_key_exists( 'ct_builder', $_REQUEST ) ) { // phpcs:ignore
 				return true;
 			}
 
-			// Thrive Architect
-			if ( array_key_exists( 'tve', $_REQUEST ) ) {
+			// Thrive Architect.
+			if ( array_key_exists( 'tve', $_REQUEST ) ) { // phpcs:ignore
 				return true;
 			}
 
-			// Visual Composer
-			if ( array_key_exists( 'vcv-editable', $_REQUEST ) ) {
+			// Visual Composer.
+			if ( array_key_exists( 'vcv-editable', $_REQUEST ) ) { // phpcs:ignore
 				return true;
 			}
 
-			// WPBakery Page Builder
-			if ( array_key_exists( 'vc_editable', $_REQUEST ) ) {
+			// WPBakery Page Builder.
+			if ( array_key_exists( 'vc_editable', $_REQUEST ) ) { // phpcs:ignore
 				return true;
 			}
 
-			// Zion Builder
+			// Zion Builder.
 			if ( array_key_exists( 'action', $_REQUEST ) && sanitize_text_field( $_REQUEST['action'] ) == 'zion_builder_active' ) {
 				return true;
 			}
 		}
 
-		// Assume we're not in the Administration interface
+		// Assume we're not in the Administration interface.
 		$is_admin_or_frontend_editor = false;
 
 		/**
@@ -263,11 +275,11 @@ class WP_ConvertKit {
 		 * @since   1.9.6
 		 *
 		 * @param   bool    $is_admin_or_frontend_editor    Is WordPress Administration / Frontend Editor request.
-		 * @param   array   $_REQUEST                       $_REQUEST data
+		 * @param   array   $_REQUEST                       $_REQUEST data.
 		 */
 		$is_admin_or_frontend_editor = apply_filters( 'convertkit_is_admin_or_frontend_editor', $is_admin_or_frontend_editor, $_REQUEST );
 
-		// Return filtered result
+		// Return filtered result.
 		return $is_admin_or_frontend_editor;
 
 	}

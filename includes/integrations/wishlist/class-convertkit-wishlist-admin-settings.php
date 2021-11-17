@@ -1,11 +1,18 @@
 <?php
 /**
+ * ConvertKit Wishlist Admin Settings class.
+ *
+ * @package ConvertKit
+ * @author ConvertKit
+ */
+
+/**
  * Registers Wishlist Settings that can be edited at Settings > ConvertKit > Wishlist.
  *
  * @package ConvertKit
  * @author ConvertKit
  */
-class ConvertKit_Admin_Settings_Wishlist extends ConvertKit_Settings_Base {
+class ConvertKit_Wishlist_Admin_Settings extends ConvertKit_Settings_Base {
 
 	/**
 	 * Constructor
@@ -104,7 +111,7 @@ class ConvertKit_Admin_Settings_Wishlist extends ConvertKit_Settings_Base {
 		}
 		$tag_options['unsubscribe'] = __( 'Unsubscribe from all', 'convertkit' );
 
-		// Setup WP_List_Table
+		// Setup WP_List_Table.
 		$table = new Multi_Value_Field_Table();
 		$table->add_column( 'title', __( 'WishList Membership Level', 'convertkit' ), true );
 		$table->add_column( 'form', __( 'ConvertKit Form', 'convertkit' ), false );
@@ -173,7 +180,7 @@ add_filter(
 		}
 
 		// Register this class as a section at Settings > ConvertKit.
-		$sections['wishlist-member'] = new ConvertKit_Admin_Settings_Wishlist();
+		$sections['wishlist-member'] = new ConvertKit_Wishlist_Admin_Settings();
 		return $sections;
 
 	}

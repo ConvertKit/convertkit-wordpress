@@ -1,5 +1,12 @@
 <?php
 /**
+ * ConvertKit WooCommerce Product Form class.
+ *
+ * @package ConvertKit
+ * @author ConvertKit
+ */
+
+/**
  * Registers ConvertKit Forms on WooCommerce Products
  *
  * @package ConvertKit
@@ -24,7 +31,8 @@ class ConvertKit_WooCommerce_Product_Form {
 	 *
 	 * @since   1.9.6
 	 *
-	 * @return  array   $post_types     Post Types
+	 * @param   array $post_types     Supported Post Types.
+	 * @return  array   $post_types     Supported Post Types
 	 */
 	public function register_post_type_support( $post_types ) {
 
@@ -51,7 +59,7 @@ class ConvertKit_WooCommerce_Product_Form {
 			return;
 		}
 
-		// Bail if not a singular Product
+		// Bail if not a singular Product.
 		if ( ! is_singular( 'product' ) ) {
 			return;
 		}
@@ -71,7 +79,7 @@ class ConvertKit_WooCommerce_Product_Form {
 	 */
 	public function append_form_to_product_summary() {
 
-		echo WP_ConvertKit()->get_class( 'output' )->append_form_to_content( '' );
+		echo WP_ConvertKit()->get_class( 'output' )->append_form_to_content( '' ); // phpcs:ignore
 
 	}
 

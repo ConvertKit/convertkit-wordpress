@@ -86,11 +86,11 @@ if ( is_admin() ) {
  *
  * @since   1.9.6
  */
-function wp_convertkit() {
+function convertkit() {
 
-	return WP_ConvertKit::get_instance();
+	return ConvertKit::get_instance();
 
 }
 
 // Finally, initialize the Plugin.
-wp_convertkit();
+convertkit();

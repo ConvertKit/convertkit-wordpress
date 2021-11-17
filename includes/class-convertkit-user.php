@@ -41,7 +41,7 @@ class ConvertKit_User {
 	 *
 	 * @since   1.9.6
 	 *
-	 * @param   int $user_id    User ID
+	 * @param   int $user_id    User ID.
 	 */
 	public function __construct( $user_id ) {
 
@@ -78,7 +78,7 @@ class ConvertKit_User {
 	 *
 	 * @since   1.9.6
 	 *
-	 * @param   array $meta   Settings
+	 * @param   array $meta   Settings.
 	 */
 	public function save( $meta ) {
 

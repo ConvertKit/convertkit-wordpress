@@ -1,11 +1,18 @@
 <?php
 /**
+ * ConvertKit Contact Form 7 Admin Settings class.
+ *
+ * @package ConvertKit
+ * @author ConvertKit
+ */
+
+/**
  * Registers Contact Form 7 Settings that can be edited at Settings > ConvertKit > Contact Form 7.
  *
  * @package ConvertKit
  * @author ConvertKit
  */
-class ConvertKit_Admin_Settings_ContactForm7 extends ConvertKit_Settings_Base {
+class ConvertKit_ContactForm7_Admin_Settings extends ConvertKit_Settings_Base {
 
 	/**
 	 * Constructor
@@ -50,7 +57,7 @@ class ConvertKit_Admin_Settings_ContactForm7 extends ConvertKit_Settings_Base {
 		</p>
 		<p>
 			<?php
-			_e( 'The Contact Form 7 form must have a <code>text*</code> field named <code>your-name</code> and an <code>email*</code> field named <code>your-email</code>. These fields will be sent to ConvertKit for the subscription.', 'convertkit' );
+			esc_html_e( 'The Contact Form 7 form must have a <code>text*</code> field named <code>your-name</code> and an <code>email*</code> field named <code>your-email</code>. These fields will be sent to ConvertKit for the subscription.', 'convertkit' );
 			?>
 		</p>
 		<?php
@@ -93,7 +100,7 @@ class ConvertKit_Admin_Settings_ContactForm7 extends ConvertKit_Settings_Base {
 			return;
 		}
 
-		// Setup WP_List_Table
+		// Setup WP_List_Table.
 		$table = new Multi_Value_Field_Table();
 		$table->add_column( 'title', __( 'Contact Form 7 Form', 'convertkit' ), true );
 		$table->add_column( 'form', __( 'ConvertKit Form', 'convertkit' ), false );
@@ -175,7 +182,7 @@ add_filter(
 		}
 
 		// Register this class as a section at Settings > ConvertKit.
-		$sections['contactform7'] = new ConvertKit_Admin_Settings_ContactForm7();
+		$sections['contactform7'] = new ConvertKit_ContactForm7_Admin_Settings();
 		return $sections;
 
 	}

@@ -1,5 +1,12 @@
 <?php
 /**
+ * ConvertKit Contact Form 7 class.
+ *
+ * @package ConvertKit
+ * @author ConvertKit
+ */
+
+/**
  * Contact Form 7 Integration
  *
  * @package ConvertKit
@@ -25,19 +32,19 @@ class ConvertKit_ContactForm7 {
 	 *
 	 * @since   1.9.6
 	 *
-	 * @param   WPCF7_ContactForm $contact_form   Contact Form 7 Form
-	 * @param   array             $result         Submission Result
+	 * @param   WPCF7_ContactForm $contact_form   Contact Form 7 Form.
+	 * @param   array             $result         Submission Result.
 	 */
 	public function handle_wpcf7_submit( $contact_form, $result ) {
 
 		// If Demo Mode is enabled on the Contact Form 7 Form, don't send anything to ConvertKit.
-		// @see https://contactform7.com/additional-settings/
+		// @see https://contactform7.com/additional-settings/.
 		if ( isset( $result['demo_mode'] ) ) {
 			return;
 		}
 
 		// If the form submission failed, don't send anything to ConvertKit.
-		if ( $result['status'] != 'mail_sent' ) {
+		if ( $result['status'] !== 'mail_sent' ) {
 			return;
 		}
 
@@ -56,7 +63,7 @@ class ConvertKit_ContactForm7 {
 			return;
 		}
 
-		// Get Contact Form 7 Submission
+		// Get Contact Form 7 Submission.
 		$form_data = WPCF7_Submission::get_instance()->get_posted_data();
 
 		// Bail if the expected email form field does not exist.
@@ -64,7 +71,7 @@ class ConvertKit_ContactForm7 {
 			return;
 		}
 
-		// Get email and first name
+		// Get email and first name.
 		$email      = $form_data['your-email'];
 		$first_name = '';
 		if ( isset( $form_data['your-name'] ) && ! empty( $form_data['your-name'] ) ) {
@@ -83,7 +90,7 @@ class ConvertKit_ContactForm7 {
 
 }
 
-// Bootstrap
+// Bootstrap.
 add_action(
 	'convertkit_initialize_global',
 	function() {
