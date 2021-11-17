@@ -109,13 +109,7 @@ class ConvertKit_Admin_Settings {
 	 */
 	public function display_settings_page() {
 
-		// @TODO Move this into a function.
-		if ( isset( $_GET['tab'] ) ) { // WPCS: CSRF ok.
-			$active_section = sanitize_text_field( wp_unslash( $_GET['tab'] ) ); // WPCS: CSRF ok.
-		} else {
-			// First registered section will be the active section.
-			$active_section = current( $this->sections )->name;
-		}
+		$active_section = $this->get_active_section();
 		?>
 
 		<header>
@@ -152,6 +146,24 @@ class ConvertKit_Admin_Settings {
 			</form>
 		</div>
 		<?php
+
+	}
+
+	/**
+	 * Gets the active tab section that the user is viewing on the Plugin Settings screen.
+	 * 
+	 * @since 	1.9.6
+	 * 
+	 * @return 	string 	Tab Name
+	 */
+	private function get_active_section() {
+	
+		if ( isset( $_GET['tab'] ) ) { // WPCS: CSRF ok.
+			return sanitize_text_field( wp_unslash( $_GET['tab'] ) ); // WPCS: CSRF ok.
+		}
+		
+		// First registered section will be the active section.
+		return current( $this->sections )->name;
 
 	}
 
