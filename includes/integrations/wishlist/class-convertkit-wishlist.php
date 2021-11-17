@@ -125,11 +125,18 @@ class ConvertKit_Wishlist {
 			$email = $member['user_email'];
 		}
 
+		// Extract the first name
+		$first_name = '';
+		if ( isset( $member['display_name'] ) && ! empty( $member['display_name'] ) ) {
+			$name = explode( ' ', $member['display_name'] );
+			$first_name = $name[0];
+		}
+
 		// Note Wishlist Member combines first and last name into 'display_name'.
 		return $api->form_subscribe(
 			$form_id,
 			$email,
-			$member['display_name'] // @TODO Extract first name like we do for CF7.
+			$first_name
 		);
 	}
 
