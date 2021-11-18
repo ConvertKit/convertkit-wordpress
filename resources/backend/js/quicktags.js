@@ -7,10 +7,9 @@
  * @author ConvertKit
  */
 
-// convertkit_blocks is added to gutenberg.js by wp_localize_script().
-for ( const block in convertkit_blocks ) {
+for ( const block in convertkit_quicktags ) {
 
-	convertKitQuickTagRegister( convertkit_blocks[ block ] );
+	convertKitQuickTagRegister( convertkit_quicktags[ block ] );
 
 }
 
@@ -36,6 +35,7 @@ function convertKitQuickTagRegister( block ) {
 					ajaxurl,
 					{
 						'action': 	'convertkit_admin_tinymce_output_modal',
+						'nonce':  	convertkit_admin_tinymce.nonce,
 						'block': 	block.name
 
 					},

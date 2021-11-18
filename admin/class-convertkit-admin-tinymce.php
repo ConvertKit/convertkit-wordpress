@@ -83,7 +83,14 @@ class ConvertKit_Admin_TinyMCE {
 		// Enqueue Quicktag JS.
 		wp_enqueue_script( 'convertkit-admin-quicktags', CONVERTKIT_PLUGIN_URL . 'resources/backend/js/quicktags.js', array( 'jquery', 'quicktags' ), CONVERTKIT_PLUGIN_VERSION, true );
 		wp_enqueue_script( 'convertkit-admin-modal', CONVERTKIT_PLUGIN_URL . 'resources/backend/js/modal.js', array( 'jquery' ), CONVERTKIT_PLUGIN_VERSION, true );
-		wp_localize_script( 'convertkit-quicktags', 'convertkit_quicktags', $blocks );
+		
+		// Make blocks available as convertkit_quicktags JS variable.
+		wp_localize_script( 'convertkit-admin-quicktags', 'convertkit_quicktags', $blocks );
+
+		// Register JS variable convertkit_admin_tinymce.nonce for AJAX calls.
+		wp_localize_script( 'convertkit-admin-quicktags', 'convertkit_admin_tinymce', array(
+			'nonce' => wp_create_nonce( 'convertkit_admin_tinymce' ),
+		) );
 
 		// Enqueue Quicktag CSS.
 		wp_enqueue_style( 'convertkit-admin-quicktags', CONVERTKIT_PLUGIN_URL . '/resources/backend/css/quicktags.css', false, CONVERTKIT_PLUGIN_VERSION );
@@ -123,7 +130,7 @@ class ConvertKit_Admin_TinyMCE {
 		wp_enqueue_script( 'convertkit-admin-modal', CONVERTKIT_PLUGIN_URL . 'resources/backend/js/modal.js', array( 'jquery' ), CONVERTKIT_PLUGIN_VERSION, true );
 		wp_enqueue_style( 'convertkit-admin-tinymce', CONVERTKIT_PLUGIN_URL . '/resources/backend/css/tinymce.css', false, CONVERTKIT_PLUGIN_VERSION );
 
-		// Localize JS.
+		// Register JS variable convertkit_admin_tinymce.nonce for AJAX calls.
 		wp_localize_script(
 			'convertkit_admin_tinymce',
 			'convertkit_admin_tinymce',
