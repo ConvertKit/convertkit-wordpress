@@ -69,7 +69,7 @@ class ConvertKit_Settings_Tools extends ConvertKit_Settings_Base {
 
 		// Initialize WordPress file system.
 		global $wp_filesystem;
- 		WP_Filesystem();
+		WP_Filesystem();
 
 		// Bail if nonce is invalid.
 		if ( ! $this->verify_nonce() ) {
@@ -104,7 +104,7 @@ class ConvertKit_Settings_Tools extends ConvertKit_Settings_Base {
 
 		// Initialize WordPress file system.
 		global $wp_filesystem;
- 		WP_Filesystem();
+		WP_Filesystem();
 
 		// Bail if nonce is invalid.
 		if ( ! $this->verify_nonce() ) {

@@ -70,7 +70,7 @@ class ConvertKit_Log {
 
 		// Initialize WordPress file system.
 		global $wp_filesystem;
- 		WP_Filesystem();
+		WP_Filesystem();
 
 		// Prefix the entry with a date and time.
 		$entry = '(' . gmdate( 'Y-m-d H:i:s' ) . ') ' . $entry . "\n";
@@ -95,7 +95,7 @@ class ConvertKit_Log {
 
 		// Initialize WordPress file system.
 		global $wp_filesystem;
- 		WP_Filesystem();
+		WP_Filesystem();
 
 		// Bail if the log file does not exist.
 		if ( ! file_exists( $this->log_file ) ) {
@@ -124,7 +124,7 @@ class ConvertKit_Log {
 
 		// Initialize WordPress file system.
 		global $wp_filesystem;
- 		WP_Filesystem();
+		WP_Filesystem();
 
 		$wp_filesystem->put_contents( $this->log_file, '' );
 

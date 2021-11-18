@@ -167,6 +167,8 @@ In the Plugin's directory, run the following command to run PHP_CodeSniffer, whi
 vendor/bin/phpcs ./ -v
 ```
 
+![Coding Standards Test Results](/.github/docs/coding-standards.png?raw=true)
+
 Again, don't worry if you don't understand these commands; if your output looks similar to the above screenshot, with no errors, your environment
 is setup successfully.
 
