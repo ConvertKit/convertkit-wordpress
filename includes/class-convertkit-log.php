@@ -68,7 +68,9 @@ class ConvertKit_Log {
 	 */
 	public function add( $entry ) {
 
+		// Initialize WordPress file system.
 		global $wp_filesystem;
+ 		WP_Filesystem();
 
 		// Prefix the entry with a date and time.
 		$entry = '(' . gmdate( 'Y-m-d H:i:s' ) . ') ' . $entry . "\n";
@@ -91,7 +93,9 @@ class ConvertKit_Log {
 	 */
 	public function read( $number_of_lines = 500 ) {
 
+		// Initialize WordPress file system.
 		global $wp_filesystem;
+ 		WP_Filesystem();
 
 		// Bail if the log file does not exist.
 		if ( ! file_exists( $this->log_file ) ) {
@@ -99,44 +103,35 @@ class ConvertKit_Log {
 		}
 
 		// Open log file.
-		$log = $wp_filesystem->get_contents( $this->log_file ); // phpcs:ignore
+		$log = $wp_filesystem->get_contents_array( $this->log_file ); // phpcs:ignore
 
 		// Bail if the log file is empty.
-		if ( empty( $log ) ) {
+		if ( ! is_array( $log ) || ! count( $log ) ) {
 			return '';
 		}
 
 		// Return a limited number of log lines for output.
-		unset( $log );
-		$log = '';
-		$fp  = fopen( $this->log_file, 'r' );
-		for ( $i = 0; $i < $number_of_lines; $i++ ) {
-			if ( feof( $fp ) ) {
-				break;
-			}
-
-			$log .= fgets( $fp );
-		}
-
-		fclose( $fp );
-
-		return $log;
+		return implode( "\n", array_slice( $log, 0, $number_of_lines ) );
 
 	}
 
 	/**
-	 * Clears the log file without deleting it.
+	 * Clears the log file without deleting the log file.
 	 *
 	 * @since   1.9.6
 	 */
 	public function clear() {
 
-		file_put_contents( $this->log_file, '' );
+		// Initialize WordPress file system.
+		global $wp_filesystem;
+ 		WP_Filesystem();
+
+		$wp_filesystem->put_contents( $this->log_file, '' );
 
 	}
 
 	/**
-	 * Deletes the log file
+	 * Deletes the log file.
 	 *
 	 * @since   1.9.6
 	 */

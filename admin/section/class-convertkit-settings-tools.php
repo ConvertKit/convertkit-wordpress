@@ -67,7 +67,9 @@ class ConvertKit_Settings_Tools extends ConvertKit_Settings_Base {
 	 */
 	private function maybe_download_log() {
 
+		// Initialize WordPress file system.
 		global $wp_filesystem;
+ 		WP_Filesystem();
 
 		// Bail if nonce is invalid.
 		if ( ! $this->verify_nonce() ) {
@@ -99,6 +101,10 @@ class ConvertKit_Settings_Tools extends ConvertKit_Settings_Base {
 	 * @since   1.9.6
 	 */
 	private function maybe_download_system_info() {
+
+		// Initialize WordPress file system.
+		global $wp_filesystem;
+ 		WP_Filesystem();
 
 		// Bail if nonce is invalid.
 		if ( ! $this->verify_nonce() ) {
