@@ -1,3 +1,12 @@
+/**
+ * Registers Blocks in the text editor as QuickTag Buttons.
+ *
+ * @since   1.9.6
+ *
+ * @package ConvertKit
+ * @author ConvertKit
+ */
+
 // convertkit_blocks is added to gutenberg.js by wp_localize_script().
 for ( const block in convertkit_blocks ) {
 
@@ -39,7 +48,7 @@ function convertKitQuickTagRegister( block ) {
 						$( 'div.convertkit-quicktags-modal div.media-modal.wp-core-ui' ).css(
 							{
 								width: ( block.modal.width ) + 'px',
-								height: ( block.modal.height + 20 ) + 'px' // Prevents a vertical scroll bar
+								height: ( block.modal.height + 20 ) + 'px' // Prevents a vertical scroll bar.
 							}
 						);
 

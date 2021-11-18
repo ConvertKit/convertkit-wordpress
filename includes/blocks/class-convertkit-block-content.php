@@ -1,5 +1,12 @@
 <?php
 /**
+ * ConvertKit Custom Content Block class.
+ *
+ * @package ConvertKit
+ * @author ConvertKit
+ */
+
+/**
  * ConvertKit Custom Content Block for Gutenberg and Shortcode.
  *
  * @package ConvertKit
@@ -138,8 +145,8 @@ class ConvertKit_Block_Content extends ConvertKit_Block {
 	 *
 	 * @since   1.9.6
 	 *
-	 * @param   array  $atts       Block / Shortcode Attributes
-	 * @param   string $content    Content
+	 * @param   array  $atts       Block / Shortcode Attributes.
+	 * @param   string $content    Content.
 	 * @return  string              Output
 	 */
 	public function render( $atts, $content = '' ) {
@@ -182,7 +189,7 @@ class ConvertKit_Block_Content extends ConvertKit_Block {
 		// Iterate through ConvertKit Tags to find a match.
 		foreach ( $tags as $tag ) {
 			// Skip if this ConvertKit Tag isn't the Tag specified in the block.
-			if ( $tag['id'] != $atts['tag'] ) {
+			if ( $tag['id'] !== $atts['tag'] ) {
 				continue;
 			}
 

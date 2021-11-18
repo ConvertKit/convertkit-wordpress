@@ -1,3 +1,12 @@
+/**
+ * Registers blocks in the Gutenberg editor.
+ *
+ * @since   1.9.6
+ *
+ * @package ConvertKit
+ * @author ConvertKit
+ */
+
 // Determine if Gutenberg is active.
 convertkit_is_gutenberg_active = ( ( typeof wp !== 'undefined' && typeof wp.data !== 'undefined' && typeof wp.data.dispatch( 'core/edit-post' ) !== 'undefined' ) ? true : false );
 
@@ -10,7 +19,7 @@ if ( convertkit_is_gutenberg_active && wp.data.dispatch( 'core/edit-post' ) !== 
 		console.log( 'convertkit block' );
 		console.log( convertkit_blocks[ block ] );
 
-		// convertKitGutenbergRegisterBlock( convertkit_blocks[ block ] );
+		// convertKitGutenbergRegisterBlock( convertkit_blocks[ block ] );.
 
 	}
 
@@ -26,13 +35,13 @@ if ( convertkit_is_gutenberg_active && wp.data.dispatch( 'core/edit-post' ) !== 
  */
 function convertKitGutenbergRegisterBlock( block ) {
 
-	// Build Gutenberg compliant Attributes object
+	// Build Gutenberg compliant Attributes object.
 	var blockAttributes = {};
 	for ( const field in block.fields ) {
-		// Assume the attribute's type is a string
+		// Assume the attribute's type is a string.
 		var type = 'string';
 
-		// Depending on the field's type, change the attribute type
+		// Depending on the field's type, change the attribute type.
 		switch ( block.fields[ field ].type ) {
 			case 'number':
 				type = 'number';
@@ -51,16 +60,16 @@ function convertKitGutenbergRegisterBlock( block ) {
 				break;
 		}
 
-		// Define the attribute's type
+		// Define the attribute's type.
 		blockAttributes[ field ] = {
 			type: type,
 		}
 	}
 
-	// Register Block
+	// Register Block.
 	( function( blocks, editor, element, components, block ) {
 
-		// Define some constants for the various items we'll use
+		// Define some constants for the various items we'll use.
 		const el                              = element.createElement;
 		const { registerBlockType }           = blocks;
 		const { RichText, InspectorControls } = editor;
@@ -79,23 +88,23 @@ function convertKitGutenbergRegisterBlock( block ) {
 			PanelRow
 		}                                     = components;
 
-		// Build Icon, if it's an object
+		// Build Icon, if it's an object.
 		var icon = 'dashicons-tablet';
 		if ( typeof block.icon !== 'undefined' ) {
 			if ( block.icon.search( 'svg' ) >= 0 ) {
-				// SVG
+				// SVG.
 				icon = element.RawHTML(
 					{
 						children: block.icon
 					}
 				);
 			} else {
-				// Dashicon
+				// Dashicon.
 				icon = block.icon;
 			}
 		}
 
-		// Register Block
+		// Register Block.
 		registerBlockType(
 			'convertkit/' + block.name,
 			{
@@ -105,22 +114,22 @@ function convertKitGutenbergRegisterBlock( block ) {
 				icon:       icon,
 				keywords: 	block.keywords,
 
-				// Define the block attributes
+				// Define the block attributes.
 				attributes: blockAttributes,
 
-				// Editor
+				// Editor.
 				edit: function( props ) {
 
-					// Build Inspector Control Panels, which will appear in the Sidebar when editing the Block
+					// Build Inspector Control Panels, which will appear in the Sidebar when editing the Block.
 					var panels  = [],
 					initialOpen = true;
 					for ( const panel in block.tabs ) {
 
-						// Build Inspector Control Panel Rows, one for each Field
+						// Build Inspector Control Panel Rows, one for each Field.
 						var rows = [];
 						for ( var i in block.tabs[ panel ].fields ) {
-							const attribute = block.tabs[ panel ].fields[ i ], // e.g. 'term'
-							  field         = block.fields[ attribute ]; // field array
+							const attribute = block.tabs[ panel ].fields[ i ], // e.g. 'term'.
+									field   = block.fields[ attribute ]; // field array.
 
 							var fieldElement,
 							fieldClassNames  = [],
@@ -129,7 +138,7 @@ function convertKitGutenbergRegisterBlock( block ) {
 							fieldSuggestions = [],
 							fieldData        = {};
 
-							// Build values for <select> inputs
+							// Build values for <select> inputs.
 							if ( typeof field.values !== 'undefined' ) {
 								for ( var value in field.values ) {
 									fieldOptions.push(
@@ -138,18 +147,18 @@ function convertKitGutenbergRegisterBlock( block ) {
 											value: value
 										}
 									);
-									fieldSuggestions.push( '[' + value + '] ' + field.values[ value ] ); // NEVER CHANGE THIS EVER
+									fieldSuggestions.push( '[' + value + '] ' + field.values[ value ] ); // NEVER CHANGE THIS EVER.
 								}
 							}
 
-							// Build data- attributes
+							// Build data- attributes.
 							if ( typeof field.data !== 'undefined' ) {
 								for ( var key in field.data ) {
 									fieldData[ 'data-' + key ] = field.data[ key ];
 								}
 							}
 
-							// Build CSS class name(s)
+							// Build CSS class name(s).
 							if ( typeof field.class !== 'undefined' ) {
 								fieldClassNames.push( field.class );
 							}
@@ -157,11 +166,11 @@ function convertKitGutenbergRegisterBlock( block ) {
 								fieldClassNames.push( field.condition.value );
 							}
 
-							// Define Field Element based on the Field Type
+							// Define Field Element based on the Field Type.
 							switch ( field.type ) {
 
 								case 'select':
-									// Define field properties
+									// Define field properties.
 									fieldProperties = {
 										label: 		field.label,
 										help: 		field.description,
@@ -175,12 +184,12 @@ function convertKitGutenbergRegisterBlock( block ) {
 										}
 									};
 
-									// Add data- attributes
+									// Add data- attributes.
 									for ( var key in fieldData ) {
 										fieldProperties[ key ] = fieldData[ key ];
 									}
 
-									// Define field element
+									// Define field element.
 									fieldElement = el(
 										SelectControl,
 										fieldProperties
@@ -188,13 +197,13 @@ function convertKitGutenbergRegisterBlock( block ) {
 									break;
 
 								case 'select_multiple':
-									// Convert values to labels
+									// Convert values to labels.
 									var values = [];
 									for ( var index in props.attributes[ attribute ] ) {
 										values.push( '[' + props.attributes[ attribute ][ index ] + '] ' + field.values[ props.attributes[ attribute ][ index ] ] );
 									}
 
-									// Define field properties
+									// Define field properties.
 									fieldProperties = {
 										label: 			field.label,
 										help: 			field.description,
@@ -203,9 +212,10 @@ function convertKitGutenbergRegisterBlock( block ) {
 										maxSuggestions: 5,
 										value: 			values,
 										onChange: function( values ) {
-											// Extract values between square brackets, and remove the rest
-											var newValues = [];
-											for ( index = 0; index < values.length; index++ ) {
+											// Extract values between square brackets, and remove the rest.
+											var newValues    = [],
+												valuesLength = values.length;
+											for ( index = 0; index < valuesLength; index++ ) {
 												var matches = values[ index ].match( /\[(.*?)\]/ );
 												if ( matches ) {
 													newValues.push( matches[1] );
@@ -218,12 +228,12 @@ function convertKitGutenbergRegisterBlock( block ) {
 										},
 									};
 
-									// Add data- attributes
+									// Add data- attributes.
 									for ( var key in fieldData ) {
 										fieldProperties[ key ] = fieldData[ key ];
 									}
 
-									// Define field element
+									// Define field element.
 									fieldElement = el(
 										FormTokenField,
 										fieldProperties
@@ -231,7 +241,7 @@ function convertKitGutenbergRegisterBlock( block ) {
 									break;
 
 								case 'text_multiple':
-									// Define field properties
+									// Define field properties.
 									fieldProperties = {
 										label: 			field.label,
 										help: 			field.description,
@@ -244,12 +254,12 @@ function convertKitGutenbergRegisterBlock( block ) {
 										}
 									};
 
-									// Add data- attributes
+									// Add data- attributes.
 									for ( var key in fieldData ) {
 										fieldProperties[ key ] = fieldData[ key ];
 									}
 
-									// Define field element
+									// Define field element.
 									fieldElement = el(
 										FormTokenField,
 										fieldProperties
@@ -257,7 +267,7 @@ function convertKitGutenbergRegisterBlock( block ) {
 									break;
 
 								case 'toggle':
-									// Define field properties
+									// Define field properties.
 									fieldProperties = {
 										label: 		field.label,
 										help: 		field.description,
@@ -270,12 +280,12 @@ function convertKitGutenbergRegisterBlock( block ) {
 										},
 									}
 
-									// Add data- attributes
+									// Add data- attributes.
 									for ( var key in fieldData ) {
 										fieldProperties[ key ] = fieldData[ key ];
 									}
 
-									// Define field element
+									// Define field element.
 									fieldElement = el(
 										ToggleControl,
 										fieldProperties
@@ -283,7 +293,7 @@ function convertKitGutenbergRegisterBlock( block ) {
 									break;
 
 								case 'number':
-									// Define field properties
+									// Define field properties.
 									fieldProperties = {
 										type: 		field.type,
 										label: 		field.label,
@@ -294,7 +304,7 @@ function convertKitGutenbergRegisterBlock( block ) {
 										className: 	fieldClassNames.join( ' ' ),
 										value: 		props.attributes[ attribute ],
 										onChange: function( value ) {
-											// Cast value to integer if a value exists
+											// Cast value to integer if a value exists.
 											if ( value.length > 0 ) {
 												value = Number( value );
 											}
@@ -305,12 +315,12 @@ function convertKitGutenbergRegisterBlock( block ) {
 										},
 									};
 
-									// Add data- attributes
+									// Add data- attributes.
 									for ( var key in fieldData ) {
 										fieldProperties[ key ] = fieldData[ key ];
 									}
 
-									// Define field element
+									// Define field element.
 									fieldElement = el(
 										TextControl,
 										fieldProperties
@@ -318,7 +328,7 @@ function convertKitGutenbergRegisterBlock( block ) {
 									break;
 
 								case 'autocomplete':
-									// Define field properties
+									// Define field properties.
 									fieldProperties = {
 										list: 		'autocomplete-' + i,
 										type: 		'text',
@@ -334,12 +344,12 @@ function convertKitGutenbergRegisterBlock( block ) {
 										},
 									};
 
-									// Add data- attributes
+									// Add data- attributes.
 									for ( var key in fieldData ) {
 										fieldProperties[ key ] = fieldData[ key ];
 									}
 
-									// Define field element
+									// Define field element.
 									fieldElement = el(
 										WPZincAutocompleterControl,
 										fieldProperties
@@ -347,7 +357,7 @@ function convertKitGutenbergRegisterBlock( block ) {
 									break;
 
 								default:
-									// Define field properties
+									// Define field properties.
 									fieldProperties = {
 										type: 		field.type,
 										label: 		field.label,
@@ -361,12 +371,12 @@ function convertKitGutenbergRegisterBlock( block ) {
 										},
 									};
 
-									// Add data- attributes
+									// Add data- attributes.
 									for ( var key in fieldData ) {
 										fieldProperties[ key ] = fieldData[ key ];
 									}
 
-									// Define field element
+									// Define field element.
 									fieldElement = el(
 										TextControl,
 										fieldProperties
@@ -374,7 +384,7 @@ function convertKitGutenbergRegisterBlock( block ) {
 									break;
 							}
 
-							// Add Field as a Row
+							// Add Field as a Row.
 							rows.push(
 								el(
 									PanelRow,
@@ -384,7 +394,7 @@ function convertKitGutenbergRegisterBlock( block ) {
 							);
 						}
 
-						// Add the Panel Rows to a new Panel
+						// Add the Panel Rows to a new Panel.
 						panels.push(
 							el(
 								PanelBody,
@@ -396,11 +406,11 @@ function convertKitGutenbergRegisterBlock( block ) {
 							)
 						);
 
-						// Don't open any further panels
+						// Don't open any further panels.
 						initialOpen = false;
 					}
 
-					// Return
+					// Return.
 					return (
 					el(
 						Fragment,
@@ -410,7 +420,7 @@ function convertKitGutenbergRegisterBlock( block ) {
 							{},
 							panels
 						),
-						// Block Markup
+						// Block Markup.
 						el(
 							'div',
 							{},
@@ -420,7 +430,7 @@ function convertKitGutenbergRegisterBlock( block ) {
 					);
 				},
 
-				// Output
+				// Output.
 				save: function( props ) {
 
 					return null;

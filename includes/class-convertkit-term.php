@@ -41,7 +41,7 @@ class ConvertKit_Term {
 	 *
 	 * @since   1.9.6
 	 *
-	 * @param   int $term_id    Term ID
+	 * @param   int $term_id    Term ID.
 	 */
 	public function __construct( $term_id ) {
 
@@ -109,7 +109,7 @@ class ConvertKit_Term {
 	 */
 	public function uses_default_form() {
 
-		return ( $this->settings == '-1' );
+		return ( $this->settings === '-1' );
 
 	}
 
@@ -122,7 +122,7 @@ class ConvertKit_Term {
 	 */
 	public function uses_no_form() {
 
-		return ( $this->settings == '0' );
+		return ( $this->settings === '0' );
 
 	}
 
@@ -131,7 +131,7 @@ class ConvertKit_Term {
 	 *
 	 * @since   1.9.6
 	 *
-	 * @param   array $meta   Settings
+	 * @param   array $meta   Settings.
 	 */
 	public function save( $meta ) {
 

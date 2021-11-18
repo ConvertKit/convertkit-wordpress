@@ -100,7 +100,7 @@ class ConvertKit_Log {
 
 		// Open log file.
 		$log = $wp_filesystem->get_contents( $this->log_file ); // phpcs:ignore
-		
+
 		// Bail if the log file is empty.
 		if ( empty( $log ) ) {
 			return '';

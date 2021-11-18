@@ -1,4 +1,13 @@
 /**
+ * Frontend functionality for subscribers and tags.
+ *
+ * @since   1.9.6
+ *
+ * @package ConvertKit
+ * @author ConvertKit
+ */
+
+/**
  * Tags the given subscriber ID with the given tag
  *
  * @since   1.9.6
@@ -40,7 +49,7 @@ function convertKitTagSubscriber( subscriber_id, tag, post_id ) {
 		).fail(
 			function (response) {
 				if ( convertkit.debug ) {
-					  console.log( response );
+					console.log( response );
 				}
 				convertKitRemoveSubscriberIDFromURL( window.location.href );
 			}
@@ -90,7 +99,7 @@ function convertStoreSubscriberIDInCookie( subscriber_id ) {
 		).fail(
 			function (response) {
 				if ( convertkit.debug ) {
-					  console.log( response );
+					console.log( response );
 				}
 			}
 		);
@@ -139,7 +148,7 @@ function convertStoreSubscriberEmailAsIDInCookie( email_address ) {
 		).fail(
 			function (response) {
 				if ( convertkit.debug ) {
-					  console.log( response );
+					console.log( response );
 				}
 			}
 		);
@@ -193,22 +202,22 @@ jQuery( document ).ready(
 	function( $ ) {
 
 		if ( convertkit.subscriber_id > 0 && convertkit.tag && convertkit.post_id ) {
-			  // If the user can be detected as a ConvertKit Subscriber (i.e. their Subscriber ID is in a cookie or the URL),
-			  // and the Page/Post they are viewing has a Tag specified, subscribe them to the tag.
-			  convertKitTagSubscriber( convertkit.subscriber_id, convertkit.tag, convertkit.post_id );
+			// If the user can be detected as a ConvertKit Subscriber (i.e. their Subscriber ID is in a cookie or the URL),
+			// and the Page/Post they are viewing has a Tag specified, subscribe them to the tag.
+			convertKitTagSubscriber( convertkit.subscriber_id, convertkit.tag, convertkit.post_id );
 		} else if ( convertkit.subscriber_id > 0 ) {
 			// If the user can be detected as a ConvertKit Subscriber (i.e. their Subscriber ID is in a cookie or the URL),
 			// update the cookie now.
 			convertStoreSubscriberIDInCookie( convertkit.subscriber_id );
 		}
 
-		// Store subscriber ID as a cookie from the email address used when a ConvertKit Form is submitted
+		// Store subscriber ID as a cookie from the email address used when a ConvertKit Form is submitted.
 		$( document ).on(
 			'click',
 			'.formkit-submit',
 			function() {
 				var email_address = $( 'input[name="email_address"]' ).val();
-				convertKitSleep( 2000 ); // @TODO Better to inspect the form change and then fire the AJAX request.
+				convertKitSleep( 2000 );
 				convertStoreSubscriberEmailAsIDInCookie( email_address );
 			}
 		);

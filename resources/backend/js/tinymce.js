@@ -1,4 +1,13 @@
 /**
+ * Handles registration of TinyMCE buttons.
+ *
+ * @since   1.9.6
+ *
+ * @package ConvertKit
+ * @author ConvertKit
+ */
+
+/**
  * Registers the given block as a TinyMCE Plugin, with a button in
  * the Visual Editor toolbar.
  *
@@ -29,7 +38,7 @@ function convertKitTinyMCERegisterPlugin( block ) {
 					'convertkit_' + block.name,
 					function() {
 
-						// Open the TinyMCE Modal
+						// Open the TinyMCE Modal.
 						editor.windowManager.open(
 							{
 								id: 	'convertkit-modal-body',
@@ -51,7 +60,7 @@ function convertKitTinyMCERegisterPlugin( block ) {
 							},
 							function( response ) {
 
-								// Inject HTML into modal
+								// Inject HTML into modal.
 								$( '#convertkit-modal-body-body' ).html( response );
 
 							}

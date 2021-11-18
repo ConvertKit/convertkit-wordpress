@@ -86,7 +86,7 @@ if ( is_admin() ) {
  *
  * @since   1.9.6
  */
-function WP_ConvertKit() {
+function WP_ConvertKit() { // phpcs:ignore
 
 	return WP_ConvertKit::get_instance();
 

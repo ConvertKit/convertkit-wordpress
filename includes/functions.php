@@ -62,7 +62,7 @@ function convertkit_get_blocks() {
  *
  * @since   1.9.6
  *
- * @param   array $query_args     Optional Query ARgs
+ * @param   array $query_args     Optional Query Args.
  * @return  string                  Settings Link
  */
 function convertkit_get_settings_link( $query_args = array() ) {

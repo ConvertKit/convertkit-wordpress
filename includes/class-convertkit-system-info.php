@@ -32,16 +32,16 @@ class ConvertKit_System_Info {
 
 		$browser = new Browser();
 
-		// Get theme info
+		// Get theme info.
 		$theme_data   = wp_get_theme();
-		$theme        = $theme_data->Name . ' ' . $theme_data->Version;
-		$parent_theme = $theme_data->Template;
+		$theme        = $theme_data->Name . ' ' . $theme_data->Version; // phpcs:ignore
+		$parent_theme = $theme_data->Template; // phpcs:ignore
 		if ( ! empty( $parent_theme ) ) {
 			$parent_theme_data = wp_get_theme( $parent_theme );
-			$parent_theme      = $parent_theme_data->Name . ' ' . $parent_theme_data->Version;
+			$parent_theme      = $parent_theme_data->Name . ' ' . $parent_theme_data->Version; // phpcs:ignore
 		}
 
-		// Try to identify the hosting provider
+		// Try to identify the hosting provider.
 		$host = $this->get_host();
 
 		$return = '### Begin System Info ###' . "\n\n";
@@ -62,7 +62,7 @@ class ConvertKit_System_Info {
 			$return = apply_filters( 'convertkit_sysinfo_after_host_info', $return );
 		}
 
-		// The local users' browser information, handled by the Browser class
+		// The local users' browser information, handled by the Browser class.
 		$return .= "\n" . '-- User Browser' . "\n\n";
 		$return .= $browser;
 
@@ -70,7 +70,7 @@ class ConvertKit_System_Info {
 
 		$locale = get_locale();
 
-		// WordPress configuration
+		// WordPress configuration.
 		$return .= "\n" . '-- WordPress Configuration' . "\n\n";
 		$return .= 'Version:                  ' . get_bloginfo( 'version' ) . "\n";
 		$return .= 'Language:                 ' . ( ! empty( $locale ) ? $locale : 'en_US' ) . "\n";
@@ -81,18 +81,18 @@ class ConvertKit_System_Info {
 		}
 		$return .= 'Show On Front:            ' . get_option( 'show_on_front' ) . "\n";
 
-		// Only show page specs if frontpage is set to 'page'
-		if ( get_option( 'show_on_front' ) == 'page' ) {
+		// Only show page specs if frontpage is set to 'page'.
+		if ( get_option( 'show_on_front' ) === 'page' ) {
 			$front_page_id = get_option( 'page_on_front' );
 			$blog_page_id  = get_option( 'page_for_posts' );
 
-			$return .= 'Page On Front:            ' . ( $front_page_id != 0 ? get_the_title( $front_page_id ) . ' (#' . $front_page_id . ')' : 'Unset' ) . "\n";
-			$return .= 'Page For Posts:           ' . ( $blog_page_id != 0 ? get_the_title( $blog_page_id ) . ' (#' . $blog_page_id . ')' : 'Unset' ) . "\n";
+			$return .= 'Page On Front:            ' . ( $front_page_id !== 0 ? get_the_title( $front_page_id ) . ' (#' . $front_page_id . ')' : 'Unset' ) . "\n";
+			$return .= 'Page For Posts:           ' . ( $blog_page_id !== 0 ? get_the_title( $blog_page_id ) . ' (#' . $blog_page_id . ')' : 'Unset' ) . "\n";
 		}
 
 		$return .= 'ABSPATH:                  ' . ABSPATH . "\n";
 
-		// Make sure wp_remote_post() is working
+		// Make sure wp_remote_post() is working.
 		$request['cmd'] = '_notify-validate';
 
 		$params = array(
@@ -105,12 +105,12 @@ class ConvertKit_System_Info {
 		$response = wp_remote_post( 'https://www.paypal.com/cgi-bin/webscr', $params );
 
 		if ( ! is_wp_error( $response ) && $response['response']['code'] >= 200 && $response['response']['code'] < 300 ) {
-			$WP_REMOTE_POST = 'wp_remote_post() works';
+			$wp_remote_post = 'wp_remote_post() works';
 		} else {
-			$WP_REMOTE_POST = 'wp_remote_post() does not work';
+			$wp_remote_post = 'wp_remote_post() does not work';
 		}
 
-		$return .= 'Remote Post:              ' . $WP_REMOTE_POST . "\n";
+		$return .= 'Remote Post:              ' . $wp_remote_post . "\n";
 		$return .= 'Table Prefix:             ' . 'Length: ' . strlen( $wpdb->prefix ) . '   Status: ' . ( strlen( $wpdb->prefix ) > 16 ? 'ERROR: Too long' : 'Acceptable' ) . "\n";
 		$return .= 'WP_DEBUG:                 ' . ( defined( 'WP_DEBUG' ) ? WP_DEBUG ? 'Enabled' : 'Disabled' : 'Not set' ) . "\n";
 		$return .= 'Memory Limit:             ' . WP_MEMORY_LIMIT . "\n";
@@ -118,13 +118,13 @@ class ConvertKit_System_Info {
 
 		$return = apply_filters( 'convertkit_sysinfo_after_wordpress_config', $return );
 
-		// ConvertKit configuration
+		// ConvertKit configuration.
 		$return .= "\n" . '-- ConvertKit Configuration' . "\n\n";
 		$return .= 'Version:                  ' . CONVERTKIT_PLUGIN_VERSION . "\n";
 
 		$return = apply_filters( 'convertkit_sysinfo_after_convertkit_config', $return );
 
-		// Get plugins that have an update
+		// Get plugins that have an update.
 		$updates = get_plugin_updates();
 
 		// Must-use plugins
@@ -140,14 +140,14 @@ class ConvertKit_System_Info {
 			$return = apply_filters( 'convertkit_sysinfo_after_wordpress_mu_plugins', $return );
 		}
 
-		// WordPress active plugins
+		// WordPress active plugins.
 		$return .= "\n" . '-- WordPress Active Plugins' . "\n\n";
 
 		$plugins        = get_plugins();
 		$active_plugins = get_option( 'active_plugins', array() );
 
 		foreach ( $plugins as $plugin_path => $plugin ) {
-			if ( ! in_array( $plugin_path, $active_plugins ) ) {
+			if ( ! in_array( $plugin_path, $active_plugins, true ) ) {
 				continue;
 			}
 
@@ -157,11 +157,11 @@ class ConvertKit_System_Info {
 
 		$return = apply_filters( 'convertkit_sysinfo_after_wordpress_plugins', $return );
 
-		// WordPress inactive plugins
+		// WordPress inactive plugins.
 		$return .= "\n" . '-- WordPress Inactive Plugins' . "\n\n";
 
 		foreach ( $plugins as $plugin_path => $plugin ) {
-			if ( in_array( $plugin_path, $active_plugins ) ) {
+			if ( in_array( $plugin_path, $active_plugins, true ) ) {
 				continue;
 			}
 
@@ -172,7 +172,7 @@ class ConvertKit_System_Info {
 		$return = apply_filters( 'convertkit_sysinfo_after_wordpress_plugins_inactive', $return );
 
 		if ( is_multisite() ) {
-			// WordPress Multisite active plugins
+			// WordPress Multisite active plugins.
 			$return .= "\n" . '-- Network Active Plugins' . "\n\n";
 
 			$plugins        = wp_get_active_network_plugins();
@@ -193,7 +193,7 @@ class ConvertKit_System_Info {
 			$return = apply_filters( 'convertkit_sysinfo_after_wordpress_ms_plugins', $return );
 		}
 
-		// Server configuration (really just versioning)
+		// Server configuration (really just versioning).
 		$return .= "\n" . '-- Webserver Configuration' . "\n\n";
 		$return .= 'PHP Version:              ' . PHP_VERSION . "\n";
 		$return .= 'MySQL Version:            ' . $wpdb->db_version() . "\n";
@@ -201,7 +201,7 @@ class ConvertKit_System_Info {
 
 		$return = apply_filters( 'convertkit_sysinfo_after_webserver_config', $return );
 
-		// PHP configs... now we're getting to the important stuff
+		// PHP configs... now we're getting to the important stuff.
 		$return .= "\n" . '-- PHP Configuration' . "\n\n";
 		$return .= 'Memory Limit:             ' . ini_get( 'memory_limit' ) . "\n";
 		$return .= 'Upload Max Size:          ' . ini_get( 'upload_max_filesize' ) . "\n";
@@ -219,7 +219,7 @@ class ConvertKit_System_Info {
 			'ssl_version' => 'Unknown; cURL not avaible',
 		);
 
-		// PHP extensions and such
+		// PHP extensions and such.
 		$return .= "\n" . '-- PHP Extensions' . "\n\n";
 		$return .= 'cURL:                     ' . ( function_exists( 'curl_init' ) ? 'Supported' : 'Not Supported' ) . "\n";
 		$return .= 'cURL version:             ' . $curl_version_info['version'] . "\n";
@@ -230,10 +230,10 @@ class ConvertKit_System_Info {
 
 		$return = apply_filters( 'convertkit_sysinfo_after_php_ext', $return );
 
-		// Session stuff
+		// Session stuff.
 		$return .= "\n" . '-- Session Configuration' . "\n\n";
 
-		// The rest of this is only relevant is session is enabled
+		// The rest of this is only relevant is session is enabled.
 		if ( isset( $_SESSION ) ) {
 			$return .= 'Session Name:             ' . esc_html( ini_get( 'session.name' ) ) . "\n";
 			$return .= 'Cookie Path:              ' . esc_html( ini_get( 'session.cookie_path' ) ) . "\n";
@@ -267,9 +267,9 @@ class ConvertKit_System_Info {
 			$host = 'WP Engine';
 		} elseif ( defined( 'PAGELYBIN' ) ) {
 			$host = 'Pagely';
-		} elseif ( DB_HOST == 'localhost:/tmp/mysql5.sock' ) {
+		} elseif ( DB_HOST === 'localhost:/tmp/mysql5.sock' ) {
 			$host = 'ICDSoft';
-		} elseif ( DB_HOST == 'mysqlv5' ) {
+		} elseif ( DB_HOST === 'mysqlv5' ) {
 			$host = 'NetworkSolutions';
 		} elseif ( strpos( DB_HOST, 'ipagemysql.com' ) !== false ) {
 			$host = 'iPage';
@@ -286,7 +286,7 @@ class ConvertKit_System_Info {
 		} elseif ( strpos( $_SERVER['SERVER_NAME'], 'Flywheel' ) !== false ) {
 			$host = 'Flywheel';
 		} else {
-			// Adding a general fallback for data gathering
+			// Adding a general fallback for data gathering.
 			$host = 'DBH: ' . DB_HOST . ', SRV: ' . $_SERVER['SERVER_NAME'];
 		}
 

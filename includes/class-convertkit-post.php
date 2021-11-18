@@ -41,7 +41,7 @@ class ConvertKit_Post {
 	 *
 	 * @since   1.9.6
 	 *
-	 * @param   int $post-id    Post ID
+	 * @param   int $post_id    Post ID.
 	 */
 	public function __construct( $post_id ) {
 
@@ -140,7 +140,7 @@ class ConvertKit_Post {
 	 */
 	public function uses_default_form() {
 
-		return ( $this->settings['form'] == '-1' );
+		return ( $this->settings['form'] === '-1' );
 
 	}
 
@@ -153,7 +153,7 @@ class ConvertKit_Post {
 	 */
 	public function uses_no_form() {
 
-		return ( $this->settings['form'] == '0' );
+		return ( $this->settings['form'] === '0' );
 
 	}
 
@@ -188,7 +188,8 @@ class ConvertKit_Post {
 	 *
 	 * @since   1.9.6
 	 *
-	 * @param   array $meta   Settings
+	 * @param   array $meta   Settings.
+	 * @return  bool          Post Meta was updated
 	 */
 	public function save( $meta ) {
 

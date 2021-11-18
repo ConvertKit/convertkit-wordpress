@@ -1,5 +1,12 @@
 <?php
 /**
+ * ConvertKit Form Block class.
+ *
+ * @package ConvertKit
+ * @author ConvertKit
+ */
+
+/**
  * ConvertKit Form Block for Gutenberg and Shortcode.
  *
  * @package ConvertKit
@@ -141,12 +148,12 @@ class ConvertKit_Block_Form extends ConvertKit_Block {
 	 *
 	 * @since   1.9.6
 	 *
-	 * @param   array $atts   Block / Shortcode Attributes
+	 * @param   array $atts   Block / Shortcode Attributes.
 	 * @return  string          Output
 	 */
 	public function render( $atts ) {
 
-		// Parse shortcode attributes, defining fallback defaults if required
+		// Parse shortcode attributes, defining fallback defaults if required.
 		$atts = shortcode_atts(
 			$this->get_default_values(),
 			$this->sanitize_atts( $atts ),

@@ -28,8 +28,8 @@ class WP_ConvertKit {
 	 * action and filter hooks.
 	 *
 	 * @since   1.9.6
-	 * 
-	 * @var 	array
+	 *
+	 * @var     array
 	 */
 	private $classes = array();
 
@@ -259,7 +259,7 @@ class WP_ConvertKit {
 			}
 
 			// Zion Builder.
-			if ( array_key_exists( 'action', $_REQUEST ) && sanitize_text_field( $_REQUEST['action'] ) == 'zion_builder_active' ) {
+			if ( array_key_exists( 'action', $_REQUEST ) && sanitize_text_field( $_REQUEST['action'] ) === 'zion_builder_active' ) { // phpcs:ignore
 				return true;
 			}
 		}
@@ -277,7 +277,7 @@ class WP_ConvertKit {
 		 * @param   bool    $is_admin_or_frontend_editor    Is WordPress Administration / Frontend Editor request.
 		 * @param   array   $_REQUEST                       $_REQUEST data.
 		 */
-		$is_admin_or_frontend_editor = apply_filters( 'convertkit_is_admin_or_frontend_editor', $is_admin_or_frontend_editor, $_REQUEST );
+		$is_admin_or_frontend_editor = apply_filters( 'convertkit_is_admin_or_frontend_editor', $is_admin_or_frontend_editor, $_REQUEST );  // phpcs:ignore
 
 		// Return filtered result.
 		return $is_admin_or_frontend_editor;
@@ -340,7 +340,7 @@ class WP_ConvertKit {
 	 *
 	 * @since   1.9.6
 	 *
-	 * @param   string $name   Class Name
+	 * @param   string $name   Class Name.
 	 * @return  object          Class Object
 	 */
 	public function get_class( $name ) {
@@ -348,33 +348,33 @@ class WP_ConvertKit {
 		// If the class hasn't been loaded, throw a WordPress die screen
 		// to avoid a PHP fatal error.
 		if ( ! isset( $this->classes[ $name ] ) ) {
-			// Define the error
+			// Define the error.
 			$error = new WP_Error(
 				'convertkit_get_class',
-				/* translators: %1$s: PHP class name */
 				sprintf(
-					__( 'ConvertKit Error: Could not load Plugin class <strong>%1$s</strong>' ),
+					/* translators: %1$s: PHP class name */
+					__( 'ConvertKit Error: Could not load Plugin class <strong>%1$s</strong>', 'convertkit' ),
 					$name
 				)
 			);
 
-			// Depending on the request, return or display an error
-			// Admin UI
+			// Depending on the request, return or display an error.
+			// Admin UI.
 			if ( is_admin() ) {
 				wp_die(
-					$error,
-					__( 'ConvertKit Error', 'convertkit' ),
+					esc_attr( $error ),
+					esc_html__( 'ConvertKit Error', 'convertkit' ),
 					array(
 						'back_link' => true,
 					)
 				);
 			}
 
-			// Cron / CLI
+			// Cron / CLI.
 			return $error;
 		}
 
-		// Return the class object
+		// Return the class object.
 		return $this->classes[ $name ];
 
 	}

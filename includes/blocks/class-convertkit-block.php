@@ -1,5 +1,12 @@
 <?php
 /**
+ * ConvertKit Block class.
+ *
+ * @package ConvertKit
+ * @author ConvertKit
+ */
+
+/**
  * ConvertKit Block definition for Gutenberg and Shortcode.
  *
  * @package ConvertKit
@@ -12,7 +19,7 @@ class ConvertKit_Block {
 	 *
 	 * @since   1.9.6
 	 *
-	 * @param   array $blocks     Blocks to Register
+	 * @param   array $blocks     Blocks to Register.
 	 * @return  array               Blocks to Register
 	 */
 	public function register( $blocks ) {
@@ -35,6 +42,9 @@ class ConvertKit_Block {
 	 * Returns the given block's field's Default Value
 	 *
 	 * @since   1.9.6
+	 *
+	 * @param   string $field Field Name.
+	 * @return  mixed   array|string
 	 */
 	public function get_default_value( $field ) {
 
@@ -53,7 +63,7 @@ class ConvertKit_Block {
 	 *
 	 * @since   1.9.6
 	 *
-	 * @param   array $atts   Shortcode Attributes
+	 * @param   array $atts   Shortcode Attributes.
 	 * @return  array           Shortcode Attributes
 	 */
 	public function sanitize_atts( $atts ) {
@@ -67,7 +77,7 @@ class ConvertKit_Block {
 				continue;
 			}
 
-			$atts[ $key ] = strip_tags( $value );
+			$atts[ $key ] = wp_strip_all_tags( $value );
 		}
 
 		return $atts;
