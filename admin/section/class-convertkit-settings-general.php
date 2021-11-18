@@ -357,7 +357,7 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 			'debug',
 			'on',
 			$this->settings->debug_enabled(), // phpcs:ignore
-			esc_html__( 'Save connection data to a log file.', 'convertkit' ),
+			esc_html__( 'Log requests to file and output browser console messages.', 'convertkit' ),
 			esc_html__( 'You can ignore this unless you\'re working with our support team to resolve an issue. Decheck this option to improve performance.', 'convertkit' )
 		);
 

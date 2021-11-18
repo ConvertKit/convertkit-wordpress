@@ -7,6 +7,8 @@
  * @author ConvertKit
  */
 
+ console.log( convertkit );
+
 /**
  * Tags the given subscriber ID with the given tag
  *
@@ -94,6 +96,8 @@ function convertStoreSubscriberIDInCookie( subscriber_id ) {
 					if ( convertkit.debug ) {
 						console.log( response );
 					}
+
+					convertKitRemoveSubscriberIDFromURL( window.location.href );
 				}
 			}
 		).fail(
@@ -101,6 +105,8 @@ function convertStoreSubscriberIDInCookie( subscriber_id ) {
 				if ( convertkit.debug ) {
 					console.log( response );
 				}
+
+				convertKitRemoveSubscriberIDFromURL( window.location.href );
 			}
 		);
 

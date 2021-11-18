@@ -160,6 +160,9 @@ class ConvertKit_Block_Form extends ConvertKit_Block {
 			$this->get_name()
 		);
 
+		// Setup Settings class. 
+		$settings = new ConvertKit_Settings();
+
 		// Determine Form ID.
 		// 'id' attribute is for backward compat.
 		$form_id = 0;
@@ -171,7 +174,11 @@ class ConvertKit_Block_Form extends ConvertKit_Block {
 
 		// If no Form ID specified, bail.
 		if ( ! $form_id ) {
-			return '<!-- No Form ID Specified  -->';
+			if ( $settings->debug_enabled() ) {
+				return '<!-- No Form ID Specified  -->';
+			}
+
+			return '';
 		}
 
 		// Get Form HTML.
@@ -180,7 +187,11 @@ class ConvertKit_Block_Form extends ConvertKit_Block {
 
 		// Bail if an error occured.
 		if ( is_wp_error( $form ) ) {
-			return '<!-- ' . $form->get_error_message() . ' -->';
+			if ( $settings->debug_enabled() ) {
+				return '<!-- ' . $form->get_error_message() . ' -->';
+			}
+
+			return '';
 		}
 
 		/**

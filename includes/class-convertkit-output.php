@@ -344,17 +344,17 @@ class ConvertKit_Output {
 	 */
 	public function get_subscriber_id_from_request() {
 
-		// If the subscriber ID is stored as a cookie (i.e. the user subscribed via a form
-		// from this Plugin on this site, which sets this cookie), return it as the subscriber ID.
-		if ( isset( $_COOKIE['ck_subscriber_id'] ) ) {
-			return absint( $_COOKIE['ck_subscriber_id'] );
-		}
-
 		// If the subscriber ID is included in the URL as a query parameter
 		// (i.e. 'Add subscriber_id parameter in email links' is enabled at https://app.convertkit.com/account_settings/advanced_settings,
 		// return it as the subscriber ID.
 		if ( isset( $_GET['ck_subscriber_id'] ) ) { // phpcs:ignore
 			return absint( $_GET['ck_subscriber_id'] ); // phpcs:ignore
+		}
+
+		// If the subscriber ID is stored as a cookie (i.e. the user subscribed via a form
+		// from this Plugin on this site, which sets this cookie), return it as the subscriber ID.
+		if ( isset( $_COOKIE['ck_subscriber_id'] ) ) {
+			return absint( $_COOKIE['ck_subscriber_id'] );
 		}
 
 		return 0;

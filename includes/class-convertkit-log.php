@@ -29,7 +29,12 @@ class ConvertKit_Log {
 	 */
 	public function __construct() {
 
+		// Define location of log file.
 		$this->log_file = trailingslashit( CONVERTKIT_PLUGIN_PATH ) . 'log.txt';
+
+		// Initialize WP_Filesystem.
+		require_once( ABSPATH . 'wp-admin/includes/file.php' );
+		WP_Filesystem();
 
 	}
 
@@ -68,10 +73,8 @@ class ConvertKit_Log {
 	 */
 	public function add( $entry ) {
 
-		// Initialize WordPress file system.
 		global $wp_filesystem;
-		WP_Filesystem();
-
+		
 		// Prefix the entry with a date and time.
 		$entry = '(' . gmdate( 'Y-m-d H:i:s' ) . ') ' . $entry . "\n";
 
@@ -95,7 +98,6 @@ class ConvertKit_Log {
 
 		// Initialize WordPress file system.
 		global $wp_filesystem;
-		WP_Filesystem();
 
 		// Bail if the log file does not exist.
 		if ( ! file_exists( $this->log_file ) ) {
@@ -124,7 +126,6 @@ class ConvertKit_Log {
 
 		// Initialize WordPress file system.
 		global $wp_filesystem;
-		WP_Filesystem();
 
 		$wp_filesystem->put_contents( $this->log_file, '' );
 

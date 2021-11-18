@@ -158,21 +158,36 @@ class ConvertKit_Block_Content extends ConvertKit_Block {
 			$this->get_name()
 		);
 
+		// Setup Settings class. 
+		$settings = new ConvertKit_Settings();
+
 		// Bail if the tag isn't specified.
 		if ( ! $atts['tag'] ) {
-			return '<!-- ConvertKit Custom Content: No Tag Specified -->';
+			if ( $settings->debug_enabled() ) {
+				return '<!-- ConvertKit Custom Content: No Tag Specified -->';
+			}
+
+			return '';
 		}
 
 		// Bail if there is no subscriber ID from the cookie or request.
 		$subscriber_id = WP_ConvertKit()->get_class( 'output' )->get_subscriber_id_from_request();
 		if ( ! $subscriber_id ) {
-			return '<!-- ConvertKit Custom Content: Subscriber ID does not exist -->';
+			if ( $settings->debug_enabled() ) {
+				return '<!-- ConvertKit Custom Content: Subscriber ID does not exist -->';
+			}
+
+			return '';
 		}
 
 		// Bail if the API hasn't been configured.
 		$settings = new ConvertKit_Settings();
 		if ( ! $settings->has_api_key_and_secret() ) {
-			return '<!-- ConvertKit Custom Content: No API Key and Secret -->';
+			if ( $settings->debug_enabled() ) {
+				return '<!-- ConvertKit Custom Content: No API Key and Secret -->';
+			}
+
+			return '';
 		}
 
 		// Initialize the API.
@@ -183,13 +198,17 @@ class ConvertKit_Block_Content extends ConvertKit_Block {
 
 		// Bail if an error occured i.e. the subscriber has no tags.
 		if ( is_wp_error( $tags ) ) {
-			return '<!-- ConvertKit Custom Content: ' . $tags->get_error_message() . ' -->';
+			if ( $settings->debug_enabled() ) {
+				return '<!-- ConvertKit Custom Content: ' . $tags->get_error_message() . ' -->';
+			}
+
+			return '';
 		}
 
 		// Iterate through ConvertKit Tags to find a match.
 		foreach ( $tags as $tag ) {
 			// Skip if this ConvertKit Tag isn't the Tag specified in the block.
-			if ( $tag['id'] !== $atts['tag'] ) {
+			if ( absint( $tag['id'] ) !== absint( $atts['tag'] ) ) {
 				continue;
 			}
 
@@ -214,7 +233,11 @@ class ConvertKit_Block_Content extends ConvertKit_Block {
 		}
 
 		// If here, the subscriber does not have the block's tag.
-		return '<!-- ConvertKit Custom Content: Subscriber does not have tag -->';
+		if ( $settings->debug_enabled() ) {
+			return '<!-- ConvertKit Custom Content: Subscriber does not have tag -->';
+		}
+
+		return '';
 
 	}
 
