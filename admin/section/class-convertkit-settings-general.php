@@ -253,17 +253,23 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 			);
 			return;
 		}
-
+		
 		// Output field.
 		echo $this->get_text_field( // phpcs:ignore
 			'api_key',
 			$this->settings->get_api_key(), // phpcs:ignore
-			sprintf(
-				/* translators: %1$s: Link to ConvertKit Account, %2$s: wp-config.php, %3$s: <code> block for API Key definition */
-				esc_html__( '%1$s Required for proper plugin function.<br />Alternatively specify your API Key in the %2$s file using %3$s', 'convertkit' ),
-				'<a href="https://app.convertkit.com/account_settings/advanced_settings" target="_blank">' . esc_html__( 'Get your ConvertKit API Key.', 'convertkit' ) . '</a>',
-				'<code>wp-config.php</code>',
-				'<code>define(\'CONVERTKIT_API_KEY\', \'your-api-key\');</code>'
+			array(
+				sprintf(
+					/* translators: %1$s: Link to ConvertKit Account */
+					esc_html__( '%1$s Required for proper plugin function.', 'convertkit' ),
+					'<a href="https://app.convertkit.com/account_settings/advanced_settings" target="_blank">' . esc_html__( 'Get your ConvertKit API Key.', 'convertkit' ) . '</a>',
+				),
+				sprintf(
+					/* translators: Account, %1$s: wp-config.php, %2$s: <code> block for API Key definition */
+					esc_html__( 'Alternatively specify your API Key in the %1$s file using %2$s', 'convertkit' ),
+					'<code>wp-config.php</code>',
+					'<code>define(\'CONVERTKIT_API_KEY\', \'your-api-key\');</code>'
+				),	
 			)
 		);
 
@@ -289,12 +295,18 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 		echo $this->get_text_field( // phpcs:ignore
 			'api_secret',
 			$this->settings->get_api_secret(), // phpcs:ignore
-			sprintf(
-				/* translators: %1$s: Link to ConvertKit Account, %2$s: wp-config.php, %3$s: <code> block for API Secret definition */
-				esc_html__( '%1$s Required for proper plugin function.<br />Alternatively specify your API Key in the %2$s file using %3$s', 'convertkit' ),
-				'<a href="https://app.convertkit.com/account_settings/advanced_settings" target="_blank">' . esc_html__( 'Get your ConvertKit API Secret.', 'convertkit' ) . '</a>',
-				'<code>wp-config.php</code>',
-				'<code>define(\'CONVERTKIT_API_SECRET\', \'your-api-secret\');</code>'
+			array(
+				sprintf(
+					/* translators: %1$s: Link to ConvertKit Account */
+					esc_html__( '%1$s Required for proper plugin function.', 'convertkit' ),
+					'<a href="https://app.convertkit.com/account_settings/advanced_settings" target="_blank">' . esc_html__( 'Get your ConvertKit API Secret.', 'convertkit' ) . '</a>',
+				),
+				sprintf(
+					/* translators: Account, %1$s: wp-config.php, %2$s: <code> block for API Secret definition */
+					esc_html__( 'Alternatively specify your API Secret in the %1$s file using %2$s', 'convertkit' ),
+					'<code>wp-config.php</code>',
+					'<code>define(\'CONVERTKIT_API_SECRET\', \'your-api-secret\');</code>'
+				),	
 			)
 		);
 

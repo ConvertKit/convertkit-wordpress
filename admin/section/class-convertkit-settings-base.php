@@ -165,7 +165,7 @@ abstract class ConvertKit_Settings_Base {
 	 *
 	 * @param   string $name           Name.
 	 * @param   string $value          Value.
-	 * @param   mixed  $description    Description (false|string).
+	 * @param   mixed  $description    Description (false|string|array).
 	 * @return  string                  HTML Field
 	 */
 	public function get_text_field( $name, $value = '', $description = false ) {
@@ -178,11 +178,7 @@ abstract class ConvertKit_Settings_Base {
 			$value
 		);
 
-		if ( $description ) {
-			$html .= $this->get_description( $description );
-		}
-
-		return $html;
+		return $html . $this->get_description( $description );
 
 	}
 
@@ -217,11 +213,7 @@ abstract class ConvertKit_Settings_Base {
 
 		$html .= '</select>';
 
-		if ( $description ) {
-			$html .= $this->get_description( $description );
-		}
-
-		return $html;
+		return $html . $this->get_description( $description );
 
 	}
 
@@ -264,11 +256,7 @@ abstract class ConvertKit_Settings_Base {
 			);
 		}
 
-		if ( $description ) {
-			$html .= $this->get_description( $description );
-		}
-
-		return $html;
+		return $html . $this->get_description( $description );
 
 	}
 
@@ -277,12 +265,23 @@ abstract class ConvertKit_Settings_Base {
 	 *
 	 * @since   1.9.6
 	 *
-	 * @param   string $description    Description.
+	 * @param   mixed $description    Description (false|string|array)
 	 * @return  string                  HTML Description
 	 */
 	private function get_description( $description ) {
 
-		return '<p class="description">' . $description . '</p>';
+		// Return blank string if no description specified.
+		if ( ! $description ) {
+			return '';
+		}
+
+		// Return description in paragraph if a string.
+		if ( ! is_array( $description ) ) {
+			return '<p class="description">' . $description . '</p>';	
+		}
+
+		// Return description lines in a paragraph, using breaklines for each description entry in the array.
+		return '<p class="description">' . implode( '<br />', $description );
 
 	}
 

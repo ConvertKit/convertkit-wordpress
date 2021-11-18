@@ -28,10 +28,10 @@
 							<?php esc_html_e( 'None', 'convertkit' ); ?>
 						</option>
 						<?php
-						foreach ( $convertkit_forms->get() as $convertkit_form ) {
+						foreach ( $convertkit_forms->get() as $form ) {
 							?>
-							<option value="<?php echo esc_attr( $convertkit_form['id'] ); ?>"<?php selected( $convertkit_form['id'], $convertkit_post->get_form() ); ?>>
-								<?php echo esc_attr( $convertkit_form['name'] ); ?>
+							<option value="<?php echo esc_attr( $form['id'] ); ?>"<?php selected( $form['id'], $convertkit_post->get_form() ); ?>>
+								<?php echo esc_attr( $form['name'] ); ?>
 							</option>
 							<?php
 						}
@@ -41,12 +41,12 @@
 						<?php
 						printf(
 							/* translators: settings url */
-							esc_html__( '<code>Default</code>: Uses the form specified on the <a href="%s" target="_blank">settings page</a>.', 'convertkit' ),
+							__( '<code>Default</code>: Uses the form specified on the <a href="%s" target="_blank">settings page</a>.', 'convertkit' ), /* phpcs:ignore */
 							esc_attr( esc_url( $settings_link ) )
 						);
 						?>
 						<br />
-						<?php esc_html_e( 'None: do not display a form.', 'convertkit' ); ?>
+						<?php _e( '<code>None</code>: do not display a form.', 'convertkit' ); /* phpcs:ignore */ ?>
 						<br />
 						<?php esc_html_e( 'Any other option will display that form after the main content.', 'convertkit' ); ?>
 					</p>
@@ -85,17 +85,17 @@
 								<?php esc_html_e( 'None', 'convertkit' ); ?>
 							</option>
 							<?php
-							foreach ( $convertkit_landing_pages->get() as $convertkit_landing_page ) {
+							foreach ( $convertkit_landing_pages->get() as $landing_page ) {
 								if ( isset( $convertkit_landing_page['url'] ) ) {
 									?>
-									<option value="<?php echo esc_attr( $convertkit_landing_page['url'] ); ?>"<?php selected( $convertkit_landing_page['url'], $convertkit_post->get_landing_page() ); ?>>
-										<?php echo esc_attr( $convertkit_landing_page['name'] ); ?>
+									<option value="<?php echo esc_attr( $landing_page['url'] ); ?>"<?php selected( $landing_page['url'], $convertkit_post->get_landing_page() ); ?>>
+										<?php echo esc_attr( $landing_page['name'] ); ?>
 									</option>
 									<?php
 								} else {
 									?>
-									<option value="<?php echo esc_attr( $convertkit_landing_page['id'] ); ?>"<?php selected( $convertkit_landing_page['id'], $convertkit_post->get_landing_page() ); ?>>
-										<?php echo esc_attr( $convertkit_landing_page['name'] ); ?>
+									<option value="<?php echo esc_attr( $landing_page['id'] ); ?>"<?php selected( $landing_page['id'], $convertkit_post->get_landing_page() ); ?>>
+										<?php echo esc_attr( $landing_page['name'] ); ?>
 									</option>
 									<?php
 								}
@@ -140,7 +140,7 @@
 							<?php esc_html_e( 'None', 'convertkit' ); ?>
 						</option>
 						<?php
-						foreach ( $convertkit_tags->get() as $convertkit_tag ) {
+						foreach ( $convertkit_tags->get() as $tag ) {
 							?>
 							<option value="<?php echo esc_attr( $tag['id'] ); ?>"<?php selected( $tag['id'], $convertkit_post->get_tag() ); ?>>
 								<?php echo esc_attr( $tag['name'] ); ?>

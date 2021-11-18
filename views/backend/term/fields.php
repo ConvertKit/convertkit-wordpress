@@ -32,7 +32,7 @@
 				?>
 			</select>
 			<p class="description">
-				<?php esc_html_e( '<code>None</code>: do not display a form.', 'convertkit' ); ?>
+				<?php _e( '<code>None</code>: do not display a form.', 'convertkit' ); /* phpcs:ignore */ ?>
 				<br />
 				<?php
 				echo sprintf(
