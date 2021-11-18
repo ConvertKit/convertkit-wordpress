@@ -28,7 +28,7 @@ define( 'CONVERTKIT_PLUGIN_VERSION', '1.9.6' );
 
 // Load files that are always required.
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/functions.php';
-require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit.php';
+require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-wp-convertkit.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-ajax.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-api.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-log.php';
@@ -86,11 +86,11 @@ if ( is_admin() ) {
  *
  * @since   1.9.6
  */
-function convertkit() {
+function WP_ConvertKit() {
 
-	return ConvertKit::get_instance();
+	return WP_ConvertKit::get_instance();
 
 }
 
 // Finally, initialize the Plugin.
-convertkit();
+WP_ConvertKit();

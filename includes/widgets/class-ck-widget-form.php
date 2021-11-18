@@ -142,9 +142,10 @@ class CK_Widget_Form extends WP_Widget {
 	 *
 	 * @see    WP_Widget->update
 	 * @param  array $new_instance Updated widget settings.
+	 * @param  array $old_instance Original widget settings.
 	 * @return array
 	 */
-	public function update( $new_instance ) {
+	public function update( $new_instance, $old_instance ) { // phpcs:ignore
 
 		return array(
 			'title' => sanitize_text_field( $new_instance['title'] ),

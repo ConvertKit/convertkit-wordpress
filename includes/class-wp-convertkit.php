@@ -12,7 +12,7 @@
  * @package ConvertKit
  * @author ConvertKit
  */
-class ConvertKit {
+class WP_ConvertKit {
 
 	/**
 	 * Holds the class object.

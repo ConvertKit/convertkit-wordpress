@@ -1,4 +1,4 @@
-// phpcs:ignore<?php
+<?php
 /**
  * ConvertKit Settings Tools class.
  *
