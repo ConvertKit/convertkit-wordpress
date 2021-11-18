@@ -140,10 +140,10 @@
 							<?php esc_html_e( 'None', 'convertkit' ); ?>
 						</option>
 						<?php
-						foreach ( $convertkit_tags->get() as $tag ) {
+						foreach ( $convertkit_tags->get() as $convertkit_tag ) {
 							?>
-							<option value="<?php echo esc_attr( $tag['id'] ); ?>"<?php selected( $tag['id'], $convertkit_post->get_tag() ); ?>>
-								<?php echo esc_attr( $tag['name'] ); ?>
+							<option value="<?php echo esc_attr( $convertkit_tag['id'] ); ?>"<?php selected( $convertkit_tag['id'], $convertkit_post->get_tag() ); ?>>
+								<?php echo esc_attr( $convertkit_tag['name'] ); ?>
 							</option>
 							<?php
 						}

@@ -253,7 +253,7 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 			);
 			return;
 		}
-		
+
 		// Output field.
 		echo $this->get_text_field( // phpcs:ignore
 			'api_key',
@@ -269,7 +269,7 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 					esc_html__( 'Alternatively specify your API Key in the %1$s file using %2$s', 'convertkit' ),
 					'<code>wp-config.php</code>',
 					'<code>define(\'CONVERTKIT_API_KEY\', \'your-api-key\');</code>'
-				),	
+				),
 			)
 		);
 
@@ -306,7 +306,7 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 					esc_html__( 'Alternatively specify your API Secret in the %1$s file using %2$s', 'convertkit' ),
 					'<code>wp-config.php</code>',
 					'<code>define(\'CONVERTKIT_API_SECRET\', \'your-api-secret\');</code>'
-				),	
+				),
 			)
 		);
 

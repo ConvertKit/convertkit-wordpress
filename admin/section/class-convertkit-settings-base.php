@@ -265,7 +265,7 @@ abstract class ConvertKit_Settings_Base {
 	 *
 	 * @since   1.9.6
 	 *
-	 * @param   mixed $description    Description (false|string|array)
+	 * @param   mixed $description    Description (false|string|array).
 	 * @return  string                  HTML Description
 	 */
 	private function get_description( $description ) {
@@ -277,7 +277,7 @@ abstract class ConvertKit_Settings_Base {
 
 		// Return description in paragraph if a string.
 		if ( ! is_array( $description ) ) {
-			return '<p class="description">' . $description . '</p>';	
+			return '<p class="description">' . $description . '</p>';
 		}
 
 		// Return description lines in a paragraph, using breaklines for each description entry in the array.
