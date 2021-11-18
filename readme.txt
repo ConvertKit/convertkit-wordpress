@@ -49,6 +49,24 @@ No. You must first have an account on ConvertKit.com, but you do not have to use
 
 == Changelog ==
 
+### 1.9.6 2021-12-xx
+* Added: ConvertKit Form Shortcode Button for Classic Editor
+* Added: Text Editor: Quicktag Buttons for inserting ConvertKit Forms and Custom Content
+* Added: Settings: ConvertKit: Logo and branding header
+* Added: Option to specify ConvertKit API Key and Secret as constants `CONVERTKIT_API_KEY` and `CONVERTKIT_API_SECRET` in wp-config.php
+* Added: Settings: ConvertKit: General: Different Default Forms can be specified for Pages and Posts
+* Added: Settings: ConvertKit: General: Option to specify Default Form for each public Custom Post Type
+* Added: Settings: ConvertKit: Tools: Option to Download Log to text file
+* Added: Settings: ConvertKit: Tools: Option to Download System Info to text file
+* Added: PHP 8.x compatibility
+* Added: Developers: Action and filter hooks
+* Fix: PHP warnings on new installations when adding/editing Pages or Posts where the plugin was not yet configured
+* Fix: PHP 8.x: PHP Deprecated warnings where required parameters wrongly followed optional parameters
+* Fix: gzinflate() data error
+* Fix: Deprecated edit_category_form_fields warning
+* Fix: Ensure code meets WordPress Coding Standards
+* Fix: Use WP_Filesystem instead of PHP functions to read/write log file, per WordPress Coding Standards
+
 ### 1.9.5.2 2021-07-28
 * Fix: Fixed an issue where the ConvertKit shortcode would not function properly.
 
