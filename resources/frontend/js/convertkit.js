@@ -7,8 +7,6 @@
  * @author ConvertKit
  */
 
- console.log( convertkit );
-
 /**
  * Tags the given subscriber ID with the given tag
  *

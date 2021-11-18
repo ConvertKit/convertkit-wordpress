@@ -33,7 +33,7 @@ class ConvertKit_Log {
 		$this->log_file = trailingslashit( CONVERTKIT_PLUGIN_PATH ) . 'log.txt';
 
 		// Initialize WP_Filesystem.
-		require_once( ABSPATH . 'wp-admin/includes/file.php' );
+		require_once ABSPATH . 'wp-admin/includes/file.php';
 		WP_Filesystem();
 
 	}
@@ -74,7 +74,7 @@ class ConvertKit_Log {
 	public function add( $entry ) {
 
 		global $wp_filesystem;
-		
+
 		// Prefix the entry with a date and time.
 		$entry = '(' . gmdate( 'Y-m-d H:i:s' ) . ') ' . $entry . "\n";
 

@@ -20,7 +20,7 @@ class ConvertKit_Settings_Tools extends ConvertKit_Settings_Base {
 	public function __construct() {
 
 		// Initialize WP_Filesystem.
-		require_once( ABSPATH . 'wp-admin/includes/file.php' );
+		require_once ABSPATH . 'wp-admin/includes/file.php';
 		WP_Filesystem();
 
 		$this->settings_key = '_wp_convertkit_tools'; // Required for ConvertKit_Settings_Base, but we don't save settings on the Tools screen.

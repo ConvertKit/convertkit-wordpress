@@ -158,7 +158,7 @@ class ConvertKit_Block_Content extends ConvertKit_Block {
 			$this->get_name()
 		);
 
-		// Setup Settings class. 
+		// Setup Settings class.
 		$settings = new ConvertKit_Settings();
 
 		// Bail if the tag isn't specified.

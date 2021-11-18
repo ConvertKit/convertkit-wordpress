@@ -19,6 +19,34 @@ if ( ! class_exists( 'WP_List_Table' ) ) {
 class Multi_Value_Field_Table extends WP_List_Table {
 
 	/**
+	 * Holds the supported bulk actions.
+	 *
+	 * @var     array
+	 */
+	private $_bulk_actions     = array(); // phpcs:ignore
+
+	/**
+	 * Holds the table columns.
+	 *
+	 * @var     array
+	 */
+	private $_columns          = array(); // phpcs:ignore
+
+	/**
+	 * Holds the sortable table columns.
+	 *
+	 * @var     array
+	 */
+	private $_sortable_columns = array(); // phpcs:ignore
+
+	/**
+	 * Holds the table rows and their data.
+	 *
+	 * @var     array
+	 */
+	private $_data             = array(); // phpcs:ignore
+
+	/**
 	 * Constructor.
 	 *
 	 * @since 1.0.0

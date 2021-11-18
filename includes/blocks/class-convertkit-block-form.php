@@ -160,7 +160,7 @@ class ConvertKit_Block_Form extends ConvertKit_Block {
 			$this->get_name()
 		);
 
-		// Setup Settings class. 
+		// Setup Settings class.
 		$settings = new ConvertKit_Settings();
 
 		// Determine Form ID.
