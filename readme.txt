@@ -55,7 +55,6 @@ No. You must first have an account on ConvertKit.com, but you do not have to use
 * Added: Settings: ConvertKit: Logo and branding header
 * Added: Option to specify ConvertKit API Key and Secret as constants `CONVERTKIT_API_KEY` and `CONVERTKIT_API_SECRET` in wp-config.php
 * Added: Settings: ConvertKit: General: Different Default Forms can be specified for Pages and Posts
-* Added: Settings: ConvertKit: General: Option to specify Default Form for each public Custom Post Type
 * Added: Settings: ConvertKit: General: Enabling Debug option will also output data to browser console and inline HTML comments
 * Added: Settings: ConvertKit: Tools: Option to Download Log to text file
 * Added: Settings: ConvertKit: Tools: Option to Download System Info to text file

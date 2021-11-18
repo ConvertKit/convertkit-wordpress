@@ -73,16 +73,12 @@ class ConvertKit_Log {
 	 */
 	public function add( $entry ) {
 
-		global $wp_filesystem;
-
 		// Prefix the entry with a date and time.
 		$entry = '(' . gmdate( 'Y-m-d H:i:s' ) . ') ' . $entry . "\n";
 
 		// Append to log file.
-		$wp_filesystem->put_contents(
-			$this->log_file,
-			$entry
-		);
+		// We don't use $wp_filesystem, as it has no option to append.
+		file_put_contents( $this->log_file, $entry, FILE_APPEND ); // phpcs:ignore
 
 	}
 

@@ -325,10 +325,24 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 		if ( ! $this->forms ) {
 			$this->forms = new ConvertKit_Resource_Forms();
 			$this->forms->refresh();
+
+			// Also refresh Landing Pages and Tags. Whilst not displayed in the Plugin Settings, this ensures up to date
+			// lists are stored for when editing e.g. Pages.
+			$landing_pages = new ConvertKit_Resource_Landing_Pages();
+			$landing_pages->refresh();
+
+			$tags = new ConvertKit_Resource_Tags();
+			$tags->refresh();
 		}
 
 		// Bail if no Forms exist.
 		if ( ! $this->forms->exist() ) {
+			esc_html_e( 'No Forms exist in ConvertKit.', 'convertkit' );
+			echo '<br />' . sprintf(
+				/* translators: Link to sign in to ConvertKit */
+				esc_html__( 'To create a form, %s', 'convertkit' ),
+				'<a href="https://app.convertkit.com/" target="_blank">' . esc_html__( 'sign in to ConvertKit', 'convertkit' ) . '</a>'
+			);
 			return;
 		}
 
