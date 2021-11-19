@@ -107,7 +107,7 @@ class ConvertKit_API {
 		$this->log( 'API: get_subscription_forms()' );
 
 		// Send request.
-		$response = $this->get(
+		return $this->get(
 			'subscription_forms',
 			array(
 				'api_key' => $this->api_key,
@@ -826,6 +826,7 @@ class ConvertKit_API {
 
 		// If an error occured, return it now.
 		if ( is_wp_error( $result ) ) {
+			$this->log( 'API: Error: ' . $result->get_error_message() );
 			return $result;
 		}
 
@@ -836,8 +837,11 @@ class ConvertKit_API {
 
 		// If an error message or code exists in the response, return a WP_Error.
 		if ( isset( $response['error'] ) ) {
+			$this->log( 'API: Error: ' . $response['error'] . ': ' . $response['message'] );
 			return new WP_Error( 'convertkit_api_error', $response['error'] . ': ' . $response['message'] );
 		}
+
+		$this->log( 'API: Response: ' . print_r( $response, true ) );
 
 		return $response;
 

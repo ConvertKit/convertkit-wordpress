@@ -102,14 +102,14 @@ class ConvertKit_Log {
 
 		// Open log file.
 		$log = $wp_filesystem->get_contents_array( $this->log_file ); // phpcs:ignore
-
+		
 		// Bail if the log file is empty.
 		if ( ! is_array( $log ) || ! count( $log ) ) {
 			return '';
 		}
 
 		// Return a limited number of log lines for output.
-		return implode( "\n", array_slice( $log, 0, $number_of_lines ) );
+		return implode( "", array_slice( $log, 0, $number_of_lines ) );
 
 	}
 
