@@ -130,6 +130,7 @@ jobs:
       - name: Run Acceptance Tests
         working-directory: ${{ env.PLUGIN_DIR }}
         run: php vendor/bin/codecept run acceptance ActivateDeactivatePluginCest
+        continue-on-error: true
 
       - name: Read file contents
         id: read_file
