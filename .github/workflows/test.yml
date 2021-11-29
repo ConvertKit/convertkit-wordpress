@@ -131,7 +131,7 @@ jobs:
         run: sudo chmod g+w ${{ env.CONTENT_DIR }} -R
 
       - name: Set chown
-        run: sudo chown -R www-data:$USER ${{ env.CONTENT_DIR }}
+        run: sudo chown -R www-data:www-data ${{ env.CONTENT_DIR }}
 
       - name: Run WordPress Coding Standards Tests
         working-directory: ${{ env.PLUGIN_DIR }}
