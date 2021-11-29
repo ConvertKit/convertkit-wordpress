@@ -841,8 +841,6 @@ class ConvertKit_API {
 			return new WP_Error( 'convertkit_api_error', $response['error'] . ': ' . $response['message'] );
 		}
 
-		$this->log( 'API: Response: ' . print_r( $response, true ) );
-
 		return $response;
 
 	}
