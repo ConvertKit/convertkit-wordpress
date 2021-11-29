@@ -153,6 +153,11 @@ class ConvertKit_Block_Form extends ConvertKit_Block {
 	 */
 	public function render( $atts ) {
 
+		// Bail if the request is not for the frontend site.
+		if ( is_admin() ) {
+			return '';
+		}
+
 		// Parse shortcode attributes, defining fallback defaults if required.
 		$atts = shortcode_atts(
 			$this->get_default_values(),
