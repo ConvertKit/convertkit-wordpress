@@ -80,6 +80,8 @@ jobs:
         working-directory: ${{ env.ROOT_DIR }}
         run: wp-cli plugin install ${{ env.INSTALL_PLUGINS }} --activate
 
+      # WP_DEBUG = true is required so any WordPress / PHP errors are output and caught by tests
+      # FS_METHOD = direct is required for WP_Filesystem to operate without suppressed PHP fopen() errors that trip up tests
       - name: Enable WP_DEBUG
         working-directory: ${{ env.ROOT_DIR }}
         run: |
@@ -124,6 +126,9 @@ jobs:
         working-directory: ${{ env.PLUGIN_DIR }}
         run: composer dump-autoload
 
+      - name: Fix Folder Permissions
+        run: sudo chown -R $USER:$USER ${{ env.PLUGIN_DIR }}
+
       - name: Run WordPress Coding Standards Tests
         working-directory: ${{ env.PLUGIN_DIR }}
         run: php vendor/bin/phpcs ./ -v
@@ -134,7 +139,7 @@ jobs:
 
       - name: Run Acceptance Tests
         working-directory: ${{ env.PLUGIN_DIR }}
-        run: php vendor/bin/codecept run acceptance
+        run: php vendor/bin/codecept run acceptance PluginSettingsGeneralCest
         continue-on-error: true
 
       - name: Upload Test Results to Artifact
