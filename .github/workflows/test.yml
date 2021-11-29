@@ -16,6 +16,7 @@ jobs:
     # Use ${{ secrets.NAME }} to include any GitHub Secrets in ${{ env.NAME }}
     env:
       ROOT_DIR: /home/runner/work/convertkit-wordpress/convertkit-wordpress/wordpress
+      CONTENT_DIR: /home/runner/work/convertkit-wordpress/convertkit-wordpress/wordpress/wp-content
       PLUGIN_DIR: /home/runner/work/convertkit-wordpress/convertkit-wordpress/wordpress/wp-content/plugins/convertkit
       DB_NAME: test
       DB_USER: root
@@ -127,7 +128,7 @@ jobs:
         run: composer dump-autoload
 
       - name: Fix Folder Permissions
-        run: sudo chown -R $USER:$USER ${{ env.PLUGIN_DIR }}
+        run: sudo chown -R $USER:$USER ${{ env.CONTENT_DIR }}
 
       - name: Run WordPress Coding Standards Tests
         working-directory: ${{ env.PLUGIN_DIR }}
