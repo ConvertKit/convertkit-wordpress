@@ -96,17 +96,6 @@ class WP_ConvertKit {
 			return;
 		}
 
-		add_action(
-			'shutdown',
-			function() {
-				if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-					if ( ! is_null( error_get_last() ) ) {
-						var_dump( error_get_last() ); // phpcs:ignore
-					}
-				}
-			}
-		);
-
 		/**
 		 * Initialize integration classes for the WordPress Administration interface or a frontend Page Builder.
 		 *
