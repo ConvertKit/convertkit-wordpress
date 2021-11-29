@@ -50,9 +50,6 @@ jobs:
       - name: Extract WordPress
         run: tar xfz wordpress-${{ matrix.wp-versions }}.tar.gz
 
-      - name: List
-        run: ls
-
       # Checkout (copy) this repository's Plugin to this VM
       - name: Checkout Plugin
         uses: actions/checkout@v2
@@ -132,7 +129,7 @@ jobs:
       # The tests to run
       - name: Run Acceptance Tests
         working-directory: ${{ env.PLUGIN_DIR }}
-        run: php vendor/bin/codecept run acceptance ActivateDeactivatePluginCest -vvv
+        run: php vendor/bin/codecept run acceptance
 
       - name: Run Functional Tests
         working-directory: ${{ env.PLUGIN_DIR }}
