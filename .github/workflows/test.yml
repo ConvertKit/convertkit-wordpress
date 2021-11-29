@@ -82,7 +82,9 @@ jobs:
 
       - name: Enable WP_DEBUG
         working-directory: ${{ env.ROOT_DIR }}
-        run: wp-cli config set WP_DEBUG true --raw
+        run: |
+          wp-cli config set WP_DEBUG true --raw
+          wp-cli config set FS_METHOD 'direct' --raw
 
       - name: Copy nginx configuration file
         run: sudo cp ${{ env.PLUGIN_DIR }}/tests/nginx/php-${{ matrix.php-versions }}.conf /etc/nginx/conf.d/php-${{ matrix.php-versions }}.conf
