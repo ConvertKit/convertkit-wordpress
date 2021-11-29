@@ -262,7 +262,7 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 				sprintf(
 					/* translators: %1$s: Link to ConvertKit Account */
 					esc_html__( '%1$s Required for proper plugin function.', 'convertkit' ),
-					'<a href="https://app.convertkit.com/account_settings/advanced_settings" target="_blank">' . esc_html__( 'Get your ConvertKit API Key.', 'convertkit' ) . '</a>',
+					'<a href="https://app.convertkit.com/account_settings/advanced_settings" target="_blank">' . esc_html__( 'Get your ConvertKit API Key.', 'convertkit' ) . '</a>'
 				),
 				sprintf(
 					/* translators: Account, %1$s: wp-config.php, %2$s: <code> block for API Key definition */
