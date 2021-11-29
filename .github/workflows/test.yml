@@ -128,10 +128,10 @@ jobs:
         run: composer dump-autoload
 
       - name: Set chmod
-        run: sudo chmod g+w ${{ env.CONTENT_DIR }} -R
+        run: sudo chmod g+w ${{ env.PLUGIN_DIR }} -R
 
       - name: Set chown
-        run: sudo chown -R www-data:www-data ${{ env.CONTENT_DIR }}
+        run: sudo chown -R www-data:www-data ${{ env.PLUGIN_DIR }}
 
       - name: Run WordPress Coding Standards Tests
         working-directory: ${{ env.PLUGIN_DIR }}
@@ -151,9 +151,3 @@ jobs:
         with:
           name: test-results
           path: /home/runner/work/convertkit-wordpress/convertkit-wordpress/wordpress/wp-content/plugins/convertkit/tests/_output/
-
-      - name: Upload PHP config to Artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: php-conf
-          path: /etc/php/${{ matrix.php-versions }}/fpm/pool.d/www.conf
