@@ -30,7 +30,7 @@ class ConvertKit_Log {
 	public function __construct() {
 
 		// Define location of log file.
-		$this->log_file = trailingslashit( CONVERTKIT_PLUGIN_PATH ) . 'log.txt';
+		$this->log_file = WP_CONTENT_DIR . 'log.txt';
 
 		// Initialize WP_Filesystem.
 		require_once ABSPATH . 'wp-admin/includes/file.php';
