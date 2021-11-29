@@ -8,5 +8,5 @@ log.txt
 includes/log.txt
 vendor
 tests/_output
-tests/_support
 codeception.yml
+convertkit.zip

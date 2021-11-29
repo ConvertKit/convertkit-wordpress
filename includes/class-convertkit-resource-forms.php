@@ -38,7 +38,7 @@ class ConvertKit_Resource_Forms extends ConvertKit_Resource {
 	/**
 	 * Returns the HTML/JS markup for the given Form ID.
 	 *
-	 * Legacy Forms will return HTML
+	 * Legacy Forms will return HTML.
 	 * Current Forms will return a <script> embed string.
 	 *
 	 * @since   1.9.6
