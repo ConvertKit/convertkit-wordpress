@@ -127,7 +127,10 @@ jobs:
         working-directory: ${{ env.PLUGIN_DIR }}
         run: composer dump-autoload
 
-      - name: Fix Folder Permissions
+      - name: Set chmod
+        run: sudo chmod g+w ${{ env.CONTENT_DIR }} -R
+
+      - name: Set chown
         run: sudo chown -R www-data:$USER ${{ env.CONTENT_DIR }}
 
       - name: Run WordPress Coding Standards Tests
@@ -149,8 +152,8 @@ jobs:
           name: test-results
           path: /home/runner/work/convertkit-wordpress/convertkit-wordpress/wordpress/wp-content/plugins/convertkit/tests/_output/
 
-      - name: Upload nginx config to Artifact
+      - name: Upload PHP config to Artifact
         uses: actions/upload-artifact@v2
         with:
-          name: nginx-conf
-          path: /etc/nginx/nginx.conf
+          name: php-conf
+          path: /etc/php/${{ matrix.php-versions }}/fpm/pool.d/www.conf
