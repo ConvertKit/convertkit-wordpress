@@ -76,6 +76,10 @@ jobs:
         working-directory: ${{ env.ROOT_DIR }}
         run: wp-cli core install --url=127.0.0.1 --title=ConvertKit --admin_user=admin --admin_password=password --admin_email=wordpress@convertkit.local
 
+      - name: Install and Activate third party WordPress Plugins
+        working-directory: ${{ env.ROOT_DIR }}
+        run: wp-cli plugin install ${{ env.INSTALL_PLUGINS }} --activate
+
       - name: Enable WP_DEBUG
         working-directory: ${{ env.ROOT_DIR }}
         run: wp-cli config set WP_DEBUG true --raw
