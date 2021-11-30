@@ -3,6 +3,7 @@
 	<description>WordPress Coding Standards for Plugins</description>
 
 	<!-- Exclude some directories. -->
+	<exclude-pattern>/.scripts/*</exclude-pattern>
 	<exclude-pattern>/lib/*</exclude-pattern>
 	<exclude-pattern>/vendor/*</exclude-pattern>
 	<exclude-pattern>/tests/*</exclude-pattern>
