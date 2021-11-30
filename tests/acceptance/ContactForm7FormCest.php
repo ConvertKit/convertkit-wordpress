@@ -85,10 +85,8 @@ class ContactForm7FormCest
 		// Submit Form.
 		$I->click('Submit');
 
-		// Confirm the form submitted without errors.
-		$I->performOn( 'form.sent', function($I) {
-			$I->seeInSource('Thank you for your message. It has been sent.');
-		});
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
 	}
 
 	/**
