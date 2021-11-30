@@ -9,7 +9,7 @@ class Acceptance extends \Codeception\Module
 	/**
 	 * Helper method to assert that there are non PHP errors, warnings or notices output
 	 * 
-	 * @since 	1.0.0
+	 * @since 	1.9.6
 	 */
 	public function checkNoWarningsAndNoticesOnScreen($I)
 	{
@@ -21,7 +21,7 @@ class Acceptance extends \Codeception\Module
 	/**
 	 * Helper method to assert that the field's value contains the given value.
 	 * 
-	 * @since 	1.0.0
+	 * @since 	1.9.6
 	 */
 	public function seeFieldContains($I, $element, $value)
 	{
@@ -33,7 +33,7 @@ class Acceptance extends \Codeception\Module
 	 * might show for each Page/Post test performed due to there being no persistence
 	 * remembering that the user dismissed the dialog.
 	 * 
-	 * @since 	1.0.0
+	 * @since 	1.9.6
 	 */
 	public function maybeCloseGutenbergWelcomeModal($I)
 	{
@@ -48,7 +48,7 @@ class Acceptance extends \Codeception\Module
 	/**
 	 * Helper method to activate the Plugin.
 	 * 
-	 * @since 	1.0.0
+	 * @since 	1.9.6
 	 */
 	public function activateConvertKitPlugin($I)
 	{
@@ -71,7 +71,7 @@ class Acceptance extends \Codeception\Module
 	/**
 	 * Helper method to deactivate the Plugin.
 	 * 
-	 * @since 	1.0.0
+	 * @since 	1.9.6
 	 */
 	public function deactivateConvertKitPlugin($I)
 	{
@@ -94,7 +94,7 @@ class Acceptance extends \Codeception\Module
 	/**
 	 * Helper method to setup the Plugin's API Key and Secret.
 	 * 
-	 * @since 	1.0.0
+	 * @since 	1.9.6
 	 */
 	public function setupConvertKitPlugin($I)
 	{
@@ -122,7 +122,7 @@ class Acceptance extends \Codeception\Module
 	/**
 	 * Helper method to setup the Plugin's Default Form setting for Pages and Posts.
 	 * 
-	 * @since 	1.0.0
+	 * @since 	1.9.6
 	 */
 	public function setupConvertKitPluginDefaultForm($I)
 	{
@@ -153,7 +153,7 @@ class Acceptance extends \Codeception\Module
 	/**
 	 * Helper method to setup the Plugin's Default Form setting for WooCommerce Products.
 	 * 
-	 * @since 	1.0.0
+	 * @since 	1.9.6
 	 */
 	public function setupConvertKitPluginDefaultFormForWooCommerceProducts($I)
 	{
@@ -182,7 +182,7 @@ class Acceptance extends \Codeception\Module
 	/**
 	 * Helper method to load the Plugin's Settings > General screen.
 	 * 
-	 * @since 	1.0.0
+	 * @since 	1.9.6
 	 */
 	public function loadConvertKitSettingsGeneralScreen($I)
 	{
@@ -195,7 +195,7 @@ class Acceptance extends \Codeception\Module
 	/**
 	 * Helper method to load the Plugin's Settings > Tools screen.
 	 * 
-	 * @since 	1.0.0
+	 * @since 	1.9.6
 	 */
 	public function loadConvertKitSettingsToolsScreen($I)
 	{
