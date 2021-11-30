@@ -17,7 +17,7 @@
 					</tr><tr>
 						<td>&nbsp;</td>
 						<td><a href="#convertkit_admin_settings_register_sections"><code>convertkit_admin_settings_register_sections</code></a></td>
-						<td></td>
+						<td>Registers settings sections at Settings > ConvertKit.</td>
 					</tr><tr>
 						<td colspan="3">../includes/functions.php</td>
 					</tr><tr>
@@ -35,79 +35,71 @@
 						<td><a href="#convertkit_block_content_render"><code>convertkit_block_content_render</code></a></td>
 						<td>Filters the content in the ConvertKit Custom Content block/shortcode immediately before it is output.</td>
 					</tr><tr>
-						<td>&nbsp;</td>
-						<td><a href="#wp_convertkit_shortcode_custom_content"><code>wp_convertkit_shortcode_custom_content</code></a></td>
-						<td></td>
-					</tr><tr>
 						<td colspan="3">../includes/blocks/class-convertkit-block-form.php</td>
 					</tr><tr>
 						<td>&nbsp;</td>
 						<td><a href="#convertkit_block_form_render"><code>convertkit_block_form_render</code></a></td>
 						<td>Filter the block's content immediately before it is output.</td>
 					</tr><tr>
-						<td>&nbsp;</td>
-						<td><a href="#wp_convertkit_get_form_embed"><code>wp_convertkit_get_form_embed</code></a></td>
-						<td></td>
-					</tr><tr>
 						<td colspan="3">../includes/class-convertkit-system-info.php</td>
 					</tr><tr>
 						<td>&nbsp;</td>
 						<td><a href="#convertkit_sysinfo_after_site_info"><code>convertkit_sysinfo_after_site_info</code></a></td>
-						<td></td>
+						<td>Output System Information immediately after the Site Info section.</td>
 					</tr><tr>
 						<td>&nbsp;</td>
 						<td><a href="#convertkit_sysinfo_after_host_info"><code>convertkit_sysinfo_after_host_info</code></a></td>
-						<td></td>
+						<td>Output System Information immediately after the Hosting Provider section.</td>
 					</tr><tr>
 						<td>&nbsp;</td>
 						<td><a href="#convertkit_sysinfo_after_user_browser"><code>convertkit_sysinfo_after_user_browser</code></a></td>
-						<td></td>
+						<td>Output System Information immediately after the User Browser section.</td>
 					</tr><tr>
 						<td>&nbsp;</td>
 						<td><a href="#convertkit_sysinfo_after_wordpress_config"><code>convertkit_sysinfo_after_wordpress_config</code></a></td>
-						<td></td>
+						<td>Output System Information immediately after the WordPress Configuration section.</td>
 					</tr><tr>
 						<td>&nbsp;</td>
 						<td><a href="#convertkit_sysinfo_after_convertkit_config"><code>convertkit_sysinfo_after_convertkit_config</code></a></td>
-						<td></td>
+						<td>Output System Information immediately after the ConvertKit Configuration section.</td>
 					</tr><tr>
 						<td>&nbsp;</td>
 						<td><a href="#convertkit_sysinfo_after_wordpress_mu_plugins"><code>convertkit_sysinfo_after_wordpress_mu_plugins</code></a></td>
-						<td></td>
+						<td>Output System Information immediately after the Must-Use Plugins section.</td>
 					</tr><tr>
 						<td>&nbsp;</td>
 						<td><a href="#convertkit_sysinfo_after_wordpress_plugins"><code>convertkit_sysinfo_after_wordpress_plugins</code></a></td>
-						<td></td>
+						<td>Output System Information immediately after the WordPress Active Plugins section.</td>
 					</tr><tr>
 						<td>&nbsp;</td>
 						<td><a href="#convertkit_sysinfo_after_wordpress_plugins_inactive"><code>convertkit_sysinfo_after_wordpress_plugins_inactive</code></a></td>
-						<td></td>
+						<td>Output System Information immediately after the WordPress Inactive Plugins section.</td>
 					</tr><tr>
 						<td>&nbsp;</td>
 						<td><a href="#convertkit_sysinfo_after_wordpress_ms_plugins"><code>convertkit_sysinfo_after_wordpress_ms_plugins</code></a></td>
-						<td></td>
+						<td>Output System Information immediately after the Network Active Plugins section.</td>
 					</tr><tr>
 						<td>&nbsp;</td>
 						<td><a href="#convertkit_sysinfo_after_webserver_config"><code>convertkit_sysinfo_after_webserver_config</code></a></td>
-						<td></td>
+						<td>Output System Information immediately after the Webserver Configuration section.</td>
 					</tr><tr>
 						<td>&nbsp;</td>
 						<td><a href="#convertkit_sysinfo_after_php_config"><code>convertkit_sysinfo_after_php_config</code></a></td>
-						<td></td>
+						<td>Output System Information immediately after the PHP Configuration section.</td>
 					</tr><tr>
 						<td>&nbsp;</td>
 						<td><a href="#convertkit_sysinfo_after_php_ext"><code>convertkit_sysinfo_after_php_ext</code></a></td>
-						<td></td>
+						<td>Output System Information immediately after the PHP Extensions section.</td>
 					</tr><tr>
 						<td>&nbsp;</td>
 						<td><a href="#convertkit_sysinfo_after_session_config"><code>convertkit_sysinfo_after_session_config</code></a></td>
-						<td></td>
+						<td>Output System Information immediately after the Session Configuration section.</td>
 					</tr><tr>
 						<td colspan="3">../includes/class-convertkit-post.php</td>
 					</tr><tr>
 						<td>&nbsp;</td>
 						<td><a href="#convertkit_post_get_default_settings"><code>convertkit_post_get_default_settings</code></a></td>
-						<td></td>
+						<td>The default settings, used to populate the Post's Settings when a Post has no Settings.</td>
 					</tr><tr>
 						<td colspan="3">../includes/class-convertkit-term.php</td>
 					</tr><tr>
@@ -125,25 +117,21 @@
 					</tr><tr>
 						<td>&nbsp;</td>
 						<td><a href="#convertkit_user_get_default_settings"><code>convertkit_user_get_default_settings</code></a></td>
-						<td></td>
+						<td>The default settings, used to populate the User's Settings when a User has no Settings.</td>
 					</tr><tr>
 						<td colspan="3">../includes/integrations/contactform7/class-convertkit-contactform7-settings.php</td>
 					</tr><tr>
 						<td>&nbsp;</td>
 						<td><a href="#convertkit_contactform7_settings_get_defaults"><code>convertkit_contactform7_settings_get_defaults</code></a></td>
-						<td></td>
+						<td>The default settings, used when Contact Form 7's Settings haven't been saved e.g. on a new installation or when the Contact Form 7 Plugin has just been activated for the first time.</td>
 					</tr><tr>
 						<td colspan="3">../includes/integrations/wishlist/class-convertkit-wishlist-settings.php</td>
 					</tr><tr>
 						<td>&nbsp;</td>
 						<td><a href="#convertkit_wishlist_settings_get_defaults"><code>convertkit_wishlist_settings_get_defaults</code></a></td>
-						<td></td>
+						<td>The default settings, used when WishList's Settings haven't been saved e.g. on a new installation or when the WishList Plugin has just been activated for the first time.</td>
 					</tr><tr>
 						<td colspan="3">../includes/class-convertkit-output.php</td>
-					</tr><tr>
-						<td>&nbsp;</td>
-						<td><a href="#the_content"><code>the_content</code></a></td>
-						<td></td>
 					</tr><tr>
 						<td>&nbsp;</td>
 						<td><a href="#convertkit_output_append_form_to_content_form_id"><code>convertkit_output_append_form_to_content_form_id</code></a></td>
@@ -164,12 +152,6 @@
 						<td>&nbsp;</td>
 						<td><a href="#convertkit_is_admin_or_frontend_editor"><code>convertkit_is_admin_or_frontend_editor</code></a></td>
 						<td>Filters whether the current request is a WordPress Administration / Frontend Editor request or not. Page Builders can set this to true to allow Page Generator Pro to load its functionality.</td>
-					</tr><tr>
-						<td colspan="3">../includes/widgets/class-ck-widget-form.php</td>
-					</tr><tr>
-						<td>&nbsp;</td>
-						<td><a href="#widget_title"><code>widget_title</code></a></td>
-						<td></td>
 					</tr>
 					</tbody>
 				</table><h3 id="convertkit_admin_gutenberg_add_block_categories">
@@ -205,8 +187,9 @@ add_filter( 'convertkit_admin_gutenberg_add_block_categories', function( $catego
 </pre>
 <h3 id="convertkit_admin_settings_register_sections">
 						convertkit_admin_settings_register_sections
-						<code>admin/class-convertkit-admin-settings.php::287</code>
-					</h3><h4>Parameters</h4>
+						<code>admin/class-convertkit-admin-settings.php::289</code>
+					</h3><h4>Overview</h4>
+						<p>Registers settings sections at Settings > ConvertKit.</p><h4>Parameters</h4>
 					<table>
 						<thead>
 							<tr>
@@ -217,8 +200,8 @@ add_filter( 'convertkit_admin_gutenberg_add_block_categories', function( $catego
 						</thead>
 						<tbody><tr>
 							<td>$sections</td>
-							<td>Unknown</td>
-							<td>N/A</td>
+							<td>array</td>
+							<td>Array of settings classes that handle individual tabs e.g. General, Tools etc.</td>
 						</tr>
 						</tbody>
 					</table><h4>Usage</h4>
@@ -326,36 +309,6 @@ add_filter( 'convertkit_block_content_render', function( $content, $atts, $subsc
 	return $content;
 }, 10, 5 );
 </pre>
-<h3 id="wp_convertkit_shortcode_custom_content">
-						wp_convertkit_shortcode_custom_content
-						<code>includes/blocks/class-convertkit-block-content.php::234</code>
-					</h3><h4>Parameters</h4>
-					<table>
-						<thead>
-							<tr>
-								<th>Parameter</th>
-								<th>Type</th>
-								<th>Description</th>
-							</tr>
-						</thead>
-						<tbody><tr>
-							<td>$content</td>
-							<td>Unknown</td>
-							<td>N/A</td>
-						</tr><tr>
-							<td>$atts</td>
-							<td>Unknown</td>
-							<td>N/A</td>
-						</tr>
-						</tbody>
-					</table><h4>Usage</h4>
-<pre>
-add_filter( 'wp_convertkit_shortcode_custom_content', function( $content, $atts ) {
-	// ... your code here
-	// Return value
-	return $content;
-}, 10, 2 );
-</pre>
 <h3 id="convertkit_block_form_render">
 						convertkit_block_form_render
 						<code>includes/blocks/class-convertkit-block-form.php::209</code>
@@ -387,40 +340,11 @@ add_filter( 'convertkit_block_form_render', function( $form, $atts ) {
 	return $form;
 }, 10, 2 );
 </pre>
-<h3 id="wp_convertkit_get_form_embed">
-						wp_convertkit_get_form_embed
-						<code>includes/blocks/class-convertkit-block-form.php::212</code>
-					</h3><h4>Parameters</h4>
-					<table>
-						<thead>
-							<tr>
-								<th>Parameter</th>
-								<th>Type</th>
-								<th>Description</th>
-							</tr>
-						</thead>
-						<tbody><tr>
-							<td>$form</td>
-							<td>Unknown</td>
-							<td>N/A</td>
-						</tr><tr>
-							<td>$atts</td>
-							<td>Unknown</td>
-							<td>N/A</td>
-						</tr>
-						</tbody>
-					</table><h4>Usage</h4>
-<pre>
-add_filter( 'wp_convertkit_get_form_embed', function( $form, $atts ) {
-	// ... your code here
-	// Return value
-	return $form;
-}, 10, 2 );
-</pre>
 <h3 id="convertkit_sysinfo_after_site_info">
 						convertkit_sysinfo_after_site_info
-						<code>includes/class-convertkit-system-info.php::54</code>
-					</h3><h4>Parameters</h4>
+						<code>includes/class-convertkit-system-info.php::61</code>
+					</h3><h4>Overview</h4>
+						<p>Output System Information immediately after the Site Info section.</p><h4>Parameters</h4>
 					<table>
 						<thead>
 							<tr>
@@ -431,8 +355,8 @@ add_filter( 'wp_convertkit_get_form_embed', function( $form, $atts ) {
 						</thead>
 						<tbody><tr>
 							<td>$return</td>
-							<td>Unknown</td>
-							<td>N/A</td>
+							<td>string</td>
+							<td>System Info.</td>
 						</tr>
 						</tbody>
 					</table><h4>Usage</h4>
@@ -445,8 +369,9 @@ add_filter( 'convertkit_sysinfo_after_site_info', function( $return ) {
 </pre>
 <h3 id="convertkit_sysinfo_after_host_info">
 						convertkit_sysinfo_after_host_info
-						<code>includes/class-convertkit-system-info.php::61</code>
-					</h3><h4>Parameters</h4>
+						<code>includes/class-convertkit-system-info.php::75</code>
+					</h3><h4>Overview</h4>
+						<p>Output System Information immediately after the Hosting Provider section.</p><h4>Parameters</h4>
 					<table>
 						<thead>
 							<tr>
@@ -457,8 +382,8 @@ add_filter( 'convertkit_sysinfo_after_site_info', function( $return ) {
 						</thead>
 						<tbody><tr>
 							<td>$return</td>
-							<td>Unknown</td>
-							<td>N/A</td>
+							<td>string</td>
+							<td>System Info.</td>
 						</tr>
 						</tbody>
 					</table><h4>Usage</h4>
@@ -471,8 +396,9 @@ add_filter( 'convertkit_sysinfo_after_host_info', function( $return ) {
 </pre>
 <h3 id="convertkit_sysinfo_after_user_browser">
 						convertkit_sysinfo_after_user_browser
-						<code>includes/class-convertkit-system-info.php::68</code>
-					</h3><h4>Parameters</h4>
+						<code>includes/class-convertkit-system-info.php::89</code>
+					</h3><h4>Overview</h4>
+						<p>Output System Information immediately after the User Browser section.</p><h4>Parameters</h4>
 					<table>
 						<thead>
 							<tr>
@@ -483,8 +409,8 @@ add_filter( 'convertkit_sysinfo_after_host_info', function( $return ) {
 						</thead>
 						<tbody><tr>
 							<td>$return</td>
-							<td>Unknown</td>
-							<td>N/A</td>
+							<td>string</td>
+							<td>System Info.</td>
 						</tr>
 						</tbody>
 					</table><h4>Usage</h4>
@@ -497,8 +423,9 @@ add_filter( 'convertkit_sysinfo_after_user_browser', function( $return ) {
 </pre>
 <h3 id="convertkit_sysinfo_after_wordpress_config">
 						convertkit_sysinfo_after_wordpress_config
-						<code>includes/class-convertkit-system-info.php::118</code>
-					</h3><h4>Parameters</h4>
+						<code>includes/class-convertkit-system-info.php::146</code>
+					</h3><h4>Overview</h4>
+						<p>Output System Information immediately after the WordPress Configuration section.</p><h4>Parameters</h4>
 					<table>
 						<thead>
 							<tr>
@@ -509,8 +436,8 @@ add_filter( 'convertkit_sysinfo_after_user_browser', function( $return ) {
 						</thead>
 						<tbody><tr>
 							<td>$return</td>
-							<td>Unknown</td>
-							<td>N/A</td>
+							<td>string</td>
+							<td>System Info.</td>
 						</tr>
 						</tbody>
 					</table><h4>Usage</h4>
@@ -523,8 +450,9 @@ add_filter( 'convertkit_sysinfo_after_wordpress_config', function( $return ) {
 </pre>
 <h3 id="convertkit_sysinfo_after_convertkit_config">
 						convertkit_sysinfo_after_convertkit_config
-						<code>includes/class-convertkit-system-info.php::124</code>
-					</h3><h4>Parameters</h4>
+						<code>includes/class-convertkit-system-info.php::159</code>
+					</h3><h4>Overview</h4>
+						<p>Output System Information immediately after the ConvertKit Configuration section.</p><h4>Parameters</h4>
 					<table>
 						<thead>
 							<tr>
@@ -535,8 +463,8 @@ add_filter( 'convertkit_sysinfo_after_wordpress_config', function( $return ) {
 						</thead>
 						<tbody><tr>
 							<td>$return</td>
-							<td>Unknown</td>
-							<td>N/A</td>
+							<td>string</td>
+							<td>System Info.</td>
 						</tr>
 						</tbody>
 					</table><h4>Usage</h4>
@@ -549,8 +477,9 @@ add_filter( 'convertkit_sysinfo_after_convertkit_config', function( $return ) {
 </pre>
 <h3 id="convertkit_sysinfo_after_wordpress_mu_plugins">
 						convertkit_sysinfo_after_wordpress_mu_plugins
-						<code>includes/class-convertkit-system-info.php::139</code>
-					</h3><h4>Parameters</h4>
+						<code>includes/class-convertkit-system-info.php::181</code>
+					</h3><h4>Overview</h4>
+						<p>Output System Information immediately after the Must-Use Plugins section.</p><h4>Parameters</h4>
 					<table>
 						<thead>
 							<tr>
@@ -561,8 +490,8 @@ add_filter( 'convertkit_sysinfo_after_convertkit_config', function( $return ) {
 						</thead>
 						<tbody><tr>
 							<td>$return</td>
-							<td>Unknown</td>
-							<td>N/A</td>
+							<td>string</td>
+							<td>System Info.</td>
 						</tr>
 						</tbody>
 					</table><h4>Usage</h4>
@@ -575,8 +504,9 @@ add_filter( 'convertkit_sysinfo_after_wordpress_mu_plugins', function( $return )
 </pre>
 <h3 id="convertkit_sysinfo_after_wordpress_plugins">
 						convertkit_sysinfo_after_wordpress_plugins
-						<code>includes/class-convertkit-system-info.php::157</code>
-					</h3><h4>Parameters</h4>
+						<code>includes/class-convertkit-system-info.php::206</code>
+					</h3><h4>Overview</h4>
+						<p>Output System Information immediately after the WordPress Active Plugins section.</p><h4>Parameters</h4>
 					<table>
 						<thead>
 							<tr>
@@ -587,8 +517,8 @@ add_filter( 'convertkit_sysinfo_after_wordpress_mu_plugins', function( $return )
 						</thead>
 						<tbody><tr>
 							<td>$return</td>
-							<td>Unknown</td>
-							<td>N/A</td>
+							<td>string</td>
+							<td>System Info.</td>
 						</tr>
 						</tbody>
 					</table><h4>Usage</h4>
@@ -601,8 +531,9 @@ add_filter( 'convertkit_sysinfo_after_wordpress_plugins', function( $return ) {
 </pre>
 <h3 id="convertkit_sysinfo_after_wordpress_plugins_inactive">
 						convertkit_sysinfo_after_wordpress_plugins_inactive
-						<code>includes/class-convertkit-system-info.php::171</code>
-					</h3><h4>Parameters</h4>
+						<code>includes/class-convertkit-system-info.php::227</code>
+					</h3><h4>Overview</h4>
+						<p>Output System Information immediately after the WordPress Inactive Plugins section.</p><h4>Parameters</h4>
 					<table>
 						<thead>
 							<tr>
@@ -613,8 +544,8 @@ add_filter( 'convertkit_sysinfo_after_wordpress_plugins', function( $return ) {
 						</thead>
 						<tbody><tr>
 							<td>$return</td>
-							<td>Unknown</td>
-							<td>N/A</td>
+							<td>string</td>
+							<td>System Info.</td>
 						</tr>
 						</tbody>
 					</table><h4>Usage</h4>
@@ -627,8 +558,9 @@ add_filter( 'convertkit_sysinfo_after_wordpress_plugins_inactive', function( $re
 </pre>
 <h3 id="convertkit_sysinfo_after_wordpress_ms_plugins">
 						convertkit_sysinfo_after_wordpress_ms_plugins
-						<code>includes/class-convertkit-system-info.php::192</code>
-					</h3><h4>Parameters</h4>
+						<code>includes/class-convertkit-system-info.php::255</code>
+					</h3><h4>Overview</h4>
+						<p>Output System Information immediately after the Network Active Plugins section.</p><h4>Parameters</h4>
 					<table>
 						<thead>
 							<tr>
@@ -639,8 +571,8 @@ add_filter( 'convertkit_sysinfo_after_wordpress_plugins_inactive', function( $re
 						</thead>
 						<tbody><tr>
 							<td>$return</td>
-							<td>Unknown</td>
-							<td>N/A</td>
+							<td>string</td>
+							<td>System Info.</td>
 						</tr>
 						</tbody>
 					</table><h4>Usage</h4>
@@ -653,8 +585,9 @@ add_filter( 'convertkit_sysinfo_after_wordpress_ms_plugins', function( $return )
 </pre>
 <h3 id="convertkit_sysinfo_after_webserver_config">
 						convertkit_sysinfo_after_webserver_config
-						<code>includes/class-convertkit-system-info.php::201</code>
-					</h3><h4>Parameters</h4>
+						<code>includes/class-convertkit-system-info.php::271</code>
+					</h3><h4>Overview</h4>
+						<p>Output System Information immediately after the Webserver Configuration section.</p><h4>Parameters</h4>
 					<table>
 						<thead>
 							<tr>
@@ -665,8 +598,8 @@ add_filter( 'convertkit_sysinfo_after_wordpress_ms_plugins', function( $return )
 						</thead>
 						<tbody><tr>
 							<td>$return</td>
-							<td>Unknown</td>
-							<td>N/A</td>
+							<td>string</td>
+							<td>System Info.</td>
 						</tr>
 						</tbody>
 					</table><h4>Usage</h4>
@@ -679,8 +612,9 @@ add_filter( 'convertkit_sysinfo_after_webserver_config', function( $return ) {
 </pre>
 <h3 id="convertkit_sysinfo_after_php_config">
 						convertkit_sysinfo_after_php_config
-						<code>includes/class-convertkit-system-info.php::214</code>
-					</h3><h4>Parameters</h4>
+						<code>includes/class-convertkit-system-info.php::291</code>
+					</h3><h4>Overview</h4>
+						<p>Output System Information immediately after the PHP Configuration section.</p><h4>Parameters</h4>
 					<table>
 						<thead>
 							<tr>
@@ -691,8 +625,8 @@ add_filter( 'convertkit_sysinfo_after_webserver_config', function( $return ) {
 						</thead>
 						<tbody><tr>
 							<td>$return</td>
-							<td>Unknown</td>
-							<td>N/A</td>
+							<td>string</td>
+							<td>System Info.</td>
 						</tr>
 						</tbody>
 					</table><h4>Usage</h4>
@@ -705,8 +639,9 @@ add_filter( 'convertkit_sysinfo_after_php_config', function( $return ) {
 </pre>
 <h3 id="convertkit_sysinfo_after_php_ext">
 						convertkit_sysinfo_after_php_ext
-						<code>includes/class-convertkit-system-info.php::230</code>
-					</h3><h4>Parameters</h4>
+						<code>includes/class-convertkit-system-info.php::314</code>
+					</h3><h4>Overview</h4>
+						<p>Output System Information immediately after the PHP Extensions section.</p><h4>Parameters</h4>
 					<table>
 						<thead>
 							<tr>
@@ -717,8 +652,8 @@ add_filter( 'convertkit_sysinfo_after_php_config', function( $return ) {
 						</thead>
 						<tbody><tr>
 							<td>$return</td>
-							<td>Unknown</td>
-							<td>N/A</td>
+							<td>string</td>
+							<td>System Info.</td>
 						</tr>
 						</tbody>
 					</table><h4>Usage</h4>
@@ -731,8 +666,9 @@ add_filter( 'convertkit_sysinfo_after_php_ext', function( $return ) {
 </pre>
 <h3 id="convertkit_sysinfo_after_session_config">
 						convertkit_sysinfo_after_session_config
-						<code>includes/class-convertkit-system-info.php::244</code>
-					</h3><h4>Parameters</h4>
+						<code>includes/class-convertkit-system-info.php::335</code>
+					</h3><h4>Overview</h4>
+						<p>Output System Information immediately after the Session Configuration section.</p><h4>Parameters</h4>
 					<table>
 						<thead>
 							<tr>
@@ -743,8 +679,8 @@ add_filter( 'convertkit_sysinfo_after_php_ext', function( $return ) {
 						</thead>
 						<tbody><tr>
 							<td>$return</td>
-							<td>Unknown</td>
-							<td>N/A</td>
+							<td>string</td>
+							<td>System Info.</td>
 						</tr>
 						</tbody>
 					</table><h4>Usage</h4>
@@ -757,8 +693,9 @@ add_filter( 'convertkit_sysinfo_after_session_config', function( $return ) {
 </pre>
 <h3 id="convertkit_post_get_default_settings">
 						convertkit_post_get_default_settings
-						<code>includes/class-convertkit-post.php::215</code>
-					</h3><h4>Parameters</h4>
+						<code>includes/class-convertkit-post.php::222</code>
+					</h3><h4>Overview</h4>
+						<p>The default settings, used to populate the Post's Settings when a Post has no Settings.</p><h4>Parameters</h4>
 					<table>
 						<thead>
 							<tr>
@@ -769,8 +706,8 @@ add_filter( 'convertkit_sysinfo_after_session_config', function( $return ) {
 						</thead>
 						<tbody><tr>
 							<td>$defaults</td>
-							<td>Unknown</td>
-							<td>N/A</td>
+							<td>array</td>
+							<td>Default Settings.</td>
 						</tr>
 						</tbody>
 					</table><h4>Usage</h4>
@@ -837,8 +774,9 @@ add_filter( 'convertkit_api_get_timeout', function( $timeout ) {
 </pre>
 <h3 id="convertkit_user_get_default_settings">
 						convertkit_user_get_default_settings
-						<code>includes/class-convertkit-user.php::100</code>
-					</h3><h4>Parameters</h4>
+						<code>includes/class-convertkit-user.php::107</code>
+					</h3><h4>Overview</h4>
+						<p>The default settings, used to populate the User's Settings when a User has no Settings.</p><h4>Parameters</h4>
 					<table>
 						<thead>
 							<tr>
@@ -849,8 +787,8 @@ add_filter( 'convertkit_api_get_timeout', function( $timeout ) {
 						</thead>
 						<tbody><tr>
 							<td>$defaults</td>
-							<td>Unknown</td>
-							<td>N/A</td>
+							<td>array</td>
+							<td>Default Settings.</td>
 						</tr>
 						</tbody>
 					</table><h4>Usage</h4>
@@ -863,8 +801,9 @@ add_filter( 'convertkit_user_get_default_settings', function( $defaults ) {
 </pre>
 <h3 id="convertkit_contactform7_settings_get_defaults">
 						convertkit_contactform7_settings_get_defaults
-						<code>includes/integrations/contactform7/class-convertkit-contactform7-settings.php::119</code>
-					</h3><h4>Parameters</h4>
+						<code>includes/integrations/contactform7/class-convertkit-contactform7-settings.php::128</code>
+					</h3><h4>Overview</h4>
+						<p>The default settings, used when Contact Form 7's Settings haven't been saved e.g. on a new installation or when the Contact Form 7 Plugin has just been activated for the first time.</p><h4>Parameters</h4>
 					<table>
 						<thead>
 							<tr>
@@ -875,8 +814,8 @@ add_filter( 'convertkit_user_get_default_settings', function( $defaults ) {
 						</thead>
 						<tbody><tr>
 							<td>$defaults</td>
-							<td>Unknown</td>
-							<td>N/A</td>
+							<td>array</td>
+							<td>Default Settings.</td>
 						</tr>
 						</tbody>
 					</table><h4>Usage</h4>
@@ -889,8 +828,9 @@ add_filter( 'convertkit_contactform7_settings_get_defaults', function( $defaults
 </pre>
 <h3 id="convertkit_wishlist_settings_get_defaults">
 						convertkit_wishlist_settings_get_defaults
-						<code>includes/integrations/wishlist/class-convertkit-wishlist-settings.php::143</code>
-					</h3><h4>Parameters</h4>
+						<code>includes/integrations/wishlist/class-convertkit-wishlist-settings.php::152</code>
+					</h3><h4>Overview</h4>
+						<p>The default settings, used when WishList's Settings haven't been saved e.g. on a new installation or when the WishList Plugin has just been activated for the first time.</p><h4>Parameters</h4>
 					<table>
 						<thead>
 							<tr>
@@ -901,8 +841,8 @@ add_filter( 'convertkit_contactform7_settings_get_defaults', function( $defaults
 						</thead>
 						<tbody><tr>
 							<td>$defaults</td>
-							<td>Unknown</td>
-							<td>N/A</td>
+							<td>array</td>
+							<td>Default Settings.</td>
 						</tr>
 						</tbody>
 					</table><h4>Usage</h4>
@@ -912,28 +852,6 @@ add_filter( 'convertkit_wishlist_settings_get_defaults', function( $defaults ) {
 	// Return value
 	return $defaults;
 }, 10, 1 );
-</pre>
-<h3 id="the_content">
-						the_content
-						<code>includes/class-convertkit-output.php::77</code>
-					</h3><h4>Parameters</h4>
-					<table>
-						<thead>
-							<tr>
-								<th>Parameter</th>
-								<th>Type</th>
-								<th>Description</th>
-							</tr>
-						</thead>
-						<tbody>
-						</tbody>
-					</table><h4>Usage</h4>
-<pre>
-add_filter( 'the_content', function(  ) {
-	// ... your code here
-	// Return value
-	return ;
-}, 10, 0 );
 </pre>
 <h3 id="convertkit_output_append_form_to_content_form_id">
 						convertkit_output_append_form_to_content_form_id
@@ -1063,32 +981,6 @@ add_filter( 'convertkit_is_admin_or_frontend_editor', function( $is_admin_or_fro
 	return $is_admin_or_frontend_editor;
 }, 10, 2 );
 </pre>
-<h3 id="widget_title">
-						widget_title
-						<code>includes/widgets/class-ck-widget-form.php::89</code>
-					</h3><h4>Parameters</h4>
-					<table>
-						<thead>
-							<tr>
-								<th>Parameter</th>
-								<th>Type</th>
-								<th>Description</th>
-							</tr>
-						</thead>
-						<tbody><tr>
-							<td>empty( $instance['title']</td>
-							<td>Unknown</td>
-							<td>N/A</td>
-						</tr>
-						</tbody>
-					</table><h4>Usage</h4>
-<pre>
-add_filter( 'widget_title', function( empty( $instance['title'] ) {
-	// ... your code here
-	// Return value
-	return empty( $instance['title'];
-}, 10, 1 );
-</pre>
 <h1>Actions</h1><table>
 				<thead>
 					<tr>
@@ -1149,7 +1041,7 @@ add_filter( 'widget_title', function( empty( $instance['title'] ) {
 					</tbody>
 				</table><h3 id="convertkit_settings_base_render_before">
 						convertkit_settings_base_render_before
-						<code>admin/section/class-convertkit-settings-base.php::105</code>
+						<code>admin/section/class-convertkit-settings-base.php::110</code>
 					</h3><h4>Parameters</h4>
 					<table>
 						<thead>
@@ -1169,7 +1061,7 @@ do_action( 'convertkit_settings_base_render_before', function(  ) {
 </pre>
 <h3 id="convertkit_settings_base_render_after">
 						convertkit_settings_base_render_after
-						<code>admin/section/class-convertkit-settings-base.php::113</code>
+						<code>admin/section/class-convertkit-settings-base.php::123</code>
 					</h3><h4>Parameters</h4>
 					<table>
 						<thead>

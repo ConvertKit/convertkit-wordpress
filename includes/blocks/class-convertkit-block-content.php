@@ -231,7 +231,15 @@ class ConvertKit_Block_Content extends ConvertKit_Block {
 			 */
 			$content = apply_filters( 'convertkit_block_content_render', $content, $atts, $subscriber_id, $tags, $tag );
 
-			// Backward compat. filter for versions prior to 1.9.6.
+			/**
+			 * Backward compat. filter for < 1.9.6. Filters the content in the ConvertKit Custom Content block/shortcode
+			 * immediately before it is output.
+			 *
+			 * @since   1.0.0
+			 *
+			 * @param   string  $content        Content
+			 * @param   array   $atts           Block / Shortcode Attributes
+			 */
 			$content = apply_filters( 'wp_convertkit_shortcode_custom_content', $content, $atts );
 
 			return $content;

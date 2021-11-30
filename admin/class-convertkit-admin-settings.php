@@ -284,6 +284,8 @@ class ConvertKit_Admin_Settings {
 		 * Registers settings sections at Settings > ConvertKit.
 		 *
 		 * @since   1.9.6
+		 *
+		 * @param   array   $sections   Array of settings classes that handle individual tabs e.g. General, Tools etc.
 		 */
 		$sections = apply_filters( 'convertkit_admin_settings_register_sections', $sections );
 

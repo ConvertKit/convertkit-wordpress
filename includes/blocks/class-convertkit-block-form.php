@@ -209,7 +209,14 @@ class ConvertKit_Block_Form extends ConvertKit_Block {
 		 */
 		$form = apply_filters( 'convertkit_block_form_render', $form, $atts );
 
-		// Backward compat. filter for versions prior to 1.9.6.
+		/**
+		 * Backward compat. filter for < 1.9.6. Filter the block's content immediately before it is output.
+		 *
+		 * @since   1.0.0
+		 *
+		 * @param   string  $form   ConvertKit Form HTML.
+		 * @param   array   $atts   Block Attributes.
+		 */
 		$form = apply_filters( 'wp_convertkit_get_form_embed', $form, $atts );
 
 		return $form;

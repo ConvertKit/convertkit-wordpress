@@ -117,6 +117,15 @@ class ConvertKit_ContactForm7_Settings {
 
 		$defaults = array();
 
+		/**
+		 * The default settings, used when Contact Form 7's Settings haven't been saved
+		 * e.g. on a new installation or when the Contact Form 7 Plugin has just been activated
+		 * for the first time.
+		 *
+		 * @since   1.9.6
+		 *
+		 * @param   array   $defaults   Default Settings.
+		 */
 		$defaults = apply_filters( 'convertkit_contactform7_settings_get_defaults', $defaults );
 
 		return $defaults;

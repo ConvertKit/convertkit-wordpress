@@ -52,6 +52,13 @@ class ConvertKit_System_Info {
 		$return .= 'Home URL:                 ' . home_url() . "\n";
 		$return .= 'Multisite:                ' . ( is_multisite() ? 'Yes' : 'No' ) . "\n";
 
+		/**
+		 * Output System Information immediately after the Site Info section.
+		 *
+		 * @since   1.9.6
+		 *
+		 * @param   string  $return     System Info.
+		 */
 		$return = apply_filters( 'convertkit_sysinfo_after_site_info', $return );
 
 		// Can we determine the site's host?
@@ -59,6 +66,13 @@ class ConvertKit_System_Info {
 			$return .= "\n" . '-- Hosting Provider' . "\n\n";
 			$return .= 'Host:                     ' . $host . "\n";
 
+			/**
+			 * Output System Information immediately after the Hosting Provider section.
+			 *
+			 * @since   1.9.6
+			 *
+			 * @param   string  $return     System Info.
+			 */
 			$return = apply_filters( 'convertkit_sysinfo_after_host_info', $return );
 		}
 
@@ -66,6 +80,13 @@ class ConvertKit_System_Info {
 		$return .= "\n" . '-- User Browser' . "\n\n";
 		$return .= $browser;
 
+		/**
+		 * Output System Information immediately after the User Browser section.
+		 *
+		 * @since   1.9.6
+		 *
+		 * @param   string  $return     System Info.
+		 */
 		$return = apply_filters( 'convertkit_sysinfo_after_user_browser', $return );
 
 		$locale = get_locale();
@@ -116,12 +137,26 @@ class ConvertKit_System_Info {
 		$return .= 'Memory Limit:             ' . WP_MEMORY_LIMIT . "\n";
 		$return .= 'Registered Post Stati:    ' . implode( ', ', get_post_stati() ) . "\n";
 
+		/**
+		 * Output System Information immediately after the WordPress Configuration section.
+		 *
+		 * @since   1.9.6
+		 *
+		 * @param   string  $return     System Info.
+		 */
 		$return = apply_filters( 'convertkit_sysinfo_after_wordpress_config', $return );
 
 		// ConvertKit configuration.
 		$return .= "\n" . '-- ConvertKit Configuration' . "\n\n";
 		$return .= 'Version:                  ' . CONVERTKIT_PLUGIN_VERSION . "\n";
 
+		/**
+		 * Output System Information immediately after the ConvertKit Configuration section.
+		 *
+		 * @since   1.9.6
+		 *
+		 * @param   string  $return     System Info.
+		 */
 		$return = apply_filters( 'convertkit_sysinfo_after_convertkit_config', $return );
 
 		// Get plugins that have an update.
@@ -137,6 +172,13 @@ class ConvertKit_System_Info {
 				$return .= $plugin_data['Name'] . ': ' . $plugin_data['Version'] . "\n";
 			}
 
+			/**
+			 * Output System Information immediately after the Must-Use Plugins section.
+			 *
+			 * @since   1.9.6
+			 *
+			 * @param   string  $return     System Info.
+			 */
 			$return = apply_filters( 'convertkit_sysinfo_after_wordpress_mu_plugins', $return );
 		}
 
@@ -155,6 +197,13 @@ class ConvertKit_System_Info {
 			$return .= $plugin['Name'] . ': ' . $plugin['Version'] . $update . "\n";
 		}
 
+		/**
+		 * Output System Information immediately after the WordPress Active Plugins section.
+		 *
+		 * @since   1.9.6
+		 *
+		 * @param   string  $return     System Info.
+		 */
 		$return = apply_filters( 'convertkit_sysinfo_after_wordpress_plugins', $return );
 
 		// WordPress inactive plugins.
@@ -169,6 +218,13 @@ class ConvertKit_System_Info {
 			$return .= $plugin['Name'] . ': ' . $plugin['Version'] . $update . "\n";
 		}
 
+		/**
+		 * Output System Information immediately after the WordPress Inactive Plugins section.
+		 *
+		 * @since   1.9.6
+		 *
+		 * @param   string  $return     System Info.
+		 */
 		$return = apply_filters( 'convertkit_sysinfo_after_wordpress_plugins_inactive', $return );
 
 		if ( is_multisite() ) {
@@ -190,6 +246,13 @@ class ConvertKit_System_Info {
 				$return .= $plugin['Name'] . ': ' . $plugin['Version'] . $update . "\n";
 			}
 
+			/**
+			 * Output System Information immediately after the Network Active Plugins section.
+			 *
+			 * @since   1.9.6
+			 *
+			 * @param   string  $return     System Info.
+			 */
 			$return = apply_filters( 'convertkit_sysinfo_after_wordpress_ms_plugins', $return );
 		}
 
@@ -199,6 +262,13 @@ class ConvertKit_System_Info {
 		$return .= 'MySQL Version:            ' . $wpdb->db_version() . "\n";
 		$return .= 'Webserver Info:           ' . $_SERVER['SERVER_SOFTWARE'] . "\n";
 
+		/**
+		 * Output System Information immediately after the Webserver Configuration section.
+		 *
+		 * @since   1.9.6
+		 *
+		 * @param   string  $return     System Info.
+		 */
 		$return = apply_filters( 'convertkit_sysinfo_after_webserver_config', $return );
 
 		// PHP configs... now we're getting to the important stuff.
@@ -212,6 +282,13 @@ class ConvertKit_System_Info {
 		$return .= 'Display Errors:           ' . ( ini_get( 'display_errors' ) ? 'On (' . ini_get( 'display_errors' ) . ')' : 'N/A' ) . "\n";
 		$return .= 'PHP Arg Separator:        ' . ini_get( 'arg_separator.output' ) . "\n";
 
+		/**
+		 * Output System Information immediately after the PHP Configuration section.
+		 *
+		 * @since   1.9.6
+		 *
+		 * @param   string  $return     System Info.
+		 */
 		$return = apply_filters( 'convertkit_sysinfo_after_php_config', $return );
 
 		$curl_version_info = function_exists( 'curl_version' ) ? curl_version() : array(
@@ -228,6 +305,13 @@ class ConvertKit_System_Info {
 		$return .= 'SOAP Client:              ' . ( class_exists( 'SoapClient' ) ? 'Installed' : 'Not Installed' ) . "\n";
 		$return .= 'Suhosin:                  ' . ( extension_loaded( 'suhosin' ) ? 'Installed' : 'Not Installed' ) . "\n";
 
+		/**
+		 * Output System Information immediately after the PHP Extensions section.
+		 *
+		 * @since   1.9.6
+		 *
+		 * @param   string  $return     System Info.
+		 */
 		$return = apply_filters( 'convertkit_sysinfo_after_php_ext', $return );
 
 		// Session stuff.
@@ -242,6 +326,13 @@ class ConvertKit_System_Info {
 			$return .= 'Use Only Cookies:         ' . ( ini_get( 'session.use_only_cookies' ) ? 'On' : 'Off' ) . "\n";
 		}
 
+		/**
+		 * Output System Information immediately after the Session Configuration section.
+		 *
+		 * @since   1.9.6
+		 *
+		 * @param   string  $return     System Info.
+		 */
 		$return = apply_filters( 'convertkit_sysinfo_after_session_config', $return );
 
 		$return .= "\n" . '### End System Info ###';

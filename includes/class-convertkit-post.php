@@ -213,6 +213,13 @@ class ConvertKit_Post {
 			'tag'          => '',
 		);
 
+		/**
+		 * The default settings, used to populate the Post's Settings when a Post has no Settings.
+		 *
+		 * @since   1.9.6
+		 *
+		 * @param   array   $defaults   Default Settings.
+		 */
 		$defaults = apply_filters( 'convertkit_post_get_default_settings', $defaults );
 
 		return $defaults;

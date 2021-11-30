@@ -98,6 +98,13 @@ class ConvertKit_User {
 
 		$defaults = array();
 
+		/**
+		 * The default settings, used to populate the User's Settings when a User has no Settings.
+		 *
+		 * @since   1.9.6
+		 *
+		 * @param   array   $defaults   Default Settings.
+		 */
 		$defaults = apply_filters( 'convertkit_user_get_default_settings', $defaults );
 
 		return $defaults;

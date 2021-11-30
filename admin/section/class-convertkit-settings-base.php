@@ -103,6 +103,11 @@ abstract class ConvertKit_Settings_Base {
 	 */
 	public function render() {
 
+		/**
+		 *  Performs actions prior to rendering the settings form.
+		 *
+		 * @since   1.9.6
+		 */
 		do_action( 'convertkit_settings_base_render_before' );
 
 		do_settings_sections( $this->settings_key );
@@ -111,6 +116,11 @@ abstract class ConvertKit_Settings_Base {
 
 		submit_button();
 
+		/**
+		 *  Performs actions after rendering of the settings form.
+		 *
+		 * @since   1.9.6
+		 */
 		do_action( 'convertkit_settings_base_render_after' );
 
 	}

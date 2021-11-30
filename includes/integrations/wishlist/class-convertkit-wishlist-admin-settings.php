@@ -16,8 +16,8 @@ class ConvertKit_Wishlist_Admin_Settings extends ConvertKit_Settings_Base {
 
 	/**
 	 * Constructor.
-	 * 
-	 * @since 	1.9.6
+	 *
+	 * @since   1.9.6
 	 */
 	public function __construct() {
 
@@ -38,8 +38,8 @@ class ConvertKit_Wishlist_Admin_Settings extends ConvertKit_Settings_Base {
 
 	/**
 	 * Register fields for this section.
-	 * 
-	 * @since 	1.9.6
+	 *
+	 * @since   1.9.6
 	 */
 	public function register_fields() {
 
@@ -50,8 +50,8 @@ class ConvertKit_Wishlist_Admin_Settings extends ConvertKit_Settings_Base {
 
 	/**
 	 * Prints help info for this section.
-	 * 
-	 * @since 	1.9.6
+	 *
+	 * @since   1.9.6
 	 */
 	public function print_section_info() {
 

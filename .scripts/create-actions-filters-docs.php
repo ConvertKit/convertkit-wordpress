@@ -11,12 +11,12 @@ $filter_docs = $read_actions_filters->run(
     	'../includes',
     	'../views',
     ),
-    true, 
-    false, 
-    'markdown', 
-    ( isset( $atts['filter'] ) ? $atts['filter'] : false ), 
-    ( isset( $atts['filter_replacement'] ) ? $atts['filter_replacement'] : false ), 
-    true 
+    true, // Extract filters.
+    false, // Extract actions.
+    'markdown', // Return as HTML/markdown compatible with GitHub.
+    '\'convertkit_', // Only build Docs for actions starting with convertkit_.
+    false, // Change prefix.
+    true // Return by file.
 );
 $action_docs = $read_actions_filters->run( 
 	// Define Plugin folders to include in Docs.
@@ -25,12 +25,12 @@ $action_docs = $read_actions_filters->run(
     	'../includes',
     	'../views',
     ),
-    false, 
-    true, 
-    'markdown', 
-    ( isset( $atts['filter'] ) ? $atts['filter'] : false ), 
-    ( isset( $atts['filter_replacement'] ) ? $atts['filter_replacement'] : false ), 
-    true
+    false, // Extract filters.
+    true, // Extract actions.
+    'markdown', // Return as HTML/markdown compatible with GitHub.
+    '\'convertkit_', // Only build Docs for actions starting with convertkit_.
+    false, // Change prefix.
+    true // Return by file.
 );
 
 // Build HTML.

@@ -129,8 +129,8 @@ class ConvertKit_Wishlist_Settings {
 	}
 
 	/**
-	 * The default settings, used when this integration's Settings haven't been saved
-	 * e.g. on a new installation or when the integration's Plugin has just been activated
+	 * The default settings, used when WishList's Settings haven't been saved
+	 * e.g. on a new installation or when the WishList Plugin has just been activated
 	 * for the first time.
 	 *
 	 * @since   1.9.6
@@ -141,6 +141,15 @@ class ConvertKit_Wishlist_Settings {
 
 		$defaults = array();
 
+		/**
+		 * The default settings, used when WishList's Settings haven't been saved
+		 * e.g. on a new installation or when the WishList Plugin has just been activated
+		 * for the first time.
+		 *
+		 * @since   1.9.6
+		 *
+		 * @param   array   $defaults   Default Settings.
+		 */
 		$defaults = apply_filters( 'convertkit_wishlist_settings_get_defaults', $defaults );
 
 		return $defaults;
