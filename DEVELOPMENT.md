@@ -21,7 +21,7 @@ Once done, make sure you've switched to your new branch, and begin making the ne
 Code must follow [WordPress Coding standards](https://developer.wordpress.org/coding-standards/wordpress-coding-standards/), which is checked
 when running tests (more on this below).
 
-## Sanitization
+## Security and Sanitization
 
 When outputting data, escape it using WordPress' escaping functions such as `esc_html()`, `esc_attr__()`, `wp_kses()`, `wp_kses_post()`.
 
@@ -30,6 +30,8 @@ When reading user input, sanitize it using WordPress' sanitization functions suc
 When writing to the database, prepare database queries using ``$wpdb->prepare()``
 
 Never trust user input. Sanitize it.
+
+Make use of [WordPress nonces](https://codex.wordpress.org/WordPress_Nonces) for saving form submitted data.
 
 ## Committing Work
 
