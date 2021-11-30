@@ -37,6 +37,10 @@ Full plugin documentation is located [here](https://help.convertkit.com/en/artic
 
 No. You must first have an account on ConvertKit.com, but you do not have to use a paid plan!
 
+= How do I refresh my available Forms, Landing Pages and Tags? =
+
+Navigate to the Plugin's Settings at Settings > ConvertKit.
+
 == Screenshots ==
 
 1. Create and customize stunning landing pages in ConvertKit
