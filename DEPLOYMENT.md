@@ -66,7 +66,7 @@ Submit a PR for the new version number branch into the `main` branch, and merge 
 
 ## Publish the Release
 
-When you're happy with the above, click `Publish this release`.
+When you're happy with the above, click `Publish Release`.
 
 This will then trigger the [deploy.yml](.github/workflows/deploy.yml) workflow, which will upload this new version to the wordpress.org repository.
 
