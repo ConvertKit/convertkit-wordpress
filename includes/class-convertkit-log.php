@@ -73,12 +73,20 @@ class ConvertKit_Log {
 	 */
 	public function add( $entry ) {
 
+		// Initialize WordPress file system.
+		global $wp_filesystem;
+
 		// Prefix the entry with a date and time.
 		$entry = '(' . gmdate( 'Y-m-d H:i:s' ) . ') ' . $entry . "\n";
 
-		// Append to log file.
-		// We don't use $wp_filesystem, as it has no option to append.
-		file_put_contents( $this->log_file, $entry, FILE_APPEND ); // phpcs:ignore
+		// Get any existing log file contents.
+		$contents = $wp_filesystem->get_contents( $this->get_filename() );
+
+		// Append entry.
+		$contents .= $entry;
+
+		// Write contents.
+		$wp_filesystem->put_contents( $this->get_filename(), $contents );
 
 	}
 
@@ -96,12 +104,12 @@ class ConvertKit_Log {
 		global $wp_filesystem;
 
 		// Bail if the log file does not exist.
-		if ( ! file_exists( $this->log_file ) ) {
+		if ( ! $this->exists() ) {
 			return '';
 		}
 
 		// Open log file.
-		$log = $wp_filesystem->get_contents_array( $this->log_file ); // phpcs:ignore
+		$log = $wp_filesystem->get_contents_array( $this->get_filename() ); // phpcs:ignore
 
 		// Bail if the log file is empty.
 		if ( ! is_array( $log ) || ! count( $log ) ) {
@@ -123,7 +131,7 @@ class ConvertKit_Log {
 		// Initialize WordPress file system.
 		global $wp_filesystem;
 
-		$wp_filesystem->put_contents( $this->log_file, '' );
+		$wp_filesystem->put_contents( $this->get_filename(), '' );
 
 	}
 
@@ -134,7 +142,7 @@ class ConvertKit_Log {
 	 */
 	public function delete() {
 
-		unlink( $this->log_file );
+		unlink( $this->get_filename() );
 
 	}
 
