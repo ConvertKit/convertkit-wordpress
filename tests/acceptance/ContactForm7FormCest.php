@@ -28,9 +28,6 @@ class ContactForm7FormCest
 
 		// Check that the Plugin activated successfully.
 		$I->seePluginActivated('contact-form-7');
-
-		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen($I);
 	}
 
 	/**
