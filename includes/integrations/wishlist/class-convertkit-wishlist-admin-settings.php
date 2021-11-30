@@ -15,7 +15,9 @@
 class ConvertKit_Wishlist_Admin_Settings extends ConvertKit_Settings_Base {
 
 	/**
-	 * Constructor
+	 * Constructor.
+	 * 
+	 * @since 	1.9.6
 	 */
 	public function __construct() {
 
@@ -35,7 +37,9 @@ class ConvertKit_Wishlist_Admin_Settings extends ConvertKit_Settings_Base {
 	}
 
 	/**
-	 * Register fields for this section
+	 * Register fields for this section.
+	 * 
+	 * @since 	1.9.6
 	 */
 	public function register_fields() {
 
@@ -46,6 +50,8 @@ class ConvertKit_Wishlist_Admin_Settings extends ConvertKit_Settings_Base {
 
 	/**
 	 * Prints help info for this section.
+	 * 
+	 * @since 	1.9.6
 	 */
 	public function print_section_info() {
 
@@ -123,12 +129,12 @@ class ConvertKit_Wishlist_Admin_Settings extends ConvertKit_Settings_Base {
 				array(
 					'title'       => $wlm_level['name'],
 					'form'        => $this->get_select_field(
-						$wlm_level['id'],
+						$wlm_level['id'] . '_form',
 						$this->settings->get_convertkit_form_id_by_wishlist_member_level_id( $wlm_level['id'] ),
 						$form_options
 					),
 					'unsubscribe' => $this->get_select_field(
-						$wlm_level['id'],
+						$wlm_level['id'] . '_unsubscribe',
 						$this->settings->get_convertkit_tag_id_by_wishlist_member_level_id( $wlm_level['id'] ),
 						$tag_options
 					),

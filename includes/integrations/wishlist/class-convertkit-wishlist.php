@@ -55,7 +55,7 @@ class ConvertKit_Wishlist {
 		// Iterate through the member's levels.
 		foreach ( $levels as $wlm_level_id ) {
 			// If no ConvertKit Form is mapped to this level, skip it.
-			$convertkit_form_id = $wlm_settings->get_convertkit_form_id_by_wishlist_member_level( $wlm_level_id );
+			$convertkit_form_id = $wlm_settings->get_convertkit_form_id_by_wishlist_member_level_id( $wlm_level_id );
 			if ( ! $convertkit_form_id ) {
 				continue;
 			}
@@ -90,7 +90,7 @@ class ConvertKit_Wishlist {
 		// Iterate through the member's levels.
 		foreach ( $levels as $wlm_level_id ) {
 			// If no ConvertKit Tag is mapped to this level, skip it.
-			$convertkit_tag_id = $wlm_settings->get_convertkit_tag_id_by_wishlist_member_level( $wlm_level_id );
+			$convertkit_tag_id = $wlm_settings->get_convertkit_tag_id_by_wishlist_member_level_id( $wlm_level_id );
 			if ( ! $convertkit_tag_id ) {
 				continue;
 			}
@@ -164,7 +164,15 @@ class ConvertKit_Wishlist {
 		// Initialize the API.
 		$api = new ConvertKit_API( $settings->get_api_key(), $settings->get_api_secret(), $settings->debug_enabled() );
 
-		return $api->unsubscribe( $member['user_email'] );
+		// Check for temp email.
+		if ( preg_match( '/temp_[a-f0-9]{32}/', $member['user_email'] ) ) {
+			$email = $member['wlm_origemail'];
+		} else {
+			$email = $member['user_email'];
+		}
+
+		// Unsubscribe the email.
+		return $api->unsubscribe( $email );
 
 	}
 
