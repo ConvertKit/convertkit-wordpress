@@ -59,11 +59,12 @@ No. You must first have an account on ConvertKit.com, but you do not have to use
 * Added: Settings: ConvertKit: Tools: Option to Download Log to text file
 * Added: Settings: ConvertKit: Tools: Option to Download System Info to text file
 * Added: PHP 8.x compatibility
-* Added: Developers: Action and filter hooks
+* Added: Developers: Action and filter hooks.  See https://github.com/ConvertKit/convertkit-wordpress/ACTIONS-FILTERS.md
 * Fix: PHP warnings on new installations when adding/editing Pages or Posts where the plugin was not yet configured
 * Fix: PHP 8.x: PHP Deprecated warnings where required parameters wrongly followed optional parameters
 * Fix: gzinflate() data error
 * Fix: Deprecated edit_category_form_fields warning
+* Fix: Settings: ConvertKit: WishList Member: Unsubscribe Action 'Unsubscribe from all' now honored when selected and saved
 * Fix: Ensure code meets WordPress Coding Standards
 * Fix: Use WP_Filesystem instead of PHP functions to read/write log file, per WordPress Coding Standards
 
