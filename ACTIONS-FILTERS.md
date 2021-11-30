@@ -151,7 +151,7 @@
 					</tr><tr>
 						<td>&nbsp;</td>
 						<td><a href="#convertkit_is_admin_or_frontend_editor"><code>convertkit_is_admin_or_frontend_editor</code></a></td>
-						<td>Filters whether the current request is a WordPress Administration / Frontend Editor request or not. Page Builders can set this to true to allow Page Generator Pro to load its functionality.</td>
+						<td>Filters whether the current request is a WordPress Administration / Frontend Editor request or not. Page Builders can set this to true to allow ConvertKit to load its administration functionality.</td>
 					</tr>
 					</tbody>
 				</table><h3 id="convertkit_admin_gutenberg_add_block_categories">
@@ -172,9 +172,9 @@
 							<td>array</td>
 							<td>Block Categories</td>
 						</tr><tr>
-							<td>WordPress</td>
-							<td>WP_Post $post</td>
-							<td>Post</td>
+							<td>$post</td>
+							<td>WP_Post</td>
+							<td>WordPress Post</td>
 						</tr>
 						</tbody>
 					</table><h4>Usage</h4>
@@ -954,7 +954,7 @@ add_filter( 'convertkit_settings_get_defaults', function( $defaults ) {
 						convertkit_is_admin_or_frontend_editor
 						<code>includes/class-wp-convertkit.php::279</code>
 					</h3><h4>Overview</h4>
-						<p>Filters whether the current request is a WordPress Administration / Frontend Editor request or not. Page Builders can set this to true to allow Page Generator Pro to load its functionality.</p><h4>Parameters</h4>
+						<p>Filters whether the current request is a WordPress Administration / Frontend Editor request or not. Page Builders can set this to true to allow ConvertKit to load its administration functionality.</p><h4>Parameters</h4>
 					<table>
 						<thead>
 							<tr>

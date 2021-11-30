@@ -62,7 +62,7 @@ class ConvertKit_Admin_Gutenberg {
 		 * @since   1.9.6
 		 *
 		 * @param   array   $categories     Block Categories
-		 * @param   WP_Post $post           WordPress Post
+		 * @param   WP_Post  $post           WordPress Post
 		 */
 		$categories = apply_filters( 'convertkit_admin_gutenberg_add_block_categories', $categories, $post );
 

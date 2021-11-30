@@ -270,7 +270,7 @@ class WP_ConvertKit {
 		/**
 		 * Filters whether the current request is a WordPress Administration / Frontend Editor request or not.
 		 *
-		 * Page Builders can set this to true to allow Page Generator Pro to load its functionality.
+		 * Page Builders can set this to true to allow ConvertKit to load its administration functionality.
 		 *
 		 * @since   1.9.6
 		 *
