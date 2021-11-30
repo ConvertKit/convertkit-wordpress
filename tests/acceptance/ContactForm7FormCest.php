@@ -101,7 +101,7 @@ class ContactForm7FormCest
 	 */
 	private function _createContactForm7Form(AcceptanceTester $I)
 	{
-		return $I->havePostInDatabase([
+		$contactForm7ID = $I->havePostInDatabase([
 			'post_name' 	=> 'contact-form-7-form',
 			'post_title'	=> 'Contact Form 7 Form',
 			'post_content'	=> '[text* your-name] [email* your-email] [text* your-subject] [textarea your-message] [submit "Submit"]',
@@ -113,6 +113,16 @@ class ContactForm7FormCest
 				'_additional_settings' => 'skip_mail: on',
 			],
 		]);
+
+		// meta_input doesn't always work, so we have to manually apply the skip_mail setting.
+		$I->amOnAdminPage('/admin.php?page=wpcf7&post=' . $contactForm7ID . '&active-tab=3');
+		$I->fillField('textarea#wpcf7-additional-settings', 'skip_mail: on');
+		$I->click('Save');
+
+		// Confirm settings saved.
+		$I->seeInField('textarea#wpcf7-additional-settings', 'skip_mail: on');
+		
+		return $contactForm7ID;
 	}
 
 	/**
