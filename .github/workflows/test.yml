@@ -28,8 +28,8 @@ jobs:
     # Defines the WordPress and PHP Versions matrix to run tests on
     strategy:
       matrix:
-        wp-versions: [ '5.8.2' ] #['5.0', '5.1', '5.2', '5.3', '5.4', '5.5', '5.6', '5.7', '5.8']
-        php-versions: [ '7.3' ] #['7.3', '7.4', '8.0', '8.1']
+        wp-versions: [ '5.5', '5.6', '5.7', '5.8' ] #['5.0', '5.1', '5.2', '5.3', '5.4', '5.5', '5.6', '5.7', '5.8']
+        php-versions: [ '7.2', '7.3', '7.4' ] #['7.3', '7.4', '8.0', '8.1']
 
     # Steps to install, configure and run tests
     steps:
