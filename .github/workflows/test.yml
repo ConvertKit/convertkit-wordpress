@@ -136,7 +136,7 @@ jobs:
 
       - name: Run Acceptance Tests
         working-directory: ${{ env.PLUGIN_DIR }}
-        run: php vendor/bin/codecept run acceptance
+        run: php vendor/bin/codecept run acceptance ContactForm7FormCest
         continue-on-error: true
 
       - name: Upload Test Results to Artifact
