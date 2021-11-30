@@ -142,7 +142,7 @@ jobs:
 
       - name: Run Acceptance Tests
         working-directory: ${{ env.PLUGIN_DIR }}
-        run: php vendor/bin/codecept run acceptance PluginSettingsToolsCest
+        run: php vendor/bin/codecept run acceptance
 
       - name: Upload Test Results to Artifact
         if: always()
@@ -150,3 +150,10 @@ jobs:
         with:
           name: test-results
           path: /home/runner/work/convertkit-wordpress/convertkit-wordpress/wordpress/wp-content/plugins/convertkit/tests/_output/
+
+      - name: Upload Plugin Log File to Artifact
+        if: always()
+        uses: actions/upload-artifact@v2
+        with:
+          name: log
+          path: /home/runner/work/convertkit-wordpress/convertkit-wordpress/wordpress/wp-content/plugins/convertkit/log.txt
