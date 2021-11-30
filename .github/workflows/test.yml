@@ -126,6 +126,12 @@ jobs:
         working-directory: ${{ env.PLUGIN_DIR }}
         run: composer dump-autoload
 
+      - name: Set chmod for Plugin Directory
+        run: sudo chmod g+w ${{ env.PLUGIN_DIR }}
+
+      - name: Set chown for Plugin Directory
+        run: sudo chown www-data:www-data ${{ env.PLUGIN_DIR }}
+
       - name: Run WordPress Coding Standards Tests
         working-directory: ${{ env.PLUGIN_DIR }}
         run: php vendor/bin/phpcs ./ -v
@@ -136,7 +142,7 @@ jobs:
 
       - name: Run Acceptance Tests
         working-directory: ${{ env.PLUGIN_DIR }}
-        run: php vendor/bin/codecept run acceptance
+        run: php vendor/bin/codecept run acceptance PluginSettingsToolsCest
 
       - name: Upload Test Results to Artifact
         if: always()
