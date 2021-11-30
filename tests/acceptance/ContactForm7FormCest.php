@@ -1,6 +1,4 @@
 <?php
-use Codeception\Util\Locator;
-
 /**
  * Tests for ConvertKit Forms integration with Contact Form 7.
  * 
@@ -109,6 +107,11 @@ class ContactForm7FormCest
 			'post_content'	=> '[text* your-name] [email* your-email] [text* your-subject] [textarea your-message] [submit "Submit"]',
 			'post_type'		=> 'wpcf7_contact_form',
 			'post_status'	=> 'publish',
+			'meta_input' => [
+				// Don't attempt to send mail, as this will fail when run through a GitHub Action.
+				// @see https://contactform7.com/additional-settings/#skipping-mail
+				'_additional_settings' => 'skip_mail: on',
+			],
 		]);
 	}
 

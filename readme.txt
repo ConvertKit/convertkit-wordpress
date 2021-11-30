@@ -64,7 +64,8 @@ No. You must first have an account on ConvertKit.com, but you do not have to use
 * Fix: PHP 8.x: PHP Deprecated warnings where required parameters wrongly followed optional parameters
 * Fix: gzinflate() data error
 * Fix: Deprecated edit_category_form_fields warning
-* Fix: Settings: ConvertKit: WishList Member: Unsubscribe Action 'Unsubscribe from all' now honored when selected and saved
+* Fix: Integration: Contact Form 7: If Contact Form 7 Form is mapped to a ConvertKit Form, send the data to ConvertKit if form validation passes but Contact Form 7 could or could not send an email
+* Fix: Integration: WishList Member: Unsubscribe Action 'Unsubscribe from all' now honored when selected and saved
 * Fix: Ensure code meets WordPress Coding Standards
 * Fix: Use WP_Filesystem instead of PHP functions to read/write log file, per WordPress Coding Standards
 
