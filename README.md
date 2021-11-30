@@ -17,5 +17,7 @@ For ConvertKit Developers, there are guides covering:
 - [Setup](SETUP.md) - setting up your local environment for development and testing
 - [Development](DEVELOPMENT.md) - best practices for development
 - [Testing](TESTING.md) - how to write and run tests
-- [Deployment](DEPLOYMENT.md) - how to deploy a new Plugin version to [WordPress.org](https://wordpress.org/plugins/convertkit/)
 - [Actions and Filters](ACTIONS-FILTERS.md) - Actions and Filters available to WordPress Developers looking to extend ConvertKit's functionality
+
+For ConvertKit, there is a separate guide to deploying new versions to wordpress.org:
+- [Deployment](DEPLOYMENT.md) - how to deploy a new Plugin version to [WordPress.org](https://wordpress.org/plugins/convertkit/)
