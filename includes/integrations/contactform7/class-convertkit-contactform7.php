@@ -21,7 +21,7 @@ class ConvertKit_ContactForm7 {
 	 */
 	public function __construct() {
 
-		add_action( 'wpcf7_submit', array( $this, 'handle_wpcf7_submit' ), 10, 2 );
+		// add_action( 'wpcf7_submit', array( $this, 'handle_wpcf7_submit' ), 10, 2 );
 
 	}
 
