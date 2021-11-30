@@ -133,6 +133,9 @@ jobs:
       - name: Set chown
         run: sudo chown -R www-data:www-data ${{ env.PLUGIN_DIR }}
 
+      - name: Create Directory for Test Results
+        run: mkdir ${{ env.ROOT_DIR }}/tests
+
       - name: Run WordPress Coding Standards Tests
         working-directory: ${{ env.PLUGIN_DIR }}
         run: php vendor/bin/phpcs ./ -v
@@ -150,4 +153,4 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: test-results
-          path: /home/runner/work/convertkit-wordpress/convertkit-wordpress/wordpress/wp-content/plugins/convertkit/tests/_output/
+          path: ${{ env.ROOT_DIR }}/tests

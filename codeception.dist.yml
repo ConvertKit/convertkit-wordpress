@@ -1,6 +1,6 @@
 paths:
     tests: tests
-    output: tests/_output
+    output: /home/runner/work/convertkit-wordpress/convertkit-wordpress/wordpress/tests
     data: tests/_data
     support: tests/_support
     envs: tests/_envs
