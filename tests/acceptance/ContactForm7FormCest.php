@@ -40,8 +40,8 @@ class ContactForm7FormCest
 	 */
 	public function testSettingsContactForm7ToConvertKitFormMapping(AcceptanceTester $I)
 	{
-		// Get Contact Form 7 Form ID.
-		$contactForm7ID = $this->_getContactForm7ID($I);
+		// Create Contact Form 7 Form.
+		$contactForm7ID = $this->_createContactForm7Form($I);
 
 		// Load Contact Form 7 Plugin Settings
 		$I->amOnAdminPage('options-general.php?page=_wp_convertkit_settings&tab=contactform7');
@@ -85,8 +85,10 @@ class ContactForm7FormCest
 		// Submit Form.
 		$I->click('Submit');
 
-		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen($I);
+		// Confirm the form submitted without errors.
+		$I->performOn( 'form.sent', function($I) {
+			$I->seeInSource('Thank you for your message. It has been sent.');
+		});
 	}
 
 	/**
@@ -99,44 +101,17 @@ class ContactForm7FormCest
 	 */
 	private function _createContactForm7Form(AcceptanceTester $I)
 	{
-		$contactForm7ID = $I->havePostInDatabase([
+		return $I->havePostInDatabase([
 			'post_name' 	=> 'contact-form-7-form',
 			'post_title'	=> 'Contact Form 7 Form',
-			'post_content'	=> '[text* your-name] [email* your-email] [text* your-subject] [textarea your-message] [submit "Submit"]',
 			'post_type'		=> 'wpcf7_contact_form',
 			'post_status'	=> 'publish',
 			'meta_input' => [
 				// Don't attempt to send mail, as this will fail when run through a GitHub Action.
 				// @see https://contactform7.com/additional-settings/#skipping-mail
+				'_form' => '[text* your-name] [email* your-email] [text* your-subject] [textarea your-message] [submit "Submit"]',
 				'_additional_settings' => 'skip_mail: on',
 			],
 		]);
-
-		// meta_input doesn't always work, so we have to manually apply the skip_mail setting.
-		$I->amOnAdminPage('/admin.php?page=wpcf7&post=' . $contactForm7ID . '&active-tab=3');
-		$I->fillField('textarea#wpcf7-additional-settings', 'skip_mail: on');
-		$I->click('Save');
-
-		// Confirm settings saved.
-		$I->seeInField('textarea#wpcf7-additional-settings', 'skip_mail: on');
-		
-		return $contactForm7ID;
-	}
-
-	/**
-	 * Gets the first(default) Contact Form 7 Form
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @param 	AcceptanceTester 	$I 	Tester
-	 * @return 	int 					Form ID
-	 */
-	private function _getContactForm7ID(AcceptanceTester $I)
-	{
-		$result = $I->grabAllFromDatabase($I->grabPrefixedTableNameFor('posts'), 'ID', [
-			'post_type' => 'wpcf7_contact_form',
-		]);
-
-		return $result[0]['ID'];
 	}
 }
