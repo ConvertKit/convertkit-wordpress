@@ -48,6 +48,11 @@ class ConvertKit_Resource_Landing_Pages extends ConvertKit_Resource {
 		// Cast ID to integer.
 		$id = absint( $id );
 
+		// Bail if the resources are a WP_Error.
+		if ( is_wp_error( $this->resources ) ) {
+			return $this->resources;
+		}
+
 		// Bail if the resource doesn't exist.
 		if ( ! isset( $this->resources[ $id ] ) ) {
 			return new WP_Error(
