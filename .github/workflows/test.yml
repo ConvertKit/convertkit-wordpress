@@ -31,7 +31,7 @@ jobs:
     strategy:
       matrix:
         wp-versions: [ '5.8.2' ] #['5.0', '5.1', '5.2', '5.3', '5.4', '5.5', '5.6', '5.7', '5.8']
-        php-versions: [ '7.3', '7.4' ] #['7.2', '7.3', '7.4', '8.0', '8.1']
+        php-versions: [ '8.0' ] #['7.2', '7.3', '7.4', '8.0', '8.1']
 
     # Steps to install, configure and run tests
     steps:
@@ -58,12 +58,6 @@ jobs:
         with:
           path: ${{ env.PLUGIN_DIR }}
 
-      - name: Install PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: ${{ matrix.php-versions }}
-          coverage: xdebug
-
       - name: Install WP-CLI
         run: |
           curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
@@ -82,6 +76,8 @@ jobs:
         working-directory: ${{ env.ROOT_DIR }}
         run: wp-cli plugin install ${{ env.INSTALL_PLUGINS }} --activate
 
+      # These should be stored as a separated list of URLs in the repository Settings > Secrets > Repository Secret > CONVERTKIT_PAID_PLUGIN_URLS
+      # We cannot include the URLs in this file, as they're not Plugins we are permitted to distribute
       - name: Install and Activate Paid Third Party WordPress Plugins
         working-directory: ${{ env.ROOT_DIR }}
         run: wp-cli plugin install ${{ secrets.CONVERTKIT_PAID_PLUGIN_URLS }} --activate
@@ -93,6 +89,12 @@ jobs:
         run: |
           wp-cli config set WP_DEBUG true --raw
           wp-cli config set FS_METHOD direct
+
+      - name: Install PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-versions }}
+          coverage: xdebug
 
       - name: Copy nginx configuration file
         run: sudo cp ${{ env.PLUGIN_DIR }}/tests/nginx/php-${{ matrix.php-versions }}.conf /etc/nginx/conf.d/php-${{ matrix.php-versions }}.conf
@@ -148,7 +150,7 @@ jobs:
 
       - name: Run Acceptance Tests
         working-directory: ${{ env.PLUGIN_DIR }}
-        run: php vendor/bin/codecept run acceptance WishListMemberCest
+        run: php vendor/bin/codecept run acceptance ContactForm7Cest
 
       - name: Upload Test Results to Artifact
         if: always()
