@@ -38,6 +38,18 @@ If you prefer to clone the repository elsewhere, and them symlink it to your loc
 
 If you're new to this, use [GitHub Desktop](https://desktop.github.com/) or [Tower](https://www.git-tower.com/mac)
 
+### Install Third Party Plugins
+
+The ConvertKit Plugin (and/or its Addons) provides integrations with the following, and therefore it's recommended to install and activate these
+Plugins on your local development environment:
+
+- [Contact Form 7](https://wordpress.org/plugins/contact-form-7/) (Free)
+- [Gravity Forms](https://www.gravityforms.com/) (Paid)
+- [WishList Member](https://wishlistmember.com/) (Paid)
+- [WooCommerce](https://wordpress.org/plugins/woocommerce/) (Free)
+
+For ConvertKit employees or contractors, licensed versions of paid Third Party Plugins can be made available to you on request.
+
 ### Create Test Database
 
 Create a blank `test` database in MySQL, with a MySQL user who can read and write to it.
