@@ -78,10 +78,14 @@ jobs:
         working-directory: ${{ env.ROOT_DIR }}
         run: wp-cli core install --url=127.0.0.1 --title=ConvertKit --admin_user=admin --admin_password=password --admin_email=wordpress@convertkit.local
 
-      - name: Install and Activate third party WordPress Plugins
+      - name: Install and Activate Free Third Party WordPress Plugins
         working-directory: ${{ env.ROOT_DIR }}
         run: wp-cli plugin install ${{ env.INSTALL_PLUGINS }} --activate
 
+      - name: Install and Activate Paid Third Party WordPress Plugins
+        working-directory: ${{ env.ROOT_DIR }}
+        run: wp-cli plugin install ${{ secrets.CONVERTKIT_PAID_PLUGIN_URLS }} --activate
+      
       # WP_DEBUG = true is required so any WordPress / PHP errors are output and caught by tests
       # FS_METHOD = direct is required for WP_Filesystem to operate without suppressed PHP fopen() errors that trip up tests
       - name: Enable WP_DEBUG
@@ -144,7 +148,7 @@ jobs:
 
       - name: Run Acceptance Tests
         working-directory: ${{ env.PLUGIN_DIR }}
-        run: php vendor/bin/codecept run acceptance
+        run: php vendor/bin/codecept run acceptance WishListMemberCest
 
       - name: Upload Test Results to Artifact
         if: always()
