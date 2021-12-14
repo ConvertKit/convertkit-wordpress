@@ -34,7 +34,7 @@ jobs:
     strategy:
       matrix:
         wp-versions: [ '5.8.2' ] #[ '5.6.6', '5.7.4', '5.8.2' ]
-        php-versions: [ '7.3', '7.4', '8.0', '8.1' ] #[ '7.3', '7.4', '8.0', '8.1' ]
+        php-versions: [ '7.3', '7.4', '8.0' ] #[ '7.3', '7.4', '8.0', '8.1' ]
 
     # Steps to install, configure and run tests
     steps:
