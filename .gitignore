@@ -5,4 +5,4 @@ log.txt
 tests/_output
 vendor
 codeception.yml
-convertkit.zip
+*.zip
