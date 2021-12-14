@@ -235,7 +235,7 @@ vendor/bin/phpcs ./ -v
 
 Any errors should be corrected by either:
 - making applicable code changes
-- (Experimental) running `vendor/bin/phpcbf -h` to automatically fix coding standards
+- (Experimental) running `vendor/bin/phpcbf ./ -v` to automatically fix coding standards
 
 Need to change the PHP or WordPress coding standard rules applied?  Edit the [phpcs.xml](phpcs.xml) file.
 
