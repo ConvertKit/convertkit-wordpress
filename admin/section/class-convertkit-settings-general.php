@@ -262,7 +262,7 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 				sprintf(
 					/* translators: %1$s: Link to ConvertKit Account */
 					esc_html__( '%1$s Required for proper plugin function.', 'convertkit' ),
-					'<a href="https://app.convertkit.com/account_settings/advanced_settings" target="_blank">' . esc_html__( 'Get your ConvertKit API Key.', 'convertkit' ) . '</a>'
+					'<a href="' . $this->get_api_key_url() . '" target="_blank">' . esc_html__( 'Get your ConvertKit API Key.', 'convertkit' ) . '</a>'
 				),
 				sprintf(
 					/* translators: Account, %1$s: wp-config.php, %2$s: <code> block for API Key definition */
@@ -299,7 +299,7 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 				sprintf(
 					/* translators: %1$s: Link to ConvertKit Account */
 					esc_html__( '%1$s Required for proper plugin function.', 'convertkit' ),
-					'<a href="https://app.convertkit.com/account_settings/advanced_settings" target="_blank">' . esc_html__( 'Get your ConvertKit API Secret.', 'convertkit' ) . '</a>'
+					'<a href="' . $this->get_api_key_url() . '" target="_blank">' . esc_html__( 'Get your ConvertKit API Secret.', 'convertkit' ) . '</a>'
 				),
 				sprintf(
 					/* translators: Account, %1$s: wp-config.php, %2$s: <code> block for API Secret definition */
@@ -391,6 +391,19 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 			$this->settings->scripts_disabled(), // phpcs:ignore
 			esc_html__( 'Prevent plugin from loading JavaScript files. This will disable the custom content and tagging features of the plugin. Does not apply to landing pages. Use with caution!', 'convertkit' )
 		);
+
+	}
+
+	/**
+	 * Returns the URL the user needs to visit on the ConvertKit app to obtain their API Key and Secret.
+	 * 
+	 * @since 	1.9.6
+	 * 
+	 * @return 	string 	ConvertKit App URL.
+	 */ 
+	private function get_api_key_url() {
+
+		return 'https://app.convertkit.com/account_settings/advanced_settings/?utm_source=wordpress&utm_content=convertkit';
 
 	}
 

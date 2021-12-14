@@ -15,6 +15,24 @@ class PluginSettingsGeneralCest
 	}
 
 	/**
+	 * Test that UTM parameters are included in links displayed on the Plugins' Setting screen for the user to obtain
+	 * their API Key and Secret.
+	 * 
+	 * @since 	1.9.6
+	 * 
+	 * @param 	AcceptanceTester 	$I 	Tester
+	 */
+	public function testUTMParametersExist(AcceptanceTester $I)
+	{
+		// Go to the Plugin's Settings Screen.
+		$I->loadConvertKitSettingsGeneralScreen($I);
+
+		// Confirm that UTM parameters exist for the 'Get your ConvertKit API Key' link.
+		$I->seeInSource('<a href="https://app.convertkit.com/account_settings/advanced_settings/?utm_source=wordpress&amp;utm_content=convertkit" target="_blank">Get your ConvertKit API Key.</a>');
+		$I->seeInSource('<a href="https://app.convertkit.com/account_settings/advanced_settings/?utm_source=wordpress&amp;utm_content=convertkit" target="_blank">Get your ConvertKit API Secret.</a>');
+	}
+
+	/**
 	 * Test that no PHP errors or notices are displayed on the Plugin's Setting screen when the Save Changes
 	 * button is pressed and no settings are specified.
 	 * 
