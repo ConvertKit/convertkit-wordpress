@@ -747,7 +747,7 @@ add_filter( 'convertkit_term_get_default_settings', function( $defaults ) {
 </pre>
 <h3 id="convertkit_api_get_timeout">
 						convertkit_api_get_timeout
-						<code>includes/class-convertkit-api.php::866</code>
+						<code>includes/class-convertkit-api.php::899</code>
 					</h3><h4>Overview</h4>
 						<p>Defines the maximum time to allow the API request to run.</p><h4>Parameters</h4>
 					<table>
@@ -1010,6 +1010,20 @@ add_filter( 'convertkit_is_admin_or_frontend_editor', function( $is_admin_or_fro
 						<td><a href="#convertkit_admin_settings_enqueue_styles"><code>convertkit_admin_settings_enqueue_styles</code></a></td>
 						<td></td>
 					</tr><tr>
+						<td colspan="3">../includes/class-convertkit-api.php</td>
+					</tr><tr>
+						<td>&nbsp;</td>
+						<td><a href="#convertkit_api_form_subscribe_success"><code>convertkit_api_form_subscribe_success</code></a></td>
+						<td>Runs actions immediately after the email address was successfully subscribed to the form.</td>
+					</tr><tr>
+						<td>&nbsp;</td>
+						<td><a href="#convertkit_api_tag_subscribe_success"><code>convertkit_api_tag_subscribe_success</code></a></td>
+						<td>Runs actions immediately after the email address was successfully subscribed to the tag.</td>
+					</tr><tr>
+						<td>&nbsp;</td>
+						<td><a href="#convertkit_api_form_unsubscribe_success"><code>convertkit_api_form_unsubscribe_success</code></a></td>
+						<td>Runs actions immediately after the email address was successfully unsubscribed.</td>
+					</tr><tr>
 						<td colspan="3">../includes/class-convertkit-output.php</td>
 					</tr><tr>
 						<td>&nbsp;</td>
@@ -1118,6 +1132,101 @@ do_action( 'convertkit_admin_settings_enqueue_scripts', function(  ) {
 do_action( 'convertkit_admin_settings_enqueue_styles', function(  ) {
 	// ... your code here
 }, 10, 0 );
+</pre>
+<h3 id="convertkit_api_form_subscribe_success">
+						convertkit_api_form_subscribe_success
+						<code>includes/class-convertkit-api.php::186</code>
+					</h3><h4>Overview</h4>
+						<p>Runs actions immediately after the email address was successfully subscribed to the form.</p><h4>Parameters</h4>
+					<table>
+						<thead>
+							<tr>
+								<th>Parameter</th>
+								<th>Type</th>
+								<th>Description</th>
+							</tr>
+						</thead>
+						<tbody><tr>
+							<td></td>
+							<td>string 	$first_name First Name</td>
+							<td>string 	$first_name First Name</td>
+						</tr><tr>
+							<td>Form</td>
+							<td>string 	$form_id</td>
+							<td>ID</td>
+						</tr><tr>
+							<td>Email</td>
+							<td>string 	$email</td>
+							<td>Address</td>
+						</tr>
+						</tbody>
+					</table><h4>Usage</h4>
+<pre>
+do_action( 'convertkit_api_form_subscribe_success', function( $response, $form_id, $email, $first_name ) {
+	// ... your code here
+}, 10, 4 );
+</pre>
+<h3 id="convertkit_api_tag_subscribe_success">
+						convertkit_api_tag_subscribe_success
+						<code>includes/class-convertkit-api.php::295</code>
+					</h3><h4>Overview</h4>
+						<p>Runs actions immediately after the email address was successfully subscribed to the tag.</p><h4>Parameters</h4>
+					<table>
+						<thead>
+							<tr>
+								<th>Parameter</th>
+								<th>Type</th>
+								<th>Description</th>
+							</tr>
+						</thead>
+						<tbody><tr>
+							<td></td>
+							<td>array 	$response 	API Response</td>
+							<td>array 	$response 	API Response</td>
+						</tr><tr>
+							<td>Tag</td>
+							<td>string 	$tag_id</td>
+							<td>ID</td>
+						</tr><tr>
+							<td>Email</td>
+							<td>string 	$email</td>
+							<td>Address</td>
+						</tr>
+						</tbody>
+					</table><h4>Usage</h4>
+<pre>
+do_action( 'convertkit_api_tag_subscribe_success', function( $response, $tag_id, $email ) {
+	// ... your code here
+}, 10, 3 );
+</pre>
+<h3 id="convertkit_api_form_unsubscribe_success">
+						convertkit_api_form_unsubscribe_success
+						<code>includes/class-convertkit-api.php::495</code>
+					</h3><h4>Overview</h4>
+						<p>Runs actions immediately after the email address was successfully unsubscribed.</p><h4>Parameters</h4>
+					<table>
+						<thead>
+							<tr>
+								<th>Parameter</th>
+								<th>Type</th>
+								<th>Description</th>
+							</tr>
+						</thead>
+						<tbody><tr>
+							<td></td>
+							<td>array 	$response 	API Response</td>
+							<td>array 	$response 	API Response</td>
+						</tr><tr>
+							<td>Email</td>
+							<td>string 	$email</td>
+							<td>Address</td>
+						</tr>
+						</tbody>
+					</table><h4>Usage</h4>
+<pre>
+do_action( 'convertkit_api_form_unsubscribe_success', function( $response, $email ) {
+	// ... your code here
+}, 10, 2 );
 </pre>
 <h3 id="convertkit_output_output_form">
 						convertkit_output_output_form

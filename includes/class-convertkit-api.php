@@ -174,6 +174,18 @@ class ConvertKit_API {
 			$this->log( 'API: form_subscribe(): Error: ' . $response->get_error_message() );
 		}
 
+		/**
+		 * Runs actions immediately after the email address was successfully subscribed to the form.
+		 * 
+		 * @since 	1.9.6
+		 * 
+		 * @param 	array 	$response 	API Response
+		 * @param   string 	$form_id    Form ID
+		 * @param   string 	$email      Email Address
+	 	 * @param   string 	$first_name First Name
+		 */
+		do_action( 'convertkit_api_form_subscribe_success', $response, $form_id, $email, $first_name );
+
 		return $response;
 
 	}
@@ -271,6 +283,17 @@ class ConvertKit_API {
 		if ( is_wp_error( $response ) ) {
 			$this->log( 'API: tag_subscribe(): Error: ' . $response->get_error_message() );
 		}
+
+		/**
+		 * Runs actions immediately after the email address was successfully subscribed to the tag.
+		 * 
+		 * @since 	1.9.6
+		 * 
+		 * @param 	array 	$response 	API Response
+		 * @param   string 	$tag_id     Tag ID
+		 * @param   string 	$email      Email Address
+		 */
+		do_action( 'convertkit_api_tag_subscribe_success', $response, $tag_id, $email );
 
 		return $response;
 
@@ -461,6 +484,16 @@ class ConvertKit_API {
 		if ( is_wp_error( $response ) ) {
 			$this->log( 'API: unsubscribe(): Error: ' . $response->get_error_message() );
 		}
+
+		/**
+		 * Runs actions immediately after the email address was successfully unsubscribed.
+		 * 
+		 * @since 	1.9.6
+		 * 
+		 * @param 	array 	$response 	API Response
+		 * @param   string 	$email      Email Address
+		 */
+		do_action( 'convertkit_api_form_unsubscribe_success', $response, $email );
 
 		return $response;
 
