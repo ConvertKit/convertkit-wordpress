@@ -11,6 +11,7 @@ modules:
         - WPDb
         - WPWebDriver
         - \Helper\Acceptance
+        - \Codeception\Module\Asserts
     config:
         WPDb:
             dsn: '%TEST_SITE_DB_DSN%'
