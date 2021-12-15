@@ -262,7 +262,7 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 				sprintf(
 					/* translators: %1$s: Link to ConvertKit Account */
 					esc_html__( '%1$s Required for proper plugin function.', 'convertkit' ),
-					'<a href="' . esc_url( $this->get_api_key_url() ) . '" target="_blank">' . esc_html__( 'Get your ConvertKit API Key.', 'convertkit' ) . '</a>'
+					'<a href="' . esc_url( convertkit_get_api_key_url() ) . '" target="_blank">' . esc_html__( 'Get your ConvertKit API Key.', 'convertkit' ) . '</a>'
 				),
 				sprintf(
 					/* translators: Account, %1$s: wp-config.php, %2$s: <code> block for API Key definition */
@@ -299,7 +299,7 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 				sprintf(
 					/* translators: %1$s: Link to ConvertKit Account */
 					esc_html__( '%1$s Required for proper plugin function.', 'convertkit' ),
-					'<a href="' . esc_url( $this->get_api_key_url() ) . '" target="_blank">' . esc_html__( 'Get your ConvertKit API Secret.', 'convertkit' ) . '</a>'
+					'<a href="' . esc_url( convertkit_get_api_key_url() ) . '" target="_blank">' . esc_html__( 'Get your ConvertKit API Secret.', 'convertkit' ) . '</a>'
 				),
 				sprintf(
 					/* translators: Account, %1$s: wp-config.php, %2$s: <code> block for API Secret definition */
@@ -341,7 +341,7 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 			echo '<br />' . sprintf(
 				/* translators: Link to sign in to ConvertKit */
 				esc_html__( 'To create a form, %s', 'convertkit' ),
-				'<a href="https://app.convertkit.com/" target="_blank">' . esc_html__( 'sign in to ConvertKit', 'convertkit' ) . '</a>'
+				'<a href="' . esc_url( convertkit_get_sign_in_url() ) . '" target="_blank">' . esc_html__( 'sign in to ConvertKit', 'convertkit' ) . '</a>'
 			);
 			return;
 		}
@@ -393,18 +393,4 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 		);
 
 	}
-
-	/**
-	 * Returns the URL the user needs to visit on the ConvertKit app to obtain their API Key and Secret.
-	 *
-	 * @since   1.9.6
-	 *
-	 * @return  string  ConvertKit App URL.
-	 */
-	private function get_api_key_url() {
-
-		return 'https://app.convertkit.com/account_settings/advanced_settings/?utm_source=wordpress&utm_content=convertkit';
-
-	}
-
 }

@@ -16,7 +16,7 @@ class PluginSettingsGeneralCest
 
 	/**
 	 * Test that UTM parameters are included in links displayed on the Plugins' Setting screen for the user to obtain
-	 * their API Key and Secret.
+	 * their API Key and Secret, or sign in to their ConvertKit account.
 	 * 
 	 * @since 	1.9.6
 	 * 
@@ -29,7 +29,12 @@ class PluginSettingsGeneralCest
 
 		// Confirm that UTM parameters exist for the 'Get your ConvertKit API Key' link.
 		$I->seeInSource('<a href="https://app.convertkit.com/account_settings/advanced_settings/?utm_source=wordpress&amp;utm_content=convertkit" target="_blank">Get your ConvertKit API Key.</a>');
+		
+		// Confirm that UTM parameters exist for the 'Get your ConvertKit API Secret' link.
 		$I->seeInSource('<a href="https://app.convertkit.com/account_settings/advanced_settings/?utm_source=wordpress&amp;utm_content=convertkit" target="_blank">Get your ConvertKit API Secret.</a>');
+	
+		// Confirm that UTM parameters exist for the 'sign in to ConvertKit' link.
+		$I->seeInSource('<a href="https://app.convertkit.com/?utm_source=wordpress&amp;utm_content=convertkit" target="_blank">sign in to ConvertKit</a>');
 	}
 
 	/**
@@ -50,6 +55,9 @@ class PluginSettingsGeneralCest
 
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Check that 'No Forms exist in ConvertKit' is displayed.
+		$I->seeInSource('No Forms exist in ConvertKit.');
 	}
 
 	/**
@@ -88,6 +96,37 @@ class PluginSettingsGeneralCest
 	public function testSaveValidAPICredentials(AcceptanceTester $I)
 	{
 		$I->setupConvertKitPlugin($I);
+	}
+
+	/**
+	 * Test that no PHP errors or notices are displayed on the Plugin's Setting screen,
+	 * when valid API credentials are saved, but the ConvertKit account for the given API
+	 * credentials have no forms.
+	 * 
+	 * @since 	1.9.6
+	 * 
+	 * @param 	AcceptanceTester 	$I 	Tester
+	 */
+	public function testSaveValidAPICredentialsWithNoForms(AcceptanceTester $I)
+	{
+		// Go to the Plugin's Settings Screen.
+		$I->loadConvertKitSettingsGeneralScreen($I);
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Complete API Fields.
+		$I->fillField('_wp_convertkit_settings[api_key]', $_ENV['CONVERTKIT_API_KEY_NO_DATA']);
+		$I->fillField('_wp_convertkit_settings[api_secret]', $_ENV['CONVERTKIT_API_SECRET_NO_DATA']);
+
+		// Click the Save Changes button.
+		$I->click('Save Changes');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Check that 'No Forms exist in ConvertKit' is displayed.
+		$I->seeInSource('No Forms exist in ConvertKit.');
 	}
 
 	/**
