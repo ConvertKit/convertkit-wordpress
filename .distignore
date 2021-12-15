@@ -1,5 +1,6 @@
 /.git
 /.github
+/.scripts
 /.wordpress-org
 /tests
 /vendor
@@ -9,17 +10,16 @@
 .env.testing
 .env
 .gitignore
-build.sh
+ACTIONS-FILTERS.md
 codeception.dist.yml
 codeception.yml
 composer.json
 composer.lock
 convertkit.zip
+DEPLOYMENT.md
 DEVELOPMENT.md
 LICENSE
 log.txt
-package-lock.json
-package.json
 phpcs.xml
 README.md
 SETUP.md
