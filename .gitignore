@@ -1,11 +1,8 @@
-convertkit-svn
-node_modules/
 .env
 .env.testing
 .DS_Store
-inc/log.txt
 log.txt
-includes/log.txt
-vendor
 tests/_output
-tests/_support
+vendor
+codeception.yml
+*.zip

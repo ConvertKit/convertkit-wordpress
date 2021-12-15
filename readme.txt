@@ -3,8 +3,8 @@ Contributors: nathanbarry, growdev, travisnorthcutt, ggwicz
 Donate link: https://convertkit.com
 Tags: email, marketing, embed form, convertkit, capture
 Requires at least: 4.9
-Tested up to: 5.8
-Stable tag: 1.9.5.2
+Tested up to: 5.8.2
+Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -37,6 +37,10 @@ Full plugin documentation is located [here](https://help.convertkit.com/en/artic
 
 No. You must first have an account on ConvertKit.com, but you do not have to use a paid plan!
 
+= How do I refresh my available Forms, Landing Pages and Tags? =
+
+Navigate to the Plugin's Settings at Settings > ConvertKit.
+
 == Screenshots ==
 
 1. Create and customize stunning landing pages in ConvertKit
@@ -48,6 +52,25 @@ No. You must first have an account on ConvertKit.com, but you do not have to use
 7. Another ConvertKit landing page example
 
 == Changelog ==
+
+### 1.9.6 2021-12-xx
+* Added: ConvertKit Form Shortcode Button for Classic Editor
+* Added: Text Editor: Quicktag Buttons for inserting ConvertKit Forms and Custom Content
+* Added: Settings: ConvertKit: Logo and branding header
+* Added: Option to specify ConvertKit API Key and Secret as constants `CONVERTKIT_API_KEY` and `CONVERTKIT_API_SECRET` in wp-config.php
+* Added: Settings: ConvertKit: General: Different Default Forms can be specified for Pages and Posts
+* Added: Settings: ConvertKit: General: Enabling Debug option will also output data to browser console and inline HTML comments
+* Added: Settings: ConvertKit: Tools: Option to Download Log to text file
+* Added: Settings: ConvertKit: Tools: Option to Download System Info to text file
+* Added: PHP 8.x compatibility
+* Added: Developers: Action and filter hooks.  See https://github.com/ConvertKit/convertkit-wordpress/blob/1.9.6/ACTIONS-FILTERS.md
+* Fix: PHP warnings on new installations when adding/editing Pages or Posts where the plugin was not yet configured
+* Fix: PHP 8.x: PHP Deprecated warnings where required parameters wrongly followed optional parameters
+* Fix: gzinflate() data error
+* Fix: Deprecated edit_category_form_fields warning
+* Fix: Integration: WishList Member: Unsubscribe Action 'Unsubscribe from all' now honored when selected and saved
+* Fix: Ensure code meets WordPress Coding Standards
+* Fix: Use WP_Filesystem instead of PHP functions to read/write log file, per WordPress Coding Standards
 
 ### 1.9.5.2 2021-07-28
 * Fix: Fixed an issue where the ConvertKit shortcode would not function properly.

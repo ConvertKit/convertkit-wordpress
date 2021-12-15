@@ -10,26 +10,57 @@
  * Include WP_List_Table if not defined.
  */
 if ( ! class_exists( 'WP_List_Table' ) ) {
-	require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
+	require_once ABSPATH . 'wp-admin/includes/class-wp-list-table.php';
 }
 
 /**
  * Class Multi_Value_Field_Table
  */
 class Multi_Value_Field_Table extends WP_List_Table {
-	private $_bulk_actions     = array();
-	private $_columns          = array();
-	private $_sortable_columns = array();
-	private $_data             = array();
 
-	function __construct() {
-		global $status, $page;
+	/**
+	 * Holds the supported bulk actions.
+	 *
+	 * @var     array
+	 */
+	private $_bulk_actions     = array(); // phpcs:ignore
 
-		parent::__construct( array(
-			'singular' => 'item',
-			'plural'   => 'items',
-			'ajax'     => false,
-		) );
+	/**
+	 * Holds the table columns.
+	 *
+	 * @var     array
+	 */
+	private $_columns          = array(); // phpcs:ignore
+
+	/**
+	 * Holds the sortable table columns.
+	 *
+	 * @var     array
+	 */
+	private $_sortable_columns = array(); // phpcs:ignore
+
+	/**
+	 * Holds the table rows and their data.
+	 *
+	 * @var     array
+	 */
+	private $_data             = array(); // phpcs:ignore
+
+	/**
+	 * Constructor.
+	 *
+	 * @since 1.0.0
+	 */
+	public function __construct() {
+
+		parent::__construct(
+			array(
+				'singular' => 'item',
+				'plural'   => 'items',
+				'ajax'     => false,
+			)
+		);
+
 	}
 
 	/**
@@ -40,21 +71,25 @@ class Multi_Value_Field_Table extends WP_List_Table {
 	 * @return string Text or HTML to be placed inside the column <td>
 	 */
 	public function column_default( $item, $column_name ) {
+
 		return $item[ $column_name ];
+
 	}
 
 	/**
 	 * Provide a callback function to render the checkbox column
 	 *
-	 * @param  array  $item  A row's worth of data.
+	 * @param  array $item  A row's worth of data.
 	 * @return string The formatted string with a checkbox
 	 */
 	public function column_cb( $item ) {
+
 		return sprintf(
 			'<input type="checkbox" name="%1$s[]" value="%2$s" />',
 			$this->_args['singular'],
 			$item['id']
 		);
+
 	}
 
 	/**
@@ -63,7 +98,9 @@ class Multi_Value_Field_Table extends WP_List_Table {
 	 * @return array Bulk actions
 	 */
 	public function get_bulk_actions() {
+
 		return $this->_bulk_actions;
+
 	}
 
 	/**
@@ -72,7 +109,9 @@ class Multi_Value_Field_Table extends WP_List_Table {
 	 * @return array
 	 */
 	public function get_columns() {
+
 		return $this->_columns;
+
 	}
 
 	/**
@@ -80,14 +119,16 @@ class Multi_Value_Field_Table extends WP_List_Table {
 	 *
 	 * @param string  $key Machine-readable column name.
 	 * @param string  $title Title shown to the user.
-	 * @param boolean $sortable Whether or not this is sortable (defaults false)
+	 * @param boolean $sortable Whether or not this is sortable (defaults false).
 	 */
 	public function add_column( $key, $title, $sortable = false ) {
+
 		$this->_columns[ $key ] = $title;
 
 		if ( $sortable ) {
 			$this->_sortable_columns[ $key ] = array( $key, false );
 		}
+
 	}
 
 	/**
@@ -96,23 +137,28 @@ class Multi_Value_Field_Table extends WP_List_Table {
 	 * @param array $item A row's worth of data.
 	 */
 	public function add_item( $item ) {
+
 		array_push( $this->_data, $item );
+
 	}
 
 	/**
 	 * Add a bulk action to the table
 	 *
-	 * @param string $key  Machine-readable action name
-	 * @param string $name Title shown to the user
+	 * @param string $key  Machine-readable action name.
+	 * @param string $name Title shown to the user.
 	 */
 	public function add_bulk_action( $key, $name ) {
+
 		$this->_bulk_actions[ $key ] = $name;
+
 	}
 
 	/**
 	 * Prepares the items (rows) to be rendered
 	 */
 	public function prepare_items() {
+
 		$total_items = count( $this->_data );
 		$per_page    = 25;
 
@@ -126,44 +172,52 @@ class Multi_Value_Field_Table extends WP_List_Table {
 
 		$sorted_data = $this->reorder( $this->_data );
 
-		$data = array_slice( $sorted_data, ( ( $current_page - 1 ) * $per_page ),$per_page );
+		$data = array_slice( $sorted_data, ( ( $current_page - 1 ) * $per_page ), $per_page );
 
 		$this->items = $data;
 
-		$this->set_pagination_args( array(
-			'total_items' => $total_items,
-			'per_page'    => $per_page,
-			'total_pages' => ceil( $total_items / $per_page ),
-		));
+		$this->set_pagination_args(
+			array(
+				'total_items' => $total_items,
+				'per_page'    => $per_page,
+				'total_pages' => ceil( $total_items / $per_page ),
+			)
+		);
+
 	}
 
 	/**
 	 * Reorder the data according to the sort parameters
 	 *
+	 * @param array $data   Row data, unsorted.
 	 * @return array Row data, sorted
 	 */
 	public function reorder( $data ) {
-		function usort_reorder( $a, $b ) {
 
-			if ( empty( $_REQUEST['orderby'] ) ) { // WPCS: CSRF ok.
-				$orderby = 'title';
-			} else {
-				$orderby = sanitize_text_field( wp_unslash( $_REQUEST['orderby'] ) ); // WPCS: CSRF ok.
-			}
+		usort(
+			$data,
+			function( $a, $b ) {
 
-			if ( empty( $_REQUEST['order'] ) ) { // WPCS: CSRF ok.
-				$order = 'asc';
-			} else {
-				$order = sanitize_text_field( wp_unslash( $_REQUEST['order'] ) ); // WPCS: CSRF ok.
+			if ( empty( $_REQUEST['orderby'] ) ) { // phpcs:ignore
+					$orderby = 'title';
+				} else {
+					$orderby = sanitize_text_field( wp_unslash( $_REQUEST['orderby'] ) ); // phpcs:ignore
+				}
+
+			if ( empty( $_REQUEST['order'] ) ) { // phpcs:ignore
+					$order = 'asc';
+				} else {
+					$order = sanitize_text_field( wp_unslash( $_REQUEST['order'] ) ); // phpcs:ignore
+				}
+				$result = strcmp( $a[ $orderby ], $b[ $orderby ] ); // Determine sort order.
+				return ( 'asc' === $order ) ? $result : -$result; // Send final sort direction to usort.
+
 			}
-			$result  = strcmp( $a[ $orderby ], $b[ $orderby ] ); //Determine sort order.
-			return ( 'asc' === $order ) ? $result : -$result; //Send final sort direction to usort.
-		}
-		usort( $data, 'usort_reorder' );
+		);
 
 		return $data;
-	}
 
+	}
 
 	/**
 	 * Display the table without the nonce at the top.
@@ -172,23 +226,27 @@ class Multi_Value_Field_Table extends WP_List_Table {
 	 * @access public
 	 */
 	public function display_no_nonce() {
+
 		$singular = $this->_args['singular'];
 
 		$this->display_tablenav( 'bottom' );
 
 		$this->screen->render_screen_reader_content( 'heading_list' );
 		?>
-		<table class="wp-list-table <?php echo implode( ' ', $this->get_table_classes() ); ?>">
+		<table class="wp-list-table <?php echo esc_attr( implode( ' ', $this->get_table_classes() ) ); ?>">
 			<thead>
 			<tr>
 				<?php $this->print_column_headers(); ?>
 			</tr>
 			</thead>
 
-			<tbody id="the-list"<?php
+			<tbody id="the-list"
+			<?php
 			if ( $singular ) {
-				echo " data-wp-lists='list:$singular'";
-			} ?>>
+				echo " data-wp-lists='list:" . esc_attr( $singular ) . "'";
+			}
+			?>
+			>
 			<?php $this->display_rows_or_placeholder(); ?>
 			</tbody>
 
@@ -201,5 +259,6 @@ class Multi_Value_Field_Table extends WP_List_Table {
 		</table>
 		<?php
 		$this->display_tablenav( 'bottom' );
+
 	}
 }

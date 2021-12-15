@@ -7,31 +7,73 @@
  */
 
 /**
- * Helper: Is ConvertKit WP's debug option enabled?
+ * Helper method to get supported Post Types.
  *
- * @return bool
+ * @since   1.9.6
+ *
+ * @return  array   Post Types
  */
-function convertkit_wp_debug_enabled() {
-	$options = get_option( WP_ConvertKit::SETTINGS_PAGE_SLUG );
+function convertkit_get_supported_post_types() {
 
-	return ! empty( $options['debug'] ) && true == $options['debug']; // phpcs:ignore -- Okay use of loose comparison.
+	$post_types = array(
+		'page',
+		'post',
+	);
+
+	/**
+	 * Defines the Post Types that support ConvertKit Forms.
+	 *
+	 * @since   1.9.6
+	 *
+	 * @param   array   $post_types     Post Types
+	 */
+	$post_types = apply_filters( 'convertkit_get_supported_post_types', $post_types );
+
+	return $post_types;
+
 }
 
 /**
- * Gets a customized version of the WordPress default user agent; includes WP Version, PHP version, and ConvertKit plugin version.
+ * Helper method to get registered Blocks / Shortcodes.
  *
- * @return string
+ * @since   1.9.6
+ *
+ * @return  array   Blocks
  */
-function convertkit_wp_get_user_agent() {
+function convertkit_get_blocks() {
 
-	// Include an unmodified $wp_version.
-	require ABSPATH . WPINC . '/version.php';
+	$blocks = array();
 
-	return sprintf(
-		'WordPress/%1$s;PHP/%2$s;ConvertKit/%3$s;%4$s',
-		$wp_version,
-		phpversion(),
-		CONVERTKIT_PLUGIN_VERSION,
-		home_url( '/' )
+	/**
+	 * Registers blocks / shortcodes for the ConvertKit Plugin.
+	 *
+	 * @since   1.9.6
+	 *
+	 * @param   array   $blocks     Blocks
+	 */
+	$blocks = apply_filters( 'convertkit_blocks', $blocks );
+
+	return $blocks;
+
+}
+
+/**
+ * Helper method to return the Plugin Settings Link
+ *
+ * @since   1.9.6
+ *
+ * @param   array $query_args     Optional Query Args.
+ * @return  string                  Settings Link
+ */
+function convertkit_get_settings_link( $query_args = array() ) {
+
+	$query_args = array_merge(
+		$query_args,
+		array(
+			'page' => '_wp_convertkit_settings',
+		)
 	);
+
+	return add_query_arg( $query_args, admin_url( 'options-general.php' ) );
+
 }

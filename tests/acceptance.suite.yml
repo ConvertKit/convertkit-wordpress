@@ -9,14 +9,12 @@ actor: AcceptanceTester
 modules:
     enabled:
         - WPDb
-#        - WPBrowser
         - WPWebDriver
-        - WPLoader
         - \Helper\Acceptance
-        - WPCLI
+        - \Codeception\Module\Asserts
     config:
         WPDb:
-            dsn: 'mysql:host=%TEST_SITE_DB_HOST%;dbname=%TEST_SITE_DB_NAME%'
+            dsn: '%TEST_SITE_DB_DSN%'
             user: '%TEST_SITE_DB_USER%'
             password: '%TEST_SITE_DB_PASSWORD%'
             dump: 'tests/_data/dump.sql'
@@ -28,33 +26,23 @@ modules:
             url: '%TEST_SITE_WP_URL%'
             urlReplacement: true #replace the hardcoded dump URL with the one above
             tablePrefix: '%TEST_SITE_TABLE_PREFIX%'
-        WPWebDriver:
-            url: '%TEST_SITE_WP_URL%'
-            host: '10.0.2.2'
-            browser: chrome
-            port: 9515
-            window_size: 1200x1400
-            adminUsername: '%TEST_SITE_ADMIN_USERNAME%'
-            adminPassword: '%TEST_SITE_ADMIN_PASSWORD%'
-            adminPath: '/wp-admin'
-            capabilities:
-                javascriptEnabled: true,
-                unexpectedAlertBehaviour: 'ignore'
-        WPLoader:
-            wpRootFolder: '%WP_ROOT_FOLDER%'
-            dbName: '%TEST_SITE_DB_NAME%'
-            dbHost: '%TEST_SITE_DB_HOST%'
-            dbUser: '%TEST_SITE_DB_USER%'
-            dbPassword: '%TEST_SITE_DB_PASSWORD%'
-            wpDebug: true
-            tablePrefix: '%TEST_SITE_TABLE_PREFIX%'
-            domain: '%TEST_SITE_WP_DOMAIN%'
-            loadOnly: true
         WPBrowser:
             url: '%TEST_SITE_WP_URL%'
             adminUsername: '%TEST_SITE_ADMIN_USERNAME%'
             adminPassword: '%TEST_SITE_ADMIN_PASSWORD%'
-            adminPath: '/wp-admin'
-        WPCLI:
-            path: %WP_ROOT_FOLDER%
-            throw: true
+            adminPath: '%TEST_SITE_WP_ADMIN_PATH%'
+            headers:
+                X_TEST_REQUEST: 1
+                X_WPBROWSER_REQUEST: 1
+        WPWebDriver:
+            url: '%TEST_SITE_WP_URL%'
+            adminUsername: '%TEST_SITE_ADMIN_USERNAME%'
+            adminPassword: '%TEST_SITE_ADMIN_PASSWORD%'
+            adminPath: '%TEST_SITE_WP_ADMIN_PATH%'
+            browser: chrome
+            host: localhost
+            port: 9515
+            window_size: false #disabled for Chrome driver
+            capabilities:
+                chromeOptions:
+                    args: ["--headless", "--disable-gpu"]

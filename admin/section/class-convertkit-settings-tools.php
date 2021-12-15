@@ -1,47 +1,185 @@
 <?php
-
 /**
- * ConvertKit Tools Settings class
+ * ConvertKit Settings Tools class.
  *
  * @package ConvertKit
  * @author ConvertKit
  */
 
 /**
- * Class ConvertKit_Settings_Tools
+ * Registers Tools for debugging and system information that can be accessed at Settings > ConvertKit > Tools.
+ *
+ * @package ConvertKit
+ * @author ConvertKit
  */
 class ConvertKit_Settings_Tools extends ConvertKit_Settings_Base {
-
-	/**
-     * We are hiding the submit button.
-     *
-	 * @var bool
-	 */
-    protected $show_submit = false;
 
 	/**
 	 * Constructor
 	 */
 	public function __construct() {
-		$this->settings_key = '_wp_convertkit_integration_tools_settings';
+
+		// Initialize WP_Filesystem.
+		require_once ABSPATH . 'wp-admin/includes/file.php';
+		WP_Filesystem();
+
+		$this->settings_key = '_wp_convertkit_tools'; // Required for ConvertKit_Settings_Base, but we don't save settings on the Tools screen.
 		$this->name         = 'tools';
 		$this->title        = __( 'Tools', 'convertkit' );
 		$this->tab_text     = __( 'Tools', 'convertkit' );
 
 		parent::__construct();
+
+		$this->maybe_clear_log();
+		$this->maybe_download_log();
+		$this->maybe_download_system_info();
+
 	}
 
 	/**
-	 * Register and add settings
+	 * Clears the Log.
+	 *
+	 * @since   1.9.6
+	 */
+	private function maybe_clear_log() {
+
+		// Bail if nonce is invalid.
+		if ( ! $this->verify_nonce() ) {
+			return;
+		}
+
+		// Bail if the submit button for clearing the debug log was not clicked.
+		if ( ! array_key_exists( 'convertkit-clear-debug-log', $_REQUEST ) ) { // phpcs:ignore
+			return;
+		}
+
+		// Clear Log.
+		$log = new ConvertKit_Log();
+		$log->clear();
+
+		// Redirect to Tools screen.
+		wp_safe_redirect( 'options-general.php?page=_wp_convertkit_settings&tab=tools' );
+		exit();
+
+	}
+
+	/**
+	 * Prompts a browser download for the log file, if the user clicked
+	 * the Download Log button.
+	 *
+	 * @since   1.9.6
+	 */
+	private function maybe_download_log() {
+
+		global $wp_filesystem;
+
+		// Bail if nonce is invalid.
+		if ( ! $this->verify_nonce() ) {
+			return;
+		}
+
+		// Bail if the submit button for downloading the debug log was not clicked.
+		if ( ! array_key_exists( 'convertkit-download-debug-log', $_REQUEST ) ) { // phpcs:ignore
+			return;
+		}
+
+		// Get Log and download.
+		$log = new ConvertKit_Log();
+
+		// Download.
+		header( 'Content-type: application/octet-stream' );
+		header( 'Content-Disposition: attachment; filename=' . $log->get_filename() . '.txt' );
+		header( 'Pragma: no-cache' );
+		header( 'Expires: 0' );
+		echo $wp_filesystem->get_contents( $log->get_filename() ); // phpcs:ignore
+		exit();
+
+	}
+
+	/**
+	 * Prompts a browser download for the system information, if the user clicked
+	 * the Download System Info button.
+	 *
+	 * @since   1.9.6
+	 */
+	private function maybe_download_system_info() {
+
+		global $wp_filesystem;
+
+		// Bail if nonce is invalid.
+		if ( ! $this->verify_nonce() ) {
+			return;
+		}
+
+		// Bail if the submit button for downloading the system info was not clicked.
+		if ( ! array_key_exists( 'convertkit-download-system-info', $_REQUEST ) ) { // phpcs:ignore
+			return;
+		}
+
+		// Get System Info.
+		$system_info = new ConvertKit_System_Info();
+
+		// Write contents to temporary file.
+		$tmpfile  = tmpfile();
+		$filename = stream_get_meta_data( $tmpfile )['uri'];
+		$wp_filesystem->put_contents(
+			$filename,
+			$system_info->get()
+		);
+
+		// Download.
+		header( 'Content-type: application/octet-stream' );
+		header( 'Content-Disposition: attachment; filename=system-info.txt' );
+		header( 'Pragma: no-cache' );
+		header( 'Expires: 0' );
+		echo $wp_filesystem->get_contents( $filename ); // phpcs:ignore
+		$wp_filesystem->delete( $filename );
+		exit();
+
+	}
+
+	/**
+	 * Verifies if the _convertkit_settings_tools_nonce nonce was included in the request,
+	 * and if so whether the nonce action is valid.
+	 *
+	 * @since   1.9.6
+	 *
+	 * @return  bool
+	 */
+	private function verify_nonce() {
+
+		// Bail if nonce verification fails.
+		if ( ! isset( $_REQUEST['_convertkit_settings_tools_nonce'] ) ) {
+			return false;
+		}
+
+		return wp_verify_nonce( $_REQUEST['_convertkit_settings_tools_nonce'], 'convertkit-settings-tools' );
+
+	}
+
+	/**
+	 * Register fields for this section
 	 */
 	public function register_fields() {
-		add_settings_field(
-			'log',
-			'Log',
-			array( $this, 'view_log' ),
-			$this->settings_key,
-			$this->name
-		);
+
+		// No fields are registered for the Debug Log.
+		// This function is deliberately blank.
+	}
+
+	/**
+	 * Outputs the Debug Log and System Info view.
+	 *
+	 * @since   1.9.6
+	 */
+	public function render() {
+
+		// Get Log and System Info.
+		$log         = new ConvertKit_Log();
+		$system_info = new ConvertKit_System_Info();
+
+		// Output view.
+		require_once CONVERTKIT_PLUGIN_PATH . '/views/backend/settings/tools.php';
+
 	}
 
 	/**
@@ -53,401 +191,4 @@ class ConvertKit_Settings_Tools extends ConvertKit_Settings_Base {
 		<?php
 	}
 
-	/**
-	 * Renders the section
-	 */
-	public function render() {
-		settings_fields( $this->settings_key );
-		$this->view_log();
-		$this->view_server_info();
-	}
-
-	/*
-	 * View the Log
-	 */
-	public function view_log() {
-	    // Only try to get file contents if the file exists; otherwise default to empty string
-			$log_file = trailingslashit(CONVERTKIT_PLUGIN_PATH) . 'log.txt';
-			$log = "No logs have been generated.";
-			if (file_exists($log_file)) :
-				$log = file_get_contents($log_file);
-				$fp = fopen($log_file, 'r');
-				$log = "";
-				$log_limit = 1000;
-				for ($i = 0; $i < $log_limit; $i++) {
-					if (feof($fp)) {
-						$log .= 'End of file reached.';
-						break;
-					}
-					if ($i === $log_limit - 1) {
-						$log .= '--- 1,000 lines reached, end of log print. Click "Clear Log" if your logs are taking too long to load. ---';
-						break;
-					}
-					$log .= fgets($fp);
-				}
-				fclose($fp);
-			endif;
-		?>
-        <div class="metabox-holder">
-            <div class="postbox ck-debug-log">
-                <h3><span><?php esc_html_e( 'Debug Log', 'convertkit' ); ?></span></h3>
-                <div class="inside">
-                    <p><?php _e( 'Use this tool to help debug ConvertKit plugin functionality.', 'convertkit' ); ?></p>
-                    <textarea readonly="readonly" class="large-text monospace" rows="15"
-                              name="convertkit-debug-log-contents"><?php echo esc_textarea( $log ); ?></textarea>
-                    <p class="submit">
-						<?php
-						submit_button(
-							__( 'Copy Log','convertkit' ),
-							'primary',
-							'convertkit-copy-debug-log',
-							false,
-							array(
-								'onclick' => "this.form['convertkit-debug-log-contents'].focus();this.form['convertkit-debug-log-contents'].select();document.execCommand('copy');return false;"
-							)
-						);
-						submit_button(
-							__( 'Clear Log', 'convertkit' ),
-							'secondary ck-inline-button',
-							'convertkit-clear-debug-log',
-							false
-						);
-						?>
-                    </p>
-                    <p><?php _e( 'Log file', 'convertkit' ); ?>: <code><?php echo $log_file; ?></code></p>
-                </div><!-- .inside -->
-            </div><!-- .postbox -->
-        </div><!-- .metabox-holder -->
-		<?php
-	}
-
-	public function view_server_info() {
-		?>
-        <div class="metabox-holder">
-            <div class="postbox ck-debug-log">
-                <h3><span><?php esc_html_e( 'System Info', 'convertkit' ); ?></span></h3>
-                <div class="inside">
-                    <p><?php _e( 'Use this tool to send system info to support when necessary.', 'convertkit' ); ?></p>
-                        <textarea readonly="readonly" onclick="this.focus(); this.select()" id="system-info-textarea" class="large-text monospace" rows="15" name="convertkit-sysinfo"><?php echo $this->get_system_info(); ?></textarea>
-                        <p class="submit">
-                            <input type="hidden" name="convertkit-action" value="download_sysinfo" />
-	                        <?php
-	                        submit_button(
-		                        __( 'Copy System Info', 'convertkit' ),
-		                        'primary',
-		                        'convertkit-copy-system-info',
-		                        false,
-		                        array(
-			                        'onclick' => "this.form['convertkit-sysinfo'].focus();this.form['convertkit-sysinfo'].select();document.execCommand('copy');return false;"
-		                        )
-	                        );
-	                        ?>
-                        </p>
-                </div><!-- .inside -->
-            </div><!-- .postbox -->
-        </div><!-- .metabox-holder -->
-		<?php
-	}
-
-	/**
-	 * Sanitizes the settings.
-     * We are also using this to clear the Log file.
-	 *
-	 * @param  array $settings The settings fields submitted.
-	 * @return array           Sanitized settings.
-	 */
-	public function sanitize_settings( $settings ) {
-
-		$log_file = trailingslashit( CONVERTKIT_PLUGIN_PATH ) . 'log.txt';
-
-		if ( ! current_user_can( 'manage_options' ) ) {
-			return;
-		}
-
-		if ( isset( $_REQUEST['convertkit-clear-debug-log'] ) ) {
-
-			$handle = fopen( $log_file, 'w' );
-			fclose( $handle );
-
-			wp_safe_redirect( admin_url( 'options-general.php?page=_wp_convertkit_settings&tab=tools' ) );
-			exit;
-
-		}
-	}
-
-	/**
-	 * Get system info
-     *
-     * Adapted from Easy Digital Downloads
-	 *
-	 * @since       2.0
-	 * @global      object $wpdb Used to query the database using the WordPress Database API
-	 * @return      string $return A string containing the info to output
-	 */
-	function get_system_info() {
-		global $wpdb;
-
-		if ( ! class_exists( 'Browser' ) ) {
-			require_once CONVERTKIT_PLUGIN_PATH . '/lib/browser.php';
-        }
-
-		$browser = new Browser();
-
-		// Get theme info
-		$theme_data   = wp_get_theme();
-		$theme        = $theme_data->Name . ' ' . $theme_data->Version;
-		$parent_theme = $theme_data->Template;
-		if ( ! empty( $parent_theme ) ) {
-			$parent_theme_data = wp_get_theme( $parent_theme );
-			$parent_theme      = $parent_theme_data->Name . ' ' . $parent_theme_data->Version;
-		}
-
-		// Try to identify the hosting provider
-		$host = $this->get_host();
-
-		$return  = '### Begin System Info ###' . "\n\n";
-
-		// Start with the basics...
-		$return .= '-- Site Info' . "\n\n";
-		$return .= 'Site URL:                 ' . site_url() . "\n";
-		$return .= 'Home URL:                 ' . home_url() . "\n";
-		$return .= 'Multisite:                ' . ( is_multisite() ? 'Yes' : 'No' ) . "\n";
-
-		$return  = apply_filters( 'convertkit_sysinfo_after_site_info', $return );
-
-		// Can we determine the site's host?
-		if( $host ) {
-			$return .= "\n" . '-- Hosting Provider' . "\n\n";
-			$return .= 'Host:                     ' . $host . "\n";
-
-			$return  = apply_filters( 'convertkit_sysinfo_after_host_info', $return );
-		}
-
-		// The local users' browser information, handled by the Browser class
-		$return .= "\n" . '-- User Browser' . "\n\n";
-		$return .= $browser;
-
-		$return  = apply_filters( 'convertkit_sysinfo_after_user_browser', $return );
-
-		$locale = get_locale();
-
-		// WordPress configuration
-		$return .= "\n" . '-- WordPress Configuration' . "\n\n";
-		$return .= 'Version:                  ' . get_bloginfo( 'version' ) . "\n";
-		$return .= 'Language:                 ' . ( !empty( $locale ) ? $locale : 'en_US' ) . "\n";
-		$return .= 'Permalink Structure:      ' . ( get_option( 'permalink_structure' ) ? get_option( 'permalink_structure' ) : 'Default' ) . "\n";
-		$return .= 'Active Theme:             ' . $theme . "\n";
-		if ( $parent_theme !== $theme ) {
-			$return .= 'Parent Theme:             ' . $parent_theme . "\n";
-		}
-		$return .= 'Show On Front:            ' . get_option( 'show_on_front' ) . "\n";
-
-		// Only show page specs if frontpage is set to 'page'
-		if( get_option( 'show_on_front' ) == 'page' ) {
-			$front_page_id = get_option( 'page_on_front' );
-			$blog_page_id = get_option( 'page_for_posts' );
-
-			$return .= 'Page On Front:            ' . ( $front_page_id != 0 ? get_the_title( $front_page_id ) . ' (#' . $front_page_id . ')' : 'Unset' ) . "\n";
-			$return .= 'Page For Posts:           ' . ( $blog_page_id != 0 ? get_the_title( $blog_page_id ) . ' (#' . $blog_page_id . ')' : 'Unset' ) . "\n";
-		}
-
-		$return .= 'ABSPATH:                  ' . ABSPATH . "\n";
-
-		// Make sure wp_remote_post() is working
-		$request['cmd'] = '_notify-validate';
-
-		$params = array(
-			'sslverify'     => false,
-			'timeout'       => 60,
-			'user-agent'    => convertkit_wp_get_user_agent(),
-			'body'          => $request
-		);
-
-		$response = wp_remote_post( 'https://www.paypal.com/cgi-bin/webscr', $params );
-
-		if( !is_wp_error( $response ) && $response['response']['code'] >= 200 && $response['response']['code'] < 300 ) {
-			$WP_REMOTE_POST = 'wp_remote_post() works';
-		} else {
-			$WP_REMOTE_POST = 'wp_remote_post() does not work';
-		}
-
-		$return .= 'Remote Post:              ' . $WP_REMOTE_POST . "\n";
-		$return .= 'Table Prefix:             ' . 'Length: ' . strlen( $wpdb->prefix ) . '   Status: ' . ( strlen( $wpdb->prefix ) > 16 ? 'ERROR: Too long' : 'Acceptable' ) . "\n";
-		$return .= 'WP_DEBUG:                 ' . ( defined( 'WP_DEBUG' ) ? WP_DEBUG ? 'Enabled' : 'Disabled' : 'Not set' ) . "\n";
-		$return .= 'Memory Limit:             ' . WP_MEMORY_LIMIT . "\n";
-		$return .= 'Registered Post Stati:    ' . implode( ', ', get_post_stati() ) . "\n";
-
-		$return  = apply_filters( 'convertkit_sysinfo_after_wordpress_config', $return );
-
-		// ConvertKit configuration
-		$return .= "\n" . '-- ConvertKit Configuration' . "\n\n";
-		$return .= 'Version:                  ' . CONVERTKIT_PLUGIN_VERSION . "\n";
-        // @TODO add info on form settings, incl. integrations, etc.
-
-		$return  = apply_filters( 'convertkit_sysinfo_after_convertkit_config', $return );
-
-		// Get plugins that have an update
-		$updates = get_plugin_updates();
-
-		// Must-use plugins
-		// NOTE: MU plugins can't show updates!
-		$muplugins = get_mu_plugins();
-		if( count( $muplugins ) > 0 ) {
-			$return .= "\n" . '-- Must-Use Plugins' . "\n\n";
-
-			foreach( $muplugins as $plugin => $plugin_data ) {
-				$return .= $plugin_data['Name'] . ': ' . $plugin_data['Version'] . "\n";
-			}
-
-			$return = apply_filters( 'convertkit_sysinfo_after_wordpress_mu_plugins', $return );
-		}
-
-		// WordPress active plugins
-		$return .= "\n" . '-- WordPress Active Plugins' . "\n\n";
-
-		$plugins = get_plugins();
-		$active_plugins = get_option( 'active_plugins', array() );
-
-		foreach( $plugins as $plugin_path => $plugin ) {
-			if( !in_array( $plugin_path, $active_plugins ) )
-				continue;
-
-			$update = ( array_key_exists( $plugin_path, $updates ) ) ? ' (needs update - ' . $updates[$plugin_path]->update->new_version . ')' : '';
-			$return .= $plugin['Name'] . ': ' . $plugin['Version'] . $update . "\n";
-		}
-
-		$return  = apply_filters( 'convertkit_sysinfo_after_wordpress_plugins', $return );
-
-		// WordPress inactive plugins
-		$return .= "\n" . '-- WordPress Inactive Plugins' . "\n\n";
-
-		foreach( $plugins as $plugin_path => $plugin ) {
-			if( in_array( $plugin_path, $active_plugins ) )
-				continue;
-
-			$update = ( array_key_exists( $plugin_path, $updates ) ) ? ' (needs update - ' . $updates[$plugin_path]->update->new_version . ')' : '';
-			$return .= $plugin['Name'] . ': ' . $plugin['Version'] . $update . "\n";
-		}
-
-		$return  = apply_filters( 'convertkit_sysinfo_after_wordpress_plugins_inactive', $return );
-
-		if( is_multisite() ) {
-			// WordPress Multisite active plugins
-			$return .= "\n" . '-- Network Active Plugins' . "\n\n";
-
-			$plugins = wp_get_active_network_plugins();
-			$active_plugins = get_site_option( 'active_sitewide_plugins', array() );
-
-			foreach( $plugins as $plugin_path ) {
-				$plugin_base = plugin_basename( $plugin_path );
-
-				if( !array_key_exists( $plugin_base, $active_plugins ) )
-					continue;
-
-				$update = ( array_key_exists( $plugin_path, $updates ) ) ? ' (needs update - ' . $updates[$plugin_path]->update->new_version . ')' : '';
-				$plugin  = get_plugin_data( $plugin_path );
-				$return .= $plugin['Name'] . ': ' . $plugin['Version'] . $update . "\n";
-			}
-
-			$return  = apply_filters( 'convertkit_sysinfo_after_wordpress_ms_plugins', $return );
-		}
-
-		// Server configuration (really just versioning)
-		$return .= "\n" . '-- Webserver Configuration' . "\n\n";
-		$return .= 'PHP Version:              ' . PHP_VERSION . "\n";
-		$return .= 'MySQL Version:            ' . $wpdb->db_version() . "\n";
-		$return .= 'Webserver Info:           ' . $_SERVER['SERVER_SOFTWARE'] . "\n";
-
-		$return  = apply_filters( 'convertkit_sysinfo_after_webserver_config', $return );
-
-		// PHP configs... now we're getting to the important stuff
-		$return .= "\n" . '-- PHP Configuration' . "\n\n";
-		$return .= 'Memory Limit:             ' . ini_get( 'memory_limit' ) . "\n";
-		$return .= 'Upload Max Size:          ' . ini_get( 'upload_max_filesize' ) . "\n";
-		$return .= 'Post Max Size:            ' . ini_get( 'post_max_size' ) . "\n";
-		$return .= 'Upload Max Filesize:      ' . ini_get( 'upload_max_filesize' ) . "\n";
-		$return .= 'Time Limit:               ' . ini_get( 'max_execution_time' ) . "\n";
-		$return .= 'Max Input Vars:           ' . ini_get( 'max_input_vars' ) . "\n";
-		$return .= 'Display Errors:           ' . ( ini_get( 'display_errors' ) ? 'On (' . ini_get( 'display_errors' ) . ')' : 'N/A' ) . "\n";
-		$return .= 'PHP Arg Separator:        ' . ini_get( 'arg_separator.output') . "\n";
-
-		$return  = apply_filters( 'convertkit_sysinfo_after_php_config', $return );
-
-		$curl_version_info = function_exists( 'curl_version' ) ? curl_version() : array(
-		    'version' => 'Unknown; cURL not avaible',
-            'ssl_version' => 'Unknown; cURL not avaible'
-        );
-
-		// PHP extensions and such
-		$return .= "\n" . '-- PHP Extensions' . "\n\n";
-		$return .= 'cURL:                     ' . ( function_exists( 'curl_init' ) ? 'Supported' : 'Not Supported' ) . "\n";
-		$return .= 'cURL version:             ' . $curl_version_info['version'] . "\n";
-		$return .= 'ssl version:              ' . $curl_version_info['ssl_version'] . "\n";
-		$return .= 'fsockopen:                ' . ( function_exists( 'fsockopen' ) ? 'Supported' : 'Not Supported' ) . "\n";
-		$return .= 'SOAP Client:              ' . ( class_exists( 'SoapClient' ) ? 'Installed' : 'Not Installed' ) . "\n";
-		$return .= 'Suhosin:                  ' . ( extension_loaded( 'suhosin' ) ? 'Installed' : 'Not Installed' ) . "\n";
-
-		$return  = apply_filters( 'convertkit_sysinfo_after_php_ext', $return );
-
-		// Session stuff
-		$return .= "\n" . '-- Session Configuration' . "\n\n";
-
-		// The rest of this is only relevant is session is enabled
-		if( isset( $_SESSION ) ) {
-			$return .= 'Session Name:             ' . esc_html( ini_get( 'session.name' ) ) . "\n";
-			$return .= 'Cookie Path:              ' . esc_html( ini_get( 'session.cookie_path' ) ) . "\n";
-			$return .= 'Save Path:                ' . esc_html( ini_get( 'session.save_path' ) ) . "\n";
-			$return .= 'Use Cookies:              ' . ( ini_get( 'session.use_cookies' ) ? 'On' : 'Off' ) . "\n";
-			$return .= 'Use Only Cookies:         ' . ( ini_get( 'session.use_only_cookies' ) ? 'On' : 'Off' ) . "\n";
-		}
-
-		$return  = apply_filters( 'convertkit_sysinfo_after_session_config', $return );
-
-		$return .= "\n" . '### End System Info ###';
-
-		return $return;
-	}
-
-	/**
-	 * Get user host
-     *
-     * Adapted from Easy Digital Downloads
-	 *
-	 * Returns the webhost this site is using if possible
-	 *
-	 * @since 1.6.4
-	 * @return mixed string $host if detected, false otherwise
-	 */
-	function get_host() {
-		$host = false;
-
-		if( defined( 'WPE_APIKEY' ) ) {
-			$host = 'WP Engine';
-		} elseif( defined( 'PAGELYBIN' ) ) {
-			$host = 'Pagely';
-		} elseif( DB_HOST == 'localhost:/tmp/mysql5.sock' ) {
-			$host = 'ICDSoft';
-		} elseif( DB_HOST == 'mysqlv5' ) {
-			$host = 'NetworkSolutions';
-		} elseif( strpos( DB_HOST, 'ipagemysql.com' ) !== false ) {
-			$host = 'iPage';
-		} elseif( strpos( DB_HOST, 'ipowermysql.com' ) !== false ) {
-			$host = 'IPower';
-		} elseif( strpos( DB_HOST, '.gridserver.com' ) !== false ) {
-			$host = 'MediaTemple Grid';
-		} elseif( strpos( DB_HOST, '.pair.com' ) !== false ) {
-			$host = 'pair Networks';
-		} elseif( strpos( DB_HOST, '.stabletransit.com' ) !== false ) {
-			$host = 'Rackspace Cloud';
-		} elseif( strpos( DB_HOST, '.sysfix.eu' ) !== false ) {
-			$host = 'SysFix.eu Power Hosting';
-		} elseif( strpos( $_SERVER['SERVER_NAME'], 'Flywheel' ) !== false ) {
-			$host = 'Flywheel';
-		} else {
-			// Adding a general fallback for data gathering
-			$host = 'DBH: ' . DB_HOST . ', SRV: ' . $_SERVER['SERVER_NAME'];
-		}
-
-		return $host;
-	}
 }

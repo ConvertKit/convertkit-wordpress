@@ -1,0 +1,35 @@
+/**
+ * Settings > ConvertKit
+ */
+body.settings_page__wp_convertkit_settings #wpcontent {
+	padding-left: 0;
+}
+body.settings_page__wp_convertkit_settings header {
+	padding: 40px 20px;
+	background: url(../images/convertkit-long-inverted.svg) 20px 50% no-repeat;
+	background-size: 200px auto;
+	background-color: #212f4f;
+}
+body.settings_page__wp_convertkit_settings h1 {
+	margin: 0;
+	padding: 0;
+	font-weight: 400;
+	color: #D2D8DD;
+	text-indent: -9999px;
+}
+body.settings_page__wp_convertkit_settings .wrap {
+	margin-left: 20px;
+}
+body.settings_page__wp_convertkit_settings .notices {
+	margin: 20px 0 10px 0;
+}
+body.settings_page__wp_convertkit_settings .notice {
+	margin: 20px 0 15px 0;
+}
+body.settings_page__wp_convertkit_settings textarea.convertkit-monospace {
+	font-family: monospace;
+	padding: 20px;
+}
+body.settings_page__wp_convertkit_settings input.button {
+	margin:  0 5px 0 0;
+}

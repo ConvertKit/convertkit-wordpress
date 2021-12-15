@@ -1,0 +1,46 @@
+/**
+ * TinyMCE and QuickTag Modals
+ */
+.convertkit-option {
+	display: grid;
+	grid-template-areas: "left right";
+	grid-template-columns: 120px auto;
+	grid-column-gap: 5px;
+	grid-row-gap: 5px;
+	justify-items: start;
+	text-align: left;
+	padding: 10px 15px;
+	border-width: 1px 0;
+	border-style: solid;
+	border-top: none;
+	border-bottom-color: #dfdfdf;
+	background-color: #f5f5f5;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+.convertkit-option:nth-child(odd) {
+	background-color: #fcfcfc;
+}
+.convertkit-option div.left {
+	width: 100%;
+	grid-area: left;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+.convertkit-option div.left *:not(input) {
+	line-height: 27px;
+}
+.convertkit-option div.right {
+	width: 100%;
+	line-height: 27px;
+	grid-area: right;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+.convertkit-option input,
+.convertkit-option select {
+	border: 1px solid #8c8f94;
+}

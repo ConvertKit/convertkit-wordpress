@@ -9,18 +9,14 @@ modules:
         - \Helper\Wpunit
     config:
         WPLoader:
-            wpRootFolder: '/Users/travis/sites/ck'
-            dbName: 'wp_test_ck'
-            dbHost: 'localhost'
-            dbUser: 'root'
-            dbPassword: ''
-            tablePrefix: 'wp_'
-            domain: 'https://ck.test'
-            adminEmail: 'travis@memberup.co'
+            wpRootFolder: "%WP_ROOT_FOLDER%"
+            dbName: "%TEST_DB_NAME%"
+            dbHost: "%TEST_DB_HOST%"
+            dbUser: "%TEST_DB_USER%"
+            dbPassword: "%TEST_DB_PASSWORD%"
+            tablePrefix: "%TEST_TABLE_PREFIX%"
+            domain: "%TEST_SITE_WP_DOMAIN%"
+            adminEmail: "%TEST_SITE_ADMIN_EMAIL%"
             title: "Test"
-            plugins:
-                - 'ConvertKit-WordPress/wp-convertkit.php'
-                - 'contact-form-7/wp-contact-form-7.php'
-            activatePlugins:
-                - 'ConvertKit-WordPress/wp-convertkit.php'
-                - 'contact-form-7/wp-contact-form-7.php'
+            plugins: ['convertkit/wp-convertkit.php']
+            activatePlugins: ['convertkit/wp-convertkit.php']

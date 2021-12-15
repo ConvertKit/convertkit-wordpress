@@ -1,26 +1,21 @@
-Closes #
-
 ## Summary
 
-Brief description of what was done to meet the acceptance criteria or fix the bug.
-Doesn't need to be exhaustive, but more info is generally better.
-Could someone else pick it up where you left off?
+A brief description of what this PR adds, changes or fixes.
 
-## Pull request checklist
+If it is adding functionality, a use case of why this is needed helps determine its suitability.
 
-* [ ] Is the added/modified code sufficiently tested? Do all tests pass?
-* [ ] Is the code easy to understand? Does it follow [the rules](https://robots.thoughtbot.com/sandi-metz-rules-for-developers)?
-* [ ] Are the return values of public methods documented?
-* [ ] Are any complicated parts explained / documented?
-* [ ] Does this PR positively affect the code climate GPA score?
-* [ ] Do you want feedback on anything in particular?
-* [ ] Does this require QA? What should be tested? 
+## Testing
 
-## Ready for review?
-- [ ] Add "ready for review" label
-- [ ] Assign a reviewer (or two)
-- [ ] post RFR in #wordpress
+Not sure how to perform testing, or perhaps didn't include a test in this PR? Walk through the following in order for a beginner-friendly guide:
+- [Setup](SETUP.md) - setting up your local environment for development and testing
+- [Development](DEVELOPMENT.md) - best practices for development
+- [Testing](TESTING.md) - how to write and run tests
 
-**Handy links**
-- [PR Checklist](https://github.com/ConvertKit/convertkit/wiki/Pull-Request-Checklist)
-- [Code design](https://github.com/ConvertKit/convertkit/blob/master/README-coding-style.md)
+## Checklist
+
+* [ ] I have [written a test](TESTING.md#writing-an-acceptance-test) and included it in this PR
+* [ ] I have [run all tests](TESTING.md#run-tests) and they pass
+* [ ] The code passes when [running the PHP CodeSniffer](TESTING.md#run-php-codesniffer)
+* [ ] Code meets [WordPress Coding Standards](DEVELOPMENT.md#coding-standards) for PHP, HTML, CSS and JS
+* [ ] [Security and Sanitization](DEVELOPMENT.md#security-and-sanitization) requirements have been followed
+* [ ] I have assigned a reviewer or two to review this PR (if you're not sure who to assign, we can do this step for you)
