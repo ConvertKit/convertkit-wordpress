@@ -53,7 +53,7 @@ Navigate to the Plugin's Settings at Settings > ConvertKit.
 
 == Changelog ==
 
-### 1.9.6 2021-12-xx
+### 1.9.6 2021-12-15
 * Added: ConvertKit Form Shortcode Button for Classic Editor
 * Added: Text Editor: Quicktag Buttons for inserting ConvertKit Forms and Custom Content
 * Added: Settings: ConvertKit: Logo and branding header

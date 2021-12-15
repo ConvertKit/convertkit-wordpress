@@ -1,11 +1,7 @@
 name: Run Tests
 
-# Run when a PR is submitted/worked on, or a change is made to the master branch
-on:
-  pull_request:
-  push:
-    branches:
-      -master
+# Comma separated array or single value e.g. [ pull_request, push ] or [ pull_request ].
+on: [ pull_request ]
 
 jobs:
   tests:

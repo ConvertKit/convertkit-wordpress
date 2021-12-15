@@ -1147,17 +1147,21 @@ do_action( 'convertkit_admin_settings_enqueue_styles', function(  ) {
 							</tr>
 						</thead>
 						<tbody><tr>
-							<td></td>
-							<td>string 	$first_name First Name</td>
-							<td>string 	$first_name First Name</td>
+							<td>$response</td>
+							<td>array</td>
+							<td>API Response</td>
 						</tr><tr>
-							<td>Form</td>
-							<td>string 	$form_id</td>
-							<td>ID</td>
+							<td>$form_id</td>
+							<td>string</td>
+							<td>Form ID</td>
 						</tr><tr>
-							<td>Email</td>
-							<td>string 	$email</td>
-							<td>Address</td>
+							<td>$email</td>
+							<td>string</td>
+							<td>Email Address</td>
+						</tr><tr>
+							<td>$first_name</td>
+							<td>string</td>
+							<td>First</td>
 						</tr>
 						</tbody>
 					</table><h4>Usage</h4>
@@ -1180,17 +1184,17 @@ do_action( 'convertkit_api_form_subscribe_success', function( $response, $form_i
 							</tr>
 						</thead>
 						<tbody><tr>
-							<td></td>
-							<td>array 	$response 	API Response</td>
-							<td>array 	$response 	API Response</td>
+							<td>$response</td>
+							<td>array</td>
+							<td>API Response</td>
 						</tr><tr>
-							<td>Tag</td>
-							<td>string 	$tag_id</td>
-							<td>ID</td>
+							<td>$tag_id</td>
+							<td>string</td>
+							<td>Tag ID</td>
 						</tr><tr>
-							<td>Email</td>
-							<td>string 	$email</td>
-							<td>Address</td>
+							<td>$email</td>
+							<td>string</td>
+							<td>Email Address</td>
 						</tr>
 						</tbody>
 					</table><h4>Usage</h4>
@@ -1213,13 +1217,13 @@ do_action( 'convertkit_api_tag_subscribe_success', function( $response, $tag_id,
 							</tr>
 						</thead>
 						<tbody><tr>
-							<td></td>
-							<td>array 	$response 	API Response</td>
-							<td>array 	$response 	API Response</td>
+							<td>$response</td>
+							<td>array</td>
+							<td>API Response</td>
 						</tr><tr>
-							<td>Email</td>
-							<td>string 	$email</td>
-							<td>Address</td>
+							<td>$email</td>
+							<td>string</td>
+							<td>Email Address</td>
 						</tr>
 						</tbody>
 					</table><h4>Usage</h4>
