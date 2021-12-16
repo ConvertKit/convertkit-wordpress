@@ -53,6 +53,9 @@ Navigate to the Plugin's Settings at Settings > ConvertKit.
 
 == Changelog ==
 
+### 1.9.6.1 2021-12-16
+* Fix: Character encoding issue on Landing Pages
+
 ### 1.9.6 2021-12-15
 * Added: ConvertKit Form Shortcode Button for Classic Editor
 * Added: Text Editor: Quicktag Buttons for inserting ConvertKit Forms and Custom Content

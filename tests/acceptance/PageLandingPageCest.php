@@ -131,4 +131,57 @@ class PageLandingPageCest
 		$I->dontSeeElementInDOM('body.page'); // WordPress didn't load its template, which is correct.
 		$I->seeElementInDOM('form[data-sv-form="' . $landingPageID . '"]'); // ConvertKit injected its Landing Page Form, which is correct.
 	}
+
+	/**
+	 * Test that character encoding is correct when a Landing Page is output.
+	 * 
+	 * @since 	1.9.6.1
+	 * 
+	 * @param 	AcceptanceTester 	$I 	Tester
+	 */
+	public function testLandingPageCharacterEncoding(AcceptanceTester $I)
+	{
+		// Navigate to Pages > Add New
+		$I->amOnAdminPage('post-new.php?post_type=page');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Check that the metabox is displayed.
+		$I->seeElementInDOM('#wp-convertkit-meta-box');
+
+		// Check that the Form option is displayed.
+		$I->seeElementInDOM('#wp-convertkit-landing_page');
+
+		// Change Landing Page to value specified in the .env file.
+		$I->selectOption('#wp-convertkit-landing_page', $_ENV['CONVERTKIT_API_LANDING_PAGE_CHARACTER_ENCODING_NAME']);
+
+		// Define a Page Title.
+		$I->fillField('#post-title-0', 'ConvertKit: Landing Page: Character Encoding');
+
+		// Click the Publish button.
+		$I->click('.editor-post-publish-button__button');
+		
+		// When the pre-publish panel displays, click Publish again.
+		$I->performOn('.editor-post-publish-panel__prepublish', function($I) {
+			$I->click('.editor-post-publish-panel__header-publish-button .editor-post-publish-button__button');	
+		});
+
+		// Check the value of the Landing Page field matches the input provided.
+		$I->performOn( '.post-publish-panel__postpublish-buttons', function($I) {
+			$I->seeOptionIsSelected('#wp-convertkit-landing_page', $_ENV['CONVERTKIT_API_LANDING_PAGE_CHARACTER_ENCODING_NAME']);
+		});
+
+		// Get Landing Page ID.
+		$landingPageID = $I->grabValueFrom('#wp-convertkit-landing_page');
+
+		// Load the Page on the frontend site
+		$I->amOnPage('/convertkit-landing-page-character-encoding');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Confirm that the Landing Page title is the same as defined on ConvertKit i.e. that character encoding is correct.
+		$I->seeInSource('Vantar þinn ungling sjálfstraust í stærðfræði?');
+	}
 }
