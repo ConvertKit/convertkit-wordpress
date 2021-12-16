@@ -684,7 +684,7 @@ class ConvertKit_API {
 		// Load the landing page HTML into a DOMDocument.
 		libxml_use_internal_errors( true );
 		$html = new DOMDocument();
-		$html->loadHTML( $body );
+		$html->loadHTML( mb_convert_encoding( $body, 'HTML-ENTITIES', 'UTF-8' ) );
 
 		// Convert any relative URLs to absolute URLs in the HTML DOM.
 		$this->convert_relative_to_absolute_urls( $html->getElementsByTagName( 'a' ), 'href', $url_scheme_host_only );

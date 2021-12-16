@@ -84,6 +84,7 @@ CONVERTKIT_API_FORM_NAME="Page Form" // The name of a form that exists on the Co
 CONVERTKIT_API_FORM_ID="2765139" // The ID of the CONVERTKIT_API_FORM_NAME
 CONVERTKIT_API_LANDING_PAGE_NAME="Landing Page" // The name of a landing page that exists on the ConvertKit Account for the above API credentials
 CONVERTKIT_API_LANDING_PAGE_ID="2765196" // The ID of the CONVERTKIT_API_LANDING_PAGE_NAME
+CONVERTKIT_API_LANDING_PAGE_CHARACTER_ENCODING_NAME="Character Encoding" // The name of a landing page that exists on the ConvertKit Account for the above API credentials, that uses accented characters
 CONVERTKIT_API_LEGACY_FORM_NAME="Legacy Form" // The name of a legacy form that exists on the ConvertKit Account for the above API credentials
 CONVERTKIT_API_LEGACY_FORM_ID="470099" // The ID of the CONVERTKIT_API_LEGACY_FORM_NAME
 CONVERTKIT_API_TAG_NAME="wordpress" // The name of a tag that exists on the ConvertKit Account for the above API credentials
