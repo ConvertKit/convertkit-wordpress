@@ -59,7 +59,7 @@
 					echo sprintf(
 						/* translators: Link to sign in to ConvertKit */
 						esc_html__( 'To make changes to your forms, %s', 'convertkit' ),
-						'<a href="https://app.convertkit.com/" target="_blank">' . esc_html__( 'sign in to ConvertKit', 'convertkit' ) . '</a>'
+						'<a href="' . esc_url( convertkit_get_sign_in_url() ) . '" target="_blank">' . esc_html__( 'sign in to ConvertKit', 'convertkit' ) . '</a>'
 					);
 					?>
 				</p>
@@ -114,7 +114,7 @@
 						echo sprintf(
 							/* translators: Link to sign in to ConvertKit */
 							esc_html__( 'To make changes to your landing pages, %s', 'convertkit' ),
-							'<a href="https://app.convertkit.com/" target="_blank">' . esc_html__( 'sign in to ConvertKit', 'convertkit' ) . '</a>'
+							'<a href="' . esc_url( convertkit_get_sign_in_url() ) . '" target="_blank">' . esc_html__( 'sign in to ConvertKit', 'convertkit' ) . '</a>'
 						);
 						?>
 					</p>

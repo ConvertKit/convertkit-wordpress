@@ -97,8 +97,11 @@ class Acceptance extends \Codeception\Module
 	 * Helper method to setup the Plugin's API Key and Secret.
 	 * 
 	 * @since 	1.9.6
+	 * 
+	 * @param 	mixed 	$apiKey 	API Key (if specified, used instead of CONVERTKIT_API_KEY)
+	 * @param 	mixed 	$apiSecret 	API Secret (if specified, used instead of CONVERTKIT_API_SECRET)
 	 */
-	public function setupConvertKitPlugin($I)
+	public function setupConvertKitPlugin($I, $apiKey = false, $apiSecret = false)
 	{
 		// Go to the Plugin's Settings Screen.
 		$I->loadConvertKitSettingsGeneralScreen($I);
@@ -106,9 +109,13 @@ class Acceptance extends \Codeception\Module
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
 
+		// Determine API Key and Secret to use.
+		$convertKitAPIKey = ($apiKey !== false ? $apiKey : $_ENV['CONVERTKIT_API_KEY']);
+		$convertKitAPISecret = ($apiSecret !== false ? $apiSecret : $_ENV['CONVERTKIT_API_SECRET']);
+
 		// Complete API Fields.
-		$I->fillField('_wp_convertkit_settings[api_key]', $_ENV['CONVERTKIT_API_KEY']);
-		$I->fillField('_wp_convertkit_settings[api_secret]', $_ENV['CONVERTKIT_API_SECRET']);
+		$I->fillField('_wp_convertkit_settings[api_key]', $convertKitAPIKey);
+		$I->fillField('_wp_convertkit_settings[api_secret]', $convertKitAPISecret);
 
 		// Click the Save Changes button.
 		$I->click('Save Changes');
@@ -117,8 +124,8 @@ class Acceptance extends \Codeception\Module
 		$I->checkNoWarningsAndNoticesOnScreen($I);
 
 		// Check the value of the fields match the inputs provided.
-		$I->seeInField('_wp_convertkit_settings[api_key]', $_ENV['CONVERTKIT_API_KEY']);
-		$I->seeInField('_wp_convertkit_settings[api_secret]', $_ENV['CONVERTKIT_API_SECRET']);
+		$I->seeInField('_wp_convertkit_settings[api_key]', $convertKitAPIKey);
+		$I->seeInField('_wp_convertkit_settings[api_secret]', $convertKitAPISecret);
 	}
 
 	/**

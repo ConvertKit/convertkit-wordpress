@@ -77,3 +77,29 @@ function convertkit_get_settings_link( $query_args = array() ) {
 	return add_query_arg( $query_args, admin_url( 'options-general.php' ) );
 
 }
+
+/**
+ * Helper method to return the URL the user needs to visit to sign in to their ConvertKit account.
+ *
+ * @since   1.9.6.1
+ *
+ * @return  string  ConvertKit Login URL.
+ */
+function convertkit_get_sign_in_url() {
+
+	return 'https://app.convertkit.com/?utm_source=wordpress&utm_content=convertkit';
+
+}
+
+/**
+ * Helper method to return the URL the user needs to visit on the ConvertKit app to obtain their API Key and Secret.
+ *
+ * @since   1.9.6.1
+ *
+ * @return  string  ConvertKit App URL.
+ */
+function convertkit_get_api_key_url() {
+
+	return 'https://app.convertkit.com/account_settings/advanced_settings/?utm_source=wordpress&utm_content=convertkit';
+
+}
