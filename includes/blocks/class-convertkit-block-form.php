@@ -190,7 +190,18 @@ class ConvertKit_Block_Form extends ConvertKit_Block {
 		$forms = new ConvertKit_Resource_Forms();
 		$form  = $forms->get_html( $form_id );
 
-		// Bail if an error occured.
+		// If an error occured, it might be that we're requesting a Form ID that exists in ConvertKit
+		// but does not yet exist in the Plugin's Form Resources.
+		// If so, refresh the Form Resources and try again.
+		if ( is_wp_error( $form ) ) {
+			// Refresh Forms from the API.
+			$forms->refresh();
+
+			// Get Form HTML again.
+			$form = $forms->get_html( $form_id );
+		}
+
+		// If an error still occured, bail.
 		if ( is_wp_error( $form ) ) {
 			if ( $settings->debug_enabled() ) {
 				return '<!-- ' . $form->get_error_message() . ' -->';
