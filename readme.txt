@@ -53,6 +53,9 @@ Navigate to the Plugin's Settings at Settings > ConvertKit.
 
 == Changelog ==
 
+### 1.9.6.2 2021-12-xx
+* Fix: Render Form Shortcode when a new ConvertKit Form ID specified that does not yet exist in Plugin's cached Form Resources
+
 ### 1.9.6.1 2021-12-16
 * Fix: Character encoding issue on Landing Pages
 * Fix: Removed unused .scripts directory and .MD files
