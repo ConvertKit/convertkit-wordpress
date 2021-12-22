@@ -542,7 +542,7 @@ class ConvertKit_API {
 		$scripts = new WP_Scripts();
 		$script  = "<script type='text/javascript' src='" . trailingslashit( $scripts->base_url ) . "wp-includes/js/jquery/jquery.js?ver=1.4.0'></script>"; // phpcs:ignore
 		$script .= "<script type='text/javascript' src='" . CONVERTKIT_PLUGIN_URL . 'resources/frontend/js/convertkit.js?ver=' . CONVERTKIT_PLUGIN_VERSION . "'></script>"; // phpcs:ignore
-		$script .= "<script type='text/javascript'>/* <![CDATA[ */var ck_data = {\"ajaxurl\":\"" . admin_url( 'admin-ajax.php' ) . '"};/* ]]> */</script>'; // phpcs:ignore
+		$script .= "<script type='text/javascript'>/* <![CDATA[ */var convertkit = {\"ajaxurl\":\"" . admin_url( 'admin-ajax.php' ) . '"};/* ]]> */</script>'; // phpcs:ignore
 
 		$body = str_replace( '</head>', '</head>' . $script, $body );
 
@@ -719,6 +719,11 @@ class ConvertKit_API {
 
 			// Skip if the attribute's value is a fully qualified URL.
 			if ( filter_var( $element->getAttribute( $attribute ), FILTER_VALIDATE_URL ) ) {
+				continue;
+			}
+
+			// Skip if this is a Google Font CSS URL.
+			if ( strpos( $element->getAttribute( $attribute ), '//fonts.googleapis.com' ) !== false ) {
 				continue;
 			}
 
