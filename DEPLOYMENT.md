@@ -2,17 +2,17 @@
 
 This document describes the workflow for deploying a Plugin update from GitHub to wordpress.org.
 
-## Merge PR's
+## Merge Pull Requests
 
-Merge the applicable Pull Requests that have been submitted and pass all tests to the new version's branch (unless
-all work was performed on the new version's branch, in which case this step has already been done).
+Merge the approved Pull Request(s) to the `master` branch.
 
-For example, if a new `1.9.6` update were to comprise of PR's related to specific GitHub Issue numbers, each with their own branch,
-it's best to merge them into a new version number branch called `1.9.6`.
+An *approved* Pull Request is when a PR passes all tests **and**:
+- The PR **fixes an issue** raised through [Tier 3](https://github.com/ConvertKit/tier3-issues/issues) or similar, and has been approved by **one or more** reviewers
+- The PR **adds new functionality** and has been approved by **all** reviewers
 
 ## Generate Localization File and Action/Filter Documentation
 
-On your local machine, switch to the new version number branch (for example, `1.9.6`).
+On your local machine, switch to the `master` branch.
 
 Run the `.scripts/build.sh` script, which will:
 
@@ -43,16 +43,12 @@ Each line in the changelog should start with `Added` or `Fix`.
 
 ## Commit Changes
 
-Commit the updated files to the new version number branch, which should comprise of:
+Commit the updated files, which should comprise of:
 
 - `languages/convertkit.pot`
 - `readme.txt`
 - `wp-convertkit.php`
 - `ACTIONS-FILTERS.md`
-
-## PR Branch into Main
-
-Submit a PR for the new version number branch into the `main` branch, and merge it.
 
 ## Create a New Release
 
