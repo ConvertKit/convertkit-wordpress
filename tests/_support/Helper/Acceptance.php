@@ -160,6 +160,37 @@ class Acceptance extends \Codeception\Module
 	}
 
 	/**
+	 * Helper method to setup the Plugin's Default Legacy Form setting for Pages and Posts.
+	 * 
+	 * @since 	1.9.6
+	 */
+	public function setupConvertKitPluginDefaultLegacyForm($I)
+	{
+		// Go to the Plugin's Settings Screen.
+		$I->loadConvertKitSettingsGeneralScreen($I);
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Select Default Form for Pages and Posts.
+		$I->selectOption('_wp_convertkit_settings[page_form]', $_ENV['CONVERTKIT_API_LEGACY_FORM_NAME']);
+		$I->selectOption('_wp_convertkit_settings[post_form]', $_ENV['CONVERTKIT_API_LEGACY_FORM_NAME']);
+
+		// Click the Save Changes button.
+		$I->click('Save Changes');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Check the value of the fields match the inputs provided.
+		$I->seeInField('_wp_convertkit_settings[page_form]', $_ENV['CONVERTKIT_API_LEGACY_FORM_NAME']);
+		$I->seeInField('_wp_convertkit_settings[post_form]', $_ENV['CONVERTKIT_API_LEGACY_FORM_NAME']);
+
+		// Return Form ID for Pages
+		return $I->grabValueFrom('_wp_convertkit_settings[page_form]');
+	}
+
+	/**
 	 * Helper method to setup the Plugin's Default Form setting for WooCommerce Products.
 	 * 
 	 * @since 	1.9.6

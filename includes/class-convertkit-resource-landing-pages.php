@@ -40,10 +40,21 @@ class ConvertKit_Resource_Landing_Pages extends ConvertKit_Resource {
 	 *
 	 * @since   1.9.6
 	 *
-	 * @param   int $id     Form ID.
+	 * @param   mixed $id     Landing Page ID | Legacy Landing Page URL.
 	 * @return  mixed           WP_Error | string
 	 */
 	public function get_html( $id ) {
+
+		// Setup API.
+		$api = new ConvertKit_API();
+
+		// If the ID is a URL, this is a Legacy Landing Page defined for use on this Page
+		// in a Plugin version < 1.9.6.
+		// 1.9.6+ always uses a Landing Page ID.
+		if ( strstr( $id, 'http' ) ) {
+			// Return Legacy Landing Page HTML for url property.
+			return $api->get_landing_page_html( $id );
+		}
 
 		// Cast ID to integer.
 		$id = absint( $id );
@@ -65,8 +76,13 @@ class ConvertKit_Resource_Landing_Pages extends ConvertKit_Resource {
 			);
 		}
 
-		// Get markup.
-		$api = new ConvertKit_API();
+		// If the resource has a 'url' property, this is a Legacy Landing Page, and the 'url' should be used.
+		if ( isset( $this->resources[ $id ]['url'] ) ) {
+			// Return Legacy Landing Page HTML for url property.
+			return $api->get_landing_page_html( $this->resources[ $id ]['url'] );
+		}
+
+		// Return Landing Page HTML for embed_url property.
 		return $api->get_landing_page_html( $this->resources[ $id ]['embed_url'] );
 
 	}
