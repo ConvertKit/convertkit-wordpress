@@ -747,7 +747,7 @@ add_filter( 'convertkit_term_get_default_settings', function( $defaults ) {
 </pre>
 <h3 id="convertkit_api_get_timeout">
 						convertkit_api_get_timeout
-						<code>includes/class-convertkit-api.php::899</code>
+						<code>includes/class-convertkit-api.php::904</code>
 					</h3><h4>Overview</h4>
 						<p>Defines the maximum time to allow the API request to run.</p><h4>Parameters</h4>
 					<table>
