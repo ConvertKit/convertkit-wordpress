@@ -53,7 +53,7 @@ Navigate to the Plugin's Settings at Settings > ConvertKit.
 
 == Changelog ==
 
-### 1.9.6.3 2021-12-22
+### 1.9.6.3 2021-12-23
 * Fix: Render Legacy Landing Pages
 
 ### 1.9.6.2 2021-12-22
