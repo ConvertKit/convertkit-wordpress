@@ -133,6 +133,60 @@ class PageFormCest
 	}
 
 	/**
+	 * Test that the Default Legacy Form specified in the Plugin Settings works when
+	 * creating and viewing a new WordPress Page.
+	 * 
+	 * @since 	1.9.6.3
+	 * 
+	 * @param 	AcceptanceTester 	$I 	Tester
+	 */
+	public function testAddNewPageUsingDefaultLegacyForm(AcceptanceTester $I)
+	{
+		// Specify the Default Legacy Form in the Plugin Settings.
+		$defaultLegacyFormID = $I->setupConvertKitPluginDefaultLegacyForm($I);
+
+		// Navigate to Pages > Add New
+		$I->amOnAdminPage('post-new.php?post_type=page');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Check that the metabox is displayed.
+		$I->seeElementInDOM('#wp-convertkit-meta-box');
+
+		// Check that the Form option is displayed.
+		$I->seeElementInDOM('#wp-convertkit-form');
+
+		// Change Form to Default
+		$I->selectOption('#wp-convertkit-form', 'Default');
+
+		// Define a Page Title.
+		$I->fillField('#post-title-0', 'ConvertKit: Form: Legacy: Default');
+
+		// Click the Publish button.
+		$I->click('.editor-post-publish-button__button');
+		
+		// When the pre-publish panel displays, click Publish again.
+		$I->performOn('.editor-post-publish-panel__prepublish', function($I) {
+			$I->click('.editor-post-publish-panel__header-publish-button .editor-post-publish-button__button');	
+		});
+
+		// Check the value of the Form field matches the input provided.
+		$I->performOn( '.post-publish-panel__postpublish-buttons', function($I) {
+			$I->seeOptionIsSelected('#wp-convertkit-form', 'Default');
+		});
+
+		// Load the Page on the frontend site
+		$I->amOnPage('/convertkit-form-legacy-default');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Confirm that the ConvertKit Default Legacy Form displays.
+		$I->seeInSource('<form id="ck_subscribe_form" class="ck_subscribe_form" action="https://forms.convertkit.com/landing_pages/' . $defaultLegacyFormID . '/subscribe" data-remote="true">');
+	}
+
+	/**
 	 * Test that 'None' Form specified in the Page Settings works when
 	 * creating and viewing a new WordPress Page.
 	 * 
@@ -235,5 +289,59 @@ class PageFormCest
 
 		// Confirm that the ConvertKit Form displays.
 		$I->seeElementInDOM('form[data-sv-form="' . $formID . '"]');
+	}
+
+	/**
+	 * Test that the Legacy Form specified in the Page Settings works when
+	 * creating and viewing a new WordPress Page.
+	 * 
+	 * @since 	1.9.6.3
+	 * 
+	 * @param 	AcceptanceTester 	$I 	Tester
+	 */
+	public function testAddNewPageUsingDefinedLegacyForm(AcceptanceTester $I)
+	{
+		// Navigate to Pages > Add New
+		$I->amOnAdminPage('post-new.php?post_type=page');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Check that the metabox is displayed.
+		$I->seeElementInDOM('#wp-convertkit-meta-box');
+
+		// Check that the Form option is displayed.
+		$I->seeElementInDOM('#wp-convertkit-form');
+
+		// Change Form to value specified in the .env file.
+		$I->selectOption('#wp-convertkit-form', $_ENV['CONVERTKIT_API_LEGACY_FORM_NAME']);
+
+		// Define a Page Title.
+		$I->fillField('#post-title-0', 'ConvertKit: Form: Legacy: Specific');
+
+		// Click the Publish button.
+		$I->click('.editor-post-publish-button__button');
+		
+		// When the pre-publish panel displays, click Publish again.
+		$I->performOn('.editor-post-publish-panel__prepublish', function($I) {
+			$I->click('.editor-post-publish-panel__header-publish-button .editor-post-publish-button__button');	
+		});
+
+		// Check the value of the Form field matches the input provided.
+		$I->performOn( '.post-publish-panel__postpublish-buttons', function($I) {
+			$I->seeOptionIsSelected('#wp-convertkit-form', $_ENV['CONVERTKIT_API_LEGACY_FORM_NAME']);
+		});
+
+		// Get Form ID.
+		$formID = $I->grabValueFrom('#wp-convertkit-form');;
+
+		// Load the Page on the frontend site
+		$I->amOnPage('/convertkit-form-legacy-specific');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Confirm that the ConvertKit Default Legacy Form displays.
+		$I->seeInSource('<form id="ck_subscribe_form" class="ck_subscribe_form" action="https://forms.convertkit.com/landing_pages/' . $_ENV['CONVERTKIT_API_LEGACY_FORM_ID'] . '/subscribe" data-remote="true">');
 	}
 }
