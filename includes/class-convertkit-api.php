@@ -265,7 +265,7 @@ class ConvertKit_API {
 	 * @since   1.9.6
 	 *
 	 * @param   string $sequence_id Sequence ID.
-	 * @param   string $email      	Email Address.
+	 * @param   string $email       Email Address.
 	 * @return  mixed               WP_Error | array
 	 */
 	public function sequence_subscribe( $sequence_id, $email ) {
@@ -289,9 +289,9 @@ class ConvertKit_API {
 		 *
 		 * @since   1.9.6
 		 *
-		 * @param   array   $response   	API Response
-		 * @param   string  $sequence_id 	Sequence ID
-		 * @param   string  $email      	Email Address
+		 * @param   array   $response       API Response
+		 * @param   string  $sequence_id    Sequence ID
+		 * @param   string  $email          Email Address
 		 */
 		do_action( 'convertkit_api_sequence_subscribe_success', $response, $sequence_id, $email );
 
@@ -769,6 +769,7 @@ class ConvertKit_API {
 			return new WP_Error(
 				'convertkit_api_error',
 				sprintf(
+					/* translators: API Error Message */
 					__( 'ConvertKit: %s', 'convertkit' ),
 					$json->error_message
 				)
@@ -796,10 +797,18 @@ class ConvertKit_API {
 
 	}
 
+	/**
+	 * Determines if the given string is JSON.
+	 *
+	 * @since   1.9.6.4
+	 *
+	 * @param   string $string     Possible JSON String.
+	 * @return  bool                Is JSON String.
+	 */
 	private function is_json( $string ) {
 
 		json_decode( $string );
-   		return json_last_error() === JSON_ERROR_NONE;
+		return json_last_error() === JSON_ERROR_NONE;
 
 	}
 
