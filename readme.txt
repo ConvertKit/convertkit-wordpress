@@ -53,6 +53,9 @@ Navigate to the Plugin's Settings at Settings > ConvertKit.
 
 == Changelog ==
 
+### 1.9.6.4 2022-01-06
+* Fix: Render Legacy Form when shortcode is copied from app.convertkit.com for a Legacy Form
+
 ### 1.9.6.3 2021-12-23
 * Fix: Render Legacy Landing Pages
 

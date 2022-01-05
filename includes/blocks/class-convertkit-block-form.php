@@ -201,7 +201,20 @@ class ConvertKit_Block_Form extends ConvertKit_Block {
 			$form = $forms->get_html( $form_id );
 		}
 
-		// If an error still occured, bail.
+		// If an error still occured, the shortcode might be from the ConvertKit App for a Legacy Form ID
+		// These ConvertKit App shortcodes, for some reason, use a different Form ID than the one presented
+		// to us in the API.
+		// For example, a Legacy Form ID might be 470099, but the ConvertKit app says to use the shortcode [convertkit form=5281783]).
+		// In this instance, fetch the Form HTML without checking that the Form ID exists in the Form Resources.
+		if ( is_wp_error( $form ) ) {
+			// Initialize the API.
+			$api = new ConvertKit_API( $settings->get_api_key(), $settings->get_api_secret(), $settings->debug_enabled() );
+
+			// Return Legacy Form HTML from the API, which bypasses any internal Plugin check to see if the Form ID exists.
+			$form = $api->get_form_html( $form_id );
+		}
+
+		// Finally, if we still get an error, there's nothing more we can do. The Form ID isn't valid.
 		if ( is_wp_error( $form ) ) {
 			if ( $settings->debug_enabled() ) {
 				return '<!-- ' . $form->get_error_message() . ' -->';
