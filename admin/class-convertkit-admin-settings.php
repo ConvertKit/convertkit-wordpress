@@ -36,7 +36,6 @@ class ConvertKit_Admin_Settings {
 
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_styles' ) );
-
 		add_action( 'admin_menu', array( $this, 'add_settings_page' ) );
 		add_action( 'admin_init', array( $this, 'register_sections' ) );
 		add_filter( 'plugin_action_links_' . CONVERTKIT_PLUGIN_FILE, array( $this, 'add_settings_page_link' ) );
@@ -56,6 +55,9 @@ class ConvertKit_Admin_Settings {
 		if ( $hook !== 'settings_page_' . self::SETTINGS_PAGE_SLUG ) {
 			return;
 		}
+
+		// Enqueue Select2 JS.
+		convertkit_select2_enqueue_scripts();
 
 		/**
 		 * Enqueue JavaScript for the Settings Screen at Settings > ConvertKit
@@ -80,7 +82,10 @@ class ConvertKit_Admin_Settings {
 			return;
 		}
 
-		// Enqueue CSS.
+		// Enqueue Select2 CSS.
+		convertkit_select2_enqueue_styles();
+
+		// Enqueue Settings CSS.
 		wp_enqueue_style( 'convertkit-admin-settings', CONVERTKIT_PLUGIN_URL . '/resources/backend/css/settings.css', false, CONVERTKIT_PLUGIN_VERSION );
 
 		/**

@@ -197,21 +197,25 @@ abstract class ConvertKit_Settings_Base {
 	 *
 	 * @since   1.9.6
 	 *
-	 * @param   string $name           Name.
-	 * @param   string $value          Value.
-	 * @param   array  $options        Options / Choices.
-	 * @param   mixed  $description    Description (false|string).
+	 * @param   string $name            Name.
+	 * @param   string $value           Value.
+	 * @param   array  $options         Options / Choices.
+	 * @param   mixed  $description     Description (false|string).
+	 * @param   mixed  $css_classes     <select> CSS class(es) (false|array).
 	 * @return  string                  HTML Select Field
 	 */
-	public function get_select_field( $name, $value = '', $options = array(), $description = '' ) {
+	public function get_select_field( $name, $value = '', $options = array(), $description = false, $css_classes = false ) {
 
+		// Build opening <select> tag.
 		$html = sprintf(
-			'<select id="%s" name="%s[%s]" size="1">',
+			'<select id="%s" name="%s[%s]" class="%s" size="1">',
 			$this->settings_key . '_' . $name,
 			$this->settings_key,
-			$name
+			$name,
+			( is_array( $css_classes ) ? implode( ' ', $css_classes ) : '' ),
 		);
 
+		// Build <option> tags.
 		foreach ( $options as $option => $label ) {
 			$html .= sprintf(
 				'<option value="%s"%s>%s</option>',
@@ -221,8 +225,18 @@ abstract class ConvertKit_Settings_Base {
 			);
 		}
 
+		// Close <select>.
 		$html .= '</select>';
 
+		// If no description exists, just return the select field.
+		if ( ! $description ) {
+			return $html;
+		}
+		if ( empty( $description ) ) {
+			return $html;
+		}
+
+		// Return select field with description appended to it.
 		return $html . $this->get_description( $description );
 
 	}

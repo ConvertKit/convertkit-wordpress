@@ -53,6 +53,9 @@ Navigate to the Plugin's Settings at Settings > ConvertKit.
 
 == Changelog ==
 
+### 1.9.6.4 2022-01-xx
+* Added: Select2 dropdown for Forms, Landing Pages and Tags with search functionality for improved UX.
+
 ### 1.9.6.3 2021-12-23
 * Fix: Render Legacy Landing Pages
 
