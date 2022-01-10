@@ -66,7 +66,7 @@ class ConvertKit_Admin_Category {
 		 * Enqueue JavaScript when editing a Category that outputs
 		 * ConvertKit Plugin settings.
 		 *
-		 * @since   1.9.6
+		 * @since   1.9.6.4
 		 */
 		do_action( 'convertkit_admin_category_enqueue_scripts' );
 
