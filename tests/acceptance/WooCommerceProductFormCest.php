@@ -55,7 +55,7 @@ class WooCommerceFormCest
 		$I->seeElementInDOM('#wp-convertkit-form');
 
 		// Change Form to Default
-		$I->selectOption('#wp-convertkit-form', 'Default');
+		$I->fillSelect2Field($I, '#select2-wp-convertkit-form-container', 'Default', 'aria-owns');
 
 		// Define a Product Title.
 		$I->fillField('#title', 'ConvertKit: Form: Default: None');
@@ -102,7 +102,7 @@ class WooCommerceFormCest
 		$I->seeElementInDOM('#wp-convertkit-form');
 
 		// Change Form to Default
-		$I->selectOption('#wp-convertkit-form', 'Default');
+		$I->fillSelect2Field($I, '#select2-wp-convertkit-form-container', 'Default', 'aria-owns');
 
 		// Define a Product Title.
 		$I->fillField('#title', 'ConvertKit: Form: Default');
@@ -146,7 +146,7 @@ class WooCommerceFormCest
 		$I->seeElementInDOM('#wp-convertkit-form');
 
 		// Change Form to Default
-		$I->selectOption('#wp-convertkit-form', 'None');
+		$I->fillSelect2Field($I, '#select2-wp-convertkit-form-container', 'None', 'aria-owns');
 
 		// Define a Product Title.
 		$I->fillField('#title', 'ConvertKit: Form: None');
@@ -190,7 +190,7 @@ class WooCommerceFormCest
 		$I->seeElementInDOM('#wp-convertkit-form');
 
 		// Change Form to value specified in the .env file.
-		$I->selectOption('#wp-convertkit-form', $_ENV['CONVERTKIT_API_FORM_NAME']);
+		$I->fillSelect2Field($I, '#select2-wp-convertkit-form-container', $_ENV['CONVERTKIT_API_FORM_NAME'], 'aria-owns');
 
 		// Define a Product Title.
 		$I->fillField('#title', 'ConvertKit: Form: Specific');
