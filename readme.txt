@@ -55,9 +55,9 @@ Navigate to the Plugin's Settings at Settings > ConvertKit.
 
 ### 1.9.6.4 2022-01-11
 * Fix: Render Legacy Form when shortcode is copied from app.convertkit.com for a Legacy Form
-* Fix: Don't check for Landing Page when viewing any non-Page public Post Type which doesn't support Landing Pages.
-* Fix: PHP Notice: Undefined index landing_page when upgrading from 1.4.6 or earlier.
-* Fix: PHP Notice: Undefined index tag when upgrading from 1.4.6 or earlier.
+* Fix: Don't check for Landing Page when viewing any non-Page public Post Type which doesn't support Landing Pages
+* Fix: PHP Notice: Undefined index landing_page when upgrading from 1.4.6 or earlier
+* Fix: PHP Notice: Undefined index tag when upgrading from 1.4.6 or earlier
 
 ### 1.9.6.3 2021-12-23
 * Fix: Render Legacy Landing Pages
