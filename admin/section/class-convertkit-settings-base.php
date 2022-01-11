@@ -229,10 +229,7 @@ abstract class ConvertKit_Settings_Base {
 		$html .= '</select>';
 
 		// If no description exists, just return the select field.
-		if ( ! $description ) {
-			return $html;
-		}
-		if ( empty( $description ) ) {
+		if ( ! $description || empty( $description ) ) {
 			return $html;
 		}
 
