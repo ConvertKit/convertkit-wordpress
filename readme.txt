@@ -3,7 +3,7 @@ Contributors: nathanbarry, growdev, travisnorthcutt, ggwicz
 Donate link: https://convertkit.com
 Tags: email, marketing, embed form, convertkit, capture
 Requires at least: 4.9
-Tested up to: 5.8.2
+Tested up to: 5.8.3
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -52,6 +52,9 @@ Navigate to the Plugin's Settings at Settings > ConvertKit.
 7. Another ConvertKit landing page example
 
 == Changelog ==
+
+### 1.9.6.4 2022-01-06
+* Fix: Render Legacy Form when shortcode is copied from app.convertkit.com for a Legacy Form
 
 ### 1.9.6.3 2021-12-23
 * Fix: Render Legacy Landing Pages

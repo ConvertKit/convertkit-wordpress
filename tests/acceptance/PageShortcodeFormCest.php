@@ -160,4 +160,81 @@ class PageShortcodeFormCest
 		// Confirm that the ConvertKit Form is displayed.
 		$I->seeElementInDOM('form[data-sv-form]');
 	}
+
+	/**
+	 * Test the [convertkit form] shortcode works when a valid Legacy Form ID is specified.
+	 * 
+	 * @since 	1.9.6.4
+	 * 
+	 * @param 	AcceptanceTester 	$I 	Tester
+	 */
+	public function testFormShortcodeWithValidLegacyFormParameter(AcceptanceTester $I)
+	{
+		// Create Page with Shortcode.
+		$I->havePageInDatabase([
+			'post_name' 	=> 'convertkit-form-shortcode-valid-legacy-form-param',
+			'post_content' 	=> '[convertkit form=' . $_ENV['CONVERTKIT_API_LEGACY_FORM_ID'] . ']',
+		]);
+
+		// Load the Page on the frontend site.
+		$I->amOnPage('/convertkit-form-shortcode-valid-legacy-form-param');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Confirm that the ConvertKit Default Legacy Form displays.
+		$I->seeInSource('<form id="ck_subscribe_form" class="ck_subscribe_form" action="https://api.convertkit.com/landing_pages/' . $_ENV['CONVERTKIT_API_LEGACY_FORM_ID'] . '/subscribe" data-remote="true">');
+	}
+
+	/**
+	 * Test the [convertkit id] shortcode works when a valid Legacy Form ID is specified.
+	 * 
+	 * @since 	1.9.6.4
+	 * 
+	 * @param 	AcceptanceTester 	$I 	Tester
+	 */
+	public function testFormShortcodeWithValidLegacyIDParameter(AcceptanceTester $I)
+	{
+		// Create Page with Shortcode.
+		$I->havePageInDatabase([
+			'post_name' 	=> 'convertkit-form-shortcode-valid-legacy-id-param',
+			'post_content' 	=> '[convertkit id=' . $_ENV['CONVERTKIT_API_LEGACY_FORM_ID'] . ']',
+		]);
+
+		// Load the Page on the frontend site.
+		$I->amOnPage('/convertkit-form-shortcode-valid-legacy-id-param');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Confirm that the ConvertKit Default Legacy Form displays.
+		$I->seeInSource('<form id="ck_subscribe_form" class="ck_subscribe_form" action="https://api.convertkit.com/landing_pages/' . $_ENV['CONVERTKIT_API_LEGACY_FORM_ID'] . '/subscribe" data-remote="true">');
+	}
+
+	/**
+	 * Test the [convertkit form] shortcode, as supplied by app.convertkit.com, works when a valid Legacy Form ID is specified.
+	 * The shortcode form's number / ID differs from the ID given to us in the API.
+	 * For example, a Legacy Form ID might be 470099, but the ConvertKit app says to use the shortcode [convertkit form=5281783]).
+	 * 
+	 * @since 	1.9.6.4
+	 * 
+	 * @param 	AcceptanceTester 	$I 	Tester
+	 */
+	public function testFormShortcodeWithValidLegacyFormShortcodeFromConvertKitApp(AcceptanceTester $I)
+	{
+		// Create Page with Shortcode.
+		$I->havePageInDatabase([
+			'post_name' 	=> 'convertkit-form-shortcode-valid-legacy-form-shortcode-from-convertkit-app',
+			'post_content' 	=> $_ENV['CONVERTKIT_API_LEGACY_FORM_SHORTCODE'],
+		]);
+
+		// Load the Page on the frontend site.
+		$I->amOnPage('/convertkit-form-shortcode-valid-legacy-form-shortcode-from-convertkit-app');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Confirm that the ConvertKit Default Legacy Form displays.
+		$I->seeInSource('<form id="ck_subscribe_form" class="ck_subscribe_form" action="https://api.convertkit.com/landing_pages/' . $_ENV['CONVERTKIT_API_LEGACY_FORM_ID'] . '/subscribe" data-remote="true">');
+	}
 }
