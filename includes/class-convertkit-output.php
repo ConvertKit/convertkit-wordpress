@@ -103,6 +103,11 @@ class ConvertKit_Output {
 		// Get Post ID.
 		$post_id = $queried_object->ID;
 
+		// Bail if the queried object isn't a supported Post Type for Landing Pages.
+		if ( $queried_object->post_type !== 'page' ) {
+			return;
+		}
+
 		// Get ConvertKit Post's Settings, if they have not yet been loaded.
 		if ( ! $this->post_settings ) {
 			$this->post_settings = new ConvertKit_Post( $post_id );
@@ -125,7 +130,7 @@ class ConvertKit_Output {
 		$landing_page_id = apply_filters( 'convertkit_output_append_form_to_content_form_id', $landing_page_id, $post_id );
 
 		// Bail if no Landing Page is configured to be output.
-		if ( ! $landing_page_id ) {
+		if ( ! $landing_page_id || empty( $landing_page_id ) ) {
 			return;
 		}
 
