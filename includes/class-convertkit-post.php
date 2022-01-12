@@ -61,6 +61,16 @@ class ConvertKit_Post {
 			}
 		}
 
+		// Iterate through default settings, assigning them to the Post Meta array if any keys are missing
+		// to guarantee that the Post Meta array has all expected key/value pairs.
+		// This covers upgrades from 1.4.6 and earlier that would not set e.g. landing_page and tag keys
+		// if no values existed.
+		foreach ( $this->get_default_settings() as $key => $value ) {
+			if ( ! array_key_exists( $key, $meta ) ) {
+				$meta[ $key ] = $value;
+			}
+		}
+
 		// Assign Post's Settings to the object.
 		$this->settings = $meta;
 

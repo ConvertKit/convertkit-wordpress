@@ -44,7 +44,8 @@ class AnyErrorsOnBlankInstallCest
 	}
 
 	/**
-	 * Check that no errors are displayed on Pages > Add New
+	 * Check that no errors are displayed on Pages > Add New, when the Plugin is activated
+	 * and not configured.
 	 * 
 	 * @since 	1.9.6
 	 * 
@@ -60,7 +61,8 @@ class AnyErrorsOnBlankInstallCest
 	}
 
 	/**
-	 * Check that no errors are displayed on Posts > Add New
+	 * Check that no errors are displayed on Posts > Add New, when the Plugin is activated
+	 * and not configured.
 	 * 
 	 * @since 	1.9.6
 	 * 
@@ -76,7 +78,8 @@ class AnyErrorsOnBlankInstallCest
 	}
 
 	/**
-	 * Check that no errors are displayed on Posts > Categories > Edit Uncategorized
+	 * Check that no errors are displayed on Posts > Categories > Edit Uncategorized, when the Plugin is activated
+	 * and not configured.
 	 * 
 	 * @since 	1.9.6
 	 * 
