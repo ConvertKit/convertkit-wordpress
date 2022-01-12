@@ -44,11 +44,11 @@ class Acceptance extends \Codeception\Module
 	{
 		$fieldID = $I->grabAttributeFrom($container, 'id');
 		$fieldName = str_replace('-container', '', str_replace('select2-', '', $fieldID));
-	    $I->click('#'.$fieldID);
-	    $I->waitForElementVisible('.select2-search__field[' . $ariaAttributeName . '="select2-' . $fieldName . '-results"]');
-	    $I->fillField('.select2-search__field[' . $ariaAttributeName . '="select2-' . $fieldName . '-results"]', $value);
-	    $I->waitForElementVisible('ul#select2-' . $fieldName . '-results li.select2-results__option--highlighted');
-	    $I->pressKey('.select2-search__field[' . $ariaAttributeName . '="select2-' . $fieldName . '-results"]', \Facebook\WebDriver\WebDriverKeys::ENTER);
+		$I->click('#'.$fieldID);
+		$I->waitForElementVisible('.select2-search__field[' . $ariaAttributeName . '="select2-' . $fieldName . '-results"]');
+		$I->fillField('.select2-search__field[' . $ariaAttributeName . '="select2-' . $fieldName . '-results"]', $value);
+		$I->waitForElementVisible('ul#select2-' . $fieldName . '-results li.select2-results__option--highlighted');
+		$I->pressKey('.select2-search__field[' . $ariaAttributeName . '="select2-' . $fieldName . '-results"]', \Facebook\WebDriver\WebDriverKeys::ENTER);
 	}
 
 	/**
