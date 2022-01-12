@@ -311,7 +311,7 @@ add_filter( 'convertkit_block_content_render', function( $content, $atts, $subsc
 </pre>
 <h3 id="convertkit_block_form_render">
 						convertkit_block_form_render
-						<code>includes/blocks/class-convertkit-block-form.php::220</code>
+						<code>includes/blocks/class-convertkit-block-form.php::233</code>
 					</h3><h4>Overview</h4>
 						<p>Filter the block's content immediately before it is output.</p><h4>Parameters</h4>
 					<table>
@@ -693,7 +693,7 @@ add_filter( 'convertkit_sysinfo_after_session_config', function( $return ) {
 </pre>
 <h3 id="convertkit_post_get_default_settings">
 						convertkit_post_get_default_settings
-						<code>includes/class-convertkit-post.php::222</code>
+						<code>includes/class-convertkit-post.php::232</code>
 					</h3><h4>Overview</h4>
 						<p>The default settings, used to populate the Post's Settings when a Post has no Settings.</p><h4>Parameters</h4>
 					<table>
@@ -747,7 +747,7 @@ add_filter( 'convertkit_term_get_default_settings', function( $defaults ) {
 </pre>
 <h3 id="convertkit_api_get_timeout">
 						convertkit_api_get_timeout
-						<code>includes/class-convertkit-api.php::904</code>
+						<code>includes/class-convertkit-api.php::1018</code>
 					</h3><h4>Overview</h4>
 						<p>Defines the maximum time to allow the API request to run.</p><h4>Parameters</h4>
 					<table>
@@ -855,7 +855,7 @@ add_filter( 'convertkit_wishlist_settings_get_defaults', function( $defaults ) {
 </pre>
 <h3 id="convertkit_output_append_form_to_content_form_id">
 						convertkit_output_append_form_to_content_form_id
-						<code>includes/class-convertkit-output.php::178</code>
+						<code>includes/class-convertkit-output.php::183</code>
 					</h3><h4>Overview</h4>
 						<p>Define the ConvertKit Form ID to display for the given Post ID, overriding the Post, Category or Plugin settings. Return false to not display any ConvertKit Form.</p><h4>Parameters</h4>
 					<table>
@@ -886,7 +886,7 @@ add_filter( 'convertkit_output_append_form_to_content_form_id', function( $form_
 </pre>
 <h3 id="convertkit_frontend_append_form">
 						convertkit_frontend_append_form
-						<code>includes/class-convertkit-output.php::211</code>
+						<code>includes/class-convertkit-output.php::216</code>
 					</h3><h4>Overview</h4>
 						<p>Filter the Post's Content, which includes a ConvertKit Form, immediately before it is output.</p><h4>Parameters</h4>
 					<table>
@@ -1015,6 +1015,10 @@ add_filter( 'convertkit_is_admin_or_frontend_editor', function( $is_admin_or_fro
 						<td>&nbsp;</td>
 						<td><a href="#convertkit_api_form_subscribe_success"><code>convertkit_api_form_subscribe_success</code></a></td>
 						<td>Runs actions immediately after the email address was successfully subscribed to the form.</td>
+					</tr><tr>
+						<td>&nbsp;</td>
+						<td><a href="#convertkit_api_sequence_subscribe_success"><code>convertkit_api_sequence_subscribe_success</code></a></td>
+						<td>Runs actions immediately after the email address was successfully subscribed to the sequence.</td>
 					</tr><tr>
 						<td>&nbsp;</td>
 						<td><a href="#convertkit_api_tag_subscribe_success"><code>convertkit_api_tag_subscribe_success</code></a></td>
@@ -1170,9 +1174,42 @@ do_action( 'convertkit_api_form_subscribe_success', function( $response, $form_i
 	// ... your code here
 }, 10, 4 );
 </pre>
+<h3 id="convertkit_api_sequence_subscribe_success">
+						convertkit_api_sequence_subscribe_success
+						<code>includes/class-convertkit-api.php::295</code>
+					</h3><h4>Overview</h4>
+						<p>Runs actions immediately after the email address was successfully subscribed to the sequence.</p><h4>Parameters</h4>
+					<table>
+						<thead>
+							<tr>
+								<th>Parameter</th>
+								<th>Type</th>
+								<th>Description</th>
+							</tr>
+						</thead>
+						<tbody><tr>
+							<td>$response</td>
+							<td>array</td>
+							<td>API Response</td>
+						</tr><tr>
+							<td>$sequence_id</td>
+							<td>string</td>
+							<td>Sequence ID</td>
+						</tr><tr>
+							<td>$email</td>
+							<td>string</td>
+							<td>Email Address</td>
+						</tr>
+						</tbody>
+					</table><h4>Usage</h4>
+<pre>
+do_action( 'convertkit_api_sequence_subscribe_success', function( $response, $sequence_id, $email ) {
+	// ... your code here
+}, 10, 3 );
+</pre>
 <h3 id="convertkit_api_tag_subscribe_success">
 						convertkit_api_tag_subscribe_success
-						<code>includes/class-convertkit-api.php::295</code>
+						<code>includes/class-convertkit-api.php::380</code>
 					</h3><h4>Overview</h4>
 						<p>Runs actions immediately after the email address was successfully subscribed to the tag.</p><h4>Parameters</h4>
 					<table>
@@ -1205,7 +1242,7 @@ do_action( 'convertkit_api_tag_subscribe_success', function( $response, $tag_id,
 </pre>
 <h3 id="convertkit_api_form_unsubscribe_success">
 						convertkit_api_form_unsubscribe_success
-						<code>includes/class-convertkit-api.php::495</code>
+						<code>includes/class-convertkit-api.php::580</code>
 					</h3><h4>Overview</h4>
 						<p>Runs actions immediately after the email address was successfully unsubscribed.</p><h4>Parameters</h4>
 					<table>

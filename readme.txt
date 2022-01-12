@@ -3,7 +3,7 @@ Contributors: nathanbarry, growdev, travisnorthcutt, ggwicz
 Donate link: https://convertkit.com
 Tags: email, marketing, embed form, convertkit, capture
 Requires at least: 4.9
-Tested up to: 5.8.2
+Tested up to: 5.8.3
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -53,8 +53,14 @@ Navigate to the Plugin's Settings at Settings > ConvertKit.
 
 == Changelog ==
 
-### 1.9.6.4 2022-01-xx
+### 1.9.6.5 2022-01-xx
 * Added: Select2 dropdown for Forms, Landing Pages and Tags with search functionality for improved UX.
+
+### 1.9.6.4 2022-01-11
+* Fix: Render Legacy Form when shortcode is copied from app.convertkit.com for a Legacy Form
+* Fix: Don't check for Landing Page when viewing any non-Page public Post Type which doesn't support Landing Pages
+* Fix: PHP Notice: Undefined index landing_page when upgrading from 1.4.6 or earlier
+* Fix: PHP Notice: Undefined index tag when upgrading from 1.4.6 or earlier
 
 ### 1.9.6.3 2021-12-23
 * Fix: Render Legacy Landing Pages
