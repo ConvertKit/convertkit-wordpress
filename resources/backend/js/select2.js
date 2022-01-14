@@ -16,12 +16,7 @@ function convertKitSelect2Init() {
 
 	( function( $ ) {
 
-		$( '.convertkit-select2' ).select2(
-			{
-				dropdownAutoWidth : true,
-				width: 'auto'
-			}
-		);
+		$( '.convertkit-select2' ).select2();
 
 	} )( jQuery );
 
