@@ -29,6 +29,7 @@ class ConvertKit_Block {
 			array(
 				'name'           => $this->get_name(),
 				'fields'         => $this->get_fields(),
+				'attributes' 	 => $this->get_attributes(),
 				'tabs'           => $this->get_tabs(),
 				'default_values' => $this->get_default_values(),
 			)

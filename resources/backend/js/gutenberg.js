@@ -14,52 +14,20 @@ if ( convertkit_is_gutenberg_active && wp.data.dispatch( 'core/edit-post' ) !== 
 
 	for ( const block in convertkit_blocks ) {
 
-		// convertKitGutenbergRegisterBlock( convertkit_blocks[ block ] );.
+		convertKitGutenbergRegisterBlock( convertkit_blocks[ block ] );
 
 	}
 
 }
 
 /**
- * Registers the given block as a TinyMCE Plugin, with a button in
- * the Visual Editor toolbar.
+ * Registers the given block in Gutenberg.
  *
  * @since 	1.9.6
  *
  * @param 	object 	block 	Block
  */
 function convertKitGutenbergRegisterBlock( block ) {
-
-	// Build Gutenberg compliant Attributes object.
-	var blockAttributes = {};
-	for ( const field in block.fields ) {
-		// Assume the attribute's type is a string.
-		var type = 'string';
-
-		// Depending on the field's type, change the attribute type.
-		switch ( block.fields[ field ].type ) {
-			case 'number':
-				type = 'number';
-				break;
-
-			case 'text_multiple':
-				type = 'array';
-				break;
-
-			case 'select_multiple':
-				type = 'array';
-				break;
-
-			case 'toggle':
-				type = 'boolean';
-				break;
-		}
-
-		// Define the attribute's type.
-		blockAttributes[ field ] = {
-			type: type,
-		}
-	}
 
 	// Register Block.
 	( function( blocks, editor, element, components, block ) {
@@ -80,7 +48,8 @@ function convertKitGutenbergRegisterBlock( block ) {
 			FormTokenField,
 			Panel,
 			PanelBody,
-			PanelRow
+			PanelRow,
+			ServerSideRender
 		}                                     = components;
 
 		// Build Icon, if it's an object.
@@ -108,9 +77,7 @@ function convertKitGutenbergRegisterBlock( block ) {
 				category:   block.category,
 				icon:       icon,
 				keywords: 	block.keywords,
-
-				// Define the block attributes.
-				attributes: blockAttributes,
+				attributes: block.attributes,
 
 				// Editor.
 				edit: function( props ) {
@@ -127,11 +94,8 @@ function convertKitGutenbergRegisterBlock( block ) {
 									field   = block.fields[ attribute ]; // field array.
 
 							var fieldElement,
-							fieldClassNames  = [],
 							fieldProperties  = {},
-							fieldOptions     = [],
-							fieldSuggestions = [],
-							fieldData        = {};
+							fieldOptions     = [];
 
 							// Build values for <select> inputs.
 							if ( typeof field.values !== 'undefined' ) {
@@ -142,23 +106,7 @@ function convertKitGutenbergRegisterBlock( block ) {
 											value: value
 										}
 									);
-									fieldSuggestions.push( '[' + value + '] ' + field.values[ value ] ); // NEVER CHANGE THIS EVER.
 								}
-							}
-
-							// Build data- attributes.
-							if ( typeof field.data !== 'undefined' ) {
-								for ( var key in field.data ) {
-									fieldData[ 'data-' + key ] = field.data[ key ];
-								}
-							}
-
-							// Build CSS class name(s).
-							if ( typeof field.class !== 'undefined' ) {
-								fieldClassNames.push( field.class );
-							}
-							if ( typeof field.condition !== 'undefined' ) {
-								fieldClassNames.push( field.condition.value );
 							}
 
 							// Define Field Element based on the Field Type.
@@ -169,7 +117,6 @@ function convertKitGutenbergRegisterBlock( block ) {
 									fieldProperties = {
 										label: 		field.label,
 										help: 		field.description,
-										className: 	fieldClassNames.join( ' ' ),
 										options: 	fieldOptions,
 										value: 		props.attributes[ attribute ],
 										onChange: function( value ) {
@@ -179,84 +126,9 @@ function convertKitGutenbergRegisterBlock( block ) {
 										}
 									};
 
-									// Add data- attributes.
-									for ( var key in fieldData ) {
-										fieldProperties[ key ] = fieldData[ key ];
-									}
-
 									// Define field element.
 									fieldElement = el(
 										SelectControl,
-										fieldProperties
-									);
-									break;
-
-								case 'select_multiple':
-									// Convert values to labels.
-									var values = [];
-									for ( var index in props.attributes[ attribute ] ) {
-										values.push( '[' + props.attributes[ attribute ][ index ] + '] ' + field.values[ props.attributes[ attribute ][ index ] ] );
-									}
-
-									// Define field properties.
-									fieldProperties = {
-										label: 			field.label,
-										help: 			field.description,
-										className: 		fieldClassNames.join( ' ' ),
-										suggestions: 	fieldSuggestions,
-										maxSuggestions: 5,
-										value: 			values,
-										onChange: function( values ) {
-											// Extract values between square brackets, and remove the rest.
-											var newValues    = [],
-												valuesLength = values.length;
-											for ( index = 0; index < valuesLength; index++ ) {
-												var matches = values[ index ].match( /\[(.*?)\]/ );
-												if ( matches ) {
-													newValues.push( matches[1] );
-												}
-											}
-
-											var newValue          = {};
-											newValue[ attribute ] = newValues;
-											props.setAttributes( newValue );
-										},
-									};
-
-									// Add data- attributes.
-									for ( var key in fieldData ) {
-										fieldProperties[ key ] = fieldData[ key ];
-									}
-
-									// Define field element.
-									fieldElement = el(
-										FormTokenField,
-										fieldProperties
-									);
-									break;
-
-								case 'text_multiple':
-									// Define field properties.
-									fieldProperties = {
-										label: 			field.label,
-										help: 			field.description,
-										className: 		fieldClassNames.join( ' ' ),
-										value: 			props.attributes[ attribute ],
-										onChange: function( values ) {
-											var newValue          = {};
-											newValue[ attribute ] = values;
-											props.setAttributes( newValue );
-										}
-									};
-
-									// Add data- attributes.
-									for ( var key in fieldData ) {
-										fieldProperties[ key ] = fieldData[ key ];
-									}
-
-									// Define field element.
-									fieldElement = el(
-										FormTokenField,
 										fieldProperties
 									);
 									break;
@@ -266,18 +138,12 @@ function convertKitGutenbergRegisterBlock( block ) {
 									fieldProperties = {
 										label: 		field.label,
 										help: 		field.description,
-										className: 	fieldClassNames.join( ' ' ),
 										checked: 	props.attributes[ attribute ],
 										onChange: function( value ) {
 											var newValue          = {};
 											newValue[ attribute ] = value;
 											props.setAttributes( newValue );
 										},
-									}
-
-									// Add data- attributes.
-									for ( var key in fieldData ) {
-										fieldProperties[ key ] = fieldData[ key ];
 									}
 
 									// Define field element.
@@ -296,7 +162,6 @@ function convertKitGutenbergRegisterBlock( block ) {
 										min: 		field.min,
 										max: 		field.max,
 										step: 		field.step,
-										className: 	fieldClassNames.join( ' ' ),
 										value: 		props.attributes[ attribute ],
 										onChange: function( value ) {
 											// Cast value to integer if a value exists.
@@ -310,43 +175,9 @@ function convertKitGutenbergRegisterBlock( block ) {
 										},
 									};
 
-									// Add data- attributes.
-									for ( var key in fieldData ) {
-										fieldProperties[ key ] = fieldData[ key ];
-									}
-
 									// Define field element.
 									fieldElement = el(
 										TextControl,
-										fieldProperties
-									);
-									break;
-
-								case 'autocomplete':
-									// Define field properties.
-									fieldProperties = {
-										list: 		'autocomplete-' + i,
-										type: 		'text',
-										label: 		field.label,
-										help: 		field.description,
-										className: 	fieldClassNames.join( ' ' ),
-										options: 	field.values,
-										value: 		props.attributes[ attribute ],
-										onChange: function( value ) {
-											var newValue          = {};
-											newValue[ attribute ] = value;
-											props.setAttributes( newValue );
-										},
-									};
-
-									// Add data- attributes.
-									for ( var key in fieldData ) {
-										fieldProperties[ key ] = fieldData[ key ];
-									}
-
-									// Define field element.
-									fieldElement = el(
-										WPZincAutocompleterControl,
 										fieldProperties
 									);
 									break;
@@ -357,7 +188,6 @@ function convertKitGutenbergRegisterBlock( block ) {
 										type: 		field.type,
 										label: 		field.label,
 										help: 		field.description,
-										className: 	fieldClassNames.join( ' ' ),
 										value: 		props.attributes[ attribute ],
 										onChange: function( value ) {
 											var newValue          = {};
@@ -365,11 +195,6 @@ function convertKitGutenbergRegisterBlock( block ) {
 											props.setAttributes( newValue );
 										},
 									};
-
-									// Add data- attributes.
-									for ( var key in fieldData ) {
-										fieldProperties[ key ] = fieldData[ key ];
-									}
 
 									// Define field element.
 									fieldElement = el(
@@ -407,21 +232,28 @@ function convertKitGutenbergRegisterBlock( block ) {
 
 					// Return.
 					return (
-					el(
-						Fragment,
-						{},
 						el(
-							InspectorControls,
+							Fragment,
 							{},
-							panels
-						),
-						// Block Markup.
-						el(
-							'div',
-							{},
-							'[convertkit-' + block.name + ']'
+							el(
+								InspectorControls,
+								{},
+								panels
+							),
+
+							// Block Output/Preview.
+							el(
+								'div',
+								{},
+								el( 
+									ServerSideRender, 
+									{
+					                    block: 'convertkit/' + block.name,
+					                    attributes: props.attributes,
+					                }
+					            )
+							)
 						)
-					)
 					);
 				},
 

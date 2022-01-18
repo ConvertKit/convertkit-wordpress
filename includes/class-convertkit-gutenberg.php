@@ -1,6 +1,6 @@
 <?php
 /**
- * ConvertKit Admin Gutenberg class.
+ * ConvertKit Gutenberg class.
  *
  * @package ConvertKit
  * @author ConvertKit
@@ -12,7 +12,7 @@
  * @package ConvertKit
  * @author  ConvertKit
  */
-class ConvertKit_Admin_Gutenberg {
+class ConvertKit_Gutenberg {
 
 	/**
 	 * Constructor
@@ -96,6 +96,7 @@ class ConvertKit_Admin_Gutenberg {
 
 		// Iterate through blocks, registering them.
 		foreach ( $blocks as $block => $properties ) {
+
 			// Skip if this block has already been registered.
 			if ( is_array( $registered_blocks ) && in_array( 'convertkit/' . $block, $registered_blocks, true ) ) {
 				continue;
@@ -105,6 +106,7 @@ class ConvertKit_Admin_Gutenberg {
 			register_block_type(
 				'convertkit/' . $block,
 				array(
+					'attributes'  	  => $properties['attributes'],
 					'editor_script'   => 'convertkit-gutenberg',
 					'render_callback' => array(
 						$properties['render_callback'][0],

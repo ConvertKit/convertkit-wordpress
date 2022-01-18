@@ -53,7 +53,7 @@ class ConvertKit_Block_Form extends ConvertKit_Block {
 		return array(
 			'title'                         => __( 'ConvertKit Form', 'convertkit' ),
 			'description'                   => __( 'Displays a ConvertKit Form.', 'convertkit' ),
-			'icon'                          => 'resources/backend/images/block-icon-form.svg',
+			'icon'                          => file_get_contents( CONVERTKIT_PLUGIN_PATH . '/resources/backend/images/convertkit-logomark-red.svg' ),
 			'category'                      => 'convertkit',
 			'keywords'                      => array(
 				__( 'ConvertKit', 'convertkit' ),
@@ -70,6 +70,21 @@ class ConvertKit_Block_Form extends ConvertKit_Block {
 
 			// Function to call when rendering the block/shortcode on the frontend web site.
 			'render_callback'               => array( $this, 'render' ),
+		);
+
+	}
+
+	/**
+	 * Returns this block's Attributes
+	 *
+	 * @since   1.9.6
+	 */
+	public function get_attributes() {
+
+		return array(
+			'form' => array(
+				'type'   => 'string',
+			),
 		);
 
 	}
@@ -122,7 +137,6 @@ class ConvertKit_Block_Form extends ConvertKit_Block {
 				'label'  => __( 'General', 'convertkit' ),
 				'fields' => array(
 					'form',
-					'tag',
 				),
 			),
 		);
@@ -153,17 +167,14 @@ class ConvertKit_Block_Form extends ConvertKit_Block {
 	 */
 	public function render( $atts ) {
 
-		// Bail if the request is not for the frontend site.
-		if ( is_admin() ) {
-			return '';
-		}
-
 		// Parse shortcode attributes, defining fallback defaults if required.
 		$atts = shortcode_atts(
 			$this->get_default_values(),
 			$this->sanitize_atts( $atts ),
 			$this->get_name()
 		);
+
+		return '<pre>' . print_r( $atts, true ) . '</pre>';
 
 		// Setup Settings class.
 		$settings = new ConvertKit_Settings();
