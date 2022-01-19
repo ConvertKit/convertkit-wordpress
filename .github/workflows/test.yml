@@ -195,7 +195,7 @@ jobs:
       # Run Codeception Acceptance Tests.
       - name: Run Acceptance Tests
         working-directory: ${{ env.PLUGIN_DIR }}
-        run: php vendor/bin/codecept run acceptance WooCommerceProductFormCest:testAddNewProductUsingNoForm
+        run: php vendor/bin/codecept run acceptance
 
       # If the repository has other tests, such as unit tests, add the Codeception commands here to run them now.
 
