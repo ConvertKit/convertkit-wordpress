@@ -4,7 +4,7 @@
  * 
  * @since 	1.9.6
  */
-class WooCommerceFormCest
+class WooCommerceProductFormCest
 {
 	/**
 	 * Run common actions before running the test functions in this class.
@@ -145,7 +145,7 @@ class WooCommerceFormCest
 		// Check that the Form option is displayed.
 		$I->seeElementInDOM('#wp-convertkit-form');
 
-		// Change Form to Default
+		// Change Form to None.
 		$I->fillSelect2Field($I, '#select2-wp-convertkit-form-container', 'None', 'aria-owns');
 
 		// Define a Product Title.
