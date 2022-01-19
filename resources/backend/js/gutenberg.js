@@ -36,7 +36,7 @@ function convertKitGutenbergRegisterBlock( block ) {
 		const el                              = element.createElement;
 		const { registerBlockType }           = blocks;
 		const { RichText, InspectorControls } = editor;
-		const { Fragment }                    = element;
+		const { Fragment } 	  				  = element;
 		const {
 			TextControl,
 			CheckboxControl,
@@ -49,6 +49,7 @@ function convertKitGutenbergRegisterBlock( block ) {
 			Panel,
 			PanelBody,
 			PanelRow,
+			SandBox,
 			ServerSideRender
 		}                                     = components;
 
@@ -208,7 +209,10 @@ function convertKitGutenbergRegisterBlock( block ) {
 							rows.push(
 								el(
 									PanelRow,
-									{},
+									{
+										// Required to avoid "Each child in a list should have a unique "key" prop." error.
+										key: attribute
+									},
 									fieldElement
 								)
 							);
@@ -220,6 +224,7 @@ function convertKitGutenbergRegisterBlock( block ) {
 								PanelBody,
 								{
 									title: block.tabs[ panel ].label,
+									key: panel,
 									initialOpen: initialOpen
 								},
 								rows
@@ -242,16 +247,29 @@ function convertKitGutenbergRegisterBlock( block ) {
 							),
 
 							// Block Output/Preview.
+							/*
+							el(
+								ServerSideRender, 
+								{
+				                    block: 'convertkit/' + block.name,
+				                    attributes: props.attributes,
+				                    className: 'convertkit-' + block.name,
+				                }
+							)
+							*/
+
 							el(
 								'div',
-								{},
-								el( 
-									ServerSideRender, 
-									{
-					                    block: 'convertkit/' + block.name,
-					                    attributes: props.attributes,
-					                }
-					            )
+								{
+									className: 'convertkit-' + block.name
+								},
+								SandBox({
+									html: '<script async data-uid="85629c512d" src="https://cheerful-architect-3237.ck.page/85629c512d/index.js"></script>',
+									title: 'Test',
+									type: 'embed',
+									styles: [],
+									scripts: []
+								})
 							)
 						)
 					);
