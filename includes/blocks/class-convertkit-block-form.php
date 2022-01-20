@@ -70,6 +70,15 @@ class ConvertKit_Block_Form extends ConvertKit_Block {
 
 			// Function to call when rendering the block/shortcode on the frontend web site.
 			'render_callback'               => array( $this, 'render' ),
+
+			// Whether to use the render_callback or other logic when rendering a preview of
+			// the block in the Gutenberg editor.
+			// server: renders the block in the editor using Gutenberg's ServerSideRender component,
+			// which calls the render() function in the block's PHP class.
+			// iframe: renders the HTML string using Gutenberg's Sandbox component. Useful for
+			// blocks that need to render inline <script> tags, which Gutenberg's editor only renders
+			// in an iframe for security on the backend.
+			'gutenberg_preview_type'		=> 'iframe', // server,iframe
 		);
 
 	}
@@ -77,7 +86,7 @@ class ConvertKit_Block_Form extends ConvertKit_Block {
 	/**
 	 * Returns this block's Attributes
 	 *
-	 * @since   1.9.6
+	 * @since   1.9.6.5
 	 */
 	public function get_attributes() {
 
@@ -110,11 +119,18 @@ class ConvertKit_Block_Form extends ConvertKit_Block {
 			}
 		}
 
+		// Get Settings.
+		$settings = new ConvertKit_Settings();
+
 		return array(
 			'form' => array(
 				'label'  => __( 'Form', 'convertkit' ),
 				'type'   => 'select',
 				'values' => $forms,
+				'data'	 => array(
+					'forms' 	=> $convertkit_forms->get(),
+					'api_key' 	=> $settings->get_api_key(),
+				),
 			),
 		);
 
@@ -173,8 +189,6 @@ class ConvertKit_Block_Form extends ConvertKit_Block {
 			$this->sanitize_atts( $atts ),
 			$this->get_name()
 		);
-
-		return '<pre>' . print_r( $atts, true ) . '</pre>';
 
 		// Setup Settings class.
 		$settings = new ConvertKit_Settings();

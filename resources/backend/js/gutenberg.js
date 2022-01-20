@@ -98,22 +98,22 @@ function convertKitGutenbergRegisterBlock( block ) {
 							fieldProperties  = {},
 							fieldOptions     = [];
 
-							// Build values for <select> inputs.
-							if ( typeof field.values !== 'undefined' ) {
-								for ( var value in field.values ) {
-									fieldOptions.push(
-										{
-											label: field.values[ value ],
-											value: value
-										}
-									);
-								}
-							}
-
 							// Define Field Element based on the Field Type.
 							switch ( field.type ) {
 
 								case 'select':
+									// Build values for <select> inputs.
+									if ( typeof field.values !== 'undefined' ) {
+										for ( var value in field.values ) {
+											fieldOptions.push(
+												{
+													label: field.values[ value ],
+													value: value
+												}
+											);
+										}
+									}
+
 									// Define field properties.
 									fieldProperties = {
 										label: 		field.label,
@@ -235,6 +235,63 @@ function convertKitGutenbergRegisterBlock( block ) {
 						initialOpen = false;
 					}
 
+					// Build preview, depending on how the block renders previews in the Gutenberg editor.
+					var preview = '';
+					console.log( block );
+					switch ( block.gutenberg_preview_type ) {
+						/**
+						 * Server Side Render, which calls the block's PHP render() function.
+						 */
+						case 'server':
+							preview = el(
+								ServerSideRender, 
+								{
+				                    block: 'convertkit/' + block.name,
+				                    attributes: props.attributes,
+				                    className: 'convertkit-' + block.name,
+				                }
+							);
+							break;
+
+						/**
+						 * Sandbox (iframe), which injects the supplied HTML into an iframe.
+						 * Used when we want to render e.g. a <script> tag, as Gutenberg's editor
+						 * won't render these unless added within an iframe.
+						 */
+						case 'iframe':
+							// Determine HTML for sandbox preview.
+							// @TODO Move this logic, it can't be here.
+							var html = '',
+								form = block.fields.form.data.forms[ props.attributes.form ];
+							if ( typeof form !== 'undefined' ) {
+								if ( typeof form.uid !== 'undefined' ) {
+									// Form.
+									html = '<script async data-uid="' + form.uid + '" src="' + form.embed_js + '"></script>';
+								} else {
+									// Legacy Form.
+									html = 'https://api.convertkit.com/forms/' + form.id + '/embed?v=2&k=api_key=' + block.fields.form.data.api_key;
+								}
+							}
+
+							console.log( html );
+
+							preview = el(
+								'div',
+								{
+									className: 'convertkit-' + block.name
+								},
+								SandBox({
+									html: html,
+									title: 'Form Preview',
+									type: 'embed',
+									styles: [],
+									scripts: []
+								})
+							);
+							break;
+
+					}
+
 					// Return.
 					return (
 						el(
@@ -245,8 +302,8 @@ function convertKitGutenbergRegisterBlock( block ) {
 								{},
 								panels
 							),
+							preview
 
-							// Block Output/Preview.
 							/*
 							el(
 								ServerSideRender, 
@@ -258,19 +315,22 @@ function convertKitGutenbergRegisterBlock( block ) {
 							)
 							*/
 
+							// Block Output/Preview.
+							/*
 							el(
 								'div',
 								{
 									className: 'convertkit-' + block.name
 								},
 								SandBox({
-									html: '<script async data-uid="85629c512d" src="https://cheerful-architect-3237.ck.page/85629c512d/index.js"></script>',
-									title: 'Test',
+									html: html,
+									title: 'Form Preview',
 									type: 'embed',
 									styles: [],
 									scripts: []
 								})
 							)
+							*/
 						)
 					);
 				},
@@ -280,7 +340,7 @@ function convertKitGutenbergRegisterBlock( block ) {
 
 					return null;
 
-				}
+				},
 			}
 		);
 

@@ -133,6 +133,9 @@ class ConvertKit_Gutenberg {
 			return;
 		}
 
+		// Get settings.
+		$settings = new ConvertKit_Settings();
+
 		// Get blocks.
 		$blocks = convertkit_get_blocks();
 

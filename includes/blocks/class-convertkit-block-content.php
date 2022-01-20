@@ -74,6 +74,21 @@ class ConvertKit_Block_Content extends ConvertKit_Block {
 	}
 
 	/**
+	 * Returns this block's Attributes
+	 *
+	 * @since   1.9.6.5
+	 */
+	public function get_attributes() {
+
+		return array(
+			'tag' => array(
+				'type'   => 'string',
+			),
+		);
+
+	}
+
+	/**
 	 * Returns this block's Fields
 	 *
 	 * @since   1.9.6
