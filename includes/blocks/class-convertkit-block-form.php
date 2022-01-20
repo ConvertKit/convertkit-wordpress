@@ -21,7 +21,7 @@ class ConvertKit_Block_Form extends ConvertKit_Block {
 	 */
 	public function __construct() {
 
-		// Register this block with the ConvertKit Plugin.
+		// Register this block as a Gutenberg Block in the ConvertKit Plugin.
 		add_filter( 'convertkit_blocks', array( $this, 'register' ) );
 
 	}
@@ -71,14 +71,9 @@ class ConvertKit_Block_Form extends ConvertKit_Block {
 			// Function to call when rendering the block/shortcode on the frontend web site.
 			'render_callback'               => array( $this, 'render' ),
 
-			// Whether to use the render_callback or other logic when rendering a preview of
-			// the block in the Gutenberg editor.
-			// server: renders the block in the editor using Gutenberg's ServerSideRender component,
-			// which calls the render() function in the block's PHP class.
-			// iframe: renders the HTML string using Gutenberg's Sandbox component. Useful for
-			// blocks that need to render inline <script> tags, which Gutenberg's editor only renders
-			// in an iframe for security on the backend.
-			'gutenberg_preview_type'		=> 'iframe', // server,iframe
+			// JS function to call when rendering the block preview in the Gutenberg editor.
+			// If not defined, render_callback above will be used.
+			'render_callback_gutenberg_preview' => 'convertKitGutenbergFormBlockRenderPreview',
 		);
 
 	}
@@ -92,7 +87,10 @@ class ConvertKit_Block_Form extends ConvertKit_Block {
 
 		return array(
 			'form' => array(
-				'type'   => 'string',
+				'type' => 'string',
+			),
+			'html' => array(
+				'type' => 'string',
 			),
 		);
 
@@ -137,11 +135,11 @@ class ConvertKit_Block_Form extends ConvertKit_Block {
 	}
 
 	/**
-	 * Returns this block's UI Tabs / sections.
+	 * Returns this block's UI panels / sections.
 	 *
 	 * @since   1.9.6
 	 */
-	public function get_tabs() {
+	public function get_panels() {
 
 		// Bail if the request is not for the WordPress Administration or frontend editor.
 		if ( ! WP_ConvertKit()->is_admin_or_frontend_editor() ) {

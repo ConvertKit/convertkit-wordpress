@@ -1,7 +1,7 @@
 /**
  * Registers blocks in the Gutenberg editor.
  *
- * @since   1.9.6
+ * @since   1.9.6.5
  *
  * @package ConvertKit
  * @author ConvertKit
@@ -23,7 +23,7 @@ if ( convertkit_is_gutenberg_active && wp.data.dispatch( 'core/edit-post' ) !== 
 /**
  * Registers the given block in Gutenberg.
  *
- * @since 	1.9.6
+ * @since 	1.9.6.5
  *
  * @param 	object 	block 	Block
  */
@@ -36,7 +36,7 @@ function convertKitGutenbergRegisterBlock( block ) {
 		const el                              = element.createElement;
 		const { registerBlockType }           = blocks;
 		const { RichText, InspectorControls } = editor;
-		const { Fragment } 	  				  = element;
+		const { Fragment } 		  			  = element;
 		const {
 			TextControl,
 			CheckboxControl,
@@ -86,17 +86,22 @@ function convertKitGutenbergRegisterBlock( block ) {
 					// Build Inspector Control Panels, which will appear in the Sidebar when editing the Block.
 					var panels  = [],
 					initialOpen = true;
-					for ( const panel in block.tabs ) {
+					for ( const panel in block.panels ) {
 
 						// Build Inspector Control Panel Rows, one for each Field.
 						var rows = [];
-						for ( var i in block.tabs[ panel ].fields ) {
-							const attribute = block.tabs[ panel ].fields[ i ], // e.g. 'term'.
+						for ( var i in block.panels[ panel ].fields ) {
+							const attribute = block.panels[ panel ].fields[ i ], // e.g. 'term'.
 									field   = block.fields[ attribute ]; // field array.
 
 							var fieldElement,
 							fieldProperties  = {},
-							fieldOptions     = [];
+							fieldOptions     = [
+								{
+									label: '(None)',
+									value: '',
+								}
+							];
 
 							// Define Field Element based on the Field Type.
 							switch ( field.type ) {
@@ -210,7 +215,6 @@ function convertKitGutenbergRegisterBlock( block ) {
 								el(
 									PanelRow,
 									{
-										// Required to avoid "Each child in a list should have a unique "key" prop." error.
 										key: attribute
 									},
 									fieldElement
@@ -223,7 +227,7 @@ function convertKitGutenbergRegisterBlock( block ) {
 							el(
 								PanelBody,
 								{
-									title: block.tabs[ panel ].label,
+									title: block.panels[ panel ].label,
 									key: panel,
 									initialOpen: initialOpen
 								},
@@ -235,66 +239,29 @@ function convertKitGutenbergRegisterBlock( block ) {
 						initialOpen = false;
 					}
 
-					// Build preview, depending on how the block renders previews in the Gutenberg editor.
+					// Generate Block Preview.
 					var preview = '';
-					console.log( block );
-					switch ( block.gutenberg_preview_type ) {
-						/**
-						 * Server Side Render, which calls the block's PHP render() function.
-						 */
-						case 'server':
-							preview = el(
-								ServerSideRender, 
-								{
-				                    block: 'convertkit/' + block.name,
-				                    attributes: props.attributes,
-				                    className: 'convertkit-' + block.name,
-				                }
-							);
-							break;
-
-						/**
-						 * Sandbox (iframe), which injects the supplied HTML into an iframe.
-						 * Used when we want to render e.g. a <script> tag, as Gutenberg's editor
-						 * won't render these unless added within an iframe.
-						 */
-						case 'iframe':
-							// Determine HTML for sandbox preview.
-							// @TODO Move this logic, it can't be here.
-							var html = '',
-								form = block.fields.form.data.forms[ props.attributes.form ];
-							if ( typeof form !== 'undefined' ) {
-								if ( typeof form.uid !== 'undefined' ) {
-									// Form.
-									html = '<script async data-uid="' + form.uid + '" src="' + form.embed_js + '"></script>';
-								} else {
-									// Legacy Form.
-									html = 'https://api.convertkit.com/forms/' + form.id + '/embed?v=2&k=api_key=' + block.fields.form.data.api_key;
-								}
-							}
-
-							console.log( html );
-
-							preview = el(
-								'div',
-								{
-									className: 'convertkit-' + block.name
-								},
-								SandBox({
-									html: html,
-									title: 'Form Preview',
-									type: 'embed',
-									styles: [],
-									scripts: []
-								})
-							);
-							break;
-
+					if ( typeof block.render_callback_gutenberg_preview !== 'undefined' ) {
+						// Use a custom callback function to render this block's preview in the Gutenberg Editor.
+						// This doesn't affect the output for this block on the frontend site, which will always
+						// use the block's PHP's render() function.
+						preview = window[ block.render_callback_gutenberg_preview ]( block, props );
+					} else {
+						// Use the block's PHP's render() function by calling the ServerSideRender component.
+						preview = el(
+							ServerSideRender, 
+							{
+			                    block: 'convertkit/' + block.name,
+			                    attributes: props.attributes,
+			                    className: 'convertkit-' + block.name,
+			                }
+						);
 					}
 
 					// Return.
 					return (
 						el(
+							// Sidebar Panel with Fields.
 							Fragment,
 							{},
 							el(
@@ -302,35 +269,9 @@ function convertKitGutenbergRegisterBlock( block ) {
 								{},
 								panels
 							),
+
+							// Block Preview.
 							preview
-
-							/*
-							el(
-								ServerSideRender, 
-								{
-				                    block: 'convertkit/' + block.name,
-				                    attributes: props.attributes,
-				                    className: 'convertkit-' + block.name,
-				                }
-							)
-							*/
-
-							// Block Output/Preview.
-							/*
-							el(
-								'div',
-								{
-									className: 'convertkit-' + block.name
-								},
-								SandBox({
-									html: html,
-									title: 'Form Preview',
-									type: 'embed',
-									styles: [],
-									scripts: []
-								})
-							)
-							*/
 						)
 					);
 				},
@@ -338,6 +279,8 @@ function convertKitGutenbergRegisterBlock( block ) {
 				// Output.
 				save: function( props ) {
 
+					// Deliberate; preview in the editor is determined by the preview above.
+					// On the frontend site, the block's render() PHP class is always called.
 					return null;
 
 				},
@@ -351,5 +294,57 @@ function convertKitGutenbergRegisterBlock( block ) {
 		window.wp.components,
 		block
 	) );
+
+}
+
+/**
+ * Custom callback function to render the ConvertKit Form Block preview in the Gutenberg Editor.
+ * 
+ * @since 	1.9.6.5
+ */
+function convertKitGutenbergFormBlockRenderPreview( block, props ) {
+
+	var form = block.fields.form.data.forms[ props.attributes.form ];
+
+	// If no Form has been selected for display, return a prompt to tell the editor
+	// what to do.
+	if ( typeof form === 'undefined' ) {
+		return wp.element.createElement(
+			'div',
+			{
+				className: 'convertkit-' + block.name
+			},
+			'Select a Form using the Form option in the Gutenberg sidebar.'
+		);
+	}
+
+	// If the Form is a <script> embed, use the SandBox because the Gutenberg editor
+	// will not execute inline scripts.
+	if ( typeof form.uid !== 'undefined' ) {
+		return wp.element.createElement(
+			'div',
+			{
+				className: 'convertkit-' + block.name
+			},
+			wp.components.SandBox({
+				html: '<script async data-uid="' + form.uid + '" src="' + form.embed_js + '"></script>',
+				title: 'Form Preview',
+				type: 'embed',
+				styles: [],
+				scripts: []
+			})
+		);
+	}
+
+	// This is a Legacy Form.
+	// Use the block's PHP's render() function by calling the ServerSideRender component.
+	return wp.element.createElement(
+		wp.components.ServerSideRender, 
+		{
+            block: 'convertkit/' + block.name,
+            attributes: props.attributes,
+            className: 'convertkit-' + block.name,
+        }
+	);
 
 }

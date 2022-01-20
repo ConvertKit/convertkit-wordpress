@@ -22,7 +22,7 @@ class ConvertKit_Block_Content extends ConvertKit_Block {
 	public function __construct() {
 
 		// Register this block with the ConvertKit Plugin.
-		// add_filter( 'convertkit_blocks', array( $this, 'register' ) );
+		add_filter( 'convertkit_blocks', array( $this, 'register' ) );
 
 	}
 
@@ -120,11 +120,11 @@ class ConvertKit_Block_Content extends ConvertKit_Block {
 	}
 
 	/**
-	 * Returns this block's UI Tabs / sections.
+	 * Returns this block's UI panels / sections.
 	 *
 	 * @since   1.9.6
 	 */
-	public function get_tabs() {
+	public function get_panels() {
 
 		// Bail if the request is not for the WordPress Administration or frontend editor.
 		if ( ! WP_ConvertKit()->is_admin_or_frontend_editor() ) {
