@@ -21,8 +21,22 @@ class ConvertKit_Block_Form extends ConvertKit_Block {
 	 */
 	public function __construct() {
 
-		// Register this block as a Gutenberg Block in the ConvertKit Plugin.
+		// Register this block in the ConvertKit Plugin.
 		add_filter( 'convertkit_blocks', array( $this, 'register' ) );
+
+		// Register additional scripts for this Gutenberg Block.
+		add_action( 'convertkit_gutenberg_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
+
+	}
+
+	/**
+	 * Enqueues additional scripts for this Gutenberg Block.
+	 *
+	 * @since   1.9.6.5
+	 */
+	public function enqueue_scripts() {
+
+		wp_enqueue_script( 'convertkit-gutenberg-block-form', CONVERTKIT_PLUGIN_URL . '/resources/backend/js/gutenberg-block-form.js', array( 'convertkit-gutenberg' ), CONVERTKIT_PLUGIN_VERSION, true );
 
 	}
 

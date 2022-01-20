@@ -117,16 +117,16 @@ class ConvertKit_Gutenberg {
 		}
 
 		// Enqueue Gutenberg script.
-		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_script' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 
 	}
 
 	/**
-	 * Enqueues the Gutenberg script.
+	 * Enqueues scripts for Gutenberg blocks.
 	 *
 	 * @since   1.9.6
 	 */
-	public function enqueue_script() {
+	public function enqueue_scripts() {
 
 		// Bail if request isn't for the Admin or a Frontend Editor.
 		if ( ! WP_ConvertKit()->is_admin_or_frontend_editor() ) {
@@ -142,6 +142,15 @@ class ConvertKit_Gutenberg {
 		// Enqueue Gutenberg Javascript, and set the blocks data.
 		wp_enqueue_script( 'convertkit-gutenberg', CONVERTKIT_PLUGIN_URL . '/resources/backend/js/gutenberg.js', array( 'jquery' ), CONVERTKIT_PLUGIN_VERSION, true );
 		wp_localize_script( 'convertkit-gutenberg', 'convertkit_blocks', $blocks );
+
+		/**
+		 * Enqueue any additional scripts for Gutenberg blocks that have been registered.
+		 * 
+		 * @since 	1.9.6.5
+		 * 
+		 * @param 	array 	$blocks 	ConvertKit Blocks.
+		 */
+		do_action( 'convertkit_gutenberg_enqueue_scripts', $blocks );
 
 	}
 
