@@ -7,15 +7,17 @@
  * @author ConvertKit
  */
 
-// Determine if Gutenberg is active.
-convertkit_is_gutenberg_active = ( ( typeof wp !== 'undefined' && typeof wp.data !== 'undefined' && typeof wp.data.dispatch( 'core/edit-post' ) !== 'undefined' ) ? true : false );
+// Register Gutenberg Blocks if the Gutenberg Editor is loaded on screen.
+// This prevents JS errors if this script is accidentally enqueued on a non-
+// Gutenberg editor screen, or the Classic Editor Plugin is active.
+if ( typeof wp !== 'undefined' && 
+	 typeof wp.data !== 'undefined' && 
+	 typeof wp.data.dispatch( 'core/edit-post' ) !== 'undefined' &&
+	 wp.data.dispatch( 'core/edit-post' ) !== null ) {
 
-if ( convertkit_is_gutenberg_active && wp.data.dispatch( 'core/edit-post' ) !== null ) {
-
+	// Register each ConvertKit Block in Gutenberg.
 	for ( const block in convertkit_blocks ) {
-
 		convertKitGutenbergRegisterBlock( convertkit_blocks[ block ] );
-
 	}
 
 }
@@ -94,44 +96,50 @@ function convertKitGutenbergRegisterBlock( block ) {
 							const attribute = block.panels[ panel ].fields[ i ], // e.g. 'term'.
 									field   = block.fields[ attribute ]; // field array.
 
-							var fieldElement,
-							fieldProperties  = {},
-							fieldOptions     = [
-								{
-									label: '(None)',
-									value: '',
-								}
-							];
+							var fieldElement; // Holds the field element (select, textarea, text etc).
 
-							// Define Field Element based on the Field Type.
-							switch ( field.type ) {
-
-								case 'select':
-									// Build values for <select> inputs.
-									if ( typeof field.values !== 'undefined' ) {
-										for ( var value in field.values ) {
-											fieldOptions.push(
-												{
-													label: field.values[ value ],
-													value: value
-												}
-											);
+							// Define Field's Properties.
+							var fieldProperties  = {
+								id:  		'convertkit_' + block.name + '_' + attribute,
+								label: 		field.label,
+								help: 		field.description,
+								value: 		props.attributes[ attribute ],
+								onChange: 	function( value ) {
+									if ( field.type == 'number' ) {
+										// Cast value to integer if a value exists.
+										if ( value.length > 0 ) {
+											value = Number( value );
 										}
 									}
 
-									// Define field properties.
-									fieldProperties = {
-										label: 		field.label,
-										help: 		field.description,
-										options: 	fieldOptions,
-										value: 		props.attributes[ attribute ],
-										onChange: function( value ) {
-											var newValue          = {};
-											newValue[ attribute ] = value;
-											props.setAttributes( newValue );
-										}
-									};
+									var newValue          = {};
+									newValue[ attribute ] = value;
+									props.setAttributes( newValue );
+								}
+							};
 
+							// Define additional Field Properties and the Field Element,
+							// depending on the Field Type (select, textarea, text etc).
+							switch ( field.type ) {
+
+								case 'select':
+									// Build options for <select> input.
+									var fieldOptions = [
+										{
+											label: '(None)',
+											value: '',
+										}
+									];
+									for ( var value in field.values ) {
+										fieldOptions.push(
+											{
+												label: field.values[ value ],
+												value: value
+											}
+										);
+									}
+									fieldProperties.options = fieldOptions;
+									
 									// Define field element.
 									fieldElement = el(
 										SelectControl,
@@ -141,16 +149,7 @@ function convertKitGutenbergRegisterBlock( block ) {
 
 								case 'toggle':
 									// Define field properties.
-									fieldProperties = {
-										label: 		field.label,
-										help: 		field.description,
-										checked: 	props.attributes[ attribute ],
-										onChange: function( value ) {
-											var newValue          = {};
-											newValue[ attribute ] = value;
-											props.setAttributes( newValue );
-										},
-									}
+									fieldProperties.checked = props.attributes[ attribute ];
 
 									// Define field element.
 									fieldElement = el(
@@ -161,25 +160,10 @@ function convertKitGutenbergRegisterBlock( block ) {
 
 								case 'number':
 									// Define field properties.
-									fieldProperties = {
-										type: 		field.type,
-										label: 		field.label,
-										help: 		field.description,
-										min: 		field.min,
-										max: 		field.max,
-										step: 		field.step,
-										value: 		props.attributes[ attribute ],
-										onChange: function( value ) {
-											// Cast value to integer if a value exists.
-											if ( value.length > 0 ) {
-												value = Number( value );
-											}
-
-											var newValue          = {};
-											newValue[ attribute ] = value;
-											props.setAttributes( newValue );
-										},
-									};
+									fieldProperties.type = field.type;
+									fieldProperties.min = field.min;
+									fieldProperties.max = field.max;
+									fieldProperties.step = field.step;
 
 									// Define field element.
 									fieldElement = el(
@@ -189,19 +173,6 @@ function convertKitGutenbergRegisterBlock( block ) {
 									break;
 
 								default:
-									// Define field properties.
-									fieldProperties = {
-										type: 		field.type,
-										label: 		field.label,
-										help: 		field.description,
-										value: 		props.attributes[ attribute ],
-										onChange: function( value ) {
-											var newValue          = {};
-											newValue[ attribute ] = value;
-											props.setAttributes( newValue );
-										},
-									};
-
 									// Define field element.
 									fieldElement = el(
 										TextControl,
@@ -279,8 +250,9 @@ function convertKitGutenbergRegisterBlock( block ) {
 				// Output.
 				save: function( props ) {
 
-					// Deliberate; preview in the editor is determined by the preview above.
-					// On the frontend site, the block's render() PHP class is always called.
+					// Deliberate; preview in the editor is determined by the return statement in `edit` above.
+					// On the frontend site, the block's render() PHP class is always called, so we dynamically
+					// fetch the content.
 					return null;
 
 				},
