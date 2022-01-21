@@ -52,7 +52,7 @@ class PageTagCest
 		$I->selectOption('#wp-convertkit-tag', 'None');
 
 		// Define a Page Title.
-		$I->fillField('#post-title-0', 'ConvertKit: Tag: None');
+		$I->fillField('.editor-post-title__input', 'ConvertKit: Tag: None');
 
 		// Click the Publish button.
 		$I->click('.editor-post-publish-button__button');
@@ -103,7 +103,7 @@ class PageTagCest
 		$I->selectOption('#wp-convertkit-tag', $_ENV['CONVERTKIT_API_TAG_NAME']);
 
 		// Define a Page Title.
-		$I->fillField('#post-title-0', 'ConvertKit: Tag: Specific');
+		$I->fillField('.editor-post-title__input', 'ConvertKit: Tag: Specific');
 
 		// Click the Publish button.
 		$I->click('.editor-post-publish-button__button');

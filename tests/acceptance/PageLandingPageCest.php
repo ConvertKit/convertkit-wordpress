@@ -52,7 +52,7 @@ class PageLandingPageCest
 		$I->selectOption('#wp-convertkit-landing_page', 'None');
 
 		// Define a Page Title.
-		$I->fillField('#post-title-0', 'ConvertKit: Landing Page: None');
+		$I->fillField('.editor-post-title__input', 'ConvertKit: Landing Page: None');
 
 		// Click the Publish button.
 		$I->click('.editor-post-publish-button__button');
@@ -103,7 +103,7 @@ class PageLandingPageCest
 		$I->selectOption('#wp-convertkit-landing_page', $_ENV['CONVERTKIT_API_LANDING_PAGE_NAME']);
 
 		// Define a Page Title.
-		$I->fillField('#post-title-0', 'ConvertKit: Landing Page: Specific');
+		$I->fillField('.editor-post-title__input', 'ConvertKit: Landing Page: Specific');
 
 		// Click the Publish button.
 		$I->click('.editor-post-publish-button__button');
@@ -157,7 +157,7 @@ class PageLandingPageCest
 		$I->selectOption('#wp-convertkit-landing_page', $_ENV['CONVERTKIT_API_LANDING_PAGE_CHARACTER_ENCODING_NAME']);
 
 		// Define a Page Title.
-		$I->fillField('#post-title-0', 'ConvertKit: Landing Page: Character Encoding');
+		$I->fillField('.editor-post-title__input', 'ConvertKit: Landing Page: Character Encoding');
 
 		// Click the Publish button.
 		$I->click('.editor-post-publish-button__button');
@@ -211,7 +211,7 @@ class PageLandingPageCest
 		$I->selectOption('#wp-convertkit-landing_page', $_ENV['CONVERTKIT_API_LEGACY_LANDING_PAGE_NAME']);
 
 		// Define a Page Title.
-		$I->fillField('#post-title-0', 'ConvertKit: Landing Page: Legacy: Specific');
+		$I->fillField('.editor-post-title__input', 'ConvertKit: Landing Page: Legacy: Specific');
 
 		// Click the Publish button.
 		$I->click('.editor-post-publish-button__button');

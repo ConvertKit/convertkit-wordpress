@@ -50,7 +50,7 @@ class PostLandingPageCest
 		$I->dontSeeElementInDOM('#wp-convertkit-landing_page');
 
 		// Define a Post Title.
-		$I->fillField('#post-title-0', 'ConvertKit: Post: Landing Page');
+		$I->fillField('.editor-post-title__input', 'ConvertKit: Post: Landing Page');
 
 		// Click the Publish button.
 		$I->click('.editor-post-publish-button__button');

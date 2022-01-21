@@ -53,7 +53,7 @@ class PageFormCest
 		$I->selectOption('#wp-convertkit-form', 'Default');
 
 		// Define a Page Title.
-		$I->fillField('#post-title-0', 'ConvertKit: Form: Default: None');
+		$I->fillField('.editor-post-title__input', 'ConvertKit: Form: Default: None');
 
 		// Click the Publish button.
 		$I->click('.editor-post-publish-button__button');
@@ -107,7 +107,7 @@ class PageFormCest
 		$I->selectOption('#wp-convertkit-form', 'Default');
 
 		// Define a Page Title.
-		$I->fillField('#post-title-0', 'ConvertKit: Form: Default');
+		$I->fillField('.editor-post-title__input', 'ConvertKit: Form: Default');
 
 		// Click the Publish button.
 		$I->click('.editor-post-publish-button__button');
@@ -161,7 +161,7 @@ class PageFormCest
 		$I->selectOption('#wp-convertkit-form', 'Default');
 
 		// Define a Page Title.
-		$I->fillField('#post-title-0', 'ConvertKit: Form: Legacy: Default');
+		$I->fillField('.editor-post-title__input', 'ConvertKit: Form: Legacy: Default');
 
 		// Click the Publish button.
 		$I->click('.editor-post-publish-button__button');
@@ -212,7 +212,7 @@ class PageFormCest
 		$I->selectOption('#wp-convertkit-form', 'None');
 
 		// Define a Page Title.
-		$I->fillField('#post-title-0', 'ConvertKit: Form: None');
+		$I->fillField('.editor-post-title__input', 'ConvertKit: Form: None');
 
 		// Click the Publish button.
 		$I->click('.editor-post-publish-button__button');
@@ -263,7 +263,7 @@ class PageFormCest
 		$I->selectOption('#wp-convertkit-form', $_ENV['CONVERTKIT_API_FORM_NAME']);
 
 		// Define a Page Title.
-		$I->fillField('#post-title-0', 'ConvertKit: Form: Specific');
+		$I->fillField('.editor-post-title__input', 'ConvertKit: Form: Specific');
 
 		// Click the Publish button.
 		$I->click('.editor-post-publish-button__button');
@@ -317,7 +317,7 @@ class PageFormCest
 		$I->selectOption('#wp-convertkit-form', $_ENV['CONVERTKIT_API_LEGACY_FORM_NAME']);
 
 		// Define a Page Title.
-		$I->fillField('#post-title-0', 'ConvertKit: Form: Legacy: Specific');
+		$I->fillField('.editor-post-title__input', 'ConvertKit: Form: Legacy: Specific');
 
 		// Click the Publish button.
 		$I->click('.editor-post-publish-button__button');
