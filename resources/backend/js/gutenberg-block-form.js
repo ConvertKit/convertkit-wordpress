@@ -24,7 +24,7 @@ function convertKitGutenbergFormBlockRenderPreview( block, props ) {
 			{
 				className: 'convertkit-' + block.name
 			},
-			block.help_description
+			block.gutenberg_help_description
 		);
 	}
 
