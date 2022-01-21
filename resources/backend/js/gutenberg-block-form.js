@@ -39,11 +39,11 @@ function convertKitGutenbergFormBlockRenderPreview( block, props ) {
 			wp.components.SandBox({
 				html: '<script async data-uid="' + form.uid + '" src="' + form.embed_js + '"></script>',
 				title: 'Form Preview',
-				type: 'embed',
+				//type: 'embed',
 				styles: [
-					
+					'body{font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;}',	
 				],
-				scripts: []
+				//scripts: []
 			})
 		);
 	}
