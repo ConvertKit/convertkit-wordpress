@@ -40,7 +40,9 @@ function convertKitGutenbergFormBlockRenderPreview( block, props ) {
 				html: '<script async data-uid="' + form.uid + '" src="' + form.embed_js + '"></script>',
 				title: 'Form Preview',
 				type: 'embed',
-				styles: [],
+				styles: [
+					
+				],
 				scripts: []
 			})
 		);

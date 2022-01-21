@@ -21,7 +21,10 @@ class ConvertKit_Block_Form extends ConvertKit_Block {
 	 */
 	public function __construct() {
 
-		// Register this block in the ConvertKit Plugin.
+		// Register this as a shortcode in the ConvertKit Plugin.
+		add_filter( 'convertkit_shortcodes', array( $this, 'register' ) );
+
+		// Register this as a Gutenberg block in the ConvertKit Plugin.
 		add_filter( 'convertkit_blocks', array( $this, 'register' ) );
 
 		// Register additional scripts for this Gutenberg Block.
@@ -67,7 +70,7 @@ class ConvertKit_Block_Form extends ConvertKit_Block {
 		return array(
 			'title'                         => __( 'ConvertKit Form', 'convertkit' ),
 			'description'                   => __( 'Displays a ConvertKit Form.', 'convertkit' ),
-			'icon'                          => file_get_contents( CONVERTKIT_PLUGIN_PATH . '/resources/backend/images/convertkit-logomark-red.svg' ),
+			'icon'                          => file_get_contents( CONVERTKIT_PLUGIN_PATH . '/resources/backend/images/block-icon-form.svg' ),
 			'category'                      => 'convertkit',
 			'keywords'                      => array(
 				__( 'ConvertKit', 'convertkit' ),
@@ -81,6 +84,9 @@ class ConvertKit_Block_Form extends ConvertKit_Block {
 			),
 
 			'shortcode_include_closing_tag' => false,
+
+			// Example image showing how this block looks when choosing it in Gutenberg.
+			'gutenberg_example_image'		=> CONVERTKIT_PLUGIN_URL . '/resources/backend/images/block-example-form.png',
 
 			// Function to call when rendering the block/shortcode on the frontend web site.
 			'render_callback'               => array( $this, 'render' ),
@@ -103,8 +109,11 @@ class ConvertKit_Block_Form extends ConvertKit_Block {
 			'form' => array(
 				'type' => 'string',
 			),
-			'html' => array(
-				'type' => 'string',
+
+			// Always required for Gutenberg.
+			'is_gutenberg_example' => array(
+				'type' => 'boolean',
+				'default' => false,
 			),
 		);
 

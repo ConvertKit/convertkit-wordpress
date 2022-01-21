@@ -81,9 +81,30 @@ function convertKitGutenbergRegisterBlock( block ) {
 				icon:       icon,
 				keywords: 	block.keywords,
 				attributes: block.attributes,
+				example: 	{
+    				attributes: {
+    					is_gutenberg_example: true,
+    				}
+    			},
 
 				// Editor.
 				edit: function( props ) {
+
+					// If requesting an example of how this block looks (which is requested
+					// when the user adds a new block and hovers over this block's icon),
+					// show the preview image.
+					if ( props.attributes.is_gutenberg_example === true ) {
+						return (
+							Fragment,
+							{},
+							el(
+								'img',
+								{
+									src: block.gutenberg_example_image,
+								}
+							)
+						);
+					}
 
 					// Build Inspector Control Panels, which will appear in the Sidebar when editing the Block.
 					var panels  = [],

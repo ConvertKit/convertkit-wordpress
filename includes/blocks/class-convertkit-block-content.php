@@ -21,8 +21,8 @@ class ConvertKit_Block_Content extends ConvertKit_Block {
 	 */
 	public function __construct() {
 
-		// Register this block with the ConvertKit Plugin.
-		add_filter( 'convertkit_blocks', array( $this, 'register' ) );
+		// Register this as a shortcode in the ConvertKit Plugin.
+		add_filter( 'convertkit_shortcodes', array( $this, 'register' ) );
 
 	}
 
