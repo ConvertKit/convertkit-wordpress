@@ -106,7 +106,7 @@ class ConvertKit_Gutenberg {
 			register_block_type(
 				'convertkit/' . $block,
 				array(
-					'attributes'  	  => $properties['attributes'],
+					'attributes'      => $properties['attributes'],
 					'editor_script'   => 'convertkit-gutenberg',
 					'render_callback' => array(
 						$properties['render_callback'][0],
@@ -145,10 +145,10 @@ class ConvertKit_Gutenberg {
 
 		/**
 		 * Enqueue any additional scripts for Gutenberg blocks that have been registered.
-		 * 
-		 * @since 	1.9.6.5
-		 * 
-		 * @param 	array 	$blocks 	ConvertKit Blocks.
+		 *
+		 * @since   1.9.6.5
+		 *
+		 * @param   array   $blocks     ConvertKit Blocks.
 		 */
 		do_action( 'convertkit_gutenberg_enqueue_scripts', $blocks );
 

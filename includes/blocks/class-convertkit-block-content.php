@@ -82,7 +82,7 @@ class ConvertKit_Block_Content extends ConvertKit_Block {
 
 		return array(
 			'tag' => array(
-				'type'   => 'string',
+				'type' => 'string',
 			),
 		);
 

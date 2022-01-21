@@ -10,10 +10,10 @@
 // Register Gutenberg Blocks if the Gutenberg Editor is loaded on screen.
 // This prevents JS errors if this script is accidentally enqueued on a non-
 // Gutenberg editor screen, or the Classic Editor Plugin is active.
-if ( typeof wp !== 'undefined' && 
-	 typeof wp.data !== 'undefined' && 
-	 typeof wp.data.dispatch( 'core/edit-post' ) !== 'undefined' &&
-	 wp.data.dispatch( 'core/edit-post' ) !== null ) {
+if ( typeof wp !== 'undefined' &&
+	typeof wp.data !== 'undefined' &&
+	typeof wp.data.dispatch( 'core/edit-post' ) !== 'undefined' &&
+	wp.data.dispatch( 'core/edit-post' ) !== null ) {
 
 	// Register each ConvertKit Block in Gutenberg.
 	for ( const block in convertkit_blocks ) {
@@ -82,10 +82,10 @@ function convertKitGutenbergRegisterBlock( block ) {
 				keywords: 	block.keywords,
 				attributes: block.attributes,
 				example: 	{
-    				attributes: {
-    					is_gutenberg_example: true,
-    				}
-    			},
+					attributes: {
+						is_gutenberg_example: true,
+					}
+				},
 
 				// Editor.
 				edit: function( props ) {
@@ -120,7 +120,7 @@ function convertKitGutenbergRegisterBlock( block ) {
 							var fieldElement; // Holds the field element (select, textarea, text etc).
 
 							// Define Field's Properties.
-							var fieldProperties  = {
+							var fieldProperties = {
 								id:  		'convertkit_' + block.name + '_' + attribute,
 								label: 		field.label,
 								help: 		field.description,
@@ -149,7 +149,7 @@ function convertKitGutenbergRegisterBlock( block ) {
 										{
 											label: '(None)',
 											value: '',
-										}
+									}
 									];
 									for ( var value in field.values ) {
 										fieldOptions.push(
@@ -160,7 +160,7 @@ function convertKitGutenbergRegisterBlock( block ) {
 										);
 									}
 									fieldProperties.options = fieldOptions;
-									
+
 									// Define field element.
 									fieldElement = el(
 										SelectControl,
@@ -182,8 +182,8 @@ function convertKitGutenbergRegisterBlock( block ) {
 								case 'number':
 									// Define field properties.
 									fieldProperties.type = field.type;
-									fieldProperties.min = field.min;
-									fieldProperties.max = field.max;
+									fieldProperties.min  = field.min;
+									fieldProperties.max  = field.max;
 									fieldProperties.step = field.step;
 
 									// Define field element.
@@ -233,20 +233,20 @@ function convertKitGutenbergRegisterBlock( block ) {
 
 					// Generate Block Preview.
 					var preview = '';
-					if ( typeof block.render_callback_gutenberg_preview !== 'undefined' ) {
+					if ( typeof block.gutenberg_preview_render_callback !== 'undefined' ) {
 						// Use a custom callback function to render this block's preview in the Gutenberg Editor.
 						// This doesn't affect the output for this block on the frontend site, which will always
 						// use the block's PHP's render() function.
-						preview = window[ block.render_callback_gutenberg_preview ]( block, props );
+						preview = window[ block.gutenberg_preview_render_callback ]( block, props );
 					} else {
 						// Use the block's PHP's render() function by calling the ServerSideRender component.
 						preview = el(
-							ServerSideRender, 
+							ServerSideRender,
 							{
-			                    block: 'convertkit/' + block.name,
-			                    attributes: props.attributes,
-			                    className: 'convertkit-' + block.name,
-			                }
+								block: 'convertkit/' + block.name,
+								attributes: props.attributes,
+								className: 'convertkit-' + block.name,
+							}
 						);
 					}
 
@@ -261,7 +261,6 @@ function convertKitGutenbergRegisterBlock( block ) {
 								{},
 								panels
 							),
-
 							// Block Preview.
 							preview
 						)
