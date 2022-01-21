@@ -70,7 +70,8 @@ class ConvertKit_Block_Form extends ConvertKit_Block {
 		return array(
 			'title'                         => __( 'ConvertKit Form', 'convertkit' ),
 			'description'                   => __( 'Displays a ConvertKit Form.', 'convertkit' ),
-			'icon'                          => file_get_contents( CONVERTKIT_PLUGIN_PATH . '/resources/backend/images/block-icon-form.svg' ),
+			'icon'                          => 'resources/backend/images/block-icon-form.png',
+			'gutenberg_icon'				=> file_get_contents( CONVERTKIT_PLUGIN_PATH . '/resources/backend/images/block-icon-form.svg' ),
 			'category'                      => 'convertkit',
 			'keywords'                      => array(
 				__( 'ConvertKit', 'convertkit' ),

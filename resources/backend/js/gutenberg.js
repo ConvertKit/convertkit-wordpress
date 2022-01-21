@@ -57,17 +57,17 @@ function convertKitGutenbergRegisterBlock( block ) {
 
 		// Build Icon, if it's an object.
 		var icon = 'dashicons-tablet';
-		if ( typeof block.icon !== 'undefined' ) {
-			if ( block.icon.search( 'svg' ) >= 0 ) {
+		if ( typeof block.gutenberg_icon !== 'undefined' ) {
+			if ( block.gutenberg_icon.search( 'svg' ) >= 0 ) {
 				// SVG.
 				icon = element.RawHTML(
 					{
-						children: block.icon
+						children: block.gutenberg_icon
 					}
 				);
 			} else {
 				// Dashicon.
-				icon = block.icon;
+				icon = block.gutenberg_icon;
 			}
 		}
 

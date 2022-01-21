@@ -136,12 +136,15 @@ class ConvertKit_Admin_TinyMCE {
 
 		// Register JS variable convertkit_admin_tinymce.nonce for AJAX calls.
 		wp_localize_script(
-			'convertkit_admin_tinymce',
+			'convertkit-admin-tinymce',
 			'convertkit_admin_tinymce',
 			array(
 				'nonce' => wp_create_nonce( 'convertkit_admin_tinymce' ),
 			)
 		);
+
+		// Make shortcodes available as convertkit_shortcodes JS variable.
+		wp_localize_script( 'convertkit-admin-tinymce', 'convertkit_shortcodes', $shortcodes );
 
 		// Register TinyMCE Javascript Plugin.
 		foreach ( $shortcodes as $shortcode => $properties ) {

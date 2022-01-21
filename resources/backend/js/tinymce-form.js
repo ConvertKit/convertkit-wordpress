@@ -7,4 +7,4 @@
  * @author ConvertKit
  */
 
-convertKitTinyMCERegisterPlugin( convertkit_blocks['form'] );
+convertKitTinyMCERegisterPlugin( convertkit_shortcodes['form'] );
