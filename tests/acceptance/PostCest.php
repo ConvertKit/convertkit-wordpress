@@ -46,8 +46,7 @@ class PostCest
 		// Check that an expected message is displayed.
 		$I->seeInSource('To configure the ConvertKit Form / Landing Page to display on this Post, enter your ConvertKit API credentials');
 
-		// Check that a Plugin Settings link exists and loads the Plugin Settings screen.
-		$I->click('#wp-convertkit-meta-box a');
-		$I->seeElement('#api_key');
+		// Check that a link to the Plugin Settings exists.
+		$I->seeInSource('<a href="' . $_ENV['TEST_SITE_WP_URL'] . '/wp-admin/options-general.php?page=_wp_convertkit_settings">Plugin Settings</a>');
 	}
 }
