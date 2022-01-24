@@ -39,7 +39,7 @@ class PageBlockFormCest
 	public function testFormBlockWithValidFormParameter(AcceptanceTester $I)
 	{
 		// Define a Page Title.
-		$I->fillField('#post-title-1', 'ConvertKit: Form: Block: Valid Form Param');
+		$I->fillField('.editor-post-title__input', 'ConvertKit: Form: Block: Valid Form Param');
 
 		// Click Add Block Button.
 		$I->click('button.edit-post-header-toolbar__inserter-toggle');
@@ -85,7 +85,7 @@ class PageBlockFormCest
 	public function testFormBlockWithValidLegacyFormParameter(AcceptanceTester $I)
 	{
 		// Define a Page Title.
-		$I->fillField('#post-title-1', 'ConvertKit: Legacy Form: Block: Valid Form Param');
+		$I->fillField('.editor-post-title__input', 'ConvertKit: Legacy Form: Block: Valid Form Param');
 
 		// Click Add Block Button.
 		$I->click('button.edit-post-header-toolbar__inserter-toggle');
@@ -131,7 +131,7 @@ class PageBlockFormCest
 	public function testFormBlockWithNoFormParameter(AcceptanceTester $I)
 	{
 		// Define a Page Title.
-		$I->fillField('#post-title-1', 'ConvertKit: Form: Block: No Form Param');
+		$I->fillField('.editor-post-title__input', 'ConvertKit: Form: Block: No Form Param');
 
 		// Click Add Block Button.
 		$I->click('button.edit-post-header-toolbar__inserter-toggle');
