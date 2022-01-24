@@ -54,6 +54,9 @@ Navigate to the Plugin's Settings at Settings > ConvertKit.
 
 == Changelog ==
 
+### 1.9.6.5 2022-01-xx
+* Added: Select2 dropdown for Forms, Landing Pages and Tags with search functionality for improved UX.
+
 ### 1.9.6.4 2022-01-11
 * Fix: Render Legacy Form when shortcode is copied from app.convertkit.com for a Legacy Form
 * Fix: Don't check for Landing Page when viewing any non-Page public Post Type which doesn't support Landing Pages

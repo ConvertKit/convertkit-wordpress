@@ -29,6 +29,47 @@ class ConvertKit_Admin_Post {
 	}
 
 	/**
+	 * Enqueue JavaScript when editing a Page, Post or Custom Post Type that outputs
+	 * ConvertKit Plugin settings.
+	 *
+	 * @since   1.9.6.4
+	 */
+	public function enqueue_scripts() {
+
+		// Enqueue Select2 JS.
+		convertkit_select2_enqueue_scripts();
+
+		/**
+		 * Enqueue JavaScript when editing a Page, Post or Custom Post Type that outputs
+		 * ConvertKit Plugin settings.
+		 *
+		 * @since   1.9.6.4
+		 */
+		do_action( 'convertkit_admin_post_enqueue_scripts' );
+
+	}
+
+	/**
+	 * Enqueue CSS when editing a Page, Post or Custom Post Type that outputs
+	 * ConvertKit Plugin settings.
+	 *
+	 * @since   1.9.6.4
+	 */
+	public function enqueue_styles() {
+
+		// Enqueue Select2 CSS.
+		convertkit_select2_enqueue_styles();
+
+		/**
+		 * Enqueue CSS for the Settings Screen at Settings > ConvertKit
+		 *
+		 * @since   1.9.6.4
+		 */
+		do_action( 'convertkit_admin_post_enqueue_styles' );
+
+	}
+
+	/**
 	 * Adds a meta box for the given Post Type.
 	 *
 	 * @since   1.9.6
@@ -43,8 +84,12 @@ class ConvertKit_Admin_Post {
 			return;
 		}
 
-		// Registe Meta Box.
+		// Register Meta Box.
 		add_meta_box( 'wp-convertkit-meta-box', __( 'ConvertKit', 'convertkit' ), array( $this, 'display_meta_box' ), $post_type, 'normal' );
+
+		// Enqueue JS and CSS.
+		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_styles' ) );
 
 	}
 

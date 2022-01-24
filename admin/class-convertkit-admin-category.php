@@ -22,8 +22,74 @@ class ConvertKit_Admin_Category {
 	 */
 	public function __construct() {
 
+		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_styles' ) );
 		add_action( 'category_edit_form_fields', array( $this, 'category_form_fields' ), 20 );
 		add_action( 'edited_category', array( $this, 'save_category_fields' ), 20 );
+
+	}
+
+	/**
+	 * Enqueue JavaScript when editing a Category that outputs
+	 * ConvertKit Plugin settings.
+	 *
+	 * @since   1.9.6.4
+	 *
+	 * @param   string $hook   Hook.
+	 */
+	public function enqueue_scripts( $hook ) {
+
+		// Bail if we are not editing a Term.
+		if ( $hook !== 'term.php' ) {
+			return;
+		}
+
+		// Bail if we are not editing a Category.
+		if ( ! function_exists( 'get_current_screen' ) ) {
+			return;
+		}
+		$screen = get_current_screen();
+		if ( $screen->id !== 'edit-category' ) {
+			return;
+		}
+
+		// Bail if the API hasn't been configured.
+		$settings = new ConvertKit_Settings();
+		if ( ! $settings->has_api_key_and_secret() ) {
+			return;
+		}
+
+		// Enqueue Select2 JS.
+		convertkit_select2_enqueue_scripts();
+
+		/**
+		 * Enqueue JavaScript when editing a Category that outputs
+		 * ConvertKit Plugin settings.
+		 *
+		 * @since   1.9.6.4
+		 */
+		do_action( 'convertkit_admin_category_enqueue_scripts' );
+
+	}
+
+	/**
+	 * Enqueue CSS when editing a Category that outputs
+	 * ConvertKit Plugin settings.
+	 *
+	 * @since   1.9.6.4
+	 */
+	public function enqueue_styles() {
+
+		// Enqueue Select2 CSS.
+		convertkit_select2_enqueue_styles();
+
+		/**
+		 * Enqueue CSS when editing a Category that outputs
+		 * ConvertKit Plugin settings.
+		 *
+		 * @since   1.9.6.4
+		 */
+		do_action( 'convertkit_admin_category_enqueue_styles' );
 
 	}
 

@@ -20,7 +20,7 @@
 					esc_html_e( 'No Forms exist in ConvertKit.', 'convertkit' );
 				} else {
 					?>
-					<select name="wp-convertkit[form]" id="wp-convertkit-form">
+					<select name="wp-convertkit[form]" id="wp-convertkit-form" class="convertkit-select2">
 						<option value="-1"<?php selected( - 1, $convertkit_post->get_form() ); ?>>
 							<?php esc_html_e( 'Default', 'convertkit' ); ?>
 						</option>
@@ -80,7 +80,7 @@
 						esc_html_e( 'No Landing Pages exist in ConvertKit.', 'convertkit' );
 					} else {
 						?>
-						<select name="wp-convertkit[landing_page]" id="wp-convertkit-landing_page">
+						<select name="wp-convertkit[landing_page]" id="wp-convertkit-landing_page" class="convertkit-select2">
 							<option <?php selected( '', $convertkit_post->get_landing_page() ); ?> value="0">
 								<?php esc_html_e( 'None', 'convertkit' ); ?>
 							</option>
@@ -135,7 +135,7 @@
 					esc_html_e( 'No Tags exist in ConvertKit.', 'convertkit' );
 				} else {
 					?>
-					<select name="wp-convertkit[tag]" id="wp-convertkit-tag">
+					<select name="wp-convertkit[tag]" id="wp-convertkit-tag" class="convertkit-select2">
 						<option value="0"<?php selected( '', $convertkit_post->get_tag() ); ?>>
 							<?php esc_html_e( 'None', 'convertkit' ); ?>
 						</option>

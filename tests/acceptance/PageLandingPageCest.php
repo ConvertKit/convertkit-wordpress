@@ -49,7 +49,7 @@ class PageLandingPageCest
 		$I->seeElementInDOM('#wp-convertkit-landing_page');
 
 		// Change Landing Page to 'None'
-		$I->selectOption('#wp-convertkit-landing_page', 'None');
+		$I->fillSelect2Field($I, '#select2-wp-convertkit-landing_page-container', 'None');
 
 		// Define a Page Title.
 		$I->fillField('#post-title-0', 'ConvertKit: Landing Page: None');
@@ -100,7 +100,7 @@ class PageLandingPageCest
 		$I->seeElementInDOM('#wp-convertkit-landing_page');
 
 		// Change Landing Page to value specified in the .env file.
-		$I->selectOption('#wp-convertkit-landing_page', $_ENV['CONVERTKIT_API_LANDING_PAGE_NAME']);
+		$I->fillSelect2Field($I, '#select2-wp-convertkit-landing_page-container', $_ENV['CONVERTKIT_API_LANDING_PAGE_NAME']);
 
 		// Define a Page Title.
 		$I->fillField('#post-title-0', 'ConvertKit: Landing Page: Specific');
@@ -154,7 +154,7 @@ class PageLandingPageCest
 		$I->seeElementInDOM('#wp-convertkit-landing_page');
 
 		// Change Landing Page to value specified in the .env file.
-		$I->selectOption('#wp-convertkit-landing_page', $_ENV['CONVERTKIT_API_LANDING_PAGE_CHARACTER_ENCODING_NAME']);
+		$I->fillSelect2Field($I, '#select2-wp-convertkit-landing_page-container', $_ENV['CONVERTKIT_API_LANDING_PAGE_CHARACTER_ENCODING_NAME']);
 
 		// Define a Page Title.
 		$I->fillField('#post-title-0', 'ConvertKit: Landing Page: Character Encoding');
@@ -208,7 +208,7 @@ class PageLandingPageCest
 		$I->seeElementInDOM('#wp-convertkit-landing_page');
 
 		// Change Landing Page to value specified in the .env file.
-		$I->selectOption('#wp-convertkit-landing_page', $_ENV['CONVERTKIT_API_LEGACY_LANDING_PAGE_NAME']);
+		$I->fillSelect2Field($I, '#select2-wp-convertkit-landing_page-container', $_ENV['CONVERTKIT_API_LEGACY_LANDING_PAGE_NAME']);
 
 		// Define a Page Title.
 		$I->fillField('#post-title-0', 'ConvertKit: Landing Page: Legacy: Specific');

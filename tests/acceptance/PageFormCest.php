@@ -50,7 +50,7 @@ class PageFormCest
 		$I->seeElementInDOM('#wp-convertkit-form');
 
 		// Change Form to Default
-		$I->selectOption('#wp-convertkit-form', 'Default');
+		$I->fillSelect2Field($I, '#select2-wp-convertkit-form-container', 'Default');
 
 		// Define a Page Title.
 		$I->fillField('#post-title-0', 'ConvertKit: Form: Default: None');
@@ -104,7 +104,7 @@ class PageFormCest
 		$I->seeElementInDOM('#wp-convertkit-form');
 
 		// Change Form to Default
-		$I->selectOption('#wp-convertkit-form', 'Default');
+		$I->fillSelect2Field($I, '#select2-wp-convertkit-form-container', 'Default');
 
 		// Define a Page Title.
 		$I->fillField('#post-title-0', 'ConvertKit: Form: Default');
@@ -158,7 +158,7 @@ class PageFormCest
 		$I->seeElementInDOM('#wp-convertkit-form');
 
 		// Change Form to Default
-		$I->selectOption('#wp-convertkit-form', 'Default');
+		$I->fillSelect2Field($I, '#select2-wp-convertkit-form-container', 'Default');
 
 		// Define a Page Title.
 		$I->fillField('#post-title-0', 'ConvertKit: Form: Legacy: Default');
@@ -209,7 +209,7 @@ class PageFormCest
 		$I->seeElementInDOM('#wp-convertkit-form');
 
 		// Change Form to 'None'
-		$I->selectOption('#wp-convertkit-form', 'None');
+		$I->fillSelect2Field($I, '#select2-wp-convertkit-form-container', 'None');
 
 		// Define a Page Title.
 		$I->fillField('#post-title-0', 'ConvertKit: Form: None');
@@ -260,7 +260,7 @@ class PageFormCest
 		$I->seeElementInDOM('#wp-convertkit-form');
 
 		// Change Form to value specified in the .env file.
-		$I->selectOption('#wp-convertkit-form', $_ENV['CONVERTKIT_API_FORM_NAME']);
+		$I->fillSelect2Field($I, '#select2-wp-convertkit-form-container', $_ENV['CONVERTKIT_API_FORM_NAME']);
 
 		// Define a Page Title.
 		$I->fillField('#post-title-0', 'ConvertKit: Form: Specific');
@@ -279,7 +279,7 @@ class PageFormCest
 		});
 
 		// Get Form ID.
-		$formID = $I->grabValueFrom('#wp-convertkit-form');;
+		$formID = $I->grabValueFrom('#wp-convertkit-form');
 
 		// Load the Page on the frontend site
 		$I->amOnPage('/convertkit-form-specific');
@@ -314,7 +314,7 @@ class PageFormCest
 		$I->seeElementInDOM('#wp-convertkit-form');
 
 		// Change Form to value specified in the .env file.
-		$I->selectOption('#wp-convertkit-form', $_ENV['CONVERTKIT_API_LEGACY_FORM_NAME']);
+		$I->fillSelect2Field($I, '#select2-wp-convertkit-form-container', $_ENV['CONVERTKIT_API_LEGACY_FORM_NAME']);
 
 		// Define a Page Title.
 		$I->fillField('#post-title-0', 'ConvertKit: Form: Legacy: Specific');
@@ -333,7 +333,7 @@ class PageFormCest
 		});
 
 		// Get Form ID.
-		$formID = $I->grabValueFrom('#wp-convertkit-form');;
+		$formID = $I->grabValueFrom('#wp-convertkit-form');
 
 		// Load the Page on the frontend site
 		$I->amOnPage('/convertkit-form-legacy-specific');
