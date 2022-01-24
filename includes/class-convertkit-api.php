@@ -621,7 +621,7 @@ class ConvertKit_API {
 	public function get_landing_page_html( $url ) {
 
 		// Get HTML.
-		$body = $this->get_html( $url , false );
+		$body = $this->get_html( $url, false );
 
 		// Inject JS for subscriber forms to work.
 		$scripts = new WP_Scripts();
@@ -739,7 +739,7 @@ class ConvertKit_API {
 	 * This isn't specifically an API function, but for now it's best suited here.
 	 *
 	 * @param   string $url    URL of Form or Landing Page.
-	 * @param 	bool   $body_only 	Return HTML between <body> and </body> tags only.
+	 * @param   bool   $body_only   Return HTML between <body> and </body> tags only.
 	 * @return  string          HTML
 	 */
 	private function get_html( $url, $body_only = true ) {
@@ -864,11 +864,11 @@ class ConvertKit_API {
 
 	/**
 	 * Strips <html>, <head> and <body> opening and closing tags from the given markup.
-	 * 
-	 * @since 	1.9.6.5
-	 * 
-	 * @param 	string 	$markup 	HTML Markup.
-	 * @return 	string 				HTML Markup
+	 *
+	 * @since   1.9.6.5
+	 *
+	 * @param   string $markup     HTML Markup.
+	 * @return  string              HTML Markup
 	 * */
 	private function strip_html_head_body_tags( $markup ) {
 
