@@ -52,7 +52,7 @@ class PageLandingPageCest
 		$I->fillSelect2Field($I, '#select2-wp-convertkit-landing_page-container', 'None');
 
 		// Define a Page Title.
-		$I->fillField('#post-title-0', 'ConvertKit: Landing Page: None');
+		$I->fillField('.editor-post-title__input', 'ConvertKit: Landing Page: None');
 
 		// Click the Publish button.
 		$I->click('.editor-post-publish-button__button');
@@ -103,7 +103,7 @@ class PageLandingPageCest
 		$I->fillSelect2Field($I, '#select2-wp-convertkit-landing_page-container', $_ENV['CONVERTKIT_API_LANDING_PAGE_NAME']);
 
 		// Define a Page Title.
-		$I->fillField('#post-title-0', 'ConvertKit: Landing Page: Specific');
+		$I->fillField('.editor-post-title__input', 'ConvertKit: Landing Page: Specific');
 
 		// Click the Publish button.
 		$I->click('.editor-post-publish-button__button');
@@ -127,9 +127,17 @@ class PageLandingPageCest
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
 
+		// Confirm that the basic HTML structure is correct.
+		$I->seeInSource('<html>');
+		$I->seeInSource('<head>');
+		$I->seeInSource('</head>');
+		$I->seeInSource('<body');
+		$I->seeInSource('</body>');
+		$I->seeInSource('</html>');
+		
 		// Confirm that the ConvertKit Landing Page displays.
 		$I->dontSeeElementInDOM('body.page'); // WordPress didn't load its template, which is correct.
-		$I->seeElementInDOM('form[data-sv-form="' . $landingPageID . '"]'); // ConvertKit injected its Landing Page Form, which is correct.
+		$I->seeElementInDOM('form[data-sv-form="' . $landingPageID . '"]'); // ConvertKit injected its Landing Page Form, which is correct.		
 	}
 
 	/**
@@ -157,7 +165,7 @@ class PageLandingPageCest
 		$I->fillSelect2Field($I, '#select2-wp-convertkit-landing_page-container', $_ENV['CONVERTKIT_API_LANDING_PAGE_CHARACTER_ENCODING_NAME']);
 
 		// Define a Page Title.
-		$I->fillField('#post-title-0', 'ConvertKit: Landing Page: Character Encoding');
+		$I->fillField('.editor-post-title__input', 'ConvertKit: Landing Page: Character Encoding');
 
 		// Click the Publish button.
 		$I->click('.editor-post-publish-button__button');
@@ -180,6 +188,14 @@ class PageLandingPageCest
 
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Confirm that the basic HTML structure is correct.
+		$I->seeInSource('<html>');
+		$I->seeInSource('<head>');
+		$I->seeInSource('</head>');
+		$I->seeInSource('<body');
+		$I->seeInSource('</body>');
+		$I->seeInSource('</html>');
 
 		// Confirm that the Landing Page title is the same as defined on ConvertKit i.e. that character encoding is correct.
 		$I->seeInSource('Vantar þinn ungling sjálfstraust í stærðfræði?');
@@ -211,7 +227,7 @@ class PageLandingPageCest
 		$I->fillSelect2Field($I, '#select2-wp-convertkit-landing_page-container', $_ENV['CONVERTKIT_API_LEGACY_LANDING_PAGE_NAME']);
 
 		// Define a Page Title.
-		$I->fillField('#post-title-0', 'ConvertKit: Landing Page: Legacy: Specific');
+		$I->fillField('.editor-post-title__input', 'ConvertKit: Landing Page: Legacy: Specific');
 
 		// Click the Publish button.
 		$I->click('.editor-post-publish-button__button');
@@ -234,6 +250,14 @@ class PageLandingPageCest
 
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Confirm that the basic HTML structure is correct.
+		$I->seeInSource('<html>');
+		$I->seeInSource('<head>');
+		$I->seeInSource('</head>');
+		$I->seeInSource('<body');
+		$I->seeInSource('</body>');
+		$I->seeInSource('</html>');
 
 		// Confirm that the ConvertKit Landing Page displays.
 		$I->dontSeeElementInDOM('body.page'); // WordPress didn't load its template, which is correct.
@@ -273,6 +297,14 @@ class PageLandingPageCest
 
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Confirm that the basic HTML structure is correct.
+		$I->seeInSource('<html>');
+		$I->seeInSource('<head>');
+		$I->seeInSource('</head>');
+		$I->seeInSource('<body');
+		$I->seeInSource('</body>');
+		$I->seeInSource('</html>');
 
 		// Confirm that the ConvertKit Landing Page displays.
 		$I->dontSeeElementInDOM('body.page'); // WordPress didn't load its template, which is correct.

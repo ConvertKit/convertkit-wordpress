@@ -621,7 +621,7 @@ class ConvertKit_API {
 	public function get_landing_page_html( $url ) {
 
 		// Get HTML.
-		$body = $this->get_html( $url );
+		$body = $this->get_html( $url , false );
 
 		// Inject JS for subscriber forms to work.
 		$scripts = new WP_Scripts();
@@ -708,10 +708,10 @@ class ConvertKit_API {
 	public function get_resource( $url ) {
 
 		// Warn the developer that they shouldn't use this function.
-		_deprecated_function( __FUNCTION__, '1.9.6', 'get_form_html( $form_id ) or get_landing_page_html( $url )' );
+		_deprecated_function( __FUNCTION__, '1.9.6', 'get_form_html( $form_id ) or get_landing_page_html( $url, false )' );
 
 		// Pass request to new function.
-		return $this->get_landing_page_html( $url );
+		return $this->get_landing_page_html( $url, false );
 
 	}
 
@@ -739,9 +739,10 @@ class ConvertKit_API {
 	 * This isn't specifically an API function, but for now it's best suited here.
 	 *
 	 * @param   string $url    URL of Form or Landing Page.
+	 * @param 	bool   $body_only 	Return HTML between <body> and </body> tags only.
 	 * @return  string          HTML
 	 */
-	private function get_html( $url ) {
+	private function get_html( $url, $body_only = true ) {
 
 		// Get HTML from URL.
 		$result = wp_remote_get(
@@ -783,7 +784,13 @@ class ConvertKit_API {
 		// Load the landing page HTML into a DOMDocument.
 		libxml_use_internal_errors( true );
 		$html = new DOMDocument();
-		$html->loadHTML( mb_convert_encoding( $body, 'HTML-ENTITIES', 'UTF-8' ) );
+		if ( $body_only ) {
+			// Prevent DOMDocument from including a doctype on saveHTML().
+			// We don't use LIBXML_HTML_NOIMPLIED, as it requires a single root element, which Legacy Forms don't have.
+			$html->loadHTML( mb_convert_encoding( $body, 'HTML-ENTITIES', 'UTF-8' ), LIBXML_HTML_NODEFDTD );
+		} else {
+			$html->loadHTML( mb_convert_encoding( $body, 'HTML-ENTITIES', 'UTF-8' ) );
+		}
 
 		// Convert any relative URLs to absolute URLs in the HTML DOM.
 		$this->convert_relative_to_absolute_urls( $html->getElementsByTagName( 'a' ), 'href', $url_scheme_host_only );
@@ -792,8 +799,15 @@ class ConvertKit_API {
 		$this->convert_relative_to_absolute_urls( $html->getElementsByTagName( 'script' ), 'src', $url_scheme_host_only );
 		$this->convert_relative_to_absolute_urls( $html->getElementsByTagName( 'form' ), 'action', $url_scheme_host_only );
 
-		// Fetch the edited HTML.
-		return $html->saveHTML();
+		// If the entire HTML needs to be returned, return it now.
+		if ( ! $body_only ) {
+			return $html->saveHTML();
+		}
+
+		// Remove some HTML tags that DOMDocument adds, returning the output.
+		// We do this instead of using LIBXML_HTML_NOIMPLIED in loadHTML(), because Legacy Forms are not always contained in
+		// a single root / outer element, which is required for LIBXML_HTML_NOIMPLIED to correctly work.
+		return $this->strip_html_head_body_tags( $html->saveHTML() );
 
 	}
 
@@ -845,6 +859,27 @@ class ConvertKit_API {
 			// Prepend the URL to the attribute's value.
 			$element->setAttribute( $attribute, $url . $element->getAttribute( $attribute ) );
 		}
+
+	}
+
+	/**
+	 * Strips <html>, <head> and <body> opening and closing tags from the given markup.
+	 * 
+	 * @since 	1.9.6.5
+	 * 
+	 * @param 	string 	$markup 	HTML Markup.
+	 * @return 	string 				HTML Markup
+	 * */
+	private function strip_html_head_body_tags( $markup ) {
+
+		$markup = str_replace( '<html>', '', $markup );
+		$markup = str_replace( '</html>', '', $markup );
+		$markup = str_replace( '<head>', '', $markup );
+		$markup = str_replace( '</head>', '', $markup );
+		$markup = str_replace( '<body>', '', $markup );
+		$markup = str_replace( '</body>', '', $markup );
+
+		return $markup;
 
 	}
 

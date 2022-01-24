@@ -53,7 +53,7 @@ class PostFormCest
 		$I->fillSelect2Field($I, '#select2-wp-convertkit-form-container', 'Default');
 
 		// Define a Post Title.
-		$I->fillField('#post-title-0', 'ConvertKit: Form: Default: None');
+		$I->fillField('.editor-post-title__input', 'ConvertKit: Form: Default: None');
 
 		// Click the Publish button.
 		$I->click('.editor-post-publish-button__button');
@@ -107,7 +107,7 @@ class PostFormCest
 		$I->fillSelect2Field($I, '#select2-wp-convertkit-form-container', 'Default');
 
 		// Define a Post Title.
-		$I->fillField('#post-title-0', 'ConvertKit: Form: Default');
+		$I->fillField('.editor-post-title__input', 'ConvertKit: Form: Default');
 
 		// Click the Publish button.
 		$I->click('.editor-post-publish-button__button');
@@ -158,7 +158,7 @@ class PostFormCest
 		$I->fillSelect2Field($I, '#select2-wp-convertkit-form-container', 'None');
 
 		// Define a Post Title.
-		$I->fillField('#post-title-0', 'ConvertKit: Form: None');
+		$I->fillField('.editor-post-title__input', 'ConvertKit: Form: None');
 
 		// Click the Publish button.
 		$I->click('.editor-post-publish-button__button');
@@ -209,7 +209,7 @@ class PostFormCest
 		$I->fillSelect2Field($I, '#select2-wp-convertkit-form-container', $_ENV['CONVERTKIT_API_FORM_NAME']);
 
 		// Define a Post Title.
-		$I->fillField('#post-title-0', 'ConvertKit: Form: Specific');
+		$I->fillField('.editor-post-title__input', 'ConvertKit: Form: Specific');
 
 		// Click the Publish button.
 		$I->click('.editor-post-publish-button__button');
