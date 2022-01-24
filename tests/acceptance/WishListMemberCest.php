@@ -89,7 +89,7 @@ class WishListMemberCest
 	private function _getWishListMemberLevelID(AcceptanceTester $I)
 	{
 		$table = $I->grabPrefixedTableNameFor('wlm_options');
-  		$wlmLevels = $I->grabAllFromDatabase($table, 'option_value', ['option_name' => 'wpm_levels']);
+		$wlmLevels = $I->grabAllFromDatabase($table, 'option_value', ['option_name' => 'wpm_levels']);
 		$wlmLevels = unserialize( $wlmLevels[0]['option_value'] );
 		return array_key_first( $wlmLevels );
 	}

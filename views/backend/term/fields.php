@@ -17,7 +17,7 @@
 			esc_html_e( 'No Forms exist in ConvertKit.', 'convertkit' );
 		} else {
 			?>
-			<select name="wp-convertkit[form]" id="wp-convertkit-form">
+			<select name="wp-convertkit[form]" id="wp-convertkit-form" class="convertkit-select2">
 				<option value="0"<?php selected( 0, $convertkit_term->get_form() ); ?>>
 					<?php esc_html_e( 'None', 'convertkit' ); ?>
 				</option>

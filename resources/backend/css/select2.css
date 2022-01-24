@@ -1,0 +1,33 @@
+/**
+ * Additional Select2 styling to override WordPress styling defaults that
+ * affect the layout of a Select2 dropdown.
+ */
+.select2-container .select2-selection--single {
+	height: 30px;
+}
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+	line-height: 30px;
+}
+.select2-search--dropdown .select2-search__field {
+	line-height: 1;
+	min-height: 24px;
+}
+li.select2-results__option {
+	margin: 0;
+}
+
+/**
+ * Force width of Select2 dropdowns, as using JS options dropdownAutoWidth=true and width='auto'
+ * result in incorrect layout on some older browsers and our tests fail.
+ */
+select + .select2-container {
+	width: 50% !important;
+	min-width: 350px !important;
+}
+@media screen and (max-width: 782px) {
+	select + .select2-container {
+		width: 100% !important;
+		font-size: 16px;
+		line-height: 2;
+	}
+}

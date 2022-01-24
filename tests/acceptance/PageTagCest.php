@@ -49,7 +49,7 @@ class PageTagCest
 		$I->seeElementInDOM('#wp-convertkit-tag');
 
 		// Change Tag to 'None'
-		$I->selectOption('#wp-convertkit-tag', 'None');
+		$I->fillSelect2Field($I, '#select2-wp-convertkit-tag-container', 'None');
 
 		// Define a Page Title.
 		$I->fillField('.editor-post-title__input', 'ConvertKit: Tag: None');
@@ -100,7 +100,7 @@ class PageTagCest
 		$I->seeElementInDOM('#wp-convertkit-tag');
 
 		// Change Tag to value specified in the .env file.
-		$I->selectOption('#wp-convertkit-tag', $_ENV['CONVERTKIT_API_TAG_NAME']);
+		$I->fillSelect2Field($I, '#select2-wp-convertkit-tag-container', $_ENV['CONVERTKIT_API_TAG_NAME']);
 
 		// Define a Page Title.
 		$I->fillField('.editor-post-title__input', 'ConvertKit: Tag: Specific');

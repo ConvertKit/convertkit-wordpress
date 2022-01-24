@@ -4,6 +4,7 @@ Donate link: https://convertkit.com
 Tags: email, marketing, embed form, convertkit, capture
 Requires at least: 4.9
 Tested up to: 5.8.3
+Requires PHP: 5.6.20
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -55,6 +56,7 @@ Navigate to the Plugin's Settings at Settings > ConvertKit.
 
 ### 1.9.6.5 2022-01-xx
 * Added: ConvertKit Form Block for Gutenberg
+* Added: Select2 dropdown for Forms, Landing Pages and Tags with search functionality for improved UX.
 
 ### 1.9.6.4 2022-01-11
 * Fix: Render Legacy Form when shortcode is copied from app.convertkit.com for a Legacy Form

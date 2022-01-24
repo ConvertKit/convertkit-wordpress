@@ -31,6 +31,27 @@ class Acceptance extends \Codeception\Module
 	}
 
 	/**
+	 * Helper method to enter text into a jQuery Select2 Field, selecting the option that appears.
+	 * 
+	 * @since 	1.9.6.4
+	 * 
+	 * @param 	AcceptanceTester 	$I
+	 * @param 	string 				$container 	Field CSS Class / ID
+	 * @param 	string 				$value 		Field Value
+	 * @param 	string 				$ariaAttributeName 	Aria Attribute Name (aria-controls|aria-owns)
+	 */
+	public function fillSelect2Field($I, $container, $value, $ariaAttributeName = 'aria-controls')
+	{
+		$fieldID = $I->grabAttributeFrom($container, 'id');
+		$fieldName = str_replace('-container', '', str_replace('select2-', '', $fieldID));
+		$I->click('#'.$fieldID);
+		$I->waitForElementVisible('.select2-search__field[' . $ariaAttributeName . '="select2-' . $fieldName . '-results"]');
+		$I->fillField('.select2-search__field[' . $ariaAttributeName . '="select2-' . $fieldName . '-results"]', $value);
+		$I->waitForElementVisible('ul#select2-' . $fieldName . '-results li.select2-results__option--highlighted');
+		$I->pressKey('.select2-search__field[' . $ariaAttributeName . '="select2-' . $fieldName . '-results"]', \Facebook\WebDriver\WebDriverKeys::ENTER);
+	}
+
+	/**
 	 * Helper method to close the Gutenberg "Welcome to the block editor" dialog, which
 	 * might show for each Page/Post test performed due to there being no persistence
 	 * remembering that the user dismissed the dialog.
@@ -142,8 +163,8 @@ class Acceptance extends \Codeception\Module
 		$I->checkNoWarningsAndNoticesOnScreen($I);
 
 		// Select Default Form for Pages and Posts.
-		$I->selectOption('_wp_convertkit_settings[page_form]', $_ENV['CONVERTKIT_API_FORM_NAME']);
-		$I->selectOption('_wp_convertkit_settings[post_form]', $_ENV['CONVERTKIT_API_FORM_NAME']);
+		$I->fillSelect2Field($I, '#select2-_wp_convertkit_settings_page_form-container', $_ENV['CONVERTKIT_API_FORM_NAME']);
+		$I->fillSelect2Field($I, '#select2-_wp_convertkit_settings_post_form-container', $_ENV['CONVERTKIT_API_FORM_NAME']);
 
 		// Click the Save Changes button.
 		$I->click('Save Changes');
@@ -173,8 +194,8 @@ class Acceptance extends \Codeception\Module
 		$I->checkNoWarningsAndNoticesOnScreen($I);
 
 		// Select Default Form for Pages and Posts.
-		$I->selectOption('_wp_convertkit_settings[page_form]', $_ENV['CONVERTKIT_API_LEGACY_FORM_NAME']);
-		$I->selectOption('_wp_convertkit_settings[post_form]', $_ENV['CONVERTKIT_API_LEGACY_FORM_NAME']);
+		$I->fillSelect2Field($I, '#select2-_wp_convertkit_settings_page_form-container', $_ENV['CONVERTKIT_API_LEGACY_FORM_NAME']);
+		$I->fillSelect2Field($I, '#select2-_wp_convertkit_settings_post_form-container', $_ENV['CONVERTKIT_API_LEGACY_FORM_NAME']);
 
 		// Click the Save Changes button.
 		$I->click('Save Changes');
@@ -204,7 +225,7 @@ class Acceptance extends \Codeception\Module
 		$I->checkNoWarningsAndNoticesOnScreen($I);
 
 		// Select option.
-		$I->selectOption('_wp_convertkit_settings[product_form]', $_ENV['CONVERTKIT_API_FORM_NAME']);
+		$I->fillSelect2Field($I, '#select2-_wp_convertkit_settings_product_form-container', $_ENV['CONVERTKIT_API_FORM_NAME']);
 
 		// Click the Save Changes button.
 		$I->click('Save Changes');

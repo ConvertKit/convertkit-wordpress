@@ -1,7 +1,14 @@
 name: Run Tests
 
-# Comma separated array or single value e.g. [ pull_request, push ] or [ pull_request ].
-on: [ pull_request ]
+# When to run tests.
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+  push:
+    branches:
+      - master
 
 jobs:
   tests:
