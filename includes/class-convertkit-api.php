@@ -708,10 +708,10 @@ class ConvertKit_API {
 	public function get_resource( $url ) {
 
 		// Warn the developer that they shouldn't use this function.
-		_deprecated_function( __FUNCTION__, '1.9.6', 'get_form_html( $form_id ) or get_landing_page_html( $url, false )' );
+		_deprecated_function( __FUNCTION__, '1.9.6', 'get_form_html( $form_id ) or get_landing_page_html( $url )' );
 
 		// Pass request to new function.
-		return $this->get_landing_page_html( $url, false );
+		return $this->get_landing_page_html( $url );
 
 	}
 
