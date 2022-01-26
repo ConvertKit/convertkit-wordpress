@@ -55,6 +55,7 @@ Navigate to the Plugin's Settings at Settings > ConvertKit.
 == Changelog ==
 
 ### 1.9.6.5 2022-01-xx
+* Added: ConvertKit Form Block for Gutenberg
 * Added: Select2 dropdown for Forms, Landing Pages and Tags with search functionality for improved UX.
 * Fix: Legacy Forms: Removed erronous <html>, <head> and <body> tags from markup 
 

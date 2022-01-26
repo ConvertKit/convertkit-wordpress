@@ -35,7 +35,7 @@ class ConvertKit_Admin_TinyMCE {
 	}
 
 	/**
-	 * Loads the view for a block's modal in the TinyMCE and Text Editors.
+	 * Loads the view for a shortcode's modal in the TinyMCE and Text Editors.
 	 *
 	 * @since   1.9.6
 	 */
@@ -44,20 +44,20 @@ class ConvertKit_Admin_TinyMCE {
 		// Check nonce.
 		check_ajax_referer( 'convertkit_admin_tinymce', 'nonce' );
 
-		// Get blocks.
-		$blocks = convertkit_get_blocks();
+		// Get shortcodes.
+		$shortcodes = convertkit_get_shortcodes();
 
-		// Get requested block name.
-		$block_name = sanitize_text_field( $_REQUEST['block'] );
+		// Get requested shortcode name.
+		$shortcode_name = sanitize_text_field( $_REQUEST['shortcode'] );
 
-		// If the block is not registered, return a view in the modal to tell the user.
-		if ( ! isset( $blocks[ $block_name ] ) ) {
+		// If the shortcode is not registered, return a view in the modal to tell the user.
+		if ( ! isset( $shortcodes[ $shortcode_name ] ) ) {
 			require_once CONVERTKIT_PLUGIN_PATH . '/views/backend/tinymce/modal-missing.php';
 			die();
 		}
 
-		// Define block.
-		$block = $blocks[ $block_name ];
+		// Define shortcode.
+		$shortcode = $shortcodes[ $shortcode_name ];
 
 		// Output the modal.
 		require_once CONVERTKIT_PLUGIN_PATH . '/views/backend/tinymce/modal.php';
@@ -72,11 +72,11 @@ class ConvertKit_Admin_TinyMCE {
 	 */
 	public function register_quicktags() {
 
-		// Get blocks.
-		$blocks = convertkit_get_blocks();
+		// Get shortcodes.
+		$shortcodes = convertkit_get_shortcodes();
 
-		// Bail if no blocks are available.
-		if ( ! is_array( $blocks ) || ! count( $blocks ) ) {
+		// Bail if no shortcode are available.
+		if ( ! is_array( $shortcodes ) || ! count( $shortcodes ) ) {
 			return;
 		}
 
@@ -84,8 +84,8 @@ class ConvertKit_Admin_TinyMCE {
 		wp_enqueue_script( 'convertkit-admin-quicktags', CONVERTKIT_PLUGIN_URL . 'resources/backend/js/quicktags.js', array( 'jquery', 'quicktags' ), CONVERTKIT_PLUGIN_VERSION, true );
 		wp_enqueue_script( 'convertkit-admin-modal', CONVERTKIT_PLUGIN_URL . 'resources/backend/js/modal.js', array( 'jquery' ), CONVERTKIT_PLUGIN_VERSION, true );
 
-		// Make blocks available as convertkit_quicktags JS variable.
-		wp_localize_script( 'convertkit-admin-quicktags', 'convertkit_quicktags', $blocks );
+		// Make shortcodes available as convertkit_quicktags JS variable.
+		wp_localize_script( 'convertkit-admin-quicktags', 'convertkit_quicktags', $shortcodes );
 
 		// Register JS variable convertkit_admin_tinymce.nonce for AJAX calls.
 		wp_localize_script(
@@ -121,11 +121,11 @@ class ConvertKit_Admin_TinyMCE {
 	 */
 	public function register_tinymce_plugins( $plugins ) {
 
-		// Get blocks.
-		$blocks = convertkit_get_blocks();
+		// Get shortcodes.
+		$shortcodes = convertkit_get_shortcodes();
 
-		// Bail if no blocks are available.
-		if ( ! is_array( $blocks ) || ! count( $blocks ) ) {
+		// Bail if no shortcodes are available.
+		if ( ! is_array( $shortcodes ) || ! count( $shortcodes ) ) {
 			return;
 		}
 
@@ -136,16 +136,19 @@ class ConvertKit_Admin_TinyMCE {
 
 		// Register JS variable convertkit_admin_tinymce.nonce for AJAX calls.
 		wp_localize_script(
-			'convertkit_admin_tinymce',
+			'convertkit-admin-tinymce',
 			'convertkit_admin_tinymce',
 			array(
 				'nonce' => wp_create_nonce( 'convertkit_admin_tinymce' ),
 			)
 		);
 
+		// Make shortcodes available as convertkit_shortcodes JS variable.
+		wp_localize_script( 'convertkit-admin-tinymce', 'convertkit_shortcodes', $shortcodes );
+
 		// Register TinyMCE Javascript Plugin.
-		foreach ( $blocks as $block => $properties ) {
-			$plugins[ 'convertkit_' . $block ] = CONVERTKIT_PLUGIN_URL . 'resources/backend/js/tinymce-' . $block . '.js';
+		foreach ( $shortcodes as $shortcode => $properties ) {
+			$plugins[ 'convertkit_' . $shortcode ] = CONVERTKIT_PLUGIN_URL . 'resources/backend/js/tinymce-' . $shortcode . '.js';
 		}
 
 		return $plugins;
@@ -162,17 +165,17 @@ class ConvertKit_Admin_TinyMCE {
 	 */
 	public function register_tinymce_buttons( $buttons ) {
 
-		// Get blocks.
-		$blocks = convertkit_get_blocks();
+		// Get shortcodes.
+		$shortcodes = convertkit_get_shortcodes();
 
-		// Bail if no blocks are available.
-		if ( ! is_array( $blocks ) || ! count( $blocks ) ) {
+		// Bail if no shortcodes are available.
+		if ( ! is_array( $shortcodes ) || ! count( $shortcodes ) ) {
 			return $buttons;
 		}
 
-		// Register each Block as a TinyMCE Button.
-		foreach ( $blocks as $block => $properties ) {
-			$buttons[] = 'convertkit_' . $block;
+		// Register each Shortcode as a TinyMCE Button.
+		foreach ( $shortcodes as $shortcode => $properties ) {
+			$buttons[] = 'convertkit_' . $shortcode;
 		}
 
 		return $buttons;

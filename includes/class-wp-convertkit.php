@@ -64,13 +64,12 @@ class WP_ConvertKit {
 			return;
 		}
 
-		$this->classes['admin_category']  = new ConvertKit_Admin_Category();
-		$this->classes['admin_gutenberg'] = new ConvertKit_Admin_Gutenberg();
-		$this->classes['admin_post']      = new ConvertKit_Admin_Post();
-		$this->classes['admin_settings']  = new ConvertKit_Admin_Settings();
-		$this->classes['admin_tinymce']   = new ConvertKit_Admin_TinyMCE();
-		$this->classes['admin_upgrade']   = new ConvertKit_Admin_Upgrade();
-		$this->classes['admin_user']      = new ConvertKit_Admin_User();
+		$this->classes['admin_category'] = new ConvertKit_Admin_Category();
+		$this->classes['admin_post']     = new ConvertKit_Admin_Post();
+		$this->classes['admin_settings'] = new ConvertKit_Admin_Settings();
+		$this->classes['admin_tinymce']  = new ConvertKit_Admin_TinyMCE();
+		$this->classes['admin_upgrade']  = new ConvertKit_Admin_Upgrade();
+		$this->classes['admin_user']     = new ConvertKit_Admin_User();
 
 		// Run upgrade routine.
 		add_action( 'init', array( $this->classes['admin_upgrade'], 'run' ), 2 );
@@ -160,6 +159,7 @@ class WP_ConvertKit {
 		$this->classes['ajax']                      = new ConvertKit_AJAX();
 		$this->classes['blocks_convertkit_content'] = new ConvertKit_Block_Content();
 		$this->classes['blocks_convertkit_form']    = new ConvertKit_Block_Form();
+		$this->classes['gutenberg']                 = new ConvertKit_Gutenberg();
 		$this->classes['shortcodes']                = new ConvertKit_Shortcodes();
 		$this->classes['widgets']                   = new ConvertKit_Widgets();
 

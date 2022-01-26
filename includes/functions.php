@@ -34,7 +34,31 @@ function convertkit_get_supported_post_types() {
 }
 
 /**
- * Helper method to get registered Blocks / Shortcodes.
+ * Helper method to get registered Shortcodes.
+ *
+ * @since   1.9.6.5
+ *
+ * @return  array   Shortcodes
+ */
+function convertkit_get_shortcodes() {
+
+	$shortcodes = array();
+
+	/**
+	 * Registers shortcodes for the ConvertKit Plugin.
+	 *
+	 * @since   1.9.6.5
+	 *
+	 * @param   array   $shortcodes     Shortcodes
+	 */
+	$shortcodes = apply_filters( 'convertkit_shortcodes', $shortcodes );
+
+	return $shortcodes;
+
+}
+
+/**
+ * Helper method to get registered Blocks.
  *
  * @since   1.9.6
  *
@@ -45,7 +69,7 @@ function convertkit_get_blocks() {
 	$blocks = array();
 
 	/**
-	 * Registers blocks / shortcodes for the ConvertKit Plugin.
+	 * Registers blocks for the ConvertKit Plugin.
 	 *
 	 * @since   1.9.6
 	 *

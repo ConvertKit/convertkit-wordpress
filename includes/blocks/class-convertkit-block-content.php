@@ -21,8 +21,8 @@ class ConvertKit_Block_Content extends ConvertKit_Block {
 	 */
 	public function __construct() {
 
-		// Register this block with the ConvertKit Plugin.
-		add_filter( 'convertkit_blocks', array( $this, 'register' ) );
+		// Register this as a shortcode in the ConvertKit Plugin.
+		add_filter( 'convertkit_shortcodes', array( $this, 'register' ) );
 
 	}
 
@@ -74,6 +74,21 @@ class ConvertKit_Block_Content extends ConvertKit_Block {
 	}
 
 	/**
+	 * Returns this block's Attributes
+	 *
+	 * @since   1.9.6.5
+	 */
+	public function get_attributes() {
+
+		return array(
+			'tag' => array(
+				'type' => 'string',
+			),
+		);
+
+	}
+
+	/**
 	 * Returns this block's Fields
 	 *
 	 * @since   1.9.6
@@ -105,11 +120,11 @@ class ConvertKit_Block_Content extends ConvertKit_Block {
 	}
 
 	/**
-	 * Returns this block's UI Tabs / sections.
+	 * Returns this block's UI panels / sections.
 	 *
 	 * @since   1.9.6
 	 */
-	public function get_tabs() {
+	public function get_panels() {
 
 		// Bail if the request is not for the WordPress Administration or frontend editor.
 		if ( ! WP_ConvertKit()->is_admin_or_frontend_editor() ) {

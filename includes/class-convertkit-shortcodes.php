@@ -7,7 +7,7 @@
  */
 
 /**
- * Registers blocks defined in the `convertkit_blocks` filter as WordPress Shortcodes.
+ * Registers shortcodes defined in the `convertkit_shortcodes` filter as WordPress Shortcodes.
  *
  * @package ConvertKit
  * @author  ConvertKit
@@ -26,34 +26,34 @@ class ConvertKit_Shortcodes {
 	}
 
 	/**
-	 * Register ConvertKit blocks as shortcodes.
+	 * Register ConvertKit shortcodes.
 	 *
 	 * @since   1.9.6
 	 */
 	public function init() {
 
-		// Get blocks.
-		$blocks = convertkit_get_blocks();
+		// Get shortcodes.
+		$shortcodes = convertkit_get_shortcodes();
 
-		// Bail if no blocks are available.
-		if ( ! is_array( $blocks ) || ! count( $blocks ) ) {
+		// Bail if no shortcodes are available.
+		if ( ! is_array( $shortcodes ) || ! count( $shortcodes ) ) {
 			return;
 		}
 
-		// Iterate through blocks, registering them as shortcodes.
-		foreach ( $blocks as $block => $properties ) {
+		// Iterate through shortcodes, registering them as shortcodes.
+		foreach ( $shortcodes as $shortcode => $properties ) {
 
 			// Register shortcode.
 			add_shortcode(
-				'convertkit_' . $block,
+				'convertkit_' . $shortcode,
 				array(
 					$properties['render_callback'][0],
 					$properties['render_callback'][1],
 				)
 			);
 
-			// For the Form block, register the [convertkit] shortcode for backward compatibility.
-			if ( $block === 'form' ) {
+			// For the Form shortcode, register the [convertkit] shortcode for backward compatibility.
+			if ( $shortcode === 'form' ) {
 				add_shortcode(
 					'convertkit',
 					array(

@@ -12,7 +12,7 @@
 <form class="convertkit-tinymce-popup wp-core-ui">
 	<?php
 	// Output each Field.
-	foreach ( $block['fields'] as $field_name => $field ) {
+	foreach ( $shortcode['fields'] as $field_name => $field ) {
 		include 'modal-field-row.php';
 	}
 	?>
@@ -22,9 +22,9 @@
 			<button type="button" class="close button"><?php esc_html_e( 'Cancel', 'convertkit' ); ?></button>
 		</div>
 		<div class="right">
-			<input type="hidden" name="shortcode" value="convertkit_<?php echo esc_attr( $block['name'] ); ?>" />
+			<input type="hidden" name="shortcode" value="convertkit_<?php echo esc_attr( $shortcode['name'] ); ?>" />
 			<?php
-			if ( $block['shortcode_include_closing_tag'] ) {
+			if ( $shortcode['shortcode_include_closing_tag'] ) {
 				?>
 				<input type="hidden" name="close_shortcode" value="1" />
 				<?php
