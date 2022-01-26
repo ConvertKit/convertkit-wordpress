@@ -7,12 +7,6 @@
 					</tr>
 				</thead>
 				<tbody><tr>
-						<td colspan="3">../admin/class-convertkit-admin-gutenberg.php</td>
-					</tr><tr>
-						<td>&nbsp;</td>
-						<td><a href="#convertkit_admin_gutenberg_add_block_categories"><code>convertkit_admin_gutenberg_add_block_categories</code></a></td>
-						<td>Adds block categories to the default Gutenberg Block Categories</td>
-					</tr><tr>
 						<td colspan="3">../admin/class-convertkit-admin-settings.php</td>
 					</tr><tr>
 						<td>&nbsp;</td>
@@ -26,8 +20,12 @@
 						<td>Defines the Post Types that support ConvertKit Forms.</td>
 					</tr><tr>
 						<td>&nbsp;</td>
+						<td><a href="#convertkit_shortcodes"><code>convertkit_shortcodes</code></a></td>
+						<td>Registers shortcodes for the ConvertKit Plugin.</td>
+					</tr><tr>
+						<td>&nbsp;</td>
 						<td><a href="#convertkit_blocks"><code>convertkit_blocks</code></a></td>
-						<td>Registers blocks / shortcodes for the ConvertKit Plugin.</td>
+						<td>Registers blocks for the ConvertKit Plugin.</td>
 					</tr><tr>
 						<td colspan="3">../includes/blocks/class-convertkit-block-content.php</td>
 					</tr><tr>
@@ -119,6 +117,12 @@
 						<td><a href="#convertkit_user_get_default_settings"><code>convertkit_user_get_default_settings</code></a></td>
 						<td>The default settings, used to populate the User's Settings when a User has no Settings.</td>
 					</tr><tr>
+						<td colspan="3">../includes/class-convertkit-gutenberg.php</td>
+					</tr><tr>
+						<td>&nbsp;</td>
+						<td><a href="#convertkit_admin_gutenberg_add_block_categories"><code>convertkit_admin_gutenberg_add_block_categories</code></a></td>
+						<td>Adds block categories to the default Gutenberg Block Categories</td>
+					</tr><tr>
 						<td colspan="3">../includes/integrations/contactform7/class-convertkit-contactform7-settings.php</td>
 					</tr><tr>
 						<td>&nbsp;</td>
@@ -154,40 +158,9 @@
 						<td>Filters whether the current request is a WordPress Administration / Frontend Editor request or not. Page Builders can set this to true to allow ConvertKit to load its administration functionality.</td>
 					</tr>
 					</tbody>
-				</table><h3 id="convertkit_admin_gutenberg_add_block_categories">
-						convertkit_admin_gutenberg_add_block_categories
-						<code>admin/class-convertkit-admin-gutenberg.php::66</code>
-					</h3><h4>Overview</h4>
-						<p>Adds block categories to the default Gutenberg Block Categories</p><h4>Parameters</h4>
-					<table>
-						<thead>
-							<tr>
-								<th>Parameter</th>
-								<th>Type</th>
-								<th>Description</th>
-							</tr>
-						</thead>
-						<tbody><tr>
-							<td>$categories</td>
-							<td>array</td>
-							<td>Block Categories</td>
-						</tr><tr>
-							<td>$post</td>
-							<td>WP_Post</td>
-							<td>WordPress Post</td>
-						</tr>
-						</tbody>
-					</table><h4>Usage</h4>
-<pre>
-add_filter( 'convertkit_admin_gutenberg_add_block_categories', function( $categories, $post ) {
-	// ... your code here
-	// Return value
-	return $categories;
-}, 10, 2 );
-</pre>
-<h3 id="convertkit_admin_settings_register_sections">
+				</table><h3 id="convertkit_admin_settings_register_sections">
 						convertkit_admin_settings_register_sections
-						<code>admin/class-convertkit-admin-settings.php::289</code>
+						<code>admin/class-convertkit-admin-settings.php::294</code>
 					</h3><h4>Overview</h4>
 						<p>Registers settings sections at Settings > ConvertKit.</p><h4>Parameters</h4>
 					<table>
@@ -239,11 +212,38 @@ add_filter( 'convertkit_get_supported_post_types', function( $post_types ) {
 	return $post_types;
 }, 10, 1 );
 </pre>
-<h3 id="convertkit_blocks">
-						convertkit_blocks
+<h3 id="convertkit_shortcodes">
+						convertkit_shortcodes
 						<code>includes/functions.php::53</code>
 					</h3><h4>Overview</h4>
-						<p>Registers blocks / shortcodes for the ConvertKit Plugin.</p><h4>Parameters</h4>
+						<p>Registers shortcodes for the ConvertKit Plugin.</p><h4>Parameters</h4>
+					<table>
+						<thead>
+							<tr>
+								<th>Parameter</th>
+								<th>Type</th>
+								<th>Description</th>
+							</tr>
+						</thead>
+						<tbody><tr>
+							<td>$shortcodes</td>
+							<td>array</td>
+							<td>Shortcodes</td>
+						</tr>
+						</tbody>
+					</table><h4>Usage</h4>
+<pre>
+add_filter( 'convertkit_shortcodes', function( $shortcodes ) {
+	// ... your code here
+	// Return value
+	return $shortcodes;
+}, 10, 1 );
+</pre>
+<h3 id="convertkit_blocks">
+						convertkit_blocks
+						<code>includes/functions.php::77</code>
+					</h3><h4>Overview</h4>
+						<p>Registers blocks for the ConvertKit Plugin.</p><h4>Parameters</h4>
 					<table>
 						<thead>
 							<tr>
@@ -268,7 +268,7 @@ add_filter( 'convertkit_blocks', function( $blocks ) {
 </pre>
 <h3 id="convertkit_block_content_render">
 						convertkit_block_content_render
-						<code>includes/blocks/class-convertkit-block-content.php::231</code>
+						<code>includes/blocks/class-convertkit-block-content.php::246</code>
 					</h3><h4>Overview</h4>
 						<p>Filters the content in the ConvertKit Custom Content block/shortcode immediately before it is output.</p><h4>Parameters</h4>
 					<table>
@@ -311,7 +311,7 @@ add_filter( 'convertkit_block_content_render', function( $content, $atts, $subsc
 </pre>
 <h3 id="convertkit_block_form_render">
 						convertkit_block_form_render
-						<code>includes/blocks/class-convertkit-block-form.php::233</code>
+						<code>includes/blocks/class-convertkit-block-form.php::286</code>
 					</h3><h4>Overview</h4>
 						<p>Filter the block's content immediately before it is output.</p><h4>Parameters</h4>
 					<table>
@@ -747,7 +747,7 @@ add_filter( 'convertkit_term_get_default_settings', function( $defaults ) {
 </pre>
 <h3 id="convertkit_api_get_timeout">
 						convertkit_api_get_timeout
-						<code>includes/class-convertkit-api.php::1018</code>
+						<code>includes/class-convertkit-api.php::1053</code>
 					</h3><h4>Overview</h4>
 						<p>Defines the maximum time to allow the API request to run.</p><h4>Parameters</h4>
 					<table>
@@ -798,6 +798,37 @@ add_filter( 'convertkit_user_get_default_settings', function( $defaults ) {
 	// Return value
 	return $defaults;
 }, 10, 1 );
+</pre>
+<h3 id="convertkit_admin_gutenberg_add_block_categories">
+						convertkit_admin_gutenberg_add_block_categories
+						<code>includes/class-convertkit-gutenberg.php::66</code>
+					</h3><h4>Overview</h4>
+						<p>Adds block categories to the default Gutenberg Block Categories</p><h4>Parameters</h4>
+					<table>
+						<thead>
+							<tr>
+								<th>Parameter</th>
+								<th>Type</th>
+								<th>Description</th>
+							</tr>
+						</thead>
+						<tbody><tr>
+							<td>$categories</td>
+							<td>array</td>
+							<td>Block Categories</td>
+						</tr><tr>
+							<td>$post</td>
+							<td>WP_Post</td>
+							<td>WordPress Post</td>
+						</tr>
+						</tbody>
+					</table><h4>Usage</h4>
+<pre>
+add_filter( 'convertkit_admin_gutenberg_add_block_categories', function( $categories, $post ) {
+	// ... your code here
+	// Return value
+	return $categories;
+}, 10, 2 );
 </pre>
 <h3 id="convertkit_contactform7_settings_get_defaults">
 						convertkit_contactform7_settings_get_defaults
@@ -1010,6 +1041,26 @@ add_filter( 'convertkit_is_admin_or_frontend_editor', function( $is_admin_or_fro
 						<td><a href="#convertkit_admin_settings_enqueue_styles"><code>convertkit_admin_settings_enqueue_styles</code></a></td>
 						<td></td>
 					</tr><tr>
+						<td colspan="3">../admin/class-convertkit-admin-category.php</td>
+					</tr><tr>
+						<td>&nbsp;</td>
+						<td><a href="#convertkit_admin_category_enqueue_scripts"><code>convertkit_admin_category_enqueue_scripts</code></a></td>
+						<td></td>
+					</tr><tr>
+						<td>&nbsp;</td>
+						<td><a href="#convertkit_admin_category_enqueue_styles"><code>convertkit_admin_category_enqueue_styles</code></a></td>
+						<td></td>
+					</tr><tr>
+						<td colspan="3">../admin/class-convertkit-admin-post.php</td>
+					</tr><tr>
+						<td>&nbsp;</td>
+						<td><a href="#convertkit_admin_post_enqueue_scripts"><code>convertkit_admin_post_enqueue_scripts</code></a></td>
+						<td></td>
+					</tr><tr>
+						<td>&nbsp;</td>
+						<td><a href="#convertkit_admin_post_enqueue_styles"><code>convertkit_admin_post_enqueue_styles</code></a></td>
+						<td></td>
+					</tr><tr>
 						<td colspan="3">../includes/class-convertkit-api.php</td>
 					</tr><tr>
 						<td>&nbsp;</td>
@@ -1027,6 +1078,12 @@ add_filter( 'convertkit_is_admin_or_frontend_editor', function( $is_admin_or_fro
 						<td>&nbsp;</td>
 						<td><a href="#convertkit_api_form_unsubscribe_success"><code>convertkit_api_form_unsubscribe_success</code></a></td>
 						<td>Runs actions immediately after the email address was successfully unsubscribed.</td>
+					</tr><tr>
+						<td colspan="3">../includes/class-convertkit-gutenberg.php</td>
+					</tr><tr>
+						<td>&nbsp;</td>
+						<td><a href="#convertkit_gutenberg_enqueue_scripts"><code>convertkit_gutenberg_enqueue_scripts</code></a></td>
+						<td>Enqueue any additional scripts for Gutenberg blocks that have been registered.</td>
 					</tr><tr>
 						<td colspan="3">../includes/class-convertkit-output.php</td>
 					</tr><tr>
@@ -1099,7 +1156,7 @@ do_action( 'convertkit_settings_base_render_after', function(  ) {
 </pre>
 <h3 id="convertkit_admin_settings_enqueue_scripts">
 						convertkit_admin_settings_enqueue_scripts
-						<code>admin/class-convertkit-admin-settings.php::64</code>
+						<code>admin/class-convertkit-admin-settings.php::66</code>
 					</h3><h4>Parameters</h4>
 					<table>
 						<thead>
@@ -1119,7 +1176,7 @@ do_action( 'convertkit_admin_settings_enqueue_scripts', function(  ) {
 </pre>
 <h3 id="convertkit_admin_settings_enqueue_styles">
 						convertkit_admin_settings_enqueue_styles
-						<code>admin/class-convertkit-admin-settings.php::90</code>
+						<code>admin/class-convertkit-admin-settings.php::95</code>
 					</h3><h4>Parameters</h4>
 					<table>
 						<thead>
@@ -1134,6 +1191,86 @@ do_action( 'convertkit_admin_settings_enqueue_scripts', function(  ) {
 					</table><h4>Usage</h4>
 <pre>
 do_action( 'convertkit_admin_settings_enqueue_styles', function(  ) {
+	// ... your code here
+}, 10, 0 );
+</pre>
+<h3 id="convertkit_admin_category_enqueue_scripts">
+						convertkit_admin_category_enqueue_scripts
+						<code>admin/class-convertkit-admin-category.php::70</code>
+					</h3><h4>Parameters</h4>
+					<table>
+						<thead>
+							<tr>
+								<th>Parameter</th>
+								<th>Type</th>
+								<th>Description</th>
+							</tr>
+						</thead>
+						<tbody>
+						</tbody>
+					</table><h4>Usage</h4>
+<pre>
+do_action( 'convertkit_admin_category_enqueue_scripts', function(  ) {
+	// ... your code here
+}, 10, 0 );
+</pre>
+<h3 id="convertkit_admin_category_enqueue_styles">
+						convertkit_admin_category_enqueue_styles
+						<code>admin/class-convertkit-admin-category.php::91</code>
+					</h3><h4>Parameters</h4>
+					<table>
+						<thead>
+							<tr>
+								<th>Parameter</th>
+								<th>Type</th>
+								<th>Description</th>
+							</tr>
+						</thead>
+						<tbody>
+						</tbody>
+					</table><h4>Usage</h4>
+<pre>
+do_action( 'convertkit_admin_category_enqueue_styles', function(  ) {
+	// ... your code here
+}, 10, 0 );
+</pre>
+<h3 id="convertkit_admin_post_enqueue_scripts">
+						convertkit_admin_post_enqueue_scripts
+						<code>admin/class-convertkit-admin-post.php::47</code>
+					</h3><h4>Parameters</h4>
+					<table>
+						<thead>
+							<tr>
+								<th>Parameter</th>
+								<th>Type</th>
+								<th>Description</th>
+							</tr>
+						</thead>
+						<tbody>
+						</tbody>
+					</table><h4>Usage</h4>
+<pre>
+do_action( 'convertkit_admin_post_enqueue_scripts', function(  ) {
+	// ... your code here
+}, 10, 0 );
+</pre>
+<h3 id="convertkit_admin_post_enqueue_styles">
+						convertkit_admin_post_enqueue_styles
+						<code>admin/class-convertkit-admin-post.php::67</code>
+					</h3><h4>Parameters</h4>
+					<table>
+						<thead>
+							<tr>
+								<th>Parameter</th>
+								<th>Type</th>
+								<th>Description</th>
+							</tr>
+						</thead>
+						<tbody>
+						</tbody>
+					</table><h4>Usage</h4>
+<pre>
+do_action( 'convertkit_admin_post_enqueue_styles', function(  ) {
 	// ... your code here
 }, 10, 0 );
 </pre>
@@ -1269,6 +1406,31 @@ do_action( 'convertkit_api_form_unsubscribe_success', function( $response, $emai
 	// ... your code here
 }, 10, 2 );
 </pre>
+<h3 id="convertkit_gutenberg_enqueue_scripts">
+						convertkit_gutenberg_enqueue_scripts
+						<code>includes/class-convertkit-gutenberg.php::152</code>
+					</h3><h4>Overview</h4>
+						<p>Enqueue any additional scripts for Gutenberg blocks that have been registered.</p><h4>Parameters</h4>
+					<table>
+						<thead>
+							<tr>
+								<th>Parameter</th>
+								<th>Type</th>
+								<th>Description</th>
+							</tr>
+						</thead>
+						<tbody><tr>
+							<td>$blocks</td>
+							<td>array</td>
+							<td>ConvertKit Blocks.</td>
+						</tr>
+						</tbody>
+					</table><h4>Usage</h4>
+<pre>
+do_action( 'convertkit_gutenberg_enqueue_scripts', function( $blocks ) {
+	// ... your code here
+}, 10, 1 );
+</pre>
 <h3 id="convertkit_output_output_form">
 						convertkit_output_output_form
 						<code>includes/class-convertkit-output.php::84</code>
@@ -1296,7 +1458,7 @@ do_action( 'convertkit_output_output_form', function(  ) {
 </pre>
 <h3 id="convertkit_initialize_admin">
 						convertkit_initialize_admin
-						<code>includes/class-wp-convertkit.php::82</code>
+						<code>includes/class-wp-convertkit.php::81</code>
 					</h3><h4>Parameters</h4>
 					<table>
 						<thead>
@@ -1316,7 +1478,7 @@ do_action( 'convertkit_initialize_admin', function(  ) {
 </pre>
 <h3 id="convertkit_initialize_admin_or_frontend_editor">
 						convertkit_initialize_admin_or_frontend_editor
-						<code>includes/class-wp-convertkit.php::103</code>
+						<code>includes/class-wp-convertkit.php::102</code>
 					</h3><h4>Parameters</h4>
 					<table>
 						<thead>
@@ -1336,7 +1498,7 @@ do_action( 'convertkit_initialize_admin_or_frontend_editor', function(  ) {
 </pre>
 <h3 id="convertkit_initialize_cli_cron">
 						convertkit_initialize_cli_cron
-						<code>includes/class-wp-convertkit.php::124</code>
+						<code>includes/class-wp-convertkit.php::123</code>
 					</h3><h4>Parameters</h4>
 					<table>
 						<thead>
@@ -1356,7 +1518,7 @@ do_action( 'convertkit_initialize_cli_cron', function(  ) {
 </pre>
 <h3 id="convertkit_initialize_frontend">
 						convertkit_initialize_frontend
-						<code>includes/class-wp-convertkit.php::147</code>
+						<code>includes/class-wp-convertkit.php::146</code>
 					</h3><h4>Parameters</h4>
 					<table>
 						<thead>

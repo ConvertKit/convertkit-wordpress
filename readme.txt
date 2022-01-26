@@ -2,8 +2,8 @@
 Contributors: nathanbarry, growdev, travisnorthcutt, ggwicz
 Donate link: https://convertkit.com
 Tags: email, marketing, embed form, convertkit, capture
-Requires at least: 4.9
-Tested up to: 5.8.3
+Requires at least: 5.0
+Tested up to: 5.9
 Requires PHP: 5.6.20
 Stable tag: trunk
 License: GPLv2 or later
@@ -54,7 +54,7 @@ Navigate to the Plugin's Settings at Settings > ConvertKit.
 
 == Changelog ==
 
-### 1.9.6.5 2022-01-xx
+### 1.9.6.5 2022-01-26
 * Added: ConvertKit Form Block for Gutenberg
 * Added: Select2 dropdown for Forms, Landing Pages and Tags with search functionality for improved UX.
 * Fix: Legacy Forms: Removed erronous <html>, <head> and <body> tags from markup 

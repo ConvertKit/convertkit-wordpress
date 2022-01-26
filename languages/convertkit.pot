@@ -2,26 +2,26 @@
 # This file is distributed under the same license as the ConvertKit plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: ConvertKit 1.9.6.4\n"
+"Project-Id-Version: ConvertKit 1.9.6.5\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/convertkit-github\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-01-11T16:27:54+00:00\n"
+"POT-Creation-Date: 2022-01-26T14:08:07+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.5.0\n"
 "X-Domain: convertkit\n"
 
 #. Plugin Name of the plugin
 #. Author of the plugin
-#: admin/class-convertkit-admin-post.php:47
-#: admin/class-convertkit-admin-settings.php:103
-#: admin/class-convertkit-admin-settings.php:104
-#: admin/class-convertkit-admin-settings.php:123
+#: admin/class-convertkit-admin-post.php:88
+#: admin/class-convertkit-admin-settings.php:108
+#: admin/class-convertkit-admin-settings.php:109
+#: admin/class-convertkit-admin-settings.php:128
 #: includes/blocks/class-convertkit-block-content.php:58
-#: includes/blocks/class-convertkit-block-form.php:59
+#: includes/blocks/class-convertkit-block-form.php:76
 msgid "ConvertKit"
 msgstr ""
 
@@ -35,11 +35,11 @@ msgid "Quickly and easily integrate ConvertKit forms into your site."
 msgstr ""
 
 #. translators: link to php.net manual
-#: admin/class-convertkit-admin-settings.php:194
+#: admin/class-convertkit-admin-settings.php:199
 msgid "Notice: Your server does not support the %s function - this is required for better character encoding. Please contact your webhost to have it installed."
 msgstr ""
 
-#: admin/class-convertkit-admin-settings.php:236
+#: admin/class-convertkit-admin-settings.php:241
 msgid "Settings"
 msgstr ""
 
@@ -48,8 +48,8 @@ msgid "General Settings"
 msgstr ""
 
 #: admin/section/class-convertkit-settings-general.php:58
-#: includes/blocks/class-convertkit-block-content.php:121
-#: includes/blocks/class-convertkit-block-form.php:122
+#: includes/blocks/class-convertkit-block-content.php:136
+#: includes/blocks/class-convertkit-block-form.php:181
 msgid "General"
 msgstr ""
 
@@ -197,11 +197,11 @@ msgstr ""
 msgid "Content"
 msgstr ""
 
-#: includes/blocks/class-convertkit-block-content.php:99
+#: includes/blocks/class-convertkit-block-content.php:114
 msgid "Tag"
 msgstr ""
 
-#: includes/blocks/class-convertkit-block-form.php:54
+#: includes/blocks/class-convertkit-block-form.php:71
 #: includes/integrations/contactform7/class-convertkit-contactform7-admin-settings.php:106
 #: includes/integrations/wishlist/class-convertkit-wishlist-admin-settings.php:123
 #: includes/widgets/class-ck-widget-form.php:30
@@ -209,15 +209,19 @@ msgstr ""
 msgid "ConvertKit Form"
 msgstr ""
 
-#: includes/blocks/class-convertkit-block-form.php:55
+#: includes/blocks/class-convertkit-block-form.php:72
 msgid "Displays a ConvertKit Form."
 msgstr ""
 
-#: includes/blocks/class-convertkit-block-form.php:60
-#: includes/blocks/class-convertkit-block-form.php:100
+#: includes/blocks/class-convertkit-block-form.php:77
+#: includes/blocks/class-convertkit-block-form.php:155
 #: includes/widgets/class-ck-widget-form.php:64
 #: views/backend/post/meta-box.php:15
 msgid "Form"
+msgstr ""
+
+#: includes/blocks/class-convertkit-block-form.php:99
+msgid "Select a Form using the Form option in the Gutenberg sidebar."
 msgstr ""
 
 #: includes/class-convertkit-ajax.php:50
@@ -265,11 +269,11 @@ msgid "No tags exist in ConvertKit for the subscriber ID %s."
 msgstr ""
 
 #. translators: API Error Message
-#: includes/class-convertkit-api.php:773
+#: includes/class-convertkit-api.php:774
 msgid "ConvertKit: %s"
 msgstr ""
 
-#: includes/class-convertkit-api.php:877
+#: includes/class-convertkit-api.php:912
 msgid "No forms exist in ConvertKit. Visit your ConvertKit account and create your first form."
 msgstr ""
 
