@@ -46,7 +46,7 @@ class PageBlockFormCest
 
 		// When the Blocks sidebar appears, search for the ConvertKit Form block.
 		$I->waitForElementVisible('.interface-interface-skeleton__secondary-sidebar[aria-label="Block library"]');
-		$I->fillField('input.block-editor-inserter__search-input', 'ConvertKit Form');
+		$I->fillField('.block-editor-inserter__content input[type=search]', 'ConvertKit Form');
 		$I->seeElementInDOM('.block-editor-inserter__panel-content button.editor-block-list-item-convertkit-form');
 		$I->click('.block-editor-inserter__panel-content button.editor-block-list-item-convertkit-form');
 
@@ -92,7 +92,7 @@ class PageBlockFormCest
 
 		// When the Blocks sidebar appears, search for the ConvertKit Form block.
 		$I->waitForElementVisible('.interface-interface-skeleton__secondary-sidebar[aria-label="Block library"]');
-		$I->fillField('input.block-editor-inserter__search-input', 'ConvertKit Form');
+		$I->fillField('.block-editor-inserter__content input[type=search]', 'ConvertKit Form');
 		$I->seeElementInDOM('.block-editor-inserter__panel-content button.editor-block-list-item-convertkit-form');
 		$I->click('.block-editor-inserter__panel-content button.editor-block-list-item-convertkit-form');
 
@@ -138,7 +138,7 @@ class PageBlockFormCest
 
 		// When the Blocks sidebar appears, search for the ConvertKit Form block.
 		$I->waitForElementVisible('.interface-interface-skeleton__secondary-sidebar[aria-label="Block library"]');
-		$I->fillField('input.block-editor-inserter__search-input', 'ConvertKit Form');
+		$I->fillField('.block-editor-inserter__content input[type=search]', 'ConvertKit Form');
 		$I->seeElementInDOM('.block-editor-inserter__panel-content button.editor-block-list-item-convertkit-form');
 		$I->click('.block-editor-inserter__panel-content button.editor-block-list-item-convertkit-form');
 
