@@ -212,7 +212,7 @@ abstract class ConvertKit_Settings_Base {
 			$this->settings_key . '_' . $name,
 			$this->settings_key,
 			$name,
-			( is_array( $css_classes ) ? implode( ' ', $css_classes ) : '' ),
+			( is_array( $css_classes ) ? implode( ' ', $css_classes ) : '' )
 		);
 
 		// Build <option> tags.
