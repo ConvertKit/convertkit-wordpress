@@ -13,7 +13,9 @@ ConvertKit is an email marketing platform for capturing leads from your WordPres
 
 == Description ==
 
-[ConvertKit](https://convertkit.com) makes it easy to capture more leads and sell more products by easily embedding email capture forms anywhere. This plugin makes it even easier for those of us using WordPress by automatically appending a lead capture form to any post or page.
+[ConvertKit](https://convertkit.com) makes it easy to capture more leads and sell more products by easily embedding email capture forms anywhere.
+
+This plugin makes it even easier for those of us using WordPress by automatically appending a lead capture form to any post or page.
 
 If you choose a default form on the settings page, that form will be embedded at the bottom of every post or page (in single view only) across your site.
 
@@ -25,12 +27,14 @@ Full plugin documentation is located [here](https://help.convertkit.com/en/artic
 
 == Installation ==
 
-1. Upload `wp-convertkit` to the `/wp-content/plugins/` directory
-2. Activate the plugin through the 'Plugins' menu in WordPress
-3. Visit the settings page by clicking on the link under the plugin's name
-4. Enter your ConvertKit API key, which you can find [here](https://app.convertkit.com/account/edit), and save the settings
-5. Select your default form and save the settings
-6. If you wish, choose particular forms for each post or page by visiting the edit screen and choosing the correct form
+1. Upload the `convertkit` folder to the `/wp-content/plugins/` directory
+2. Active the ConvertKit plugin through the 'Plugins' menu in WordPress
+
+== Configuration ==
+
+1. Configure the plugin by navigating to Settings > ConvertKit in the WordPress Administration Menu, entering your [API Key](https://app.convertkit.com/account_settings/advanced_settings) and defining the default forms to display on Pages, Posts and/or Custom Post Types
+2. (Optional) choose a specific Form to display when editing a Page, Post or Custom Post Type in the Page/Post/Custom Post Type's ConvertKit settings
+3. (Optional) use the ConvertKit Form Shortcode or Block to insert Forms into your Page, Post or Custom Post Type content
 
 == Frequently asked questions ==
 
@@ -53,6 +57,9 @@ Navigate to the Plugin's Settings at Settings > ConvertKit.
 7. Another ConvertKit landing page example
 
 == Changelog ==
+
+### 1.9.6.6 2022-01-27
+* Fix: Plugin Activation: Parse error when using PHP 7.2 or below due to trailing comma in sprintf() call
 
 ### 1.9.6.5 2022-01-26
 * Added: ConvertKit Form Block for Gutenberg
