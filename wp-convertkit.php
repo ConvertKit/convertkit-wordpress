@@ -79,6 +79,11 @@ if ( is_admin() ) {
 
 	// WishList Member Integration.
 	require_once CONVERTKIT_PLUGIN_PATH . '/includes/integrations/wishlist/class-convertkit-wishlist-admin-settings.php';
+
+	// Some classes are shared across ConvertKit Plugins, so check whether they're already loaded.
+	if ( ! class_exists( 'ConvertKit_Admin_Review_Request' ) ) {
+		require_once CONVERTKIT_PLUGIN_PATH . '/admin/class-convertkit-admin-review-request.php';
+	}
 }
 
 /**
