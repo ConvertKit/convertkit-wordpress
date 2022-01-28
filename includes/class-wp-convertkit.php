@@ -331,7 +331,7 @@ class WP_ConvertKit {
 	 */
 	public function load_language_files() {
 
-		load_plugin_textdomain( 'convertkit', false, basename( dirname( __FILE__ ) ) . '/languages/' );
+		load_plugin_textdomain( 'convertkit', false, basename( dirname( CONVERTKIT_PLUGIN_FILE ) ) . '/languages/' );
 
 	}
 
