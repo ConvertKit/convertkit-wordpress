@@ -214,11 +214,11 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: test-results
-          path: /home/runner/work/convertkit-wordpress/convertkit-wordpress/wordpress/wp-content/plugins/convertkit/tests/_output/
+          path: ${{ env.PLUGIN_DIR }}/tests/_output/
 
       - name: Upload Plugin Log File to Artifact
         if: always()
         uses: actions/upload-artifact@v2
         with:
           name: log
-          path: /home/runner/work/convertkit-wordpress/convertkit-wordpress/wordpress/wp-content/plugins/convertkit/log.txt
+          path: ${{ env.PLUGIN_DIR }}/log.txt

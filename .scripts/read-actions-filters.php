@@ -40,7 +40,7 @@ class Read_Actions_Filters {
 
 			// Check the target folder exists
 			if ( ! is_dir( $folder ) ) {
-				return false;
+				continue;
 			}
 			
 			// Iterate through the folder and subfolders, finding any PHP files
@@ -61,7 +61,7 @@ class Read_Actions_Filters {
 			}
 
 		}
-		
+
 		// Check if any PHP files were found
 		if ( count( $php_files ) == 0 ) {
 			return false;
