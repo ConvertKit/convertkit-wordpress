@@ -66,7 +66,6 @@ class WP_ConvertKit {
 
 		$this->classes['admin_category']       = new ConvertKit_Admin_Category();
 		$this->classes['admin_post']           = new ConvertKit_Admin_Post();
-		$this->classes['admin_review_request'] = new ConvertKit_Admin_Review_Request( 'ConvertKit', 'convertkit' );
 		$this->classes['admin_settings']       = new ConvertKit_Admin_Settings();
 		$this->classes['admin_tinymce']        = new ConvertKit_Admin_TinyMCE();
 		$this->classes['admin_upgrade']        = new ConvertKit_Admin_Upgrade();
@@ -161,6 +160,7 @@ class WP_ConvertKit {
 		$this->classes['blocks_convertkit_content'] = new ConvertKit_Block_Content();
 		$this->classes['blocks_convertkit_form']    = new ConvertKit_Block_Form();
 		$this->classes['gutenberg']                 = new ConvertKit_Gutenberg();
+		$this->classes['review_request'] 			= new ConvertKit_Review_Request( 'ConvertKit', 'convertkit' );
 		$this->classes['shortcodes']                = new ConvertKit_Shortcodes();
 		$this->classes['widgets']                   = new ConvertKit_Widgets();
 

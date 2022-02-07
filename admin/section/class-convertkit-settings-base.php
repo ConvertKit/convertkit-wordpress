@@ -322,7 +322,7 @@ abstract class ConvertKit_Settings_Base {
 		// it is never displayed again.
 		if ( ( isset( $settings['page_form'] ) && $settings['page_form'] ) ||
 			( isset( $settings['post_form'] ) && $settings['post_form'] ) ) {
-			WP_ConvertKit()->get_class( 'admin_review_request' )->request_review();
+			WP_ConvertKit()->get_class( 'review_request' )->request_review();
 		}
 
 		return wp_parse_args( $settings, $this->settings->get_defaults() );

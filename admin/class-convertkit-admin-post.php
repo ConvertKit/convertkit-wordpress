@@ -179,7 +179,7 @@ class ConvertKit_Admin_Post {
 		// class will ensure once a review request is dismissed by the user,
 		// it is never displayed again.
 		if ( $meta['form'] || $meta['landing_page'] ) {
-			WP_ConvertKit()->get_class( 'admin_review_request' )->request_review();
+			WP_ConvertKit()->get_class( 'review_request' )->request_review();
 		}
 
 	}

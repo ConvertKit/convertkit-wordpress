@@ -39,6 +39,7 @@ require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-resource.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-resource-forms.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-resource-landing-pages.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-resource-tags.php';
+require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-review-request.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-settings.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-shortcodes.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-system-info.php';
@@ -79,11 +80,6 @@ if ( is_admin() ) {
 
 	// WishList Member Integration.
 	require_once CONVERTKIT_PLUGIN_PATH . '/includes/integrations/wishlist/class-convertkit-wishlist-admin-settings.php';
-
-	// Some classes are shared across ConvertKit Plugins, so check whether they're already loaded.
-	if ( ! class_exists( 'ConvertKit_Admin_Review_Request' ) ) {
-		require_once CONVERTKIT_PLUGIN_PATH . '/admin/class-convertkit-admin-review-request.php';
-	}
 }
 
 /**

@@ -13,7 +13,7 @@
  * @package ConvertKit
  * @author ConvertKit
  */
-class ConvertKit_Admin_Review_Request {
+class ConvertKit_Review_Request {
 
 	/**
 	 * Holds the Plugin name.

@@ -134,13 +134,6 @@ class ReviewRequestCest
 
 		// Check that the option table does not yet have a review dismissed set.
 		$I->dontSeeOptionInDatabase('convertkit-review-dismissed');
-
-		// Confirm the review displays.
-		$I->seeElementInDOM('div.review-convertkit');
-
-		// Confirm links are correct.
-		$I->seeInSource('<a href="https://wordpress.org/support/plugin/convertkit/reviews/?filter=5#new-post" class="button button-primary" rel="noopener" target="_blank">');
-		$I->seeInSource('<a href="https://convertkit.com/support" class="button" rel="noopener" target="_blank">');
 	}
 
 	/**
@@ -202,13 +195,6 @@ class ReviewRequestCest
 
 		// Check that the option table does not yet have a review dismissed set.
 		$I->dontSeeOptionInDatabase('convertkit-review-dismissed');
-
-		// Confirm the review displays.
-		$I->seeElementInDOM('div.review-convertkit');
-
-		// Confirm links are correct.
-		$I->seeInSource('<a href="https://wordpress.org/support/plugin/convertkit/reviews/?filter=5#new-post" class="button button-primary" rel="noopener" target="_blank">');
-		$I->seeInSource('<a href="https://convertkit.com/support" class="button" rel="noopener" target="_blank">');
 	}
 
 	/**
