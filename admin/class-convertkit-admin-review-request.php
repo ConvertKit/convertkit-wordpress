@@ -41,7 +41,7 @@ class ConvertKit_Admin_Review_Request {
 	 *
 	 * @var     int
 	 */
-	private $number_of_days_in_future = 0;
+	private $number_of_days_in_future = 3;
 
 	/**
 	 * Registers action and filter hooks.
