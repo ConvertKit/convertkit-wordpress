@@ -122,12 +122,8 @@ class Acceptance extends \Codeception\Module
 	 */
 	public function deleteConvertKitReviewRequestOptions($I)
 	{
-		$I->dontHaveInDatabase('options', [
-			'option_name' => 'convertkit-review-request'
-		]);
-		$I->dontHaveInDatabase('options', [
-			'option_name' => 'convertkit-review-dismissed'
-		]);
+		$I->dontHaveOptionInDatabase('convertkit-review-request');
+		$I->dontHaveOptionInDatabase('convertkit-review-dismissed');
 	}
 
 	/**
