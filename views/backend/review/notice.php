@@ -22,7 +22,7 @@
 	</p>
 	<p>
 		<a href="<?php echo esc_attr( $this->get_review_url() ); ?>" class="button button-primary" rel="noopener" target="_blank">
-			<?php esc_html_e( 'Yes, Leave Review', 'convertkit' ); ?>
+			<?php esc_html_e( 'Yes, leave review', 'convertkit' ); ?>
 		</a>
 		<a href="<?php echo esc_attr( $this->get_support_url() ); ?>" class="button" rel="noopener" target="_blank">
 			<?php
