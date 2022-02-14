@@ -160,6 +160,7 @@ class WP_ConvertKit {
 		$this->classes['blocks_convertkit_content'] = new ConvertKit_Block_Content();
 		$this->classes['blocks_convertkit_form']    = new ConvertKit_Block_Form();
 		$this->classes['gutenberg']                 = new ConvertKit_Gutenberg();
+		$this->classes['review_request']            = new ConvertKit_Review_Request( 'ConvertKit', 'convertkit' );
 		$this->classes['shortcodes']                = new ConvertKit_Shortcodes();
 		$this->classes['widgets']                   = new ConvertKit_Widgets();
 

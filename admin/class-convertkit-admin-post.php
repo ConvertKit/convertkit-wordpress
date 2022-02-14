@@ -172,7 +172,15 @@ class ConvertKit_Admin_Post {
 
 		// Save metadata.
 		$convertkit_post = new ConvertKit_Post( $post_id );
-		return $convertkit_post->save( $meta );
+		$convertkit_post->save( $meta );
+
+		// If a Form or Landing Page was specified, request a review.
+		// This can safely be called multiple times, as the review request
+		// class will ensure once a review request is dismissed by the user,
+		// it is never displayed again.
+		if ( $meta['form'] || $meta['landing_page'] ) {
+			WP_ConvertKit()->get_class( 'review_request' )->request_review();
+		}
 
 	}
 

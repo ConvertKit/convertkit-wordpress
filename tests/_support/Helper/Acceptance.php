@@ -115,6 +115,18 @@ class Acceptance extends \Codeception\Module
 	}
 
 	/**
+	 * Helper method to delete option table rows for review requests.
+	 * Useful for resetting the review state between tests.
+	 * 
+	 * @since 	1.9.6.7
+	 */
+	public function deleteConvertKitReviewRequestOptions($I)
+	{
+		$I->dontHaveOptionInDatabase('convertkit-review-request');
+		$I->dontHaveOptionInDatabase('convertkit-review-dismissed');
+	}
+
+	/**
 	 * Helper method to setup the Plugin's API Key and Secret.
 	 * 
 	 * @since 	1.9.6
