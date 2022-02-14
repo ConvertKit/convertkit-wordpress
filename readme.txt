@@ -58,6 +58,9 @@ Navigate to the Plugin's Settings at Settings > ConvertKit.
 
 == Changelog ==
 
+### 1.9.6.7 2022-02-14
+* Fix: Localization: Corrected path to load language files
+
 ### 1.9.6.6 2022-01-27
 * Fix: Plugin Activation: Parse error when using PHP 7.2 or below due to trailing comma in sprintf() call
 
