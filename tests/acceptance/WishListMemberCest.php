@@ -50,7 +50,7 @@ class WishListMemberCest
 		$I->seeElementInDOM('#_wp_convertkit_integration_wishlistmember_settings_' . $wlmLevelID . '_form');
 
 		// Change Form to value specified in the .env file.
-		$I->selectOption('#_wp_convertkit_integration_wishlistmember_settings_' . $wlmLevelID . '_form', $_ENV['CONVERTKIT_API_FORM_NAME']);
+		$I->selectOption('#_wp_convertkit_integration_wishlistmember_settings_' . $wlmLevelID . '_form', $_ENV['CONVERTKIT_API_WISHLIST_MEMBER_FORM_NAME']);
 
 		// Save Changes.
 		$I->click('Save Changes');
@@ -59,7 +59,7 @@ class WishListMemberCest
 		$I->checkNoWarningsAndNoticesOnScreen($I);
 
 		// Check the value of the Form field matches the input provided.
-		$I->seeOptionIsSelected('#_wp_convertkit_integration_wishlistmember_settings_' . $wlmLevelID . '_form', $_ENV['CONVERTKIT_API_FORM_NAME']);
+		$I->seeOptionIsSelected('#_wp_convertkit_integration_wishlistmember_settings_' . $wlmLevelID . '_form', $_ENV['CONVERTKIT_API_WISHLIST_MEMBER_FORM_NAME']);
 
 		// Edit the Test User.
 		$I->amOnAdminPage('user-edit.php?user_id=' . $userID . '&wp_http_referer=%2Fwp-admin%2Fusers.php');
