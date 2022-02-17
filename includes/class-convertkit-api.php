@@ -1030,6 +1030,10 @@ class ConvertKit_API {
 		$body               = wp_remote_retrieve_body( $result );
 		$response           = json_decode( $body, true );
 
+		// Log HTTP Response Code and Body.
+		$this->log( 'API: HTTP Response Code: ' . $http_response_code );
+		$this->log( 'API: Body: ' . $body );
+
 		// If an error message or code exists in the response, return a WP_Error.
 		if ( isset( $response['error'] ) ) {
 			$this->log( 'API: Error: ' . $response['error'] . ': ' . $response['message'] );
