@@ -18,6 +18,7 @@ class PageFormCest
 		// Activate and Setup ConvertKit plugin
 		$I->activateConvertKitPlugin($I);
 		$I->setupConvertKitPlugin($I);
+		$I->enableDebugLog($I);
 
 		// Navigate to Pages > Add New
 		$I->amOnAdminPage('post-new.php?post_type=page');

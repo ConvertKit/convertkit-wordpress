@@ -17,6 +17,7 @@ class PageShortcodeFormCest
 	{
 		$I->activateConvertKitPlugin($I);
 		$I->setupConvertKitPlugin($I);
+		$I->enableDebugLog($I);
 	}
 
 	/**
