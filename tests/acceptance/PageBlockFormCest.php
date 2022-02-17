@@ -27,7 +27,7 @@ class PageBlockFormCest
 
 		// Change Form to None, so that no Plugin level Form is displayed, ensuring we only
 		// test the Form block in Gutenberg.
-		$I->selectOption('#wp-convertkit-form', 'Default');
+		$I->selectOption('#wp-convertkit-form', 'None');
 	}
 
 	/**

@@ -985,6 +985,8 @@ class ConvertKit_API {
 		// Send request.
 		switch ( $method ) {
 			case 'get':
+				$this->log( 'API GET: ' . $this->add_api_credentials_to_url( $this->get_api_url( $endpoint ), $params ) );
+
 				$result = wp_remote_get(
 					$this->add_api_credentials_to_url( $this->get_api_url( $endpoint ), $params ),
 					array(
@@ -996,6 +998,8 @@ class ConvertKit_API {
 				break;
 
 			case 'post':
+				$this->log( 'API POST: ' . $this->get_api_url( $endpoint ) . ', body = ' . wp_json_encode( $params ) );
+
 				$result = wp_remote_post(
 					$this->get_api_url( $endpoint ),
 					array(
