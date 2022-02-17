@@ -217,4 +217,17 @@ class PluginSettingsGeneralCest
 		$I->seeCheckboxIsChecked('#debug');
 		$I->seeCheckboxIsChecked('#no_scripts');	
 	}
+
+	/**
+	 * Run common actions before running the test functions in this class.
+	 * 
+	 * @since 	1.9.6.7
+	 * 
+	 * @param 	AcceptanceTester 	$I 	Tester
+	 */
+	public function _after(AcceptanceTester $I)
+	{
+		$I->deactivateConvertKitPlugin($I);
+		$I->resetConvertKitPlugin($I);
+	}
 }

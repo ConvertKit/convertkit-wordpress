@@ -49,4 +49,17 @@ class PostCest
 		// Check that a link to the Plugin Settings exists.
 		$I->seeInSource('<a href="' . $_ENV['TEST_SITE_WP_URL'] . '/wp-admin/options-general.php?page=_wp_convertkit_settings">Plugin Settings</a>');
 	}
+
+	/**
+	 * Run common actions before running the test functions in this class.
+	 * 
+	 * @since 	1.9.6.7
+	 * 
+	 * @param 	AcceptanceTester 	$I 	Tester
+	 */
+	public function _after(AcceptanceTester $I)
+	{
+		$I->deactivateConvertKitPlugin($I);
+		$I->resetConvertKitPlugin($I);
+	}
 }

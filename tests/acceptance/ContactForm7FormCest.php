@@ -16,19 +16,8 @@ class ContactForm7FormCest
 	public function _before(AcceptanceTester $I)
 	{
 		$I->activateConvertKitPlugin($I);
+		$I->activateThirdPartyPlugin($I, 'contact-form-7');
 		$I->setupConvertKitPlugin($I);
-
-		// Go to the Plugins screen in the WordPress Administration interface.
-		$I->amOnPluginsPage();
-
-		// Activate the Contact Form 7 Plugin.
-		$I->activatePlugin('contact-form-7');
-
-		// Check that the Plugin activated successfully.
-		$I->seePluginActivated('contact-form-7');
-
-		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen($I);
 	}
 
 	/**
@@ -53,7 +42,7 @@ class ContactForm7FormCest
 		$I->seeElementInDOM('#_wp_convertkit_integration_contactform7_settings_' . $contactForm7ID);
 
 		// Change Form to value specified in the .env file.
-		$I->selectOption('#_wp_convertkit_integration_contactform7_settings_' . $contactForm7ID, $_ENV['CONVERTKIT_API_FORM_NAME']);
+		$I->selectOption('#_wp_convertkit_integration_contactform7_settings_' . $contactForm7ID, $_ENV['CONVERTKIT_API_CONTACT_FORM_7_FORM_NAME']);
 
 		$I->click('Save Changes');
 
@@ -61,7 +50,7 @@ class ContactForm7FormCest
 		$I->checkNoWarningsAndNoticesOnScreen($I);
 
 		// Check the value of the Form field matches the input provided.
-		$I->seeOptionIsSelected('#_wp_convertkit_integration_contactform7_settings_' . $contactForm7ID, $_ENV['CONVERTKIT_API_FORM_NAME']);
+		$I->seeOptionIsSelected('#_wp_convertkit_integration_contactform7_settings_' . $contactForm7ID, $_ENV['CONVERTKIT_API_CONTACT_FORM_7_FORM_NAME']);
 		
 		// Create Page with Contact Form 7 Shortcode.
 		$I->havePageInDatabase([
@@ -77,18 +66,24 @@ class ContactForm7FormCest
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
 
+		// Define email address for this test.
+		$emailAddress = $I->generateEmailAddress();
+
 		// Complete Name and Email
 		$I->fillField('input[name=your-name]', 'ConvertKit Name');
-		$I->fillField('input[name=your-email]', $_ENV['CONVERTKIT_API_SUBSCRIBER_EMAIL']);
+		$I->fillField('input[name=your-email]', $emailAddress);
 		$I->fillField('input[name=your-subject]', 'ConvertKit Subject');
 
 		// Submit Form.
 		$I->click('Submit');
 
 		// Confirm the form submitted without errors.
-		$I->performOn( 'form.sent', function($I) {
+		$I->performOn('form.sent', function($I) {
 			$I->seeInSource('Thank you for your message. It has been sent.');
 		});
+
+		// Confirm that the email address was added to ConvertKit.
+		$I->apiCheckSubscriberExists($I, $emailAddress);
 	}
 
 	/**
@@ -113,5 +108,19 @@ class ContactForm7FormCest
 				'_additional_settings' => 'skip_mail: on',
 			],
 		]);
+	}
+
+	/**
+	 * Run common actions before running the test functions in this class.
+	 * 
+	 * @since 	1.9.6.7
+	 * 
+	 * @param 	AcceptanceTester 	$I 	Tester
+	 */
+	public function _after(AcceptanceTester $I)
+	{
+		$I->deactivateConvertKitPlugin($I);
+		$I->deactivateThirdPartyPlugin($I, 'contact-form-7');
+		$I->resetConvertKitPlugin($I);
 	}
 }

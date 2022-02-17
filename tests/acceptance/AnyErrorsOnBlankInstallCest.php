@@ -11,7 +11,6 @@ class AnyErrorsOnBlankInstallCest
 	 */
 	public function _before(AcceptanceTester $I)
 	{
-		// Activate Plugin.
 		$I->activateConvertKitPlugin($I);
 	}
 
@@ -92,5 +91,18 @@ class AnyErrorsOnBlankInstallCest
 
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
+	}
+
+	/**
+	 * Run common actions before running the test functions in this class.
+	 * 
+	 * @since 	1.9.6.7
+	 * 
+	 * @param 	AcceptanceTester 	$I 	Tester
+	 */
+	public function _after(AcceptanceTester $I)
+	{
+		$I->deactivateConvertKitPlugin($I);
+		$I->resetConvertKitPlugin($I);
 	}
 }

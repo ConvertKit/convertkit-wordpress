@@ -237,4 +237,17 @@ class PageShortcodeFormCest
 		// Confirm that the ConvertKit Default Legacy Form displays.
 		$I->seeInSource('<form id="ck_subscribe_form" class="ck_subscribe_form" action="https://api.convertkit.com/landing_pages/' . $_ENV['CONVERTKIT_API_LEGACY_FORM_ID'] . '/subscribe" data-remote="true">');
 	}
+
+	/**
+	 * Run common actions before running the test functions in this class.
+	 * 
+	 * @since 	1.9.6.7
+	 * 
+	 * @param 	AcceptanceTester 	$I 	Tester
+	 */
+	public function _after(AcceptanceTester $I)
+	{
+		$I->deactivateConvertKitPlugin($I);
+		$I->resetConvertKitPlugin($I);
+	}
 }

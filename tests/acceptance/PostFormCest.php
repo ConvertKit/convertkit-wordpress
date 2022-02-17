@@ -293,4 +293,17 @@ class PostFormCest
 		// Confirm that the ConvertKit Form displays.
 		$I->seeElementInDOM('form[data-sv-form="' . $formID . '"]');
 	}
+
+	/**
+	 * Run common actions before running the test functions in this class.
+	 * 
+	 * @since 	1.9.6.7
+	 * 
+	 * @param 	AcceptanceTester 	$I 	Tester
+	 */
+	public function _after(AcceptanceTester $I)
+	{
+		$I->deactivateConvertKitPlugin($I);
+		$I->resetConvertKitPlugin($I);
+	}
 }

@@ -16,19 +16,8 @@ class WooCommerceProductFormCest
 	public function _before(AcceptanceTester $I)
 	{
 		$I->activateConvertKitPlugin($I);
+		$I->activateThirdPartyPlugin($I, 'woocommerce');
 		$I->setupConvertKitPlugin($I);
-
-		// Go to the Plugins screen in the WordPress Administration interface.
-		$I->amOnPluginsPage();
-
-		// Activate the WooCommerce Plugin.
-		$I->activatePlugin('woocommerce');
-
-		// Check that the Plugin activated successfully.
-		$I->seePluginActivated('woocommerce');
-
-		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen($I);
 	}
 
 	/**
@@ -212,5 +201,19 @@ class WooCommerceProductFormCest
 
 		// Confirm that the ConvertKit Form displays.
 		$I->seeElementInDOM('form[data-sv-form="' . $formID . '"]');
+	}
+
+	/**
+	 * Run common actions before running the test functions in this class.
+	 * 
+	 * @since 	1.9.6.7
+	 * 
+	 * @param 	AcceptanceTester 	$I 	Tester
+	 */
+	public function _after(AcceptanceTester $I)
+	{
+		$I->deactivateConvertKitPlugin($I);
+		$I->deactivateThirdPartyPlugin($I, 'woocommerce');
+		$I->resetConvertKitPlugin($I);
 	}
 }

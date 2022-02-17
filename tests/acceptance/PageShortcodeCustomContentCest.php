@@ -88,4 +88,17 @@ class PageShortcodeCustomContentCest
 		// Confirm that the Custom Content is now displayed.
 		$I->seeInSource('ConvertKitCustomContent');
 	}
+
+	/**
+	 * Run common actions before running the test functions in this class.
+	 * 
+	 * @since 	1.9.6.7
+	 * 
+	 * @param 	AcceptanceTester 	$I 	Tester
+	 */
+	public function _after(AcceptanceTester $I)
+	{
+		$I->deactivateConvertKitPlugin($I);
+		$I->resetConvertKitPlugin($I);
+	}
 }

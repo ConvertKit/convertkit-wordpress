@@ -15,13 +15,9 @@ class WishListMemberCest
 	 */
 	public function _before(AcceptanceTester $I)
 	{
-		// Activate and Setup ConvertKit Plugin.
 		$I->activateConvertKitPlugin($I);
+		$I->activateThirdPartyPlugin($I, 'wishlist-member');
 		$I->setupConvertKitPlugin($I);
-		$I->enableDebugLog($I);
-
-		// Activate and Setup WishList Member Plugin.
-		$I->activateWishListMemberPlugin($I);
 		$I->setupWishListMemberPlugin($I);
 	}
 
@@ -34,11 +30,14 @@ class WishListMemberCest
 	 */
 	public function testSettingsWishListMemberLevelToConvertKitFormMapping(AcceptanceTester $I)
 	{
-		// Get WishList Member Level ID defined
+		// Get WishList Member Level ID defined.
 		$wlmLevelID = $this->_getWishListMemberLevelID($I);
 
+		// Define email address for this test.
+		$emailAddress = $I->generateEmailAddress();
+
 		// Create a test WordPress User.
-		$userID = $this->_createUser($I);
+		$userID = $this->_createUser($I, $emailAddress);
 
 		// Load WishList Member Plugin Settings
 		$I->amOnAdminPage('options-general.php?page=_wp_convertkit_settings&tab=wishlist-member');
@@ -73,9 +72,8 @@ class WishListMemberCest
 		// Confirm that the User is still assigned to the Bronze WLM Level.
 		$I->seeCheckboxIsChecked('#WishListMemberUserProfile input[value="'. $wlmLevelID . '"]');
 		
-		// Confirm with the ConvertKit API that the Test User was subscribed by inspecting the Plugin's Debug Log
-		$I->seeInPluginDebugLog($I, 'API: form_subscribe(): [ form_id: ' . $_ENV['CONVERTKIT_API_FORM_ID'] . ', email: wlm_test_user@convertkit.com, first_name: Test ]');
-		$I->dontSeeInPluginDebugLog($I, 'API: form_subscribe(): Error:');
+		// Confirm that the email address was added to ConvertKit.
+		$I->apiCheckSubscriberExists($I, $emailAddress);
 	}
 
 	/**
@@ -99,16 +97,31 @@ class WishListMemberCest
 	 * 
 	 * @since 	1.9.6
 	 * 
-	 * @param 	AcceptanceTester 	$I 	Tester
-	 * @return 	int 					User ID
+	 * @param 	AcceptanceTester 	$I 				Tester
+	 * @param 	string 				$emailAddress 	Email Address
+	 * @return 	int 								User ID
 	 */
-	private function _createUser(AcceptanceTester $I)
+	private function _createUser(AcceptanceTester $I, $emailAddress)
 	{
 		return $I->haveUserInDatabase('wlm_test_user', 'subscriber', [
-			'user_email' => 'wlm_test_user@convertkit.com',
+			'user_email' => $emailAddress,
 			'first_name' => 'Test',
 			'last_name' => 'User',
 			'display_name' => 'Test User',
 		]);
+	}
+
+	/**
+	 * Run common actions before running the test functions in this class.
+	 * 
+	 * @since 	1.9.6.7
+	 * 
+	 * @param 	AcceptanceTester 	$I 	Tester
+	 */
+	public function _after(AcceptanceTester $I)
+	{
+		$I->deactivateConvertKitPlugin($I);
+		$I->deactivateThirdPartyPlugin($I, 'wishlist-member');
+		$I->resetConvertKitPlugin($I);
 	}
 }
