@@ -43,7 +43,7 @@ class ContactForm7FormCest
 		$I->seeElementInDOM('#_wp_convertkit_integration_contactform7_settings_' . $contactForm7ID);
 
 		// Change Form to value specified in the .env file.
-		$I->selectOption('#_wp_convertkit_integration_contactform7_settings_' . $contactForm7ID, $_ENV['CONVERTKIT_API_CONTACT_FORM_7_FORM_NAME']);
+		$I->selectOption('#_wp_convertkit_integration_contactform7_settings_' . $contactForm7ID, $_ENV['CONVERTKIT_API_THIRD_PARTY_INTEGRATIONS_FORM_NAME']);
 
 		$I->click('Save Changes');
 
@@ -51,7 +51,7 @@ class ContactForm7FormCest
 		$I->checkNoWarningsAndNoticesOnScreen($I);
 
 		// Check the value of the Form field matches the input provided.
-		$I->seeOptionIsSelected('#_wp_convertkit_integration_contactform7_settings_' . $contactForm7ID, $_ENV['CONVERTKIT_API_CONTACT_FORM_7_FORM_NAME']);
+		$I->seeOptionIsSelected('#_wp_convertkit_integration_contactform7_settings_' . $contactForm7ID, $_ENV['CONVERTKIT_API_THIRD_PARTY_INTEGRATIONS_FORM_NAME']);
 		
 		// Create Page with Contact Form 7 Shortcode.
 		$I->havePageInDatabase([
