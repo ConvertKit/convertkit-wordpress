@@ -111,13 +111,15 @@ class ContactForm7FormCest
 	}
 
 	/**
-	 * Run common actions before running the test functions in this class.
+	 * Deactivate and reset Plugin(s) after each test, if the test passes.
+	 * We don't use _after, as this would provide a screenshot of the Plugin
+	 * deactivation and not the true test error.
 	 * 
 	 * @since 	1.9.6.7
 	 * 
 	 * @param 	AcceptanceTester 	$I 	Tester
 	 */
-	public function _after(AcceptanceTester $I)
+	public function _passed(AcceptanceTester $I)
 	{
 		$I->deactivateConvertKitPlugin($I);
 		$I->deactivateThirdPartyPlugin($I, 'contact-form-7');
