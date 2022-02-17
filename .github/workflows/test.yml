@@ -142,7 +142,7 @@ jobs:
         run: |
           export DISPLAY=:99
           chromedriver --url-base=/wd/hub &
-          sudo Xvfb -ac :99 -screen 0 1280x1024x24 > /dev/null 2>&1 & # optional
+          sudo Xvfb -ac :99 -screen 0 1920x1080x24 > /dev/null 2>&1 & # optional
 
       # Write any secrets, such as API keys, to the .env.dist.testing file now.
       # Make sure your committed .env.dist.testing file ends with a newline.
