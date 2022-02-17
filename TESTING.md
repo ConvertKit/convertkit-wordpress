@@ -133,6 +133,49 @@ class ActivatePluginCest
 }
 ```
 
+Additional tests can also be added that relate to this suite of tests.  For example, we might want to test that Plugin deactivation
+also works:
+```php
+class ActivatePluginCest
+{
+    public function _before(AcceptanceTester $I)
+    {
+        // Login as a WordPress Administrator before performing each test.
+        $I->loginAsAdmin();
+    }
+
+    public function testPluginActivation(AcceptanceTester $I)
+    {
+        // Go to the Plugins screen in the WordPress Administration interface.
+        $I->amOnPluginsPage();
+
+        // Activate the Plugin.
+        $I->activatePlugin('convertkit');
+
+        // Check that the Plugin activated successfully.
+        $I->seePluginActivated('convertkit');
+
+        // Check that the <body> class does not have a php-error class, which indicates an error in activation.
+        $I->dontSeeElement('body.php-error');
+    }
+
+    public function testPluginDeactivation(AcceptanceTester $I)
+    {
+        // Go to the Plugins screen in the WordPress Administration interface.
+        $I->amOnPluginsPage();
+
+        // Activate the Plugin.
+        $I->deactivatePlugin('convertkit');
+
+        // Check that the Plugin activated successfully.
+        $I->seePluginDeactivated('convertkit');
+
+        // Check that the <body> class does not have a php-error class, which indicates an error in activation.
+        $I->dontSeeElement('body.php-error');
+    }
+}
+```
+
 In a Terminal window, run the ChromeDriver.  This is used by our test to mimic user behaviour, and will execute JavaScript
 and other elements just as a user would see them:
 
@@ -154,6 +197,63 @@ For a full list of available wp-browser and Codeception functions that can be us
 - [wp-browser](https://wpbrowser.wptestkit.dev/modules)
 - [Codeception](https://codeception.com/docs/03-AcceptanceTests)
 
+## Required Test Format
+
+Tests can be run in isolation, as part of a suite of tests, sequentially and/or in parralel across different environments.
+It's therefore required that every Cest contain both `_before()` and `_passed()` functions, which handle:
+- `_before()`: Performing prerequisite steps (such as Plugin activation, third party Plugin activation and setup) prior to each test,
+- `_passed()`: Performing cleanup steps (such as Plugin deactivation, removal of Plugin data from the database) after each passing test.
+
+The following test format should be used:
+
+```php
+class ExampleCest
+{
+    /**
+     * Run common actions before running the test functions in this class.
+     * 
+     * @since   X.X.X
+     * 
+     * @param   AcceptanceTester    $I  Tester
+     */
+    public function _before(AcceptanceTester $I)
+    {
+        $I->activateConvertKitPlugin($I);
+        $I->activateThirdPartyPlugin($I, 'third-party-plugin-slug');
+        $I->setupConvertKitPlugin($I);
+        $I->enableDebugLog($I);
+    }
+
+    public function testSpecificSteps(AcceptanceTester $I)
+    {
+        // ... write a test here.
+    }
+
+    public function testAnotherSpecificSteps(AcceptanceTester $I)
+    {
+        // ... write a test here.
+    }
+
+    // .. write further functions for tests as necessary.
+
+    /**
+     * Deactivate and reset Plugin(s) after each test, if the test passes.
+     * We don't use _after, as this would provide a screenshot of the Plugin
+     * deactivation and not the true test error.
+     * 
+     * @since   X.X.X
+     * 
+     * @param   AcceptanceTester    $I  Tester
+     */
+    public function _passed(AcceptanceTester $I)
+    {
+        $I->deactivateConvertKitPlugin($I);
+        $I->deactivateThirdPartyPlugin($I, 'third-party-plugin-slug');
+        $I->resetConvertKitPlugin($I);
+    }
+}
+```
+
 ## Using Helpers
 
 Helpers extend testing by registering functions that we might want to use across multiple tests, which are not provided by wp-browser, 
@@ -169,12 +269,15 @@ Our Acceptance Tests can now call `$I->checkNoWarningsAndNoticesOnScreen($I)`, i
 error check for every test.
 
 Further Acceptance Test Helpers that are provided include:
-- `activateConvertKitPlugin()`: Logs in to WordPress as the `admin` user, and activates the ConvertKit Plugin.
-- `setupConvertKitPlugin()`: Enters the ConvertKit API Key and Secret in the Plugin's Settings screen, saving it.
-- `loadConvertKitSettingsGeneralScreen()`: Loads the Plugin's Settings screen at Settings > ConvertKit > General.
-- `loadConvertKitSettingsToolsScreen()`: Loads the Plugin's Tools screen at Settings > ConvertKit > Tools.
+- `maybeCloseGutenbergWelcomeModal($I)`: Closes the Gutenberg welcome modal when adding a Page or Post.
+- `activateConvertKitPlugin($I)`: Logs in to WordPress as the `admin` user, and activates the ConvertKit Plugin.
+- `deactivateConvertKitPlugin($I)`: Logs in to WordPress as the `admin` user, and deactivates the ConvertKit Plugin.
+- `activateThirdPartyPlugin($I, $name)`: Logs in to WordPress as the `admin` user, and activates the given third party Plugin by its slug.
+- `deactivateThirdPartyPlugin($I, $name)`: Logs in to WordPress as the `admin` user, and deactivates the given third party Plugin by its slug.
+- `setupConvertKitPlugin($I)`: Enters the ConvertKit API Key and Secret in the Plugin's Settings screen, saving it.
 
-The above helpers automatically check for PHP and Xdebug errors.
+Other helpers most likely exist; refer to the [Acceptance.php](https://github.com/ConvertKit/convertkit-wordpress/blob/master/tests/_support/Helper/Acceptance.php)
+helper file for all available functions.
 
 ## Writing Helpers
 
@@ -241,6 +344,11 @@ Need to change the PHP or WordPress coding standard rules applied?  Edit the [ph
 
 ## Next Steps
 
-Once your test(s) are written and successfully run, submit your branch via a new [Pull Request](https://github.com/ConvertKit/convertkit-wordpress/compare).
+Once your test(s) are written and successfully run locally, submit your branch via a new [Pull Request](https://github.com/ConvertKit/convertkit-wordpress/compare).
 
-This will trigger a GitHub Action, which will run the above tests.
+It's best to create a Pull Request in draft mode, as this will trigger all tests to run as a GitHub Action, allowing you to
+double check all tests pass.
+
+If the PR tests fail, you can make code changes as necessary, pushing to the same branch.  This will trigger the tests to run again.
+
+If the PR tests pass, you can publish the PR, assigning some reviewers.

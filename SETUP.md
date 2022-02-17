@@ -89,12 +89,13 @@ CONVERTKIT_API_LEGACY_FORM_NAME="Legacy Form" // The name of a legacy form that 
 CONVERTKIT_API_LEGACY_FORM_ID="470099" // The ID of the CONVERTKIT_API_LEGACY_FORM_NAME
 CONVERTKIT_API_LEGACY_FORM_SHORTCODE="[convertkit form=5281783]" // The WordPress Shortcode that app.convertkit.com presents the user to use for a Legacy Form
 CONVERTKIT_API_LEGACY_LANDING_PAGE_NAME="Legacy Landing Page" // The name of a legacy landing page that exists on the ConvertKit Account for the above API credentials
-CONVERTKIT_API_LEGACY_LANDING_PAGE_ID="" // The ID of the CONVERTKIT_API_LEGACY_LANDING_PAGE_NAME
-CONVERTKIT_API_LEGACY_LANDING_PAGE_URL="" // The URL of the CONVERTKIT_API_LEGACY_LANDING_PAGE_NAME
+CONVERTKIT_API_LEGACY_LANDING_PAGE_ID="470103" // The ID of the CONVERTKIT_API_LEGACY_LANDING_PAGE_NAME
+CONVERTKIT_API_LEGACY_LANDING_PAGE_URL="https://app.convertkit.com/landing_pages/470103" // The URL of the CONVERTKIT_API_LEGACY_LANDING_PAGE_NAME
 CONVERTKIT_API_TAG_NAME="wordpress" // The name of a tag that exists on the ConvertKit Account for the above API credentials
 CONVERTKIT_API_TAG_ID="2744672" // The ID of the CONVERTKIT_API_TAG_NAME
-CONVERTKIT_API_SUBSCRIBER_EMAIL="tim@n7studios.co.uk" // The email of the CONVERTKIT_API_SUBSCRIBER_ID
 CONVERTKIT_API_SUBSCRIBER_ID="1501843245" // The ID of a valid subscriber on the ConvertKit Account for the above API credentials, who is also tagged with the above tag
+CONVERTKIT_API_THIRD_PARTY_INTEGRATIONS_FORM_NAME="Third Party Integrations Form" // The name of a form that exists on the ConvertKit Account for the above API credentials for third party integration tests
+CONVERTKIT_API_THIRD_PARTY_INTEGRATIONS_FORM_ID="3003590" // The ID of the CONVERTKIT_API_THIRD_PARTY_INTEGRATIONS_FORM_NAME
 
 ```
 
