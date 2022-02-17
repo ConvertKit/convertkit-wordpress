@@ -124,7 +124,6 @@ class WishListMemberCest
 	public function _passed(AcceptanceTester $I)
 	{
 		$I->deactivateConvertKitPlugin($I);
-		$I->deactivateThirdPartyPlugin($I, 'wishlist-member');
 		$I->resetConvertKitPlugin($I);
 	}
 }
