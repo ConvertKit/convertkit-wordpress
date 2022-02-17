@@ -328,12 +328,12 @@ class ConvertKit_API {
 
 		// If no tags exist, return WP_Error.
 		if ( ! isset( $response['tags'] ) ) {
-			$this->log( 'API: get_tags(): Error in response: <pre>' . print_r( $response, true ) . '</pre>');
+			$this->log( 'API: get_tags(): Error in response: <pre>' . print_r( $response, true ) . '</pre>' ); // phpcs:ignore
 			$this->log( 'API: get_tags(): Error: No tags exist in ConvertKit.', 'convertkit' );
 			return new WP_Error( 'convertkit_api_error', __( 'No tags exist in ConvertKit. Visit your ConvertKit account and create your first tag.', 'convertkit' ) );
 		}
 		if ( ! count( $response['tags'] ) ) {
-			$this->log( 'API: get_tags(): Error in response: <pre>' . print_r( $response, true ) . '</pre>');
+			$this->log( 'API: get_tags(): Error in response: <pre>' . print_r( $response, true ) . '</pre>' ); // phpcs:ignore
 			$this->log( 'API: get_tags(): Error: No tags exist in ConvertKit.', 'convertkit' );
 			return new WP_Error( 'convertkit_api_error', __( 'No tags exist in ConvertKit. Visit your ConvertKit account and create your first tag.', 'convertkit' ) );
 		}
@@ -909,7 +909,7 @@ class ConvertKit_API {
 
 		// If no forms exist.
 		if ( ! isset( $response['forms'] ) ) {
-			$this->log( 'API: get_forms_landing_pages(): Error in response: <pre>' . print_r( $response, true ) . '</pre>');
+			$this->log( 'API: get_forms_landing_pages(): Error in response: <pre>' . print_r( $response, true ) . '</pre>' ); // phpcs:ignore
 
 			return new WP_Error(
 				'convertkit_api_error',
