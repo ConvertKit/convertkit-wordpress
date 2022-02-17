@@ -328,12 +328,10 @@ class ConvertKit_API {
 
 		// If no tags exist, return WP_Error.
 		if ( ! isset( $response['tags'] ) ) {
-			$this->log( 'API: get_tags(): Error in response: <pre>' . print_r( $response, true ) . '</pre>' ); // phpcs:ignore
 			$this->log( 'API: get_tags(): Error: No tags exist in ConvertKit.', 'convertkit' );
 			return new WP_Error( 'convertkit_api_error', __( 'No tags exist in ConvertKit. Visit your ConvertKit account and create your first tag.', 'convertkit' ) );
 		}
 		if ( ! count( $response['tags'] ) ) {
-			$this->log( 'API: get_tags(): Error in response: <pre>' . print_r( $response, true ) . '</pre>' ); // phpcs:ignore
 			$this->log( 'API: get_tags(): Error: No tags exist in ConvertKit.', 'convertkit' );
 			return new WP_Error( 'convertkit_api_error', __( 'No tags exist in ConvertKit. Visit your ConvertKit account and create your first tag.', 'convertkit' ) );
 		}
@@ -909,8 +907,6 @@ class ConvertKit_API {
 
 		// If no forms exist.
 		if ( ! isset( $response['forms'] ) ) {
-			$this->log( 'API: get_forms_landing_pages(): Error in response: <pre>' . print_r( $response, true ) . '</pre>' ); // phpcs:ignore
-
 			return new WP_Error(
 				'convertkit_api_error',
 				__( 'No forms exist in ConvertKit. Visit your ConvertKit account and create your first form.', 'convertkit' )
@@ -990,8 +986,6 @@ class ConvertKit_API {
 		// Send request.
 		switch ( $method ) {
 			case 'get':
-				$this->log( 'API GET: ' . $this->add_api_credentials_to_url( $this->get_api_url( $endpoint ), $params ) );
-
 				$result = wp_remote_get(
 					$this->add_api_credentials_to_url( $this->get_api_url( $endpoint ), $params ),
 					array(
@@ -1003,8 +997,6 @@ class ConvertKit_API {
 				break;
 
 			case 'post':
-				$this->log( 'API POST: ' . $this->get_api_url( $endpoint ) . ', body = ' . wp_json_encode( $params ) );
-
 				$result = wp_remote_post(
 					$this->get_api_url( $endpoint ),
 					array(
@@ -1042,10 +1034,6 @@ class ConvertKit_API {
 			sleep( 2 );
 			return $this->request( $endpoint, $method, $params, false );
 		}
-
-		// Log HTTP Response Code and Body.
-		$this->log( 'API: HTTP Response Code: ' . $http_response_code );
-		$this->log( 'API: Body: ' . $body );
 
 		// If an error message or code exists in the response, return a WP_Error.
 		if ( isset( $response['error'] ) ) {
