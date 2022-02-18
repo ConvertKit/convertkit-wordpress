@@ -67,7 +67,10 @@ class PageBlockFormCest
 		$I->waitForElementVisible('.post-publish-panel__postpublish-buttons a.components-button');
 
 		// Load the Page on the frontend site.
-		$I->click('View Page');
+		$I->click('.post-publish-panel__postpublish-buttons a.components-button');
+
+		// Wait for frontend web site to load.
+		$I->waitForElementVisible('body.page-template-default');
 
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
@@ -113,7 +116,10 @@ class PageBlockFormCest
 		$I->waitForElementVisible('.post-publish-panel__postpublish-buttons a.components-button');
 
 		// Load the Page on the frontend site.
-		$I->click('View Page');
+		$I->click('.post-publish-panel__postpublish-buttons a.components-button');
+
+		// Wait for frontend web site to load.
+		$I->waitForElementVisible('body.page-template-default');
 
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
@@ -155,7 +161,10 @@ class PageBlockFormCest
 		$I->waitForElementVisible('.post-publish-panel__postpublish-buttons a.components-button');
 
 		// Load the Page on the frontend site.
-		$I->click('View Page');
+		$I->click('.post-publish-panel__postpublish-buttons a.components-button');
+
+		// Wait for frontend web site to load.
+		$I->waitForElementVisible('body.page-template-default');
 
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
