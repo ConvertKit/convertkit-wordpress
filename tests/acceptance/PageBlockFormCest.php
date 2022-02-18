@@ -17,6 +17,7 @@ class PageBlockFormCest
 	{
 		$I->activateConvertKitPlugin($I);
 		$I->setupConvertKitPlugin($I);
+		$I->enableDebugLog($I);
 
 		// Navigate to Pages > Add New
 		$I->amOnAdminPage('post-new.php?post_type=page');
@@ -26,7 +27,7 @@ class PageBlockFormCest
 
 		// Change Form to None, so that no Plugin level Form is displayed, ensuring we only
 		// test the Form block in Gutenberg.
-		$I->selectOption('#wp-convertkit-form', 'Default');
+		$I->selectOption('#wp-convertkit-form', 'None');
 	}
 
 	/**
@@ -161,5 +162,20 @@ class PageBlockFormCest
 
 		// Confirm that no ConvertKit Form is displayed.
 		$I->dontSeeElementInDOM('form[data-sv-form]');
+	}
+
+	/**
+	 * Deactivate and reset Plugin(s) after each test, if the test passes.
+	 * We don't use _after, as this would provide a screenshot of the Plugin
+	 * deactivation and not the true test error.
+	 * 
+	 * @since 	1.9.6.7
+	 * 
+	 * @param 	AcceptanceTester 	$I 	Tester
+	 */
+	public function _passed(AcceptanceTester $I)
+	{
+		$I->deactivateConvertKitPlugin($I);
+		$I->resetConvertKitPlugin($I);
 	}
 }

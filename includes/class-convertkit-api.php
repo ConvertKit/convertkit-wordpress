@@ -951,7 +951,7 @@ class ConvertKit_API {
 	 */
 	private function get( $endpoint, $params ) {
 
-		return $this->request( $endpoint, 'get', $params );
+		return $this->request( $endpoint, 'get', $params, true );
 
 	}
 
@@ -966,7 +966,7 @@ class ConvertKit_API {
 	 */
 	private function post( $endpoint, $params ) {
 
-		return $this->request( $endpoint, 'post', $params );
+		return $this->request( $endpoint, 'post', $params, true );
 
 	}
 
@@ -975,12 +975,13 @@ class ConvertKit_API {
 	 *
 	 * @since   1.9.6
 	 *
-	 * @param   string $endpoint       API Endpoint (required).
-	 * @param   string $method         HTTP Method (optional).
-	 * @param   mixed  $params         Params (array|boolean|string).
-	 * @return  mixed                   WP_Error | object
+	 * @param   string $endpoint                API Endpoint (required).
+	 * @param   string $method                  HTTP Method (optional).
+	 * @param   mixed  $params                  Params (array|boolean|string).
+	 * @param   bool   $retry_if_rate_limit_hit Retry request if rate limit hit.
+	 * @return  mixed                           WP_Error | object
 	 */
-	private function request( $endpoint, $method = 'get', $params = array() ) {
+	private function request( $endpoint, $method = 'get', $params = array(), $retry_if_rate_limit_hit = true ) {
 
 		// Send request.
 		switch ( $method ) {
@@ -1021,6 +1022,18 @@ class ConvertKit_API {
 		$http_response_code = wp_remote_retrieve_response_code( $result );
 		$body               = wp_remote_retrieve_body( $result );
 		$response           = json_decode( $body, true );
+
+		// If the HTTP response code is 429, we've hit the API's rate limit of 120 requests over 60 seconds.
+		if ( $http_response_code === 429 ) {
+			// If retry on rate limit hit is disabled, return a WP_Error.
+			if ( ! $retry_if_rate_limit_hit ) {
+				return new WP_Error( 'convertkit_api_error', __( 'Rate limit hit.', 'convertkit' ) );
+			}
+
+			// Retry the request a final time, waiting 2 seconds before.
+			sleep( 2 );
+			return $this->request( $endpoint, $method, $params, false );
+		}
 
 		// If an error message or code exists in the response, return a WP_Error.
 		if ( isset( $response['error'] ) ) {

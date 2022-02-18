@@ -18,6 +18,7 @@ class PostFormCest
 		// Activate and Setup ConvertKit plugin
 		$I->activateConvertKitPlugin($I);
 		$I->setupConvertKitPlugin($I);
+		$I->enableDebugLog($I);
 
 		// Navigate to Post > Add New
 		$I->amOnAdminPage('post-new.php');
@@ -292,5 +293,20 @@ class PostFormCest
 
 		// Confirm that the ConvertKit Form displays.
 		$I->seeElementInDOM('form[data-sv-form="' . $formID . '"]');
+	}
+
+	/**
+	 * Deactivate and reset Plugin(s) after each test, if the test passes.
+	 * We don't use _after, as this would provide a screenshot of the Plugin
+	 * deactivation and not the true test error.
+	 * 
+	 * @since 	1.9.6.7
+	 * 
+	 * @param 	AcceptanceTester 	$I 	Tester
+	 */
+	public function _passed(AcceptanceTester $I)
+	{
+		$I->deactivateConvertKitPlugin($I);
+		$I->resetConvertKitPlugin($I);
 	}
 }

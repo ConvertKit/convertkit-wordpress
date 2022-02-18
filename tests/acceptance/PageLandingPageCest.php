@@ -18,7 +18,8 @@ class PageLandingPageCest
 		// Activate and Setup ConvertKit plugin
 		$I->activateConvertKitPlugin($I);
 		$I->setupConvertKitPlugin($I);
-
+		$I->enableDebugLog($I);
+		
 		// Navigate to Pages > Add New
 		$I->amOnAdminPage('post-new.php?post_type=page');
 
@@ -309,5 +310,20 @@ class PageLandingPageCest
 		// Confirm that the ConvertKit Landing Page displays.
 		$I->dontSeeElementInDOM('body.page'); // WordPress didn't load its template, which is correct.
 		$I->seeInSource('<form id="ck_subscribe_form" class="ck_subscribe_form" action="https://app.convertkit.com/landing_pages/' . $_ENV['CONVERTKIT_API_LEGACY_LANDING_PAGE_ID'] . '/subscribe" data-remote="true">'); // ConvertKit injected its Landing Page Form, which is correct.
+	}
+
+	/**
+	 * Deactivate and reset Plugin(s) after each test, if the test passes.
+	 * We don't use _after, as this would provide a screenshot of the Plugin
+	 * deactivation and not the true test error.
+	 * 
+	 * @since 	1.9.6.7
+	 * 
+	 * @param 	AcceptanceTester 	$I 	Tester
+	 */
+	public function _passed(AcceptanceTester $I)
+	{
+		$I->deactivateConvertKitPlugin($I);
+		$I->resetConvertKitPlugin($I);
 	}
 }

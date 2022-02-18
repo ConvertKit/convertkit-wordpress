@@ -28,9 +28,6 @@ class ReviewRequestCest
 	 */
 	public function testReviewRequestOnSaveSettings(AcceptanceTester $I)
 	{
-		// Clear options table settings for review request.
-		$I->deleteConvertKitReviewRequestOptions($I);
-
 		// Setup ConvertKit Plugin.
 		$I->setupConvertKitPlugin($I);
 
@@ -54,9 +51,6 @@ class ReviewRequestCest
 	 */
 	public function testReviewRequestOnSaveBlankSettings(AcceptanceTester $I)
 	{
-		// Clear options table settings for review request.
-		$I->deleteConvertKitReviewRequestOptions($I);
-
 		// Go to the Plugin's Settings Screen.
 		$I->loadConvertKitSettingsGeneralScreen($I);
 
@@ -82,10 +76,6 @@ class ReviewRequestCest
 	 */
 	public function testReviewRequestOnSavePageWithFormSpecified(AcceptanceTester $I)
 	{
-
-		// Clear options table settings for review request.
-		$I->deleteConvertKitReviewRequestOptions($I);
-
 		// Flush Permalinks.
 		$I->amOnAdminPage('options-permalink.php');
 
@@ -147,9 +137,6 @@ class ReviewRequestCest
 	 */
 	public function testReviewRequestOnSavePageWithLandingPageSpecified(AcceptanceTester $I)
 	{
-		// Clear options table settings for review request.
-		$I->deleteConvertKitReviewRequestOptions($I);
-
 		// Setup ConvertKit Plugin.
 		$I->setupConvertKitPlugin($I);
 
@@ -207,9 +194,6 @@ class ReviewRequestCest
 	 */
 	public function testReviewRequestNotificationDisplayed(AcceptanceTester $I)
 	{
-		// Clear options table settings for review request.
-		$I->deleteConvertKitReviewRequestOptions($I);
-
 		// Set review request option with a timestamp in the past, to emulate
 		// the Plugin having set this a few days ago.
 		$I->haveOptionInDatabase('convertkit-review-request', time() - 3600 );
@@ -235,9 +219,6 @@ class ReviewRequestCest
 	 */
 	public function testReviewRequestNotificationDismissed(AcceptanceTester $I)
 	{
-		// Clear options table settings for review request.
-		$I->deleteConvertKitReviewRequestOptions($I);
-
 		// Set review request option with a timestamp in the past, to emulate
 		// the Plugin having set this a few days ago.
 		$I->haveOptionInDatabase('convertkit-review-request', time() - 3600 );
@@ -256,5 +237,20 @@ class ReviewRequestCest
 
 		// Confirm the review notification no longer displays.
 		$I->dontSeeElementInDOM('div.review-convertkit');
+	}
+
+	/**
+	 * Deactivate and reset Plugin(s) after each test, if the test passes.
+	 * We don't use _after, as this would provide a screenshot of the Plugin
+	 * deactivation and not the true test error.
+	 * 
+	 * @since 	1.9.6.7
+	 * 
+	 * @param 	AcceptanceTester 	$I 	Tester
+	 */
+	public function _passed(AcceptanceTester $I)
+	{
+		$I->deactivateConvertKitPlugin($I);
+		$I->resetConvertKitPlugin($I);
 	}
 }
