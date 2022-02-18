@@ -99,6 +99,16 @@ class ConvertKit_AJAX {
 		}
 		$email = sanitize_text_field( $_REQUEST['email'] );
 
+		// Bail if the email address is empty.
+		if ( empty( $email ) ) {
+			wp_send_json_error( __( 'ConvertKit: Required parameter `email` is empty.', 'convertkit' ) );
+		}
+
+		// Bail if the email address isn't a valid email address.
+		if ( ! filter_var( $email, FILTER_VALIDATE_EMAIL ) ) {
+			wp_send_json_error( __( 'ConvertKit: Required parameter `email` is not an email address.', 'convertkit' ) );
+		}
+
 		// Bail if the API hasn't been configured.
 		$settings = new ConvertKit_Settings();
 		if ( ! $settings->has_api_key_and_secret() ) {
