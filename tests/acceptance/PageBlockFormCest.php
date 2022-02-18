@@ -18,6 +18,7 @@ class PageBlockFormCest
 		$I->activateConvertKitPlugin($I);
 		$I->setupConvertKitPlugin($I);
 		$I->enableDebugLog($I);
+		$I->wait(2);
 
 		// Navigate to Pages > Add New
 		$I->amOnAdminPage('post-new.php?post_type=page');

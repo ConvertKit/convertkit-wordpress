@@ -19,6 +19,7 @@ class WooCommerceProductFormCest
 		$I->activateThirdPartyPlugin($I, 'woocommerce');
 		$I->setupConvertKitPlugin($I);
 		$I->enableDebugLog($I);
+		$I->wait(2);
 	}
 
 	/**
