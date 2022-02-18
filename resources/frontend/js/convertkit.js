@@ -123,13 +123,13 @@ function convertStoreSubscriberIDInCookie( subscriber_id ) {
  *
  * @since   1.9.6
  *
- * @param   string  email_address   Email Address
+ * @param   string  emailAddress   Email Address
  */
-function convertStoreSubscriberEmailAsIDInCookie( email_address ) {
+function convertStoreSubscriberEmailAsIDInCookie( emailAddress ) {
 
 	if ( convertkit.debug ) {
 		console.log( 'convertStoreSubscriberEmailAsIDInCookie' );
-		console.log( email_address );
+		console.log( emailAddress );
 	}
 
 	( function( $ ) {
@@ -140,7 +140,7 @@ function convertStoreSubscriberEmailAsIDInCookie( email_address ) {
 				data: {
 					action: 'convertkit_store_subscriber_email_as_id_in_cookie',
 					convertkit_nonce: convertkit.nonce,
-					email:  email_address
+					email:  emailAddress
 				},
 				url: convertkit.ajaxurl,
 				success: function ( response ) {
@@ -220,9 +220,30 @@ jQuery( document ).ready(
 			'click',
 			'.formkit-submit',
 			function() {
-				var email_address = $( 'input[name="email_address"]' ).val();
+				var emailAddress = $( 'input[name="email_address"]' ).val();
+
+				// If the email address is empty, don't attempt to get the subscriber ID by email.
+				if ( ! emailAddress.length ) {
+					if ( convertkit.debug ) {
+						console.log( 'email empty' );
+					}
+
+					return;
+				}
+
+				// If the email address is invalid, don't attempt to get the subscriber ID by email.
+				var validator = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+				if ( ! validator.test( emailAddress.toLowerCase() ) ) {
+					if ( convertkit.debug ) {
+						console.log( 'email not an email address' );
+					}
+
+					return;
+				}
+
+				// Wait a moment before sending the AJAX request.
 				convertKitSleep( 2000 );
-				convertStoreSubscriberEmailAsIDInCookie( email_address );
+				convertStoreSubscriberEmailAsIDInCookie( emailAddress );
 			}
 		);
 

@@ -19,6 +19,7 @@ class PostFormCest
 		$I->activateConvertKitPlugin($I);
 		$I->setupConvertKitPlugin($I);
 		$I->enableDebugLog($I);
+		$I->wait(2);
 
 		// Navigate to Post > Add New
 		$I->amOnAdminPage('post-new.php');
