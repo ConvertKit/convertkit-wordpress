@@ -9,7 +9,7 @@
  * Plugin Name: ConvertKit
  * Plugin URI: https://convertkit.com/
  * Description: Quickly and easily integrate ConvertKit forms into your site.
- * Version: 1.9.6.7
+ * Version: 1.9.6.8
  * Author: ConvertKit
  * Author URI: https://convertkit.com/
  * Text Domain: convertkit
@@ -24,7 +24,7 @@ if ( class_exists( 'WP_ConvertKit' ) ) {
 define( 'CONVERTKIT_PLUGIN_FILE', plugin_basename( __FILE__ ) );
 define( 'CONVERTKIT_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'CONVERTKIT_PLUGIN_PATH', __DIR__ );
-define( 'CONVERTKIT_PLUGIN_VERSION', '1.9.6.7' );
+define( 'CONVERTKIT_PLUGIN_VERSION', '1.9.6.8' );
 
 // Load files that are always required.
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/functions.php';

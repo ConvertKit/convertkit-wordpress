@@ -58,6 +58,9 @@ Navigate to the Plugin's Settings at Settings > ConvertKit.
 
 == Changelog ==
 
+### 1.9.6.8 2022-02-18
+* Fix: Performance: Don't query API to fetch subscriber ID by email when ConvertKit Form is submitted with no email address
+
 ### 1.9.6.7 2022-02-14
 * Fix: Localization: Corrected path to load language files
 
