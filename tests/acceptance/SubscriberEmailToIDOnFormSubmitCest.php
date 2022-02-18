@@ -20,6 +20,10 @@ class SubscriberEmailToIDOnFormSubmitCest
 		$I->setupConvertKitPlugin($I);
 		$I->setupConvertKitPluginDefaultForm($I);
 		$I->enableDebugLog($I);
+
+		// Clear Log, so that entries from previous tests aren't included in this test.
+		$I->loadConvertKitSettingsToolsScreen($I);
+		$I->click('Clear Log');
 	}
 
 	/**
@@ -52,7 +56,7 @@ class SubscriberEmailToIDOnFormSubmitCest
 
 		// Check log does not contain get_subscriber_by_email() call with no email value.
 		$I->loadConvertKitSettingsToolsScreen($I);
-		$I->dontSeeInField('#debug-log-textarea', 'API: get_subscriber_by_email(): [ email: ]');
+		$I->dontSeeInSource('API: get_subscriber_by_email(): [ email: ]');
 	}
 
 	/**
@@ -89,7 +93,7 @@ class SubscriberEmailToIDOnFormSubmitCest
 
 		// Check log does not contain get_subscriber_by_email() call with no email value.
 		$I->loadConvertKitSettingsToolsScreen($I);
-		$I->dontSeeInField('#debug-log-textarea', 'API: get_subscriber_by_email(): [ email: '.$emailAddress.']');
+		$I->dontSeeInSource('API: get_subscriber_by_email(): [ email: '.$emailAddress.']');
 	}
 
 	/**
@@ -126,7 +130,7 @@ class SubscriberEmailToIDOnFormSubmitCest
 
 		// Check log does not contain get_subscriber_by_email() call with no email value.
 		$I->loadConvertKitSettingsToolsScreen($I);
-		$I->seeInField('#debug-log-textarea', 'API: get_subscriber_by_email(): [ email: '.$emailAddress.']');
+		$I->seeInSource('API: get_subscriber_by_email(): [ email: '.$emailAddress.']');
 	}
 
 	/**
