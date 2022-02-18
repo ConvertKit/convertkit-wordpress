@@ -62,7 +62,22 @@ class PluginSettingsToolsCest
 		$I->loadConvertKitSettingsToolsScreen($I);
 
 		// Check that the System Info textarea contains some expected output.
-		$I->seeFieldContains($I, '#system-info-textarea', '### Begin System Info ###');
-		$I->seeFieldContains($I, '#system-info-textarea', '### End System Info ###');
+		$I->assertNotFalse(strpos($I->grabValueFrom('#system-info-textarea'), '### Begin System Info ###'));
+		$I->assertNotFalse(strpos($I->grabValueFrom('#system-info-textarea'), '### End System Info ###'));
+	}
+
+	/**
+	 * Deactivate and reset Plugin(s) after each test, if the test passes.
+	 * We don't use _after, as this would provide a screenshot of the Plugin
+	 * deactivation and not the true test error.
+	 * 
+	 * @since 	1.9.6.7
+	 * 
+	 * @param 	AcceptanceTester 	$I 	Tester
+	 */
+	public function _passed(AcceptanceTester $I)
+	{
+		$I->deactivateConvertKitPlugin($I);
+		$I->resetConvertKitPlugin($I);
 	}
 }

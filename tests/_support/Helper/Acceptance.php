@@ -21,16 +21,6 @@ class Acceptance extends \Codeception\Module
 	}
 
 	/**
-	 * Helper method to assert that the field's value contains the given value.
-	 * 
-	 * @since 	1.9.6
-	 */
-	public function seeFieldContains($I, $element, $value)
-	{
-		$this->assertNotFalse(strpos($I->grabValueFrom($element), $value));
-	}
-
-	/**
 	 * Helper method to enter text into a jQuery Select2 Field, selecting the option that appears.
 	 * 
 	 * @since 	1.9.6.4
@@ -69,11 +59,36 @@ class Acceptance extends \Codeception\Module
 	}
 
 	/**
-	 * Helper method to activate the Plugin.
+	 * Helper method to activate the ConvertKit Plugin, checking
+	 * it activated and no errors were output.
 	 * 
 	 * @since 	1.9.6
 	 */
 	public function activateConvertKitPlugin($I)
+	{
+		$I->activateThirdPartyPlugin($I, 'convertkit');
+	}
+
+	/**
+	 * Helper method to deactivate the ConvertKit Plugin, checking
+	 * it activated and no errors were output.
+	 * 
+	 * @since 	1.9.6
+	 */
+	public function deactivateConvertKitPlugin($I)
+	{
+		$I->deactivateThirdPartyPlugin($I, 'convertkit');
+	}
+
+	/**
+	 * Helper method to activate a third party Plugin, checking
+	 * it activated and no errors were output.
+	 * 
+	 * @since 	1.9.6.7
+	 * 
+	 * @param 	string 	$name 	Plugin Slug.
+	 */
+	public function activateThirdPartyPlugin($I, $name)
 	{
 		// Login as the Administrator
 		$I->loginAsAdmin();
@@ -82,21 +97,24 @@ class Acceptance extends \Codeception\Module
 		$I->amOnPluginsPage();
 
 		// Activate the Plugin.
-		$I->activatePlugin('convertkit');
+		$I->activatePlugin($name);
 
 		// Check that the Plugin activated successfully.
-		$I->seePluginActivated('convertkit');
+		$I->seePluginActivated($name);
 
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
 	}
 
 	/**
-	 * Helper method to deactivate the Plugin.
+	 * Helper method to activate a third party Plugin, checking
+	 * it activated and no errors were output.
 	 * 
-	 * @since 	1.9.6
+	 * @since 	1.9.6.7
+	 * 
+	 * @param 	string 	$name 	Plugin Slug.
 	 */
-	public function deactivateConvertKitPlugin($I)
+	public function deactivateThirdPartyPlugin($I, $name)
 	{
 		// Login as the Administrator
 		$I->loginAsAdmin();
@@ -105,25 +123,13 @@ class Acceptance extends \Codeception\Module
 		$I->amOnPluginsPage();
 
 		// Deactivate the Plugin.
-		$I->deactivatePlugin('convertkit');
+		$I->deactivatePlugin($name);
 
 		// Check that the Plugin deactivated successfully.
-		$I->seePluginDeactivated('convertkit');
+		$I->seePluginDeactivated($name);
 
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
-	}
-
-	/**
-	 * Helper method to delete option table rows for review requests.
-	 * Useful for resetting the review state between tests.
-	 * 
-	 * @since 	1.9.6.7
-	 */
-	public function deleteConvertKitReviewRequestOptions($I)
-	{
-		$I->dontHaveOptionInDatabase('convertkit-review-request');
-		$I->dontHaveOptionInDatabase('convertkit-review-dismissed');
 	}
 
 	/**
@@ -253,6 +259,30 @@ class Acceptance extends \Codeception\Module
 	}
 
 	/**
+	 * Helper method to reset the ConvertKit Plugin settings, as if it's a clean installation.
+	 * 
+	 * @since 	1.9.6.7
+	 */
+	public function resetConvertKitPlugin($I)
+	{
+		// Plugin Settings.
+		$I->dontHaveOptionInDatabase('_wp_convertkit_settings');
+		$I->dontHaveOptionInDatabase('convertkit_version');
+
+		// Resources.
+		$I->dontHaveOptionInDatabase('convertkit_forms');
+		$I->dontHaveOptionInDatabase('convertkit_landing_pages');
+		$I->dontHaveOptionInDatabase('convertkit_tags');
+
+		// Review Request.
+		$I->dontHaveOptionInDatabase('convertkit-review-request');
+		$I->dontHaveOptionInDatabase('convertkit-review-dismissed');
+
+		// Upgrades.
+		$I->dontHaveOptionInDatabase('_wp_convertkit_upgrade_posts');	
+	}
+
+	/**
 	 * Helper method to load the Plugin's Settings > General screen.
 	 * 
 	 * @since 	1.9.6
@@ -318,29 +348,6 @@ class Acceptance extends \Codeception\Module
 	}
 
 	/**
-	 * Helper method to activate the WishList Member Plugin.
-	 * 
-	 * @since 	1.9.6
-	 */
-	public function activateWishListMemberPlugin($I)
-	{
-		// Login as the Administrator
-		$I->loginAsAdmin();
-
-		// Go to the Plugins screen in the WordPress Administration interface.
-		$I->amOnPluginsPage();
-
-		// Activate the Plugin.
-		$I->activatePlugin('wishlist-member');
-
-		// Check that the Plugin activated successfully.
-		$I->seePluginActivated('wishlist-member');
-
-		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen($I);
-	}
-
-	/**
 	 * Helper method to setup the WishList Member Plugin.
 	 * 
 	 * @since 	1.9.6
@@ -358,7 +365,6 @@ class Acceptance extends \Codeception\Module
 		
 		// Step 1
 		$I->fillField('input[name="name"]', 'Bronze');
-
 		$I->click('.step-1 a[next-screen="step-2"]');
 
 		// Step 2
@@ -377,6 +383,20 @@ class Acceptance extends \Codeception\Module
 			$I->click('a.next-btn');
 			$I->seeInSource('Bronze');
 		});
+	}
+
+	/**
+	 * Generates a unique email address for use in a test, comprising of a prefix,
+	 * date + time and PHP version number.
+	 * 
+	 * This ensures that if tests are run in parallel, the same email address
+	 * isn't used for two tests across parallel testing runs.
+	 * 
+	 * @since 	1.9.6.7
+	 */
+	public function generateEmailAddress()
+	{
+		return 'wordpress-' . date( 'Y-m-d-H-i-s' ) . '-php-' . PHP_VERSION_ID . '@convertkit.com';
 	}
 
 	/**
