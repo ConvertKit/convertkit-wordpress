@@ -203,7 +203,6 @@ function convertKitSleep( milliseconds ) {
  * Register events
  */
 jQuery( document ).ready(
-
 	function( $ ) {
 
 		if ( convertkit.subscriber_id > 0 && convertkit.tag && convertkit.post_id ) {
@@ -226,21 +225,21 @@ jQuery( document ).ready(
 				// If the email address is empty, don't attempt to get the subscriber ID by email.
 				if ( ! emailAddress.length ) {
 					if ( convertkit.debug ) {
-						console.log( 'email empty');
+						console.log( 'email empty' );
 					}
 
 					return;
 				}
 
 				// If the email address is invalid, don't attempt to get the subscriber ID by email.
-	    		var validator = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-	    		if ( ! validator.test( emailAddress ) ) {
-	    			if ( convertkit.debug ) {
-						console.log( 'email not an email address');
+				var validator = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+				if ( ! validator.test( emailAddress ) ) {
+					if ( convertkit.debug ) {
+						console.log( 'email not an email address' );
 					}
 
 					return;
-	    		}
+				}
 
 				// Wait a moment before sending the AJAX request.
 				convertKitSleep( 2000 );
@@ -249,5 +248,4 @@ jQuery( document ).ready(
 		);
 
 	}
-
 );
