@@ -34,6 +34,7 @@ class APITest extends \Codeception\TestCase\WPTestCase
 	{
 		parent::setUp();
 		$this->api = new ConvertKit_API( $_ENV['CONVERTKIT_API_KEY'], $_ENV['CONVERTKIT_API_SECRET'] );
+		sleep(2);
 	}
 
 	/**
