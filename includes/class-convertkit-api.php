@@ -130,7 +130,7 @@ class ConvertKit_API {
 		// Get all forms and landing pages from the API.
 		$forms = $this->get_forms_landing_pages();
 
-		// Bail if an error occured.
+		// If an error occured, log and return it now.
 		if ( is_wp_error( $forms ) ) {
 			$this->log( 'API: get_forms(): Error: ' . $forms->get_error_message() );
 			return $forms;
@@ -161,6 +161,15 @@ class ConvertKit_API {
 
 		$this->log( 'API: form_subscribe(): [ form_id: ' . $form_id . ', email: ' . $email . ', first_name: ' . $first_name . ' ]' );
 
+		// Return error if no Form ID or email address is specified.
+		if ( empty( $form_id ) ) {
+			return new WP_Error( 'convertkit_api_error', __( 'form_subscribe(): the form_id parameter is empty.', 'convertkit' ) );
+		}
+		if ( empty( $email ) ) {
+			return new WP_Error( 'convertkit_api_error', __( 'form_subscribe(): the email parameter is empty.', 'convertkit' ) );
+		}
+
+		// Send request.
 		$response = $this->post(
 			'forms/' . $form_id . '/subscribe',
 			array(
@@ -170,8 +179,10 @@ class ConvertKit_API {
 			)
 		);
 
+		// If an error occured, log and return it now.
 		if ( is_wp_error( $response ) ) {
 			$this->log( 'API: form_subscribe(): Error: ' . $response->get_error_message() );
+			return $response;
 		}
 
 		/**
@@ -204,7 +215,7 @@ class ConvertKit_API {
 		// Get all forms and landing pages from the API.
 		$forms = $this->get_forms_landing_pages();
 
-		// Bail if an error occured.
+		// If an error occured, log and return it now.
 		if ( is_wp_error( $forms ) ) {
 			$this->log( 'API: get_landing_pages(): Error: ' . $forms->get_error_message() );
 			return $forms;
@@ -235,7 +246,7 @@ class ConvertKit_API {
 			)
 		);
 
-		// If an error occured, return WP_Error.
+		// If an error occured, log and return it now.
 		if ( is_wp_error( $response ) ) {
 			$this->log( 'API: get_sequences(): Error: ' . $response->get_error_message() );
 			return $response;
@@ -272,6 +283,15 @@ class ConvertKit_API {
 
 		$this->log( 'API: sequence_subscribe(): [ sequence_id: ' . $sequence_id . ', email: ' . $email . ']' );
 
+		// Return error if no Sequence ID or email address is specified.
+		if ( empty( $sequence_id ) ) {
+			return new WP_Error( 'convertkit_api_error', __( 'sequence_subscribe(): the sequence_id parameter is empty.', 'convertkit' ) );
+		}
+		if ( empty( $email ) ) {
+			return new WP_Error( 'convertkit_api_error', __( 'sequence_subscribe(): the email parameter is empty.', 'convertkit' ) );
+		}
+
+		// Send request.
 		$response = $this->post(
 			'sequences/' . $sequence_id . '/subscribe',
 			array(
@@ -280,8 +300,10 @@ class ConvertKit_API {
 			)
 		);
 
+		// If an error occured, log and return it now.
 		if ( is_wp_error( $response ) ) {
 			$this->log( 'API: sequence_subscribe(): Error: ' . $response->get_error_message() );
+			return $response;
 		}
 
 		/**
@@ -320,7 +342,7 @@ class ConvertKit_API {
 			)
 		);
 
-		// If an error occured, return WP_Error.
+		// If an error occured, log and return it now.
 		if ( is_wp_error( $response ) ) {
 			$this->log( 'API: get_tags(): Error: ' . $response->get_error_message() );
 			return $response;
@@ -357,6 +379,15 @@ class ConvertKit_API {
 
 		$this->log( 'API: tag_subscribe(): [ tag_id: ' . $tag_id . ', email: ' . $email . ']' );
 
+		// Return error if no Tag ID or email address is specified.
+		if ( empty( $tag_id ) ) {
+			return new WP_Error( 'convertkit_api_error', __( 'tag_subscribe(): the tag_id parameter is empty.', 'convertkit' ) );
+		}
+		if ( empty( $email ) ) {
+			return new WP_Error( 'convertkit_api_error', __( 'tag_subscribe(): the email parameter is empty.', 'convertkit' ) );
+		}
+
+		// Send request.
 		$response = $this->post(
 			'tags/' . $tag_id . '/subscribe',
 			array(
@@ -365,8 +396,10 @@ class ConvertKit_API {
 			)
 		);
 
+		// If an error occured, log and return it now.
 		if ( is_wp_error( $response ) ) {
 			$this->log( 'API: tag_subscribe(): Error: ' . $response->get_error_message() );
+			return $response;
 		}
 
 		/**
@@ -396,6 +429,11 @@ class ConvertKit_API {
 
 		$this->log( 'API: get_subscriber_by_email(): [ email: ' . $email . ']' );
 
+		// Return error if email address is specified.
+		if ( empty( $email ) ) {
+			return new WP_Error( 'convertkit_api_error', __( 'get_subscriber_by_email(): the email parameter is empty.', 'convertkit' ) );
+		}
+
 		// Send request.
 		$response = $this->get(
 			'subscribers',
@@ -405,9 +443,9 @@ class ConvertKit_API {
 			)
 		);
 
-		// If an error occured, return WP_Error.
+		// If an error occured, log and return it now.
 		if ( is_wp_error( $response ) ) {
-			$this->log( 'API: tag_subscriber(): Error: ' . $response->get_error_message() );
+			$this->log( 'API: get_subscriber_by_email(): Error: ' . $response->get_error_message() );
 			return $response;
 		}
 
@@ -443,6 +481,11 @@ class ConvertKit_API {
 
 		$this->log( 'API: get_subscriber_by_id(): [ subscriber_id: ' . $subscriber_id . ']' );
 
+		// Return error if no Subscriber ID is specified.
+		if ( empty( $subscriber_id ) ) {
+			return new WP_Error( 'convertkit_api_error', __( 'get_subscriber_by_id(): the subscriber_id parameter is empty.', 'convertkit' ) );
+		}
+
 		// Send request.
 		$response = $this->get(
 			'subscribers/' . $subscriber_id,
@@ -451,7 +494,7 @@ class ConvertKit_API {
 			)
 		);
 
-		// If an error occured, eturn WP_Error.
+		// If an error occured, log and return it now.
 		if ( is_wp_error( $response ) ) {
 			$this->log( 'API: get_subscriber_by_id(): Error: ' . $response->get_error_message() );
 			return $response;
@@ -489,6 +532,11 @@ class ConvertKit_API {
 
 		$this->log( 'API: get_subscriber_tags(): [ subscriber_id: ' . $subscriber_id . ']' );
 
+		// Return error if no Subscriber ID is specified.
+		if ( empty( $subscriber_id ) ) {
+			return new WP_Error( 'convertkit_api_error', __( 'get_subscriber_tags(): the subscriber_id parameter is empty.', 'convertkit' ) );
+		}
+
 		// Send request.
 		$response = $this->get(
 			'subscribers/' . $subscriber_id . '/tags',
@@ -497,7 +545,7 @@ class ConvertKit_API {
 			)
 		);
 
-		// If an error occured, return WP_Error.
+		// If an error occured, log and return it now.
 		if ( is_wp_error( $response ) ) {
 			$this->log( 'API: get_subscriber_tags(): Error: ' . $response->get_error_message() );
 			return $response;
@@ -536,7 +584,7 @@ class ConvertKit_API {
 		// Get subscriber.
 		$subscriber = $this->get_subscriber_by_email( $email_address );
 
-		// Bail if an error occured.
+		// If an error occured, log and return it now.
 		if ( is_wp_error( $subscriber ) ) {
 			return $subscriber;
 		}
@@ -558,6 +606,12 @@ class ConvertKit_API {
 
 		$this->log( 'API: unsubscribe(): [ email: ' . $email . ']' );
 
+		// Return error if no email address is specified.
+		if ( empty( $email ) ) {
+			return new WP_Error( 'convertkit_api_error', __( 'unsubscribe(): the email parameter is empty.', 'convertkit' ) );
+		}
+
+		// Send request.
 		$response = $this->post(
 			'unsubscribe',
 			array(
@@ -566,8 +620,10 @@ class ConvertKit_API {
 			)
 		);
 
+		// If an error occured, log and return it now.
 		if ( is_wp_error( $response ) ) {
 			$this->log( 'API: unsubscribe(): Error: ' . $response->get_error_message() );
+			return $response;
 		}
 
 		/**
@@ -754,7 +810,7 @@ class ConvertKit_API {
 			)
 		);
 
-		// If an error occured, return it now.
+		// If an error occured, log and return it now.
 		if ( is_wp_error( $result ) ) {
 			return $result;
 		}
@@ -900,7 +956,7 @@ class ConvertKit_API {
 			)
 		);
 
-		// If an error occured, return WP_Error.
+		// If an error occured, log and return it now.
 		if ( is_wp_error( $response ) ) {
 			return $response;
 		}
@@ -1012,7 +1068,7 @@ class ConvertKit_API {
 				break;
 		}
 
-		// If an error occured, return it now.
+		// If an error occured, log and return it now.
 		if ( is_wp_error( $result ) ) {
 			$this->log( 'API: Error: ' . $result->get_error_message() );
 			return $result;
