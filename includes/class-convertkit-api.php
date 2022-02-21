@@ -590,7 +590,7 @@ class ConvertKit_API {
 		}
 
 		// Return ID.
-		return $subscriber->id;
+		return $subscriber['id'];
 
 	}
 
