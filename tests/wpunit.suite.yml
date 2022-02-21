@@ -18,5 +18,5 @@ modules:
             domain: "%TEST_SITE_WP_DOMAIN%"
             adminEmail: "%TEST_SITE_ADMIN_EMAIL%"
             title: "Test"
-            plugins: ['convertkit/wp-convertkit.php']
-            activatePlugins: ['convertkit/wp-convertkit.php']
+            plugins: ['convertkit/wp-convertkit.php'] # Change to the repository Plugin that we're testing.
+            activatePlugins: ['convertkit/wp-convertkit.php'] # Change to the repository Plugin that we're testing.
