@@ -45,17 +45,17 @@ function convertKitGutenbergFormBlockRenderPreview( block, props ) {
 		// can apply styling/branding to the block.
 		switch ( format ) {
 			case 'modal':
-				html = 'Modal Form "%s" selected. View this %s on the frontend site to see the Modal Form.';
+				html = block.i18n.gutenberg_form_modal.replace( '%s', form.name );
 				className.push( 'convertkit-' + block.name + '-no-content' );
 				break;
 
 			case 'slide in':
-				html = 'Slide In Form "%s" selected. View this %s on the frontend site to see the Slide In Form.';
+				html = block.i18n.gutenberg_form_slide_in.replace( '%s', form.name );
 				className.push( 'convertkit-' + block.name + '-no-content' );
 				break;
 
 			case 'sticky bar':
-				html = 'Sticky Bar Form "%s" selected. View this %s on the frontend site to see the Sticky Bar Form.';
+				html = block.i18n.gutenberg_form_sticky_bar.replace( '%s', form.name );
 				className.push( 'convertkit-' + block.name + '-no-content' );
 				break;
 		}

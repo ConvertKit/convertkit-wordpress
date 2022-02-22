@@ -115,6 +115,13 @@ class ConvertKit_Block_Form extends ConvertKit_Block {
 			// Gutenberg: JS function to call when rendering the block preview in the Gutenberg editor.
 			// If not defined, render_callback above will be used.
 			'gutenberg_preview_render_callback' => 'convertKitGutenbergFormBlockRenderPreview',
+
+			// General: Any other strings for use in JS that need to support translation / i18n.
+			'i18n' 								=> array(
+				'gutenberg_form_modal' 				=> __( 'Modal form "%s" selected. View on the frontend site to see the modal form.', 'convertkit' ),
+				'gutenberg_form_slide_in' 			=> __( 'Slide in form "%s" selected. View on the frontend site to see the slide in form.', 'convertkit' ),
+				'gutenberg_form_sticky_bar' 		=> __( 'Sticky bar form "%s" selected. View on the frontend site to see the sticky bar form.', 'convertkit' ),
+			)
 		);
 
 	}
