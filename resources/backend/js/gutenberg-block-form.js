@@ -35,8 +35,8 @@ function convertKitGutenbergFormBlockRenderPreview( block, props ) {
 	if ( typeof form.uid !== 'undefined' ) {
 		// Determine the Form's format (inline, sticky bar etc).
 		// This isn't available in API responses prior to Feb 2022, so check the Form object contains this property.
-		var format = ( ( typeof form.format !== 'undefined' ) ? form.format : 'inline' ),
-			html = '<script async data-uid="' + form.uid + '" src="' + form.embed_js + '"></script>',
+		var format    = ( ( typeof form.format !== 'undefined' ) ? form.format : 'inline' ),
+			html      = '<script async data-uid="' + form.uid + '" src="' + form.embed_js + '"></script>',
 			className = [ 'convertkit-' + block.name ];
 
 		// If the format isn't inline, define the Gutenberg Block preview's HTML to explain why the Form won't be

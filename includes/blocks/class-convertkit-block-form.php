@@ -117,11 +117,16 @@ class ConvertKit_Block_Form extends ConvertKit_Block {
 			'gutenberg_preview_render_callback' => 'convertKitGutenbergFormBlockRenderPreview',
 
 			// General: Any other strings for use in JS that need to support translation / i18n.
-			'i18n' 								=> array(
-				'gutenberg_form_modal' 				=> __( 'Modal form "%s" selected. View on the frontend site to see the modal form.', 'convertkit' ),
-				'gutenberg_form_slide_in' 			=> __( 'Slide in form "%s" selected. View on the frontend site to see the slide in form.', 'convertkit' ),
-				'gutenberg_form_sticky_bar' 		=> __( 'Sticky bar form "%s" selected. View on the frontend site to see the sticky bar form.', 'convertkit' ),
-			)
+			'i18n'                              => array(
+				/* translators: Form name in ConvertKit */
+				'gutenberg_form_modal'      => __( 'Modal form "%s" selected. View on the frontend site to see the modal form.', 'convertkit' ),
+
+				/* translators: Form name in ConvertKit */
+				'gutenberg_form_slide_in'   => __( 'Slide in form "%s" selected. View on the frontend site to see the slide in form.', 'convertkit' ),
+
+				/* translators: Form name in ConvertKit */
+				'gutenberg_form_sticky_bar' => __( 'Sticky bar form "%s" selected. View on the frontend site to see the sticky bar form.', 'convertkit' ),
+			),
 		);
 
 	}
