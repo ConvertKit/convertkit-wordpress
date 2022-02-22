@@ -30,6 +30,9 @@ class ConvertKit_Block_Form extends ConvertKit_Block {
 		// Register additional scripts for this Gutenberg Block.
 		add_action( 'convertkit_gutenberg_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 
+		// Register additional stylesheets for this Gutenberg Block.
+		add_action( 'convertkit_gutenberg_enqueue_styles', array( $this, 'enqueue_styles' ) );
+
 	}
 
 	/**
@@ -40,6 +43,17 @@ class ConvertKit_Block_Form extends ConvertKit_Block {
 	public function enqueue_scripts() {
 
 		wp_enqueue_script( 'convertkit-gutenberg-block-form', CONVERTKIT_PLUGIN_URL . '/resources/backend/js/gutenberg-block-form.js', array( 'convertkit-gutenberg' ), CONVERTKIT_PLUGIN_VERSION, true );
+
+	}
+
+	/**
+	 * Enqueues additional scripts for this Gutenberg Block.
+	 *
+	 * @since   1.9.6.9
+	 */
+	public function enqueue_styles() {
+
+		wp_enqueue_style( 'convertkit-gutenberg-block-form', CONVERTKIT_PLUGIN_URL . '/resources/backend/css/gutenberg-block-form.css', array( 'wp-edit-blocks' ), CONVERTKIT_PLUGIN_VERSION );
 
 	}
 
