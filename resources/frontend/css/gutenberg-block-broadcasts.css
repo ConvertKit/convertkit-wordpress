@@ -3,6 +3,9 @@ ul.convertkit-broadcasts {
 	margin: 0;
 	padding: 0;
 }
+ul.convertkit-broadcasts.has-background {
+	padding: 20px;
+}
 ul.convertkit-broadcasts li {
 	display: grid;
 	grid-template-areas: "date subject";

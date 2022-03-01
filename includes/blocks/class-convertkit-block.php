@@ -30,7 +30,7 @@ class ConvertKit_Block {
 				'name'           => $this->get_name(),
 				'fields'         => $this->get_fields(),
 				'attributes'     => $this->get_attributes(),
-				'supports'		 => $this->get_supports(),
+				'supports'       => $this->get_supports(),
 				'panels'         => $this->get_panels(),
 				'default_values' => $this->get_default_values(),
 			)
@@ -41,12 +41,12 @@ class ConvertKit_Block {
 	}
 
 	/**
-	 * Gutenberg: Returns supported built in attributes, such as 
+	 * Gutenberg: Returns supported built in attributes, such as
 	 * className, color etc.
-	 * 
-	 * @since 	1.9.6.9
-	 * 
-	 * @return 	array 	Supports
+	 *
+	 * @since   1.9.6.9
+	 *
+	 * @return  array   Supports
 	 */
 	public function get_supports() {
 
@@ -59,11 +59,11 @@ class ConvertKit_Block {
 	/**
 	 * Sanitize the given array of attributes, adding attributes that
 	 * are missing but registered by the block.
-	 * 
-	 * @since 	1.9.6.9
-	 * 
-	 * @param 	array 	$atts 	Declared attributes.
-	 * @return 	array 			All attributes, sanitized
+	 *
+	 * @since   1.9.6.9
+	 *
+	 * @param   array $atts   Declared attributes.
+	 * @return  array           All attributes, sanitized
 	 */
 	public function sanitize_and_declare_atts( $atts ) {
 
@@ -82,7 +82,7 @@ class ConvertKit_Block {
 
 		// Build CSS class(es) that might need to be added to the top level element for this block.
 		$atts['_css_classes'] = array( 'convertkit-' . $this->get_name() );
-		$atts['_css_styles'] = array();
+		$atts['_css_styles']  = array();
 
 		// If the block supports a text color, and a preset color was selected, add it to the
 		// array of CSS classes.
@@ -94,7 +94,7 @@ class ConvertKit_Block {
 		// If the block supports a text color, and a custom hex color was selected, add it to the
 		// array of CSS inline styles.
 		if ( isset( $atts['style']['color'] ) && isset( $atts['style']['color']['text'] ) ) {
-			$atts['_css_classes'][] = 'has-text-color';
+			$atts['_css_classes'][]       = 'has-text-color';
 			$atts['_css_styles']['color'] = 'color:' . $atts['style']['color']['text'];
 		}
 
@@ -108,7 +108,7 @@ class ConvertKit_Block {
 		// If the block supports a background color, and a custom hex color was selected, add it to the
 		// array of CSS inline styles.
 		if ( isset( $atts['style']['color'] ) && isset( $atts['style']['color']['background'] ) ) {
-			$atts['_css_classes'][] = 'has-background';
+			$atts['_css_classes'][]            = 'has-background';
 			$atts['_css_styles']['background'] = 'background-color:' . $atts['style']['color']['background'];
 		}
 
