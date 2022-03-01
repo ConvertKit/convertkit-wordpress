@@ -57,6 +57,76 @@ class ConvertKit_Block {
 	}
 
 	/**
+	 * Sanitize the given array of attributes, adding attributes that
+	 * are missing but registered by the block.
+	 * 
+	 * @since 	1.9.6.9
+	 * 
+	 * @param 	array 	$atts 	Declared attributes.
+	 * @return 	array 			All attributes, sanitized
+	 */
+	public function sanitize_and_declare_atts( $atts ) {
+
+		// Sanitize attributes, merging with default values so that the array
+		// of attributes contains all expected keys for this block.
+		$atts = shortcode_atts(
+			$this->get_default_values(),
+			$this->sanitize_atts( $atts ),
+			$this->get_name()
+		);
+
+		// Cast some attributes based on their key.
+		if ( array_key_exists( 'limit', $atts ) ) {
+			$atts['limit'] = absint( $atts['limit'] );
+		}
+
+		// Build CSS class(es) that might need to be added to the top level element for this block.
+		$atts['_css_classes'] = array( 'convertkit-' . $this->get_name() );
+		$atts['_css_styles'] = array();
+
+		// If the block supports a text color, and a preset color was selected, add it to the
+		// array of CSS classes.
+		if ( $atts['textColor'] ) {
+			$atts['_css_classes'][] = 'has-text-color';
+			$atts['_css_classes'][] = 'has-' . $atts['textColor'] . '-color';
+		}
+
+		// If the block supports a text color, and a custom hex color was selected, add it to the
+		// array of CSS inline styles.
+		if ( isset( $atts['style']['color'] ) && isset( $atts['style']['color']['text'] ) ) {
+			$atts['_css_classes'][] = 'has-text-color';
+			$atts['_css_styles']['color'] = 'color:' . $atts['style']['color']['text'];
+		}
+
+		// If the block supports a background color, and a preset color was selected, add it to the
+		// array of CSS classes.
+		if ( $atts['backgroundColor'] ) {
+			$atts['_css_classes'][] = 'has-background';
+			$atts['_css_classes'][] = 'has-' . $atts['backgroundColor'] . '-background-color';
+		}
+
+		// If the block supports a background color, and a custom hex color was selected, add it to the
+		// array of CSS inline styles.
+		if ( isset( $atts['style']['color'] ) && isset( $atts['style']['color']['background'] ) ) {
+			$atts['_css_classes'][] = 'has-background';
+			$atts['_css_styles']['background'] = 'background-color:' . $atts['style']['color']['background'];
+		}
+
+		// If the block supports a link color, and a preset color was selected, add it to the
+		// array of CSS classes.
+		if ( $atts['linkColor'] ) {
+			$atts['_css_classes'][] = 'has-link-color';
+			$atts['_css_classes'][] = 'has-' . $atts['linkColor'] . '-color';
+		}
+
+		// Remove some unused attributes, now they're declared above.
+		unset( $atts['style'] );
+
+		return $atts;
+
+	}
+
+	/**
 	 * Returns the given block's field's Default Value
 	 *
 	 * @since   1.9.6

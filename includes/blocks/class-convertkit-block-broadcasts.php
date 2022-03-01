@@ -97,6 +97,7 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 	public function get_attributes() {
 
 		return array(
+			// Block attributes.
 			'date_format' 	=> array(
 				'type' => 'string',
 			),
@@ -105,6 +106,20 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 			),
 			'limit'        	=> array(
 				'type' => 'number',
+			),
+
+			// get_supports() color attribute.
+			'style' => array(
+				'type' => 'object',
+			),
+			'backgroundColor' => array(
+				'type' => 'string',
+			),
+			'linkColor' => array(
+				'type' => 'string',
+			),
+			'textColor' => array(
+				'type' => 'string',
 			),
 
 			// Always required for Gutenberg.
@@ -128,22 +143,9 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 		return array(
 			'className' => true,
 			'color' => array(
-				'link' => true,
-				'__experimentalDefaultControls' => array(
-					'background' => true,
-					'text' => true,
-				),
-			),
-			'typography' => array(
-				'fontSize' => true,
-				'lineHeight' => true,
-				'__experimentalFontStyle' => true,
-				'__experimentalFontWeight' => true,
-				'__experimentalLetterSpacing' => true,
-				'__experimentalTextTransform' => true,
-				'__experimentalDefaultControls' => array(
-					'fontSize' => true,
-				),
+				'link' 		 => true,
+				'background' => true,
+				'text'		 => true,
 			),
 		);
 
@@ -224,6 +226,12 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 			'date_format' 			=> 'F j, Y',
 			'date_format_custom'	=> '',
 			'limit' 				=> 0,
+
+			// Built-in Gutenberg block attributes.
+			'style' => '',
+			'backgroundColor' => '',
+			'linkColor' => '',
+			'textColor' => '',
 		);
 
 	}
@@ -249,23 +257,15 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 	 */
 	public function render( $atts ) {
 
-		// Parse shortcode attributes, defining fallback defaults if required.
-		$atts = shortcode_atts(
-			$this->get_default_values(),
-			$this->sanitize_atts( $atts ),
-			$this->get_name()
-		);
-
-		// Cast some attributes.
-		$atts['limit'] = absint( $atts['limit'] );
+		// Parse shortcode attributes, defining fallback defaults if required
+		// and moving some attributes (such as Gutenberg's styles), if defined.
+		$atts = $this->sanitize_and_declare_atts( $atts );
 
 		// If the date format is custom, and a custom date format has been provided, use that
 		// for the date format.
 		if ( $atts['date_format'] === 'custom' && ! empty( $atts['date_format_custom'] ) ) {
 			$atts['date_format'] = $atts['date_format_custom'];
 		}
-
-		// var_dump( $atts );
 
 		// Setup Settings class.
 		$settings = new ConvertKit_Settings();
@@ -295,7 +295,7 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 		}
 
 		// Build HTML.
-		$html = $this->build_html( $broadcasts, $atts['date_format'], $atts['limit'] );
+		$html = $this->build_html( $broadcasts, $atts );
 
 		/**
 		 * Filter the block's content immediately before it is output.
@@ -317,14 +317,13 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 	 * @since 	1.9.6.9
 	 * 
 	 * @param 	array 	$broadcasts 	Broadcasts.
-	 * @param 	string 	$date_format 	Date Format.
-	 * @param 	int 	$limit 			Maximum number of broadcasts to display.
+	 * @param 	array 	$atts 			Block attributes.
 	 * @return 	string 					HTML
 	 */
-	private function build_html( $broadcasts, $date_format, $limit ) {
+	private function build_html( $broadcasts, $atts ) {
 
 		// Start list.
-		$html = '<ul class="convertkit-broadcasts">';
+		$html = '<ul class="' . esc_attr( implode( ' ', $atts['_css_classes'] ) ) . '" style="' . implode( ';', $atts['_css_styles'] ). '">';
 
 		// Iterate through broadcasts.
 		foreach ( $broadcasts as $count => $broadcast ) {
@@ -333,12 +332,12 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 		
 			// Add broadcast as list item.
 			$html .= '<li class="convertkit-broadcast">
-				<time datetime="' . date_i18n( 'Y-m-d', $date_timestamp ) . '">' . date_i18n( $date_format, $date_timestamp ) . '</time>
+				<time datetime="' . date_i18n( 'Y-m-d', $date_timestamp ) . '">' . date_i18n( $atts['date_format'], $date_timestamp ) . '</time>
 				<a href="#">' . $broadcast['subject'] . '</a>
 			</li>';
 
 			// If the limit is hit, don't add any more broadcasts.
-			if ( ( $count + 1 ) === $limit ) {
+			if ( ( $count + 1 ) === $atts['limit'] ) {
 				break;
 			}
 		}
