@@ -585,6 +585,47 @@ class ConvertKit_API {
 	}
 
 	/**
+	 * Fetches all broadcasts from the API.
+	 *
+	 * @since   1.9.6.9
+	 *
+	 * @return  mixed   WP_Error | array
+	 */
+	public function get_broadcasts() {
+
+		$this->log( 'API: get_broadcasts()' );
+
+		$tags = array();
+
+		// Send request.
+		$response = $this->get(
+			'broadcasts',
+			array(
+				'api_secret' => $this->api_secret,
+			)
+		);
+
+		// If an error occured, return WP_Error.
+		if ( is_wp_error( $response ) ) {
+			$this->log( 'API: get_broadcasts(): Error: ' . $response->get_error_message() );
+			return $response;
+		}
+
+		// If no broadcasts exist, return WP_Error.
+		if ( ! isset( $response['broadcasts'] ) ) {
+			$this->log( 'API: get_broadcasts(): Error: No broadcasts exist in ConvertKit.', 'convertkit' );
+			return new WP_Error( 'convertkit_api_error', __( 'No broadcasts exist in ConvertKit. Visit your ConvertKit account and create your first broadcast.', 'convertkit' ) );
+		}
+		if ( ! count( $response['broadcasts'] ) ) {
+			$this->log( 'API: get_broadcasts(): Error: No broadcasts exist in ConvertKit.', 'convertkit' );
+			return new WP_Error( 'convertkit_api_error', __( 'No broadcasts exist in ConvertKit. Visit your ConvertKit account and create your first broadcast.', 'convertkit' ) );
+		}
+
+		return $response['broadcasts'];
+
+	}
+
+	/**
 	 * Get HTML from ConvertKit for the given Legacy Form ID.
 	 *
 	 * This isn't specifically an API function, but for now it's best suited here.

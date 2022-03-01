@@ -30,12 +30,29 @@ class ConvertKit_Block {
 				'name'           => $this->get_name(),
 				'fields'         => $this->get_fields(),
 				'attributes'     => $this->get_attributes(),
+				'supports'		 => $this->get_supports(),
 				'panels'         => $this->get_panels(),
 				'default_values' => $this->get_default_values(),
 			)
 		);
 
 		return $blocks;
+
+	}
+
+	/**
+	 * Gutenberg: Returns supported built in attributes, such as 
+	 * className, color etc.
+	 * 
+	 * @since 	1.9.6.9
+	 * 
+	 * @return 	array 	Supports
+	 */
+	public function get_supports() {
+
+		return array(
+			'className' => true,
+		);
 
 	}
 

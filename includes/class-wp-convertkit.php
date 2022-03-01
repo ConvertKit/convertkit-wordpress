@@ -156,13 +156,14 @@ class WP_ConvertKit {
 	 */
 	private function initialize_global() {
 
-		$this->classes['ajax']                      = new ConvertKit_AJAX();
-		$this->classes['blocks_convertkit_content'] = new ConvertKit_Block_Content();
-		$this->classes['blocks_convertkit_form']    = new ConvertKit_Block_Form();
-		$this->classes['gutenberg']                 = new ConvertKit_Gutenberg();
-		$this->classes['review_request']            = new ConvertKit_Review_Request( 'ConvertKit', 'convertkit' );
-		$this->classes['shortcodes']                = new ConvertKit_Shortcodes();
-		$this->classes['widgets']                   = new ConvertKit_Widgets();
+		$this->classes['ajax']                      	= new ConvertKit_AJAX();
+		$this->classes['blocks_convertkit_broadcasts'] 	= new ConvertKit_Block_Broadcasts();
+		$this->classes['blocks_convertkit_content'] 	= new ConvertKit_Block_Content();
+		$this->classes['blocks_convertkit_form']    	= new ConvertKit_Block_Form();
+		$this->classes['gutenberg']                 	= new ConvertKit_Gutenberg();
+		$this->classes['review_request']            	= new ConvertKit_Review_Request( 'ConvertKit', 'convertkit' );
+		$this->classes['shortcodes']                	= new ConvertKit_Shortcodes();
+		$this->classes['widgets']                   	= new ConvertKit_Widgets();
 
 		/**
 		 * Initialize integration classes for the frontend web site.

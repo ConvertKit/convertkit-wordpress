@@ -81,6 +81,7 @@ function convertKitGutenbergRegisterBlock( block ) {
 				icon:       icon,
 				keywords: 	block.keywords,
 				attributes: block.attributes,
+				supports: 	block.supports,
 				example: 	{
 					attributes: {
 						is_gutenberg_example: true,
