@@ -28,7 +28,7 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 		add_filter( 'convertkit_blocks', array( $this, 'register' ) );
 
 		// Enqueue stylesheets for this Gutenberg block.
-		add_action( 'enqueue_block_assets', array( $this, 'enqueue_block_assets' ) );
+		add_action( 'convertkit_gutenberg_enqueue_styles', array( $this, 'enqueue_styles' ) );
 
 	}
 
@@ -100,12 +100,11 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 			// Block attributes.
 			'date_format'          => array(
 				'type' => 'string',
-			),
-			'date_format_custom'   => array(
-				'type' => 'string',
+				'default' => $this->get_default_value( 'date_format' ),
 			),
 			'limit'                => array(
 				'type' => 'number',
+				'default' => $this->get_default_value( 'limit' ),
 			),
 
 			// get_supports() color attribute.
@@ -172,12 +171,7 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 					'Y-m-d'  => date_i18n( 'Y-m-d', strtotime( 'now' ) ),
 					'm/d/Y'  => date_i18n( 'm/d/Y', strtotime( 'now' ) ),
 					'd/m/Y'  => date_i18n( 'd/m/Y', strtotime( 'now' ) ),
-					'custom' => __( 'Custom', 'convertkit' ),
 				),
-			),
-			'date_format_custom' => array(
-				'label' => __( 'Custom date format', 'convertkit' ),
-				'type'  => 'string',
 			),
 			'limit'              => array(
 				'label' => __( 'Number of posts', 'convertkit' ),
@@ -207,7 +201,6 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 				'label'  => __( 'General', 'convertkit' ),
 				'fields' => array(
 					'date_format',
-					'date_format_custom',
 					'limit',
 				),
 			),
@@ -224,8 +217,7 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 
 		return array(
 			'date_format'        => 'F j, Y',
-			'date_format_custom' => '',
-			'limit'              => 0,
+			'limit'              => 10,
 
 			// Built-in Gutenberg block attributes.
 			'style'              => '',
@@ -241,7 +233,7 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 	 *
 	 * @since   1.9.6.9
 	 */
-	public function enqueue_block_assets() {
+	public function enqueue_styles() {
 
 		wp_enqueue_style( 'convertkit-' . $this->get_name(), CONVERTKIT_PLUGIN_URL . '/resources/frontend/css/gutenberg-block-broadcasts.css', false, CONVERTKIT_PLUGIN_VERSION );
 
@@ -260,12 +252,6 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 		// Parse shortcode attributes, defining fallback defaults if required
 		// and moving some attributes (such as Gutenberg's styles), if defined.
 		$atts = $this->sanitize_and_declare_atts( $atts );
-
-		// If the date format is custom, and a custom date format has been provided, use that
-		// for the date format.
-		if ( $atts['date_format'] === 'custom' && ! empty( $atts['date_format_custom'] ) ) {
-			$atts['date_format'] = $atts['date_format_custom'];
-		}
 
 		// Setup Settings class.
 		$settings = new ConvertKit_Settings();

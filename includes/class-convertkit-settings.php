@@ -207,7 +207,7 @@ class ConvertKit_Settings {
 	 *
 	 * @since   1.9.6
 	 *
-	 * @return  string
+	 * @return  bool
 	 */
 	public function debug_enabled() {
 
@@ -220,11 +220,24 @@ class ConvertKit_Settings {
 	 *
 	 * @since   1.9.6
 	 *
-	 * @return  string
+	 * @return  bool
 	 */
 	public function scripts_disabled() {
 
 		return ( $this->settings['no_scripts'] === 'on' ? true : false );
+
+	}
+
+	/**
+	 * Returns whether stylesheets are disabled in the Plugin settings.
+	 *
+	 * @since   1.9.6.9
+	 *
+	 * @return  bool
+	 */
+	public function css_disabled() {
+
+		return ( $this->settings['no_css'] === 'on' ? true : false );
 
 	}
 
@@ -243,6 +256,7 @@ class ConvertKit_Settings {
 			'api_secret' => '', // string.
 			'debug'      => '', // blank|on.
 			'no_scripts' => '', // blank|on.
+			'no_css' 	 => '', // blank|on.	
 		);
 
 		// Add Post Type Default Forms.

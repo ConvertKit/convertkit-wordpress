@@ -9,7 +9,7 @@ ul.convertkit-broadcasts.has-background {
 ul.convertkit-broadcasts li {
 	display: grid;
 	grid-template-areas: "date subject";
-	grid-template-columns: 80px auto;
+	grid-template-columns: 150px auto;
 	grid-column-gap: 20px;
 	list-style: none;
 	margin: 0;
