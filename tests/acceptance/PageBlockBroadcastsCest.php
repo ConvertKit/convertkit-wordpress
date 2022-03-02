@@ -1,15 +1,15 @@
 <?php
 /**
- * Tests for the ConvertKit Form's Gutenberg Block.
+ * Tests for the ConvertKit Broadcasts Gutenberg Block.
  * 
- * @since 	1.9.6
+ * @since 	1.9.6.9
  */
-class PageBlockFormCest
+class PageBlockBroadcastsCest
 {
 	/**
 	 * Run common actions before running the test functions in this class.
 	 * 
-	 * @since 	1.9.6
+	 * @since 	1.9.6.9
 	 * 
 	 * @param 	AcceptanceTester 	$I 	Tester
 	 */
@@ -32,23 +32,19 @@ class PageBlockFormCest
 	}
 
 	/**
-	 * Test the Form block works when a valid Form is selected.
+	 * Test the Broadcasts block works when using the default parameters.
 	 * 
-	 * @since 	1.9.6
+	 * @since 	1.9.6.9
 	 * 
 	 * @param 	AcceptanceTester 	$I 	Tester
 	 */
-	public function testFormBlockWithValidFormParameter(AcceptanceTester $I)
+	public function testBroadcastsBlockWithDefaultParameters(AcceptanceTester $I)
 	{
 		// Define a Page Title.
-		$I->fillField('.editor-post-title__input', 'ConvertKit: Form: Block: Valid Form Param');
+		$I->fillField('.editor-post-title__input', 'ConvertKit: Broadcasts: Default Params');
 
 		// Add block to Page.
-		$I->gutenbergAddBlock($I, 'ConvertKit Form', 'convertkit-form');
-
-		// When the sidebar appears, select the Form.
-		$I->waitForElementVisible('.interface-interface-skeleton__sidebar[aria-label="Editor settings"]');
-		$I->selectOption('#convertkit_form_form', $_ENV['CONVERTKIT_API_FORM_NAME']);
+		$I->gutenbergAddBlock($I, 'ConvertKit Broadcasts', 'convertkit-broadcasts');
 
 		// Click the Publish button.
 		$I->click('.editor-post-publish-button__button');
@@ -70,28 +66,36 @@ class PageBlockFormCest
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
 
-		// Confirm that the ConvertKit Form is displayed.
-		$I->seeElementInDOM('form[data-sv-form]');
+		// Confirm that the block displays.
+		$I->seeElementInDOM('ul.convertkit-broadcasts');
+		$I->seeElementInDOM('ul.convertkit-broadcasts li.convertkit-broadcast');
+		$I->seeElementInDOM('ul.convertkit-broadcasts li.convertkit-broadcast a');
+
+		// Confirm that the default date format is as expected.
+		$I->seeInSource('<time datetime="2022-03-01">March 1, 2022</time>');
+
+		// Confirm that the default expected number of Broadcasts are displayed.
+		$I->seeNumberOfElements('li.convertkit-broadcast', 10);
 	}
 
 	/**
-	 * Test the Form block works when a valid Legacy Form is selected.
+	 * Test the Broadcasts block's date format parameter works.
 	 * 
-	 * @since 	1.9.6
+	 * @since 	1.9.6.9
 	 * 
 	 * @param 	AcceptanceTester 	$I 	Tester
 	 */
-	public function testFormBlockWithValidLegacyFormParameter(AcceptanceTester $I)
+	public function testBroadcastsBlockWithDateFormatParameter(AcceptanceTester $I)
 	{
 		// Define a Page Title.
-		$I->fillField('.editor-post-title__input', 'ConvertKit: Legacy Form: Block: Valid Form Param');
+		$I->fillField('.editor-post-title__input', 'ConvertKit: Broadcasts: Date Format Param');
 
 		// Add block to Page.
-		$I->gutenbergAddBlock($I, 'ConvertKit Form', 'convertkit-form');
+		$I->gutenbergAddBlock($I, 'ConvertKit Broadcasts', 'convertkit-broadcasts');
 
-		// When the sidebar appears, select the Form.
+		// When the sidebar appears, define the date format.
 		$I->waitForElementVisible('.interface-interface-skeleton__sidebar[aria-label="Editor settings"]');
-		$I->selectOption('#convertkit_form_form', $_ENV['CONVERTKIT_API_LEGACY_FORM_NAME']);
+		$I->selectOption('#convertkit_broadcasts_date_format', 'Y-m-d');
 
 		// Click the Publish button.
 		$I->click('.editor-post-publish-button__button');
@@ -113,30 +117,36 @@ class PageBlockFormCest
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
 
-		// Confirm that the ConvertKit Form is displayed.
-		$I->seeInSource('<form id="ck_subscribe_form" class="ck_subscribe_form" action="https://api.convertkit.com/landing_pages/' . $_ENV['CONVERTKIT_API_LEGACY_FORM_ID'] . '/subscribe" data-remote="true">');
+		// Confirm that the block displays.
+		$I->seeElementInDOM('ul.convertkit-broadcasts');
+		$I->seeElementInDOM('ul.convertkit-broadcasts li.convertkit-broadcast');
+		$I->seeElementInDOM('ul.convertkit-broadcasts li.convertkit-broadcast a');	
+
+		// Confirm that the date format is as expected.
+		$I->seeInSource('<time datetime="2022-03-01">2022-03-01</time>');
+
+		// Confirm that the default expected number of Broadcasts are displayed.
+		$I->seeNumberOfElements('li.convertkit-broadcast', 10);
 	}
 
 	/**
-	 * Test the Form block works when no Form is selected.
+	 * Test the Broadcasts block's limit parameter works.
 	 * 
-	 * @since 	1.9.6
+	 * @since 	1.9.6.9
 	 * 
 	 * @param 	AcceptanceTester 	$I 	Tester
 	 */
-	public function testFormBlockWithNoFormParameter(AcceptanceTester $I)
+	public function testBroadcastsBlockWithLimitParameter(AcceptanceTester $I)
 	{
 		// Define a Page Title.
-		$I->fillField('.editor-post-title__input', 'ConvertKit: Form: Block: No Form Param');
+		$I->fillField('.editor-post-title__input', 'ConvertKit: Broadcasts: Limit Param');
 
-		// Click Add Block Button.
-		$I->click('button.edit-post-header-toolbar__inserter-toggle');
+		// Add block to Page.
+		$I->gutenbergAddBlock($I, 'ConvertKit Broadcasts', 'convertkit-broadcasts');
 
-		// When the Blocks sidebar appears, search for the ConvertKit Form block.
-		$I->waitForElementVisible('.interface-interface-skeleton__secondary-sidebar[aria-label="Block library"]');
-		$I->fillField('.block-editor-inserter__content input[type=search]', 'ConvertKit Form');
-		$I->seeElementInDOM('.block-editor-inserter__panel-content button.editor-block-list-item-convertkit-form');
-		$I->click('.block-editor-inserter__panel-content button.editor-block-list-item-convertkit-form');
+		// When the sidebar appears, define the limit.
+		$I->waitForElementVisible('.interface-interface-skeleton__sidebar[aria-label="Editor settings"]');
+		$I->fillField('#convertkit_broadcasts_limit', 2);
 
 		// Click the Publish button.
 		$I->click('.editor-post-publish-button__button');
@@ -158,8 +168,13 @@ class PageBlockFormCest
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
 
-		// Confirm that no ConvertKit Form is displayed.
-		$I->dontSeeElementInDOM('form[data-sv-form]');
+		// Confirm that the block displays.
+		$I->seeElementInDOM('ul.convertkit-broadcasts');
+		$I->seeElementInDOM('ul.convertkit-broadcasts li.convertkit-broadcast');
+		$I->seeElementInDOM('ul.convertkit-broadcasts li.convertkit-broadcast a');	
+
+		// Confirm that the expected number of Broadcasts are displayed.
+		$I->seeNumberOfElements('li.convertkit-broadcast', 2);
 	}
 
 	/**
@@ -167,7 +182,7 @@ class PageBlockFormCest
 	 * We don't use _after, as this would provide a screenshot of the Plugin
 	 * deactivation and not the true test error.
 	 * 
-	 * @since 	1.9.6.7
+	 * @since 	1.9.6.9
 	 * 
 	 * @param 	AcceptanceTester 	$I 	Tester
 	 */
