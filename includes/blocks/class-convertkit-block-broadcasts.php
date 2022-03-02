@@ -99,11 +99,11 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 		return array(
 			// Block attributes.
 			'date_format'          => array(
-				'type' => 'string',
+				'type'    => 'string',
 				'default' => $this->get_default_value( 'date_format' ),
 			),
 			'limit'                => array(
-				'type' => 'number',
+				'type'    => 'number',
 				'default' => $this->get_default_value( 'limit' ),
 			),
 
@@ -163,7 +163,7 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 		}
 
 		return array(
-			'date_format'        => array(
+			'date_format' => array(
 				'label'  => __( 'Date format', 'convertkit' ),
 				'type'   => 'select',
 				'values' => array(
@@ -173,7 +173,7 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 					'd/m/Y'  => date_i18n( 'd/m/Y', strtotime( 'now' ) ),
 				),
 			),
-			'limit'              => array(
+			'limit'       => array(
 				'label' => __( 'Number of posts', 'convertkit' ),
 				'type'  => 'number',
 				'min'   => 0,
@@ -216,14 +216,14 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 	public function get_default_values() {
 
 		return array(
-			'date_format'        => 'F j, Y',
-			'limit'              => 10,
+			'date_format'     => 'F j, Y',
+			'limit'           => 10,
 
 			// Built-in Gutenberg block attributes.
-			'style'              => '',
-			'backgroundColor'    => '',
-			'linkColor'          => '',
-			'textColor'          => '',
+			'style'           => '',
+			'backgroundColor' => '',
+			'linkColor'       => '',
+			'textColor'       => '',
 		);
 
 	}

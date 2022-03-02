@@ -256,7 +256,7 @@ class ConvertKit_Settings {
 			'api_secret' => '', // string.
 			'debug'      => '', // blank|on.
 			'no_scripts' => '', // blank|on.
-			'no_css' 	 => '', // blank|on.	
+			'no_css'     => '', // blank|on.
 		);
 
 		// Add Post Type Default Forms.
