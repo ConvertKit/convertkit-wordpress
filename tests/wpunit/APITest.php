@@ -74,7 +74,7 @@ class APITest extends \Codeception\TestCase\WPTestCase
 		$this->assertArrayHasKey('name', $result);
 		$this->assertArrayHasKey('plan_type', $result);
 		$this->assertArrayHasKey('primary_email_address', $result);
-		$this->assertEquals($_ENV['CONVERTKIT_API_SUBSCRIBER_EMAIL'], $result['primary_email_address']);
+		$this->assertEquals('wordpress@convertkit.com', $result['primary_email_address']);
 	}
 
 	/**
@@ -115,7 +115,10 @@ class APITest extends \Codeception\TestCase\WPTestCase
 	 */
 	public function testFormSubscribe()
 	{
-		$result = $this->api->form_subscribe( $_ENV['CONVERTKIT_API_FORM_ID'], $_ENV['CONVERTKIT_API_SUBSCRIBER_EMAIL'], 'First');
+		$result = $this->api->form_subscribe( $_ENV['CONVERTKIT_API_FORM_ID'], $_ENV['CONVERTKIT_API_SUBSCRIBER_EMAIL'], 'First', array(
+			'last_name' => 'Last',
+			'phone_number' => '123-456-7890',
+		));
 		$this->assertNotInstanceOf(WP_Error::class, $result);
 		$this->assertIsArray($result);
 		$this->assertArrayHasKey('subscription', $result);
@@ -144,6 +147,20 @@ class APITest extends \Codeception\TestCase\WPTestCase
 	public function testFormSubscribeWithEmptyEmail()
 	{
 		$result = $this->api->form_subscribe( $_ENV['CONVERTKIT_API_FORM_ID'], '', 'First');
+		$this->assertInstanceOf(WP_Error::class, $result);
+		$this->assertEquals($result->get_error_code(), $this->errorCode);
+		$this->assertEquals('form_subscribe(): the email parameter is empty.', $result->get_error_message());
+	}
+
+	/**
+	 * Test that the `form_subscribe()` function returns a WP_Error
+	 * when the $email parameter only consists of spaces.
+	 * 
+	 * @since 	1.9.6.9
+	 */
+	public function testFormSubscribeWithSpacesInEmail()
+	{
+		$result = $this->api->form_subscribe( $_ENV['CONVERTKIT_API_FORM_ID'], '     ', 'First');
 		$this->assertInstanceOf(WP_Error::class, $result);
 		$this->assertEquals($result->get_error_code(), $this->errorCode);
 		$this->assertEquals('form_subscribe(): the email parameter is empty.', $result->get_error_message());
@@ -188,7 +205,10 @@ class APITest extends \Codeception\TestCase\WPTestCase
 	 */
 	public function testSequenceSubscribe()
 	{
-		$result = $this->api->sequence_subscribe( $_ENV['CONVERTKIT_API_SEQUENCE_ID'], $_ENV['CONVERTKIT_API_SUBSCRIBER_EMAIL']);
+		$result = $this->api->sequence_subscribe( $_ENV['CONVERTKIT_API_SEQUENCE_ID'], $_ENV['CONVERTKIT_API_SUBSCRIBER_EMAIL'], 'First', array(
+			'last_name' => 'Last',
+			'phone_number' => '123-456-7890',
+		));
 		$this->assertNotInstanceOf(WP_Error::class, $result);
 		$this->assertIsArray($result);
 		$this->assertArrayHasKey('subscription', $result);
@@ -202,7 +222,7 @@ class APITest extends \Codeception\TestCase\WPTestCase
 	 */
 	public function testSequenceSubscribeWithEmptySequenceID()
 	{
-		$result = $this->api->sequence_subscribe( '', $_ENV['CONVERTKIT_API_SUBSCRIBER_EMAIL']);
+		$result = $this->api->sequence_subscribe( '', $_ENV['CONVERTKIT_API_SUBSCRIBER_EMAIL'], 'First');
 		$this->assertInstanceOf(WP_Error::class, $result);
 		$this->assertEquals($result->get_error_code(), $this->errorCode);
 		$this->assertEquals('sequence_subscribe(): the sequence_id parameter is empty.', $result->get_error_message());
@@ -216,7 +236,21 @@ class APITest extends \Codeception\TestCase\WPTestCase
 	 */
 	public function testSequenceSubscribeWithEmptyEmail()
 	{
-		$result = $this->api->sequence_subscribe( $_ENV['CONVERTKIT_API_SEQUENCE_ID'], '');
+		$result = $this->api->sequence_subscribe( $_ENV['CONVERTKIT_API_SEQUENCE_ID'], '', 'First');
+		$this->assertInstanceOf(WP_Error::class, $result);
+		$this->assertEquals($result->get_error_code(), $this->errorCode);
+		$this->assertEquals('sequence_subscribe(): the email parameter is empty.', $result->get_error_message());
+	}
+
+	/**
+	 * Test that the `sequence_subscribe()` function returns a WP_Error
+	 * when the $email parameter only consists of spaces.
+	 * 
+	 * @since 	1.9.6.9
+	 */
+	public function testSequenceSubscribeWithSpacesInEmail()
+	{
+		$result = $this->api->sequence_subscribe($_ENV['CONVERTKIT_API_SEQUENCE_ID'], '     ', 'First');
 		$this->assertInstanceOf(WP_Error::class, $result);
 		$this->assertEquals($result->get_error_code(), $this->errorCode);
 		$this->assertEquals('sequence_subscribe(): the email parameter is empty.', $result->get_error_message());
@@ -244,7 +278,10 @@ class APITest extends \Codeception\TestCase\WPTestCase
 	 */
 	public function testTagSubscribe()
 	{
-		$result = $this->api->tag_subscribe( $_ENV['CONVERTKIT_API_TAG_ID'], $_ENV['CONVERTKIT_API_SUBSCRIBER_EMAIL']);
+		$result = $this->api->tag_subscribe( $_ENV['CONVERTKIT_API_TAG_ID'], $_ENV['CONVERTKIT_API_SUBSCRIBER_EMAIL'], 'First', array(
+			'last_name' => 'Last',
+			'phone_number' => '123-456-7890',
+		));
 		$this->assertNotInstanceOf(WP_Error::class, $result);
 		$this->assertIsArray($result);
 		$this->assertArrayHasKey('subscription', $result);
@@ -258,7 +295,7 @@ class APITest extends \Codeception\TestCase\WPTestCase
 	 */
 	public function testTagSubscribeWithEmptyTagID()
 	{
-		$result = $this->api->tag_subscribe( '', $_ENV['CONVERTKIT_API_SUBSCRIBER_EMAIL']);
+		$result = $this->api->tag_subscribe( '', $_ENV['CONVERTKIT_API_SUBSCRIBER_EMAIL'], 'First');
 		$this->assertInstanceOf(WP_Error::class, $result);
 		$this->assertEquals($result->get_error_code(), $this->errorCode);
 		$this->assertEquals('tag_subscribe(): the tag_id parameter is empty.', $result->get_error_message());
@@ -272,11 +309,25 @@ class APITest extends \Codeception\TestCase\WPTestCase
 	 */
 	public function testTagSubscribeWithEmptyEmail()
 	{
-		$result = $this->api->tag_subscribe( $_ENV['CONVERTKIT_API_TAG_ID'], '');
+		$result = $this->api->tag_subscribe( $_ENV['CONVERTKIT_API_TAG_ID'], '', 'First');
 		$this->assertInstanceOf(WP_Error::class, $result);
 		$this->assertEquals($result->get_error_code(), $this->errorCode);
 		$this->assertEquals('tag_subscribe(): the email parameter is empty.', $result->get_error_message());
-	} 
+	}
+
+	/**
+	 * Test that the `tag_subscribe()` function returns a WP_Error
+	 * when the $email parameter only consists of spaces.
+	 * 
+	 * @since 	1.9.6.9
+	 */
+	public function testTagSubscribeWithSpacesInEmail()
+	{
+		$result = $this->api->tag_subscribe( $_ENV['CONVERTKIT_API_TAG_ID'], '     ', 'First');
+		$this->assertInstanceOf(WP_Error::class, $result);
+		$this->assertEquals($result->get_error_code(), $this->errorCode);
+		$this->assertEquals('tag_subscribe(): the email parameter is empty.', $result->get_error_message());
+	}
 
 	/**
 	 * Test that the `get_subscriber_by_email()` function returns expected data
@@ -420,6 +471,59 @@ class APITest extends \Codeception\TestCase\WPTestCase
 		$this->assertInstanceOf(WP_Error::class, $result);
 		$this->assertEquals($result->get_error_code(), $this->errorCode);
 		$this->assertEquals('unsubscribe(): the email parameter is empty.', $result->get_error_message());
+	}
+
+	/**
+	 * Test that the `get_custom_fields()` function returns expected data.
+	 * 
+	 * @since 	1.9.6.9
+	 */
+	public function testGetCustomFields()
+	{
+		$result = $this->api->get_custom_fields();
+		$this->assertNotInstanceOf(WP_Error::class, $result);
+		$this->assertIsArray($result);
+		$this->assertArrayHasKey('id', reset($result));
+		$this->assertArrayHasKey('name', reset($result));
+	}
+
+	/**
+	 * Test that the `purchase_create()` function returns expected data
+	 * when valid parameters are provided.
+	 * 
+	 * @since 	1.9.6.9
+	 */
+	public function testPurchaseCreate()
+	{
+		$result = $this->api->purchase_create( array(
+			'transaction_id'   => '99999',
+			'email_address'    => $_ENV['CONVERTKIT_API_SUBSCRIBER_EMAIL'],
+			'first_name'       => 'First',
+			'currency'         => 'USD',
+			'transaction_time' => date( 'Y-m-d H:i:s' ),
+			'subtotal'         => 10,
+			'tax'              => 1,
+			'shipping'         => 1,
+			'discount'         => 0,
+			'total'            => 12,
+			'status'           => 'paid',
+			'products'         => array(
+				array(
+					'pid'        => 1,
+					'lid'        => 1,
+					'name'       => 'Test Product',
+					'sku'        => '12345',
+					'unit_price' => 10,
+					'quantity'   => 1,
+				)
+			),
+			'integration'      => 'WooCommerce',
+		) );
+		$this->assertNotInstanceOf(WP_Error::class, $result);
+		$this->assertIsArray($result);
+		$this->assertArrayHasKey('id', $result);
+		$this->assertArrayHasKey('transaction_id', $result);
+		$this->assertEquals($result['transaction_id'], '99999');
 	}
 
 	/**
