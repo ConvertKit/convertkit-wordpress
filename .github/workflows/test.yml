@@ -189,6 +189,11 @@ jobs:
         working-directory: ${{ env.PLUGIN_DIR }}
         run: php vendor/bin/codecept build
 
+      # Run Codeception WordPress Unit Tests.
+      - name: Run WordPress Unit Tests
+        working-directory: ${{ env.PLUGIN_DIR }}
+        run: php vendor/bin/codecept run wpunit --fail-fast
+
       # Run Codeception Acceptance Tests.
       - name: Run Acceptance Tests
         working-directory: ${{ env.PLUGIN_DIR }}

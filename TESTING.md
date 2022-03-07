@@ -40,6 +40,7 @@ There are different types of tests that can be written:
 - Functional Tests: Test the framework (WordPress).
 - Integration Tests: Test code modules in the context of a WordPress web site.
 - Unit Tests: Test single PHP classes or functions in isolation.
+- WordPress Unit Tests: Test single PHP classes or functions in isolation, with WordPress functions and classes loaded.
 
 There is no definitive / hard guide, as a test can typically overlap into different types (such as Acceptance and Functional).
 
@@ -300,6 +301,60 @@ public function yourCustomFunctionNameInHelper($I)
 - at the command line, tell Codeception to build your custom function helpers by using `vendor/bin/codecept build`
 
 Need to change how Codeception runs?  Edit the [codeception.dist.xml](codeception.dist.xml) file.
+
+## Writing a WordPress Unit Test
+
+WordPress Unit tests provide testing of Plugin specific functions and/or classes, typically to assert that they perform as expected
+by a developer.  This is primarily useful for testing our API class, and confirming that any Plugin registered filters return
+the correct data.
+
+To create a new WordPress Unit Test, at the command line in the Plugin's folder, enter the following command, replacing `APITest`
+with a meaningful name of what the test will perform:
+
+```bash
+php vendor/bin/codecept generate:wpunit wpunit APITest
+```
+
+This will create a PHP test file in the `tests/wpunit` directory called `APITest.php`
+
+```php
+<?php
+
+class APITest extends \Codeception\TestCase\WPTestCase
+{
+    /**
+     * @var \WpunitTester
+     */
+    protected $tester;
+    
+    public function setUp(): void
+    {
+        // Before...
+        parent::setUp();
+
+        // Your set up methods here.
+    }
+
+    public function tearDown(): void
+    {
+        // Your tear down methods here.
+
+        // Then...
+        parent::tearDown();
+    }
+
+    // Tests
+    public function test_it_works()
+    {
+        $post = static::factory()->post->create_and_get();
+        
+        $this->assertInstanceOf(\WP_Post::class, $post);
+    }
+}
+```
+
+Helpers can be used for WordPress Unit Tests, similar to how they can be used for acceptance tests.
+To register your own helper function, add it to the `tests/_support/Helper/Wpunit.php` file.
 
 ## Run Tests
 

@@ -130,7 +130,7 @@ class ConvertKit_API {
 		// Get all forms and landing pages from the API.
 		$forms = $this->get_forms_landing_pages();
 
-		// Bail if an error occured.
+		// If an error occured, log and return it now.
 		if ( is_wp_error( $forms ) ) {
 			$this->log( 'API: get_forms(): Error: ' . $forms->get_error_message() );
 			return $forms;
@@ -148,9 +148,10 @@ class ConvertKit_API {
 	 * @param   string $form_id    Form ID.
 	 * @param   string $email      Email Address.
 	 * @param   string $first_name First Name.
+	 * @param   mixed  $fields     Custom Fields (false|array).
 	 * @return  mixed               WP_Error | array
 	 */
-	public function form_subscribe( $form_id, $email, $first_name ) {
+	public function form_subscribe( $form_id, $email, $first_name = '', $fields = false ) {
 
 		// Backward compat. if $email is an array comprising of email and name keys.
 		if ( is_array( $email ) ) {
@@ -161,17 +162,36 @@ class ConvertKit_API {
 
 		$this->log( 'API: form_subscribe(): [ form_id: ' . $form_id . ', email: ' . $email . ', first_name: ' . $first_name . ' ]' );
 
-		$response = $this->post(
-			'forms/' . $form_id . '/subscribe',
-			array(
-				'api_secret' => $this->api_secret,
-				'email'      => $email,
-				'first_name' => $first_name,
-			)
-		);
+		// Sanitize some parameters.
+		$form_id    = trim( $form_id );
+		$email      = trim( $email );
+		$first_name = trim( $first_name );
 
+		// Return error if no Form ID or email address is specified.
+		if ( empty( $form_id ) ) {
+			return new WP_Error( 'convertkit_api_error', __( 'form_subscribe(): the form_id parameter is empty.', 'convertkit' ) );
+		}
+		if ( empty( $email ) ) {
+			return new WP_Error( 'convertkit_api_error', __( 'form_subscribe(): the email parameter is empty.', 'convertkit' ) );
+		}
+
+		// Build request parameters.
+		$params = array(
+			'api_key'    => $this->api_key,
+			'email'      => $email,
+			'first_name' => $first_name,
+		);
+		if ( $fields ) {
+			$params['fields'] = $fields;
+		}
+
+		// Send request.
+		$response = $this->post( 'forms/' . $form_id . '/subscribe', $params );
+
+		// If an error occured, log and return it now.
 		if ( is_wp_error( $response ) ) {
 			$this->log( 'API: form_subscribe(): Error: ' . $response->get_error_message() );
+			return $response;
 		}
 
 		/**
@@ -183,8 +203,9 @@ class ConvertKit_API {
 		 * @param   string  $form_id    Form ID
 		 * @param   string  $email      Email Address
 		 * @param   string  $first_name First Name
+		 * @param   mixed   $fields     Custom Fields (false|array)
 		 */
-		do_action( 'convertkit_api_form_subscribe_success', $response, $form_id, $email, $first_name );
+		do_action( 'convertkit_api_form_subscribe_success', $response, $form_id, $email, $first_name, $fields );
 
 		return $response;
 
@@ -204,7 +225,7 @@ class ConvertKit_API {
 		// Get all forms and landing pages from the API.
 		$forms = $this->get_forms_landing_pages();
 
-		// Bail if an error occured.
+		// If an error occured, log and return it now.
 		if ( is_wp_error( $forms ) ) {
 			$this->log( 'API: get_landing_pages(): Error: ' . $forms->get_error_message() );
 			return $forms;
@@ -235,7 +256,7 @@ class ConvertKit_API {
 			)
 		);
 
-		// If an error occured, return WP_Error.
+		// If an error occured, log and return it now.
 		if ( is_wp_error( $response ) ) {
 			$this->log( 'API: get_sequences(): Error: ' . $response->get_error_message() );
 			return $response;
@@ -266,22 +287,44 @@ class ConvertKit_API {
 	 *
 	 * @param   string $sequence_id Sequence ID.
 	 * @param   string $email       Email Address.
+	 * @param   string $first_name  First Name.
+	 * @param   mixed  $fields      Custom Fields (false|array).
 	 * @return  mixed               WP_Error | array
 	 */
-	public function sequence_subscribe( $sequence_id, $email ) {
+	public function sequence_subscribe( $sequence_id, $email, $first_name = '', $fields = false ) {
 
 		$this->log( 'API: sequence_subscribe(): [ sequence_id: ' . $sequence_id . ', email: ' . $email . ']' );
 
-		$response = $this->post(
-			'sequences/' . $sequence_id . '/subscribe',
-			array(
-				'api_key' => $this->api_key,
-				'email'   => $email,
-			)
-		);
+		// Sanitize some parameters.
+		$sequence_id = trim( $sequence_id );
+		$email       = trim( $email );
+		$first_name  = trim( $first_name );
 
+		// Return error if no Sequence ID or email address is specified.
+		if ( empty( $sequence_id ) ) {
+			return new WP_Error( 'convertkit_api_error', __( 'sequence_subscribe(): the sequence_id parameter is empty.', 'convertkit' ) );
+		}
+		if ( empty( $email ) ) {
+			return new WP_Error( 'convertkit_api_error', __( 'sequence_subscribe(): the email parameter is empty.', 'convertkit' ) );
+		}
+
+		// Build request parameters.
+		$params = array(
+			'api_key'    => $this->api_key,
+			'email'      => $email,
+			'first_name' => $first_name,
+		);
+		if ( $fields ) {
+			$params['fields'] = $fields;
+		}
+
+		// Send request.
+		$response = $this->post( 'sequences/' . $sequence_id . '/subscribe', $params );
+
+		// If an error occured, log and return it now.
 		if ( is_wp_error( $response ) ) {
 			$this->log( 'API: sequence_subscribe(): Error: ' . $response->get_error_message() );
+			return $response;
 		}
 
 		/**
@@ -292,8 +335,9 @@ class ConvertKit_API {
 		 * @param   array   $response       API Response
 		 * @param   string  $sequence_id    Sequence ID
 		 * @param   string  $email          Email Address
+		 * @param   mixed   $fields         Custom Fields (false|array)
 		 */
-		do_action( 'convertkit_api_sequence_subscribe_success', $response, $sequence_id, $email );
+		do_action( 'convertkit_api_sequence_subscribe_success', $response, $sequence_id, $email, $fields );
 
 		return $response;
 
@@ -320,7 +364,7 @@ class ConvertKit_API {
 			)
 		);
 
-		// If an error occured, return WP_Error.
+		// If an error occured, log and return it now.
 		if ( is_wp_error( $response ) ) {
 			$this->log( 'API: get_tags(): Error: ' . $response->get_error_message() );
 			return $response;
@@ -351,22 +395,44 @@ class ConvertKit_API {
 	 *
 	 * @param   string $tag_id     Tag ID.
 	 * @param   string $email      Email Address.
+	 * @param   string $first_name First Name.
+	 * @param   mixed  $fields     Custom Fields (false|array).
 	 * @return  mixed               WP_Error | array
 	 */
-	public function tag_subscribe( $tag_id, $email ) {
+	public function tag_subscribe( $tag_id, $email, $first_name = '', $fields = false ) {
 
 		$this->log( 'API: tag_subscribe(): [ tag_id: ' . $tag_id . ', email: ' . $email . ']' );
 
-		$response = $this->post(
-			'tags/' . $tag_id . '/subscribe',
-			array(
-				'api_key' => $this->api_key,
-				'email'   => $email,
-			)
-		);
+		// Sanitize some parameters.
+		$tag_id     = trim( $tag_id );
+		$email      = trim( $email );
+		$first_name = trim( $first_name );
 
+		// Return error if no Tag ID or email address is specified.
+		if ( empty( $tag_id ) ) {
+			return new WP_Error( 'convertkit_api_error', __( 'tag_subscribe(): the tag_id parameter is empty.', 'convertkit' ) );
+		}
+		if ( empty( $email ) ) {
+			return new WP_Error( 'convertkit_api_error', __( 'tag_subscribe(): the email parameter is empty.', 'convertkit' ) );
+		}
+
+		// Build request parameters.
+		$params = array(
+			'api_key'    => $this->api_key,
+			'email'      => $email,
+			'first_name' => $first_name,
+		);
+		if ( $fields ) {
+			$params['fields'] = $fields;
+		}
+
+		// Send request.
+		$response = $this->post( 'tags/' . $tag_id . '/subscribe', $params );
+
+		// If an error occured, log and return it now.
 		if ( is_wp_error( $response ) ) {
 			$this->log( 'API: tag_subscribe(): Error: ' . $response->get_error_message() );
+			return $response;
 		}
 
 		/**
@@ -377,8 +443,9 @@ class ConvertKit_API {
 		 * @param   array   $response   API Response
 		 * @param   string  $tag_id     Tag ID
 		 * @param   string  $email      Email Address
+		 * @param   mixed   $fields     Custom Fields (false|array).
 		 */
-		do_action( 'convertkit_api_tag_subscribe_success', $response, $tag_id, $email );
+		do_action( 'convertkit_api_tag_subscribe_success', $response, $tag_id, $email, $fields );
 
 		return $response;
 
@@ -396,6 +463,14 @@ class ConvertKit_API {
 
 		$this->log( 'API: get_subscriber_by_email(): [ email: ' . $email . ']' );
 
+		// Sanitize some parameters.
+		$email = trim( $email );
+
+		// Return error if email address is specified.
+		if ( empty( $email ) ) {
+			return new WP_Error( 'convertkit_api_error', __( 'get_subscriber_by_email(): the email parameter is empty.', 'convertkit' ) );
+		}
+
 		// Send request.
 		$response = $this->get(
 			'subscribers',
@@ -405,9 +480,9 @@ class ConvertKit_API {
 			)
 		);
 
-		// If an error occured, return WP_Error.
+		// If an error occured, log and return it now.
 		if ( is_wp_error( $response ) ) {
-			$this->log( 'API: tag_subscriber(): Error: ' . $response->get_error_message() );
+			$this->log( 'API: get_subscriber_by_email(): Error: ' . $response->get_error_message() );
 			return $response;
 		}
 
@@ -443,6 +518,14 @@ class ConvertKit_API {
 
 		$this->log( 'API: get_subscriber_by_id(): [ subscriber_id: ' . $subscriber_id . ']' );
 
+		// Sanitize some parameters.
+		$subscriber_id = trim( $subscriber_id );
+
+		// Return error if no Subscriber ID is specified.
+		if ( empty( $subscriber_id ) ) {
+			return new WP_Error( 'convertkit_api_error', __( 'get_subscriber_by_id(): the subscriber_id parameter is empty.', 'convertkit' ) );
+		}
+
 		// Send request.
 		$response = $this->get(
 			'subscribers/' . $subscriber_id,
@@ -451,7 +534,7 @@ class ConvertKit_API {
 			)
 		);
 
-		// If an error occured, eturn WP_Error.
+		// If an error occured, log and return it now.
 		if ( is_wp_error( $response ) ) {
 			$this->log( 'API: get_subscriber_by_id(): Error: ' . $response->get_error_message() );
 			return $response;
@@ -489,6 +572,14 @@ class ConvertKit_API {
 
 		$this->log( 'API: get_subscriber_tags(): [ subscriber_id: ' . $subscriber_id . ']' );
 
+		// Sanitize some parameters.
+		$subscriber_id = trim( $subscriber_id );
+
+		// Return error if no Subscriber ID is specified.
+		if ( empty( $subscriber_id ) ) {
+			return new WP_Error( 'convertkit_api_error', __( 'get_subscriber_tags(): the subscriber_id parameter is empty.', 'convertkit' ) );
+		}
+
 		// Send request.
 		$response = $this->get(
 			'subscribers/' . $subscriber_id . '/tags',
@@ -497,7 +588,7 @@ class ConvertKit_API {
 			)
 		);
 
-		// If an error occured, return WP_Error.
+		// If an error occured, log and return it now.
 		if ( is_wp_error( $response ) ) {
 			$this->log( 'API: get_subscriber_tags(): Error: ' . $response->get_error_message() );
 			return $response;
@@ -536,13 +627,13 @@ class ConvertKit_API {
 		// Get subscriber.
 		$subscriber = $this->get_subscriber_by_email( $email_address );
 
-		// Bail if an error occured.
+		// If an error occured, log and return it now.
 		if ( is_wp_error( $subscriber ) ) {
 			return $subscriber;
 		}
 
 		// Return ID.
-		return $subscriber->id;
+		return $subscriber['id'];
 
 	}
 
@@ -558,6 +649,15 @@ class ConvertKit_API {
 
 		$this->log( 'API: unsubscribe(): [ email: ' . $email . ']' );
 
+		// Sanitize some parameters.
+		$email = trim( $email );
+
+		// Return error if no email address is specified.
+		if ( empty( $email ) ) {
+			return new WP_Error( 'convertkit_api_error', __( 'unsubscribe(): the email parameter is empty.', 'convertkit' ) );
+		}
+
+		// Send request.
 		$response = $this->post(
 			'unsubscribe',
 			array(
@@ -566,8 +666,10 @@ class ConvertKit_API {
 			)
 		);
 
+		// If an error occured, log and return it now.
 		if ( is_wp_error( $response ) ) {
 			$this->log( 'API: unsubscribe(): Error: ' . $response->get_error_message() );
+			return $response;
 		}
 
 		/**
@@ -581,6 +683,51 @@ class ConvertKit_API {
 		do_action( 'convertkit_api_form_unsubscribe_success', $response, $email );
 
 		return $response;
+
+	}
+
+	/**
+	 * Gets all custom fields from the API.
+	 *
+	 * @since   1.9.6.9
+	 *
+	 * @return  mixed   WP_Error | array
+	 */
+	public function get_custom_fields() {
+
+		$this->log( 'API: get_custom_fields()' );
+
+		$custom_fields = array();
+
+		// Send request.
+		$response = $this->get(
+			'custom_fields',
+			array(
+				'api_key' => $this->api_key,
+			)
+		);
+
+		// If an error occured, return WP_Error.
+		if ( is_wp_error( $response ) ) {
+			$this->log( 'API: get_custom_fields(): Error: ' . $response->get_error_message() );
+			return $response;
+		}
+
+		// If no custom fields exist, return WP_Error.
+		if ( ! isset( $response['custom_fields'] ) ) {
+			$this->log( 'API: get_custom_fields(): Error: No custom fields exist in ConvertKit.', 'convertkit' );
+			return new WP_Error( 'convertkit_api_error', __( 'No custom fields exist in ConvertKit. Visit your ConvertKit account and create your first custom field.', 'convertkit' ) );
+		}
+		if ( ! count( $response['custom_fields'] ) ) {
+			$this->log( 'API: get_custom_fields(): Error: No custom fields exist in ConvertKit.', 'convertkit' );
+			return new WP_Error( 'convertkit_api_error', __( 'No custom fields exist in ConvertKit. Visit your ConvertKit account and create your first custom field.', 'convertkit' ) );
+		}
+
+		foreach ( $response['custom_fields'] as $custom_field ) {
+			$custom_fields[] = $custom_field;
+		}
+
+		return $custom_fields;
 
 	}
 
@@ -632,6 +779,44 @@ class ConvertKit_API {
 		$body = str_replace( '</head>', '</head>' . $script, $body );
 
 		return $body;
+
+	}
+
+	/**
+	 * Create a Purchase.
+	 *
+	 * @since   1.9.6.9
+	 *
+	 * @param   array $purchase   Purchase Data.
+	 * @return  mixed               WP_Error | array
+	 */
+	public function purchase_create( $purchase ) {
+
+		$this->log( 'API: purchase_create(): [ purchase: ' . print_r( $purchase, true ) . ']' ); // phpcs:ignore
+
+		$response = $this->post(
+			'purchases',
+			array(
+				'api_secret' => $this->api_secret,
+				'purchase'   => $purchase,
+			)
+		);
+
+		if ( is_wp_error( $response ) ) {
+			$this->log( 'API: purchase_create(): Error: ' . $response->get_error_message() );
+		}
+
+		/**
+		 * Runs actions immediately after the purchase data address was successfully created.
+		 *
+		 * @since   1.9.6.9
+		 *
+		 * @param   array   $response   API Response
+		 * @param   array   $purchase   Purchase Data
+		 */
+		do_action( 'convertkit_api_purchase_create_success', $response, $purchase );
+
+		return $response;
 
 	}
 
@@ -754,7 +939,7 @@ class ConvertKit_API {
 			)
 		);
 
-		// If an error occured, return it now.
+		// If an error occured, log and return it now.
 		if ( is_wp_error( $result ) ) {
 			return $result;
 		}
@@ -900,7 +1085,7 @@ class ConvertKit_API {
 			)
 		);
 
-		// If an error occured, return WP_Error.
+		// If an error occured, log and return it now.
 		if ( is_wp_error( $response ) ) {
 			return $response;
 		}
@@ -987,7 +1172,7 @@ class ConvertKit_API {
 		switch ( $method ) {
 			case 'get':
 				$result = wp_remote_get(
-					$this->add_api_credentials_to_url( $this->get_api_url( $endpoint ), $params ),
+					$this->add_params_to_url( $this->get_api_url( $endpoint ), $params ),
 					array(
 						'Accept-Encoding' => 'gzip',
 						'timeout'         => $this->get_timeout(),
@@ -1012,7 +1197,7 @@ class ConvertKit_API {
 				break;
 		}
 
-		// If an error occured, return it now.
+		// If an error occured, log and return it now.
 		if ( is_wp_error( $result ) ) {
 			$this->log( 'API: Error: ' . $result->get_error_message() );
 			return $result;
@@ -1107,36 +1292,17 @@ class ConvertKit_API {
 	}
 
 	/**
-	 * Adds either the API Key or API Secret to the URL, depending on whether
-	 * the API Key or API Secret is in the array of parameters.
+	 * Adds the supplied array of parameters as query arguments to the URL.
 	 *
-	 * @since   1.9.6
+	 * @since   1.9.6.9
 	 *
 	 * @param   string $url        URL.
 	 * @param   array  $params     Parameters for request.
 	 * @return  string              URL with API Key or API Secret
 	 */
-	private function add_api_credentials_to_url( $url, $params ) {
+	private function add_params_to_url( $url, $params ) {
 
-		if ( isset( $params['api_key'] ) ) {
-			return add_query_arg(
-				array(
-					'api_key' => $params['api_key'],
-				),
-				$url
-			);
-		}
-
-		if ( isset( $params['api_secret'] ) ) {
-			return add_query_arg(
-				array(
-					'api_secret' => $params['api_secret'],
-				),
-				$url
-			);
-		}
-
-		return $url;
+		return add_query_arg( $params, $url );
 
 	}
 
