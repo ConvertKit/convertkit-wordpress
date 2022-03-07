@@ -30,6 +30,9 @@ class ConvertKit_Block_Form extends ConvertKit_Block {
 		// Register additional scripts for this Gutenberg Block.
 		add_action( 'convertkit_gutenberg_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 
+		// Register additional stylesheets for this Gutenberg Block.
+		add_action( 'convertkit_gutenberg_enqueue_styles', array( $this, 'enqueue_styles' ) );
+
 	}
 
 	/**
@@ -40,6 +43,17 @@ class ConvertKit_Block_Form extends ConvertKit_Block {
 	public function enqueue_scripts() {
 
 		wp_enqueue_script( 'convertkit-gutenberg-block-form', CONVERTKIT_PLUGIN_URL . '/resources/backend/js/gutenberg-block-form.js', array( 'convertkit-gutenberg' ), CONVERTKIT_PLUGIN_VERSION, true );
+
+	}
+
+	/**
+	 * Enqueues additional scripts for this Gutenberg Block.
+	 *
+	 * @since   1.9.6.9
+	 */
+	public function enqueue_styles() {
+
+		wp_enqueue_style( 'convertkit-gutenberg-block-form', CONVERTKIT_PLUGIN_URL . '/resources/backend/css/gutenberg-block-form.css', array( 'wp-edit-blocks' ), CONVERTKIT_PLUGIN_VERSION );
 
 	}
 
@@ -101,6 +115,18 @@ class ConvertKit_Block_Form extends ConvertKit_Block {
 			// Gutenberg: JS function to call when rendering the block preview in the Gutenberg editor.
 			// If not defined, render_callback above will be used.
 			'gutenberg_preview_render_callback' => 'convertKitGutenbergFormBlockRenderPreview',
+
+			// General: Any other strings for use in JS that need to support translation / i18n.
+			'i18n'                              => array(
+				/* translators: Form name in ConvertKit */
+				'gutenberg_form_modal'      => __( 'Modal form "%s" selected. View on the frontend site to see the modal form.', 'convertkit' ),
+
+				/* translators: Form name in ConvertKit */
+				'gutenberg_form_slide_in'   => __( 'Slide in form "%s" selected. View on the frontend site to see the slide in form.', 'convertkit' ),
+
+				/* translators: Form name in ConvertKit */
+				'gutenberg_form_sticky_bar' => __( 'Sticky bar form "%s" selected. View on the frontend site to see the sticky bar form.', 'convertkit' ),
+			),
 		);
 
 	}
