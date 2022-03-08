@@ -159,6 +159,19 @@ function convertKitGutenbergRegisterBlock( block ) {
 											}
 										);
 									}
+
+									// Sort field's options alphabetically by label.
+									fieldOptions.sort(
+										function ( x, y ) {
+
+											let a = x.label.toUpperCase(),
+											b     = y.label.toUpperCase();
+											return a == b ? 0 : a > b ? 1 : -1;
+
+										}
+									);
+
+									// Assign options to field.
 									fieldProperties.options = fieldOptions;
 
 									// Define field element.
