@@ -166,7 +166,7 @@ function convertKitGutenbergRegisterBlock( block ) {
 
 											let a = x.label.toUpperCase(),
 											b     = y.label.toUpperCase();
-											return a.localeCompare(b);
+											return a.localeCompare( b );
 
 										}
 									);
