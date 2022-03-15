@@ -66,8 +66,10 @@ class Multi_Value_Field_Table extends WP_List_Table {
 	/**
 	 * Set default column attributes
 	 *
-	 * @param  array $item A singular item (one full row's worth of data).
-	 * @param  array $column_name The name/slug of the column to be processed.
+	 * @since   1.0.0
+	 *
+	 * @param  array  $item A singular item (one full row's worth of data).
+	 * @param  string $column_name The name/slug of the column to be processed.
 	 * @return string Text or HTML to be placed inside the column <td>
 	 */
 	public function column_default( $item, $column_name ) {

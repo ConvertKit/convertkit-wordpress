@@ -22,7 +22,7 @@ class ConvertKit_Review_Request {
 	 *
 	 * @var     string
 	 */
-	private $plugin_name;
+	private $plugin_name; // @phpstan-ignore-line
 
 	/**
 	 * Holds the Plugin slug.

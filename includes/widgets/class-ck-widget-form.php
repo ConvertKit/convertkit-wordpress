@@ -14,9 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Form Widget.
  *
  * @author   ConvertKit
- * @category Widgets
  * @version  1.0.0
- * @extends  WP_Widget
  */
 class CK_Widget_Form extends WP_Widget {
 
@@ -40,7 +38,10 @@ class CK_Widget_Form extends WP_Widget {
 	/**
 	 * Outputs the settings update form.
 	 *
-	 * @param array $instance Widget settings.
+	 * @since   1.0.0
+	 *
+	 * @param   array $instance   Current settings.
+	 * @return  string              Default return is 'noform'
 	 */
 	public function form( $instance ) {
 
@@ -54,7 +55,6 @@ class CK_Widget_Form extends WP_Widget {
 			</p>
 			<?php
 		}
-
 		?>
 		<p>
 			<label for="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>"><?php esc_html_e( 'Title', 'convertkit' ); ?></label>
@@ -76,32 +76,7 @@ class CK_Widget_Form extends WP_Widget {
 		</p>
 		<?php
 
-	}
-
-	/**
-	 * Output the html at the start of a widget.
-	 *
-	 * @param array $args Widget arguments.
-	 * @param array $instance Widget settings.
-	 */
-	public function widget_start( $args, $instance ) {
-
-		echo $args['before_widget']; // phpcs:ignore
-		$title = apply_filters( 'widget_title', empty( $instance['title'] ) ? '' : $instance['title'], $instance, $this->id_base );
-		if ( $title ) {
-			echo $args['before_title'] . $title . $args['after_title']; // phpcs:ignore
-		}
-
-	}
-
-	/**
-	 * Output the html at the end of a widget.
-	 *
-	 * @param array $args After widget setting.
-	 */
-	public function widget_end( $args ) {
-
-		echo $args['after_widget']; // phpcs:ignore
+		return '';
 
 	}
 
@@ -130,12 +105,14 @@ class CK_Widget_Form extends WP_Widget {
 		}
 
 		// Output Form.
-		$this->widget_start( $args, $instance );
+		echo $args['before_widget']; // phpcs:ignore
+		if ( $instance['title'] ) {
+			echo $args['before_title'] . $instance['title'] . $args['after_title']; // phpcs:ignore
+		}
 		echo $form; // phpcs:ignore
-		$this->widget_end( $args );
+		echo $args['after_widget']; // phpcs:ignore
 
 	}
-
 
 	/**
 	 * Updates a particular instance of a widget.

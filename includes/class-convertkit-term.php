@@ -32,7 +32,7 @@ class ConvertKit_Term {
 	/**
 	 * Holds the Term's Settings
 	 *
-	 * @var     array
+	 * @var     bool|string
 	 */
 	private $settings = false;
 
@@ -66,7 +66,7 @@ class ConvertKit_Term {
 	 *
 	 * @since   1.9.6
 	 *
-	 * @return  array
+	 * @return  string
 	 */
 	public function get() {
 
@@ -92,11 +92,15 @@ class ConvertKit_Term {
 	 *
 	 * @since   1.9.6
 	 *
-	 * @return  string
+	 * @return  bool
 	 */
 	public function has_form() {
 
-		return ( $this->settings > 0 );
+		if ( $this->settings !== false ) {
+			return true;
+		}
+
+		return false;
 
 	}
 
@@ -105,7 +109,7 @@ class ConvertKit_Term {
 	 *
 	 * @since   1.9.6
 	 *
-	 * @return  string
+	 * @return  bool
 	 */
 	public function uses_default_form() {
 
@@ -118,7 +122,7 @@ class ConvertKit_Term {
 	 *
 	 * @since   1.9.6
 	 *
-	 * @return  string
+	 * @return  bool
 	 */
 	public function uses_no_form() {
 
@@ -131,7 +135,7 @@ class ConvertKit_Term {
 	 *
 	 * @since   1.9.6
 	 *
-	 * @param   array $meta   Settings.
+	 * @param   string $meta   Settings.
 	 */
 	public function save( $meta ) {
 
@@ -145,7 +149,7 @@ class ConvertKit_Term {
 	 *
 	 * @since   1.9.6
 	 *
-	 * @return  array
+	 * @return  string
 	 */
 	public function get_default_settings() {
 

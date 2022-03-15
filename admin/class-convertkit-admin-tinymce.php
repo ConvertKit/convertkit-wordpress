@@ -97,7 +97,7 @@ class ConvertKit_Admin_TinyMCE {
 		);
 
 		// Enqueue Quicktag CSS.
-		wp_enqueue_style( 'convertkit-admin-quicktags', CONVERTKIT_PLUGIN_URL . '/resources/backend/css/quicktags.css', false, CONVERTKIT_PLUGIN_VERSION );
+		wp_enqueue_style( 'convertkit-admin-quicktags', CONVERTKIT_PLUGIN_URL . '/resources/backend/css/quicktags.css', array(), CONVERTKIT_PLUGIN_VERSION );
 
 		// Output Backbone View Template.
 		?>
@@ -126,13 +126,13 @@ class ConvertKit_Admin_TinyMCE {
 
 		// Bail if no shortcodes are available.
 		if ( ! is_array( $shortcodes ) || ! count( $shortcodes ) ) {
-			return;
+			return $plugins;
 		}
 
 		// Enqueue TinyMCE CSS and JS.
 		wp_enqueue_script( 'convertkit-admin-tinymce', CONVERTKIT_PLUGIN_URL . 'resources/backend/js/tinymce.js', array( 'jquery' ), CONVERTKIT_PLUGIN_VERSION, true );
 		wp_enqueue_script( 'convertkit-admin-modal', CONVERTKIT_PLUGIN_URL . 'resources/backend/js/modal.js', array( 'jquery' ), CONVERTKIT_PLUGIN_VERSION, true );
-		wp_enqueue_style( 'convertkit-admin-tinymce', CONVERTKIT_PLUGIN_URL . '/resources/backend/css/tinymce.css', false, CONVERTKIT_PLUGIN_VERSION );
+		wp_enqueue_style( 'convertkit-admin-tinymce', CONVERTKIT_PLUGIN_URL . '/resources/backend/css/tinymce.css', array(), CONVERTKIT_PLUGIN_VERSION );
 
 		// Register JS variable convertkit_admin_tinymce.nonce for AJAX calls.
 		wp_localize_script(

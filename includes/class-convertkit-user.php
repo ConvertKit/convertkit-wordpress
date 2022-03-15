@@ -34,7 +34,7 @@ class ConvertKit_User {
 	 *
 	 * @var     array
 	 */
-	private $settings = false;
+	private $settings = array();
 
 	/**
 	 * Constructor. Populates the settings based on the given User ID.

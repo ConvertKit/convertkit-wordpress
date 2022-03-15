@@ -207,7 +207,7 @@ class ConvertKit_Settings {
 	 *
 	 * @since   1.9.6
 	 *
-	 * @return  string
+	 * @return  bool
 	 */
 	public function debug_enabled() {
 
@@ -220,7 +220,7 @@ class ConvertKit_Settings {
 	 *
 	 * @since   1.9.6
 	 *
-	 * @return  string
+	 * @return  bool
 	 */
 	public function scripts_disabled() {
 

@@ -19,7 +19,7 @@ class ConvertKit_Output {
 	 *
 	 * @since   1.9.6
 	 *
-	 * @var     ConvertKit_Settings
+	 * @var     bool|ConvertKit_Settings
 	 */
 	private $settings = false;
 
@@ -28,7 +28,7 @@ class ConvertKit_Output {
 	 *
 	 * @since   1.9.6
 	 *
-	 * @var     ConvertKit_Post_Settings
+	 * @var     bool|ConvertKit_Post
 	 */
 	private $post_settings = false;
 
@@ -37,7 +37,7 @@ class ConvertKit_Output {
 	 *
 	 * @since   1.9.6
 	 *
-	 * @var     ConvertKit_Resource_Forms
+	 * @var     bool|ConvertKit_Resource_Forms
 	 */
 	private $forms = false;
 
@@ -46,7 +46,7 @@ class ConvertKit_Output {
 	 *
 	 * @since   1.9.6
 	 *
-	 * @var     ConvertKit_Resource_Landing_Pages
+	 * @var     bool|ConvertKit_Resource_Landing_Pages
 	 */
 	private $landing_pages = false;
 
@@ -79,7 +79,6 @@ class ConvertKit_Output {
 		 *
 		 * @since   1.9.6
 		 *
-		 * @param   string  $content    Post Content
 		 * @return  string              Post Content with Form Appended, if applicable
 		 */
 		do_action( 'convertkit_output_output_form' );
@@ -130,7 +129,7 @@ class ConvertKit_Output {
 		$landing_page_id = apply_filters( 'convertkit_output_append_form_to_content_form_id', $landing_page_id, $post_id );
 
 		// Bail if no Landing Page is configured to be output.
-		if ( ! $landing_page_id || empty( $landing_page_id ) ) {
+		if ( empty( $landing_page_id ) ) {
 			return;
 		}
 
@@ -230,7 +229,7 @@ class ConvertKit_Output {
 	 * @since   1.9.6
 	 *
 	 * @param   int $post_id    Post ID.
-	 * @return  mixed               bool | int (ConvertKit Form ID)
+	 * @return  bool|string|int     false|'default'|Form ID
 	 */
 	private function get_post_form_id( $post_id ) {
 
@@ -261,10 +260,15 @@ class ConvertKit_Output {
 		}
 
 		// Get Post's Categories.
-		$categories = wp_get_post_categories( $post_id );
+		$categories = wp_get_post_categories(
+			$post_id,
+			array(
+				'fields' => 'ids',
+			)
+		);
 
 		// If no Categories exist, use the Default Form.
-		if ( ! is_array( $categories ) || is_wp_error( $categories ) || ! count( $categories ) ) {
+		if ( ! is_array( $categories ) || ! count( $categories ) ) {
 			// Get Post Type.
 			return $this->settings->get_default_form( get_post_type( $post_id ) );
 		}
@@ -345,7 +349,7 @@ class ConvertKit_Output {
 	 *
 	 * @since   1.9.6
 	 *
-	 * @return  mixed   Subscriber ID
+	 * @return  int   Subscriber ID
 	 */
 	public function get_subscriber_id_from_request() {
 

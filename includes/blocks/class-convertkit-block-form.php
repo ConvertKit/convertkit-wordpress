@@ -61,6 +61,8 @@ class ConvertKit_Block_Form extends ConvertKit_Block {
 	 * Returns this block's programmatic name, excluding the convertkit- prefix.
 	 *
 	 * @since   1.9.6
+	 *
+	 * @return  string
 	 */
 	public function get_name() {
 
@@ -78,6 +80,8 @@ class ConvertKit_Block_Form extends ConvertKit_Block {
 	 * Returns this block's Title, Icon, Categories, Keywords and properties.
 	 *
 	 * @since   1.9.6
+	 *
+	 * @return  array
 	 */
 	public function get_overview() {
 
@@ -135,6 +139,8 @@ class ConvertKit_Block_Form extends ConvertKit_Block {
 	 * Returns this block's Attributes
 	 *
 	 * @since   1.9.6.5
+	 *
+	 * @return  array
 	 */
 	public function get_attributes() {
 
@@ -156,6 +162,8 @@ class ConvertKit_Block_Form extends ConvertKit_Block {
 	 * Returns this block's Fields
 	 *
 	 * @since   1.9.6
+	 *
+	 * @return  mixed   bool | array
 	 */
 	public function get_fields() {
 
@@ -194,6 +202,8 @@ class ConvertKit_Block_Form extends ConvertKit_Block {
 	 * Returns this block's UI panels / sections.
 	 *
 	 * @since   1.9.6
+	 *
+	 * @return  mixed   bool | array
 	 */
 	public function get_panels() {
 
@@ -217,6 +227,8 @@ class ConvertKit_Block_Form extends ConvertKit_Block {
 	 * Returns this block's Default Values
 	 *
 	 * @since   1.9.6
+	 *
+	 * @return  array
 	 */
 	public function get_default_values() {
 

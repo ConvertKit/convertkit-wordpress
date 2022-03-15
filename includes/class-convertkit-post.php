@@ -32,7 +32,7 @@ class ConvertKit_Post {
 	/**
 	 * Holds the Post's Settings
 	 *
-	 * @var     array
+	 * @var     bool|array
 	 */
 	private $settings = false;
 
@@ -94,7 +94,7 @@ class ConvertKit_Post {
 	 *
 	 * @since   1.9.6
 	 *
-	 * @return  string
+	 * @return  int
 	 */
 	public function get_form() {
 
@@ -107,7 +107,7 @@ class ConvertKit_Post {
 	 *
 	 * @since   1.9.6
 	 *
-	 * @return  string
+	 * @return  int
 	 */
 	public function get_landing_page() {
 
@@ -120,7 +120,7 @@ class ConvertKit_Post {
 	 *
 	 * @since   1.9.6
 	 *
-	 * @return  string
+	 * @return  int
 	 */
 	public function get_tag() {
 
@@ -133,7 +133,7 @@ class ConvertKit_Post {
 	 *
 	 * @since   1.9.6
 	 *
-	 * @return  string
+	 * @return  bool
 	 */
 	public function has_form() {
 
@@ -146,7 +146,7 @@ class ConvertKit_Post {
 	 *
 	 * @since   1.9.6
 	 *
-	 * @return  string
+	 * @return  bool
 	 */
 	public function uses_default_form() {
 
@@ -159,7 +159,7 @@ class ConvertKit_Post {
 	 *
 	 * @since   1.9.6
 	 *
-	 * @return  string
+	 * @return  bool
 	 */
 	public function uses_no_form() {
 
@@ -172,7 +172,7 @@ class ConvertKit_Post {
 	 *
 	 * @since   1.9.6
 	 *
-	 * @return  string
+	 * @return  bool
 	 */
 	public function has_landing_page() {
 
@@ -185,7 +185,7 @@ class ConvertKit_Post {
 	 *
 	 * @since   1.9.6
 	 *
-	 * @return  string
+	 * @return  bool
 	 */
 	public function has_tag() {
 

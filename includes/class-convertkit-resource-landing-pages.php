@@ -31,7 +31,7 @@ class ConvertKit_Resource_Landing_Pages extends ConvertKit_Resource {
 	/**
 	 * Holds the forms from the ConvertKit API
 	 *
-	 * @var     array
+	 * @var     WP_Error|array
 	 */
 	public $resources = array();
 
@@ -41,7 +41,7 @@ class ConvertKit_Resource_Landing_Pages extends ConvertKit_Resource {
 	 * @since   1.9.6
 	 *
 	 * @param   mixed $id     Landing Page ID | Legacy Landing Page URL.
-	 * @return  mixed           WP_Error | string
+	 * @return  WP_Error|string
 	 */
 	public function get_html( $id ) {
 
