@@ -1,6 +1,9 @@
 # Testing Guide
 
-This document describes how to create and run tests for your development work.
+This document describes how to:
+- create and run tests for your development work,
+- ensure code meets PHP and WordPress Coding Standards, for best practices and security,
+- ensure code passes static analysis, to catch potential errors that tests might miss
 
 If you're new to creating and running tests, this guide will walk you through how to do this.
 
@@ -396,6 +399,27 @@ Any errors should be corrected by either:
 - (Experimental) running `vendor/bin/phpcbf ./ -v` to automatically fix coding standards
 
 Need to change the PHP or WordPress coding standard rules applied?  Edit the [phpcs.xml](phpcs.xml) file.
+
+## Run PHPStan
+
+[PHPStan](https://github.com/squizlabs/PHP_CodeSniffer) performs static analysis on the Plugin's PHP code.  This ensures:
+
+- DocBlocks declarations are valid and uniform
+- DocBlocks declarations for WordPress `do_action()` and `apply_filters()` calls are valid
+- Typehinting variables and return types declared in DocBlocks are correctly cast
+- Any unused functions are detected
+- Unnecessary checks / code is highlighted for possible removal
+- Conditions that do not evaluate can be fixed/removed as necessary
+
+In the Plugin's directory, run the following command to run PHPStan:
+
+```bash
+vendor/bin/phpstan --memory-limit=512M
+```
+
+Any errors should be corrected by making applicable code changes.
+
+False positives [can be excluded by configuring](https://phpstan.org/user-guide/ignoring-errors) the `phpstan.neon` file.
 
 ## Next Steps
 
