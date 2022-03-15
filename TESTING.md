@@ -402,7 +402,7 @@ Need to change the PHP or WordPress coding standard rules applied?  Edit the [ph
 
 ## Run PHPStan
 
-[PHPStan](https://github.com/squizlabs/PHP_CodeSniffer) performs static analysis on the Plugin's PHP code.  This ensures:
+[PHPStan](https://phpstan.org) performs static analysis on the Plugin's PHP code.  This ensures:
 
 - DocBlocks declarations are valid and uniform
 - DocBlocks declarations for WordPress `do_action()` and `apply_filters()` calls are valid
