@@ -78,6 +78,10 @@ class ConvertKit_Resource {
 	 */
 	public function exist() {
 
+		if ( $this->resources === false ) {
+			return false;
+		}
+
 		if ( is_wp_error( $this->resources ) ) {
 			return false;
 		}
