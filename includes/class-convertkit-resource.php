@@ -78,7 +78,7 @@ class ConvertKit_Resource {
 	 */
 	public function exist() {
 
-		if ( $this->resources === false ) {
+		if ( $this->resources === false ) { // @phpstan-ignore-line.
 			return false;
 		}
 
