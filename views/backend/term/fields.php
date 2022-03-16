@@ -17,31 +17,33 @@
 			esc_html_e( 'No Forms exist in ConvertKit.', 'convertkit' );
 		} else {
 			?>
-			<select name="wp-convertkit[form]" id="wp-convertkit-form" class="convertkit-select2">
-				<option value="0"<?php selected( 0, $convertkit_term->get_form() ); ?>>
-					<?php esc_html_e( 'None', 'convertkit' ); ?>
-				</option>
-				<?php
-				foreach ( $convertkit_forms->get() as $convertkit_form ) {
-					?>
-					<option value="<?php echo esc_attr( $convertkit_form['id'] ); ?>"<?php selected( $convertkit_form['id'], $convertkit_term->get_form() ); ?>>
-						<?php echo esc_html( $convertkit_form['name'] ); ?>
+			<div class="convertkit-select2-container">
+				<select name="wp-convertkit[form]" id="wp-convertkit-form" class="convertkit-select2">
+					<option value="0"<?php selected( 0, $convertkit_term->get_form() ); ?>>
+						<?php esc_html_e( 'None', 'convertkit' ); ?>
 					</option>
 					<?php
-				}
-				?>
-			</select>
-			<p class="description">
-				<?php _e( '<code>None</code>: do not display a form.', 'convertkit' ); /* phpcs:ignore */ ?>
-				<br />
-				<?php
-				echo sprintf(
-					/* translators: Taxonomy Name */
-					esc_html__( 'Any other option will display that form after the main content for Posts in this %s.', 'convertkit' ),
-					'category'
-				);
-				?>
-			</p>
+					foreach ( $convertkit_forms->get() as $convertkit_form ) {
+						?>
+						<option value="<?php echo esc_attr( $convertkit_form['id'] ); ?>"<?php selected( $convertkit_form['id'], $convertkit_term->get_form() ); ?>>
+							<?php echo esc_html( $convertkit_form['name'] ); ?>
+						</option>
+						<?php
+					}
+					?>
+				</select>
+				<p class="description">
+					<?php _e( '<code>None</code>: do not display a form.', 'convertkit' ); /* phpcs:ignore */ ?>
+					<br />
+					<?php
+					echo sprintf(
+						/* translators: Taxonomy Name */
+						esc_html__( 'Any other option will display that form after the main content for Posts in this %s.', 'convertkit' ),
+						'category'
+					);
+					?>
+				</p>
+			</div>
 			<?php
 			wp_nonce_field( 'wp-convertkit-save-meta', 'wp-convertkit-save-meta-nonce' );
 		}

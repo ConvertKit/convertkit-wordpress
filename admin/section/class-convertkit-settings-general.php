@@ -355,7 +355,7 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 		}
 
 		// Output field.
-		echo $this->get_select_field( $post_type . '_form', $this->settings->get_default_form( $post_type ), $options, false, array( 'convertkit-select2' ) ); // phpcs:ignore
+		echo '<div class="convertkit-select2-container">' . $this->get_select_field( $post_type . '_form', $this->settings->get_default_form( $post_type ), $options, false, array( 'convertkit-select2' ) ) . '</div>'; // phpcs:ignore
 
 	}
 
