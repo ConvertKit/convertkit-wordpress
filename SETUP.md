@@ -102,6 +102,8 @@ CONVERTKIT_API_THIRD_PARTY_INTEGRATIONS_FORM_ID="3003590" // The ID of the CONVE
 
 ```
 
+#### Codeception
+
 Create a `codeception.yml` file in the root of the repository, with the following contents:
 ```yaml
 params:
@@ -110,11 +112,58 @@ params:
 
 This tells Codeception to read the above `.env.testing` file when testing on the local development enviornment.
 
+#### PHPStan
+
+Copy the `phpstan.neon.example` file to `phpstan.neon` in the root of this repository, changing the `scanDirectories` to point to your
+local WordPress installation:
+```yaml
+# Include PHPStan for WordPress configuration.
+includes:
+    - vendor/szepeviktor/phpstan-wordpress/extension.neon
+
+# Parameters
+parameters:
+    # Paths to scan
+    # This should comprise of the base Plugin PHP file, plus directories that contain Plugin PHP files
+    paths:
+        - wp-convertkit.php
+        - admin/
+        - includes/
+
+    # Files that include Plugin-specific PHP constants
+    bootstrapFiles:
+        - wp-convertkit.php
+
+    # Location of WordPress installation
+    scanDirectories:
+        - /Users/tim/Local Sites/convertkit-github/app/public
+
+    # Should not need to edit anything below here
+    # Rule Level: https://phpstan.org/user-guide/rule-levels
+    level: 5
+
+    # Ignore the following errors, as PHPStan and PHPStan for WordPress haven't registered symbols for them yet,
+    # so they're false positives.
+    ignoreErrors:
+        - '#Access to an undefined property WP_Theme::#'
+        - '#Constant WP_MEMORY_LIMIT not found.#'
+        - '#Constant DB_HOST not found.#'
+        - '#Constant WPINC not found.#'
+        - '#Function apply_filters invoked with#' # apply_filters() accepted a variable number of parameters, which PHPStan fails to detect
+```
+
 ### Install Testing Suite
 
 In the Plugin's directory, at the command line, run `composer update`.
 
-This will install the necessary libraries used for testing, including wp-browser, Codeception, PHPUnit and PHP_CodeSniffer, which we'll cover later on.
+This will install the necessary libraries used for testing, including:
+- wp-browser
+- Codeception
+- PHPStan
+- PHPUnit
+- PHP_CodeSniffer
+
+How to use these is covered later on, and in the [Testing Guide](TESTING.md)
 
 ### Configure wp-config.php
 
@@ -191,6 +240,20 @@ vendor/bin/phpcs ./ -v
 ```
 
 ![Coding Standards Test Results](/.github/docs/coding-standards.png?raw=true)
+
+Again, don't worry if you don't understand these commands; if your output looks similar to the above screenshot, with no errors, your environment
+is setup successfully.
+
+### Running PHPStan
+
+In the Plugin's directory, run the following command to run PHPStan, which will perform static analysis on the code, checking it meets required
+standards, that PHP DocBlocks are valid, WordPress action/filter DocBlocks are valid etc:
+
+```bash
+vendor/bin/phpstan --memory-limit=512M
+```
+
+![PHPStan Test Results](/.github/docs/phpstan.png?raw=true)
 
 Again, don't worry if you don't understand these commands; if your output looks similar to the above screenshot, with no errors, your environment
 is setup successfully.
