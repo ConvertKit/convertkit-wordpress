@@ -72,7 +72,7 @@ class ConvertKit_Wishlist_Settings {
 		if ( empty( $this->get() ) ) {
 			return false;
 		}
-		if ( ! count( $this->get() ) ) {
+		if ( count( $this->get() ) === 0 ) { // @phpstan-ignore-line.
 			return false;
 		}
 
@@ -86,7 +86,7 @@ class ConvertKit_Wishlist_Settings {
 	 * @since   1.9.6
 	 *
 	 * @param   int $wlm_level_id   WishList Member Level ID.
-	 * @return  mixed                   bool (false) | ConvertKit Form ID
+	 * @return  bool|int
 	 */
 	public function get_convertkit_form_id_by_wishlist_member_level_id( $wlm_level_id ) {
 
@@ -110,7 +110,7 @@ class ConvertKit_Wishlist_Settings {
 	 * @since   1.9.6
 	 *
 	 * @param   int $wlm_level_id   WishList Member Level ID.
-	 * @return  mixed                   bool (false) | ConvertKit Tag ID
+	 * @return  bool|string|int     false|'unsubscribe'|Tag ID
 	 */
 	public function get_convertkit_tag_id_by_wishlist_member_level_id( $wlm_level_id ) {
 

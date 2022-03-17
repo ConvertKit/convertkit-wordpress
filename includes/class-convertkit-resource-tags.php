@@ -31,7 +31,7 @@ class ConvertKit_Resource_Tags extends ConvertKit_Resource {
 	/**
 	 * Holds the forms from the ConvertKit API
 	 *
-	 * @var     array
+	 * @var     WP_Error|array
 	 */
 	public $resources = array();
 

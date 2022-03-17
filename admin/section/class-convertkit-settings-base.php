@@ -47,7 +47,7 @@ abstract class ConvertKit_Settings_Base {
 	 *
 	 * @since   1.9.6
 	 *
-	 * @var     mixed   ConvertKit_Settings
+	 * @var     false|ConvertKit_Settings|ConvertKit_ContactForm7_Settings|ConvertKit_Wishlist_Settings
 	 */
 	public $settings;
 
@@ -229,7 +229,7 @@ abstract class ConvertKit_Settings_Base {
 		$html .= '</select>';
 
 		// If no description exists, just return the select field.
-		if ( ! $description || empty( $description ) ) {
+		if ( empty( $description ) ) {
 			return $html;
 		}
 

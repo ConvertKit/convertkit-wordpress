@@ -31,7 +31,7 @@ class ConvertKit_Resource_Forms extends ConvertKit_Resource {
 	/**
 	 * Holds the forms from the ConvertKit API
 	 *
-	 * @var     array
+	 * @var     WP_Error|array
 	 */
 	public $resources = array();
 
@@ -44,7 +44,7 @@ class ConvertKit_Resource_Forms extends ConvertKit_Resource {
 	 * @since   1.9.6
 	 *
 	 * @param   int $id     Form ID.
-	 * @return  mixed           WP_Error | string
+	 * @return  WP_Error|string
 	 */
 	public function get_html( $id ) {
 

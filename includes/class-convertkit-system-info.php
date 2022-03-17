@@ -135,7 +135,7 @@ class ConvertKit_System_Info {
 		$return .= 'Table Prefix:             Length: ' . strlen( $wpdb->prefix ) . '   Status: ' . ( strlen( $wpdb->prefix ) > 16 ? 'ERROR: Too long' : 'Acceptable' ) . "\n";
 		$return .= 'WP_DEBUG:                 ' . ( defined( 'WP_DEBUG' ) ? WP_DEBUG ? 'Enabled' : 'Disabled' : 'Not set' ) . "\n";
 		$return .= 'Memory Limit:             ' . WP_MEMORY_LIMIT . "\n";
-		$return .= 'Registered Post Stati:    ' . implode( ', ', get_post_stati() ) . "\n";
+		$return .= 'Registered Post Stati:    ' . implode( ', ', get_post_stati() ) . "\n"; // @phpstan-ignore-line.
 
 		/**
 		 * Output System Information immediately after the WordPress Configuration section.
@@ -393,6 +393,8 @@ class ConvertKit_System_Info {
 	 * @return string
 	 */
 	private function get_user_agent() {
+
+		global $wp_version;
 
 		// Include an unmodified $wp_version.
 		require ABSPATH . WPINC . '/version.php';

@@ -72,7 +72,7 @@ class ConvertKit_ContactForm7_Settings {
 		if ( empty( $this->get() ) ) {
 			return false;
 		}
-		if ( ! count( $this->get() ) ) {
+		if ( count( $this->get() ) === 0 ) { // @phpstan-ignore-line.
 			return false;
 		}
 
@@ -86,7 +86,7 @@ class ConvertKit_ContactForm7_Settings {
 	 * @since   1.9.6
 	 *
 	 * @param   int $cf7_form_id    Contact Form 7 Form ID.
-	 * @return  mixed                   bool (false) | ConvertKit Form ID
+	 * @return  bool|int
 	 */
 	public function get_convertkit_form_id_by_cf7_form_id( $cf7_form_id ) {
 
