@@ -268,7 +268,7 @@ add_filter( 'convertkit_blocks', function( $blocks ) {
 </pre>
 <h3 id="convertkit_block_content_render">
 						convertkit_block_content_render
-						<code>includes/blocks/class-convertkit-block-content.php::246</code>
+						<code>includes/blocks/class-convertkit-block-content.php::258</code>
 					</h3><h4>Overview</h4>
 						<p>Filters the content in the ConvertKit Custom Content block/shortcode immediately before it is output.</p><h4>Parameters</h4>
 					<table>
@@ -311,7 +311,7 @@ add_filter( 'convertkit_block_content_render', function( $content, $atts, $subsc
 </pre>
 <h3 id="convertkit_block_form_render">
 						convertkit_block_form_render
-						<code>includes/blocks/class-convertkit-block-form.php::312</code>
+						<code>includes/blocks/class-convertkit-block-form.php::324</code>
 					</h3><h4>Overview</h4>
 						<p>Filter the block's content immediately before it is output.</p><h4>Parameters</h4>
 					<table>
@@ -720,7 +720,7 @@ add_filter( 'convertkit_post_get_default_settings', function( $defaults ) {
 </pre>
 <h3 id="convertkit_term_get_default_settings">
 						convertkit_term_get_default_settings
-						<code>includes/class-convertkit-term.php::161</code>
+						<code>includes/class-convertkit-term.php::165</code>
 					</h3><h4>Overview</h4>
 						<p>The default settings, used to populate the Term's Settings when a Term has no Settings.</p><h4>Parameters</h4>
 					<table>
@@ -747,7 +747,7 @@ add_filter( 'convertkit_term_get_default_settings', function( $defaults ) {
 </pre>
 <h3 id="convertkit_api_get_timeout">
 						convertkit_api_get_timeout
-						<code>includes/class-convertkit-api.php::1251</code>
+						<code>includes/class-convertkit-api.php::1262</code>
 					</h3><h4>Overview</h4>
 						<p>Defines the maximum time to allow the API request to run.</p><h4>Parameters</h4>
 					<table>
@@ -886,7 +886,7 @@ add_filter( 'convertkit_wishlist_settings_get_defaults', function( $defaults ) {
 </pre>
 <h3 id="convertkit_output_append_form_to_content_form_id">
 						convertkit_output_append_form_to_content_form_id
-						<code>includes/class-convertkit-output.php::183</code>
+						<code>includes/class-convertkit-output.php::182</code>
 					</h3><h4>Overview</h4>
 						<p>Define the ConvertKit Form ID to display for the given Post ID, overriding the Post, Category or Plugin settings. Return false to not display any ConvertKit Form.</p><h4>Parameters</h4>
 					<table>
@@ -917,7 +917,7 @@ add_filter( 'convertkit_output_append_form_to_content_form_id', function( $form_
 </pre>
 <h3 id="convertkit_frontend_append_form">
 						convertkit_frontend_append_form
-						<code>includes/class-convertkit-output.php::216</code>
+						<code>includes/class-convertkit-output.php::215</code>
 					</h3><h4>Overview</h4>
 						<p>Filter the Post's Content, which includes a ConvertKit Form, immediately before it is output.</p><h4>Parameters</h4>
 					<table>
@@ -983,7 +983,7 @@ add_filter( 'convertkit_settings_get_defaults', function( $defaults ) {
 </pre>
 <h3 id="convertkit_is_admin_or_frontend_editor">
 						convertkit_is_admin_or_frontend_editor
-						<code>includes/class-wp-convertkit.php::280</code>
+						<code>includes/class-wp-convertkit.php::277</code>
 					</h3><h4>Overview</h4>
 						<p>Filters whether the current request is a WordPress Administration / Frontend Editor request or not. Page Builders can set this to true to allow ConvertKit to load its administration functionality.</p><h4>Parameters</h4>
 					<table>
@@ -998,19 +998,15 @@ add_filter( 'convertkit_settings_get_defaults', function( $defaults ) {
 							<td>$is_admin_or_frontend_editor</td>
 							<td>bool</td>
 							<td>Is WordPress Administration / Frontend Editor request.</td>
-						</tr><tr>
-							<td>$_REQUEST</td>
-							<td>array</td>
-							<td>$_REQUEST data.</td>
 						</tr>
 						</tbody>
 					</table><h4>Usage</h4>
 <pre>
-add_filter( 'convertkit_is_admin_or_frontend_editor', function( $is_admin_or_frontend_editor, $_REQUEST ) {
+add_filter( 'convertkit_is_admin_or_frontend_editor', function( $is_admin_or_frontend_editor ) {
 	// ... your code here
 	// Return value
 	return $is_admin_or_frontend_editor;
-}, 10, 2 );
+}, 10, 1 );
 </pre>
 <h1>Actions</h1><table>
 				<thead>
@@ -1097,7 +1093,7 @@ add_filter( 'convertkit_is_admin_or_frontend_editor', function( $is_admin_or_fro
 					</tr><tr>
 						<td>&nbsp;</td>
 						<td><a href="#convertkit_output_output_form"><code>convertkit_output_output_form</code></a></td>
-						<td>Outputs a ConvertKit Form on singular Post Types that don't use the_content() or apply_filters( 'the_content' ).</td>
+						<td></td>
 					</tr><tr>
 						<td colspan="3">../includes/class-wp-convertkit.php</td>
 					</tr><tr>
@@ -1301,7 +1297,7 @@ do_action( 'convertkit_admin_post_enqueue_styles', function(  ) {
 							<td>API Response</td>
 						</tr><tr>
 							<td>$form_id</td>
-							<td>string</td>
+							<td>int</td>
 							<td>Form ID</td>
 						</tr><tr>
 							<td>$email</td>
@@ -1379,7 +1375,7 @@ do_action( 'convertkit_api_sequence_subscribe_success', function( $response, $se
 							<td>API Response</td>
 						</tr><tr>
 							<td>$tag_id</td>
-							<td>string</td>
+							<td>int</td>
 							<td>Tag ID</td>
 						</tr><tr>
 							<td>$email</td>
@@ -1502,9 +1498,8 @@ do_action( 'convertkit_gutenberg_enqueue_styles', function(  ) {
 </pre>
 <h3 id="convertkit_output_output_form">
 						convertkit_output_output_form
-						<code>includes/class-convertkit-output.php::84</code>
-					</h3><h4>Overview</h4>
-						<p>Outputs a ConvertKit Form on singular Post Types that don't use the_content() or apply_filters( 'the_content' ).</p><h4>Parameters</h4>
+						<code>includes/class-convertkit-output.php::83</code>
+					</h3><h4>Parameters</h4>
 					<table>
 						<thead>
 							<tr>
@@ -1513,11 +1508,7 @@ do_action( 'convertkit_gutenberg_enqueue_styles', function(  ) {
 								<th>Description</th>
 							</tr>
 						</thead>
-						<tbody><tr>
-							<td>$content</td>
-							<td>string</td>
-							<td>Post Content</td>
-						</tr>
+						<tbody>
 						</tbody>
 					</table><h4>Usage</h4>
 <pre>

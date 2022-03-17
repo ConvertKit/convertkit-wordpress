@@ -58,6 +58,10 @@ Navigate to the Plugin's Settings at Settings > ConvertKit.
 
 == Changelog ==
 
+### 1.9.7.0 2022-03-17
+* Fix: ConvertKit Form Block: Order Form names alphabetically
+* Fix: Prevent Select2 styling from applying to non-Plugin elements
+
 ### 1.9.6.9 2022-03-07
 * Added: ConvertKit Form Block: When editing, display the Form Name if a non-inline form has been selected, as non-inline forms cannot be previewed in the editor
 * Fix: Include email address in API request when attempting to fetch subscriber ID by email when ConvertKit Form is submitted with no email address
