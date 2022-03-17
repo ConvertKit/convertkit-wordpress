@@ -147,7 +147,7 @@ function convertkit_select2_enqueue_scripts() {
  */
 function convertkit_select2_enqueue_styles() {
 
-	wp_enqueue_style( 'convertkit-select2', 'https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css', false, CONVERTKIT_PLUGIN_VERSION );
-	wp_enqueue_style( 'convertkit-admin-select2', CONVERTKIT_PLUGIN_URL . '/resources/backend/css/select2.css', false, CONVERTKIT_PLUGIN_VERSION );
+	wp_enqueue_style( 'convertkit-select2', 'https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css', array(), CONVERTKIT_PLUGIN_VERSION );
+	wp_enqueue_style( 'convertkit-admin-select2', CONVERTKIT_PLUGIN_URL . '/resources/backend/css/select2.css', array(), CONVERTKIT_PLUGIN_VERSION );
 
 }

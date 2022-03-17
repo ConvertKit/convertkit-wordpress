@@ -130,12 +130,12 @@ class ConvertKit_Wishlist_Admin_Settings extends ConvertKit_Settings_Base {
 					'title'       => $wlm_level['name'],
 					'form'        => $this->get_select_field(
 						$wlm_level['id'] . '_form',
-						$this->settings->get_convertkit_form_id_by_wishlist_member_level_id( $wlm_level['id'] ),
+						(string) $this->settings->get_convertkit_form_id_by_wishlist_member_level_id( $wlm_level['id'] ),
 						$form_options
 					),
 					'unsubscribe' => $this->get_select_field(
 						$wlm_level['id'] . '_unsubscribe',
-						$this->settings->get_convertkit_tag_id_by_wishlist_member_level_id( $wlm_level['id'] ),
+						(string) $this->settings->get_convertkit_tag_id_by_wishlist_member_level_id( $wlm_level['id'] ),
 						$tag_options
 					),
 				)
@@ -157,7 +157,7 @@ class ConvertKit_Wishlist_Admin_Settings extends ConvertKit_Settings_Base {
 	/**
 	 * Gets membership levels from WishList Member API
 	 *
-	 * @return array Membership levels
+	 * @return mixed bool|array
 	 */
 	public function get_wlm_levels() {
 
