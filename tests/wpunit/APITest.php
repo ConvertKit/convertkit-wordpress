@@ -398,10 +398,21 @@ class APITest extends \Codeception\TestCase\WPTestCase
 		$result = $this->api->get_subscriber_tags($_ENV['CONVERTKIT_API_SUBSCRIBER_ID']);
 		$this->assertNotInstanceOf(WP_Error::class, $result);
 		$this->assertIsArray($result);
-		$this->assertCount(1, $result);
-		$this->assertArrayHasKey('id', $result[0]);
-		$this->assertArrayHasKey('name', $result[0]);
-		$this->assertEquals($result[0]['id'], $_ENV['CONVERTKIT_API_TAG_ID']);
+
+		// Subscriber may have multiple tags due to API tests running across different
+		// Plugins. Check that a matching tag in the array of tags exists.
+		$tagMatches = false;
+		foreach($result as $tag) {
+			$this->assertArrayHasKey('id', $tag);
+			$this->assertArrayHasKey('name', $tag);
+
+			if($tag['id'] == $_ENV['CONVERTKIT_API_TAG_ID']) {
+				$tagMatches = true;
+				break;
+			}
+		}
+		
+		$this->assertTrue($tagMatches);
 	} 
 
 	/**
