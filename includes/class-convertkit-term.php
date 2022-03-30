@@ -96,11 +96,7 @@ class ConvertKit_Term {
 	 */
 	public function has_form() {
 
-		if ( $this->settings !== false && ! empty( $this->settings ) ) {
-			return true;
-		}
-
-		return false;
+		return ( $this->settings > 0 );
 
 	}
 
