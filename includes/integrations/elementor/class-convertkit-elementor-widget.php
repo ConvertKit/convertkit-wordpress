@@ -18,18 +18,18 @@ class ConvertKit_Elementor_Widget extends Elementor\Widget_Base {
 	/**
 	 * Holds the block's properties
 	 *
-	 * @since 	1.9.7.2
+	 * @since   1.9.7.2
 	 *
-	 * @var 	WP_Error|array
+	 * @var     WP_Error|array
 	 */
 	private $block;
 
 	/**
 	 * Defines the Widget Name
 	 *
-	 * @since 	1.9.7.2
-	 * 
-	 * @return 	string
+	 * @since   1.9.7.2
+	 *
+	 * @return  string
 	 */
 	public function get_name() {
 
@@ -41,9 +41,9 @@ class ConvertKit_Elementor_Widget extends Elementor\Widget_Base {
 	 * Defines the Block Name, which is the slug excluding the
 	 * `convertkit-elementor-` prefix.
 	 *
-	 * @since 	1.9.7.2
-	 * 
-	 * @return 	string
+	 * @since   1.9.7.2
+	 *
+	 * @return  string
 	 */
 	public function get_block_name() {
 
@@ -54,9 +54,9 @@ class ConvertKit_Elementor_Widget extends Elementor\Widget_Base {
 	/**
 	 * Defines the Widget Title
 	 *
-	 * @since 	1.9.7.2
-	 * 
-	 * @return 	string
+	 * @since   1.9.7.2
+	 *
+	 * @return  string
 	 */
 	public function get_title() {
 
@@ -76,34 +76,33 @@ class ConvertKit_Elementor_Widget extends Elementor\Widget_Base {
 	/**
 	 * Defines the Widget Icon
 	 *
-	 * @since 	1.9.7.2
-	 * 
-	 * @return 	string
+	 * @since   1.9.7.2
+	 *
+	 * @return  string
 	 */
 	public function get_icon() {
 
-		// @TODO Improve.
-		return 'fa fa-code';
+		return 'eicon-convertkit-' . $this->get_block_name();
 
 	}
 
 	/**
 	 * Defines the Widget Categories
 	 *
-	 * @since 	1.9.7.2
-	 * 
-	 * @return 	array
+	 * @since   1.9.7.2
+	 *
+	 * @return  array
 	 */
 	public function get_categories() {
 
 		return array( 'convertkit' );
 
 	}
-	
+
 	/**
 	 * Defines the fields for this Widget
 	 *
-	 * @since 	1.9.7.2
+	 * @since   1.9.7.2
 	 */
 	protected function register_controls() {
 
@@ -124,10 +123,11 @@ class ConvertKit_Elementor_Widget extends Elementor\Widget_Base {
 		foreach ( $this->block['panels'] as $panel_name => $panel_properties ) {
 			// Start section.
 			$this->start_controls_section(
-				'section_' . $panel_name, // Deliberately prefix, as if a tab and field have the same name, it won't render.
+				// Deliberately prefix, as if a tab and field have the same name, it won't render.
+				'section_' . $panel_name,
 				array(
 					'label' => $panel_properties['label'],
-					'tab' 	=> Elementor\Controls_Manager::TAB_CONTENT,
+					'tab'   => Elementor\Controls_Manager::TAB_CONTENT,
 				)
 			);
 
@@ -154,19 +154,19 @@ class ConvertKit_Elementor_Widget extends Elementor\Widget_Base {
 	 * Returns the given field's control arguments, so that the field can be registered
 	 * as an Elementor Control.
 	 *
-	 * @since 	1.9.7.2
+	 * @since   1.9.7.2
 	 *
-	 * @param 	array 	$field 	Block Field.
-	 * @return 	array 			Elementor Control Arguments, compatible with add_control()
+	 * @param   array $field  Block Field.
+	 * @return  array           Elementor Control Arguments, compatible with add_control()
 	 */
 	private function get_field_control_args( $field ) {
 
-		// Start building control
+		// Start building control.
 		$control = array(
-			'default'		=> ( isset( $field['default_value'] ) ? $field['default_value'] : '' ),
-			'label' 		=> $field['label'],
-			'placeholder' 	=> ( isset( $field['placeholder'] ) ? $field['placeholder'] : '' ),
-			'desc'   		=> ( isset( $field['description'] ) ? $field['description'] : '' ),
+			'default'     => ( isset( $field['default_value'] ) ? $field['default_value'] : '' ),
+			'label'       => $field['label'],
+			'placeholder' => ( isset( $field['placeholder'] ) ? $field['placeholder'] : '' ),
+			'desc'        => ( isset( $field['description'] ) ? $field['description'] : '' ),
 		);
 
 		// Add control depending on the field type.
@@ -175,37 +175,49 @@ class ConvertKit_Elementor_Widget extends Elementor\Widget_Base {
 			 * Select
 			 */
 			case 'select':
-				$control = array_merge( $control, array(
-					'type' 		=> Elementor\Controls_Manager::SELECT,
-					'options'	=> $field['values'],
-				) );
+				$control = array_merge(
+					$control,
+					array(
+						'type'    => Elementor\Controls_Manager::SELECT,
+						'options' => $field['values'],
+					)
+				);
 				break;
 
 			/**
 			 * Number
 			 */
 			case 'number':
-				$control = array_merge( $control, array(
-					'type' 	=> Elementor\Controls_Manager::NUMBER,
-					'min' 	=> $field['min'],
-					'max' 	=> $field['max'],
-					'step' 	=> $field['step'],
-				) );
+				$control = array_merge(
+					$control,
+					array(
+						'type' => Elementor\Controls_Manager::NUMBER,
+						'min'  => $field['min'],
+						'max'  => $field['max'],
+						'step' => $field['step'],
+					)
+				);
 				break;
 
 			/**
-		     * Toggle
-		     */
+			 * Toggle
+			 */
 			case 'toggle':
-				$control = array_merge( $control, array(
-					'type' 	=> Elementor\Controls_Manager::SWITCHER,
-				) );
+				$control = array_merge(
+					$control,
+					array(
+						'type' => Elementor\Controls_Manager::SWITCHER,
+					)
+				);
 				break;
 
 			default:
-				$control = array_merge( $control, array(
-					'type' 			=> Elementor\Controls_Manager::TEXT,
-				) );
+				$control = array_merge(
+					$control,
+					array(
+						'type' => Elementor\Controls_Manager::TEXT,
+					)
+				);
 				break;
 
 		}
@@ -217,7 +229,7 @@ class ConvertKit_Elementor_Widget extends Elementor\Widget_Base {
 	/**
 	 * Renders the block.
 	 *
-	 * @since 	1.9.7.2
+	 * @since   1.9.7.2
 	 */
 	protected function render() {
 
@@ -227,16 +239,16 @@ class ConvertKit_Elementor_Widget extends Elementor\Widget_Base {
 		}
 
 		// Render using Block class' render() function.
-		echo WP_ConvertKit()->get_class( 'blocks_convertkit_' . $this->get_block_name() )->render( $this->get_settings_for_display() );
+		echo WP_ConvertKit()->get_class( 'blocks_convertkit_' . $this->get_block_name() )->render( $this->get_settings_for_display() ); // phpcs:ignore
 
 	}
 
 	/**
 	 * Return the block for the Elementor Widget.
-	 * 
-	 * @since 	1.9.7.2
-	 * 
-	 * @return 	WP_Error|array
+	 *
+	 * @since   1.9.7.2
+	 *
+	 * @return  WP_Error|array
 	 */
 	private function get_block() {
 
@@ -251,7 +263,7 @@ class ConvertKit_Elementor_Widget extends Elementor\Widget_Base {
 		// Bail if block doesn't exist.
 		if ( ! array_key_exists( $this->get_block_name(), $blocks ) ) {
 			return new WP_Error(
-				'convertkit_elementor_widget_get_block_error', 
+				'convertkit_elementor_widget_get_block_error',
 				sprintf(
 					/* translators: %1$s: Block name, %2$s: Elementor Widget name */
 					__( 'Block %1$s is not registered. Register using the `convertkit_blocks` filter, and ensure the Elementor Widget for this block has its `slug` property set to %2$s.', 'convertkit' ),
