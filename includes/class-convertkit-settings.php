@@ -169,7 +169,7 @@ class ConvertKit_Settings {
 	 * @since   1.9.6
 	 *
 	 * @param   string $post_type  Post Type.
-	 * @return  string              Default Form (default|form id)
+	 * @return  string|int          Default Form (default|form id)
 	 */
 	public function get_default_form( $post_type ) {
 

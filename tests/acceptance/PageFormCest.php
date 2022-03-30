@@ -348,6 +348,51 @@ class PageFormCest
 	}
 
 	/**
+	 * Test that the Default Form for Pages displays when an invalid Form ID is specified
+	 * for a Page.
+	 * 
+	 * Whilst the on screen options won't permit selecting an invalid Form ID, a Page might
+	 * have an invalid Form ID because:
+	 * - the form belongs to another ConvertKit account (i.e. API credentials were changed in the Plugin, but this Page's specified Form was not changed)
+	 * - the form was deleted from the ConvertKit account.
+	 * 
+	 * @since 	1.9.7.2
+	 * 
+	 * @param 	AcceptanceTester 	$I 	Tester
+	 */
+	public function testAddNewPageUsingInvalidDefinedForm(AcceptanceTester $I)
+	{
+		// Setup the Default Form for Pages and Posts.
+		$I->setupConvertKitPluginDefaultForm($I);
+
+		// Create Page, with an invalid Form ID, as if it were created prior to API credentials being changed and/or
+		// a Form being deleted in ConvertKit.
+		$postID = $I->havePostInDatabase([
+			'post_type' 	=> 'page',
+			'post_title' 	=> 'ConvertKit: Form: Specific: Invalid',
+			'meta_input'	=> [
+				'_wp_convertkit_post_meta' => [
+					'form'         => '11111',
+					'landing_page' => '',
+					'tag'          => '',
+				]
+			],
+		]);
+
+		// Load the Page on the frontend site.
+		$I->amOnPage('/?p='.$postID);
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Confirm that the invalid ConvertKit Form does not display.
+		$I->dontSeeElementInDOM('form[data-sv-form="11111"]');
+
+		// Confirm that the Default Form for Pages does display as a fallback.
+		$I->seeElementInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]');
+	}
+
+	/**
 	 * Deactivate and reset Plugin(s) after each test, if the test passes.
 	 * We don't use _after, as this would provide a screenshot of the Plugin
 	 * deactivation and not the true test error.
