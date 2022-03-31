@@ -25,6 +25,15 @@ class ConvertKit_Elementor_Widget extends Elementor\Widget_Base {
 	private $block;
 
 	/**
+	 * The module's slug. Must be different from the block's name i.e. cannot be convertkit-form.
+	 *
+	 * @since   1.9.7.2
+	 *
+	 * @var     string
+	 */
+	public $slug = '';
+
+	/**
 	 * Defines the Widget Name
 	 *
 	 * @since   1.9.7.2

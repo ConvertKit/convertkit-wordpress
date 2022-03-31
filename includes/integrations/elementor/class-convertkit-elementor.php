@@ -79,7 +79,7 @@ class ConvertKit_Elementor {
 	 *
 	 * @since   1.9.7.2
 	 *
-	 * @param   Widgets_Manager $widgets_manager    Widgets Manager, used to register/unregister Elementor Widgets.
+	 * @param   Elementor\Widgets_Manager $widgets_manager    Widgets Manager, used to register/unregister Elementor Widgets.
 	 */
 	public function register_widgets( $widgets_manager ) {
 
