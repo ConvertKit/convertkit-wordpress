@@ -58,8 +58,11 @@ Navigate to the Plugin's Settings at Settings > ConvertKit.
 
 == Changelog ==
 
-### 1.9.7.2 2022-xx-xx
+### 1.9.7.3 2022-xx-xx
 * Fix: Page/Post: If a specific Form is selected that no longer exists, fallback to the Default Form setting
+
+### 1.9.7.2 2022-03-30
+* Fix: Default Form would not display on Posts due to regression in 1.9.7.1
 
 ### 1.9.7.1 2022-03-23
 * Fix: Default Form would not display on Posts due to regression in 1.9.7.0

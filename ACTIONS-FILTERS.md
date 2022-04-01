@@ -720,7 +720,7 @@ add_filter( 'convertkit_post_get_default_settings', function( $defaults ) {
 </pre>
 <h3 id="convertkit_term_get_default_settings">
 						convertkit_term_get_default_settings
-						<code>includes/class-convertkit-term.php::165</code>
+						<code>includes/class-convertkit-term.php::161</code>
 					</h3><h4>Overview</h4>
 						<p>The default settings, used to populate the Term's Settings when a Term has no Settings.</p><h4>Parameters</h4>
 					<table>
