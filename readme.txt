@@ -58,6 +58,10 @@ Navigate to the Plugin's Settings at Settings > ConvertKit.
 
 == Changelog ==
 
+### 1.9.7.3 2022-xx-xx
+* Fix: Default Form would not display on Posts assigned to Categories, where Categories were created prior to 1.9.6.0 and site uses PHP 8.0 or greater
+* Fix: Categories: Improved wording of Form setting on per-Category level
+
 ### 1.9.7.2 2022-03-30
 * Fix: Default Form would not display on Posts due to regression in 1.9.7.1
 
