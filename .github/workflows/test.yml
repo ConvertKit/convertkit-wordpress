@@ -168,15 +168,18 @@ jobs:
         working-directory: ${{ env.PLUGIN_DIR }}
         run: composer dump-autoload
 
-      # This ensures the Plugin's log file can be written to.
-      # We don't recursively do this, as it'll prevent Codeception from writing to the /tests/_output directory.
-      - name: Set chmod for Plugin Directory
-        run: sudo chmod g+w ${{ env.PLUGIN_DIR }}
+      # This ensures the wp-content/uploads folder can be written to by WordPress and third party Plugins.
+      - name: Set Permissions for Uploads Directory
+        run: |
+          sudo chmod g+w ${{ env.ROOT_DIR }}/wp-content/uploads
+          sudo chown www-data:www-data ${{ env.ROOT_DIR }}/wp-content/uploads
 
       # This ensures the Plugin's log file can be written to.
       # We don't recursively do this, as it'll prevent Codeception from writing to the /tests/_output directory.
-      - name: Set chown for Plugin Directory
-        run: sudo chown www-data:www-data ${{ env.PLUGIN_DIR }}
+      - name: Set Permissions for Plugin Directory
+        run: |
+          sudo chmod g+w ${{ env.PLUGIN_DIR }}
+          sudo chown www-data:www-data ${{ env.PLUGIN_DIR }}
 
       # We run these before the main tests, as typically CodeSniffer is fast. If there's a failure, we can tell
       # the user sooner.
@@ -202,7 +205,7 @@ jobs:
       # Run Codeception Acceptance Tests.
       - name: Run Acceptance Tests
         working-directory: ${{ env.PLUGIN_DIR }}
-        run: php vendor/bin/codecept run acceptance --fail-fast
+        run: php vendor/bin/codecept run acceptance PageElementorFormCest --fail-fast
 
       # If the repository has other tests, such as unit tests, add the Codeception commands here to run them now.
 
