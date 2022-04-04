@@ -16,7 +16,8 @@
         "dealerdirect/phpcodesniffer-composer-installer": "^0.7",
         "wp-coding-standards/wpcs": "*",
         "phpstan/phpstan": "^1.4",
-        "szepeviktor/phpstan-wordpress": "^1.0"
+        "szepeviktor/phpstan-wordpress": "^1.0",
+        "rmccue/requests": "^2.0"
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
