@@ -720,7 +720,7 @@ add_filter( 'convertkit_post_get_default_settings', function( $defaults ) {
 </pre>
 <h3 id="convertkit_term_get_default_settings">
 						convertkit_term_get_default_settings
-						<code>includes/class-convertkit-term.php::161</code>
+						<code>includes/class-convertkit-term.php::148</code>
 					</h3><h4>Overview</h4>
 						<p>The default settings, used to populate the Term's Settings when a Term has no Settings.</p><h4>Parameters</h4>
 					<table>
@@ -983,7 +983,7 @@ add_filter( 'convertkit_settings_get_defaults', function( $defaults ) {
 </pre>
 <h3 id="convertkit_is_admin_or_frontend_editor">
 						convertkit_is_admin_or_frontend_editor
-						<code>includes/class-wp-convertkit.php::277</code>
+						<code>includes/class-wp-convertkit.php::278</code>
 					</h3><h4>Overview</h4>
 						<p>Filters whether the current request is a WordPress Administration / Frontend Editor request or not. Page Builders can set this to true to allow ConvertKit to load its administration functionality.</p><h4>Parameters</h4>
 					<table>
@@ -1598,7 +1598,7 @@ do_action( 'convertkit_initialize_frontend', function(  ) {
 </pre>
 <h3 id="convertkit_initialize_global">
 						convertkit_initialize_global
-						<code>includes/class-wp-convertkit.php::171</code>
+						<code>includes/class-wp-convertkit.php::172</code>
 					</h3><h4>Parameters</h4>
 					<table>
 						<thead>

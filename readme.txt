@@ -58,7 +58,8 @@ Navigate to the Plugin's Settings at Settings > ConvertKit.
 
 == Changelog ==
 
-### 1.9.7.3 2022-xx-xx
+### 1.9.7.3 2022-04-04
+* Added: Elementor Page Builder: ConvertKit Form Widget
 * Fix: Default Form would not display on Posts assigned to Categories, where Categories were created prior to 1.9.6.0 and site uses PHP 8.0 or greater
 * Fix: Categories: Improved wording of Form setting on per-Category level
 
