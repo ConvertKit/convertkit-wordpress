@@ -20,7 +20,7 @@
 			<div class="convertkit-select2-container">
 				<select name="wp-convertkit[form]" id="wp-convertkit-form" class="convertkit-select2">
 					<option value="0"<?php selected( 0, $convertkit_term->get_form() ); ?>>
-						<?php esc_html_e( 'None', 'convertkit' ); ?>
+						<?php esc_html_e( 'Default', 'convertkit' ); ?>
 					</option>
 					<?php
 					foreach ( $convertkit_forms->get() as $convertkit_form ) {
@@ -33,12 +33,12 @@
 					?>
 				</select>
 				<p class="description">
-					<?php _e( '<code>None</code>: do not display a form.', 'convertkit' ); /* phpcs:ignore */ ?>
+					<?php _e( '<code>Default</code>: Display a form based on the Post\'s settings.', 'convertkit' ); /* phpcs:ignore */ ?>
 					<br />
 					<?php
 					echo sprintf(
 						/* translators: Taxonomy Name */
-						esc_html__( 'Any other option will display that form after the main content for Posts in this %s.', 'convertkit' ),
+						esc_html__( 'Any other option will display that form after the main content for Posts assigned to this %s.', 'convertkit' ),
 						'category'
 					);
 					?>
