@@ -5,7 +5,7 @@ paths:
     support: tests/_support
     envs: tests/_envs
 settings:
-    error_level: E_ALL & ~E_STRICT & ~E_DEPRECATED
+    error_level: E_ALL & ~E_STRICT
 actor_suffix: Tester
 extensions:
     enabled:
