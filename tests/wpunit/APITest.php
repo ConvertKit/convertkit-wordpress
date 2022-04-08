@@ -508,8 +508,11 @@ class APITest extends \Codeception\TestCase\WPTestCase
 		$result = $this->api->get_posts();
 		$this->assertNotInstanceOf(WP_Error::class, $result);
 		$this->assertIsArray($result);
-		$this->assertArrayHasKey('id', reset($result)); // @TODO
-		$this->assertArrayHasKey('name', reset($result)); // @TODO
+		$this->assertArrayHasKey('id', reset($result));
+		$this->assertArrayHasKey('title', reset($result));
+		$this->assertArrayHasKey('url', reset($result));
+		$this->assertArrayHasKey('published_at', reset($result));
+		$this->assertArrayHasKey('is_paid', reset($result));
 	}
 
 	/**
@@ -520,12 +523,15 @@ class APITest extends \Codeception\TestCase\WPTestCase
 	 */
 	public function testGetPostsWithValidParameters()
 	{
-		$result = $this->api->get_posts(1, 5);
+		$result = $this->api->get_posts(1, 2);
 		$this->assertNotInstanceOf(WP_Error::class, $result);
 		$this->assertIsArray($result);
-		$this->assertArrayHasKey('id', reset($result)); // @TODO
-		$this->assertArrayHasKey('name', reset($result)); // @TODO
-		// @TODO Assert only 5 posts are returned
+		$this->assertCount(2, $result);
+		$this->assertArrayHasKey('id', reset($result));
+		$this->assertArrayHasKey('title', reset($result));
+		$this->assertArrayHasKey('url', reset($result));
+		$this->assertArrayHasKey('published_at', reset($result));
+		$this->assertArrayHasKey('is_paid', reset($result));
 	}
 
 	/**
@@ -536,7 +542,7 @@ class APITest extends \Codeception\TestCase\WPTestCase
 	 */
 	public function testGetPostsWithInvalidPageParameter()
 	{
-		$result = $this->api->get_posts(-1);
+		$result = $this->api->get_posts(0);
 		$this->assertInstanceOf(WP_Error::class, $result);
 		$this->assertEquals($result->get_error_code(), $this->errorCode);
 		$this->assertEquals('get_posts(): the page parameter must be equal to or greater than 1.', $result->get_error_message());
@@ -550,7 +556,7 @@ class APITest extends \Codeception\TestCase\WPTestCase
 	 */
 	public function testGetPostsWithNegativePerPageParameter()
 	{
-		$result = $this->api->get_posts(1, -1);
+		$result = $this->api->get_posts(1, 0);
 		$this->assertInstanceOf(WP_Error::class, $result);
 		$this->assertEquals($result->get_error_code(), $this->errorCode);
 		$this->assertEquals('get_posts(): the per_page parameter must be equal to or greater than 1.', $result->get_error_message());

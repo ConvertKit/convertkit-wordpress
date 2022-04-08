@@ -765,9 +765,10 @@ class ConvertKit_API {
 		$response = $this->get(
 			'posts',
 			array(
-				'api_key'  => $this->api_key,
-				'page'     => $page,
-				'per_page' => $per_page,
+				'api_key'    => $this->api_key,
+				'api_secret' => $this->api_secret,
+				'page'       => $page,
+				'per_page'   => $per_page,
 			)
 		);
 
@@ -1360,6 +1361,12 @@ class ConvertKit_API {
 	 */
 	private function get_api_url( $endpoint ) {
 
+		// For the /posts endpoint, the API base is https://api.convertkit.com/api/v3/$endpoint.
+		if ( $endpoint === 'posts' ) {
+			return path_join( $this->api_url_base . 'api/' . $this->api_version, $endpoint );
+		}
+
+		// For all other endpoints, it's https://api.convertkit.com/v3/$endpoint.
 		return path_join( $this->api_url_base . $this->api_version, $endpoint );
 
 	}
