@@ -736,8 +736,8 @@ class ConvertKit_API {
 	 *
 	 * @since   1.9.7.4
 	 *
-	 * @param 	int 	$page 		Page number.
-	 * @param 	int 	$per_page 	Number of Posts to return.
+	 * @param   int $page       Page number.
+	 * @param   int $per_page   Number of Posts to return.
 	 * @return  WP_Error|array
 	 */
 	public function get_posts( $page = 1, $per_page = 10 ) {
@@ -745,7 +745,7 @@ class ConvertKit_API {
 		$this->log( 'API: get_posts()' );
 
 		// Sanitize some parameters.
-		$page = absint( $page );
+		$page     = absint( $page );
 		$per_page = absint( $per_page );
 
 		// Sanity check that parameters aren't outside of the bounds as defined by the API.
@@ -755,7 +755,7 @@ class ConvertKit_API {
 		if ( $per_page < 1 ) {
 			return new WP_Error( 'convertkit_api_error', __( 'get_posts(): the per_page parameter must be equal to or greater than 1.', 'convertkit' ) );
 		}
-		if ( $per_page > 50) {
+		if ( $per_page > 50 ) {
 			return new WP_Error( 'convertkit_api_error', __( 'get_posts(): the per_page parameter must be equal to or less than 50.', 'convertkit' ) );
 		}
 
@@ -765,9 +765,9 @@ class ConvertKit_API {
 		$response = $this->get(
 			'posts',
 			array(
-				'api_key' => $this->api_key,
-				'page'	  => $page,
-				'per_page'=> $per_page,
+				'api_key'  => $this->api_key,
+				'page'     => $page,
+				'per_page' => $per_page,
 			)
 		);
 
