@@ -499,6 +499,78 @@ class APITest extends \Codeception\TestCase\WPTestCase
 	}
 
 	/**
+	 * Test that the `get_posts()` function returns expected data.
+	 * 
+	 * @since 	1.9.7.4
+	 */
+	public function testGetPosts()
+	{
+		$result = $this->api->get_posts();
+		$this->assertNotInstanceOf(WP_Error::class, $result);
+		$this->assertIsArray($result);
+		$this->assertArrayHasKey('id', reset($result)); // @TODO
+		$this->assertArrayHasKey('name', reset($result)); // @TODO
+	}
+
+	/**
+	 * Test that the `get_posts()` function returns expected data
+	 * when valid parameters are included.
+	 * 
+	 * @since 	1.9.7.4
+	 */
+	public function testGetPostsWithValidParameters()
+	{
+		$result = $this->api->get_posts(1, 5);
+		$this->assertNotInstanceOf(WP_Error::class, $result);
+		$this->assertIsArray($result);
+		$this->assertArrayHasKey('id', reset($result)); // @TODO
+		$this->assertArrayHasKey('name', reset($result)); // @TODO
+		// @TODO Assert only 5 posts are returned
+	}
+
+	/**
+	 * Test that the `get_posts()` function returns an error
+	 * when the page parameter is less than 1.
+	 * 
+	 * @since 	1.9.7.4
+	 */
+	public function testGetPostsWithInvalidPageParameter()
+	{
+		$result = $this->api->get_posts(-1);
+		$this->assertInstanceOf(WP_Error::class, $result);
+		$this->assertEquals($result->get_error_code(), $this->errorCode);
+		$this->assertEquals('get_posts(): the page parameter must be equal to or greater than 1.', $result->get_error_message());
+	}
+
+	/**
+	 * Test that the `get_posts()` function returns an error
+	 * when the per_page parameter is less than 1.
+	 * 
+	 * @since 	1.9.7.4
+	 */
+	public function testGetPostsWithNegativePerPageParameter()
+	{
+		$result = $this->api->get_posts(1, -1);
+		$this->assertInstanceOf(WP_Error::class, $result);
+		$this->assertEquals($result->get_error_code(), $this->errorCode);
+		$this->assertEquals('get_posts(): the per_page parameter must be equal to or greater than 1.', $result->get_error_message());
+	}
+
+	/**
+	 * Test that the `get_posts()` function returns an error
+	 * when the per_page parameter is greater than 50.
+	 * 
+	 * @since 	1.9.7.4
+	 */
+	public function testGetPostsWithOutOfBoundsPerPageParameter()
+	{
+		$result = $this->api->get_posts(1, 100);
+		$this->assertInstanceOf(WP_Error::class, $result);
+		$this->assertEquals($result->get_error_code(), $this->errorCode);
+		$this->assertEquals('get_posts(): the per_page parameter must be equal to or less than 50.', $result->get_error_message());
+	}
+
+	/**
 	 * Test that the `purchase_create()` function returns expected data
 	 * when valid parameters are provided.
 	 * 
