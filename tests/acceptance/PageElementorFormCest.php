@@ -42,7 +42,7 @@ class PageElementorFormCest
 		$I->selectOption('#wp-convertkit-form', 'None');
 
 		// Define a Page Title.
-		$I->fillField('.editor-post-title__input', 'ConvertKit: Form: Elementor: Valid Form Param');
+		$I->fillField('.editor-post-title__input', 'ConvertKit: Page: Form: Elementor: Valid Form Param');
 
 		// Click Edit with Elementor button.
 		$I->click('#elementor-switch-mode-button');
@@ -65,7 +65,7 @@ class PageElementorFormCest
 	public function testFormWidgetWithValidFormParameter(AcceptanceTester $I)
 	{
 		// Create Page with Form widget in Elementor.
-		$pageID = $this->_createPageWithFormWidget($I, 'ConvertKit: Form: Elementor Widget: Valid Form Param', $_ENV['CONVERTKIT_API_FORM_ID']);
+		$pageID = $this->_createPageWithFormWidget($I, 'ConvertKit: Page: Form: Elementor Widget: Valid Form Param', $_ENV['CONVERTKIT_API_FORM_ID']);
 
 		// Load Page.
 		$I->amOnPage('?p='.$pageID);
@@ -109,7 +109,7 @@ class PageElementorFormCest
 	public function testFormWidgetWithNoFormParameter(AcceptanceTester $I)
 	{
 		// Create Page with Form widget in Elementor.
-		$pageID = $this->_createPageWithFormWidget($I, 'ConvertKit: Form: Elementor Widget: No Form Param', '');
+		$pageID = $this->_createPageWithFormWidget($I, 'ConvertKit: Page: Form: Elementor Widget: No Form Param', '');
 
 		// Load Page.
 		$I->amOnPage('?p='.$pageID);
