@@ -116,9 +116,9 @@ class ConvertKit_Gutenberg {
 			);
 		}
 
-		// Enqueue Gutenberg scripts and stylesheets.
+		// Enqueue Gutenberg Block scripts and styles.
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
-		add_action( 'enqueue_block_assets', array( $this, 'enqueue_styles' ) );
+		add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_styles' ) );
 
 	}
 
@@ -156,22 +156,19 @@ class ConvertKit_Gutenberg {
 	}
 
 	/**
-	 * Enqueues stylesheets for Gutenberg blocks.
+	 * Enqueues scripts for Gutenberg blocks.
 	 *
 	 * @since   1.9.6.9
 	 */
 	public function enqueue_styles() {
 
-		// Get settings.
-		$settings = new ConvertKit_Settings();
-
-		// Bail if the no CSS setting is enabled.
-		if ( $settings->css_disabled() ) {
+		// Bail if request isn't for the Admin or a Frontend Editor.
+		if ( ! WP_ConvertKit()->is_admin_or_frontend_editor() ) {
 			return;
 		}
 
 		/**
-		 * Enqueue stylesheets for Gutenberg blocks that have been registered.
+		 * Enqueue styles for Gutenberg blocks that have been registered.
 		 *
 		 * @since   1.9.6.9
 		 */

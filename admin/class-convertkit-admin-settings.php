@@ -86,7 +86,7 @@ class ConvertKit_Admin_Settings {
 		convertkit_select2_enqueue_styles();
 
 		// Enqueue Settings CSS.
-		wp_enqueue_style( 'convertkit-admin-settings', CONVERTKIT_PLUGIN_URL . '/resources/backend/css/settings.css', false, CONVERTKIT_PLUGIN_VERSION );
+		wp_enqueue_style( 'convertkit-admin-settings', CONVERTKIT_PLUGIN_URL . '/resources/backend/css/settings.css', array(), CONVERTKIT_PLUGIN_VERSION );
 
 		/**
 		 * Enqueue CSS for the Settings Screen at Settings > ConvertKit

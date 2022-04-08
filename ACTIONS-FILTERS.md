@@ -268,7 +268,7 @@ add_filter( 'convertkit_blocks', function( $blocks ) {
 </pre>
 <h3 id="convertkit_block_content_render">
 						convertkit_block_content_render
-						<code>includes/blocks/class-convertkit-block-content.php::246</code>
+						<code>includes/blocks/class-convertkit-block-content.php::258</code>
 					</h3><h4>Overview</h4>
 						<p>Filters the content in the ConvertKit Custom Content block/shortcode immediately before it is output.</p><h4>Parameters</h4>
 					<table>
@@ -311,7 +311,7 @@ add_filter( 'convertkit_block_content_render', function( $content, $atts, $subsc
 </pre>
 <h3 id="convertkit_block_form_render">
 						convertkit_block_form_render
-						<code>includes/blocks/class-convertkit-block-form.php::286</code>
+						<code>includes/blocks/class-convertkit-block-form.php::324</code>
 					</h3><h4>Overview</h4>
 						<p>Filter the block's content immediately before it is output.</p><h4>Parameters</h4>
 					<table>
@@ -720,7 +720,7 @@ add_filter( 'convertkit_post_get_default_settings', function( $defaults ) {
 </pre>
 <h3 id="convertkit_term_get_default_settings">
 						convertkit_term_get_default_settings
-						<code>includes/class-convertkit-term.php::161</code>
+						<code>includes/class-convertkit-term.php::148</code>
 					</h3><h4>Overview</h4>
 						<p>The default settings, used to populate the Term's Settings when a Term has no Settings.</p><h4>Parameters</h4>
 					<table>
@@ -747,7 +747,7 @@ add_filter( 'convertkit_term_get_default_settings', function( $defaults ) {
 </pre>
 <h3 id="convertkit_api_get_timeout">
 						convertkit_api_get_timeout
-						<code>includes/class-convertkit-api.php::1066</code>
+						<code>includes/class-convertkit-api.php::1262</code>
 					</h3><h4>Overview</h4>
 						<p>Defines the maximum time to allow the API request to run.</p><h4>Parameters</h4>
 					<table>
@@ -886,7 +886,7 @@ add_filter( 'convertkit_wishlist_settings_get_defaults', function( $defaults ) {
 </pre>
 <h3 id="convertkit_output_append_form_to_content_form_id">
 						convertkit_output_append_form_to_content_form_id
-						<code>includes/class-convertkit-output.php::183</code>
+						<code>includes/class-convertkit-output.php::182</code>
 					</h3><h4>Overview</h4>
 						<p>Define the ConvertKit Form ID to display for the given Post ID, overriding the Post, Category or Plugin settings. Return false to not display any ConvertKit Form.</p><h4>Parameters</h4>
 					<table>
@@ -917,7 +917,7 @@ add_filter( 'convertkit_output_append_form_to_content_form_id', function( $form_
 </pre>
 <h3 id="convertkit_frontend_append_form">
 						convertkit_frontend_append_form
-						<code>includes/class-convertkit-output.php::216</code>
+						<code>includes/class-convertkit-output.php::215</code>
 					</h3><h4>Overview</h4>
 						<p>Filter the Post's Content, which includes a ConvertKit Form, immediately before it is output.</p><h4>Parameters</h4>
 					<table>
@@ -983,7 +983,7 @@ add_filter( 'convertkit_settings_get_defaults', function( $defaults ) {
 </pre>
 <h3 id="convertkit_is_admin_or_frontend_editor">
 						convertkit_is_admin_or_frontend_editor
-						<code>includes/class-wp-convertkit.php::280</code>
+						<code>includes/class-wp-convertkit.php::278</code>
 					</h3><h4>Overview</h4>
 						<p>Filters whether the current request is a WordPress Administration / Frontend Editor request or not. Page Builders can set this to true to allow ConvertKit to load its administration functionality.</p><h4>Parameters</h4>
 					<table>
@@ -998,19 +998,15 @@ add_filter( 'convertkit_settings_get_defaults', function( $defaults ) {
 							<td>$is_admin_or_frontend_editor</td>
 							<td>bool</td>
 							<td>Is WordPress Administration / Frontend Editor request.</td>
-						</tr><tr>
-							<td>$_REQUEST</td>
-							<td>array</td>
-							<td>$_REQUEST data.</td>
 						</tr>
 						</tbody>
 					</table><h4>Usage</h4>
 <pre>
-add_filter( 'convertkit_is_admin_or_frontend_editor', function( $is_admin_or_frontend_editor, $_REQUEST ) {
+add_filter( 'convertkit_is_admin_or_frontend_editor', function( $is_admin_or_frontend_editor ) {
 	// ... your code here
 	// Return value
 	return $is_admin_or_frontend_editor;
-}, 10, 2 );
+}, 10, 1 );
 </pre>
 <h1>Actions</h1><table>
 				<thead>
@@ -1079,17 +1075,25 @@ add_filter( 'convertkit_is_admin_or_frontend_editor', function( $is_admin_or_fro
 						<td><a href="#convertkit_api_form_unsubscribe_success"><code>convertkit_api_form_unsubscribe_success</code></a></td>
 						<td>Runs actions immediately after the email address was successfully unsubscribed.</td>
 					</tr><tr>
+						<td>&nbsp;</td>
+						<td><a href="#convertkit_api_purchase_create_success"><code>convertkit_api_purchase_create_success</code></a></td>
+						<td>Runs actions immediately after the purchase data address was successfully created.</td>
+					</tr><tr>
 						<td colspan="3">../includes/class-convertkit-gutenberg.php</td>
 					</tr><tr>
 						<td>&nbsp;</td>
 						<td><a href="#convertkit_gutenberg_enqueue_scripts"><code>convertkit_gutenberg_enqueue_scripts</code></a></td>
 						<td>Enqueue any additional scripts for Gutenberg blocks that have been registered.</td>
 					</tr><tr>
+						<td>&nbsp;</td>
+						<td><a href="#convertkit_gutenberg_enqueue_styles"><code>convertkit_gutenberg_enqueue_styles</code></a></td>
+						<td></td>
+					</tr><tr>
 						<td colspan="3">../includes/class-convertkit-output.php</td>
 					</tr><tr>
 						<td>&nbsp;</td>
 						<td><a href="#convertkit_output_output_form"><code>convertkit_output_output_form</code></a></td>
-						<td>Outputs a ConvertKit Form on singular Post Types that don't use the_content() or apply_filters( 'the_content' ).</td>
+						<td></td>
 					</tr><tr>
 						<td colspan="3">../includes/class-wp-convertkit.php</td>
 					</tr><tr>
@@ -1276,7 +1280,7 @@ do_action( 'convertkit_admin_post_enqueue_styles', function(  ) {
 </pre>
 <h3 id="convertkit_api_form_subscribe_success">
 						convertkit_api_form_subscribe_success
-						<code>includes/class-convertkit-api.php::186</code>
+						<code>includes/class-convertkit-api.php::207</code>
 					</h3><h4>Overview</h4>
 						<p>Runs actions immediately after the email address was successfully subscribed to the form.</p><h4>Parameters</h4>
 					<table>
@@ -1293,7 +1297,7 @@ do_action( 'convertkit_admin_post_enqueue_styles', function(  ) {
 							<td>API Response</td>
 						</tr><tr>
 							<td>$form_id</td>
-							<td>string</td>
+							<td>int</td>
 							<td>Form ID</td>
 						</tr><tr>
 							<td>$email</td>
@@ -1303,17 +1307,21 @@ do_action( 'convertkit_admin_post_enqueue_styles', function(  ) {
 							<td>$first_name</td>
 							<td>string</td>
 							<td>First</td>
+						</tr><tr>
+							<td>$fields</td>
+							<td>mixed</td>
+							<td>Custom Fields (false|array)</td>
 						</tr>
 						</tbody>
 					</table><h4>Usage</h4>
 <pre>
-do_action( 'convertkit_api_form_subscribe_success', function( $response, $form_id, $email, $first_name ) {
+do_action( 'convertkit_api_form_subscribe_success', function( $response, $form_id, $email, $first_name, $fields ) {
 	// ... your code here
-}, 10, 4 );
+}, 10, 5 );
 </pre>
 <h3 id="convertkit_api_sequence_subscribe_success">
 						convertkit_api_sequence_subscribe_success
-						<code>includes/class-convertkit-api.php::295</code>
+						<code>includes/class-convertkit-api.php::339</code>
 					</h3><h4>Overview</h4>
 						<p>Runs actions immediately after the email address was successfully subscribed to the sequence.</p><h4>Parameters</h4>
 					<table>
@@ -1336,17 +1344,21 @@ do_action( 'convertkit_api_form_subscribe_success', function( $response, $form_i
 							<td>$email</td>
 							<td>string</td>
 							<td>Email Address</td>
+						</tr><tr>
+							<td>$fields</td>
+							<td>mixed</td>
+							<td>Custom Fields (false|array)</td>
 						</tr>
 						</tbody>
 					</table><h4>Usage</h4>
 <pre>
-do_action( 'convertkit_api_sequence_subscribe_success', function( $response, $sequence_id, $email ) {
+do_action( 'convertkit_api_sequence_subscribe_success', function( $response, $sequence_id, $email, $fields ) {
 	// ... your code here
-}, 10, 3 );
+}, 10, 4 );
 </pre>
 <h3 id="convertkit_api_tag_subscribe_success">
 						convertkit_api_tag_subscribe_success
-						<code>includes/class-convertkit-api.php::380</code>
+						<code>includes/class-convertkit-api.php::447</code>
 					</h3><h4>Overview</h4>
 						<p>Runs actions immediately after the email address was successfully subscribed to the tag.</p><h4>Parameters</h4>
 					<table>
@@ -1363,23 +1375,27 @@ do_action( 'convertkit_api_sequence_subscribe_success', function( $response, $se
 							<td>API Response</td>
 						</tr><tr>
 							<td>$tag_id</td>
-							<td>string</td>
+							<td>int</td>
 							<td>Tag ID</td>
 						</tr><tr>
 							<td>$email</td>
 							<td>string</td>
 							<td>Email Address</td>
+						</tr><tr>
+							<td>$fields</td>
+							<td>mixed</td>
+							<td>Custom Fields (false|array).</td>
 						</tr>
 						</tbody>
 					</table><h4>Usage</h4>
 <pre>
-do_action( 'convertkit_api_tag_subscribe_success', function( $response, $tag_id, $email ) {
+do_action( 'convertkit_api_tag_subscribe_success', function( $response, $tag_id, $email, $fields ) {
 	// ... your code here
-}, 10, 3 );
+}, 10, 4 );
 </pre>
 <h3 id="convertkit_api_form_unsubscribe_success">
 						convertkit_api_form_unsubscribe_success
-						<code>includes/class-convertkit-api.php::580</code>
+						<code>includes/class-convertkit-api.php::682</code>
 					</h3><h4>Overview</h4>
 						<p>Runs actions immediately after the email address was successfully unsubscribed.</p><h4>Parameters</h4>
 					<table>
@@ -1406,9 +1422,38 @@ do_action( 'convertkit_api_form_unsubscribe_success', function( $response, $emai
 	// ... your code here
 }, 10, 2 );
 </pre>
+<h3 id="convertkit_api_purchase_create_success">
+						convertkit_api_purchase_create_success
+						<code>includes/class-convertkit-api.php::816</code>
+					</h3><h4>Overview</h4>
+						<p>Runs actions immediately after the purchase data address was successfully created.</p><h4>Parameters</h4>
+					<table>
+						<thead>
+							<tr>
+								<th>Parameter</th>
+								<th>Type</th>
+								<th>Description</th>
+							</tr>
+						</thead>
+						<tbody><tr>
+							<td>$response</td>
+							<td>array</td>
+							<td>API Response</td>
+						</tr><tr>
+							<td>$purchase</td>
+							<td>array</td>
+							<td>Purchase Data</td>
+						</tr>
+						</tbody>
+					</table><h4>Usage</h4>
+<pre>
+do_action( 'convertkit_api_purchase_create_success', function( $response, $purchase ) {
+	// ... your code here
+}, 10, 2 );
+</pre>
 <h3 id="convertkit_gutenberg_enqueue_scripts">
 						convertkit_gutenberg_enqueue_scripts
-						<code>includes/class-convertkit-gutenberg.php::152</code>
+						<code>includes/class-convertkit-gutenberg.php::153</code>
 					</h3><h4>Overview</h4>
 						<p>Enqueue any additional scripts for Gutenberg blocks that have been registered.</p><h4>Parameters</h4>
 					<table>
@@ -1431,11 +1476,10 @@ do_action( 'convertkit_gutenberg_enqueue_scripts', function( $blocks ) {
 	// ... your code here
 }, 10, 1 );
 </pre>
-<h3 id="convertkit_output_output_form">
-						convertkit_output_output_form
-						<code>includes/class-convertkit-output.php::84</code>
-					</h3><h4>Overview</h4>
-						<p>Outputs a ConvertKit Form on singular Post Types that don't use the_content() or apply_filters( 'the_content' ).</p><h4>Parameters</h4>
+<h3 id="convertkit_gutenberg_enqueue_styles">
+						convertkit_gutenberg_enqueue_styles
+						<code>includes/class-convertkit-gutenberg.php::174</code>
+					</h3><h4>Parameters</h4>
 					<table>
 						<thead>
 							<tr>
@@ -1444,11 +1488,27 @@ do_action( 'convertkit_gutenberg_enqueue_scripts', function( $blocks ) {
 								<th>Description</th>
 							</tr>
 						</thead>
-						<tbody><tr>
-							<td>$content</td>
-							<td>string</td>
-							<td>Post Content</td>
-						</tr>
+						<tbody>
+						</tbody>
+					</table><h4>Usage</h4>
+<pre>
+do_action( 'convertkit_gutenberg_enqueue_styles', function(  ) {
+	// ... your code here
+}, 10, 0 );
+</pre>
+<h3 id="convertkit_output_output_form">
+						convertkit_output_output_form
+						<code>includes/class-convertkit-output.php::83</code>
+					</h3><h4>Parameters</h4>
+					<table>
+						<thead>
+							<tr>
+								<th>Parameter</th>
+								<th>Type</th>
+								<th>Description</th>
+							</tr>
+						</thead>
+						<tbody>
 						</tbody>
 					</table><h4>Usage</h4>
 <pre>
@@ -1538,7 +1598,7 @@ do_action( 'convertkit_initialize_frontend', function(  ) {
 </pre>
 <h3 id="convertkit_initialize_global">
 						convertkit_initialize_global
-						<code>includes/class-wp-convertkit.php::171</code>
+						<code>includes/class-wp-convertkit.php::172</code>
 					</h3><h4>Parameters</h4>
 					<table>
 						<thead>

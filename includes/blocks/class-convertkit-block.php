@@ -30,7 +30,6 @@ class ConvertKit_Block {
 				'name'           => $this->get_name(),
 				'fields'         => $this->get_fields(),
 				'attributes'     => $this->get_attributes(),
-				'supports'       => $this->get_supports(),
 				'panels'         => $this->get_panels(),
 				'default_values' => $this->get_default_values(),
 			)
@@ -41,88 +40,84 @@ class ConvertKit_Block {
 	}
 
 	/**
-	 * Gutenberg: Returns supported built in attributes, such as
-	 * className, color etc.
+	 * Returns this block's programmatic name, excluding the convertkit- prefix.
 	 *
-	 * @since   1.9.6.9
-	 *
-	 * @return  array   Supports
+	 * @since   1.9.6
 	 */
-	public function get_supports() {
+	public function get_name() {
 
-		return array(
-			'className' => true,
-		);
+		/**
+		 * This will register as:
+		 * - a shortcode, with the name [convertkit_form].
+		 * - a shortcode, with the name [convertkit], for backward compat.
+		 * - a Gutenberg block, with the name convertkit/form.
+		 */
+		return 'form';
 
 	}
 
 	/**
-	 * Sanitize the given array of attributes, adding attributes that
-	 * are missing but registered by the block.
+	 * Returns this block's Title, Icon, Categories, Keywords and properties.
 	 *
-	 * @since   1.9.6.9
+	 * @since   1.9.6
 	 *
-	 * @param   array $atts   Declared attributes.
-	 * @return  array           All attributes, sanitized
+	 * @return  array
 	 */
-	public function sanitize_and_declare_atts( $atts ) {
+	public function get_overview() {
 
-		// Sanitize attributes, merging with default values so that the array
-		// of attributes contains all expected keys for this block.
-		$atts = shortcode_atts(
-			$this->get_default_values(),
-			$this->sanitize_atts( $atts ),
-			$this->get_name()
-		);
+		return array();
 
-		// Cast some attributes based on their key.
-		if ( array_key_exists( 'limit', $atts ) ) {
-			$atts['limit'] = absint( $atts['limit'] );
-		}
+	}
 
-		// Build CSS class(es) that might need to be added to the top level element for this block.
-		$atts['_css_classes'] = array( 'convertkit-' . $this->get_name() );
-		$atts['_css_styles']  = array();
+	/**
+	 * Returns this block's Attributes
+	 *
+	 * @since   1.9.6.5
+	 *
+	 * @return  array
+	 */
+	public function get_attributes() {
 
-		// If the block supports a text color, and a preset color was selected, add it to the
-		// array of CSS classes.
-		if ( $atts['textColor'] ) {
-			$atts['_css_classes'][] = 'has-text-color';
-			$atts['_css_classes'][] = 'has-' . $atts['textColor'] . '-color';
-		}
+		return array();
 
-		// If the block supports a text color, and a custom hex color was selected, add it to the
-		// array of CSS inline styles.
-		if ( isset( $atts['style']['color'] ) && isset( $atts['style']['color']['text'] ) ) {
-			$atts['_css_classes'][]       = 'has-text-color';
-			$atts['_css_styles']['color'] = 'color:' . $atts['style']['color']['text'];
-		}
+	}
 
-		// If the block supports a background color, and a preset color was selected, add it to the
-		// array of CSS classes.
-		if ( $atts['backgroundColor'] ) {
-			$atts['_css_classes'][] = 'has-background';
-			$atts['_css_classes'][] = 'has-' . $atts['backgroundColor'] . '-background-color';
-		}
+	/**
+	 * Returns this block's Fields
+	 *
+	 * @since   1.9.6
+	 *
+	 * @return  array
+	 */
+	public function get_fields() {
 
-		// If the block supports a background color, and a custom hex color was selected, add it to the
-		// array of CSS inline styles.
-		if ( isset( $atts['style']['color'] ) && isset( $atts['style']['color']['background'] ) ) {
-			$atts['_css_classes'][]            = 'has-background';
-			$atts['_css_styles']['background'] = 'background-color:' . $atts['style']['color']['background'];
-		}
+		return array();
 
-		// If the block supports a link color, and a preset color was selected, add it to the
-		// array of CSS classes.
-		if ( $atts['linkColor'] ) {
-			$atts['_css_classes'][] = 'has-link-color';
-			$atts['_css_classes'][] = 'has-' . $atts['linkColor'] . '-color';
-		}
+	}
 
-		// Remove some unused attributes, now they're declared above.
-		unset( $atts['style'] );
+	/**
+	 * Returns this block's UI panels / sections.
+	 *
+	 * @since   1.9.6
+	 *
+	 * @return  array
+	 */
+	public function get_panels() {
 
-		return $atts;
+		return array();
+
+	}
+
+	/**
+	 * Returns this block's Default Values
+	 *
+	 * @since   1.9.6
+	 *
+	 * @return  array
+	 */
+	public function get_default_values() {
+
+		return array();
 
 	}
 
@@ -132,7 +127,7 @@ class ConvertKit_Block {
 	 * @since   1.9.6
 	 *
 	 * @param   string $field Field Name.
-	 * @return  mixed   array|string
+	 * @return  string
 	 */
 	public function get_default_value( $field ) {
 

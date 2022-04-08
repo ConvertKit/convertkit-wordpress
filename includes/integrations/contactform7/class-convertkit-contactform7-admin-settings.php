@@ -114,7 +114,7 @@ class ConvertKit_ContactForm7_Admin_Settings extends ConvertKit_Settings_Base {
 					'title' => $cf7_form['name'],
 					'form'  => $this->get_select_field(
 						$cf7_form['id'],
-						$this->settings->get_convertkit_form_id_by_cf7_form_id( $cf7_form['id'] ),
+						(string) $this->settings->get_convertkit_form_id_by_cf7_form_id( $cf7_form['id'] ),
 						$options
 					),
 					'email' => 'your-email',

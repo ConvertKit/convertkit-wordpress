@@ -110,16 +110,16 @@ class ConvertKit_Wishlist {
 	/**
 	 * Subscribes a member to a ConvertKit Form.
 	 *
-	 * @param   array  $member  UserInfo from WishList Member.
-	 * @param   string $form_id ConvertKit Form ID.
-	 * @return  mixed           API Response (WP_Error | array)
+	 * @param   array $member  UserInfo from WishList Member.
+	 * @param   int   $form_id ConvertKit Form ID.
+	 * @return  bool|WP_Error|array
 	 */
 	public function member_resource_subscribe( $member, $form_id ) {
 
 		// Bail if the API hasn't been configured.
 		$settings = new ConvertKit_Settings();
 		if ( ! $settings->has_api_key_and_secret() ) {
-			return;
+			return false;
 		}
 
 		// Initialize the API.
@@ -151,14 +151,14 @@ class ConvertKit_Wishlist {
 	 * Unsubscribes a member from ConvertKit.
 	 *
 	 * @param   array $member  UserInfo from WishList Member.
-	 * @return  mixed           API Response (WP_Error | array)
+	 * @return  bool|WP_Error|array
 	 */
 	public function member_resource_unsubscribe( $member ) {
 
 		// Bail if the API hasn't been configured.
 		$settings = new ConvertKit_Settings();
 		if ( ! $settings->has_api_key_and_secret() ) {
-			return;
+			return false;
 		}
 
 		// Initialize the API.
@@ -179,16 +179,16 @@ class ConvertKit_Wishlist {
 	/**
 	 * Tag a ConvertKit User with the given Tag ID.
 	 *
-	 * @param   array  $member  UserInfo from WishList Member.
-	 * @param   string $tag_id  ConvertKit Tag ID.
-	 * @return  mixed           API Response (WP_Error | array)
+	 * @param   array $member  UserInfo from WishList Member.
+	 * @param   int   $tag_id  ConvertKit Tag ID.
+	 * @return  bool|WP_Error|array
 	 */
 	public function member_tag( $member, $tag_id ) {
 
 		// Bail if the API hasn't been configured.
 		$settings = new ConvertKit_Settings();
 		if ( ! $settings->has_api_key_and_secret() ) {
-			return;
+			return false;
 		}
 
 		// Initialize the API.
@@ -202,7 +202,7 @@ class ConvertKit_Wishlist {
 	 * Gets a WLM member using the wlmapi functions
 	 *
 	 * @param  string $id The member id.
-	 * @return array The member fields from the API request
+	 * @return bool|array
 	 */
 	public function get_member( $id ) {
 

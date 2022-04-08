@@ -15,6 +15,27 @@
 class ConvertKit_Resource {
 
 	/**
+	 * Holds the Settings Key that stores site wide ConvertKit settings
+	 *
+	 * @var     string
+	 */
+	public $settings_name = '';
+
+	/**
+	 * The type of resource
+	 *
+	 * @var     string
+	 */
+	public $type = '';
+
+	/**
+	 * Holds the resources from the ConvertKit API
+	 *
+	 * @var     WP_Error|array
+	 */
+	public $resources = array();
+
+	/**
 	 * Constructor. Populate the resources array of e.g. forms, landing pages or tags.
 	 *
 	 * @since   1.9.6
@@ -57,6 +78,10 @@ class ConvertKit_Resource {
 	 */
 	public function exist() {
 
+		if ( $this->resources === false ) { // @phpstan-ignore-line.
+			return false;
+		}
+
 		if ( is_wp_error( $this->resources ) ) {
 			return false;
 		}
@@ -74,14 +99,14 @@ class ConvertKit_Resource {
 	 *
 	 * @since   1.9.6
 	 *
-	 * @return  mixed           WP_Error | array
+	 * @return  bool|WP_Error|array
 	 */
 	public function refresh() {
 
 		// Bail if the API Key and Secret hasn't been defined in the Plugin Settings.
 		$settings = new ConvertKit_Settings();
 		if ( ! $settings->has_api_key_and_secret() ) {
-			return;
+			return false;
 		}
 
 		// Initialize the API.
@@ -100,6 +125,17 @@ class ConvertKit_Resource {
 			case 'tags':
 				$results = $api->get_tags();
 				break;
+
+			default:
+				$results = new WP_Error(
+					'convertkit_resource_refresh_error',
+					sprintf(
+						/* translators: Resource Type */
+						__( 'Resource type %s is not supported in ConvertKit_Resource class.', 'convertkit' ),
+						$this->type
+					)
+				);
+				break;
 		}
 
 		// Bail if an error occured.
@@ -114,27 +150,6 @@ class ConvertKit_Resource {
 		$this->resources = $results;
 
 		return $results;
-
-	}
-
-	/**
-	 * Sorts the given array of resources by name.
-	 *
-	 * @since   1.9.6
-	 *
-	 * @param   array $data   Forms or Landing Pages from API.
-	 * @return  array           Sorted Forms or Landing Pages.
-	 */
-	private function sort_alphabetically( $data ) {
-
-		return usort(
-			$data,
-			function( $a, $b ) {
-
-				return strcmp( $a['name'], $b['name'] );
-
-			}
-		);
 
 	}
 

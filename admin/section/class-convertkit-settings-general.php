@@ -28,7 +28,7 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 	 *
 	 * @since   1.9.6
 	 *
-	 * @var     mixed   bool | WP_Error | array
+	 * @var     bool|WP_Error|array
 	 */
 	private $account = false;
 
@@ -37,7 +37,7 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 	 *
 	 * @since   1.9.6
 	 *
-	 * @var     ConvertKit_Resource_Forms;
+	 * @var     bool|ConvertKit_Resource_Forms;
 	 */
 	private $forms = false;
 
@@ -139,37 +139,6 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 			$this->settings_key,
 			$this->name
 		);
-
-	}
-
-	/**
-	 * Register fields for supported custom post types.
-	 */
-	private function register_custom_post_type_fields() {
-
-		// Bail if no supported Post Types exist.
-		if ( ! $supported_post_types ) {
-			return;
-		}
-		if ( is_array( $supported_post_types ) && ! count( $supported_post_types ) ) {
-			return;
-		}
-
-		// Add a settings field for each supported Post Type that isn't a Page or Post.
-		foreach ( $supported_post_types as $supported_post_type ) {
-			add_settings_field(
-				'custom_post_types',
-				sprintf(
-					/* translators: Post Type Name */
-					__( 'Default Form (%s)', 'convertkit' ),
-					$supported_post_type
-				),
-				array( $this, 'custom_post_types_callback' ),
-				$this->settings_key,
-				$this->name,
-				$supported_post_type
-			);
-		}
 
 	}
 
@@ -363,7 +332,7 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 		}
 
 		// Output field.
-		echo $this->get_select_field( $post_type . '_form', $this->settings->get_default_form( $post_type ), $options, false, array( 'convertkit-select2' ) ); // phpcs:ignore
+		echo '<div class="convertkit-select2-container">' . $this->get_select_field( $post_type . '_form', $this->settings->get_default_form( $post_type ), $options, false, array( 'convertkit-select2' ) ) . '</div>'; // phpcs:ignore
 
 	}
 

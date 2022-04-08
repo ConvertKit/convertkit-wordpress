@@ -49,7 +49,12 @@ class ConvertKit_AJAX {
 		if ( ! isset( $_REQUEST['subscriber_id'] ) ) {
 			wp_send_json_error( __( 'ConvertKit: Required parameter `subscriber_id` not included in AJAX request.', 'convertkit' ) );
 		}
-		$id = sanitize_text_field( $_REQUEST['subscriber_id'] );
+
+		// Bail if no subscriber ID provided.
+		$id = absint( sanitize_text_field( $_REQUEST['subscriber_id'] ) );
+		if ( empty( $id ) ) {
+			wp_send_json_error( __( 'ConvertKit: Required parameter `subscriber_id` empty in AJAX request.', 'convertkit' ) );
+		}
 
 		// Bail if the API hasn't been configured.
 		$settings = new ConvertKit_Settings();
@@ -156,8 +161,16 @@ class ConvertKit_AJAX {
 		if ( ! isset( $_REQUEST['tag'] ) ) {
 			wp_send_json_error( __( 'ConvertKit: Required parameter `tag` not included in AJAX request.', 'convertkit' ) );
 		}
-		$subscriber_id = sanitize_text_field( $_REQUEST['subscriber_id'] );
-		$tag           = sanitize_text_field( $_REQUEST['tag'] );
+		$subscriber_id = absint( sanitize_text_field( $_REQUEST['subscriber_id'] ) );
+		$tag_id        = absint( sanitize_text_field( $_REQUEST['tag'] ) );
+
+		// Bail if no subscriber ID or tag provided.
+		if ( empty( $subscriber_id ) ) {
+			wp_send_json_error( __( 'ConvertKit: Required parameter `subscriber_id` empty in AJAX request.', 'convertkit' ) );
+		}
+		if ( empty( $tag_id ) ) {
+			wp_send_json_error( __( 'ConvertKit: Required parameter `tag` empty in AJAX request.', 'convertkit' ) );
+		}
 
 		// Bail if the API hasn't been configured.
 		$settings = new ConvertKit_Settings();
@@ -177,7 +190,7 @@ class ConvertKit_AJAX {
 		}
 
 		// Tag the subscriber with the Post's tag.
-		$tag = $api->tag_subscribe( $tag, $subscriber['email_address'] );
+		$tag = $api->tag_subscribe( $tag_id, $subscriber['email_address'] );
 
 		// Bail if an error occured tagging the subscriber.
 		if ( is_wp_error( $tag ) ) {

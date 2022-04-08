@@ -121,11 +121,8 @@ class ConvertKit_Admin_Upgrade {
 			);
 
 			$result = new WP_Query( $args );
-
-			if ( ! is_wp_error( $result ) ) {
-				$posts = $result->posts;
-				update_option( '_wp_convertkit_upgrade_posts', $posts );
-			}
+			$posts  = $result->posts;
+			update_option( '_wp_convertkit_upgrade_posts', $posts );
 		}
 
 		// Initialize the API.
@@ -141,7 +138,7 @@ class ConvertKit_Admin_Upgrade {
 
 		// 1. Update global form.
 		$settings_data                 = $settings->get();
-		$settings_data['default_form'] = isset( $mappings[ $settings->get_default_form() ] ) ? $mappings[ $settings->get_default_form() ] : 0;
+		$settings_data['default_form'] = isset( $mappings[ $settings->get_default_form( 'post' ) ] ) ? $mappings[ $settings->get_default_form( 'post' ) ] : 0;
 		update_option( $settings::SETTINGS_NAME, $settings );
 
 		// 2. Scan posts/pages for _wp_convertkit_post_meta and update IDs

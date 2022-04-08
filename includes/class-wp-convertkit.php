@@ -156,14 +156,14 @@ class WP_ConvertKit {
 	 */
 	private function initialize_global() {
 
-		$this->classes['ajax']                         = new ConvertKit_AJAX();
-		$this->classes['blocks_convertkit_broadcasts'] = new ConvertKit_Block_Broadcasts();
-		$this->classes['blocks_convertkit_content']    = new ConvertKit_Block_Content();
-		$this->classes['blocks_convertkit_form']       = new ConvertKit_Block_Form();
-		$this->classes['gutenberg']                    = new ConvertKit_Gutenberg();
-		$this->classes['review_request']               = new ConvertKit_Review_Request( 'ConvertKit', 'convertkit' );
-		$this->classes['shortcodes']                   = new ConvertKit_Shortcodes();
-		$this->classes['widgets']                      = new ConvertKit_Widgets();
+		$this->classes['ajax']                      = new ConvertKit_AJAX();
+		$this->classes['blocks_convertkit_content'] = new ConvertKit_Block_Content();
+		$this->classes['blocks_convertkit_form']    = new ConvertKit_Block_Form();
+		$this->classes['elementor']                 = new ConvertKit_Elementor();
+		$this->classes['gutenberg']                 = new ConvertKit_Gutenberg();
+		$this->classes['review_request']            = new ConvertKit_Review_Request( 'ConvertKit', 'convertkit' );
+		$this->classes['shortcodes']                = new ConvertKit_Shortcodes();
+		$this->classes['widgets']                   = new ConvertKit_Widgets();
 
 		/**
 		 * Initialize integration classes for the frontend web site.
@@ -190,7 +190,7 @@ class WP_ConvertKit {
 		}
 
 		// Pro.
-		if ( isset( $_SERVER ) ) {
+		if ( array_key_exists( 'REQUEST_URI', $_SERVER ) ) {
 			if ( strpos( sanitize_text_field( $_SERVER['REQUEST_URI'] ), '/pro/' ) !== false ) {
 				return true;
 			}
@@ -204,66 +204,64 @@ class WP_ConvertKit {
 
 		// If the request global exists, check for specific request keys which tell us
 		// that we're using a frontend editor.
-		if ( isset( $_REQUEST ) && ! empty( $_REQUEST ) ) { // phpcs:ignore
-			// Avada Live.
-			if ( array_key_exists( 'fb-edit', $_REQUEST ) ) { // phpcs:ignore
-				return true;
-			}
+		// Avada Live.
+		if ( array_key_exists( 'fb-edit', $_REQUEST ) ) { // phpcs:ignore
+			return true;
+		}
 
-			// Beaver Builder.
-			if ( array_key_exists( 'fl_builder', $_REQUEST ) ) { // phpcs:ignore
-				return true;
-			}
+		// Beaver Builder.
+		if ( array_key_exists( 'fl_builder', $_REQUEST ) ) { // phpcs:ignore
+			return true;
+		}
 
-			// Brizy.
-			if ( array_key_exists( 'brizy-edit', $_REQUEST ) ) { // phpcs:ignore
-				return true;
-			}
+		// Brizy.
+		if ( array_key_exists( 'brizy-edit', $_REQUEST ) ) { // phpcs:ignore
+			return true;
+		}
 
-			// Cornerstone (AJAX).
-			if ( array_key_exists( '_cs_nonce', $_REQUEST ) ) { // phpcs:ignore
-				return true;
-			}
+		// Cornerstone (AJAX).
+		if ( array_key_exists( '_cs_nonce', $_REQUEST ) ) { // phpcs:ignore
+			return true;
+		}
 
-			// Divi.
-			if ( array_key_exists( 'et_fb', $_REQUEST ) ) { // phpcs:ignore
-				return true;
-			}
+		// Divi.
+		if ( array_key_exists( 'et_fb', $_REQUEST ) ) { // phpcs:ignore
+			return true;
+		}
 
-			// Elementor.
-			if ( array_key_exists( 'action', $_REQUEST ) && sanitize_text_field( $_REQUEST['action'] ) === 'elementor' ) { // phpcs:ignore
-				return true;
-			}
+		// Elementor.
+		if ( array_key_exists( 'action', $_REQUEST ) && sanitize_text_field( $_REQUEST['action'] ) === 'elementor' ) { // phpcs:ignore
+			return true;
+		}
 
-			// Kallyas.
-			if ( array_key_exists( 'zn_pb_edit', $_REQUEST ) ) { // phpcs:ignore
-				return true;
-			}
+		// Kallyas.
+		if ( array_key_exists( 'zn_pb_edit', $_REQUEST ) ) { // phpcs:ignore
+			return true;
+		}
 
-			// Oxygen.
-			if ( array_key_exists( 'ct_builder', $_REQUEST ) ) { // phpcs:ignore
-				return true;
-			}
+		// Oxygen.
+		if ( array_key_exists( 'ct_builder', $_REQUEST ) ) { // phpcs:ignore
+			return true;
+		}
 
-			// Thrive Architect.
-			if ( array_key_exists( 'tve', $_REQUEST ) ) { // phpcs:ignore
-				return true;
-			}
+		// Thrive Architect.
+		if ( array_key_exists( 'tve', $_REQUEST ) ) { // phpcs:ignore
+			return true;
+		}
 
-			// Visual Composer.
-			if ( array_key_exists( 'vcv-editable', $_REQUEST ) ) { // phpcs:ignore
-				return true;
-			}
+		// Visual Composer.
+		if ( array_key_exists( 'vcv-editable', $_REQUEST ) ) { // phpcs:ignore
+			return true;
+		}
 
-			// WPBakery Page Builder.
-			if ( array_key_exists( 'vc_editable', $_REQUEST ) ) { // phpcs:ignore
-				return true;
-			}
+		// WPBakery Page Builder.
+		if ( array_key_exists( 'vc_editable', $_REQUEST ) ) { // phpcs:ignore
+			return true;
+		}
 
-			// Zion Builder.
-			if ( array_key_exists( 'action', $_REQUEST ) && sanitize_text_field( $_REQUEST['action'] ) === 'zion_builder_active' ) { // phpcs:ignore
-				return true;
-			}
+		// Zion Builder.
+		if ( array_key_exists( 'action', $_REQUEST ) && sanitize_text_field( $_REQUEST['action'] ) === 'zion_builder_active' ) { // phpcs:ignore
+			return true;
 		}
 
 		// Assume we're not in the Administration interface.
@@ -277,9 +275,8 @@ class WP_ConvertKit {
 		 * @since   1.9.6
 		 *
 		 * @param   bool    $is_admin_or_frontend_editor    Is WordPress Administration / Frontend Editor request.
-		 * @param   array   $_REQUEST                       $_REQUEST data.
 		 */
-		$is_admin_or_frontend_editor = apply_filters( 'convertkit_is_admin_or_frontend_editor', $is_admin_or_frontend_editor, $_REQUEST );  // phpcs:ignore
+		$is_admin_or_frontend_editor = apply_filters( 'convertkit_is_admin_or_frontend_editor', $is_admin_or_frontend_editor );  // phpcs:ignore
 
 		// Return filtered result.
 		return $is_admin_or_frontend_editor;
@@ -333,7 +330,7 @@ class WP_ConvertKit {
 	 */
 	public function load_language_files() {
 
-		load_plugin_textdomain( 'convertkit', false, basename( dirname( CONVERTKIT_PLUGIN_FILE ) ) . '/languages/' );
+		load_plugin_textdomain( 'convertkit', false, basename( dirname( CONVERTKIT_PLUGIN_FILE ) ) . '/languages/' );  // @phpstan-ignore-line.
 
 	}
 
@@ -364,7 +361,7 @@ class WP_ConvertKit {
 			// Admin UI.
 			if ( is_admin() ) {
 				wp_die(
-					esc_attr( $error ),
+					esc_attr( $error->get_error_message() ),
 					esc_html__( 'ConvertKit Error', 'convertkit' ),
 					array(
 						'back_link' => true,
@@ -390,7 +387,7 @@ class WP_ConvertKit {
 	 */
 	public static function get_instance() {
 
-		if ( ! isset( self::$instance ) && ! ( self::$instance instanceof self ) ) {
+		if ( ! isset( self::$instance ) && ! ( self::$instance instanceof self ) ) {  // @phpstan-ignore-line.
 			self::$instance = new self();
 		}
 

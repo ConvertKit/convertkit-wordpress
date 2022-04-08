@@ -297,6 +297,55 @@ class PostFormCest
 	}
 
 	/**
+	 * Test that the Default Form specified at Plugin level for Posts displays when:
+	 * - A Category was created with ConvertKit Form = 'None' when 1.9.5.2 or earlier of the Plugin was activated,
+	 * - The WordPress Post is set to use the Default Form,
+	 * - A Default Form is set in the Plugin settings.
+	 * 
+	 * 1.9.5.2 and earlier stored the 'None' option as 'default' for Categories, meaning that the Post (or Plugin) default form
+	 * should be used. 
+	 * 
+	 * 1.9.6.0 and later changed the value to 0 for Categories, bringing it in line with the Post Form's 'None'
+	 * setting.
+	 * 
+	 * @since 	1.9.7.3
+	 * 
+	 * @param 	AcceptanceTester 	$I 	Tester
+	 */
+	public function testAddNewPostUsingDefaultFormWithCategoryCreatedBefore1960(AcceptanceTester $I)
+	{
+		// Setup Default Forms.
+		$I->setupConvertKitPluginDefaultForm($I);
+
+		// Create Category as if it were created / edited when the ConvertKit Plugin < 1.9.6.0
+		// was active.
+		$termID = $I->haveTermInDatabase( 'ConvertKit 1.9.5.2 and earlier', 'category', [
+			'meta' => [
+				'ck_default_form' => 'default', // Emulate how 1.9.5.2 and earlier store this setting.
+			],
+		] );
+		$termID = $termID[0];
+		
+		// Create Post, assigned to Category.
+		$postID = $I->havePostInDatabase([
+			'post_type' 	=> 'post',
+			'post_title' 	=> 'ConvertKit: Default Form: Category Created before 1.9.6.0',
+			'tax_input' => [
+				[ 'category' => $termID ],
+			],
+		]);
+
+		// Load the Post on the frontend site.
+		$I->amOnPage('/?p=' . $postID);
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Confirm that the ConvertKit Form displays as defined in the Plugin Settings.
+		$I->seeElementInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]');
+	}
+
+	/**
 	 * Deactivate and reset Plugin(s) after each test, if the test passes.
 	 * We don't use _after, as this would provide a screenshot of the Plugin
 	 * deactivation and not the true test error.

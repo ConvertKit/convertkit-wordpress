@@ -1,8 +1,10 @@
+.DS_Store
 .env
 .env.testing
-.DS_Store
+codeception.yml
+composer.lock
 log.txt
+phpstan.neon
 tests/_output
 vendor
-codeception.yml
 *.zip

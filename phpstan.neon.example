@@ -1,0 +1,35 @@
+# PHPStan configuration for local static analysis.
+
+# Include PHPStan for WordPress configuration.
+includes:
+    - vendor/szepeviktor/phpstan-wordpress/extension.neon
+
+# Parameters
+parameters:
+    # Paths to scan
+    # This should comprise of the base Plugin PHP file, plus directories that contain Plugin PHP files
+    paths:
+        - wp-convertkit.php
+        - admin/
+        - includes/
+
+    # Files that include Plugin-specific PHP constants
+    bootstrapFiles:
+        - wp-convertkit.php
+
+    # Location of WordPress installation
+    scanDirectories:
+        - /Users/tim/Local Sites/convertkit-github/app/public
+
+    # Should not need to edit anything below here
+    # Rule Level: https://phpstan.org/user-guide/rule-levels
+    level: 5
+
+    # Ignore the following errors, as PHPStan and PHPStan for WordPress haven't registered symbols for them yet,
+    # so they're false positives.
+    ignoreErrors:
+        - '#Access to an undefined property WP_Theme::#'
+        - '#Constant WP_MEMORY_LIMIT not found.#'
+        - '#Constant DB_HOST not found.#'
+        - '#Constant WPINC not found.#'
+        - '#Function apply_filters invoked with#' # apply_filters() accepted a variable number of parameters, which PHPStan fails to detect
