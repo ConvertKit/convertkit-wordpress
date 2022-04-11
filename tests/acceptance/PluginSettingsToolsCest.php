@@ -11,6 +11,7 @@ class PluginSettingsToolsCest
 	 */
 	public function _before(AcceptanceTester $I)
 	{
+		// Activate and Setup ConvertKit plugin
 		$I->activateConvertKitPlugin($I);
 	}
 
@@ -24,24 +25,9 @@ class PluginSettingsToolsCest
 	 */
 	public function testDebugLogExists(AcceptanceTester $I)
 	{
-		// Go to the Plugin's Settings Screen.
-		$I->loadConvertKitSettingsGeneralScreen($I);
-
-		// Complete API Fields and Debugging
-		$I->fillField('_wp_convertkit_settings[api_key]', $_ENV['CONVERTKIT_API_KEY']);
-		$I->fillField('_wp_convertkit_settings[api_secret]', $_ENV['CONVERTKIT_API_SECRET']);
-		$I->checkOption('#debug');
-
-		// Click the Save Changes button.
-		$I->click('Save Changes');
-
-		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen($I);
-
-		// Go to the Plugin's Settings > Tools Screen.
+		$I->setupConvertKitPlugin($I);
+		$I->enableDebugLog($I);
 		$I->loadConvertKitSettingsToolsScreen($I);
-
-		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
 
 		// Check that the Debug Log textarea contains some expected output i.e.
@@ -58,12 +44,76 @@ class PluginSettingsToolsCest
 	 */
 	public function testSystemInfoExists(AcceptanceTester $I)
 	{
-		// Go to the Plugin's Settings > Tools Screen.
+		$I->setupConvertKitPlugin($I);
+		$I->enableDebugLog($I);
 		$I->loadConvertKitSettingsToolsScreen($I);
+		$I->checkNoWarningsAndNoticesOnScreen($I);
 
 		// Check that the System Info textarea contains some expected output.
 		$I->assertNotFalse(strpos($I->grabValueFrom('#system-info-textarea'), '### Begin System Info ###'));
 		$I->assertNotFalse(strpos($I->grabValueFrom('#system-info-textarea'), '### End System Info ###'));
+	}
+
+	/**
+	 * Test that the Export Configuration option works.
+	 * 
+	 * @since 	1.9.7.4
+	 * 
+	 * @param 	AcceptanceTester 	$I 	Tester
+	 */
+	public function testExportConfiguration(AcceptanceTester $I)
+	{
+		$I->setupConvertKitPlugin($I);
+		$I->enableDebugLog($I);
+		$I->loadConvertKitSettingsToolsScreen($I);
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Click the Export button.
+		// This will download the file to $_ENV['WP_ROOT_FOLDER'].
+		$I->scrollTo('#export');
+		$I->click('input#convertkit-export');
+
+		// Check downloaded file exists and contains some expected information.
+		$I->openFile($_ENV['WP_ROOT_FOLDER'] . '/convertkit-export.json');
+		$I->seeInThisFile('{"settings":{"api_key":"' . $_ENV['CONVERTKIT_API_KEY'] . '","api_secret":"' . $_ENV['CONVERTKIT_API_SECRET'] . '"');
+	
+		// Delete the file.
+		$I->deleteFile($_ENV['WP_ROOT_FOLDER'] . '/convertkit-export.json');
+	}
+
+	/**
+	 * Test that the Import Configuration option works.
+	 * 
+	 * @since 	1.9.7.4
+	 * 
+	 * @param 	AcceptanceTester 	$I 	Tester
+	 */
+	public function testImportConfiguration(AcceptanceTester $I)
+	{
+		// Load Tools screen.
+		$I->loadConvertKitSettingsToolsScreen($I);
+
+		// Scroll to Import section.
+		$I->scrollTo('#import');
+
+		// Select the configuration file at tests/_data/convertkit-export.json to import.
+		$I->attachFile('input[name=import]', 'convertkit-export.json');
+
+		// Click the Import button.
+		$I->click('input#convertkit-import');
+
+		// Confirm success message displays.
+		$I->seeInSource('Configuration imported successfully.');
+
+		// Go to the Plugin's Settings Screen.
+		$I->loadConvertKitSettingsGeneralScreen($I);
+
+		// Confirm that the fake API Key and Secret are populated.
+		$I->seeInField('_wp_convertkit_settings[api_key]', 'fakeApiKey');
+		$I->seeInField('_wp_convertkit_settings[api_secret]', 'fakeApiSecret');
+
+		// Check the fields are ticked.
+		$I->seeCheckboxIsChecked('#debug');
 	}
 
 	/**

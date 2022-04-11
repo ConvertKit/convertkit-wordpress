@@ -24,7 +24,7 @@ if ( $error !== false ) {
 ?>
 
 <div class="metabox-holder">
-	<div class="postbox">
+	<div id="debug-log" class="postbox">
 		<h3><span><?php esc_html_e( 'Debug Log', 'convertkit' ); ?></span></h3>
 		<div class="inside">
 			<p class="description">
@@ -61,7 +61,7 @@ if ( $error !== false ) {
 		</div><!-- .inside -->
 	</div><!-- .postbox -->
 
-	<div class="postbox">
+	<div id="system-info" class="postbox">
 		<h3><span><?php esc_html_e( 'System Info', 'convertkit' ); ?></span></h3>
 		<div class="inside">
 			<p><?php esc_html_e( 'Use this tool to send system info to support when necessary.', 'convertkit' ); ?></p>
@@ -81,7 +81,7 @@ if ( $error !== false ) {
 		</div><!-- .inside -->
 	</div><!-- .postbox -->
 
-	<div class="postbox">
+	<div id="export" class="postbox">
 		<h3><span><?php esc_html_e( 'Export Configuration', 'convertkit' ); ?></span></h3>
 		<div class="inside">
 			<p class="description">
@@ -101,7 +101,7 @@ if ( $error !== false ) {
 		</div><!-- .inside -->
 	</div><!-- .postbox -->
 
-	<div class="postbox">
+	<div id="import" class="postbox">
 		<h3><span><?php esc_html_e( 'Import Configuration', 'convertkit' ); ?></span></h3>
 		<div class="inside">
 			<p class="description">
