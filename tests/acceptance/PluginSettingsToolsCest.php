@@ -117,6 +117,81 @@ class PluginSettingsToolsCest
 	}
 
 	/**
+	 * Test that the Import Configuration option returns the expected error when no file
+	 * is selected.
+	 * 
+	 * @since 	1.9.7.4
+	 * 
+	 * @param 	AcceptanceTester 	$I 	Tester
+	 */
+	public function testImportConfigurationWithNoFile(AcceptanceTester $I)
+	{
+		// Load Tools screen.
+		$I->loadConvertKitSettingsToolsScreen($I);
+
+		// Scroll to Import section.
+		$I->scrollTo('#import');
+
+		// Click the Import button.
+		$I->click('input#convertkit-import');
+
+		// Confirm error message displays.
+		$I->seeInSource('An error occured uploading the configuration file.');
+	}
+
+	/**
+	 * Test that the Import Configuration option returns the expected error when an invalid file
+	 * is selected.
+	 * 
+	 * @since 	1.9.7.4
+	 * 
+	 * @param 	AcceptanceTester 	$I 	Tester
+	 */
+	public function testImportConfigurationWithInvalidFile(AcceptanceTester $I)
+	{
+		// Load Tools screen.
+		$I->loadConvertKitSettingsToolsScreen($I);
+
+		// Scroll to Import section.
+		$I->scrollTo('#import');
+
+		// Select the invalid configuration file at tests/_data/convertkit-export-invalid.json to import.
+		$I->attachFile('input[name=import]', 'convertkit-export-invalid.json');
+
+		// Click the Import button.
+		$I->click('input#convertkit-import');
+
+		// Confirm error message displays.
+		$I->seeInSource('The uploaded configuration file contains no settings.');
+	}
+
+	/**
+	 * Test that the Import Configuration option returns the expected error when a file
+	 * that appears to be JSON is selected, but its content are not JSON.
+	 * 
+	 * @since 	1.9.7.4
+	 * 
+	 * @param 	AcceptanceTester 	$I 	Tester
+	 */
+	public function testImportConfigurationWithFakeJSONFile(AcceptanceTester $I)
+	{
+		// Load Tools screen.
+		$I->loadConvertKitSettingsToolsScreen($I);
+
+		// Scroll to Import section.
+		$I->scrollTo('#import');
+
+		// Select the invalid configuration file at tests/_data/convertkit-export-invalid.json to import.
+		$I->attachFile('input[name=import]', 'convertkit-export-fake.json');
+
+		// Click the Import button.
+		$I->click('input#convertkit-import');
+
+		// Confirm error message displays.
+		$I->seeInSource('The uploaded configuration file isn\'t valid.');
+	}
+
+	/**
 	 * Deactivate and reset Plugin(s) after each test, if the test passes.
 	 * We don't use _after, as this would provide a screenshot of the Plugin
 	 * deactivation and not the true test error.
