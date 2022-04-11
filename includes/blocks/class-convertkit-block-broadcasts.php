@@ -280,9 +280,11 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 		$broadcasts = array();
 		for ( $i = 1; $i < 200; $i++ ) {
 			$broadcasts[] = array(
-				'id'         => $i,
-				'created_at' => gmdate( 'Y-m-d', strtotime( '-' . $i . ' days' ) ) . 'T17:00:15.000Z',
-				'subject'    => 'Test Subject #' . $i,
+				'id'        	=> $i,
+				'title'    		=> 'Test Subject #' . $i,
+				'url'			=> '#', 
+				'published_at' 	=> gmdate( 'Y-m-d', strtotime( '-' . $i . ' days' ) ) . 'T17:00:15.000Z',
+				'is_paid'		=> null,
 			);
 		}
 
@@ -329,12 +331,12 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 		// Iterate through broadcasts.
 		foreach ( $broadcasts as $count => $broadcast ) {
 			// Convert UTC date to timestamp.
-			$date_timestamp = strtotime( $broadcast['created_at'] );
+			$date_timestamp = strtotime( $broadcast['published_at'] );
 
 			// Add broadcast as list item.
 			$html .= '<li class="convertkit-broadcast">
 				<time datetime="' . date_i18n( 'Y-m-d', $date_timestamp ) . '">' . date_i18n( $atts['date_format'], $date_timestamp ) . '</time>
-				<a href="#">' . $broadcast['subject'] . '</a>
+				<a href="' . $broadcast['url'] . '" target="_blank" rel="nofollow noopener">' . $broadcast['title'] . '</a>
 			</li>';
 
 			// If the limit is hit, don't add any more broadcasts.
