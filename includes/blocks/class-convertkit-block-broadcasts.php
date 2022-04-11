@@ -28,7 +28,8 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 		add_filter( 'convertkit_blocks', array( $this, 'register' ) );
 
 		// Enqueue stylesheets for this Gutenberg block.
-		add_action( 'convertkit_gutenberg_enqueue_styles', array( $this, 'enqueue_styles' ) );
+		add_action( 'convertkit_gutenberg_enqueue_styles', array( $this, 'enqueue_styles' ) ); // Editor.
+		add_action( 'enqueue_block_assets', array( $this, 'enqueue_styles' ) ); // Frontend.
 
 	}
 
