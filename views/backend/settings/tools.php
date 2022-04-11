@@ -9,7 +9,7 @@
 if ( $success !== false ) {
 	?>
 	<div class="notice notice-success is-dismissible">
-		<p><?php echo $success; ?></p>
+		<p><?php echo esc_html( $success ); ?></p>
 	</div>
 	<?php
 }
@@ -17,7 +17,7 @@ if ( $success !== false ) {
 if ( $error !== false ) {
 	?>
 	<div class="notice notice-error is-dismissible">
-		<p><?php echo $error; ?></p>
+		<p><?php echo esc_html( $error ); ?></p>
 	</div>
 	<?php
 }

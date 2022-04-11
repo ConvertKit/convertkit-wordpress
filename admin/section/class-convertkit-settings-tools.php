@@ -36,8 +36,8 @@ class ConvertKit_Settings_Tools extends ConvertKit_Settings_Base {
 	/**
 	 * Possibly perform some actions, such as clearing the log, downloading the log,
 	 * downloading system information or any third party actions now.
-	 * 
-	 * @since 	1.9.7.4
+	 *
+	 * @since   1.9.7.4
 	 */
 	private function maybe_perform_actions() {
 
@@ -154,7 +154,7 @@ class ConvertKit_Settings_Tools extends ConvertKit_Settings_Base {
 
 		// Define configuration data to include in the export file.
 		$settings = new ConvertKit_Settings();
-		$json = wp_json_encode(
+		$json     = wp_json_encode(
 			array(
 				'settings' => $settings->get(),
 			),
@@ -243,18 +243,18 @@ class ConvertKit_Settings_Tools extends ConvertKit_Settings_Base {
 
 	/**
 	 * Redirects to the ConvertKit > Tools screen.
-	 * 
-	 * @since 	1.9.7.4
-	 * 
-	 * @param 	false|string 	$error 		The error message key.
-	 * @param 	false|string 	$success 	The success message key.
+	 *
+	 * @since   1.9.7.4
+	 *
+	 * @param   false|string $error      The error message key.
+	 * @param   false|string $success    The success message key.
 	 */
 	private function redirect_to_tools_screen( $error = false, $success = false ) {
 
 		// Build URL to redirect to, depending on whether a message is included.
 		$args = array(
 			'page' => '_wp_convertkit_settings',
-			'tab' => 'tools',
+			'tab'  => 'tools',
 		);
 		if ( $error !== false ) {
 			$args['error'] = $error;
@@ -291,19 +291,19 @@ class ConvertKit_Settings_Tools extends ConvertKit_Settings_Base {
 
 		// Define messages that might be displayed as a notification.
 		$messages = array(
-			'import_configuration_upload_error' 		=> __( 'An error occured uploading the configuration file.', 'convertkit' ),
-			'import_configuration_invalid_file_type' 	=> __( 'The uploaded configuration file isn\'t valid.', 'convertkit' ),
-			'import_configuration_empty' 				=> __( 'The uploaded configuration file contains no settings.', 'convertkit' ),
-			'import_configuration_success' 				=> __( 'Configuration imported successfully.', 'convertkit' ),
+			'import_configuration_upload_error'      => __( 'An error occured uploading the configuration file.', 'convertkit' ),
+			'import_configuration_invalid_file_type' => __( 'The uploaded configuration file isn\'t valid.', 'convertkit' ),
+			'import_configuration_empty'             => __( 'The uploaded configuration file contains no settings.', 'convertkit' ),
+			'import_configuration_success'           => __( 'Configuration imported successfully.', 'convertkit' ),
 		);
-		$error = false;
-		if ( isset( $_REQUEST['error'] ) && array_key_exists( sanitize_text_field( $_REQUEST['error'] ), $messages ) ) {
-			$error = $messages[ sanitize_text_field( $_REQUEST['error'] ) ];
+		$error    = false;
+		if ( isset( $_REQUEST['error'] ) && array_key_exists( sanitize_text_field( $_REQUEST['error'] ), $messages ) ) { // phpcs:ignore
+			$error = $messages[ sanitize_text_field( $_REQUEST['error'] ) ]; // phpcs:ignore
 		}
 
 		$success = false;
-		if ( isset( $_REQUEST['success'] ) && array_key_exists( sanitize_text_field( $_REQUEST['success'] ), $messages ) ) {
-			$success = $messages[ sanitize_text_field( $_REQUEST['success'] ) ];
+		if ( isset( $_REQUEST['success'] ) && array_key_exists( sanitize_text_field( $_REQUEST['success'] ), $messages ) ) { // phpcs:ignore
+			$success = $messages[ sanitize_text_field( $_REQUEST['success'] ) ]; // phpcs:ignore
 		}
 
 		// Output view.
