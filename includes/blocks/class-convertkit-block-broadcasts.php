@@ -17,7 +17,7 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 	/**
 	 * Constructor
 	 *
-	 * @since   1.9.6.9
+	 * @since   1.9.7.4
 	 */
 	public function __construct() {
 
@@ -33,9 +33,20 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 	}
 
 	/**
+	 * Enqueues CSS for this block.
+	 *
+	 * @since   1.9.7.4
+	 */
+	public function enqueue_styles() {
+
+		wp_enqueue_style( 'convertkit-' . $this->get_name(), CONVERTKIT_PLUGIN_URL . '/resources/frontend/css/gutenberg-block-broadcasts.css', false, CONVERTKIT_PLUGIN_VERSION );
+
+	}
+
+	/**
 	 * Returns this block's programmatic name, excluding the convertkit- prefix.
 	 *
-	 * @since   1.9.6.9
+	 * @since   1.9.7.4
 	 */
 	public function get_name() {
 
@@ -51,7 +62,7 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 	/**
 	 * Returns this block's Title, Icon, Categories, Keywords and properties.
 	 *
-	 * @since   1.9.6.9
+	 * @since   1.9.7.4
 	 */
 	public function get_overview() {
 
@@ -63,6 +74,7 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 			'keywords'                      => array(
 				__( 'ConvertKit', 'convertkit' ),
 				__( 'Broadcasts', 'convertkit' ),
+				__( 'Posts', 'convertkit' ),
 			),
 
 			// Function to call when rendering as a block or a shortcode on the frontend web site.
@@ -92,7 +104,7 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 	/**
 	 * Returns this block's Attributes
 	 *
-	 * @since   1.9.6.9
+	 * @since   1.9.7.4
 	 */
 	public function get_attributes() {
 
@@ -106,6 +118,12 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 				'type'    => 'number',
 				'default' => $this->get_default_value( 'limit' ),
 			),
+			/*
+			'pagination'           => array(
+				'type'    => 'boolean',
+				'default' => $this->get_default_value( 'pagination' ),
+			),
+			*/
 
 			// get_supports() color attribute.
 			'style'                => array(
@@ -133,7 +151,7 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 	/**
 	 * Returns this block's supported built-in Attributes.
 	 *
-	 * @since   1.9.6.9
+	 * @since   1.9.7.4
 	 *
 	 * @return  array   Supports
 	 */
@@ -153,7 +171,7 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 	/**
 	 * Returns this block's Fields
 	 *
-	 * @since   1.9.6.9
+	 * @since   1.9.7.4
 	 */
 	public function get_fields() {
 
@@ -180,6 +198,12 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 				'max'   => 999,
 				'step'  => 1,
 			),
+			/*
+			'pagination'  => array(
+				'label' => __( 'Display pagination', 'convertkit' ),
+				'type'  => 'toggle',
+			),
+			*/
 		);
 
 	}
@@ -187,7 +211,7 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 	/**
 	 * Returns this block's UI panels / sections.
 	 *
-	 * @since   1.9.6.9
+	 * @since   1.9.7.4
 	 */
 	public function get_panels() {
 
@@ -202,6 +226,7 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 				'fields' => array(
 					'date_format',
 					'limit',
+					// 'pagination',
 				),
 			),
 		);
@@ -211,13 +236,14 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 	/**
 	 * Returns this block's Default Values
 	 *
-	 * @since   1.9.6.9
+	 * @since   1.9.7.4
 	 */
 	public function get_default_values() {
 
 		return array(
 			'date_format'     => 'F j, Y',
 			'limit'           => 10,
+			// 'pagination'	  => false,
 
 			// Built-in Gutenberg block attributes.
 			'style'           => '',
@@ -229,20 +255,9 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 	}
 
 	/**
-	 * Enqueues CSS for this block.
-	 *
-	 * @since   1.9.6.9
-	 */
-	public function enqueue_styles() {
-
-		wp_enqueue_style( 'convertkit-' . $this->get_name(), CONVERTKIT_PLUGIN_URL . '/resources/frontend/css/gutenberg-block-broadcasts.css', false, CONVERTKIT_PLUGIN_VERSION );
-
-	}
-
-	/**
 	 * Returns the block's output, based on the supplied configuration attributes.
 	 *
-	 * @since   1.9.6.9
+	 * @since   1.9.7.4
 	 *
 	 * @param   array $atts   Block / Shortcode Attributes.
 	 * @return  string          Output
@@ -260,8 +275,7 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 		$api = new ConvertKit_API( $settings->get_api_key(), $settings->get_api_secret(), $settings->debug_enabled() );
 
 		// Fetch Broadcasts.
-		// @TODO Remove mock response for testing and implement a caching strategy so the API isn't queried every time.
-		// $broadcasts = $api->get_broadcasts().
+		// Mock data for now.
 		$broadcasts = array();
 		for ( $i = 1; $i < 200; $i++ ) {
 			$broadcasts[] = array(
@@ -286,7 +300,7 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 		/**
 		 * Filter the block's content immediately before it is output.
 		 *
-		 * @since   1.9.6.9
+		 * @since   1.9.7.4
 		 *
 		 * @param   string  $html   ConvertKit Broadcasts HTML.
 		 * @param   array   $atts   Block Attributes.
@@ -300,7 +314,7 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 	/**
 	 * Returns HTML for the given array of ConvertKit broadcasts.
 	 *
-	 * @since   1.9.6.9
+	 * @since   1.9.7.4
 	 *
 	 * @param   array $broadcasts     Broadcasts.
 	 * @param   array $atts           Block attributes.
