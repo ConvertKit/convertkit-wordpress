@@ -6,6 +6,21 @@
  * @author ConvertKit
  */
 
+if ( $success !== false ) {
+	?>
+	<div class="notice notice-success is-dismissible">
+		<p><?php echo $success; ?></p>
+	</div>
+	<?php
+}
+
+if ( $error !== false ) {
+	?>
+	<div class="notice notice-error is-dismissible">
+		<p><?php echo $error; ?></p>
+	</div>
+	<?php
+}
 ?>
 
 <div class="metabox-holder">
