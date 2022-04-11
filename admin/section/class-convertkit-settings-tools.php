@@ -30,10 +30,27 @@ class ConvertKit_Settings_Tools extends ConvertKit_Settings_Base {
 
 		parent::__construct();
 
+		$this->maybe_perform_actions();
+	}
+
+	/**
+	 * Possibly perform some actions, such as clearing the log, downloading the log,
+	 * downloading system information or any third party actions now.
+	 * 
+	 * @since 	1.9.7.4
+	 */
+	private function maybe_perform_actions() {
+
+		// Bail if nonce is invalid.
+		if ( ! $this->verify_nonce() ) {
+			return;
+		}
+
 		$this->maybe_clear_log();
 		$this->maybe_download_log();
 		$this->maybe_download_system_info();
-
+		$this->maybe_export_configuration();
+		$this->maybe_import_configuration();
 	}
 
 	/**
@@ -134,6 +151,94 @@ class ConvertKit_Settings_Tools extends ConvertKit_Settings_Base {
 		header( 'Expires: 0' );
 		echo $wp_filesystem->get_contents( $filename ); // phpcs:ignore
 		$wp_filesystem->delete( $filename );
+		exit();
+
+	}
+
+	/**
+	 * Prompts a browser download for the configuration file, if the user clicked
+	 * the Export button.
+	 *
+	 * @since   1.9.7.4
+	 */
+	private function maybe_export_configuration() {
+
+		// Bail if nonce is invalid.
+		if ( ! $this->verify_nonce() ) {
+			return;
+		}
+
+		// Bail if the submit button for exporting the configuration was not clicked.
+		if ( ! array_key_exists( 'convertkit-export', $_REQUEST ) ) { // phpcs:ignore
+			return;
+		}
+
+		// Define configuration data to include in the export file.
+		$settings = new ConvertKit_Settings();
+		$json = wp_json_encode(
+			array(
+				'settings' => $settings->get(),
+			),
+		);
+
+		// Download.
+		header( 'Content-type: application/x-msdownload' );
+		header( 'Content-Disposition: attachment; filename=convertkit-export.json' );
+		header( 'Pragma: no-cache' );
+		header( 'Expires: 0' );
+		echo $json; /* phpcs:ignore */
+		exit();
+
+	}
+
+	/**
+	 * 
+	 *
+	 * @since   1.9.7.4
+	 */
+	private function maybe_import_configuration() {
+
+		// Bail if nonce is invalid.
+		if ( ! $this->verify_nonce() ) {
+			return;
+		}
+
+		// Bail if the submit button for importing the configuration was not clicked.
+		if ( ! array_key_exists( 'convertkit-import', $_REQUEST ) ) { // phpcs:ignore
+			return;
+		}
+
+		// Bail if no configuration file was supplied.
+		if ( ! is_array( $_FILES ) ) {
+			return;
+		}
+		if ( $_FILES['import']['error'] !== 0 ) {
+			return;
+		}
+
+		// Read file.
+		$handle = fopen( $_FILES['import']['tmp_name'], 'r' ); /* phpcs:ignore */
+		$json   = fread( $handle, $_FILES['import']['size'] ); /* phpcs:ignore */
+		fclose( $handle ); /* phpcs:ignore */
+
+		// Remove UTF8 BOM chars.
+		$bom  = pack( 'H*', 'EFBBBF' );
+		$json = preg_replace( "/^$bom/", '', $json );
+
+		// Decode.
+		$import = json_decode( $json, true ); /* phpcs:ignore */
+
+		// Bail if no settings exist.
+		if ( ! array_key_exists( 'settings', $import ) ) {
+			return;
+		}
+
+		// Import: Settings.
+		$settings = new ConvertKit_Settings();
+		update_option( $settings::SETTINGS_NAME, $import['settings'] );
+
+		// Redirect to Tools screen.
+		wp_safe_redirect( 'options-general.php?page=_wp_convertkit_settings&tab=tools' );
 		exit();
 
 	}

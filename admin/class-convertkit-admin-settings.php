@@ -139,7 +139,7 @@ class ConvertKit_Admin_Settings {
 			}
 			?>
 
-			<form method="post" action="options.php">
+			<form method="post" action="options.php" enctype="multipart/form-data">
 				<?php
 				// Iterate through sections to find the active section to render.
 				if ( isset( $this->sections[ $active_section ] ) ) {
