@@ -157,7 +157,7 @@ class ConvertKit_Settings_Tools extends ConvertKit_Settings_Base {
 		$json     = wp_json_encode(
 			array(
 				'settings' => $settings->get(),
-			),
+			)
 		);
 
 		// Download.
