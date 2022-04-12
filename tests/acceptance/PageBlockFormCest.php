@@ -41,12 +41,12 @@ class PageBlockFormCest
 	public function testFormBlockWithValidFormParameter(AcceptanceTester $I)
 	{
 		// Define a Page Title.
-		$I->fillField('.editor-post-title__input', 'ConvertKit: Form: Block: Valid Form Param');
+		$I->fillField('.editor-post-title__input', 'ConvertKit: Page: Form: Block: Valid Form Param');
 
 		// Add block to Page.
-		$I->gutenbergAddBlock($I, 'ConvertKit Form', 'convertkit-form');
+		$I->addGutenbergBlock($I, 'ConvertKit Form', 'convertkit-form');
 
-		// When the sidebar appears, select the Form.
+		// When the sidebar appears, select the Form in the Block.
 		$I->waitForElementVisible('.interface-interface-skeleton__sidebar[aria-label="Editor settings"]');
 		$I->selectOption('#convertkit_form_form', $_ENV['CONVERTKIT_API_FORM_NAME']);
 
@@ -87,7 +87,7 @@ class PageBlockFormCest
 		$I->fillField('.editor-post-title__input', 'ConvertKit: Legacy Form: Block: Valid Form Param');
 
 		// Add block to Page.
-		$I->gutenbergAddBlock($I, 'ConvertKit Form', 'convertkit-form');
+		$I->addGutenbergBlock($I, 'ConvertKit Form', 'convertkit-form');
 
 		// When the sidebar appears, select the Form.
 		$I->waitForElementVisible('.interface-interface-skeleton__sidebar[aria-label="Editor settings"]');
@@ -128,16 +128,10 @@ class PageBlockFormCest
 	public function testFormBlockWithValidModalFormParameter(AcceptanceTester $I)
 	{
 		// Define a Page Title.
-		$I->fillField('.editor-post-title__input', 'ConvertKit: Form: Block: Valid Modal Form Param');
+		$I->fillField('.editor-post-title__input', 'ConvertKit: Page: Form: Block: Valid Modal Form Param');
 
-		// Click Add Block Button.
-		$I->click('button.edit-post-header-toolbar__inserter-toggle');
-
-		// When the Blocks sidebar appears, search for the ConvertKit Form block.
-		$I->waitForElementVisible('.interface-interface-skeleton__secondary-sidebar[aria-label="Block library"]');
-		$I->fillField('.block-editor-inserter__content input[type=search]', 'ConvertKit Form');
-		$I->seeElementInDOM('.block-editor-inserter__panel-content button.editor-block-list-item-convertkit-form');
-		$I->click('.block-editor-inserter__panel-content button.editor-block-list-item-convertkit-form');
+		// Add block to Page.
+		$I->addGutenbergBlock($I, 'ConvertKit Form', 'convertkit-form');
 
 		// When the sidebar appears, select the Form.
 		$I->waitForElementVisible('.interface-interface-skeleton__sidebar[aria-label="Editor settings"]');
@@ -188,16 +182,10 @@ class PageBlockFormCest
 	public function testFormBlockWithValidSlideInFormParameter(AcceptanceTester $I)
 	{
 		// Define a Page Title.
-		$I->fillField('.editor-post-title__input', 'ConvertKit: Form: Block: Valid Slide In Form Param');
+		$I->fillField('.editor-post-title__input', 'ConvertKit: Page: Form: Block: Valid Slide In Form Param');
 
-		// Click Add Block Button.
-		$I->click('button.edit-post-header-toolbar__inserter-toggle');
-
-		// When the Blocks sidebar appears, search for the ConvertKit Form block.
-		$I->waitForElementVisible('.interface-interface-skeleton__secondary-sidebar[aria-label="Block library"]');
-		$I->fillField('.block-editor-inserter__content input[type=search]', 'ConvertKit Form');
-		$I->seeElementInDOM('.block-editor-inserter__panel-content button.editor-block-list-item-convertkit-form');
-		$I->click('.block-editor-inserter__panel-content button.editor-block-list-item-convertkit-form');
+		// Add block to Page.
+		$I->addGutenbergBlock($I, 'ConvertKit Form', 'convertkit-form');
 
 		// When the sidebar appears, select the Form.
 		$I->waitForElementVisible('.interface-interface-skeleton__sidebar[aria-label="Editor settings"]');
@@ -248,16 +236,10 @@ class PageBlockFormCest
 	public function testFormBlockWithValidStickyBarFormParameter(AcceptanceTester $I)
 	{
 		// Define a Page Title.
-		$I->fillField('.editor-post-title__input', 'ConvertKit: Form: Block: Valid Sticky Bar Form Param');
+		$I->fillField('.editor-post-title__input', 'ConvertKit: Page: Form: Block: Valid Sticky Bar Form Param');
 
-		// Click Add Block Button.
-		$I->click('button.edit-post-header-toolbar__inserter-toggle');
-
-		// When the Blocks sidebar appears, search for the ConvertKit Form block.
-		$I->waitForElementVisible('.interface-interface-skeleton__secondary-sidebar[aria-label="Block library"]');
-		$I->fillField('.block-editor-inserter__content input[type=search]', 'ConvertKit Form');
-		$I->seeElementInDOM('.block-editor-inserter__panel-content button.editor-block-list-item-convertkit-form');
-		$I->click('.block-editor-inserter__panel-content button.editor-block-list-item-convertkit-form');
+		// Add block to Page.
+		$I->addGutenbergBlock($I, 'ConvertKit Form', 'convertkit-form');
 
 		// When the sidebar appears, select the Form.
 		$I->waitForElementVisible('.interface-interface-skeleton__sidebar[aria-label="Editor settings"]');
@@ -307,16 +289,10 @@ class PageBlockFormCest
 	public function testFormBlockWithNoFormParameter(AcceptanceTester $I)
 	{
 		// Define a Page Title.
-		$I->fillField('.editor-post-title__input', 'ConvertKit: Form: Block: No Form Param');
+		$I->fillField('.editor-post-title__input', 'ConvertKit: Page: Form: Block: No Form Param');
 
-		// Click Add Block Button.
-		$I->click('button.edit-post-header-toolbar__inserter-toggle');
-
-		// When the Blocks sidebar appears, search for the ConvertKit Form block.
-		$I->waitForElementVisible('.interface-interface-skeleton__secondary-sidebar[aria-label="Block library"]');
-		$I->fillField('.block-editor-inserter__content input[type=search]', 'ConvertKit Form');
-		$I->seeElementInDOM('.block-editor-inserter__panel-content button.editor-block-list-item-convertkit-form');
-		$I->click('.block-editor-inserter__panel-content button.editor-block-list-item-convertkit-form');
+		// Add block to Page.
+		$I->addGutenbergBlock($I, 'ConvertKit Form', 'convertkit-form');
 
 		// Confirm that the Form block displays instructions to the user on how to select a Form.
 		$I->see('Select a Form using the Form option in the Gutenberg sidebar.', [
