@@ -73,6 +73,9 @@ class PluginSettingsToolsCest
 		$I->scrollTo('#export');
 		$I->click('input#convertkit-export');
 
+		// Wait 2 seconds for the download to complete.
+		sleep(2);
+
 		// Check downloaded file exists and contains some expected information.
 		$I->openFile($_ENV['WP_ROOT_FOLDER'] . '/convertkit-export.json');
 		$I->seeInThisFile('{"settings":{"api_key":"' . $_ENV['CONVERTKIT_API_KEY'] . '","api_secret":"' . $_ENV['CONVERTKIT_API_SECRET'] . '"');
