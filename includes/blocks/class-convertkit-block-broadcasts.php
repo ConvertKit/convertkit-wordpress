@@ -272,29 +272,29 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 		// Setup Settings class.
 		$settings = new ConvertKit_Settings();
 
-		// Initialize the API.
-		$api = new ConvertKit_API( $settings->get_api_key(), $settings->get_api_secret(), $settings->debug_enabled() );
+		// Fetch Posts.
+		$posts = new ConvertKit_Resource_Posts();
 
-		// Fetch Broadcasts.
-		// Mock data for now.
-		$broadcasts = array();
-		for ( $i = 1; $i < 200; $i++ ) {
-			$broadcasts[] = array(
-				'id'        	=> $i,
-				'title'    		=> 'Test Subject #' . $i,
-				'url'			=> '#', 
-				'published_at' 	=> gmdate( 'Y-m-d', strtotime( '-' . $i . ' days' ) ) . 'T17:00:15.000Z',
-				'is_paid'		=> null,
-			);
+		// If no Posts exist, fetch them now, storing them in the resource.
+		if ( ! $posts->exist() ) {
+			$posts->refresh();
 		}
 
 		// If an error occured, bail.
-		if ( is_wp_error( $broadcasts ) ) {
+		if ( is_wp_error( $posts ) ) {
 			if ( $settings->debug_enabled() ) {
-				return '<!-- ' . $broadcasts->get_error_message() . ' -->';
+				return '<!-- ' . $posts->get_error_message() . ' -->';
 			}
 
 			return '';
+		}
+
+		// Build array of broadcasts to include in the output, based on the attributes.
+		$broadcasts = array();
+		if ( $atts['limit'] > 0 ) {
+			$broadcasts = array_slice( $posts->get(), 0, $atts['limit'] );
+		} else {
+			$broadcasts = $posts->get();
 		}
 
 		// Build HTML.
@@ -338,11 +338,6 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 				<time datetime="' . date_i18n( 'Y-m-d', $date_timestamp ) . '">' . date_i18n( $atts['date_format'], $date_timestamp ) . '</time>
 				<a href="' . $broadcast['url'] . '" target="_blank" rel="nofollow noopener">' . $broadcast['title'] . '</a>
 			</li>';
-
-			// If the limit is hit, don't add any more broadcasts.
-			if ( ( $count + 1 ) === $atts['limit'] ) {
-				break;
-			}
 		}
 
 		// End list.

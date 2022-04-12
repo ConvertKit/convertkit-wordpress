@@ -303,10 +303,13 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 			$this->forms = new ConvertKit_Resource_Forms();
 			$this->forms->refresh();
 
-			// Also refresh Landing Pages and Tags. Whilst not displayed in the Plugin Settings, this ensures up to date
+			// Also refresh Landing Pages, Tags and Posts. Whilst not displayed in the Plugin Settings, this ensures up to date
 			// lists are stored for when editing e.g. Pages.
 			$landing_pages = new ConvertKit_Resource_Landing_Pages();
 			$landing_pages->refresh();
+
+			$posts = new ConvertKit_Resource_Posts();
+			$posts->refresh();
 
 			$tags = new ConvertKit_Resource_Tags();
 			$tags->refresh();
