@@ -51,7 +51,7 @@ class ConvertKit_Settings_Tools extends ConvertKit_Settings_Base {
 		$this->maybe_download_system_info();
 		$this->maybe_export_configuration();
 		$this->maybe_import_configuration();
-		
+
 	}
 
 	/**
