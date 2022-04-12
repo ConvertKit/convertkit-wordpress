@@ -49,7 +49,7 @@ class WooCommerceProductFormCest
 		$I->fillSelect2Field($I, '#select2-wp-convertkit-form-container', 'Default', 'aria-owns');
 
 		// Define a Product Title.
-		$I->fillField('#title', 'ConvertKit: Form: Default: None');
+		$I->fillField('#title', 'ConvertKit: Product: Form: Default: None');
 
 		// Click the Publish button.
 		$I->click('#publish');
@@ -58,7 +58,7 @@ class WooCommerceProductFormCest
 		$I->seeOptionIsSelected('#wp-convertkit-form', 'Default');
 
 		// Load the Product on the frontend site.
-		$I->amOnPage('/product/convertkit-form-default-none');
+		$I->amOnPage('/product/convertkit-product-form-default-none');
 
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
@@ -96,7 +96,7 @@ class WooCommerceProductFormCest
 		$I->fillSelect2Field($I, '#select2-wp-convertkit-form-container', 'Default', 'aria-owns');
 
 		// Define a Product Title.
-		$I->fillField('#title', 'ConvertKit: Form: Default');
+		$I->fillField('#title', 'ConvertKit: Product: Form: Default');
 
 		// Click the Publish button.
 		$I->click('#publish');
@@ -105,7 +105,7 @@ class WooCommerceProductFormCest
 		$I->seeOptionIsSelected('#wp-convertkit-form', 'Default');
 
 		// Load the Product on the frontend site.
-		$I->amOnPage('/product/convertkit-form-default');
+		$I->amOnPage('/product/convertkit-product-form-default');
 
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
@@ -140,7 +140,7 @@ class WooCommerceProductFormCest
 		$I->fillSelect2Field($I, '#select2-wp-convertkit-form-container', 'None', 'aria-owns');
 
 		// Define a Product Title.
-		$I->fillField('#title', 'ConvertKit: Form: None');
+		$I->fillField('#title', 'ConvertKit: Product: Form: None');
 
 		// Click the Publish button.
 		$I->click('#publish');
@@ -149,7 +149,7 @@ class WooCommerceProductFormCest
 		$I->seeOptionIsSelected('#wp-convertkit-form', 'None');
 
 		// Load the Product on the frontend site.
-		$I->amOnPage('/product/convertkit-form-none');
+		$I->amOnPage('/product/convertkit-product-form-none');
 
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
@@ -184,7 +184,7 @@ class WooCommerceProductFormCest
 		$I->fillSelect2Field($I, '#select2-wp-convertkit-form-container', $_ENV['CONVERTKIT_API_FORM_NAME'], 'aria-owns');
 
 		// Define a Product Title.
-		$I->fillField('#title', 'ConvertKit: Form: Specific');
+		$I->fillField('#title', 'ConvertKit: Product: Form: Specific');
 
 		// Click the Publish button.
 		$I->click('#publish');
@@ -196,7 +196,7 @@ class WooCommerceProductFormCest
 		$formID = $I->grabValueFrom('#wp-convertkit-form');
 
 		// Load the Product on the frontend site.
-		$I->amOnPage('/product/convertkit-form-specific');
+		$I->amOnPage('/product/convertkit-product-form-specific');
 
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
