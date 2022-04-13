@@ -119,21 +119,12 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 				'type'    => 'number',
 				'default' => $this->get_default_value( 'limit' ),
 			),
-			/*
-			'pagination'           => array(
-				'type'    => 'boolean',
-				'default' => $this->get_default_value( 'pagination' ),
-			),
-			*/
 
 			// get_supports() color attribute.
 			'style'                => array(
 				'type' => 'object',
 			),
 			'backgroundColor'      => array(
-				'type' => 'string',
-			),
-			'linkColor'            => array(
 				'type' => 'string',
 			),
 			'textColor'            => array(
@@ -199,12 +190,6 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 				'max'   => 999,
 				'step'  => 1,
 			),
-			/*
-			'pagination'  => array(
-				'label' => __( 'Display pagination', 'convertkit' ),
-				'type'  => 'toggle',
-			),
-			*/
 		);
 
 	}
@@ -227,7 +212,6 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 				'fields' => array(
 					'date_format',
 					'limit',
-					// 'pagination',
 				),
 			),
 		);
@@ -244,12 +228,10 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 		return array(
 			'date_format'     => 'F j, Y',
 			'limit'           => 10,
-			// 'pagination'	  => false,
 
 			// Built-in Gutenberg block attributes.
 			'style'           => '',
 			'backgroundColor' => '',
-			'linkColor'       => '',
 			'textColor'       => '',
 		);
 

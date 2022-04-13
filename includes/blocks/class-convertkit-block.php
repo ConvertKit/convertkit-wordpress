@@ -243,13 +243,6 @@ class ConvertKit_Block {
 			$atts['_css_styles']['background'] = 'background-color:' . $atts['style']['color']['background'];
 		}
 
-		// If the block supports a link color, and a preset color was selected, add it to the
-		// array of CSS classes.
-		if ( $atts['linkColor'] ) {
-			$atts['_css_classes'][] = 'has-link-color';
-			$atts['_css_classes'][] = 'has-' . $atts['linkColor'] . '-color';
-		}
-
 		// Remove some unused attributes, now they're declared above.
 		unset( $atts['style'] );
 
