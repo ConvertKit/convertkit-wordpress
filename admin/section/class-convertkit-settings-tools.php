@@ -179,6 +179,11 @@ class ConvertKit_Settings_Tools extends ConvertKit_Settings_Base {
 	 */
 	private function maybe_import_configuration() {
 
+		// Allow us to easily interact with the filesystem.
+		require_once ABSPATH . 'wp-admin/includes/file.php';
+		WP_Filesystem();
+		global $wp_filesystem;
+
 		// Bail if the submit button for importing the configuration was not clicked.
 		if ( ! array_key_exists( 'convertkit-import', $_REQUEST ) ) { // phpcs:ignore
 			return;
@@ -193,16 +198,10 @@ class ConvertKit_Settings_Tools extends ConvertKit_Settings_Base {
 		}
 
 		// Read file.
-		$handle = fopen( $_FILES['import']['tmp_name'], 'r' ); /* phpcs:ignore */
-		$json   = fread( $handle, $_FILES['import']['size'] ); /* phpcs:ignore */
-		fclose( $handle ); /* phpcs:ignore */
-
-		// Remove UTF8 BOM chars.
-		$bom  = pack( 'H*', 'EFBBBF' );
-		$json = preg_replace( "/^$bom/", '', $json );
+		$json = $wp_filesystem->get_contents( $_FILES['import']['tmp_name'] );
 
 		// Decode.
-		$import = json_decode( $json, true ); /* phpcs:ignore */
+		$import = json_decode( $json, true );
 
 		// Bail if the data isn't JSON.
 		if ( is_null( $import ) ) {
