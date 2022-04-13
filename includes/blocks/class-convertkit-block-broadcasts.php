@@ -40,7 +40,7 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 	 */
 	public function enqueue_styles() {
 
-		wp_enqueue_style( 'convertkit-' . $this->get_name(), CONVERTKIT_PLUGIN_URL . 'resources/frontend/css/gutenberg-block-broadcasts.css', false, CONVERTKIT_PLUGIN_VERSION );
+		wp_enqueue_style( 'convertkit-' . $this->get_name(), CONVERTKIT_PLUGIN_URL . 'resources/frontend/css/gutenberg-block-broadcasts.css', array(), CONVERTKIT_PLUGIN_VERSION );
 
 	}
 
@@ -164,6 +164,8 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 	 * Returns this block's Fields
 	 *
 	 * @since   1.9.7.4
+	 *
+	 * @return 	bool|array
 	 */
 	public function get_fields() {
 
@@ -198,6 +200,8 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 	 * Returns this block's UI panels / sections.
 	 *
 	 * @since   1.9.7.4
+	 *
+	 * @return 	bool|array
 	 */
 	public function get_panels() {
 
@@ -222,6 +226,8 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 	 * Returns this block's Default Values
 	 *
 	 * @since   1.9.7.4
+	 *
+	 * @return 	array
 	 */
 	public function get_default_values() {
 
@@ -257,15 +263,15 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 		// Fetch Posts.
 		$posts = new ConvertKit_Resource_Posts();
 
-		// If no Posts exist, fetch them now, storing them in the resource.
+		// If no Posts exist, fetch them now from the API, storing them in the resource.
 		if ( ! $posts->exist() ) {
 			$posts->refresh();
 		}
 
-		// If an error occured, bail.
-		if ( is_wp_error( $posts ) ) {
+		// If there are still no Posts after fetching them from the API, bail.
+		if ( ! $posts->exist() ) {
 			if ( $settings->debug_enabled() ) {
-				return '<!-- ' . $posts->get_error_message() . ' -->';
+				return '<!-- ' . __( 'No Broadcasts exist in ConvertKit.', 'convertkit' ) . ' -->';
 			}
 
 			return '';

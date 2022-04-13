@@ -162,11 +162,11 @@ class ConvertKit_Block {
 	 * - sanitization
 	 * - adding attributes with default values are missing but registered by the block
 	 * - cast attribute values based on their defined type
-	 * 
+	 *
 	 * These steps are performed because the attributes may be defined by a shortcode,
 	 * block or third party widget/page builder's block, each of which handle attributes
 	 * slightly differently.
-	 * 
+	 *
 	 * Returns a standardised attributes array.
 	 *
 	 * @since   1.9.7.4

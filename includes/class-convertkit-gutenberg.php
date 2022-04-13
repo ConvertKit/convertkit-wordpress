@@ -157,7 +157,7 @@ class ConvertKit_Gutenberg {
 
 	/**
 	 * Enqueues scripts for Gutenberg blocks in the editor view.
-	 * 
+	 *
 	 * Use wp_enqueue_style() hooked to the enqueue_block_assets hook for frontend styles:
 	 * https://developer.wordpress.org/block-editor/how-to-guides/block-tutorial/applying-styles-with-stylesheets/
 	 *
