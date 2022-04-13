@@ -165,7 +165,7 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 	 *
 	 * @since   1.9.7.4
 	 *
-	 * @return 	bool|array
+	 * @return  bool|array
 	 */
 	public function get_fields() {
 
@@ -201,7 +201,7 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 	 *
 	 * @since   1.9.7.4
 	 *
-	 * @return 	bool|array
+	 * @return  bool|array
 	 */
 	public function get_panels() {
 
@@ -227,7 +227,7 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 	 *
 	 * @since   1.9.7.4
 	 *
-	 * @return 	array
+	 * @return  array
 	 */
 	public function get_default_values() {
 
