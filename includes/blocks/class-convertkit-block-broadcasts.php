@@ -40,6 +40,12 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 	 */
 	public function enqueue_styles() {
 
+		// Don't load styles if the Disable CSS option is on.
+		$settings = new ConvertKit_Settings();
+		if ( $settings->css_disabled() ) {
+			return;
+		}
+
 		wp_enqueue_style( 'convertkit-' . $this->get_name(), CONVERTKIT_PLUGIN_URL . 'resources/frontend/css/gutenberg-block-broadcasts.css', array(), CONVERTKIT_PLUGIN_VERSION );
 
 	}
