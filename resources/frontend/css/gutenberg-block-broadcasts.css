@@ -1,0 +1,25 @@
+ul.convertkit-broadcasts,
+.editor-styles-wrapper ul.convertkit-broadcasts {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+ul.convertkit-broadcasts.has-background,
+.editor-styles-wrapper ul.convertkit-broadcasts.has-background {
+	padding: 20px;
+}
+ul.convertkit-broadcasts li {
+	display: grid;
+	grid-template-areas: "date subject";
+	grid-template-columns: 150px auto;
+	grid-column-gap: 20px;
+	list-style: none;
+	margin: 0;
+	padding: 5px 0;
+}
+ul.convertkit-broadcasts li time {
+	grid-area: date;
+}
+ul.convertkit-broadcasts li a {
+	grid-area: subject;
+}

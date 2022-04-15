@@ -132,6 +132,14 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 			$this->name
 		);
 
+		add_settings_field(
+			'no_css',
+			__( 'Disable CSS', 'convertkit' ),
+			array( $this, 'no_css_callback' ),
+			$this->settings_key,
+			$this->name
+		);
+
 	}
 
 	/**
@@ -295,10 +303,13 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 			$this->forms = new ConvertKit_Resource_Forms();
 			$this->forms->refresh();
 
-			// Also refresh Landing Pages and Tags. Whilst not displayed in the Plugin Settings, this ensures up to date
+			// Also refresh Landing Pages, Tags and Posts. Whilst not displayed in the Plugin Settings, this ensures up to date
 			// lists are stored for when editing e.g. Pages.
 			$landing_pages = new ConvertKit_Resource_Landing_Pages();
 			$landing_pages->refresh();
+
+			$posts = new ConvertKit_Resource_Posts();
+			$posts->refresh();
 
 			$tags = new ConvertKit_Resource_Tags();
 			$tags->refresh();
@@ -362,4 +373,22 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 		);
 
 	}
+
+	/**
+	 * Renders the input for the Disable CSS setting.
+	 *
+	 * @since   1.9.6.9
+	 */
+	public function no_css_callback() {
+
+		// Output field.
+		echo $this->get_checkbox_field( // phpcs:ignore
+			'no_css',
+			'on',
+			$this->settings->css_disabled(), // phpcs:ignore
+			esc_html__( 'Prevent plugin from loading CSS files. This will disable styling on the broadcasts shortcode and block. Use with caution!', 'convertkit' )
+		);
+
+	}
+
 }
