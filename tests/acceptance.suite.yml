@@ -12,6 +12,7 @@ modules:
         - WPWebDriver
         - \Helper\Acceptance
         - \Codeception\Module\Asserts
+        - \Codeception\Module\Filesystem
     config:
         WPDb:
             dsn: '%TEST_SITE_DB_DSN%'
@@ -46,3 +47,5 @@ modules:
             capabilities:
                 chromeOptions:
                     args: ["--headless", "--disable-gpu"]
+                    prefs:
+                        download.default_directory: '%WP_ROOT_FOLDER%'

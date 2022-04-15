@@ -24,7 +24,7 @@ class SubscriberEmailToIDOnFormSubmitCest
 
 		// Clear Log, so that entries from previous tests aren't included in this test.
 		$I->loadConvertKitSettingsToolsScreen($I);
-		$I->click('Clear Log');
+		$I->click('Clear log');
 	}
 
 	/**
