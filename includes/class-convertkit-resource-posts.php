@@ -34,6 +34,6 @@ class ConvertKit_Resource_Posts extends ConvertKit_Resource {
 	 *
 	 * @var     int
 	 */
-	public $cache_for = DAY_IN_SECONDS;
+	public $cache_duration = DAY_IN_SECONDS;
 
 }

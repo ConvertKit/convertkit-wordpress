@@ -56,7 +56,7 @@ class ResourceTagsTest extends \Codeception\TestCase\WPTestCase
 		// Delete API Key, API Secret and Resources from Plugin's settings.
 		delete_option($this->settings::SETTINGS_NAME);
 		delete_option($this->resource->settings_name);
-		delete_option($this->resource->settings_name . '_expiry');
+		delete_option($this->resource->settings_name . '_last_queried');
 		parent::tearDown();
 	}
 
@@ -81,11 +81,11 @@ class ResourceTagsTest extends \Codeception\TestCase\WPTestCase
 	 */
 	public function testExpiry()
 	{
-		// Define the expected expiry date based on the resource class' $cache_for setting.
-		$expectedExpiryDate = date('Y-m-d', time() + $this->resource->cache_for);
+		// Define the expected expiry date based on the resource class' $cache_duration setting.
+		$expectedExpiryDate = date('Y-m-d', time() + $this->resource->cache_duration);
 
 		// Fetch the actual expiry date set when the resource class was initialized.
-		$expiryDate = date('Y-m-d', $this->resource->expiry);
+		$expiryDate = date('Y-m-d', $this->resource->last_queried + $this->resource->cache_duration);
 
 		// Confirm both dates match.
 		$this->assertEquals($expectedExpiryDate, $expiryDate);

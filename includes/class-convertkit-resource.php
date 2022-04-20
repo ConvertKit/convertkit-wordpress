@@ -34,7 +34,7 @@ class ConvertKit_Resource {
 	 *
 	 * @var     int
 	 */
-	public $cache_for = YEAR_IN_SECONDS;
+	public $cache_duration = YEAR_IN_SECONDS;
 
 	/**
 	 * Holds the resources from the ConvertKit API
@@ -45,14 +45,13 @@ class ConvertKit_Resource {
 
 	/**
 	 * Timestamp for when the resources stored in the option database table
-	 * are stale and need to be refreshed by querying the API to fetch the latest
-	 * resources.
+	 * were last queried from the API.
 	 *
 	 * @since   1.9.7.4
 	 *
 	 * @var     int
 	 */
-	public $expiry = YEAR_IN_SECONDS;
+	public $last_queried = 0;
 
 	/**
 	 * Constructor.
@@ -73,14 +72,14 @@ class ConvertKit_Resource {
 	 */
 	public function init() {
 
-		// Get expiry time and existing resources.
-		$this->expiry    = get_option( $this->settings_name . '_expiry' );
-		$this->resources = get_option( $this->settings_name );
+		// Get last query time and existing resources.
+		$this->last_queried = get_option( $this->settings_name . '_last_queried' );
+		$this->resources    = get_option( $this->settings_name );
 
-		// If no expiry time exists, refresh the resources now, which will set
-		// an expiry time.  This handles upgrades from < 1.9.7.4 where resources
+		// If no last query time exists, refresh the resources now, which will set
+		// a last query time.  This handles upgrades from < 1.9.7.4 where resources
 		// would never expire.
-		if ( ! $this->expiry ) {
+		if ( ! $this->last_queried ) {
 			$this->refresh();
 			return;
 		}
@@ -92,7 +91,7 @@ class ConvertKit_Resource {
 		}
 
 		// If the resources have expired, refresh them now.
-		if ( time() > $this->expiry ) {
+		if ( time() > ( $this->last_queried + $this->cache_duration ) ) {
 			$this->refresh();
 			return;
 		}
@@ -139,7 +138,7 @@ class ConvertKit_Resource {
 
 	/**
 	 * Fetches resources (forms, landing pages or tags) from the API, storing them in the options table
-	 * with an expiry timestamp.
+	 * with a last queried timestamp.
 	 *
 	 * @since   1.9.6
 	 *
@@ -191,10 +190,10 @@ class ConvertKit_Resource {
 			return $results;
 		}
 
-		// Define expiration for these resources.
-		$expiry = time() + $this->cache_for;
+		// Define last query time now.
+		$last_queried = time();
 
-		// Store resources and their expiry in the options table.
+		// Store resources and their last query timestamp in the options table.
 		// We don't use WordPress' Transients API (i.e. auto expiring options), because they're prone to being
 		// flushed by some third party "optimization" Plugins. They're also not guaranteed to remain in the options
 		// table for the amount of time specified; any expiry is a maximum, not a minimum.
@@ -202,11 +201,11 @@ class ConvertKit_Resource {
 		// a result of transients not being honored, so storing them as options with a separate, persistent expiry
 		// value is more reliable here.
 		update_option( $this->settings_name, $results );
-		update_option( $this->settings_name . '_expiry', $expiry );
+		update_option( $this->settings_name . '_last_queried', $last_queried );
 
-		// Store resources and expiry in class variables.
-		$this->resources = $results;
-		$this->expiry    = $expiry;
+		// Store resources and last queried time in class variables.
+		$this->resources    = $results;
+		$this->last_queried = $last_queried;
 
 		// Return resources.
 		return $results;
