@@ -77,23 +77,23 @@ class Acceptance extends \Codeception\Module
 		$I->seeElementInDOM('.block-editor-inserter__panel-content button.editor-block-list-item-' . $blockProgrammaticName);
 		$I->click('.block-editor-inserter__panel-content button.editor-block-list-item-' . $blockProgrammaticName);
 	}
-	
-	/**
-	 * Add the given block when adding or editing a Page, Post or Custom Post Type
-	 * in Gutenberg.
-	 * 
-	 * @since 	1.9.6.9
-	 */
-	public function gutenbergAddBlock($I, $blockName, $blockProgrammaticName)
-	{
-		// Click Add Block Button.
-		$I->click('button.edit-post-header-toolbar__inserter-toggle');
 
-		// When the Blocks sidebar appears, search for the block.
-		$I->waitForElementVisible('.interface-interface-skeleton__secondary-sidebar[aria-label="Block library"]');
-		$I->fillField('.block-editor-inserter__content input[type=search]', $blockName);
-		$I->seeElementInDOM('.block-editor-inserter__panel-content button.editor-block-list-item-' . $blockProgrammaticName);
-		$I->click('.block-editor-inserter__panel-content button.editor-block-list-item-' . $blockProgrammaticName);
+	/**
+	 * Check that the given block did not output any errors when rendered in the
+	 * Gutenberg editor.
+	 * 
+	 * @since 	1.9.7.4
+	 * 
+	 * @param 	AcceptanceTester 	$I 						Acceptance Tester.
+	 * @param 	string 				$blockName 				Block Name (e.g. 'ConvertKit Form')
+	 */
+	public function checkGutenbergBlockHasNoErrors($I, $blockName)
+	{
+		// Wait a couple of seconds for the block to render.
+		sleep(2);
+
+		// Check that the "This block has encountered an error and cannot be previewed." element doesn't exist.
+		$I->dontSeeElementInDOM('.block-editor-block-list__layout div[data-title="'.$blockName.'"] .block-editor-block-list__block-crash-warning');
 	}
 
 	/**

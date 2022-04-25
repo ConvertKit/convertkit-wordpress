@@ -44,7 +44,7 @@ class PageBlockBroadcastsCest
 		$I->fillField('.editor-post-title__input', 'ConvertKit: Page: Broadcasts: Default Params');
 
 		// Add block to Page.
-		$I->gutenbergAddBlock($I, 'ConvertKit Broadcasts', 'convertkit-broadcasts');
+		$I->addGutenbergBlock($I, 'ConvertKit Broadcasts', 'convertkit-broadcasts');
 
 		// Click the Publish button.
 		$I->click('.editor-post-publish-button__button');
@@ -91,7 +91,7 @@ class PageBlockBroadcastsCest
 		$I->fillField('.editor-post-title__input', 'ConvertKit: Page: Broadcasts: Date Format Param');
 
 		// Add block to Page.
-		$I->gutenbergAddBlock($I, 'ConvertKit Broadcasts', 'convertkit-broadcasts');
+		$I->addGutenbergBlock($I, 'ConvertKit Broadcasts', 'convertkit-broadcasts');
 
 		// When the sidebar appears, define the date format.
 		$I->waitForElementVisible('.interface-interface-skeleton__sidebar[aria-label="Editor settings"]');
@@ -142,7 +142,7 @@ class PageBlockBroadcastsCest
 		$I->fillField('.editor-post-title__input', 'ConvertKit: Page: Broadcasts: Limit Param');
 
 		// Add block to Page.
-		$I->gutenbergAddBlock($I, 'ConvertKit Broadcasts', 'convertkit-broadcasts');
+		$I->addGutenbergBlock($I, 'ConvertKit Broadcasts', 'convertkit-broadcasts');
 
 		// When the sidebar appears, define the limit.
 		$I->waitForElementVisible('.interface-interface-skeleton__sidebar[aria-label="Editor settings"]');
@@ -175,6 +175,59 @@ class PageBlockBroadcastsCest
 
 		// Confirm that the expected number of Broadcasts are displayed.
 		$I->seeNumberOfElements('li.convertkit-broadcast', 2);
+	}
+
+	/**
+	 * Test the Broadcasts block renders when the limit parameter is blank.
+	 * 
+	 * @since 	1.9.7.4
+	 * 
+	 * @param 	AcceptanceTester 	$I 	Tester
+	 */
+	public function testBroadcastsBlockWithBlankLimitParameter(AcceptanceTester $I)
+	{
+		// Define a Page Title.
+		$I->fillField('.editor-post-title__input', 'ConvertKit: Page: Broadcasts: Blank Limit Param');
+
+		// Add block to Page.
+		$I->addGutenbergBlock($I, 'ConvertKit Broadcasts', 'convertkit-broadcasts');
+
+		// When the sidebar appears, blank the limit parameter as the user might, by pressing the backspace
+		// key twice.
+		$I->waitForElementVisible('.interface-interface-skeleton__sidebar[aria-label="Editor settings"]');
+		$I->pressKey('#convertkit_broadcasts_limit', \Facebook\WebDriver\WebDriverKeys::BACKSPACE );
+		$I->pressKey('#convertkit_broadcasts_limit', \Facebook\WebDriver\WebDriverKeys::BACKSPACE );
+
+		// Confirm that the block did not encounter an error and fail to render.
+		$I->checkGutenbergBlockHasNoErrors($I, 'ConvertKit Broadcasts');
+
+		// Click the Publish button.
+		$I->click('.editor-post-publish-button__button');
+		
+		// When the pre-publish panel displays, click Publish again.
+		$I->performOn('.editor-post-publish-panel__prepublish', function($I) {
+			$I->click('.editor-post-publish-panel__header-publish-button .editor-post-publish-button__button');	
+		});
+
+		// Wait for confirmation that the Page published.
+		$I->waitForElementVisible('.post-publish-panel__postpublish-buttons a.components-button');
+
+		// Load the Page on the frontend site.
+		$I->click('.post-publish-panel__postpublish-buttons a.components-button');
+
+		// Wait for frontend web site to load.
+		$I->waitForElementVisible('body.page-template-default');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Confirm that the block displays.
+		$I->seeElementInDOM('ul.convertkit-broadcasts');
+		$I->seeElementInDOM('ul.convertkit-broadcasts li.convertkit-broadcast');
+		$I->seeElementInDOM('ul.convertkit-broadcasts li.convertkit-broadcast a');	
+
+		// Confirm that the expected number of Broadcasts are displayed.
+		$I->seeNumberOfElements('li.convertkit-broadcast', [1,10]);
 	}
 
 	/**
