@@ -55,7 +55,7 @@ class PostFormCest
 		$I->fillSelect2Field($I, '#select2-wp-convertkit-form-container', 'Default');
 
 		// Define a Post Title.
-		$I->fillField('.editor-post-title__input', 'ConvertKit: Form: Default: None');
+		$I->fillField('.editor-post-title__input', 'ConvertKit: Post: Form: Default: None');
 
 		// Click the Publish button.
 		$I->click('.editor-post-publish-button__button');
@@ -71,7 +71,7 @@ class PostFormCest
 		});
 
 		// Load the Post on the frontend site.
-		$I->amOnPage('/convertkit-form-default-none');
+		$I->amOnPage('/convertkit-post-form-default-none');
 
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
@@ -109,7 +109,7 @@ class PostFormCest
 		$I->fillSelect2Field($I, '#select2-wp-convertkit-form-container', 'Default');
 
 		// Define a Post Title.
-		$I->fillField('.editor-post-title__input', 'ConvertKit: Form: Default');
+		$I->fillField('.editor-post-title__input', 'ConvertKit: Post: Form: Default');
 
 		// Click the Publish button.
 		$I->click('.editor-post-publish-button__button');
@@ -125,7 +125,7 @@ class PostFormCest
 		});
 
 		// Load the Post on the frontend site
-		$I->amOnPage('/convertkit-form-default');
+		$I->amOnPage('/convertkit-post-form-default');
 
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
@@ -160,7 +160,7 @@ class PostFormCest
 		$I->fillSelect2Field($I, '#select2-wp-convertkit-form-container', 'None');
 
 		// Define a Post Title.
-		$I->fillField('.editor-post-title__input', 'ConvertKit: Form: None');
+		$I->fillField('.editor-post-title__input', 'ConvertKit: Post: Form: None');
 
 		// Click the Publish button.
 		$I->click('.editor-post-publish-button__button');
@@ -176,7 +176,7 @@ class PostFormCest
 		});
 
 		// Load the Post on the frontend site.
-		$I->amOnPage('/convertkit-form-none');
+		$I->amOnPage('/convertkit-post-form-none');
 
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
@@ -211,7 +211,7 @@ class PostFormCest
 		$I->fillSelect2Field($I, '#select2-wp-convertkit-form-container', $_ENV['CONVERTKIT_API_FORM_NAME']);
 
 		// Define a Post Title.
-		$I->fillField('.editor-post-title__input', 'ConvertKit: Form: Specific');
+		$I->fillField('.editor-post-title__input', 'ConvertKit: Post: Form: Specific');
 
 		// Click the Publish button.
 		$I->click('.editor-post-publish-button__button');
@@ -230,7 +230,7 @@ class PostFormCest
 		$formID = $I->grabValueFrom('#wp-convertkit-form');
 
 		// Load the Post on the frontend site
-		$I->amOnPage('/convertkit-form-specific');
+		$I->amOnPage('/convertkit-post-form-specific');
 
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);

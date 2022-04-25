@@ -23,7 +23,7 @@ log.txt
 phpcs.xml
 phpstan.neon
 phpstan.neon.dist
-phpstan.neon.dist.example
+phpstan.neon.example
 README.md
 SETUP.md
 TESTING.md

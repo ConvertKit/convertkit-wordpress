@@ -1,0 +1,38 @@
+<?php
+/**
+ * ConvertKit Posts Resource class.
+ *
+ * @package ConvertKit
+ * @author ConvertKit
+ */
+
+/**
+ * Reads ConvertKit Posts from the options table, and refreshes
+ * ConvertKit Posts data stored locally from the API.
+ *
+ * @since   1.9.7.4
+ */
+class ConvertKit_Resource_Posts extends ConvertKit_Resource {
+
+	/**
+	 * Holds the Settings Key that stores site wide ConvertKit settings
+	 *
+	 * @var     string
+	 */
+	public $settings_name = 'convertkit_posts';
+
+	/**
+	 * The type of resource
+	 *
+	 * @var     string
+	 */
+	public $type = 'posts';
+
+	/**
+	 * Holds the posts from the ConvertKit API
+	 *
+	 * @var     WP_Error|array
+	 */
+	public $resources = array();
+
+}
