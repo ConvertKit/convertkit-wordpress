@@ -72,25 +72,7 @@ class Acceptance extends \Codeception\Module
 		$I->click('button.edit-post-header-toolbar__inserter-toggle');
 
 		// When the Blocks sidebar appears, search for the block.
-		$I->waitForElementVisible('.interface-interface-skeleton__secondary-sidebar[aria-label="Block library"]');
-		$I->fillField('.block-editor-inserter__content input[type=search]', $blockName);
-		$I->seeElementInDOM('.block-editor-inserter__panel-content button.editor-block-list-item-' . $blockProgrammaticName);
-		$I->click('.block-editor-inserter__panel-content button.editor-block-list-item-' . $blockProgrammaticName);
-	}
-	
-	/**
-	 * Add the given block when adding or editing a Page, Post or Custom Post Type
-	 * in Gutenberg.
-	 * 
-	 * @since 	1.9.6.9
-	 */
-	public function gutenbergAddBlock($I, $blockName, $blockProgrammaticName)
-	{
-		// Click Add Block Button.
-		$I->click('button.edit-post-header-toolbar__inserter-toggle');
-
-		// When the Blocks sidebar appears, search for the block.
-		$I->waitForElementVisible('.interface-interface-skeleton__secondary-sidebar[aria-label="Block library"]');
+		$I->waitForElementVisible('.interface-interface-skeleton__secondary-sidebar');
 		$I->fillField('.block-editor-inserter__content input[type=search]', $blockName);
 		$I->seeElementInDOM('.block-editor-inserter__panel-content button.editor-block-list-item-' . $blockProgrammaticName);
 		$I->click('.block-editor-inserter__panel-content button.editor-block-list-item-' . $blockProgrammaticName);

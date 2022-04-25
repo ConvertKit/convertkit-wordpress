@@ -44,7 +44,7 @@ class PageBlockBroadcastsCest
 		$I->fillField('.editor-post-title__input', 'ConvertKit: Page: Broadcasts: Default Params');
 
 		// Add block to Page.
-		$I->gutenbergAddBlock($I, 'ConvertKit Broadcasts', 'convertkit-broadcasts');
+		$I->addGutenbergBlock($I, 'ConvertKit Broadcasts', 'convertkit-broadcasts');
 
 		// Click the Publish button.
 		$I->click('.editor-post-publish-button__button');
@@ -91,7 +91,7 @@ class PageBlockBroadcastsCest
 		$I->fillField('.editor-post-title__input', 'ConvertKit: Page: Broadcasts: Date Format Param');
 
 		// Add block to Page.
-		$I->gutenbergAddBlock($I, 'ConvertKit Broadcasts', 'convertkit-broadcasts');
+		$I->addGutenbergBlock($I, 'ConvertKit Broadcasts', 'convertkit-broadcasts');
 
 		// When the sidebar appears, define the date format.
 		$I->waitForElementVisible('.interface-interface-skeleton__sidebar[aria-label="Editor settings"]');
@@ -142,7 +142,7 @@ class PageBlockBroadcastsCest
 		$I->fillField('.editor-post-title__input', 'ConvertKit: Page: Broadcasts: Limit Param');
 
 		// Add block to Page.
-		$I->gutenbergAddBlock($I, 'ConvertKit Broadcasts', 'convertkit-broadcasts');
+		$I->addGutenbergBlock($I, 'ConvertKit Broadcasts', 'convertkit-broadcasts');
 
 		// When the sidebar appears, define the limit.
 		$I->waitForElementVisible('.interface-interface-skeleton__sidebar[aria-label="Editor settings"]');
