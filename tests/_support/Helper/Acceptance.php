@@ -72,6 +72,7 @@ class Acceptance extends \Codeception\Module
 		$I->click('button.edit-post-header-toolbar__inserter-toggle');
 
 		// When the Blocks sidebar appears, search for the block.
+		// Removed [aria-label] selector, as its contents change between different WordPress versions.
 		$I->waitForElementVisible('.interface-interface-skeleton__secondary-sidebar');
 		$I->fillField('.block-editor-inserter__content input[type=search]', $blockName);
 		$I->seeElementInDOM('.block-editor-inserter__panel-content button.editor-block-list-item-' . $blockProgrammaticName);
