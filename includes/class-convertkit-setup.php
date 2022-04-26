@@ -23,7 +23,6 @@ class ConvertKit_Setup {
 	public function activate() {
 
 		// Call any functions to e.g. schedule WordPress Cron events now.
-	
 	}
 
 	/**
@@ -186,7 +185,6 @@ class ConvertKit_Setup {
 	public function deactivate() {
 
 		// Call any functions to e.g. unschedule WordPress Cron events now.
-
 	}
 
 }
