@@ -67,8 +67,10 @@ function convertkit_plugin_activate_new_site( $site_or_blog_id ) {
  * Runs the deactivation routine when the plugin is deactivated.
  *
  * @since   1.9.7.4
+ *
+ * @param   bool $network_wide   Is network wide deactivation.
  */
-function convertkit_plugin_deactivate() {
+function convertkit_plugin_deactivate( $network_wide ) {
 
 	// Initialise Plugin.
 	$convertkit = WP_ConvertKit();
