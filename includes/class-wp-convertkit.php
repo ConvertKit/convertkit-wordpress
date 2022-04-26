@@ -68,11 +68,7 @@ class WP_ConvertKit {
 		$this->classes['admin_post']     = new ConvertKit_Admin_Post();
 		$this->classes['admin_settings'] = new ConvertKit_Admin_Settings();
 		$this->classes['admin_tinymce']  = new ConvertKit_Admin_TinyMCE();
-		$this->classes['admin_upgrade']  = new ConvertKit_Admin_Upgrade();
 		$this->classes['admin_user']     = new ConvertKit_Admin_User();
-
-		// Run upgrade routine.
-		add_action( 'init', array( $this->classes['admin_upgrade'], 'run' ), 2 );
 
 		/**
 		 * Initialize integration classes for the WordPress Administration interface.
@@ -163,8 +159,14 @@ class WP_ConvertKit {
 		$this->classes['elementor']                    = new ConvertKit_Elementor();
 		$this->classes['gutenberg']                    = new ConvertKit_Gutenberg();
 		$this->classes['review_request']               = new ConvertKit_Review_Request( 'ConvertKit', 'convertkit' );
+		$this->classes['setup']                        = new ConvertKit_Setup();
 		$this->classes['shortcodes']                   = new ConvertKit_Shortcodes();
 		$this->classes['widgets']                      = new ConvertKit_Widgets();
+
+		// Run the setup's update process on WordPress' init hook.
+		// Doing this sooner may result in errors with WordPress functions that are not yet
+		// available to the update routine.
+		add_action( 'init', array( $this, 'update' ) );
 
 		/**
 		 * Initialize integration classes for the frontend web site.
@@ -172,6 +174,19 @@ class WP_ConvertKit {
 		 * @since   1.9.6
 		 */
 		do_action( 'convertkit_initialize_global' );
+
+	}
+
+	/**
+	 * Runs the Plugin's update routine, which checks if
+	 * the Plugin has just been updated to a newer version,
+	 * and if so runs any specific processes that might be needed.
+	 *
+	 * @since   1.9.7.4
+	 */
+	public function update() {
+
+		$this->get_class( 'setup' )->update();
 
 	}
 
