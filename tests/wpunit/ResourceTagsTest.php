@@ -42,11 +42,8 @@ class ResourceTagsTest extends \Codeception\TestCase\WPTestCase
 		]);
 
 		// Initialize the resource class we want to test.
-		$this->resource         = new ConvertKit_Resource_Tags();
-
-		// Refresh the resource, which will fetch the data from the API and store them in the option table.
-		$result = $this->resource->refresh();
-		$this->assertNotInstanceOf(WP_Error::class, $result);
+		$this->resource = new ConvertKit_Resource_Tags();
+		$this->assertNotInstanceOf(WP_Error::class, $this->resource->resources);
 	}
 
 	/**
@@ -59,6 +56,7 @@ class ResourceTagsTest extends \Codeception\TestCase\WPTestCase
 		// Delete API Key, API Secret and Resources from Plugin's settings.
 		delete_option($this->settings::SETTINGS_NAME);
 		delete_option($this->resource->settings_name);
+		delete_option($this->resource->settings_name . '_last_queried');
 		parent::tearDown();
 	}
 
@@ -70,10 +68,27 @@ class ResourceTagsTest extends \Codeception\TestCase\WPTestCase
 	public function testRefresh()
 	{
 		// Confirm that the data is stored in the options table and includes some expected keys.
-		$result = get_option($this->resource->settings_name);
+		$result = $this->resource->refresh();
 		$this->assertIsArray($result);
 		$this->assertArrayHasKey('id', reset($result));
 		$this->assertArrayHasKey('name', reset($result));
+	}
+
+	/**
+	 * Test that the expiry timestamp is set and returns the expected value.
+	 * 
+	 * @since 	1.9.7.4
+	 */
+	public function testExpiry()
+	{
+		// Define the expected expiry date based on the resource class' $cache_duration setting.
+		$expectedExpiryDate = date('Y-m-d', time() + $this->resource->cache_duration);
+
+		// Fetch the actual expiry date set when the resource class was initialized.
+		$expiryDate = date('Y-m-d', $this->resource->last_queried + $this->resource->cache_duration);
+
+		// Confirm both dates match.
+		$this->assertEquals($expectedExpiryDate, $expiryDate);
 	}
 
 	/**

@@ -29,13 +29,6 @@ class ConvertKit_Resource_Forms extends ConvertKit_Resource {
 	public $type = 'forms';
 
 	/**
-	 * Holds the forms from the ConvertKit API
-	 *
-	 * @var     WP_Error|array
-	 */
-	public $resources = array();
-
-	/**
 	 * Returns the HTML/JS markup for the given Form ID.
 	 *
 	 * Legacy Forms will return HTML.
