@@ -9,7 +9,7 @@
  * Plugin Name: ConvertKit
  * Plugin URI: https://convertkit.com/
  * Description: Quickly and easily integrate ConvertKit forms into your site.
- * Version: 1.9.7.2
+ * Version: 1.9.7.3
  * Author: ConvertKit
  * Author URI: https://convertkit.com/
  * Text Domain: convertkit
@@ -24,7 +24,7 @@ if ( class_exists( 'WP_ConvertKit' ) ) {
 define( 'CONVERTKIT_PLUGIN_FILE', plugin_basename( __FILE__ ) );
 define( 'CONVERTKIT_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'CONVERTKIT_PLUGIN_PATH', __DIR__ );
-define( 'CONVERTKIT_PLUGIN_VERSION', '1.9.7.2' );
+define( 'CONVERTKIT_PLUGIN_VERSION', '1.9.7.3' );
 
 // Load files that are always required.
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/functions.php';
@@ -38,6 +38,7 @@ require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-post.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-resource.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-resource-forms.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-resource-landing-pages.php';
+require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-resource-posts.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-resource-tags.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-review-request.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-settings.php';
@@ -47,6 +48,7 @@ require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-term.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-user.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-widgets.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/blocks/class-convertkit-block.php';
+require_once CONVERTKIT_PLUGIN_PATH . '/includes/blocks/class-convertkit-block-broadcasts.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/blocks/class-convertkit-block-content.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/blocks/class-convertkit-block-form.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/widgets/class-ck-widget-form.php';
@@ -54,6 +56,9 @@ require_once CONVERTKIT_PLUGIN_PATH . '/includes/widgets/class-ck-widget-form.ph
 // Contact Form 7 Integration.
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/integrations/contactform7/class-convertkit-contactform7.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/integrations/contactform7/class-convertkit-contactform7-settings.php';
+
+// Elementor Integration.
+require_once CONVERTKIT_PLUGIN_PATH . '/includes/integrations/elementor/class-convertkit-elementor.php';
 
 // WishList Member Integration.
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/integrations/wishlist/class-convertkit-wishlist.php';

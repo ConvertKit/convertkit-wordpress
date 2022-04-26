@@ -219,6 +219,76 @@ class PluginSettingsGeneralCest
 	}
 
 	/**
+	 * Test that no PHP errors or notices are displayed on the Plugin's Setting screen
+	 * when the Disable CSS settings is unchecked, and that CSS is output
+	 * on the frontend web site.
+	 * 
+	 * @since 	1.9.6.9
+	 * 
+	 * @param 	AcceptanceTester 	$I 	Tester
+	 */
+	public function testEnableCSSSetting(AcceptanceTester $I)
+	{
+		// Go to the Plugin's Settings Screen.
+		$I->loadConvertKitSettingsGeneralScreen($I);
+		
+		// Tick fields.
+		$I->checkOption('#debug');
+		$I->uncheckOption('#no_css');
+
+		// Click the Save Changes button.
+		$I->click('Save Changes');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Check the fields are ticked.
+		$I->seeCheckboxIsChecked('#debug');
+		$I->dontSeeCheckboxIsChecked('#no_css');	
+
+		// Navigate to the home page.
+		$I->amOnPage('/');
+
+		// Confirm no CSS is output by the Plugin.
+		$I->seeInSource('gutenberg-block-broadcasts.css');
+	}
+
+	/**
+	 * Test that no PHP errors or notices are displayed on the Plugin's Setting screen
+	 * when the Disable CSS settings is checked, and that no CSS is output
+	 * on the frontend web site.
+	 * 
+	 * @since 	1.9.6.9
+	 * 
+	 * @param 	AcceptanceTester 	$I 	Tester
+	 */
+	public function testDisableCSSSetting(AcceptanceTester $I)
+	{
+		// Go to the Plugin's Settings Screen.
+		$I->loadConvertKitSettingsGeneralScreen($I);
+		
+		// Tick fields.
+		$I->checkOption('#debug');
+		$I->checkOption('#no_css');
+
+		// Click the Save Changes button.
+		$I->click('Save Changes');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Check the fields are ticked.
+		$I->seeCheckboxIsChecked('#debug');
+		$I->seeCheckboxIsChecked('#no_css');	
+
+		// Navigate to the home page.
+		$I->amOnPage('/');
+
+		// Confirm no CSS is output by the Plugin.
+		$I->dontSeeInSource('gutenberg-block-broadcasts.css');
+	}
+
+	/**
 	 * Deactivate and reset Plugin(s) after each test, if the test passes.
 	 * We don't use _after, as this would provide a screenshot of the Plugin
 	 * deactivation and not the true test error.

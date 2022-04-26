@@ -126,6 +126,10 @@ class ConvertKit_Resource {
 				$results = $api->get_tags();
 				break;
 
+			case 'posts':
+				$results = $api->get_posts();
+				break;
+
 			default:
 				$results = new WP_Error(
 					'convertkit_resource_refresh_error',

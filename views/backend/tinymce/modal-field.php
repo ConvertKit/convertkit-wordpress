@@ -33,7 +33,7 @@ switch ( $field['type'] ) {
 		<input type="text" 
 				id="tinymce_modal_<?php echo esc_attr( $field_name ); ?>"
 				name="<?php echo esc_attr( $field_name ); ?>"
-				value="<?php echo esc_attr( isset( $field['default_value'] ) ? $field['default_value'] : '' ); ?>" 
+				value="<?php echo esc_attr( isset( $shortcode['attributes'][ $field_name ]['default'] ) ? $shortcode['attributes'][ $field_name ]['default'] : '' ); ?>" 
 				<?php echo $data_attributes; // phpcs:ignore ?>
 				placeholder="<?php echo esc_attr( isset( $field['placeholder'] ) ? $field['placeholder'] : '' ); ?>"
 				class="widefat <?php echo esc_attr( isset( $field['class'] ) ? $field['class'] : '' ); ?>" />
@@ -48,7 +48,7 @@ switch ( $field['type'] ) {
 		<input type="number" 
 				id="tinymce_modal_<?php echo esc_attr( $field_name ); ?>"
 				name="<?php echo esc_attr( $field_name ); ?>" 
-				value="<?php echo esc_attr( isset( $field['default_value'] ) ? $field['default_value'] : '' ); ?>" 
+				value="<?php echo esc_attr( isset( $shortcode['attributes'][ $field_name ]['default'] ) ? $shortcode['attributes'][ $field_name ]['default'] : '' ); ?>" 
 				<?php echo $data_attributes; // phpcs:ignore ?>
 				min="<?php echo esc_attr( $field['min'] ); ?>" 
 				max="<?php echo esc_attr( $field['max'] ); ?>" 
@@ -68,7 +68,7 @@ switch ( $field['type'] ) {
 				size="1"
 				class="widefat <?php echo esc_attr( isset( $field['class'] ) ? $field['class'] : '' ); ?>">
 			<?php
-			$field['default_value'] = ( isset( $field['default_value'] ) ? $field['default_value'] : '' );
+			$field['default_value'] = ( isset( $shortcode['attributes'][ $field_name ]['default'] ) ? $shortcode['attributes'][ $field_name ]['default'] : '' );
 			foreach ( $field['values'] as $value => $label ) {
 				?>
 				<option value="<?php echo esc_attr( $value ); ?>"<?php selected( $field['default_value'], $value ); ?>>
@@ -93,7 +93,7 @@ switch ( $field['type'] ) {
 				multiple="multiple"
 				class="widefat <?php echo esc_attr( isset( $field['class'] ) ? $field['class'] : '' ); ?>">
 			<?php
-			$field['default_value'] = ( isset( $field['default_value'] ) ? $field['default_value'] : '' );
+			$field['default_value'] = ( isset( $shortcode['attributes'][ $field_name ]['default'] ) ? $shortcode['attributes'][ $field_name ]['default'] : '' );
 			if ( isset( $field['values'] ) && is_array( $field['values'] ) && count( $field['values'] ) > 0 ) {
 				foreach ( $field['values'] as $value => $label ) {
 					?>
@@ -119,7 +119,7 @@ switch ( $field['type'] ) {
 				size="1"
 				class="widefat <?php echo esc_attr( isset( $field['class'] ) ? $field['class'] : '' ); ?>">
 			<?php
-			$field['default_value'] = ( isset( $field['default_value'] ) ? $field['default_value'] : '' );
+			$field['default_value'] = ( isset( $shortcode['attributes'][ $field_name ]['default'] ) ? $shortcode['attributes'][ $field_name ]['default'] : '' );
 			?>
 			<option value="0"<?php selected( $field['default_value'], 0 ); ?>><?php esc_html_e( 'No', 'convertkit' ); ?></option>
 			<option value="1"<?php selected( $field['default_value'], 1 ); ?>><?php esc_html_e( 'Yes', 'convertkit' ); ?></option>

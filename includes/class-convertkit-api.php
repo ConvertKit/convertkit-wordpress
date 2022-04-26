@@ -732,6 +732,67 @@ class ConvertKit_API {
 	}
 
 	/**
+	 * Gets posts from the API.
+	 *
+	 * @since   1.9.7.4
+	 *
+	 * @param   int $page       Page number.
+	 * @param   int $per_page   Number of Posts to return.
+	 * @return  WP_Error|array
+	 */
+	public function get_posts( $page = 1, $per_page = 10 ) {
+
+		$this->log( 'API: get_posts()' );
+
+		// Sanitize some parameters.
+		$page     = absint( $page );
+		$per_page = absint( $per_page );
+
+		// Sanity check that parameters aren't outside of the bounds as defined by the API.
+		if ( $page < 1 ) {
+			return new WP_Error( 'convertkit_api_error', __( 'get_posts(): the page parameter must be equal to or greater than 1.', 'convertkit' ) );
+		}
+		if ( $per_page < 1 ) {
+			return new WP_Error( 'convertkit_api_error', __( 'get_posts(): the per_page parameter must be equal to or greater than 1.', 'convertkit' ) );
+		}
+		if ( $per_page > 50 ) {
+			return new WP_Error( 'convertkit_api_error', __( 'get_posts(): the per_page parameter must be equal to or less than 50.', 'convertkit' ) );
+		}
+
+		$posts = array();
+
+		// Send request.
+		$response = $this->get(
+			'posts',
+			array(
+				'api_key'    => $this->api_key,
+				'api_secret' => $this->api_secret,
+				'page'       => $page,
+				'per_page'   => $per_page,
+			)
+		);
+
+		// If an error occured, return WP_Error.
+		if ( is_wp_error( $response ) ) {
+			$this->log( 'API: get_posts(): Error: ' . $response->get_error_message() );
+			return $response;
+		}
+
+		// If no custom fields exist, return WP_Error.
+		if ( ! isset( $response['posts'] ) ) {
+			$this->log( 'API: get_posts(): Error: No broadcasts exist in ConvertKit.' );
+			return new WP_Error( 'convertkit_api_error', __( 'No posts exist in ConvertKit. Visit your ConvertKit account and create your first broadcast.', 'convertkit' ) );
+		}
+		if ( ! count( $response['posts'] ) ) {
+			$this->log( 'API: get_posts(): Error: No broadcasts exist in ConvertKit.' );
+			return new WP_Error( 'convertkit_api_error', __( 'No posts exist in ConvertKit. Visit your ConvertKit account and create your first broadcast.', 'convertkit' ) );
+		}
+
+		return $response['posts'];
+
+	}
+
+	/**
 	 * Get HTML from ConvertKit for the given Legacy Form ID.
 	 *
 	 * This isn't specifically an API function, but for now it's best suited here.
@@ -1300,6 +1361,12 @@ class ConvertKit_API {
 	 */
 	private function get_api_url( $endpoint ) {
 
+		// For the /posts endpoint, the API base is https://api.convertkit.com/api/v3/$endpoint.
+		if ( $endpoint === 'posts' ) {
+			return path_join( $this->api_url_base . 'api/' . $this->api_version, $endpoint );
+		}
+
+		// For all other endpoints, it's https://api.convertkit.com/v3/$endpoint.
 		return path_join( $this->api_url_base . $this->api_version, $endpoint );
 
 	}

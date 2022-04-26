@@ -55,7 +55,7 @@ class PostFormCest
 		$I->fillSelect2Field($I, '#select2-wp-convertkit-form-container', 'Default');
 
 		// Define a Post Title.
-		$I->fillField('.editor-post-title__input', 'ConvertKit: Form: Default: None');
+		$I->fillField('.editor-post-title__input', 'ConvertKit: Post: Form: Default: None');
 
 		// Click the Publish button.
 		$I->click('.editor-post-publish-button__button');
@@ -71,7 +71,7 @@ class PostFormCest
 		});
 
 		// Load the Post on the frontend site.
-		$I->amOnPage('/convertkit-form-default-none');
+		$I->amOnPage('/convertkit-post-form-default-none');
 
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
@@ -109,7 +109,7 @@ class PostFormCest
 		$I->fillSelect2Field($I, '#select2-wp-convertkit-form-container', 'Default');
 
 		// Define a Post Title.
-		$I->fillField('.editor-post-title__input', 'ConvertKit: Form: Default');
+		$I->fillField('.editor-post-title__input', 'ConvertKit: Post: Form: Default');
 
 		// Click the Publish button.
 		$I->click('.editor-post-publish-button__button');
@@ -125,7 +125,7 @@ class PostFormCest
 		});
 
 		// Load the Post on the frontend site
-		$I->amOnPage('/convertkit-form-default');
+		$I->amOnPage('/convertkit-post-form-default');
 
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
@@ -160,7 +160,7 @@ class PostFormCest
 		$I->fillSelect2Field($I, '#select2-wp-convertkit-form-container', 'None');
 
 		// Define a Post Title.
-		$I->fillField('.editor-post-title__input', 'ConvertKit: Form: None');
+		$I->fillField('.editor-post-title__input', 'ConvertKit: Post: Form: None');
 
 		// Click the Publish button.
 		$I->click('.editor-post-publish-button__button');
@@ -176,7 +176,7 @@ class PostFormCest
 		});
 
 		// Load the Post on the frontend site.
-		$I->amOnPage('/convertkit-form-none');
+		$I->amOnPage('/convertkit-post-form-none');
 
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
@@ -211,7 +211,7 @@ class PostFormCest
 		$I->fillSelect2Field($I, '#select2-wp-convertkit-form-container', $_ENV['CONVERTKIT_API_FORM_NAME']);
 
 		// Define a Post Title.
-		$I->fillField('.editor-post-title__input', 'ConvertKit: Form: Specific');
+		$I->fillField('.editor-post-title__input', 'ConvertKit: Post: Form: Specific');
 
 		// Click the Publish button.
 		$I->click('.editor-post-publish-button__button');
@@ -230,7 +230,7 @@ class PostFormCest
 		$formID = $I->grabValueFrom('#wp-convertkit-form');
 
 		// Load the Post on the frontend site
-		$I->amOnPage('/convertkit-form-specific');
+		$I->amOnPage('/convertkit-post-form-specific');
 
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
@@ -296,7 +296,7 @@ class PostFormCest
 		$I->seeElementInDOM('form[data-sv-form="' . $formID . '"]');
 	}
 
-	/**
+  /**
 	 * Test that the Default Form for Posts displays when an invalid Form ID is specified
 	 * for a Post.
 	 * 
@@ -338,6 +338,55 @@ class PostFormCest
 		$I->dontSeeElementInDOM('form[data-sv-form="11111"]');
 
 		// Confirm that the Default Form for Posts does display as a fallback.
+		$I->seeElementInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]');
+	}
+
+  /**
+	 * Test that the Default Form specified at Plugin level for Posts displays when:
+	 * - A Category was created with ConvertKit Form = 'None' when 1.9.5.2 or earlier of the Plugin was activated,
+	 * - The WordPress Post is set to use the Default Form,
+	 * - A Default Form is set in the Plugin settings.
+	 * 
+	 * 1.9.5.2 and earlier stored the 'None' option as 'default' for Categories, meaning that the Post (or Plugin) default form
+	 * should be used. 
+	 * 
+	 * 1.9.6.0 and later changed the value to 0 for Categories, bringing it in line with the Post Form's 'None'
+	 * setting.
+	 * 
+	 * @since 	1.9.7.3
+	 * 
+	 * @param 	AcceptanceTester 	$I 	Tester
+	 */
+	public function testAddNewPostUsingDefaultFormWithCategoryCreatedBefore1960(AcceptanceTester $I)
+	{
+		// Setup Default Forms.
+		$I->setupConvertKitPluginDefaultForm($I);
+
+		// Create Category as if it were created / edited when the ConvertKit Plugin < 1.9.6.0
+		// was active.
+		$termID = $I->haveTermInDatabase( 'ConvertKit 1.9.5.2 and earlier', 'category', [
+			'meta' => [
+				'ck_default_form' => 'default', // Emulate how 1.9.5.2 and earlier store this setting.
+			],
+		] );
+		$termID = $termID[0];
+		
+		// Create Post, assigned to Category.
+		$postID = $I->havePostInDatabase([
+			'post_type' 	=> 'post',
+			'post_title' 	=> 'ConvertKit: Default Form: Category Created before 1.9.6.0',
+			'tax_input' => [
+				[ 'category' => $termID ],
+			],
+		]);
+
+		// Load the Post on the frontend site.
+		$I->amOnPage('/?p=' . $postID);
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Confirm that the ConvertKit Form displays as defined in the Plugin Settings.
 		$I->seeElementInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]');
 	}
 

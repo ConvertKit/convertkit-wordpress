@@ -55,7 +55,7 @@ class PageFormCest
 		$I->fillSelect2Field($I, '#select2-wp-convertkit-form-container', 'Default');
 
 		// Define a Page Title.
-		$I->fillField('.editor-post-title__input', 'ConvertKit: Form: Default: None');
+		$I->fillField('.editor-post-title__input', 'ConvertKit: Page: Form: Default: None');
 
 		// Click the Publish button.
 		$I->click('.editor-post-publish-button__button');
@@ -71,7 +71,7 @@ class PageFormCest
 		});
 
 		// Load the Page on the frontend site.
-		$I->amOnPage('/convertkit-form-default-none');
+		$I->amOnPage('/convertkit-page-form-default-none');
 
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
@@ -109,7 +109,7 @@ class PageFormCest
 		$I->fillSelect2Field($I, '#select2-wp-convertkit-form-container', 'Default');
 
 		// Define a Page Title.
-		$I->fillField('.editor-post-title__input', 'ConvertKit: Form: Default');
+		$I->fillField('.editor-post-title__input', 'ConvertKit: Page: Form: Default');
 
 		// Click the Publish button.
 		$I->click('.editor-post-publish-button__button');
@@ -125,7 +125,7 @@ class PageFormCest
 		});
 
 		// Load the Page on the frontend site
-		$I->amOnPage('/convertkit-form-default');
+		$I->amOnPage('/convertkit-page-form-default');
 
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
@@ -163,7 +163,7 @@ class PageFormCest
 		$I->fillSelect2Field($I, '#select2-wp-convertkit-form-container', 'Default');
 
 		// Define a Page Title.
-		$I->fillField('.editor-post-title__input', 'ConvertKit: Form: Legacy: Default');
+		$I->fillField('.editor-post-title__input', 'ConvertKit: Page: Form: Legacy: Default');
 
 		// Click the Publish button.
 		$I->click('.editor-post-publish-button__button');
@@ -179,7 +179,7 @@ class PageFormCest
 		});
 
 		// Load the Page on the frontend site
-		$I->amOnPage('/convertkit-form-legacy-default');
+		$I->amOnPage('/convertkit-page-form-legacy-default');
 
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
@@ -214,7 +214,7 @@ class PageFormCest
 		$I->fillSelect2Field($I, '#select2-wp-convertkit-form-container', 'None');
 
 		// Define a Page Title.
-		$I->fillField('.editor-post-title__input', 'ConvertKit: Form: None');
+		$I->fillField('.editor-post-title__input', 'ConvertKit: Page: Form: None');
 
 		// Click the Publish button.
 		$I->click('.editor-post-publish-button__button');
@@ -230,7 +230,7 @@ class PageFormCest
 		});
 
 		// Load the Page on the frontend site.
-		$I->amOnPage('/convertkit-form-none');
+		$I->amOnPage('/convertkit-page-form-none');
 
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
@@ -265,7 +265,7 @@ class PageFormCest
 		$I->fillSelect2Field($I, '#select2-wp-convertkit-form-container', $_ENV['CONVERTKIT_API_FORM_NAME']);
 
 		// Define a Page Title.
-		$I->fillField('.editor-post-title__input', 'ConvertKit: Form: Specific');
+		$I->fillField('.editor-post-title__input', 'ConvertKit: Page: Form: Specific');
 
 		// Click the Publish button.
 		$I->click('.editor-post-publish-button__button');
@@ -284,7 +284,7 @@ class PageFormCest
 		$formID = $I->grabValueFrom('#wp-convertkit-form');
 
 		// Load the Page on the frontend site
-		$I->amOnPage('/convertkit-form-specific');
+		$I->amOnPage('/convertkit-page-form-specific');
 
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
@@ -319,7 +319,7 @@ class PageFormCest
 		$I->fillSelect2Field($I, '#select2-wp-convertkit-form-container', $_ENV['CONVERTKIT_API_LEGACY_FORM_NAME']);
 
 		// Define a Page Title.
-		$I->fillField('.editor-post-title__input', 'ConvertKit: Form: Legacy: Specific');
+		$I->fillField('.editor-post-title__input', 'ConvertKit: Page: Form: Legacy: Specific');
 
 		// Click the Publish button.
 		$I->click('.editor-post-publish-button__button');
@@ -338,7 +338,7 @@ class PageFormCest
 		$formID = $I->grabValueFrom('#wp-convertkit-form');
 
 		// Load the Page on the frontend site
-		$I->amOnPage('/convertkit-form-legacy-specific');
+		$I->amOnPage('/convertkit-page-form-legacy-specific');
 
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);

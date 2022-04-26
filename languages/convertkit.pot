@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the ConvertKit plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: ConvertKit 1.9.7.2\n"
+"Project-Id-Version: ConvertKit 1.9.7.3\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/convertkit-github\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-03-30T17:28:31+00:00\n"
+"POT-Creation-Date: 2022-04-04T14:36:06+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.5.0\n"
 "X-Domain: convertkit\n"
@@ -22,6 +22,7 @@ msgstr ""
 #: admin/class-convertkit-admin-settings.php:128
 #: includes/blocks/class-convertkit-block-content.php:62
 #: includes/blocks/class-convertkit-block-form.php:94
+#: includes/integrations/elementor/class-convertkit-elementor.php:70
 msgid "ConvertKit"
 msgstr ""
 
@@ -159,7 +160,6 @@ msgstr ""
 #: views/backend/post/meta-box.php:29
 #: views/backend/post/meta-box.php:88
 #: views/backend/post/meta-box.php:145
-#: views/backend/term/fields.php:23
 msgid "None"
 msgstr ""
 
@@ -382,11 +382,11 @@ msgid "Resource type %s is not supported in ConvertKit_Resource class."
 msgstr ""
 
 #. translators: %1$s: PHP class name
-#: includes/class-wp-convertkit.php:354
+#: includes/class-wp-convertkit.php:355
 msgid "ConvertKit Error: Could not load Plugin class <strong>%1$s</strong>"
 msgstr ""
 
-#: includes/class-wp-convertkit.php:364
+#: includes/class-wp-convertkit.php:365
 msgid "ConvertKit Error"
 msgstr ""
 
@@ -425,6 +425,15 @@ msgstr ""
 
 #: includes/integrations/contactform7/class-convertkit-contactform7-admin-settings.php:108
 msgid "Contact Form 7 Name Field"
+msgstr ""
+
+#: includes/integrations/elementor/class-convertkit-elementor-widget.php:269
+msgid "No blocks are registered. Register blocks using the `convertkit_blocks` filter."
+msgstr ""
+
+#. translators: %1$s: Block name, %2$s: Elementor Widget name
+#: includes/integrations/elementor/class-convertkit-elementor-widget.php:278
+msgid "Block %1$s is not registered. Register using the `convertkit_blocks` filter, and ensure the Elementor Widget for this block has its `slug` property set to %2$s."
 msgstr ""
 
 #: includes/integrations/wishlist/class-convertkit-wishlist-admin-settings.php:32
@@ -472,6 +481,7 @@ msgid "Title"
 msgstr ""
 
 #: views/backend/post/meta-box.php:26
+#: views/backend/term/fields.php:23
 msgid "Default"
 msgstr ""
 
@@ -481,7 +491,6 @@ msgid "<code>Default</code>: Uses the form specified on the <a href=\"%s\" targe
 msgstr ""
 
 #: views/backend/post/meta-box.php:50
-#: views/backend/term/fields.php:36
 msgid "<code>None</code>: do not display a form."
 msgstr ""
 
@@ -586,9 +595,13 @@ msgstr ""
 msgid "Download System Info"
 msgstr ""
 
+#: views/backend/term/fields.php:36
+msgid "<code>Default</code>: Display a form based on the Post's settings."
+msgstr ""
+
 #. translators: Taxonomy Name
 #: views/backend/term/fields.php:41
-msgid "Any other option will display that form after the main content for Posts in this %s."
+msgid "Any other option will display that form after the main content for Posts assigned to this %s."
 msgstr ""
 
 #: views/backend/tinymce/modal-field.php:124
