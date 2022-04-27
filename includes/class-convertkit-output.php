@@ -177,12 +177,12 @@ class ConvertKit_Output {
 		 *
 		 * @since   1.9.6
 		 *
-		 * @param   int     $form_id    Form ID
-		 * @param   int     $post_id    Post ID
+		 * @param   bool|int    $form_id    Form ID
+		 * @param   int         $post_id    Post ID
 		 */
 		$form_id = apply_filters( 'convertkit_output_append_form_to_content_form_id', $form_id, $post_id );
 
-		// Return the Post Content, unedited, if no Form ID exists.
+		// Return the Post Content, unedited, if the Form ID is false or zero.
 		if ( ! $form_id ) {
 			return $content;
 		}
@@ -195,11 +195,42 @@ class ConvertKit_Output {
 		// Get Form HTML.
 		$form = $this->forms->get_html( $form_id );
 
-		// Return the Post Content, unedited, if an error occured.
+		// If an error occured, it could be because the specified Form ID for the Post either:
+		// - belongs to another ConvertKit account (i.e. API credentials were changed in the Plugin, but this Post's specified Form was not changed), or
+		// - the form was deleted from the ConvertKit account.
+		// Attempt to fallback to the default form for this Post Type.
 		if ( is_wp_error( $form ) ) {
-			return $content;
+			if ( $this->settings->debug_enabled() ) {
+				$content .= '<!-- ConvertKit append_form_to_content(): ' . $form->get_error_message() . ' Attempting fallback to Default Form. -->';
+			}
+
+			// Get Default Form ID for this Post's Type.
+			$form_id = $this->settings->get_default_form( get_post_type( $post_id ) );
+
+			// If no Default Form is specified, just return the Post Content, unedited.
+			if ( ! $form_id ) {
+				if ( $this->settings->debug_enabled() ) {
+					$content .= '<!-- ConvertKit append_form_to_content(): No Default Form exists as a fallback. -->';
+				}
+
+				return $content;
+			}
+
+			// Get Form HTML.
+			$form = $this->forms->get_html( $form_id );
+
+			// If an error occured again, the default form doesn't exist in this ConvertKit account.
+			// Just return the Post Content, unedited.
+			if ( is_wp_error( $form ) ) {
+				if ( $this->settings->debug_enabled() ) {
+					$content .= '<!-- ConvertKit append_form_to_content(): Default Form: ' . $form->get_error_message() . ' -->';
+				}
+
+				return $content;
+			}
 		}
 
+		// If here, we have a ConvertKit Form.
 		// Append form to Post's Content.
 		$content = $content .= $form;
 

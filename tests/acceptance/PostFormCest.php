@@ -296,7 +296,52 @@ class PostFormCest
 		$I->seeElementInDOM('form[data-sv-form="' . $formID . '"]');
 	}
 
-	/**
+  /**
+	 * Test that the Default Form for Posts displays when an invalid Form ID is specified
+	 * for a Post.
+	 * 
+	 * Whilst the on screen options won't permit selecting an invalid Form ID, a Post might
+	 * have an invalid Form ID because:
+	 * - the form belongs to another ConvertKit account (i.e. API credentials were changed in the Plugin, but this Post's specified Form was not changed)
+	 * - the form was deleted from the ConvertKit account.
+	 * 
+	 * @since 	1.9.7.2
+	 * 
+	 * @param 	AcceptanceTester 	$I 	Tester
+	 */
+	public function testAddNewPostUsingInvalidDefinedForm(AcceptanceTester $I)
+	{
+		// Setup the Default Form for Pages and Posts.
+		$I->setupConvertKitPluginDefaultForm($I);
+
+		// Create Post, with an invalid Form ID, as if it were created prior to API credentials being changed and/or
+		// a Form being deleted in ConvertKit.
+		$postID = $I->havePostInDatabase([
+			'post_type' 	=> 'post',
+			'post_title' 	=> 'ConvertKit: Form: Specific: Invalid',
+			'meta_input'	=> [
+				'_wp_convertkit_post_meta' => [
+					'form'         => '11111',
+					'landing_page' => '',
+					'tag'          => '',
+				]
+			],
+		]);
+
+		// Load the Post on the frontend site.
+		$I->amOnPage('/?p='.$postID);
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Confirm that the invalid ConvertKit Form does not display.
+		$I->dontSeeElementInDOM('form[data-sv-form="11111"]');
+
+		// Confirm that the Default Form for Posts does display as a fallback.
+		$I->seeElementInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]');
+	}
+
+  /**
 	 * Test that the Default Form specified at Plugin level for Posts displays when:
 	 * - A Category was created with ConvertKit Form = 'None' when 1.9.5.2 or earlier of the Plugin was activated,
 	 * - The WordPress Post is set to use the Default Form,
