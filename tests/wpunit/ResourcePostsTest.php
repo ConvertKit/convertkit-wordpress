@@ -61,6 +61,20 @@ class ResourcePostsTest extends \Codeception\TestCase\WPTestCase
 	}
 
 	/**
+	 * Test that the WordPress Cron event for this resource was created with the expected name,
+	 * matching the expected schedule as defined in the Resource's class.
+	 * 
+	 * @since 	1.9.7.4
+	 */
+	public function testCronEventCreated()
+	{
+		$this->assertEquals(
+			wp_get_schedule( 'convertkit_refresh_' . $this->resource->settings_name ),
+			$this->resource->wp_cron_schedule
+		);
+	}
+	
+	/**
 	 * Test that the refresh() function performs as expected, storing data in the options table.
 	 * 
 	 * @since 	1.9.7.4

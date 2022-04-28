@@ -97,6 +97,98 @@ class Acceptance extends \Codeception\Module
 	}
 
 	/**
+	 * Check that the given WordPress Cron event exists, and matches the expected recurrence time.
+	 * 
+	 * @since 	1.9.7.4
+	 * 
+	 * @param 	AcceptanceTester 	$I 						Acceptance Tester.
+	 * @param 	string 				$hook 					Event Hook Name.
+	 * @param 	string 				$action 				Expected Action Name.
+	 * @param 	string 				$recurrence 			Expected Recurrence.
+	 */
+	public function seeCronEvent($I, $hook, $action, $recurrence)
+	{
+		// Navigate to Tools > Cron Events, searching for the registered event.
+		$I->amOnAdminPage('tools.php?page=crontrol_admin_manage_page&s='.$hook);
+
+		// Confirm the hook is in the list of table results, which confirms it is registered in WordPress' Cron.
+		$I->seeInSource('<td class="crontrol_hook column-crontrol_hook has-row-actions column-primary" data-colname="Hook">'.$hook );
+		
+		// Confirm the action is in the list of table results, which confirms it is registered in WordPress' Cron.
+		$I->seeInSource('<code>'.$action.'</code>');
+
+		// Confirm the recurrence is correct.
+		$I->seeInSource('<td class="crontrol_recurrence column-crontrol_recurrence" data-colname="Recurrence">'.$recurrence.'</td>');
+	}
+
+	/**
+	 * Check that the given WordPress Cron event does not exist.
+	 * 
+	 * @since 	1.9.7.4
+	 * 
+	 * @param 	AcceptanceTester 	$I 						Acceptance Tester.
+	 * @param 	string 				$hook 					Event Hook Name.
+	 * @param 	string 				$action 				Expected Action Name.
+	 * @param 	string 				$recurrence 			Expected Recurrence.
+	 */
+	public function dontSeeCronEvent($I, $hook, $action, $recurrence)
+	{
+		// Navigate to Tools > Cron Events, searching for the registered event.
+		$I->amOnAdminPage('tools.php?page=crontrol_admin_manage_page&s='.$hook);
+
+		// Confirm the hook is not in the list of table results, which confirms it is not registered in WordPress' Cron.
+		$I->dontSeeInSource('<td class="crontrol_hook column-crontrol_hook has-row-actions column-primary" data-colname="Hook">'.$action.'"');
+		
+		// Confirm the action is not in the list of table results, which confirms it is not registered in WordPress' Cron.
+		$I->dontSeeInSource('<code>'.$action.'</code>');
+
+		// Confirm the recurrence does not exist.
+		$I->dontSeeInSource('<td class="crontrol_recurrence column-crontrol_recurrence" data-colname="Recurrence">'.$recurrence.'</td>');
+	}
+
+	/**
+	 * Runs the given WordPress Cron event
+	 * 
+	 * @since 	1.9.7.4
+	 * 
+	 * @param 	AcceptanceTester 	$I 						Acceptance Tester.
+	 * @param 	string 				$hook 					Event Hook Name.
+	 */
+	public function runCronEvent($I, $hook)
+	{
+		// Navigate to Tools > Cron Events, searching for the registered event.
+		$I->amOnAdminPage('tools.php?page=crontrol_admin_manage_page&s='.$hook);
+
+		// Confirm the hook is in the list of table results, which confirms it is registered in WordPress' Cron.
+		$I->seeInSource('<td class="crontrol_hook column-crontrol_hook has-row-actions column-primary" data-colname="Hook">'.$hook );
+		
+		// Click the Run option for the event.
+		$I->moveMouseOver('tbody tr td.column-crontrol_hook');
+		$I->click('span.run a');
+	}
+
+	/**
+	 * Deletes the given WordPress Cron event.
+	 * 
+	 * @since 	1.9.7.4
+	 * 
+	 * @param 	AcceptanceTester 	$I 						Acceptance Tester.
+	 * @param 	string 				$hook 					Event Hook Name.
+	 */
+	public function deleteCronEvent($I, $hook)
+	{
+		// Navigate to Tools > Cron Events, searching for the registered event.
+		$I->amOnAdminPage('tools.php?page=crontrol_admin_manage_page&s='.$hook);
+
+		// Confirm the hook is in the list of table results, which confirms it is registered in WordPress' Cron.
+		$I->seeInSource('<td class="crontrol_hook column-crontrol_hook has-row-actions column-primary" data-colname="Hook">'.$hook );
+		
+		// Click the Delete option for the event.
+		$I->moveMouseOver('tbody tr td.column-crontrol_hook');
+		$I->click('span.delete a');
+	}
+
+	/**
 	 * Helper method to activate the ConvertKit Plugin, checking
 	 * it activated and no errors were output.
 	 * 
