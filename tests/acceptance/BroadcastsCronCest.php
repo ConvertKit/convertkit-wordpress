@@ -98,12 +98,13 @@ class BroadcastsCronCest
 		$I->activateConvertKitPlugin($I);
 		$I->setupConvertKitPlugin($I);
 		$I->enableDebugLog($I);
+		$I->clearDebugLog($I);
 
 		// Run the cron event, as if WordPress' Cron would run it.
+		$I->runCronEvent($I, 'convertkit_refresh_convertkit_posts');
 
-		// Observe the debug log file.
-
-
+		// Confirm debug log contains expected output.
+		$I->seeInPluginDebugLog($I, 'convertkit_refresh_convertkit_posts(): Success:');
 	}
 
 	/**
@@ -118,14 +119,15 @@ class BroadcastsCronCest
 	{
 		// Activate and setup the Plugin.
 		$I->activateConvertKitPlugin($I);
-		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPlugin($I, 'fakeApiKey', 'fakeApiSecret');
 		$I->enableDebugLog($I);
+		$I->clearDebugLog($I);
 
 		// Run the cron event, as if WordPress' Cron would run it.
+		$I->runCronEvent($I, 'convertkit_refresh_convertkit_posts');
 
-		// Observe the debug log file.
-		
-
+		// Confirm debug log contains expected output.
+		$I->seeInPluginDebugLog($I, 'convertkit_refresh_convertkit_posts(): Error: Authorization Failed: API Key not valid');
 	}
 
 	/**

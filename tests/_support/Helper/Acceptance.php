@@ -164,7 +164,7 @@ class Acceptance extends \Codeception\Module
 		
 		// Click the Run option for the event.
 		$I->moveMouseOver('tbody tr td.column-crontrol_hook');
-		$I->click('span.run a');
+		$I->click('Run Now');
 	}
 
 	/**
@@ -401,15 +401,18 @@ class Acceptance extends \Codeception\Module
 
 		// Resources.
 		$I->dontHaveOptionInDatabase('convertkit_forms');
+		$I->dontHaveOptionInDatabase('convertkit_forms_last_queried');
 		$I->dontHaveOptionInDatabase('convertkit_landing_pages');
+		$I->dontHaveOptionInDatabase('convertkit_landing_pages_last_queried');
 		$I->dontHaveOptionInDatabase('convertkit_tags');
+		$I->dontHaveOptionInDatabase('convertkit_tags_last_queried');
 
 		// Review Request.
 		$I->dontHaveOptionInDatabase('convertkit-review-request');
 		$I->dontHaveOptionInDatabase('convertkit-review-dismissed');
 
 		// Upgrades.
-		$I->dontHaveOptionInDatabase('_wp_convertkit_upgrade_posts');	
+		$I->dontHaveOptionInDatabase('_wp_convertkit_upgrade_posts');
 	}
 
 	/**
@@ -453,6 +456,20 @@ class Acceptance extends \Codeception\Module
 
 		// Click the Save Changes button.
 		$I->click('Save Changes');
+	}
+
+	/**
+	 * Helper method to clear the Plugin's debug log.
+	 * 
+	 * @since 	1.9.6
+	 */
+	public function clearDebugLog($I)
+	{
+		// Go to the Plugin's Tools Screen.
+		$I->loadConvertKitSettingsToolsScreen($I);
+		
+		// Click the Clear log button.
+		$I->click('Clear log');
 	}
 
 	/**
