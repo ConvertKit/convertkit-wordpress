@@ -40,10 +40,10 @@ class ConvertKit_Resource_Posts extends ConvertKit_Resource {
 	 * How often to refresh this resource through WordPress' Cron.
 	 * If false, won't be refreshed through WordPress' Cron
 	 * If a string, must be a value from wp_get_schedules().
-	 * 
-	 * @since 	1.9.7.4
-	 * 
-	 * @var 	bool|string
+	 *
+	 * @since   1.9.7.4
+	 *
+	 * @var     bool|string
 	 */
 	public $wp_cron_schedule = 'hourly';
 

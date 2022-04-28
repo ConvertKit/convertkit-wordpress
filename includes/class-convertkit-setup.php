@@ -198,7 +198,7 @@ class ConvertKit_Setup {
 		// Call any functions to e.g. unschedule WordPress Cron events now.
 		$posts = new ConvertKit_Resource_Posts();
 		$posts->unschedule_cron_event();
-		
+
 	}
 
 }

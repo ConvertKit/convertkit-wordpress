@@ -40,10 +40,10 @@ class ConvertKit_Resource {
 	 * How often to refresh this resource through WordPress' Cron.
 	 * If false, won't be refreshed through WordPress' Cron
 	 * If a string, must be a value from wp_get_schedules().
-	 * 
-	 * @since 	1.9.7.4
-	 * 
-	 * @var 	bool|string
+	 *
+	 * @since   1.9.7.4
+	 *
+	 * @var     bool|string
 	 */
 	public $wp_cron_schedule = false;
 
@@ -242,7 +242,7 @@ class ConvertKit_Resource {
 		}
 
 		// Schedule event, starting in a day and recurring for the given $wp_cron_schedule.
-		wp_schedule_event( 
+		wp_schedule_event(
 			strtotime( gmdate( 'Y-m-d', strtotime( '+1 day' ) ) . ' 00:00:00' ),
 			$this->wp_cron_schedule,
 			'convertkit_refresh_' . $this->settings_name // Hook name; see includes/cron-functions.php for function that listens to this hook.
@@ -254,8 +254,6 @@ class ConvertKit_Resource {
 	 * Unschedules a WordPress Cron event to refresh this resource.
 	 *
 	 * @since   1.9.7.4
-	 * 
-	 * @return 	WP_Error|bool
 	 */
 	public function unschedule_cron_event() {
 
@@ -265,12 +263,12 @@ class ConvertKit_Resource {
 
 	/**
 	 * Returns how often the WordPress Cron event will recur for (e.g. daily).
-	 * 
+	 *
 	 * Returns false if no schedule.
 	 *
 	 * @since   1.9.7.4
-	 * 
-	 * @return 	bool|string
+	 *
+	 * @return  bool|string
 	 */
 	public function get_cron_event() {
 

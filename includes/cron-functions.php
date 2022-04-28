@@ -18,25 +18,25 @@ function convertkit_refresh_convertkit_posts() {
 
 	// Get Settings and Log classes.
 	$settings = new ConvertKit_Settings();
-	$log = new ConvertKit_Log();
-		
+	$log      = new ConvertKit_Log();
+
 	// If debug logging is enabled, write to it now.
 	if ( $settings->debug_enabled() ) {
 		$log->add( 'convertkit_refresh_convertkit_posts(): Started' );
 	}
 
 	// Refresh Posts Resource.
-	$posts = new ConvertKit_Resource_Posts();
+	$posts  = new ConvertKit_Resource_Posts();
 	$result = $posts->refresh();
 
 	// If debug logging is enabled, write to it now.
 	if ( $settings->debug_enabled() ) {
 		// If an error occured, log it.
 		if ( is_wp_error( $result ) ) {
-			$log->add( 'convertkit_refresh_convertkit_posts(): Error: ' . $result->get_error_message() );	
+			$log->add( 'convertkit_refresh_convertkit_posts(): Error: ' . $result->get_error_message() );
 		}
 		if ( is_array( $result ) ) {
-			$log->add( 'convertkit_refresh_convertkit_posts(): Success: ' . count( $result ) . ' broadcasts fetched from API and cached.' );	
+			$log->add( 'convertkit_refresh_convertkit_posts(): Success: ' . count( $result ) . ' broadcasts fetched from API and cached.' );
 		}
 
 		$log->add( 'convertkit_refresh_convertkit_posts(): Finished' );
