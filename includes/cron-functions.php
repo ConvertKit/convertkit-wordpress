@@ -11,14 +11,36 @@
  *
  * @since   1.9.7.4
  */
-function convertkit_cron_refresh_resource_posts( $network_wide ) {
+function convertkit_refresh_convertkit_posts() {
 
 	// Initialise Plugin.
 	$convertkit = WP_ConvertKit();
 
+	// Get Settings and Log classes.
+	$settings = new ConvertKit_Settings();
+	$log = new ConvertKit_Log();
+		
+	// If debug logging is enabled, write to it now.
+	if ( $settings->debug_enabled() ) {
+		$log->add( 'convertkit_refresh_convertkit_posts(): Started' );
+	}
+
 	// Refresh Posts Resource.
 	$posts = new ConvertKit_Resource_Posts();
-	$posts->refresh();
+	$result = $posts->refresh();
+
+	// If debug logging is enabled, write to it now.
+	if ( $settings->debug_enabled() ) {
+		// If an error occured, log it.
+		if ( is_wp_error( $result ) ) {
+			$log->add( 'convertkit_refresh_convertkit_posts(): Error: ' . $result->get_error_message() );	
+		}
+		if ( is_array( $result ) ) {
+			$log->add( 'convertkit_refresh_convertkit_posts(): Success: ' . count( $result ) . ' broadcasts fetched from API and cached.' );	
+		}
+
+		$log->add( 'convertkit_refresh_convertkit_posts(): Finished' );
+	}
 
 	// Shutdown.
 	unset( $convertkit );
@@ -27,4 +49,4 @@ function convertkit_cron_refresh_resource_posts( $network_wide ) {
 
 // Register action to run above function; this action is created by WordPress' wp_schedule_event() function
 // in the ConvertKit_Resource_Posts class.
-add_action( 'convertkit_cron_refresh_resource_posts', 'convertkit_cron_refresh_resource_posts' );
+add_action( 'convertkit_refresh_convertkit_posts', 'convertkit_refresh_convertkit_posts' );

@@ -245,7 +245,7 @@ class ConvertKit_Resource {
 		wp_schedule_event( 
 			strtotime( gmdate( 'Y-m-d', strtotime( '+1 day' ) ) . ' 00:00:00' ),
 			$this->wp_cron_schedule,
-			'convertkit_cron_refresh_resource_' . $this->settings_name // Hook name; see includes/cron-functions.php for function that listens to this hook.
+			'convertkit_refresh_' . $this->settings_name // Hook name; see includes/cron-functions.php for function that listens to this hook.
 		);
 
 	}
@@ -259,7 +259,7 @@ class ConvertKit_Resource {
 	 */
 	public function unschedule_cron_event() {
 
-		wp_clear_scheduled_hook( 'convertkit_cron_refresh_resource_' . $this->settings_name, true );
+		wp_clear_scheduled_hook( 'convertkit_refresh_' . $this->settings_name );
 
 	}
 
@@ -274,7 +274,7 @@ class ConvertKit_Resource {
 	 */
 	public function get_cron_event() {
 
-		return wp_get_schedule( 'convertkit_cron_refresh_resource_' . $this->settings_name );
+		return wp_get_schedule( 'convertkit_refresh_' . $this->settings_name );
 
 	}
 
