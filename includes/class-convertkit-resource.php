@@ -241,9 +241,9 @@ class ConvertKit_Resource {
 			return;
 		}
 
-		// Schedule event, starting in a day and recurring for the given $wp_cron_schedule.
+		// Schedule event, starting in an hour's time and recurring for the given $wp_cron_schedule.
 		wp_schedule_event(
-			strtotime( gmdate( 'Y-m-d', strtotime( '+1 day' ) ) . ' 00:00:00' ),
+			strtotime( '+1 hour' ),
 			$this->wp_cron_schedule,
 			'convertkit_refresh_' . $this->settings_name // Hook name; see includes/cron-functions.php for function that listens to this hook.
 		);
