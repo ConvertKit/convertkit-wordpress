@@ -78,8 +78,41 @@ class ResourcePostsTest extends \Codeception\TestCase\WPTestCase
 	 * 
 	 * @since 	1.9.7.4
 	 */
-	public function testCronEventCreated()
+	public function testCronEventCreatedOnPluginActivation()
 	{
+		// Confirm the event was scheduled.
+		$this->assertEquals(
+			wp_get_schedule('convertkit_resource_refresh_' . $this->resource->type),
+			$this->resource->wp_cron_schedule
+		);
+	}
+
+	/**
+	 * Test that the WordPress Cron event for this resource was created with the expected name,
+	 * matching the expected schedule as defined in the Resource's class, when updating
+	 * from an earlier version of the Plugin to 1.9.7.4 or higher.
+	 * 
+	 * @since 	1.9.7.4
+	 */
+	public function testCronEventCreatedOnPluginUpdate()
+	{
+		// Delete scheduled event.
+		$this->resource->unschedule_cron_event();
+
+		// Confirm scheduled event does not exist.
+		$this->assertFalse(wp_get_schedule('convertkit_resource_refresh_' . $this->resource->type));
+
+		// Set Plugin version number in options table to < 1.9.7.4.
+		update_option('convertkit_version', '1.9.7.2');
+
+		// Run the update action as WordPress would when updating the Plugin to a newer version.
+		$convertkit = WP_ConvertKit();
+		$convertkit->update();
+
+		// Confirm the Plugin version number matches the current version.
+		$this->assertEquals(get_option('convertkit_version'), CONVERTKIT_PLUGIN_VERSION);
+
+		// Confirm the event was scheduled by the update() call.
 		$this->assertEquals(
 			wp_get_schedule('convertkit_resource_refresh_' . $this->resource->type),
 			$this->resource->wp_cron_schedule
@@ -140,7 +173,7 @@ class ResourcePostsTest extends \Codeception\TestCase\WPTestCase
 	 * 
 	 * @since 	1.9.7.4
 	 */
-	public function testCronEventDestroyed()
+	public function testCronEventDestroyedOnPluginDeactivation()
 	{
 		// Deactivate Plugin.
 		deactivate_plugins('convertkit/wp-convertkit.php');
