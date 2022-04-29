@@ -243,9 +243,9 @@ class ConvertKit_Resource {
 
 		// Schedule event, starting in an hour's time and recurring for the given $wp_cron_schedule.
 		wp_schedule_event(
-			strtotime( '+1 hour' ),
-			$this->wp_cron_schedule,
-			'convertkit_refresh_' . $this->settings_name // Hook name; see includes/cron-functions.php for function that listens to this hook.
+			strtotime( '+1 hour' ), // Start in an hour's time.
+			$this->wp_cron_schedule, // Repeat based on the given schedule e.g. hourly.
+			'convertkit_resource_refresh_' . $this->type // Hook name; see includes/cron-functions.php for function that listens to this hook.
 		);
 
 	}
@@ -257,14 +257,15 @@ class ConvertKit_Resource {
 	 */
 	public function unschedule_cron_event() {
 
-		wp_clear_scheduled_hook( 'convertkit_refresh_' . $this->settings_name );
+		wp_clear_scheduled_hook( 'convertkit_resource_refresh_' . $this->type );
 
 	}
 
 	/**
 	 * Returns how often the WordPress Cron event will recur for (e.g. daily).
 	 *
-	 * Returns false if no schedule.
+	 * Returns false if no schedule exists i.e. wp_schedule_event() has not been
+	 * called or failed to register a scheduled event.
 	 *
 	 * @since   1.9.7.4
 	 *
@@ -272,7 +273,7 @@ class ConvertKit_Resource {
 	 */
 	public function get_cron_event() {
 
-		return wp_get_schedule( 'convertkit_refresh_' . $this->settings_name );
+		return wp_get_schedule( 'convertkit_resource_refresh_' . $this->type );
 
 	}
 

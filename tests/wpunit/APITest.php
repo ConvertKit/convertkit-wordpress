@@ -33,8 +33,15 @@ class APITest extends \Codeception\TestCase\WPTestCase
 	public function setUp(): void
 	{
 		parent::setUp();
+
+		// Activate Plugin.
+		activate_plugins('convertkit/wp-convertkit.php');
+
+		// Initialize the class we want to test.
 		$this->api = new ConvertKit_API( $_ENV['CONVERTKIT_API_KEY'], $_ENV['CONVERTKIT_API_SECRET'] );
-		sleep(2);
+		
+		// To avoid exceeding API rate limits, impose a 2 second delay.
+		// sleep(2);
 	}
 
 	/**
@@ -44,7 +51,12 @@ class APITest extends \Codeception\TestCase\WPTestCase
 	 */
 	public function tearDown(): void
 	{
+		// Destroy the class we tested.
 		unset($this->api);
+
+		// Deactivate Plugin.
+		deactivate_plugins('convertkit/wp-convertkit.php');
+		
 		parent::tearDown();
 	}
 

@@ -34,6 +34,9 @@ class ResourcePostsTest extends \Codeception\TestCase\WPTestCase
 	{
 		parent::setUp();
 
+		// Activate Plugin.
+		activate_plugins('convertkit/wp-convertkit.php');
+
 		// Store API Key and Secret in Plugin's settings.
 		$this->settings = new ConvertKit_Settings();
 		update_option($this->settings::SETTINGS_NAME, [
@@ -43,6 +46,8 @@ class ResourcePostsTest extends \Codeception\TestCase\WPTestCase
 
 		// Initialize the resource class we want to test.
 		$this->resource = new ConvertKit_Resource_Posts();
+
+		// Confirm initialization didn't result in an error.
 		$this->assertNotInstanceOf(WP_Error::class, $this->resource->resources);
 	}
 
@@ -57,6 +62,13 @@ class ResourcePostsTest extends \Codeception\TestCase\WPTestCase
 		delete_option($this->settings::SETTINGS_NAME);
 		delete_option($this->resource->settings_name);
 		delete_option($this->resource->settings_name . '_last_queried');
+
+		// Destroy the resource class we tested.
+		unset($this->resource);
+
+		// Deactivate Plugin.
+		deactivate_plugins('convertkit/wp-convertkit.php');
+
 		parent::tearDown();
 	}
 
@@ -69,9 +81,72 @@ class ResourcePostsTest extends \Codeception\TestCase\WPTestCase
 	public function testCronEventCreated()
 	{
 		$this->assertEquals(
-			wp_get_schedule( 'convertkit_refresh_' . $this->resource->settings_name ),
+			wp_get_schedule('convertkit_resource_refresh_' . $this->resource->type),
 			$this->resource->wp_cron_schedule
 		);
+	}
+
+	/**
+	 * Test that the WordPress Cron event for this resource works when valid API credentials
+	 * are specified in the Plugin's settings.
+	 * 
+	 * @since 	1.9.7.4
+	 */
+	public function testCronEventWithValidAPICredentials()
+	{
+		// Delete Resources from options table.
+		delete_option($this->resource->settings_name);
+		delete_option($this->resource->settings_name . '_last_queried');
+
+		// Run the action as WordPress' Cron would.
+		do_action('convertkit_resource_refresh_' . $this->resource->type);
+
+		// Confirm that Resources now exist in the option table.
+		$result = get_option($this->resource->settings_name);
+		$this->assertIsArray($result);
+		$this->assertArrayHasKey('id', reset($result));
+		$this->assertArrayHasKey('title', reset($result));
+	}
+
+	/**
+	 * Test that the WordPress Cron event for this resource errors when invalid API credentials
+	 * are specified in the Plugin's settings.
+	 * 
+	 * @since 	1.9.7.4
+	 */
+	public function testCronEventWithInvalidAPICredentials()
+	{
+		// Define invalid API Credentials.
+		update_option($this->settings::SETTINGS_NAME, [
+			'api_key'    => 'fakeApiKey',
+			'api_secret' => 'fakeApiSecret',
+		]);
+
+		// Delete Resources from options table.
+		delete_option($this->resource->settings_name);
+		delete_option($this->resource->settings_name . '_last_queried');
+
+		// Run the action as WordPress' Cron would.
+		do_action('convertkit_resource_refresh_' . $this->resource->type);
+
+		// Confirm that no Resources exist in the option table.
+		$result = get_option($this->resource->settings_name);
+		$this->assertFalse($result);
+	}
+
+	/**
+	 * Test that the WordPress Cron event for this resource was destroyed when the Plugin
+	 * is deactivated.
+	 * 
+	 * @since 	1.9.7.4
+	 */
+	public function testCronEventDestroyed()
+	{
+		// Deactivate Plugin.
+		deactivate_plugins('convertkit/wp-convertkit.php');
+
+		// Confirm scheduled event does not exist.
+		$this->assertFalse(wp_get_schedule('convertkit_resource_refresh_' . $this->resource->type));
 	}
 	
 	/**

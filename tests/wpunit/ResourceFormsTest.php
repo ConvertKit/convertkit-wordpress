@@ -34,6 +34,9 @@ class ResourceFormsTest extends \Codeception\TestCase\WPTestCase
 	{
 		parent::setUp();
 
+		// Activate Plugin.
+		activate_plugins('convertkit/wp-convertkit.php');
+
 		// Store API Key and Secret in Plugin's settings.
 		$this->settings = new ConvertKit_Settings();
 		update_option($this->settings::SETTINGS_NAME, [
@@ -42,7 +45,9 @@ class ResourceFormsTest extends \Codeception\TestCase\WPTestCase
 		]);
 
 		// Initialize the resource class we want to test.
-		$this->resource = new ConvertKit_Resource_Forms();
+		$this->resource = new ConvertKit_Resource_Posts();
+
+		// Confirm initialization didn't result in an error.
 		$this->assertNotInstanceOf(WP_Error::class, $this->resource->resources);
 	}
 
@@ -57,6 +62,13 @@ class ResourceFormsTest extends \Codeception\TestCase\WPTestCase
 		delete_option($this->settings::SETTINGS_NAME);
 		delete_option($this->resource->settings_name);
 		delete_option($this->resource->settings_name . '_last_queried');
+
+		// Destroy the resource class we tested.
+		unset($this->resource);
+
+		// Deactivate Plugin.
+		deactivate_plugins('convertkit/wp-convertkit.php');
+		
 		parent::tearDown();
 	}
 
