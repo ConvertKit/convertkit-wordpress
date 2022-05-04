@@ -126,5 +126,6 @@ class WishListMemberCest
 	{
 		$I->deactivateConvertKitPlugin($I);
 		$I->resetConvertKitPlugin($I);
+		$I->deactivateThirdPartyPlugin($I, 'wishlist-member');
 	}
 }

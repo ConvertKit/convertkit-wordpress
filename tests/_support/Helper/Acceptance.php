@@ -394,12 +394,6 @@ class Acceptance extends \Codeception\Module
 	{
 		// Load WishList Member Settings screen, which will load the first time configuration wizard.
 		$I->amOnAdminPage('admin.php?page=WishListMember');
-
-		// Skip Licensing
-		$I->click('a.skip-license');
-		$I->performOn( 'a[next-screen="start"]', function($I) {
-			$I->click('a[next-screen="start"]');
-		});
 		
 		// Step 1
 		$I->fillField('input[name="name"]', 'Bronze');
