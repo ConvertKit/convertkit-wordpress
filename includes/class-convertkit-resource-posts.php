@@ -29,10 +29,11 @@ class ConvertKit_Resource_Posts extends ConvertKit_Resource {
 	public $type = 'posts';
 
 	/**
-	 * Holds the posts from the ConvertKit API
+	 * The number of seconds resources are valid, before they should be
+	 * fetched again from the API.
 	 *
-	 * @var     WP_Error|array
+	 * @var     int
 	 */
-	public $resources = array();
+	public $cache_duration = DAY_IN_SECONDS;
 
 }

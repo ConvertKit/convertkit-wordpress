@@ -29,13 +29,6 @@ class ConvertKit_Resource_Landing_Pages extends ConvertKit_Resource {
 	public $type = 'landing_pages';
 
 	/**
-	 * Holds the forms from the ConvertKit API
-	 *
-	 * @var     WP_Error|array
-	 */
-	public $resources = array();
-
-	/**
 	 * Returns the HTML/JS markup for the given Landing Page ID
 	 *
 	 * @since   1.9.6

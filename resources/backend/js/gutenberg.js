@@ -128,6 +128,15 @@ function convertKitGutenbergRegisterBlock( block ) {
 								value: 		props.attributes[ attribute ],
 								onChange: 	function( value ) {
 									if ( field.type == 'number' ) {
+										// If value is a blank string i.e. no attribute value was provided,
+										// cast it to the field's minimum number setting.
+										// This prevents WordPress' block renderer API returning a 400 error
+										// because a blank value will be passed as a string, when WordPress
+										// expects it to be a numerical value.
+										if ( value === '' ) {
+											value = field.min;
+										}
+
 										// Cast value to integer if a value exists.
 										if ( value.length > 0 ) {
 											value = Number( value );

@@ -269,12 +269,14 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 		// Fetch Posts.
 		$posts = new ConvertKit_Resource_Posts();
 
-		// If no Posts exist, fetch them now from the API, storing them in the resource.
-		if ( ! $posts->exist() ) {
+		// If this is an admin request, refresh the Posts resource now from the API,
+		// as it's an inexpensive query of ~ 0.5 seconds when we're editing a Page
+		// containing this block.
+		if ( function_exists( 'is_admin' ) && is_admin() ) {
 			$posts->refresh();
 		}
 
-		// If there are still no Posts after fetching them from the API, bail.
+		// If no Posts exist, bail.
 		if ( ! $posts->exist() ) {
 			if ( $settings->debug_enabled() ) {
 				return '<!-- ' . __( 'No Broadcasts exist in ConvertKit.', 'convertkit' ) . ' -->';
@@ -305,6 +307,27 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 		$html = apply_filters( 'convertkit_block_broadcasts_render', $html, $atts );
 
 		return $html;
+
+	}
+
+	/**
+	 * Helper function to determine if the request is a REST API request.
+	 *
+	 * @since   1.9.7.4
+	 *
+	 * @return  bool    Is REST API Request
+	 */
+	private function is_rest_api_request() {
+
+		if ( ! defined( 'REST_REQUEST' ) ) {
+			return false;
+		}
+
+		if ( ! REST_REQUEST ) {
+			return false;
+		}
+
+		return true;
 
 	}
 

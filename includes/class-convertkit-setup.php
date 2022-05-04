@@ -1,28 +1,45 @@
 <?php
 /**
- * ConvertKit Admin Upgrade class.
+ * Plugin activation, update and deactivation class.
  *
  * @package ConvertKit
- * @author ConvertKit
+ * @author  ConvertKit
  */
 
 /**
- * Runs upgrade routines when the Plugin is updated to a newer version
- * in WordPress.
+ * Runs any steps required on plugin activation, update and deactivation.
  *
- * @since   1.9.6
+ * @package ConvertKit
+ * @author  ConvertKit
+ * @version 1.9.7.4
  */
-class ConvertKit_Admin_Upgrade {
+class ConvertKit_Setup {
 
 	/**
-	 * Runs the upgrade routine once the plugin has loaded
+	 * Runs routines when the Plugin is activated.
 	 *
-	 * @since   1.9.6
+	 * @since   1.9.7.4
 	 */
-	public function run() {
+	public function activate() {
+
+		// Call any functions to e.g. schedule WordPress Cron events now.
+	}
+
+	/**
+	 * Runs routines when the Plugin version has been updated.
+	 *
+	 * @since   1.9.7.4
+	 */
+	public function update() {
 
 		// Get installed Plugin version.
 		$current_version = get_option( 'convertkit_version' );
+
+		// If the version number matches the plugin version, no update routines
+		// need to run.
+		if ( $current_version === CONVERTKIT_PLUGIN_VERSION ) {
+			return;
+		}
 
 		/**
 		 * 1.4.1: Change ID to form_id for API version 3.0.
@@ -107,8 +124,8 @@ class ConvertKit_Admin_Upgrade {
 	private function change_id_to_form_id() {
 
 		// Bail if the API isn't configured.
-		$settings = new ConvertKit_Settings();
-		if ( ! $settings->has_api_key_and_secret() ) {
+		$convertkit_settings = new ConvertKit_Settings();
+		if ( ! $convertkit_settings->has_api_key_and_secret() ) {
 			return;
 		}
 
@@ -126,7 +143,7 @@ class ConvertKit_Admin_Upgrade {
 		}
 
 		// Initialize the API.
-		$api = new ConvertKit_API( $settings->get_api_key(), $settings->get_api_secret(), $settings->debug_enabled() );
+		$api = new ConvertKit_API( $convertkit_settings->get_api_key(), $convertkit_settings->get_api_secret(), $convertkit_settings->debug_enabled() );
 
 		// Get form mappings.
 		$mappings = $api->get_subscription_forms();
@@ -137,9 +154,9 @@ class ConvertKit_Admin_Upgrade {
 		}
 
 		// 1. Update global form.
-		$settings_data                 = $settings->get();
-		$settings_data['default_form'] = isset( $mappings[ $settings->get_default_form( 'post' ) ] ) ? $mappings[ $settings->get_default_form( 'post' ) ] : 0;
-		update_option( $settings::SETTINGS_NAME, $settings );
+		$settings_data                 = $convertkit_settings->get();
+		$settings_data['default_form'] = isset( $mappings[ $convertkit_settings->get_default_form( 'post' ) ] ) ? $mappings[ $convertkit_settings->get_default_form( 'post' ) ] : 0;
+		update_option( $convertkit_settings::SETTINGS_NAME, $settings_data );
 
 		// 2. Scan posts/pages for _wp_convertkit_post_meta and update IDs
 		// Scan content for shortcode and update
@@ -158,6 +175,16 @@ class ConvertKit_Admin_Upgrade {
 			update_option( '_wp_convertkit_upgrade_posts', $posts );
 		}
 
+	}
+
+	/**
+	 * Runs routines when the Plugin is deactivated.
+	 *
+	 * @since   1.9.7.4
+	 */
+	public function deactivate() {
+
+		// Call any functions to e.g. unschedule WordPress Cron events now.
 	}
 
 }
