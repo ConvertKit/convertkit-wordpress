@@ -37,6 +37,17 @@ class ConvertKit_Resource {
 	public $cache_duration = YEAR_IN_SECONDS;
 
 	/**
+	 * How often to refresh this resource through WordPress' Cron.
+	 * If false, won't be refreshed through WordPress' Cron
+	 * If a string, must be a value from wp_get_schedules().
+	 *
+	 * @since   1.9.7.4
+	 *
+	 * @var     bool|string
+	 */
+	public $wp_cron_schedule = false;
+
+	/**
 	 * Holds the resources from the ConvertKit API
 	 *
 	 * @var     WP_Error|array
@@ -209,6 +220,60 @@ class ConvertKit_Resource {
 
 		// Return resources.
 		return $results;
+
+	}
+
+	/**
+	 * Schedules a WordPress Cron event to refresh this resource based on
+	 * the resource's $wp_cron_schedule.
+	 *
+	 * @since   1.9.7.4
+	 */
+	public function schedule_cron_event() {
+
+		// Bail if no cron schedule is defined for this resource.
+		if ( ! $this->wp_cron_schedule ) {
+			return;
+		}
+
+		// Bail if the event already exists; we don't need to schedule it again.
+		if ( $this->get_cron_event() !== false ) {
+			return;
+		}
+
+		// Schedule event, starting in an hour's time and recurring for the given $wp_cron_schedule.
+		wp_schedule_event(
+			strtotime( '+1 hour' ), // Start in an hour's time.
+			$this->wp_cron_schedule, // Repeat based on the given schedule e.g. hourly.
+			'convertkit_resource_refresh_' . $this->type // Hook name; see includes/cron-functions.php for function that listens to this hook.
+		);
+
+	}
+
+	/**
+	 * Unschedules a WordPress Cron event to refresh this resource.
+	 *
+	 * @since   1.9.7.4
+	 */
+	public function unschedule_cron_event() {
+
+		wp_clear_scheduled_hook( 'convertkit_resource_refresh_' . $this->type );
+
+	}
+
+	/**
+	 * Returns how often the WordPress Cron event will recur for (e.g. daily).
+	 *
+	 * Returns false if no schedule exists i.e. wp_schedule_event() has not been
+	 * called or failed to register a scheduled event.
+	 *
+	 * @since   1.9.7.4
+	 *
+	 * @return  bool|string
+	 */
+	public function get_cron_event() {
+
+		return wp_get_schedule( 'convertkit_resource_refresh_' . $this->type );
 
 	}
 
