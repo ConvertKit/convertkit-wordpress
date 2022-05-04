@@ -80,6 +80,24 @@ class Acceptance extends \Codeception\Module
 	}
 
 	/**
+	 * Check that the given block did not output any errors when rendered in the
+	 * Gutenberg editor.
+	 * 
+	 * @since 	1.9.7.4
+	 * 
+	 * @param 	AcceptanceTester 	$I 						Acceptance Tester.
+	 * @param 	string 				$blockName 				Block Name (e.g. 'ConvertKit Form')
+	 */
+	public function checkGutenbergBlockHasNoErrors($I, $blockName)
+	{
+		// Wait a couple of seconds for the block to render.
+		sleep(2);
+
+		// Check that the "This block has encountered an error and cannot be previewed." element doesn't exist.
+		$I->dontSeeElementInDOM('.block-editor-block-list__layout div[data-title="'.$blockName.'"] .block-editor-block-list__block-crash-warning');
+	}
+
+	/**
 	 * Helper method to activate the ConvertKit Plugin, checking
 	 * it activated and no errors were output.
 	 * 
