@@ -19,4 +19,3 @@ modules:
             adminEmail: "%TEST_SITE_ADMIN_EMAIL%"
             title: "Test"
             plugins: ['convertkit/wp-convertkit.php'] # Change to the repository Plugin that we're testing.
-            activatePlugins: ['convertkit/wp-convertkit.php'] # Change to the repository Plugin that we're testing.

@@ -23,6 +23,8 @@ class ConvertKit_Setup {
 	public function activate() {
 
 		// Call any functions to e.g. schedule WordPress Cron events now.
+		$posts = new ConvertKit_Resource_Posts();
+		$posts->schedule_cron_event();
 	}
 
 	/**
@@ -63,6 +65,15 @@ class ConvertKit_Setup {
 		 */
 		if ( version_compare( $current_version, '1.9.6', '<' ) ) {
 			$this->migrate_default_form_settings();
+		}
+
+		/**
+		 * 1.9.7.4+: Schedule Post Resources' Cron event to refresh Posts cache hourly,
+		 * as the activate() routine won't pick this up for existing active installations.
+		 */
+		if ( version_compare( $current_version, '1.9.7.4', '<' ) ) {
+			$posts = new ConvertKit_Resource_Posts();
+			$posts->schedule_cron_event();
 		}
 
 		// Update the installed version number in the options table.
@@ -185,6 +196,9 @@ class ConvertKit_Setup {
 	public function deactivate() {
 
 		// Call any functions to e.g. unschedule WordPress Cron events now.
+		$posts = new ConvertKit_Resource_Posts();
+		$posts->unschedule_cron_event();
+
 	}
 
 }
