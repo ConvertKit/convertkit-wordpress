@@ -263,7 +263,7 @@ class ExampleCest
 Helpers extend testing by registering functions that we might want to use across multiple tests, which are not provided by wp-browser, 
 Codeception or PHPUnit.  This helps achieve the principle of DRY code (Don't Repeat Yourself).
 
-For example, in the `tests/_support/Helper` directory, our `Acceptance.php` helper contains the `checkNoWarningsAndNoticesOnScreen()` function,
+For example, in the `tests/_support/Helper/Acceptance` directory, our `Xdebug.php` helper contains the `checkNoWarningsAndNoticesOnScreen()` function,
 which checks that
 - the <body> class does not contain the `php-error` class, which WordPress adds if a PHP error is detected
 - no Xdebug errors were output
@@ -280,13 +280,13 @@ Further Acceptance Test Helpers that are provided include:
 - `deactivateThirdPartyPlugin($I, $name)`: Logs in to WordPress as the `admin` user, and deactivates the given third party Plugin by its slug.
 - `setupConvertKitPlugin($I)`: Enters the ConvertKit API Key and Secret in the Plugin's Settings screen, saving it.
 
-Other helpers most likely exist; refer to the [Acceptance.php](https://github.com/ConvertKit/convertkit-wordpress/blob/master/tests/_support/Helper/Acceptance.php)
-helper file for all available functions.
+Other helpers most likely exist; refer to the [Acceptance.php](https://github.com/ConvertKit/convertkit-wordpress/blob/master/tests/_support/Helper/Acceptance/)
+folder of helper files for all available functions.
 
 ## Writing Helpers
 
 With this methodology, if two or more of your tests perform the same checks, you should:
-- add a function to the applicable file in the `tests/_support/Helper` directory (e.g. `tests/_support/Helper/Acceptance.php`),
+- add a function to the applicable file in the `tests/_support/Helper/Acceptance` directory (e.g. `tests/_support/Helper/Acceptance/Plugin.php`),
 usually in the format of
 ```php
 /**
@@ -302,6 +302,11 @@ public function yourCustomFunctionNameInHelper($I)
 ```
 - in your test, call your function by using `$I->yourCustomFunctionNameInHelper($I);`
 - at the command line, tell Codeception to build your custom function helpers by using `vendor/bin/codecept build`
+
+If the function doesn't fit into any existing helper file:
+- create a new file in the `tests/_support/Helper/Acceptance` directory
+- edit the [acceptance.suite.yml](https://github.com/ConvertKit/convertkit-wordpress/blob/master/tests/acceptance.suite.yml) file, adding
+the Helper's namespace and class under the `enabled` section.
 
 Need to change how Codeception runs?  Edit the [codeception.dist.xml](codeception.dist.xml) file.
 
