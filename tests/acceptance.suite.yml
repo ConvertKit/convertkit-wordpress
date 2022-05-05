@@ -10,7 +10,13 @@ modules:
     enabled:
         - WPDb
         - WPWebDriver
-        - \Helper\Acceptance
+        - \Helper\Acceptance\ConvertKitAPI
+        - \Helper\Acceptance\Email
+        - \Helper\Acceptance\Plugin
+        - \Helper\Acceptance\Select2
+        - \Helper\Acceptance\ThirdPartyPlugin
+        - \Helper\Acceptance\WPGutenberg
+        - \Helper\Acceptance\Xdebug
         - \Codeception\Module\Asserts
         - \Codeception\Module\Filesystem
     config:
