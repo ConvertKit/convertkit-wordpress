@@ -7,6 +7,56 @@ SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO';
 
 SET NAMES utf8mb4;
 
+-- Drop WishList Member tables, as Plugin activation will create these.
+DROP TABLE IF EXISTS `wp_wlcc_contentarchiver`;
+DROP TABLE IF EXISTS `wp_wlcc_contentmanager_move`;
+DROP TABLE IF EXISTS `wp_wlcc_contentmanager_repost`;
+DROP TABLE IF EXISTS `wp_wlcc_contentmanager_set`;
+DROP TABLE IF EXISTS `wp_wlcc_contentsched`;
+DROP TABLE IF EXISTS `wp_wlm_api_queue`;
+DROP TABLE IF EXISTS `wp_wlm_contentlevel_options`;
+DROP TABLE IF EXISTS `wp_wlm_contentlevels`;
+DROP TABLE IF EXISTS `wp_wlm_email_queue`;
+DROP TABLE IF EXISTS `wp_wlm_emailbroadcast`;
+DROP TABLE IF EXISTS `wp_wlm_level_options`;
+DROP TABLE IF EXISTS `wp_wlm_logs`;
+DROP TABLE IF EXISTS `wp_wlm_options`;
+DROP TABLE IF EXISTS `wp_wlm_presto_player_visits`;
+DROP TABLE IF EXISTS `wp_wlm_user_options`;
+DROP TABLE IF EXISTS `wp_wlm_userlevel_options`;
+DROP TABLE IF EXISTS `wp_wlm_userlevels`;
+
+-- Drop WooCommerce tables, as Plugin activation will create these.
+DROP TABLE IF EXISTS `wp_wc_admin_note_actions`;
+DROP TABLE IF EXISTS `wp_wc_admin_notes`;
+DROP TABLE IF EXISTS `wp_wc_category_lookup`;
+DROP TABLE IF EXISTS `wp_wc_customer_lookup`;
+DROP TABLE IF EXISTS `wp_wc_download_log`;
+DROP TABLE IF EXISTS `wp_wc_order_coupon_lookup`;
+DROP TABLE IF EXISTS `wp_wc_order_product_lookup`;
+DROP TABLE IF EXISTS `wp_wc_order_stats`;
+DROP TABLE IF EXISTS `wp_wc_order_tax_lookup`;
+DROP TABLE IF EXISTS `wp_wc_product_attributes_lookup`;
+DROP TABLE IF EXISTS `wp_wc_product_meta_lookup`;
+DROP TABLE IF EXISTS `wp_wc_rate_limits`;
+DROP TABLE IF EXISTS `wp_wc_reserved_stock`;
+DROP TABLE IF EXISTS `wp_wc_tax_rate_classes`;
+DROP TABLE IF EXISTS `wp_wc_webhooks`;
+DROP TABLE IF EXISTS `wp_woocommerce_api_keys`;
+DROP TABLE IF EXISTS `wp_woocommerce_attribute_taxonomies`;
+DROP TABLE IF EXISTS `wp_woocommerce_downloadable_product_permissions`;
+DROP TABLE IF EXISTS `wp_woocommerce_log`;
+DROP TABLE IF EXISTS `wp_woocommerce_order_itemmeta`;
+DROP TABLE IF EXISTS `wp_woocommerce_order_items`;
+DROP TABLE IF EXISTS `wp_woocommerce_payment_tokenmeta`;
+DROP TABLE IF EXISTS `wp_woocommerce_payment_tokens`;
+DROP TABLE IF EXISTS `wp_woocommerce_sessions`;
+DROP TABLE IF EXISTS `wp_woocommerce_shipping_zone_locations`;
+DROP TABLE IF EXISTS `wp_woocommerce_shipping_zone_methods`;
+DROP TABLE IF EXISTS `wp_woocommerce_shipping_zones`;
+DROP TABLE IF EXISTS `wp_woocommerce_tax_rate_locations`;
+DROP TABLE IF EXISTS `wp_woocommerce_tax_rates`;
+
 DROP TABLE IF EXISTS `wp_commentmeta`;
 CREATE TABLE `wp_commentmeta` (
   `meta_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
