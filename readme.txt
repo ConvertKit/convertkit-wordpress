@@ -3,7 +3,7 @@ Contributors: nathanbarry, growdev, travisnorthcutt, ggwicz
 Donate link: https://convertkit.com
 Tags: email, marketing, embed form, convertkit, capture
 Requires at least: 5.0
-Tested up to: 5.9.2
+Tested up to: 5.9.3
 Requires PHP: 5.6.20
 Stable tag: trunk
 License: GPLv2 or later
@@ -58,8 +58,11 @@ Navigate to the Plugin's Settings at Settings > ConvertKit.
 
 == Changelog ==
 
-### 1.9.7.4 2022-xx-xx
-* Fix: Page/Post: If a specific Form is selected that no longer exists, fallback to the Default Form setting
+### 1.9.7.4 2022-05-04
+* Added: ConvertKit Broadcasts Block, to output a list of ConvertKit broadcasts
+* Added: ConvertKit Broadcasts Shortcode [convertkit_broadcasts], to output a list of ConvertKit broadcasts
+* Added: Settings: Tools: Import and Export configuration
+* Fix: Page/Post: If a specific Form is selected that no longer exists in ConvertKit, fallback to the Default Form setting
 
 ### 1.9.7.3 2022-04-04
 * Added: Elementor Page Builder: ConvertKit Form Widget
