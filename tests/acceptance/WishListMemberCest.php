@@ -20,7 +20,7 @@ class WishListMemberCest
 		$I->setupConvertKitPlugin($I);
 		$I->enableDebugLog($I);
 		$I->wait(2);
-		$I->_setupWishListMemberPlugin($I);
+		$this->_setupWishListMemberPlugin($I);
 	}
 
 	/**
