@@ -204,9 +204,9 @@ class PageFormCest
 
 		// Create Page, with an invalid Form ID, as if it were created prior to API credentials being changed and/or
 		// a Form being deleted in ConvertKit.
-		$postID = $I->havePostInDatabase([
+		$pageID = $I->havePostInDatabase([
 			'post_type' 	=> 'page',
-			'post_title' 	=> 'ConvertKit: Form: Specific: Invalid',
+			'post_title' 	=> 'ConvertKit: Page: Form: Specific: Invalid',
 			'meta_input'	=> [
 				'_wp_convertkit_post_meta' => [
 					'form'         => '11111',
@@ -217,7 +217,7 @@ class PageFormCest
 		]);
 
 		// Load the Page on the frontend site.
-		$I->amOnPage('/?p='.$postID);
+		$I->amOnPage('/?p='.$pageID);
 
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);

@@ -19,13 +19,6 @@ class PostFormCest
 		$I->activateConvertKitPlugin($I);
 		$I->setupConvertKitPlugin($I);
 		$I->enableDebugLog($I);
-		$I->wait(2);
-
-		// Navigate to Post > Add New
-		$I->amOnAdminPage('post-new.php');
-
-		// Close the Gutenberg "Welcome to the block editor" dialog if it's displayed
-		$I->maybeCloseGutenbergWelcomeModal($I);
 	}
 
 	/**
@@ -39,42 +32,16 @@ class PostFormCest
 	 */
 	public function testAddNewPostUsingDefaultFormWithNoDefaultFormSpecifiedInPlugin(AcceptanceTester $I)
 	{
-		// Navigate to Post > Add New
-		$I->amOnAdminPage('post-new.php');
+		// Add a Post using the Gutenberg editor.
+		$I->addGutenbergPage($I, 'post', 'ConvertKit: Post: Form: Default: None');
 
-		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen($I);
+		// Configure metabox's Form setting = Default.
+		$I->configureMetaboxSettings($I, 'wp-convertkit-meta-box', [
+			'form' => [ 'select2', 'Default' ],
+		]);
 
-		// Check that the metabox is displayed.
-		$I->seeElementInDOM('#wp-convertkit-meta-box');
-
-		// Check that the Form option is displayed.
-		$I->seeElementInDOM('#wp-convertkit-form');
-
-		// Change Form to Default
-		$I->fillSelect2Field($I, '#select2-wp-convertkit-form-container', 'Default');
-
-		// Define a Post Title.
-		$I->fillField('.editor-post-title__input', 'ConvertKit: Post: Form: Default: None');
-
-		// Click the Publish button.
-		$I->click('.editor-post-publish-button__button');
-		
-		// When the pre-publish panel displays, click Publish again.
-		$I->performOn('.editor-post-publish-panel__prepublish', function($I) {
-			$I->click('.editor-post-publish-panel__header-publish-button .editor-post-publish-button__button');	
-		});
-
-		// Check the value of the Form field matches the input provided.
-		$I->performOn( '.post-publish-panel__postpublish-buttons', function($I) {
-			$I->seeOptionIsSelected('#wp-convertkit-form', 'Default');
-		});
-
-		// Load the Post on the frontend site.
-		$I->amOnPage('/convertkit-post-form-default-none');
-
-		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen($I);
+		// Publish and view the Post on the frontend site.
+		$I->publishAndViewGutenbergPage($I);
 
 		// Confirm that no ConvertKit Form is displayed.
 		$I->dontSeeElementInDOM('form[data-sv-form]');
@@ -93,45 +60,47 @@ class PostFormCest
 		// Specify the Default Form in the Plugin Settings.
 		$defaultFormID = $I->setupConvertKitPluginDefaultForm($I);
 
-		// Navigate to Post > Add New
-		$I->amOnAdminPage('post-new.php');
+		// Add a Post using the Gutenberg editor.
+		$I->addGutenbergPage($I, 'post', 'ConvertKit: Post: Form: Default');
 
-		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen($I);
+		// Configure metabox's Form setting = Default.
+		$I->configureMetaboxSettings($I, 'wp-convertkit-meta-box', [
+			'form' => [ 'select2', 'Default' ],
+		]);
 
-		// Check that the metabox is displayed.
-		$I->seeElementInDOM('#wp-convertkit-meta-box');
-
-		// Check that the Form option is displayed.
-		$I->seeElementInDOM('#wp-convertkit-form');
-
-		// Change Form to Default
-		$I->fillSelect2Field($I, '#select2-wp-convertkit-form-container', 'Default');
-
-		// Define a Post Title.
-		$I->fillField('.editor-post-title__input', 'ConvertKit: Post: Form: Default');
-
-		// Click the Publish button.
-		$I->click('.editor-post-publish-button__button');
-		
-		// When the pre-publish panel displays, click Publish again.
-		$I->performOn('.editor-post-publish-panel__prepublish', function($I) {
-			$I->click('.editor-post-publish-panel__header-publish-button .editor-post-publish-button__button');	
-		});
-
-		// Check the value of the Form field matches the input provided.
-		$I->performOn( '.post-publish-panel__postpublish-buttons', function($I) {
-			$I->seeOptionIsSelected('#wp-convertkit-form', 'Default');
-		});
-
-		// Load the Post on the frontend site
-		$I->amOnPage('/convertkit-post-form-default');
-
-		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen($I);
+		// Publish and view the Post on the frontend site.
+		$I->publishAndViewGutenbergPage($I);
 
 		// Confirm that the ConvertKit Default Form displays.
 		$I->seeElementInDOM('form[data-sv-form="' . $defaultFormID . '"]');
+	}
+
+	/**
+	 * Test that the Default Legacy Form specified in the Plugin Settings works when
+	 * creating and viewing a new WordPress Post.
+	 * 
+	 * @since 	1.9.6.3
+	 * 
+	 * @param 	AcceptanceTester 	$I 	Tester
+	 */
+	public function testAddNewPostUsingDefaultLegacyForm(AcceptanceTester $I)
+	{
+		// Specify the Default Legacy Form in the Plugin Settings.
+		$defaultLegacyFormID = $I->setupConvertKitPluginDefaultLegacyForm($I);
+
+		// Add a Post using the Gutenberg editor.
+		$I->addGutenbergPage($I, 'post', 'ConvertKit: Post: Form: Legacy: Default');
+
+		// Configure metabox's Form setting = Default.
+		$I->configureMetaboxSettings($I, 'wp-convertkit-meta-box', [
+			'form' => [ 'select2', 'Default' ],
+		]);
+
+		// Publish and view the Post on the frontend site.
+		$I->publishAndViewGutenbergPage($I);
+
+		// Confirm that the ConvertKit Default Legacy Form displays.
+		$I->seeInSource('<form id="ck_subscribe_form" class="ck_subscribe_form" action="https://api.convertkit.com/landing_pages/' . $defaultLegacyFormID . '/subscribe" data-remote="true">');
 	}
 
 	/**
@@ -144,42 +113,16 @@ class PostFormCest
 	 */
 	public function testAddNewPostUsingNoForm(AcceptanceTester $I)
 	{
-		// Navigate to Posts > Add New
-		$I->amOnAdminPage('post-new.php');
+		// Add a Post using the Gutenberg editor.
+		$I->addGutenbergPage($I, 'post', 'ConvertKit: Post: Form: None');
 
-		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen($I);
+		// Configure metabox's Form setting = None.
+		$I->configureMetaboxSettings($I, 'wp-convertkit-meta-box', [
+			'form' => [ 'select2', 'None' ],
+		]);
 
-		// Check that the metabox is displayed.
-		$I->seeElementInDOM('#wp-convertkit-meta-box');
-
-		// Check that the Form option is displayed.
-		$I->seeElementInDOM('#wp-convertkit-form');
-
-		// Change Form to 'None'
-		$I->fillSelect2Field($I, '#select2-wp-convertkit-form-container', 'None');
-
-		// Define a Post Title.
-		$I->fillField('.editor-post-title__input', 'ConvertKit: Post: Form: None');
-
-		// Click the Publish button.
-		$I->click('.editor-post-publish-button__button');
-
-		// When the pre-publish panel displays, click Publish again.
-		$I->performOn('.editor-post-publish-panel__prepublish', function($I) {
-			$I->click('.editor-post-publish-panel__header-publish-button .editor-post-publish-button__button');	
-		});
-
-		// Check the value of the Form field matches the input provided.
-		$I->performOn( '.post-publish-panel__postpublish-buttons', function($I) {
-			$I->seeOptionIsSelected('#wp-convertkit-form', 'None');
-		});
-
-		// Load the Post on the frontend site.
-		$I->amOnPage('/convertkit-post-form-none');
-
-		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen($I);
+		// Publish and view the Post on the frontend site.
+		$I->publishAndViewGutenbergPage($I);
 
 		// Confirm that no ConvertKit Form is displayed.
 		$I->dontSeeElementInDOM('form[data-sv-form]');
@@ -195,48 +138,95 @@ class PostFormCest
 	 */
 	public function testAddNewPostUsingDefinedForm(AcceptanceTester $I)
 	{
-		// Navigate to Posts > Add New
-		$I->amOnAdminPage('post-new.php');
+		// Add a Post using the Gutenberg editor.
+		$I->addGutenbergPage($I, 'post', 'ConvertKit: Post: Form: ' . $_ENV['CONVERTKIT_API_FORM_NAME']);
 
-		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen($I);
-
-		// Check that the metabox is displayed.
-		$I->seeElementInDOM('#wp-convertkit-meta-box');
-
-		// Check that the Form option is displayed.
-		$I->seeElementInDOM('#wp-convertkit-form');
-
-		// Change Form to value specified in the .env file.
-		$I->fillSelect2Field($I, '#select2-wp-convertkit-form-container', $_ENV['CONVERTKIT_API_FORM_NAME']);
-
-		// Define a Post Title.
-		$I->fillField('.editor-post-title__input', 'ConvertKit: Post: Form: Specific');
-
-		// Click the Publish button.
-		$I->click('.editor-post-publish-button__button');
-		
-		// When the pre-publish panel displays, click Publish again.
-		$I->performOn('.editor-post-publish-panel__prepublish', function($I) {
-			$I->click('.editor-post-publish-panel__header-publish-button .editor-post-publish-button__button');	
-		});
-
-		// Check the value of the Form field matches the input provided.
-		$I->performOn( '.post-publish-panel__postpublish-buttons', function($I) {
-			$I->seeOptionIsSelected('#wp-convertkit-form', $_ENV['CONVERTKIT_API_FORM_NAME']);
-		});
+		// Configure metabox's Form setting = None.
+		$I->configureMetaboxSettings($I, 'wp-convertkit-meta-box', [
+			'form' => [ 'select2', $_ENV['CONVERTKIT_API_FORM_NAME'] ],
+		]);
 
 		// Get Form ID.
 		$formID = $I->grabValueFrom('#wp-convertkit-form');
 
-		// Load the Post on the frontend site
-		$I->amOnPage('/convertkit-post-form-specific');
+		// Publish and view the Post on the frontend site.
+		$I->publishAndViewGutenbergPage($I);
+
+		// Confirm that the ConvertKit Form displays.
+		$I->seeElementInDOM('form[data-sv-form="' . $formID . '"]');
+	}
+
+	/**
+	 * Test that the Legacy Form specified in the Post Settings works when
+	 * creating and viewing a new WordPress Post.
+	 * 
+	 * @since 	1.9.6.3
+	 * 
+	 * @param 	AcceptanceTester 	$I 	Tester
+	 */
+	public function testAddNewPostUsingDefinedLegacyForm(AcceptanceTester $I)
+	{
+		// Add a Post using the Gutenberg editor.
+		$I->addGutenbergPage($I, 'post', 'ConvertKit: Post: Form: ' . $_ENV['CONVERTKIT_API_LEGACY_FORM_NAME']);
+
+		// Configure metabox's Form setting = None.
+		$I->configureMetaboxSettings($I, 'wp-convertkit-meta-box', [
+			'form' => [ 'select2', $_ENV['CONVERTKIT_API_LEGACY_FORM_NAME'] ],
+		]);
+
+		// Get Form ID.
+		$formID = $I->grabValueFrom('#wp-convertkit-form');
+
+		// Publish and view the Post on the frontend site.
+		$I->publishAndViewGutenbergPage($I);
+
+		// Confirm that the ConvertKit Legacy Form displays.
+		$I->seeInSource('<form id="ck_subscribe_form" class="ck_subscribe_form" action="https://api.convertkit.com/landing_pages/' . $_ENV['CONVERTKIT_API_LEGACY_FORM_ID'] . '/subscribe" data-remote="true">');
+	}
+
+	/**
+	 * Test that the Default Form for Posts displays when an invalid Form ID is specified
+	 * for a Post.
+	 * 
+	 * Whilst the on screen options won't permit selecting an invalid Form ID, a Post might
+	 * have an invalid Form ID because:
+	 * - the form belongs to another ConvertKit account (i.e. API credentials were changed in the Plugin, but this Post's specified Form was not changed)
+	 * - the form was deleted from the ConvertKit account.
+	 * 
+	 * @since 	1.9.7.2
+	 * 
+	 * @param 	AcceptanceTester 	$I 	Tester
+	 */
+	public function testAddNewPostUsingInvalidDefinedForm(AcceptanceTester $I)
+	{
+		// Setup the Default Form for Pages and Posts.
+		$I->setupConvertKitPluginDefaultForm($I);
+
+		// Create Post, with an invalid Form ID, as if it were created prior to API credentials being changed and/or
+		// a Form being deleted in ConvertKit.
+		$postID = $I->havePostInDatabase([
+			'post_type' 	=> 'post',
+			'post_title' 	=> 'ConvertKit: Post: Form: Specific: Invalid',
+			'meta_input'	=> [
+				'_wp_convertkit_post_meta' => [
+					'form'         => '11111',
+					'landing_page' => '',
+					'tag'          => '',
+				]
+			],
+		]);
+
+		// Load the Post on the frontend site.
+		$I->amOnPage('/?p='.$postID);
 
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
 
-		// Confirm that the ConvertKit Form displays.
-		$I->seeElementInDOM('form[data-sv-form="' . $formID . '"]');
+		// Confirm that the invalid ConvertKit Form does not display.
+		$I->dontSeeElementInDOM('form[data-sv-form="11111"]');
+
+		// Confirm that the Default Form for Posts does display as a fallback.
+		$I->seeElementInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]');
 	}
 
 	/**
@@ -296,52 +286,7 @@ class PostFormCest
 		$I->seeElementInDOM('form[data-sv-form="' . $formID . '"]');
 	}
 
-  /**
-	 * Test that the Default Form for Posts displays when an invalid Form ID is specified
-	 * for a Post.
-	 * 
-	 * Whilst the on screen options won't permit selecting an invalid Form ID, a Post might
-	 * have an invalid Form ID because:
-	 * - the form belongs to another ConvertKit account (i.e. API credentials were changed in the Plugin, but this Post's specified Form was not changed)
-	 * - the form was deleted from the ConvertKit account.
-	 * 
-	 * @since 	1.9.7.2
-	 * 
-	 * @param 	AcceptanceTester 	$I 	Tester
-	 */
-	public function testAddNewPostUsingInvalidDefinedForm(AcceptanceTester $I)
-	{
-		// Setup the Default Form for Pages and Posts.
-		$I->setupConvertKitPluginDefaultForm($I);
-
-		// Create Post, with an invalid Form ID, as if it were created prior to API credentials being changed and/or
-		// a Form being deleted in ConvertKit.
-		$postID = $I->havePostInDatabase([
-			'post_type' 	=> 'post',
-			'post_title' 	=> 'ConvertKit: Form: Specific: Invalid',
-			'meta_input'	=> [
-				'_wp_convertkit_post_meta' => [
-					'form'         => '11111',
-					'landing_page' => '',
-					'tag'          => '',
-				]
-			],
-		]);
-
-		// Load the Post on the frontend site.
-		$I->amOnPage('/?p='.$postID);
-
-		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen($I);
-
-		// Confirm that the invalid ConvertKit Form does not display.
-		$I->dontSeeElementInDOM('form[data-sv-form="11111"]');
-
-		// Confirm that the Default Form for Posts does display as a fallback.
-		$I->seeElementInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]');
-	}
-
-  /**
+  	/**
 	 * Test that the Default Form specified at Plugin level for Posts displays when:
 	 * - A Category was created with ConvertKit Form = 'None' when 1.9.5.2 or earlier of the Plugin was activated,
 	 * - The WordPress Post is set to use the Default Form,
