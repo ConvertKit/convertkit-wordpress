@@ -132,7 +132,7 @@ class WPGutenberg extends \Codeception\Module
 		$I->click('.post-publish-panel__postpublish-buttons a.components-button');
 
 		// Wait for frontend web site to load.
-		$I->waitForElementVisible('body.page-template-default');
+		$I->waitForElementVisible('body');
 
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
