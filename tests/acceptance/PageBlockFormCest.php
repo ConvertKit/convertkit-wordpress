@@ -32,10 +32,12 @@ class PageBlockFormCest
 		// Add a Page using the Gutenberg editor.
 		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form: Block: Valid Form Param');
 
-		// Change Form to None, so that no Plugin level Form is displayed, ensuring we only test the block in Gutenberg.
-		$I->selectOption('#wp-convertkit-form', 'None');
+		// Configure metabox's Form setting = None, ensuring we only test the block in Gutenberg.
+		$I->configureMetaboxSettings($I, 'wp-convertkit-meta-box', [
+			'form' => [ 'select2', 'None' ],
+		]);
 
-		// Add block to Page, setting its Form setting to the required ConvertKit Form.
+		// Add block to Page, setting the Form setting to the value specified in the .env file.
 		$I->addGutenbergBlock($I, 'ConvertKit Form', 'convertkit-form', [
 			'form' => [ 'select', $_ENV['CONVERTKIT_API_FORM_NAME'] ]
 		]);
@@ -59,10 +61,12 @@ class PageBlockFormCest
 		// Add a Page using the Gutenberg editor.
 		$I->addGutenbergPage($I, 'page', 'ConvertKit: Legacy Form: Block: Valid Form Param');
 
-		// Change Form to None, so that no Plugin level Form is displayed, ensuring we only test the block in Gutenberg.
-		$I->selectOption('#wp-convertkit-form', 'None');
-
-		// Add block to Page.
+		// Configure metabox's Form setting = None, ensuring we only test the block in Gutenberg.
+		$I->configureMetaboxSettings($I, 'wp-convertkit-meta-box', [
+			'form' => [ 'select2', 'None' ],
+		]);
+		
+		// Add block to Page, setting the Form setting to the value specified in the .env file.
 		$I->addGutenbergBlock($I, 'ConvertKit Form', 'convertkit-form', [
 			'form' => [ 'select', $_ENV['CONVERTKIT_API_LEGACY_FORM_NAME'] ]
 		]);
@@ -87,10 +91,12 @@ class PageBlockFormCest
 		// Add a Page using the Gutenberg editor.
 		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form: Block: Valid Modal Form Param');
 
-		// Change Form to None, so that no Plugin level Form is displayed, ensuring we only test the block in Gutenberg.
-		$I->selectOption('#wp-convertkit-form', 'None');
+		// Configure metabox's Form setting = None, ensuring we only test the block in Gutenberg.
+		$I->configureMetaboxSettings($I, 'wp-convertkit-meta-box', [
+			'form' => [ 'select2', 'None' ],
+		]);
 
-		// Add block to Page.
+		// Add block to Page, setting the Form setting to the value specified in the .env file.
 		$I->addGutenbergBlock($I, 'ConvertKit Form', 'convertkit-form', [
 			'form' => [ 'select', $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_NAME'] ]
 		]);
@@ -125,10 +131,12 @@ class PageBlockFormCest
 		// Add a Page using the Gutenberg editor.
 		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form: Block: Valid Slide In Form Param');
 
-		// Change Form to None, so that no Plugin level Form is displayed, ensuring we only test the block in Gutenberg.
-		$I->selectOption('#wp-convertkit-form', 'None');
+		// Configure metabox's Form setting = None, ensuring we only test the block in Gutenberg.
+		$I->configureMetaboxSettings($I, 'wp-convertkit-meta-box', [
+			'form' => [ 'select2', 'None' ],
+		]);
 
-		// Add block to Page.
+		// Add block to Page, setting the Form setting to the value specified in the .env file.
 		$I->addGutenbergBlock($I, 'ConvertKit Form', 'convertkit-form', [
 			'form' => [ 'select', $_ENV['CONVERTKIT_API_FORM_FORMAT_SLIDE_IN_NAME'] ]
 		]);
@@ -163,10 +171,12 @@ class PageBlockFormCest
 		// Add a Page using the Gutenberg editor.
 		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form: Block: Valid Sticky Bar Form Param');
 
-		// Change Form to None, so that no Plugin level Form is displayed, ensuring we only test the block in Gutenberg.
-		$I->selectOption('#wp-convertkit-form', 'None');
+		// Configure metabox's Form setting = None, ensuring we only test the block in Gutenberg.
+		$I->configureMetaboxSettings($I, 'wp-convertkit-meta-box', [
+			'form' => [ 'select2', 'None' ],
+		]);
 
-		// Add block to Page.
+		// Add block to Page, setting the Form setting to the value specified in the .env file.
 		$I->addGutenbergBlock($I, 'ConvertKit Form', 'convertkit-form', [
 			'form' => [ 'select', $_ENV['CONVERTKIT_API_FORM_FORMAT_STICKY_BAR_NAME'] ]
 		]);
@@ -200,8 +210,10 @@ class PageBlockFormCest
 		// Add a Page using the Gutenberg editor.
 		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form: Block: Valid Sticky Bar Form Param');
 
-		// Change Form to None, so that no Plugin level Form is displayed, ensuring we only test the block in Gutenberg.
-		$I->selectOption('#wp-convertkit-form', 'None');
+		// Configure metabox's Form setting = None, ensuring we only test the block in Gutenberg.
+		$I->configureMetaboxSettings($I, 'wp-convertkit-meta-box', [
+			'form' => [ 'select2', 'None' ],
+		]);
 
 		// Add block to Page.
 		$I->addGutenbergBlock($I, 'ConvertKit Form', 'convertkit-form');
