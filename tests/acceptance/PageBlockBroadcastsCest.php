@@ -32,7 +32,7 @@ class PageBlockBroadcastsCest
 		// Add a Page using the Gutenberg editor.
 		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Broadcasts: Default Params');
 
-		// Add block to Page, setting its Form setting to the required ConvertKit Form.
+		// Add block to Page.
 		$I->addGutenbergBlock($I, 'ConvertKit Broadcasts', 'convertkit-broadcasts');
 
 		// Publish and view the Page on the frontend site.
@@ -62,7 +62,7 @@ class PageBlockBroadcastsCest
 		// Add a Page using the Gutenberg editor.
 		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Broadcasts: Date Format Param');
 
-		// Add block to Page, setting its Form setting to the required ConvertKit Form.
+		// Add block to Page, setting the date format.
 		$I->addGutenbergBlock($I, 'ConvertKit Broadcasts', 'convertkit-broadcasts', [
 			'date_format' => [ 'select', 'Y-m-d' ],
 		]);
@@ -92,7 +92,7 @@ class PageBlockBroadcastsCest
 		// Add a Page using the Gutenberg editor.
 		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Broadcasts: Limit Param');
 
-		// Add block to Page, setting its Form setting to the required ConvertKit Form.
+		// Add block to Page, setting the limit.
 		$I->addGutenbergBlock($I, 'ConvertKit Broadcasts', 'convertkit-broadcasts', [
 			'limit' => [ 'input', '2' ],
 		]);
@@ -119,11 +119,10 @@ class PageBlockBroadcastsCest
 		// Add a Page using the Gutenberg editor.
 		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Broadcasts: Blank Limit Param');
 
-		// Add block to Page, setting its Form setting to the required ConvertKit Form.
+		// Add block to Page.
 		$I->addGutenbergBlock($I, 'ConvertKit Broadcasts', 'convertkit-broadcasts');
 
-		// When the sidebar appears, blank the limit parameter as the user might, by pressing the backspace
-		// key twice.
+		// When the sidebar appears, blank the limit parameter as the user might, by pressing the backspace key twice.
 		$I->waitForElementVisible('.interface-interface-skeleton__sidebar[aria-label="Editor settings"]');
 		$I->pressKey('#convertkit_broadcasts_limit', \Facebook\WebDriver\WebDriverKeys::BACKSPACE );
 		$I->pressKey('#convertkit_broadcasts_limit', \Facebook\WebDriver\WebDriverKeys::BACKSPACE );
