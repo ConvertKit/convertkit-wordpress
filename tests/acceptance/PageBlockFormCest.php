@@ -18,17 +18,6 @@ class PageBlockFormCest
 		$I->activateConvertKitPlugin($I);
 		$I->setupConvertKitPlugin($I);
 		$I->enableDebugLog($I);
-		$I->wait(2);
-
-		// Navigate to Pages > Add New
-		$I->amOnAdminPage('post-new.php?post_type=page');
-
-		// Close the Gutenberg "Welcome to the block editor" dialog if it's displayed
-		$I->maybeCloseGutenbergWelcomeModal($I);
-
-		// Change Form to None, so that no Plugin level Form is displayed, ensuring we only
-		// test the Form block in Gutenberg.
-		$I->selectOption('#wp-convertkit-form', 'None');
 	}
 
 	/**
@@ -40,35 +29,21 @@ class PageBlockFormCest
 	 */
 	public function testFormBlockWithValidFormParameter(AcceptanceTester $I)
 	{
-		// Define a Page Title.
-		$I->fillField('.editor-post-title__input', 'ConvertKit: Page: Form: Block: Valid Form Param');
+		// Add a Page using the Gutenberg editor.
+		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form: Block: Valid Form Param');
 
-		// Add block to Page.
-		$I->addGutenbergBlock($I, 'ConvertKit Form', 'convertkit-form');
+		// Configure metabox's Form setting = None, ensuring we only test the block in Gutenberg.
+		$I->configureMetaboxSettings($I, 'wp-convertkit-meta-box', [
+			'form' => [ 'select2', 'None' ],
+		]);
 
-		// When the sidebar appears, select the Form in the Block.
-		$I->waitForElementVisible('.interface-interface-skeleton__sidebar[aria-label="Editor settings"]');
-		$I->selectOption('#convertkit_form_form', $_ENV['CONVERTKIT_API_FORM_NAME']);
+		// Add block to Page, setting the Form setting to the value specified in the .env file.
+		$I->addGutenbergBlock($I, 'ConvertKit Form', 'convertkit-form', [
+			'form' => [ 'select', $_ENV['CONVERTKIT_API_FORM_NAME'] ]
+		]);
 
-		// Click the Publish button.
-		$I->click('.editor-post-publish-button__button');
-		
-		// When the pre-publish panel displays, click Publish again.
-		$I->performOn('.editor-post-publish-panel__prepublish', function($I) {
-			$I->click('.editor-post-publish-panel__header-publish-button .editor-post-publish-button__button');	
-		});
-
-		// Wait for confirmation that the Page published.
-		$I->waitForElementVisible('.post-publish-panel__postpublish-buttons a.components-button');
-
-		// Load the Page on the frontend site.
-		$I->click('.post-publish-panel__postpublish-buttons a.components-button');
-
-		// Wait for frontend web site to load.
-		$I->waitForElementVisible('body.page-template-default');
-
-		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen($I);
+		// Publish and view the Page on the frontend site.
+		$I->publishAndViewGutenbergPage($I);
 
 		// Confirm that the ConvertKit Form is displayed.
 		$I->seeElementInDOM('form[data-sv-form]');
@@ -83,35 +58,21 @@ class PageBlockFormCest
 	 */
 	public function testFormBlockWithValidLegacyFormParameter(AcceptanceTester $I)
 	{
-		// Define a Page Title.
-		$I->fillField('.editor-post-title__input', 'ConvertKit: Legacy Form: Block: Valid Form Param');
+		// Add a Page using the Gutenberg editor.
+		$I->addGutenbergPage($I, 'page', 'ConvertKit: Legacy Form: Block: Valid Form Param');
 
-		// Add block to Page.
-		$I->addGutenbergBlock($I, 'ConvertKit Form', 'convertkit-form');
-
-		// When the sidebar appears, select the Form.
-		$I->waitForElementVisible('.interface-interface-skeleton__sidebar[aria-label="Editor settings"]');
-		$I->selectOption('#convertkit_form_form', $_ENV['CONVERTKIT_API_LEGACY_FORM_NAME']);
-
-		// Click the Publish button.
-		$I->click('.editor-post-publish-button__button');
+		// Configure metabox's Form setting = None, ensuring we only test the block in Gutenberg.
+		$I->configureMetaboxSettings($I, 'wp-convertkit-meta-box', [
+			'form' => [ 'select2', 'None' ],
+		]);
 		
-		// When the pre-publish panel displays, click Publish again.
-		$I->performOn('.editor-post-publish-panel__prepublish', function($I) {
-			$I->click('.editor-post-publish-panel__header-publish-button .editor-post-publish-button__button');	
-		});
+		// Add block to Page, setting the Form setting to the value specified in the .env file.
+		$I->addGutenbergBlock($I, 'ConvertKit Form', 'convertkit-form', [
+			'form' => [ 'select', $_ENV['CONVERTKIT_API_LEGACY_FORM_NAME'] ]
+		]);
 
-		// Wait for confirmation that the Page published.
-		$I->waitForElementVisible('.post-publish-panel__postpublish-buttons a.components-button');
-
-		// Load the Page on the frontend site.
-		$I->click('.post-publish-panel__postpublish-buttons a.components-button');
-
-		// Wait for frontend web site to load.
-		$I->waitForElementVisible('body.page-template-default');
-
-		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen($I);
+		// Publish and view the Page on the frontend site.
+		$I->publishAndViewGutenbergPage($I);
 
 		// Confirm that the ConvertKit Form is displayed.
 		$I->seeInSource('<form id="ck_subscribe_form" class="ck_subscribe_form" action="https://api.convertkit.com/landing_pages/' . $_ENV['CONVERTKIT_API_LEGACY_FORM_ID'] . '/subscribe" data-remote="true">');
@@ -127,15 +88,18 @@ class PageBlockFormCest
 	 */
 	public function testFormBlockWithValidModalFormParameter(AcceptanceTester $I)
 	{
-		// Define a Page Title.
-		$I->fillField('.editor-post-title__input', 'ConvertKit: Page: Form: Block: Valid Modal Form Param');
+		// Add a Page using the Gutenberg editor.
+		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form: Block: Valid Modal Form Param');
 
-		// Add block to Page.
-		$I->addGutenbergBlock($I, 'ConvertKit Form', 'convertkit-form');
+		// Configure metabox's Form setting = None, ensuring we only test the block in Gutenberg.
+		$I->configureMetaboxSettings($I, 'wp-convertkit-meta-box', [
+			'form' => [ 'select2', 'None' ],
+		]);
 
-		// When the sidebar appears, select the Form.
-		$I->waitForElementVisible('.interface-interface-skeleton__sidebar[aria-label="Editor settings"]');
-		$I->selectOption('#convertkit_form_form', $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_NAME']);
+		// Add block to Page, setting the Form setting to the value specified in the .env file.
+		$I->addGutenbergBlock($I, 'ConvertKit Form', 'convertkit-form', [
+			'form' => [ 'select', $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_NAME'] ]
+		]);
 
 		// Switch to iframe preview for the Form block.
 		$I->switchToIFrame('iframe[class="components-sandbox"]');
@@ -147,25 +111,8 @@ class PageBlockFormCest
 		// Switch back to main window.
 		$I->switchToIFrame();
 
-		// Click the Publish button.
-		$I->click('.editor-post-publish-button__button');
-		
-		// When the pre-publish panel displays, click Publish again.
-		$I->performOn('.editor-post-publish-panel__prepublish', function($I) {
-			$I->click('.editor-post-publish-panel__header-publish-button .editor-post-publish-button__button');	
-		});
-
-		// Wait for confirmation that the Page published.
-		$I->waitForElementVisible('.post-publish-panel__postpublish-buttons a.components-button');
-
-		// Load the Page on the frontend site.
-		$I->click('.post-publish-panel__postpublish-buttons a.components-button');
-
-		// Wait for frontend web site to load.
-		$I->waitForElementVisible('body.page-template-default');
-
-		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen($I);
+		// Publish and view the Page on the frontend site.
+		$I->publishAndViewGutenbergPage($I);
 
 		// Confirm that the ConvertKit Form is displayed.
 		$I->seeElementInDOM('form[data-sv-form]');
@@ -181,15 +128,18 @@ class PageBlockFormCest
 	 */
 	public function testFormBlockWithValidSlideInFormParameter(AcceptanceTester $I)
 	{
-		// Define a Page Title.
-		$I->fillField('.editor-post-title__input', 'ConvertKit: Page: Form: Block: Valid Slide In Form Param');
+		// Add a Page using the Gutenberg editor.
+		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form: Block: Valid Slide In Form Param');
 
-		// Add block to Page.
-		$I->addGutenbergBlock($I, 'ConvertKit Form', 'convertkit-form');
+		// Configure metabox's Form setting = None, ensuring we only test the block in Gutenberg.
+		$I->configureMetaboxSettings($I, 'wp-convertkit-meta-box', [
+			'form' => [ 'select2', 'None' ],
+		]);
 
-		// When the sidebar appears, select the Form.
-		$I->waitForElementVisible('.interface-interface-skeleton__sidebar[aria-label="Editor settings"]');
-		$I->selectOption('#convertkit_form_form', $_ENV['CONVERTKIT_API_FORM_FORMAT_SLIDE_IN_NAME']);
+		// Add block to Page, setting the Form setting to the value specified in the .env file.
+		$I->addGutenbergBlock($I, 'ConvertKit Form', 'convertkit-form', [
+			'form' => [ 'select', $_ENV['CONVERTKIT_API_FORM_FORMAT_SLIDE_IN_NAME'] ]
+		]);
 
 		// Switch to iframe preview for the Form block.
 		$I->switchToIFrame('iframe[class="components-sandbox"]');
@@ -201,25 +151,8 @@ class PageBlockFormCest
 		// Switch back to main window.
 		$I->switchToIFrame();
 
-		// Click the Publish button.
-		$I->click('.editor-post-publish-button__button');
-		
-		// When the pre-publish panel displays, click Publish again.
-		$I->performOn('.editor-post-publish-panel__prepublish', function($I) {
-			$I->click('.editor-post-publish-panel__header-publish-button .editor-post-publish-button__button');	
-		});
-
-		// Wait for confirmation that the Page published.
-		$I->waitForElementVisible('.post-publish-panel__postpublish-buttons a.components-button');
-
-		// Load the Page on the frontend site.
-		$I->click('.post-publish-panel__postpublish-buttons a.components-button');
-
-		// Wait for frontend web site to load.
-		$I->waitForElementVisible('body.page-template-default');
-
-		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen($I);
+		// Publish and view the Page on the frontend site.
+		$I->publishAndViewGutenbergPage($I);
 
 		// Confirm that the ConvertKit Form is displayed.
 		$I->seeElementInDOM('form[data-sv-form]');
@@ -235,15 +168,18 @@ class PageBlockFormCest
 	 */
 	public function testFormBlockWithValidStickyBarFormParameter(AcceptanceTester $I)
 	{
-		// Define a Page Title.
-		$I->fillField('.editor-post-title__input', 'ConvertKit: Page: Form: Block: Valid Sticky Bar Form Param');
+		// Add a Page using the Gutenberg editor.
+		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form: Block: Valid Sticky Bar Form Param');
 
-		// Add block to Page.
-		$I->addGutenbergBlock($I, 'ConvertKit Form', 'convertkit-form');
+		// Configure metabox's Form setting = None, ensuring we only test the block in Gutenberg.
+		$I->configureMetaboxSettings($I, 'wp-convertkit-meta-box', [
+			'form' => [ 'select2', 'None' ],
+		]);
 
-		// When the sidebar appears, select the Form.
-		$I->waitForElementVisible('.interface-interface-skeleton__sidebar[aria-label="Editor settings"]');
-		$I->selectOption('#convertkit_form_form', $_ENV['CONVERTKIT_API_FORM_FORMAT_STICKY_BAR_NAME']);
+		// Add block to Page, setting the Form setting to the value specified in the .env file.
+		$I->addGutenbergBlock($I, 'ConvertKit Form', 'convertkit-form', [
+			'form' => [ 'select', $_ENV['CONVERTKIT_API_FORM_FORMAT_STICKY_BAR_NAME'] ]
+		]);
 
 		// Switch to iframe preview for the Form block.
 		$I->switchToIFrame('iframe[class="components-sandbox"]');
@@ -255,25 +191,8 @@ class PageBlockFormCest
 		// Switch back to main window.
 		$I->switchToIFrame();
 
-		// Click the Publish button.
-		$I->click('.editor-post-publish-button__button');
-		
-		// When the pre-publish panel displays, click Publish again.
-		$I->performOn('.editor-post-publish-panel__prepublish', function($I) {
-			$I->click('.editor-post-publish-panel__header-publish-button .editor-post-publish-button__button');	
-		});
-
-		// Wait for confirmation that the Page published.
-		$I->waitForElementVisible('.post-publish-panel__postpublish-buttons a.components-button');
-
-		// Load the Page on the frontend site.
-		$I->click('.post-publish-panel__postpublish-buttons a.components-button');
-
-		// Wait for frontend web site to load.
-		$I->waitForElementVisible('body.page-template-default');
-
-		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen($I);
+		// Publish and view the Page on the frontend site.
+		$I->publishAndViewGutenbergPage($I);
 
 		// Confirm that the ConvertKit Form is displayed.
 		$I->seeElementInDOM('form[data-sv-form]');
@@ -288,8 +207,13 @@ class PageBlockFormCest
 	 */
 	public function testFormBlockWithNoFormParameter(AcceptanceTester $I)
 	{
-		// Define a Page Title.
-		$I->fillField('.editor-post-title__input', 'ConvertKit: Page: Form: Block: No Form Param');
+		// Add a Page using the Gutenberg editor.
+		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form: Block: Valid Sticky Bar Form Param');
+
+		// Configure metabox's Form setting = None, ensuring we only test the block in Gutenberg.
+		$I->configureMetaboxSettings($I, 'wp-convertkit-meta-box', [
+			'form' => [ 'select2', 'None' ],
+		]);
 
 		// Add block to Page.
 		$I->addGutenbergBlock($I, 'ConvertKit Form', 'convertkit-form');
@@ -299,25 +223,8 @@ class PageBlockFormCest
 			'css' => '.convertkit-form-no-content',
 		]);
 
-		// Click the Publish button.
-		$I->click('.editor-post-publish-button__button');
-		
-		// When the pre-publish panel displays, click Publish again.
-		$I->performOn('.editor-post-publish-panel__prepublish', function($I) {
-			$I->click('.editor-post-publish-panel__header-publish-button .editor-post-publish-button__button');	
-		});
-
-		// Wait for confirmation that the Page published.
-		$I->waitForElementVisible('.post-publish-panel__postpublish-buttons a.components-button');
-
-		// Load the Page on the frontend site.
-		$I->click('.post-publish-panel__postpublish-buttons a.components-button');
-
-		// Wait for frontend web site to load.
-		$I->waitForElementVisible('body.page-template-default');
-
-		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen($I);
+		// Publish and view the Page on the frontend site.
+		$I->publishAndViewGutenbergPage($I);
 
 		// Confirm that no ConvertKit Form is displayed.
 		$I->dontSeeElementInDOM('form[data-sv-form]');

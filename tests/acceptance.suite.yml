@@ -25,6 +25,7 @@ modules:
         - \Helper\Acceptance\Plugin
         - \Helper\Acceptance\Select2
         - \Helper\Acceptance\ThirdPartyPlugin
+        - \Helper\Acceptance\WPMetabox
         - \Helper\Acceptance\WPGutenberg
         - \Helper\Acceptance\Xdebug
     config:

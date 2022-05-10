@@ -18,17 +18,6 @@ class PageBlockBroadcastsCest
 		$I->activateConvertKitPlugin($I);
 		$I->setupConvertKitPlugin($I);
 		$I->enableDebugLog($I);
-		$I->wait(2);
-
-		// Navigate to Pages > Add New
-		$I->amOnAdminPage('post-new.php?post_type=page');
-
-		// Close the Gutenberg "Welcome to the block editor" dialog if it's displayed
-		$I->maybeCloseGutenbergWelcomeModal($I);
-
-		// Change Form to None, so that no Plugin level Form is displayed, ensuring we only
-		// test the Form block in Gutenberg.
-		$I->selectOption('#wp-convertkit-form', 'None');
 	}
 
 	/**
@@ -40,31 +29,14 @@ class PageBlockBroadcastsCest
 	 */
 	public function testBroadcastsBlockWithDefaultParameters(AcceptanceTester $I)
 	{
-		// Define a Page Title.
-		$I->fillField('.editor-post-title__input', 'ConvertKit: Page: Broadcasts: Default Params');
+		// Add a Page using the Gutenberg editor.
+		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Broadcasts: Default Params');
 
 		// Add block to Page.
 		$I->addGutenbergBlock($I, 'ConvertKit Broadcasts', 'convertkit-broadcasts');
 
-		// Click the Publish button.
-		$I->click('.editor-post-publish-button__button');
-		
-		// When the pre-publish panel displays, click Publish again.
-		$I->performOn('.editor-post-publish-panel__prepublish', function($I) {
-			$I->click('.editor-post-publish-panel__header-publish-button .editor-post-publish-button__button');	
-		});
-
-		// Wait for confirmation that the Page published.
-		$I->waitForElementVisible('.post-publish-panel__postpublish-buttons a.components-button');
-
-		// Load the Page on the frontend site.
-		$I->click('.post-publish-panel__postpublish-buttons a.components-button');
-
-		// Wait for frontend web site to load.
-		$I->waitForElementVisible('body.page-template-default');
-
-		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen($I);
+		// Publish and view the Page on the frontend site.
+		$I->publishAndViewGutenbergPage($I);
 
 		// Confirm that the block displays.
 		$I->seeElementInDOM('ul.convertkit-broadcasts');
@@ -87,40 +59,19 @@ class PageBlockBroadcastsCest
 	 */
 	public function testBroadcastsBlockWithDateFormatParameter(AcceptanceTester $I)
 	{
-		// Define a Page Title.
-		$I->fillField('.editor-post-title__input', 'ConvertKit: Page: Broadcasts: Date Format Param');
+		// Add a Page using the Gutenberg editor.
+		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Broadcasts: Date Format Param');
 
-		// Add block to Page.
-		$I->addGutenbergBlock($I, 'ConvertKit Broadcasts', 'convertkit-broadcasts');
+		// Add block to Page, setting the date format.
+		$I->addGutenbergBlock($I, 'ConvertKit Broadcasts', 'convertkit-broadcasts', [
+			'date_format' => [ 'select', 'Y-m-d' ],
+		]);
 
-		// When the sidebar appears, define the date format.
-		$I->waitForElementVisible('.interface-interface-skeleton__sidebar[aria-label="Editor settings"]');
-		$I->selectOption('#convertkit_broadcasts_date_format', 'Y-m-d');
-
-		// Click the Publish button.
-		$I->click('.editor-post-publish-button__button');
-		
-		// When the pre-publish panel displays, click Publish again.
-		$I->performOn('.editor-post-publish-panel__prepublish', function($I) {
-			$I->click('.editor-post-publish-panel__header-publish-button .editor-post-publish-button__button');	
-		});
-
-		// Wait for confirmation that the Page published.
-		$I->waitForElementVisible('.post-publish-panel__postpublish-buttons a.components-button');
-
-		// Load the Page on the frontend site.
-		$I->click('.post-publish-panel__postpublish-buttons a.components-button');
-
-		// Wait for frontend web site to load.
-		$I->waitForElementVisible('body.page-template-default');
-
-		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen($I);
+		// Publish and view the Page on the frontend site.
+		$I->publishAndViewGutenbergPage($I);
 
 		// Confirm that the block displays.
-		$I->seeElementInDOM('ul.convertkit-broadcasts');
-		$I->seeElementInDOM('ul.convertkit-broadcasts li.convertkit-broadcast');
-		$I->seeElementInDOM('ul.convertkit-broadcasts li.convertkit-broadcast a');	
+		$this->_seeBroadcastsBlock($I);	
 
 		// Confirm that the date format is as expected.
 		$I->seeInSource('<time datetime="2022-04-08">2022-04-08</time>');
@@ -138,40 +89,19 @@ class PageBlockBroadcastsCest
 	 */
 	public function testBroadcastsBlockWithLimitParameter(AcceptanceTester $I)
 	{
-		// Define a Page Title.
-		$I->fillField('.editor-post-title__input', 'ConvertKit: Page: Broadcasts: Limit Param');
+		// Add a Page using the Gutenberg editor.
+		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Broadcasts: Limit Param');
 
-		// Add block to Page.
-		$I->addGutenbergBlock($I, 'ConvertKit Broadcasts', 'convertkit-broadcasts');
+		// Add block to Page, setting the limit.
+		$I->addGutenbergBlock($I, 'ConvertKit Broadcasts', 'convertkit-broadcasts', [
+			'limit' => [ 'input', '2' ],
+		]);
 
-		// When the sidebar appears, define the limit.
-		$I->waitForElementVisible('.interface-interface-skeleton__sidebar[aria-label="Editor settings"]');
-		$I->fillField('#convertkit_broadcasts_limit', 2);
-
-		// Click the Publish button.
-		$I->click('.editor-post-publish-button__button');
-		
-		// When the pre-publish panel displays, click Publish again.
-		$I->performOn('.editor-post-publish-panel__prepublish', function($I) {
-			$I->click('.editor-post-publish-panel__header-publish-button .editor-post-publish-button__button');	
-		});
-
-		// Wait for confirmation that the Page published.
-		$I->waitForElementVisible('.post-publish-panel__postpublish-buttons a.components-button');
-
-		// Load the Page on the frontend site.
-		$I->click('.post-publish-panel__postpublish-buttons a.components-button');
-
-		// Wait for frontend web site to load.
-		$I->waitForElementVisible('body.page-template-default');
-
-		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen($I);
+		// Publish and view the Page on the frontend site.
+		$I->publishAndViewGutenbergPage($I);
 
 		// Confirm that the block displays.
-		$I->seeElementInDOM('ul.convertkit-broadcasts');
-		$I->seeElementInDOM('ul.convertkit-broadcasts li.convertkit-broadcast');
-		$I->seeElementInDOM('ul.convertkit-broadcasts li.convertkit-broadcast a');	
+		$this->_seeBroadcastsBlock($I);
 
 		// Confirm that the expected number of Broadcasts are displayed.
 		$I->seeNumberOfElements('li.convertkit-broadcast', 2);
@@ -186,14 +116,13 @@ class PageBlockBroadcastsCest
 	 */
 	public function testBroadcastsBlockWithBlankLimitParameter(AcceptanceTester $I)
 	{
-		// Define a Page Title.
-		$I->fillField('.editor-post-title__input', 'ConvertKit: Page: Broadcasts: Blank Limit Param');
+		// Add a Page using the Gutenberg editor.
+		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Broadcasts: Blank Limit Param');
 
 		// Add block to Page.
 		$I->addGutenbergBlock($I, 'ConvertKit Broadcasts', 'convertkit-broadcasts');
 
-		// When the sidebar appears, blank the limit parameter as the user might, by pressing the backspace
-		// key twice.
+		// When the sidebar appears, blank the limit parameter as the user might, by pressing the backspace key twice.
 		$I->waitForElementVisible('.interface-interface-skeleton__sidebar[aria-label="Editor settings"]');
 		$I->pressKey('#convertkit_broadcasts_limit', \Facebook\WebDriver\WebDriverKeys::BACKSPACE );
 		$I->pressKey('#convertkit_broadcasts_limit', \Facebook\WebDriver\WebDriverKeys::BACKSPACE );
@@ -201,30 +130,11 @@ class PageBlockBroadcastsCest
 		// Confirm that the block did not encounter an error and fail to render.
 		$I->checkGutenbergBlockHasNoErrors($I, 'ConvertKit Broadcasts');
 
-		// Click the Publish button.
-		$I->click('.editor-post-publish-button__button');
-		
-		// When the pre-publish panel displays, click Publish again.
-		$I->performOn('.editor-post-publish-panel__prepublish', function($I) {
-			$I->click('.editor-post-publish-panel__header-publish-button .editor-post-publish-button__button');	
-		});
-
-		// Wait for confirmation that the Page published.
-		$I->waitForElementVisible('.post-publish-panel__postpublish-buttons a.components-button');
-
-		// Load the Page on the frontend site.
-		$I->click('.post-publish-panel__postpublish-buttons a.components-button');
-
-		// Wait for frontend web site to load.
-		$I->waitForElementVisible('body.page-template-default');
-
-		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen($I);
+		// Publish and view the Page on the frontend site.
+		$I->publishAndViewGutenbergPage($I);
 
 		// Confirm that the block displays.
-		$I->seeElementInDOM('ul.convertkit-broadcasts');
-		$I->seeElementInDOM('ul.convertkit-broadcasts li.convertkit-broadcast');
-		$I->seeElementInDOM('ul.convertkit-broadcasts li.convertkit-broadcast a');	
+		$this->_seeBroadcastsBlock($I);	
 
 		// Confirm that the expected number of Broadcasts are displayed.
 		$I->seeNumberOfElements('li.convertkit-broadcast', [1,10]);
@@ -239,6 +149,7 @@ class PageBlockBroadcastsCest
 	 */
 	public function testBroadcastsBlockWithThemeColorParameters(AcceptanceTester $I)
 	{
+		// Define colors.
 		$backgroundColor = 'white';
 		$textColor = 'purple';
 
@@ -261,9 +172,7 @@ class PageBlockBroadcastsCest
 		$I->checkNoWarningsAndNoticesOnScreen($I);
 
 		// Confirm that the block displays.
-		$I->seeElementInDOM('ul.convertkit-broadcasts');
-		$I->seeElementInDOM('ul.convertkit-broadcasts li.convertkit-broadcast');
-		$I->seeElementInDOM('ul.convertkit-broadcasts li.convertkit-broadcast a');
+		$this->_seeBroadcastsBlock($I);
 
 		// Confirm that our stylesheet loaded.
 		$I->seeInSource('<link rel="stylesheet" id="convertkit-broadcasts-css" href="'.$_ENV['TEST_SITE_WP_URL'].'/wp-content/plugins/convertkit/resources/frontend/css/gutenberg-block-broadcasts.css');
@@ -281,6 +190,7 @@ class PageBlockBroadcastsCest
 	 */
 	public function testBroadcastsBlockWithHexColorParameters(AcceptanceTester $I)
 	{
+		// Define colors.
 		$backgroundColor = '#ee1616';
 		$textColor = '#1212c0';
 
@@ -303,15 +213,29 @@ class PageBlockBroadcastsCest
 		$I->checkNoWarningsAndNoticesOnScreen($I);
 
 		// Confirm that the block displays.
-		$I->seeElementInDOM('ul.convertkit-broadcasts');
-		$I->seeElementInDOM('ul.convertkit-broadcasts li.convertkit-broadcast');
-		$I->seeElementInDOM('ul.convertkit-broadcasts li.convertkit-broadcast a');
+		$this->_seeBroadcastsBlock($I);
 
 		// Confirm that our stylesheet loaded.
 		$I->seeInSource('<link rel="stylesheet" id="convertkit-broadcasts-css" href="'.$_ENV['TEST_SITE_WP_URL'].'/wp-content/plugins/convertkit/resources/frontend/css/gutenberg-block-broadcasts.css');
 
 		// Confirm that the chosen colors are applied as CSS styles.
 		$I->seeInSource('<ul class="convertkit-broadcasts has-text-color has-background" style="color:'.$textColor.';background-color:'.$backgroundColor.'">');
+	}
+
+	/**
+	 * Check that expected HTML exists in the DOM of the page we're viewing for
+	 * a Broadcasts block.
+	 * 
+	 * @since 	1.9.7.5
+	 *
+	 * @param 	AcceptanceTester 	$I 	Tester
+	 */
+	private function _seeBroadcastsBlock($I)
+	{
+		// Confirm that the block displays.
+		$I->seeElementInDOM('ul.convertkit-broadcasts');
+		$I->seeElementInDOM('ul.convertkit-broadcasts li.convertkit-broadcast');
+		$I->seeElementInDOM('ul.convertkit-broadcasts li.convertkit-broadcast a');
 	}
 
 	/**

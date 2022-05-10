@@ -19,13 +19,6 @@ class PageLandingPageCest
 		$I->activateConvertKitPlugin($I);
 		$I->setupConvertKitPlugin($I);
 		$I->enableDebugLog($I);
-		$I->wait(2);
-		
-		// Navigate to Pages > Add New
-		$I->amOnAdminPage('post-new.php?post_type=page');
-
-		// Close the Gutenberg "Welcome to the block editor" dialog if it's displayed
-		$I->maybeCloseGutenbergWelcomeModal($I);
 	}
 
 	/**
@@ -38,42 +31,16 @@ class PageLandingPageCest
 	 */
 	public function testAddNewPageUsingNoLandingPage(AcceptanceTester $I)
 	{
-		// Navigate to Pages > Add New
-		$I->amOnAdminPage('post-new.php?post_type=page');
+		// Add a Page using the Gutenberg editor.
+		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Landing Page: None');
 
-		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen($I);
+		// Configure metabox's Landing Page setting = None.
+		$I->configureMetaboxSettings($I, 'wp-convertkit-meta-box', [
+			'landing_page' => [ 'select2', 'None' ],
+		]);
 
-		// Check that the metabox is displayed.
-		$I->seeElementInDOM('#wp-convertkit-meta-box');
-
-		// Check that the Form option is displayed.
-		$I->seeElementInDOM('#wp-convertkit-landing_page');
-
-		// Change Landing Page to 'None'
-		$I->fillSelect2Field($I, '#select2-wp-convertkit-landing_page-container', 'None');
-
-		// Define a Page Title.
-		$I->fillField('.editor-post-title__input', 'ConvertKit: Landing Page: None');
-
-		// Click the Publish button.
-		$I->click('.editor-post-publish-button__button');
-
-		// When the pre-publish panel displays, click Publish again.
-		$I->performOn('.editor-post-publish-panel__prepublish', function($I) {
-			$I->click('.editor-post-publish-panel__header-publish-button .editor-post-publish-button__button');	
-		});
-
-		// Check the value of the Landing Page field matches the input provided.
-		$I->performOn( '.post-publish-panel__postpublish-buttons', function($I) {
-			$I->seeOptionIsSelected('#wp-convertkit-landing_page', 'None');
-		});
-
-		// Load the Page on the frontend site.
-		$I->amOnPage('/convertkit-landing-page-none');
-
-		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen($I);
+		// Publish and view the Page on the frontend site.
+		$I->publishAndViewGutenbergPage($I);
 
 		// Confirm that no ConvertKit Landing Page is displayed.
 		$I->dontSeeElementInDOM('form[data-sv-form]');
@@ -89,45 +56,19 @@ class PageLandingPageCest
 	 */
 	public function testAddNewPageUsingDefinedLandingPage(AcceptanceTester $I)
 	{
-		// Navigate to Pages > Add New
-		$I->amOnAdminPage('post-new.php?post_type=page');
+		// Add a Page using the Gutenberg editor.
+		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Landing Page: ' . $_ENV['CONVERTKIT_API_LANDING_PAGE_NAME']);
 
-		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen($I);
-
-		// Check that the metabox is displayed.
-		$I->seeElementInDOM('#wp-convertkit-meta-box');
-
-		// Check that the Form option is displayed.
-		$I->seeElementInDOM('#wp-convertkit-landing_page');
-
-		// Change Landing Page to value specified in the .env file.
-		$I->fillSelect2Field($I, '#select2-wp-convertkit-landing_page-container', $_ENV['CONVERTKIT_API_LANDING_PAGE_NAME']);
-
-		// Define a Page Title.
-		$I->fillField('.editor-post-title__input', 'ConvertKit: Landing Page: Specific');
-
-		// Click the Publish button.
-		$I->click('.editor-post-publish-button__button');
-		
-		// When the pre-publish panel displays, click Publish again.
-		$I->performOn('.editor-post-publish-panel__prepublish', function($I) {
-			$I->click('.editor-post-publish-panel__header-publish-button .editor-post-publish-button__button');	
-		});
-
-		// Check the value of the Landing Page field matches the input provided.
-		$I->performOn( '.post-publish-panel__postpublish-buttons', function($I) {
-			$I->seeOptionIsSelected('#wp-convertkit-landing_page', $_ENV['CONVERTKIT_API_LANDING_PAGE_NAME']);
-		});
+		// Configure metabox's Landing Page setting to value specified in the .env file.
+		$I->configureMetaboxSettings($I, 'wp-convertkit-meta-box', [
+			'landing_page' => [ 'select2', $_ENV['CONVERTKIT_API_LANDING_PAGE_NAME'] ],
+		]);
 
 		// Get Landing Page ID.
 		$landingPageID = $I->grabValueFrom('#wp-convertkit-landing_page');
 
-		// Load the Page on the frontend site
-		$I->amOnPage('/convertkit-landing-page-specific');
-
-		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen($I);
+		// Publish and view the Page on the frontend site.
+		$I->publishAndViewGutenbergPage($I);
 
 		// Confirm that the basic HTML structure is correct.
 		$I->seeInSource('<html>');
@@ -151,45 +92,19 @@ class PageLandingPageCest
 	 */
 	public function testLandingPageCharacterEncoding(AcceptanceTester $I)
 	{
-		// Navigate to Pages > Add New
-		$I->amOnAdminPage('post-new.php?post_type=page');
+		// Add a Page using the Gutenberg editor.
+		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Landing Page: ' . $_ENV['CONVERTKIT_API_LANDING_PAGE_CHARACTER_ENCODING_NAME']);
 
-		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen($I);
-
-		// Check that the metabox is displayed.
-		$I->seeElementInDOM('#wp-convertkit-meta-box');
-
-		// Check that the Form option is displayed.
-		$I->seeElementInDOM('#wp-convertkit-landing_page');
-
-		// Change Landing Page to value specified in the .env file.
-		$I->fillSelect2Field($I, '#select2-wp-convertkit-landing_page-container', $_ENV['CONVERTKIT_API_LANDING_PAGE_CHARACTER_ENCODING_NAME']);
-
-		// Define a Page Title.
-		$I->fillField('.editor-post-title__input', 'ConvertKit: Landing Page: Character Encoding');
-
-		// Click the Publish button.
-		$I->click('.editor-post-publish-button__button');
-		
-		// When the pre-publish panel displays, click Publish again.
-		$I->performOn('.editor-post-publish-panel__prepublish', function($I) {
-			$I->click('.editor-post-publish-panel__header-publish-button .editor-post-publish-button__button');	
-		});
-
-		// Check the value of the Landing Page field matches the input provided.
-		$I->performOn( '.post-publish-panel__postpublish-buttons', function($I) {
-			$I->seeOptionIsSelected('#wp-convertkit-landing_page', $_ENV['CONVERTKIT_API_LANDING_PAGE_CHARACTER_ENCODING_NAME']);
-		});
+		// Configure metabox's Landing Page setting to value specified in the .env file.
+		$I->configureMetaboxSettings($I, 'wp-convertkit-meta-box', [
+			'landing_page' => [ 'select2', $_ENV['CONVERTKIT_API_LANDING_PAGE_CHARACTER_ENCODING_NAME'] ],
+		]);
 
 		// Get Landing Page ID.
 		$landingPageID = $I->grabValueFrom('#wp-convertkit-landing_page');
 
-		// Load the Page on the frontend site
-		$I->amOnPage('/convertkit-landing-page-character-encoding');
-
-		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen($I);
+		// Publish and view the Page on the frontend site.
+		$I->publishAndViewGutenbergPage($I);
 
 		// Confirm that the basic HTML structure is correct.
 		$I->seeInSource('<html>');
@@ -213,45 +128,19 @@ class PageLandingPageCest
 	 */
 	public function testAddNewPageUsingDefinedLegacyLandingPage(AcceptanceTester $I)
 	{
-		// Navigate to Pages > Add New
-		$I->amOnAdminPage('post-new.php?post_type=page');
+		// Add a Page using the Gutenberg editor.
+		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Landing Page: ' . $_ENV['CONVERTKIT_API_LEGACY_LANDING_PAGE_NAME']);
 
-		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen($I);
-
-		// Check that the metabox is displayed.
-		$I->seeElementInDOM('#wp-convertkit-meta-box');
-
-		// Check that the Form option is displayed.
-		$I->seeElementInDOM('#wp-convertkit-landing_page');
-
-		// Change Landing Page to value specified in the .env file.
-		$I->fillSelect2Field($I, '#select2-wp-convertkit-landing_page-container', $_ENV['CONVERTKIT_API_LEGACY_LANDING_PAGE_NAME']);
-
-		// Define a Page Title.
-		$I->fillField('.editor-post-title__input', 'ConvertKit: Landing Page: Legacy: Specific');
-
-		// Click the Publish button.
-		$I->click('.editor-post-publish-button__button');
-		
-		// When the pre-publish panel displays, click Publish again.
-		$I->performOn('.editor-post-publish-panel__prepublish', function($I) {
-			$I->click('.editor-post-publish-panel__header-publish-button .editor-post-publish-button__button');	
-		});
-
-		// Check the value of the Landing Page field matches the input provided.
-		$I->performOn( '.post-publish-panel__postpublish-buttons', function($I) {
-			$I->seeOptionIsSelected('#wp-convertkit-landing_page', $_ENV['CONVERTKIT_API_LEGACY_LANDING_PAGE_NAME']);
-		});
+		// Configure metabox's Landing Page setting to value specified in the .env file.
+		$I->configureMetaboxSettings($I, 'wp-convertkit-meta-box', [
+			'landing_page' => [ 'select2', $_ENV['CONVERTKIT_API_LEGACY_LANDING_PAGE_NAME'] ],
+		]);
 
 		// Get Landing Page ID.
 		$landingPageID = $I->grabValueFrom('#wp-convertkit-landing_page');
 
-		// Load the Page on the frontend site
-		$I->amOnPage('/convertkit-landing-page-legacy-specific');
-
-		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen($I);
+		// Publish and view the Page on the frontend site.
+		$I->publishAndViewGutenbergPage($I);
 
 		// Confirm that the basic HTML structure is correct.
 		$I->seeInSource('<html>');

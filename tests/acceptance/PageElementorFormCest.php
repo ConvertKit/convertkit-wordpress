@@ -19,7 +19,6 @@ class PageElementorFormCest
 		$I->activateThirdPartyPlugin($I, 'elementor');
 		$I->setupConvertKitPlugin($I);
 		$I->enableDebugLog($I);
-		$I->wait(2);
 	}
 
 	/**
@@ -31,18 +30,8 @@ class PageElementorFormCest
 	 */
 	public function testFormWidgetIsRegistered(AcceptanceTester $I)
 	{
-		// Navigate to Pages > Add New
-		$I->amOnAdminPage('post-new.php?post_type=page');
-
-		// Close the Gutenberg "Welcome to the block editor" dialog if it's displayed
-		$I->maybeCloseGutenbergWelcomeModal($I);
-
-		// Change Form to None, so that no Plugin level Form is displayed, ensuring we only
-		// test the Form block in Gutenberg.
-		$I->selectOption('#wp-convertkit-form', 'None');
-
-		// Define a Page Title.
-		$I->fillField('.editor-post-title__input', 'ConvertKit: Page: Form: Elementor: Valid Form Param');
+		// Add a Page using the Gutenberg editor.
+		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form: Elementor: Valid Form Param');
 
 		// Click Edit with Elementor button.
 		$I->click('#elementor-switch-mode-button');
