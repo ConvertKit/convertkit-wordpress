@@ -18,29 +18,63 @@ class PageShortcodeFormCest
 		$I->activateConvertKitPlugin($I);
 		$I->setupConvertKitPlugin($I);
 		$I->enableDebugLog($I);
-		$I->wait(2);
 	}
 
 	/**
-	 * Test the [convertkit form] shortcode works when a valid Form ID is specified.
+	 * Test the [convertkit_form] shortcode works when a valid Form ID is specified,
+	 * using the Classic Editor (TinyMCE / Visual).
 	 * 
-	 * @since 	1.9.6
+	 * @since 	1.9.7.5
 	 * 
 	 * @param 	AcceptanceTester 	$I 	Tester
 	 */
-	public function testFormShortcodeWithValidFormParameter(AcceptanceTester $I)
+	public function testFormShortcodeInVisualEditorWithValidFormParameter(AcceptanceTester $I)
 	{
-		// Create Page with Shortcode.
-		$I->havePageInDatabase([
-			'post_name' 	=> 'convertkit-form-shortcode-valid-form-param',
-			'post_content' 	=> '[convertkit form=' . $_ENV['CONVERTKIT_API_FORM_ID'] . ']',
+		// Add a Page using the Classic Editor.
+		$I->addClassicEditorPage($I);
+
+		// Configure metabox's Form setting = None, ensuring we only test the shortcode in the Classic Editor.
+		$I->configureMetaboxSettings($I, 'wp-convertkit-meta-box', [
+			'form' => [ 'select2', 'None' ],
 		]);
 
-		// Load the Page on the frontend site.
-		$I->amOnPage('/convertkit-form-shortcode-valid-form-param');
+		// Add shortcode to Page, setting the Form setting to the value specified in the .env file.
+		$I->addVisualEditorShortcode($I, 'ConvertKit Form', 'convertkit-form', [
+			'form' => [ 'select', $_ENV['CONVERTKIT_API_FORM_NAME'] ]
+		]);
 
-		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen($I);
+		// Publish and view the Page on the frontend site.
+		$I->publishAndViewClassicEditorPage($I);
+
+		// Confirm that the ConvertKit Form is displayed.
+		$I->seeElementInDOM('form[data-sv-form]');
+	}
+
+	/**
+	 * Test the [convertkit_form] shortcode works when a valid Form ID is specified,
+	 * using the Text Editor.
+	 * 
+	 * @since 	1.9.7.5
+	 * 
+	 * @param 	AcceptanceTester 	$I 	Tester
+	 */
+	public function testFormShortcodeInTextEditorWithValidFormParameter(AcceptanceTester $I)
+	{
+		// Add a Page using the Classic Editor.
+		$I->addClassicEditorPage($I);
+
+		// Configure metabox's Form setting = None, ensuring we only test the shortcode in the Classic Editor.
+		$I->configureMetaboxSettings($I, 'wp-convertkit-meta-box', [
+			'form' => [ 'select2', 'None' ],
+		]);
+
+		// Add shortcode to Page, setting the Form setting to the value specified in the .env file.
+		$I->addTextEditorShortcode($I, 'ConvertKit Form', 'convertkit-form', [
+			'form' => [ 'select', $_ENV['CONVERTKIT_API_FORM_NAME'] ]
+		]);
+
+		// Publish and view the Page on the frontend site.
+		$I->publishAndViewClassicEditorPage($I);
 
 		// Confirm that the ConvertKit Form is displayed.
 		$I->seeElementInDOM('form[data-sv-form]');
