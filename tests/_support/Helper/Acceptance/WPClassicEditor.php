@@ -48,15 +48,15 @@ class WPClassicEditor extends \Codeception\Module
 		// Click the TinyMCE Button for this shortcode.
 		$I->click('div.mce-container div[aria-label="'.$shortcodeName.'"] button');
 
+		// Wait for the modal's contents to load.
+		$I->waitForElementVisible('#convertkit-modal-body input.button-primary');
+
 		// If a shortcode configuration is specified, apply it to the shortcode's modal window now.
 		if ($shortcodeConfiguration) {
-			$I->waitForElementVisible('#convertkit-modal-body-body');
 			foreach ($shortcodeConfiguration as $field=>$attributes) {
 				// Field ID will be the attribute name, prefixed with tinymce_modal
 				$fieldID = '#tinymce_modal_' . $field;
 
-				$I->waitForElementVisible('#convertkit-modal-body-body '.$fieldID);
-				
 				// Depending on the field's type, define its value.
 				switch ($attributes[0]) {
 					case 'select':
@@ -102,9 +102,11 @@ class WPClassicEditor extends \Codeception\Module
 		// Click the QuickTags Button for this shortcode.
 		$I->click('input#qt_content_'.$shortcodeProgrammaticName);
 
+		// Wait for the modal's contents to load.
+		$I->waitForElementVisible('#convertkit-quicktags-modal input.button-primary');
+
 		// If a shortcode configuration is specified, apply it to the shortcode's modal window now.
 		if ($shortcodeConfiguration) {
-			$I->waitForElementVisible('#convertkit-quicktags-modal');
 			foreach ($shortcodeConfiguration as $field=>$attributes) {
 				// Field ID will be the attribute name, prefixed with tinymce_modal
 				$fieldID = '#tinymce_modal_' . $field;
