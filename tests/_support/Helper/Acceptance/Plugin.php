@@ -260,4 +260,20 @@ class Plugin extends \Codeception\Module
 		$I->loadConvertKitSettingsToolsScreen($I);
 		$I->dontSeeInSource($entry);
 	}
+
+	/**
+	 * Check that expected HTML exists in the DOM of the page we're viewing for
+	 * a Broadcasts block or shortcode.
+	 * 
+	 * @since 	1.9.7.5
+	 *
+	 * @param 	AcceptanceTester 	$I 	Tester
+	 */
+	public function seeBroadcastsOutput($I)
+	{
+		// Confirm that the block displays.
+		$I->seeElementInDOM('ul.convertkit-broadcasts');
+		$I->seeElementInDOM('ul.convertkit-broadcasts li.convertkit-broadcast');
+		$I->seeElementInDOM('ul.convertkit-broadcasts li.convertkit-broadcast a');
+	}
 }

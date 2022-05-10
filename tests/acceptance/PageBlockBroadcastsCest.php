@@ -71,7 +71,7 @@ class PageBlockBroadcastsCest
 		$I->publishAndViewGutenbergPage($I);
 
 		// Confirm that the block displays.
-		$this->_seeBroadcastsBlock($I);	
+		$I->seeBroadcastsOutput($I);
 
 		// Confirm that the date format is as expected.
 		$I->seeInSource('<time datetime="2022-04-08">2022-04-08</time>');
@@ -101,7 +101,7 @@ class PageBlockBroadcastsCest
 		$I->publishAndViewGutenbergPage($I);
 
 		// Confirm that the block displays.
-		$this->_seeBroadcastsBlock($I);
+		$I->seeBroadcastsOutput($I);
 
 		// Confirm that the expected number of Broadcasts are displayed.
 		$I->seeNumberOfElements('li.convertkit-broadcast', 2);
@@ -134,7 +134,7 @@ class PageBlockBroadcastsCest
 		$I->publishAndViewGutenbergPage($I);
 
 		// Confirm that the block displays.
-		$this->_seeBroadcastsBlock($I);	
+		$I->seeBroadcastsOutput($I);
 
 		// Confirm that the expected number of Broadcasts are displayed.
 		$I->seeNumberOfElements('li.convertkit-broadcast', [1,10]);
@@ -172,7 +172,7 @@ class PageBlockBroadcastsCest
 		$I->checkNoWarningsAndNoticesOnScreen($I);
 
 		// Confirm that the block displays.
-		$this->_seeBroadcastsBlock($I);
+		$I->seeBroadcastsOutput($I);
 
 		// Confirm that our stylesheet loaded.
 		$I->seeInSource('<link rel="stylesheet" id="convertkit-broadcasts-css" href="'.$_ENV['TEST_SITE_WP_URL'].'/wp-content/plugins/convertkit/resources/frontend/css/gutenberg-block-broadcasts.css');
@@ -213,29 +213,13 @@ class PageBlockBroadcastsCest
 		$I->checkNoWarningsAndNoticesOnScreen($I);
 
 		// Confirm that the block displays.
-		$this->_seeBroadcastsBlock($I);
+		$I->seeBroadcastsOutput($I);
 
 		// Confirm that our stylesheet loaded.
 		$I->seeInSource('<link rel="stylesheet" id="convertkit-broadcasts-css" href="'.$_ENV['TEST_SITE_WP_URL'].'/wp-content/plugins/convertkit/resources/frontend/css/gutenberg-block-broadcasts.css');
 
 		// Confirm that the chosen colors are applied as CSS styles.
 		$I->seeInSource('<ul class="convertkit-broadcasts has-text-color has-background" style="color:'.$textColor.';background-color:'.$backgroundColor.'">');
-	}
-
-	/**
-	 * Check that expected HTML exists in the DOM of the page we're viewing for
-	 * a Broadcasts block.
-	 * 
-	 * @since 	1.9.7.5
-	 *
-	 * @param 	AcceptanceTester 	$I 	Tester
-	 */
-	private function _seeBroadcastsBlock($I)
-	{
-		// Confirm that the block displays.
-		$I->seeElementInDOM('ul.convertkit-broadcasts');
-		$I->seeElementInDOM('ul.convertkit-broadcasts li.convertkit-broadcast');
-		$I->seeElementInDOM('ul.convertkit-broadcasts li.convertkit-broadcast a');
 	}
 
 	/**
