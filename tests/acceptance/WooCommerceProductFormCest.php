@@ -19,7 +19,7 @@ class WooCommerceProductFormCest
 		$I->activateThirdPartyPlugin($I, 'woocommerce');
 		$I->setupConvertKitPlugin($I);
 		$I->enableDebugLog($I);
-		$I->wait(2);
+		$I->amOnAdminPage('options-permalink.php'); // Flush Permalinks.
 	}
 
 	/**
