@@ -58,6 +58,10 @@ Navigate to the Plugin's Settings at Settings > ConvertKit.
 
 == Changelog ==
 
+### 1.9.7.5 2022-05-12
+* Fix: PHP Warning: Cannot modify header information, caused by QuickTags modal template output
+* Fix: Text Editor: Quicktag Buttons: Block could not be found error when using a Quicktag
+
 ### 1.9.7.4 2022-05-04
 * Added: ConvertKit Broadcasts Block, to output a list of ConvertKit broadcasts
 * Added: ConvertKit Broadcasts Shortcode [convertkit_broadcasts], to output a list of ConvertKit broadcasts

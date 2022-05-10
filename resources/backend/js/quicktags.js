@@ -36,7 +36,7 @@ function convertKitQuickTagRegister( block ) {
 					{
 						'action': 	'convertkit_admin_tinymce_output_modal',
 						'nonce':  	convertkit_admin_tinymce.nonce,
-						'block': 	block.name
+						'shortcode':block.name
 
 					},
 					function( response ) {
