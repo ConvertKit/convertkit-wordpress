@@ -38,29 +38,32 @@ class WPClassicEditor extends \Codeception\Module
 	 * @param 	string 				$shortcodeName 				Shortcode Name (e.g. 'ConvertKit Form').
 	 * @param 	string 				$shortcodeProgrammaticName 	Programmatic Shortcode Name (e.g. 'convertkit-form').
 	 * @param 	bool|array 			$shortcodeConfiguration 	Shortcode Configuration (field => value key/value array).
+	 * @param 	bool|string 		$expectedShortcodeOutput 	Expected Shortcode Output (e.g. [convertkit_form form="12345"]).
 	 */
-	public function addVisualEditorShortcode($I, $shortcodeName, $shortcodeProgrammaticName, $shortcodeConfiguration = false)
+	public function addVisualEditorShortcode($I, $shortcodeName, $shortcodeProgrammaticName, $shortcodeConfiguration = false, $expectedShortcodeOutput = false)
 	{
-		// Click the Text tab.
-		$I->click('button#content-html');
+		// Click the Visual tab.
+		$I->click('button#content-tmce');
 
 		// Click the TinyMCE Button for this shortcode.
 		$I->click('div.mce-container div[aria-label="'.$shortcodeName.'"] button');
 
 		// If a shortcode configuration is specified, apply it to the shortcode's modal window now.
 		if ($shortcodeConfiguration) {
-			$I->waitForElementVisible('#convertkit-modal-body');
+			$I->waitForElementVisible('#convertkit-modal-body-body');
 			foreach ($shortcodeConfiguration as $field=>$attributes) {
 				// Field ID will be the attribute name, prefixed with tinymce_modal
 				$fieldID = '#tinymce_modal_' . $field;
+
+				$I->waitForElementVisible('#convertkit-modal-body-body '.$fieldID);
 				
 				// Depending on the field's type, define its value.
 				switch ($attributes[0]) {
 					case 'select':
-						$I->selectOption($fieldID, $attributes[1]);
+						$I->selectOption('#convertkit-modal-body-body '.$fieldID, $attributes[1]);
 						break;
 					default:
-						$I->fillField($fieldID, $attributes[1]);
+						$I->fillField('#convertkit-modal-body-body '.$fieldID, $attributes[1]);
 						break;
 				}
 			}
@@ -69,10 +72,12 @@ class WPClassicEditor extends \Codeception\Module
 		// Click the Insert button.
 		$I->click('#convertkit-modal-body input.button-primary');
 
-		// Confirm that the shortcode was inserted into the TinyMCE editor.
-		$I->switchToIFrame('iframe#content_ifr');
-		$I->seeInSource('['.str_replace('-', '_', $shortcodeProgrammaticName));
-		$I->switchToIFrame();
+		// If the expected shortcode output is provided, check it exists in the Visual editor.
+		if ($expectedShortcodeOutput) {
+			$I->switchToIFrame('iframe#content_ifr');
+			$I->seeInSource($expectedShortcodeOutput);
+			$I->switchToIFrame();
+		}
 	}
 
 	/**
@@ -87,8 +92,9 @@ class WPClassicEditor extends \Codeception\Module
 	 * @param 	string 				$shortcodeName 				Shortcode Name (e.g. 'ConvertKit Form').
 	 * @param 	string 				$shortcodeProgrammaticName 	Programmatic Shortcode Name (e.g. 'convertkit-form').
 	 * @param 	bool|array 			$shortcodeConfiguration 	Shortcode Configuration (field => value key/value array).
+	 * @param 	bool|string 		$expectedShortcodeOutput 	Expected Shortcode Output (e.g. [convertkit_form form="12345"]).
 	 */
-	public function addTextEditorShortcode($I, $shortcodeName, $shortcodeProgrammaticName, $shortcodeConfiguration = false)
+	public function addTextEditorShortcode($I, $shortcodeName, $shortcodeProgrammaticName, $shortcodeConfiguration = false, $expectedShortcodeOutput = false)
 	{
 		// Click the Text tab.
 		$I->click('button#content-html');
@@ -118,8 +124,10 @@ class WPClassicEditor extends \Codeception\Module
 		// Click the Insert button.
 		$I->click('#convertkit-quicktags-modal input.button-primary');
 
-		// Confirm that the shortcode was inserted into the Text editor.
-		$I->seeInSource('textarea.wp-editor-area');
+		// If the expected shortcode output is provided, check it exists in the Text editor.
+		if ($expectedShortcodeOutput) {
+			$I->seeInField('textarea.wp-editor-area', $expectedShortcodeOutput);
+		}
 	}
 
 	/**

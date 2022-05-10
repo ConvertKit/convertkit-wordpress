@@ -31,7 +31,7 @@ class PageShortcodeFormCest
 	public function testFormShortcodeInVisualEditorWithValidFormParameter(AcceptanceTester $I)
 	{
 		// Add a Page using the Classic Editor.
-		$I->addClassicEditorPage($I);
+		$I->addClassicEditorPage($I, 'page', 'ConvertKit: Page: Form: Shortcode: Visual Editor');
 
 		// Configure metabox's Form setting = None, ensuring we only test the shortcode in the Classic Editor.
 		$I->configureMetaboxSettings($I, 'wp-convertkit-meta-box', [
@@ -39,9 +39,15 @@ class PageShortcodeFormCest
 		]);
 
 		// Add shortcode to Page, setting the Form setting to the value specified in the .env file.
-		$I->addVisualEditorShortcode($I, 'ConvertKit Form', 'convertkit-form', [
-			'form' => [ 'select', $_ENV['CONVERTKIT_API_FORM_NAME'] ]
-		]);
+		$I->addVisualEditorShortcode(
+			$I,
+			'ConvertKit Form',
+			'convertkit-form',
+			[
+				'form' => [ 'select', $_ENV['CONVERTKIT_API_FORM_NAME'] ]
+			],
+			'[convertkit_form form="'.$_ENV['CONVERTKIT_API_FORM_ID'].'"]'
+		);
 
 		// Publish and view the Page on the frontend site.
 		$I->publishAndViewClassicEditorPage($I);
@@ -61,7 +67,7 @@ class PageShortcodeFormCest
 	public function testFormShortcodeInTextEditorWithValidFormParameter(AcceptanceTester $I)
 	{
 		// Add a Page using the Classic Editor.
-		$I->addClassicEditorPage($I);
+		$I->addClassicEditorPage($I, 'page', 'ConvertKit: Page: Form: Shortcode: Text Editor');
 
 		// Configure metabox's Form setting = None, ensuring we only test the shortcode in the Classic Editor.
 		$I->configureMetaboxSettings($I, 'wp-convertkit-meta-box', [
@@ -69,9 +75,15 @@ class PageShortcodeFormCest
 		]);
 
 		// Add shortcode to Page, setting the Form setting to the value specified in the .env file.
-		$I->addTextEditorShortcode($I, 'ConvertKit Form', 'convertkit-form', [
-			'form' => [ 'select', $_ENV['CONVERTKIT_API_FORM_NAME'] ]
-		]);
+		$I->addTextEditorShortcode(
+			$I,
+			'ConvertKit Form',
+			'convertkit-form',
+			[
+				'form' => [ 'select', $_ENV['CONVERTKIT_API_FORM_NAME'] ]
+			],
+			'[convertkit_form form="'.$_ENV['CONVERTKIT_API_FORM_ID'].'"]'
+		);
 
 		// Publish and view the Page on the frontend site.
 		$I->publishAndViewClassicEditorPage($I);
