@@ -19,7 +19,6 @@ class WooCommerceProductFormCest
 		$I->activateThirdPartyPlugin($I, 'woocommerce');
 		$I->setupConvertKitPlugin($I);
 		$I->enableDebugLog($I);
-		$I->amOnAdminPage('options-permalink.php'); // Flush Permalinks.
 	}
 
 	/**
@@ -33,37 +32,13 @@ class WooCommerceProductFormCest
 	 */
 	public function testAddNewProductUsingDefaultFormWithNoDefaultFormSpecifiedInPlugin(AcceptanceTester $I)
 	{
-		// Navigate to Products > Add New
-		$I->amOnAdminPage('post-new.php?post_type=product');
+		// Add a Product using the Classic Editor.
+		$I->addClassicEditorPage($I, 'product', 'ConvertKit: Product: Form: Default: None');
 
-		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen($I);
+		// Publish and view the Page on the frontend site.
+		$I->publishAndViewClassicEditorPage($I);
 
-		// Check that the metabox is displayed.
-		$I->seeElementInDOM('#wp-convertkit-meta-box');
-
-		// Check that the Form option is displayed.
-		$I->seeElementInDOM('#wp-convertkit-form');
-
-		// Change Form to Default
-		$I->fillSelect2Field($I, '#select2-wp-convertkit-form-container', 'Default', 'aria-owns');
-
-		// Define a Product Title.
-		$I->fillField('#title', 'ConvertKit: Product: Form: Default: None');
-
-		// Click the Publish button.
-		$I->click('#publish');
-
-		// Check the value of the Form field matches the input provided.
-		$I->seeOptionIsSelected('#wp-convertkit-form', 'Default');
-
-		// Load the Product on the frontend site.
-		$I->amOnPage('/product/convertkit-product-form-default-none');
-
-		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen($I);
-
-		// Confirm that no ConvertKit Form is displayed.
+		// Confirm that a ConvertKit Form is not displayed.
 		$I->dontSeeElementInDOM('form[data-sv-form]');
 	}
 
@@ -80,35 +55,11 @@ class WooCommerceProductFormCest
 		// Specify the Default Form in the Plugin Settings.
 		$defaultFormID = $I->setupConvertKitPluginDefaultFormForWooCommerceProducts($I);
 
-		// Navigate to Products > Add New
-		$I->amOnAdminPage('post-new.php?post_type=product');
+		// Add a Product using the Classic Editor.
+		$I->addClassicEditorPage($I, 'product', 'ConvertKit: Product: Form: Default');
 
-		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen($I);
-
-		// Check that the metabox is displayed.
-		$I->seeElementInDOM('#wp-convertkit-meta-box');
-
-		// Check that the Form option is displayed.
-		$I->seeElementInDOM('#wp-convertkit-form');
-
-		// Change Form to Default
-		$I->fillSelect2Field($I, '#select2-wp-convertkit-form-container', 'Default', 'aria-owns');
-
-		// Define a Product Title.
-		$I->fillField('#title', 'ConvertKit: Product: Form: Default');
-
-		// Click the Publish button.
-		$I->click('#publish');
-
-		// Check the value of the Form field matches the input provided.
-		$I->seeOptionIsSelected('#wp-convertkit-form', 'Default');
-
-		// Load the Product on the frontend site.
-		$I->amOnPage('/product/convertkit-product-form-default');
-
-		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen($I);
+		// Publish and view the Page on the frontend site.
+		$I->publishAndViewClassicEditorPage($I);
 
 		// Confirm that the ConvertKit Default Form displays.
 		$I->seeElementInDOM('form[data-sv-form="' . $defaultFormID . '"]');
@@ -124,17 +75,10 @@ class WooCommerceProductFormCest
 	 */
 	public function testAddNewProductUsingNoForm(AcceptanceTester $I)
 	{
-		// Navigate to Products > Add New
+		// Navigate to Products > Add New.
+		// Don't use addClassicEditorPage(); on WooCommerce Products, it results in the Publish button no longer working
+		// for some inexplicible reason.
 		$I->amOnAdminPage('post-new.php?post_type=product');
-
-		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen($I);
-
-		// Check that the metabox is displayed.
-		$I->seeElementInDOM('#wp-convertkit-meta-box');
-
-		// Check that the Form option is displayed.
-		$I->seeElementInDOM('#wp-convertkit-form');
 
 		// Change Form to None.
 		$I->fillSelect2Field($I, '#select2-wp-convertkit-form-container', 'None', 'aria-owns');
@@ -142,17 +86,8 @@ class WooCommerceProductFormCest
 		// Define a Product Title.
 		$I->fillField('#title', 'ConvertKit: Product: Form: None');
 
-		// Click the Publish button.
-		$I->click('#publish');
-
-		// Check the value of the Form field matches the input provided.
-		$I->seeOptionIsSelected('#wp-convertkit-form', 'None');
-
-		// Load the Product on the frontend site.
-		$I->amOnPage('/product/convertkit-product-form-none');
-
-		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen($I);
+		// Publish and view the Product.
+		$I->publishAndViewClassicEditorPage($I);
 
 		// Confirm that no ConvertKit Form is displayed.
 		$I->dontSeeElementInDOM('form[data-sv-form]');
@@ -168,41 +103,22 @@ class WooCommerceProductFormCest
 	 */
 	public function testAddNewProductUsingDefinedForm(AcceptanceTester $I)
 	{
-		// Navigate to Products > Add New
+		// Navigate to Products > Add New.
+		// Don't use addClassicEditorPage(); on WooCommerce Products, it results in the Publish button no longer working
+		// for some inexplicible reason.
 		$I->amOnAdminPage('post-new.php?post_type=product');
 
-		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen($I);
-
-		// Check that the metabox is displayed.
-		$I->seeElementInDOM('#wp-convertkit-meta-box');
-
-		// Check that the Form option is displayed.
-		$I->seeElementInDOM('#wp-convertkit-form');
-
-		// Change Form to value specified in the .env file.
+		// Change Form to Form setting in .env file.
 		$I->fillSelect2Field($I, '#select2-wp-convertkit-form-container', $_ENV['CONVERTKIT_API_FORM_NAME'], 'aria-owns');
 
 		// Define a Product Title.
 		$I->fillField('#title', 'ConvertKit: Product: Form: Defined');
 
-		// Click the Publish button.
-		$I->click('#publish');
-
-		// Check the value of the Form field matches the input provided.
-		$I->seeOptionIsSelected('#wp-convertkit-form', $_ENV['CONVERTKIT_API_FORM_NAME']);
-
-		// Get Form ID.
-		$formID = $I->grabValueFrom('#wp-convertkit-form');
-
-		// Load the Product on the frontend site.
-		$I->amOnPage('/product/convertkit-product-form-defined');
-
-		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen($I);
+		// Publish and view the Product.
+		$I->publishAndViewClassicEditorPage($I);
 
 		// Confirm that the ConvertKit Form displays.
-		$I->seeElementInDOM('form[data-sv-form="' . $formID . '"]');
+		$I->seeElementInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]');
 	}
 
 	/**
