@@ -66,6 +66,7 @@ class WooCommerceProductFormCest
 	}
 
 	/**
+	 * @skip
 	 * Test that 'None' Form specified in the Product Settings works when
 	 * creating and viewing a new WooCommerce Product.
 	 * 
@@ -94,6 +95,7 @@ class WooCommerceProductFormCest
 	}
 
 	/**
+	 * @skip
 	 * Test that the Form specified in the Product Settings works when
 	 * creating and viewing a new WooCommerce Product.
 	 * 
