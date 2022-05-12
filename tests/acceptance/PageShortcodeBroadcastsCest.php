@@ -18,34 +18,35 @@ class PageShortcodeBroadcastsCest
 		$I->activateConvertKitPlugin($I);
 		$I->setupConvertKitPlugin($I);
 		$I->enableDebugLog($I);
-		$I->wait(2);
 	}
 
 	/**
-	 * Test the [convertkit_broadcasts] shortcode works when using the default parameters.
+	 * Test the [convertkit_broadcasts] shortcode works when using the default parameters,
+	 * using the Classic Editor (TinyMCE / Visual).
 	 * 
 	 * @since 	1.9.7.4
 	 * 
 	 * @param 	AcceptanceTester 	$I 	Tester
 	 */
-	public function testBroadcastsShortcodeWithDefaultParameters(AcceptanceTester $I)
+	public function testBroadcastsShortcodeInVisualEditorWithDefaultParameters(AcceptanceTester $I)
 	{
-		// Create Page with Shortcode.
-		$I->havePageInDatabase([
-			'post_name' 	=> 'convertkit-page-broadcasts-shortcode-default-param',
-			'post_content' 	=> '[convertkit_broadcasts]',
-		]);
+		// Add a Page using the Classic Editor.
+		$I->addClassicEditorPage($I, 'page', 'ConvertKit: Page: Broadcasts: Shortcode: Visual Editor');
 
-		// Load the Page on the frontend site.
-		$I->amOnPage('/convertkit-page-broadcasts-shortcode-default-param');
+		// Add shortcode to Page, setting the Form setting to the value specified in the .env file.
+		$I->addVisualEditorShortcode(
+			$I,
+			'ConvertKit Broadcasts',
+			'convertkit-broadcasts',
+			false,
+			'[convertkit_broadcasts date_format="F j, Y" limit="10"]'
+		);
 
-		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen($I);
+		// Publish and view the Page on the frontend site.
+		$I->publishAndViewClassicEditorPage($I);
 
 		// Confirm that the shortcode output displays.
-		$I->seeElementInDOM('ul.convertkit-broadcasts');
-		$I->seeElementInDOM('ul.convertkit-broadcasts li.convertkit-broadcast');
-		$I->seeElementInDOM('ul.convertkit-broadcasts li.convertkit-broadcast a');
+		$I->seeBroadcastsOutput($I);
 
 		// Confirm that the default date format is as expected.
 		$I->seeInSource('<time datetime="2022-04-08">April 8, 2022</time>');
@@ -55,30 +56,34 @@ class PageShortcodeBroadcastsCest
 	}
 
 	/**
-	 * Test the [convertkit_broadcasts] shortcode works when specifying a non-default date format parameter.
+	 * Test the [convertkit_broadcasts] shortcode works when specifying a non-default date format parameter,
+	 * using the Classic Editor (TinyMCE / Visual).
 	 * 
 	 * @since 	1.9.7.4
 	 * 
 	 * @param 	AcceptanceTester 	$I 	Tester
 	 */
-	public function testBroadcastsShortcodeWithDateFormatParameter(AcceptanceTester $I)
+	public function testBroadcastsShortcodeInVisualEditorWithDateFormatParameter(AcceptanceTester $I)
 	{
-		// Create Page with Shortcode.
-		$I->havePageInDatabase([
-			'post_name' 	=> 'convertkit-page-broadcasts-shortcode-date-format-param',
-			'post_content' 	=> '[convertkit_broadcasts date_format="Y-m-d"]',
-		]);
+		// Add a Page using the Classic Editor.
+		$I->addClassicEditorPage($I, 'page', 'ConvertKit: Page: Broadcasts: Shortcode: Visual Editor: Date Format');
 
-		// Load the Page on the frontend site.
-		$I->amOnPage('/convertkit-page-broadcasts-shortcode-date-format-param');
+		// Add shortcode to Page, setting the Form setting to the value specified in the .env file.
+		$I->addVisualEditorShortcode(
+			$I,
+			'ConvertKit Broadcasts',
+			'convertkit-broadcasts',
+			[
+				'date_format' => [ 'select', date('Y-m-d') ],
+			],
+			'[convertkit_broadcasts date_format="Y-m-d" limit="10"]'
+		);
 
-		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen($I);
+		// Publish and view the Page on the frontend site.
+		$I->publishAndViewClassicEditorPage($I);
 
 		// Confirm that the shortcode output displays.
-		$I->seeElementInDOM('ul.convertkit-broadcasts');
-		$I->seeElementInDOM('ul.convertkit-broadcasts li.convertkit-broadcast');
-		$I->seeElementInDOM('ul.convertkit-broadcasts li.convertkit-broadcast a');
+		$I->seeBroadcastsOutput($I);
 
 		// Confirm that the default date format is as expected.
 		$I->seeInSource('<time datetime="2022-04-08">2022-04-08</time>');
@@ -88,30 +93,143 @@ class PageShortcodeBroadcastsCest
 	}
 
 	/**
-	 * Test the [convertkit_broadcasts] shortcode works when specifying a non-default limit parameter.
+	 * Test the [convertkit_broadcasts] shortcode works when specifying a non-default limit parameter,
+	 * using the Classic Editor (TinyMCE / Visual).
 	 * 
 	 * @since 	1.9.7.4
 	 * 
 	 * @param 	AcceptanceTester 	$I 	Tester
 	 */
-	public function testBroadcastsShortcodeWithLimitParameter(AcceptanceTester $I)
+	public function testBroadcastsShortcodeInVisualEditorWithLimitParameter(AcceptanceTester $I)
 	{
-		// Create Page with Shortcode.
-		$I->havePageInDatabase([
-			'post_name' 	=> 'convertkit-page-broadcasts-shortcode-limit-param',
-			'post_content' 	=> '[convertkit_broadcasts limit="2"]',
-		]);
+		// Add a Page using the Classic Editor.
+		$I->addClassicEditorPage($I, 'page', 'ConvertKit: Page: Broadcasts: Shortcode: Visual Editor: Limit');
 
-		// Load the Page on the frontend site.
-		$I->amOnPage('/convertkit-page-broadcasts-shortcode-limit-param');
+		// Add shortcode to Page, setting the Form setting to the value specified in the .env file.
+		$I->addVisualEditorShortcode(
+			$I,
+			'ConvertKit Broadcasts',
+			'convertkit-broadcasts',
+			[
+				'limit' => [ 'input', '2' ],
+			],
+			'[convertkit_broadcasts date_format="F j, Y" limit="2"]'
+		);
 
-		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen($I);
+		// Publish and view the Page on the frontend site.
+		$I->publishAndViewClassicEditorPage($I);
 
 		// Confirm that the shortcode output displays.
-		$I->seeElementInDOM('ul.convertkit-broadcasts');
-		$I->seeElementInDOM('ul.convertkit-broadcasts li.convertkit-broadcast');
-		$I->seeElementInDOM('ul.convertkit-broadcasts li.convertkit-broadcast a');
+		$I->seeBroadcastsOutput($I);
+
+		// Confirm that the default date format is as expected.
+		$I->seeInSource('<time datetime="2022-04-08">April 8, 2022</time>');
+
+		// Confirm that the default expected number of Broadcasts are displayed.
+		$I->seeNumberOfElements('li.convertkit-broadcast', 2);
+	}
+
+	/**
+	 * Test the [convertkit_broadcasts] shortcode works when using the default parameters,
+	 * using the Text Editor.
+	 * 
+	 * @since 	1.9.7.5
+	 * 
+	 * @param 	AcceptanceTester 	$I 	Tester
+	 */
+	public function testBroadcastsShortcodeInTextEditorWithDefaultParameters(AcceptanceTester $I)
+	{
+		// Add a Page using the Classic Editor.
+		$I->addClassicEditorPage($I, 'page', 'ConvertKit: Page: Broadcasts: Shortcode: Text Editor');
+
+		// Add shortcode to Page, setting the Form setting to the value specified in the .env file.
+		$I->addTextEditorShortcode(
+			$I,
+			'ConvertKit Broadcasts',
+			'convertkit-broadcasts',
+			false,
+			'[convertkit_broadcasts date_format="F j, Y" limit="10"]'
+		);
+
+		// Publish and view the Page on the frontend site.
+		$I->publishAndViewClassicEditorPage($I);
+
+		// Confirm that the shortcode output displays.
+		$I->seeBroadcastsOutput($I);
+
+		// Confirm that the default date format is as expected.
+		$I->seeInSource('<time datetime="2022-04-08">April 8, 2022</time>');
+
+		// Confirm that the default expected number of Broadcasts are displayed.
+		$I->seeNumberOfElements('li.convertkit-broadcast', [1,10]);
+	}
+
+	/**
+	 * Test the [convertkit_broadcasts] shortcode works when specifying a non-default date format parameter,
+	 * using the Text Editor.
+	 * 
+	 * @since 	1.9.7.5
+	 * 
+	 * @param 	AcceptanceTester 	$I 	Tester
+	 */
+	public function testBroadcastsShortcodeInTextEditorWithDateFormatParameter(AcceptanceTester $I)
+	{
+		// Add a Page using the Classic Editor.
+		$I->addClassicEditorPage($I, 'page', 'ConvertKit: Page: Broadcasts: Shortcode: Text Editor: Date Format');
+
+		// Add shortcode to Page, setting the Form setting to the value specified in the .env file.
+		$I->addTextEditorShortcode(
+			$I,
+			'ConvertKit Broadcasts',
+			'convertkit-broadcasts',
+			[
+				'date_format' => [ 'select', date('Y-m-d') ],
+			],
+			'[convertkit_broadcasts date_format="Y-m-d" limit="10"]'
+		);
+
+		// Publish and view the Page on the frontend site.
+		$I->publishAndViewClassicEditorPage($I);
+
+		// Confirm that the shortcode output displays.
+		$I->seeBroadcastsOutput($I);
+
+		// Confirm that the default date format is as expected.
+		$I->seeInSource('<time datetime="2022-04-08">2022-04-08</time>');
+
+		// Confirm that the default expected number of Broadcasts are displayed.
+		$I->seeNumberOfElements('li.convertkit-broadcast', [1,10]);
+	}
+
+	/**
+	 * Test the [convertkit_broadcasts] shortcode works when specifying a non-default limit parameter,
+	 * using the Text Editor.
+	 * 
+	 * @since 	1.9.7.5
+	 * 
+	 * @param 	AcceptanceTester 	$I 	Tester
+	 */
+	public function testBroadcastsShortcodeInTextEditorWithLimitParameter(AcceptanceTester $I)
+	{
+		// Add a Page using the Classic Editor.
+		$I->addClassicEditorPage($I, 'page', 'ConvertKit: Page: Broadcasts: Shortcode: Text Editor: Limit');
+
+		// Add shortcode to Page, setting the Form setting to the value specified in the .env file.
+		$I->addTextEditorShortcode(
+			$I,
+			'ConvertKit Broadcasts',
+			'convertkit-broadcasts',
+			[
+				'limit' => [ 'input', '2' ],
+			],
+			'[convertkit_broadcasts date_format="F j, Y" limit="2"]'
+		);
+
+		// Publish and view the Page on the frontend site.
+		$I->publishAndViewClassicEditorPage($I);
+
+		// Confirm that the shortcode output displays.
+		$I->seeBroadcastsOutput($I);
 
 		// Confirm that the default date format is as expected.
 		$I->seeInSource('<time datetime="2022-04-08">April 8, 2022</time>');
@@ -125,12 +243,13 @@ class PageShortcodeBroadcastsCest
 	 * We don't use _after, as this would provide a screenshot of the Plugin
 	 * deactivation and not the true test error.
 	 * 
-	 * @since 	1.9.7.4.7
+	 * @since 	1.9.7.4
 	 * 
 	 * @param 	AcceptanceTester 	$I 	Tester
 	 */
 	public function _passed(AcceptanceTester $I)
 	{
+		$I->deactivateThirdPartyPlugin($I, 'classic-editor');
 		$I->deactivateConvertKitPlugin($I);
 		$I->resetConvertKitPlugin($I);
 	}
