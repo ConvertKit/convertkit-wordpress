@@ -108,11 +108,14 @@ class WooCommerceProductFormCest
 		// for some inexplicible reason.
 		$I->amOnAdminPage('post-new.php?post_type=product');
 
+		// Define a Product Title.
+		$I->fillField('#title', 'ConvertKit: Product: Form: Defined');
+
 		// Change Form to Form setting in .env file.
 		$I->fillSelect2Field($I, '#select2-wp-convertkit-form-container', $_ENV['CONVERTKIT_API_FORM_NAME'], 'aria-owns');
 
-		// Define a Product Title.
-		$I->fillField('#title', 'ConvertKit: Product: Form: Defined');
+		// Click Publish.
+		$I->click('Publish');
 
 		// Publish and view the Product.
 		$I->publishAndViewClassicEditorPage($I);
