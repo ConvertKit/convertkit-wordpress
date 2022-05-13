@@ -4,7 +4,7 @@
  * 
  * @since 	1.9.6
  */
-class WooCommerceProductFormCest
+class IntegrationWooCommerceProductFormCest
 {
 	/**
 	 * Run common actions before running the test functions in this class.
@@ -114,8 +114,8 @@ class WooCommerceProductFormCest
 		// Change Form to Form setting in .env file.
 		$I->fillSelect2Field($I, '#select2-wp-convertkit-form-container', $_ENV['CONVERTKIT_API_FORM_NAME'], 'aria-owns');
 
-		// Click Publish.
-		$I->click('Publish');
+		// Define a Product Title.
+		$I->fillField('#title', 'ConvertKit: Product: Form: Defined');
 
 		// Publish and view the Product.
 		$I->publishAndViewClassicEditorPage($I);
