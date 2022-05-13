@@ -136,6 +136,7 @@ class IntegrationWooCommerceProductFormCest
 	public function _passed(AcceptanceTester $I)
 	{
 		$I->deactivateConvertKitPlugin($I);
+		$I->deactivateThirdPartyPlugin($I, 'classic-editor');
 		$I->deactivateThirdPartyPlugin($I, 'woocommerce');
 		$I->resetConvertKitPlugin($I);
 	}
