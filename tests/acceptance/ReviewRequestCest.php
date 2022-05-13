@@ -76,45 +76,19 @@ class ReviewRequestCest
 	 */
 	public function testReviewRequestOnSavePageWithFormSpecified(AcceptanceTester $I)
 	{
-		// Flush Permalinks.
-		$I->amOnAdminPage('options-permalink.php');
-
 		// Setup ConvertKit Plugin.
 		$I->setupConvertKitPlugin($I);
 
-		// Define Default Form.
-		$I->setupConvertKitPluginDefaultForm($I);
+		// Add a Page using the Gutenberg editor.
+		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Test Review Request on Save with Form Specified');
 
-		// Navigate to Pages > Add New
-		$I->amOnAdminPage('post-new.php?post_type=page');
+		// Configure metabox's Form setting = Default.
+		$I->configureMetaboxSettings($I, 'wp-convertkit-meta-box', [
+			'form' => [ 'select2', $_ENV['CONVERTKIT_API_FORM_NAME'] ],
+		]);
 
-		// Close the Gutenberg "Welcome to the block editor" dialog if it's displayed.
-		$I->maybeCloseGutenbergWelcomeModal($I);
-
-		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen($I);
-
-		// Check that the metabox is displayed.
-		$I->seeElementInDOM('#wp-convertkit-meta-box');
-
-		// Check that the Form option is displayed.
-		$I->seeElementInDOM('#wp-convertkit-form');
-
-		// Change Form to value specified in the .env file.
-		$I->fillSelect2Field($I, '#select2-wp-convertkit-form-container', $_ENV['CONVERTKIT_API_FORM_NAME']);
-
-		// Define a Page Title.
-		$I->fillField('.editor-post-title__input', 'abc123');
-
-		// Click the Publish button.
-		$I->click('.editor-post-publish-button__button');
-		
-		// When the pre-publish panel displays, click Publish again.
-		$I->performOn('.editor-post-publish-panel__prepublish', function($I) {
-			$I->click('.editor-post-publish-panel__header-publish-button .editor-post-publish-button__button');	
-		});
-
-		$I->wait(3);
+		// Publish and view the Page on the frontend site.
+		$I->publishAndViewGutenbergPage($I);
 
 		// Navigate to a screen in the WordPress Administration.
 		$I->amOnAdminPage('index.php');
@@ -140,39 +114,16 @@ class ReviewRequestCest
 		// Setup ConvertKit Plugin.
 		$I->setupConvertKitPlugin($I);
 
-		// Define Default Form.
-		$I->setupConvertKitPluginDefaultForm($I);
+		// Add a Page using the Gutenberg editor.
+		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Test Review Request on Save with Form Specified');
 
-		// Navigate to Pages > Add New
-		$I->amOnAdminPage('post-new.php?post_type=page');
+		// Configure metabox's Form setting = Default.
+		$I->configureMetaboxSettings($I, 'wp-convertkit-meta-box', [
+			'landing_page' => [ 'select2', $_ENV['CONVERTKIT_API_LANDING_PAGE_NAME'] ],
+		]);
 
-		// Close the Gutenberg "Welcome to the block editor" dialog if it's displayed.
-		$I->maybeCloseGutenbergWelcomeModal($I);
-
-		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen($I);
-
-		// Check that the metabox is displayed.
-		$I->seeElementInDOM('#wp-convertkit-meta-box');
-
-		// Check that the Form option is displayed.
-		$I->seeElementInDOM('#wp-convertkit-landing_page');
-
-		// Change Landing Page to value specified in the .env file.
-		$I->fillSelect2Field($I, '#select2-wp-convertkit-landing_page-container', $_ENV['CONVERTKIT_API_LANDING_PAGE_NAME']);
-
-		// Define a Page Title.
-		$I->fillField('.editor-post-title__input', 'ConvertKit: Review Request: Landing Page');
-
-		// Click the Publish button.
-		$I->click('.editor-post-publish-button__button');
-		
-		// When the pre-publish panel displays, click Publish again.
-		$I->performOn('.editor-post-publish-panel__prepublish', function($I) {
-			$I->click('.editor-post-publish-panel__header-publish-button .editor-post-publish-button__button');	
-		});
-
-		$I->wait(3);
+		// Publish and view the Page on the frontend site.
+		$I->publishAndViewGutenbergPage($I);
 
 		// Navigate to a screen in the WordPress Administration.
 		$I->amOnAdminPage('index.php');

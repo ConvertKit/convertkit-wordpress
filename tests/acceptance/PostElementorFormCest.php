@@ -190,6 +190,7 @@ class PostElementorFormCest
 	 */
 	public function _passed(AcceptanceTester $I)
 	{
+		$I->deactivateThirdPartyPlugin($I, 'elementor');
 		$I->deactivateConvertKitPlugin($I);
 		$I->resetConvertKitPlugin($I);
 	}

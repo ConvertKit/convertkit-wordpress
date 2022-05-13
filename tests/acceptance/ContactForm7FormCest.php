@@ -19,7 +19,6 @@ class ContactForm7FormCest
 		$I->activateThirdPartyPlugin($I, 'contact-form-7');
 		$I->setupConvertKitPlugin($I);
 		$I->enableDebugLog($I);
-		$I->wait(2);
 	}
 
 	/**
@@ -123,8 +122,8 @@ class ContactForm7FormCest
 	 */
 	public function _passed(AcceptanceTester $I)
 	{
-		$I->deactivateConvertKitPlugin($I);
 		$I->deactivateThirdPartyPlugin($I, 'contact-form-7');
+		$I->deactivateConvertKitPlugin($I);
 		$I->resetConvertKitPlugin($I);
 	}
 }

@@ -20,11 +20,9 @@ class SubscriberEmailToIDOnFormSubmitCest
 		$I->setupConvertKitPlugin($I);
 		$I->setupConvertKitPluginDefaultForm($I);
 		$I->enableDebugLog($I);
-		$I->wait(2);
 
 		// Clear Log, so that entries from previous tests aren't included in this test.
-		$I->loadConvertKitSettingsToolsScreen($I);
-		$I->click('Clear log');
+		$I->clearDebugLog($I);
 	}
 
 	/**
