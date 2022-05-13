@@ -130,13 +130,6 @@ jobs:
           php-version: ${{ matrix.php-versions }}
           coverage: xdebug
 
-      # WishListMember: Copy .htaccess and wlm_file_protect_nginx.conf files to uploads folder
-      # This prevents the Plugin attempting to do this on activation and throwing errors due to permission issues.
-      - name: Copy WishListMember files to Uploads folder
-        run: |
-          sudo cp ${{ env.PLUGIN_DIR }}/tests/_data/wlm_file_protect_nginx.conf ${{ env.ROOT_DIR }}/wp-content/uploads/wlm_file_protect_nginx.conf
-          sudo cp ${{ env.PLUGIN_DIR }}/tests/_data/.htaccess ${{ env.ROOT_DIR }}/wp-content/uploads/.htaccess
-
       # Make sure that an nginx configuration file exists in this repository at tests/nginx/php-x.x.conf.
       # Refer to an existing .conf file in this repository if you need to create a new one e.g. for a new PHP version.
       - name: Copy nginx configuration file
@@ -218,7 +211,7 @@ jobs:
       # Run Codeception Acceptance Tests.
       - name: Run Acceptance Tests
         working-directory: ${{ env.PLUGIN_DIR }}
-        run: php vendor/bin/codecept run acceptance WishListMemberCest --fail-fast
+        run: php vendor/bin/codecept run acceptance --fail-fast
 
       # If the repository has other tests, such as unit tests, add the Codeception commands here to run them now.
 
