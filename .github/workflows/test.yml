@@ -238,3 +238,10 @@ jobs:
         with:
           name: error.log
           path: /var/log/nginx/error.log
+
+      - name: Upload PHP Log File to Artifact
+        if: always()
+        uses: actions/upload-artifact@v2
+        with:
+          name: php${{ matrix.php-versions }}-fpm.log
+          path: /var/log/php${{ matrix.php-versions }}-fpm.log
