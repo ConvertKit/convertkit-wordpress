@@ -95,7 +95,7 @@ class ConvertKit_Settings_Tools extends ConvertKit_Settings_Base {
 
 		// Download.
 		header( 'Content-type: application/octet-stream' );
-		header( 'Content-Disposition: attachment; filename=' . $log->get_filename() . '.txt' );
+		header( 'Content-Disposition: attachment; filename=convertkit-log.txt' );
 		header( 'Pragma: no-cache' );
 		header( 'Expires: 0' );
 		echo $wp_filesystem->get_contents( $log->get_filename() ); // phpcs:ignore
@@ -131,7 +131,7 @@ class ConvertKit_Settings_Tools extends ConvertKit_Settings_Base {
 
 		// Download.
 		header( 'Content-type: application/octet-stream' );
-		header( 'Content-Disposition: attachment; filename=system-info.txt' );
+		header( 'Content-Disposition: attachment; filename=convertkit-system-info.txt' );
 		header( 'Pragma: no-cache' );
 		header( 'Expires: 0' );
 		echo $wp_filesystem->get_contents( $filename ); // phpcs:ignore
