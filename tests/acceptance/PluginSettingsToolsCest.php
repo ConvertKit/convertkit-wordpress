@@ -36,6 +36,35 @@ class PluginSettingsToolsCest
 	}
 
 	/**
+	 * Test that the Download Log option works.
+	 * 
+	 * @since 	1.9.7.6
+	 * 
+	 * @param 	AcceptanceTester 	$I 	Tester
+	 */
+	public function testDownloadLog(AcceptanceTester $I)
+	{
+		$I->setupConvertKitPlugin($I);
+		$I->enableDebugLog($I);
+		$I->loadConvertKitSettingsToolsScreen($I);
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Click the Export button.
+		// This will download the file to $_ENV['WP_ROOT_FOLDER'].
+		$I->click('input#convertkit-download-debug-log');
+
+		// Wait 2 seconds for the download to complete.
+		sleep(2);
+
+		// Check downloaded file exists and contains some expected information.
+		$I->openFile($_ENV['WP_ROOT_FOLDER'] . '/convertkit-log.txt');
+		$I->seeInThisFile('API: account()');
+	
+		// Delete the file.
+		$I->deleteFile($_ENV['WP_ROOT_FOLDER'] . '/convertkit-log.txt');
+	}
+
+	/**
 	 * Test that the System Info section is populated.
 	 * 
 	 * @since 	1.9.6
@@ -52,6 +81,36 @@ class PluginSettingsToolsCest
 		// Check that the System Info textarea contains some expected output.
 		$I->assertNotFalse(strpos($I->grabValueFrom('#system-info-textarea'), '### Begin System Info ###'));
 		$I->assertNotFalse(strpos($I->grabValueFrom('#system-info-textarea'), '### End System Info ###'));
+	}
+
+	/**
+	 * Test that the Download System Info option works.
+	 * 
+	 * @since 	1.9.7.6
+	 * 
+	 * @param 	AcceptanceTester 	$I 	Tester
+	 */
+	public function testDownloadSystemInfo(AcceptanceTester $I)
+	{
+		$I->setupConvertKitPlugin($I);
+		$I->enableDebugLog($I);
+		$I->loadConvertKitSettingsToolsScreen($I);
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Click the Export button.
+		// This will download the file to $_ENV['WP_ROOT_FOLDER'].
+		$I->click('input#convertkit-download-system-info');
+
+		// Wait 2 seconds for the download to complete.
+		sleep(2);
+
+		// Check downloaded file exists and contains some expected information.
+		$I->openFile($_ENV['WP_ROOT_FOLDER'] . '/convertkit-system-info.txt');
+		$I->seeInThisFile('### Begin System Info ###');
+		$I->seeInThisFile('### End System Info ###');
+
+		// Delete the file.
+		$I->deleteFile($_ENV['WP_ROOT_FOLDER'] . '/convertkit-system-info.txt');
 	}
 
 	/**
