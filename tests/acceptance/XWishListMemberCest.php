@@ -4,7 +4,7 @@
  * 
  * @since 	1.9.6
  */
-class WishListMemberCest
+class XWishListMemberCest
 {
 	/**
 	 * Run common actions before running the test functions in this class.
@@ -19,7 +19,6 @@ class WishListMemberCest
 		$I->activateThirdPartyPlugin($I, 'wishlist-member');
 		$I->setupConvertKitPlugin($I);
 		$I->enableDebugLog($I);
-		$I->wait(2);
 		$this->_setupWishListMemberPlugin($I);
 	}
 

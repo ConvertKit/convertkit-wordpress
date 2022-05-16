@@ -19,7 +19,6 @@ class UpgradePathsCest
 		$I->activateConvertKitPlugin($I);
 		$I->setupConvertKitPlugin($I);
 		$I->enableDebugLog($I);
-		$I->wait(2);
 	}
 
 	/**

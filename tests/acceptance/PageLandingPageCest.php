@@ -71,12 +71,7 @@ class PageLandingPageCest
 		$I->publishAndViewGutenbergPage($I);
 
 		// Confirm that the basic HTML structure is correct.
-		$I->seeInSource('<html>');
-		$I->seeInSource('<head>');
-		$I->seeInSource('</head>');
-		$I->seeInSource('<body');
-		$I->seeInSource('</body>');
-		$I->seeInSource('</html>');
+		$this->_seeBasicHTMLStructure($I);
 		
 		// Confirm that the ConvertKit Landing Page displays.
 		$I->dontSeeElementInDOM('body.page'); // WordPress didn't load its template, which is correct.
@@ -107,12 +102,7 @@ class PageLandingPageCest
 		$I->publishAndViewGutenbergPage($I);
 
 		// Confirm that the basic HTML structure is correct.
-		$I->seeInSource('<html>');
-		$I->seeInSource('<head>');
-		$I->seeInSource('</head>');
-		$I->seeInSource('<body');
-		$I->seeInSource('</body>');
-		$I->seeInSource('</html>');
+		$this->_seeBasicHTMLStructure($I);
 
 		// Confirm that the Landing Page title is the same as defined on ConvertKit i.e. that character encoding is correct.
 		$I->seeInSource('Vantar þinn ungling sjálfstraust í stærðfræði?');
@@ -143,12 +133,7 @@ class PageLandingPageCest
 		$I->publishAndViewGutenbergPage($I);
 
 		// Confirm that the basic HTML structure is correct.
-		$I->seeInSource('<html>');
-		$I->seeInSource('<head>');
-		$I->seeInSource('</head>');
-		$I->seeInSource('<body');
-		$I->seeInSource('</body>');
-		$I->seeInSource('</html>');
+		$this->_seeBasicHTMLStructure($I);
 
 		// Confirm that the ConvertKit Landing Page displays.
 		$I->dontSeeElementInDOM('body.page'); // WordPress didn't load its template, which is correct.
@@ -190,16 +175,26 @@ class PageLandingPageCest
 		$I->checkNoWarningsAndNoticesOnScreen($I);
 
 		// Confirm that the basic HTML structure is correct.
+		$this->_seeBasicHTMLStructure($I);
+
+		// Confirm that the ConvertKit Landing Page displays.
+		$I->dontSeeElementInDOM('body.page'); // WordPress didn't load its template, which is correct.
+		$I->seeInSource('<form id="ck_subscribe_form" class="ck_subscribe_form" action="https://app.convertkit.com/landing_pages/' . $_ENV['CONVERTKIT_API_LEGACY_LANDING_PAGE_ID'] . '/subscribe" data-remote="true">'); // ConvertKit injected its Landing Page Form, which is correct.
+	}
+
+	/**
+	 * Helper method to assert that the expected landing page HTML is output.
+	 * 
+	 * @since 	1.9.7.5
+	 */
+	private function _seeBasicHTMLStructure($I)
+	{
 		$I->seeInSource('<html>');
 		$I->seeInSource('<head>');
 		$I->seeInSource('</head>');
 		$I->seeInSource('<body');
 		$I->seeInSource('</body>');
 		$I->seeInSource('</html>');
-
-		// Confirm that the ConvertKit Landing Page displays.
-		$I->dontSeeElementInDOM('body.page'); // WordPress didn't load its template, which is correct.
-		$I->seeInSource('<form id="ck_subscribe_form" class="ck_subscribe_form" action="https://app.convertkit.com/landing_pages/' . $_ENV['CONVERTKIT_API_LEGACY_LANDING_PAGE_ID'] . '/subscribe" data-remote="true">'); // ConvertKit injected its Landing Page Form, which is correct.
 	}
 
 	/**

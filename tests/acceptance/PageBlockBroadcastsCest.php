@@ -39,9 +39,7 @@ class PageBlockBroadcastsCest
 		$I->publishAndViewGutenbergPage($I);
 
 		// Confirm that the block displays.
-		$I->seeElementInDOM('ul.convertkit-broadcasts');
-		$I->seeElementInDOM('ul.convertkit-broadcasts li.convertkit-broadcast');
-		$I->seeElementInDOM('ul.convertkit-broadcasts li.convertkit-broadcast a');
+		$I->seeBroadcastsOutput($I);
 
 		// Confirm that the default date format is as expected.
 		$I->seeInSource('<time datetime="2022-04-08">April 8, 2022</time>');

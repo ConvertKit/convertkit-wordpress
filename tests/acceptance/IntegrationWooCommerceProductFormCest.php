@@ -4,7 +4,7 @@
  * 
  * @since 	1.9.6
  */
-class WooCommerceProductFormCest
+class IntegrationWooCommerceProductFormCest
 {
 	/**
 	 * Run common actions before running the test functions in this class.
@@ -66,7 +66,6 @@ class WooCommerceProductFormCest
 	}
 
 	/**
-	 * @skip
 	 * Test that 'None' Form specified in the Product Settings works when
 	 * creating and viewing a new WooCommerce Product.
 	 * 
@@ -95,7 +94,6 @@ class WooCommerceProductFormCest
 	}
 
 	/**
-	 * @skip
 	 * Test that the Form specified in the Product Settings works when
 	 * creating and viewing a new WooCommerce Product.
 	 * 
@@ -109,6 +107,9 @@ class WooCommerceProductFormCest
 		// Don't use addClassicEditorPage(); on WooCommerce Products, it results in the Publish button no longer working
 		// for some inexplicible reason.
 		$I->amOnAdminPage('post-new.php?post_type=product');
+
+		// Define a Product Title.
+		$I->fillField('#title', 'ConvertKit: Product: Form: Defined');
 
 		// Change Form to Form setting in .env file.
 		$I->fillSelect2Field($I, '#select2-wp-convertkit-form-container', $_ENV['CONVERTKIT_API_FORM_NAME'], 'aria-owns');
@@ -135,6 +136,7 @@ class WooCommerceProductFormCest
 	public function _passed(AcceptanceTester $I)
 	{
 		$I->deactivateConvertKitPlugin($I);
+		$I->deactivateThirdPartyPlugin($I, 'classic-editor');
 		$I->deactivateThirdPartyPlugin($I, 'woocommerce');
 		$I->resetConvertKitPlugin($I);
 	}
