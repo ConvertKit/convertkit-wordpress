@@ -1,7 +1,7 @@
 === ConvertKit ===
 Contributors: nathanbarry, growdev, travisnorthcutt, ggwicz
 Donate link: https://convertkit.com
-Tags: email, marketing, embed form, convertkit, capture
+Tags: email, marketing, newsletter, convertkit
 Requires at least: 5.0
 Tested up to: 5.9.3
 Requires PHP: 5.6.20
@@ -13,17 +13,65 @@ ConvertKit is an email marketing platform for capturing leads from your WordPres
 
 == Description ==
 
-[ConvertKit](https://convertkit.com) makes it easy to capture more leads and sell more products by easily embedding email capture forms anywhere.
+[ConvertKit](https://convertkit.com) makes it easy to capture more leads, sell more products and send targeted email marketing by easily embedding email capture forms anywhere on your WordPress web site.
 
-This plugin makes it even easier for those of us using WordPress by automatically appending a lead capture form to any post or page.
+= Main Features =
 
-If you choose a default form on the settings page, that form will be embedded at the bottom of every post or page (in single view only) across your site.
+- Design [subscription forms](https://convertkit.com/features/forms) in ConvertKit, automatically appending them to any WordPress post or page, or displaying forms within your WordPress content using the supplied Gutenberg block and shortcode options 
+- Build [landing pages](https://convertkit.com/features/landing-pages) in ConvertKit, and display them on a WordPress page
+- List past [email broadcasts](https://convertkit.com/features/email-marketing) on your WordPress site
 
-If you wish to turn off form embedding or select a different form for an individual post or page, you can do so within the ConvertKit meta box on the editing form.
+= Forms =
 
-Finally, you can insert the default form into the middle of post or page content by using the `[convertkit]` shortcode.
+Design [forms](https://convertkit.com/features/forms) in ConvertKit, choosing from a variety of designs, customisable to your branding.
 
-Full plugin documentation is located [here](https://help.convertkit.com/en/articles/2502591-the-convertkit-wordpress-plugin).
+Sign up forms can be configured to:
+- Send free content, such as a PDF
+- Display when the user is about to leave the page
+- Subscribe to an email newsletter, with powerful tagging and segmentation options
+
+Embedding ConvertKit forms on your WordPress web site with the ConvertKit Plugin is quick and simple:
+
+- Choose a default form to be displayed below each individual Post Type (Pages, Posts and other public Post Types, such as WooCommerce Products)
+- Choose a specific form to be dispalyed below a specific Page, Post or custom post type
+- Turn off form embedding at both site wide and/or individual Page/Post level
+
+For greater control, ConvertKit forms can be displayed in specific sections of your WordPress site's content, sidebars and footers by:
+
+- Using the ConvertKit Forms block in Gutenberg
+- Using the `[convertkit]` shortcode in the Classic Editor
+
+= Landing Pages =
+
+Embed [landing pages](https://convertkit.com/features/landing-pages) designed in ConvertKit on your WordPress web site, choosing from a variety of designs, customisable to your branding.
+
+Create or edit a WordPress Page, choose the ConvertKit landing page from the ConvertKit meta box settings to display, and you're set.
+
+= Broadcasts =
+
+Use ConvertKit's [email marketing](https://convertkit.com/features/email-marketing) feature to send newsletters to subscribers and leads.
+
+Embed existing email marketing newsletters on your WordPress web site, ensuring visitors never miss newsletter content, by:
+
+- Using the ConvertKit Broadcasts block in Gutenberg
+- Using the `[convertkit_broadcasts]` shortcode in the Classic Editor
+
+= Plugin Integrations =
+
+With the ConvertKit for WordPress Plugin, you also get:
+
+- Elementor: Form and Broadcast widgets natively integrated with Elementor, to embed ConvertKit forms and broadcast lists
+- Contact Form 7: Send Contact Form 7 form submissions to ConvertKit
+- WishList Member: Subscribe, unsubscribe and tag users based on their membership level
+
+Our other WordPress Plugins provide further integrations between WordPress Plugins and ConvertKit:
+
+- [ConvertKit for WooCommerce](https://wordpress.org/plugins/convertkit-for-woocommerce/): Subscribe, tag and assign sequences to customers at checkout, and send order data to ConvertKit
+- [ConvertKit for Gravity Forms](https://wordpress.org/plugins/convertkit-gravity-forms/): Send Gravity Form submissions to ConvertKit
+
+= Documentation =
+
+Full Plugin documentation can be found [here](https://help.convertkit.com/en/articles/2502591-the-convertkit-wordpress-plugin).
 
 == Installation ==
 
@@ -46,15 +94,19 @@ No. You must first have an account on ConvertKit.com, but you do not have to use
 
 Navigate to the Plugin's Settings at Settings > ConvertKit.
 
+= Where can I find the Plugin's Documentation? =
+
+Full Plugin documentation can be found [here](https://help.convertkit.com/en/articles/2502591-the-convertkit-wordpress-plugin).
+
 == Screenshots ==
 
-1. Create and customize stunning landing pages in ConvertKit
-2. Set WordPress Pages to use ConvertKit landing page content from a simple metabox in the WordPress admin editor
-3. Set up form and landing page automations in ConvertKit
-4. Manage the WordPress plugin from a simple settings page in the WordPress admin
-5. Track subscriber growth
-6. An example of a ConvertKit landing page
-7. Another ConvertKit landing page example
+1. Create and customize stunning forms and landing pages in ConvertKit
+2. Manage the WordPress plugin from a simple settings page in the WordPress admin
+3. Append ConvertKit forms to Pages, Posts or other custom post types
+4. Configure a specific ConvertKit form to display on a specific Page or Post
+5. Configure a ConvertKit landing page to be used in place of a WordPress Page
+6. Set up form and landing page automations in ConvertKit
+7. Track subscriber growth
 
 == Changelog ==
 
