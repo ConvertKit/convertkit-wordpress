@@ -10,7 +10,7 @@
  * 
  * @since 	1.9.7.6
  */
-class WidgetsFormCest
+class WidgetFormCest
 {
 	/**
 	 * Run common actions before running the test functions in this class.
@@ -61,8 +61,11 @@ class WidgetsFormCest
 			'form' => [ 'select', $_ENV['CONVERTKIT_API_LEGACY_FORM_NAME'] ]
 		]);
 
+		// View the home page.
+		$I->amOnPage('/');
+
 		// Confirm that the widget displays.
-		$I->seeLegacyWidget($I, 'convertkit-form', '<form id="ck_subscribe_form" class="ck_subscribe_form" action="https://api.convertkit.com/landing_pages/' . $_ENV['CONVERTKIT_API_LEGACY_FORM_ID'] . '/subscribe" data-remote="true">');
+		$I->seeInSource('<form id="ck_subscribe_form" class="ck_subscribe_form" action="https://api.convertkit.com/landing_pages/' . $_ENV['CONVERTKIT_API_LEGACY_FORM_ID'] . '/subscribe" data-remote="true">');
 	}
 
 	/**
@@ -97,8 +100,11 @@ class WidgetsFormCest
 			'form' => [ 'select', $_ENV['CONVERTKIT_API_LEGACY_FORM_NAME'] ]
 		]);
 
+		// View the home page.
+		$I->amOnPage('/');
+
 		// Confirm that the widget displays.
-		$I->seeBlockWidget($I, 'convertkit-form', '<form id="ck_subscribe_form" class="ck_subscribe_form" action="https://api.convertkit.com/landing_pages/' . $_ENV['CONVERTKIT_API_LEGACY_FORM_ID'] . '/subscribe" data-remote="true">');
+		$I->seeInSource('<form id="ck_subscribe_form" class="ck_subscribe_form" action="https://api.convertkit.com/landing_pages/' . $_ENV['CONVERTKIT_API_LEGACY_FORM_ID'] . '/subscribe" data-remote="true">');
 	}
 
 	/**
@@ -199,6 +205,9 @@ class WidgetsFormCest
 	 */
 	public function _passed(AcceptanceTester $I)
 	{
+		// Activate the current theme.
+		$I->useTheme('twentytwentytwo');
+		$I->resetWidgets($I);
 		$I->deactivateConvertKitPlugin($I);
 		$I->resetConvertKitPlugin($I);
 	}

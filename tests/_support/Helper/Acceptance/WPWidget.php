@@ -31,9 +31,13 @@ class WPWidget extends \Codeception\Module
 		// When the Blocks sidebar appears, search for the legacy widget.
 		$I->waitForElementVisible('.interface-interface-skeleton__secondary-sidebar');
 		$I->fillField('.block-editor-inserter__content input[type=search]', $blockName);
+
+		// First matching item will be the legacy widget; any blocks will follow.
+		// We can't target using the CSS selector button.editor-block-list-item-legacy-widget/{name}, as Codeception
+		// fails stating this is malformed CSS.
 		$I->seeElementInDOM('.block-editor-inserter__panel-content .block-editor-block-types-list__list-item button[tabindex="0"]');
 		$I->click('.block-editor-inserter__panel-content .block-editor-block-types-list__list-item button[tabindex="0"]');
-
+		
 		// If a Block configuration is specified, apply it to the Block now.
 		if ($blockConfiguration) {
 			$I->waitForElementVisible('.wp-block-legacy-widget form');
@@ -53,11 +57,14 @@ class WPWidget extends \Codeception\Module
 			}
 		}
 
+		// Wait for Update button to change its state from disabled.
+		$I->wait(2);
+
 		// Save.
 		$I->click('Update');
 
-		// Wait until the preview is displayed.
-		$I->waitForElementVisible('iframe.wp-block-legacy-widget__edit-preview-iframe');
+		// Wait for save to complete.
+		$I->wait(2);
 	}
 
 	/**
@@ -74,6 +81,9 @@ class WPWidget extends \Codeception\Module
 	{
 		// View the home page.
 		$I->amOnPage('/');
+
+		// Wait for frontend web site to load.
+		$I->waitForElementVisible('body');
 
 		// Confirm that the widget exists in an expected widget area.
 		$I->seeElementInDOM('aside.widget-area .widget_'.str_replace('-', '_', $blockProgrammaticName));
@@ -135,7 +145,7 @@ class WPWidget extends \Codeception\Module
 		// Save.
 		$I->click('Update');
 
-		// Wait.
+		// Wait for save to complete.
 		$I->wait(2);
 	}
 
@@ -155,6 +165,24 @@ class WPWidget extends \Codeception\Module
 		$I->amOnPage('/');
 
 		// Confirm that the ConvertKit Form is displayed in the widget area.
-		$I->seeElementInDOM('aside.widget-area '.$expectedMarkup);
+		$I->seeElementInDOM($expectedMarkup);
+	}
+
+	/**
+	 * Removes all widgets from widget areas, resetting their state to blank
+	 * for the next test.
+	 * 
+	 * @since 	1.9.7.6
+	 * 
+	 * @param 	AcceptanceTester 	$I 						Acceptance Tester.
+	 */
+	public function resetWidgets($I)
+	{
+		$I->dontHaveOptionInDatabase('sidebar_widgets');
+		$I->dontHaveOptionInDatabase('widget_block');
+
+		// List any ConvertKit blocks here, so they're also removed as widgets from sidebars/footers.
+		$I->dontHaveOptionInDatabase('widget_convertkit_form');
+		$I->dontHaveOptionInDatabase('widget_convertkit_broadcasts');
 	}
 }
