@@ -32,6 +32,10 @@ class WidgetFormCest
 	/**
 	 * Test that the legacy Form widget works when a valid Form is selected.
 	 * 
+	 * We retain this legacy non-block widget, because it's been available since 1.4.3,
+	 * and there is no smooth conversion path to making legacy widgets into widget blocks
+	 * for WordPress 5.8+. 
+	 * 
 	 * @since 	1.9.7.6
 	 * 
 	 * @param 	AcceptanceTester 	$I 	Tester
@@ -49,7 +53,11 @@ class WidgetFormCest
 
 	/**
 	 * Test that the legacy Form widget works when a valid Legacy Form is selected.
-	 * 
+	 *
+	 * We retain this legacy non-block widget, because it's been available since 1.4.3,
+	 * and there is no smooth conversion path to making legacy widgets into widget blocks
+	 * for WordPress 5.8+.
+	 *
 	 * @since 	1.9.7.6
 	 * 
 	 * @param 	AcceptanceTester 	$I 	Tester
