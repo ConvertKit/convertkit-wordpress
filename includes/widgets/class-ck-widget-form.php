@@ -11,10 +11,17 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Form Widget.
+ * Registers a ConvertKit Form Widget with WordPress' widgets functionality.
+ *
+ * Since 1.9.7.6, the ConvertKit Form Block can be used on WordPress 5.8+ sites
+ * that make use of the block editor for Widgets at Apperance > Widgets, and therefore
+ * on WordPress 5.8+, this widget will appear as a 'legacy' widget in WordPress.
+ * 
+ * It's retained as not all users may be on WordPress 5.8+, and users may already
+ * have this widget configured on their site. 
  *
  * @author   ConvertKit
- * @version  1.0.0
+ * @version  1.4.3
  */
 class CK_Widget_Form extends WP_Widget {
 
@@ -38,7 +45,7 @@ class CK_Widget_Form extends WP_Widget {
 	/**
 	 * Outputs the settings update form.
 	 *
-	 * @since   1.0.0
+	 * @since   1.4.3
 	 *
 	 * @param   array $instance   Current settings.
 	 * @return  string              Default return is 'noform'
