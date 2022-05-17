@@ -58,6 +58,10 @@ Navigate to the Plugin's Settings at Settings > ConvertKit.
 
 == Changelog ==
 
+### 1.9.7.6 2022-05-xx
+* Added: ConvertKit Broadcasts Block when editing Widgets using the block editor in WordPress 5.8+
+* Added: ConvertKit Form Block when editing Widgets using the block editor in WordPress 5.8+
+
 ### 1.9.7.5 2022-05-12
 * Fix: PHP Warning: Cannot modify header information, caused by QuickTags modal template output
 * Fix: Text Editor: Quicktag Buttons: Block could not be found error when using a Quicktag
