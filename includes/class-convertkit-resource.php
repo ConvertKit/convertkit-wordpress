@@ -181,7 +181,7 @@ class ConvertKit_Resource {
 				break;
 
 			case 'posts':
-				$results = $api->get_posts();
+				$results = $api->get_all_posts();
 				break;
 
 			default:

@@ -732,6 +732,65 @@ class ConvertKit_API {
 	}
 
 	/**
+	 * Gets all posts from the API.
+	 *
+	 * @since   1.9.7.6
+	 *
+	 * @param   int $posts_per_request   Number of Posts to fetch in each request.
+	 * @return  WP_Error|array
+	 */
+	public function get_all_posts( $posts_per_request = 50 ) {
+
+		$this->log( 'API: get_all_posts()' );
+
+		// Sanitize some parameters.
+		$posts_per_request = absint( $posts_per_request );
+
+		// Sanity check that parameters aren't outside of the bounds as defined by the API.
+		if ( $posts_per_request < 1 ) {
+			return new WP_Error( 'convertkit_api_error', __( 'get_all_posts(): the posts_per_request parameter must be equal to or greater than 1.', 'convertkit' ) );
+		}
+		if ( $posts_per_request > 50 ) {
+			return new WP_Error( 'convertkit_api_error', __( 'get_all_posts(): the posts_per_request parameter must be equal to or less than 50.', 'convertkit' ) );
+		}
+
+		// Define an array to store the posts in.
+		$posts = array();
+
+		// Mock the response to start the while loop.
+		$response = array(
+			'page'        => 0, // Start on page zero, as the below loop will add 1 to this.
+			'total_pages' => 1, // We always know there will be one page of posts.
+		);
+
+		// Iterate through each page of posts.
+		while ( absint( $response['total_pages'] ) >= absint( $response['page'] ) + 1 ) {
+			// Fetch posts.
+			$response = $this->get_posts( absint( $response['page'] ) + 1, $posts_per_request );
+
+			// Bail if an error occured.
+			if ( is_wp_error( $response ) ) {
+				return $response;
+			}
+
+			// Append posts to array.
+			foreach ( $response['posts'] as $post ) {
+				$posts[] = $post;
+			}
+		}
+
+		// If the array is empty, return an error.
+		if ( ! count( $posts ) ) {
+			$this->log( 'API: get_posts(): Error: No broadcasts exist in ConvertKit.' );
+			return new WP_Error( 'convertkit_api_error', __( 'No posts exist in ConvertKit. Visit your ConvertKit account and create your first broadcast.', 'convertkit' ) );
+		}
+
+		// Return posts.
+		return $posts;
+
+	}
+
+	/**
 	 * Gets posts from the API.
 	 *
 	 * @since   1.9.7.4
@@ -788,7 +847,7 @@ class ConvertKit_API {
 			return new WP_Error( 'convertkit_api_error', __( 'No posts exist in ConvertKit. Visit your ConvertKit account and create your first broadcast.', 'convertkit' ) );
 		}
 
-		return $response['posts'];
+		return $response;
 
 	}
 
