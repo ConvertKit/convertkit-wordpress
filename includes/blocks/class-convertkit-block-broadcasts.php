@@ -355,7 +355,8 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 		$broadcasts = $posts->get_paginated_subset( $atts['page'], $atts['limit'] );
 
 		// Start list.
-		$html = '<ul class="' . esc_attr( implode( ' ', $atts['_css_classes'] ) ) . '" style="' . implode( ';', $atts['_css_styles'] ) . '">';
+		$html = '<div class="' . esc_attr( implode( ' ', $atts['_css_classes'] ) ) . '" style="' . implode( ';', $atts['_css_styles'] ) . '">
+		<ul class="convertkit-broadcasts-list">';
 
 		// Iterate through broadcasts.
 		foreach ( $broadcasts['items'] as $count => $broadcast ) {
@@ -374,19 +375,26 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 
 		// If pagination is disabled, return the output now.
 		if ( ! $atts['paginate'] ) {
-			return $html;
+			return $html . '</div>';
 		}
 
 		// If no next or previous page exists, just return the output.
 		if ( ! $broadcasts['has_next_page'] && ! $broadcasts['has_prev_page'] ) {
-			return $html;
+			return $html . '</div>';
 		}
 
 		// Append pagination.
-		// @TODO.
-		$html .= 'Pagination here.';
+		$html .= '<ul class="convertkit-broadcasts-pagination">
+			<li class="convertkit-broadcasts-pagination-prev">
+				&laquo; Previous
+			</li>
+			<li class="convertkit-broadcasts-pagination-next">
+				Next &raquo;
+			</li>
+		</ul>';
 
-		return $html;
+		// Return.
+		return $html . '</div>';
 
 	}
 
