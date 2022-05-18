@@ -125,6 +125,14 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 				'type'    => 'number',
 				'default' => $this->get_default_value( 'limit' ),
 			),
+			'page'                => array(
+				'type'    => 'number',
+				'default' => $this->get_default_value( 'page' ),
+			),
+			'paginate'             => array(
+				'type'    => 'boolean',
+				'default' => false,
+			),
 
 			// get_supports() color attribute.
 			'style'                => array(
@@ -198,6 +206,11 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 				'max'   => 999,
 				'step'  => 1,
 			),
+			'paginate'       => array(
+				'label' => __( 'Display pagination', 'convertkit' ),
+				'type'  => 'toggle',
+				'description' => __( 'If the number of broadcasts exceeds the "Number of posts" settings above, previous/next pagination links will be displayed.', 'convertkit' ),
+			),
 		);
 
 	}
@@ -222,6 +235,7 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 				'fields' => array(
 					'date_format',
 					'limit',
+					'paginate',
 				),
 			),
 		);
@@ -240,6 +254,8 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 		return array(
 			'date_format'     => 'F j, Y',
 			'limit'           => 10,
+			'page'            => 1,
+			'paginate'        => false,
 
 			// Built-in Gutenberg block attributes.
 			'style'           => '',
@@ -285,16 +301,8 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 			return '';
 		}
 
-		// Build array of broadcasts to include in the output, based on the attributes.
-		$broadcasts = array();
-		if ( $atts['limit'] > 0 ) {
-			$broadcasts = array_slice( $posts->get(), 0, $atts['limit'] );
-		} else {
-			$broadcasts = $posts->get();
-		}
-
 		// Build HTML.
-		$html = $this->build_html( $broadcasts, $atts );
+		$html = $this->build_html( $posts, $atts );
 
 		/**
 		 * Filter the block's content immediately before it is output.
@@ -332,26 +340,30 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 	}
 
 	/**
-	 * Returns HTML for the given array of ConvertKit broadcasts.
+	 * Returns a HTML list of ConvertKit broadcasts, honoring the supplied
+	 * attribute's current requested page and limit.
 	 *
 	 * @since   1.9.7.4
 	 *
-	 * @param   array $broadcasts     Broadcasts.
-	 * @param   array $atts           Block attributes.
-	 * @return  string                  HTML
+	 * @param   ConvertKit_Resource_Posts 	$posts     ConvertKit Posts Resource class.
+	 * @param   array 						$atts      Block attributes.
+	 * @return  string                  				HTML
 	 */
-	private function build_html( $broadcasts, $atts ) {
+	private function build_html( $posts, $atts ) {
+
+		// Get paginated subset of Posts.
+		$broadcasts = $posts->get_paginated_subset( $atts['page'], $atts['limit'] );
 
 		// Start list.
 		$html = '<ul class="' . esc_attr( implode( ' ', $atts['_css_classes'] ) ) . '" style="' . implode( ';', $atts['_css_styles'] ) . '">';
 
 		// Iterate through broadcasts.
-		foreach ( $broadcasts as $count => $broadcast ) {
+		foreach ( $broadcasts['items'] as $count => $broadcast ) {
 			// Convert UTC date to timestamp.
 			$date_timestamp = strtotime( $broadcast['published_at'] );
 
 			// Add broadcast as list item.
-			$html .= '<li class="convertkit-broadcast">
+			$html .= '<li class="convertkit-broadcast convertkit-broadcast-index-' . $count . '">
 				<time datetime="' . date_i18n( 'Y-m-d', $date_timestamp ) . '">' . date_i18n( $atts['date_format'], $date_timestamp ) . '</time>
 				<a href="' . $broadcast['url'] . '" target="_blank" rel="nofollow noopener">' . $broadcast['title'] . '</a>
 			</li>';
@@ -359,6 +371,20 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 
 		// End list.
 		$html .= '</ul>';
+
+		// If pagination is disabled, return the output now.
+		if ( ! $atts['paginate'] ) {
+			return $html;
+		}
+
+		// If no next or previous page exists, just return the output.
+		if ( ! $broadcasts['has_next_page'] && ! $broadcasts['has_prev_page'] ) {
+			return $html;
+		}
+
+		// Append pagination.
+		// @TODO.
+		$html .= 'Pagination here.';
 
 		return $html;
 
