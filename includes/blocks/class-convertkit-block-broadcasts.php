@@ -133,6 +133,14 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 				'type'    => 'boolean',
 				'default' => false,
 			),
+			'paginate_label_prev'  => array(
+				'type'    => 'string',
+				'default' => $this->get_default_value( 'paginate_label_prev' ),
+			),
+			'paginate_label_next'  => array(
+				'type'    => 'string',
+				'default' => $this->get_default_value( 'paginate_label_next' ),
+			),
 
 			// get_supports() color attribute.
 			'style'                => array(
@@ -211,6 +219,16 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 				'type'  => 'toggle',
 				'description' => __( 'If the number of broadcasts exceeds the "Number of posts" settings above, previous/next pagination links will be displayed.', 'convertkit' ),
 			),
+			'paginate_label_prev'       => array(
+				'label' => __( 'Newer posts label', 'convertkit' ),
+				'type'  => 'text',
+				'description' => __( 'The label to display for the link to newer broadcasts.', 'convertkit' ),
+			),
+			'paginate_label_next'       => array(
+				'label' => __( 'Older posts label', 'convertkit' ),
+				'type'  => 'text',
+				'description' => __( 'The label to display for the link to older broadcasts.', 'convertkit' ),
+			),
 		);
 
 	}
@@ -236,6 +254,8 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 					'date_format',
 					'limit',
 					'paginate',
+					'paginate_label_prev',
+					'paginate_label_next',
 				),
 			),
 		);
@@ -252,15 +272,19 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 	public function get_default_values() {
 
 		return array(
-			'date_format'     => 'F j, Y',
-			'limit'           => 10,
-			'page'            => 1,
-			'paginate'        => false,
+			'date_format'     		=> 'F j, Y',
+			'limit'           		=> 10,
+			'paginate'        		=> false,
+			'paginate_label_prev' 	=> __( '&laquo; Previous', 'convertkit' ),
+			'paginate_label_next' 	=> __( 'Next &raquo;', 'convertkit' ),
 
 			// Built-in Gutenberg block attributes.
-			'style'           => '',
-			'backgroundColor' => '',
-			'textColor'       => '',
+			'style'           		=> '',
+			'backgroundColor' 		=> '',
+			'textColor'       		=> '',
+
+			// Not output as a block option, but stores the page requested by the user if using pagination without JS.
+			'page'            		=> $this->get_page(),
 		);
 
 	}
@@ -354,6 +378,9 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 		// Get paginated subset of Posts.
 		$broadcasts = $posts->get_paginated_subset( $atts['page'], $atts['limit'] );
 
+		// Define a nonce to ensure requests made for paginated broadcasts are protected against e.g. CSRF attacks.
+		$nonce = wp_create_nonce( 'convertkit-broadcasts' );
+
 		// Start list.
 		$html = '<div class="' . esc_attr( implode( ' ', $atts['_css_classes'] ) ) . '" style="' . implode( ';', $atts['_css_styles'] ) . '">
 		<ul class="convertkit-broadcasts-list">';
@@ -385,16 +412,100 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 
 		// Append pagination.
 		$html .= '<ul class="convertkit-broadcasts-pagination">
-			<li class="convertkit-broadcasts-pagination-prev">
-				&laquo; Previous
-			</li>
-			<li class="convertkit-broadcasts-pagination-next">
-				Next &raquo;
-			</li>
+			<li class="convertkit-broadcasts-pagination-prev">' . ( $broadcasts['has_prev_page'] ? $this->get_pagination_link_prev_html( $atts, $nonce ) : '' ) . '</li>
+			<li class="convertkit-broadcasts-pagination-next">' . ( $broadcasts['has_next_page'] ? $this->get_pagination_link_next_html( $atts, $nonce ) : '' ) . '</li>
 		</ul>';
 
 		// Return.
 		return $html . '</div>';
+
+	}
+
+	/**
+	 * Returns the HTML link to paginate to the previous page, to view
+	 * newer broadcasts.
+	 * 
+	 * @since 	1.9.7.6
+	 * 
+	 * @param 	array 	$atts 	Block attributes.
+	 * @param 	string 	$nonce 	Nonce.
+	 * @return 	string 			HTML Link
+	 */
+	private function get_pagination_link_prev_html( $atts, $nonce ) {
+
+		return '<a href="' . esc_attr( $this->get_pagination_link( $atts['page'] - 1, $nonce ) ) . '" title="' . esc_attr( $atts['paginate_label_prev'] ) . '" data-nonce="' . esc_attr( $nonce ) . '">
+			' . esc_html( $atts['paginate_label_prev'] ) . '
+		</a>';
+
+	}
+
+	/**
+	 * Returns the HTML link to paginate to the next page, to view
+	 * older broadcasts.
+	 * 
+	 * @since 	1.9.7.6
+	 * 
+	 * @param 	array 	$atts 	Block attributes.
+	 * @param 	string 	$nonce 	Nonce.
+	 * @return 	string 			HTML Link
+	 */
+	private function get_pagination_link_next_html( $atts, $nonce ) {
+
+		return '<a href="' . esc_attr( $this->get_pagination_link( $atts['page'] + 1, $nonce ) ) . '" title="' . esc_attr( $atts['paginate_label_next'] ) . '" data-nonce="' . esc_attr( $nonce ) . '">
+			' . esc_html( $atts['paginate_label_next'] ) . '
+		</a>';
+
+	}
+
+	/**
+	 * Returns the link to paginate to the specified page.
+	 * 
+	 * @since 	1.9.7.6
+	 *
+	 * @param 	int 	$page 	Page Number.
+	 * @param 	string 	$nonce 	Nonce.
+	 * @return 	string 			URL
+	 */
+	private function get_pagination_link( $page, $nonce ) {
+
+		global $post;
+
+		return add_query_arg( array(
+			'convertkit-broadcasts-page' 	=> absint( $page ),
+			'convertkit-broadcasts-nonce' 	=> $nonce,
+		), get_permalink( $post->ID ) );
+
+	}
+
+	/**
+	 * Returns the current pagination page requested for broadcasts.
+	 * 
+	 * @since 	1.9.7.6
+	 * 
+	 * @return 	int 	Page
+	 */
+	private function get_page() {
+
+		// Assume we're requesting the first page.
+		$page = 1;
+
+		// Return first page number if no nonce exists.
+		if ( ! array_key_exists( 'convertkit-broadcasts-nonce', $_REQUEST ) ) {
+			return $page;
+		}
+
+		// Return first page number if nonce verification fails, as this means we can't reliably trust $_REQUEST['convertkit-broadcasts-page']
+		if ( ! wp_verify_nonce( $_REQUEST['convertkit-broadcasts-nonce'], 'convertkit-broadcasts' ) ) {
+			return $page;
+		}
+
+		// Return first page number if no specific page was requested.
+		if ( ! isset( $_REQUEST['convertkit-broadcasts-page'] ) ) {
+			return $page;
+		}
+
+		// Return requested page number.
+		return absint( $_REQUEST['convertkit-broadcasts-page'] );
 
 	}
 
