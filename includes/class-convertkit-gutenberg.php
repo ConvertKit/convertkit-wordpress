@@ -179,6 +179,4 @@ class ConvertKit_Gutenberg {
 
 	}
 
-
-
 }

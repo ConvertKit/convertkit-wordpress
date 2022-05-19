@@ -26,8 +26,9 @@ modules:
         - \Helper\Acceptance\Select2
         - \Helper\Acceptance\ThirdPartyPlugin
         - \Helper\Acceptance\WPClassicEditor
-        - \Helper\Acceptance\WPMetabox
         - \Helper\Acceptance\WPGutenberg
+        - \Helper\Acceptance\WPMetabox
+        - \Helper\Acceptance\WPWidget
         - \Helper\Acceptance\Xdebug
     config:
         WPDb:
