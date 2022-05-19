@@ -141,8 +141,8 @@ class ConvertKit_Resource {
 	 *
 	 * @since   1.9.7.6
 	 *
-	 * @param 	int 	$page 	Current Page.
-	 * @param 	int 	$per_page 	Number of resources to return per page.
+	 * @param   int $page   Current Page.
+	 * @param   int $per_page   Number of resources to return per page.
 	 * @return  array
 	 */
 	public function get_paginated_subset( $page, $per_page ) {
@@ -162,20 +162,20 @@ class ConvertKit_Resource {
 
 		return array(
 			// The subset of items based on the pagination.
-			'items' 			=> array_slice( $this->resources, ( $page * $per_page ) - $per_page, $per_page ),
+			'items'         => array_slice( $this->resources, ( $page * $per_page ) - $per_page, $per_page ),
 
 			// Sanitized inputs.
-			'page' 				=> $page,
-			'per_page' 			=> $per_page,
+			'page'          => $page,
+			'per_page'      => $per_page,
 
 			// The total number of pages in the pagination.
-			'total_pages' 		=> $total_pages,
+			'total_pages'   => $total_pages,
 
 			// If the request page is lower than the total number of pages in the pagination, there's a next page.
-			'has_next_page' 	=> ( ( $page < $total_pages ) ? true : false ),
+			'has_next_page' => ( ( $page < $total_pages ) ? true : false ),
 
 			// If the request page is higher than 1, there's a previous page.
-			'has_prev_page' 	=> ( ( $page > 1 ) ? true : false ),
+			'has_prev_page' => ( ( $page > 1 ) ? true : false ),
 		);
 
 	}
