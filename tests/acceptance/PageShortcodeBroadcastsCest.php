@@ -39,7 +39,7 @@ class PageShortcodeBroadcastsCest
 			'ConvertKit Broadcasts',
 			'convertkit-broadcasts',
 			false,
-			'[convertkit_broadcasts date_format="F j, Y" limit="10"'
+			'[convertkit_broadcasts date_format="F j, Y" limit="10" paginate="0" paginate_label_prev="&lt; Previous" paginate_label_next="Next &gt;"]'
 		);
 
 		// Publish and view the Page on the frontend site.
@@ -76,7 +76,7 @@ class PageShortcodeBroadcastsCest
 			[
 				'date_format' => [ 'select', date('Y-m-d') ],
 			],
-			'[convertkit_broadcasts date_format="Y-m-d" limit="10"'
+			'[convertkit_broadcasts date_format="Y-m-d" limit="10" paginate="0" paginate_label_prev="&lt; Previous" paginate_label_next="Next &gt;"]'
 		);
 
 		// Publish and view the Page on the frontend site.
@@ -113,7 +113,7 @@ class PageShortcodeBroadcastsCest
 			[
 				'limit' => [ 'input', '2' ],
 			],
-			'[convertkit_broadcasts date_format="F j, Y" limit="2"'
+			'[convertkit_broadcasts date_format="F j, Y" limit="2" paginate="0" paginate_label_prev="&lt; Previous" paginate_label_next="Next &gt;"]'
 		);
 
 		// Publish and view the Page on the frontend site.
@@ -137,7 +137,7 @@ class PageShortcodeBroadcastsCest
 	 * 
 	 * @param 	AcceptanceTester 	$I 	Tester
 	 */
-	public function testBroadcastsShortcodeWithPaginationEnabled(AcceptanceTester $I)
+	public function testBroadcastsShortcodeInVisualEditorWithPaginationEnabled(AcceptanceTester $I)
 	{
 		// Add a Page using the Classic Editor.
 		$I->addClassicEditorPage($I, 'page', 'ConvertKit: Page: Broadcasts: Shortcode: Visual Editor: Pagination');
@@ -151,7 +151,7 @@ class PageShortcodeBroadcastsCest
 				'limit' 	=> [ 'input', '1' ],
 				'paginate' 	=> [ 'toggle', 'Yes' ],
 			],
-			'[convertkit_broadcasts date_format="F j, Y" limit="1" paginate="1"'
+			'[convertkit_broadcasts date_format="F j, Y" limit="1" paginate="1" paginate_label_prev="&lt; Previous" paginate_label_next="Next &gt;"]'
 		);
 
 		// Publish and view the Page on the frontend site.
@@ -169,7 +169,7 @@ class PageShortcodeBroadcastsCest
 	 * 
 	 * @param 	AcceptanceTester 	$I 	Tester
 	 */
-	public function testBroadcastsShortcodeWithPaginationLabelParameters(AcceptanceTester $I)
+	public function testBroadcastsShortcodeInVisualEditorWithPaginationLabelParameters(AcceptanceTester $I)
 	{
 		// Add a Page using the Classic Editor.
 		$I->addClassicEditorPage($I, 'page', 'ConvertKit: Page: Broadcasts: Shortcode: Visual Editor: Pagination Labels');
@@ -214,7 +214,7 @@ class PageShortcodeBroadcastsCest
 			'ConvertKit Broadcasts',
 			'convertkit-broadcasts',
 			false,
-			'[convertkit_broadcasts date_format="F j, Y" limit="10"'
+			'[convertkit_broadcasts date_format="F j, Y" limit="10" paginate="0" paginate_label_prev="&lt; Previous" paginate_label_next="Next &gt;"]'
 		);
 
 		// Publish and view the Page on the frontend site.
@@ -251,7 +251,7 @@ class PageShortcodeBroadcastsCest
 			[
 				'date_format' => [ 'select', date('Y-m-d') ],
 			],
-			'[convertkit_broadcasts date_format="Y-m-d" limit="10"'
+			'[convertkit_broadcasts date_format="Y-m-d" limit="10" paginate="0" paginate_label_prev="< Previous" paginate_label_next="Next >"]'
 		);
 
 		// Publish and view the Page on the frontend site.
@@ -288,7 +288,7 @@ class PageShortcodeBroadcastsCest
 			[
 				'limit' => [ 'input', '2' ],
 			],
-			'[convertkit_broadcasts date_format="F j, Y" limit="2"'
+			'[convertkit_broadcasts date_format="F j, Y" limit="2" paginate="0" paginate_label_prev="< Previous" paginate_label_next="Next >"]'
 		);
 
 		// Publish and view the Page on the frontend site.
@@ -326,7 +326,7 @@ class PageShortcodeBroadcastsCest
 				'limit' 	=> [ 'input', '1' ],
 				'paginate' 	=> [ 'toggle', 'Yes' ],
 			],
-			'[convertkit_broadcasts date_format="F j, Y" limit="1" paginate="1"'
+			'[convertkit_broadcasts date_format="F j, Y" limit="1" paginate="1" paginate_label_prev="< Previous" paginate_label_next="Next >"]'
 		);
 
 		// Publish and view the Page on the frontend site.

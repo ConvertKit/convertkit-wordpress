@@ -268,11 +268,11 @@ class Plugin extends \Codeception\Module
 	 * @since 	1.9.7.5
 	 *
 	 * @param 	AcceptanceTester 	$I 						Tester.
-	 * @param 	int 				$numberOfPosts 			Number of Broadcasts listed.
+	 * @param 	bool|int 			$numberOfPosts 			Number of Broadcasts listed.
 	 * @param 	bool|string 		$seePrevPaginationLabel Test if the "previous" pagination link is output and matches expected label.
 	 * @param 	bool|string 		$seePrevPaginationLabel Test if the "next" pagination link is output and matches expected label.
 	 */
-	public function seeBroadcastsOutput($I, $numberOfPosts = 1, $seePrevPaginationLabel = false, $seeNextPaginationLabel = false)
+	public function seeBroadcastsOutput($I, $numberOfPosts = false, $seePrevPaginationLabel = false, $seeNextPaginationLabel = false)
 	{
 		// Confirm that the block displays.
 		$I->seeElementInDOM('div.convertkit-broadcasts');
@@ -281,7 +281,9 @@ class Plugin extends \Codeception\Module
 		$I->seeElementInDOM('div.convertkit-broadcasts ul.convertkit-broadcasts-list li.convertkit-broadcast a');
 
 		// Confirm that the number of expected broadcasts displays.
-		$I->seeNumberOfElements('li.convertkit-broadcast', $numberOfPosts);
+		if ($numberOfPosts !== false) {
+			$I->seeNumberOfElements('li.convertkit-broadcast', $numberOfPosts);
+		}
 
 		// Confirm that previous pagination displays.
 		if ($seePrevPaginationLabel !== false) {
