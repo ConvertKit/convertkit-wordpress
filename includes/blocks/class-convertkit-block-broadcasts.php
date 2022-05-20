@@ -48,16 +48,20 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 		$settings = new ConvertKit_Settings();
 
 		wp_enqueue_script( 'convertkit-' . $this->get_name(), CONVERTKIT_PLUGIN_URL . '/resources/frontend/js/broadcasts.js', array( 'jquery' ), CONVERTKIT_PLUGIN_VERSION, true );
-		wp_localize_script( 'convertkit-' . $this->get_name(), 'convertkit_broadcasts', array(
-			// WordPress AJAX URL endpoint.
-			'ajax_url' => admin_url( 'admin-ajax.php' ),
+		wp_localize_script(
+			'convertkit-' . $this->get_name(),
+			'convertkit_broadcasts',
+			array(
+				// WordPress AJAX URL endpoint.
+				'ajax_url' => admin_url( 'admin-ajax.php' ),
 
-			// AJAX action registered in __construct().
-			'action'   => 'convertkit_broadcasts_render',
+				// AJAX action registered in __construct().
+				'action'   => 'convertkit_broadcasts_render',
 
-			// Whether debugging is enabled.
-			'debug'	   => $settings->debug_enabled(),
-		) );
+				// Whether debugging is enabled.
+				'debug'    => $settings->debug_enabled(),
+			)
+		);
 	}
 
 	/**
@@ -368,9 +372,6 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 	 * when requested via AJAX.
 	 *
 	 * @since   1.9.7.6
-	 *
-	 * @param   array $atts   Block / Shortcode Attributes.
-	 * @return  string          Output
 	 */
 	public function render_ajax() {
 
@@ -379,12 +380,12 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 
 		// Build attributes array.
 		$atts = array(
-			'date_format' 			=> sanitize_text_field( $_REQUEST['date_format'] ),
-			'limit' 				=> sanitize_text_field( $_REQUEST['limit'] ),
-			'page' 					=> absint( $_REQUEST['page'] ),
-			'paginate' 				=> absint( $_REQUEST['paginate'] ),
-			'paginate_label_next' 	=> sanitize_text_field( $_REQUEST['paginate_label_next'] ),
-			'paginate_label_prev' 	=> sanitize_text_field( $_REQUEST['paginate_label_prev'] ),	
+			'date_format'         => sanitize_text_field( $_REQUEST['date_format'] ),
+			'limit'               => sanitize_text_field( $_REQUEST['limit'] ),
+			'page'                => absint( $_REQUEST['page'] ),
+			'paginate'            => absint( $_REQUEST['paginate'] ),
+			'paginate_label_next' => sanitize_text_field( $_REQUEST['paginate_label_next'] ),
+			'paginate_label_prev' => sanitize_text_field( $_REQUEST['paginate_label_prev'] ),
 		);
 
 		// Parse attributes, defining fallback defaults if required
@@ -440,9 +441,10 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 	 *
 	 * @since   1.9.7.4
 	 *
-	 * @param   ConvertKit_Resource_Posts $posts     ConvertKit Posts Resource class.
-	 * @param   array                     $atts      Block attributes.
-	 * @return  string                                  HTML
+	 * @param   ConvertKit_Resource_Posts $posts              ConvertKit Posts Resource class.
+	 * @param   array                     $atts               Block attributes.
+	 * @param   bool                      $include_container  Include container div in HTML.
+	 * @return  string                                          HTML
 	 */
 	private function build_html( $posts, $atts, $include_container = true ) {
 
@@ -526,7 +528,7 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 	 */
 	private function get_pagination_link_prev_html( $atts, $nonce ) {
 
-		return '<a href="' . esc_attr( $this->get_pagination_link( $atts['page'] - 1, $nonce ) ) . '" title="' . esc_attr( $atts['paginate_label_prev'] ) . '" data-page="' . esc_attr( $atts['page'] - 1 ). '" data-nonce="' . esc_attr( $nonce ) . '">
+		return '<a href="' . esc_attr( $this->get_pagination_link( $atts['page'] - 1, $nonce ) ) . '" title="' . esc_attr( $atts['paginate_label_prev'] ) . '" data-page="' . esc_attr( $atts['page'] - 1 ) . '" data-nonce="' . esc_attr( $nonce ) . '">
 			' . esc_html( $atts['paginate_label_prev'] ) . '
 		</a>';
 
@@ -544,7 +546,7 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 	 */
 	private function get_pagination_link_next_html( $atts, $nonce ) {
 
-		return '<a href="' . esc_attr( $this->get_pagination_link( $atts['page'] + 1, $nonce ) ) . '" title="' . esc_attr( $atts['paginate_label_next'] ) . '" data-page="' . esc_attr( $atts['page'] + 1 ). '" data-nonce="' . esc_attr( $nonce ) . '">
+		return '<a href="' . esc_attr( $this->get_pagination_link( $atts['page'] + 1, $nonce ) ) . '" title="' . esc_attr( $atts['paginate_label_next'] ) . '" data-page="' . esc_attr( $atts['page'] + 1 ) . '" data-nonce="' . esc_attr( $nonce ) . '">
 			' . esc_html( $atts['paginate_label_next'] ) . '
 		</a>';
 

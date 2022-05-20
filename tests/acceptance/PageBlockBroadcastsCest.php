@@ -138,6 +138,10 @@ class PageBlockBroadcastsCest
 		$I->seeNumberOfElements('li.convertkit-broadcast', [1,10]);
 	}
 
+	// Pagination
+
+	// Newer and Older Post Labels
+
 	/**
 	 * Test the Broadcasts block's theme color parameters works.
 	 * 

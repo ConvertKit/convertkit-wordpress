@@ -11,7 +11,6 @@
  * Register events
  */
 jQuery( document ).ready(
-
 	function( $ ) {
 
 		$( document ).on(
@@ -23,7 +22,7 @@ jQuery( document ).ready(
 
 				// Get block container and build object of data-* attributes.
 				var blockContainer = $( this ).closest( 'div.convertkit-broadcasts' ),
-					atts = {
+					atts           = {
 						date_format: $( blockContainer ).data( 'date-format' ),
 						limit: $( blockContainer ).data( 'limit' ),
 						paginate: $( blockContainer ).data( 'paginate' ),
@@ -32,15 +31,14 @@ jQuery( document ).ready(
 
 						page: $( this ).data( 'page' ), // Page is supplied as a data- attribute on the link clicked, not the container.
 						nonce: $( this ).data( 'nonce' ) // Nonce is supplied as a data- attribute on the link clicked, not the container.
-					};
+				};
 
 				convertKitBroadcastsRender( blockContainer, atts );
 
 			}
-		); 
+		);
 
 	}
-
 );
 
 /**
@@ -48,7 +46,7 @@ jQuery( document ).ready(
  * when pagination is used on a Broadcast block.
  *
  * @since 	1.9.7.6
- * 
+ *
  * @param 	object 	blockContainer 	DOM object of the block to refresh the HTML in.
  * @param 	object 	atts 			Block attributes
  */
@@ -73,15 +71,6 @@ function convertKitBroadcastsRender( blockContainer, atts ) {
 				type:       'POST',
 				async:      true,
 				data:      	atts,
-				error: function( a, b, c ) {
-					// @TODO Handle data.
-					console.log( a );
-					console.log( b );
-					console.log( c );
-
-					// Hide loading indicator.
-					$( blockContainer ).removeClass( 'convertkit-broadcasts-loading' );
-				},
 				success: function( result ) {
 					if ( convertkit_broadcasts.debug ) {
 						console.log( result );
@@ -92,6 +81,15 @@ function convertKitBroadcastsRender( blockContainer, atts ) {
 
 					// Replace block container's HTML with response data.
 					$( blockContainer ).html( result.data );
+				}
+			}
+		).fail(
+			function (response) {
+				// Remove loading indicator.
+				$( blockContainer ).removeClass( 'convertkit-broadcasts-loading' );
+
+				if ( convertkit.debug ) {
+					console.log( response );
 				}
 			}
 		);

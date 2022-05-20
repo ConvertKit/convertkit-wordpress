@@ -280,11 +280,11 @@ class ConvertKit_Block {
 	/**
 	 * Returns the given block / shortcode attributes array as HTML data-* attributes, which can be output
 	 * in a block's container.
-	 * 
-	 * @since 	1.9.7.6
-	 * 
-	 * @param 	array 	$atts 	Block or shortcode attributes.
-	 * @return 	array 			Block or shortcode attributes
+	 *
+	 * @since   1.9.7.6
+	 *
+	 * @param   array $atts   Block or shortcode attributes.
+	 * @return  array           Block or shortcode attributes
 	 */
 	public function get_atts_as_html_data_attributes( $atts ) {
 

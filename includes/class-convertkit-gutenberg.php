@@ -198,8 +198,8 @@ class ConvertKit_Gutenberg {
 		}
 
 		/**
-	 	 * Enqueues scripts for Gutenberg blocks in both the editor and frontend view,
-	 	 * if the Plugin's Disable JavaScript option is not enabled.
+		 * Enqueues scripts for Gutenberg blocks in both the editor and frontend view,
+		 * if the Plugin's Disable JavaScript option is not enabled.
 		 *
 		 * @since   1.9.7.6
 		 */
@@ -222,8 +222,8 @@ class ConvertKit_Gutenberg {
 		}
 
 		/**
-	 	 * Enqueues styles for Gutenberg blocks in both the editor and frontend view,
-	 	 * if the Plugin's Disable CSS option is not enabled.
+		 * Enqueues styles for Gutenberg blocks in both the editor and frontend view,
+		 * if the Plugin's Disable CSS option is not enabled.
 		 *
 		 * @since   1.9.7.6
 		 */
