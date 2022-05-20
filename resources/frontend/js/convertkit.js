@@ -245,7 +245,7 @@ jQuery( document ).ready(
 				convertKitSleep( 2000 );
 				convertStoreSubscriberEmailAsIDInCookie( emailAddress );
 			}
-		);
+		); 
 
 	}
 );

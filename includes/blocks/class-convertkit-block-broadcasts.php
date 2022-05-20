@@ -27,24 +27,45 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 		// Register this as a Gutenberg block in the ConvertKit Plugin.
 		add_filter( 'convertkit_blocks', array( $this, 'register' ) );
 
-		// Enqueue stylesheets for this Gutenberg block.
-		add_action( 'convertkit_gutenberg_enqueue_styles', array( $this, 'enqueue_styles' ) ); // Editor.
-		add_action( 'enqueue_block_assets', array( $this, 'enqueue_styles' ) ); // Frontend.
+		// Enqueue scripts and styles for this Gutenberg Block in the editor and frontend views.
+		add_action( 'convertkit_gutenberg_enqueue_scripts_editor_and_frontend', array( $this, 'enqueue_scripts' ) );
+		add_action( 'convertkit_gutenberg_enqueue_styles_editor_and_frontend', array( $this, 'enqueue_styles' ) );
+
+		// Render Broadcasts block via AJAX.
+		add_action( 'wp_ajax_nopriv_convertkit_broadcasts_render', array( $this, 'render_ajax' ) );
+		add_action( 'wp_ajax_convertkit_broadcasts_render', array( $this, 'render_ajax' ) );
 
 	}
 
 	/**
-	 * Enqueues CSS for this block.
+	 * Enqueues scripts for this Gutenberg Block in the editor view.
+	 *
+	 * @since   1.9.7.6
+	 */
+	public function enqueue_scripts() {
+
+		// Get ConvertKit Settings.
+		$settings = new ConvertKit_Settings();
+
+		wp_enqueue_script( 'convertkit-' . $this->get_name(), CONVERTKIT_PLUGIN_URL . '/resources/frontend/js/broadcasts.js', array( 'jquery' ), CONVERTKIT_PLUGIN_VERSION, true );
+		wp_localize_script( 'convertkit-' . $this->get_name(), 'convertkit_broadcasts', array(
+			// WordPress AJAX URL endpoint.
+			'ajax_url' => admin_url( 'admin-ajax.php' ),
+
+			// AJAX action registered in __construct().
+			'action'   => 'convertkit_broadcasts_render',
+
+			// Whether debugging is enabled.
+			'debug'	   => $settings->debug_enabled(),
+		) );
+	}
+
+	/**
+	 * Enqueues styles for this Gutenberg Block in the editor and frontend views.
 	 *
 	 * @since   1.9.7.4
 	 */
 	public function enqueue_styles() {
-
-		// Don't load styles if the Disable CSS option is on.
-		$settings = new ConvertKit_Settings();
-		if ( $settings->css_disabled() ) {
-			return;
-		}
 
 		wp_enqueue_style( 'convertkit-' . $this->get_name(), CONVERTKIT_PLUGIN_URL . 'resources/frontend/css/gutenberg-block-broadcasts.css', array(), CONVERTKIT_PLUGIN_VERSION );
 
@@ -343,6 +364,38 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 	}
 
 	/**
+	 * Returns the block's output, based on the supplied configuration attributes,
+	 * when requested via AJAX.
+	 *
+	 * @since   1.9.7.6
+	 *
+	 * @param   array $atts   Block / Shortcode Attributes.
+	 * @return  string          Output
+	 */
+	public function render_ajax() {
+
+		// Check nonce.
+		check_ajax_referer( 'convertkit-broadcasts', 'nonce' );
+
+		// Build attributes array.
+		$atts = array(
+			'date_format' 			=> sanitize_text_field( $_REQUEST['date_format'] ),
+			'limit' 				=> sanitize_text_field( $_REQUEST['limit'] ),
+			'page' 					=> absint( $_REQUEST['page'] ),
+			'paginate' 				=> absint( $_REQUEST['paginate'] ),
+			'paginate_label_next' 	=> sanitize_text_field( $_REQUEST['paginate_label_next'] ),
+			'paginate_label_prev' 	=> sanitize_text_field( $_REQUEST['paginate_label_prev'] ),	
+		);
+
+		// Build attributes.
+		$html = $this->render( $atts );
+
+		// Send HTML as response.
+		wp_send_json_success( $html );
+
+	}
+
+	/**
 	 * Helper function to determine if the request is a REST API request.
 	 *
 	 * @since   1.9.7.4
@@ -382,7 +435,7 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 		$nonce = wp_create_nonce( 'convertkit-broadcasts' );
 
 		// Start list.
-		$html = '<div class="' . esc_attr( implode( ' ', $atts['_css_classes'] ) ) . '" style="' . implode( ';', $atts['_css_styles'] ) . '">
+		$html = '<div class="' . esc_attr( implode( ' ', $atts['_css_classes'] ) ) . '" style="' . implode( ';', $atts['_css_styles'] ) . '" ' . $this->get_atts_as_html_data_attributes( $atts ) . '>
 		<ul class="convertkit-broadcasts-list">';
 
 		// Iterate through broadcasts.
@@ -433,7 +486,7 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 	 */
 	private function get_pagination_link_prev_html( $atts, $nonce ) {
 
-		return '<a href="' . esc_attr( $this->get_pagination_link( $atts['page'] - 1, $nonce ) ) . '" title="' . esc_attr( $atts['paginate_label_prev'] ) . '" data-nonce="' . esc_attr( $nonce ) . '">
+		return '<a href="' . esc_attr( $this->get_pagination_link( $atts['page'] - 1, $nonce ) ) . '" title="' . esc_attr( $atts['paginate_label_prev'] ) . '" data-page="' . esc_attr( $atts['page'] - 1 ). '" data-nonce="' . esc_attr( $nonce ) . '">
 			' . esc_html( $atts['paginate_label_prev'] ) . '
 		</a>';
 
@@ -451,7 +504,7 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 	 */
 	private function get_pagination_link_next_html( $atts, $nonce ) {
 
-		return '<a href="' . esc_attr( $this->get_pagination_link( $atts['page'] + 1, $nonce ) ) . '" title="' . esc_attr( $atts['paginate_label_next'] ) . '" data-nonce="' . esc_attr( $nonce ) . '">
+		return '<a href="' . esc_attr( $this->get_pagination_link( $atts['page'] + 1, $nonce ) ) . '" title="' . esc_attr( $atts['paginate_label_next'] ) . '" data-page="' . esc_attr( $atts['page'] + 1 ). '" data-nonce="' . esc_attr( $nonce ) . '">
 			' . esc_html( $atts['paginate_label_next'] ) . '
 		</a>';
 
