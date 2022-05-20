@@ -295,6 +295,38 @@ class Plugin extends \Codeception\Module
 		}
 	}
 
+	public function testBroadcastsPagination($I, $previousLabel, $nextLabel)
+	{
+		// Confirm that the block displays one broadcast with a pagination link to older broadcasts.
+		$I->seeBroadcastsOutput($I, 1, false, $nextLabel);
+
+		// Click the Older Posts link.
+		$I->click('li.convertkit-broadcasts-pagination-next a');
+
+		// Wait for the AJAX request to complete, by checking if the convertkit-broadcasts-loading class has been
+		// removed from the block.
+		$I->waitForBroadcastsToLoad($I);
+
+		// Confirm that the block displays one broadcast with a pagination link to newer broadcasts.
+		$I->seeBroadcastsOutput($I, 1, $previousLabel, false);
+
+		// Confirm that the expected Broadcast name is displayed.
+		$I->seeInSource('Broadcast 2');
+
+		// Click the Newer Posts link.
+		$I->click('li.convertkit-broadcasts-pagination-prev a');
+
+		// Wait for the AJAX request to complete, by checking if the convertkit-broadcasts-loading class has been
+		// removed from the block.
+		$I->waitForBroadcastsToLoad($I);
+
+		// Confirm that the block displays one broadcast with a pagination link to older broadcasts.
+		$I->seeBroadcastsOutput($I, 1, false, $nextLabel);
+
+		// Confirm that the expected Broadcast name is displayed.
+		$I->seeInSource('Paid Subscriber Broadcast');
+	}
+
 	/**
 	 * Wait for the AJAX request to complete, by checking if the convertkit-broadcasts-loading class has been
 	 * removed from the block.
