@@ -138,9 +138,150 @@ class PageBlockBroadcastsCest
 		$I->seeNumberOfElements('li.convertkit-broadcast', [1,10]);
 	}
 
-	// Pagination
+	/**
+	 * Test the Broadcasts block's pagination works when enabled.
+	 * 
+	 * @since 	1.9.7.6
+	 * 
+	 * @param 	AcceptanceTester 	$I 	Tester
+	 */
+	public function testBroadcastsBlockWithPaginationEnabled(AcceptanceTester $I)
+	{
+		// Add a Page using the Gutenberg editor.
+		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Broadcasts: Pagination');
 
-	// Newer and Older Post Labels
+		// Add block to Page, setting the limit.
+		$I->addGutenbergBlock($I, 'ConvertKit Broadcasts', 'convertkit-broadcasts', [
+			'limit' 	 				=> [ 'input', '1' ],
+			'.components-form-toggle' 	=> [ 'toggle', true ],
+		]);
+
+		// Publish and view the Page on the frontend site.
+		$I->publishAndViewGutenbergPage($I);
+
+		// Confirm that the block displays one broadcast with a pagination link to older broadcasts.
+		$I->seeBroadcastsOutput($I, 1, false, 'Next >');
+
+		// Click the Older Posts link.
+		$I->click('li.convertkit-broadcasts-pagination-next a');
+
+		// Wait for the AJAX request to complete, by checking if the convertkit-broadcasts-loading class has been
+		// removed from the block.
+		$I->waitForBroadcastsToLoad($I);
+
+		// Confirm that the block displays one broadcast with a pagination link to newer broadcasts.
+		$I->seeBroadcastsOutput($I, 1, '< Previous', false);
+
+		// Confirm that the expected Broadcast name is displayed.
+		$I->seeInSource('Broadcast 2');
+
+		// Click the Newer Posts link.
+		$I->click('li.convertkit-broadcasts-pagination-prev a');
+
+		// Wait for the AJAX request to complete, by checking if the convertkit-broadcasts-loading class has been
+		// removed from the block.
+		$I->waitForBroadcastsToLoad($I);
+
+		// Confirm that the expected number of Broadcasts are displayed.
+		$I->seeNumberOfElements('li.convertkit-broadcast', 1);
+
+		// Confirm that the expected Broadcast name is displayed.
+		$I->seeInSource('Paid Subscriber Broadcast');
+	}
+
+	/**
+	 * Test the Broadcasts block's pagination labels work when defined.
+	 * 
+	 * @since 	1.9.7.6
+	 * 
+	 * @param 	AcceptanceTester 	$I 	Tester
+	 */
+	public function testBroadcastsBlockWithPaginationLabelParameters(AcceptanceTester $I)
+	{
+		// Add a Page using the Gutenberg editor.
+		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Broadcasts: Pagination Labels');
+
+		// Add block to Page, setting the limit.
+		$I->addGutenbergBlock($I, 'ConvertKit Broadcasts', 'convertkit-broadcasts', [
+			'limit' 	 		  		=> [ 'input', '1' ],
+			'.components-form-toggle' 	=> [ 'toggle', true ],
+			'paginate_label_prev' 		=> [ 'input', 'Newer' ],
+			'paginate_label_next' 		=> [ 'input', 'Older' ],
+		]);
+
+		// Publish and view the Page on the frontend site.
+		$I->publishAndViewGutenbergPage($I);
+
+		// Confirm that the block displays one broadcast with a pagination link to older broadcasts.
+		$I->seeBroadcastsOutput($I, 1, false, 'Older');
+
+		// Click the Older Posts link.
+		$I->click('li.convertkit-broadcasts-pagination-next a');
+
+		// Wait for the AJAX request to complete, by checking if the convertkit-broadcasts-loading class has been
+		// removed from the block.
+		$I->waitForBroadcastsToLoad($I);
+
+		// Confirm that the block displays one broadcast with a pagination link to newer broadcasts.
+		$I->seeBroadcastsOutput($I, 1, 'Newer', false);
+
+		// Confirm that the expected Broadcast name is displayed.
+		$I->seeInSource('Broadcast 2');
+
+		// Click the Newer Posts link.
+		$I->click('li.convertkit-broadcasts-pagination-prev a');
+
+		// Wait for the AJAX request to complete, by checking if the convertkit-broadcasts-loading class has been
+		// removed from the block.
+		$I->waitForBroadcastsToLoad($I);
+
+		// Confirm that the expected number of Broadcasts are displayed.
+		$I->seeNumberOfElements('li.convertkit-broadcast', 1);
+
+		// Confirm that the expected Broadcast name is displayed.
+		$I->seeInSource('Paid Subscriber Broadcast');
+	}
+
+	/**
+	 * Test the Broadcasts block's pagination labels work when defined and HTML characters
+	 * are used.
+	 * 
+	 * @since 	1.9.7.6
+	 * 
+	 * @param 	AcceptanceTester 	$I 	Tester
+	 */
+	public function testBroadcastsBlockWithHTMLPaginationLabelParameters(AcceptanceTester $I)
+	{
+		// Add a Page using the Gutenberg editor.
+		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Broadcasts: HTML Pagination Labels');
+
+		// Add block to Page, setting the limit.
+		$I->addGutenbergBlock($I, 'ConvertKit Broadcasts', 'convertkit-broadcasts', [
+			'limit' 	 		  => [ 'input', '1' ],
+			'pagination' 		  => [ 'toggle', true ],
+			'paginate_label_prev' => [ 'input', '<-- Newer' ],
+			'paginate_label_next' => [ 'input', 'Older -->' ],
+		]);
+
+		// Publish and view the Page on the frontend site.
+		$I->publishAndViewGutenbergPage($I);
+
+		// Confirm that the block displays.
+		$I->seeBroadcastsOutput($I);
+
+		// Confirm that the expected number of Broadcasts are displayed.
+		$I->seeNumberOfElements('li.convertkit-broadcast', 1);
+
+		// Click the Older Posts link.
+
+		// Wait for the AJAX request to complete.
+
+		// Confirm that the expected number of Broadcasts are displayed.
+		$I->seeNumberOfElements('li.convertkit-broadcast', 1);
+
+		// Confirm that the expected pagination labels display.
+
+	}
 
 	/**
 	 * Test the Broadcasts block's theme color parameters works.
