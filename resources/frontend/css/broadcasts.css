@@ -2,6 +2,13 @@
 .editor-styles-wrapper .convertkit-broadcasts.has-background {
 	padding: 20px;
 }
+.convertkit-broadcasts.convertkit-broadcasts-loading,
+.editor-styles-wrapper .convertkit-broadcasts.convertkit-broadcasts-loading {
+	background-color: #e3e3e3 !important;
+	background-image: url(../images/spinner.gif);
+	background-position: center;
+	background-repeat: no-repeat;
+}
 .convertkit-broadcasts-list,
 .editor-styles-wrapper .convertkit-broadcasts-list,
 .convertkit-broadcasts-pagination,
@@ -30,9 +37,7 @@
 	grid-template-areas: "prev next";
 	grid-template-columns: repeat(2, 1fr);
 	grid-column-gap: 20px;
-	margin: 20px 0 0 0;
 	padding: 20px 0 0 0;
-	border-top: 1px solid #333;
 }
 .convertkit-broadcasts-pagination li {
 	list-style: none;

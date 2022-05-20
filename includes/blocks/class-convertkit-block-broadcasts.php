@@ -67,7 +67,7 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 	 */
 	public function enqueue_styles() {
 
-		wp_enqueue_style( 'convertkit-' . $this->get_name(), CONVERTKIT_PLUGIN_URL . 'resources/frontend/css/gutenberg-block-broadcasts.css', array(), CONVERTKIT_PLUGIN_VERSION );
+		wp_enqueue_style( 'convertkit-' . $this->get_name(), CONVERTKIT_PLUGIN_URL . 'resources/frontend/css/broadcasts.css', array(), CONVERTKIT_PLUGIN_VERSION );
 
 	}
 
@@ -320,7 +320,7 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 	 */
 	public function render( $atts ) {
 
-		// Parse shortcode attributes, defining fallback defaults if required
+		// Parse attributes, defining fallback defaults if required
 		// and moving some attributes (such as Gutenberg's styles), if defined.
 		$atts = $this->sanitize_and_declare_atts( $atts );
 
@@ -387,8 +387,26 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 			'paginate_label_prev' 	=> sanitize_text_field( $_REQUEST['paginate_label_prev'] ),	
 		);
 
-		// Build attributes.
-		$html = $this->render( $atts );
+		// Parse attributes, defining fallback defaults if required
+		// and moving some attributes (such as Gutenberg's styles), if defined.
+		$atts = $this->sanitize_and_declare_atts( $atts );
+
+		// Fetch Posts.
+		$posts = new ConvertKit_Resource_Posts();
+
+		// Build HTML.
+		$html = $this->build_html( $posts, $atts, false );
+
+		/**
+		 * Filter the block's inner content immediately before it is output by AJAX,
+		 * which occurs when pagination was clicked.
+		 *
+		 * @since   1.9.7.6
+		 *
+		 * @param   string  $html   ConvertKit Broadcasts HTML.
+		 * @param   array   $atts   Block Attributes.
+		 */
+		$html = apply_filters( 'convertkit_block_broadcasts_render_ajax', $html, $atts );
 
 		// Send HTML as response.
 		wp_send_json_success( $html );
@@ -426,7 +444,7 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 	 * @param   array                     $atts      Block attributes.
 	 * @return  string                                  HTML
 	 */
-	private function build_html( $posts, $atts ) {
+	private function build_html( $posts, $atts, $include_container = true ) {
 
 		// Get paginated subset of Posts.
 		$broadcasts = $posts->get_paginated_subset( $atts['page'], $atts['limit'] );
@@ -434,9 +452,16 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 		// Define a nonce to ensure requests made for paginated broadcasts are protected against e.g. CSRF attacks.
 		$nonce = wp_create_nonce( 'convertkit-broadcasts' );
 
+		// Define HTML string.
+		$html = '';
+
+		// Include container, if required.
+		if ( $include_container ) {
+			$html = '<div class="' . esc_attr( implode( ' ', $atts['_css_classes'] ) ) . '" style="' . implode( ';', $atts['_css_styles'] ) . '" ' . $this->get_atts_as_html_data_attributes( $atts ) . '>';
+		}
+
 		// Start list.
-		$html = '<div class="' . esc_attr( implode( ' ', $atts['_css_classes'] ) ) . '" style="' . implode( ';', $atts['_css_styles'] ) . '" ' . $this->get_atts_as_html_data_attributes( $atts ) . '>
-		<ul class="convertkit-broadcasts-list">';
+		$html .= '<ul class="convertkit-broadcasts-list">';
 
 		// Iterate through broadcasts.
 		foreach ( $broadcasts['items'] as $count => $broadcast ) {
@@ -455,12 +480,22 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 
 		// If pagination is disabled, return the output now.
 		if ( ! $atts['paginate'] ) {
-			return $html . '</div>';
+			// Close container div, if required.
+			if ( $include_container ) {
+				$html .= '</div>';
+			}
+
+			return $html;
 		}
 
 		// If no next or previous page exists, just return the output.
 		if ( ! $broadcasts['has_next_page'] && ! $broadcasts['has_prev_page'] ) {
-			return $html . '</div>';
+			// Close container div, if required.
+			if ( $include_container ) {
+				$html .= '</div>';
+			}
+
+			return $html;
 		}
 
 		// Append pagination.
@@ -469,8 +504,13 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 			<li class="convertkit-broadcasts-pagination-next">' . ( $broadcasts['has_next_page'] ? $this->get_pagination_link_next_html( $atts, $nonce ) : '' ) . '</li>
 		</ul>';
 
+		// Close container div, if required.
+		if ( $include_container ) {
+			$html .= '</div>';
+		}
+
 		// Return.
-		return $html . '</div>';
+		return $html;
 
 	}
 

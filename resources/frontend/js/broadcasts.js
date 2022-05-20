@@ -65,7 +65,7 @@ function convertKitBroadcastsRender( blockContainer, atts ) {
 		}
 
 		// Show loading indicator.
-		// @TODO.
+		$( blockContainer ).addClass( 'convertkit-broadcasts-loading' );
 
 		$.ajax(
 			{
@@ -78,11 +78,17 @@ function convertKitBroadcastsRender( blockContainer, atts ) {
 					console.log( a );
 					console.log( b );
 					console.log( c );
+
+					// Hide loading indicator.
+					$( blockContainer ).removeClass( 'convertkit-broadcasts-loading' );
 				},
 				success: function( result ) {
 					if ( convertkit_broadcasts.debug ) {
 						console.log( result );
 					}
+
+					// Remove loading indicator.
+					$( blockContainer ).removeClass( 'convertkit-broadcasts-loading' );
 
 					// Replace block container's HTML with response data.
 					$( blockContainer ).html( result.data );
