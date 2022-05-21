@@ -34,7 +34,7 @@ class WidgetBroadcastsCest
 	 */
 	public function testBroadcastsBlockWidgetWithDefaultParameters(AcceptanceTester $I)
 	{
-		// Add block widget, setting the Form setting to the value specified in the .env file.
+		// Add block widget.
 		$I->addBlockWidget($I, 'ConvertKit Broadcasts', 'convertkit-broadcasts');
 
 		// View the home page.
@@ -59,7 +59,7 @@ class WidgetBroadcastsCest
 	 */
 	public function testBroadcastsBlockWidgetWithDateFormatParameter(AcceptanceTester $I)
 	{
-		// Add block widget, setting the Form setting to the value specified in the .env file.
+		// Add block widget.
 		$I->addBlockWidget($I, 'ConvertKit Broadcasts', 'convertkit-broadcasts', [
 			'date_format' => [ 'select', 'Y-m-d' ],
 		]);
@@ -86,7 +86,7 @@ class WidgetBroadcastsCest
 	 */
 	public function testBroadcastsBlockWidgetWithLimitParameter(AcceptanceTester $I)
 	{
-		// Add block widget, setting the Form setting to the value specified in the .env file.
+		// Add block widget.
 		$I->addBlockWidget($I, 'ConvertKit Broadcasts', 'convertkit-broadcasts', [
 			'limit' => [ 'input', '2' ],
 		]);
@@ -99,6 +99,52 @@ class WidgetBroadcastsCest
 
 		// Confirm that the expected number of Broadcasts are displayed.
 		$I->seeNumberOfElements('li.convertkit-broadcast', 2);
+	}
+
+	/**
+	 * Test the Broadcasts block's pagination works when enabled.
+	 * 
+	 * @since 	1.9.7.6
+	 * 
+	 * @param 	AcceptanceTester 	$I 	Tester
+	 */
+	public function testBroadcastsBlockWidgetWithPaginationEnabled(AcceptanceTester $I)
+	{
+		// Add block widget.
+		$I->addBlockWidget($I, 'ConvertKit Broadcasts', 'convertkit-broadcasts', [
+			'limit' 					=> [ 'input', '1' ],
+			'.components-form-toggle' 	=> [ 'toggle', true ],
+		]);
+
+		// View the home page.
+		$I->amOnPage('/');
+
+		// Test pagination.
+		$I->testBroadcastsPagination($I, '< Previous', 'Next >');
+	}
+
+	/**
+	 * Test the Broadcasts block's pagination labels work when defined.
+	 * 
+	 * @since 	1.9.7.6
+	 * 
+	 * @param 	AcceptanceTester 	$I 	Tester
+	 */
+	public function testBroadcastsBlockWithPaginationLabelParameters(AcceptanceTester $I)
+	{
+		// Add block widget.
+		$I->addBlockWidget($I, 'ConvertKit Broadcasts', 'convertkit-broadcasts', [
+			'limit' 	 		  		=> [ 'input', '1' ],
+			'.components-form-toggle' 	=> [ 'toggle', true ],
+			'paginate_label_prev' 		=> [ 'input', 'Newer' ],
+			'paginate_label_next' 		=> [ 'input', 'Older' ],
+		]);
+
+		// View the home page.
+		$I->amOnPage('/');
+
+		// Test pagination.
+		$I->testBroadcastsPagination($I, 'Older', 'Newer');
 	}
 
 	/**

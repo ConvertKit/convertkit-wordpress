@@ -135,6 +135,9 @@ class WPWidget extends \Codeception\Module
 					case 'select':
 						$I->selectOption($fieldID, $attributes[1]);
 						break;
+					case 'toggle':
+						$I->click($field);
+						break;
 					default:
 						$I->fillField($fieldID, $attributes[1]);
 						break;
