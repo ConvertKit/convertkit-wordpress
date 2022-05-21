@@ -235,7 +235,7 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 			'limit'               => array(
 				'label' => __( 'Number of posts', 'convertkit' ),
 				'type'  => 'number',
-				'min'   => 0,
+				'min'   => 1,
 				'max'   => 999,
 				'step'  => 1,
 			),
@@ -529,7 +529,7 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 	private function get_pagination_link_prev_html( $atts, $nonce ) {
 
 		return '<a href="' . esc_attr( $this->get_pagination_link( $atts['page'] - 1, $nonce ) ) . '" title="' . esc_attr( $atts['paginate_label_prev'] ) . '" data-page="' . esc_attr( $atts['page'] - 1 ) . '" data-nonce="' . esc_attr( $nonce ) . '">
-			' . esc_html( $atts['paginate_label_prev'] ) . '
+			' . esc_attr( $atts['paginate_label_prev'] ) . '
 		</a>';
 
 	}
@@ -547,7 +547,7 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 	private function get_pagination_link_next_html( $atts, $nonce ) {
 
 		return '<a href="' . esc_attr( $this->get_pagination_link( $atts['page'] + 1, $nonce ) ) . '" title="' . esc_attr( $atts['paginate_label_next'] ) . '" data-page="' . esc_attr( $atts['page'] + 1 ) . '" data-nonce="' . esc_attr( $nonce ) . '">
-			' . esc_html( $atts['paginate_label_next'] ) . '
+			' . esc_attr( $atts['paginate_label_next'] ) . '
 		</a>';
 
 	}

@@ -148,7 +148,7 @@ class ConvertKit_Resource {
 	public function get_paginated_subset( $page, $per_page ) {
 
 		// Calculate the maximum value for $page.
-		$total_pages = ceil( $this->count() / $per_page );
+		$total_pages = ( ( $per_page > 0 ) ? ceil( $this->count() / $per_page ) : 1 );
 
 		// If $page exceeds the total number of possible pages, reduce it.
 		if ( $page > $total_pages ) {
