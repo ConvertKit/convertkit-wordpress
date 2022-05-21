@@ -119,6 +119,9 @@ class WPClassicEditor extends \Codeception\Module
 					case 'select':
 						$I->selectOption($fieldID, $attributes[1]);
 						break;
+					case 'toggle':
+						$I->selectOption($fieldID, $attributes[1]);
+						break;
 					default:
 						$I->fillField($fieldID, $attributes[1]);
 						break;
