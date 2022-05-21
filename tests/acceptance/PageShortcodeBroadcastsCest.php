@@ -214,7 +214,7 @@ class PageShortcodeBroadcastsCest
 			'ConvertKit Broadcasts',
 			'convertkit-broadcasts',
 			false,
-			'[convertkit_broadcasts date_format="F j, Y" limit="10" paginate="0" paginate_label_prev="&lt; Previous" paginate_label_next="Next &gt;"]'
+			'[convertkit_broadcasts date_format="F j, Y" limit="10" paginate="0" paginate_label_prev="< Previous" paginate_label_next="Next >"]'
 		);
 
 		// Publish and view the Page on the frontend site.
@@ -333,7 +333,7 @@ class PageShortcodeBroadcastsCest
 		$I->publishAndViewClassicEditorPage($I);
 
 		// Test pagination.
-		$I->testBroadcastsPagination($I, '< Previous', 'Next >');
+		$I->testBroadcastsPagination($I, '&lt; Previous', 'Next &gt;');
 	}
 
 	/**
