@@ -300,8 +300,8 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 			'date_format'         => 'F j, Y',
 			'limit'               => 10,
 			'paginate'            => false,
-			'paginate_label_prev' => __( '< Previous', 'convertkit' ),
-			'paginate_label_next' => __( 'Next >', 'convertkit' ),
+			'paginate_label_prev' => __( 'Previous', 'convertkit' ),
+			'paginate_label_next' => __( 'Next', 'convertkit' ),
 
 			// Built-in Gutenberg block attributes.
 			'style'               => '',

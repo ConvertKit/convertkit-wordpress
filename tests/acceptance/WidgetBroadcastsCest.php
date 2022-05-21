@@ -120,7 +120,7 @@ class WidgetBroadcastsCest
 		$I->amOnPage('/');
 
 		// Test pagination.
-		$I->testBroadcastsPagination($I, '< Previous', 'Next >');
+		$I->testBroadcastsPagination($I, 'Previous', 'Next');
 	}
 
 	/**

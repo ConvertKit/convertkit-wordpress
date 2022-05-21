@@ -160,7 +160,7 @@ class PageBlockBroadcastsCest
 		$I->publishAndViewGutenbergPage($I);
 
 		// Test pagination.
-		$I->testBroadcastsPagination($I, '< Previous', 'Next >');
+		$I->testBroadcastsPagination($I, 'Previous', 'Next');
 	}
 
 	/**
