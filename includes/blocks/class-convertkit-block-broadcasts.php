@@ -415,27 +415,6 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 	}
 
 	/**
-	 * Helper function to determine if the request is a REST API request.
-	 *
-	 * @since   1.9.7.4
-	 *
-	 * @return  bool    Is REST API Request
-	 */
-	private function is_rest_api_request() {
-
-		if ( ! defined( 'REST_REQUEST' ) ) {
-			return false;
-		}
-
-		if ( ! REST_REQUEST ) {
-			return false;
-		}
-
-		return true;
-
-	}
-
-	/**
 	 * Returns a HTML list of ConvertKit broadcasts, honoring the supplied
 	 * attribute's current requested page and limit.
 	 *
@@ -528,7 +507,7 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 	 */
 	private function get_pagination_link_prev_html( $atts, $nonce ) {
 
-		return '<a href="' . esc_attr( $this->get_pagination_link( $atts['page'] - 1, $nonce ) ) . '" title="' . esc_attr( $atts['paginate_label_prev'] ) . '" data-page="' . esc_attr( $atts['page'] - 1 ) . '" data-nonce="' . esc_attr( $nonce ) . '">
+		return '<a href="' . esc_attr( $this->get_pagination_link( $atts['page'] - 1, $nonce ) ) . '" title="' . esc_attr( $atts['paginate_label_prev'] ) . '" data-page="' . esc_attr( (string) ( $atts['page'] - 1 ) ) . '" data-nonce="' . esc_attr( $nonce ) . '">
 			' . esc_attr( $atts['paginate_label_prev'] ) . '
 		</a>';
 
@@ -546,7 +525,7 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 	 */
 	private function get_pagination_link_next_html( $atts, $nonce ) {
 
-		return '<a href="' . esc_attr( $this->get_pagination_link( $atts['page'] + 1, $nonce ) ) . '" title="' . esc_attr( $atts['paginate_label_next'] ) . '" data-page="' . esc_attr( $atts['page'] + 1 ) . '" data-nonce="' . esc_attr( $nonce ) . '">
+		return '<a href="' . esc_attr( $this->get_pagination_link( $atts['page'] + 1, $nonce ) ) . '" title="' . esc_attr( $atts['paginate_label_next'] ) . '" data-page="' . esc_attr( (string) ( $atts['page'] + 1 ) ) . '" data-nonce="' . esc_attr( $nonce ) . '">
 			' . esc_attr( $atts['paginate_label_next'] ) . '
 		</a>';
 

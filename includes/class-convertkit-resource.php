@@ -114,7 +114,7 @@ class ConvertKit_Resource {
 	 *
 	 * @since   1.9.7.6
 	 *
-	 * @return  array
+	 * @return  int
 	 */
 	public function count() {
 
