@@ -81,7 +81,10 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 			__( 'API Key', 'convertkit' ),
 			array( $this, 'api_key_callback' ),
 			$this->settings_key,
-			$this->name
+			$this->name,
+			array(
+				'label_for' => 'api_key',
+			)
 		);
 
 		add_settings_field(
@@ -89,7 +92,10 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 			__( 'API Secret', 'convertkit' ),
 			array( $this, 'api_secret_callback' ),
 			$this->settings_key,
-			$this->name
+			$this->name,
+			array(
+				'label_for' => 'api_secret',
+			)
 		);
 
 		foreach ( convertkit_get_supported_post_types() as $supported_post_type ) {
@@ -112,7 +118,10 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 				array( $this, 'custom_post_types_callback' ),
 				$this->settings_key,
 				$this->name,
-				$supported_post_type
+				array(
+					'label_for' => '_wp_convertkit_settings_' . $supported_post_type . '_form',
+					'post_type' => $supported_post_type,
+				)
 			);
 		}
 
@@ -121,7 +130,10 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 			__( 'Debug', 'convertkit' ),
 			array( $this, 'debug_callback' ),
 			$this->settings_key,
-			$this->name
+			$this->name,
+			array(
+				'label_for' => 'debug',
+			)
 		);
 
 		add_settings_field(
@@ -129,7 +141,10 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 			__( 'Disable JavaScript', 'convertkit' ),
 			array( $this, 'no_scripts_callback' ),
 			$this->settings_key,
-			$this->name
+			$this->name,
+			array(
+				'label_for' => 'no_scripts',
+			)
 		);
 
 		add_settings_field(
@@ -137,7 +152,10 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 			__( 'Disable CSS', 'convertkit' ),
 			array( $this, 'no_css_callback' ),
 			$this->settings_key,
-			$this->name
+			$this->name,
+			array(
+				'label_for' => 'no_css',
+			)
 		);
 
 	}
@@ -294,9 +312,9 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 	 *
 	 * @since  1.9.6
 	 *
-	 * @param   string $post_type  Post Type.
+	 * @param   array $args  Field arguments.
 	 */
-	public function custom_post_types_callback( $post_type ) {
+	public function custom_post_types_callback( $args ) {
 
 		// Refresh Forms.
 		if ( ! $this->forms ) {
@@ -335,7 +353,14 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 		}
 
 		// Output field.
-		echo '<div class="convertkit-select2-container">' . $this->get_select_field( $post_type . '_form', $this->settings->get_default_form( $post_type ), $options, false, array( 'convertkit-select2' ) ) . '</div>'; // phpcs:ignore
+		echo '<div class="convertkit-select2-container">' . $this->get_select_field( 
+			$args['post_type'] . '_form',
+			$this->settings->get_default_form( $args['post_type'] ),
+			$options,
+			false,
+			array( 'convertkit-select2' )
+		) .
+		'</div>'; // phpcs:ignore
 
 	}
 
