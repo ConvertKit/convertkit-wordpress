@@ -358,9 +358,9 @@ class ConvertKit_System_Info {
 			$host = 'WP Engine';
 		} elseif ( defined( 'PAGELYBIN' ) ) {
 			$host = 'Pagely';
-		} elseif ( DB_HOST === 'localhost:/tmp/mysql5.sock' ) {
+		} elseif ( DB_HOST === 'localhost:/tmp/mysql5.sock' ) { // phpcs:ignore
 			$host = 'ICDSoft';
-		} elseif ( DB_HOST === 'mysqlv5' ) {
+		} elseif ( DB_HOST === 'mysqlv5' ) { // phpcs:ignore
 			$host = 'NetworkSolutions';
 		} elseif ( strpos( DB_HOST, 'ipagemysql.com' ) !== false ) {
 			$host = 'iPage';
