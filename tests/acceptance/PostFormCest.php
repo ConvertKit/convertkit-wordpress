@@ -22,6 +22,23 @@ class PostFormCest
 	}
 
 	/**
+	 * Test that the Posts > Add New screen has expected a11y output, such as label[for].
+	 * 
+	 * @since 	1.9.7.6
+	 * 
+	 * @param 	AcceptanceTester 	$I 	Tester
+	 */
+	public function testAccessibility(AcceptanceTester $I)
+	{
+		// Navigate to Post Type (e.g. Pages / Posts) > Add New
+		$I->amOnAdminPage('post-new.php?post_type=post');
+
+		// Confirm that settings have label[for] attributes.
+		$I->seeInSource('<label for="wp-convertkit-form">');
+		$I->seeInSource('<label for="wp-convertkit-tag">');
+	}
+
+	/**
 	 * Test that the 'Default' option for the Default Form setting in the Plugin Settings works when
 	 * creating and viewing a new WordPress Post, and there is no Default Form specified in the Plugin
 	 * settings.

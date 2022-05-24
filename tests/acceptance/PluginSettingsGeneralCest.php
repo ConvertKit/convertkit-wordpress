@@ -15,6 +15,28 @@ class PluginSettingsGeneralCest
 	}
 
 	/**
+	 * Test that the Settings > ConvertKit > General screen has expected a11y output, such as label[for].
+	 * 
+	 * @since 	1.9.7.6
+	 * 
+	 * @param 	AcceptanceTester 	$I 	Tester
+	 */
+	public function testAccessibility(AcceptanceTester $I)
+	{
+		// Go to the Plugin's Settings Screen.
+		$I->loadConvertKitSettingsGeneralScreen($I);
+
+		// Confirm that settings have label[for] attributes.
+		$I->seeInSource('<label for="api_key">');
+		$I->seeInSource('<label for="api_secret">');
+		$I->seeInSource('<label for="_wp_convertkit_settings_page_form">');
+		$I->seeInSource('<label for="_wp_convertkit_settings_post_form">');
+		$I->seeInSource('<label for="debug">');
+		$I->seeInSource('<label for="no_scripts">');
+		$I->seeInSource('<label for="no_css">');
+	}
+
+	/**
 	 * Test that UTM parameters are included in links displayed on the Plugins' Setting screen for the user to obtain
 	 * their API Key and Secret, or sign in to their ConvertKit account.
 	 * 
