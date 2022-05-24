@@ -169,6 +169,19 @@ class ConvertKit_Resource {
 	}
 
 	/**
+	 * Returns the number of resources.
+	 *
+	 * @since   1.9.7.6
+	 *
+	 * @return  int
+	 */
+	public function count() {
+
+		return count( $this->resources );
+
+	}
+
+	/**
 	 * Returns whether any resources exist in the options table.
 	 *
 	 * @since   1.9.6
