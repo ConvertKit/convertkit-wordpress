@@ -122,6 +122,52 @@ class ConvertKit_Resource {
 
 	}
 
+
+	/**
+	 * Returns a paginated subset of resources, including whether
+	 * previous and next resources in the array exist.
+	 *
+	 * @since   1.9.7.6
+	 *
+	 * @param   int $page   Current Page.
+	 * @param   int $per_page   Number of resources to return per page.
+	 * @return  array
+	 */
+	public function get_paginated_subset( $page, $per_page ) {
+
+		// Calculate the maximum value for $page.
+		$total_pages = ( ( $per_page > 0 ) ? ceil( $this->count() / $per_page ) : 1 );
+
+		// If $page exceeds the total number of possible pages, reduce it.
+		if ( $page > $total_pages ) {
+			$page = $total_pages;
+		}
+
+		// If $page is less than 1, set it to 1.
+		if ( $page < 1 ) {
+			$page = 1;
+		}
+
+		return array(
+			// The subset of items based on the pagination.
+			'items'         => array_slice( $this->resources, ( $page * $per_page ) - $per_page, $per_page ),
+
+			// Sanitized inputs.
+			'page'          => $page,
+			'per_page'      => $per_page,
+
+			// The total number of pages in the pagination.
+			'total_pages'   => $total_pages,
+
+			// If the request page is lower than the total number of pages in the pagination, there's a next page.
+			'has_next_page' => ( ( $page < $total_pages ) ? true : false ),
+
+			// If the request page is higher than 1, there's a previous page.
+			'has_prev_page' => ( ( $page > 1 ) ? true : false ),
+		);
+
+	}
+
 	/**
 	 * Returns whether any resources exist in the options table.
 	 *
@@ -181,7 +227,7 @@ class ConvertKit_Resource {
 				break;
 
 			case 'posts':
-				$results = $api->get_posts();
+				$results = $api->get_all_posts();
 				break;
 
 			default:
