@@ -282,6 +282,17 @@ class ResourcePostsTest extends \Codeception\TestCase\WPTestCase
 	}
 
 	/**
+	 * Test that the count() function returns the number of resources.
+	 * 
+	 * @since 	1.9.7.6
+	 */
+	public function testCount()
+	{
+		$result = $this->resource->get();
+		$this->assertEquals($this->resource->count(), count($result));
+	}
+
+	/**
 	 * Shared tests for paginated resources, ensuring the response contains expected values for pagination,
 	 * next/previous links etc.
 	 * 

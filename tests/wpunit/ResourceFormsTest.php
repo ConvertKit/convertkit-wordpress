@@ -119,6 +119,17 @@ class ResourceFormsTest extends \Codeception\TestCase\WPTestCase
 	}
 
 	/**
+	 * Test that the count() function returns the number of resources.
+	 * 
+	 * @since 	1.9.7.6
+	 */
+	public function testCount()
+	{
+		$result = $this->resource->get();
+		$this->assertEquals($this->resource->count(), count($result));
+	}
+
+	/**
 	 * Test that the exist() function performs as expected, storing data in the options table.
 	 * 
 	 * @since 	1.9.7.4
