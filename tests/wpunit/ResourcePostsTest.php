@@ -229,6 +229,94 @@ class ResourcePostsTest extends \Codeception\TestCase\WPTestCase
 	}
 
 	/**
+	 * Test that the get_paginated_subset() function performs as expected when requesting one item from the first page.
+	 * 
+	 * @since 	1.9.7.6
+	 */
+	public function testGetPaginatedSubsetFirstPage()
+	{
+		$this->testPagination(
+			$this->resource->get_paginated_subset(1, 1), // Paginated array of resources and metadata.
+			1, // Page.
+			1, // Per Page.
+			true, // Has a next page, as more results in the resultset exist.
+			false // Does not have a previous page, as this is the first page in the resultset.
+		);
+	}
+
+	/**
+	 * Test that the get_paginated_subset() function performs as expected when requesting one item from a page
+	 * that is not the first or last page.
+	 * 
+	 * @since 	1.9.7.6
+	 */
+	public function testGetPaginatedSubsetMiddlePage()
+	{
+		$this->testPagination(
+			$this->resource->get_paginated_subset(2, 1), // Paginated array of resources and metadata.
+			2, // Page.
+			1, // Per Page.
+			true, // Has a next page, as more results in the resultset exist.
+			true // Has a previous page, as more results in the resultset exist.
+		);
+	}
+
+	/**
+	 * Test that the get_paginated_subset() function performs as expected when requesting one item from the last page.
+	 * 
+	 * @since 	1.9.7.6
+	 */
+	public function testGetPaginatedSubsetLastPage()
+	{
+		// Query the API to establish how many resources exist.
+		$result = $this->resource->get();
+		$lastPage = count($result);
+
+		$this->testPagination(
+			$this->resource->get_paginated_subset($lastPage, 1), // Paginated array of resources and metadata.
+			$lastPage, // Page.
+			1, // Per Page.
+			false, // Does not have a next page, as this is the last page in the resultset.
+			true // Has a previous page, as more results in the resultset exist.
+		);
+	}
+
+	/**
+	 * Shared tests for paginated resources, ensuring the response contains expected values for pagination,
+	 * next/previous links etc.
+	 * 
+	 * @since 	1.9.7.6
+	 * 
+	 * @param 	array 	$result 	Result.
+	 * @param 	int 	$page 		Page.
+	 * @param 	int 	$perPage 	Results per page.
+	 * @param 	bool 	$hasNextPage 	Response should indicate pagination is available for older resources.
+	 * @param 	bool 	$hasPrevPage 	Response should indicate pagination is available for newer resources.
+	 */
+	private function testPagination($result, $page, $perPage, $hasNextPage, $hasPrevPage)
+	{
+		$this->assertNotInstanceOf(WP_Error::class, $result);
+		$this->assertIsArray($result);
+		$this->assertArrayHasKey('items', $result);
+		$this->assertArrayHasKey('page', $result);
+		$this->assertArrayHasKey('per_page', $result);
+		$this->assertArrayHasKey('has_next_page', $result);
+		$this->assertArrayHasKey('has_prev_page', $result);
+
+		// Check posts exist.
+		$this->assertIsArray($result);
+		$this->assertCount($perPage, $result['items']);
+		$this->assertArrayHasKey('id', reset($result['items']));
+		$this->assertArrayHasKey('title', reset($result['items']));
+
+		// Check other array values are as expected.
+		$this->assertEquals($result['page'], $page);
+		$this->assertEquals($result['per_page'], $perPage);
+		$this->assertEquals($result['has_next_page'], $hasNextPage);
+		$this->assertEquals($result['has_prev_page'], $hasPrevPage);
+	}
+
+	/**
 	 * Test that the exist() function performs as expected, storing data in the options table.
 	 * 
 	 * @since 	1.9.7.4
