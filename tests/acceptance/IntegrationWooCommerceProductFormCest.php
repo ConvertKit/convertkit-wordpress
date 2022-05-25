@@ -32,8 +32,11 @@ class IntegrationWooCommerceProductFormCest
 	 */
 	public function testAddNewProductUsingDefaultFormWithNoDefaultFormSpecifiedInPlugin(AcceptanceTester $I)
 	{
-		// Add a Product using the Classic Editor.
-		$I->addClassicEditorPage($I, 'product', 'ConvertKit: Product: Form: Default: None');
+		// Navigate to Products > Add New.
+		$I->amOnAdminPage('post-new.php?post_type=product');
+
+		// Define a Product Title.
+		$I->fillField('#title', 'ConvertKit: Product: Form: Default: None');
 
 		// Wait, otherwise publishing will fail in WooCommerce.
 		$I->wait(1);
@@ -58,8 +61,11 @@ class IntegrationWooCommerceProductFormCest
 		// Specify the Default Form in the Plugin Settings.
 		$defaultFormID = $I->setupConvertKitPluginDefaultFormForWooCommerceProducts($I);
 
-		// Add a Product using the Classic Editor.
-		$I->addClassicEditorPage($I, 'product', 'ConvertKit: Product: Form: Default');
+		// Navigate to Products > Add New.
+		$I->amOnAdminPage('post-new.php?post_type=product');
+
+		// Define a Product Title.
+		$I->fillField('#title', 'ConvertKit: Product: Form: Default');
 
 		// Wait, otherwise publishing will fail in WooCommerce.
 		$I->wait(1);
@@ -81,11 +87,14 @@ class IntegrationWooCommerceProductFormCest
 	 */
 	public function testAddNewProductUsingNoForm(AcceptanceTester $I)
 	{
-		// Create Product.
-		$I->addClassicEditorPage($I, 'product', 'ConvertKit: Product: Form: None');
+		// Navigate to Products > Add New.
+		$I->amOnAdminPage('post-new.php?post_type=product');
 
 		// Change Form to None.
 		$I->fillSelect2Field($I, '#select2-wp-convertkit-form-container', 'None', 'aria-owns');
+
+		// Define a Product Title.
+		$I->fillField('#title', 'ConvertKit: Product: Form: None');
 
 		// Wait, otherwise publishing will fail in WooCommerce.
 		$I->wait(1);
@@ -107,11 +116,14 @@ class IntegrationWooCommerceProductFormCest
 	 */
 	public function testAddNewProductUsingDefinedForm(AcceptanceTester $I)
 	{
-		// Create Product.
-		$I->addClassicEditorPage($I, 'product', 'ConvertKit: Product: Form: Defined');
+		// Navigate to Products > Add New.
+		$I->amOnAdminPage('post-new.php?post_type=product');
 
 		// Change Form to Form setting in .env file.
 		$I->fillSelect2Field($I, '#select2-wp-convertkit-form-container', $_ENV['CONVERTKIT_API_FORM_NAME'], 'aria-owns');
+
+		// Define a Product Title.
+		$I->fillField('#title', 'ConvertKit: Product: Form: Defined');
 
 		// Wait, otherwise publishing will fail in WooCommerce.
 		$I->wait(1);
