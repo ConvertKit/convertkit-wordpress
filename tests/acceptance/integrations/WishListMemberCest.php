@@ -4,7 +4,7 @@
  * 
  * @since 	1.9.6
  */
-class XWishListMemberCest
+class WishListMemberCest
 {
 	/**
 	 * Run common actions before running the test functions in this class.
