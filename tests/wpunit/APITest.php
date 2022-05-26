@@ -41,8 +41,8 @@ class APITest extends \Codeception\TestCase\WPTestCase
 		$this->api = new ConvertKit_API( $_ENV['CONVERTKIT_API_KEY'], $_ENV['CONVERTKIT_API_SECRET'] );
 		
 		// To avoid exceeding API rate limits when running tests concurrently across multiple environments,
-		// add a 1 second delay.
-		sleep(1);
+		// add a delay.
+		sleep(2);
 	}
 
 	/**
