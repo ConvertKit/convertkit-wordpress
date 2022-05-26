@@ -30,6 +30,8 @@ jobs:
       DB_USER: root
       DB_PASS: root
       DB_HOST: localhost
+      INSTALL_PLUGINS: "classic-editor contact-form-7 disable-welcome-messages-and-tips elementor woocommerce wordpress-seo" # Don't include this repository's Plugin here.
+      ACTIVATE_PLUGINS: "disable-welcome-messages-and-tips wordpress-seo" # Installed Plugins that should be activated prior to any tests
 
     # Defines the WordPress and PHP Versions matrix to run tests on.
     strategy:
