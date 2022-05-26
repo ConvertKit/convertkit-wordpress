@@ -519,13 +519,23 @@ class APITest extends \Codeception\TestCase\WPTestCase
 	public function testGetPosts()
 	{
 		$result = $this->api->get_posts();
+
+		// Test array was returned.
 		$this->assertNotInstanceOf(WP_Error::class, $result);
 		$this->assertIsArray($result);
-		$this->assertArrayHasKey('id', reset($result));
-		$this->assertArrayHasKey('title', reset($result));
-		$this->assertArrayHasKey('url', reset($result));
-		$this->assertArrayHasKey('published_at', reset($result));
-		$this->assertArrayHasKey('is_paid', reset($result));
+
+		// Test expected response keys exist.
+		$this->assertArrayHasKey('total_posts', $result);
+		$this->assertArrayHasKey('page', $result);
+		$this->assertArrayHasKey('total_pages', $result);
+		$this->assertArrayHasKey('posts', $result);
+
+		// Test first post within posts array.
+		$this->assertArrayHasKey('id', reset($result['posts']));
+		$this->assertArrayHasKey('title', reset($result['posts']));
+		$this->assertArrayHasKey('url', reset($result['posts']));
+		$this->assertArrayHasKey('published_at', reset($result['posts']));
+		$this->assertArrayHasKey('is_paid', reset($result['posts']));
 	}
 
 	/**
@@ -537,14 +547,26 @@ class APITest extends \Codeception\TestCase\WPTestCase
 	public function testGetPostsWithValidParameters()
 	{
 		$result = $this->api->get_posts(1, 2);
+
+		// Test array was returned.
 		$this->assertNotInstanceOf(WP_Error::class, $result);
 		$this->assertIsArray($result);
-		$this->assertCount(2, $result);
-		$this->assertArrayHasKey('id', reset($result));
-		$this->assertArrayHasKey('title', reset($result));
-		$this->assertArrayHasKey('url', reset($result));
-		$this->assertArrayHasKey('published_at', reset($result));
-		$this->assertArrayHasKey('is_paid', reset($result));
+
+		// Test expected response keys exist.
+		$this->assertArrayHasKey('total_posts', $result);
+		$this->assertArrayHasKey('page', $result);
+		$this->assertArrayHasKey('total_pages', $result);
+		$this->assertArrayHasKey('posts', $result);
+
+		// Test expected number of posts returned.
+		$this->assertCount(2, $result['posts']);
+
+		// Test first post within posts array.
+		$this->assertArrayHasKey('id', reset($result['posts']));
+		$this->assertArrayHasKey('title', reset($result['posts']));
+		$this->assertArrayHasKey('url', reset($result['posts']));
+		$this->assertArrayHasKey('published_at', reset($result['posts']));
+		$this->assertArrayHasKey('is_paid', reset($result['posts']));
 	}
 
 	/**
@@ -587,6 +609,63 @@ class APITest extends \Codeception\TestCase\WPTestCase
 		$this->assertInstanceOf(WP_Error::class, $result);
 		$this->assertEquals($result->get_error_code(), $this->errorCode);
 		$this->assertEquals('get_posts(): the per_page parameter must be equal to or less than 50.', $result->get_error_message());
+	}
+
+	/**
+	 * Test that the `get_all_posts()` function returns expected data.
+	 * 
+	 * @since 	1.9.7.6
+	 */
+	public function testGetAllPosts()
+	{
+		$result = $this->api->get_all_posts();
+		$this->assertNotInstanceOf(WP_Error::class, $result);
+		$this->assertIsArray($result);
+		$this->assertArrayHasKey('id', reset($result));
+		$this->assertArrayHasKey('title', reset($result));
+		$this->assertArrayHasKey('url', reset($result));
+		$this->assertArrayHasKey('published_at', reset($result));
+		$this->assertArrayHasKey('is_paid', reset($result));
+	}
+
+	/**
+	 * Test that the `get_all_posts()` function returns expected data
+	 * when valid parameters are included.
+	 * 
+	 * @since 	1.9.7.6
+	 */
+	public function testGetAllPostsWithValidParameters()
+	{
+		$result = $this->api->get_all_posts(2); // Number of posts to fetch in each request within the function.
+		$this->assertNotInstanceOf(WP_Error::class, $result);
+		$this->assertIsArray($result);
+		$this->assertCount(4, $result);
+		$this->assertArrayHasKey('id', reset($result));
+		$this->assertArrayHasKey('title', reset($result));
+		$this->assertArrayHasKey('url', reset($result));
+		$this->assertArrayHasKey('published_at', reset($result));
+		$this->assertArrayHasKey('is_paid', reset($result));
+	}
+
+	/**
+	 * Test that the `get_all_posts()` function returns an error
+	 * when the page parameter is less than 1.
+	 * 
+	 * @since 	1.9.7.6
+	 */
+	public function testGetAllPostsWithInvalidPostsPerRequestParameter()
+	{
+		// Test with a number less than 1.
+		$result = $this->api->get_all_posts(0);
+		$this->assertInstanceOf(WP_Error::class, $result);
+		$this->assertEquals($result->get_error_code(), $this->errorCode);
+		$this->assertEquals('get_all_posts(): the posts_per_request parameter must be equal to or greater than 1.', $result->get_error_message());
+
+		// Test with a number greater than 50.
+		$result = $this->api->get_all_posts(51);
+		$this->assertInstanceOf(WP_Error::class, $result);
+		$this->assertEquals($result->get_error_code(), $this->errorCode);
+		$this->assertEquals('get_all_posts(): the posts_per_request parameter must be equal to or less than 50.', $result->get_error_message());
 	}
 
 	/**
