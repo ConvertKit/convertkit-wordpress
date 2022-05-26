@@ -31,5 +31,4 @@ parameters:
         - '#Access to an undefined property WP_Theme::#'
         - '#Constant WP_MEMORY_LIMIT not found.#'
         - '#Constant DB_HOST not found.#'
-        - '#Constant WPINC not found.#'
         - '#Function apply_filters invoked with#' # apply_filters() accepted a variable number of parameters, which PHPStan fails to detect
