@@ -42,7 +42,7 @@ class APITest extends \Codeception\TestCase\WPTestCase
 		
 		// To avoid exceeding API rate limits when running tests concurrently across multiple environments,
 		// add a delay.
-		sleep(2);
+		sleep(3);
 	}
 
 	/**
