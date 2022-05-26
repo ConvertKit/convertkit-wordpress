@@ -1,7 +1,11 @@
-name: Run Tests
+name: Tests
 
 # When to run tests.
 on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
   push:
     branches:
       - master
