@@ -256,8 +256,8 @@ class ConvertKit_Block {
 	 *
 	 * @since   1.9.6
 	 *
-	 * @param   array $atts   Shortcode Attributes.
-	 * @return  array           Shortcode Attributes
+	 * @param   array $atts   Block or shortcode attributes.
+	 * @return  array           Block or shortcode attributes
 	 */
 	public function sanitize_atts( $atts ) {
 
@@ -274,6 +274,43 @@ class ConvertKit_Block {
 		}
 
 		return $atts;
+
+	}
+
+	/**
+	 * Returns the given block / shortcode attributes array as HTML data-* attributes, which can be output
+	 * in a block's container.
+	 *
+	 * @since   1.9.7.6
+	 *
+	 * @param   array $atts   Block or shortcode attributes.
+	 * @return  string        Block or shortcode attributes
+	 */
+	public function get_atts_as_html_data_attributes( $atts ) {
+
+		// Define attributes provided by Gutenberg, which will be skipped, such as
+		// styling.
+		$skip_keys = array(
+			'backgroundColor',
+			'textColor',
+			'_css_classes',
+			'_css_styles',
+		);
+
+		// Define a blank string to build the data-* attributes in.
+		$data = '';
+
+		foreach ( $atts as $key => $value ) {
+			// Skip built in attributes provided by Gutenberg.
+			if ( in_array( $key, $skip_keys, true ) ) {
+				continue;
+			}
+
+			// Append to data string, replacing underscores with hyphens in the key name.
+			$data .= ' data-' . strtolower( str_replace( '_', '-', $key ) ) . '="' . esc_attr( $value ) . '"';
+		}
+
+		return trim( $data );
 
 	}
 

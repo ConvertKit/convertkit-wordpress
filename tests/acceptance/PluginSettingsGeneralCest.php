@@ -272,7 +272,7 @@ class PluginSettingsGeneralCest
 		$I->amOnPage('/');
 
 		// Confirm no CSS is output by the Plugin.
-		$I->seeInSource('gutenberg-block-broadcasts.css');
+		$I->seeInSource('broadcasts.css');
 	}
 
 	/**
@@ -307,7 +307,7 @@ class PluginSettingsGeneralCest
 		$I->amOnPage('/');
 
 		// Confirm no CSS is output by the Plugin.
-		$I->dontSeeInSource('gutenberg-block-broadcasts.css');
+		$I->dontSeeInSource('broadcasts.css');
 	}
 
 	/**

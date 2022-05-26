@@ -27,31 +27,31 @@ class ConvertKit_Block_Form extends ConvertKit_Block {
 		// Register this as a Gutenberg block in the ConvertKit Plugin.
 		add_filter( 'convertkit_blocks', array( $this, 'register' ) );
 
-		// Register additional scripts for this Gutenberg Block.
-		add_action( 'convertkit_gutenberg_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
+		// Enqueue scripts for this Gutenberg Block in the editor view.
+		add_action( 'convertkit_gutenberg_enqueue_scripts', array( $this, 'enqueue_scripts_editor' ) );
 
-		// Register additional stylesheets for this Gutenberg Block.
-		add_action( 'convertkit_gutenberg_enqueue_styles', array( $this, 'enqueue_styles' ) );
+		// Enqueue styles for this Gutenberg Block in the editor view.
+		add_action( 'convertkit_gutenberg_enqueue_styles', array( $this, 'enqueue_styles_editor' ) );
 
 	}
 
 	/**
-	 * Enqueues additional scripts for this Gutenberg Block.
+	 * Enqueues scripts for this Gutenberg Block in the editor view.
 	 *
 	 * @since   1.9.6.5
 	 */
-	public function enqueue_scripts() {
+	public function enqueue_scripts_editor() {
 
 		wp_enqueue_script( 'convertkit-gutenberg-block-form', CONVERTKIT_PLUGIN_URL . '/resources/backend/js/gutenberg-block-form.js', array( 'convertkit-gutenberg' ), CONVERTKIT_PLUGIN_VERSION, true );
 
 	}
 
 	/**
-	 * Enqueues additional scripts for this Gutenberg Block.
+	 * Enqueues styles for this Gutenberg Block in the editor view.
 	 *
 	 * @since   1.9.6.9
 	 */
-	public function enqueue_styles() {
+	public function enqueue_styles_editor() {
 
 		wp_enqueue_style( 'convertkit-gutenberg-block-form', CONVERTKIT_PLUGIN_URL . '/resources/backend/css/gutenberg-block-form.css', array( 'wp-edit-blocks' ), CONVERTKIT_PLUGIN_VERSION );
 

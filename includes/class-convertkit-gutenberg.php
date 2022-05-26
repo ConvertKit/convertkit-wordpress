@@ -116,9 +116,13 @@ class ConvertKit_Gutenberg {
 			);
 		}
 
-		// Enqueue Gutenberg Block scripts and styles.
+		// Enqueue block scripts and styles in the editor view.
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_styles' ) );
+
+		// Enqueue block scripts and styles in the editor and frontend views.
+		add_action( 'enqueue_block_assets', array( $this, 'enqueue_scripts_editor_and_frontend' ) );
+		add_action( 'enqueue_block_assets', array( $this, 'enqueue_styles_editor_and_frontend' ) );
 
 	}
 
@@ -156,7 +160,7 @@ class ConvertKit_Gutenberg {
 	}
 
 	/**
-	 * Enqueues scripts for Gutenberg blocks in the editor view.
+	 * Enqueues styles for Gutenberg blocks in the editor view.
 	 *
 	 * Use wp_enqueue_style() hooked to the enqueue_block_assets hook for frontend styles:
 	 * https://developer.wordpress.org/block-editor/how-to-guides/block-tutorial/applying-styles-with-stylesheets/
@@ -176,6 +180,54 @@ class ConvertKit_Gutenberg {
 		 * @since   1.9.6.9
 		 */
 		do_action( 'convertkit_gutenberg_enqueue_styles' );
+
+	}
+
+	/**
+	 * Enqueues scripts for Gutenberg blocks in both the editor and frontend view,
+	 * if the Plugin's Disable JavaScript option is not enabled.
+	 *
+	 * @since   1.9.7.6
+	 */
+	public function enqueue_scripts_editor_and_frontend() {
+
+		// Don't load scripts if the Disable JS option is on.
+		$settings = new ConvertKit_Settings();
+		if ( $settings->scripts_disabled() ) {
+			return;
+		}
+
+		/**
+		 * Enqueues scripts for Gutenberg blocks in both the editor and frontend view,
+		 * if the Plugin's Disable JavaScript option is not enabled.
+		 *
+		 * @since   1.9.7.6
+		 */
+		do_action( 'convertkit_gutenberg_enqueue_scripts_editor_and_frontend' );
+
+	}
+
+	/**
+	 * Enqueues styles for Gutenberg blocks in both the editor and frontend view,
+	 * if the Plugin's Disable CSS option is not enabled.
+	 *
+	 * @since   1.9.7.6
+	 */
+	public function enqueue_styles_editor_and_frontend() {
+
+		// Don't load styles if the Disable CSS option is on.
+		$settings = new ConvertKit_Settings();
+		if ( $settings->css_disabled() ) {
+			return;
+		}
+
+		/**
+		 * Enqueues styles for Gutenberg blocks in both the editor and frontend view,
+		 * if the Plugin's Disable CSS option is not enabled.
+		 *
+		 * @since   1.9.7.6
+		 */
+		do_action( 'convertkit_gutenberg_enqueue_styles_editor_and_frontend' );
 
 	}
 
