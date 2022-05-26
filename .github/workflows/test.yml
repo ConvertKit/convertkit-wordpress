@@ -13,7 +13,7 @@ on:
 jobs:
   tests:
     # Name.
-    name: Run ${{ matrix.tests-groups }} Tests in WordPress ${{ matrix.wp-versions }} with PHP ${{ matrix.php-versions }}
+    name: ${{ matrix.test-groups }} / WordPress ${{ matrix.wp-versions }} / PHP ${{ matrix.php-versions }}
 
     # Virtual Environment to use.
     # @see: https://github.com/actions/virtual-environments
