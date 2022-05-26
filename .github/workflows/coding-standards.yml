@@ -1,0 +1,75 @@
+name: Run Tests
+
+# When to run tests.
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+  push:
+    branches:
+      - master
+
+jobs:
+  tests:
+    # Name.
+    name: Coding Standards / WordPress ${{ matrix.wp-versions }} / PHP ${{ matrix.php-versions }}
+
+    # Virtual Environment to use.
+    # @see: https://github.com/actions/virtual-environments
+    runs-on: ubuntu-20.04
+
+    # Environment Variables.
+    # Accessible by using ${{ env.NAME }}
+    # Use ${{ secrets.NAME }} to include any GitHub Secrets in ${{ env.NAME }}
+    # The base folder will always be /home/runner/work/github-repo-name/github-repo-name
+    env:
+      ROOT_DIR: /home/runner/work/convertkit-wordpress/convertkit-wordpress/wordpress
+      PLUGIN_DIR: /home/runner/work/convertkit-wordpress/convertkit-wordpress/wordpress/wp-content/plugins/convertkit
+      DB_NAME: test
+      DB_USER: root
+      DB_PASS: root
+      DB_HOST: localhost
+      INSTALL_PLUGINS: "classic-editor contact-form-7 disable-welcome-messages-and-tips elementor woocommerce wordpress-seo" # Don't include this repository's Plugin here.
+      ACTIVATE_PLUGINS: "disable-welcome-messages-and-tips wordpress-seo" # Installed Plugins that should be activated prior to any tests
+      CONVERTKIT_API_KEY: ${{ secrets.CONVERTKIT_API_KEY }} # ConvertKit API Key, stored in the repository's Settings > Secrets
+      CONVERTKIT_API_SECRET: ${{ secrets.CONVERTKIT_API_SECRET }} # ConvertKit API Secret, stored in the repository's Settings > Secrets
+      CONVERTKIT_API_KEY_NO_DATA: ${{ secrets.CONVERTKIT_API_KEY_NO_DATA }} # ConvertKit API Key for ConvertKit account with no data, stored in the repository's Settings > Secrets
+      CONVERTKIT_API_SECRET_NO_DATA: ${{ secrets.CONVERTKIT_API_SECRET_NO_DATA }} # ConvertKit API Secret for ConvertKit account with no data, stored in the repository's Settings > Secrets
+
+    # Defines the WordPress and PHP Versions matrix to run tests on
+    # WooCommerce 5.9.0 requires WordPress 5.6 or greater, so we do not test on earlier versions
+    # If testing older WordPress versions, ensure they are e.g. 5.7.4, 5.6.6 that have the X3 SSL fix: https://core.trac.wordpress.org/ticket/54207
+    # For PHP, make sure that an nginx configuration file exists for the required PHP version in this repository at tests/nginx/php-x.x.conf
+    strategy:
+      matrix:
+        wp-versions: [ '5.9.3' ] #[ '5.6.7', '5.7.5', '5.8.3', '5.9' ]
+        php-versions: [ '7.2', '7.3', '7.4', '8.0' ] #[ '7.3', '7.4', '8.0', '8.1' ]
+
+    # Steps to install, configure and run tests
+    steps:
+      # Checkout (copy) this repository's Plugin to this VM.
+      - name: Checkout Plugin
+        uses: actions/checkout@v2
+        with:
+          path: ${{ env.PLUGIN_DIR }}
+
+      # Installs wp-browser, Codeception, PHP CodeSniffer and anything else needed to run tests.
+      - name: Run Composer
+        working-directory: ${{ env.PLUGIN_DIR }}
+        run: composer update
+
+      - name: Build PHP Autoloader
+        working-directory: ${{ env.PLUGIN_DIR }}
+        run: composer dump-autoload
+
+      # We run these before the main tests, as typically CodeSniffer is fast. If there's a failure, we can tell
+      # the user sooner.
+      - name: Run WordPress Coding Standards Tests
+        working-directory: ${{ env.PLUGIN_DIR }}
+        run: php vendor/bin/phpcs ./ -v
+
+      # Run PHPStan for static analysis.
+      - name: Run PHPStan Static Analysis
+        working-directory: ${{ env.PLUGIN_DIR }}
+        run: php vendor/bin/phpstan --memory-limit=512M
