@@ -24,23 +24,9 @@ jobs:
     # Use ${{ secrets.NAME }} to include any GitHub Secrets in ${{ env.NAME }}
     # The base folder will always be /home/runner/work/github-repo-name/github-repo-name
     env:
-      ROOT_DIR: /home/runner/work/convertkit-wordpress/convertkit-wordpress/wordpress
       PLUGIN_DIR: /home/runner/work/convertkit-wordpress/convertkit-wordpress/wordpress/wp-content/plugins/convertkit
-      DB_NAME: test
-      DB_USER: root
-      DB_PASS: root
-      DB_HOST: localhost
-      INSTALL_PLUGINS: "classic-editor contact-form-7 disable-welcome-messages-and-tips elementor woocommerce wordpress-seo" # Don't include this repository's Plugin here.
-      ACTIVATE_PLUGINS: "disable-welcome-messages-and-tips wordpress-seo" # Installed Plugins that should be activated prior to any tests
-      CONVERTKIT_API_KEY: ${{ secrets.CONVERTKIT_API_KEY }} # ConvertKit API Key, stored in the repository's Settings > Secrets
-      CONVERTKIT_API_SECRET: ${{ secrets.CONVERTKIT_API_SECRET }} # ConvertKit API Secret, stored in the repository's Settings > Secrets
-      CONVERTKIT_API_KEY_NO_DATA: ${{ secrets.CONVERTKIT_API_KEY_NO_DATA }} # ConvertKit API Key for ConvertKit account with no data, stored in the repository's Settings > Secrets
-      CONVERTKIT_API_SECRET_NO_DATA: ${{ secrets.CONVERTKIT_API_SECRET_NO_DATA }} # ConvertKit API Secret for ConvertKit account with no data, stored in the repository's Settings > Secrets
 
-    # Defines the WordPress and PHP Versions matrix to run tests on
-    # WooCommerce 5.9.0 requires WordPress 5.6 or greater, so we do not test on earlier versions
-    # If testing older WordPress versions, ensure they are e.g. 5.7.4, 5.6.6 that have the X3 SSL fix: https://core.trac.wordpress.org/ticket/54207
-    # For PHP, make sure that an nginx configuration file exists for the required PHP version in this repository at tests/nginx/php-x.x.conf
+    # Defines the WordPress and PHP Versions matrix to run tests on.
     strategy:
       matrix:
         wp-versions: [ '5.9.3' ] #[ '5.6.7', '5.7.5', '5.8.3', '5.9' ]
@@ -54,6 +40,13 @@ jobs:
         with:
           path: ${{ env.PLUGIN_DIR }}
 
+      # Install PHP version to run tests against.
+      - name: Install PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-versions }}
+          coverage: xdebug
+
       # Installs wp-browser, Codeception, PHP CodeSniffer and anything else needed to run tests.
       - name: Run Composer
         working-directory: ${{ env.PLUGIN_DIR }}
@@ -63,8 +56,7 @@ jobs:
         working-directory: ${{ env.PLUGIN_DIR }}
         run: composer dump-autoload
 
-      # We run these before the main tests, as typically CodeSniffer is fast. If there's a failure, we can tell
-      # the user sooner.
+      # Run WordPress Coding Standards tests.
       - name: Run WordPress Coding Standards Tests
         working-directory: ${{ env.PLUGIN_DIR }}
         run: php vendor/bin/phpcs ./ -v
