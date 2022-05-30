@@ -119,6 +119,8 @@ jobs:
         working-directory: ${{ env.ROOT_DIR }}
         run: |
           wp-cli config set WP_DEBUG true --raw
+          wp-cli config set WP_DEBUG_LOG true --raw
+          wp-cli config set WP_DEBUG_DISPLAY false --raw
           wp-cli config set FS_METHOD direct
 
       # This step is deliberately after WordPress installation and configuration, as enabling PHP 8.x before using WP-CLI results
@@ -211,7 +213,7 @@ jobs:
       # Run Codeception Acceptance Tests.
       - name: Run Acceptance Tests
         working-directory: ${{ env.PLUGIN_DIR }}
-        run: php vendor/bin/codecept run acceptance --fail-fast
+        run: php vendor/bin/codecept run acceptance WidgetBroadcastsCest --fail-fast
 
       # If the repository has other tests, such as unit tests, add the Codeception commands here to run them now.
 
@@ -232,9 +234,9 @@ jobs:
           name: log.txt
           path: ${{ env.PLUGIN_DIR }}/log.txt
 
-      - name: Upload nginx Error Log File to Artifact
+      - name: Upload debug.log File to Artifact
         if: always()
         uses: actions/upload-artifact@v2
         with:
-          name: error.log
-          path: /var/log/nginx/error.log
+          name: debug.log
+          path: /home/runner/work/convertkit-wordpress/convertkit-wordpress/wordpress/wp-content/debug.log
