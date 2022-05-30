@@ -68,11 +68,11 @@ class WishListMemberCest
 		$I->checkOption('#WishListMemberUserProfile input[value="'. $wlmLevelID . '"]');
 		
 		// Save Changes.
-		$I->click('Update User');
+		$I->click('Update Member Profile');
 
-		// We removed the confirmation that the User is assigned to the Bronze WLM Level, as WLM is broken in WordPress 6.0
-		// and fails to tick the checkbox after saving the User's profile.  However, they have been assigned to the level.
-
+		// Confirm that the User is still assigned to the Bronze WLM Level.
+		$I->seeCheckboxIsChecked('#WishListMemberUserProfile input[value="'. $wlmLevelID . '"]');
+		
 		// Confirm that the email address was added to ConvertKit.
 		$I->apiCheckSubscriberExists($I, $emailAddress);
 	}
