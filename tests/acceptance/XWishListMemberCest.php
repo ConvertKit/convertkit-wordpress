@@ -23,6 +23,8 @@ class XWishListMemberCest
 	}
 
 	/**
+	 * @skip Due to incompatibilities between WLM and WordPress 6.0, any tests will fail.
+	 *
 	 * Test that saving a WishList Member Level to ConvertKit Form Mapping works.
 	 * 
 	 * @since 	1.9.6
