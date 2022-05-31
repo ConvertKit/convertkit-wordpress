@@ -4,7 +4,7 @@
  * 
  * @since 	1.9.6
  */
-class XWishListMemberCest
+class WishListMemberCest
 {
 	/**
 	 * Run common actions before running the test functions in this class.
@@ -23,8 +23,6 @@ class XWishListMemberCest
 	}
 
 	/**
-	 * @skip Due to incompatibilities between WLM and WordPress 6.0, any tests will fail.
-	 *
 	 * Test that saving a WishList Member Level to ConvertKit Form Mapping works.
 	 * 
 	 * @since 	1.9.6
