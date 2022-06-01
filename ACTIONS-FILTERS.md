@@ -784,7 +784,7 @@ add_filter( 'convertkit_term_get_default_settings', function( $defaults ) {
 </pre>
 <h3 id="convertkit_api_get_timeout">
 						convertkit_api_get_timeout
-						<code>includes/class-convertkit-api.php::1323</code>
+						<code>includes/class-convertkit-api.php::1382</code>
 					</h3><h4>Overview</h4>
 						<p>Defines the maximum time to allow the API request to run.</p><h4>Parameters</h4>
 					<table>
@@ -1461,7 +1461,7 @@ do_action( 'convertkit_api_form_unsubscribe_success', function( $response, $emai
 </pre>
 <h3 id="convertkit_api_purchase_create_success">
 						convertkit_api_purchase_create_success
-						<code>includes/class-convertkit-api.php::877</code>
+						<code>includes/class-convertkit-api.php::936</code>
 					</h3><h4>Overview</h4>
 						<p>Runs actions immediately after the purchase data address was successfully created.</p><h4>Parameters</h4>
 					<table>

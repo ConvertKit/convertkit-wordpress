@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the ConvertKit plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: ConvertKit 1.9.7.5\n"
+"Project-Id-Version: ConvertKit 1.9.7.6\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/convertkit-github\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-05-12T15:32:02+00:00\n"
+"POT-Creation-Date: 2022-06-01T11:04:21+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.6.0\n"
 "X-Domain: convertkit\n"
@@ -64,102 +64,102 @@ msgstr ""
 msgid "API Key"
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:89
+#: admin/section/class-convertkit-settings-general.php:92
 msgid "API Secret"
 msgstr ""
 
 #. translators: Post Type Name
-#: admin/section/class-convertkit-settings-general.php:109
+#: admin/section/class-convertkit-settings-general.php:115
 msgid "Default Form (%s)"
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:121
+#: admin/section/class-convertkit-settings-general.php:130
 msgid "Debug"
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:129
+#: admin/section/class-convertkit-settings-general.php:141
 msgid "Disable JavaScript"
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:137
+#: admin/section/class-convertkit-settings-general.php:152
 msgid "Disable CSS"
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:151
+#: admin/section/class-convertkit-settings-general.php:169
 msgid "Choosing a default form will embed it at the bottom of every post or page (in single view only) across your site."
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:152
+#: admin/section/class-convertkit-settings-general.php:170
 msgid "If you wish to turn off form embedding or select a different form for an individual post or page, you can do so using the ConvertKit meta box on the edit page."
 msgstr ""
 
 #. translators: [convertkit] shortcode, wrapped in <code> tags
-#: admin/section/class-convertkit-settings-general.php:157
+#: admin/section/class-convertkit-settings-general.php:175
 msgid "The default form can be inserted into the middle of post or page content by using the %s shortcode."
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:204
+#: admin/section/class-convertkit-settings-general.php:222
 msgid "Add a valid API Key and Secret to get started"
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:211
+#: admin/section/class-convertkit-settings-general.php:229
 msgid "(Not specified)"
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:213
+#: admin/section/class-convertkit-settings-general.php:231
 msgid "The name of your connected ConvertKit account."
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:229
+#: admin/section/class-convertkit-settings-general.php:247
 msgid "Your API Key has been defined in your wp-config.php file. For security, it is not displayed here."
 msgstr ""
 
 #. translators: %1$s: Link to ConvertKit Account
-#: admin/section/class-convertkit-settings-general.php:241
-#: admin/section/class-convertkit-settings-general.php:278
+#: admin/section/class-convertkit-settings-general.php:259
+#: admin/section/class-convertkit-settings-general.php:296
 msgid "%1$s Required for proper plugin function."
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:242
+#: admin/section/class-convertkit-settings-general.php:260
 msgid "Get your ConvertKit API Key."
 msgstr ""
 
 #. translators: Account, %1$s: wp-config.php, %2$s: <code> block for API Key definition
-#: admin/section/class-convertkit-settings-general.php:246
+#: admin/section/class-convertkit-settings-general.php:264
 msgid "Alternatively specify your API Key in the %1$s file using %2$s"
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:266
+#: admin/section/class-convertkit-settings-general.php:284
 msgid "Your API Secret has been defined in your wp-config.php file. For security, it is not displayed here."
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:279
+#: admin/section/class-convertkit-settings-general.php:297
 msgid "Get your ConvertKit API Secret."
 msgstr ""
 
 #. translators: Account, %1$s: wp-config.php, %2$s: <code> block for API Secret definition
-#: admin/section/class-convertkit-settings-general.php:283
+#: admin/section/class-convertkit-settings-general.php:301
 msgid "Alternatively specify your API Secret in the %1$s file using %2$s"
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:320
+#: admin/section/class-convertkit-settings-general.php:338
 #: views/backend/post/meta-box.php:20
 #: views/backend/term/fields.php:17
 msgid "No Forms exist in ConvertKit."
 msgstr ""
 
 #. translators: Link to sign in to ConvertKit
-#: admin/section/class-convertkit-settings-general.php:323
+#: admin/section/class-convertkit-settings-general.php:341
 msgid "To create a form, %s"
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:324
+#: admin/section/class-convertkit-settings-general.php:342
 #: views/backend/post/meta-box.php:64
 #: views/backend/post/meta-box.php:121
 msgid "sign in to ConvertKit"
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:331
+#: admin/section/class-convertkit-settings-general.php:349
 #: includes/integrations/contactform7/class-convertkit-contactform7-admin-settings.php:88
 #: includes/integrations/wishlist/class-convertkit-wishlist-admin-settings.php:105
 #: includes/integrations/wishlist/class-convertkit-wishlist-admin-settings.php:113
@@ -169,19 +169,19 @@ msgstr ""
 msgid "None"
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:354
+#: admin/section/class-convertkit-settings-general.php:381
 msgid "Log requests to file and output browser console messages."
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:355
+#: admin/section/class-convertkit-settings-general.php:382
 msgid "You can ignore this unless you're working with our support team to resolve an issue. Decheck this option to improve performance."
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:372
+#: admin/section/class-convertkit-settings-general.php:399
 msgid "Prevent plugin from loading JavaScript files. This will disable the custom content and tagging features of the plugin. Does not apply to landing pages. Use with caution!"
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:389
+#: admin/section/class-convertkit-settings-general.php:416
 msgid "Prevent plugin from loading CSS files. This will disable styling on the broadcasts shortcode and block. Use with caution!"
 msgstr ""
 
@@ -261,7 +261,7 @@ msgstr ""
 #: includes/blocks/class-convertkit-block-form.php:89
 #: includes/integrations/contactform7/class-convertkit-contactform7-admin-settings.php:106
 #: includes/integrations/wishlist/class-convertkit-wishlist-admin-settings.php:123
-#: includes/widgets/class-ck-widget-form.php:28
+#: includes/widgets/class-ck-widget-form.php:35
 #: views/backend/term/fields.php:12
 msgid "ConvertKit Form"
 msgstr ""
@@ -272,7 +272,7 @@ msgstr ""
 
 #: includes/blocks/class-convertkit-block-form.php:95
 #: includes/blocks/class-convertkit-block-form.php:189
-#: includes/widgets/class-ck-widget-form.php:64
+#: includes/widgets/class-ck-widget-form.php:71
 #: views/backend/post/meta-box.php:15
 msgid "Form"
 msgstr ""
@@ -402,38 +402,47 @@ msgstr ""
 msgid "No custom fields exist in ConvertKit. Visit your ConvertKit account and create your first custom field."
 msgstr ""
 
-#: includes/class-convertkit-api.php:753
-msgid "get_posts(): the page parameter must be equal to or greater than 1."
+#: includes/class-convertkit-api.php:751
+msgid "get_all_posts(): the posts_per_request parameter must be equal to or greater than 1."
 msgstr ""
 
-#: includes/class-convertkit-api.php:756
-msgid "get_posts(): the per_page parameter must be equal to or greater than 1."
+#: includes/class-convertkit-api.php:754
+msgid "get_all_posts(): the posts_per_request parameter must be equal to or less than 50."
 msgstr ""
 
-#: includes/class-convertkit-api.php:759
-msgid "get_posts(): the per_page parameter must be equal to or less than 50."
-msgstr ""
-
-#: includes/class-convertkit-api.php:784
-#: includes/class-convertkit-api.php:788
+#: includes/class-convertkit-api.php:785
+#: includes/class-convertkit-api.php:843
+#: includes/class-convertkit-api.php:847
 msgid "No posts exist in ConvertKit. Visit your ConvertKit account and create your first broadcast."
 msgstr ""
 
+#: includes/class-convertkit-api.php:812
+msgid "get_posts(): the page parameter must be equal to or greater than 1."
+msgstr ""
+
+#: includes/class-convertkit-api.php:815
+msgid "get_posts(): the per_page parameter must be equal to or greater than 1."
+msgstr ""
+
+#: includes/class-convertkit-api.php:818
+msgid "get_posts(): the per_page parameter must be equal to or less than 50."
+msgstr ""
+
 #. translators: API Error Message
-#: includes/class-convertkit-api.php:1020
+#: includes/class-convertkit-api.php:1079
 msgid "ConvertKit: %s"
 msgstr ""
 
-#: includes/class-convertkit-api.php:1158
+#: includes/class-convertkit-api.php:1217
 msgid "No forms exist in ConvertKit. Visit your ConvertKit account and create your first form."
 msgstr ""
 
 #. translators: HTTP method
-#: includes/class-convertkit-api.php:1265
+#: includes/class-convertkit-api.php:1324
 msgid "API request method %s is not supported in ConvertKit_API class."
 msgstr ""
 
-#: includes/class-convertkit-api.php:1287
+#: includes/class-convertkit-api.php:1346
 msgid "Rate limit hit."
 msgstr ""
 
@@ -452,7 +461,7 @@ msgid "ConvertKit Landing Page ID %s does not exist on ConvertKit."
 msgstr ""
 
 #. translators: Resource Type
-#: includes/class-convertkit-resource.php:192
+#: includes/class-convertkit-resource.php:251
 msgid "Resource type %s is not supported in ConvertKit_Resource class."
 msgstr ""
 
@@ -543,15 +552,15 @@ msgstr ""
 msgid "Unsubscribe Action"
 msgstr ""
 
-#: includes/widgets/class-ck-widget-form.php:31
+#: includes/widgets/class-ck-widget-form.php:38
 msgid "Display a ConvertKit form."
 msgstr ""
 
-#: includes/widgets/class-ck-widget-form.php:54
+#: includes/widgets/class-ck-widget-form.php:61
 msgid "To display a ConvertKit Form, at least one form must be defined in your ConvertKit Account."
 msgstr ""
 
-#: includes/widgets/class-ck-widget-form.php:60
+#: includes/widgets/class-ck-widget-form.php:67
 msgid "Title"
 msgstr ""
 
