@@ -196,7 +196,7 @@ jobs:
       # Run PHPStan for static analysis.
       - name: Run PHPStan Static Analysis
         working-directory: ${{ env.PLUGIN_DIR }}
-        run: php vendor/bin/phpstan --memory-limit=512M
+        run: php vendor/bin/phpstan --memory-limit=1024M
 
       # Build Codeception Tests.
       - name: Build Tests
