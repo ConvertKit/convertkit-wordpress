@@ -3,7 +3,7 @@ Contributors: nathanbarry, growdev, travisnorthcutt, ggwicz
 Donate link: https://convertkit.com
 Tags: email, marketing, newsletter, convertkit
 Requires at least: 5.0
-Tested up to: 5.9.3
+Tested up to: 6.0
 Requires PHP: 5.6.20
 Stable tag: trunk
 License: GPLv2 or later
@@ -110,9 +110,11 @@ Full Plugin documentation can be found [here](https://help.convertkit.com/en/art
 
 == Changelog ==
 
-### 1.9.7.6 2022-05-xx
+### 1.9.7.6 2022-06-01
 * Added: ConvertKit Broadcasts Block when editing Widgets using the block editor in WordPress 5.8+
 * Added: ConvertKit Form Block when editing Widgets using the block editor in WordPress 5.8+
+* Fix: ConvertKit Broadcasts Block/Shortcode: Fetch all Broadcasts from ConvertKit, not just the first 50
+* Fix: Settings: Added label element for setting field names
 
 ### 1.9.7.5 2022-05-12
 * Fix: PHP Warning: Cannot modify header information, caused by QuickTags modal template output
