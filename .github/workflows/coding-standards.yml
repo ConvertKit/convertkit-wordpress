@@ -30,14 +30,13 @@ jobs:
       DB_USER: root
       DB_PASS: root
       DB_HOST: localhost
-      INSTALL_PLUGINS: "classic-editor contact-form-7 disable-welcome-messages-and-tips elementor woocommerce wordpress-seo" # Don't include this repository's Plugin here.
-      ACTIVATE_PLUGINS: "disable-welcome-messages-and-tips wordpress-seo" # Installed Plugins that should be activated prior to any tests
+      INSTALL_PLUGINS: "classic-editor contact-form-7 elementor woocommerce wordpress-seo" # Don't include this repository's Plugin here.
 
     # Defines the WordPress and PHP Versions matrix to run tests on.
     strategy:
       matrix:
         wp-versions: [ '6.0' ] #[ '5.6.7', '5.7.5', '5.8.3', '5.9' ]
-        php-versions: [ '7.4' ] #[ '7.3', '7.4', '8.0', '8.1' ]
+        php-versions: [ '7.2', '7.3', '7.4', '8.0' ] #[ '7.3', '7.4', '8.0', '8.1' ]
 
     # Steps to install, configure and run tests
     steps:
@@ -95,11 +94,6 @@ jobs:
         working-directory: ${{ env.ROOT_DIR }}
         run: wp-cli plugin install ${{ env.INSTALL_PLUGINS }}
 
-      # env.ACTIVATE_PLUGINS is a list of Plugin slugs, space separated e.g. contact-form-7 woocommerce.
-      - name: Activate Free Third Party WordPress Plugins
-        working-directory: ${{ env.ROOT_DIR }}
-        run: wp-cli plugin activate ${{ env.ACTIVATE_PLUGINS }}
-
       # These should be stored as a separated list of URLs in the repository Settings > Secrets > Repository Secret > CONVERTKIT_PAID_PLUGIN_URLS.
       # We cannot include the URLs in this file, as they're not Plugins we are permitted to distribute.
       - name: Install and Activate Paid Third Party WordPress Plugins
@@ -112,17 +106,6 @@ jobs:
         with:
           php-version: ${{ matrix.php-versions }}
           coverage: xdebug
-
-      # Make sure that an nginx configuration file exists in this repository at tests/nginx/php-x.x.conf.
-      # Refer to an existing .conf file in this repository if you need to create a new one e.g. for a new PHP version.
-      - name: Copy nginx configuration file
-        run: sudo cp ${{ env.PLUGIN_DIR }}/tests/nginx/php-${{ matrix.php-versions }}.conf /etc/nginx/conf.d/php-${{ matrix.php-versions }}.conf
-
-      - name: Test nginx
-        run: sudo nginx -t
-
-      - name: Start nginx
-        run: sudo systemctl start nginx.service
 
       # Installs wp-browser, Codeception, PHP CodeSniffer and anything else needed to run tests.
       - name: Run Composer
