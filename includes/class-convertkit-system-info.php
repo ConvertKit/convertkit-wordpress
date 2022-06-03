@@ -360,7 +360,7 @@ class ConvertKit_System_Info {
 			$host = 'Pagely';
 		} elseif ( DB_HOST === 'localhost:/tmp/mysql5.sock' ) { // @phpstan-ignore-line.
 			$host = 'ICDSoft';
-		} elseif ( DB_HOST === 'mysqlv5' ) { // @phpstan-ignore-line.
+		} elseif ( DB_HOST === 'mysqlv5' ) {
 			$host = 'NetworkSolutions';
 		} elseif ( strpos( DB_HOST, 'ipagemysql.com' ) !== false ) {
 			$host = 'iPage';
