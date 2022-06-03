@@ -113,6 +113,10 @@ jobs:
           php-version: ${{ matrix.php-versions }}
           coverage: xdebug
 
+      # Output PHP version.
+      - name: Output PHP version
+        run: php -v
+
       # Installs wp-browser, Codeception, PHP CodeSniffer and anything else needed to run tests.
       - name: Run Composer
         working-directory: ${{ env.PLUGIN_DIR }}
