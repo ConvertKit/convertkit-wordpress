@@ -17,9 +17,9 @@ parameters:
     bootstrapFiles:
         - wp-convertkit.php
 
-    # Location of WordPress installation
+    # Location of WordPress Plugins for PHPStan to scan, building symbols.
     scanDirectories:
-        - /home/runner/work/convertkit-wordpress/convertkit-wordpress/wordpress
+        - /home/runner/work/convertkit-wordpress/convertkit-wordpress/wordpress/wp-content/plugins
 
     # Should not need to edit anything below here
     # Rule Level: https://phpstan.org/user-guide/rule-levels
@@ -30,3 +30,4 @@ parameters:
     ignoreErrors:
         - '#Access to an undefined property WP_Theme::#'
         - '#Constant WP_MEMORY_LIMIT not found.#'
+        - '#Function apply_filters invoked with#' # apply_filters() accepted a variable number of parameters, which PHPStan fails to detect
