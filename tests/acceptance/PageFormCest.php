@@ -164,14 +164,11 @@ class PageFormCest
 			'form' => [ 'select2', $_ENV['CONVERTKIT_API_FORM_NAME'] ],
 		]);
 
-		// Get Form ID.
-		$formID = $I->grabValueFrom('#wp-convertkit-form');
-
 		// Publish and view the Page on the frontend site.
 		$I->publishAndViewGutenbergPage($I);
 
 		// Confirm that the ConvertKit Form displays.
-		$I->seeElementInDOM('form[data-sv-form="' . $formID . '"]');
+		$I->seeElementInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]');
 	}
 
 	/**
@@ -191,9 +188,6 @@ class PageFormCest
 		$I->configureMetaboxSettings($I, 'wp-convertkit-meta-box', [
 			'form' => [ 'select2', $_ENV['CONVERTKIT_API_LEGACY_FORM_NAME'] ],
 		]);
-
-		// Get Form ID.
-		$formID = $I->grabValueFrom('#wp-convertkit-form');
 
 		// Publish and view the Page on the frontend site.
 		$I->publishAndViewGutenbergPage($I);
