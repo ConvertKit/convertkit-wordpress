@@ -267,13 +267,80 @@ class Plugin extends \Codeception\Module
 	 * 
 	 * @since 	1.9.7.5
 	 *
-	 * @param 	AcceptanceTester 	$I 	Tester
+	 * @param 	AcceptanceTester 	$I 						Tester.
+	 * @param 	bool|int 			$numberOfPosts 			Number of Broadcasts listed.
+	 * @param 	bool|string 		$seePrevPaginationLabel Test if the "previous" pagination link is output and matches expected label.
+	 * @param 	bool|string 		$seePrevPaginationLabel Test if the "next" pagination link is output and matches expected label.
 	 */
-	public function seeBroadcastsOutput($I)
+	public function seeBroadcastsOutput($I, $numberOfPosts = false, $seePrevPaginationLabel = false, $seeNextPaginationLabel = false)
 	{
 		// Confirm that the block displays.
-		$I->seeElementInDOM('ul.convertkit-broadcasts');
-		$I->seeElementInDOM('ul.convertkit-broadcasts li.convertkit-broadcast');
-		$I->seeElementInDOM('ul.convertkit-broadcasts li.convertkit-broadcast a');
+		$I->seeElementInDOM('div.convertkit-broadcasts');
+		$I->seeElementInDOM('div.convertkit-broadcasts ul.convertkit-broadcasts-list');
+		$I->seeElementInDOM('div.convertkit-broadcasts ul.convertkit-broadcasts-list li.convertkit-broadcast');
+		$I->seeElementInDOM('div.convertkit-broadcasts ul.convertkit-broadcasts-list li.convertkit-broadcast a');
+
+		// Confirm that the number of expected broadcasts displays.
+		if ($numberOfPosts !== false) {
+			$I->seeNumberOfElements('li.convertkit-broadcast', $numberOfPosts);
+		}
+
+		// Confirm that previous pagination displays.
+		if ($seePrevPaginationLabel !== false) {
+			$I->seeElementInDOM('div.convertkit-broadcasts ul.convertkit-broadcasts-pagination li.convertkit-broadcasts-pagination-prev a');
+			$I->seeInSource($seePrevPaginationLabel);		
+		}
+
+		// Confirm that next pagination displays.
+		if ($seeNextPaginationLabel !== false) {
+			$I->seeElementInDOM('div.convertkit-broadcasts ul.convertkit-broadcasts-pagination li.convertkit-broadcasts-pagination-next a');	
+		}
+	}
+
+	public function testBroadcastsPagination($I, $previousLabel, $nextLabel)
+	{
+		// Confirm that the block displays one broadcast with a pagination link to older broadcasts.
+		$I->seeBroadcastsOutput($I, 1, false, $nextLabel);
+
+		// Click the Older Posts link.
+		$I->click('li.convertkit-broadcasts-pagination-next a');
+
+		// Wait for the AJAX request to complete, by checking if the convertkit-broadcasts-loading class has been
+		// removed from the block.
+		$I->waitForBroadcastsToLoad($I);
+
+		// Confirm that the block displays one broadcast with a pagination link to newer broadcasts.
+		$I->seeBroadcastsOutput($I, 1, $previousLabel, false);
+
+		// Confirm that the expected Broadcast name is displayed.
+		$I->seeInSource('Broadcast 2');
+
+		// Click the Newer Posts link.
+		$I->click('li.convertkit-broadcasts-pagination-prev a');
+
+		// Wait for the AJAX request to complete, by checking if the convertkit-broadcasts-loading class has been
+		// removed from the block.
+		$I->waitForBroadcastsToLoad($I);
+
+		// Confirm that the block displays one broadcast with a pagination link to older broadcasts.
+		$I->seeBroadcastsOutput($I, 1, false, $nextLabel);
+
+		// Confirm that the expected Broadcast name is displayed.
+		$I->seeInSource('Paid Subscriber Broadcast');
+	}
+
+	/**
+	 * Wait for the AJAX request to complete, by checking if the convertkit-broadcasts-loading class has been
+	 * removed from the block.
+	 * 
+	 * @since 	1.9.7.6
+	 * 
+	 * @param 	AcceptanceTester 	$I 						Tester.
+	 */
+	public function waitForBroadcastsToLoad($I)
+	{
+		$I->waitForElementChange('div.convertkit-broadcasts', function(\Facebook\WebDriver\WebDriverElement $el) {
+			return ( strpos($el->getAttribute('class'), 'convertkit-broadcasts-loading') === false ? true : false );
+		}, 5);
 	}
 }

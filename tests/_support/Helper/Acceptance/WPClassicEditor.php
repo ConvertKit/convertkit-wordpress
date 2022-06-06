@@ -62,6 +62,9 @@ class WPClassicEditor extends \Codeception\Module
 					case 'select':
 						$I->selectOption('#convertkit-modal-body-body '.$fieldID, $attributes[1]);
 						break;
+					case 'toggle':
+						$I->selectOption('#convertkit-modal-body-body '.$fieldID, $attributes[1]);
+						break;
 					default:
 						$I->fillField('#convertkit-modal-body-body '.$fieldID, $attributes[1]);
 						break;
@@ -114,6 +117,9 @@ class WPClassicEditor extends \Codeception\Module
 				// Depending on the field's type, define its value.
 				switch ($attributes[0]) {
 					case 'select':
+						$I->selectOption($fieldID, $attributes[1]);
+						break;
+					case 'toggle':
 						$I->selectOption($fieldID, $attributes[1]);
 						break;
 					default:
