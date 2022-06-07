@@ -44,3 +44,6 @@
 .convertkit-option select {
 	border: 1px solid #8c8f94;
 }
+.convertkit-option p {
+	white-space: normal;
+}

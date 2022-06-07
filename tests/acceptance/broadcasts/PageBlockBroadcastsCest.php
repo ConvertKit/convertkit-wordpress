@@ -139,6 +139,58 @@ class PageBlockBroadcastsCest
 	}
 
 	/**
+	 * Test the Broadcasts block's pagination works when enabled.
+	 * 
+	 * @since 	1.9.7.6
+	 * 
+	 * @param 	AcceptanceTester 	$I 	Tester
+	 */
+	public function testBroadcastsBlockWithPaginationEnabled(AcceptanceTester $I)
+	{
+		// Add a Page using the Gutenberg editor.
+		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Broadcasts: Pagination');
+
+		// Add block to Page, setting the limit.
+		$I->addGutenbergBlock($I, 'ConvertKit Broadcasts', 'convertkit-broadcasts', [
+			'limit' 	 				=> [ 'input', '1' ],
+			'.components-form-toggle' 	=> [ 'toggle', true ],
+		]);
+
+		// Publish and view the Page on the frontend site.
+		$I->publishAndViewGutenbergPage($I);
+
+		// Test pagination.
+		$I->testBroadcastsPagination($I, 'Previous', 'Next');
+	}
+
+	/**
+	 * Test the Broadcasts block's pagination labels work when defined.
+	 * 
+	 * @since 	1.9.7.6
+	 * 
+	 * @param 	AcceptanceTester 	$I 	Tester
+	 */
+	public function testBroadcastsBlockWithPaginationLabelParameters(AcceptanceTester $I)
+	{
+		// Add a Page using the Gutenberg editor.
+		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Broadcasts: Pagination Labels');
+
+		// Add block to Page, setting the limit.
+		$I->addGutenbergBlock($I, 'ConvertKit Broadcasts', 'convertkit-broadcasts', [
+			'limit' 	 		  		=> [ 'input', '1' ],
+			'.components-form-toggle' 	=> [ 'toggle', true ],
+			'paginate_label_prev' 		=> [ 'input', 'Newer' ],
+			'paginate_label_next' 		=> [ 'input', 'Older' ],
+		]);
+
+		// Publish and view the Page on the frontend site.
+		$I->publishAndViewGutenbergPage($I);
+
+		// Test pagination.
+		$I->testBroadcastsPagination($I, 'Older', 'Newer');
+	}
+
+	/**
 	 * Test the Broadcasts block's theme color parameters works.
 	 * 
 	 * @since 	1.9.7.4
@@ -173,10 +225,10 @@ class PageBlockBroadcastsCest
 		$I->seeBroadcastsOutput($I);
 
 		// Confirm that our stylesheet loaded.
-		$I->seeInSource('<link rel="stylesheet" id="convertkit-broadcasts-css" href="'.$_ENV['TEST_SITE_WP_URL'].'/wp-content/plugins/convertkit/resources/frontend/css/gutenberg-block-broadcasts.css');
+		$I->seeInSource('<link rel="stylesheet" id="convertkit-broadcasts-css" href="'.$_ENV['TEST_SITE_WP_URL'].'/wp-content/plugins/convertkit/resources/frontend/css/broadcasts.css');
 
 		// Confirm that the chosen colors are applied as CSS styles.
-		$I->seeInSource('<ul class="convertkit-broadcasts has-text-color has-'.$textColor.'-color has-background has-'.$backgroundColor.'-background-color"');
+		$I->seeInSource('<div class="convertkit-broadcasts has-text-color has-'.$textColor.'-color has-background has-'.$backgroundColor.'-background-color"');
 	}
 
 	/**
@@ -214,10 +266,10 @@ class PageBlockBroadcastsCest
 		$I->seeBroadcastsOutput($I);
 
 		// Confirm that our stylesheet loaded.
-		$I->seeInSource('<link rel="stylesheet" id="convertkit-broadcasts-css" href="'.$_ENV['TEST_SITE_WP_URL'].'/wp-content/plugins/convertkit/resources/frontend/css/gutenberg-block-broadcasts.css');
+		$I->seeInSource('<link rel="stylesheet" id="convertkit-broadcasts-css" href="'.$_ENV['TEST_SITE_WP_URL'].'/wp-content/plugins/convertkit/resources/frontend/css/broadcasts.css');
 
 		// Confirm that the chosen colors are applied as CSS styles.
-		$I->seeInSource('<ul class="convertkit-broadcasts has-text-color has-background" style="color:'.$textColor.';background-color:'.$backgroundColor.'">');
+		$I->seeInSource('<div class="convertkit-broadcasts has-text-color has-background" style="color:'.$textColor.';background-color:'.$backgroundColor.'"');
 	}
 
 	/**

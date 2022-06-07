@@ -226,10 +226,3 @@ jobs:
         with:
           name: log.txt
           path: ${{ env.PLUGIN_DIR }}/log.txt
-
-      - name: Upload nginx Error Log File to Artifact
-        if: always()
-        uses: actions/upload-artifact@v2
-        with:
-          name: error.log
-          path: /var/log/nginx/error.log

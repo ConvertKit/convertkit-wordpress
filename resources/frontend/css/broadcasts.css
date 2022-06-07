@@ -1,0 +1,53 @@
+.convertkit-broadcasts.has-background,
+.editor-styles-wrapper .convertkit-broadcasts.has-background {
+	padding: 20px;
+}
+.convertkit-broadcasts.convertkit-broadcasts-loading,
+.editor-styles-wrapper .convertkit-broadcasts.convertkit-broadcasts-loading {
+	background-color: #e3e3e3 !important;
+	background-image: url(../images/spinner.gif);
+	background-position: center;
+	background-repeat: no-repeat;
+}
+.convertkit-broadcasts-list,
+.editor-styles-wrapper .convertkit-broadcasts-list,
+.convertkit-broadcasts-pagination,
+.editor-styles-wrapper .convertkit-broadcasts-pagination {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+.convertkit-broadcasts-list li {
+	display: grid;
+	grid-template-areas: "date subject";
+	grid-template-columns: 150px auto;
+	grid-column-gap: 20px;
+	list-style: none;
+	margin: 0;
+	padding: 5px 0;
+}
+.convertkit-broadcasts-list li time {
+	grid-area: date;
+}
+.convertkit-broadcasts-list li a {
+	grid-area: subject;
+}
+.convertkit-broadcasts-pagination {
+	display: grid;
+	grid-template-areas: "prev next";
+	grid-template-columns: repeat(2, 1fr);
+	grid-column-gap: 20px;
+	padding: 20px 0 0 0;
+}
+.convertkit-broadcasts-pagination li {
+	list-style: none;
+	margin: 0;
+}
+.convertkit-broadcasts-pagination li.convertkit-broadcasts-pagination-prev {
+	grid-area: prev;
+	text-align: left;
+}
+.convertkit-broadcasts-pagination li.convertkit-broadcasts-pagination-next {
+	grid-area: next;
+	text-align: right;
+}
