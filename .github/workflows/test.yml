@@ -187,26 +187,10 @@ jobs:
           sudo chmod g+w ${{ env.PLUGIN_DIR }}
           sudo chown www-data:www-data ${{ env.PLUGIN_DIR }}
 
-      # We run these before the main tests, as typically CodeSniffer is fast. If there's a failure, we can tell
-      # the user sooner.
-      - name: Run WordPress Coding Standards Tests
-        working-directory: ${{ env.PLUGIN_DIR }}
-        run: php vendor/bin/phpcs ./ -v
-
-      # Run PHPStan for static analysis.
-      - name: Run PHPStan Static Analysis
-        working-directory: ${{ env.PLUGIN_DIR }}
-        run: php vendor/bin/phpstan --memory-limit=1024M
-
       # Build Codeception Tests.
       - name: Build Tests
         working-directory: ${{ env.PLUGIN_DIR }}
         run: php vendor/bin/codecept build
-
-      # Run Codeception WordPress Unit Tests.
-      - name: Run WordPress Unit Tests
-        working-directory: ${{ env.PLUGIN_DIR }}
-        run: php vendor/bin/codecept run wpunit --fail-fast
 
       # Run Codeception Acceptance Tests.
       - name: Run Acceptance Tests
