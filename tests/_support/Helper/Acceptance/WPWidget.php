@@ -150,6 +150,7 @@ class WPWidget extends \Codeception\Module
 
 		// Wait for save to complete.
 		$I->waitForElementVisible('.components-snackbar__content');
+		$result = $I->grabTextFrom('.components-snackbar__content');
 
 		// Confirm that the widgets saved successfully.
 		if ($result == 'Widgets saved.') {
