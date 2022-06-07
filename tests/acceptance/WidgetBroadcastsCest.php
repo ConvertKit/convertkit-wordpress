@@ -113,7 +113,7 @@ class WidgetBroadcastsCest
 		// Add block widget.
 		$I->addBlockWidget($I, 'ConvertKit Broadcasts', 'convertkit-broadcasts', [
 			'limit' 					=> [ 'input', '1' ],
-			'.components-form-toggle' 	=> [ 'toggle', true ],
+			//'.components-form-toggle' 	=> [ 'toggle', true ],
 		]);
 
 		// View the home page.
