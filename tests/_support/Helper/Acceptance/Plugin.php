@@ -280,6 +280,12 @@ class Plugin extends \Codeception\Module
 		$I->seeElementInDOM('div.convertkit-broadcasts ul.convertkit-broadcasts-list li.convertkit-broadcast');
 		$I->seeElementInDOM('div.convertkit-broadcasts ul.convertkit-broadcasts-list li.convertkit-broadcast a');
 
+		// Confirm that UTM parameters exist on a broadcast link.
+		$I->assertStringContainsString(
+			'utm_source=wordpress&utm_content=convertkit',
+			$I->grabAttributeFrom('div.convertkit-broadcasts ul.convertkit-broadcasts-list li.convertkit-broadcast a', 'href')
+		);
+
 		// Confirm that the number of expected broadcasts displays.
 		if ($numberOfPosts !== false) {
 			$I->seeNumberOfElements('li.convertkit-broadcast', $numberOfPosts);
