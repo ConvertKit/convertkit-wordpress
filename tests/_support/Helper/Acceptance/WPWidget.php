@@ -145,14 +145,23 @@ class WPWidget extends \Codeception\Module
 			}
 		}
 
-		// Testing to see if an API limit is hit.
-		$I->wait(2);
-
 		// Save.
 		$I->click('Update');
 
 		// Wait for save to complete.
+		$I->waitForElementVisible('.components-snackbar__content');
+
+		// Confirm that the widgets saved successfully.
+		if ($result == 'Widgets saved.') {
+			return;
+		}
+
+		// Sometimes, WordPress throws an intermittent "There was an error. The response is not a valid JSON response."
+		// when saving Widgets in WordPress 5.8+ using the block editor
+		// It's not clear why - see https://wordpress.org/support/topic/widget-config-json-error/, https://wordpress.org/support/topic/there-was-an-error-the-response-is-not-a-valid-json-response/
+		// If this happens, attempt to save again after a couple of seconds.
 		$I->wait(2);
+		$I->click('Update');
 	}
 
 	/**
