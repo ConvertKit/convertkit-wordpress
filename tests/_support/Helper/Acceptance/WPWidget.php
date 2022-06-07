@@ -145,6 +145,9 @@ class WPWidget extends \Codeception\Module
 			}
 		}
 
+		// Testing to see if an API limit is hit.
+		$I->wait(2);
+
 		// Save.
 		$I->click('Update');
 
