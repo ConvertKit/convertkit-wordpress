@@ -51,13 +51,18 @@ The most important thing is that you have a test for *something*.  If in doubt, 
 
 ## Writing an Acceptance Test
 
-To create a new Acceptance Test, at the command line in the Plugin's folder, enter the following command, replacing `ActivatePlugin` with a 
-meaningful name of what the test will perform:
+To create a new Acceptance Test, at the command line in the Plugin's folder, enter the following command, replacing:
+- `general` with the subfolder name to place the test within at `tests/acceptance`,
+- `ActivatePlugin` with a meaningful name of what the test will perform.
+
+Acceptance tests are placed in groups within subfolders at `tests/acceptance` so that they can be run in isolation, and the GitHub Action can run each folder's acceptance tests in parallel for speed.
+
+For example, to generate an `ActivatePlugin` acceptance test in the `tests/acceptance/general` folder:
 
 ```bash
-php vendor/bin/codecept generate:cest acceptance ActivatePlugin
+php vendor/bin/codecept generate:cest acceptance general/ActivatePlugin
 ```
-This will create a PHP test file in the `tests/acceptance` directory called `ActivatePluginCest.php`
+This will create a PHP test file in the `tests/acceptance/general` directory called `ActivatePluginCest.php`
 
 ```php
 class ActivatePluginCest
@@ -190,12 +195,22 @@ chromedriver --url-base=/wd/hub
 In a second Terminal window, run the test to confirm it works:
 ```bash
 vendor/bin/codecept build
-vendor/bin/codecept run acceptance
+vendor/bin/codecept run acceptance/general/ActivatePluginCest
 ```
 
 The console will show the successful result:
 
 ![Codeception Test Results](/.github/docs/codeception.png?raw=true)
+
+To run all acceptance tests, use:
+```bash
+vendor/bin/codecept run acceptance
+```
+
+To run acceptance tests in a specific folder (for example, `general`), use:
+```bash
+vendor/bin/codecept run acceptance/general
+```
 
 For a full list of available wp-browser and Codeception functions that can be used for testing, see:
 - [wp-browser](https://wpbrowser.wptestkit.dev/modules)

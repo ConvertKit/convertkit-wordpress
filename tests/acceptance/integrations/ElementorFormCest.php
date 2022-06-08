@@ -4,7 +4,7 @@
  * 
  * @since 	1.9.6
  */
-class PostElementorFormCest
+class ElementorFormCest
 {
 	/**
 	 * Run common actions before running the test functions in this class.
@@ -30,8 +30,8 @@ class PostElementorFormCest
 	 */
 	public function testFormWidgetIsRegistered(AcceptanceTester $I)
 	{
-		// Add a Post using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'post', 'ConvertKit: Post: Form: Elementor: Valid Form Param');
+		// Add a Page using the Gutenberg editor.
+		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form: Elementor: Valid Form Param');
 
 		// Click Edit with Elementor button.
 		$I->click('#elementor-switch-mode-button');
@@ -53,11 +53,11 @@ class PostElementorFormCest
 	 */
 	public function testFormWidgetWithValidFormParameter(AcceptanceTester $I)
 	{
-		// Create Post with Form widget in Elementor.
-		$postID = $this->_createPostWithFormWidget($I, 'ConvertKit: Post: Form: Elementor Widget: Valid Form Param', $_ENV['CONVERTKIT_API_FORM_ID']);
+		// Create Page with Form widget in Elementor.
+		$pageID = $this->_createPageWithFormWidget($I, 'ConvertKit: Page: Form: Elementor Widget: Valid Form Param', $_ENV['CONVERTKIT_API_FORM_ID']);
 
-		// Load Post.
-		$I->amOnPage('?p='.$postID);
+		// Load Page.
+		$I->amOnPage('?p='.$pageID);
 
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
@@ -75,11 +75,11 @@ class PostElementorFormCest
 	 */
 	public function testFormWidgetWithValidLegacyFormParameter(AcceptanceTester $I)
 	{
-		// Create Post with Form widget in Elementor.
-		$postID = $this->_createPostWithFormWidget($I, 'ConvertKit: Legacy Form: Elementor Widget: Valid Form Param', $_ENV['CONVERTKIT_API_LEGACY_FORM_ID']);
+		// Create Page with Form widget in Elementor.
+		$pageID = $this->_createPageWithFormWidget($I, 'ConvertKit: Legacy Form: Elementor Widget: Valid Form Param', $_ENV['CONVERTKIT_API_LEGACY_FORM_ID']);
 
-		// Load Post.
-		$I->amOnPage('?p='.$postID);
+		// Load Page.
+		$I->amOnPage('?p='.$pageID);
 
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
@@ -97,11 +97,11 @@ class PostElementorFormCest
 	 */
 	public function testFormWidgetWithNoFormParameter(AcceptanceTester $I)
 	{
-		// Create Post with Form widget in Elementor.
-		$postID = $this->_createPostWithFormWidget($I, 'ConvertKit: Post: Form: Elementor Widget: No Form Param', '');
+		// Create Page with Form widget in Elementor.
+		$pageID = $this->_createPageWithFormWidget($I, 'ConvertKit: Page: Form: Elementor Widget: No Form Param', '');
 
-		// Load Post.
-		$I->amOnPage('?p='.$postID);
+		// Load Page.
+		$I->amOnPage('?p='.$pageID);
 
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
@@ -111,14 +111,14 @@ class PostElementorFormCest
 	}
 
 	/**
-	 * Create a Post in the database comprising of Elementor Page Builder data
+	 * Create a Page in the database comprising of Elementor Page Builder data
 	 * containing a ConvertKit Form widget.
 	 * 
 	 * Codeception's dragAndDrop() method doesn't support dropping an element into an iframe, which is
-	 * how Elementor works for adding widgets to a Post.
+	 * how Elementor works for adding widgets to a Page.
 	 * 
-	 * Therefore, we directly create a Post in the database, with Elementor's data structure
-	 * as if we added the Form widget to a Post edited in Elementor.
+	 * Therefore, we directly create a Page in the database, with Elementor's data structure
+	 * as if we added the Form widget to a Page edited in Elementor.
 	 * 
 	 * testFormWidgetIsRegistered() above is a sanity check that the Form Widget is registered
 	 * and available to users in Elementor.
@@ -126,15 +126,15 @@ class PostElementorFormCest
 	 * @since 	1.9.7.2
 	 * 
 	 * @param 	AcceptanceTester 	$I 		Tester.
-	 * @param 	string 				$title 	Post Title.
+	 * @param 	string 				$title 	Page Title.
 	 * @param 	int 				$formID ConvertKit Form ID.
-	 * @return 	int 						Post ID
+	 * @return 	int 						Page ID
 	 */
-	private function _createPostWithFormWidget(AcceptanceTester $I, $title, $formID)
+	private function _createPageWithFormWidget(AcceptanceTester $I, $title, $formID)
 	{
 		return $I->havePostInDatabase([
 			'post_title'	=> $title,
-			'post_type'		=> 'post',
+			'post_type'		=> 'page',
 			'post_status'	=> 'publish',
 			'meta_input' => [
 				// Elementor.
@@ -167,12 +167,13 @@ class PostElementorFormCest
 				],
 				'_elementor_version' => '3.6.1',
 				'_elementor_edit_mode' => 'builder',
-				'_elementor_template_type' => 'wp-post',
+				'_elementor_template_type' => 'wp-page',
 
 				// Configure ConvertKit Plugin to not display a default Form,
 				// as we are testing for the Form in Elementor.
 				'_wp_convertkit_post_meta' => [
 					'form'         => '-1',
+					'landing_page' => '',
 					'tag'          => '',
 				],
 			],

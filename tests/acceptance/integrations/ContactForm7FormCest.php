@@ -4,7 +4,7 @@
  * 
  * @since 	1.9.6
  */
-class IntegrationContactForm7FormCest
+class ContactForm7FormCest
 {
 	/**
 	 * Run common actions before running the test functions in this class.

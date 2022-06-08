@@ -4,7 +4,7 @@
  * 
  * @since 	1.9.6
  */
-class IntegrationWooCommerceProductFormCest
+class WooCommerceProductFormCest
 {
 	/**
 	 * Run common actions before running the test functions in this class.
