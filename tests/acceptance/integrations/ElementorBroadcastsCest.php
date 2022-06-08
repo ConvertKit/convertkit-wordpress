@@ -4,7 +4,7 @@
  * 
  * @since 	1.9.7.7
  */
-class PageElementorBroadcastsCest
+class ElementorBroadcastsCest
 {
 	/**
 	 * Run common actions before running the test functions in this class.
