@@ -163,14 +163,11 @@ class PostFormCest
 			'form' => [ 'select2', $_ENV['CONVERTKIT_API_FORM_NAME'] ],
 		]);
 
-		// Get Form ID.
-		$formID = $I->grabValueFrom('#wp-convertkit-form');
-
 		// Publish and view the Post on the frontend site.
 		$I->publishAndViewGutenbergPage($I);
 
 		// Confirm that the ConvertKit Form displays.
-		$I->seeElementInDOM('form[data-sv-form="' . $formID . '"]');
+		$I->seeElementInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]');
 	}
 
 	/**
@@ -190,9 +187,6 @@ class PostFormCest
 		$I->configureMetaboxSettings($I, 'wp-convertkit-meta-box', [
 			'form' => [ 'select2', $_ENV['CONVERTKIT_API_LEGACY_FORM_NAME'] ],
 		]);
-
-		// Get Form ID.
-		$formID = $I->grabValueFrom('#wp-convertkit-form');
 
 		// Publish and view the Post on the frontend site.
 		$I->publishAndViewGutenbergPage($I);
@@ -290,9 +284,6 @@ class PostFormCest
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
 
-		// Get Form ID.
-		$formID = $I->grabValueFrom('#wp-convertkit-form');
-
 		// Load the Post on the frontend site
 		$I->amOnPage('/?p=' . $postID);
 
@@ -300,7 +291,7 @@ class PostFormCest
 		$I->checkNoWarningsAndNoticesOnScreen($I);
 
 		// Confirm that the ConvertKit Form displays.
-		$I->seeElementInDOM('form[data-sv-form="' . $formID . '"]');
+		$I->seeElementInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]');
 	}
 
   	/**

@@ -449,10 +449,19 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 			// Convert UTC date to timestamp.
 			$date_timestamp = strtotime( $broadcast['published_at'] );
 
+			// Build broadcast URL.
+			$url = add_query_arg(
+				array(
+					'utm_source'  => 'wordpress',
+					'utm_content' => 'convertkit',
+				),
+				$broadcast['url']
+			);
+
 			// Add broadcast as list item.
 			$html .= '<li class="convertkit-broadcast">
 				<time datetime="' . date_i18n( 'Y-m-d', $date_timestamp ) . '">' . date_i18n( $atts['date_format'], $date_timestamp ) . '</time>
-				<a href="' . $broadcast['url'] . '" target="_blank" rel="nofollow noopener">' . $broadcast['title'] . '</a>
+				<a href="' . $url . '" target="_blank" rel="nofollow noopener">' . $broadcast['title'] . '</a>
 			</li>';
 		}
 
