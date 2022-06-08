@@ -48,7 +48,6 @@ jobs:
         
         # Folder names within the 'tests' folder to run tests in parallel.
         test-groups: [
-          'wpunit',
           'acceptance/broadcasts',
           'acceptance/forms',
           'acceptance/general',
