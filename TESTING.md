@@ -399,9 +399,7 @@ To run the tests, enter the following commands in a separate Terminal window:
 ```bash
 vendor/bin/codecept build
 vendor/bin/codecept run acceptance
-vendor/bin/codecept run functional
 vendor/bin/codecept run wpunit
-vendor/bin/codecept run unit
 ```
 
 If a test fails, you can inspect the output and screenshot at `tests/_output`.
