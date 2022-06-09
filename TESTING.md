@@ -195,7 +195,7 @@ chromedriver --url-base=/wd/hub
 In a second Terminal window, run the test to confirm it works:
 ```bash
 vendor/bin/codecept build
-vendor/bin/codecept run acceptance/general/ActivatePluginCest
+vendor/bin/codecept run acceptance general/ActivatePluginCest
 ```
 
 The console will show the successful result:
@@ -210,6 +210,11 @@ vendor/bin/codecept run acceptance
 To run acceptance tests in a specific folder (for example, `general`), use:
 ```bash
 vendor/bin/codecept run acceptance/general
+```
+
+To run a specific acceptance test in a specific folder (for example, `ActivateDeactivatePluginCest` in the `general` folder), use:
+```bash
+vendor/bin/codecept run acceptance general/ActivateDeactivatePluginCest
 ```
 
 For a full list of available wp-browser and Codeception functions that can be used for testing, see:
