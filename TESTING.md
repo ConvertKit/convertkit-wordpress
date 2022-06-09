@@ -437,7 +437,7 @@ Need to change the PHP or WordPress coding standard rules applied?  Edit the [ph
 In the Plugin's directory, run the following command to run PHPStan:
 
 ```bash
-vendor/bin/phpstan --memory-limit=512M
+vendor/bin/phpstan --memory-limit=1G
 ```
 
 Any errors should be corrected by making applicable code changes.
