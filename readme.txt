@@ -110,8 +110,8 @@ Full Plugin documentation can be found [here](https://help.convertkit.com/en/art
 
 == Changelog ==
 
-### 1.9.7.7 2022-06-xx
-* Added: Broadcasts: utm_source and utm_content to links
+### 1.9.7.7 2022-06-09
+* Added: Broadcasts: Option to enable pagination on block/shortcode
 
 ### 1.9.7.6 2022-06-01
 * Added: ConvertKit Broadcasts Block when editing Widgets using the block editor in WordPress 5.8+

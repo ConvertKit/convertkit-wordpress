@@ -39,6 +39,10 @@
 						<td><a href="#convertkit_block_broadcasts_render"><code>convertkit_block_broadcasts_render</code></a></td>
 						<td>Filter the block's content immediately before it is output.</td>
 					</tr><tr>
+						<td>&nbsp;</td>
+						<td><a href="#convertkit_block_broadcasts_render_ajax"><code>convertkit_block_broadcasts_render_ajax</code></a></td>
+						<td>Filter the block's inner content immediately before it is output by AJAX, which occurs when pagination was clicked.</td>
+					</tr><tr>
 						<td colspan="3">../includes/blocks/class-convertkit-block-form.php</td>
 					</tr><tr>
 						<td>&nbsp;</td>
@@ -317,7 +321,7 @@ add_filter( 'convertkit_block_content_render', function( $content, $atts, $subsc
 </pre>
 <h3 id="convertkit_block_broadcasts_render">
 						convertkit_block_broadcasts_render
-						<code>includes/blocks/class-convertkit-block-broadcasts.php::306</code>
+						<code>includes/blocks/class-convertkit-block-broadcasts.php::363</code>
 					</h3><h4>Overview</h4>
 						<p>Filter the block's content immediately before it is output.</p><h4>Parameters</h4>
 					<table>
@@ -341,6 +345,37 @@ add_filter( 'convertkit_block_content_render', function( $content, $atts, $subsc
 					</table><h4>Usage</h4>
 <pre>
 add_filter( 'convertkit_block_broadcasts_render', function( $html, $atts ) {
+	// ... your code here
+	// Return value
+	return $html;
+}, 10, 2 );
+</pre>
+<h3 id="convertkit_block_broadcasts_render_ajax">
+						convertkit_block_broadcasts_render_ajax
+						<code>includes/blocks/class-convertkit-block-broadcasts.php::409</code>
+					</h3><h4>Overview</h4>
+						<p>Filter the block's inner content immediately before it is output by AJAX, which occurs when pagination was clicked.</p><h4>Parameters</h4>
+					<table>
+						<thead>
+							<tr>
+								<th>Parameter</th>
+								<th>Type</th>
+								<th>Description</th>
+							</tr>
+						</thead>
+						<tbody><tr>
+							<td>$html</td>
+							<td>string</td>
+							<td>ConvertKit Broadcasts HTML.</td>
+						</tr><tr>
+							<td>$atts</td>
+							<td>array</td>
+							<td>Block Attributes.</td>
+						</tr>
+						</tbody>
+					</table><h4>Usage</h4>
+<pre>
+add_filter( 'convertkit_block_broadcasts_render_ajax', function( $html, $atts ) {
 	// ... your code here
 	// Return value
 	return $html;
@@ -1126,6 +1161,14 @@ add_filter( 'convertkit_is_admin_or_frontend_editor', function( $is_admin_or_fro
 						<td><a href="#convertkit_gutenberg_enqueue_styles"><code>convertkit_gutenberg_enqueue_styles</code></a></td>
 						<td></td>
 					</tr><tr>
+						<td>&nbsp;</td>
+						<td><a href="#convertkit_gutenberg_enqueue_scripts_editor_and_frontend"><code>convertkit_gutenberg_enqueue_scripts_editor_and_frontend</code></a></td>
+						<td></td>
+					</tr><tr>
+						<td>&nbsp;</td>
+						<td><a href="#convertkit_gutenberg_enqueue_styles_editor_and_frontend"><code>convertkit_gutenberg_enqueue_styles_editor_and_frontend</code></a></td>
+						<td></td>
+					</tr><tr>
 						<td colspan="3">../includes/class-convertkit-output.php</td>
 					</tr><tr>
 						<td>&nbsp;</td>
@@ -1490,7 +1533,7 @@ do_action( 'convertkit_api_purchase_create_success', function( $response, $purch
 </pre>
 <h3 id="convertkit_gutenberg_enqueue_scripts">
 						convertkit_gutenberg_enqueue_scripts
-						<code>includes/class-convertkit-gutenberg.php::153</code>
+						<code>includes/class-convertkit-gutenberg.php::157</code>
 					</h3><h4>Overview</h4>
 						<p>Enqueue any additional scripts for Gutenberg blocks that have been registered.</p><h4>Parameters</h4>
 					<table>
@@ -1515,7 +1558,7 @@ do_action( 'convertkit_gutenberg_enqueue_scripts', function( $blocks ) {
 </pre>
 <h3 id="convertkit_gutenberg_enqueue_styles">
 						convertkit_gutenberg_enqueue_styles
-						<code>includes/class-convertkit-gutenberg.php::177</code>
+						<code>includes/class-convertkit-gutenberg.php::181</code>
 					</h3><h4>Parameters</h4>
 					<table>
 						<thead>
@@ -1530,6 +1573,46 @@ do_action( 'convertkit_gutenberg_enqueue_scripts', function( $blocks ) {
 					</table><h4>Usage</h4>
 <pre>
 do_action( 'convertkit_gutenberg_enqueue_styles', function(  ) {
+	// ... your code here
+}, 10, 0 );
+</pre>
+<h3 id="convertkit_gutenberg_enqueue_scripts_editor_and_frontend">
+						convertkit_gutenberg_enqueue_scripts_editor_and_frontend
+						<code>includes/class-convertkit-gutenberg.php::205</code>
+					</h3><h4>Parameters</h4>
+					<table>
+						<thead>
+							<tr>
+								<th>Parameter</th>
+								<th>Type</th>
+								<th>Description</th>
+							</tr>
+						</thead>
+						<tbody>
+						</tbody>
+					</table><h4>Usage</h4>
+<pre>
+do_action( 'convertkit_gutenberg_enqueue_scripts_editor_and_frontend', function(  ) {
+	// ... your code here
+}, 10, 0 );
+</pre>
+<h3 id="convertkit_gutenberg_enqueue_styles_editor_and_frontend">
+						convertkit_gutenberg_enqueue_styles_editor_and_frontend
+						<code>includes/class-convertkit-gutenberg.php::229</code>
+					</h3><h4>Parameters</h4>
+					<table>
+						<thead>
+							<tr>
+								<th>Parameter</th>
+								<th>Type</th>
+								<th>Description</th>
+							</tr>
+						</thead>
+						<tbody>
+						</tbody>
+					</table><h4>Usage</h4>
+<pre>
+do_action( 'convertkit_gutenberg_enqueue_styles_editor_and_frontend', function(  ) {
 	// ... your code here
 }, 10, 0 );
 </pre>

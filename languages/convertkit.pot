@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the ConvertKit plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: ConvertKit 1.9.7.6\n"
+"Project-Id-Version: ConvertKit 1.9.7.7\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/convertkit-github\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-06-01T11:04:21+00:00\n"
+"POT-Creation-Date: 2022-06-09T14:46:35+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.6.0\n"
 "X-Domain: convertkit\n"
@@ -20,7 +20,7 @@ msgstr ""
 #: admin/class-convertkit-admin-settings.php:108
 #: admin/class-convertkit-admin-settings.php:109
 #: admin/class-convertkit-admin-settings.php:128
-#: includes/blocks/class-convertkit-block-broadcasts.php:82
+#: includes/blocks/class-convertkit-block-broadcasts.php:107
 #: includes/blocks/class-convertkit-block-content.php:62
 #: includes/blocks/class-convertkit-block-form.php:94
 #: includes/integrations/elementor/class-convertkit-elementor.php:70
@@ -50,7 +50,7 @@ msgid "General Settings"
 msgstr ""
 
 #: admin/section/class-convertkit-settings-general.php:58
-#: includes/blocks/class-convertkit-block-broadcasts.php:221
+#: includes/blocks/class-convertkit-block-broadcasts.php:277
 #: includes/blocks/class-convertkit-block-content.php:146
 #: includes/blocks/class-convertkit-block-form.php:217
 msgid "General"
@@ -210,35 +210,67 @@ msgstr ""
 msgid "Tools to help you manage ConvertKit on your site."
 msgstr ""
 
-#: includes/blocks/class-convertkit-block-broadcasts.php:77
+#: includes/blocks/class-convertkit-block-broadcasts.php:102
 msgid "ConvertKit Broadcasts"
 msgstr ""
 
-#: includes/blocks/class-convertkit-block-broadcasts.php:78
+#: includes/blocks/class-convertkit-block-broadcasts.php:103
 msgid "Displays a list of your ConvertKit broadcasts."
 msgstr ""
 
-#: includes/blocks/class-convertkit-block-broadcasts.php:83
+#: includes/blocks/class-convertkit-block-broadcasts.php:108
 msgid "Broadcasts"
 msgstr ""
 
-#: includes/blocks/class-convertkit-block-broadcasts.php:84
+#: includes/blocks/class-convertkit-block-broadcasts.php:109
 msgid "Posts"
 msgstr ""
 
-#: includes/blocks/class-convertkit-block-broadcasts.php:106
+#: includes/blocks/class-convertkit-block-broadcasts.php:131
 msgid "Define this Block's settings in the Gutenberg sidebar to display a list of your broadcasts."
 msgstr ""
 
-#: includes/blocks/class-convertkit-block-broadcasts.php:185
+#: includes/blocks/class-convertkit-block-broadcasts.php:226
 msgid "Date format"
 msgstr ""
 
-#: includes/blocks/class-convertkit-block-broadcasts.php:195
+#: includes/blocks/class-convertkit-block-broadcasts.php:236
 msgid "Number of posts"
 msgstr ""
 
-#: includes/blocks/class-convertkit-block-broadcasts.php:282
+#: includes/blocks/class-convertkit-block-broadcasts.php:243
+msgid "Display pagination"
+msgstr ""
+
+#: includes/blocks/class-convertkit-block-broadcasts.php:245
+msgid "If the number of broadcasts exceeds the \"Number of posts\" settings above, previous/next pagination links will be displayed."
+msgstr ""
+
+#: includes/blocks/class-convertkit-block-broadcasts.php:248
+msgid "Newer posts label"
+msgstr ""
+
+#: includes/blocks/class-convertkit-block-broadcasts.php:250
+msgid "The label to display for the link to newer broadcasts."
+msgstr ""
+
+#: includes/blocks/class-convertkit-block-broadcasts.php:253
+msgid "Older posts label"
+msgstr ""
+
+#: includes/blocks/class-convertkit-block-broadcasts.php:255
+msgid "The label to display for the link to older broadcasts."
+msgstr ""
+
+#: includes/blocks/class-convertkit-block-broadcasts.php:303
+msgid "Previous"
+msgstr ""
+
+#: includes/blocks/class-convertkit-block-broadcasts.php:304
+msgid "Next"
+msgstr ""
+
+#: includes/blocks/class-convertkit-block-broadcasts.php:347
 msgid "No Broadcasts exist in ConvertKit."
 msgstr ""
 
