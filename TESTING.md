@@ -300,7 +300,7 @@ Further Acceptance Test Helpers that are provided include:
 - `deactivateThirdPartyPlugin($I, $name)`: Logs in to WordPress as the `admin` user, and deactivates the given third party Plugin by its slug.
 - `setupConvertKitPlugin($I)`: Enters the ConvertKit API Key and Secret in the Plugin's Settings screen, saving it.
 
-Other helpers most likely exist; refer to the [Acceptance.php](https://github.com/ConvertKit/convertkit-wordpress/blob/master/tests/_support/Helper/Acceptance/)
+Other helpers most likely exist; refer to the [Acceptance.php](https://github.com/ConvertKit/convertkit-wordpress/blob/main/tests/_support/Helper/Acceptance/)
 folder of helper files for all available functions.
 
 ## Writing Helpers
@@ -325,7 +325,7 @@ public function yourCustomFunctionNameInHelper($I)
 
 If the function doesn't fit into any existing helper file:
 - create a new file in the `tests/_support/Helper/Acceptance` directory
-- edit the [acceptance.suite.yml](https://github.com/ConvertKit/convertkit-wordpress/blob/master/tests/acceptance.suite.yml) file, adding
+- edit the [acceptance.suite.yml](https://github.com/ConvertKit/convertkit-wordpress/blob/main/tests/acceptance.suite.yml) file, adding
 the Helper's namespace and class under the `enabled` section.
 
 Need to change how Codeception runs?  Edit the [codeception.dist.xml](codeception.dist.xml) file.
