@@ -209,7 +209,7 @@ vendor/bin/codecept run acceptance
 
 To run acceptance tests in a specific folder (for example, `general`), use:
 ```bash
-vendor/bin/codecept run acceptance/general
+vendor/bin/codecept run acceptance general
 ```
 
 To run a specific acceptance test in a specific folder (for example, `ActivateDeactivatePluginCest` in the `general` folder), use:
