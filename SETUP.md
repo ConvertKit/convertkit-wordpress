@@ -250,7 +250,7 @@ In the Plugin's directory, run the following command to run PHPStan, which will 
 standards, that PHP DocBlocks are valid, WordPress action/filter DocBlocks are valid etc:
 
 ```bash
-vendor/bin/phpstan --memory-limit=512M
+vendor/bin/phpstan --memory-limit=1G
 ```
 
 ![PHPStan Test Results](/.github/docs/phpstan.png?raw=true)
