@@ -223,9 +223,7 @@ correctly setup your environment:
 ```bash
 vendor/bin/codecept build
 vendor/bin/codecept run acceptance
-vendor/bin/codecept run functional
 vendor/bin/codecept run wpunit
-vendor/bin/codecept run unit
 ```
 
 ![Codeception Test Results](/.github/docs/codeception.png?raw=true)
