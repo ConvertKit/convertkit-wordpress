@@ -6,9 +6,7 @@ This document describes the workflow for deploying a Plugin update from GitHub t
 
 Merge the approved Pull Request(s) to the `master` branch.
 
-An *approved* Pull Request is when a PR passes all tests **and**:
-- The PR **fixes an issue** raised through [Tier 3](https://github.com/ConvertKit/tier3-issues/issues) or similar, and has been approved by **one or more** reviewers
-- The PR **adds new functionality** and has been approved by **all** reviewers
+An *approved* Pull Request is when a PR passes all tests **and** has been approved by **one or more** reviewers.
 
 ## Generate Localization File and Action/Filter Documentation
 
