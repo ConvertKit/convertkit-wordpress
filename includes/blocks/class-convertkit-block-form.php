@@ -299,7 +299,14 @@ class ConvertKit_Block_Form extends ConvertKit_Block {
 		// In this instance, fetch the Form HTML without checking that the Form ID exists in the Form Resources.
 		if ( is_wp_error( $form ) ) {
 			// Initialize the API.
-			$api = new ConvertKit_API( $settings->get_api_key(), $settings->get_api_secret(), $settings->debug_enabled() );
+			$api = new ConvertKit_API(
+				$settings->get_api_key(),
+				$settings->get_api_secret(),
+				$settings->debug_enabled(),
+				CONVERTKIT_PLUGIN_PATH,
+				CONVERTKIT_PLUGIN_URL,
+				CONVERTKIT_PLUGIN_VERSION
+			);
 
 			// Return Legacy Form HTML from the API, which bypasses any internal Plugin check to see if the Form ID exists.
 			$form = $api->get_form_html( $form_id );

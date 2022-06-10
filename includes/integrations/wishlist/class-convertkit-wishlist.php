@@ -162,7 +162,14 @@ class ConvertKit_Wishlist {
 		}
 
 		// Initialize the API.
-		$api = new ConvertKit_API( $settings->get_api_key(), $settings->get_api_secret(), $settings->debug_enabled() );
+		$api = new ConvertKit_API(
+			$settings->get_api_key(),
+			$settings->get_api_secret(),
+			$settings->debug_enabled(),
+			CONVERTKIT_PLUGIN_PATH,
+			CONVERTKIT_PLUGIN_URL,
+			CONVERTKIT_PLUGIN_VERSION
+		);
 
 		// Check for temp email.
 		if ( preg_match( '/temp_[a-f0-9]{32}/', $member['user_email'] ) ) {
@@ -192,7 +199,14 @@ class ConvertKit_Wishlist {
 		}
 
 		// Initialize the API.
-		$api = new ConvertKit_API( $settings->get_api_key(), $settings->get_api_secret(), $settings->debug_enabled() );
+		$api = new ConvertKit_API(
+			$settings->get_api_key(),
+			$settings->get_api_secret(),
+			$settings->debug_enabled(),
+			CONVERTKIT_PLUGIN_PATH,
+			CONVERTKIT_PLUGIN_URL,
+			CONVERTKIT_PLUGIN_VERSION
+		);
 
 		return $api->tag_subscribe( $tag_id, $member['user_email'] );
 

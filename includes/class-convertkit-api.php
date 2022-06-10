@@ -17,14 +17,14 @@ class ConvertKit_API {
 	/**
 	 * ConvertKit API Key
 	 *
-	 * @var mixed   bool | string
+	 * @var bool|string
 	 */
 	protected $api_key = false;
 
 	/**
 	 * ConvertKit API Secret
 	 *
-	 * @var mixed   bool | string
+	 * @var bool|string
 	 */
 	protected $api_secret = false;
 
@@ -34,6 +34,34 @@ class ConvertKit_API {
 	 * @var  bool
 	 */
 	protected $debug = false;
+
+	/**
+	 * Holds the log class for writing to the log file
+	 *
+	 * @var ConvertKit_Log
+	 */
+	protected $log;
+
+	/**
+	 * The plugin path.
+	 *
+	 * @var string
+	 */
+	protected $plugin_path;
+
+	/**
+	 * The plugin URL.
+	 *
+	 * @var string
+	 */
+	protected $plugin_url;
+
+	/**
+	 * The plugin version.
+	 *
+	 * @var int
+	 */
+	protected $plugin_version;
 
 	/**
 	 * Version of ConvertKit API
@@ -50,28 +78,31 @@ class ConvertKit_API {
 	protected $api_url_base = 'https://api.convertkit.com/';
 
 	/**
-	 * Holds the log class for writing to the log file
-	 *
-	 * @var     ConvertKit_Log
-	 */
-	private $log;
-
-	/**
 	 * Sets up the API with the required credentials.
 	 *
 	 * @since   1.9.6
 	 *
-	 * @param   mixed $api_key        ConvertKit API Key.
-	 * @param   mixed $api_secret     ConvertKit API Secret.
-	 * @param   bool  $debug         Save data to log.
+	 * @param   bool|string  $api_key        ConvertKit API Key.
+	 * @param   bool|string  $api_secret     ConvertKit API Secret.
+	 * @param   bool|object  $debug          Save data to log.
+	 * @param   bool|string  $plugin_path    Plugin Path.
+	 * @param   bool|string  $plugin_url     Plugin URL.
+	 * @param   bool|decimal $plugin_version Plugin version number.
 	 */
-	public function __construct( $api_key = false, $api_secret = false, $debug = false ) {
+	public function __construct( $api_key = false, $api_secret = false, $debug = false, $plugin_path = false, $plugin_url = false, $plugin_version = false ) {
 
-		// Set API credentials and debugging.
-		$this->api_key    = $api_key;
-		$this->api_secret = $api_secret;
-		$this->debug      = $debug;
-		$this->log        = new ConvertKit_Log();
+		// Set API credentials, debugging and logging class.
+		$this->api_key        = $api_key;
+		$this->api_secret     = $api_secret;
+		$this->debug          = $debug;
+		$this->plugin_path    = $plugin_path;
+		$this->plugin_url     = $plugin_url;
+		$this->plugin_version = $plugin_version;
+
+		// Setup logging class if the required parameters exist.
+		if ( $this->debug && $plugin_path !== false ) {
+			$this->log = new ConvertKit_Log( $plugin_path );
+		}
 
 	}
 
@@ -149,13 +180,14 @@ class ConvertKit_API {
 	 * @param   string $email      Email Address.
 	 * @param   string $first_name First Name.
 	 * @param   mixed  $fields     Custom Fields (false|array).
+	 * @param   mixed  $tag_ids    Tags (false|array).
 	 * @return  WP_Error|array
 	 */
-	public function form_subscribe( $form_id, $email, $first_name = '', $fields = false ) {
+	public function form_subscribe( $form_id, $email, $first_name = '', $fields = false, $tag_ids = false ) {
 
 		// Backward compat. if $email is an array comprising of email and name keys.
 		if ( is_array( $email ) ) { // @phpstan-ignore-line.
-			_deprecated_function( __FUNCTION__, '1.9.6', 'form_subscribe( $form_id, $email, $first_name )' );
+			_deprecated_function( __FUNCTION__, '1.2.1', 'form_subscribe( $form_id, $email, $first_name )' );
 			$first_name = $email['name'];
 			$email      = $email['email'];
 		}
@@ -184,6 +216,9 @@ class ConvertKit_API {
 		if ( $fields ) {
 			$params['fields'] = $fields;
 		}
+		if ( $tag_ids ) {
+			$params['tags'] = $tag_ids;
+		}
 
 		// Send request.
 		$response = $this->post( 'forms/' . $form_id . '/subscribe', $params );
@@ -197,15 +232,16 @@ class ConvertKit_API {
 		/**
 		 * Runs actions immediately after the email address was successfully subscribed to the form.
 		 *
-		 * @since   1.9.6
+		 * @since   1.2.1
 		 *
 		 * @param   array   $response   API Response
 		 * @param   int     $form_id    Form ID
 		 * @param   string  $email      Email Address
 		 * @param   string  $first_name First Name
 		 * @param   mixed   $fields     Custom Fields (false|array)
+		 * @param   mixed   $tag_ids    Tags (false|array)
 		 */
-		do_action( 'convertkit_api_form_subscribe_success', $response, $form_id, $email, $first_name, $fields );
+		do_action( 'convertkit_api_form_subscribe_success', $response, $form_id, $email, $first_name, $fields, $tag_ids );
 
 		return $response;
 
@@ -893,7 +929,7 @@ class ConvertKit_API {
 		// Inject JS for subscriber forms to work.
 		$scripts = new WP_Scripts();
 		$script  = "<script type='text/javascript' src='" . trailingslashit( $scripts->base_url ) . "wp-includes/js/jquery/jquery.js?ver=1.4.0'></script>"; // phpcs:ignore
-		$script .= "<script type='text/javascript' src='" . CONVERTKIT_PLUGIN_URL . 'resources/frontend/js/convertkit.js?ver=' . CONVERTKIT_PLUGIN_VERSION . "'></script>"; // phpcs:ignore
+		$script .= "<script type='text/javascript' src='" . $this->plugin_url . 'resources/frontend/js/convertkit.js?ver=' . $this->plugin_version . "'></script>"; // phpcs:ignore
 		$script .= "<script type='text/javascript'>/* <![CDATA[ */var convertkit = {\"ajaxurl\":\"" . admin_url( 'admin-ajax.php' ) . '"};/* ]]> */</script>'; // phpcs:ignore
 
 		$body = str_replace( '</head>', '</head>' . $script, $body );
@@ -1404,7 +1440,7 @@ class ConvertKit_API {
 			'WordPress/%1$s;PHP/%2$s;ConvertKit/%3$s;%4$s',
 			$wp_version,
 			phpversion(),
-			CONVERTKIT_PLUGIN_VERSION,
+			$this->plugin_version,
 			home_url( '/' )
 		);
 
@@ -1456,6 +1492,11 @@ class ConvertKit_API {
 
 		// Don't log this entry if debugging is disabled.
 		if ( ! $this->debug ) {
+			return;
+		}
+
+		// Don't log this entry if the logging class was not initialized.
+		if ( ! $this->log ) {
 			return;
 		}
 

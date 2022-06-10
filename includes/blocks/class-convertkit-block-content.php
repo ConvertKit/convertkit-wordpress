@@ -223,7 +223,14 @@ class ConvertKit_Block_Content extends ConvertKit_Block {
 		}
 
 		// Initialize the API.
-		$api = new ConvertKit_API( $settings->get_api_key(), $settings->get_api_secret(), $settings->debug_enabled() );
+		$api = new ConvertKit_API(
+			$settings->get_api_key(),
+			$settings->get_api_secret(),
+			$settings->debug_enabled(),
+			CONVERTKIT_PLUGIN_PATH,
+			CONVERTKIT_PLUGIN_URL,
+			CONVERTKIT_PLUGIN_VERSION
+		);
 
 		// Get the subscriber's tags, to see if they subscribed to this tag.
 		$tags = $api->get_subscriber_tags( $subscriber_id );

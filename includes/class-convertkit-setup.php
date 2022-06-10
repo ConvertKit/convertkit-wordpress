@@ -154,7 +154,14 @@ class ConvertKit_Setup {
 		}
 
 		// Initialize the API.
-		$api = new ConvertKit_API( $convertkit_settings->get_api_key(), $convertkit_settings->get_api_secret(), $convertkit_settings->debug_enabled() );
+		$api = new ConvertKit_API(
+			$settings->get_api_key(),
+			$settings->get_api_secret(),
+			$settings->debug_enabled(),
+			CONVERTKIT_PLUGIN_PATH,
+			CONVERTKIT_PLUGIN_URL,
+			CONVERTKIT_PLUGIN_VERSION
+		);
 
 		// Get form mappings.
 		$mappings = $api->get_subscription_forms();
