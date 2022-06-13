@@ -26,14 +26,17 @@ define( 'CONVERTKIT_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'CONVERTKIT_PLUGIN_PATH', __DIR__ );
 define( 'CONVERTKIT_PLUGIN_VERSION', '1.9.7.7' );
 
-// Load files that are always required.
+// Load shared classes that are always required.
+require_once CONVERTKIT_PLUGIN_PATH . '/lib/class-convertkit-api.php';
+require_once CONVERTKIT_PLUGIN_PATH . '/lib/class-convertkit-log.php';
+require_once CONVERTKIT_PLUGIN_PATH . '/lib/class-convertkit-review-request.php';
+
+// Load plugin files that are always required.
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/cron-functions.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/functions.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-wp-convertkit.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-ajax.php';
-require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-api.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-gutenberg.php';
-require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-log.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-output.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-post.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-resource.php';
@@ -41,7 +44,6 @@ require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-resource-forms
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-resource-landing-pages.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-resource-posts.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-resource-tags.php';
-require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-review-request.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-settings.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-setup.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-shortcodes.php';

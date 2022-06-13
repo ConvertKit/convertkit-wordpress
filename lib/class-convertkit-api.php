@@ -82,12 +82,12 @@ class ConvertKit_API {
 	 *
 	 * @since   1.9.6
 	 *
-	 * @param   bool|string  	  $api_key        ConvertKit API Key.
-	 * @param   bool|string  	  $api_secret     ConvertKit API Secret.
-	 * @param   bool|object  	  $debug          Save data to log.
-	 * @param   bool|null|string  $plugin_path    Plugin path.
-	 * @param   bool|null|string  $plugin_url     Plugin URL.
-	 * @param   bool|null|string  $plugin_version Plugin version number.
+	 * @param   bool|string      $api_key        ConvertKit API Key.
+	 * @param   bool|string      $api_secret     ConvertKit API Secret.
+	 * @param   bool|object      $debug          Save data to log.
+	 * @param   bool|null|string $plugin_path    Plugin path.
+	 * @param   bool|null|string $plugin_url     Plugin URL.
+	 * @param   bool|null|string $plugin_version Plugin version number.
 	 */
 	public function __construct( $api_key = false, $api_secret = false, $debug = false, $plugin_path = false, $plugin_url = false, $plugin_version = false ) {
 
@@ -95,9 +95,9 @@ class ConvertKit_API {
 		$this->api_key        = $api_key;
 		$this->api_secret     = $api_secret;
 		$this->debug          = $debug;
-		$this->plugin_path    = ( is_null ( $plugin_path ) ? false : $plugin_path );
-		$this->plugin_url     = ( is_null ( $plugin_url ) ? false : $plugin_url );
-		$this->plugin_version = ( is_null ( $plugin_version ) ? false : $plugin_version );
+		$this->plugin_path    = ( is_null( $plugin_path ) ? false : $plugin_path );
+		$this->plugin_url     = ( is_null( $plugin_url ) ? false : $plugin_url );
+		$this->plugin_version = ( is_null( $plugin_version ) ? false : $plugin_version );
 
 		// Setup logging class if the required parameters exist.
 		if ( $this->debug && $this->plugin_path !== false ) {

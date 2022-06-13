@@ -1,3 +1,0 @@
-# What goes here?
-
-The purpose of the `/lib` directory is to hold any 3rd-party libraries which are not included via Composer. Specifically, simple-html-dom and url-to-absolute were added to `/vendor` long ago. However, we're now using Composer for (at least) some dev dependencies, so tracking `/vendor` in git is undesirable. This will allow us to ignore `/vendor`, but still use these legacy libraries. 
