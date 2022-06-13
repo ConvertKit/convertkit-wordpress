@@ -34,6 +34,15 @@ class ConvertKit_Review_Request {
 	private $plugin_slug;
 
 	/**
+	 * Holds the Plugin path.
+	 *
+	 * @since   1.9.7.8
+	 *
+	 * @var     string
+	 */
+	private $plugin_path;
+
+	/**
 	 * Holds the number of days after the Plugin requests a review to then
 	 * display the review notification in WordPress' Administration interface.
 	 *
@@ -48,14 +57,16 @@ class ConvertKit_Review_Request {
 	 *
 	 * @since   1.9.6.7
 	 *
-	 * @param   string $plugin_name    Plugin Name (e.g. ConvertKit).
-	 * @param   string $plugin_slug    Plugin Slug (e.g. convertkit).
+	 * @param   string 		$plugin_name    Plugin Name (e.g. ConvertKit).
+	 * @param   string 		$plugin_slug    Plugin Slug (e.g. convertkit).
+	 * @param   bool|string $plugin_path    Plugin Path.
 	 */
-	public function __construct( $plugin_name, $plugin_slug ) {
+	public function __construct( $plugin_name, $plugin_slug, $plugin_path = false ) {
 
-		// Store the Plugin Name and Slug in the class.
+		// Store the Plugin name, slug and path in the class.
 		$this->plugin_name = $plugin_name;
 		$this->plugin_slug = $plugin_slug;
+		$this->plugin_path = $plugin_path;
 
 		// Register an AJAX action to dismiss the review.
 		add_action( 'wp_ajax_' . $this->plugin_slug . '_dismiss_review', array( $this, 'dismiss_review' ) );
@@ -99,7 +110,7 @@ class ConvertKit_Review_Request {
 		}
 
 		// If here, display the request for a review.
-		include_once CONVERTKIT_PLUGIN_PATH . '/views/backend/review/notice.php';
+		include_once $this->plugin_path . '/views/backend/review/notice.php';
 
 	}
 
