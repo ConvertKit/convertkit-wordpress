@@ -524,7 +524,7 @@ class ConvertKit_API {
 
 		// Return error if no Tag ID or email address is specified.
 		if ( empty( $tag_id ) ) {
-			return new WP_Error( 'convertkit_api_error', $this->get_error_message( 'tag_subscribe_email_empty' ) );
+			return new WP_Error( 'convertkit_api_error', $this->get_error_message( 'tag_subscribe_tag_id_empty' ) );
 		}
 		if ( empty( $email ) ) {
 			return new WP_Error( 'convertkit_api_error', $this->get_error_message( 'tag_subscribe_email_empty' ) );
