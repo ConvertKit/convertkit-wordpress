@@ -110,6 +110,9 @@ Full Plugin documentation can be found [here](https://help.convertkit.com/en/art
 
 == Changelog ==
 
+### 1.9.7.8 2022-06-xx
+* Added: Elementor Page Builder: ConvertKit Broadcasts Widget
+
 ### 1.9.7.7 2022-06-09
 * Added: Broadcasts: Option to enable pagination on block/shortcode
 
