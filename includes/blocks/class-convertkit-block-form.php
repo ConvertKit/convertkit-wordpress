@@ -302,10 +302,7 @@ class ConvertKit_Block_Form extends ConvertKit_Block {
 			$api = new ConvertKit_API(
 				$settings->get_api_key(),
 				$settings->get_api_secret(),
-				$settings->debug_enabled(),
-				CONVERTKIT_PLUGIN_PATH,
-				CONVERTKIT_PLUGIN_URL,
-				CONVERTKIT_PLUGIN_VERSION
+				$settings->debug_enabled()
 			);
 
 			// Return Legacy Form HTML from the API, which bypasses any internal Plugin check to see if the Form ID exists.

@@ -196,10 +196,7 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 		$this->api = new ConvertKit_API(
 			$this->settings->get_api_key(),
 			$this->settings->get_api_secret(),
-			$this->settings->debug_enabled(),
-			CONVERTKIT_PLUGIN_PATH,
-			CONVERTKIT_PLUGIN_URL,
-			CONVERTKIT_PLUGIN_VERSION
+			$this->settings->debug_enabled()
 		);
 
 		// Get Account Details, which we'll use in account_name_callback(), but also lets us test

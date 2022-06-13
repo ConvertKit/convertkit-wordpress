@@ -157,10 +157,7 @@ class ConvertKit_Setup {
 		$api = new ConvertKit_API(
 			$convertkit_settings->get_api_key(),
 			$convertkit_settings->get_api_secret(),
-			$convertkit_settings->debug_enabled(),
-			CONVERTKIT_PLUGIN_PATH,
-			CONVERTKIT_PLUGIN_URL,
-			CONVERTKIT_PLUGIN_VERSION
+			$convertkit_settings->debug_enabled()
 		);
 
 		// Get form mappings.
