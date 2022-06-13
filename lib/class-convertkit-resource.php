@@ -31,7 +31,7 @@ class ConvertKit_Resource {
 	/**
 	 * The API class
 	 *
-	 * @var     booL|ConvertKit_API
+	 * @var     bool|ConvertKit_API
 	 */
 	public $api = false;
 
