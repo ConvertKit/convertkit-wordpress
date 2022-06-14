@@ -39,7 +39,7 @@ class ConvertKit_Block_Product extends ConvertKit_Block {
 	 */
 	public function enqueue_scripts() {
 
-		wp_enqueue_script( 'convertkit-' . $this->get_name(), 'https://cheerful-architect-3237.ck.page/commerce.js', array(), false, true );
+		wp_enqueue_script( 'convertkit-' . $this->get_name(), 'https://cheerful-architect-3237.ck.page/commerce.js', array(), false, true ); // phpcs:ignore
 
 	}
 
@@ -109,11 +109,11 @@ class ConvertKit_Block_Product extends ConvertKit_Block {
 
 		return array(
 			// Block attributes.
-			'text'  => array(
+			'text'                 => array(
 				'type'    => 'string',
 				'default' => $this->get_default_value( 'text' ),
 			),
-			'product'  => array(
+			'product'              => array(
 				'type'    => 'string',
 				'default' => $this->get_default_value( 'product' ),
 			),
@@ -129,34 +129,32 @@ class ConvertKit_Block_Product extends ConvertKit_Block {
 			),
 
 			// Typography.
-			'fontSize'			   => array(
+			'fontSize'             => array(
 				'type' => 'string',
 			),
 
 			// Spacing/Dimensions > Padding.
-			'style'	=> array(
-				'type' => 'object',
+			'style'                => array(
+				'type'        => 'object',
 				'visualizers' => array(
-					'type' => 'object',
+					'type'    => 'object',
 					'padding' => array(
-						'type' => 'object',
-						'top' => array(
+						'type'   => 'object',
+						'top'    => array(
 							'type' => 'boolean',
 						),
 						'bottom' => array(
 							'type' => 'boolean',
 						),
-						'left' => array(
+						'left'   => array(
 							'type' => 'boolean',
 						),
-						'right' => array(
+						'right'  => array(
 							'type' => 'boolean',
 						),
 					),
 				),
 			),
-			
-			// border
 
 			// Always required for Gutenberg.
 			'is_gutenberg_example' => array(
@@ -177,15 +175,15 @@ class ConvertKit_Block_Product extends ConvertKit_Block {
 	public function get_supports() {
 
 		return array(
-			'className' => true,
-			'color'     => array(
+			'className'  => true,
+			'color'      => array(
 				'background' => true,
 				'text'       => true,
 			),
-			'typography'	=> array(
+			'typography' => array(
 				'fontSize' => true,
 			),
-			'spacing'	=> array(
+			'spacing'    => array(
 				'padding' => array(
 					'horizontal',
 					'vertical',
@@ -212,7 +210,7 @@ class ConvertKit_Block_Product extends ConvertKit_Block {
 		// Gutenberg's built-in fields (such as styling, padding etc) don't need to be defined here, as they'll be included
 		// automatically by Gutenberg.
 		return array(
-			'text' => array(
+			'text'    => array(
 				'label'       => __( 'Button Text', 'convertkit' ),
 				'type'        => 'text',
 				'description' => __( 'The text to display for the button.', 'convertkit' ),
@@ -264,20 +262,20 @@ class ConvertKit_Block_Product extends ConvertKit_Block {
 	public function get_default_values() {
 
 		return array(
-			'text' => __( 'Buy my product', 'convertkit' ),
-			'product' => 'https://cheerful-architect-3237.ck.page/products/newsletter-subscription',
+			'text'            => __( 'Buy my product', 'convertkit' ),
+			'product'         => 'https://cheerful-architect-3237.ck.page/products/newsletter-subscription',
 
 			// Built-in Gutenberg block attributes.
-			'backgroundColor'     => '',
-			'textColor'           => '',
-			'fontSize'			  => '',
-			'style'				  => array(
+			'backgroundColor' => '',
+			'textColor'       => '',
+			'fontSize'        => '',
+			'style'           => array(
 				'visualizers' => array(
 					'padding' => array(
-						'top' => '',
+						'top'    => '',
 						'bottom' => '',
-						'left' => '',
-						'right' => '',
+						'left'   => '',
+						'right'  => '',
 					),
 				),
 			),
@@ -321,13 +319,13 @@ class ConvertKit_Block_Product extends ConvertKit_Block {
 	 *
 	 * @since   1.9.7.8
 	 *
-	 * @param   array                     $atts               Block attributes.
+	 * @param   array $atts               Block attributes.
 	 * @return  string                                          HTML
 	 */
 	private function build_html( $atts ) {
 
 		// Build button HTML.
-		$html = '<div class="wp-block-button">';
+		$html  = '<div class="wp-block-button">';
 		$html .= '<a href="' . $atts['product'] . '" class="wp-block-button__link ' . esc_attr( implode( ' ', $atts['_css_classes'] ) ) . '" style="' . implode( ';', $atts['_css_styles'] ) . '" data-commerce>';
 		$html .= $atts['text'];
 		$html .= '</a>';

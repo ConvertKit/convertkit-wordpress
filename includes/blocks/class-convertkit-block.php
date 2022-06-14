@@ -246,15 +246,15 @@ class ConvertKit_Block {
 		// If the block supports a font size, and a preset font size was selected, add it to the
 		// array of CSS classes.
 		if ( isset( $atts['fontSize'] ) && ! empty( $atts['fontSize'] ) ) {
-			$atts['_css_classes'][]            = 'has-custom-font-size';
-			$atts['_css_classes'][] 		   = 'has-' . $atts['fontSize'] . '-font-size';
+			$atts['_css_classes'][] = 'has-custom-font-size';
+			$atts['_css_classes'][] = 'has-' . $atts['fontSize'] . '-font-size';
 		}
 
 		// If the block supports padding, and padding is set, add it to the
 		// array of CSS inline styles.
 		if ( isset( $atts['style']['spacing'] ) && isset( $atts['style']['spacing']['padding'] ) ) {
 			foreach ( $atts['style']['spacing']['padding'] as $position => $value ) {
-				$atts['_css_styles']['padding-' . $position ] = 'padding-' . $position . ':' . $value;	
+				$atts['_css_styles'][ 'padding-' . $position ] = 'padding-' . $position . ':' . $value;
 			}
 		}
 
