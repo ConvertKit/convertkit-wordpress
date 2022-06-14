@@ -22,10 +22,24 @@ class ConvertKit_Block_Product extends ConvertKit_Block {
 	public function __construct() {
 
 		// Register this as a shortcode in the ConvertKit Plugin.
-		// add_filter( 'convertkit_shortcodes', array( $this, 'register' ) );
+		add_filter( 'convertkit_shortcodes', array( $this, 'register' ) );
 
 		// Register this as a Gutenberg block in the ConvertKit Plugin.
 		add_filter( 'convertkit_blocks', array( $this, 'register' ) );
+
+		// Enqueue scripts for this Gutenberg Block in the editor and frontend views.
+		add_action( 'convertkit_gutenberg_enqueue_scripts_editor_and_frontend', array( $this, 'enqueue_scripts' ) );
+
+	}
+
+	/**
+	 * Enqueues scripts for this Gutenberg Block in the editor and frontend views.
+	 *
+	 * @since   1.9.7.8
+	 */
+	public function enqueue_scripts() {
+
+		wp_enqueue_script( 'convertkit-' . $this->get_name(), 'https://cheerful-architect-3237.ck.page/commerce.js', array(), false, true );
 
 	}
 
@@ -99,8 +113,12 @@ class ConvertKit_Block_Product extends ConvertKit_Block {
 				'type'    => 'string',
 				'default' => $this->get_default_value( 'text' ),
 			),
+			'product'  => array(
+				'type'    => 'string',
+				'default' => $this->get_default_value( 'product' ),
+			),
 
-			// Built in Gutenberg attributes registered in get_supports().
+			// The below are built in Gutenberg attributes registered in get_supports().
 
 			// Color.
 			'backgroundColor'      => array(
@@ -159,7 +177,6 @@ class ConvertKit_Block_Product extends ConvertKit_Block {
 	public function get_supports() {
 
 		return array(
-			'align'		=> true,
 			'className' => true,
 			'color'     => array(
 				'background' => true,
@@ -192,11 +209,18 @@ class ConvertKit_Block_Product extends ConvertKit_Block {
 			return false;
 		}
 
+		// Gutenberg's built-in fields (such as styling, padding etc) don't need to be defined here, as they'll be included
+		// automatically by Gutenberg.
 		return array(
 			'text' => array(
 				'label'       => __( 'Button Text', 'convertkit' ),
 				'type'        => 'text',
 				'description' => __( 'The text to display for the button.', 'convertkit' ),
+			),
+			'product' => array(
+				'label'       => __( 'Product', 'convertkit' ),
+				'type'        => 'text',
+				'description' => __( 'The ConvertKit Product. This will be a select dropdown fetching products from the API.', 'convertkit' ),
 			),
 		);
 
@@ -216,11 +240,14 @@ class ConvertKit_Block_Product extends ConvertKit_Block {
 			return false;
 		}
 
+		// Gutenberg's built-in fields (such as styling, padding etc) don't need to be defined here, as they'll be included
+		// automatically by Gutenberg.
 		return array(
 			'general' => array(
 				'label'  => __( 'General', 'convertkit' ),
 				'fields' => array(
 					'text',
+					'product',
 				),
 			),
 		);
@@ -238,6 +265,7 @@ class ConvertKit_Block_Product extends ConvertKit_Block {
 
 		return array(
 			'text' => __( 'Buy my product', 'convertkit' ),
+			'product' => 'https://cheerful-architect-3237.ck.page/products/newsletter-subscription',
 
 			// Built-in Gutenberg block attributes.
 			'backgroundColor'     => '',
@@ -300,7 +328,7 @@ class ConvertKit_Block_Product extends ConvertKit_Block {
 
 		// Build button HTML.
 		$html = '<div class="wp-block-button">';
-		$html .= '<a class="wp-block-button__link convertkit-button ' . esc_attr( implode( ' ', $atts['_css_classes'] ) ) . '" style="' . implode( ';', $atts['_css_styles'] ) . '">';
+		$html .= '<a href="' . $atts['product'] . '" class="wp-block-button__link ' . esc_attr( implode( ' ', $atts['_css_classes'] ) ) . '" style="' . implode( ';', $atts['_css_styles'] ) . '" data-commerce>';
 		$html .= $atts['text'];
 		$html .= '</a>';
 		$html .= '</div>';
