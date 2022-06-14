@@ -22,6 +22,7 @@ parameters:
     # Files that include Plugin-specific PHP constants
     bootstrapFiles:
         - wp-convertkit.php
+        - lib/browser.php
 
     # Location of WordPress Plugins for PHPStan to scan, building symbols.
     scanDirectories:
