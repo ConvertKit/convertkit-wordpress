@@ -1,0 +1,313 @@
+<?php
+/**
+ * ConvertKit Product Button Block class.
+ *
+ * @package ConvertKit
+ * @author ConvertKit
+ */
+
+/**
+ * ConvertKit Product Button Block for Gutenberg and Shortcode.
+ *
+ * @package ConvertKit
+ * @author  ConvertKit
+ */
+class ConvertKit_Block_Product extends ConvertKit_Block {
+
+	/**
+	 * Constructor
+	 *
+	 * @since   1.9.7.8
+	 */
+	public function __construct() {
+
+		// Register this as a shortcode in the ConvertKit Plugin.
+		// add_filter( 'convertkit_shortcodes', array( $this, 'register' ) );
+
+		// Register this as a Gutenberg block in the ConvertKit Plugin.
+		add_filter( 'convertkit_blocks', array( $this, 'register' ) );
+
+	}
+
+	/**
+	 * Returns this block's programmatic name, excluding the convertkit- prefix.
+	 *
+	 * @since   1.9.7.8
+	 */
+	public function get_name() {
+
+		/**
+		 * This will register as:
+		 * - a shortcode, with the name [convertkit_product].
+		 * - a Gutenberg block, with the name convertkit/product.
+		 */
+		return 'product';
+
+	}
+
+	/**
+	 * Returns this block's Title, Icon, Categories, Keywords and properties.
+	 *
+	 * @since   1.9.7.8
+	 */
+	public function get_overview() {
+
+		return array(
+			'title'                         => __( 'ConvertKit Product', 'convertkit' ),
+			'description'                   => __( 'Displays a button to purchase a ConvertKit product.', 'convertkit' ),
+			'icon'                          => 'resources/backend/images/block-icon-product.png',
+			'category'                      => 'convertkit',
+			'keywords'                      => array(
+				__( 'ConvertKit', 'convertkit' ),
+				__( 'Product', 'convertkit' ),
+			),
+
+			// Function to call when rendering as a block or a shortcode on the frontend web site.
+			'render_callback'               => array( $this, 'render' ),
+
+			// Shortcode: TinyMCE / QuickTags Modal Width and Height.
+			'modal'                         => array(
+				'width'  => 500,
+				'height' => 405,
+			),
+
+			// Shortcode: Include a closing [/shortcode] tag when using TinyMCE or QuickTag Modals.
+			'shortcode_include_closing_tag' => false,
+
+			// Gutenberg: Block Icon in Editor.
+			'gutenberg_icon'                    => file_get_contents( CONVERTKIT_PLUGIN_PATH . '/resources/backend/images/block-icon-product.svg' ), /* phpcs:ignore */
+
+			// Gutenberg: Example image showing how this block looks when choosing it in Gutenberg.
+			'gutenberg_example_image'       => CONVERTKIT_PLUGIN_URL . '/resources/backend/images/block-example-product.png',
+
+			// Gutenberg: Help description, displayed when no settings defined for a newly added Block.
+			'gutenberg_help_description'    => __( 'Define this Block\'s settings in the Gutenberg sidebar to display a button allowing visitors to purchase a ConvertKit product.', 'convertkit' ),
+		);
+
+	}
+
+	/**
+	 * Returns this block's Attributes
+	 *
+	 * @since   1.9.7.8
+	 */
+	public function get_attributes() {
+
+		return array(
+			// Block attributes.
+			'text'  => array(
+				'type'    => 'string',
+				'default' => $this->get_default_value( 'text' ),
+			),
+
+			// Built in Gutenberg attributes registered in get_supports().
+
+			// Color.
+			'backgroundColor'      => array(
+				'type' => 'string',
+			),
+			'textColor'            => array(
+				'type' => 'string',
+			),
+
+			// Typography.
+			'fontSize'			   => array(
+				'type' => 'string',
+			),
+
+			// Spacing/Dimensions > Padding.
+			'style'	=> array(
+				'type' => 'object',
+				'visualizers' => array(
+					'type' => 'object',
+					'padding' => array(
+						'type' => 'object',
+						'top' => array(
+							'type' => 'boolean',
+						),
+						'bottom' => array(
+							'type' => 'boolean',
+						),
+						'left' => array(
+							'type' => 'boolean',
+						),
+						'right' => array(
+							'type' => 'boolean',
+						),
+					),
+				),
+			),
+			
+			// border
+
+			// Always required for Gutenberg.
+			'is_gutenberg_example' => array(
+				'type'    => 'boolean',
+				'default' => false,
+			),
+		);
+
+	}
+
+	/**
+	 * Returns this block's supported built-in Attributes.
+	 *
+	 * @since   1.9.7.8
+	 *
+	 * @return  array   Supports
+	 */
+	public function get_supports() {
+
+		return array(
+			'align'		=> true,
+			'className' => true,
+			'color'     => array(
+				'background' => true,
+				'text'       => true,
+			),
+			'typography'	=> array(
+				'fontSize' => true,
+			),
+			'spacing'	=> array(
+				'padding' => array(
+					'horizontal',
+					'vertical',
+				),
+			),
+		);
+
+	}
+
+	/**
+	 * Returns this block's Fields
+	 *
+	 * @since   1.9.7.8
+	 *
+	 * @return  bool|array
+	 */
+	public function get_fields() {
+
+		// Bail if the request is not for the WordPress Administration or frontend editor.
+		if ( ! WP_ConvertKit()->is_admin_or_frontend_editor() ) {
+			return false;
+		}
+
+		return array(
+			'text' => array(
+				'label'       => __( 'Button Text', 'convertkit' ),
+				'type'        => 'text',
+				'description' => __( 'The text to display for the button.', 'convertkit' ),
+			),
+		);
+
+	}
+
+	/**
+	 * Returns this block's UI panels / sections.
+	 *
+	 * @since   1.9.7.8
+	 *
+	 * @return  bool|array
+	 */
+	public function get_panels() {
+
+		// Bail if the request is not for the WordPress Administration or frontend editor.
+		if ( ! WP_ConvertKit()->is_admin_or_frontend_editor() ) {
+			return false;
+		}
+
+		return array(
+			'general' => array(
+				'label'  => __( 'General', 'convertkit' ),
+				'fields' => array(
+					'text',
+				),
+			),
+		);
+
+	}
+
+	/**
+	 * Returns this block's Default Values
+	 *
+	 * @since   1.9.7.8
+	 *
+	 * @return  array
+	 */
+	public function get_default_values() {
+
+		return array(
+			'text' => __( 'Buy my product', 'convertkit' ),
+
+			// Built-in Gutenberg block attributes.
+			'backgroundColor'     => '',
+			'textColor'           => '',
+			'fontSize'			  => '',
+			'style'				  => array(
+				'visualizers' => array(
+					'padding' => array(
+						'top' => '',
+						'bottom' => '',
+						'left' => '',
+						'right' => '',
+					),
+				),
+			),
+		);
+
+	}
+
+	/**
+	 * Returns the block's output, based on the supplied configuration attributes.
+	 *
+	 * @since   1.9.7.8
+	 *
+	 * @param   array $atts   Block / Shortcode Attributes.
+	 * @return  string          Output
+	 */
+	public function render( $atts ) {
+
+		// Parse attributes, defining fallback defaults if required
+		// and moving some attributes (such as Gutenberg's styles), if defined.
+		$atts = $this->sanitize_and_declare_atts( $atts );
+
+		// Build HTML.
+		$html = $this->build_html( $atts );
+
+		/**
+		 * Filter the block's content immediately before it is output.
+		 *
+		 * @since   1.9.7.8
+		 *
+		 * @param   string  $html   ConvertKit Product button HTML.
+		 * @param   array   $atts   Block Attributes.
+		 */
+		$html = apply_filters( 'convertkit_block_product_render', $html, $atts );
+
+		return $html;
+
+	}
+
+	/**
+	 * Returns HTML for the button.
+	 *
+	 * @since   1.9.7.8
+	 *
+	 * @param   array                     $atts               Block attributes.
+	 * @return  string                                          HTML
+	 */
+	private function build_html( $atts ) {
+
+		// Build button HTML.
+		$html = '<div class="wp-block-button">';
+		$html .= '<a class="wp-block-button__link convertkit-button ' . esc_attr( implode( ' ', $atts['_css_classes'] ) ) . '" style="' . implode( ';', $atts['_css_styles'] ) . '">';
+		$html .= $atts['text'];
+		$html .= '</a>';
+		$html .= '</div>';
+
+		// Return.
+		return $html;
+
+	}
+
+}
