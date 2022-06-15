@@ -12,6 +12,12 @@ parameters:
         - wp-convertkit.php
         - admin/
         - includes/
+        - lib/
+
+    # Paths to exclude
+    # This should comprise of any third party libraries used in the Plugin
+    excludePaths:
+        - lib/browser.php
 
     # Files that include Plugin-specific PHP constants
     bootstrapFiles:
