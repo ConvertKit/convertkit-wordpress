@@ -67,7 +67,7 @@ class ConvertKit_Settings_Tools extends ConvertKit_Settings_Base {
 		}
 
 		// Clear Log.
-		$log = new ConvertKit_Log();
+		$log = new ConvertKit_Log( CONVERTKIT_PLUGIN_PATH );
 		$log->clear();
 
 		// Redirect to Tools screen.
@@ -91,7 +91,7 @@ class ConvertKit_Settings_Tools extends ConvertKit_Settings_Base {
 		}
 
 		// Get Log and download.
-		$log = new ConvertKit_Log();
+		$log = new ConvertKit_Log( CONVERTKIT_PLUGIN_PATH );
 
 		// Download.
 		header( 'Content-type: application/octet-stream' );
@@ -286,7 +286,7 @@ class ConvertKit_Settings_Tools extends ConvertKit_Settings_Base {
 	public function render() {
 
 		// Get Log and System Info.
-		$log         = new ConvertKit_Log();
+		$log         = new ConvertKit_Log( CONVERTKIT_PLUGIN_PATH );
 		$system_info = new ConvertKit_System_Info();
 
 		// Define messages that might be displayed as a notification.

@@ -29,6 +29,13 @@ class ConvertKit_Resource {
 	public $type = '';
 
 	/**
+	 * The API class
+	 *
+	 * @var     bool|ConvertKit_API
+	 */
+	public $api = false;
+
+	/**
 	 * The number of seconds resources are valid, before they should be
 	 * fetched again from the API.
 	 *
@@ -70,6 +77,16 @@ class ConvertKit_Resource {
 	 * @since   1.9.6
 	 */
 	public function __construct() {
+
+		// Initialize the API if the API Key and Secret have been defined in the Plugin Settings.
+		$settings = new ConvertKit_Settings();
+		if ( $settings->has_api_key_and_secret() ) {
+			$this->api = new ConvertKit_API(
+				$settings->get_api_key(),
+				$settings->get_api_secret(),
+				$settings->debug_enabled()
+			);
+		}
 
 		$this->init();
 
@@ -119,6 +136,27 @@ class ConvertKit_Resource {
 	public function get() {
 
 		return $this->resources;
+
+	}
+
+	/**
+	 * Returns an individual resource by its ID.
+	 *
+	 * @since   1.9.7.7
+	 *
+	 * @param   int $id     Resource ID (Form, Tag, Sequence).
+	 * @return  mixed           bool | array
+	 */
+	public function get_by_id( $id ) {
+
+		foreach ( $this->get() as $resource ) {
+			// If this resource's ID matches the ID we're looking for, return it.
+			if ( $resource['id'] == $id ) { // phpcs:ignore
+				return $resource;
+			}
+		}
+
+		return false;
 
 	}
 
@@ -216,39 +254,42 @@ class ConvertKit_Resource {
 	 */
 	public function refresh() {
 
-		// Bail if the API Key and Secret hasn't been defined in the Plugin Settings.
-		$settings = new ConvertKit_Settings();
-		if ( ! $settings->has_api_key_and_secret() ) {
+		// Bail if no API class was defined.
+		if ( ! $this->api ) {
 			return false;
 		}
-
-		// Initialize the API.
-		$api = new ConvertKit_API( $settings->get_api_key(), $settings->get_api_secret(), $settings->debug_enabled() );
 
 		// Fetch resources.
 		switch ( $this->type ) {
 			case 'forms':
-				$results = $api->get_forms();
+				$results = $this->api->get_forms();
 				break;
 
 			case 'landing_pages':
-				$results = $api->get_landing_pages();
+				$results = $this->api->get_landing_pages();
 				break;
 
 			case 'tags':
-				$results = $api->get_tags();
+				$results = $this->api->get_tags();
+				break;
+
+			case 'sequences':
+				$results = $this->api->get_sequences();
+				break;
+
+			case 'custom_fields':
+				$results = $this->api->get_custom_fields();
 				break;
 
 			case 'posts':
-				$results = $api->get_all_posts();
+				$results = $this->api->get_all_posts();
 				break;
 
 			default:
 				$results = new WP_Error(
 					'convertkit_resource_refresh_error',
 					sprintf(
-						/* translators: Resource Type */
-						__( 'Resource type %s is not supported in ConvertKit_Resource class.', 'convertkit' ),
+						'Resource type %s is not supported in ConvertKit_Resource class.',
 						$this->type
 					)
 				);
@@ -333,6 +374,17 @@ class ConvertKit_Resource {
 	public function get_cron_event() {
 
 		return wp_get_schedule( 'convertkit_resource_refresh_' . $this->type );
+
+	}
+
+	/**
+	 * Deletes resources (forms, landing pages or tags) from the options table.
+	 *
+	 * @since   1.9.7.8
+	 */
+	public function delete() {
+
+		delete_option( $this->settings_name );
 
 	}
 
