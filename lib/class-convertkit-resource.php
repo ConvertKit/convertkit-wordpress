@@ -273,6 +273,10 @@ class ConvertKit_Resource {
 				$results = $this->api->get_tags();
 				break;
 
+			case 'sequences':
+				$results = $this->api->get_sequences();
+				break;
+
 			case 'custom_fields':
 				$results = $this->api->get_custom_fields();
 				break;
