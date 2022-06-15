@@ -349,4 +349,25 @@ class Plugin extends \Codeception\Module
 			return ( strpos($el->getAttribute('class'), 'convertkit-broadcasts-loading') === false ? true : false );
 		}, 5);
 	}
+
+	/**
+	 * Check that expected HTML exists in the DOM of the page we're viewing for
+	 * a Product block or shortcode.
+	 * 
+	 * @since 	1.9.7.8
+	 *
+	 * @param 	AcceptanceTester 	$I 		Tester.
+	 * @param 	bool|string 		$text 	Test if the button text matches the given value.
+	 */
+	public function seeProductOutput($I, $text = false)
+	{
+		// Confirm that the block displays.
+		$I->seeElementInDOM('div.wp-block-button');
+		$I->seeElementInDOM('div.wp-block-button a');
+
+		// Confirm that the button text is as expected.
+		if ($text !== false) {
+			$I->seeInSource($text);		
+		}
+	}
 }
