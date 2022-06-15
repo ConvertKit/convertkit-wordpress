@@ -69,7 +69,7 @@ class ConvertKit_Review_Request {
 		$this->plugin_path = $plugin_path;
 
 		// Register an AJAX action to dismiss the review.
-		add_action( 'wp_ajax_' . $this->plugin_slug . '_dismiss_review', array( $this, 'dismiss_review' ) );
+		add_action( 'wp_ajax_' . str_replace( '-', '_', $this->plugin_slug ) . '_dismiss_review', array( $this, 'dismiss_review' ) );
 
 		// Maybe display a review request in the WordPress Admin notices.
 		add_action( 'admin_notices', array( $this, 'maybe_display_review_request' ) );
