@@ -27,8 +27,23 @@ class ConvertKit_Block_Product extends ConvertKit_Block {
 		// Register this as a Gutenberg block in the ConvertKit Plugin.
 		add_filter( 'convertkit_blocks', array( $this, 'register' ) );
 
+		// Enqueue styles for this Gutenberg Block in the editor
+		add_action( 'convertkit_gutenberg_enqueue_styles', array( $this, 'enqueue_styles_editor' ) );
+
 		// Enqueue scripts for this Gutenberg Block in the editor and frontend views.
 		add_action( 'convertkit_gutenberg_enqueue_scripts_editor_and_frontend', array( $this, 'enqueue_scripts' ) );
+
+	}
+
+	/**
+	 * Enqueues styles for this Gutenberg Block in the editor view, to
+	 * set the button's style to inline-block.
+	 *
+	 * @since   1.9.7.8
+	 */
+	public function enqueue_styles_editor() {
+
+		wp_enqueue_style( 'convertkit-gutenberg-block-product', CONVERTKIT_PLUGIN_URL . '/resources/backend/css/gutenberg-block-product.css', array( 'wp-edit-blocks' ), CONVERTKIT_PLUGIN_VERSION );
 
 	}
 

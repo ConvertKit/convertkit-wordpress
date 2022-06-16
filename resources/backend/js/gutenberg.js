@@ -266,7 +266,7 @@ function convertKitGutenbergRegisterBlock( block ) {
 							{
 								block: 'convertkit/' + block.name,
 								attributes: props.attributes,
-								className: 'convertkit-' + block.name,
+								className: 'convertkit-' + block.name
 							}
 						);
 					}
