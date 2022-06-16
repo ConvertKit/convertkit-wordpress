@@ -225,7 +225,7 @@ function convertkit_get_api_key_url() {
 function convertkit_select2_enqueue_scripts() {
 
 	wp_enqueue_script( 'convertkit-select2', 'https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js', array( 'jquery' ), CONVERTKIT_PLUGIN_VERSION, false );
-	wp_enqueue_script( 'convertkit-admin-select2', CONVERTKIT_PLUGIN_URL . '/resources/backend/js/select2.js', array( 'convertkit-select2' ), CONVERTKIT_PLUGIN_VERSION, false );
+	wp_enqueue_script( 'convertkit-admin-select2', CONVERTKIT_PLUGIN_URL . 'resources/backend/js/select2.js', array( 'convertkit-select2' ), CONVERTKIT_PLUGIN_VERSION, false );
 
 }
 
@@ -237,6 +237,6 @@ function convertkit_select2_enqueue_scripts() {
 function convertkit_select2_enqueue_styles() {
 
 	wp_enqueue_style( 'convertkit-select2', 'https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css', array(), CONVERTKIT_PLUGIN_VERSION );
-	wp_enqueue_style( 'convertkit-admin-select2', CONVERTKIT_PLUGIN_URL . '/resources/backend/css/select2.css', array(), CONVERTKIT_PLUGIN_VERSION );
+	wp_enqueue_style( 'convertkit-admin-select2', CONVERTKIT_PLUGIN_URL . 'resources/backend/css/select2.css', array(), CONVERTKIT_PLUGIN_VERSION );
 
 }
