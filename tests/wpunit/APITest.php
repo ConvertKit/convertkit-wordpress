@@ -37,8 +37,9 @@ class APITest extends \Codeception\TestCase\WPTestCase
 		// Activate Plugin.
 		activate_plugins('convertkit/wp-convertkit.php');
 
-		// Initialize the class we want to test.
+		// Initialize the classes we want to test.
 		$this->api = new ConvertKit_API( $_ENV['CONVERTKIT_API_KEY'], $_ENV['CONVERTKIT_API_SECRET'] );
+		$this->api_no_data = new ConvertKit_API( $_ENV['CONVERTKIT_API_KEY_NO_DATA'], $_ENV['CONVERTKIT_API_SECRET_NO_DATA'] );
 	}
 
 	/**
@@ -101,6 +102,20 @@ class APITest extends \Codeception\TestCase\WPTestCase
 	}
 
 	/**
+	 * Test that the `get_subscription_forms()` function returns a blank array when no data
+	 * exists on the ConvertKit account.
+	 * 
+	 * @since 	1.9.7.8
+	 */
+	public function testGetSubscriptionFormsNoData()
+	{
+		$result = $this->api_no_data->get_subscription_forms();
+		$this->assertNotInstanceOf(WP_Error::class, $result);
+		$this->assertIsArray($result);
+		$this->assertCount(0, $result);
+	}
+
+	/**
 	 * Test that the `get_forms()` function returns expected data.
 	 * 
 	 * @since 	1.9.6.9
@@ -114,6 +129,20 @@ class APITest extends \Codeception\TestCase\WPTestCase
 		$this->assertArrayHasKey('name', reset($result));
 		$this->assertArrayHasKey('format', reset($result));
 		$this->assertArrayHasKey('embed_js', reset($result));
+	}
+
+	/**
+	 * Test that the `get_forms()` function returns a blank array when no data
+	 * exists on the ConvertKit account.
+	 * 
+	 * @since 	1.9.7.8
+	 */
+	public function testGetFormsNoData()
+	{
+		$result = $this->api_no_data->get_forms();
+		$this->assertNotInstanceOf(WP_Error::class, $result);
+		$this->assertIsArray($result);
+		$this->assertCount(0, $result);
 	}
 
 	/**
@@ -193,6 +222,20 @@ class APITest extends \Codeception\TestCase\WPTestCase
 	}
 
 	/**
+	 * Test that the `get_landing_pages()` function returns a blank array when no data
+	 * exists on the ConvertKit account.
+	 * 
+	 * @since 	1.9.7.8
+	 */
+	public function testGetLandingPagesNoData()
+	{
+		$result = $this->api_no_data->get_landing_pages();
+		$this->assertNotInstanceOf(WP_Error::class, $result);
+		$this->assertIsArray($result);
+		$this->assertCount(0, $result);
+	}
+
+	/**
 	 * Test that the `get_sequences()` function returns expected data.
 	 * 
 	 * @since 	1.9.6.9
@@ -204,7 +247,21 @@ class APITest extends \Codeception\TestCase\WPTestCase
 		$this->assertIsArray($result);
 		$this->assertArrayHasKey('id', reset($result));
 		$this->assertArrayHasKey('name', reset($result));
-	} 
+	}
+
+	/**
+	 * Test that the `get_sequences()` function returns a blank array when no data
+	 * exists on the ConvertKit account.
+	 * 
+	 * @since 	1.9.7.8
+	 */
+	public function testGetSequencesNoData()
+	{
+		$result = $this->api_no_data->get_sequences();
+		$this->assertNotInstanceOf(WP_Error::class, $result);
+		$this->assertIsArray($result);
+		$this->assertCount(0, $result);
+	}
 
 	/**
 	 * Test that the `sequence_subscribe()` function returns expected data
@@ -277,7 +334,21 @@ class APITest extends \Codeception\TestCase\WPTestCase
 		$this->assertIsArray($result);
 		$this->assertArrayHasKey('id', reset($result));
 		$this->assertArrayHasKey('name', reset($result));
-	} 
+	}
+
+	/**
+	 * Test that the `get_tags()` function returns a blank array when no data
+	 * exists on the ConvertKit account.
+	 * 
+	 * @since 	1.9.7.8
+	 */
+	public function testGetTagsNoData()
+	{
+		$result = $this->api_no_data->get_tags();
+		$this->assertNotInstanceOf(WP_Error::class, $result);
+		$this->assertIsArray($result);
+		$this->assertCount(0, $result);
+	}
 
 	/**
 	 * Test that the `tag_subscribe()` function returns expected data
@@ -508,6 +579,20 @@ class APITest extends \Codeception\TestCase\WPTestCase
 	}
 
 	/**
+	 * Test that the `get_custom_fields()` function returns a blank array when no data
+	 * exists on the ConvertKit account.
+	 * 
+	 * @since 	1.9.7.8
+	 */
+	public function testGetCustomFieldsNoData()
+	{
+		$result = $this->api_no_data->get_custom_fields();
+		$this->assertNotInstanceOf(WP_Error::class, $result);
+		$this->assertIsArray($result);
+		$this->assertCount(0, $result);
+	}
+
+	/**
 	 * Test that the `get_posts()` function returns expected data.
 	 * 
 	 * @since 	1.9.7.4
@@ -532,6 +617,20 @@ class APITest extends \Codeception\TestCase\WPTestCase
 		$this->assertArrayHasKey('url', reset($result['posts']));
 		$this->assertArrayHasKey('published_at', reset($result['posts']));
 		$this->assertArrayHasKey('is_paid', reset($result['posts']));
+	}
+
+	/**
+	 * Test that the `get_posts()` function returns a blank array when no data
+	 * exists on the ConvertKit account.
+	 * 
+	 * @since 	1.9.7.8
+	 */
+	public function testGetPostsNoData()
+	{
+		$result = $this->api_no_data->get_posts();
+		$this->assertNotInstanceOf(WP_Error::class, $result);
+		$this->assertIsArray($result);
+		$this->assertCount(0, $result);
 	}
 
 	/**
@@ -622,6 +721,20 @@ class APITest extends \Codeception\TestCase\WPTestCase
 		$this->assertArrayHasKey('url', reset($result));
 		$this->assertArrayHasKey('published_at', reset($result));
 		$this->assertArrayHasKey('is_paid', reset($result));
+	}
+
+	/**
+	 * Test that the `get_all_posts()` function returns a blank array when no data
+	 * exists on the ConvertKit account.
+	 * 
+	 * @since 	1.9.7.8
+	 */
+	public function testGetAllPostsNoData()
+	{
+		$result = $this->api_no_data->get_all_posts();
+		$this->assertNotInstanceOf(WP_Error::class, $result);
+		$this->assertIsArray($result);
+		$this->assertCount(0, $result);
 	}
 
 	/**
