@@ -376,14 +376,14 @@ class ConvertKit_API {
 			return $response;
 		}
 
-		// If no sequences exist, return WP_Error.
+		// If no sequences exist, log that no sequences exist and return a blank array.
 		if ( ! isset( $response['courses'] ) ) {
 			$this->log( 'API: get_sequences(): Error: No sequences exist in ConvertKit.' );
-			return new WP_Error( 'convertkit_api_error', $this->get_error_message( 'get_sequences_none' ) );
+			return $sequences;
 		}
 		if ( ! count( $response['courses'] ) ) {
 			$this->log( 'API: get_sequences(): Error: No sequences exist in ConvertKit.' );
-			return new WP_Error( 'convertkit_api_error', $this->get_error_message( 'get_sequences_none' ) );
+			return $sequences;
 		}
 
 		foreach ( $response['courses'] as $sequence ) {
@@ -484,14 +484,14 @@ class ConvertKit_API {
 			return $response;
 		}
 
-		// If no tags exist, return WP_Error.
+		// If no tags exist, log that no tags exist and return a blank array.
 		if ( ! isset( $response['tags'] ) ) {
 			$this->log( 'API: get_tags(): Error: No tags exist in ConvertKit.' );
-			return new WP_Error( 'convertkit_api_error', $this->get_error_message( 'get_tags_none' ) );
+			return $tags;
 		}
 		if ( ! count( $response['tags'] ) ) {
 			$this->log( 'API: get_tags(): Error: No tags exist in ConvertKit.' );
-			return new WP_Error( 'convertkit_api_error', $this->get_error_message( 'get_tags_none' ) );
+			return $tags;
 		}
 
 		foreach ( $response['tags'] as $tag ) {
@@ -825,14 +825,14 @@ class ConvertKit_API {
 			return $response;
 		}
 
-		// If no custom fields exist, return WP_Error.
+		// If no custom fields exist, log that no custom fields exist and return a blank array.
 		if ( ! isset( $response['custom_fields'] ) ) {
 			$this->log( 'API: get_custom_fields(): Error: No custom fields exist in ConvertKit.' );
-			return new WP_Error( 'convertkit_api_error', $this->get_error_message( 'get_custom_fields_none' ) );
+			return $custom_fields;
 		}
 		if ( ! count( $response['custom_fields'] ) ) {
 			$this->log( 'API: get_custom_fields(): Error: No custom fields exist in ConvertKit.' );
-			return new WP_Error( 'convertkit_api_error', $this->get_error_message( 'get_custom_fields_none' ) );
+			return $custom_fields;
 		}
 
 		foreach ( $response['custom_fields'] as $custom_field ) {
@@ -885,16 +885,20 @@ class ConvertKit_API {
 				return $response;
 			}
 
+			// Exit loop if no posts exist.
+			if ( ! count( $response ) ) {
+				break;
+			}
+
 			// Append posts to array.
 			foreach ( $response['posts'] as $post ) {
 				$posts[] = $post;
 			}
 		}
 
-		// If the array is empty, return an error.
+		// If no posts exist, log an error.
 		if ( ! count( $posts ) ) {
 			$this->log( 'API: get_posts(): Error: No broadcasts exist in ConvertKit.' );
-			return new WP_Error( 'convertkit_api_error', $this->get_error_message( 'get_all_posts_none' ) );
 		}
 
 		// Return posts.
@@ -949,14 +953,14 @@ class ConvertKit_API {
 			return $response;
 		}
 
-		// If no custom fields exist, return WP_Error.
+		// If no posts exist, log that no posts exist and return a blank array.
 		if ( ! isset( $response['posts'] ) ) {
 			$this->log( 'API: get_posts(): Error: No broadcasts exist in ConvertKit.' );
-			return new WP_Error( 'convertkit_api_error', $this->get_error_message( 'get_posts_none' ) );
+			return $posts;
 		}
 		if ( ! count( $response['posts'] ) ) {
 			$this->log( 'API: get_posts(): Error: No broadcasts exist in ConvertKit.' );
-			return new WP_Error( 'convertkit_api_error', $this->get_error_message( 'get_posts_none' ) );
+			return $posts;
 		}
 
 		return $response;
