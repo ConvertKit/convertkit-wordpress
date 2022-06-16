@@ -1,5 +1,9 @@
 <?php
-
+/**
+ * Tests for the ConvertKit_API class.
+ * 
+ * @since 	1.9.7.4
+ */
 class APITest extends \Codeception\TestCase\WPTestCase
 {
 	/**
