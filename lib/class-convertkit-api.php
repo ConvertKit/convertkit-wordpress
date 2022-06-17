@@ -1401,7 +1401,7 @@ class ConvertKit_API {
 				$result = wp_remote_request(
 					$this->get_api_url( $endpoint ),
 					array(
-						'method'		  => 'PUT',
+						'method'          => 'PUT',
 						'Accept-Encoding' => 'gzip',
 						'headers'         => array(
 							'Content-Type' => 'application/json; charset=utf-8',
