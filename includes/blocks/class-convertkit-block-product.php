@@ -54,7 +54,7 @@ class ConvertKit_Block_Product extends ConvertKit_Block {
 	 */
 	public function enqueue_scripts() {
 
-		wp_enqueue_script( 'convertkit-' . $this->get_name(), 'https://cheerful-architect-3237.ck.page/commerce.js', array(), false, true ); // phpcs:ignore
+		wp_enqueue_script( 'convertkit-commerce', 'https://cheerful-architect-3237.ck.page/commerce.js', array(), false, true ); // phpcs:ignore
 
 	}
 
