@@ -1051,10 +1051,22 @@ class APITest extends \Codeception\TestCase\WPTestCase
 	 */
 	public function testBackwardCompatFormUnsubscribe()
 	{
+		// We don't use $_ENV['CONVERTKIT_API_SUBSCRIBER_EMAIL'] for this test, as that email is relied upon as being a confirmed subscriber
+		// for other tests.
+
+		// Subscribe an email address.
+		$emailAddress = 'wordpress-' . date( 'Y-m-d-H-i-s' ) . '-php-' . PHP_VERSION_ID . '@convertkit.com';
+		$this->api->form_subscribe($_ENV['CONVERTKIT_API_FORM_ID'], $emailAddress);
+
+		// Unsubscribe the email address.
 		$result = $this->api->form_unsubscribe([
-			'email' => $_ENV['CONVERTKIT_API_SUBSCRIBER_EMAIL']
+			'email' => $emailAddress,
 		]);
 		$this->assertNotInstanceOf(WP_Error::class, $result);
+		$this->assertIsArray($result);
+		$this->assertArrayHasKey('subscriber', $result);
+		$this->assertArrayHasKey('email_address', $result['subscriber']);
+		$this->assertEquals($emailAddress, $result['subscriber']['email_address']);
 	} 
 
 	/**
