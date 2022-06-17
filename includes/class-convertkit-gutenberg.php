@@ -145,7 +145,7 @@ class ConvertKit_Gutenberg {
 		$blocks = convertkit_get_blocks();
 
 		// Enqueue Gutenberg Javascript, and set the blocks data.
-		wp_enqueue_script( 'convertkit-gutenberg', CONVERTKIT_PLUGIN_URL . '/resources/backend/js/gutenberg.js', array( 'jquery' ), CONVERTKIT_PLUGIN_VERSION, true );
+		wp_enqueue_script( 'convertkit-gutenberg', CONVERTKIT_PLUGIN_URL . 'resources/backend/js/gutenberg.js', array( 'jquery' ), CONVERTKIT_PLUGIN_VERSION, true );
 		wp_localize_script( 'convertkit-gutenberg', 'convertkit_blocks', $blocks );
 
 		/**
