@@ -690,8 +690,20 @@ class APITest extends \Codeception\TestCase\WPTestCase
 	 */
 	public function testUnsubscribe()
 	{
-		$result = $this->api->unsubscribe($_ENV['CONVERTKIT_API_SUBSCRIBER_EMAIL']);
+		// We don't use $_ENV['CONVERTKIT_API_SUBSCRIBER_EMAIL'] for this test, as that email is relied upon as being a confirmed subscriber
+		// for other tests.
+
+		// Subscribe an email address.
+		$emailAddress = 'wordpress-' . date( 'Y-m-d-H-i-s' ) . '-php-' . PHP_VERSION_ID . '@convertkit.com';
+		$this->api->form_subscribe($_ENV['CONVERTKIT_API_FORM_ID'], $emailAddress);
+
+		// Unsubscribe the email address.
+		$result = $this->api->unsubscribe($emailAddress);
 		$this->assertNotInstanceOf(WP_Error::class, $result);
+		$this->assertIsArray($result);
+		$this->assertArrayHasKey('subscriber', $result);
+		$this->assertArrayHasKey('email_address', $result['subscriber']);
+		$this->assertEquals($emailAddress, $result['subscriber']['email_address']);
 	} 
 
 	/**
@@ -706,6 +718,20 @@ class APITest extends \Codeception\TestCase\WPTestCase
 		$this->assertInstanceOf(WP_Error::class, $result);
 		$this->assertEquals($result->get_error_code(), $this->errorCode);
 		$this->assertEquals('unsubscribe(): the email parameter is empty.', $result->get_error_message());
+	}
+
+	/**
+	 * Test that the `unsubscribe()` function returns a WP_Error
+	 * when an invalid $email parameter is provided.
+	 * 
+	 * @since 	1.9.7.8
+	 */
+	public function testUnsubscribeWithInvalidEmail()
+	{
+		$result = $this->api->unsubscribe('invalid-email-address');
+		$this->assertInstanceOf(WP_Error::class, $result);
+		$this->assertEquals($result->get_error_code(), $this->errorCode);
+		$this->assertEquals('Not Found: The entity you were trying to find doesn\'t exist', $result->get_error_message());
 	}
 
 	/**
