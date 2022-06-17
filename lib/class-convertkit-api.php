@@ -713,7 +713,7 @@ class ConvertKit_API {
 		}
 
 		// Send request.
-		$response = $this->post(
+		$response = $this->put(
 			'unsubscribe',
 			array(
 				'api_secret' => $this->api_secret,
@@ -1342,6 +1342,21 @@ class ConvertKit_API {
 	}
 
 	/**
+	 * Performs a PUT request.
+	 *
+	 * @since  1.9.7.8
+	 *
+	 * @param   string $endpoint       API Endpoint.
+	 * @param   array  $params         Params.
+	 * @return  WP_Error|array
+	 */
+	private function put( $endpoint, $params ) {
+
+		return $this->request( $endpoint, 'put', $params, true );
+
+	}
+
+	/**
 	 * Main function which handles sending requests to the API using WordPress functions.
 	 *
 	 * @since   1.9.6
@@ -1371,6 +1386,22 @@ class ConvertKit_API {
 				$result = wp_remote_post(
 					$this->get_api_url( $endpoint ),
 					array(
+						'Accept-Encoding' => 'gzip',
+						'headers'         => array(
+							'Content-Type' => 'application/json; charset=utf-8',
+						),
+						'body'            => wp_json_encode( $params ),
+						'timeout'         => $this->get_timeout(),
+						'user-agent'      => $this->get_user_agent(),
+					)
+				);
+				break;
+
+			case 'put':
+				$result = wp_remote_request(
+					$this->get_api_url( $endpoint ),
+					array(
+						'method'		  => 'PUT',
 						'Accept-Encoding' => 'gzip',
 						'headers'         => array(
 							'Content-Type' => 'application/json; charset=utf-8',
