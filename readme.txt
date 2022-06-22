@@ -110,9 +110,10 @@ Full Plugin documentation can be found [here](https://help.convertkit.com/en/art
 
 == Changelog ==
 
-### 1.9.7.8 2022-06-xx
+### 1.9.7.8 2022-06-23
 * Added: Elementor Page Builder: ConvertKit Broadcasts Widget
 * Fix: Integration: WishList Member: Unsubscribe email address from ConvertKit if 'unsubscribe' configured and member level removed
+* Fix: Remove double forwardslash on some enqueued scripts and styles 
 
 ### 1.9.7.7 2022-06-09
 * Added: Broadcasts: Option to enable pagination on block/shortcode
