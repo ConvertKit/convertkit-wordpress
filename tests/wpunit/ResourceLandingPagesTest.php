@@ -1,5 +1,9 @@
 <?php
-
+/**
+ * Tests for the ConvertKit_Resource_Landing_Pages class.
+ * 
+ * @since 	1.9.7.4
+ */
 class ResourceLandingPagesTest extends \Codeception\TestCase\WPTestCase
 {
 	/**
@@ -73,7 +77,7 @@ class ResourceLandingPagesTest extends \Codeception\TestCase\WPTestCase
 	}
 
 	/**
-	 * Test that the refresh() function performs as expected, storing data in the options table.
+	 * Test that the refresh() function performs as expected.
 	 * 
 	 * @since 	1.9.7.4
 	 */
@@ -104,7 +108,7 @@ class ResourceLandingPagesTest extends \Codeception\TestCase\WPTestCase
 	}
 
 	/**
-	 * Test that the get() function performs as expected, storing data in the options table.
+	 * Test that the get() function performs as expected.
 	 * 
 	 * @since 	1.9.7.4
 	 */
@@ -130,7 +134,7 @@ class ResourceLandingPagesTest extends \Codeception\TestCase\WPTestCase
 	}
 
 	/**
-	 * Test that the exist() function performs as expected, storing data in the options table.
+	 * Test that the exist() function performs as expected.
 	 * 
 	 * @since 	1.9.7.4
 	 */

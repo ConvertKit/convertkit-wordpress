@@ -1,10 +1,10 @@
 <?php
 /**
- * Tests for the ConvertKit_Resource_Forms class.
+ * Tests for the ConvertKit_Resource_Landing_Pages class when no data is present in the API.
  * 
- * @since 	1.9.7.4
+ * @since 	1.9.7.8
  */
-class ResourceFormsTest extends \Codeception\TestCase\WPTestCase
+class ResourceLandingPagesNoDataTest extends \Codeception\TestCase\WPTestCase
 {
 	/**
 	 * @var \WpunitTester
@@ -14,7 +14,7 @@ class ResourceFormsTest extends \Codeception\TestCase\WPTestCase
 	/**
 	 * Holds the ConvertKit Settings class.
 	 * 
-	 * @since 	1.9.7.4
+	 * @since 	1.9.7.8
 	 * 
 	 * @var 	ConvertKit_Settings
 	 */
@@ -23,7 +23,7 @@ class ResourceFormsTest extends \Codeception\TestCase\WPTestCase
 	/**
 	 * Holds the ConvertKit Resource class.
 	 * 
-	 * @since 	1.9.7.4
+	 * @since 	1.9.7.8
 	 * 
 	 * @var 	ConvertKit_Resource_Forms
 	 */
@@ -32,7 +32,7 @@ class ResourceFormsTest extends \Codeception\TestCase\WPTestCase
 	/**
 	 * Performs actions before each test.
 	 * 
-	 * @since 	1.9.7.4
+	 * @since 	1.9.7.8
 	 */
 	public function setUp(): void
 	{
@@ -44,8 +44,8 @@ class ResourceFormsTest extends \Codeception\TestCase\WPTestCase
 		// Store API Key and Secret in Plugin's settings.
 		$this->settings = new ConvertKit_Settings();
 		update_option($this->settings::SETTINGS_NAME, [
-			'api_key'    => $_ENV['CONVERTKIT_API_KEY'],
-			'api_secret' => $_ENV['CONVERTKIT_API_SECRET'],
+			'api_key'    => $_ENV['CONVERTKIT_API_KEY_NO_DATA'],
+			'api_secret' => $_ENV['CONVERTKIT_API_SECRET_NO_DATA'],
 		]);
 
 		// Initialize the resource class we want to test.
@@ -79,21 +79,21 @@ class ResourceFormsTest extends \Codeception\TestCase\WPTestCase
 	/**
 	 * Test that the refresh() function performs as expected.
 	 * 
-	 * @since 	1.9.7.4
+	 * @since 	1.9.7.8
 	 */
 	public function testRefresh()
 	{
 		// Confirm that the data is stored in the options table and includes some expected keys.
 		$result = $this->resource->refresh();
+		$this->assertNotInstanceOf(WP_Error::class, $result);
 		$this->assertIsArray($result);
-		$this->assertArrayHasKey('id', reset($result));
-		$this->assertArrayHasKey('name', reset($result));
+		$this->assertCount(0, $result);
 	}
 
 	/**
 	 * Test that the expiry timestamp is set and returns the expected value.
 	 * 
-	 * @since 	1.9.7.4
+	 * @since 	1.9.7.8
 	 */
 	public function testExpiry()
 	{
@@ -110,7 +110,7 @@ class ResourceFormsTest extends \Codeception\TestCase\WPTestCase
 	/**
 	 * Test that the get() function performs as expected.
 	 * 
-	 * @since 	1.9.7.4
+	 * @since 	1.9.7.8
 	 */
 	public function testGet()
 	{
@@ -118,8 +118,7 @@ class ResourceFormsTest extends \Codeception\TestCase\WPTestCase
 		$result = $this->resource->get();
 		$this->assertNotInstanceOf(WP_Error::class, $result);
 		$this->assertIsArray($result);
-		$this->assertArrayHasKey('id', reset($result));
-		$this->assertArrayHasKey('name', reset($result));
+		$this->assertCount(0, $result);
 	}
 
 	/**
@@ -136,12 +135,12 @@ class ResourceFormsTest extends \Codeception\TestCase\WPTestCase
 	/**
 	 * Test that the exist() function performs as expected.
 	 * 
-	 * @since 	1.9.7.4
+	 * @since 	1.9.7.8
 	 */
 	public function testExist()
 	{
 		// Confirm that the function returns true, because resources exist.
 		$result = $this->resource->exist();
-		$this->assertSame($result, true);
+		$this->assertSame($result, false);
 	}
 }
