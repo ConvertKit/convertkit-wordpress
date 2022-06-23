@@ -228,10 +228,19 @@ class ConvertKit_Block_Content extends ConvertKit_Block {
 		// Get the subscriber's tags, to see if they subscribed to this tag.
 		$tags = $api->get_subscriber_tags( $subscriber_id );
 
-		// Bail if an error occured i.e. the subscriber has no tags.
+		// Bail if an error occured.
 		if ( is_wp_error( $tags ) ) {
 			if ( $settings->debug_enabled() ) {
 				return '<!-- ConvertKit Custom Content: ' . $tags->get_error_message() . ' -->';
+			}
+
+			return '';
+		}
+
+		// Bail if the subscriber has no tags.
+		if ( ! count( $tags ) ) {
+			if ( $settings->debug_enabled() ) {
+				return '<!-- ConvertKit Custom Content: Subscriber has no tags -->';
 			}
 
 			return '';

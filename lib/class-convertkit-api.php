@@ -126,15 +126,9 @@ class ConvertKit_API {
 			'form_subscribe_form_id_empty'                => __( 'form_subscribe(): the form_id parameter is empty.', 'convertkit' ),
 			'form_subscribe_email_empty'                  => __( 'form_subscribe(): the email parameter is empty.', 'convertkit' ),
 
-			// get_sequences().
-			'get_sequences_none'                          => __( 'No sequences exist in ConvertKit. Visit your ConvertKit account and create your first sequence.', 'convertkit' ),
-
 			// sequence_subscribe().
 			'sequence_subscribe_sequence_id_empty'        => __( 'sequence_subscribe(): the sequence_id parameter is empty.', 'convertkit' ),
 			'sequence_subscribe_email_empty'              => __( 'sequence_subscribe(): the email parameter is empty.', 'convertkit' ),
-
-			// get_tags().
-			'get_tags_none'                               => __( 'No tags exist in ConvertKit. Visit your ConvertKit account and create your first tag.', 'convertkit' ),
 
 			// tag_subscribe().
 			'tag_subscribe_tag_id_empty'                  => __( 'tag_subscribe(): the tag_id parameter is empty.', 'convertkit' ),
@@ -147,33 +141,21 @@ class ConvertKit_API {
 
 			// get_subscriber_by_id().
 			'get_subscriber_by_id_subscriber_id_empty'    => __( 'get_subscriber_by_id(): the subscriber_id parameter is empty.', 'convertkit' ),
-			/* translators: Subscriber ID */
-			'get_subscriber_by_id_none'                   => __( 'No subscriber(s) exist in ConvertKit matching the ID %s.', 'convertkit' ),
 
 			// get_subscriber_tags().
 			'get_subscriber_tags_subscriber_id_empty'     => __( 'get_subscriber_tags(): the subscriber_id parameter is empty.', 'convertkit' ),
-			/* translators: Subscriber ID */
-			'get_subscriber_tags_none'                    => __( 'No tags exist in ConvertKit for the subscriber ID %s.', 'convertkit' ),
 
 			// unsubscribe_email().
 			'unsubscribe_email_empty'                     => __( 'unsubscribe(): the email parameter is empty.', 'convertkit' ),
 
-			// get_custom_fields().
-			'get_custom_fields_none'                      => __( 'No custom fields exist in ConvertKit. Visit your ConvertKit account and create your first custom field.', 'convertkit' ),
-
 			// get_all_posts().
 			'get_all_posts_posts_per_request_bound_too_low' => __( 'get_all_posts(): the posts_per_request parameter must be equal to or greater than 1.', 'convertkit' ),
 			'get_all_posts_posts_per_request_bound_too_high' => __( 'get_all_posts(): the posts_per_request parameter must be equal to or less than 50.', 'convertkit' ),
-			'get_all_posts_none'                          => __( 'No posts exist in ConvertKit. Visit your ConvertKit account and create your first broadcast.', 'convertkit' ),
 
 			// get_posts().
 			'get_posts_page_parameter_bound_too_low'      => __( 'get_posts(): the page parameter must be equal to or greater than 1.', 'convertkit' ),
 			'get_posts_per_page_parameter_bound_too_low'  => __( 'get_posts(): the per_page parameter must be equal to or greater than 1.', 'convertkit' ),
 			'get_posts_per_page_parameter_bound_too_high' => __( 'get_posts(): the per_page parameter must be equal to or less than 50.', 'convertkit' ),
-			'get_posts_none'                              => __( 'No posts exist in ConvertKit. Visit your ConvertKit account and create your first broadcast.', 'convertkit' ),
-
-			// get_forms_landing_pages()
-			'get_forms_landing_pages_none'                => __( 'No forms exist in ConvertKit. Visit your ConvertKit account and create your first form.', 'convertkit' ),
 
 			// request().
 			/* translators: HTTP method */
@@ -376,14 +358,10 @@ class ConvertKit_API {
 			return $response;
 		}
 
-		// If no sequences exist, return WP_Error.
-		if ( ! isset( $response['courses'] ) ) {
-			$this->log( 'API: get_sequences(): Error: No sequences exist in ConvertKit.' );
-			return new WP_Error( 'convertkit_api_error', $this->get_error_message( 'get_sequences_none' ) );
-		}
+		// If no sequences exist, log that no sequences exist and return a blank array.
 		if ( ! count( $response['courses'] ) ) {
 			$this->log( 'API: get_sequences(): Error: No sequences exist in ConvertKit.' );
-			return new WP_Error( 'convertkit_api_error', $this->get_error_message( 'get_sequences_none' ) );
+			return $sequences;
 		}
 
 		foreach ( $response['courses'] as $sequence ) {
@@ -484,14 +462,10 @@ class ConvertKit_API {
 			return $response;
 		}
 
-		// If no tags exist, return WP_Error.
-		if ( ! isset( $response['tags'] ) ) {
-			$this->log( 'API: get_tags(): Error: No tags exist in ConvertKit.' );
-			return new WP_Error( 'convertkit_api_error', $this->get_error_message( 'get_tags_none' ) );
-		}
+		// If no tags exist, log that no tags exist and return a blank array.
 		if ( ! count( $response['tags'] ) ) {
 			$this->log( 'API: get_tags(): Error: No tags exist in ConvertKit.' );
-			return new WP_Error( 'convertkit_api_error', $this->get_error_message( 'get_tags_none' ) );
+			return $tags;
 		}
 
 		foreach ( $response['tags'] as $tag ) {
@@ -600,8 +574,8 @@ class ConvertKit_API {
 			return $response;
 		}
 
-		// If no subscribers exist, return WP_Error.
-		if ( ! absint( $response['total_subscribers'] ) ) {
+		// If no matching subscribers exist, log that no matching subscribers exist and return a blank array.
+		if ( (int) $response['total_subscribers'] === 0 ) {
 			$error = new WP_Error(
 				'convertkit_api_error',
 				sprintf(
@@ -611,10 +585,10 @@ class ConvertKit_API {
 			);
 
 			$this->log( 'API: get_subscriber_by_email(): Error: ' . $error->get_error_message() );
-
 			return $error;
 		}
 
+		// Return subscriber.
 		return $response['subscribers'][0];
 
 	}
@@ -653,22 +627,6 @@ class ConvertKit_API {
 			return $response;
 		}
 
-		// If no subscriber exists, return WP_Error.
-		if ( ! isset( $response['subscriber'] ) ) {
-			$error = new WP_Error(
-				'convertkit_api_error',
-				sprintf(
-					/* translators: Subscriber ID */
-					$this->get_error_message( 'get_subscriber_by_id_none' ),
-					$subscriber_id
-				)
-			);
-
-			$this->log( 'API: get_subscriber_by_id(): Error: ' . $error->get_error_message() );
-
-			return $error;
-		}
-
 		return $response['subscriber'];
 
 	}
@@ -705,21 +663,6 @@ class ConvertKit_API {
 		if ( is_wp_error( $response ) ) {
 			$this->log( 'API: get_subscriber_tags(): Error: ' . $response->get_error_message() );
 			return $response;
-		}
-
-		// If no tags exists, return WP_Error.
-		if ( ! isset( $response['tags'] ) ) {
-			$error = new WP_Error(
-				'convertkit_api_error',
-				sprintf(
-					$this->get_error_message( 'get_subscriber_tags_none' ),
-					$subscriber_id
-				)
-			);
-
-			$this->log( 'API: get_subscriber_tags(): Error: ' . $error->get_error_message() );
-
-			return $error;
 		}
 
 		return $response['tags'];
@@ -770,7 +713,7 @@ class ConvertKit_API {
 		}
 
 		// Send request.
-		$response = $this->post(
+		$response = $this->put(
 			'unsubscribe',
 			array(
 				'api_secret' => $this->api_secret,
@@ -825,14 +768,10 @@ class ConvertKit_API {
 			return $response;
 		}
 
-		// If no custom fields exist, return WP_Error.
-		if ( ! isset( $response['custom_fields'] ) ) {
-			$this->log( 'API: get_custom_fields(): Error: No custom fields exist in ConvertKit.' );
-			return new WP_Error( 'convertkit_api_error', $this->get_error_message( 'get_custom_fields_none' ) );
-		}
+		// If no custom fields exist, log that no custom fields exist and return a blank array.
 		if ( ! count( $response['custom_fields'] ) ) {
 			$this->log( 'API: get_custom_fields(): Error: No custom fields exist in ConvertKit.' );
-			return new WP_Error( 'convertkit_api_error', $this->get_error_message( 'get_custom_fields_none' ) );
+			return $custom_fields;
 		}
 
 		foreach ( $response['custom_fields'] as $custom_field ) {
@@ -885,16 +824,20 @@ class ConvertKit_API {
 				return $response;
 			}
 
+			// Exit loop if no posts exist.
+			if ( ! count( $response ) ) {
+				break;
+			}
+
 			// Append posts to array.
 			foreach ( $response['posts'] as $post ) {
 				$posts[] = $post;
 			}
 		}
 
-		// If the array is empty, return an error.
+		// If no posts exist, log an error.
 		if ( ! count( $posts ) ) {
 			$this->log( 'API: get_posts(): Error: No broadcasts exist in ConvertKit.' );
-			return new WP_Error( 'convertkit_api_error', $this->get_error_message( 'get_all_posts_none' ) );
 		}
 
 		// Return posts.
@@ -949,14 +892,10 @@ class ConvertKit_API {
 			return $response;
 		}
 
-		// If no custom fields exist, return WP_Error.
-		if ( ! isset( $response['posts'] ) ) {
-			$this->log( 'API: get_posts(): Error: No broadcasts exist in ConvertKit.' );
-			return new WP_Error( 'convertkit_api_error', $this->get_error_message( 'get_posts_none' ) );
-		}
+		// If no posts exist, log that no posts exist and return a blank array.
 		if ( ! count( $response['posts'] ) ) {
 			$this->log( 'API: get_posts(): Error: No broadcasts exist in ConvertKit.' );
-			return new WP_Error( 'convertkit_api_error', $this->get_error_message( 'get_posts_none' ) );
+			return $posts;
 		}
 
 		return $response;
@@ -1345,11 +1284,6 @@ class ConvertKit_API {
 			return $response;
 		}
 
-		// If no forms exist.
-		if ( ! isset( $response['forms'] ) ) {
-			return new WP_Error( 'convertkit_api_error', $this->get_error_message( 'get_forms_landing_pages_none' ) );
-		}
-
 		// Iterate through forms, determining if each form is a form or landing page.
 		$forms         = array();
 		$landing_pages = array();
@@ -1408,6 +1342,21 @@ class ConvertKit_API {
 	}
 
 	/**
+	 * Performs a PUT request.
+	 *
+	 * @since  1.9.7.8
+	 *
+	 * @param   string $endpoint       API Endpoint.
+	 * @param   array  $params         Params.
+	 * @return  WP_Error|array
+	 */
+	private function put( $endpoint, $params ) {
+
+		return $this->request( $endpoint, 'put', $params, true );
+
+	}
+
+	/**
 	 * Main function which handles sending requests to the API using WordPress functions.
 	 *
 	 * @since   1.9.6
@@ -1437,6 +1386,22 @@ class ConvertKit_API {
 				$result = wp_remote_post(
 					$this->get_api_url( $endpoint ),
 					array(
+						'Accept-Encoding' => 'gzip',
+						'headers'         => array(
+							'Content-Type' => 'application/json; charset=utf-8',
+						),
+						'body'            => wp_json_encode( $params ),
+						'timeout'         => $this->get_timeout(),
+						'user-agent'      => $this->get_user_agent(),
+					)
+				);
+				break;
+
+			case 'put':
+				$result = wp_remote_request(
+					$this->get_api_url( $endpoint ),
+					array(
+						'method'          => 'PUT',
 						'Accept-Encoding' => 'gzip',
 						'headers'         => array(
 							'Content-Type' => 'application/json; charset=utf-8',

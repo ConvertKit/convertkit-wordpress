@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the ConvertKit plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: ConvertKit 1.9.7.7\n"
+"Project-Id-Version: ConvertKit 1.9.7.8\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/convertkit-github\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-06-09T14:46:35+00:00\n"
+"POT-Creation-Date: 2022-06-22T15:57:33+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.6.0\n"
 "X-Domain: convertkit\n"
@@ -364,120 +364,6 @@ msgstr ""
 msgid "ConvertKit: Required parameter `tag` empty in AJAX request."
 msgstr ""
 
-#: includes/class-convertkit-api.php:172
-msgid "form_subscribe(): the form_id parameter is empty."
-msgstr ""
-
-#: includes/class-convertkit-api.php:175
-msgid "form_subscribe(): the email parameter is empty."
-msgstr ""
-
-#: includes/class-convertkit-api.php:268
-#: includes/class-convertkit-api.php:272
-msgid "No sequences exist in ConvertKit. Visit your ConvertKit account and create your first sequence."
-msgstr ""
-
-#: includes/class-convertkit-api.php:305
-msgid "sequence_subscribe(): the sequence_id parameter is empty."
-msgstr ""
-
-#: includes/class-convertkit-api.php:308
-msgid "sequence_subscribe(): the email parameter is empty."
-msgstr ""
-
-#: includes/class-convertkit-api.php:376
-#: includes/class-convertkit-api.php:380
-msgid "No tags exist in ConvertKit. Visit your ConvertKit account and create your first tag."
-msgstr ""
-
-#: includes/class-convertkit-api.php:413
-msgid "tag_subscribe(): the tag_id parameter is empty."
-msgstr ""
-
-#: includes/class-convertkit-api.php:416
-msgid "tag_subscribe(): the email parameter is empty."
-msgstr ""
-
-#: includes/class-convertkit-api.php:471
-msgid "get_subscriber_by_email(): the email parameter is empty."
-msgstr ""
-
-#. translators: Email Address
-#: includes/class-convertkit-api.php:495
-msgid "No subscriber(s) exist in ConvertKit matching the email address %s."
-msgstr ""
-
-#: includes/class-convertkit-api.php:526
-msgid "get_subscriber_by_id(): the subscriber_id parameter is empty."
-msgstr ""
-
-#. translators: Subscriber ID
-#: includes/class-convertkit-api.php:549
-msgid "No subscriber exist in ConvertKit matching the subscriber ID %s."
-msgstr ""
-
-#: includes/class-convertkit-api.php:580
-msgid "get_subscriber_tags(): the subscriber_id parameter is empty."
-msgstr ""
-
-#. translators: Subscriber ID
-#: includes/class-convertkit-api.php:603
-msgid "No tags exist in ConvertKit for the subscriber ID %s."
-msgstr ""
-
-#: includes/class-convertkit-api.php:657
-msgid "unsubscribe(): the email parameter is empty."
-msgstr ""
-
-#: includes/class-convertkit-api.php:719
-#: includes/class-convertkit-api.php:723
-msgid "No custom fields exist in ConvertKit. Visit your ConvertKit account and create your first custom field."
-msgstr ""
-
-#: includes/class-convertkit-api.php:751
-msgid "get_all_posts(): the posts_per_request parameter must be equal to or greater than 1."
-msgstr ""
-
-#: includes/class-convertkit-api.php:754
-msgid "get_all_posts(): the posts_per_request parameter must be equal to or less than 50."
-msgstr ""
-
-#: includes/class-convertkit-api.php:785
-#: includes/class-convertkit-api.php:843
-#: includes/class-convertkit-api.php:847
-msgid "No posts exist in ConvertKit. Visit your ConvertKit account and create your first broadcast."
-msgstr ""
-
-#: includes/class-convertkit-api.php:812
-msgid "get_posts(): the page parameter must be equal to or greater than 1."
-msgstr ""
-
-#: includes/class-convertkit-api.php:815
-msgid "get_posts(): the per_page parameter must be equal to or greater than 1."
-msgstr ""
-
-#: includes/class-convertkit-api.php:818
-msgid "get_posts(): the per_page parameter must be equal to or less than 50."
-msgstr ""
-
-#. translators: API Error Message
-#: includes/class-convertkit-api.php:1079
-msgid "ConvertKit: %s"
-msgstr ""
-
-#: includes/class-convertkit-api.php:1217
-msgid "No forms exist in ConvertKit. Visit your ConvertKit account and create your first form."
-msgstr ""
-
-#. translators: HTTP method
-#: includes/class-convertkit-api.php:1324
-msgid "API request method %s is not supported in ConvertKit_API class."
-msgstr ""
-
-#: includes/class-convertkit-api.php:1346
-msgid "Rate limit hit."
-msgstr ""
-
 #. translators: ConvertKit Form ID
 #: includes/class-convertkit-resource-forms.php:58
 msgid "ConvertKit Form ID %s does not exist on ConvertKit."
@@ -490,11 +376,6 @@ msgstr ""
 #. translators: ConvertKit Landing Page ID
 #: includes/class-convertkit-resource-landing-pages.php:66
 msgid "ConvertKit Landing Page ID %s does not exist on ConvertKit."
-msgstr ""
-
-#. translators: Resource Type
-#: includes/class-convertkit-resource.php:251
-msgid "Resource type %s is not supported in ConvertKit_Resource class."
 msgstr ""
 
 #. translators: %1$s: PHP class name
@@ -594,6 +475,80 @@ msgstr ""
 
 #: includes/widgets/class-ck-widget-form.php:67
 msgid "Title"
+msgstr ""
+
+#: lib/class-convertkit-api.php:126
+msgid "form_subscribe(): the form_id parameter is empty."
+msgstr ""
+
+#: lib/class-convertkit-api.php:127
+msgid "form_subscribe(): the email parameter is empty."
+msgstr ""
+
+#: lib/class-convertkit-api.php:130
+msgid "sequence_subscribe(): the sequence_id parameter is empty."
+msgstr ""
+
+#: lib/class-convertkit-api.php:131
+msgid "sequence_subscribe(): the email parameter is empty."
+msgstr ""
+
+#: lib/class-convertkit-api.php:134
+msgid "tag_subscribe(): the tag_id parameter is empty."
+msgstr ""
+
+#: lib/class-convertkit-api.php:135
+msgid "tag_subscribe(): the email parameter is empty."
+msgstr ""
+
+#: lib/class-convertkit-api.php:138
+msgid "get_subscriber_by_email(): the email parameter is empty."
+msgstr ""
+
+#. translators: Email Address
+#: lib/class-convertkit-api.php:140
+msgid "No subscriber(s) exist in ConvertKit matching the email address %s."
+msgstr ""
+
+#: lib/class-convertkit-api.php:143
+msgid "get_subscriber_by_id(): the subscriber_id parameter is empty."
+msgstr ""
+
+#: lib/class-convertkit-api.php:146
+msgid "get_subscriber_tags(): the subscriber_id parameter is empty."
+msgstr ""
+
+#: lib/class-convertkit-api.php:149
+msgid "unsubscribe(): the email parameter is empty."
+msgstr ""
+
+#: lib/class-convertkit-api.php:152
+msgid "get_all_posts(): the posts_per_request parameter must be equal to or greater than 1."
+msgstr ""
+
+#: lib/class-convertkit-api.php:153
+msgid "get_all_posts(): the posts_per_request parameter must be equal to or less than 50."
+msgstr ""
+
+#: lib/class-convertkit-api.php:156
+msgid "get_posts(): the page parameter must be equal to or greater than 1."
+msgstr ""
+
+#: lib/class-convertkit-api.php:157
+msgid "get_posts(): the per_page parameter must be equal to or greater than 1."
+msgstr ""
+
+#: lib/class-convertkit-api.php:158
+msgid "get_posts(): the per_page parameter must be equal to or less than 50."
+msgstr ""
+
+#. translators: HTTP method
+#: lib/class-convertkit-api.php:162
+msgid "API request method %s is not supported in ConvertKit_API class."
+msgstr ""
+
+#: lib/class-convertkit-api.php:163
+msgid "Rate limit hit."
 msgstr ""
 
 #: views/backend/post/meta-box.php:26
