@@ -161,6 +161,7 @@ class ConvertKit_API {
 			/* translators: HTTP method */
 			'request_method_unsupported'                  => __( 'API request method %s is not supported in ConvertKit_API class.', 'convertkit' ),
 			'request_rate_limit_exceeded'                 => __( 'Rate limit hit.', 'convertkit' ),
+			'response_type_unexpected' 					  => __( 'The response from the API is not of the expected type array.', 'convertkit' ),
 		);
 		// phpcs:enable
 
@@ -361,7 +362,7 @@ class ConvertKit_API {
 		// If the response isn't an array as we expect, log that no sequences exist and return a blank array.
 		if ( ! is_array( $response['courses'] ) ) {
 			$this->log( 'API: get_sequences(): Error: No sequences exist in ConvertKit.' );
-			return $sequences;
+			return new WP_Error( 'convertkit_api_error', $this->get_error_message( 'response_type_unexpected' ) );
 		}
 
 		// If no sequences exist, log that no sequences exist and return a blank array.
@@ -471,7 +472,7 @@ class ConvertKit_API {
 		// If the response isn't an array as we expect, log that no tags exist and return a blank array.
 		if ( ! is_array( $response['tags'] ) ) {
 			$this->log( 'API: get_tags(): Error: No tags exist in ConvertKit.' );
-			return $tags;
+			return new WP_Error( 'convertkit_api_error', $this->get_error_message( 'response_type_unexpected' ) );
 		}
 
 		// If no tags exist, log that no tags exist and return a blank array.
@@ -783,7 +784,7 @@ class ConvertKit_API {
 		// If the response isn't an array as we expect, log that no tags exist and return a blank array.
 		if ( ! is_array( $response['custom_fields'] ) ) {
 			$this->log( 'API: get_custom_fields(): Error: No custom fields exist in ConvertKit.' );
-			return $custom_fields;
+			return new WP_Error( 'convertkit_api_error', $this->get_error_message( 'response_type_unexpected' ) );
 		}
 
 		// If no custom fields exist, log that no custom fields exist and return a blank array.
@@ -913,7 +914,7 @@ class ConvertKit_API {
 		// If the response isn't an array as we expect, log that no posts exist and return a blank array.
 		if ( ! is_array( $response['posts'] ) ) {
 			$this->log( 'API: get_posts(): Error: No broadcasts exist in ConvertKit.' );
-			return $posts;
+			return new WP_Error( 'convertkit_api_error', $this->get_error_message( 'response_type_unexpected' ) );
 		}
 
 		// If no posts exist, log that no posts exist and return a blank array.
