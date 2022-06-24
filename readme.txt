@@ -110,6 +110,9 @@ Full Plugin documentation can be found [here](https://help.convertkit.com/en/art
 
 == Changelog ==
 
+### 1.9.7.9 2022-06-24
+* Fix: API: Prevent fatal error when API returns null instead of expected array
+
 ### 1.9.7.8 2022-06-23
 * Added: Elementor Page Builder: ConvertKit Broadcasts Widget
 * Fix: Integration: WishList Member: Unsubscribe email address from ConvertKit if 'unsubscribe' configured and member level removed
