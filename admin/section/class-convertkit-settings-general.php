@@ -378,7 +378,7 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 		echo $this->get_checkbox_field( // phpcs:ignore WordPress.Security.EscapeOutput
 			'debug',
 			'on',
-			esc_attr( $this->settings->debug_enabled() ),
+			$this->settings->debug_enabled(), // phpcs:ignore WordPress.Security.EscapeOutput
 			esc_html__( 'Log requests to file and output browser console messages.', 'convertkit' ),
 			esc_html__( 'You can ignore this unless you\'re working with our support team to resolve an issue. Decheck this option to improve performance.', 'convertkit' )
 		);
@@ -396,7 +396,7 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 		echo $this->get_checkbox_field( // phpcs:ignore WordPress.Security.EscapeOutput
 			'no_scripts',
 			'on',
-			esc_attr( $this->settings->scripts_disabled() ),
+			$this->settings->scripts_disabled(), // phpcs:ignore WordPress.Security.EscapeOutput
 			esc_html__( 'Prevent plugin from loading JavaScript files. This will disable the custom content and tagging features of the plugin. Does not apply to landing pages. Use with caution!', 'convertkit' )
 		);
 
@@ -413,7 +413,7 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 		echo $this->get_checkbox_field( // phpcs:ignore WordPress.Security.EscapeOutput
 			'no_css',
 			'on',
-			esc_attr( $this->settings->css_disabled() ),
+			$this->settings->css_disabled(), // phpcs:ignore WordPress.Security.EscapeOutput
 			esc_html__( 'Prevent plugin from loading CSS files. This will disable styling on the broadcasts shortcode and block. Use with caution!', 'convertkit' )
 		);
 
