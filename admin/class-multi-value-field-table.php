@@ -152,7 +152,7 @@ class Multi_Value_Field_Table extends WP_List_Table {
 	 */
 	public function add_bulk_action( $key, $name ) {
 
-		$this->_bulk_actions[ $key ] = $name;
+		$this->bulk_actions[ $key ] = $name;
 
 	}
 
