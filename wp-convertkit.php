@@ -110,7 +110,7 @@ register_deactivation_hook( __FILE__, 'convertkit_plugin_deactivate' );
  *
  * @since   1.9.6
  */
-function WP_ConvertKit() { // phpcs:ignore
+function WP_ConvertKit() { // phpcs:ignore WordPress.NamingConventions.ValidFunctionName
 
 	return WP_ConvertKit::get_instance();
 

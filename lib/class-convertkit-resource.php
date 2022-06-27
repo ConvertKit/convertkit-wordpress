@@ -151,7 +151,7 @@ class ConvertKit_Resource {
 
 		foreach ( $this->get() as $resource ) {
 			// If this resource's ID matches the ID we're looking for, return it.
-			if ( $resource['id'] == $id ) { // phpcs:ignore
+			if ( (int) $resource['id'] === $id ) {
 				return $resource;
 			}
 		}

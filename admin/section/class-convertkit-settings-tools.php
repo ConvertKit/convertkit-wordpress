@@ -62,7 +62,8 @@ class ConvertKit_Settings_Tools extends ConvertKit_Settings_Base {
 	private function maybe_clear_log() {
 
 		// Bail if the submit button for clearing the debug log was not clicked.
-		if ( ! array_key_exists( 'convertkit-clear-debug-log', $_REQUEST ) ) { // phpcs:ignore
+		// Nonce verification already performed in maybe_perform_actions() which calls this function.
+		if ( ! array_key_exists( 'convertkit-clear-debug-log', $_REQUEST ) ) { // phpcs:ignore WordPress.Security.NonceVerification
 			return;
 		}
 
@@ -86,7 +87,8 @@ class ConvertKit_Settings_Tools extends ConvertKit_Settings_Base {
 		global $wp_filesystem;
 
 		// Bail if the submit button for downloading the debug log was not clicked.
-		if ( ! array_key_exists( 'convertkit-download-debug-log', $_REQUEST ) ) { // phpcs:ignore
+		// Nonce verification already performed in maybe_perform_actions() which calls this function.
+		if ( ! array_key_exists( 'convertkit-download-debug-log', $_REQUEST ) ) { // phpcs:ignore WordPress.Security.NonceVerification
 			return;
 		}
 
@@ -98,7 +100,7 @@ class ConvertKit_Settings_Tools extends ConvertKit_Settings_Base {
 		header( 'Content-Disposition: attachment; filename=convertkit-log.txt' );
 		header( 'Pragma: no-cache' );
 		header( 'Expires: 0' );
-		echo $wp_filesystem->get_contents( $log->get_filename() ); // phpcs:ignore
+		echo esc_html( $wp_filesystem->get_contents( $log->get_filename() ) );
 		exit();
 
 	}
@@ -114,7 +116,8 @@ class ConvertKit_Settings_Tools extends ConvertKit_Settings_Base {
 		global $wp_filesystem;
 
 		// Bail if the submit button for downloading the system info was not clicked.
-		if ( ! array_key_exists( 'convertkit-download-system-info', $_REQUEST ) ) { // phpcs:ignore
+		// Nonce verification already performed in maybe_perform_actions() which calls this function.
+		if ( ! array_key_exists( 'convertkit-download-system-info', $_REQUEST ) ) { // phpcs:ignore WordPress.Security.NonceVerification
 			return;
 		}
 
@@ -134,7 +137,7 @@ class ConvertKit_Settings_Tools extends ConvertKit_Settings_Base {
 		header( 'Content-Disposition: attachment; filename=convertkit-system-info.txt' );
 		header( 'Pragma: no-cache' );
 		header( 'Expires: 0' );
-		echo $wp_filesystem->get_contents( $filename ); // phpcs:ignore
+		echo esc_html( $wp_filesystem->get_contents( $filename ) );
 		$wp_filesystem->delete( $filename );
 		exit();
 
@@ -149,7 +152,8 @@ class ConvertKit_Settings_Tools extends ConvertKit_Settings_Base {
 	private function maybe_export_configuration() {
 
 		// Bail if the submit button for exporting the configuration was not clicked.
-		if ( ! array_key_exists( 'convertkit-export', $_REQUEST ) ) { // phpcs:ignore
+		// Nonce verification already performed in maybe_perform_actions() which calls this function.
+		if ( ! array_key_exists( 'convertkit-export', $_REQUEST ) ) { // phpcs:ignore WordPress.Security.NonceVerification
 			return;
 		}
 
@@ -185,7 +189,8 @@ class ConvertKit_Settings_Tools extends ConvertKit_Settings_Base {
 		global $wp_filesystem;
 
 		// Bail if the submit button for importing the configuration was not clicked.
-		if ( ! array_key_exists( 'convertkit-import', $_REQUEST ) ) { // phpcs:ignore
+		// Nonce verification already performed in maybe_perform_actions() which calls this function.
+		if ( ! array_key_exists( 'convertkit-import', $_REQUEST ) ) { // phpcs:ignore WordPress.Security.NonceVerification
 			return;
 		}
 
@@ -237,7 +242,7 @@ class ConvertKit_Settings_Tools extends ConvertKit_Settings_Base {
 			return false;
 		}
 
-		return wp_verify_nonce( $_REQUEST['_convertkit_settings_tools_nonce'], 'convertkit-settings-tools' );
+		return wp_verify_nonce( sanitize_key( $_REQUEST['_convertkit_settings_tools_nonce'] ), 'convertkit-settings-tools' );
 
 	}
 
@@ -297,13 +302,13 @@ class ConvertKit_Settings_Tools extends ConvertKit_Settings_Base {
 			'import_configuration_success'           => __( 'Configuration imported successfully.', 'convertkit' ),
 		);
 		$error    = false;
-		if ( isset( $_REQUEST['error'] ) && array_key_exists( sanitize_text_field( $_REQUEST['error'] ), $messages ) ) { // phpcs:ignore
-			$error = $messages[ sanitize_text_field( $_REQUEST['error'] ) ]; // phpcs:ignore
+		if ( isset( $_REQUEST['error'] ) && array_key_exists( sanitize_text_field( $_REQUEST['error'] ), $messages ) ) { // phpcs:ignore WordPress.Security.NonceVerification
+			$error = $messages[ sanitize_text_field( $_REQUEST['error'] ) ]; // phpcs:ignore WordPress.Security.NonceVerification
 		}
 
 		$success = false;
-		if ( isset( $_REQUEST['success'] ) && array_key_exists( sanitize_text_field( $_REQUEST['success'] ), $messages ) ) { // phpcs:ignore
-			$success = $messages[ sanitize_text_field( $_REQUEST['success'] ) ]; // phpcs:ignore
+		if ( isset( $_REQUEST['success'] ) && array_key_exists( sanitize_text_field( $_REQUEST['success'] ), $messages ) ) { // phpcs:ignore WordPress.Security.NonceVerification
+			$success = $messages[ sanitize_text_field( $_REQUEST['success'] ) ]; // phpcs:ignore WordPress.Security.NonceVerification
 		}
 
 		// Output view.

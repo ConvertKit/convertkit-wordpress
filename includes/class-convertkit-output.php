@@ -147,7 +147,8 @@ class ConvertKit_Output {
 		}
 
 		// Output Landing Page.
-		echo $landing_page; // phpcs:ignore
+		// Output is supplied from ConvertKit's API, which is already sanitized.
+		echo $landing_page; // phpcs:ignore WordPress.Security.EscapeOutput
 		exit;
 
 	}
@@ -387,14 +388,14 @@ class ConvertKit_Output {
 		// If the subscriber ID is included in the URL as a query parameter
 		// (i.e. 'Add subscriber_id parameter in email links' is enabled at https://app.convertkit.com/account_settings/advanced_settings,
 		// return it as the subscriber ID.
-		if ( isset( $_GET['ck_subscriber_id'] ) ) { // phpcs:ignore
-			return absint( $_GET['ck_subscriber_id'] ); // phpcs:ignore
+		if ( isset( $_GET['ck_subscriber_id'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification
+			return (int) sanitize_text_field( $_GET['ck_subscriber_id'] ); // phpcs:ignore WordPress.Security.NonceVerification
 		}
 
 		// If the subscriber ID is stored as a cookie (i.e. the user subscribed via a form
 		// from this Plugin on this site, which sets this cookie), return it as the subscriber ID.
 		if ( isset( $_COOKIE['ck_subscriber_id'] ) ) {
-			return absint( $_COOKIE['ck_subscriber_id'] );
+			return (int) sanitize_text_field( $_COOKIE['ck_subscriber_id'] );
 		}
 
 		return 0;

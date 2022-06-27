@@ -34,11 +34,11 @@ class ConvertKit_System_Info {
 
 		// Get theme info.
 		$theme_data   = wp_get_theme();
-		$theme        = $theme_data->Name . ' ' . $theme_data->Version; // phpcs:ignore
-		$parent_theme = $theme_data->Template; // phpcs:ignore
+		$theme        = $theme_data->Name . ' ' . $theme_data->Version; // phpcs:ignore WordPress.NamingConventions.ValidVariableName
+		$parent_theme = $theme_data->Template; // phpcs:ignore WordPress.NamingConventions.ValidVariableName
 		if ( ! empty( $parent_theme ) ) {
 			$parent_theme_data = wp_get_theme( $parent_theme );
-			$parent_theme      = $parent_theme_data->Name . ' ' . $parent_theme_data->Version; // phpcs:ignore
+			$parent_theme      = $parent_theme_data->Name . ' ' . $parent_theme_data->Version; // phpcs:ignore WordPress.NamingConventions.ValidVariableName
 		}
 
 		// Try to identify the hosting provider.
