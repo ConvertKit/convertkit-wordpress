@@ -110,6 +110,9 @@ Full Plugin documentation can be found [here](https://help.convertkit.com/en/art
 
 == Changelog ==
 
+### 1.9.8.0 2022-06-xx
+* Fix: Settings: Tools: Escape debug log file contents before downloading
+
 ### 1.9.7.9 2022-06-24
 * Fix: API: Prevent fatal error when API returns null instead of expected array
 
