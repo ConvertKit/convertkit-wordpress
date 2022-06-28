@@ -414,14 +414,21 @@ Any errors should be corrected by making applicable code or test changes.
 In the Plugin's directory, run the following command to run PHP_CodeSniffer, which will check the code meets WordPress' Coding Standards:
 
 ```bash
-vendor/bin/phpcs ./ -v
+vendor/bin/phpcs ./ -v -s
 ```
+
+`-v` produces verbose output, and `-s` specifies the precise rule that failed:
+![Coding Standards Screenshot](/.github/docs/coding-standards-error.png?raw=true)
 
 Any errors should be corrected by either:
 - making applicable code changes
 - (Experimental) running `vendor/bin/phpcbf ./ -v` to automatically fix coding standards
 
-Need to change the PHP or WordPress coding standard rules applied?  Edit the [phpcs.xml](phpcs.xml) file.
+Need to change the PHP or WordPress coding standard rules applied?  Either:
+- ignore a rule in the affected code, by adding `phpcs:ignore {rule}`, where {rule} is the given rule that failed in the above output.
+- edit the [phpcs.xml](phpcs.xml) file.
+
+**Rules should be ignored with caution**, particularly when sanitizing and escaping data.
 
 ## Run PHPStan
 
