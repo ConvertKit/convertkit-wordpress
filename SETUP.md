@@ -236,7 +236,7 @@ your environment is setup successfully.
 In the Plugin's directory, run the following command to run PHP_CodeSniffer, which will check the code meets WordPress' Coding Standards:
 
 ```bash
-vendor/bin/phpcs ./ -v
+vendor/bin/phpcs ./ -v -s
 ```
 
 ![Coding Standards Test Results](/.github/docs/coding-standards.png?raw=true)
