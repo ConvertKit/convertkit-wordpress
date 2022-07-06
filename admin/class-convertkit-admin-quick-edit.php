@@ -1,38 +1,41 @@
 <?php
 /**
- * ConvertKit Admin Bulk and Quick Edit class.
+ * ConvertKit Admin Quick Edit class.
  *
  * @package ConvertKit
  * @author ConvertKit
  */
 
 /**
- * Registers a metabox on Posts, Pages and public facing Custom Post Types
- * and saves its settings when the Post is saved in the WordPress Administration
- * interface.
+ * Registers settings fields for output when using WordPress' Quick Edit functionality
+ * in a Post, Page or Custom Post Type WP_List_Table.
  *
  * @package ConvertKit
  * @author ConvertKit
  */
-class ConvertKit_Admin_Bulk_Quick_Edit {
-
-	public $column_name = 'convertkit';
+class ConvertKit_Admin_Quick_Edit {
 
 	/**
 	 * Registers action and filter hooks.
 	 *
-	 * @since   1.9.6
+	 * @since   1.9.8.0
 	 */
 	public function __construct() {
 
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
-		add_filter( 'manage_page_posts_columns', array( $this, 'define_columns' ) );
-		add_action( 'manage_pages_custom_column', array( $this, 'output_columns' ), 10, 2 );
-		add_action( 'quick_edit_custom_box',  array( $this, 'quick_edit_fields' ), 10, 2 );
+		add_action( 'add_inline_data', array( $this, 'quick_edit_inline_data' ), 10, 2 );
+		add_action( 'in_admin_footer',  array( $this, 'quick_edit_fields' ), 10, 2 );
 		add_action( 'save_post', array( $this, 'quick_edit_save' ) );
 
 	}
 
+	/**
+	 * Enqueues scripts for quick edit functionality in the Post, Page and Custom Post WP_List_Tables
+	 * 
+	 * @since 	1.9.8.0
+	 * 
+	 * @param 	string 	$pagehook 	Page hook name.
+	 */
 	public function enqueue_scripts( $pagehook ) {
 
 		// Bail if we're not on a Post Type Edit screen.
@@ -45,64 +48,35 @@ class ConvertKit_Admin_Bulk_Quick_Edit {
 	}
 
 	/**
-	 * Adds a ConvertKit column to a Post, Page or Custom Post WP_List_Table immediately
-	 * after the Author column.
-	 * 
-	 * @since 	1.9.8.0
-	 * 
-	 * @param 	array 	$columns 	Table Columns.
-	 * @return 	array 				Table Columns
-	 */
-	public function define_columns( $columns ) {
-
-		// Insert the ConvertKit column after the Title column.
-		return $this->array_insert_after(
-			$columns,
-			'author',
-			array(
-				$this->column_name => __( 'ConvertKit', 'convertkit' ),
-			)
-		);
-
-	}
-
-	/**
-	 * Outputs data in the ConvertKit column, as well as hidden data attributes
-	 * used by the Quick Edit functionality.
+	 * Outputs hidden inline data in each Post's Title column, which the Quick Edit
+	 * JS can read when the user clicks the Quick Edit link in a WP_List_Table.
 	 * 
 	 * @since 	1.9.8.0
 	 * 
 	 * @param 	string 	$column_name 	Column Name.
 	 * @param 	int 	$post_id 		Post ID.
 	 */
-	public function output_columns( $column_name, $post_id ) {
-
-		// Do nothing if the column name isn't for this Plugin.
-		if ( $column_name !== $this->column_name ) {
-			return;
-		}
+	public function quick_edit_inline_data( $post, $post_type_object ) {
 
 		// Fetch Post's Settings.
-		$settings = new ConvertKit_Post( $post_id );
+		$settings = new ConvertKit_Post( $post->ID );
 
-		// Output Form.
-		echo 'Default';
-
-		// Output as data- attributes for Quick Edit.
+		// Output the Post's ConvertKit settings as hidden data- attributes, which
+		// the Quick Edit JS can read.
 		foreach ( $settings->get() as $key => $value ) {
 			?>
-			<span class="convertkit_post" data-key="<?php echo esc_attr( $key ); ?>" data-value="<?php echo esc_attr( $value ); ?>"></span>
+			<div class="convertkit" data-setting="<?php echo esc_attr( $key ); ?>" data-value="<?php echo esc_attr( $value ); ?>"><?php echo esc_attr( $value ); ?></div>
 			<?php
 		}
 
 	}
 
-	public function quick_edit_fields( $column_name, $post_type ) {
-
-		// Do nothing if the column name isn't for this Plugin.
-		if ( $column_name !== $this->column_name ) {
-			return;
-		}
+	/**
+	 * Outputs Quick Edit settings fields.
+	 * 
+	 * @since 	1.9.8.0
+	 */
+	public function quick_edit_fields() {
 
 		// Output Quick Edit fields.
 		echo '<fieldset class="inline-edit-col-right">
@@ -118,6 +92,13 @@ class ConvertKit_Admin_Bulk_Quick_Edit {
 
 	}
 
+	/**
+	 * Saves submitted Quick Edit fields.
+	 * 
+	 * @since 	1.9.8.0
+	 * 
+	 * @param 	int 	$post_id 	Post ID.
+	 */
 	public function quick_edit_save( $post_id ) {
 
 	}

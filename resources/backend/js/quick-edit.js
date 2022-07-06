@@ -6,8 +6,12 @@
  */
 
 /**
- * Reads and saves Post meta values for this Plugin when editing a Page,
- * Post or Custom Post type using WordPress' Quick Edit functionality
+ * Populates Quick Edit fields for this Plugin with the values output
+ * in the `add_inline_data` WordPress action when the user clicks
+ * a Quick Edit link in a Post, Page or Custom Post Type WP_List_Table.
+ * 
+ * WordPress' built in Quick Edit functionality does not do this automatically
+ * for Plugins that register settings, which is why we have this code here.
  *
  * @since 	1.9.8.0
  */
@@ -15,39 +19,27 @@ jQuery( document ).ready(
 
 	function( $ ) {
 
-		var wp_inline_edit_function = inlineEditPost.edit;
+		var convertKitInlineEditPost = inlineEditPost.edit;
 
 		// Extend WordPress' quick edit function.
-		inlineEditPost.edit = function( post_id ) {
+		inlineEditPost.edit = function( id ) {
 
 			// Merge arguments from original function.
-			wp_inline_edit_function.apply( this, arguments );
+			convertKitInlineEditPost.apply( this, arguments );
 
 			// Get Post ID.
-			var id = 0;
-			if ( typeof( post_id ) === 'object' ) {
-				id = parseInt( this.getId( post_id ) );
+			if ( typeof( id ) === 'object' ) {
+				id = parseInt( this.getId( id ) );
 			}
 
-			// 
-			if ( id > 0 ) {
+			// Iterate through any ConvertKit inline data, assigning values to Quick Edit fields.
+			$( '.convertkit', $( '#inline_' + id ) ).each( function() {
 
-				// @TODO Get hidden data.
+				// Assign the setting's value to the setting's Quick Edit field.
+				$( 'select[name="wp-convertkit[' + $( this ).data( 'setting' ) + ']"]' ).val( $( this ).data( 'value' ) );
 
-				// add rows to variables
-				/*
-				var specific_post_edit_row = $( '#edit-' + id ),
-				    specific_post_row = $( '#post-' + id ),
-				    product_price = $( '.column-price', specific_post_row ).text().substring(1), //  remove $ sign
-				    featured_product = false; // let's say by default checkbox is unchecked
-				*/
+			} );
 
-				// Populate inputs with hidden data.
-				// @TODO.
-				$( ':input[name="price"]', specific_post_edit_row ).val( product_price );
-				$( ':input[name="featured"]', specific_post_edit_row ).prop('checked', featured_product );
-
-			}
 		}
 
 	}
