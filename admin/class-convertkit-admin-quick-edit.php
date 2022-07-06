@@ -22,17 +22,17 @@ class ConvertKit_Admin_Quick_Edit {
 	 */
 	public function __construct() {
 
-		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_assets' ) );
 		add_action( 'add_inline_data', array( $this, 'quick_edit_inline_data' ) );
 
 	}
 
 	/**
-	 * Enqueues scripts for Quick Edit functionality in the Post, Page and Custom Post WP_List_Tables
+	 * Enqueues scripts and CSS for Quick Edit functionality in the Post, Page and Custom Post WP_List_Tables
 	 *
 	 * @since   1.9.8.0
 	 */
-	public function enqueue_scripts() {
+	public function enqueue_assets() {
 
 		// Bail if we cannot determine the screen.
 		if ( ! function_exists( 'get_current_screen' ) ) {
@@ -46,11 +46,15 @@ class ConvertKit_Admin_Quick_Edit {
 		}
 
 		// Bail if the Post isn't a supported Post Type.
-		if ( ! in_array( $screen->post_type, convertkit_get_supported_post_types() ) ) {
+		if ( ! in_array( $screen->post_type, convertkit_get_supported_post_types(), true ) ) {
 			return;
 		}
-		
+
+		// Enqueue JS.
 		wp_enqueue_script( 'convertkit-quick-edit', CONVERTKIT_PLUGIN_URL . 'resources/backend/js/quick-edit.js', array( 'jquery' ), CONVERTKIT_PLUGIN_VERSION, true );
+
+		// Enqueue CSS.
+		wp_enqueue_style( 'convertkit-admin-tinymce', CONVERTKIT_PLUGIN_URL . 'resources/backend/css/quick-edit.css', array(), CONVERTKIT_PLUGIN_VERSION );
 
 	}
 
@@ -65,7 +69,7 @@ class ConvertKit_Admin_Quick_Edit {
 	public function quick_edit_inline_data( $post ) {
 
 		// Bail if the Post isn't a supported Post Type.
-		if ( ! in_array( $post->post_type, convertkit_get_supported_post_types() ) ) {
+		if ( ! in_array( $post->post_type, convertkit_get_supported_post_types(), true ) ) {
 			return;
 		}
 
