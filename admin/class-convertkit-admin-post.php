@@ -165,7 +165,7 @@ class ConvertKit_Admin_Post {
 
 		// Get Post's settings.
 		$convertkit_post = new ConvertKit_Post( $post_id );
-		$meta = $convertkit_post->get();
+		$meta            = $convertkit_post->get();
 
 		// Update Post's setting values if they were included in the $_POST data.
 		// Some values may not be included in the $_POST data e.g. if Quick Edit is used and no Landing Page was specified,

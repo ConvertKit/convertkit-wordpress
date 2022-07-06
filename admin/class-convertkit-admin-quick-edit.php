@@ -23,17 +23,17 @@ class ConvertKit_Admin_Quick_Edit {
 	public function __construct() {
 
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
-		add_action( 'add_inline_data', array( $this, 'quick_edit_inline_data' ), 10, 2 );
-		add_action( 'in_admin_footer',  array( $this, 'quick_edit_fields' ), 10, 2 );
+		add_action( 'add_inline_data', array( $this, 'quick_edit_inline_data' ) );
+		add_action( 'in_admin_footer', array( $this, 'quick_edit_fields' ), 10, 2 );
 
 	}
 
 	/**
 	 * Enqueues scripts for Quick Edit functionality in the Post, Page and Custom Post WP_List_Tables
-	 * 
-	 * @since 	1.9.8.0
-	 * 
-	 * @param 	string 	$pagehook 	Page hook name.
+	 *
+	 * @since   1.9.8.0
+	 *
+	 * @param   string $pagehook   Page hook name.
 	 */
 	public function enqueue_scripts( $pagehook ) {
 
@@ -42,20 +42,19 @@ class ConvertKit_Admin_Quick_Edit {
 			return;
 		}
 
-		wp_enqueue_script( 'convertkit-quick-edit', CONVERTKIT_PLUGIN_URL . 'resources/backend/js/quick-edit.js', array( 'jquery' ) );
+		wp_enqueue_script( 'convertkit-quick-edit', CONVERTKIT_PLUGIN_URL . 'resources/backend/js/quick-edit.js', array( 'jquery' ), CONVERTKIT_PLUGIN_VERSION, true );
 
 	}
 
 	/**
 	 * Outputs hidden inline data in each Post's Title column, which the Quick Edit
 	 * JS can read when the user clicks the Quick Edit link in a WP_List_Table.
-	 * 
-	 * @since 	1.9.8.0
-	 * 
-	 * @param 	string 	$column_name 	Column Name.
-	 * @param 	int 	$post_id 		Post ID.
+	 *
+	 * @since   1.9.8.0
+	 *
+	 * @param   WP_Post $post               Post.
 	 */
-	public function quick_edit_inline_data( $post, $post_type_object ) {
+	public function quick_edit_inline_data( $post ) {
 
 		// Fetch Post's Settings.
 		$settings = new ConvertKit_Post( $post->ID );
@@ -77,11 +76,11 @@ class ConvertKit_Admin_Quick_Edit {
 
 	/**
 	 * Outputs Quick Edit settings fields in the footer of the administration screen.
-	 * 
+	 *
 	 * The Quick Edit JS will then move these hidden fields into the Quick Edit row
 	 * when the user clicks on a Quick Edit link in the WP_List_Table.
-	 * 
-	 * @since 	1.9.8.0
+	 *
+	 * @since   1.9.8.0
 	 */
 	public function quick_edit_fields() {
 
