@@ -9,9 +9,9 @@
 ?>
 <div class="convertkit-quick-edit" style="display:none;">
 	<!-- Form -->
-	<label>
+	<label for="wp-convertkit-form">
 		<span class="title"><?php esc_html_e( 'Form', 'convertkit' ); ?></span>
-		<select name="wp-convertkit[form]" size="1">
+		<select name="wp-convertkit[form]" id="wp-convertkit-form" size="1">
 			<option value="-1"><?php esc_html_e( 'Default', 'convertkit' ); ?></option>
 			<option value="0"><?php esc_html_e( 'None', 'convertkit' ); ?></option>
 			<?php
@@ -25,9 +25,9 @@
 	</label>
 
 	<!-- Tag -->
-	<label>
+	<label for="wp-convertkit-tag">
 		<span class="title"><?php esc_html_e( 'Tag', 'convertkit' ); ?></span>
-		<select name="wp-convertkit[tag]">
+		<select name="wp-convertkit[tag]" id="wp-convertkit-tag" size="1">
 			<option value="0">
 				<?php esc_html_e( 'None', 'convertkit' ); ?>
 			</option>
