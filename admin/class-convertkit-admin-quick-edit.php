@@ -25,12 +25,11 @@ class ConvertKit_Admin_Quick_Edit {
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		add_action( 'add_inline_data', array( $this, 'quick_edit_inline_data' ), 10, 2 );
 		add_action( 'in_admin_footer',  array( $this, 'quick_edit_fields' ), 10, 2 );
-		add_action( 'save_post', array( $this, 'quick_edit_save' ) );
 
 	}
 
 	/**
-	 * Enqueues scripts for quick edit functionality in the Post, Page and Custom Post WP_List_Tables
+	 * Enqueues scripts for Quick Edit functionality in the Post, Page and Custom Post WP_List_Tables
 	 * 
 	 * @since 	1.9.8.0
 	 * 
@@ -64,6 +63,11 @@ class ConvertKit_Admin_Quick_Edit {
 		// Output the Post's ConvertKit settings as hidden data- attributes, which
 		// the Quick Edit JS can read.
 		foreach ( $settings->get() as $key => $value ) {
+			// If the value is blank, set it to zero.
+			// This allows Quick Edit's JS to select the correct <option> value.
+			if ( $value === '' ) {
+				$value = 0;
+			}
 			?>
 			<div class="convertkit" data-setting="<?php echo esc_attr( $key ); ?>" data-value="<?php echo esc_attr( $value ); ?>"><?php echo esc_attr( $value ); ?></div>
 			<?php
@@ -72,53 +76,28 @@ class ConvertKit_Admin_Quick_Edit {
 	}
 
 	/**
-	 * Outputs Quick Edit settings fields.
+	 * Outputs Quick Edit settings fields in the footer of the administration screen.
+	 * 
+	 * The Quick Edit JS will then move these hidden fields into the Quick Edit row
+	 * when the user clicks on a Quick Edit link in the WP_List_Table.
 	 * 
 	 * @since 	1.9.8.0
 	 */
 	public function quick_edit_fields() {
 
-		// Output Quick Edit fields.
-		echo '<fieldset class="inline-edit-col-right">
-					<div class="inline-edit-col">
-						<div class="inline-edit-group wp-clearfix">
-							<label class="alignleft">
-								<span class="title">Form</span>
-								<span class="input-text-wrap"><input type="text" name="form" value=""></span>
-							</label>
-						</div>
-					</div>
-				</fieldset>';
+		// Don't output Quick Edit fields if the API settings have not been defined.
+		$settings = new ConvertKit_Settings();
+		if ( ! $settings->has_api_key_and_secret() ) {
+			return;
+		}
 
-	}
+		// Fetch Forms, Landing Pages and Tags.
+		$convertkit_forms         = new ConvertKit_Resource_Forms();
+		$convertkit_landing_pages = new ConvertKit_Resource_Landing_Pages();
+		$convertkit_tags          = new ConvertKit_Resource_Tags();
 
-	/**
-	 * Saves submitted Quick Edit fields.
-	 * 
-	 * @since 	1.9.8.0
-	 * 
-	 * @param 	int 	$post_id 	Post ID.
-	 */
-	public function quick_edit_save( $post_id ) {
-
-	}
-
-	/**
-	 * Insert an array value after the given key for the given array
-	 *
-	 * @since   1.9.8.0
-	 *
-	 * @param   array  $array      Current Array.
-	 * @param   string $key        Key (new array will be inserted after this key).
-	 * @param   array  $new        Array data to insert.
-	 * @return  array               New Array
-	 */
-	private function array_insert_after( array $array, $key, array $new ) {
-
-		$keys  = array_keys( $array );
-		$index = array_search( $key, $keys ); /* phpcs:ignore */
-		$pos   = false === $index ? count( $array ) : $index + 1; /* phpcs:ignore */
-		return array_merge( array_slice( $array, 0, $pos ), $new, array_slice( $array, $pos ) );
+		// Output view.
+		require_once CONVERTKIT_PLUGIN_PATH . '/views/backend/post/quick-edit.php';
 
 	}
 
