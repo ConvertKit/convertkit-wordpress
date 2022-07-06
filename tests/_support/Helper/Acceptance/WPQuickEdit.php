@@ -24,6 +24,9 @@ class WPQuickEdit extends \Codeception\Module
 
 		// Hover mouse over Post's table row.
 		$I->moveMouseOver('tr#post-'.$postID);
+
+		// Wait for Quick edit link to be visible.
+		$I->waitForElementVisible('button.editinline');
 		
 		// Click Quick Edit link.
 		$I->click('button.editinline');
