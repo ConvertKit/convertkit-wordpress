@@ -363,7 +363,7 @@ class PostFormCest
 		]);
 
 		// Quick Edit the Post in the Posts WP_List_Table.
-		$I->quickEdit($I, 'page', $postID, [
+		$I->quickEdit($I, 'post', $postID, [
 			'form' => [ 'select', 'Default' ],
 		]);
 
