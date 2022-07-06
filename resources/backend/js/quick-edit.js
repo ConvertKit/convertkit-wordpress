@@ -33,8 +33,8 @@ jQuery( document ).ready(
 
 			// Move Plugin's Quick Edit fields container into the inline editor, if they don't yet exist.
 			// This only needs to be done once.
-			if ( $( '.inline-edit-wrapper fieldset.inline-edit-col-left .convertkit-quick-edit' ).length === 0 ) {
-				$( '.convertkit-quick-edit' ).appendTo( '.inline-edit-wrapper fieldset.inline-edit-col-left' ).show();
+			if ( $( '.inline-edit-wrapper fieldset.inline-edit-col-left:first-child .convertkit-quick-edit' ).length === 0 ) {
+				$( '.convertkit-quick-edit' ).appendTo( '.inline-edit-wrapper fieldset.inline-edit-col-left:first-child' ).show();
 			}
 
 			// Iterate through any ConvertKit inline data, assigning values to Quick Edit fields.
