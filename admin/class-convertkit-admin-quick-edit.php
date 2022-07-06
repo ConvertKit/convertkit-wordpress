@@ -24,7 +24,6 @@ class ConvertKit_Admin_Quick_Edit {
 
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		add_action( 'add_inline_data', array( $this, 'quick_edit_inline_data' ) );
-		add_action( 'in_admin_footer', array( $this, 'quick_edit_fields' ), 10, 2 );
 
 	}
 
@@ -32,16 +31,25 @@ class ConvertKit_Admin_Quick_Edit {
 	 * Enqueues scripts for Quick Edit functionality in the Post, Page and Custom Post WP_List_Tables
 	 *
 	 * @since   1.9.8.0
-	 *
-	 * @param   string $pagehook   Page hook name.
 	 */
-	public function enqueue_scripts( $pagehook ) {
+	public function enqueue_scripts() {
 
-		// Bail if we're not on a Post Type Edit screen.
-		if ( 'edit.php' !== $pagehook ) {
+		// Bail if we cannot determine the screen.
+		if ( ! function_exists( 'get_current_screen' ) ) {
 			return;
 		}
 
+		// Bail if we're not on a Post Type Edit screen.
+		$screen = get_current_screen();
+		if ( $screen->base !== 'edit' ) {
+			return;
+		}
+
+		// Bail if the Post isn't a supported Post Type.
+		if ( ! in_array( $screen->post_type, convertkit_get_supported_post_types() ) ) {
+			return;
+		}
+		
 		wp_enqueue_script( 'convertkit-quick-edit', CONVERTKIT_PLUGIN_URL . 'resources/backend/js/quick-edit.js', array( 'jquery' ), CONVERTKIT_PLUGIN_VERSION, true );
 
 	}
@@ -55,6 +63,11 @@ class ConvertKit_Admin_Quick_Edit {
 	 * @param   WP_Post $post               Post.
 	 */
 	public function quick_edit_inline_data( $post ) {
+
+		// Bail if the Post isn't a supported Post Type.
+		if ( ! in_array( $post->post_type, convertkit_get_supported_post_types() ) ) {
+			return;
+		}
 
 		// Fetch Post's Settings.
 		$settings = new ConvertKit_Post( $post->ID );
@@ -71,6 +84,9 @@ class ConvertKit_Admin_Quick_Edit {
 			<div class="convertkit" data-setting="<?php echo esc_attr( $key ); ?>" data-value="<?php echo esc_attr( $value ); ?>"><?php echo esc_attr( $value ); ?></div>
 			<?php
 		}
+
+		// Output Quick Edit fields in the footer of the Administration screen.
+		add_action( 'in_admin_footer', array( $this, 'quick_edit_fields' ), 10, 2 );
 
 	}
 
