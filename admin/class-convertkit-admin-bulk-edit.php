@@ -22,32 +22,60 @@ class ConvertKit_Admin_Bulk_Edit {
 	 */
 	public function __construct() {
 
-		add_action( 'admin_init', array( $this, 'bulk_edit_save' ) );
+		add_action( 'load-edit.php', array( $this, 'bulk_edit_save' ) );
 
 	}
 
+	/**
+	 * Save Bulk Edit data.
+	 * 
+	 * Logic used here follows how WordPress handles bulk editing in bulk_edit_posts().
+	 * 
+	 * @since 	2.0.0
+	 */
 	public function bulk_edit_save() {
 
-		// Bail if we cannot determine the screen.
-		if ( ! function_exists( 'get_current_screen' ) ) {
-			return;
-		}
-
-		// Bail if we're not on a Post Type Edit screen.
-		$screen = get_current_screen();
-		if ( $screen->base !== 'edit' ) {
-			return;
-		}
-
+		// Determine the current bulk action, if any.
 		$wp_list_table = _get_list_table( 'WP_Posts_List_Table' );
-		$doaction = $wp_list_table->current_action();
+		$bulk_action = $wp_list_table->current_action();
 
-				// Bail if the Post isn't a supported Post Type.
-		if ( ! in_array( $screen->post_type, convertkit_get_supported_post_types(), true ) ) {
+		// Bail if the bulk action isn't edit.
+		if ( $bulk_action !== 'edit' ) {
+			return;
+		}
+		if ( ! isset( $_REQUEST['bulk_edit'] ) ) {
 			return;
 		}
 
-		var_dump( $doaction );
+		// Get request data.
+		// @TODO Sanitize.
+		$post_data = $_REQUEST;
+
+		// Bail if the Post isn't a supported Post Type.
+		if ( ! in_array( $post_data['post_type'], convertkit_get_supported_post_types(), true ) ) {
+			return;
+		}
+
+		// Get Post Type object.
+		$post_type = get_post_type_object( $post_data['post_type'] );
+
+		// Bail if the logged in user cannot edit Pages/Posts.
+		if ( ! current_user_can( $post_type->cap->edit_posts ) ) {
+			wp_die(
+				sprintf(
+					__( 'Sorry, you are not allowed to edit %s.', 'convertkit' ),
+					$post_type->name
+				)
+			);
+		}
+
+		// Get Post IDs that are bulk edited.
+		$post_ids = array_map( 'intval', (array) $post_data['post'] );
+
+		// Get Bulk Edit values.
+		// @TODO.
+
+		var_dump( $post_ids );
 		die();
 
 	}
