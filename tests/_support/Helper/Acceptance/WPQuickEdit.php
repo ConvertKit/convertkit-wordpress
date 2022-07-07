@@ -26,10 +26,10 @@ class WPQuickEdit extends \Codeception\Module
 		$I->moveMouseOver('tr#post-'.$postID);
 
 		// Wait for Quick edit link to be visible.
-		$I->waitForElementVisible('button.editinline');
+		$I->waitForElementVisible('tr#post-'.$postID.' button.editinline');
 		
 		// Click Quick Edit link.
-		$I->click('button.editinline');
+		$I->click('tr#post-'.$postID.' button.editinline');
 
 		// Apply configuration.
 		foreach ($configuration as $field=>$attributes) {
