@@ -7,7 +7,7 @@
  */
 
 ?>
-<div class="convertkit-quick-edit" style="display:none;">
+<div id="convertkit-quick-edit" style="display:none;">
 	<!-- Form -->
 	<label for="wp-convertkit-form">
 		<span class="title"><?php esc_html_e( 'Form', 'convertkit' ); ?></span>
