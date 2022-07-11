@@ -7,7 +7,7 @@
 
 /**
  * Copies Bulk Edit fields into WordPress' #bulk-edit table row on load.
- * 
+ *
  * WordPress' built in Bulk Edit functionality does not do this automatically
  * for Plugins that register settings, which is why we have this code here.
  *

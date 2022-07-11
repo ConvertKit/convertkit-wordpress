@@ -63,10 +63,10 @@ class ConvertKit_Admin_Bulk_Edit {
 
 	/**
 	 * Save Bulk Edit data.
-	 * 
+	 *
 	 * Logic used here follows how WordPress handles bulk editing in bulk_edit_posts().
-	 * 
-	 * @since 	2.0.0
+	 *
+	 * @since   2.0.0
 	 */
 	public function bulk_edit_save() {
 
@@ -102,8 +102,9 @@ class ConvertKit_Admin_Bulk_Edit {
 		if ( ! current_user_can( $post_type->cap->edit_posts ) ) {
 			wp_die(
 				sprintf(
-					__( 'Sorry, you are not allowed to edit %s.', 'convertkit' ),
-					$post_type->name
+					/* translators: Post Type name */
+					esc_html__( 'Sorry, you are not allowed to edit %s.', 'convertkit' ),
+					esc_html( $post_type->name )
 				)
 			);
 		}
@@ -146,22 +147,22 @@ class ConvertKit_Admin_Bulk_Edit {
 
 	/**
 	 * Determines if the request is for saving values via bulk editing.
-	 * 
-	 * @since 	1.9.8.0
-	 * 
-	 * @return 	bool 	Is bulk edit request
+	 *
+	 * @since   1.9.8.0
+	 *
+	 * @return  bool    Is bulk edit request
 	 */
 	private function is_bulk_edit_request() {
 
 		// Determine the current bulk action, if any.
 		$wp_list_table = _get_list_table( 'WP_Posts_List_Table' );
-		$bulk_action = $wp_list_table->current_action();
+		$bulk_action   = $wp_list_table->current_action();
 
 		// Bail if the bulk action isn't edit.
 		if ( $bulk_action !== 'edit' ) {
 			return false;
 		}
-		if ( ! isset( $_REQUEST['bulk_edit'] ) ) {
+		if ( ! array_key_exists( 'bulk_edit', $_REQUEST ) ) { // phpcs:ignore WordPress.Security.NonceVerification
 			return false;
 		}
 

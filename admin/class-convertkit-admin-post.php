@@ -171,11 +171,11 @@ class ConvertKit_Admin_Post {
 	/**
 	 * Saves the Post's settings submitted via $_POST or $_REQUEST.
 	 * Can be used across Edit, Quick Edit and Bulk Edit.
-	 * 
-	 * @since 	1.9.8.0
-	 * 
-	 * @param 	int 	$post_id 	Post ID.
-	 * @param 	array 	$settings 	Settings.
+	 *
+	 * @since   1.9.8.0
+	 *
+	 * @param   int   $post_id    Post ID.
+	 * @param   array $settings   Settings.
 	 */
 	public function save_post_settings( $post_id, $settings ) {
 
@@ -198,7 +198,7 @@ class ConvertKit_Admin_Post {
 
 			// Skip if the setting value is -2, as this means it's a Bulk Edit request and this setting
 			// is set as 'No Change'.
-			if ( $new_value == '-2' ) {
+			if ( $new_value == '-2' ) { // phpcs:ignore WordPress.PHP.StrictComparisons
 				continue;
 			}
 

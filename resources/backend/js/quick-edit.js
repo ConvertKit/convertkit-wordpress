@@ -7,7 +7,7 @@
 
 /**
  * Copies Quick Edit fields into WordPress' #inline-edit table row on load.
- * 
+ *
  * Populates Quick Edit fields for this Plugin with the values output
  * in the `add_inline_data` WordPress action when the user clicks
  * a Quick Edit link in a Post, Page or Custom Post Type WP_List_Table.
