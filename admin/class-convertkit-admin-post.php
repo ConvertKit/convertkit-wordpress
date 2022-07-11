@@ -130,7 +130,7 @@ class ConvertKit_Admin_Post {
 	}
 
 	/**
-	 * Save Post Settings.
+	 * Saves Post Settings when either editing a Post/Page or using the Quick Edit functionality.
 	 *
 	 * @since   1.9.6
 	 *
@@ -163,15 +163,25 @@ class ConvertKit_Admin_Post {
 			return;
 		}
 
-		// Build metadata.
-		$meta = array(
-			'form'         => ( isset( $_POST['wp-convertkit']['form'] ) ? sanitize_text_field( wp_unslash( $_POST['wp-convertkit']['form'] ) ) : '-1' ),
-			'landing_page' => ( isset( $_POST['wp-convertkit']['landing_page'] ) ? sanitize_text_field( wp_unslash( $_POST['wp-convertkit']['landing_page'] ) ) : '' ),
-			'tag'          => ( isset( $_POST['wp-convertkit']['tag'] ) ? sanitize_text_field( wp_unslash( $_POST['wp-convertkit']['tag'] ) ) : '' ),
-		);
-
-		// Save metadata.
+		// Get Post's settings.
 		$convertkit_post = new ConvertKit_Post( $post_id );
+		$meta            = $convertkit_post->get();
+
+		// Update Post's setting values if they were included in the $_POST data.
+		// Some values may not be included in the $_POST data e.g. if Quick Edit is used and no Landing Page was specified,
+		// in which case the existing Post's value will be used.
+		// This ensures settings are not deleted by accident.
+		foreach ( $meta as $key => $value ) {
+			// Skip if this setting isn't included in the $_POST data.
+			if ( ! isset( $_POST['wp-convertkit'][ $key ] ) ) {
+				continue;
+			}
+
+			// Update setting using posted value.
+			$meta[ $key ] = sanitize_text_field( wp_unslash( $_POST['wp-convertkit'][ $key ] ) );
+		}
+
+		// Save settings.
 		$convertkit_post->save( $meta );
 
 		// If a Form or Landing Page was specified, request a review.
