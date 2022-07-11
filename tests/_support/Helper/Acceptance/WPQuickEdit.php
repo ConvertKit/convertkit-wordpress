@@ -37,18 +37,15 @@ class WPQuickEdit extends \Codeception\Module
 			$fieldID = 'wp-convertkit-' . $field;
 
 			// Check that the field exists.
-			$I->seeElementInDOM('#' . $fieldID);
+			$I->seeElementInDOM('#convertkit-quick-edit #' . $fieldID);
 			
 			// Depending on the field's type, define its value.
 			switch ($attributes[0]) {
-				case 'select2':
-					$I->fillSelect2Field($I, '#select2-' . $fieldID . '-container', $attributes[1]);
-					break;
 				case 'select':
-					$I->selectOption('#' . $fieldID, $attributes[1]);
+					$I->selectOption('#convertkit-quick-edit #' . $fieldID, $attributes[1]);
 					break;
 				default:
-					$I->fillField('#' . $fieldID, $attributes[1]);
+					$I->fillField('#convertkit-quick-edit #' . $fieldID, $attributes[1]);
 					break;
 			}
 		}
