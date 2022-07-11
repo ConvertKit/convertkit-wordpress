@@ -22,7 +22,42 @@ class ConvertKit_Admin_Bulk_Edit {
 	 */
 	public function __construct() {
 
+		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_assets' ) );
 		add_action( 'load-edit.php', array( $this, 'bulk_edit_save' ) );
+
+	}
+
+	/**
+	 * Enqueues scripts and CSS for Bulk Edit functionality in the Post, Page and Custom Post WP_List_Tables
+	 *
+	 * @since   1.9.8.0
+	 */
+	public function enqueue_assets() {
+
+		// Bail if we cannot determine the screen.
+		if ( ! function_exists( 'get_current_screen' ) ) {
+			return;
+		}
+
+		// Bail if we're not on a Post Type Edit screen.
+		$screen = get_current_screen();
+		if ( $screen->base !== 'edit' ) {
+			return;
+		}
+
+		// Bail if the Post isn't a supported Post Type.
+		if ( ! in_array( $screen->post_type, convertkit_get_supported_post_types(), true ) ) {
+			return;
+		}
+
+		// Enqueue JS.
+		wp_enqueue_script( 'convertkit-bulk-edit', CONVERTKIT_PLUGIN_URL . 'resources/backend/js/bulk-edit.js', array( 'jquery' ), CONVERTKIT_PLUGIN_VERSION, true );
+
+		// Enqueue CSS.
+		wp_enqueue_style( 'convertkit-bulk-edit', CONVERTKIT_PLUGIN_URL . 'resources/backend/css/bulk-edit.css', array(), CONVERTKIT_PLUGIN_VERSION );
+
+		// Output Bulk Edit fields in the footer of the Administration screen.
+		add_action( 'in_admin_footer', array( $this, 'bulk_edit_fields' ), 10, 2 );
 
 	}
 
@@ -35,29 +70,33 @@ class ConvertKit_Admin_Bulk_Edit {
 	 */
 	public function bulk_edit_save() {
 
-		// Determine the current bulk action, if any.
-		$wp_list_table = _get_list_table( 'WP_Posts_List_Table' );
-		$bulk_action = $wp_list_table->current_action();
-
-		// Bail if the bulk action isn't edit.
-		if ( $bulk_action !== 'edit' ) {
-			return;
-		}
-		if ( ! isset( $_REQUEST['bulk_edit'] ) ) {
+		// Bail if the bulk action isn't 'edit'.
+		if ( ! $this->is_bulk_edit_request() ) {
 			return;
 		}
 
-		// Get request data.
-		// @TODO Sanitize.
-		$post_data = $_REQUEST;
+		// Bail if no nonce field exists.
+		if ( ! isset( $_REQUEST['wp-convertkit-save-meta-nonce'] ) ) {
+			return;
+		}
+
+		// Bail if the nonce verification fails.
+		if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST['wp-convertkit-save-meta-nonce'] ) ), 'wp-convertkit-save-meta' ) ) {
+			return;
+		}
 
 		// Bail if the Post isn't a supported Post Type.
-		if ( ! in_array( $post_data['post_type'], convertkit_get_supported_post_types(), true ) ) {
+		if ( ! in_array( sanitize_text_field( $_REQUEST['post_type'] ), convertkit_get_supported_post_types(), true ) ) {
+			return;
+		}
+
+		// Bail if no ConvertKit settings were included in the Bulk Edit request.
+		if ( ! isset( $_REQUEST['wp-convertkit'] ) ) {
 			return;
 		}
 
 		// Get Post Type object.
-		$post_type = get_post_type_object( $post_data['post_type'] );
+		$post_type = get_post_type_object( $_REQUEST['post_type'] );
 
 		// Bail if the logged in user cannot edit Pages/Posts.
 		if ( ! current_user_can( $post_type->cap->edit_posts ) ) {
@@ -70,28 +109,12 @@ class ConvertKit_Admin_Bulk_Edit {
 		}
 
 		// Get Post IDs that are bulk edited.
-		$post_ids = array_map( 'intval', (array) $post_data['post'] );
+		$post_ids = array_map( 'intval', (array) $_REQUEST['post'] );
 
-		// Get Bulk Edit values.
-		// @TODO.
-
-		var_dump( $post_ids );
-		die();
-
-	}
-
-	/**
-	 * Enqueues scripts and CSS for Bulk Edit functionality in the Post, Page and Custom Post WP_List_Tables
-	 *
-	 * @since   1.9.8.0
-	 */
-	public function enqueue_assets() {
-
-		// Enqueue JS.
-		wp_enqueue_script( 'convertkit-bulk-edit', CONVERTKIT_PLUGIN_URL . 'resources/backend/js/bulk-edit.js', array( 'jquery' ), CONVERTKIT_PLUGIN_VERSION, true );
-
-		// Enqueue CSS.
-		wp_enqueue_style( 'convertkit-bulk-edit', CONVERTKIT_PLUGIN_URL . 'resources/backend/css/bulk-edit.css', array(), CONVERTKIT_PLUGIN_VERSION );
+		// Iterate through each Post, updating its settings.
+		foreach ( $post_ids as $post_id ) {
+			WP_ConvertKit()->get_class( 'admin_post' )->save_post_settings( $post_id, $_REQUEST['wp-convertkit'] );
+		}
 
 	}
 
@@ -118,6 +141,31 @@ class ConvertKit_Admin_Bulk_Edit {
 
 		// Output view.
 		require_once CONVERTKIT_PLUGIN_PATH . '/views/backend/post/bulk-edit.php';
+
+	}
+
+	/**
+	 * Determines if the request is for saving values via bulk editing.
+	 * 
+	 * @since 	1.9.8.0
+	 * 
+	 * @return 	bool 	Is bulk edit request
+	 */
+	private function is_bulk_edit_request() {
+
+		// Determine the current bulk action, if any.
+		$wp_list_table = _get_list_table( 'WP_Posts_List_Table' );
+		$bulk_action = $wp_list_table->current_action();
+
+		// Bail if the bulk action isn't edit.
+		if ( $bulk_action !== 'edit' ) {
+			return false;
+		}
+		if ( ! isset( $_REQUEST['bulk_edit'] ) ) {
+			return false;
+		}
+
+		return true;
 
 	}
 
