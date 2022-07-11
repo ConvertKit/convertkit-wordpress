@@ -83,6 +83,7 @@ require_once CONVERTKIT_PLUGIN_PATH . '/includes/integrations/woocommerce/class-
 // Load files that are only used in the WordPress Administration interface.
 if ( is_admin() ) {
 	require_once CONVERTKIT_PLUGIN_PATH . '/admin/class-convertkit-admin-bulk-edit.php';
+	require_once CONVERTKIT_PLUGIN_PATH . '/admin/class-convertkit-admin-quick-edit.php';
 	require_once CONVERTKIT_PLUGIN_PATH . '/admin/class-convertkit-admin-category.php';
 	require_once CONVERTKIT_PLUGIN_PATH . '/admin/class-convertkit-admin-post.php';
 	require_once CONVERTKIT_PLUGIN_PATH . '/admin/class-convertkit-admin-settings.php';

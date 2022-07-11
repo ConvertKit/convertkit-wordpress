@@ -78,6 +78,37 @@ class PageTagCest
 	}
 
 	/**
+	 * Test that the defined tag is honored when chosen via
+	 * WordPress' Quick Edit functionality.
+	 * 
+	 * @since 	1.9.8.0
+	 * 
+	 * @param 	AcceptanceTester 	$I 	Tester
+	 */
+	public function testQuickEditUsingDefinedTag(AcceptanceTester $I)
+	{
+		// Programmatically create a Page.
+		$pageID = $I->havePostInDatabase([
+			'post_type' 	=> 'page',
+			'post_title' 	=> 'ConvertKit: Page: Tag: ' . $_ENV['CONVERTKIT_API_TAG_NAME'] . ': Quick Edit',
+		]);
+
+		// Quick Edit the Page in the Pages WP_List_Table.
+		$I->quickEdit($I, 'page', $pageID, [
+			'tag' => [ 'select', $_ENV['CONVERTKIT_API_TAG_NAME'] ],
+		]);
+
+		// Load the Page on the frontend site.
+		$I->amOnPage('/?p='.$pageID);
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+		
+		// Confirm that the post_has_tag parameter is set to true in the source code.
+		$I->seeInSource('"tag":"' . $_ENV['CONVERTKIT_API_TAG_ID'] . '"');
+	}
+
+	/**
 	 * Deactivate and reset Plugin(s) after each test, if the test passes.
 	 * We don't use _after, as this would provide a screenshot of the Plugin
 	 * deactivation and not the true test error.
