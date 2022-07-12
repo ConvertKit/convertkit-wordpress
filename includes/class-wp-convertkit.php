@@ -64,6 +64,7 @@ class WP_ConvertKit {
 			return;
 		}
 
+		$this->classes['admin_bulk_edit']  = new ConvertKit_Admin_Bulk_Edit();
 		$this->classes['admin_category']   = new ConvertKit_Admin_Category();
 		$this->classes['admin_post']       = new ConvertKit_Admin_Post();
 		$this->classes['admin_quick_edit'] = new ConvertKit_Admin_Quick_Edit();
