@@ -119,7 +119,7 @@ jobs:
       # Run WordPress Coding Standards tests.
       - name: Run WordPress Coding Standards Tests
         working-directory: ${{ env.PLUGIN_DIR }}
-        run: php vendor/bin/phpcs ./ -v
+        run: php vendor/bin/phpcs ./ -v -s
 
       # Run PHPStan for static analysis.
       - name: Run PHPStan Static Analysis

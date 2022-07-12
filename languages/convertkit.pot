@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the ConvertKit plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: ConvertKit 1.9.7.8\n"
+"Project-Id-Version: ConvertKit 1.9.7.9\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/convertkit-github\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-06-22T15:57:33+00:00\n"
+"POT-Creation-Date: 2022-06-24T15:46:11+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.6.0\n"
 "X-Domain: convertkit\n"
@@ -549,6 +549,10 @@ msgstr ""
 
 #: lib/class-convertkit-api.php:163
 msgid "Rate limit hit."
+msgstr ""
+
+#: lib/class-convertkit-api.php:164
+msgid "The response from the API is not of the expected type array."
 msgstr ""
 
 #: views/backend/post/meta-box.php:26
