@@ -409,6 +409,143 @@ class PostFormCest
 	}
 
 	/**
+	 * Test that the Default Form for Posts displays when the Default option is chosen via
+	 * WordPress' Bulk Edit functionality.
+	 * 
+	 * @since 	1.9.8.0
+	 * 
+	 * @param 	AcceptanceTester 	$I 	Tester
+	 */
+	public function testBulkEditUsingDefaultForm(AcceptanceTester $I)
+	{
+		// Specify the Default Form in the Plugin Settings.
+		$I->setupConvertKitPluginDefaultForm($I);
+
+		// Programmatically create two Posts.
+		$postIDs = array(
+			$I->havePostInDatabase([
+				'post_type' 	=> 'post',
+				'post_title' 	=> 'ConvertKit: Post: Form: Default: Bulk Edit #1',
+			]),
+			$I->havePostInDatabase([
+				'post_type' 	=> 'post',
+				'post_title' 	=> 'ConvertKit: Post: Form: Default: Bulk Edit #2',
+			])
+		);
+
+		// Bulk Edit the Posts in the Posts WP_List_Table.
+		$I->bulkEdit($I, 'post', $postIDs, [
+			'form' => [ 'select', 'Default' ],
+		]);
+
+		// Iterate through Posts to run frontend tests.
+		foreach($postIDs as $postID) {
+			// Load Post on the frontend site.
+			$I->amOnPage('/?p='.$postID);
+
+			// Check that no PHP warnings or notices were output.
+			$I->checkNoWarningsAndNoticesOnScreen($I);
+
+			// Confirm that the ConvertKit Default Form displays.
+			$I->seeElementInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]');
+		}
+	}
+
+	/**
+	 * Test that the defined form displays when chosen via
+	 * WordPress' Bulk Edit functionality.
+	 * 
+	 * @since 	1.9.8.0
+	 * 
+	 * @param 	AcceptanceTester 	$I 	Tester
+	 */
+	public function testBulkEditUsingDefinedForm(AcceptanceTester $I)
+	{
+		// Programmatically create two Posts.
+		$postIDs = array(
+			$I->havePostInDatabase([
+				'post_type' 	=> 'post',
+				'post_title' 	=> 'ConvertKit: Post: Form: ' . $_ENV['CONVERTKIT_API_FORM_NAME'] . ': Bulk Edit #1',
+			]),
+			$I->havePostInDatabase([
+				'post_type' 	=> 'post',
+				'post_title' 	=> 'ConvertKit: Post: Form: ' . $_ENV['CONVERTKIT_API_FORM_NAME'] . ': Bulk Edit #2',
+			])
+		);
+
+		// Bulk Edit the Posts in the Posts WP_List_Table.
+		$I->bulkEdit($I, 'post', $postIDs, [
+			'form' => [ 'select', $_ENV['CONVERTKIT_API_FORM_NAME'] ],
+		]);
+
+		// Iterate through Posts to run frontend tests.
+		foreach($postIDs as $postID) {
+			// Load Post on the frontend site.
+			$I->amOnPage('/?p='.$postID);
+
+			// Check that no PHP warnings or notices were output.
+			$I->checkNoWarningsAndNoticesOnScreen($I);
+
+			// Confirm that the ConvertKit Form displays.
+			$I->seeElementInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]');
+		}
+	}
+
+	/**
+	 * Test that the existing settings are honored and not changed
+	 * when the Bulk Edit options are set to 'No Change'.
+	 * 
+	 * @since 	1.9.8.0
+	 * 
+	 * @param 	AcceptanceTester 	$I 	Tester
+	 */
+	public function testBulkEditWithNoChanges(AcceptanceTester $I)
+	{
+		// Programmatically create two Posts with a defined form.
+		$postIDs = array(
+			$I->havePostInDatabase([
+				'post_type' 	=> 'post',
+				'post_title' 	=> 'ConvertKit: Post: Form: ' . $_ENV['CONVERTKIT_API_FORM_NAME'] . ': Bulk Edit with No Change #1',
+				'meta_input'	=> [
+					'_wp_convertkit_post_meta' => [
+						'form'         => $_ENV['CONVERTKIT_API_FORM_ID'],
+						'landing_page' => '',
+						'tag'          => '',
+					]
+				],
+			]),
+			$I->havePostInDatabase([
+				'post_type' 	=> 'post',
+				'post_title' 	=> 'ConvertKit: Post: Form: ' . $_ENV['CONVERTKIT_API_FORM_NAME'] . ': Bulk Edit with No Change #2',
+				'meta_input'	=> [
+					'_wp_convertkit_post_meta' => [
+						'form'         => $_ENV['CONVERTKIT_API_FORM_ID'],
+						'landing_page' => '',
+						'tag'          => '',
+					]
+				],
+			])
+		);
+
+		// Bulk Edit the Posts in the Posts WP_List_Table.
+		$I->bulkEdit($I, 'post', $postIDs, [
+			'form' => [ 'select', '— No Change —' ],
+		]);
+
+		// Iterate through Posts to run frontend tests.
+		foreach($postIDs as $postID) {
+			// Load Post on the frontend site.
+			$I->amOnPage('/?p='.$postID);
+
+			// Check that no PHP warnings or notices were output.
+			$I->checkNoWarningsAndNoticesOnScreen($I);
+
+			// Confirm that the ConvertKit Form displays.
+			$I->seeElementInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]');
+		}
+	}
+
+	/**
 	 * Deactivate and reset Plugin(s) after each test, if the test passes.
 	 * We don't use _after, as this would provide a screenshot of the Plugin
 	 * deactivation and not the true test error.

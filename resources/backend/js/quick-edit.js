@@ -6,6 +6,8 @@
  */
 
 /**
+ * Copies Quick Edit fields into WordPress' #inline-edit table row on load.
+ *
  * Populates Quick Edit fields for this Plugin with the values output
  * in the `add_inline_data` WordPress action when the user clicks
  * a Quick Edit link in a Post, Page or Custom Post Type WP_List_Table.
@@ -18,9 +20,15 @@
 jQuery( document ).ready(
 	function( $ ) {
 
+		// Move Quick Edit fields from footer into the hidden inline-edit table row.
+		$( 'tr#inline-edit .inline-edit-wrapper fieldset.inline-edit-col-left' ).first().append( $( '#convertkit-quick-edit' ) );
+
+		// Show the Quick Edit fields, as they are now contained in the inline-edit row which WordPress will show/hide as necessary.
+		$( '#convertkit-quick-edit' ).show();
+
 		var convertKitInlineEditPost = inlineEditPost.edit;
 
-		// Extend WordPress' quick edit function.
+		// Extend WordPress' inline edit function to load the Plugin's Quick Edit fields.
 		inlineEditPost.edit = function( id ) {
 
 			// Merge arguments from original function.
@@ -31,18 +39,12 @@ jQuery( document ).ready(
 				id = parseInt( this.getId( id ) );
 			}
 
-			// Move Plugin's Quick Edit fields container into the inline editor, if they don't yet exist.
-			// This only needs to be done once.
-			if ( $( '.inline-edit-wrapper fieldset.inline-edit-col-left:first-child .convertkit-quick-edit' ).length === 0 ) {
-				$( '.convertkit-quick-edit' ).appendTo( '.inline-edit-wrapper fieldset.inline-edit-col-left:first-child' ).show();
-			}
-
 			// Iterate through any ConvertKit inline data, assigning values to Quick Edit fields.
 			$( '.convertkit', $( '#inline_' + id ) ).each(
 				function() {
 
 					// Assign the setting's value to the setting's Quick Edit field.
-					$( '.convertkit-quick-edit select[name="wp-convertkit[' + $( this ).data( 'setting' ) + ']"]' ).val( $( this ).data( 'value' ) );
+					$( '#convertkit-quick-edit select[name="wp-convertkit[' + $( this ).data( 'setting' ) + ']"]' ).val( $( this ).data( 'value' ) );
 
 				}
 			);
