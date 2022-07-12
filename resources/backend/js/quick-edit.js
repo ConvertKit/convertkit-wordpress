@@ -21,7 +21,7 @@ jQuery( document ).ready(
 	function( $ ) {
 
 		// Move Quick Edit fields from footer into the hidden inline-edit table row.
-		$( 'tr#inline-edit .inline-edit-wrapper fieldset.inline-edit-col-left:first-child' ).append( $( '#convertkit-quick-edit' ) );
+		$( 'tr#inline-edit .inline-edit-wrapper fieldset.inline-edit-col-left' ).first().append( $( '#convertkit-quick-edit' ) );
 
 		// Show the Quick Edit fields, as they are now contained in the inline-edit row which WordPress will show/hide as necessary.
 		$( '#convertkit-quick-edit' ).show();

@@ -17,7 +17,7 @@ jQuery( document ).ready(
 	function( $ ) {
 
 		// Move Bulk Edit fields from footer into the hidden bulk-edit table row.
-		$( 'tr#bulk-edit .inline-edit-wrapper fieldset.inline-edit-col-right' ).append( $( '#convertkit-bulk-edit' ) );
+		$( 'tr#bulk-edit .inline-edit-wrapper fieldset.inline-edit-col-right' ).first().append( $( '#convertkit-bulk-edit' ) );
 
 		// Show the Bulk Edit fields, as they are now contained in the inline-edit row which WordPress will show/hide as necessary.
 		$( '#convertkit-bulk-edit' ).show();
