@@ -46,7 +46,7 @@ jQuery( document ).ready(
                         var selectedOption = $( field ).val();
 
                         // Remove existing select options.
-                        $( field + ' option' ).each( function() {
+                        $( 'option', $( field ) ).each( function() {
                             // Skip if data-preserve-on-refresh is specified, as this means we want to keep this specific option.
                             // This will be present on the 'None' and 'Default' options.
                             if ( typeof $( this ).data( 'preserve-on-refresh' ) !== 'undefined' ) {
@@ -58,9 +58,9 @@ jQuery( document ).ready(
                         } );
 
                         // Populate select options from response data.
-                        for ( const [ index, item ] of Object.entries( response.data ) ) {
+                        response.data.forEach( function( item ) {
                             $( field ).append( new Option( item.name, item.id, false, ( selectedOption == item.id ? true : false ) ) );
-                        }
+                        } );
 
                         // Trigger a change event on the select field, to allow Select2 instances to repopulate their options.
                         $( field ).trigger( 'change' );
