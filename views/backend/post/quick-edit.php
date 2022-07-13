@@ -24,7 +24,7 @@
 			}
 			?>
 		</select>
-		<button class="wp-convertkit-refresh-resources" class="button button-secondary" title="<?php esc_attr_e( 'Refresh Forms from ConvertKit account', 'convertkit' ); ?>" data-resource="forms" data-field="wp-convertkit-quick-edit-form">
+		<button class="wp-convertkit-refresh-resources" class="button button-secondary" title="<?php esc_attr_e( 'Refresh Forms from ConvertKit account', 'convertkit' ); ?>" data-resource="forms" data-field="#wp-convertkit-quick-edit-form">
 			<span class="dashicons dashicons-update"></span>
 		</button>
 	</label>
@@ -46,7 +46,7 @@
 			}
 			?>
 		</select>
-		<button class="wp-convertkit-refresh-resources" class="button button-secondary" title="<?php esc_attr_e( 'Refresh Tags from ConvertKit account', 'convertkit' ); ?>" data-resource="tags" data-field="wp-convertkit-quick-edit-tag">
+		<button class="wp-convertkit-refresh-resources" class="button button-secondary" title="<?php esc_attr_e( 'Refresh Tags from ConvertKit account', 'convertkit' ); ?>" data-resource="tags" data-field="#wp-convertkit-quick-edit-tag">
 			<span class="dashicons dashicons-update"></span>
 		</button>
 	</label>

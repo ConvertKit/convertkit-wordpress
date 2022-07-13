@@ -99,7 +99,7 @@
 							}
 							?>
 						</select>
-						<button class="wp-convertkit-refresh-resources" class="button button-secondary hide-if-no-js" title="<?php esc_attr_e( 'Refresh Landing Pages from ConvertKit account', 'convertkit' ); ?>" data-resource="landing_pages" data-field="wp-convertkit-landing_page">
+						<button class="wp-convertkit-refresh-resources" class="button button-secondary hide-if-no-js" title="<?php esc_attr_e( 'Refresh Landing Pages from ConvertKit account', 'convertkit' ); ?>" data-resource="landing_pages" data-field="#wp-convertkit-landing_page">
 							<span class="dashicons dashicons-update"></span>
 						</button>
 						<p class="description">
@@ -145,7 +145,7 @@
 						}
 						?>
 					</select>
-					<button class="wp-convertkit-refresh-resources" class="button button-secondary hide-if-no-js" title="<?php esc_attr_e( 'Refresh Tags from ConvertKit account', 'convertkit' ); ?>" data-resource="tags" data-field="wp-convertkit-tag">
+					<button class="wp-convertkit-refresh-resources" class="button button-secondary hide-if-no-js" title="<?php esc_attr_e( 'Refresh Tags from ConvertKit account', 'convertkit' ); ?>" data-resource="tags" data-field="#wp-convertkit-tag">
 						<span class="dashicons dashicons-update"></span>
 					</button>
 					<p class="description">
