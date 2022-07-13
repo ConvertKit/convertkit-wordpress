@@ -23,9 +23,8 @@ class ConvertKit_Admin_Refresh_Resources {
 	public function __construct() {
 
 		add_action( 'wp_ajax_convertkit_admin_refresh_resources', array( $this, 'refresh_resources' ) );
-		add_action( 'convertkit_admin_post_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
-		add_action( 'convertkit_admin_category_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
-
+		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
+		
 	}
 
 	/**
@@ -99,8 +98,15 @@ class ConvertKit_Admin_Refresh_Resources {
 	 * Enqueue JavaScript when editing a Page, Post, Custom Post Type or Category.
 	 *
 	 * @since   1.9.8.0
+	 *
+	 * @param   string $hook   Hook.
 	 */
-	public function enqueue_scripts() {
+	public function enqueue_scripts( $hook ) {
+
+		// Bail if we are not on an Edit or Term screen.
+		if ( $hook !== 'edit.php' && $hook !== 'term.php' ) {
+			return;
+		}
 
 		// Get settings.
 		$settings = new ConvertKit_Settings();
