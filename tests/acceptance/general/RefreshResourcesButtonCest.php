@@ -1,10 +1,11 @@
 <?php
 /**
- * Tests Refresh buttons for resource fields.
+ * Tests Refresh Resource buttons, which are displayed next to settings fields
+ * across Page/Post editing, Bulk/Quick edit and Category editing.
  * 
  * @since 	1.9.8.0
  */
-class RefreshResourcesCest
+class RefreshResourcesButtonCest
 {
 	/**
 	 * Run common actions before running the test functions in this class.
