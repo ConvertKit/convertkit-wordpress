@@ -52,7 +52,7 @@
 						<?php esc_html_e( 'Any other option will display that form after the main content.', 'convertkit' ); ?>
 					</p>
 				</div>
-				
+
 				<p class="description">
 					<?php
 					echo sprintf(
@@ -106,7 +106,7 @@
 							<?php esc_html_e( 'Select a landing page to make it appear in place of this page.', 'convertkit' ); ?>
 						</p>
 					</div>
-					
+
 					<p class="description">
 						<?php
 						echo sprintf(

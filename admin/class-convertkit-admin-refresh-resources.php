@@ -24,7 +24,7 @@ class ConvertKit_Admin_Refresh_Resources {
 
 		add_action( 'wp_ajax_convertkit_admin_refresh_resources', array( $this, 'refresh_resources' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
-		
+
 	}
 
 	/**
@@ -43,32 +43,32 @@ class ConvertKit_Admin_Refresh_Resources {
 		// Fetch resources.
 		switch ( $resource ) {
 			case 'forms':
-				$forms = new ConvertKit_Resource_Forms();
+				$forms   = new ConvertKit_Resource_Forms();
 				$results = $forms->refresh();
 				break;
 
 			case 'landing_pages':
 				$landing_pages = new ConvertKit_Resource_Landing_Pages();
-				$results = $landing_pages->refresh();
+				$results       = $landing_pages->refresh();
 				break;
 
 			case 'tags':
-				$tags = new ConvertKit_Resource_Tags();
+				$tags    = new ConvertKit_Resource_Tags();
 				$results = $tags->refresh();
 				break;
 
 			case 'sequences':
 				$sequences = new ConvertKit_Resource_Sequences();
-				$results = $sequences->refresh();
+				$results   = $sequences->refresh();
 				break;
 
 			case 'custom_fields':
 				$custom_fields = new ConvertKit_Resource_Custom_Fields();
-				$results = $custom_fields->refresh();
+				$results       = $custom_fields->refresh();
 				break;
 
 			case 'posts':
-				$posts = new ConvertKit_Resource_Posts();
+				$posts   = new ConvertKit_Resource_Posts();
 				$results = $posts->refresh();
 				break;
 
@@ -118,12 +118,16 @@ class ConvertKit_Admin_Refresh_Resources {
 
 		// Enqueue JS to perform AJAX request to refresh resources.
 		wp_enqueue_script( 'convertkit-admin-refresh-resources', CONVERTKIT_PLUGIN_URL . 'resources/backend/js/refresh-resources.js', array( 'jquery' ), CONVERTKIT_PLUGIN_VERSION, true );
-		wp_localize_script( 'convertkit-admin-refresh-resources', 'convertkit_admin_refresh_resources', array(
-			'action'		=> 'convertkit_admin_refresh_resources',
-			'ajaxurl'       => admin_url( 'admin-ajax.php' ),
-			'debug'         => $settings->debug_enabled(),
-			'nonce'         => wp_create_nonce( 'convertkit_admin_refresh_resources' ),
-		) );
+		wp_localize_script(
+			'convertkit-admin-refresh-resources',
+			'convertkit_admin_refresh_resources',
+			array(
+				'action'  => 'convertkit_admin_refresh_resources',
+				'ajaxurl' => admin_url( 'admin-ajax.php' ),
+				'debug'   => $settings->debug_enabled(),
+				'nonce'   => wp_create_nonce( 'convertkit_admin_refresh_resources' ),
+			)
+		);
 
 	}
 
