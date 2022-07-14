@@ -57,16 +57,6 @@ class ConvertKit_Admin_Refresh_Resources {
 				$results = $tags->refresh();
 				break;
 
-			case 'sequences':
-				$sequences = new ConvertKit_Resource_Sequences();
-				$results   = $sequences->refresh();
-				break;
-
-			case 'custom_fields':
-				$custom_fields = new ConvertKit_Resource_Custom_Fields();
-				$results       = $custom_fields->refresh();
-				break;
-
 			case 'posts':
 				$posts   = new ConvertKit_Resource_Posts();
 				$results = $posts->refresh();
@@ -86,7 +76,6 @@ class ConvertKit_Admin_Refresh_Resources {
 		// Bail if an error occured.
 		if ( is_wp_error( $results ) ) {
 			wp_send_json_error( $results->get_error_message() );
-			die();
 		}
 
 		// Return resources as a zero based sequential array, so that JS retains the order of resources.
