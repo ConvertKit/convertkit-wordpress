@@ -48,7 +48,12 @@ jobs:
         
         # Folder names within the 'tests' folder to run tests in parallel.
         test-groups: [
+          'acceptance/broadcasts',
+          'acceptance/forms',
           'acceptance/general',
+          'acceptance/integrations',
+          'acceptance/landing-pages',
+          'acceptance/tags'
         ]
 
     # Steps to install, configure and run tests
