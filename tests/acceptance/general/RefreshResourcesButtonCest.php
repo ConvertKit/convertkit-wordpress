@@ -16,12 +16,20 @@ class RefreshResourcesButtonCest
 	 */
 	public function _before(AcceptanceTester $I)
 	{
-		// Activate and Setup ConvertKit plugin
+		// Activate and Setup ConvertKit plugin using API keys that have no resources (forms, landing pages, tags).
 		$I->activateConvertKitPlugin($I);
-
-		// Use API keys that link a ConvertKit account with no forms, landing pages, tags etc.
 		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY_NO_DATA'], $_ENV['CONVERTKIT_API_SECRET_NO_DATA']);
-		$I->enableDebugLog($I);
+
+		// Change API keys in database to ones that have ConvertKit Resources.
+		// We do this directly vs. via the settings screen, so that the Plugin's cached resources remain blank
+		// until a refresh button is clicked.
+		$I->haveOptionInDatabase('_wp_convertkit_settings', [
+			'api_key'    => $_ENV['CONVERTKIT_API_KEY'],
+			'api_secret' => $_ENV['CONVERTKIT_API_SECRET'],
+			'debug'      => 'on',
+			'no_scripts' => '',
+			'no_css'     => '',
+		]);
 	}
 
 	/**
@@ -39,35 +47,35 @@ class RefreshResourcesButtonCest
 		// Close the Gutenberg "Welcome to the block editor" dialog if it's displayed
 		$I->maybeCloseGutenbergWelcomeModal($I);
 
-		// Programmatically change the Plugin's API keys to use a ConvertKit account that has resources.
-		$I->haveOptionInDatabase('_wp_convertkit_settings', [
-			'api_key'    => $_ENV['CONVERTKIT_API_KEY'],
-			'api_secret' => $_ENV['CONVERTKIT_API_SECRET'],
-		]);
-
 		// Click the Forms refresh button.
-		$I->click('button.wp-convertkit-refresh-resources[data-resources="forms"]');
+		$I->click('button.wp-convertkit-refresh-resources[data-resource="forms"]');
 
 		// Wait for button to change its state from disabled.
-		$I->wait(2);
+		$I->waitForElementVisible('button.wp-convertkit-refresh-resources[data-resource="forms"]:not(:disabled)');
 
-		// Confirm that an expected Form now displays in the dropdown.
-		$I->seeElementInDOM('option[value="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]');
-
-
-		// @TODO.
+		// Change resource to value specified in the .env file, which should now be available.
+		// If the expected dropdown value does not exist in the Select2 field, this will fail the test.
+		$I->fillSelect2Field($I, '#select2-wp-convertkit-form-container', $_ENV['CONVERTKIT_API_FORM_NAME']);
 
 		// Click the Landing Pages refresh button.
-		// @TODO.
+		$I->click('button.wp-convertkit-refresh-resources[data-resource="landing_pages"]');
 
-		// Confirm that Landing Pages now display in the dropdown.
-		// @TODO.
+		// Wait for button to change its state from disabled.
+		$I->waitForElementVisible('button.wp-convertkit-refresh-resources[data-resource="landing_pages"]:not(:disabled)');
+
+		// Change resource to value specified in the .env file, which should now be available.
+		// If the expected dropdown value does not exist in the Select2 field, this will fail the test.
+		$I->fillSelect2Field($I, '#select2-wp-convertkit-landing_page-container', $_ENV['CONVERTKIT_API_LANDING_PAGE_NAME']);
 
 		// Click the Tags refresh button.
-		// @TODO.
+		$I->click('button.wp-convertkit-refresh-resources[data-resource="tags"]');
 
-		// Confirm that Tags now display in the dropdown.
-		// @TODO.
+		// Wait for button to change its state from disabled.
+		$I->waitForElementVisible('button.wp-convertkit-refresh-resources[data-resource="tags"]:not(:disabled)');
+
+		// Change resource to value specified in the .env file, which should now be available.
+		// If the expected dropdown value does not exist in the Select2 field, this will fail the test.
+		$I->fillSelect2Field($I, '#select2-wp-convertkit-tag-container', $_ENV['CONVERTKIT_API_TAG_NAME']);
 	}
 
 	/**
@@ -79,6 +87,34 @@ class RefreshResourcesButtonCest
 	 */
 	public function testRefreshResourcesOnQuickEdit(AcceptanceTester $I)
 	{
+		// Programmatically create a Page.
+		$pageID = $I->havePostInDatabase([
+			'post_type' 	=> 'page',
+			'post_title' 	=> 'ConvertKit: Page: Refresh Resources: Quick Edit',
+		]);
+
+		// Open Quick Edit form forthe Page in the Pages WP_List_Table.
+		$I->openQuickEdit($I, 'page', $pageID);
+
+		// Click the Forms refresh button.
+		$I->click('button.wp-convertkit-refresh-resources[data-resource="forms"]');
+
+		// Wait for button to change its state from disabled.
+		$I->waitForElementVisible('button.wp-convertkit-refresh-resources[data-resource="forms"]:not(:disabled)');
+
+		// Change resource to value specified in the .env file, which should now be available.
+		// If the expected dropdown value does not exist, this will fail the test.
+		$I->selectOption('#wp-convertkit-quick-edit-form', $_ENV['CONVERTKIT_API_FORM_NAME']);
+
+		// Click the Tags refresh button.
+		$I->click('button.wp-convertkit-refresh-resources[data-resource="tags"]');
+
+		// Wait for button to change its state from disabled.
+		$I->waitForElementVisible('button.wp-convertkit-refresh-resources[data-resource="tags"]:not(:disabled)');
+
+		// Change resource to value specified in the .env file, which should now be available.
+		// If the expected dropdown value does not exist, this will fail the test.
+		$I->selectOption('#wp-convertkit-quick-edit-tag', $_ENV['CONVERTKIT_API_TAG_NAME']);
 	}
 
 	/**
@@ -90,6 +126,40 @@ class RefreshResourcesButtonCest
 	 */
 	public function testRefreshResourcesOnBulkEdit(AcceptanceTester $I)
 	{
+		// Programmatically create two Pages.
+		$pageIDs = array(
+			$I->havePostInDatabase([
+				'post_type' 	=> 'page',
+				'post_title' 	=> 'ConvertKit: Page: Refresh Resources: Bulk Edit #1',
+			]),
+			$I->havePostInDatabase([
+				'post_type' 	=> 'page',
+				'post_title' 	=> 'ConvertKit: Page: Refresh Resources: Bulk Edit #2',
+			])
+		);
+
+		// Open Bulk Edit form for the Pages in the Pages WP_List_Table.
+		$I->openBulkEdit($I, 'page', $pageIDs);
+
+		// Click the Forms refresh button.
+		$I->click('button.wp-convertkit-refresh-resources[data-resource="forms"]');
+
+		// Wait for button to change its state from disabled.
+		$I->waitForElementVisible('button.wp-convertkit-refresh-resources[data-resource="forms"]:not(:disabled)');
+
+		// Change resource to value specified in the .env file, which should now be available.
+		// If the expected dropdown value does not exist, this will fail the test.
+		$I->selectOption('#wp-convertkit-bulk-edit-form', $_ENV['CONVERTKIT_API_FORM_NAME']);
+
+		// Click the Tags refresh button.
+		$I->click('button.wp-convertkit-refresh-resources[data-resource="tags"]');
+
+		// Wait for button to change its state from disabled.
+		$I->waitForElementVisible('button.wp-convertkit-refresh-resources[data-resource="tags"]:not(:disabled)');
+
+		// Change resource to value specified in the .env file, which should now be available.
+		// If the expected dropdown value does not exist, this will fail the test.
+		$I->selectOption('#wp-convertkit-bulk-edit-tag', $_ENV['CONVERTKIT_API_TAG_NAME']);
 	}
 
 	/**
@@ -101,6 +171,22 @@ class RefreshResourcesButtonCest
 	 */
 	public function testRefreshResourcesOnCategory(AcceptanceTester $I)
 	{
+		// Create Category.
+		$termID = $I->haveTermInDatabase( 'ConvertKit Refresh Resources', 'category' );
+		$termID = $termID[0];
+
+		// Edit the Term.
+		$I->amOnAdminPage('term.php?taxonomy=category&tag_ID=' . $termID);
+
+		// Click the Forms refresh button.
+		$I->click('button.wp-convertkit-refresh-resources[data-resource="forms"]');
+
+		// Wait for button to change its state from disabled.
+		$I->waitForElementVisible('button.wp-convertkit-refresh-resources[data-resource="forms"]:not(:disabled)');
+
+		// Change resource to value specified in the .env file, which should now be available.
+		// If the expected dropdown value does not exist in the Select2 field, this will fail the test.
+		$I->fillSelect2Field($I, '#select2-wp-convertkit-form-container', $_ENV['CONVERTKIT_API_FORM_NAME']);
 	}
 
 	/**

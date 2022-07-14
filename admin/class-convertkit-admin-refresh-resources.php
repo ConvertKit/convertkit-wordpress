@@ -104,7 +104,7 @@ class ConvertKit_Admin_Refresh_Resources {
 	public function enqueue_scripts( $hook ) {
 
 		// Bail if we are not on an Edit or Term screen.
-		if ( $hook !== 'edit.php' && $hook !== 'term.php' ) {
+		if ( $hook !== 'edit.php' && $hook !== 'post-new.php' && $hook !== 'term.php' ) {
 			return;
 		}
 

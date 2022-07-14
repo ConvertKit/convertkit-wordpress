@@ -19,17 +19,8 @@ class WPQuickEdit extends \Codeception\Module
 	 */
 	public function quickEdit($I, $postType, $postID, $configuration)
 	{
-		// Navigate to Post Type's WP_List_Table.
-		$I->amOnAdminPage('edit.php?post_type='.$postType);
-
-		// Hover mouse over Post's table row.
-		$I->moveMouseOver('tr#post-'.$postID);
-
-		// Wait for Quick edit link to be visible.
-		$I->waitForElementVisible('tr#post-'.$postID.' button.editinline');
-		
-		// Click Quick Edit link.
-		$I->click('tr#post-'.$postID.' button.editinline');
+		// Open Quick Edit form for the Post.
+		$I->openQuickEdit($I, $postType, $postID);
 
 		// Apply configuration.
 		foreach ($configuration as $field=>$attributes) {
@@ -52,5 +43,29 @@ class WPQuickEdit extends \Codeception\Module
 
 		// Click Update.
 		$I->click('Update');
+	}
+
+	/**
+	 * Opens the Quick Edit form for the given Post ID.
+	 * 
+	 * @since 	1.9.8.1
+	 * 
+	 * @param 	$I 	AcceptanceHelper 	Acceptance Helper.
+	 * @param 	string 	$postType 		Programmatic Post Type.
+	 * @param 	int 	$postID 		Post ID.
+	 */
+	public function openQuickEdit($I, $postType, $postID)
+	{
+		// Navigate to Post Type's WP_List_Table.
+		$I->amOnAdminPage('edit.php?post_type='.$postType);
+
+		// Hover mouse over Post's table row.
+		$I->moveMouseOver('tr#post-'.$postID);
+
+		// Wait for Quick edit link to be visible.
+		$I->waitForElementVisible('tr#post-'.$postID.' button.editinline');
+		
+		// Click Quick Edit link.
+		$I->click('tr#post-'.$postID.' button.editinline');
 	}
 }
