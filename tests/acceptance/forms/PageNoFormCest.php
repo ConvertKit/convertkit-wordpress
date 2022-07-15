@@ -25,27 +25,9 @@ class PageNoFormCest
 
 		// Close the Gutenberg "Welcome to the block editor" dialog if it's displayed
 		$I->maybeCloseGutenbergWelcomeModal($I);
-	}
 
-	/**
-	 * Test that text is displayed stating no forms / landing pages exist when using API Keys
-	 * linked to a ConvertKit account that has no forms or landing pages.
-	 * 
-	 * @since 	1.9.6.1
-	 * 
-	 * @param 	AcceptanceTester 	$I 	Tester
-	 */
-	public function testNoFormsExistTextDisplayed(AcceptanceTester $I)
-	{
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
-
-		// Check that the metabox is displayed.
-		$I->seeElementInDOM('#wp-convertkit-meta-box');
-
-		// Check that the correct text is displayed.
-		$I->seeInSource('No Forms exist in ConvertKit.');
-		$I->seeInSource('No Landing Pages exist in ConvertKit.');
 	}
 
 	/**

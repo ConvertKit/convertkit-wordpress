@@ -112,12 +112,6 @@ class ConvertKit_Resource {
 			return;
 		}
 
-		// If no resources exist, refresh them now.
-		if ( ! $this->resources ) {
-			$this->refresh();
-			return;
-		}
-
 		// If the resources have expired, refresh them now.
 		if ( time() > ( $this->last_queried + $this->cache_duration ) ) {
 			$this->refresh();

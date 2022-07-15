@@ -78,6 +78,131 @@ class PageTagCest
 	}
 
 	/**
+	 * Test that the defined tag is honored when chosen via
+	 * WordPress' Quick Edit functionality.
+	 * 
+	 * @since 	1.9.8.0
+	 * 
+	 * @param 	AcceptanceTester 	$I 	Tester
+	 */
+	public function testQuickEditUsingDefinedTag(AcceptanceTester $I)
+	{
+		// Programmatically create a Page.
+		$pageID = $I->havePostInDatabase([
+			'post_type' 	=> 'page',
+			'post_title' 	=> 'ConvertKit: Page: Tag: ' . $_ENV['CONVERTKIT_API_TAG_NAME'] . ': Quick Edit',
+		]);
+
+		// Quick Edit the Page in the Pages WP_List_Table.
+		$I->quickEdit($I, 'page', $pageID, [
+			'tag' => [ 'select', $_ENV['CONVERTKIT_API_TAG_NAME'] ],
+		]);
+
+		// Load the Page on the frontend site.
+		$I->amOnPage('/?p='.$pageID);
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+		
+		// Confirm that the post_has_tag parameter is set to true in the source code.
+		$I->seeInSource('"tag":"' . $_ENV['CONVERTKIT_API_TAG_ID'] . '"');
+	}
+
+	/**
+	 * Test that the defined tag displays when chosen via
+	 * WordPress' Bulk Edit functionality.
+	 * 
+	 * @since 	1.9.8.0
+	 * 
+	 * @param 	AcceptanceTester 	$I 	Tester
+	 */
+	public function testBulkEditUsingDefinedTag(AcceptanceTester $I)
+	{
+		// Programmatically create two Pages.
+		$pageIDs = array(
+			$I->havePostInDatabase([
+				'post_type' 	=> 'page',
+				'post_title' 	=> 'ConvertKit: Page: Tag: ' . $_ENV['CONVERTKIT_API_TAG_NAME'] . ': Bulk Edit #1',
+			]),
+			$I->havePostInDatabase([
+				'post_type' 	=> 'page',
+				'post_title' 	=> 'ConvertKit: Page: Tag: ' . $_ENV['CONVERTKIT_API_TAG_NAME'] . ': Bulk Edit #2',
+			])
+		);
+
+		// Bulk Edit the Pages in the Pages WP_List_Table.
+		$I->bulkEdit($I, 'page', $pageIDs, [
+			'tag' => [ 'select', $_ENV['CONVERTKIT_API_TAG_NAME'] ],
+		]);
+
+		// Iterate through Pages to run frontend tests.
+		foreach($pageIDs as $pageID) {
+			// Load the Page on the frontend site.
+			$I->amOnPage('/?p='.$pageID);
+
+			// Check that no PHP warnings or notices were output.
+			$I->checkNoWarningsAndNoticesOnScreen($I);
+			
+			// Confirm that the post_has_tag parameter is set to true in the source code.
+			$I->seeInSource('"tag":"' . $_ENV['CONVERTKIT_API_TAG_ID'] . '"');
+		}
+	}
+
+	/**
+	 * Test that the existing settings are honored and not changed
+	 * when the Bulk Edit options are set to 'No Change'.
+	 * 
+	 * @since 	1.9.8.0
+	 * 
+	 * @param 	AcceptanceTester 	$I 	Tester
+	 */
+	public function testBulkEditWithNoChanges(AcceptanceTester $I)
+	{
+		// Programmatically create two Pages with a defined tag.
+		$pageIDs = array(
+			$I->havePostInDatabase([
+				'post_type' 	=> 'page',
+				'post_title' 	=> 'ConvertKit: Page: Tag: ' . $_ENV['CONVERTKIT_API_TAG_NAME'] . ': Bulk Edit with No Change #1',
+				'meta_input'	=> [
+					'_wp_convertkit_post_meta' => [
+						'form'         => '',
+						'landing_page' => '',
+						'tag'          => $_ENV['CONVERTKIT_API_TAG_ID'],
+					]
+				],
+			]),
+			$I->havePostInDatabase([
+				'post_type' 	=> 'page',
+				'post_title' 	=> 'ConvertKit: Page: Form: ' . $_ENV['CONVERTKIT_API_FORM_NAME'] . ': Bulk Edit with No Change #2',
+				'meta_input'	=> [
+					'_wp_convertkit_post_meta' => [
+						'form'         => '',
+						'landing_page' => '',
+						'tag'          => $_ENV['CONVERTKIT_API_TAG_ID'],
+					]
+				],
+			])
+		);
+
+		// Bulk Edit the Pages in the Pages WP_List_Table.
+		$I->bulkEdit($I, 'page', $pageIDs, [
+			'tag' => [ 'select', '— No Change —' ],
+		]);
+
+		// Iterate through Pages to run frontend tests.
+		foreach($pageIDs as $pageID) {
+			// Load the Page on the frontend site.
+			$I->amOnPage('/?p='.$pageID);
+
+			// Check that no PHP warnings or notices were output.
+			$I->checkNoWarningsAndNoticesOnScreen($I);
+			
+			// Confirm that the post_has_tag parameter is set to true in the source code.
+			$I->seeInSource('"tag":"' . $_ENV['CONVERTKIT_API_TAG_ID'] . '"');
+		}
+	}
+
+	/**
 	 * Deactivate and reset Plugin(s) after each test, if the test passes.
 	 * We don't use _after, as this would provide a screenshot of the Plugin
 	 * deactivation and not the true test error.

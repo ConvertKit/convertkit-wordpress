@@ -64,11 +64,14 @@ class WP_ConvertKit {
 			return;
 		}
 
-		$this->classes['admin_category'] = new ConvertKit_Admin_Category();
-		$this->classes['admin_post']     = new ConvertKit_Admin_Post();
-		$this->classes['admin_settings'] = new ConvertKit_Admin_Settings();
-		$this->classes['admin_tinymce']  = new ConvertKit_Admin_TinyMCE();
-		$this->classes['admin_user']     = new ConvertKit_Admin_User();
+		$this->classes['admin_bulk_edit']         = new ConvertKit_Admin_Bulk_Edit();
+		$this->classes['admin_category']          = new ConvertKit_Admin_Category();
+		$this->classes['admin_post']              = new ConvertKit_Admin_Post();
+		$this->classes['admin_quick_edit']        = new ConvertKit_Admin_Quick_Edit();
+		$this->classes['admin_refresh_resources'] = new ConvertKit_Admin_Refresh_Resources();
+		$this->classes['admin_settings']          = new ConvertKit_Admin_Settings();
+		$this->classes['admin_tinymce']           = new ConvertKit_Admin_TinyMCE();
+		$this->classes['admin_user']              = new ConvertKit_Admin_User();
 
 		/**
 		 * Initialize integration classes for the WordPress Administration interface.

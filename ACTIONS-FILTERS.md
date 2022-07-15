@@ -1022,7 +1022,7 @@ add_filter( 'convertkit_settings_get_defaults', function( $defaults ) {
 </pre>
 <h3 id="convertkit_is_admin_or_frontend_editor">
 						convertkit_is_admin_or_frontend_editor
-						<code>includes/class-wp-convertkit.php::294</code>
+						<code>includes/class-wp-convertkit.php::296</code>
 					</h3><h4>Overview</h4>
 						<p>Filters whether the current request is a WordPress Administration / Frontend Editor request or not. Page Builders can set this to true to allow ConvertKit to load its administration functionality.</p><h4>Parameters</h4>
 					<table>
@@ -1410,7 +1410,7 @@ do_action( 'convertkit_output_output_form', function(  ) {
 </pre>
 <h3 id="convertkit_initialize_admin">
 						convertkit_initialize_admin
-						<code>includes/class-wp-convertkit.php::77</code>
+						<code>includes/class-wp-convertkit.php::79</code>
 					</h3><h4>Parameters</h4>
 					<table>
 						<thead>
@@ -1430,7 +1430,7 @@ do_action( 'convertkit_initialize_admin', function(  ) {
 </pre>
 <h3 id="convertkit_initialize_admin_or_frontend_editor">
 						convertkit_initialize_admin_or_frontend_editor
-						<code>includes/class-wp-convertkit.php::98</code>
+						<code>includes/class-wp-convertkit.php::100</code>
 					</h3><h4>Parameters</h4>
 					<table>
 						<thead>
@@ -1450,7 +1450,7 @@ do_action( 'convertkit_initialize_admin_or_frontend_editor', function(  ) {
 </pre>
 <h3 id="convertkit_initialize_cli_cron">
 						convertkit_initialize_cli_cron
-						<code>includes/class-wp-convertkit.php::119</code>
+						<code>includes/class-wp-convertkit.php::121</code>
 					</h3><h4>Parameters</h4>
 					<table>
 						<thead>
@@ -1470,7 +1470,7 @@ do_action( 'convertkit_initialize_cli_cron', function(  ) {
 </pre>
 <h3 id="convertkit_initialize_frontend">
 						convertkit_initialize_frontend
-						<code>includes/class-wp-convertkit.php::142</code>
+						<code>includes/class-wp-convertkit.php::144</code>
 					</h3><h4>Parameters</h4>
 					<table>
 						<thead>
@@ -1490,7 +1490,7 @@ do_action( 'convertkit_initialize_frontend', function(  ) {
 </pre>
 <h3 id="convertkit_initialize_global">
 						convertkit_initialize_global
-						<code>includes/class-wp-convertkit.php::175</code>
+						<code>includes/class-wp-convertkit.php::177</code>
 					</h3><h4>Parameters</h4>
 					<table>
 						<thead>
