@@ -581,7 +581,7 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 		}
 
 		// Return first page number if nonce verification fails, as this means we can't reliably trust $_REQUEST['convertkit-broadcasts-page'].
-		if ( ! wp_verify_nonce( $_REQUEST['convertkit-broadcasts-nonce'], 'convertkit-broadcasts' ) ) {
+		if ( ! wp_verify_nonce( sanitize_key( $_REQUEST['convertkit-broadcasts-nonce'] ), 'convertkit-broadcasts' ) ) {
 			return $page;
 		}
 

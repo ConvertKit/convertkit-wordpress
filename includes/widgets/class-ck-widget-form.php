@@ -112,12 +112,17 @@ class CK_Widget_Form extends WP_Widget {
 		}
 
 		// Output Form.
-		echo $args['before_widget']; // phpcs:ignore
+		// $args already escaped as supplied by WordPress, so we don't need to escape them again.
+		// phpcs:disable WordPress.Security.EscapeOutput
+		echo $args['before_widget'];
 		if ( $instance['title'] ) {
-			echo $args['before_title'] . $instance['title'] . $args['after_title']; // phpcs:ignore
+			echo $args['before_title'];
+			echo esc_attr( $instance['title'] );
+			echo $args['after_title'];
 		}
-		echo $form; // phpcs:ignore
-		echo $args['after_widget']; // phpcs:ignore
+		echo $form;
+		echo $args['after_widget'];
+		// phpcs:enable
 
 	}
 
@@ -129,7 +134,7 @@ class CK_Widget_Form extends WP_Widget {
 	 * @param  array $old_instance Original widget settings.
 	 * @return array
 	 */
-	public function update( $new_instance, $old_instance ) { // phpcs:ignore
+	public function update( $new_instance, $old_instance ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter
 
 		return array(
 			'title' => sanitize_text_field( $new_instance['title'] ),

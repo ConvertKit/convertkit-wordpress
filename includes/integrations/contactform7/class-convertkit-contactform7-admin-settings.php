@@ -57,7 +57,14 @@ class ConvertKit_ContactForm7_Admin_Settings extends ConvertKit_Settings_Base {
 		</p>
 		<p>
 			<?php
-			_e( 'The Contact Form 7 form must have a <code>text*</code> field named <code>your-name</code> and an <code>email*</code> field named <code>your-email</code>. These fields will be sent to ConvertKit for the subscription.', 'convertkit' ); // phpcs:ignore
+			echo sprintf(
+				'%s <code>text*</code> %s <code>your-name</code> %s <code>email*</code> %s <code>your-email</code>%s',
+				esc_html__( 'The Contact Form 7 form must have a', 'convertkit' ),
+				esc_html__( 'field named', 'convertkit' ),
+				esc_html__( 'and an', 'convertkit' ),
+				esc_html__( 'field named', 'convertkit' ),
+				esc_html__( '. These fields will be sent to ConvertKit for the subscription.', 'convertkit' )
+			);
 			?>
 		</p>
 		<?php

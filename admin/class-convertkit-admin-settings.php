@@ -172,8 +172,8 @@ class ConvertKit_Admin_Settings {
 	 */
 	private function get_active_section() {
 
-		if ( isset( $_GET['tab'] ) ) { // phpcs:ignore
-			return sanitize_text_field( wp_unslash( $_GET['tab'] ) ); // phpcs:ignore
+		if ( isset( $_GET['tab'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification
+			return sanitize_text_field( wp_unslash( $_GET['tab'] ) ); // phpcs:ignore WordPress.Security.NonceVerification
 		}
 
 		// First registered section will be the active section.
@@ -258,7 +258,7 @@ class ConvertKit_Admin_Settings {
 		foreach ( $this->sections as $section ) {
 			printf(
 				'<a href="?page=%s&tab=%s" class="nav-tab right %s">%s</a>',
-				sanitize_text_field( $_REQUEST['page'] ), // phpcs:ignore
+				sanitize_text_field( $_REQUEST['page'] ), // phpcs:ignore WordPress.Security.NonceVerification
 				esc_html( $section->name ),
 				$active_section === $section->name ? 'nav-tab-active' : '',
 				esc_html( $section->tab_text )
