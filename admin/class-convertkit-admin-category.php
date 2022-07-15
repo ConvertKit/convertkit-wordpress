@@ -49,6 +49,7 @@ class ConvertKit_Admin_Category {
 			return;
 		}
 		$screen = get_current_screen();
+
 		if ( $screen->id !== 'edit-category' ) {
 			return;
 		}
