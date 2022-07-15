@@ -338,6 +338,23 @@ class WooCommerceProductFormCest
 	}
 
 	/**
+	 * Test that the Bulk Edit fields do not display when a search on a WP_List_Table
+	 * returns no results.
+	 * 
+	 * @since 	1.9.8.1
+	 * 
+	 * @param 	AcceptanceTester 	$I 	Tester
+	 */
+	public function testBulkEditFieldsHiddenWhenNoProductsFound(AcceptanceTester $I)
+	{
+		// Emulate the user searching for Products with a query string that yields no results.
+		$I->amOnAdminPage('edit.php?post_type=product&s=nothing');
+
+		// Confirm that the Bulk Edit fields do not display.
+		$I->dontSeeElement('#convertkit-bulk-edit');
+	}
+
+	/**
 	 * Deactivate and reset Plugin(s) after each test, if the test passes.
 	 * We don't use _after, as this would provide a screenshot of the Plugin
 	 * deactivation and not the true test error.
