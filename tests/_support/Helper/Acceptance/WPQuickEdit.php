@@ -24,8 +24,8 @@ class WPQuickEdit extends \Codeception\Module
 
 		// Apply configuration.
 		foreach ($configuration as $field=>$attributes) {
-			// Field ID will be prefixed with wp-convertkit-.
-			$fieldID = 'wp-convertkit-' . $field;
+			// Field ID will be prefixed with wp-convertkit-quick-edit.
+			$fieldID = 'wp-convertkit-quick-edit-' . $field;
 
 			// Check that the field exists.
 			$I->seeElementInDOM('#convertkit-quick-edit #' . $fieldID);

@@ -24,8 +24,8 @@ class WPBulkEdit extends \Codeception\Module
 
 		// Apply configuration.
 		foreach ($configuration as $field=>$attributes) {
-			// Field ID will be prefixed with wp-convertkit-.
-			$fieldID = 'wp-convertkit-' . $field;
+			// Field ID will be prefixed with wp-convertkit-bulk-edit-.
+			$fieldID = 'wp-convertkit-bulk-edit-' . $field;
 
 			// Check that the field exists.
 			$I->seeElementInDOM('#convertkit-bulk-edit #' . $fieldID);
