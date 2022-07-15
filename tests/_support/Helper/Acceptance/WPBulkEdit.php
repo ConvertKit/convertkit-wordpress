@@ -20,7 +20,7 @@ class WPBulkEdit extends \Codeception\Module
 	public function bulkEdit($I, $postType, $postIDs, $configuration)
 	{
 		// Open Bulk Edit form for the Posts.
-		$I->openBulkEdit($I, $postType, $postID);
+		$I->openBulkEdit($I, $postType, $postIDs);
 
 		// Apply configuration.
 		foreach ($configuration as $field=>$attributes) {
