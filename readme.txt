@@ -3,7 +3,7 @@ Contributors: nathanbarry, growdev, travisnorthcutt, ggwicz
 Donate link: https://convertkit.com
 Tags: email, marketing, newsletter, convertkit
 Requires at least: 5.0
-Tested up to: 6.0
+Tested up to: 6.0.1
 Requires PHP: 5.6.20
 Stable tag: trunk
 License: GPLv2 or later
@@ -110,8 +110,13 @@ Full Plugin documentation can be found [here](https://help.convertkit.com/en/art
 
 == Changelog ==
 
-### 1.9.8.0 2022-07-xx
+### 1.9.8.1 2022-07-18
+* Added: Refresh button for Form, Landing Page and Tag fields to fetch latest data from ConvertKit account
+* Fix: Bulk Edit: Don't display fields when no Pages / Posts exist
+
+### 1.9.8.0 2022-07-14
 * Added: Bulk and Quick Edit Form and Tag when viewing list of Pages/Posts
+* Fix: Performance: Don't perform API requests on every WordPress Administration screen when no Forms, Tags or Landing Pages exist
 
 ### 1.9.7.9 2022-06-24
 * Fix: API: Prevent fatal error when API returns null instead of expected array

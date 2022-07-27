@@ -19,24 +19,13 @@ class WPBulkEdit extends \Codeception\Module
 	 */
 	public function bulkEdit($I, $postType, $postIDs, $configuration)
 	{
-		// Navigate to Post Type's WP_List_Table.
-		$I->amOnAdminPage('edit.php?post_type='.$postType);
-
-		// Check boxes for Post IDs.
-		foreach($postIDs as $postID) {
-			$I->checkOption('#cb-select-'.$postID);
-		}
-
-		// Select Edit from the Bulk actions dropdown.
-		$I->selectOption('#bulk-action-selector-top', 'Edit');
-
-		// Click Apply button.
-		$I->click('#doaction');
+		// Open Bulk Edit form for the Posts.
+		$I->openBulkEdit($I, $postType, $postIDs);
 
 		// Apply configuration.
 		foreach ($configuration as $field=>$attributes) {
-			// Field ID will be prefixed with wp-convertkit-.
-			$fieldID = 'wp-convertkit-' . $field;
+			// Field ID will be prefixed with wp-convertkit-bulk-edit-.
+			$fieldID = 'wp-convertkit-bulk-edit-' . $field;
 
 			// Check that the field exists.
 			$I->seeElementInDOM('#convertkit-bulk-edit #' . $fieldID);
@@ -60,5 +49,31 @@ class WPBulkEdit extends \Codeception\Module
 
 		// Confirm that Bulk Editing saved with no errors.
 		$I->seeInSource(count($postIDs).' '.$postType.'s updated');
+	}
+
+	/**
+	 * Opens the Bulk Edit form for the given Post ID.
+	 * 
+	 * @since 	1.9.8.1
+	 * 
+	 * @param 	$I 	AcceptanceHelper 	Acceptance Helper.
+	 * @param 	string 	$postType 		Programmatic Post Type.
+	 * @param 	array 	$postIDs 		Post IDs.
+	 */
+	public function openBulkEdit($I, $postType, $postIDs)
+	{
+		// Navigate to Post Type's WP_List_Table.
+		$I->amOnAdminPage('edit.php?post_type='.$postType);
+
+		// Check boxes for Post IDs.
+		foreach($postIDs as $postID) {
+			$I->checkOption('#cb-select-'.$postID);
+		}
+
+		// Select Edit from the Bulk actions dropdown.
+		$I->selectOption('#bulk-action-selector-top', 'Edit');
+
+		// Click Apply button.
+		$I->click('#doaction');
 	}
 }

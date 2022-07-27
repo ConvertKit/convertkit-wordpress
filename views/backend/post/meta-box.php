@@ -15,20 +15,16 @@
 				<label for="wp-convertkit-form"><?php esc_html_e( 'Form', 'convertkit' ); ?></label>
 			</th>
 			<td>
-				<?php
-				if ( ! $convertkit_forms->exist() ) {
-					esc_html_e( 'No Forms exist in ConvertKit.', 'convertkit' );
-				} else {
-					?>
-					<div class="convertkit-select2-container">
-						<select name="wp-convertkit[form]" id="wp-convertkit-form" class="convertkit-select2">
-							<option value="-1"<?php selected( - 1, $convertkit_post->get_form() ); ?>>
-								<?php esc_html_e( 'Default', 'convertkit' ); ?>
-							</option>
-							<option value="0"<?php selected( 0, $convertkit_post->get_form() ); ?>>
-								<?php esc_html_e( 'None', 'convertkit' ); ?>
-							</option>
-							<?php
+				<div class="convertkit-select2-container">
+					<select name="wp-convertkit[form]" id="wp-convertkit-form" class="convertkit-select2">
+						<option value="-1"<?php selected( - 1, $convertkit_post->get_form() ); ?> data-preserve-on-refresh="1">
+							<?php esc_html_e( 'Default', 'convertkit' ); ?>
+						</option>
+						<option value="0"<?php selected( 0, $convertkit_post->get_form() ); ?> data-preserve-on-refresh="1">
+							<?php esc_html_e( 'None', 'convertkit' ); ?>
+						</option>
+						<?php
+						if ( $convertkit_forms->exist() ) {
 							foreach ( $convertkit_forms->get() as $form ) {
 								?>
 								<option value="<?php echo esc_attr( $form['id'] ); ?>"<?php selected( $form['id'], $convertkit_post->get_form() ); ?>>
@@ -36,25 +32,26 @@
 								</option>
 								<?php
 							}
-							?>
-						</select>
-						<p class="description">
-							<?php
-							printf(
-								/* translators: settings url */
-								__( '<code>Default</code>: Uses the form specified on the <a href="%s" target="_blank">settings page</a>.', 'convertkit' ), /* phpcs:ignore */
-								esc_attr( esc_url( $settings_link ) )
-							);
-							?>
-							<br />
-							<?php _e( '<code>None</code>: do not display a form.', 'convertkit' ); /* phpcs:ignore */ ?>
-							<br />
-							<?php esc_html_e( 'Any other option will display that form after the main content.', 'convertkit' ); ?>
-						</p>
-					</div>
-					<?php
-				}
-				?>
+						}
+						?>
+					</select>
+					<button class="wp-convertkit-refresh-resources" class="button button-secondary hide-if-no-js" title="<?php esc_attr_e( 'Refresh Forms from ConvertKit account', 'convertkit' ); ?>" data-resource="forms" data-field="#wp-convertkit-form">
+						<span class="dashicons dashicons-update"></span>
+					</button>
+					<p class="description">
+						<?php
+						printf(
+							/* translators: settings url */
+							__( '<code>Default</code>: Uses the form specified on the <a href="%s" target="_blank">settings page</a>.', 'convertkit' ), /* phpcs:ignore */
+							esc_attr( esc_url( $settings_link ) )
+						);
+						?>
+						<br />
+						<?php _e( '<code>None</code>: do not display a form.', 'convertkit' ); /* phpcs:ignore */ ?>
+						<br />
+						<?php esc_html_e( 'Any other option will display that form after the main content.', 'convertkit' ); ?>
+					</p>
+				</div>
 
 				<p class="description">
 					<?php
@@ -77,17 +74,13 @@
 					<label for="wp-convertkit-landing_page"><?php esc_html_e( 'Landing Page', 'convertkit' ); ?></label>
 				</th>
 				<td>
-					<?php
-					if ( ! $convertkit_landing_pages->exist() ) {
-						esc_html_e( 'No Landing Pages exist in ConvertKit.', 'convertkit' );
-					} else {
-						?>
-						<div class="convertkit-select2-container">
-							<select name="wp-convertkit[landing_page]" id="wp-convertkit-landing_page" class="convertkit-select2">
-								<option <?php selected( '', $convertkit_post->get_landing_page() ); ?> value="0">
-									<?php esc_html_e( 'None', 'convertkit' ); ?>
-								</option>
-								<?php
+					<div class="convertkit-select2-container">
+						<select name="wp-convertkit[landing_page]" id="wp-convertkit-landing_page" class="convertkit-select2">
+							<option <?php selected( '', $convertkit_post->get_landing_page() ); ?> value="0" data-preserve-on-refresh="1">
+								<?php esc_html_e( 'None', 'convertkit' ); ?>
+							</option>
+							<?php
+							if ( $convertkit_landing_pages->exist() ) {
 								foreach ( $convertkit_landing_pages->get() as $landing_page ) {
 									if ( isset( $convertkit_landing_page['url'] ) ) {
 										?>
@@ -103,15 +96,16 @@
 										<?php
 									}
 								}
-								?>
-							</select>
-							<p class="description">
-								<?php esc_html_e( 'Select a landing page to make it appear in place of this page.', 'convertkit' ); ?>
-							</p>
-						</div>
-						<?php
-					}
-					?>
+							}
+							?>
+						</select>
+						<button class="wp-convertkit-refresh-resources" class="button button-secondary hide-if-no-js" title="<?php esc_attr_e( 'Refresh Landing Pages from ConvertKit account', 'convertkit' ); ?>" data-resource="landing_pages" data-field="#wp-convertkit-landing_page">
+							<span class="dashicons dashicons-update"></span>
+						</button>
+						<p class="description">
+							<?php esc_html_e( 'Select a landing page to make it appear in place of this page.', 'convertkit' ); ?>
+						</p>
+					</div>
 
 					<p class="description">
 						<?php
@@ -135,16 +129,12 @@
 			</th>
 			<td>
 				<div class="convertkit-select2-container">
-					<?php
-					if ( ! $convertkit_tags->exist() ) {
-						esc_html_e( 'No Tags exist in ConvertKit.', 'convertkit' );
-					} else {
-						?>
-						<select name="wp-convertkit[tag]" id="wp-convertkit-tag" class="convertkit-select2">
-							<option value="0"<?php selected( '', $convertkit_post->get_tag() ); ?>>
-								<?php esc_html_e( 'None', 'convertkit' ); ?>
-							</option>
-							<?php
+					<select name="wp-convertkit[tag]" id="wp-convertkit-tag" class="convertkit-select2">
+						<option value="0"<?php selected( '', $convertkit_post->get_tag() ); ?> data-preserve-on-refresh="1">
+							<?php esc_html_e( 'None', 'convertkit' ); ?>
+						</option>
+						<?php
+						if ( $convertkit_tags->exist() ) {
 							foreach ( $convertkit_tags->get() as $convertkit_tag ) {
 								?>
 								<option value="<?php echo esc_attr( $convertkit_tag['id'] ); ?>"<?php selected( $convertkit_tag['id'], $convertkit_post->get_tag() ); ?>>
@@ -152,11 +142,12 @@
 								</option>
 								<?php
 							}
-							?>
-						</select>
-						<?php
-					}
-					?>
+						}
+						?>
+					</select>
+					<button class="wp-convertkit-refresh-resources" class="button button-secondary hide-if-no-js" title="<?php esc_attr_e( 'Refresh Tags from ConvertKit account', 'convertkit' ); ?>" data-resource="tags" data-field="#wp-convertkit-tag">
+						<span class="dashicons dashicons-update"></span>
+					</button>
 					<p class="description">
 						<?php esc_html_e( 'Select a tag to apply to visitors of this page who are subscribed.', 'convertkit' ); ?>
 						<br />

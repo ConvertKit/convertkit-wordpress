@@ -79,7 +79,8 @@ class ConvertKit_WooCommerce_Product_Form {
 	 */
 	public function append_form_to_product_summary() {
 
-		echo WP_ConvertKit()->get_class( 'output' )->append_form_to_content( '' ); // phpcs:ignore
+		// Output is already escaped in append_form_to_content().
+		echo WP_ConvertKit()->get_class( 'output' )->append_form_to_content( '' ); // phpcs:ignore WordPress.Security.EscapeOutput
 
 	}
 

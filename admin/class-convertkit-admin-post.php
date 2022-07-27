@@ -154,7 +154,7 @@ class ConvertKit_Admin_Post {
 		}
 
 		// Bail if the nonce verification fails.
-		if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['wp-convertkit-save-meta-nonce'] ) ), 'wp-convertkit-save-meta' ) ) {
+		if ( ! wp_verify_nonce( sanitize_key( wp_unslash( $_POST['wp-convertkit-save-meta-nonce'] ) ), 'wp-convertkit-save-meta' ) ) {
 			return;
 		}
 

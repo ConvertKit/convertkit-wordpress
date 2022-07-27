@@ -925,7 +925,7 @@ add_filter( 'convertkit_wishlist_settings_get_defaults', function( $defaults ) {
 </pre>
 <h3 id="convertkit_output_append_form_to_content_form_id">
 						convertkit_output_append_form_to_content_form_id
-						<code>includes/class-convertkit-output.php::182</code>
+						<code>includes/class-convertkit-output.php::183</code>
 					</h3><h4>Overview</h4>
 						<p>Define the ConvertKit Form ID to display for the given Post ID, overriding the Post, Category or Plugin settings. Return false to not display any ConvertKit Form.</p><h4>Parameters</h4>
 					<table>
@@ -956,7 +956,7 @@ add_filter( 'convertkit_output_append_form_to_content_form_id', function( $form_
 </pre>
 <h3 id="convertkit_frontend_append_form">
 						convertkit_frontend_append_form
-						<code>includes/class-convertkit-output.php::246</code>
+						<code>includes/class-convertkit-output.php::247</code>
 					</h3><h4>Overview</h4>
 						<p>Filter the Post's Content, which includes a ConvertKit Form, immediately before it is output.</p><h4>Parameters</h4>
 					<table>
@@ -1022,7 +1022,7 @@ add_filter( 'convertkit_settings_get_defaults', function( $defaults ) {
 </pre>
 <h3 id="convertkit_is_admin_or_frontend_editor">
 						convertkit_is_admin_or_frontend_editor
-						<code>includes/class-wp-convertkit.php::294</code>
+						<code>includes/class-wp-convertkit.php::297</code>
 					</h3><h4>Overview</h4>
 						<p>Filters whether the current request is a WordPress Administration / Frontend Editor request or not. Page Builders can set this to true to allow ConvertKit to load its administration functionality.</p><h4>Parameters</h4>
 					<table>
@@ -1225,7 +1225,7 @@ do_action( 'convertkit_admin_settings_enqueue_styles', function(  ) {
 </pre>
 <h3 id="convertkit_admin_category_enqueue_scripts">
 						convertkit_admin_category_enqueue_scripts
-						<code>admin/class-convertkit-admin-category.php::70</code>
+						<code>admin/class-convertkit-admin-category.php::71</code>
 					</h3><h4>Parameters</h4>
 					<table>
 						<thead>
@@ -1245,7 +1245,7 @@ do_action( 'convertkit_admin_category_enqueue_scripts', function(  ) {
 </pre>
 <h3 id="convertkit_admin_category_enqueue_styles">
 						convertkit_admin_category_enqueue_styles
-						<code>admin/class-convertkit-admin-category.php::91</code>
+						<code>admin/class-convertkit-admin-category.php::92</code>
 					</h3><h4>Parameters</h4>
 					<table>
 						<thead>
@@ -1410,7 +1410,7 @@ do_action( 'convertkit_output_output_form', function(  ) {
 </pre>
 <h3 id="convertkit_initialize_admin">
 						convertkit_initialize_admin
-						<code>includes/class-wp-convertkit.php::77</code>
+						<code>includes/class-wp-convertkit.php::80</code>
 					</h3><h4>Parameters</h4>
 					<table>
 						<thead>
@@ -1430,7 +1430,7 @@ do_action( 'convertkit_initialize_admin', function(  ) {
 </pre>
 <h3 id="convertkit_initialize_admin_or_frontend_editor">
 						convertkit_initialize_admin_or_frontend_editor
-						<code>includes/class-wp-convertkit.php::98</code>
+						<code>includes/class-wp-convertkit.php::101</code>
 					</h3><h4>Parameters</h4>
 					<table>
 						<thead>
@@ -1450,7 +1450,7 @@ do_action( 'convertkit_initialize_admin_or_frontend_editor', function(  ) {
 </pre>
 <h3 id="convertkit_initialize_cli_cron">
 						convertkit_initialize_cli_cron
-						<code>includes/class-wp-convertkit.php::119</code>
+						<code>includes/class-wp-convertkit.php::122</code>
 					</h3><h4>Parameters</h4>
 					<table>
 						<thead>
@@ -1470,7 +1470,7 @@ do_action( 'convertkit_initialize_cli_cron', function(  ) {
 </pre>
 <h3 id="convertkit_initialize_frontend">
 						convertkit_initialize_frontend
-						<code>includes/class-wp-convertkit.php::142</code>
+						<code>includes/class-wp-convertkit.php::145</code>
 					</h3><h4>Parameters</h4>
 					<table>
 						<thead>
@@ -1490,7 +1490,7 @@ do_action( 'convertkit_initialize_frontend', function(  ) {
 </pre>
 <h3 id="convertkit_initialize_global">
 						convertkit_initialize_global
-						<code>includes/class-wp-convertkit.php::175</code>
+						<code>includes/class-wp-convertkit.php::178</code>
 					</h3><h4>Parameters</h4>
 					<table>
 						<thead>

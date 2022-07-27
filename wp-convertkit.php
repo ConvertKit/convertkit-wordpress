@@ -9,7 +9,7 @@
  * Plugin Name: ConvertKit
  * Plugin URI: https://convertkit.com/
  * Description: Quickly and easily integrate ConvertKit forms into your site.
- * Version: 1.9.7.9
+ * Version: 1.9.8.1
  * Author: ConvertKit
  * Author URI: https://convertkit.com/
  * Text Domain: convertkit
@@ -25,7 +25,7 @@ define( 'CONVERTKIT_PLUGIN_NAME', 'ConvertKit' ); // Used for user-agent in API 
 define( 'CONVERTKIT_PLUGIN_FILE', plugin_basename( __FILE__ ) );
 define( 'CONVERTKIT_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'CONVERTKIT_PLUGIN_PATH', __DIR__ );
-define( 'CONVERTKIT_PLUGIN_VERSION', '1.9.7.9' );
+define( 'CONVERTKIT_PLUGIN_VERSION', '1.9.8.1' );
 
 // Load shared classes, if they have not been included by another ConvertKit Plugin.
 if ( ! class_exists( 'ConvertKit_API' ) ) {
@@ -87,6 +87,7 @@ if ( is_admin() ) {
 	require_once CONVERTKIT_PLUGIN_PATH . '/admin/class-convertkit-admin-quick-edit.php';
 	require_once CONVERTKIT_PLUGIN_PATH . '/admin/class-convertkit-admin-category.php';
 	require_once CONVERTKIT_PLUGIN_PATH . '/admin/class-convertkit-admin-post.php';
+	require_once CONVERTKIT_PLUGIN_PATH . '/admin/class-convertkit-admin-refresh-resources.php';
 	require_once CONVERTKIT_PLUGIN_PATH . '/admin/class-convertkit-admin-settings.php';
 	require_once CONVERTKIT_PLUGIN_PATH . '/admin/class-convertkit-admin-tinymce.php';
 	require_once CONVERTKIT_PLUGIN_PATH . '/admin/class-convertkit-admin-user.php';
@@ -113,7 +114,7 @@ register_deactivation_hook( __FILE__, 'convertkit_plugin_deactivate' );
  *
  * @since   1.9.6
  */
-function WP_ConvertKit() { // phpcs:ignore
+function WP_ConvertKit() { // phpcs:ignore WordPress.NamingConventions.ValidFunctionName
 
 	return WP_ConvertKit::get_instance();
 

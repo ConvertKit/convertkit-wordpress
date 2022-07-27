@@ -112,12 +112,6 @@ class ConvertKit_Resource {
 			return;
 		}
 
-		// If no resources exist, refresh them now.
-		if ( ! $this->resources ) {
-			$this->refresh();
-			return;
-		}
-
 		// If the resources have expired, refresh them now.
 		if ( time() > ( $this->last_queried + $this->cache_duration ) ) {
 			$this->refresh();
@@ -151,7 +145,7 @@ class ConvertKit_Resource {
 
 		foreach ( $this->get() as $resource ) {
 			// If this resource's ID matches the ID we're looking for, return it.
-			if ( $resource['id'] == $id ) { // phpcs:ignore
+			if ( (int) $resource['id'] === $id ) {
 				return $resource;
 			}
 		}
