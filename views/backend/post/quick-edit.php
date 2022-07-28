@@ -9,7 +9,7 @@
 ?>
 <div id="convertkit-quick-edit" style="display:none;">
 	<!-- Form -->
-	<label for="wp-convertkit-form">
+	<label for="wp-convertkit-quick-edit-form">
 		<span class="title"><?php esc_html_e( 'Form', 'convertkit' ); ?></span>
 		<select name="wp-convertkit[form]" id="wp-convertkit-quick-edit-form" size="1">
 			<option value="-1" data-preserve-on-refresh="1"><?php esc_html_e( 'Default', 'convertkit' ); ?></option>
@@ -30,7 +30,7 @@
 	</label>
 
 	<!-- Tag -->
-	<label for="wp-convertkit-tag">
+	<label for="wp-convertkit-quick-edit-tag">
 		<span class="title"><?php esc_html_e( 'Tag', 'convertkit' ); ?></span>
 		<select name="wp-convertkit[tag]" id="wp-convertkit-quick-edit-tag" size="1">
 			<option value="0" data-preserve-on-refresh="1">

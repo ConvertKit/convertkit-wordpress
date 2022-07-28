@@ -9,7 +9,7 @@
 ?>
 <div id="convertkit-bulk-edit" style="display:none;">
 	<!-- Form -->
-	<label for="wp-convertkit-form">
+	<label for="wp-convertkit-bulk-edit-form">
 		<span class="title"><?php esc_html_e( 'Form', 'convertkit' ); ?></span>
 		<select name="wp-convertkit[form]" id="wp-convertkit-bulk-edit-form" size="1">
 			<?php
@@ -38,7 +38,7 @@
 	</label>
 
 	<!-- Tag -->
-	<label for="wp-convertkit-tag">
+	<label for="wp-convertkit-bulk-edit-tag">
 		<span class="title"><?php esc_html_e( 'Tag', 'convertkit' ); ?></span>
 		<select name="wp-convertkit[tag]" id="wp-convertkit-bulk-edit-tag" size="1">
 			<?php
