@@ -63,6 +63,51 @@ class APITest extends \Codeception\TestCase\WPTestCase
 	}
 
 	/**
+	 * Test that a 429 internal server error gracefully returns a WP_Error.
+	 * 
+	 * @since 	1.9.8.2
+	 */
+	public function test429RateLimitHit()
+	{
+		// Force WordPress HTTP classes and functions to return a 502 error.
+		$this->mockResponses( 429, 'Rate limit hit.' );
+		$result = $this->api->account(); // The API function we use doesn't matter, as mockResponse forces a 502 error.
+		$this->assertInstanceOf(WP_Error::class, $result);
+		$this->assertEquals($result->get_error_code(), $this->errorCode);
+		$this->assertEquals($result->get_error_message(), 'ConvertKit API Error: Rate limit hit.');
+	}
+
+	/**
+	 * Test that a 500 internal server error gracefully returns a WP_Error.
+	 * 
+	 * @since 	1.9.8.2
+	 */
+	public function test500InternalServerError()
+	{
+		// Force WordPress HTTP classes and functions to return a 502 error.
+		$this->mockResponses( 500, 'Internal server error.' );
+		$result = $this->api->account(); // The API function we use doesn't matter, as mockResponse forces a 502 error.
+		$this->assertInstanceOf(WP_Error::class, $result);
+		$this->assertEquals($result->get_error_code(), $this->errorCode);
+		$this->assertEquals($result->get_error_message(), 'ConvertKit API Error: Internal server error.');
+	}
+
+	/**
+	 * Test that a 502 bad gateway gracefully returns a WP_Error.
+	 * 
+	 * @since 	1.9.8.2
+	 */
+	public function test502BadGateway()
+	{
+		// Force WordPress HTTP classes and functions to return a 502 error.
+		$this->mockResponses( 502, 'Bad gateway.' );
+		$result = $this->api->account(); // The API function we use doesn't matter, as mockResponse forces a 502 error.
+		$this->assertInstanceOf(WP_Error::class, $result);
+		$this->assertEquals($result->get_error_code(), $this->errorCode);
+		$this->assertEquals($result->get_error_message(), 'ConvertKit API Error: Bad gateway.');
+	}
+
+	/**
 	 * Test that supplying invalid API credentials to the API class returns a WP_Error.
 	 * 
 	 * @since 	1.9.6.9
@@ -1083,5 +1128,33 @@ class APITest extends \Codeception\TestCase\WPTestCase
 		$this->assertInstanceOf(WP_Error::class, $result);
 		$this->assertEquals($result->get_error_code(), $this->errorCode);
 		$this->assertEquals('unsubscribe(): the email parameter is empty.', $result->get_error_message());
+	}
+
+	/**
+	 * Forces WordPress' wp_remote_*() functions to return a specific HTTP response code
+	 * and message by short circuiting using the `pre_http_request` filter.
+	 *
+	 * This emulates server responses that the API class has to handle from ConvertKit's API,
+	 * which we cannot easily recreate e.g. 500 or 502 errors.
+	 * 
+	 * @since 	1.9.8.2
+	 * 
+	 * @param 	int 	$httpCode 		HTTP Code.
+	 * @param 	string 	$httpMessage 	HTTP Message.
+	 */
+	private function mockResponses( $httpCode, $httpMessage )
+	{
+		add_filter( 'pre_http_request', function( $response ) use ( $httpCode, $httpMessage ) {
+			return array(
+				'headers'       => array(),
+				'body'          => null,
+				'response'      => array(
+					'code'    => $httpCode,
+					'message' => $httpMessage,
+				),
+				'cookies'       => array(),
+				'http_response' => null,
+			);
+		} );
 	}
 }
