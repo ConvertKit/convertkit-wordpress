@@ -69,9 +69,9 @@ class APITest extends \Codeception\TestCase\WPTestCase
 	 */
 	public function test429RateLimitHit()
 	{
-		// Force WordPress HTTP classes and functions to return a 502 error.
+		// Force WordPress HTTP classes and functions to return a 429 error.
 		$this->mockResponses( 429, 'Rate limit hit.' );
-		$result = $this->api->account(); // The API function we use doesn't matter, as mockResponse forces a 502 error.
+		$result = $this->api->account(); // The API function we use doesn't matter, as mockResponse forces a 429 error.
 		$this->assertInstanceOf(WP_Error::class, $result);
 		$this->assertEquals($result->get_error_code(), $this->errorCode);
 		$this->assertEquals($result->get_error_message(), 'ConvertKit API Error: Rate limit hit.');
@@ -84,9 +84,9 @@ class APITest extends \Codeception\TestCase\WPTestCase
 	 */
 	public function test500InternalServerError()
 	{
-		// Force WordPress HTTP classes and functions to return a 502 error.
+		// Force WordPress HTTP classes and functions to return a 500 error.
 		$this->mockResponses( 500, 'Internal server error.' );
-		$result = $this->api->account(); // The API function we use doesn't matter, as mockResponse forces a 502 error.
+		$result = $this->api->account(); // The API function we use doesn't matter, as mockResponse forces a 500 error.
 		$this->assertInstanceOf(WP_Error::class, $result);
 		$this->assertEquals($result->get_error_code(), $this->errorCode);
 		$this->assertEquals($result->get_error_message(), 'ConvertKit API Error: Internal server error.');
