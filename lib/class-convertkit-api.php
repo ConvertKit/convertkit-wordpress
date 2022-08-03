@@ -160,7 +160,10 @@ class ConvertKit_API {
 			// request().
 			/* translators: HTTP method */
 			'request_method_unsupported'                  => __( 'API request method %s is not supported in ConvertKit_API class.', 'convertkit' ),
-			'request_rate_limit_exceeded'                 => __( 'Rate limit hit.', 'convertkit' ),
+			'request_rate_limit_exceeded'                 => __( 'ConvertKit API Error: Rate limit hit.', 'convertkit' ),
+			'request_internal_server_error'               => __( 'ConvertKit API Error: Internal server error.', 'convertkit' ),
+			'request_bad_gateway'                 		  => __( 'ConvertKit API Error: Bad gateway.', 'convertkit' ),
+			
 			'response_type_unexpected' 					  => __( 'The response from the API is not of the expected type array.', 'convertkit' ),
 		);
 		// phpcs:enable
@@ -1463,16 +1466,27 @@ class ConvertKit_API {
 		$body               = wp_remote_retrieve_body( $result );
 		$response           = json_decode( $body, true );
 
-		// If the HTTP response code is 429, we've hit the API's rate limit of 120 requests over 60 seconds.
-		if ( $http_response_code === 429 ) {
-			// If retry on rate limit hit is disabled, return a WP_Error.
-			if ( ! $retry_if_rate_limit_hit ) {
-				return new WP_Error( 'convertkit_api_error', $this->get_error_message( 'request_rate_limit_exceeded' ) );
-			}
+		// Depending on the response code from the API, try again or return an error.
+		// We don't handle 422 errors here, as the response object for 422 will provide a more verbose reason why the request failed.
+		switch ( $http_response_code ) {
+			// Rate limit hit.
+			case 429:
+				// If retry on rate limit hit is disabled, return a WP_Error.
+				if ( ! $retry_if_rate_limit_hit ) {
+					return new WP_Error( 'convertkit_api_error', $this->get_error_message( 'request_rate_limit_exceeded' ) );
+				}
 
-			// Retry the request a final time, waiting 2 seconds before.
-			sleep( 2 );
-			return $this->request( $endpoint, $method, $params, false );
+				// Retry the request a final time, waiting 2 seconds before.
+				sleep( 2 );
+				return $this->request( $endpoint, $method, $params, false );
+
+			// Internal server error.
+			case 500:
+				return new WP_Error( 'convertkit_api_error', $this->get_error_message( 'request_internal_server_error' ) );
+
+			// Bad gateway.
+			case 502:
+				return new WP_Error( 'convertkit_api_error', $this->get_error_message( 'request_bad_gateway' ) );
 		}
 
 		// If an error message or code exists in the response, return a WP_Error.
