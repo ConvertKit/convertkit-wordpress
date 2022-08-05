@@ -43,6 +43,20 @@ jQuery( document ).ready(
 								console.log( response );
 							}
 
+							// Remove any existing error notices that might be displayed.
+							convertKitRefreshResourcesRemoveNotices();
+
+							// Show an error if the request wasn't successful.
+							if ( ! response.success ) {
+								// Show error notice.
+								convertKitRefreshResourcesOutputErrorNotice( response.data );
+
+								// Enable button.
+								$( button ).prop( 'disabled', false );
+
+								return;
+							}
+
 							// Get currently selected option.
 							var selectedOption = $( field ).val();
 
@@ -72,14 +86,22 @@ jQuery( document ).ready(
 
 							// Enable button.
 							$( button ).prop( 'disabled', false );
-
 						}
 					}
 				).fail(
-					function (response) {
+					function ( response ) {
 						if ( convertkit_admin_refresh_resources.debug ) {
 							console.log( response );
 						}
+
+						// Remove any existing error notices that might be displayed.
+						convertKitRefreshResourcesRemoveNotices();
+
+						// Show error notice.
+						convertKitRefreshResourcesOutputErrorNotice( 'ConvertKit: ' + response.status + ' ' + response.statusText );
+
+						// Enable button.
+						$( button ).prop( 'disabled', false );
 					}
 				);
 
@@ -88,3 +110,37 @@ jQuery( document ).ready(
 
 	}
 );
+
+/**
+ * Removes any existing ConvertKit WordPress style error notices.
+ *
+ * @since 	1.9.8.3
+ */
+function convertKitRefreshResourcesRemoveNotices() {
+
+	( function( $ ) {
+
+		$( 'div.convertkit-error' ).remove();
+
+	} )( jQuery );
+
+}
+
+/**
+ * Removes any existing ConvertKit WordPress style error notices, before outputting
+ * an error notice.
+ *
+ * @since 	1.9.8.3
+ *
+ * @param 	string 	message 	Error message to display.
+ */
+function convertKitRefreshResourcesOutputErrorNotice( message ) {
+
+	( function( $ ) {
+
+		// Show a WordPress style error notice.
+		$( 'hr.wp-header-end' ).after( '<div id="message" class="error convertkit-error notice is-dismissible"><p>' + message + '</p></div>' );
+
+	} )( jQuery );
+
+}
