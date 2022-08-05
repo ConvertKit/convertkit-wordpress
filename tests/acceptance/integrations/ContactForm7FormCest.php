@@ -122,7 +122,7 @@ class ContactForm7FormCest
 	 */
 	public function _passed(AcceptanceTester $I)
 	{
-		//$I->deactivateThirdPartyPlugin($I, 'contact-form-7');
+		$I->deactivateThirdPartyPlugin($I, 'contact-form-7');
 		$I->deactivateConvertKitPlugin($I);
 		$I->resetConvertKitPlugin($I);
 	}
