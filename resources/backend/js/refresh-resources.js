@@ -141,6 +141,11 @@ function convertKitRefreshResourcesOutputErrorNotice( message ) {
 		// Show a WordPress style error notice.
 		$( 'hr.wp-header-end' ).after( '<div id="message" class="error convertkit-error notice is-dismissible"><p>' + message + '</p></div>' );
 
+		// Notify WordPress that a new dismissible notification exists, triggering WordPress' makeNoticesDismissible() function,
+		// which adds a dismiss button and binds necessary events to hide the notification.
+		// We can't directly call makeNoticesDismissible(), as its minified function name will be different.
+		$( document ).trigger( 'wp-updates-notice-added' );
+
 	} )( jQuery );
 
 }

@@ -226,6 +226,11 @@ class RefreshResourcesButtonCest
 		// Confirm that an error notification is displayed on screen, with the expected error message.
 		$I->seeElementInDOM('div.convertkit-error');
 		$I->see('Authorization Failed: API Key not valid');
+
+		// Confirm that the notice is dismissible.
+		$I->click('div.convertkit-error button.notice-dismiss');
+		$I->wait(1);
+		$I->dontSeeElementInDOM('div.convertkit-error');
 	}
 
 	/**
