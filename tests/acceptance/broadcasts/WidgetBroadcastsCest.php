@@ -112,15 +112,17 @@ class WidgetBroadcastsCest
 	{
 		// Add block widget.
 		$I->addBlockWidget($I, 'ConvertKit Broadcasts', 'convertkit-broadcasts', [
-			//'.components-form-toggle' 	=> [ 'toggle', true ],
-			'limit' 					=> [ 'input', '1' ],
+			'limit' => [ 'input', '2' ],
 		]);
 
 		// View the home page.
 		$I->amOnPage('/');
 
-		// Test pagination.
-		$I->testBroadcastsPagination($I, 'Previous', 'Next');
+		// Confirm that the block displays.
+		$I->seeBroadcastsOutput($I);
+
+		// Confirm that the expected number of Broadcasts are displayed.
+		$I->seeNumberOfElements('li.convertkit-broadcast', 2);
 	}
 
 	/**
