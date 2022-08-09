@@ -4,14 +4,14 @@
  * 
  * A widget area is typically defined by a Theme in a shared area, such as a sidebar or footer.
  * 
- * @since 	1.9.7.6
+ * @since 	1.9.8.2
  */
 class WidgetBroadcastsCest
 {
 	/**
 	 * Run common actions before running the test functions in this class.
 	 * 
-	 * @since 	1.9.7.6
+	 * @since 	1.9.8.2
 	 * 
 	 * @param 	AcceptanceTester 	$I 	Tester
 	 */
@@ -28,7 +28,7 @@ class WidgetBroadcastsCest
 	/**
 	 * Test the Broadcasts block works when using the default parameters.
 	 * 
-	 * @since 	1.9.7.6
+	 * @since 	1.9.8.2
 	 * 
 	 * @param 	AcceptanceTester 	$I 	Tester
 	 */
@@ -53,7 +53,7 @@ class WidgetBroadcastsCest
 	/**
 	 * Test the Broadcasts block's date format parameter works.
 	 * 
-	 * @since 	1.9.7.6
+	 * @since 	1.9.8.2
 	 * 
 	 * @param 	AcceptanceTester 	$I 	Tester
 	 */
@@ -80,7 +80,7 @@ class WidgetBroadcastsCest
 	/**
 	 * Test the Broadcasts block's limit parameter works.
 	 * 
-	 * @since 	1.9.7.6
+	 * @since 	1.9.8.2
 	 * 
 	 * @param 	AcceptanceTester 	$I 	Tester
 	 */
@@ -104,7 +104,7 @@ class WidgetBroadcastsCest
 	/**
 	 * Test the Broadcasts block's pagination works when enabled.
 	 * 
-	 * @since 	1.9.7.6
+	 * @since 	1.9.8.2
 	 * 
 	 * @param 	AcceptanceTester 	$I 	Tester
 	 */
@@ -126,7 +126,7 @@ class WidgetBroadcastsCest
 	/**
 	 * Test the Broadcasts block's pagination labels work when defined.
 	 * 
-	 * @since 	1.9.7.6
+	 * @since 	1.9.8.2
 	 * 
 	 * @param 	AcceptanceTester 	$I 	Tester
 	 */
@@ -152,7 +152,7 @@ class WidgetBroadcastsCest
 	 * We don't use _after, as this would provide a screenshot of the Plugin
 	 * deactivation and not the true test error.
 	 * 
-	 * @since 	1.9.7.6
+	 * @since 	1.9.8.2
 	 * 
 	 * @param 	AcceptanceTester 	$I 	Tester
 	 */
