@@ -148,8 +148,11 @@ class WPWidget extends \Codeception\Module
 		// Save.
 		$I->click('Update');
 
-		// Wait for save to complete.
-		$I->waitForElementVisible('.components-snackbar__content');
+		// Wait for save to complete, which is when the Update button is disabled again.
+		$I->waitForElementVisible('button.components-button.is-primary[disabled]');
+
+		// Confirm that saving worked.
+		//$I->waitForElementVisible('.components-snackbar__content');
 		$result = $I->grabTextFrom('.components-snackbar__content');
 
 		// Sometimes, WordPress throws an intermittent "There was an error. The response is not a valid JSON response."
