@@ -112,7 +112,7 @@ class WidgetBroadcastsCest
 	{
 		// Add block widget.
 		$I->addBlockWidget($I, 'ConvertKit Broadcasts', 'convertkit-broadcasts', [
-			'.components-form-toggle' 	=> [ 'toggle', true ],
+			//'.components-form-toggle' 	=> [ 'toggle', true ],
 			'limit' 					=> [ 'input', '1' ],
 		]);
 
