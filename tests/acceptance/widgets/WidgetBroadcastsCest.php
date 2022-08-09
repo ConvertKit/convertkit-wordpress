@@ -23,6 +23,16 @@ class WidgetBroadcastsCest
 
 		// Activate an older WordPress Theme that supports Widgets.
 		$I->useTheme('twentytwentyone');
+
+		// Create a Post, so that the home page does not display the 404 template,
+		// which never includes widgets.
+		$I->havePostInDatabase([
+			'post_title'	=> 'Widget Tests',
+			'post_type'		=> 'post',
+			'post_status'	=> 'publish',
+			'post_excerpt'  => 'Widget Tests',
+			'post_content'  => 'Widget Tests',	
+		]);
 	}
 
 	/**
