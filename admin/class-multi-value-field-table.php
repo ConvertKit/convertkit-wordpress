@@ -23,28 +23,28 @@ class Multi_Value_Field_Table extends WP_List_Table {
 	 *
 	 * @var     array
 	 */
-	private $_bulk_actions     = array(); // phpcs:ignore
+	private $bulk_actions = array();
 
 	/**
 	 * Holds the table columns.
 	 *
 	 * @var     array
 	 */
-	private $_columns          = array(); // phpcs:ignore
+	private $columns = array();
 
 	/**
 	 * Holds the sortable table columns.
 	 *
 	 * @var     array
 	 */
-	private $_sortable_columns = array(); // phpcs:ignore
+	private $sortable_columns = array();
 
 	/**
 	 * Holds the table rows and their data.
 	 *
 	 * @var     array
 	 */
-	private $_data             = array(); // phpcs:ignore
+	private $data = array();
 
 	/**
 	 * Constructor.
@@ -101,7 +101,7 @@ class Multi_Value_Field_Table extends WP_List_Table {
 	 */
 	public function get_bulk_actions() {
 
-		return $this->_bulk_actions;
+		return $this->bulk_actions;
 
 	}
 
@@ -112,7 +112,7 @@ class Multi_Value_Field_Table extends WP_List_Table {
 	 */
 	public function get_columns() {
 
-		return $this->_columns;
+		return $this->columns;
 
 	}
 
@@ -125,10 +125,10 @@ class Multi_Value_Field_Table extends WP_List_Table {
 	 */
 	public function add_column( $key, $title, $sortable = false ) {
 
-		$this->_columns[ $key ] = $title;
+		$this->columns[ $key ] = $title;
 
 		if ( $sortable ) {
-			$this->_sortable_columns[ $key ] = array( $key, false );
+			$this->sortable_columns[ $key ] = array( $key, false );
 		}
 
 	}
@@ -140,7 +140,7 @@ class Multi_Value_Field_Table extends WP_List_Table {
 	 */
 	public function add_item( $item ) {
 
-		array_push( $this->_data, $item );
+		array_push( $this->data, $item );
 
 	}
 
@@ -152,7 +152,7 @@ class Multi_Value_Field_Table extends WP_List_Table {
 	 */
 	public function add_bulk_action( $key, $name ) {
 
-		$this->_bulk_actions[ $key ] = $name;
+		$this->bulk_actions[ $key ] = $name;
 
 	}
 
@@ -161,18 +161,18 @@ class Multi_Value_Field_Table extends WP_List_Table {
 	 */
 	public function prepare_items() {
 
-		$total_items = count( $this->_data );
+		$total_items = count( $this->data );
 		$per_page    = 25;
 
-		$columns  = $this->_columns;
+		$columns  = $this->columns;
 		$hidden   = array();
-		$sortable = $this->_sortable_columns;
+		$sortable = $this->sortable_columns;
 
 		$this->_column_headers = array( $columns, $hidden, $sortable );
 
 		$current_page = $this->get_pagenum();
 
-		$sorted_data = $this->reorder( $this->_data );
+		$sorted_data = $this->reorder( $this->data );
 
 		$data = array_slice( $sorted_data, ( ( $current_page - 1 ) * $per_page ), $per_page );
 
@@ -200,16 +200,16 @@ class Multi_Value_Field_Table extends WP_List_Table {
 			$data,
 			function( $a, $b ) {
 
-			if ( empty( $_REQUEST['orderby'] ) ) { // phpcs:ignore
+				if ( empty( $_REQUEST['orderby'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification
 					$orderby = 'title';
 				} else {
-					$orderby = sanitize_text_field( wp_unslash( $_REQUEST['orderby'] ) ); // phpcs:ignore
+					$orderby = sanitize_sql_orderby( wp_unslash( $_REQUEST['orderby'] ) ); // phpcs:ignore WordPress.Security.NonceVerification
 				}
 
-			if ( empty( $_REQUEST['order'] ) ) { // phpcs:ignore
+				if ( empty( $_REQUEST['order'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification
 					$order = 'asc';
 				} else {
-					$order = sanitize_text_field( wp_unslash( $_REQUEST['order'] ) ); // phpcs:ignore
+					$order = sanitize_text_field( wp_unslash( $_REQUEST['order'] ) ); // phpcs:ignore WordPress.Security.NonceVerification
 				}
 				$result = strcmp( $a[ $orderby ], $b[ $orderby ] ); // Determine sort order.
 				return ( 'asc' === $order ) ? $result : -$result; // Send final sort direction to usort.

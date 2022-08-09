@@ -130,7 +130,7 @@ class ConvertKit_Admin_Post {
 	}
 
 	/**
-	 * Save Post Settings.
+	 * Saves Post Settings when either editing a Post/Page or using the Quick Edit functionality.
 	 *
 	 * @since   1.9.6
 	 *
@@ -154,7 +154,7 @@ class ConvertKit_Admin_Post {
 		}
 
 		// Bail if the nonce verification fails.
-		if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['wp-convertkit-save-meta-nonce'] ) ), 'wp-convertkit-save-meta' ) ) {
+		if ( ! wp_verify_nonce( sanitize_key( wp_unslash( $_POST['wp-convertkit-save-meta-nonce'] ) ), 'wp-convertkit-save-meta' ) ) {
 			return;
 		}
 
@@ -163,15 +163,50 @@ class ConvertKit_Admin_Post {
 			return;
 		}
 
-		// Build metadata.
-		$meta = array(
-			'form'         => ( isset( $_POST['wp-convertkit']['form'] ) ? sanitize_text_field( wp_unslash( $_POST['wp-convertkit']['form'] ) ) : '-1' ),
-			'landing_page' => ( isset( $_POST['wp-convertkit']['landing_page'] ) ? sanitize_text_field( wp_unslash( $_POST['wp-convertkit']['landing_page'] ) ) : '' ),
-			'tag'          => ( isset( $_POST['wp-convertkit']['tag'] ) ? sanitize_text_field( wp_unslash( $_POST['wp-convertkit']['tag'] ) ) : '' ),
-		);
+		// Save Post's settings.
+		$this->save_post_settings( $post_id, $_POST['wp-convertkit'] );
 
-		// Save metadata.
+	}
+
+	/**
+	 * Saves the Post's settings submitted via $_POST or $_REQUEST.
+	 * Can be used across Edit, Quick Edit and Bulk Edit.
+	 *
+	 * @since   1.9.8.0
+	 *
+	 * @param   int   $post_id    Post ID.
+	 * @param   array $settings   Settings.
+	 */
+	public function save_post_settings( $post_id, $settings ) {
+
+		// Get Post's settings.
 		$convertkit_post = new ConvertKit_Post( $post_id );
+		$meta            = $convertkit_post->get();
+
+		// Update Post's setting values if they were included in the $_POST data.
+		// Some values may not be included in the $_POST data e.g. if Quick Edit is used and no Landing Page was specified,
+		// in which case the existing Post's value will be used.
+		// This ensures settings are not deleted by accident.
+		foreach ( $meta as $key => $existing_value ) {
+			// Skip if this setting isn't included in the $_POST data.
+			if ( ! isset( $settings[ $key ] ) ) {
+				continue;
+			}
+
+			// Sanitize value.
+			$new_value = sanitize_text_field( wp_unslash( $settings[ $key ] ) );
+
+			// Skip if the setting value is -2, as this means it's a Bulk Edit request and this setting
+			// is set as 'No Change'.
+			if ( $new_value == '-2' ) { // phpcs:ignore WordPress.PHP.StrictComparisons
+				continue;
+			}
+
+			// Update setting using posted value.
+			$meta[ $key ] = $new_value;
+		}
+
+		// Save settings.
 		$convertkit_post->save( $meta );
 
 		// If a Form or Landing Page was specified, request a review.

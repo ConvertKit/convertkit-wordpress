@@ -3,7 +3,7 @@ Contributors: nathanbarry, growdev, travisnorthcutt, ggwicz
 Donate link: https://convertkit.com
 Tags: email, marketing, newsletter, convertkit
 Requires at least: 5.0
-Tested up to: 6.0
+Tested up to: 6.0.1
 Requires PHP: 5.6.20
 Stable tag: trunk
 License: GPLv2 or later
@@ -109,6 +109,29 @@ Full Plugin documentation can be found [here](https://help.convertkit.com/en/art
 7. Track subscriber growth
 
 == Changelog ==
+
+### 1.9.8.2 2022-08-04
+* Fix: API: Show error notification when API returns HTTP 500 and 502 errors, instead of showing PHP warnings
+* Fix: Bulk and Quick Edit: `for` label attribute now matches the field ID
+
+### 1.9.8.1 2022-07-18
+* Added: Refresh button for Form, Landing Page and Tag fields to fetch latest data from ConvertKit account
+* Fix: Bulk Edit: Don't display fields when no Pages / Posts exist
+
+### 1.9.8.0 2022-07-14
+* Added: Bulk and Quick Edit Form and Tag when viewing list of Pages/Posts
+* Fix: Performance: Don't perform API requests on every WordPress Administration screen when no Forms, Tags or Landing Pages exist
+
+### 1.9.7.9 2022-06-24
+* Fix: API: Prevent fatal error when API returns null instead of expected array
+
+### 1.9.7.8 2022-06-23
+* Added: Elementor Page Builder: ConvertKit Broadcasts Widget
+* Fix: Integration: WishList Member: Unsubscribe email address from ConvertKit if 'unsubscribe' configured and member level removed
+* Fix: Remove double forwardslash on some enqueued scripts and styles 
+
+### 1.9.7.7 2022-06-09
+* Added: Broadcasts: Option to enable pagination on block/shortcode
 
 ### 1.9.7.6 2022-06-01
 * Added: ConvertKit Broadcasts Block when editing Widgets using the block editor in WordPress 5.8+

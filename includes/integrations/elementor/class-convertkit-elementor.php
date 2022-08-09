@@ -40,7 +40,7 @@ class ConvertKit_Elementor {
 	public function enqueue_styles() {
 
 		// Don't load stylesheets if not in editor mode.
-		if ( empty( $_GET['action'] ) || $_GET['action'] !== 'elementor' ) { // phpcs:ignore
+		if ( empty( $_GET['action'] ) || $_GET['action'] !== 'elementor' ) { // phpcs:ignore WordPress.Security.NonceVerification
 			return;
 		}
 

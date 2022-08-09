@@ -51,13 +51,18 @@ The most important thing is that you have a test for *something*.  If in doubt, 
 
 ## Writing an Acceptance Test
 
-To create a new Acceptance Test, at the command line in the Plugin's folder, enter the following command, replacing `ActivatePlugin` with a 
-meaningful name of what the test will perform:
+To create a new Acceptance Test, at the command line in the Plugin's folder, enter the following command, replacing:
+- `general` with the subfolder name to place the test within at `tests/acceptance`,
+- `ActivatePlugin` with a meaningful name of what the test will perform.
+
+Acceptance tests are placed in groups within subfolders at `tests/acceptance` so that they can be run in isolation, and the GitHub Action can run each folder's acceptance tests in parallel for speed.
+
+For example, to generate an `ActivatePlugin` acceptance test in the `tests/acceptance/general` folder:
 
 ```bash
-php vendor/bin/codecept generate:cest acceptance ActivatePlugin
+php vendor/bin/codecept generate:cest acceptance general/ActivatePlugin
 ```
-This will create a PHP test file in the `tests/acceptance` directory called `ActivatePluginCest.php`
+This will create a PHP test file in the `tests/acceptance/general` directory called `ActivatePluginCest.php`
 
 ```php
 class ActivatePluginCest
@@ -190,12 +195,27 @@ chromedriver --url-base=/wd/hub
 In a second Terminal window, run the test to confirm it works:
 ```bash
 vendor/bin/codecept build
-vendor/bin/codecept run acceptance
+vendor/bin/codecept run acceptance general/ActivatePluginCest
 ```
 
 The console will show the successful result:
 
 ![Codeception Test Results](/.github/docs/codeception.png?raw=true)
+
+To run all acceptance tests, use:
+```bash
+vendor/bin/codecept run acceptance
+```
+
+To run acceptance tests in a specific folder (for example, `general`), use:
+```bash
+vendor/bin/codecept run acceptance general
+```
+
+To run a specific acceptance test in a specific folder (for example, `ActivateDeactivatePluginCest` in the `general` folder), use:
+```bash
+vendor/bin/codecept run acceptance general/ActivateDeactivatePluginCest
+```
 
 For a full list of available wp-browser and Codeception functions that can be used for testing, see:
 - [wp-browser](https://wpbrowser.wptestkit.dev/modules)
@@ -280,7 +300,7 @@ Further Acceptance Test Helpers that are provided include:
 - `deactivateThirdPartyPlugin($I, $name)`: Logs in to WordPress as the `admin` user, and deactivates the given third party Plugin by its slug.
 - `setupConvertKitPlugin($I)`: Enters the ConvertKit API Key and Secret in the Plugin's Settings screen, saving it.
 
-Other helpers most likely exist; refer to the [Acceptance.php](https://github.com/ConvertKit/convertkit-wordpress/blob/master/tests/_support/Helper/Acceptance/)
+Other helpers most likely exist; refer to the [Acceptance.php](https://github.com/ConvertKit/convertkit-wordpress/blob/main/tests/_support/Helper/Acceptance/)
 folder of helper files for all available functions.
 
 ## Writing Helpers
@@ -305,7 +325,7 @@ public function yourCustomFunctionNameInHelper($I)
 
 If the function doesn't fit into any existing helper file:
 - create a new file in the `tests/_support/Helper/Acceptance` directory
-- edit the [acceptance.suite.yml](https://github.com/ConvertKit/convertkit-wordpress/blob/master/tests/acceptance.suite.yml) file, adding
+- edit the [acceptance.suite.yml](https://github.com/ConvertKit/convertkit-wordpress/blob/main/tests/acceptance.suite.yml) file, adding
 the Helper's namespace and class under the `enabled` section.
 
 Need to change how Codeception runs?  Edit the [codeception.dist.xml](codeception.dist.xml) file.
@@ -379,9 +399,7 @@ To run the tests, enter the following commands in a separate Terminal window:
 ```bash
 vendor/bin/codecept build
 vendor/bin/codecept run acceptance
-vendor/bin/codecept run functional
 vendor/bin/codecept run wpunit
-vendor/bin/codecept run unit
 ```
 
 If a test fails, you can inspect the output and screenshot at `tests/_output`.
@@ -396,14 +414,21 @@ Any errors should be corrected by making applicable code or test changes.
 In the Plugin's directory, run the following command to run PHP_CodeSniffer, which will check the code meets WordPress' Coding Standards:
 
 ```bash
-vendor/bin/phpcs ./ -v
+vendor/bin/phpcs ./ -v -s
 ```
+
+`-v` produces verbose output, and `-s` specifies the precise rule that failed:
+![Coding Standards Screenshot](/.github/docs/coding-standards-error.png?raw=true)
 
 Any errors should be corrected by either:
 - making applicable code changes
 - (Experimental) running `vendor/bin/phpcbf ./ -v` to automatically fix coding standards
 
-Need to change the PHP or WordPress coding standard rules applied?  Edit the [phpcs.xml](phpcs.xml) file.
+Need to change the PHP or WordPress coding standard rules applied?  Either:
+- ignore a rule in the affected code, by adding `phpcs:ignore {rule}`, where {rule} is the given rule that failed in the above output.
+- edit the [phpcs.xml](phpcs.xml) file.
+
+**Rules should be ignored with caution**, particularly when sanitizing and escaping data.
 
 ## Run PHPStan
 
@@ -419,7 +444,7 @@ Need to change the PHP or WordPress coding standard rules applied?  Edit the [ph
 In the Plugin's directory, run the following command to run PHPStan:
 
 ```bash
-vendor/bin/phpstan --memory-limit=512M
+vendor/bin/phpstan --memory-limit=1G
 ```
 
 Any errors should be corrected by making applicable code changes.

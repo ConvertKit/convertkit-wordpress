@@ -26,11 +26,13 @@ class ConvertKit_Log {
 	 * Constructor. Defines the log file location.
 	 *
 	 * @since   1.9.6
+	 *
+	 * @param   string $path   Path to where log file should be created/edited/read.
 	 */
-	public function __construct() {
+	public function __construct( $path ) {
 
 		// Define location of log file.
-		$this->log_file = trailingslashit( CONVERTKIT_PLUGIN_PATH ) . 'log.txt';
+		$this->log_file = trailingslashit( $path ) . 'log.txt';
 
 		// Initialize WP_Filesystem.
 		require_once ABSPATH . 'wp-admin/includes/file.php';
@@ -109,7 +111,7 @@ class ConvertKit_Log {
 		}
 
 		// Open log file.
-		$log = $wp_filesystem->get_contents_array( $this->get_filename() ); // phpcs:ignore
+		$log = $wp_filesystem->get_contents_array( $this->get_filename() );
 
 		// Bail if the log file is empty.
 		if ( ! is_array( $log ) || ! count( $log ) ) {

@@ -42,7 +42,7 @@ class ConvertKit_Block_Form extends ConvertKit_Block {
 	 */
 	public function enqueue_scripts_editor() {
 
-		wp_enqueue_script( 'convertkit-gutenberg-block-form', CONVERTKIT_PLUGIN_URL . '/resources/backend/js/gutenberg-block-form.js', array( 'convertkit-gutenberg' ), CONVERTKIT_PLUGIN_VERSION, true );
+		wp_enqueue_script( 'convertkit-gutenberg-block-form', CONVERTKIT_PLUGIN_URL . 'resources/backend/js/gutenberg-block-form.js', array( 'convertkit-gutenberg' ), CONVERTKIT_PLUGIN_VERSION, true );
 
 	}
 
@@ -53,7 +53,7 @@ class ConvertKit_Block_Form extends ConvertKit_Block {
 	 */
 	public function enqueue_styles_editor() {
 
-		wp_enqueue_style( 'convertkit-gutenberg-block-form', CONVERTKIT_PLUGIN_URL . '/resources/backend/css/gutenberg-block-form.css', array( 'wp-edit-blocks' ), CONVERTKIT_PLUGIN_VERSION );
+		wp_enqueue_style( 'convertkit-gutenberg-block-form', CONVERTKIT_PLUGIN_URL . 'resources/backend/css/gutenberg-block-form.css', array( 'wp-edit-blocks' ), CONVERTKIT_PLUGIN_VERSION );
 
 	}
 
@@ -111,7 +111,7 @@ class ConvertKit_Block_Form extends ConvertKit_Block {
 			'gutenberg_icon'                    => file_get_contents( CONVERTKIT_PLUGIN_PATH . '/resources/backend/images/block-icon-form.svg' ), /* phpcs:ignore */
 
 			// Gutenberg: Example image showing how this block looks when choosing it in Gutenberg.
-			'gutenberg_example_image'           => CONVERTKIT_PLUGIN_URL . '/resources/backend/images/block-example-form.png',
+			'gutenberg_example_image'           => CONVERTKIT_PLUGIN_URL . 'resources/backend/images/block-example-form.png',
 
 			// Gutenberg: Help description, displayed when no settings defined for a newly added Block.
 			'gutenberg_help_description'        => __( 'Select a Form using the Form option in the Gutenberg sidebar.', 'convertkit' ),

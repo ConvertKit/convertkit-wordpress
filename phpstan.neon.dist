@@ -12,10 +12,17 @@ parameters:
         - wp-convertkit.php
         - admin/
         - includes/
+        - lib/
+
+    # Paths to exclude
+    # This should comprise of any third party libraries used in the Plugin
+    excludePaths:
+        - lib/browser.php
 
     # Files that include Plugin-specific PHP constants
     bootstrapFiles:
         - wp-convertkit.php
+        - lib/browser.php
 
     # Location of WordPress Plugins for PHPStan to scan, building symbols.
     scanDirectories:
@@ -30,4 +37,3 @@ parameters:
     ignoreErrors:
         - '#Access to an undefined property WP_Theme::#'
         - '#Constant WP_MEMORY_LIMIT not found.#'
-        - '#Function apply_filters invoked with#' # apply_filters() accepted a variable number of parameters, which PHPStan fails to detect

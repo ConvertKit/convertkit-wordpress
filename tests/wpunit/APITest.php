@@ -1,5 +1,9 @@
 <?php
-
+/**
+ * Tests for the ConvertKit_API class.
+ * 
+ * @since 	1.9.7.4
+ */
 class APITest extends \Codeception\TestCase\WPTestCase
 {
 	/**
@@ -37,12 +41,9 @@ class APITest extends \Codeception\TestCase\WPTestCase
 		// Activate Plugin.
 		activate_plugins('convertkit/wp-convertkit.php');
 
-		// Initialize the class we want to test.
+		// Initialize the classes we want to test.
 		$this->api = new ConvertKit_API( $_ENV['CONVERTKIT_API_KEY'], $_ENV['CONVERTKIT_API_SECRET'] );
-		
-		// To avoid exceeding API rate limits when running tests concurrently across multiple environments,
-		// add a 1 second delay.
-		sleep(1);
+		$this->api_no_data = new ConvertKit_API( $_ENV['CONVERTKIT_API_KEY_NO_DATA'], $_ENV['CONVERTKIT_API_SECRET_NO_DATA'] );
 	}
 
 	/**
@@ -59,6 +60,51 @@ class APITest extends \Codeception\TestCase\WPTestCase
 		deactivate_plugins('convertkit/wp-convertkit.php');
 		
 		parent::tearDown();
+	}
+
+	/**
+	 * Test that a 429 internal server error gracefully returns a WP_Error.
+	 * 
+	 * @since 	1.9.8.2
+	 */
+	public function test429RateLimitHit()
+	{
+		// Force WordPress HTTP classes and functions to return a 429 error.
+		$this->mockResponses( 429, 'Rate limit hit.' );
+		$result = $this->api->account(); // The API function we use doesn't matter, as mockResponse forces a 429 error.
+		$this->assertInstanceOf(WP_Error::class, $result);
+		$this->assertEquals($result->get_error_code(), $this->errorCode);
+		$this->assertEquals($result->get_error_message(), 'ConvertKit API Error: Rate limit hit.');
+	}
+
+	/**
+	 * Test that a 500 internal server error gracefully returns a WP_Error.
+	 * 
+	 * @since 	1.9.8.2
+	 */
+	public function test500InternalServerError()
+	{
+		// Force WordPress HTTP classes and functions to return a 500 error.
+		$this->mockResponses( 500, 'Internal server error.' );
+		$result = $this->api->account(); // The API function we use doesn't matter, as mockResponse forces a 500 error.
+		$this->assertInstanceOf(WP_Error::class, $result);
+		$this->assertEquals($result->get_error_code(), $this->errorCode);
+		$this->assertEquals($result->get_error_message(), 'ConvertKit API Error: Internal server error.');
+	}
+
+	/**
+	 * Test that a 502 bad gateway gracefully returns a WP_Error.
+	 * 
+	 * @since 	1.9.8.2
+	 */
+	public function test502BadGateway()
+	{
+		// Force WordPress HTTP classes and functions to return a 502 error.
+		$this->mockResponses( 502, 'Bad gateway.' );
+		$result = $this->api->account(); // The API function we use doesn't matter, as mockResponse forces a 502 error.
+		$this->assertInstanceOf(WP_Error::class, $result);
+		$this->assertEquals($result->get_error_code(), $this->errorCode);
+		$this->assertEquals($result->get_error_message(), 'ConvertKit API Error: Bad gateway.');
 	}
 
 	/**
@@ -105,6 +151,20 @@ class APITest extends \Codeception\TestCase\WPTestCase
 	}
 
 	/**
+	 * Test that the `get_subscription_forms()` function returns a blank array when no data
+	 * exists on the ConvertKit account.
+	 * 
+	 * @since 	1.9.7.8
+	 */
+	public function testGetSubscriptionFormsNoData()
+	{
+		$result = $this->api_no_data->get_subscription_forms();
+		$this->assertNotInstanceOf(WP_Error::class, $result);
+		$this->assertIsArray($result);
+		$this->assertCount(0, $result);
+	}
+
+	/**
 	 * Test that the `get_forms()` function returns expected data.
 	 * 
 	 * @since 	1.9.6.9
@@ -118,6 +178,20 @@ class APITest extends \Codeception\TestCase\WPTestCase
 		$this->assertArrayHasKey('name', reset($result));
 		$this->assertArrayHasKey('format', reset($result));
 		$this->assertArrayHasKey('embed_js', reset($result));
+	}
+
+	/**
+	 * Test that the `get_forms()` function returns a blank array when no data
+	 * exists on the ConvertKit account.
+	 * 
+	 * @since 	1.9.7.8
+	 */
+	public function testGetFormsNoData()
+	{
+		$result = $this->api_no_data->get_forms();
+		$this->assertNotInstanceOf(WP_Error::class, $result);
+		$this->assertIsArray($result);
+		$this->assertCount(0, $result);
 	}
 
 	/**
@@ -153,13 +227,27 @@ class APITest extends \Codeception\TestCase\WPTestCase
 
 	/**
 	 * Test that the `form_subscribe()` function returns a WP_Error
+	 * when an invalid $form_id parameter is provided.
+	 * 
+	 * @since 	1.9.7.8
+	 */
+	public function testFormSubscribeWithInvalidFormID()
+	{
+		$result = $this->api->form_subscribe(12345, $_ENV['CONVERTKIT_API_SUBSCRIBER_EMAIL'], 'First');
+		$this->assertInstanceOf(WP_Error::class, $result);
+		$this->assertEquals($result->get_error_code(), $this->errorCode);
+		$this->assertEquals('Not Found: The entity you were trying to find doesn\'t exist', $result->get_error_message());
+	}
+
+	/**
+	 * Test that the `form_subscribe()` function returns a WP_Error
 	 * when an empty $email parameter is provided.
 	 * 
 	 * @since 	1.9.6.9
 	 */
 	public function testFormSubscribeWithEmptyEmail()
 	{
-		$result = $this->api->form_subscribe( $_ENV['CONVERTKIT_API_FORM_ID'], '', 'First');
+		$result = $this->api->form_subscribe($_ENV['CONVERTKIT_API_FORM_ID'], '', 'First');
 		$this->assertInstanceOf(WP_Error::class, $result);
 		$this->assertEquals($result->get_error_code(), $this->errorCode);
 		$this->assertEquals('form_subscribe(): the email parameter is empty.', $result->get_error_message());
@@ -180,6 +268,20 @@ class APITest extends \Codeception\TestCase\WPTestCase
 	}
 
 	/**
+	 * Test that the `form_subscribe()` function returns a WP_Error
+	 * when an invalid email parameter is provided.
+	 * 
+	 * @since 	1.9.7.8
+	 */
+	public function testFormSubscribeWithInvalidEmail()
+	{
+		$result = $this->api->form_subscribe( $_ENV['CONVERTKIT_API_FORM_ID'], 'invalid-email-address', 'First');
+		$this->assertInstanceOf(WP_Error::class, $result);
+		$this->assertEquals($result->get_error_code(), $this->errorCode);
+		$this->assertEquals('Error updating subscriber: Email address is invalid', $result->get_error_message());
+	}
+
+	/**
 	 * Test that the `get_landing_pages()` function returns expected data.
 	 * 
 	 * @since 	1.9.6.9
@@ -197,6 +299,20 @@ class APITest extends \Codeception\TestCase\WPTestCase
 	}
 
 	/**
+	 * Test that the `get_landing_pages()` function returns a blank array when no data
+	 * exists on the ConvertKit account.
+	 * 
+	 * @since 	1.9.7.8
+	 */
+	public function testGetLandingPagesNoData()
+	{
+		$result = $this->api_no_data->get_landing_pages();
+		$this->assertNotInstanceOf(WP_Error::class, $result);
+		$this->assertIsArray($result);
+		$this->assertCount(0, $result);
+	}
+
+	/**
 	 * Test that the `get_sequences()` function returns expected data.
 	 * 
 	 * @since 	1.9.6.9
@@ -208,7 +324,21 @@ class APITest extends \Codeception\TestCase\WPTestCase
 		$this->assertIsArray($result);
 		$this->assertArrayHasKey('id', reset($result));
 		$this->assertArrayHasKey('name', reset($result));
-	} 
+	}
+
+	/**
+	 * Test that the `get_sequences()` function returns a blank array when no data
+	 * exists on the ConvertKit account.
+	 * 
+	 * @since 	1.9.7.8
+	 */
+	public function testGetSequencesNoData()
+	{
+		$result = $this->api_no_data->get_sequences();
+		$this->assertNotInstanceOf(WP_Error::class, $result);
+		$this->assertIsArray($result);
+		$this->assertCount(0, $result);
+	}
 
 	/**
 	 * Test that the `sequence_subscribe()` function returns expected data
@@ -218,7 +348,7 @@ class APITest extends \Codeception\TestCase\WPTestCase
 	 */
 	public function testSequenceSubscribe()
 	{
-		$result = $this->api->sequence_subscribe( $_ENV['CONVERTKIT_API_SEQUENCE_ID'], $_ENV['CONVERTKIT_API_SUBSCRIBER_EMAIL'], 'First', array(
+		$result = $this->api->sequence_subscribe($_ENV['CONVERTKIT_API_SEQUENCE_ID'], $_ENV['CONVERTKIT_API_SUBSCRIBER_EMAIL'], 'First', array(
 			'last_name' => 'Last',
 			'phone_number' => '123-456-7890',
 		));
@@ -229,13 +359,27 @@ class APITest extends \Codeception\TestCase\WPTestCase
 
 	/**
 	 * Test that the `sequence_subscribe()` function returns a WP_Error
+	 * when an invalid $sequence_id parameter is provided.
+	 * 
+	 * @since 	1.9.6.9
+	 */
+	public function testSequenceSubscribeWithInvalidSequenceID()
+	{
+		$result = $this->api->sequence_subscribe(12345, $_ENV['CONVERTKIT_API_SUBSCRIBER_EMAIL'], 'First');
+		$this->assertInstanceOf(WP_Error::class, $result);
+		$this->assertEquals($result->get_error_code(), $this->errorCode);
+		$this->assertEquals('Course not found: ', $result->get_error_message());
+	}
+
+	/**
+	 * Test that the `sequence_subscribe()` function returns a WP_Error
 	 * when an empty $sequence_id parameter is provided.
 	 * 
 	 * @since 	1.9.6.9
 	 */
 	public function testSequenceSubscribeWithEmptySequenceID()
 	{
-		$result = $this->api->sequence_subscribe( '', $_ENV['CONVERTKIT_API_SUBSCRIBER_EMAIL'], 'First');
+		$result = $this->api->sequence_subscribe('', $_ENV['CONVERTKIT_API_SUBSCRIBER_EMAIL'], 'First');
 		$this->assertInstanceOf(WP_Error::class, $result);
 		$this->assertEquals($result->get_error_code(), $this->errorCode);
 		$this->assertEquals('sequence_subscribe(): the sequence_id parameter is empty.', $result->get_error_message());
@@ -270,6 +414,20 @@ class APITest extends \Codeception\TestCase\WPTestCase
 	}
 
 	/**
+	 * Test that the `sequence_subscribe()` function returns a WP_Error
+	 * when an invalid $email parameter is provided.
+	 * 
+	 * @since 	1.9.6.9
+	 */
+	public function testSequenceSubscribeWithInvalidEmail()
+	{
+		$result = $this->api->sequence_subscribe($_ENV['CONVERTKIT_API_SEQUENCE_ID'], 'invalid-email-address', 'First');
+		$this->assertInstanceOf(WP_Error::class, $result);
+		$this->assertEquals($result->get_error_code(), $this->errorCode);
+		$this->assertEquals('Error updating subscriber: Email address is invalid', $result->get_error_message());
+	}
+
+	/**
 	 * Test that the `get_tags()` function returns expected data.
 	 * 
 	 * @since 	1.9.6.9
@@ -281,7 +439,21 @@ class APITest extends \Codeception\TestCase\WPTestCase
 		$this->assertIsArray($result);
 		$this->assertArrayHasKey('id', reset($result));
 		$this->assertArrayHasKey('name', reset($result));
-	} 
+	}
+
+	/**
+	 * Test that the `get_tags()` function returns a blank array when no data
+	 * exists on the ConvertKit account.
+	 * 
+	 * @since 	1.9.7.8
+	 */
+	public function testGetTagsNoData()
+	{
+		$result = $this->api_no_data->get_tags();
+		$this->assertNotInstanceOf(WP_Error::class, $result);
+		$this->assertIsArray($result);
+		$this->assertCount(0, $result);
+	}
 
 	/**
 	 * Test that the `tag_subscribe()` function returns expected data
@@ -291,7 +463,7 @@ class APITest extends \Codeception\TestCase\WPTestCase
 	 */
 	public function testTagSubscribe()
 	{
-		$result = $this->api->tag_subscribe( $_ENV['CONVERTKIT_API_TAG_ID'], $_ENV['CONVERTKIT_API_SUBSCRIBER_EMAIL'], 'First', array(
+		$result = $this->api->tag_subscribe($_ENV['CONVERTKIT_API_TAG_ID'], $_ENV['CONVERTKIT_API_SUBSCRIBER_EMAIL'], 'First', array(
 			'last_name' => 'Last',
 			'phone_number' => '123-456-7890',
 		));
@@ -302,13 +474,27 @@ class APITest extends \Codeception\TestCase\WPTestCase
 
 	/**
 	 * Test that the `tag_subscribe()` function returns a WP_Error
+	 * when an invalid $tag_id parameter is provided.
+	 * 
+	 * @since 	1.9.7.8
+	 */
+	public function testTagSubscribeWithInvalidTagID()
+	{
+		$result = $this->api->tag_subscribe(12345, $_ENV['CONVERTKIT_API_SUBSCRIBER_EMAIL'], 'First');
+		$this->assertInstanceOf(WP_Error::class, $result);
+		$this->assertEquals($result->get_error_code(), $this->errorCode);
+		$this->assertEquals('Tag not found: ', $result->get_error_message());
+	}
+
+	/**
+	 * Test that the `tag_subscribe()` function returns a WP_Error
 	 * when an empty $tag_id parameter is provided.
 	 * 
 	 * @since 	1.9.6.9
 	 */
 	public function testTagSubscribeWithEmptyTagID()
 	{
-		$result = $this->api->tag_subscribe( '', $_ENV['CONVERTKIT_API_SUBSCRIBER_EMAIL'], 'First');
+		$result = $this->api->tag_subscribe('', $_ENV['CONVERTKIT_API_SUBSCRIBER_EMAIL'], 'First');
 		$this->assertInstanceOf(WP_Error::class, $result);
 		$this->assertEquals($result->get_error_code(), $this->errorCode);
 		$this->assertEquals('tag_subscribe(): the tag_id parameter is empty.', $result->get_error_message());
@@ -322,7 +508,7 @@ class APITest extends \Codeception\TestCase\WPTestCase
 	 */
 	public function testTagSubscribeWithEmptyEmail()
 	{
-		$result = $this->api->tag_subscribe( $_ENV['CONVERTKIT_API_TAG_ID'], '', 'First');
+		$result = $this->api->tag_subscribe($_ENV['CONVERTKIT_API_TAG_ID'], '', 'First');
 		$this->assertInstanceOf(WP_Error::class, $result);
 		$this->assertEquals($result->get_error_code(), $this->errorCode);
 		$this->assertEquals('tag_subscribe(): the email parameter is empty.', $result->get_error_message());
@@ -336,10 +522,24 @@ class APITest extends \Codeception\TestCase\WPTestCase
 	 */
 	public function testTagSubscribeWithSpacesInEmail()
 	{
-		$result = $this->api->tag_subscribe( $_ENV['CONVERTKIT_API_TAG_ID'], '     ', 'First');
+		$result = $this->api->tag_subscribe($_ENV['CONVERTKIT_API_TAG_ID'], '     ', 'First');
 		$this->assertInstanceOf(WP_Error::class, $result);
 		$this->assertEquals($result->get_error_code(), $this->errorCode);
 		$this->assertEquals('tag_subscribe(): the email parameter is empty.', $result->get_error_message());
+	}
+
+	/**
+	 * Test that the `tag_subscribe()` function returns a WP_Error
+	 * when an invalid $email parameter is provided.
+	 * 
+	 * @since 	1.9.6.9
+	 */
+	public function testTagSubscribeWithInvalidEmail()
+	{
+		$result = $this->api->tag_subscribe($_ENV['CONVERTKIT_API_TAG_ID'], 'invalid-email-address', 'First');
+		$this->assertInstanceOf(WP_Error::class, $result);
+		$this->assertEquals($result->get_error_code(), $this->errorCode);
+		$this->assertEquals('Error updating subscriber: Email address is invalid', $result->get_error_message());
 	}
 
 	/**
@@ -369,7 +569,21 @@ class APITest extends \Codeception\TestCase\WPTestCase
 		$this->assertInstanceOf(WP_Error::class, $result);
 		$this->assertEquals($result->get_error_code(), $this->errorCode);
 		$this->assertEquals('get_subscriber_by_email(): the email parameter is empty.', $result->get_error_message());
-	} 
+	}
+
+	/**
+	 * Test that the `get_subscriber_by_email()` function returns a WP_Error
+	 * when an invalid $email parameter is provided.
+	 * 
+	 * @since 	1.9.7.8
+	 */
+	public function testGetSubscriberByEmailWithInvalidEmail()
+	{
+		$result = $this->api->get_subscriber_by_email('invalid-email-address');
+		$this->assertInstanceOf(WP_Error::class, $result);
+		$this->assertEquals($result->get_error_code(), $this->errorCode);
+		$this->assertEquals('No subscriber(s) exist in ConvertKit matching the email address invalid-email-address.', $result->get_error_message());
+	}
 
 	/**
 	 * Test that the `get_subscriber_by_id()` function returns expected data
@@ -388,7 +602,7 @@ class APITest extends \Codeception\TestCase\WPTestCase
 
 	/**
 	 * Test that the `get_subscriber_by_id()` function returns a WP_Error
-	 * when an empty $email parameter is provided.
+	 * when an empty ID parameter is provided.
 	 * 
 	 * @since 	1.9.6.9
 	 */
@@ -398,6 +612,20 @@ class APITest extends \Codeception\TestCase\WPTestCase
 		$this->assertInstanceOf(WP_Error::class, $result);
 		$this->assertEquals($result->get_error_code(), $this->errorCode);
 		$this->assertEquals('get_subscriber_by_id(): the subscriber_id parameter is empty.', $result->get_error_message());
+	}
+
+	/**
+	 * Test that the `get_subscriber_by_id()` function returns a WP_Error
+	 * when an invalid ID parameter is provided.
+	 * 
+	 * @since 	1.9.7.8
+	 */
+	public function testGetSubscriberByIDWithInvalidID()
+	{
+		$result = $this->api->get_subscriber_by_id(12345);
+		$this->assertInstanceOf(WP_Error::class, $result);
+		$this->assertEquals($result->get_error_code(), $this->errorCode);
+		$this->assertEquals('Not Found: The entity you were trying to find doesn\'t exist', $result->get_error_message());
 	} 
 
 	/**
@@ -430,7 +658,7 @@ class APITest extends \Codeception\TestCase\WPTestCase
 
 	/**
 	 * Test that the `get_subscriber_by_id()` function returns a WP_Error
-	 * when an empty $email parameter is provided.
+	 * when an empty $id parameter is provided.
 	 * 
 	 * @since 	1.9.6.9
 	 */
@@ -440,6 +668,20 @@ class APITest extends \Codeception\TestCase\WPTestCase
 		$this->assertInstanceOf(WP_Error::class, $result);
 		$this->assertEquals($result->get_error_code(), $this->errorCode);
 		$this->assertEquals('get_subscriber_tags(): the subscriber_id parameter is empty.', $result->get_error_message());
+	}
+
+	/**
+	 * Test that the `get_subscriber_by_id()` function returns a WP_Error
+	 * when an invalid $id parameter is provided.
+	 * 
+	 * @since 	1.9.7.8
+	 */
+	public function testGetSubscriberTagsWithInvalidID()
+	{
+		$result = $this->api->get_subscriber_tags(12345);
+		$this->assertInstanceOf(WP_Error::class, $result);
+		$this->assertEquals($result->get_error_code(), $this->errorCode);
+		$this->assertEquals('Not Found: The entity you were trying to find doesn\'t exist', $result->get_error_message());
 	} 
 
 	/**
@@ -469,7 +711,21 @@ class APITest extends \Codeception\TestCase\WPTestCase
 
 		// get_subscriber_by_email() is deliberate in this error message, as get_subscriber_id() calls get_subscriber_by_email().
 		$this->assertEquals('get_subscriber_by_email(): the email parameter is empty.', $result->get_error_message());
-	} 
+	}
+
+	/**
+	 * Test that the `get_subscriber_id()` function returns a WP_Error
+	 * when an invalid $email parameter is provided.
+	 * 
+	 * @since 	1.9.6.9
+	 */
+	public function testGetSubscriberIDWithInvalidEmail()
+	{
+		$result = $this->api->get_subscriber_id('invalid-email-address');
+		$this->assertInstanceOf(WP_Error::class, $result);
+		$this->assertEquals($result->get_error_code(), $this->errorCode);
+		$this->assertEquals('No subscriber(s) exist in ConvertKit matching the email address invalid-email-address.', $result->get_error_message());
+	}
 
 	/**
 	 * Test that the `unsubscribe()` function returns expected data
@@ -479,8 +735,20 @@ class APITest extends \Codeception\TestCase\WPTestCase
 	 */
 	public function testUnsubscribe()
 	{
-		$result = $this->api->unsubscribe($_ENV['CONVERTKIT_API_SUBSCRIBER_EMAIL']);
+		// We don't use $_ENV['CONVERTKIT_API_SUBSCRIBER_EMAIL'] for this test, as that email is relied upon as being a confirmed subscriber
+		// for other tests.
+
+		// Subscribe an email address.
+		$emailAddress = 'wordpress-' . date( 'Y-m-d-H-i-s' ) . '-php-' . PHP_VERSION_ID . '@convertkit.com';
+		$this->api->form_subscribe($_ENV['CONVERTKIT_API_FORM_ID'], $emailAddress);
+
+		// Unsubscribe the email address.
+		$result = $this->api->unsubscribe($emailAddress);
 		$this->assertNotInstanceOf(WP_Error::class, $result);
+		$this->assertIsArray($result);
+		$this->assertArrayHasKey('subscriber', $result);
+		$this->assertArrayHasKey('email_address', $result['subscriber']);
+		$this->assertEquals($emailAddress, $result['subscriber']['email_address']);
 	} 
 
 	/**
@@ -498,6 +766,20 @@ class APITest extends \Codeception\TestCase\WPTestCase
 	}
 
 	/**
+	 * Test that the `unsubscribe()` function returns a WP_Error
+	 * when an invalid $email parameter is provided.
+	 * 
+	 * @since 	1.9.7.8
+	 */
+	public function testUnsubscribeWithInvalidEmail()
+	{
+		$result = $this->api->unsubscribe('invalid-email-address');
+		$this->assertInstanceOf(WP_Error::class, $result);
+		$this->assertEquals($result->get_error_code(), $this->errorCode);
+		$this->assertEquals('Not Found: The entity you were trying to find doesn\'t exist', $result->get_error_message());
+	}
+
+	/**
 	 * Test that the `get_custom_fields()` function returns expected data.
 	 * 
 	 * @since 	1.9.6.9
@@ -509,6 +791,20 @@ class APITest extends \Codeception\TestCase\WPTestCase
 		$this->assertIsArray($result);
 		$this->assertArrayHasKey('id', reset($result));
 		$this->assertArrayHasKey('name', reset($result));
+	}
+
+	/**
+	 * Test that the `get_custom_fields()` function returns a blank array when no data
+	 * exists on the ConvertKit account.
+	 * 
+	 * @since 	1.9.7.8
+	 */
+	public function testGetCustomFieldsNoData()
+	{
+		$result = $this->api_no_data->get_custom_fields();
+		$this->assertNotInstanceOf(WP_Error::class, $result);
+		$this->assertIsArray($result);
+		$this->assertCount(0, $result);
 	}
 
 	/**
@@ -536,6 +832,20 @@ class APITest extends \Codeception\TestCase\WPTestCase
 		$this->assertArrayHasKey('url', reset($result['posts']));
 		$this->assertArrayHasKey('published_at', reset($result['posts']));
 		$this->assertArrayHasKey('is_paid', reset($result['posts']));
+	}
+
+	/**
+	 * Test that the `get_posts()` function returns a blank array when no data
+	 * exists on the ConvertKit account.
+	 * 
+	 * @since 	1.9.7.8
+	 */
+	public function testGetPostsNoData()
+	{
+		$result = $this->api_no_data->get_posts();
+		$this->assertNotInstanceOf(WP_Error::class, $result);
+		$this->assertIsArray($result);
+		$this->assertCount(0, $result);
 	}
 
 	/**
@@ -626,6 +936,20 @@ class APITest extends \Codeception\TestCase\WPTestCase
 		$this->assertArrayHasKey('url', reset($result));
 		$this->assertArrayHasKey('published_at', reset($result));
 		$this->assertArrayHasKey('is_paid', reset($result));
+	}
+
+	/**
+	 * Test that the `get_all_posts()` function returns a blank array when no data
+	 * exists on the ConvertKit account.
+	 * 
+	 * @since 	1.9.7.8
+	 */
+	public function testGetAllPostsNoData()
+	{
+		$result = $this->api_no_data->get_all_posts();
+		$this->assertNotInstanceOf(WP_Error::class, $result);
+		$this->assertIsArray($result);
+		$this->assertCount(0, $result);
 	}
 
 	/**
@@ -772,10 +1096,22 @@ class APITest extends \Codeception\TestCase\WPTestCase
 	 */
 	public function testBackwardCompatFormUnsubscribe()
 	{
+		// We don't use $_ENV['CONVERTKIT_API_SUBSCRIBER_EMAIL'] for this test, as that email is relied upon as being a confirmed subscriber
+		// for other tests.
+
+		// Subscribe an email address.
+		$emailAddress = 'wordpress-' . date( 'Y-m-d-H-i-s' ) . '-php-' . PHP_VERSION_ID . '@convertkit.com';
+		$this->api->form_subscribe($_ENV['CONVERTKIT_API_FORM_ID'], $emailAddress);
+
+		// Unsubscribe the email address.
 		$result = $this->api->form_unsubscribe([
-			'email' => $_ENV['CONVERTKIT_API_SUBSCRIBER_EMAIL']
+			'email' => $emailAddress,
 		]);
 		$this->assertNotInstanceOf(WP_Error::class, $result);
+		$this->assertIsArray($result);
+		$this->assertArrayHasKey('subscriber', $result);
+		$this->assertArrayHasKey('email_address', $result['subscriber']);
+		$this->assertEquals($emailAddress, $result['subscriber']['email_address']);
 	} 
 
 	/**
@@ -792,5 +1128,33 @@ class APITest extends \Codeception\TestCase\WPTestCase
 		$this->assertInstanceOf(WP_Error::class, $result);
 		$this->assertEquals($result->get_error_code(), $this->errorCode);
 		$this->assertEquals('unsubscribe(): the email parameter is empty.', $result->get_error_message());
+	}
+
+	/**
+	 * Forces WordPress' wp_remote_*() functions to return a specific HTTP response code
+	 * and message by short circuiting using the `pre_http_request` filter.
+	 *
+	 * This emulates server responses that the API class has to handle from ConvertKit's API,
+	 * which we cannot easily recreate e.g. 500 or 502 errors.
+	 * 
+	 * @since 	1.9.8.2
+	 * 
+	 * @param 	int 	$httpCode 		HTTP Code.
+	 * @param 	string 	$httpMessage 	HTTP Message.
+	 */
+	private function mockResponses( $httpCode, $httpMessage )
+	{
+		add_filter( 'pre_http_request', function( $response ) use ( $httpCode, $httpMessage ) {
+			return array(
+				'headers'       => array(),
+				'body'          => null,
+				'response'      => array(
+					'code'    => $httpCode,
+					'message' => $httpMessage,
+				),
+				'cookies'       => array(),
+				'http_response' => null,
+			);
+		} );
 	}
 }

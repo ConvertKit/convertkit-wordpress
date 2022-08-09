@@ -15,7 +15,7 @@ function convertkit_resource_refresh_posts() {
 
 	// Get Settings and Log classes.
 	$settings = new ConvertKit_Settings();
-	$log      = new ConvertKit_Log();
+	$log      = new ConvertKit_Log( CONVERTKIT_PLUGIN_PATH );
 
 	// If debug logging is enabled, write to it now.
 	if ( $settings->debug_enabled() ) {

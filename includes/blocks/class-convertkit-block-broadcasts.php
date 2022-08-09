@@ -47,7 +47,7 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 		// Get ConvertKit Settings.
 		$settings = new ConvertKit_Settings();
 
-		wp_enqueue_script( 'convertkit-' . $this->get_name(), CONVERTKIT_PLUGIN_URL . '/resources/frontend/js/broadcasts.js', array( 'jquery' ), CONVERTKIT_PLUGIN_VERSION, true );
+		wp_enqueue_script( 'convertkit-' . $this->get_name(), CONVERTKIT_PLUGIN_URL . 'resources/frontend/js/broadcasts.js', array( 'jquery' ), CONVERTKIT_PLUGIN_VERSION, true );
 		wp_localize_script(
 			'convertkit-' . $this->get_name(),
 			'convertkit_broadcasts',
@@ -125,7 +125,7 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 			'gutenberg_icon'                    => file_get_contents( CONVERTKIT_PLUGIN_PATH . '/resources/backend/images/block-icon-broadcasts.svg' ), /* phpcs:ignore */
 
 			// Gutenberg: Example image showing how this block looks when choosing it in Gutenberg.
-			'gutenberg_example_image'       => CONVERTKIT_PLUGIN_URL . '/resources/backend/images/block-example-broadcasts.png',
+			'gutenberg_example_image'       => CONVERTKIT_PLUGIN_URL . 'resources/backend/images/block-example-broadcasts.png',
 
 			// Gutenberg: Help description, displayed when no settings defined for a newly added Block.
 			'gutenberg_help_description'    => __( 'Define this Block\'s settings in the Gutenberg sidebar to display a list of your broadcasts.', 'convertkit' ),
@@ -449,10 +449,19 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 			// Convert UTC date to timestamp.
 			$date_timestamp = strtotime( $broadcast['published_at'] );
 
+			// Build broadcast URL.
+			$url = add_query_arg(
+				array(
+					'utm_source'  => 'wordpress',
+					'utm_content' => 'convertkit',
+				),
+				$broadcast['url']
+			);
+
 			// Add broadcast as list item.
 			$html .= '<li class="convertkit-broadcast">
 				<time datetime="' . date_i18n( 'Y-m-d', $date_timestamp ) . '">' . date_i18n( $atts['date_format'], $date_timestamp ) . '</time>
-				<a href="' . $broadcast['url'] . '" target="_blank" rel="nofollow noopener">' . $broadcast['title'] . '</a>
+				<a href="' . $url . '" target="_blank" rel="nofollow noopener">' . $broadcast['title'] . '</a>
 			</li>';
 		}
 
@@ -572,7 +581,7 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 		}
 
 		// Return first page number if nonce verification fails, as this means we can't reliably trust $_REQUEST['convertkit-broadcasts-page'].
-		if ( ! wp_verify_nonce( $_REQUEST['convertkit-broadcasts-nonce'], 'convertkit-broadcasts' ) ) {
+		if ( ! wp_verify_nonce( sanitize_key( $_REQUEST['convertkit-broadcasts-nonce'] ), 'convertkit-broadcasts' ) ) {
 			return $page;
 		}
 

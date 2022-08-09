@@ -9,7 +9,7 @@
  * Plugin Name: ConvertKit
  * Plugin URI: https://convertkit.com/
  * Description: Quickly and easily integrate ConvertKit forms into your site.
- * Version: 1.9.7.6
+ * Version: 1.9.8.2
  * Author: ConvertKit
  * Author URI: https://convertkit.com/
  * Text Domain: convertkit
@@ -21,27 +21,38 @@ if ( class_exists( 'WP_ConvertKit' ) ) {
 }
 
 // Define ConverKit Plugin paths and version number.
+define( 'CONVERTKIT_PLUGIN_NAME', 'ConvertKit' ); // Used for user-agent in API class.
 define( 'CONVERTKIT_PLUGIN_FILE', plugin_basename( __FILE__ ) );
 define( 'CONVERTKIT_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'CONVERTKIT_PLUGIN_PATH', __DIR__ );
-define( 'CONVERTKIT_PLUGIN_VERSION', '1.9.7.6' );
+define( 'CONVERTKIT_PLUGIN_VERSION', '1.9.8.2' );
 
-// Load files that are always required.
+// Load shared classes, if they have not been included by another ConvertKit Plugin.
+if ( ! class_exists( 'ConvertKit_API' ) ) {
+	require_once CONVERTKIT_PLUGIN_PATH . '/lib/class-convertkit-api.php';
+}
+if ( ! class_exists( 'ConvertKit_Log' ) ) {
+	require_once CONVERTKIT_PLUGIN_PATH . '/lib/class-convertkit-log.php';
+}
+if ( ! class_exists( 'ConvertKit_Resource' ) ) {
+	require_once CONVERTKIT_PLUGIN_PATH . '/lib/class-convertkit-resource.php';
+}
+if ( ! class_exists( 'ConvertKit_Review_Request' ) ) {
+	require_once CONVERTKIT_PLUGIN_PATH . '/lib/class-convertkit-review-request.php';
+}
+
+// Load plugin files that are always required.
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/cron-functions.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/functions.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-wp-convertkit.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-ajax.php';
-require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-api.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-gutenberg.php';
-require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-log.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-output.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-post.php';
-require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-resource.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-resource-forms.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-resource-landing-pages.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-resource-posts.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-resource-tags.php';
-require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-review-request.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-settings.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-setup.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-shortcodes.php';
@@ -71,8 +82,11 @@ require_once CONVERTKIT_PLUGIN_PATH . '/includes/integrations/woocommerce/class-
 
 // Load files that are only used in the WordPress Administration interface.
 if ( is_admin() ) {
+	require_once CONVERTKIT_PLUGIN_PATH . '/admin/class-convertkit-admin-bulk-edit.php';
+	require_once CONVERTKIT_PLUGIN_PATH . '/admin/class-convertkit-admin-quick-edit.php';
 	require_once CONVERTKIT_PLUGIN_PATH . '/admin/class-convertkit-admin-category.php';
 	require_once CONVERTKIT_PLUGIN_PATH . '/admin/class-convertkit-admin-post.php';
+	require_once CONVERTKIT_PLUGIN_PATH . '/admin/class-convertkit-admin-refresh-resources.php';
 	require_once CONVERTKIT_PLUGIN_PATH . '/admin/class-convertkit-admin-settings.php';
 	require_once CONVERTKIT_PLUGIN_PATH . '/admin/class-convertkit-admin-tinymce.php';
 	require_once CONVERTKIT_PLUGIN_PATH . '/admin/class-convertkit-admin-user.php';
@@ -99,7 +113,7 @@ register_deactivation_hook( __FILE__, 'convertkit_plugin_deactivate' );
  *
  * @since   1.9.6
  */
-function WP_ConvertKit() { // phpcs:ignore
+function WP_ConvertKit() { // phpcs:ignore WordPress.NamingConventions.ValidFunctionName
 
 	return WP_ConvertKit::get_instance();
 
