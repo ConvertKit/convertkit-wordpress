@@ -118,6 +118,8 @@ jobs:
         working-directory: ${{ env.ROOT_DIR }}
         run: |
           wp-cli config set WP_DEBUG true --raw
+          wp-cli config set WP_DEBUG_LOG true --raw
+          wp-cli config set WP_DEBUG_DISPLAY false --raw
           wp-cli config set FS_METHOD direct
 
       # This step is deliberately after WordPress installation and configuration, as enabling PHP 8.x before using WP-CLI results
@@ -179,6 +181,11 @@ jobs:
           sudo chmod g+w ${{ env.ROOT_DIR }}/wp-content/uploads
           sudo chown www-data:www-data ${{ env.ROOT_DIR }}/wp-content/uploads
 
+      - name: Set Permissions for wp-content Directory
+        run: |
+          sudo chmod g+w ${{ env.ROOT_DIR }}/wp-content
+          sudo chown www-data:www-data ${{ env.ROOT_DIR }}/wp-content
+
       # This ensures the Plugin's log file can be written to.
       # We don't recursively do this, as it'll prevent Codeception from writing to the /tests/_output directory.
       - name: Set Permissions for Plugin Directory
@@ -219,3 +226,10 @@ jobs:
         with:
           name: log.txt
           path: ${{ env.PLUGIN_DIR }}/log.txt
+
+      - name: Upload WordPress Log File to Artifact
+        if: always()
+        uses: actions/upload-artifact@v2
+        with:
+          name: log.txt
+          path: ${{ env.ROOT_DIR }}/wp-content/debug.log
