@@ -148,6 +148,9 @@ class WPClassicEditor extends \Codeception\Module
 	 */
 	public function publishAndViewClassicEditorPage($I)
 	{
+		// Scroll to Publish meta box, so its buttons are not hidden.
+		$I->scrollTo('#submitdiv');
+		
 		// Click the Publish button.
 		$I->click('input#publish');
 
