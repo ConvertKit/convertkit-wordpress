@@ -34,9 +34,10 @@ function convertKitQuickTagRegister( block ) {
 				$.post(
 					ajaxurl,
 					{
-						'action': 	'convertkit_admin_tinymce_output_modal',
-						'nonce':  	convertkit_admin_tinymce.nonce,
-						'shortcode':block.name
+						'action': 		'convertkit_admin_tinymce_output_modal',
+						'nonce':  		convertkit_admin_tinymce.nonce,
+						'editor_type':  'quicktags',
+						'shortcode': 	block.name
 
 					},
 					function( response ) {
