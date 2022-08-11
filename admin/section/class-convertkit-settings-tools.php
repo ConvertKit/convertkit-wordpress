@@ -294,7 +294,7 @@ class ConvertKit_Settings_Tools extends ConvertKit_Settings_Base {
 	public function render() {
 
 		// Get Log.
-		$log         = new ConvertKit_Log( CONVERTKIT_PLUGIN_PATH );
+		$log = new ConvertKit_Log( CONVERTKIT_PLUGIN_PATH );
 
 		// Use WordPress' debug_data() function to get system info, matching how Tools > Site Health > Info works.
 		if ( ! class_exists( 'WP_Debug_Data' ) ) {
