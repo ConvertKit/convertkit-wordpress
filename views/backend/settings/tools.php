@@ -65,9 +65,6 @@ if ( $error !== false ) {
 		<h3><span><?php esc_html_e( 'System Info', 'convertkit' ); ?></span></h3>
 		<div class="inside">
 			<p><?php esc_html_e( 'Use this tool to send system info to support when necessary.', 'convertkit' ); ?></p>
-
-			<textarea readonly="readonly" id="system-info-textarea" class="large-text convertkit-monospace" rows="15"><?php echo esc_textarea( $system_info->get() ); ?></textarea>
-
 			<p>
 				<?php
 				submit_button(
@@ -77,6 +74,8 @@ if ( $error !== false ) {
 					false
 				);
 				?>
+
+				<a href="site-health.php?tab=debug" class="button"><?php esc_html_e( 'View system info', 'convertkit' ); ?></a>
 			</p>
 		</div><!-- .inside -->
 	</div><!-- .postbox -->
