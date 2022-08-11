@@ -43,6 +43,7 @@ class WPClassicEditor extends \Codeception\Module
 	public function addVisualEditorShortcode($I, $shortcodeName, $shortcodeProgrammaticName, $shortcodeConfiguration = false, $expectedShortcodeOutput = false)
 	{
 		// Click the Visual tab.
+		$I->scrollTo('input#title');
 		$I->click('button#content-tmce');
 
 		// Click the TinyMCE Button for this shortcode.
