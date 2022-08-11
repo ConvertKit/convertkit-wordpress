@@ -125,14 +125,14 @@ class ConvertKit_Settings_Tools extends ConvertKit_Settings_Base {
 		if ( ! class_exists( 'WP_Debug_Data' ) ) {
 			require_once ABSPATH . 'wp-admin/includes/class-wp-debug-data.php';
 		}
-		$system_info = WP_Debug_Data::debug_data();
+		$system_info = WP_Debug_Data::format( WP_Debug_Data::debug_data(), 'debug' );
 
 		// Write contents to temporary file.
 		$tmpfile  = tmpfile();
 		$filename = stream_get_meta_data( $tmpfile )['uri'];
 		$wp_filesystem->put_contents(
 			$filename,
-			print_r( $system_info, true )
+			esc_attr( $system_info )
 		);
 
 		// Download.
@@ -293,8 +293,14 @@ class ConvertKit_Settings_Tools extends ConvertKit_Settings_Base {
 	 */
 	public function render() {
 
-		// Get Log and System Info.
+		// Get Log.
 		$log         = new ConvertKit_Log( CONVERTKIT_PLUGIN_PATH );
+
+		// Use WordPress' debug_data() function to get system info, matching how Tools > Site Health > Info works.
+		if ( ! class_exists( 'WP_Debug_Data' ) ) {
+			require_once ABSPATH . 'wp-admin/includes/class-wp-debug-data.php';
+		}
+		$system_info = WP_Debug_Data::format( WP_Debug_Data::debug_data(), 'debug' );
 
 		// Define messages that might be displayed as a notification.
 		$messages = array(
