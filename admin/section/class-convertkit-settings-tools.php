@@ -125,7 +125,7 @@ class ConvertKit_Settings_Tools extends ConvertKit_Settings_Base {
 		if ( ! class_exists( 'WP_Debug_Data' ) ) {
 			require_once ABSPATH . 'wp-admin/includes/class-wp-debug-data.php';
 		}
-		$system_info = WP_Debug_Data::format( WP_Debug_Data::debug_data(), 'debug' );
+		$system_info = str_replace( '`', '', WP_Debug_Data::format( WP_Debug_Data::debug_data(), 'debug' ) );
 
 		// Write contents to temporary file.
 		$tmpfile  = tmpfile();
@@ -300,7 +300,7 @@ class ConvertKit_Settings_Tools extends ConvertKit_Settings_Base {
 		if ( ! class_exists( 'WP_Debug_Data' ) ) {
 			require_once ABSPATH . 'wp-admin/includes/class-wp-debug-data.php';
 		}
-		$system_info = WP_Debug_Data::format( WP_Debug_Data::debug_data(), 'debug' );
+		$system_info = str_replace( '`', '', WP_Debug_Data::format( WP_Debug_Data::debug_data(), 'debug' ) );
 
 		// Define messages that might be displayed as a notification.
 		$messages = array(
