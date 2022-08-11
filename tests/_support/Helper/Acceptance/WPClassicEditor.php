@@ -44,7 +44,7 @@ class WPClassicEditor extends \Codeception\Module
 	public function addVisualEditorShortcode($I, $shortcodeName, $shortcodeProgrammaticName, $shortcodeConfiguration = false, $expectedShortcodeOutput = false, $targetEditor = 'content')
 	{
 		// Click the Visual tab.
-		$I->scrollTo('input#title');
+		$I->scrollTo('h1.wp-heading-inline');
 		$I->click('button#'.$targetEditor.'-tmce');
 
 		// Click the TinyMCE Button for this shortcode.
@@ -103,7 +103,7 @@ class WPClassicEditor extends \Codeception\Module
 	public function addTextEditorShortcode($I, $shortcodeName, $shortcodeProgrammaticName, $shortcodeConfiguration = false, $expectedShortcodeOutput = false, $targetEditor = 'content')
 	{
 		// Click the Text tab.
-		$I->scrollTo('input#title');
+		$I->scrollTo('h1.wp-heading-inline');
 		$I->click('button#'.$targetEditor.'-html');
 
 		// Click the QuickTags Button for this shortcode.
