@@ -110,6 +110,10 @@ Full Plugin documentation can be found [here](https://help.convertkit.com/en/art
 
 == Changelog ==
 
+### 1.9.8.3 2022-08-xx
+* Fix: Classic Editor: Insert shortcode into active editor when multiple editor instances exist
+* Fix: Text Editor: Insert shortcode would not work when multiple editor instances exist
+
 ### 1.9.8.2 2022-08-04
 * Fix: API: Show error notification when API returns HTTP 500 and 502 errors, instead of showing PHP warnings
 * Fix: Bulk and Quick Edit: `for` label attribute now matches the field ID

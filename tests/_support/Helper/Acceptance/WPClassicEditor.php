@@ -39,15 +39,16 @@ class WPClassicEditor extends \Codeception\Module
 	 * @param 	string 				$shortcodeProgrammaticName 	Programmatic Shortcode Name (e.g. 'convertkit-form').
 	 * @param 	bool|array 			$shortcodeConfiguration 	Shortcode Configuration (field => value key/value array).
 	 * @param 	bool|string 		$expectedShortcodeOutput 	Expected Shortcode Output (e.g. [convertkit_form form="12345"]).
+	 * @param 	string 				$targetEditor				Target TinyMCE editor instance.
 	 */
-	public function addVisualEditorShortcode($I, $shortcodeName, $shortcodeProgrammaticName, $shortcodeConfiguration = false, $expectedShortcodeOutput = false)
+	public function addVisualEditorShortcode($I, $shortcodeName, $shortcodeProgrammaticName, $shortcodeConfiguration = false, $expectedShortcodeOutput = false, $targetEditor = 'content')
 	{
 		// Click the Visual tab.
 		$I->scrollTo('input#title');
-		$I->click('button#content-tmce');
+		$I->click('button#'.$targetEditor.'-tmce');
 
 		// Click the TinyMCE Button for this shortcode.
-		$I->click('div.mce-container div[aria-label="'.$shortcodeName.'"] button');
+		$I->click('#wp-'.$targetEditor.'-editor-container div.mce-container div[aria-label="'.$shortcodeName.'"] button');
 
 		// Wait for the modal's contents to load.
 		$I->waitForElementVisible('#convertkit-modal-body input.button-primary');
@@ -78,7 +79,7 @@ class WPClassicEditor extends \Codeception\Module
 
 		// If the expected shortcode output is provided, check it exists in the Visual editor.
 		if ($expectedShortcodeOutput) {
-			$I->switchToIFrame('iframe#content_ifr');
+			$I->switchToIFrame('iframe#'.$targetEditor.'_ifr');
 			$I->seeInSource($expectedShortcodeOutput);
 			$I->switchToIFrame();
 		}
@@ -97,14 +98,16 @@ class WPClassicEditor extends \Codeception\Module
 	 * @param 	string 				$shortcodeProgrammaticName 	Programmatic Shortcode Name (e.g. 'convertkit-form').
 	 * @param 	bool|array 			$shortcodeConfiguration 	Shortcode Configuration (field => value key/value array).
 	 * @param 	bool|string 		$expectedShortcodeOutput 	Expected Shortcode Output (e.g. [convertkit_form form="12345"]).
+	 * @param 	string 				$targetEditor				ID of text editor instance.
 	 */
-	public function addTextEditorShortcode($I, $shortcodeName, $shortcodeProgrammaticName, $shortcodeConfiguration = false, $expectedShortcodeOutput = false)
+	public function addTextEditorShortcode($I, $shortcodeName, $shortcodeProgrammaticName, $shortcodeConfiguration = false, $expectedShortcodeOutput = false, $targetEditor = 'content')
 	{
 		// Click the Text tab.
-		$I->click('button#content-html');
+		$I->scrollTo('input#title');
+		$I->click('button#'.$targetEditor.'-html');
 
 		// Click the QuickTags Button for this shortcode.
-		$I->click('input#qt_content_'.$shortcodeProgrammaticName);
+		$I->click('input#qt_'.$targetEditor.'_'.$shortcodeProgrammaticName);
 
 		// Wait for the modal's contents to load.
 		$I->waitForElementVisible('#convertkit-quicktags-modal input.button-primary');
@@ -135,7 +138,7 @@ class WPClassicEditor extends \Codeception\Module
 
 		// If the expected shortcode output is provided, check it exists in the Text editor.
 		if ($expectedShortcodeOutput) {
-			$I->seeInField('textarea.wp-editor-area', $expectedShortcodeOutput);
+			$I->seeInField('textarea#'.$targetEditor, $expectedShortcodeOutput);
 		}
 	}
 
