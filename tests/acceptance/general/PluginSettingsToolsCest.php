@@ -79,8 +79,16 @@ class PluginSettingsToolsCest
 		$I->checkNoWarningsAndNoticesOnScreen($I);
 
 		// Check that the System Info textarea contains some expected output.
-		$I->assertNotFalse(strpos($I->grabValueFrom('#system-info-textarea'), '### Begin System Info ###'));
-		$I->assertNotFalse(strpos($I->grabValueFrom('#system-info-textarea'), '### End System Info ###'));
+		$I->assertNotFalse(strpos($I->grabValueFrom('#system-info-textarea'), '### wp-core'));
+		$I->assertNotFalse(strpos($I->grabValueFrom('#system-info-textarea'), '### wp-active-theme'));
+		$I->assertNotFalse(strpos($I->grabValueFrom('#system-info-textarea'), '### wp-themes-inactive'));
+		$I->assertNotFalse(strpos($I->grabValueFrom('#system-info-textarea'), '### wp-plugins-active'));
+		$I->assertNotFalse(strpos($I->grabValueFrom('#system-info-textarea'), '### wp-plugins-inactive'));
+		$I->assertNotFalse(strpos($I->grabValueFrom('#system-info-textarea'), '### wp-media'));
+		$I->assertNotFalse(strpos($I->grabValueFrom('#system-info-textarea'), '### wp-server'));
+		$I->assertNotFalse(strpos($I->grabValueFrom('#system-info-textarea'), '### wp-database'));
+		$I->assertNotFalse(strpos($I->grabValueFrom('#system-info-textarea'), '### wp-constants'));
+		$I->assertNotFalse(strpos($I->grabValueFrom('#system-info-textarea'), '### wp-filesystem'));
 	}
 
 	/**
@@ -106,8 +114,16 @@ class PluginSettingsToolsCest
 
 		// Check downloaded file exists and contains some expected information.
 		$I->openFile($_ENV['WP_ROOT_FOLDER'] . '/convertkit-system-info.txt');
-		$I->seeInThisFile('### Begin System Info ###');
-		$I->seeInThisFile('### End System Info ###');
+		$I->seeInThisFile('### wp-core');
+		$I->seeInThisFile('### wp-active-theme');
+		$I->seeInThisFile('### wp-themes-inactive');
+		$I->seeInThisFile('### wp-plugins-active');
+		$I->seeInThisFile('### wp-plugins-inactive');
+		$I->seeInThisFile('### wp-media');
+		$I->seeInThisFile('### wp-server');
+		$I->seeInThisFile('### wp-database');
+		$I->seeInThisFile('### wp-constants');
+		$I->seeInThisFile('### wp-filesystem');
 
 		// Delete the file.
 		$I->deleteFile($_ENV['WP_ROOT_FOLDER'] . '/convertkit-system-info.txt');
