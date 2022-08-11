@@ -31,7 +31,6 @@ jobs:
       DB_PASS: root
       DB_HOST: localhost
       INSTALL_PLUGINS: "classic-editor contact-form-7 disable-welcome-messages-and-tips elementor woocommerce wordpress-seo" # Don't include this repository's Plugin here.
-      ACTIVATE_PLUGINS: "disable-welcome-messages-and-tips wordpress-seo" # Installed Plugins that should be activated prior to any tests
       CONVERTKIT_API_KEY: ${{ secrets.CONVERTKIT_API_KEY }} # ConvertKit API Key, stored in the repository's Settings > Secrets
       CONVERTKIT_API_SECRET: ${{ secrets.CONVERTKIT_API_SECRET }} # ConvertKit API Secret, stored in the repository's Settings > Secrets
       CONVERTKIT_API_KEY_NO_DATA: ${{ secrets.CONVERTKIT_API_KEY_NO_DATA }} # ConvertKit API Key for ConvertKit account with no data, stored in the repository's Settings > Secrets
@@ -112,16 +111,11 @@ jobs:
         working-directory: ${{ env.ROOT_DIR }}
         run: wp-cli plugin install ${{ env.INSTALL_PLUGINS }}
 
-      # env.ACTIVATE_PLUGINS is a list of Plugin slugs, space separated e.g. contact-form-7 woocommerce.
-      - name: Activate Free Third Party WordPress Plugins
-        working-directory: ${{ env.ROOT_DIR }}
-        run: wp-cli plugin activate ${{ env.ACTIVATE_PLUGINS }}
-
       # These should be stored as a separated list of URLs in the repository Settings > Secrets > Repository Secret > CONVERTKIT_PAID_PLUGIN_URLS.
       # We cannot include the URLs in this file, as they're not Plugins we are permitted to distribute.
-      - name: Install and Activate Paid Third Party WordPress Plugins
+      - name: Install Paid Third Party WordPress Plugins
         working-directory: ${{ env.ROOT_DIR }}
-        run: wp-cli plugin install ${{ secrets.CONVERTKIT_PAID_PLUGIN_URLS }} --activate
+        run: wp-cli plugin install ${{ secrets.CONVERTKIT_PAID_PLUGIN_URLS }}
       
       # WP_DEBUG = true is required so any WordPress / PHP errors are output and caught by tests.
       # FS_METHOD = direct is required for WP_Filesystem to operate without suppressed PHP fopen() errors that trip up tests.

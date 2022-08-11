@@ -122,8 +122,13 @@ class ContactForm7FormCest
 	 */
 	public function _passed(AcceptanceTester $I)
 	{
-		//$I->deactivateThirdPartyPlugin($I, 'contact-form-7');
 		$I->deactivateConvertKitPlugin($I);
 		$I->resetConvertKitPlugin($I);
+
+		// We don't use deactivateThirdPartyPlugin(), as this checks for PHP warnings/errors.
+		// Contact Form 7 throws a warning on deactivation related to WordPress capabilities,
+		// which is outside of our control and would result in the test not completing. 
+		$I->amOnPluginsPage();
+		$I->deactivatePlugin('contact-form-7');
 	}
 }

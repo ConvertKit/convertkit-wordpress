@@ -551,14 +551,23 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 	 */
 	private function get_pagination_link( $page, $nonce ) {
 
-		global $post;
+		global $post, $wp;
+
+		// Determine the base Permalink, depending on whether we're viewing an individual Page/Post or not.
+		if ( ! is_null( $post ) ) {
+			$permalink = get_permalink( $post->ID );
+		} else {
+			// Fallback to WordPress' request object to identify the current slug, as we are not viewing
+			// an individual Page or Post e.g. we're on the Home Page and this block is in a footer widget.
+			$permalink = home_url( $wp->request );
+		}
 
 		return add_query_arg(
 			array(
 				'convertkit-broadcasts-page'  => absint( $page ),
 				'convertkit-broadcasts-nonce' => $nonce,
 			),
-			get_permalink( $post->ID )
+			$permalink
 		);
 
 	}

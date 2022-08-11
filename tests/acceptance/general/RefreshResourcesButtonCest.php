@@ -190,6 +190,50 @@ class RefreshResourcesButtonCest
 	}
 
 	/**
+	 * Test that the refresh button triggers an error message when the AJAX request fails,
+	 * or the ConvertKit API returns an error.
+	 * 
+	 * @since 	1.9.8.3
+	 * 
+	 * @param 	AcceptanceTester 	$I 	Tester
+	 */
+	public function testRefreshResourcesErrorNotice(AcceptanceTester $I)
+	{
+		// Specify invalid API credentials, so that the AJAX request returns an error.
+		$I->haveOptionInDatabase('_wp_convertkit_settings', [
+			'api_key'    => 'fakeApiKey',
+			'api_secret' => 'fakeApiSecret',
+			'debug'      => 'on',
+			'no_scripts' => '',
+			'no_css'     => '',
+		]);
+
+		// Programmatically create a Page.
+		$pageID = $I->havePostInDatabase([
+			'post_type' 	=> 'page',
+			'post_title' 	=> 'ConvertKit: Page: Refresh Resources: Quick Edit',
+		]);
+
+		// Open Quick Edit form forthe Page in the Pages WP_List_Table.
+		$I->openQuickEdit($I, 'page', $pageID);
+
+		// Click the Forms refresh button.
+		$I->click('button.wp-convertkit-refresh-resources[data-resource="forms"]');
+
+		// Wait for button to change its state from disabled.
+		$I->waitForElementVisible('button.wp-convertkit-refresh-resources[data-resource="forms"]:not(:disabled)');
+
+		// Confirm that an error notification is displayed on screen, with the expected error message.
+		$I->seeElementInDOM('div.convertkit-error');
+		$I->see('Authorization Failed: API Key not valid');
+
+		// Confirm that the notice is dismissible.
+		$I->click('div.convertkit-error button.notice-dismiss');
+		$I->wait(1);
+		$I->dontSeeElementInDOM('div.convertkit-error');
+	}
+
+	/**
 	 * Deactivate and reset Plugin(s) after each test, if the test passes.
 	 * We don't use _after, as this would provide a screenshot of the Plugin
 	 * deactivation and not the true test error.

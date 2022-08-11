@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the ConvertKit plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: ConvertKit 1.9.8.1\n"
+"Project-Id-Version: ConvertKit 1.9.8.2\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/convertkit-github\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-07-18T14:29:33+00:00\n"
+"POT-Creation-Date: 2022-08-04T13:25:30+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.6.0\n"
 "X-Domain: convertkit\n"
@@ -572,10 +572,18 @@ msgid "API request method %s is not supported in ConvertKit_API class."
 msgstr ""
 
 #: lib/class-convertkit-api.php:163
-msgid "Rate limit hit."
+msgid "ConvertKit API Error: Rate limit hit."
 msgstr ""
 
 #: lib/class-convertkit-api.php:164
+msgid "ConvertKit API Error: Internal server error."
+msgstr ""
+
+#: lib/class-convertkit-api.php:165
+msgid "ConvertKit API Error: Bad gateway."
+msgstr ""
+
+#: lib/class-convertkit-api.php:167
 msgid "The response from the API is not of the expected type array."
 msgstr ""
 
