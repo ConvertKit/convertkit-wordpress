@@ -87,33 +87,27 @@ jQuery( document ).ready(
 					shortcode += '[/' + $( 'input[name="shortcode"]', $( form ) ).val() + ']';
 				}
 
-				/**
-				 * Finish building the link, and insert it, depending on whether we were initialized from
-				 * the Visual Editor or Text Editor.
-				 */
-				if ( typeof tinyMCE !== 'undefined' && tinyMCE.activeEditor && ! tinyMCE.activeEditor.isHidden() ) {
-					// Insert into editor.
-					tinyMCE.activeEditor.execCommand( 'mceReplaceContent', false, shortcode );
+				// Depending on the editor type, insert the shortcode.
+				switch ( $( 'input[name="editor_type"]', $( form ) ).val() ) {
+					case 'tinymce':
+						// Sanity check that a Visual editor exists and is active.
+						if ( typeof tinyMCE !== 'undefined' && tinyMCE.activeEditor && ! tinyMCE.activeEditor.isHidden() ) {
+							// Insert into editor.
+							tinyMCE.activeEditor.execCommand( 'mceReplaceContent', false, shortcode );
 
-					// Close modal.
-					tinyMCE.activeEditor.windowManager.close();
+							// Close modal.
+							tinyMCE.activeEditor.windowManager.close();
+						}
+						break;
 
-					// Done.
-					return;
+					case 'quicktags':
+						// Insert into editor.
+						QTags.insertContent( shortcode );
+
+						// Close modal.
+						convertKitQuickTagsModal.close();
+						break;
 				}
-
-				// Text Editor.
-				if ( typeof QTags !== 'undefined' ) {
-					// Insert into editor.
-					QTags.insertContent( shortcode );
-
-					// Close modal.
-					convertKitQuickTagsModal.close();
-
-					// Done.
-					return;
-				}
-
 			}
 		);
 
