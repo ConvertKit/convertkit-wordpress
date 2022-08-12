@@ -27,7 +27,7 @@ class ConvertKit_System_Info {
 		global $wpdb;
 
 		if ( ! class_exists( 'Browser' ) ) {
-			require_once CONVERTKIT_PLUGIN_PATH . '/lib/browser.php';
+			require_once CONVERTKIT_PLUGIN_PATH . '/vendor/convertkit/wordpress-libs/src/browser.php';
 		}
 
 		$browser = new Browser();
