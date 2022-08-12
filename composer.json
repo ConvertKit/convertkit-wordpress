@@ -3,6 +3,9 @@
     "description": "ConvertKit WordPress Plugin",
     "type": "project",
     "license": "GPLv3",
+    "require": {
+        "convertkit/wordpress-libs": "dev-main"
+    },
     "require-dev": {
         "lucatume/wp-browser": "^3.0",
         "codeception/module-asserts": "^1.3",                                      
@@ -53,5 +56,11 @@
         "allow-plugins": {
             "dealerdirect/phpcodesniffer-composer-installer": true
         }
-    }
+    },
+    "repositories": [
+        {
+            "url": "https://github.com/n7studios/convertkit-wordpress-libs.git",
+            "type": "git"
+        }
+    ]
 }
