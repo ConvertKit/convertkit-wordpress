@@ -17,7 +17,11 @@ jQuery( document ).ready(
 			'click',
 			function( e ) {
 
+				// Prevent default button behaviour.
 				e.preventDefault();
+
+				// Remove any existing error notices that might be displayed.
+				convertKitRefreshResourcesRemoveNotices();
 
 				// Fetch some DOM elements.
 				var button = this,
@@ -42,9 +46,6 @@ jQuery( document ).ready(
 							if ( convertkit_admin_refresh_resources.debug ) {
 								console.log( response );
 							}
-
-							// Remove any existing error notices that might be displayed.
-							convertKitRefreshResourcesRemoveNotices();
 
 							// Show an error if the request wasn't successful.
 							if ( ! response.success ) {
@@ -118,6 +119,14 @@ jQuery( document ).ready(
  */
 function convertKitRefreshResourcesRemoveNotices() {
 
+	// If we're editing a Page, Post or Custom Post Type in Gutenberg, use wp.data.dispatch to remove the error.
+	if ( typeof wp !== 'undefined' && typeof wp.blocks !== 'undefined' ) {
+		// Gutenberg Editor.
+		wp.data.dispatch( 'core/notices' ).removeNotice( 'convertkit-error' );
+		return;
+	}
+
+	// Classic Editor or WP_List_Table (Bulk/Quick edit).
 	( function( $ ) {
 
 		$( 'div.convertkit-error' ).remove();
@@ -136,6 +145,23 @@ function convertKitRefreshResourcesRemoveNotices() {
  */
 function convertKitRefreshResourcesOutputErrorNotice( message ) {
 
+	// Prefix the message with the Plugin name.
+	message = 'ConvertKit: ' + message;
+
+	// If we're editing a Page, Post or Custom Post Type in Gutenberg, use wp.data.dispatch to show the error.
+	if ( typeof wp !== 'undefined' && typeof wp.blocks !== 'undefined' ) {
+		// Gutenberg Editor.
+		wp.data.dispatch( 'core/notices' ).createErrorNotice(
+			message,
+			{
+				id: 'convertkit-error'
+			}
+		);
+
+		return;
+	}
+
+	// Classic Editor or WP_List_Table (Bulk/Quick edit).
 	( function( $ ) {
 
 		// Show a WordPress style error notice.
