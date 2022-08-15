@@ -126,7 +126,7 @@ function convertKitRefreshResourcesRemoveNotices() {
 		return;
 	}
 
-	// Classic Editor or WP_List_Table (Bulk/Quick edit).
+	// Classic Editor, WP_List_Table (Bulk/Quick edit) or Edit Term.
 	( function( $ ) {
 
 		$( 'div.convertkit-error' ).remove();
@@ -161,11 +161,17 @@ function convertKitRefreshResourcesOutputErrorNotice( message ) {
 		return;
 	}
 
-	// Classic Editor or WP_List_Table (Bulk/Quick edit).
+	// Classic Editor, WP_List_Table (Bulk/Quick edit) or Edit Term.
 	( function( $ ) {
 
-		// Show a WordPress style error notice.
-		$( 'hr.wp-header-end' ).after( '<div id="message" class="error convertkit-error notice is-dismissible"><p>' + message + '</p></div>' );
+		var notice = '<div id="message" class="error convertkit-error notice is-dismissible"><p>' + message + '</p></div>';
+
+		// Append the WordPress style error notice, depending on the screen.
+		if ( $( 'hr.wp-header-end' ).length > 0 ) {
+			$( 'hr.wp-header-end' ).after( notice );
+		} else if ( $( '#ajax-response' ).length > 0 ) {
+			$( '#ajax-response' ).after( notice );
+		}
 
 		// Notify WordPress that a new dismissible notification exists, triggering WordPress' makeNoticesDismissible() function,
 		// which adds a dismiss button and binds necessary events to hide the notification.
