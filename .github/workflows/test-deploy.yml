@@ -31,4 +31,13 @@ jobs:
 
       # Debug: List contents to confirm what would be sent to wordpress.org
       - name: List
-        run: ls
+        run: |
+          ls
+          cd vendor
+          ls
+          cd convertkit
+          ls
+          cd wordpress-libs
+          ls
+          cd src
+          ls
