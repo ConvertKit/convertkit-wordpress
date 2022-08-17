@@ -23,6 +23,8 @@
 		</div>
 		<div class="right">
 			<input type="hidden" name="shortcode" value="convertkit_<?php echo esc_attr( $shortcode['name'] ); ?>" />
+			<input type="hidden" name="editor_type" value="<?php echo esc_attr( $editor_type ); // quicktags|tinymce. ?>" />
+
 			<?php
 			if ( $shortcode['shortcode_include_closing_tag'] ) {
 				?>

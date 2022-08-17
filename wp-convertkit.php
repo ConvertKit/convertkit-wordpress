@@ -56,7 +56,6 @@ require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-resource-tags.
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-settings.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-setup.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-shortcodes.php';
-require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-system-info.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-term.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-user.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-widgets.php';

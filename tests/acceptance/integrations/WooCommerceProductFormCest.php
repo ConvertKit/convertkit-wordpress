@@ -136,6 +136,104 @@ class WooCommerceProductFormCest
 	}
 
 	/**
+	 * Test the [convertkit_form] shortcode is inserted into the applicable Content or Excerpt Visual Editor
+	 * instances when adding a WooCommerce Product.
+	 * 
+	 * @since 	1.9.8.3
+	 * 
+	 * @param 	AcceptanceTester 	$I 	Tester
+	 */
+	public function testAddNewProductUsingFormShortcodeInVisualEditor(AcceptanceTester $I)
+	{
+		// Add a Product using the Classic Editor.
+		$I->addClassicEditorPage($I, 'product', 'ConvertKit: Product: Form: Shortcode: Visual Editor');
+
+		// Configure metabox's Form setting = None, ensuring we only test the shortcode in the Classic Editor.
+		$I->fillSelect2Field($I, '#select2-wp-convertkit-form-container', 'None', 'aria-owns');
+
+		// Add shortcode to Excerpt (Product short description), setting the Form setting to the value specified in the .env file,
+		// and confirming that the expected shortcode is displayed in the Excerpt field.
+		$I->addVisualEditorShortcode(
+			$I,
+			'ConvertKit Form',
+			'convertkit-form',
+			[
+				'form' => [ 'select', $_ENV['CONVERTKIT_API_FORM_NAME'] ]
+			],
+			'[convertkit_form form="'.$_ENV['CONVERTKIT_API_FORM_ID'].'"]',
+			'excerpt' // The ID of the Product short description field.
+		);
+
+		// Add shortcode to Content, setting the Form setting to the value specified in the .env file,
+		// and confirming that the expected shortcode is displayed in the Excerpt field.
+		$I->addVisualEditorShortcode(
+			$I,
+			'ConvertKit Form',
+			'convertkit-form',
+			[
+				'form' => [ 'select', $_ENV['CONVERTKIT_API_FORM_NAME'] ]
+			],
+			'[convertkit_form form="'.$_ENV['CONVERTKIT_API_FORM_ID'].'"]',
+			'content' // The ID of the Content field.
+		);
+
+		// Publish and view the Product on the frontend site.
+		$I->publishAndViewClassicEditorPage($I);
+
+		// Confirm that the ConvertKit Form is displayed.
+		$I->seeElementInDOM('form[data-sv-form]');
+	}
+
+	/**
+	 * Test the [convertkit_form] shortcode is inserted into the applicable Content or Excerpt Text Editor
+	 * instances when adding a WooCommerce Product.
+	 * 
+	 * @since 	1.9.8.3
+	 * 
+	 * @param 	AcceptanceTester 	$I 	Tester
+	 */
+	public function testAddNewProductUsingFormShortcodeInTextEditor(AcceptanceTester $I)
+	{
+		// Add a Product using the Classic Editor.
+		$I->addClassicEditorPage($I, 'product', 'ConvertKit: Product: Form: Shortcode: Text Editor');
+
+		// Configure metabox's Form setting = None, ensuring we only test the shortcode in the Classic Editor.
+		$I->fillSelect2Field($I, '#select2-wp-convertkit-form-container', 'None', 'aria-owns');
+
+		// Add shortcode to Excerpt (Product short description), setting the Form setting to the value specified in the .env file,
+		// and confirming that the expected shortcode is displayed in the Excerpt field.		
+		$I->addTextEditorShortcode(
+			$I,
+			'ConvertKit Form',
+			'convertkit-form',
+			[
+				'form' => [ 'select', $_ENV['CONVERTKIT_API_FORM_NAME'] ]
+			],
+			'[convertkit_form form="'.$_ENV['CONVERTKIT_API_FORM_ID'].'"]',
+			'excerpt' // The ID of the Product short description field.
+		);
+
+		// Add shortcode to Content, setting the Form setting to the value specified in the .env file,
+		// and confirming that the expected shortcode is displayed in the Excerpt field.
+		$I->addTextEditorShortcode(
+			$I,
+			'ConvertKit Form',
+			'convertkit-form',
+			[
+				'form' => [ 'select', $_ENV['CONVERTKIT_API_FORM_NAME'] ]
+			],
+			'[convertkit_form form="'.$_ENV['CONVERTKIT_API_FORM_ID'].'"]',
+			'content' // The ID of the Content field.
+		);
+
+		// Publish and view the Product on the frontend site.
+		$I->publishAndViewClassicEditorPage($I);
+
+		// Confirm that the ConvertKit Form is displayed.
+		$I->seeElementInDOM('form[data-sv-form]');
+	}
+
+	/**
 	 * Test that the Default Form for Products displays when the Default option is chosen via
 	 * WordPress' Quick Edit functionality.
 	 * 
