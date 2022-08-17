@@ -3,6 +3,8 @@
 /.scripts
 /.wordpress-org
 /tests
+/vendor/autoload.php
+/vendor/composer
 .distignore
 .env.dist.testing
 .env.example
