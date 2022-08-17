@@ -27,7 +27,7 @@ jobs:
       # "require-dev" is ignored by design, as these are only needed for
       # testing
       - name: Run Composer
-        run: composer install -no-dev
+        run: composer install --no-dev
 
       # Debug: List contents to confirm what would be sent to wordpress.org
       - name: List
