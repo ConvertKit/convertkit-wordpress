@@ -29,16 +29,16 @@ define( 'CONVERTKIT_PLUGIN_VERSION', '1.9.8.2' );
 
 // Load shared classes, if they have not been included by another ConvertKit Plugin.
 if ( ! class_exists( 'ConvertKit_API' ) ) {
-	require_once CONVERTKIT_PLUGIN_PATH . '/vendor/convertkit/wordpress-libs/src/class-convertkit-api.php';
+	require_once CONVERTKIT_PLUGIN_PATH . '/vendor/convertkit/convertkit-wordpress-libraries/src/class-convertkit-api.php';
 }
 if ( ! class_exists( 'ConvertKit_Log' ) ) {
-	require_once CONVERTKIT_PLUGIN_PATH . '/vendor/convertkit/wordpress-libs/src/class-convertkit-log.php';
+	require_once CONVERTKIT_PLUGIN_PATH . '/vendor/convertkit/convertkit-wordpress-libraries/src/class-convertkit-log.php';
 }
 if ( ! class_exists( 'ConvertKit_Resource' ) ) {
-	require_once CONVERTKIT_PLUGIN_PATH . '/vendor/convertkit/wordpress-libs/src/class-convertkit-resource.php';
+	require_once CONVERTKIT_PLUGIN_PATH . '/vendor/convertkit/convertkit-wordpress-libraries/src/class-convertkit-resource.php';
 }
 if ( ! class_exists( 'ConvertKit_Review_Request' ) ) {
-	require_once CONVERTKIT_PLUGIN_PATH . '/vendor/convertkit/wordpress-libs/src/class-convertkit-review-request.php';
+	require_once CONVERTKIT_PLUGIN_PATH . '/vendor/convertkit/convertkit-wordpress-libraries/src/class-convertkit-review-request.php';
 }
 
 // Load plugin files that are always required.

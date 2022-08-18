@@ -4,7 +4,7 @@
     "type": "project",
     "license": "GPLv3",
     "require": {
-        "convertkit/wordpress-libs": "dev-main"
+        "convertkit/convertkit-wordpress-libraries": "1.0.0.x-dev"
     },
     "require-dev": {
         "lucatume/wp-browser": "^3.0",
@@ -59,7 +59,7 @@
     },
     "repositories": [
         {
-            "url": "https://github.com/n7studios/convertkit-wordpress-libs.git",
+            "url": "https://github.com/convertkit/convertkit-wordpress-libraries.git",
             "type": "git"
         }
     ]

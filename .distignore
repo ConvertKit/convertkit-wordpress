@@ -5,6 +5,8 @@
 /tests
 /vendor/autoload.php
 /vendor/composer
+/vendor/convertkit/convertkit-wordpress-libraries/.github
+/vendor/convertkit/convertkit-wordpress-libraries/tests
 .distignore
 .env.dist.testing
 .env.example
