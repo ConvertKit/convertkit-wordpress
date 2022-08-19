@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the ConvertKit plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: ConvertKit 1.9.8.2\n"
+"Project-Id-Version: ConvertKit 1.9.8.3\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/convertkit-github\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-08-04T13:25:30+00:00\n"
+"POT-Creation-Date: 2022-08-19T12:32:07+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.6.0\n"
 "X-Domain: convertkit\n"
@@ -213,8 +213,12 @@ msgstr ""
 msgid "Configuration imported successfully."
 msgstr ""
 
-#: admin/section/class-convertkit-settings-tools.php:324
+#: admin/section/class-convertkit-settings-tools.php:325
 msgid "Tools to help you manage ConvertKit on your site."
+msgstr ""
+
+#: admin/section/class-convertkit-settings-tools.php:340
+msgid "WordPress 5.2 or higher is required for system information report."
 msgstr ""
 
 #: includes/blocks/class-convertkit-block-broadcasts.php:102
@@ -776,6 +780,6 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
-#: views/backend/tinymce/modal.php:33
+#: views/backend/tinymce/modal.php:35
 msgid "Insert"
 msgstr ""
