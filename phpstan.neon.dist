@@ -14,15 +14,9 @@ parameters:
         - includes/
         - lib/
 
-    # Paths to exclude
-    # This should comprise of any third party libraries used in the Plugin
-    excludePaths:
-        - lib/browser.php
-
     # Files that include Plugin-specific PHP constants
     bootstrapFiles:
         - wp-convertkit.php
-        - lib/browser.php
 
     # Location of WordPress Plugins for PHPStan to scan, building symbols.
     scanDirectories:
@@ -31,9 +25,3 @@ parameters:
     # Should not need to edit anything below here
     # Rule Level: https://phpstan.org/user-guide/rule-levels
     level: 5
-
-    # Ignore the following errors, as PHPStan and PHPStan for WordPress haven't registered symbols for them yet,
-    # so they're false positives.
-    ignoreErrors:
-        - '#Access to an undefined property WP_Theme::#'
-        - '#Constant WP_MEMORY_LIMIT not found.#'

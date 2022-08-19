@@ -49,6 +49,7 @@ class ConvertKit_Admin_TinyMCE {
 
 		// Get requested shortcode name.
 		$shortcode_name = sanitize_text_field( $_REQUEST['shortcode'] );
+		$editor_type    = sanitize_text_field( $_REQUEST['editor_type'] );
 
 		// If the shortcode is not registered, return a view in the modal to tell the user.
 		if ( ! isset( $shortcodes[ $shortcode_name ] ) ) {
@@ -82,7 +83,6 @@ class ConvertKit_Admin_TinyMCE {
 
 		// Enqueue Quicktag JS.
 		wp_enqueue_script( 'convertkit-admin-quicktags', CONVERTKIT_PLUGIN_URL . 'resources/backend/js/quicktags.js', array( 'jquery', 'quicktags' ), CONVERTKIT_PLUGIN_VERSION, true );
-		wp_enqueue_script( 'convertkit-admin-modal', CONVERTKIT_PLUGIN_URL . 'resources/backend/js/modal.js', array( 'jquery' ), CONVERTKIT_PLUGIN_VERSION, true );
 
 		// Make shortcodes available as convertkit_quicktags JS variable.
 		wp_localize_script( 'convertkit-admin-quicktags', 'convertkit_quicktags', $shortcodes );

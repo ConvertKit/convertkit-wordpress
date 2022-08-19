@@ -66,7 +66,7 @@ if ( $error !== false ) {
 		<div class="inside">
 			<p><?php esc_html_e( 'Use this tool to send system info to support when necessary.', 'convertkit' ); ?></p>
 
-			<textarea readonly="readonly" id="system-info-textarea" class="large-text convertkit-monospace" rows="15"><?php echo esc_textarea( $system_info->get() ); ?></textarea>
+			<textarea readonly="readonly" id="system-info-textarea" class="large-text convertkit-monospace" rows="15"><?php echo esc_textarea( $system_info ); ?></textarea>
 
 			<p>
 				<?php

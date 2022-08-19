@@ -1,7 +1,7 @@
-=== ConvertKit ===
+=== ConvertKit - Email Marketing, Email Newsletter and Landing Pages ===
 Contributors: nathanbarry, growdev, travisnorthcutt, ggwicz
 Donate link: https://convertkit.com
-Tags: email, marketing, newsletter, convertkit
+Tags: email marketing, email newsletter, newsletter, convertkit
 Requires at least: 5.0
 Tested up to: 6.0.1
 Requires PHP: 5.6.20
@@ -9,13 +9,13 @@ Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-ConvertKit is an email marketing platform for capturing leads from your WordPress blog.
+ConvertKit is an email marketing and email newsletter platform for capturing leads from your WordPress blog.
 
 == Description ==
 
-[ConvertKit](https://convertkit.com) makes it easy to capture more leads, sell more products and send targeted email marketing by easily embedding email capture forms anywhere on your WordPress web site.
+[ConvertKit](https://convertkit.com) makes it easy to capture more leads, sell more products and send targeted email newsletters by easily embedding email marketing capture forms anywhere on your WordPress web site.
 
-= Main Features =
+= Email Marketing and Email Newsletter Features =
 
 - Design [subscription forms](https://convertkit.com/features/forms) in ConvertKit, automatically appending them to any WordPress post or page, or displaying forms within your WordPress content using the supplied Gutenberg block and shortcode options 
 - Build [landing pages](https://convertkit.com/features/landing-pages) in ConvertKit, and display them on a WordPress page
@@ -43,15 +43,15 @@ For greater control, ConvertKit forms can be displayed in specific sections of y
 
 = Landing Pages =
 
-Embed [landing pages](https://convertkit.com/features/landing-pages) designed in ConvertKit on your WordPress web site, choosing from a variety of designs, customisable to your branding.
+Embed [landing pages](https://convertkit.com/features/landing-pages), designed in ConvertKit, on your WordPress web site, choosing from a variety of designs, customisable to your branding and ideal for building your email marketing list or selling a product.
 
 Create or edit a WordPress Page, choose the ConvertKit landing page from the ConvertKit meta box settings to display, and you're set.
 
-= Broadcasts =
+= Email Newsletter Broadcasts =
 
-Use ConvertKit's [email marketing](https://convertkit.com/features/email-marketing) feature to send newsletters to subscribers and leads.
+Use ConvertKit's [email marketing](https://convertkit.com/features/email-marketing) feature to send email newsletters to your subscribers and leads.
 
-Embed existing email marketing newsletters on your WordPress web site, ensuring visitors never miss newsletter content, by:
+Embed existing email newsletters on your WordPress web site, ensuring visitors never miss your email marketing content, by:
 
 - Using the ConvertKit Broadcasts block in Gutenberg
 - Using the `[convertkit_broadcasts]` shortcode in the Classic Editor
@@ -61,7 +61,7 @@ Embed existing email marketing newsletters on your WordPress web site, ensuring 
 With the ConvertKit for WordPress Plugin, you also get:
 
 - Elementor: Form and Broadcast widgets natively integrated with Elementor, to embed ConvertKit forms and broadcast lists
-- Contact Form 7: Send Contact Form 7 form submissions to ConvertKit
+- Contact Form 7: Subscribe Contact Form 7 form submissions in ConvertKit
 - WishList Member: Subscribe, unsubscribe and tag users based on their membership level
 
 Our other WordPress Plugins provide further integrations between WordPress Plugins and ConvertKit:
@@ -92,7 +92,10 @@ No. You must first have an account on ConvertKit.com, but you do not have to use
 
 = How do I refresh my available Forms, Landing Pages and Tags? =
 
-Navigate to the Plugin's Settings at Settings > ConvertKit.
+Either:
+
+- Navigate to the Plugin's Settings at `Settings > ConvertKit`
+- Click the refresh button displayed next to the Form, Landing Page or Tag fields when creating/editing Pages or Posts
 
 = Where can I find the Plugin's Documentation? =
 
@@ -109,6 +112,12 @@ Full Plugin documentation can be found [here](https://help.convertkit.com/en/art
 7. Track subscriber growth
 
 == Changelog ==
+
+### 1.9.8.3 2022-08-19
+* Added: Settings: Tools: Use WordPress' Site Info to populate System Info section
+* Added: Refresh button: Show error notification when refreshing fails
+* Fix: Widgets: Broadcasts Block: JSON response error when attempting to save Broadcasts Block in a Widget area
+* Fix: Classic (Visual) and Text Editor: Insert shortcode into correct editor when multiple editor instances exist (e.g. WooCommerce Products)
 
 ### 1.9.8.2 2022-08-04
 * Fix: API: Show error notification when API returns HTTP 500 and 502 errors, instead of showing PHP warnings
