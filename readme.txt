@@ -113,9 +113,11 @@ Full Plugin documentation can be found [here](https://help.convertkit.com/en/art
 
 == Changelog ==
 
-### 1.9.8.3 2022-08-xx
-* Fix: Classic Editor: Insert shortcode into active editor when multiple editor instances exist
-* Fix: Text Editor: Insert shortcode would not work when multiple editor instances exist
+### 1.9.8.3 2022-08-19
+* Added: Settings: Tools: Use WordPress' Site Info to populate System Info section
+* Added: Refresh button: Show error notification when refreshing fails
+* Fix: Widgets: Broadcasts Block: JSON response error when attempting to save Broadcasts Block in a Widget area
+* Fix: Classic (Visual) and Text Editor: Insert shortcode into correct editor when multiple editor instances exist (e.g. WooCommerce Products)
 
 ### 1.9.8.2 2022-08-04
 * Fix: API: Show error notification when API returns HTTP 500 and 502 errors, instead of showing PHP warnings

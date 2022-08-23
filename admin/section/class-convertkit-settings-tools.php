@@ -121,11 +121,8 @@ class ConvertKit_Settings_Tools extends ConvertKit_Settings_Base {
 			return;
 		}
 
-		// Use WordPress' debug_data() function to get system info, matching how Tools > Site Health > Info works.
-		if ( ! class_exists( 'WP_Debug_Data' ) ) {
-			require_once ABSPATH . 'wp-admin/includes/class-wp-debug-data.php';
-		}
-		$system_info = str_replace( '`', '', WP_Debug_Data::format( WP_Debug_Data::debug_data(), 'debug' ) );
+		// Get System Info.
+		$system_info = $this->get_system_info();
 
 		// Write contents to temporary file.
 		$tmpfile  = tmpfile();
@@ -293,14 +290,9 @@ class ConvertKit_Settings_Tools extends ConvertKit_Settings_Base {
 	 */
 	public function render() {
 
-		// Get Log.
-		$log = new ConvertKit_Log( CONVERTKIT_PLUGIN_PATH );
-
-		// Use WordPress' debug_data() function to get system info, matching how Tools > Site Health > Info works.
-		if ( ! class_exists( 'WP_Debug_Data' ) ) {
-			require_once ABSPATH . 'wp-admin/includes/class-wp-debug-data.php';
-		}
-		$system_info = str_replace( '`', '', WP_Debug_Data::format( WP_Debug_Data::debug_data(), 'debug' ) );
+		// Get Log and System Info.
+		$log         = new ConvertKit_Log( CONVERTKIT_PLUGIN_PATH );
+		$system_info = $this->get_system_info();
 
 		// Define messages that might be displayed as a notification.
 		$messages = array(
@@ -328,9 +320,33 @@ class ConvertKit_Settings_Tools extends ConvertKit_Settings_Base {
 	 * Prints help info for this section
 	 */
 	public function print_section_info() {
+
 		?>
 		<p><?php esc_html_e( 'Tools to help you manage ConvertKit on your site.', 'convertkit' ); ?></p>
 		<?php
+
+	}
+
+	/**
+	 * Returns a string comprising of the WordPress system information, with Plugin information
+	 * prepended.
+	 *
+	 * @since   1.9.8.3
+	 */
+	private function get_system_info() {
+
+		// If we're using WordPress < 5.2, there's no WP_Debug_Data class to fetch system information from.
+		if ( version_compare( get_bloginfo( 'version' ), '5.2', '<' ) ) {
+			return __( 'WordPress 5.2 or higher is required for system information report.', 'convertkit' );
+		}
+
+		// Use WordPress' debug_data() function to get system info, matching how Tools > Site Health > Info works.
+		if ( ! class_exists( 'WP_Debug_Data' ) ) {
+			require_once ABSPATH . 'wp-admin/includes/class-wp-debug-data.php';
+		}
+
+		return str_replace( '`', '', WP_Debug_Data::format( WP_Debug_Data::debug_data(), 'debug' ) );
+
 	}
 
 }
