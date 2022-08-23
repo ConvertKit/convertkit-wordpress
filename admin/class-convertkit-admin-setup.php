@@ -139,11 +139,6 @@ class ConvertKit_Admin_Setup {
 	 */
 	public function enqueue_scripts() {
 
-		// Bail if this isn't a request for the setup screen.
-		if ( ! $this->is_setup_request() ) {
-			return;
-		}
-
 		// Enqueue Select2 JS.
 		convertkit_select2_enqueue_scripts();
 
@@ -155,11 +150,6 @@ class ConvertKit_Admin_Setup {
 	 * @since   1.9.8.5
 	 */
 	public function enqueue_styles() {
-
-		// Bail if this isn't a request for the setup screen.
-		if ( ! $this->is_setup_request() ) {
-			return;
-		}
 
 		// Enqueue WordPress default styles.
 		wp_enqueue_style( 'common' );
@@ -229,11 +219,6 @@ class ConvertKit_Admin_Setup {
 	 */
 	private function output_content() {
 
-		// Define variables for the content.php now.
-		$back_button_url   = 'edit.php?post_type=' . $this->post_type;
-		$back_button_label = __( 'Cancel', 'convertkit' );
-		$next_button_label = __( 'Create members only content', 'convertkit' );
-
 		// Load content view.
 		include_once CONVERTKIT_PLUGIN_PATH . '/views/backend/setup/content.php';
 
@@ -248,6 +233,11 @@ class ConvertKit_Admin_Setup {
 
 		do_action( 'admin_footer', '' );
 		do_action( 'admin_print_footer_scripts' );
+
+		// Define variables for the content.php now.
+		$back_button_url   = 'index.php';
+		$back_button_label = __( 'Cancel', 'convertkit' );
+		$next_button_label = __( 'Create members only content', 'convertkit' );
 
 		// Load footer view.
 		include_once CONVERTKIT_PLUGIN_PATH . '/views/backend/setup/footer.php';
