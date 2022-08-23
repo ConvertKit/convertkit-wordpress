@@ -1,0 +1,87 @@
+#convertkit-setup-header {
+	padding: 40px 20px;
+	background: url(../images/convertkit-long-inverted.svg) 20px 50% no-repeat;
+	background-size: 200px auto;
+	background-color: #212f4f;
+}
+#convertkit-setup-header h1 {
+	margin: 0;
+	padding: 0;
+	font-weight: 400;
+	color: #D2D8DD;
+	text-indent: -9999px;
+}
+.convertkit-setup {
+	max-width: 900px;
+	margin: 0 auto;
+	padding: 40px 0;
+}
+.convertkit-setup .wrap {
+	margin: 10px 0;
+}
+#convertkit-setup-form {
+	padding: 20px 80px 80px 80px;
+	background-color: #fff;
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+#convertkit-setup-content h1 {
+	margin: 60px 0 20px 0;
+}
+#convertkit-setup-content p {
+	font-size: 16px;
+}
+#convertkit-setup-content p.description {
+	font-size: 13px;
+}
+#convertkit-setup-content hr {
+	margin: 40px 0;
+}
+#convertkit-setup-content > div {
+	margin: 0 0 40px 0;
+}
+#convertkit-setup-content > div label {
+	display: block;
+	margin-bottom: 10px;
+	font-size: 16px;
+	font-weight: 500;
+}
+#convertkit-setup-content .convertkit-setup-selection {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	column-gap: 20px;
+}
+#convertkit-setup-content .convertkit-setup-selection label {
+	text-align: center;
+	padding: 20px;
+	background-color: #fcfcfc;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	cursor: pointer;
+}
+#convertkit-setup-content .convertkit-setup-selection label span {
+	display: block;
+}
+#convertkit-setup-content .convertkit-setup-selection label span.description {
+	margin: 20px 0 0 0;
+	color: #646970;
+	font-size: 13px;
+	font-weight: 400;
+	font-style: italic;
+}
+#convertkit-setup-content .convertkit-setup-selection label input[type=radio] {
+	margin: 20px 0 0 0;
+}
+#convertkit-setup-footer {
+	display: grid;
+	grid-template-columns: repeat(2,1fr);
+	grid-template-areas: "left right";
+	padding: 40px 0 0 0;
+}
+#convertkit-setup-footer .left {
+	grid-area: left;
+	text-align: left;
+}
+#convertkit-setup-footer .right {
+	grid-area: right;
+	text-align: right;
+}

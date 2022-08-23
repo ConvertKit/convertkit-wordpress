@@ -70,6 +70,7 @@ class WP_ConvertKit {
 		$this->classes['admin_quick_edit']        = new ConvertKit_Admin_Quick_Edit();
 		$this->classes['admin_refresh_resources'] = new ConvertKit_Admin_Refresh_Resources();
 		$this->classes['admin_settings']          = new ConvertKit_Admin_Settings();
+		$this->classes['admin_setup']             = new ConvertKit_Admin_Setup();
 		$this->classes['admin_tinymce']           = new ConvertKit_Admin_TinyMCE();
 		$this->classes['admin_user']              = new ConvertKit_Admin_User();
 

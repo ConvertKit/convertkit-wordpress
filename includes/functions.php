@@ -22,6 +22,9 @@ function convertkit_plugin_activate( $network_wide ) {
 	if ( ! is_multisite() || ! $network_wide ) {
 		// Single Site activation.
 		$convertkit->get_class( 'setup' )->activate();
+
+		// Set a transient for 30 seconds to redirect to the setup screen on activation.
+		set_transient( 'convertkit_setup', true, 30 );
 	} else {
 		// Multisite network wide activation.
 		$sites = get_sites(
