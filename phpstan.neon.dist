@@ -12,7 +12,6 @@ parameters:
         - wp-convertkit.php
         - admin/
         - includes/
-        - lib/
 
     # Files that include Plugin-specific PHP constants
     bootstrapFiles:

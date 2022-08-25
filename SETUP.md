@@ -154,16 +154,18 @@ parameters:
         - '#Function apply_filters invoked with#' # apply_filters() accepted a variable number of parameters, which PHPStan fails to detect
 ```
 
-### Install Testing Suite
+### Install Packages
 
-In the Plugin's directory, at the command line, run `composer update`.
+In the Plugin's directory, at the command line, run `composer install`.
 
-This will install the necessary libraries used for testing, including:
-- wp-browser
-- Codeception
-- PHPStan
-- PHPUnit
-- PHP_CodeSniffer
+This will install two types of packages:
+- Packages used by the Plugin (i.e. shared libraries used across multiple ConvertKit Plugins)
+- Packages used in the process of development (i.e. testing, coding standards):
+-- wp-browser
+-- Codeception
+-- PHPStan
+-- PHPUnit
+-- PHP_CodeSniffer
 
 How to use these is covered later on, and in the [Testing Guide](TESTING.md)
 

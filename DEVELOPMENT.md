@@ -35,12 +35,37 @@ Make use of [WordPress nonces](https://codex.wordpress.org/WordPress_Nonces) for
 
 Coding standards will catch any sanitization, escaping or database queries that aren't prepared.
 
+## Composer Packages
+
+We use Composer for package management.  A package can be added to one of two sections of the `composer.json` file: `require` or `require-dev`.
+
+### "require"
+
+Packages listed in the "require" directive are packages that the Plugin needs in order to function for end users.
+
+These packages are included when the Plugin is deployed to wordpress.org
+
+Typically, packages listed in this section would be libraries that the Plugin uses, such as:
+- ConvertKit WordPress Libraries; a shared connection of WordPress specific API, Resource and Review Request classes that are used
+across multiple ConvertKit WordPress Plugins.
+
+### "require-dev"
+
+Packages listed in the "require-dev" directive are packages that the Plugin **does not** need in order to function for end users.
+
+These packages are **not** included when the Plugin is deployed to wordpress.org
+
+Typically, packages listed in this section would be internal development tools for testing, such as:
+- Coding Standards
+- PHPStan
+- Codeception
+
 ## Committing Work
 
 Remember to commit your changes to your branch relatively frequently, with a meaningful, short summary that explains what the change(s) do.
 This helps anyone looking at the commit history in the future to find what they might be looking for.
 
-If it's a particularly large commit, be sure to include more information in the commit's description. 
+If it's a particularly large commit, be sure to include more information in the commit's description.
 
 ## Next Steps
 

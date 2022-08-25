@@ -65,4 +65,7 @@ When you're happy with the above, click `Publish Release`.
 This will then trigger the [deploy.yml](.github/workflows/deploy.yml) workflow, which will upload this new version to the wordpress.org
 repository, making it available to download / update for WordPress users.
 
+Any Composer packages included in the `composer.json`'s `require` section will be included in the deployment.
+Packages in the `require-dev` section are **not** included.
+
 The release will also be available to view on the [Releases](https://github.com/ConvertKit/convertkit-wordpress/releases) section of this GitHub repository.
