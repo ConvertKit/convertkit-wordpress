@@ -37,11 +37,50 @@ class ConvertKit_Admin_Setup {
 	public $error = false;
 
 	/**
+	 * The current step in the setup process the user is on.
+	 * 
+	 * @since 	1.9.8.5
+	 * 
+	 * @var 	int
+	 */
+	public $step = 1;
+
+	/**
 	 * Registers action and filter hooks.
 	 *
 	 * @since   1.9.8.5
 	 */
 	public function __construct() {
+
+		// Define the step, if provided.
+		if ( isset( $_REQUEST['step'] ) ) {
+			$this->step = absint( $_REQUEST['step'] );
+		}
+
+		// Define details for each step in the setup process.
+		$this->steps = array(
+			1 => array(
+				'name' 			=> __( 'Setup', 'convertkit' ),
+				'back_button'   => array(
+					'url' 	=> 'index.php',
+					'label' => __( 'Exit Wizard', 'convertkit' ),
+				),
+			),
+			2 => array(
+				'name' 				=> __( 'Connect Account', 'convertkit' ),
+				
+				'next_button_label' => __( 'Exit Wizard', 'convertkit' ),
+			),
+			3 => array(
+				'name' 				=> __( 'Form Configuration', 'convertkit' ),
+				
+				'next_button_label' => __( 'Exit Wizard', 'convertkit' ),
+			),
+			4 => array(
+				'name' 				=> __( 'Done', 'convertkit' ),
+				'next_button_label' => __( 'Exit Wizard', 'convertkit' ),
+			),
+		);
 
 		add_action( 'admin_menu', array( $this, 'register_screen' ) );
 		add_action( 'admin_head', array( $this, 'hide_screen_from_menu' ) );
@@ -120,15 +159,41 @@ class ConvertKit_Admin_Setup {
 		// Define current screen, so that calls to get_current_screen() tell Plugins which screen is loaded.
 		set_current_screen( 'convertkit-setup' );
 
+		// Process any posted form data.
+		$this->process_form();
+
 		// Load scripts and styles.
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_styles' ) );
-
+		
 		// Output custom HTML for the setup screen.
 		$this->output_header();
 		$this->output_content();
 		$this->output_footer();
 		exit;
+
+	}
+
+	/**
+	 * Process posted data from the setup form, if any exists
+	 *
+	 * @since   1.9.8.5
+	 *
+	 * @return  mixed   WP_Error | bool
+	 */
+	private function process_form() {
+
+		// Run security checks.
+		if ( ! isset( $_POST['_wpnonce'] ) ) {
+			return;
+		}
+		if ( ! wp_verify_nonce( sanitize_key( $_POST['_wpnonce'] ), 'convertkit-setup' ) ) {
+			$this->error = __( 'Invalid nonce specified.', 'convertkit' );
+			return;
+		}
+
+		var_dump( $_POST );
+		die();
 
 	}
 
@@ -165,34 +230,6 @@ class ConvertKit_Admin_Setup {
 	}
 
 	/**
-	 * Process posted form data, if any exists
-	 *
-	 * @since   1.9.8.5
-	 *
-	 * @return  mixed   WP_Error | bool
-	 */
-	private function process_form() {
-
-		// Run security checks.
-		if ( ! isset( $_POST['_wpnonce'] ) ) {
-			return;
-		}
-		if ( ! wp_verify_nonce( sanitize_key( $_POST['_wpnonce'] ), 'convertkit-setup' ) ) {
-			return new WP_Error( 'convertkit_setup_error', __( 'Invalid nonce specified.', 'convertkit' ) );
-		}
-
-		// Sanitize configuration.
-		$configuration = array(
-			'type'             => sanitize_text_field( stripslashes( $_POST['type'] ) ),
-			'title'            => sanitize_text_field( stripslashes( $_POST['title'] ) ),
-			'description'      => sanitize_textarea_field( stripslashes( $_POST['description'] ) ),
-			'number_of_pages'  => absint( $_POST['number_of_pages'] ),
-			'post_type'        => $this->post_type,
-		);
-
-	}
-
-	/**
 	 * Outputs the <head> and opening <body> tag for the standalone setup screen
 	 *
 	 * @since   1.9.8.5
@@ -220,7 +257,7 @@ class ConvertKit_Admin_Setup {
 	private function output_content() {
 
 		// Load content view.
-		include_once CONVERTKIT_PLUGIN_PATH . '/views/backend/setup/content.php';
+		include_once CONVERTKIT_PLUGIN_PATH . '/views/backend/setup/content-' . $this->step . '.php';
 
 	}
 
@@ -233,11 +270,6 @@ class ConvertKit_Admin_Setup {
 
 		do_action( 'admin_footer', '' );
 		do_action( 'admin_print_footer_scripts' );
-
-		// Define variables for the content.php now.
-		$back_button_url   = 'index.php';
-		$back_button_label = __( 'Cancel', 'convertkit' );
-		$next_button_label = __( 'Create members only content', 'convertkit' );
 
 		// Load footer view.
 		include_once CONVERTKIT_PLUGIN_PATH . '/views/backend/setup/footer.php';

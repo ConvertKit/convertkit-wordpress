@@ -7,29 +7,32 @@
  */
 
 ?>
-				</div>
+				</div><!-- /#convertkit-setup-content -->
 
 				<div id="convertkit-setup-footer">
 					<?php
-					if ( isset( $back_button_label ) ) {
+					if ( isset( $this->steps[ $this->step ]['back_button'] ) ) {
 						?>
 						<div class="left">
-							<a href="<?php echo esc_attr( $back_button_url ); ?>" class="button"><?php echo esc_html( $back_button_label ); ?></a>
+							<a href="<?php echo esc_attr( $this->steps[ $this->step ]['back_button']['url'] ); ?>" class="button">
+								<?php echo esc_html( $this->steps[ $this->step ]['back_button']['label'] ); ?>
+							</a>
 						</div>
 						<?php
 					}
 
-					if ( isset( $next_button_label ) ) {
+					if ( isset( $this->steps[ $this->step ]['next_button'] ) ) {
 						?>
 						<div class="right">
-							<?php wp_nonce_field( 'convertkit-restrict-content-setup' ); ?>
-							<button class="button button-primary button-large"><?php echo esc_html( $next_button_label ); ?></button>
+							<a href="admin.php?page=convertkit-setup&step=<?php echo esc_attr( ( $this->step + 1 ) ); ?>" class="button button-primary">
+								<?php echo esc_html( $this->steps[ $this->step ]['next_button_label'] ); ?>
+							</a>
 						</div>
 						<?php
 					}
 					?>
 				</div>
-			</form>
+			</div><!-- /#convertkit-setup-body -->
 		</div>
 	</body>
 </html>

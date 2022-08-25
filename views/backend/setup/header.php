@@ -28,8 +28,13 @@
 			<div class="wrap">
 				<div id="convertkit-setup-progress">
 					<ol>
-						<li class="done"><?php esc_html_e( 'Setup', 'page-generator-pro' ); ?></li>
-						<li><?php esc_html_e( 'Done', 'page-generator-pro' ); ?></li>
+						<?php
+						foreach ( $this->steps as $step_count => $step ) {
+							?>
+							<li<?php echo ( $step_count <= $this->step ? ' class="done"' : ''); ?>><?php echo esc_html( $step['name'] ); ?></li>
+							<?php
+						}
+						?>
 					</ol>
 				</div>
 
@@ -46,5 +51,15 @@
 				?>
 			</div>
 
-			<form action="admin.php?page=convertkit-setup" method="POST" id="convertkit-setup-form">
+			<div id="convertkit-setup-body">
 				<div id="convertkit-setup-content">
+					<div id="convertkit-setup-step">
+						<?php
+						echo sprintf(
+							esc_html__( 'Step %1$s of %2$s', 'convertkit' ),
+							esc_html( $this->step ),
+							esc_html( count( $this->steps ) )
+						);
+						?>
+					</div>
+
