@@ -167,6 +167,15 @@ class ConvertKit_Admin_Setup {
 		// Process any posted form data.
 		$this->process_form();
 
+		// Load any data for the step.
+		switch ( $this->step ) {
+			case 3:
+				// Fetch Forms.
+				$this->forms = new ConvertKit_Resource_Forms();
+				$this->forms->refresh();
+				break;
+		}
+
 		// Load scripts and styles.
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_styles' ) );
