@@ -52,14 +52,14 @@
 			</div>
 
 			<div id="convertkit-setup-body">
-				<div id="convertkit-setup-content">
-					<div id="convertkit-setup-step">
-						<?php
-						echo sprintf(
-							esc_html__( 'Step %1$s of %2$s', 'convertkit' ),
-							esc_html( $this->step ),
-							esc_html( count( $this->steps ) )
-						);
-						?>
-					</div>
-
+				<form action="admin.php?page=convertkit-setup&step=<?php echo esc_attr( ( $this->step + 1 ) ); ?>" method="POST">
+					<div id="convertkit-setup-content">
+						<div id="convertkit-setup-step">
+							<?php
+							echo sprintf(
+								esc_html__( 'Step %1$s of %2$s', 'convertkit' ),
+								esc_html( $this->step ),
+								esc_html( count( $this->steps ) )
+							);
+							?>
+						</div>

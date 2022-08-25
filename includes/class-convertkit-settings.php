@@ -278,4 +278,17 @@ class ConvertKit_Settings {
 
 	}
 
+	/**
+	 * Saves the given array of settings to the WordPress options table.
+	 * 
+	 * @since 	1.9.8.5
+	 * 
+	 * @param 	array 	$settings 	Settings.
+	 */
+	public function save( $settings ) {
+
+		update_option( self::SETTINGS_NAME, array_merge( $this->get_defaults(), $settings ) );
+
+	}
+
 }

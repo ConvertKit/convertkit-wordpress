@@ -44,7 +44,16 @@
 	<label for="api_secret">
 		<?php esc_html_e( 'Enter your ConvertKit API Secret', 'convertkit' ); ?>
 	</label>
-	<input type="text" name="api_secret" id="api_secret" class="widefat" required />
+	<input type="text" name="api_secret" id="api_secret" class="widefat" placeholder="<?php esc_attr_e( 'Click the link below, copy the API Secret, and paste it here.', 'convertkit' ); ?>" required />
+	<p class="description">
+		<?php
+		echo sprintf(
+			/* translators: %1$s: Link to ConvertKit Account */
+			esc_html__( '%1$s, and enter it in the above field.', 'convertkit' ),
+			'<a href="' . esc_url( convertkit_get_api_key_url() ) . '" target="_blank">' . esc_html__( 'Click here to get your ConvertKit API Secret', 'convertkit' ) . '</a>'
+		);
+		?>
+	</p>
 </div>
 
 

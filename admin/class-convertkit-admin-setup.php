@@ -68,8 +68,13 @@ class ConvertKit_Admin_Setup {
 			),
 			2 => array(
 				'name' 				=> __( 'Connect Account', 'convertkit' ),
-				
-				'next_button_label' => __( 'Exit Wizard', 'convertkit' ),
+				'back_button'   => array(
+					'url' 	=> 'index.php',
+					'label' => __( 'Exit Wizard', 'convertkit' ),
+				),
+				'next_button'   => array(
+					'label' => __( 'Connect', 'convertkit' ),
+				),
 			),
 			3 => array(
 				'name' 				=> __( 'Form Configuration', 'convertkit' ),
@@ -192,8 +197,33 @@ class ConvertKit_Admin_Setup {
 			return;
 		}
 
-		var_dump( $_POST );
-		die();
+		// Depending on the step, process the form data.
+		switch ( $this->step ) {
+			case 3:
+				// Check that the API Key and Secret work.
+				$api_key = sanitize_text_field( wp_unslash( $_POST['api_key'] ) );
+				$api_secret = sanitize_text_field( wp_unslash( $_POST['api_secret'] ) );
+				
+				$api = new ConvertKit_API( $api_key, $api_secret );
+				$result = $api->account();
+
+				// Show an error message if Account Details could not be fetched e.g. API credentials supplied are invalid.
+				if ( is_wp_error( $result ) ) {
+					// Decrement the step.
+					$this->step = ( $this->step - 1 );
+					$this->error = $result->get_error_message();
+					return;
+				}
+
+				// If here, API credentials are valid.
+				// Save them.
+				$settings = new ConvertKit_Settings;
+				$settings->save( array(
+					'api_key' => $api_key,
+					'api_secret' => $api_secret,
+				) );
+				break;
+		}
 
 	}
 
