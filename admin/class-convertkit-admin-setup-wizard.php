@@ -1,31 +1,32 @@
 <?php
 /**
- * ConvertKit Admin Setup class.
+ * ConvertKit Admin Setup Wizard class.
  *
  * @package ConvertKit
  * @author ConvertKit
  */
 
 /**
- * Provides a UI for setting up the ConvertKit Plugin when activated for the
- * first time.
+ * Provides a UI for displaying a step by step wizard style screen in the WordPress
+ * Administration.
  * 
- * If the Plugin has previously been configured (i.e. settings exist in the database),
- * this UI isn't triggered on activation.
+ * To use this class, extend it with your own configuration.
+ * 
+ * Refer to the admin/setup-wizard folder for current implementations.
  *
  * @package ConvertKit
  * @author ConvertKit
  */
-class ConvertKit_Admin_Setup {
+class ConvertKit_Admin_Setup_Wizard {
 
 	/**
-	 * Holds the ConvertKit Forms resource class.
-	 *
-	 * @since   1.9.8.5
-	 *
-	 * @var     bool|ConvertKit_Resource_Forms
+	 * The steps available in this wizard.
+	 * 
+	 * @since 	1.9.8.5
+	 * 
+	 * @var 	array
 	 */
-	public $forms = false;
+	public $steps = array();
 
 	/**
 	 * Holds an error message to display on screen.
@@ -50,18 +51,18 @@ class ConvertKit_Admin_Setup {
 	 * 
 	 * @since 	1.9.8.5
 	 * 
-	 * @var 	string
+	 * @var 	bool|string
 	 */
-	public $page_name = 'convertkit-setup';
+	public $page_name = false;
 
 	/**
 	 * The URL to take the user to when they click the Exit link.
 	 * 
 	 * @since 	1.9.8.5
 	 * 
-	 * @var 	string
+	 * @var 	bool|string
 	 */
-	public $exit_url = 'options-general.php?page=_wp_convertkit_settings';
+	public $exit_url = false;
 
 	/**
 	 * Holds the URL for the current step in the setup process.
@@ -97,45 +98,27 @@ class ConvertKit_Admin_Setup {
 	 */
 	public function __construct() {
 
-		// Define details for each step in the setup process.
-		$this->steps = array(
-			1 => array(
-				'name' 			=> __( 'Setup', 'convertkit' ),
-			),
-			2 => array(
-				'name' 				=> __( 'Connect Account', 'convertkit' ),
-				'next_button'   => array(
-					'label' => __( 'Connect', 'convertkit' ),
-				),
-			),
-			3 => array(
-				'name' 				=> __( 'Form Configuration', 'convertkit' ),
-				'next_button'   => array(
-					'label' => __( 'Finish Setup', 'convertkit' ),
-				),
-			),
-			4 => array(
-				'name' 				=> __( 'Done', 'convertkit' ),
-			),
-		);
+		// Bail if no page name is defined.
+		if ( $this->page_name === false ) {
+			return;
+		}
 
 		// Define actions to register the setup screen.
 		add_action( 'admin_menu', array( $this, 'register_screen' ) );
 		add_action( 'admin_head', array( $this, 'hide_screen_from_menu' ) );
-		add_action( 'admin_init', array( $this, 'maybe_redirect_to_setup_screen' ), 9999 );
 		add_action( 'admin_init', array( $this, 'maybe_load_setup_screen' ) );
 		
 	}
 
 	/**
-	 * Register the setup screen in WordPress' Dashboard, so that index.php?page=convertkit-setup
+	 * Register the setup screen in WordPress' Dashboard, so that index.php?page={$this->page_name}
 	 * does not 404 when in the WordPress Admin interface.
 	 *
 	 * @since   1.9.8.5
 	 */
 	public function register_screen() {
 
-		add_dashboard_page( '', '', 'edit_posts', 'convertkit-setup', '' );
+		add_dashboard_page( '', '', 'edit_posts', $this->page_name, '' );
 
 	}
 
@@ -147,38 +130,7 @@ class ConvertKit_Admin_Setup {
 	 */ 
 	public function hide_screen_from_menu() {
 
-		remove_submenu_page( 'index.php', 'convertkit-setup' );
-
-	}
-
-	/**
-	 * Redirects to the setup screen if a transient was created on Plugin activation,
-	 * and the Plugin has no API Key and Secret configured.
-	 * 
-	 * @since 	1.9.8.5
-	 */
-	public function maybe_redirect_to_setup_screen() {
-
-		// If no transient was set by the Plugin's activation routine, don't redirect to the setup screen.
-		// This transient will only exist for 30 seconds by design, so we don't hijack a later WordPress
-		// Admin screen request.
-		if ( ! get_transient( 'convertkit_setup' ) ) {
-			return;
-		}
-
-		// Delete the transient, so we don't redirect again.
-		delete_transient( 'convertkit_setup' );
-
-		// Check if any settings exist.
-		// If they do, the Plugin has already been setup, so no need to show the setup screen.
-		$settings = new ConvertKit_Settings();
-		if ( $settings->has_api_key_and_secret() ) {
-			return;
-		}
-
-		// Show the setup screen.
-		wp_safe_redirect( admin_url( 'index.php?page=convertkit-setup' ) );
-		exit;
+		remove_submenu_page( 'index.php', $this->page_name );
 
 	}
 
@@ -195,7 +147,7 @@ class ConvertKit_Admin_Setup {
 		}
 
 		// Define current screen, so that calls to get_current_screen() tell Plugins which screen is loaded.
-		set_current_screen( 'convertkit-setup' );
+		set_current_screen( $this->page_name );
 
 		// Populate class variables, such as the current step and URLs.
 		$this->populate_step_and_urls();
@@ -203,18 +155,8 @@ class ConvertKit_Admin_Setup {
 		// Process any posted form data.
 		$this->process_form();
 
-		// Load any data for the step.
-		switch ( $this->step ) {
-			case 3:
-				// Fetch Forms.
-				$this->forms = new ConvertKit_Resource_Forms();
-				$this->forms->refresh();
-
-				// Fetch a Post and a Page.
-				$post_id = $this->get_most_recent( 'post' );
-				$page_id = $this->get_most_recent( 'page' );
-				break;
-		}
+		// Load any data for the current screen.
+		$this->load_screen_data();
 
 		// Load scripts and styles.
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
@@ -225,36 +167,6 @@ class ConvertKit_Admin_Setup {
 		$this->output_content();
 		$this->output_footer();
 		exit;
-
-	}
-
-	/**
-	 * Returns the most recent published Post ID.
-	 * 
-	 * @since 	1.9.8.5
-	 * 
-	 * @param 	string 	$post_type 	Post Type.
-	 * @return 	false|int 			Post ID
-	 */
-	private function get_most_recent( $post_type = 'post' ) {
-
-		// Run query.
-		$query = new WP_Query( array(
-			'post_type' => $post_type,
-			'post_status' => 'publish',
-			'posts_per_page' => 1,
-			'orderby' => 'date',
-			'order' => 'DESC',
-			'fields' => 'ids',
-		) );
-
-		// Return false if no Posts exist for the given type.
-		if ( empty( $query->posts ) ) {
-			return false;
-		}
-
-		// Return the Post ID.
-		return $query->posts[0];
 
 	}
 
@@ -304,11 +216,9 @@ class ConvertKit_Admin_Setup {
 	}
 
 	/**
-	 * Process posted data from the setup form, if any exists
-	 *
-	 * @since   1.9.8.5
-	 *
-	 * @return  mixed   WP_Error | bool
+	 * Process submitted form data for the given setup wizard name and current step.
+	 * 
+	 * @since 	1.9.8.5
 	 */
 	private function process_form() {
 
@@ -316,38 +226,37 @@ class ConvertKit_Admin_Setup {
 		if ( ! isset( $_POST['_wpnonce'] ) ) {
 			return;
 		}
-		if ( ! wp_verify_nonce( sanitize_key( $_POST['_wpnonce'] ), 'convertkit-setup' ) ) {
+		if ( ! wp_verify_nonce( sanitize_key( $_POST['_wpnonce'] ), $this->page_name ) ) {
 			$this->error = __( 'Invalid nonce specified.', 'convertkit' );
 			return;
 		}
 
-		// Depending on the step, process the form data.
-		switch ( $this->step ) {
-			case 3:
-				// Check that the API Key and Secret work.
-				$api_key = sanitize_text_field( wp_unslash( $_POST['api_key'] ) );
-				$api_secret = sanitize_text_field( wp_unslash( $_POST['api_secret'] ) );
-				
-				$api = new ConvertKit_API( $api_key, $api_secret );
-				$result = $api->account();
+		/**
+		 * Process submitted form data for the given setup wizard name and current step.
+		 * 
+		 * @since 	1.9.8.5
+		 * 
+		 * @param 	int 	$this->step 	Current step number.
+		 */
+		do_action( 'convertkit_admin_setup_wizard_process_form_' . $this->page_name, $this->step );
 
-				// Show an error message if Account Details could not be fetched e.g. API credentials supplied are invalid.
-				if ( is_wp_error( $result ) ) {
-					// Decrement the step.
-					$this->step = ( $this->step - 1 );
-					$this->error = $result->get_error_message();
-					return;
-				}
+	}
 
-				// If here, API credentials are valid.
-				// Save them.
-				$settings = new ConvertKit_Settings;
-				$settings->save( array(
-					'api_key' => $api_key,
-					'api_secret' => $api_secret,
-				) );
-				break;
-		}
+	/**
+	 * Load any data into class variables for the given setup wizard name and current step.
+	 * 
+	 * @since 	1.9.8.5
+	 */
+	private function load_screen_data() {
+
+		/**
+		 * Load any data into class variables for the given setup wizard name and current step.
+		 * 
+		 * @since 	1.9.8.5
+		 * 
+		 * @param 	int 	$this->step 	Current step number.
+		 */
+		do_action( 'convertkit_admin_setup_wizard_load_screen_data_' . $this->page_name, $this->step );
 
 	}
 
@@ -362,7 +271,7 @@ class ConvertKit_Admin_Setup {
 		convertkit_select2_enqueue_scripts();
 
 		// Enqueue Setup JS.
-		wp_enqueue_script( 'convertkit-admin-setup', CONVERTKIT_PLUGIN_URL . 'resources/backend/js/setup.js', array( 'jquery' ), CONVERTKIT_PLUGIN_VERSION, true );
+		wp_enqueue_script( 'convertkit-admin-setup-wizard', CONVERTKIT_PLUGIN_URL . 'resources/backend/js/setup-wizard.js', array( 'jquery' ), CONVERTKIT_PLUGIN_VERSION, true );
 
 	}
 
@@ -382,7 +291,7 @@ class ConvertKit_Admin_Setup {
 		convertkit_select2_enqueue_styles();
 
 		// Enqueue styles for the setup wizard.
-		wp_enqueue_style( 'convertkit-admin-setup', CONVERTKIT_PLUGIN_URL . 'resources/backend/css/setup.css', array(), CONVERTKIT_PLUGIN_VERSION );
+		wp_enqueue_style( 'convertkit-admin-setup-wizard', CONVERTKIT_PLUGIN_URL . 'resources/backend/css/setup-wizard.css', array(), CONVERTKIT_PLUGIN_VERSION );
 
 	}
 
@@ -401,7 +310,7 @@ class ConvertKit_Admin_Setup {
 		do_action( 'admin_enqueue_scripts' );
 
 		// Load header view.
-		include_once CONVERTKIT_PLUGIN_PATH . '/views/backend/setup/header.php';
+		include_once CONVERTKIT_PLUGIN_PATH . '/views/backend/setup-wizard/header.php';
 
 	}
 
@@ -414,7 +323,7 @@ class ConvertKit_Admin_Setup {
 	private function output_content() {
 
 		// Load content view.
-		include_once CONVERTKIT_PLUGIN_PATH . '/views/backend/setup/content-' . $this->step . '.php';
+		include_once CONVERTKIT_PLUGIN_PATH . '/views/backend/setup-wizard/content-' . $this->step . '.php';
 
 	}
 
@@ -429,7 +338,7 @@ class ConvertKit_Admin_Setup {
 		do_action( 'admin_print_footer_scripts' );
 
 		// Load footer view.
-		include_once CONVERTKIT_PLUGIN_PATH . '/views/backend/setup/footer.php';
+		include_once CONVERTKIT_PLUGIN_PATH . '/views/backend/setup-wizard/footer.php';
 
 	}
 
@@ -451,7 +360,7 @@ class ConvertKit_Admin_Setup {
 		if ( ! isset( $_GET['page'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification
 			return false;
 		}
-		if ( sanitize_text_field( $_GET['page'] ) !== 'convertkit-setup' ) { // phpcs:ignore WordPress.Security.NonceVerification
+		if ( sanitize_text_field( $_GET['page'] ) !== $this->page_name ) { // phpcs:ignore WordPress.Security.NonceVerification
 			return false;
 		}
 

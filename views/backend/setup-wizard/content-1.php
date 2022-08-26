@@ -13,7 +13,7 @@
 	<?php esc_html_e( 'This setup wizard will guide you through adding your first ConvertKit email marketing capture form to your site and begin capturing leads and subscribers.', 'convertkit' ); ?>
 </p>
 
-<div class="convertkit-setup-grid">
+<div class="convertkit-setup-wizard-grid">
     <div>
     	<h2><?php esc_html_e( 'I don\'t have a ConvertKit account.', 'convertkit' ); ?></h2>
         <a href="<?php echo esc_attr( convertkit_get_registration_url() ); ?>" class="button button-primary convertkit-redirect" data-convertkit-redirect-url="<?php echo esc_attr( $this->next_step_url ); ?>" target="_blank">

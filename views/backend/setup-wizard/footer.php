@@ -7,9 +7,9 @@
  */
 
 ?>				
-					</div><!-- /#convertkit-setup-content -->
+					</div><!-- /#convertkit-setup-wizard-content -->
 
-					<div id="convertkit-setup-footer">
+					<div id="convertkit-setup-wizard-footer">
 						<?php
 						// Display a back link if supplied.
 						if ( $this->previous_step_url ) {
@@ -26,7 +26,7 @@
 						if ( isset( $this->steps[ $this->step ]['next_button'] ) ) {
 							?>
 							<div class="right">
-								<?php wp_nonce_field( 'convertkit-setup' ); ?>
+								<?php wp_nonce_field( $this->page_name ); ?>
 								<button class="button button-primary button-large"><?php echo esc_html( $this->steps[ $this->step ]['next_button']['label'] ); ?></button>
 							</div>
 							<?php
@@ -34,9 +34,9 @@
 						?>
 					</div>
 				</form>
-			</div><!-- /#convertkit-setup-body -->
+			</div><!-- /#convertkit-setup-wizard-body -->
 
-			<div id="convertkit-setup-exit-link">
+			<div id="convertkit-setup-wizard-exit-link">
 				<a href="<?php echo $this->exit_url; ?>" title="<?php esc_html_e( 'Exit wizard without saving', 'convertkit' ); ?>">
 					<?php esc_html_e( 'Exit wizard without saving', 'convertkit' ); ?>
 				</a>

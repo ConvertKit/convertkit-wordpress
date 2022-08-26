@@ -20,13 +20,13 @@
 		?>
 	</head>
 	<body class="wp-admin wp-core-ui convertkit">
-		<div id="convertkit-setup">
-			<header id="convertkit-setup-header">
+		<div id="convertkit-setup-wizard">
+			<header id="convertkit-setup-wizard-header">
 				<h1><?php echo esc_html( CONVERTKIT_PLUGIN_NAME ); ?></h1>
 			</header>
 
 			<div class="wrap">
-				<div id="convertkit-setup-progress">
+				<div id="convertkit-setup-wizard-progress">
 					<ol>
 						<?php
 						foreach ( $this->steps as $step_count => $step ) {
@@ -51,10 +51,10 @@
 				?>
 			</div>
 
-			<div id="convertkit-setup-body">
-				<form action="admin.php?page=convertkit-setup&step=<?php echo esc_attr( ( $this->step + 1 ) ); ?>" method="POST">
-					<div id="convertkit-setup-content">
-						<div id="convertkit-setup-step">
+			<div id="convertkit-setup-wizard-body">
+				<form action="<?php echo esc_attr( $this->next_step_url ); ?>" method="POST">
+					<div id="convertkit-setup-wizard-content">
+						<div id="convertkit-setup-wizard-step">
 							<?php
 							echo sprintf(
 								esc_html__( 'Step %1$s of %2$s', 'convertkit' ),
