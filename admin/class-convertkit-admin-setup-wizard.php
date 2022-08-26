@@ -149,11 +149,14 @@ class ConvertKit_Admin_Setup_Wizard {
 		// Define current screen, so that calls to get_current_screen() tell Plugins which screen is loaded.
 		set_current_screen( $this->page_name );
 
-		// Populate class variables, such as the current step and URLs.
-		$this->populate_step_and_urls();
+		// Define the step the user is on in the setup process.
+		$this->step = ( isset( $_REQUEST['step'] ) ? absint( $_REQUEST['step'] ) : 1 );
 
 		// Process any posted form data.
 		$this->process_form();
+
+		// Define current, previous and next step URLs.
+		$this->define_step_urls();
 
 		// Load any data for the current screen.
 		$this->load_screen_data();
@@ -171,16 +174,40 @@ class ConvertKit_Admin_Setup_Wizard {
 	}
 
 	/**
+	 * Process submitted form data for the given setup wizard name and current step.
+	 * 
+	 * @since 	1.9.8.5
+	 */
+	private function process_form() {
+
+		// Run security checks.
+		if ( ! isset( $_POST['_wpnonce'] ) ) {
+			return;
+		}
+		if ( ! wp_verify_nonce( sanitize_key( $_POST['_wpnonce'] ), $this->page_name ) ) {
+			$this->error = __( 'Invalid nonce specified.', 'convertkit' );
+			return;
+		}
+
+		/**
+		 * Process submitted form data for the given setup wizard name and current step.
+		 * 
+		 * @since 	1.9.8.5
+		 * 
+		 * @param 	int 	$this->step 	Current step number.
+		 */
+		do_action( 'convertkit_admin_setup_wizard_process_form_' . $this->page_name, $this->step );
+
+	}
+
+	/**
 	 * Populates the class variables with key information, covering:
 	 * - current step in the setup process
 	 * - previous, current and next step URLs.
 	 * 
 	 * @since 	1.9.8.5
 	 */
-	private function populate_step_and_urls() {
-
-		// Define the step the user is on in the setup process.
-		$this->step = ( isset( $_REQUEST['step'] ) ? absint( $_REQUEST['step'] ) : 1 );
+	private function define_step_urls() {
 
 		// Define the current step URL.
 		$this->current_step_url = add_query_arg(
@@ -212,33 +239,6 @@ class ConvertKit_Admin_Setup_Wizard {
 				admin_url( 'index.php' )
 			);
 		}
-
-	}
-
-	/**
-	 * Process submitted form data for the given setup wizard name and current step.
-	 * 
-	 * @since 	1.9.8.5
-	 */
-	private function process_form() {
-
-		// Run security checks.
-		if ( ! isset( $_POST['_wpnonce'] ) ) {
-			return;
-		}
-		if ( ! wp_verify_nonce( sanitize_key( $_POST['_wpnonce'] ), $this->page_name ) ) {
-			$this->error = __( 'Invalid nonce specified.', 'convertkit' );
-			return;
-		}
-
-		/**
-		 * Process submitted form data for the given setup wizard name and current step.
-		 * 
-		 * @since 	1.9.8.5
-		 * 
-		 * @param 	int 	$this->step 	Current step number.
-		 */
-		do_action( 'convertkit_admin_setup_wizard_process_form_' . $this->page_name, $this->step );
 
 	}
 
