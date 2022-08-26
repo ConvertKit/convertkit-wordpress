@@ -16,6 +16,8 @@
 	?>
 </p>
 
+<hr />
+
 <div>
 	<label for="api_key">
 		<?php esc_html_e( 'Enter your ConvertKit API Key', 'convertkit' ); ?>

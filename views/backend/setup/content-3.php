@@ -44,12 +44,17 @@ if ( ! $this->forms->exist() ) {
 		esc_html_e( 'To capture email leads, you need to display a ConvertKit form on your site, using the options below.', 'convertkit' );
 		?>
 	</p>
+
 	<hr />
+
 	<div>
-		<label for="default_form_posts">
-			<?php esc_html_e( 'Which form would you like to display on your individual Posts?', 'convertkit' ); ?>
+		<label for="wp-convertkit-form-posts">
+			<?php esc_html_e( 'Which form would you like to display on Posts?', 'convertkit' ); ?>
 		</label>
-		<select name="default_form_posts" id="wp-convertkit-form-posts" class="convertkit-select2">			
+		<select name="default_form_posts" id="wp-convertkit-form-posts" class="convertkit-select2 widefat">
+			<option value="0">
+				<?php esc_html_e( 'Don\'t display an email subscription form on Posts.', 'convertkit' ); ?>
+			</option>	
 			<?php
 			foreach ( $this->forms->get() as $form ) {
 				?>
@@ -62,7 +67,35 @@ if ( ! $this->forms->exist() ) {
 		</select>
 
 		<p class="description">
-			<?php esc_html_e( 'The selected form will be displayed after the content of individual Posts', 'convertkit' ); ?>
+			Select a form above and click here to preview how this will look on an individual Post.
+
+			<?php esc_html_e( 'The selected form will be displayed after the content of individual Posts.', 'convertkit' ); ?>
+		</p>
+	</div>
+
+	<div>
+		<label for="wp-convertkit-form-pages">
+			<?php esc_html_e( 'Which form would you like to display on Pages?', 'convertkit' ); ?>
+		</label>
+		<select name="default_form_pages" id="wp-convertkit-form-pages" class="convertkit-select2 widefat">			
+			<option value="0">
+				<?php esc_html_e( 'Don\'t display an email subscription form on Pages.', 'convertkit' ); ?>
+			</option>
+			<?php
+			foreach ( $this->forms->get() as $form ) {
+				?>
+				<option value="<?php echo esc_attr( $form['id'] ); ?>">
+					<?php echo esc_attr( $form['name'] ); ?>
+				</option>
+				<?php
+			}
+			?>
+		</select>
+
+		<p class="description">
+			Select a form above and click here to preview how this will look on an individual Page.
+
+			<?php esc_html_e( 'The selected form will be displayed after the content of individual Posts.', 'convertkit' ); ?>
 		</p>
 	</div>
 	<?php

@@ -209,6 +209,10 @@ class ConvertKit_Admin_Setup {
 				// Fetch Forms.
 				$this->forms = new ConvertKit_Resource_Forms();
 				$this->forms->refresh();
+
+				// Fetch a Post and a Page.
+				$post_id = $this->get_most_recent( 'post' );
+				$page_id = $this->get_most_recent( 'page' );
 				break;
 		}
 
@@ -221,6 +225,36 @@ class ConvertKit_Admin_Setup {
 		$this->output_content();
 		$this->output_footer();
 		exit;
+
+	}
+
+	/**
+	 * Returns the most recent published Post ID.
+	 * 
+	 * @since 	1.9.8.5
+	 * 
+	 * @param 	string 	$post_type 	Post Type.
+	 * @return 	false|int 			Post ID
+	 */
+	private function get_most_recent( $post_type = 'post' ) {
+
+		// Run query.
+		$query = new WP_Query( array(
+			'post_type' => $post_type,
+			'post_status' => 'publish',
+			'posts_per_page' => 1,
+			'orderby' => 'date',
+			'order' => 'DESC',
+			'fields' => 'ids',
+		) );
+
+		// Return false if no Posts exist for the given type.
+		if ( empty( $query->posts ) ) {
+			return false;
+		}
+
+		// Return the Post ID.
+		return $query->posts[0];
 
 	}
 
