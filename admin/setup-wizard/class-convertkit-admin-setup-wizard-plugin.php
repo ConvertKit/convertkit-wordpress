@@ -34,7 +34,7 @@ class ConvertKit_Admin_Setup_Wizard_Plugin extends ConvertKit_Admin_Setup_Wizard
 	 * 
 	 * @var 	string
 	 */
-	public $page_name = 'convertkit_setup';
+	public $page_name = 'convertkit-setup';
 
 	/**
 	 * The URL to take the user to when they click the Exit link.
@@ -75,8 +75,8 @@ class ConvertKit_Admin_Setup_Wizard_Plugin extends ConvertKit_Admin_Setup_Wizard
 		);
 
 		add_action( 'admin_init', array( $this, 'maybe_redirect_to_setup_screen' ), 9999 );
-		add_action( 'convertkit_admin_setup_wizard_process_form_convertkit_setup', array( $this, 'process_form' ) );
-		add_action( 'convertkit_admin_setup_wizard_load_screen_data_convertkit_setup', array( $this, 'load_screen_data' ) );
+		add_action( 'convertkit_admin_setup_wizard_process_form_convertkit-setup', array( $this, 'process_form' ) );
+		add_action( 'convertkit_admin_setup_wizard_load_screen_data_convertkit-setup', array( $this, 'load_screen_data' ) );
 
 		// Call parent class constructor.
 		parent::__construct();
@@ -169,12 +169,9 @@ class ConvertKit_Admin_Setup_Wizard_Plugin extends ConvertKit_Admin_Setup_Wizard
 				$this->forms->refresh();
 
 				// Fetch a Post and a Page.
-				$post_id = $this->get_most_recent( 'post' );
-				$page_id = $this->get_most_recent( 'page' );
-
-				var_dump( $post_id );
-				var_dump( $page_id );
-				die();
+				$this->post_url = get_permalink( $this->get_most_recent( 'post' ) );
+				$this->page_url = get_permalink( $this->get_most_recent( 'page' ) );
+				$this->preview_nonce = '';
 				break;
 		}
 

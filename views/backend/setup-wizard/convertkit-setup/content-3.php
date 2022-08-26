@@ -49,7 +49,7 @@ if ( ! $this->forms->exist() ) {
 
 	<div>
 		<label for="wp-convertkit-form-posts">
-			<?php esc_html_e( 'Which form would you like to display on Posts?', 'convertkit' ); ?>
+			<?php esc_html_e( 'Which form would you like to display on individual blog posts?', 'convertkit' ); ?>
 		</label>
 		<select name="default_form_posts" id="wp-convertkit-form-posts" class="convertkit-select2 widefat">
 			<option value="0">
@@ -67,9 +67,14 @@ if ( ! $this->forms->exist() ) {
 		</select>
 
 		<p class="description">
-			Select a form above and click here to preview how this will look on an individual Post.
-
-			<?php esc_html_e( 'The selected form will be displayed after the content of individual Posts.', 'convertkit' ); ?>
+			<?php
+			echo sprintf(
+				'%s %s %s',
+				esc_html__( 'Select a form above.', 'convertkit' ),
+				'<a href="' . $this->post_url . '" target="_blank">' . __( 'Click here', 'convertkit' ) . '</a>',
+				esc_html__( 'to preview how this will look on individual Posts.', 'convertkit' )
+			);			
+			?>
 		</p>
 	</div>
 

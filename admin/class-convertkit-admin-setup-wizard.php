@@ -323,7 +323,7 @@ class ConvertKit_Admin_Setup_Wizard {
 	private function output_content() {
 
 		// Load content view.
-		include_once CONVERTKIT_PLUGIN_PATH . '/views/backend/setup-wizard/content-' . $this->step . '.php';
+		include_once CONVERTKIT_PLUGIN_PATH . '/views/backend/setup-wizard/' . $this->page_name . '/content-' . $this->step . '.php';
 
 	}
 
