@@ -46,47 +46,80 @@ class ConvertKit_Admin_Setup {
 	public $step = 1;
 
 	/**
+	 * The programmatic name of the setup screen.
+	 * 
+	 * @since 	1.9.8.5
+	 * 
+	 * @var 	string
+	 */
+	public $page_name = 'convertkit-setup';
+
+	/**
+	 * The URL to take the user to when they click the Exit link.
+	 * 
+	 * @since 	1.9.8.5
+	 * 
+	 * @var 	string
+	 */
+	public $exit_url = 'options-general.php?page=_wp_convertkit_settings';
+
+	/**
+	 * Holds the URL for the current step in the setup process.
+	 * 
+	 * @since 	1.9.8.5
+	 * 
+	 * @var 	bool|string
+	 */
+	private $current_step_url = false;
+
+	/**
+	 * Holds the URL to the next step in the setup process.
+	 * 
+	 * @since 	1.9.8.5
+	 * 
+	 * @var 	bool|string
+	 */
+	private $next_step_url = false;
+
+	/**
+	 * Holds the URL to the previous step in the setup process.
+	 * 
+	 * @since 	1.9.8.5
+	 * 
+	 * @var 	bool|string
+	 */
+	private $previous_step_url = false;
+
+	/**
 	 * Registers action and filter hooks.
 	 *
 	 * @since   1.9.8.5
 	 */
 	public function __construct() {
 
-		// Define the step, if provided.
-		if ( isset( $_REQUEST['step'] ) ) {
-			$this->step = absint( $_REQUEST['step'] );
-		}
-
 		// Define details for each step in the setup process.
 		$this->steps = array(
 			1 => array(
 				'name' 			=> __( 'Setup', 'convertkit' ),
-				'back_button'   => array(
-					'url' 	=> 'index.php',
-					'label' => __( 'Exit Wizard', 'convertkit' ),
-				),
 			),
 			2 => array(
 				'name' 				=> __( 'Connect Account', 'convertkit' ),
-				'back_button'   => array(
-					'url' 	=> 'index.php',
-					'label' => __( 'Exit Wizard', 'convertkit' ),
-				),
 				'next_button'   => array(
 					'label' => __( 'Connect', 'convertkit' ),
 				),
 			),
 			3 => array(
 				'name' 				=> __( 'Form Configuration', 'convertkit' ),
-				
-				'next_button_label' => __( 'Exit Wizard', 'convertkit' ),
+				'next_button'   => array(
+					'label' => __( 'Finish Setup', 'convertkit' ),
+				),
 			),
 			4 => array(
 				'name' 				=> __( 'Done', 'convertkit' ),
-				'next_button_label' => __( 'Exit Wizard', 'convertkit' ),
 			),
 		);
 
+		// Define actions to register the setup screen.
 		add_action( 'admin_menu', array( $this, 'register_screen' ) );
 		add_action( 'admin_head', array( $this, 'hide_screen_from_menu' ) );
 		add_action( 'admin_init', array( $this, 'maybe_redirect_to_setup_screen' ), 9999 );
@@ -164,6 +197,9 @@ class ConvertKit_Admin_Setup {
 		// Define current screen, so that calls to get_current_screen() tell Plugins which screen is loaded.
 		set_current_screen( 'convertkit-setup' );
 
+		// Populate class variables, such as the current step and URLs.
+		$this->populate_step_and_urls();
+
 		// Process any posted form data.
 		$this->process_form();
 
@@ -185,6 +221,51 @@ class ConvertKit_Admin_Setup {
 		$this->output_content();
 		$this->output_footer();
 		exit;
+
+	}
+
+	/**
+	 * Populates the class variables with key information, covering:
+	 * - current step in the setup process
+	 * - previous, current and next step URLs.
+	 * 
+	 * @since 	1.9.8.5
+	 */
+	private function populate_step_and_urls() {
+
+		// Define the step the user is on in the setup process.
+		$this->step = ( isset( $_REQUEST['step'] ) ? absint( $_REQUEST['step'] ) : 1 );
+
+		// Define the current step URL.
+		$this->current_step_url = add_query_arg(
+			array(
+				'page' => $this->page_name,
+				'step' => $this->step,
+			),
+			admin_url( 'index.php' )
+		);
+
+		// Define the previous step URL if we're not on the first or last step.
+		if ( $this->step > 1 && $this->step < count( $this->steps ) ) {
+			$this->previous_step_url = add_query_arg(
+				array(
+					'page' => $this->page_name,
+					'step' => ( $this->step - 1 ),
+				),
+				admin_url( 'index.php' )
+			);
+		}
+
+		// Define the next step URL if we're not on the last page.
+		if ( $this->step < count( $this->steps ) ) {
+			$this->next_step_url = add_query_arg(
+				array(
+					'page' => $this->page_name,
+					'step' => ( $this->step + 1 ),
+				),
+				admin_url( 'index.php' )
+			);
+		}
 
 	}
 
@@ -245,6 +326,9 @@ class ConvertKit_Admin_Setup {
 
 		// Enqueue Select2 JS.
 		convertkit_select2_enqueue_scripts();
+
+		// Enqueue Setup JS.
+		wp_enqueue_script( 'convertkit-admin-setup', CONVERTKIT_PLUGIN_URL . 'resources/backend/js/setup.js', array( 'jquery' ), CONVERTKIT_PLUGIN_VERSION, true );
 
 	}
 

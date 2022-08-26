@@ -14,10 +14,6 @@
 	<?php
 	esc_html_e( 'To connect this Plugin to your ConvertKit account, we need your API Key and Secret.', 'convertkit' );
 	?>
-
-	<?php
-	esc_html_e( 'Not sure what these are? Follow the video below.', 'convertkit' );
-	?>
 </p>
 
 <div>

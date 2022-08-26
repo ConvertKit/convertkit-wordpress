@@ -105,11 +105,22 @@
 #convertkit-setup-content h1 {
 	margin: 0 0 20px 0;
 }
+#convertkit-setup-content hr {
+
+}
 #convertkit-setup-content p {
 	font-size: 16px;
 }
 #convertkit-setup-content p.description {
 	font-size: 13px;
+}
+#convertkit-setup-content a.button,
+#convertkit-setup-content button,
+#convertkit-setup-footer a.button,
+#convertkit-setup-footer button {
+	padding: 5px 20px;
+	font-weight: 500;
+	font-size: 16px;
 }
 
 /**
@@ -196,4 +207,17 @@
 #convertkit-setup-footer .right {
 	grid-area: right;
 	text-align: right;
+}
+
+/**
+ * Exit Link
+ */
+#convertkit-setup-exit-link {
+	display: block;
+	margin: 80px 0;
+	text-align: center;
+	font-size: 14px;
+}
+#convertkit-setup-exit-link a {
+	color: #8c8f9a;
 }
