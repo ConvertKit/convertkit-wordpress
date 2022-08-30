@@ -29,6 +29,16 @@ jQuery( document ).ready(
 
         } );
 
+        // Show a confirmation dialog for specific links.
+        $( 'body' ).on( 'click', 'a.convertkit-confirm', function( e ) {
+
+            if ( ! confirm( $( this ).data( 'message' ) ) ) {
+                e.preventDefault();
+            }
+
+        } );
+
+        // Appends a <select> field value to a link. Used for previews.
         
 
 	}

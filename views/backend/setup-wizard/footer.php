@@ -37,8 +37,8 @@
 			</div><!-- /#convertkit-setup-wizard-body -->
 
 			<div id="convertkit-setup-wizard-exit-link">
-				<a href="<?php echo $this->exit_url; ?>" title="<?php esc_html_e( 'Exit wizard without saving', 'convertkit' ); ?>">
-					<?php esc_html_e( 'Exit wizard without saving', 'convertkit' ); ?>
+				<a href="<?php echo $this->exit_url; ?>" class="convertkit-confirm" title="<?php esc_html_e( 'Exit wizard', 'convertkit' ); ?>" data-message="<?php esc_html_e( 'Are you sure you want to exit the wizard? Setup is incomplete.', 'convertkit' ); ?>">
+					<?php esc_html_e( 'Exit wizard', 'convertkit' ); ?>
 				</a>
 			</div>
 		</div>
