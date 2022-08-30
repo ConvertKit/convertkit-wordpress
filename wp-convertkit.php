@@ -72,6 +72,9 @@ require_once CONVERTKIT_PLUGIN_PATH . '/includes/integrations/contactform7/class
 // Elementor Integration.
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/integrations/elementor/class-convertkit-elementor.php';
 
+// Setup Wizards.
+require_once CONVERTKIT_PLUGIN_PATH . '/includes/setup-wizard/class-convertkit-setup-wizard-plugin.php';
+
 // WishList Member Integration.
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/integrations/wishlist/class-convertkit-wishlist.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/integrations/wishlist/class-convertkit-wishlist-settings.php';
@@ -94,6 +97,7 @@ if ( is_admin() ) {
 	require_once CONVERTKIT_PLUGIN_PATH . '/admin/section/class-convertkit-settings-base.php';
 	require_once CONVERTKIT_PLUGIN_PATH . '/admin/section/class-convertkit-settings-general.php';
 	require_once CONVERTKIT_PLUGIN_PATH . '/admin/section/class-convertkit-settings-tools.php';
+	require_once CONVERTKIT_PLUGIN_PATH . '/admin/setup-wizard/class-convertkit-admin-setup-wizard-plugin.php';
 
 	// Contact Form 7 Integration.
 	require_once CONVERTKIT_PLUGIN_PATH . '/includes/integrations/contactform7/class-convertkit-contactform7-admin-settings.php';
