@@ -16,7 +16,7 @@ jQuery( document ).ready(
 
         // Redirect parent screen to a given URL after clicking a link that opens
         // the href URL in a new tab.
-		$( 'body' ).on( 'click', 'a.convertkit-redirect', function( e ) {
+		$( 'a.convertkit-redirect' ).on( 'click', function( e ) {
 
             var link = this;
 
@@ -30,7 +30,7 @@ jQuery( document ).ready(
         } );
 
         // Show a confirmation dialog for specific links.
-        $( 'body' ).on( 'click', 'a.convertkit-confirm', function( e ) {
+        $( 'a.convertkit-confirm' ).on( 'click', function( e ) {
 
             if ( ! confirm( $( this ).data( 'message' ) ) ) {
                 e.preventDefault();
@@ -39,7 +39,16 @@ jQuery( document ).ready(
         } );
 
         // Appends a <select> field value to a link. Used for previews.
-        
+        $( 'select.convertkit-update-link' ).on( 'change', function() {
+
+            var target = $( this ).data( 'target' ),
+                link = $( this ).data( 'link' ) + $( this ).val();
+
+            console.log( link );
+
+            $( target ).attr( 'href', link );
+
+        } );
 
 	}
 );

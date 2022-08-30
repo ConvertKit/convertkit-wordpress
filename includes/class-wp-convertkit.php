@@ -138,6 +138,7 @@ class WP_ConvertKit {
 		}
 
 		$this->classes['output'] = new ConvertKit_Output();
+		$this->classes['setup_wizard_plugin'] = new ConvertKit_Setup_Wizard_Plugin();
 
 		/**
 		 * Initialize integration classes for the frontend web site.

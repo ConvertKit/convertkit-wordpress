@@ -168,10 +168,16 @@ class ConvertKit_Admin_Setup_Wizard_Plugin extends ConvertKit_Admin_Setup_Wizard
 				$this->forms = new ConvertKit_Resource_Forms();
 				$this->forms->refresh();
 
-				// Fetch a Post and a Page.
-				$this->post_url = get_permalink( $this->get_most_recent( 'post' ) );
-				$this->page_url = get_permalink( $this->get_most_recent( 'page' ) );
-				$this->preview_nonce = '';
+				// Fetch a Post and a Page, appending the preview nonce to their URLs.
+				$this->preview_nonce = wp_create_nonce( 'convertkit-preview-form' );
+
+				$this->post_url = add_query_arg( array(
+					'convertkit-preview-nonce' => $this->preview_nonce,
+				), get_permalink( $this->get_most_recent( 'post' ) ) );
+
+				$this->page_url = add_query_arg( array(
+					'convertkit-preview-nonce' => $this->preview_nonce,
+				), get_permalink( $this->get_most_recent( 'page' ) ) );
 				break;
 		}
 
