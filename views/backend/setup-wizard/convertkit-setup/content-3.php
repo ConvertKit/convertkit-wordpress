@@ -7,7 +7,7 @@
  */
 
 // If no Forms exist on the ConvertKit account, show the user how to add a Form to ConvertKit,
-// with an option to refresh this page so that they can then select the Form to be displayed on e.g. Posts
+// with an option to refresh this page so that they can then select the Form to be displayed on e.g. Posts.
 if ( ! $this->forms->exist() ) {
 	?>
 	<h1><?php esc_html_e( 'Create your first ConvertKit Form', 'convertkit' ); ?></h1>
@@ -18,7 +18,7 @@ if ( ! $this->forms->exist() ) {
 	</p>
 
 	<a href="https://app.convertkit.com/forms/new?format=inline" target="_blank" class="button button-primary">
-		<?php _e( 'Create form', 'convertkit' ); ?>
+		<?php esc_html_e( 'Create form', 'convertkit' ); ?>
 	</a>
 
 	<p>
@@ -32,7 +32,7 @@ if ( ! $this->forms->exist() ) {
 	</div>
 
 	<a href="<?php echo esc_attr( $this->current_step_url ); ?>" class="button button-primary">
-		<?php _e( 'I\'ve created a form in ConvertKit.', 'convertkit' ); ?>
+		<?php esc_html_e( 'I\'ve created a form in ConvertKit.', 'convertkit' ); ?>
 	</a>
 	<?php
 } else {
@@ -71,9 +71,9 @@ if ( ! $this->forms->exist() ) {
 			echo sprintf(
 				'%s %s %s',
 				esc_html__( 'Select a form above.', 'convertkit' ),
-				'<a href="' . esc_attr( $this->post_url ) . '" id="convertkit-preview-form-post" target="_blank">' . __( 'Click here', 'convertkit' ) . '</a>',
+				'<a href="' . esc_attr( $this->post_url ) . '" id="convertkit-preview-form-post" target="_blank">' . esc_html__( 'Click here', 'convertkit' ) . '</a>',
 				esc_html__( 'to preview how this will look on individual Posts.', 'convertkit' )
-			);			
+			);
 			?>
 		</p>
 	</div>
@@ -102,9 +102,9 @@ if ( ! $this->forms->exist() ) {
 			echo sprintf(
 				'%s %s %s',
 				esc_html__( 'Select a form above.', 'convertkit' ),
-				'<a href="' . esc_attr( $this->page_url ) . '" id="convertkit-preview-form-page" target="_blank">' . __( 'Click here', 'convertkit' ) . '</a>',
+				'<a href="' . esc_attr( $this->page_url ) . '" id="convertkit-preview-form-page" target="_blank">' . esc_html__( 'Click here', 'convertkit' ) . '</a>',
 				esc_html__( 'to preview how this will look on individual Pages.', 'convertkit' )
-			);			
+			);
 			?>
 		</p>
 	</div>

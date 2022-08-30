@@ -15,7 +15,7 @@
 						if ( $this->previous_step_url ) {
 							?>
 							<div class="left">
-								<a href="<?php echo $this->previous_step_url ?>" class="button">
+								<a href="<?php echo esc_attr( $this->previous_step_url ); ?>" class="button">
 									<?php echo esc_html_e( 'Back', 'convertkit' ); ?>
 								</a>
 							</div>
@@ -41,7 +41,7 @@
 			if ( $this->step < count( $this->steps ) ) {
 				?>
 				<div id="convertkit-setup-wizard-exit-link">
-					<a href="<?php echo $this->exit_url; ?>" class="convertkit-confirm" title="<?php esc_html_e( 'Exit wizard', 'convertkit' ); ?>" data-message="<?php esc_html_e( 'Are you sure you want to exit the wizard? Setup is incomplete.', 'convertkit' ); ?>">
+					<a href="<?php echo esc_attr( $this->exit_url ); ?>" class="convertkit-confirm" title="<?php esc_html_e( 'Exit wizard', 'convertkit' ); ?>" data-message="<?php esc_html_e( 'Are you sure you want to exit the wizard? Setup is incomplete.', 'convertkit' ); ?>">
 						<?php esc_html_e( 'Exit wizard', 'convertkit' ); ?>
 					</a>
 				</div>

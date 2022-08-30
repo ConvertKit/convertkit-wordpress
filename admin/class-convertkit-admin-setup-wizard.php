@@ -9,9 +9,9 @@
 /**
  * Provides a UI for displaying a step by step wizard style screen in the WordPress
  * Administration.
- * 
+ *
  * To use this class, extend it with your own configuration.
- * 
+ *
  * Refer to the admin/setup-wizard folder for current implementations.
  *
  * @package ConvertKit
@@ -21,10 +21,10 @@ class ConvertKit_Admin_Setup_Wizard {
 
 	/**
 	 * The steps available in this wizard.
-	 * 
-	 * @since 	1.9.8.5
-	 * 
-	 * @var 	array
+	 *
+	 * @since   1.9.8.5
+	 *
+	 * @var     array
 	 */
 	public $steps = array();
 
@@ -39,55 +39,55 @@ class ConvertKit_Admin_Setup_Wizard {
 
 	/**
 	 * The current step in the setup process the user is on.
-	 * 
-	 * @since 	1.9.8.5
-	 * 
-	 * @var 	int
+	 *
+	 * @since   1.9.8.5
+	 *
+	 * @var     int
 	 */
 	public $step = 1;
 
 	/**
 	 * The programmatic name of the setup screen.
-	 * 
-	 * @since 	1.9.8.5
-	 * 
-	 * @var 	bool|string
+	 *
+	 * @since   1.9.8.5
+	 *
+	 * @var     bool|string
 	 */
 	public $page_name = false;
 
 	/**
 	 * The URL to take the user to when they click the Exit link.
-	 * 
-	 * @since 	1.9.8.5
-	 * 
-	 * @var 	bool|string
+	 *
+	 * @since   1.9.8.5
+	 *
+	 * @var     bool|string
 	 */
 	public $exit_url = false;
 
 	/**
 	 * Holds the URL for the current step in the setup process.
-	 * 
-	 * @since 	1.9.8.5
-	 * 
-	 * @var 	bool|string
+	 *
+	 * @since   1.9.8.5
+	 *
+	 * @var     bool|string
 	 */
 	private $current_step_url = false;
 
 	/**
 	 * Holds the URL to the next step in the setup process.
-	 * 
-	 * @since 	1.9.8.5
-	 * 
-	 * @var 	bool|string
+	 *
+	 * @since   1.9.8.5
+	 *
+	 * @var     bool|string
 	 */
 	private $next_step_url = false;
 
 	/**
 	 * Holds the URL to the previous step in the setup process.
-	 * 
-	 * @since 	1.9.8.5
-	 * 
-	 * @var 	bool|string
+	 *
+	 * @since   1.9.8.5
+	 *
+	 * @var     bool|string
 	 */
 	private $previous_step_url = false;
 
@@ -107,7 +107,7 @@ class ConvertKit_Admin_Setup_Wizard {
 		add_action( 'admin_menu', array( $this, 'register_screen' ) );
 		add_action( 'admin_head', array( $this, 'hide_screen_from_menu' ) );
 		add_action( 'admin_init', array( $this, 'maybe_load_setup_screen' ) );
-		
+
 	}
 
 	/**
@@ -125,9 +125,9 @@ class ConvertKit_Admin_Setup_Wizard {
 	/**
 	 * Hides the menu registered when register_screen() above is called, otherwise
 	 * we would have a blank submenu entry below the Dashboard menu.
-	 * 
-	 * @since 	1.9.8.5
-	 */ 
+	 *
+	 * @since   1.9.8.5
+	 */
 	public function hide_screen_from_menu() {
 
 		remove_submenu_page( 'index.php', $this->page_name );
@@ -150,7 +150,7 @@ class ConvertKit_Admin_Setup_Wizard {
 		set_current_screen( $this->page_name );
 
 		// Define the step the user is on in the setup process.
-		$this->step = ( isset( $_REQUEST['step'] ) ? absint( $_REQUEST['step'] ) : 1 );
+		$this->step = ( isset( $_REQUEST['step'] ) ? absint( $_REQUEST['step'] ) : 1 ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
 		// Process any posted form data.
 		$this->process_form();
@@ -164,7 +164,7 @@ class ConvertKit_Admin_Setup_Wizard {
 		// Load scripts and styles.
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_styles' ) );
-		
+
 		// Output custom HTML for the setup screen.
 		$this->output_header();
 		$this->output_content();
@@ -175,8 +175,8 @@ class ConvertKit_Admin_Setup_Wizard {
 
 	/**
 	 * Process submitted form data for the given setup wizard name and current step.
-	 * 
-	 * @since 	1.9.8.5
+	 *
+	 * @since   1.9.8.5
 	 */
 	private function process_form() {
 
@@ -191,10 +191,10 @@ class ConvertKit_Admin_Setup_Wizard {
 
 		/**
 		 * Process submitted form data for the given setup wizard name and current step.
-		 * 
-		 * @since 	1.9.8.5
-		 * 
-		 * @param 	int 	$this->step 	Current step number.
+		 *
+		 * @since   1.9.8.5
+		 *
+		 * @param   int     $this->step     Current step number.
 		 */
 		do_action( 'convertkit_admin_setup_wizard_process_form_' . $this->page_name, $this->step );
 
@@ -204,8 +204,8 @@ class ConvertKit_Admin_Setup_Wizard {
 	 * Populates the class variables with key information, covering:
 	 * - current step in the setup process
 	 * - previous, current and next step URLs.
-	 * 
-	 * @since 	1.9.8.5
+	 *
+	 * @since   1.9.8.5
 	 */
 	private function define_step_urls() {
 
@@ -244,17 +244,17 @@ class ConvertKit_Admin_Setup_Wizard {
 
 	/**
 	 * Load any data into class variables for the given setup wizard name and current step.
-	 * 
-	 * @since 	1.9.8.5
+	 *
+	 * @since   1.9.8.5
 	 */
 	private function load_screen_data() {
 
 		/**
 		 * Load any data into class variables for the given setup wizard name and current step.
-		 * 
-		 * @since 	1.9.8.5
-		 * 
-		 * @param 	int 	$this->step 	Current step number.
+		 *
+		 * @since   1.9.8.5
+		 *
+		 * @param   int     $this->step     Current step number.
 		 */
 		do_action( 'convertkit_admin_setup_wizard_load_screen_data_' . $this->page_name, $this->step );
 

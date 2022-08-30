@@ -31,7 +31,7 @@
 						<?php
 						foreach ( $this->steps as $step_count => $step ) {
 							?>
-							<li<?php echo ( $step_count <= $this->step ? ' class="done"' : ''); ?>><?php echo esc_html( $step['name'] ); ?></li>
+							<li<?php echo ( $step_count <= $this->step ? ' class="done"' : '' ); ?>><?php echo esc_html( $step['name'] ); ?></li>
 							<?php
 						}
 						?>
@@ -45,7 +45,7 @@
 					<div class="notice notice-error is-dismissible">
 						<p><?php echo esc_html( $this->error ); ?></p>
 					</div>
-					
+
 					<?php
 				}
 				?>
@@ -57,6 +57,7 @@
 						<div id="convertkit-setup-wizard-step">
 							<?php
 							echo sprintf(
+								/* translators: %1$s: Current Step, %2$s: Total Steps */
 								esc_html__( 'Step %1$s of %2$s', 'convertkit' ),
 								esc_html( $this->step ),
 								esc_html( count( $this->steps ) )

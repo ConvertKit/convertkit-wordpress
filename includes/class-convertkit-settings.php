@@ -280,10 +280,10 @@ class ConvertKit_Settings {
 
 	/**
 	 * Saves the given array of settings to the WordPress options table.
-	 * 
-	 * @since 	1.9.8.5
-	 * 
-	 * @param 	array 	$settings 	Settings.
+	 *
+	 * @since   1.9.8.5
+	 *
+	 * @param   array $settings   Settings.
 	 */
 	public function save( $settings ) {
 
