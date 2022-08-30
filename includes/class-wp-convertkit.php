@@ -70,7 +70,6 @@ class WP_ConvertKit {
 		$this->classes['admin_quick_edit']          = new ConvertKit_Admin_Quick_Edit();
 		$this->classes['admin_refresh_resources']   = new ConvertKit_Admin_Refresh_Resources();
 		$this->classes['admin_settings']            = new ConvertKit_Admin_Settings();
-		$this->classes['admin_setup_wizard_plugin'] = new ConvertKit_Admin_Setup_Wizard_Plugin();
 		$this->classes['admin_tinymce']             = new ConvertKit_Admin_TinyMCE();
 		$this->classes['admin_user']                = new ConvertKit_Admin_User();
 
@@ -138,7 +137,6 @@ class WP_ConvertKit {
 		}
 
 		$this->classes['output']              = new ConvertKit_Output();
-		$this->classes['setup_wizard_plugin'] = new ConvertKit_Setup_Wizard_Plugin();
 
 		/**
 		 * Initialize integration classes for the frontend web site.
