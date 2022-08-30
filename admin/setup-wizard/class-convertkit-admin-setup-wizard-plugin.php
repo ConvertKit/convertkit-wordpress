@@ -145,8 +145,17 @@ class ConvertKit_Admin_Setup_Wizard_Plugin extends ConvertKit_Admin_Setup_Wizard
 				// Save them.
 				$settings = new ConvertKit_Settings;
 				$settings->save( array(
-					'api_key' => $api_key,
-					'api_secret' => $api_secret,
+					'api_key' 		=> $api_key,
+					'api_secret'	=> $api_secret,
+				) );
+				break;
+
+			case 4:
+				// Save Default Page and Post Form settings.
+				$settings = new ConvertKit_Settings;
+				$settings->save( array(
+					'post_form' => sanitize_text_field( $_POST['post_form'] ),
+					'page_form' => sanitize_text_field( $_POST['page_form'] ),
 				) );
 				break;
 		}

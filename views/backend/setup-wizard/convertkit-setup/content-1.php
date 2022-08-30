@@ -1,6 +1,6 @@
 <?php
 /**
- * Outputs the content for Setup screen's first step.
+ * Outputs the content for the Plugin Setup Wizard > Setup step.
  *
  * @package ConvertKit
  * @author ConvertKit

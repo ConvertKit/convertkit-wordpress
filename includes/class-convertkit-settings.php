@@ -287,7 +287,7 @@ class ConvertKit_Settings {
 	 */
 	public function save( $settings ) {
 
-		update_option( self::SETTINGS_NAME, array_merge( $this->get_defaults(), $settings ) );
+		update_option( self::SETTINGS_NAME, array_merge( $this->get(), $settings ) );
 
 	}
 

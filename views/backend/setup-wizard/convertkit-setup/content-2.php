@@ -1,6 +1,6 @@
 <?php
 /**
- * Outputs the content for Setup screen's first step.
+ * Outputs the content for the Plugin Setup Wizard > Connect Account step.
  *
  * @package ConvertKit
  * @author ConvertKit
@@ -8,7 +8,6 @@
 
 ?>
 
-		
 <h1><?php esc_html_e( 'Connect your ConvertKit account', 'convertkit' ); ?></h1>
 <p>
 	<?php
