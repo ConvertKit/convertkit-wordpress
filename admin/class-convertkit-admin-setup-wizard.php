@@ -334,7 +334,6 @@ class ConvertKit_Admin_Setup_Wizard {
 	 */
 	private function output_footer() {
 
-		//do_action( 'admin_footer', '' );
 		do_action( 'admin_print_footer_scripts' );
 
 		// Load footer view.
