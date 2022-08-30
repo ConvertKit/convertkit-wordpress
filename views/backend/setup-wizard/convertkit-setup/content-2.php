@@ -21,7 +21,7 @@
 	<label for="api_key">
 		<?php esc_html_e( 'Enter your ConvertKit API Key', 'convertkit' ); ?>
 	</label>
-	<input type="text" name="api_key" id="api_key" class="widefat" placeholder="<?php esc_attr_e( 'Click the link below, copy the API Key, and paste it here.', 'convertkit' ); ?>" required />
+	<input type="text" name="api_key" id="api_key" value="<?php echo esc_attr( $this->settings->get_api_key() ); ?>" class="widefat" placeholder="<?php esc_attr_e( 'Click the link below, copy the API Key, and paste it here.', 'convertkit' ); ?>" required />
 	<p class="description">
 		<?php
 		echo sprintf(
@@ -37,7 +37,7 @@
 	<label for="api_secret">
 		<?php esc_html_e( 'Enter your ConvertKit API Secret', 'convertkit' ); ?>
 	</label>
-	<input type="text" name="api_secret" id="api_secret" class="widefat" placeholder="<?php esc_attr_e( 'Click the link below, copy the API Secret, and paste it here.', 'convertkit' ); ?>" required />
+	<input type="text" name="api_secret" id="api_secret" value="<?php echo esc_attr( $this->settings->get_api_secret() ); ?>" class="widefat" placeholder="<?php esc_attr_e( 'Click the link below, copy the API Secret, and paste it here.', 'convertkit' ); ?>" required />
 	<p class="description">
 		<?php
 		echo sprintf(

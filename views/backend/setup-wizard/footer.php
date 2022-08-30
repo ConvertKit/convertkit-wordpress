@@ -1,6 +1,6 @@
 <?php
 /**
- * Outputs the footer template for the setup screen
+ * Outputs the footer template for a Setup Wizard screen
  *
  * @package ConvertKit
  * @author ConvertKit

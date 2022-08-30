@@ -60,7 +60,7 @@ jQuery( document ).ready(
 				$( target ).attr( 'href', link );
 
 			}
-		);
+		).trigger( 'change' );
 
 	}
 );

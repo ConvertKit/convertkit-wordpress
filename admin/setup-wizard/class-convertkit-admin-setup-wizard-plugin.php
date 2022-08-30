@@ -28,6 +28,44 @@ class ConvertKit_Admin_Setup_Wizard_Plugin extends ConvertKit_Admin_Setup_Wizard
 	public $forms = false;
 
 	/**
+	 * Holds the ConvertKit Settings class.
+	 * 
+	 * @since 	1.9.8.5
+	 * 
+	 * @var 	bool|ConvertKit_Settings
+	 */
+	public $settings = false;
+
+	/**
+	 * Holds the nonce for validating a frontend preview request.
+	 * 
+	 * @since 	1.9.8.5
+	 * 
+	 * @var 	bool|string
+	 */
+	public $preview_nonce = false;
+
+	/**
+	 * Holds the URL to the most recent WordPress Post, used when previewing a Form below a Post
+	 * on the frontend site.
+	 * 
+	 * @since 	1.9.8.5
+	 * 
+	 * @var 	bool|string
+	 */
+	public $preview_post_url = false;
+
+	/**
+	 * Holds the URL to the most recent WordPress Page, used when previewing a Form below a Page
+	 * on the frontend site.
+	 * 
+	 * @since 	1.9.8.5
+	 * 
+	 * @var 	bool|string
+	 */
+	public $preview_page_url = false;
+
+	/**
 	 * The programmatic name for this wizard.
 	 *
 	 * @since   1.9.8.5
@@ -181,7 +219,15 @@ class ConvertKit_Admin_Setup_Wizard_Plugin extends ConvertKit_Admin_Setup_Wizard
 	public function load_screen_data( $step ) {
 
 		switch ( $step ) {
+			case 2:
+				// Load settings class.
+				$this->settings = new ConvertKit_Settings();
+				break;
+
 			case 3:
+				// Re-load settings class now that the API Key and Secret has been defined.
+				$this->settings = new ConvertKit_Settings();
+
 				// Fetch Forms.
 				$this->forms = new ConvertKit_Resource_Forms();
 				$this->forms->refresh();
@@ -189,14 +235,14 @@ class ConvertKit_Admin_Setup_Wizard_Plugin extends ConvertKit_Admin_Setup_Wizard
 				// Fetch a Post and a Page, appending the preview nonce to their URLs.
 				$this->preview_nonce = wp_create_nonce( 'convertkit-preview-form' );
 
-				$this->post_url = add_query_arg(
+				$this->preview_post_url = add_query_arg(
 					array(
 						'convertkit-preview-nonce' => $this->preview_nonce,
 					),
 					get_permalink( $this->get_most_recent( 'post' ) )
 				);
 
-				$this->page_url = add_query_arg(
+				$this->preview_page_url = add_query_arg(
 					array(
 						'convertkit-preview-nonce' => $this->preview_nonce,
 					),

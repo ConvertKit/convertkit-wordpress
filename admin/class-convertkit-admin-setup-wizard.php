@@ -71,7 +71,7 @@ class ConvertKit_Admin_Setup_Wizard {
 	 *
 	 * @var     bool|string
 	 */
-	private $current_step_url = false;
+	private $current_step_url = false; // @phpstan-ignore-line
 
 	/**
 	 * Holds the URL to the next step in the setup process.
@@ -80,7 +80,7 @@ class ConvertKit_Admin_Setup_Wizard {
 	 *
 	 * @var     bool|string
 	 */
-	private $next_step_url = false;
+	private $next_step_url = false; // @phpstan-ignore-line
 
 	/**
 	 * Holds the URL to the previous step in the setup process.
@@ -89,7 +89,7 @@ class ConvertKit_Admin_Setup_Wizard {
 	 *
 	 * @var     bool|string
 	 */
-	private $previous_step_url = false;
+	private $previous_step_url = false; // @phpstan-ignore-line
 
 	/**
 	 * Registers action and filter hooks.
@@ -118,7 +118,7 @@ class ConvertKit_Admin_Setup_Wizard {
 	 */
 	public function register_screen() {
 
-		add_dashboard_page( '', '', 'edit_posts', $this->page_name, '' );
+		add_dashboard_page( '', '', 'edit_posts', $this->page_name, '__return_false' );
 
 	}
 
@@ -194,7 +194,7 @@ class ConvertKit_Admin_Setup_Wizard {
 		 *
 		 * @since   1.9.8.5
 		 *
-		 * @param   int     $this->step     Current step number.
+		 * @param   int     $step     Current step number.
 		 */
 		do_action( 'convertkit_admin_setup_wizard_process_form_' . $this->page_name, $this->step );
 
@@ -254,7 +254,7 @@ class ConvertKit_Admin_Setup_Wizard {
 		 *
 		 * @since   1.9.8.5
 		 *
-		 * @param   int     $this->step     Current step number.
+		 * @param   int     $step     Current step number.
 		 */
 		do_action( 'convertkit_admin_setup_wizard_load_screen_data_' . $this->page_name, $this->step );
 
@@ -334,7 +334,7 @@ class ConvertKit_Admin_Setup_Wizard {
 	 */
 	private function output_footer() {
 
-		do_action( 'admin_footer', '' );
+		//do_action( 'admin_footer', '' );
 		do_action( 'admin_print_footer_scripts' );
 
 		// Load footer view.
