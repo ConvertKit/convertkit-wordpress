@@ -232,6 +232,9 @@ class ConvertKit_Admin_Setup_Wizard_Plugin extends ConvertKit_Admin_Setup_Wizard
 				$this->forms = new ConvertKit_Resource_Forms();
 				$this->forms->refresh();
 
+				// If no Forms exist in ConvertKit, change the next button label.
+				$this->steps[3]['next_button']['label'] = __( 'I\'ve created a form in ConvertKit', 'convertkit' );
+
 				// Fetch a Post and a Page, appending the preview nonce to their URLs.
 				$this->preview_nonce = wp_create_nonce( 'convertkit-preview-form' );
 

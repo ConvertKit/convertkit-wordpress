@@ -30,10 +30,6 @@ if ( ! $this->forms->exist() ) {
 	<div>
 		<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/_RmI6vQhGu8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 	</div>
-
-	<a href="<?php echo esc_attr( $this->current_step_url ); ?>" class="button button-primary">
-		<?php esc_html_e( 'I\'ve created a form in ConvertKit.', 'convertkit' ); ?>
-	</a>
 	<?php
 } else {
 	// Show options to configure Form to display on Posts and Pages.
