@@ -297,7 +297,7 @@ class PluginSetupWizardCest
 		$I->amOnAdminPage('index.php?page=convertkit-setup&step=3');
 
 		// Confirm expected setup wizard screen is displayed.
-		$this->_seeExpectedSetupWizardScreen($I, 3, 'Create your first ConvertKit Form');
+		$this->_seeExpectedSetupWizardScreen($I, 3, 'Create your first ConvertKit Form', true);
 
 		// Confirm button link to create a form on ConvertKit is correct.
 		$I->seeInSource('<a href="https://app.convertkit.com/forms/new?format=inline"');
@@ -349,8 +349,9 @@ class PluginSetupWizardCest
 	 * @param 	AcceptanceTester 	$I 		Tester
 	 * @param 	int 				$step 	Current step
 	 * @param 	string 				$title 	Expected title
+	 * @param 	bool 				$nextButtonIsLink 	Check that next button is a link (false = must be a <button> element).
 	 */
-	private function _seeExpectedSetupWizardScreen(AcceptanceTester $I, $step, $title)
+	private function _seeExpectedSetupWizardScreen(AcceptanceTester $I, $step, $title, $nextButtonIsLink = false)
 	{
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
@@ -362,13 +363,42 @@ class PluginSetupWizardCest
 		$I->see($title);
 
 		// Confirm current and previous steps are highlighted as 'done'.
-		// @TODO.
+		for ($stepCount = 1; $stepCount <= $step; $stepCount++) {
+			$I->seeElement('li.step-'.$stepCount.'.done');
+		}
 
 		// Confirm Step text is correct.
 		$I->see('Step '.$step.' of 4');
 
-		// Depending on the step, confirm previous/next buttons exist with expected links.
-		// @TODO.
+		// Depending on the step, confirm previous/next buttons exist / do not exist.
+		switch ($step) {
+			/**
+			 * First and last step should not display any footer buttons.
+			 */
+			case 1:
+			case 4:
+				$I->dontSeeElementInDOM('#convertkit-setup-wizard-footer div.left a.button');
+				$I->dontSeeElementInDOM('#convertkit-setup-wizard-footer div.right button');
+				$I->dontSeeElementInDOM('#convertkit-setup-wizard-footer div.right a.button');
+				break;
+
+			/**
+			 * Middle steps should always display footer buttons.
+			 */
+			case 2:
+			case 3:
+				$I->seeElementInDOM('#convertkit-setup-wizard-footer div.left a.button');
+
+				if ($nextButtonIsLink) {
+					// Next button must be a link.
+					$I->seeElementInDOM('#convertkit-setup-wizard-footer div.right a.button');
+				} else {
+					// Next button must be a <button> element to submit form.
+					$I->seeElementInDOM('#convertkit-setup-wizard-footer div.right button');	
+				}
+				break;
+
+		}
 	}
 
 	/**
