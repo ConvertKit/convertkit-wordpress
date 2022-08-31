@@ -26,8 +26,20 @@
 						if ( isset( $this->steps[ $this->step ]['next_button'] ) ) {
 							?>
 							<div class="right">
-								<?php wp_nonce_field( $this->page_name ); ?>
-								<button class="button button-primary button-large"><?php echo esc_html( $this->steps[ $this->step ]['next_button']['label'] ); ?></button>
+								<?php
+								if ( isset( $this->steps[ $this->step ]['next_button']['link'] ) ) {
+									// Link.
+									?>
+									<a href="<?php echo esc_attr( $this->steps[ $this->step ]['next_button']['link'] ); ?>" class="button button-primary"><?php echo esc_html( $this->steps[ $this->step ]['next_button']['label'] ); ?></a>
+									<?php
+								} else {
+									// Submit button.
+									wp_nonce_field( $this->page_name );
+									?>
+									<button class="button button-primary button-large"><?php echo esc_html( $this->steps[ $this->step ]['next_button']['label'] ); ?></button>
+									<?php
+								}
+								?>
 							</div>
 							<?php
 						}
