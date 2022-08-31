@@ -34,7 +34,7 @@
 						<?php
 						foreach ( $this->steps as $step_count => $step ) {
 							?>
-							<li<?php echo ( $step_count <= $this->step ? ' class="done"' : '' ); ?>><?php echo esc_html( $step['name'] ); ?></li>
+							<li class="step-<?php echo esc_attr( $step_count ); ?><?php echo ( $step_count <= $this->step ? ' "done"' : '' ); ?>"><?php echo esc_html( $step['name'] ); ?></li>
 							<?php
 						}
 						?>
