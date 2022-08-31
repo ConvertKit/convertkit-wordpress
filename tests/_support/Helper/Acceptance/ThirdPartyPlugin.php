@@ -26,6 +26,10 @@ class ThirdPartyPlugin extends \Codeception\Module
 		// Activate the Plugin.
 		$I->activatePlugin($name);
 
+		// Go to the Plugins screen again; this prevents any Plugin that loads a wizard-style screen from
+		// causing seePluginActivated() to fail.
+		$I->amOnPluginsPage();
+
 		// Check that the Plugin activated successfully.
 		$I->seePluginActivated($name);
 
