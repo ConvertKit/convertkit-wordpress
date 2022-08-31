@@ -234,14 +234,16 @@ class ConvertKit_Admin_Setup_Wizard_Plugin extends ConvertKit_Admin_Setup_Wizard
 
 				// If no Forms exist in ConvertKit, change the next button label and make it a link to reload
 				// the screen.
-				$this->steps[3]['next_button']['label'] = __( 'I\'ve created a form in ConvertKit', 'convertkit' );
-				$this->steps[3]['next_button']['link']  = add_query_arg(
-					array(
-						'page' => $this->page_name,
-						'step' => 3,
-					),
-					admin_url( 'index.php' )
-				);
+				if ( ! $this->forms->exist() ) {
+					$this->steps[3]['next_button']['label'] = __( 'I\'ve created a form in ConvertKit', 'convertkit' );
+					$this->steps[3]['next_button']['link']  = add_query_arg(
+						array(
+							'page' => $this->page_name,
+							'step' => 3,
+						),
+						admin_url( 'index.php' )
+					);
+				}
 
 				// Fetch a Post and a Page, appending the preview nonce to their URLs.
 				$this->preview_nonce = wp_create_nonce( 'convertkit-preview-form' );
