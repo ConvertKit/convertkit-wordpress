@@ -49,7 +49,7 @@ if ( ! $this->forms->exist() ) {
 		</label>
 		<select name="post_form" id="wp-convertkit-form-posts" class="convertkit-select2 convertkit-update-link widefat" data-target="#convertkit-preview-form-post" data-link="<?php echo esc_attr( $this->preview_post_url ); ?>&convertkit_form_id=">
 			<option value="0">
-				<?php esc_html_e( 'Don\'t display an email subscription form on Posts.', 'convertkit' ); ?>
+				<?php esc_html_e( 'Don\'t display an email subscription form on posts.', 'convertkit' ); ?>
 			</option>	
 			<?php
 			foreach ( $this->forms->get() as $form ) {
@@ -64,12 +64,16 @@ if ( ! $this->forms->exist() ) {
 
 		<p class="description">
 			<?php
-			echo sprintf(
-				'%s %s %s',
-				esc_html__( 'Select a form above.', 'convertkit' ),
-				'<a href="' . esc_attr( $this->preview_post_url ) . '" id="convertkit-preview-form-post" target="_blank">' . esc_html__( 'Click here', 'convertkit' ) . '</a>',
-				esc_html__( 'to preview how this will look on individual Posts.', 'convertkit' )
-			);
+			if ( $this->preview_post_url ) {
+				echo sprintf(
+					'%s %s %s',
+					esc_html__( 'Select a form above.', 'convertkit' ),
+					'<a href="' . esc_attr( $this->preview_post_url ) . '" id="convertkit-preview-form-post" target="_blank">' . esc_html__( 'Click here', 'convertkit' ) . '</a>',
+					esc_html__( 'to preview how this will look on individual posts.', 'convertkit' )
+				);
+			} else {
+				esc_html_e( 'Select a form above.', 'convertkit' );
+			}
 			?>
 		</p>
 	</div>
@@ -80,7 +84,7 @@ if ( ! $this->forms->exist() ) {
 		</label>
 		<select name="page_form" id="wp-convertkit-form-pages" class="convertkit-select2 convertkit-update-link widefat" data-target="#convertkit-preview-form-page" data-link="<?php echo esc_attr( $this->preview_page_url ); ?>&convertkit_form_id=">	
 			<option value="0">
-				<?php esc_html_e( 'Don\'t display an email subscription form on Pages.', 'convertkit' ); ?>
+				<?php esc_html_e( 'Don\'t display an email subscription form on pages.', 'convertkit' ); ?>
 			</option>
 			<?php
 			foreach ( $this->forms->get() as $form ) {
@@ -95,12 +99,16 @@ if ( ! $this->forms->exist() ) {
 
 		<p class="description">
 			<?php
-			echo sprintf(
-				'%s %s %s',
-				esc_html__( 'Select a form above.', 'convertkit' ),
-				'<a href="' . esc_attr( $this->preview_page_url ) . '" id="convertkit-preview-form-page" target="_blank">' . esc_html__( 'Click here', 'convertkit' ) . '</a>',
-				esc_html__( 'to preview how this will look on individual Pages.', 'convertkit' )
-			);
+			if ( $this->preview_page_url ) {
+				echo sprintf(
+					'%s %s %s',
+					esc_html__( 'Select a form above.', 'convertkit' ),
+					'<a href="' . esc_attr( $this->preview_page_url ) . '" id="convertkit-preview-form-page" target="_blank">' . esc_html__( 'Click here', 'convertkit' ) . '</a>',
+					esc_html__( 'to preview how this will look on individual pages.', 'convertkit' )
+				);
+			} else {
+				esc_html_e( 'Select a form above.', 'convertkit' );
+			}
 			?>
 		</p>
 	</div>

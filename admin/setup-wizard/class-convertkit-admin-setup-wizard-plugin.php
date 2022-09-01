@@ -253,19 +253,25 @@ class ConvertKit_Admin_Setup_Wizard_Plugin extends ConvertKit_Admin_Setup_Wizard
 				// Fetch a Post and a Page, appending the preview nonce to their URLs.
 				$this->preview_nonce = wp_create_nonce( 'convertkit-preview-form' );
 
-				$this->preview_post_url = add_query_arg(
-					array(
-						'convertkit-preview-nonce' => $this->preview_nonce,
-					),
-					get_permalink( $this->get_most_recent( 'post' ) )
-				);
+				$post_id = $this->get_most_recent( 'post' );
+				if ( $post_id ) {
+					$this->preview_post_url = add_query_arg(
+						array(
+							'convertkit-preview-nonce' => $this->preview_nonce,
+						),
+						get_permalink( $post_id )
+					);
+				}
 
-				$this->preview_page_url = add_query_arg(
-					array(
-						'convertkit-preview-nonce' => $this->preview_nonce,
-					),
-					get_permalink( $this->get_most_recent( 'page' ) )
-				);
+				$page_id = $this->get_most_recent( 'page' );
+				if ( $page_id ) {
+					$this->preview_page_url = add_query_arg(
+						array(
+							'convertkit-preview-nonce' => $this->preview_nonce,
+						),
+						get_permalink( $page_id )
+					);
+				}
 				break;
 		}
 
