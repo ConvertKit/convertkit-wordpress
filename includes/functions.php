@@ -192,6 +192,19 @@ function convertkit_get_settings_link( $query_args = array() ) {
 }
 
 /**
+ * Helper method to return the URL the user needs to visit to register a ConvertKit account.
+ *
+ * @since   1.9.8.5
+ *
+ * @return  string  ConvertKit Registration URL.
+ */
+function convertkit_get_registration_url() {
+
+	return 'https://app.convertkit.com/users/signup?utm_source=wordpress&utm_content=convertkit';
+
+}
+
+/**
  * Helper method to return the URL the user needs to visit to sign in to their ConvertKit account.
  *
  * @since   1.9.6.1
