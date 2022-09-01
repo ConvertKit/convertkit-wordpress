@@ -38,6 +38,15 @@ class ConvertKit_Admin_Setup_Wizard {
 	public $error = false;
 
 	/**
+	 * The required user capability to access the setup wizard.
+	 *
+	 * @since   1.9.8.5
+	 *
+	 * @var     string
+	 */
+	public $required_capability = 'activate_plugins';
+
+	/**
 	 * The current step in the setup process the user is on.
 	 *
 	 * @since   1.9.8.5
@@ -143,6 +152,11 @@ class ConvertKit_Admin_Setup_Wizard {
 
 		// Bail if this isn't a request for the setup screen.
 		if ( ! $this->is_setup_request() ) {
+			return;
+		}
+
+		// Bail if the user doesn't have the required capability to access this setup wizard.
+		if ( ! $this->user_has_access() ) {
 			return;
 		}
 
@@ -348,7 +362,7 @@ class ConvertKit_Admin_Setup_Wizard {
 	 *
 	 * @return  bool    Is setup screen request
 	 */
-	private function is_setup_request() {
+	public function is_setup_request() {
 
 		// Don't load if this is an AJAX call.
 		if ( wp_doing_ajax() || wp_doing_cron() ) {
@@ -360,6 +374,29 @@ class ConvertKit_Admin_Setup_Wizard {
 			return false;
 		}
 		if ( sanitize_text_field( $_GET['page'] ) !== $this->page_name ) { // phpcs:ignore WordPress.Security.NonceVerification
+			return false;
+		}
+
+		return true;
+
+	}
+
+	/**
+	 * Determines if the user has access to the setup wizard.
+	 *
+	 * @since   1.9.8.5
+	 *
+	 * @return  bool    Has access
+	 */
+	public function user_has_access() {
+
+		// Bail if not logged in.
+		if ( ! is_user_logged_in() ) {
+			return false;
+		}
+
+		// Bail if the user doesn't have the required capability.
+		if ( ! current_user_can( $this->required_capability ) ) {
 			return false;
 		}
 
