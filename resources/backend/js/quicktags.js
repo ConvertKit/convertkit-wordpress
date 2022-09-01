@@ -45,24 +45,19 @@ function convertKitQuickTagRegister( block ) {
 						// Show Modal.
 						convertKitQuickTagsModal.open();
 
-						// Resize Modal so it's not full screen.
-						$( 'div.convertkit-quicktags-modal div.media-modal.wp-core-ui' ).css(
-							{
-								width: ( block.modal.width ) + 'px',
-								height: ( block.modal.height + 20 ) + 'px' // Prevents a vertical scroll bar.
-							}
-						);
-
 						// Set Title.
 						$( '#convertkit-quicktags-modal .media-frame-title h1' ).text( block.title );
 
 						// Inject HTML into modal.
 						$( '#convertkit-quicktags-modal .media-frame-content' ).html( response );
 
-						// Resize HTML height so it fills the modal.
-						$( 'div.convertkit-quicktags-modal div.media-modal.wp-core-ui div.convertkit-vertical-tabbed-ui' ).css(
+						console.log( $( 'div.convertkit-quicktags-modal div.media-frame-title h1' ).outerHeight() );
+						console.log( $( 'div.convertkit-quicktags-modal form.convertkit-tinymce-popup' ).height() );
+
+						// Resize Modal height to prevent whitespace below form.
+						$( 'div.convertkit-quicktags-modal div.media-modal.wp-core-ui' ).css(
 							{
-								height: ( block.modal.height - 50 ) + 'px' // -50px is for the footer buttons.
+								height: ( $( 'div.convertkit-quicktags-modal div.media-frame-title h1' ).outerHeight() + $( 'div.convertkit-quicktags-modal form.convertkit-tinymce-popup' ).height() + 6 ) + 'px' // Prevents a vertical scroll bar.
 							}
 						);
 
