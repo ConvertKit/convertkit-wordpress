@@ -139,6 +139,11 @@ class ConvertKit_Admin_Setup_Wizard_Plugin extends ConvertKit_Admin_Setup_Wizard
 		// Delete the transient, so we don't redirect again.
 		delete_transient( $this->page_name );
 
+		// Bail if the user doesn't have access.
+		if ( ! $this->user_has_access() ) {
+			return;
+		}
+
 		// Check if any settings exist.
 		// If they do, the Plugin has already been setup, so no need to show the setup screen.
 		$settings = new ConvertKit_Settings();

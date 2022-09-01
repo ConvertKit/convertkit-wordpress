@@ -155,9 +155,10 @@ class ConvertKit_Admin_Setup_Wizard {
 			return;
 		}
 
-		// Bail if the user doesn't have the required capability to access this setup wizard.
+		// Redirect back to the Dashboard if the user doesn't have the required capability to access this setup wizard.
 		if ( ! $this->user_has_access() ) {
-			return;
+			wp_safe_redirect( admin_url( 'index.php' ) );
+			exit;
 		}
 
 		// Define current screen, so that calls to get_current_screen() tell Plugins which screen is loaded.
