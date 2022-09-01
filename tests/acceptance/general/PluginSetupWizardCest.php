@@ -329,9 +329,34 @@ class PluginSetupWizardCest
 		$I->fillSelect2Field($I, '#select2-wp-convertkit-form-posts-container', $_ENV['CONVERTKIT_API_FORM_NAME']);
 	}
 
+	/**
+	 * Test that the Setup Wizard > Form Configuration screen does not display preview links
+	 * when no Pages and Posts exist in WordPress.
+	 *
+	 * @since 	1.9.8.5
+	 * 
+	 * @param 	AcceptanceTester 	$I 	Tester
+	 */
 	public function testSetupWizardFormConfigurationScreenWhenNoPostsOrPagesExist(AcceptanceTester $I)
 	{
+		// Activate Plugin.
+		$this->_activatePlugin($I);
 
+		// Define Plugin settings.
+		$I->haveOptionInDatabase('_wp_convertkit_settings', [
+			'api_key'    => $_ENV['CONVERTKIT_API_KEY'],
+			'api_secret' => $_ENV['CONVERTKIT_API_SECRET'],
+		]);
+
+		// Load Step 3/4.
+		$I->amOnAdminPage('index.php?page=convertkit-setup&step=3');
+
+		// Confirm expected setup wizard screen is displayed.
+		$this->_seeExpectedSetupWizardScreen($I, 3, 'Display an email capture form');
+
+		// Confirm no Page or Post preview links exist, because there are no Pages or Posts in WordPress.
+		$I->dontSeeElementInDOM('a#convertkit-preview-form-post');
+		$I->dontSeeElementInDOM('a#convertkit-preview-form-page');
 	}
 
 	/**
