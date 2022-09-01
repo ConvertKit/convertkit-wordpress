@@ -216,6 +216,18 @@ class PluginSetupWizardCest
 			'api_secret' => $_ENV['CONVERTKIT_API_SECRET'],
 		]);
 
+		// Create a Page and a Post, so that preview links display.
+		$I->havePostInDatabase([
+			'post_title'	=> 'ConvertKit: Setup Wizard: Page',
+			'post_type'		=> 'page',
+			'post_status'	=> 'publish',
+		]);
+		$I->havePostInDatabase([
+			'post_title'	=> 'ConvertKit: Setup Wizard: Post',
+			'post_type'		=> 'post',
+			'post_status'	=> 'publish',
+		]);
+
 		// Load Step 3/4.
 		$I->amOnAdminPage('index.php?page=convertkit-setup&step=3');
 
@@ -233,8 +245,7 @@ class PluginSetupWizardCest
 		$I->switchToNextTab();
 
 		// Confirm expected Form is displayed.
-		// @TODO This fails.
-		//$I->seeElementInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]');
+		$I->seeElementInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]');
 
 		// Close newly opened tab.
 		$I->closeTab();
@@ -250,8 +261,7 @@ class PluginSetupWizardCest
 		$I->switchToNextTab();
 
 		// Confirm expected Form is displayed.
-		// @TODO This fails.
-		//$I->seeElementInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]');
+		$I->seeElementInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]');
 
 		// Close newly opened tab.
 		$I->closeTab();
@@ -317,6 +327,11 @@ class PluginSetupWizardCest
 
 		// Confirm we can select a Post Form.
 		$I->fillSelect2Field($I, '#select2-wp-convertkit-form-posts-container', $_ENV['CONVERTKIT_API_FORM_NAME']);
+	}
+
+	public function testSetupWizardFormConfigurationScreenWhenNoPostsOrPagesExist(AcceptanceTester $I)
+	{
+
 	}
 
 	/**
