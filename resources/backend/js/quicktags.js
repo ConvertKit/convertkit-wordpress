@@ -51,13 +51,10 @@ function convertKitQuickTagRegister( block ) {
 						// Inject HTML into modal.
 						$( '#convertkit-quicktags-modal .media-frame-content' ).html( response );
 
-						console.log( $( 'div.convertkit-quicktags-modal div.media-frame-title h1' ).outerHeight() );
-						console.log( $( 'div.convertkit-quicktags-modal form.convertkit-tinymce-popup' ).height() );
-
 						// Resize Modal height to prevent whitespace below form.
 						$( 'div.convertkit-quicktags-modal div.media-modal.wp-core-ui' ).css(
 							{
-								height: ( $( 'div.convertkit-quicktags-modal div.media-frame-title h1' ).outerHeight() + $( 'div.convertkit-quicktags-modal form.convertkit-tinymce-popup' ).height() + 6 ) + 'px' // Prevents a vertical scroll bar.
+								height: ( $( 'div.convertkit-quicktags-modal div.media-frame-title h1' ).outerHeight() + $( 'div.convertkit-quicktags-modal form.convertkit-tinymce-popup' ).height() + 6 ) + 'px' // Additional 6px prevents a vertical scroll bar.
 							}
 						);
 
