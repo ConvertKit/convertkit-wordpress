@@ -113,6 +113,9 @@ Full Plugin documentation can be found [here](https://help.convertkit.com/en/art
 
 == Changelog ==
 
+### 1.9.8.4 2022-09-xx
+* Fix: Text Editor: Quicktag Buttons: Position and size modal window correctly to avoid scrollbars and whitespace
+
 ### 1.9.8.3 2022-08-19
 * Added: Settings: Tools: Use WordPress' Site Info to populate System Info section
 * Added: Refresh button: Show error notification when refreshing fails

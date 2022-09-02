@@ -1,11 +1,14 @@
 .convertkit-quicktags-modal .media-modal {
-	position: absolute;
+	position: fixed;
 	left: 50%;
 	top: 50%;
 	transform: translate(-50%, -50%);
-	background: red;
+	width: 500px;
 }
-.convertkit-quicktags-modal .media-modal .media-frame-title {
+.convertkit-quicktags-modal .media-modal .media-modal-content {
+	min-height: auto;
+}
+.convertkit-quicktags-modal .media-modal .media-modal-content .media-frame-title {
 	left: 0;
 	height: 30px;
 }
