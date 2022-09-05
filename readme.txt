@@ -115,6 +115,7 @@ Full Plugin documentation can be found [here](https://help.convertkit.com/en/art
 
 ### 1.9.8.4 2022-09-xx
 * Fix: Text Editor: Quicktag Buttons: Position and size modal window correctly to avoid scrollbars and whitespace
+* Fix: Widgets: Legacy Forms Widget: "The convertkit_form block was affected by errors and may not function properly" when attempting to add legacy form widget
 
 ### 1.9.8.3 2022-08-19
 * Added: Settings: Tools: Use WordPress' Site Info to populate System Info section
