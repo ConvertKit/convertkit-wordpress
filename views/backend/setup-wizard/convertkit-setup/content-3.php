@@ -13,9 +13,11 @@ if ( ! $this->forms->exist() ) {
 	<h1><?php esc_html_e( 'Create your first ConvertKit Form', 'convertkit' ); ?></h1>
 	<p>
 		<?php
-		esc_html_e( 'To capture email leads, you first need to create a form in ConvertKit. Click the button below to get started.', 'convertkit' );
+		esc_html_e( 'To get email subscribers, you first need to create a form in ConvertKit. Click the button below to get started.', 'convertkit' );
 		?>
 	</p>
+
+	<hr />
 
 	<a href="https://app.convertkit.com/forms/new?format=inline" target="_blank" class="button button-primary">
 		<?php esc_html_e( 'Create form', 'convertkit' ); ?>
@@ -23,13 +25,13 @@ if ( ! $this->forms->exist() ) {
 
 	<p>
 		<?php
-		esc_html_e( 'Not sure how to do this? Follow the video below.', 'convertkit' );
+		echo sprintf(
+			'%1$s <a href="https://help.convertkit.com/en/articles/3860348-how-to-create-your-first-form-in-convertkit" target="_blank">%2$s</a>',
+			esc_html__( 'Not sure how to do this in ConvertKit?', 'convertkit' ),
+			esc_html__( 'Follow our step by step documentation', 'convertkit' )
+		);
 		?>
 	</p>
-
-	<div>
-		<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/_RmI6vQhGu8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-	</div>
 	<?php
 } else {
 	// Show options to configure Form to display on Posts and Pages.
@@ -37,7 +39,7 @@ if ( ! $this->forms->exist() ) {
 	<h1><?php esc_html_e( 'Display an email capture form', 'convertkit' ); ?></h1>
 	<p>
 		<?php
-		esc_html_e( 'To capture email leads, you need to display a ConvertKit form on your site, using the options below.', 'convertkit' );
+		esc_html_e( 'To get email subscribers, you need to display a ConvertKit form on your site, using the options below.', 'convertkit' );
 		?>
 	</p>
 
@@ -45,7 +47,7 @@ if ( ! $this->forms->exist() ) {
 
 	<div>
 		<label for="wp-convertkit-form-posts">
-			<?php esc_html_e( 'Which form would you like to display on individual blog posts?', 'convertkit' ); ?>
+			<?php esc_html_e( 'Which form would you like to display below all blog posts?', 'convertkit' ); ?>
 		</label>
 		<select name="post_form" id="wp-convertkit-form-posts" class="convertkit-select2 convertkit-update-link widefat" data-target="#convertkit-preview-form-post" data-link="<?php echo esc_attr( $this->preview_post_url ); ?>&convertkit_form_id=">
 			<option value="0">
@@ -80,7 +82,7 @@ if ( ! $this->forms->exist() ) {
 
 	<div>
 		<label for="wp-convertkit-form-pages">
-			<?php esc_html_e( 'Which form would you like to display on Pages?', 'convertkit' ); ?>
+			<?php esc_html_e( 'Which form would you like to display below all Pages?', 'convertkit' ); ?>
 		</label>
 		<select name="page_form" id="wp-convertkit-form-pages" class="convertkit-select2 convertkit-update-link widefat" data-target="#convertkit-preview-form-page" data-link="<?php echo esc_attr( $this->preview_page_url ); ?>&convertkit_form_id=">	
 			<option value="0">
@@ -109,6 +111,14 @@ if ( ! $this->forms->exist() ) {
 			} else {
 				esc_html_e( 'Select a form above.', 'convertkit' );
 			}
+			?>
+		</p>
+	</div>
+
+	<div class="notice notice-info">
+		<p class="description">
+			<?php
+			esc_html_e( 'To embed email subscriber forms in particular sections of your content on specific Pages or Posts, use the ConvertKit Form block or shortcode when editing a Page or Post.', 'convertkit' );
 			?>
 		</p>
 	</div>
