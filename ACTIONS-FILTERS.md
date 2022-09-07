@@ -88,6 +88,10 @@
 						<td colspan="3">../includes/class-convertkit-output.php</td>
 					</tr><tr>
 						<td>&nbsp;</td>
+						<td><a href="#convertkit_output_page_takeover_landing_page_id"><code>convertkit_output_page_takeover_landing_page_id</code></a></td>
+						<td>Define the ConvertKit Landing Page ID to display for the given Post ID, overriding the Post settings. Return false to not display any ConvertKit Landing Page.</td>
+					</tr><tr>
+						<td>&nbsp;</td>
 						<td><a href="#convertkit_output_append_form_to_content_form_id"><code>convertkit_output_append_form_to_content_form_id</code></a></td>
 						<td>Define the ConvertKit Form ID to display for the given Post ID, overriding the Post, Category or Plugin settings. Return false to not display any ConvertKit Form.</td>
 					</tr><tr>
@@ -137,7 +141,7 @@ add_filter( 'convertkit_admin_settings_register_sections', function( $sections )
 </pre>
 <h3 id="convertkit_get_supported_post_types">
 						convertkit_get_supported_post_types
-						<code>includes/functions.php::118</code>
+						<code>includes/functions.php::121</code>
 					</h3><h4>Overview</h4>
 						<p>Defines the Post Types that support ConvertKit Forms.</p><h4>Parameters</h4>
 					<table>
@@ -164,7 +168,7 @@ add_filter( 'convertkit_get_supported_post_types', function( $post_types ) {
 </pre>
 <h3 id="convertkit_shortcodes">
 						convertkit_shortcodes
-						<code>includes/functions.php::142</code>
+						<code>includes/functions.php::145</code>
 					</h3><h4>Overview</h4>
 						<p>Registers shortcodes for the ConvertKit Plugin.</p><h4>Parameters</h4>
 					<table>
@@ -191,7 +195,7 @@ add_filter( 'convertkit_shortcodes', function( $shortcodes ) {
 </pre>
 <h3 id="convertkit_blocks">
 						convertkit_blocks
-						<code>includes/functions.php::166</code>
+						<code>includes/functions.php::169</code>
 					</h3><h4>Overview</h4>
 						<p>Registers blocks for the ConvertKit Plugin.</p><h4>Parameters</h4>
 					<table>
@@ -518,6 +522,37 @@ add_filter( 'convertkit_wishlist_settings_get_defaults', function( $defaults ) {
 	return $defaults;
 }, 10, 1 );
 </pre>
+<h3 id="convertkit_output_page_takeover_landing_page_id">
+						convertkit_output_page_takeover_landing_page_id
+						<code>includes/class-convertkit-output.php::128</code>
+					</h3><h4>Overview</h4>
+						<p>Define the ConvertKit Landing Page ID to display for the given Post ID, overriding the Post settings. Return false to not display any ConvertKit Landing Page.</p><h4>Parameters</h4>
+					<table>
+						<thead>
+							<tr>
+								<th>Parameter</th>
+								<th>Type</th>
+								<th>Description</th>
+							</tr>
+						</thead>
+						<tbody><tr>
+							<td>$landing_page_id</td>
+							<td>int</td>
+							<td>Landing Page ID</td>
+						</tr><tr>
+							<td>$post_id</td>
+							<td>int</td>
+							<td>Post ID</td>
+						</tr>
+						</tbody>
+					</table><h4>Usage</h4>
+<pre>
+add_filter( 'convertkit_output_page_takeover_landing_page_id', function( $landing_page_id, $post_id ) {
+	// ... your code here
+	// Return value
+	return $landing_page_id;
+}, 10, 2 );
+</pre>
 <h3 id="convertkit_output_append_form_to_content_form_id">
 						convertkit_output_append_form_to_content_form_id
 						<code>includes/class-convertkit-output.php::183</code>
@@ -617,7 +652,7 @@ add_filter( 'convertkit_settings_get_defaults', function( $defaults ) {
 </pre>
 <h3 id="convertkit_is_admin_or_frontend_editor">
 						convertkit_is_admin_or_frontend_editor
-						<code>includes/class-wp-convertkit.php::297</code>
+						<code>includes/class-wp-convertkit.php::299</code>
 					</h3><h4>Overview</h4>
 						<p>Filters whether the current request is a WordPress Administration / Frontend Editor request or not. Page Builders can set this to true to allow ConvertKit to load its administration functionality.</p><h4>Parameters</h4>
 					<table>
@@ -690,6 +725,16 @@ add_filter( 'convertkit_is_admin_or_frontend_editor', function( $is_admin_or_fro
 						<td>&nbsp;</td>
 						<td><a href="#convertkit_admin_post_enqueue_styles"><code>convertkit_admin_post_enqueue_styles</code></a></td>
 						<td></td>
+					</tr><tr>
+						<td colspan="3">../admin/class-convertkit-admin-setup-wizard.php</td>
+					</tr><tr>
+						<td>&nbsp;</td>
+						<td><a href="#convertkit_admin_setup_wizard_process_form_  this-page_name"><code>convertkit_admin_setup_wizard_process_form_  this-page_name</code></a></td>
+						<td>Process submitted form data for the given setup wizard name and current step.</td>
+					</tr><tr>
+						<td>&nbsp;</td>
+						<td><a href="#convertkit_admin_setup_wizard_load_screen_data_  this-page_name"><code>convertkit_admin_setup_wizard_load_screen_data_  this-page_name</code></a></td>
+						<td>Load any data into class variables for the given setup wizard name and current step.</td>
 					</tr><tr>
 						<td colspan="3">../includes/class-convertkit-gutenberg.php</td>
 					</tr><tr>
@@ -898,6 +943,56 @@ do_action( 'convertkit_admin_post_enqueue_styles', function(  ) {
 	// ... your code here
 }, 10, 0 );
 </pre>
+<h3 id="convertkit_admin_setup_wizard_process_form_  this-page_name">
+						convertkit_admin_setup_wizard_process_form_  this-page_name
+						<code>admin/class-convertkit-admin-setup-wizard.php::213</code>
+					</h3><h4>Overview</h4>
+						<p>Process submitted form data for the given setup wizard name and current step.</p><h4>Parameters</h4>
+					<table>
+						<thead>
+							<tr>
+								<th>Parameter</th>
+								<th>Type</th>
+								<th>Description</th>
+							</tr>
+						</thead>
+						<tbody><tr>
+							<td>$step</td>
+							<td>int</td>
+							<td>Current step number.</td>
+						</tr>
+						</tbody>
+					</table><h4>Usage</h4>
+<pre>
+do_action( 'convertkit_admin_setup_wizard_process_form_  this-page_name', function( $step ) {
+	// ... your code here
+}, 10, 1 );
+</pre>
+<h3 id="convertkit_admin_setup_wizard_load_screen_data_  this-page_name">
+						convertkit_admin_setup_wizard_load_screen_data_  this-page_name
+						<code>admin/class-convertkit-admin-setup-wizard.php::273</code>
+					</h3><h4>Overview</h4>
+						<p>Load any data into class variables for the given setup wizard name and current step.</p><h4>Parameters</h4>
+					<table>
+						<thead>
+							<tr>
+								<th>Parameter</th>
+								<th>Type</th>
+								<th>Description</th>
+							</tr>
+						</thead>
+						<tbody><tr>
+							<td>$step</td>
+							<td>int</td>
+							<td>Current step number.</td>
+						</tr>
+						</tbody>
+					</table><h4>Usage</h4>
+<pre>
+do_action( 'convertkit_admin_setup_wizard_load_screen_data_  this-page_name', function( $step ) {
+	// ... your code here
+}, 10, 1 );
+</pre>
 <h3 id="convertkit_gutenberg_enqueue_scripts">
 						convertkit_gutenberg_enqueue_scripts
 						<code>includes/class-convertkit-gutenberg.php::157</code>
@@ -1005,7 +1100,7 @@ do_action( 'convertkit_output_output_form', function(  ) {
 </pre>
 <h3 id="convertkit_initialize_admin">
 						convertkit_initialize_admin
-						<code>includes/class-wp-convertkit.php::80</code>
+						<code>includes/class-wp-convertkit.php::81</code>
 					</h3><h4>Parameters</h4>
 					<table>
 						<thead>
@@ -1025,7 +1120,7 @@ do_action( 'convertkit_initialize_admin', function(  ) {
 </pre>
 <h3 id="convertkit_initialize_admin_or_frontend_editor">
 						convertkit_initialize_admin_or_frontend_editor
-						<code>includes/class-wp-convertkit.php::101</code>
+						<code>includes/class-wp-convertkit.php::102</code>
 					</h3><h4>Parameters</h4>
 					<table>
 						<thead>
@@ -1045,7 +1140,7 @@ do_action( 'convertkit_initialize_admin_or_frontend_editor', function(  ) {
 </pre>
 <h3 id="convertkit_initialize_cli_cron">
 						convertkit_initialize_cli_cron
-						<code>includes/class-wp-convertkit.php::122</code>
+						<code>includes/class-wp-convertkit.php::123</code>
 					</h3><h4>Parameters</h4>
 					<table>
 						<thead>
@@ -1065,7 +1160,7 @@ do_action( 'convertkit_initialize_cli_cron', function(  ) {
 </pre>
 <h3 id="convertkit_initialize_frontend">
 						convertkit_initialize_frontend
-						<code>includes/class-wp-convertkit.php::145</code>
+						<code>includes/class-wp-convertkit.php::147</code>
 					</h3><h4>Parameters</h4>
 					<table>
 						<thead>
@@ -1085,7 +1180,7 @@ do_action( 'convertkit_initialize_frontend', function(  ) {
 </pre>
 <h3 id="convertkit_initialize_global">
 						convertkit_initialize_global
-						<code>includes/class-wp-convertkit.php::178</code>
+						<code>includes/class-wp-convertkit.php::180</code>
 					</h3><h4>Parameters</h4>
 					<table>
 						<thead>

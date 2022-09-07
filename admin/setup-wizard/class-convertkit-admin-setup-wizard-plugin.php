@@ -21,7 +21,7 @@ class ConvertKit_Admin_Setup_Wizard_Plugin extends ConvertKit_Admin_Setup_Wizard
 	/**
 	 * Holds the ConvertKit Forms resource class.
 	 *
-	 * @since   1.9.8.5
+	 * @since   1.9.8.4
 	 *
 	 * @var     bool|ConvertKit_Resource_Forms
 	 */
@@ -30,7 +30,7 @@ class ConvertKit_Admin_Setup_Wizard_Plugin extends ConvertKit_Admin_Setup_Wizard
 	/**
 	 * Holds the ConvertKit Settings class.
 	 *
-	 * @since   1.9.8.5
+	 * @since   1.9.8.4
 	 *
 	 * @var     bool|ConvertKit_Settings
 	 */
@@ -39,7 +39,7 @@ class ConvertKit_Admin_Setup_Wizard_Plugin extends ConvertKit_Admin_Setup_Wizard
 	/**
 	 * Holds the nonce for validating a frontend preview request.
 	 *
-	 * @since   1.9.8.5
+	 * @since   1.9.8.4
 	 *
 	 * @var     bool|string
 	 */
@@ -49,7 +49,7 @@ class ConvertKit_Admin_Setup_Wizard_Plugin extends ConvertKit_Admin_Setup_Wizard
 	 * Holds the URL to the most recent WordPress Post, used when previewing a Form below a Post
 	 * on the frontend site.
 	 *
-	 * @since   1.9.8.5
+	 * @since   1.9.8.4
 	 *
 	 * @var     bool|string
 	 */
@@ -59,7 +59,7 @@ class ConvertKit_Admin_Setup_Wizard_Plugin extends ConvertKit_Admin_Setup_Wizard
 	 * Holds the URL to the most recent WordPress Page, used when previewing a Form below a Page
 	 * on the frontend site.
 	 *
-	 * @since   1.9.8.5
+	 * @since   1.9.8.4
 	 *
 	 * @var     bool|string
 	 */
@@ -68,7 +68,7 @@ class ConvertKit_Admin_Setup_Wizard_Plugin extends ConvertKit_Admin_Setup_Wizard
 	/**
 	 * The programmatic name for this wizard.
 	 *
-	 * @since   1.9.8.5
+	 * @since   1.9.8.4
 	 *
 	 * @var     string
 	 */
@@ -77,7 +77,7 @@ class ConvertKit_Admin_Setup_Wizard_Plugin extends ConvertKit_Admin_Setup_Wizard
 	/**
 	 * The URL to take the user to when they click the Exit link.
 	 *
-	 * @since   1.9.8.5
+	 * @since   1.9.8.4
 	 *
 	 * @var     string
 	 */
@@ -86,7 +86,7 @@ class ConvertKit_Admin_Setup_Wizard_Plugin extends ConvertKit_Admin_Setup_Wizard
 	/**
 	 * Registers action and filter hooks.
 	 *
-	 * @since   1.9.8.5
+	 * @since   1.9.8.4
 	 */
 	public function __construct() {
 
@@ -125,7 +125,7 @@ class ConvertKit_Admin_Setup_Wizard_Plugin extends ConvertKit_Admin_Setup_Wizard
 	 * Redirects to the setup screen if a transient was created on Plugin activation,
 	 * and the Plugin has no API Key and Secret configured.
 	 *
-	 * @since   1.9.8.5
+	 * @since   1.9.8.4
 	 */
 	public function maybe_redirect_to_setup_screen() {
 
@@ -160,7 +160,7 @@ class ConvertKit_Admin_Setup_Wizard_Plugin extends ConvertKit_Admin_Setup_Wizard
 	/**
 	 * Process posted data from the submitted form.
 	 *
-	 * @since   1.9.8.5
+	 * @since   1.9.8.4
 	 *
 	 * @param   int $step   Current step.
 	 */
@@ -217,7 +217,7 @@ class ConvertKit_Admin_Setup_Wizard_Plugin extends ConvertKit_Admin_Setup_Wizard
 	/**
 	 * Load any data into class variables for the given setup wizard name and current step.
 	 *
-	 * @since   1.9.8.5
+	 * @since   1.9.8.4
 	 *
 	 * @param   int $step   Current step.
 	 */
@@ -280,7 +280,7 @@ class ConvertKit_Admin_Setup_Wizard_Plugin extends ConvertKit_Admin_Setup_Wizard
 	/**
 	 * Returns the most recent published Post ID.
 	 *
-	 * @since   1.9.8.5
+	 * @since   1.9.8.4
 	 *
 	 * @param   string $post_type  Post Type.
 	 * @return  false|int           Post ID

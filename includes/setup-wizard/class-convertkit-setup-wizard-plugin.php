@@ -18,7 +18,7 @@ class ConvertKit_Setup_Wizard_Plugin {
 	/**
 	 * Registers action and filter hooks.
 	 *
-	 * @since   1.9.8.5
+	 * @since   1.9.8.4
 	 */
 	public function __construct() {
 
@@ -30,7 +30,7 @@ class ConvertKit_Setup_Wizard_Plugin {
 	 * Changes the form to display for the given Post ID if the request is
 	 * from a logged in user who has clicked a preview link in the Plugin Setup Wizard.
 	 *
-	 * @since   1.9.8.5
+	 * @since   1.9.8.4
 	 *
 	 * @param   int $form_id    ConvertKit Form ID.
 	 * @return  int                 ConvertKit Form ID
