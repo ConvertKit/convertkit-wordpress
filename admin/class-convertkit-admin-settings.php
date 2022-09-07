@@ -59,6 +59,9 @@ class ConvertKit_Admin_Settings {
 		// Enqueue Select2 JS.
 		convertkit_select2_enqueue_scripts();
 
+		// Enqueue Preview Output JS.
+		wp_enqueue_script( 'convertkit-admin-preview-output', CONVERTKIT_PLUGIN_URL . 'resources/backend/js/preview-output.js', array( 'jquery' ), CONVERTKIT_PLUGIN_VERSION, true );
+
 		/**
 		 * Enqueue JavaScript for the Settings Screen at Settings > ConvertKit
 		 *

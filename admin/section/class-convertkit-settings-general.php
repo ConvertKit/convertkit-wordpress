@@ -353,13 +353,32 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 			$options[ esc_attr( $form['id'] ) ] = esc_html( $form['name'] );
 		}
 
+		// Build description with preview link.
+		$description = false;
+		$preview_url = WP_ConvertKit()->get_class( 'preview_output' )->get_preview_form_url( $args['post_type'] );
+		if ( $preview_url ) {
+			$description = sprintf(
+				'%s %s %s',
+				esc_html__( 'Select a form above.', 'convertkit' ),
+				'<a href="' . esc_attr( $preview_url ) . '" id="convertkit-preview-form-' . esc_attr( $args['post_type'] ) .'" target="_blank">' . esc_html__( 'Click here', 'convertkit' ) . '</a>',
+				esc_html__( 'to preview how this will look.', 'convertkit' )
+			);
+		}
+
 		// Build field.
 		$select_field = $this->get_select_field(
 			$args['post_type'] . '_form',
 			$this->settings->get_default_form( $args['post_type'] ),
 			$options,
-			false,
-			array( 'convertkit-select2' )
+			$description,
+			array(
+				'convertkit-select2',
+				'convertkit-preview-output-link'
+			),
+			array(
+				'data-target' 	=> '#convertkit-preview-form-' . esc_attr( $args['post_type'] ),
+				'data-link' 	=> esc_attr( $preview_url ) . '&convertkit_form_id=',
+			)
 		);
 
 		// Output field.

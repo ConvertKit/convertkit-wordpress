@@ -47,20 +47,5 @@ jQuery( document ).ready(
 			}
 		);
 
-		// Appends a <select> field value to a link. Used for previews.
-		$( 'select.convertkit-update-link' ).on(
-			'change',
-			function() {
-
-				var target = $( this ).data( 'target' ),
-				link       = $( this ).data( 'link' ) + $( this ).val();
-
-				console.log( link );
-
-				$( target ).attr( 'href', link );
-
-			}
-		).trigger( 'change' );
-
 	}
 );

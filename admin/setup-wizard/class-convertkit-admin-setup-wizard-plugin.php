@@ -37,15 +37,6 @@ class ConvertKit_Admin_Setup_Wizard_Plugin extends ConvertKit_Admin_Setup_Wizard
 	public $settings = false;
 
 	/**
-	 * Holds the nonce for validating a frontend preview request.
-	 *
-	 * @since   1.9.8.5
-	 *
-	 * @var     bool|string
-	 */
-	public $preview_nonce = false;
-
-	/**
 	 * Holds the URL to the most recent WordPress Post, used when previewing a Form below a Post
 	 * on the frontend site.
 	 *
@@ -251,61 +242,10 @@ class ConvertKit_Admin_Setup_Wizard_Plugin extends ConvertKit_Admin_Setup_Wizard
 				}
 
 				// Fetch a Post and a Page, appending the preview nonce to their URLs.
-				$this->preview_nonce = wp_create_nonce( 'convertkit-preview-form' );
-
-				$post_id = $this->get_most_recent( 'post' );
-				if ( $post_id ) {
-					$this->preview_post_url = add_query_arg(
-						array(
-							'convertkit-preview-nonce' => $this->preview_nonce,
-						),
-						get_permalink( $post_id )
-					);
-				}
-
-				$page_id = $this->get_most_recent( 'page' );
-				if ( $page_id ) {
-					$this->preview_page_url = add_query_arg(
-						array(
-							'convertkit-preview-nonce' => $this->preview_nonce,
-						),
-						get_permalink( $page_id )
-					);
-				}
+				$this->preview_post_url = WP_ConvertKit()->get_class( 'preview_output' )->get_preview_form_url( 'post' );
+				$this->preview_page_url = WP_ConvertKit()->get_class( 'preview_output' )->get_preview_form_url( 'page' );
 				break;
 		}
-
-	}
-
-	/**
-	 * Returns the most recent published Post ID.
-	 *
-	 * @since   1.9.8.5
-	 *
-	 * @param   string $post_type  Post Type.
-	 * @return  false|int           Post ID
-	 */
-	private function get_most_recent( $post_type = 'post' ) {
-
-		// Run query.
-		$query = new WP_Query(
-			array(
-				'post_type'      => $post_type,
-				'post_status'    => 'publish',
-				'posts_per_page' => 1,
-				'orderby'        => 'date',
-				'order'          => 'DESC',
-				'fields'         => 'ids',
-			)
-		);
-
-		// Return false if no Posts exist for the given type.
-		if ( empty( $query->posts ) ) {
-			return false;
-		}
-
-		// Return the Post ID.
-		return $query->posts[0];
 
 	}
 
