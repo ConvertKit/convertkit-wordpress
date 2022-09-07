@@ -129,19 +129,12 @@
  * Content Grid
  */
 #convertkit-setup-wizard-content .convertkit-setup-wizard-grid {
-	/*
-	display: flex;
-	flex-wrap: wrap;
-	*/
-
 	display: grid;
 	grid-template-columns: repeat(2, 1fr);
 	column-gap: 20px;
 }
 #convertkit-setup-wizard-content .convertkit-setup-wizard-grid > div {
-	width: 300px;
 	text-align: center;
-	margin: 0 20px 20px 0;
 	padding: 20px;
 	background-color: #fcfcfc;
 	border: 1px solid #ccc;
