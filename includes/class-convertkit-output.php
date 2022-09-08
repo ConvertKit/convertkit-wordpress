@@ -126,7 +126,7 @@ class ConvertKit_Output {
 		 * @param   int     $landing_page_id    Landing Page ID
 		 * @param   int     $post_id            Post ID
 		 */
-		$landing_page_id = apply_filters( 'convertkit_output_append_form_to_content_form_id', $landing_page_id, $post_id );
+		$landing_page_id = apply_filters( 'convertkit_output_page_takeover_landing_page_id', $landing_page_id, $post_id );
 
 		// Bail if no Landing Page is configured to be output.
 		if ( empty( $landing_page_id ) ) {

@@ -3,9 +3,9 @@ Contributors: nathanbarry, growdev, travisnorthcutt, ggwicz
 Donate link: https://convertkit.com
 Tags: email marketing, email newsletter, newsletter, convertkit
 Requires at least: 5.0
-Tested up to: 6.0.1
+Tested up to: 6.0.2
 Requires PHP: 5.6.20
-Stable tag: trunk
+Stable tag: 1.9.8.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -112,6 +112,12 @@ Full Plugin documentation can be found [here](https://help.convertkit.com/en/art
 7. Track subscriber growth
 
 == Changelog ==
+
+### 1.9.8.4 2022-09-08
+* Added: Setup Wizard for new installations
+* Fix: Text Editor: Quicktag Buttons: Position and size modal window correctly to avoid scrollbars and whitespace
+* Fix: Widgets: Legacy Forms Widget: "The convertkit_form block was affected by errors and may not function properly" when attempting to add legacy form widget
+* Development: Moved /lib folder to managed repository
 
 ### 1.9.8.3 2022-08-19
 * Added: Settings: Tools: Use WordPress' Site Info to populate System Info section

@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the ConvertKit plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: ConvertKit 1.9.8.3\n"
+"Project-Id-Version: ConvertKit 1.9.8.4\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/convertkit-github\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-08-19T12:32:07+00:00\n"
+"POT-Creation-Date: 2022-09-07T17:11:09+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.6.0\n"
 "X-Domain: convertkit\n"
@@ -48,6 +48,10 @@ msgstr ""
 
 #: admin/class-convertkit-admin-settings.php:241
 msgid "Settings"
+msgstr ""
+
+#: admin/class-convertkit-admin-setup-wizard.php:203
+msgid "Invalid nonce specified."
 msgstr ""
 
 #: admin/section/class-convertkit-settings-general.php:57
@@ -221,6 +225,35 @@ msgstr ""
 msgid "WordPress 5.2 or higher is required for system information report."
 msgstr ""
 
+#: admin/setup-wizard/class-convertkit-admin-setup-wizard-plugin.php:96
+msgid "Setup"
+msgstr ""
+
+#: admin/setup-wizard/class-convertkit-admin-setup-wizard-plugin.php:99
+msgid "Connect Account"
+msgstr ""
+
+#: admin/setup-wizard/class-convertkit-admin-setup-wizard-plugin.php:101
+#: views/backend/setup-wizard/convertkit-setup/content-1.php:28
+msgid "Connect"
+msgstr ""
+
+#: admin/setup-wizard/class-convertkit-admin-setup-wizard-plugin.php:105
+msgid "Form Configuration"
+msgstr ""
+
+#: admin/setup-wizard/class-convertkit-admin-setup-wizard-plugin.php:107
+msgid "Finish Setup"
+msgstr ""
+
+#: admin/setup-wizard/class-convertkit-admin-setup-wizard-plugin.php:111
+msgid "Done"
+msgstr ""
+
+#: admin/setup-wizard/class-convertkit-admin-setup-wizard-plugin.php:243
+msgid "I've created a form in ConvertKit"
+msgstr ""
+
 #: includes/blocks/class-convertkit-block-broadcasts.php:102
 msgid "ConvertKit Broadcasts"
 msgstr ""
@@ -317,7 +350,7 @@ msgstr ""
 
 #: includes/blocks/class-convertkit-block-form.php:95
 #: includes/blocks/class-convertkit-block-form.php:189
-#: includes/widgets/class-ck-widget-form.php:71
+#: includes/widgets/class-ck-widget-form.php:79
 #: views/backend/post/bulk-edit.php:13
 #: views/backend/post/meta-box.php:15
 #: views/backend/post/quick-edit.php:13
@@ -380,25 +413,25 @@ msgid "ConvertKit: Required parameter `tag` empty in AJAX request."
 msgstr ""
 
 #. translators: ConvertKit Form ID
-#: includes/class-convertkit-resource-forms.php:58
+#: includes/class-convertkit-resource-forms.php:80
 msgid "ConvertKit Form ID %s does not exist on ConvertKit."
 msgstr ""
 
-#: includes/class-convertkit-resource-forms.php:74
+#: includes/class-convertkit-resource-forms.php:96
 msgid "ConvertKit Legacy Form could not be fetched as no API Key specified in Plugin Settings"
 msgstr ""
 
 #. translators: ConvertKit Landing Page ID
-#: includes/class-convertkit-resource-landing-pages.php:66
+#: includes/class-convertkit-resource-landing-pages.php:88
 msgid "ConvertKit Landing Page ID %s does not exist on ConvertKit."
 msgstr ""
 
 #. translators: %1$s: PHP class name
-#: includes/class-wp-convertkit.php:374
+#: includes/class-wp-convertkit.php:376
 msgid "ConvertKit Error: Could not load Plugin class <strong>%1$s</strong>"
 msgstr ""
 
-#: includes/class-wp-convertkit.php:384
+#: includes/class-wp-convertkit.php:386
 msgid "ConvertKit Error"
 msgstr ""
 
@@ -501,94 +534,8 @@ msgstr ""
 msgid "To display a ConvertKit Form, at least one form must be defined in your ConvertKit Account."
 msgstr ""
 
-#: includes/widgets/class-ck-widget-form.php:67
+#: includes/widgets/class-ck-widget-form.php:75
 msgid "Title"
-msgstr ""
-
-#: lib/class-convertkit-api.php:126
-msgid "form_subscribe(): the form_id parameter is empty."
-msgstr ""
-
-#: lib/class-convertkit-api.php:127
-msgid "form_subscribe(): the email parameter is empty."
-msgstr ""
-
-#: lib/class-convertkit-api.php:130
-msgid "sequence_subscribe(): the sequence_id parameter is empty."
-msgstr ""
-
-#: lib/class-convertkit-api.php:131
-msgid "sequence_subscribe(): the email parameter is empty."
-msgstr ""
-
-#: lib/class-convertkit-api.php:134
-msgid "tag_subscribe(): the tag_id parameter is empty."
-msgstr ""
-
-#: lib/class-convertkit-api.php:135
-msgid "tag_subscribe(): the email parameter is empty."
-msgstr ""
-
-#: lib/class-convertkit-api.php:138
-msgid "get_subscriber_by_email(): the email parameter is empty."
-msgstr ""
-
-#. translators: Email Address
-#: lib/class-convertkit-api.php:140
-msgid "No subscriber(s) exist in ConvertKit matching the email address %s."
-msgstr ""
-
-#: lib/class-convertkit-api.php:143
-msgid "get_subscriber_by_id(): the subscriber_id parameter is empty."
-msgstr ""
-
-#: lib/class-convertkit-api.php:146
-msgid "get_subscriber_tags(): the subscriber_id parameter is empty."
-msgstr ""
-
-#: lib/class-convertkit-api.php:149
-msgid "unsubscribe(): the email parameter is empty."
-msgstr ""
-
-#: lib/class-convertkit-api.php:152
-msgid "get_all_posts(): the posts_per_request parameter must be equal to or greater than 1."
-msgstr ""
-
-#: lib/class-convertkit-api.php:153
-msgid "get_all_posts(): the posts_per_request parameter must be equal to or less than 50."
-msgstr ""
-
-#: lib/class-convertkit-api.php:156
-msgid "get_posts(): the page parameter must be equal to or greater than 1."
-msgstr ""
-
-#: lib/class-convertkit-api.php:157
-msgid "get_posts(): the per_page parameter must be equal to or greater than 1."
-msgstr ""
-
-#: lib/class-convertkit-api.php:158
-msgid "get_posts(): the per_page parameter must be equal to or less than 50."
-msgstr ""
-
-#. translators: HTTP method
-#: lib/class-convertkit-api.php:162
-msgid "API request method %s is not supported in ConvertKit_API class."
-msgstr ""
-
-#: lib/class-convertkit-api.php:163
-msgid "ConvertKit API Error: Rate limit hit."
-msgstr ""
-
-#: lib/class-convertkit-api.php:164
-msgid "ConvertKit API Error: Internal server error."
-msgstr ""
-
-#: lib/class-convertkit-api.php:165
-msgid "ConvertKit API Error: Bad gateway."
-msgstr ""
-
-#: lib/class-convertkit-api.php:167
-msgid "The response from the API is not of the expected type array."
 msgstr ""
 
 #: views/backend/post/bulk-edit.php:22
@@ -669,6 +616,7 @@ msgid "To configure the ConvertKit Form / Landing Page to display on this %1$s, 
 msgstr ""
 
 #: views/backend/post/no-api-key.php:17
+#: views/backend/setup-wizard/convertkit-setup/content-4.php:26
 msgid "Plugin Settings"
 msgstr ""
 
@@ -752,6 +700,178 @@ msgstr ""
 
 #: views/backend/settings/tools.php:122
 msgid "Import"
+msgstr ""
+
+#: views/backend/setup-wizard/convertkit-setup/content-1.php:11
+msgid "Welcome to the ConvertKit Setup Wizard"
+msgstr ""
+
+#: views/backend/setup-wizard/convertkit-setup/content-1.php:13
+msgid "This setup wizard will guide you through adding your first ConvertKit email marketing capture form to your site and begin capturing leads and subscribers."
+msgstr ""
+
+#: views/backend/setup-wizard/convertkit-setup/content-1.php:18
+msgid "I don't have a ConvertKit account."
+msgstr ""
+
+#: views/backend/setup-wizard/convertkit-setup/content-1.php:20
+msgid "Register"
+msgstr ""
+
+#: views/backend/setup-wizard/convertkit-setup/content-1.php:22
+msgid "Sign up to ConvertKit and register your account. It's free."
+msgstr ""
+
+#: views/backend/setup-wizard/convertkit-setup/content-1.php:26
+msgid "I have a ConvertKit account."
+msgstr ""
+
+#: views/backend/setup-wizard/convertkit-setup/content-1.php:30
+msgid "Great! Click the Connect button to get started."
+msgstr ""
+
+#: views/backend/setup-wizard/convertkit-setup/content-2.php:11
+msgid "Connect your ConvertKit account"
+msgstr ""
+
+#: views/backend/setup-wizard/convertkit-setup/content-2.php:14
+msgid "To connect this Plugin to your ConvertKit account, we need your API Key and Secret."
+msgstr ""
+
+#: views/backend/setup-wizard/convertkit-setup/content-2.php:22
+msgid "Enter your ConvertKit API Key"
+msgstr ""
+
+#: views/backend/setup-wizard/convertkit-setup/content-2.php:24
+msgid "Click the link below, copy the API Key, and paste it here."
+msgstr ""
+
+#. translators: %1$s: Link to ConvertKit Account
+#: views/backend/setup-wizard/convertkit-setup/content-2.php:29
+#: views/backend/setup-wizard/convertkit-setup/content-2.php:45
+msgid "%1$s, and enter it in the above field."
+msgstr ""
+
+#: views/backend/setup-wizard/convertkit-setup/content-2.php:30
+msgid "Click here to get your ConvertKit API Key"
+msgstr ""
+
+#: views/backend/setup-wizard/convertkit-setup/content-2.php:38
+msgid "Enter your ConvertKit API Secret"
+msgstr ""
+
+#: views/backend/setup-wizard/convertkit-setup/content-2.php:40
+msgid "Click the link below, copy the API Secret, and paste it here."
+msgstr ""
+
+#: views/backend/setup-wizard/convertkit-setup/content-2.php:46
+msgid "Click here to get your ConvertKit API Secret"
+msgstr ""
+
+#: views/backend/setup-wizard/convertkit-setup/content-3.php:13
+msgid "Create your first ConvertKit Form"
+msgstr ""
+
+#: views/backend/setup-wizard/convertkit-setup/content-3.php:16
+msgid "To get email subscribers, you first need to create a form in ConvertKit. Click the button below to get started."
+msgstr ""
+
+#: views/backend/setup-wizard/convertkit-setup/content-3.php:23
+msgid "Create form"
+msgstr ""
+
+#: views/backend/setup-wizard/convertkit-setup/content-3.php:30
+msgid "Not sure how to do this in ConvertKit?"
+msgstr ""
+
+#: views/backend/setup-wizard/convertkit-setup/content-3.php:31
+msgid "Follow our step by step documentation"
+msgstr ""
+
+#: views/backend/setup-wizard/convertkit-setup/content-3.php:39
+msgid "Display an email capture form"
+msgstr ""
+
+#: views/backend/setup-wizard/convertkit-setup/content-3.php:42
+msgid "To get email subscribers, you need to display a ConvertKit form on your site, using the options below."
+msgstr ""
+
+#: views/backend/setup-wizard/convertkit-setup/content-3.php:50
+msgid "Which form would you like to display below all blog posts?"
+msgstr ""
+
+#: views/backend/setup-wizard/convertkit-setup/content-3.php:54
+msgid "Don't display an email subscription form on posts."
+msgstr ""
+
+#: views/backend/setup-wizard/convertkit-setup/content-3.php:72
+#: views/backend/setup-wizard/convertkit-setup/content-3.php:77
+#: views/backend/setup-wizard/convertkit-setup/content-3.php:107
+#: views/backend/setup-wizard/convertkit-setup/content-3.php:112
+msgid "Select a form above."
+msgstr ""
+
+#: views/backend/setup-wizard/convertkit-setup/content-3.php:73
+#: views/backend/setup-wizard/convertkit-setup/content-3.php:108
+msgid "Click here"
+msgstr ""
+
+#: views/backend/setup-wizard/convertkit-setup/content-3.php:74
+msgid "to preview how this will look on individual posts."
+msgstr ""
+
+#: views/backend/setup-wizard/convertkit-setup/content-3.php:85
+msgid "Which form would you like to display below all Pages?"
+msgstr ""
+
+#: views/backend/setup-wizard/convertkit-setup/content-3.php:89
+msgid "Don't display an email subscription form on pages."
+msgstr ""
+
+#: views/backend/setup-wizard/convertkit-setup/content-3.php:109
+msgid "to preview how this will look on individual pages."
+msgstr ""
+
+#: views/backend/setup-wizard/convertkit-setup/content-3.php:121
+msgid "To embed email subscriber forms in particular sections of your content on specific Pages or Posts, use the ConvertKit Form block or shortcode when editing a Page or Post."
+msgstr ""
+
+#: views/backend/setup-wizard/convertkit-setup/content-4.php:11
+msgid "Setup complete"
+msgstr ""
+
+#: views/backend/setup-wizard/convertkit-setup/content-4.php:13
+msgid "The ConvertKit for WordPress Plugin setup is complete."
+msgstr ""
+
+#: views/backend/setup-wizard/convertkit-setup/content-4.php:19
+msgid "Dashboard"
+msgstr ""
+
+#: views/backend/setup-wizard/convertkit-setup/content-4.php:21
+msgid "Exit the wizard and load the WordPress Dashboard screen."
+msgstr ""
+
+#: views/backend/setup-wizard/convertkit-setup/content-4.php:28
+msgid "Exit the wizard and load the Plugin's settings screen."
+msgstr ""
+
+#: views/backend/setup-wizard/footer.php:19
+msgid "Back"
+msgstr ""
+
+#: views/backend/setup-wizard/footer.php:56
+#: views/backend/setup-wizard/footer.php:57
+msgid "Exit wizard"
+msgstr ""
+
+#: views/backend/setup-wizard/footer.php:56
+msgid "Are you sure you want to exit the wizard? Setup is incomplete."
+msgstr ""
+
+#. translators: %1$s: Current Step, %2$s: Total Steps
+#: views/backend/setup-wizard/header.php:64
+msgid "Step %1$s of %2$s"
 msgstr ""
 
 #: views/backend/term/fields.php:36

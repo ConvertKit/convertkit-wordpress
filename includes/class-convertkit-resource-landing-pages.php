@@ -29,6 +29,28 @@ class ConvertKit_Resource_Landing_Pages extends ConvertKit_Resource {
 	public $type = 'landing_pages';
 
 	/**
+	 * Constructor.
+	 *
+	 * @since   1.9.8.4
+	 */
+	public function __construct() {
+
+		// Initialize the API if the API Key and Secret have been defined in the Plugin Settings.
+		$settings = new ConvertKit_Settings();
+		if ( $settings->has_api_key_and_secret() ) {
+			$this->api = new ConvertKit_API(
+				$settings->get_api_key(),
+				$settings->get_api_secret(),
+				$settings->debug_enabled()
+			);
+		}
+
+		// Call parent initialization function.
+		parent::init();
+
+	}
+
+	/**
 	 * Returns the HTML/JS markup for the given Landing Page ID
 	 *
 	 * @since   1.9.6

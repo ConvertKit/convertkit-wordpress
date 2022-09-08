@@ -62,6 +62,14 @@ class CK_Widget_Form extends WP_Widget {
 			</p>
 			<?php
 		}
+
+		// If the widget's settings are not defined, set them now to avoid undefined index errors.
+		if ( ! array_key_exists( 'title', $instance ) ) {
+			$instance['title'] = '';
+		}
+		if ( ! array_key_exists( 'form', $instance ) ) {
+			$instance['form'] = '';
+		}
 		?>
 		<p>
 			<label for="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>"><?php esc_html_e( 'Title', 'convertkit' ); ?></label>
