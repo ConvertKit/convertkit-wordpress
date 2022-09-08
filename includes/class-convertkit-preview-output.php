@@ -63,11 +63,11 @@ class ConvertKit_Preview_Output {
 	/**
 	 * Returns the URL for the most recent published Post based on the supplied Post Type,
 	 * with a preview form nonce included in the URL.
-	 * 
-	 * @since 	1.9.8.5
-	 * 
-	 * @param 	string 	$post_type 	Post Type.
-	 * @return 	bool|string 		false | URL
+	 *
+	 * @since   1.9.8.5
+	 *
+	 * @param   string $post_type  Post Type.
+	 * @return  bool|string         false | URL
 	 */
 	public function get_preview_form_url( $post_type = 'post' ) {
 
@@ -86,15 +86,15 @@ class ConvertKit_Preview_Output {
 			),
 			get_permalink( $post_id )
 		);
-		
+
 	}
 
 	/**
 	 * Returns the nonce to preview a form on a Page, Post or Custom Post Type.
-	 * 
-	 * @since 	1.9.8.5
-	 * 
-	 * @return 	string 	Nonce
+	 *
+	 * @since   1.9.8.5
+	 *
+	 * @return  string  Nonce
 	 */
 	private function get_preview_form_nonce() {
 

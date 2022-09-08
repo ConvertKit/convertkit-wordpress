@@ -119,8 +119,8 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 				$this->settings_key,
 				$this->name,
 				array(
-					'label_for' => '_wp_convertkit_settings_' . $supported_post_type . '_form',
-					'post_type' => $supported_post_type,
+					'label_for'        => '_wp_convertkit_settings_' . $supported_post_type . '_form',
+					'post_type'        => $supported_post_type,
 					'post_type_object' => $post_type,
 				)
 			);
@@ -366,7 +366,7 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 					esc_html__( 'Select a form above to automatically output below all %s.', 'convertkit' ),
 					$args['post_type_object']->label
 				),
-				'<a href="' . esc_attr( $preview_url ) . '" id="convertkit-preview-form-' . esc_attr( $args['post_type'] ) .'" target="_blank">' . esc_html__( 'Click here', 'convertkit' ) . '</a>',
+				'<a href="' . esc_attr( $preview_url ) . '" id="convertkit-preview-form-' . esc_attr( $args['post_type'] ) . '" target="_blank">' . esc_html__( 'Click here', 'convertkit' ) . '</a>',
 				esc_html__( 'to preview how this will display.', 'convertkit' )
 			);
 		} else {
@@ -386,11 +386,11 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 			$description,
 			array(
 				'convertkit-select2',
-				'convertkit-preview-output-link'
+				'convertkit-preview-output-link',
 			),
 			array(
-				'data-target' 	=> '#convertkit-preview-form-' . esc_attr( $args['post_type'] ),
-				'data-link' 	=> esc_attr( $preview_url ) . '&convertkit_form_id=',
+				'data-target' => '#convertkit-preview-form-' . esc_attr( $args['post_type'] ),
+				'data-link'   => esc_attr( $preview_url ) . '&convertkit_form_id=',
 			)
 		);
 

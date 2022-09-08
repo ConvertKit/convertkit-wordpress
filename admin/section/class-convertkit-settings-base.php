@@ -202,7 +202,7 @@ abstract class ConvertKit_Settings_Base {
 	 * @param   array  $options         Options / Choices.
 	 * @param   mixed  $description     Description (false|string).
 	 * @param   mixed  $css_classes     <select> CSS class(es) (false|array).
-	 * @param 	mixed  $attributes 		<select> attributes (false|array).
+	 * @param   mixed  $attributes      <select> attributes (false|array).
 	 * @return  string                  HTML Select Field
 	 */
 	public function get_select_field( $name, $value = '', $options = array(), $description = false, $css_classes = false, $attributes = false ) {
@@ -310,11 +310,11 @@ abstract class ConvertKit_Settings_Base {
 
 	/**
 	 * Converts the given key/value array pairs into a HTML attribute="value" string.
-	 * 
-	 * @since 	1.9.8.5
-	 * 
-	 * @param 	array 	$array 	Attributes.
-	 * @return 	string 			HTML attributes string
+	 *
+	 * @since   1.9.8.5
+	 *
+	 * @param   array $array  Attributes.
+	 * @return  string          HTML attributes string
 	 */
 	private function array_to_attributes( $array ) {
 
