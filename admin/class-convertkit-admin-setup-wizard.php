@@ -22,7 +22,7 @@ class ConvertKit_Admin_Setup_Wizard {
 	/**
 	 * The steps available in this wizard.
 	 *
-	 * @since   1.9.8.5
+	 * @since   1.9.8.4
 	 *
 	 * @var     array
 	 */
@@ -31,7 +31,7 @@ class ConvertKit_Admin_Setup_Wizard {
 	/**
 	 * Holds an error message to display on screen.
 	 *
-	 * @since   1.9.8.5
+	 * @since   1.9.8.4
 	 *
 	 * @var     bool|string
 	 */
@@ -40,7 +40,7 @@ class ConvertKit_Admin_Setup_Wizard {
 	/**
 	 * The required user capability to access the setup wizard.
 	 *
-	 * @since   1.9.8.5
+	 * @since   1.9.8.4
 	 *
 	 * @var     string
 	 */
@@ -49,7 +49,7 @@ class ConvertKit_Admin_Setup_Wizard {
 	/**
 	 * The current step in the setup process the user is on.
 	 *
-	 * @since   1.9.8.5
+	 * @since   1.9.8.4
 	 *
 	 * @var     int
 	 */
@@ -58,7 +58,7 @@ class ConvertKit_Admin_Setup_Wizard {
 	/**
 	 * The programmatic name of the setup screen.
 	 *
-	 * @since   1.9.8.5
+	 * @since   1.9.8.4
 	 *
 	 * @var     bool|string
 	 */
@@ -67,7 +67,7 @@ class ConvertKit_Admin_Setup_Wizard {
 	/**
 	 * The URL to take the user to when they click the Exit link.
 	 *
-	 * @since   1.9.8.5
+	 * @since   1.9.8.4
 	 *
 	 * @var     bool|string
 	 */
@@ -76,7 +76,7 @@ class ConvertKit_Admin_Setup_Wizard {
 	/**
 	 * Holds the URL for the current step in the setup process.
 	 *
-	 * @since   1.9.8.5
+	 * @since   1.9.8.4
 	 *
 	 * @var     bool|string
 	 */
@@ -85,7 +85,7 @@ class ConvertKit_Admin_Setup_Wizard {
 	/**
 	 * Holds the URL to the next step in the setup process.
 	 *
-	 * @since   1.9.8.5
+	 * @since   1.9.8.4
 	 *
 	 * @var     bool|string
 	 */
@@ -94,7 +94,7 @@ class ConvertKit_Admin_Setup_Wizard {
 	/**
 	 * Holds the URL to the previous step in the setup process.
 	 *
-	 * @since   1.9.8.5
+	 * @since   1.9.8.4
 	 *
 	 * @var     bool|string
 	 */
@@ -103,7 +103,7 @@ class ConvertKit_Admin_Setup_Wizard {
 	/**
 	 * Registers action and filter hooks.
 	 *
-	 * @since   1.9.8.5
+	 * @since   1.9.8.4
 	 */
 	public function __construct() {
 
@@ -123,7 +123,7 @@ class ConvertKit_Admin_Setup_Wizard {
 	 * Register the setup screen in WordPress' Dashboard, so that index.php?page={$this->page_name}
 	 * does not 404 when in the WordPress Admin interface.
 	 *
-	 * @since   1.9.8.5
+	 * @since   1.9.8.4
 	 */
 	public function register_screen() {
 
@@ -135,7 +135,7 @@ class ConvertKit_Admin_Setup_Wizard {
 	 * Hides the menu registered when register_screen() above is called, otherwise
 	 * we would have a blank submenu entry below the Dashboard menu.
 	 *
-	 * @since   1.9.8.5
+	 * @since   1.9.8.4
 	 */
 	public function hide_screen_from_menu() {
 
@@ -146,7 +146,7 @@ class ConvertKit_Admin_Setup_Wizard {
 	/**
 	 * Loads the setup screen if the request URL is for this class
 	 *
-	 * @since   1.9.8.5
+	 * @since   1.9.8.4
 	 */
 	public function maybe_load_setup_screen() {
 
@@ -191,7 +191,7 @@ class ConvertKit_Admin_Setup_Wizard {
 	/**
 	 * Process submitted form data for the given setup wizard name and current step.
 	 *
-	 * @since   1.9.8.5
+	 * @since   1.9.8.4
 	 */
 	private function process_form() {
 
@@ -207,7 +207,7 @@ class ConvertKit_Admin_Setup_Wizard {
 		/**
 		 * Process submitted form data for the given setup wizard name and current step.
 		 *
-		 * @since   1.9.8.5
+		 * @since   1.9.8.4
 		 *
 		 * @param   int     $step     Current step number.
 		 */
@@ -220,7 +220,7 @@ class ConvertKit_Admin_Setup_Wizard {
 	 * - current step in the setup process
 	 * - previous, current and next step URLs.
 	 *
-	 * @since   1.9.8.5
+	 * @since   1.9.8.4
 	 */
 	private function define_step_urls() {
 
@@ -260,14 +260,14 @@ class ConvertKit_Admin_Setup_Wizard {
 	/**
 	 * Load any data into class variables for the given setup wizard name and current step.
 	 *
-	 * @since   1.9.8.5
+	 * @since   1.9.8.4
 	 */
 	private function load_screen_data() {
 
 		/**
 		 * Load any data into class variables for the given setup wizard name and current step.
 		 *
-		 * @since   1.9.8.5
+		 * @since   1.9.8.4
 		 *
 		 * @param   int     $step     Current step number.
 		 */
@@ -278,7 +278,7 @@ class ConvertKit_Admin_Setup_Wizard {
 	/**
 	 * Enqueue CSS when viewing the Setup screen.
 	 *
-	 * @since   1.9.8.5
+	 * @since   1.9.8.4
 	 */
 	public function enqueue_scripts() {
 
@@ -294,7 +294,7 @@ class ConvertKit_Admin_Setup_Wizard {
 	/**
 	 * Enqueue CSS when viewing the setup screen.
 	 *
-	 * @since   1.9.8.5
+	 * @since   1.9.8.4
 	 */
 	public function enqueue_styles() {
 
@@ -314,7 +314,7 @@ class ConvertKit_Admin_Setup_Wizard {
 	/**
 	 * Outputs the <head> and opening <body> tag for the standalone setup screen
 	 *
-	 * @since   1.9.8.5
+	 * @since   1.9.8.4
 	 */
 	private function output_header() {
 
@@ -334,7 +334,7 @@ class ConvertKit_Admin_Setup_Wizard {
 	 * Outputs the HTML for the <body> section for the standalone setup screen
 	 * and defines any form option data that might be needed.
 	 *
-	 * @since   1.9.8.5
+	 * @since   1.9.8.4
 	 */
 	private function output_content() {
 
@@ -346,7 +346,7 @@ class ConvertKit_Admin_Setup_Wizard {
 	/**
 	 * Outputs the closing </body> and </html> tags, and runs some WordPress actions, for the standalone setup screen
 	 *
-	 * @since   1.9.8.5
+	 * @since   1.9.8.4
 	 */
 	private function output_footer() {
 
@@ -360,7 +360,7 @@ class ConvertKit_Admin_Setup_Wizard {
 	/**
 	 * Determines if the request is for the setup screen
 	 *
-	 * @since   1.9.8.5
+	 * @since   1.9.8.4
 	 *
 	 * @return  bool    Is setup screen request
 	 */
@@ -386,7 +386,7 @@ class ConvertKit_Admin_Setup_Wizard {
 	/**
 	 * Determines if the user has access to the setup wizard.
 	 *
-	 * @since   1.9.8.5
+	 * @since   1.9.8.4
 	 *
 	 * @return  bool    Has access
 	 */

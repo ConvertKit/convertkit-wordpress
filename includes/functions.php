@@ -197,7 +197,7 @@ function convertkit_get_settings_link( $query_args = array() ) {
 /**
  * Helper method to return the URL the user needs to visit to register a ConvertKit account.
  *
- * @since   1.9.8.5
+ * @since   1.9.8.4
  *
  * @return  string  ConvertKit Registration URL.
  */

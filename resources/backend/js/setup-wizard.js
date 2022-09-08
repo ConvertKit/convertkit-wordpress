@@ -9,7 +9,7 @@
  * Conditionally shows and hides elements when a button or link is clicked, based on that
  * button/link's configuration.
  *
- * @since 	1.9.8.5
+ * @since 	1.9.8.4
  */
 jQuery( document ).ready(
 	function( $ ) {

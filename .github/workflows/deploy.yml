@@ -26,8 +26,17 @@ jobs:
       - name: Run Composer
         run: composer install --no-dev
 
-      # Deploy to wordpress.org
+      # Confirm that expected files exist, to prevent deployment to wordpress.org
+      # if e.g. composer install fails.
+      - name: Check ConvertKit Library Exists
+        id: check_files
+        uses: andstor/file-existence-action@v1
+        with:
+          files: "vendor/convertkit/convertkit-wordpress-libraries/src/class-convertkit-api.php, vendor/convertkit/convertkit-wordpress-libraries/src/class-convertkit-log.php, vendor/convertkit/convertkit-wordpress-libraries/src/class-convertkit-resource.php, vendor/convertkit/convertkit-wordpress-libraries/src/class-convertkit-review-request.php"
+
+      # Deploy to wordpress.org, if expected files exist.
       - name: WordPress Plugin Deploy
+        if: steps.check_files.outputs.files_exists == 'true'
         id: deploy
         uses: 10up/action-wordpress-plugin-deploy@stable
         with:

@@ -5,7 +5,7 @@ class PluginSetupWizardCest
 	/**
 	 * Test that the Setup Wizard displays when the Plugin is activated.
 	 * 
-	 * @since 	1.9.8.5
+	 * @since 	1.9.8.4
 	 * 
 	 * @param 	AcceptanceTester 	$I 	Tester
 	 */
@@ -22,7 +22,7 @@ class PluginSetupWizardCest
 	 * Test that the Setup Wizard displays when the Plugin is activated on a site
 	 * where the Plugin has previously been activated and configured with API Keys.
 	 * 
-	 * @since 	1.9.8.5
+	 * @since 	1.9.8.4
 	 * 
 	 * @param 	AcceptanceTester 	$I 	Tester
 	 */
@@ -47,7 +47,7 @@ class PluginSetupWizardCest
 	/**
 	 * Test that the Setup Wizard exit link works.
 	 * 
-	 * @since 	1.9.8.5
+	 * @since 	1.9.8.4
 	 * 
 	 * @param 	AcceptanceTester 	$I 	Tester
 	 */
@@ -75,7 +75,7 @@ class PluginSetupWizardCest
 	/**
 	 * Test that the Setup Wizard > Setup > Register button works.
 	 *
-	 * @since 	1.9.8.5
+	 * @since 	1.9.8.4
 	 * 
 	 * @param 	AcceptanceTester 	$I 	Tester
 	 */
@@ -103,7 +103,7 @@ class PluginSetupWizardCest
 	/**
 	 * Test that the Setup Wizard > Setup > Connect button works.
 	 *
-	 * @since 	1.9.8.5
+	 * @since 	1.9.8.4
 	 * 
 	 * @param 	AcceptanceTester 	$I 	Tester
 	 */
@@ -126,7 +126,7 @@ class PluginSetupWizardCest
 	 * Test that the Setup Wizard > Connect Account screen works as expected when valid API credentials
 	 * are specified.
 	 *
-	 * @since 	1.9.8.5
+	 * @since 	1.9.8.4
 	 * 
 	 * @param 	AcceptanceTester 	$I 	Tester
 	 */
@@ -159,7 +159,7 @@ class PluginSetupWizardCest
 	 * Test that the Setup Wizard > Connect Account screen works as expected when invalid API credentials
 	 * are specified.
 	 *
-	 * @since 	1.9.8.5
+	 * @since 	1.9.8.4
 	 * 
 	 * @param 	AcceptanceTester 	$I 	Tester
 	 */
@@ -201,7 +201,7 @@ class PluginSetupWizardCest
 	/**
 	 * Test that the Setup Wizard > Form Configuration screen works as expected.
 	 *
-	 * @since 	1.9.8.5
+	 * @since 	1.9.8.4
 	 * 
 	 * @param 	AcceptanceTester 	$I 	Tester
 	 */
@@ -288,7 +288,7 @@ class PluginSetupWizardCest
 	 * when API credentials are supplied for a ConvertKit account that contains
 	 * no forms.
 	 *
-	 * @since 	1.9.8.5
+	 * @since 	1.9.8.4
 	 * 
 	 * @param 	AcceptanceTester 	$I 	Tester
 	 */
@@ -333,7 +333,7 @@ class PluginSetupWizardCest
 	 * Test that the Setup Wizard > Form Configuration screen does not display preview links
 	 * when no Pages and Posts exist in WordPress.
 	 *
-	 * @since 	1.9.8.5
+	 * @since 	1.9.8.4
 	 * 
 	 * @param 	AcceptanceTester 	$I 	Tester
 	 */
@@ -366,7 +366,7 @@ class PluginSetupWizardCest
 	 * This differs from the activateConvertKitPlugin() method, which will ignore a Setup Wizard
 	 * screen by reloading the Plugins screen to confirm a Plugin's activation.
 	 * 
-	 * @since 	1.9.8.5
+	 * @since 	1.9.8.4
 	 * 
 	 * @param 	AcceptanceTester 	$I 	Tester
 	 */
@@ -384,7 +384,7 @@ class PluginSetupWizardCest
 	 * Runs tests on a Setup Wizard screen, to confirm that the expected step, title and buttons
 	 * are displayed.
 	 * 
-	 * @since 	1.9.8.5
+	 * @since 	1.9.8.4
 	 * 
 	 * @param 	AcceptanceTester 	$I 		Tester
 	 * @param 	int 				$step 	Current step
@@ -446,7 +446,7 @@ class PluginSetupWizardCest
 	 * We don't use _after, as this would provide a screenshot of the Plugin
 	 * deactivation and not the true test error.
 	 * 
-	 * @since 	1.9.8.5
+	 * @since 	1.9.8.4
 	 * 
 	 * @param 	AcceptanceTester 	$I 	Tester
 	 */
