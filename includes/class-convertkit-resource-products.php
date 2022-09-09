@@ -52,10 +52,10 @@ class ConvertKit_Resource_Products extends ConvertKit_Resource {
 
 	/**
 	 * Returns the commerce.js URL based on the account's ConvertKit Domain.
-	 * 
-	 * @since 	1.9.8.5
-	 * 
-	 * @return 	bool|string 	false (if no products) | URL.
+	 *
+	 * @since   1.9.8.5
+	 *
+	 * @return  bool|string     false (if no products) | URL.
 	 */
 	public function get_commerce_js_url() {
 
@@ -66,7 +66,7 @@ class ConvertKit_Resource_Products extends ConvertKit_Resource {
 
 		// Fetch the first Product.
 		$products = $this->get();
-		$product = reset( $products );
+		$product  = reset( $products );
 
 		// Parse the URL.
 		$parsed_url = wp_parse_url( $product['url'] );
@@ -109,11 +109,13 @@ class ConvertKit_Resource_Products extends ConvertKit_Resource {
 			);
 		}
 
-		// Build button HTML.
-		$html  = '<div class="wp-block-button">';
+		// Build button HTML as Gutenberg does for buttons.
+		$html  = '<div class="wp-block-buttons">';
+		$html .= '<div class="wp-block-button">';
 		$html .= '<a href="' . $this->resources[ $id ]['url'] . '" class="wp-block-button__link ' . esc_attr( implode( ' ', $css_classes ) ) . '" style="' . implode( ';', $css_styles ) . '" data-commerce>';
 		$html .= esc_html( $button_text );
 		$html .= '</a>';
+		$html .= '</div>';
 		$html .= '</div>';
 
 		// Return.

@@ -55,9 +55,9 @@ class ConvertKit_Block_Product extends ConvertKit_Block {
 	public function enqueue_scripts() {
 
 		// Get URL for commerce.js from Products.
-		$convertkit_products = new ConvertKit_Resource_Products;
-		$commerce_js_url = $convertkit_products->get_commerce_js_url();
-		
+		$convertkit_products = new ConvertKit_Resource_Products();
+		$commerce_js_url     = $convertkit_products->get_commerce_js_url();
+
 		// Bail if the commerce.js URL could not be fetched, as this means there are no Products.
 		if ( ! $commerce_js_url ) {
 			return;
