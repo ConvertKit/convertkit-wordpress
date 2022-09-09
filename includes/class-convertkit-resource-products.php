@@ -51,6 +51,32 @@ class ConvertKit_Resource_Products extends ConvertKit_Resource {
 	}
 
 	/**
+	 * Returns the commerce.js URL based on the account's ConvertKit Domain.
+	 * 
+	 * @since 	1.9.8.5
+	 * 
+	 * @return 	bool|string 	false (if no products) | URL.
+	 */
+	public function get_commerce_js_url() {
+
+		// Bail if no Products exist in this resource.
+		if ( ! $this->exist() ) {
+			return;
+		}
+
+		// Fetch the first Product.
+		$products = $this->get();
+		$product = reset( $products );
+
+		// Parse the URL.
+		$parsed_url = wp_parse_url( $product['url'] );
+
+		// Return commerce.js URL.
+		return $parsed_url['scheme'] . '://' . $parsed_url['host'] . '/commerce.js';
+
+	}
+
+	/**
 	 * Returns the HTML button markup for the given Product ID.
 	 *
 	 * @since   1.9.8.5

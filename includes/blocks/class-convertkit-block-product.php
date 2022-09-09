@@ -17,7 +17,7 @@ class ConvertKit_Block_Product extends ConvertKit_Block {
 	/**
 	 * Constructor
 	 *
-	 * @since   1.9.7.8
+	 * @since   1.9.8.5
 	 */
 	public function __construct() {
 
@@ -39,7 +39,7 @@ class ConvertKit_Block_Product extends ConvertKit_Block {
 	 * Enqueues styles for this Gutenberg Block in the editor view, to
 	 * set the button's style to inline-block.
 	 *
-	 * @since   1.9.7.8
+	 * @since   1.9.8.5
 	 */
 	public function enqueue_styles_editor() {
 
@@ -50,19 +50,28 @@ class ConvertKit_Block_Product extends ConvertKit_Block {
 	/**
 	 * Enqueues scripts for this Gutenberg Block in the editor and frontend views.
 	 *
-	 * @since   1.9.7.8
+	 * @since   1.9.8.5
 	 */
 	public function enqueue_scripts() {
 
-		// @TODO fix.
-		wp_enqueue_script( 'convertkit-commerce', 'https://cheerful-architect-3237.ck.page/commerce.js', array(), false, true ); // phpcs:ignore
+		// Get URL for commerce.js from Products.
+		$convertkit_products = new ConvertKit_Resource_Products;
+		$commerce_js_url = $convertkit_products->get_commerce_js_url();
+		
+		// Bail if the commerce.js URL could not be fetched, as this means there are no Products.
+		if ( ! $commerce_js_url ) {
+			return;
+		}
+
+		// Enqueue.
+		wp_enqueue_script( 'convertkit-commerce', $commerce_js_url, array(), false, true ); // phpcs:ignore
 
 	}
 
 	/**
 	 * Returns this block's programmatic name, excluding the convertkit- prefix.
 	 *
-	 * @since   1.9.7.8
+	 * @since   1.9.8.5
 	 */
 	public function get_name() {
 
@@ -78,7 +87,7 @@ class ConvertKit_Block_Product extends ConvertKit_Block {
 	/**
 	 * Returns this block's Title, Icon, Categories, Keywords and properties.
 	 *
-	 * @since   1.9.7.8
+	 * @since   1.9.8.5
 	 */
 	public function get_overview() {
 
@@ -119,7 +128,7 @@ class ConvertKit_Block_Product extends ConvertKit_Block {
 	/**
 	 * Returns this block's Attributes
 	 *
-	 * @since   1.9.7.8
+	 * @since   1.9.8.5
 	 */
 	public function get_attributes() {
 
@@ -184,7 +193,7 @@ class ConvertKit_Block_Product extends ConvertKit_Block {
 	/**
 	 * Returns this block's supported built-in Attributes.
 	 *
-	 * @since   1.9.7.8
+	 * @since   1.9.8.5
 	 *
 	 * @return  array   Supports
 	 */
@@ -212,7 +221,7 @@ class ConvertKit_Block_Product extends ConvertKit_Block {
 	/**
 	 * Returns this block's Fields
 	 *
-	 * @since   1.9.7.8
+	 * @since   1.9.8.5
 	 *
 	 * @return  bool|array
 	 */
@@ -259,7 +268,7 @@ class ConvertKit_Block_Product extends ConvertKit_Block {
 	/**
 	 * Returns this block's UI panels / sections.
 	 *
-	 * @since   1.9.7.8
+	 * @since   1.9.8.5
 	 *
 	 * @return  bool|array
 	 */
@@ -287,7 +296,7 @@ class ConvertKit_Block_Product extends ConvertKit_Block {
 	/**
 	 * Returns this block's Default Values
 	 *
-	 * @since   1.9.7.8
+	 * @since   1.9.8.5
 	 *
 	 * @return  array
 	 */
@@ -318,7 +327,7 @@ class ConvertKit_Block_Product extends ConvertKit_Block {
 	/**
 	 * Returns the block's output, based on the supplied configuration attributes.
 	 *
-	 * @since   1.9.7.8
+	 * @since   1.9.8.5
 	 *
 	 * @param   array $atts   Block / Shortcode Attributes.
 	 * @return  string          Output
@@ -329,6 +338,9 @@ class ConvertKit_Block_Product extends ConvertKit_Block {
 		// and moving some attributes (such as Gutenberg's styles), if defined.
 		$atts = $this->sanitize_and_declare_atts( $atts );
 
+		// Setup Settings class.
+		$settings = new ConvertKit_Settings();
+
 		// Get Products Resource.
 		$convertkit_products = new ConvertKit_Resource_Products();
 
@@ -336,12 +348,18 @@ class ConvertKit_Block_Product extends ConvertKit_Block {
 		$html = $convertkit_products->get_html( $atts['product'], $atts['text'], $atts['_css_classes'], $atts['_css_styles'] );
 
 		// Bail if an error occured.
-		// @TODO.
+		if ( is_wp_error( $html ) ) {
+			if ( $settings->debug_enabled() ) {
+				return '<!-- ' . $html->get_error_message() . ' -->';
+			}
+
+			return '';
+		}
 
 		/**
 		 * Filter the block's content immediately before it is output.
 		 *
-		 * @since   1.9.7.8
+		 * @since   1.9.8.5
 		 *
 		 * @param   string  $html   ConvertKit Product button HTML.
 		 * @param   array   $atts   Block Attributes.
