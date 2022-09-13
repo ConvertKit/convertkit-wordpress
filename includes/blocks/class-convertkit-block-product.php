@@ -27,11 +27,25 @@ class ConvertKit_Block_Product extends ConvertKit_Block {
 		// Register this as a Gutenberg block in the ConvertKit Plugin.
 		add_filter( 'convertkit_blocks', array( $this, 'register' ) );
 
+		// Enqueue scripts for this Gutenberg Block in the editor view.
+		add_action( 'convertkit_gutenberg_enqueue_scripts', array( $this, 'enqueue_scripts_editor' ) );
+
 		// Enqueue styles for this Gutenberg Block in the editor.
 		add_action( 'convertkit_gutenberg_enqueue_styles', array( $this, 'enqueue_styles_editor' ) );
 
 		// Enqueue scripts for this Gutenberg Block in the editor and frontend views.
 		add_action( 'convertkit_gutenberg_enqueue_scripts_editor_and_frontend', array( $this, 'enqueue_scripts' ) );
+
+	}
+
+	/**
+	 * Enqueues scripts for this Gutenberg Block in the editor view.
+	 *
+	 * @since   1.9.8.5
+	 */
+	public function enqueue_scripts_editor() {
+
+		wp_enqueue_script( 'convertkit-gutenberg-block-product', CONVERTKIT_PLUGIN_URL . 'resources/backend/js/gutenberg-block-product.js', array( 'convertkit-gutenberg' ), CONVERTKIT_PLUGIN_VERSION, true );
 
 	}
 
@@ -114,13 +128,17 @@ class ConvertKit_Block_Product extends ConvertKit_Block {
 			'shortcode_include_closing_tag' => false,
 
 			// Gutenberg: Block Icon in Editor.
-			'gutenberg_icon'                    => file_get_contents( CONVERTKIT_PLUGIN_PATH . '/resources/backend/images/block-icon-product.svg' ), /* phpcs:ignore */
+			'gutenberg_icon'                => file_get_contents( CONVERTKIT_PLUGIN_PATH . '/resources/backend/images/block-icon-product.svg' ), /* phpcs:ignore */
 
 			// Gutenberg: Example image showing how this block looks when choosing it in Gutenberg.
 			'gutenberg_example_image'       => CONVERTKIT_PLUGIN_URL . '/resources/backend/images/block-example-product.png',
 
 			// Gutenberg: Help description, displayed when no settings defined for a newly added Block.
-			'gutenberg_help_description'    => __( 'Define this Block\'s settings in the Gutenberg sidebar to display a button allowing visitors to purchase a ConvertKit product.', 'convertkit' ),
+			'gutenberg_help_description'    => __( 'Select a Product using the Product option in the Gutenberg sidebar.', 'convertkit' ),
+
+			// Gutenberg: JS function to call when rendering the block preview in the Gutenberg editor.
+			// If not defined, render_callback above will be used.
+			'gutenberg_preview_render_callback' => 'convertKitGutenbergProductBlockRenderPreview',
 		);
 
 	}
