@@ -352,22 +352,46 @@ class Plugin extends \Codeception\Module
 
 	/**
 	 * Check that expected HTML exists in the DOM of the page we're viewing for
-	 * a Product block or shortcode.
+	 * a Product block or shortcode, and that the button loads the expected
+	 * ConvertKit Product modal.
 	 * 
-	 * @since 	1.9.7.8
+	 * @since 	1.9.8.5
 	 *
-	 * @param 	AcceptanceTester 	$I 		Tester.
-	 * @param 	bool|string 		$text 	Test if the button text matches the given value.
+	 * @param 	AcceptanceTester 	$I 				Tester.
+	 * @param 	string 				$productURL 	Product URL.
+	 * @param 	bool|string 		$text 			Test if the button text matches the given value.
 	 */
-	public function seeProductOutput($I, $text = false)
+	public function seeProductOutput($I, $productURL, $text = false)
 	{
 		// Confirm that the block displays.
-		$I->seeElementInDOM('div.wp-block-button');
-		$I->seeElementInDOM('div.wp-block-button a');
+		$I->seeElementInDOM('div.wp-block-button a.convertkit-product');
+
+		// Confirm that the button links to the correct product.
+		$I->seeInSource('<a href="'.$productURL.'"');
 
 		// Confirm that the button text is as expected.
 		if ($text !== false) {
 			$I->seeInSource($text);		
 		}
+
+		// Click the button to confirm that the ConvertKit modal displays; this confirms
+		// necessary ConvertKit scripts have been loaded.
+		$I->click('div.wp-block-button a.convertkit-product');
+		$I->seeElementInDOM('iframe[data-active]');
+	}
+
+	/**
+	 * Check that expected HTML does exists in the DOM of the page we're viewing for
+	 * a Product block or shortcode.
+	 * 
+	 * @since 	1.9.8.5
+	 *
+	 * @param 	AcceptanceTester 	$I 		Tester.
+	 * @param 	bool|string 		$text 	Test if the button text matches the given value.
+	 */
+	public function dontSeeProductOutput($I, $text = false)
+	{
+		// Confirm that the block does not display.
+		$I->dontSeeElementInDOM('div.wp-block-button a.convertkit-product');
 	}
 }
