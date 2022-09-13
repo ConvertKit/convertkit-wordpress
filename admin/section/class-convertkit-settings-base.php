@@ -209,7 +209,7 @@ abstract class ConvertKit_Settings_Base {
 
 		// Build opening <select> tag.
 		$html = sprintf(
-			'<select id="%s" name="%s[%s]" class="%s" size="1"%s>',
+			'<select id="%s" name="%s[%s]" class="%s" size="1" %s>',
 			$this->settings_key . '_' . $name,
 			$this->settings_key,
 			$name,
