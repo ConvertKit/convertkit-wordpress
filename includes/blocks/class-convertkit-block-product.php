@@ -106,35 +106,35 @@ class ConvertKit_Block_Product extends ConvertKit_Block {
 	public function get_overview() {
 
 		return array(
-			'title'                         => __( 'ConvertKit Product', 'convertkit' ),
-			'description'                   => __( 'Displays a button to purchase a ConvertKit product.', 'convertkit' ),
-			'icon'                          => 'resources/backend/images/block-icon-product.png',
-			'category'                      => 'convertkit',
-			'keywords'                      => array(
+			'title'                             => __( 'ConvertKit Product', 'convertkit' ),
+			'description'                       => __( 'Displays a button to purchase a ConvertKit product.', 'convertkit' ),
+			'icon'                              => 'resources/backend/images/block-icon-product.png',
+			'category'                          => 'convertkit',
+			'keywords'                          => array(
 				__( 'ConvertKit', 'convertkit' ),
 				__( 'Product', 'convertkit' ),
 			),
 
 			// Function to call when rendering as a block or a shortcode on the frontend web site.
-			'render_callback'               => array( $this, 'render' ),
+			'render_callback'                   => array( $this, 'render' ),
 
 			// Shortcode: TinyMCE / QuickTags Modal Width and Height.
-			'modal'                         => array(
+			'modal'                             => array(
 				'width'  => 500,
 				'height' => 180,
 			),
 
 			// Shortcode: Include a closing [/shortcode] tag when using TinyMCE or QuickTag Modals.
-			'shortcode_include_closing_tag' => false,
+			'shortcode_include_closing_tag'     => false,
 
 			// Gutenberg: Block Icon in Editor.
 			'gutenberg_icon'                => file_get_contents( CONVERTKIT_PLUGIN_PATH . '/resources/backend/images/block-icon-product.svg' ), /* phpcs:ignore */
 
 			// Gutenberg: Example image showing how this block looks when choosing it in Gutenberg.
-			'gutenberg_example_image'       => CONVERTKIT_PLUGIN_URL . '/resources/backend/images/block-example-product.png',
+			'gutenberg_example_image'           => CONVERTKIT_PLUGIN_URL . '/resources/backend/images/block-example-product.png',
 
 			// Gutenberg: Help description, displayed when no settings defined for a newly added Block.
-			'gutenberg_help_description'    => __( 'Select a Product using the Product option in the Gutenberg sidebar.', 'convertkit' ),
+			'gutenberg_help_description'        => __( 'Select a Product using the Product option in the Gutenberg sidebar.', 'convertkit' ),
 
 			// Gutenberg: JS function to call when rendering the block preview in the Gutenberg editor.
 			// If not defined, render_callback above will be used.
