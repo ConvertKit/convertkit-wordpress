@@ -119,8 +119,9 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 				$this->settings_key,
 				$this->name,
 				array(
-					'label_for' => '_wp_convertkit_settings_' . $supported_post_type . '_form',
-					'post_type' => $supported_post_type,
+					'label_for'        => '_wp_convertkit_settings_' . $supported_post_type . '_form',
+					'post_type'        => $supported_post_type,
+					'post_type_object' => $post_type,
 				)
 			);
 		}
@@ -353,13 +354,44 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 			$options[ esc_attr( $form['id'] ) ] = esc_html( $form['name'] );
 		}
 
+		// Build description with preview link.
+		$description = false;
+		$preview_url = WP_ConvertKit()->get_class( 'preview_output' )->get_preview_form_url( $args['post_type'] );
+		if ( $preview_url ) {
+			// Include a preview link in the description.
+			$description = sprintf(
+				'%s %s %s',
+				sprintf(
+					/* translators: Post Type name, plural */
+					esc_html__( 'Select a form above to automatically output below all %s.', 'convertkit' ),
+					$args['post_type_object']->label
+				),
+				'<a href="' . esc_attr( $preview_url ) . '" id="convertkit-preview-form-' . esc_attr( $args['post_type'] ) . '" target="_blank">' . esc_html__( 'Click here', 'convertkit' ) . '</a>',
+				esc_html__( 'to preview how this will display.', 'convertkit' )
+			);
+		} else {
+			// Just output the field's description.
+			$description = sprintf(
+				/* translators: Post Type name, plural */
+				esc_html__( 'Select a form above to automatically output below all %s.', 'convertkit' ),
+				$args['post_type_object']->label
+			);
+		}
+
 		// Build field.
 		$select_field = $this->get_select_field(
 			$args['post_type'] . '_form',
 			$this->settings->get_default_form( $args['post_type'] ),
 			$options,
-			false,
-			array( 'convertkit-select2' )
+			$description,
+			array(
+				'convertkit-select2',
+				'convertkit-preview-output-link',
+			),
+			array(
+				'data-target' => '#convertkit-preview-form-' . esc_attr( $args['post_type'] ),
+				'data-link'   => esc_attr( $preview_url ) . '&convertkit_form_id=',
+			)
 		);
 
 		// Output field.

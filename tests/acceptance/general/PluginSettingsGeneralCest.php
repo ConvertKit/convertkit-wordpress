@@ -172,6 +172,87 @@ class PluginSettingsGeneralCest
 	}
 
 	/**
+	 * Test that the preview link for the Default Form settings works.
+	 * 
+	 * @since 	1.9.8.5
+	 * 
+	 * @param 	AcceptanceTester 	$I 	Tester
+	 */
+	public function testPreviewFormLinks(AcceptanceTester $I)
+	{
+		// Create a Page and a Post, so that preview links display.
+		$I->havePostInDatabase([
+			'post_title'	=> 'ConvertKit: Preview Form Links: Page',
+			'post_type'		=> 'page',
+			'post_status'	=> 'publish',
+		]);
+		$I->havePostInDatabase([
+			'post_title'	=> 'ConvertKit: Preview Form Links: Post',
+			'post_type'		=> 'post',
+			'post_status'	=> 'publish',
+		]);
+
+		// Setup Plugin.
+		$I->setupConvertKitPlugin($I);
+
+		// Go to the Plugin's Settings Screen.
+		$I->loadConvertKitSettingsGeneralScreen($I);
+
+		// Select Default Form for Pages.
+		$I->fillSelect2Field($I, '#select2-_wp_convertkit_settings_page_form-container', $_ENV['CONVERTKIT_API_FORM_NAME']);
+
+		// Open preview.
+		$I->click('a#convertkit-preview-form-page');
+		$I->wait(2); // Required, otherwise switchToNextTab fails.
+
+		// Switch to newly opened tab.
+		$I->switchToNextTab();
+
+		// Confirm expected Form is displayed.
+		$I->seeElementInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]');
+
+		// Close newly opened tab.
+		$I->closeTab();
+
+		// Select Default Form for Posts.
+		$I->fillSelect2Field($I, '#select2-_wp_convertkit_settings_post_form-container', $_ENV['CONVERTKIT_API_FORM_NAME']);
+
+		// Open preview.
+		$I->click('a#convertkit-preview-form-post');
+		$I->wait(2); // Required, otherwise switchToNextTab fails.
+
+		// Switch to newly opened tab.
+		$I->switchToNextTab();
+
+		// Confirm expected Form is displayed.
+		$I->seeElementInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]');
+
+		// Close newly opened tab.
+		$I->closeTab();
+	}
+
+	/**
+	 * Test that the settings screen does not display preview links
+	 * when no Pages and Posts exist in WordPress.
+	 *
+	 * @since 	1.9.8.5
+	 * 
+	 * @param 	AcceptanceTester 	$I 	Tester
+	 */
+	public function testPreviewFormLinksWhenNoPostsOrPagesExist(AcceptanceTester $I)
+	{
+		// Setup Plugin.
+		$I->setupConvertKitPlugin($I);
+
+		// Go to the Plugin's Settings Screen.
+		$I->loadConvertKitSettingsGeneralScreen($I);
+
+		// Confirm no Page or Post preview links exist, because there are no Pages or Posts in WordPress.
+		$I->dontSeeElementInDOM('a#convertkit-preview-form-post');
+		$I->dontSeeElementInDOM('a#convertkit-preview-form-page');
+	}
+
+	/**
 	 * Test that no PHP errors or notices are displayed on the Plugin's Setting screen
 	 * when Debug settings are enabled and disabled.
 	 * 

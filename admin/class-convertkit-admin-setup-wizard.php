@@ -285,7 +285,8 @@ class ConvertKit_Admin_Setup_Wizard {
 		// Enqueue Select2 JS.
 		convertkit_select2_enqueue_scripts();
 
-		// Enqueue Setup JS.
+		// Enqueue JS.
+		wp_enqueue_script( 'convertkit-admin-preview-output', CONVERTKIT_PLUGIN_URL . 'resources/backend/js/preview-output.js', array( 'jquery' ), CONVERTKIT_PLUGIN_VERSION, true );
 		wp_enqueue_script( 'convertkit-admin-setup-wizard', CONVERTKIT_PLUGIN_URL . 'resources/backend/js/setup-wizard.js', array( 'jquery' ), CONVERTKIT_PLUGIN_VERSION, true );
 
 	}
