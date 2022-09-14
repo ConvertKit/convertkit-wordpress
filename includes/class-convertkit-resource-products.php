@@ -109,13 +109,11 @@ class ConvertKit_Resource_Products extends ConvertKit_Resource {
 			);
 		}
 
-		// Build button HTML as Gutenberg does for buttons.
-		$html  = '<div class="wp-block-buttons">';
-		$html .= '<div class="wp-block-button">';
+		// Build button HTML
+		$html = '<div class="convertkit-product">';
 		$html .= '<a href="' . $this->resources[ $id ]['url'] . '" class="wp-block-button__link ' . esc_attr( implode( ' ', $css_classes ) ) . '" style="' . implode( ';', $css_styles ) . '" data-commerce>';
 		$html .= esc_html( $button_text );
 		$html .= '</a>';
-		$html .= '</div>';
 		$html .= '</div>';
 
 		// Return.

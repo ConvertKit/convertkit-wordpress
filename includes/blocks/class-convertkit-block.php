@@ -236,6 +236,12 @@ class ConvertKit_Block {
 			$atts['_css_classes'][] = 'has-' . $atts['backgroundColor'] . '-background-color';
 		}
 
+		// If the block supports alignment, and a preset alignment was selected, add it to the
+		// array of CSS classes.
+		if ( isset( $atts['align'] ) && $atts['align'] ) {
+			$atts['_css_classes'][] = 'align' . $atts['align'];
+		}
+
 		// If the block supports a background color, and a custom hex color was selected, add it to the
 		// array of CSS inline styles.
 		if ( isset( $atts['style']['color'] ) && isset( $atts['style']['color']['background'] ) ) {

@@ -1,5 +1,9 @@
-a.convertkit-product-button {
-	display: inline-block;
-	padding: 20px;
+.convertkit-product a {
+	display: block;
+	padding: calc(0.667em + 2px) calc(1.333em + 2px);
+	cursor: pointer;
+	text-align: center;
 	text-decoration: none;
+	word-break: break-word;
+    box-sizing: border-box;
 }
