@@ -49,6 +49,7 @@ require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-ajax.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-gutenberg.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-output.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-post.php';
+require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-preview-output.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-resource-forms.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-resource-landing-pages.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-resource-posts.php';
@@ -73,9 +74,6 @@ require_once CONVERTKIT_PLUGIN_PATH . '/includes/integrations/contactform7/class
 
 // Elementor Integration.
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/integrations/elementor/class-convertkit-elementor.php';
-
-// Setup Wizards.
-require_once CONVERTKIT_PLUGIN_PATH . '/includes/setup-wizard/class-convertkit-setup-wizard-plugin.php';
 
 // WishList Member Integration.
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/integrations/wishlist/class-convertkit-wishlist.php';

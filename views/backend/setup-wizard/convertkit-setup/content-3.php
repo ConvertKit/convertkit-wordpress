@@ -49,7 +49,7 @@ if ( ! $this->forms->exist() ) {
 		<label for="wp-convertkit-form-posts">
 			<?php esc_html_e( 'Which form would you like to display below all blog posts?', 'convertkit' ); ?>
 		</label>
-		<select name="post_form" id="wp-convertkit-form-posts" class="convertkit-select2 convertkit-update-link widefat" data-target="#convertkit-preview-form-post" data-link="<?php echo esc_attr( $this->preview_post_url ); ?>&convertkit_form_id=">
+		<select name="post_form" id="wp-convertkit-form-posts" class="convertkit-select2 convertkit-preview-output-link widefat" data-target="#convertkit-preview-form-post" data-link="<?php echo esc_attr( $this->preview_post_url ); ?>&convertkit_form_id=">
 			<option value="0">
 				<?php esc_html_e( 'Don\'t display an email subscription form on posts.', 'convertkit' ); ?>
 			</option>	
@@ -84,7 +84,7 @@ if ( ! $this->forms->exist() ) {
 		<label for="wp-convertkit-form-pages">
 			<?php esc_html_e( 'Which form would you like to display below all Pages?', 'convertkit' ); ?>
 		</label>
-		<select name="page_form" id="wp-convertkit-form-pages" class="convertkit-select2 convertkit-update-link widefat" data-target="#convertkit-preview-form-page" data-link="<?php echo esc_attr( $this->preview_page_url ); ?>&convertkit_form_id=">	
+		<select name="page_form" id="wp-convertkit-form-pages" class="convertkit-select2 convertkit-preview-output-link widefat" data-target="#convertkit-preview-form-page" data-link="<?php echo esc_attr( $this->preview_page_url ); ?>&convertkit_form_id=">	
 			<option value="0">
 				<?php esc_html_e( 'Don\'t display an email subscription form on pages.', 'convertkit' ); ?>
 			</option>

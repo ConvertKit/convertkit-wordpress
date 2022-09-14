@@ -202,17 +202,19 @@ abstract class ConvertKit_Settings_Base {
 	 * @param   array  $options         Options / Choices.
 	 * @param   mixed  $description     Description (false|string).
 	 * @param   mixed  $css_classes     <select> CSS class(es) (false|array).
+	 * @param   mixed  $attributes      <select> attributes (false|array).
 	 * @return  string                  HTML Select Field
 	 */
-	public function get_select_field( $name, $value = '', $options = array(), $description = false, $css_classes = false ) {
+	public function get_select_field( $name, $value = '', $options = array(), $description = false, $css_classes = false, $attributes = false ) {
 
 		// Build opening <select> tag.
 		$html = sprintf(
-			'<select id="%s" name="%s[%s]" class="%s" size="1">',
+			'<select id="%s" name="%s[%s]" class="%s" size="1" %s>',
 			$this->settings_key . '_' . $name,
 			$this->settings_key,
 			$name,
-			( is_array( $css_classes ) ? implode( ' ', $css_classes ) : '' )
+			( is_array( $css_classes ) ? implode( ' ', $css_classes ) : '' ),
+			( is_array( $attributes ) ? $this->array_to_attributes( $attributes ) : '' )
 		);
 
 		// Build <option> tags.
@@ -303,6 +305,25 @@ abstract class ConvertKit_Settings_Base {
 
 		// Return description lines in a paragraph, using breaklines for each description entry in the array.
 		return '<p class="description">' . implode( '<br />', $description );
+
+	}
+
+	/**
+	 * Converts the given key/value array pairs into a HTML attribute="value" string.
+	 *
+	 * @since   1.9.8.5
+	 *
+	 * @param   array $array  Attributes.
+	 * @return  string          HTML attributes string
+	 */
+	private function array_to_attributes( $array ) {
+
+		$attributes = '';
+		foreach ( $array as $key => $value ) {
+			$attributes .= esc_attr( $key ) . '="' . esc_attr( $value ) . '" ';
+		}
+
+		return trim( $attributes );
 
 	}
 
