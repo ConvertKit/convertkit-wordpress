@@ -1,14 +1,13 @@
-.wp-block .convertkit-product {
-	display: inline-block;
-}
 .wp-block .convertkit-product-no-content {
 	padding: 120px 20px 20px 20px;
 	background: url(../images/convertkit-stacked.svg) 50% 20px no-repeat;
 	background-size: 100px auto;
+	background-color: #fff;
 	border: 1px solid #000;
 	font-size: 16px;
 	text-align: center;
+	color: #000;
 }
-.wp-block .convertkit-product-no-content iframe {
-	/*max-width: 400px; */
+div[data-type="convertkit/product"] {
+	display: inline-block;
 }

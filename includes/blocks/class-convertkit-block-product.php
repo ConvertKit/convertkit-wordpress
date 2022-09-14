@@ -27,14 +27,13 @@ class ConvertKit_Block_Product extends ConvertKit_Block {
 		// Register this as a Gutenberg block in the ConvertKit Plugin.
 		add_filter( 'convertkit_blocks', array( $this, 'register' ) );
 
-		// Enqueue scripts for this Gutenberg Block in the editor view.
+		// Enqueue scripts and styles for this Gutenberg Block in the editor view.
 		add_action( 'convertkit_gutenberg_enqueue_scripts', array( $this, 'enqueue_scripts_editor' ) );
-
-		// Enqueue styles for this Gutenberg Block in the editor.
 		add_action( 'convertkit_gutenberg_enqueue_styles', array( $this, 'enqueue_styles_editor' ) );
 
-		// Enqueue scripts for this Gutenberg Block in the editor and frontend views.
+		// Enqueue scripts and styles for this Gutenberg Block in the editor and frontend views.
 		add_action( 'convertkit_gutenberg_enqueue_scripts_editor_and_frontend', array( $this, 'enqueue_scripts' ) );
+		add_action( 'convertkit_gutenberg_enqueue_styles_editor_and_frontend', array( $this, 'enqueue_styles' ) );
 
 	}
 
@@ -50,8 +49,7 @@ class ConvertKit_Block_Product extends ConvertKit_Block {
 	}
 
 	/**
-	 * Enqueues styles for this Gutenberg Block in the editor view, to
-	 * set the button's style to inline-block.
+	 * Enqueues styles for this Gutenberg Block in the editor view.
 	 *
 	 * @since   1.9.8.5
 	 */
@@ -79,6 +77,17 @@ class ConvertKit_Block_Product extends ConvertKit_Block {
 
 		// Enqueue.
 		wp_enqueue_script( 'convertkit-commerce', $commerce_js_url, array(), false, true ); // phpcs:ignore
+
+	}
+
+	/**
+	 * Enqueues styles for this Gutenberg Block in the editor and frontend views.
+	 *
+	 * @since   1.9.8.5
+	 */
+	public function enqueue_styles() {
+
+		wp_enqueue_style( 'convertkit-gutenberg-block-product-frontend', CONVERTKIT_PLUGIN_URL . '/resources/frontend/css/product.css', array(), CONVERTKIT_PLUGIN_VERSION );
 
 	}
 
