@@ -364,7 +364,7 @@ class Plugin extends \Codeception\Module
 	public function seeProductOutput($I, $productURL, $text = false)
 	{
 		// Confirm that the block displays.
-		$I->seeElementInDOM('div.wp-block-button a.convertkit-product');
+		$I->seeElementInDOM('a.convertkit-product');
 
 		// Confirm that the button links to the correct product.
 		$I->seeInSource('<a href="'.$productURL.'"');
@@ -376,7 +376,7 @@ class Plugin extends \Codeception\Module
 
 		// Click the button to confirm that the ConvertKit modal displays; this confirms
 		// necessary ConvertKit scripts have been loaded.
-		$I->click('div.wp-block-button a.convertkit-product');
+		$I->click('a.convertkit-product');
 		$I->seeElementInDOM('iframe[data-active]');
 	}
 
