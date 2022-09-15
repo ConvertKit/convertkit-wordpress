@@ -331,6 +331,9 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 			$posts = new ConvertKit_Resource_Posts();
 			$posts->refresh();
 
+			$products = new ConvertKit_Resource_Products();
+			$products->refresh();
+
 			$tags = new ConvertKit_Resource_Tags();
 			$tags->refresh();
 		}
