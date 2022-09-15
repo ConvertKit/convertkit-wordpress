@@ -337,10 +337,10 @@ class ConvertKit_Block {
 
 	/**
 	 * Determines if the request for the block is from the block editor or the frontend site.
-	 * 
-	 * @since 	1.9.8.5
-	 * 
-	 * @return 	bool
+	 *
+	 * @since   1.9.8.5
+	 *
+	 * @return  bool
 	 */
 	public function is_block_editor_request() {
 

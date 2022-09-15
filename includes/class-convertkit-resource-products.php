@@ -85,7 +85,7 @@ class ConvertKit_Resource_Products extends ConvertKit_Resource {
 	 * @param   string $button_text    Button Text.
 	 * @param   array  $css_classes    CSS classes to apply to link (typically included when using Gutenberg).
 	 * @param   array  $css_styles     CSS inline styles to apply to link (typically included when using Gutenberg).
-	 * @param 	bool   $return_as_span If true, returns a <span> instead of <a>. Useful for the block editor so that the element is interactible.
+	 * @param   bool   $return_as_span If true, returns a <span> instead of <a>. Useful for the block editor so that the element is interactible.
 	 * @return  WP_Error|string         Button HTML
 	 */
 	public function get_html( $id, $button_text, $css_classes = array(), $css_styles = array(), $return_as_span = false ) {
@@ -111,7 +111,7 @@ class ConvertKit_Resource_Products extends ConvertKit_Resource {
 		}
 
 		// Build button HTML.
-		$html  = '<div class="convertkit-product">';
+		$html = '<div class="convertkit-product">';
 
 		if ( $return_as_span ) {
 			$html .= '<span';
@@ -127,7 +127,7 @@ class ConvertKit_Resource_Products extends ConvertKit_Resource {
 		} else {
 			$html .= '</a>';
 		}
-		
+
 		$html .= '</div>';
 
 		// Return.
