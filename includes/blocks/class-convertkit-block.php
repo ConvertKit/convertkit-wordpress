@@ -335,4 +335,31 @@ class ConvertKit_Block {
 
 	}
 
+	/**
+	 * Determines if the request for the block is from the block editor or the frontend site.
+	 * 
+	 * @since 	1.9.8.5
+	 * 
+	 * @return 	bool
+	 */
+	public function is_block_editor_request() {
+
+		// Return false if not a WordPress REST API request, which Gutenberg uses.
+		if ( ! defined( 'REST_REQUEST' ) ) {
+			return false;
+		}
+		if ( REST_REQUEST !== true ) {
+			return false;
+		}
+
+		// Return false if the context parameter isn't edit.
+		if ( filter_input( INPUT_GET, 'context', FILTER_SANITIZE_STRING ) !== 'edit' ) {
+			return false;
+		}
+
+		// Request is for the block editor.
+		return true;
+
+	}
+
 }

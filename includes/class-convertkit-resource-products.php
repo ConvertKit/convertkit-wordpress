@@ -85,9 +85,10 @@ class ConvertKit_Resource_Products extends ConvertKit_Resource {
 	 * @param   string $button_text    Button Text.
 	 * @param   array  $css_classes    CSS classes to apply to link (typically included when using Gutenberg).
 	 * @param   array  $css_styles     CSS inline styles to apply to link (typically included when using Gutenberg).
+	 * @param 	bool   $return_as_span If true, returns a <span> instead of <a>. Useful for the block editor so that the element is interactible.
 	 * @return  WP_Error|string         Button HTML
 	 */
-	public function get_html( $id, $button_text, $css_classes = array(), $css_styles = array() ) {
+	public function get_html( $id, $button_text, $css_classes = array(), $css_styles = array(), $return_as_span = false ) {
 
 		// Cast ID to integer.
 		$id = absint( $id );
@@ -111,9 +112,22 @@ class ConvertKit_Resource_Products extends ConvertKit_Resource {
 
 		// Build button HTML.
 		$html  = '<div class="convertkit-product">';
-		$html .= '<a href="' . $this->resources[ $id ]['url'] . '" class="wp-block-button__link ' . esc_attr( implode( ' ', $css_classes ) ) . '" style="' . implode( ';', $css_styles ) . '" data-commerce>';
+
+		if ( $return_as_span ) {
+			$html .= '<span';
+		} else {
+			$html .= '<a href="' . $this->resources[ $id ]['url'] . '"';
+		}
+
+		$html .= ' class="wp-block-button__link ' . esc_attr( implode( ' ', $css_classes ) ) . '" style="' . implode( ';', $css_styles ) . '" data-commerce>';
 		$html .= esc_html( $button_text );
-		$html .= '</a>';
+
+		if ( $return_as_span ) {
+			$html .= '</span>';
+		} else {
+			$html .= '</a>';
+		}
+		
 		$html .= '</div>';
 
 		// Return.

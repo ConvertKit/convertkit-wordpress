@@ -372,7 +372,7 @@ class ConvertKit_Block_Product extends ConvertKit_Block {
 		$convertkit_products = new ConvertKit_Resource_Products();
 
 		// Build HTML.
-		$html = $convertkit_products->get_html( $atts['product'], $atts['text'], $atts['_css_classes'], $atts['_css_styles'] );
+		$html = $convertkit_products->get_html( $atts['product'], $atts['text'], $atts['_css_classes'], $atts['_css_styles'], $this->is_block_editor_request() );
 
 		// Bail if an error occured.
 		if ( is_wp_error( $html ) ) {
