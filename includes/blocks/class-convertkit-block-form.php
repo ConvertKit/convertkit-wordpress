@@ -53,7 +53,7 @@ class ConvertKit_Block_Form extends ConvertKit_Block {
 	 */
 	public function enqueue_styles_editor() {
 
-		wp_enqueue_style( 'convertkit-gutenberg-block-form', CONVERTKIT_PLUGIN_URL . 'resources/backend/css/gutenberg-block-form.css', array( 'wp-edit-blocks' ), CONVERTKIT_PLUGIN_VERSION );
+		wp_enqueue_style( 'convertkit-gutenberg', CONVERTKIT_PLUGIN_URL . 'resources/backend/css/gutenberg.css', array( 'wp-edit-blocks' ), CONVERTKIT_PLUGIN_VERSION );
 
 	}
 

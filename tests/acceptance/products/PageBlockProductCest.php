@@ -71,7 +71,7 @@ class PageBlockProductCest
 
 		// Confirm that the Product block displays instructions to the user on how to select a Product.
 		$I->see('Select a Product using the Product option in the Gutenberg sidebar.', [
-			'css' => '.convertkit-product-no-content',
+			'css' => '.convertkit-no-content',
 		]);
 
 		// Publish and view the Page on the frontend site.

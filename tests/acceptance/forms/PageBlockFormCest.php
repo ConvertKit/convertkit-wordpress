@@ -220,7 +220,7 @@ class PageBlockFormCest
 
 		// Confirm that the Form block displays instructions to the user on how to select a Form.
 		$I->see('Select a Form using the Form option in the Gutenberg sidebar.', [
-			'css' => '.convertkit-form-no-content',
+			'css' => '.convertkit-no-content',
 		]);
 
 		// Publish and view the Page on the frontend site.
