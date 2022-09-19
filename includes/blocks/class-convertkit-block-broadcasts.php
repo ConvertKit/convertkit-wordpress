@@ -257,17 +257,17 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 
 			// These fields will only display on the shortcode, and are deliberately not registered in get_attributes(),
 			// because Gutenberg will register its own color pickers for link, background and text.
-			'link_color' => array(
-				'label'       => __( 'Link color', 'convertkit' ),
-				'type'        => 'color',
+			'link_color'          => array(
+				'label' => __( 'Link color', 'convertkit' ),
+				'type'  => 'color',
 			),
-			'background_color' => array(
-				'label'       => __( 'Background color', 'convertkit' ),
-				'type'        => 'color',
+			'background_color'    => array(
+				'label' => __( 'Background color', 'convertkit' ),
+				'type'  => 'color',
 			),
-			'text_color' => array(
-				'label'       => __( 'Text color', 'convertkit' ),
-				'type'        => 'color',
+			'text_color'          => array(
+				'label' => __( 'Text color', 'convertkit' ),
+				'type'  => 'color',
 			),
 		);
 
@@ -320,9 +320,9 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 			'paginate'            => false,
 			'paginate_label_prev' => __( 'Previous', 'convertkit' ),
 			'paginate_label_next' => __( 'Next', 'convertkit' ),
-			'link_color'		  => '',
-			'background_color'	  => '',
-			'text_color'		  => '',
+			'link_color'          => '',
+			'background_color'    => '',
+			'text_color'          => '',
 
 			// Built-in Gutenberg block attributes.
 			'style'               => '',
@@ -407,7 +407,7 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 			'paginate'            => absint( $_REQUEST['paginate'] ),
 			'paginate_label_next' => sanitize_text_field( $_REQUEST['paginate_label_next'] ),
 			'paginate_label_prev' => sanitize_text_field( $_REQUEST['paginate_label_prev'] ),
-			'link_color'		  => sanitize_text_field( $_REQUEST['link_color'] ),
+			'link_color'          => sanitize_text_field( $_REQUEST['link_color'] ),
 		);
 
 		// Parse attributes, defining fallback defaults if required
@@ -631,11 +631,11 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 	 * need to include inline styling for links.
 	 *
 	 * The Gutenberg block doesn't need this, because WordPress generates its own inline styles when a link color is selected.
-	 * 
-	 * @since 	1.9.8.5
-	 * 
-	 * @param 	array 	$atts 	Block attributes.
-	 * @return 	string 			style attribute (blank string if no styles need to be applied)
+	 *
+	 * @since   1.9.8.5
+	 *
+	 * @param   array $atts   Block attributes.
+	 * @return  string          style attribute (blank string if no styles need to be applied)
 	 */
 	private function get_link_style_tag( $atts ) {
 

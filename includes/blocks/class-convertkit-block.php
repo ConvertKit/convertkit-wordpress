@@ -186,7 +186,7 @@ class ConvertKit_Block {
 
 		// Fetch attribute definitions.
 		$atts_definitions = $this->get_attributes();
-		
+
 		// Iterate through attributes, casting them based on their attribute definition.
 		foreach ( $atts as $att => $value ) {
 			// Skip if no definition exists for this attribute.
@@ -253,7 +253,7 @@ class ConvertKit_Block {
 		// If the shortcode supports a background color, and a custom hex color was selected, add it to the
 		// array of CSS inline styles.
 		if ( isset( $atts['background_color'] ) && ! empty( $atts['background_color'] ) ) {
-			$atts['_css_classes'][]       = 'has-background';
+			$atts['_css_classes'][]            = 'has-background';
 			$atts['_css_styles']['background'] = 'background-color:' . $atts['background_color'];
 		}
 
