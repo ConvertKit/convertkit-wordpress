@@ -47,3 +47,6 @@
 .convertkit-option p {
 	white-space: normal;
 }
+.convertkit-option .wp-picker-container .wp-color-result.button {
+	padding-right: 10px;
+}
