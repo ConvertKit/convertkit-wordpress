@@ -119,7 +119,7 @@ function convertKitGutenbergRegisterBlock( block ) {
 							// If this field doesn't exist as an attribute in the block's get_attributes(),
 							// this is a non-Gutenberg field (such as a color picker for shortcodes),
 							// which should be ignored.
-							if ( typeof props.attributes[ attribute ] === 'undefined' ) {
+							if ( typeof block.attributes[ attribute ] === 'undefined' ) {
 								continue;
 							}
 
