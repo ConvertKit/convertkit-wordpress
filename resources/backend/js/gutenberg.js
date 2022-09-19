@@ -309,3 +309,53 @@ function convertKitGutenbergRegisterBlock( block ) {
 	) );
 
 }
+
+/**
+ * Registers ConvertKit controls
+ */
+function convertKitGutenbergRegisterBlockToolbarControls() {
+
+	( function( compose, editor, element, components ) {
+
+		const { createHigherOrderComponent } = compose;
+		const { Fragment } = element;
+		const { BlockControls } = blockEditor;
+		const {
+		    ToolbarGroup,
+		    ToolbarButton
+		} = components;
+
+		const enableToolbarButtonOnBlocks = [
+		    'core/paragraph'
+		];
+
+		const withToolbarButton = createHigherOrderComponent( ( BlockEdit ) => {
+		    return ( props ) => {
+
+		        // If current block is not allowed
+		    	if ( ! enableToolbarButtonOnBlocks.includes( props.name ) ) {
+		            return;
+		        }
+
+		        const { attributes, setAttributes } = props;
+		        const { paragraphAttribute } = attributes;
+
+		        // Return LinkControl
+		        // @TODO.
+		    };
+		}, 'withToolbarButton' );
+
+		wp.hooks.addFilter(
+		    'editor.BlockEdit',
+		    'convertkit/product',
+		    convertKitProductLinkButton
+		);
+
+	} (
+		window.wp.compose,
+		window.wp.blockEditor,
+		window.wp.element,
+		window.wp.components
+	) );
+
+}
