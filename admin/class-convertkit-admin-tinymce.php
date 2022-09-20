@@ -99,6 +99,10 @@ class ConvertKit_Admin_TinyMCE {
 		// Enqueue Quicktag CSS.
 		wp_enqueue_style( 'convertkit-admin-quicktags', CONVERTKIT_PLUGIN_URL . 'resources/backend/css/quicktags.css', array(), CONVERTKIT_PLUGIN_VERSION );
 
+		// Enqueue WordPress JS and CSS.
+		wp_enqueue_script( 'wp-color-picker' );
+		wp_enqueue_style( 'wp-color-picker' );
+
 		// Output Backbone View Template.
 		add_action( 'wp_print_footer_scripts', array( $this, 'output_quicktags_modal' ) );
 		add_action( 'admin_print_footer_scripts', array( $this, 'output_quicktags_modal' ) );
