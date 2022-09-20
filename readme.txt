@@ -113,6 +113,9 @@ Full Plugin documentation can be found [here](https://help.convertkit.com/en/art
 
 == Changelog ==
 
+### 1.9.8.5 2022-xx-xx
+* Added: Broadcasts: Shortcode: Options to specify background, text and link colors
+
 ### 1.9.8.4 2022-09-08
 * Added: Setup Wizard for new installations
 * Fix: Text Editor: Quicktag Buttons: Position and size modal window correctly to avoid scrollbars and whitespace
