@@ -108,6 +108,41 @@ class PageShortcodeFormCest
 	}
 
 	/**
+	 * Test the [convertkit_product] shortcode hex colors works when defined.
+	 * 
+	 * @since 	1.9.8.5
+	 * 
+	 * @param 	AcceptanceTester 	$I 	Tester
+	 */
+	public function testProductShortcodeWithHexColorParameters(AcceptanceTester $I)
+	{
+		// Define colors.
+		$backgroundColor = '#ee1616';
+		$textColor = '#1212c0';
+
+		// It's tricky to interact with WordPress's color picker, so we programmatically create the Page
+		// instead to then confirm the color settings apply on the output.
+		// We don't need to test the color picker itself, as it's a WordPress supplied component, and our
+		// other Acceptance tests confirm that the shortcode can be added in the Classic Editor.
+		$I->havePageInDatabase([
+			'post_name' 	=> 'convertkit-page-product-shortcode-hex-color-params',
+			'post_content' 	=> '[convertkit_product product="'.$_ENV['CONVERTKIT_API_PRODUCT_ID'].'" text="Buy my product" background_color="'.$backgroundColor.'" text_color="'.$textColor.'"]'
+		]);
+
+		// Load the Page on the frontend site.
+		$I->amOnPage('/convertkit-page-product-shortcode-hex-color-params');
+
+		// Wait for frontend web site to load.
+		$I->waitForElementVisible('body.page-template-default');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Confirm that the ConvertKit Product is displayed.
+		$I->seeProductOutput($I, $_ENV['CONVERTKIT_API_PRODUCT_URL'], 'Buy my product', $textColor, $backgroundColor);
+	}
+
+	/**
 	 * Deactivate and reset Plugin(s) after each test, if the test passes.
 	 * We don't use _after, as this would provide a screenshot of the Plugin
 	 * deactivation and not the true test error.

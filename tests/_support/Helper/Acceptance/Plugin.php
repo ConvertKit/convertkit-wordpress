@@ -360,18 +360,38 @@ class Plugin extends \Codeception\Module
 	 * @param 	AcceptanceTester 	$I 				Tester.
 	 * @param 	string 				$productURL 	Product URL.
 	 * @param 	bool|string 		$text 			Test if the button text matches the given value.
+	 * @param 	bool|string 		$textColor 		Test if the given text color is applied.
+	 * @param 	bool|string 		$backgroundColor Test is the given background color is applied.
 	 */
-	public function seeProductOutput($I, $productURL, $text = false)
+	public function seeProductOutput($I, $productURL, $text = false, $textColor = false, $backgroundColor = false)
 	{
 		// Confirm that the block displays.
-		$I->seeElementInDOM('a.convertkit-product');
+		$I->seeElementInDOM('a.convertkit-product.wp-block-button__link');
 
 		// Confirm that the button links to the correct product.
-		$I->seeInSource('<a href="'.$productURL.'"');
+		$I->assertEquals($productURL, $I->grabAttributeFrom('a.convertkit-product', 'href'));
 
 		// Confirm that the button text is as expected.
 		if ($text !== false) {
-			$I->seeInSource($text);		
+			$I->seeInSource('>'.$text.'</a>');		
+		}
+
+		// Confirm that the text color is as expected.
+		if ($textColor !== false) {
+			$I->seeElementInDOM('a.convertkit-product.has-text-color');
+			$I->assertStringContainsString(
+				'color:'.$textColor,
+				$I->grabAttributeFrom('a.convertkit-product', 'style')
+			);
+		}
+
+		// Confirm that the background color is as expected.
+		if ($backgroundColor !== false) {
+			$I->seeElementInDOM('a.convertkit-product.has-background');
+			$I->assertStringContainsString(
+				'background-color:'.$backgroundColor,
+				$I->grabAttributeFrom('a.convertkit-product', 'style')
+			);
 		}
 
 		// Click the button to confirm that the ConvertKit modal displays; this confirms
