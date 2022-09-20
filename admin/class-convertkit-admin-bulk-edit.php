@@ -136,9 +136,9 @@ class ConvertKit_Admin_Bulk_Edit {
 		}
 
 		// Fetch Forms, Landing Pages and Tags.
-		$convertkit_forms         = new ConvertKit_Resource_Forms();
-		$convertkit_landing_pages = new ConvertKit_Resource_Landing_Pages();
-		$convertkit_tags          = new ConvertKit_Resource_Tags();
+		$convertkit_forms         = new ConvertKit_Resource_Forms( 'bulk_edit' );
+		$convertkit_landing_pages = new ConvertKit_Resource_Landing_Pages( 'bulk_edit' );
+		$convertkit_tags          = new ConvertKit_Resource_Tags( 'bulk_edit' );
 
 		// Output view.
 		require_once CONVERTKIT_PLUGIN_PATH . '/views/backend/post/bulk-edit.php';

@@ -43,22 +43,22 @@ class ConvertKit_Admin_Refresh_Resources {
 		// Fetch resources.
 		switch ( $resource ) {
 			case 'forms':
-				$forms   = new ConvertKit_Resource_Forms();
+				$forms   = new ConvertKit_Resource_Forms( 'user_refresh_resource' );
 				$results = $forms->refresh();
 				break;
 
 			case 'landing_pages':
-				$landing_pages = new ConvertKit_Resource_Landing_Pages();
+				$landing_pages = new ConvertKit_Resource_Landing_Pages( 'user_refresh_resource' );
 				$results       = $landing_pages->refresh();
 				break;
 
 			case 'tags':
-				$tags    = new ConvertKit_Resource_Tags();
+				$tags    = new ConvertKit_Resource_Tags( 'user_refresh_resource' );
 				$results = $tags->refresh();
 				break;
 
 			case 'posts':
-				$posts   = new ConvertKit_Resource_Posts();
+				$posts   = new ConvertKit_Resource_Posts( 'user_refresh_resource' );
 				$results = $posts->refresh();
 				break;
 

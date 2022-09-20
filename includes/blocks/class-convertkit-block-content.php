@@ -110,7 +110,7 @@ class ConvertKit_Block_Content extends ConvertKit_Block {
 
 		// Get ConvertKit Tags.
 		$tags            = array();
-		$convertkit_tags = new ConvertKit_Resource_Tags();
+		$convertkit_tags = new ConvertKit_Resource_Tags( 'edit_block' );
 		if ( $convertkit_tags->exist() ) {
 			foreach ( $convertkit_tags->get() as $tag ) {
 				$tags[ absint( $tag['id'] ) ] = sanitize_text_field( $tag['name'] );
@@ -223,7 +223,7 @@ class ConvertKit_Block_Content extends ConvertKit_Block {
 		}
 
 		// Initialize the API.
-		$api = new ConvertKit_API( $settings->get_api_key(), $settings->get_api_secret(), $settings->debug_enabled() );
+		$api = new ConvertKit_API( $settings->get_api_key(), $settings->get_api_secret(), $settings->debug_enabled(), 'output' );
 
 		// Get the subscriber's tags, to see if they subscribed to this tag.
 		$tags = $api->get_subscriber_tags( $subscriber_id );

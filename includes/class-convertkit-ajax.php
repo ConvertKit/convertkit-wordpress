@@ -121,7 +121,7 @@ class ConvertKit_AJAX {
 		}
 
 		// Initialize the API.
-		$api = new ConvertKit_API( $settings->get_api_key(), $settings->get_api_secret(), $settings->debug_enabled() );
+		$api = new ConvertKit_API( $settings->get_api_key(), $settings->get_api_secret(), $settings->debug_enabled(), 'output' );
 
 		// Get subscriber by email address.
 		$subscriber = $api->get_subscriber_by_email( $email );
@@ -179,7 +179,7 @@ class ConvertKit_AJAX {
 		}
 
 		// Initialize the API.
-		$api = new ConvertKit_API( $settings->get_api_key(), $settings->get_api_secret(), $settings->debug_enabled() );
+		$api = new ConvertKit_API( $settings->get_api_key(), $settings->get_api_secret(), $settings->debug_enabled(), 'output' );
 
 		// Get subscriber's email address by subscriber ID.
 		$subscriber = $api->get_subscriber_by_id( $subscriber_id );

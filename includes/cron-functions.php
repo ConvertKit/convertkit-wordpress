@@ -23,7 +23,7 @@ function convertkit_resource_refresh_posts() {
 	}
 
 	// Refresh Posts Resource.
-	$posts  = new ConvertKit_Resource_Posts();
+	$posts  = new ConvertKit_Resource_Posts( 'cron' );
 	$result = $posts->refresh();
 
 	// If debug logging is enabled, write to it now.
