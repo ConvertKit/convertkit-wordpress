@@ -64,6 +64,9 @@ function convertKitTinyMCERegisterPlugin( block ) {
 								// Inject HTML into modal.
 								$( '#convertkit-modal-body-body' ).html( response );
 
+								// Initialize color pickers.
+								$( '.convertkit-color-picker' ).wpColorPicker();
+
 							}
 						);
 

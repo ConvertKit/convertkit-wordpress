@@ -51,6 +51,9 @@ function convertKitQuickTagRegister( block ) {
 						// Inject HTML into modal.
 						$( '#convertkit-quicktags-modal .media-frame-content' ).html( response );
 
+						// Initialize color pickers.
+						$( '.convertkit-color-picker' ).wpColorPicker();
+
 						// Resize Modal height to prevent whitespace below form.
 						$( 'div.convertkit-quicktags-modal div.media-modal.wp-core-ui' ).css(
 							{

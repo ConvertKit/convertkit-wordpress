@@ -28,6 +28,7 @@ jQuery( document ).ready(
 						paginate: $( blockContainer ).data( 'paginate' ),
 						paginate_label_prev: $( blockContainer ).data( 'paginate-label-prev' ),
 						paginate_label_next: $( blockContainer ).data( 'paginate-label-next' ),
+						link_color: $( blockContainer ).data( 'link-color' ),
 
 						page: $( this ).data( 'page' ), // Page is supplied as a data- attribute on the link clicked, not the container.
 						nonce: $( this ).data( 'nonce' ) // Nonce is supplied as a data- attribute on the link clicked, not the container.
