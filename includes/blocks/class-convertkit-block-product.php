@@ -274,7 +274,7 @@ class ConvertKit_Block_Product extends ConvertKit_Block {
 		// Gutenberg's built-in fields (such as styling, padding etc) don't need to be defined here, as they'll be included
 		// automatically by Gutenberg.
 		return array(
-			'product' => array(
+			'product'          => array(
 				'label'  => __( 'Product', 'convertkit' ),
 				'type'   => 'select',
 				'values' => $products,
@@ -283,7 +283,7 @@ class ConvertKit_Block_Product extends ConvertKit_Block {
 					'api_key'  => $settings->get_api_key(),
 				),
 			),
-			'text'    => array(
+			'text'             => array(
 				'label'       => __( 'Button Text', 'convertkit' ),
 				'type'        => 'text',
 				'description' => __( 'The text to display for the button.', 'convertkit' ),
@@ -291,11 +291,11 @@ class ConvertKit_Block_Product extends ConvertKit_Block {
 
 			// These fields will only display on the shortcode, and are deliberately not registered in get_attributes(),
 			// because Gutenberg will register its own color pickers for link, background and text.
-			'background_color'    => array(
+			'background_color' => array(
 				'label' => __( 'Background color', 'convertkit' ),
 				'type'  => 'color',
 			),
-			'text_color'          => array(
+			'text_color'       => array(
 				'label' => __( 'Text color', 'convertkit' ),
 				'type'  => 'color',
 			),
@@ -343,16 +343,16 @@ class ConvertKit_Block_Product extends ConvertKit_Block {
 	public function get_default_values() {
 
 		return array(
-			'product'         	=> '',
-			'text'            	=> __( 'Buy my product', 'convertkit' ),
-			'background_color'  => '',
-			'text_color'        => '',
+			'product'          => '',
+			'text'             => __( 'Buy my product', 'convertkit' ),
+			'background_color' => '',
+			'text_color'       => '',
 
 			// Built-in Gutenberg block attributes.
-			'backgroundColor' => '',
-			'textColor'       => '',
-			'fontSize'        => '',
-			'style'           => array(
+			'backgroundColor'  => '',
+			'textColor'        => '',
+			'fontSize'         => '',
+			'style'            => array(
 				'visualizers' => array(
 					'padding' => array(
 						'top'    => '',
