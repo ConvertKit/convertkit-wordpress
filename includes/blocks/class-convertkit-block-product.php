@@ -130,7 +130,7 @@ class ConvertKit_Block_Product extends ConvertKit_Block {
 			// Shortcode: TinyMCE / QuickTags Modal Width and Height.
 			'modal'                             => array(
 				'width'  => 500,
-				'height' => 180,
+				'height' => 290,
 			),
 
 			// Shortcode: Include a closing [/shortcode] tag when using TinyMCE or QuickTag Modals.
@@ -288,6 +288,17 @@ class ConvertKit_Block_Product extends ConvertKit_Block {
 				'type'        => 'text',
 				'description' => __( 'The text to display for the button.', 'convertkit' ),
 			),
+
+			// These fields will only display on the shortcode, and are deliberately not registered in get_attributes(),
+			// because Gutenberg will register its own color pickers for link, background and text.
+			'background_color'    => array(
+				'label' => __( 'Background color', 'convertkit' ),
+				'type'  => 'color',
+			),
+			'text_color'          => array(
+				'label' => __( 'Text color', 'convertkit' ),
+				'type'  => 'color',
+			),
 		);
 
 	}
@@ -314,6 +325,8 @@ class ConvertKit_Block_Product extends ConvertKit_Block {
 				'fields' => array(
 					'product',
 					'text',
+					'background_color',
+					'text_color',
 				),
 			),
 		);
@@ -330,8 +343,10 @@ class ConvertKit_Block_Product extends ConvertKit_Block {
 	public function get_default_values() {
 
 		return array(
-			'product'         => '',
-			'text'            => __( 'Buy my product', 'convertkit' ),
+			'product'         	=> '',
+			'text'            	=> __( 'Buy my product', 'convertkit' ),
+			'background_color'  => '',
+			'text_color'        => '',
 
 			// Built-in Gutenberg block attributes.
 			'backgroundColor' => '',
