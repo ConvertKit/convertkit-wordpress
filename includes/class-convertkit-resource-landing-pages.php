@@ -33,7 +33,7 @@ class ConvertKit_Resource_Landing_Pages extends ConvertKit_Resource {
 	 *
 	 * @since   1.9.8.4
 	 *
-	 * @param 	bool|string 	$context 	Context
+	 * @param   bool|string $context    Context.
 	 */
 	public function __construct( $context = false ) {
 

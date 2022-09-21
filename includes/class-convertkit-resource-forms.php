@@ -32,8 +32,8 @@ class ConvertKit_Resource_Forms extends ConvertKit_Resource {
 	 * Constructor.
 	 *
 	 * @since   1.9.8.4
-	 * 
-	 * @param 	bool|string 	$context 	Context
+	 *
+	 * @param   bool|string $context    Context.
 	 */
 	public function __construct( $context = false ) {
 
