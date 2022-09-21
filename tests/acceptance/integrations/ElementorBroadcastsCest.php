@@ -189,6 +189,58 @@ class ElementorBroadcastsCest
 	}
 
 	/**
+	 * Test the Broadcasts block's hex colors work when defined.
+	 * 
+	 * @since 	1.9.8.5
+	 * 
+	 * @param 	AcceptanceTester 	$I 	Tester
+	 */
+	public function testBroadcastsWidgetWithHexColorParameters(AcceptanceTester $I)
+	{
+		// Define colors.
+		$backgroundColor = '#ee1616';
+		$textColor = '#1212c0';
+		$linkColor = '#ffffff';
+
+		// Create Page with Broadcasts widget in Elementor.
+		$pageID = $this->_createPageWithBroadcastsWidget($I, 'ConvertKit: Page: Broadcasts: Elementor Widget: Hex Colors', [
+			'date_format' 			=> 'F j, Y',
+			'limit' 				=> 1,
+			'paginate' 				=> 1,
+			'paginate_label_prev' 	=> 'Newer',
+			'paginate_label_next' 	=> 'Older',
+			'link_color'			=> $linkColor,
+			'background_color'		=> $backgroundColor,
+			'text_color'			=> $textColor,
+		]);
+
+		// Load Page.
+		$I->amOnPage('?p='.$pageID);
+
+		// Wait for frontend web site to load.
+		$I->waitForElementVisible('body.page-template-default');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Confirm that the block displays.
+		$I->seeBroadcastsOutput($I);
+
+		// Confirm that our stylesheet loaded.
+		$I->seeInSource('<link rel="stylesheet" id="convertkit-broadcasts-css" href="'.$_ENV['TEST_SITE_WP_URL'].'/wp-content/plugins/convertkit/resources/frontend/css/broadcasts.css');
+
+		// Confirm that the chosen colors are applied as CSS styles.
+		$I->seeInSource('<div class="convertkit-broadcasts has-text-color has-background" style="color:'.$textColor.';background-color:'.$backgroundColor.'"');
+		$I->seeInSource('<a href="https://cheerful-architect-3237.ck.page/posts/paid-subscriber-broadcast?utm_source=wordpress&amp;utm_content=convertkit" target="_blank" rel="nofollow noopener" style="color:'.$linkColor.'"');
+	
+		// Test pagination.
+		$I->testBroadcastsPagination($I, 'Older', 'Newer');
+
+		// Confirm that link styles are still applied to refreshed data.
+		$I->seeInSource('<a href="https://cheerful-architect-3237.ck.page/posts/paid-subscriber-broadcast?utm_source=wordpress&amp;utm_content=convertkit" target="_blank" rel="nofollow noopener" style="color:'.$linkColor.'"');
+	}
+
+	/**
 	 * Create a Page in the database comprising of Elementor Page Builder data
 	 * containing a ConvertKit Form widget.
 	 * 

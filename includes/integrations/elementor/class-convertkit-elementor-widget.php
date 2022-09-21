@@ -220,6 +220,18 @@ class ConvertKit_Elementor_Widget extends Elementor\Widget_Base {
 				);
 				break;
 
+			/**
+			 * Color Picker
+			 */
+			case 'color':
+				$control = array_merge(
+					$control,
+					array(
+						'type' => Elementor\Controls_Manager::COLOR,
+					)
+				);
+				break;
+
 			default:
 				$control = array_merge(
 					$control,
