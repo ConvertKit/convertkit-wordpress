@@ -111,9 +111,9 @@ class ConvertKit_Admin_Quick_Edit {
 		}
 
 		// Fetch Forms, Landing Pages and Tags.
-		$convertkit_forms         = new ConvertKit_Resource_Forms( 'quick_edit' );
-		$convertkit_landing_pages = new ConvertKit_Resource_Landing_Pages( 'quick_edit' );
-		$convertkit_tags          = new ConvertKit_Resource_Tags( 'quick_edit' );
+		$convertkit_forms         = new ConvertKit_Resource_Forms();
+		$convertkit_landing_pages = new ConvertKit_Resource_Landing_Pages();
+		$convertkit_tags          = new ConvertKit_Resource_Tags();
 
 		// Output view.
 		require_once CONVERTKIT_PLUGIN_PATH . '/views/backend/post/quick-edit.php';

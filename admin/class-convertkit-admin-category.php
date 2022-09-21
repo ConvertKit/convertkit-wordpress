@@ -111,7 +111,7 @@ class ConvertKit_Admin_Category {
 
 		// Fetch Category Settings and Forms.
 		$convertkit_term  = new ConvertKit_Term( $term->term_id );
-		$convertkit_forms = new ConvertKit_Resource_Forms( 'edit_taxonomy' );
+		$convertkit_forms = new ConvertKit_Resource_Forms();
 
 		// Load metabox view.
 		include CONVERTKIT_PLUGIN_PATH . '/views/backend/term/fields.php';

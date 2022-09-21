@@ -135,7 +135,7 @@ class ConvertKit_Output {
 
 		// Get available ConvertKit Landing Pages, if they have not yet been loaded.
 		if ( ! $this->landing_pages ) {
-			$this->landing_pages = new ConvertKit_Resource_Landing_Pages( 'output' );
+			$this->landing_pages = new ConvertKit_Resource_Landing_Pages( 'output_landing_page' );
 		}
 
 		// Get Landing Page.
@@ -190,7 +190,7 @@ class ConvertKit_Output {
 
 		// Get available ConvertKit Forms, if they have not yet been loaded.
 		if ( ! $this->forms ) {
-			$this->forms = new ConvertKit_Resource_Forms( 'output' );
+			$this->forms = new ConvertKit_Resource_Forms( 'output_form' );
 		}
 
 		// Get Form HTML.

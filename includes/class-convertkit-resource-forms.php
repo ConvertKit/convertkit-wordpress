@@ -101,7 +101,7 @@ class ConvertKit_Resource_Forms extends ConvertKit_Resource {
 			}
 
 			// Initialize the API.
-			$api = new ConvertKit_API( $settings->get_api_key(), $settings->get_api_secret(), $settings->debug_enabled(), 'output' );
+			$api = new ConvertKit_API( $settings->get_api_key(), $settings->get_api_secret(), $settings->debug_enabled(), 'output_form' );
 
 			// Return Legacy Form HTML.
 			return $api->get_form_html( $id );

@@ -353,7 +353,7 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 		$settings = new ConvertKit_Settings();
 
 		// Fetch Posts.
-		$posts = new ConvertKit_Resource_Posts( 'output' );
+		$posts = new ConvertKit_Resource_Posts( 'output_broadcasts' );
 
 		// If this is an admin request, refresh the Posts resource now from the API,
 		// as it's an inexpensive query of ~ 0.5 seconds when we're editing a Page
@@ -415,7 +415,7 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 		$atts = $this->sanitize_and_declare_atts( $atts );
 
 		// Fetch Posts.
-		$posts = new ConvertKit_Resource_Posts( 'output' );
+		$posts = new ConvertKit_Resource_Posts( 'output_broadcasts' );
 
 		// Build HTML.
 		$html = $this->build_html( $posts, $atts, false );
