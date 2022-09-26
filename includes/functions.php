@@ -33,7 +33,7 @@ function convertkit_plugin_activate( $network_wide ) {
 			)
 		);
 		foreach ( $sites as $site ) {
-			switch_to_blog( $site->blog_id );
+			switch_to_blog( (int) $site->blog_id );
 			$convertkit->get_class( 'setup' )->activate();
 			restore_current_blog();
 		}
@@ -90,7 +90,7 @@ function convertkit_plugin_deactivate( $network_wide ) {
 			)
 		);
 		foreach ( $sites as $site ) {
-			switch_to_blog( $site->blog_id );
+			switch_to_blog( (int) $site->blog_id );
 			$convertkit->get_class( 'setup' )->deactivate();
 			restore_current_blog();
 		}
