@@ -52,7 +52,7 @@ class CK_Widget_Form extends WP_Widget {
 	 */
 	public function form( $instance ) {
 
-		$forms = new ConvertKit_Resource_Forms();
+		$forms = new ConvertKit_Resource_Forms( 'output_form' );
 
 		// Bail if no Forms exist.
 		if ( ! $forms->exist() ) {
@@ -111,7 +111,7 @@ class CK_Widget_Form extends WP_Widget {
 		}
 
 		// Get Form.
-		$forms = new ConvertKit_Resource_Forms();
+		$forms = new ConvertKit_Resource_Forms( 'output_form' );
 		$form  = $forms->get_html( $instance['form'] );
 
 		// Bail if the Form has an error.

@@ -167,7 +167,7 @@ class ConvertKit_Admin_Setup_Wizard_Plugin extends ConvertKit_Admin_Setup_Wizard
 				$api_key    = sanitize_text_field( wp_unslash( $_POST['api_key'] ) );
 				$api_secret = sanitize_text_field( wp_unslash( $_POST['api_secret'] ) );
 
-				$api    = new ConvertKit_API( $api_key, $api_secret );
+				$api    = new ConvertKit_API( $api_key, $api_secret, false, 'setup_wizard' );
 				$result = $api->account();
 
 				// Show an error message if Account Details could not be fetched e.g. API credentials supplied are invalid.
@@ -225,7 +225,7 @@ class ConvertKit_Admin_Setup_Wizard_Plugin extends ConvertKit_Admin_Setup_Wizard
 				$this->settings = new ConvertKit_Settings();
 
 				// Fetch Forms.
-				$this->forms = new ConvertKit_Resource_Forms();
+				$this->forms = new ConvertKit_Resource_Forms( 'setup_wizard' );
 				$this->forms->refresh();
 
 				// If no Forms exist in ConvertKit, change the next button label and make it a link to reload
