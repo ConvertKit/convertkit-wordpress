@@ -82,7 +82,7 @@ class ConvertKit_ContactForm7_Admin_Settings extends ConvertKit_Settings_Base {
 		do_settings_sections( $this->settings_key );
 
 		// Get Forms.
-		$forms = new ConvertKit_Resource_Forms();
+		$forms = new ConvertKit_Resource_Forms( 'contact_form_7' );
 
 		// Bail with an error if no ConvertKit Forms exist.
 		if ( ! $forms->exist() ) {
