@@ -32,8 +32,10 @@ class ConvertKit_Resource_Landing_Pages extends ConvertKit_Resource {
 	 * Constructor.
 	 *
 	 * @since   1.9.8.4
+	 *
+	 * @param   bool|string $context    Context.
 	 */
-	public function __construct() {
+	public function __construct( $context = false ) {
 
 		// Initialize the API if the API Key and Secret have been defined in the Plugin Settings.
 		$settings = new ConvertKit_Settings();
@@ -41,7 +43,8 @@ class ConvertKit_Resource_Landing_Pages extends ConvertKit_Resource {
 			$this->api = new ConvertKit_API(
 				$settings->get_api_key(),
 				$settings->get_api_secret(),
-				$settings->debug_enabled()
+				$settings->debug_enabled(),
+				$context
 			);
 		}
 
@@ -61,7 +64,7 @@ class ConvertKit_Resource_Landing_Pages extends ConvertKit_Resource {
 	public function get_html( $id ) {
 
 		// Setup API.
-		$api = new ConvertKit_API();
+		$api = new ConvertKit_API( false, false, false, 'output_landing_page' );
 
 		// If the ID is a URL, this is a Legacy Landing Page defined for use on this Page
 		// in a Plugin version < 1.9.6.

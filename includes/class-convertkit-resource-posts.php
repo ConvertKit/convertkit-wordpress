@@ -51,8 +51,10 @@ class ConvertKit_Resource_Posts extends ConvertKit_Resource {
 	 * Constructor.
 	 *
 	 * @since   1.9.8.4
+	 *
+	 * @param   bool|string $context    Context.
 	 */
-	public function __construct() {
+	public function __construct( $context = false ) {
 
 		// Initialize the API if the API Key and Secret have been defined in the Plugin Settings.
 		$settings = new ConvertKit_Settings();
@@ -60,7 +62,8 @@ class ConvertKit_Resource_Posts extends ConvertKit_Resource {
 			$this->api = new ConvertKit_API(
 				$settings->get_api_key(),
 				$settings->get_api_secret(),
-				$settings->debug_enabled()
+				$settings->debug_enabled(),
+				$context
 			);
 		}
 

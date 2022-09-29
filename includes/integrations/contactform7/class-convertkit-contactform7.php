@@ -81,7 +81,7 @@ class ConvertKit_ContactForm7 {
 
 		// If here, subscribe the user to the ConvertKit Form.
 		// Initialize the API.
-		$api = new ConvertKit_API( $settings->get_api_key(), $settings->get_api_secret(), $settings->debug_enabled() );
+		$api = new ConvertKit_API( $settings->get_api_key(), $settings->get_api_secret(), $settings->debug_enabled(), 'contact_form_7' );
 
 		// Send request.
 		$api->form_subscribe( $convertkit_form_id, $email, $first_name );
