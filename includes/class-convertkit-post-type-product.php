@@ -18,10 +18,10 @@ class ConvertKit_Post_Type_Product {
 
 	/**
 	 * Holds the Post Type name.
-	 * 
-	 * @since 	1.9.8.5
-	 * 
-	 * @var 	string
+	 *
+	 * @since   1.9.8.5
+	 *
+	 * @var     string
 	 */
 	private $post_type_name = 'convertkit_products';
 
@@ -45,8 +45,8 @@ class ConvertKit_Post_Type_Product {
 
 	/**
 	 * Registers the ConvertKit Product Custom Post Type.
-	 * 
-	 * @since 	1.9.8.5
+	 *
+	 * @since   1.9.8.5
 	 */
 	public function register() {
 
@@ -97,10 +97,10 @@ class ConvertKit_Post_Type_Product {
 	/**
 	 * Update the Custom Post Type's Products based on the supplied array
 	 * of ConvertKit Products, when the Resource class performs a refresh.
-	 * 
-	 * @since 	1.9.8.5
-	 * 
-	 * @param 	array 	$products 	Products.
+	 *
+	 * @since   1.9.8.5
+	 *
+	 * @param   array $products   Products.
 	 */
 	public function refresh( $products ) {
 
@@ -122,12 +122,12 @@ class ConvertKit_Post_Type_Product {
 	/**
 	 * Returns the ConvertKit Product URL instead of the Product Custom Post URL
 	 * when a call to e.g. get_permalink() is made.
-	 * 
-	 * @since 	1.9.8.5
-	 * 
-	 * @param 	string 		$url 	URL.
-	 * @param 	WP_Post 	$post 	Product Custom Post.
-	 * @return 	string 				URL
+	 *
+	 * @since   1.9.8.5
+	 *
+	 * @param   string  $url    URL.
+	 * @param   WP_Post $post   Product Custom Post.
+	 * @return  string              URL
 	 */
 	public function filter_permalink( $url, $post ) {
 
@@ -144,56 +144,62 @@ class ConvertKit_Post_Type_Product {
 	/**
 	 * Stores the Product in the Custom Post Type, either creating or updating it
 	 * depending on whether the Product already exists in the Custom Post Type.
-	 * 
-	 * @since 	1.9.8.5
-	 * 
-	 * @param 	array 			$product 	ConvertKit Product.
-	 * @return 	WP_Error|int 				Error or Post ID.
+	 *
+	 * @since   1.9.8.5
+	 *
+	 * @param   array $product    ConvertKit Product.
+	 * @return  WP_Error|int                Error or Post ID.
 	 */
 	private function store( $product ) {
 
 		// Check if the Product already exists in the Custom Post Type.
-		$existing_product = new WP_Query( array(
-			'post_type' => $this->post_type_name,
-			'post_status' => 'publish',
-			'meta_query' => array(
-				array(
-					'key' => 'id',
-					'value' => $product['id'],
-				)
-			),
-			'fields' => 'ids',
-		) );
+		$existing_product = new WP_Query(
+			array(
+				'post_type'   => $this->post_type_name,
+				'post_status' => 'publish',
+				'meta_query'  => array(
+					array(
+						'key'   => 'id',
+						'value' => $product['id'],
+					),
+				),
+				'fields'      => 'ids',
+			)
+		);
 
 		// If the Product does not exist in the Custom Post Type, create it now.
 		if ( ! count( $existing_product->posts ) ) {
-			return wp_insert_post( array(
-				'post_type' => $this->post_type_name,
-				'post_title' => $product['name'],
-				'post_status' => 'publish',
-				'meta_input' => array(
-					'id' => $product['id'],
-					'url' => $product['url'],
-				),
-			) );
+			return wp_insert_post(
+				array(
+					'post_type'   => $this->post_type_name,
+					'post_title'  => $product['name'],
+					'post_status' => 'publish',
+					'meta_input'  => array(
+						'id'  => $product['id'],
+						'url' => $product['url'],
+					),
+				)
+			);
 		}
 
 		// The Product exists in the Custom Post Type; update it now.
-		return wp_update_post( array(
-			'ID' => $existing_product->posts[0],
-			'post_title' => $product['name'],
-			'meta_input' => array(
-				'id' => $product['id'],
-				'url' => $product['url'],
-			),
-		) );
+		return wp_update_post(
+			array(
+				'ID'         => $existing_product->posts[0],
+				'post_title' => $product['name'],
+				'meta_input' => array(
+					'id'  => $product['id'],
+					'url' => $product['url'],
+				),
+			)
+		);
 
 	}
 
 	/**
 	 * Deletes all Products from the Custom Post Type.
-	 * 
-	 * @since 	1.9.8.5
+	 *
+	 * @since   1.9.8.5
 	 */
 	private function delete_all() {
 
