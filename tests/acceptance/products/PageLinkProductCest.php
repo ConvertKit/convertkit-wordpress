@@ -38,10 +38,12 @@ class PageLinkProductCest
 		]);
 
 		// Add paragraph to Page.
-		// @TODO
+		$I->click('.is-root-container');
+		$I->fillField('.is-root-container p', 'This is some text. Click here.');
 
 		// Link text in Paragraph.
 		// @TODO
+		$I->seeInSource('sdfsdfsdf');
 
 		// Publish and view the Page on the frontend site.
 		$I->publishAndViewGutenbergPage($I);
@@ -67,10 +69,15 @@ class PageLinkProductCest
 		]);
 
 		// Add button to Page.
-		// @TODO
+		$I->addGutenbergBlock($I, 'Buttons', 'buttons');
+
+		// Add text inside button.
+		$I->click('.is-root-container');
+		$I->fillField('.is-root-container .wp-block-button__link', 'Buy Now');
 
 		// Link text in Paragraph.
 		// @TODO
+		$I->seeInSource('sdfsdfsdf');
 
 		// Publish and view the Page on the frontend site.
 		$I->publishAndViewGutenbergPage($I);
