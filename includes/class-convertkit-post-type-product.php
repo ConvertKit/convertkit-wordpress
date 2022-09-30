@@ -41,6 +41,9 @@ class ConvertKit_Post_Type_Product {
 		// Change Product Custom Post link to the ConvertKit Product's URL.
 		add_filter( 'post_type_link', array( $this, 'filter_permalink' ), 10, 2 );
 
+		// Adds the data-commerce attribute to HTML links that link to a ConvertKit Product.
+		add_filter( 'the_content', array( $this, 'add_data_commerce_to_permalink' ) );
+
 	}
 
 	/**
@@ -143,10 +146,28 @@ class ConvertKit_Post_Type_Product {
 
 	/**
 	 * Adds the data-commerce attribute to HTML links that link to a ConvertKit Product.
-	 * 
-	 * @since 	1.9.8.5
+	 *
+	 * @since   1.9.8.5
+	 *
+	 * @param   string $content    Page/Post Content.
+	 * @return  string              Page/Post Content
 	 */
-	public function add_data_commerce_to_permalink() {
+	public function add_data_commerce_to_permalink( $content ) {
+
+		// Get Products.
+		$products = new ConvertKit_Resource_Products();
+
+		// Return content, unedited, if no Products exist.
+		if ( ! $products->exist() ) {
+			return $content;
+		}
+
+		// For each Product, check if a link exists to the Product in the content.
+		foreach ( $products->get() as $product ) {
+			$content = str_replace( 'href="' . esc_attr( $product['url'] ) . '"', 'href="' . esc_attr( $product['url'] ) . '" data-commerce', $content );
+		}
+
+		return $content;
 
 	}
 
