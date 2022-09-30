@@ -196,6 +196,56 @@ class PageShortcodeBroadcastsCest
 	}
 
 	/**
+	 * Test the [convertkit_broadcasts] shortcode hex colors works when chosen,
+	 * using the Classic Editor (TinyMCE / Visual).
+	 * 
+	 * @since 	1.9.8.5
+	 * 
+	 * @param 	AcceptanceTester 	$I 	Tester
+	 */
+	public function testBroadcastsShortcodeInVisualEditorWithHexColorParameters(AcceptanceTester $I)
+	{
+		// Define colors.
+		$backgroundColor = '#ee1616';
+		$textColor = '#1212c0';
+		$linkColor = '#ffffff';
+
+		// It's tricky to interact with WordPress's color picker, so we programmatically create the Page
+		// instead to then confirm the color settings apply on the output.
+		// We don't need to test the color picker itself, as it's a WordPress supplied component, and our
+		// other Acceptance tests confirm that the shortcode can be added in the Classic Editor.
+		$I->havePageInDatabase([
+			'post_name' 	=> 'convertkit-page-broadcasts-shortcode-hex-color-params',
+			'post_content' 	=> '[convertkit_broadcasts date_format="F j, Y" limit="1" paginate="1" paginate_label_prev="Newer" paginate_label_next="Older" link_color="'.$linkColor.'" background_color="'.$backgroundColor.'" text_color="'.$textColor.'"]'
+		]);
+
+		// Load the Page on the frontend site.
+		$I->amOnPage('/convertkit-page-broadcasts-shortcode-hex-color-params');
+
+		// Wait for frontend web site to load.
+		$I->waitForElementVisible('body.page-template-default');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Confirm that the block displays.
+		$I->seeBroadcastsOutput($I);
+
+		// Confirm that our stylesheet loaded.
+		$I->seeInSource('<link rel="stylesheet" id="convertkit-broadcasts-css" href="'.$_ENV['TEST_SITE_WP_URL'].'/wp-content/plugins/convertkit/resources/frontend/css/broadcasts.css');
+
+		// Confirm that the chosen colors are applied as CSS styles.
+		$I->seeInSource('<div class="convertkit-broadcasts has-text-color has-background" style="color:'.$textColor.';background-color:'.$backgroundColor.'"');
+		$I->seeInSource('<a href="https://cheerful-architect-3237.ck.page/posts/paid-subscriber-broadcast?utm_source=wordpress&amp;utm_content=convertkit" target="_blank" rel="nofollow noopener" style="color:'.$linkColor.'"');
+	
+		// Test pagination.
+		$I->testBroadcastsPagination($I, 'Older', 'Newer');
+
+		// Confirm that link styles are still applied to refreshed data.
+		$I->seeInSource('<a href="https://cheerful-architect-3237.ck.page/posts/paid-subscriber-broadcast?utm_source=wordpress&amp;utm_content=convertkit" target="_blank" rel="nofollow noopener" style="color:'.$linkColor.'"');
+	}
+
+	/**
 	 * Test the [convertkit_broadcasts] shortcode works when using the default parameters,
 	 * using the Text Editor.
 	 * 

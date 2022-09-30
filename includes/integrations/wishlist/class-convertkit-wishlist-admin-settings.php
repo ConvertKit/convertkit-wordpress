@@ -85,8 +85,8 @@ class ConvertKit_Wishlist_Admin_Settings extends ConvertKit_Settings_Base {
 		}
 
 		// Get Forms and Tags.
-		$forms = new ConvertKit_Resource_Forms();
-		$tags  = new ConvertKit_Resource_Tags();
+		$forms = new ConvertKit_Resource_Forms( 'wishlist_member' );
+		$tags  = new ConvertKit_Resource_Tags( 'wishlist_member' );
 
 		// Bail with an error if no ConvertKit Forms exist.
 		if ( ! $forms->exist() ) {

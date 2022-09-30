@@ -197,7 +197,8 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 		$this->api = new ConvertKit_API(
 			$this->settings->get_api_key(),
 			$this->settings->get_api_secret(),
-			$this->settings->debug_enabled()
+			$this->settings->debug_enabled(),
+			'settings'
 		);
 
 		// Get Account Details, which we'll use in account_name_callback(), but also lets us test
@@ -320,21 +321,21 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 
 		// Refresh Forms.
 		if ( ! $this->forms ) {
-			$this->forms = new ConvertKit_Resource_Forms();
+			$this->forms = new ConvertKit_Resource_Forms( 'settings' );
 			$this->forms->refresh();
 
 			// Also refresh Landing Pages, Tags and Posts. Whilst not displayed in the Plugin Settings, this ensures up to date
 			// lists are stored for when editing e.g. Pages.
-			$landing_pages = new ConvertKit_Resource_Landing_Pages();
+			$landing_pages = new ConvertKit_Resource_Landing_Pages( 'settings' );
 			$landing_pages->refresh();
 
-			$posts = new ConvertKit_Resource_Posts();
+			$posts = new ConvertKit_Resource_Posts( 'settings' );
 			$posts->refresh();
 
-			$products = new ConvertKit_Resource_Products();
+			$products = new ConvertKit_Resource_Products( 'settings' );
 			$products->refresh();
 
-			$tags = new ConvertKit_Resource_Tags();
+			$tags = new ConvertKit_Resource_Tags( 'settings' );
 			$tags->refresh();
 		}
 

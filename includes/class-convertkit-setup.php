@@ -23,7 +23,7 @@ class ConvertKit_Setup {
 	public function activate() {
 
 		// Call any functions to e.g. schedule WordPress Cron events now.
-		$posts = new ConvertKit_Resource_Posts();
+		$posts = new ConvertKit_Resource_Posts( 'cron' );
 		$posts->schedule_cron_event();
 	}
 
@@ -72,7 +72,7 @@ class ConvertKit_Setup {
 		 * as the activate() routine won't pick this up for existing active installations.
 		 */
 		if ( version_compare( $current_version, '1.9.7.4', '<' ) ) {
-			$posts = new ConvertKit_Resource_Posts();
+			$posts = new ConvertKit_Resource_Posts( 'cron' );
 			$posts->schedule_cron_event();
 		}
 
@@ -117,9 +117,9 @@ class ConvertKit_Setup {
 	 */
 	private function refresh_resources() {
 
-		$forms         = new ConvertKit_Resource_Forms();
-		$landing_pages = new ConvertKit_Resource_Landing_Pages();
-		$tags          = new ConvertKit_Resource_Tags();
+		$forms         = new ConvertKit_Resource_Forms( 'setup' );
+		$landing_pages = new ConvertKit_Resource_Landing_Pages( 'setup' );
+		$tags          = new ConvertKit_Resource_Tags( 'setup' );
 
 		$forms->refresh();
 		$landing_pages->refresh();
@@ -154,7 +154,12 @@ class ConvertKit_Setup {
 		}
 
 		// Initialize the API.
-		$api = new ConvertKit_API( $convertkit_settings->get_api_key(), $convertkit_settings->get_api_secret(), $convertkit_settings->debug_enabled() );
+		$api = new ConvertKit_API(
+			$convertkit_settings->get_api_key(),
+			$convertkit_settings->get_api_secret(),
+			$convertkit_settings->debug_enabled(),
+			'setup'
+		);
 
 		// Get form mappings.
 		$mappings = $api->get_subscription_forms();
@@ -196,7 +201,7 @@ class ConvertKit_Setup {
 	public function deactivate() {
 
 		// Call any functions to e.g. unschedule WordPress Cron events now.
-		$posts = new ConvertKit_Resource_Posts();
+		$posts = new ConvertKit_Resource_Posts( 'cron' );
 		$posts->unschedule_cron_event();
 
 	}

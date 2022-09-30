@@ -229,6 +229,13 @@ class ConvertKit_Block {
 			$atts['_css_styles']['color'] = 'color:' . $atts['style']['color']['text'];
 		}
 
+		// If the shortcode supports a text color, and a custom hex color was selected, add it to the
+		// array of CSS inline styles.
+		if ( isset( $atts['text_color'] ) && ! empty( $atts['text_color'] ) ) {
+			$atts['_css_classes'][]       = 'has-text-color';
+			$atts['_css_styles']['color'] = 'color:' . $atts['text_color'];
+		}
+
 		// If the block supports a background color, and a preset color was selected, add it to the
 		// array of CSS classes.
 		if ( $atts['backgroundColor'] ) {
@@ -241,6 +248,13 @@ class ConvertKit_Block {
 		if ( isset( $atts['style']['color'] ) && isset( $atts['style']['color']['background'] ) ) {
 			$atts['_css_classes'][]            = 'has-background';
 			$atts['_css_styles']['background'] = 'background-color:' . $atts['style']['color']['background'];
+		}
+
+		// If the shortcode supports a background color, and a custom hex color was selected, add it to the
+		// array of CSS inline styles.
+		if ( isset( $atts['background_color'] ) && ! empty( $atts['background_color'] ) ) {
+			$atts['_css_classes'][]            = 'has-background';
+			$atts['_css_styles']['background'] = 'background-color:' . $atts['background_color'];
 		}
 
 		// Remove some unused attributes, now they're declared above.
