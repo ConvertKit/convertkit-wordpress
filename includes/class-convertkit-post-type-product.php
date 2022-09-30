@@ -23,7 +23,7 @@ class ConvertKit_Post_Type_Product {
 	 *
 	 * @var     string
 	 */
-	private $post_type_name = 'convertkit_products';
+	private $post_type_name = 'convertkit_product';
 
 	/**
 	 * Constructor.
@@ -142,6 +142,15 @@ class ConvertKit_Post_Type_Product {
 	}
 
 	/**
+	 * Adds the data-commerce attribute to HTML links that link to a ConvertKit Product.
+	 * 
+	 * @since 	1.9.8.5
+	 */
+	public function add_data_commerce_to_permalink() {
+
+	}
+
+	/**
 	 * Stores the Product in the Custom Post Type, either creating or updating it
 	 * depending on whether the Product already exists in the Custom Post Type.
 	 *
@@ -178,7 +187,8 @@ class ConvertKit_Post_Type_Product {
 						'id'  => $product['id'],
 						'url' => $product['url'],
 					),
-				)
+				),
+				true
 			);
 		}
 
@@ -191,7 +201,8 @@ class ConvertKit_Post_Type_Product {
 					'id'  => $product['id'],
 					'url' => $product['url'],
 				),
-			)
+			),
+			true
 		);
 
 	}
