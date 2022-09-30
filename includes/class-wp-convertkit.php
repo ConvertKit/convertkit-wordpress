@@ -168,7 +168,6 @@ class WP_ConvertKit {
 		$this->classes['setup']                        		= new ConvertKit_Setup();
 		$this->classes['shortcodes']                   		= new ConvertKit_Shortcodes();
 		$this->classes['widgets']                      		= new ConvertKit_Widgets();
-		$this->classes['wp_rest_search_handler_product'] 	= new ConvertKit_WP_REST_Search_Handler_Product();
 
 		// Run the setup's update process on WordPress' init hook.
 		// Doing this sooner may result in errors with WordPress functions that are not yet
