@@ -39,16 +39,37 @@ class PageLinkProductCest
 
 		// Add paragraph to Page.
 		$I->click('.is-root-container');
-		$I->fillField('.is-root-container p', 'This is some text. Click here.');
+		$I->fillField('.is-root-container p', 'This is some text. ');
 
-		// Link text in Paragraph.
-		// @TODO
-		$I->seeInSource('sdfsdfsdf');
+		// Focus away from paragraph and then back to the paragraph, so that the block toolbar displays.
+		$I->click('div.edit-post-visual-editor__post-title-wrapper h1');
+		$I->click('.is-root-container p');
+		$I->waitForElementVisible('.is-root-container p.is-selected');
+
+		// Click link button in block toolbar.
+		$I->waitForElementVisible('.block-editor-block-toolbar button[aria-label="Link"]');
+		$I->click('.block-editor-block-toolbar button[aria-label="Link"]');
+
+		// Enter Product name in search field.
+		$I->waitForElementVisible('.block-editor-link-control__search-input-wrapper input.block-editor-url-input__input');
+		$I->fillField('.block-editor-link-control__search-input-wrapper input.block-editor-url-input__input', 'Newsletter Subscription');
+		$I->waitForElementVisible('.block-editor-link-control__search-results-wrapper');
+		$I->see('Newsletter Subscription');
+
+		// Click the Product name to create a link to it.
+		$I->click('Newsletter Subscription', '.block-editor-link-control__search-results');
+
+		// Confirm that the Product text exists in the paragraph.
+		$I->see('Newsletter Subscription', '.is-root-container p.is-selected');
 
 		// Publish and view the Page on the frontend site.
 		$I->publishAndViewGutenbergPage($I);
 
-		// Confirm that the block displays.
+		// Confirm that the commerce.js script exists.
+		$I->seeInSource('commerce.js');
+
+		// Confirm that the link displays.
+		$I->seeInSource('<a href="https://cheerful-architect-3237.ck.page/products/newsletter-subscription" data-commerce');
 	}
 
 	/**
