@@ -5,7 +5,7 @@ Tags: email marketing, email newsletter, newsletter, convertkit
 Requires at least: 5.0
 Tested up to: 6.0.2
 Requires PHP: 5.6.20
-Stable tag: 1.9.8.4
+Stable tag: 1.9.8.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -113,7 +113,7 @@ Full Plugin documentation can be found [here](https://help.convertkit.com/en/art
 
 == Changelog ==
 
-### 1.9.8.5 2022-xx-xx
+### 1.9.8.5 2022-10-03
 * Added: Broadcasts: Shortcode: Options to specify background, text and link colors
 * Added: Broadcasts: Elementor: Options to specify background, text and link colors
 

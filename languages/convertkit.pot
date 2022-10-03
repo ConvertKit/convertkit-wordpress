@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the ConvertKit plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: ConvertKit 1.9.8.4\n"
+"Project-Id-Version: ConvertKit 1.9.8.5\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/convertkit-github\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-09-07T17:11:09+00:00\n"
+"POT-Creation-Date: 2022-10-03T12:56:33+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.6.0\n"
 "X-Domain: convertkit\n"
@@ -17,9 +17,9 @@ msgstr ""
 #. Plugin Name of the plugin
 #. Author of the plugin
 #: admin/class-convertkit-admin-post.php:88
-#: admin/class-convertkit-admin-settings.php:108
-#: admin/class-convertkit-admin-settings.php:109
-#: admin/class-convertkit-admin-settings.php:128
+#: admin/class-convertkit-admin-settings.php:111
+#: admin/class-convertkit-admin-settings.php:112
+#: admin/class-convertkit-admin-settings.php:131
 #: includes/blocks/class-convertkit-block-broadcasts.php:107
 #: includes/blocks/class-convertkit-block-content.php:62
 #: includes/blocks/class-convertkit-block-form.php:94
@@ -42,11 +42,11 @@ msgid "Sorry, you are not allowed to edit %s."
 msgstr ""
 
 #. translators: link to php.net manual
-#: admin/class-convertkit-admin-settings.php:199
+#: admin/class-convertkit-admin-settings.php:202
 msgid "Notice: Your server does not support the %s function - this is required for better character encoding. Please contact your webhost to have it installed."
 msgstr ""
 
-#: admin/class-convertkit-admin-settings.php:241
+#: admin/class-convertkit-admin-settings.php:244
 msgid "Settings"
 msgstr ""
 
@@ -59,7 +59,7 @@ msgid "General Settings"
 msgstr ""
 
 #: admin/section/class-convertkit-settings-general.php:58
-#: includes/blocks/class-convertkit-block-broadcasts.php:277
+#: includes/blocks/class-convertkit-block-broadcasts.php:292
 #: includes/blocks/class-convertkit-block-content.php:146
 #: includes/blocks/class-convertkit-block-form.php:217
 msgid "General"
@@ -82,91 +82,91 @@ msgstr ""
 msgid "Default Form (%s)"
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:130
+#: admin/section/class-convertkit-settings-general.php:131
 msgid "Debug"
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:141
+#: admin/section/class-convertkit-settings-general.php:142
 msgid "Disable JavaScript"
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:152
+#: admin/section/class-convertkit-settings-general.php:153
 msgid "Disable CSS"
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:169
+#: admin/section/class-convertkit-settings-general.php:170
 msgid "Choosing a default form will embed it at the bottom of every post or page (in single view only) across your site."
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:170
+#: admin/section/class-convertkit-settings-general.php:171
 msgid "If you wish to turn off form embedding or select a different form for an individual post or page, you can do so using the ConvertKit meta box on the edit page."
 msgstr ""
 
 #. translators: [convertkit] shortcode, wrapped in <code> tags
-#: admin/section/class-convertkit-settings-general.php:175
+#: admin/section/class-convertkit-settings-general.php:176
 msgid "The default form can be inserted into the middle of post or page content by using the %s shortcode."
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:222
+#: admin/section/class-convertkit-settings-general.php:224
 msgid "Add a valid API Key and Secret to get started"
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:229
+#: admin/section/class-convertkit-settings-general.php:231
 msgid "(Not specified)"
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:231
+#: admin/section/class-convertkit-settings-general.php:233
 msgid "The name of your connected ConvertKit account."
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:248
+#: admin/section/class-convertkit-settings-general.php:250
 msgid "Your API Key has been defined in your wp-config.php file. For security, it is not displayed here."
 msgstr ""
 
 #. translators: %1$s: Link to ConvertKit Account
-#: admin/section/class-convertkit-settings-general.php:260
-#: admin/section/class-convertkit-settings-general.php:297
+#: admin/section/class-convertkit-settings-general.php:262
+#: admin/section/class-convertkit-settings-general.php:299
 msgid "%1$s Required for proper plugin function."
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:261
+#: admin/section/class-convertkit-settings-general.php:263
 msgid "Get your ConvertKit API Key."
 msgstr ""
 
 #. translators: Account, %1$s: wp-config.php, %2$s: <code> block for API Key definition
-#: admin/section/class-convertkit-settings-general.php:265
+#: admin/section/class-convertkit-settings-general.php:267
 msgid "Alternatively specify your API Key in the %1$s file using %2$s"
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:285
+#: admin/section/class-convertkit-settings-general.php:287
 msgid "Your API Secret has been defined in your wp-config.php file. For security, it is not displayed here."
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:298
+#: admin/section/class-convertkit-settings-general.php:300
 msgid "Get your ConvertKit API Secret."
 msgstr ""
 
 #. translators: Account, %1$s: wp-config.php, %2$s: <code> block for API Secret definition
-#: admin/section/class-convertkit-settings-general.php:302
+#: admin/section/class-convertkit-settings-general.php:304
 msgid "Alternatively specify your API Secret in the %1$s file using %2$s"
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:339
+#: admin/section/class-convertkit-settings-general.php:341
 msgid "No Forms exist in ConvertKit."
 msgstr ""
 
 #. translators: Link to sign in to ConvertKit
-#: admin/section/class-convertkit-settings-general.php:342
+#: admin/section/class-convertkit-settings-general.php:344
 msgid "To create a form, %s"
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:343
+#: admin/section/class-convertkit-settings-general.php:345
 #: views/backend/post/meta-box.php:61
 #: views/backend/post/meta-box.php:115
 msgid "sign in to ConvertKit"
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:350
+#: admin/section/class-convertkit-settings-general.php:352
 #: includes/integrations/contactform7/class-convertkit-contactform7-admin-settings.php:95
 #: includes/integrations/wishlist/class-convertkit-wishlist-admin-settings.php:105
 #: includes/integrations/wishlist/class-convertkit-wishlist-admin-settings.php:113
@@ -180,19 +180,35 @@ msgstr ""
 msgid "None"
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:382
+#. translators: Post Type name, plural
+#: admin/section/class-convertkit-settings-general.php:367
+#: admin/section/class-convertkit-settings-general.php:377
+msgid "Select a form above to automatically output below all %s."
+msgstr ""
+
+#: admin/section/class-convertkit-settings-general.php:370
+#: views/backend/setup-wizard/convertkit-setup/content-3.php:73
+#: views/backend/setup-wizard/convertkit-setup/content-3.php:108
+msgid "Click here"
+msgstr ""
+
+#: admin/section/class-convertkit-settings-general.php:371
+msgid "to preview how this will display."
+msgstr ""
+
+#: admin/section/class-convertkit-settings-general.php:415
 msgid "Log requests to file and output browser console messages."
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:383
+#: admin/section/class-convertkit-settings-general.php:416
 msgid "You can ignore this unless you're working with our support team to resolve an issue. Decheck this option to improve performance."
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:400
+#: admin/section/class-convertkit-settings-general.php:433
 msgid "Prevent plugin from loading JavaScript files. This will disable the custom content and tagging features of the plugin. Does not apply to landing pages. Use with caution!"
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:417
+#: admin/section/class-convertkit-settings-general.php:450
 msgid "Prevent plugin from loading CSS files. This will disable styling on the broadcasts shortcode and block. Use with caution!"
 msgstr ""
 
@@ -225,32 +241,32 @@ msgstr ""
 msgid "WordPress 5.2 or higher is required for system information report."
 msgstr ""
 
-#: admin/setup-wizard/class-convertkit-admin-setup-wizard-plugin.php:96
+#: admin/setup-wizard/class-convertkit-admin-setup-wizard-plugin.php:87
 msgid "Setup"
 msgstr ""
 
-#: admin/setup-wizard/class-convertkit-admin-setup-wizard-plugin.php:99
+#: admin/setup-wizard/class-convertkit-admin-setup-wizard-plugin.php:90
 msgid "Connect Account"
 msgstr ""
 
-#: admin/setup-wizard/class-convertkit-admin-setup-wizard-plugin.php:101
+#: admin/setup-wizard/class-convertkit-admin-setup-wizard-plugin.php:92
 #: views/backend/setup-wizard/convertkit-setup/content-1.php:28
 msgid "Connect"
 msgstr ""
 
-#: admin/setup-wizard/class-convertkit-admin-setup-wizard-plugin.php:105
+#: admin/setup-wizard/class-convertkit-admin-setup-wizard-plugin.php:96
 msgid "Form Configuration"
 msgstr ""
 
-#: admin/setup-wizard/class-convertkit-admin-setup-wizard-plugin.php:107
+#: admin/setup-wizard/class-convertkit-admin-setup-wizard-plugin.php:98
 msgid "Finish Setup"
 msgstr ""
 
-#: admin/setup-wizard/class-convertkit-admin-setup-wizard-plugin.php:111
+#: admin/setup-wizard/class-convertkit-admin-setup-wizard-plugin.php:102
 msgid "Done"
 msgstr ""
 
-#: admin/setup-wizard/class-convertkit-admin-setup-wizard-plugin.php:243
+#: admin/setup-wizard/class-convertkit-admin-setup-wizard-plugin.php:234
 msgid "I've created a form in ConvertKit"
 msgstr ""
 
@@ -306,15 +322,27 @@ msgstr ""
 msgid "The label to display for the link to older broadcasts."
 msgstr ""
 
-#: includes/blocks/class-convertkit-block-broadcasts.php:303
+#: includes/blocks/class-convertkit-block-broadcasts.php:261
+msgid "Link color"
+msgstr ""
+
+#: includes/blocks/class-convertkit-block-broadcasts.php:265
+msgid "Background color"
+msgstr ""
+
+#: includes/blocks/class-convertkit-block-broadcasts.php:269
+msgid "Text color"
+msgstr ""
+
+#: includes/blocks/class-convertkit-block-broadcasts.php:321
 msgid "Previous"
 msgstr ""
 
-#: includes/blocks/class-convertkit-block-broadcasts.php:304
+#: includes/blocks/class-convertkit-block-broadcasts.php:322
 msgid "Next"
 msgstr ""
 
-#: includes/blocks/class-convertkit-block-broadcasts.php:347
+#: includes/blocks/class-convertkit-block-broadcasts.php:368
 msgid "No Broadcasts exist in ConvertKit."
 msgstr ""
 
@@ -413,25 +441,25 @@ msgid "ConvertKit: Required parameter `tag` empty in AJAX request."
 msgstr ""
 
 #. translators: ConvertKit Form ID
-#: includes/class-convertkit-resource-forms.php:80
+#: includes/class-convertkit-resource-forms.php:83
 msgid "ConvertKit Form ID %s does not exist on ConvertKit."
 msgstr ""
 
-#: includes/class-convertkit-resource-forms.php:96
+#: includes/class-convertkit-resource-forms.php:99
 msgid "ConvertKit Legacy Form could not be fetched as no API Key specified in Plugin Settings"
 msgstr ""
 
 #. translators: ConvertKit Landing Page ID
-#: includes/class-convertkit-resource-landing-pages.php:88
+#: includes/class-convertkit-resource-landing-pages.php:91
 msgid "ConvertKit Landing Page ID %s does not exist on ConvertKit."
 msgstr ""
 
 #. translators: %1$s: PHP class name
-#: includes/class-wp-convertkit.php:376
+#: includes/class-wp-convertkit.php:379
 msgid "ConvertKit Error: Could not load Plugin class <strong>%1$s</strong>"
 msgstr ""
 
-#: includes/class-wp-convertkit.php:386
+#: includes/class-wp-convertkit.php:389
 msgid "ConvertKit Error"
 msgstr ""
 
@@ -485,12 +513,12 @@ msgstr ""
 msgid "Contact Form 7 Name Field"
 msgstr ""
 
-#: includes/integrations/elementor/class-convertkit-elementor-widget.php:270
+#: includes/integrations/elementor/class-convertkit-elementor-widget.php:282
 msgid "No blocks are registered. Register blocks using the `convertkit_blocks` filter."
 msgstr ""
 
 #. translators: %1$s: Block name, %2$s: Elementor Widget name
-#: includes/integrations/elementor/class-convertkit-elementor-widget.php:279
+#: includes/integrations/elementor/class-convertkit-elementor-widget.php:291
 msgid "Block %1$s is not registered. Register using the `convertkit_blocks` filter, and ensure the Elementor Widget for this block has its `slug` property set to %2$s."
 msgstr ""
 
@@ -811,11 +839,6 @@ msgstr ""
 msgid "Select a form above."
 msgstr ""
 
-#: views/backend/setup-wizard/convertkit-setup/content-3.php:73
-#: views/backend/setup-wizard/convertkit-setup/content-3.php:108
-msgid "Click here"
-msgstr ""
-
 #: views/backend/setup-wizard/convertkit-setup/content-3.php:74
 msgid "to preview how this will look on individual posts."
 msgstr ""
@@ -883,11 +906,11 @@ msgstr ""
 msgid "Any other option will display that form after the main content for Posts assigned to this %s."
 msgstr ""
 
-#: views/backend/tinymce/modal-field.php:124
+#: views/backend/tinymce/modal-field.php:96
 msgid "No"
 msgstr ""
 
-#: views/backend/tinymce/modal-field.php:125
+#: views/backend/tinymce/modal-field.php:97
 msgid "Yes"
 msgstr ""
 
