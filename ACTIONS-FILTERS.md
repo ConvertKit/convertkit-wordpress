@@ -114,7 +114,7 @@
 					</tbody>
 				</table><h3 id="convertkit_admin_settings_register_sections">
 						convertkit_admin_settings_register_sections
-						<code>admin/class-convertkit-admin-settings.php::294</code>
+						<code>admin/class-convertkit-admin-settings.php::297</code>
 					</h3><h4>Overview</h4>
 						<p>Registers settings sections at Settings > ConvertKit.</p><h4>Parameters</h4>
 					<table>
@@ -265,7 +265,7 @@ add_filter( 'convertkit_block_content_render', function( $content, $atts, $subsc
 </pre>
 <h3 id="convertkit_block_broadcasts_render">
 						convertkit_block_broadcasts_render
-						<code>includes/blocks/class-convertkit-block-broadcasts.php::363</code>
+						<code>includes/blocks/class-convertkit-block-broadcasts.php::384</code>
 					</h3><h4>Overview</h4>
 						<p>Filter the block's content immediately before it is output.</p><h4>Parameters</h4>
 					<table>
@@ -296,7 +296,7 @@ add_filter( 'convertkit_block_broadcasts_render', function( $html, $atts ) {
 </pre>
 <h3 id="convertkit_block_broadcasts_render_ajax">
 						convertkit_block_broadcasts_render_ajax
-						<code>includes/blocks/class-convertkit-block-broadcasts.php::409</code>
+						<code>includes/blocks/class-convertkit-block-broadcasts.php::431</code>
 					</h3><h4>Overview</h4>
 						<p>Filter the block's inner content immediately before it is output by AJAX, which occurs when pagination was clicked.</p><h4>Parameters</h4>
 					<table>
@@ -652,7 +652,7 @@ add_filter( 'convertkit_settings_get_defaults', function( $defaults ) {
 </pre>
 <h3 id="convertkit_is_admin_or_frontend_editor">
 						convertkit_is_admin_or_frontend_editor
-						<code>includes/class-wp-convertkit.php::299</code>
+						<code>includes/class-wp-convertkit.php::300</code>
 					</h3><h4>Overview</h4>
 						<p>Filters whether the current request is a WordPress Administration / Frontend Editor request or not. Page Builders can set this to true to allow ConvertKit to load its administration functionality.</p><h4>Parameters</h4>
 					<table>
@@ -825,7 +825,7 @@ do_action( 'convertkit_settings_base_render_after', function(  ) {
 </pre>
 <h3 id="convertkit_admin_settings_enqueue_scripts">
 						convertkit_admin_settings_enqueue_scripts
-						<code>admin/class-convertkit-admin-settings.php::66</code>
+						<code>admin/class-convertkit-admin-settings.php::69</code>
 					</h3><h4>Parameters</h4>
 					<table>
 						<thead>
@@ -845,7 +845,7 @@ do_action( 'convertkit_admin_settings_enqueue_scripts', function(  ) {
 </pre>
 <h3 id="convertkit_admin_settings_enqueue_styles">
 						convertkit_admin_settings_enqueue_styles
-						<code>admin/class-convertkit-admin-settings.php::95</code>
+						<code>admin/class-convertkit-admin-settings.php::98</code>
 					</h3><h4>Parameters</h4>
 					<table>
 						<thead>
@@ -1160,7 +1160,7 @@ do_action( 'convertkit_initialize_cli_cron', function(  ) {
 </pre>
 <h3 id="convertkit_initialize_frontend">
 						convertkit_initialize_frontend
-						<code>includes/class-wp-convertkit.php::147</code>
+						<code>includes/class-wp-convertkit.php::146</code>
 					</h3><h4>Parameters</h4>
 					<table>
 						<thead>
