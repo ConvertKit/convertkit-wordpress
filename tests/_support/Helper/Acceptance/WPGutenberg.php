@@ -92,6 +92,99 @@ class WPGutenberg extends \Codeception\Module
 	}
 
 	/**
+	 * Adds a paragraph block when adding or editing a Page, Post or Custom Post Type
+	 * in Gutenberg.
+	 * 
+	 * @since 	2.0.0
+	 * 
+	 * @param 	AcceptanceTester 	$I 		Acceptance Tester.
+	 * @param 	string 				$text 	Paragraph Text.
+	 */
+	public function addParagraphBlock($I, $text)
+	{
+		$I->click('.is-root-container');
+		$I->fillField('.is-root-container p', $text);
+	}
+
+	/**
+	 * Adds a link to the given Page, Post or Custom Post Type Name in the last paragraph in the Gutenberg
+	 * editor.
+	 * 
+	 * @since 	2.0.0
+	 * 
+	 * @param 	AcceptanceTester 	$I 		Acceptance Tester.
+	 * @param 	string 				$name 	Page, Post or Custom Post Type Title/Name to link to.
+	 */
+	public function addLinkToParagraph($I, $name)
+	{
+		// Focus away from paragraph and then back to the paragraph, so that the block toolbar displays.
+		$I->click('div.edit-post-visual-editor__post-title-wrapper h1');
+		$I->click('.is-root-container p');
+		$I->waitForElementVisible('.is-root-container p.is-selected');
+
+		// Insert link via block toolbar.
+		$this->insertLink($I, $name);
+
+		// Confirm that the Product text exists in the paragraph.
+		$I->see($name, '.is-root-container p.is-selected');
+	}
+
+	/**
+	 * Adds a link to the given Page, Post or Custom Post Type Name in the selected Button block
+	 * in the Gutenberg editor.
+	 * 
+	 * @since 	2.0.0
+	 * 
+	 * @param 	AcceptanceTester 	$I 		Acceptance Tester.
+	 * @param 	string 				$name 	Page, Post or Custom Post Type Title/Name to link to.
+	 */
+	public function addLinkToButton($I, $name)
+	{
+		// Enter text.
+		$I->fillField('.is-root-container .wp-block-button .block-editor-rich-text__editable', $name);
+
+		// Focus away from button and then back to the button, so that the block toolbar displays.
+		$I->click('div.edit-post-visual-editor__post-title-wrapper h1');
+		$I->click('.is-root-container .wp-block-button');
+		$I->waitForElementVisible('.is-root-container div.is-selected');
+
+		// Insert link via block toolbar.
+		$this->insertLink($I, $name);
+
+		// Confirm that the Product text exists in the button.
+		$I->see($name, '.is-root-container .wp-block-button');
+	}
+
+	/**
+	 * Helper method to insert a link into the selected element, by:
+	 * - clicking the link button in the selected block's toolbar,
+	 * - searching for the Page, Post or Custom Post Type,
+	 * - clicking the matched result to insert the link and text.
+	 * 
+	 * The block must be selected in Gutenberg prior to calling this function.
+	 * 
+	 * @since 	2.0.0
+	 * 
+	 * @param 	AcceptanceTester 	$I 		Acceptance Tester.
+	 * @param 	string 				$name 	Page, Post or Custom Post Type Title/Name to link to.
+	 */
+	private function insertLink($I, $name)
+	{
+		// Click link button in block toolbar.
+		$I->waitForElementVisible('.block-editor-block-toolbar button[aria-label="Link"]');
+		$I->click('.block-editor-block-toolbar button[aria-label="Link"]');
+
+		// Enter Product name in search field.
+		$I->waitForElementVisible('.block-editor-link-control__search-input-wrapper input.block-editor-url-input__input');
+		$I->fillField('.block-editor-link-control__search-input-wrapper input.block-editor-url-input__input', $name);
+		$I->waitForElementVisible('.block-editor-link-control__search-results-wrapper');
+		$I->see($name);
+
+		// Click the Product name to create a link to it.
+		$I->click($name, '.block-editor-link-control__search-results');
+	}
+
+	/**
 	 * Check that the given block did not output any errors when rendered in the
 	 * Gutenberg editor.
 	 * 

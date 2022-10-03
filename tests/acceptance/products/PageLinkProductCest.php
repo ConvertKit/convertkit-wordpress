@@ -38,38 +38,16 @@ class PageLinkProductCest
 		]);
 
 		// Add paragraph to Page.
-		$I->click('.is-root-container');
-		$I->fillField('.is-root-container p', 'This is some text. ');
+		$I->addParagraphBlock($I, 'This is some text. ');
 
-		// Focus away from paragraph and then back to the paragraph, so that the block toolbar displays.
-		$I->click('div.edit-post-visual-editor__post-title-wrapper h1');
-		$I->click('.is-root-container p');
-		$I->waitForElementVisible('.is-root-container p.is-selected');
-
-		// Click link button in block toolbar.
-		$I->waitForElementVisible('.block-editor-block-toolbar button[aria-label="Link"]');
-		$I->click('.block-editor-block-toolbar button[aria-label="Link"]');
-
-		// Enter Product name in search field.
-		$I->waitForElementVisible('.block-editor-link-control__search-input-wrapper input.block-editor-url-input__input');
-		$I->fillField('.block-editor-link-control__search-input-wrapper input.block-editor-url-input__input', 'Newsletter Subscription');
-		$I->waitForElementVisible('.block-editor-link-control__search-results-wrapper');
-		$I->see('Newsletter Subscription');
-
-		// Click the Product name to create a link to it.
-		$I->click('Newsletter Subscription', '.block-editor-link-control__search-results');
-
-		// Confirm that the Product text exists in the paragraph.
-		$I->see('Newsletter Subscription', '.is-root-container p.is-selected');
+		// Add link to end of paragraph.
+		$I->addLinkToParagraph($I, $_ENV['CONVERTKIT_API_PRODUCT_NAME']);
 
 		// Publish and view the Page on the frontend site.
 		$I->publishAndViewGutenbergPage($I);
 
-		// Confirm that the commerce.js script exists.
-		$I->seeInSource('commerce.js');
-
-		// Confirm that the link displays.
-		$I->seeInSource('<a href="https://cheerful-architect-3237.ck.page/products/newsletter-subscription" data-commerce');
+		// Confirm that the link displays, links to the expected URL and the ConvertKit Product Modal works.
+		$I->seeProductLink($I, $_ENV['CONVERTKIT_API_PRODUCT_URL'], $_ENV['CONVERTKIT_API_PRODUCT_NAME']);
 	}
 
 	/**
@@ -82,7 +60,7 @@ class PageLinkProductCest
 	public function testLinkButtonTextToProduct(AcceptanceTester $I)
 	{
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Product: Link Text');
+		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Product: Button Link');
 
 		// Configure metabox's Form setting = None, ensuring we only test the block in Gutenberg.
 		$I->configureMetaboxSettings($I, 'wp-convertkit-meta-box', [
@@ -92,18 +70,14 @@ class PageLinkProductCest
 		// Add button to Page.
 		$I->addGutenbergBlock($I, 'Buttons', 'buttons');
 
-		// Add text inside button.
-		$I->click('.is-root-container');
-		$I->fillField('.is-root-container .wp-block-button__link', 'Buy Now');
-
-		// Link text in Paragraph.
-		// @TODO
-		$I->seeInSource('sdfsdfsdf');
+		// Add link to button.
+		$I->addLinkToButton($I, $_ENV['CONVERTKIT_API_PRODUCT_NAME']);
 
 		// Publish and view the Page on the frontend site.
 		$I->publishAndViewGutenbergPage($I);
 
-		// Confirm that the block displays.
+		// Confirm that the link displays, links to the expected URL and the ConvertKit Product Modal works.
+		$I->seeProductLink($I, $_ENV['CONVERTKIT_API_PRODUCT_URL'], $_ENV['CONVERTKIT_API_PRODUCT_NAME']);
 	}
 
 	/**
