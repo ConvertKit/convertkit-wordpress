@@ -100,7 +100,7 @@ class WPGutenberg extends \Codeception\Module
 	 * @param 	AcceptanceTester 	$I 		Acceptance Tester.
 	 * @param 	string 				$text 	Paragraph Text.
 	 */
-	public function addParagraphBlock($I, $text)
+	public function addGutenbergParagraphBlock($I, $text)
 	{
 		$I->click('.is-root-container');
 		$I->fillField('.is-root-container p', $text);
@@ -115,7 +115,7 @@ class WPGutenberg extends \Codeception\Module
 	 * @param 	AcceptanceTester 	$I 		Acceptance Tester.
 	 * @param 	string 				$name 	Page, Post or Custom Post Type Title/Name to link to.
 	 */
-	public function addLinkToParagraph($I, $name)
+	public function addGutenbergLinkToParagraph($I, $name)
 	{
 		// Focus away from paragraph and then back to the paragraph, so that the block toolbar displays.
 		$I->click('div.edit-post-visual-editor__post-title-wrapper h1');
@@ -123,7 +123,7 @@ class WPGutenberg extends \Codeception\Module
 		$I->waitForElementVisible('.is-root-container p.is-selected');
 
 		// Insert link via block toolbar.
-		$this->insertLink($I, $name);
+		$this->insertGutenbergLink($I, $name);
 
 		// Confirm that the Product text exists in the paragraph.
 		$I->see($name, '.is-root-container p.is-selected');
@@ -138,7 +138,7 @@ class WPGutenberg extends \Codeception\Module
 	 * @param 	AcceptanceTester 	$I 		Acceptance Tester.
 	 * @param 	string 				$name 	Page, Post or Custom Post Type Title/Name to link to.
 	 */
-	public function addLinkToButton($I, $name)
+	public function addGutenbergLinkToButton($I, $name)
 	{
 		// Enter text.
 		$I->fillField('.is-root-container .wp-block-button .block-editor-rich-text__editable', $name);
@@ -149,7 +149,7 @@ class WPGutenberg extends \Codeception\Module
 		$I->waitForElementVisible('.is-root-container div.is-selected');
 
 		// Insert link via block toolbar.
-		$this->insertLink($I, $name);
+		$this->insertGutenbergLink($I, $name);
 
 		// Confirm that the Product text exists in the button.
 		$I->see($name, '.is-root-container .wp-block-button');
@@ -168,7 +168,7 @@ class WPGutenberg extends \Codeception\Module
 	 * @param 	AcceptanceTester 	$I 		Acceptance Tester.
 	 * @param 	string 				$name 	Page, Post or Custom Post Type Title/Name to link to.
 	 */
-	private function insertLink($I, $name)
+	private function insertGutenbergLink($I, $name)
 	{
 		// Click link button in block toolbar.
 		$I->waitForElementVisible('.block-editor-block-toolbar button[aria-label="Link"]');

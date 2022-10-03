@@ -1,15 +1,16 @@
 <?php
 /**
- * Tests that the Gutenberg LinkControl links to ConvertKit Products.
+ * Tests that the Gutenberg LinkControl and Classic Editor Link button correctly
+ * link to ConvertKit Products when selected.
  * 
- * @since 	1.9.8.5
+ * @since 	2.0.0
  */
 class PageLinkProductCest
 {
 	/**
 	 * Run common actions before running the test functions in this class.
 	 * 
-	 * @since 	1.9.8.5
+	 * @since 	2.0.0
 	 * 
 	 * @param 	AcceptanceTester 	$I 	Tester
 	 */
@@ -23,7 +24,7 @@ class PageLinkProductCest
 	/**
 	 * Test that linking text in a paragraph to a ConvertKit Product works.
 	 * 
-	 * @since 	1.9.8.5
+	 * @since 	2.0.0
 	 * 
 	 * @param 	AcceptanceTester 	$I 	Tester
 	 */
@@ -38,10 +39,10 @@ class PageLinkProductCest
 		]);
 
 		// Add paragraph to Page.
-		$I->addParagraphBlock($I, 'This is some text. ');
+		$I->addGutenbergParagraphBlock($I, 'This is some text. ');
 
 		// Add link to end of paragraph.
-		$I->addLinkToParagraph($I, $_ENV['CONVERTKIT_API_PRODUCT_NAME']);
+		$I->addGutenbergLinkToParagraph($I, $_ENV['CONVERTKIT_API_PRODUCT_NAME']);
 
 		// Publish and view the Page on the frontend site.
 		$I->publishAndViewGutenbergPage($I);
@@ -53,7 +54,7 @@ class PageLinkProductCest
 	/**
 	 * Test that linking text in a button to a ConvertKit Product works.
 	 * 
-	 * @since 	1.9.8.5
+	 * @since 	2.0.0
 	 * 
 	 * @param 	AcceptanceTester 	$I 	Tester
 	 */
@@ -71,10 +72,33 @@ class PageLinkProductCest
 		$I->addGutenbergBlock($I, 'Buttons', 'buttons');
 
 		// Add link to button.
-		$I->addLinkToButton($I, $_ENV['CONVERTKIT_API_PRODUCT_NAME']);
+		$I->addGutenbergLinkToButton($I, $_ENV['CONVERTKIT_API_PRODUCT_NAME']);
 
 		// Publish and view the Page on the frontend site.
 		$I->publishAndViewGutenbergPage($I);
+
+		// Confirm that the link displays, links to the expected URL and the ConvertKit Product Modal works.
+		$I->seeProductLink($I, $_ENV['CONVERTKIT_API_PRODUCT_URL'], $_ENV['CONVERTKIT_API_PRODUCT_NAME']);
+	}
+
+	/**
+	 * Test that linking text in a paragraph to a ConvertKit Product works
+	 * in the Classic Editor.
+	 * 
+	 * @since 	2.0.0
+	 * 
+	 * @param 	AcceptanceTester 	$I 	Tester
+	 */
+	public function testLinkParagraphTextToProductInClassicEditor(AcceptanceTester $I)
+	{
+		// Add a Page using the Classic editor.
+		$I->addClassicEditorPage($I, 'page', 'ConvertKit: Page: Product: Classic Editor: Link Text');
+
+		// Add link to Product in Classic Editor.
+		$I->addClassicEditorLink($I, $_ENV['CONVERTKIT_API_PRODUCT_NAME']);
+
+		// Publish and view the Page on the frontend site.
+		$I->publishAndViewClassicEditorPage($I);
 
 		// Confirm that the link displays, links to the expected URL and the ConvertKit Product Modal works.
 		$I->seeProductLink($I, $_ENV['CONVERTKIT_API_PRODUCT_URL'], $_ENV['CONVERTKIT_API_PRODUCT_NAME']);
@@ -85,7 +109,7 @@ class PageLinkProductCest
 	 * We don't use _after, as this would provide a screenshot of the Plugin
 	 * deactivation and not the true test error.
 	 * 
-	 * @since 	1.9.8.5
+	 * @since 	2.0.0
 	 * 
 	 * @param 	AcceptanceTester 	$I 	Tester
 	 */
