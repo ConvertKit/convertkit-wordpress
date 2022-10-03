@@ -12,14 +12,14 @@
  * LinkControl to display ConvertKit Products as results
  * when searching for items to link text to.
  *
- * @since   1.9.8.5
+ * @since   2.0.0
  */
 class ConvertKit_Post_Type_Product {
 
 	/**
 	 * Holds the Post Type name.
 	 *
-	 * @since   1.9.8.5
+	 * @since   2.0.0
 	 *
 	 * @var     string
 	 */
@@ -28,12 +28,15 @@ class ConvertKit_Post_Type_Product {
 	/**
 	 * Constructor.
 	 *
-	 * @since   1.9.8.5
+	 * @since   2.0.0
 	 */
 	public function __construct() {
 
 		// Register Custom Post Type.
 		add_action( 'init', array( $this, 'register' ) );
+
+		// Register commerce.js.
+		add_action( 'init', array( $this, 'register_commerce_script' ) );
 
 		// Update Products stored in Custom Post Type when Products Resource is refreshed.
 		add_action( 'convertkit_resource_refreshed_products', array( $this, 'refresh' ) );
@@ -49,7 +52,7 @@ class ConvertKit_Post_Type_Product {
 	/**
 	 * Registers the ConvertKit Product Custom Post Type.
 	 *
-	 * @since   1.9.8.5
+	 * @since   2.0.0
 	 */
 	public function register() {
 
@@ -86,7 +89,7 @@ class ConvertKit_Post_Type_Product {
 		/**
 		 * Filter the arguments for registering the Products Custom Post Type
 		 *
-		 * @since   1.9.8.5
+		 * @since   2.0.0
 		 *
 		 * @param   array $args     register_post_type() compatible arguments.
 		 */
@@ -98,10 +101,33 @@ class ConvertKit_Post_Type_Product {
 	}
 
 	/**
+	 * Registers the commerce.js script.
+	 * 
+	 * @since 	2.0.0
+	 */
+	public function register_commerce_script() {
+
+		// Get Products Resource class.
+		$products = new ConvertKit_Resource_Products();
+
+		// Get commerce.js URL.
+		$url = $products->get_commerce_js_url();
+
+		// If no URL exists, bail.
+		if ( ! $url ) {
+			return;
+		}
+
+		// Enqueue JS.
+		wp_register_script( 'convertkit-commerce', $url, array(), CONVERTKIT_PLUGIN_VERSION, true );
+
+	}
+
+	/**
 	 * Update the Custom Post Type's Products based on the supplied array
 	 * of ConvertKit Products, when the Resource class performs a refresh.
 	 *
-	 * @since   1.9.8.5
+	 * @since   2.0.0
 	 *
 	 * @param   array $products   Products.
 	 */
@@ -126,7 +152,7 @@ class ConvertKit_Post_Type_Product {
 	 * Returns the ConvertKit Product URL instead of the Product Custom Post URL
 	 * when a call to e.g. get_permalink() is made.
 	 *
-	 * @since   1.9.8.5
+	 * @since   2.0.0
 	 *
 	 * @param   string  $url    URL.
 	 * @param   WP_Post $post   Product Custom Post.
@@ -147,7 +173,7 @@ class ConvertKit_Post_Type_Product {
 	/**
 	 * Adds the data-commerce attribute to HTML links that link to a ConvertKit Product.
 	 *
-	 * @since   1.9.8.5
+	 * @since   2.0.0
 	 *
 	 * @param   string $content    Page/Post Content.
 	 * @return  string              Page/Post Content
@@ -162,11 +188,23 @@ class ConvertKit_Post_Type_Product {
 			return $content;
 		}
 
-		// For each Product, check if a link exists to the Product in the content.
+		// For each Product, add the data-commerce tag to any href attributes that link to a ConvertKit Product.
 		foreach ( $products->get() as $product ) {
+			// Skip if this Product's URL does not exist in the content.
+			if ( strpos( $content, $product['url'] ) === false ) {
+				continue;
+			}
+
+			// Enqueue commerce.js.
+			if ( ! wp_script_is( 'convertkit-commerce', 'enqueued' ) ) {
+				wp_enqueue_script( 'convertkit-commerce' );
+			}
+
+			// Add data-commerce attribute.
 			$content = str_replace( 'href="' . esc_attr( $product['url'] ) . '"', 'href="' . esc_attr( $product['url'] ) . '" data-commerce', $content );
 		}
 
+		// Return content.
 		return $content;
 
 	}
@@ -175,7 +213,7 @@ class ConvertKit_Post_Type_Product {
 	 * Stores the Product in the Custom Post Type, either creating or updating it
 	 * depending on whether the Product already exists in the Custom Post Type.
 	 *
-	 * @since   1.9.8.5
+	 * @since   2.0.0
 	 *
 	 * @param   array $product    ConvertKit Product.
 	 * @return  WP_Error|int                Error or Post ID.
@@ -231,7 +269,7 @@ class ConvertKit_Post_Type_Product {
 	/**
 	 * Deletes all Products from the Custom Post Type.
 	 *
-	 * @since   1.9.8.5
+	 * @since   2.0.0
 	 */
 	private function delete_all() {
 
