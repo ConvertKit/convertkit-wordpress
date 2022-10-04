@@ -242,6 +242,19 @@ class ConvertKit_Settings {
 	}
 
 	/**
+	 * Returns whether usage tracking is enabled in the Plugin settings.
+	 *
+	 * @since   1.9.8.6
+	 *
+	 * @return  bool
+	 */
+	public function usage_tracking_enabled() {
+
+		return ( $this->settings['usage_tracking'] === 'on' ? true : false );
+
+	}
+
+	/**
 	 * The default settings, used when the ConvertKit Plugin Settings haven't been saved
 	 * e.g. on a new installation.
 	 *
@@ -252,11 +265,12 @@ class ConvertKit_Settings {
 	public function get_defaults() {
 
 		$defaults = array(
-			'api_key'    => '', // string.
-			'api_secret' => '', // string.
-			'debug'      => '', // blank|on.
-			'no_scripts' => '', // blank|on.
-			'no_css'     => '', // blank|on.
+			'api_key'        => '', // string.
+			'api_secret'     => '', // string.
+			'debug'          => '', // blank|on.
+			'no_scripts'     => '', // blank|on.
+			'no_css'         => '', // blank|on.
+			'usage_tracking' => '', // blank|on.
 		);
 
 		// Add Post Type Default Forms.

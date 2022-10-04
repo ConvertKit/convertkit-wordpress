@@ -159,6 +159,17 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 			)
 		);
 
+		add_settings_field(
+			'usage_tracking',
+			__( 'Usage Tracking', 'convertkit' ),
+			array( $this, 'usage_tracking_callback' ),
+			$this->settings_key,
+			$this->name,
+			array(
+				'label_for' => 'usage_tracking',
+			)
+		);
+
 	}
 
 	/**
@@ -448,6 +459,23 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 			'on',
 			$this->settings->css_disabled(), // phpcs:ignore WordPress.Security.EscapeOutput
 			esc_html__( 'Prevent plugin from loading CSS files. This will disable styling on the broadcasts shortcode and block. Use with caution!', 'convertkit' )
+		);
+
+	}
+
+	/**
+	 * Renders the input for the Usage Tracking setting.
+	 *
+	 * @since   1.9.8.6
+	 */
+	public function usage_tracking_callback() {
+
+		// Output field.
+		echo $this->get_checkbox_field( // phpcs:ignore WordPress.Security.EscapeOutput
+			'usage_tracking',
+			'on',
+			$this->settings->usage_tracking_enabled(), // phpcs:ignore WordPress.Security.EscapeOutput
+			esc_html__( 'If enabled, sends data to ConvertKit once per week on the settings and functionality used. This helps us determine which features to work on.', 'convertkit' )
 		);
 
 	}

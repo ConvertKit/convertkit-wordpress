@@ -392,6 +392,58 @@ class PluginSettingsGeneralCest
 	}
 
 	/**
+	 * Test that no PHP errors or notices are displayed on the Plugin's Setting screen
+	 * when the Usage Tracking setting is enabled.
+	 * 
+	 * @since 	1.9.8.6
+	 * 
+	 * @param 	AcceptanceTester 	$I 	Tester
+	 */
+	public function testEnableUsageTrackingSetting(AcceptanceTester $I)
+	{
+		// Go to the Plugin's Settings Screen.
+		$I->loadConvertKitSettingsGeneralScreen($I);
+		
+		// Tick fields.
+		$I->checkOption('#usage_tracking');
+
+		// Click the Save Changes button.
+		$I->click('Save Changes');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Check the fields are ticked.
+		$I->seeCheckboxIsChecked('#usage_tracking');
+	}
+
+	/**
+	 * Test that no PHP errors or notices are displayed on the Plugin's Setting screen
+	 * when the Usage Tracking setting is disabled.
+	 * 
+	 * @since 	1.9.8.6
+	 * 
+	 * @param 	AcceptanceTester 	$I 	Tester
+	 */
+	public function testDisableUsageTrackingSetting(AcceptanceTester $I)
+	{
+		// Go to the Plugin's Settings Screen.
+		$I->loadConvertKitSettingsGeneralScreen($I);
+		
+		// Tick fields.
+		$I->uncheckOption('#usage_tracking');
+
+		// Click the Save Changes button.
+		$I->click('Save Changes');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Check the fields are ticked.
+		$I->dontSeeCheckboxIsChecked('#usage_tracking');
+	}
+
+	/**
 	 * Deactivate and reset Plugin(s) after each test, if the test passes.
 	 * We don't use _after, as this would provide a screenshot of the Plugin
 	 * deactivation and not the true test error.
