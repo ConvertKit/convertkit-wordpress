@@ -346,6 +346,17 @@ abstract class ConvertKit_Settings_Base {
 			WP_ConvertKit()->get_class( 'review_request' )->request_review();
 		}
 
+		// Usage Tracking: Schedule / unschedule WordPress Cron event, depending
+		// on the setting.
+		$usage_tracking = new ConvertKit_Usage_Tracking();
+		if ( $settings['usage_tracking'] === 'on' ) {
+			$usage_tracking->schedule_cron_event();
+		} else {
+			$usage_tracking->unschedule_cron_event();
+		}
+
+		// Return sanitized settings, merged with defaults so that settings array
+		// contains all expected keys.
 		return wp_parse_args( $settings, $this->settings->get_defaults() );
 
 	}

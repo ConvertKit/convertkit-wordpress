@@ -44,3 +44,39 @@ function convertkit_resource_refresh_posts() {
 // Register action to run above function; this action is created by WordPress' wp_schedule_event() function
 // in the ConvertKit_Resource_Posts class.
 add_action( 'convertkit_resource_refresh_posts', 'convertkit_resource_refresh_posts' );
+
+/**
+ * Send Usage Data to ConvertKit.
+ * 
+ * @since 	1.9.8.6
+ */
+function convertkit_send_usage_tracking_data() {
+
+	// Get Settings, Usage Tracking and Log classes.
+	$settings 		= new ConvertKit_Settings();
+	$usage_tracking = new ConvertKit_Usage_Tracking();
+	$log      		= new ConvertKit_Log( CONVERTKIT_PLUGIN_PATH );
+
+	// Bail if Usage Tracking is disabled.
+	if ( ! $settings->usage_tracking_enabled() ) {
+		return;
+	}
+
+	// If debug logging is enabled, write to it now.
+	if ( $settings->debug_enabled() ) {
+		$log->add( 'CRON: convertkit_send_usage_tracking_data(): Started' );
+	}
+
+	// Send data.
+	$usage_tracking->send();
+
+	// If debug logging is enabled, write to it now.
+	if ( $settings->debug_enabled() ) {
+		$log->add( 'CRON: convertkit_send_usage_tracking_data(): Finished' );
+	}
+
+}
+
+// Register action to run above function; this action is created by WordPress' wp_schedule_event() function
+// in the ConvertKit_Usage_Tracking class.
+add_action( 'convertkit_send_usage_tracking_data', 'convertkit_send_usage_tracking_data' );

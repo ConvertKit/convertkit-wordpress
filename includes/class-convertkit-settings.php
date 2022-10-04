@@ -301,7 +301,19 @@ class ConvertKit_Settings {
 	 */
 	public function save( $settings ) {
 
+		// Save settings to options table.
 		update_option( self::SETTINGS_NAME, array_merge( $this->get(), $settings ) );
+
+		// Read latest settings from options table into class array.
+		$this->settings = get_option( self::SETTINGS_NAME );
+
+		// Schedule or unschedule the Usage Tracking Cron task.
+		$usage_tracking = new ConvertKit_Usage_Tracking();
+		if ( $this->usage_tracking_enabled() ) {
+			$usage_tracking->schedule_cron_event();
+		} else {
+			$usage_tracking->unschedule_cron_event();
+		}
 
 	}
 
