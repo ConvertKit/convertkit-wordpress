@@ -384,6 +384,12 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 		 */
 		$html = apply_filters( 'convertkit_block_broadcasts_render', $html, $atts );
 
+		// Usage tracking.
+		if ( ! is_admin() ) {
+			$usage_tracking = new ConvertKit_Usage_Tracking();
+			$usage_tracking->set( 'broadcasts_block' );
+		}
+
 		return $html;
 
 	}

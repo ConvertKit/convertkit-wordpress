@@ -92,7 +92,7 @@ class ConvertKit_Usage_Tracking {
 	 * @param   string          $feature    Feature.
 	 * @param   string|int|bool $value      Value.
 	 */
-	public function set( $feature, $value ) {
+	public function set( $feature, $value = true ) {
 
 		// Bail if Usage Tracking is disabled.
 		$settings = new ConvertKit_Settings();
@@ -120,7 +120,7 @@ class ConvertKit_Usage_Tracking {
 		if ( ! $settings->usage_tracking_enabled() ) {
 			return;
 		}
-		
+
 	}
 
 	/**

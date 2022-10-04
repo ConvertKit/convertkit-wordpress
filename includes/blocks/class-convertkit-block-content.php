@@ -278,6 +278,12 @@ class ConvertKit_Block_Content extends ConvertKit_Block {
 			 */
 			$content = apply_filters( 'wp_convertkit_shortcode_custom_content', $content, $atts );
 
+			// Usage tracking.
+			if ( ! is_admin() ) {
+				$usage_tracking = new ConvertKit_Usage_Tracking();
+				$usage_tracking->set( 'content_block' );
+			}
+
 			return $content;
 		}
 

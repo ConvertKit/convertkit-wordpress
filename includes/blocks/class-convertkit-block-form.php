@@ -334,6 +334,12 @@ class ConvertKit_Block_Form extends ConvertKit_Block {
 		 */
 		$form = apply_filters( 'wp_convertkit_get_form_embed', $form, $atts );
 
+		// Usage tracking.
+		if ( ! is_admin() ) {
+			$usage_tracking = new ConvertKit_Usage_Tracking();
+			$usage_tracking->set( 'form_block' );
+		}
+
 		return $form;
 
 	}
