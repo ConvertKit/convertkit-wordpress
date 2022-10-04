@@ -46,6 +46,10 @@ class ConvertKit_Settings_Tools extends ConvertKit_Settings_Base {
 			return;
 		}
 
+		// Usage tracking.
+		$usage_tracking = new ConvertKit_Usage_Tracking();
+		$usage_tracking->set( 'settings_tools' );
+
 		$this->maybe_clear_log();
 		$this->maybe_download_log();
 		$this->maybe_download_system_info();

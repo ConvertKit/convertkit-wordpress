@@ -86,6 +86,10 @@ class ConvertKit_ContactForm7 {
 		// Send request.
 		$api->form_subscribe( $convertkit_form_id, $email, $first_name );
 
+		// Usage tracking.
+		$usage_tracking = new ConvertKit_Usage_Tracking();
+		$usage_tracking->set( 'contact_form_7' );
+
 	}
 
 }

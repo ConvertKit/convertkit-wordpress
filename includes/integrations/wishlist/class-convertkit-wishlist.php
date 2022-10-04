@@ -139,6 +139,10 @@ class ConvertKit_Wishlist {
 			$first_name = $name[0];
 		}
 
+		// Usage tracking.
+		$usage_tracking = new ConvertKit_Usage_Tracking();
+		$usage_tracking->set( 'wishlist' );
+
 		// Note Wishlist Member combines first and last name into 'display_name'.
 		return $api->form_subscribe(
 			$form_id,
@@ -171,6 +175,10 @@ class ConvertKit_Wishlist {
 			$email = $member['user_email'];
 		}
 
+		// Usage tracking.
+		$usage_tracking = new ConvertKit_Usage_Tracking();
+		$usage_tracking->set( 'wishlist' );
+
 		// Unsubscribe the email.
 		return $api->unsubscribe( $email );
 
@@ -194,6 +202,10 @@ class ConvertKit_Wishlist {
 		// Initialize the API.
 		$api = new ConvertKit_API( $settings->get_api_key(), $settings->get_api_secret(), $settings->debug_enabled(), 'wishlist_member' );
 
+		// Usage tracking.
+		$usage_tracking = new ConvertKit_Usage_Tracking();
+		$usage_tracking->set( 'wishlist' );
+
 		return $api->tag_subscribe( $tag_id, $member['user_email'] );
 
 	}
@@ -213,6 +225,10 @@ class ConvertKit_Wishlist {
 		if ( 0 === $wlm_get_member['success'] ) {
 			return false;
 		}
+
+		// Usage tracking.
+		$usage_tracking = new ConvertKit_Usage_Tracking();
+		$usage_tracking->set( 'wishlist' );
 
 		// Return user's information.
 		return $wlm_get_member['member'][0]['UserInfo'];

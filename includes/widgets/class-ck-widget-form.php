@@ -52,6 +52,10 @@ class CK_Widget_Form extends WP_Widget {
 	 */
 	public function form( $instance ) {
 
+		// Usage tracking.
+		$usage_tracking = new ConvertKit_Usage_Tracking();
+		$usage_tracking->set( 'legacy_widget' );
+
 		$forms = new ConvertKit_Resource_Forms( 'output_form' );
 
 		// Bail if no Forms exist.

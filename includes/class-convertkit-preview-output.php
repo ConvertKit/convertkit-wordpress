@@ -55,6 +55,10 @@ class ConvertKit_Preview_Output {
 		// Determine the form to preview.
 		$preview_form_id = (int) ( isset( $_REQUEST['convertkit_form_id'] ) ? sanitize_text_field( $_REQUEST['convertkit_form_id'] ) : 0 );
 
+		// Usage tracking.
+		$usage_tracking = new ConvertKit_Usage_Tracking();
+		$usage_tracking->set( 'preview_form' );
+
 		// Return.
 		return $preview_form_id;
 

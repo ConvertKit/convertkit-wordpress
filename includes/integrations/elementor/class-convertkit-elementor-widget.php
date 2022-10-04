@@ -259,6 +259,10 @@ class ConvertKit_Elementor_Widget extends Elementor\Widget_Base {
 			return $this->block->get_error_message();
 		}
 
+		// Usage tracking.
+		$usage_tracking = new ConvertKit_Usage_Tracking();
+		$usage_tracking->set( 'elementor_widget_' . $this->get_block_name() );
+
 		// Render using Block class' render() function.
 		// Output is already escaped in render() function.
 		echo WP_ConvertKit()->get_class( 'blocks_convertkit_' . $this->get_block_name() )->render( $this->get_settings_for_display() ); // phpcs:ignore WordPress.Security.EscapeOutput
