@@ -122,5 +122,17 @@ if ( ! $this->forms->exist() ) {
 			?>
 		</p>
 	</div>
+
+	<div>
+		<label for="wp-convertkit-usage-tracking">
+			<?php esc_html_e( 'Enable Usage Tracking?', 'convertkit' ); ?>
+		</label>
+		<input type="checkbox" name="usage_tracking" id="wp-convertkit-usage-tracking" value="on" />
+		<p class="description">
+			<?php
+			esc_html_e( 'If enabled, sends data to ConvertKit once per week on the settings and functionality used. This helps us determine which features to work on.', 'convertkit' );
+			?>
+		</p>
+	</div>
 	<?php
 }
