@@ -47,15 +47,15 @@ add_action( 'convertkit_resource_refresh_posts', 'convertkit_resource_refresh_po
 
 /**
  * Send Usage Data to ConvertKit.
- * 
- * @since 	1.9.8.6
+ *
+ * @since   1.9.8.6
  */
 function convertkit_send_usage_tracking_data() {
 
 	// Get Settings, Usage Tracking and Log classes.
-	$settings 		= new ConvertKit_Settings();
+	$settings       = new ConvertKit_Settings();
 	$usage_tracking = new ConvertKit_Usage_Tracking();
-	$log      		= new ConvertKit_Log( CONVERTKIT_PLUGIN_PATH );
+	$log            = new ConvertKit_Log( CONVERTKIT_PLUGIN_PATH );
 
 	// Bail if Usage Tracking is disabled.
 	if ( ! $settings->usage_tracking_enabled() ) {

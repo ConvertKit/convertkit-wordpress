@@ -18,7 +18,7 @@ class ConvertKit_Usage_Tracking {
 	/**
 	 * Holds the option table key to stores usage tracking data
 	 *
-	 * @since 	1.9.8.6
+	 * @since   1.9.8.6
 	 *
 	 * @var     string
 	 */
@@ -37,17 +37,17 @@ class ConvertKit_Usage_Tracking {
 
 	/**
 	 * The name of the Cron event.
-	 * 
-	 * @since 	1.9.8.6
-	 * 
-	 * @var 	string
+	 *
+	 * @since   1.9.8.6
+	 *
+	 * @var     string
 	 */
 	private $wp_cron_event_name = 'convertkit_send_usage_tracking_data';
 
 	/**
 	 * Holds the Usage Tracking data
 	 *
-	 * @since 	1.9.8.6
+	 * @since   1.9.8.6
 	 *
 	 * @var     array
 	 */
@@ -86,16 +86,16 @@ class ConvertKit_Usage_Tracking {
 
 	/**
 	 * Sets the given value for the given feature.
-	 * 
-	 * @since 	1.9.8.6
-	 * 
-	 * @param 	string 			$feature 	Feature.
-	 * @param 	string|int|bool $value 		Value.
+	 *
+	 * @since   1.9.8.6
+	 *
+	 * @param   string          $feature    Feature.
+	 * @param   string|int|bool $value      Value.
 	 */
 	public function set( $feature, $value ) {
 
 		// Bail if Usage Tracking is disabled.
-		$settings = new ConvertKit_Settings;
+		$settings = new ConvertKit_Settings();
 		if ( ! $settings->usage_tracking_enabled() ) {
 			return;
 		}
@@ -110,19 +110,23 @@ class ConvertKit_Usage_Tracking {
 
 	/**
 	 * Sends all Usage Tracking data.
-	 * 
-	 * @since 	1.9.8.6
+	 *
+	 * @since   1.9.8.6
 	 */
 	public function send() {
 
-		// @TODO.
-
+		// Bail if Usage Tracking is disabled.
+		$settings = new ConvertKit_Settings();
+		if ( ! $settings->usage_tracking_enabled() ) {
+			return;
+		}
+		
 	}
 
 	/**
 	 * Deletes all Usage Tracking data.
-	 * 
-	 * @since 	1.9.8.6
+	 *
+	 * @since   1.9.8.6
 	 */
 	public function delete() {
 
