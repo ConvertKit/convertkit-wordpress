@@ -256,19 +256,19 @@ class ConvertKit_Admin_Settings {
 	public function display_section_nav( $active_section ) {
 
 		?>
-		<h2 class="nav-tab-wrapper">
-		<?php
-		foreach ( $this->sections as $section ) {
-			printf(
-				'<a href="?page=%s&tab=%s" class="nav-tab right %s">%s</a>',
-				sanitize_text_field( $_REQUEST['page'] ), // phpcs:ignore WordPress.Security.NonceVerification
-				esc_html( $section->name ),
-				$active_section === $section->name ? 'nav-tab-active' : '',
-				esc_html( $section->tab_text )
-			);
-		}
-		?>
-		</h2>
+		<ul class="convertkit-tabs">
+			<?php
+			foreach ( $this->sections as $section ) {
+				printf(
+					'<li><a href="?page=%s&tab=%s" class="convertkit-tab %s">%s</a></li>',
+					sanitize_text_field( $_REQUEST['page'] ), // phpcs:ignore WordPress.Security.NonceVerification
+					esc_html( $section->name ),
+					$active_section === $section->name ? 'convertkit-tab-active' : '',
+					esc_html( $section->tab_text )
+				);
+			}
+			?>
+		</ul>
 		<?php
 
 	}
