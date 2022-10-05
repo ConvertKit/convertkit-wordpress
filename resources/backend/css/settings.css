@@ -1,9 +1,11 @@
 /**
  * Settings > ConvertKit
  */
+body.settings_page__wp_convertkit_settings {
+	background: #f6f8fa;
+}
 body.settings_page__wp_convertkit_settings #wpcontent {
 	padding-left: 0;
-	background: #f6f8fa;
 }
 
 /**
@@ -77,9 +79,9 @@ ul.convertkit-tabs li a.convertkit-tab-active:hover {
 }
 
 /**
- * Form
+ * Section
  */
-body.settings_page__wp_convertkit_settings .wrap form {
+body.settings_page__wp_convertkit_settings .wrap .postbox {
 	background: #fff;
 	box-shadow: 0 2px 5px #0000000d;
 	color: #373f45;
@@ -88,36 +90,34 @@ body.settings_page__wp_convertkit_settings .wrap form {
 	font-size: 14px;
 	border: 1px solid #EDF2F4;
 }
-body.settings_page__wp_convertkit_settings .wrap form h2 {
+body.settings_page__wp_convertkit_settings .wrap .postbox h2 {
 	margin: 0 0 30px 0;
 	padding: 0 0 30px 0;
 	font-size: 24px;
 	font-weight: 600;
 	border-bottom: 1px solid #EDF2F4;
 }
-body.settings_page__wp_convertkit_settings .wrap form p {
+body.settings_page__wp_convertkit_settings .wrap .postbox p {
 	font-size: 14px;
 }
-body.settings_page__wp_convertkit_settings .wrap form p.submit {
+body.settings_page__wp_convertkit_settings .wrap .postbox p.submit {
 	padding: 0;
 }
-body.settings_page__wp_convertkit_settings .wrap form .button-primary {
-	padding: 8px 20px;
+body.settings_page__wp_convertkit_settings .wrap .postbox .button {
+	margin:  0 5px 0 0;
+	padding: 4px 12px;
+	font-size: 14px;
+}
+body.settings_page__wp_convertkit_settings .wrap .postbox .button-primary {
 	background: #fb6970;
 	border-color: #fb6970;
 	color: #fff;
-	font-size: 16px;
 }
-body.settings_page__wp_convertkit_settings .wrap form .button-primary:hover {
+body.settings_page__wp_convertkit_settings .wrap .postbox .button-primary:hover {
 	background: #fb5058;
 	border-color: #fb5058;
 }
-
-
-body.settings_page__wp_convertkit_settings textarea.convertkit-monospace {
+body.settings_page__wp_convertkit_settings .wrap .postbox textarea.convertkit-monospace {
 	font-family: monospace;
 	padding: 20px;
-}
-body.settings_page__wp_convertkit_settings input.button {
-	margin:  0 5px 0 0;
 }

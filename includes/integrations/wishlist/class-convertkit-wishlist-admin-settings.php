@@ -73,6 +73,12 @@ class ConvertKit_Wishlist_Admin_Settings extends ConvertKit_Settings_Base {
 	 */
 	public function render() {
 
+		// Render opening container.
+		?>
+		<div class="metabox-holder">
+			<div class="postbox">
+		<?php
+
 		do_settings_sections( $this->settings_key );
 
 		// Get WishList Member Levels.
@@ -151,6 +157,12 @@ class ConvertKit_Wishlist_Admin_Settings extends ConvertKit_Settings_Base {
 
 		// Render submit button.
 		submit_button();
+
+		// Render closing container.
+		?>
+			</div><!-- .postbox -->
+		</div><!-- .metabox-holder -->
+		<?php
 
 	}
 

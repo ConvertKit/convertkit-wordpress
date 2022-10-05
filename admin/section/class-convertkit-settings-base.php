@@ -104,7 +104,7 @@ abstract class ConvertKit_Settings_Base {
 	public function render() {
 
 		/**
-		 *  Performs actions prior to rendering the settings form.
+		 * Performs actions prior to rendering the settings form.
 		 *
 		 * @since   1.9.6
 		 */
