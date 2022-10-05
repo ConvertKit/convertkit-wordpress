@@ -149,18 +149,16 @@ class ConvertKit_Admin_Settings {
 					$this->sections[ $active_section ]->render();
 				}
 				?>
-
-				<hr />
-
-				<p class="description">
-					<?php
-					printf(
-						'If you need help setting up the plugin please refer to the %s plugin documentation.</a>',
-						'<a href="https://help.convertkit.com/en/articles/2502591-the-convertkit-wordpress-plugin" target="_blank">'
-					);
-					?>
-				</p>
 			</form>
+
+			<p class="description">
+				<?php
+				printf(
+					'If you need help setting up the plugin please refer to the %s plugin documentation.</a>',
+					'<a href="https://help.convertkit.com/en/articles/2502591-the-convertkit-wordpress-plugin" target="_blank">'
+				);
+				?>
+			</p>
 		</div>
 		<?php
 
