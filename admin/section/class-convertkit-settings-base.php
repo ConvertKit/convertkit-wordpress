@@ -132,9 +132,9 @@ abstract class ConvertKit_Settings_Base {
 	/**
 	 * Outputs .metabox-holder and .postbox container div elements,
 	 * used before beginning a setting screen's output.
-	 * 
-	 * @since 	2.0.0
-	 */ 
+	 *
+	 * @since   2.0.0
+	 */
 	public function render_container_start() {
 
 		?>
@@ -147,9 +147,9 @@ abstract class ConvertKit_Settings_Base {
 	/**
 	 * Outputs closing .metabox-holder and .postbox container div elements,
 	 * used after finishing a setting screen's output.
-	 * 
-	 * @since 	2.0.0
-	 */ 
+	 *
+	 * @since   2.0.0
+	 */
 	public function render_container_end() {
 
 		?>

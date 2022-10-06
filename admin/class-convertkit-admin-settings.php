@@ -271,7 +271,7 @@ class ConvertKit_Admin_Settings {
 		// WordPress' JS will automatically move any .notice elements to be immediately below .wp-header-end
 		// or <h2>, whichever comes first.
 		// As our <h2> is inside our .metabox-holder, we output .wp-header-end first to control the notification
-		// placement to be before the white background container/box. 
+		// placement to be before the white background container/box.
 		?>
 		<hr class="wp-header-end">
 		<?php

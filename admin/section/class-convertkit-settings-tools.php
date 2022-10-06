@@ -284,13 +284,12 @@ class ConvertKit_Settings_Tools extends ConvertKit_Settings_Base {
 
 		// No fields are registered for the Debug Log.
 		// This function is deliberately blank.
-
 	}
 
 	/**
 	 * Outputs success and/or error notices if required.
-	 * 
-	 * @since 	2.0.0
+	 *
+	 * @since   2.0.0
 	 */
 	public function maybe_output_notices() {
 
