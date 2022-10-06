@@ -31,18 +31,15 @@ body.settings_page__wp_convertkit_settings .wrap {
 /**
  * Notices
  */
-body.settings_page__wp_convertkit_settings .notices {
-	margin: 20px 0 10px 0;
-}
 body.settings_page__wp_convertkit_settings .notice {
-	margin: 20px 0 15px 0;
+	margin-top: 0;
 }
 
 /**
  * Tabs
  */
 ul.convertkit-tabs {
-	margin: 0 0 30px 0;
+	margin: 0 0 25px 0;
 	padding: 0;
 	list-style-type: none;
 	border-bottom: 1px solid #cfd4d9;
