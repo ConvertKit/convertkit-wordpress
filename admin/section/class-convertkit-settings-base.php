@@ -169,7 +169,7 @@ abstract class ConvertKit_Settings_Base {
 	public function output_success( $success_message ) {
 
 		?>
-		<div class="notice notice-success">
+		<div class="notice notice-success is-dismissible">
 			<p>
 				<?php echo esc_attr( $success_message ); ?>
 			</p>
@@ -188,7 +188,7 @@ abstract class ConvertKit_Settings_Base {
 	public function output_error( $error_message ) {
 
 		?>
-		<div class="notice notice-error">
+		<div class="notice notice-error is-dismissible">
 			<p>
 				<?php echo esc_attr( $error_message ); ?>
 			</p>
