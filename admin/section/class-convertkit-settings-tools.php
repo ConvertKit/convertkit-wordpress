@@ -28,6 +28,9 @@ class ConvertKit_Settings_Tools extends ConvertKit_Settings_Base {
 		$this->title        = __( 'Tools', 'convertkit' );
 		$this->tab_text     = __( 'Tools', 'convertkit' );
 
+		// Output notices.
+		add_action( 'convertkit_settings_base_render_before', array( $this, 'maybe_output_notices' ) );
+
 		parent::__construct();
 
 		$this->maybe_perform_actions();
@@ -281,6 +284,34 @@ class ConvertKit_Settings_Tools extends ConvertKit_Settings_Base {
 
 		// No fields are registered for the Debug Log.
 		// This function is deliberately blank.
+
+	}
+
+	/**
+	 * Outputs success and/or error notices if required.
+	 * 
+	 * @since 	2.0.0
+	 */
+	public function maybe_output_notices() {
+
+		// Define messages that might be displayed as a notification.
+		$messages = array(
+			'import_configuration_upload_error'      => __( 'An error occured uploading the configuration file.', 'convertkit' ),
+			'import_configuration_invalid_file_type' => __( 'The uploaded configuration file isn\'t valid.', 'convertkit' ),
+			'import_configuration_empty'             => __( 'The uploaded configuration file contains no settings.', 'convertkit' ),
+			'import_configuration_success'           => __( 'Configuration imported successfully.', 'convertkit' ),
+		);
+
+		// Output error notification if defined.
+		if ( isset( $_REQUEST['error'] ) && array_key_exists( sanitize_text_field( $_REQUEST['error'] ), $messages ) ) { // phpcs:ignore WordPress.Security.NonceVerification
+			$this->output_error( $messages[ sanitize_text_field( $_REQUEST['error'] ) ] ); // phpcs:ignore WordPress.Security.NonceVerification
+		}
+
+		// Output success notification if defined.
+		if ( isset( $_REQUEST['success'] ) && array_key_exists( sanitize_text_field( $_REQUEST['success'] ), $messages ) ) { // phpcs:ignore WordPress.Security.NonceVerification
+			$this->output_success( $messages[ sanitize_text_field( $_REQUEST['success'] ) ] ); // phpcs:ignore WordPress.Security.NonceVerification
+		}
+
 	}
 
 	/**
@@ -290,29 +321,26 @@ class ConvertKit_Settings_Tools extends ConvertKit_Settings_Base {
 	 */
 	public function render() {
 
+		/**
+		 * Performs actions prior to rendering the settings form.
+		 *
+		 * @since   2.0.0
+		 */
+		do_action( 'convertkit_settings_base_render_before' );
+
 		// Get Log and System Info.
 		$log         = new ConvertKit_Log( CONVERTKIT_PLUGIN_PATH );
 		$system_info = $this->get_system_info();
 
-		// Define messages that might be displayed as a notification.
-		$messages = array(
-			'import_configuration_upload_error'      => __( 'An error occured uploading the configuration file.', 'convertkit' ),
-			'import_configuration_invalid_file_type' => __( 'The uploaded configuration file isn\'t valid.', 'convertkit' ),
-			'import_configuration_empty'             => __( 'The uploaded configuration file contains no settings.', 'convertkit' ),
-			'import_configuration_success'           => __( 'Configuration imported successfully.', 'convertkit' ),
-		);
-		$error    = false;
-		if ( isset( $_REQUEST['error'] ) && array_key_exists( sanitize_text_field( $_REQUEST['error'] ), $messages ) ) { // phpcs:ignore WordPress.Security.NonceVerification
-			$error = $messages[ sanitize_text_field( $_REQUEST['error'] ) ]; // phpcs:ignore WordPress.Security.NonceVerification
-		}
-
-		$success = false;
-		if ( isset( $_REQUEST['success'] ) && array_key_exists( sanitize_text_field( $_REQUEST['success'] ), $messages ) ) { // phpcs:ignore WordPress.Security.NonceVerification
-			$success = $messages[ sanitize_text_field( $_REQUEST['success'] ) ]; // phpcs:ignore WordPress.Security.NonceVerification
-		}
-
 		// Output view.
 		require_once CONVERTKIT_PLUGIN_PATH . '/views/backend/settings/tools.php';
+
+		/**
+		 * Performs actions after rendering of the settings form.
+		 *
+		 * @since   2.0.0
+		 */
+		do_action( 'convertkit_settings_base_render_after' );
 
 	}
 
