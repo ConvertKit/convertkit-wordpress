@@ -110,11 +110,15 @@ abstract class ConvertKit_Settings_Base {
 		 */
 		do_action( 'convertkit_settings_base_render_before' );
 
+		$this->render_container_start();
+
 		do_settings_sections( $this->settings_key );
 
 		settings_fields( $this->settings_key );
 
 		submit_button();
+
+		$this->render_container_end();
 
 		/**
 		 *  Performs actions after rendering of the settings form.
@@ -122,6 +126,55 @@ abstract class ConvertKit_Settings_Base {
 		 * @since   1.9.6
 		 */
 		do_action( 'convertkit_settings_base_render_after' );
+
+	}
+
+	/**
+	 * Outputs .metabox-holder and .postbox container div elements,
+	 * used before beginning a setting screen's output.
+	 * 
+	 * @since 	2.0.0
+	 */ 
+	public function render_container_start() {
+
+		?>
+		<div class="metabox-holder">
+			<div class="postbox">
+		<?php
+
+	}
+
+	/**
+	 * Outputs closing .metabox-holder and .postbox container div elements,
+	 * used after finishing a setting screen's output.
+	 * 
+	 * @since 	2.0.0
+	 */ 
+	public function render_container_end() {
+
+		?>
+			</div>
+		</div>
+		<?php
+
+	}
+
+	/**
+	 * Outputs the given success message in an inline notice.
+	 *
+	 * @since   2.0.0
+	 *
+	 * @param   string $success_message  Success Message.
+	 */
+	public function output_success( $success_message ) {
+
+		?>
+		<div class="notice notice-success">
+			<p>
+				<?php echo esc_attr( $success_message ); ?>
+			</p>
+		</div>
+		<?php
 
 	}
 
@@ -135,7 +188,7 @@ abstract class ConvertKit_Settings_Base {
 	public function output_error( $error_message ) {
 
 		?>
-		<div class="inline notice notice-error">
+		<div class="notice notice-error">
 			<p>
 				<?php echo esc_attr( $error_message ); ?>
 			</p>

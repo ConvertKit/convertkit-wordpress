@@ -59,7 +59,6 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 
 		// Render container element.
 		add_action( 'convertkit_settings_base_render_before', array( $this, 'render_before' ) );
-		add_action( 'convertkit_settings_base_render_after', array( $this, 'render_after' ) );
 
 		parent::__construct();
 
@@ -192,11 +191,6 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 	 */
 	public function render_before() {
 
-		?>
-		<div class="metabox-holder">
-			<div class="postbox">
-		<?php
-
 		// Initialize the API if an API Key and Secret is defined.
 		if ( ! $this->settings->has_api_key_and_secret() ) {
 			return;
@@ -217,20 +211,6 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 		if ( is_wp_error( $this->account ) ) {
 			$this->output_error( $this->account->get_error_message() );
 		}
-
-	}
-
-	/**
-	 * Renders closing container divs for styling.
-	 *
-	 * @since   2.0.0
-	 */
-	public function render_after() {
-
-		?>
-			</div><!-- .postbox -->
-		</div><!-- .metabox-holder -->
-		<?php
 
 	}
 

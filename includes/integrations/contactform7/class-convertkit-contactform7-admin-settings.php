@@ -80,10 +80,7 @@ class ConvertKit_ContactForm7_Admin_Settings extends ConvertKit_Settings_Base {
 	public function render() {
 
 		// Render opening container.
-		?>
-		<div class="metabox-holder">
-			<div class="postbox">
-		<?php
+		$this->render_container_start();
 
 		do_settings_sections( $this->settings_key );
 
@@ -147,10 +144,7 @@ class ConvertKit_ContactForm7_Admin_Settings extends ConvertKit_Settings_Base {
 		submit_button();
 
 		// Render closing container.
-		?>
-			</div><!-- .postbox -->
-		</div><!-- .metabox-holder -->
-		<?php
+		$this->render_container_end();
 
 	}
 
