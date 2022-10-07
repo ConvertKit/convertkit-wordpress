@@ -10,7 +10,7 @@
  * Reads ConvertKit Products from the options table, and refreshes
  * ConvertKit Products data stored locally from the API.
  *
- * @since   1.9.8.5
+ * @since   2.0.0
  */
 class ConvertKit_Resource_Products extends ConvertKit_Resource {
 
@@ -31,9 +31,11 @@ class ConvertKit_Resource_Products extends ConvertKit_Resource {
 	/**
 	 * Constructor.
 	 *
-	 * @since   1.9.8.5
+	 * @since   2.0.0
+	 *
+	 * @param   bool|string $context    Context.
 	 */
-	public function __construct() {
+	public function __construct( $context = false ) {
 
 		// Initialize the API if the API Key and Secret have been defined in the Plugin Settings.
 		$settings = new ConvertKit_Settings();
@@ -41,7 +43,8 @@ class ConvertKit_Resource_Products extends ConvertKit_Resource {
 			$this->api = new ConvertKit_API(
 				$settings->get_api_key(),
 				$settings->get_api_secret(),
-				$settings->debug_enabled()
+				$settings->debug_enabled(),
+				$context
 			);
 		}
 
@@ -53,7 +56,7 @@ class ConvertKit_Resource_Products extends ConvertKit_Resource {
 	/**
 	 * Returns the commerce.js URL based on the account's ConvertKit Domain.
 	 *
-	 * @since   1.9.8.5
+	 * @since   2.0.0
 	 *
 	 * @return  bool|string     false (if no products) | URL.
 	 */
@@ -79,7 +82,7 @@ class ConvertKit_Resource_Products extends ConvertKit_Resource {
 	/**
 	 * Returns the HTML button markup for the given Product ID.
 	 *
-	 * @since   1.9.8.5
+	 * @since   2.0.0
 	 *
 	 * @param   int    $id             Product ID.
 	 * @param   string $button_text    Button Text.
