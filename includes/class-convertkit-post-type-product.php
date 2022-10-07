@@ -102,8 +102,8 @@ class ConvertKit_Post_Type_Product {
 
 	/**
 	 * Registers the commerce.js script.
-	 * 
-	 * @since 	2.0.0
+	 *
+	 * @since   2.0.0
 	 */
 	public function register_commerce_script() {
 
