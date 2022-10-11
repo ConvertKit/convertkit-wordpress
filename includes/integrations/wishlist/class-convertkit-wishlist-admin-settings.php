@@ -73,6 +73,9 @@ class ConvertKit_Wishlist_Admin_Settings extends ConvertKit_Settings_Base {
 	 */
 	public function render() {
 
+		// Render opening container.
+		$this->render_container_start();
+
 		do_settings_sections( $this->settings_key );
 
 		// Get WishList Member Levels.
@@ -151,6 +154,9 @@ class ConvertKit_Wishlist_Admin_Settings extends ConvertKit_Settings_Base {
 
 		// Render submit button.
 		submit_button();
+
+		// Render closing container.
+		$this->render_container_end();
 
 	}
 
