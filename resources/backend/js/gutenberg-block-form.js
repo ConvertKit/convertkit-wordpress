@@ -22,9 +22,9 @@ function convertKitGutenbergFormBlockRenderPreview( block, props ) {
 		return wp.element.createElement(
 			'div',
 			{
-				// convertkit-form-no-content class allows resources/backend/css/gutenberg-block-form.css
+				// convertkit-no-content class allows resources/backend/css/gutenberg.css
 				// to apply styling/branding to the block.
-				className: 'convertkit-' + block.name + ' convertkit-' + block.name + '-no-content'
+				className: 'convertkit-' + block.name + ' convertkit-no-content'
 			},
 			block.gutenberg_help_description
 		);
@@ -46,17 +46,17 @@ function convertKitGutenbergFormBlockRenderPreview( block, props ) {
 		switch ( format ) {
 			case 'modal':
 				html = block.i18n.gutenberg_form_modal.replace( '%s', form.name );
-				className.push( 'convertkit-' + block.name + '-no-content' );
+				className.push( 'convertkit--no-content' );
 				break;
 
 			case 'slide in':
 				html = block.i18n.gutenberg_form_slide_in.replace( '%s', form.name );
-				className.push( 'convertkit-' + block.name + '-no-content' );
+				className.push( 'convertkit-no-content' );
 				break;
 
 			case 'sticky bar':
 				html = block.i18n.gutenberg_form_sticky_bar.replace( '%s', form.name );
-				className.push( 'convertkit-' + block.name + '-no-content' );
+				className.push( 'convertkit-no-content' );
 				break;
 		}
 
