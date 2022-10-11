@@ -149,18 +149,16 @@ class ConvertKit_Admin_Settings {
 					$this->sections[ $active_section ]->render();
 				}
 				?>
-
-				<hr />
-
-				<p class="description">
-					<?php
-					printf(
-						'If you need help setting up the plugin please refer to the %s plugin documentation.</a>',
-						'<a href="https://help.convertkit.com/en/articles/2502591-the-convertkit-wordpress-plugin" target="_blank">'
-					);
-					?>
-				</p>
 			</form>
+
+			<p class="description">
+				<?php
+				printf(
+					'If you need help setting up the plugin please refer to the %s plugin documentation.</a>',
+					'<a href="https://help.convertkit.com/en/articles/2502591-the-convertkit-wordpress-plugin" target="_blank">'
+				);
+				?>
+			</p>
 		</div>
 		<?php
 
@@ -256,19 +254,26 @@ class ConvertKit_Admin_Settings {
 	public function display_section_nav( $active_section ) {
 
 		?>
-		<h2 class="nav-tab-wrapper">
+		<ul class="convertkit-tabs">
+			<?php
+			foreach ( $this->sections as $section ) {
+				printf(
+					'<li><a href="?page=%s&tab=%s" class="convertkit-tab %s">%s</a></li>',
+					sanitize_text_field( $_REQUEST['page'] ), // phpcs:ignore WordPress.Security.NonceVerification
+					esc_html( $section->name ),
+					$active_section === $section->name ? 'convertkit-tab-active' : '',
+					esc_html( $section->tab_text )
+				);
+			}
+			?>
+		</ul>
 		<?php
-		foreach ( $this->sections as $section ) {
-			printf(
-				'<a href="?page=%s&tab=%s" class="nav-tab right %s">%s</a>',
-				sanitize_text_field( $_REQUEST['page'] ), // phpcs:ignore WordPress.Security.NonceVerification
-				esc_html( $section->name ),
-				$active_section === $section->name ? 'nav-tab-active' : '',
-				esc_html( $section->tab_text )
-			);
-		}
+		// WordPress' JS will automatically move any .notice elements to be immediately below .wp-header-end
+		// or <h2>, whichever comes first.
+		// As our <h2> is inside our .metabox-holder, we output .wp-header-end first to control the notification
+		// placement to be before the white background container/box.
 		?>
-		</h2>
+		<hr class="wp-header-end">
 		<?php
 
 	}

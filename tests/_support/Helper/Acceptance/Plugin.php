@@ -376,10 +376,70 @@ class Plugin extends \Codeception\Module
 		if ($text !== false) {
 			$I->seeInSource('>'.$text.'</a>');		
 		}
+	}
+
+	/**
+	 * Check that expected HTML exists in the DOM of the page we're viewing for
+	 * a Product block or shortcode, and that the button loads the expected
+	 * ConvertKit Product modal.
+	 * 
+	 * @since 	1.9.8.5
+	 *
+	 * @param 	AcceptanceTester 	$I 				Tester.
+	 * @param 	string 				$productURL 	Product URL.
+	 * @param 	bool|string 		$text 			Test if the button text matches the given value.
+	 * @param 	bool|string 		$textColor 		Test if the given text color is applied.
+	 * @param 	bool|string 		$backgroundColor Test is the given background color is applied.
+	 */
+	public function seeProductOutput($I, $productURL, $text = false, $textColor = false, $backgroundColor = false)
+	{
+		// Confirm that the block displays.
+		$I->seeElementInDOM('a.convertkit-product.wp-block-button__link');
+
+		// Confirm that the button links to the correct product.
+		$I->assertEquals($productURL, $I->grabAttributeFrom('a.convertkit-product', 'href'));
 
 		// Click the button to confirm that the ConvertKit modal displays; this confirms
 		// necessary ConvertKit scripts have been loaded.
 		$I->click('a[href="'.$productURL.'"]');
 		$I->seeElementInDOM('iframe[data-active]');
+
+		// Confirm that the text color is as expected.
+		if ($textColor !== false) {
+			$I->seeElementInDOM('a.convertkit-product.has-text-color');
+			$I->assertStringContainsString(
+				'color:'.$textColor,
+				$I->grabAttributeFrom('a.convertkit-product', 'style')
+			);
+		}
+
+		// Confirm that the background color is as expected.
+		if ($backgroundColor !== false) {
+			$I->seeElementInDOM('a.convertkit-product.has-background');
+			$I->assertStringContainsString(
+				'background-color:'.$backgroundColor,
+				$I->grabAttributeFrom('a.convertkit-product', 'style')
+			);
+		}
+
+		// Click the button to confirm that the ConvertKit modal displays; this confirms
+		// necessary ConvertKit scripts have been loaded.
+		$I->click('a.convertkit-product');
+		$I->seeElementInDOM('iframe[data-active]');
+	}
+
+	/**
+	 * Check that expected HTML does exists in the DOM of the page we're viewing for
+	 * a Product block or shortcode.
+	 * 
+	 * @since 	1.9.8.5
+	 *
+	 * @param 	AcceptanceTester 	$I 		Tester.
+	 * @param 	bool|string 		$text 	Test if the button text matches the given value.
+	 */
+	public function dontSeeProductOutput($I, $text = false)
+	{
+		// Confirm that the block does not display.
+		$I->dontSeeElementInDOM('div.wp-block-button a.convertkit-product');
 	}
 }
