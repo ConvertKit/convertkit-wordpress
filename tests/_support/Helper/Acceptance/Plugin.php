@@ -376,6 +376,11 @@ class Plugin extends \Codeception\Module
 		if ($text !== false) {
 			$I->seeInSource('>'.$text.'</a>');		
 		}
+
+		// Click the button to confirm that the ConvertKit modal displays; this confirms
+		// necessary ConvertKit scripts have been loaded.
+		$I->click('a[href="'.$productURL.'"]');
+		$I->seeElementInDOM('iframe[data-active]');
 	}
 
 	/**
@@ -398,11 +403,6 @@ class Plugin extends \Codeception\Module
 
 		// Confirm that the button links to the correct product.
 		$I->assertEquals($productURL, $I->grabAttributeFrom('a.convertkit-product', 'href'));
-
-		// Click the button to confirm that the ConvertKit modal displays; this confirms
-		// necessary ConvertKit scripts have been loaded.
-		$I->click('a[href="'.$productURL.'"]');
-		$I->seeElementInDOM('iframe[data-active]');
 
 		// Confirm that the text color is as expected.
 		if ($textColor !== false) {
