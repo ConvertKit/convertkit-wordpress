@@ -385,8 +385,16 @@ class ConvertKit_Output {
 	 */
 	public function get_subscriber_id_from_request() {
 
-		$subscriber = new ConvertKit_Subscriber();
-		return $subscriber->get_subscriber_id();
+		// Use ConvertKit_Subscriber class to fetch and validate the subscriber ID.
+		$subscriber    = new ConvertKit_Subscriber();
+		$subscriber_id = $subscriber->get_subscriber_id();
+
+		// If an error occured, the subscriber ID in the request/cookie is not a valid subscriber.
+		if ( is_wp_error( $subscriber_id ) ) {
+			return 0;
+		}
+
+		return $subscriber_id;
 
 	}
 
