@@ -29,7 +29,7 @@ class ConvertKit_Subscriber {
 	 *
 	 * @since   2.0.0
 	 *
-	 * @return  int|bool    Subscriber ID | false
+	 * @return  WP_Error|bool|int    Error | false | Subscriber ID
 	 */
 	public function get_subscriber_id() {
 
