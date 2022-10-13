@@ -351,6 +351,39 @@ class Plugin extends \Codeception\Module
 	}
 
 	/**
+	 * Check that expected HTML exists in the DOM of the page we're viewing
+	 * when a ConvertKit Product link was inserted into a paragraph or button,
+	 * and that the button loads the expected ConvertKit Product modal.
+	 * 
+	 * @since 	2.0.0
+	 *
+	 * @param 	AcceptanceTester 	$I 				Tester.
+	 * @param 	string 				$productURL 	Product URL.
+	 * @param 	bool|string 		$text 			Test if the link text matches the given value.
+	 */
+	public function seeProductLink($I, $productURL, $text = false)
+	{
+		// Confirm that the commerce.js script exists.
+		$I->seeInSource('commerce.js');
+
+		// Confirm that the link exists.
+		$I->seeElementInDOM('a[data-commerce]');
+
+		// Confirm that the link points to the correct product.
+		$I->assertEquals($productURL, $I->grabAttributeFrom('a[data-commerce]', 'href'));
+
+		// Confirm that the button text is as expected.
+		if ($text !== false) {
+			$I->seeInSource('>'.$text.'</a>');		
+		}
+
+		// Click the button to confirm that the ConvertKit modal displays; this confirms
+		// necessary ConvertKit scripts have been loaded.
+		$I->click('a[href="'.$productURL.'"]');
+		$I->seeElementInDOM('iframe[data-active]');
+	}
+
+	/**
 	 * Check that expected HTML exists in the DOM of the page we're viewing for
 	 * a Product block or shortcode, and that the button loads the expected
 	 * ConvertKit Product modal.
@@ -370,11 +403,6 @@ class Plugin extends \Codeception\Module
 
 		// Confirm that the button links to the correct product.
 		$I->assertEquals($productURL, $I->grabAttributeFrom('a.convertkit-product', 'href'));
-
-		// Confirm that the button text is as expected.
-		if ($text !== false) {
-			$I->seeInSource('>'.$text.'</a>');		
-		}
 
 		// Confirm that the text color is as expected.
 		if ($textColor !== false) {

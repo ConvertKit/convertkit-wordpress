@@ -143,6 +143,32 @@ class WPClassicEditor extends \Codeception\Module
 	}
 
 	/**
+	 * Adds a link to the given Page, Post or Custom Post Type Name using the Classic Editor's
+	 * link button.
+	 * 
+	 * @since 	2.0.0
+	 * 
+	 * @param 	AcceptanceTester 	$I 		Acceptance Tester.
+	 * @param 	string 				$name 	Page, Post or Custom Post Type Title/Name to link to.
+	 */
+	public function addClassicEditorLink($I, $name)
+	{
+		// Click link button in toolbar.
+		$I->click('div.mce-container i.mce-i-link');
+
+		// Enter Product name in search field.
+		$I->waitForElementVisible('input.ui-autocomplete-input');
+		$I->fillField('input.ui-autocomplete-input', $name);
+		$I->waitForElementVisible('ul.wplink-autocomplete');
+
+		// Click the Product name in the search list.
+		$I->click('ul.wplink-autocomplete li');
+
+		// Press the enter key to insert the link.
+		$I->pressKey('input.ui-autocomplete-input', \Facebook\WebDriver\WebDriverKeys::ENTER);
+	}
+
+	/**
 	 * Publish a Page, Post or Custom Post Type initiated by the addClassicEditorPage() function,
 	 * loading it on the frontend web site.
 	 * 
