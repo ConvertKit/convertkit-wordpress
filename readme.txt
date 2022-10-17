@@ -5,7 +5,7 @@ Tags: email marketing, email newsletter, newsletter, convertkit
 Requires at least: 5.0
 Tested up to: 6.0.2
 Requires PHP: 5.6.20
-Stable tag: 1.9.8.5
+Stable tag: 2.0.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -33,7 +33,7 @@ Sign up forms can be configured to:
 Embedding ConvertKit forms on your WordPress web site with the ConvertKit Plugin is quick and simple:
 
 - Choose a default form to be displayed below each individual Post Type (Pages, Posts and other public Post Types, such as WooCommerce Products)
-- Choose a specific form to be dispalyed below a specific Page, Post or custom post type
+- Choose a specific form to be displayed below a specific Page, Post or custom post type
 - Turn off form embedding at both site wide and/or individual Page/Post level
 
 For greater control, ConvertKit forms can be displayed in specific sections of your WordPress site's content, sidebars and footers by:
@@ -55,6 +55,10 @@ Embed existing email newsletters on your WordPress web site, ensuring visitors n
 
 - Using the ConvertKit Broadcasts block in Gutenberg
 - Using the `[convertkit_broadcasts]` shortcode in the Classic Editor
+
+= Sell Products =
+
+Embed buttons, or link text, to sell your ConvertKit Products in seconds - whether digital goods, paid newsletters, coaching and more.
 
 = Plugin Integrations =
 
@@ -112,6 +116,13 @@ Full Plugin documentation can be found [here](https://help.convertkit.com/en/art
 7. Track subscriber growth
 
 == Changelog ==
+
+### 2.0.0 2022-10-xx
+* Added: ConvertKit Products Block, to output a button linking to a ConvertKit Product or Tip Jar
+* Added: ConvertKit Products Shortcode, to output a button linking to a ConvertKit Product or Tip Jar
+* Added: Gutenberg: Option to link text or button to a ConvertKit Product or Tip Jar
+* Added: Classic Editor: Option to link text or button to a ConvertKit Product or Tip Jar
+* Added: Settings: Improved UI
 
 ### 1.9.8.5 2022-10-03
 * Added: Broadcasts: Shortcode: Options to specify background, text and link colors
