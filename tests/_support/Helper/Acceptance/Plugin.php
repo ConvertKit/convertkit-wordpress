@@ -334,7 +334,8 @@ class Plugin extends \Codeception\Module
 		$secondBroadcast = current(array_slice($broadcasts, 1, 1));
 
 		// Confirm that the expected Broadcast name is displayed and links to the expected URL, with UTM parameters.
-		$I->seeInSource('<a href="'.$secondBroadcast['url'].'?utm_source=wordpress&amp;utm_content=convertkit" target="_blank" rel="nofollow noopener">'.$secondBroadcast['title'].'</a>');
+		$I->seeInSource('<a href="'.$secondBroadcast['url'].'?utm_source=wordpress&amp;utm_content=convertkit" target="_blank" rel="nofollow noopener"');
+		$I->seeInSource($secondBroadcast['title']);
 
 		// Click the Newer Posts link.
 		$I->click('li.convertkit-broadcasts-pagination-prev a');
@@ -347,7 +348,8 @@ class Plugin extends \Codeception\Module
 		$I->seeBroadcastsOutput($I, 1, false, $nextLabel);
 
 		// Confirm that the expected Broadcast name is displayed and links to the expected URL, with UTM parameters.
-		$I->seeInSource('<a href="'.$firstBroadcast['url'].'?utm_source=wordpress&amp;utm_content=convertkit" target="_blank" rel="nofollow noopener">'.$firstBroadcast['title'].'</a>');
+		$I->seeInSource('<a href="'.$firstBroadcast['url'].'?utm_source=wordpress&amp;utm_content=convertkit" target="_blank" rel="nofollow noopener"');
+		$I->seeInSource($firstBroadcast['title']);
 	}
 
 	/**
