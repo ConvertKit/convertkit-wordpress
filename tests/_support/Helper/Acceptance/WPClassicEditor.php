@@ -43,8 +43,17 @@ class WPClassicEditor extends \Codeception\Module
 	 */
 	public function addVisualEditorShortcode($I, $shortcodeName, $shortcodeProgrammaticName, $shortcodeConfiguration = false, $expectedShortcodeOutput = false, $targetEditor = 'content')
 	{
-		// Click the Visual tab.
-		$I->scrollTo('h1.wp-heading-inline');
+		// Scroll to the applicable TinyMCE editor.
+		switch($targetEditor) {
+			case 'excerpt':
+				$I->scrollTo('#postexcerpt');
+				break;
+			default:
+				$I->scrollTo('h1.wp-heading-inline');
+				break;
+		}
+
+		// Click the Visual tab on the applicable TinyMCE editor.
 		$I->click('button#'.$targetEditor.'-tmce');
 
 		// Click the TinyMCE Button for this shortcode.
