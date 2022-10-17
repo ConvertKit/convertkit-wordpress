@@ -30,7 +30,7 @@ class WPWidget extends \Codeception\Module
 
 		// When the Blocks sidebar appears, search for the legacy widget.
 		$I->waitForElementVisible('.interface-interface-skeleton__secondary-sidebar');
-		$I->fillField('.block-editor-inserter__content input[type=search]', $blockName);
+		$I->fillField('.block-editor-inserter__menu input[type=search]', $blockName);
 
 		// First matching item will be the legacy widget; any blocks will follow.
 		// We can't target using the CSS selector button.editor-block-list-item-legacy-widget/{name}, as Codeception
@@ -117,7 +117,7 @@ class WPWidget extends \Codeception\Module
 
 		// When the Blocks sidebar appears, search for the legacy widget.
 		$I->waitForElementVisible('.interface-interface-skeleton__secondary-sidebar');
-		$I->fillField('.block-editor-inserter__content input[type=search]', $blockName);
+		$I->fillField('.block-editor-inserter__menu input[type=search]', $blockName);
 		$I->seeElementInDOM('.block-editor-inserter__panel-content button.editor-block-list-item-' . $blockProgrammaticName);
 		$I->click('.block-editor-inserter__panel-content button.editor-block-list-item-' . $blockProgrammaticName);
 

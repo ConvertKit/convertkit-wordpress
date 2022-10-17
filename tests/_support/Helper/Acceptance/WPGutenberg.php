@@ -63,7 +63,7 @@ class WPGutenberg extends \Codeception\Module
 
 		// When the Blocks sidebar appears, search for the block.
 		$I->waitForElementVisible('.interface-interface-skeleton__secondary-sidebar[aria-label="Block Library"]');
-		$I->fillField('.block-editor-inserter__content input[type=search]', $blockName);
+		$I->fillField('.block-editor-inserter__menu input[type=search]', $blockName);
 		$I->seeElementInDOM('.block-editor-inserter__panel-content button.editor-block-list-item-' . $blockProgrammaticName);
 		$I->click('.block-editor-inserter__panel-content button.editor-block-list-item-' . $blockProgrammaticName);
 
