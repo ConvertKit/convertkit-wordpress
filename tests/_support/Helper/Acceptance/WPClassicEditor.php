@@ -112,8 +112,18 @@ class WPClassicEditor extends \Codeception\Module
 	 */
 	public function addTextEditorShortcode($I, $shortcodeName, $shortcodeProgrammaticName, $shortcodeConfiguration = false, $expectedShortcodeOutput = false, $targetEditor = 'content')
 	{
+		// Scroll to the applicable TinyMCE editor.
+		switch($targetEditor) {
+			case 'excerpt':
+				$I->scrollTo('#postexcerpt');
+				$I->click('#postexcerpt button.handlediv');
+				break;
+			default:
+				$I->scrollTo('h1.wp-heading-inline');
+				break;
+		}
+
 		// Click the Text tab.
-		$I->scrollTo('h1.wp-heading-inline');
 		$I->click('button#'.$targetEditor.'-html');
 
 		// Click the QuickTags Button for this shortcode.
