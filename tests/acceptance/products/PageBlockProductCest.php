@@ -176,10 +176,7 @@ class PageBlockProductCest
 		$I->checkNoWarningsAndNoticesOnScreen($I);
 
 		// Confirm that the block displays.
-		$I->seeProductOutput($I, $_ENV['CONVERTKIT_API_PRODUCT_URL'], 'Buy my product');
-
-		// Confirm that the chosen colors are applied as CSS styles.
-		$I->seeInSource('<a href="'.$_ENV['CONVERTKIT_API_PRODUCT_URL'].'" class="wp-block-button__link convertkit-product has-text-color has-background" style="color:'.$textColor.';background-color:'.$backgroundColor.'"');
+		$I->seeProductOutput($I, $_ENV['CONVERTKIT_API_PRODUCT_URL'], 'Buy my product', $textColor, $backgroundColor);
 	}
 
 	/**

@@ -43,8 +43,18 @@ class WPClassicEditor extends \Codeception\Module
 	 */
 	public function addVisualEditorShortcode($I, $shortcodeName, $shortcodeProgrammaticName, $shortcodeConfiguration = false, $expectedShortcodeOutput = false, $targetEditor = 'content')
 	{
-		// Click the Visual tab.
-		$I->scrollTo('h1.wp-heading-inline');
+		// Scroll to the applicable TinyMCE editor.
+		switch($targetEditor) {
+			case 'excerpt':
+				$I->scrollTo('#postexcerpt');
+				$I->click('#postexcerpt button.handlediv');
+				break;
+			default:
+				$I->scrollTo('h1.wp-heading-inline');
+				break;
+		}
+
+		// Click the Visual tab on the applicable TinyMCE editor.
 		$I->click('button#'.$targetEditor.'-tmce');
 
 		// Click the TinyMCE Button for this shortcode.
@@ -102,8 +112,18 @@ class WPClassicEditor extends \Codeception\Module
 	 */
 	public function addTextEditorShortcode($I, $shortcodeName, $shortcodeProgrammaticName, $shortcodeConfiguration = false, $expectedShortcodeOutput = false, $targetEditor = 'content')
 	{
+		// Scroll to the applicable TinyMCE editor.
+		switch($targetEditor) {
+			case 'excerpt':
+				$I->scrollTo('#postexcerpt');
+				$I->click('#postexcerpt button.handlediv');
+				break;
+			default:
+				$I->scrollTo('h1.wp-heading-inline');
+				break;
+		}
+
 		// Click the Text tab.
-		$I->scrollTo('h1.wp-heading-inline');
 		$I->click('button#'.$targetEditor.'-html');
 
 		// Click the QuickTags Button for this shortcode.
@@ -140,6 +160,32 @@ class WPClassicEditor extends \Codeception\Module
 		if ($expectedShortcodeOutput) {
 			$I->seeInField('textarea#'.$targetEditor, $expectedShortcodeOutput);
 		}
+	}
+
+	/**
+	 * Adds a link to the given Page, Post or Custom Post Type Name using the Classic Editor's
+	 * link button.
+	 * 
+	 * @since 	2.0.0
+	 * 
+	 * @param 	AcceptanceTester 	$I 		Acceptance Tester.
+	 * @param 	string 				$name 	Page, Post or Custom Post Type Title/Name to link to.
+	 */
+	public function addClassicEditorLink($I, $name)
+	{
+		// Click link button in toolbar.
+		$I->click('div.mce-container i.mce-i-link');
+
+		// Enter Product name in search field.
+		$I->waitForElementVisible('input.ui-autocomplete-input');
+		$I->fillField('input.ui-autocomplete-input', $name);
+		$I->waitForElementVisible('ul.wplink-autocomplete');
+
+		// Click the Product name in the search list.
+		$I->click('ul.wplink-autocomplete li');
+
+		// Press the enter key to insert the link.
+		$I->pressKey('input.ui-autocomplete-input', \Facebook\WebDriver\WebDriverKeys::ENTER);
 	}
 
 	/**
