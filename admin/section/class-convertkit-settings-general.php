@@ -57,6 +57,7 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 		$this->title    = __( 'General Settings', 'convertkit' );
 		$this->tab_text = __( 'General', 'convertkit' );
 
+		// Render container element.
 		add_action( 'convertkit_settings_base_render_before', array( $this, 'render_before' ) );
 
 		parent::__construct();
@@ -198,7 +199,8 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 	}
 
 	/**
-	 * Performs actions prior to rendering the settings form.
+	 * Renders container divs for styling, and attempts to fetch the ConvertKit Account
+	 * details if API credentials have been specified.
 	 *
 	 * @since 1.9.6
 	 */
@@ -346,6 +348,9 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 
 			$posts = new ConvertKit_Resource_Posts( 'settings' );
 			$posts->refresh();
+
+			$products = new ConvertKit_Resource_Products( 'settings' );
+			$products->refresh();
 
 			$tags = new ConvertKit_Resource_Tags( 'settings' );
 			$tags->refresh();

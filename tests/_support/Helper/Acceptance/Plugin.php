@@ -303,6 +303,16 @@ class Plugin extends \Codeception\Module
 		}
 	}
 
+	/**
+	 * Tests that the Broadcasts pagination works, and that the expected Broadcast
+	 * is displayed after using previous and next links.
+	 * 
+	 * @since 	2.0.0
+	 * 
+	 * @param 	AcceptanceTester 	$I 						Tester.
+	 * @param 	string 				$previousLabel 			Previous / Newer Broadcasts Label.
+	 * @param 	string 				$nextLabel 				Next / Older Broadcasts Label.
+	 */
 	public function testBroadcastsPagination($I, $previousLabel, $nextLabel)
 	{
 		// Confirm that the block displays one broadcast with a pagination link to older broadcasts.
@@ -318,8 +328,14 @@ class Plugin extends \Codeception\Module
 		// Confirm that the block displays one broadcast with a pagination link to newer broadcasts.
 		$I->seeBroadcastsOutput($I, 1, $previousLabel, false);
 
-		// Confirm that the expected Broadcast name is displayed.
-		$I->seeInSource('Broadcast 2');
+		// Fetch Broadcasts from the resource, to determine the name of the most recent two broadcasts.
+		$broadcasts = $I->grabOptionFromDatabase('convertkit_posts');
+		$firstBroadcast = current(array_slice($broadcasts, 0, 1));
+		$secondBroadcast = current(array_slice($broadcasts, 1, 1));
+
+		// Confirm that the expected Broadcast name is displayed and links to the expected URL, with UTM parameters.
+		$I->seeInSource('<a href="'.$secondBroadcast['url'].'?utm_source=wordpress&amp;utm_content=convertkit" target="_blank" rel="nofollow noopener"');
+		$I->seeInSource($secondBroadcast['title']);
 
 		// Click the Newer Posts link.
 		$I->click('li.convertkit-broadcasts-pagination-prev a');
@@ -331,8 +347,9 @@ class Plugin extends \Codeception\Module
 		// Confirm that the block displays one broadcast with a pagination link to older broadcasts.
 		$I->seeBroadcastsOutput($I, 1, false, $nextLabel);
 
-		// Confirm that the expected Broadcast name is displayed.
-		$I->seeInSource('Paid Subscriber Broadcast');
+		// Confirm that the expected Broadcast name is displayed and links to the expected URL, with UTM parameters.
+		$I->seeInSource('<a href="'.$firstBroadcast['url'].'?utm_source=wordpress&amp;utm_content=convertkit" target="_blank" rel="nofollow noopener"');
+		$I->seeInSource($firstBroadcast['title']);
 	}
 
 	/**
@@ -348,5 +365,98 @@ class Plugin extends \Codeception\Module
 		$I->waitForElementChange('div.convertkit-broadcasts', function(\Facebook\WebDriver\WebDriverElement $el) {
 			return ( strpos($el->getAttribute('class'), 'convertkit-broadcasts-loading') === false ? true : false );
 		}, 5);
+	}
+
+	/**
+	 * Check that expected HTML exists in the DOM of the page we're viewing
+	 * when a ConvertKit Product link was inserted into a paragraph or button,
+	 * and that the button loads the expected ConvertKit Product modal.
+	 * 
+	 * @since 	2.0.0
+	 *
+	 * @param 	AcceptanceTester 	$I 				Tester.
+	 * @param 	string 				$productURL 	Product URL.
+	 * @param 	bool|string 		$text 			Test if the link text matches the given value.
+	 */
+	public function seeProductLink($I, $productURL, $text = false)
+	{
+		// Confirm that the commerce.js script exists.
+		$I->seeInSource('commerce.js');
+
+		// Confirm that the link exists.
+		$I->seeElementInDOM('a[data-commerce]');
+
+		// Confirm that the link points to the correct product.
+		$I->assertEquals($productURL, $I->grabAttributeFrom('a[data-commerce]', 'href'));
+
+		// Confirm that the button text is as expected.
+		if ($text !== false) {
+			$I->seeInSource('>'.$text.'</a>');		
+		}
+
+		// Click the button to confirm that the ConvertKit modal displays; this confirms
+		// necessary ConvertKit scripts have been loaded.
+		$I->click('a[href="'.$productURL.'"]');
+		$I->seeElementInDOM('iframe[data-active]');
+	}
+
+	/**
+	 * Check that expected HTML exists in the DOM of the page we're viewing for
+	 * a Product block or shortcode, and that the button loads the expected
+	 * ConvertKit Product modal.
+	 * 
+	 * @since 	1.9.8.5
+	 *
+	 * @param 	AcceptanceTester 	$I 				Tester.
+	 * @param 	string 				$productURL 	Product URL.
+	 * @param 	bool|string 		$text 			Test if the button text matches the given value.
+	 * @param 	bool|string 		$textColor 		Test if the given text color is applied.
+	 * @param 	bool|string 		$backgroundColor Test is the given background color is applied.
+	 */
+	public function seeProductOutput($I, $productURL, $text = false, $textColor = false, $backgroundColor = false)
+	{
+		// Confirm that the block displays.
+		$I->seeElementInDOM('a.convertkit-product.wp-block-button__link');
+
+		// Confirm that the button links to the correct product.
+		$I->assertEquals($productURL, $I->grabAttributeFrom('a.convertkit-product', 'href'));
+
+		// Confirm that the text color is as expected.
+		if ($textColor !== false) {
+			$I->seeElementInDOM('a.convertkit-product.has-text-color');
+			$I->assertStringContainsString(
+				'color:'.$textColor,
+				$I->grabAttributeFrom('a.convertkit-product', 'style')
+			);
+		}
+
+		// Confirm that the background color is as expected.
+		if ($backgroundColor !== false) {
+			$I->seeElementInDOM('a.convertkit-product.has-background');
+			$I->assertStringContainsString(
+				'background-color:'.$backgroundColor,
+				$I->grabAttributeFrom('a.convertkit-product', 'style')
+			);
+		}
+
+		// Click the button to confirm that the ConvertKit modal displays; this confirms
+		// necessary ConvertKit scripts have been loaded.
+		$I->click('a.convertkit-product');
+		$I->seeElementInDOM('iframe[data-active]');
+	}
+
+	/**
+	 * Check that expected HTML does exists in the DOM of the page we're viewing for
+	 * a Product block or shortcode.
+	 * 
+	 * @since 	1.9.8.5
+	 *
+	 * @param 	AcceptanceTester 	$I 		Tester.
+	 * @param 	bool|string 		$text 	Test if the button text matches the given value.
+	 */
+	public function dontSeeProductOutput($I, $text = false)
+	{
+		// Confirm that the block does not display.
+		$I->dontSeeElementInDOM('div.wp-block-button a.convertkit-product');
 	}
 }

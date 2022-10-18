@@ -62,6 +62,11 @@ class ConvertKit_Admin_Refresh_Resources {
 				$results = $posts->refresh();
 				break;
 
+			case 'products':
+				$products = new ConvertKit_Resource_Products();
+				$results  = $products->refresh();
+				break;
+
 			default:
 				$results = new WP_Error(
 					'convertkit_admin_refresh_resources_error',
