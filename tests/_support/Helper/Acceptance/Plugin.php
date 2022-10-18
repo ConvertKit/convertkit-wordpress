@@ -303,6 +303,16 @@ class Plugin extends \Codeception\Module
 		}
 	}
 
+	/**
+	 * Tests that the Broadcasts pagination works, and that the expected Broadcast
+	 * is displayed after using previous and next links.
+	 * 
+	 * @since 	2.0.0
+	 * 
+	 * @param 	AcceptanceTester 	$I 						Tester.
+	 * @param 	string 				$previousLabel 			Previous / Newer Broadcasts Label.
+	 * @param 	string 				$nextLabel 				Next / Older Broadcasts Label.
+	 */
 	public function testBroadcastsPagination($I, $previousLabel, $nextLabel)
 	{
 		// Confirm that the block displays one broadcast with a pagination link to older broadcasts.
@@ -318,8 +328,14 @@ class Plugin extends \Codeception\Module
 		// Confirm that the block displays one broadcast with a pagination link to newer broadcasts.
 		$I->seeBroadcastsOutput($I, 1, $previousLabel, false);
 
-		// Confirm that the expected Broadcast name is displayed.
-		$I->seeInSource('Broadcast 2');
+		// Fetch Broadcasts from the resource, to determine the name of the most recent two broadcasts.
+		$broadcasts = $I->grabOptionFromDatabase('convertkit_posts');
+		$firstBroadcast = current(array_slice($broadcasts, 0, 1));
+		$secondBroadcast = current(array_slice($broadcasts, 1, 1));
+
+		// Confirm that the expected Broadcast name is displayed and links to the expected URL, with UTM parameters.
+		$I->seeInSource('<a href="'.$secondBroadcast['url'].'?utm_source=wordpress&amp;utm_content=convertkit" target="_blank" rel="nofollow noopener"');
+		$I->seeInSource($secondBroadcast['title']);
 
 		// Click the Newer Posts link.
 		$I->click('li.convertkit-broadcasts-pagination-prev a');
@@ -331,8 +347,9 @@ class Plugin extends \Codeception\Module
 		// Confirm that the block displays one broadcast with a pagination link to older broadcasts.
 		$I->seeBroadcastsOutput($I, 1, false, $nextLabel);
 
-		// Confirm that the expected Broadcast name is displayed.
-		$I->seeInSource('Paid Subscriber Broadcast');
+		// Confirm that the expected Broadcast name is displayed and links to the expected URL, with UTM parameters.
+		$I->seeInSource('<a href="'.$firstBroadcast['url'].'?utm_source=wordpress&amp;utm_content=convertkit" target="_blank" rel="nofollow noopener"');
+		$I->seeInSource($firstBroadcast['title']);
 	}
 
 	/**
