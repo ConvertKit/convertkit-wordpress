@@ -203,7 +203,15 @@ class ConvertKit_Block_Content extends ConvertKit_Block {
 		}
 
 		// Bail if there is no subscriber ID from the cookie or request.
-		$subscriber_id = WP_ConvertKit()->get_class( 'output' )->get_subscriber_id_from_request();
+		$subscriber = new ConvertKit_Subscriber();
+		$subscriber_id = $subscriber->get_subscriber_id();
+		if ( is_wp_error( $subscriber_id ) ) {
+			if ( $settings->debug_enabled() ) {
+				return '<!-- ConvertKit Custom Content: Subscriber ID Error: '. $subscriber_id->get_error_message() . ' -->';
+			}
+
+			return '';
+		}
 		if ( ! $subscriber_id ) {
 			if ( $settings->debug_enabled() ) {
 				return '<!-- ConvertKit Custom Content: Subscriber ID does not exist -->';
