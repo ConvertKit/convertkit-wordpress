@@ -58,7 +58,7 @@ Embed existing email newsletters on your WordPress web site, ensuring visitors n
 
 = Sell Products =
 
-Embed buttons, or link text, to sell your ConvertKit Products in seconds - whether digital goods, paid newsletters, coaching and more.
+Embed buttons (or link text) to sell your ConvertKit Products in seconds - whether that's digital goods, paid newsletters, music, coaching and more.
 
 = Plugin Integrations =
 
