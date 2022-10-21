@@ -385,20 +385,16 @@ class ConvertKit_Output {
 	 */
 	public function get_subscriber_id_from_request() {
 
-		// If the subscriber ID is included in the URL as a query parameter
-		// (i.e. 'Add subscriber_id parameter in email links' is enabled at https://app.convertkit.com/account_settings/advanced_settings,
-		// return it as the subscriber ID.
-		if ( isset( $_GET['ck_subscriber_id'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification
-			return (int) sanitize_text_field( $_GET['ck_subscriber_id'] ); // phpcs:ignore WordPress.Security.NonceVerification
+		// Use ConvertKit_Subscriber class to fetch and validate the subscriber ID.
+		$subscriber    = new ConvertKit_Subscriber();
+		$subscriber_id = $subscriber->get_subscriber_id();
+
+		// If an error occured, the subscriber ID in the request/cookie is not a valid subscriber.
+		if ( is_wp_error( $subscriber_id ) ) {
+			return 0;
 		}
 
-		// If the subscriber ID is stored as a cookie (i.e. the user subscribed via a form
-		// from this Plugin on this site, which sets this cookie), return it as the subscriber ID.
-		if ( isset( $_COOKIE['ck_subscriber_id'] ) ) {
-			return (int) sanitize_text_field( $_COOKIE['ck_subscriber_id'] );
-		}
-
-		return 0;
+		return $subscriber_id;
 
 	}
 
