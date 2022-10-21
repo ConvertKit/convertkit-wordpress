@@ -473,7 +473,7 @@ class PostFormCest
         );
 
         // Iterate through Posts to run frontend tests.
-        foreach($postIDs as $postID) {
+        foreach ($postIDs as $postID) {
             // Load Post on the frontend site.
             $I->amOnPage('/?p='.$postID);
 
@@ -519,7 +519,7 @@ class PostFormCest
         );
 
         // Iterate through Posts to run frontend tests.
-        foreach($postIDs as $postID) {
+        foreach ($postIDs as $postID) {
             // Load Post on the frontend site.
             $I->amOnPage('/?p='.$postID);
 
@@ -579,7 +579,7 @@ class PostFormCest
         );
 
         // Iterate through Posts to run frontend tests.
-        foreach($postIDs as $postID) {
+        foreach ($postIDs as $postID) {
             // Load Post on the frontend site.
             $I->amOnPage('/?p='.$postID);
 

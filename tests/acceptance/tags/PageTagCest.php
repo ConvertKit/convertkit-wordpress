@@ -150,7 +150,7 @@ class PageTagCest
         );
 
         // Iterate through Pages to run frontend tests.
-        foreach($pageIDs as $pageID) {
+        foreach ($pageIDs as $pageID) {
             // Load the Page on the frontend site.
             $I->amOnPage('/?p='.$pageID);
 
@@ -210,7 +210,7 @@ class PageTagCest
         );
 
         // Iterate through Pages to run frontend tests.
-        foreach($pageIDs as $pageID) {
+        foreach ($pageIDs as $pageID) {
             // Load the Page on the frontend site.
             $I->amOnPage('/?p='.$pageID);
 

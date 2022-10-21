@@ -7,6 +7,8 @@
 class ResourceFormsTest extends \Codeception\TestCase\WPTestCase
 {
     /**
+     * The test object.
+     *
      * @var \WpunitTester
      */
     protected $tester;

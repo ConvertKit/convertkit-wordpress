@@ -12,6 +12,8 @@ class Plugin extends \Codeception\Module
      * it activated and no errors were output.
      * 
      * @since 1.9.6
+     *
+     * @param AcceptanceTester $I Acceptance Tester.
      */
     public function activateConvertKitPlugin($I)
     {
@@ -23,6 +25,8 @@ class Plugin extends \Codeception\Module
      * it activated and no errors were output.
      * 
      * @since 1.9.6
+     *
+     * @param AcceptanceTester $I Acceptance Tester.
      */
     public function deactivateConvertKitPlugin($I)
     {
@@ -34,8 +38,9 @@ class Plugin extends \Codeception\Module
      * 
      * @since 1.9.6
      * 
-     * @param mixed $apiKey    API Key (if specified, used instead of CONVERTKIT_API_KEY)
-     * @param mixed $apiSecret API Secret (if specified, used instead of CONVERTKIT_API_SECRET)
+     * @param AcceptanceTester $I         Acceptance Tester.
+     * @param mixed            $apiKey    API Key (if specified, used instead of CONVERTKIT_API_KEY)
+     * @param mixed            $apiSecret API Secret (if specified, used instead of CONVERTKIT_API_SECRET)
      */
     public function setupConvertKitPlugin($I, $apiKey = false, $apiSecret = false)
     {
@@ -68,6 +73,8 @@ class Plugin extends \Codeception\Module
      * Helper method to setup the Plugin's Default Form setting for Pages and Posts.
      * 
      * @since 1.9.6
+     * 
+     * @param AcceptanceTester $I Acceptance Tester.
      */
     public function setupConvertKitPluginDefaultForm($I)
     {
@@ -99,6 +106,8 @@ class Plugin extends \Codeception\Module
      * Helper method to setup the Plugin's Default Legacy Form setting for Pages and Posts.
      * 
      * @since 1.9.6
+     * 
+     * @param AcceptanceTester $I Acceptance Tester.
      */
     public function setupConvertKitPluginDefaultLegacyForm($I)
     {
@@ -130,6 +139,8 @@ class Plugin extends \Codeception\Module
      * Helper method to setup the Plugin's Default Form setting for WooCommerce Products.
      * 
      * @since 1.9.6
+     * 
+     * @param AcceptanceTester $I Acceptance Tester.
      */
     public function setupConvertKitPluginDefaultFormForWooCommerceProducts($I)
     {
@@ -159,6 +170,8 @@ class Plugin extends \Codeception\Module
      * Helper method to reset the ConvertKit Plugin settings, as if it's a clean installation.
      * 
      * @since 1.9.6.7
+     * 
+     * @param AcceptanceTester $I Acceptance Tester.
      */
     public function resetConvertKitPlugin($I)
     {
@@ -186,6 +199,8 @@ class Plugin extends \Codeception\Module
      * Helper method to load the Plugin's Settings > General screen.
      * 
      * @since 1.9.6
+     * 
+     * @param AcceptanceTester $I Acceptance Tester.
      */
     public function loadConvertKitSettingsGeneralScreen($I)
     {
@@ -199,6 +214,8 @@ class Plugin extends \Codeception\Module
      * Helper method to load the Plugin's Settings > Tools screen.
      * 
      * @since 1.9.6
+     * 
+     * @param AcceptanceTester $I Acceptance Tester.
      */
     public function loadConvertKitSettingsToolsScreen($I)
     {
@@ -212,6 +229,8 @@ class Plugin extends \Codeception\Module
      * Helper method to enable the Plugin's Settings > General > Debug option.
      * 
      * @since 1.9.6
+     * 
+     * @param AcceptanceTester $I Acceptance Tester.
      */
     public function enableDebugLog($I)
     {
@@ -229,6 +248,8 @@ class Plugin extends \Codeception\Module
      * Helper method to clear the Plugin's debug log.
      * 
      * @since 1.9.6
+     * 
+     * @param AcceptanceTester $I Acceptance Tester.
      */
     public function clearDebugLog($I)
     {
@@ -243,6 +264,9 @@ class Plugin extends \Codeception\Module
      * Helper method to determine if the given entry exists in the Plugin Debug Log screen's textarea.
      * 
      * @since 1.9.6
+     * 
+     * @param AcceptanceTester $I     Acceptance Tester.
+     * @param string           $entry Expected log entry.
      */
     public function seeInPluginDebugLog($I, $entry)
     {
@@ -254,6 +278,9 @@ class Plugin extends \Codeception\Module
      * Helper method to determine if the given entry does not exist in the Plugin Debug Log screen's textarea.
      * 
      * @since 1.9.6
+     * 
+     * @param AcceptanceTester $I     Acceptance Tester.
+     * @param string           $entry Expected log entry.
      */
     public function dontSeeInPluginDebugLog($I, $entry)
     {
@@ -267,10 +294,10 @@ class Plugin extends \Codeception\Module
      * 
      * @since 1.9.7.5
      *
-     * @param AcceptanceTester $I                      Tester.
+     * @param AcceptanceTester $I                      Acceptance Tester.
      * @param bool|int         $numberOfPosts          Number of Broadcasts listed.
      * @param bool|string      $seePrevPaginationLabel Test if the "previous" pagination link is output and matches expected label.
-     * @param bool|string      $seePrevPaginationLabel Test if the "next" pagination link is output and matches expected label.
+     * @param bool|string      $seeNextPaginationLabel Test if the "next" pagination link is output and matches expected label.
      */
     public function seeBroadcastsOutput($I, $numberOfPosts = false, $seePrevPaginationLabel = false, $seeNextPaginationLabel = false)
     {

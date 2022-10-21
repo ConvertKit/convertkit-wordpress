@@ -365,7 +365,7 @@ class PageFormCest
         );
 
         // Iterate through Pages to run frontend tests.
-        foreach($pageIDs as $pageID) {
+        foreach ($pageIDs as $pageID) {
             // Load Page on the frontend site.
             $I->amOnPage('/?p='.$pageID);
 
@@ -411,7 +411,7 @@ class PageFormCest
         );
 
         // Iterate through Pages to run frontend tests.
-        foreach($pageIDs as $pageID) {
+        foreach ($pageIDs as $pageID) {
             // Load Page on the frontend site.
             $I->amOnPage('/?p='.$pageID);
 
@@ -471,7 +471,7 @@ class PageFormCest
         );
 
         // Iterate through Pages to run frontend tests.
-        foreach($pageIDs as $pageID) {
+        foreach ($pageIDs as $pageID) {
             // Load Page on the frontend site.
             $I->amOnPage('/?p='.$pageID);
 

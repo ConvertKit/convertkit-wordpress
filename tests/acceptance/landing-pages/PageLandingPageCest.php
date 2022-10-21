@@ -196,6 +196,8 @@ class PageLandingPageCest
      * Helper method to assert that the expected landing page HTML is output.
      * 
      * @since 1.9.7.5
+     * 
+     * @param AcceptanceTester $I Tester
      */
     private function _seeBasicHTMLStructure($I)
     {

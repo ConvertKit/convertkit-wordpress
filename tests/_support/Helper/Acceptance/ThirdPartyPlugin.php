@@ -13,7 +13,8 @@ class ThirdPartyPlugin extends \Codeception\Module
      * 
      * @since 1.9.6.7
      * 
-     * @param string $name Plugin Slug.
+     * @param AcceptanceTester $I    Acceptance Tester.
+     * @param string           $name Plugin Slug.
      */
     public function activateThirdPartyPlugin($I, $name)
     {
@@ -43,7 +44,8 @@ class ThirdPartyPlugin extends \Codeception\Module
      * 
      * @since 1.9.6.7
      * 
-     * @param string $name Plugin Slug.
+     * @param AcceptanceTester $I    Acceptance Tester.
+     * @param string           $name Plugin Slug.
      */
     public function deactivateThirdPartyPlugin($I, $name)
     {

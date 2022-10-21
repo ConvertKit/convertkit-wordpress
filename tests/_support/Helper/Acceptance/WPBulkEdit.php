@@ -12,10 +12,10 @@ class WPBulkEdit extends \Codeception\Module
      * 
      * @since 1.9.8.0
      * 
-     * @param $I             AcceptanceHelper     Acceptance Helper.
-     * @param string $postType      Programmatic Post Type.
-     * @param array  $postIDs       Post IDs.
-     * @param array  $configuration Configuration (field => value key/value array).
+     * @param AcceptanceHelper $I             Acceptance Helper.
+     * @param string           $postType      Programmatic Post Type.
+     * @param array            $postIDs       Post IDs.
+     * @param array            $configuration Configuration (field => value key/value array).
      */
     public function bulkEdit($I, $postType, $postIDs, $configuration)
     {
@@ -56,9 +56,9 @@ class WPBulkEdit extends \Codeception\Module
      * 
      * @since 1.9.8.1
      * 
-     * @param $I        AcceptanceHelper     Acceptance Helper.
-     * @param string $postType Programmatic Post Type.
-     * @param array  $postIDs  Post IDs.
+     * @param AcceptanceHelper $I        Acceptance Helper.
+     * @param string           $postType Programmatic Post Type.
+     * @param array            $postIDs  Post IDs.
      */
     public function openBulkEdit($I, $postType, $postIDs)
     {
@@ -66,7 +66,7 @@ class WPBulkEdit extends \Codeception\Module
         $I->amOnAdminPage('edit.php?post_type='.$postType);
 
         // Check boxes for Post IDs.
-        foreach($postIDs as $postID) {
+        foreach ($postIDs as $postID) {
             $I->checkOption('#cb-select-'.$postID);
         }
 

@@ -12,10 +12,10 @@ class WPQuickEdit extends \Codeception\Module
      * 
      * @since 1.9.8.0
      * 
-     * @param $I             AcceptanceHelper     Acceptance Helper.
-     * @param string $postType      Programmatic Post Type.
-     * @param int    $postID        Post ID.
-     * @param array  $configuration Configuration (field => value key/value array).
+     * @param AcceptanceHelper $I             Acceptance Helper.
+     * @param string           $postType      Programmatic Post Type.
+     * @param int              $postID        Post ID.
+     * @param array            $configuration Configuration (field => value key/value array).
      */
     public function quickEdit($I, $postType, $postID, $configuration)
     {
@@ -50,9 +50,9 @@ class WPQuickEdit extends \Codeception\Module
      * 
      * @since 1.9.8.1
      * 
-     * @param $I        AcceptanceHelper     Acceptance Helper.
-     * @param string $postType Programmatic Post Type.
-     * @param int    $postID   Post ID.
+     * @param AcceptanceHelper $I        Acceptance Helper.
+     * @param string           $postType Programmatic Post Type.
+     * @param int              $postID   Post ID.
      */
     public function openQuickEdit($I, $postType, $postID)
     {

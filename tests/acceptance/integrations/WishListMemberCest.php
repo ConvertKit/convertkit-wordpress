@@ -118,6 +118,8 @@ class WishListMemberCest
      * Helper method to setup the WishList Member Plugin.
      * 
      * @since 1.9.6
+     *
+     * @param AcceptanceTester $I Tester
      */
     private function _setupWishListMemberPlugin($I)
     {

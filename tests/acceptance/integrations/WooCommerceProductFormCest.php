@@ -343,7 +343,7 @@ class WooCommerceProductFormCest
         );
 
         // Iterate through Products to run frontend tests.
-        foreach($productIDs as $productID) {
+        foreach ($productIDs as $productID) {
             // Load Product on the frontend site.
             $I->amOnPage('/?p='.$productID);
 
@@ -389,7 +389,7 @@ class WooCommerceProductFormCest
         );
 
         // Iterate through Products to run frontend tests.
-        foreach($productIDs as $productID) {
+        foreach ($productIDs as $productID) {
             // Load Product on the frontend site.
             $I->amOnPage('/?p='.$productID);
 
@@ -449,7 +449,7 @@ class WooCommerceProductFormCest
         );
 
         // Iterate through Products to run frontend tests.
-        foreach($productIDs as $productID) {
+        foreach ($productIDs as $productID) {
             // Load Page on the frontend site.
             $I->amOnPage('/?p='.$productID);
 

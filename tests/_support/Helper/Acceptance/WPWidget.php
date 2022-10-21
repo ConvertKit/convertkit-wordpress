@@ -73,9 +73,8 @@ class WPWidget extends \Codeception\Module
      * @since 1.9.7.6
      * 
      * @param AcceptanceTester $I                     Acceptance Tester.
-     * @param string           $blockName             Block Name (e.g. 'ConvertKit Form').
      * @param string           $blockProgrammaticName Programmatic Block Name (e.g. 'convertkit-form').
-     * @param bool|array       $blockConfiguration    Block Configuration (field => value key/value array).
+     * @param bool|array       $expectedMarkup        Expected HTML markup.
      */
     public function seeLegacyWidget($I, $blockProgrammaticName, $expectedMarkup)
     {
@@ -171,9 +170,8 @@ class WPWidget extends \Codeception\Module
      * @since 1.9.7.6
      * 
      * @param AcceptanceTester $I                     Acceptance Tester.
-     * @param string           $blockName             Block Name (e.g. 'ConvertKit Form').
      * @param string           $blockProgrammaticName Programmatic Block Name (e.g. 'convertkit-form').
-     * @param bool|array       $blockConfiguration    Block Configuration (field => value key/value array).
+     * @param bool|array       $expectedMarkup        Expected HTML Markup.
      */
     public function seeBlockWidget($I, $blockProgrammaticName, $expectedMarkup)
     {

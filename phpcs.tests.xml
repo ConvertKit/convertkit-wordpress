@@ -2,7 +2,7 @@
 <ruleset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="PHP_CodeSniffer" xsi:noNamespaceSchemaLocation="phpcs.xsd">
     <description>Coding Standards for Tests</description>
 
-    <!-- Use the PEAR standard, with some exclusions -->
+    <!-- Use the PEAR standard to ensure standardization of tests code and formatting, with some exclusions so writing tests isn't burdensome -->
     <rule ref="PEAR">
         <exclude name="PEAR.NamingConventions.ValidFunctionName"/>
         <exclude name="PEAR.NamingConventions.ValidVariableName"/>
@@ -12,7 +12,10 @@
         <exclude name="PEAR.Commenting.FileComment.MissingPackageTag"/>
         <exclude name="PEAR.Commenting.FileComment.MissingLinkTag"/>
         <exclude name="PEAR.Commenting.FileComment.MissingVersion"/>
+        <exclude name="PEAR.Commenting.FunctionComment.MissingReturn"/>
 
+        <exclude name="Generic.Commenting.DocComment.NonParamGroup"/>
+        <exclude name="Generic.Commenting.DocComment.ParamNotFirst"/>
         <exclude name="Generic.Files.LineLength"/>
         <exclude name="Generic.WhiteSpace.DisallowTabIndent.TabsUsed"/>
     </rule>

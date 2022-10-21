@@ -12,7 +12,7 @@ class Select2 extends \Codeception\Module
      * 
      * @since 1.9.6.4
      * 
-     * @param AcceptanceTester $I
+     * @param AcceptanceTester $I                 Tester
      * @param string           $container         Field CSS Class / ID
      * @param string           $value             Field Value
      * @param string           $ariaAttributeName Aria Attribute Name (aria-controls|aria-owns)
@@ -33,7 +33,7 @@ class Select2 extends \Codeception\Module
      * 
      * @since 1.9.8.1
      * 
-     * @param AcceptanceTester $I
+     * @param AcceptanceTester $I                 Tester
      * @param string           $container         Field CSS Class / ID
      * @param string           $value             Field Value
      * @param string           $ariaAttributeName Aria Attribute Name (aria-controls|aria-owns)

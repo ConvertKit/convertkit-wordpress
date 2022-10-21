@@ -12,9 +12,11 @@ class WPClassicEditor extends \Codeception\Module
      * 
      * @since 1.9.7.5
      * 
-     * @param AcceptanceTester $I Acceptance Tester.
+     * @param AcceptanceTester $I        Acceptance Tester.
+     * @param string           $postType Post Type.
+     * @param string           $title    Post Title.
      */
-    public function addClassicEditorPage($I, $postType = 'page', $title)
+    public function addClassicEditorPage($I, $postType = 'page', $title = 'Classic Editor Title')
     {
         // Activate Classic Editor Plugin
         $I->activateThirdPartyPlugin($I, 'classic-editor');

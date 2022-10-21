@@ -13,6 +13,8 @@ class WPGutenberg extends \Codeception\Module
      * remembering that the user dismissed the dialog.
      * 
      * @since 1.9.6
+     * 
+     * @param AcceptanceTester $I Acceptance Tester.
      */
     public function maybeCloseGutenbergWelcomeModal($I)
     {
@@ -31,9 +33,11 @@ class WPGutenberg extends \Codeception\Module
      * 
      * @since 1.9.7.5
      * 
-     * @param AcceptanceTester $I Acceptance Tester.
+     * @param AcceptanceTester $I        Acceptance Tester.
+     * @param string           $postType Post Type.
+     * @param string           $title    Post Title.
      */
-    public function addGutenbergPage($I, $postType = 'page', $title)
+    public function addGutenbergPage($I, $postType = 'page', $title = 'Gutenberg Page')
     {
         // Navigate to Post Type (e.g. Pages / Posts) > Add New
         $I->amOnAdminPage('post-new.php?post_type='.$postType);
