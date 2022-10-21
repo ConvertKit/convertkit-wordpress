@@ -8,9 +8,12 @@
 
 /**
  * Class to register the Product Custom Post Type, and store
- * Products in the Custom Post Type, permitting Gutenberg's
- * LinkControl to display ConvertKit Products as results
- * when searching for items to link text to.
+ * Products in the Custom Post Type, permitting both Gutenberg's
+ * LinkControl and Classic Editor link functionality to display
+ * ConvertKit Products as results when searching for items to link text to.
+ *
+ * Also adds data-commerce attributes to any links pointing to a ConvertKit
+ * Product URL.
  *
  * @since   2.0.0
  */
