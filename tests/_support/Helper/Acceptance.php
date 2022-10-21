@@ -12,7 +12,7 @@ namespace Helper;
 
 class Acceptance extends \Codeception\Module
 {
-	/**
-	 * Define custom actions here
-	 */
+    /**
+     * Define custom actions here
+     */
 }

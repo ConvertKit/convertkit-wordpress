@@ -116,10 +116,15 @@ jobs:
         working-directory: ${{ env.PLUGIN_DIR }}
         run: composer dump-autoload
 
-      # Run WordPress Coding Standards tests.
-      - name: Run WordPress Coding Standards Tests
+      # Run PSR-12 Coding Standards on Tests.
+      - name: Run PSR-12 Coding Standards on Tests
         working-directory: ${{ env.PLUGIN_DIR }}
-        run: php vendor/bin/phpcs ./ -v -s
+        run: php vendor/bin/phpcs ./tests --standard=phpcs.tests.xml -v -s
+
+      # Run WordPress Coding Standards.
+      - name: Run WordPress Coding Standards
+        working-directory: ${{ env.PLUGIN_DIR }}
+        run: php vendor/bin/phpcs ./ --standard=phpcs.xml -v -s
 
       # Run PHPStan for static analysis.
       - name: Run PHPStan Static Analysis
