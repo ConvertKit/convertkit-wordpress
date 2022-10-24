@@ -17,11 +17,11 @@
  *
  * @SuppressWarnings(PHPMD)
  */
-class FunctionalTester extends \Codeception\Actor
-{
-    use _generated\FunctionalTesterActions;
+class FunctionalTester extends \Codeception\Actor {
 
-    /**
-     * Define custom actions here
-     */
+	use _generated\FunctionalTesterActions;
+
+	/**
+	 * Define custom actions here
+	 */
 }

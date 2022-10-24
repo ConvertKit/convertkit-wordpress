@@ -5,63 +5,61 @@ namespace Helper\Acceptance;
 // would be used across multiple tests.
 // These are then available in $I->{yourFunctionName}
 
-class ThirdPartyPlugin extends \Codeception\Module
-{
-    /**
-     * Helper method to activate a third party Plugin, checking
-     * it activated and no errors were output.
-     * 
-     * @since 1.9.6.7
-     * 
-     * @param AcceptanceTester $I    Acceptance Tester.
-     * @param string           $name Plugin Slug.
-     */
-    public function activateThirdPartyPlugin($I, $name)
-    {
-        // Login as the Administrator
-        $I->loginAsAdmin();
+class ThirdPartyPlugin extends \Codeception\Module {
 
-        // Go to the Plugins screen in the WordPress Administration interface.
-        $I->amOnPluginsPage();
+	/**
+	 * Helper method to activate a third party Plugin, checking
+	 * it activated and no errors were output.
+	 *
+	 * @since 1.9.6.7
+	 *
+	 * @param AcceptanceTester $I    Acceptance Tester.
+	 * @param string           $name Plugin Slug.
+	 */
+	public function activateThirdPartyPlugin( $I, $name ) {
+		// Login as the Administrator
+		$I->loginAsAdmin();
 
-        // Activate the Plugin.
-        $I->activatePlugin($name);
+		// Go to the Plugins screen in the WordPress Administration interface.
+		$I->amOnPluginsPage();
 
-        // Go to the Plugins screen again; this prevents any Plugin that loads a wizard-style screen from
-        // causing seePluginActivated() to fail.
-        $I->amOnPluginsPage();
+		// Activate the Plugin.
+		$I->activatePlugin( $name );
 
-        // Check that the Plugin activated successfully.
-        $I->seePluginActivated($name);
+		// Go to the Plugins screen again; this prevents any Plugin that loads a wizard-style screen from
+		// causing seePluginActivated() to fail.
+		$I->amOnPluginsPage();
 
-        // Check that no PHP warnings or notices were output.
-        $I->checkNoWarningsAndNoticesOnScreen($I);
-    }
+		// Check that the Plugin activated successfully.
+		$I->seePluginActivated( $name );
 
-    /**
-     * Helper method to activate a third party Plugin, checking
-     * it activated and no errors were output.
-     * 
-     * @since 1.9.6.7
-     * 
-     * @param AcceptanceTester $I    Acceptance Tester.
-     * @param string           $name Plugin Slug.
-     */
-    public function deactivateThirdPartyPlugin($I, $name)
-    {
-        // Login as the Administrator
-        $I->loginAsAdmin();
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen( $I );
+	}
 
-        // Go to the Plugins screen in the WordPress Administration interface.
-        $I->amOnPluginsPage();
+	/**
+	 * Helper method to activate a third party Plugin, checking
+	 * it activated and no errors were output.
+	 *
+	 * @since 1.9.6.7
+	 *
+	 * @param AcceptanceTester $I    Acceptance Tester.
+	 * @param string           $name Plugin Slug.
+	 */
+	public function deactivateThirdPartyPlugin( $I, $name ) {
+		// Login as the Administrator
+		$I->loginAsAdmin();
 
-        // Deactivate the Plugin.
-        $I->deactivatePlugin($name);
+		// Go to the Plugins screen in the WordPress Administration interface.
+		$I->amOnPluginsPage();
 
-        // Check that the Plugin deactivated successfully.
-        $I->seePluginDeactivated($name);
+		// Deactivate the Plugin.
+		$I->deactivatePlugin( $name );
 
-        // Check that no PHP warnings or notices were output.
-        $I->checkNoWarningsAndNoticesOnScreen($I);
-    }
+		// Check that the Plugin deactivated successfully.
+		$I->seePluginDeactivated( $name );
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen( $I );
+	}
 }

@@ -1,211 +1,207 @@
 <?php
 /**
  * Tests the ConvertKit Review Notification.
- * 
+ *
  * @since 1.9.6
  */
-class ReviewRequestCest
-{
-    /**
-     * Run common actions before running the test functions in this class.
-     * 
-     * @since 1.9.6
-     * 
-     * @param AcceptanceTester $I Tester
-     */
-    public function _before(AcceptanceTester $I)
-    {
-        $I->activateConvertKitPlugin($I);
-    }
+class ReviewRequestCest {
 
-    /**
-     * Test that the review request is set in the options table when the Plugin's
-     * Settings are saved with a Default Page Form specified in the Settings.
-     * 
-     * @since 1.9.6.7
-     * 
-     * @param AcceptanceTester $I Tester
-     */
-    public function testReviewRequestOnSaveSettings(AcceptanceTester $I)
-    {
-        // Setup ConvertKit Plugin.
-        $I->setupConvertKitPlugin($I);
+	/**
+	 * Run common actions before running the test functions in this class.
+	 *
+	 * @since 1.9.6
+	 *
+	 * @param AcceptanceTester $I Tester
+	 */
+	public function _before( AcceptanceTester $I ) {
+		$I->activateConvertKitPlugin( $I );
+	}
 
-        // Define Default Form.
-        $I->setupConvertKitPluginDefaultForm($I);
+	/**
+	 * Test that the review request is set in the options table when the Plugin's
+	 * Settings are saved with a Default Page Form specified in the Settings.
+	 *
+	 * @since 1.9.6.7
+	 *
+	 * @param AcceptanceTester $I Tester
+	 */
+	public function testReviewRequestOnSaveSettings( AcceptanceTester $I ) {
+		// Setup ConvertKit Plugin.
+		$I->setupConvertKitPlugin( $I );
 
-        // Check that the options table does have a review request set.
-        $I->seeOptionInDatabase('convertkit-review-request');
+		// Define Default Form.
+		$I->setupConvertKitPluginDefaultForm( $I );
 
-        // Check that the option table does not yet have a review dismissed set.
-        $I->dontSeeOptionInDatabase('convertkit-review-dismissed');
-    }
+		// Check that the options table does have a review request set.
+		$I->seeOptionInDatabase( 'convertkit-review-request' );
 
-    /**
-     * Test that no review request is set in the options table when the Plugin's
-     * Settings are saved with no Forms specified in the Settings.
-     * 
-     * @since 1.9.6.7
-     * 
-     * @param AcceptanceTester $I Tester
-     */
-    public function testReviewRequestOnSaveBlankSettings(AcceptanceTester $I)
-    {
-        // Go to the Plugin's Settings Screen.
-        $I->loadConvertKitSettingsGeneralScreen($I);
+		// Check that the option table does not yet have a review dismissed set.
+		$I->dontSeeOptionInDatabase( 'convertkit-review-dismissed' );
+	}
 
-        // Click the Save Changes button.
-        $I->click('Save Changes');
+	/**
+	 * Test that no review request is set in the options table when the Plugin's
+	 * Settings are saved with no Forms specified in the Settings.
+	 *
+	 * @since 1.9.6.7
+	 *
+	 * @param AcceptanceTester $I Tester
+	 */
+	public function testReviewRequestOnSaveBlankSettings( AcceptanceTester $I ) {
+		// Go to the Plugin's Settings Screen.
+		$I->loadConvertKitSettingsGeneralScreen( $I );
 
-        // Check that no PHP warnings or notices were output.
-        $I->checkNoWarningsAndNoticesOnScreen($I);
+		// Click the Save Changes button.
+		$I->click( 'Save Changes' );
 
-        // Check that the options table doesn't have a review request set.
-        $I->dontSeeOptionInDatabase('convertkit-review-request');
-        $I->dontSeeOptionInDatabase('convertkit-review-dismissed');
-    }
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen( $I );
 
-    /**
-     * Test that the review request is set in the options table when a
-     * WordPress Page is created and saved with a Form specified in
-     * the ConvertKit Meta Box.
-     * 
-     * @since 1.9.6.7
-     * 
-     * @param AcceptanceTester $I Tester
-     */
-    public function testReviewRequestOnSavePageWithFormSpecified(AcceptanceTester $I)
-    {
-        // Setup ConvertKit Plugin.
-        $I->setupConvertKitPlugin($I);
+		// Check that the options table doesn't have a review request set.
+		$I->dontSeeOptionInDatabase( 'convertkit-review-request' );
+		$I->dontSeeOptionInDatabase( 'convertkit-review-dismissed' );
+	}
 
-        // Add a Page using the Gutenberg editor.
-        $I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Test Review Request on Save with Form Specified');
+	/**
+	 * Test that the review request is set in the options table when a
+	 * WordPress Page is created and saved with a Form specified in
+	 * the ConvertKit Meta Box.
+	 *
+	 * @since 1.9.6.7
+	 *
+	 * @param AcceptanceTester $I Tester
+	 */
+	public function testReviewRequestOnSavePageWithFormSpecified( AcceptanceTester $I ) {
+		// Setup ConvertKit Plugin.
+		$I->setupConvertKitPlugin( $I );
 
-        // Configure metabox's Form setting = Default.
-        $I->configureMetaboxSettings(
-            $I, 'wp-convertkit-meta-box', [
-            'form' => [ 'select2', $_ENV['CONVERTKIT_API_FORM_NAME'] ],
-            ]
-        );
+		// Add a Page using the Gutenberg editor.
+		$I->addGutenbergPage( $I, 'page', 'ConvertKit: Page: Test Review Request on Save with Form Specified' );
 
-        // Publish and view the Page on the frontend site.
-        $I->publishAndViewGutenbergPage($I);
+		// Configure metabox's Form setting = Default.
+		$I->configureMetaboxSettings(
+			$I,
+			'wp-convertkit-meta-box',
+			array(
+				'form' => array( 'select2', $_ENV['CONVERTKIT_API_FORM_NAME'] ),
+			)
+		);
 
-        // Navigate to a screen in the WordPress Administration.
-        $I->amOnAdminPage('index.php');
+		// Publish and view the Page on the frontend site.
+		$I->publishAndViewGutenbergPage( $I );
 
-        // Check that the options table does have a review request set.
-        $I->seeOptionInDatabase('convertkit-review-request');
+		// Navigate to a screen in the WordPress Administration.
+		$I->amOnAdminPage( 'index.php' );
 
-        // Check that the option table does not yet have a review dismissed set.
-        $I->dontSeeOptionInDatabase('convertkit-review-dismissed');
-    }
+		// Check that the options table does have a review request set.
+		$I->seeOptionInDatabase( 'convertkit-review-request' );
 
-    /**
-     * Test that the review request is set in the options table when a
-     * WordPress Page is created and saved with a Landing Page specified in
-     * the ConvertKit Meta Box.
-     * 
-     * @since 1.9.6.7
-     * 
-     * @param AcceptanceTester $I Tester
-     */
-    public function testReviewRequestOnSavePageWithLandingPageSpecified(AcceptanceTester $I)
-    {
-        // Setup ConvertKit Plugin.
-        $I->setupConvertKitPlugin($I);
+		// Check that the option table does not yet have a review dismissed set.
+		$I->dontSeeOptionInDatabase( 'convertkit-review-dismissed' );
+	}
 
-        // Add a Page using the Gutenberg editor.
-        $I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Test Review Request on Save with Form Specified');
+	/**
+	 * Test that the review request is set in the options table when a
+	 * WordPress Page is created and saved with a Landing Page specified in
+	 * the ConvertKit Meta Box.
+	 *
+	 * @since 1.9.6.7
+	 *
+	 * @param AcceptanceTester $I Tester
+	 */
+	public function testReviewRequestOnSavePageWithLandingPageSpecified( AcceptanceTester $I ) {
+		// Setup ConvertKit Plugin.
+		$I->setupConvertKitPlugin( $I );
 
-        // Configure metabox's Form setting = Default.
-        $I->configureMetaboxSettings(
-            $I, 'wp-convertkit-meta-box', [
-            'landing_page' => [ 'select2', $_ENV['CONVERTKIT_API_LANDING_PAGE_NAME'] ],
-            ]
-        );
+		// Add a Page using the Gutenberg editor.
+		$I->addGutenbergPage( $I, 'page', 'ConvertKit: Page: Test Review Request on Save with Form Specified' );
 
-        // Publish and view the Page on the frontend site.
-        $I->publishAndViewGutenbergPage($I);
+		// Configure metabox's Form setting = Default.
+		$I->configureMetaboxSettings(
+			$I,
+			'wp-convertkit-meta-box',
+			array(
+				'landing_page' => array( 'select2', $_ENV['CONVERTKIT_API_LANDING_PAGE_NAME'] ),
+			)
+		);
 
-        // Navigate to a screen in the WordPress Administration.
-        $I->amOnAdminPage('index.php');
+		// Publish and view the Page on the frontend site.
+		$I->publishAndViewGutenbergPage( $I );
 
-        // Check that the options table does have a review request set.
-        $I->seeOptionInDatabase('convertkit-review-request');
+		// Navigate to a screen in the WordPress Administration.
+		$I->amOnAdminPage( 'index.php' );
 
-        // Check that the option table does not yet have a review dismissed set.
-        $I->dontSeeOptionInDatabase('convertkit-review-dismissed');
-    }
+		// Check that the options table does have a review request set.
+		$I->seeOptionInDatabase( 'convertkit-review-request' );
 
-    /**
-     * Test that the review request is displayed when the options table entries
-     * have the required values to display the review request notification.
-     * 
-     * @since 1.9.6.7
-     * 
-     * @param AcceptanceTester $I Tester
-     */
-    public function testReviewRequestNotificationDisplayed(AcceptanceTester $I)
-    {
-        // Set review request option with a timestamp in the past, to emulate
-        // the Plugin having set this a few days ago.
-        $I->haveOptionInDatabase('convertkit-review-request', time() - 3600);
+		// Check that the option table does not yet have a review dismissed set.
+		$I->dontSeeOptionInDatabase( 'convertkit-review-dismissed' );
+	}
 
-        // Navigate to a screen in the WordPress Administration.
-        $I->amOnAdminPage('index.php');
+	/**
+	 * Test that the review request is displayed when the options table entries
+	 * have the required values to display the review request notification.
+	 *
+	 * @since 1.9.6.7
+	 *
+	 * @param AcceptanceTester $I Tester
+	 */
+	public function testReviewRequestNotificationDisplayed( AcceptanceTester $I ) {
+		// Set review request option with a timestamp in the past, to emulate
+		// the Plugin having set this a few days ago.
+		$I->haveOptionInDatabase( 'convertkit-review-request', time() - 3600 );
 
-        // Confirm the review displays.
-        $I->seeElementInDOM('div.review-convertkit');
+		// Navigate to a screen in the WordPress Administration.
+		$I->amOnAdminPage( 'index.php' );
 
-        // Confirm links are correct.
-        $I->seeInSource('<a href="https://wordpress.org/support/plugin/convertkit/reviews/?filter=5#new-post" class="button button-primary" rel="noopener" target="_blank">');
-        $I->seeInSource('<a href="https://convertkit.com/support" class="button" rel="noopener" target="_blank">');
-    }
+		// Confirm the review displays.
+		$I->seeElementInDOM( 'div.review-convertkit' );
 
-    /**
-     * Test that the review request is dismissed and does not reappear
-     * on a subsequent page load.
-     * 
-     * @since 1.9.6.7
-     * 
-     * @param AcceptanceTester $I Tester
-     */
-    public function testReviewRequestNotificationDismissed(AcceptanceTester $I)
-    {
-        // Set review request option with a timestamp in the past, to emulate
-        // the Plugin having set this a few days ago.
-        $I->haveOptionInDatabase('convertkit-review-request', time() - 3600);
+		// Confirm links are correct.
+		$I->seeInSource( '<a href="https://wordpress.org/support/plugin/convertkit/reviews/?filter=5#new-post" class="button button-primary" rel="noopener" target="_blank">' );
+		$I->seeInSource( '<a href="https://convertkit.com/support" class="button" rel="noopener" target="_blank">' );
+	}
 
-        // Navigate to a screen in the WordPress Administration.
-        $I->amOnAdminPage('index.php');
+	/**
+	 * Test that the review request is dismissed and does not reappear
+	 * on a subsequent page load.
+	 *
+	 * @since 1.9.6.7
+	 *
+	 * @param AcceptanceTester $I Tester
+	 */
+	public function testReviewRequestNotificationDismissed( AcceptanceTester $I ) {
+		// Set review request option with a timestamp in the past, to emulate
+		// the Plugin having set this a few days ago.
+		$I->haveOptionInDatabase( 'convertkit-review-request', time() - 3600 );
 
-        // Confirm the review displays.
-        $I->seeElementInDOM('div.review-convertkit');
+		// Navigate to a screen in the WordPress Administration.
+		$I->amOnAdminPage( 'index.php' );
 
-        // Dismiss the review request.
-        $I->click('div.review-convertkit button.notice-dismiss');
+		// Confirm the review displays.
+		$I->seeElementInDOM( 'div.review-convertkit' );
 
-        // Navigate to a screen in the WordPress Administration.
-        $I->amOnAdminPage('index.php');
+		// Dismiss the review request.
+		$I->click( 'div.review-convertkit button.notice-dismiss' );
 
-        // Confirm the review notification no longer displays.
-        $I->dontSeeElementInDOM('div.review-convertkit');
-    }
+		// Navigate to a screen in the WordPress Administration.
+		$I->amOnAdminPage( 'index.php' );
 
-    /**
-     * Deactivate and reset Plugin(s) after each test, if the test passes.
-     * We don't use _after, as this would provide a screenshot of the Plugin
-     * deactivation and not the true test error.
-     * 
-     * @since 1.9.6.7
-     * 
-     * @param AcceptanceTester $I Tester
-     */
-    public function _passed(AcceptanceTester $I)
-    {
-        $I->deactivateConvertKitPlugin($I);
-        $I->resetConvertKitPlugin($I);
-    }
+		// Confirm the review notification no longer displays.
+		$I->dontSeeElementInDOM( 'div.review-convertkit' );
+	}
+
+	/**
+	 * Deactivate and reset Plugin(s) after each test, if the test passes.
+	 * We don't use _after, as this would provide a screenshot of the Plugin
+	 * deactivation and not the true test error.
+	 *
+	 * @since 1.9.6.7
+	 *
+	 * @param AcceptanceTester $I Tester
+	 */
+	public function _passed( AcceptanceTester $I ) {
+		$I->deactivateConvertKitPlugin( $I );
+		$I->resetConvertKitPlugin( $I );
+	}
 }
