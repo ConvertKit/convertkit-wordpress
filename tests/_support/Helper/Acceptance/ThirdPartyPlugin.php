@@ -5,18 +5,18 @@ namespace Helper\Acceptance;
 // would be used across multiple tests.
 // These are then available in $I->{yourFunctionName}
 
-class ThirdPartyPlugin extends \Codeception\Module {
-
+class ThirdPartyPlugin extends \Codeception\Module
+{
 	/**
 	 * Helper method to activate a third party Plugin, checking
 	 * it activated and no errors were output.
-	 *
-	 * @since 1.9.6.7
-	 *
-	 * @param AcceptanceTester $I    Acceptance Tester.
-	 * @param string           $name Plugin Slug.
+	 * 
+	 * @since 	1.9.6.7
+	 * 
+	 * @param 	string 	$name 	Plugin Slug.
 	 */
-	public function activateThirdPartyPlugin( $I, $name ) {
+	public function activateThirdPartyPlugin($I, $name)
+	{
 		// Login as the Administrator
 		$I->loginAsAdmin();
 
@@ -24,29 +24,29 @@ class ThirdPartyPlugin extends \Codeception\Module {
 		$I->amOnPluginsPage();
 
 		// Activate the Plugin.
-		$I->activatePlugin( $name );
+		$I->activatePlugin($name);
 
 		// Go to the Plugins screen again; this prevents any Plugin that loads a wizard-style screen from
 		// causing seePluginActivated() to fail.
 		$I->amOnPluginsPage();
 
 		// Check that the Plugin activated successfully.
-		$I->seePluginActivated( $name );
+		$I->seePluginActivated($name);
 
 		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen( $I );
+		$I->checkNoWarningsAndNoticesOnScreen($I);
 	}
 
 	/**
 	 * Helper method to activate a third party Plugin, checking
 	 * it activated and no errors were output.
-	 *
-	 * @since 1.9.6.7
-	 *
-	 * @param AcceptanceTester $I    Acceptance Tester.
-	 * @param string           $name Plugin Slug.
+	 * 
+	 * @since 	1.9.6.7
+	 * 
+	 * @param 	string 	$name 	Plugin Slug.
 	 */
-	public function deactivateThirdPartyPlugin( $I, $name ) {
+	public function deactivateThirdPartyPlugin($I, $name)
+	{
 		// Login as the Administrator
 		$I->loginAsAdmin();
 
@@ -54,12 +54,12 @@ class ThirdPartyPlugin extends \Codeception\Module {
 		$I->amOnPluginsPage();
 
 		// Deactivate the Plugin.
-		$I->deactivatePlugin( $name );
+		$I->deactivatePlugin($name);
 
 		// Check that the Plugin deactivated successfully.
-		$I->seePluginDeactivated( $name );
+		$I->seePluginDeactivated($name);
 
 		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen( $I );
+		$I->checkNoWarningsAndNoticesOnScreen($I);
 	}
 }

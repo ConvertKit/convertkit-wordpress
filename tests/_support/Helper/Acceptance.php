@@ -10,8 +10,8 @@ namespace Helper;
 
 // Helper functions placed here should be very generic
 
-class Acceptance extends \Codeception\Module {
-
+class Acceptance extends \Codeception\Module
+{
 	/**
 	 * Define custom actions here
 	 */

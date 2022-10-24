@@ -1,303 +1,289 @@
 <?php
 /**
  * Tests for the ConvertKit Broadcasts Gutenberg Block.
- *
- * @since 1.9.7.4
+ * 
+ * @since 	1.9.7.4
  */
-class PageBlockBroadcastsCest {
-
+class PageBlockBroadcastsCest
+{
 	/**
 	 * Run common actions before running the test functions in this class.
-	 *
-	 * @since 1.9.7.4
-	 *
-	 * @param AcceptanceTester $I Tester
+	 * 
+	 * @since 	1.9.7.4
+	 * 
+	 * @param 	AcceptanceTester 	$I 	Tester
 	 */
-	public function _before( AcceptanceTester $I ) {
-		$I->activateConvertKitPlugin( $I );
-		$I->setupConvertKitPlugin( $I );
-		$I->enableDebugLog( $I );
+	public function _before(AcceptanceTester $I)
+	{
+		$I->activateConvertKitPlugin($I);
+		$I->setupConvertKitPlugin($I);
+		$I->enableDebugLog($I);
 	}
 
 	/**
 	 * Test the Broadcasts block works when using the default parameters.
-	 *
-	 * @since 1.9.7.4
-	 *
-	 * @param AcceptanceTester $I Tester
+	 * 
+	 * @since 	1.9.7.4
+	 * 
+	 * @param 	AcceptanceTester 	$I 	Tester
 	 */
-	public function testBroadcastsBlockWithDefaultParameters( AcceptanceTester $I ) {
+	public function testBroadcastsBlockWithDefaultParameters(AcceptanceTester $I)
+	{
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage( $I, 'page', 'ConvertKit: Page: Broadcasts: Default Params' );
+		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Broadcasts: Default Params');
 
 		// Add block to Page.
-		$I->addGutenbergBlock( $I, 'ConvertKit Broadcasts', 'convertkit-broadcasts' );
+		$I->addGutenbergBlock($I, 'ConvertKit Broadcasts', 'convertkit-broadcasts');
 
 		// Publish and view the Page on the frontend site.
-		$I->publishAndViewGutenbergPage( $I );
+		$I->publishAndViewGutenbergPage($I);
 
 		// Confirm that the block displays.
-		$I->seeBroadcastsOutput( $I );
+		$I->seeBroadcastsOutput($I);
 
 		// Confirm that the default date format is as expected.
-		$I->seeInSource( '<time datetime="2022-04-08">April 8, 2022</time>' );
+		$I->seeInSource('<time datetime="2022-04-08">April 8, 2022</time>');
 
 		// Confirm that the default expected number of Broadcasts are displayed.
-		$I->seeNumberOfElements( 'li.convertkit-broadcast', array( 1, 10 ) );
+		$I->seeNumberOfElements('li.convertkit-broadcast', [1,10]);
 	}
 
 	/**
 	 * Test the Broadcasts block's date format parameter works.
-	 *
-	 * @since 1.9.7.4
-	 *
-	 * @param AcceptanceTester $I Tester
+	 * 
+	 * @since 	1.9.7.4
+	 * 
+	 * @param 	AcceptanceTester 	$I 	Tester
 	 */
-	public function testBroadcastsBlockWithDateFormatParameter( AcceptanceTester $I ) {
+	public function testBroadcastsBlockWithDateFormatParameter(AcceptanceTester $I)
+	{
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage( $I, 'page', 'ConvertKit: Page: Broadcasts: Date Format Param' );
+		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Broadcasts: Date Format Param');
 
 		// Add block to Page, setting the date format.
-		$I->addGutenbergBlock(
-			$I,
-			'ConvertKit Broadcasts',
-			'convertkit-broadcasts',
-			array(
-				'date_format' => array( 'select', 'Y-m-d' ),
-			)
-		);
+		$I->addGutenbergBlock($I, 'ConvertKit Broadcasts', 'convertkit-broadcasts', [
+			'date_format' => [ 'select', 'Y-m-d' ],
+		]);
 
 		// Publish and view the Page on the frontend site.
-		$I->publishAndViewGutenbergPage( $I );
+		$I->publishAndViewGutenbergPage($I);
 
 		// Confirm that the block displays.
-		$I->seeBroadcastsOutput( $I );
+		$I->seeBroadcastsOutput($I);
 
 		// Confirm that the date format is as expected.
-		$I->seeInSource( '<time datetime="2022-04-08">2022-04-08</time>' );
+		$I->seeInSource('<time datetime="2022-04-08">2022-04-08</time>');
 
 		// Confirm that the default expected number of Broadcasts are displayed.
-		$I->seeNumberOfElements( 'li.convertkit-broadcast', array( 1, 10 ) );
+		$I->seeNumberOfElements('li.convertkit-broadcast', [1,10]);
 	}
 
 	/**
 	 * Test the Broadcasts block's limit parameter works.
-	 *
-	 * @since 1.9.7.4
-	 *
-	 * @param AcceptanceTester $I Tester
+	 * 
+	 * @since 	1.9.7.4
+	 * 
+	 * @param 	AcceptanceTester 	$I 	Tester
 	 */
-	public function testBroadcastsBlockWithLimitParameter( AcceptanceTester $I ) {
+	public function testBroadcastsBlockWithLimitParameter(AcceptanceTester $I)
+	{
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage( $I, 'page', 'ConvertKit: Page: Broadcasts: Limit Param' );
+		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Broadcasts: Limit Param');
 
 		// Add block to Page, setting the limit.
-		$I->addGutenbergBlock(
-			$I,
-			'ConvertKit Broadcasts',
-			'convertkit-broadcasts',
-			array(
-				'limit' => array( 'input', '2' ),
-			)
-		);
+		$I->addGutenbergBlock($I, 'ConvertKit Broadcasts', 'convertkit-broadcasts', [
+			'limit' => [ 'input', '2' ],
+		]);
 
 		// Publish and view the Page on the frontend site.
-		$I->publishAndViewGutenbergPage( $I );
+		$I->publishAndViewGutenbergPage($I);
 
 		// Confirm that the block displays.
-		$I->seeBroadcastsOutput( $I );
+		$I->seeBroadcastsOutput($I);
 
 		// Confirm that the expected number of Broadcasts are displayed.
-		$I->seeNumberOfElements( 'li.convertkit-broadcast', 2 );
+		$I->seeNumberOfElements('li.convertkit-broadcast', 2);
 	}
 
 	/**
 	 * Test the Broadcasts block renders when the limit parameter is blank.
-	 *
-	 * @since 1.9.7.4
-	 *
-	 * @param AcceptanceTester $I Tester
+	 * 
+	 * @since 	1.9.7.4
+	 * 
+	 * @param 	AcceptanceTester 	$I 	Tester
 	 */
-	public function testBroadcastsBlockWithBlankLimitParameter( AcceptanceTester $I ) {
+	public function testBroadcastsBlockWithBlankLimitParameter(AcceptanceTester $I)
+	{
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage( $I, 'page', 'ConvertKit: Page: Broadcasts: Blank Limit Param' );
+		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Broadcasts: Blank Limit Param');
 
 		// Add block to Page.
-		$I->addGutenbergBlock( $I, 'ConvertKit Broadcasts', 'convertkit-broadcasts' );
+		$I->addGutenbergBlock($I, 'ConvertKit Broadcasts', 'convertkit-broadcasts');
 
 		// When the sidebar appears, blank the limit parameter as the user might, by pressing the backspace key twice.
-		$I->waitForElementVisible( '.interface-interface-skeleton__sidebar[aria-label="Editor settings"]' );
-		$I->pressKey( '#convertkit_broadcasts_limit', \Facebook\WebDriver\WebDriverKeys::BACKSPACE );
-		$I->pressKey( '#convertkit_broadcasts_limit', \Facebook\WebDriver\WebDriverKeys::BACKSPACE );
+		$I->waitForElementVisible('.interface-interface-skeleton__sidebar[aria-label="Editor settings"]');
+		$I->pressKey('#convertkit_broadcasts_limit', \Facebook\WebDriver\WebDriverKeys::BACKSPACE );
+		$I->pressKey('#convertkit_broadcasts_limit', \Facebook\WebDriver\WebDriverKeys::BACKSPACE );
 
 		// Confirm that the block did not encounter an error and fail to render.
-		$I->checkGutenbergBlockHasNoErrors( $I, 'ConvertKit Broadcasts' );
+		$I->checkGutenbergBlockHasNoErrors($I, 'ConvertKit Broadcasts');
 
 		// Publish and view the Page on the frontend site.
-		$I->publishAndViewGutenbergPage( $I );
+		$I->publishAndViewGutenbergPage($I);
 
 		// Confirm that the block displays.
-		$I->seeBroadcastsOutput( $I );
+		$I->seeBroadcastsOutput($I);
 
 		// Confirm that the expected number of Broadcasts are displayed.
-		$I->seeNumberOfElements( 'li.convertkit-broadcast', array( 1, 10 ) );
+		$I->seeNumberOfElements('li.convertkit-broadcast', [1,10]);
 	}
 
 	/**
 	 * Test the Broadcasts block's pagination works when enabled.
-	 *
-	 * @since 1.9.7.6
-	 *
-	 * @param AcceptanceTester $I Tester
+	 * 
+	 * @since 	1.9.7.6
+	 * 
+	 * @param 	AcceptanceTester 	$I 	Tester
 	 */
-	public function testBroadcastsBlockWithPaginationEnabled( AcceptanceTester $I ) {
+	public function testBroadcastsBlockWithPaginationEnabled(AcceptanceTester $I)
+	{
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage( $I, 'page', 'ConvertKit: Page: Broadcasts: Pagination' );
+		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Broadcasts: Pagination');
 
 		// Add block to Page, setting the limit.
-		$I->addGutenbergBlock(
-			$I,
-			'ConvertKit Broadcasts',
-			'convertkit-broadcasts',
-			array(
-				'limit'                   => array( 'input', '1' ),
-				'.components-form-toggle' => array( 'toggle', true ),
-			)
-		);
+		$I->addGutenbergBlock($I, 'ConvertKit Broadcasts', 'convertkit-broadcasts', [
+			'limit' 	 				=> [ 'input', '1' ],
+			'.components-form-toggle' 	=> [ 'toggle', true ],
+		]);
 
 		// Publish and view the Page on the frontend site.
-		$I->publishAndViewGutenbergPage( $I );
+		$I->publishAndViewGutenbergPage($I);
 
 		// Test pagination.
-		$I->testBroadcastsPagination( $I, 'Previous', 'Next' );
+		$I->testBroadcastsPagination($I, 'Previous', 'Next');
 	}
 
 	/**
 	 * Test the Broadcasts block's pagination labels work when defined.
-	 *
-	 * @since 1.9.7.6
-	 *
-	 * @param AcceptanceTester $I Tester
+	 * 
+	 * @since 	1.9.7.6
+	 * 
+	 * @param 	AcceptanceTester 	$I 	Tester
 	 */
-	public function testBroadcastsBlockWithPaginationLabelParameters( AcceptanceTester $I ) {
+	public function testBroadcastsBlockWithPaginationLabelParameters(AcceptanceTester $I)
+	{
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage( $I, 'page', 'ConvertKit: Page: Broadcasts: Pagination Labels' );
+		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Broadcasts: Pagination Labels');
 
 		// Add block to Page, setting the limit.
-		$I->addGutenbergBlock(
-			$I,
-			'ConvertKit Broadcasts',
-			'convertkit-broadcasts',
-			array(
-				'limit'                   => array( 'input', '1' ),
-				'.components-form-toggle' => array( 'toggle', true ),
-				'paginate_label_prev'     => array( 'input', 'Newer' ),
-				'paginate_label_next'     => array( 'input', 'Older' ),
-			)
-		);
+		$I->addGutenbergBlock($I, 'ConvertKit Broadcasts', 'convertkit-broadcasts', [
+			'limit' 	 		  		=> [ 'input', '1' ],
+			'.components-form-toggle' 	=> [ 'toggle', true ],
+			'paginate_label_prev' 		=> [ 'input', 'Newer' ],
+			'paginate_label_next' 		=> [ 'input', 'Older' ],
+		]);
 
 		// Publish and view the Page on the frontend site.
-		$I->publishAndViewGutenbergPage( $I );
+		$I->publishAndViewGutenbergPage($I);
 
 		// Test pagination.
-		$I->testBroadcastsPagination( $I, 'Older', 'Newer' );
+		$I->testBroadcastsPagination($I, 'Older', 'Newer');
 	}
 
 	/**
 	 * Test the Broadcasts block's theme color parameters works.
-	 *
-	 * @since 1.9.7.4
-	 *
-	 * @param AcceptanceTester $I Tester
+	 * 
+	 * @since 	1.9.7.4
+	 * 
+	 * @param 	AcceptanceTester 	$I 	Tester
 	 */
-	public function testBroadcastsBlockWithThemeColorParameters( AcceptanceTester $I ) {
+	public function testBroadcastsBlockWithThemeColorParameters(AcceptanceTester $I)
+	{
 		// Define colors.
 		$backgroundColor = 'white';
-		$textColor       = 'purple';
+		$textColor = 'purple';
 
 		// It's tricky to interact with Gutenberg's color picker, so we programmatically create the Page
 		// instead to then confirm the color settings apply on the output.
 		// We don't need to test the color picker itself, as it's a Gutenberg supplied component, and our
 		// other Acceptance tests confirm that the block can be added in Gutenberg etc.
-		$I->havePageInDatabase(
-			array(
-				'post_name'    => 'convertkit-page-broadcasts-block-theme-color-params',
-				'post_content' => '<!-- wp:convertkit/broadcasts {"backgroundColor":"' . $backgroundColor . '","textColor":"' . $textColor . '"} /-->',
-			)
-		);
+		$I->havePageInDatabase([
+			'post_name' 	=> 'convertkit-page-broadcasts-block-theme-color-params',
+			'post_content' 	=> '<!-- wp:convertkit/broadcasts {"backgroundColor":"'.$backgroundColor.'","textColor":"'.$textColor.'"} /-->',
+		]);
 
 		// Load the Page on the frontend site.
-		$I->amOnPage( '/convertkit-page-broadcasts-block-theme-color-params' );
+		$I->amOnPage('/convertkit-page-broadcasts-block-theme-color-params');
 
 		// Wait for frontend web site to load.
-		$I->waitForElementVisible( 'body.page-template-default' );
+		$I->waitForElementVisible('body.page-template-default');
 
 		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen( $I );
+		$I->checkNoWarningsAndNoticesOnScreen($I);
 
 		// Confirm that the block displays.
-		$I->seeBroadcastsOutput( $I );
+		$I->seeBroadcastsOutput($I);
 
 		// Confirm that our stylesheet loaded.
-		$I->seeInSource( '<link rel="stylesheet" id="convertkit-broadcasts-css" href="' . $_ENV['TEST_SITE_WP_URL'] . '/wp-content/plugins/convertkit/resources/frontend/css/broadcasts.css' );
+		$I->seeInSource('<link rel="stylesheet" id="convertkit-broadcasts-css" href="'.$_ENV['TEST_SITE_WP_URL'].'/wp-content/plugins/convertkit/resources/frontend/css/broadcasts.css');
 
 		// Confirm that the chosen colors are applied as CSS styles.
-		$I->seeInSource( '<div class="convertkit-broadcasts has-text-color has-' . $textColor . '-color has-background has-' . $backgroundColor . '-background-color"' );
+		$I->seeInSource('<div class="convertkit-broadcasts has-text-color has-'.$textColor.'-color has-background has-'.$backgroundColor.'-background-color"');
 	}
 
 	/**
 	 * Test the Broadcasts block's hex color parameters works.
-	 *
-	 * @since 1.9.7.4
-	 *
-	 * @param AcceptanceTester $I Tester
+	 * 
+	 * @since 	1.9.7.4
+	 * 
+	 * @param 	AcceptanceTester 	$I 	Tester
 	 */
-	public function testBroadcastsBlockWithHexColorParameters( AcceptanceTester $I ) {
+	public function testBroadcastsBlockWithHexColorParameters(AcceptanceTester $I)
+	{
 		// Define colors.
 		$backgroundColor = '#ee1616';
-		$textColor       = '#1212c0';
+		$textColor = '#1212c0';
 
 		// It's tricky to interact with Gutenberg's color picker, so we programmatically create the Page
 		// instead to then confirm the color settings apply on the output.
 		// We don't need to test the color picker itself, as it's a Gutenberg supplied component, and our
 		// other Acceptance tests confirm that the block can be added in Gutenberg etc.
-		$I->havePageInDatabase(
-			array(
-				'post_name'    => 'convertkit-page-broadcasts-block-hex-color-params',
-				'post_content' => '<!-- wp:convertkit/broadcasts {"date_format":"m/d/Y","limit":3,"style":{"color":{"text":"' . $textColor . '","background":"' . $backgroundColor . '"}}} /-->',
-			)
-		);
+		$I->havePageInDatabase([
+			'post_name' 	=> 'convertkit-page-broadcasts-block-hex-color-params',
+			'post_content' 	=> '<!-- wp:convertkit/broadcasts {"date_format":"m/d/Y","limit":3,"style":{"color":{"text":"'.$textColor.'","background":"'.$backgroundColor.'"}}} /-->',
+		]);
 
 		// Load the Page on the frontend site.
-		$I->amOnPage( '/convertkit-page-broadcasts-block-hex-color-params' );
+		$I->amOnPage('/convertkit-page-broadcasts-block-hex-color-params');
 
 		// Wait for frontend web site to load.
-		$I->waitForElementVisible( 'body.page-template-default' );
+		$I->waitForElementVisible('body.page-template-default');
 
 		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen( $I );
+		$I->checkNoWarningsAndNoticesOnScreen($I);
 
 		// Confirm that the block displays.
-		$I->seeBroadcastsOutput( $I );
+		$I->seeBroadcastsOutput($I);
 
 		// Confirm that our stylesheet loaded.
-		$I->seeInSource( '<link rel="stylesheet" id="convertkit-broadcasts-css" href="' . $_ENV['TEST_SITE_WP_URL'] . '/wp-content/plugins/convertkit/resources/frontend/css/broadcasts.css' );
+		$I->seeInSource('<link rel="stylesheet" id="convertkit-broadcasts-css" href="'.$_ENV['TEST_SITE_WP_URL'].'/wp-content/plugins/convertkit/resources/frontend/css/broadcasts.css');
 
 		// Confirm that the chosen colors are applied as CSS styles.
-		$I->seeInSource( '<div class="convertkit-broadcasts has-text-color has-background" style="color:' . $textColor . ';background-color:' . $backgroundColor . '"' );
+		$I->seeInSource('<div class="convertkit-broadcasts has-text-color has-background" style="color:'.$textColor.';background-color:'.$backgroundColor.'"');
 	}
 
 	/**
 	 * Deactivate and reset Plugin(s) after each test, if the test passes.
 	 * We don't use _after, as this would provide a screenshot of the Plugin
 	 * deactivation and not the true test error.
-	 *
-	 * @since 1.9.7.4
-	 *
-	 * @param AcceptanceTester $I Tester
+	 * 
+	 * @since 	1.9.7.4
+	 * 
+	 * @param 	AcceptanceTester 	$I 	Tester
 	 */
-	public function _passed( AcceptanceTester $I ) {
-		$I->deactivateConvertKitPlugin( $I );
-		$I->resetConvertKitPlugin( $I );
+	public function _passed(AcceptanceTester $I)
+	{
+		$I->deactivateConvertKitPlugin($I);
+		$I->resetConvertKitPlugin($I);
 	}
 }
