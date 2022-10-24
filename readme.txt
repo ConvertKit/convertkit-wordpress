@@ -117,7 +117,7 @@ Full Plugin documentation can be found [here](https://help.convertkit.com/en/art
 
 == Changelog ==
 
-### 2.0.0 2022-10-xx
+### 2.0.0 2022-10-24
 * Added: ConvertKit Products Block, to output a button linking to a ConvertKit Product or Tip Jar
 * Added: ConvertKit Products Shortcode, to output a button linking to a ConvertKit Product or Tip Jar
 * Added: Gutenberg: Option to link text or button to a ConvertKit Product or Tip Jar
