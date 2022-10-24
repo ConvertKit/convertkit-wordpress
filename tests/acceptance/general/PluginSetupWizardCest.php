@@ -146,6 +146,9 @@ class PluginSetupWizardCest
         // Confirm expected setup wizard screen is displayed.
         $this->_seeExpectedSetupWizardScreen($I, 2, 'Connect your ConvertKit account');
 
+        // Wait to prevent API rate limit hit due to parallel tests.
+        $I->wait(2);
+
         // Fill fields with invalid API Keys.
         $I->fillField('api_key', $_ENV['CONVERTKIT_API_KEY']);
         $I->fillField('api_secret', $_ENV['CONVERTKIT_API_SECRET']);
