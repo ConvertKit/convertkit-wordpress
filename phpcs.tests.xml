@@ -7,11 +7,11 @@
         <!-- Don't use yoda conditions -->
         <exclude name="WordPress.PHP.YodaConditions" />
 
-        <!-- Exclude WordPress rules so we follow Codeception's formatting -->
+        <!-- File and variable naming conventions in Codeception differ from WordPress -->
         <exclude name="WordPress.NamingConventions" />
         <exclude name="WordPress.Files.FileName" />
 
-        <!-- Exclude rules for function parameter spacing and newlines -->
+        <!-- Class and function braces and spacing in Codeceptoin differs from WordPress -->
         <exclude name="WordPress.WhiteSpace.ControlStructureSpacing.NoSpaceAfterOpenParenthesis" />
         <exclude name="WordPress.WhiteSpace.ControlStructureSpacing.ExtraSpaceAfterCloseParenthesis" />
         <exclude name="Squiz.Functions.FunctionDeclarationArgumentSpacing.SpacingAfterOpen" />
@@ -22,10 +22,10 @@
         <exclude name="PEAR.Functions.FunctionCallSignature.SpaceAfterOpenBracket" />
         <exclude name="PEAR.Functions.FunctionCallSignature.SpaceBeforeCloseBracket" />
 
-        <!-- _before() and _passed() must use underscores -->
+        <!-- _before() and _passed() must use underscores in Codeception -->
         <exclude name="PSR2.Methods.MethodDeclaration.Underscore" />
 
-        <!-- Make arrays more modern -->
+        <!-- Permit [] instead of array() -->
         <exclude name="Generic.Arrays.DisallowShortArraySyntax.Found" />
         
         <!-- We might use some datetime functions for tests -->
