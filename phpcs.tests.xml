@@ -7,23 +7,42 @@
         <!-- Don't use yoda conditions -->
         <exclude name="WordPress.PHP.YodaConditions" />
 
-        <!-- Codeception uses camelCase for variable names -->
-        <exclude name="WordPress.NamingConventions.ValidVariableName" />
-
-        <!-- We might use some datetime functions for tests -->
-        <exclude name="WordPress.DateTime.RestrictedFunctions" />
-
-        <!-- Filenames for tests are different in Codeception -->
+        <!-- Exclude WordPress rules so we follow Codeception's formatting -->
+        <exclude name="WordPress.NamingConventions" />
         <exclude name="WordPress.Files.FileName" />
 
-        <!-- Exclude WordPress naming conventions, as Codeception has its own rules -->
-        <exclude name="WordPress.NamingConventions" />
+        <!-- Exclude rules for function parameter spacing and newlines -->
+        <exclude name="WordPress.WhiteSpace.ControlStructureSpacing.NoSpaceAfterOpenParenthesis" />
+        <exclude name="WordPress.WhiteSpace.ControlStructureSpacing.ExtraSpaceAfterCloseParenthesis" />
+        <exclude name="Squiz.Functions.FunctionDeclarationArgumentSpacing.SpacingAfterOpen" />
+        <exclude name="WordPress.WhiteSpace.ControlStructureSpacing.NoSpaceBeforeCloseParenthesis" />
+        <exclude name="Generic.Classes.OpeningBraceSameLine.BraceOnNewLine" />
+        <exclude name="Generic.Functions.OpeningFunctionBraceKernighanRitchie.BraceOnNewLine" />
+        <exclude name="PEAR.Functions.FunctionCallSignature.SpaceBeforeOpenBracket" />
+        <exclude name="PEAR.Functions.FunctionCallSignature.SpaceAfterOpenBracket" />
+        <exclude name="PEAR.Functions.FunctionCallSignature.SpaceBeforeCloseBracket" />
+
+        <!-- _before() and _passed() must use underscores -->
+        <exclude name="PSR2.Methods.MethodDeclaration.Underscore" />
+
+        <!-- Make arrays more modern -->
+        <exclude name="Generic.Arrays.DisallowShortArraySyntax.Found" />
+        
+        <!-- We might use some datetime functions for tests -->
+        <exclude name="WordPress.DateTime.RestrictedFunctions" />
 
         <!-- Handles false positives where Coding Standards thinks we did something wrong when we're just checking for e.g. a stylesheet -->
         <exclude name="WordPress.WP.EnqueuedResources" />
         <exclude name="WordPress.PHP.DiscouragedPHPFunctions" />
-
-        <!-- Codeception requires _before() and _passed() methods start with an underscore -->
-        <exclude name="PSR2.Methods.MethodDeclaration.Underscore" />
     </rule>
+
+    <!-- Check that code is documented to WordPress Standards. -->
+    <rule ref="WordPress-Docs">
+        <!-- File document level comments are useless for tests; we know what a test suite does -->
+        <exclude name="Squiz.Commenting.FileComment.Missing" />
+    </rule>
+
+    <!-- Add in some extra rules from other standards. -->
+    <rule ref="Generic.CodeAnalysis.UnusedFunctionParameter"/>
+    <rule ref="Generic.Commenting.Todo"/>
 </ruleset>
