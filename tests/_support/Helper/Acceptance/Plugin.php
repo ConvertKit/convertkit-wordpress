@@ -10,8 +10,8 @@ class Plugin extends \Codeception\Module
 	/**
 	 * Helper method to activate the ConvertKit Plugin, checking
 	 * it activated and no errors were output.
-	 * 
-	 * @since 	1.9.6
+	 *
+	 * @since   1.9.6
 	 */
 	public function activateConvertKitPlugin($I)
 	{
@@ -21,8 +21,8 @@ class Plugin extends \Codeception\Module
 	/**
 	 * Helper method to deactivate the ConvertKit Plugin, checking
 	 * it activated and no errors were output.
-	 * 
-	 * @since 	1.9.6
+	 *
+	 * @since   1.9.6
 	 */
 	public function deactivateConvertKitPlugin($I)
 	{
@@ -31,11 +31,11 @@ class Plugin extends \Codeception\Module
 
 	/**
 	 * Helper method to setup the Plugin's API Key and Secret.
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @param 	mixed 	$apiKey 	API Key (if specified, used instead of CONVERTKIT_API_KEY)
-	 * @param 	mixed 	$apiSecret 	API Secret (if specified, used instead of CONVERTKIT_API_SECRET)
+	 *
+	 * @since   1.9.6
+	 *
+	 * @param   mixed $apiKey     API Key (if specified, used instead of CONVERTKIT_API_KEY)
+	 * @param   mixed $apiSecret  API Secret (if specified, used instead of CONVERTKIT_API_SECRET)
 	 */
 	public function setupConvertKitPlugin($I, $apiKey = false, $apiSecret = false)
 	{
@@ -46,8 +46,8 @@ class Plugin extends \Codeception\Module
 		$I->checkNoWarningsAndNoticesOnScreen($I);
 
 		// Determine API Key and Secret to use.
-		$convertKitAPIKey = ($apiKey !== false ? $apiKey : $_ENV['CONVERTKIT_API_KEY']);
-		$convertKitAPISecret = ($apiSecret !== false ? $apiSecret : $_ENV['CONVERTKIT_API_SECRET']);
+		$convertKitAPIKey    = ( $apiKey !== false ? $apiKey : $_ENV['CONVERTKIT_API_KEY'] );
+		$convertKitAPISecret = ( $apiSecret !== false ? $apiSecret : $_ENV['CONVERTKIT_API_SECRET'] );
 
 		// Complete API Fields.
 		$I->fillField('_wp_convertkit_settings[api_key]', $convertKitAPIKey);
@@ -66,8 +66,8 @@ class Plugin extends \Codeception\Module
 
 	/**
 	 * Helper method to setup the Plugin's Default Form setting for Pages and Posts.
-	 * 
-	 * @since 	1.9.6
+	 *
+	 * @since   1.9.6
 	 */
 	public function setupConvertKitPluginDefaultForm($I)
 	{
@@ -97,8 +97,8 @@ class Plugin extends \Codeception\Module
 
 	/**
 	 * Helper method to setup the Plugin's Default Legacy Form setting for Pages and Posts.
-	 * 
-	 * @since 	1.9.6
+	 *
+	 * @since   1.9.6
 	 */
 	public function setupConvertKitPluginDefaultLegacyForm($I)
 	{
@@ -128,8 +128,8 @@ class Plugin extends \Codeception\Module
 
 	/**
 	 * Helper method to setup the Plugin's Default Form setting for WooCommerce Products.
-	 * 
-	 * @since 	1.9.6
+	 *
+	 * @since   1.9.6
 	 */
 	public function setupConvertKitPluginDefaultFormForWooCommerceProducts($I)
 	{
@@ -157,8 +157,8 @@ class Plugin extends \Codeception\Module
 
 	/**
 	 * Helper method to reset the ConvertKit Plugin settings, as if it's a clean installation.
-	 * 
-	 * @since 	1.9.6.7
+	 *
+	 * @since   1.9.6.7
 	 */
 	public function resetConvertKitPlugin($I)
 	{
@@ -184,8 +184,8 @@ class Plugin extends \Codeception\Module
 
 	/**
 	 * Helper method to load the Plugin's Settings > General screen.
-	 * 
-	 * @since 	1.9.6
+	 *
+	 * @since   1.9.6
 	 */
 	public function loadConvertKitSettingsGeneralScreen($I)
 	{
@@ -197,8 +197,8 @@ class Plugin extends \Codeception\Module
 
 	/**
 	 * Helper method to load the Plugin's Settings > Tools screen.
-	 * 
-	 * @since 	1.9.6
+	 *
+	 * @since   1.9.6
 	 */
 	public function loadConvertKitSettingsToolsScreen($I)
 	{
@@ -210,14 +210,14 @@ class Plugin extends \Codeception\Module
 
 	/**
 	 * Helper method to enable the Plugin's Settings > General > Debug option.
-	 * 
-	 * @since 	1.9.6
+	 *
+	 * @since   1.9.6
 	 */
 	public function enableDebugLog($I)
 	{
 		// Go to the Plugin's Settings Screen.
 		$I->loadConvertKitSettingsGeneralScreen($I);
-		
+
 		// Tick field.
 		$I->checkOption('#debug');
 
@@ -227,22 +227,22 @@ class Plugin extends \Codeception\Module
 
 	/**
 	 * Helper method to clear the Plugin's debug log.
-	 * 
-	 * @since 	1.9.6
+	 *
+	 * @since   1.9.6
 	 */
 	public function clearDebugLog($I)
 	{
 		// Go to the Plugin's Tools Screen.
 		$I->loadConvertKitSettingsToolsScreen($I);
-		
+
 		// Click the Clear log button.
 		$I->click('Clear log');
 	}
 
 	/**
 	 * Helper method to determine if the given entry exists in the Plugin Debug Log screen's textarea.
-	 * 
-	 * @since 	1.9.6
+	 *
+	 * @since   1.9.6
 	 */
 	public function seeInPluginDebugLog($I, $entry)
 	{
@@ -252,8 +252,8 @@ class Plugin extends \Codeception\Module
 
 	/**
 	 * Helper method to determine if the given entry does not exist in the Plugin Debug Log screen's textarea.
-	 * 
-	 * @since 	1.9.6
+	 *
+	 * @since   1.9.6
 	 */
 	public function dontSeeInPluginDebugLog($I, $entry)
 	{
@@ -264,13 +264,13 @@ class Plugin extends \Codeception\Module
 	/**
 	 * Check that expected HTML exists in the DOM of the page we're viewing for
 	 * a Broadcasts block or shortcode.
-	 * 
-	 * @since 	1.9.7.5
 	 *
-	 * @param 	AcceptanceTester 	$I 						Tester.
-	 * @param 	bool|int 			$numberOfPosts 			Number of Broadcasts listed.
-	 * @param 	bool|string 		$seePrevPaginationLabel Test if the "previous" pagination link is output and matches expected label.
-	 * @param 	bool|string 		$seePrevPaginationLabel Test if the "next" pagination link is output and matches expected label.
+	 * @since   1.9.7.5
+	 *
+	 * @param   AcceptanceTester $I                      Tester.
+	 * @param   bool|int         $numberOfPosts          Number of Broadcasts listed.
+	 * @param   bool|string      $seePrevPaginationLabel Test if the "previous" pagination link is output and matches expected label.
+	 * @param   bool|string      $seePrevPaginationLabel Test if the "next" pagination link is output and matches expected label.
 	 */
 	public function seeBroadcastsOutput($I, $numberOfPosts = false, $seePrevPaginationLabel = false, $seeNextPaginationLabel = false)
 	{
@@ -282,7 +282,7 @@ class Plugin extends \Codeception\Module
 
 		// Confirm that UTM parameters exist on a broadcast link.
 		$I->assertStringContainsString(
-			'utm_source=wordpress&utm_content=convertkit',
+			'utm_source=WordPress&utm_content=convertkit',
 			$I->grabAttributeFrom('div.convertkit-broadcasts ul.convertkit-broadcasts-list li.convertkit-broadcast a', 'href')
 		);
 
@@ -294,24 +294,24 @@ class Plugin extends \Codeception\Module
 		// Confirm that previous pagination displays.
 		if ($seePrevPaginationLabel !== false) {
 			$I->seeElementInDOM('div.convertkit-broadcasts ul.convertkit-broadcasts-pagination li.convertkit-broadcasts-pagination-prev a');
-			$I->seeInSource($seePrevPaginationLabel);		
+			$I->seeInSource($seePrevPaginationLabel);
 		}
 
 		// Confirm that next pagination displays.
 		if ($seeNextPaginationLabel !== false) {
-			$I->seeElementInDOM('div.convertkit-broadcasts ul.convertkit-broadcasts-pagination li.convertkit-broadcasts-pagination-next a');	
+			$I->seeElementInDOM('div.convertkit-broadcasts ul.convertkit-broadcasts-pagination li.convertkit-broadcasts-pagination-next a');
 		}
 	}
 
 	/**
 	 * Tests that the Broadcasts pagination works, and that the expected Broadcast
 	 * is displayed after using previous and next links.
-	 * 
-	 * @since 	2.0.0
-	 * 
-	 * @param 	AcceptanceTester 	$I 						Tester.
-	 * @param 	string 				$previousLabel 			Previous / Newer Broadcasts Label.
-	 * @param 	string 				$nextLabel 				Next / Older Broadcasts Label.
+	 *
+	 * @since   2.0.0
+	 *
+	 * @param   AcceptanceTester $I                      Tester.
+	 * @param   string           $previousLabel          Previous / Newer Broadcasts Label.
+	 * @param   string           $nextLabel              Next / Older Broadcasts Label.
 	 */
 	public function testBroadcastsPagination($I, $previousLabel, $nextLabel)
 	{
@@ -329,12 +329,12 @@ class Plugin extends \Codeception\Module
 		$I->seeBroadcastsOutput($I, 1, $previousLabel, false);
 
 		// Fetch Broadcasts from the resource, to determine the name of the most recent two broadcasts.
-		$broadcasts = $I->grabOptionFromDatabase('convertkit_posts');
-		$firstBroadcast = current(array_slice($broadcasts, 0, 1));
+		$broadcasts      = $I->grabOptionFromDatabase('convertkit_posts');
+		$firstBroadcast  = current(array_slice($broadcasts, 0, 1));
 		$secondBroadcast = current(array_slice($broadcasts, 1, 1));
 
 		// Confirm that the expected Broadcast name is displayed and links to the expected URL, with UTM parameters.
-		$I->seeInSource('<a href="'.$secondBroadcast['url'].'?utm_source=wordpress&amp;utm_content=convertkit" target="_blank" rel="nofollow noopener"');
+		$I->seeInSource('<a href="' . $secondBroadcast['url'] . '?utm_source=wordpress&amp;utm_content=convertkit" target="_blank" rel="nofollow noopener"');
 		$I->seeInSource($secondBroadcast['title']);
 
 		// Click the Newer Posts link.
@@ -348,35 +348,39 @@ class Plugin extends \Codeception\Module
 		$I->seeBroadcastsOutput($I, 1, false, $nextLabel);
 
 		// Confirm that the expected Broadcast name is displayed and links to the expected URL, with UTM parameters.
-		$I->seeInSource('<a href="'.$firstBroadcast['url'].'?utm_source=wordpress&amp;utm_content=convertkit" target="_blank" rel="nofollow noopener"');
+		$I->seeInSource('<a href="' . $firstBroadcast['url'] . '?utm_source=wordpress&amp;utm_content=convertkit" target="_blank" rel="nofollow noopener"');
 		$I->seeInSource($firstBroadcast['title']);
 	}
 
 	/**
 	 * Wait for the AJAX request to complete, by checking if the convertkit-broadcasts-loading class has been
 	 * removed from the block.
-	 * 
-	 * @since 	1.9.7.6
-	 * 
-	 * @param 	AcceptanceTester 	$I 						Tester.
+	 *
+	 * @since   1.9.7.6
+	 *
+	 * @param   AcceptanceTester $I                      Tester.
 	 */
 	public function waitForBroadcastsToLoad($I)
 	{
-		$I->waitForElementChange('div.convertkit-broadcasts', function(\Facebook\WebDriver\WebDriverElement $el) {
-			return ( strpos($el->getAttribute('class'), 'convertkit-broadcasts-loading') === false ? true : false );
-		}, 5);
+		$I->waitForElementChange(
+			'div.convertkit-broadcasts',
+			function(\Facebook\WebDriver\WebDriverElement $el) {
+				return ( strpos($el->getAttribute('class'), 'convertkit-broadcasts-loading') === false ? true : false );
+			},
+			5
+		);
 	}
 
 	/**
 	 * Check that expected HTML exists in the DOM of the page we're viewing
 	 * when a ConvertKit Product link was inserted into a paragraph or button,
 	 * and that the button loads the expected ConvertKit Product modal.
-	 * 
-	 * @since 	2.0.0
 	 *
-	 * @param 	AcceptanceTester 	$I 				Tester.
-	 * @param 	string 				$productURL 	Product URL.
-	 * @param 	bool|string 		$text 			Test if the link text matches the given value.
+	 * @since   2.0.0
+	 *
+	 * @param   AcceptanceTester $I              Tester.
+	 * @param   string           $productURL     Product URL.
+	 * @param   bool|string      $text           Test if the link text matches the given value.
 	 */
 	public function seeProductLink($I, $productURL, $text = false)
 	{
@@ -391,12 +395,12 @@ class Plugin extends \Codeception\Module
 
 		// Confirm that the button text is as expected.
 		if ($text !== false) {
-			$I->seeInSource('>'.$text.'</a>');		
+			$I->seeInSource('>' . $text . '</a>');
 		}
 
 		// Click the button to confirm that the ConvertKit modal displays; this confirms
 		// necessary ConvertKit scripts have been loaded.
-		$I->click('a[href="'.$productURL.'"]');
+		$I->click('a[href="' . $productURL . '"]');
 		$I->seeElementInDOM('iframe[data-active]');
 	}
 
@@ -404,14 +408,14 @@ class Plugin extends \Codeception\Module
 	 * Check that expected HTML exists in the DOM of the page we're viewing for
 	 * a Product block or shortcode, and that the button loads the expected
 	 * ConvertKit Product modal.
-	 * 
-	 * @since 	1.9.8.5
 	 *
-	 * @param 	AcceptanceTester 	$I 				Tester.
-	 * @param 	string 				$productURL 	Product URL.
-	 * @param 	bool|string 		$text 			Test if the button text matches the given value.
-	 * @param 	bool|string 		$textColor 		Test if the given text color is applied.
-	 * @param 	bool|string 		$backgroundColor Test is the given background color is applied.
+	 * @since   1.9.8.5
+	 *
+	 * @param   AcceptanceTester $I              Tester.
+	 * @param   string           $productURL     Product URL.
+	 * @param   bool|string      $text           Test if the button text matches the given value.
+	 * @param   bool|string      $textColor      Test if the given text color is applied.
+	 * @param   bool|string      $backgroundColor Test is the given background color is applied.
 	 */
 	public function seeProductOutput($I, $productURL, $text = false, $textColor = false, $backgroundColor = false)
 	{
@@ -425,7 +429,7 @@ class Plugin extends \Codeception\Module
 		if ($textColor !== false) {
 			$I->seeElementInDOM('a.convertkit-product.has-text-color');
 			$I->assertStringContainsString(
-				'color:'.$textColor,
+				'color:' . $textColor,
 				$I->grabAttributeFrom('a.convertkit-product', 'style')
 			);
 		}
@@ -434,7 +438,7 @@ class Plugin extends \Codeception\Module
 		if ($backgroundColor !== false) {
 			$I->seeElementInDOM('a.convertkit-product.has-background');
 			$I->assertStringContainsString(
-				'background-color:'.$backgroundColor,
+				'background-color:' . $backgroundColor,
 				$I->grabAttributeFrom('a.convertkit-product', 'style')
 			);
 		}
@@ -448,11 +452,11 @@ class Plugin extends \Codeception\Module
 	/**
 	 * Check that expected HTML does exists in the DOM of the page we're viewing for
 	 * a Product block or shortcode.
-	 * 
-	 * @since 	1.9.8.5
 	 *
-	 * @param 	AcceptanceTester 	$I 		Tester.
-	 * @param 	bool|string 		$text 	Test if the button text matches the given value.
+	 * @since   1.9.8.5
+	 *
+	 * @param   AcceptanceTester $I      Tester.
+	 * @param   bool|string      $text   Test if the button text matches the given value.
 	 */
 	public function dontSeeProductOutput($I, $text = false)
 	{

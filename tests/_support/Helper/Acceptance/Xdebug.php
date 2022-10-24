@@ -9,8 +9,8 @@ class Xdebug extends \Codeception\Module
 {
 	/**
 	 * Helper method to assert that there are non PHP errors, warnings or notices output
-	 * 
-	 * @since 	1.9.6
+	 *
+	 * @since   1.9.6
 	 */
 	public function checkNoWarningsAndNoticesOnScreen($I)
 	{

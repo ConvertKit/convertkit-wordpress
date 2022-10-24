@@ -9,13 +9,13 @@ class WPWidget extends \Codeception\Module
 {
 	/**
 	 * Configure a given legacy widget's fields with the given values.
-	 * 
-	 * @since 	1.9.7.6
-	 * 
-	 * @param 	AcceptanceTester 	$I 						Acceptance Tester.
-	 * @param 	string 				$blockName 				Block Name (e.g. 'ConvertKit Form').
-	 * @param 	string 				$blockProgrammaticName 	Programmatic Block Name (e.g. 'convertkit-form').
-	 * @param 	bool|array 			$blockConfiguration 	Block Configuration (field => value key/value array).
+	 *
+	 * @since   1.9.7.6
+	 *
+	 * @param   AcceptanceTester $I                      Acceptance Tester.
+	 * @param   string           $blockName              Block Name (e.g. 'ConvertKit Form').
+	 * @param   string           $blockProgrammaticName  Programmatic Block Name (e.g. 'convertkit-form').
+	 * @param   bool|array       $blockConfiguration     Block Configuration (field => value key/value array).
 	 */
 	public function addLegacyWidget($I, $blockName, $blockProgrammaticName, $blockConfiguration = false)
 	{
@@ -37,14 +37,14 @@ class WPWidget extends \Codeception\Module
 		// fails stating this is malformed CSS.
 		$I->seeElementInDOM('.block-editor-inserter__panel-content .block-editor-block-types-list__list-item button[tabindex="0"]');
 		$I->click('.block-editor-inserter__panel-content .block-editor-block-types-list__list-item button[tabindex="0"]');
-		
+
 		// If a Block configuration is specified, apply it to the Block now.
 		if ($blockConfiguration) {
 			$I->waitForElementVisible('.wp-block-legacy-widget form');
 
-			foreach ($blockConfiguration as $field=>$attributes) {
+			foreach ($blockConfiguration as $field => $attributes) {
 				$fieldID = '#widget-' . str_replace('-', '_', $blockProgrammaticName) . '-1-' . $field;
-				
+
 				// Depending on the field's type, define its value.
 				switch ($attributes[0]) {
 					case 'select':
@@ -69,13 +69,13 @@ class WPWidget extends \Codeception\Module
 
 	/**
 	 * Check a given legacy widget is displayed on the frontend site.
-	 * 
-	 * @since 	1.9.7.6
-	 * 
-	 * @param 	AcceptanceTester 	$I 						Acceptance Tester.
-	 * @param 	string 				$blockName 				Block Name (e.g. 'ConvertKit Form').
-	 * @param 	string 				$blockProgrammaticName 	Programmatic Block Name (e.g. 'convertkit-form').
-	 * @param 	bool|array 			$blockConfiguration 	Block Configuration (field => value key/value array).
+	 *
+	 * @since   1.9.7.6
+	 *
+	 * @param   AcceptanceTester $I                      Acceptance Tester.
+	 * @param   string           $blockName              Block Name (e.g. 'ConvertKit Form').
+	 * @param   string           $blockProgrammaticName  Programmatic Block Name (e.g. 'convertkit-form').
+	 * @param   bool|array       $blockConfiguration     Block Configuration (field => value key/value array).
 	 */
 	public function seeLegacyWidget($I, $blockProgrammaticName, $expectedMarkup)
 	{
@@ -86,7 +86,7 @@ class WPWidget extends \Codeception\Module
 		$I->waitForElementVisible('body');
 
 		// Confirm that the widget exists in an expected widget area.
-		$I->seeElementInDOM('aside.widget-area .widget_'.str_replace('-', '_', $blockProgrammaticName));
+		$I->seeElementInDOM('aside.widget-area .widget_' . str_replace('-', '_', $blockProgrammaticName));
 
 		// Confirm that the ConvertKit Form is displayed in the widget.
 		$I->seeElementInDOM($expectedMarkup);
@@ -94,15 +94,15 @@ class WPWidget extends \Codeception\Module
 
 	/**
 	 * Add the given block when editing widgets using Gutenberg.
-	 * 
+	 *
 	 * If a block configuration is specified, applies it to the newly added block.
-	 * 
-	 * @since 	1.9.7.6
-	 * 
-	 * @param 	AcceptanceTester 	$I 						Acceptance Tester.
-	 * @param 	string 				$blockName 				Block Name (e.g. 'ConvertKit Form').
-	 * @param 	string 				$blockProgrammaticName 	Programmatic Block Name (e.g. 'convertkit-form').
-	 * @param 	bool|array 			$blockConfiguration 	Block Configuration (field => value key/value array).
+	 *
+	 * @since   1.9.7.6
+	 *
+	 * @param   AcceptanceTester $I                      Acceptance Tester.
+	 * @param   string           $blockName              Block Name (e.g. 'ConvertKit Form').
+	 * @param   string           $blockProgrammaticName  Programmatic Block Name (e.g. 'convertkit-form').
+	 * @param   bool|array       $blockConfiguration     Block Configuration (field => value key/value array).
 	 */
 	public function addBlockWidget($I, $blockName, $blockProgrammaticName, $blockConfiguration = false)
 	{
@@ -125,11 +125,11 @@ class WPWidget extends \Codeception\Module
 		if ($blockConfiguration) {
 			$I->waitForElementVisible('.interface-interface-skeleton__sidebar[aria-label="Widgets settings"]');
 
-			foreach ($blockConfiguration as $field=>$attributes) {
+			foreach ($blockConfiguration as $field => $attributes) {
 				// Field ID will be block's programmatic name with underscores instead of hyphens,
 				// followed by the attribute name.
 				$fieldID = '#' . str_replace('-', '_', $blockProgrammaticName) . '_' . $field;
-				
+
 				// Depending on the field's type, define its value.
 				switch ($attributes[0]) {
 					case 'select':
@@ -167,13 +167,13 @@ class WPWidget extends \Codeception\Module
 
 	/**
 	 * Check a given block widget is displayed on the frontend site.
-	 * 
-	 * @since 	1.9.7.6
-	 * 
-	 * @param 	AcceptanceTester 	$I 						Acceptance Tester.
-	 * @param 	string 				$blockName 				Block Name (e.g. 'ConvertKit Form').
-	 * @param 	string 				$blockProgrammaticName 	Programmatic Block Name (e.g. 'convertkit-form').
-	 * @param 	bool|array 			$blockConfiguration 	Block Configuration (field => value key/value array).
+	 *
+	 * @since   1.9.7.6
+	 *
+	 * @param   AcceptanceTester $I                      Acceptance Tester.
+	 * @param   string           $blockName              Block Name (e.g. 'ConvertKit Form').
+	 * @param   string           $blockProgrammaticName  Programmatic Block Name (e.g. 'convertkit-form').
+	 * @param   bool|array       $blockConfiguration     Block Configuration (field => value key/value array).
 	 */
 	public function seeBlockWidget($I, $blockProgrammaticName, $expectedMarkup)
 	{
@@ -187,10 +187,10 @@ class WPWidget extends \Codeception\Module
 	/**
 	 * Removes all widgets from widget areas, resetting their state to blank
 	 * for the next test.
-	 * 
-	 * @since 	1.9.7.6
-	 * 
-	 * @param 	AcceptanceTester 	$I 						Acceptance Tester.
+	 *
+	 * @since   1.9.7.6
+	 *
+	 * @param   AcceptanceTester $I                      Acceptance Tester.
 	 */
 	public function resetWidgets($I)
 	{

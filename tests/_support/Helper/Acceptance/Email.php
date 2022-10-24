@@ -10,11 +10,11 @@ class Email extends \Codeception\Module
 	/**
 	 * Generates a unique email address for use in a test, comprising of a prefix,
 	 * date + time and PHP version number.
-	 * 
+	 *
 	 * This ensures that if tests are run in parallel, the same email address
 	 * isn't used for two tests across parallel testing runs.
-	 * 
-	 * @since 	1.9.6.7
+	 *
+	 * @since   1.9.6.7
 	 */
 	public function generateEmailAddress()
 	{

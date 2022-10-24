@@ -10,10 +10,10 @@ class ThirdPartyPlugin extends \Codeception\Module
 	/**
 	 * Helper method to activate a third party Plugin, checking
 	 * it activated and no errors were output.
-	 * 
-	 * @since 	1.9.6.7
-	 * 
-	 * @param 	string 	$name 	Plugin Slug.
+	 *
+	 * @since   1.9.6.7
+	 *
+	 * @param   string $name   Plugin Slug.
 	 */
 	public function activateThirdPartyPlugin($I, $name)
 	{
@@ -40,10 +40,10 @@ class ThirdPartyPlugin extends \Codeception\Module
 	/**
 	 * Helper method to activate a third party Plugin, checking
 	 * it activated and no errors were output.
-	 * 
-	 * @since 	1.9.6.7
-	 * 
-	 * @param 	string 	$name 	Plugin Slug.
+	 *
+	 * @since   1.9.6.7
+	 *
+	 * @param   string $name   Plugin Slug.
 	 */
 	public function deactivateThirdPartyPlugin($I, $name)
 	{
