@@ -1,10 +1,12 @@
 <?php
 namespace Helper\Acceptance;
 
-// Define any custom actions related to Gutenberg that
-// would be used across multiple tests.
-// These are then available in $I->{yourFunctionName}
-
+/**
+ * Helper methods and actions related to WordPress' Gutenberg / Block editor,
+ * which are then available using $I->{yourFunctionName}.
+ *
+ * @since   1.9.6
+ */
 class WPGutenberg extends \Codeception\Module
 {
 	/**
@@ -13,6 +15,8 @@ class WPGutenberg extends \Codeception\Module
 	 * remembering that the user dismissed the dialog.
 	 *
 	 * @since   1.9.6
+	 *
+	 * @param   AcceptanceTester $I Acceptance Tester.
 	 */
 	public function maybeCloseGutenbergWelcomeModal($I)
 	{
@@ -24,7 +28,8 @@ class WPGutenberg extends \Codeception\Module
 				],
 				3
 			);
-		} catch ( \Facebook\WebDriver\Exception\TimeoutException $e ) {
+		} catch ( \Facebook\WebDriver\Exception\TimeoutException $e ) { // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedCatch
+			// No modal exists, so nothing to dismiss.
 		}
 	}
 
@@ -33,14 +38,16 @@ class WPGutenberg extends \Codeception\Module
 	 *
 	 * @since   1.9.7.5
 	 *
-	 * @param   AcceptanceTester $I                      Acceptance Tester.
+	 * @param   AcceptanceTester $I          Acceptance Tester.
+	 * @param   string           $postType   Post Type.
+	 * @param   string           $title      Post Title.
 	 */
-	public function addGutenbergPage($I, $postType = 'page', $title)
+	public function addGutenbergPage($I, $postType = 'page', $title = 'Gutenberg Title')
 	{
-		// Navigate to Post Type (e.g. Pages / Posts) > Add New
+		// Navigate to Post Type (e.g. Pages / Posts) > Add New.
 		$I->amOnAdminPage('post-new.php?post_type=' . $postType);
 
-		// Close the Gutenberg "Welcome to the block editor" dialog if it's displayed
+		// Close the Gutenberg "Welcome to the block editor" dialog if it's displayed.
 		$I->maybeCloseGutenbergWelcomeModal($I);
 
 		// Define the Title.
@@ -195,12 +202,11 @@ class WPGutenberg extends \Codeception\Module
 	 * @since   1.9.7.4
 	 *
 	 * @param   AcceptanceTester $I                      Acceptance Tester.
-	 * @param   string           $blockName              Block Name (e.g. 'ConvertKit Form')
+	 * @param   string           $blockName              Block Name (e.g. 'ConvertKit Form').
 	 */
 	public function checkGutenbergBlockHasNoErrors($I, $blockName)
 	{
 		// Wait a couple of seconds for the block to render.
-		// @TODO Improve this method.
 		sleep(2);
 
 		// Check that the "This block has encountered an error and cannot be previewed." element doesn't exist.

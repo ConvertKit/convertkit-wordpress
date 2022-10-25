@@ -1,10 +1,12 @@
 <?php
 namespace Helper\Acceptance;
 
-// Define any custom actions related to metaboxes that
-// would be used across multiple tests.
-// These are then available in $I->{yourFunctionName}
-
+/**
+ * Helper methods and actions related to WordPress' Widgets functionality,
+ * which are then available using $I->{yourFunctionName}.
+ *
+ * @since   1.9.6
+ */
 class WPWidget extends \Codeception\Module
 {
 	/**
@@ -73,9 +75,8 @@ class WPWidget extends \Codeception\Module
 	 * @since   1.9.7.6
 	 *
 	 * @param   AcceptanceTester $I                      Acceptance Tester.
-	 * @param   string           $blockName              Block Name (e.g. 'ConvertKit Form').
 	 * @param   string           $blockProgrammaticName  Programmatic Block Name (e.g. 'convertkit-form').
-	 * @param   bool|array       $blockConfiguration     Block Configuration (field => value key/value array).
+	 * @param   bool|array       $expectedMarkup         Expected HTML markup.
 	 */
 	public function seeLegacyWidget($I, $blockProgrammaticName, $expectedMarkup)
 	{
@@ -88,7 +89,7 @@ class WPWidget extends \Codeception\Module
 		// Confirm that the widget exists in an expected widget area.
 		$I->seeElementInDOM('aside.widget-area .widget_' . str_replace('-', '_', $blockProgrammaticName));
 
-		// Confirm that the ConvertKit Form is displayed in the widget.
+		// Confirm that the expected markup is displayed in the widget.
 		$I->seeElementInDOM($expectedMarkup);
 	}
 
@@ -171,16 +172,14 @@ class WPWidget extends \Codeception\Module
 	 * @since   1.9.7.6
 	 *
 	 * @param   AcceptanceTester $I                      Acceptance Tester.
-	 * @param   string           $blockName              Block Name (e.g. 'ConvertKit Form').
-	 * @param   string           $blockProgrammaticName  Programmatic Block Name (e.g. 'convertkit-form').
-	 * @param   bool|array       $blockConfiguration     Block Configuration (field => value key/value array).
+	 * @param   bool|array       $expectedMarkup         Expected HTML markup.
 	 */
-	public function seeBlockWidget($I, $blockProgrammaticName, $expectedMarkup)
+	public function seeBlockWidget($I, $expectedMarkup)
 	{
 		// View the home page.
 		$I->amOnPage('/');
 
-		// Confirm that the ConvertKit Form is displayed in the widget area.
+		// Confirm that the expected markup is displayed in the widget area.
 		$I->seeElementInDOM($expectedMarkup);
 	}
 

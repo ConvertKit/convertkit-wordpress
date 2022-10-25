@@ -37,7 +37,6 @@ class PageShortcodeProductCest
 		$I->addVisualEditorShortcode(
 			$I,
 			'ConvertKit Product',
-			'convertkit-product',
 			[
 				'product' => [ 'select', $_ENV['CONVERTKIT_API_PRODUCT_NAME'] ],
 			],
@@ -67,7 +66,6 @@ class PageShortcodeProductCest
 		// Add shortcode to Page, setting the Product setting to the value specified in the .env file.
 		$I->addTextEditorShortcode(
 			$I,
-			'ConvertKit Product',
 			'convertkit-product',
 			[
 				'product' => [ 'select', $_ENV['CONVERTKIT_API_PRODUCT_NAME'] ],

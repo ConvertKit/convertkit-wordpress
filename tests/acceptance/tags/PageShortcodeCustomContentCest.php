@@ -36,7 +36,6 @@ class PageShortcodeCustomContentCest
 		$I->addVisualEditorShortcode(
 			$I,
 			'ConvertKit Custom Content',
-			'convertkit-content',
 			[
 				'tag' => [ 'select', $_ENV['CONVERTKIT_API_TAG_NAME'] ],
 			],
@@ -62,7 +61,6 @@ class PageShortcodeCustomContentCest
 		// Add shortcode to Page, setting the Tag setting to the value specified in the .env file.
 		$I->addTextEditorShortcode(
 			$I,
-			'ConvertKit Custom Content',
 			'convertkit-content',
 			[
 				'tag' => [ 'select', $_ENV['CONVERTKIT_API_TAG_NAME'] ],

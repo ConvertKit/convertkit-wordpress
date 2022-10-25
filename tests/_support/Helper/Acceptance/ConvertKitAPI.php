@@ -1,17 +1,19 @@
 <?php
 namespace Helper\Acceptance;
 
-// Define any custom actions related to the ConvertKit API that
-// would be used across multiple tests.
-// These are then available in $I->{yourFunctionName}
-
+/**
+ * Helper methods and actions related to the ConvertKit API,
+ * which are then available using $I->{yourFunctionName}.
+ *
+ * @since   1.9.6
+ */
 class ConvertKitAPI extends \Codeception\Module
 {
 	/**
 	 * Check the given email address exists as a subscriber.
 	 *
 	 * @param   AcceptanceTester $I             AcceptanceTester.
-	 * @param   string           $emailAddress   Email Address
+	 * @param   string           $emailAddress   Email Address.
 	 */
 	public function apiCheckSubscriberExists($I, $emailAddress)
 	{
@@ -33,7 +35,7 @@ class ConvertKitAPI extends \Codeception\Module
 	 * Check the given email address does not exists as a subscriber.
 	 *
 	 * @param   AcceptanceTester $I             AcceptanceTester.
-	 * @param   string           $emailAddress   Email Address
+	 * @param   string           $emailAddress   Email Address.
 	 */
 	public function apiCheckSubscriberDoesNotExist($I, $emailAddress)
 	{
@@ -54,7 +56,7 @@ class ConvertKitAPI extends \Codeception\Module
 	 * Unsubscribes the given email address. Useful for clearing the API
 	 * between tests.
 	 *
-	 * @param   string $emailAddress   Email Address
+	 * @param   string $emailAddress   Email Address.
 	 */
 	public function apiUnsubscribe($emailAddress)
 	{
@@ -72,9 +74,9 @@ class ConvertKitAPI extends \Codeception\Module
 	 * Sends a request to the ConvertKit API, typically used to read an endpoint to confirm
 	 * that data in an Acceptance Test was added/edited/deleted successfully.
 	 *
-	 * @param   string $endpoint   Endpoint
-	 * @param   string $method     Method (GET|POST|PUT)
-	 * @param   array  $params     Endpoint Parameters
+	 * @param   string $endpoint   Endpoint.
+	 * @param   string $method     Method (GET|POST|PUT).
+	 * @param   array  $params     Endpoint Parameters.
 	 */
 	public function apiRequest($endpoint, $method = 'GET', $params = array())
 	{

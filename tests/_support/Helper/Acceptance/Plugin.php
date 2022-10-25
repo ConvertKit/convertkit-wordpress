@@ -1,10 +1,12 @@
 <?php
 namespace Helper\Acceptance;
 
-// Define any custom actions related to the ConvertKit Plugin that
-// would be used across multiple tests.
-// These are then available in $I->{yourFunctionName}
-
+/**
+ * Helper methods and actions related to the ConvertKit Plugin,
+ * which are then available using $I->{yourFunctionName}.
+ *
+ * @since   1.9.6
+ */
 class Plugin extends \Codeception\Module
 {
 	/**
@@ -12,6 +14,8 @@ class Plugin extends \Codeception\Module
 	 * it activated and no errors were output.
 	 *
 	 * @since   1.9.6
+	 *
+	 * @param   AcceptanceTester $I     AcceptanceTester.
 	 */
 	public function activateConvertKitPlugin($I)
 	{
@@ -23,6 +27,8 @@ class Plugin extends \Codeception\Module
 	 * it activated and no errors were output.
 	 *
 	 * @since   1.9.6
+	 *
+	 * @param   AcceptanceTester $I     AcceptanceTester.
 	 */
 	public function deactivateConvertKitPlugin($I)
 	{
@@ -34,8 +40,9 @@ class Plugin extends \Codeception\Module
 	 *
 	 * @since   1.9.6
 	 *
-	 * @param   mixed $apiKey     API Key (if specified, used instead of CONVERTKIT_API_KEY)
-	 * @param   mixed $apiSecret  API Secret (if specified, used instead of CONVERTKIT_API_SECRET)
+	 * @param   AcceptanceTester $I          AcceptanceTester.
+	 * @param   mixed            $apiKey     API Key (if specified, used instead of CONVERTKIT_API_KEY).
+	 * @param   mixed            $apiSecret  API Secret (if specified, used instead of CONVERTKIT_API_SECRET).
 	 */
 	public function setupConvertKitPlugin($I, $apiKey = false, $apiSecret = false)
 	{
@@ -68,6 +75,8 @@ class Plugin extends \Codeception\Module
 	 * Helper method to setup the Plugin's Default Form setting for Pages and Posts.
 	 *
 	 * @since   1.9.6
+	 *
+	 * @param   AcceptanceTester $I     AcceptanceTester.
 	 */
 	public function setupConvertKitPluginDefaultForm($I)
 	{
@@ -91,7 +100,7 @@ class Plugin extends \Codeception\Module
 		$I->seeInField('_wp_convertkit_settings[page_form]', $_ENV['CONVERTKIT_API_FORM_NAME']);
 		$I->seeInField('_wp_convertkit_settings[post_form]', $_ENV['CONVERTKIT_API_FORM_NAME']);
 
-		// Return Form ID for Pages
+		// Return Form ID for Pages.
 		return $I->grabValueFrom('_wp_convertkit_settings[page_form]');
 	}
 
@@ -99,6 +108,8 @@ class Plugin extends \Codeception\Module
 	 * Helper method to setup the Plugin's Default Legacy Form setting for Pages and Posts.
 	 *
 	 * @since   1.9.6
+	 *
+	 * @param   AcceptanceTester $I     AcceptanceTester.
 	 */
 	public function setupConvertKitPluginDefaultLegacyForm($I)
 	{
@@ -122,7 +133,7 @@ class Plugin extends \Codeception\Module
 		$I->seeInField('_wp_convertkit_settings[page_form]', $_ENV['CONVERTKIT_API_LEGACY_FORM_NAME']);
 		$I->seeInField('_wp_convertkit_settings[post_form]', $_ENV['CONVERTKIT_API_LEGACY_FORM_NAME']);
 
-		// Return Form ID for Pages
+		// Return Form ID for Pages.
 		return $I->grabValueFrom('_wp_convertkit_settings[page_form]');
 	}
 
@@ -130,6 +141,8 @@ class Plugin extends \Codeception\Module
 	 * Helper method to setup the Plugin's Default Form setting for WooCommerce Products.
 	 *
 	 * @since   1.9.6
+	 *
+	 * @param   AcceptanceTester $I     AcceptanceTester.
 	 */
 	public function setupConvertKitPluginDefaultFormForWooCommerceProducts($I)
 	{
@@ -151,7 +164,7 @@ class Plugin extends \Codeception\Module
 		// Check the value of the fields match the inputs provided.
 		$I->seeInField('_wp_convertkit_settings[product_form]', $_ENV['CONVERTKIT_API_FORM_NAME']);
 
-		// Return Form ID
+		// Return Form ID.
 		return $I->grabValueFrom('_wp_convertkit_settings[product_form]');
 	}
 
@@ -159,6 +172,8 @@ class Plugin extends \Codeception\Module
 	 * Helper method to reset the ConvertKit Plugin settings, as if it's a clean installation.
 	 *
 	 * @since   1.9.6.7
+	 *
+	 * @param   AcceptanceTester $I     AcceptanceTester.
 	 */
 	public function resetConvertKitPlugin($I)
 	{
@@ -186,6 +201,8 @@ class Plugin extends \Codeception\Module
 	 * Helper method to load the Plugin's Settings > General screen.
 	 *
 	 * @since   1.9.6
+	 *
+	 * @param   AcceptanceTester $I     AcceptanceTester.
 	 */
 	public function loadConvertKitSettingsGeneralScreen($I)
 	{
@@ -199,6 +216,8 @@ class Plugin extends \Codeception\Module
 	 * Helper method to load the Plugin's Settings > Tools screen.
 	 *
 	 * @since   1.9.6
+	 *
+	 * @param   AcceptanceTester $I     AcceptanceTester.
 	 */
 	public function loadConvertKitSettingsToolsScreen($I)
 	{
@@ -212,6 +231,8 @@ class Plugin extends \Codeception\Module
 	 * Helper method to enable the Plugin's Settings > General > Debug option.
 	 *
 	 * @since   1.9.6
+	 *
+	 * @param   AcceptanceTester $I     AcceptanceTester.
 	 */
 	public function enableDebugLog($I)
 	{
@@ -229,6 +250,8 @@ class Plugin extends \Codeception\Module
 	 * Helper method to clear the Plugin's debug log.
 	 *
 	 * @since   1.9.6
+	 *
+	 * @param   AcceptanceTester $I     AcceptanceTester.
 	 */
 	public function clearDebugLog($I)
 	{
@@ -243,6 +266,9 @@ class Plugin extends \Codeception\Module
 	 * Helper method to determine if the given entry exists in the Plugin Debug Log screen's textarea.
 	 *
 	 * @since   1.9.6
+	 *
+	 * @param   AcceptanceTester $I         AcceptanceTester.
+	 * @param   string           $entry     Log entry.
 	 */
 	public function seeInPluginDebugLog($I, $entry)
 	{
@@ -254,6 +280,9 @@ class Plugin extends \Codeception\Module
 	 * Helper method to determine if the given entry does not exist in the Plugin Debug Log screen's textarea.
 	 *
 	 * @since   1.9.6
+	 *
+	 * @param   AcceptanceTester $I         AcceptanceTester.
+	 * @param   string           $entry     Log entry.
 	 */
 	public function dontSeeInPluginDebugLog($I, $entry)
 	{
@@ -270,7 +299,7 @@ class Plugin extends \Codeception\Module
 	 * @param   AcceptanceTester $I                      Tester.
 	 * @param   bool|int         $numberOfPosts          Number of Broadcasts listed.
 	 * @param   bool|string      $seePrevPaginationLabel Test if the "previous" pagination link is output and matches expected label.
-	 * @param   bool|string      $seePrevPaginationLabel Test if the "next" pagination link is output and matches expected label.
+	 * @param   bool|string      $seeNextPaginationLabel Test if the "next" pagination link is output and matches expected label.
 	 */
 	public function seeBroadcastsOutput($I, $numberOfPosts = false, $seePrevPaginationLabel = false, $seeNextPaginationLabel = false)
 	{
@@ -425,6 +454,11 @@ class Plugin extends \Codeception\Module
 		// Confirm that the button links to the correct product.
 		$I->assertEquals($productURL, $I->grabAttributeFrom('a.convertkit-product', 'href'));
 
+		// Confirm that the text is as expected.
+		if ($text !== false) {
+			$I->see($text);
+		}
+
 		// Confirm that the text color is as expected.
 		if ($textColor !== false) {
 			$I->seeElementInDOM('a.convertkit-product.has-text-color');
@@ -456,9 +490,8 @@ class Plugin extends \Codeception\Module
 	 * @since   1.9.8.5
 	 *
 	 * @param   AcceptanceTester $I      Tester.
-	 * @param   bool|string      $text   Test if the button text matches the given value.
 	 */
-	public function dontSeeProductOutput($I, $text = false)
+	public function dontSeeProductOutput($I)
 	{
 		// Confirm that the block does not display.
 		$I->dontSeeElementInDOM('div.wp-block-button a.convertkit-product');

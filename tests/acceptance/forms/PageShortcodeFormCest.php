@@ -46,7 +46,6 @@ class PageShortcodeFormCest
 		$I->addVisualEditorShortcode(
 			$I,
 			'ConvertKit Form',
-			'convertkit-form',
 			[
 				'form' => [ 'select', $_ENV['CONVERTKIT_API_FORM_NAME'] ],
 			],
@@ -85,7 +84,6 @@ class PageShortcodeFormCest
 		// Add shortcode to Page, setting the Form setting to the value specified in the .env file.
 		$I->addTextEditorShortcode(
 			$I,
-			'ConvertKit Form',
 			'convertkit-form',
 			[
 				'form' => [ 'select', $_ENV['CONVERTKIT_API_FORM_NAME'] ],

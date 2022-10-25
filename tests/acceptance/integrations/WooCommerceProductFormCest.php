@@ -156,7 +156,6 @@ class WooCommerceProductFormCest
 		$I->addVisualEditorShortcode(
 			$I,
 			'ConvertKit Form',
-			'convertkit-form',
 			[
 				'form' => [ 'select', $_ENV['CONVERTKIT_API_FORM_NAME'] ],
 			],
@@ -169,7 +168,6 @@ class WooCommerceProductFormCest
 		$I->addVisualEditorShortcode(
 			$I,
 			'ConvertKit Form',
-			'convertkit-form',
 			[
 				'form' => [ 'select', $_ENV['CONVERTKIT_API_FORM_NAME'] ],
 			],
@@ -204,7 +202,6 @@ class WooCommerceProductFormCest
 		// and confirming that the expected shortcode is displayed in the Excerpt field.
 		$I->addTextEditorShortcode(
 			$I,
-			'ConvertKit Form',
 			'convertkit-form',
 			[
 				'form' => [ 'select', $_ENV['CONVERTKIT_API_FORM_NAME'] ],
@@ -217,7 +214,6 @@ class WooCommerceProductFormCest
 		// and confirming that the expected shortcode is displayed in the Excerpt field.
 		$I->addTextEditorShortcode(
 			$I,
-			'ConvertKit Form',
 			'convertkit-form',
 			[
 				'form' => [ 'select', $_ENV['CONVERTKIT_API_FORM_NAME'] ],

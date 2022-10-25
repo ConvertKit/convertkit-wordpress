@@ -37,7 +37,6 @@ class PageShortcodeBroadcastsCest
 		$I->addVisualEditorShortcode(
 			$I,
 			'ConvertKit Broadcasts',
-			'convertkit-broadcasts',
 			false,
 			'[convertkit_broadcasts date_format="F j, Y" limit="10" paginate="0" paginate_label_prev="Previous" paginate_label_next="Next"]'
 		);
@@ -72,7 +71,6 @@ class PageShortcodeBroadcastsCest
 		$I->addVisualEditorShortcode(
 			$I,
 			'ConvertKit Broadcasts',
-			'convertkit-broadcasts',
 			[
 				'date_format' => [ 'select', date('Y-m-d') ],
 			],
@@ -109,7 +107,6 @@ class PageShortcodeBroadcastsCest
 		$I->addVisualEditorShortcode(
 			$I,
 			'ConvertKit Broadcasts',
-			'convertkit-broadcasts',
 			[
 				'limit' => [ 'input', '2' ],
 			],
@@ -146,7 +143,6 @@ class PageShortcodeBroadcastsCest
 		$I->addVisualEditorShortcode(
 			$I,
 			'ConvertKit Broadcasts',
-			'convertkit-broadcasts',
 			[
 				'limit'    => [ 'input', '1' ],
 				'paginate' => [ 'toggle', 'Yes' ],
@@ -178,7 +174,6 @@ class PageShortcodeBroadcastsCest
 		$I->addVisualEditorShortcode(
 			$I,
 			'ConvertKit Broadcasts',
-			'convertkit-broadcasts',
 			[
 				'limit'               => [ 'input', '1' ],
 				'paginate'            => [ 'toggle', 'Yes' ],
@@ -263,7 +258,6 @@ class PageShortcodeBroadcastsCest
 		// Add shortcode to Page, setting the Form setting to the value specified in the .env file.
 		$I->addTextEditorShortcode(
 			$I,
-			'ConvertKit Broadcasts',
 			'convertkit-broadcasts',
 			false,
 			'[convertkit_broadcasts date_format="F j, Y" limit="10" paginate="0" paginate_label_prev="Previous" paginate_label_next="Next"]'
@@ -298,7 +292,6 @@ class PageShortcodeBroadcastsCest
 		// Add shortcode to Page, setting the Form setting to the value specified in the .env file.
 		$I->addTextEditorShortcode(
 			$I,
-			'ConvertKit Broadcasts',
 			'convertkit-broadcasts',
 			[
 				'date_format' => [ 'select', date('Y-m-d') ],
@@ -335,7 +328,6 @@ class PageShortcodeBroadcastsCest
 		// Add shortcode to Page, setting the Form setting to the value specified in the .env file.
 		$I->addTextEditorShortcode(
 			$I,
-			'ConvertKit Broadcasts',
 			'convertkit-broadcasts',
 			[
 				'limit' => [ 'input', '2' ],
@@ -372,7 +364,6 @@ class PageShortcodeBroadcastsCest
 		// Add shortcode to Page, setting the Form setting to the value specified in the .env file.
 		$I->addTextEditorShortcode(
 			$I,
-			'ConvertKit Broadcasts',
 			'convertkit-broadcasts',
 			[
 				'limit'    => [ 'input', '1' ],
@@ -404,7 +395,6 @@ class PageShortcodeBroadcastsCest
 		// Add shortcode to Page, setting the Form setting to the value specified in the .env file.
 		$I->addTextEditorShortcode(
 			$I,
-			'ConvertKit Broadcasts',
 			'convertkit-broadcasts',
 			[
 				'limit'               => [ 'input', '1' ],

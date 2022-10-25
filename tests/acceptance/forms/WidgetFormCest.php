@@ -106,7 +106,7 @@ class WidgetFormCest
 		);
 
 		// Confirm that the widget displays.
-		$I->seeBlockWidget($I, 'convertkit-form', 'form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]');
+		$I->seeBlockWidget($I, 'form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]');
 	}
 
 	/**
@@ -166,7 +166,7 @@ class WidgetFormCest
 		$I->switchToIFrame();
 
 		// Confirm that the widget displays.
-		$I->seeBlockWidget($I, 'convertkit-form', 'form[data-sv-form]');
+		$I->seeBlockWidget($I, 'form[data-sv-form]');
 	}
 
 	/**
@@ -200,7 +200,7 @@ class WidgetFormCest
 		$I->switchToIFrame();
 
 		// Confirm that the widget displays.
-		$I->seeBlockWidget($I, 'convertkit-form', 'form[data-sv-form]');
+		$I->seeBlockWidget($I, 'form[data-sv-form]');
 	}
 
 	/**
@@ -234,7 +234,7 @@ class WidgetFormCest
 		$I->switchToIFrame();
 
 		// Confirm that the widget displays.
-		$I->seeBlockWidget($I, 'convertkit-form', 'form[data-sv-form]');
+		$I->seeBlockWidget($I, 'form[data-sv-form]');
 	}
 
 	/**

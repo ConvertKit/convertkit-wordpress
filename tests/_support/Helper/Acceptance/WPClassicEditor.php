@@ -1,10 +1,12 @@
 <?php
 namespace Helper\Acceptance;
 
-// Define any custom actions related to the Classic Editor that
-// would be used across multiple tests.
-// These are then available in $I->{yourFunctionName}
-
+/**
+ * Helper methods and actions related to WordPress' Classic Editor,
+ * which are then available using $I->{yourFunctionName}.
+ *
+ * @since   1.9.6
+ */
 class WPClassicEditor extends \Codeception\Module
 {
 	/**
@@ -12,14 +14,16 @@ class WPClassicEditor extends \Codeception\Module
 	 *
 	 * @since   1.9.7.5
 	 *
-	 * @param   AcceptanceTester $I                      Acceptance Tester.
+	 * @param   AcceptanceTester $I          Acceptance Tester.
+	 * @param   string           $postType   Post Type.
+	 * @param   string           $title      Post Title.
 	 */
-	public function addClassicEditorPage($I, $postType = 'page', $title)
+	public function addClassicEditorPage($I, $postType = 'page', $title = 'Classic Editor Title')
 	{
-		// Activate Classic Editor Plugin
+		// Activate Classic Editor Plugin.
 		$I->activateThirdPartyPlugin($I, 'classic-editor');
 
-		// Navigate to Post Type (e.g. Pages / Posts) > Add New
+		// Navigate to Post Type (e.g. Pages / Posts) > Add New.
 		$I->amOnAdminPage('post-new.php?post_type=' . $postType);
 
 		// Define the Title.
@@ -36,12 +40,11 @@ class WPClassicEditor extends \Codeception\Module
 	 *
 	 * @param   AcceptanceTester $I                          Acceptance Tester.
 	 * @param   string           $shortcodeName              Shortcode Name (e.g. 'ConvertKit Form').
-	 * @param   string           $shortcodeProgrammaticName  Programmatic Shortcode Name (e.g. 'convertkit-form').
 	 * @param   bool|array       $shortcodeConfiguration     Shortcode Configuration (field => value key/value array).
 	 * @param   bool|string      $expectedShortcodeOutput    Expected Shortcode Output (e.g. [convertkit_form form="12345"]).
 	 * @param   string           $targetEditor               Target TinyMCE editor instance.
 	 */
-	public function addVisualEditorShortcode($I, $shortcodeName, $shortcodeProgrammaticName, $shortcodeConfiguration = false, $expectedShortcodeOutput = false, $targetEditor = 'content')
+	public function addVisualEditorShortcode($I, $shortcodeName, $shortcodeConfiguration = false, $expectedShortcodeOutput = false, $targetEditor = 'content')
 	{
 		// Scroll to the applicable TinyMCE editor.
 		switch ($targetEditor) {
@@ -66,7 +69,7 @@ class WPClassicEditor extends \Codeception\Module
 		// If a shortcode configuration is specified, apply it to the shortcode's modal window now.
 		if ($shortcodeConfiguration) {
 			foreach ($shortcodeConfiguration as $field => $attributes) {
-				// Field ID will be the attribute name, prefixed with tinymce_modal
+				// Field ID will be the attribute name, prefixed with tinymce_modal.
 				$fieldID = '#tinymce_modal_' . $field;
 
 				// Depending on the field's type, define its value.
@@ -104,13 +107,12 @@ class WPClassicEditor extends \Codeception\Module
 	 * @since   1.9.7.5
 	 *
 	 * @param   AcceptanceTester $I                          Acceptance Tester.
-	 * @param   string           $shortcodeName              Shortcode Name (e.g. 'ConvertKit Form').
 	 * @param   string           $shortcodeProgrammaticName  Programmatic Shortcode Name (e.g. 'convertkit-form').
 	 * @param   bool|array       $shortcodeConfiguration     Shortcode Configuration (field => value key/value array).
 	 * @param   bool|string      $expectedShortcodeOutput    Expected Shortcode Output (e.g. [convertkit_form form="12345"]).
 	 * @param   string           $targetEditor               ID of text editor instance.
 	 */
-	public function addTextEditorShortcode($I, $shortcodeName, $shortcodeProgrammaticName, $shortcodeConfiguration = false, $expectedShortcodeOutput = false, $targetEditor = 'content')
+	public function addTextEditorShortcode($I, $shortcodeProgrammaticName, $shortcodeConfiguration = false, $expectedShortcodeOutput = false, $targetEditor = 'content')
 	{
 		// Scroll to the applicable TinyMCE editor.
 		switch ($targetEditor) {
@@ -135,7 +137,7 @@ class WPClassicEditor extends \Codeception\Module
 		// If a shortcode configuration is specified, apply it to the shortcode's modal window now.
 		if ($shortcodeConfiguration) {
 			foreach ($shortcodeConfiguration as $field => $attributes) {
-				// Field ID will be the attribute name, prefixed with tinymce_modal
+				// Field ID will be the attribute name, prefixed with tinymce_modal.
 				$fieldID = '#tinymce_modal_' . $field;
 
 				// Depending on the field's type, define its value.

@@ -1,10 +1,12 @@
 <?php
 namespace Helper\Acceptance;
 
-// Define any custom actions related to metaboxes that
-// would be used across multiple tests.
-// These are then available in $I->{yourFunctionName}
-
+/**
+ * Helper methods and actions related to metaboxes,
+ * which are then available using $I->{yourFunctionName}.
+ *
+ * @since   1.9.6
+ */
 class WPMetabox extends \Codeception\Module
 {
 	/**
@@ -12,9 +14,9 @@ class WPMetabox extends \Codeception\Module
 	 *
 	 * @since   1.9.7.5
 	 *
-	 * @param   $I  AcceptanceHelper    Acceptance Helper.
-	 * @param   string                                   $metabox        Programmatic Metabox Name.
-	 * @param   array                                    $coniguration   Metabox Configuration (field => value key/value array).
+	 * @param   AcceptanceHelper $I              Acceptance Helper.
+	 * @param   string           $metabox        Programmatic Metabox Name.
+	 * @param   array            $configuration  Metabox Configuration (field => value key/value array).
 	 */
 	public function configureMetaboxSettings($I, $metabox, $configuration)
 	{
