@@ -30,9 +30,6 @@ class ActivateDeactivatePluginCest
 	 */
 	public function testPluginActivationAndDeactivationWithOtherPlugins(AcceptanceTester $I)
 	{
-		$I->activateThirdPartyPlugin($I, 'woocommerce');
-		$I->activateThirdPartyPlugin($I, 'convertkit-for-woocommerce');
-
 		$I->activateThirdPartyPlugin($I, 'gravity-forms');
 		$I->activateThirdPartyPlugin($I, 'convertkit-gravity-forms');
 
