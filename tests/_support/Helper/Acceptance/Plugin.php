@@ -311,7 +311,7 @@ class Plugin extends \Codeception\Module
 
 		// Confirm that UTM parameters exist on a broadcast link.
 		$I->assertStringContainsString(
-			'utm_source=WordPress&utm_content=convertkit',
+			'utm_source=wordpress&utm_content=convertkit',
 			$I->grabAttributeFrom('div.convertkit-broadcasts ul.convertkit-broadcasts-list li.convertkit-broadcast a', 'href')
 		);
 

@@ -34,6 +34,7 @@
         <!-- Handles false positives where Coding Standards thinks we did something wrong when we're just checking for e.g. a stylesheet -->
         <exclude name="WordPress.WP.EnqueuedResources" />
         <exclude name="WordPress.PHP.DiscouragedPHPFunctions" />
+        <exclude name="WordPress.WP.CapitalPDangit.Misspelled" />
     </rule>
 
     <!-- Check that code is documented to WordPress Standards. -->
