@@ -30,15 +30,15 @@ class ActivateDeactivatePluginCest
 	 */
 	public function testPluginActivationAndDeactivationWithOtherPlugins(AcceptanceTester $I)
 	{
+		// Activate other ConvertKit Plugins from wordpress.org
 		$I->activateThirdPartyPlugin($I, 'gravity-forms');
 		$I->activateThirdPartyPlugin($I, 'convertkit-gravity-forms');
 
+		// Activate this Plugin.
 		$I->activateConvertKitPlugin($I);
 
-		// Setup Settings > ConvertKit, which will use WordPress Libraries and show errors
-		// if there's a conflict.
+		// Setup API Keys at Settings > ConvertKit, which will use WordPress Libraries and show errors
+		// if there's a conflict e.g. an older WordPress Library was loaded from another ConvertKit Plugin.
 		$I->setupConvertKitPlugin($I);
-
-		$I->see('sdfsdfsdf');
 	}
 }
