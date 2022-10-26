@@ -35,9 +35,9 @@ class ActivateDeactivatePluginCest
 
 		$I->activateConvertKitPlugin($I);
 
-		// Navigate to Settings > ConvertKit, which will use WordPress Libraries and show errors
+		// Setup Settings > ConvertKit, which will use WordPress Libraries and show errors
 		// if there's a conflict.
-		$I->loadConvertKitSettingsGeneralScreen($I);
+		$I->setupConvertKitPlugin($I);
 
 		$I->see('sdfsdfsdf');
 	}
