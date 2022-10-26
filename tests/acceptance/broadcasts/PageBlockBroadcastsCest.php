@@ -16,8 +16,40 @@ class PageBlockBroadcastsCest
 	public function _before(AcceptanceTester $I)
 	{
 		$I->activateConvertKitPlugin($I);
-		$I->setupConvertKitPlugin($I);
+	}
+
+	/**
+	 * Test the Broadcasts block outputs a message when no Broadcasts exist.
+	 *
+	 * @since   2.0.1
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testBroadcastsBlockWithNoBroadcasts(AcceptanceTester $I)
+	{
+		// Setup Plugin with API keys for ConvertKit Account that has no Broadcasts, and enable debug log.
+		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY_NO_DATA'], $_ENV['CONVERTKIT_API_SECRET_NO_DATA']);
 		$I->enableDebugLog($I);
+
+		// Add a Page using the Gutenberg editor.
+		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Broadcasts: No Broadcasts');
+
+		// Add block to Page.
+		$I->addGutenbergBlock($I, 'ConvertKit Broadcasts', 'convertkit-broadcasts');
+
+		// Confirm that the Broadcasts block tells the user that no Broadcasts exist in ConvertKit.
+		$I->see(
+			'No Broadcasts exist in ConvertKit. Send your first Broadcast in ConvertKit to see the link to it here.',
+			[
+				'css' => '.convertkit-no-content',
+			]
+		);
+
+		// Publish and view the Page on the frontend site.
+		$I->publishAndViewGutenbergPage($I);
+
+		// Confirm that no ConvertKit Broadcasts are displayed.
+		$I->dontSeeElementInDOM('div.convertkit-broadcasts');
 	}
 
 	/**
@@ -29,6 +61,10 @@ class PageBlockBroadcastsCest
 	 */
 	public function testBroadcastsBlockWithDefaultParameters(AcceptanceTester $I)
 	{
+		// Setup Plugin and enable debug log.
+		$I->setupConvertKitPlugin($I);
+		$I->enableDebugLog($I);
+
 		// Add a Page using the Gutenberg editor.
 		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Broadcasts: Default Params');
 
@@ -57,6 +93,10 @@ class PageBlockBroadcastsCest
 	 */
 	public function testBroadcastsBlockWithDateFormatParameter(AcceptanceTester $I)
 	{
+		// Setup Plugin and enable debug log.
+		$I->setupConvertKitPlugin($I);
+		$I->enableDebugLog($I);
+
 		// Add a Page using the Gutenberg editor.
 		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Broadcasts: Date Format Param');
 
@@ -92,6 +132,10 @@ class PageBlockBroadcastsCest
 	 */
 	public function testBroadcastsBlockWithLimitParameter(AcceptanceTester $I)
 	{
+		// Setup Plugin and enable debug log.
+		$I->setupConvertKitPlugin($I);
+		$I->enableDebugLog($I);
+
 		// Add a Page using the Gutenberg editor.
 		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Broadcasts: Limit Param');
 
@@ -124,6 +168,10 @@ class PageBlockBroadcastsCest
 	 */
 	public function testBroadcastsBlockWithBlankLimitParameter(AcceptanceTester $I)
 	{
+		// Setup Plugin and enable debug log.
+		$I->setupConvertKitPlugin($I);
+		$I->enableDebugLog($I);
+
 		// Add a Page using the Gutenberg editor.
 		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Broadcasts: Blank Limit Param');
 
@@ -157,6 +205,10 @@ class PageBlockBroadcastsCest
 	 */
 	public function testBroadcastsBlockWithPaginationEnabled(AcceptanceTester $I)
 	{
+		// Setup Plugin and enable debug log.
+		$I->setupConvertKitPlugin($I);
+		$I->enableDebugLog($I);
+
 		// Add a Page using the Gutenberg editor.
 		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Broadcasts: Pagination');
 
@@ -187,6 +239,10 @@ class PageBlockBroadcastsCest
 	 */
 	public function testBroadcastsBlockWithPaginationLabelParameters(AcceptanceTester $I)
 	{
+		// Setup Plugin and enable debug log.
+		$I->setupConvertKitPlugin($I);
+		$I->enableDebugLog($I);
+
 		// Add a Page using the Gutenberg editor.
 		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Broadcasts: Pagination Labels');
 
@@ -219,6 +275,10 @@ class PageBlockBroadcastsCest
 	 */
 	public function testBroadcastsBlockWithThemeColorParameters(AcceptanceTester $I)
 	{
+		// Setup Plugin and enable debug log.
+		$I->setupConvertKitPlugin($I);
+		$I->enableDebugLog($I);
+
 		// Define colors.
 		$backgroundColor = 'white';
 		$textColor       = 'purple';
@@ -262,6 +322,10 @@ class PageBlockBroadcastsCest
 	 */
 	public function testBroadcastsBlockWithHexColorParameters(AcceptanceTester $I)
 	{
+		// Setup Plugin and enable debug log.
+		$I->setupConvertKitPlugin($I);
+		$I->enableDebugLog($I);
+
 		// Define colors.
 		$backgroundColor = '#ee1616';
 		$textColor       = '#1212c0';
