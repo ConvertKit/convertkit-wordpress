@@ -1,38 +1,40 @@
 <?php
 /**
  * Tests for the ConvertKit_Resource_Posts class.
- * 
- * @since 	1.9.7.4
+ *
+ * @since   1.9.7.4
  */
 class ResourcePostsTest extends \Codeception\TestCase\WPTestCase
 {
 	/**
-	 * @var \WpunitTester
+	 * The testing implementation.
+	 *
+	 * @var \WpunitTester.
 	 */
 	protected $tester;
 
 	/**
 	 * Holds the ConvertKit Settings class.
-	 * 
-	 * @since 	1.9.7.4
-	 * 
-	 * @var 	ConvertKit_Settings
+	 *
+	 * @since   1.9.7.4
+	 *
+	 * @var     ConvertKit_Settings
 	 */
 	private $settings;
 
 	/**
 	 * Holds the ConvertKit Resource class.
-	 * 
-	 * @since 	1.9.7.4
-	 * 
-	 * @var 	ConvertKit_Resource_Posts
+	 *
+	 * @since   1.9.7.4
+	 *
+	 * @var     ConvertKit_Resource_Posts
 	 */
 	private $resource;
 
 	/**
 	 * Performs actions before each test.
-	 * 
-	 * @since 	1.9.7.4
+	 *
+	 * @since   1.9.7.4
 	 */
 	public function setUp(): void
 	{
@@ -43,10 +45,13 @@ class ResourcePostsTest extends \Codeception\TestCase\WPTestCase
 
 		// Store API Key and Secret in Plugin's settings.
 		$this->settings = new ConvertKit_Settings();
-		update_option($this->settings::SETTINGS_NAME, [
-			'api_key'    => $_ENV['CONVERTKIT_API_KEY'],
-			'api_secret' => $_ENV['CONVERTKIT_API_SECRET'],
-		]);
+		update_option(
+			$this->settings::SETTINGS_NAME,
+			[
+				'api_key'    => $_ENV['CONVERTKIT_API_KEY'],
+				'api_secret' => $_ENV['CONVERTKIT_API_SECRET'],
+			]
+		);
 
 		// Initialize the resource class we want to test.
 		$this->resource = new ConvertKit_Resource_Posts();
@@ -57,8 +62,8 @@ class ResourcePostsTest extends \Codeception\TestCase\WPTestCase
 
 	/**
 	 * Performs actions after each test.
-	 * 
-	 * @since 	1.9.6.9
+	 *
+	 * @since   1.9.6.9
 	 */
 	public function tearDown(): void
 	{
@@ -79,8 +84,8 @@ class ResourcePostsTest extends \Codeception\TestCase\WPTestCase
 	/**
 	 * Test that the WordPress Cron event for this resource was created with the expected name,
 	 * matching the expected schedule as defined in the Resource's class.
-	 * 
-	 * @since 	1.9.7.4
+	 *
+	 * @since   1.9.7.4
 	 */
 	public function testCronEventCreatedOnPluginActivation()
 	{
@@ -95,8 +100,8 @@ class ResourcePostsTest extends \Codeception\TestCase\WPTestCase
 	 * Test that the WordPress Cron event for this resource was created with the expected name,
 	 * matching the expected schedule as defined in the Resource's class, when updating
 	 * from an earlier version of the Plugin to 1.9.7.4 or higher.
-	 * 
-	 * @since 	1.9.7.4
+	 *
+	 * @since   1.9.7.4
 	 */
 	public function testCronEventCreatedOnPluginUpdate()
 	{
@@ -126,8 +131,8 @@ class ResourcePostsTest extends \Codeception\TestCase\WPTestCase
 	/**
 	 * Test that the WordPress Cron event for this resource works when valid API credentials
 	 * are specified in the Plugin's settings.
-	 * 
-	 * @since 	1.9.7.4
+	 *
+	 * @since   1.9.7.4
 	 */
 	public function testCronEventWithValidAPICredentials()
 	{
@@ -148,16 +153,19 @@ class ResourcePostsTest extends \Codeception\TestCase\WPTestCase
 	/**
 	 * Test that the WordPress Cron event for this resource errors when invalid API credentials
 	 * are specified in the Plugin's settings.
-	 * 
-	 * @since 	1.9.7.4
+	 *
+	 * @since   1.9.7.4
 	 */
 	public function testCronEventWithInvalidAPICredentials()
 	{
 		// Define invalid API Credentials.
-		update_option($this->settings::SETTINGS_NAME, [
-			'api_key'    => 'fakeApiKey',
-			'api_secret' => 'fakeApiSecret',
-		]);
+		update_option(
+			$this->settings::SETTINGS_NAME,
+			[
+				'api_key'    => 'fakeApiKey',
+				'api_secret' => 'fakeApiSecret',
+			]
+		);
 
 		// Delete Resources from options table.
 		delete_option($this->resource->settings_name);
@@ -174,8 +182,8 @@ class ResourcePostsTest extends \Codeception\TestCase\WPTestCase
 	/**
 	 * Test that the WordPress Cron event for this resource was destroyed when the Plugin
 	 * is deactivated.
-	 * 
-	 * @since 	1.9.7.4
+	 *
+	 * @since   1.9.7.4
 	 */
 	public function testCronEventDestroyedOnPluginDeactivation()
 	{
@@ -185,11 +193,11 @@ class ResourcePostsTest extends \Codeception\TestCase\WPTestCase
 		// Confirm scheduled event does not exist.
 		$this->assertFalse(wp_get_schedule('convertkit_resource_refresh_' . $this->resource->type));
 	}
-	
+
 	/**
 	 * Test that the refresh() function performs as expected.
-	 * 
-	 * @since 	1.9.7.4
+	 *
+	 * @since   1.9.7.4
 	 */
 	public function testRefresh()
 	{
@@ -202,8 +210,8 @@ class ResourcePostsTest extends \Codeception\TestCase\WPTestCase
 
 	/**
 	 * Test that the expiry timestamp is set and returns the expected value.
-	 * 
-	 * @since 	1.9.7.4
+	 *
+	 * @since   1.9.7.4
 	 */
 	public function testExpiry()
 	{
@@ -219,8 +227,8 @@ class ResourcePostsTest extends \Codeception\TestCase\WPTestCase
 
 	/**
 	 * Test that the get() function performs as expected.
-	 * 
-	 * @since 	1.9.7.4
+	 *
+	 * @since   1.9.7.4
 	 */
 	public function testGet()
 	{
@@ -234,8 +242,8 @@ class ResourcePostsTest extends \Codeception\TestCase\WPTestCase
 
 	/**
 	 * Test that the get_paginated_subset() function performs as expected when requesting one item from the first page.
-	 * 
-	 * @since 	1.9.7.6
+	 *
+	 * @since   1.9.7.6
 	 */
 	public function testGetPaginatedSubsetFirstPage()
 	{
@@ -251,8 +259,8 @@ class ResourcePostsTest extends \Codeception\TestCase\WPTestCase
 	/**
 	 * Test that the get_paginated_subset() function performs as expected when requesting one item from a page
 	 * that is not the first or last page.
-	 * 
-	 * @since 	1.9.7.6
+	 *
+	 * @since   1.9.7.6
 	 */
 	public function testGetPaginatedSubsetMiddlePage()
 	{
@@ -267,13 +275,13 @@ class ResourcePostsTest extends \Codeception\TestCase\WPTestCase
 
 	/**
 	 * Test that the get_paginated_subset() function performs as expected when requesting one item from the last page.
-	 * 
-	 * @since 	1.9.7.6
+	 *
+	 * @since   1.9.7.6
 	 */
 	public function testGetPaginatedSubsetLastPage()
 	{
 		// Query the API to establish how many resources exist.
-		$result = $this->resource->get();
+		$result   = $this->resource->get();
 		$lastPage = count($result);
 
 		$this->testPagination(
@@ -287,8 +295,8 @@ class ResourcePostsTest extends \Codeception\TestCase\WPTestCase
 
 	/**
 	 * Test that the count() function returns the number of resources.
-	 * 
-	 * @since 	1.9.7.6
+	 *
+	 * @since   1.9.7.6
 	 */
 	public function testCount()
 	{
@@ -299,14 +307,14 @@ class ResourcePostsTest extends \Codeception\TestCase\WPTestCase
 	/**
 	 * Shared tests for paginated resources, ensuring the response contains expected values for pagination,
 	 * next/previous links etc.
-	 * 
-	 * @since 	1.9.7.6
-	 * 
-	 * @param 	array 	$result 	Result.
-	 * @param 	int 	$page 		Page.
-	 * @param 	int 	$perPage 	Results per page.
-	 * @param 	bool 	$hasNextPage 	Response should indicate pagination is available for older resources.
-	 * @param 	bool 	$hasPrevPage 	Response should indicate pagination is available for newer resources.
+	 *
+	 * @since   1.9.7.6
+	 *
+	 * @param   array $result     Result.
+	 * @param   int   $page       Page.
+	 * @param   int   $perPage    Results per page.
+	 * @param   bool  $hasNextPage    Response should indicate pagination is available for older resources.
+	 * @param   bool  $hasPrevPage    Response should indicate pagination is available for newer resources.
 	 */
 	private function testPagination($result, $page, $perPage, $hasNextPage, $hasPrevPage)
 	{
@@ -333,8 +341,8 @@ class ResourcePostsTest extends \Codeception\TestCase\WPTestCase
 
 	/**
 	 * Test that the exist() function performs as expected.
-	 * 
-	 * @since 	1.9.7.4
+	 *
+	 * @since   1.9.7.4
 	 */
 	public function testExist()
 	{

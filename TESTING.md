@@ -411,18 +411,23 @@ Any errors should be corrected by making applicable code or test changes.
 [PHP_CodeSniffer](https://github.com/squizlabs/PHP_CodeSniffer) checks that all Plugin code meets the 
 [WordPress Coding Standards](https://developer.wordpress.org/coding-standards/wordpress-coding-standards/).
 
-In the Plugin's directory, run the following command to run PHP_CodeSniffer, which will check the code meets WordPress' Coding Standards:
+In the Plugin's directory, run the following command to run PHP_CodeSniffer, which will check the code meets WordPress' Coding Standards
+as defined in the `phpcs.xml` configuration:
 
 ```bash
-vendor/bin/phpcs ./ -v -s
+vendor/bin/phpcs ./ --standard=phpcs.xml -v -s
 ```
 
-`-v` produces verbose output, and `-s` specifies the precise rule that failed:
+`--standard=phpcs.tests.xml` tells PHP CodeSniffer to use the Coding Standards rules / configuration defined in `phpcs.tests.xml`.
+These differ slightly from WordPress' Coding Standards, to ensure that writing tests isn't a laborious task, whilst maintaing consistency
+in test coding style. 
+`-v` produces verbose output
+`-s` specifies the precise rule that failed
 ![Coding Standards Screenshot](/.github/docs/coding-standards-error.png?raw=true)
 
 Any errors should be corrected by either:
 - making applicable code changes
-- (Experimental) running `vendor/bin/phpcbf ./ -v` to automatically fix coding standards
+- (Experimental) running `vendor/bin/phpcbf ./ --standard=phpcs.xml -v -s` to automatically fix coding standards
 
 Need to change the PHP or WordPress coding standard rules applied?  Either:
 - ignore a rule in the affected code, by adding `phpcs:ignore {rule}`, where {rule} is the given rule that failed in the above output.
@@ -450,6 +455,31 @@ vendor/bin/phpstan --memory-limit=1G
 Any errors should be corrected by making applicable code changes.
 
 False positives [can be excluded by configuring](https://phpstan.org/user-guide/ignoring-errors) the `phpstan.neon` file.
+
+## Run PHP CodeSniffer for Tests
+
+In the Plugin's directory, run the following command to run PHP_CodeSniffer, which will check the code meets Coding Standards
+as defined in the `phpcs.tests.xml` configuration:
+
+```bash
+vendor/bin/phpcs ./tests --standard=phpcs.tests.xml -v -s 
+```
+
+`--standard=phpcs.tests.xml` tells PHP CodeSniffer to use the Coding Standards rules / configuration defined in `phpcs.tests.xml`.
+These differ slightly from WordPress' Coding Standards, to ensure that writing tests isn't a laborious task, whilst maintaing consistency
+in test coding style. 
+`-v` produces verbose output
+`-s` specifies the precise rule that failed
+
+Any errors should be corrected by either:
+- making applicable code changes
+- (Experimental) running `vendor/bin/phpcbf ./tests --standard=phpcs.tests.xml -v -s ` to automatically fix coding standards
+
+Need to change the PHP or WordPress coding standard rules applied?  Either:
+- ignore a rule in the affected code, by adding `phpcs:ignore {rule}`, where {rule} is the given rule that failed in the above output.
+- edit the [phpcs.tests.xml](phpcs.tests.xml) file.
+
+**Rules can be ignored with caution**, but it's essential that rules relating to coding style and inline code commenting / docblocks remain.
 
 ## Next Steps
 

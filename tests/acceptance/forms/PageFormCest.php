@@ -1,21 +1,21 @@
 <?php
 /**
  * Tests for ConvertKit Forms on WordPress Pages.
- * 
- * @since 	1.9.6
+ *
+ * @since   1.9.6
  */
 class PageFormCest
 {
 	/**
 	 * Run common actions before running the test functions in this class.
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @param 	AcceptanceTester 	$I 	Tester
+	 *
+	 * @since   1.9.6
+	 *
+	 * @param   AcceptanceTester $I  Tester.
 	 */
 	public function _before(AcceptanceTester $I)
 	{
-		// Activate and Setup ConvertKit plugin
+		// Activate and Setup ConvertKit plugin.
 		$I->activateConvertKitPlugin($I);
 		$I->setupConvertKitPlugin($I);
 		$I->enableDebugLog($I);
@@ -23,14 +23,14 @@ class PageFormCest
 
 	/**
 	 * Test that the Pages > Add New screen has expected a11y output, such as label[for].
-	 * 
-	 * @since 	1.9.7.6
-	 * 
-	 * @param 	AcceptanceTester 	$I 	Tester
+	 *
+	 * @since   1.9.7.6
+	 *
+	 * @param   AcceptanceTester $I  Tester.
 	 */
 	public function testAccessibility(AcceptanceTester $I)
 	{
-		// Navigate to Post Type (e.g. Pages / Posts) > Add New
+		// Navigate to Post Type (e.g. Pages / Posts) > Add New.
 		$I->amOnAdminPage('post-new.php?post_type=page');
 
 		// Confirm that settings have label[for] attributes.
@@ -43,10 +43,10 @@ class PageFormCest
 	 * Test that the 'Default' option for the Default Form setting in the Plugin Settings works when
 	 * creating and viewing a new WordPress Page, and there is no Default Form specified in the Plugin
 	 * settings.
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @param 	AcceptanceTester 	$I 	Tester
+	 *
+	 * @since   1.9.6
+	 *
+	 * @param   AcceptanceTester $I  Tester.
 	 */
 	public function testAddNewPageUsingDefaultFormWithNoDefaultFormSpecifiedInPlugin(AcceptanceTester $I)
 	{
@@ -54,9 +54,13 @@ class PageFormCest
 		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form: Default: None');
 
 		// Configure metabox's Form setting = Default.
-		$I->configureMetaboxSettings($I, 'wp-convertkit-meta-box', [
-			'form' => [ 'select2', 'Default' ],
-		]);
+		$I->configureMetaboxSettings(
+			$I,
+			'wp-convertkit-meta-box',
+			[
+				'form' => [ 'select2', 'Default' ],
+			]
+		);
 
 		// Publish and view the Page on the frontend site.
 		$I->publishAndViewGutenbergPage($I);
@@ -68,10 +72,10 @@ class PageFormCest
 	/**
 	 * Test that the Default Form specified in the Plugin Settings works when
 	 * creating and viewing a new WordPress Page.
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @param 	AcceptanceTester 	$I 	Tester
+	 *
+	 * @since   1.9.6
+	 *
+	 * @param   AcceptanceTester $I  Tester.
 	 */
 	public function testAddNewPageUsingDefaultForm(AcceptanceTester $I)
 	{
@@ -82,9 +86,13 @@ class PageFormCest
 		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form: Default');
 
 		// Configure metabox's Form setting = Default.
-		$I->configureMetaboxSettings($I, 'wp-convertkit-meta-box', [
-			'form' => [ 'select2', 'Default' ],
-		]);
+		$I->configureMetaboxSettings(
+			$I,
+			'wp-convertkit-meta-box',
+			[
+				'form' => [ 'select2', 'Default' ],
+			]
+		);
 
 		// Publish and view the Page on the frontend site.
 		$I->publishAndViewGutenbergPage($I);
@@ -96,10 +104,10 @@ class PageFormCest
 	/**
 	 * Test that the Default Legacy Form specified in the Plugin Settings works when
 	 * creating and viewing a new WordPress Page.
-	 * 
-	 * @since 	1.9.6.3
-	 * 
-	 * @param 	AcceptanceTester 	$I 	Tester
+	 *
+	 * @since   1.9.6.3
+	 *
+	 * @param   AcceptanceTester $I  Tester.
 	 */
 	public function testAddNewPageUsingDefaultLegacyForm(AcceptanceTester $I)
 	{
@@ -110,9 +118,13 @@ class PageFormCest
 		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form: Legacy: Default');
 
 		// Configure metabox's Form setting = Default.
-		$I->configureMetaboxSettings($I, 'wp-convertkit-meta-box', [
-			'form' => [ 'select2', 'Default' ],
-		]);
+		$I->configureMetaboxSettings(
+			$I,
+			'wp-convertkit-meta-box',
+			[
+				'form' => [ 'select2', 'Default' ],
+			]
+		);
 
 		// Publish and view the Page on the frontend site.
 		$I->publishAndViewGutenbergPage($I);
@@ -124,10 +136,10 @@ class PageFormCest
 	/**
 	 * Test that 'None' Form specified in the Page Settings works when
 	 * creating and viewing a new WordPress Page.
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @param 	AcceptanceTester 	$I 	Tester
+	 *
+	 * @since   1.9.6
+	 *
+	 * @param   AcceptanceTester $I  Tester.
 	 */
 	public function testAddNewPageUsingNoForm(AcceptanceTester $I)
 	{
@@ -135,9 +147,13 @@ class PageFormCest
 		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form: None');
 
 		// Configure metabox's Form setting = None.
-		$I->configureMetaboxSettings($I, 'wp-convertkit-meta-box', [
-			'form' => [ 'select2', 'None' ],
-		]);
+		$I->configureMetaboxSettings(
+			$I,
+			'wp-convertkit-meta-box',
+			[
+				'form' => [ 'select2', 'None' ],
+			]
+		);
 
 		// Publish and view the Page on the frontend site.
 		$I->publishAndViewGutenbergPage($I);
@@ -149,10 +165,10 @@ class PageFormCest
 	/**
 	 * Test that the Form specified in the Page Settings works when
 	 * creating and viewing a new WordPress Page.
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @param 	AcceptanceTester 	$I 	Tester
+	 *
+	 * @since   1.9.6
+	 *
+	 * @param   AcceptanceTester $I  Tester.
 	 */
 	public function testAddNewPageUsingDefinedForm(AcceptanceTester $I)
 	{
@@ -160,9 +176,13 @@ class PageFormCest
 		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form: ' . $_ENV['CONVERTKIT_API_FORM_NAME']);
 
 		// Configure metabox's Form setting = None.
-		$I->configureMetaboxSettings($I, 'wp-convertkit-meta-box', [
-			'form' => [ 'select2', $_ENV['CONVERTKIT_API_FORM_NAME'] ],
-		]);
+		$I->configureMetaboxSettings(
+			$I,
+			'wp-convertkit-meta-box',
+			[
+				'form' => [ 'select2', $_ENV['CONVERTKIT_API_FORM_NAME'] ],
+			]
+		);
 
 		// Publish and view the Page on the frontend site.
 		$I->publishAndViewGutenbergPage($I);
@@ -174,10 +194,10 @@ class PageFormCest
 	/**
 	 * Test that the Legacy Form specified in the Page Settings works when
 	 * creating and viewing a new WordPress Page.
-	 * 
-	 * @since 	1.9.6.3
-	 * 
-	 * @param 	AcceptanceTester 	$I 	Tester
+	 *
+	 * @since   1.9.6.3
+	 *
+	 * @param   AcceptanceTester $I  Tester.
 	 */
 	public function testAddNewPageUsingDefinedLegacyForm(AcceptanceTester $I)
 	{
@@ -185,9 +205,13 @@ class PageFormCest
 		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form: ' . $_ENV['CONVERTKIT_API_LEGACY_FORM_NAME']);
 
 		// Configure metabox's Form setting = None.
-		$I->configureMetaboxSettings($I, 'wp-convertkit-meta-box', [
-			'form' => [ 'select2', $_ENV['CONVERTKIT_API_LEGACY_FORM_NAME'] ],
-		]);
+		$I->configureMetaboxSettings(
+			$I,
+			'wp-convertkit-meta-box',
+			[
+				'form' => [ 'select2', $_ENV['CONVERTKIT_API_LEGACY_FORM_NAME'] ],
+			]
+		);
 
 		// Publish and view the Page on the frontend site.
 		$I->publishAndViewGutenbergPage($I);
@@ -199,15 +223,15 @@ class PageFormCest
 	/**
 	 * Test that the Default Form for Pages displays when an invalid Form ID is specified
 	 * for a Page.
-	 * 
+	 *
 	 * Whilst the on screen options won't permit selecting an invalid Form ID, a Page might
 	 * have an invalid Form ID because:
 	 * - the form belongs to another ConvertKit account (i.e. API credentials were changed in the Plugin, but this Page's specified Form was not changed)
 	 * - the form was deleted from the ConvertKit account.
-	 * 
-	 * @since 	1.9.7.2
-	 * 
-	 * @param 	AcceptanceTester 	$I 	Tester
+	 *
+	 * @since   1.9.7.2
+	 *
+	 * @param   AcceptanceTester $I  Tester.
 	 */
 	public function testAddNewPageUsingInvalidDefinedForm(AcceptanceTester $I)
 	{
@@ -216,20 +240,22 @@ class PageFormCest
 
 		// Create Page, with an invalid Form ID, as if it were created prior to API credentials being changed and/or
 		// a Form being deleted in ConvertKit.
-		$pageID = $I->havePostInDatabase([
-			'post_type' 	=> 'page',
-			'post_title' 	=> 'ConvertKit: Page: Form: Specific: Invalid',
-			'meta_input'	=> [
-				'_wp_convertkit_post_meta' => [
-					'form'         => '11111',
-					'landing_page' => '',
-					'tag'          => '',
-				]
-			],
-		]);
+		$pageID = $I->havePostInDatabase(
+			[
+				'post_type'  => 'page',
+				'post_title' => 'ConvertKit: Page: Form: Specific: Invalid',
+				'meta_input' => [
+					'_wp_convertkit_post_meta' => [
+						'form'         => '11111',
+						'landing_page' => '',
+						'tag'          => '',
+					],
+				],
+			]
+		);
 
 		// Load the Page on the frontend site.
-		$I->amOnPage('/?p='.$pageID);
+		$I->amOnPage('/?p=' . $pageID);
 
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
@@ -244,10 +270,10 @@ class PageFormCest
 	/**
 	 * Test that the Default Form for Pages displays when the Default option is chosen via
 	 * WordPress' Quick Edit functionality.
-	 * 
-	 * @since 	1.9.8.0
-	 * 
-	 * @param 	AcceptanceTester 	$I 	Tester
+	 *
+	 * @since   1.9.8.0
+	 *
+	 * @param   AcceptanceTester $I  Tester.
 	 */
 	public function testQuickEditUsingDefaultForm(AcceptanceTester $I)
 	{
@@ -255,18 +281,25 @@ class PageFormCest
 		$I->setupConvertKitPluginDefaultForm($I);
 
 		// Programmatically create a Page.
-		$pageID = $I->havePostInDatabase([
-			'post_type' 	=> 'page',
-			'post_title' 	=> 'ConvertKit: Page: Form: Default: Quick Edit',
-		]);
+		$pageID = $I->havePostInDatabase(
+			[
+				'post_type'  => 'page',
+				'post_title' => 'ConvertKit: Page: Form: Default: Quick Edit',
+			]
+		);
 
 		// Quick Edit the Page in the Pages WP_List_Table.
-		$I->quickEdit($I, 'page', $pageID, [
-			'form' => [ 'select', 'Default' ],
-		]);
+		$I->quickEdit(
+			$I,
+			'page',
+			$pageID,
+			[
+				'form' => [ 'select', 'Default' ],
+			]
+		);
 
 		// Load the Page on the frontend site.
-		$I->amOnPage('/?p='.$pageID);
+		$I->amOnPage('/?p=' . $pageID);
 
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
@@ -278,26 +311,33 @@ class PageFormCest
 	/**
 	 * Test that the defined form displays when chosen via
 	 * WordPress' Quick Edit functionality.
-	 * 
-	 * @since 	1.9.8.0
-	 * 
-	 * @param 	AcceptanceTester 	$I 	Tester
+	 *
+	 * @since   1.9.8.0
+	 *
+	 * @param   AcceptanceTester $I  Tester.
 	 */
 	public function testQuickEditUsingDefinedForm(AcceptanceTester $I)
 	{
 		// Programmatically create a Page.
-		$pageID = $I->havePostInDatabase([
-			'post_type' 	=> 'page',
-			'post_title' 	=> 'ConvertKit: Page: Form: ' . $_ENV['CONVERTKIT_API_FORM_NAME'] . ': Quick Edit',
-		]);
+		$pageID = $I->havePostInDatabase(
+			[
+				'post_type'  => 'page',
+				'post_title' => 'ConvertKit: Page: Form: ' . $_ENV['CONVERTKIT_API_FORM_NAME'] . ': Quick Edit',
+			]
+		);
 
 		// Quick Edit the Page in the Pages WP_List_Table.
-		$I->quickEdit($I, 'page', $pageID, [
-			'form' => [ 'select', $_ENV['CONVERTKIT_API_FORM_NAME'] ],
-		]);
+		$I->quickEdit(
+			$I,
+			'page',
+			$pageID,
+			[
+				'form' => [ 'select', $_ENV['CONVERTKIT_API_FORM_NAME'] ],
+			]
+		);
 
 		// Load the Page on the frontend site.
-		$I->amOnPage('/?p='.$pageID);
+		$I->amOnPage('/?p=' . $pageID);
 
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
@@ -309,10 +349,10 @@ class PageFormCest
 	/**
 	 * Test that the Default Form for Pages displays when the Default option is chosen via
 	 * WordPress' Bulk Edit functionality.
-	 * 
-	 * @since 	1.9.8.0
-	 * 
-	 * @param 	AcceptanceTester 	$I 	Tester
+	 *
+	 * @since   1.9.8.0
+	 *
+	 * @param   AcceptanceTester $I  Tester.
 	 */
 	public function testBulkEditUsingDefaultForm(AcceptanceTester $I)
 	{
@@ -321,25 +361,34 @@ class PageFormCest
 
 		// Programmatically create two Pages.
 		$pageIDs = array(
-			$I->havePostInDatabase([
-				'post_type' 	=> 'page',
-				'post_title' 	=> 'ConvertKit: Page: Form: Default: Bulk Edit #1',
-			]),
-			$I->havePostInDatabase([
-				'post_type' 	=> 'page',
-				'post_title' 	=> 'ConvertKit: Page: Form: Default: Bulk Edit #2',
-			])
+			$I->havePostInDatabase(
+				[
+					'post_type'  => 'page',
+					'post_title' => 'ConvertKit: Page: Form: Default: Bulk Edit #1',
+				]
+			),
+			$I->havePostInDatabase(
+				[
+					'post_type'  => 'page',
+					'post_title' => 'ConvertKit: Page: Form: Default: Bulk Edit #2',
+				]
+			),
 		);
 
 		// Bulk Edit the Pages in the Pages WP_List_Table.
-		$I->bulkEdit($I, 'page', $pageIDs, [
-			'form' => [ 'select', 'Default' ],
-		]);
+		$I->bulkEdit(
+			$I,
+			'page',
+			$pageIDs,
+			[
+				'form' => [ 'select', 'Default' ],
+			]
+		);
 
 		// Iterate through Pages to run frontend tests.
-		foreach($pageIDs as $pageID) {
+		foreach ($pageIDs as $pageID) {
 			// Load Page on the frontend site.
-			$I->amOnPage('/?p='.$pageID);
+			$I->amOnPage('/?p=' . $pageID);
 
 			// Check that no PHP warnings or notices were output.
 			$I->checkNoWarningsAndNoticesOnScreen($I);
@@ -352,34 +401,43 @@ class PageFormCest
 	/**
 	 * Test that the defined form displays when chosen via
 	 * WordPress' Bulk Edit functionality.
-	 * 
-	 * @since 	1.9.8.0
-	 * 
-	 * @param 	AcceptanceTester 	$I 	Tester
+	 *
+	 * @since   1.9.8.0
+	 *
+	 * @param   AcceptanceTester $I  Tester.
 	 */
 	public function testBulkEditUsingDefinedForm(AcceptanceTester $I)
 	{
 		// Programmatically create two Pages.
 		$pageIDs = array(
-			$I->havePostInDatabase([
-				'post_type' 	=> 'page',
-				'post_title' 	=> 'ConvertKit: Page: Form: ' . $_ENV['CONVERTKIT_API_FORM_NAME'] . ': Bulk Edit #1',
-			]),
-			$I->havePostInDatabase([
-				'post_type' 	=> 'page',
-				'post_title' 	=> 'ConvertKit: Page: Form: ' . $_ENV['CONVERTKIT_API_FORM_NAME'] . ': Bulk Edit #2',
-			])
+			$I->havePostInDatabase(
+				[
+					'post_type'  => 'page',
+					'post_title' => 'ConvertKit: Page: Form: ' . $_ENV['CONVERTKIT_API_FORM_NAME'] . ': Bulk Edit #1',
+				]
+			),
+			$I->havePostInDatabase(
+				[
+					'post_type'  => 'page',
+					'post_title' => 'ConvertKit: Page: Form: ' . $_ENV['CONVERTKIT_API_FORM_NAME'] . ': Bulk Edit #2',
+				]
+			),
 		);
 
 		// Bulk Edit the Pages in the Pages WP_List_Table.
-		$I->bulkEdit($I, 'page', $pageIDs, [
-			'form' => [ 'select', $_ENV['CONVERTKIT_API_FORM_NAME'] ],
-		]);
+		$I->bulkEdit(
+			$I,
+			'page',
+			$pageIDs,
+			[
+				'form' => [ 'select', $_ENV['CONVERTKIT_API_FORM_NAME'] ],
+			]
+		);
 
 		// Iterate through Pages to run frontend tests.
-		foreach($pageIDs as $pageID) {
+		foreach ($pageIDs as $pageID) {
 			// Load Page on the frontend site.
-			$I->amOnPage('/?p='.$pageID);
+			$I->amOnPage('/?p=' . $pageID);
 
 			// Check that no PHP warnings or notices were output.
 			$I->checkNoWarningsAndNoticesOnScreen($I);
@@ -392,48 +450,57 @@ class PageFormCest
 	/**
 	 * Test that the existing settings are honored and not changed
 	 * when the Bulk Edit options are set to 'No Change'.
-	 * 
-	 * @since 	1.9.8.0
-	 * 
-	 * @param 	AcceptanceTester 	$I 	Tester
+	 *
+	 * @since   1.9.8.0
+	 *
+	 * @param   AcceptanceTester $I  Tester.
 	 */
 	public function testBulkEditWithNoChanges(AcceptanceTester $I)
 	{
 		// Programmatically create two Pages with a defined form.
 		$pageIDs = array(
-			$I->havePostInDatabase([
-				'post_type' 	=> 'page',
-				'post_title' 	=> 'ConvertKit: Page: Form: ' . $_ENV['CONVERTKIT_API_FORM_NAME'] . ': Bulk Edit with No Change #1',
-				'meta_input'	=> [
-					'_wp_convertkit_post_meta' => [
-						'form'         => $_ENV['CONVERTKIT_API_FORM_ID'],
-						'landing_page' => '',
-						'tag'          => '',
-					]
-				],
-			]),
-			$I->havePostInDatabase([
-				'post_type' 	=> 'page',
-				'post_title' 	=> 'ConvertKit: Page: Form: ' . $_ENV['CONVERTKIT_API_FORM_NAME'] . ': Bulk Edit with No Change #2',
-				'meta_input'	=> [
-					'_wp_convertkit_post_meta' => [
-						'form'         => $_ENV['CONVERTKIT_API_FORM_ID'],
-						'landing_page' => '',
-						'tag'          => '',
-					]
-				],
-			])
+			$I->havePostInDatabase(
+				[
+					'post_type'  => 'page',
+					'post_title' => 'ConvertKit: Page: Form: ' . $_ENV['CONVERTKIT_API_FORM_NAME'] . ': Bulk Edit with No Change #1',
+					'meta_input' => [
+						'_wp_convertkit_post_meta' => [
+							'form'         => $_ENV['CONVERTKIT_API_FORM_ID'],
+							'landing_page' => '',
+							'tag'          => '',
+						],
+					],
+				]
+			),
+			$I->havePostInDatabase(
+				[
+					'post_type'  => 'page',
+					'post_title' => 'ConvertKit: Page: Form: ' . $_ENV['CONVERTKIT_API_FORM_NAME'] . ': Bulk Edit with No Change #2',
+					'meta_input' => [
+						'_wp_convertkit_post_meta' => [
+							'form'         => $_ENV['CONVERTKIT_API_FORM_ID'],
+							'landing_page' => '',
+							'tag'          => '',
+						],
+					],
+				]
+			),
 		);
 
 		// Bulk Edit the Pages in the Pages WP_List_Table.
-		$I->bulkEdit($I, 'page', $pageIDs, [
-			'form' => [ 'select', '— No Change —' ],
-		]);
+		$I->bulkEdit(
+			$I,
+			'page',
+			$pageIDs,
+			[
+				'form' => [ 'select', '— No Change —' ],
+			]
+		);
 
 		// Iterate through Pages to run frontend tests.
-		foreach($pageIDs as $pageID) {
+		foreach ($pageIDs as $pageID) {
 			// Load Page on the frontend site.
-			$I->amOnPage('/?p='.$pageID);
+			$I->amOnPage('/?p=' . $pageID);
 
 			// Check that no PHP warnings or notices were output.
 			$I->checkNoWarningsAndNoticesOnScreen($I);
@@ -446,10 +513,10 @@ class PageFormCest
 	/**
 	 * Test that the Bulk Edit fields do not display when a search on a WP_List_Table
 	 * returns no results.
-	 * 
-	 * @since 	1.9.8.1
-	 * 
-	 * @param 	AcceptanceTester 	$I 	Tester
+	 *
+	 * @since   1.9.8.1
+	 *
+	 * @param   AcceptanceTester $I  Tester.
 	 */
 	public function testBulkEditFieldsHiddenWhenNoPagesFound(AcceptanceTester $I)
 	{
@@ -464,10 +531,10 @@ class PageFormCest
 	 * Deactivate and reset Plugin(s) after each test, if the test passes.
 	 * We don't use _after, as this would provide a screenshot of the Plugin
 	 * deactivation and not the true test error.
-	 * 
-	 * @since 	1.9.6.7
-	 * 
-	 * @param 	AcceptanceTester 	$I 	Tester
+	 *
+	 * @since   1.9.6.7
+	 *
+	 * @param   AcceptanceTester $I  Tester.
 	 */
 	public function _passed(AcceptanceTester $I)
 	{

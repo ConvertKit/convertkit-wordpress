@@ -1,19 +1,19 @@
 <?php
 /**
  * Tests for the ConvertKit Broadcasts block when used as a widget.
- * 
+ *
  * A widget area is typically defined by a Theme in a shared area, such as a sidebar or footer.
- * 
- * @since 	1.9.8.2
+ *
+ * @since   1.9.8.2
  */
 class WidgetBroadcastsCest
 {
 	/**
 	 * Run common actions before running the test functions in this class.
-	 * 
-	 * @since 	1.9.8.2
-	 * 
-	 * @param 	AcceptanceTester 	$I 	Tester
+	 *
+	 * @since   1.9.8.2
+	 *
+	 * @param   AcceptanceTester $I  Tester.
 	 */
 	public function _before(AcceptanceTester $I)
 	{
@@ -26,21 +26,23 @@ class WidgetBroadcastsCest
 
 		// Create a Post, so that the home page does not display the 404 template,
 		// which never includes widgets.
-		$I->havePostInDatabase([
-			'post_title'	=> 'Widget Tests',
-			'post_type'		=> 'post',
-			'post_status'	=> 'publish',
-			'post_excerpt'  => 'Widget Tests',
-			'post_content'  => 'Widget Tests',	
-		]);
+		$I->havePostInDatabase(
+			[
+				'post_title'   => 'Widget Tests',
+				'post_type'    => 'post',
+				'post_status'  => 'publish',
+				'post_excerpt' => 'Widget Tests',
+				'post_content' => 'Widget Tests',
+			]
+		);
 	}
 
 	/**
 	 * Test the Broadcasts block works when using the default parameters.
-	 * 
-	 * @since 	1.9.8.2
-	 * 
-	 * @param 	AcceptanceTester 	$I 	Tester
+	 *
+	 * @since   1.9.8.2
+	 *
+	 * @param   AcceptanceTester $I  Tester.
 	 */
 	public function testBroadcastsBlockWidgetWithDefaultParameters(AcceptanceTester $I)
 	{
@@ -57,22 +59,27 @@ class WidgetBroadcastsCest
 		$I->seeInSource('<time datetime="2022-04-08">April 8, 2022</time>');
 
 		// Confirm that the default expected number of Broadcasts are displayed.
-		$I->seeNumberOfElements('li.convertkit-broadcast', [1,10]);
+		$I->seeNumberOfElements('li.convertkit-broadcast', [ 1, 10 ]);
 	}
 
 	/**
 	 * Test the Broadcasts block's date format parameter works.
-	 * 
-	 * @since 	1.9.8.2
-	 * 
-	 * @param 	AcceptanceTester 	$I 	Tester
+	 *
+	 * @since   1.9.8.2
+	 *
+	 * @param   AcceptanceTester $I  Tester.
 	 */
 	public function testBroadcastsBlockWidgetWithDateFormatParameter(AcceptanceTester $I)
 	{
 		// Add block widget.
-		$I->addBlockWidget($I, 'ConvertKit Broadcasts', 'convertkit-broadcasts', [
-			'date_format' => [ 'select', 'Y-m-d' ],
-		]);
+		$I->addBlockWidget(
+			$I,
+			'ConvertKit Broadcasts',
+			'convertkit-broadcasts',
+			[
+				'date_format' => [ 'select', 'Y-m-d' ],
+			]
+		);
 
 		// View the home page.
 		$I->amOnPage('/');
@@ -84,22 +91,27 @@ class WidgetBroadcastsCest
 		$I->seeInSource('<time datetime="2022-04-08">2022-04-08</time>');
 
 		// Confirm that the default expected number of Broadcasts are displayed.
-		$I->seeNumberOfElements('li.convertkit-broadcast', [1,10]);
+		$I->seeNumberOfElements('li.convertkit-broadcast', [ 1, 10 ]);
 	}
 
 	/**
 	 * Test the Broadcasts block's limit parameter works.
-	 * 
-	 * @since 	1.9.8.2
-	 * 
-	 * @param 	AcceptanceTester 	$I 	Tester
+	 *
+	 * @since   1.9.8.2
+	 *
+	 * @param   AcceptanceTester $I  Tester.
 	 */
 	public function testBroadcastsBlockWidgetWithLimitParameter(AcceptanceTester $I)
 	{
 		// Add block widget.
-		$I->addBlockWidget($I, 'ConvertKit Broadcasts', 'convertkit-broadcasts', [
-			'limit' => [ 'input', '2' ],
-		]);
+		$I->addBlockWidget(
+			$I,
+			'ConvertKit Broadcasts',
+			'convertkit-broadcasts',
+			[
+				'limit' => [ 'input', '2' ],
+			]
+		);
 
 		// View the home page.
 		$I->amOnPage('/');
@@ -113,18 +125,23 @@ class WidgetBroadcastsCest
 
 	/**
 	 * Test the Broadcasts block's pagination works when enabled.
-	 * 
-	 * @since 	1.9.8.2
-	 * 
-	 * @param 	AcceptanceTester 	$I 	Tester
+	 *
+	 * @since   1.9.8.2
+	 *
+	 * @param   AcceptanceTester $I  Tester.
 	 */
 	public function testBroadcastsBlockWidgetWithPaginationEnabled(AcceptanceTester $I)
 	{
 		// Add block widget.
-		$I->addBlockWidget($I, 'ConvertKit Broadcasts', 'convertkit-broadcasts', [
-			'.components-form-toggle' 	=> [ 'toggle', true ],
-			'limit' 					=> [ 'input', '1' ],
-		]);
+		$I->addBlockWidget(
+			$I,
+			'ConvertKit Broadcasts',
+			'convertkit-broadcasts',
+			[
+				'.components-form-toggle' => [ 'toggle', true ],
+				'limit'                   => [ 'input', '1' ],
+			]
+		);
 
 		// View the home page.
 		$I->amOnPage('/');
@@ -135,20 +152,25 @@ class WidgetBroadcastsCest
 
 	/**
 	 * Test the Broadcasts block's pagination labels work when defined.
-	 * 
-	 * @since 	1.9.8.2
-	 * 
-	 * @param 	AcceptanceTester 	$I 	Tester
+	 *
+	 * @since   1.9.8.2
+	 *
+	 * @param   AcceptanceTester $I  Tester.
 	 */
 	public function testBroadcastsBlockWithPaginationLabelParameters(AcceptanceTester $I)
 	{
 		// Add block widget.
-		$I->addBlockWidget($I, 'ConvertKit Broadcasts', 'convertkit-broadcasts', [
-			'.components-form-toggle' 	=> [ 'toggle', true ],
-			'limit' 	 		  		=> [ 'input', '1' ],
-			'paginate_label_prev' 		=> [ 'input', 'Newer' ],
-			'paginate_label_next' 		=> [ 'input', 'Older' ],
-		]);
+		$I->addBlockWidget(
+			$I,
+			'ConvertKit Broadcasts',
+			'convertkit-broadcasts',
+			[
+				'.components-form-toggle' => [ 'toggle', true ],
+				'limit'                   => [ 'input', '1' ],
+				'paginate_label_prev'     => [ 'input', 'Newer' ],
+				'paginate_label_next'     => [ 'input', 'Older' ],
+			]
+		);
 
 		// View the home page.
 		$I->amOnPage('/');
@@ -161,10 +183,10 @@ class WidgetBroadcastsCest
 	 * Deactivate and reset Plugin(s) after each test, if the test passes.
 	 * We don't use _after, as this would provide a screenshot of the Plugin
 	 * deactivation and not the true test error.
-	 * 
-	 * @since 	1.9.8.2
-	 * 
-	 * @param 	AcceptanceTester 	$I 	Tester
+	 *
+	 * @since   1.9.8.2
+	 *
+	 * @param   AcceptanceTester $I  Tester.
 	 */
 	public function _passed(AcceptanceTester $I)
 	{

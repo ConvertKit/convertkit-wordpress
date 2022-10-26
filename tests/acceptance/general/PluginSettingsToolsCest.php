@@ -1,27 +1,31 @@
 <?php
-
+/**
+ * Tests for the Settings > ConvertKit > Tools screens.
+ *
+ * @since   1.9.6
+ */
 class PluginSettingsToolsCest
 {
 	/**
 	 * Run common actions before running the test functions in this class.
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @param 	AcceptanceTester 	$I 	Tester
+	 *
+	 * @since   1.9.6
+	 *
+	 * @param   AcceptanceTester $I  Tester.
 	 */
 	public function _before(AcceptanceTester $I)
 	{
-		// Activate and Setup ConvertKit plugin
+		// Activate and Setup ConvertKit plugin.
 		$I->activateConvertKitPlugin($I);
 	}
 
 	/**
 	 * Test that the Debug Log section is populated when debugging is enabled and an action is
 	 * performed that will populate the log.
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @param 	AcceptanceTester 	$I 	Tester
+	 *
+	 * @since   1.9.6
+	 *
+	 * @param   AcceptanceTester $I  Tester.
 	 */
 	public function testDebugLogExists(AcceptanceTester $I)
 	{
@@ -37,10 +41,10 @@ class PluginSettingsToolsCest
 
 	/**
 	 * Test that the Download Log option works.
-	 * 
-	 * @since 	1.9.7.6
-	 * 
-	 * @param 	AcceptanceTester 	$I 	Tester
+	 *
+	 * @since   1.9.7.6
+	 *
+	 * @param   AcceptanceTester $I  Tester.
 	 */
 	public function testDownloadLog(AcceptanceTester $I)
 	{
@@ -59,17 +63,17 @@ class PluginSettingsToolsCest
 		// Check downloaded file exists and contains some expected information.
 		$I->openFile($_ENV['WP_ROOT_FOLDER'] . '/convertkit-log.txt');
 		$I->seeInThisFile('API: account()');
-	
+
 		// Delete the file.
 		$I->deleteFile($_ENV['WP_ROOT_FOLDER'] . '/convertkit-log.txt');
 	}
 
 	/**
 	 * Test that the System Info section is populated.
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @param 	AcceptanceTester 	$I 	Tester
+	 *
+	 * @since   1.9.6
+	 *
+	 * @param   AcceptanceTester $I  Tester.
 	 */
 	public function testSystemInfoExists(AcceptanceTester $I)
 	{
@@ -93,10 +97,10 @@ class PluginSettingsToolsCest
 
 	/**
 	 * Test that the Download System Info option works.
-	 * 
-	 * @since 	1.9.7.6
-	 * 
-	 * @param 	AcceptanceTester 	$I 	Tester
+	 *
+	 * @since   1.9.7.6
+	 *
+	 * @param   AcceptanceTester $I  Tester.
 	 */
 	public function testDownloadSystemInfo(AcceptanceTester $I)
 	{
@@ -131,10 +135,10 @@ class PluginSettingsToolsCest
 
 	/**
 	 * Test that the Export Configuration option works.
-	 * 
-	 * @since 	1.9.7.4
-	 * 
-	 * @param 	AcceptanceTester 	$I 	Tester
+	 *
+	 * @since   1.9.7.4
+	 *
+	 * @param   AcceptanceTester $I  Tester.
 	 */
 	public function testExportConfiguration(AcceptanceTester $I)
 	{
@@ -154,17 +158,17 @@ class PluginSettingsToolsCest
 		// Check downloaded file exists and contains some expected information.
 		$I->openFile($_ENV['WP_ROOT_FOLDER'] . '/convertkit-export.json');
 		$I->seeInThisFile('{"settings":{"api_key":"' . $_ENV['CONVERTKIT_API_KEY'] . '","api_secret":"' . $_ENV['CONVERTKIT_API_SECRET'] . '"');
-	
+
 		// Delete the file.
 		$I->deleteFile($_ENV['WP_ROOT_FOLDER'] . '/convertkit-export.json');
 	}
 
 	/**
 	 * Test that the Import Configuration option works.
-	 * 
-	 * @since 	1.9.7.4
-	 * 
-	 * @param 	AcceptanceTester 	$I 	Tester
+	 *
+	 * @since   1.9.7.4
+	 *
+	 * @param   AcceptanceTester $I  Tester.
 	 */
 	public function testImportConfiguration(AcceptanceTester $I)
 	{
@@ -197,10 +201,10 @@ class PluginSettingsToolsCest
 	/**
 	 * Test that the Import Configuration option returns the expected error when no file
 	 * is selected.
-	 * 
-	 * @since 	1.9.7.4
-	 * 
-	 * @param 	AcceptanceTester 	$I 	Tester
+	 *
+	 * @since   1.9.7.4
+	 *
+	 * @param   AcceptanceTester $I  Tester.
 	 */
 	public function testImportConfigurationWithNoFile(AcceptanceTester $I)
 	{
@@ -220,10 +224,10 @@ class PluginSettingsToolsCest
 	/**
 	 * Test that the Import Configuration option returns the expected error when an invalid file
 	 * is selected.
-	 * 
-	 * @since 	1.9.7.4
-	 * 
-	 * @param 	AcceptanceTester 	$I 	Tester
+	 *
+	 * @since   1.9.7.4
+	 *
+	 * @param   AcceptanceTester $I  Tester.
 	 */
 	public function testImportConfigurationWithInvalidFile(AcceptanceTester $I)
 	{
@@ -246,10 +250,10 @@ class PluginSettingsToolsCest
 	/**
 	 * Test that the Import Configuration option returns the expected error when a file
 	 * that appears to be JSON is selected, but its content are not JSON.
-	 * 
-	 * @since 	1.9.7.4
-	 * 
-	 * @param 	AcceptanceTester 	$I 	Tester
+	 *
+	 * @since   1.9.7.4
+	 *
+	 * @param   AcceptanceTester $I  Tester.
 	 */
 	public function testImportConfigurationWithFakeJSONFile(AcceptanceTester $I)
 	{
@@ -273,10 +277,10 @@ class PluginSettingsToolsCest
 	 * Deactivate and reset Plugin(s) after each test, if the test passes.
 	 * We don't use _after, as this would provide a screenshot of the Plugin
 	 * deactivation and not the true test error.
-	 * 
-	 * @since 	1.9.6.7
-	 * 
-	 * @param 	AcceptanceTester 	$I 	Tester
+	 *
+	 * @since   1.9.6.7
+	 *
+	 * @param   AcceptanceTester $I  Tester.
 	 */
 	public function _passed(AcceptanceTester $I)
 	{

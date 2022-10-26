@@ -1,17 +1,17 @@
 <?php
 /**
  * Tests for the ConvertKit Form's Gutenberg Block.
- * 
- * @since 	1.9.6
+ *
+ * @since   1.9.6
  */
 class PageBlockFormCest
 {
 	/**
 	 * Run common actions before running the test functions in this class.
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @param 	AcceptanceTester 	$I 	Tester
+	 *
+	 * @since   1.9.6
+	 *
+	 * @param   AcceptanceTester $I  Tester.
 	 */
 	public function _before(AcceptanceTester $I)
 	{
@@ -22,10 +22,10 @@ class PageBlockFormCest
 
 	/**
 	 * Test the Form block works when a valid Form is selected.
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @param 	AcceptanceTester 	$I 	Tester
+	 *
+	 * @since   1.9.6
+	 *
+	 * @param   AcceptanceTester $I  Tester.
 	 */
 	public function testFormBlockWithValidFormParameter(AcceptanceTester $I)
 	{
@@ -33,14 +33,23 @@ class PageBlockFormCest
 		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form: Block: Valid Form Param');
 
 		// Configure metabox's Form setting = None, ensuring we only test the block in Gutenberg.
-		$I->configureMetaboxSettings($I, 'wp-convertkit-meta-box', [
-			'form' => [ 'select2', 'None' ],
-		]);
+		$I->configureMetaboxSettings(
+			$I,
+			'wp-convertkit-meta-box',
+			[
+				'form' => [ 'select2', 'None' ],
+			]
+		);
 
 		// Add block to Page, setting the Form setting to the value specified in the .env file.
-		$I->addGutenbergBlock($I, 'ConvertKit Form', 'convertkit-form', [
-			'form' => [ 'select', $_ENV['CONVERTKIT_API_FORM_NAME'] ]
-		]);
+		$I->addGutenbergBlock(
+			$I,
+			'ConvertKit Form',
+			'convertkit-form',
+			[
+				'form' => [ 'select', $_ENV['CONVERTKIT_API_FORM_NAME'] ],
+			]
+		);
 
 		// Publish and view the Page on the frontend site.
 		$I->publishAndViewGutenbergPage($I);
@@ -51,10 +60,10 @@ class PageBlockFormCest
 
 	/**
 	 * Test the Form block works when a valid Legacy Form is selected.
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @param 	AcceptanceTester 	$I 	Tester
+	 *
+	 * @since   1.9.6
+	 *
+	 * @param   AcceptanceTester $I  Tester.
 	 */
 	public function testFormBlockWithValidLegacyFormParameter(AcceptanceTester $I)
 	{
@@ -62,14 +71,23 @@ class PageBlockFormCest
 		$I->addGutenbergPage($I, 'page', 'ConvertKit: Legacy Form: Block: Valid Form Param');
 
 		// Configure metabox's Form setting = None, ensuring we only test the block in Gutenberg.
-		$I->configureMetaboxSettings($I, 'wp-convertkit-meta-box', [
-			'form' => [ 'select2', 'None' ],
-		]);
-		
+		$I->configureMetaboxSettings(
+			$I,
+			'wp-convertkit-meta-box',
+			[
+				'form' => [ 'select2', 'None' ],
+			]
+		);
+
 		// Add block to Page, setting the Form setting to the value specified in the .env file.
-		$I->addGutenbergBlock($I, 'ConvertKit Form', 'convertkit-form', [
-			'form' => [ 'select', $_ENV['CONVERTKIT_API_LEGACY_FORM_NAME'] ]
-		]);
+		$I->addGutenbergBlock(
+			$I,
+			'ConvertKit Form',
+			'convertkit-form',
+			[
+				'form' => [ 'select', $_ENV['CONVERTKIT_API_LEGACY_FORM_NAME'] ],
+			]
+		);
 
 		// Publish and view the Page on the frontend site.
 		$I->publishAndViewGutenbergPage($I);
@@ -81,10 +99,10 @@ class PageBlockFormCest
 	/**
 	 * Test the Form block displays a message explaining why the block cannot be previewed
 	 * in the Gutenberg editor when a valid Modal Form is selected.
-	 * 
-	 * @since 	1.9.6.9
-	 * 
-	 * @param 	AcceptanceTester 	$I 	Tester
+	 *
+	 * @since   1.9.6.9
+	 *
+	 * @param   AcceptanceTester $I  Tester.
 	 */
 	public function testFormBlockWithValidModalFormParameter(AcceptanceTester $I)
 	{
@@ -92,14 +110,23 @@ class PageBlockFormCest
 		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form: Block: Valid Modal Form Param');
 
 		// Configure metabox's Form setting = None, ensuring we only test the block in Gutenberg.
-		$I->configureMetaboxSettings($I, 'wp-convertkit-meta-box', [
-			'form' => [ 'select2', 'None' ],
-		]);
+		$I->configureMetaboxSettings(
+			$I,
+			'wp-convertkit-meta-box',
+			[
+				'form' => [ 'select2', 'None' ],
+			]
+		);
 
 		// Add block to Page, setting the Form setting to the value specified in the .env file.
-		$I->addGutenbergBlock($I, 'ConvertKit Form', 'convertkit-form', [
-			'form' => [ 'select', $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_NAME'] ]
-		]);
+		$I->addGutenbergBlock(
+			$I,
+			'ConvertKit Form',
+			'convertkit-form',
+			[
+				'form' => [ 'select', $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_NAME'] ],
+			]
+		);
 
 		// Switch to iframe preview for the Form block.
 		$I->switchToIFrame('iframe[class="components-sandbox"]');
@@ -121,10 +148,10 @@ class PageBlockFormCest
 	/**
 	 * Test the Form block displays a message explaining why the block cannot be previewed
 	 * in the Gutenberg editor when a valid Slide In Form is selected.
-	 * 
-	 * @since 	1.9.6.9
-	 * 
-	 * @param 	AcceptanceTester 	$I 	Tester
+	 *
+	 * @since   1.9.6.9
+	 *
+	 * @param   AcceptanceTester $I  Tester.
 	 */
 	public function testFormBlockWithValidSlideInFormParameter(AcceptanceTester $I)
 	{
@@ -132,14 +159,23 @@ class PageBlockFormCest
 		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form: Block: Valid Slide In Form Param');
 
 		// Configure metabox's Form setting = None, ensuring we only test the block in Gutenberg.
-		$I->configureMetaboxSettings($I, 'wp-convertkit-meta-box', [
-			'form' => [ 'select2', 'None' ],
-		]);
+		$I->configureMetaboxSettings(
+			$I,
+			'wp-convertkit-meta-box',
+			[
+				'form' => [ 'select2', 'None' ],
+			]
+		);
 
 		// Add block to Page, setting the Form setting to the value specified in the .env file.
-		$I->addGutenbergBlock($I, 'ConvertKit Form', 'convertkit-form', [
-			'form' => [ 'select', $_ENV['CONVERTKIT_API_FORM_FORMAT_SLIDE_IN_NAME'] ]
-		]);
+		$I->addGutenbergBlock(
+			$I,
+			'ConvertKit Form',
+			'convertkit-form',
+			[
+				'form' => [ 'select', $_ENV['CONVERTKIT_API_FORM_FORMAT_SLIDE_IN_NAME'] ],
+			]
+		);
 
 		// Switch to iframe preview for the Form block.
 		$I->switchToIFrame('iframe[class="components-sandbox"]');
@@ -161,10 +197,10 @@ class PageBlockFormCest
 	/**
 	 * Test the Form block displays a message explaining why the block cannot be previewed
 	 * in the Gutenberg editor when a valid Sticky Bar Form is selected.
-	 * 
-	 * @since 	1.9.6.9
-	 * 
-	 * @param 	AcceptanceTester 	$I 	Tester
+	 *
+	 * @since   1.9.6.9
+	 *
+	 * @param   AcceptanceTester $I  Tester.
 	 */
 	public function testFormBlockWithValidStickyBarFormParameter(AcceptanceTester $I)
 	{
@@ -172,14 +208,23 @@ class PageBlockFormCest
 		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form: Block: Valid Sticky Bar Form Param');
 
 		// Configure metabox's Form setting = None, ensuring we only test the block in Gutenberg.
-		$I->configureMetaboxSettings($I, 'wp-convertkit-meta-box', [
-			'form' => [ 'select2', 'None' ],
-		]);
+		$I->configureMetaboxSettings(
+			$I,
+			'wp-convertkit-meta-box',
+			[
+				'form' => [ 'select2', 'None' ],
+			]
+		);
 
 		// Add block to Page, setting the Form setting to the value specified in the .env file.
-		$I->addGutenbergBlock($I, 'ConvertKit Form', 'convertkit-form', [
-			'form' => [ 'select', $_ENV['CONVERTKIT_API_FORM_FORMAT_STICKY_BAR_NAME'] ]
-		]);
+		$I->addGutenbergBlock(
+			$I,
+			'ConvertKit Form',
+			'convertkit-form',
+			[
+				'form' => [ 'select', $_ENV['CONVERTKIT_API_FORM_FORMAT_STICKY_BAR_NAME'] ],
+			]
+		);
 
 		// Switch to iframe preview for the Form block.
 		$I->switchToIFrame('iframe[class="components-sandbox"]');
@@ -200,10 +245,10 @@ class PageBlockFormCest
 
 	/**
 	 * Test the Form block works when no Form is selected.
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @param 	AcceptanceTester 	$I 	Tester
+	 *
+	 * @since   1.9.6
+	 *
+	 * @param   AcceptanceTester $I  Tester.
 	 */
 	public function testFormBlockWithNoFormParameter(AcceptanceTester $I)
 	{
@@ -211,17 +256,24 @@ class PageBlockFormCest
 		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form: Block: Valid Sticky Bar Form Param');
 
 		// Configure metabox's Form setting = None, ensuring we only test the block in Gutenberg.
-		$I->configureMetaboxSettings($I, 'wp-convertkit-meta-box', [
-			'form' => [ 'select2', 'None' ],
-		]);
+		$I->configureMetaboxSettings(
+			$I,
+			'wp-convertkit-meta-box',
+			[
+				'form' => [ 'select2', 'None' ],
+			]
+		);
 
 		// Add block to Page.
 		$I->addGutenbergBlock($I, 'ConvertKit Form', 'convertkit-form');
 
 		// Confirm that the Form block displays instructions to the user on how to select a Form.
-		$I->see('Select a Form using the Form option in the Gutenberg sidebar.', [
-			'css' => '.convertkit-no-content',
-		]);
+		$I->see(
+			'Select a Form using the Form option in the Gutenberg sidebar.',
+			[
+				'css' => '.convertkit-no-content',
+			]
+		);
 
 		// Publish and view the Page on the frontend site.
 		$I->publishAndViewGutenbergPage($I);
@@ -234,10 +286,10 @@ class PageBlockFormCest
 	 * Deactivate and reset Plugin(s) after each test, if the test passes.
 	 * We don't use _after, as this would provide a screenshot of the Plugin
 	 * deactivation and not the true test error.
-	 * 
-	 * @since 	1.9.6.7
-	 * 
-	 * @param 	AcceptanceTester 	$I 	Tester
+	 *
+	 * @since   1.9.6.7
+	 *
+	 * @param   AcceptanceTester $I  Tester.
 	 */
 	public function _passed(AcceptanceTester $I)
 	{
