@@ -30,7 +30,7 @@ jobs:
       DB_USER: root
       DB_PASS: root
       DB_HOST: localhost
-      INSTALL_PLUGINS: "classic-editor contact-form-7 disable-welcome-messages-and-tips elementor woocommerce wordpress-seo" # Don't include this repository's Plugin here.
+      INSTALL_PLUGINS: "convertkit-for-woocommerce convertkit-gravity-forms classic-editor contact-form-7 disable-welcome-messages-and-tips elementor woocommerce wordpress-seo" # Don't include this repository's Plugin here.
       CONVERTKIT_API_KEY: ${{ secrets.CONVERTKIT_API_KEY }} # ConvertKit API Key, stored in the repository's Settings > Secrets
       CONVERTKIT_API_SECRET: ${{ secrets.CONVERTKIT_API_SECRET }} # ConvertKit API Secret, stored in the repository's Settings > Secrets
       CONVERTKIT_API_KEY_NO_DATA: ${{ secrets.CONVERTKIT_API_KEY_NO_DATA }} # ConvertKit API Key for ConvertKit account with no data, stored in the repository's Settings > Secrets
@@ -47,13 +47,7 @@ jobs:
         
         # Folder names within the 'tests' folder to run tests in parallel.
         test-groups: [
-          'acceptance/broadcasts',
-          'acceptance/forms',
-          'acceptance/general',
-          'acceptance/integrations',
-          'acceptance/landing-pages',
-          'acceptance/products',
-          'acceptance/tags'
+          'acceptance/general/ActivateDeactivatePluginCest',
         ]
 
     # Steps to install, configure and run tests
