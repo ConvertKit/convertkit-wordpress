@@ -34,5 +34,11 @@ class ActivateDeactivatePluginCest
 		$I->activateThirdPartyPlugin($I, 'convertkit-gravity-forms');
 
 		$I->activateConvertKitPlugin($I);
+
+		// Navigate to Settings > ConvertKit, which will use WordPress Libraries and show errors
+		// if there's a conflict.
+		$I->loadConvertKitSettingsGeneralScreen($I);
+
+		$I->see('sdfsdfsdf');
 	}
 }
