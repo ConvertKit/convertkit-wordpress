@@ -90,9 +90,6 @@ class PageShortcodeCustomContentCest
 			]
 		);
 
-		// Prevent API rate limit from being hit in parallel tests.
-		$I->wait(2);
-
 		// Load the Page on the frontend site.
 		$I->amOnPage('/convertkit-custom-content-shortcode-valid-tag-param-and-invalid-subscriber-id');
 
@@ -129,9 +126,6 @@ class PageShortcodeCustomContentCest
 				'post_content' => '[convertkit_content tag="' . $_ENV['CONVERTKIT_API_TAG_ID'] . '"]ConvertKitCustomContent[/convertkit_content]',
 			]
 		);
-
-		// Prevent API rate limit from being hit in parallel tests.
-		$I->wait(2);
 
 		// Load the Page on the frontend site.
 		$I->amOnPage('/convertkit-custom-content-shortcode-valid-tag-param-and-valid-subscriber-id');
