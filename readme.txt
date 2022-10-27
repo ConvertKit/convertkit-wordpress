@@ -117,6 +117,9 @@ Full Plugin documentation can be found [here](https://help.convertkit.com/en/art
 
 == Changelog ==
 
+### 2.0.1 2022-10-xx
+* Added: Broadcasts: Block: Display message in editor when no Broadcasts exist in ConvertKit
+
 ### 2.0.0 2022-10-24
 * Added: ConvertKit Products Block, to output a button linking to a ConvertKit Product or Tip Jar
 * Added: ConvertKit Products Shortcode, to output a button linking to a ConvertKit Product or Tip Jar
