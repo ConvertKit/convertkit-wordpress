@@ -19,7 +19,6 @@ class WishListMemberCest
 		$I->activateThirdPartyPlugin($I, 'wishlist-member');
 		$I->setupConvertKitPlugin($I);
 		$I->enableDebugLog($I);
-		$this->_setupWishListMemberPlugin($I);
 	}
 
 	/**
@@ -113,54 +112,6 @@ class WishListMemberCest
 				'last_name'    => 'User',
 				'display_name' => 'Test User',
 			]
-		);
-	}
-
-	/**
-	 * Helper method to setup the WishList Member Plugin.
-	 *
-	 * @since   1.9.6
-	 *
-	 * @param   AcceptanceTester $I              Tester.
-	 */
-	private function _setupWishListMemberPlugin($I)
-	{
-		// Prevent WishList Member from asking for a license key by populating the WLM options table.
-		$I->updateInDatabase(
-			$I->grabPrefixedTableNameFor('wlm_options'),
-			[
-				'option_value' => '1',
-			],
-			[
-				'option_name' => 'LicenseStatus',
-			]
-		);
-
-		// Load WishList Member Settings screen, which will load the first time configuration wizard.
-		$I->amOnAdminPage('admin.php?page=WishListMember');
-
-		// Step 1.
-		$I->fillField('input[name="name"]', 'Bronze');
-		$I->click('.step-1 a[next-screen="step-2"]');
-
-		// Step 2.
-		$I->click('.step-2 a[next-screen="step-3"]');
-
-		// Step 3.
-		$I->click('.step-3 a[next-screen="step-4"]');
-
-		// Step 4.
-		$I->click('.step-4 a[next-screen="step-5"]');
-
-		// Save.
-		$I->click('.step-5 a.save-btn');
-
-		$I->performOn(
-			'.-congrats-gs',
-			function($I) {
-				$I->click('a.next-btn');
-				$I->seeInSource('Bronze');
-			}
 		);
 	}
 
