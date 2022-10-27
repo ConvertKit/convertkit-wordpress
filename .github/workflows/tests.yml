@@ -80,7 +80,7 @@ jobs:
 
       # Checkout (copy) this repository's Plugin to this VM.
       - name: Checkout Plugin
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           path: ${{ env.PLUGIN_DIR }}
 
@@ -159,7 +159,7 @@ jobs:
       # Make sure your committed .env.dist.testing file ends with a newline.
       # The formatting of the contents to include a blank newline is deliberate.
       - name: Define GitHub Secrets in .env.dist.testing
-        uses: DamianReeves/write-file-action@v1.0
+        uses: DamianReeves/write-file-action@v1.1
         with:
           path: ${{ env.PLUGIN_DIR }}/.env.dist.testing
           contents: |
@@ -214,14 +214,14 @@ jobs:
       # because we want to see why a test failed.
       - name: Upload Test Results to Artifact
         if: always()
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: test-results
           path: ${{ env.PLUGIN_DIR }}/tests/_output/
 
       - name: Upload Plugin Log File to Artifact
         if: always()
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: log.txt
           path: ${{ env.PLUGIN_DIR }}/log.txt
