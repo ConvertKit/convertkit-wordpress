@@ -1,13 +1,17 @@
 <?php
-
+/**
+ * Tests for the ConvertKit Plugin Setup Wizard, displayed on new Plugin activations.
+ *
+ * @since   1.9.8.4
+ */
 class PluginSetupWizardCest
 {
 	/**
 	 * Test that the Setup Wizard displays when the Plugin is activated.
-	 * 
-	 * @since 	1.9.8.4
-	 * 
-	 * @param 	AcceptanceTester 	$I 	Tester
+	 *
+	 * @since   1.9.8.4
+	 *
+	 * @param   AcceptanceTester $I  Tester.
 	 */
 	public function testSetupWizardDisplays(AcceptanceTester $I)
 	{
@@ -21,21 +25,24 @@ class PluginSetupWizardCest
 	/**
 	 * Test that the Setup Wizard displays when the Plugin is activated on a site
 	 * where the Plugin has previously been activated and configured with API Keys.
-	 * 
-	 * @since 	1.9.8.4
-	 * 
-	 * @param 	AcceptanceTester 	$I 	Tester
+	 *
+	 * @since   1.9.8.4
+	 *
+	 * @param   AcceptanceTester $I  Tester.
 	 */
 	public function testSetupWizardDoesNotDisplayWhenConfigured(AcceptanceTester $I)
 	{
 		// Define Plugin settings as if the Plugin were previously activated and configured.
-		$I->haveOptionInDatabase('_wp_convertkit_settings', [
-			'api_key'    => $_ENV['CONVERTKIT_API_KEY'],
-			'api_secret' => $_ENV['CONVERTKIT_API_SECRET'],
-			'debug'      => 'on',
-			'no_scripts' => '',
-			'no_css'     => '',
-		]);
+		$I->haveOptionInDatabase(
+			'_wp_convertkit_settings',
+			[
+				'api_key'    => $_ENV['CONVERTKIT_API_KEY'],
+				'api_secret' => $_ENV['CONVERTKIT_API_SECRET'],
+				'debug'      => 'on',
+				'no_scripts' => '',
+				'no_css'     => '',
+			]
+		);
 
 		// Activate Plugin.
 		$this->_activatePlugin($I);
@@ -46,10 +53,10 @@ class PluginSetupWizardCest
 
 	/**
 	 * Test that the Setup Wizard exit link works.
-	 * 
-	 * @since 	1.9.8.4
-	 * 
-	 * @param 	AcceptanceTester 	$I 	Tester
+	 *
+	 * @since   1.9.8.4
+	 *
+	 * @param   AcceptanceTester $I  Tester.
 	 */
 	public function testSetupWizardExitLink(AcceptanceTester $I)
 	{
@@ -75,9 +82,9 @@ class PluginSetupWizardCest
 	/**
 	 * Test that the Setup Wizard > Setup > Register button works.
 	 *
-	 * @since 	1.9.8.4
-	 * 
-	 * @param 	AcceptanceTester 	$I 	Tester
+	 * @since   1.9.8.4
+	 *
+	 * @param   AcceptanceTester $I  Tester.
 	 */
 	public function testSetupWizardSetupScreenRegisterButton(AcceptanceTester $I)
 	{
@@ -103,9 +110,9 @@ class PluginSetupWizardCest
 	/**
 	 * Test that the Setup Wizard > Setup > Connect button works.
 	 *
-	 * @since 	1.9.8.4
-	 * 
-	 * @param 	AcceptanceTester 	$I 	Tester
+	 * @since   1.9.8.4
+	 *
+	 * @param   AcceptanceTester $I  Tester.
 	 */
 	public function testSetupWizardSetupScreenConnectButton(AcceptanceTester $I)
 	{
@@ -115,7 +122,7 @@ class PluginSetupWizardCest
 		// Confirm expected setup wizard screen is displayed.
 		$this->_seeExpectedSetupWizardScreen($I, 1, 'Welcome to the ConvertKit Setup Wizard');
 
-		// Test Connect button
+		// Test Connect button.
 		$I->click('Connect');
 
 		// Confirm expected setup wizard screen is displayed.
@@ -126,9 +133,9 @@ class PluginSetupWizardCest
 	 * Test that the Setup Wizard > Connect Account screen works as expected when valid API credentials
 	 * are specified.
 	 *
-	 * @since 	1.9.8.4
-	 * 
-	 * @param 	AcceptanceTester 	$I 	Tester
+	 * @since   1.9.8.4
+	 *
+	 * @param   AcceptanceTester $I  Tester.
 	 */
 	public function testSetupWizardConnectAccountScreen(AcceptanceTester $I)
 	{
@@ -138,7 +145,7 @@ class PluginSetupWizardCest
 		// Confirm expected setup wizard screen is displayed.
 		$this->_seeExpectedSetupWizardScreen($I, 1, 'Welcome to the ConvertKit Setup Wizard');
 
-		// Test Connect button
+		// Test Connect button.
 		$I->click('Connect');
 
 		// Confirm expected setup wizard screen is displayed.
@@ -162,9 +169,9 @@ class PluginSetupWizardCest
 	 * Test that the Setup Wizard > Connect Account screen works as expected when invalid API credentials
 	 * are specified.
 	 *
-	 * @since 	1.9.8.4
-	 * 
-	 * @param 	AcceptanceTester 	$I 	Tester
+	 * @since   1.9.8.4
+	 *
+	 * @param   AcceptanceTester $I  Tester.
 	 */
 	public function testSetupWizardConnectAccountScreenWithInvalidAPICredentials(AcceptanceTester $I)
 	{
@@ -174,7 +181,7 @@ class PluginSetupWizardCest
 		// Confirm expected setup wizard screen is displayed.
 		$this->_seeExpectedSetupWizardScreen($I, 1, 'Welcome to the ConvertKit Setup Wizard');
 
-		// Test Connect button
+		// Test Connect button.
 		$I->click('Connect');
 
 		// Confirm expected setup wizard screen is displayed.
@@ -204,9 +211,9 @@ class PluginSetupWizardCest
 	/**
 	 * Test that the Setup Wizard > Form Configuration screen works as expected.
 	 *
-	 * @since 	1.9.8.4
-	 * 
-	 * @param 	AcceptanceTester 	$I 	Tester
+	 * @since   1.9.8.4
+	 *
+	 * @param   AcceptanceTester $I  Tester.
 	 */
 	public function testSetupWizardFormConfigurationScreen(AcceptanceTester $I)
 	{
@@ -214,22 +221,29 @@ class PluginSetupWizardCest
 		$this->_activatePlugin($I);
 
 		// Define Plugin settings.
-		$I->haveOptionInDatabase('_wp_convertkit_settings', [
-			'api_key'    => $_ENV['CONVERTKIT_API_KEY'],
-			'api_secret' => $_ENV['CONVERTKIT_API_SECRET'],
-		]);
+		$I->haveOptionInDatabase(
+			'_wp_convertkit_settings',
+			[
+				'api_key'    => $_ENV['CONVERTKIT_API_KEY'],
+				'api_secret' => $_ENV['CONVERTKIT_API_SECRET'],
+			]
+		);
 
 		// Create a Page and a Post, so that preview links display.
-		$I->havePostInDatabase([
-			'post_title'	=> 'ConvertKit: Setup Wizard: Page',
-			'post_type'		=> 'page',
-			'post_status'	=> 'publish',
-		]);
-		$I->havePostInDatabase([
-			'post_title'	=> 'ConvertKit: Setup Wizard: Post',
-			'post_type'		=> 'post',
-			'post_status'	=> 'publish',
-		]);
+		$I->havePostInDatabase(
+			[
+				'post_title'  => 'ConvertKit: Setup Wizard: Page',
+				'post_type'   => 'page',
+				'post_status' => 'publish',
+			]
+		);
+		$I->havePostInDatabase(
+			[
+				'post_title'  => 'ConvertKit: Setup Wizard: Post',
+				'post_type'   => 'post',
+				'post_status' => 'publish',
+			]
+		);
 
 		// Load Step 3/4.
 		$I->amOnAdminPage('index.php?page=convertkit-setup&step=3');
@@ -291,9 +305,9 @@ class PluginSetupWizardCest
 	 * when API credentials are supplied for a ConvertKit account that contains
 	 * no forms.
 	 *
-	 * @since 	1.9.8.4
-	 * 
-	 * @param 	AcceptanceTester 	$I 	Tester
+	 * @since   1.9.8.4
+	 *
+	 * @param   AcceptanceTester $I  Tester.
 	 */
 	public function testSetupWizardFormConfigurationScreenWhenNoFormsExist(AcceptanceTester $I)
 	{
@@ -301,10 +315,13 @@ class PluginSetupWizardCest
 		$this->_activatePlugin($I);
 
 		// Define Plugin settings with a ConvertKit account containing no forms.
-		$I->haveOptionInDatabase('_wp_convertkit_settings', [
-			'api_key'    => $_ENV['CONVERTKIT_API_KEY_NO_DATA'],
-			'api_secret' => $_ENV['CONVERTKIT_API_SECRET_NO_DATA'],
-		]);
+		$I->haveOptionInDatabase(
+			'_wp_convertkit_settings',
+			[
+				'api_key'    => $_ENV['CONVERTKIT_API_KEY_NO_DATA'],
+				'api_secret' => $_ENV['CONVERTKIT_API_SECRET_NO_DATA'],
+			]
+		);
 
 		// Load Step 3/4.
 		$I->amOnAdminPage('index.php?page=convertkit-setup&step=3');
@@ -317,10 +334,13 @@ class PluginSetupWizardCest
 
 		// Define Plugin settings with a ConvertKit account containing forms,
 		// as if we created a form in ConvertKit.
-		$I->haveOptionInDatabase('_wp_convertkit_settings', [
-			'api_key'    => $_ENV['CONVERTKIT_API_KEY'],
-			'api_secret' => $_ENV['CONVERTKIT_API_SECRET'],
-		]);
+		$I->haveOptionInDatabase(
+			'_wp_convertkit_settings',
+			[
+				'api_key'    => $_ENV['CONVERTKIT_API_KEY'],
+				'api_secret' => $_ENV['CONVERTKIT_API_SECRET'],
+			]
+		);
 
 		// Click "I've created a form in ConvertKit" button.
 		$I->click('I\'ve created a form in ConvertKit');
@@ -336,9 +356,9 @@ class PluginSetupWizardCest
 	 * Test that the Setup Wizard > Form Configuration screen does not display preview links
 	 * when no Pages and Posts exist in WordPress.
 	 *
-	 * @since 	1.9.8.4
-	 * 
-	 * @param 	AcceptanceTester 	$I 	Tester
+	 * @since   1.9.8.4
+	 *
+	 * @param   AcceptanceTester $I  Tester.
 	 */
 	public function testSetupWizardFormConfigurationScreenWhenNoPostsOrPagesExist(AcceptanceTester $I)
 	{
@@ -346,10 +366,13 @@ class PluginSetupWizardCest
 		$this->_activatePlugin($I);
 
 		// Define Plugin settings.
-		$I->haveOptionInDatabase('_wp_convertkit_settings', [
-			'api_key'    => $_ENV['CONVERTKIT_API_KEY'],
-			'api_secret' => $_ENV['CONVERTKIT_API_SECRET'],
-		]);
+		$I->haveOptionInDatabase(
+			'_wp_convertkit_settings',
+			[
+				'api_key'    => $_ENV['CONVERTKIT_API_KEY'],
+				'api_secret' => $_ENV['CONVERTKIT_API_SECRET'],
+			]
+		);
 
 		// Load Step 3/4.
 		$I->amOnAdminPage('index.php?page=convertkit-setup&step=3');
@@ -365,13 +388,13 @@ class PluginSetupWizardCest
 	/**
 	 * Activate the Plugin, without checking it is activated, so that its Setup Wizard
 	 * screen loads.
-	 * 
+	 *
 	 * This differs from the activateConvertKitPlugin() method, which will ignore a Setup Wizard
 	 * screen by reloading the Plugins screen to confirm a Plugin's activation.
-	 * 
-	 * @since 	1.9.8.4
-	 * 
-	 * @param 	AcceptanceTester 	$I 	Tester
+	 *
+	 * @since   1.9.8.4
+	 *
+	 * @param   AcceptanceTester $I  Tester.
 	 */
 	private function _activatePlugin(AcceptanceTester $I)
 	{
@@ -386,13 +409,13 @@ class PluginSetupWizardCest
 	/**
 	 * Runs tests on a Setup Wizard screen, to confirm that the expected step, title and buttons
 	 * are displayed.
-	 * 
-	 * @since 	1.9.8.4
-	 * 
-	 * @param 	AcceptanceTester 	$I 		Tester
-	 * @param 	int 				$step 	Current step
-	 * @param 	string 				$title 	Expected title
-	 * @param 	bool 				$nextButtonIsLink 	Check that next button is a link (false = must be a <button> element).
+	 *
+	 * @since   1.9.8.4
+	 *
+	 * @param   AcceptanceTester $I      Tester.
+	 * @param   int              $step   Current step.
+	 * @param   string           $title  Expected title.
+	 * @param   bool             $nextButtonIsLink   Check that next button is a link (false = must be a <button> element).
 	 */
 	private function _seeExpectedSetupWizardScreen(AcceptanceTester $I, $step, $title, $nextButtonIsLink = false)
 	{
@@ -401,17 +424,17 @@ class PluginSetupWizardCest
 
 		// Confirm expected setup wizard screen loaded.
 		$I->seeInCurrentUrl('index.php?page=convertkit-setup');
-		
+
 		// Confirm expected title is displayed.
 		$I->see($title);
 
 		// Confirm current and previous steps are highlighted as 'done'.
 		for ($stepCount = 1; $stepCount <= $step; $stepCount++) {
-			$I->seeElement('li.step-'.$stepCount.'.done');
+			$I->seeElement('li.step-' . $stepCount . '.done');
 		}
 
 		// Confirm Step text is correct.
-		$I->see('Step '.$step.' of 4');
+		$I->see('Step ' . $step . ' of 4');
 
 		// Depending on the step, confirm previous/next buttons exist / do not exist.
 		switch ($step) {
@@ -437,7 +460,7 @@ class PluginSetupWizardCest
 					$I->seeElementInDOM('#convertkit-setup-wizard-footer div.right a.button');
 				} else {
 					// Next button must be a <button> element to submit form.
-					$I->seeElementInDOM('#convertkit-setup-wizard-footer div.right button');	
+					$I->seeElementInDOM('#convertkit-setup-wizard-footer div.right button');
 				}
 				break;
 
@@ -448,10 +471,10 @@ class PluginSetupWizardCest
 	 * Deactivate and reset Plugin(s) after each test, if the test passes.
 	 * We don't use _after, as this would provide a screenshot of the Plugin
 	 * deactivation and not the true test error.
-	 * 
-	 * @since 	1.9.8.4
-	 * 
-	 * @param 	AcceptanceTester 	$I 	Tester
+	 *
+	 * @since   1.9.8.4
+	 *
+	 * @param   AcceptanceTester $I  Tester.
 	 */
 	public function _passed(AcceptanceTester $I)
 	{

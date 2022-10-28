@@ -2,17 +2,17 @@
 /**
  * Tests Refresh Resource buttons, which are displayed next to settings fields
  * across Page/Post editing, Bulk/Quick edit and Category editing.
- * 
- * @since 	1.9.8.0
+ *
+ * @since   1.9.8.0
  */
 class RefreshResourcesButtonCest
 {
 	/**
 	 * Run common actions before running the test functions in this class.
-	 * 
-	 * @since 	1.9.8.0
-	 * 
-	 * @param 	AcceptanceTester 	$I 	Tester
+	 *
+	 * @since   1.9.8.0
+	 *
+	 * @param   AcceptanceTester $I  Tester.
 	 */
 	public function _before(AcceptanceTester $I)
 	{
@@ -23,28 +23,31 @@ class RefreshResourcesButtonCest
 		// Change API keys in database to ones that have ConvertKit Resources.
 		// We do this directly vs. via the settings screen, so that the Plugin's cached resources remain blank
 		// until a refresh button is clicked.
-		$I->haveOptionInDatabase('_wp_convertkit_settings', [
-			'api_key'    => $_ENV['CONVERTKIT_API_KEY'],
-			'api_secret' => $_ENV['CONVERTKIT_API_SECRET'],
-			'debug'      => 'on',
-			'no_scripts' => '',
-			'no_css'     => '',
-		]);
+		$I->haveOptionInDatabase(
+			'_wp_convertkit_settings',
+			[
+				'api_key'    => $_ENV['CONVERTKIT_API_KEY'],
+				'api_secret' => $_ENV['CONVERTKIT_API_SECRET'],
+				'debug'      => 'on',
+				'no_scripts' => '',
+				'no_css'     => '',
+			]
+		);
 	}
 
 	/**
 	 * Test that the refresh buttons for Forms, Landing Pages and Tags works when adding a new Page.
-	 * 
-	 * @since 	1.9.8.0
-	 * 
-	 * @param 	AcceptanceTester 	$I 	Tester
+	 *
+	 * @since   1.9.8.0
+	 *
+	 * @param   AcceptanceTester $I  Tester.
 	 */
 	public function testRefreshResourcesOnPage(AcceptanceTester $I)
 	{
-		// Navigate to Pages > Add New
+		// Navigate to Pages > Add New.
 		$I->amOnAdminPage('post-new.php?post_type=page');
 
-		// Close the Gutenberg "Welcome to the block editor" dialog if it's displayed
+		// Close the Gutenberg "Welcome to the block editor" dialog if it's displayed.
 		$I->maybeCloseGutenbergWelcomeModal($I);
 
 		// Click the Forms refresh button.
@@ -80,18 +83,20 @@ class RefreshResourcesButtonCest
 
 	/**
 	 * Test that the refresh buttons for Forms and Tags works when Quick Editing a Page.
-	 * 
-	 * @since 	1.9.8.0
-	 * 
-	 * @param 	AcceptanceTester 	$I 	Tester
+	 *
+	 * @since   1.9.8.0
+	 *
+	 * @param   AcceptanceTester $I  Tester.
 	 */
 	public function testRefreshResourcesOnQuickEdit(AcceptanceTester $I)
 	{
 		// Programmatically create a Page.
-		$pageID = $I->havePostInDatabase([
-			'post_type' 	=> 'page',
-			'post_title' 	=> 'ConvertKit: Page: Refresh Resources: Quick Edit',
-		]);
+		$pageID = $I->havePostInDatabase(
+			[
+				'post_type'  => 'page',
+				'post_title' => 'ConvertKit: Page: Refresh Resources: Quick Edit',
+			]
+		);
 
 		// Open Quick Edit form forthe Page in the Pages WP_List_Table.
 		$I->openQuickEdit($I, 'page', $pageID);
@@ -119,23 +124,27 @@ class RefreshResourcesButtonCest
 
 	/**
 	 * Test that the refresh buttons for Forms and Tags works when Bulk Editing Pages.
-	 * 
-	 * @since 	1.9.8.0
-	 * 
-	 * @param 	AcceptanceTester 	$I 	Tester
+	 *
+	 * @since   1.9.8.0
+	 *
+	 * @param   AcceptanceTester $I  Tester.
 	 */
 	public function testRefreshResourcesOnBulkEdit(AcceptanceTester $I)
 	{
 		// Programmatically create two Pages.
 		$pageIDs = array(
-			$I->havePostInDatabase([
-				'post_type' 	=> 'page',
-				'post_title' 	=> 'ConvertKit: Page: Refresh Resources: Bulk Edit #1',
-			]),
-			$I->havePostInDatabase([
-				'post_type' 	=> 'page',
-				'post_title' 	=> 'ConvertKit: Page: Refresh Resources: Bulk Edit #2',
-			])
+			$I->havePostInDatabase(
+				[
+					'post_type'  => 'page',
+					'post_title' => 'ConvertKit: Page: Refresh Resources: Bulk Edit #1',
+				]
+			),
+			$I->havePostInDatabase(
+				[
+					'post_type'  => 'page',
+					'post_title' => 'ConvertKit: Page: Refresh Resources: Bulk Edit #2',
+				]
+			),
 		);
 
 		// Open Bulk Edit form for the Pages in the Pages WP_List_Table.
@@ -164,10 +173,10 @@ class RefreshResourcesButtonCest
 
 	/**
 	 * Test that the refresh button for Forms works when editing a Category.
-	 * 
-	 * @since 	1.9.8.0
-	 * 
-	 * @param 	AcceptanceTester 	$I 	Tester
+	 *
+	 * @since   1.9.8.0
+	 *
+	 * @param   AcceptanceTester $I  Tester.
 	 */
 	public function testRefreshResourcesOnCategory(AcceptanceTester $I)
 	{
@@ -192,27 +201,30 @@ class RefreshResourcesButtonCest
 	/**
 	 * Test that the refresh button triggers an error message when the AJAX request fails,
 	 * or the ConvertKit API returns an error, when adding a Page using the Gutenberg editor.
-	 * 
-	 * @since 	1.9.8.3
-	 * 
-	 * @param 	AcceptanceTester 	$I 	Tester
+	 *
+	 * @since   1.9.8.3
+	 *
+	 * @param   AcceptanceTester $I  Tester.
 	 */
 	public function testRefreshResourcesErrorNoticeOnPage(AcceptanceTester $I)
 	{
-		// Navigate to Pages > Add New
+		// Navigate to Pages > Add New.
 		$I->amOnAdminPage('post-new.php?post_type=page');
 
-		// Close the Gutenberg "Welcome to the block editor" dialog if it's displayed
+		// Close the Gutenberg "Welcome to the block editor" dialog if it's displayed.
 		$I->maybeCloseGutenbergWelcomeModal($I);
 
 		// Specify invalid API credentials, so that the AJAX request returns an error.
-		$I->haveOptionInDatabase('_wp_convertkit_settings', [
-			'api_key'    => 'fakeApiKey',
-			'api_secret' => 'fakeApiSecret',
-			'debug'      => 'on',
-			'no_scripts' => '',
-			'no_css'     => '',
-		]);
+		$I->haveOptionInDatabase(
+			'_wp_convertkit_settings',
+			[
+				'api_key'    => 'fakeApiKey',
+				'api_secret' => 'fakeApiSecret',
+				'debug'      => 'on',
+				'no_scripts' => '',
+				'no_css'     => '',
+			]
+		);
 
 		// Click the Forms refresh button.
 		$I->click('button.wp-convertkit-refresh-resources[data-resource="forms"]');
@@ -234,10 +246,10 @@ class RefreshResourcesButtonCest
 	/**
 	 * Test that the refresh button triggers an error message when the AJAX request fails,
 	 * or the ConvertKit API returns an error, when adding a Page using the Classic Editor.
-	 * 
-	 * @since 	1.9.8.3
-	 * 
-	 * @param 	AcceptanceTester 	$I 	Tester
+	 *
+	 * @since   1.9.8.3
+	 *
+	 * @param   AcceptanceTester $I  Tester.
 	 */
 	public function testRefreshResourcesErrorNoticeOnPageClassicEditor(AcceptanceTester $I)
 	{
@@ -245,13 +257,16 @@ class RefreshResourcesButtonCest
 		$I->addClassicEditorPage($I, 'page', 'ConvertKit: Page: Refresh Resources: Classic Editor' );
 
 		// Specify invalid API credentials, so that the AJAX request returns an error.
-		$I->haveOptionInDatabase('_wp_convertkit_settings', [
-			'api_key'    => 'fakeApiKey',
-			'api_secret' => 'fakeApiSecret',
-			'debug'      => 'on',
-			'no_scripts' => '',
-			'no_css'     => '',
-		]);
+		$I->haveOptionInDatabase(
+			'_wp_convertkit_settings',
+			[
+				'api_key'    => 'fakeApiKey',
+				'api_secret' => 'fakeApiSecret',
+				'debug'      => 'on',
+				'no_scripts' => '',
+				'no_css'     => '',
+			]
+		);
 
 		// Click the Forms refresh button.
 		$I->click('button.wp-convertkit-refresh-resources[data-resource="forms"]');
@@ -272,27 +287,32 @@ class RefreshResourcesButtonCest
 	/**
 	 * Test that the refresh button triggers an error message when the AJAX request fails,
 	 * or the ConvertKit API returns an error, when using the Quick Edit functionality.
-	 * 
-	 * @since 	1.9.8.3
-	 * 
-	 * @param 	AcceptanceTester 	$I 	Tester
+	 *
+	 * @since   1.9.8.3
+	 *
+	 * @param   AcceptanceTester $I  Tester.
 	 */
 	public function testRefreshResourcesErrorNoticeOnQuickEdit(AcceptanceTester $I)
 	{
 		// Specify invalid API credentials, so that the AJAX request returns an error.
-		$I->haveOptionInDatabase('_wp_convertkit_settings', [
-			'api_key'    => 'fakeApiKey',
-			'api_secret' => 'fakeApiSecret',
-			'debug'      => 'on',
-			'no_scripts' => '',
-			'no_css'     => '',
-		]);
+		$I->haveOptionInDatabase(
+			'_wp_convertkit_settings',
+			[
+				'api_key'    => 'fakeApiKey',
+				'api_secret' => 'fakeApiSecret',
+				'debug'      => 'on',
+				'no_scripts' => '',
+				'no_css'     => '',
+			]
+		);
 
 		// Programmatically create a Page.
-		$pageID = $I->havePostInDatabase([
-			'post_type' 	=> 'page',
-			'post_title' 	=> 'ConvertKit: Page: Refresh Resources: Quick Edit',
-		]);
+		$pageID = $I->havePostInDatabase(
+			[
+				'post_type'  => 'page',
+				'post_title' => 'ConvertKit: Page: Refresh Resources: Quick Edit',
+			]
+		);
 
 		// Open Quick Edit form forthe Page in the Pages WP_List_Table.
 		$I->openQuickEdit($I, 'page', $pageID);
@@ -316,32 +336,39 @@ class RefreshResourcesButtonCest
 	/**
 	 * Test that the refresh button triggers an error message when the AJAX request fails,
 	 * or the ConvertKit API returns an error, when using the Bulk Edit functionality.
-	 * 
-	 * @since 	1.9.8.3
-	 * 
-	 * @param 	AcceptanceTester 	$I 	Tester
+	 *
+	 * @since   1.9.8.3
+	 *
+	 * @param   AcceptanceTester $I  Tester.
 	 */
 	public function testRefreshResourcesErrorNoticeOnBulkEdit(AcceptanceTester $I)
 	{
 		// Specify invalid API credentials, so that the AJAX request returns an error.
-		$I->haveOptionInDatabase('_wp_convertkit_settings', [
-			'api_key'    => 'fakeApiKey',
-			'api_secret' => 'fakeApiSecret',
-			'debug'      => 'on',
-			'no_scripts' => '',
-			'no_css'     => '',
-		]);
+		$I->haveOptionInDatabase(
+			'_wp_convertkit_settings',
+			[
+				'api_key'    => 'fakeApiKey',
+				'api_secret' => 'fakeApiSecret',
+				'debug'      => 'on',
+				'no_scripts' => '',
+				'no_css'     => '',
+			]
+		);
 
 		// Programmatically create two Pages.
 		$pageIDs = array(
-			$I->havePostInDatabase([
-				'post_type' 	=> 'page',
-				'post_title' 	=> 'ConvertKit: Page: Refresh Resources: Bulk Edit #1',
-			]),
-			$I->havePostInDatabase([
-				'post_type' 	=> 'page',
-				'post_title' 	=> 'ConvertKit: Page: Refresh Resources: Bulk Edit #2',
-			])
+			$I->havePostInDatabase(
+				[
+					'post_type'  => 'page',
+					'post_title' => 'ConvertKit: Page: Refresh Resources: Bulk Edit #1',
+				]
+			),
+			$I->havePostInDatabase(
+				[
+					'post_type'  => 'page',
+					'post_title' => 'ConvertKit: Page: Refresh Resources: Bulk Edit #2',
+				]
+			),
 		);
 
 		// Open Bulk Edit form for the Pages in the Pages WP_List_Table.
@@ -366,21 +393,24 @@ class RefreshResourcesButtonCest
 	/**
 	 * Test that the refresh button triggers an error message when the AJAX request fails,
 	 * or the ConvertKit API returns an error, when editing a Category.
-	 * 
-	 * @since 	1.9.8.3
-	 * 
-	 * @param 	AcceptanceTester 	$I 	Tester
+	 *
+	 * @since   1.9.8.3
+	 *
+	 * @param   AcceptanceTester $I  Tester.
 	 */
 	public function testRefreshResourcesErrorNoticeOnCategory(AcceptanceTester $I)
 	{
 		// Specify invalid API credentials, so that the AJAX request returns an error.
-		$I->haveOptionInDatabase('_wp_convertkit_settings', [
-			'api_key'    => 'fakeApiKey',
-			'api_secret' => 'fakeApiSecret',
-			'debug'      => 'on',
-			'no_scripts' => '',
-			'no_css'     => '',
-		]);
+		$I->haveOptionInDatabase(
+			'_wp_convertkit_settings',
+			[
+				'api_key'    => 'fakeApiKey',
+				'api_secret' => 'fakeApiSecret',
+				'debug'      => 'on',
+				'no_scripts' => '',
+				'no_css'     => '',
+			]
+		);
 
 		// Create Category.
 		$termID = $I->haveTermInDatabase( 'ConvertKit Refresh Resources', 'category' );
@@ -409,10 +439,10 @@ class RefreshResourcesButtonCest
 	 * Deactivate and reset Plugin(s) after each test, if the test passes.
 	 * We don't use _after, as this would provide a screenshot of the Plugin
 	 * deactivation and not the true test error.
-	 * 
-	 * @since 	1.9.8.0
-	 * 
-	 * @param 	AcceptanceTester 	$I 	Tester
+	 *
+	 * @since   1.9.8.0
+	 *
+	 * @param   AcceptanceTester $I  Tester.
 	 */
 	public function _passed(AcceptanceTester $I)
 	{

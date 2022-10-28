@@ -90,6 +90,7 @@ class ConvertKit_ContactForm7_Admin_Settings extends ConvertKit_Settings_Base {
 		// Bail with an error if no ConvertKit Forms exist.
 		if ( ! $forms->exist() ) {
 			$this->output_error( __( 'No Forms exist on ConvertKit.', 'convertkit' ) );
+			$this->render_container_end();
 			return;
 		}
 
@@ -107,6 +108,7 @@ class ConvertKit_ContactForm7_Admin_Settings extends ConvertKit_Settings_Base {
 		// Bail with an error if no Contact Form 7 Forms exist.
 		if ( ! $cf7_forms ) {
 			$this->output_error( __( 'No Contact Form 7 Forms exist in the Contact Form 7 Plugin.', 'convertkit' ) );
+			$this->render_container_end();
 			return;
 		}
 

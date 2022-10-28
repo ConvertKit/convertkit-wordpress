@@ -84,6 +84,7 @@ class ConvertKit_Wishlist_Admin_Settings extends ConvertKit_Settings_Base {
 		// Bail with an error if no WishList Member Levels exist.
 		if ( ! $wlm_levels ) {
 			$this->output_error( __( 'No WishList Member Levels exist in the WishList Member Plugin.', 'convertkit' ) );
+			$this->render_container_end();
 			return;
 		}
 
@@ -94,12 +95,14 @@ class ConvertKit_Wishlist_Admin_Settings extends ConvertKit_Settings_Base {
 		// Bail with an error if no ConvertKit Forms exist.
 		if ( ! $forms->exist() ) {
 			$this->output_error( __( 'No Forms exist on ConvertKit.', 'convertkit' ) );
+			$this->render_container_end();
 			return;
 		}
 
 		// Bail with an error if no ConvertKit Tags exist.
 		if ( ! $tags->exist() ) {
 			$this->output_error( __( 'No Tags exist on ConvertKit.', 'convertkit' ) );
+			$this->render_container_end();
 			return;
 		}
 

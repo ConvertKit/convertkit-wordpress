@@ -1,17 +1,17 @@
 <?php
 /**
  * Tests for ConvertKit Settings on WordPress Posts when no API Credentials specified.
- * 
- * @since 	1.9.6
+ *
+ * @since   1.9.6
  */
 class PostCest
 {
 	/**
 	 * Run common actions before running the test functions in this class.
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @param 	AcceptanceTester 	$I 	Tester
+	 *
+	 * @since   1.9.6
+	 *
+	 * @param   AcceptanceTester $I  Tester.
 	 */
 	public function _before(AcceptanceTester $I)
 	{
@@ -21,17 +21,17 @@ class PostCest
 	/**
 	 * Test that the ConvertKit Post Settings displays a message with a link to the Plugin Settings
 	 * telling the user to configure their API Credentials, when no API Credentials exist.
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @param 	AcceptanceTester 	$I 	Tester
+	 *
+	 * @since   1.9.6
+	 *
+	 * @param   AcceptanceTester $I  Tester.
 	 */
 	public function testAddNewPostShowsLinkToPluginSettingsWhenNoAPICredentialsSpecified(AcceptanceTester $I)
 	{
-		// Navigate to Posts > Add New
+		// Navigate to Posts > Add New.
 		$I->amOnAdminPage('post-new.php');
 
-		// Close the Gutenberg "Welcome to the block editor" dialog if it's displayed
+		// Close the Gutenberg "Welcome to the block editor" dialog if it's displayed.
 		$I->maybeCloseGutenbergWelcomeModal($I);
 
 		// Check that no PHP warnings or notices were output.
@@ -54,10 +54,10 @@ class PostCest
 	 * Deactivate and reset Plugin(s) after each test, if the test passes.
 	 * We don't use _after, as this would provide a screenshot of the Plugin
 	 * deactivation and not the true test error.
-	 * 
-	 * @since 	1.9.6.7
-	 * 
-	 * @param 	AcceptanceTester 	$I 	Tester
+	 *
+	 * @since   1.9.6.7
+	 *
+	 * @param   AcceptanceTester $I  Tester.
 	 */
 	public function _passed(AcceptanceTester $I)
 	{

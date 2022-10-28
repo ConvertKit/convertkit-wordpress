@@ -1,17 +1,17 @@
 <?php
 /**
  * Tests the ConvertKit Review Notification.
- * 
- * @since 	1.9.6
+ *
+ * @since   1.9.6
  */
 class ReviewRequestCest
 {
 	/**
 	 * Run common actions before running the test functions in this class.
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @param 	AcceptanceTester 	$I 	Tester
+	 *
+	 * @since   1.9.6
+	 *
+	 * @param   AcceptanceTester $I  Tester.
 	 */
 	public function _before(AcceptanceTester $I)
 	{
@@ -21,10 +21,10 @@ class ReviewRequestCest
 	/**
 	 * Test that the review request is set in the options table when the Plugin's
 	 * Settings are saved with a Default Page Form specified in the Settings.
-	 * 
-	 * @since 	1.9.6.7
-	 * 
-	 * @param 	AcceptanceTester 	$I 	Tester
+	 *
+	 * @since   1.9.6.7
+	 *
+	 * @param   AcceptanceTester $I  Tester.
 	 */
 	public function testReviewRequestOnSaveSettings(AcceptanceTester $I)
 	{
@@ -44,10 +44,10 @@ class ReviewRequestCest
 	/**
 	 * Test that no review request is set in the options table when the Plugin's
 	 * Settings are saved with no Forms specified in the Settings.
-	 * 
-	 * @since 	1.9.6.7
-	 * 
-	 * @param 	AcceptanceTester 	$I 	Tester
+	 *
+	 * @since   1.9.6.7
+	 *
+	 * @param   AcceptanceTester $I  Tester.
 	 */
 	public function testReviewRequestOnSaveBlankSettings(AcceptanceTester $I)
 	{
@@ -69,10 +69,10 @@ class ReviewRequestCest
 	 * Test that the review request is set in the options table when a
 	 * WordPress Page is created and saved with a Form specified in
 	 * the ConvertKit Meta Box.
-	 * 
-	 * @since 	1.9.6.7
-	 * 
-	 * @param 	AcceptanceTester 	$I 	Tester
+	 *
+	 * @since   1.9.6.7
+	 *
+	 * @param   AcceptanceTester $I  Tester.
 	 */
 	public function testReviewRequestOnSavePageWithFormSpecified(AcceptanceTester $I)
 	{
@@ -83,9 +83,13 @@ class ReviewRequestCest
 		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Test Review Request on Save with Form Specified');
 
 		// Configure metabox's Form setting = Default.
-		$I->configureMetaboxSettings($I, 'wp-convertkit-meta-box', [
-			'form' => [ 'select2', $_ENV['CONVERTKIT_API_FORM_NAME'] ],
-		]);
+		$I->configureMetaboxSettings(
+			$I,
+			'wp-convertkit-meta-box',
+			[
+				'form' => [ 'select2', $_ENV['CONVERTKIT_API_FORM_NAME'] ],
+			]
+		);
 
 		// Publish and view the Page on the frontend site.
 		$I->publishAndViewGutenbergPage($I);
@@ -104,10 +108,10 @@ class ReviewRequestCest
 	 * Test that the review request is set in the options table when a
 	 * WordPress Page is created and saved with a Landing Page specified in
 	 * the ConvertKit Meta Box.
-	 * 
-	 * @since 	1.9.6.7
-	 * 
-	 * @param 	AcceptanceTester 	$I 	Tester
+	 *
+	 * @since   1.9.6.7
+	 *
+	 * @param   AcceptanceTester $I  Tester.
 	 */
 	public function testReviewRequestOnSavePageWithLandingPageSpecified(AcceptanceTester $I)
 	{
@@ -118,9 +122,13 @@ class ReviewRequestCest
 		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Test Review Request on Save with Form Specified');
 
 		// Configure metabox's Form setting = Default.
-		$I->configureMetaboxSettings($I, 'wp-convertkit-meta-box', [
-			'landing_page' => [ 'select2', $_ENV['CONVERTKIT_API_LANDING_PAGE_NAME'] ],
-		]);
+		$I->configureMetaboxSettings(
+			$I,
+			'wp-convertkit-meta-box',
+			[
+				'landing_page' => [ 'select2', $_ENV['CONVERTKIT_API_LANDING_PAGE_NAME'] ],
+			]
+		);
 
 		// Publish and view the Page on the frontend site.
 		$I->publishAndViewGutenbergPage($I);
@@ -138,10 +146,10 @@ class ReviewRequestCest
 	/**
 	 * Test that the review request is displayed when the options table entries
 	 * have the required values to display the review request notification.
-	 * 
-	 * @since 	1.9.6.7
-	 * 
-	 * @param 	AcceptanceTester 	$I 	Tester
+	 *
+	 * @since   1.9.6.7
+	 *
+	 * @param   AcceptanceTester $I  Tester.
 	 */
 	public function testReviewRequestNotificationDisplayed(AcceptanceTester $I)
 	{
@@ -163,10 +171,10 @@ class ReviewRequestCest
 	/**
 	 * Test that the review request is dismissed and does not reappear
 	 * on a subsequent page load.
-	 * 
-	 * @since 	1.9.6.7
-	 * 
-	 * @param 	AcceptanceTester 	$I 	Tester
+	 *
+	 * @since   1.9.6.7
+	 *
+	 * @param   AcceptanceTester $I  Tester.
 	 */
 	public function testReviewRequestNotificationDismissed(AcceptanceTester $I)
 	{
@@ -194,10 +202,10 @@ class ReviewRequestCest
 	 * Deactivate and reset Plugin(s) after each test, if the test passes.
 	 * We don't use _after, as this would provide a screenshot of the Plugin
 	 * deactivation and not the true test error.
-	 * 
-	 * @since 	1.9.6.7
-	 * 
-	 * @param 	AcceptanceTester 	$I 	Tester
+	 *
+	 * @since   1.9.6.7
+	 *
+	 * @param   AcceptanceTester $I  Tester.
 	 */
 	public function _passed(AcceptanceTester $I)
 	{

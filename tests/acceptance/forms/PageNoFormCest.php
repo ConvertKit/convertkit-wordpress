@@ -1,29 +1,29 @@
 <?php
 /**
  * Tests for WordPress Pages when no ConvertKit Forms exist in the ConvertKit account.
- * 
- * @since 	1.9.6.1
+ *
+ * @since   1.9.6.1
  */
 class PageNoFormCest
 {
 	/**
 	 * Run common actions before running the test functions in this class.
-	 * 
-	 * @since 	1.9.6.1
-	 * 
-	 * @param 	AcceptanceTester 	$I 	Tester
+	 *
+	 * @since   1.9.6.1
+	 *
+	 * @param   AcceptanceTester $I  Tester.
 	 */
 	public function _before(AcceptanceTester $I)
 	{
-		// Activate and Setup ConvertKit plugin
+		// Activate and Setup ConvertKit plugin.
 		$I->activateConvertKitPlugin($I);
 		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY_NO_DATA'], $_ENV['CONVERTKIT_API_SECRET_NO_DATA']);
 		$I->enableDebugLog($I);
-		
-		// Navigate to Pages > Add New
+
+		// Navigate to Pages > Add New.
 		$I->amOnAdminPage('post-new.php?post_type=page');
 
-		// Close the Gutenberg "Welcome to the block editor" dialog if it's displayed
+		// Close the Gutenberg "Welcome to the block editor" dialog if it's displayed.
 		$I->maybeCloseGutenbergWelcomeModal($I);
 
 		// Check that no PHP warnings or notices were output.
@@ -33,10 +33,10 @@ class PageNoFormCest
 	/**
 	 * Test that UTM parameters are included in links displayed in the metabox for the user to sign in to
 	 * their ConvertKit account.
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @param 	AcceptanceTester 	$I 	Tester
+	 *
+	 * @since   1.9.6
+	 *
+	 * @param   AcceptanceTester $I  Tester.
 	 */
 	public function testUTMParametersExist(AcceptanceTester $I)
 	{
@@ -54,10 +54,10 @@ class PageNoFormCest
 	 * Deactivate and reset Plugin(s) after each test, if the test passes.
 	 * We don't use _after, as this would provide a screenshot of the Plugin
 	 * deactivation and not the true test error.
-	 * 
-	 * @since 	1.9.6.7
-	 * 
-	 * @param 	AcceptanceTester 	$I 	Tester
+	 *
+	 * @since   1.9.6.7
+	 *
+	 * @param   AcceptanceTester $I  Tester.
 	 */
 	public function _passed(AcceptanceTester $I)
 	{

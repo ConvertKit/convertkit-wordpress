@@ -1,16 +1,20 @@
 <?php
 namespace Helper\Acceptance;
 
-// Define any custom actions related to PHP's Xdebug that
-// would be used across multiple tests.
-// These are then available in $I->{yourFunctionName}
-
+/**
+ * Helper methods and actions related to PHP's Xdebug,
+ * which are then available using $I->{yourFunctionName}.
+ *
+ * @since   1.9.6
+ */
 class Xdebug extends \Codeception\Module
 {
 	/**
 	 * Helper method to assert that there are non PHP errors, warnings or notices output
-	 * 
-	 * @since 	1.9.6
+	 *
+	 * @since   1.9.6
+	 *
+	 * @param   AcceptanceTester $I Acceptance Tester.
 	 */
 	public function checkNoWarningsAndNoticesOnScreen($I)
 	{
