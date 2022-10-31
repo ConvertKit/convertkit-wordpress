@@ -62,7 +62,7 @@ jobs:
 
       # Checkout (copy) this repository's Plugin to this VM.
       - name: Checkout Plugin
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           path: ${{ env.PLUGIN_DIR }}
 
@@ -116,12 +116,12 @@ jobs:
         working-directory: ${{ env.PLUGIN_DIR }}
         run: composer dump-autoload
 
-      # Run PSR-12 Coding Standards on Tests.
-      - name: Run PSR-12 Coding Standards on Tests
+      # Run Coding Standards on Tests.
+      - name: Run Coding Standards on Tests
         working-directory: ${{ env.PLUGIN_DIR }}
         run: php vendor/bin/phpcs ./tests --standard=phpcs.tests.xml -v -s
 
-      # Run WordPress Coding Standards.
+      # Run WordPress Coding Standards on Plugin.
       - name: Run WordPress Coding Standards
         working-directory: ${{ env.PLUGIN_DIR }}
         run: php vendor/bin/phpcs ./ --standard=phpcs.xml -v -s
