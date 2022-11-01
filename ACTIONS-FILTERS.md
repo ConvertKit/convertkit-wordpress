@@ -33,6 +33,12 @@
 						<td><a href="#convertkit_block_content_render"><code>convertkit_block_content_render</code></a></td>
 						<td>Filters the content in the ConvertKit Custom Content block/shortcode immediately before it is output.</td>
 					</tr><tr>
+						<td colspan="3">../includes/blocks/class-convertkit-block-product.php</td>
+					</tr><tr>
+						<td>&nbsp;</td>
+						<td><a href="#convertkit_block_product_render"><code>convertkit_block_product_render</code></a></td>
+						<td>Filter the block's content immediately before it is output.</td>
+					</tr><tr>
 						<td colspan="3">../includes/blocks/class-convertkit-block-broadcasts.php</td>
 					</tr><tr>
 						<td>&nbsp;</td>
@@ -54,6 +60,12 @@
 						<td>&nbsp;</td>
 						<td><a href="#convertkit_post_get_default_settings"><code>convertkit_post_get_default_settings</code></a></td>
 						<td>The default settings, used to populate the Post's Settings when a Post has no Settings.</td>
+					</tr><tr>
+						<td colspan="3">../includes/class-convertkit-post-type-product.php</td>
+					</tr><tr>
+						<td>&nbsp;</td>
+						<td><a href="#convertkit_post_type_product_register"><code>convertkit_post_type_product_register</code></a></td>
+						<td>Filter the arguments for registering the Products Custom Post Type</td>
 					</tr><tr>
 						<td colspan="3">../includes/class-convertkit-term.php</td>
 					</tr><tr>
@@ -114,7 +126,7 @@
 					</tbody>
 				</table><h3 id="convertkit_admin_settings_register_sections">
 						convertkit_admin_settings_register_sections
-						<code>admin/class-convertkit-admin-settings.php::297</code>
+						<code>admin/class-convertkit-admin-settings.php::302</code>
 					</h3><h4>Overview</h4>
 						<p>Registers settings sections at Settings > ConvertKit.</p><h4>Parameters</h4>
 					<table>
@@ -222,7 +234,7 @@ add_filter( 'convertkit_blocks', function( $blocks ) {
 </pre>
 <h3 id="convertkit_block_content_render">
 						convertkit_block_content_render
-						<code>includes/blocks/class-convertkit-block-content.php::267</code>
+						<code>includes/blocks/class-convertkit-block-content.php::275</code>
 					</h3><h4>Overview</h4>
 						<p>Filters the content in the ConvertKit Custom Content block/shortcode immediately before it is output.</p><h4>Parameters</h4>
 					<table>
@@ -263,9 +275,40 @@ add_filter( 'convertkit_block_content_render', function( $content, $atts, $subsc
 	return $content;
 }, 10, 5 );
 </pre>
+<h3 id="convertkit_block_product_render">
+						convertkit_block_product_render
+						<code>includes/blocks/class-convertkit-block-product.php::396</code>
+					</h3><h4>Overview</h4>
+						<p>Filter the block's content immediately before it is output.</p><h4>Parameters</h4>
+					<table>
+						<thead>
+							<tr>
+								<th>Parameter</th>
+								<th>Type</th>
+								<th>Description</th>
+							</tr>
+						</thead>
+						<tbody><tr>
+							<td>$html</td>
+							<td>string</td>
+							<td>ConvertKit Product button HTML.</td>
+						</tr><tr>
+							<td>$atts</td>
+							<td>array</td>
+							<td>Block Attributes.</td>
+						</tr>
+						</tbody>
+					</table><h4>Usage</h4>
+<pre>
+add_filter( 'convertkit_block_product_render', function( $html, $atts ) {
+	// ... your code here
+	// Return value
+	return $html;
+}, 10, 2 );
+</pre>
 <h3 id="convertkit_block_broadcasts_render">
 						convertkit_block_broadcasts_render
-						<code>includes/blocks/class-convertkit-block-broadcasts.php::384</code>
+						<code>includes/blocks/class-convertkit-block-broadcasts.php::408</code>
 					</h3><h4>Overview</h4>
 						<p>Filter the block's content immediately before it is output.</p><h4>Parameters</h4>
 					<table>
@@ -296,7 +339,7 @@ add_filter( 'convertkit_block_broadcasts_render', function( $html, $atts ) {
 </pre>
 <h3 id="convertkit_block_broadcasts_render_ajax">
 						convertkit_block_broadcasts_render_ajax
-						<code>includes/blocks/class-convertkit-block-broadcasts.php::431</code>
+						<code>includes/blocks/class-convertkit-block-broadcasts.php::455</code>
 					</h3><h4>Overview</h4>
 						<p>Filter the block's inner content immediately before it is output by AJAX, which occurs when pagination was clicked.</p><h4>Parameters</h4>
 					<table>
@@ -381,6 +424,33 @@ add_filter( 'convertkit_post_get_default_settings', function( $defaults ) {
 	// ... your code here
 	// Return value
 	return $defaults;
+}, 10, 1 );
+</pre>
+<h3 id="convertkit_post_type_product_register">
+						convertkit_post_type_product_register
+						<code>includes/class-convertkit-post-type-product.php::98</code>
+					</h3><h4>Overview</h4>
+						<p>Filter the arguments for registering the Products Custom Post Type</p><h4>Parameters</h4>
+					<table>
+						<thead>
+							<tr>
+								<th>Parameter</th>
+								<th>Type</th>
+								<th>Description</th>
+							</tr>
+						</thead>
+						<tbody><tr>
+							<td>register_post_type()</td>
+							<td>array $args</td>
+							<td>compatible</td>
+						</tr>
+						</tbody>
+					</table><h4>Usage</h4>
+<pre>
+add_filter( 'convertkit_post_type_product_register', function( $args ) {
+	// ... your code here
+	// Return value
+	return $args;
 }, 10, 1 );
 </pre>
 <h3 id="convertkit_term_get_default_settings">
@@ -652,7 +722,7 @@ add_filter( 'convertkit_settings_get_defaults', function( $defaults ) {
 </pre>
 <h3 id="convertkit_is_admin_or_frontend_editor">
 						convertkit_is_admin_or_frontend_editor
-						<code>includes/class-wp-convertkit.php::300</code>
+						<code>includes/class-wp-convertkit.php::302</code>
 					</h3><h4>Overview</h4>
 						<p>Filters whether the current request is a WordPress Administration / Frontend Editor request or not. Page Builders can set this to true to allow ConvertKit to load its administration functionality.</p><h4>Parameters</h4>
 					<table>
@@ -687,6 +757,16 @@ add_filter( 'convertkit_is_admin_or_frontend_editor', function( $is_admin_or_fro
 				</thead>
 				<tbody><tr>
 						<td colspan="3">../admin/section/class-convertkit-settings-base.php</td>
+					</tr><tr>
+						<td>&nbsp;</td>
+						<td><a href="#convertkit_settings_base_render_before"><code>convertkit_settings_base_render_before</code></a></td>
+						<td></td>
+					</tr><tr>
+						<td>&nbsp;</td>
+						<td><a href="#convertkit_settings_base_render_after"><code>convertkit_settings_base_render_after</code></a></td>
+						<td></td>
+					</tr><tr>
+						<td colspan="3">../admin/section/class-convertkit-settings-tools.php</td>
 					</tr><tr>
 						<td>&nbsp;</td>
 						<td><a href="#convertkit_settings_base_render_before"><code>convertkit_settings_base_render_before</code></a></td>
@@ -805,7 +885,47 @@ do_action( 'convertkit_settings_base_render_before', function(  ) {
 </pre>
 <h3 id="convertkit_settings_base_render_after">
 						convertkit_settings_base_render_after
-						<code>admin/section/class-convertkit-settings-base.php::123</code>
+						<code>admin/section/class-convertkit-settings-base.php::127</code>
+					</h3><h4>Parameters</h4>
+					<table>
+						<thead>
+							<tr>
+								<th>Parameter</th>
+								<th>Type</th>
+								<th>Description</th>
+							</tr>
+						</thead>
+						<tbody>
+						</tbody>
+					</table><h4>Usage</h4>
+<pre>
+do_action( 'convertkit_settings_base_render_after', function(  ) {
+	// ... your code here
+}, 10, 0 );
+</pre>
+<h3 id="convertkit_settings_base_render_before">
+						convertkit_settings_base_render_before
+						<code>admin/section/class-convertkit-settings-tools.php::327</code>
+					</h3><h4>Parameters</h4>
+					<table>
+						<thead>
+							<tr>
+								<th>Parameter</th>
+								<th>Type</th>
+								<th>Description</th>
+							</tr>
+						</thead>
+						<tbody>
+						</tbody>
+					</table><h4>Usage</h4>
+<pre>
+do_action( 'convertkit_settings_base_render_before', function(  ) {
+	// ... your code here
+}, 10, 0 );
+</pre>
+<h3 id="convertkit_settings_base_render_after">
+						convertkit_settings_base_render_after
+						<code>admin/section/class-convertkit-settings-tools.php::341</code>
 					</h3><h4>Parameters</h4>
 					<table>
 						<thead>
@@ -1180,7 +1300,7 @@ do_action( 'convertkit_initialize_frontend', function(  ) {
 </pre>
 <h3 id="convertkit_initialize_global">
 						convertkit_initialize_global
-						<code>includes/class-wp-convertkit.php::180</code>
+						<code>includes/class-wp-convertkit.php::182</code>
 					</h3><h4>Parameters</h4>
 					<table>
 						<thead>

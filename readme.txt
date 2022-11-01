@@ -3,9 +3,9 @@ Contributors: nathanbarry, growdev, travisnorthcutt, ggwicz
 Donate link: https://convertkit.com
 Tags: email marketing, email newsletter, newsletter, convertkit
 Requires at least: 5.0
-Tested up to: 6.0.2
+Tested up to: 6.1
 Requires PHP: 5.6.20
-Stable tag: 2.0.0
+Stable tag: 2.0.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -117,8 +117,10 @@ Full Plugin documentation can be found [here](https://help.convertkit.com/en/art
 
 == Changelog ==
 
-### 2.0.1 2022-10-xx
+### 2.0.1 2022-11-01
 * Added: Broadcasts: Block: Display message in editor when no Broadcasts exist in ConvertKit
+* Fixed: Settings: Contact Form 7: Render screen correctly when no Forms in ConvertKit
+* Fixed: Settings: WishList Member: Render screen correctly when no Forms in ConvertKit
 
 ### 2.0.0 2022-10-24
 * Added: ConvertKit Products Block, to output a button linking to a ConvertKit Product or Tip Jar
