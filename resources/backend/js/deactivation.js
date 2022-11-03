@@ -52,8 +52,8 @@ jQuery( document ).ready(
 
 				e.preventDefault();
 
-				var convertkit_deactivation_reason   = $( 'input[name=reason]:checked', $( this ) ).val(),
-				convertkit_deactivation_reason_text  = $( 'input[name=reason_text]', $( this ) ).val();
+				var convertkit_deactivation_reason  = $( 'input[name=reason]:checked', $( this ) ).val(),
+				convertkit_deactivation_reason_text = $( 'input[name=reason_text]', $( this ) ).val();
 
 				// Submit the form via AJAX if a reason was given.
 				if ( typeof convertkit_deactivation_reason !== 'undefined' ) {

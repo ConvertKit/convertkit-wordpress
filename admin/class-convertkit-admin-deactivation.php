@@ -51,7 +51,7 @@ class ConvertKit_Admin_Deactivation {
 			array(
 				'plugin' => array(
 					'name'    => strtolower( CONVERTKIT_PLUGIN_NAME ),
-					'version' => CONVERTKIT_PLUGIN_VERSION
+					'version' => CONVERTKIT_PLUGIN_VERSION,
 				),
 			)
 		);
@@ -110,28 +110,15 @@ class ConvertKit_Admin_Deactivation {
 		// Build args.
 		// phpcs:disable WordPress.Security.NonceVerification
 		$args = array(
-			'product'      => sanitize_text_field( $_REQUEST['product'] ),
-			'version'      => sanitize_text_field( $_REQUEST['version'] ),
-			'reason'       => sanitize_text_field( $_REQUEST['reason'] ),
-			'reason_text'  => sanitize_text_field( $_REQUEST['reason_text'] ),
-			'reason_email' => sanitize_text_field( $_REQUEST['reason_email'] ),
-			'site_url'     => str_replace( wp_parse_url( get_bloginfo( 'url' ), PHP_URL_SCHEME ) . '://', '', get_bloginfo( 'url' ) ),
+			'product'     => sanitize_text_field( $_REQUEST['product'] ),
+			'version'     => sanitize_text_field( $_REQUEST['version'] ),
+			'reason'      => sanitize_text_field( $_REQUEST['reason'] ),
+			'reason_text' => sanitize_text_field( $_REQUEST['reason_text'] ),
+			'site_url'    => str_replace( wp_parse_url( get_bloginfo( 'url' ), PHP_URL_SCHEME ) . '://', '', get_bloginfo( 'url' ) ),
 		);
 		// phpcs:enable
 
 		// Send deactivation reason.
-		/*
-		// @TODO.
-		$response = wp_remote_get( $this->endpoint . '/index.php?' . http_build_query( $args ) );
-
-		// Return error or success, depending on the result.
-		if ( is_wp_error( $response ) ) {
-			wp_send_json_error( $response->get_error_message(), wp_remote_retrieve_response_code( $response ) );
-		}
-
-		wp_send_json_success( wp_remote_retrieve_body( $response ) );
-		*/
-
 	}
 
 }
