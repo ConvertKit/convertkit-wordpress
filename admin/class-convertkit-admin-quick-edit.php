@@ -90,7 +90,7 @@ class ConvertKit_Admin_Quick_Edit {
 		}
 
 		// Output Quick Edit fields in the footer of the Administration screen.
-		add_action( 'in_admin_footer', array( $this, 'quick_edit_fields' ), 10, 2 );
+		add_action( 'in_admin_footer', array( $this, 'quick_edit_fields' ), 10 );
 
 	}
 
