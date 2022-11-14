@@ -185,7 +185,7 @@ class ConvertKit_Wishlist_Admin_Settings extends ConvertKit_Settings_Base {
 }
 
 // Register Admin Settings section.
-add_filter( // @phpstan-ignore-line
+add_filter(
 	'convertkit_admin_settings_register_sections',
 	/**
 	 * Register WishList Member as a section at Settings > ConvertKit.
