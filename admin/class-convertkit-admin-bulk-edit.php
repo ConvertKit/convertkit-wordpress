@@ -57,7 +57,7 @@ class ConvertKit_Admin_Bulk_Edit {
 		wp_enqueue_style( 'convertkit-bulk-edit', CONVERTKIT_PLUGIN_URL . 'resources/backend/css/bulk-edit.css', array(), CONVERTKIT_PLUGIN_VERSION );
 
 		// Output Bulk Edit fields in the footer of the Administration screen.
-		add_action( 'in_admin_footer', array( $this, 'bulk_edit_fields' ), 10, 2 );
+		add_action( 'in_admin_footer', array( $this, 'bulk_edit_fields' ), 10 );
 
 	}
 

@@ -189,6 +189,12 @@ class ConvertKit_ContactForm7_Admin_Settings extends ConvertKit_Settings_Base {
 // Register Admin Settings section.
 add_filter(
 	'convertkit_admin_settings_register_sections',
+	/**
+	 * Register WishList Member as a section at Settings > ConvertKit.
+	 *
+	 * @param   array   $sections   Settings Sections.
+	 * @return  array
+	 */
 	function( $sections ) {
 
 		// Bail if Contact Form 7 isn't enabled.
