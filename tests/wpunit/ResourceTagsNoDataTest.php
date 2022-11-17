@@ -1,38 +1,40 @@
 <?php
 /**
  * Tests for the ConvertKit_Resource_Tags class when no data is present in the API.
- * 
- * @since 	1.9.7.8
+ *
+ * @since   1.9.7.8
  */
 class ResourceTagsNoDataTest extends \Codeception\TestCase\WPTestCase
 {
 	/**
-	 * @var \WpunitTester
+	 * The testing implementation.
+	 *
+	 * @var \WpunitTester.
 	 */
 	protected $tester;
 
 	/**
 	 * Holds the ConvertKit Settings class.
-	 * 
-	 * @since 	1.9.7.8
-	 * 
-	 * @var 	ConvertKit_Settings
+	 *
+	 * @since   1.9.7.8
+	 *
+	 * @var     ConvertKit_Settings
 	 */
 	private $settings;
 
 	/**
 	 * Holds the ConvertKit Resource class.
-	 * 
-	 * @since 	1.9.7.8
-	 * 
-	 * @var 	ConvertKit_Resource_Forms
+	 *
+	 * @since   1.9.7.8
+	 *
+	 * @var     ConvertKit_Resource_Forms
 	 */
 	private $resource;
 
 	/**
 	 * Performs actions before each test.
-	 * 
-	 * @since 	1.9.7.8
+	 *
+	 * @since   1.9.7.8
 	 */
 	public function setUp(): void
 	{
@@ -43,10 +45,13 @@ class ResourceTagsNoDataTest extends \Codeception\TestCase\WPTestCase
 
 		// Store API Key and Secret in Plugin's settings.
 		$this->settings = new ConvertKit_Settings();
-		update_option($this->settings::SETTINGS_NAME, [
-			'api_key'    => $_ENV['CONVERTKIT_API_KEY_NO_DATA'],
-			'api_secret' => $_ENV['CONVERTKIT_API_SECRET_NO_DATA'],
-		]);
+		update_option(
+			$this->settings::SETTINGS_NAME,
+			[
+				'api_key'    => $_ENV['CONVERTKIT_API_KEY_NO_DATA'],
+				'api_secret' => $_ENV['CONVERTKIT_API_SECRET_NO_DATA'],
+			]
+		);
 
 		// Initialize the resource class we want to test.
 		$this->resource = new ConvertKit_Resource_Forms();
@@ -57,8 +62,8 @@ class ResourceTagsNoDataTest extends \Codeception\TestCase\WPTestCase
 
 	/**
 	 * Performs actions after each test.
-	 * 
-	 * @since 	1.9.6.9
+	 *
+	 * @since   1.9.6.9
 	 */
 	public function tearDown(): void
 	{
@@ -72,14 +77,14 @@ class ResourceTagsNoDataTest extends \Codeception\TestCase\WPTestCase
 
 		// Deactivate Plugin.
 		deactivate_plugins('convertkit/wp-convertkit.php');
-		
+
 		parent::tearDown();
 	}
 
 	/**
 	 * Test that the refresh() function performs as expected.
-	 * 
-	 * @since 	1.9.7.8
+	 *
+	 * @since   1.9.7.8
 	 */
 	public function testRefresh()
 	{
@@ -92,8 +97,8 @@ class ResourceTagsNoDataTest extends \Codeception\TestCase\WPTestCase
 
 	/**
 	 * Test that the expiry timestamp is set and returns the expected value.
-	 * 
-	 * @since 	1.9.7.8
+	 *
+	 * @since   1.9.7.8
 	 */
 	public function testExpiry()
 	{
@@ -109,8 +114,8 @@ class ResourceTagsNoDataTest extends \Codeception\TestCase\WPTestCase
 
 	/**
 	 * Test that the get() function performs as expected.
-	 * 
-	 * @since 	1.9.7.8
+	 *
+	 * @since   1.9.7.8
 	 */
 	public function testGet()
 	{
@@ -123,8 +128,8 @@ class ResourceTagsNoDataTest extends \Codeception\TestCase\WPTestCase
 
 	/**
 	 * Test that the count() function returns the number of resources.
-	 * 
-	 * @since 	1.9.7.6
+	 *
+	 * @since   1.9.7.6
 	 */
 	public function testCount()
 	{
@@ -134,8 +139,8 @@ class ResourceTagsNoDataTest extends \Codeception\TestCase\WPTestCase
 
 	/**
 	 * Test that the exist() function performs as expected.
-	 * 
-	 * @since 	1.9.7.8
+	 *
+	 * @since   1.9.7.8
 	 */
 	public function testExist()
 	{

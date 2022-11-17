@@ -2,17 +2,17 @@
 /**
  * Tests that an API request is, or is not, made to the subscribers endpoint
  * when a ConvertKit Form is submitted.
- * 
- * @since 	1.9.6.7
+ *
+ * @since   1.9.6.7
  */
 class SubscriberEmailToIDOnFormSubmitCest
 {
 	/**
 	 * Run common actions before running the test functions in this class.
-	 * 
-	 * @since 	1.9.6.7
-	 * 
-	 * @param 	AcceptanceTester 	$I 	Tester
+	 *
+	 * @since   1.9.6.7
+	 *
+	 * @param   AcceptanceTester $I  Tester.
 	 */
 	public function _before(AcceptanceTester $I)
 	{
@@ -28,18 +28,20 @@ class SubscriberEmailToIDOnFormSubmitCest
 	/**
 	 * Test that no API call to the subscribers endpoint is made to fetch a subscriber ID
 	 * by email address when a ConvertKit Form is submitted with no email address.
-	 * 
-	 * @since 	1.9.6.7
-	 * 
-	 * @param 	AcceptanceTester 	$I 	Tester
+	 *
+	 * @since   1.9.6.7
+	 *
+	 * @param   AcceptanceTester $I  Tester.
 	 */
 	public function testWhenFormSubmittedWithNoEmailAddress(AcceptanceTester $I)
 	{
 		// Create Page with Shortcode.
-		$I->havePageInDatabase([
-			'post_name' 	=> 'convertkit-subscriber-email-to-id-no-email',
-			'post_content'	=> 'No Email',
-		]);
+		$I->havePageInDatabase(
+			[
+				'post_name'    => 'convertkit-subscriber-email-to-id-no-email',
+				'post_content' => 'No Email',
+			]
+		);
 
 		// Load the Page on the frontend site.
 		$I->amOnPage('/convertkit-subscriber-email-to-id-no-email');
@@ -61,18 +63,20 @@ class SubscriberEmailToIDOnFormSubmitCest
 	/**
 	 * Test that no API call to the subscribers endpoint is made to fetch a subscriber ID
 	 * by email address when a ConvertKit Form is submitted with an invalid email address format.
-	 * 
-	 * @since 	1.9.6.7
-	 * 
-	 * @param 	AcceptanceTester 	$I 	Tester
+	 *
+	 * @since   1.9.6.7
+	 *
+	 * @param   AcceptanceTester $I  Tester.
 	 */
 	public function testWhenFormSubmittedWithInvalidEmailAddress(AcceptanceTester $I)
 	{
 		// Create Page with Shortcode.
-		$I->havePageInDatabase([
-			'post_name' 	=> 'convertkit-subscriber-email-to-id-invalid-email',
-			'post_content'	=> 'Invalid Email',
-		]);
+		$I->havePageInDatabase(
+			[
+				'post_name'    => 'convertkit-subscriber-email-to-id-invalid-email',
+				'post_content' => 'Invalid Email',
+			]
+		);
 
 		// Load the Page on the frontend site.
 		$I->amOnPage('/convertkit-subscriber-email-to-id-invalid-email');
@@ -92,24 +96,26 @@ class SubscriberEmailToIDOnFormSubmitCest
 
 		// Check log does not contain get_subscriber_by_email() call with no email value.
 		$I->loadConvertKitSettingsToolsScreen($I);
-		$I->dontSeeInSource('API: get_subscriber_by_email(): [ email: '.$emailAddress.']');
+		$I->dontSeeInSource('API: get_subscriber_by_email(): [ email: ' . $emailAddress . ']');
 	}
 
 	/**
 	 * Test that an API call to the subscribers endpoint is made to fetch a subscriber ID
 	 * by email address when a ConvertKit Form is submitted with a valid email address format.
-	 * 
-	 * @since 	1.9.6.7
-	 * 
-	 * @param 	AcceptanceTester 	$I 	Tester
+	 *
+	 * @since   1.9.6.7
+	 *
+	 * @param   AcceptanceTester $I  Tester.
 	 */
 	public function testWhenFormSubmittedWithValidEmailAddress(AcceptanceTester $I)
 	{
 		// Create Page with Shortcode.
-		$I->havePageInDatabase([
-			'post_name' 	=> 'convertkit-subscriber-email-to-id-valid-email',
-			'post_content'	=> 'Valid Email',
-		]);
+		$I->havePageInDatabase(
+			[
+				'post_name'    => 'convertkit-subscriber-email-to-id-valid-email',
+				'post_content' => 'Valid Email',
+			]
+		);
 
 		// Load the Page on the frontend site.
 		$I->amOnPage('/convertkit-subscriber-email-to-id-valid-email');
@@ -129,17 +135,17 @@ class SubscriberEmailToIDOnFormSubmitCest
 
 		// Check log does not contain get_subscriber_by_email() call with no email value.
 		$I->loadConvertKitSettingsToolsScreen($I);
-		$I->seeInSource('API: get_subscriber_by_email(): [ email: '.$emailAddress.']');
+		$I->seeInSource('API: get_subscriber_by_email(): [ email: ' . $emailAddress . ']');
 	}
 
 	/**
 	 * Deactivate and reset Plugin(s) after each test, if the test passes.
 	 * We don't use _after, as this would provide a screenshot of the Plugin
 	 * deactivation and not the true test error.
-	 * 
-	 * @since 	1.9.6.7
-	 * 
-	 * @param 	AcceptanceTester 	$I 	Tester
+	 *
+	 * @since   1.9.6.7
+	 *
+	 * @param   AcceptanceTester $I  Tester.
 	 */
 	public function _passed(AcceptanceTester $I)
 	{

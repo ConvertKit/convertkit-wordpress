@@ -27,6 +27,9 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 		// Register this as a Gutenberg block in the ConvertKit Plugin.
 		add_filter( 'convertkit_blocks', array( $this, 'register' ) );
 
+		// Enqueue scripts and styles for this Gutenberg Block in the editor view.
+		add_action( 'convertkit_gutenberg_enqueue_scripts', array( $this, 'enqueue_scripts_editor' ) );
+
 		// Enqueue scripts and styles for this Gutenberg Block in the editor and frontend views.
 		add_action( 'convertkit_gutenberg_enqueue_scripts_editor_and_frontend', array( $this, 'enqueue_scripts' ) );
 		add_action( 'convertkit_gutenberg_enqueue_styles_editor_and_frontend', array( $this, 'enqueue_styles' ) );
@@ -39,6 +42,17 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 
 	/**
 	 * Enqueues scripts for this Gutenberg Block in the editor view.
+	 *
+	 * @since   2.0.1
+	 */
+	public function enqueue_scripts_editor() {
+
+		wp_enqueue_script( 'convertkit-gutenberg-block-broadcasts', CONVERTKIT_PLUGIN_URL . 'resources/backend/js/gutenberg-block-broadcasts.js', array( 'convertkit-gutenberg' ), CONVERTKIT_PLUGIN_VERSION, true );
+
+	}
+
+	/**
+	 * Enqueues scripts for this Gutenberg Block in the editor and frontend views.
 	 *
 	 * @since   1.9.7.6
 	 */
@@ -98,37 +112,47 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 	 */
 	public function get_overview() {
 
+		// Fetch Posts.
+		$posts = new ConvertKit_Resource_Posts( 'output_broadcasts' );
+
 		return array(
-			'title'                         => __( 'ConvertKit Broadcasts', 'convertkit' ),
-			'description'                   => __( 'Displays a list of your ConvertKit broadcasts.', 'convertkit' ),
-			'icon'                          => 'resources/backend/images/block-icon-broadcasts.png',
-			'category'                      => 'convertkit',
-			'keywords'                      => array(
+			'title'                             => __( 'ConvertKit Broadcasts', 'convertkit' ),
+			'description'                       => __( 'Displays a list of your ConvertKit broadcasts.', 'convertkit' ),
+			'icon'                              => 'resources/backend/images/block-icon-broadcasts.png',
+			'category'                          => 'convertkit',
+			'keywords'                          => array(
 				__( 'ConvertKit', 'convertkit' ),
 				__( 'Broadcasts', 'convertkit' ),
 				__( 'Posts', 'convertkit' ),
 			),
 
 			// Function to call when rendering as a block or a shortcode on the frontend web site.
-			'render_callback'               => array( $this, 'render' ),
+			'render_callback'                   => array( $this, 'render' ),
 
 			// Shortcode: TinyMCE / QuickTags Modal Width and Height.
-			'modal'                         => array(
+			'modal'                             => array(
 				'width'  => 500,
 				'height' => 580,
 			),
 
 			// Shortcode: Include a closing [/shortcode] tag when using TinyMCE or QuickTag Modals.
-			'shortcode_include_closing_tag' => false,
+			'shortcode_include_closing_tag'     => false,
 
 			// Gutenberg: Block Icon in Editor.
-			'gutenberg_icon'                    => file_get_contents( CONVERTKIT_PLUGIN_PATH . '/resources/backend/images/block-icon-broadcasts.svg' ), /* phpcs:ignore */
+			'gutenberg_icon'                		=> file_get_contents( CONVERTKIT_PLUGIN_PATH . '/resources/backend/images/block-icon-broadcasts.svg' ), /* phpcs:ignore */
 
 			// Gutenberg: Example image showing how this block looks when choosing it in Gutenberg.
-			'gutenberg_example_image'       => CONVERTKIT_PLUGIN_URL . 'resources/backend/images/block-example-broadcasts.png',
+			'gutenberg_example_image'           => CONVERTKIT_PLUGIN_URL . 'resources/backend/images/block-example-broadcasts.png',
 
-			// Gutenberg: Help description, displayed when no settings defined for a newly added Block.
-			'gutenberg_help_description'    => __( 'Define this Block\'s settings in the Gutenberg sidebar to display a list of your broadcasts.', 'convertkit' ),
+			// Gutenberg: Help description, displayed when no Posts exist.
+			'gutenberg_help_description'        => __( 'No Broadcasts exist in ConvertKit. Send your first Broadcast in ConvertKit to see the link to it here.', 'convertkit' ),
+
+			// Gutenberg: JS function to call when rendering the block preview in the Gutenberg editor.
+			// If not defined, render_callback above will be used.
+			'gutenberg_preview_render_callback' => 'convertKitGutenbergBroadcastsBlockRenderPreview',
+
+			// Flag to determine if Broadcasts exist.
+			'has_posts'                         => $posts->exist(),
 		);
 
 	}

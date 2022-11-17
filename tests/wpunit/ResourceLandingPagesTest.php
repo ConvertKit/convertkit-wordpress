@@ -1,38 +1,40 @@
 <?php
 /**
  * Tests for the ConvertKit_Resource_Landing_Pages class.
- * 
- * @since 	1.9.7.4
+ *
+ * @since   1.9.7.4
  */
 class ResourceLandingPagesTest extends \Codeception\TestCase\WPTestCase
 {
 	/**
-	 * @var \WpunitTester
+	 * The testing implementation.
+	 *
+	 * @var \WpunitTester.
 	 */
 	protected $tester;
 
 	/**
 	 * Holds the ConvertKit Settings class.
-	 * 
-	 * @since 	1.9.7.4
-	 * 
-	 * @var 	ConvertKit_Settings
+	 *
+	 * @since   1.9.7.4
+	 *
+	 * @var     ConvertKit_Settings
 	 */
 	private $settings;
 
 	/**
 	 * Holds the ConvertKit Resource class.
-	 * 
-	 * @since 	1.9.7.4
-	 * 
-	 * @var 	ConvertKit_Resource_Landing_Pages
+	 *
+	 * @since   1.9.7.4
+	 *
+	 * @var     ConvertKit_Resource_Landing_Pages
 	 */
 	private $resource;
 
 	/**
 	 * Performs actions before each test.
-	 * 
-	 * @since 	1.9.7.4
+	 *
+	 * @since   1.9.7.4
 	 */
 	public function setUp(): void
 	{
@@ -43,10 +45,13 @@ class ResourceLandingPagesTest extends \Codeception\TestCase\WPTestCase
 
 		// Store API Key and Secret in Plugin's settings.
 		$this->settings = new ConvertKit_Settings();
-		update_option($this->settings::SETTINGS_NAME, [
-			'api_key'    => $_ENV['CONVERTKIT_API_KEY'],
-			'api_secret' => $_ENV['CONVERTKIT_API_SECRET'],
-		]);
+		update_option(
+			$this->settings::SETTINGS_NAME,
+			[
+				'api_key'    => $_ENV['CONVERTKIT_API_KEY'],
+				'api_secret' => $_ENV['CONVERTKIT_API_SECRET'],
+			]
+		);
 
 		// Initialize the resource class we want to test.
 		$this->resource = new ConvertKit_Resource_Landing_Pages();
@@ -57,8 +62,8 @@ class ResourceLandingPagesTest extends \Codeception\TestCase\WPTestCase
 
 	/**
 	 * Performs actions after each test.
-	 * 
-	 * @since 	1.9.6.9
+	 *
+	 * @since   1.9.6.9
 	 */
 	public function tearDown(): void
 	{
@@ -78,8 +83,8 @@ class ResourceLandingPagesTest extends \Codeception\TestCase\WPTestCase
 
 	/**
 	 * Test that the refresh() function performs as expected.
-	 * 
-	 * @since 	1.9.7.4
+	 *
+	 * @since   1.9.7.4
 	 */
 	public function testRefresh()
 	{
@@ -92,8 +97,8 @@ class ResourceLandingPagesTest extends \Codeception\TestCase\WPTestCase
 
 	/**
 	 * Test that the expiry timestamp is set and returns the expected value.
-	 * 
-	 * @since 	1.9.7.4
+	 *
+	 * @since   1.9.7.4
 	 */
 	public function testExpiry()
 	{
@@ -109,8 +114,8 @@ class ResourceLandingPagesTest extends \Codeception\TestCase\WPTestCase
 
 	/**
 	 * Test that the get() function performs as expected.
-	 * 
-	 * @since 	1.9.7.4
+	 *
+	 * @since   1.9.7.4
 	 */
 	public function testGet()
 	{
@@ -124,8 +129,8 @@ class ResourceLandingPagesTest extends \Codeception\TestCase\WPTestCase
 
 	/**
 	 * Test that the count() function returns the number of resources.
-	 * 
-	 * @since 	1.9.7.6
+	 *
+	 * @since   1.9.7.6
 	 */
 	public function testCount()
 	{
@@ -135,8 +140,8 @@ class ResourceLandingPagesTest extends \Codeception\TestCase\WPTestCase
 
 	/**
 	 * Test that the exist() function performs as expected.
-	 * 
-	 * @since 	1.9.7.4
+	 *
+	 * @since   1.9.7.4
 	 */
 	public function testExist()
 	{

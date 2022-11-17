@@ -90,6 +90,7 @@ class ConvertKit_ContactForm7_Admin_Settings extends ConvertKit_Settings_Base {
 		// Bail with an error if no ConvertKit Forms exist.
 		if ( ! $forms->exist() ) {
 			$this->output_error( __( 'No Forms exist on ConvertKit.', 'convertkit' ) );
+			$this->render_container_end();
 			return;
 		}
 
@@ -107,6 +108,7 @@ class ConvertKit_ContactForm7_Admin_Settings extends ConvertKit_Settings_Base {
 		// Bail with an error if no Contact Form 7 Forms exist.
 		if ( ! $cf7_forms ) {
 			$this->output_error( __( 'No Contact Form 7 Forms exist in the Contact Form 7 Plugin.', 'convertkit' ) );
+			$this->render_container_end();
 			return;
 		}
 
@@ -187,6 +189,12 @@ class ConvertKit_ContactForm7_Admin_Settings extends ConvertKit_Settings_Base {
 // Register Admin Settings section.
 add_filter(
 	'convertkit_admin_settings_register_sections',
+	/**
+	 * Register WishList Member as a section at Settings > ConvertKit.
+	 *
+	 * @param   array   $sections   Settings Sections.
+	 * @return  array
+	 */
 	function( $sections ) {
 
 		// Bail if Contact Form 7 isn't enabled.

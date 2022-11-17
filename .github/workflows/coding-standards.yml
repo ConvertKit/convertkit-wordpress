@@ -35,7 +35,7 @@ jobs:
     # Defines the WordPress and PHP Versions matrix to run tests on.
     strategy:
       matrix:
-        wp-versions: [ '6.0.1' ] #[ '5.6.7', '5.7.5', '5.8.3', '5.9' ]
+        wp-versions: [ 'latest' ] #[ '6.1.1', 'latest' ]
         php-versions: [ '7.2', '7.3', '7.4', '8.0', '8.1' ] #[ '7.3', '7.4', '8.0', '8.1' ]
 
     # Steps to install, configure and run tests
@@ -62,7 +62,7 @@ jobs:
 
       # Checkout (copy) this repository's Plugin to this VM.
       - name: Checkout Plugin
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           path: ${{ env.PLUGIN_DIR }}
 
@@ -116,10 +116,15 @@ jobs:
         working-directory: ${{ env.PLUGIN_DIR }}
         run: composer dump-autoload
 
-      # Run WordPress Coding Standards tests.
-      - name: Run WordPress Coding Standards Tests
+      # Run Coding Standards on Tests.
+      - name: Run Coding Standards on Tests
         working-directory: ${{ env.PLUGIN_DIR }}
-        run: php vendor/bin/phpcs ./ -v -s
+        run: php vendor/bin/phpcs ./tests --standard=phpcs.tests.xml -v -s
+
+      # Run WordPress Coding Standards on Plugin.
+      - name: Run WordPress Coding Standards
+        working-directory: ${{ env.PLUGIN_DIR }}
+        run: php vendor/bin/phpcs ./ --standard=phpcs.xml -v -s
 
       # Run PHPStan for static analysis.
       - name: Run PHPStan Static Analysis

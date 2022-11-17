@@ -21,8 +21,6 @@ jQuery( document ).ready(
 				var target = $( this ).data( 'target' ),
 				link       = $( this ).data( 'link' ) + $( this ).val();
 
-				console.log( link );
-
 				$( target ).attr( 'href', link );
 
 			}

@@ -1,17 +1,17 @@
 <?php
 /**
  * Tests for the ConvertKit Custom Content shortcode.
- * 
- * @since 	1.9.6
+ *
+ * @since   1.9.6
  */
 class PageShortcodeCustomContentCest
 {
 	/**
 	 * Run common actions before running the test functions in this class.
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @param 	AcceptanceTester 	$I 	Tester
+	 *
+	 * @since   1.9.6
+	 *
+	 * @param   AcceptanceTester $I  Tester.
 	 */
 	public function _before(AcceptanceTester $I)
 	{
@@ -22,10 +22,10 @@ class PageShortcodeCustomContentCest
 
 	/**
 	 * Test the [convertkit_content] shortcode works using the Classic Editor (TinyMCE / Visual).
-	 * 
-	 * @since 	1.9.7.5
-	 * 
-	 * @param 	AcceptanceTester 	$I 	Tester
+	 *
+	 * @since   1.9.7.5
+	 *
+	 * @param   AcceptanceTester $I  Tester.
 	 */
 	public function testCustomContentShortcodeInVisualEditor(AcceptanceTester $I)
 	{
@@ -36,9 +36,8 @@ class PageShortcodeCustomContentCest
 		$I->addVisualEditorShortcode(
 			$I,
 			'ConvertKit Custom Content',
-			'convertkit-content',
 			[
-				'tag' => [ 'select', $_ENV['CONVERTKIT_API_TAG_NAME'] ]
+				'tag' => [ 'select', $_ENV['CONVERTKIT_API_TAG_NAME'] ],
 			],
 			'[convertkit_content tag="' . $_ENV['CONVERTKIT_API_TAG_ID'] . '"][/convertkit_content]'
 		);
@@ -49,10 +48,10 @@ class PageShortcodeCustomContentCest
 
 	/**
 	 * Test the [convertkit_content] shortcode works using the Text Editor.
-	 * 
-	 * @since 	1.9.7.5
-	 * 
-	 * @param 	AcceptanceTester 	$I 	Tester
+	 *
+	 * @since   1.9.7.5
+	 *
+	 * @param   AcceptanceTester $I  Tester.
 	 */
 	public function testCustomContentShortcodeInTextEditor(AcceptanceTester $I)
 	{
@@ -62,10 +61,9 @@ class PageShortcodeCustomContentCest
 		// Add shortcode to Page, setting the Tag setting to the value specified in the .env file.
 		$I->addTextEditorShortcode(
 			$I,
-			'ConvertKit Custom Content',
 			'convertkit-content',
 			[
-				'tag' => [ 'select', $_ENV['CONVERTKIT_API_TAG_NAME'] ]
+				'tag' => [ 'select', $_ENV['CONVERTKIT_API_TAG_NAME'] ],
 			],
 			'[convertkit_content tag="' . $_ENV['CONVERTKIT_API_TAG_ID'] . '"][/convertkit_content]'
 		);
@@ -77,18 +75,20 @@ class PageShortcodeCustomContentCest
 	/**
 	 * Test the [convertkit_content] shortcode works when a valid Tag ID is specified,
 	 * and an invalid Subscriber ID is used.
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @param 	AcceptanceTester 	$I 	Tester
+	 *
+	 * @since   1.9.6
+	 *
+	 * @param   AcceptanceTester $I  Tester.
 	 */
 	public function testCustomContentShortcodeWithValidTagParameterAndInvalidSubscriberID(AcceptanceTester $I)
 	{
 		// Create Page with Shortcode.
-		$I->havePageInDatabase([
-			'post_name' 	=> 'convertkit-custom-content-shortcode-valid-tag-param-and-invalid-subscriber-id',
-			'post_content'	=> '[convertkit_content tag="' . $_ENV['CONVERTKIT_API_TAG_ID'] . '"]ConvertKitCustomContent[/convertkit_content]',
-		]);
+		$I->havePageInDatabase(
+			[
+				'post_name'    => 'convertkit-custom-content-shortcode-valid-tag-param-and-invalid-subscriber-id',
+				'post_content' => '[convertkit_content tag="' . $_ENV['CONVERTKIT_API_TAG_ID'] . '"]ConvertKitCustomContent[/convertkit_content]',
+			]
+		);
 
 		// Load the Page on the frontend site.
 		$I->amOnPage('/convertkit-custom-content-shortcode-valid-tag-param-and-invalid-subscriber-id');
@@ -112,18 +112,20 @@ class PageShortcodeCustomContentCest
 	/**
 	 * Test the [convertkit_content] shortcode works when a valid Tag ID is specified,
 	 * and a valid Subscriber ID is used who is subscribed to the tag.
-	 * 
-	 * @since 	1.9.6
-	 * 
-	 * @param 	AcceptanceTester 	$I 	Tester
+	 *
+	 * @since   1.9.6
+	 *
+	 * @param   AcceptanceTester $I  Tester.
 	 */
 	public function testCustomContentShortcodeWithValidTagParameterAndValidSubscriberID(AcceptanceTester $I)
 	{
 		// Create Page with Shortcode.
-		$I->havePageInDatabase([
-			'post_name' 	=> 'convertkit-custom-content-shortcode-valid-tag-param-and-valid-subscriber-id',
-			'post_content'	=> '[convertkit_content tag="' . $_ENV['CONVERTKIT_API_TAG_ID'] . '"]ConvertKitCustomContent[/convertkit_content]',
-		]);
+		$I->havePageInDatabase(
+			[
+				'post_name'    => 'convertkit-custom-content-shortcode-valid-tag-param-and-valid-subscriber-id',
+				'post_content' => '[convertkit_content tag="' . $_ENV['CONVERTKIT_API_TAG_ID'] . '"]ConvertKitCustomContent[/convertkit_content]',
+			]
+		);
 
 		// Load the Page on the frontend site.
 		$I->amOnPage('/convertkit-custom-content-shortcode-valid-tag-param-and-valid-subscriber-id');
@@ -148,10 +150,10 @@ class PageShortcodeCustomContentCest
 	 * Deactivate and reset Plugin(s) after each test, if the test passes.
 	 * We don't use _after, as this would provide a screenshot of the Plugin
 	 * deactivation and not the true test error.
-	 * 
-	 * @since 	1.9.6.7
-	 * 
-	 * @param 	AcceptanceTester 	$I 	Tester
+	 *
+	 * @since   1.9.6.7
+	 *
+	 * @param   AcceptanceTester $I  Tester.
 	 */
 	public function _passed(AcceptanceTester $I)
 	{
