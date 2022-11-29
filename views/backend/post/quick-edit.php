@@ -7,7 +7,7 @@
  */
 
 ?>
-<div id="convertkit-quick-edit" style="display:none;">
+<div id="convertkit-quick-edit" class="convertkit-bulk-quick-edit" style="display:none;">
 	<!-- Form -->
 	<div>
 		<label for="wp-convertkit-quick-edit-form">
