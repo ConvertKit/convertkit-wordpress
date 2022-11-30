@@ -62,7 +62,7 @@ class ConvertKit_Admin_Category {
 	 * ConvertKit Plugin settings.
 	 *
 	 * @since   1.9.6.4
-	 * 
+	 *
 	 * @param   string $hook   Hook.
 	 */
 	public function enqueue_styles( $hook ) {
@@ -90,11 +90,11 @@ class ConvertKit_Admin_Category {
 
 	/**
 	 * Determine if the current request is for editing a Category.
-	 * 
-	 * @since 	2.0.3
-	 * 
+	 *
+	 * @since   2.0.3
+	 *
 	 * @param   string $hook   Hook.
-	 * @return 	bool 			Is category edit screen request
+	 * @return  bool            Is category edit screen request
 	 */
 	private function is_category_edit_screen( $hook ) {
 
