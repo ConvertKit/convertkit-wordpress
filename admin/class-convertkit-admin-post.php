@@ -60,6 +60,9 @@ class ConvertKit_Admin_Post {
 		// Enqueue Select2 CSS.
 		convertkit_select2_enqueue_styles();
 
+		// Enqueue Post CSS.
+		wp_enqueue_style( 'convertkit-post', CONVERTKIT_PLUGIN_URL . 'resources/backend/css/post.css', array(), CONVERTKIT_PLUGIN_VERSION );
+
 		/**
 		 * Enqueue CSS for the Settings Screen at Settings > ConvertKit
 		 *
