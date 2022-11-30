@@ -22,9 +22,16 @@ class ConvertKit_Admin_Category {
 	 */
 	public function __construct() {
 
+		// Load CSS and JS when adding/editing Categories.
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_styles' ) );
-		add_action( 'category_edit_form_fields', array( $this, 'category_form_fields' ), 20 );
+
+		// Add Category.
+		add_action( 'category_add_form_fields', array( $this, 'add_category_form_fields' ), 10 );
+		add_action( 'created_category', array( $this, 'save_category_fields' ), 20 );
+
+		// Edit Category.
+		add_action( 'category_edit_form_fields', array( $this, 'edit_category_form_fields' ), 20 );
 		add_action( 'edited_category', array( $this, 'save_category_fields' ), 20 );
 
 	}
@@ -99,7 +106,7 @@ class ConvertKit_Admin_Category {
 	private function is_category_edit_screen( $hook ) {
 
 		// Bail if we are not editing a Term.
-		if ( $hook !== 'term.php' ) {
+		if ( $hook !== 'term.php' && $hook !== 'edit-tags.php' ) {
 			return false;
 		}
 
@@ -120,6 +127,26 @@ class ConvertKit_Admin_Category {
 		}
 
 		return true;
+	}
+
+	/**
+	 * Display the ConvertKit Forms dropdown when adding a Category
+	 *
+	 * @since   2.0.3
+	 */
+	public function add_category_form_fields() {
+
+		// Don't show the form fields if the API hasn't been configured.
+		$settings = new ConvertKit_Settings();
+		if ( ! $settings->has_api_key_and_secret() ) {
+			return;
+		}
+
+		// Fetch Forms.
+		$convertkit_forms = new ConvertKit_Resource_Forms();
+
+		// Load view.
+		include CONVERTKIT_PLUGIN_PATH . '/views/backend/term/fields-add.php';
 
 	}
 
@@ -130,7 +157,7 @@ class ConvertKit_Admin_Category {
 	 *
 	 * @param   WP_Term $term   Category.
 	 */
-	public function category_form_fields( $term ) {
+	public function edit_category_form_fields( $term ) {
 
 		// Don't show the form fields if the API hasn't been configured.
 		$settings = new ConvertKit_Settings();
@@ -142,8 +169,8 @@ class ConvertKit_Admin_Category {
 		$convertkit_term  = new ConvertKit_Term( $term->term_id );
 		$convertkit_forms = new ConvertKit_Resource_Forms();
 
-		// Load metabox view.
-		include CONVERTKIT_PLUGIN_PATH . '/views/backend/term/fields.php';
+		// Load view.
+		include CONVERTKIT_PLUGIN_PATH . '/views/backend/term/fields-edit.php';
 
 	}
 
