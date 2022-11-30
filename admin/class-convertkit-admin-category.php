@@ -39,24 +39,8 @@ class ConvertKit_Admin_Category {
 	 */
 	public function enqueue_scripts( $hook ) {
 
-		// Bail if we are not editing a Term.
-		if ( $hook !== 'term.php' ) {
-			return;
-		}
-
-		// Bail if we are not editing a Category.
-		if ( ! function_exists( 'get_current_screen' ) ) {
-			return;
-		}
-		$screen = get_current_screen();
-
-		if ( $screen->id !== 'edit-category' ) {
-			return;
-		}
-
-		// Bail if the API hasn't been configured.
-		$settings = new ConvertKit_Settings();
-		if ( ! $settings->has_api_key_and_secret() ) {
+		// Don't load scripts if not editing a Category.
+		if ( ! $this->is_category_edit_screen( $hook ) ) {
 			return;
 		}
 
@@ -78,11 +62,21 @@ class ConvertKit_Admin_Category {
 	 * ConvertKit Plugin settings.
 	 *
 	 * @since   1.9.6.4
+	 * 
+	 * @param   string $hook   Hook.
 	 */
-	public function enqueue_styles() {
+	public function enqueue_styles( $hook ) {
+
+		// Don't load scripts if not editing a Category.
+		if ( ! $this->is_category_edit_screen( $hook ) ) {
+			return;
+		}
 
 		// Enqueue Select2 CSS.
 		convertkit_select2_enqueue_styles();
+
+		// Enqueue Category CSS.
+		wp_enqueue_style( 'convertkit-category', CONVERTKIT_PLUGIN_URL . 'resources/backend/css/category.css', array(), CONVERTKIT_PLUGIN_VERSION );
 
 		/**
 		 * Enqueue CSS when editing a Category that outputs
@@ -91,6 +85,41 @@ class ConvertKit_Admin_Category {
 		 * @since   1.9.6.4
 		 */
 		do_action( 'convertkit_admin_category_enqueue_styles' );
+
+	}
+
+	/**
+	 * Determine if the current request is for editing a Category.
+	 * 
+	 * @since 	2.0.3
+	 * 
+	 * @param   string $hook   Hook.
+	 * @return 	bool 			Is category edit screen request
+	 */
+	private function is_category_edit_screen( $hook ) {
+
+		// Bail if we are not editing a Term.
+		if ( $hook !== 'term.php' ) {
+			return false;
+		}
+
+		// Bail if we are not editing a Category.
+		if ( ! function_exists( 'get_current_screen' ) ) {
+			return false;
+		}
+		$screen = get_current_screen();
+
+		if ( $screen->id !== 'edit-category' ) {
+			return false;
+		}
+
+		// Bail if the API hasn't been configured.
+		$settings = new ConvertKit_Settings();
+		if ( ! $settings->has_api_key_and_secret() ) {
+			return false;
+		}
+
+		return true;
 
 	}
 
