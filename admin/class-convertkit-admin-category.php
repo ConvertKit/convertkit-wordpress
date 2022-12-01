@@ -47,7 +47,7 @@ class ConvertKit_Admin_Category {
 	public function enqueue_scripts( $hook ) {
 
 		// Bail if we are not editing a Term.
-		if ( $hook !== 'term.php' ) {
+		if ( $hook !== 'term.php' && $hook !== 'edit-tags.php' ) {
 			return;
 		}
 
