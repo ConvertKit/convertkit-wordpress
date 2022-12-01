@@ -46,8 +46,29 @@ class ConvertKit_Admin_Category {
 	 */
 	public function enqueue_scripts( $hook ) {
 
+<<<<<<< HEAD
 		// Don't load scripts if not editing a Category.
 		if ( ! $this->is_category_edit_screen( $hook ) ) {
+=======
+		// Bail if we are not editing a Term.
+		if ( $hook !== 'term.php' && $hook !== 'edit-tags.php' ) {
+			return;
+		}
+
+		// Bail if we are not editing a Category.
+		if ( ! function_exists( 'get_current_screen' ) ) {
+			return;
+		}
+		$screen = get_current_screen();
+
+		if ( $screen->id !== 'edit-category' ) {
+			return;
+		}
+
+		// Bail if the API hasn't been configured.
+		$settings = new ConvertKit_Settings();
+		if ( ! $settings->has_api_key_and_secret() ) {
+>>>>>>> 8dad8d1b377e704265cbbdfec2d5bfa58350d538
 			return;
 		}
 
@@ -96,6 +117,7 @@ class ConvertKit_Admin_Category {
 	}
 
 	/**
+<<<<<<< HEAD
 	 * Determine if the current request is for editing a Category.
 	 *
 	 * @since   2.0.3
@@ -130,6 +152,8 @@ class ConvertKit_Admin_Category {
 	}
 
 	/**
+=======
+>>>>>>> 8dad8d1b377e704265cbbdfec2d5bfa58350d538
 	 * Display the ConvertKit Forms dropdown when adding a Category
 	 *
 	 * @since   2.0.3
