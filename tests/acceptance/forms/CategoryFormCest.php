@@ -46,7 +46,7 @@ class CategoryFormCest
 		$I->waitForElementVisible('.notice-success');
 
 		// Get the Category ID from the table.
-		$termID = $I->grabAttributeFrom('#the-list tbody tr:first-child', 'id');
+		$termID = (int) str_replace( 'tag-', '', $I->grabAttributeFrom('#the-list tr:first-child', 'id') );
 
 		// Create Post, assigned to ConvertKit Category.
 		$postID = $I->havePostInDatabase(
@@ -54,7 +54,7 @@ class CategoryFormCest
 				'post_type'  => 'post',
 				'post_title' => 'ConvertKit: Inherit Form from Add Category',
 				'tax_input'  => [
-					[ 'category' => $termID ],
+					[ 'category' => (int) $termID ],
 				],
 			]
 		);
@@ -81,29 +81,25 @@ class CategoryFormCest
 	public function testEditCategoryWithValidFormSetting(AcceptanceTester $I)
 	{
 		// Create Category.
-		$termID = $I->haveTermInDatabase( 'ConvertKit', 'category' );
+		$termID = $I->haveTermInDatabase( 'ConvertKit: Edit Category', 'category' );
 		$termID = $termID[0];
 
 		// Create Post, assigned to ConvertKit Category.
 		$postID = $I->havePostInDatabase(
 			[
 				'post_type'  => 'post',
-				'post_title' => 'ConvertKit Form inherited from ConvertKit Category',
+				'post_title' => 'ConvertKit: Inherit Form from Edit Category',
 				'tax_input'  => [
-					[ 'category' => $termID ],
+					[ 'category' => (int) $termID ],
 				],
 			]
 		);
 
 		// Edit the Term, defining a Form.
 		$I->amOnAdminPage('term.php?taxonomy=category&tag_ID=' . $termID);
-		$I->amOnAdminPage('term.php?taxonomy=category&tag_ID=' . $termID);
 
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
-
-		// Check that the Form option is displayed.
-		$I->seeElementInDOM('#wp-convertkit-form');
 
 		// Change Form to value specified in the .env file.
 		$I->fillSelect2Field($I, '#select2-wp-convertkit-form-container', $_ENV['CONVERTKIT_API_FORM_NAME']);
@@ -125,7 +121,6 @@ class CategoryFormCest
 
 		// Confirm that the ConvertKit Form displays.
 		$I->seeElementInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]');
-
 	}
 
 	/**
