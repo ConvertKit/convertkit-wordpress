@@ -128,6 +128,36 @@ class PageBlockProductCest
 	}
 
 	/**
+	 * Test the Product block's default text value is output when the text parameter is blank.
+	 *
+	 * @since   2.0.3
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testProductBlockWithBlankTextParameter(AcceptanceTester $I)
+	{
+		// Add a Page using the Gutenberg editor.
+		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Product: Blank Text Param');
+
+		// Add block to Page, setting the date format.
+		$I->addGutenbergBlock(
+			$I,
+			'ConvertKit Product',
+			'convertkit-product',
+			[
+				'product' => [ 'select', $_ENV['CONVERTKIT_API_PRODUCT_NAME'] ],
+				'text'    => [ 'text', '' ],
+			]
+		);
+
+		// Publish and view the Page on the frontend site.
+		$I->publishAndViewGutenbergPage($I);
+
+		// Confirm that the block displays.
+		$I->seeProductOutput($I, $_ENV['CONVERTKIT_API_PRODUCT_URL'], 'Buy my product');
+	}
+
+	/**
 	 * Test the Product block's theme color parameters works.
 	 *
 	 * @since   1.9.8.5
