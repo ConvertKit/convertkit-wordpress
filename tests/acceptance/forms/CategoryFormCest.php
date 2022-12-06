@@ -132,7 +132,7 @@ class CategoryFormCest
 	 * 1.9.5.2 and earlier stored the 'None' option as 'default' for Categories, meaning that the Post (or Plugin) default form
 	 * should be used.
 	 *
-	 * 2.0.3.0 and later changed the value to 0 for Categories, bringing it in line with the Post Form's 'None'
+	 * 1.9.6.0 and later changed the value to 0 for Categories, bringing it in line with the Post Form's 'None'
 	 * setting.
 	 *
 	 * @since   1.9.7.3
@@ -144,7 +144,7 @@ class CategoryFormCest
 		// Setup Default Forms.
 		$I->setupConvertKitPluginDefaultForm($I);
 
-		// Create Category as if it were created / edited when the ConvertKit Plugin < 2.0.3.0
+		// Create Category as if it were created / edited when the ConvertKit Plugin < 1.9.6.0
 		// was active.
 		$termID = $I->haveTermInDatabase(
 			'ConvertKit 1.9.5.2 and earlier',
@@ -161,7 +161,7 @@ class CategoryFormCest
 		$postID = $I->havePostInDatabase(
 			[
 				'post_type'  => 'post',
-				'post_title' => 'ConvertKit: Default Form: Category Created before 2.0.3.0',
+				'post_title' => 'ConvertKit: Default Form: Category Created before 1.9.6.0',
 				'tax_input'  => [
 					[ 'category' => $termID ],
 				],
