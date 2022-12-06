@@ -19,7 +19,7 @@ ConvertKit is an email marketing and email newsletter platform for capturing lea
 
 - Design [subscription forms](https://convertkit.com/features/forms) in ConvertKit, automatically appending them to any WordPress post or page, or displaying forms within your WordPress content using the supplied Gutenberg block and shortcode options 
 - Build [landing pages](https://convertkit.com/features/landing-pages) in ConvertKit, and display them on a WordPress page
-- List past [email broadcasts](https://convertkit.com/features/email-marketing) on your WordPress site
+- List past [email newsletters](https://convertkit.com/features/email-marketing) on your WordPress site
 
 = Forms =
 
@@ -33,10 +33,10 @@ Sign up forms can be configured to:
 Embedding ConvertKit forms on your WordPress web site with the ConvertKit Plugin is quick and simple:
 
 - Choose a default form to be displayed below each individual Post Type (Pages, Posts and other public Post Types, such as WooCommerce Products)
-- Choose a specific form to be displayed below a specific Page, Post or custom post type
+- Choose a specific email marketing form to be displayed below a specific Page, Post or custom post type
 - Turn off form embedding at both site wide and/or individual Page/Post level
 
-For greater control, ConvertKit forms can be displayed in specific sections of your WordPress site's content, sidebars and footers by:
+For greater control, ConvertKit's email marketing subscription forms can be displayed in specific sections of your WordPress site's content, sidebars and footers by:
 
 - Using the ConvertKit Forms block in Gutenberg
 - Using the `[convertkit]` shortcode in the Classic Editor
