@@ -125,7 +125,7 @@ class PageShortcodeProductCest
 			'ConvertKit Product',
 			[
 				'product' => [ 'select', $_ENV['CONVERTKIT_API_PRODUCT_NAME'] ],
-				'text'	  => 'Buy now',
+				'text'    => [ 'input', 'Buy now' ],
 			],
 			'[convertkit_product product="' . $_ENV['CONVERTKIT_API_PRODUCT_ID'] . '" text="Buy now"]'
 		);
@@ -155,9 +155,9 @@ class PageShortcodeProductCest
 			'ConvertKit Product',
 			[
 				'product' => [ 'select', $_ENV['CONVERTKIT_API_PRODUCT_NAME'] ],
-				'text'	  => '',
+				'text'    => [ 'input', '' ],
 			],
-			'[convertkit_product product="' . $_ENV['CONVERTKIT_API_PRODUCT_ID'] . '" text=""]'
+			'[convertkit_product product="' . $_ENV['CONVERTKIT_API_PRODUCT_ID'] . '"]'
 		);
 
 		// Publish and view the Page on the frontend site.
