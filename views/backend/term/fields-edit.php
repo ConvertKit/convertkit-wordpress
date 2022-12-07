@@ -12,7 +12,7 @@
 		<label for="description"><?php esc_html_e( 'ConvertKit Form', 'convertkit' ); ?></label>
 	</th>
 	<td>
-		<div class="convertkit-select2-container">
+		<div class="convertkit-select2-container convertkit-select2-container-grid">
 			<select name="wp-convertkit[form]" id="wp-convertkit-form" class="convertkit-select2">
 				<option value="0"<?php selected( 0, $convertkit_term->get_form() ); ?> data-preserve-on-refresh="1">
 					<?php esc_html_e( 'Default', 'convertkit' ); ?>
