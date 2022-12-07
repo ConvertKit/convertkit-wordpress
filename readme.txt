@@ -5,7 +5,7 @@ Tags: email marketing, email newsletter, newsletter, convertkit
 Requires at least: 5.0
 Tested up to: 6.1.1
 Requires PHP: 5.6.20
-Stable tag: 2.0.2
+Stable tag: 2.0.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -116,6 +116,13 @@ Full Plugin documentation can be found [here](https://help.convertkit.com/en/art
 7. Track subscriber growth
 
 == Changelog ==
+
+### 2.0.3 2022-12-08
+* Added: Categories: Option to specify ConvertKit Form to display when adding a new Post Category
+* Fix: Bulk & Quick Edit: Improve layout of ConvertKit settings on desktop and mobile
+* Fix: Post: Improve layout of ConvertKit settings on desktop and mobile
+* Fix: Categories: Improve layout of ConvertKit settings on desktop and mobile
+* Fix: Products: Block: Display preview when adding new block
 
 ### 2.0.2 2022-11-21
 * Fixed: Removed argument count on `in_admin_footer` action calls
