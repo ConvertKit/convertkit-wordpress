@@ -180,6 +180,35 @@ class WidgetBroadcastsCest
 	}
 
 	/**
+	 * Test the Broadcasts block's default pagination labels display when not defined in the block.
+	 *
+	 * @since   2.0.3
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testBroadcastsBlockWithBlankPaginationLabelParameters(AcceptanceTester $I)
+	{
+		// Add block widget.
+		$I->addBlockWidget(
+			$I,
+			'ConvertKit Broadcasts',
+			'convertkit-broadcasts',
+			[
+				'.components-form-toggle' => [ 'toggle', true ],
+				'limit'                   => [ 'input', '1' ],
+				'paginate_label_prev'     => [ 'input', '' ],
+				'paginate_label_next'     => [ 'input', '' ],
+			]
+		);
+
+		// View the home page.
+		$I->amOnPage('/');
+
+		// Test pagination.
+		$I->testBroadcastsPagination($I, 'Previous', 'Next');
+	}
+
+	/**
 	 * Deactivate and reset Plugin(s) after each test, if the test passes.
 	 * We don't use _after, as this would provide a screenshot of the Plugin
 	 * deactivation and not the true test error.

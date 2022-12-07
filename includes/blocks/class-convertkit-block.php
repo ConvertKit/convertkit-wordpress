@@ -208,6 +208,15 @@ class ConvertKit_Block {
 				case 'boolean':
 					$atts[ $att ] = (bool) $value;
 					break;
+
+				case 'string':
+					// If the attribute's value is empty, check if the default attribute has a value.
+					// If so, apply it now.
+					// shortcode_atts() will only do this if the attribute key isn't specified.
+					if ( empty( $value ) && ! empty( $this->get_default_value( $att ) ) ) {
+						$atts[ $att ] = $this->get_default_value( $att );
+					}
+					break;
 			}
 		}
 

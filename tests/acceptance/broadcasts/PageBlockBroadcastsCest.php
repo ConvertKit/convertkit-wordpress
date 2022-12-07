@@ -267,6 +267,42 @@ class PageBlockBroadcastsCest
 	}
 
 	/**
+	 * Test the Broadcasts block's default pagination labels display when not defined in the block.
+	 *
+	 * @since   2.0.3
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testBroadcastsBlockWithBlankPaginationLabelParameters(AcceptanceTester $I)
+	{
+		// Setup Plugin and enable debug log.
+		$I->setupConvertKitPlugin($I);
+		$I->enableDebugLog($I);
+
+		// Add a Page using the Gutenberg editor.
+		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Broadcasts: Blank Pagination Labels');
+
+		// Add block to Page, setting the limit.
+		$I->addGutenbergBlock(
+			$I,
+			'ConvertKit Broadcasts',
+			'convertkit-broadcasts',
+			[
+				'limit'                   => [ 'input', '1' ],
+				'.components-form-toggle' => [ 'toggle', true ],
+				'paginate_label_prev'     => [ 'input', '' ],
+				'paginate_label_next'     => [ 'input', '' ],
+			]
+		);
+
+		// Publish and view the Page on the frontend site.
+		$I->publishAndViewGutenbergPage($I);
+
+		// Test pagination.
+		$I->testBroadcastsPagination($I, 'Previous', 'Next');
+	}
+
+	/**
 	 * Test the Broadcasts block's theme color parameters works.
 	 *
 	 * @since   1.9.7.4

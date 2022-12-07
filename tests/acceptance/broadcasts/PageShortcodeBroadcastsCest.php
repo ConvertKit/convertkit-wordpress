@@ -158,7 +158,7 @@ class PageShortcodeBroadcastsCest
 	}
 
 	/**
-	 * Test the [convertkit_broadcasts] shortcode pagination works when enabled,
+	 * Test the [convertkit_broadcasts] shortcode pagination labels display when defined,
 	 * using the Classic Editor (TinyMCE / Visual).
 	 *
 	 * @since   1.9.7.6
@@ -188,6 +188,39 @@ class PageShortcodeBroadcastsCest
 
 		// Test pagination.
 		$I->testBroadcastsPagination($I, 'Older', 'Newer');
+	}
+
+	/**
+	 * Test the [convertkit_broadcasts] default pagination labels display when not defined
+	 * in the shortcode, using the Classic Editor (TinyMCE / Visual).
+	 *
+	 * @since   2.0.3
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testBroadcastsShortcodeInVisualEditorWithBlankPaginationLabelParameters(AcceptanceTester $I)
+	{
+		// Add a Page using the Classic Editor.
+		$I->addClassicEditorPage($I, 'page', 'ConvertKit: Page: Broadcasts: Shortcode: Visual Editor: Blank Pagination Labels');
+
+		// Add shortcode to Page, setting the Form setting to the value specified in the .env file.
+		$I->addVisualEditorShortcode(
+			$I,
+			'ConvertKit Broadcasts',
+			[
+				'limit'               => [ 'input', '1' ],
+				'paginate'            => [ 'toggle', 'Yes' ],
+				'paginate_label_prev' => [ 'input', '' ],
+				'paginate_label_next' => [ 'input', '' ],
+			],
+			'[convertkit_broadcasts date_format="F j, Y" limit="1" paginate="1"]'
+		);
+
+		// Publish and view the Page on the frontend site.
+		$I->publishAndViewClassicEditorPage($I);
+
+		// Test pagination.
+		$I->testBroadcastsPagination($I, 'Previous', 'Next');
 	}
 
 	/**
