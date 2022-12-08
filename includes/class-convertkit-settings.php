@@ -270,7 +270,7 @@ class ConvertKit_Settings {
 		 *
 		 * @since   1.9.6
 		 *
-		 * @param   array   $defaults 	Default Settings.
+		 * @param   array   $defaults   Default Settings.
 		 */
 		$defaults = apply_filters( 'convertkit_settings_get_defaults', $defaults );
 
