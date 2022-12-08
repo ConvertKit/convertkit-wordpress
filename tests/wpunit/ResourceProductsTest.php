@@ -158,7 +158,7 @@ class ResourceProductsTest extends \Codeception\TestCase\WPTestCase
 	public function testGetHTML()
 	{
 		$products = $this->resource->get();
-		$result = $this->resource->get_html($products[$_ENV['CONVERTKIT_API_PRODUCT_ID']]['id'], 'Buy now');
-		$this->assertSame($result, '<div class="convertkit-product"><a href="'.$_ENV['CONVERTKIT_API_PRODUCT_URL'].'" class="wp-block-button__link " style="" data-commerce>Buy now</a></div>');
+		$result   = $this->resource->get_html($products[ $_ENV['CONVERTKIT_API_PRODUCT_ID'] ]['id'], 'Buy now');
+		$this->assertSame($result, '<div class="convertkit-product"><a href="' . $_ENV['CONVERTKIT_API_PRODUCT_URL'] . '" class="wp-block-button__link " style="" data-commerce>Buy now</a></div>');
 	}
 }
