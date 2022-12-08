@@ -203,8 +203,10 @@ jobs:
         working-directory: ${{ env.PLUGIN_DIR }}
         run: php vendor/bin/codecept build
 
-      # Run Codeception WPUnit Tests.
+      # Run Codeception WPUnit Tests on the PHP 8.0 instance before the acceptance/broadcasts acceptance tests.
+      # We run these once to avoid hitting API rate limits.
       - name: Run tests/wpunit
+        if: ${{ matrix.php-versions == '8.0' && matrix.test-groups == 'acceptance/broadcasts' }}
         working-directory: ${{ env.PLUGIN_DIR }}
         run: php vendor/bin/codecept run tests/wpunit --fail-fast
 
