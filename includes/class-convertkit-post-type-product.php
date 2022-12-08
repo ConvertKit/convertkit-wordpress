@@ -94,7 +94,7 @@ class ConvertKit_Post_Type_Product {
 		 *
 		 * @since   2.0.0
 		 *
-		 * @param   array $args     register_post_type() compatible arguments.
+		 * @param   array 	$args 	register_post_type() compatible arguments.
 		 */
 		$args = apply_filters( 'convertkit_post_type_product_register', $args );
 
