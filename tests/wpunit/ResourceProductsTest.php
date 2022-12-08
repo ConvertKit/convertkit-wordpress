@@ -149,4 +149,16 @@ class ResourceProductsTest extends \Codeception\TestCase\WPTestCase
 		$result = $this->resource->exist();
 		$this->assertSame($result, true);
 	}
+
+	/**
+	 * Test that the get_html() function returns the expected data.
+	 *
+	 * @since   2.0.4
+	 */
+	public function testGetHTML()
+	{
+		$products = $this->resource->get();
+		$result = $this->resource->get_html($products[$_ENV['CONVERTKIT_API_PRODUCT_ID']]['id'], 'Buy now');
+		$this->assertSame($result, '<div class="convertkit-product"><a href="'.$_ENV['CONVERTKIT_API_PRODUCT_URL'].'" class="wp-block-button__link " style="" data-commerce>Buy now</a></div>');
+	}
 }
