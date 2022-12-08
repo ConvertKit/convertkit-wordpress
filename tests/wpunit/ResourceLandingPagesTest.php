@@ -149,4 +149,28 @@ class ResourceLandingPagesTest extends \Codeception\TestCase\WPTestCase
 		$result = $this->resource->exist();
 		$this->assertSame($result, true);
 	}
+
+	/**
+	 * Test that the get_html() function returns the expected data.
+	 *
+	 * @since   2.0.4
+	 */
+	public function testGetHTML()
+	{
+		$result = $this->resource->get_html($_ENV['CONVERTKIT_API_LANDING_PAGE_ID']);
+		$this->assertNotInstanceOf(WP_Error::class, $result);
+		$this->assertStringContainsString('<form method="POST" action="https://app.convertkit.com/forms/'.$_ENV['CONVERTKIT_API_LANDING_PAGE_ID'].'/subscriptions" data-sv-form="'.$_ENV['CONVERTKIT_API_LANDING_PAGE_ID'].'" data-uid="99f1db6843" class="formkit-form"', $result);
+	}
+
+	/**
+	 * Test that the get_html() function returns the expected data for a Legacy Landing Page ID.
+	 *
+	 * @since   2.0.4
+	 */
+	public function testGetHTMLWithLegacyLandingPageID()
+	{
+		$result = $this->resource->get_html($_ENV['CONVERTKIT_API_LEGACY_LANDING_PAGE_ID']);
+		$this->assertNotInstanceOf(WP_Error::class, $result);
+		$this->assertStringContainsString('<form id="ck_subscribe_form" class="ck_subscribe_form" action="https://app.convertkit.com/landing_pages/'.$_ENV['CONVERTKIT_API_LEGACY_LANDING_PAGE_ID'].'/subscribe" data-remote="true">', $result);
+	}
 }
