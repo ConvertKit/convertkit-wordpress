@@ -75,7 +75,7 @@ class ConvertKit_Resource_Products extends ConvertKit_Resource {
 		$parsed_url = wp_parse_url( $product['url'] );
 
 		// Bail if parsing the URL failed.
-		if ( $parsed_url === false ) {
+		if ( ! $parsed_url ) {
 			return false;
 		}
 
