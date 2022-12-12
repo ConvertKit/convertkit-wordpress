@@ -149,4 +149,28 @@ class ResourceFormsTest extends \Codeception\TestCase\WPTestCase
 		$result = $this->resource->exist();
 		$this->assertSame($result, true);
 	}
+
+	/**
+	 * Test that the get_html() function returns the expected data.
+	 *
+	 * @since   2.0.4
+	 */
+	public function testGetHTML()
+	{
+		$result = $this->resource->get_html($_ENV['CONVERTKIT_API_FORM_ID']);
+		$this->assertNotInstanceOf(WP_Error::class, $result);
+		$this->assertSame($result, '<script async data-uid="85629c512d" src="https://cheerful-architect-3237.ck.page/85629c512d/index.js"></script>');
+	}
+
+	/**
+	 * Test that the get_html() function returns the expected data for a Legacy Form ID.
+	 *
+	 * @since   2.0.4
+	 */
+	public function testGetHTMLWithLegacyFormID()
+	{
+		$result = $this->resource->get_html($_ENV['CONVERTKIT_API_LEGACY_FORM_ID']);
+		$this->assertNotInstanceOf(WP_Error::class, $result);
+		$this->assertStringContainsString('<form id="ck_subscribe_form" class="ck_subscribe_form" action="https://api.convertkit.com/landing_pages/' . $_ENV['CONVERTKIT_API_LEGACY_FORM_ID'] . '/subscribe" data-remote="true">', $result);
+	}
 }
