@@ -440,9 +440,9 @@ add_filter( 'convertkit_post_get_default_settings', function( $defaults ) {
 							</tr>
 						</thead>
 						<tbody><tr>
-							<td>register_post_type()</td>
-							<td>array $args</td>
-							<td>compatible</td>
+							<td>$args</td>
+							<td>array</td>
+							<td>register_post_type() compatible arguments.</td>
 						</tr>
 						</tbody>
 					</table><h4>Usage</h4>
@@ -709,7 +709,7 @@ add_filter( 'convertkit_frontend_append_form', function( $content, $form, $post_
 						<tbody><tr>
 							<td>$defaults</td>
 							<td>array</td>
-							<td>N/A</td>
+							<td>Default Settings.</td>
 						</tr>
 						</tbody>
 					</table><h4>Usage</h4>

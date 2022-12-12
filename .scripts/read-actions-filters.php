@@ -294,8 +294,8 @@ class Read_Actions_Filters {
         			break;
 
 				case 'param':
-					// Split out the parameter, type and description
-					$param_parts = explode( "  ", trim( $matches[2] ) );
+					// Split out the parameter, type and description by any space or tab.
+					$param_parts = preg_split( '/\s\s+/', trim( $matches[2] ) );
 					$param_parts = array_map( 'trim', $param_parts );
 
 					// Remove empty param parts, which might occur when spaces are used instead
