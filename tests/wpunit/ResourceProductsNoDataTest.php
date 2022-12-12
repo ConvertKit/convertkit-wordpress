@@ -148,4 +148,16 @@ class ResourceProductsNoDataTest extends \Codeception\TestCase\WPTestCase
 		$result = $this->resource->exist();
 		$this->assertSame($result, false);
 	}
+
+	/**
+	 * Test that the get_commerce_js_url() function returns no commerce.js URL,
+	 * as no Products exist.
+	 *
+	 * @since   2.0.4
+	 */
+	public function testGetCommerceJSURL()
+	{
+		$result = $this->resource->get_commerce_js_url();
+		$this->assertSame($result, false);
+	}
 }

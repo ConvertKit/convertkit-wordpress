@@ -149,4 +149,15 @@ class ResourceProductsTest extends \Codeception\TestCase\WPTestCase
 		$result = $this->resource->exist();
 		$this->assertSame($result, true);
 	}
+
+	/**
+	 * Test that the get_commerce_js_url() function returns the expected commerce.js URL.
+	 *
+	 * @since   2.0.4
+	 */
+	public function testGetCommerceJSURL()
+	{
+		$result = $this->resource->get_commerce_js_url();
+		$this->assertSame($result, $_ENV['CONVERTKIT_API_COMMERCE_JS_URL']);
+	}
 }
