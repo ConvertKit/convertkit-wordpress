@@ -5,7 +5,7 @@ Tags: email marketing, email newsletter, newsletter, convertkit
 Requires at least: 5.0
 Tested up to: 6.1.1
 Requires PHP: 5.6.20
-Stable tag: 2.0.3
+Stable tag: 2.0.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -116,6 +116,11 @@ Full Plugin documentation can be found [here](https://help.convertkit.com/en/art
 7. Track subscriber growth
 
 == Changelog ==
+
+### 2.0.4 2022-12-13
+* Fix: Products: PHP warning when attempting to parse an invalid Product URL
+* Fix: Landing Pages: Catch and log when an error occurs fetching a Landing Page
+* Fix: Remove double forwardslash on product.css
 
 ### 2.0.3 2022-12-08
 * Added: Categories: Option to specify ConvertKit Form to display when adding a new Post Category
