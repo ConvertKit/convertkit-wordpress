@@ -117,7 +117,6 @@ class WPClassicEditor extends \Codeception\Module
 		switch ($targetEditor) {
 			case 'excerpt':
 				$I->scrollTo('#postexcerpt');
-				$I->click('#postexcerpt button.handlediv');
 				break;
 			default:
 				$I->scrollTo('h1.wp-heading-inline');
