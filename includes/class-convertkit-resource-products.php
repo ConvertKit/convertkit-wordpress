@@ -74,6 +74,16 @@ class ConvertKit_Resource_Products extends ConvertKit_Resource {
 		// Parse the URL.
 		$parsed_url = wp_parse_url( $product['url'] );
 
+		// Bail if parsing the URL failed.
+		if ( ! $parsed_url ) {
+			return false;
+		}
+
+		// Bail if the scheme and host could not be obtained from the URL.
+		if ( ! array_key_exists( 'scheme', $parsed_url ) || ! array_key_exists( 'host', $parsed_url ) ) {
+			return false;
+		}
+
 		// Return commerce.js URL.
 		return $parsed_url['scheme'] . '://' . $parsed_url['host'] . '/commerce.js';
 
