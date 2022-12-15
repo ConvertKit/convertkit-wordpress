@@ -425,13 +425,13 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 
 		// Build attributes array.
 		$atts = array(
-			'date_format'         => sanitize_text_field( $_REQUEST['date_format'] ),
-			'limit'               => sanitize_text_field( $_REQUEST['limit'] ),
+			'date_format'         => stripslashes( sanitize_text_field( $_REQUEST['date_format'] ) ),
+			'limit'               => stripslashes( sanitize_text_field( $_REQUEST['limit'] ) ),
 			'page'                => absint( $_REQUEST['page'] ),
 			'paginate'            => absint( $_REQUEST['paginate'] ),
-			'paginate_label_next' => sanitize_text_field( $_REQUEST['paginate_label_next'] ),
-			'paginate_label_prev' => sanitize_text_field( $_REQUEST['paginate_label_prev'] ),
-			'link_color'          => sanitize_text_field( $_REQUEST['link_color'] ),
+			'paginate_label_next' => stripslashes( sanitize_text_field( $_REQUEST['paginate_label_next'] ) ),
+			'paginate_label_prev' => stripslashes( sanitize_text_field( $_REQUEST['paginate_label_prev'] ) ),
+			'link_color'          => stripslashes( sanitize_text_field( $_REQUEST['link_color'] ) ),
 		);
 
 		// Parse attributes, defining fallback defaults if required
@@ -484,7 +484,7 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 
 		// Include container, if required.
 		if ( $include_container ) {
-			$html = '<div class="' . esc_attr( implode( ' ', $atts['_css_classes'] ) ) . '" style="' . implode( ';', $atts['_css_styles'] ) . '" ' . $this->get_atts_as_html_data_attributes( $atts ) . '>';
+			$html = '<div class="' . implode( ' ', map_deep( $atts['_css_classes'], 'sanitize_html_class' ) ) . '" style="' . implode( ';', map_deep( $atts['_css_styles'], 'esc_attr' ) ) . '" ' . $this->get_atts_as_html_data_attributes( $atts ) . '>';
 		}
 
 		// Start list.
@@ -506,8 +506,8 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 
 			// Add broadcast as list item.
 			$html .= '<li class="convertkit-broadcast">
-				<time datetime="' . date_i18n( 'Y-m-d', $date_timestamp ) . '">' . date_i18n( $atts['date_format'], $date_timestamp ) . '</time>
-				<a href="' . $url . '" target="_blank" rel="nofollow noopener"' . $this->get_link_style_tag( $atts ) . '>' . $broadcast['title'] . '</a>
+				<time datetime="' . esc_attr( date_i18n( 'Y-m-d', $date_timestamp ) ) . '">' . esc_html( date_i18n( $atts['date_format'], $date_timestamp ) ) . '</time>
+				<a href="' . esc_attr( $url ) . '" target="_blank" rel="nofollow noopener"' . $this->get_link_style_tag( $atts ) . '>' . esc_html( $broadcast['title'] ) . '</a>
 			</li>';
 		}
 
@@ -563,7 +563,7 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 	private function get_pagination_link_prev_html( $atts, $nonce ) {
 
 		return '<a href="' . esc_attr( $this->get_pagination_link( $atts['page'] - 1, $nonce ) ) . '" title="' . esc_attr( $atts['paginate_label_prev'] ) . '" data-page="' . esc_attr( (string) ( $atts['page'] - 1 ) ) . '" data-nonce="' . esc_attr( $nonce ) . '"' . $this->get_link_style_tag( $atts ) . '>
-			' . esc_attr( $atts['paginate_label_prev'] ) . '
+			' . esc_html( $atts['paginate_label_prev'] ) . '
 		</a>';
 
 	}
@@ -581,7 +581,7 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 	private function get_pagination_link_next_html( $atts, $nonce ) {
 
 		return '<a href="' . esc_attr( $this->get_pagination_link( $atts['page'] + 1, $nonce ) ) . '" title="' . esc_attr( $atts['paginate_label_next'] ) . '" data-page="' . esc_attr( (string) ( $atts['page'] + 1 ) ) . '" data-nonce="' . esc_attr( $nonce ) . '"' . $this->get_link_style_tag( $atts ) . '>
-			' . esc_attr( $atts['paginate_label_next'] ) . '
+			' . esc_html( $atts['paginate_label_next'] ) . '
 		</a>';
 
 	}
@@ -671,7 +671,7 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 			return '';
 		}
 
-		return ' style="color:' . $atts['link_color'] . '"';
+		return ' style="color:' . esc_attr( $atts['link_color'] ) . '"';
 
 	}
 

@@ -5,7 +5,7 @@ Tags: email marketing, email newsletter, newsletter, convertkit
 Requires at least: 5.0
 Tested up to: 6.1.1
 Requires PHP: 5.6.20
-Stable tag: 2.0.4
+Stable tag: 2.0.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -116,6 +116,12 @@ Full Plugin documentation can be found [here](https://help.convertkit.com/en/art
 7. Track subscriber growth
 
 == Changelog ==
+
+### 2.0.5 2022-12-15
+* Fix: Broadcasts: Strip slashes on output when pagination clicked and Broadcasts are reloaded
+* Fix: Broadcasts: Sanitize and escape HTML attributes on output
+* Fix: Forms: Escape HTML attributes on output
+* Fix: Products: Sanitize and escape HTML attributes on output
 
 ### 2.0.4 2022-12-13
 * Fix: Products: PHP warning when attempting to parse an invalid Product URL
