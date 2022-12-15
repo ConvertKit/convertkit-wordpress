@@ -129,10 +129,10 @@ class ConvertKit_Resource_Products extends ConvertKit_Resource {
 		if ( $return_as_span ) {
 			$html .= '<span';
 		} else {
-			$html .= '<a href="' . $this->resources[ $id ]['url'] . '"';
+			$html .= '<a href="' . esc_attr( $this->resources[ $id ]['url'] ) . '"';
 		}
 
-		$html .= ' class="wp-block-button__link ' . esc_attr( implode( ' ', $css_classes ) ) . '" style="' . implode( ';', $css_styles ) . '" data-commerce>';
+		$html .= ' class="wp-block-button__link ' . implode( ' ', map_deep( $css_classes, 'sanitize_html_class' ) ) . '" style="' . implode( ';', map_deep( $css_styles, 'esc_attr' ) ) . '" data-commerce>';
 		$html .= esc_html( $button_text );
 
 		if ( $return_as_span ) {

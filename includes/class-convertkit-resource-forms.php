@@ -108,7 +108,7 @@ class ConvertKit_Resource_Forms extends ConvertKit_Resource {
 		}
 
 		// If here, return Form <script> embed.
-		return '<script async data-uid="' . $this->resources[ $id ]['uid'] . '" src="' . $this->resources[ $id ]['embed_js'] . '"></script>';
+		return '<script async data-uid="' . esc_attr( $this->resources[ $id ]['uid'] ) . '" src="' . esc_attr( $this->resources[ $id ]['embed_js'] ) . '"></script>';
 
 	}
 
