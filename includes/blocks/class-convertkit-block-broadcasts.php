@@ -425,13 +425,13 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 
 		// Build attributes array.
 		$atts = array(
-			'date_format'         => sanitize_text_field( $_REQUEST['date_format'] ),
-			'limit'               => sanitize_text_field( $_REQUEST['limit'] ),
+			'date_format'         => stripslashes( sanitize_text_field( $_REQUEST['date_format'] ) ),
+			'limit'               => stripslashes( sanitize_text_field( $_REQUEST['limit'] ) ),
 			'page'                => absint( $_REQUEST['page'] ),
 			'paginate'            => absint( $_REQUEST['paginate'] ),
 			'paginate_label_next' => stripslashes( sanitize_text_field( $_REQUEST['paginate_label_next'] ) ),
 			'paginate_label_prev' => stripslashes( sanitize_text_field( $_REQUEST['paginate_label_prev'] ) ),
-			'link_color'          => sanitize_text_field( $_REQUEST['link_color'] ),
+			'link_color'          => stripslashes( sanitize_text_field( $_REQUEST['link_color'] ) ),
 		);
 
 		// Parse attributes, defining fallback defaults if required
