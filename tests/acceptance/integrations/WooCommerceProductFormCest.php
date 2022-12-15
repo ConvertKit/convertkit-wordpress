@@ -90,6 +90,9 @@ class WooCommerceProductFormCest
 		// Navigate to Products > Add New.
 		$I->amOnAdminPage('post-new.php?post_type=product');
 
+		// Scroll to ConvertKit meta box.
+		$I->scrollTo('#wp-convertkit-meta-box');
+
 		// Change Form to None.
 		$I->fillSelect2Field($I, '#select2-wp-convertkit-form-container', 'None', 'aria-owns');
 
@@ -119,6 +122,9 @@ class WooCommerceProductFormCest
 		// Navigate to Products > Add New.
 		$I->amOnAdminPage('post-new.php?post_type=product');
 
+		// Scroll to ConvertKit meta box.
+		$I->scrollTo('#wp-convertkit-meta-box');
+
 		// Change Form to Form setting in .env file.
 		$I->fillSelect2Field($I, '#select2-wp-convertkit-form-container', $_ENV['CONVERTKIT_API_FORM_NAME'], 'aria-owns');
 
@@ -147,6 +153,9 @@ class WooCommerceProductFormCest
 	{
 		// Add a Product using the Classic Editor.
 		$I->addClassicEditorPage($I, 'product', 'ConvertKit: Product: Form: Shortcode: Visual Editor');
+
+		// Scroll to ConvertKit meta box.
+		$I->scrollTo('#wp-convertkit-meta-box');
 
 		// Configure metabox's Form setting = None, ensuring we only test the shortcode in the Classic Editor.
 		$I->fillSelect2Field($I, '#select2-wp-convertkit-form-container', 'None', 'aria-owns');
@@ -194,6 +203,9 @@ class WooCommerceProductFormCest
 	{
 		// Add a Product using the Classic Editor.
 		$I->addClassicEditorPage($I, 'product', 'ConvertKit: Product: Form: Shortcode: Text Editor');
+
+		// Scroll to ConvertKit meta box.
+		$I->scrollTo('#wp-convertkit-meta-box');
 
 		// Configure metabox's Form setting = None, ensuring we only test the shortcode in the Classic Editor.
 		$I->fillSelect2Field($I, '#select2-wp-convertkit-form-container', 'None', 'aria-owns');
