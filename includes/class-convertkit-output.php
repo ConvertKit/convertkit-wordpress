@@ -67,7 +67,7 @@ class ConvertKit_Output {
 	 */
 	public function __construct() {
 
-		add_action( 'init', array( $this, 'get_subscriber_id_from_request' ) );
+		add_action( 'init', array( $this, 'get_subscriber_id_from_request' ), 1 );
 		add_action( 'template_redirect', array( $this, 'output_form' ) );
 		add_action( 'template_redirect', array( $this, 'page_takeover' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
