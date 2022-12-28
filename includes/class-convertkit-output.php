@@ -15,6 +15,15 @@
 class ConvertKit_Output {
 
 	/**
+	 * Holds the ConvertKit Subscriber ID.
+	 *
+	 * @since   2.0.6
+	 *
+	 * @var     int|string
+	 */
+	private $subscriber_id = 0;
+
+	/**
 	 * Holds the ConvertKit Plugin Settings class
 	 *
 	 * @since   1.9.6
@@ -58,6 +67,7 @@ class ConvertKit_Output {
 	 */
 	public function __construct() {
 
+		add_action( 'init', array( $this, 'get_subscriber_id_from_request' ) );
 		add_action( 'template_redirect', array( $this, 'output_form' ) );
 		add_action( 'template_redirect', array( $this, 'page_takeover' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
@@ -360,7 +370,7 @@ class ConvertKit_Output {
 				'ajaxurl'       => admin_url( 'admin-ajax.php' ),
 				'debug'         => $settings->debug_enabled(),
 				'nonce'         => wp_create_nonce( 'convertkit' ),
-				'subscriber_id' => $this->get_subscriber_id_from_request(),
+				'subscriber_id' => $this->subscriber_id,
 				'tag'           => ( ( is_singular() && $convertkit_post->has_tag() ) ? $convertkit_post->get_tag() : false ),
 				'post_id'       => $post->ID,
 			)
@@ -380,8 +390,6 @@ class ConvertKit_Output {
 	 * Gets the subscriber ID from the request (either the cookie or the URL).
 	 *
 	 * @since   1.9.6
-	 *
-	 * @return  int   Subscriber ID
 	 */
 	public function get_subscriber_id_from_request() {
 
@@ -391,10 +399,10 @@ class ConvertKit_Output {
 
 		// If an error occured, the subscriber ID in the request/cookie is not a valid subscriber.
 		if ( is_wp_error( $subscriber_id ) ) {
-			return 0;
+			return;
 		}
 
-		return $subscriber_id;
+		$this->subscriber_id = $subscriber_id;
 
 	}
 
