@@ -152,7 +152,7 @@ class ConvertKit_Subscriber {
 	 *
 	 * @since   2.0.0
 	 *
-	 * @param   int $subscriber_id  Subscriber ID.
+	 * @param   int|string $subscriber_id  Subscriber ID.
 	 */
 	public function set( $subscriber_id ) {
 
