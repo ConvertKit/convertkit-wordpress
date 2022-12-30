@@ -30,8 +30,24 @@ class RestrictContentSettingsCest
 	 */
 	public function testSaveDefaultSettings(AcceptanceTester $I)
 	{
+		// Define visible and member only content.
+		$visibleContent = 'Visible content.';
+		$memberContent  = 'Member only content.';
+
 		// Save settings.
 		$I->setupConvertKitPluginRestrictContent($I);
+
+		// Create Restricted Content Page.
+		$pageID = $I->createRestrictedContentPage(
+			$I,
+			'ConvertKit: Restrict Content: Settings',
+			$visibleContent,
+			$memberContent,
+			'product_' . $_ENV['CONVERTKIT_API_PRODUCT_ID']
+		);
+
+		// Test Restrict Content functionality.
+		$I->testRestrictedContentOnFrontend($I, $pageID, $visibleContent, $memberContent);
 	}
 
 	/**
@@ -44,6 +60,10 @@ class RestrictContentSettingsCest
 	 */
 	public function testSaveBlankSettings(AcceptanceTester $I)
 	{
+		// Define visible and member only content.
+		$visibleContent = 'Visible content.';
+		$memberContent  = 'Member only content.';
+
 		// Define settings.
 		$settings = array(
 			'subscribe_text'         => '',
@@ -55,6 +75,18 @@ class RestrictContentSettingsCest
 
 		// Save settings.
 		$I->setupConvertKitPluginRestrictContent($I, $settings);
+
+		// Create Restricted Content Page.
+		$pageID = $I->createRestrictedContentPage(
+			$I,
+			'ConvertKit: Restrict Content: Settings: Blank',
+			$visibleContent,
+			$memberContent,
+			'product_' . $_ENV['CONVERTKIT_API_PRODUCT_ID']
+		);
+
+		// Test Restrict Content functionality.
+		$I->testRestrictedContentOnFrontend($I, $pageID, $visibleContent, $memberContent, $settings);
 	}
 
 	/**
@@ -67,6 +99,10 @@ class RestrictContentSettingsCest
 	 */
 	public function testSaveSettings(AcceptanceTester $I)
 	{
+		// Define visible and member only content.
+		$visibleContent = 'Visible content.';
+		$memberContent  = 'Member only content.';
+
 		// Define settings.
 		$settings = array(
 			'subscribe_text'         => 'Subscribe Text',
@@ -78,6 +114,18 @@ class RestrictContentSettingsCest
 
 		// Save settings.
 		$I->setupConvertKitPluginRestrictContent($I, $settings);
+
+		// Create Restricted Content Page.
+		$pageID = $I->createRestrictedContentPage(
+			$I,
+			'ConvertKit: Restrict Content: Settings: Custom',
+			$visibleContent,
+			$memberContent,
+			'product_' . $_ENV['CONVERTKIT_API_PRODUCT_ID']
+		);
+
+		// Test Restrict Content functionality.
+		$I->testRestrictedContentOnFrontend($I, $pageID, $visibleContent, $memberContent, $settings);
 	}
 
 	/**
