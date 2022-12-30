@@ -484,6 +484,46 @@ class Plugin extends \Codeception\Module
 	}
 
 	/**
+	 * Creates a Page in the database with the given title for restricted content.
+	 *
+	 * The Page's content comprises of a mix of visible and member's only content.
+	 * The default form setting is set to 'None'.
+	 *
+	 * @since   2.1.0
+	 *
+	 * @param   AcceptanceTester $I                          Tester.
+	 * @param   string           $title                      Title.
+	 * @param   string           $visibleContent             Content that should always be visible.
+	 * @param   string           $memberContent              Content that should only be available to authenticated subscribers.
+	 * @param   string           $restrictContentSetting     Restrict Content setting.
+	 * @return  int                                          Page ID.
+	 */
+	public function createRestrictedContentPage($I, $title, $visibleContent = 'Visible content.', $memberContent = 'Member only content.', $restrictContentSetting = '')
+	{
+		return $I->havePostInDatabase(
+			[
+				'post_type'    => 'page',
+				'post_title'   => $title,
+
+				// Emulate Gutenberg content with visible and members only content sections.
+				'post_content' => '<!-- wp:paragraph --><p>' . $visibleContent . '</p><!-- /wp:paragraph -->
+<!-- wp:more --><!--more--><!-- /wp:more -->
+<!-- wp:paragraph -->' . $memberContent . '<!-- /wp:paragraph -->',
+
+				// Don't display a Form on this Page, so we test against Restrict Content's Form.
+				'meta_input'   => [
+					'_wp_convertkit_post_meta' => [
+						'form'             => '-1',
+						'landing_page'     => '',
+						'tag'              => '',
+						'restrict_content' => $restrictContentSetting,
+					],
+				],
+			]
+		);
+	}
+
+	/**
 	 * Check that expected HTML exists in the DOM of the page we're viewing for
 	 * a Product block or shortcode, and that the button loads the expected
 	 * ConvertKit Product modal.
