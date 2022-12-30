@@ -122,6 +122,7 @@ class ConvertKit_Admin_Post {
 		$convertkit_post          = new ConvertKit_Post( $post->ID );
 		$convertkit_forms         = new ConvertKit_Resource_Forms();
 		$convertkit_landing_pages = new ConvertKit_Resource_Landing_Pages();
+		$convertkit_products      = new ConvertKit_Resource_Products();
 		$convertkit_tags          = new ConvertKit_Resource_Tags();
 
 		// Get settings page link.
