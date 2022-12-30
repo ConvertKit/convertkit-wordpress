@@ -49,7 +49,7 @@ class WPClassicEditor extends \Codeception\Module
 		// Scroll to the applicable TinyMCE editor.
 		switch ($targetEditor) {
 			case 'excerpt':
-				$I->scrollTo('#postexcerpt');
+				$I->scrollTo('#postcustom');
 				break;
 			default:
 				$I->scrollTo('h1.wp-heading-inline');
