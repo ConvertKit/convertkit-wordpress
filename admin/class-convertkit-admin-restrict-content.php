@@ -44,22 +44,11 @@ class ConvertKit_Admin_Restrict_Content {
 	public function __construct() {
 
 		// Filter Page's post state.
-		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
+		add_filter( 'display_post_states', array( $this, 'maybe_display_restrict_content_post_state' ), 10, 2 );
 
 		// Filter WP_List_Table by Restrict Content setting.
 		add_action( 'pre_get_posts', array( $this, 'filter_wp_list_table_output' ) );
 		add_action( 'restrict_manage_posts', array( $this, 'output_wp_list_table_filters' ) );
-
-	}
-
-	/**
-	 * Filter Page's post state to maybe include a label denoting that Restricted Content is enabled.
-	 *
-	 * @since   2.1.0
-	 */
-	public function enqueue_scripts() {
-
-		add_filter( 'display_post_states', array( $this, 'maybe_display_restrict_content_post_state' ), 10, 2 );
 
 	}
 
