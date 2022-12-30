@@ -57,6 +57,7 @@ require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-resource-posts
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-resource-products.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-resource-tags.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-settings.php';
+require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-settings-restrict-content.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-setup.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-shortcodes.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-subscriber.php';
@@ -106,6 +107,9 @@ if ( is_admin() ) {
 
 	// WishList Member Integration.
 	require_once CONVERTKIT_PLUGIN_PATH . '/includes/integrations/wishlist/class-convertkit-wishlist-admin-settings.php';
+
+	// Restrict Content Integration.
+	require_once CONVERTKIT_PLUGIN_PATH . '/admin/class-convertkit-admin-settings-restrict-content.php';
 }
 
 // Register Plugin activation and deactivation functions.
