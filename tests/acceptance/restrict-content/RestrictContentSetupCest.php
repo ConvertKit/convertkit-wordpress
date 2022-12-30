@@ -1,0 +1,197 @@
+<?php
+/**
+ * Tests Restrict Content's Setup functionality.
+ *
+ * @since   2.1.0
+ */
+class RestrictContentSetupCest
+{
+	/**
+	 * Run common actions before running the test functions in this class.
+	 *
+	 * @since   2.1.0
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function _before(AcceptanceTester $I)
+	{
+		// Activate ConvertKit Plugin.
+		$I->activateConvertKitPlugin($I);
+	}
+
+	/**
+	 * Test that the Add New Member Content button does not display on the Pages screen when no API keys are configured.
+	 *
+	 * @since   2.1.0
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testAddNewMemberContentButtonNotDisplayedWhenNoAPIKeys(AcceptanceTester $I)
+	{
+		// Navigate to Pages.
+		$I->amOnAdminPage('edit.php?post_type=page');
+
+		// Check the button isn't displayed.
+		$I->dontSeeElementInDOM('a.convertkit-action page-title-action');
+	}
+
+	/**
+	 * Test that the Add New Member Content button does not display on the Pages screen when the ConvertKit
+	 * account has no Forms, Tag and Products.
+	 *
+	 * @since   2.1.0
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testAddNewMemberContentButtonNotDisplayedWhenNoResources(AcceptanceTester $I)
+	{
+		// Setup Plugin using API keys that have no resources.
+		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY_NO_DATA'], $_ENV['CONVERTKIT_API_SECRET_NO_DATA']);
+		$I->enableDebugLog($I);
+
+		// Navigate to Pages.
+		$I->amOnAdminPage('edit.php?post_type=page');
+
+		// Check the button isn't displayed.
+		$I->dontSeeElementInDOM('a.convertkit-action page-title-action');
+	}
+
+	/**
+	 * Test that the Add New Member Content > Exit wizard link returns to the Pages screen.
+	 *
+	 * @since   2.1.0
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testAddNewMemberContentExitWizardLink(AcceptanceTester $I)
+	{
+		// Setup Plugin and navigate to Add New Member Content screen.
+		$this->_setupAndLoadAddNewMemberContentScreen($I);
+
+		// Click Exit wizard link.
+		$I->click('Exit wizard');
+
+		// Confirm exit.
+		$I->acceptPopup();
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Confirm the Pages screen is displayed.
+		$I->see('Pages');
+		$I->see('Add New Member Content');
+	}
+
+	/**
+	 * Test that the Add New Member Content > Downloads generates the expected Pages.
+	 *
+	 * @since   2.1.0
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testAddNewMemberContentDownloads(AcceptanceTester $I)
+	{
+		// Setup Plugin and navigate to Add New Member Content screen.
+		$this->_setupAndLoadAddNewMemberContentScreen($I);
+
+		// Click Downloads button.
+		$I->click('Download');
+
+		// Confirm the Configure Download screen is displayed.
+		$I->see('Configure Download');
+
+		// Enter a title and description.
+		$I->fillField('title', 'ConvertKit: Member Content: Download');
+		$I->fillField('description', 'Visible content.');
+
+		// Confirm that the limit option is not visible, as this is only for courses.
+		$I->dontSee('How many lessons does this course consist of?');
+
+		// Restrict by Product.
+		$I->fillSelect2Field($I, '#select2-wp-convertkit-restrict_content-container', $_ENV['CONVERTKIT_API_PRODUCT_NAME']);
+
+		// Click submit button.
+		$I->click('Submit');
+
+		// Confirm that one Page is listed in the WP_List_Table.
+		$I->see('ConvertKit: Member Content: Download');
+		$I->seeInSource('<span class="post-state">ConvertKit Member Content</span>');
+	}
+
+	/**
+	 * Test that the Add New Member Content > Course generates the expected Pages.
+	 *
+	 * @since   2.1.0
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testAddNewMemberContentCourse(AcceptanceTester $I)
+	{
+		// Setup Plugin and navigate to Add New Member Content screen.
+		$this->_setupAndLoadAddNewMemberContentScreen($I);
+
+		// Click Course button.
+		$I->click('Course');
+
+		// Confirm the Configure Course screen is displayed.
+		$I->see('Configure Course');
+
+		// Enter a title, description and lesson count.
+		$I->fillField('title', 'ConvertKit: Member Content: Course');
+		$I->fillField('description', 'Visible content.');
+		$I->fillField('number_of_pages', '3');
+
+		// Restrict by Product.
+		$I->fillSelect2Field($I, '#select2-wp-convertkit-restrict_content-container', $_ENV['CONVERTKIT_API_PRODUCT_NAME']);
+
+		// Click submit button.
+		$I->click('Submit');
+
+		// Confirm that four Pages are listed in the WP_List_Table.
+		$I->see('ConvertKit: Member Content: Course');
+		$I->see('— ConvertKit: Member Content: Course: 1/3');
+		$I->see('— ConvertKit: Member Content: Course: 2/3');
+		$I->see('— ConvertKit: Member Content: Course: 3/3');
+		$I->see('ConvertKit Member Content | Parent Page: ConvertKit: Member Content: Course');
+	}
+
+	/**
+	 * Sets up the ConvertKit Plugin, and starts the Setup Wizard for Member Content.
+	 *
+	 * @since   2.1.0
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	private function _setupAndLoadAddNewMemberContentScreen(AcceptanceTester $I)
+	{
+		// Setup Plugin.
+		$I->setupConvertKitPlugin($I);
+		$I->enableDebugLog($I);
+
+		// Navigate to Pages.
+		$I->amOnAdminPage('edit.php?post_type=page');
+
+		// Click Add New Member Content button.
+		$I->click('Add New Member Content');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+	}
+
+	/**
+	 * Deactivate and reset Plugin(s) after each test, if the test passes.
+	 * We don't use _after, as this would provide a screenshot of the Plugin
+	 * deactivation and not the true test error.
+	 *
+	 * @since   2.1.0
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function _passed(AcceptanceTester $I)
+	{
+		// Clear cookies for next request.
+		$I->resetCookie('ck_subscriber_id');
+		$I->deactivateConvertKitPlugin($I);
+		$I->resetConvertKitPlugin($I);
+	}
+}
