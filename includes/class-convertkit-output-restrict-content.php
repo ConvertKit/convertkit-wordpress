@@ -197,7 +197,7 @@ class ConvertKit_Output_Restrict_Content {
 		// Verify the token and subscriber code.
 		$subscriber_id = $this->api->subscriber_authentication_verify(
 			sanitize_text_field( $_REQUEST['token'] ),
-			sanitize_text_field( $_REQUEST['subscriber_code'] ),
+			sanitize_text_field( $_REQUEST['subscriber_code'] )
 		);
 		// phpcs:enable
 
