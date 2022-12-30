@@ -180,6 +180,7 @@ jobs:
             CONVERTKIT_API_SECRET=${{ env.CONVERTKIT_API_SECRET }}
             CONVERTKIT_API_KEY_NO_DATA=${{ env.CONVERTKIT_API_KEY_NO_DATA }}
             CONVERTKIT_API_SECRET_NO_DATA=${{ env.CONVERTKIT_API_SECRET_NO_DATA }}
+            CONVERTKIT_API_SIGNED_SUBSCRIBER_ID="${{ env.CONVERTKIT_API_SIGNED_SUBSCRIBER_ID }}"
           write-mode: append
 
       # Installs wp-browser, Codeception, PHP CodeSniffer and anything else needed to run tests.
