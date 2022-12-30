@@ -169,6 +169,40 @@ class Plugin extends \Codeception\Module
 	}
 
 	/**
+	 * Helper method to setup the Plugin's Member Content settings.
+	 *
+	 * @since   2.1.0
+	 *
+	 * @param   AcceptanceTester $I          AcceptanceTester.
+	 * @param   bool|array       $settings   Array of key/value settings. If not defined, uses expected defaults.
+	 */
+	public function setupConvertKitPluginRestrictContent($I, $settings = false)
+	{
+		// Go to the Plugin's Member Content Screen.
+		$I->loadConvertKitSettingsRestrictContentScreen($I);
+
+		// Complete fields.
+		if ( $settings ) {
+			foreach ( $settings as $key => $value ) {
+				$I->fillField('_wp_convertkit_settings_restrict_content[' . $key . ']', $value);
+			}
+		}
+
+		// Click the Save Changes button.
+		$I->click('Save Changes');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Check the value of the fields match the inputs provided.
+		if ( $settings ) {
+			foreach ( $settings as $key => $value ) {
+				$I->seeInField('_wp_convertkit_settings_restrict_content[' . $key . ']', $value);
+			}
+		}
+	}
+
+	/**
 	 * Helper method to reset the ConvertKit Plugin settings, as if it's a clean installation.
 	 *
 	 * @since   1.9.6.7
@@ -179,6 +213,7 @@ class Plugin extends \Codeception\Module
 	{
 		// Plugin Settings.
 		$I->dontHaveOptionInDatabase('_wp_convertkit_settings');
+		$I->dontHaveOptionInDatabase('_wp_convertkit_settings_restrict_content');
 		$I->dontHaveOptionInDatabase('convertkit_version');
 
 		// Resources.
@@ -222,6 +257,21 @@ class Plugin extends \Codeception\Module
 	public function loadConvertKitSettingsToolsScreen($I)
 	{
 		$I->amOnAdminPage('options-general.php?page=_wp_convertkit_settings&tab=tools');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+	}
+
+	/**
+	 * Helper method to load the Plugin's Settings > Member Content screen.
+	 *
+	 * @since   2.1.0
+	 *
+	 * @param   AcceptanceTester $I     AcceptanceTester.
+	 */
+	public function loadConvertKitSettingsRestrictContentScreen($I)
+	{
+		$I->amOnAdminPage('options-general.php?page=_wp_convertkit_settings&tab=restrict-content');
 
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
