@@ -53,6 +53,7 @@ jobs:
           'acceptance/integrations',
           'acceptance/landing-pages',
           'acceptance/products',
+          'acceptance/restrict-content',
           'acceptance/tags'
         ]
 
