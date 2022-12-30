@@ -139,7 +139,6 @@ class WP_ConvertKit {
 		}
 
 		$this->classes['output']                  = new ConvertKit_Output();
-		$this->classes['output_restrict_content'] = new ConvertKit_Output_Restrict_Content();
 
 		/**
 		 * Initialize integration classes for the frontend web site.
