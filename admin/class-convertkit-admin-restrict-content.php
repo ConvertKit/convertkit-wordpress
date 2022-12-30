@@ -43,11 +43,8 @@ class ConvertKit_Admin_Restrict_Content {
 	 */
 	public function __construct() {
 
-		// Add New Member Content button.
+		// Filter Page's post state.
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
-		foreach ( convertkit_get_supported_restrict_content_post_types() as $post_type ) {
-			add_filter( 'views_edit-' . $post_type, array( $this, 'output_wp_list_table_buttons' ) );
-		}
 
 		// Filter WP_List_Table by Restrict Content setting.
 		add_action( 'pre_get_posts', array( $this, 'filter_wp_list_table_output' ) );
@@ -56,22 +53,12 @@ class ConvertKit_Admin_Restrict_Content {
 	}
 
 	/**
-	 * Enqueue JavaScript when viewing a list of Pages, Posts or Custom Post Types
-	 * in a WP_List_Table that supports Restrict Content functionality.
+	 * Filter Page's post state to maybe include a label denoting that Restricted Content is enabled.
 	 *
 	 * @since   2.1.0
 	 */
 	public function enqueue_scripts() {
 
-		// Bail if we're not on a WP_List_Table screen for a supported Post Type.
-		if ( ! $this->is_wp_list_table_request_for_supported_post_type() ) {
-			return;
-		}
-
-		// Enqueue JS.
-		wp_enqueue_script( 'convertkit-admin-wp-list-table-buttons', CONVERTKIT_PLUGIN_URL . 'resources/backend/js/wp-list-table-buttons.js', array( 'jquery' ), CONVERTKIT_PLUGIN_VERSION, true );
-
-		// Filter Page's post state to maybe include a label denoting that Restricted Content is enabled.
 		add_filter( 'display_post_states', array( $this, 'maybe_display_restrict_content_post_state' ), 10, 2 );
 
 	}
@@ -137,30 +124,6 @@ class ConvertKit_Admin_Restrict_Content {
 	}
 
 	/**
-	 * Outputs a button in the WP_List_Table filters to run the Restrict Content Setup process.
-	 *
-	 * JS will move this button to be displayed next to the "Add New" button when viewing the table of Pages or Posts,
-	 * as there is not a native WordPress action/filter for registering buttons next to the "Add New" button.
-	 *
-	 * @since   2.1.0
-	 *
-	 * @param   array $views  Views.
-	 * @return  array           Views
-	 */
-	public function output_wp_list_table_buttons( $views ) {
-
-		// If no API credentials have been set, don't output the button.
-		$settings = new ConvertKit_Settings();
-		if ( ! $settings->has_api_key_and_secret() ) {
-			return $views;
-		}
-
-		$views['convertkit_restrict_content_setup'] = '<a href="admin.php?page=convertkit-restrict-content-setup&post_type=' . $this->get_current_post_type() . '" class="convertkit-action page-title-action hidden">' . __( 'Add New Member Content', 'convertkit' ) . '</a>';
-		return $views;
-
-	}
-
-	/**
 	 * Outputs a dropdown filter on a WP_List_Table filter section to permit
 	 * filtering by a Restrict Content Form, Tag or Product.
 	 *
@@ -217,48 +180,6 @@ class ConvertKit_Admin_Restrict_Content {
 
 		// Return.
 		return $post_states;
-
-	}
-
-	/**
-	 * Determines if the current request is for a WP_List_Table, and if so that
-	 * the Post Type we're viewing supports Restrict Content functionality.
-	 *
-	 * @since   2.1.0
-	 *
-	 * @return  bool    Is WP_List_Table request for a supported Post Type.
-	 */
-	private function is_wp_list_table_request_for_supported_post_type() {
-
-		// Bail if we cannot determine the screen.
-		if ( ! function_exists( 'get_current_screen' ) ) {
-			return false;
-		}
-
-		// Get screen.
-		$screen = get_current_screen();
-
-		// Bail if we're not on an edit.php screen.
-		if ( $screen->base !== 'edit' ) {
-			return false;
-		}
-
-		// Return whether Post Type is supported for Restrict Content functionality.
-		return in_array( $screen->post_type, convertkit_get_supported_restrict_content_post_types(), true );
-
-	}
-
-	/**
-	 * Get the current post type based on the screen that is viewed.
-	 *
-	 * @since   2.1.0
-	 *
-	 * @return  string
-	 */
-	private function get_current_post_type() {
-
-		$screen = get_current_screen();
-		return $screen->post_type;
 
 	}
 
