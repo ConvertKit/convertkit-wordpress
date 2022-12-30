@@ -31,7 +31,7 @@ class ConvertKit_Output_Restrict_Content {
 	 *
 	 * @var     bool|WP_Error
 	 */
-	private $error = false;
+	private $error = false; // @phpstan-ignore-line.
 
 	/**
 	 * Holds the ConvertKit Plugin Settings class
@@ -85,7 +85,7 @@ class ConvertKit_Output_Restrict_Content {
 	 *
 	 * @var     bool|string
 	 */
-	private $token = false;  // @phpstan-ignore-line.
+	private $token = false;
 
 	/**
 	 * Constructor. Registers actions and filters to possibly limit output of a Page/Post/CPT's
