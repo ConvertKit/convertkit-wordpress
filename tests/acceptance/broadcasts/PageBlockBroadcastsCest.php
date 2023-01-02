@@ -267,6 +267,42 @@ class PageBlockBroadcastsCest
 	}
 
 	/**
+	 * Test the Broadcasts block's default pagination labels display when not defined in the block.
+	 *
+	 * @since   2.0.3
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testBroadcastsBlockWithBlankPaginationLabelParameters(AcceptanceTester $I)
+	{
+		// Setup Plugin and enable debug log.
+		$I->setupConvertKitPlugin($I);
+		$I->enableDebugLog($I);
+
+		// Add a Page using the Gutenberg editor.
+		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Broadcasts: Blank Pagination Labels');
+
+		// Add block to Page, setting the limit.
+		$I->addGutenbergBlock(
+			$I,
+			'ConvertKit Broadcasts',
+			'convertkit-broadcasts',
+			[
+				'limit'                   => [ 'input', '1' ],
+				'.components-form-toggle' => [ 'toggle', true ],
+				'paginate_label_prev'     => [ 'input', '' ],
+				'paginate_label_next'     => [ 'input', '' ],
+			]
+		);
+
+		// Publish and view the Page on the frontend site.
+		$I->publishAndViewGutenbergPage($I);
+
+		// Test pagination.
+		$I->testBroadcastsPagination($I, 'Previous', 'Next');
+	}
+
+	/**
 	 * Test the Broadcasts block's theme color parameters works.
 	 *
 	 * @since   1.9.7.4
@@ -358,6 +394,49 @@ class PageBlockBroadcastsCest
 
 		// Confirm that the chosen colors are applied as CSS styles.
 		$I->seeInSource('<div class="convertkit-broadcasts has-text-color has-background" style="color:' . $textColor . ';background-color:' . $backgroundColor . '"');
+	}
+
+	/**
+	 * Test the Broadcasts block's parameters are correctly escaped on output,
+	 * to prevent XSS.
+	 *
+	 * @since   2.0.5
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testBroadcastsBlockParameterEscaping(AcceptanceTester $I)
+	{
+		// Setup Plugin and enable debug log.
+		$I->setupConvertKitPlugin($I);
+		$I->enableDebugLog($I);
+
+		// Define a 'bad' block.  This is difficult to do in Gutenberg, but let's assume it's possible.
+		$I->havePageInDatabase(
+			[
+				'post_name'    => 'convertkit-page-broadcasts-block-parameter-escaping',
+				'post_content' => '<!-- wp:convertkit/broadcasts {"limit":1,"paginate":true,"style":{"color":{"text":"red\" onmouseover=\"alert(1)\""}}} /-->',
+			]
+		);
+
+		// Load the Page on the frontend site.
+		$I->amOnPage('/convertkit-page-broadcasts-block-parameter-escaping');
+
+		// Wait for frontend web site to load.
+		$I->waitForElementVisible('body.page-template-default');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Confirm that the output is escaped.
+		$I->seeInSource('style="color:red&quot; onmouseover=&quot;alert(1)&quot;"');
+		$I->dontSeeInSource('style="color:red" onmouseover="alert(1)""');
+
+		// Test pagination.
+		$I->testBroadcastsPagination($I, 'Previous', 'Next');
+
+		// Confirm that the output is still escaped.
+		$I->seeInSource('style="color:red&quot; onmouseover=&quot;alert(1)&quot;"');
+		$I->dontSeeInSource('style="color:red" onmouseover="alert(1)""');
 	}
 
 	/**

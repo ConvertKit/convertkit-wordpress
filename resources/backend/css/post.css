@@ -1,0 +1,13 @@
+/**
+ * Post Metabox
+ */
+@media screen and (max-width: 782px) {
+	/* Add spacing below label and input */
+	#wp-convertkit-meta-box table.form-table th {
+		padding-bottom: 0.5em;
+	}
+	#wp-convertkit-meta-box table.form-table td {
+		padding-bottom: 15px;
+	}
+
+}

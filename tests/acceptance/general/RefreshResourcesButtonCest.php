@@ -172,13 +172,36 @@ class RefreshResourcesButtonCest
 	}
 
 	/**
+	 * Test that the refresh button for Forms works when adding a Category.
+	 *
+	 * @since   2.0.3
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testRefreshResourcesOnAddCategory(AcceptanceTester $I)
+	{
+		// Navigate to Posts > Categories.
+		$I->amOnAdminPage('edit-tags.php?taxonomy=category');
+
+		// Click the Forms refresh button.
+		$I->click('button.wp-convertkit-refresh-resources[data-resource="forms"]');
+
+		// Wait for button to change its state from disabled.
+		$I->waitForElementVisible('button.wp-convertkit-refresh-resources[data-resource="forms"]:not(:disabled)');
+
+		// Change resource to value specified in the .env file, which should now be available.
+		// If the expected dropdown value does not exist in the Select2 field, this will fail the test.
+		$I->fillSelect2Field($I, '#select2-wp-convertkit-form-container', $_ENV['CONVERTKIT_API_FORM_NAME']);
+	}
+
+	/**
 	 * Test that the refresh button for Forms works when editing a Category.
 	 *
 	 * @since   1.9.8.0
 	 *
 	 * @param   AcceptanceTester $I  Tester.
 	 */
-	public function testRefreshResourcesOnCategory(AcceptanceTester $I)
+	public function testRefreshResourcesOnEditCategory(AcceptanceTester $I)
 	{
 		// Create Category.
 		$termID = $I->haveTermInDatabase( 'ConvertKit Refresh Resources', 'category' );
@@ -392,13 +415,54 @@ class RefreshResourcesButtonCest
 
 	/**
 	 * Test that the refresh button triggers an error message when the AJAX request fails,
+	 * or the ConvertKit API returns an error, when adding a Category.
+	 *
+	 * @since   2.0.3
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testRefreshResourcesErrorNoticeOnAddCategory(AcceptanceTester $I)
+	{
+		// Specify invalid API credentials, so that the AJAX request returns an error.
+		$I->haveOptionInDatabase(
+			'_wp_convertkit_settings',
+			[
+				'api_key'    => 'fakeApiKey',
+				'api_secret' => 'fakeApiSecret',
+				'debug'      => 'on',
+				'no_scripts' => '',
+				'no_css'     => '',
+			]
+		);
+
+		// Navigate to Posts > Categories.
+		$I->amOnAdminPage('edit-tags.php?taxonomy=category');
+
+		// Click the Forms refresh button.
+		$I->click('button.wp-convertkit-refresh-resources[data-resource="forms"]');
+
+		// Wait for button to change its state from disabled.
+		$I->waitForElementVisible('button.wp-convertkit-refresh-resources[data-resource="forms"]:not(:disabled)');
+
+		// Confirm that an error notification is displayed on screen, with the expected error message.
+		$I->seeElementInDOM('div.convertkit-error');
+		$I->see('Authorization Failed: API Key not valid');
+
+		// Confirm that the notice is dismissible.
+		$I->click('div.convertkit-error button.notice-dismiss');
+		$I->wait(1);
+		$I->dontSeeElementInDOM('div.convertkit-error');
+	}
+
+	/**
+	 * Test that the refresh button triggers an error message when the AJAX request fails,
 	 * or the ConvertKit API returns an error, when editing a Category.
 	 *
 	 * @since   1.9.8.3
 	 *
 	 * @param   AcceptanceTester $I  Tester.
 	 */
-	public function testRefreshResourcesErrorNoticeOnCategory(AcceptanceTester $I)
+	public function testRefreshResourcesErrorNoticeOnEditCategory(AcceptanceTester $I)
 	{
 		// Specify invalid API credentials, so that the AJAX request returns an error.
 		$I->haveOptionInDatabase(

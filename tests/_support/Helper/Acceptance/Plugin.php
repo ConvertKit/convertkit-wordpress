@@ -448,6 +448,9 @@ class Plugin extends \Codeception\Module
 	 */
 	public function seeProductOutput($I, $productURL, $text = false, $textColor = false, $backgroundColor = false)
 	{
+		// Confirm that the product stylesheet loaded.
+		$I->seeInSource('<link rel="stylesheet" id="convertkit-gutenberg-block-product-frontend-css" href="' . $_ENV['TEST_SITE_WP_URL'] . '/wp-content/plugins/convertkit/resources/frontend/css/product.css');
+
 		// Confirm that the block displays.
 		$I->seeElementInDOM('a.convertkit-product.wp-block-button__link');
 

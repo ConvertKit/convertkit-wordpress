@@ -360,8 +360,8 @@ class PluginSettingsGeneralCest
 		// Navigate to the home page.
 		$I->amOnPage('/');
 
-		// Confirm no CSS is output by the Plugin.
-		$I->seeInSource('broadcasts.css');
+		// Confirm CSS is output by the Plugin.
+		$I->seeInSource('<link rel="stylesheet" id="convertkit-broadcasts-css" href="' . $_ENV['TEST_SITE_WP_URL'] . '/wp-content/plugins/convertkit/resources/frontend/css/broadcasts.css');
 	}
 
 	/**

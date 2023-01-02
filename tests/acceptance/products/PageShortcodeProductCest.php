@@ -108,6 +108,66 @@ class PageShortcodeProductCest
 	}
 
 	/**
+	 * Test the Product shortcode's text parameter works.
+	 *
+	 * @since   2.0.3
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testProductShortcodeInVisualEditorWithTextParameter(AcceptanceTester $I)
+	{
+		// Add a Page using the Classic Editor.
+		$I->addClassicEditorPage($I, 'page', 'ConvertKit: Page: Product: Shortcode: Text Param');
+
+		// Add shortcode to Page, setting the Product setting to the value specified in the .env file.
+		$I->addVisualEditorShortcode(
+			$I,
+			'ConvertKit Product',
+			[
+				'product' => [ 'select', $_ENV['CONVERTKIT_API_PRODUCT_NAME'] ],
+				'text'    => [ 'input', 'Buy now' ],
+			],
+			'[convertkit_product product="' . $_ENV['CONVERTKIT_API_PRODUCT_ID'] . '" text="Buy now"]'
+		);
+
+		// Publish and view the Page on the frontend site.
+		$I->publishAndViewClassicEditorPage($I);
+
+		// Confirm that the ConvertKit Product is displayed.
+		$I->seeProductOutput($I, $_ENV['CONVERTKIT_API_PRODUCT_URL'], 'Buy now');
+	}
+
+	/**
+	 * Test the Product shortcode's default text value is output when the text parameter is blank.
+	 *
+	 * @since   2.0.3
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testProductShortcodeInVisualEditorWithBlankTextParameter(AcceptanceTester $I)
+	{
+		// Add a Page using the Classic Editor.
+		$I->addClassicEditorPage($I, 'page', 'ConvertKit: Page: Product: Shortcode: Blank Text Param');
+
+		// Add shortcode to Page, setting the Product setting to the value specified in the .env file.
+		$I->addVisualEditorShortcode(
+			$I,
+			'ConvertKit Product',
+			[
+				'product' => [ 'select', $_ENV['CONVERTKIT_API_PRODUCT_NAME'] ],
+				'text'    => [ 'input', '' ],
+			],
+			'[convertkit_product product="' . $_ENV['CONVERTKIT_API_PRODUCT_ID'] . '"]'
+		);
+
+		// Publish and view the Page on the frontend site.
+		$I->publishAndViewClassicEditorPage($I);
+
+		// Confirm that the ConvertKit Product is displayed.
+		$I->seeProductOutput($I, $_ENV['CONVERTKIT_API_PRODUCT_URL'], 'Buy my product');
+	}
+
+	/**
 	 * Test the [convertkit_product] shortcode hex colors works when defined.
 	 *
 	 * @since   1.9.8.5
@@ -142,6 +202,41 @@ class PageShortcodeProductCest
 
 		// Confirm that the ConvertKit Product is displayed.
 		$I->seeProductOutput($I, $_ENV['CONVERTKIT_API_PRODUCT_URL'], 'Buy my product', $textColor, $backgroundColor);
+	}
+
+	/**
+	 * Test the [convertkit_product] shortcode parameters are correctly escaped on output,
+	 * to prevent XSS.
+	 *
+	 * @since   2.0.5
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testProductShortcodeParameterEscaping(AcceptanceTester $I)
+	{
+		// Define a 'bad' shortcode.
+		$I->havePageInDatabase(
+			[
+				'post_name'    => 'convertkit-page-product-shortcode-parameter-escaping',
+				'post_content' => '[convertkit_product product="' . $_ENV['CONVERTKIT_API_PRODUCT_ID'] . '" text=\'Buy my product\' text_color=\'red" onmouseover="alert(1)"\']',
+			]
+		);
+
+		// Load the Page on the frontend site.
+		$I->amOnPage('/convertkit-page-product-shortcode-parameter-escaping');
+
+		// Wait for frontend web site to load.
+		$I->waitForElementVisible('body.page-template-default');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Confirm that the output is escaped.
+		$I->seeInSource('style="color:red&quot; onmouseover=&quot;alert(1)&quot;"');
+		$I->dontSeeInSource('style="color:red" onmouseover="alert(1)""');
+
+		// Confirm that the ConvertKit Product is displayed.
+		$I->seeProductOutput($I, $_ENV['CONVERTKIT_API_PRODUCT_URL'], 'Buy my product');
 	}
 
 	/**

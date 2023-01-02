@@ -128,6 +128,36 @@ class PageBlockProductCest
 	}
 
 	/**
+	 * Test the Product block's default text value is output when the text parameter is blank.
+	 *
+	 * @since   2.0.3
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testProductBlockWithBlankTextParameter(AcceptanceTester $I)
+	{
+		// Add a Page using the Gutenberg editor.
+		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Product: Blank Text Param');
+
+		// Add block to Page, setting the date format.
+		$I->addGutenbergBlock(
+			$I,
+			'ConvertKit Product',
+			'convertkit-product',
+			[
+				'product' => [ 'select', $_ENV['CONVERTKIT_API_PRODUCT_NAME'] ],
+				'text'    => [ 'text', '' ],
+			]
+		);
+
+		// Publish and view the Page on the frontend site.
+		$I->publishAndViewGutenbergPage($I);
+
+		// Confirm that the block displays.
+		$I->seeProductOutput($I, $_ENV['CONVERTKIT_API_PRODUCT_URL'], 'Buy my product');
+	}
+
+	/**
 	 * Test the Product block's theme color parameters works.
 	 *
 	 * @since   1.9.8.5
@@ -202,6 +232,41 @@ class PageBlockProductCest
 
 		// Confirm that the block displays.
 		$I->seeProductOutput($I, $_ENV['CONVERTKIT_API_PRODUCT_URL'], 'Buy my product', $textColor, $backgroundColor);
+	}
+
+	/**
+	 * Test the Product block's parameters are correctly escaped on output,
+	 * to prevent XSS.
+	 *
+	 * @since   2.0.5
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testProductBlockParameterEscaping(AcceptanceTester $I)
+	{
+		// Define a 'bad' block.  This is difficult to do in Gutenberg, but let's assume it's possible.
+		$I->havePageInDatabase(
+			[
+				'post_name'    => 'convertkit-page-product-block-parameter-escaping',
+				'post_content' => '<!-- wp:convertkit/product {"product":"' . $_ENV['CONVERTKIT_API_PRODUCT_ID'] . '","style":{"color":{"text":"red\" onmouseover=\"alert(1)\""}}} /-->',
+			]
+		);
+
+		// Load the Page on the frontend site.
+		$I->amOnPage('/convertkit-page-product-block-parameter-escaping');
+
+		// Wait for frontend web site to load.
+		$I->waitForElementVisible('body.page-template-default');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Confirm that the output is escaped.
+		$I->seeInSource('style="color:red&quot; onmouseover=&quot;alert(1)&quot;"');
+		$I->dontSeeInSource('style="color:red" onmouseover="alert(1)""');
+
+		// Confirm that the ConvertKit Product is displayed.
+		$I->seeProductOutput($I, $_ENV['CONVERTKIT_API_PRODUCT_URL'], 'Buy my product');
 	}
 
 	/**
