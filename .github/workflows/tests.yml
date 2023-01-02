@@ -35,7 +35,8 @@ jobs:
       CONVERTKIT_API_SECRET: ${{ secrets.CONVERTKIT_API_SECRET }} # ConvertKit API Secret, stored in the repository's Settings > Secrets
       CONVERTKIT_API_KEY_NO_DATA: ${{ secrets.CONVERTKIT_API_KEY_NO_DATA }} # ConvertKit API Key for ConvertKit account with no data, stored in the repository's Settings > Secrets
       CONVERTKIT_API_SECRET_NO_DATA: ${{ secrets.CONVERTKIT_API_SECRET_NO_DATA }} # ConvertKit API Secret for ConvertKit account with no data, stored in the repository's Settings > Secrets
-
+      CONVERTKIT_API_SIGNED_SUBSCRIBER_ID: ${{ secrets.CONVERTKIT_API_SIGNED_SUBSCRIBER_ID }} # ConvertKit API Signed Subscriber ID, stored in the repository's Settings > Secrets
+      
     # Defines the WordPress and PHP Versions matrix to run tests on
     # WooCommerce 5.9.0 requires WordPress 5.6 or greater, so we do not test on earlier versions
     # If testing older WordPress versions, ensure they are e.g. 5.7.4, 5.6.6 that have the X3 SSL fix: https://core.trac.wordpress.org/ticket/54207
