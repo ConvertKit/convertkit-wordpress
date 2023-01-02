@@ -564,7 +564,7 @@ class Plugin extends \Codeception\Module
 		$I->click('input.wp-block-button__link');
 
 		// Check content is / is not displayed, and CTA displays with expected text.
-		$I->see('Invalid: Email address is invalid');
+		$I->see('Email address is invalid'); // Response from the API.
 		$this->testRestrictContentHidesContentWithCTA($I, $visibleContent, $memberContent, $textItems);
 
 		// Login as a ConvertKit subscriber who has subscribed to the product.
