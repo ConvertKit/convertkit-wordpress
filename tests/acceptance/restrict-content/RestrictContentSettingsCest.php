@@ -37,6 +37,12 @@ class RestrictContentSettingsCest
 		// Save settings.
 		$I->setupConvertKitPluginRestrictContent($I);
 
+		// Confirm default values were saved and display in the form fields.
+		$defaults = $I->getRestrictedContentDefaultSettings();
+		foreach ( $defaults as $key => $value ) {
+			$I->seeInField('_wp_convertkit_settings_restrict_content[' . $key . ']', $value);
+		}
+
 		// Create Restricted Content Page.
 		$pageID = $I->createRestrictedContentPage(
 			$I,
@@ -76,6 +82,12 @@ class RestrictContentSettingsCest
 		// Save settings.
 		$I->setupConvertKitPluginRestrictContent($I, $settings);
 
+		// Confirm default values were saved and display in the form fields.
+		$defaults = $I->getRestrictedContentDefaultSettings();
+		foreach ( $defaults as $key => $value ) {
+			$I->seeInField('_wp_convertkit_settings_restrict_content[' . $key . ']', $value);
+		}
+
 		// Create Restricted Content Page.
 		$pageID = $I->createRestrictedContentPage(
 			$I,
@@ -86,7 +98,7 @@ class RestrictContentSettingsCest
 		);
 
 		// Test Restrict Content functionality.
-		$I->testRestrictedContentOnFrontend($I, $pageID, $visibleContent, $memberContent, $settings);
+		$I->testRestrictedContentOnFrontend($I, $pageID, $visibleContent, $memberContent);
 	}
 
 	/**
@@ -114,6 +126,11 @@ class RestrictContentSettingsCest
 
 		// Save settings.
 		$I->setupConvertKitPluginRestrictContent($I, $settings);
+
+		// Confirm custom values were saved and display in the form fields.
+		foreach ( $settings as $key => $value ) {
+			$I->seeInField('_wp_convertkit_settings_restrict_content[' . $key . ']', $value);
+		}
 
 		// Create Restricted Content Page.
 		$pageID = $I->createRestrictedContentPage(

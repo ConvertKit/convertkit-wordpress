@@ -193,13 +193,6 @@ class Plugin extends \Codeception\Module
 
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
-
-		// Check the value of the fields match the inputs provided.
-		if ( $settings ) {
-			foreach ( $settings as $key => $value ) {
-				$I->seeInField('_wp_convertkit_settings_restrict_content[' . $key . ']', $value);
-			}
-		}
 	}
 
 	/**
@@ -481,6 +474,24 @@ class Plugin extends \Codeception\Module
 		// necessary ConvertKit scripts have been loaded.
 		$I->click('a[href="' . $productURL . '"]');
 		$I->seeElementInDOM('iframe[data-active]');
+	}
+
+	/**
+	 * Returns the expected default settings for Restricted Content.
+	 *
+	 * @since   2.1.0
+	 *
+	 * @return  array
+	 */
+	public function getRestrictedContentDefaultSettings()
+	{
+		return array(
+			'subscribe_text'         => 'This content is only available to premium subscribers',
+			'subscribe_button_label' => 'Subscribe',
+			'email_text'             => 'Already a premium subscriber? Enter the email address used when purchasing below, to receive a login link to access.',
+			'email_button_label'     => 'Send email',
+			'email_check_text'       => 'Check your email and click the link to login, or enter the code from the email below.',
+		);
 	}
 
 	/**
