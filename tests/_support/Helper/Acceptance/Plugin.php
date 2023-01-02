@@ -576,6 +576,8 @@ class Plugin extends \Codeception\Module
 		$this->testRestrictContentShowsEmailCodeForm($I, $visibleContent, $memberContent);
 
 		// Set cookie with signed subscriber ID, as if we entered the code sent in the email.
+		var_dump($_ENV['CONVERTKIT_API_SIGNED_SUBSCRIBER_ID']);
+		die();
 		$I->setCookie('ck_subscriber_id', $_ENV['CONVERTKIT_API_SIGNED_SUBSCRIBER_ID']);
 
 		// Reload the restricted content page.
