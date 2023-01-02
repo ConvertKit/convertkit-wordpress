@@ -74,6 +74,16 @@ class ConvertKit_Resource_Products extends ConvertKit_Resource {
 		// Parse the URL.
 		$parsed_url = wp_parse_url( $product['url'] );
 
+		// Bail if parsing the URL failed.
+		if ( ! $parsed_url ) {
+			return false;
+		}
+
+		// Bail if the scheme and host could not be obtained from the URL.
+		if ( ! array_key_exists( 'scheme', $parsed_url ) || ! array_key_exists( 'host', $parsed_url ) ) {
+			return false;
+		}
+
 		// Return commerce.js URL.
 		return $parsed_url['scheme'] . '://' . $parsed_url['host'] . '/commerce.js';
 
@@ -119,10 +129,10 @@ class ConvertKit_Resource_Products extends ConvertKit_Resource {
 		if ( $return_as_span ) {
 			$html .= '<span';
 		} else {
-			$html .= '<a href="' . $this->resources[ $id ]['url'] . '"';
+			$html .= '<a href="' . esc_attr( $this->resources[ $id ]['url'] ) . '"';
 		}
 
-		$html .= ' class="wp-block-button__link ' . esc_attr( implode( ' ', $css_classes ) ) . '" style="' . implode( ';', $css_styles ) . '" data-commerce>';
+		$html .= ' class="wp-block-button__link ' . implode( ' ', map_deep( $css_classes, 'sanitize_html_class' ) ) . '" style="' . implode( ';', map_deep( $css_styles, 'esc_attr' ) ) . '" data-commerce>';
 		$html .= esc_html( $button_text );
 
 		if ( $return_as_span ) {

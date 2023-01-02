@@ -5,7 +5,7 @@ Tags: email marketing, email newsletter, newsletter, convertkit
 Requires at least: 5.0
 Tested up to: 6.1.1
 Requires PHP: 5.6.20
-Stable tag: 2.0.2
+Stable tag: 2.0.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -19,7 +19,7 @@ ConvertKit is an email marketing and email newsletter platform for capturing lea
 
 - Design [subscription forms](https://convertkit.com/features/forms) in ConvertKit, automatically appending them to any WordPress post or page, or displaying forms within your WordPress content using the supplied Gutenberg block and shortcode options 
 - Build [landing pages](https://convertkit.com/features/landing-pages) in ConvertKit, and display them on a WordPress page
-- List past [email broadcasts](https://convertkit.com/features/email-marketing) on your WordPress site
+- List past [email newsletters](https://convertkit.com/features/email-marketing) on your WordPress site
 
 = Forms =
 
@@ -33,10 +33,10 @@ Sign up forms can be configured to:
 Embedding ConvertKit forms on your WordPress web site with the ConvertKit Plugin is quick and simple:
 
 - Choose a default form to be displayed below each individual Post Type (Pages, Posts and other public Post Types, such as WooCommerce Products)
-- Choose a specific form to be displayed below a specific Page, Post or custom post type
+- Choose a specific email marketing form to be displayed below a specific Page, Post or custom post type
 - Turn off form embedding at both site wide and/or individual Page/Post level
 
-For greater control, ConvertKit forms can be displayed in specific sections of your WordPress site's content, sidebars and footers by:
+For greater control, ConvertKit's email marketing subscription forms can be displayed in specific sections of your WordPress site's content, sidebars and footers by:
 
 - Using the ConvertKit Forms block in Gutenberg
 - Using the `[convertkit]` shortcode in the Classic Editor
@@ -116,6 +116,24 @@ Full Plugin documentation can be found [here](https://help.convertkit.com/en/art
 7. Track subscriber growth
 
 == Changelog ==
+
+### 2.0.5 2022-12-15
+* Fix: Broadcasts: Strip slashes on output when pagination clicked and Broadcasts are reloaded
+* Fix: Broadcasts: Sanitize and escape HTML attributes on output
+* Fix: Forms: Escape HTML attributes on output
+* Fix: Products: Sanitize and escape HTML attributes on output
+
+### 2.0.4 2022-12-13
+* Fix: Products: PHP warning when attempting to parse an invalid Product URL
+* Fix: Landing Pages: Catch and log when an error occurs fetching a Landing Page
+* Fix: Remove double forwardslash on product.css
+
+### 2.0.3 2022-12-08
+* Added: Categories: Option to specify ConvertKit Form to display when adding a new Post Category
+* Fix: Bulk & Quick Edit: Improve layout of ConvertKit settings on desktop and mobile
+* Fix: Post: Improve layout of ConvertKit settings on desktop and mobile
+* Fix: Categories: Improve layout of ConvertKit settings on desktop and mobile
+* Fix: Products: Block: Display preview when adding new block
 
 ### 2.0.2 2022-11-21
 * Fixed: Removed argument count on `in_admin_footer` action calls

@@ -64,7 +64,7 @@ class ConvertKit_Resource_Landing_Pages extends ConvertKit_Resource {
 	public function get_html( $id ) {
 
 		// Setup API.
-		$api = new ConvertKit_API( false, false, false, 'output_landing_page' );
+		$api = new ConvertKit_API( false, false, true, 'output_landing_page' );
 
 		// If the ID is a URL, this is a Legacy Landing Page defined for use on this Page
 		// in a Plugin version < 1.9.6.

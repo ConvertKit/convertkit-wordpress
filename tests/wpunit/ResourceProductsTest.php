@@ -149,4 +149,26 @@ class ResourceProductsTest extends \Codeception\TestCase\WPTestCase
 		$result = $this->resource->exist();
 		$this->assertSame($result, true);
 	}
+
+	/**
+	 * Test that the get_html() function returns the expected data.
+	 *
+	 * @since   2.0.4
+	 */
+	public function testGetHTML()
+	{
+		$result = $this->resource->get_html($_ENV['CONVERTKIT_API_PRODUCT_ID'], 'Buy now');
+		$this->assertSame($result, '<div class="convertkit-product"><a href="' . $_ENV['CONVERTKIT_API_PRODUCT_URL'] . '" class="wp-block-button__link " style="" data-commerce>Buy now</a></div>');
+	}
+
+	/**
+	 * Test that the get_commerce_js_url() function returns the expected commerce.js URL.
+	 *
+	 * @since   2.0.4
+	 */
+	public function testGetCommerceJSURL()
+	{
+		$result = $this->resource->get_commerce_js_url();
+		$this->assertSame($result, $_ENV['CONVERTKIT_API_COMMERCE_JS_URL']);
+	}
 }
