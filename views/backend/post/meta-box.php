@@ -159,16 +159,14 @@
 			</th>
 			<td>
 				<div class="convertkit-select2-container convertkit-select2-container-grid">
-					<?php
-					if ( ! $convertkit_products->exist() ) {
-						esc_html_e( 'No products exist in ConvertKit.', 'convertkit' );
-					} else {
-						?>
-						<select name="wp-convertkit[restrict_content]" id="wp-convertkit-restrict_content" class="convertkit-select2">
-							<option value="0"<?php selected( '', $convertkit_post->get_restrict_content() ); ?> data-preserve-on-refresh="1">
-								<?php esc_html_e( 'Don\'t restrict content to members only.', 'convertkit' ); ?>
-							</option>
+					<select name="wp-convertkit[restrict_content]" id="wp-convertkit-restrict_content" class="convertkit-select2">
+						<option value="0"<?php selected( '', $convertkit_post->get_restrict_content() ); ?> data-preserve-on-refresh="1">
+							<?php esc_html_e( 'Don\'t restrict content to members only.', 'convertkit' ); ?>
+						</option>
 
+						<?php
+						if ( $convertkit_products->exist() ) {
+							?>
 							<optgroup label="<?php esc_attr_e( 'Products', 'convertkit' ); ?>">
 								<?php
 								foreach ( $convertkit_products->get() as $product ) {
@@ -180,10 +178,10 @@
 								}
 								?>
 							</optgroup>
-						</select>
-						<?php
-					}
-					?>
+							<?php
+						}
+						?>
+					</select>
 					<button class="wp-convertkit-refresh-resources" class="button button-secondary hide-if-no-js" title="<?php esc_attr_e( 'Refresh Products Pages from ConvertKit account', 'convertkit' ); ?>" data-resource="products" data-field="#wp-convertkit-restrict_content">
 						<span class="dashicons dashicons-update"></span>
 					</button>
