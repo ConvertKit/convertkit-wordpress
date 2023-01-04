@@ -182,9 +182,6 @@ class ConvertKit_AJAX {
 			wp_send_json_error( $tag );
 		}
 
-		// Store the subscriber ID as a cookie.
-		setcookie( 'ck_subscriber_id', $subscriber['id'], time() + ( 365 * DAY_IN_SECONDS ), '/' );
-
 		wp_send_json_success( $tag );
 
 	}
