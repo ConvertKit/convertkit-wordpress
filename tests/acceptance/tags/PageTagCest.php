@@ -88,9 +88,9 @@ class PageTagCest
 	/**
 	 * Test that a page set to tag subscribers with a specified tag works when accessed
 	 * with a valid subscriber ID in the ?ck_subscriber_id request parameter.
-	 * 
-	 * @since 	2.0.6
-	 * 
+	 *
+	 * @since   2.0.6
+	 *
 	 * @param   AcceptanceTester $I  Tester.
 	 */
 	public function testDefinedTagAppliesToValidSubscriberID(AcceptanceTester $I)
@@ -99,7 +99,7 @@ class PageTagCest
 		$pageID = $I->havePageInDatabase(
 			[
 				'post_title' => 'ConvertKit: Tag: Valid Subscriber ID',
-				'post_name'	 => 'convertkit-tag-valid-subscriber-id',
+				'post_name'  => 'convertkit-tag-valid-subscriber-id',
 				'meta_input' => [
 					'_wp_convertkit_post_meta' => [
 						'form'         => '-1',
@@ -111,8 +111,11 @@ class PageTagCest
 		);
 
 		// Programmatically create a subscriber in ConvertKit.
-		$emailAddress = $I->generateEmailAddress();
-		$subscriberID = $I->apiSubscribe($I, $emailAddress, $_ENV['CONVERTKIT_API_FORM_ID']);
+		// Must be a domain email doesn't bounce on, otherwise subscriber won't be confirmed even if the Form's
+		// "Auto-confirm new subscribers" setting is enabled.
+		// We need the subscriber to be confirmed so they can then be tagged.
+		$emailAddress = $I->generateEmailAddress('n7studios.com');
+		$subscriberID = $I->apiSubscribe($emailAddress, $_ENV['CONVERTKIT_API_FORM_ID']);
 
 		// Load the page with the ?ck_subscriber_id parameter, as if the subscriber clicked a link in a ConvertKit broadcast.
 		$I->amOnPage('?p=' . $pageID . '&ck_subscriber_id=' . $subscriberID);

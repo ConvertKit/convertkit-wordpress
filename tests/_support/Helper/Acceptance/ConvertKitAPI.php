@@ -35,8 +35,8 @@ class ConvertKitAPI extends \Codeception\Module
 	 * Check the given subscriber ID has been assigned to the given tag ID.
 	 *
 	 * @param   AcceptanceTester $I             AcceptanceTester.
-	 * @param 	int 			 $subscriberID 	Subscriber ID.
-	 * @param 	int 			 $tagID 		Tag ID.
+	 * @param   int              $subscriberID  Subscriber ID.
+	 * @param   int              $tagID         Tag ID.
 	 */
 	public function apiCheckSubscriberHasTag($I, $subscriberID, $tagID)
 	{
@@ -74,20 +74,19 @@ class ConvertKitAPI extends \Codeception\Module
 	/**
 	 * Subscribes the given email address to the given form. Useful for
 	 * creating a subscriber to use in tests.
-	 * 
-	 * @param   AcceptanceTester 	$I              AcceptanceTester.
-	 * @param 	string  			$emailAddress 	Email Address.
-	 * @param 	int 				$formID 		Form ID.
-	 * @return 	int 								Subscriber ID
+	 *
+	 * @param   string $emailAddress   Email Address.
+	 * @param   int    $formID         Form ID.
+	 * @return  int                                 Subscriber ID
 	 */
-	public function apiSubscribe($I, $emailAddress, $formID)
+	public function apiSubscribe($emailAddress, $formID)
 	{
 		// Run request.
 		$result = $this->apiRequest(
 			'forms/' . $formID . '/subscribe',
 			'POST',
 			[
-				'email' 	=> $emailAddress,
+				'email' => $emailAddress,
 			]
 		);
 
