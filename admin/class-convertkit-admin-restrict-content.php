@@ -27,6 +27,15 @@ class ConvertKit_Admin_Restrict_Content {
 	public $products = false;
 
 	/**
+	 * Holds the Restrict Content Settings class.
+	 * 
+	 * @since 	2.1.0
+	 * 
+	 * @var 	bool|ConvertKit_Settings_Restrict_Content
+	 */
+	public $restrict_content_settings = false;
+
+	/**
 	 * Holds the value chosen for the Restrict Content filter dropdown
 	 * in the WP_List_Table.
 	 *
@@ -42,6 +51,14 @@ class ConvertKit_Admin_Restrict_Content {
 	 * @since   2.1.0
 	 */
 	public function __construct() {
+
+		// Initialize classes that will be used.
+		$this->restrict_content_settings = new ConvertKit_Settings_Restrict_Content();
+
+		// Bail if Restrict Content isn't enabled.
+		if ( ! $this->restrict_content_settings->enabled() ) {
+			return;
+		}
 
 		// Add New Member Content button.
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
