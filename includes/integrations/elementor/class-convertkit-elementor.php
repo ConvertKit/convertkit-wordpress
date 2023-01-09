@@ -108,8 +108,8 @@ class ConvertKit_Elementor {
 			// Register Widget, using applicable function depending on the Elementor version.
 			if ( method_exists( $widgets_manager, 'register' ) ) {
 				// Use register() function, available in Elementor 3.5.0.
-				// Required per https://developers.elementor.com/docs/managers/registering-widgets/
-				$widgets_manager->register( new $class_name() );	
+				// Required per https://developers.elementor.com/docs/managers/registering-widgets/.
+				$widgets_manager->register( new $class_name() );
 			} else {
 				// Fallback to register_widget_type(), available in Elementor < 3.5.0.
 				$widgets_manager->register_widget_type( new $class_name() );
