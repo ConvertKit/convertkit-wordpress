@@ -36,39 +36,225 @@ class Plugin extends \Codeception\Module
 	}
 
 	/**
-	 * Helper method to setup the Plugin's API Key and Secret.
+	 * Helper method to programmatically setup the Plugin's API Key and Secret,
+	 * enabling debug logging.
 	 *
 	 * @since   1.9.6
 	 *
-	 * @param   AcceptanceTester $I          AcceptanceTester.
-	 * @param   mixed            $apiKey     API Key (if specified, used instead of CONVERTKIT_API_KEY).
-	 * @param   mixed            $apiSecret  API Secret (if specified, used instead of CONVERTKIT_API_SECRET).
+	 * @param   AcceptanceTester 	$I          AcceptanceTester.
+	 * @param   bool|string         $apiKey     API Key (if specified, used instead of CONVERTKIT_API_KEY).
+	 * @param   bool|string         $apiSecret  API Secret (if specified, used instead of CONVERTKIT_API_SECRET).
+	 * @param   bool|string         $pageFormID Default Form ID for Pages (if specified, used instead of CONVERTKIT_API_FORM_ID).
+	 * @param   bool|string         $postFormID Default Form ID for Posts (if specified, used instead of CONVERTKIT_API_FORM_ID).
 	 */
-	public function setupConvertKitPlugin($I, $apiKey = false, $apiSecret = false)
+	public function setupConvertKitPlugin($I, $apiKey = false, $apiSecret = false, $pageFormID = false, $postFormID = false)
 	{
-		// Go to the Plugin's Settings Screen.
-		$I->loadConvertKitSettingsGeneralScreen($I);
+		// Define the API Key and Secret, with Debug Log enabled.
+		$I->haveOptionInDatabase(
+			'_wp_convertkit_settings',
+			[
+				'api_key'    => ( $apiKey !== false ? $apiKey : $_ENV['CONVERTKIT_API_KEY'] ),
+				'api_secret' => ( $apiSecret !== false ? $apiSecret : $_ENV['CONVERTKIT_API_SECRET'] ),
+				'debug'      => 'on',
+				'no_scripts' => '',
+				'no_css'     => '',
+				'post_form'  => ( $postFormID !== false ? $postFormID : $_ENV['CONVERTKIT_API_FORM_ID'] ),
+				'page_form'  => ( $pageFormID !== false ? $pageFormID : $_ENV['CONVERTKIT_API_FORM_ID'] ),
+			]
+		);
 
-		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen($I);
+		// Define cached Resources (Forms, Landing Pages, Products, Tags).
+		// This can safely be done for Acceptance tests, as WPUnit tests ensure that
+		// caching Resources from calls made to the API work and store data in the expected
+		// structure.
+		// Defining cached Resources here reduces the number of API calls made for each test,
+		// reducing the likelihood of hitting a rate limit due to running tests in parallel. 
 
-		// Determine API Key and Secret to use.
-		$convertKitAPIKey    = ( $apiKey !== false ? $apiKey : $_ENV['CONVERTKIT_API_KEY'] );
-		$convertKitAPISecret = ( $apiSecret !== false ? $apiSecret : $_ENV['CONVERTKIT_API_SECRET'] );
+		// Define Forms as if the Forms resource class populated them from the API.
+		$I->haveOptionInDatabase(
+			'convertkit_forms',
+			[
+				470099 => [
+				    'id' => 470099,
+				    'name' => 'Legacy Form',
+				    'created_at' => null,
+				    'type' => 'embed',
+				    'url' => 'https://app.convertkit.com/landing_pages/470099',
+				    'embed_js' => 'https://api.convertkit.com/api/v3/forms/470099.js?api_key=' . $apiKey,
+				    'embed_url' => 'https://api.convertkit.com/api/v3/forms/470099.html?api_key=' . $apiKey,
+				    'title' => 'Join the newsletter',
+				    'description' => '<p>Subscribe to get our latest content by email.</p>',
+				    'sign_up_button_text' => 'Subscribe',
+				    'success_message' => 'Success! Now check your email to confirm your subscription.',
+				    'archived' => false,
+				],
+				2780977 => [
+				    'id' => 2780977,
+				    'name' => 'Modal Form',
+				    'created_at' => '2021-11-17T04:22:06.000Z',
+				    'type' => 'embed',
+				    'format' => 'modal',
+				    'embed_js' => 'https://cheerful-architect-3237.ck.page/397e876257/index.js',
+				    'embed_url' => 'https://cheerful-architect-3237.ck.page/397e876257',
+				    'archived' => false,
+				    'uid' => '397e876257',
+				],
+				2765139 => [
+				    'id' => 2765139,
+				    'name' => 'Page Form',
+				    'created_at' => '2021-11-11T15:30:40.000Z',
+				    'type' => 'embed',
+				    'format' => 'inline',
+				    'embed_js' => 'https://cheerful-architect-3237.ck.page/85629c512d/index.js',
+				    'embed_url' => 'https://cheerful-architect-3237.ck.page/85629c512d',
+				    'archived' => false,
+				    'uid' => '85629c512d',
+				],
+				2780979 => [
+				    'id' => 2780979,
+				    'name' => 'Slide In Form',
+				    'created_at' => '2021-11-17T04:22:24.000Z',
+				    'type' => 'embed',
+				    'format' => 'slide in',
+				    'embed_js' => 'https://cheerful-architect-3237.ck.page/e0d65bed9d/index.js',
+				    'embed_url' => 'https://cheerful-architect-3237.ck.page/e0d65bed9d',
+				    'archived' => false,
+				    'uid' => 'e0d65bed9d',
+				],
+				2780980 => [
+				    'id' => 2780980,
+				    'name' => 'Sticky Bar Form',
+				    'created_at' => '2021-11-17T04:22:42.000Z',
+				    'type' => 'embed',
+				    'format' => 'sticky bar',
+				    'embed_js' => 'https://cheerful-architect-3237.ck.page/9f5c601482/index.js',
+				    'embed_url' => 'https://cheerful-architect-3237.ck.page/9f5c601482',
+				    'archived' => false,
+				    'uid' => '9f5c601482',
+				],
+				3003590 => [
+				    'id' => 3003590,
+				    'name' => 'Third Party Integrations Form',
+				    'created_at' => '2022-02-17T15:05:31.000Z',
+				    'type' => 'embed',
+				    'format' => 'inline',
+				    'embed_js' => 'https://cheerful-architect-3237.ck.page/71cbcc4042/index.js',
+				    'embed_url' => 'https://cheerful-architect-3237.ck.page/71cbcc4042',
+				    'archived' => false,
+				    'uid' => '71cbcc4042',
+				],
+			]
+		);
 
-		// Complete API Fields.
-		$I->fillField('_wp_convertkit_settings[api_key]', $convertKitAPIKey);
-		$I->fillField('_wp_convertkit_settings[api_secret]', $convertKitAPISecret);
+		// Define Landing Pages.
+		$I->haveOptionInDatabase(
+			'convertkit_landing_pages',
+			[
+				2849151 => [
+				    'id' => 2849151,
+				    'name' => 'Character Encoding',
+				    'created_at' => '2021-12-16T14:55:58.000Z',
+				    'type' => 'hosted',
+				    'format' => null,
+				    'embed_js' => 'https://cheerful-architect-3237.ck.page/cc5eb21744/index.js',
+				    'embed_url' => 'https://cheerful-architect-3237.ck.page/cc5eb21744',
+				    'archived' => false,
+				    'uid' => 'cc5eb21744',
+				],
+				2765196 => [
+				    'id' => 2765196,
+				    'name' => 'Landing Page',
+				    'created_at' => '2021-11-11T15:45:33.000Z',
+				    'type' => 'hosted',
+				    'format' => null,
+				    'embed_js' => 'https://cheerful-architect-3237.ck.page/99f1db6843/index.js',
+				    'embed_url' => 'https://cheerful-architect-3237.ck.page/99f1db6843',
+				    'archived' => false,
+				    'uid' => '99f1db6843',
+				],
+				470103 => [
+				    'id' => 470103,
+				    'name' => 'Legacy Landing Page',
+				    'created_at' => null,
+				    'type' => 'hosted',
+				    'url' => 'https://app.convertkit.com/landing_pages/470103',
+				    'embed_js' => 'https://api.convertkit.com/api/v3/forms/470103.js?api_key=' . $apiKey,
+				    'embed_url' => 'https://api.convertkit.com/api/v3/forms/470103.html?api_key=' . $apiKey,
+				    'title' => '',
+				    'description' => '',
+				    'sign_up_button_text' => 'Register',
+				    'success_message' => null,
+				    'archived' => false,
+				],
+			]
+		);
 
-		// Click the Save Changes button.
-		$I->click('Save Changes');
+		// Define Posts.
+		$I->haveOptionInDatabase(
+			'convertkit_posts',
+			[
+				572575 => [
+				    'id' => 572575,
+				    'title' => 'Paid Subscriber Broadcast',
+				    'url' => 'https://cheerful-architect-3237.ck.page/posts/paid-subscriber-broadcast',
+				    'published_at' => '2022-05-03T14:51:50.000Z',
+				    'is_paid' => true,
+				],
+				489467 => [
+				    'id' => 489467,
+				    'title' => 'Broadcast 1',
+				    'url' => 'https://cheerful-architect-3237.ck.page/posts/broadcast-1',
+				    'published_at' => '2022-04-08T00:00:00.000Z',
+				    'is_paid' => false,
+				],
+				489480 => [
+				    'id' => 489480,
+				    'title' => 'Broadcast 2',
+				    'url' => 'https://cheerful-architect-3237.ck.page/posts/broadcast-2',
+				    'published_at' => '2022-04-08T00:00:00.000Z',
+				    'is_paid' => null,
+				],
+				224758 => [
+				    'id' => 224758,
+				    'title' => 'Test Subject',
+				    'url' => 'https://cheerful-architect-3237.ck.page/posts/test-subject',
+				    'published_at' => '2022-01-24T00:00:00.000Z',
+				    'is_paid' => null,
+				],
+			]
+		);
 
-		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen($I);
+		// Define Products.
+		$I->haveOptionInDatabase(
+			'convertkit_products',
+			[
+				36377 => [
+				    'id' => 36377,
+				    'name' => 'Newsletter Subscription',
+				    'url' => 'https://cheerful-architect-3237.ck.page/products/newsletter-subscription',
+				    'published' => true,
+				]	
+			]
+		);
 
-		// Check the value of the fields match the inputs provided.
-		$I->seeInField('_wp_convertkit_settings[api_key]', $convertKitAPIKey);
-		$I->seeInField('_wp_convertkit_settings[api_secret]', $convertKitAPISecret);
+		// Define Tags.
+		$I->haveOptionInDatabase(
+			'convertkit_tags',
+			[
+				2744672 => [
+		            'id' => 2744672,
+		            'name' => 'wordpress',
+		            'created_at' => '2021-11-11T19:30:06.000Z',
+		        ],
+			]
+		);
+
+		// Define last queried to now for all resources, so they're not automatically immediately refreshed by the Plugin's logic.
+		$I->haveOptionInDatabase( 'convertkit_forms_last_queried', strtotime( 'now' ) );
+		$I->haveOptionInDatabase( 'convertkit_landing_pages_last_queried', strtotime( 'now' ) );
+		$I->haveOptionInDatabase( 'convertkit_posts_last_queried', strtotime( 'now' ) );
+		$I->haveOptionInDatabase( 'convertkit_products_last_queried', strtotime( 'now' ) );
+		$I->haveOptionInDatabase( 'convertkit_tags_last_queried', strtotime( 'now' ) );
 	}
 
 	/**
@@ -186,6 +372,10 @@ class Plugin extends \Codeception\Module
 		$I->dontHaveOptionInDatabase('convertkit_forms_last_queried');
 		$I->dontHaveOptionInDatabase('convertkit_landing_pages');
 		$I->dontHaveOptionInDatabase('convertkit_landing_pages_last_queried');
+		$I->dontHaveOptionInDatabase('convertkit_posts');
+		$I->dontHaveOptionInDatabase('convertkit_posts_last_queried');
+		$I->dontHaveOptionInDatabase('convertkit_products');
+		$I->dontHaveOptionInDatabase('convertkit_products_last_queried');
 		$I->dontHaveOptionInDatabase('convertkit_tags');
 		$I->dontHaveOptionInDatabase('convertkit_tags_last_queried');
 
