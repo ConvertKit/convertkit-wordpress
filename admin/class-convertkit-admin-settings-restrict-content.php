@@ -172,7 +172,7 @@ class ConvertKit_Admin_Settings_Restrict_Content extends ConvertKit_Settings_Bas
 		echo $this->get_text_field( // phpcs:ignore WordPress.Security.EscapeOutput
 			$args['name'],
 			esc_attr( $this->settings->get_by_key( $args['name'] ) ),
-			esc_html( $args['description'] ),
+			$args['description'], // phpcs:ignore WordPress.Security.EscapeOutput
 			array(
 				'widefat',
 			)
