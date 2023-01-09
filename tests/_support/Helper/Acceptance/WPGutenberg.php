@@ -231,14 +231,18 @@ class WPGutenberg extends \Codeception\Module
 			'.editor-post-publish-panel__prepublish',
 			function($I) {
 				$I->click('.editor-post-publish-panel__header-publish-button .editor-post-publish-button__button');
-			}
+			},
+			15
 		);
 
-		// Wait for confirmation that the Page published.
-		$I->waitForElementVisible('.post-publish-panel__postpublish-buttons a.components-button');
-
-		// Load the Page on the frontend site.
-		$I->click('.post-publish-panel__postpublish-buttons a.components-button');
+		// When the page is confirmed as published, load the Page on the frontend site.
+		$I->performOn(
+			'.post-publish-panel__postpublish-buttons a.components-button',
+			function($I) {
+				$I->click('.post-publish-panel__postpublish-buttons a.components-button');
+			},
+			15
+		);
 
 		// Wait for frontend web site to load.
 		$I->waitForElementVisible('body');

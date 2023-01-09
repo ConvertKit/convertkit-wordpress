@@ -87,8 +87,8 @@ class Plugin extends \Codeception\Module
 				    'created_at' => null,
 				    'type' => 'embed',
 				    'url' => 'https://app.convertkit.com/landing_pages/470099',
-				    'embed_js' => 'https://api.convertkit.com/api/v3/forms/470099.js?api_key=' . $apiKey,
-				    'embed_url' => 'https://api.convertkit.com/api/v3/forms/470099.html?api_key=' . $apiKey,
+				    'embed_js' => 'https://api.convertkit.com/api/v3/forms/470099.js?api_key=' . $_ENV['CONVERTKIT_API_KEY'],
+				    'embed_url' => 'https://api.convertkit.com/api/v3/forms/470099.html?api_key=' . $_ENV['CONVERTKIT_API_KEY'],
 				    'title' => 'Join the newsletter',
 				    'description' => '<p>Subscribe to get our latest content by email.</p>',
 				    'sign_up_button_text' => 'Subscribe',
@@ -185,8 +185,8 @@ class Plugin extends \Codeception\Module
 				    'created_at' => null,
 				    'type' => 'hosted',
 				    'url' => 'https://app.convertkit.com/landing_pages/470103',
-				    'embed_js' => 'https://api.convertkit.com/api/v3/forms/470103.js?api_key=' . $apiKey,
-				    'embed_url' => 'https://api.convertkit.com/api/v3/forms/470103.html?api_key=' . $apiKey,
+				    'embed_js' => 'https://api.convertkit.com/api/v3/forms/470103.js?api_key=' . $_ENV['CONVERTKIT_API_KEY'],
+				    'embed_url' => 'https://api.convertkit.com/api/v3/forms/470103.html?api_key=' . $_ENV['CONVERTKIT_API_KEY'],
 				    'title' => '',
 				    'description' => '',
 				    'sign_up_button_text' => 'Register',
@@ -265,103 +265,6 @@ class Plugin extends \Codeception\Module
 	}
 
 	/**
-	 * Helper method to setup the Plugin's Default Form setting for Pages and Posts.
-	 *
-	 * @since   1.9.6
-	 *
-	 * @param   AcceptanceTester $I     AcceptanceTester.
-	 */
-	public function setupConvertKitPluginDefaultForm($I)
-	{
-		// Go to the Plugin's Settings Screen.
-		$I->loadConvertKitSettingsGeneralScreen($I);
-
-		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen($I);
-
-		// Select Default Form for Pages and Posts.
-		$I->fillSelect2Field($I, '#select2-_wp_convertkit_settings_page_form-container', $_ENV['CONVERTKIT_API_FORM_NAME']);
-		$I->fillSelect2Field($I, '#select2-_wp_convertkit_settings_post_form-container', $_ENV['CONVERTKIT_API_FORM_NAME']);
-
-		// Click the Save Changes button.
-		$I->click('Save Changes');
-
-		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen($I);
-
-		// Check the value of the fields match the inputs provided.
-		$I->seeInField('_wp_convertkit_settings[page_form]', $_ENV['CONVERTKIT_API_FORM_NAME']);
-		$I->seeInField('_wp_convertkit_settings[post_form]', $_ENV['CONVERTKIT_API_FORM_NAME']);
-
-		// Return Form ID for Pages.
-		return $I->grabValueFrom('_wp_convertkit_settings[page_form]');
-	}
-
-	/**
-	 * Helper method to setup the Plugin's Default Legacy Form setting for Pages and Posts.
-	 *
-	 * @since   1.9.6
-	 *
-	 * @param   AcceptanceTester $I     AcceptanceTester.
-	 */
-	public function setupConvertKitPluginDefaultLegacyForm($I)
-	{
-		// Go to the Plugin's Settings Screen.
-		$I->loadConvertKitSettingsGeneralScreen($I);
-
-		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen($I);
-
-		// Select Default Form for Pages and Posts.
-		$I->fillSelect2Field($I, '#select2-_wp_convertkit_settings_page_form-container', $_ENV['CONVERTKIT_API_LEGACY_FORM_NAME']);
-		$I->fillSelect2Field($I, '#select2-_wp_convertkit_settings_post_form-container', $_ENV['CONVERTKIT_API_LEGACY_FORM_NAME']);
-
-		// Click the Save Changes button.
-		$I->click('Save Changes');
-
-		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen($I);
-
-		// Check the value of the fields match the inputs provided.
-		$I->seeInField('_wp_convertkit_settings[page_form]', $_ENV['CONVERTKIT_API_LEGACY_FORM_NAME']);
-		$I->seeInField('_wp_convertkit_settings[post_form]', $_ENV['CONVERTKIT_API_LEGACY_FORM_NAME']);
-
-		// Return Form ID for Pages.
-		return $I->grabValueFrom('_wp_convertkit_settings[page_form]');
-	}
-
-	/**
-	 * Helper method to setup the Plugin's Default Form setting for WooCommerce Products.
-	 *
-	 * @since   1.9.6
-	 *
-	 * @param   AcceptanceTester $I     AcceptanceTester.
-	 */
-	public function setupConvertKitPluginDefaultFormForWooCommerceProducts($I)
-	{
-		// Go to the Plugin's Settings Screen.
-		$I->loadConvertKitSettingsGeneralScreen($I);
-
-		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen($I);
-
-		// Select option.
-		$I->fillSelect2Field($I, '#select2-_wp_convertkit_settings_product_form-container', $_ENV['CONVERTKIT_API_FORM_NAME']);
-
-		// Click the Save Changes button.
-		$I->click('Save Changes');
-
-		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen($I);
-
-		// Check the value of the fields match the inputs provided.
-		$I->seeInField('_wp_convertkit_settings[product_form]', $_ENV['CONVERTKIT_API_FORM_NAME']);
-
-		// Return Form ID.
-		return $I->grabValueFrom('_wp_convertkit_settings[product_form]');
-	}
-
-	/**
 	 * Helper method to reset the ConvertKit Plugin settings, as if it's a clean installation.
 	 *
 	 * @since   1.9.6.7
@@ -422,25 +325,6 @@ class Plugin extends \Codeception\Module
 
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
-	}
-
-	/**
-	 * Helper method to enable the Plugin's Settings > General > Debug option.
-	 *
-	 * @since   1.9.6
-	 *
-	 * @param   AcceptanceTester $I     AcceptanceTester.
-	 */
-	public function enableDebugLog($I)
-	{
-		// Go to the Plugin's Settings Screen.
-		$I->loadConvertKitSettingsGeneralScreen($I);
-
-		// Tick field.
-		$I->checkOption('#debug');
-
-		// Click the Save Changes button.
-		$I->click('Save Changes');
 	}
 
 	/**

@@ -141,9 +141,6 @@ class CategoryFormCest
 	 */
 	public function testAddNewPostUsingDefaultFormWithCategoryCreatedBefore1960(AcceptanceTester $I)
 	{
-		// Setup Default Forms.
-		$I->setupConvertKitPluginDefaultForm($I);
-
 		// Create Category as if it were created / edited when the ConvertKit Plugin < 1.9.6.0
 		// was active.
 		$termID = $I->haveTermInDatabase(
