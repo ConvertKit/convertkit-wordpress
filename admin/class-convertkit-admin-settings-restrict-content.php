@@ -154,7 +154,7 @@ class ConvertKit_Admin_Settings_Restrict_Content extends ConvertKit_Settings_Bas
 			$args['name'],
 			'on',
 			$this->settings->enabled(), // phpcs:ignore WordPress.Security.EscapeOutput
-			esc_html( $args['description'] )
+			$args['description'] // phpcs:ignore WordPress.Security.EscapeOutput
 		);
 
 	}
