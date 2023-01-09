@@ -18,7 +18,6 @@ class PostFormCest
 		// Activate and Setup ConvertKit plugin.
 		$I->activateConvertKitPlugin($I);
 		$I->setupConvertKitPlugin($I);
-		$I->enableDebugLog($I);
 	}
 
 	/**

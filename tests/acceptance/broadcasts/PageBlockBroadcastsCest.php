@@ -29,7 +29,8 @@ class PageBlockBroadcastsCest
 	{
 		// Setup Plugin with API keys for ConvertKit Account that has no Broadcasts, and enable debug log.
 		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY_NO_DATA'], $_ENV['CONVERTKIT_API_SECRET_NO_DATA']);
-		$I->enableDebugLog($I);
+
+		// @TODO FIX LOGIC AS RESOURCES POPD
 
 		// Add a Page using the Gutenberg editor.
 		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Broadcasts: No Broadcasts');
@@ -63,7 +64,6 @@ class PageBlockBroadcastsCest
 	{
 		// Setup Plugin and enable debug log.
 		$I->setupConvertKitPlugin($I);
-		$I->enableDebugLog($I);
 
 		// Add a Page using the Gutenberg editor.
 		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Broadcasts: Default Params');
@@ -95,7 +95,6 @@ class PageBlockBroadcastsCest
 	{
 		// Setup Plugin and enable debug log.
 		$I->setupConvertKitPlugin($I);
-		$I->enableDebugLog($I);
 
 		// Add a Page using the Gutenberg editor.
 		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Broadcasts: Date Format Param');
@@ -134,7 +133,6 @@ class PageBlockBroadcastsCest
 	{
 		// Setup Plugin and enable debug log.
 		$I->setupConvertKitPlugin($I);
-		$I->enableDebugLog($I);
 
 		// Add a Page using the Gutenberg editor.
 		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Broadcasts: Limit Param');
@@ -170,7 +168,6 @@ class PageBlockBroadcastsCest
 	{
 		// Setup Plugin and enable debug log.
 		$I->setupConvertKitPlugin($I);
-		$I->enableDebugLog($I);
 
 		// Add a Page using the Gutenberg editor.
 		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Broadcasts: Blank Limit Param');
@@ -207,7 +204,6 @@ class PageBlockBroadcastsCest
 	{
 		// Setup Plugin and enable debug log.
 		$I->setupConvertKitPlugin($I);
-		$I->enableDebugLog($I);
 
 		// Add a Page using the Gutenberg editor.
 		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Broadcasts: Pagination');
@@ -241,7 +237,6 @@ class PageBlockBroadcastsCest
 	{
 		// Setup Plugin and enable debug log.
 		$I->setupConvertKitPlugin($I);
-		$I->enableDebugLog($I);
 
 		// Add a Page using the Gutenberg editor.
 		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Broadcasts: Pagination Labels');
@@ -277,7 +272,6 @@ class PageBlockBroadcastsCest
 	{
 		// Setup Plugin and enable debug log.
 		$I->setupConvertKitPlugin($I);
-		$I->enableDebugLog($I);
 
 		// Add a Page using the Gutenberg editor.
 		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Broadcasts: Blank Pagination Labels');
@@ -313,7 +307,6 @@ class PageBlockBroadcastsCest
 	{
 		// Setup Plugin and enable debug log.
 		$I->setupConvertKitPlugin($I);
-		$I->enableDebugLog($I);
 
 		// Define colors.
 		$backgroundColor = 'white';
@@ -360,7 +353,6 @@ class PageBlockBroadcastsCest
 	{
 		// Setup Plugin and enable debug log.
 		$I->setupConvertKitPlugin($I);
-		$I->enableDebugLog($I);
 
 		// Define colors.
 		$backgroundColor = '#ee1616';
@@ -408,7 +400,6 @@ class PageBlockBroadcastsCest
 	{
 		// Setup Plugin and enable debug log.
 		$I->setupConvertKitPlugin($I);
-		$I->enableDebugLog($I);
 
 		// Define a 'bad' block.  This is difficult to do in Gutenberg, but let's assume it's possible.
 		$I->havePageInDatabase(

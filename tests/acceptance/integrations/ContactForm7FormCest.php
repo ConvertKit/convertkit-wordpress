@@ -18,7 +18,6 @@ class ContactForm7FormCest
 		$I->activateConvertKitPlugin($I);
 		$I->activateThirdPartyPlugin($I, 'contact-form-7');
 		$I->setupConvertKitPlugin($I);
-		$I->enableDebugLog($I);
 	}
 
 	/**

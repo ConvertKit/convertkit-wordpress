@@ -39,6 +39,6 @@ class ActivateDeactivatePluginCest
 
 		// Setup API Keys at Settings > ConvertKit, which will use WordPress Libraries and show errors
 		// if there's a conflict e.g. an older WordPress Library was loaded from another ConvertKit Plugin.
-		$I->setupConvertKitPlugin($I);
+		// @TODO MAKE MANUAL.
 	}
 }

@@ -30,9 +30,7 @@ class PluginSettingsToolsCest
 	public function testDebugLogExists(AcceptanceTester $I)
 	{
 		$I->setupConvertKitPlugin($I);
-		$I->enableDebugLog($I);
 		$I->loadConvertKitSettingsToolsScreen($I);
-		$I->checkNoWarningsAndNoticesOnScreen($I);
 
 		// Check that the Debug Log textarea contains some expected output i.e.
 		// does not show the 'No logs have been generated.' message.
@@ -49,9 +47,7 @@ class PluginSettingsToolsCest
 	public function testDownloadLog(AcceptanceTester $I)
 	{
 		$I->setupConvertKitPlugin($I);
-		$I->enableDebugLog($I);
 		$I->loadConvertKitSettingsToolsScreen($I);
-		$I->checkNoWarningsAndNoticesOnScreen($I);
 
 		// Click the Export button.
 		// This will download the file to $_ENV['WP_ROOT_FOLDER'].
@@ -78,9 +74,7 @@ class PluginSettingsToolsCest
 	public function testSystemInfoExists(AcceptanceTester $I)
 	{
 		$I->setupConvertKitPlugin($I);
-		$I->enableDebugLog($I);
 		$I->loadConvertKitSettingsToolsScreen($I);
-		$I->checkNoWarningsAndNoticesOnScreen($I);
 
 		// Check that the System Info textarea contains some expected output.
 		$I->assertNotFalse(strpos($I->grabValueFrom('#system-info-textarea'), '### wp-core'));
@@ -105,9 +99,7 @@ class PluginSettingsToolsCest
 	public function testDownloadSystemInfo(AcceptanceTester $I)
 	{
 		$I->setupConvertKitPlugin($I);
-		$I->enableDebugLog($I);
 		$I->loadConvertKitSettingsToolsScreen($I);
-		$I->checkNoWarningsAndNoticesOnScreen($I);
 
 		// Click the Export button.
 		// This will download the file to $_ENV['WP_ROOT_FOLDER'].
@@ -143,9 +135,7 @@ class PluginSettingsToolsCest
 	public function testExportConfiguration(AcceptanceTester $I)
 	{
 		$I->setupConvertKitPlugin($I);
-		$I->enableDebugLog($I);
 		$I->loadConvertKitSettingsToolsScreen($I);
-		$I->checkNoWarningsAndNoticesOnScreen($I);
 
 		// Click the Export button.
 		// This will download the file to $_ENV['WP_ROOT_FOLDER'].

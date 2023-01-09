@@ -19,7 +19,6 @@ class WidgetBroadcastsCest
 	{
 		$I->activateConvertKitPlugin($I);
 		$I->setupConvertKitPlugin($I);
-		$I->enableDebugLog($I);
 
 		// Activate an older WordPress Theme that supports Widgets.
 		$I->useTheme('twentytwentyone');
