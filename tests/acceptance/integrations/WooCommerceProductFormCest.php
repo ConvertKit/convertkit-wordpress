@@ -17,8 +17,6 @@ class WooCommerceProductFormCest
 	{
 		$I->activateConvertKitPlugin($I);
 		$I->activateThirdPartyPlugin($I, 'woocommerce');
-		$I->setupConvertKitPlugin($I);
-		$I->setupConvertKitPluginResources($I);
 	}
 
 	/**
@@ -32,6 +30,10 @@ class WooCommerceProductFormCest
 	 */
 	public function testAddNewProductUsingDefaultFormWithNoDefaultFormSpecifiedInPlugin(AcceptanceTester $I)
 	{
+		// Setup ConvertKit Plugin with no default form specified.
+		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY'], $_ENV['CONVERTKIT_API_SECRET'], '', '', '');
+		$I->setupConvertKitPluginResources($I);
+
 		// Navigate to Products > Add New.
 		$I->amOnAdminPage('post-new.php?post_type=product');
 
@@ -58,8 +60,9 @@ class WooCommerceProductFormCest
 	 */
 	public function testAddNewProductUsingDefaultForm(AcceptanceTester $I)
 	{
-		// Specify the Default Form in the Plugin Settings.
-		$defaultFormID = $I->setupConvertKitPluginDefaultFormForWooCommerceProducts($I);
+		// Setup ConvertKit Plugin.
+		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPluginResources($I);
 
 		// Navigate to Products > Add New.
 		$I->amOnAdminPage('post-new.php?post_type=product');
@@ -74,7 +77,7 @@ class WooCommerceProductFormCest
 		$I->publishAndViewClassicEditorPage($I);
 
 		// Confirm that the ConvertKit Default Form displays.
-		$I->seeElementInDOM('form[data-sv-form="' . $defaultFormID . '"]');
+		$I->seeElementInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]');
 	}
 
 	/**
@@ -87,6 +90,10 @@ class WooCommerceProductFormCest
 	 */
 	public function testAddNewProductUsingNoForm(AcceptanceTester $I)
 	{
+		// Setup ConvertKit Plugin.
+		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPluginResources($I);
+
 		// Navigate to Products > Add New.
 		$I->amOnAdminPage('post-new.php?post_type=product');
 
@@ -119,6 +126,10 @@ class WooCommerceProductFormCest
 	 */
 	public function testAddNewProductUsingDefinedForm(AcceptanceTester $I)
 	{
+		// Setup ConvertKit Plugin.
+		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPluginResources($I);
+
 		// Navigate to Products > Add New.
 		$I->amOnAdminPage('post-new.php?post_type=product');
 
@@ -151,6 +162,10 @@ class WooCommerceProductFormCest
 	 */
 	public function testAddNewProductUsingFormShortcodeInVisualEditor(AcceptanceTester $I)
 	{
+		// Setup ConvertKit Plugin with no default form specified.
+		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY'], $_ENV['CONVERTKIT_API_SECRET'], '', '', '');
+		$I->setupConvertKitPluginResources($I);
+
 		// Add a Product using the Classic Editor.
 		$I->addClassicEditorPage($I, 'product', 'ConvertKit: Product: Form: Shortcode: Visual Editor');
 
@@ -201,6 +216,10 @@ class WooCommerceProductFormCest
 	 */
 	public function testAddNewProductUsingFormShortcodeInTextEditor(AcceptanceTester $I)
 	{
+		// Setup ConvertKit Plugin with no default form specified.
+		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY'], $_ENV['CONVERTKIT_API_SECRET'], '', '', '');
+		$I->setupConvertKitPluginResources($I);
+
 		// Add a Product using the Classic Editor.
 		$I->addClassicEditorPage($I, 'product', 'ConvertKit: Product: Form: Shortcode: Text Editor');
 
@@ -251,8 +270,9 @@ class WooCommerceProductFormCest
 	 */
 	public function testQuickEditUsingDefaultForm(AcceptanceTester $I)
 	{
-		// Specify the Default Form in the Plugin Settings.
-		$I->setupConvertKitPluginDefaultFormForWooCommerceProducts($I);
+		// Setup ConvertKit Plugin.
+		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPluginResources($I);
 
 		// Programmatically create a Product.
 		$productID = $I->havePostInDatabase(
@@ -292,6 +312,10 @@ class WooCommerceProductFormCest
 	 */
 	public function testQuickEditUsingDefinedForm(AcceptanceTester $I)
 	{
+		// Setup ConvertKit Plugin.
+		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPluginResources($I);
+
 		// Programmatically create a Product.
 		$productID = $I->havePostInDatabase(
 			[
@@ -330,8 +354,9 @@ class WooCommerceProductFormCest
 	 */
 	public function testBulkEditUsingDefaultForm(AcceptanceTester $I)
 	{
-		// Specify the Default Form in the Plugin Settings.
-		$I->setupConvertKitPluginDefaultFormForWooCommerceProducts($I);
+		// Setup ConvertKit Plugin.
+		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPluginResources($I);
 
 		// Programmatically create two Products.
 		$productIDs = array(
@@ -382,6 +407,10 @@ class WooCommerceProductFormCest
 	 */
 	public function testBulkEditUsingDefinedForm(AcceptanceTester $I)
 	{
+		// Setup ConvertKit Plugin.
+		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPluginResources($I);
+
 		// Programmatically create two Products.
 		$productIDs = array(
 			$I->havePostInDatabase(
@@ -431,6 +460,10 @@ class WooCommerceProductFormCest
 	 */
 	public function testBulkEditWithNoChanges(AcceptanceTester $I)
 	{
+		// Setup ConvertKit Plugin.
+		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPluginResources($I);
+
 		// Programmatically create two Products with a defined form.
 		$productIDs = array(
 			$I->havePostInDatabase(
@@ -494,6 +527,10 @@ class WooCommerceProductFormCest
 	 */
 	public function testBulkEditFieldsHiddenWhenNoProductsFound(AcceptanceTester $I)
 	{
+		// Setup ConvertKit Plugin.
+		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPluginResources($I);
+
 		// Emulate the user searching for Products with a query string that yields no results.
 		$I->amOnAdminPage('edit.php?post_type=product&s=nothing');
 

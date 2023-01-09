@@ -28,13 +28,21 @@ class ReviewRequestCest
 	 */
 	public function testReviewRequestOnSaveSettings(AcceptanceTester $I)
 	{
-		// Setup ConvertKit Plugin.
-		$I->setupConvertKitPlugin($I);
+		// Setup Plugin, without defining default Forms.
+		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY'], $_ENV['CONVERTKIT_API_SECRET'], '', '');
 
-// @TODO FIX LOGIC.
+		// Go to the Plugin's Settings Screen.
+		$I->loadConvertKitSettingsGeneralScreen($I);
 
-		// Define Default Form.
-		$I->setupConvertKitPluginDefaultForm($I);
+		// Select Default Form for Pages and Posts.
+		$I->fillSelect2Field($I, '#select2-_wp_convertkit_settings_page_form-container', $_ENV['CONVERTKIT_API_FORM_NAME']);
+		$I->fillSelect2Field($I, '#select2-_wp_convertkit_settings_post_form-container', $_ENV['CONVERTKIT_API_FORM_NAME']);
+
+		// Click the Save Changes button.
+		$I->click('Save Changes');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
 
 		// Check that the options table does have a review request set.
 		$I->seeOptionInDatabase('convertkit-review-request');
@@ -80,6 +88,7 @@ class ReviewRequestCest
 	{
 		// Setup ConvertKit Plugin.
 		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPluginResources($I);
 
 		// Add a Page using the Gutenberg editor.
 		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Test Review Request on Save with Form Specified');
@@ -119,6 +128,7 @@ class ReviewRequestCest
 	{
 		// Setup ConvertKit Plugin.
 		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPluginResources($I);
 
 		// Add a Page using the Gutenberg editor.
 		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Test Review Request on Save with Form Specified');
