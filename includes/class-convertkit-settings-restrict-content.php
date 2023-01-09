@@ -113,7 +113,7 @@ class ConvertKit_Settings_Restrict_Content {
 	public function get_defaults() {
 
 		$defaults = array(
-			'enabled'				 => '',
+			'enabled'                => '',
 			'subscribe_text'         => __( 'This content is only available to premium subscribers', 'convertkit' ),
 			'subscribe_button_label' => __( 'Subscribe', 'convertkit' ),
 			'email_text'             => __( 'Already a premium subscriber? Enter the email address used when purchasing below, to receive a login link to access.', 'convertkit' ),

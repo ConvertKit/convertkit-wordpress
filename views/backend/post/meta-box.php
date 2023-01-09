@@ -154,7 +154,7 @@
 		</tr>
 
 		<?php
-		if ( $this->restrict_content_settings->enabled() ) {
+		if ( $restrict_content_settings->enabled() ) {
 			?>
 			<tr valign="top">
 				<th scope="row">

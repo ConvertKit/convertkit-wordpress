@@ -28,10 +28,10 @@ class ConvertKit_Admin_Restrict_Content {
 
 	/**
 	 * Holds the Restrict Content Settings class.
-	 * 
-	 * @since 	2.1.0
-	 * 
-	 * @var 	bool|ConvertKit_Settings_Restrict_Content
+	 *
+	 * @since   2.1.0
+	 *
+	 * @var     bool|ConvertKit_Settings_Restrict_Content
 	 */
 	public $restrict_content_settings = false;
 

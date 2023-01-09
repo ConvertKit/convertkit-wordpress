@@ -195,11 +195,10 @@ class Plugin extends \Codeception\Module
 
 					default:
 						$I->fillField('_wp_convertkit_settings_restrict_content[' . $key . ']', $value);
-						break;	
+						break;
 				}
 			}
 		}
-
 
 		// Click the Save Changes button.
 		$I->click('Save Changes');

@@ -17,23 +17,11 @@
 class ConvertKit_Admin_Post {
 
 	/**
-	 * Holds the Restrict Content Settings class.
-	 * 
-	 * @since 	2.1.0
-	 * 
-	 * @var 	bool|ConvertKit_Settings_Restrict_Content
-	 */
-	public $restrict_content_settings = false;
-
-	/**
 	 * Registers action and filter hooks.
 	 *
 	 * @since   1.9.6
 	 */
 	public function __construct() {
-
-		// Initialize classes that will be used.
-		$this->restrict_content_settings = new ConvertKit_Settings_Restrict_Content();
 
 		add_action( 'add_meta_boxes', array( $this, 'add_meta_boxes' ) );
 		add_action( 'save_post', array( $this, 'save_post_meta' ) );
@@ -129,6 +117,9 @@ class ConvertKit_Admin_Post {
 			include CONVERTKIT_PLUGIN_PATH . '/views/backend/post/no-api-key.php';
 			return;
 		}
+
+		// Initialize Restrict Content Settings class.
+		$restrict_content_settings = new ConvertKit_Settings_Restrict_Content();
 
 		// Fetch Post Settings, Forms, Landing Pages and Tags.
 		$convertkit_post          = new ConvertKit_Post( $post->ID );

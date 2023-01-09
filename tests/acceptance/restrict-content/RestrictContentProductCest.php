@@ -62,9 +62,12 @@ class RestrictContentProductCest
 	public function testRestrictContentByProduct(AcceptanceTester $I)
 	{
 		// Enable Restricted Content.
-		$I->setupConvertKitPluginRestrictContent($I, [
-			'enabled' => true,
-		]);
+		$I->setupConvertKitPluginRestrictContent(
+			$I,
+			[
+				'enabled' => true,
+			]
+		);
 
 		// Add a Page using the Gutenberg editor.
 		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Restrict Content: Product');
@@ -107,9 +110,12 @@ class RestrictContentProductCest
 	public function testRestrictContentByProductUsingQuickEdit(AcceptanceTester $I)
 	{
 		// Enable Restricted Content.
-		$I->setupConvertKitPluginRestrictContent($I, [
-			'enabled' => true,
-		]);
+		$I->setupConvertKitPluginRestrictContent(
+			$I,
+			[
+				'enabled' => true,
+			]
+		);
 
 		// Programmatically create a Page.
 		$pageID = $I->createRestrictedContentPage($I, 'ConvertKit: Page: Restrict Content: Product: ' . $_ENV['CONVERTKIT_API_PRODUCT_NAME'] . ': Quick Edit');
@@ -139,9 +145,12 @@ class RestrictContentProductCest
 	public function testRestrictContentByProductUsingBulkEdit(AcceptanceTester $I)
 	{
 		// Enable Restricted Content.
-		$I->setupConvertKitPluginRestrictContent($I, [
-			'enabled' => true,
-		]);
+		$I->setupConvertKitPluginRestrictContent(
+			$I,
+			[
+				'enabled' => true,
+			]
+		);
 
 		// Programmatically create two Pages.
 		$pageIDs = array(

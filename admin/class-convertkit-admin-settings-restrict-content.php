@@ -144,7 +144,7 @@ class ConvertKit_Admin_Settings_Restrict_Content extends ConvertKit_Settings_Bas
 	 * Renders the input for the Enable setting.
 	 *
 	 * @since   2.1.0
-	 * 
+	 *
 	 * @param   array $args   Setting field arguments (name,description).
 	 */
 	public function enable_callback( $args ) {
@@ -154,7 +154,7 @@ class ConvertKit_Admin_Settings_Restrict_Content extends ConvertKit_Settings_Bas
 			$args['name'],
 			'on',
 			$this->settings->enabled(), // phpcs:ignore WordPress.Security.EscapeOutput
-			$args['description']
+			esc_html( $args['description'] )
 		);
 
 	}
@@ -172,7 +172,7 @@ class ConvertKit_Admin_Settings_Restrict_Content extends ConvertKit_Settings_Bas
 		echo $this->get_text_field( // phpcs:ignore WordPress.Security.EscapeOutput
 			$args['name'],
 			esc_attr( $this->settings->get_by_key( $args['name'] ) ),
-			$args['description'], // phpcs:ignore WordPress.Security.EscapeOutput
+			esc_html( $args['description'] ),
 			array(
 				'widefat',
 			)
