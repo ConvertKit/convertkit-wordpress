@@ -30,6 +30,7 @@ class PageFormCest
 	{
 		// Setup ConvertKit plugin.
 		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPluginResources($I);
 
 		// Navigate to Post Type (e.g. Pages / Posts) > Add New.
 		$I->amOnAdminPage('post-new.php?post_type=page');
@@ -53,6 +54,7 @@ class PageFormCest
 	{
 		// Setup ConvertKit plugin with no default Forms configured.
 		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY'], $_ENV['CONVERTKIT_API_SECRET'], '', '');
+		$I->setupConvertKitPluginResources($I);
 
 		// Add a Page using the Gutenberg editor.
 		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form: Default: None');
@@ -85,6 +87,7 @@ class PageFormCest
 	{
 		// Setup ConvertKit plugin.
 		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPluginResources($I);
 
 		// Add a Page using the Gutenberg editor.
 		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form: Default');
@@ -117,6 +120,7 @@ class PageFormCest
 	{
 		// Setup ConvertKit plugin to use legacy Form as default for Pages.
 		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY'], $_ENV['CONVERTKIT_API_SECRET'], $_ENV['CONVERTKIT_API_LEGACY_FORM_ID'], '');
+		$I->setupConvertKitPluginResources($I);
 
 		// Add a Page using the Gutenberg editor.
 		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form: Legacy: Default');
@@ -149,6 +153,7 @@ class PageFormCest
 	{
 		// Setup ConvertKit plugin.
 		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPluginResources($I);
 
 		// Add a Page using the Gutenberg editor.
 		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form: None');
@@ -181,6 +186,7 @@ class PageFormCest
 	{
 		// Setup ConvertKit plugin.
 		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPluginResources($I);
 
 		// Add a Page using the Gutenberg editor.
 		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form: ' . $_ENV['CONVERTKIT_API_FORM_NAME']);
@@ -213,6 +219,7 @@ class PageFormCest
 	{
 		// Setup ConvertKit plugin.
 		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPluginResources($I);
 
 		// Add a Page using the Gutenberg editor.
 		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form: ' . $_ENV['CONVERTKIT_API_LEGACY_FORM_NAME']);
@@ -250,6 +257,7 @@ class PageFormCest
 	{
 		// Setup ConvertKit plugin.
 		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPluginResources($I);
 
 		// Create Page, with an invalid Form ID, as if it were created prior to API credentials being changed and/or
 		// a Form being deleted in ConvertKit.
@@ -292,6 +300,7 @@ class PageFormCest
 	{
 		// Setup ConvertKit plugin.
 		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPluginResources($I);
 
 		// Programmatically create a Page.
 		$pageID = $I->havePostInDatabase(
@@ -333,6 +342,7 @@ class PageFormCest
 	{
 		// Setup ConvertKit plugin.
 		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPluginResources($I);
 
 		// Programmatically create a Page.
 		$pageID = $I->havePostInDatabase(
@@ -374,6 +384,7 @@ class PageFormCest
 	{
 		// Setup ConvertKit plugin.
 		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPluginResources($I);
 
 		// Programmatically create two Pages.
 		$pageIDs = array(
@@ -426,6 +437,7 @@ class PageFormCest
 	{
 		// Setup ConvertKit plugin.
 		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPluginResources($I);
 
 		// Programmatically create two Pages.
 		$pageIDs = array(
@@ -478,6 +490,7 @@ class PageFormCest
 	{
 		// Setup ConvertKit plugin.
 		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPluginResources($I);
 
 		// Programmatically create two Pages with a defined form.
 		$pageIDs = array(
@@ -544,6 +557,7 @@ class PageFormCest
 	{
 		// Setup ConvertKit plugin.
 		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPluginResources($I);
 
 		// Emulate the user searching for Pages with a query string that yields no results.
 		$I->amOnAdminPage('edit.php?post_type=page&s=nothing');

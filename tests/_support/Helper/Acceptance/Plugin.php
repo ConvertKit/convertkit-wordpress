@@ -62,14 +62,21 @@ class Plugin extends \Codeception\Module
 				'page_form'  => ( $pageFormID !== false ? $pageFormID : $_ENV['CONVERTKIT_API_FORM_ID'] ),
 			]
 		);
+	}
 
-		// Define cached Resources (Forms, Landing Pages, Products, Tags).
-		// This can safely be done for Acceptance tests, as WPUnit tests ensure that
-		// caching Resources from calls made to the API work and store data in the expected
-		// structure.
-		// Defining cached Resources here reduces the number of API calls made for each test,
-		// reducing the likelihood of hitting a rate limit due to running tests in parallel. 
-
+	/**
+	 * Helper method to define cached Resources (Forms, Landing Pages, Posts, Products and Tags),
+	 * directly into the database, instead of querying the API for them via the Resource classes.
+	 * 
+	 * This can safely be done for Acceptance tests, as WPUnit tests ensure that
+	 * caching Resources from calls made to the API work and store data in the expected
+	 * structure.
+	 * 
+	 * Defining cached Resources here reduces the number of API calls made for each test,
+	 * reducing the likelihood of hitting a rate limit due to running tests in parallel. 
+	 */
+	public function setupConvertKitPluginResources($I)
+	{
 		// Define Forms as if the Forms resource class populated them from the API.
 		$I->haveOptionInDatabase(
 			'convertkit_forms',

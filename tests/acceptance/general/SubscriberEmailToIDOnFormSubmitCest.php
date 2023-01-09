@@ -18,6 +18,7 @@ class SubscriberEmailToIDOnFormSubmitCest
 	{
 		$I->activateConvertKitPlugin($I);
 		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPluginResources($I);
 
 		// Clear Log, so that entries from previous tests aren't included in this test.
 		$I->clearDebugLog($I);

@@ -18,6 +18,7 @@ class WishListMemberCest
 		$I->activateConvertKitPlugin($I);
 		$I->activateThirdPartyPlugin($I, 'wishlist-member');
 		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPluginResources($I);
 	}
 
 	/**

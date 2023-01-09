@@ -17,6 +17,7 @@ class PageBlockFormCest
 	{
 		$I->activateConvertKitPlugin($I);
 		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPluginResources($I);
 	}
 
 	/**

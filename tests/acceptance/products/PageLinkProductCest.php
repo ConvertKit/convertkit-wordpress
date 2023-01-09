@@ -18,6 +18,7 @@ class PageLinkProductCest
 	{
 		$I->activateConvertKitPlugin($I);
 		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPluginResources($I);
 	}
 
 	/**

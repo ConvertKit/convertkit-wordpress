@@ -18,6 +18,7 @@ class PageTagCest
 		// Activate and Setup ConvertKit plugin.
 		$I->activateConvertKitPlugin($I);
 		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPluginResources($I);
 	}
 
 	/**

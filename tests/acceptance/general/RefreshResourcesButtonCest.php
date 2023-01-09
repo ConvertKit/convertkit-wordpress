@@ -16,25 +16,12 @@ class RefreshResourcesButtonCest
 	 */
 	public function _before(AcceptanceTester $I)
 	{
-		// Activate and Setup ConvertKit plugin using API keys that have no resources (forms, landing pages, tags).
+		// Activate and Setup ConvertKit plugin.
 		$I->activateConvertKitPlugin($I);
-		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY_NO_DATA'], $_ENV['CONVERTKIT_API_SECRET_NO_DATA']);
+		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY'], $_ENV['CONVERTKIT_API_SECRET']);
 
-		// @TODO FIX LOGIC AS RESOURCES POPULATED ABOVE.
-
-		// Change API keys in database to ones that have ConvertKit Resources.
-		// We do this directly vs. via the settings screen, so that the Plugin's cached resources remain blank
+		// We don't call $I->setupConvertKitPluginResources($I), as we want cached resources to remain blank
 		// until a refresh button is clicked.
-		$I->haveOptionInDatabase(
-			'_wp_convertkit_settings',
-			[
-				'api_key'    => $_ENV['CONVERTKIT_API_KEY'],
-				'api_secret' => $_ENV['CONVERTKIT_API_SECRET'],
-				'debug'      => 'on',
-				'no_scripts' => '',
-				'no_css'     => '',
-			]
-		);
 	}
 
 	/**

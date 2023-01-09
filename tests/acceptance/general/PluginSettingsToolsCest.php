@@ -30,6 +30,7 @@ class PluginSettingsToolsCest
 	public function testDebugLogExists(AcceptanceTester $I)
 	{
 		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPluginResources($I);
 		$I->loadConvertKitSettingsToolsScreen($I);
 
 		// Check that the Debug Log textarea contains some expected output i.e.
@@ -47,6 +48,7 @@ class PluginSettingsToolsCest
 	public function testDownloadLog(AcceptanceTester $I)
 	{
 		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPluginResources($I);
 		$I->loadConvertKitSettingsToolsScreen($I);
 
 		// Click the Export button.
@@ -74,6 +76,7 @@ class PluginSettingsToolsCest
 	public function testSystemInfoExists(AcceptanceTester $I)
 	{
 		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPluginResources($I);
 		$I->loadConvertKitSettingsToolsScreen($I);
 
 		// Check that the System Info textarea contains some expected output.
@@ -99,6 +102,7 @@ class PluginSettingsToolsCest
 	public function testDownloadSystemInfo(AcceptanceTester $I)
 	{
 		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPluginResources($I);
 		$I->loadConvertKitSettingsToolsScreen($I);
 
 		// Click the Export button.
@@ -135,6 +139,7 @@ class PluginSettingsToolsCest
 	public function testExportConfiguration(AcceptanceTester $I)
 	{
 		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPluginResources($I);
 		$I->loadConvertKitSettingsToolsScreen($I);
 
 		// Click the Export button.
