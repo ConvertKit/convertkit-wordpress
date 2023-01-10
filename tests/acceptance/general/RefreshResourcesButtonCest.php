@@ -18,10 +18,7 @@ class RefreshResourcesButtonCest
 	{
 		// Activate and Setup ConvertKit plugin.
 		$I->activateConvertKitPlugin($I);
-		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY'], $_ENV['CONVERTKIT_API_SECRET']);
-
-		// We don't call $I->setupConvertKitPluginResources($I), as we want cached resources to remain blank
-		// until a refresh button is clicked.
+		$I->setupConvertKitPluginResources($I);
 	}
 
 	/**
@@ -33,6 +30,9 @@ class RefreshResourcesButtonCest
 	 */
 	public function testRefreshResourcesOnPage(AcceptanceTester $I)
 	{
+		// Setup ConvertKit Plugin.
+		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY'], $_ENV['CONVERTKIT_API_SECRET']);
+
 		// Navigate to Pages > Add New.
 		$I->amOnAdminPage('post-new.php?post_type=page');
 
@@ -79,6 +79,9 @@ class RefreshResourcesButtonCest
 	 */
 	public function testRefreshResourcesOnQuickEdit(AcceptanceTester $I)
 	{
+		// Setup ConvertKit Plugin.
+		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY'], $_ENV['CONVERTKIT_API_SECRET']);
+
 		// Programmatically create a Page.
 		$pageID = $I->havePostInDatabase(
 			[
@@ -120,6 +123,9 @@ class RefreshResourcesButtonCest
 	 */
 	public function testRefreshResourcesOnBulkEdit(AcceptanceTester $I)
 	{
+		// Setup ConvertKit Plugin.
+		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY'], $_ENV['CONVERTKIT_API_SECRET']);
+
 		// Programmatically create two Pages.
 		$pageIDs = array(
 			$I->havePostInDatabase(
@@ -169,6 +175,9 @@ class RefreshResourcesButtonCest
 	 */
 	public function testRefreshResourcesOnAddCategory(AcceptanceTester $I)
 	{
+		// Setup ConvertKit Plugin.
+		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY'], $_ENV['CONVERTKIT_API_SECRET']);
+
 		// Navigate to Posts > Categories.
 		$I->amOnAdminPage('edit-tags.php?taxonomy=category');
 
@@ -192,6 +201,9 @@ class RefreshResourcesButtonCest
 	 */
 	public function testRefreshResourcesOnEditCategory(AcceptanceTester $I)
 	{
+		// Setup ConvertKit Plugin.
+		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY'], $_ENV['CONVERTKIT_API_SECRET']);
+
 		// Create Category.
 		$termID = $I->haveTermInDatabase( 'ConvertKit Refresh Resources', 'category' );
 		$termID = $termID[0];
@@ -220,23 +232,14 @@ class RefreshResourcesButtonCest
 	 */
 	public function testRefreshResourcesErrorNoticeOnPage(AcceptanceTester $I)
 	{
+		// Setup ConvertKit Plugin with invalid API credentials, so that the AJAX request returns an error.
+		$I->setupConvertKitPlugin($I, 'fakeApiKey', 'fakeApiSecret', '', '', '');
+
 		// Navigate to Pages > Add New.
 		$I->amOnAdminPage('post-new.php?post_type=page');
 
 		// Close the Gutenberg "Welcome to the block editor" dialog if it's displayed.
 		$I->maybeCloseGutenbergWelcomeModal($I);
-
-		// Specify invalid API credentials, so that the AJAX request returns an error.
-		$I->haveOptionInDatabase(
-			'_wp_convertkit_settings',
-			[
-				'api_key'    => 'fakeApiKey',
-				'api_secret' => 'fakeApiSecret',
-				'debug'      => 'on',
-				'no_scripts' => '',
-				'no_css'     => '',
-			]
-		);
 
 		// Click the Forms refresh button.
 		$I->click('button.wp-convertkit-refresh-resources[data-resource="forms"]');
@@ -263,20 +266,11 @@ class RefreshResourcesButtonCest
 	 */
 	public function testRefreshResourcesErrorNoticeOnPageClassicEditor(AcceptanceTester $I)
 	{
+		// Setup ConvertKit Plugin with invalid API credentials, so that the AJAX request returns an error.
+		$I->setupConvertKitPlugin($I, 'fakeApiKey', 'fakeApiSecret', '', '', '');
+
 		// Add a Page using the Classic Editor.
 		$I->addClassicEditorPage($I, 'page', 'ConvertKit: Page: Refresh Resources: Classic Editor' );
-
-		// Specify invalid API credentials, so that the AJAX request returns an error.
-		$I->haveOptionInDatabase(
-			'_wp_convertkit_settings',
-			[
-				'api_key'    => 'fakeApiKey',
-				'api_secret' => 'fakeApiSecret',
-				'debug'      => 'on',
-				'no_scripts' => '',
-				'no_css'     => '',
-			]
-		);
 
 		// Click the Forms refresh button.
 		$I->click('button.wp-convertkit-refresh-resources[data-resource="forms"]');
@@ -303,17 +297,8 @@ class RefreshResourcesButtonCest
 	 */
 	public function testRefreshResourcesErrorNoticeOnQuickEdit(AcceptanceTester $I)
 	{
-		// Specify invalid API credentials, so that the AJAX request returns an error.
-		$I->haveOptionInDatabase(
-			'_wp_convertkit_settings',
-			[
-				'api_key'    => 'fakeApiKey',
-				'api_secret' => 'fakeApiSecret',
-				'debug'      => 'on',
-				'no_scripts' => '',
-				'no_css'     => '',
-			]
-		);
+		// Setup ConvertKit Plugin with invalid API credentials, so that the AJAX request returns an error.
+		$I->setupConvertKitPlugin($I, 'fakeApiKey', 'fakeApiSecret', '', '', '');
 
 		// Programmatically create a Page.
 		$pageID = $I->havePostInDatabase(
@@ -330,7 +315,7 @@ class RefreshResourcesButtonCest
 		$I->click('button.wp-convertkit-refresh-resources[data-resource="forms"]');
 
 		// Wait for button to change its state from disabled.
-		$I->waitForElementVisible('button.wp-convertkit-refresh-resources[data-resource="forms"]:not(:disabled)');
+		$I->waitForElementVisible('button.wp-convertkit-refresh-resources[data-resource="forms"]:not(:disabled)', 5);
 
 		// Confirm that an error notification is displayed on screen, with the expected error message.
 		$I->see('ConvertKit:', 'div.convertkit-error');
@@ -351,17 +336,8 @@ class RefreshResourcesButtonCest
 	 */
 	public function testRefreshResourcesErrorNoticeOnBulkEdit(AcceptanceTester $I)
 	{
-		// Specify invalid API credentials, so that the AJAX request returns an error.
-		$I->haveOptionInDatabase(
-			'_wp_convertkit_settings',
-			[
-				'api_key'    => 'fakeApiKey',
-				'api_secret' => 'fakeApiSecret',
-				'debug'      => 'on',
-				'no_scripts' => '',
-				'no_css'     => '',
-			]
-		);
+		// Setup ConvertKit Plugin with invalid API credentials, so that the AJAX request returns an error.
+		$I->setupConvertKitPlugin($I, 'fakeApiKey', 'fakeApiSecret', '', '', '');
 
 		// Programmatically create two Pages.
 		$pageIDs = array(
@@ -407,17 +383,8 @@ class RefreshResourcesButtonCest
 	 */
 	public function testRefreshResourcesErrorNoticeOnAddCategory(AcceptanceTester $I)
 	{
-		// Specify invalid API credentials, so that the AJAX request returns an error.
-		$I->haveOptionInDatabase(
-			'_wp_convertkit_settings',
-			[
-				'api_key'    => 'fakeApiKey',
-				'api_secret' => 'fakeApiSecret',
-				'debug'      => 'on',
-				'no_scripts' => '',
-				'no_css'     => '',
-			]
-		);
+		// Setup ConvertKit Plugin with invalid API credentials, so that the AJAX request returns an error.
+		$I->setupConvertKitPlugin($I, 'fakeApiKey', 'fakeApiSecret', '', '', '');
 
 		// Navigate to Posts > Categories.
 		$I->amOnAdminPage('edit-tags.php?taxonomy=category');
@@ -447,17 +414,8 @@ class RefreshResourcesButtonCest
 	 */
 	public function testRefreshResourcesErrorNoticeOnEditCategory(AcceptanceTester $I)
 	{
-		// Specify invalid API credentials, so that the AJAX request returns an error.
-		$I->haveOptionInDatabase(
-			'_wp_convertkit_settings',
-			[
-				'api_key'    => 'fakeApiKey',
-				'api_secret' => 'fakeApiSecret',
-				'debug'      => 'on',
-				'no_scripts' => '',
-				'no_css'     => '',
-			]
-		);
+		// Setup ConvertKit Plugin with invalid API credentials, so that the AJAX request returns an error.
+		$I->setupConvertKitPlugin($I, 'fakeApiKey', 'fakeApiSecret', '', '', '');
 
 		// Create Category.
 		$termID = $I->haveTermInDatabase( 'ConvertKit Refresh Resources', 'category' );

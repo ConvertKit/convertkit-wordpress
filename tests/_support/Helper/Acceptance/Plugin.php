@@ -271,6 +271,55 @@ class Plugin extends \Codeception\Module
 	}
 
 	/**
+	 * Helper method to define cached Resources (Forms, Landing Pages, Posts, Products and Tags),
+	 * directly into the database, instead of querying the API for them via the Resource classes
+	 * as if the ConvertKit account is new and has no resources defined in ConvertKit.
+	 *
+	 * @since   2.0.7
+	 *
+	 * @param   AcceptanceTester $I              AcceptanceTester.
+	 */
+	public function setupConvertKitPluginResourcesNoData($I)
+	{
+		// Define Forms as if the Forms resource class populated them from the API.
+		$I->haveOptionInDatabase(
+			'convertkit_forms',
+			[]
+		);
+
+		// Define Landing Pages.
+		$I->haveOptionInDatabase(
+			'convertkit_landing_pages',
+			[]
+		);
+
+		// Define Posts.
+		$I->haveOptionInDatabase(
+			'convertkit_posts',
+			[]
+		);
+
+		// Define Products.
+		$I->haveOptionInDatabase(
+			'convertkit_products',
+			[]
+		);
+
+		// Define Tags.
+		$I->haveOptionInDatabase(
+			'convertkit_tags',
+			[]
+		);
+
+		// Define last queried to now for all resources, so they're not automatically immediately refreshed by the Plugin's logic.
+		$I->haveOptionInDatabase( 'convertkit_forms_last_queried', strtotime( 'now' ) );
+		$I->haveOptionInDatabase( 'convertkit_landing_pages_last_queried', strtotime( 'now' ) );
+		$I->haveOptionInDatabase( 'convertkit_posts_last_queried', strtotime( 'now' ) );
+		$I->haveOptionInDatabase( 'convertkit_products_last_queried', strtotime( 'now' ) );
+		$I->haveOptionInDatabase( 'convertkit_tags_last_queried', strtotime( 'now' ) );
+	}
+
+	/**
 	 * Helper method to reset the ConvertKit Plugin settings, as if it's a clean installation.
 	 *
 	 * @since   1.9.6.7
