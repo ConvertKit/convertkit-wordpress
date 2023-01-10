@@ -132,9 +132,10 @@ class ConvertKit_Admin_Bulk_Edit {
 			return;
 		}
 
-		// Fetch Forms, Landing Pages and Tags.
+		// Fetch Forms, Landing Pages, Products and Tags.
 		$convertkit_forms         = new ConvertKit_Resource_Forms();
 		$convertkit_landing_pages = new ConvertKit_Resource_Landing_Pages();
+		$convertkit_products      = new ConvertKit_Resource_Products();
 		$convertkit_tags          = new ConvertKit_Resource_Tags();
 
 		// Output view.

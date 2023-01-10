@@ -78,6 +78,9 @@ class WPGutenberg extends \Codeception\Module
 		$I->seeElementInDOM('.block-editor-inserter__panel-content button.editor-block-list-item-' . $blockProgrammaticName);
 		$I->click('.block-editor-inserter__panel-content button.editor-block-list-item-' . $blockProgrammaticName);
 
+		// Close block inserter.
+		$I->click('button.edit-post-header-toolbar__inserter-toggle');
+
 		// If a Block configuration is specified, apply it to the Block now.
 		if ($blockConfiguration) {
 			$I->waitForElementVisible('.interface-interface-skeleton__sidebar[aria-label="Editor settings"]');
@@ -113,8 +116,9 @@ class WPGutenberg extends \Codeception\Module
 	 */
 	public function addGutenbergParagraphBlock($I, $text)
 	{
+		$I->addGutenbergBlock($I, 'Paragraph', 'paragraph');
 		$I->click('.is-root-container');
-		$I->fillField('.is-root-container p', $text);
+		$I->fillField('.is-root-container p[data-empty="true"]', $text);
 	}
 
 	/**
@@ -223,6 +227,29 @@ class WPGutenberg extends \Codeception\Module
 	 */
 	public function publishAndViewGutenbergPage($I)
 	{
+		// Publish Gutenberg Page.
+		$url = $I->publishGutenbergPage($I);
+
+		// Load the Page on the frontend site.
+		$I->amOnUrl($url);
+
+		// Wait for frontend web site to load.
+		$I->waitForElementVisible('body');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+	}
+
+	/**
+	 * Publish a Page, Post or Custom Post Type initiated by the addGutenbergPage() function,
+	 * returning the published URL.
+	 *
+	 * @since   2.1.0
+	 *
+	 * @param   AcceptanceTester $I                      Acceptance Tester.
+	 */
+	public function publishGutenbergPage($I)
+	{
 		// Click the Publish button.
 		$I->click('.editor-post-publish-button__button');
 
@@ -237,13 +264,7 @@ class WPGutenberg extends \Codeception\Module
 		// Wait for confirmation that the Page published.
 		$I->waitForElementVisible('.post-publish-panel__postpublish-buttons a.components-button');
 
-		// Load the Page on the frontend site.
-		$I->click('.post-publish-panel__postpublish-buttons a.components-button');
-
-		// Wait for frontend web site to load.
-		$I->waitForElementVisible('body');
-
-		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen($I);
+		// Return URL from 'View page' button.
+		return $I->grabAttributeFrom('.post-publish-panel__postpublish-buttons a.components-button', 'href');
 	}
 }
