@@ -16,7 +16,7 @@ class PageShortcodeFormCest
 	public function _before(AcceptanceTester $I)
 	{
 		$I->activateConvertKitPlugin($I);
-		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY'], $_ENV['CONVERTKIT_API_SECRET'], '', ''); // Don't specify default forms.
+		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY'], $_ENV['CONVERTKIT_API_SECRET'], '', '', ''); // Don't specify default forms.
 		$I->setupConvertKitPluginResources($I);
 	}
 

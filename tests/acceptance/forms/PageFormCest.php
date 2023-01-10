@@ -53,7 +53,7 @@ class PageFormCest
 	public function testAddNewPageUsingDefaultFormWithNoDefaultFormSpecifiedInPlugin(AcceptanceTester $I)
 	{
 		// Setup ConvertKit plugin with no default Forms configured.
-		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY'], $_ENV['CONVERTKIT_API_SECRET'], '', '');
+		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY'], $_ENV['CONVERTKIT_API_SECRET'], '', '', '');
 		$I->setupConvertKitPluginResources($I);
 
 		// Add a Page using the Gutenberg editor.
@@ -119,7 +119,7 @@ class PageFormCest
 	public function testAddNewPageUsingDefaultLegacyForm(AcceptanceTester $I)
 	{
 		// Setup ConvertKit plugin to use legacy Form as default for Pages.
-		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY'], $_ENV['CONVERTKIT_API_SECRET'], $_ENV['CONVERTKIT_API_LEGACY_FORM_ID'], '');
+		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY'], $_ENV['CONVERTKIT_API_SECRET'], $_ENV['CONVERTKIT_API_LEGACY_FORM_ID'], '', '');
 		$I->setupConvertKitPluginResources($I);
 
 		// Add a Page using the Gutenberg editor.
