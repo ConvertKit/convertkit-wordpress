@@ -83,8 +83,8 @@
 				// have selected the 'Default' option.
 				// Therefore, we use -2 to denote 'No Change', even though this setting is for the Tag, so we're at least consistent.
 				?>
-				<option value="-2"><?php esc_html_e( '— No Change —', 'convertkit' ); ?></option>
-				<option value="0">
+				<option value="-2" data-preserve-on-refresh="1"><?php esc_html_e( '— No Change —', 'convertkit' ); ?></option>
+				<option value="0" data-preserve-on-refresh="1">
 					<?php esc_html_e( 'Don\'t restrict content to members only.', 'convertkit' ); ?>
 				</option>
 
@@ -108,6 +108,9 @@
 				?>
 			</select>
 		</label>
+		<button class="wp-convertkit-refresh-resources" class="button button-secondary" title="<?php esc_attr_e( 'Refresh Products from ConvertKit account', 'convertkit' ); ?>" data-resource="products" data-field="#wp-convertkit-bulk-edit-restrict_content">
+			<span class="dashicons dashicons-update"></span>
+		</button>
 	</div>
 
 	<?php wp_nonce_field( 'wp-convertkit-save-meta', 'wp-convertkit-save-meta-nonce' ); ?>

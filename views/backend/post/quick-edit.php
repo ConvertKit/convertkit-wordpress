@@ -60,7 +60,7 @@
 		<label for="wp-convertkit-quick-edit-restrict_content">
 			<span class="title"><?php esc_html_e( 'Member', 'convertkit' ); ?></span>
 			<select name="wp-convertkit[restrict_content]" id="wp-convertkit-quick-edit-restrict_content" size="1">
-				<option value="0">
+				<option value="0" data-preserve-on-refresh="1">
 					<?php esc_html_e( 'Don\'t restrict content to members only.', 'convertkit' ); ?>
 				</option>
 
@@ -84,6 +84,9 @@
 				?>
 			</select>
 		</label>
+		<button class="wp-convertkit-refresh-resources" class="button button-secondary" title="<?php esc_attr_e( 'Refresh Products from ConvertKit account', 'convertkit' ); ?>" data-resource="products" data-field="#wp-convertkit-quick-edit-restrict_content">
+			<span class="dashicons dashicons-update"></span>
+		</button>
 	</div>
 
 	<?php wp_nonce_field( 'wp-convertkit-save-meta', 'wp-convertkit-save-meta-nonce' ); ?>

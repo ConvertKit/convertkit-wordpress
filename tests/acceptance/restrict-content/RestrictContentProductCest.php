@@ -51,6 +51,14 @@ class RestrictContentProductCest
 
 		// Publish Page.
 		$url = $I->publishGutenbergPage($I);
+
+		// Test Restrict Content functionality.
+		$I->testRestrictedContentOnFrontend(
+			$I,
+			$url,
+			'Visible content.',
+			'Member only content.'
+		);
 	}
 
 	/**
@@ -75,6 +83,9 @@ class RestrictContentProductCest
 				'restrict_content' => [ 'select', $_ENV['CONVERTKIT_API_PRODUCT_NAME'] ],
 			]
 		);
+
+		// Test Restrict Content functionality.
+		$I->testRestrictedContentOnFrontend($I, $pageID);
 	}
 
 	/**
@@ -102,6 +113,13 @@ class RestrictContentProductCest
 				'restrict_content' => [ 'select', $_ENV['CONVERTKIT_API_PRODUCT_NAME'] ],
 			]
 		);
+
+		// Iterate through Pages to run frontend tests.
+		foreach ($pageIDs as $pageID) {
+			// Test Restrict Content functionality.
+			$I->testRestrictedContentOnFrontend($I, $pageID);
+			$I->resetCookie('ck_subscriber_id');
+		}
 	}
 
 	/**

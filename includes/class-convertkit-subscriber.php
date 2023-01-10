@@ -29,13 +29,13 @@ class ConvertKit_Subscriber {
 	 *
 	 * @since   2.0.0
 	 *
-	 * @return  WP_Error|bool|int    Error | false | Subscriber ID
+	 * @return  WP_Error|bool|int|string    Error | false | Subscriber ID | Signed Subscriber ID
 	 */
 	public function get_subscriber_id() {
 
 		// If the subscriber ID is in the request URI, use it.
 		if ( isset( $_REQUEST[ $this->key ] ) ) { // phpcs:ignore WordPress.Security.NonceVerification
-			return $this->validate_and_store_subscriber_id( absint( $_REQUEST[ $this->key ] ) ); // phpcs:ignore WordPress.Security.NonceVerification
+			return $this->validate_and_store_subscriber_id( sanitize_text_field( $_REQUEST[ $this->key ] ) ); // phpcs:ignore WordPress.Security.NonceVerification
 		}
 
 		// If the subscriber ID is in a cookie, return it.
@@ -56,8 +56,8 @@ class ConvertKit_Subscriber {
 	 *
 	 * @since   2.0.0
 	 *
-	 * @param   int $subscriber_id  Possible Subscriber ID.
-	 * @return  WP_Error|int                    Error | Confirmed Subscriber ID
+	 * @param   int|string $subscriber_id  Possible Subscriber ID or Signed Subscriber ID.
+	 * @return  WP_Error|int|string                 Error | Confirmed Subscriber ID or Signed Subscriber ID
 	 */
 	public function validate_and_store_subscriber_id( $subscriber_id ) {
 
@@ -89,7 +89,7 @@ class ConvertKit_Subscriber {
 		$this->set( $subscriber['id'] );
 
 		// Return subscriber ID.
-		return absint( $subscriber['id'] );
+		return $subscriber['id'];
 
 	}
 
@@ -100,7 +100,7 @@ class ConvertKit_Subscriber {
 	 * @since   2.0.0
 	 *
 	 * @param   string $subscriber_email   Possible Subscriber Email.
-	 * @return  WP_Error|int                        Error | Confirmed Subscriber ID
+	 * @return  WP_Error|int|string                     Error | Confirmed Subscriber ID or Signed Subscriber ID
 	 */
 	public function validate_and_store_subscriber_email( $subscriber_email ) {
 
@@ -132,7 +132,7 @@ class ConvertKit_Subscriber {
 		$this->set( $subscriber['id'] );
 
 		// Return subscriber ID.
-		return absint( $subscriber['id'] );
+		return $subscriber['id'];
 
 	}
 
@@ -143,7 +143,7 @@ class ConvertKit_Subscriber {
 	 */
 	private function get_subscriber_id_from_cookie() {
 
-		return absint( $_COOKIE[ $this->key ] );
+		return $_COOKIE[ $this->key ];
 
 	}
 
@@ -152,7 +152,7 @@ class ConvertKit_Subscriber {
 	 *
 	 * @since   2.0.0
 	 *
-	 * @param   int $subscriber_id  Subscriber ID.
+	 * @param   int|string $subscriber_id  Subscriber ID.
 	 */
 	public function set( $subscriber_id ) {
 
