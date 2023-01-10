@@ -20,6 +20,14 @@ class RefreshResourcesButtonCest
 		$I->activateConvertKitPlugin($I);
 		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY_NO_DATA'], $_ENV['CONVERTKIT_API_SECRET_NO_DATA']);
 
+		// Enable Restricted Content.
+		$I->setupConvertKitPluginRestrictContent(
+			$I,
+			[
+				'enabled' => true,
+			]
+		);
+
 		// Change API keys in database to ones that have ConvertKit Resources.
 		// We do this directly vs. via the settings screen, so that the Plugin's cached resources remain blank
 		// until a refresh button is clicked.
