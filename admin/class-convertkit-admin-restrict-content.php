@@ -173,7 +173,15 @@ class ConvertKit_Admin_Restrict_Content {
 			return $views;
 		}
 
-		$views['convertkit_restrict_content_setup'] = '<a href="admin.php?page=convertkit-restrict-content-setup&post_type=' . $this->get_current_post_type() . '" class="convertkit-action page-title-action hidden">' . __( 'Add New Member Content', 'convertkit' ) . '</a>';
+		// Get current post type that we're viewing.
+		$post_type = $this->get_current_post_type();
+
+		// Don't output button if we couldn't determine the current post type.
+		if ( ! $post_type ) {
+			return $views;
+		}
+
+		$views['convertkit_restrict_content_setup'] = '<a href="admin.php?page=convertkit-restrict-content-setup&post_type=' . esc_attr( $post_type ) . '" class="convertkit-action page-title-action hidden">' . esc_html__( 'Add New Member Content', 'convertkit' ) . '</a>';
 		return $views;
 
 	}
@@ -271,11 +279,19 @@ class ConvertKit_Admin_Restrict_Content {
 	 *
 	 * @since   2.1.0
 	 *
-	 * @return  string
+	 * @return  bool|string
 	 */
 	private function get_current_post_type() {
 
+		// Bail if we cannot determine the screen.
+		if ( ! function_exists( 'get_current_screen' ) ) {
+			return false;
+		}
+
+		// Get screen.
 		$screen = get_current_screen();
+
+		// Return post type.
 		return $screen->post_type;
 
 	}
