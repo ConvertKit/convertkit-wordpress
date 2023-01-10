@@ -116,6 +116,20 @@ class RestrictContentSetupCest
 		// Confirm that one Page is listed in the WP_List_Table.
 		$I->see('ConvertKit: Member Content: Download');
 		$I->seeInSource('<span class="post-state">ConvertKit Member Content</span>');
+
+		// Hover mouse over Post's table row.
+		$I->moveMouseOver('tr.iedit');
+
+		// Get link to Page.
+		$url = $I->grabAttributeFrom('tr.iedit span.view a', 'href');
+
+		// Test Restrict Content functionality.
+		$I->testRestrictedContentOnFrontend(
+			$I,
+			$url,
+			'Visible content.',
+			'The downloadable content (that is available when the visitor has paid for the ConvertKit product) goes here.'
+		);
 	}
 
 	/**
@@ -153,6 +167,50 @@ class RestrictContentSetupCest
 		$I->see('— ConvertKit: Member Content: Course: 2/3');
 		$I->see('— ConvertKit: Member Content: Course: 3/3');
 		$I->see('ConvertKit Member Content | Parent Page: ConvertKit: Member Content: Course');
+
+		// Hover mouse over Post's table row.
+		$I->moveMouseOver('tr.iedit:first-child');
+
+		// Wait for View link to be visible.
+		$I->waitForElementVisible('tr.iedit:first-child span.view a');
+
+		// Click View link.
+		$I->click('tr.iedit:first-child span.view a');
+
+		// Confirm the Start Course button exists.
+		$I->see('Start Course');
+
+		// Get URL to first restricted content page.
+		$url = $I->grabAttributeFrom('.wp-block-button a', 'href');
+
+		// Test Restrict Content functionality.
+		$I->testRestrictedContentOnFrontend(
+			$I,
+			$url,
+			'Some introductory text about lesson 1',
+			'Lesson 1 content (that is available when the visitor has paid for the ConvertKit product) goes here.'
+		);
+
+		// Test Next / Previous links.
+		$I->click('Next Lesson');
+		$I->see('ConvertKit: Member Content: Course: 2/3');
+		$I->see('Some introductory text about lesson 2');
+		$I->see('Lesson 2 content (that is available when the visitor has paid for the ConvertKit product) goes here');
+
+		$I->click('Next Lesson');
+		$I->see('ConvertKit: Member Content: Course: 3/3');
+		$I->see('Some introductory text about lesson 3');
+		$I->see('Lesson 3 content (that is available when the visitor has paid for the ConvertKit product) goes here');
+
+		$I->click('Previous Lesson');
+		$I->see('ConvertKit: Member Content: Course: 2/3');
+		$I->see('Some introductory text about lesson 2');
+		$I->see('Lesson 2 content (that is available when the visitor has paid for the ConvertKit product) goes here');
+
+		$I->click('Previous Lesson');
+		$I->see('ConvertKit: Member Content: Course: 1/3');
+		$I->see('Some introductory text about lesson 1');
+		$I->see('Lesson 1 content (that is available when the visitor has paid for the ConvertKit product) goes here');
 	}
 
 	/**

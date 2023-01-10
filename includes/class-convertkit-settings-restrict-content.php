@@ -74,8 +74,15 @@ class ConvertKit_Settings_Restrict_Content {
 	 */
 	public function get_by_key( $key ) {
 
+		// If the setting doesn't exist, bail.
 		if ( ! array_key_exists( $key, $this->settings ) ) {
 			return '';
+		}
+
+		// If the setting is empty, fallback to the default.
+		if ( empty( $this->settings[ $key ] ) ) {
+			$defaults = $this->get_defaults();
+			return $defaults[ $key ];
 		}
 
 		return $this->settings[ $key ];

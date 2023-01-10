@@ -48,6 +48,7 @@ require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-wp-convertkit.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-ajax.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-gutenberg.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-output.php';
+require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-output-restrict-content.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-post.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-post-type-product.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-preview-output.php';
