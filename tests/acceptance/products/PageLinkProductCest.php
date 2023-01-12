@@ -17,8 +17,12 @@ class PageLinkProductCest
 	public function _before(AcceptanceTester $I)
 	{
 		$I->activateConvertKitPlugin($I);
-		$I->setupConvertKitPlugin($I);
-		$I->enableDebugLog($I);
+
+		// Setup ConvertKit Plugin with no default form specified.
+		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY'], $_ENV['CONVERTKIT_API_SECRET'], '', '', '');
+
+		// We don't call $I->setupConvertKitPluginResources($I), as we want the Plugin to populate the Products
+		// resource, which will also create the Product Custom Posts used for the linking functionality.
 	}
 
 	/**

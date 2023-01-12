@@ -17,8 +17,10 @@ class ElementorFormCest
 	{
 		$I->activateConvertKitPlugin($I);
 		$I->activateThirdPartyPlugin($I, 'elementor');
-		$I->setupConvertKitPlugin($I);
-		$I->enableDebugLog($I);
+
+		// Setup Plugin, without defining default Forms.
+		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY'], $_ENV['CONVERTKIT_API_SECRET'], '', '', '');
+		$I->setupConvertKitPluginResources($I);
 	}
 
 	/**

@@ -17,7 +17,7 @@ class PageShortcodeBroadcastsCest
 	{
 		$I->activateConvertKitPlugin($I);
 		$I->setupConvertKitPlugin($I);
-		$I->enableDebugLog($I);
+		$I->setupConvertKitPluginResources($I);
 	}
 
 	/**
