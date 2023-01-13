@@ -32,17 +32,9 @@ class PluginSetupWizardCest
 	 */
 	public function testSetupWizardDoesNotDisplayWhenConfigured(AcceptanceTester $I)
 	{
-		// Define Plugin settings as if the Plugin were previously activated and configured.
-		$I->haveOptionInDatabase(
-			'_wp_convertkit_settings',
-			[
-				'api_key'    => $_ENV['CONVERTKIT_API_KEY'],
-				'api_secret' => $_ENV['CONVERTKIT_API_SECRET'],
-				'debug'      => 'on',
-				'no_scripts' => '',
-				'no_css'     => '',
-			]
-		);
+		// Setup ConvertKit Plugin.
+		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPluginResources($I);
 
 		// Activate Plugin.
 		$this->_activatePlugin($I);

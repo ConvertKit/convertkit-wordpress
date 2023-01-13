@@ -18,7 +18,7 @@ class ElementorProductCest
 		$I->activateConvertKitPlugin($I);
 		$I->activateThirdPartyPlugin($I, 'elementor');
 		$I->setupConvertKitPlugin($I);
-		$I->enableDebugLog($I);
+		$I->setupConvertKitPluginResources($I);
 	}
 
 	/**

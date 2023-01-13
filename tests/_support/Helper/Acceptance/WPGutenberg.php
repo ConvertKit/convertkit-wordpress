@@ -254,11 +254,13 @@ class WPGutenberg extends \Codeception\Module
 		$I->click('.editor-post-publish-button__button');
 
 		// When the pre-publish panel displays, click Publish again.
+		$I->waitForElementVisible('.editor-post-publish-panel__header-publish-button');
 		$I->performOn(
-			'.editor-post-publish-panel__prepublish',
+			'.editor-post-publish-panel__header-publish-button',
 			function($I) {
-				$I->click('.editor-post-publish-panel__header-publish-button .editor-post-publish-button__button');
-			}
+				$I->click('.editor-post-publish-panel__header-publish-button button');
+			},
+			15
 		);
 
 		// Wait for confirmation that the Page published.
