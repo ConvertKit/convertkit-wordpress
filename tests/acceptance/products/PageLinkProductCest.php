@@ -18,11 +18,15 @@ class PageLinkProductCest
 	{
 		$I->activateConvertKitPlugin($I);
 
-		// Setup ConvertKit Plugin with no default form specified.
-		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY'], $_ENV['CONVERTKIT_API_SECRET'], '', '', '');
+		// Go to the Plugin's Settings Screen.
+		$I->loadConvertKitSettingsGeneralScreen($I);
 
-		// We don't call $I->setupConvertKitPluginResources($I), as we want the Plugin to populate the Products
-		// resource, which will also create the Product Custom Posts used for the linking functionality.
+		// Complete API Fields.
+		$I->fillField('_wp_convertkit_settings[api_key]', $_ENV['CONVERTKIT_API_KEY']);
+		$I->fillField('_wp_convertkit_settings[api_secret]', $_ENV['CONVERTKIT_API_SECRET']);
+
+		// Click the Save Changes button.
+		$I->click('Save Changes');
 	}
 
 	/**
