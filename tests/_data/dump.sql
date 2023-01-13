@@ -216,7 +216,7 @@ INSERT INTO `wp_options` (`option_id`, `option_name`, `option_value`, `autoload`
 (86,  'site_icon',  '0',  'yes'),
 (87,  'medium_large_size_w',  '768',  'yes'),
 (88,  'medium_large_size_h',  '0',  'yes'),
-(89,  'wp_page_for_privacy_policy', '3',  'yes'),
+(89,  'wp_page_for_privacy_policy', '',  'yes'),
 (90,  'show_comments_cookies_opt_in', '1',  'yes'),
 (92,  'disallowed_keys',  '', 'no'),
 (93,  'comment_previously_approved',  '1',  'yes'),
