@@ -36,7 +36,7 @@ class ConvertKit_Post_Type_Product {
 	public function __construct() {
 
 		// Register Custom Post Type.
-		add_action( 'init', array( $this, 'register' ), 1 );
+		add_action( 'init', array( $this, 'register' ) );
 
 		// Register commerce.js.
 		add_action( 'init', array( $this, 'register_commerce_script' ) );
