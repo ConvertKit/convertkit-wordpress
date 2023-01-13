@@ -263,7 +263,7 @@ class ConvertKit_Admin_Settings {
 					esc_html( $section->name ),
 					$active_section === $section->name ? 'convertkit-tab-active' : '',
 					esc_html( $section->tab_text ),
-					$section->is_beta ? $this->get_beta_tab() : ''
+					$section->is_beta ? $this->get_beta_tab() : '' // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				);
 			}
 			?>
@@ -282,19 +282,19 @@ class ConvertKit_Admin_Settings {
 	/**
 	 * Returns a 'beta' tab wrapped in a span, using wp_kses to ensure only permitted
 	 * HTML elements are included in the output.
-	 * 
-	 * @since 	2.1.0
-	 * 
-	 * @return 	string
+	 *
+	 * @since   2.1.0
+	 *
+	 * @return  string
 	 */
 	private function get_beta_tab() {
 
 		return wp_kses(
-			'<span class="convertkit-beta-label">' . esc_html( 'Beta', 'convertkit' ) . '</span>',
+			'<span class="convertkit-beta-label">' . esc_html__( 'Beta', 'convertkit' ) . '</span>',
 			array(
 				'span' => array(
-					'class' => array()
-				)
+					'class' => array(),
+				),
 			)
 		);
 

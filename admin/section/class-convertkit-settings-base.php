@@ -53,10 +53,10 @@ abstract class ConvertKit_Settings_Base {
 
 	/**
 	 * Holds whether this settings section is for beta functionality.
-	 * 
-	 * @since 	2.1.0
-	 * 
-	 * @var 	bool
+	 *
+	 * @since   2.1.0
+	 *
+	 * @var     bool
 	 */
 	public $is_beta = false;
 
@@ -150,7 +150,7 @@ abstract class ConvertKit_Settings_Base {
 		<div class="metabox-holder">
 			<div class="postbox <?php echo sanitize_html_class( $this->is_beta ? 'convertkit-beta' : '' ); ?>">
 		<?php
-		
+
 	}
 
 	/**
