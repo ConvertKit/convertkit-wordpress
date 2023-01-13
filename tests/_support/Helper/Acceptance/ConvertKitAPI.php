@@ -32,25 +32,6 @@ class ConvertKitAPI extends \Codeception\Module
 	}
 
 	/**
-	 * Check the given subscriber ID has been assigned to the given tag ID.
-	 *
-	 * @param   AcceptanceTester $I             AcceptanceTester.
-	 * @param   int              $subscriberID  Subscriber ID.
-	 * @param   int              $tagID         Tag ID.
-	 */
-	public function apiCheckSubscriberHasTag($I, $subscriberID, $tagID)
-	{
-		// Run request.
-		$results = $this->apiRequest(
-			'subscribers/' . $subscriberID . '/tags',
-			'GET'
-		);
-
-		// Confirm the tag has been assigned to the subscriber.
-		$I->assertEquals($tagID, $results['tags'][0]['id']);
-	}
-
-	/**
 	 * Check the given email address does not exists as a subscriber.
 	 *
 	 * @param   AcceptanceTester $I             AcceptanceTester.
@@ -69,29 +50,6 @@ class ConvertKitAPI extends \Codeception\Module
 
 		// Check no subscribers are returned by this request.
 		$I->assertEquals(0, $results['total_subscribers']);
-	}
-
-	/**
-	 * Subscribes the given email address to the given form. Useful for
-	 * creating a subscriber to use in tests.
-	 *
-	 * @param   string $emailAddress   Email Address.
-	 * @param   int    $formID         Form ID.
-	 * @return  int                                 Subscriber ID
-	 */
-	public function apiSubscribe($emailAddress, $formID)
-	{
-		// Run request.
-		$result = $this->apiRequest(
-			'forms/' . $formID . '/subscribe',
-			'POST',
-			[
-				'email' => $emailAddress,
-			]
-		);
-
-		// Return subscriber ID.
-		return $result['subscription']['subscriber']['id'];
 	}
 
 	/**

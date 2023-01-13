@@ -44,18 +44,6 @@ class ConvertKit_Admin_Settings_Restrict_Content extends ConvertKit_Settings_Bas
 	public function register_fields() {
 
 		add_settings_field(
-			'enabled',
-			__( 'Enable', 'convertkit' ),
-			array( $this, 'enable_callback' ),
-			$this->settings_key,
-			$this->name,
-			array(
-				'name'        => 'enabled',
-				'description' => __( 'Enables the Member Content functionality, displaying configuration options on pages to require a subscription to a ConvertKit product', 'convertkit' ),
-			)
-		);
-
-		add_settings_field(
 			'subscribe_text',
 			__( 'Subscribe Text', 'convertkit' ),
 			array( $this, 'text_callback' ),
@@ -137,25 +125,6 @@ class ConvertKit_Admin_Settings_Restrict_Content extends ConvertKit_Settings_Bas
 		?>
 		<p><?php esc_html_e( 'Defines the text and button labels to display when a Page, Post or Custom Post has its Member Content setting set to a Product, and the visitor has not authenticated/subscribed.', 'convertkit' ); ?></p>
 		<?php
-
-	}
-
-	/**
-	 * Renders the input for the Enable setting.
-	 *
-	 * @since   2.1.0
-	 *
-	 * @param   array $args   Setting field arguments (name,description).
-	 */
-	public function enable_callback( $args ) {
-
-		// Output field.
-		echo $this->get_checkbox_field( // phpcs:ignore WordPress.Security.EscapeOutput
-			$args['name'],
-			'on',
-			$this->settings->enabled(), // phpcs:ignore WordPress.Security.EscapeOutput
-			$args['description'] // phpcs:ignore WordPress.Security.EscapeOutput
-		);
 
 	}
 

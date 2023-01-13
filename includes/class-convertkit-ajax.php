@@ -167,20 +167,20 @@ class ConvertKit_AJAX {
 			wp_send_json_error( $subscriber->get_error_message() );
 		}
 
-		// Extract the subscriber's email.
-		$email = $subscriber['email_address'];
-
 		// Store the subscriber ID as a cookie.
 		$subscriber = new ConvertKit_Subscriber();
 		$subscriber->set( $subscriber_id );
 
 		// Tag the subscriber with the Post's tag.
-		$tag = $api->tag_subscribe( $tag_id, $email );
+		$tag = $api->tag_subscribe( $tag_id, $subscriber['email_address'] );
 
 		// Bail if an error occured tagging the subscriber.
 		if ( is_wp_error( $tag ) ) {
 			wp_send_json_error( $tag );
 		}
+
+		// Store the subscriber ID as a cookie.
+		setcookie( 'ck_subscriber_id', $subscriber['id'], time() + ( 365 * DAY_IN_SECONDS ), '/' );
 
 		wp_send_json_success( $tag );
 

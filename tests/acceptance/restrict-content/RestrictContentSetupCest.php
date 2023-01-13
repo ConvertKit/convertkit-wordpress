@@ -26,32 +26,8 @@ class RestrictContentSetupCest
 	 *
 	 * @param   AcceptanceTester $I  Tester.
 	 */
-	public function testAddNewMemberContentButtonNotDisplayedWhenDisabled(AcceptanceTester $I)
-	{
-		// Navigate to Pages.
-		$I->amOnAdminPage('edit.php?post_type=page');
-
-		// Check the button isn't displayed.
-		$I->dontSeeElementInDOM('a.convertkit-action page-title-action');
-	}
-
-	/**
-	 * Test that the Add New Member Content button does not display on the Pages screen when no API keys are configured.
-	 *
-	 * @since   2.1.0
-	 *
-	 * @param   AcceptanceTester $I  Tester.
-	 */
 	public function testAddNewMemberContentButtonNotDisplayedWhenNoAPIKeys(AcceptanceTester $I)
 	{
-		// Enable Restrict Content.
-		$I->setupConvertKitPluginRestrictContent(
-			$I,
-			[
-				'enabled' => true,
-			]
-		);
-
 		// Navigate to Pages.
 		$I->amOnAdminPage('edit.php?post_type=page');
 
@@ -69,14 +45,6 @@ class RestrictContentSetupCest
 	 */
 	public function testAddNewMemberContentButtonNotDisplayedWhenNoResources(AcceptanceTester $I)
 	{
-		// Enable Restrict Content.
-		$I->setupConvertKitPluginRestrictContent(
-			$I,
-			[
-				'enabled' => true,
-			]
-		);
-
 		// Setup Plugin using API keys that have no resources.
 		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY_NO_DATA'], $_ENV['CONVERTKIT_API_SECRET_NO_DATA']);
 		$I->enableDebugLog($I);
@@ -257,14 +225,6 @@ class RestrictContentSetupCest
 		// Setup Plugin.
 		$I->setupConvertKitPlugin($I);
 		$I->enableDebugLog($I);
-
-		// Enable Restrict Content.
-		$I->setupConvertKitPluginRestrictContent(
-			$I,
-			[
-				'enabled' => true,
-			]
-		);
 
 		// Navigate to Pages.
 		$I->amOnAdminPage('edit.php?post_type=page');

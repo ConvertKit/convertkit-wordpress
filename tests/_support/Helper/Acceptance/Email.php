@@ -17,11 +17,9 @@ class Email extends \Codeception\Module
 	 * isn't used for two tests across parallel testing runs.
 	 *
 	 * @since   1.9.6.7
-	 *
-	 * @param   string $domain     Domain (default: convertkit.com).
 	 */
-	public function generateEmailAddress($domain = 'convertkit.com')
+	public function generateEmailAddress()
 	{
-		return 'wordpress-' . date( 'Y-m-d-H-i-s' ) . '-php-' . PHP_VERSION_ID . '@' . $domain;
+		return 'wordpress-' . date( 'Y-m-d-H-i-s' ) . '-php-' . PHP_VERSION_ID . '@convertkit.com';
 	}
 }

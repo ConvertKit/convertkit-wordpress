@@ -21,39 +21,6 @@ class RestrictContentSettingsCest
 		$I->enableDebugLog($I);
 	}
 
-
-	/**
-	 * Tests that enabling and disabling Restrict Content works with no errors.
-	 *
-	 * @since   2.1.0
-	 *
-	 * @param   AcceptanceTester $I  Tester.
-	 */
-	public function testEnableDisable(AcceptanceTester $I)
-	{
-		// Save settings.
-		$I->setupConvertKitPluginRestrictContent(
-			$I,
-			[
-				'enabled' => true,
-			]
-		);
-
-		// Confirm settings were saved.
-		$I->seeCheckboxIsChecked('#enabled');
-
-		// Save settings.
-		$I->setupConvertKitPluginRestrictContent(
-			$I,
-			[
-				'enabled' => false,
-			]
-		);
-
-		// Confirm settings were saved.
-		$I->dontSeeCheckboxIsChecked('#enabled');
-	}
-
 	/**
 	 * Tests that saving the default labels, with no changes, works with no errors.
 	 *
@@ -68,12 +35,7 @@ class RestrictContentSettingsCest
 		$memberContent  = 'Member only content.';
 
 		// Save settings.
-		$I->setupConvertKitPluginRestrictContent(
-			$I,
-			[
-				'enabled' => true,
-			]
-		);
+		$I->setupConvertKitPluginRestrictContent($I);
 
 		// Confirm default values were saved and display in the form fields.
 		$defaults = $I->getRestrictedContentDefaultSettings();
@@ -110,7 +72,6 @@ class RestrictContentSettingsCest
 
 		// Define settings.
 		$settings = array(
-			'enabled'                => true,
 			'subscribe_text'         => '',
 			'subscribe_button_label' => '',
 			'email_text'             => '',
@@ -156,7 +117,6 @@ class RestrictContentSettingsCest
 
 		// Define settings.
 		$settings = array(
-			'enabled'                => true,
 			'subscribe_text'         => 'Subscribe Text',
 			'subscribe_button_label' => 'Subscribe Button Label',
 			'email_text'             => 'Email Text',

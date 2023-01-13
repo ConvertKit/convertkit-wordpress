@@ -5,7 +5,7 @@ Tags: email marketing, email newsletter, newsletter, convertkit
 Requires at least: 5.0
 Tested up to: 6.1.1
 Requires PHP: 5.6.20
-Stable tag: 2.0.6
+Stable tag: 2.0.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -116,11 +116,6 @@ Full Plugin documentation can be found [here](https://help.convertkit.com/en/art
 7. Track subscriber growth
 
 == Changelog ==
-
-### 2.0.6 2023-01-05
-* Fix: Honor "Add a tag" setting when enabled on a Page/Post
-* Fix: PHP Warning: Cannot modify header information - headers already sent, when ?ck_subscriber_id included in request URI in some Page Builders (e.g. Elementor)
-* Fix: PHP Warning: Trying to access array offset on value of type null
 
 ### 2.0.5 2022-12-15
 * Fix: Broadcasts: Strip slashes on output when pagination clicked and Broadcasts are reloaded

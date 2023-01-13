@@ -27,15 +27,6 @@ class ConvertKit_Admin_Restrict_Content {
 	public $products = false;
 
 	/**
-	 * Holds the Restrict Content Settings class.
-	 *
-	 * @since   2.1.0
-	 *
-	 * @var     bool|ConvertKit_Settings_Restrict_Content
-	 */
-	public $restrict_content_settings = false;
-
-	/**
 	 * Holds the value chosen for the Restrict Content filter dropdown
 	 * in the WP_List_Table.
 	 *
@@ -51,14 +42,6 @@ class ConvertKit_Admin_Restrict_Content {
 	 * @since   2.1.0
 	 */
 	public function __construct() {
-
-		// Initialize classes that will be used.
-		$this->restrict_content_settings = new ConvertKit_Settings_Restrict_Content();
-
-		// Bail if Restrict Content isn't enabled.
-		if ( ! $this->restrict_content_settings->enabled() ) {
-			return;
-		}
 
 		// Add New Member Content button.
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
@@ -173,15 +156,7 @@ class ConvertKit_Admin_Restrict_Content {
 			return $views;
 		}
 
-		// Get current post type that we're viewing.
-		$post_type = $this->get_current_post_type();
-
-		// Don't output button if we couldn't determine the current post type.
-		if ( ! $post_type ) {
-			return $views;
-		}
-
-		$views['convertkit_restrict_content_setup'] = '<a href="admin.php?page=convertkit-restrict-content-setup&post_type=' . esc_attr( $post_type ) . '" class="convertkit-action page-title-action hidden">' . esc_html__( 'Add New Member Content', 'convertkit' ) . '</a>';
+		$views['convertkit_restrict_content_setup'] = '<a href="admin.php?page=convertkit-restrict-content-setup&post_type=' . $this->get_current_post_type() . '" class="convertkit-action page-title-action hidden">' . __( 'Add New Member Content', 'convertkit' ) . '</a>';
 		return $views;
 
 	}
@@ -279,19 +254,11 @@ class ConvertKit_Admin_Restrict_Content {
 	 *
 	 * @since   2.1.0
 	 *
-	 * @return  bool|string
+	 * @return  string
 	 */
 	private function get_current_post_type() {
 
-		// Bail if we cannot determine the screen.
-		if ( ! function_exists( 'get_current_screen' ) ) {
-			return false;
-		}
-
-		// Get screen.
 		$screen = get_current_screen();
-
-		// Return post type.
 		return $screen->post_type;
 
 	}
