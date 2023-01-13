@@ -345,7 +345,7 @@ class Plugin extends \Codeception\Module
 						break;
 					default:
 						$I->fillField('_wp_convertkit_settings_restrict_content[' . $key . ']', $value);
-						break;	
+						break;
 				}
 			}
 		}
