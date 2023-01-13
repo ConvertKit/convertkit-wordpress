@@ -32,6 +32,9 @@ class ConvertKit_Admin_Settings_Restrict_Content extends ConvertKit_Settings_Bas
 		$this->title    = __( 'Member Content', 'convertkit' );
 		$this->tab_text = __( 'Member Content', 'convertkit' );
 
+		// Identify that this is beta functionality.
+		$this->is_beta = true;
+
 		parent::__construct();
 
 	}
@@ -135,7 +138,8 @@ class ConvertKit_Admin_Settings_Restrict_Content extends ConvertKit_Settings_Bas
 	public function print_section_info() {
 
 		?>
-		<p><?php esc_html_e( 'Defines the text and button labels to display when a Page, Post or Custom Post has its Member Content setting set to a Product, and the visitor has not authenticated/subscribed.', 'convertkit' ); ?></p>
+		<span class="convertkit-beta-label"><?php esc_html_e( 'Beta', 'convertkit' ); ?></span>
+		<p class="description"><?php esc_html_e( 'Defines the text and button labels to display when a Page, Post or Custom Post has its Member Content setting set to a Product, and the visitor has not authenticated/subscribed.', 'convertkit' ); ?></p>
 		<?php
 
 	}
