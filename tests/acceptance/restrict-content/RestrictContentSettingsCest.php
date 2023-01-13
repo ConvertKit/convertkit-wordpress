@@ -18,7 +18,6 @@ class RestrictContentSettingsCest
 		// Activate ConvertKit Plugin.
 		$I->activateConvertKitPlugin($I);
 		$I->setupConvertKitPlugin($I);
-		$I->enableDebugLog($I);
 	}
 
 

@@ -52,7 +52,6 @@ class RestrictContentFilterCest
 	{
 		// Setup Plugin using API keys that have no resources.
 		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY'], $_ENV['CONVERTKIT_API_SECRET']);
-		$I->enableDebugLog($I);
 
 		// Navigate to Pages.
 		$I->amOnAdminPage('edit.php?post_type=page');
@@ -76,7 +75,6 @@ class RestrictContentFilterCest
 	{
 		// Setup Plugin using API keys that have no resources.
 		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY_NO_DATA'], $_ENV['CONVERTKIT_API_SECRET_NO_DATA']);
-		$I->enableDebugLog($I);
 		$I->setupConvertKitPluginRestrictContent(
 			$I,
 			[
@@ -105,7 +103,6 @@ class RestrictContentFilterCest
 	{
 		// Setup Plugin.
 		$I->setupConvertKitPlugin($I);
-		$I->enableDebugLog($I);
 		$I->setupConvertKitPluginRestrictContent(
 			$I,
 			[

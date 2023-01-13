@@ -335,7 +335,18 @@ class Plugin extends \Codeception\Module
 		// Complete fields.
 		if ( $settings ) {
 			foreach ( $settings as $key => $value ) {
-				$I->fillField('_wp_convertkit_settings_restrict_content[' . $key . ']', $value);
+				switch ( $key ) {
+					case 'enabled':
+						if ( $value ) {
+							$I->checkOption('_wp_convertkit_settings_restrict_content[' . $key . ']');
+						} else {
+							$I->uncheckOption('_wp_convertkit_settings_restrict_content[' . $key . ']');
+						}
+						break;
+					default:
+						$I->fillField('_wp_convertkit_settings_restrict_content[' . $key . ']', $value);
+						break;	
+				}
 			}
 		}
 

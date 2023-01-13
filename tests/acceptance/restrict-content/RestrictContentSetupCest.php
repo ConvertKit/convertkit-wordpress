@@ -79,7 +79,6 @@ class RestrictContentSetupCest
 
 		// Setup Plugin using API keys that have no resources.
 		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY_NO_DATA'], $_ENV['CONVERTKIT_API_SECRET_NO_DATA']);
-		$I->enableDebugLog($I);
 
 		// Navigate to Pages.
 		$I->amOnAdminPage('edit.php?post_type=page');
@@ -256,7 +255,6 @@ class RestrictContentSetupCest
 	{
 		// Setup Plugin.
 		$I->setupConvertKitPlugin($I);
-		$I->enableDebugLog($I);
 
 		// Enable Restrict Content.
 		$I->setupConvertKitPluginRestrictContent(
