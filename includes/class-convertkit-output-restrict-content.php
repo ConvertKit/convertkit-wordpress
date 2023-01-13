@@ -99,6 +99,11 @@ class ConvertKit_Output_Restrict_Content {
 		$this->settings                  = new ConvertKit_Settings();
 		$this->restrict_content_settings = new ConvertKit_Settings_Restrict_Content();
 
+		// Bail if Restrict Content isn't enabled.
+		if ( ! $this->restrict_content_settings->enabled() ) {
+			return;
+		}
+
 		add_action( 'init', array( $this, 'maybe_run_subscriber_authentication' ), 1 );
 		add_action( 'init', array( $this, 'maybe_run_subscriber_verification' ), 2 );
 		add_filter( 'the_content', array( $this, 'maybe_restrict_content' ) );

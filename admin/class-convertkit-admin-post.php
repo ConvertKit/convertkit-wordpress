@@ -118,6 +118,9 @@ class ConvertKit_Admin_Post {
 			return;
 		}
 
+		// Initialize Restrict Content Settings class.
+		$restrict_content_settings = new ConvertKit_Settings_Restrict_Content();
+
 		// Fetch Post Settings, Forms, Landing Pages and Tags.
 		$convertkit_post          = new ConvertKit_Post( $post->ID );
 		$convertkit_forms         = new ConvertKit_Resource_Forms();
