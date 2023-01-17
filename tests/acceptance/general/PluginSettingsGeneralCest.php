@@ -61,6 +61,10 @@ class PluginSettingsGeneralCest
 
 		// Confirm that UTM parameters exist for the 'sign in to ConvertKit' link.
 		$I->seeInSource('<a href="https://app.convertkit.com/?utm_source=wordpress&amp;utm_content=convertkit" target="_blank">sign in to ConvertKit</a>');
+
+		// Confirm that the UTM parameters exist for the documentation links.
+		$I->seeInSource('<a href="https://help.convertkit.com/en/articles/2502591-the-convertkit-wordpress-plugin?utm_source=wordpress&amp;utm_content=convertkit" class="convertkit-tab" target="_blank">Documentation <span class="dashicons dashicons-external"></span></a>');
+		$I->seeInSource('<a href="https://help.convertkit.com/en/articles/2502591-the-convertkit-wordpress-plugin?utm_source=wordpress&amp;utm_content=convertkit" target="_blank">plugin documentation</a>');
 	}
 
 	/**
