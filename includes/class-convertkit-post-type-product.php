@@ -139,6 +139,11 @@ class ConvertKit_Post_Type_Product {
 		// Delete all Products in the Custom Post Type.
 		$this->delete_all();
 
+		// Bail if the Post Type isn't registered.
+		if ( ! post_type_exists( $this->post_type_name ) ) {
+			return;
+		}
+
 		// If no Products exist, bail.
 		if ( ! $products ) {
 			return;
