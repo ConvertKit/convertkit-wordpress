@@ -150,6 +150,21 @@ class ConvertKit_Admin_Settings {
 				}
 				?>
 			</form>
+
+			<p class="description">
+				<?php
+				// Output Documentation link, if it exists.
+				$documentation_url = $this->get_active_section_documentation_url( $active_section );
+				if ( $documentation_url !== false ) {
+					echo sprintf(
+						'%s <a href="%s" target="_blank">%s</a>',
+						esc_html__( 'If you need help setting up the plugin please refer to the', 'convertkit' ),
+						esc_attr( $documentation_url ),
+						esc_html__( 'plugin documentation', 'convertkit' )
+					);
+				}
+				?>
+			</p>
 		</div>
 		<?php
 
@@ -311,7 +326,7 @@ class ConvertKit_Admin_Settings {
 	/**
 	 * Returns the documentation URL for the active settings section viewed by the user.
 	 * 
-	 * @since 	2.0.7
+	 * @since 	2.0.8
 	 * 
 	 * @param   string 		$active_section     Currently displayed/selected section.
 	 * @return 	bool|string
@@ -328,8 +343,11 @@ class ConvertKit_Admin_Settings {
 			return false;
 		}
 
-		// Pass request to section's documentation_url() function.
-		return $this->sections[ $active_section ]->documentation_url();
+		// Pass request to section's documentation_url() function, including UTM parameters.
+		return add_query_arg( array(
+			'utm_source' => 'wordpress',
+			'utm_content' => 'convertkit',
+		), $this->sections[ $active_section ]->documentation_url() );
 
 	}
 

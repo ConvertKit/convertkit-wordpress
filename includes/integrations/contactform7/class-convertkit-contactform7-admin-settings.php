@@ -74,7 +74,7 @@ class ConvertKit_ContactForm7_Admin_Settings extends ConvertKit_Settings_Base {
 	/**
 	 * Returns the URL for the ConvertKit documentation for this setting section.
 	 * 
-	 * @since 	2.0.7
+	 * @since 	2.0.8
 	 * 
 	 * @return 	string 	Documentation URL.
 	 */
