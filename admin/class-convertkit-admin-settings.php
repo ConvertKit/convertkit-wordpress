@@ -276,7 +276,7 @@ class ConvertKit_Admin_Settings {
 			$documentation_url = $this->get_active_section_documentation_url( $active_section );
 			if ( $documentation_url !== false ) {
 				printf(
-					'<li><a href="%s" class="convertkit-tab convertkit-tab-last">%s</a></li>',
+					'<li class="convertkit-docs"><a href="%s" class="convertkit-tab">%s <span class="dashicons dashicons-external"></span></a></li>',
 					esc_attr( $documentation_url ),
 					esc_html__( 'Documentation', 'convertkit' )
 				);

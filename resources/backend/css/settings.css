@@ -52,6 +52,10 @@ ul.convertkit-tabs li {
 	line-height: 64px;
 	list-style-type: none;
 }
+ul.convertkit-tabs li.convertkit-docs {
+	float: right;
+	
+}
 ul.convertkit-tabs li a {
 	display: inline-block;
 	padding: 0 20px;
