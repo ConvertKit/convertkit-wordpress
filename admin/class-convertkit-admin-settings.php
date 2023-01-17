@@ -271,7 +271,7 @@ class ConvertKit_Admin_Settings {
 					esc_html( $section->tab_text )
 				);
 			}
-			
+
 			// Output Documentation link tab, if it exists.
 			$documentation_url = $this->get_active_section_documentation_url( $active_section );
 			if ( $documentation_url !== false ) {
@@ -325,11 +325,11 @@ class ConvertKit_Admin_Settings {
 
 	/**
 	 * Returns the documentation URL for the active settings section viewed by the user.
-	 * 
-	 * @since 	2.0.8
-	 * 
-	 * @param   string 		$active_section     Currently displayed/selected section.
-	 * @return 	bool|string
+	 *
+	 * @since   2.0.8
+	 *
+	 * @param   string $active_section     Currently displayed/selected section.
+	 * @return  bool|string
 	 */
 	private function get_active_section_documentation_url( $active_section ) {
 
@@ -344,10 +344,13 @@ class ConvertKit_Admin_Settings {
 		}
 
 		// Pass request to section's documentation_url() function, including UTM parameters.
-		return add_query_arg( array(
-			'utm_source' => 'wordpress',
-			'utm_content' => 'convertkit',
-		), $this->sections[ $active_section ]->documentation_url() );
+		return add_query_arg(
+			array(
+				'utm_source'  => 'wordpress',
+				'utm_content' => 'convertkit',
+			),
+			$this->sections[ $active_section ]->documentation_url()
+		);
 
 	}
 

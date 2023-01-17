@@ -185,10 +185,10 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 
 	/**
 	 * Returns the URL for the ConvertKit documentation for this setting section.
-	 * 
-	 * @since 	2.0.8
-	 * 
-	 * @return 	string 	Documentation URL.
+	 *
+	 * @since   2.0.8
+	 *
+	 * @return  string  Documentation URL.
 	 */
 	public function documentation_url() {
 
