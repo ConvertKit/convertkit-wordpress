@@ -54,7 +54,9 @@ ul.convertkit-tabs li {
 }
 ul.convertkit-tabs li.convertkit-docs {
 	float: right;
-	
+}
+ul.convertkit-tabs li.convertkit-docs a span.dashicons {
+	vertical-align: middle;
 }
 ul.convertkit-tabs li a {
 	display: inline-block;
