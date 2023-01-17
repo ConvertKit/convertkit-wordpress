@@ -15,10 +15,8 @@ class PageFormCest
 	 */
 	public function _before(AcceptanceTester $I)
 	{
-		// Activate and Setup ConvertKit plugin.
+		// Activate ConvertKit plugin.
 		$I->activateConvertKitPlugin($I);
-		$I->setupConvertKitPlugin($I);
-		$I->enableDebugLog($I);
 	}
 
 	/**
@@ -30,6 +28,10 @@ class PageFormCest
 	 */
 	public function testAccessibility(AcceptanceTester $I)
 	{
+		// Setup ConvertKit plugin.
+		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPluginResources($I);
+
 		// Navigate to Post Type (e.g. Pages / Posts) > Add New.
 		$I->amOnAdminPage('post-new.php?post_type=page');
 
@@ -50,6 +52,10 @@ class PageFormCest
 	 */
 	public function testAddNewPageUsingDefaultFormWithNoDefaultFormSpecifiedInPlugin(AcceptanceTester $I)
 	{
+		// Setup ConvertKit plugin with no default Forms configured.
+		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY'], $_ENV['CONVERTKIT_API_SECRET'], '', '', '');
+		$I->setupConvertKitPluginResources($I);
+
 		// Add a Page using the Gutenberg editor.
 		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form: Default: None');
 
@@ -79,8 +85,9 @@ class PageFormCest
 	 */
 	public function testAddNewPageUsingDefaultForm(AcceptanceTester $I)
 	{
-		// Specify the Default Form in the Plugin Settings.
-		$defaultFormID = $I->setupConvertKitPluginDefaultForm($I);
+		// Setup ConvertKit plugin.
+		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPluginResources($I);
 
 		// Add a Page using the Gutenberg editor.
 		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form: Default');
@@ -98,7 +105,7 @@ class PageFormCest
 		$I->publishAndViewGutenbergPage($I);
 
 		// Confirm that the ConvertKit Default Form displays.
-		$I->seeElementInDOM('form[data-sv-form="' . $defaultFormID . '"]');
+		$I->seeElementInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]');
 	}
 
 	/**
@@ -111,8 +118,9 @@ class PageFormCest
 	 */
 	public function testAddNewPageUsingDefaultLegacyForm(AcceptanceTester $I)
 	{
-		// Specify the Default Legacy Form in the Plugin Settings.
-		$defaultLegacyFormID = $I->setupConvertKitPluginDefaultLegacyForm($I);
+		// Setup ConvertKit plugin to use legacy Form as default for Pages.
+		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY'], $_ENV['CONVERTKIT_API_SECRET'], $_ENV['CONVERTKIT_API_LEGACY_FORM_ID'], '', '');
+		$I->setupConvertKitPluginResources($I);
 
 		// Add a Page using the Gutenberg editor.
 		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form: Legacy: Default');
@@ -130,7 +138,7 @@ class PageFormCest
 		$I->publishAndViewGutenbergPage($I);
 
 		// Confirm that the ConvertKit Default Legacy Form displays.
-		$I->seeInSource('<form id="ck_subscribe_form" class="ck_subscribe_form" action="https://api.convertkit.com/landing_pages/' . $defaultLegacyFormID . '/subscribe" data-remote="true">');
+		$I->seeInSource('<form id="ck_subscribe_form" class="ck_subscribe_form" action="https://api.convertkit.com/landing_pages/' . $_ENV['CONVERTKIT_API_LEGACY_FORM_ID'] . '/subscribe" data-remote="true">');
 	}
 
 	/**
@@ -143,6 +151,10 @@ class PageFormCest
 	 */
 	public function testAddNewPageUsingNoForm(AcceptanceTester $I)
 	{
+		// Setup ConvertKit plugin.
+		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPluginResources($I);
+
 		// Add a Page using the Gutenberg editor.
 		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form: None');
 
@@ -172,6 +184,10 @@ class PageFormCest
 	 */
 	public function testAddNewPageUsingDefinedForm(AcceptanceTester $I)
 	{
+		// Setup ConvertKit plugin.
+		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPluginResources($I);
+
 		// Add a Page using the Gutenberg editor.
 		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form: ' . $_ENV['CONVERTKIT_API_FORM_NAME']);
 
@@ -201,6 +217,10 @@ class PageFormCest
 	 */
 	public function testAddNewPageUsingDefinedLegacyForm(AcceptanceTester $I)
 	{
+		// Setup ConvertKit plugin.
+		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPluginResources($I);
+
 		// Add a Page using the Gutenberg editor.
 		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form: ' . $_ENV['CONVERTKIT_API_LEGACY_FORM_NAME']);
 
@@ -235,8 +255,9 @@ class PageFormCest
 	 */
 	public function testAddNewPageUsingInvalidDefinedForm(AcceptanceTester $I)
 	{
-		// Setup the Default Form for Pages and Posts.
-		$I->setupConvertKitPluginDefaultForm($I);
+		// Setup ConvertKit plugin.
+		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPluginResources($I);
 
 		// Create Page, with an invalid Form ID, as if it were created prior to API credentials being changed and/or
 		// a Form being deleted in ConvertKit.
@@ -277,8 +298,9 @@ class PageFormCest
 	 */
 	public function testQuickEditUsingDefaultForm(AcceptanceTester $I)
 	{
-		// Specify the Default Form in the Plugin Settings.
-		$I->setupConvertKitPluginDefaultForm($I);
+		// Setup ConvertKit plugin.
+		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPluginResources($I);
 
 		// Programmatically create a Page.
 		$pageID = $I->havePostInDatabase(
@@ -318,6 +340,10 @@ class PageFormCest
 	 */
 	public function testQuickEditUsingDefinedForm(AcceptanceTester $I)
 	{
+		// Setup ConvertKit plugin.
+		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPluginResources($I);
+
 		// Programmatically create a Page.
 		$pageID = $I->havePostInDatabase(
 			[
@@ -356,8 +382,9 @@ class PageFormCest
 	 */
 	public function testBulkEditUsingDefaultForm(AcceptanceTester $I)
 	{
-		// Specify the Default Form in the Plugin Settings.
-		$I->setupConvertKitPluginDefaultForm($I);
+		// Setup ConvertKit plugin.
+		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPluginResources($I);
 
 		// Programmatically create two Pages.
 		$pageIDs = array(
@@ -408,6 +435,10 @@ class PageFormCest
 	 */
 	public function testBulkEditUsingDefinedForm(AcceptanceTester $I)
 	{
+		// Setup ConvertKit plugin.
+		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPluginResources($I);
+
 		// Programmatically create two Pages.
 		$pageIDs = array(
 			$I->havePostInDatabase(
@@ -457,6 +488,10 @@ class PageFormCest
 	 */
 	public function testBulkEditWithNoChanges(AcceptanceTester $I)
 	{
+		// Setup ConvertKit plugin.
+		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPluginResources($I);
+
 		// Programmatically create two Pages with a defined form.
 		$pageIDs = array(
 			$I->havePostInDatabase(
@@ -520,6 +555,10 @@ class PageFormCest
 	 */
 	public function testBulkEditFieldsHiddenWhenNoPagesFound(AcceptanceTester $I)
 	{
+		// Setup ConvertKit plugin.
+		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPluginResources($I);
+
 		// Emulate the user searching for Pages with a query string that yields no results.
 		$I->amOnAdminPage('edit.php?post_type=page&s=nothing');
 
