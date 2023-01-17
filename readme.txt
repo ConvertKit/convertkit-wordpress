@@ -5,7 +5,7 @@ Tags: email marketing, email newsletter, newsletter, convertkit
 Requires at least: 5.0
 Tested up to: 6.1.1
 Requires PHP: 5.6.20
-Stable tag: 2.0.6
+Stable tag: 2.0.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -116,6 +116,10 @@ Full Plugin documentation can be found [here](https://help.convertkit.com/en/art
 7. Track subscriber growth
 
 == Changelog ==
+
+### 2.0.7 2023-01-16
+* Fix: Elementor 3.9.0+ compatibility
+* Updated: ConvertKit WordPress Libraries to 1.3.0
 
 ### 2.0.6 2023-01-05
 * Fix: Honor "Add a tag" setting when enabled on a Page/Post
