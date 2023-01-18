@@ -355,6 +355,19 @@ class ConvertKit_Settings_Tools extends ConvertKit_Settings_Base {
 	}
 
 	/**
+	 * Returns the URL for the ConvertKit documentation for this setting section.
+	 *
+	 * @since   2.0.8
+	 *
+	 * @return  string  Documentation URL.
+	 */
+	public function documentation_url() {
+
+		return 'https://help.convertkit.com/en/articles/2502591-the-convertkit-wordpress-plugin';
+
+	}
+
+	/**
 	 * Returns a string comprising of the WordPress system information, with Plugin information
 	 * prepended.
 	 *

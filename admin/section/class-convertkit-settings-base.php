@@ -99,6 +99,11 @@ abstract class ConvertKit_Settings_Base {
 	abstract public function print_section_info();
 
 	/**
+	 * Returns the URL for the ConvertKit documentation for this setting section.
+	 */
+	abstract public function documentation_url();
+
+	/**
 	 * Renders the section
 	 */
 	public function render() {
