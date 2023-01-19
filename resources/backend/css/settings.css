@@ -52,6 +52,12 @@ ul.convertkit-tabs li {
 	line-height: 64px;
 	list-style-type: none;
 }
+ul.convertkit-tabs li.convertkit-docs {
+	float: right;
+}
+ul.convertkit-tabs li.convertkit-docs a span.dashicons {
+	vertical-align: middle;
+}
 ul.convertkit-tabs li a {
 	display: inline-block;
 	padding: 0 20px;
@@ -117,4 +123,37 @@ body.settings_page__wp_convertkit_settings .wrap .postbox .button-primary:hover 
 body.settings_page__wp_convertkit_settings .wrap .postbox textarea.convertkit-monospace {
 	font-family: monospace;
 	padding: 20px;
+}
+
+/**
+ * Beta Label
+ */
+body.settings_page__wp_convertkit_settings ul.convertkit-tabs li a span.convertkit-beta-label {
+	background-color: #edf2f4;
+	border-radius: 9999px;
+	color: #000;
+	margin: 0 0 0 12px;
+	padding: 5px 12px;
+	font-weight: 400;
+	font-size: 13px;
+}
+body.settings_page__wp_convertkit_settings .wrap .postbox.convertkit-beta span.convertkit-beta-label {
+	display: inline-block;
+	background-color: #f6f8fa;
+	border-radius: 9999px;
+	border-width: 1px;
+	margin: 0 0 0 12px;
+	padding: 8px 12px;
+	vertical-align: top;
+}
+body.settings_page__wp_convertkit_settings .wrap .postbox.convertkit-beta > h2 {
+	display: inline-block;
+	margin: 0;
+	padding: 0;
+	border: none;
+}
+body.settings_page__wp_convertkit_settings .wrap .postbox.convertkit-beta > p.description {
+	margin-top: 30px;
+	padding-top: 30px;
+	border-top: 1px solid #EDF2F4;
 }

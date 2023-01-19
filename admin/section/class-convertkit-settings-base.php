@@ -52,6 +52,15 @@ abstract class ConvertKit_Settings_Base {
 	public $settings;
 
 	/**
+	 * Holds whether this settings section is for beta functionality.
+	 *
+	 * @since   2.1.0
+	 *
+	 * @var     bool
+	 */
+	public $is_beta = false;
+
+	/**
 	 * Constructor
 	 */
 	public function __construct() {
@@ -99,6 +108,11 @@ abstract class ConvertKit_Settings_Base {
 	abstract public function print_section_info();
 
 	/**
+	 * Returns the URL for the ConvertKit documentation for this setting section.
+	 */
+	abstract public function documentation_url();
+
+	/**
 	 * Renders the section
 	 */
 	public function render() {
@@ -139,7 +153,7 @@ abstract class ConvertKit_Settings_Base {
 
 		?>
 		<div class="metabox-holder">
-			<div class="postbox">
+			<div class="postbox <?php echo sanitize_html_class( $this->is_beta ? 'convertkit-beta' : '' ); ?>">
 		<?php
 
 	}
