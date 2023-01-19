@@ -99,7 +99,7 @@ class ConvertKit_Block_Content extends ConvertKit_Block {
 	 *
 	 * @since   1.9.6
 	 *
-	 * @return  mixed   bool | array
+	 * @return  bool|array
 	 */
 	public function get_fields() {
 
@@ -132,7 +132,7 @@ class ConvertKit_Block_Content extends ConvertKit_Block {
 	 *
 	 * @since   1.9.6
 	 *
-	 * @return  mixed   bool | array
+	 * @return  bool|array
 	 */
 	public function get_panels() {
 

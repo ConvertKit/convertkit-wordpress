@@ -21,14 +21,14 @@ class Read_Actions_Filters {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param   mixed $folders                        WordPress Plugin/Theme Folder Path(s) (e.g. /path/to/your/wp/wp-content/plugins/plugin-name).
-	 * @param   bool  $extract_filters                Extract apply_filters() calls.
-	 * @param   bool  $extract_actions                Extract do_action() calls.
-	 * @param   bool  $return_format                  Return Format (html|array).
-	 * @param   mixed $prefix_required                Optional prefix string required on filters and actions for inclusion in resultset (false = don't filter any found filters/actions).
-	 * @param   mixed $prefix_required_replacement    Optional prefix string replacement, to use if $prefix_required is found (e.g. $this->base->plugin->name --> convertkit_).
-	 * @param   bool  $by_file                        Denote filters and actions by filename (false = group filters and actions if they appear across multiple files).
-	 * @return  mixed                                  Output
+	 * @param   array 		$folders                        WordPress Plugin/Theme Folder Path(s) (e.g. /path/to/your/wp/wp-content/plugins/plugin-name).
+	 * @param   bool  		$extract_filters                Extract apply_filters() calls.
+	 * @param   bool  		$extract_actions                Extract do_action() calls.
+	 * @param   bool  		$return_format                  Return Format (html|array).
+	 * @param   bool|string $prefix_required                Optional prefix string required on filters and actions for inclusion in resultset (false = don't filter any found filters/actions).
+	 * @param   bool|string $prefix_required_replacement    Optional prefix string replacement, to use if $prefix_required is found (e.g. $this->base->plugin->name --> convertkit_).
+	 * @param   bool  		$by_file                        Denote filters and actions by filename (false = group filters and actions if they appear across multiple files).
+	 * @return  bool|string                                 Output
 	 */
 	public function run( $folders, $extract_filters = true, $extract_actions = true, $return_format = 'html', $prefix_required = false, $prefix_required_replacement = false, $by_file = false ) {
 
@@ -124,14 +124,14 @@ class Read_Actions_Filters {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param   string $function_to_search             Function to search (apply_filters|do_action).
-	 * @param   string $results                        Existing Results.
-	 * @param   string $contents                       File Contents.
-	 * @param   string $file_only                      Filename (excluding full path).
-	 * @param   string $prefix_required                Optional prefix string required on filters and actions for inclusion in resultset (false = don't filter any found filters/actions).
-	 * @param   mixed  $prefix_required_replacement    Optional prefix string replacement, to use if $prefix_required is found (e.g. $this->base->plugin->name --> convertkit_).
-	 * @param   bool   $by_file                        Deliminate array results by file.
-	 * @return  array       Matches
+	 * @param   string 			$function_to_search             Function to search (apply_filters|do_action).
+	 * @param   string 			$results                        Existing Results.
+	 * @param   string 			$contents                       File Contents.
+	 * @param   string 			$file_only                      Filename (excluding full path).
+	 * @param   bool|string 	$prefix_required                Optional prefix string required on filters and actions for inclusion in resultset (false = don't filter any found filters/actions).
+	 * @param   bool|string  	$prefix_required_replacement    Optional prefix string replacement, to use if $prefix_required is found (e.g. $this->base->plugin->name --> convertkit_).
+	 * @param   bool   			$by_file                        Deliminate array results by file.
+	 * @return  array       									Matches
 	 */
 	private function find_matches( $function_to_search, $results, $contents, $file_only, $prefix_required, $prefix_required_replacement = false, $by_file ) {
 
