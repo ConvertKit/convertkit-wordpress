@@ -47,7 +47,7 @@ function convertkit_plugin_activate( $network_wide ) {
  *
  * @since   1.9.7.4
  *
- * @param   mixed $site_or_blog_id    WP_Site or Blog ID.
+ * @param   WP_Site|int $site_or_blog_id    WP_Site or Blog ID.
  */
 function convertkit_plugin_activate_new_site( $site_or_blog_id ) {
 
