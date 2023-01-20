@@ -61,7 +61,7 @@ class ConvertKit_Admin_Restrict_Content {
 		}
 
 		// Add New Member Content button.
-		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts_and_css' ) );
 		foreach ( convertkit_get_supported_restrict_content_post_types() as $post_type ) {
 			add_filter( 'views_edit-' . $post_type, array( $this, 'output_wp_list_table_buttons' ) );
 		}
@@ -73,20 +73,21 @@ class ConvertKit_Admin_Restrict_Content {
 	}
 
 	/**
-	 * Enqueue JavaScript when viewing a list of Pages, Posts or Custom Post Types
+	 * Enqueue JavaScript and CSS when viewing a list of Pages, Posts or Custom Post Types
 	 * in a WP_List_Table that supports Restrict Content functionality.
 	 *
 	 * @since   2.1.0
 	 */
-	public function enqueue_scripts() {
+	public function enqueue_scripts_and_css() {
 
 		// Bail if we're not on a WP_List_Table screen for a supported Post Type.
 		if ( ! $this->is_wp_list_table_request_for_supported_post_type() ) {
 			return;
 		}
 
-		// Enqueue JS.
+		// Enqueue JS and CSS.
 		wp_enqueue_script( 'convertkit-admin-wp-list-table-buttons', CONVERTKIT_PLUGIN_URL . 'resources/backend/js/wp-list-table-buttons.js', array( 'jquery' ), CONVERTKIT_PLUGIN_VERSION, true );
+		wp_enqueue_style( 'convertkit-admin-wp-list-table-buttons', CONVERTKIT_PLUGIN_URL . 'resources/backend/css/wp-list-table-buttons.css', array(), CONVERTKIT_PLUGIN_VERSION );
 
 		// Filter Page's post state to maybe include a label denoting that Restricted Content is enabled.
 		// We do this here so we don't run this on Post Types that don't support Restricted Content.
