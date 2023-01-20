@@ -7,8 +7,11 @@
  */
 
 /**
- * Handles previewing a supplied Form ID in the URL when viewing a Page or Post,
- * when the user clicks a preview link in the Plugin Setup Wizard.
+ * Handles:
+ * - previewing a supplied Form ID in the URL when viewing a Page or Post,
+ * when the user clicks a preview link in the Plugin Setup Wizard,
+ * - appending an 'Edit form in ConvertKit' link when previewing a Page or Post
+ * as a user who can edit the Page.
  *
  * @package ConvertKit
  * @author ConvertKit
@@ -111,13 +114,13 @@ class ConvertKit_Preview_Output {
 	}
 
 	/**
-	 * Appends an "Edit form in ConvertKit" link to the ConvertKit Form appended at
-	 * the end of the Page's content, if the request is to preview a Page and the
+	 * Appends an "Edit form in ConvertKit" link to the ConvertKit Form defined in
+	 * the Page's settings, if the request is to preview a Page and the
 	 * logged in WordPress user can edit the Page.
 	 *
 	 * @since   2.0.8
 	 *
-	 * @param   string $content    Post Content.
+	 * @param   string $content    Post Content, including ConvertKit Form HTML.
 	 * @param   string $form_html  ConvertKit Form HTML.
 	 * @param   int    $post_id    Post ID.
 	 * @param   int    $form_id    ConvertKit Form ID.
@@ -141,12 +144,17 @@ class ConvertKit_Preview_Output {
 	 */
 	private function maybe_append_edit_form_link( $form_html, $form_id ) {
 
+		// Bail if the user isn't logged in.
+		if ( ! is_user_logged_in() ) {
+			return $form_html;
+		}
+
 		// Bail if the request isn't to preview a Page.
 		if ( ! is_preview() ) {
 			return $form_html;
 		}
 
-		// Bail if the user cannot edit the Page.
+		// Bail if the user does not have the WordPress capabilities to edit the Page / Post.
 		if ( ! current_user_can( 'edit_post', get_the_ID() ) ) {
 			return $form_html;
 		}
@@ -160,9 +168,9 @@ class ConvertKit_Preview_Output {
 			return $form_html;
 		}
 
-		// Bail if the Form's format isn't embed - we don't want to show an edit link for
+		// Bail if the Form's format isn't an inline form - we don't want to show an edit link for
 		// e.g. a sticky bar form.
-		if ( $form['type'] !== 'embed' ) {
+		if ( $form['format'] !== 'inline' ) {
 			return $form_html;
 		}
 
