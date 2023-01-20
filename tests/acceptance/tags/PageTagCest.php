@@ -104,7 +104,7 @@ class PageTagCest
 				'post_name'  => 'convertkit-tag-valid-subscriber-id',
 				'meta_input' => [
 					'_wp_convertkit_post_meta' => [
-						'form'         => '-1',
+						'form'         => '0',
 						'landing_page' => '',
 						'tag'          => $_ENV['CONVERTKIT_API_TAG_ID'],
 					],
