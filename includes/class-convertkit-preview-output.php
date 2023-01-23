@@ -176,7 +176,7 @@ class ConvertKit_Preview_Output {
 
 		// Append a link to edit the Form on ConvertKit.
 		$form_html .= sprintf(
-			'<div style="margin:0;padding:5px;text-align:right;font-size:13px;"><a href="https://app.convertkit.com/forms/designers/%s/edit" target="_blank">%s</a></div>',
+			'<div style="margin:0;padding:5px;text-align:right;font-size:13px;"><a href="https://app.convertkit.com/forms/designers/%s/edit/?utm_source=wordpress&utm_content=convertkit" target="_blank">%s</a></div>',
 			esc_attr( (string) $form_id ),
 			esc_html__( 'Edit form in ConvertKit', 'convertkit' )
 		);
