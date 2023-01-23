@@ -48,6 +48,24 @@ class ConvertKit_Resource_Posts extends ConvertKit_Resource {
 	public $wp_cron_schedule = 'hourly';
 
 	/**
+	 * The key to use when alphabetically sorting resources.
+	 *
+	 * @since   2.0.8
+	 *
+	 * @var     string
+	 */
+	public $order_by = 'published_at';
+
+	/**
+	 * The order to return resources.
+	 *
+	 * @since   2.0.8
+	 *
+	 * @var     string
+	 */
+	public $order = 'desc';
+
+	/**
 	 * Constructor.
 	 *
 	 * @since   1.9.8.4
