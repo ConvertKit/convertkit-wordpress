@@ -325,7 +325,7 @@ class ElementorBroadcastsCest
 					// Configure ConvertKit Plugin to not display a default Form,
 					// as we are testing for the Form in Elementor.
 					'_wp_convertkit_post_meta' => [
-						'form'         => '-1',
+						'form'         => '0',
 						'landing_page' => '',
 						'tag'          => '',
 					],

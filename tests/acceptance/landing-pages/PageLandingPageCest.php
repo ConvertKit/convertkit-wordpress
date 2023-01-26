@@ -179,7 +179,7 @@ class PageLandingPageCest
 				'post_name'   => 'convertkit-landing-page-legacy-url',
 				'meta_input'  => [
 					'_wp_convertkit_post_meta' => [
-						'form'         => '-1',
+						'form'         => '0',
 						// Emulates how Legacy Landing Pages were stored in < 1.9.6 as a URL, instead of an ID.
 						'landing_page' => $_ENV['CONVERTKIT_API_LEGACY_LANDING_PAGE_URL'],
 						'tag'          => '',
