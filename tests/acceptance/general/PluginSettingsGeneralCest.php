@@ -143,9 +143,11 @@ class PluginSettingsGeneralCest
 		$I->seeInField('_wp_convertkit_settings[api_secret]', $_ENV['CONVERTKIT_API_SECRET']);
 
 		// Check the order of the Form resources are alphabetical, with 'None' as the first choice.
-		$I->assertEquals($I->grabTextFrom('select#_wp_convertkit_settings_page_form option:first-child'), 'None'); // First item.
-		$I->assertEquals($I->grabTextFrom('select#_wp_convertkit_settings_page_form option:nth-child(2)'), 'AAA Test'); // First form.
-		$I->assertEquals($I->grabTextFrom('select#_wp_convertkit_settings_page_form option:last-child'), 'WooCommerce Product Form'); // Last form.
+		$I->checkSelectOptionOrder($I, '#_wp_convertkit_settings_page_form', [
+			'None', // First item.
+			'AAA Test', // Second item.
+			'WooCommerce Product Form', // Last item.
+		]);
 	}
 
 	/**

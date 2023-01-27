@@ -159,6 +159,28 @@ class Plugin extends \Codeception\Module
 					'archived'   => false,
 					'uid'        => '9f5c601482',
 				],
+				3437554 => [
+				    'id' => 3437554,
+				    'name' => 'AAA Test',
+				    'created_at' => '2022-07-15T15:06:32.000Z',
+				    'type' => 'embed',
+				    'format' => 'inline',
+				    'embed_js' => 'https://cheerful-architect-3237.ck.page/3bb15822a2/index.js',
+				    'embed_url' => 'https://cheerful-architect-3237.ck.page/3bb15822a2',
+				    'archived' => false,
+				    'uid' => '3bb15822a2'
+				],
+				2765149 => [
+				    'id' => 2765149,
+				    'name' => 'WooCommerce Product Form',
+				    'created_at' => '2021-11-11T15:32:54.000Z',
+				    'type' => 'embed',
+				    'format' => 'inline',
+				    'embed_js' => 'https://cheerful-architect-3237.ck.page/7e238f3920/index.js',
+				    'embed_url' => 'https://cheerful-architect-3237.ck.page/7e238f3920',
+				    'archived' => false,
+				    'uid' => '7e238f3920'
+				],
 			]
 		);
 
@@ -437,6 +459,35 @@ class Plugin extends \Codeception\Module
 	{
 		$I->loadConvertKitSettingsToolsScreen($I);
 		$I->dontSeeInSource($entry);
+	}
+
+	/**
+	 * Helper method to determine the order of <option> values for the given select element
+	 * and values.
+	 * 
+	 * @since 	2.0.8
+	 *
+	 * @param   AcceptanceTester $I         	AcceptanceTester.
+	 * @param   string           $selectElement <select> element.
+	 * @param 	array 			 $values 		<option> values.
+	 */
+	public function checkSelectOptionOrder($I, $selectElement, $values)
+	{
+		foreach ( $values as $i => $value ) {
+			// Define the applicable CSS selector.
+			if ( $i === 0 ) {
+				$nth = 'first-child';
+			} elseif ( $i + 1 === count( $values ) ) {
+				$nth = 'last-child';
+			} else {
+				$nth = 'nth-child(' . ( $i + 1 ) . ')';
+			}
+
+			$I->assertEquals(
+				$I->grabTextFrom('select' . $selectElement . ' option:' . $nth),
+				$value
+			);
+		}
 	}
 
 	/**
