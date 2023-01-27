@@ -181,17 +181,15 @@ class ConvertKit_Block_Form extends ConvertKit_Block {
 			}
 		}
 
-		// Get Settings.
-		$settings = new ConvertKit_Settings();
-
 		return array(
 			'form' => array(
 				'label'  => __( 'Form', 'convertkit' ),
 				'type'   => 'select',
 				'values' => $forms,
 				'data'   => array(
-					'forms'   => $convertkit_forms->get(),
-					'api_key' => $settings->get_api_key(),
+					// Used by resources/backend/js/gutenberg-block-form.js to determine whether the selected form's format
+					// (modal, slide in, sticky bar) and output a message in the block editor for the preview.
+					'forms'   => ( $convertkit_forms->exist() ? $convertkit_forms->get() : array() ),
 				),
 			),
 		);
