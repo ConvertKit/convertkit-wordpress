@@ -76,6 +76,9 @@ class Plugin extends \Codeception\Module
 	 *
 	 * Defining cached Resources here reduces the number of API calls made for each test,
 	 * reducing the likelihood of hitting a rate limit due to running tests in parallel.
+	 * 
+	 * Resources are deliberately not in order, to emulate how the data might not always
+	 * be in alphabetical / published order from the API. 
 	 *
 	 * @since   2.0.7
 	 *
@@ -87,6 +90,50 @@ class Plugin extends \Codeception\Module
 		$I->haveOptionInDatabase(
 			'convertkit_forms',
 			[
+				3003590 => [
+					'id'         => 3003590,
+					'name'       => 'Third Party Integrations Form',
+					'created_at' => '2022-02-17T15:05:31.000Z',
+					'type'       => 'embed',
+					'format'     => 'inline',
+					'embed_js'   => 'https://cheerful-architect-3237.ck.page/71cbcc4042/index.js',
+					'embed_url'  => 'https://cheerful-architect-3237.ck.page/71cbcc4042',
+					'archived'   => false,
+					'uid'        => '71cbcc4042',
+				],
+				2780977 => [
+					'id'         => 2780977,
+					'name'       => 'Modal Form',
+					'created_at' => '2021-11-17T04:22:06.000Z',
+					'type'       => 'embed',
+					'format'     => 'modal',
+					'embed_js'   => 'https://cheerful-architect-3237.ck.page/397e876257/index.js',
+					'embed_url'  => 'https://cheerful-architect-3237.ck.page/397e876257',
+					'archived'   => false,
+					'uid'        => '397e876257',
+				],
+				2780979 => [
+					'id'         => 2780979,
+					'name'       => 'Slide In Form',
+					'created_at' => '2021-11-17T04:22:24.000Z',
+					'type'       => 'embed',
+					'format'     => 'slide in',
+					'embed_js'   => 'https://cheerful-architect-3237.ck.page/e0d65bed9d/index.js',
+					'embed_url'  => 'https://cheerful-architect-3237.ck.page/e0d65bed9d',
+					'archived'   => false,
+					'uid'        => 'e0d65bed9d',
+				],
+				2765139 => [
+					'id'         => 2765139,
+					'name'       => 'Page Form',
+					'created_at' => '2021-11-11T15:30:40.000Z',
+					'type'       => 'embed',
+					'format'     => 'inline',
+					'embed_js'   => 'https://cheerful-architect-3237.ck.page/85629c512d/index.js',
+					'embed_url'  => 'https://cheerful-architect-3237.ck.page/85629c512d',
+					'archived'   => false,
+					'uid'        => '85629c512d',
+				],
 				470099  => [
 					'id'                  => 470099,
 					'name'                => 'Legacy Form',
@@ -101,39 +148,6 @@ class Plugin extends \Codeception\Module
 					'success_message'     => 'Success! Now check your email to confirm your subscription.',
 					'archived'            => false,
 				],
-				2780977 => [
-					'id'         => 2780977,
-					'name'       => 'Modal Form',
-					'created_at' => '2021-11-17T04:22:06.000Z',
-					'type'       => 'embed',
-					'format'     => 'modal',
-					'embed_js'   => 'https://cheerful-architect-3237.ck.page/397e876257/index.js',
-					'embed_url'  => 'https://cheerful-architect-3237.ck.page/397e876257',
-					'archived'   => false,
-					'uid'        => '397e876257',
-				],
-				2765139 => [
-					'id'         => 2765139,
-					'name'       => 'Page Form',
-					'created_at' => '2021-11-11T15:30:40.000Z',
-					'type'       => 'embed',
-					'format'     => 'inline',
-					'embed_js'   => 'https://cheerful-architect-3237.ck.page/85629c512d/index.js',
-					'embed_url'  => 'https://cheerful-architect-3237.ck.page/85629c512d',
-					'archived'   => false,
-					'uid'        => '85629c512d',
-				],
-				2780979 => [
-					'id'         => 2780979,
-					'name'       => 'Slide In Form',
-					'created_at' => '2021-11-17T04:22:24.000Z',
-					'type'       => 'embed',
-					'format'     => 'slide in',
-					'embed_js'   => 'https://cheerful-architect-3237.ck.page/e0d65bed9d/index.js',
-					'embed_url'  => 'https://cheerful-architect-3237.ck.page/e0d65bed9d',
-					'archived'   => false,
-					'uid'        => 'e0d65bed9d',
-				],
 				2780980 => [
 					'id'         => 2780980,
 					'name'       => 'Sticky Bar Form',
@@ -145,17 +159,6 @@ class Plugin extends \Codeception\Module
 					'archived'   => false,
 					'uid'        => '9f5c601482',
 				],
-				3003590 => [
-					'id'         => 3003590,
-					'name'       => 'Third Party Integrations Form',
-					'created_at' => '2022-02-17T15:05:31.000Z',
-					'type'       => 'embed',
-					'format'     => 'inline',
-					'embed_js'   => 'https://cheerful-architect-3237.ck.page/71cbcc4042/index.js',
-					'embed_url'  => 'https://cheerful-architect-3237.ck.page/71cbcc4042',
-					'archived'   => false,
-					'uid'        => '71cbcc4042',
-				],
 			]
 		);
 
@@ -163,17 +166,6 @@ class Plugin extends \Codeception\Module
 		$I->haveOptionInDatabase(
 			'convertkit_landing_pages',
 			[
-				2849151 => [
-					'id'         => 2849151,
-					'name'       => 'Character Encoding',
-					'created_at' => '2021-12-16T14:55:58.000Z',
-					'type'       => 'hosted',
-					'format'     => null,
-					'embed_js'   => 'https://cheerful-architect-3237.ck.page/cc5eb21744/index.js',
-					'embed_url'  => 'https://cheerful-architect-3237.ck.page/cc5eb21744',
-					'archived'   => false,
-					'uid'        => 'cc5eb21744',
-				],
 				2765196 => [
 					'id'         => 2765196,
 					'name'       => 'Landing Page',
@@ -184,6 +176,17 @@ class Plugin extends \Codeception\Module
 					'embed_url'  => 'https://cheerful-architect-3237.ck.page/99f1db6843',
 					'archived'   => false,
 					'uid'        => '99f1db6843',
+				],
+				2849151 => [
+					'id'         => 2849151,
+					'name'       => 'Character Encoding',
+					'created_at' => '2021-12-16T14:55:58.000Z',
+					'type'       => 'hosted',
+					'format'     => null,
+					'embed_js'   => 'https://cheerful-architect-3237.ck.page/cc5eb21744/index.js',
+					'embed_url'  => 'https://cheerful-architect-3237.ck.page/cc5eb21744',
+					'archived'   => false,
+					'uid'        => 'cc5eb21744',
 				],
 				470103  => [
 					'id'                  => 470103,
@@ -206,19 +209,19 @@ class Plugin extends \Codeception\Module
 		$I->haveOptionInDatabase(
 			'convertkit_posts',
 			[
-				572575 => [
-					'id'           => 572575,
-					'title'        => 'Paid Subscriber Broadcast',
-					'url'          => 'https://cheerful-architect-3237.ck.page/posts/paid-subscriber-broadcast',
-					'published_at' => '2022-05-03T14:51:50.000Z',
-					'is_paid'      => true,
-				],
 				489467 => [
 					'id'           => 489467,
 					'title'        => 'Broadcast 1',
 					'url'          => 'https://cheerful-architect-3237.ck.page/posts/broadcast-1',
 					'published_at' => '2022-04-08T00:00:00.000Z',
 					'is_paid'      => false,
+				],
+				224758 => [
+					'id'           => 224758,
+					'title'        => 'Test Subject',
+					'url'          => 'https://cheerful-architect-3237.ck.page/posts/test-subject',
+					'published_at' => '2022-01-24T00:00:00.000Z',
+					'is_paid'      => null,
 				],
 				489480 => [
 					'id'           => 489480,
@@ -227,12 +230,12 @@ class Plugin extends \Codeception\Module
 					'published_at' => '2022-04-08T00:00:00.000Z',
 					'is_paid'      => null,
 				],
-				224758 => [
-					'id'           => 224758,
-					'title'        => 'Test Subject',
-					'url'          => 'https://cheerful-architect-3237.ck.page/posts/test-subject',
-					'published_at' => '2022-01-24T00:00:00.000Z',
-					'is_paid'      => null,
+				572575 => [
+					'id'           => 572575,
+					'title'        => 'Paid Subscriber Broadcast',
+					'url'          => 'https://cheerful-architect-3237.ck.page/posts/paid-subscriber-broadcast',
+					'published_at' => '2022-05-03T14:51:50.000Z',
+					'is_paid'      => true,
 				],
 			]
 		);
@@ -258,6 +261,16 @@ class Plugin extends \Codeception\Module
 					'id'         => 2744672,
 					'name'       => 'wordpress',
 					'created_at' => '2021-11-11T19:30:06.000Z',
+				],
+				2907192 => [
+					'id'         => 2907192,
+					'name'       => 'gravityforms-tag-1',
+					'created_at' => '2022-02-02T14:06:32.000Z',
+				],
+				2907193 => [
+					'id'         => 2907193,
+					'name'       => 'gravityforms-tag-2',
+					'created_at' => '2022-02-02T14:06:38.000Z',
 				],
 			]
 		);
