@@ -14,11 +14,9 @@
  */
 function convertKitGutenbergProductBlockRenderPreview( block, props ) {
 
-	var product = block.fields.product.data.products[ props.attributes.product ];
-
 	// If no Product has been selected for display, return a prompt to tell the editor
 	// what to do.
-	if ( typeof product === 'undefined' ) {
+	if ( props.attributes.product === '' ) {
 		return wp.element.createElement(
 			'div',
 			{
