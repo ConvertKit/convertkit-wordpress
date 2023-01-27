@@ -187,9 +187,10 @@ class ConvertKit_Block_Form extends ConvertKit_Block {
 				'type'   => 'select',
 				'values' => $forms,
 				'data'   => array(
-					// Used by resources/backend/js/gutenberg-block-form.js to determine whether the selected form's format
-					// (modal, slide in, sticky bar) and output a message in the block editor for the preview.
-					'forms'   => ( $convertkit_forms->exist() ? $convertkit_forms->get() : array() ),
+					// Used by resources/backend/js/gutenberg-block-form.js to determine the selected form's format
+					// (modal, slide in, sticky bar) and output a message in the block editor for the preview to explain
+					// why some formats cannot be previewed.
+					'forms' => ( $convertkit_forms->exist() ? $convertkit_forms->get() : array() ),
 				),
 			),
 		);
