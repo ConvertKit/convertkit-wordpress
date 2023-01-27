@@ -319,10 +319,11 @@ class ConvertKit_Block_Form extends ConvertKit_Block {
 		 *
 		 * @since   1.9.6
 		 *
-		 * @param   string  $form   ConvertKit Form HTML.
-		 * @param   array   $atts   Block Attributes.
+		 * @param   string  $form       ConvertKit Form HTML.
+		 * @param   array   $atts       Block Attributes.
+		 * @param   int     $form_id    Form ID.
 		 */
-		$form = apply_filters( 'convertkit_block_form_render', $form, $atts );
+		$form = apply_filters( 'convertkit_block_form_render', $form, $atts, $form_id );
 
 		/**
 		 * Backward compat. filter for < 1.9.6. Filter the block's content immediately before it is output.
