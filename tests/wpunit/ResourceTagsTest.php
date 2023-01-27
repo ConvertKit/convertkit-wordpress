@@ -135,8 +135,8 @@ class ResourceTagsTest extends \Codeception\TestCase\WPTestCase
 		$this->assertArrayHasKey('name', reset($result));
 
 		// Assert order of data is in ascending alphabetical order.
-		$this->assertEquals('a-new-tag', reset($result)[ $this->resource->order_by ]);
-		$this->assertEquals('wordpress', end($result)[ $this->resource->order_by ]);
+		$this->assertEquals('gravityforms-tag-1', reset($result)[ $this->resource->order_by ]);
+		$this->assertEquals('wp-tag-test', end($result)[ $this->resource->order_by ]);
 	}
 
 	/**
@@ -166,8 +166,8 @@ class ResourceTagsTest extends \Codeception\TestCase\WPTestCase
 		$this->assertArrayHasKey('name', reset($result));
 
 		// Assert order of data is in ascending alphabetical order.
-		$this->assertEquals('wordpress', reset($result)[ $this->resource->order_by ]);
-		$this->assertEquals('a-new-tag', end($result)[ $this->resource->order_by ]);
+		$this->assertEquals('wp-tag-test', reset($result)[ $this->resource->order_by ]);
+		$this->assertEquals('gravityforms-tag-1', end($result)[ $this->resource->order_by ]);
 	}
 
 	/**
@@ -196,8 +196,8 @@ class ResourceTagsTest extends \Codeception\TestCase\WPTestCase
 		$this->assertArrayHasKey('name', reset($result));
 
 		// Assert order of data is in ascending alphabetical order.
-		$this->assertEquals('a-new-tag', reset($result)['name']);
-		$this->assertEquals('wordpress', end($result)['name']);
+		$this->assertEquals('wordpress', reset($result)['name']);
+		$this->assertEquals('wp-tag-test', end($result)['name']);
 	}
 
 	/**
