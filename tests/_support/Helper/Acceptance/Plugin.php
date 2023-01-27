@@ -76,9 +76,9 @@ class Plugin extends \Codeception\Module
 	 *
 	 * Defining cached Resources here reduces the number of API calls made for each test,
 	 * reducing the likelihood of hitting a rate limit due to running tests in parallel.
-	 * 
+	 *
 	 * Resources are deliberately not in order, to emulate how the data might not always
-	 * be in alphabetical / published order from the API. 
+	 * be in alphabetical / published order from the API.
 	 *
 	 * @since   2.0.7
 	 *
