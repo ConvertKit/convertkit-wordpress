@@ -36,6 +36,9 @@ class PageLandingPageCest
 		// Add a Page using the Gutenberg editor.
 		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Landing Page: None');
 
+		// Check the order of the Landing Page resources are alphabetical.
+		$I->checkSelectLandingPageOptionOrder($I, '#wp-convertkit-landing_page');
+
 		// Configure metabox's Landing Page setting = None.
 		$I->configureMetaboxSettings(
 			$I,

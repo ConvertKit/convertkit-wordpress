@@ -45,6 +45,9 @@ class RefreshResourcesButtonCest
 		// Wait for button to change its state from disabled.
 		$I->waitForElementVisible('button.wp-convertkit-refresh-resources[data-resource="forms"]:not(:disabled)');
 
+		// Check the order of the Form resources are alphabetical.
+		$I->checkSelectFormOptionOrder($I, '#wp-convertkit-form');
+
 		// Change resource to value specified in the .env file, which should now be available.
 		// If the expected dropdown value does not exist in the Select2 field, this will fail the test.
 		$I->fillSelect2Field($I, '#select2-wp-convertkit-form-container', $_ENV['CONVERTKIT_API_FORM_NAME']);
@@ -55,6 +58,9 @@ class RefreshResourcesButtonCest
 		// Wait for button to change its state from disabled.
 		$I->waitForElementVisible('button.wp-convertkit-refresh-resources[data-resource="landing_pages"]:not(:disabled)');
 
+		// Check the order of the Landing Page resources are alphabetical.
+		$I->checkSelectLandingPageOptionOrder($I, '#wp-convertkit-landing_page');
+
 		// Change resource to value specified in the .env file, which should now be available.
 		// If the expected dropdown value does not exist in the Select2 field, this will fail the test.
 		$I->fillSelect2Field($I, '#select2-wp-convertkit-landing_page-container', $_ENV['CONVERTKIT_API_LANDING_PAGE_NAME']);
@@ -64,6 +70,9 @@ class RefreshResourcesButtonCest
 
 		// Wait for button to change its state from disabled.
 		$I->waitForElementVisible('button.wp-convertkit-refresh-resources[data-resource="tags"]:not(:disabled)');
+
+		// Check the order of the Form resources are alphabetical.
+		$I->checkSelectTagOptionOrder($I, '#wp-convertkit-tag');
 
 		// Change resource to value specified in the .env file, which should now be available.
 		// If the expected dropdown value does not exist in the Select2 field, this will fail the test.

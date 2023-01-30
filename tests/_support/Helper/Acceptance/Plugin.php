@@ -462,6 +462,60 @@ class Plugin extends \Codeception\Module
 	}
 
 	/**
+	 * Helper method to determine that the order of the Form resources in the given
+	 * select element are in the expected alphabetical order.
+	 * 
+	 * @since 	2.0.8
+	 * 
+	 * @param   AcceptanceTester $I         	AcceptanceTester.
+	 * @param   string           $selectElement <select> element.
+	 */
+	public function checkSelectFormOptionOrder($I, $selectElement)
+	{
+		$I->checkSelectOptionOrder($I, $selectElement, [
+			'Default', // First item.
+			'AAA Test', // Second item.
+			'WooCommerce Product Form', // Last item.
+		]);
+	}
+
+	/**
+	 * Helper method to determine that the order of the Form resources in the given
+	 * select element are in the expected alphabetical order.
+	 * 
+	 * @since 	2.0.8
+	 * 
+	 * @param   AcceptanceTester $I         	AcceptanceTester.
+	 * @param   string           $selectElement <select> element.
+	 */
+	public function checkSelectLandingPageOptionOrder($I, $selectElement)
+	{
+		$I->checkSelectOptionOrder($I, $selectElement, [
+			'None', // First item.
+			'Character Encoding', // Second item.
+			'Legacy Landing Page', // Last item.
+		]);
+	}
+
+	/**
+	 * Helper method to determine that the order of the Form resources in the given
+	 * select element are in the expected alphabetical order.
+	 * 
+	 * @since 	2.0.8
+	 * 
+	 * @param   AcceptanceTester $I         	AcceptanceTester.
+	 * @param   string           $selectElement <select> element.
+	 */
+	public function checkSelectTagOptionOrder($I, $selectElement)
+	{
+		$I->checkSelectOptionOrder($I, $selectElement, [
+			'None', // First item.
+			'gravityforms-tag-1', // Second item.
+			'wp-tag-test', // Last item.
+		]);
+	}
+
+	/**
 	 * Helper method to determine the order of <option> values for the given select element
 	 * and values.
 	 * 

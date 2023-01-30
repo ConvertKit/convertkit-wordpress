@@ -143,11 +143,7 @@ class PluginSettingsGeneralCest
 		$I->seeInField('_wp_convertkit_settings[api_secret]', $_ENV['CONVERTKIT_API_SECRET']);
 
 		// Check the order of the Form resources are alphabetical, with 'None' as the first choice.
-		$I->checkSelectOptionOrder($I, '#_wp_convertkit_settings_page_form', [
-			'None', // First item.
-			'AAA Test', // Second item.
-			'WooCommerce Product Form', // Last item.
-		]);
+		$I->checkSelectFormOptionOrder($I, '#_wp_convertkit_settings_page_form');
 	}
 
 	/**
