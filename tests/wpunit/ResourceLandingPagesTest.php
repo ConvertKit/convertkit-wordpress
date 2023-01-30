@@ -195,7 +195,7 @@ class ResourceLandingPagesTest extends \Codeception\TestCase\WPTestCase
 		$this->assertArrayHasKey('id', reset($result));
 		$this->assertArrayHasKey('name', reset($result));
 
-		// Assert order of data is in ascending alphabetical order.
+		// Assert order of data has not changed.
 		$this->assertEquals('Character Encoding', reset($result)['name']);
 		$this->assertEquals('Legacy Landing Page', end($result)['name']);
 	}

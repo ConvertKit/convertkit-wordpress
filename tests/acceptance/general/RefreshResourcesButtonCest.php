@@ -45,8 +45,15 @@ class RefreshResourcesButtonCest
 		// Wait for button to change its state from disabled.
 		$I->waitForElementVisible('button.wp-convertkit-refresh-resources[data-resource="forms"]:not(:disabled)');
 
-		// Check the order of the Form resources are alphabetical.
-		$I->checkSelectFormOptionOrder($I, '#wp-convertkit-form');
+		// Check the order of the Form resources are alphabetical, with Default and None options prepending the Forms.
+		$I->checkSelectFormOptionOrder(
+			$I,
+			'#wp-convertkit-form',
+			[
+				'Default',
+				'None',
+			]
+		);
 
 		// Change resource to value specified in the .env file, which should now be available.
 		// If the expected dropdown value does not exist in the Select2 field, this will fail the test.
@@ -58,8 +65,14 @@ class RefreshResourcesButtonCest
 		// Wait for button to change its state from disabled.
 		$I->waitForElementVisible('button.wp-convertkit-refresh-resources[data-resource="landing_pages"]:not(:disabled)');
 
-		// Check the order of the Landing Page resources are alphabetical.
-		$I->checkSelectLandingPageOptionOrder($I, '#wp-convertkit-landing_page');
+		// Check the order of the Landing Page resources are alphabetical, with the None option prepending the Landing Pages.
+		$I->checkSelectLandingPageOptionOrder(
+			$I,
+			'#wp-convertkit-landing_page',
+			[
+				'None',
+			]
+		);
 
 		// Change resource to value specified in the .env file, which should now be available.
 		// If the expected dropdown value does not exist in the Select2 field, this will fail the test.
@@ -71,8 +84,14 @@ class RefreshResourcesButtonCest
 		// Wait for button to change its state from disabled.
 		$I->waitForElementVisible('button.wp-convertkit-refresh-resources[data-resource="tags"]:not(:disabled)');
 
-		// Check the order of the Form resources are alphabetical.
-		$I->checkSelectTagOptionOrder($I, '#wp-convertkit-tag');
+		// Check the order of the Tag resources are alphabetical, with the None option prepending the Tags.
+		$I->checkSelectTagOptionOrder(
+			$I,
+			'#wp-convertkit-tag',
+			[
+				'None',
+			]
+		);
 
 		// Change resource to value specified in the .env file, which should now be available.
 		// If the expected dropdown value does not exist in the Select2 field, this will fail the test.
@@ -108,6 +127,16 @@ class RefreshResourcesButtonCest
 		// Wait for button to change its state from disabled.
 		$I->waitForElementVisible('button.wp-convertkit-refresh-resources[data-resource="forms"]:not(:disabled)');
 
+		// Check the order of the Form resources are alphabetical, with Default and None options prepending the Forms.
+		$I->checkSelectFormOptionOrder(
+			$I,
+			'#wp-convertkit-quick-edit-form',
+			[
+				'Default',
+				'None',
+			]
+		);
+
 		// Change resource to value specified in the .env file, which should now be available.
 		// If the expected dropdown value does not exist, this will fail the test.
 		$I->selectOption('#wp-convertkit-quick-edit-form', $_ENV['CONVERTKIT_API_FORM_NAME']);
@@ -117,6 +146,15 @@ class RefreshResourcesButtonCest
 
 		// Wait for button to change its state from disabled.
 		$I->waitForElementVisible('button.wp-convertkit-refresh-resources[data-resource="tags"]:not(:disabled)');
+
+		// Check the order of the Tag resources are alphabetical, with the None option prepending the Tags.
+		$I->checkSelectTagOptionOrder(
+			$I,
+			'#wp-convertkit-quick-edit-tag',
+			[
+				'None',
+			]
+		);
 
 		// Change resource to value specified in the .env file, which should now be available.
 		// If the expected dropdown value does not exist, this will fail the test.
@@ -160,6 +198,17 @@ class RefreshResourcesButtonCest
 		// Wait for button to change its state from disabled.
 		$I->waitForElementVisible('button.wp-convertkit-refresh-resources[data-resource="forms"]:not(:disabled)');
 
+		// Check the order of the Form resources are alphabetical, with No Change, Default and None options prepending the Forms.
+		$I->checkSelectFormOptionOrder(
+			$I,
+			'#wp-convertkit-bulk-edit-form',
+			[
+				'— No Change —',
+				'Default',
+				'None',
+			]
+		);
+
 		// Change resource to value specified in the .env file, which should now be available.
 		// If the expected dropdown value does not exist, this will fail the test.
 		$I->selectOption('#wp-convertkit-bulk-edit-form', $_ENV['CONVERTKIT_API_FORM_NAME']);
@@ -169,6 +218,16 @@ class RefreshResourcesButtonCest
 
 		// Wait for button to change its state from disabled.
 		$I->waitForElementVisible('button.wp-convertkit-refresh-resources[data-resource="tags"]:not(:disabled)');
+
+		// Check the order of the Tag resources are alphabetical, with the No Chage and None options prepending the Tags.
+		$I->checkSelectTagOptionOrder(
+			$I,
+			'#wp-convertkit-bulk-edit-tag',
+			[
+				'— No Change —',
+				'None',
+			]
+		);
 
 		// Change resource to value specified in the .env file, which should now be available.
 		// If the expected dropdown value does not exist, this will fail the test.
@@ -195,6 +254,15 @@ class RefreshResourcesButtonCest
 
 		// Wait for button to change its state from disabled.
 		$I->waitForElementVisible('button.wp-convertkit-refresh-resources[data-resource="forms"]:not(:disabled)');
+
+		// Check the order of the Form resources are alphabetical, with the Default option prepending the Forms.
+		$I->checkSelectFormOptionOrder(
+			$I,
+			'#wp-convertkit-form',
+			[
+				'Default',
+			]
+		);
 
 		// Change resource to value specified in the .env file, which should now be available.
 		// If the expected dropdown value does not exist in the Select2 field, this will fail the test.
@@ -225,6 +293,15 @@ class RefreshResourcesButtonCest
 
 		// Wait for button to change its state from disabled.
 		$I->waitForElementVisible('button.wp-convertkit-refresh-resources[data-resource="forms"]:not(:disabled)');
+
+		// Check the order of the Form resources are alphabetical, with the Default option prepending the Forms.
+		$I->checkSelectFormOptionOrder(
+			$I,
+			'#wp-convertkit-form',
+			[
+				'Default',
+			]
+		);
 
 		// Change resource to value specified in the .env file, which should now be available.
 		// If the expected dropdown value does not exist in the Select2 field, this will fail the test.

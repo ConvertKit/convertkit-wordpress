@@ -160,26 +160,26 @@ class Plugin extends \Codeception\Module
 					'uid'        => '9f5c601482',
 				],
 				3437554 => [
-				    'id' => 3437554,
-				    'name' => 'AAA Test',
-				    'created_at' => '2022-07-15T15:06:32.000Z',
-				    'type' => 'embed',
-				    'format' => 'inline',
-				    'embed_js' => 'https://cheerful-architect-3237.ck.page/3bb15822a2/index.js',
-				    'embed_url' => 'https://cheerful-architect-3237.ck.page/3bb15822a2',
-				    'archived' => false,
-				    'uid' => '3bb15822a2'
+					'id'         => 3437554,
+					'name'       => 'AAA Test',
+					'created_at' => '2022-07-15T15:06:32.000Z',
+					'type'       => 'embed',
+					'format'     => 'inline',
+					'embed_js'   => 'https://cheerful-architect-3237.ck.page/3bb15822a2/index.js',
+					'embed_url'  => 'https://cheerful-architect-3237.ck.page/3bb15822a2',
+					'archived'   => false,
+					'uid'        => '3bb15822a2',
 				],
 				2765149 => [
-				    'id' => 2765149,
-				    'name' => 'WooCommerce Product Form',
-				    'created_at' => '2021-11-11T15:32:54.000Z',
-				    'type' => 'embed',
-				    'format' => 'inline',
-				    'embed_js' => 'https://cheerful-architect-3237.ck.page/7e238f3920/index.js',
-				    'embed_url' => 'https://cheerful-architect-3237.ck.page/7e238f3920',
-				    'archived' => false,
-				    'uid' => '7e238f3920'
+					'id'         => 2765149,
+					'name'       => 'WooCommerce Product Form',
+					'created_at' => '2021-11-11T15:32:54.000Z',
+					'type'       => 'embed',
+					'format'     => 'inline',
+					'embed_js'   => 'https://cheerful-architect-3237.ck.page/7e238f3920/index.js',
+					'embed_url'  => 'https://cheerful-architect-3237.ck.page/7e238f3920',
+					'archived'   => false,
+					'uid'        => '7e238f3920',
 				],
 			]
 		);
@@ -464,66 +464,93 @@ class Plugin extends \Codeception\Module
 	/**
 	 * Helper method to determine that the order of the Form resources in the given
 	 * select element are in the expected alphabetical order.
-	 * 
-	 * @since 	2.0.8
-	 * 
-	 * @param   AcceptanceTester $I         	AcceptanceTester.
-	 * @param   string           $selectElement <select> element.
+	 *
+	 * @since   2.0.8
+	 *
+	 * @param   AcceptanceTester $I                 AcceptanceTester.
+	 * @param   string           $selectElement     <select> element.
+	 * @param   bool|array       $prependOptions    Option elements that should appear before the resources.
 	 */
-	public function checkSelectFormOptionOrder($I, $selectElement)
+	public function checkSelectFormOptionOrder($I, $selectElement, $prependOptions = false)
 	{
-		$I->checkSelectOptionOrder($I, $selectElement, [
-			'Default', // First item.
-			'AAA Test', // Second item.
+		// Define options.
+		$options = [
+			'AAA Test', // First item.
 			'WooCommerce Product Form', // Last item.
-		]);
+		];
+
+		// Prepend options, such as 'Default' and 'None' to the options, if required.
+		if ( $prependOptions ) {
+			$options = array_merge( $prependOptions, $options );
+		}
+
+		// Check order.
+		$I->checkSelectOptionOrder($I, $selectElement, $options);
 	}
 
 	/**
 	 * Helper method to determine that the order of the Form resources in the given
 	 * select element are in the expected alphabetical order.
-	 * 
-	 * @since 	2.0.8
-	 * 
-	 * @param   AcceptanceTester $I         	AcceptanceTester.
-	 * @param   string           $selectElement <select> element.
+	 *
+	 * @since   2.0.8
+	 *
+	 * @param   AcceptanceTester $I                 AcceptanceTester.
+	 * @param   string           $selectElement     <select> element.
+	 * @param   bool|array       $prependOptions    Option elements that should appear before the resources.
 	 */
-	public function checkSelectLandingPageOptionOrder($I, $selectElement)
+	public function checkSelectLandingPageOptionOrder($I, $selectElement, $prependOptions = false)
 	{
-		$I->checkSelectOptionOrder($I, $selectElement, [
-			'None', // First item.
-			'Character Encoding', // Second item.
+		// Define options.
+		$options = [
+			'Character Encoding', // First item.
 			'Legacy Landing Page', // Last item.
-		]);
+		];
+
+		// Prepend options, such as 'Default' and 'None' to the options, if required.
+		if ( $prependOptions ) {
+			$options = array_merge( $prependOptions, $options );
+		}
+
+		// Check order.
+		$I->checkSelectOptionOrder($I, $selectElement, $options);
 	}
 
 	/**
 	 * Helper method to determine that the order of the Form resources in the given
 	 * select element are in the expected alphabetical order.
-	 * 
-	 * @since 	2.0.8
-	 * 
-	 * @param   AcceptanceTester $I         	AcceptanceTester.
-	 * @param   string           $selectElement <select> element.
+	 *
+	 * @since   2.0.8
+	 *
+	 * @param   AcceptanceTester $I                 AcceptanceTester.
+	 * @param   string           $selectElement     <select> element.
+	 * @param   bool|array       $prependOptions    Option elements that should appear before the resources.
 	 */
-	public function checkSelectTagOptionOrder($I, $selectElement)
+	public function checkSelectTagOptionOrder($I, $selectElement, $prependOptions = false)
 	{
-		$I->checkSelectOptionOrder($I, $selectElement, [
-			'None', // First item.
-			'gravityforms-tag-1', // Second item.
-			'wp-tag-test', // Last item.
-		]);
+		// Define options.
+		$options = [
+			'gravityforms-tag-1', // First item.
+			'wordpress', // Last item.
+		];
+
+		// Prepend options, such as 'Default' and 'None' to the options, if required.
+		if ( $prependOptions ) {
+			$options = array_merge( $prependOptions, $options );
+		}
+
+		// Check order.
+		$I->checkSelectOptionOrder($I, $selectElement, $options);
 	}
 
 	/**
 	 * Helper method to determine the order of <option> values for the given select element
 	 * and values.
-	 * 
-	 * @since 	2.0.8
 	 *
-	 * @param   AcceptanceTester $I         	AcceptanceTester.
+	 * @since   2.0.8
+	 *
+	 * @param   AcceptanceTester $I             AcceptanceTester.
 	 * @param   string           $selectElement <select> element.
-	 * @param 	array 			 $values 		<option> values.
+	 * @param   array            $values        <option> values.
 	 */
 	public function checkSelectOptionOrder($I, $selectElement, $values)
 	{

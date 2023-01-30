@@ -195,7 +195,7 @@ class ResourceProductsTest extends \Codeception\TestCase\WPTestCase
 		$this->assertArrayHasKey('id', reset($result));
 		$this->assertArrayHasKey('name', reset($result));
 
-		// Assert order of data is in ascending alphabetical order.
+		// Assert order of data has not changed.
 		$this->assertEquals('Example Tip Jar', reset($result)['name']);
 		$this->assertEquals('Newsletter Subscription', end($result)['name']);
 	}

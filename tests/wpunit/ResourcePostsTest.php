@@ -308,7 +308,7 @@ class ResourcePostsTest extends \Codeception\TestCase\WPTestCase
 		$this->assertArrayHasKey('id', reset($result));
 		$this->assertArrayHasKey('title', reset($result));
 
-		// Assert order of data is in descending published_at order.
+		// Assert order of data has not changed.
 		$this->assertEquals('2022-05-03T14:51:50.000Z', reset($result)['published_at']);
 		$this->assertEquals('2022-01-24T00:00:00.000Z', end($result)['published_at']);
 	}
