@@ -231,13 +231,6 @@ class Plugin extends \Codeception\Module
 		$I->haveOptionInDatabase(
 			'convertkit_posts',
 			[
-				489467 => [
-					'id'           => 489467,
-					'title'        => 'Broadcast 1',
-					'url'          => 'https://cheerful-architect-3237.ck.page/posts/broadcast-1',
-					'published_at' => '2022-04-08T00:00:00.000Z',
-					'is_paid'      => false,
-				],
 				224758 => [
 					'id'           => 224758,
 					'title'        => 'Test Subject',

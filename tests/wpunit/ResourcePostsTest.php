@@ -279,7 +279,7 @@ class ResourcePostsTest extends \Codeception\TestCase\WPTestCase
 		$this->assertArrayHasKey('title', reset($result));
 
 		// Assert order of data is in ascending alphabetical order.
-		$this->assertEquals('Broadcast 1', reset($result)[ $this->resource->order_by ]);
+		$this->assertEquals('Broadcast 2', reset($result)[ $this->resource->order_by ]);
 		$this->assertEquals('Test Subject', end($result)[ $this->resource->order_by ]);
 	}
 
