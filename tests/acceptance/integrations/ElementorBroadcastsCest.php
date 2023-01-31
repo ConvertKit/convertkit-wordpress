@@ -77,6 +77,12 @@ class ElementorBroadcastsCest
 
 		// Confirm that the default expected number of Broadcasts are displayed.
 		$I->seeNumberOfElements('li.convertkit-broadcast', [ 1, 10 ]);
+
+		// Confirm that the expected Broadcast name is displayed first links to the expected URL, with UTM parameters.
+		$I->assertEquals(
+			$I->grabAttributeFrom('div.convertkit-broadcasts ul.convertkit-broadcasts-list li.convertkit-broadcast:first-child a', 'href'),
+			$_ENV['CONVERTKIT_API_BROADCAST_FIRST_URL'] . '?utm_source=wordpress&utm_content=convertkit'
+		);
 	}
 
 	/**
@@ -112,6 +118,12 @@ class ElementorBroadcastsCest
 
 		// Confirm that the default expected number of Broadcasts are displayed.
 		$I->seeNumberOfElements('li.convertkit-broadcast', [ 1, 10 ]);
+
+		// Confirm that the expected Broadcast name is displayed first links to the expected URL, with UTM parameters.
+		$I->assertEquals(
+			$I->grabAttributeFrom('div.convertkit-broadcasts ul.convertkit-broadcasts-list li.convertkit-broadcast:first-child a', 'href'),
+			$_ENV['CONVERTKIT_API_BROADCAST_FIRST_URL'] . '?utm_source=wordpress&utm_content=convertkit'
+		);
 	}
 
 	/**
@@ -144,6 +156,12 @@ class ElementorBroadcastsCest
 
 		// Confirm that the expected number of Broadcasts are displayed.
 		$I->seeNumberOfElements('li.convertkit-broadcast', 2);
+
+		// Confirm that the expected Broadcast name is displayed first links to the expected URL, with UTM parameters.
+		$I->assertEquals(
+			$I->grabAttributeFrom('div.convertkit-broadcasts ul.convertkit-broadcasts-list li.convertkit-broadcast:first-child a', 'href'),
+			$_ENV['CONVERTKIT_API_BROADCAST_FIRST_URL'] . '?utm_source=wordpress&utm_content=convertkit'
+		);
 	}
 
 	/**

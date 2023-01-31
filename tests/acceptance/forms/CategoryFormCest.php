@@ -39,6 +39,15 @@ class CategoryFormCest
 		$I->fillField('tag-name', 'ConvertKit: Create Category');
 		$I->fillSelect2Field($I, '#select2-wp-convertkit-form-container', $_ENV['CONVERTKIT_API_FORM_NAME']);
 
+		// Check the order of the Form resources are alphabetical, with the Default option prepending the Forms.
+		$I->checkSelectFormOptionOrder(
+			$I,
+			'#wp-convertkit-form',
+			[
+				'Default',
+			]
+		);
+
 		// Save.
 		$I->click('Add New Category');
 
@@ -100,6 +109,15 @@ class CategoryFormCest
 
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Check the order of the Form resources are alphabetical, with the Default option prepending the Forms.
+		$I->checkSelectFormOptionOrder(
+			$I,
+			'#wp-convertkit-form',
+			[
+				'Default',
+			]
+		);
 
 		// Change Form to value specified in the .env file.
 		$I->fillSelect2Field($I, '#select2-wp-convertkit-form-container', $_ENV['CONVERTKIT_API_FORM_NAME']);

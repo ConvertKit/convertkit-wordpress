@@ -59,6 +59,16 @@ class PageFormCest
 		// Add a Page using the Gutenberg editor.
 		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form: Default: None');
 
+		// Check the order of the Form resources are alphabetical, with the Default and None options prepending the Forms.
+		$I->checkSelectFormOptionOrder(
+			$I,
+			'#wp-convertkit-form',
+			[
+				'Default',
+				'None',
+			]
+		);
+
 		// Configure metabox's Form setting = Default.
 		$I->configureMetaboxSettings(
 			$I,

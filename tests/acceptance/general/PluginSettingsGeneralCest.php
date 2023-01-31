@@ -141,6 +141,15 @@ class PluginSettingsGeneralCest
 		// Check the value of the fields match the inputs provided.
 		$I->seeInField('_wp_convertkit_settings[api_key]', $_ENV['CONVERTKIT_API_KEY']);
 		$I->seeInField('_wp_convertkit_settings[api_secret]', $_ENV['CONVERTKIT_API_SECRET']);
+
+		// Check the order of the Form resources are alphabetical, with 'None' as the first choice.
+		$I->checkSelectFormOptionOrder(
+			$I,
+			'#_wp_convertkit_settings_page_form',
+			[
+				'None',
+			]
+		);
 	}
 
 	/**
