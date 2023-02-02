@@ -179,7 +179,7 @@ class ConvertKit_Wishlist_Admin_Settings extends ConvertKit_Settings_Base {
 	/**
 	 * Gets membership levels from WishList Member API
 	 *
-	 * @return mixed bool|array
+	 * @return bool|array
 	 */
 	public function get_wlm_levels() {
 

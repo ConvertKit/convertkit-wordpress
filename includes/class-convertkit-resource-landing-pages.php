@@ -58,7 +58,7 @@ class ConvertKit_Resource_Landing_Pages extends ConvertKit_Resource {
 	 *
 	 * @since   1.9.6
 	 *
-	 * @param   mixed $id     Landing Page ID | Legacy Landing Page URL.
+	 * @param   int|string $id     Landing Page ID or Legacy Landing Page URL.
 	 * @return  WP_Error|string
 	 */
 	public function get_html( $id ) {

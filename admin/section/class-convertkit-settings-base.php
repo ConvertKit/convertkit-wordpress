@@ -216,9 +216,9 @@ abstract class ConvertKit_Settings_Base {
 	 *
 	 * @since   1.9.6
 	 *
-	 * @param   string $value          Value.
-	 * @param   mixed  $description    Description (false|string).
-	 * @return  string                  Masked Value
+	 * @param   string      $value          Value.
+	 * @param   bool|string $description    Description.
+	 * @return  string                      Masked Value
 	 */
 	public function get_masked_value( $value, $description = false ) {
 
@@ -242,7 +242,7 @@ abstract class ConvertKit_Settings_Base {
 	 *
 	 * @param   string             $name           Name.
 	 * @param   string             $value          Value.
-	 * @param   false|string|array $description    Description (false|string|array).
+	 * @param   bool|string|array  $description    Description (false|string|array).
 	 * @param   bool|array         $css_classes    CSS Classes (false|array).
 	 * @return  string                              HTML Field
 	 */
@@ -266,13 +266,13 @@ abstract class ConvertKit_Settings_Base {
 	 *
 	 * @since   1.9.6
 	 *
-	 * @param   string $name            Name.
-	 * @param   string $value           Value.
-	 * @param   array  $options         Options / Choices.
-	 * @param   mixed  $description     Description (false|string).
-	 * @param   mixed  $css_classes     <select> CSS class(es) (false|array).
-	 * @param   mixed  $attributes      <select> attributes (false|array).
-	 * @return  string                  HTML Select Field
+	 * @param   string      $name            Name.
+	 * @param   string      $value           Value.
+	 * @param   array       $options         Options / Choices.
+	 * @param   bool|string $description     Description.
+	 * @param   bool|array  $css_classes     <select> CSS class(es).
+	 * @param   bool|array  $attributes      <select> attributes.
+	 * @return  string                           HTML Select Field
 	 */
 	public function get_select_field( $name, $value = '', $options = array(), $description = false, $css_classes = false, $attributes = false ) {
 
@@ -314,12 +314,12 @@ abstract class ConvertKit_Settings_Base {
 	 *
 	 * @since   1.9.6
 	 *
-	 * @param   string $name           Name.
-	 * @param   string $value          Value.
-	 * @param   bool   $checked        Should checkbox be checked/ticked.
-	 * @param   mixed  $label          Label (false|string).
-	 * @param   mixed  $description    Description (false|string).
-	 * @return  string                  HTML Checkbox
+	 * @param   string      $name           Name.
+	 * @param   string      $value          Value.
+	 * @param   bool        $checked        Should checkbox be checked/ticked.
+	 * @param   bool|string $label          Label.
+	 * @param   bool|string $description    Description.
+	 * @return  string                      HTML Checkbox
 	 */
 	public function get_checkbox_field( $name, $value, $checked = false, $label = '', $description = '' ) {
 
@@ -357,8 +357,8 @@ abstract class ConvertKit_Settings_Base {
 	 *
 	 * @since   1.9.6
 	 *
-	 * @param   mixed $description    Description (false|string|array).
-	 * @return  string                  HTML Description
+	 * @param   bool|string|array $description    Description.
+	 * @return  string                              HTML Description
 	 */
 	private function get_description( $description ) {
 

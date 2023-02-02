@@ -36,6 +36,15 @@ class PageTagCest
 		// Add a Page using the Gutenberg editor.
 		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Tag: None');
 
+		// Check the order of the Tag resources are alphabetical, with the None option prepending the Tags.
+		$I->checkSelectTagOptionOrder(
+			$I,
+			'#wp-convertkit-tag',
+			[
+				'None',
+			]
+		);
+
 		// Configure metabox's Tag setting = None.
 		$I->configureMetaboxSettings(
 			$I,
@@ -104,7 +113,7 @@ class PageTagCest
 				'post_name'  => 'convertkit-tag-valid-subscriber-id',
 				'meta_input' => [
 					'_wp_convertkit_post_meta' => [
-						'form'         => '-1',
+						'form'         => '0',
 						'landing_page' => '',
 						'tag'          => $_ENV['CONVERTKIT_API_TAG_ID'],
 					],

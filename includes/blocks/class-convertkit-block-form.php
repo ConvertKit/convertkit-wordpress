@@ -163,7 +163,7 @@ class ConvertKit_Block_Form extends ConvertKit_Block {
 	 *
 	 * @since   1.9.6
 	 *
-	 * @return  mixed   bool | array
+	 * @return  bool|array
 	 */
 	public function get_fields() {
 
@@ -181,17 +181,16 @@ class ConvertKit_Block_Form extends ConvertKit_Block {
 			}
 		}
 
-		// Get Settings.
-		$settings = new ConvertKit_Settings();
-
 		return array(
 			'form' => array(
 				'label'  => __( 'Form', 'convertkit' ),
 				'type'   => 'select',
 				'values' => $forms,
 				'data'   => array(
-					'forms'   => $convertkit_forms->get(),
-					'api_key' => $settings->get_api_key(),
+					// Used by resources/backend/js/gutenberg-block-form.js to determine the selected form's format
+					// (modal, slide in, sticky bar) and output a message in the block editor for the preview to explain
+					// why some formats cannot be previewed.
+					'forms' => ( $convertkit_forms->exist() ? $convertkit_forms->get() : array() ),
 				),
 			),
 		);
@@ -203,7 +202,7 @@ class ConvertKit_Block_Form extends ConvertKit_Block {
 	 *
 	 * @since   1.9.6
 	 *
-	 * @return  mixed   bool | array
+	 * @return  bool|array
 	 */
 	public function get_panels() {
 
@@ -319,10 +318,11 @@ class ConvertKit_Block_Form extends ConvertKit_Block {
 		 *
 		 * @since   1.9.6
 		 *
-		 * @param   string  $form   ConvertKit Form HTML.
-		 * @param   array   $atts   Block Attributes.
+		 * @param   string  $form       ConvertKit Form HTML.
+		 * @param   array   $atts       Block Attributes.
+		 * @param   int     $form_id    Form ID.
 		 */
-		$form = apply_filters( 'convertkit_block_form_render', $form, $atts );
+		$form = apply_filters( 'convertkit_block_form_render', $form, $atts, $form_id );
 
 		/**
 		 * Backward compat. filter for < 1.9.6. Filter the block's content immediately before it is output.
