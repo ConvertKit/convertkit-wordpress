@@ -61,6 +61,10 @@ class PluginSettingsGeneralCest
 
 		// Confirm that UTM parameters exist for the 'sign in to ConvertKit' link.
 		$I->seeInSource('<a href="https://app.convertkit.com/?utm_source=wordpress&amp;utm_content=convertkit" target="_blank">sign in to ConvertKit</a>');
+
+		// Confirm that the UTM parameters exist for the documentation links.
+		$I->seeInSource('<a href="https://help.convertkit.com/en/articles/2502591-the-convertkit-wordpress-plugin?utm_source=wordpress&amp;utm_content=convertkit" class="convertkit-tab" target="_blank">Documentation <span class="dashicons dashicons-external"></span></a>');
+		$I->seeInSource('<a href="https://help.convertkit.com/en/articles/2502591-the-convertkit-wordpress-plugin?utm_source=wordpress&amp;utm_content=convertkit" target="_blank">plugin documentation</a>');
 	}
 
 	/**
@@ -121,7 +125,31 @@ class PluginSettingsGeneralCest
 	 */
 	public function testSaveValidAPICredentials(AcceptanceTester $I)
 	{
-		$I->setupConvertKitPlugin($I);
+		// Go to the Plugin's Settings Screen.
+		$I->loadConvertKitSettingsGeneralScreen($I);
+
+		// Complete API Fields.
+		$I->fillField('_wp_convertkit_settings[api_key]', $_ENV['CONVERTKIT_API_KEY']);
+		$I->fillField('_wp_convertkit_settings[api_secret]', $_ENV['CONVERTKIT_API_SECRET']);
+
+		// Click the Save Changes button.
+		$I->click('Save Changes');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Check the value of the fields match the inputs provided.
+		$I->seeInField('_wp_convertkit_settings[api_key]', $_ENV['CONVERTKIT_API_KEY']);
+		$I->seeInField('_wp_convertkit_settings[api_secret]', $_ENV['CONVERTKIT_API_SECRET']);
+
+		// Check the order of the Form resources are alphabetical, with 'None' as the first choice.
+		$I->checkSelectFormOptionOrder(
+			$I,
+			'#_wp_convertkit_settings_page_form',
+			[
+				'None',
+			]
+		);
 	}
 
 	/**
@@ -137,9 +165,6 @@ class PluginSettingsGeneralCest
 	{
 		// Go to the Plugin's Settings Screen.
 		$I->loadConvertKitSettingsGeneralScreen($I);
-
-		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen($I);
 
 		// Complete API Fields.
 		$I->fillField('_wp_convertkit_settings[api_key]', $_ENV['CONVERTKIT_API_KEY_NO_DATA']);
@@ -165,14 +190,25 @@ class PluginSettingsGeneralCest
 	 */
 	public function testChangeDefaultFormSetting(AcceptanceTester $I)
 	{
-		// Setup Plugin.
-		$I->setupConvertKitPlugin($I);
+		// Setup Plugin, without defining default Forms.
+		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY'], $_ENV['CONVERTKIT_API_SECRET'], '', '');
 
 		// Go to the Plugin's Settings Screen.
 		$I->loadConvertKitSettingsGeneralScreen($I);
 
-		// Call helper function to define default Page and Post.
-		$I->setupConvertKitPluginDefaultForm($I);
+		// Select Default Form for Pages and Posts.
+		$I->fillSelect2Field($I, '#select2-_wp_convertkit_settings_page_form-container', $_ENV['CONVERTKIT_API_FORM_NAME']);
+		$I->fillSelect2Field($I, '#select2-_wp_convertkit_settings_post_form-container', $_ENV['CONVERTKIT_API_FORM_NAME']);
+
+		// Click the Save Changes button.
+		$I->click('Save Changes');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Check the value of the fields match the inputs provided.
+		$I->seeInField('_wp_convertkit_settings[page_form]', $_ENV['CONVERTKIT_API_FORM_NAME']);
+		$I->seeInField('_wp_convertkit_settings[post_form]', $_ENV['CONVERTKIT_API_FORM_NAME']);
 	}
 
 	/**
@@ -200,8 +236,8 @@ class PluginSettingsGeneralCest
 			]
 		);
 
-		// Setup Plugin.
-		$I->setupConvertKitPlugin($I);
+		// Setup Plugin, without defining default Forms.
+		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY'], $_ENV['CONVERTKIT_API_SECRET'], '', '');
 
 		// Go to the Plugin's Settings Screen.
 		$I->loadConvertKitSettingsGeneralScreen($I);
@@ -270,7 +306,7 @@ class PluginSettingsGeneralCest
 	 */
 	public function testEnableAndDisableDebugSettings(AcceptanceTester $I)
 	{
-		// Setup API Keys in ConvertKit Plugin.
+		// Setup Plugin.
 		$I->setupConvertKitPlugin($I);
 
 		// Go to the Plugin's Settings Screen.
@@ -311,11 +347,13 @@ class PluginSettingsGeneralCest
 	 */
 	public function testEnableAndDisableJavaScriptSettings(AcceptanceTester $I)
 	{
+		// Setup Plugin.
+		$I->setupConvertKitPlugin($I);
+
 		// Go to the Plugin's Settings Screen.
 		$I->loadConvertKitSettingsGeneralScreen($I);
 
-		// Tick fields.
-		$I->checkOption('#debug');
+		// Tick field.
 		$I->checkOption('#no_scripts');
 
 		// Click the Save Changes button.
@@ -324,9 +362,20 @@ class PluginSettingsGeneralCest
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
 
-		// Check the fields are ticked.
-		$I->seeCheckboxIsChecked('#debug');
+		// Check the field remains ticked.
 		$I->seeCheckboxIsChecked('#no_scripts');
+
+		// Untick field.
+		$I->uncheckOption('#no_scripts');
+
+		// Click the Save Changes button.
+		$I->click('Save Changes');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Check the field remains unticked.
+		$I->dontSeeCheckboxIsChecked('#no_scripts');
 	}
 
 	/**
@@ -338,48 +387,15 @@ class PluginSettingsGeneralCest
 	 *
 	 * @param   AcceptanceTester $I  Tester.
 	 */
-	public function testEnableCSSSetting(AcceptanceTester $I)
+	public function testEnableAndDisableCSSSetting(AcceptanceTester $I)
 	{
+		// Setup Plugin.
+		$I->setupConvertKitPlugin($I);
+
 		// Go to the Plugin's Settings Screen.
 		$I->loadConvertKitSettingsGeneralScreen($I);
 
-		// Tick fields.
-		$I->checkOption('#debug');
-		$I->uncheckOption('#no_css');
-
-		// Click the Save Changes button.
-		$I->click('Save Changes');
-
-		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen($I);
-
-		// Check the fields are ticked.
-		$I->seeCheckboxIsChecked('#debug');
-		$I->dontSeeCheckboxIsChecked('#no_css');
-
-		// Navigate to the home page.
-		$I->amOnPage('/');
-
-		// Confirm CSS is output by the Plugin.
-		$I->seeInSource('<link rel="stylesheet" id="convertkit-broadcasts-css" href="' . $_ENV['TEST_SITE_WP_URL'] . '/wp-content/plugins/convertkit/resources/frontend/css/broadcasts.css');
-	}
-
-	/**
-	 * Test that no PHP errors or notices are displayed on the Plugin's Setting screen
-	 * when the Disable CSS settings is checked, and that no CSS is output
-	 * on the frontend web site.
-	 *
-	 * @since   1.9.6.9
-	 *
-	 * @param   AcceptanceTester $I  Tester.
-	 */
-	public function testDisableCSSSetting(AcceptanceTester $I)
-	{
-		// Go to the Plugin's Settings Screen.
-		$I->loadConvertKitSettingsGeneralScreen($I);
-
-		// Tick fields.
-		$I->checkOption('#debug');
+		// Tick field.
 		$I->checkOption('#no_css');
 
 		// Click the Save Changes button.
@@ -388,8 +404,7 @@ class PluginSettingsGeneralCest
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
 
-		// Check the fields are ticked.
-		$I->seeCheckboxIsChecked('#debug');
+		// Check the field remains ticked.
 		$I->seeCheckboxIsChecked('#no_css');
 
 		// Navigate to the home page.
@@ -397,6 +412,27 @@ class PluginSettingsGeneralCest
 
 		// Confirm no CSS is output by the Plugin.
 		$I->dontSeeInSource('broadcasts.css');
+
+		// Go to the Plugin's Settings Screen.
+		$I->loadConvertKitSettingsGeneralScreen($I);
+
+		// Untick field.
+		$I->uncheckOption('#no_css');
+
+		// Click the Save Changes button.
+		$I->click('Save Changes');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Check the field remains unticked.
+		$I->dontSeeCheckboxIsChecked('#no_css');
+
+		// Navigate to the home page.
+		$I->amOnPage('/');
+
+		// Confirm CSS is output by the Plugin.
+		$I->seeInSource('<link rel="stylesheet" id="convertkit-broadcasts-css" href="' . $_ENV['TEST_SITE_WP_URL'] . '/wp-content/plugins/convertkit/resources/frontend/css/broadcasts.css');
 	}
 
 	/**

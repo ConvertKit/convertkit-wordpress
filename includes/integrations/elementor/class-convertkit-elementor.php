@@ -103,10 +103,17 @@ class ConvertKit_Elementor {
 
 			// Load widget class for this block.
 			require_once CONVERTKIT_PLUGIN_PATH . '/includes/integrations/elementor/class-convertkit-elementor-widget-' . $block . '.php';
-
-			// Register Widget.
 			$class_name = 'ConvertKit_Elementor_Widget_' . str_replace( '-', '_', $block );
-			$widgets_manager->register_widget_type( new $class_name() );
+
+			// Register Widget, using applicable function depending on the Elementor version.
+			if ( method_exists( $widgets_manager, 'register' ) ) {
+				// Use register() function, available in Elementor 3.5.0.
+				// Required per https://developers.elementor.com/docs/managers/registering-widgets/.
+				$widgets_manager->register( new $class_name() );
+			} else {
+				// Fallback to register_widget_type(), available in Elementor < 3.5.0.
+				$widgets_manager->register_widget_type( new $class_name() );
+			}
 		}
 
 	}

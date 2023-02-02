@@ -17,8 +17,10 @@ class PageLandingPageCest
 	{
 		// Activate and Setup ConvertKit plugin.
 		$I->activateConvertKitPlugin($I);
-		$I->setupConvertKitPlugin($I);
-		$I->enableDebugLog($I);
+
+		// Setup ConvertKit Plugin with no default form specified.
+		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY'], $_ENV['CONVERTKIT_API_SECRET'], '', '', '');
+		$I->setupConvertKitPluginResources($I);
 	}
 
 	/**
@@ -33,6 +35,15 @@ class PageLandingPageCest
 	{
 		// Add a Page using the Gutenberg editor.
 		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Landing Page: None');
+
+		// Check the order of the Landing Page resources are alphabetical, with the None option prepending the Landing Pages.
+		$I->checkSelectLandingPageOptionOrder(
+			$I,
+			'#wp-convertkit-landing_page',
+			[
+				'None',
+			]
+		);
 
 		// Configure metabox's Landing Page setting = None.
 		$I->configureMetaboxSettings(
@@ -177,7 +188,7 @@ class PageLandingPageCest
 				'post_name'   => 'convertkit-landing-page-legacy-url',
 				'meta_input'  => [
 					'_wp_convertkit_post_meta' => [
-						'form'         => '-1',
+						'form'         => '0',
 						// Emulates how Legacy Landing Pages were stored in < 1.9.6 as a URL, instead of an ID.
 						'landing_page' => $_ENV['CONVERTKIT_API_LEGACY_LANDING_PAGE_URL'],
 						'tag'          => '',

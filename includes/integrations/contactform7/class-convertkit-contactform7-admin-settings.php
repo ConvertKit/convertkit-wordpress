@@ -72,6 +72,19 @@ class ConvertKit_ContactForm7_Admin_Settings extends ConvertKit_Settings_Base {
 	}
 
 	/**
+	 * Returns the URL for the ConvertKit documentation for this setting section.
+	 *
+	 * @since   2.0.8
+	 *
+	 * @return  string  Documentation URL.
+	 */
+	public function documentation_url() {
+
+		return 'https://help.convertkit.com/en/articles/2502591-the-convertkit-wordpress-plugin';
+
+	}
+
+	/**
 	 * Outputs the section as a WP_List_Table of Contact Form 7 Forms, with options to choose
 	 * a ConvertKit Form mapping for each.
 	 *

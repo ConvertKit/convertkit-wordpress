@@ -113,18 +113,91 @@ class ResourceTagsTest extends \Codeception\TestCase\WPTestCase
 	}
 
 	/**
-	 * Test that the get() function performs as expected.
+	 * Tests that the get() function returns resources in alphabetical ascending order
+	 * by default.
 	 *
 	 * @since   1.9.7.4
 	 */
 	public function testGet()
 	{
-		// Confirm that the data is fetched from the options table when using get(), and includes some expected keys.
+		// Call resource class' get() function.
 		$result = $this->resource->get();
-		$this->assertNotInstanceOf(WP_Error::class, $result);
+
+		// Assert result is an array.
 		$this->assertIsArray($result);
+
+		// Assert top level array keys are preserved.
+		$this->assertArrayHasKey(array_key_first($this->resource->resources), $result);
+		$this->assertArrayHasKey(array_key_last($this->resource->resources), $result);
+
+		// Assert resource within results has expected array keys.
 		$this->assertArrayHasKey('id', reset($result));
 		$this->assertArrayHasKey('name', reset($result));
+
+		// Assert order of data is in ascending alphabetical order.
+		$this->assertEquals('gravityforms-tag-1', reset($result)[ $this->resource->order_by ]);
+		$this->assertEquals('wordpress', end($result)[ $this->resource->order_by ]);
+	}
+
+	/**
+	 * Tests that the get() function returns resources in alphabetical descending order
+	 * when a valid order_by and order properties are defined.
+	 *
+	 * @since   2.0.8
+	 */
+	public function testGetWithValidOrderByAndOrder()
+	{
+		// Define order_by and order.
+		$this->resource->order_by = 'name';
+		$this->resource->order    = 'desc';
+
+		// Call resource class' get() function.
+		$result = $this->resource->get();
+
+		// Assert result is an array.
+		$this->assertIsArray($result);
+
+		// Assert top level array keys are preserved.
+		$this->assertArrayHasKey(array_key_first($this->resource->resources), $result);
+		$this->assertArrayHasKey(array_key_last($this->resource->resources), $result);
+
+		// Assert resource within results has expected array keys.
+		$this->assertArrayHasKey('id', reset($result));
+		$this->assertArrayHasKey('name', reset($result));
+
+		// Assert order of data is in ascending alphabetical order.
+		$this->assertEquals('wordpress', reset($result)[ $this->resource->order_by ]);
+		$this->assertEquals('gravityforms-tag-1', end($result)[ $this->resource->order_by ]);
+	}
+
+	/**
+	 * Tests that the get() function returns resources in their original order
+	 * when populated with Forms and an invalid order_by value is specified.
+	 *
+	 * @since   2.0.8
+	 */
+	public function testGetWithInvalidOrderBy()
+	{
+		// Define order_by with an invalid value (i.e. an array key that does not exist).
+		$this->resource->order_by = 'invalid_key';
+
+		// Call resource class' get() function.
+		$result = $this->resource->get();
+
+		// Assert result is an array.
+		$this->assertIsArray($result);
+
+		// Assert top level array keys are preserved.
+		$this->assertArrayHasKey(array_key_first($this->resource->resources), $result);
+		$this->assertArrayHasKey(array_key_last($this->resource->resources), $result);
+
+		// Assert resource within results has expected array keys.
+		$this->assertArrayHasKey('id', reset($result));
+		$this->assertArrayHasKey('name', reset($result));
+
+		// Assert order of data has not changed.
+		$this->assertEquals('wordpress', reset($result)['name']);
+		$this->assertEquals('gravityforms-tag-2', end($result)['name']);
 	}
 
 	/**

@@ -27,9 +27,9 @@ class PageBlockBroadcastsCest
 	 */
 	public function testBroadcastsBlockWithNoBroadcasts(AcceptanceTester $I)
 	{
-		// Setup Plugin with API keys for ConvertKit Account that has no Broadcasts, and enable debug log.
+		// Setup Plugin with API keys for ConvertKit Account that has no Broadcasts.
 		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY_NO_DATA'], $_ENV['CONVERTKIT_API_SECRET_NO_DATA']);
-		$I->enableDebugLog($I);
+		$I->setupConvertKitPluginResourcesNoData($I);
 
 		// Add a Page using the Gutenberg editor.
 		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Broadcasts: No Broadcasts');
@@ -63,7 +63,7 @@ class PageBlockBroadcastsCest
 	{
 		// Setup Plugin and enable debug log.
 		$I->setupConvertKitPlugin($I);
-		$I->enableDebugLog($I);
+		$I->setupConvertKitPluginResources($I);
 
 		// Add a Page using the Gutenberg editor.
 		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Broadcasts: Default Params');
@@ -82,6 +82,12 @@ class PageBlockBroadcastsCest
 
 		// Confirm that the default expected number of Broadcasts are displayed.
 		$I->seeNumberOfElements('li.convertkit-broadcast', [ 1, 10 ]);
+
+		// Confirm that the expected Broadcast name is displayed first links to the expected URL, with UTM parameters.
+		$I->assertEquals(
+			$I->grabAttributeFrom('div.convertkit-broadcasts ul.convertkit-broadcasts-list li.convertkit-broadcast:first-child a', 'href'),
+			$_ENV['CONVERTKIT_API_BROADCAST_FIRST_URL'] . '?utm_source=wordpress&utm_content=convertkit'
+		);
 	}
 
 	/**
@@ -95,7 +101,7 @@ class PageBlockBroadcastsCest
 	{
 		// Setup Plugin and enable debug log.
 		$I->setupConvertKitPlugin($I);
-		$I->enableDebugLog($I);
+		$I->setupConvertKitPluginResources($I);
 
 		// Add a Page using the Gutenberg editor.
 		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Broadcasts: Date Format Param');
@@ -121,6 +127,12 @@ class PageBlockBroadcastsCest
 
 		// Confirm that the default expected number of Broadcasts are displayed.
 		$I->seeNumberOfElements('li.convertkit-broadcast', [ 1, 10 ]);
+
+		// Confirm that the expected Broadcast name is displayed first links to the expected URL, with UTM parameters.
+		$I->assertEquals(
+			$I->grabAttributeFrom('div.convertkit-broadcasts ul.convertkit-broadcasts-list li.convertkit-broadcast:first-child a', 'href'),
+			$_ENV['CONVERTKIT_API_BROADCAST_FIRST_URL'] . '?utm_source=wordpress&utm_content=convertkit'
+		);
 	}
 
 	/**
@@ -134,7 +146,7 @@ class PageBlockBroadcastsCest
 	{
 		// Setup Plugin and enable debug log.
 		$I->setupConvertKitPlugin($I);
-		$I->enableDebugLog($I);
+		$I->setupConvertKitPluginResources($I);
 
 		// Add a Page using the Gutenberg editor.
 		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Broadcasts: Limit Param');
@@ -157,6 +169,12 @@ class PageBlockBroadcastsCest
 
 		// Confirm that the expected number of Broadcasts are displayed.
 		$I->seeNumberOfElements('li.convertkit-broadcast', 2);
+
+		// Confirm that the expected Broadcast name is displayed first links to the expected URL, with UTM parameters.
+		$I->assertEquals(
+			$I->grabAttributeFrom('div.convertkit-broadcasts ul.convertkit-broadcasts-list li.convertkit-broadcast:first-child a', 'href'),
+			$_ENV['CONVERTKIT_API_BROADCAST_FIRST_URL'] . '?utm_source=wordpress&utm_content=convertkit'
+		);
 	}
 
 	/**
@@ -170,7 +188,7 @@ class PageBlockBroadcastsCest
 	{
 		// Setup Plugin and enable debug log.
 		$I->setupConvertKitPlugin($I);
-		$I->enableDebugLog($I);
+		$I->setupConvertKitPluginResources($I);
 
 		// Add a Page using the Gutenberg editor.
 		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Broadcasts: Blank Limit Param');
@@ -194,6 +212,12 @@ class PageBlockBroadcastsCest
 
 		// Confirm that the expected number of Broadcasts are displayed.
 		$I->seeNumberOfElements('li.convertkit-broadcast', [ 1, 10 ]);
+
+		// Confirm that the expected Broadcast name is displayed first links to the expected URL, with UTM parameters.
+		$I->assertEquals(
+			$I->grabAttributeFrom('div.convertkit-broadcasts ul.convertkit-broadcasts-list li.convertkit-broadcast:first-child a', 'href'),
+			$_ENV['CONVERTKIT_API_BROADCAST_FIRST_URL'] . '?utm_source=wordpress&utm_content=convertkit'
+		);
 	}
 
 	/**
@@ -207,7 +231,7 @@ class PageBlockBroadcastsCest
 	{
 		// Setup Plugin and enable debug log.
 		$I->setupConvertKitPlugin($I);
-		$I->enableDebugLog($I);
+		$I->setupConvertKitPluginResources($I);
 
 		// Add a Page using the Gutenberg editor.
 		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Broadcasts: Pagination');
@@ -241,7 +265,7 @@ class PageBlockBroadcastsCest
 	{
 		// Setup Plugin and enable debug log.
 		$I->setupConvertKitPlugin($I);
-		$I->enableDebugLog($I);
+		$I->setupConvertKitPluginResources($I);
 
 		// Add a Page using the Gutenberg editor.
 		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Broadcasts: Pagination Labels');
@@ -277,7 +301,7 @@ class PageBlockBroadcastsCest
 	{
 		// Setup Plugin and enable debug log.
 		$I->setupConvertKitPlugin($I);
-		$I->enableDebugLog($I);
+		$I->setupConvertKitPluginResources($I);
 
 		// Add a Page using the Gutenberg editor.
 		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Broadcasts: Blank Pagination Labels');
@@ -313,7 +337,7 @@ class PageBlockBroadcastsCest
 	{
 		// Setup Plugin and enable debug log.
 		$I->setupConvertKitPlugin($I);
-		$I->enableDebugLog($I);
+		$I->setupConvertKitPluginResources($I);
 
 		// Define colors.
 		$backgroundColor = 'white';
@@ -360,7 +384,7 @@ class PageBlockBroadcastsCest
 	{
 		// Setup Plugin and enable debug log.
 		$I->setupConvertKitPlugin($I);
-		$I->enableDebugLog($I);
+		$I->setupConvertKitPluginResources($I);
 
 		// Define colors.
 		$backgroundColor = '#ee1616';
@@ -408,7 +432,7 @@ class PageBlockBroadcastsCest
 	{
 		// Setup Plugin and enable debug log.
 		$I->setupConvertKitPlugin($I);
-		$I->enableDebugLog($I);
+		$I->setupConvertKitPluginResources($I);
 
 		// Define a 'bad' block.  This is difficult to do in Gutenberg, but let's assume it's possible.
 		$I->havePageInDatabase(

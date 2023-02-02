@@ -126,7 +126,7 @@
 					</tbody>
 				</table><h3 id="convertkit_admin_settings_register_sections">
 						convertkit_admin_settings_register_sections
-						<code>admin/class-convertkit-admin-settings.php::302</code>
+						<code>admin/class-convertkit-admin-settings.php::318</code>
 					</h3><h4>Overview</h4>
 						<p>Registers settings sections at Settings > ConvertKit.</p><h4>Parameters</h4>
 					<table>
@@ -277,7 +277,7 @@ add_filter( 'convertkit_block_content_render', function( $content, $atts, $subsc
 </pre>
 <h3 id="convertkit_block_product_render">
 						convertkit_block_product_render
-						<code>includes/blocks/class-convertkit-block-product.php::396</code>
+						<code>includes/blocks/class-convertkit-block-product.php::389</code>
 					</h3><h4>Overview</h4>
 						<p>Filter the block's content immediately before it is output.</p><h4>Parameters</h4>
 					<table>
@@ -389,15 +389,19 @@ add_filter( 'convertkit_block_broadcasts_render_ajax', function( $html, $atts ) 
 							<td>$atts</td>
 							<td>array</td>
 							<td>Block Attributes.</td>
+						</tr><tr>
+							<td>$form_id</td>
+							<td>int</td>
+							<td>Form ID.</td>
 						</tr>
 						</tbody>
 					</table><h4>Usage</h4>
 <pre>
-add_filter( 'convertkit_block_form_render', function( $form, $atts ) {
+add_filter( 'convertkit_block_form_render', function( $form, $atts, $form_id ) {
 	// ... your code here
 	// Return value
 	return $form;
-}, 10, 2 );
+}, 10, 3 );
 </pre>
 <h3 id="convertkit_post_get_default_settings">
 						convertkit_post_get_default_settings
@@ -594,7 +598,7 @@ add_filter( 'convertkit_wishlist_settings_get_defaults', function( $defaults ) {
 </pre>
 <h3 id="convertkit_output_page_takeover_landing_page_id">
 						convertkit_output_page_takeover_landing_page_id
-						<code>includes/class-convertkit-output.php::128</code>
+						<code>includes/class-convertkit-output.php::138</code>
 					</h3><h4>Overview</h4>
 						<p>Define the ConvertKit Landing Page ID to display for the given Post ID, overriding the Post settings. Return false to not display any ConvertKit Landing Page.</p><h4>Parameters</h4>
 					<table>
@@ -625,7 +629,7 @@ add_filter( 'convertkit_output_page_takeover_landing_page_id', function( $landin
 </pre>
 <h3 id="convertkit_output_append_form_to_content_form_id">
 						convertkit_output_append_form_to_content_form_id
-						<code>includes/class-convertkit-output.php::183</code>
+						<code>includes/class-convertkit-output.php::193</code>
 					</h3><h4>Overview</h4>
 						<p>Define the ConvertKit Form ID to display for the given Post ID, overriding the Post, Category or Plugin settings. Return false to not display any ConvertKit Form.</p><h4>Parameters</h4>
 					<table>
@@ -656,7 +660,7 @@ add_filter( 'convertkit_output_append_form_to_content_form_id', function( $form_
 </pre>
 <h3 id="convertkit_frontend_append_form">
 						convertkit_frontend_append_form
-						<code>includes/class-convertkit-output.php::247</code>
+						<code>includes/class-convertkit-output.php::257</code>
 					</h3><h4>Overview</h4>
 						<p>Filter the Post's Content, which includes a ConvertKit Form, immediately before it is output.</p><h4>Parameters</h4>
 					<table>
@@ -865,7 +869,7 @@ add_filter( 'convertkit_is_admin_or_frontend_editor', function( $is_admin_or_fro
 					</tbody>
 				</table><h3 id="convertkit_settings_base_render_before">
 						convertkit_settings_base_render_before
-						<code>admin/section/class-convertkit-settings-base.php::110</code>
+						<code>admin/section/class-convertkit-settings-base.php::115</code>
 					</h3><h4>Parameters</h4>
 					<table>
 						<thead>
@@ -885,7 +889,7 @@ do_action( 'convertkit_settings_base_render_before', function(  ) {
 </pre>
 <h3 id="convertkit_settings_base_render_after">
 						convertkit_settings_base_render_after
-						<code>admin/section/class-convertkit-settings-base.php::127</code>
+						<code>admin/section/class-convertkit-settings-base.php::132</code>
 					</h3><h4>Parameters</h4>
 					<table>
 						<thead>
@@ -1200,7 +1204,7 @@ do_action( 'convertkit_gutenberg_enqueue_styles_editor_and_frontend', function( 
 </pre>
 <h3 id="convertkit_output_output_form">
 						convertkit_output_output_form
-						<code>includes/class-convertkit-output.php::83</code>
+						<code>includes/class-convertkit-output.php::93</code>
 					</h3><h4>Parameters</h4>
 					<table>
 						<thead>

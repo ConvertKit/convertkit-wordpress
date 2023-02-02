@@ -7,8 +7,11 @@
  */
 
 /**
- * Handles previewing a supplied Form ID in the URL when viewing a Page or Post,
- * when the user clicks a preview link in the Plugin Setup Wizard.
+ * Handles:
+ * - previewing a supplied Form ID in the URL when viewing a Page or Post,
+ * when the user clicks a preview link in the Plugin Setup Wizard,
+ * - appending an 'Edit form in ConvertKit' link when previewing a Page or Post
+ * as a user who can edit the Page.
  *
  * @package ConvertKit
  * @author ConvertKit
@@ -23,8 +26,11 @@ class ConvertKit_Preview_Output {
 	public function __construct() {
 
 		add_filter( 'convertkit_output_append_form_to_content_form_id', array( $this, 'preview_form' ), 99999 );
+		add_filter( 'convertkit_block_form_render', array( $this, 'maybe_append_edit_form_link_to_form_block' ), 10, 3 );
+		add_filter( 'convertkit_frontend_append_form', array( $this, 'maybe_append_edit_form_link_to_form' ), 10, 4 );
 
 	}
+
 
 	/**
 	 * Changes the form to display for the given Post ID if the request is
@@ -90,6 +96,96 @@ class ConvertKit_Preview_Output {
 			),
 			get_permalink( $post_id )
 		);
+
+	}
+
+	/**
+	 * Appends an "Edit form in ConvertKit" link to the given ConvertKit Form block,
+	 * if the request is to preview a Page and the logged in WordPress user can
+	 * edit the Page.
+	 *
+	 * @since   2.0.8
+	 *
+	 * @param   string $form_html  ConvertKit Form HTML.
+	 * @param   array  $atts       ConvertKit Form block attributes.
+	 * @param   int    $form_id    ConvertKit Form ID.
+	 * @return  string
+	 */
+	public function maybe_append_edit_form_link_to_form_block( $form_html, $atts, $form_id ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter
+
+		return $this->maybe_append_edit_form_link( $form_html, $form_id );
+
+	}
+
+	/**
+	 * Appends an "Edit form in ConvertKit" link to the ConvertKit Form defined in
+	 * the Page's settings, if the request is to preview a Page and the
+	 * logged in WordPress user can edit the Page.
+	 *
+	 * @since   2.0.8
+	 *
+	 * @param   string $content    Post Content, including ConvertKit Form HTML.
+	 * @param   string $form_html  ConvertKit Form HTML.
+	 * @param   int    $post_id    Post ID.
+	 * @param   int    $form_id    ConvertKit Form ID.
+	 */
+	public function maybe_append_edit_form_link_to_form( $content, $form_html, $post_id, $form_id ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter
+
+		return $this->maybe_append_edit_form_link( $content, $form_id );
+
+	}
+
+	/**
+	 * Appends an "Edit form in ConvertKit" link to the given ConvertKit Form HTML,
+	 * if the request is to preview a Page and the logged in WordPress user can
+	 * edit the Page.
+	 *
+	 * @since   2.0.8
+	 *
+	 * @param   string $form_html  ConvertKit Form HTML.
+	 * @param   int    $form_id    ConvertKit Form ID.
+	 * @return  string
+	 */
+	private function maybe_append_edit_form_link( $form_html, $form_id ) {
+
+		// Bail if the user isn't logged in.
+		if ( ! is_user_logged_in() ) {
+			return $form_html;
+		}
+
+		// Bail if the request isn't to preview a Page.
+		if ( ! is_preview() ) {
+			return $form_html;
+		}
+
+		// Bail if the user does not have the WordPress capabilities to edit the Page / Post.
+		if ( ! current_user_can( 'edit_post', get_the_ID() ) ) {
+			return $form_html;
+		}
+
+		// Fetch Form.
+		$convertkit_forms = new ConvertKit_Resource_Forms();
+		$form             = $convertkit_forms->get_by_id( (int) $form_id );
+
+		// Bail if the Form doesn't exist (this shouldn't happen, but you never know).
+		if ( ! $form ) {
+			return $form_html;
+		}
+
+		// Bail if the Form's format isn't an inline form - we don't want to show an edit link for
+		// e.g. a sticky bar form.
+		if ( $form['format'] !== 'inline' ) {
+			return $form_html;
+		}
+
+		// Append a link to edit the Form on ConvertKit.
+		$form_html .= sprintf(
+			'<div style="margin:0;padding:5px;text-align:right;font-size:13px;"><a href="https://app.convertkit.com/forms/designers/%s/edit/?utm_source=wordpress&utm_content=convertkit" target="_blank">%s</a></div>',
+			esc_attr( (string) $form_id ),
+			esc_html__( 'Edit form in ConvertKit', 'convertkit' )
+		);
+
+		return $form_html;
 
 	}
 

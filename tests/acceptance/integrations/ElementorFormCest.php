@@ -17,8 +17,10 @@ class ElementorFormCest
 	{
 		$I->activateConvertKitPlugin($I);
 		$I->activateThirdPartyPlugin($I, 'elementor');
-		$I->setupConvertKitPlugin($I);
-		$I->enableDebugLog($I);
+
+		// Setup Plugin, without defining default Forms.
+		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY'], $_ENV['CONVERTKIT_API_SECRET'], '', '', '');
+		$I->setupConvertKitPluginResources($I);
 	}
 
 	/**
@@ -173,7 +175,7 @@ class ElementorFormCest
 					// Configure ConvertKit Plugin to not display a default Form,
 					// as we are testing for the Form in Elementor.
 					'_wp_convertkit_post_meta' => [
-						'form'         => '-1',
+						'form'         => '0',
 						'landing_page' => '',
 						'tag'          => '',
 					],

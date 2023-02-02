@@ -36,136 +36,315 @@ class Plugin extends \Codeception\Module
 	}
 
 	/**
-	 * Helper method to setup the Plugin's API Key and Secret.
+	 * Helper method to programmatically setup the Plugin's API Key and Secret,
+	 * enabling debug logging.
 	 *
 	 * @since   1.9.6
 	 *
-	 * @param   AcceptanceTester $I          AcceptanceTester.
-	 * @param   mixed            $apiKey     API Key (if specified, used instead of CONVERTKIT_API_KEY).
-	 * @param   mixed            $apiSecret  API Secret (if specified, used instead of CONVERTKIT_API_SECRET).
+	 * @param   AcceptanceTester $I              AcceptanceTester.
+	 * @param   bool|string      $apiKey         API Key (if specified, used instead of CONVERTKIT_API_KEY).
+	 * @param   bool|string      $apiSecret      API Secret (if specified, used instead of CONVERTKIT_API_SECRET).
+	 * @param   bool|string      $pageFormID     Default Form ID for Pages (if specified, used instead of CONVERTKIT_API_FORM_ID).
+	 * @param   bool|string      $postFormID     Default Form ID for Posts (if specified, used instead of CONVERTKIT_API_FORM_ID).
+	 * @param   bool|string      $productFormID  Default Form ID for Products (if specified, used instead of CONVERTKIT_API_FORM_ID).
 	 */
-	public function setupConvertKitPlugin($I, $apiKey = false, $apiSecret = false)
+	public function setupConvertKitPlugin($I, $apiKey = false, $apiSecret = false, $pageFormID = false, $postFormID = false, $productFormID = false)
 	{
-		// Go to the Plugin's Settings Screen.
-		$I->loadConvertKitSettingsGeneralScreen($I);
-
-		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen($I);
-
-		// Determine API Key and Secret to use.
-		$convertKitAPIKey    = ( $apiKey !== false ? $apiKey : $_ENV['CONVERTKIT_API_KEY'] );
-		$convertKitAPISecret = ( $apiSecret !== false ? $apiSecret : $_ENV['CONVERTKIT_API_SECRET'] );
-
-		// Complete API Fields.
-		$I->fillField('_wp_convertkit_settings[api_key]', $convertKitAPIKey);
-		$I->fillField('_wp_convertkit_settings[api_secret]', $convertKitAPISecret);
-
-		// Click the Save Changes button.
-		$I->click('Save Changes');
-
-		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen($I);
-
-		// Check the value of the fields match the inputs provided.
-		$I->seeInField('_wp_convertkit_settings[api_key]', $convertKitAPIKey);
-		$I->seeInField('_wp_convertkit_settings[api_secret]', $convertKitAPISecret);
+		// Define the API Key and Secret, with Debug Log enabled.
+		$I->haveOptionInDatabase(
+			'_wp_convertkit_settings',
+			[
+				'api_key'      => ( $apiKey !== false ? $apiKey : $_ENV['CONVERTKIT_API_KEY'] ),
+				'api_secret'   => ( $apiSecret !== false ? $apiSecret : $_ENV['CONVERTKIT_API_SECRET'] ),
+				'debug'        => 'on',
+				'no_scripts'   => '',
+				'no_css'       => '',
+				'post_form'    => ( $postFormID !== false ? $postFormID : $_ENV['CONVERTKIT_API_FORM_ID'] ),
+				'page_form'    => ( $pageFormID !== false ? $pageFormID : $_ENV['CONVERTKIT_API_FORM_ID'] ),
+				'product_form' => ( $productFormID !== false ? $productFormID : $_ENV['CONVERTKIT_API_FORM_ID'] ),
+			]
+		);
 	}
 
 	/**
-	 * Helper method to setup the Plugin's Default Form setting for Pages and Posts.
+	 * Helper method to define cached Resources (Forms, Landing Pages, Posts, Products and Tags),
+	 * directly into the database, instead of querying the API for them via the Resource classes.
 	 *
-	 * @since   1.9.6
+	 * This can safely be done for Acceptance tests, as WPUnit tests ensure that
+	 * caching Resources from calls made to the API work and store data in the expected
+	 * structure.
 	 *
-	 * @param   AcceptanceTester $I     AcceptanceTester.
+	 * Defining cached Resources here reduces the number of API calls made for each test,
+	 * reducing the likelihood of hitting a rate limit due to running tests in parallel.
+	 *
+	 * Resources are deliberately not in order, to emulate how the data might not always
+	 * be in alphabetical / published order from the API.
+	 *
+	 * @since   2.0.7
+	 *
+	 * @param   AcceptanceTester $I              AcceptanceTester.
 	 */
-	public function setupConvertKitPluginDefaultForm($I)
+	public function setupConvertKitPluginResources($I)
 	{
-		// Go to the Plugin's Settings Screen.
-		$I->loadConvertKitSettingsGeneralScreen($I);
+		// Define Forms as if the Forms resource class populated them from the API.
+		$I->haveOptionInDatabase(
+			'convertkit_forms',
+			[
+				3003590 => [
+					'id'         => 3003590,
+					'name'       => 'Third Party Integrations Form',
+					'created_at' => '2022-02-17T15:05:31.000Z',
+					'type'       => 'embed',
+					'format'     => 'inline',
+					'embed_js'   => 'https://cheerful-architect-3237.ck.page/71cbcc4042/index.js',
+					'embed_url'  => 'https://cheerful-architect-3237.ck.page/71cbcc4042',
+					'archived'   => false,
+					'uid'        => '71cbcc4042',
+				],
+				2780977 => [
+					'id'         => 2780977,
+					'name'       => 'Modal Form',
+					'created_at' => '2021-11-17T04:22:06.000Z',
+					'type'       => 'embed',
+					'format'     => 'modal',
+					'embed_js'   => 'https://cheerful-architect-3237.ck.page/397e876257/index.js',
+					'embed_url'  => 'https://cheerful-architect-3237.ck.page/397e876257',
+					'archived'   => false,
+					'uid'        => '397e876257',
+				],
+				2780979 => [
+					'id'         => 2780979,
+					'name'       => 'Slide In Form',
+					'created_at' => '2021-11-17T04:22:24.000Z',
+					'type'       => 'embed',
+					'format'     => 'slide in',
+					'embed_js'   => 'https://cheerful-architect-3237.ck.page/e0d65bed9d/index.js',
+					'embed_url'  => 'https://cheerful-architect-3237.ck.page/e0d65bed9d',
+					'archived'   => false,
+					'uid'        => 'e0d65bed9d',
+				],
+				2765139 => [
+					'id'         => 2765139,
+					'name'       => 'Page Form',
+					'created_at' => '2021-11-11T15:30:40.000Z',
+					'type'       => 'embed',
+					'format'     => 'inline',
+					'embed_js'   => 'https://cheerful-architect-3237.ck.page/85629c512d/index.js',
+					'embed_url'  => 'https://cheerful-architect-3237.ck.page/85629c512d',
+					'archived'   => false,
+					'uid'        => '85629c512d',
+				],
+				470099  => [
+					'id'                  => 470099,
+					'name'                => 'Legacy Form',
+					'created_at'          => null,
+					'type'                => 'embed',
+					'url'                 => 'https://app.convertkit.com/landing_pages/470099',
+					'embed_js'            => 'https://api.convertkit.com/api/v3/forms/470099.js?api_key=' . $_ENV['CONVERTKIT_API_KEY'],
+					'embed_url'           => 'https://api.convertkit.com/api/v3/forms/470099.html?api_key=' . $_ENV['CONVERTKIT_API_KEY'],
+					'title'               => 'Join the newsletter',
+					'description'         => '<p>Subscribe to get our latest content by email.</p>',
+					'sign_up_button_text' => 'Subscribe',
+					'success_message'     => 'Success! Now check your email to confirm your subscription.',
+					'archived'            => false,
+				],
+				2780980 => [
+					'id'         => 2780980,
+					'name'       => 'Sticky Bar Form',
+					'created_at' => '2021-11-17T04:22:42.000Z',
+					'type'       => 'embed',
+					'format'     => 'sticky bar',
+					'embed_js'   => 'https://cheerful-architect-3237.ck.page/9f5c601482/index.js',
+					'embed_url'  => 'https://cheerful-architect-3237.ck.page/9f5c601482',
+					'archived'   => false,
+					'uid'        => '9f5c601482',
+				],
+				3437554 => [
+					'id'         => 3437554,
+					'name'       => 'AAA Test',
+					'created_at' => '2022-07-15T15:06:32.000Z',
+					'type'       => 'embed',
+					'format'     => 'inline',
+					'embed_js'   => 'https://cheerful-architect-3237.ck.page/3bb15822a2/index.js',
+					'embed_url'  => 'https://cheerful-architect-3237.ck.page/3bb15822a2',
+					'archived'   => false,
+					'uid'        => '3bb15822a2',
+				],
+				2765149 => [
+					'id'         => 2765149,
+					'name'       => 'WooCommerce Product Form',
+					'created_at' => '2021-11-11T15:32:54.000Z',
+					'type'       => 'embed',
+					'format'     => 'inline',
+					'embed_js'   => 'https://cheerful-architect-3237.ck.page/7e238f3920/index.js',
+					'embed_url'  => 'https://cheerful-architect-3237.ck.page/7e238f3920',
+					'archived'   => false,
+					'uid'        => '7e238f3920',
+				],
+			]
+		);
 
-		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen($I);
+		// Define Landing Pages.
+		$I->haveOptionInDatabase(
+			'convertkit_landing_pages',
+			[
+				2765196 => [
+					'id'         => 2765196,
+					'name'       => 'Landing Page',
+					'created_at' => '2021-11-11T15:45:33.000Z',
+					'type'       => 'hosted',
+					'format'     => null,
+					'embed_js'   => 'https://cheerful-architect-3237.ck.page/99f1db6843/index.js',
+					'embed_url'  => 'https://cheerful-architect-3237.ck.page/99f1db6843',
+					'archived'   => false,
+					'uid'        => '99f1db6843',
+				],
+				2849151 => [
+					'id'         => 2849151,
+					'name'       => 'Character Encoding',
+					'created_at' => '2021-12-16T14:55:58.000Z',
+					'type'       => 'hosted',
+					'format'     => null,
+					'embed_js'   => 'https://cheerful-architect-3237.ck.page/cc5eb21744/index.js',
+					'embed_url'  => 'https://cheerful-architect-3237.ck.page/cc5eb21744',
+					'archived'   => false,
+					'uid'        => 'cc5eb21744',
+				],
+				470103  => [
+					'id'                  => 470103,
+					'name'                => 'Legacy Landing Page',
+					'created_at'          => null,
+					'type'                => 'hosted',
+					'url'                 => 'https://app.convertkit.com/landing_pages/470103',
+					'embed_js'            => 'https://api.convertkit.com/api/v3/forms/470103.js?api_key=' . $_ENV['CONVERTKIT_API_KEY'],
+					'embed_url'           => 'https://api.convertkit.com/api/v3/forms/470103.html?api_key=' . $_ENV['CONVERTKIT_API_KEY'],
+					'title'               => '',
+					'description'         => '',
+					'sign_up_button_text' => 'Register',
+					'success_message'     => null,
+					'archived'            => false,
+				],
+			]
+		);
 
-		// Select Default Form for Pages and Posts.
-		$I->fillSelect2Field($I, '#select2-_wp_convertkit_settings_page_form-container', $_ENV['CONVERTKIT_API_FORM_NAME']);
-		$I->fillSelect2Field($I, '#select2-_wp_convertkit_settings_post_form-container', $_ENV['CONVERTKIT_API_FORM_NAME']);
+		// Define Posts.
+		$I->haveOptionInDatabase(
+			'convertkit_posts',
+			[
+				224758 => [
+					'id'           => 224758,
+					'title'        => 'Test Subject',
+					'url'          => 'https://cheerful-architect-3237.ck.page/posts/test-subject',
+					'published_at' => '2022-01-24T00:00:00.000Z',
+					'is_paid'      => null,
+				],
+				489480 => [
+					'id'           => 489480,
+					'title'        => 'Broadcast 2',
+					'url'          => 'https://cheerful-architect-3237.ck.page/posts/broadcast-2',
+					'published_at' => '2022-04-08T00:00:00.000Z',
+					'is_paid'      => null,
+				],
+				572575 => [
+					'id'           => 572575,
+					'title'        => 'Paid Subscriber Broadcast',
+					'url'          => 'https://cheerful-architect-3237.ck.page/posts/paid-subscriber-broadcast',
+					'published_at' => '2022-05-03T14:51:50.000Z',
+					'is_paid'      => true,
+				],
+			]
+		);
 
-		// Click the Save Changes button.
-		$I->click('Save Changes');
+		// Define Products.
+		$I->haveOptionInDatabase(
+			'convertkit_products',
+			[
+				36377 => [
+					'id'        => 36377,
+					'name'      => 'Newsletter Subscription',
+					'url'       => 'https://cheerful-architect-3237.ck.page/products/newsletter-subscription',
+					'published' => true,
+				],
+			]
+		);
 
-		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen($I);
+		// Define Tags.
+		$I->haveOptionInDatabase(
+			'convertkit_tags',
+			[
+				2744672 => [
+					'id'         => 2744672,
+					'name'       => 'wordpress',
+					'created_at' => '2021-11-11T19:30:06.000Z',
+				],
+				2907192 => [
+					'id'         => 2907192,
+					'name'       => 'gravityforms-tag-1',
+					'created_at' => '2022-02-02T14:06:32.000Z',
+				],
+				2907193 => [
+					'id'         => 2907193,
+					'name'       => 'gravityforms-tag-2',
+					'created_at' => '2022-02-02T14:06:38.000Z',
+				],
+			]
+		);
 
-		// Check the value of the fields match the inputs provided.
-		$I->seeInField('_wp_convertkit_settings[page_form]', $_ENV['CONVERTKIT_API_FORM_NAME']);
-		$I->seeInField('_wp_convertkit_settings[post_form]', $_ENV['CONVERTKIT_API_FORM_NAME']);
-
-		// Return Form ID for Pages.
-		return $I->grabValueFrom('_wp_convertkit_settings[page_form]');
+		// Define last queried to now for all resources, so they're not automatically immediately refreshed by the Plugin's logic.
+		$I->haveOptionInDatabase( 'convertkit_forms_last_queried', strtotime( 'now' ) );
+		$I->haveOptionInDatabase( 'convertkit_landing_pages_last_queried', strtotime( 'now' ) );
+		$I->haveOptionInDatabase( 'convertkit_posts_last_queried', strtotime( 'now' ) );
+		$I->haveOptionInDatabase( 'convertkit_products_last_queried', strtotime( 'now' ) );
+		$I->haveOptionInDatabase( 'convertkit_tags_last_queried', strtotime( 'now' ) );
 	}
 
 	/**
-	 * Helper method to setup the Plugin's Default Legacy Form setting for Pages and Posts.
+	 * Helper method to define cached Resources (Forms, Landing Pages, Posts, Products and Tags),
+	 * directly into the database, instead of querying the API for them via the Resource classes
+	 * as if the ConvertKit account is new and has no resources defined in ConvertKit.
 	 *
-	 * @since   1.9.6
+	 * @since   2.0.7
 	 *
-	 * @param   AcceptanceTester $I     AcceptanceTester.
+	 * @param   AcceptanceTester $I              AcceptanceTester.
 	 */
-	public function setupConvertKitPluginDefaultLegacyForm($I)
+	public function setupConvertKitPluginResourcesNoData($I)
 	{
-		// Go to the Plugin's Settings Screen.
-		$I->loadConvertKitSettingsGeneralScreen($I);
+		// Define Forms as if the Forms resource class populated them from the API.
+		$I->haveOptionInDatabase(
+			'convertkit_forms',
+			[]
+		);
 
-		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen($I);
+		// Define Landing Pages.
+		$I->haveOptionInDatabase(
+			'convertkit_landing_pages',
+			[]
+		);
 
-		// Select Default Form for Pages and Posts.
-		$I->fillSelect2Field($I, '#select2-_wp_convertkit_settings_page_form-container', $_ENV['CONVERTKIT_API_LEGACY_FORM_NAME']);
-		$I->fillSelect2Field($I, '#select2-_wp_convertkit_settings_post_form-container', $_ENV['CONVERTKIT_API_LEGACY_FORM_NAME']);
+		// Define Posts.
+		$I->haveOptionInDatabase(
+			'convertkit_posts',
+			[]
+		);
 
-		// Click the Save Changes button.
-		$I->click('Save Changes');
+		// Define Products.
+		$I->haveOptionInDatabase(
+			'convertkit_products',
+			[]
+		);
 
-		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen($I);
+		// Define Tags.
+		$I->haveOptionInDatabase(
+			'convertkit_tags',
+			[]
+		);
 
-		// Check the value of the fields match the inputs provided.
-		$I->seeInField('_wp_convertkit_settings[page_form]', $_ENV['CONVERTKIT_API_LEGACY_FORM_NAME']);
-		$I->seeInField('_wp_convertkit_settings[post_form]', $_ENV['CONVERTKIT_API_LEGACY_FORM_NAME']);
-
-		// Return Form ID for Pages.
-		return $I->grabValueFrom('_wp_convertkit_settings[page_form]');
-	}
-
-	/**
-	 * Helper method to setup the Plugin's Default Form setting for WooCommerce Products.
-	 *
-	 * @since   1.9.6
-	 *
-	 * @param   AcceptanceTester $I     AcceptanceTester.
-	 */
-	public function setupConvertKitPluginDefaultFormForWooCommerceProducts($I)
-	{
-		// Go to the Plugin's Settings Screen.
-		$I->loadConvertKitSettingsGeneralScreen($I);
-
-		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen($I);
-
-		// Select option.
-		$I->fillSelect2Field($I, '#select2-_wp_convertkit_settings_product_form-container', $_ENV['CONVERTKIT_API_FORM_NAME']);
-
-		// Click the Save Changes button.
-		$I->click('Save Changes');
-
-		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen($I);
-
-		// Check the value of the fields match the inputs provided.
-		$I->seeInField('_wp_convertkit_settings[product_form]', $_ENV['CONVERTKIT_API_FORM_NAME']);
-
-		// Return Form ID.
-		return $I->grabValueFrom('_wp_convertkit_settings[product_form]');
+		// Define last queried to now for all resources, so they're not automatically immediately refreshed by the Plugin's logic.
+		$I->haveOptionInDatabase( 'convertkit_forms_last_queried', strtotime( 'now' ) );
+		$I->haveOptionInDatabase( 'convertkit_landing_pages_last_queried', strtotime( 'now' ) );
+		$I->haveOptionInDatabase( 'convertkit_posts_last_queried', strtotime( 'now' ) );
+		$I->haveOptionInDatabase( 'convertkit_products_last_queried', strtotime( 'now' ) );
+		$I->haveOptionInDatabase( 'convertkit_tags_last_queried', strtotime( 'now' ) );
 	}
 
 	/**
@@ -186,6 +365,10 @@ class Plugin extends \Codeception\Module
 		$I->dontHaveOptionInDatabase('convertkit_forms_last_queried');
 		$I->dontHaveOptionInDatabase('convertkit_landing_pages');
 		$I->dontHaveOptionInDatabase('convertkit_landing_pages_last_queried');
+		$I->dontHaveOptionInDatabase('convertkit_posts');
+		$I->dontHaveOptionInDatabase('convertkit_posts_last_queried');
+		$I->dontHaveOptionInDatabase('convertkit_products');
+		$I->dontHaveOptionInDatabase('convertkit_products_last_queried');
 		$I->dontHaveOptionInDatabase('convertkit_tags');
 		$I->dontHaveOptionInDatabase('convertkit_tags_last_queried');
 
@@ -225,25 +408,6 @@ class Plugin extends \Codeception\Module
 
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
-	}
-
-	/**
-	 * Helper method to enable the Plugin's Settings > General > Debug option.
-	 *
-	 * @since   1.9.6
-	 *
-	 * @param   AcceptanceTester $I     AcceptanceTester.
-	 */
-	public function enableDebugLog($I)
-	{
-		// Go to the Plugin's Settings Screen.
-		$I->loadConvertKitSettingsGeneralScreen($I);
-
-		// Tick field.
-		$I->checkOption('#debug');
-
-		// Click the Save Changes button.
-		$I->click('Save Changes');
 	}
 
 	/**
@@ -288,6 +452,116 @@ class Plugin extends \Codeception\Module
 	{
 		$I->loadConvertKitSettingsToolsScreen($I);
 		$I->dontSeeInSource($entry);
+	}
+
+	/**
+	 * Helper method to determine that the order of the Form resources in the given
+	 * select element are in the expected alphabetical order.
+	 *
+	 * @since   2.0.8
+	 *
+	 * @param   AcceptanceTester $I                 AcceptanceTester.
+	 * @param   string           $selectElement     <select> element.
+	 * @param   bool|array       $prependOptions    Option elements that should appear before the resources.
+	 */
+	public function checkSelectFormOptionOrder($I, $selectElement, $prependOptions = false)
+	{
+		// Define options.
+		$options = [
+			'AAA Test', // First item.
+			'WooCommerce Product Form', // Last item.
+		];
+
+		// Prepend options, such as 'Default' and 'None' to the options, if required.
+		if ( $prependOptions ) {
+			$options = array_merge( $prependOptions, $options );
+		}
+
+		// Check order.
+		$I->checkSelectOptionOrder($I, $selectElement, $options);
+	}
+
+	/**
+	 * Helper method to determine that the order of the Form resources in the given
+	 * select element are in the expected alphabetical order.
+	 *
+	 * @since   2.0.8
+	 *
+	 * @param   AcceptanceTester $I                 AcceptanceTester.
+	 * @param   string           $selectElement     <select> element.
+	 * @param   bool|array       $prependOptions    Option elements that should appear before the resources.
+	 */
+	public function checkSelectLandingPageOptionOrder($I, $selectElement, $prependOptions = false)
+	{
+		// Define options.
+		$options = [
+			'Character Encoding', // First item.
+			'Legacy Landing Page', // Last item.
+		];
+
+		// Prepend options, such as 'Default' and 'None' to the options, if required.
+		if ( $prependOptions ) {
+			$options = array_merge( $prependOptions, $options );
+		}
+
+		// Check order.
+		$I->checkSelectOptionOrder($I, $selectElement, $options);
+	}
+
+	/**
+	 * Helper method to determine that the order of the Form resources in the given
+	 * select element are in the expected alphabetical order.
+	 *
+	 * @since   2.0.8
+	 *
+	 * @param   AcceptanceTester $I                 AcceptanceTester.
+	 * @param   string           $selectElement     <select> element.
+	 * @param   bool|array       $prependOptions    Option elements that should appear before the resources.
+	 */
+	public function checkSelectTagOptionOrder($I, $selectElement, $prependOptions = false)
+	{
+		// Define options.
+		$options = [
+			'gravityforms-tag-1', // First item.
+			'wordpress', // Last item.
+		];
+
+		// Prepend options, such as 'Default' and 'None' to the options, if required.
+		if ( $prependOptions ) {
+			$options = array_merge( $prependOptions, $options );
+		}
+
+		// Check order.
+		$I->checkSelectOptionOrder($I, $selectElement, $options);
+	}
+
+	/**
+	 * Helper method to determine the order of <option> values for the given select element
+	 * and values.
+	 *
+	 * @since   2.0.8
+	 *
+	 * @param   AcceptanceTester $I             AcceptanceTester.
+	 * @param   string           $selectElement <select> element.
+	 * @param   array            $values        <option> values.
+	 */
+	public function checkSelectOptionOrder($I, $selectElement, $values)
+	{
+		foreach ( $values as $i => $value ) {
+			// Define the applicable CSS selector.
+			if ( $i === 0 ) {
+				$nth = 'first-child';
+			} elseif ( $i + 1 === count( $values ) ) {
+				$nth = 'last-child';
+			} else {
+				$nth = 'nth-child(' . ( $i + 1 ) . ')';
+			}
+
+			$I->assertEquals(
+				$I->grabTextFrom('select' . $selectElement . ' option:' . $nth),
+				$value
+			);
+		}
 	}
 
 	/**
@@ -357,14 +631,9 @@ class Plugin extends \Codeception\Module
 		// Confirm that the block displays one broadcast with a pagination link to newer broadcasts.
 		$I->seeBroadcastsOutput($I, 1, $previousLabel, false);
 
-		// Fetch Broadcasts from the resource, to determine the name of the most recent two broadcasts.
-		$broadcasts      = $I->grabOptionFromDatabase('convertkit_posts');
-		$firstBroadcast  = current(array_slice($broadcasts, 0, 1));
-		$secondBroadcast = current(array_slice($broadcasts, 1, 1));
-
 		// Confirm that the expected Broadcast name is displayed and links to the expected URL, with UTM parameters.
-		$I->seeInSource('<a href="' . $secondBroadcast['url'] . '?utm_source=wordpress&amp;utm_content=convertkit" target="_blank" rel="nofollow noopener"');
-		$I->seeInSource($secondBroadcast['title']);
+		$I->seeInSource('<a href="' . $_ENV['CONVERTKIT_API_BROADCAST_SECOND_URL'] . '?utm_source=wordpress&amp;utm_content=convertkit" target="_blank" rel="nofollow noopener"');
+		$I->seeInSource($_ENV['CONVERTKIT_API_BROADCAST_SECOND_TITLE']);
 
 		// Click the Newer Posts link.
 		$I->click('li.convertkit-broadcasts-pagination-prev a');
@@ -377,8 +646,8 @@ class Plugin extends \Codeception\Module
 		$I->seeBroadcastsOutput($I, 1, false, $nextLabel);
 
 		// Confirm that the expected Broadcast name is displayed and links to the expected URL, with UTM parameters.
-		$I->seeInSource('<a href="' . $firstBroadcast['url'] . '?utm_source=wordpress&amp;utm_content=convertkit" target="_blank" rel="nofollow noopener"');
-		$I->seeInSource($firstBroadcast['title']);
+		$I->seeInSource('<a href="' . $_ENV['CONVERTKIT_API_BROADCAST_FIRST_URL'] . '?utm_source=wordpress&amp;utm_content=convertkit" target="_blank" rel="nofollow noopener"');
+		$I->seeInSource($_ENV['CONVERTKIT_API_BROADCAST_FIRST_TITLE']);
 	}
 
 	/**
