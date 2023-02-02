@@ -54,6 +54,9 @@ class EditFormLinkCest
 		// View the Page as if we clicked Preview from the editor.
 		$I->amOnUrl($_ENV['TEST_SITE_WP_URL'] . $I->grabFromCurrentUrl() . '?preview=true');
 
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
 		// Confirm that the Edit Form link is displayed.
 		$I->seeInSource('<a href="https://app.convertkit.com/forms/designers/' . $_ENV['CONVERTKIT_API_FORM_ID'] . '/edit/?utm_source=wordpress&amp;utm_content=convertkit" target="_blank">Edit form in ConvertKit</a>');
 	}
@@ -88,6 +91,9 @@ class EditFormLinkCest
 
 		// View the Page as if we clicked Preview from the editor.
 		$I->amOnUrl($_ENV['TEST_SITE_WP_URL'] . $I->grabFromCurrentUrl() . '?preview=true');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
 
 		// Confirm that no Edit Form link is displayed, because there is no Form specified on this Page.
 		$I->dontSee('Edit form in ConvertKit');
@@ -136,8 +142,49 @@ class EditFormLinkCest
 		// View the Page as if we clicked Preview from the editor.
 		$I->amOnPage('/?p=' . $pageID . '&preview=true');
 
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
 		// Confirm that no Edit Form link is displayed, because the form Form specified on this Page is invalid.
 		$I->dontSee('Edit form in ConvertKit');
+	}
+
+	/**
+	 * Test that the 'Edit form on ConvertKit' link displays when a Legacy Form is specified
+	 * in the Page Settings, and the user previews the WordPress Page.
+	 *
+	 * @since   2.0.8
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testEditFormLinkOnPageWithLegacyForm(AcceptanceTester $I)
+	{
+		// Add a Page using the Gutenberg editor.
+		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form: Legacy: Edit Link');
+
+		// Configure metabox's Form setting = Legacy.
+		$I->configureMetaboxSettings(
+			$I,
+			'wp-convertkit-meta-box',
+			[
+				'form' => [ 'select2', $_ENV['CONVERTKIT_API_LEGACY_FORM_NAME'] ],
+			]
+		);
+
+		// Publish and view the Page on the frontend site.
+		$I->publishAndViewGutenbergPage($I);
+
+		// Confirm that no Edit Form link is displayed, because we did not preview the Page.
+		$I->dontSee('Edit form in ConvertKit');
+
+		// View the Page as if we clicked Preview from the editor.
+		$I->amOnUrl($_ENV['TEST_SITE_WP_URL'] . $I->grabFromCurrentUrl() . '?preview=true');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Confirm that the Edit Form link is displayed.
+		$I->seeInSource('<a href="https://app.convertkit.com/landing_pages/' . $_ENV['CONVERTKIT_API_LEGACY_FORM_ID'] . '/edit/?utm_source=wordpress&amp;utm_content=convertkit" target="_blank">Edit form in ConvertKit</a>');
 	}
 
 	/**
@@ -180,6 +227,9 @@ class EditFormLinkCest
 
 		// View the Page as if we clicked Preview from the editor.
 		$I->amOnUrl($_ENV['TEST_SITE_WP_URL'] . $I->grabFromCurrentUrl() . '?preview=true');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
 
 		// Confirm that the Edit Form link is displayed.
 		$I->seeInSource('<a href="https://app.convertkit.com/forms/designers/' . $_ENV['CONVERTKIT_API_FORM_ID'] . '/edit/?utm_source=wordpress&amp;utm_content=convertkit" target="_blank">Edit form in ConvertKit</a>');
@@ -227,6 +277,9 @@ class EditFormLinkCest
 		// View the Page as if we clicked Preview from the editor.
 		$I->amOnUrl($_ENV['TEST_SITE_WP_URL'] . $I->grabFromCurrentUrl() . '?preview=true');
 
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
 		// Confirm that no Edit Form link is displayed, because the form isn't an inline format.
 		$I->dontSee('Edit form in ConvertKit');
 	}
@@ -264,6 +317,9 @@ class EditFormLinkCest
 
 		// View the Page as if we clicked Preview from the editor.
 		$I->amOnUrl($_ENV['TEST_SITE_WP_URL'] . $I->grabFromCurrentUrl() . '?preview=true');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
 
 		// Confirm that the Edit Form link is displayed.
 		$I->seeInSource('<a href="https://app.convertkit.com/forms/designers/' . $_ENV['CONVERTKIT_API_FORM_ID'] . '/edit/?utm_source=wordpress&amp;utm_content=convertkit" target="_blank">Edit form in ConvertKit</a>');
@@ -303,6 +359,9 @@ class EditFormLinkCest
 
 		// View the Page as if we clicked Preview from the editor.
 		$I->amOnUrl($_ENV['TEST_SITE_WP_URL'] . $I->grabFromCurrentUrl() . '?preview=true');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
 
 		// Confirm that no Edit Form link is displayed, because the form isn't an inline format.
 		$I->dontSee('Edit form in ConvertKit');
