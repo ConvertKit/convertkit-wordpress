@@ -17,12 +17,14 @@ class PostLandingPageCest
 	{
 		// Activate and Setup ConvertKit plugin.
 		$I->activateConvertKitPlugin($I);
-		$I->setupConvertKitPlugin($I);
-		$I->enableDebugLog($I);
+
+		// Setup ConvertKit Plugin with no default form specified.
+		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY'], $_ENV['CONVERTKIT_API_SECRET'], '', '', '');
+		$I->setupConvertKitPluginResources($I);
 	}
 
 	/**
-	 * Test that no Landing Page option is displayedin the Plugin Settings when
+	 * Test that no Landing Page option is displayed in the Plugin Settings when
 	 * creating and viewing a new WordPress Post, and that no attempt to check
 	 * for a Landing Page is made when viewing a Post.
 	 *

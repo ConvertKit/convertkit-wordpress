@@ -18,7 +18,7 @@ class UpgradePathsCest
 		// Activate and Setup ConvertKit plugin.
 		$I->activateConvertKitPlugin($I);
 		$I->setupConvertKitPlugin($I);
-		$I->enableDebugLog($I);
+		$I->setupConvertKitPluginResources($I);
 	}
 
 	/**
@@ -42,7 +42,7 @@ class UpgradePathsCest
 					// 1.4.6 and earlier wouldn't set a landing_page or tag meta keys if no values were specified
 					// in the Meta Box.
 					'_wp_convertkit_post_meta' => [
-						'form' => '-1',
+						'form' => '0',
 					],
 				],
 			]
@@ -76,7 +76,7 @@ class UpgradePathsCest
 					// 1.4.6 and earlier wouldn't set a landing_page or tag meta keys if no values were specified
 					// in the Meta Box.
 					'_wp_convertkit_post_meta' => [
-						'form' => '-1',
+						'form' => '0',
 					],
 				],
 			]

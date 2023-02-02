@@ -17,8 +17,10 @@ class PageTagCest
 	{
 		// Activate and Setup ConvertKit plugin.
 		$I->activateConvertKitPlugin($I);
-		$I->setupConvertKitPlugin($I);
-		$I->enableDebugLog($I);
+
+		// Setup ConvertKit Plugin with no default form specified.
+		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY'], $_ENV['CONVERTKIT_API_SECRET'], '', '', '');
+		$I->setupConvertKitPluginResources($I);
 	}
 
 	/**
@@ -33,6 +35,15 @@ class PageTagCest
 	{
 		// Add a Page using the Gutenberg editor.
 		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Tag: None');
+
+		// Check the order of the Tag resources are alphabetical, with the None option prepending the Tags.
+		$I->checkSelectTagOptionOrder(
+			$I,
+			'#wp-convertkit-tag',
+			[
+				'None',
+			]
+		);
 
 		// Configure metabox's Tag setting = None.
 		$I->configureMetaboxSettings(
@@ -83,6 +94,54 @@ class PageTagCest
 
 		// Confirm that the post_has_tag parameter is set to true in the source code.
 		$I->seeInSource('"tag":"' . $tagID . '"');
+	}
+
+	/**
+	 * Test that a page set to tag subscribers with a specified tag works when accessed
+	 * with a valid subscriber ID in the ?ck_subscriber_id request parameter.
+	 *
+	 * @since   2.0.6
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testDefinedTagAppliesToValidSubscriberID(AcceptanceTester $I)
+	{
+		// Add Page, configured to tag subscribers to visit it with the given tag ID.
+		$pageID = $I->havePageInDatabase(
+			[
+				'post_title' => 'ConvertKit: Tag: Valid Subscriber ID',
+				'post_name'  => 'convertkit-tag-valid-subscriber-id',
+				'meta_input' => [
+					'_wp_convertkit_post_meta' => [
+						'form'         => '0',
+						'landing_page' => '',
+						'tag'          => $_ENV['CONVERTKIT_API_TAG_ID'],
+					],
+				],
+			]
+		);
+
+		// Programmatically create a subscriber in ConvertKit.
+		// Must be a domain email doesn't bounce on, otherwise subscriber won't be confirmed even if the Form's
+		// "Auto-confirm new subscribers" setting is enabled.
+		// We need the subscriber to be confirmed so they can then be tagged.
+		$emailAddress = $I->generateEmailAddress('n7studios.com');
+		$subscriberID = $I->apiSubscribe($emailAddress, $_ENV['CONVERTKIT_API_FORM_ID']);
+
+		// Load the page with the ?ck_subscriber_id parameter, as if the subscriber clicked a link in a ConvertKit broadcast.
+		$I->amOnPage('?p=' . $pageID . '&ck_subscriber_id=' . $subscriberID);
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Confirm that the post_has_tag parameter is set to true in the source code.
+		$I->seeInSource('"tag":"' . $_ENV['CONVERTKIT_API_TAG_ID'] . '"');
+
+		// Wait a moment for the AJAX request to complete the API request to tag the subscriber.
+		$I->wait(2);
+
+		// Check that the subscriber has been assigned to the tag.
+		$I->apiCheckSubscriberHasTag($I, $subscriberID, $_ENV['CONVERTKIT_API_TAG_ID']);
 	}
 
 	/**

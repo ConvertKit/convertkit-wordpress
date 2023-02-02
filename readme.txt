@@ -5,7 +5,7 @@ Tags: email marketing, email newsletter, newsletter, convertkit
 Requires at least: 5.0
 Tested up to: 6.1.1
 Requires PHP: 5.6.20
-Stable tag: 2.0.5
+Stable tag: 2.0.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -116,6 +116,24 @@ Full Plugin documentation can be found [here](https://help.convertkit.com/en/art
 7. Track subscriber growth
 
 == Changelog ==
+
+### 2.0.8 2023-02-02
+* Added: Settings: ConvertKit: Documentation tab
+* Added: Forms: Link to edit form in ConvertKit when previewing a Page, Post or Custom Post containing a ConvertKit form
+* Fix: Display Forms, Landing Pages, Products and Tags in alphabetical order when listed in a `<select>` dropdown
+* Fix: Form: Block and Shortcode: Check Forms exist in ConvertKit before outputting Block / Shortcode options
+* Fix: Form: Shortcode: Remove unused API Key output
+* Fix: Product: Block: Preview: Improved performance when previewing the Product block to determine if a ConvertKit Product was specified in the Block's settings
+* Fix: Product: Shortcode: Remove unused API Key and data-attributes output
+
+### 2.0.7 2023-01-16
+* Fix: Elementor 3.9.0+ compatibility
+* Updated: ConvertKit WordPress Libraries to 1.3.0
+
+### 2.0.6 2023-01-05
+* Fix: Honor "Add a tag" setting when enabled on a Page/Post
+* Fix: PHP Warning: Cannot modify header information - headers already sent, when ?ck_subscriber_id included in request URI in some Page Builders (e.g. Elementor)
+* Fix: PHP Warning: Trying to access array offset on value of type null
 
 ### 2.0.5 2022-12-15
 * Fix: Broadcasts: Strip slashes on output when pagination clicked and Broadcasts are reloaded

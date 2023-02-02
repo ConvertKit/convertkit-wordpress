@@ -153,10 +153,16 @@ class ConvertKit_Admin_Settings {
 
 			<p class="description">
 				<?php
-				printf(
-					'If you need help setting up the plugin please refer to the %s plugin documentation.</a>',
-					'<a href="https://help.convertkit.com/en/articles/2502591-the-convertkit-wordpress-plugin" target="_blank">'
-				);
+				// Output Documentation link, if it exists.
+				$documentation_url = $this->get_active_section_documentation_url( $active_section );
+				if ( $documentation_url !== false ) {
+					echo sprintf(
+						'%s <a href="%s" target="_blank">%s</a>',
+						esc_html__( 'If you need help setting up the plugin please refer to the', 'convertkit' ),
+						esc_attr( $documentation_url ),
+						esc_html__( 'plugin documentation', 'convertkit' )
+					);
+				}
 				?>
 			</p>
 		</div>
@@ -265,6 +271,16 @@ class ConvertKit_Admin_Settings {
 					esc_html( $section->tab_text )
 				);
 			}
+
+			// Output Documentation link tab, if it exists.
+			$documentation_url = $this->get_active_section_documentation_url( $active_section );
+			if ( $documentation_url !== false ) {
+				printf(
+					'<li class="convertkit-docs"><a href="%s" class="convertkit-tab" target="_blank">%s <span class="dashicons dashicons-external"></span></a></li>',
+					esc_attr( $documentation_url ),
+					esc_html__( 'Documentation', 'convertkit' )
+				);
+			}
 			?>
 		</ul>
 		<?php
@@ -304,6 +320,37 @@ class ConvertKit_Admin_Settings {
 
 		// With our sections now registered, assign them to this class.
 		$this->sections = $sections;
+
+	}
+
+	/**
+	 * Returns the documentation URL for the active settings section viewed by the user.
+	 *
+	 * @since   2.0.8
+	 *
+	 * @param   string $active_section     Currently displayed/selected section.
+	 * @return  bool|string
+	 */
+	private function get_active_section_documentation_url( $active_section ) {
+
+		// Bail if no sections registered.
+		if ( ! $this->sections ) {
+			return false;
+		}
+
+		// Bail if the active section isn't registered.
+		if ( ! array_key_exists( $active_section, $this->sections ) ) {
+			return false;
+		}
+
+		// Pass request to section's documentation_url() function, including UTM parameters.
+		return add_query_arg(
+			array(
+				'utm_source'  => 'wordpress',
+				'utm_content' => 'convertkit',
+			),
+			$this->sections[ $active_section ]->documentation_url()
+		);
 
 	}
 

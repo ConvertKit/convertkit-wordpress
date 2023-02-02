@@ -256,9 +256,6 @@ class ConvertKit_Block_Product extends ConvertKit_Block {
 			}
 		}
 
-		// Get Settings.
-		$settings = new ConvertKit_Settings();
-
 		// Gutenberg's built-in fields (such as styling, padding etc) don't need to be defined here, as they'll be included
 		// automatically by Gutenberg.
 		return array(
@@ -266,10 +263,6 @@ class ConvertKit_Block_Product extends ConvertKit_Block {
 				'label'  => __( 'Product', 'convertkit' ),
 				'type'   => 'select',
 				'values' => $products,
-				'data'   => array(
-					'products' => $convertkit_products->get(),
-					'api_key'  => $settings->get_api_key(),
-				),
 			),
 			'text'             => array(
 				'label'       => __( 'Button Text', 'convertkit' ),

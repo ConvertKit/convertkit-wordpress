@@ -17,8 +17,6 @@ class PostFormCest
 	{
 		// Activate and Setup ConvertKit plugin.
 		$I->activateConvertKitPlugin($I);
-		$I->setupConvertKitPlugin($I);
-		$I->enableDebugLog($I);
 	}
 
 	/**
@@ -30,6 +28,10 @@ class PostFormCest
 	 */
 	public function testAccessibility(AcceptanceTester $I)
 	{
+		// Setup ConvertKit Plugin.
+		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPluginResources($I);
+
 		// Navigate to Post Type (e.g. Pages / Posts) > Add New.
 		$I->amOnAdminPage('post-new.php?post_type=post');
 
@@ -49,8 +51,22 @@ class PostFormCest
 	 */
 	public function testAddNewPostUsingDefaultFormWithNoDefaultFormSpecifiedInPlugin(AcceptanceTester $I)
 	{
+		// Setup Plugin, without defining default Forms.
+		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY'], $_ENV['CONVERTKIT_API_SECRET'], '', '', '');
+		$I->setupConvertKitPluginResources($I);
+
 		// Add a Post using the Gutenberg editor.
 		$I->addGutenbergPage($I, 'post', 'ConvertKit: Post: Form: Default: None');
+
+		// Check the order of the Form resources are alphabetical, with the Default and None options prepending the Forms.
+		$I->checkSelectFormOptionOrder(
+			$I,
+			'#wp-convertkit-form',
+			[
+				'Default',
+				'None',
+			]
+		);
 
 		// Configure metabox's Form setting = Default.
 		$I->configureMetaboxSettings(
@@ -78,8 +94,9 @@ class PostFormCest
 	 */
 	public function testAddNewPostUsingDefaultForm(AcceptanceTester $I)
 	{
-		// Specify the Default Form in the Plugin Settings.
-		$defaultFormID = $I->setupConvertKitPluginDefaultForm($I);
+		// Setup ConvertKit Plugin.
+		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPluginResources($I);
 
 		// Add a Post using the Gutenberg editor.
 		$I->addGutenbergPage($I, 'post', 'ConvertKit: Post: Form: Default');
@@ -97,7 +114,7 @@ class PostFormCest
 		$I->publishAndViewGutenbergPage($I);
 
 		// Confirm that the ConvertKit Default Form displays.
-		$I->seeElementInDOM('form[data-sv-form="' . $defaultFormID . '"]');
+		$I->seeElementInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]');
 	}
 
 	/**
@@ -110,8 +127,9 @@ class PostFormCest
 	 */
 	public function testAddNewPostUsingDefaultLegacyForm(AcceptanceTester $I)
 	{
-		// Specify the Default Legacy Form in the Plugin Settings.
-		$defaultLegacyFormID = $I->setupConvertKitPluginDefaultLegacyForm($I);
+		// Setup Plugin, without defining default Forms.
+		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY'], $_ENV['CONVERTKIT_API_SECRET'], '', $_ENV['CONVERTKIT_API_LEGACY_FORM_ID'], '');
+		$I->setupConvertKitPluginResources($I);
 
 		// Add a Post using the Gutenberg editor.
 		$I->addGutenbergPage($I, 'post', 'ConvertKit: Post: Form: Legacy: Default');
@@ -129,7 +147,7 @@ class PostFormCest
 		$I->publishAndViewGutenbergPage($I);
 
 		// Confirm that the ConvertKit Default Legacy Form displays.
-		$I->seeInSource('<form id="ck_subscribe_form" class="ck_subscribe_form" action="https://api.convertkit.com/landing_pages/' . $defaultLegacyFormID . '/subscribe" data-remote="true">');
+		$I->seeInSource('<form id="ck_subscribe_form" class="ck_subscribe_form" action="https://api.convertkit.com/landing_pages/' . $_ENV['CONVERTKIT_API_LEGACY_FORM_ID'] . '/subscribe" data-remote="true">');
 	}
 
 	/**
@@ -142,6 +160,10 @@ class PostFormCest
 	 */
 	public function testAddNewPostUsingNoForm(AcceptanceTester $I)
 	{
+		// Setup ConvertKit Plugin.
+		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPluginResources($I);
+
 		// Add a Post using the Gutenberg editor.
 		$I->addGutenbergPage($I, 'post', 'ConvertKit: Post: Form: None');
 
@@ -171,6 +193,10 @@ class PostFormCest
 	 */
 	public function testAddNewPostUsingDefinedForm(AcceptanceTester $I)
 	{
+		// Setup ConvertKit Plugin.
+		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPluginResources($I);
+
 		// Add a Post using the Gutenberg editor.
 		$I->addGutenbergPage($I, 'post', 'ConvertKit: Post: Form: ' . $_ENV['CONVERTKIT_API_FORM_NAME']);
 
@@ -200,6 +226,10 @@ class PostFormCest
 	 */
 	public function testAddNewPostUsingDefinedLegacyForm(AcceptanceTester $I)
 	{
+		// Setup ConvertKit Plugin.
+		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPluginResources($I);
+
 		// Add a Post using the Gutenberg editor.
 		$I->addGutenbergPage($I, 'post', 'ConvertKit: Post: Form: ' . $_ENV['CONVERTKIT_API_LEGACY_FORM_NAME']);
 
@@ -234,8 +264,9 @@ class PostFormCest
 	 */
 	public function testAddNewPostUsingInvalidDefinedForm(AcceptanceTester $I)
 	{
-		// Setup the Default Form for Pages and Posts.
-		$I->setupConvertKitPluginDefaultForm($I);
+		// Setup ConvertKit Plugin.
+		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPluginResources($I);
 
 		// Create Post, with an invalid Form ID, as if it were created prior to API credentials being changed and/or
 		// a Form being deleted in ConvertKit.
@@ -276,8 +307,9 @@ class PostFormCest
 	 */
 	public function testQuickEditUsingDefaultForm(AcceptanceTester $I)
 	{
-		// Specify the Default Form in the Plugin Settings.
-		$I->setupConvertKitPluginDefaultForm($I);
+		// Setup ConvertKit Plugin.
+		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPluginResources($I);
 
 		// Programmatically create a Post.
 		$postID = $I->havePostInDatabase(
@@ -317,6 +349,10 @@ class PostFormCest
 	 */
 	public function testQuickEditUsingDefinedForm(AcceptanceTester $I)
 	{
+		// Setup ConvertKit Plugin.
+		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPluginResources($I);
+
 		// Programmatically create a Post.
 		$postID = $I->havePostInDatabase(
 			[
@@ -355,8 +391,9 @@ class PostFormCest
 	 */
 	public function testBulkEditUsingDefaultForm(AcceptanceTester $I)
 	{
-		// Specify the Default Form in the Plugin Settings.
-		$I->setupConvertKitPluginDefaultForm($I);
+		// Setup ConvertKit Plugin.
+		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPluginResources($I);
 
 		// Programmatically create two Posts.
 		$postIDs = array(
@@ -407,6 +444,10 @@ class PostFormCest
 	 */
 	public function testBulkEditUsingDefinedForm(AcceptanceTester $I)
 	{
+		// Setup ConvertKit Plugin.
+		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPluginResources($I);
+
 		// Programmatically create two Posts.
 		$postIDs = array(
 			$I->havePostInDatabase(
@@ -456,6 +497,10 @@ class PostFormCest
 	 */
 	public function testBulkEditWithNoChanges(AcceptanceTester $I)
 	{
+		// Setup ConvertKit Plugin.
+		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPluginResources($I);
+
 		// Programmatically create two Posts with a defined form.
 		$postIDs = array(
 			$I->havePostInDatabase(
@@ -519,6 +564,10 @@ class PostFormCest
 	 */
 	public function testBulkEditFieldsHiddenWhenNoPostsFound(AcceptanceTester $I)
 	{
+		// Setup ConvertKit Plugin.
+		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPluginResources($I);
+
 		// Emulate the user searching for Posts with a query string that yields no results.
 		$I->amOnAdminPage('edit.php?post_type=post&s=nothing');
 

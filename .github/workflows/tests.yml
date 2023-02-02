@@ -30,7 +30,7 @@ jobs:
       DB_USER: root
       DB_PASS: root
       DB_HOST: localhost
-      INSTALL_PLUGINS: "convertkit-for-woocommerce convertkit-gravity-forms classic-editor disable-welcome-messages-and-tips elementor woocommerce wordpress-seo" # Don't include this repository's Plugin here.
+      INSTALL_PLUGINS: "contact-form-7 convertkit-for-woocommerce convertkit-gravity-forms classic-editor disable-welcome-messages-and-tips elementor woocommerce wordpress-seo" # Don't include this repository's Plugin here.
       CONVERTKIT_API_KEY: ${{ secrets.CONVERTKIT_API_KEY }} # ConvertKit API Key, stored in the repository's Settings > Secrets
       CONVERTKIT_API_SECRET: ${{ secrets.CONVERTKIT_API_SECRET }} # ConvertKit API Secret, stored in the repository's Settings > Secrets
       CONVERTKIT_API_KEY_NO_DATA: ${{ secrets.CONVERTKIT_API_KEY_NO_DATA }} # ConvertKit API Key for ConvertKit account with no data, stored in the repository's Settings > Secrets
@@ -111,11 +111,6 @@ jobs:
       - name: Install Free Third Party WordPress Plugins
         working-directory: ${{ env.ROOT_DIR }}
         run: wp-cli plugin install ${{ env.INSTALL_PLUGINS }}
-
-      # Install Contact Form 7 5.6.4, due to 5.7 causing a PHP notice resulting in our CF7 tests failing: https://wordpress.org/support/topic/contact-form-7-error-19/
-      - name: Install Contact Form 7 5.6.4
-        working-directory: ${{ env.ROOT_DIR }}
-        run: wp-cli plugin install contact-form-7 --version=5.6.4
 
       # These should be stored as a separated list of URLs in the repository Settings > Secrets > Repository Secret > CONVERTKIT_PAID_PLUGIN_URLS.
       # We cannot include the URLs in this file, as they're not Plugins we are permitted to distribute.

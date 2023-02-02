@@ -6,22 +6,6 @@
  * @author ConvertKit
  */
 
-// Build a string of data- attributes.
-$data_attributes                   = '';
-$data_attributes_shortcode_defined = false;
-if ( isset( $field['data'] ) ) {
-	foreach ( $field['data'] as $data_attribute => $data_attribute_value ) {
-		$data_attributes .= ' data-' . $data_attribute . '="' . $data_attribute_value . '"';
-
-		if ( $data_attribute === 'shortcode' ) {
-			$data_attributes_shortcode_defined = true;
-		}
-	}
-}
-if ( ! $data_attributes_shortcode_defined ) {
-	$data_attributes .= ' data-shortcode="' . $field_name . '"';
-}
-
 switch ( $field['type'] ) {
 
 	/**
@@ -33,7 +17,7 @@ switch ( $field['type'] ) {
 				id="tinymce_modal_<?php echo esc_attr( $field_name ); ?>"
 				name="<?php echo esc_attr( $field_name ); ?>"
 				value="<?php echo esc_attr( isset( $shortcode['attributes'][ $field_name ]['default'] ) ? $shortcode['attributes'][ $field_name ]['default'] : '' ); ?>" 
-				<?php echo $data_attributes; // phpcs:ignore ?>
+				data-shortcode="<?php echo esc_attr( $field_name ); ?>"
 				placeholder="<?php echo esc_attr( isset( $field['placeholder'] ) ? $field['placeholder'] : '' ); ?>"
 				class="widefat" />
 		<?php
@@ -48,7 +32,7 @@ switch ( $field['type'] ) {
 				id="tinymce_modal_<?php echo esc_attr( $field_name ); ?>"
 				name="<?php echo esc_attr( $field_name ); ?>" 
 				value="<?php echo esc_attr( isset( $shortcode['attributes'][ $field_name ]['default'] ) ? $shortcode['attributes'][ $field_name ]['default'] : '' ); ?>" 
-				<?php echo $data_attributes; // phpcs:ignore ?>
+				data-shortcode="<?php echo esc_attr( $field_name ); ?>"
 				min="<?php echo esc_attr( $field['min'] ); ?>" 
 				max="<?php echo esc_attr( $field['max'] ); ?>" 
 				step="<?php echo esc_attr( $field['step'] ); ?>"
@@ -63,7 +47,7 @@ switch ( $field['type'] ) {
 		?>
 		<select name="<?php echo esc_attr( $field_name ); ?>"
 				id="tinymce_modal_<?php echo esc_attr( $field_name ); ?>"
-				<?php echo $data_attributes; // phpcs:ignore ?>
+				data-shortcode="<?php echo esc_attr( $field_name ); ?>"
 				size="1"
 				class="widefat">
 			<?php
@@ -87,7 +71,7 @@ switch ( $field['type'] ) {
 		?>
 		<select name="<?php echo esc_attr( $field_name ); ?>"
 				id="tinymce_modal_<?php echo esc_attr( $field_name ); ?>"
-				<?php echo $data_attributes; // phpcs:ignore ?>
+				data-shortcode="<?php echo esc_attr( $field_name ); ?>"
 				size="1"
 				class="widefat">
 			<?php
@@ -108,7 +92,7 @@ switch ( $field['type'] ) {
 				id="tinymce_modal_<?php echo esc_attr( $field_name ); ?>"
 				name="<?php echo esc_attr( $field_name ); ?>"
 				value="<?php echo esc_attr( isset( $shortcode['attributes'][ $field_name ]['default'] ) ? $shortcode['attributes'][ $field_name ]['default'] : '' ); ?>" 
-				<?php echo $data_attributes; // phpcs:ignore ?>
+				data-shortcode="<?php echo esc_attr( $field_name ); ?>"
 				placeholder="<?php echo esc_attr( isset( $field['placeholder'] ) ? $field['placeholder'] : '' ); ?>"
 				class="widefat convertkit-color-picker" />
 		<?php
