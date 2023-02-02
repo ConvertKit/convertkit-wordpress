@@ -240,10 +240,10 @@ abstract class ConvertKit_Settings_Base {
 	 *
 	 * @since   1.9.6
 	 *
-	 * @param   string             $name           Name.
-	 * @param   string             $value          Value.
-	 * @param   bool|string|array  $description    Description (false|string|array).
-	 * @param   bool|array         $css_classes    CSS Classes (false|array).
+	 * @param   string            $name           Name.
+	 * @param   string            $value          Value.
+	 * @param   bool|string|array $description    Description (false|string|array).
+	 * @param   bool|array        $css_classes    CSS Classes (false|array).
 	 * @return  string                              HTML Field
 	 */
 	public function get_text_field( $name, $value = '', $description = false, $css_classes = false ) {
