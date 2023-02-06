@@ -253,29 +253,41 @@ class ConvertKit_Output_Restrict_Content {
 		// Get resource ID (Product ID) that the visitor must be subscribed against to access this content.
 		$resource_id = $this->get_resource_id( $this->post_id );
 
-		// Return the Post Content, unedited, if the Resource ID is false.
+		// Return the full Post Content, unedited, if the Resource ID is false, as this means
+		// no restrict content setting has been defined for this Post.
 		if ( ! $resource_id ) {
 			return $content;
 		}
 
-		// Initialize the API.
-		$this->api = new ConvertKit_API( $this->settings->get_api_key(), $this->settings->get_api_secret(), $this->settings->debug_enabled() );
-
-		// Determine if the visitor is subscribed to the given resource type and ID.
-		if ( $this->has_access( $resource_type, $resource_id ) ) {
-			// Visitor is a subscriber to the product.
-			// Show the content.
-			return $content;
+		// Return if this request is after the user entered their email address,
+		// which means we're going through the authentication flow.
+		if ( $this->in_authentication_flow() ) {
+			return $this->restrict_content( $content, $resource_type, $resource_id );
 		}
 
-		// Fetch a content preview.
-		$preview_content = $this->get_content_preview( $content );
+		// Get the subscriber ID, either from the request or an existing cookie.
+		$subscriber_id = $this->get_subscriber_id_from_request();
 
-		// Fetch the restricted content call to action.
-		$call_to_action = $this->get_call_to_action( $this->post_id, $resource_type, $resource_id );
+		// If no subscriber ID exists, the visitor cannot view the content.
+		if ( ! $subscriber_id ) {
+			return $this->restrict_content( $content, $resource_type, $resource_id );
+		}
 
-		// Return the preview plus call to action.
-		return $preview_content . $call_to_action;
+		// If the subscriber is not subscribed to the product, restrict the content.
+		if ( ! $this->subscriber_has_access( $subscriber_id, $resource_type, $resource_id ) ) {
+			// Show an error before the call to action, to tell the subscriber why they still cannot
+			// view the content.
+			$this->error = new WP_Error(
+				'convertkit_restrict_content_subscriber_no_access',
+				esc_html__( 'Your account does not have access to this content. Please use the button below to purchase, or enter a valid email address.', 'convertkit' )
+			);
+
+			return $this->restrict_content( $content, $resource_type, $resource_id );
+		}
+
+		// If here, the subscriber has subscribed to the product.
+		// Show the full Post Content.
+		return $content;
 
 	}
 
@@ -442,6 +454,20 @@ class ConvertKit_Output_Restrict_Content {
 	}
 
 	/**
+	 * Determines if the user entered a valid email address, and need to be prompted
+	 * to enter a code sent to their email address.
+	 *
+	 * @since 	2.1.0
+	 *
+	 * @return 	bool
+	 */
+	private function in_authentication_flow() {
+
+		return ( $this->token !== false );
+
+	}
+
+	/**
 	 * Checks if the given WordPress Page matches the Page ID viewed, and has a parent.
 	 *
 	 * @since   2.1.0
@@ -541,19 +567,12 @@ class ConvertKit_Output_Restrict_Content {
 	 *
 	 * @since   2.1.0
 	 *
-	 * @param   string $resource_type  Resource Type (product).
-	 * @param   int    $resource_id    Resource ID (Product ID).
-	 * @return  bool                    Can view restricted content
+	 * @param 	string|int 	$subscriber_id 	Signed Subscriber ID or Subscriber ID.
+	 * @param   string 		$resource_type  Resource Type (product).
+	 * @param   int    		$resource_id    Resource ID (Product ID).
+	 * @return  bool                    	Can view restricted content
 	 */
-	private function has_access( $resource_type, $resource_id ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter
-
-		// Get the subscriber ID, either from the request or an existing cookie.
-		$subscriber_id = $this->get_subscriber_id_from_request();
-
-		// If no subscriber ID exists, the visitor cannot view the content.
-		if ( ! $subscriber_id ) {
-			return false;
-		}
+	private function subscriber_has_access( $subscriber_id, $resource_type, $resource_id ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter
 
 		// Initialize the API.
 		$this->api = new ConvertKit_API( $this->settings->get_api_key(), $this->settings->get_api_secret(), $this->settings->debug_enabled() );
@@ -609,6 +628,23 @@ class ConvertKit_Output_Restrict_Content {
 		}
 
 		return $subscriber_id;
+
+	}
+
+	/**
+	 * Restrict the given Post Content by showing a preview of the content, and appending
+	 * the call to action to subscribe or authenticate.
+	 * 
+	 * @since 	2.1.0
+	 * 
+	 * @param 	string 	$content 		Post Content.
+	 * @param   string 	$resource_type  Resource Type (product).
+	 * @param   int    	$resource_id    Resource ID (Product ID).
+	 * @return  string 					Post Content preview with call to action
+	 */
+	private function restrict_content( $content, $resource_type, $resource_id ) {
+
+		return $this->get_content_preview( $content ) . $this->get_call_to_action( $this->post_id, $resource_type, $resource_id );
 
 	}
 
@@ -680,8 +716,9 @@ class ConvertKit_Output_Restrict_Content {
 				// Enqueue styles.
 				wp_enqueue_style( 'convertkit-restrict-content', CONVERTKIT_PLUGIN_URL . 'resources/frontend/css/restrict-content.css', array(), CONVERTKIT_PLUGIN_VERSION );
 
-				// Output product code form if this request is after the user entered their email address.
-				if ( $this->token ) { // phpcs:ignore WordPress.Security.NonceVerification
+				// Output product code form if this request is after the user entered their email address,
+				// which means we're going through the authentication flow.
+				if ( $this->in_authentication_flow() ) { // phpcs:ignore WordPress.Security.NonceVerification
 					ob_start();
 					include CONVERTKIT_PLUGIN_PATH . '/views/frontend/restrict-content/product-code.php';
 					return trim( ob_get_clean() );
