@@ -457,9 +457,9 @@ class ConvertKit_Output_Restrict_Content {
 	 * Determines if the user entered a valid email address, and need to be prompted
 	 * to enter a code sent to their email address.
 	 *
-	 * @since 	2.1.0
+	 * @since   2.1.0
 	 *
-	 * @return 	bool
+	 * @return  bool
 	 */
 	private function in_authentication_flow() {
 
@@ -567,10 +567,10 @@ class ConvertKit_Output_Restrict_Content {
 	 *
 	 * @since   2.1.0
 	 *
-	 * @param 	string|int 	$subscriber_id 	Signed Subscriber ID or Subscriber ID.
-	 * @param   string 		$resource_type  Resource Type (product).
-	 * @param   int    		$resource_id    Resource ID (Product ID).
-	 * @return  bool                    	Can view restricted content
+	 * @param   string|int $subscriber_id  Signed Subscriber ID or Subscriber ID.
+	 * @param   string     $resource_type  Resource Type (product).
+	 * @param   int        $resource_id    Resource ID (Product ID).
+	 * @return  bool                        Can view restricted content
 	 */
 	private function subscriber_has_access( $subscriber_id, $resource_type, $resource_id ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter
 
@@ -634,13 +634,13 @@ class ConvertKit_Output_Restrict_Content {
 	/**
 	 * Restrict the given Post Content by showing a preview of the content, and appending
 	 * the call to action to subscribe or authenticate.
-	 * 
-	 * @since 	2.1.0
-	 * 
-	 * @param 	string 	$content 		Post Content.
-	 * @param   string 	$resource_type  Resource Type (product).
-	 * @param   int    	$resource_id    Resource ID (Product ID).
-	 * @return  string 					Post Content preview with call to action
+	 *
+	 * @since   2.1.0
+	 *
+	 * @param   string $content        Post Content.
+	 * @param   string $resource_type  Resource Type (product).
+	 * @param   int    $resource_id    Resource ID (Product ID).
+	 * @return  string                  Post Content preview with call to action
 	 */
 	private function restrict_content( $content, $resource_type, $resource_id ) {
 
