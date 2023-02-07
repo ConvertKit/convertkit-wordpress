@@ -771,7 +771,7 @@ class Plugin extends \Codeception\Module
 			'email_text'             => 'Already a premium subscriber? Enter the email address used when purchasing below, to receive a login link to access.',
 			'email_button_label'     => 'Send email',
 			'email_check_text'       => 'Check your email and click the link to login, or enter the code from the email below.',
-			'no_access_text'         => 'Your account does not have access to this content. Please use the button below to purchase, or enter a valid email address.',
+			'no_access_text'         => 'Your account does not have access to this content. Please use the button below to purchase, or enter the email address you used to purchase the product.',
 		);
 	}
 
