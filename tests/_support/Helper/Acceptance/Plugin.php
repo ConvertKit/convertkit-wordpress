@@ -865,7 +865,7 @@ class Plugin extends \Codeception\Module
 		}
 
 		// Check content is / is not displayed, and CTA displays with expected text.
-		$I->see('Your account does not have access to this content. Please use the button below to purchase, or enter a valid email address.');
+		$I->see($textItems['no_access_text']);
 		$this->testRestrictContentHidesContentWithCTA($I, $visibleContent, $memberContent, $textItems);
 
 		// Login as a ConvertKit subscriber who has subscribed to the product.
