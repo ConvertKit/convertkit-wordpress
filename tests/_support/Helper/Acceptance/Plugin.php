@@ -771,6 +771,7 @@ class Plugin extends \Codeception\Module
 			'email_text'             => 'Already a premium subscriber? Enter the email address used when purchasing below, to receive a login link to access.',
 			'email_button_label'     => 'Send email',
 			'email_check_text'       => 'Check your email and click the link to login, or enter the code from the email below.',
+			'no_access_text'         => 'Your account does not have access to this content. Please use the button below to purchase, or enter a valid email address.',
 		);
 	}
 
@@ -830,13 +831,7 @@ class Plugin extends \Codeception\Module
 	{
 		// Define expected text and labels if not supplied.
 		if ( ! $textItems ) {
-			$textItems = array(
-				'subscribe_text'         => 'This content is only available to premium subscribers',
-				'subscribe_button_label' => 'Subscribe',
-				'email_text'             => 'Already a premium subscriber? Enter the email address used when purchasing below, to receive a login link to access.',
-				'email_button_label'     => 'Send email',
-				'email_check_text'       => 'Check your email and click the link to login, or enter the code from the email below.',
-			);
+			$textItems = $this->getRestrictedContentDefaultSettings();
 		}
 
 		// Navigate to the page.
@@ -856,6 +851,21 @@ class Plugin extends \Codeception\Module
 
 		// Check content is / is not displayed, and CTA displays with expected text.
 		$I->see('Email address is invalid'); // Response from the API.
+		$this->testRestrictContentHidesContentWithCTA($I, $visibleContent, $memberContent, $textItems);
+
+		// Set cookie with signed subscriber ID, as if we entered the code sent in the email as a ConvertKit
+		// subscriber who has not subscribed to the product.
+		$I->setCookie('ck_subscriber_id', $_ENV['CONVERTKIT_API_SIGNED_SUBSCRIBER_ID_NO_ACCESS']);
+
+		// Reload the restricted content page.
+		if ( is_numeric( $urlOrPageID ) ) {
+			$I->amOnPage('?p=' . $urlOrPageID);
+		} else {
+			$I->amOnUrl($urlOrPageID);
+		}
+
+		// Check content is / is not displayed, and CTA displays with expected text.
+		$I->see('Your account does not have access to this content. Please use the button below to purchase, or enter a valid email address.');
 		$this->testRestrictContentHidesContentWithCTA($I, $visibleContent, $memberContent, $textItems);
 
 		// Login as a ConvertKit subscriber who has subscribed to the product.
