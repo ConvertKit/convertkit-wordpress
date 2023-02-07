@@ -279,7 +279,7 @@ class ConvertKit_Output_Restrict_Content {
 			// view the content.
 			$this->error = new WP_Error(
 				'convertkit_restrict_content_subscriber_no_access',
-				esc_html( $this->restrict_content_settings->get_by_key( 'no_access_text' ) ),
+				esc_html( $this->restrict_content_settings->get_by_key( 'no_access_text' ) )
 			);
 
 			return $this->restrict_content( $content, $resource_type, $resource_id );
