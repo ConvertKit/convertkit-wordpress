@@ -27,8 +27,8 @@ class ConvertKit_Admin_Notices {
 	/**
 	 * Register output function to display persistent notices
 	 * in the WordPress Administration, if any exist.
-	 * 
-	 * @since 	2.0.9
+	 *
+	 * @since   2.0.9
 	 */
 	public function __construct() {
 
@@ -38,8 +38,8 @@ class ConvertKit_Admin_Notices {
 
 	/**
 	 * Output persistent notices in the WordPress Administration
-	 * 
-	 * @since 	2.0.9
+	 *
+	 * @since   2.0.9
 	 */
 	public function output() {
 
@@ -65,7 +65,7 @@ class ConvertKit_Admin_Notices {
 			?>
 			<div class="notice notice-error">
 				<p>
-					<?php 
+					<?php
 					// Depending on the notice, output the applicable error message.
 					switch ( $notice ) {
 						case 'authorization_failed':
@@ -75,7 +75,7 @@ class ConvertKit_Admin_Notices {
 								sprintf(
 									'<a href="%s">%s</a>',
 									esc_url( convertkit_get_settings_link() ),
-									__( 'settings screen.', 'convertkit' )
+									esc_html__( 'settings screen.', 'convertkit' )
 								)
 							);
 							break;
@@ -90,11 +90,11 @@ class ConvertKit_Admin_Notices {
 
 	/**
 	 * Add a persistent notice for output in the WordPress Administration.
-	 * 
-	 * @since 	2.0.9
-	 * 
-	 * @param 	string  $notice 	Notice name.
-	 * @return 	bool 				Notice saved successfully
+	 *
+	 * @since   2.0.9
+	 *
+	 * @param   string $notice     Notice name.
+	 * @return  bool                Notice saved successfully
 	 */
 	public function add( $notice ) {
 
@@ -119,10 +119,10 @@ class ConvertKit_Admin_Notices {
 
 	/**
 	 * Returns all notices stored in the options table.
-	 * 
-	 * @since 	2.0.9
-	 * 
-	 * @return 	array
+	 *
+	 * @since   2.0.9
+	 *
+	 * @return  array
 	 */
 	public function get() {
 
@@ -133,10 +133,10 @@ class ConvertKit_Admin_Notices {
 
 	/**
 	 * Whether any persistent notices are stored in the option table.
-	 * 
-	 * @since 	2.0.9
-	 * 
-	 * @return 	bool
+	 *
+	 * @since   2.0.9
+	 *
+	 * @return  bool
 	 */
 	public function exist() {
 
@@ -150,11 +150,11 @@ class ConvertKit_Admin_Notices {
 
 	/**
 	 * Delete all persistent notices.
-	 * 
-	 * @since 	2.0.9
-	 * 
-	 * @param 	string 	$notice 	Notice name.
-	 * @return 	bool 				Success
+	 *
+	 * @since   2.0.9
+	 *
+	 * @param   string $notice     Notice name.
+	 * @return  bool                Success
 	 */
 	public function delete( $notice ) {
 
@@ -167,10 +167,11 @@ class ConvertKit_Admin_Notices {
 		$notices = $this->get();
 
 		// Remove notice from existing notices.
-		if ( ( $index = array_search( $notice, $notices ) ) !== false ) {
-    		unset( $notices[ $index ] );
+		$index = array_search( $notice, $notices, true );
+		if ( $index !== false ) {
+			unset( $notices[ $index ] );
 		}
-		
+
 		// Update and return.
 		return update_option( $this->key_prefix, $notices );
 

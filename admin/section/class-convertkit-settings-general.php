@@ -227,7 +227,7 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 		if ( is_wp_error( $this->account ) ) {
 			// Depending on the error code, maybe persist a notice in the WordPress Administration until the user
 			// fixes the problem.
-			switch (  $this->account->get_error_data( $this->account->get_error_code() ) ) {
+			switch ( $this->account->get_error_data( $this->account->get_error_code() ) ) {
 				case 401:
 					// API credentials are invalid.
 					WP_ConvertKit()->get_class( 'admin_notices' )->add( 'authorization_failed' );
