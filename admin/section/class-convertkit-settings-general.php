@@ -216,12 +216,24 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 			'settings'
 		);
 
+		// Remove any existing persistent notice.
+		WP_ConvertKit()->get_class( 'admin_notices' )->delete( 'authorization_failed' );
+
 		// Get Account Details, which we'll use in account_name_callback(), but also lets us test
 		// whether the API credentials are valid.
 		$this->account = $this->api->account();
 
 		// Show an error message if Account Details could not be fetched e.g. API credentials supplied are invalid.
 		if ( is_wp_error( $this->account ) ) {
+			// Depending on the error code, maybe persist a notice in the WordPress Administration until the user
+			// fixes the problem.
+			switch (  $this->account->get_error_data( $this->account->get_error_code() ) ) {
+				case 401:
+					// API credentials are invalid.
+					WP_ConvertKit()->get_class( 'admin_notices' )->add( 'authorization_failed' );
+					break;
+			}
+
 			$this->output_error( $this->account->get_error_message() );
 		}
 
