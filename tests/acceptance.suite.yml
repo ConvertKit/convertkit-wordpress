@@ -29,6 +29,7 @@ modules:
         - \Helper\Acceptance\WPClassicEditor
         - \Helper\Acceptance\WPGutenberg
         - \Helper\Acceptance\WPMetabox
+        - \Helper\Acceptance\WPNotices
         - \Helper\Acceptance\WPQuickEdit
         - \Helper\Acceptance\WPWidget
         - \Helper\Acceptance\Xdebug

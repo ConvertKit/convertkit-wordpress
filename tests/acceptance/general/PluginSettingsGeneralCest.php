@@ -113,6 +113,15 @@ class PluginSettingsGeneralCest
 
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Check that a notice is displayed that the API credentials are invalid.
+		$I->seeErrorNotice($I, 'Authorization Failed: API Key not valid');
+
+		// Navigate to the WordPress Admin.
+		$I->amOnAdminPage('index.php');
+
+		// Check that a notice is displayed that the API credentials are invalid.
+		$I->seeErrorNotice($I, 'Convertkit: Authorization failed. Please enter valid API credentials on the settings screen.');
 	}
 
 	/**
@@ -150,6 +159,15 @@ class PluginSettingsGeneralCest
 				'None',
 			]
 		);
+
+		// Check that no notice is displayed that the API credentials are invalid.
+		$I->dontSeeErrorNotice($I, 'Authorization Failed: API Key not valid');
+
+		// Navigate to the WordPress Admin.
+		$I->amOnAdminPage('index.php');
+
+		// Check that no notice is displayed that the API credentials are invalid.
+		$I->dontSeeErrorNotice($I, 'Convertkit: Authorization failed. Please enter valid API credentials on the settings screen.');
 	}
 
 	/**
