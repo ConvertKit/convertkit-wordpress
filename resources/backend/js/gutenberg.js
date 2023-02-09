@@ -30,13 +30,13 @@ if ( typeof wp !== 'undefined' &&
 function convertKitGutenbergRegisterBlock( block ) {
 
 	// Register Block.
-	( function( wp, block ) {
+	( function( blocks, editor, element, components, block ) {
 
 		// Define some constants for the various items we'll use.
-		const el                              = wp.element.createElement;
-		const { registerBlockType }           = wp.blocks;
-		const { RichText, InspectorControls } = wp.editor;
-		const { Fragment } 		  			  = wp.element;
+		const el                              = element.createElement;
+		const { registerBlockType }           = blocks;
+		const { RichText, InspectorControls } = editor;
+		const { Fragment } 		  			  = element;
 		const {
 			TextControl,
 			CheckboxControl,
@@ -50,15 +50,14 @@ function convertKitGutenbergRegisterBlock( block ) {
 			PanelBody,
 			PanelRow,
 			SandBox
-		}                                     = wp.components;
-		const { serverSideRender }			  = wp;
+		}                                     = components;
 
 		// Build Icon, if it's an object.
 		var icon = 'dashicons-tablet';
 		if ( typeof block.gutenberg_icon !== 'undefined' ) {
 			if ( block.gutenberg_icon.search( 'svg' ) >= 0 ) {
 				// SVG.
-				icon = wp.element.RawHTML(
+				icon = element.RawHTML(
 					{
 						children: block.gutenberg_icon
 					}
@@ -262,14 +261,16 @@ function convertKitGutenbergRegisterBlock( block ) {
 					// Generate Block Preview.
 					var preview = '';
 					if ( typeof block.gutenberg_preview_render_callback !== 'undefined' ) {
+						console.log( 'custom callback' );
 						// Use a custom callback function to render this block's preview in the Gutenberg Editor.
 						// This doesn't affect the output for this block on the frontend site, which will always
 						// use the block's PHP's render() function.
 						preview = window[ block.gutenberg_preview_render_callback ]( block, props );
 					} else {
+						// @TODO Is this code ever used?
 						// Use the block's PHP's render() function by calling the ServerSideRender component.
 						preview = el(
-							serverSideRender,
+							ServerSideRender,
 							{
 								block: 'convertkit/' + block.name,
 								attributes: props.attributes,
@@ -308,7 +309,10 @@ function convertKitGutenbergRegisterBlock( block ) {
 		);
 
 	} (
-		window.wp,
+		window.wp.blocks,
+		window.wp.blockEditor,
+		window.wp.element,
+		window.wp.components,
 		block
 	) );
 
