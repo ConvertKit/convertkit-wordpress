@@ -113,8 +113,8 @@ class WPGutenberg extends \Codeception\Module
 	 */
 	public function addGutenbergParagraphBlock($I, $text)
 	{
-		$I->click('.is-root-container');
-		$I->fillField('.is-root-container p', $text);
+		$I->click('.wp-block-post-content');
+		$I->fillField('.wp-block-post-content p', $text);
 	}
 
 	/**
@@ -130,14 +130,14 @@ class WPGutenberg extends \Codeception\Module
 	{
 		// Focus away from paragraph and then back to the paragraph, so that the block toolbar displays.
 		$I->click('div.edit-post-visual-editor__post-title-wrapper h1');
-		$I->click('.is-root-container p');
-		$I->waitForElementVisible('.is-root-container p.is-selected');
+		$I->click('.wp-block-post-content p');
+		$I->waitForElementVisible('.wp-block-post-content p.is-selected');
 
 		// Insert link via block toolbar.
 		$this->insertGutenbergLink($I, $name);
 
 		// Confirm that the Product text exists in the paragraph.
-		$I->see($name, '.is-root-container p.is-selected');
+		$I->see($name, '.wp-block-post-content p.is-selected');
 	}
 
 	/**
@@ -152,18 +152,18 @@ class WPGutenberg extends \Codeception\Module
 	public function addGutenbergLinkToButton($I, $name)
 	{
 		// Enter text.
-		$I->fillField('.is-root-container .wp-block-button .block-editor-rich-text__editable', $name);
+		$I->fillField('.wp-block-post-content .wp-block-button .block-editor-rich-text__editable', $name);
 
 		// Focus away from button and then back to the button, so that the block toolbar displays.
 		$I->click('div.edit-post-visual-editor__post-title-wrapper h1');
-		$I->click('.is-root-container .wp-block-button');
-		$I->waitForElementVisible('.is-root-container div.is-selected');
+		$I->click('.wp-block-post-content .wp-block-button');
+		$I->waitForElementVisible('.wp-block-post-content div.is-selected');
 
 		// Insert link via block toolbar.
 		$this->insertGutenbergLink($I, $name);
 
 		// Confirm that the Product text exists in the button.
-		$I->see($name, '.is-root-container .wp-block-button');
+		$I->see($name, '.wp-block-post-content .wp-block-button');
 	}
 
 	/**
