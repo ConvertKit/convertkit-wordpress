@@ -128,6 +128,20 @@ class ConvertKit_Admin_Settings_Restrict_Content extends ConvertKit_Settings_Bas
 			)
 		);
 
+		add_settings_field(
+			'no_access_text',
+			__( 'No Access Text', 'convertkit' ),
+			array( $this, 'text_callback' ),
+			$this->settings_key,
+			$this->name,
+			array(
+				'name'        => 'no_access_text',
+				'description' => array(
+					__( 'The text to display for a subscriber who authenticates via the login link, but does not have access to the product.', 'convertkit' ),
+				),
+			)
+		);
+
 	}
 
 	/**

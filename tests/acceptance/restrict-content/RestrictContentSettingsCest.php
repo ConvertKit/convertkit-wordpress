@@ -115,6 +115,7 @@ class RestrictContentSettingsCest
 			'email_text'             => '',
 			'email_button_label'     => '',
 			'email_check_text'       => '',
+			'no_access_text'         => '',
 		);
 
 		// Save settings.
@@ -161,6 +162,7 @@ class RestrictContentSettingsCest
 			'email_text'             => 'Email Text',
 			'email_button_label'     => 'Email Button Label',
 			'email_check_text'       => 'Email Check Text',
+			'no_access_text'         => 'No Access Text',
 		);
 
 		// Save settings.

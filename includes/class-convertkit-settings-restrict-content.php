@@ -119,6 +119,7 @@ class ConvertKit_Settings_Restrict_Content {
 			'email_text'             => __( 'Already a premium subscriber? Enter the email address used when purchasing below, to receive a login link to access.', 'convertkit' ),
 			'email_button_label'     => __( 'Send email', 'convertkit' ),
 			'email_check_text'       => __( 'Check your email and click the link to login, or enter the code from the email below.', 'convertkit' ),
+			'no_access_text'         => __( 'Your account does not have access to this content. Please use the button below to purchase, or enter the email address you used to purchase the product.', 'convertkit' ),
 		);
 
 		/**
