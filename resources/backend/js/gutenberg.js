@@ -261,22 +261,10 @@ function convertKitGutenbergRegisterBlock( block ) {
 					// Generate Block Preview.
 					var preview = '';
 					if ( typeof block.gutenberg_preview_render_callback !== 'undefined' ) {
-						console.log( 'custom callback' );
 						// Use a custom callback function to render this block's preview in the Gutenberg Editor.
 						// This doesn't affect the output for this block on the frontend site, which will always
 						// use the block's PHP's render() function.
 						preview = window[ block.gutenberg_preview_render_callback ]( block, props );
-					} else {
-						// @TODO Is this code ever used?
-						// Use the block's PHP's render() function by calling the ServerSideRender component.
-						preview = el(
-							ServerSideRender,
-							{
-								block: 'convertkit/' + block.name,
-								attributes: props.attributes,
-								className: 'convertkit-' + block.name
-							}
-						);
 					}
 
 					// Return.
