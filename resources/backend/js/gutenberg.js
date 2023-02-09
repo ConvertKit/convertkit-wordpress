@@ -30,13 +30,13 @@ if ( typeof wp !== 'undefined' &&
 function convertKitGutenbergRegisterBlock( block ) {
 
 	// Register Block.
-	( function( blocks, editor, element, components, block ) {
+	( function( wp, block ) {
 
 		// Define some constants for the various items we'll use.
-		const el                              = element.createElement;
-		const { registerBlockType }           = blocks;
-		const { RichText, InspectorControls } = editor;
-		const { Fragment } 		  			  = element;
+		const el                              = wp.element.createElement;
+		const { registerBlockType }           = wp.blocks;
+		const { RichText, InspectorControls } = wp.editor;
+		const { Fragment } 		  			  = wp.element;
 		const {
 			TextControl,
 			CheckboxControl,
@@ -49,16 +49,16 @@ function convertKitGutenbergRegisterBlock( block ) {
 			Panel,
 			PanelBody,
 			PanelRow,
-			SandBox,
-			ServerSideRender
-		}                                     = components;
+			SandBox
+		}                                     = wp.components;
+		const { serverSideRender }			  = wp;
 
 		// Build Icon, if it's an object.
 		var icon = 'dashicons-tablet';
 		if ( typeof block.gutenberg_icon !== 'undefined' ) {
 			if ( block.gutenberg_icon.search( 'svg' ) >= 0 ) {
 				// SVG.
-				icon = element.RawHTML(
+				icon = wp.element.RawHTML(
 					{
 						children: block.gutenberg_icon
 					}
@@ -269,7 +269,7 @@ function convertKitGutenbergRegisterBlock( block ) {
 					} else {
 						// Use the block's PHP's render() function by calling the ServerSideRender component.
 						preview = el(
-							ServerSideRender,
+							serverSideRender,
 							{
 								block: 'convertkit/' + block.name,
 								attributes: props.attributes,
@@ -308,10 +308,7 @@ function convertKitGutenbergRegisterBlock( block ) {
 		);
 
 	} (
-		window.wp.blocks,
-		window.wp.blockEditor,
-		window.wp.element,
-		window.wp.components,
+		window.wp,
 		block
 	) );
 
