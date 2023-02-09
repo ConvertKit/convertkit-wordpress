@@ -46,20 +46,17 @@ class ConvertKit_Admin_Notices {
 		// Don't output if we're on a settings screen.
 		$screen = get_current_screen();
 		if ( $screen->base === 'settings_page__wp_convertkit_settings' ) {
-			echo 'on settings screen';
 			return;
 		}
 
 		// Don't output if we don't have the required capabilities to fix the issue.
 		if ( ! current_user_can( 'manage_options' ) ) {
-			echo 'cannot manage options';
 			return;
 		}
 
 		// Bail if no notices exist.
 		$notices = get_option( $this->key_prefix );
 		if ( ! $notices ) {
-			echo 'no notices';
 			return;
 		}
 
