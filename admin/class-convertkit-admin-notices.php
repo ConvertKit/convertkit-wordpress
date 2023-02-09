@@ -22,7 +22,7 @@ class ConvertKit_Admin_Notices {
 	 *
 	 * @var     string
 	 */
-	private $key_prefix = 'convertkit_admin_notices';
+	private $key_prefix = 'convertkit-admin-notices';
 
 	/**
 	 * Register output function to display persistent notices

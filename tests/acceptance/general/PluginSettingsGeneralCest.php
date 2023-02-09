@@ -117,6 +117,9 @@ class PluginSettingsGeneralCest
 		// Check that a notice is displayed that the API credentials are invalid.
 		$I->seeErrorNotice($I, 'Authorization Failed: API Key not valid');
 
+		// Confirm option exists in DB.
+		$I->seeOptionInDatabase('convertkit-admin-notices');
+
 		// Navigate to the WordPress Admin.
 		$I->amOnAdminPage('index.php');
 
