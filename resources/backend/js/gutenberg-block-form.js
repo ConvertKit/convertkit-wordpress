@@ -81,7 +81,7 @@ function convertKitGutenbergFormBlockRenderPreview( block, props ) {
 	// This is a Legacy Form.
 	// Use the block's PHP's render() function by calling the ServerSideRender component.
 	return wp.element.createElement(
-		wp.components.ServerSideRender,
+		wp.serverSideRender,
 		{
 			block: 'convertkit/' + block.name,
 			attributes: props.attributes,
