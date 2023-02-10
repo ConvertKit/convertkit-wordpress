@@ -49,8 +49,7 @@ function convertKitGutenbergRegisterBlock( block ) {
 			Panel,
 			PanelBody,
 			PanelRow,
-			SandBox,
-			ServerSideRender
+			SandBox
 		}                                     = components;
 
 		// Build Icon, if it's an object.
@@ -266,16 +265,6 @@ function convertKitGutenbergRegisterBlock( block ) {
 						// This doesn't affect the output for this block on the frontend site, which will always
 						// use the block's PHP's render() function.
 						preview = window[ block.gutenberg_preview_render_callback ]( block, props );
-					} else {
-						// Use the block's PHP's render() function by calling the ServerSideRender component.
-						preview = el(
-							ServerSideRender,
-							{
-								block: 'convertkit/' + block.name,
-								attributes: props.attributes,
-								className: 'convertkit-' + block.name
-							}
-						);
 					}
 
 					// Return.
