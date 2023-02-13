@@ -116,8 +116,9 @@ class WPGutenberg extends \Codeception\Module
 	 */
 	public function addGutenbergParagraphBlock($I, $text)
 	{
+		$I->addGutenbergBlock($I, 'Paragraph', 'paragraph');
 		$I->click('.wp-block-post-content');
-		$I->fillField('.wp-block-post-content p', $text);
+		$I->fillField('.wp-block-post-content p[data-empty="true"]', $text);
 	}
 
 	/**
