@@ -152,6 +152,51 @@
 				</div>
 			</td>
 		</tr>
+
+		<?php
+		if ( $restrict_content_settings->enabled() ) {
+			?>
+			<tr valign="top">
+				<th scope="row">
+					<label for="wp-convertkit-restrict_content"><?php esc_html_e( 'Member Content', 'convertkit' ); ?></label>
+				</th>
+				<td>
+					<div class="convertkit-select2-container convertkit-select2-container-grid">
+						<select name="wp-convertkit[restrict_content]" id="wp-convertkit-restrict_content" class="convertkit-select2">
+							<option value="0"<?php selected( '', $convertkit_post->get_restrict_content() ); ?> data-preserve-on-refresh="1">
+								<?php esc_html_e( 'Don\'t restrict content to members only.', 'convertkit' ); ?>
+							</option>
+
+							<?php
+							if ( $convertkit_products->exist() ) {
+								?>
+								<optgroup label="<?php esc_attr_e( 'Products', 'convertkit' ); ?>">
+									<?php
+									foreach ( $convertkit_products->get() as $product ) {
+										?>
+										<option value="product_<?php echo esc_attr( $product['id'] ); ?>"<?php selected( 'product_' . $product['id'], $convertkit_post->get_restrict_content() ); ?>>
+											<?php echo esc_attr( $product['name'] ); ?>
+										</option>
+										<?php
+									}
+									?>
+								</optgroup>
+								<?php
+							}
+							?>
+						</select>
+						<button class="wp-convertkit-refresh-resources" class="button button-secondary hide-if-no-js" title="<?php esc_attr_e( 'Refresh Products Pages from ConvertKit account', 'convertkit' ); ?>" data-resource="products" data-field="#wp-convertkit-restrict_content">
+							<span class="dashicons dashicons-update"></span>
+						</button>
+						<p class="description">
+							<?php esc_html_e( 'Select the ConvertKit product that the visitor must be subscribed to, permitting them access to view this members only content.', 'convertkit' ); ?>
+						</p>
+					</div>
+				</td>
+			</tr>
+			<?php
+		}
+		?>
 	</tbody>
 </table>
 

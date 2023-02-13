@@ -35,14 +35,16 @@ jobs:
       CONVERTKIT_API_SECRET: ${{ secrets.CONVERTKIT_API_SECRET }} # ConvertKit API Secret, stored in the repository's Settings > Secrets
       CONVERTKIT_API_KEY_NO_DATA: ${{ secrets.CONVERTKIT_API_KEY_NO_DATA }} # ConvertKit API Key for ConvertKit account with no data, stored in the repository's Settings > Secrets
       CONVERTKIT_API_SECRET_NO_DATA: ${{ secrets.CONVERTKIT_API_SECRET_NO_DATA }} # ConvertKit API Secret for ConvertKit account with no data, stored in the repository's Settings > Secrets
-
+      CONVERTKIT_API_SIGNED_SUBSCRIBER_ID: ${{ secrets.CONVERTKIT_API_SIGNED_SUBSCRIBER_ID }} # ConvertKit API Signed Subscriber ID, stored in the repository's Settings > Secrets
+      CONVERTKIT_API_SIGNED_SUBSCRIBER_ID_NO_ACCESS: ${{ secrets.CONVERTKIT_API_SIGNED_SUBSCRIBER_ID_NO_ACCESS }} # ConvertKit API Signed Subscriber ID with no access to Products, stored in the repository's Settings > Secrets
+      
     # Defines the WordPress and PHP Versions matrix to run tests on
     # WooCommerce 5.9.0 requires WordPress 5.6 or greater, so we do not test on earlier versions
     # If testing older WordPress versions, ensure they are e.g. 5.7.4, 5.6.6 that have the X3 SSL fix: https://core.trac.wordpress.org/ticket/54207
     # For PHP, make sure that an nginx configuration file exists for the required PHP version in this repository at tests/nginx/php-x.x.conf
     strategy:
       matrix:
-        wp-versions: [ '6.2-beta1' ] #[ '6.1.1', 'latest' ]
+        wp-versions: [ 'latest' ] #[ '6.1.1', 'latest' ]
         php-versions: [ '7.4', '8.0', '8.1', '8.2' ] #[ '7.4', '8.0', '8.1' ]
         
         # Folder names within the 'tests' folder to run tests in parallel.
@@ -53,6 +55,7 @@ jobs:
           'acceptance/integrations',
           'acceptance/landing-pages',
           'acceptance/products',
+          'acceptance/restrict-content',
           'acceptance/tags'
         ]
 
@@ -174,6 +177,8 @@ jobs:
             CONVERTKIT_API_SECRET=${{ env.CONVERTKIT_API_SECRET }}
             CONVERTKIT_API_KEY_NO_DATA=${{ env.CONVERTKIT_API_KEY_NO_DATA }}
             CONVERTKIT_API_SECRET_NO_DATA=${{ env.CONVERTKIT_API_SECRET_NO_DATA }}
+            CONVERTKIT_API_SIGNED_SUBSCRIBER_ID=${{ env.CONVERTKIT_API_SIGNED_SUBSCRIBER_ID }}
+            CONVERTKIT_API_SIGNED_SUBSCRIBER_ID_NO_ACCESS=${{ env.CONVERTKIT_API_SIGNED_SUBSCRIBER_ID_NO_ACCESS }}
           write-mode: append
 
       # Installs wp-browser, Codeception, PHP CodeSniffer and anything else needed to run tests.

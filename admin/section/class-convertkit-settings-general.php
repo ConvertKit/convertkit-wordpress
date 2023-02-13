@@ -295,7 +295,8 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 					'<code>wp-config.php</code>',
 					'<code>define(\'CONVERTKIT_API_KEY\', \'your-api-key\');</code>'
 				),
-			)
+			),
+			array( 'regular-text', 'code' )
 		);
 
 	}
@@ -332,7 +333,8 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 					'<code>wp-config.php</code>',
 					'<code>define(\'CONVERTKIT_API_SECRET\', \'your-api-secret\');</code>'
 				),
-			)
+			),
+			array( 'regular-text', 'code' )
 		);
 
 	}
