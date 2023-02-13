@@ -53,7 +53,47 @@
 		<button class="wp-convertkit-refresh-resources" class="button button-secondary" title="<?php esc_attr_e( 'Refresh Tags from ConvertKit account', 'convertkit' ); ?>" data-resource="tags" data-field="#wp-convertkit-quick-edit-tag">
 			<span class="dashicons dashicons-update"></span>
 		</button>
-		<?php wp_nonce_field( 'wp-convertkit-save-meta', 'wp-convertkit-save-meta-nonce' ); ?>
 	</div>
-</div>
 
+	<?php
+	if ( $restrict_content_settings->enabled() ) {
+		?>
+		<!-- Restrict Content -->
+		<div>
+			<label for="wp-convertkit-quick-edit-restrict_content">
+				<span class="title"><?php esc_html_e( 'Member', 'convertkit' ); ?></span>
+				<select name="wp-convertkit[restrict_content]" id="wp-convertkit-quick-edit-restrict_content" size="1">
+					<option value="0" data-preserve-on-refresh="1">
+						<?php esc_html_e( 'Don\'t restrict content to members only.', 'convertkit' ); ?>
+					</option>
+
+					<?php
+					// Products.
+					if ( $convertkit_products->exist() ) {
+						?>
+						<optgroup label="<?php esc_attr_e( 'Products', 'convertkit' ); ?>">
+							<?php
+							foreach ( $convertkit_products->get() as $product ) {
+								?>
+								<option value="product_<?php echo esc_attr( $product['id'] ); ?>">
+									<?php echo esc_attr( $product['name'] ); ?>
+								</option>
+								<?php
+							}
+							?>
+						</optgroup>
+						<?php
+					}
+					?>
+				</select>
+			</label>
+			<button class="wp-convertkit-refresh-resources" class="button button-secondary" title="<?php esc_attr_e( 'Refresh Products from ConvertKit account', 'convertkit' ); ?>" data-resource="products" data-field="#wp-convertkit-quick-edit-restrict_content">
+				<span class="dashicons dashicons-update"></span>
+			</button>
+		</div>
+		<?php
+	}
+
+	wp_nonce_field( 'wp-convertkit-save-meta', 'wp-convertkit-save-meta-nonce' );
+	?>
+</div>

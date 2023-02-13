@@ -80,7 +80,7 @@ class ConvertKit_Admin_Setup_Wizard {
 	 *
 	 * @var     bool|string
 	 */
-	private $current_step_url = false; // @phpstan-ignore-line
+	public $current_step_url = false;
 
 	/**
 	 * Holds the URL to the next step in the setup process.
@@ -89,7 +89,7 @@ class ConvertKit_Admin_Setup_Wizard {
 	 *
 	 * @var     bool|string
 	 */
-	private $next_step_url = false; // @phpstan-ignore-line
+	public $next_step_url = false;
 
 	/**
 	 * Holds the URL to the previous step in the setup process.
@@ -98,7 +98,7 @@ class ConvertKit_Admin_Setup_Wizard {
 	 *
 	 * @var     bool|string
 	 */
-	private $previous_step_url = false; // @phpstan-ignore-line
+	public $previous_step_url = false;
 
 	/**
 	 * Registers action and filter hooks.

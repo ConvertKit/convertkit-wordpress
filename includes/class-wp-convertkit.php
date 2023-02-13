@@ -64,15 +64,17 @@ class WP_ConvertKit {
 			return;
 		}
 
-		$this->classes['admin_bulk_edit']           = new ConvertKit_Admin_Bulk_Edit();
-		$this->classes['admin_category']            = new ConvertKit_Admin_Category();
-		$this->classes['admin_post']                = new ConvertKit_Admin_Post();
-		$this->classes['admin_quick_edit']          = new ConvertKit_Admin_Quick_Edit();
-		$this->classes['admin_refresh_resources']   = new ConvertKit_Admin_Refresh_Resources();
-		$this->classes['admin_settings']            = new ConvertKit_Admin_Settings();
-		$this->classes['admin_setup_wizard_plugin'] = new ConvertKit_Admin_Setup_Wizard_Plugin();
-		$this->classes['admin_tinymce']             = new ConvertKit_Admin_TinyMCE();
-		$this->classes['admin_user']                = new ConvertKit_Admin_User();
+		$this->classes['admin_bulk_edit']                     = new ConvertKit_Admin_Bulk_Edit();
+		$this->classes['admin_category']                      = new ConvertKit_Admin_Category();
+		$this->classes['admin_post']                          = new ConvertKit_Admin_Post();
+		$this->classes['admin_quick_edit']                    = new ConvertKit_Admin_Quick_Edit();
+		$this->classes['admin_refresh_resources']             = new ConvertKit_Admin_Refresh_Resources();
+		$this->classes['admin_restrict_content']              = new ConvertKit_Admin_Restrict_Content();
+		$this->classes['admin_settings']                      = new ConvertKit_Admin_Settings();
+		$this->classes['admin_setup_wizard_plugin']           = new ConvertKit_Admin_Setup_Wizard_Plugin();
+		$this->classes['admin_setup_wizard_restrict_content'] = new ConvertKit_Admin_Setup_Wizard_Restrict_Content();
+		$this->classes['admin_tinymce']                       = new ConvertKit_Admin_TinyMCE();
+		$this->classes['admin_user']                          = new ConvertKit_Admin_User();
 
 		/**
 		 * Initialize integration classes for the WordPress Administration interface.
@@ -137,7 +139,8 @@ class WP_ConvertKit {
 			return;
 		}
 
-		$this->classes['output'] = new ConvertKit_Output();
+		$this->classes['output']                  = new ConvertKit_Output();
+		$this->classes['output_restrict_content'] = new ConvertKit_Output_Restrict_Content();
 
 		/**
 		 * Initialize integration classes for the frontend web site.
@@ -159,8 +162,8 @@ class WP_ConvertKit {
 		$this->classes['ajax']                         = new ConvertKit_AJAX();
 		$this->classes['blocks_convertkit_broadcasts'] = new ConvertKit_Block_Broadcasts();
 		$this->classes['blocks_convertkit_content']    = new ConvertKit_Block_Content();
-		$this->classes['blocks_convertkit_product']    = new ConvertKit_Block_Product();
 		$this->classes['blocks_convertkit_form']       = new ConvertKit_Block_Form();
+		$this->classes['blocks_convertkit_product']    = new ConvertKit_Block_Product();
 		$this->classes['elementor']                    = new ConvertKit_Elementor();
 		$this->classes['gutenberg']                    = new ConvertKit_Gutenberg();
 		$this->classes['post_type_product']            = new ConvertKit_Post_Type_Product();
