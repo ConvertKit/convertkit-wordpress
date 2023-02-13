@@ -843,7 +843,7 @@ class Plugin extends \Codeception\Module
 
 		// Confirm Restrict Content CSS is output.
 		$I->seeInSource('<link rel="stylesheet" id="convertkit-restrict-content-css" href="' . $_ENV['TEST_SITE_WP_URL'] . '/wp-content/plugins/convertkit/resources/frontend/css/restrict-content.css');
-	
+
 		// Check content is / is not displayed, and CTA displays with expected text.
 		$this->testRestrictContentHidesContentWithCTA($I, $visibleContent, $memberContent, $textItems);
 
