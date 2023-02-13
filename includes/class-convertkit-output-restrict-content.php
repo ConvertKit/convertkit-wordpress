@@ -713,8 +713,11 @@ class ConvertKit_Output_Restrict_Content {
 		// for restrict by tag and form later.
 		switch ( $resource_type ) {
 			case 'product':
-				// Enqueue styles.
-				wp_enqueue_style( 'convertkit-restrict-content', CONVERTKIT_PLUGIN_URL . 'resources/frontend/css/restrict-content.css', array(), CONVERTKIT_PLUGIN_VERSION );
+				// Only load styles if the Disable CSS option is off.
+				if ( ! $this->settings->css_disabled() ) {
+					// Enqueue styles.
+					wp_enqueue_style( 'convertkit-restrict-content', CONVERTKIT_PLUGIN_URL . 'resources/frontend/css/restrict-content.css', array(), CONVERTKIT_PLUGIN_VERSION );
+				}
 
 				// Output product code form if this request is after the user entered their email address,
 				// which means we're going through the authentication flow.
