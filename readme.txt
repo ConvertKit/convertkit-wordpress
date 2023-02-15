@@ -5,7 +5,7 @@ Tags: email marketing, email newsletter, newsletter, convertkit
 Requires at least: 5.0
 Tested up to: 6.1.1
 Requires PHP: 5.6.20
-Stable tag: 2.0.8
+Stable tag: 2.1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -59,6 +59,8 @@ Embed existing email newsletters on your WordPress web site, ensuring visitors n
 = Sell Products =
 
 Embed buttons (or link text) to sell your ConvertKit Products in seconds - whether that's digital goods, paid newsletters, music, coaching and more.
+
+Already have content on your site that you want to sell? Use the Member's Content functionality on Pages to require subscribers purchase a ConvertKit Product to access your content - whether that's a course or digital download.
 
 = Plugin Integrations =
 
@@ -116,6 +118,14 @@ Full Plugin documentation can be found [here](https://help.convertkit.com/en/art
 7. Track subscriber growth
 
 == Changelog ==
+
+### 2.1.0 2023-02-15
+* Added: Member's Content (Beta): Require subscribers to purchase a ConvertKit Product to access specific Pages on your WordPress site. Head over to `Settings > ConvertKit > Member's Content` to get started.
+* Fix: Product: Block and Shortcode: Set stylesheet ID to `convertkit-product-css`, to match other blocks
+* Fix: Blocks: Use wp.serverSideRender instead of soon to be deprecated wp.components.ServerSideRender
+* Fix: Forms: Preview: Support for previewing and editing Legacy Forms
+* Fix: Improved performance in WordPress Admin when invalid API credentials specified on new installation
+* Fix: Display notice in WordPress Admin with link to settings screen when invalid API credentials specified
 
 ### 2.0.8 2023-02-02
 * Added: Settings: ConvertKit: Documentation tab

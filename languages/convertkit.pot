@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the ConvertKit plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: ConvertKit 2.0.8\n"
+"Project-Id-Version: ConvertKit 2.1.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/convertkit\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-02-02T14:04:28+00:00\n"
+"POT-Creation-Date: 2023-02-15T14:45:47+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.7.1\n"
 "X-Domain: convertkit\n"
@@ -42,6 +42,94 @@ msgstr ""
 msgid "Sorry, you are not allowed to edit %s."
 msgstr ""
 
+#: admin/class-convertkit-admin-notices.php:74
+msgid "ConvertKit: Authorization failed. Please enter valid API credentials on the"
+msgstr ""
+
+#: admin/class-convertkit-admin-notices.php:78
+msgid "settings screen."
+msgstr ""
+
+#: admin/class-convertkit-admin-restrict-content.php:185
+msgid "Add New Member Content"
+msgstr ""
+
+#: admin/class-convertkit-admin-restrict-content.php:243
+msgid "ConvertKit Member Content"
+msgstr ""
+
+#: admin/class-convertkit-admin-settings-restrict-content.php:32
+#: admin/class-convertkit-admin-settings-restrict-content.php:33
+#: views/backend/post/meta-box.php:161
+#: views/backend/setup-wizard/convertkit-restrict-content-setup/content-1.php:11
+msgid "Member Content"
+msgstr ""
+
+#: admin/class-convertkit-admin-settings-restrict-content.php:51
+msgid "Enable"
+msgstr ""
+
+#: admin/class-convertkit-admin-settings-restrict-content.php:57
+msgid "Enables the Member Content functionality, displaying configuration options on pages to require a subscription to a ConvertKit product"
+msgstr ""
+
+#: admin/class-convertkit-admin-settings-restrict-content.php:63
+msgid "Subscribe Text"
+msgstr ""
+
+#: admin/class-convertkit-admin-settings-restrict-content.php:70
+msgid "The text to display above the subscribe button, explaining why the content is only available to subscribers."
+msgstr ""
+
+#: admin/class-convertkit-admin-settings-restrict-content.php:77
+msgid "Subscribe Button Label"
+msgstr ""
+
+#: admin/class-convertkit-admin-settings-restrict-content.php:84
+msgid "The text to display for the call to action button to subscribe to the ConvertKit product."
+msgstr ""
+
+#: admin/class-convertkit-admin-settings-restrict-content.php:91
+msgid "Email Text"
+msgstr ""
+
+#: admin/class-convertkit-admin-settings-restrict-content.php:98
+msgid "The text to display above the email form, instructing the subscriber to enter their email address to receive a login link to access the member's only content."
+msgstr ""
+
+#: admin/class-convertkit-admin-settings-restrict-content.php:105
+msgid "Email Button Label"
+msgstr ""
+
+#: admin/class-convertkit-admin-settings-restrict-content.php:112
+msgid "The text to display for the button to submit the subscriber's email address and receive a login link to access the member only content."
+msgstr ""
+
+#: admin/class-convertkit-admin-settings-restrict-content.php:119
+msgid "Email Check Text"
+msgstr ""
+
+#: admin/class-convertkit-admin-settings-restrict-content.php:126
+msgid "The text to display instructing the subscriber to check their email for the login link that was sent."
+msgstr ""
+
+#: admin/class-convertkit-admin-settings-restrict-content.php:133
+msgid "No Access Text"
+msgstr ""
+
+#: admin/class-convertkit-admin-settings-restrict-content.php:140
+msgid "The text to display for a subscriber who authenticates via the login link, but does not have access to the product."
+msgstr ""
+
+#: admin/class-convertkit-admin-settings-restrict-content.php:155
+#: admin/class-convertkit-admin-settings.php:309
+msgid "Beta"
+msgstr ""
+
+#: admin/class-convertkit-admin-settings-restrict-content.php:156
+msgid "Defines the text and button labels to display when a Page, Post or Custom Post has its Member Content setting set to a Product, and the visitor has not authenticated/subscribed."
+msgstr ""
+
 #: admin/class-convertkit-admin-settings.php:161
 msgid "If you need help setting up the plugin please refer to the"
 msgstr ""
@@ -59,7 +147,7 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-#: admin/class-convertkit-admin-settings.php:281
+#: admin/class-convertkit-admin-settings.php:282
 msgid "Documentation"
 msgstr ""
 
@@ -121,66 +209,66 @@ msgstr ""
 msgid "The default form can be inserted into the middle of post or page content by using the %s shortcode."
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:239
+#: admin/section/class-convertkit-settings-general.php:251
 msgid "Add a valid API Key and Secret to get started"
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:246
+#: admin/section/class-convertkit-settings-general.php:258
 msgid "(Not specified)"
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:248
+#: admin/section/class-convertkit-settings-general.php:260
 msgid "The name of your connected ConvertKit account."
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:265
+#: admin/section/class-convertkit-settings-general.php:277
 msgid "Your API Key has been defined in your wp-config.php file. For security, it is not displayed here."
 msgstr ""
 
 #. translators: %1$s: Link to ConvertKit Account
-#: admin/section/class-convertkit-settings-general.php:277
-#: admin/section/class-convertkit-settings-general.php:314
+#: admin/section/class-convertkit-settings-general.php:289
+#: admin/section/class-convertkit-settings-general.php:327
 msgid "%1$s Required for proper plugin function."
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:278
+#: admin/section/class-convertkit-settings-general.php:290
 msgid "Get your ConvertKit API Key."
 msgstr ""
 
 #. translators: Account, %1$s: wp-config.php, %2$s: <code> block for API Key definition
-#: admin/section/class-convertkit-settings-general.php:282
+#: admin/section/class-convertkit-settings-general.php:294
 msgid "Alternatively specify your API Key in the %1$s file using %2$s"
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:302
+#: admin/section/class-convertkit-settings-general.php:315
 msgid "Your API Secret has been defined in your wp-config.php file. For security, it is not displayed here."
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:315
+#: admin/section/class-convertkit-settings-general.php:328
 msgid "Get your ConvertKit API Secret."
 msgstr ""
 
 #. translators: Account, %1$s: wp-config.php, %2$s: <code> block for API Secret definition
-#: admin/section/class-convertkit-settings-general.php:319
+#: admin/section/class-convertkit-settings-general.php:332
 msgid "Alternatively specify your API Secret in the %1$s file using %2$s"
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:359
+#: admin/section/class-convertkit-settings-general.php:373
 msgid "No Forms exist in ConvertKit."
 msgstr ""
 
 #. translators: Link to sign in to ConvertKit
-#: admin/section/class-convertkit-settings-general.php:362
+#: admin/section/class-convertkit-settings-general.php:376
 msgid "To create a form, %s"
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:363
+#: admin/section/class-convertkit-settings-general.php:377
 #: views/backend/post/meta-box.php:58
 #: views/backend/post/meta-box.php:110
 msgid "sign in to ConvertKit"
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:370
+#: admin/section/class-convertkit-settings-general.php:384
 #: includes/integrations/contactform7/class-convertkit-contactform7-admin-settings.php:112
 #: includes/integrations/wishlist/class-convertkit-wishlist-admin-settings.php:124
 #: includes/integrations/wishlist/class-convertkit-wishlist-admin-settings.php:132
@@ -195,35 +283,35 @@ msgid "None"
 msgstr ""
 
 #. translators: Post Type name, plural
-#: admin/section/class-convertkit-settings-general.php:385
-#: admin/section/class-convertkit-settings-general.php:395
+#: admin/section/class-convertkit-settings-general.php:399
+#: admin/section/class-convertkit-settings-general.php:409
 msgid "Select a form above to automatically output below all %s."
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:388
+#: admin/section/class-convertkit-settings-general.php:402
 #: views/backend/setup-wizard/convertkit-setup/content-3.php:73
 #: views/backend/setup-wizard/convertkit-setup/content-3.php:108
 msgid "Click here"
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:389
+#: admin/section/class-convertkit-settings-general.php:403
 msgid "to preview how this will display."
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:433
+#: admin/section/class-convertkit-settings-general.php:447
 msgid "Log requests to file and output browser console messages."
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:434
+#: admin/section/class-convertkit-settings-general.php:448
 msgid "You can ignore this unless you're working with our support team to resolve an issue. Decheck this option to improve performance."
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:451
+#: admin/section/class-convertkit-settings-general.php:465
 msgid "Prevent plugin from loading JavaScript files. This will disable the custom content and tagging features of the plugin. Does not apply to landing pages. Use with caution!"
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:468
-msgid "Prevent plugin from loading CSS files. This will disable styling on the broadcasts shortcode and block. Use with caution!"
+#: admin/section/class-convertkit-settings-general.php:482
+msgid "Prevent plugin from loading CSS files. This will disable styling on broadcasts, product buttons and member's content. Use with caution!"
 msgstr ""
 
 #: admin/section/class-convertkit-settings-tools.php:28
@@ -256,6 +344,7 @@ msgid "WordPress 5.2 or higher is required for system information report."
 msgstr ""
 
 #: admin/setup-wizard/class-convertkit-admin-setup-wizard-plugin.php:87
+#: admin/setup-wizard/class-convertkit-admin-setup-wizard-restrict-content.php:117
 msgid "Setup"
 msgstr ""
 
@@ -277,11 +366,63 @@ msgid "Finish Setup"
 msgstr ""
 
 #: admin/setup-wizard/class-convertkit-admin-setup-wizard-plugin.php:102
+#: admin/setup-wizard/class-convertkit-admin-setup-wizard-restrict-content.php:126
 msgid "Done"
 msgstr ""
 
 #: admin/setup-wizard/class-convertkit-admin-setup-wizard-plugin.php:234
 msgid "I've created a form in ConvertKit"
+msgstr ""
+
+#: admin/setup-wizard/class-convertkit-admin-setup-wizard-restrict-content.php:120
+msgid "Configure"
+msgstr ""
+
+#: admin/setup-wizard/class-convertkit-admin-setup-wizard-restrict-content.php:122
+msgid "Submit"
+msgstr ""
+
+#: admin/setup-wizard/class-convertkit-admin-setup-wizard-restrict-content.php:209
+msgid "Add a valid API Key and Secret in the ConvertKit Plugin's settings to get started"
+msgstr ""
+
+#. translators: Post Type
+#: admin/setup-wizard/class-convertkit-admin-setup-wizard-restrict-content.php:218
+msgid "The post type `%s` is not supported for Member Content."
+msgstr ""
+
+#: admin/setup-wizard/class-convertkit-admin-setup-wizard-restrict-content.php:221
+msgid "WordPress Error"
+msgstr ""
+
+#: admin/setup-wizard/class-convertkit-admin-setup-wizard-restrict-content.php:245
+#: views/backend/setup-wizard/convertkit-restrict-content-setup/content-1.php:33
+msgid "Download"
+msgstr ""
+
+#: admin/setup-wizard/class-convertkit-admin-setup-wizard-restrict-content.php:248
+#: views/backend/setup-wizard/convertkit-restrict-content-setup/content-1.php:42
+msgid "Course"
+msgstr ""
+
+#: admin/setup-wizard/class-convertkit-admin-setup-wizard-restrict-content.php:294
+msgid "The downloadable content (that is available when the visitor has paid for the ConvertKit product) goes here."
+msgstr ""
+
+#: admin/setup-wizard/class-convertkit-admin-setup-wizard-restrict-content.php:353
+msgid "Some introductory text about lesson"
+msgstr ""
+
+#: admin/setup-wizard/class-convertkit-admin-setup-wizard-restrict-content.php:359
+msgid "Lesson"
+msgstr ""
+
+#: admin/setup-wizard/class-convertkit-admin-setup-wizard-restrict-content.php:361
+msgid "content (that is available when the visitor has paid for the ConvertKit product) goes here."
+msgstr ""
+
+#: admin/setup-wizard/class-convertkit-admin-setup-wizard-restrict-content.php:547
+msgid "Start Course"
 msgstr ""
 
 #: includes/blocks/class-convertkit-block-broadcasts.php:119
@@ -383,7 +524,6 @@ msgstr ""
 #: includes/blocks/class-convertkit-block-form.php:89
 #: includes/integrations/contactform7/class-convertkit-contactform7-admin-settings.php:131
 #: includes/integrations/wishlist/class-convertkit-wishlist-admin-settings.php:142
-#: includes/widgets/class-ck-widget-form.php:35
 #: views/backend/term/fields-add.php:11
 #: views/backend/term/fields-edit.php:12
 msgid "ConvertKit Form"
@@ -485,6 +625,10 @@ msgstr ""
 msgid "ConvertKit: API Keys not defined in Plugin Settings."
 msgstr ""
 
+#: includes/class-convertkit-output-restrict-content.php:134
+msgid "Invalid nonce specified. Please try again."
+msgstr ""
+
 #: includes/class-convertkit-post-type-product.php:65
 #: includes/class-convertkit-post-type-product.php:67
 #: includes/class-convertkit-post-type-product.php:78
@@ -523,7 +667,7 @@ msgstr ""
 msgid "No ConvertKit Products found in Trash"
 msgstr ""
 
-#: includes/class-convertkit-preview-output.php:181
+#: includes/class-convertkit-preview-output.php:196
 msgid "Edit form in ConvertKit"
 msgstr ""
 
@@ -546,17 +690,41 @@ msgstr ""
 msgid "ConvertKit Product ID %s does not exist on ConvertKit."
 msgstr ""
 
+#: includes/class-convertkit-settings-restrict-content.php:117
+msgid "This content is only available to premium subscribers"
+msgstr ""
+
+#: includes/class-convertkit-settings-restrict-content.php:118
+msgid "Subscribe"
+msgstr ""
+
+#: includes/class-convertkit-settings-restrict-content.php:119
+msgid "Already a premium subscriber? Enter the email address used when purchasing below, to receive a login link to access."
+msgstr ""
+
+#: includes/class-convertkit-settings-restrict-content.php:120
+msgid "Send email"
+msgstr ""
+
+#: includes/class-convertkit-settings-restrict-content.php:121
+msgid "Check your email and click the link to login, or enter the code from the email below."
+msgstr ""
+
+#: includes/class-convertkit-settings-restrict-content.php:122
+msgid "Your account does not have access to this content. Please use the button below to purchase, or enter the email address you used to purchase the product."
+msgstr ""
+
 #: includes/class-convertkit-subscriber.php:69
 #: includes/class-convertkit-subscriber.php:112
 msgid "API Key and Secret not configured in Plugin Settings."
 msgstr ""
 
 #. translators: %1$s: PHP class name
-#: includes/class-wp-convertkit.php:381
+#: includes/class-wp-convertkit.php:385
 msgid "ConvertKit Error: Could not load Plugin class <strong>%1$s</strong>"
 msgstr ""
 
-#: includes/class-wp-convertkit.php:391
+#: includes/class-wp-convertkit.php:395
 msgid "ConvertKit Error"
 msgstr ""
 
@@ -651,6 +819,10 @@ msgstr ""
 msgid "Unsubscribe Action"
 msgstr ""
 
+#: includes/widgets/class-ck-widget-form.php:35
+msgid "ConvertKit Form (Legacy Widget)"
+msgstr ""
+
 #: includes/widgets/class-ck-widget-form.php:38
 msgid "Display a ConvertKit form."
 msgstr ""
@@ -665,6 +837,7 @@ msgstr ""
 
 #: views/backend/post/bulk-edit.php:23
 #: views/backend/post/bulk-edit.php:54
+#: views/backend/post/bulk-edit.php:89
 msgid "— No Change —"
 msgstr ""
 
@@ -688,6 +861,30 @@ msgstr ""
 #: views/backend/post/meta-box.php:144
 #: views/backend/post/quick-edit.php:53
 msgid "Refresh Tags from ConvertKit account"
+msgstr ""
+
+#: views/backend/post/bulk-edit.php:80
+#: views/backend/post/quick-edit.php:64
+msgid "Member"
+msgstr ""
+
+#: views/backend/post/bulk-edit.php:91
+#: views/backend/post/meta-box.php:167
+#: views/backend/post/quick-edit.php:67
+msgid "Don't restrict content to members only."
+msgstr ""
+
+#: views/backend/post/bulk-edit.php:98
+#: views/backend/post/meta-box.php:173
+#: views/backend/post/quick-edit.php:74
+#: views/backend/post/wp-list-table-filter.php:19
+#: views/backend/setup-wizard/convertkit-restrict-content-setup/content-2.php:65
+msgid "Products"
+msgstr ""
+
+#: views/backend/post/bulk-edit.php:114
+#: views/backend/post/quick-edit.php:90
+msgid "Refresh Products from ConvertKit account"
 msgstr ""
 
 #. translators: settings url
@@ -737,6 +934,14 @@ msgstr ""
 msgid "A visitor is deemed to be subscribed if they have clicked a link in an email to this site which includes their subscriber ID, or have entered their email address in a ConvertKit Form on this site."
 msgstr ""
 
+#: views/backend/post/meta-box.php:188
+msgid "Refresh Products Pages from ConvertKit account"
+msgstr ""
+
+#: views/backend/post/meta-box.php:192
+msgid "Select the ConvertKit product that the visitor must be subscribed to, permitting them access to view this members only content."
+msgstr ""
+
 #. translators: %1$s: Post Type Singular Name, %2$s: Link to Plugin Settings
 #: views/backend/post/no-api-key.php:15
 msgid "To configure the ConvertKit Form / Landing Page to display on this %1$s, enter your ConvertKit API credentials in the %2$s"
@@ -745,6 +950,10 @@ msgstr ""
 #: views/backend/post/no-api-key.php:17
 #: views/backend/setup-wizard/convertkit-setup/content-4.php:26
 msgid "Plugin Settings"
+msgstr ""
+
+#: views/backend/post/wp-list-table-filter.php:12
+msgid "All content"
 msgstr ""
 
 #. translators: Plugin Name
@@ -827,6 +1036,56 @@ msgstr ""
 
 #: views/backend/settings/tools.php:101
 msgid "Import"
+msgstr ""
+
+#. translators: Link to ConvertKit Products
+#: views/backend/setup-wizard/convertkit-restrict-content-setup/content-1.php:16
+msgid "This will generate content that visitors can access once they purchase a %s."
+msgstr ""
+
+#: views/backend/setup-wizard/convertkit-restrict-content-setup/content-1.php:20
+msgid "ConvertKit product"
+msgstr ""
+
+#: views/backend/setup-wizard/convertkit-restrict-content-setup/content-1.php:28
+msgid "What type of content are you offering?"
+msgstr ""
+
+#: views/backend/setup-wizard/convertkit-restrict-content-setup/content-1.php:36
+msgid "Require visitors to purchase a ConvertKit product, granting access to a single Page's content, which includes downloadable assets."
+msgstr ""
+
+#: views/backend/setup-wizard/convertkit-restrict-content-setup/content-1.php:45
+msgid "Require visitors to purchase a ConvertKit product, granting access to a sequential series of Pages, such as a course, lessons or tutorials."
+msgstr ""
+
+#. translators: Type of content (download, course)
+#: views/backend/setup-wizard/convertkit-restrict-content-setup/content-2.php:15
+msgid "Configure %s"
+msgstr ""
+
+#: views/backend/setup-wizard/convertkit-restrict-content-setup/content-2.php:25
+msgid "What is the name of the content?"
+msgstr ""
+
+#: views/backend/setup-wizard/convertkit-restrict-content-setup/content-2.php:27
+msgid "e.g. Free PDF, Macro Photography Course"
+msgstr ""
+
+#: views/backend/setup-wizard/convertkit-restrict-content-setup/content-2.php:33
+msgid "Describe the content for non-members."
+msgstr ""
+
+#: views/backend/setup-wizard/convertkit-restrict-content-setup/content-2.php:36
+msgid "This will be displayed above product's call to action button."
+msgstr ""
+
+#: views/backend/setup-wizard/convertkit-restrict-content-setup/content-2.php:45
+msgid "How many lessons does this course consist of?"
+msgstr ""
+
+#: views/backend/setup-wizard/convertkit-restrict-content-setup/content-2.php:56
+msgid "The ConvertKit Product the visitor must purchase to see the content."
 msgstr ""
 
 #: views/backend/setup-wizard/convertkit-setup/content-1.php:11
@@ -1026,4 +1285,12 @@ msgstr ""
 
 #: views/backend/tinymce/modal.php:35
 msgid "Insert"
+msgstr ""
+
+#: views/frontend/restrict-content/product-code.php:21
+msgid "Email Code"
+msgstr ""
+
+#: views/frontend/restrict-content/product-code.php:23
+msgid "Verify"
 msgstr ""
