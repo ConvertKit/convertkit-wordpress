@@ -841,6 +841,9 @@ class Plugin extends \Codeception\Module
 			$I->amOnUrl($urlOrPageID);
 		}
 
+		// Confirm Restrict Content CSS is output.
+		$I->seeInSource('<link rel="stylesheet" id="convertkit-restrict-content-css" href="' . $_ENV['TEST_SITE_WP_URL'] . '/wp-content/plugins/convertkit/resources/frontend/css/restrict-content.css');
+
 		// Check content is / is not displayed, and CTA displays with expected text.
 		$this->testRestrictContentHidesContentWithCTA($I, $visibleContent, $memberContent, $textItems);
 
@@ -992,7 +995,7 @@ class Plugin extends \Codeception\Module
 	public function seeProductOutput($I, $productURL, $text = false, $textColor = false, $backgroundColor = false)
 	{
 		// Confirm that the product stylesheet loaded.
-		$I->seeInSource('<link rel="stylesheet" id="convertkit-gutenberg-block-product-frontend-css" href="' . $_ENV['TEST_SITE_WP_URL'] . '/wp-content/plugins/convertkit/resources/frontend/css/product.css');
+		$I->seeInSource('<link rel="stylesheet" id="convertkit-product-css" href="' . $_ENV['TEST_SITE_WP_URL'] . '/wp-content/plugins/convertkit/resources/frontend/css/product.css');
 
 		// Confirm that the block displays.
 		$I->seeElementInDOM('a.convertkit-product.wp-block-button__link');

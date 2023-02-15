@@ -187,6 +187,41 @@ class RestrictContentSettingsCest
 	}
 
 	/**
+	 * Tests that disabling CSS results in restrict-content.css not being output.
+	 *
+	 * @since   2.1.0
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testDisableCSSSetting(AcceptanceTester $I)
+	{
+		// Enable Restrict Content.
+		$I->setupConvertKitPluginRestrictContent(
+			$I,
+			[
+				'enabled' => true,
+			]
+		);
+
+		// Disable CSS.
+		$I->loadConvertKitSettingsGeneralScreen($I);
+		$I->checkOption('#no_css');
+		$I->click('Save Changes');
+
+		// Create Restricted Content Page.
+		$pageID = $I->createRestrictedContentPage(
+			$I,
+			'ConvertKit: Restrict Content: Settings: Custom',
+			'Visible content.',
+			'Member only content.',
+			'product_' . $_ENV['CONVERTKIT_API_PRODUCT_ID']
+		);
+
+		// Confirm no CSS is output by the Plugin.
+		$I->dontSeeInSource('restrict-content.css');
+	}
+
+	/**
 	 * Deactivate and reset Plugin(s) after each test, if the test passes.
 	 * We don't use _after, as this would provide a screenshot of the Plugin
 	 * deactivation and not the true test error.

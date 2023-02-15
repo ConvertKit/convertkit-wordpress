@@ -479,7 +479,7 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 			'no_css',
 			'on',
 			$this->settings->css_disabled(), // phpcs:ignore WordPress.Security.EscapeOutput
-			esc_html__( 'Prevent plugin from loading CSS files. This will disable styling on the broadcasts shortcode and block. Use with caution!', 'convertkit' )
+			esc_html__( 'Prevent plugin from loading CSS files. This will disable styling on broadcasts, product buttons and member\'s content. Use with caution!', 'convertkit' )
 		);
 
 	}
