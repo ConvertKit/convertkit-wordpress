@@ -15,10 +15,11 @@ class ThirdPartyPlugin extends \Codeception\Module
 	 *
 	 * @since   1.9.6.7
 	 *
-	 * @param   AcceptanceTester $I     AcceptanceTester.
-	 * @param   string           $name  Plugin Slug.
+	 * @param   AcceptanceTester $I     			AcceptanceTester.
+	 * @param   string           $name  			Plugin Slug.
+	 * @param 	bool 			 $checkForWarnings 	Check for Xdebug warnings and notices on screen after activation.
 	 */
-	public function activateThirdPartyPlugin($I, $name)
+	public function activateThirdPartyPlugin($I, $name, $checkForWarnings = true)
 	{
 		// Login as the Administrator.
 		$I->loginAsAdmin();
@@ -45,7 +46,9 @@ class ThirdPartyPlugin extends \Codeception\Module
 		}
 
 		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen($I);
+		if ( $checkForWarnings ) {
+			$I->checkNoWarningsAndNoticesOnScreen($I);
+		}
 	}
 
 	/**
