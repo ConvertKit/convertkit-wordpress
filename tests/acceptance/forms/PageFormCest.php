@@ -149,6 +149,9 @@ class PageFormCest
 
 		// Confirm that the ConvertKit Default Legacy Form displays.
 		$I->seeInSource('<form id="ck_subscribe_form" class="ck_subscribe_form" action="https://api.convertkit.com/landing_pages/' . $_ENV['CONVERTKIT_API_LEGACY_FORM_ID'] . '/subscribe" data-remote="true">');
+	
+		// Confirm that the Legacy Form title's character encoding is correct.
+		$I->seeInSource('Vantar þinn ungling sjálfstraust í stærðfræði?');
 	}
 
 	/**
@@ -248,6 +251,9 @@ class PageFormCest
 
 		// Confirm that the ConvertKit Legacy Form displays.
 		$I->seeInSource('<form id="ck_subscribe_form" class="ck_subscribe_form" action="https://api.convertkit.com/landing_pages/' . $_ENV['CONVERTKIT_API_LEGACY_FORM_ID'] . '/subscribe" data-remote="true">');
+	
+		// Confirm that the Legacy Form title's character encoding is correct.
+		$I->seeInSource('Vantar þinn ungling sjálfstraust í stærðfræði?');
 	}
 
 	/**
