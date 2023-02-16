@@ -672,7 +672,9 @@ INSERT INTO `wp_wlm_options` (`ID`, `option_name`, `option_value`, `autoload`) V
 (163, 'checklist/done/create-membership-level', '1',  'yes'),
 (164, 'checklist/done/create-membership-content', '0',  'yes'),
 (165, 'checklist/video/shown',  '2022-10-27 11:40:40',  'yes'),
-(166, 'broadcast_page_pagination',  '25', 'yes');
+(166, 'broadcast_page_pagination',  '25', 'yes'),
+(167, 'WishListMemberOptions_MigrateLevelData', '1',  'yes'),
+(168, 'WishListMemberOptions_MigrateContentLevelData',  '1',  'yes');
 
 CREATE TABLE `wp_wlm_presto_player_visits` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
