@@ -119,7 +119,7 @@ jobs:
       # We cannot include the URLs in this file, as they're not Plugins we are permitted to distribute.
       - name: Install Paid Third Party WordPress Plugins
         working-directory: ${{ env.ROOT_DIR }}
-        run: wp-cli plugin install ${{ secrets.CONVERTKIT_PAID_PLUGIN_URLS }}
+        run: wp-cli plugin install ${{ secrets.CONVERTKIT_PAID_PLUGIN_URLS }} --activate
       
       # WP_DEBUG = true is required so all PHP errors are output and caught by tests (E_ALL).
       - name: Enable WP_DEBUG
