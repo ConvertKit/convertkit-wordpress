@@ -131,10 +131,6 @@ class ConvertKit_Admin_Settings {
 			<h1><?php esc_html_e( 'ConvertKit', 'convertkit' ); ?></h1>
 		</header>
 
-		<?php
-		$this->maybe_display_notices();
-		?>
-
 		<div class="wrap">
 			<?php
 			if ( count( $this->sections ) > 1 ) {
@@ -185,50 +181,6 @@ class ConvertKit_Admin_Settings {
 
 		// First registered section will be the active section.
 		return current( $this->sections )->name;
-
-	}
-
-	/**
-	 * Display notice(s) immediately after the settings screen header.
-	 *
-	 * @since   1.9.6
-	 */
-	private function maybe_display_notices() {
-
-		$notices = array();
-
-		// Check the mbstring extension is loaded.
-		if ( ! extension_loaded( 'mbstring' ) ) {
-			$notices[] = array(
-				'type'    => 'warning',
-				'message' => sprintf(
-					/* translators: link to php.net manual */
-					__( 'Notice: Your server does not support the %s function - this is required for better character encoding. Please contact your webhost to have it installed.', 'convertkit' ),
-					'<a href="https://php.net/manual/en/mbstring.installation.php">mbstring</a>'
-				),
-			);
-		}
-
-		// Bail if no notices exist.
-		if ( ! count( $notices ) ) {
-			return;
-		}
-		?>
-		<div class="notices">
-			<?php
-			// Output inline notices.
-			foreach ( $notices as $notice ) {
-				?>
-				<div class="inline notice notice-<?php echo esc_attr( $notice['type'] ); ?>">
-					<p>
-						<?php echo esc_attr( $notice['message'] ); ?>
-					</p>
-				</div>
-				<?php
-			}
-			?>
-		</div>
-		<?php
 
 	}
 
