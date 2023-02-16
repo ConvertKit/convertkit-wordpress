@@ -164,6 +164,48 @@ class ConvertKit_Settings {
 	}
 
 	/**
+	 * Returns the Access Token Plugin setting.
+	 *
+	 * @since   2.2.0
+	 *
+	 * @return  string
+	 */
+	public function get_access_token() {
+
+		// Return Access Token from settings.
+		return $this->settings['access_token'];
+
+	}
+
+	/**
+	 * Returns whether the Access Token has been set in the Plugin settings.
+	 *
+	 * @since   2.2.0
+	 *
+	 * @return  bool
+	 */
+	public function has_access_token() {
+
+		return ( ! empty( $this->get_access_token() ) ? true : false );
+
+	}
+
+	/**
+	 * Returns whether the Plugin is authenticated with ConvertKit, by checking either:
+	 * - the API Key and Secret have been set in the Plugin settings,
+	 * - an access token exists
+	 *
+	 * @since   2.2.0
+	 *
+	 * @return  bool
+	 */
+	public function is_authenticated() {
+
+		return ( $this->has_api_key() && $this->has_api_secret() ) || $this->has_access_token();
+
+	}
+
+	/**
 	 * Returns the Default Form Plugin setting.
 	 *
 	 * @since   1.9.6
@@ -252,11 +294,12 @@ class ConvertKit_Settings {
 	public function get_defaults() {
 
 		$defaults = array(
-			'api_key'    => '', // string.
-			'api_secret' => '', // string.
-			'debug'      => '', // blank|on.
-			'no_scripts' => '', // blank|on.
-			'no_css'     => '', // blank|on.
+			'api_key'      => '', // string.
+			'api_secret'   => '', // string.
+			'access_token' => '', // string.
+			'debug'        => '', // blank|on.
+			'no_scripts'   => '', // blank|on.
+			'no_css'       => '', // blank|on.
 		);
 
 		// Add Post Type Default Forms.
