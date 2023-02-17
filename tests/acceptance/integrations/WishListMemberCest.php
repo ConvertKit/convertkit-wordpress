@@ -42,8 +42,10 @@ class WishListMemberCest
 		// Load WishList Member Plugin Settings.
 		$I->amOnAdminPage('options-general.php?page=_wp_convertkit_settings&tab=wishlist-member');
 
-		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen($I);
+		// Check that no PHP warnings or notices were output, if we're on PHP < 8.1 (WLM will throw errors in 8.1+, outside of our control).
+		if (version_compare( phpversion(), '8.1', '<' )) {
+			$I->checkNoWarningsAndNoticesOnScreen($I);
+		}
 
 		// Check that a Form Mapping option is displayed.
 		$I->seeElementInDOM('#_wp_convertkit_integration_wishlistmember_settings_' . $wlmLevelID . '_form');
@@ -54,8 +56,10 @@ class WishListMemberCest
 		// Save Changes.
 		$I->click('Save Changes');
 
-		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen($I);
+		// Check that no PHP warnings or notices were output, if we're on PHP < 8.1 (WLM will throw errors in 8.1+, outside of our control).
+		if (version_compare( phpversion(), '8.1', '<' )) {
+			$I->checkNoWarningsAndNoticesOnScreen($I);
+		}
 
 		// Check the value of the Form field matches the input provided.
 		$I->seeOptionIsSelected('#_wp_convertkit_integration_wishlistmember_settings_' . $wlmLevelID . '_form', $_ENV['CONVERTKIT_API_THIRD_PARTY_INTEGRATIONS_FORM_NAME']);
