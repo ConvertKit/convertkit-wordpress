@@ -122,7 +122,9 @@ jobs:
         run: wp-cli plugin install ${{ secrets.CONVERTKIT_PAID_PLUGIN_URLS }}
       
       # WP_DEBUG = true is required so all PHP errors are output and caught by tests (E_ALL).
+      # WP_DEBUG = false for PHP 8.2 due to Gravity Forms incompatibility with PHP 8.2
       - name: Enable WP_DEBUG
+        if: ${{ matrix.php-versions != '8.2' }}
         working-directory: ${{ env.ROOT_DIR }}
         run: |
           wp-cli config set WP_DEBUG true --raw
