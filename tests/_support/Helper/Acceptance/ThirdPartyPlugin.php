@@ -45,9 +45,7 @@ class ThirdPartyPlugin extends \Codeception\Module
 		}
 
 		// Check that no PHP warnings or notices were output.
-		if ( $checkForWarnings ) {
-			$I->checkNoWarningsAndNoticesOnScreen($I);
-		}
+		$I->checkNoWarningsAndNoticesOnScreen($I);
 	}
 
 	/**
