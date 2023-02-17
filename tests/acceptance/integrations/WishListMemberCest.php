@@ -16,7 +16,7 @@ class WishListMemberCest
 	public function _before(AcceptanceTester $I)
 	{
 		$I->activateConvertKitPlugin($I);
-		$I->activateThirdPartyPlugin($I, 'wishlist-member', false);
+		$I->activateThirdPartyPlugin($I, 'wishlist-member');
 		$I->setupConvertKitPlugin($I);
 		$I->setupConvertKitPluginResources($I);
 	}
