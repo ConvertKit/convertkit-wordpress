@@ -157,6 +157,8 @@ jobs:
         
       - name: Install chromedriver
         uses: nanasess/setup-chromedriver@master
+        with:
+          chromedriver-version: '109.0.5414.74'
 
       - name: Start chromedriver
         run: |
