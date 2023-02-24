@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the ConvertKit plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: ConvertKit 2.1.0\n"
+"Project-Id-Version: ConvertKit 2.1.1\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/convertkit\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-02-15T14:45:47+00:00\n"
+"POT-Creation-Date: 2023-02-23T14:17:58+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.7.1\n"
 "X-Domain: convertkit\n"
@@ -122,7 +122,7 @@ msgid "The text to display for a subscriber who authenticates via the login link
 msgstr ""
 
 #: admin/class-convertkit-admin-settings-restrict-content.php:155
-#: admin/class-convertkit-admin-settings.php:309
+#: admin/class-convertkit-admin-settings.php:261
 msgid "Beta"
 msgstr ""
 
@@ -130,24 +130,19 @@ msgstr ""
 msgid "Defines the text and button labels to display when a Page, Post or Custom Post has its Member Content setting set to a Product, and the visitor has not authenticated/subscribed."
 msgstr ""
 
-#: admin/class-convertkit-admin-settings.php:161
+#: admin/class-convertkit-admin-settings.php:157
 msgid "If you need help setting up the plugin please refer to the"
 msgstr ""
 
-#: admin/class-convertkit-admin-settings.php:163
+#: admin/class-convertkit-admin-settings.php:159
 msgid "plugin documentation"
 msgstr ""
 
-#. translators: link to php.net manual
-#: admin/class-convertkit-admin-settings.php:206
-msgid "Notice: Your server does not support the %s function - this is required for better character encoding. Please contact your webhost to have it installed."
-msgstr ""
-
-#: admin/class-convertkit-admin-settings.php:248
+#: admin/class-convertkit-admin-settings.php:200
 msgid "Settings"
 msgstr ""
 
-#: admin/class-convertkit-admin-settings.php:282
+#: admin/class-convertkit-admin-settings.php:234
 msgid "Documentation"
 msgstr ""
 

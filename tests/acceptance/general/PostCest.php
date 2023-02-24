@@ -51,6 +51,50 @@ class PostCest
 	}
 
 	/**
+	 * Test that no errors are output when editing or viewing a Post where the Plugin's post level settings
+	 * are a string instead of false (no settings) or an array (settings).
+	 *
+	 * It's unclear how a Page or Post could have a string for its settings, but this covers
+	 * https://convertkit.atlassian.net/jira/software/c/projects/T3/boards/27?modal=detail&selectedIssue=T3-173
+	 *
+	 * @since   2.1.1
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testPostWithInvalidSettings(AcceptanceTester $I)
+	{
+		// Setup ConvertKit plugin.
+		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPluginResources($I);
+
+		// Create Post with invalid settings.
+		$postID = $I->havePostInDatabase(
+			[
+				'post_type'  => 'post',
+				'post_title' => 'ConvertKit: Post: Invalid Settings',
+				'meta_input' => [
+					'_wp_convertkit_post_meta' => 'an invalid string setting',
+				],
+			]
+		);
+
+		// Edit the Post.
+		$I->amOnAdminPage('post.php?post=' . $postID . '&action=edit');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Load the Post on the frontend site.
+		$I->amOnPage('/?p=' . $postID);
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Confirm that the ConvertKit Default Form displays.
+		$I->seeElementInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]');
+	}
+
+	/**
 	 * Deactivate and reset Plugin(s) after each test, if the test passes.
 	 * We don't use _after, as this would provide a screenshot of the Plugin
 	 * deactivation and not the true test error.
