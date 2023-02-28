@@ -26,6 +26,8 @@ define( 'CONVERTKIT_PLUGIN_FILE', plugin_basename( __FILE__ ) );
 define( 'CONVERTKIT_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'CONVERTKIT_PLUGIN_PATH', __DIR__ );
 define( 'CONVERTKIT_PLUGIN_VERSION', '2.1.1' );
+define( 'CONVERTKIT_OAUTH_CLIENT_ID', 'example-client-id-for-convertkit-plugin' );
+define( 'CONVERTKIT_OAUTH_CALLBACK_URL', 'https://api.convertkit.com/oauth2/callback' );
 
 // Load shared classes, if they have not been included by another ConvertKit Plugin.
 if ( ! class_exists( 'ConvertKit_API' ) ) {

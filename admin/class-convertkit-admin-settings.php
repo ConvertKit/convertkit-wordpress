@@ -283,7 +283,7 @@ class ConvertKit_Admin_Settings {
 		if ( ! $settings->is_authenticated() ) {
 			// Just register the oAuth screen.
 			$sections = array(
-				'general' => new ConvertKit_Settings_oAuth(),
+				'oauth' => new ConvertKit_Settings_oAuth(),
 			);
 
 			// Assign them to this class.

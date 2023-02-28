@@ -113,11 +113,40 @@ class ConvertKit_Settings_oAuth extends ConvertKit_Settings_Base {
 	}
 
 	/**
+	 * Outputs success and/or error notices if required.
+	 *
+	 * @since   2.2.0
+	 */
+	public function maybe_output_notices() {
+
+		// Define messages that might be displayed as a notification.
+		$messages = array(
+			'' => __( '', 'convertkit' ),
+		);
+
+		// Output error notification if defined.
+		if ( isset( $_REQUEST['error'] ) && array_key_exists( sanitize_text_field( $_REQUEST['error'] ), $messages ) ) { // phpcs:ignore WordPress.Security.NonceVerification
+			$this->output_error( $messages[ sanitize_text_field( $_REQUEST['error'] ) ] ); // phpcs:ignore WordPress.Security.NonceVerification
+		}
+
+		// Output success notification if defined.
+		if ( isset( $_REQUEST['success'] ) && array_key_exists( sanitize_text_field( $_REQUEST['success'] ), $messages ) ) { // phpcs:ignore WordPress.Security.NonceVerification
+			$this->output_success( $messages[ sanitize_text_field( $_REQUEST['success'] ) ] ); // phpcs:ignore WordPress.Security.NonceVerification
+		}
+
+	}
+
+	/**
 	 * Outputs the oAuth screen.
 	 *
 	 * @since   2.2.0
 	 */
 	public function render() {
+
+		// Determine the oAuth URL to begin the authorization process.
+		$api = new ConvertKit_API();
+		$api->set_client_id( CONVERTKIT_OAUTH_CLIENT_ID );
+		$oauth_url = $api->get_oauth_url( CONVERTKIT_OAUTH_CALLBACK_URL, admin_url( 'optins-general.php?page=_wp_convertkit_settings' ) );
 
 		/**
 		 * Performs actions prior to rendering the settings form.
