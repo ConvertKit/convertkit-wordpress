@@ -50,7 +50,9 @@ class ConvertKit_Post {
 
 		// Get Post Meta.
 		$meta = get_post_meta( $post_id, self::POST_META_KEY, true );
-		if ( ! $meta ) {
+
+		// If no settings exist, or the settings are a string, fallback to the default settings.
+		if ( ! $meta || is_string( $meta ) ) {
 			// Fallback to default settings.
 			$meta = $this->get_default_settings();
 
