@@ -295,7 +295,7 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 		);
 
 		// If an access token is used, display an option to disconnect.
-		if ( $this->settings->has_access_token() ) {
+		if ( $this->settings->has_access_token() && ! $this->settings->has_api_key_and_secret() ) {
 			$html .= sprintf(
 				'<br /><a href="%1$s" class="button button-primary">%2$s</a>',
 				esc_url(
