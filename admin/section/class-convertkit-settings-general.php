@@ -57,10 +57,43 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 		$this->title    = __( 'General Settings', 'convertkit' );
 		$this->tab_text = __( 'General', 'convertkit' );
 
+		// Output notices.
+		add_action( 'convertkit_settings_base_render_before', array( $this, 'maybe_output_notices' ) );
+
 		// Render container element.
 		add_action( 'convertkit_settings_base_render_before', array( $this, 'render_before' ) );
 
 		parent::__construct();
+
+		$this->maybe_disconnect();
+
+	}
+
+	/**
+	 * Deletes the access token from the Plugin's settings, if the user
+	 * clicked the Disconnect button.
+	 *
+	 * @since   2.2.0
+	 */
+	private function maybe_disconnect() {
+
+		// Bail if no request to disconnect exists.
+		if ( ! array_key_exists( 'disconnect', $_REQUEST ) ) { // phpcs:ignore WordPress.Security.NonceVerification
+			return;
+		}
+
+		// Delete Access Token.
+		$settings = new ConvertKit_Settings;
+		$settings->save( array(
+			'access_token' => '',
+		) );
+
+		// Redirect to General screen, which will now show the Plugin's settings, because the Plugin
+		// is now authenticated.
+		wp_safe_redirect( add_query_arg( array(
+			'page' 		=> '_wp_convertkit_settings',
+		), 'options-general.php' ) );
+		exit();
 
 	}
 
@@ -77,27 +110,30 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 			$this->name
 		);
 
-		add_settings_field(
-			'api_key',
-			__( 'API Key', 'convertkit' ),
-			array( $this, 'api_key_callback' ),
-			$this->settings_key,
-			$this->name,
-			array(
-				'label_for' => 'api_key',
-			)
-		);
+		// Only display API Key and Secret fields if no access token exists.
+		if ( ! $this->settings->has_access_token() ) {
+			add_settings_field(
+				'api_key',
+				__( 'API Key', 'convertkit' ),
+				array( $this, 'api_key_callback' ),
+				$this->settings_key,
+				$this->name,
+				array(
+					'label_for' => 'api_key',
+				)
+			);
 
-		add_settings_field(
-			'api_secret',
-			__( 'API Secret', 'convertkit' ),
-			array( $this, 'api_secret_callback' ),
-			$this->settings_key,
-			$this->name,
-			array(
-				'label_for' => 'api_secret',
-			)
-		);
+			add_settings_field(
+				'api_secret',
+				__( 'API Secret', 'convertkit' ),
+				array( $this, 'api_secret_callback' ),
+				$this->settings_key,
+				$this->name,
+				array(
+					'label_for' => 'api_secret',
+				)
+			);
+		}
 
 		foreach ( convertkit_get_supported_post_types() as $supported_post_type ) {
 			// Get Post Type's Label.
@@ -247,7 +283,7 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 	public function account_name_callback() {
 
 		// Output a notice telling the user to enter their API Key and Secret if they haven't done so yet.
-		if ( ! $this->settings->has_api_key_and_secret() || is_wp_error( $this->account ) ) {
+		if ( ( ! $this->settings->has_api_key_and_secret() && ! $this->settings->has_access_token() ) || is_wp_error( $this->account ) ) {
 			echo '<p class="description">' . esc_html__( 'Add a valid API Key and Secret to get started', 'convertkit' ) . '</p>';
 			return;
 		}
@@ -257,7 +293,20 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 			'<code>%s</code>',
 			isset( $this->account['name'] ) ? esc_attr( $this->account['name'] ) : esc_html__( '(Not specified)', 'convertkit' )
 		);
-		$html .= '<p class="description">' . esc_html__( 'The name of your connected ConvertKit account.', 'convertkit' ) . '</p>';
+
+		// If an access token is used, display an option to disconnect.
+		if ( $this->settings->has_access_token() ) {
+			$html .= sprintf(
+				'<br /><a href="%1$s" class="button button-primary">%2$s</a>',
+				esc_url(
+					add_query_arg( array(
+						'page' => '_wp_convertkit_settings',
+						'disconnect' => '1',
+					), 'options-general.php' )
+				),
+				esc_html__( 'Disconnect', 'convertkit' )
+			);
+		}
 
 		// Output has already been run through escaping functions above.
 		echo $html; // phpcs:ignore WordPress.Security.EscapeOutput

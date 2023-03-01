@@ -32,19 +32,7 @@ class ConvertKit_Settings_oAuth extends ConvertKit_Settings_Base {
 
 		parent::__construct();
 
-		$this->maybe_perform_actions();
-	}
-
-	/**
-	 * Possibly perform some actions, such as storing the access token.
-	 *
-	 * @since   2.2.0
-	 */
-	private function maybe_perform_actions() {
-
 		$this->maybe_store_access_token();
-		$this->maybe_delete_access_token();
-
 	}
 
 	/**
@@ -55,47 +43,35 @@ class ConvertKit_Settings_oAuth extends ConvertKit_Settings_Base {
 	private function maybe_store_access_token() {
 
 		// Bail if no access token is included in the request.
-		if ( ! array_key_exists( '?', $_REQUEST ) ) { // phpcs:ignore WordPress.Security.NonceVerification
+		if ( ! array_key_exists( 'access_token', $_REQUEST ) ) { // phpcs:ignore WordPress.Security.NonceVerification
 			return;
 		}
 
-		// Test Access Token.
-		// @TODO
+		// Sanitize token.
+		$access_token = sanitize_text_field( $_REQUEST['access_token'] ); // phpcs:ignore WordPress.Security.NonceVerification
 
-		// Store Access Token.
-		// @TODO
-
-		// Redirect to General screen, which will now show the Plugin's settings, because the Plugin
-		// is now authenticated.
+		// Test Access Token by making an API request.
+		// @TODO, as this won't work yet.
+		// If something fails, redirect using this:
+		/*
 		wp_safe_redirect( add_query_arg( array(
-			'' => '',
+			'page' 		=> '_wp_convertkit_settings',
+			'error' 	=> 'oauth2_error',
 		), 'options-general.php' ) );
 		exit();
-
-	}
-
-	/**
-	 * Deletes the access token from the Plugin settings, if the request is to deauthorize the Plugin.
-	 *
-	 * @since   2.2.0
-	 */
-	private function maybe_delete_access_token() {
-
-		// Bail if no access token is included in the request.
-		if ( ! array_key_exists( '?', $_REQUEST ) ) { // phpcs:ignore WordPress.Security.NonceVerification
-			return;
-		}
-
-		// Test Access Token.
-		// @TODO
+		*/
 
 		// Store Access Token.
-		// @TODO
+		$settings = new ConvertKit_Settings;
+		$settings->save( array(
+			'access_token' => $access_token,
+		) );
 
 		// Redirect to General screen, which will now show the Plugin's settings, because the Plugin
 		// is now authenticated.
 		wp_safe_redirect( add_query_arg( array(
-			'' => '',
+			'page' 		=> '_wp_convertkit_settings',
+			'success' 	=> 'oauth2_success',
 		), 'options-general.php' ) );
 		exit();
 
@@ -110,30 +86,6 @@ class ConvertKit_Settings_oAuth extends ConvertKit_Settings_Base {
 
 		// No fields are registered for the Debug Log.
 		// This function is deliberately blank.
-	}
-
-	/**
-	 * Outputs success and/or error notices if required.
-	 *
-	 * @since   2.2.0
-	 */
-	public function maybe_output_notices() {
-
-		// Define messages that might be displayed as a notification.
-		$messages = array(
-			'' => __( '', 'convertkit' ),
-		);
-
-		// Output error notification if defined.
-		if ( isset( $_REQUEST['error'] ) && array_key_exists( sanitize_text_field( $_REQUEST['error'] ), $messages ) ) { // phpcs:ignore WordPress.Security.NonceVerification
-			$this->output_error( $messages[ sanitize_text_field( $_REQUEST['error'] ) ] ); // phpcs:ignore WordPress.Security.NonceVerification
-		}
-
-		// Output success notification if defined.
-		if ( isset( $_REQUEST['success'] ) && array_key_exists( sanitize_text_field( $_REQUEST['success'] ), $messages ) ) { // phpcs:ignore WordPress.Security.NonceVerification
-			$this->output_success( $messages[ sanitize_text_field( $_REQUEST['success'] ) ] ); // phpcs:ignore WordPress.Security.NonceVerification
-		}
-
 	}
 
 	/**
