@@ -15,8 +15,8 @@ class ThirdPartyPlugin extends \Codeception\Module
 	 *
 	 * @since   1.9.6.7
 	 *
-	 * @param   AcceptanceTester $I     AcceptanceTester.
-	 * @param   string           $name  Plugin Slug.
+	 * @param   AcceptanceTester $I                 AcceptanceTester.
+	 * @param   string           $name              Plugin Slug.
 	 */
 	public function activateThirdPartyPlugin($I, $name)
 	{
@@ -33,15 +33,19 @@ class ThirdPartyPlugin extends \Codeception\Module
 		// causing seePluginActivated() to fail.
 		$I->amOnPluginsPage();
 
-		// Some Plugins have a different slug when activated.
+		// Some Plugins redirect to a welcome screen on activation, so we can't reliably check they're activated.
 		switch ($name) {
-			case 'gravity-forms':
-				$I->seePluginActivated('gravityforms');
+			case 'wpforms-lite':
 				break;
 
 			default:
 				$I->seePluginActivated($name);
 				break;
+		}
+
+		// Some Plugins throw warnings / errors on activation with PHP 8.1+, so we can't reliably check for errors.
+		if ($name === 'wishlist-member' && version_compare( phpversion(), '8.1', '>' )) {
+			return;
 		}
 
 		// Check that no PHP warnings or notices were output.
