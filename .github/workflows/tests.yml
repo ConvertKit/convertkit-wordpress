@@ -156,10 +156,15 @@ jobs:
       - name: Start nginx
         run: sudo systemctl start nginx.service
         
+      - name: Install chromedriver
+        uses: nanasess/setup-chromedriver@master
+        with:
+          chromedriver-version: '111.0.5563.64'
+
       - name: Start chromedriver
         run: |
           export DISPLAY=:99
-          chromedriver --url-base=/wd/hub &
+          /usr/local/bin/chromedriver --url-base=/wd/hub &
           sudo Xvfb -ac :99 -screen 0 1920x1080x24 > /dev/null 2>&1 & # optional
 
       # Write any secrets, such as API keys, to the .env.dist.testing file now.
