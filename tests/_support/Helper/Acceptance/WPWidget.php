@@ -119,7 +119,9 @@ class WPWidget extends \Codeception\Module
 
 		// When the Blocks sidebar appears, search for the legacy widget.
 		$I->waitForElementVisible('.interface-interface-skeleton__secondary-sidebar');
+		$I->seeElementInDOM('.interface-interface-skeleton__secondary-sidebar');
 		$I->fillField('.block-editor-inserter__menu input[type=search]', $blockName);
+		$I->waitForElementVisible('.block-editor-inserter__panel-content button.editor-block-list-item-' . $blockProgrammaticName);
 		$I->seeElementInDOM('.block-editor-inserter__panel-content button.editor-block-list-item-' . $blockProgrammaticName);
 		$I->click('.block-editor-inserter__panel-content button.editor-block-list-item-' . $blockProgrammaticName);
 
