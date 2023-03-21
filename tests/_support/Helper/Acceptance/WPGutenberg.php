@@ -72,12 +72,8 @@ class WPGutenberg extends \Codeception\Module
 		// Click Add Block Button.
 		$I->click('button.edit-post-header-toolbar__inserter-toggle');
 
-		// When the Blocks sidebar appears, search for the block.
-		$I->waitForElementVisible('.interface-interface-skeleton__secondary-sidebar[aria-label="Block Library"]');
-		$I->seeElementInDOM('.interface-interface-skeleton__secondary-sidebar[aria-label="Block Library"]');
-		$I->fillField('.block-editor-inserter__menu input[type=search]', $blockName);
-		$I->waitForElementVisible('.block-editor-inserter__panel-content button.editor-block-list-item-' . $blockProgrammaticName);
-		$I->seeElementInDOM('.block-editor-inserter__panel-content button.editor-block-list-item-' . $blockProgrammaticName);
+		// When the Blocks sidebar appears, scroll to the block.
+		$I->scrollTo('.block-editor-inserter__panel-content button.editor-block-list-item-' . $blockProgrammaticName);
 		$I->click('.block-editor-inserter__panel-content button.editor-block-list-item-' . $blockProgrammaticName);
 
 		// Close block inserter.
