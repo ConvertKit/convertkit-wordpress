@@ -2,6 +2,13 @@
 <ruleset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="PHP_CodeSniffer" xsi:noNamespaceSchemaLocation="phpcs.xsd">
     <description>Coding Standards for Tests</description>
 
+    <!-- Inspect files in the /tests folder -->
+    <file>tests</file>
+
+    <!-- Run in verbose mode and specify the precise rule that failed in output -->
+    <arg value="sv"/>
+    <arg name="colors"/>
+
     <!-- Check that code meets WordPress-Extra standards. -->
     <rule ref="WordPress-Extra">
         <!-- Don't use yoda conditions -->
