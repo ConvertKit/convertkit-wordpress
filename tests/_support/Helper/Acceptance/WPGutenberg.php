@@ -67,7 +67,7 @@ class WPGutenberg extends \Codeception\Module
 	 * @param   string           $blockProgrammaticName  Programmatic Block Name (e.g. 'convertkit-form').
 	 * @param   bool|array       $blockConfiguration     Block Configuration (field => value key/value array).
 	 */
-	public function addGutenbergBlock($I, $blockName, $blockProgrammaticName, $blockConfiguration = false) // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter
+	public function addGutenbergBlock($I, $blockName, $blockProgrammaticName, $blockConfiguration = false)
 	{
 		// Click Add Block Button.
 		$I->click('button.edit-post-header-toolbar__inserter-toggle');
