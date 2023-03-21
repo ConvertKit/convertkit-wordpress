@@ -78,6 +78,7 @@ class WPGutenberg extends \Codeception\Module
 		$I->fillField('.block-editor-inserter__menu input[type=search]', $blockName);
 		$I->waitForElementVisible('.block-editor-inserter__panel-content button.editor-block-list-item-' . $blockProgrammaticName);
 		$I->seeElementInDOM('.block-editor-inserter__panel-content button.editor-block-list-item-' . $blockProgrammaticName);
+		$I->click('.block-editor-inserter__panel-content button.editor-block-list-item-' . $blockProgrammaticName);
 
 		// Close block inserter.
 		$I->click('button.edit-post-header-toolbar__inserter-toggle');
