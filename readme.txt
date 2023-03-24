@@ -1,7 +1,7 @@
 === ConvertKit - Email Marketing, Email Newsletter and Landing Pages ===
 Contributors: nathanbarry, growdev, travisnorthcutt, ggwicz
 Donate link: https://convertkit.com
-Tags: email marketing, email newsletter, newsletter, convertkit
+Tags: email marketing, email newsletter, newsletter, subscribers, convertkit
 Requires at least: 5.0
 Tested up to: 6.1.1
 Requires PHP: 5.6.20
@@ -13,7 +13,7 @@ ConvertKit is an email marketing and email newsletter platform for capturing lea
 
 == Description ==
 
-[ConvertKit](https://convertkit.com) makes it easy to capture more leads, sell more products and send targeted email newsletters by easily embedding email marketing capture forms anywhere on your WordPress web site.
+[ConvertKit](https://convertkit.com) makes it easy for visitors to subscribe to your newsletter, sell more products and send targeted email newsletters, by easily embedding email marketing / email subscriber forms anywhere on your WordPress web site.
 
 = Email Marketing and Email Newsletter Features =
 
@@ -41,6 +41,8 @@ For greater control, ConvertKit's email marketing subscription forms can be disp
 - Using the ConvertKit Forms block in Gutenberg
 - Using the `[convertkit]` shortcode in the Classic Editor
 
+Start collecting email subscribers today!
+
 = Landing Pages =
 
 Embed [landing pages](https://convertkit.com/features/landing-pages), designed in ConvertKit, on your WordPress web site, choosing from a variety of designs, customisable to your branding and ideal for building your email marketing list or selling a product.
@@ -60,7 +62,7 @@ Embed existing email newsletters on your WordPress web site, ensuring visitors n
 
 Embed buttons (or link text) to sell your ConvertKit Products in seconds - whether that's digital goods, paid newsletters, music, coaching and more.
 
-Already have content on your site that you want to sell? Use the Member's Content functionality on Pages to require subscribers purchase a ConvertKit Product to access your content - whether that's a course or digital download.
+Already have content on your site that you want to sell? Use the Member's Content functionality on Pages to require email subscribers purchase a ConvertKit Product to access your content - whether that's a course or digital download.
 
 = Plugin Integrations =
 
@@ -74,6 +76,18 @@ Our other WordPress Plugins provide further integrations between WordPress Plugi
 
 - [ConvertKit for WooCommerce](https://wordpress.org/plugins/convertkit-for-woocommerce/): Subscribe, tag and assign sequences to customers at checkout, and send order data to ConvertKit
 - [ConvertKit for Gravity Forms](https://wordpress.org/plugins/convertkit-gravity-forms/): Send Gravity Form submissions to ConvertKit
+
+= What is ConvertKit? =
+
+ConvertKit is the go-to marketing hub for creators that helps you grow and monetize your audience with ease.
+
+Grow your audience: Increase subscribers with beautiful landing pages, sign up forms, and link pages that make your work stand out.
+
+Automate your marketing: Create lasting connections and promote like a pro with our intuitive email editor and powerful sales funnels.
+
+Sell your digital products: Market and sell your digital products and subscriptions with ConvertKit to drive higher conversions and save big on fees.
+
+If you are not yet using ConvertKit, creating an account is 100% free and only takes you about 30 seconds.
 
 = Documentation =
 
