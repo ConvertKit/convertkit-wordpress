@@ -13,15 +13,12 @@ ConvertKit is an email marketing and email newsletter platform for capturing ema
 
 == Description ==
 
-[ConvertKit](https://convertkit.com) makes it easy to get more email newsletter subscribers, sell more products and send targeted email newsletters, by easily embedding email marketing / email subscriber forms anywhere on your WordPress web site.
+[ConvertKit](https://convertkit.com) makes it easy to grow your email subscribers lists, sell more products and send targeted email newsletters - all by easily embedding email marketing / email subscriber forms anywhere on your WordPress web site.
 
 = Email Marketing and Email Newsletter Features =
 
-- Design [subscription forms](https://convertkit.com/features/forms) in ConvertKit, automatically appending them to any WordPress post or page, or displaying forms within your WordPress content using the supplied Gutenberg block and shortcode options.
-Perfect for building your email subscriber lists.
-
-- Build [landing pages](https://convertkit.com/features/landing-pages) in ConvertKit, and display them on a WordPress page.
-
+- Design [subscription forms](https://convertkit.com/features/forms) in ConvertKit, automatically appending them to any WordPress post or page, or displaying forms within your WordPress content using the supplied Gutenberg block and shortcode options. Perfect for building your email subscriber lists.
+- Build [landing pages](https://convertkit.com/features/landing-pages) in ConvertKit, and display them on a WordPress page to capture email subscribers
 - List past [email newsletters](https://convertkit.com/features/email-marketing) on your WordPress site
 
 = Forms =
@@ -29,6 +26,7 @@ Perfect for building your email subscriber lists.
 Design [forms](https://convertkit.com/features/forms) in ConvertKit, choosing from a variety of designs, customisable to your branding.
 
 Sign up forms can be configured to:
+
 - Send free content, such as a PDF
 - Display when the user is about to leave the page
 - Subscribe to an email newsletter, with powerful tagging and segmentation options
@@ -69,13 +67,13 @@ Already have content on your site that you want to sell? Use the Member's Conten
 
 = Plugin Integrations =
 
-With the ConvertKit for WordPress Plugin, you also get:
+With the ConvertKit for WordPress Plugin, you also get integrations with:
 
 - Elementor: Form and Broadcast widgets natively integrated with Elementor, to embed ConvertKit forms and broadcast lists
 - Contact Form 7: Automatically add email subscribers to ConvertKit when they submit a Contact Form 7 form
 - WishList Member: Automatically subscribe, unsubscribe and tag users based on their membership level
 
-Our other WordPress Plugins provide further integrations between WordPress Plugins and ConvertKit:
+Our other WordPress Plugins provide further integrations between WordPress and ConvertKit:
 
 - [ConvertKit for WooCommerce](https://wordpress.org/plugins/convertkit-for-woocommerce/): Subscribe, tag and assign sequences to customers at checkout, and send order data to ConvertKit
 - [ConvertKit for Gravity Forms](https://wordpress.org/plugins/convertkit-gravity-forms/): Automatically add email subscribers to ConvertKit when they submit a Gravity Form, with tagging options
@@ -84,11 +82,11 @@ Our other WordPress Plugins provide further integrations between WordPress Plugi
 
 ConvertKit is the go-to marketing hub for creators that helps you grow and monetize your audience with ease.
 
-Grow your audience: Increase subscribers with beautiful landing pages, sign up forms, and link pages that make your work stand out.
+**Grow your audience:** Increase subscribers with beautiful landing pages, sign up forms, and link pages that make your work stand out.
 
-Automate your marketing: Create lasting connections and promote like a pro with our intuitive email editor and powerful sales funnels.
+**Automate your marketing:** Create lasting connections and promote like a pro with our intuitive email editor, powerful sales funnels and subscriber list segmentation using tags.
 
-Sell your digital products: Market and sell your digital products and subscriptions with ConvertKit to drive higher conversions and save big on fees.
+**Sell your digital products:** Market and sell your digital products and subscriptions with ConvertKit to drive higher conversions and save big on fees.
 
 If you are not yet using ConvertKit, [creating an account](https://app.convertkit.com/users/signup?plan=1k) is 100% free and only takes you about 30 seconds.
 
