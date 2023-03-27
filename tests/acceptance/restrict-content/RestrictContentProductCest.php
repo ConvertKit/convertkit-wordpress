@@ -18,9 +18,6 @@ class RestrictContentProductCest
 		// Activate and Setup ConvertKit plugin.
 		$I->activateConvertKitPlugin($I);
 		$I->setupConvertKitPlugin($I);
-
-		// Activate Disable Block and Pattern Suggestions plugin.
-		$I->activateThirdPartyPlugin($I, 'disable-block-and-pattern-suggestions');
 	}
 
 	/**
@@ -225,7 +222,6 @@ class RestrictContentProductCest
 	public function _passed(AcceptanceTester $I)
 	{
 		$I->resetCookie('ck_subscriber_id');
-		$I->deactivateThirdPartyPlugin($I, 'disable-block-and-pattern-suggestions');
 		$I->deactivateConvertKitPlugin($I);
 		$I->resetConvertKitPlugin($I);
 	}
