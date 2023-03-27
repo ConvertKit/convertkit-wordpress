@@ -76,6 +76,12 @@ class WPGutenberg extends \Codeception\Module
 		$I->waitForElementVisible('.interface-interface-skeleton__secondary-sidebar[aria-label="Block Library"]');
 		$I->seeElementInDOM('.interface-interface-skeleton__secondary-sidebar[aria-label="Block Library"]');
 		$I->fillField('.block-editor-inserter__menu input[type=search]', $blockName);
+
+		// Let WordPress load any matching block patterns, which reloads the DOM elements.
+		// If we don't do this, we get stale reference errors when trying to click a block to insert.
+		$I->sleep(2);
+
+		// Insert the block.
 		$I->waitForElementVisible('.block-editor-inserter__panel-content button.editor-block-list-item-' . $blockProgrammaticName);
 		$I->seeElementInDOM('.block-editor-inserter__panel-content button.editor-block-list-item-' . $blockProgrammaticName);
 		$I->click('.block-editor-inserter__panel-content button.editor-block-list-item-' . $blockProgrammaticName);
