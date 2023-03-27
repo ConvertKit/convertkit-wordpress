@@ -79,7 +79,7 @@ class WPGutenberg extends \Codeception\Module
 
 		// Let WordPress load any matching block patterns, which reloads the DOM elements.
 		// If we don't do this, we get stale reference errors when trying to click a block to insert.
-		$I->sleep(2);
+		$I->wait(2);
 
 		// Insert the block.
 		$I->waitForElementVisible('.block-editor-inserter__panel-content button.editor-block-list-item-' . $blockProgrammaticName);
