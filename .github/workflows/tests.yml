@@ -49,7 +49,15 @@ jobs:
         
         # Folder names within the 'tests' folder to run tests in parallel.
         test-groups: [
-          'acceptance/restrict-content'
+          'acceptance/broadcasts',
+          'acceptance/forms',
+          'acceptance/general',
+          'acceptance/integrations',
+          'acceptance/landing-pages',
+          'acceptance/products',
+          'acceptance/restrict-content',
+          'acceptance/tags',
+          'acceptance/wlm'
         ]
 
     # Steps to install, configure and run tests
@@ -127,6 +135,13 @@ jobs:
         working-directory: ${{ env.ROOT_DIR }}
         run: |
           wp-cli config set FS_METHOD direct
+
+      # DISALLOW_FILE_MODS = true is required to disable the block directory's "Available to Install" suggestions, which trips up
+      # tests that search and wait for block results.
+      - name: Enable DISALLOW_FILE_MODS
+        working-directory: ${{ env.ROOT_DIR }}
+        run: |
+          wp-cli config set DISALLOW_FILE_MODS true --raw
 
       # This step is deliberately after WordPress installation and configuration, as enabling PHP 8.x before using WP-CLI results
       # in the workflow failing due to incompatibilities between WP-CLI and PHP 8.x.
