@@ -1026,10 +1026,9 @@ class Plugin extends \Codeception\Module
 			);
 		}
 
-		// Click the button to confirm that the ConvertKit modal displays; this confirms
-		// necessary ConvertKit scripts have been loaded.
-		$I->click('a.convertkit-product');
-		//$I->seeElementInDOM('iframe[data-active]');
+		// Confirm that the necssary ConvertKit Commerce script and iframe have been loaded.
+		$I->seeInSource('<script src="' . $_ENV['CONVERTKIT_API_COMMERCE_JS_URL']);
+		$I->seeInSource('<iframe src="' . $_ENV['CONVERTKIT_API_PRODUCT_URL'] . '?embed=true"');
 	}
 
 	/**
