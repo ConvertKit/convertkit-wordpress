@@ -31,8 +31,8 @@ class ActivateDeactivatePluginCest
 	public function testPluginActivationAndDeactivationWithOtherPlugins(AcceptanceTester $I)
 	{
 		// Activate other ConvertKit Plugins from wordpress.org.
-		$I->activateThirdPartyPlugin($I, 'gravity-forms');
-		$I->activateThirdPartyPlugin($I, 'convertkit-gravity-forms');
+		$I->activateThirdPartyPlugin($I, 'wpforms-lite');
+		$I->activateThirdPartyPlugin($I, 'integrate-convertkit-wpforms');
 
 		// Activate this Plugin.
 		$I->activateConvertKitPlugin($I);
