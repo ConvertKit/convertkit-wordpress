@@ -77,10 +77,6 @@ class WPGutenberg extends \Codeception\Module
 		$I->seeElementInDOM('.interface-interface-skeleton__secondary-sidebar[aria-label="Block Library"]');
 		$I->fillField('.block-editor-inserter__menu input[type=search]', $blockName);
 
-		// Let WordPress load any matching block patterns, which reloads the DOM elements.
-		// If we don't do this, we get stale reference errors when trying to click a block to insert.
-		$I->wait(2);
-
 		// Insert the block.
 		$I->waitForElementVisible('.block-editor-inserter__panel-content button.editor-block-list-item-' . $blockProgrammaticName);
 		$I->seeElementInDOM('.block-editor-inserter__panel-content button.editor-block-list-item-' . $blockProgrammaticName);
@@ -218,9 +214,6 @@ class WPGutenberg extends \Codeception\Module
 	 */
 	public function checkGutenbergBlockHasNoErrors($I, $blockName)
 	{
-		// Wait a couple of seconds for the block to render.
-		sleep(2);
-
 		// Check that the "This block has encountered an error and cannot be previewed." element doesn't exist.
 		$I->dontSeeElementInDOM('.block-editor-block-list__layout div[data-title="' . $blockName . '"] .block-editor-block-list__block-crash-warning');
 	}
