@@ -282,7 +282,7 @@ class PageBlockProductCest
 	 */
 	public function _passed(AcceptanceTester $I)
 	{
-		$I->deactivateConvertKitPlugin($I);
+		//$I->deactivateConvertKitPlugin($I);
 		$I->resetConvertKitPlugin($I);
 	}
 }
