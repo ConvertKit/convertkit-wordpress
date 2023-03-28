@@ -1028,6 +1028,7 @@ class Plugin extends \Codeception\Module
 
 		// Confirm that the necssary ConvertKit Commerce script and iframe have been loaded.
 		$I->seeInSource('<script src="' . $_ENV['CONVERTKIT_API_COMMERCE_JS_URL']);
+		$I->seeInSource('<iframe src="' . $_ENV['CONVERTKIT_API_PRODUCT_URL'] . '?embed=true"');
 	}
 
 	/**
