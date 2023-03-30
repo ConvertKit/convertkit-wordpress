@@ -10,6 +10,10 @@
 						<td colspan="3">../admin/class-convertkit-admin-settings.php</td>
 					</tr><tr>
 						<td>&nbsp;</td>
+						<td><a href="#convertkit_plugin_screen_action_links"><code>convertkit_plugin_screen_action_links</code></a></td>
+						<td>Define links to display below the Plugin Name on the WP_List_Table at Plugins > Installed Plugins.</td>
+					</tr><tr>
+						<td>&nbsp;</td>
 						<td><a href="#convertkit_admin_settings_register_sections"><code>convertkit_admin_settings_register_sections</code></a></td>
 						<td>Registers settings sections at Settings > ConvertKit.</td>
 					</tr><tr>
@@ -144,9 +148,36 @@
 						<td>Filters whether the current request is a WordPress Administration / Frontend Editor request or not. Page Builders can set this to true to allow ConvertKit to load its administration functionality.</td>
 					</tr>
 					</tbody>
-				</table><h3 id="convertkit_admin_settings_register_sections">
+				</table><h3 id="convertkit_plugin_screen_action_links">
+						convertkit_plugin_screen_action_links
+						<code>admin/class-convertkit-admin-settings.php::208</code>
+					</h3><h4>Overview</h4>
+						<p>Define links to display below the Plugin Name on the WP_List_Table at Plugins > Installed Plugins.</p><h4>Parameters</h4>
+					<table>
+						<thead>
+							<tr>
+								<th>Parameter</th>
+								<th>Type</th>
+								<th>Description</th>
+							</tr>
+						</thead>
+						<tbody><tr>
+							<td>$links</td>
+							<td>array</td>
+							<td>HTML Links.</td>
+						</tr>
+						</tbody>
+					</table><h4>Usage</h4>
+<pre>
+add_filter( 'convertkit_plugin_screen_action_links', function( $links ) {
+	// ... your code here
+	// Return value
+	return $links;
+}, 10, 1 );
+</pre>
+<h3 id="convertkit_admin_settings_register_sections">
 						convertkit_admin_settings_register_sections
-						<code>admin/class-convertkit-admin-settings.php::292</code>
+						<code>admin/class-convertkit-admin-settings.php::301</code>
 					</h3><h4>Overview</h4>
 						<p>Registers settings sections at Settings > ConvertKit.</p><h4>Parameters</h4>
 					<table>

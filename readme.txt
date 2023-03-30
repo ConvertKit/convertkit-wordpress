@@ -5,7 +5,7 @@ Tags: email marketing, email newsletter, newsletter, subscribers, convertkit
 Requires at least: 5.0
 Tested up to: 6.2
 Requires PHP: 5.6.20
-Stable tag: 2.1.1
+Stable tag: 2.1.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -133,6 +133,10 @@ Full Plugin documentation can be found [here](https://help.convertkit.com/en/art
 7. Track subscriber growth
 
 == Changelog ==
+
+### 2.1.2 2023-03-30
+* Added: Link to Setup Wizard on Plugins screen
+* Added: Improved ConvertKit Icons in Classic Editor and block editor for Broadcasts, Forms, Products and Custom Content
 
 ### 2.1.1 2023-02-23
 * Fix: Post: Settings: PHP notices when settings are not an array
