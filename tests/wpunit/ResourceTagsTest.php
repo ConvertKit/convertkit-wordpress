@@ -197,7 +197,7 @@ class ResourceTagsTest extends \Codeception\TestCase\WPTestCase
 
 		// Assert order of data has not changed.
 		$this->assertEquals('wordpress', reset($result)['name']);
-		$this->assertEquals('gravityforms-tag-2', end($result)['name']);
+		$this->assertEquals('wpforms', end($result)['name']);
 	}
 
 	/**
