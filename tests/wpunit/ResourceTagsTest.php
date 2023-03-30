@@ -196,7 +196,7 @@ class ResourceTagsTest extends \Codeception\TestCase\WPTestCase
 		$this->assertArrayHasKey('name', reset($result));
 
 		// Assert order of data has not changed.
-		$this->assertEquals('wpforms', reset($result)['name']);
+		$this->assertEquals('wordpress', reset($result)['name']);
 		$this->assertEquals('gravityforms-tag-2', end($result)['name']);
 	}
 
