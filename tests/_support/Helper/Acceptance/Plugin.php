@@ -282,6 +282,11 @@ class Plugin extends \Codeception\Module
 					'name'       => 'gravityforms-tag-1',
 					'created_at' => '2022-02-02T14:06:32.000Z',
 				],
+				3748541 => [
+					'id'         => 3748541,
+					'name'       => 'wpforms',
+					'created_at' => '2023-03-29T12:32:38.000Z',
+				],
 				2907193 => [
 					'id'         => 2907193,
 					'name'       => 'gravityforms-tag-2',
@@ -577,7 +582,7 @@ class Plugin extends \Codeception\Module
 		// Define options.
 		$options = [
 			'gravityforms-tag-1', // First item.
-			'wordpress', // Last item.
+			'wpforms', // Last item.
 		];
 
 		// Prepend options, such as 'Default' and 'None' to the options, if required.
