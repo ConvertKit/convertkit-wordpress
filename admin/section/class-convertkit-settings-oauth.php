@@ -32,39 +32,50 @@ class ConvertKit_Settings_oAuth extends ConvertKit_Settings_Base {
 
 		parent::__construct();
 
-		$this->maybe_store_access_token();
+		$this->maybe_get_and_store_access_token();
 	}
 
 	/**
-	 * Tests and stores the access token, if it is included in the request.
+	 * Requests an access token via oAuth, if an authorization code and verifier are included in the request.
 	 *
 	 * @since   2.2.0
 	 */
-	private function maybe_store_access_token() {
+	private function maybe_get_and_store_access_token() {
 
-		// Bail if no access token is included in the request.
-		if ( ! array_key_exists( 'access_token', $_REQUEST ) ) { // phpcs:ignore WordPress.Security.NonceVerification
+		// Bail if no authorization code is included in the request.
+		if ( ! array_key_exists( 'code', $_REQUEST ) ) { // phpcs:ignore WordPress.Security.NonceVerification
+			return;
+		}
+		if ( ! array_key_exists( 'code_verifier', $_REQUEST ) ) { // phpcs:ignore WordPress.Security.NonceVerification
 			return;
 		}
 
 		// Sanitize token.
-		$access_token = sanitize_text_field( $_REQUEST['access_token'] ); // phpcs:ignore WordPress.Security.NonceVerification
+		$authorization_code = sanitize_text_field( $_REQUEST['code'] ); // phpcs:ignore WordPress.Security.NonceVerification
+		$code_verifier = sanitize_text_field( $_REQUEST['code_verifier'] ); // phpcs:ignore WordPress.Security.NonceVerification
 
-		// Test Access Token by making an API request.
-		// @TODO, as this won't work yet.
-		// If something fails, redirect using this:
+		// @TODO Exchange the authorization code and verifier for a long lived access token.
+		$result = 'example-access-token';
+		//$result = new WP_Error( 'example_error', 'You did not authorize this application. Please try again.' );
 		/*
-		wp_safe_redirect( add_query_arg( array(
-			'page' 		=> '_wp_convertkit_settings',
-			'error' 	=> 'oauth2_error',
-		), 'options-general.php' ) );
-		exit();
+		$api = new ConvertKit_API();
+		$api->set_client_id( CONVERTKIT_OAUTH_CLIENT_ID );
+		$access_token = $api->get_access_token( $code_verifier, $authorization_code );
 		*/
+
+		// Redirect with an error if we could not fetch the access token.
+		if ( is_wp_error( $result ) ) {
+			wp_safe_redirect( add_query_arg( array(
+				'page' 		=> '_wp_convertkit_settings',
+				'error' 	=> 'oauth2_error',
+			), 'options-general.php' ) );
+			exit();
+		}
 
 		// Store Access Token.
 		$settings = new ConvertKit_Settings;
 		$settings->save( array(
-			'access_token' => $access_token,
+			'access_token' => $result,
 		) );
 
 		// Redirect to General screen, which will now show the Plugin's settings, because the Plugin
@@ -98,7 +109,8 @@ class ConvertKit_Settings_oAuth extends ConvertKit_Settings_Base {
 		// Determine the oAuth URL to begin the authorization process.
 		$api = new ConvertKit_API();
 		$api->set_client_id( CONVERTKIT_OAUTH_CLIENT_ID );
-		$oauth_url = $api->get_oauth_url( CONVERTKIT_OAUTH_CALLBACK_URL, admin_url( 'optins-general.php?page=_wp_convertkit_settings' ) );
+		//$oauth_url = $this->api->get_oauth_url( admin_url( 'options-general.php?page=_wp_convertkit_settings' ) );
+		$oauth_url = admin_url( 'options-general.php?page=_wp_convertkit_settings&code=authcode&code_verifier=codeverifier' );
 
 		/**
 		 * Performs actions prior to rendering the settings form.

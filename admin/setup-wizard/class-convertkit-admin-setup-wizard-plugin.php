@@ -19,6 +19,15 @@
 class ConvertKit_Admin_Setup_Wizard_Plugin extends ConvertKit_Admin_Setup_Wizard {
 
 	/**
+	 * Holds the ConvertKit API class.
+	 * 
+	 * @since 	2.2.0
+	 * 
+	 * @var 	bool|ConvertKit_API
+	 */
+	public $api = false;
+
+	/**
 	 * Holds the ConvertKit Forms resource class.
 	 *
 	 * @since   1.9.8.4
@@ -81,7 +90,31 @@ class ConvertKit_Admin_Setup_Wizard_Plugin extends ConvertKit_Admin_Setup_Wizard
 	 */
 	public function __construct() {
 
-		// Define details for each step in the setup process.
+		// Setup API Class.
+		$this->api = new ConvertKit_API();
+		$this->api->set_client_id( CONVERTKIT_OAUTH_CLIENT_ID );
+
+		add_action( 'admin_init', array( $this, 'steps' ) );
+
+		// Register link to Setup Wizard below Plugin Name at Plugins > Installed Plugins.
+		add_filter( 'convertkit_plugin_screen_action_links', array( $this, 'add_setup_wizard_link_on_plugins_screen' ) );
+
+		add_action( 'admin_init', array( $this, 'maybe_redirect_to_setup_screen' ), 9999 );
+		add_action( 'convertkit_admin_setup_wizard_process_form_convertkit-setup', array( $this, 'process_form' ) );
+		add_action( 'convertkit_admin_setup_wizard_load_screen_data_convertkit-setup', array( $this, 'load_screen_data' ) );
+
+		// Call parent class constructor.
+		parent::__construct();
+
+	}
+
+	/**
+	 * Defines the steps for this wizard.
+	 * 
+	 * @since 	2.2.0
+	 */
+	public function steps() {
+
 		$this->steps = array(
 			1 => array(
 				'name' => __( 'Setup', 'convertkit' ),
@@ -89,6 +122,8 @@ class ConvertKit_Admin_Setup_Wizard_Plugin extends ConvertKit_Admin_Setup_Wizard
 			2 => array(
 				'name'        => __( 'Connect Account', 'convertkit' ),
 				'next_button' => array(
+					//'link' 	=> $this->api->get_oauth_url( admin_url( 'index.php?page=convertkit-setup&step=3&_wpnonce=' . wp_create_nonce( $this->page_name ) ) ),
+					'link' 	=> admin_url( 'index.php?page=convertkit-setup&step=3&_wpnonce=' . wp_create_nonce( $this->page_name ) . '&code=authcode&code_verifier=codeverifier' ),
 					'label' => __( 'Connect', 'convertkit' ),
 				),
 			),
@@ -102,16 +137,6 @@ class ConvertKit_Admin_Setup_Wizard_Plugin extends ConvertKit_Admin_Setup_Wizard
 				'name' => __( 'Done', 'convertkit' ),
 			),
 		);
-
-		// Register link to Setup Wizard below Plugin Name at Plugins > Installed Plugins.
-		add_filter( 'convertkit_plugin_screen_action_links', array( $this, 'add_setup_wizard_link_on_plugins_screen' ) );
-
-		add_action( 'admin_init', array( $this, 'maybe_redirect_to_setup_screen' ), 9999 );
-		add_action( 'convertkit_admin_setup_wizard_process_form_convertkit-setup', array( $this, 'process_form' ) );
-		add_action( 'convertkit_admin_setup_wizard_load_screen_data_convertkit-setup', array( $this, 'load_screen_data' ) );
-
-		// Call parent class constructor.
-		parent::__construct();
 
 	}
 
@@ -194,13 +219,15 @@ class ConvertKit_Admin_Setup_Wizard_Plugin extends ConvertKit_Admin_Setup_Wizard
 		// Depending on the step, process the form data.
 		switch ( $step ) {
 			case 3:
-				// Check that the API Key and Secret work.
-				$api_key    = sanitize_text_field( wp_unslash( $_POST['api_key'] ) );
-				$api_secret = sanitize_text_field( wp_unslash( $_POST['api_secret'] ) );
-
-				$api    = new ConvertKit_API( $api_key, $api_secret, false, 'setup_wizard' );
-				$result = $api->account();
-
+				// @TODO Exchange the authorization code and verifier for a long lived access token.
+				$result = 'example-access-token';
+				//$result = new WP_Error( 'example_error', 'You did not authorize this application. Please try again.' );
+				/*
+				$api = new ConvertKit_API();
+				$api->set_client_id( CONVERTKIT_OAUTH_CLIENT_ID );
+				$access_token = $api->get_access_token( $code_verifier, $authorization_code );
+				*/
+				
 				// Show an error message if Account Details could not be fetched e.g. API credentials supplied are invalid.
 				if ( is_wp_error( $result ) ) {
 					// Decrement the step.
@@ -214,8 +241,7 @@ class ConvertKit_Admin_Setup_Wizard_Plugin extends ConvertKit_Admin_Setup_Wizard
 				$settings = new ConvertKit_Settings();
 				$settings->save(
 					array(
-						'api_key'    => $api_key,
-						'api_secret' => $api_secret,
+						'access_token' => $result,
 					)
 				);
 				break;
@@ -246,11 +272,6 @@ class ConvertKit_Admin_Setup_Wizard_Plugin extends ConvertKit_Admin_Setup_Wizard
 	public function load_screen_data( $step ) {
 
 		switch ( $step ) {
-			case 2:
-				// Load settings class.
-				$this->settings = new ConvertKit_Settings();
-				break;
-
 			case 3:
 				// Re-load settings class now that the API Key and Secret has been defined.
 				$this->settings = new ConvertKit_Settings();
