@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the ConvertKit plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: ConvertKit 2.1.1\n"
+"Project-Id-Version: ConvertKit 2.1.2\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/convertkit\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-02-23T14:17:58+00:00\n"
+"POT-Creation-Date: 2023-03-30T13:51:05+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.7.1\n"
 "X-Domain: convertkit\n"
@@ -122,7 +122,7 @@ msgid "The text to display for a subscriber who authenticates via the login link
 msgstr ""
 
 #: admin/class-convertkit-admin-settings-restrict-content.php:155
-#: admin/class-convertkit-admin-settings.php:261
+#: admin/class-convertkit-admin-settings.php:270
 msgid "Beta"
 msgstr ""
 
@@ -138,11 +138,11 @@ msgstr ""
 msgid "plugin documentation"
 msgstr ""
 
-#: admin/class-convertkit-admin-settings.php:200
+#: admin/class-convertkit-admin-settings.php:199
 msgid "Settings"
 msgstr ""
 
-#: admin/class-convertkit-admin-settings.php:234
+#: admin/class-convertkit-admin-settings.php:243
 msgid "Documentation"
 msgstr ""
 
@@ -365,7 +365,11 @@ msgstr ""
 msgid "Done"
 msgstr ""
 
-#: admin/setup-wizard/class-convertkit-admin-setup-wizard-plugin.php:234
+#: admin/setup-wizard/class-convertkit-admin-setup-wizard-plugin.php:139
+msgid "Setup Wizard"
+msgstr ""
+
+#: admin/setup-wizard/class-convertkit-admin-setup-wizard-plugin.php:265
 msgid "I've created a form in ConvertKit"
 msgstr ""
 

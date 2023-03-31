@@ -9,7 +9,7 @@
  * Plugin Name: ConvertKit
  * Plugin URI: https://convertkit.com/
  * Description: Quickly and easily integrate ConvertKit forms into your site.
- * Version: 2.1.1
+ * Version: 2.1.2
  * Author: ConvertKit
  * Author URI: https://convertkit.com/
  * Text Domain: convertkit
@@ -25,7 +25,7 @@ define( 'CONVERTKIT_PLUGIN_NAME', 'ConvertKit' ); // Used for user-agent in API 
 define( 'CONVERTKIT_PLUGIN_FILE', plugin_basename( __FILE__ ) );
 define( 'CONVERTKIT_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'CONVERTKIT_PLUGIN_PATH', __DIR__ );
-define( 'CONVERTKIT_PLUGIN_VERSION', '2.1.1' );
+define( 'CONVERTKIT_PLUGIN_VERSION', '2.1.2' );
 define( 'CONVERTKIT_OAUTH_CLIENT_ID', 'example-client-id-for-convertkit-plugin' );
 define( 'CONVERTKIT_OAUTH_CALLBACK_URL', 'https://api.convertkit.com/oauth2/callback' );
 
@@ -103,7 +103,6 @@ if ( is_admin() ) {
 	require_once CONVERTKIT_PLUGIN_PATH . '/admin/class-multi-value-field-table.php';
 	require_once CONVERTKIT_PLUGIN_PATH . '/admin/section/class-convertkit-settings-base.php';
 	require_once CONVERTKIT_PLUGIN_PATH . '/admin/section/class-convertkit-settings-general.php';
-	require_once CONVERTKIT_PLUGIN_PATH . '/admin/section/class-convertkit-settings-oauth.php';
 	require_once CONVERTKIT_PLUGIN_PATH . '/admin/section/class-convertkit-settings-tools.php';
 	require_once CONVERTKIT_PLUGIN_PATH . '/admin/setup-wizard/class-convertkit-admin-setup-wizard-plugin.php';
 

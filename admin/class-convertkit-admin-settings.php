@@ -190,20 +190,29 @@ class ConvertKit_Admin_Settings {
 	 * @param   array $links      Links.
 	 * @return  array               Links
 	 */
-	public static function add_settings_page_link( $links ) {
+	public function add_settings_page_link( $links ) {
 
-		return array_merge(
-			array(
-				'settings' => sprintf(
-					'<a href="%s">%s</a>',
-					convertkit_get_settings_link(),
-					__( 'Settings', 'convertkit' )
-				),
-			),
-			$links
+		// Add link to Plugin settings screen.
+		$links['settings'] = sprintf(
+			'<a href="%s">%s</a>',
+			convertkit_get_settings_link(),
+			__( 'Settings', 'convertkit' )
 		);
 
+		/**
+		 * Define links to display below the Plugin Name on the WP_List_Table at Plugins > Installed Plugins.
+		 *
+		 * @since   2.1.2
+		 *
+		 * @param   array   $links  HTML Links.
+		 */
+		$links = apply_filters( 'convertkit_plugin_screen_action_links', $links );
+
+		// Return.
+		return $links;
+
 	}
+
 	/**
 	 * Output tabs, one for each registered settings section.
 	 *

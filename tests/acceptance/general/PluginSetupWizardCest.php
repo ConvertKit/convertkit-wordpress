@@ -378,6 +378,30 @@ class PluginSetupWizardCest
 	}
 
 	/**
+	 * Tests that a link to the Setup Wizard exists on the Plugins screen, and works when clicked.
+	 *
+	 * @since   2.1.2
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testSetupWizardLinkOnPluginsScreen(AcceptanceTester $I)
+	{
+		// Activate and Setup ConvertKit plugin.
+		$I->activateConvertKitPlugin($I);
+		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPluginResources($I);
+
+		// Navigate to Plugins screen.
+		$I->amOnPluginsPage();
+
+		// Click Setup Wizard link underneath the Plugin in the WP_List_Table.
+		$I->click('tr[data-slug="convertkit"] td div.row-actions span.setup_wizard a');
+
+		// Confirm expected setup wizard screen is displayed.
+		$this->_seeExpectedSetupWizardScreen($I, 1, 'Welcome to the ConvertKit Setup Wizard');
+	}
+
+	/**
 	 * Activate the Plugin, without checking it is activated, so that its Setup Wizard
 	 * screen loads.
 	 *
