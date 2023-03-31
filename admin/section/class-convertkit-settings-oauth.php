@@ -42,6 +42,18 @@ class ConvertKit_Settings_oAuth extends ConvertKit_Settings_Base {
 	 */
 	private function maybe_get_and_store_access_token() {
 
+		// @TODO Refine this to have a pre-check that we are on the settings screen for the Plugin, so it doesn't
+		// greedily attempt to take over the setup wizard submission.
+
+		// Bail if we're not on the settings screen.
+		if ( ! array_key_exists( 'page', $_REQUEST ) ) { // phpcs:ignore WordPress.Security.NonceVerification
+			return;
+		}
+		$page = sanitize_text_field( $_REQUEST['page'] );
+		if ( $page !== '_wp_convertkit_settings' ) {
+			return;
+		}
+
 		// Bail if no authorization code is included in the request.
 		if ( ! array_key_exists( 'code', $_REQUEST ) ) { // phpcs:ignore WordPress.Security.NonceVerification
 			return;
