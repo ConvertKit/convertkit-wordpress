@@ -15,7 +15,7 @@
 						if ( $this->previous_step_url ) {
 							?>
 							<div class="left">
-								<a href="<?php echo esc_attr( $this->previous_step_url ); ?>" class="button">
+								<a href="<?php echo esc_attr( $this->previous_step_url ); ?>" class="button button-hero">
 									<?php echo esc_html_e( 'Back', 'convertkit' ); ?>
 								</a>
 							</div>
@@ -30,13 +30,13 @@
 								if ( isset( $this->steps[ $this->step ]['next_button']['link'] ) ) {
 									// Link.
 									?>
-									<a href="<?php echo esc_attr( $this->steps[ $this->step ]['next_button']['link'] ); ?>" class="button button-primary"><?php echo esc_html( $this->steps[ $this->step ]['next_button']['label'] ); ?></a>
+									<a href="<?php echo esc_attr( $this->steps[ $this->step ]['next_button']['link'] ); ?>" class="button button-primary button-hero"><?php echo esc_html( $this->steps[ $this->step ]['next_button']['label'] ); ?></a>
 									<?php
 								} else {
 									// Submit button.
 									wp_nonce_field( $this->page_name );
 									?>
-									<button class="button button-primary button-large"><?php echo esc_html( $this->steps[ $this->step ]['next_button']['label'] ); ?></button>
+									<button class="button button-primary button-hero"><?php echo esc_html( $this->steps[ $this->step ]['next_button']['label'] ); ?></button>
 									<?php
 								}
 								?>
