@@ -70,7 +70,7 @@ function convertkit_get_notices() {
 	);
 	*/
 
-	// @TODO Fetch notices from e.g. a /notices WordPress endpoint.
+	// @TODO Fetch notices from e.g. a /wordpress/notices API endpoint.
 	$notices = array(
 		'ConvertKit: Your account is near the subscriber limit. Click here to upgrade!',
 	);

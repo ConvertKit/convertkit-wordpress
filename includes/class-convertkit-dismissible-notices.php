@@ -42,7 +42,7 @@ class ConvertKit_Dismissible_Notices {
 	 *
 	 * @var     bool|string
 	 */
-	public $wp_cron_schedule = false;
+	public $wp_cron_schedule = 'daily';
 
 	/**
 	 * The action name in cron-functions.php to schedule through WordPress' Cron.
@@ -98,9 +98,9 @@ class ConvertKit_Dismissible_Notices {
 			return;
 		}
 
-		// Schedule event, starting in an hour's time and recurring for the given $wp_cron_schedule.
+		// Schedule event, starting in a day's time and recurring for the given $wp_cron_schedule.
 		wp_schedule_event(
-			strtotime( '+1 hour' ),  // Start in an hour's time.
+			strtotime( '+1 day' ),  // Start in a day's time.
 			$this->wp_cron_schedule, // Repeat based on the given schedule e.g. hourly.
 			$this->wp_cron_action_name // Hook name; see includes/cron-functions.php for function that listens to this hook.
 		);
