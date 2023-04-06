@@ -29,7 +29,7 @@
 
 <div class="convertkit-setup-wizard-grid">
 	<div>
-		<a href="<?php echo esc_attr( $this->download_url ); ?>" class="button button-primary">
+		<a href="<?php echo esc_attr( $this->download_url ); ?>" class="button button-primary button-hero">
 			<?php esc_html_e( 'Download', 'convertkit' ); ?>
 		</a>
 		<span class="description">
@@ -38,7 +38,7 @@
 	</div>
 
 	<div>
-		<a href="<?php echo esc_attr( $this->course_url ); ?>" class="button button-primary">
+		<a href="<?php echo esc_attr( $this->course_url ); ?>" class="button button-primary button-hero">
 			<?php esc_html_e( 'Course', 'convertkit' ); ?>
 		</a>
 		<span class="description">

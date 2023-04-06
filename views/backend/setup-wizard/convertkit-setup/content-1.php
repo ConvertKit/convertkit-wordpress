@@ -16,7 +16,7 @@
 <div class="convertkit-setup-wizard-grid">
 	<div>
 		<h2><?php esc_html_e( 'I don\'t have a ConvertKit account.', 'convertkit' ); ?></h2>
-		<a href="<?php echo esc_attr( convertkit_get_registration_url() ); ?>" class="button button-primary convertkit-redirect" data-convertkit-redirect-url="<?php echo esc_attr( $this->next_step_url ); ?>" target="_blank">
+		<a href="<?php echo esc_attr( convertkit_get_registration_url() ); ?>" class="button button-primary button-hero convertkit-redirect" data-convertkit-redirect-url="<?php echo esc_attr( $this->next_step_url ); ?>" target="_blank">
 			<?php esc_html_e( 'Register', 'convertkit' ); ?>
 		</a>
 		<span class="description"><?php esc_html_e( 'Sign up to ConvertKit and register your account. It\'s free.', 'convertkit' ); ?></span>
@@ -24,7 +24,7 @@
 
 	<div>
 		<h2><?php esc_html_e( 'I have a ConvertKit account.', 'convertkit' ); ?></h2>
-		<a href="<?php echo esc_attr( $this->next_step_url ); ?>" class="button button-primary">
+		<a href="<?php echo esc_attr( $this->next_step_url ); ?>" class="button button-primary button-hero">
 			<?php esc_html_e( 'Connect', 'convertkit' ); ?>
 		</a>
 		<span class="description"><?php esc_html_e( 'Great! Click the Connect button to get started.', 'convertkit' ); ?></span>

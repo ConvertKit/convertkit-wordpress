@@ -110,6 +110,11 @@ body.settings_page__wp_convertkit_settings .wrap .postbox .button {
 	margin:  0 5px 0 0;
 	padding: 4px 12px;
 	font-size: 14px;
+
+	/* Required for WordPress 5.x styling */
+	height: auto;
+	text-shadow: none;
+	box-shadow: none;
 }
 body.settings_page__wp_convertkit_settings .wrap .postbox .button-primary {
 	background: #fb6970;
