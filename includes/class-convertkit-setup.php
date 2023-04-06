@@ -25,6 +25,11 @@ class ConvertKit_Setup {
 		// Call any functions to e.g. schedule WordPress Cron events now.
 		$posts = new ConvertKit_Resource_Posts( 'cron' );
 		$posts->schedule_cron_event();
+
+		$notices = new ConvertKit_Dismissible_Notices();
+		$notices->schedule_cron_event();
+		unset( $notices );
+
 	}
 
 	/**
@@ -74,6 +79,16 @@ class ConvertKit_Setup {
 		if ( version_compare( $current_version, '1.9.7.4', '<' ) ) {
 			$posts = new ConvertKit_Resource_Posts( 'cron' );
 			$posts->schedule_cron_event();
+		}
+
+		/**
+		 * 2.1.3+: Schedule Account Status Cron event to refresh Account data daily,
+		 * as the activate() routine won't pick this up for existing active installations.
+		 */
+		if ( version_compare( $current_version, '2.1.3', '<' ) ) {
+			$notices = new ConvertKit_Dismissible_Notices();
+			$notices->schedule_cron_event();
+			unset( $notices );
 		}
 
 		// Update the installed version number in the options table.
@@ -203,6 +218,10 @@ class ConvertKit_Setup {
 		// Call any functions to e.g. unschedule WordPress Cron events now.
 		$posts = new ConvertKit_Resource_Posts( 'cron' );
 		$posts->unschedule_cron_event();
+
+		$notices = new ConvertKit_Dismissible_Notices();
+		$notices->unschedule_cron_event();
+		unset( $notices );
 
 	}
 

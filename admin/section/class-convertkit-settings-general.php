@@ -227,14 +227,14 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 			switch ( $this->account->get_error_data( $this->account->get_error_code() ) ) {
 				case 401:
 					// API credentials are invalid.
-					WP_ConvertKit()->get_class( 'admin_notices' )->add( 'authorization_failed' );
+					WP_ConvertKit()->get_class( 'admin_persistent_notices' )->add( 'authorization_failed' );
 					break;
 			}
 
 			$this->output_error( $this->account->get_error_message() );
 		} else {
 			// Remove any existing persistent notice.
-			WP_ConvertKit()->get_class( 'admin_notices' )->delete( 'authorization_failed' );
+			WP_ConvertKit()->get_class( 'admin_persistent_notices' )->delete( 'authorization_failed' );
 		}
 
 	}

@@ -1,6 +1,6 @@
 <?php
 /**
- * ConvertKit Admin Notices class.
+ * ConvertKit Admin Persistent Notices class.
  *
  * @package ConvertKit
  * @author ConvertKit
@@ -13,7 +13,7 @@
  * @package ConvertKit
  * @author ConvertKit
  */
-class ConvertKit_Admin_Notices {
+class ConvertKit_Admin_Persistent_Notices {
 
 	/**
 	 * The key prefix to use for stored notices
@@ -22,7 +22,7 @@ class ConvertKit_Admin_Notices {
 	 *
 	 * @var     string
 	 */
-	private $key_prefix = 'convertkit-admin-notices';
+	private $key_prefix = 'convertkit-admin-persistent-notices';
 
 	/**
 	 * Register output function to display persistent notices
