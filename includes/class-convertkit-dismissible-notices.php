@@ -139,7 +139,19 @@ class ConvertKit_Dismissible_Notices {
 				?>
 				<div class="notice notice-<?php echo esc_attr( $notice_type ); ?> is-dismissible">
 					<p>
-						<?php echo esc_html( stripslashes_deep( $notice ) ); ?>
+						<?php
+						echo sprintf(
+							'ConvertKit: %s',
+							esc_html( stripslashes_deep( $notice['message'] ) )
+						);
+
+						// If a CTA is specified, display a link button now.
+						if ( $notice['cta_text'] && $notice['cta_link'] ) {
+							?>
+							<a href="<?php echo esc_attr( $notice['cta_link'] ); ?>" class="button" target="_blank"><?php echo esc_html( stripslashes_deep( $notice['cta_text'] ) ); ?></a>
+							<?php
+						}
+						?>
 					</p>
 				</div>
 			<?php
@@ -196,11 +208,13 @@ class ConvertKit_Dismissible_Notices {
 	 * 
 	 * @since 	2.2.0
 	 * 
-	 * @param 	string $notice_type 	Notice Type (success,warning,error).
-	 * @param 	string $value 			Message.
-	 * @return 	bool 					Success
+	 * @param 	string 		$notice_type 	Notice Type (success,warning,error).
+	 * @param 	string 		$value 			Message.
+	 * @param 	bool|string $cta_text 		Call to action text.
+	 * @param 	bool|string $cta_link 		Call to action URL.
+	 * @return 	bool 						Success
 	 */
-	private function add_notice( $notice_type, $value ) {
+	public function add_notice( $notice_type, $message, $cta_text = false, $cta_link = false ) {
 
 		// Get any existing notices from the transient.
 		$this->notices = $this->get_notices();
@@ -215,15 +229,18 @@ class ConvertKit_Dismissible_Notices {
 		}
 
 		// Bail if the notice already exists.
-		if ( in_array( $value, $this->notices['success'], true ) ) {
-			return true;
+		foreach ( $this->notices[ $notice_type ] as $notice ) {
+			if ( $notice['message'] === $message ) {
+				return true;
+			}
 		}
 
 		// Add the notice.
-		$this->notices[ $notice_type ][] = $value;
-
-		// Remove any duplicate notices.
-		$this->notices[ $notice_type ] = array_values( array_unique( $this->notices[ $notice_type ] ) );
+		$this->notices[ $notice_type ][] = array(
+			'message' 	=> $message,
+			'cta_text' 	=> $cta_text,
+			'cta_link' 	=> $cta_link,
+		);
 
 		// Store notices.
 		$this->save_notices( $this->notices );

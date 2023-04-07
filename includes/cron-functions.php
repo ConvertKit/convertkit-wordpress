@@ -71,16 +71,33 @@ function convertkit_get_notices() {
 	*/
 
 	// @TODO Fetch notices from e.g. a /wordpress/notices API endpoint.
-	$notices = array(
-		'ConvertKit: Your account is near the subscriber limit. Click here to upgrade!',
-	);
+	$notices = [
+		[
+			'type' => 'error',
+			'message'=> 'You have reached the 1,000 subscriber limit on your free plan.',
+			'cta_text'=> 'Fix now',
+			'cta_link'=> 'https://app.convertkit.com/account_settings/billing',
+		],
+		[
+			'type'=> 'warning',
+			'message'=> 'Congratulations! You\'ve almost reached 1,000 subscribers. To keep growing your list, consider upgrading your plan.',
+			'cta_text'=> 'View plans',
+			'cta_link'=> 'https://app.convertkit.com/account_settings/billing',
+		],
+		[
+			'type'=> 'success',
+			'message'=> 'Great news! For Black Friday 2023, we\'re offering 20% off all Creator plans!',
+			'cta_text'=> 'See offers',
+			'cta_link'=> 'https://app.convertkit.com/account_settings/billing',
+		],
+	];
 
 	foreach ( $notices as $notice ) {
-		WP_ConvertKit()->get_class( 'dismissible_notices' )->add_warning_notice( $notice );
+		WP_ConvertKit()->get_class( 'dismissible_notices' )->add_notice( $notice['type'], $notice['message'], $notice['cta_text'], $notice['cta_link'] );
 	}
 
 	// @TODO Tell the API that we've retrieved the notices and they can be dismissed.
-
+	
 }
 
 // Register action to run above function; this action is created by WordPress' wp_schedule_event() function
