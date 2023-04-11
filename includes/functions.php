@@ -200,6 +200,30 @@ function convertkit_get_blocks() {
 }
 
 /**
+ * Helper method to get registered Block Toolbar Buttons.
+ *
+ * @since   2.2.0
+ *
+ * @return  array   Block Toolbar Buttons
+ */
+function convertkit_get_block_toolbar_buttons() {
+
+	$block_toolbar_buttons = array();
+
+	/**
+	 * Registers block toolbar buttons for the ConvertKit Plugin.
+	 *
+	 * @since   2.2.0
+	 *
+	 * @param   array   $block_toolbar_buttons     Block Toolbar Buttons.
+	 */
+	$block_toolbar_buttons = apply_filters( 'convertkit_block_toolbar_buttons', $block_toolbar_buttons );
+
+	return $block_toolbar_buttons;
+
+}
+
+/**
  * Helper method to return the Plugin Settings Link
  *
  * @since   1.9.6

@@ -141,21 +141,27 @@ class ConvertKit_Gutenberg {
 		// Get settings.
 		$settings = new ConvertKit_Settings();
 
-		// Get blocks.
+		// Get blocks and block toolbar buttons.
 		$blocks = convertkit_get_blocks();
+		$block_toolbar_buttons = convertkit_get_block_toolbar_buttons();
 
 		// Enqueue Gutenberg Javascript, and set the blocks data.
 		wp_enqueue_script( 'convertkit-gutenberg', CONVERTKIT_PLUGIN_URL . 'resources/backend/js/gutenberg.js', array( 'jquery' ), CONVERTKIT_PLUGIN_VERSION, true );
 		wp_localize_script( 'convertkit-gutenberg', 'convertkit_blocks', $blocks );
+
+		// Enqueue Gutenberg Block Toolbar Javascript, and set the block toolbar buttons data.
+		wp_enqueue_script( 'convertkit-gutenberg-block-toolbar-buttons', CONVERTKIT_PLUGIN_URL . 'resources/backend/js/gutenberg-block-toolbar-buttons.js', array( 'jquery' ), CONVERTKIT_PLUGIN_VERSION, true );
+		wp_localize_script( 'convertkit-gutenberg-block-toolbar-buttons', 'convertkit_blocks_toolbar_buttons', $block_toolbar_buttons );
 
 		/**
 		 * Enqueue any additional scripts for Gutenberg blocks that have been registered.
 		 *
 		 * @since   1.9.6.5
 		 *
-		 * @param   array   $blocks     ConvertKit Blocks.
+		 * @param   array   $blocks     			ConvertKit Blocks.
+		 * @param 	array 	$block_toolbar_buttons 	ConvertKit Block Toolbar Buttons.
 		 */
-		do_action( 'convertkit_gutenberg_enqueue_scripts', $blocks );
+		do_action( 'convertkit_gutenberg_enqueue_scripts', $blocks, $block_toolbar_buttons );
 
 	}
 
