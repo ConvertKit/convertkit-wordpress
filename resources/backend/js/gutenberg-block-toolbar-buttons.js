@@ -36,9 +36,29 @@ function convertKitGutenbergRegisterBlockToolbarButton( block ) {
     // Register Block.
     ( function( editor, richText, element, components, block ) {
 
-        const el                        = element.createElement;
-        const { registerFormatType }    = richText;
-        const { RichTextToolbarButton } = editor;
+        const el                              = element.createElement;
+        const { registerFormatType }          = richText;
+        const { BlockControls }               = editor;
+        const { 
+            ToolbarGroup,
+            ToolbarButton
+        } = components;
+
+        // Build Icon, if it's an object.
+        var icon = 'dashicons-tablet';
+        if ( typeof block.gutenberg_icon !== 'undefined' ) {
+            if ( block.gutenberg_icon.search( 'svg' ) >= 0 ) {
+                // SVG.
+                icon = element.RawHTML(
+                    {
+                        children: block.gutenberg_icon
+                    }
+                );
+            } else {
+                // Dashicon.
+                icon = block.gutenberg_icon;
+            }
+        }
 
         // Register Block.
         registerFormatType(
@@ -54,6 +74,26 @@ function convertKitGutenbergRegisterBlockToolbarButton( block ) {
                     console.log( 'edit' );
 
                     return el(
+                        BlockControls,
+                        {},
+                        el(
+                            ToolbarGroup,
+                            {},
+                            el(
+                                ToolbarButton,
+                                {
+                                    icon: icon,
+                                    title: block.title,
+                                    onClick: function() {
+                                        console.log( 'button clicked' );
+                                    }
+                                }
+                            )
+                        )
+                    )
+
+                    /*
+                    return el(
                         RichTextToolbarButton,
                         {
                             icon: 'editor-code',
@@ -63,6 +103,7 @@ function convertKitGutenbergRegisterBlockToolbarButton( block ) {
                             }
                         }
                     );
+                    */
 
                 }
             }
