@@ -12,7 +12,7 @@
  * @package ConvertKit
  * @author  ConvertKit
  */
-class ConvertKit_Block_Toolbar_Button_Link {
+class ConvertKit_Block_Toolbar_Button_Link extends ConvertKit_Block_Toolbar_Button {
 
 	/**
 	 * Constructor
@@ -35,7 +35,7 @@ class ConvertKit_Block_Toolbar_Button_Link {
 	 */
 	public function get_name() {
 
-		return 'link';
+		return 'link-form';
 
 	}
 
@@ -51,7 +51,7 @@ class ConvertKit_Block_Toolbar_Button_Link {
 		return array(
 			'title'                             => __( 'Link to ConvertKit', 'convertkit' ),
 			'description'                       => __( 'Links the selected text to a ConvertKit Form or Product.', 'convertkit' ),
-			'icon'                              => 'resources/backend/images/block-icon-link.png',
+			'icon'                              => 'resources/backend/images/block-icon-form.png',
 			'category'                          => 'convertkit',
 			'keywords'                          => array(
 				__( 'ConvertKit', 'convertkit' ),
@@ -60,7 +60,7 @@ class ConvertKit_Block_Toolbar_Button_Link {
 			),
 
 			// Gutenberg: Block Icon in Editor.
-			'gutenberg_icon'                    => file_get_contents( CONVERTKIT_PLUGIN_PATH . '/resources/backend/images/block-icon-link.svg' ), /* phpcs:ignore */
+			'gutenberg_icon'                    => file_get_contents( CONVERTKIT_PLUGIN_PATH . '/resources/backend/images/block-icon-form.svg' ), /* phpcs:ignore */
 		);
 
 	}

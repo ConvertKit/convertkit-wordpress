@@ -70,6 +70,8 @@ require_once CONVERTKIT_PLUGIN_PATH . '/includes/blocks/class-convertkit-block-b
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/blocks/class-convertkit-block-content.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/blocks/class-convertkit-block-form.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/blocks/class-convertkit-block-product.php';
+require_once CONVERTKIT_PLUGIN_PATH . '/includes/block-toolbar-buttons/class-convertkit-block-toolbar-button.php';
+require_once CONVERTKIT_PLUGIN_PATH . '/includes/block-toolbar-buttons/class-convertkit-block-toolbar-button-link.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/widgets/class-ck-widget-form.php';
 
 // Contact Form 7 Integration.

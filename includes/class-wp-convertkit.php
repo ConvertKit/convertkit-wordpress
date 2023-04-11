@@ -165,6 +165,7 @@ class WP_ConvertKit {
 		$this->classes['blocks_convertkit_content']    = new ConvertKit_Block_Content();
 		$this->classes['blocks_convertkit_form']       = new ConvertKit_Block_Form();
 		$this->classes['blocks_convertkit_product']    = new ConvertKit_Block_Product();
+		$this->classes['block_toolbar_buttons_link']   = new ConvertKit_Block_Toolbar_Button_Link();
 		$this->classes['elementor']                    = new ConvertKit_Elementor();
 		$this->classes['gutenberg']                    = new ConvertKit_Gutenberg();
 		$this->classes['post_type_product']            = new ConvertKit_Post_Type_Product();
