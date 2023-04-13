@@ -28,8 +28,9 @@ class ConvertKit_Block_Toolbar_Button {
 			$this->get_overview(),
 			array(
 				'name'           => $this->get_name(),
-				'fields'         => $this->get_fields(),
+				'tag'			 => $this->get_tag(),
 				'attributes'     => $this->get_attributes(),
+				'fields'         => $this->get_fields(),
 			)
 		);
 
@@ -49,6 +50,17 @@ class ConvertKit_Block_Toolbar_Button {
 		 * - a Gutenberg block toolbar button, with the name convertkit/{name}.
 		 */
 		return '';
+
+	}
+
+	/**
+	 * Returns the tag that this button produces on the HTML output.
+	 *
+	 * @since   2.2.0
+	 */
+	public function get_tag() {
+
+		return 'a';
 
 	}
 

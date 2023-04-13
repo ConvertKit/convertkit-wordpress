@@ -52,13 +52,7 @@ class ConvertKit_Block_Toolbar_Button_Link_Form extends ConvertKit_Block_Toolbar
 			'title'                             => __( 'Link to ConvertKit', 'convertkit' ),
 			'description'                       => __( 'Links the selected text to a ConvertKit Form or Product.', 'convertkit' ),
 			'icon'                              => 'resources/backend/images/block-icon-form.png',
-			'category'                          => 'convertkit',
-			'keywords'                          => array(
-				__( 'ConvertKit', 'convertkit' ),
-				__( 'Form', 'convertkit' ),
-				__( 'Product', 'convertkit' ),
-			),
-
+			
 			// Gutenberg: Block Icon in Editor.
 			'gutenberg_icon'                    => file_get_contents( CONVERTKIT_PLUGIN_PATH . '/resources/backend/images/block-icon-form.svg' ), /* phpcs:ignore */
 		);
@@ -66,7 +60,7 @@ class ConvertKit_Block_Toolbar_Button_Link_Form extends ConvertKit_Block_Toolbar
 	}
 
 	/**
-	 * Returns this button's Attributes
+	 * Returns this button's Attributes 
 	 *
 	 * @since   2.2.0
 	 *
@@ -75,9 +69,8 @@ class ConvertKit_Block_Toolbar_Button_Link_Form extends ConvertKit_Block_Toolbar
 	public function get_attributes() {
 
 		return array(
-			'form'  => array(
-				'type' => 'string',
-			),
+			'data-formkit-toggle' => '',
+            'href' 				  => '',
 		);
 
 	}
