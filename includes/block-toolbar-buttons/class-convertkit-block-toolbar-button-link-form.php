@@ -12,7 +12,7 @@
  * @package ConvertKit
  * @author  ConvertKit
  */
-class ConvertKit_Block_Toolbar_Button_Link extends ConvertKit_Block_Toolbar_Button {
+class ConvertKit_Block_Toolbar_Button_Link_Form extends ConvertKit_Block_Toolbar_Button {
 
 	/**
 	 * Constructor
@@ -82,6 +82,51 @@ class ConvertKit_Block_Toolbar_Button_Link extends ConvertKit_Block_Toolbar_Butt
 
 	}
 
-	
+	/**
+	 * Returns this block's Fields
+	 *
+	 * @since   2.2.0
+	 *
+	 * @return  bool|array
+	 */
+	public function get_fields() {
+
+		// Bail if the request is not for the WordPress Administration or frontend editor.
+		if ( ! WP_ConvertKit()->is_admin_or_frontend_editor() ) {
+			return false;
+		}
+
+		// Get ConvertKit Forms.
+		$forms            = array();
+		$convertkit_forms = new ConvertKit_Resource_Forms( 'block_edit' );
+		if ( $convertkit_forms->exist() ) {
+			foreach ( $convertkit_forms->get() as $form ) {
+				// Ignore inline forms; this button link is only for modal, slide in and sticky bar forms.
+				if ( ! array_key_exists( 'format', $form ) ) {
+					continue;
+				}
+				if ( $form['format'] === 'inline' ) {
+					continue;
+				}
+
+				$forms[ absint( $form['id'] ) ] = sanitize_text_field( $form['name'] );
+			}
+		}
+
+		return array(
+			'form' => array(
+				'label'  => __( 'Form', 'convertkit' ),
+				'type'   => 'select',
+				'values' => $forms,
+				'data'   => array(
+					// Used by resources/backend/js/gutenberg-block-form.js to determine the selected form's format
+					// (modal, slide in, sticky bar) and output a message in the block editor for the preview to explain
+					// why some formats cannot be previewed.
+					'forms' => ( $convertkit_forms->exist() ? $convertkit_forms->get() : array() ),
+				),
+			),
+		);
+
+	}
 
 }

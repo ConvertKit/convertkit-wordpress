@@ -7,8 +7,6 @@
  * @author ConvertKit
  */
 
-console.log( 'loaded' );
-
 // Register Gutenberg Block Toolbar buttons if the Gutenberg Editor is loaded on screen.
 // This prevents JS errors if this script is accidentally enqueued on a non-
 // Gutenberg editor screen, or the Classic Editor Plugin is active.
@@ -31,8 +29,6 @@ if ( typeof wp !== 'undefined' &&
  */
 function convertKitGutenbergRegisterBlockToolbarButton( block ) {
 
-    console.log( block );
-
     // Register Block.
     ( function( editor, richText, element, components, block ) {
 
@@ -52,7 +48,8 @@ function convertKitGutenbergRegisterBlockToolbarButton( block ) {
         }                                     = editor;
         const { 
             ToolbarGroup,
-            ToolbarButton
+            ToolbarButton,
+            SelectControl
         }                                     = components;
 
         // Build Icon, if it's an object.
@@ -82,8 +79,10 @@ function convertKitGutenbergRegisterBlockToolbarButton( block ) {
                 // Editor.
                 edit: function( props ) {
 
-                    const [ showPopover, setShowPopover ] = useState( false );
+                    // Store whether the button has been clicked.
+                    const [ showFields, setShowFields ] = useState( false );
 
+                    // Define array of elements to display when the button is clicked.
                     var elements = [];
 
                     // Define toolbar button.
@@ -91,60 +90,83 @@ function convertKitGutenbergRegisterBlockToolbarButton( block ) {
                         createElement(
                             ToolbarButton,
                             {
+                                key:  'convertkit_' + block.name + '_toolbar_button',
                                 icon: icon,
                                 title: block.title,
                                 onClick: function() {
-                                    console.log( 'button clicked' );
-                                    setShowPopover( true );
-                                    console.log( 'showPopover = ' + showPopover );
+                                    // Set the flag to show the fields using useState().
+                                    setShowFields( true );
                                 }
                             }
                         )
                     );
 
                     // Define fields to display if the button was clicked and we need to show the options.
-                    if ( showPopover ) {
-                        elements.push(
-                            createElement(
-                                URLPopover,
+                    if ( showFields ) {
+                        for ( var attribute in block.fields ) {
+                            const field = block.fields[ attribute ]; // field array.
+                           
+                            // Build options for <select> input.
+                            var fieldOptions = [
                                 {
-                                    className: 'components-inline-color-popover',
-                                    onClose: function() {
-                                        setShowPopover( false );
+                                    label: '(None)',
+                                    value: '',
+                                }
+                            ];
+                            for ( var value in field.values ) {
+                                fieldOptions.push(
+                                    {
+                                        label: field.values[ value ],
+                                        value: value
+                                    }
+                                );
+                            }
+
+                            // Sort field's options alphabetically by label.
+                            fieldOptions.sort(
+                                function ( x, y ) {
+
+                                    let a = x.label.toUpperCase(),
+                                    b     = y.label.toUpperCase();
+                                    return a.localeCompare( b );
+
+                                }
+                            );
+
+                            // Add field to array.
+                            elements.push( createElement(
+                                SelectControl,
+                                {
+                                    id:         'convertkit_' + block.name + '_' + attribute,
+                                    label:      field.label,
+                                    help:       field.description,
+                                    options:    fieldOptions,
+                                    onChange:   function( value ) {
+                                        console.log( value );
+
+                                        // Set the flag to hide the fields using useState().
+                                        setShowFields( false );
                                     }
                                 }
-                            )
-                        );
-                        elements.push(
-                            createElement(
-                                ColorPalette
-                            )
-                        );
+                            ) );
+                        }
                     }
 
+                    // Return.
                     return createElement(
-                        BlockControls,
+                        Fragment,
                         {},
                         createElement(
-                            ToolbarGroup,
+                            BlockControls,
                             {},
-                            elements
+                            createElement(
+                                ToolbarGroup,
+                                {},
+                                elements
+                            )
                         )
                     )
-
-                    /*
-                    return el(
-                        RichTextToolbarButton,
-                        {
-                            icon: 'editor-code',
-                            title: block.title,
-                            onClick: function() {
-                                console.log( 'button clicked' );
-                            }
-                        }
-                    );
-                    */
-
+                    
                 }
             }
         );
