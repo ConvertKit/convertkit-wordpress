@@ -38,7 +38,8 @@ function convertKitGutenbergRegisterBlockToolbarButton( block ) {
         const { 
             registerFormatType,
             toggleFormat,
-            applyFormat
+            applyFormat,
+            useAnchor
         }                                     = richText;
         const { 
             RichTextToolbarButton
@@ -80,6 +81,8 @@ function convertKitGutenbergRegisterBlockToolbarButton( block ) {
                 // Editor.
                 edit: function( props ) {
 
+                    const anchorRef = useAnchor( props );
+
                     // Define array of elements to display when the button is clicked.
                     var elements = [];
 
@@ -120,6 +123,8 @@ function convertKitGutenbergRegisterBlockToolbarButton( block ) {
                             {
                                 key:        'convertkit_' + block.name + '_' + fieldName,
                                 label:      field.label,
+
+                                // @TODO Fetch from attributes? activeAttributes seems empty.
                                 value:      props.activeAttributes[ fieldName ] ? props.activeAttributes[ fieldName ] : '',
                                 help:       field.description,
                                 options:    fieldOptions,
@@ -130,6 +135,9 @@ function convertKitGutenbergRegisterBlockToolbarButton( block ) {
                                     for ( var attribute in block.attributes ) {
                                         attributes[ attribute ] = field.data[ value ][ attribute ];
                                     }
+
+                                    // @TODO If no text was selected, nothing happens. What do we do here?
+                                    // Do we insert text at the pointer and then format it?
 
                                     // Apply formatting changes.
                                     props.onChange( applyFormat(
@@ -144,6 +152,8 @@ function convertKitGutenbergRegisterBlockToolbarButton( block ) {
                             }
                         ) );
                     }
+
+                    console.log( props.value );
 
                     return [
                         // Register the button in the rich text toolbar.
@@ -162,7 +172,7 @@ function convertKitGutenbergRegisterBlockToolbarButton( block ) {
                                         })
                                     )
                                 }
-                            }
+                            },
                         ),
 
                         // Popover which displays fields when the button is active.
@@ -170,11 +180,10 @@ function convertKitGutenbergRegisterBlockToolbarButton( block ) {
                             Popover,
                             {
                                 key:  'convertkit_' + block.name + '_popover',
-                                position: 'bottom center',
-                                headerTitle: 'Sets Attributes',
+                                anchor: anchorRef
                             },
                             elements
-                        ))
+                        ) )
                     ];
                 }
             }
