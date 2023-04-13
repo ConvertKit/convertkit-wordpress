@@ -36,13 +36,24 @@ function convertKitGutenbergRegisterBlockToolbarButton( block ) {
     // Register Block.
     ( function( editor, richText, element, components, block ) {
 
-        const el                              = element.createElement;
-        const { registerFormatType }          = richText;
-        const { BlockControls }               = editor;
+        const {
+            createElement,
+            Fragment,
+            useState
+        }                                     = element;
+        const { 
+            registerFormatType,
+            toggleFormat
+        }                                     = richText;
+        const { 
+            BlockControls,
+            URLPopover,
+            ColorPalette
+        }                                     = editor;
         const { 
             ToolbarGroup,
             ToolbarButton
-        } = components;
+        }                                     = components;
 
         // Build Icon, if it's an object.
         var icon = 'dashicons-tablet';
@@ -71,24 +82,53 @@ function convertKitGutenbergRegisterBlockToolbarButton( block ) {
                 // Editor.
                 edit: function( props ) {
 
-                    console.log( 'edit' );
+                    const [ showPopover, setShowPopover ] = useState( false );
 
-                    return el(
-                        BlockControls,
-                        {},
-                        el(
-                            ToolbarGroup,
-                            {},
-                            el(
-                                ToolbarButton,
+                    var elements = [];
+
+                    // Define toolbar button.
+                    elements.push(
+                        createElement(
+                            ToolbarButton,
+                            {
+                                icon: icon,
+                                title: block.title,
+                                onClick: function() {
+                                    console.log( 'button clicked' );
+                                    setShowPopover( true );
+                                    console.log( 'showPopover = ' + showPopover );
+                                }
+                            }
+                        )
+                    );
+
+                    // Define fields to display if the button was clicked and we need to show the options.
+                    if ( showPopover ) {
+                        elements.push(
+                            createElement(
+                                URLPopover,
                                 {
-                                    icon: icon,
-                                    title: block.title,
-                                    onClick: function() {
-                                        console.log( 'button clicked' );
+                                    className: 'components-inline-color-popover',
+                                    onClose: function() {
+                                        setShowPopover( false );
                                     }
                                 }
                             )
+                        );
+                        elements.push(
+                            createElement(
+                                ColorPalette
+                            )
+                        );
+                    }
+
+                    return createElement(
+                        BlockControls,
+                        {},
+                        createElement(
+                            ToolbarGroup,
+                            {},
+                            elements
                         )
                     )
 
