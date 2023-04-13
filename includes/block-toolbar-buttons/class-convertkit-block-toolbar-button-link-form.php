@@ -90,7 +90,11 @@ class ConvertKit_Block_Toolbar_Button_Link_Form extends ConvertKit_Block_Toolbar
 		}
 
 		// Get ConvertKit Forms.
-		$forms            = array();
+		$forms            			= array();
+		$forms_attributes  = array(
+			'data-formkit-toggle' => array(),
+			'href' => array(),
+		);
 		$convertkit_forms = new ConvertKit_Resource_Forms( 'block_edit' );
 		if ( $convertkit_forms->exist() ) {
 			foreach ( $convertkit_forms->get() as $form ) {
@@ -102,7 +106,10 @@ class ConvertKit_Block_Toolbar_Button_Link_Form extends ConvertKit_Block_Toolbar
 					continue;
 				}
 
+				// Add this form to the arrays.
 				$forms[ absint( $form['id'] ) ] = sanitize_text_field( $form['name'] );
+				$forms_attributes['data-formkit-toggle'][ absint( $form['id'] ) ] = $form['uid'];
+				$forms_attributes['href'][ absint( $form['id'] ) ] = $form['embed_url'];
 			}
 		}
 
@@ -110,13 +117,12 @@ class ConvertKit_Block_Toolbar_Button_Link_Form extends ConvertKit_Block_Toolbar
 			'form' => array(
 				'label'  => __( 'Form', 'convertkit' ),
 				'type'   => 'select',
+
+				// Key/value pairs for the <select> dropdown.
 				'values' => $forms,
-				'data'   => array(
-					// Used by resources/backend/js/gutenberg-block-form.js to determine the selected form's format
-					// (modal, slide in, sticky bar) and output a message in the block editor for the preview to explain
-					// why some formats cannot be previewed.
-					'forms' => ( $convertkit_forms->exist() ? $convertkit_forms->get() : array() ),
-				),
+
+				// Contains all additional data required to build the link.
+				'data'   => $forms_attributes,
 			),
 		);
 

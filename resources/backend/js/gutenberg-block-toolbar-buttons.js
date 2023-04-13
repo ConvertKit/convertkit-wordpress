@@ -71,8 +71,12 @@ function convertKitGutenbergRegisterBlockToolbarButton( block ) {
             'convertkit/' + block.name,
             {
                 title:      block.title,
+
+                // The tagName and className combination allow Gutenberg to uniquely identify
+                // whether this formatter has been used on the selected text.
                 tagName:    block.tag,
                 className:  block.name,
+
                 attributes: block.attributes,
 
                 // Editor.
@@ -82,9 +86,9 @@ function convertKitGutenbergRegisterBlockToolbarButton( block ) {
                     var elements = [];
 
                     // Define fields.
-                    for ( var attribute in block.fields ) {
-                        const field = block.fields[ attribute ];
-                       
+                    for ( var fieldName in block.fields ) {
+                        const field = block.fields[ fieldName ];
+
                         // Build options for <select> input.
                         var fieldOptions = [
                             {
@@ -112,28 +116,31 @@ function convertKitGutenbergRegisterBlockToolbarButton( block ) {
                             }
                         );
 
+                        console.log( props.activeAttributes );
+
                         // Add field to array.
                         elements.push( createElement(
                             SelectControl,
                             {
-                                key:        'convertkit_' + block.name + '_' + attribute,
+                                key:        'convertkit_' + block.name + '_' + fieldName,
                                 label:      field.label,
-                                value:      props.activeAttributes[ attribute ] ? props.activeAttributes[ attribute ] : '',
+                                value:      props.activeAttributes[ fieldName ] ? props.activeAttributes[ fieldName ] : '',
                                 help:       field.description,
                                 options:    fieldOptions,
                                 onChange:   function( value ) {
+
+                                    // Update the attributes.
+                                    var attributes = {};
+                                    for ( var attribute in block.attributes ) {
+                                        attributes[ attribute ] = field.data[ attribute ][ value ];
+                                    }
 
                                     // Apply formatting changes.
                                     props.onChange( applyFormat(
                                         props.value,
                                         {
                                             type: type,
-
-                                            // @TODO Make dynamic based on registered attributes.
-                                            attributes: {
-                                                'data-formkit-toggle': value,
-                                                'href': 'http://something.com/' + value
-                                            }
+                                            attributes: attributes
                                         }
                                     ) );
 
@@ -143,6 +150,7 @@ function convertKitGutenbergRegisterBlockToolbarButton( block ) {
                     }
 
                     return [
+                        // Register the button in the rich text toolbar.
                         createElement(
                             RichTextToolbarButton,
                             {
@@ -151,6 +159,7 @@ function convertKitGutenbergRegisterBlockToolbarButton( block ) {
                                 title: block.title,
                                 isActive: props.isActive,
                                 onClick: function() {
+                                    // Add / remove this formatter's name to the element.
                                     props.onChange(
                                         toggleFormat( props.value, {
                                             type: type
@@ -159,6 +168,8 @@ function convertKitGutenbergRegisterBlockToolbarButton( block ) {
                                 }
                             }
                         ),
+
+                        // Popover which displays fields when the button is active.
                         props.isActive && ( createElement(
                             Popover,
                             {
