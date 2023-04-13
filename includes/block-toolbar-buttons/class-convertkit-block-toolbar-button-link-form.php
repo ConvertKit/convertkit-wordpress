@@ -15,6 +15,15 @@
 class ConvertKit_Block_Toolbar_Button_Link_Form extends ConvertKit_Block_Toolbar_Button {
 
 	/**
+	 * Holds the ConvertKit Forms resource class.
+	 *
+	 * @since   2.2.0
+	 *
+	 * @var     bool|ConvertKit_Resource_Forms
+	 */
+	public $forms = false;
+
+	/**
 	 * Constructor
 	 *
 	 * @since   2.2.0
@@ -23,6 +32,10 @@ class ConvertKit_Block_Toolbar_Button_Link_Form extends ConvertKit_Block_Toolbar
 
 		// Register this as a Gutenberg block toolbar button in the ConvertKit Plugin.
 		add_filter( 'convertkit_block_toolbar_buttons', array( $this, 'register' ) );
+
+		// Output JS.
+				// Adds the data-commerce attribute to HTML links that link to a ConvertKit Product.
+		add_filter( 'the_content', array( $this, 'maybe_append_script' ) );
 
 	}
 
@@ -69,7 +82,7 @@ class ConvertKit_Block_Toolbar_Button_Link_Form extends ConvertKit_Block_Toolbar
 	public function get_attributes() {
 
 		return array(
-			//'data-form'		  	  => '', // Not needed for ConvertKit, but required for Gutenberg to know which Form to populate the <select> with.
+			'data-id'		  	  => '',
 			'data-formkit-toggle' => '',
             'href' 				  => '',
 		);
@@ -107,6 +120,7 @@ class ConvertKit_Block_Toolbar_Button_Link_Form extends ConvertKit_Block_Toolbar
 				// Add this form's necessary to the attribute arrays.
 				$forms[ absint( $form['id'] ) ] = sanitize_text_field( $form['name'] );
 				$forms_data[ absint( $form['id'] ) ] = array(
+					'data-id'				=> sanitize_text_field( $form['id'] ),
 					'data-formkit-toggle' 	=> sanitize_text_field( $form['uid'] ),
 					'href' 					=> $form['embed_url'],
 				);
@@ -116,16 +130,92 @@ class ConvertKit_Block_Toolbar_Button_Link_Form extends ConvertKit_Block_Toolbar
 		// Return field.
 		return array(
 			'form' => array(
-				'label'  => __( 'Form', 'convertkit' ),
-				'type'   => 'select',
+				'label'  		=> __( 'Form', 'convertkit' ),
+				'type'   		=> 'select',
+				'description' 	=> __( 'The modal, sticky bar or slide in form to display when the text is clicked.', 'convertkit' ),
 
 				// Key/value pairs for the <select> dropdown.
-				'values' => $forms,
+				'values' 		=> $forms,
 
 				// Contains all additional data required to build the link.
-				'data'   => $forms_data,
+				'data'   		=> $forms_data,
 			),
 		);
+
+	}
+
+	/**
+	 * Filters the Post / Page's content, appending the necessary ConvertKit script where
+	 * modal, sticky bar or slide in form links have been added by this block formatter
+	 * in Gutenberg.
+	 * 
+	 * We do this here, because we can't arbitrarily inject a <script> using a block formatter
+	 * in Gutenberg.
+	 *
+	 * @since   2.2.0
+	 *
+	 * @param   string $content    Page/Post Content.
+	 * @return  string              Page/Post Content
+	 */
+	public function maybe_append_script( $content ) {
+
+		// Return content, unedited, if no form links exist in the content.
+		if ( strpos( $content, 'data-formkit-toggle' ) === false ) {
+			return $content;
+		}
+
+		// Get Forms.
+		$this->forms = new ConvertKit_Resource_Forms();
+
+		// Return content, unedited, if no Forms exist.
+		if ( ! $this->forms->exist() ) {
+			return $content;
+		}
+
+		// Inject scripts.
+		$content = preg_replace_callback(
+			'#<a data-id="([^"]*)" data-formkit-toggle="([^"]*)".*?href="([^"]*)".*?>([^>]*)</a>#i',
+			array( $this, 'inject_scripts' ),
+			$content
+		);
+
+		// Return.
+		return $content;
+
+	}
+
+	/**
+	 * Callback function to append script to a matching link.
+	 * 
+	 * @since 	2.2.0
+	 * 
+	 * @param 	array 	$match 	preg_replace_callback() match.
+	 * @return 	string 			Link with script appended
+	 */
+	public function inject_scripts( $match ) {
+
+		// Get Form by its ID.
+		$form = $this->forms->get_by_id( absint( $match[1] ) );
+
+		// Just return the original element, unedited, if the Form could not be found.
+		if ( ! $form ) {
+			return $match[0];
+		}
+
+		// Return the original link, unedited, if the Form doesn't have a UID or JS embed.
+		// This prevents issues with legacy modal forms.
+		if ( ! array_key_exists( 'uid', $form ) ) {
+			return $match[0];
+		}
+		if ( ! array_key_exists( 'embed_js', $form ) ) {
+			return $match[0];
+		}
+
+		// Inject the script immediately after the link.
+		$script = '<script async data-uid="' . esc_attr( $form['uid'] ) . '" src="' . esc_url( $form['embed_js'] ) .'"></script>';
+
+		// Return.
+		return $match[0] . $script;
 
 	}
 
