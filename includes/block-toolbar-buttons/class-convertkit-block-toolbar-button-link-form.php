@@ -69,6 +69,7 @@ class ConvertKit_Block_Toolbar_Button_Link_Form extends ConvertKit_Block_Toolbar
 	public function get_attributes() {
 
 		return array(
+			//'data-form'		  	  => '', // Not needed for ConvertKit, but required for Gutenberg to know which Form to populate the <select> with.
 			'data-formkit-toggle' => '',
             'href' 				  => '',
 		);
@@ -90,11 +91,8 @@ class ConvertKit_Block_Toolbar_Button_Link_Form extends ConvertKit_Block_Toolbar
 		}
 
 		// Get ConvertKit Forms.
-		$forms            			= array();
-		$forms_attributes  = array(
-			'data-formkit-toggle' => array(),
-			'href' => array(),
-		);
+		$forms            = array();
+		$forms_data 	  = array();
 		$convertkit_forms = new ConvertKit_Resource_Forms( 'block_edit' );
 		if ( $convertkit_forms->exist() ) {
 			foreach ( $convertkit_forms->get() as $form ) {
@@ -106,13 +104,16 @@ class ConvertKit_Block_Toolbar_Button_Link_Form extends ConvertKit_Block_Toolbar
 					continue;
 				}
 
-				// Add this form to the arrays.
+				// Add this form's necessary to the attribute arrays.
 				$forms[ absint( $form['id'] ) ] = sanitize_text_field( $form['name'] );
-				$forms_attributes['data-formkit-toggle'][ absint( $form['id'] ) ] = $form['uid'];
-				$forms_attributes['href'][ absint( $form['id'] ) ] = $form['embed_url'];
+				$forms_data[ absint( $form['id'] ) ] = array(
+					'data-formkit-toggle' 	=> sanitize_text_field( $form['uid'] ),
+					'href' 					=> $form['embed_url'],
+				);
 			}
 		}
 
+		// Return field.
 		return array(
 			'form' => array(
 				'label'  => __( 'Form', 'convertkit' ),
@@ -122,7 +123,7 @@ class ConvertKit_Block_Toolbar_Button_Link_Form extends ConvertKit_Block_Toolbar
 				'values' => $forms,
 
 				// Contains all additional data required to build the link.
-				'data'   => $forms_attributes,
+				'data'   => $forms_data,
 			),
 		);
 

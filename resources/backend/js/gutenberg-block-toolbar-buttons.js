@@ -64,8 +64,6 @@ function convertKitGutenbergRegisterBlockToolbarButton( block ) {
             }
         }
 
-        const type = 'convertkit/' + block.name;
-
         // Register Format Type.
         registerFormatType(
             'convertkit/' + block.name,
@@ -116,8 +114,6 @@ function convertKitGutenbergRegisterBlockToolbarButton( block ) {
                             }
                         );
 
-                        console.log( props.activeAttributes );
-
                         // Add field to array.
                         elements.push( createElement(
                             SelectControl,
@@ -132,14 +128,14 @@ function convertKitGutenbergRegisterBlockToolbarButton( block ) {
                                     // Update the attributes.
                                     var attributes = {};
                                     for ( var attribute in block.attributes ) {
-                                        attributes[ attribute ] = field.data[ attribute ][ value ];
+                                        attributes[ attribute ] = field.data[ value ][ attribute ];
                                     }
 
                                     // Apply formatting changes.
                                     props.onChange( applyFormat(
                                         props.value,
                                         {
-                                            type: type,
+                                            type: 'convertkit/' + block.name,
                                             attributes: attributes
                                         }
                                     ) );
@@ -162,7 +158,7 @@ function convertKitGutenbergRegisterBlockToolbarButton( block ) {
                                     // Add / remove this formatter's name to the element.
                                     props.onChange(
                                         toggleFormat( props.value, {
-                                            type: type
+                                            type: 'convertkit/' + block.name
                                         })
                                     )
                                 }
