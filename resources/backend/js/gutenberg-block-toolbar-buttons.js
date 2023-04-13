@@ -39,7 +39,12 @@ function convertKitGutenbergRegisterBlockToolbarButton( block ) {
         }                                     = element;
         const { 
             registerFormatType,
-            toggleFormat
+            getTextContent,
+            slice,
+            insert,
+            create,
+            toggleFormat,
+            applyFormat
         }                                     = richText;
         const { 
             BlockControls,
@@ -68,7 +73,9 @@ function convertKitGutenbergRegisterBlockToolbarButton( block ) {
             }
         }
 
-        // Register Block.
+        const type = 'convertkit/' + block.name;
+
+        // Register Format Type.
         registerFormatType(
             'convertkit/' + block.name,
             {
@@ -79,27 +86,30 @@ function convertKitGutenbergRegisterBlockToolbarButton( block ) {
                 // Editor.
                 edit: function( props ) {
 
-                    // Store whether the button has been clicked.
+                    // Get properties we want to inspect.
+                    const { 
+                        isActive,
+                        onChange,
+                        value
+                    } = props;
+
+                    // What is going on here?
+                    const onToggle = function() {
+                        // Set up the anchorRange when the Popover is opened.
+                        const selection = document.defaultView.getSelection();
+
+                        anchorRange = selection.rangeCount > 0 ? selection.getRangeAt( 0 ) : null;
+                        onChange( toggleFormat( value, { type } ) );
+                    };
+
+                    // Get selected text. If none is selected, this string will be blank.
+                    const selectedText = getTextContent( slice( value ) );
+
+                    // Store whether the fields should be displayed i.e. has the button been clicked.
                     const [ showFields, setShowFields ] = useState( false );
 
                     // Define array of elements to display when the button is clicked.
                     var elements = [];
-
-                    // Define toolbar button.
-                    elements.push(
-                        createElement(
-                            ToolbarButton,
-                            {
-                                key:  'convertkit_' + block.name + '_toolbar_button',
-                                icon: icon,
-                                title: block.title,
-                                onClick: function() {
-                                    // Set the flag to show the fields using useState().
-                                    setShowFields( true );
-                                }
-                            }
-                        )
-                    );
 
                     // Define fields to display if the button was clicked and we need to show the options.
                     if ( showFields ) {
@@ -113,11 +123,11 @@ function convertKitGutenbergRegisterBlockToolbarButton( block ) {
                                     value: '',
                                 }
                             ];
-                            for ( var value in field.values ) {
+                            for ( var fieldValue in field.values ) {
                                 fieldOptions.push(
                                     {
-                                        label: field.values[ value ],
-                                        value: value
+                                        label: field.values[ fieldValue ],
+                                        value: fieldValue
                                     }
                                 );
                             }
@@ -137,15 +147,56 @@ function convertKitGutenbergRegisterBlockToolbarButton( block ) {
                             elements.push( createElement(
                                 SelectControl,
                                 {
-                                    id:         'convertkit_' + block.name + '_' + attribute,
+                                    key:        'convertkit_' + block.name + '_' + attribute,
                                     label:      field.label,
                                     help:       field.description,
                                     options:    fieldOptions,
-                                    onChange:   function( value ) {
-                                        console.log( value );
+                                    onChange:   function( formID ) {
+
+                                        const newValue = {
+                                            ...formID,
+                                            formats: value.formats.splice(
+                                                value.start,
+                                                0,
+                                                value.formats.at( value.start )
+                                            ),
+                                            text: '<a href="#">' + formID + '</a>',
+                                        };
+
+                                        onChange( insert( value, newValue ) );
+
+                                        //onChange( toggleFormat( value, { type } ) );
+
+                                        /*
+                                        onChange( toggleFormat( value, {
+                                            attributes: {
+                                                'href': '#' + formID,
+                                                'data-test': 'yes'
+                                            }
+                                        }));
+                                        */
 
                                         // Set the flag to hide the fields using useState().
                                         setShowFields( false );
+
+                                        /*
+                                        console.log( selectedText );
+                                        console.log( value );
+                                        console.log( formID );
+
+                                        element = create({
+                                            'html' : 'before ' + formID + ' after'
+                                        });
+
+                                        if( element.formats.length === 0 ) {
+                                            return;
+                                        }
+                                        for ( let i = element.formats[0].length - 1; i >= 0; i-- ) {
+                                            value = toggleFormat(value, element.formats[0][i]);
+                                        }
+
+                                        onChange(value);
+                                        */
                                     }
                                 }
                             ) );
@@ -162,7 +213,29 @@ function convertKitGutenbergRegisterBlockToolbarButton( block ) {
                             createElement(
                                 ToolbarGroup,
                                 {},
-                                elements
+                                [
+                                    createElement(
+                                        ToolbarButton,
+                                        {
+                                            key:  'convertkit_' + block.name + '_toolbar_button',
+                                            icon: icon,
+                                            title: block.title,
+                                            onClick: function() {
+                                                // Set the flag to show the fields using useState().
+                                                setShowFields( true );
+
+                                                onToggle;
+                                            }
+                                        }
+                                    ),
+                                    createElement(
+                                        URLPopover,
+                                        {
+                                            key:  'convertkit_' + block.name + '_toolbar_button_fields',
+                                        },
+                                        elements
+                                    )
+                                ]
                             )
                         )
                     )
