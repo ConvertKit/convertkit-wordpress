@@ -82,7 +82,7 @@ class ConvertKit_Block_Form_Trigger extends ConvertKit_Block {
 
 		return array(
 			'title'                             => __( 'ConvertKit Form Trigger', 'convertkit' ),
-			'description'                       => __( 'Displays a button which, when clicked, displays a modal, sticky bar or slide in form.', 'convertkit' ),
+			'description'                       => __( 'Displays a modal, sticky bar or slide in form to display when the button is pressed.', 'convertkit' ),
 			'icon'                              => 'resources/backend/images/block-icon-form.png',
 			'category'                          => 'convertkit',
 			'keywords'                          => array(
@@ -251,9 +251,10 @@ class ConvertKit_Block_Form_Trigger extends ConvertKit_Block {
 		// automatically by Gutenberg.
 		return array(
 			'form'          => array(
-				'label'  => __( 'Form', 'convertkit' ),
-				'type'   => 'select',
-				'values' => $forms,
+				'label'  		=> __( 'Form', 'convertkit' ),
+				'type'   		=> 'select',
+				'values' 		=> $forms,
+				'description' 	=> __( 'The modal, sticky bar or slide in form to display when the button is pressed. To embed a form, use the ConvertKit Form block instead.', 'convertkit' ),
 			),
 			'text'             => array(
 				'label'       => __( 'Button Text', 'convertkit' ),
