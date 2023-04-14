@@ -1,0 +1,288 @@
+<?php
+/**
+ * Tests for the ConvertKit Form Trigger Gutenberg Block.
+ *
+ * @since   2.2.0
+ */
+class PageBlockFormTriggerCest
+{
+	/**
+	 * Run common actions before running the test functions in this class.
+	 *
+	 * @since   2.2.0
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function _before(AcceptanceTester $I)
+	{
+		$I->activateConvertKitPlugin($I);
+
+		// Setup ConvertKit Plugin with no default form specified.
+		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY'], $_ENV['CONVERTKIT_API_SECRET'], '', '', '');
+		$I->setupConvertKitPluginResources($I);
+	}
+
+	/**
+	 * Test the Form Trigger block works when using a valid Form parameter.
+	 *
+	 * @since   2.2.0
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testFormTriggerBlockWithValidFormParameter(AcceptanceTester $I)
+	{
+		// Add a Page using the Gutenberg editor.
+		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form Trigger: Valid Form Param');
+
+		// Configure metabox's Form setting = None, ensuring we only test the block in Gutenberg.
+		$I->configureMetaboxSettings(
+			$I,
+			'wp-convertkit-meta-box',
+			[
+				'form' => [ 'select2', 'None' ],
+			]
+		);
+
+		// Add block to Page, setting the Form setting to the value specified in the .env file.
+		$I->addGutenbergBlock(
+			$I,
+			'ConvertKit Form Trigger',
+			'convertkit-formtrigger',
+			[
+				'form' => [ 'select', $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_NAME'] ],
+			]
+		);
+
+		// Publish and view the Page on the frontend site.
+		$I->publishAndViewGutenbergPage($I);
+
+		// Confirm that the block displays.
+		$I->seeFormTriggerOutput($I, $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_URL'], 'Subscribe');
+	}
+
+	/**
+	 * Test the Form Trigger block works when not defining a Form parameter.
+	 *
+	 * @since   2.2.0
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testFormTriggerBlockWithNoFormParameter(AcceptanceTester $I)
+	{
+		// Add a Page using the Gutenberg editor.
+		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form Trigger: No Form Param');
+
+		// Configure metabox's Form setting = None, ensuring we only test the block in Gutenberg.
+		$I->configureMetaboxSettings(
+			$I,
+			'wp-convertkit-meta-box',
+			[
+				'form' => [ 'select2', 'None' ],
+			]
+		);
+
+		// Add block to Page.
+		$I->addGutenbergBlock($I, 'ConvertKit Form Trigger', 'convertkit-formtrigger');
+
+		// Confirm that the Form block displays instructions to the user on how to select a Form.
+		$I->see(
+			'Select a Form using the Form option in the Gutenberg sidebar.',
+			[
+				'css' => '.convertkit-no-content',
+			]
+		);
+
+		// Publish and view the Page on the frontend site.
+		$I->publishAndViewGutenbergPage($I);
+
+		// Confirm that no ConvertKit Form trigger button is displayed.
+		$I->dontSeeFormTriggerOutput($I);
+	}
+
+	/**
+	 * Test the Form Trigger block's text parameter works.
+	 *
+	 * @since   2.2.0
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testFormTriggerBlockWithTextParameter(AcceptanceTester $I)
+	{
+		// Add a Page using the Gutenberg editor.
+		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form Trigger: Text Param');
+
+		// Add block to Page, setting the date format.
+		$I->addGutenbergBlock(
+			$I,
+			'ConvertKit Form Trigger',
+			'convertkit-formtrigger',
+			[
+				'form' 	=> [ 'select', $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_NAME'] ],
+				'text'  => [ 'text', 'Sign up' ],
+			]
+		);
+
+		// Publish and view the Page on the frontend site.
+		$I->publishAndViewGutenbergPage($I);
+
+		// Confirm that the block displays.
+		$I->seeFormTriggerOutput($I, $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_URL'], 'Sign up');
+	}
+
+	/**
+	 * Test the Form Trigger block's default text value is output when the text parameter is blank.
+	 *
+	 * @since   2.0.3
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testFormTriggerBlockWithBlankTextParameter(AcceptanceTester $I)
+	{
+		// Add a Page using the Gutenberg editor.
+		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form Trigger: Blank Text Param');
+
+		// Add block to Page, setting the date format.
+		$I->addGutenbergBlock(
+			$I,
+			'ConvertKit Form Trigger',
+			'convertkit-formtrigger',
+			[
+				'form' 	=> [ 'select', $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_NAME'] ],
+				'text'  => [ 'text', '' ],
+			]
+		);
+
+		// Publish and view the Page on the frontend site.
+		$I->publishAndViewGutenbergPage($I);
+
+		// Confirm that the block displays.
+		$I->seeFormTriggerOutput($I, $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_URL'], 'Subscribe');
+	}
+
+	/**
+	 * Test the Form Trigger block's theme color parameters works.
+	 *
+	 * @since   2.2.0
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testFormTriggerBlockWithThemeColorParameters(AcceptanceTester $I)
+	{
+		// Define colors.
+		$backgroundColor = 'white';
+		$textColor       = 'purple';
+
+		// It's tricky to interact with Gutenberg's color picker, so we programmatically create the Page
+		// instead to then confirm the color settings apply on the output.
+		// We don't need to test the color picker itself, as it's a Gutenberg supplied component, and our
+		// other Acceptance tests confirm that the block can be added in Gutenberg etc.
+		$I->havePageInDatabase(
+			[
+				'post_name'    => 'convertkit-page-form-trigger-block-theme-color-params',
+				'post_content' => '<!-- wp:convertkit/formtrigger {"form":"' . $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_ID'] . '","backgroundColor":"' . $backgroundColor . '","textColor":"' . $textColor . '"} /-->',
+			]
+		);
+
+		// Load the Page on the frontend site.
+		$I->amOnPage('/convertkit-page-form-trigger-block-theme-color-params');
+
+		// Wait for frontend web site to load.
+		$I->waitForElementVisible('body.page-template-default');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Confirm that the block displays.
+		$I->seeFormTriggerOutput($I, $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_URL']);
+
+		// Confirm that the chosen colors are applied as CSS styles.
+		$I->seeInSource('class="wp-block-button__link convertkit-formtrigger has-text-color has-' . $textColor . '-color has-background has-' . $backgroundColor . '-background-color');
+	}
+
+	/**
+	 * Test the Form Trigger block's hex color parameters works.
+	 *
+	 * @since   2.2.0
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testFormTriggerBlockWithHexColorParameters(AcceptanceTester $I)
+	{
+		// Define colors.
+		$backgroundColor = '#ee1616';
+		$textColor       = '#1212c0';
+
+		// It's tricky to interact with Gutenberg's color picker, so we programmatically create the Page
+		// instead to then confirm the color settings apply on the output.
+		// We don't need to test the color picker itself, as it's a Gutenberg supplied component, and our
+		// other Acceptance tests confirm that the block can be added in Gutenberg etc.
+		$I->havePageInDatabase(
+			[
+				'post_name'    => 'convertkit-page-form-trigger-block-hex-color-params',
+				'post_content' => '<!-- wp:convertkit/formtrigger {"form":"' . $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_ID'] . '","style":{"color":{"text":"' . $textColor . '","background":"' . $backgroundColor . '"}}} /-->',
+			]
+		);
+
+		// Load the Page on the frontend site.
+		$I->amOnPage('/convertkit-page-form-trigger-block-hex-color-params');
+
+		// Wait for frontend web site to load.
+		$I->waitForElementVisible('body.page-template-default');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Confirm that the block displays.
+		$I->seeFormTriggerOutput($I, $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_URL'], 'Subscribe', $textColor, $backgroundColor);
+	}
+
+	/**
+	 * Test the Form Trigger block's parameters are correctly escaped on output,
+	 * to prevent XSS.
+	 *
+	 * @since   2.0.5
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testFormTriggerBlockParameterEscaping(AcceptanceTester $I)
+	{
+		// Define a 'bad' block.  This is difficult to do in Gutenberg, but let's assume it's possible.
+		$I->havePageInDatabase(
+			[
+				'post_name'    => 'convertkit-page-form-trigger-block-parameter-escaping',
+				'post_content' => '<!-- wp:convertkit/formtrigger {"form":"' . $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_ID'] . '","style":{"color":{"text":"red\" onmouseover=\"alert(1)\""}}} /-->',
+			]
+		);
+
+		// Load the Page on the frontend site.
+		$I->amOnPage('/convertkit-page-form-trigger-block-parameter-escaping');
+
+		// Wait for frontend web site to load.
+		$I->waitForElementVisible('body.page-template-default');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Confirm that the output is escaped.
+		$I->seeInSource('style="color:red&quot; onmouseover=&quot;alert(1)&quot;"');
+		$I->dontSeeInSource('style="color:red" onmouseover="alert(1)""');
+
+		// Confirm that the ConvertKit Form Trigger is displayed.
+		$I->seeFormTriggerOutput($I, $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_URL'], 'Subscribe');
+	}
+
+	/**
+	 * Deactivate and reset Plugin(s) after each test, if the test passes.
+	 * We don't use _after, as this would provide a screenshot of the Plugin
+	 * deactivation and not the true test error.
+	 *
+	 * @since   2.2.0
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function _passed(AcceptanceTester $I)
+	{
+		$I->deactivateConvertKitPlugin($I);
+		$I->resetConvertKitPlugin($I);
+	}
+}
