@@ -127,7 +127,7 @@ class ConvertKit_Block_Form_Trigger extends ConvertKit_Block {
 
 		return array(
 			// Block attributes.
-			'form'              => array(
+			'form'                 => array(
 				'type'    => 'string',
 				'default' => $this->get_default_value( 'form' ),
 			),
@@ -226,7 +226,7 @@ class ConvertKit_Block_Form_Trigger extends ConvertKit_Block {
 		}
 
 		// Get ConvertKit Forms.
-		$forms = array();
+		$forms            = array();
 		$convertkit_forms = new ConvertKit_Resource_Forms( 'block_edit' );
 		if ( $convertkit_forms->exist() ) {
 			foreach ( $convertkit_forms->get() as $form ) {
@@ -250,11 +250,11 @@ class ConvertKit_Block_Form_Trigger extends ConvertKit_Block {
 		// Gutenberg's built-in fields (such as styling, padding etc) don't need to be defined here, as they'll be included
 		// automatically by Gutenberg.
 		return array(
-			'form'          => array(
-				'label'  		=> __( 'Form', 'convertkit' ),
-				'type'   		=> 'select',
-				'values' 		=> $forms,
-				'description' 	=> __( 'The modal, sticky bar or slide in form to display when the button is pressed. To embed a form, use the ConvertKit Form block instead.', 'convertkit' ),
+			'form'             => array(
+				'label'       => __( 'Form', 'convertkit' ),
+				'type'        => 'select',
+				'values'      => $forms,
+				'description' => __( 'The modal, sticky bar or slide in form to display when the button is pressed. To embed a form, use the ConvertKit Form block instead.', 'convertkit' ),
 			),
 			'text'             => array(
 				'label'       => __( 'Button Text', 'convertkit' ),
@@ -399,7 +399,8 @@ class ConvertKit_Block_Form_Trigger extends ConvertKit_Block {
 		// Cast ID to integer.
 		$id = absint( $id );
 
-		// Load resources class.
+		// Load classes.
+		$settings         = new ConvertKit_Settings();
 		$convertkit_forms = new ConvertKit_Resource_Forms( 'render' );
 
 		// Get form.
@@ -407,18 +408,26 @@ class ConvertKit_Block_Form_Trigger extends ConvertKit_Block {
 
 		// Bail if the form could not be found.
 		if ( ! $form ) {
-			// @TODO Debug.
+			if ( $settings->debug_enabled() ) {
+				return '<!-- Form ID ' . esc_attr( $id ) . ' could not be found. -->';
+			}
 
 			return '';
 		}
 
 		// Bail if no uid or embed_js properties exist.
 		if ( ! array_key_exists( 'uid', $form ) ) {
-			// @TODO Debug.
+			if ( $settings->debug_enabled() ) {
+				return '<!-- Form ID ' . esc_attr( $id ) . ' has no uid property. -->';
+			}
+
 			return '';
 		}
 		if ( ! array_key_exists( 'embed_js', $form ) ) {
-			// @TODO Debug.
+			if ( $settings->debug_enabled() ) {
+				return '<!-- Form ID ' . esc_attr( $id ) . ' has no embed_js property. -->';
+			}
+
 			return '';
 		}
 
@@ -428,7 +437,7 @@ class ConvertKit_Block_Form_Trigger extends ConvertKit_Block {
 		if ( $return_as_span ) {
 			$html .= '<span';
 		} else {
-			$html .= '<a data-formkit-toggle="' . esc_attr( $form['uid'] ) .'" href="' . esc_attr( $form['embed_url'] ) . '"';
+			$html .= '<a data-formkit-toggle="' . esc_attr( $form['uid'] ) . '" href="' . esc_attr( $form['embed_url'] ) . '"';
 		}
 
 		$html .= ' class="wp-block-button__link ' . implode( ' ', map_deep( $css_classes, 'sanitize_html_class' ) ) . '" style="' . implode( ';', map_deep( $css_styles, 'esc_attr' ) ) . '">';
@@ -443,7 +452,7 @@ class ConvertKit_Block_Form_Trigger extends ConvertKit_Block {
 		$html .= '</div>';
 
 		// Define the script.
-		$script = '<script async data-uid="' . esc_attr( $form['uid'] ) . '" src="' . esc_url( $form['embed_js'] ) .'"></script>';
+		$script = '<script async data-uid="' . esc_attr( $form['uid'] ) . '" src="' . esc_url( $form['embed_js'] ) . '"></script>';
 
 		// Return.
 		return $html . $script;

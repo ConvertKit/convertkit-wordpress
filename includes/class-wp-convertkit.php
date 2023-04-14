@@ -162,7 +162,7 @@ class WP_ConvertKit {
 
 		$this->classes['ajax']                           = new ConvertKit_AJAX();
 		$this->classes['blocks_convertkit_broadcasts']   = new ConvertKit_Block_Broadcasts();
-		$this->classes['blocks_convertkit_content']    	 = new ConvertKit_Block_Content();
+		$this->classes['blocks_convertkit_content']      = new ConvertKit_Block_Content();
 		$this->classes['blocks_convertkit_form_trigger'] = new ConvertKit_Block_Form_Trigger();
 		$this->classes['blocks_convertkit_form']         = new ConvertKit_Block_Form();
 		$this->classes['blocks_convertkit_product']      = new ConvertKit_Block_Product();
