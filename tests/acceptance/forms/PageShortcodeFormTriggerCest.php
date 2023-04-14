@@ -126,8 +126,8 @@ class PageShortcodeFormTriggerCest
 			$I,
 			'ConvertKit Form Trigger',
 			[
-				'form' 	=> [ 'select', $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_NAME'] ],
-				'text'  => [ 'input', 'Sign up' ],
+				'form' => [ 'select', $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_NAME'] ],
+				'text' => [ 'input', 'Sign up' ],
 			],
 			'[convertkit_formtrigger form="' . $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_ID'] . '" text="Sign up"]'
 		);
@@ -156,8 +156,8 @@ class PageShortcodeFormTriggerCest
 			$I,
 			'ConvertKit Form Trigger',
 			[
-				'form' 	=> [ 'select', $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_NAME'] ],
-				'text'  => [ 'input', '' ],
+				'form' => [ 'select', $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_NAME'] ],
+				'text' => [ 'input', '' ],
 			],
 			'[convertkit_formtrigger form="' . $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_ID'] . '"]'
 		);

@@ -992,7 +992,7 @@ class Plugin extends \Codeception\Module
 	 * @since   1.9.8.5
 	 *
 	 * @param   AcceptanceTester $I              Tester.
-	 * @param   string           $formURL     	 Form URL.
+	 * @param   string           $formURL        Form URL.
 	 * @param   bool|string      $text           Test if the button text matches the given value.
 	 * @param   bool|string      $textColor      Test if the given text color is applied.
 	 * @param   bool|string      $backgroundColor Test is the given background color is applied.

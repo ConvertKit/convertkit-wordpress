@@ -392,7 +392,7 @@ class ConvertKit_Block_Form_Trigger extends ConvertKit_Block {
 	 * @param   array  $css_classes    CSS classes to apply to link (typically included when using Gutenberg).
 	 * @param   array  $css_styles     CSS inline styles to apply to link (typically included when using Gutenberg).
 	 * @param   bool   $return_as_span If true, returns a <span> instead of <a>. Useful for the block editor so that the element is interactible.
-	 * @return  WP_Error|string         Button HTML
+	 * @return  WP_Error|string        Button HTML
 	 */
 	private function get_html( $id, $button_text, $css_classes = array(), $css_styles = array(), $return_as_span = false ) {
 
@@ -400,7 +400,6 @@ class ConvertKit_Block_Form_Trigger extends ConvertKit_Block {
 		$id = absint( $id );
 
 		// Load classes.
-		$settings         = new ConvertKit_Settings();
 		$convertkit_forms = new ConvertKit_Resource_Forms( 'render' );
 
 		// Get form.
@@ -408,27 +407,36 @@ class ConvertKit_Block_Form_Trigger extends ConvertKit_Block {
 
 		// Bail if the form could not be found.
 		if ( ! $form ) {
-			if ( $settings->debug_enabled() ) {
-				return '<!-- Form ID ' . esc_attr( $id ) . ' could not be found. -->';
-			}
-
-			return '';
+			return new WP_Error(
+				'convertkit_block_form_trigger_get_html',
+				sprintf(
+					/* translators: ConvertKit Form ID */
+					__( 'ConvertKit Form ID %s does not exist on ConvertKit.', 'convertkit' ),
+					$id
+				)
+			);
 		}
 
 		// Bail if no uid or embed_js properties exist.
 		if ( ! array_key_exists( 'uid', $form ) ) {
-			if ( $settings->debug_enabled() ) {
-				return '<!-- Form ID ' . esc_attr( $id ) . ' has no uid property. -->';
-			}
-
-			return '';
+			return new WP_Error(
+				'convertkit_block_form_trigger_get_html',
+				sprintf(
+					/* translators: ConvertKit Form ID */
+					__( 'ConvertKit Form ID %s has no uid property.', 'convertkit' ),
+					$id
+				)
+			);
 		}
 		if ( ! array_key_exists( 'embed_js', $form ) ) {
-			if ( $settings->debug_enabled() ) {
-				return '<!-- Form ID ' . esc_attr( $id ) . ' has no embed_js property. -->';
-			}
-
-			return '';
+			return new WP_Error(
+				'convertkit_block_form_trigger_get_html',
+				sprintf(
+					/* translators: ConvertKit Form ID */
+					__( 'ConvertKit Form ID %s has no embed_js property.', 'convertkit' ),
+					$id
+				)
+			);
 		}
 
 		// Build button HTML.

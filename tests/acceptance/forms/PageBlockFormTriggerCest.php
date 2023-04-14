@@ -117,8 +117,8 @@ class PageBlockFormTriggerCest
 			'ConvertKit Form Trigger',
 			'convertkit-formtrigger',
 			[
-				'form' 	=> [ 'select', $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_NAME'] ],
-				'text'  => [ 'text', 'Sign up' ],
+				'form' => [ 'select', $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_NAME'] ],
+				'text' => [ 'text', 'Sign up' ],
 			]
 		);
 
@@ -147,8 +147,8 @@ class PageBlockFormTriggerCest
 			'ConvertKit Form Trigger',
 			'convertkit-formtrigger',
 			[
-				'form' 	=> [ 'select', $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_NAME'] ],
-				'text'  => [ 'text', '' ],
+				'form' => [ 'select', $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_NAME'] ],
+				'text' => [ 'text', '' ],
 			]
 		);
 
