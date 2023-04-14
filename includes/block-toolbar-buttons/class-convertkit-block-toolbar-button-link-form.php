@@ -174,7 +174,7 @@ class ConvertKit_Block_Toolbar_Button_Link_Form extends ConvertKit_Block_Toolbar
 
 		// Inject scripts.
 		$content = preg_replace_callback(
-			'#<a data-id="([^"]*)" data-formkit-toggle="([^"]*)".*?href="([^"]*)".*?>([^>]*)</a>#i',
+			'#<' . $this->get_tag() . ' data-id="([^"]*)" data-formkit-toggle="([^"]*)".*?href="([^"]*)".*?>([^>]*)</' . $this->get_tag() . '>#i',
 			array( $this, 'inject_scripts' ),
 			$content
 		);
