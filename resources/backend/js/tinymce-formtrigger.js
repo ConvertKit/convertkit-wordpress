@@ -7,4 +7,4 @@
  * @author ConvertKit
  */
 
-convertKitTinyMCERegisterPlugin( convertkit_shortcodes['form-trigger'] );
+convertKitTinyMCERegisterPlugin( convertkit_shortcodes['formtrigger'] );
