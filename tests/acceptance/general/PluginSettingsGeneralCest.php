@@ -433,7 +433,7 @@ class PluginSettingsGeneralCest
 
 		// Confirm no CSS is output by the Plugin.
 		$I->dontSeeInSource('broadcasts.css');
-		$I->dontSeeInSource('product.css');
+		$I->dontSeeInSource('button.css');
 
 		// Go to the Plugin's Settings Screen.
 		$I->loadConvertKitSettingsGeneralScreen($I);
@@ -455,7 +455,7 @@ class PluginSettingsGeneralCest
 
 		// Confirm CSS is output by the Plugin.
 		$I->seeInSource('<link rel="stylesheet" id="convertkit-broadcasts-css" href="' . $_ENV['TEST_SITE_WP_URL'] . '/wp-content/plugins/convertkit/resources/frontend/css/broadcasts.css');
-		$I->seeInSource('<link rel="stylesheet" id="convertkit-product-css" href="' . $_ENV['TEST_SITE_WP_URL'] . '/wp-content/plugins/convertkit/resources/frontend/css/product.css');
+		$I->seeInSource('<link rel="stylesheet" id="convertkit-button-css" href="' . $_ENV['TEST_SITE_WP_URL'] . '/wp-content/plugins/convertkit/resources/frontend/css/button.css');
 	}
 
 	/**

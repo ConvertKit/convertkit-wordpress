@@ -75,7 +75,7 @@ class ConvertKit_Block_Product extends ConvertKit_Block {
 	 */
 	public function enqueue_styles() {
 
-		wp_enqueue_style( 'convertkit-product', CONVERTKIT_PLUGIN_URL . 'resources/frontend/css/product.css', array(), CONVERTKIT_PLUGIN_VERSION );
+		wp_enqueue_style( 'convertkit-button', CONVERTKIT_PLUGIN_URL . 'resources/frontend/css/button.css', array(), CONVERTKIT_PLUGIN_VERSION );
 
 	}
 

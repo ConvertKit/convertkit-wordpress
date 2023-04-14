@@ -53,7 +53,7 @@ class ConvertKit_Block_Form_Trigger extends ConvertKit_Block {
 	 */
 	public function enqueue_styles() {
 
-		wp_enqueue_style( 'convertkit-product', CONVERTKIT_PLUGIN_URL . 'resources/frontend/css/product.css', array(), CONVERTKIT_PLUGIN_VERSION );
+		wp_enqueue_style( 'convertkit-button', CONVERTKIT_PLUGIN_URL . 'resources/frontend/css/button.css', array(), CONVERTKIT_PLUGIN_VERSION );
 
 	}
 
@@ -113,7 +113,7 @@ class ConvertKit_Block_Form_Trigger extends ConvertKit_Block {
 
 			// Gutenberg: JS function to call when rendering the block preview in the Gutenberg editor.
 			// If not defined, render_callback above will be used.
-			'gutenberg_preview_render_callback' => 'convertKitGutenbergFormBlockRenderPreview',
+			'gutenberg_preview_render_callback' => 'convertKitGutenbergFormTriggerBlockRenderPreview',
 		);
 
 	}
@@ -422,15 +422,15 @@ class ConvertKit_Block_Form_Trigger extends ConvertKit_Block {
 		}
 
 		// Build button HTML.
-		$html = '<div class="convertkit-product">';
+		$html = '<div class="convertkit-button">';
 
 		if ( $return_as_span ) {
 			$html .= '<span';
 		} else {
-			$html .= '<a href="' . esc_attr( $form['embed_url'] ) . '"';
+			$html .= '<a data-formkit-toggle="' . esc_attr( $form['uid'] ) .'" href="' . esc_attr( $form['embed_url'] ) . '"';
 		}
 
-		$html .= ' class="wp-block-button__link ' . implode( ' ', map_deep( $css_classes, 'sanitize_html_class' ) ) . '" style="' . implode( ';', map_deep( $css_styles, 'esc_attr' ) ) . '" data-commerce>';
+		$html .= ' class="wp-block-button__link ' . implode( ' ', map_deep( $css_classes, 'sanitize_html_class' ) ) . '" style="' . implode( ';', map_deep( $css_styles, 'esc_attr' ) ) . '">';
 		$html .= esc_html( $button_text );
 
 		if ( $return_as_span ) {
