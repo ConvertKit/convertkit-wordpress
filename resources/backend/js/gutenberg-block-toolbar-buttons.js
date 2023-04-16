@@ -33,6 +33,7 @@ function convertKitGutenbergRegisterBlockToolbarButton( block ) {
     ( function( editor, richText, element, components, block ) {
 
         const {
+            Fragment,
             createElement
         }                                     = element;
         const { 
@@ -42,9 +43,12 @@ function convertKitGutenbergRegisterBlockToolbarButton( block ) {
             useAnchor
         }                                     = richText;
         const { 
+            BlockControls,
             RichTextToolbarButton
         }                                     = editor;
         const { 
+            ToolbarGroup,
+            Button,
             Popover,
             SelectControl
         }                                     = components;
@@ -86,6 +90,28 @@ function convertKitGutenbergRegisterBlockToolbarButton( block ) {
                     // Define array of elements to display when the button is clicked.
                     var elements = [];
 
+                    // Define object comprising of attributes.
+                    var attributes = {};
+                    for ( var attribute in block.attributes ) {
+                        attributes[ attribute ] = '';
+                    }
+
+                    // If this formatter has been applied to the selected text,
+                    // the selected text may have existing attributes.
+                    // Fetch those attribute values.
+                    const formats = props.value.activeFormats.filter( format => 'convertkit/' + block.name === format['type'] );
+                    if ( formats.length > 0 ) {
+                        for ( var attribute in block.attributes ) {
+                            // @TODO Figure out why the attributes begin in .unregisteredAttributes, but then
+                            // on change move to .attributes.
+                            if ( typeof formats[0].unregisteredAttributes !== 'undefined' ) {
+                                attributes[ attribute ] = formats[0].unregisteredAttributes[ attribute ];   
+                            } else if ( typeof formats[0].attributes !== 'undefined' ) {
+                                attributes[ attribute ] = formats[0].attributes[ attribute ];
+                            }
+                        }
+                    }
+
                     // Define fields.
                     for ( var fieldName in block.fields ) {
                         const field = block.fields[ fieldName ];
@@ -123,17 +149,20 @@ function convertKitGutenbergRegisterBlockToolbarButton( block ) {
                             {
                                 key:        'convertkit_' + block.name + '_' + fieldName,
                                 label:      field.label,
-
-                                // @TODO Fetch from attributes? activeAttributes seems empty.
-                                value:      props.activeAttributes[ fieldName ] ? props.activeAttributes[ fieldName ] : '',
+                                value:      attributes[ fieldName ],
                                 help:       field.description,
                                 options:    fieldOptions,
                                 onChange:   function( value ) {
 
-                                    // Update the attributes.
-                                    var attributes = {};
+                                    // Build object of new attributes.
+                                    var newAttributes = {};
                                     for ( var attribute in block.attributes ) {
-                                        attributes[ attribute ] = field.data[ value ][ attribute ];
+                                        // If 'None' selected, blank the attribute's value.
+                                        if ( value === '' ) {
+                                            newAttributes[ attribute ] = '';
+                                        } else {
+                                            newAttributes[ attribute ] = field.data[ value ][ attribute ];
+                                        }
                                     }
 
                                     // @TODO If no text was selected, nothing happens. What do we do here?
@@ -144,7 +173,7 @@ function convertKitGutenbergRegisterBlockToolbarButton( block ) {
                                         props.value,
                                         {
                                             type: 'convertkit/' + block.name,
-                                            attributes: attributes
+                                            attributes: newAttributes
                                         }
                                     ) );
 
@@ -153,37 +182,44 @@ function convertKitGutenbergRegisterBlockToolbarButton( block ) {
                         ) );
                     }
 
-                    console.log( props.value );
-
                     return [
-                        // Register the button in the rich text toolbar.
                         createElement(
-                            RichTextToolbarButton,
+                            Fragment,
                             {
-                                key:  'convertkit_' + block.name + '_rich_text_toolbar_button',
-                                icon: icon,
-                                title: block.title,
-                                isActive: props.isActive,
-                                onClick: function() {
-                                    // Add / remove this formatter's name to the element.
-                                    props.onChange(
-                                        toggleFormat( props.value, {
-                                            type: 'convertkit/' + block.name
-                                        })
-                                    )
-                                }
+                                key:  'convertkit_' + block.name + '_rich_text_toolbar_fragment',
                             },
-                        ),
 
-                        // Popover which displays fields when the button is active.
-                        props.isActive && ( createElement(
-                            Popover,
-                            {
-                                key:  'convertkit_' + block.name + '_popover',
-                                anchor: anchorRef
-                            },
-                            elements
-                        ) )
+                            // Register the button in the rich text toolbar.
+                            createElement(
+                                RichTextToolbarButton,
+                                {
+                                    key:  'convertkit_' + block.name + '_rich_text_toolbar_button',
+                                    icon: icon,
+                                    title: block.title,
+                                    isActive: props.isActive,
+                                    onClick: function() {
+                                        // Add / remove this formatter's name to the element.
+                                        props.onChange(
+                                            toggleFormat( props.value, {
+                                                type: 'convertkit/' + block.name
+                                            })
+                                        )
+                                    }
+                                },
+                            ),
+
+                            // Popover which displays fields when the button is active.
+                            props.isActive && ( createElement(
+                                Popover,
+                                {
+                                    key:  'convertkit_' + block.name + '_popover',
+                                    className: 'convertkit-popover',
+                                    position: 'bottom center',
+                                    focusOnMount: 'container'
+                                },
+                                elements
+                            ) )
+                        )
                     ];
                 }
             }

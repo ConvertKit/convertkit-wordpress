@@ -129,7 +129,7 @@ class ConvertKit_Block_Toolbar_Button_Link_Form extends ConvertKit_Block_Toolbar
 
 		// Return field.
 		return array(
-			'form' => array(
+			'data-id' => array(
 				'label'  		=> __( 'Form', 'convertkit' ),
 				'type'   		=> 'select',
 				'description' 	=> __( 'The modal, sticky bar or slide in form to display when the text is clicked.', 'convertkit' ),
