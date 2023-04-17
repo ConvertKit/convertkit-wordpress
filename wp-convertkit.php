@@ -68,6 +68,7 @@ require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-widgets.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/blocks/class-convertkit-block.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/blocks/class-convertkit-block-broadcasts.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/blocks/class-convertkit-block-content.php';
+require_once CONVERTKIT_PLUGIN_PATH . '/includes/blocks/class-convertkit-block-form-trigger.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/blocks/class-convertkit-block-form.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/blocks/class-convertkit-block-product.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/block-toolbar-buttons/class-convertkit-block-toolbar-button.php';

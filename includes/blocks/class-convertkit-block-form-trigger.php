@@ -1,23 +1,23 @@
 <?php
 /**
- * ConvertKit Product Button Block class.
+ * ConvertKit Form Trigger Button Block class.
  *
  * @package ConvertKit
  * @author ConvertKit
  */
 
 /**
- * ConvertKit Product Button Block for Gutenberg and Shortcode.
+ * ConvertKit Form Trigger Button Block for Gutenberg and Shortcode.
  *
  * @package ConvertKit
  * @author  ConvertKit
  */
-class ConvertKit_Block_Product extends ConvertKit_Block {
+class ConvertKit_Block_Form_Trigger extends ConvertKit_Block {
 
 	/**
 	 * Constructor
 	 *
-	 * @since   1.9.8.5
+	 * @since   2.2.0
 	 */
 	public function __construct() {
 
@@ -31,7 +31,6 @@ class ConvertKit_Block_Product extends ConvertKit_Block {
 		add_action( 'convertkit_gutenberg_enqueue_scripts', array( $this, 'enqueue_scripts_editor' ) );
 
 		// Enqueue scripts and styles for this Gutenberg Block in the editor and frontend views.
-		add_action( 'convertkit_gutenberg_enqueue_scripts_editor_and_frontend', array( $this, 'enqueue_scripts' ) );
 		add_action( 'convertkit_gutenberg_enqueue_styles_editor_and_frontend', array( $this, 'enqueue_styles' ) );
 
 	}
@@ -39,39 +38,18 @@ class ConvertKit_Block_Product extends ConvertKit_Block {
 	/**
 	 * Enqueues scripts for this Gutenberg Block in the editor view.
 	 *
-	 * @since   1.9.8.5
+	 * @since   2.2.0
 	 */
 	public function enqueue_scripts_editor() {
 
-		wp_enqueue_script( 'convertkit-gutenberg-block-product', CONVERTKIT_PLUGIN_URL . 'resources/backend/js/gutenberg-block-product.js', array( 'convertkit-gutenberg' ), CONVERTKIT_PLUGIN_VERSION, true );
-
-	}
-
-	/**
-	 * Enqueues scripts for this Gutenberg Block in the editor and frontend views.
-	 *
-	 * @since   1.9.8.5
-	 */
-	public function enqueue_scripts() {
-
-		// Get URL for commerce.js from Products.
-		$convertkit_products = new ConvertKit_Resource_Products();
-		$commerce_js_url     = $convertkit_products->get_commerce_js_url();
-
-		// Bail if the commerce.js URL could not be fetched, as this means there are no Products.
-		if ( ! $commerce_js_url ) {
-			return;
-		}
-
-		// Enqueue.
-		wp_enqueue_script( 'convertkit-commerce', $commerce_js_url, array(), false, true ); // phpcs:ignore
+		wp_enqueue_script( 'convertkit-gutenberg-block-form-trigger', CONVERTKIT_PLUGIN_URL . 'resources/backend/js/gutenberg-block-form-trigger.js', array( 'convertkit-gutenberg' ), CONVERTKIT_PLUGIN_VERSION, true );
 
 	}
 
 	/**
 	 * Enqueues styles for this Gutenberg Block in the editor and frontend views.
 	 *
-	 * @since   1.9.8.5
+	 * @since   2.2.0
 	 */
 	public function enqueue_styles() {
 
@@ -82,34 +60,34 @@ class ConvertKit_Block_Product extends ConvertKit_Block {
 	/**
 	 * Returns this block's programmatic name, excluding the convertkit- prefix.
 	 *
-	 * @since   1.9.8.5
+	 * @since   2.2.0
 	 */
 	public function get_name() {
 
 		/**
 		 * This will register as:
-		 * - a shortcode, with the name [convertkit_product].
-		 * - a Gutenberg block, with the name convertkit/product.
+		 * - a shortcode, with the name [convertkit_formtrigger].
+		 * - a Gutenberg block, with the name convertkit/formtrigger.
 		 */
-		return 'product';
+		return 'formtrigger';
 
 	}
 
 	/**
 	 * Returns this block's Title, Icon, Categories, Keywords and properties.
 	 *
-	 * @since   1.9.8.5
+	 * @since   2.2.0
 	 */
 	public function get_overview() {
 
 		return array(
-			'title'                             => __( 'ConvertKit Product', 'convertkit' ),
-			'description'                       => __( 'Displays a button to purchase a ConvertKit product.', 'convertkit' ),
-			'icon'                              => 'resources/backend/images/block-icon-product.png',
+			'title'                             => __( 'ConvertKit Form Trigger', 'convertkit' ),
+			'description'                       => __( 'Displays a modal, sticky bar or slide in form to display when the button is pressed.', 'convertkit' ),
+			'icon'                              => 'resources/backend/images/block-icon-form.png',
 			'category'                          => 'convertkit',
 			'keywords'                          => array(
 				__( 'ConvertKit', 'convertkit' ),
-				__( 'Product', 'convertkit' ),
+				__( 'Form', 'convertkit' ),
 			),
 
 			// Function to call when rendering as a block or a shortcode on the frontend web site.
@@ -125,17 +103,17 @@ class ConvertKit_Block_Product extends ConvertKit_Block {
 			'shortcode_include_closing_tag'     => false,
 
 			// Gutenberg: Block Icon in Editor.
-			'gutenberg_icon'                => file_get_contents( CONVERTKIT_PLUGIN_PATH . '/resources/backend/images/block-icon-product.svg' ), /* phpcs:ignore */
+			'gutenberg_icon'                => file_get_contents( CONVERTKIT_PLUGIN_PATH . '/resources/backend/images/block-icon-form.svg' ), /* phpcs:ignore */
 
 			// Gutenberg: Example image showing how this block looks when choosing it in Gutenberg.
-			'gutenberg_example_image'           => CONVERTKIT_PLUGIN_URL . 'resources/backend/images/block-example-product.png',
+			'gutenberg_example_image'           => CONVERTKIT_PLUGIN_URL . 'resources/backend/images/block-example-form-trigger.png',
 
 			// Gutenberg: Help description, displayed when no settings defined for a newly added Block.
-			'gutenberg_help_description'        => __( 'Select a Product using the Product option in the Gutenberg sidebar.', 'convertkit' ),
+			'gutenberg_help_description'        => __( 'Select a Form using the Form option in the Gutenberg sidebar.', 'convertkit' ),
 
 			// Gutenberg: JS function to call when rendering the block preview in the Gutenberg editor.
 			// If not defined, render_callback above will be used.
-			'gutenberg_preview_render_callback' => 'convertKitGutenbergProductBlockRenderPreview',
+			'gutenberg_preview_render_callback' => 'convertKitGutenbergFormTriggerBlockRenderPreview',
 		);
 
 	}
@@ -143,15 +121,15 @@ class ConvertKit_Block_Product extends ConvertKit_Block {
 	/**
 	 * Returns this block's Attributes
 	 *
-	 * @since   1.9.8.5
+	 * @since   2.2.0
 	 */
 	public function get_attributes() {
 
 		return array(
 			// Block attributes.
-			'product'              => array(
+			'form'                 => array(
 				'type'    => 'string',
-				'default' => $this->get_default_value( 'product' ),
+				'default' => $this->get_default_value( 'form' ),
 			),
 			'text'                 => array(
 				'type'    => 'string',
@@ -208,7 +186,7 @@ class ConvertKit_Block_Product extends ConvertKit_Block {
 	/**
 	 * Returns this block's supported built-in Attributes.
 	 *
-	 * @since   1.9.8.5
+	 * @since   2.2.0
 	 *
 	 * @return  array   Supports
 	 */
@@ -236,7 +214,7 @@ class ConvertKit_Block_Product extends ConvertKit_Block {
 	/**
 	 * Returns this block's Fields
 	 *
-	 * @since   1.9.8.5
+	 * @since   2.2.0
 	 *
 	 * @return  bool|array
 	 */
@@ -247,22 +225,36 @@ class ConvertKit_Block_Product extends ConvertKit_Block {
 			return false;
 		}
 
-		// Get ConvertKit Products.
-		$products            = array();
-		$convertkit_products = new ConvertKit_Resource_Products();
-		if ( $convertkit_products->exist() ) {
-			foreach ( $convertkit_products->get() as $product ) {
-				$products[ absint( $product['id'] ) ] = sanitize_text_field( $product['name'] );
+		// Get ConvertKit Forms.
+		$forms            = array();
+		$convertkit_forms = new ConvertKit_Resource_Forms( 'block_edit' );
+		if ( $convertkit_forms->exist() ) {
+			foreach ( $convertkit_forms->get() as $form ) {
+				// Ignore inline forms; this button link is only for modal, slide in and sticky bar forms.
+				if ( ! array_key_exists( 'format', $form ) ) {
+					continue;
+				}
+				if ( $form['format'] === 'inline' ) {
+					continue;
+				}
+
+				// Ignore forms that are missing a uid.
+				if ( ! array_key_exists( 'uid', $form ) ) {
+					continue;
+				}
+
+				$forms[ absint( $form['id'] ) ] = sanitize_text_field( $form['name'] );
 			}
 		}
 
 		// Gutenberg's built-in fields (such as styling, padding etc) don't need to be defined here, as they'll be included
 		// automatically by Gutenberg.
 		return array(
-			'product'          => array(
-				'label'  => __( 'Product', 'convertkit' ),
-				'type'   => 'select',
-				'values' => $products,
+			'form'             => array(
+				'label'       => __( 'Form', 'convertkit' ),
+				'type'        => 'select',
+				'values'      => $forms,
+				'description' => __( 'The modal, sticky bar or slide in form to display when the button is pressed. To embed a form, use the ConvertKit Form block instead.', 'convertkit' ),
 			),
 			'text'             => array(
 				'label'       => __( 'Button Text', 'convertkit' ),
@@ -287,7 +279,7 @@ class ConvertKit_Block_Product extends ConvertKit_Block {
 	/**
 	 * Returns this block's UI panels / sections.
 	 *
-	 * @since   1.9.8.5
+	 * @since   2.2.0
 	 *
 	 * @return  bool|array
 	 */
@@ -304,7 +296,7 @@ class ConvertKit_Block_Product extends ConvertKit_Block {
 			'general' => array(
 				'label'  => __( 'General', 'convertkit' ),
 				'fields' => array(
-					'product',
+					'form',
 					'text',
 					'background_color',
 					'text_color',
@@ -317,15 +309,15 @@ class ConvertKit_Block_Product extends ConvertKit_Block {
 	/**
 	 * Returns this block's Default Values
 	 *
-	 * @since   1.9.8.5
+	 * @since   2.2.0
 	 *
 	 * @return  array
 	 */
 	public function get_default_values() {
 
 		return array(
-			'product'          => '',
-			'text'             => __( 'Buy my product', 'convertkit' ),
+			'form'             => '',
+			'text'             => __( 'Subscribe', 'convertkit' ),
 			'background_color' => '',
 			'text_color'       => '',
 
@@ -350,7 +342,7 @@ class ConvertKit_Block_Product extends ConvertKit_Block {
 	/**
 	 * Returns the block's output, based on the supplied configuration attributes.
 	 *
-	 * @since   1.9.8.5
+	 * @since   2.2.0
 	 *
 	 * @param   array $atts   Block / Shortcode Attributes.
 	 * @return  string          Output
@@ -364,11 +356,8 @@ class ConvertKit_Block_Product extends ConvertKit_Block {
 		// Setup Settings class.
 		$settings = new ConvertKit_Settings();
 
-		// Get Products Resource.
-		$convertkit_products = new ConvertKit_Resource_Products();
-
 		// Build HTML.
-		$html = $convertkit_products->get_html( $atts['product'], $atts['text'], $atts['_css_classes'], $atts['_css_styles'], $this->is_block_editor_request() );
+		$html = $this->get_html( $atts['form'], $atts['text'], $atts['_css_classes'], $atts['_css_styles'], $this->is_block_editor_request() );
 
 		// Bail if an error occured.
 		if ( is_wp_error( $html ) ) {
@@ -382,15 +371,99 @@ class ConvertKit_Block_Product extends ConvertKit_Block {
 		/**
 		 * Filter the block's content immediately before it is output.
 		 *
-		 * @since   1.9.8.5
+		 * @since   2.2.0
 		 *
-		 * @param   string  $html   ConvertKit Product button HTML.
+		 * @param   string  $html   ConvertKit Button HTML.
 		 * @param   array   $atts   Block Attributes.
 		 */
-		$html = apply_filters( 'convertkit_block_product_render', $html, $atts );
+		$html = apply_filters( 'convertkit_block_form_trigger_render', $html, $atts );
 
 		return $html;
 
+	}
+
+	/**
+	 * Returns the HTML button markup for the given Form ID.
+	 *
+	 * @since   2.0.0
+	 *
+	 * @param   int    $id             Form ID.
+	 * @param   string $button_text    Button Text.
+	 * @param   array  $css_classes    CSS classes to apply to link (typically included when using Gutenberg).
+	 * @param   array  $css_styles     CSS inline styles to apply to link (typically included when using Gutenberg).
+	 * @param   bool   $return_as_span If true, returns a <span> instead of <a>. Useful for the block editor so that the element is interactible.
+	 * @return  WP_Error|string        Button HTML
+	 */
+	private function get_html( $id, $button_text, $css_classes = array(), $css_styles = array(), $return_as_span = false ) {
+
+		// Cast ID to integer.
+		$id = absint( $id );
+
+		// Load classes.
+		$convertkit_forms = new ConvertKit_Resource_Forms( 'render' );
+
+		// Get form.
+		$form = $convertkit_forms->get_by_id( $id );
+
+		// Bail if the form could not be found.
+		if ( ! $form ) {
+			return new WP_Error(
+				'convertkit_block_form_trigger_get_html',
+				sprintf(
+					/* translators: ConvertKit Form ID */
+					__( 'ConvertKit Form ID %s does not exist on ConvertKit.', 'convertkit' ),
+					$id
+				)
+			);
+		}
+
+		// Bail if no uid or embed_js properties exist.
+		if ( ! array_key_exists( 'uid', $form ) ) {
+			return new WP_Error(
+				'convertkit_block_form_trigger_get_html',
+				sprintf(
+					/* translators: ConvertKit Form ID */
+					__( 'ConvertKit Form ID %s has no uid property.', 'convertkit' ),
+					$id
+				)
+			);
+		}
+		if ( ! array_key_exists( 'embed_js', $form ) ) {
+			return new WP_Error(
+				'convertkit_block_form_trigger_get_html',
+				sprintf(
+					/* translators: ConvertKit Form ID */
+					__( 'ConvertKit Form ID %s has no embed_js property.', 'convertkit' ),
+					$id
+				)
+			);
+		}
+
+		// Build button HTML.
+		$html = '<div class="convertkit-button">';
+
+		if ( $return_as_span ) {
+			$html .= '<span';
+		} else {
+			$html .= '<a data-formkit-toggle="' . esc_attr( $form['uid'] ) . '" href="' . esc_attr( $form['embed_url'] ) . '"';
+		}
+
+		$html .= ' class="wp-block-button__link ' . implode( ' ', map_deep( $css_classes, 'sanitize_html_class' ) ) . '" style="' . implode( ';', map_deep( $css_styles, 'esc_attr' ) ) . '">';
+		$html .= esc_html( $button_text );
+
+		if ( $return_as_span ) {
+			$html .= '</span>';
+		} else {
+			$html .= '</a>';
+		}
+
+		$html .= '</div>';
+
+		// Define the script.
+		$script = '<script async data-uid="' . esc_attr( $form['uid'] ) . '" src="' . esc_url( $form['embed_js'] ) . '"></script>';
+
+		// Return.
+		return $html . $script;
 	}
 
 }
