@@ -103,7 +103,7 @@ class ConvertKit_Block_Form_Trigger extends ConvertKit_Block {
 			'shortcode_include_closing_tag'     => false,
 
 			// Gutenberg: Block Icon in Editor.
-			'gutenberg_icon'                => file_get_contents( CONVERTKIT_PLUGIN_PATH . '/resources/backend/images/block-icon-form.svg' ), /* phpcs:ignore */
+			'gutenberg_icon'                => file_get_contents( CONVERTKIT_PLUGIN_PATH . '/resources/backend/images/block-icon-formtrigger.svg' ), /* phpcs:ignore */
 
 			// Gutenberg: Example image showing how this block looks when choosing it in Gutenberg.
 			'gutenberg_example_image'           => CONVERTKIT_PLUGIN_URL . 'resources/backend/images/block-example-formtrigger.png',
