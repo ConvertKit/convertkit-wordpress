@@ -83,7 +83,7 @@ class ConvertKit_Block_Form_Trigger extends ConvertKit_Block {
 		return array(
 			'title'                             => __( 'ConvertKit Form Trigger', 'convertkit' ),
 			'description'                       => __( 'Displays a modal, sticky bar or slide in form to display when the button is pressed.', 'convertkit' ),
-			'icon'                              => 'resources/backend/images/block-icon-form.png',
+			'icon'                              => 'resources/backend/images/block-icon-formtrigger.png',
 			'category'                          => 'convertkit',
 			'keywords'                          => array(
 				__( 'ConvertKit', 'convertkit' ),
