@@ -160,19 +160,20 @@ class WP_ConvertKit {
 	 */
 	private function initialize_global() {
 
-		$this->classes['ajax']                         = new ConvertKit_AJAX();
-		$this->classes['blocks_convertkit_broadcasts'] = new ConvertKit_Block_Broadcasts();
-		$this->classes['blocks_convertkit_content']    = new ConvertKit_Block_Content();
-		$this->classes['blocks_convertkit_form']       = new ConvertKit_Block_Form();
-		$this->classes['blocks_convertkit_product']    = new ConvertKit_Block_Product();
-		$this->classes['elementor']                    = new ConvertKit_Elementor();
-		$this->classes['gutenberg']                    = new ConvertKit_Gutenberg();
-		$this->classes['post_type_product']            = new ConvertKit_Post_Type_Product();
-		$this->classes['review_request']               = new ConvertKit_Review_Request( 'ConvertKit', 'convertkit', CONVERTKIT_PLUGIN_PATH );
-		$this->classes['preview_output']               = new ConvertKit_Preview_Output();
-		$this->classes['setup']                        = new ConvertKit_Setup();
-		$this->classes['shortcodes']                   = new ConvertKit_Shortcodes();
-		$this->classes['widgets']                      = new ConvertKit_Widgets();
+		$this->classes['ajax']                           = new ConvertKit_AJAX();
+		$this->classes['blocks_convertkit_broadcasts']   = new ConvertKit_Block_Broadcasts();
+		$this->classes['blocks_convertkit_content']      = new ConvertKit_Block_Content();
+		$this->classes['blocks_convertkit_form_trigger'] = new ConvertKit_Block_Form_Trigger();
+		$this->classes['blocks_convertkit_form']         = new ConvertKit_Block_Form();
+		$this->classes['blocks_convertkit_product']      = new ConvertKit_Block_Product();
+		$this->classes['elementor']                      = new ConvertKit_Elementor();
+		$this->classes['gutenberg']                      = new ConvertKit_Gutenberg();
+		$this->classes['post_type_product']              = new ConvertKit_Post_Type_Product();
+		$this->classes['review_request']                 = new ConvertKit_Review_Request( 'ConvertKit', 'convertkit', CONVERTKIT_PLUGIN_PATH );
+		$this->classes['preview_output']                 = new ConvertKit_Preview_Output();
+		$this->classes['setup']                          = new ConvertKit_Setup();
+		$this->classes['shortcodes']                     = new ConvertKit_Shortcodes();
+		$this->classes['widgets']                        = new ConvertKit_Widgets();
 
 		// Run the setup's update process on WordPress' init hook.
 		// Doing this sooner may result in errors with WordPress functions that are not yet

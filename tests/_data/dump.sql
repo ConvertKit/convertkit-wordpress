@@ -372,7 +372,9 @@ INSERT INTO `wp_usermeta` (`umeta_id`, `user_id`, `meta_key`, `meta_value`) VALU
 (16,  1,  'session_tokens', 'a:1:{s:64:\"d1edb8c7d17dc41fa6de9833631a6381dca0306f20dfd4b64947e6b8818dd16e\";a:4:{s:10:\"expiration\";i:1676810217;s:2:\"ip\";s:9:\"127.0.0.1\";s:2:\"ua\";s:117:\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36\";s:5:\"login\";i:1676637417;}}'),
 (17,  1,  'wp_user-settings', 'unfold=1&ampampmfold=o&ampampeditor=html&ampamplibraryContent=browse&ampampsiteorigin_panels_setting_tab=widgets&amplibraryContent=browse&ampeditor=tinymce&libraryContent=browse&editor=tinymce&siteorigin_panels_setting_tab=welcome'),
 (18,  1,  'wp_user-settings-time',  '1676637417'),
-(19,  1,  'wp_dashboard_quick_press_last_post_id',  '1');
+(19,  1,  'wp_dashboard_quick_press_last_post_id',  '1'),
+(20,  1,  'edit_page_per_page',  '100'),
+(21,  1,  'edit_post_per_page',  '100');
 
 DROP TABLE IF EXISTS `wp_users`;
 CREATE TABLE `wp_users` (

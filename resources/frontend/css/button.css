@@ -1,5 +1,7 @@
 .convertkit-product a,
-.convertkit-product span {
+.convertkit-product span,
+.convertkit-button a,
+.convertkit-button span {
 	display: block;
 	padding: calc(0.667em + 2px) calc(1.333em + 2px);
 	cursor: pointer;
