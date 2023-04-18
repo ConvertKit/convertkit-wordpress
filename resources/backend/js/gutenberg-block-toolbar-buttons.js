@@ -34,17 +34,25 @@ function convertKitGutenbergRegisterBlockToolbarButton( block ) {
 
         const {
             Fragment,
+            useEffect,
+            useState,
+            useRef,
             createElement
         }                                     = element;
         const { 
             registerFormatType,
             toggleFormat,
             applyFormat,
-            useAnchor
+            useAnchor,
+            useAnchorRef,
+            isCollapsed,
+            create,
+            insert
         }                                     = richText;
         const { 
             BlockControls,
-            RichTextToolbarButton
+            RichTextToolbarButton,
+            URLPopover
         }                                     = editor;
         const { 
             ToolbarGroup,
@@ -85,7 +93,13 @@ function convertKitGutenbergRegisterBlockToolbarButton( block ) {
                 // Editor.
                 edit: function( props ) {
 
-                    const anchorRef = useAnchor( props );
+                    // Get props and anchor reference to the text.
+                    const { contentRef, isActive, onChange, value } = props;
+                    const { activeFormats } = value;
+                    const anchorRef = useAnchorRef( { ref: contentRef, value } );
+
+                    // State to show popover.
+                    const [ showPopover, setShowPopover ] = useState( false );
 
                     // Define array of elements to display when the button is clicked.
                     var elements = [];
@@ -99,7 +113,7 @@ function convertKitGutenbergRegisterBlockToolbarButton( block ) {
                     // If this formatter has been applied to the selected text,
                     // the selected text may have existing attributes.
                     // Fetch those attribute values.
-                    const formats = props.value.activeFormats.filter( format => 'convertkit/' + block.name === format['type'] );
+                    const formats = activeFormats.filter( format => 'convertkit/' + block.name === format['type'] );
                     if ( formats.length > 0 ) {
                         for ( var attribute in block.attributes ) {
                             // @TODO Figure out why the attributes begin in .unregisteredAttributes, but then
@@ -152,41 +166,54 @@ function convertKitGutenbergRegisterBlockToolbarButton( block ) {
                                 value:      attributes[ fieldName ],
                                 help:       field.description,
                                 options:    fieldOptions,
-                                onChange:   function( value ) {
+                                onChange:   function( newValue ) {
 
-                                    // Build object of new attributes.
-                                    var newAttributes = {};
-                                    for ( var attribute in block.attributes ) {
-                                        // If 'None' selected, blank the attribute's value.
-                                        if ( value === '' ) {
-                                            newAttributes[ attribute ] = '';
-                                        } else {
-                                            newAttributes[ attribute ] = field.data[ value ][ attribute ];
+                                    setShowPopover( false );
+
+                                    console.log( newValue );
+                                    console.log( field );
+
+                                    if ( newValue ) {
+                                        // Build object of new attributes.
+                                        var newAttributes = {};
+                                        for ( var attribute in block.attributes ) {
+                                            // If 'None' selected, blank the attribute's value.
+                                            if ( value === '' ) {
+                                                newAttributes[ attribute ] = '';
+                                            } else {
+                                                newAttributes[ attribute ] = field.data[ newValue ][ attribute ];
+                                            }
                                         }
+
+
+                                        // Apply format.
+                                        onChange( applyFormat(
+                                            value,
+                                            {
+                                                type: 'convertkit/' + block.name,
+                                                attributes: newAttributes
+                                            }
+                                        ) );
+                                    } else {
+                                        // Remove format.
+                                        onChange( toggleFormat(
+                                            value,
+                                            {
+                                                type: 'convertkit/' + block.name
+                                            }
+                                        ) );
                                     }
-
-                                    // @TODO If no text was selected, nothing happens. What do we do here?
-                                    // Do we insert text at the pointer and then format it?
-
-                                    // Apply formatting changes.
-                                    props.onChange( applyFormat(
-                                        props.value,
-                                        {
-                                            type: 'convertkit/' + block.name,
-                                            attributes: newAttributes
-                                        }
-                                    ) );
 
                                 }
                             }
                         ) );
                     }
 
-                    return [
+                    return (
                         createElement(
                             Fragment,
                             {
-                                key:  'convertkit_' + block.name + '_rich_text_toolbar_fragment',
+                                key:  'convertkit_' + block.name + '_rich_text_toolbar_fragment'
                             },
 
                             // Register the button in the rich text toolbar.
@@ -196,31 +223,28 @@ function convertKitGutenbergRegisterBlockToolbarButton( block ) {
                                     key:  'convertkit_' + block.name + '_rich_text_toolbar_button',
                                     icon: icon,
                                     title: block.title,
-                                    isActive: props.isActive,
+                                    isActive: isActive,
                                     onClick: function() {
-                                        // Add / remove this formatter's name to the element.
-                                        props.onChange(
-                                            toggleFormat( props.value, {
-                                                type: 'convertkit/' + block.name
-                                            })
-                                        )
+                                        setShowPopover( true );
                                     }
                                 },
                             ),
 
                             // Popover which displays fields when the button is active.
-                            props.isActive && ( createElement(
+                            ( showPopover || isActive ) && ( createElement(
                                 Popover,
                                 {
                                     key:  'convertkit_' + block.name + '_popover',
                                     className: 'convertkit-popover',
-                                    position: 'bottom center',
-                                    focusOnMount: 'container'
+                                    anchor: anchorRef,
+                                    onClose: function() {
+                                        setShowPopover( false );
+                                    }
                                 },
                                 elements
                             ) )
                         )
-                    ];
+                    );
                 }
             }
         );

@@ -12,9 +12,7 @@
 	max-width: 400px;
 }
 
-.convertkit-popover {
-	position: relative;
-}
+
 .convertkit-popover .components-popover__content {
 	width: 300px;
 	padding: 15px;
