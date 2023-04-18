@@ -34,28 +34,20 @@ function convertKitGutenbergRegisterBlockToolbarButton( block ) {
 
         const {
             Fragment,
-            useEffect,
             useState,
-            useRef,
             createElement
         }                                     = element;
         const { 
             registerFormatType,
             toggleFormat,
             applyFormat,
-            useAnchor,
-            useAnchorRef,
-            isCollapsed,
-            create,
-            insert
+            useAnchorRef
         }                                     = richText;
         const { 
             BlockControls,
             RichTextToolbarButton,
-            URLPopover
         }                                     = editor;
-        const { 
-            ToolbarGroup,
+        const {
             Button,
             Popover,
             SelectControl
@@ -170,21 +162,17 @@ function convertKitGutenbergRegisterBlockToolbarButton( block ) {
 
                                     setShowPopover( false );
 
-                                    console.log( newValue );
-                                    console.log( field );
-
                                     if ( newValue ) {
                                         // Build object of new attributes.
                                         var newAttributes = {};
                                         for ( var attribute in block.attributes ) {
                                             // If 'None' selected, blank the attribute's value.
-                                            if ( value === '' ) {
+                                            if ( newValue === '' ) {
                                                 newAttributes[ attribute ] = '';
                                             } else {
                                                 newAttributes[ attribute ] = field.data[ newValue ][ attribute ];
                                             }
                                         }
-
 
                                         // Apply format.
                                         onChange( applyFormat(
@@ -231,7 +219,7 @@ function convertKitGutenbergRegisterBlockToolbarButton( block ) {
                             ),
 
                             // Popover which displays fields when the button is active.
-                            ( showPopover || isActive ) && ( createElement(
+                            showPopover && ( createElement(
                                 Popover,
                                 {
                                     key:  'convertkit_' + block.name + '_popover',
