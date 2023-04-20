@@ -410,8 +410,8 @@ class ConvertKit_Output {
 	/**
 	 * Outputs any JS <script> tags registered with the convertkit_output_scripts_footer
 	 * filter
-	 * 
-	 * @since 	2.1.4
+	 *
+	 * @since   2.1.4
 	 */
 	public function output_scripts_footer() {
 
@@ -420,10 +420,10 @@ class ConvertKit_Output {
 
 		/**
 		 * Define an array of scripts to output in the footer of the WordPress site.
-		 * 
-		 * @since 	2.1.4
-		 * 
-		 * @param 	array 	$scripts 	Scripts.
+		 *
+		 * @since   2.1.4
+		 *
+		 * @param   array   $scripts    Scripts.
 		 */
 		$scripts = apply_filters( 'convertkit_output_scripts_footer', $scripts );
 
@@ -463,7 +463,7 @@ class ConvertKit_Output {
 
 		// Output scripts.
 		foreach ( $output_scripts as $output_script ) {
-			echo $output_script . "\n";
+			echo $output_script . "\n"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		}
 
 	}
