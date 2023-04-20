@@ -24,6 +24,15 @@ class ConvertKit_Block_Formatter_Form_Link extends ConvertKit_Block_Formatter {
 	public $forms = false;
 
 	/**
+	 * Holds the Post's content.
+	 * 
+	 * @since 	2.2.0
+	 * 
+	 * @var 	string
+	 */
+	public $content = '';
+
+	/**
 	 * Constructor
 	 *
 	 * @since   2.2.0
@@ -160,6 +169,9 @@ class ConvertKit_Block_Formatter_Form_Link extends ConvertKit_Block_Formatter {
 	 */
 	public function maybe_append_script( $content ) {
 
+		// Store content in class.
+		$this->content = $content;
+
 		// Return content, unedited, if no form links exist in the content.
 		if ( strpos( $content, 'data-formkit-toggle' ) === false ) {
 			return $content;
@@ -214,6 +226,13 @@ class ConvertKit_Block_Formatter_Form_Link extends ConvertKit_Block_Formatter {
 
 		// Inject the script immediately after the link.
 		$script = '<script async data-uid="' . esc_attr( $form['uid'] ) . '" src="' . esc_url( $form['embed_js'] ) .'"></script>';
+
+		// If this script already exists in the content i.e. there is another trigger or form button that triggers the same form,
+		// don't inject the script a second time.  Doing so results in the e.g. modal displaying twice.
+		if ( strpos( $this->content, $script ) !== false ) {
+			// Just return the link, unedited.
+			return $match[0];
+		}
 
 		// Return.
 		return $match[0] . $script;
