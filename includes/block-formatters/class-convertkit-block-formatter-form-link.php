@@ -1,18 +1,18 @@
 <?php
 /**
- * ConvertKit Block Toolbar Link Button class.
+ * ConvertKit Form Link Block Formatter class.
  *
  * @package ConvertKit
  * @author ConvertKit
  */
 
 /**
- * ConvertKit Block Toolbar Link Button definition for Gutenberg and TinyMCE.
+ * ConvertKit Form Link Block Formatter class.
  *
  * @package ConvertKit
  * @author  ConvertKit
  */
-class ConvertKit_Block_Toolbar_Button_Link_Form extends ConvertKit_Block_Toolbar_Button {
+class ConvertKit_Block_Formatter_Form_Link extends ConvertKit_Block_Formatter {
 
 	/**
 	 * Holds the ConvertKit Forms resource class.
@@ -30,17 +30,16 @@ class ConvertKit_Block_Toolbar_Button_Link_Form extends ConvertKit_Block_Toolbar
 	 */
 	public function __construct() {
 
-		// Register this as a Gutenberg block toolbar button in the ConvertKit Plugin.
-		add_filter( 'convertkit_block_toolbar_buttons', array( $this, 'register' ) );
+		// Register this as a Gutenberg block formatter in the ConvertKit Plugin.
+		add_filter( 'convertkit_get_block_formatters', array( $this, 'register' ) );
 
-		// Output JS.
-				// Adds the data-commerce attribute to HTML links that link to a ConvertKit Product.
+		// Append JS if links exist in the content that have the formatter applied.
 		add_filter( 'the_content', array( $this, 'maybe_append_script' ) );
 
 	}
 
 	/**
-	 * Returns this button's programmatic name, excluding the convertkit- prefix.
+	 * Returns this formatter's programmatic name, excluding the convertkit- prefix.
 	 *
 	 * @since   2.2.0
 	 *
@@ -48,12 +47,12 @@ class ConvertKit_Block_Toolbar_Button_Link_Form extends ConvertKit_Block_Toolbar
 	 */
 	public function get_name() {
 
-		return 'link-form';
+		return 'form-link';
 
 	}
 
 	/**
-	 * Returns this button's Title, Icon, Categories, Keywords and properties.
+	 * Returns this formatters's Title, Description and Icon
 	 *
 	 * @since   2.2.0
 	 *
@@ -62,18 +61,19 @@ class ConvertKit_Block_Toolbar_Button_Link_Form extends ConvertKit_Block_Toolbar
 	public function get_overview() {
 
 		return array(
-			'title'                             => __( 'Link to ConvertKit', 'convertkit' ),
-			'description'                       => __( 'Links the selected text to a ConvertKit Form or Product.', 'convertkit' ),
-			'icon'                              => 'resources/backend/images/block-icon-form.png',
+			'title'				=> __( 'ConvertKit Form Trigger', 'convertkit' ),
+			'description'		=> __( 'Displays a modal, sticky bar or slide in form to display when the link is pressed.', 'convertkit' ),
+			'icon'              => 'resources/backend/images/block-icon-formtrigger.png',
 			
 			// Gutenberg: Block Icon in Editor.
-			'gutenberg_icon'                    => file_get_contents( CONVERTKIT_PLUGIN_PATH . '/resources/backend/images/block-icon-form.svg' ), /* phpcs:ignore */
+			'gutenberg_icon'    => file_get_contents( CONVERTKIT_PLUGIN_PATH . '/resources/backend/images/block-icon-formtrigger.svg' ), /* phpcs:ignore */
 		);
 
 	}
 
 	/**
-	 * Returns this button's Attributes 
+	 * Returns this formatter's attributes, which are applied
+	 * to the tag.
 	 *
 	 * @since   2.2.0
 	 *
@@ -90,11 +90,12 @@ class ConvertKit_Block_Toolbar_Button_Link_Form extends ConvertKit_Block_Toolbar
 	}
 
 	/**
-	 * Returns this block's Fields
+	 * Returns this formatter's fields to display when the formatter
+	 * button is clicked in the toolbar.
 	 *
 	 * @since   2.2.0
 	 *
-	 * @return  bool|array
+	 * @return  array
 	 */
 	public function get_fields() {
 
@@ -109,7 +110,7 @@ class ConvertKit_Block_Toolbar_Button_Link_Form extends ConvertKit_Block_Toolbar
 		$convertkit_forms = new ConvertKit_Resource_Forms( 'block_edit' );
 		if ( $convertkit_forms->exist() ) {
 			foreach ( $convertkit_forms->get() as $form ) {
-				// Ignore inline forms; this button link is only for modal, slide in and sticky bar forms.
+				// Ignore inline forms; this formatter is only for modal, slide in and sticky bar forms.
 				if ( ! array_key_exists( 'format', $form ) ) {
 					continue;
 				}

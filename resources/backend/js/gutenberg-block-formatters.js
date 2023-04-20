@@ -1,5 +1,5 @@
 /**
- * Registers buttons in the Block Toolbar in the Gutenberg editor.
+ * Registers formatters in the Block Toolbar in the Gutenberg editor.
  *
  * @since   2.2.0
  *
@@ -7,29 +7,28 @@
  * @author ConvertKit
  */
 
-// Register Gutenberg Block Toolbar buttons if the Gutenberg Editor is loaded on screen.
+// Register Gutenberg Block Toolbar formatters if the Gutenberg Editor is loaded on screen.
 // This prevents JS errors if this script is accidentally enqueued on a non-
 // Gutenberg editor screen, or the Classic Editor Plugin is active.
 if ( typeof wp !== 'undefined' &&
     typeof wp.blocks !== 'undefined' ) {
 
-    // Register each ConvertKit Block Toolbar button in Gutenberg.
-    for ( const button in convertkit_blocks_toolbar_buttons ) {
-        convertKitGutenbergRegisterBlockToolbarButton( convertkit_blocks_toolbar_buttons[ button ] );
+    // Register each ConvertKit formatter in Gutenberg.
+    for ( const formatter in convertkit_block_formatters ) {
+        convertKitGutenbergRegisterBlockFormatter( convertkit_block_formatters[ formatter ] );
     }
 
 }
 
 /**
- * Registers the given block toolbar button in Gutenberg.
+ * Registers the given formatter in Gutenberg.
  *
  * @since   2.2.0
  *
- * @param   object  block   Block Toolbar Button.
+ * @param   object  formatter   Block formatter.
  */
-function convertKitGutenbergRegisterBlockToolbarButton( block ) {
+function convertKitGutenbergRegisterBlockFormatter( formatter ) {
 
-    // Register Block.
     ( function( editor, richText, element, components, block ) {
 
         const {
@@ -55,32 +54,32 @@ function convertKitGutenbergRegisterBlockToolbarButton( block ) {
 
         // Build Icon, if it's an object.
         var icon = 'dashicons-tablet';
-        if ( typeof block.gutenberg_icon !== 'undefined' ) {
-            if ( block.gutenberg_icon.search( 'svg' ) >= 0 ) {
+        if ( typeof formatter.gutenberg_icon !== 'undefined' ) {
+            if ( formatter.gutenberg_icon.search( 'svg' ) >= 0 ) {
                 // SVG.
                 icon = element.RawHTML(
                     {
-                        children: block.gutenberg_icon
+                        children: formatter.gutenberg_icon
                     }
                 );
             } else {
                 // Dashicon.
-                icon = block.gutenberg_icon;
+                icon = formatter.gutenberg_icon;
             }
         }
 
         // Register Format Type.
         registerFormatType(
-            'convertkit/' + block.name,
+            'convertkit/' + formatter.name,
             {
-                title:      block.title,
+                title:      formatter.title,
 
                 // The tagName and className combination allow Gutenberg to uniquely identify
                 // whether this formatter has been used on the selected text.
-                tagName:    block.tag,
-                className:  block.name,
+                tagName:    formatter.tag,
+                className:  formatter.name,
 
-                attributes: block.attributes,
+                attributes: formatter.attributes,
 
                 // Editor.
                 edit: function( props ) {
@@ -98,16 +97,16 @@ function convertKitGutenbergRegisterBlockToolbarButton( block ) {
 
                     // Define object comprising of attributes.
                     var attributes = {};
-                    for ( var attribute in block.attributes ) {
+                    for ( var attribute in formatter.attributes ) {
                         attributes[ attribute ] = '';
                     }
 
                     // If this formatter has been applied to the selected text,
                     // the selected text may have existing attributes.
                     // Fetch those attribute values.
-                    const formats = activeFormats.filter( format => 'convertkit/' + block.name === format['type'] );
+                    const formats = activeFormats.filter( format => 'convertkit/' + formatter.name === format['type'] );
                     if ( formats.length > 0 ) {
-                        for ( var attribute in block.attributes ) {
+                        for ( var attribute in formatter.attributes ) {
                             // @TODO Figure out why the attributes begin in .unregisteredAttributes, but then
                             // on change move to .attributes.
                             if ( typeof formats[0].unregisteredAttributes !== 'undefined' ) {
@@ -119,8 +118,8 @@ function convertKitGutenbergRegisterBlockToolbarButton( block ) {
                     }
 
                     // Define fields.
-                    for ( var fieldName in block.fields ) {
-                        const field = block.fields[ fieldName ];
+                    for ( var fieldName in formatter.fields ) {
+                        const field = formatter.fields[ fieldName ];
 
                         // Build options for <select> input.
                         var fieldOptions = [
@@ -153,7 +152,7 @@ function convertKitGutenbergRegisterBlockToolbarButton( block ) {
                         elements.push( createElement(
                             SelectControl,
                             {
-                                key:        'convertkit_' + block.name + '_' + fieldName,
+                                key:        'convertkit_' + formatter.name + '_' + fieldName,
                                 label:      field.label,
                                 value:      attributes[ fieldName ],
                                 help:       field.description,
@@ -165,7 +164,7 @@ function convertKitGutenbergRegisterBlockToolbarButton( block ) {
                                     if ( newValue ) {
                                         // Build object of new attributes.
                                         var newAttributes = {};
-                                        for ( var attribute in block.attributes ) {
+                                        for ( var attribute in formatter.attributes ) {
                                             // If 'None' selected, blank the attribute's value.
                                             if ( newValue === '' ) {
                                                 newAttributes[ attribute ] = '';
@@ -178,7 +177,7 @@ function convertKitGutenbergRegisterBlockToolbarButton( block ) {
                                         onChange( applyFormat(
                                             value,
                                             {
-                                                type: 'convertkit/' + block.name,
+                                                type: 'convertkit/' + formatter.name,
                                                 attributes: newAttributes
                                             }
                                         ) );
@@ -187,7 +186,7 @@ function convertKitGutenbergRegisterBlockToolbarButton( block ) {
                                         onChange( toggleFormat(
                                             value,
                                             {
-                                                type: 'convertkit/' + block.name
+                                                type: 'convertkit/' + formatter.name
                                             }
                                         ) );
                                     }
@@ -201,16 +200,16 @@ function convertKitGutenbergRegisterBlockToolbarButton( block ) {
                         createElement(
                             Fragment,
                             {
-                                key:  'convertkit_' + block.name + '_rich_text_toolbar_fragment'
+                                key:  'convertkit_' + formatter.name + '_rich_text_toolbar_fragment'
                             },
 
                             // Register the button in the rich text toolbar.
                             createElement(
                                 RichTextToolbarButton,
                                 {
-                                    key:  'convertkit_' + block.name + '_rich_text_toolbar_button',
+                                    key:  'convertkit_' + formatter.name + '_rich_text_toolbar_button',
                                     icon: icon,
-                                    title: block.title,
+                                    title: formatter.title,
                                     isActive: isActive,
                                     onClick: function() {
                                         setShowPopover( true );
@@ -222,7 +221,7 @@ function convertKitGutenbergRegisterBlockToolbarButton( block ) {
                             showPopover && ( createElement(
                                 Popover,
                                 {
-                                    key:  'convertkit_' + block.name + '_popover',
+                                    key:  'convertkit_' + formatter.name + '_popover',
                                     className: 'convertkit-popover',
                                     anchor: anchorRef,
                                     onClose: function() {
@@ -242,7 +241,7 @@ function convertKitGutenbergRegisterBlockToolbarButton( block ) {
         window.wp.richText,
         window.wp.element,
         window.wp.components,
-        block
+        formatter
     ) );
 
 }

@@ -200,26 +200,26 @@ function convertkit_get_blocks() {
 }
 
 /**
- * Helper method to get registered Block Toolbar Buttons.
+ * Helper method to get registered Block formatters for Gutenberg.
  *
  * @since   2.2.0
  *
- * @return  array   Block Toolbar Buttons
+ * @return  array   Block formatters
  */
-function convertkit_get_block_toolbar_buttons() {
+function convertkit_get_block_formatters() {
 
-	$block_toolbar_buttons = array();
+	$block_formatters = array();
 
 	/**
-	 * Registers block toolbar buttons for the ConvertKit Plugin.
+	 * Registers block formatters in Gutenberg for the ConvertKit Plugin.
 	 *
 	 * @since   2.2.0
 	 *
-	 * @param   array   $block_toolbar_buttons     Block Toolbar Buttons.
+	 * @param   array   $block_formatters     Block formatters.
 	 */
-	$block_toolbar_buttons = apply_filters( 'convertkit_block_toolbar_buttons', $block_toolbar_buttons );
+	$block_formatters = apply_filters( 'convertkit_get_block_formatters', $block_formatters );
 
-	return $block_toolbar_buttons;
+	return $block_formatters;
 
 }
 

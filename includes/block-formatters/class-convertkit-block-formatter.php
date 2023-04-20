@@ -1,30 +1,31 @@
 <?php
 /**
- * ConvertKit Block Toolbar Button class.
+ * ConvertKit Block Formatter class.
  *
  * @package ConvertKit
  * @author ConvertKit
  */
 
 /**
- * ConvertKit Block Toolbar Button definition for Gutenberg and TinyMCE.
+ * Base class for registering a formatter in Gutenberg
+ * using the Formatting Toolbar API.
  *
  * @package ConvertKit
  * @author  ConvertKit
  */
-class ConvertKit_Block_Toolbar_Button {
+class ConvertKit_Block_Formatter {
 
 	/**
-	 * Registers this block toolbar button with the ConvertKit Plugin.
+	 * Registers this formatter with the ConvertKit Plugin.
 	 *
 	 * @since   2.2.0
 	 *
-	 * @param   array $buttons     Block toolbar buttons to Register.
-	 * @return  array              Block toolbar buttons to Register
+	 * @param   array $formatters   Formatters to register.
+	 * @return  array              	Formatters to register.
 	 */
-	public function register( $buttons ) {
+	public function register( $formatters ) {
 
-		$buttons[ $this->get_name() ] = array_merge(
+		$formatters[ $this->get_name() ] = array_merge(
 			$this->get_overview(),
 			array(
 				'name'           => $this->get_name(),
@@ -34,12 +35,12 @@ class ConvertKit_Block_Toolbar_Button {
 			)
 		);
 
-		return $buttons;
+		return $formatters;
 
 	}
 
 	/**
-	 * Returns this button's programmatic name, excluding the convertkit- prefix.
+	 * Returns this formatters's programmatic name, excluding the convertkit- prefix.
 	 *
 	 * @since   2.2.0
 	 */
@@ -47,14 +48,14 @@ class ConvertKit_Block_Toolbar_Button {
 
 		/**
 		 * This will register as:
-		 * - a Gutenberg block toolbar button, with the name convertkit/{name}.
+		 * - a Gutenberg formatters toolbar button, with the name convertkit/{name}.
 		 */
 		return '';
 
 	}
 
 	/**
-	 * Returns the tag that this button produces on the HTML output.
+	 * Returns the tag that this formatter applies when used.
 	 *
 	 * @since   2.2.0
 	 */
@@ -65,7 +66,7 @@ class ConvertKit_Block_Toolbar_Button {
 	}
 
 	/**
-	 * Returns this button's Title, Icon, Categories, Keywords and properties.
+	 * Returns this formatters's Title, Description and Icon
 	 *
 	 * @since   2.2.0
 	 *
@@ -78,7 +79,8 @@ class ConvertKit_Block_Toolbar_Button {
 	}
 
 	/**
-	 * Returns this button's Attributes
+	 * Returns this formatter's attributes, which are applied
+	 * to the tag.
 	 *
 	 * @since   2.2.0
 	 *
@@ -91,7 +93,8 @@ class ConvertKit_Block_Toolbar_Button {
 	}
 
 	/**
-	 * Returns this block's Fields
+	 * Returns this formatter's fields to display when the formatter
+	 * button is clicked in the toolbar.
 	 *
 	 * @since   2.2.0
 	 *
