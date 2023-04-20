@@ -83,7 +83,7 @@ class ConvertKit_Block_Form_Trigger extends ConvertKit_Block {
 		return array(
 			'title'                             => __( 'ConvertKit Form Trigger', 'convertkit' ),
 			'description'                       => __( 'Displays a modal, sticky bar or slide in form to display when the button is pressed.', 'convertkit' ),
-			'icon'                              => 'resources/backend/images/block-icon-form.png',
+			'icon'                              => 'resources/backend/images/block-icon-formtrigger.png',
 			'category'                          => 'convertkit',
 			'keywords'                          => array(
 				__( 'ConvertKit', 'convertkit' ),
@@ -103,10 +103,10 @@ class ConvertKit_Block_Form_Trigger extends ConvertKit_Block {
 			'shortcode_include_closing_tag'     => false,
 
 			// Gutenberg: Block Icon in Editor.
-			'gutenberg_icon'                => file_get_contents( CONVERTKIT_PLUGIN_PATH . '/resources/backend/images/block-icon-form.svg' ), /* phpcs:ignore */
+			'gutenberg_icon'                => file_get_contents( CONVERTKIT_PLUGIN_PATH . '/resources/backend/images/block-icon-formtrigger.svg' ), /* phpcs:ignore */
 
 			// Gutenberg: Example image showing how this block looks when choosing it in Gutenberg.
-			'gutenberg_example_image'           => CONVERTKIT_PLUGIN_URL . 'resources/backend/images/block-example-form-trigger.png',
+			'gutenberg_example_image'           => CONVERTKIT_PLUGIN_URL . 'resources/backend/images/block-example-formtrigger.png',
 
 			// Gutenberg: Help description, displayed when no settings defined for a newly added Block.
 			'gutenberg_help_description'        => __( 'Select a Form using the Form option in the Gutenberg sidebar.', 'convertkit' ),
