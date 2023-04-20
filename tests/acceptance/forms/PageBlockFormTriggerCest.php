@@ -61,6 +61,58 @@ class PageBlockFormTriggerCest
 	}
 
 	/**
+	 * Test that multiple Form Trigger blocks work when using a valid Form parameter.
+	 *
+	 * @since   2.2.0
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testFormTriggerBlocksWithValidFormParameter(AcceptanceTester $I)
+	{
+		// Add a Page using the Gutenberg editor.
+		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form Trigger: Valid Form Param, Multiple Blocks');
+
+		// Configure metabox's Form setting = None, ensuring we only test the block in Gutenberg.
+		$I->configureMetaboxSettings(
+			$I,
+			'wp-convertkit-meta-box',
+			[
+				'form' => [ 'select2', 'None' ],
+			]
+		);
+
+		// Add block to Page, setting the Form setting to the value specified in the .env file.
+		$I->addGutenbergBlock(
+			$I,
+			'ConvertKit Form Trigger',
+			'convertkit-formtrigger',
+			[
+				'form' => [ 'select', $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_NAME'] ],
+			]
+		);
+
+		// Add the same block again.
+		$I->addGutenbergBlock(
+			$I,
+			'ConvertKit Form Trigger',
+			'convertkit-formtrigger',
+			[
+				'form' => [ 'select', $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_NAME'] ],
+			]
+		);
+
+		// Publish and view the Page on the frontend site.
+		$I->publishAndViewGutenbergPage($I);
+
+		// Confirm that the block displays.
+		$I->seeFormTriggerOutput($I, $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_URL'], 'Subscribe');
+
+		// Confirm that one ConvertKit Form is output in the DOM.
+		// This confirms that there is only one script on the page for this form, which renders the form.
+		$I->seeNumberOfElementsInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_ID'] . '"]', 1);
+	}
+
+	/**
 	 * Test the Form Trigger block works when not defining a Form parameter.
 	 *
 	 * @since   2.2.0
