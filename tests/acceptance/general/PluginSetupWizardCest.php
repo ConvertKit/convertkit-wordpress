@@ -253,8 +253,9 @@ class PluginSetupWizardCest
 		// Switch to newly opened tab.
 		$I->switchToNextTab();
 
-		// Confirm expected Form is displayed.
-		$I->seeElementInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]');
+		// Confirm that one ConvertKit Form is output in the DOM.
+		// This confirms that there is only one script on the page for this form, which renders the form.
+		$I->seeNumberOfElementsInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]', 1);
 
 		// Close newly opened tab.
 		$I->closeTab();
@@ -269,8 +270,9 @@ class PluginSetupWizardCest
 		// Switch to newly opened tab.
 		$I->switchToNextTab();
 
-		// Confirm expected Form is displayed.
-		$I->seeElementInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]');
+		// Confirm that one ConvertKit Form is output in the DOM.
+		// This confirms that there is only one script on the page for this form, which renders the form.
+		$I->seeNumberOfElementsInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]', 1);
 
 		// Close newly opened tab.
 		$I->closeTab();

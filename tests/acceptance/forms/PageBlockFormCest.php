@@ -54,8 +54,9 @@ class PageBlockFormCest
 		// Publish and view the Page on the frontend site.
 		$I->publishAndViewGutenbergPage($I);
 
-		// Confirm that the ConvertKit Form is displayed.
-		$I->seeElementInDOM('form[data-sv-form]');
+		// Confirm that one ConvertKit Form is output in the DOM.
+		// This confirms that there is only one script on the page for this form, which renders the form.
+		$I->seeNumberOfElementsInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]', 1);
 	}
 
 	/**
@@ -141,8 +142,9 @@ class PageBlockFormCest
 		// Publish and view the Page on the frontend site.
 		$I->publishAndViewGutenbergPage($I);
 
-		// Confirm that the ConvertKit Form is displayed.
-		$I->seeElementInDOM('form[data-sv-form]');
+		// Confirm that one ConvertKit Form is output in the DOM.
+		// This confirms that there is only one script on the page for this form, which renders the form.
+		$I->seeNumberOfElementsInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_ID'] . '"]', 1);
 	}
 
 	/**
@@ -190,8 +192,9 @@ class PageBlockFormCest
 		// Publish and view the Page on the frontend site.
 		$I->publishAndViewGutenbergPage($I);
 
-		// Confirm that the ConvertKit Form is displayed.
-		$I->seeElementInDOM('form[data-sv-form]');
+		// Confirm that one ConvertKit Form is output in the DOM.
+		// This confirms that there is only one script on the page for this form, which renders the form.
+		$I->seeNumberOfElementsInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_FORMAT_SLIDE_IN_ID'] . '"]', 1);
 	}
 
 	/**
@@ -239,8 +242,9 @@ class PageBlockFormCest
 		// Publish and view the Page on the frontend site.
 		$I->publishAndViewGutenbergPage($I);
 
-		// Confirm that the ConvertKit Form is displayed.
-		$I->seeElementInDOM('form[data-sv-form]');
+		// Confirm that one ConvertKit Form is output in the DOM.
+		// This confirms that there is only one script on the page for this form, which renders the form.
+		$I->seeNumberOfElementsInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_FORMAT_STICKY_BAR_ID'] . '"]', 1);
 	}
 
 	/**
