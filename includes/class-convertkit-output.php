@@ -432,6 +432,9 @@ class ConvertKit_Output {
 			return;
 		}
 
+		// Define array to store <script> outputs.
+		$output_scripts = array();
+
 		// Iterate through scripts, building the <script> tag for each.
 		foreach ( $scripts as $script ) {
 			$output = '<script';
@@ -448,8 +451,19 @@ class ConvertKit_Output {
 			}
 			$output .= '></script>';
 
-			// Output the script.
-			echo $output;
+			// Add to array.
+			$output_scripts[] = $output;
+		}
+
+		// Remove duplicate scripts.
+		// This prevents the same non-inline form displaying twice. For example, if a modal form is specified both
+		// in the Page's settings and the Form block, the user would see the same modal form displayed twice
+		// because the script would be output twice.
+		$output_scripts = array_unique( $output_scripts );
+
+		// Output scripts.
+		foreach ( $output_scripts as $output_script ) {
+			echo $output_script . "\n";
 		}
 
 	}
