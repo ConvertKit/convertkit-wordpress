@@ -459,11 +459,24 @@ class ConvertKit_Block_Form_Trigger extends ConvertKit_Block {
 
 		$html .= '</div>';
 
-		// Define the script.
-		$script = '<script async data-uid="' . esc_attr( $form['uid'] ) . '" src="' . esc_url( $form['embed_js'] ) . '"></script>';
+		// Register the script, so it's only loaded once for this non-inline form across the entire page.
+		add_filter(
+			'convertkit_output_scripts_footer',
+			function( $scripts ) use ( $form ) {
+
+				$scripts[] = array(
+					'async'    => true,
+					'data-uid' => $form['uid'],
+					'src'      => $form['embed_js'],
+				);
+
+				return $scripts;
+
+			}
+		);
 
 		// Return.
-		return $html . $script;
+		return $html;
 	}
 
 }

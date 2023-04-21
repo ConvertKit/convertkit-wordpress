@@ -107,7 +107,31 @@ class ConvertKit_Resource_Forms extends ConvertKit_Resource {
 			return $api->get_form_html( $id );
 		}
 
-		// If here, return Form <script> embed.
+		// If the form's format is not an inline form, add the inline script before the closing </body> tag.
+		// This prevents a modal form's overlay being constrained by the WordPress Theme's styles,
+		// and accidentally embedding the same non-inline form twice, which would result in e.g. the same modal form
+		// displaying twice.
+		if ( $this->resources[ $id ]['format'] !== 'inline' ) {
+			add_filter(
+				'convertkit_output_scripts_footer',
+				function( $scripts ) use ( $id ) {
+
+					$scripts[] = array(
+						'async'    => true,
+						'data-uid' => $this->resources[ $id ]['uid'],
+						'src'      => $this->resources[ $id ]['embed_js'],
+					);
+
+					return $scripts;
+
+				}
+			);
+
+			// Don't return a script for output, as it'll be output in the site's footer.
+			return '';
+		}
+
+		// If here, return Form <script> embed now, as we want the inline form to display at this specific point of the content.
 		return '<script async data-uid="' . esc_attr( $this->resources[ $id ]['uid'] ) . '" src="' . esc_attr( $this->resources[ $id ]['embed_js'] ) . '"></script>';
 
 	}
