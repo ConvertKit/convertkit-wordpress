@@ -42,8 +42,8 @@ class ConvertKit_Block_Formatter_Form_Link extends ConvertKit_Block_Formatter {
 		// Register this as a Gutenberg block formatter in the ConvertKit Plugin.
 		add_filter( 'convertkit_get_block_formatters', array( $this, 'register' ) );
 
-		// Append JS if links exist in the content that have the formatter applied.
-		add_filter( 'the_content', array( $this, 'maybe_append_script' ) );
+		// Enqueue JS in footer if links exist in the content that have the formatter applied.
+		add_filter( 'the_content', array( $this, 'maybe_enqueue_scripts' ) );
 
 	}
 
@@ -155,11 +155,8 @@ class ConvertKit_Block_Formatter_Form_Link extends ConvertKit_Block_Formatter {
 	}
 
 	/**
-	 * Filters the Post / Page's content, appending the necessary ConvertKit script where
+	 * Filters the Post / Page's content, enqueuring a form's ConvertKit script where
 	 * modal, sticky bar or slide in form links have been added by this block formatter
-	 * in Gutenberg.
-	 * 
-	 * We do this here, because we can't arbitrarily inject a <script> using a block formatter
 	 * in Gutenberg.
 	 *
 	 * @since   2.2.0
@@ -167,7 +164,7 @@ class ConvertKit_Block_Formatter_Form_Link extends ConvertKit_Block_Formatter {
 	 * @param   string $content    Page/Post Content.
 	 * @return  string              Page/Post Content
 	 */
-	public function maybe_append_script( $content ) {
+	public function maybe_enqueue_scripts( $content ) {
 
 		// Store content in class.
 		$this->content = $content;
@@ -185,10 +182,10 @@ class ConvertKit_Block_Formatter_Form_Link extends ConvertKit_Block_Formatter {
 			return $content;
 		}
 
-		// Inject scripts.
+		// Enqueue scripts.
 		$content = preg_replace_callback(
 			'#<' . $this->get_tag() . ' data-id="([^"]*)" data-formkit-toggle="([^"]*)".*?href="([^"]*)".*?>([^>]*)</' . $this->get_tag() . '>#i',
-			array( $this, 'inject_scripts' ),
+			array( $this, 'enqueue_scripts' ),
 			$content
 		);
 
@@ -198,14 +195,14 @@ class ConvertKit_Block_Formatter_Form_Link extends ConvertKit_Block_Formatter {
 	}
 
 	/**
-	 * Callback function to append script to a matching link.
+	 * Callback function to enqueue a script to a matching link.
 	 * 
 	 * @since 	2.2.0
 	 * 
 	 * @param 	array 	$match 	preg_replace_callback() match.
 	 * @return 	string 			Link with script appended
 	 */
-	public function inject_scripts( $match ) {
+	public function enqueue_scripts( $match ) {
 
 		// Get Form by its ID.
 		$form = $this->forms->get_by_id( absint( $match[1] ) );
@@ -224,18 +221,24 @@ class ConvertKit_Block_Formatter_Form_Link extends ConvertKit_Block_Formatter {
 			return $match[0];
 		}
 
-		// Inject the script immediately after the link.
-		$script = '<script async data-uid="' . esc_attr( $form['uid'] ) . '" src="' . esc_url( $form['embed_js'] ) .'"></script>';
+		// Register the script, so it's only loaded once for this non-inline form across the entire page.
+		add_filter(
+			'convertkit_output_scripts_footer',
+			function( $scripts ) use ( $form ) {
 
-		// If this script already exists in the content i.e. there is another trigger or form button that triggers the same form,
-		// don't inject the script a second time.  Doing so results in the e.g. modal displaying twice.
-		if ( strpos( $this->content, $script ) !== false ) {
-			// Just return the link, unedited.
-			return $match[0];
-		}
+				$scripts[] = array(
+					'async'    => true,
+					'data-uid' => $form['uid'],
+					'src'      => $form['embed_js'],
+				);
 
-		// Return.
-		return $match[0] . $script;
+				return $scripts;
+
+			}
+		);
+
+		// Return original link.
+		return $match[0];
 
 	}
 
