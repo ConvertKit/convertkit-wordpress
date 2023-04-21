@@ -190,7 +190,7 @@ class WooCommerceProductFormCest
 		);
 
 		// Add shortcode to Content, setting the Form setting to the value specified in the .env file,
-		// and confirming that the expected shortcode is displayed in the Excerpt field.
+		// and confirming that the expected shortcode is displayed in the Content field.
 		$I->addVisualEditorShortcode(
 			$I,
 			'ConvertKit Form',
@@ -206,7 +206,7 @@ class WooCommerceProductFormCest
 
 		// Confirm that one ConvertKit Form is output in the DOM.
 		// This confirms that there is only one script on the page for this form, which renders the form.
-		$I->seeNumberOfElementsInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]', 1);
+		$I->seeNumberOfElementsInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]', 2);
 	}
 
 	/**
@@ -245,7 +245,7 @@ class WooCommerceProductFormCest
 		);
 
 		// Add shortcode to Content, setting the Form setting to the value specified in the .env file,
-		// and confirming that the expected shortcode is displayed in the Excerpt field.
+		// and confirming that the expected shortcode is displayed in the Content field.
 		$I->addTextEditorShortcode(
 			$I,
 			'convertkit-form',
@@ -261,7 +261,7 @@ class WooCommerceProductFormCest
 
 		// Confirm that one ConvertKit Form is output in the DOM.
 		// This confirms that there is only one script on the page for this form, which renders the form.
-		$I->seeNumberOfElementsInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]', 1);
+		$I->seeNumberOfElementsInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]', 2);
 	}
 
 	/**
