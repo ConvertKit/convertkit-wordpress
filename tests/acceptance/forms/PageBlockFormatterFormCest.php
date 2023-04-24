@@ -47,7 +47,7 @@ class PageBlockFormatterFormTriggerCest
 		$I->addGutenbergParagraphBlock($I, 'Subscribe');
 
 		// Select text.
-		$I->pressKey( '.wp-block-post-content p[data-empty="false"]', array( \Facebook\WebDriver\WebDriverKeys::COMMAND, 'a' ) ); 
+		$I->pressKey( '.wp-block-post-content p[data-empty="false"]', array( \Facebook\WebDriver\WebDriverKeys::COMMAND, 'a' ) );
 
 		// Apply formatter to link the selected text.
 		$I->applyGutenbergFormatter(
@@ -56,7 +56,7 @@ class PageBlockFormatterFormTriggerCest
 			'convertkit-form-link',
 			[
 				// Form.
-				'data-id'  => [ 'select', $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_NAME'] ],
+				'data-id' => [ 'select', $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_NAME'] ],
 			]
 		);
 
@@ -97,7 +97,7 @@ class PageBlockFormatterFormTriggerCest
 		$I->addGutenbergParagraphBlock($I, 'Subscribe');
 
 		// Select text.
-		$I->pressKey( '.wp-block-post-content p[data-empty="false"]', array( \Facebook\WebDriver\WebDriverKeys::COMMAND, 'a' ) ); 
+		$I->pressKey( '.wp-block-post-content p[data-empty="false"]', array( \Facebook\WebDriver\WebDriverKeys::COMMAND, 'a' ) );
 
 		// Apply formatter to link the selected text.
 		$I->applyGutenbergFormatter(
@@ -106,7 +106,7 @@ class PageBlockFormatterFormTriggerCest
 			'convertkit-form-link',
 			[
 				// Form.
-				'data-id'  => [ 'select', $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_NAME'] ],
+				'data-id' => [ 'select', $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_NAME'] ],
 			]
 		);
 
@@ -117,7 +117,7 @@ class PageBlockFormatterFormTriggerCest
 			'convertkit-form-link',
 			[
 				// Form.
-				'data-id'  => [ 'select', 'None' ],
+				'data-id' => [ 'select', 'None' ],
 			]
 		);
 
@@ -153,7 +153,7 @@ class PageBlockFormatterFormTriggerCest
 		$I->addGutenbergParagraphBlock($I, 'Subscribe');
 
 		// Select text.
-		$I->pressKey( '.wp-block-post-content p[data-empty="false"]', array( \Facebook\WebDriver\WebDriverKeys::COMMAND, 'a' ) ); 
+		$I->pressKey( '.wp-block-post-content p[data-empty="false"]', array( \Facebook\WebDriver\WebDriverKeys::COMMAND, 'a' ) );
 
 		// Apply formatter to link the selected text.
 		$I->applyGutenbergFormatter(
@@ -162,7 +162,7 @@ class PageBlockFormatterFormTriggerCest
 			'convertkit-form-link',
 			[
 				// Form.
-				'data-id'  => [ 'select', 'None' ],
+				'data-id' => [ 'select', 'None' ],
 			]
 		);
 

@@ -229,7 +229,7 @@ class WPGutenberg extends \Codeception\Module
 		// Apply formatter configuration.
 		if ( $formatterConfiguration ) {
 			$I->waitForElementVisible('.components-popover');
-			
+
 			foreach ($formatterConfiguration as $field => $attributes) {
 				// Field ID will be formatter's programmatic name, followed by the attribute name.
 				$fieldID = '#' . $formatterProgrammaticName . '-' . $field;

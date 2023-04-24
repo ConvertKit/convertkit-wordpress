@@ -142,7 +142,7 @@ class ConvertKit_Gutenberg {
 		$settings = new ConvertKit_Settings();
 
 		// Get blocks and block toolbar buttons.
-		$blocks = convertkit_get_blocks();
+		$blocks           = convertkit_get_blocks();
 		$block_formatters = convertkit_get_block_formatters();
 
 		// Enqueue Gutenberg Javascript, and set the blocks data.
@@ -158,8 +158,8 @@ class ConvertKit_Gutenberg {
 		 *
 		 * @since   1.9.6.5
 		 *
-		 * @param   array   $blocks     		ConvertKit Blocks.
-		 * @param 	array 	$block_formatters 	ConvertKit Block Formatters.
+		 * @param   array   $blocks             ConvertKit Blocks.
+		 * @param   array   $block_formatters   ConvertKit Block Formatters.
 		 */
 		do_action( 'convertkit_gutenberg_enqueue_scripts', $blocks, $block_formatters );
 

@@ -25,10 +25,10 @@ class ConvertKit_Block_Formatter_Form_Link extends ConvertKit_Block_Formatter {
 
 	/**
 	 * Holds the Post's content.
-	 * 
-	 * @since 	2.2.0
-	 * 
-	 * @var 	string
+	 *
+	 * @since   2.2.0
+	 *
+	 * @var     string
 	 */
 	public $content = '';
 
@@ -70,10 +70,10 @@ class ConvertKit_Block_Formatter_Form_Link extends ConvertKit_Block_Formatter {
 	public function get_overview() {
 
 		return array(
-			'title'				=> __( 'ConvertKit Form Trigger', 'convertkit' ),
-			'description'		=> __( 'Displays a modal, sticky bar or slide in form to display when the link is pressed.', 'convertkit' ),
-			'icon'              => 'resources/backend/images/block-icon-formtrigger.png',
-			
+			'title'          => __( 'ConvertKit Form Trigger', 'convertkit' ),
+			'description'    => __( 'Displays a modal, sticky bar or slide in form to display when the link is pressed.', 'convertkit' ),
+			'icon'           => 'resources/backend/images/block-icon-formtrigger.png',
+
 			// Gutenberg: Block Icon in Editor.
 			'gutenberg_icon'    => file_get_contents( CONVERTKIT_PLUGIN_PATH . '/resources/backend/images/block-icon-formtrigger.svg' ), /* phpcs:ignore */
 		);
@@ -91,9 +91,9 @@ class ConvertKit_Block_Formatter_Form_Link extends ConvertKit_Block_Formatter {
 	public function get_attributes() {
 
 		return array(
-			'data-id'		  	  => '',
+			'data-id'             => '',
 			'data-formkit-toggle' => '',
-            'href' 				  => '',
+			'href'                => '',
 		);
 
 	}
@@ -104,7 +104,7 @@ class ConvertKit_Block_Formatter_Form_Link extends ConvertKit_Block_Formatter {
 	 *
 	 * @since   2.2.0
 	 *
-	 * @return  array
+	 * @return  bool|array
 	 */
 	public function get_fields() {
 
@@ -115,7 +115,7 @@ class ConvertKit_Block_Formatter_Form_Link extends ConvertKit_Block_Formatter {
 
 		// Get ConvertKit Forms.
 		$forms            = array();
-		$forms_data 	  = array();
+		$forms_data       = array();
 		$convertkit_forms = new ConvertKit_Resource_Forms( 'block_edit' );
 		if ( $convertkit_forms->exist() ) {
 			foreach ( $convertkit_forms->get() as $form ) {
@@ -128,11 +128,11 @@ class ConvertKit_Block_Formatter_Form_Link extends ConvertKit_Block_Formatter {
 				}
 
 				// Add this form's necessary to the attribute arrays.
-				$forms[ absint( $form['id'] ) ] = sanitize_text_field( $form['name'] );
+				$forms[ absint( $form['id'] ) ]      = sanitize_text_field( $form['name'] );
 				$forms_data[ absint( $form['id'] ) ] = array(
-					'data-id'				=> sanitize_text_field( $form['id'] ),
-					'data-formkit-toggle' 	=> sanitize_text_field( $form['uid'] ),
-					'href' 					=> $form['embed_url'],
+					'data-id'             => sanitize_text_field( $form['id'] ),
+					'data-formkit-toggle' => sanitize_text_field( $form['uid'] ),
+					'href'                => $form['embed_url'],
 				);
 			}
 		}
@@ -140,15 +140,15 @@ class ConvertKit_Block_Formatter_Form_Link extends ConvertKit_Block_Formatter {
 		// Return field.
 		return array(
 			'data-id' => array(
-				'label'  		=> __( 'Form', 'convertkit' ),
-				'type'   		=> 'select',
-				'description' 	=> __( 'The modal, sticky bar or slide in form to display when the text is clicked.', 'convertkit' ),
+				'label'       => __( 'Form', 'convertkit' ),
+				'type'        => 'select',
+				'description' => __( 'The modal, sticky bar or slide in form to display when the text is clicked.', 'convertkit' ),
 
 				// Key/value pairs for the <select> dropdown.
-				'values' 		=> $forms,
+				'values'      => $forms,
 
 				// Contains all additional data required to build the link.
-				'data'   		=> $forms_data,
+				'data'        => $forms_data,
 			),
 		);
 
@@ -196,11 +196,11 @@ class ConvertKit_Block_Formatter_Form_Link extends ConvertKit_Block_Formatter {
 
 	/**
 	 * Callback function to enqueue a script to a matching link.
-	 * 
-	 * @since 	2.2.0
-	 * 
-	 * @param 	array 	$match 	preg_replace_callback() match.
-	 * @return 	string 			Link with script appended
+	 *
+	 * @since   2.2.0
+	 *
+	 * @param   array $match  preg_replace_callback() match.
+	 * @return  string          Link with script appended
 	 */
 	public function enqueue_scripts( $match ) {
 

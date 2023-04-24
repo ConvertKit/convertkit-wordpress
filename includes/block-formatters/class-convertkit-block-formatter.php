@@ -21,17 +21,17 @@ class ConvertKit_Block_Formatter {
 	 * @since   2.2.0
 	 *
 	 * @param   array $formatters   Formatters to register.
-	 * @return  array              	Formatters to register.
+	 * @return  array               Formatters to register.
 	 */
 	public function register( $formatters ) {
 
 		$formatters[ $this->get_name() ] = array_merge(
 			$this->get_overview(),
 			array(
-				'name'           => $this->get_name(),
-				'tag'			 => $this->get_tag(),
-				'attributes'     => $this->get_attributes(),
-				'fields'         => $this->get_fields(),
+				'name'       => $this->get_name(),
+				'tag'        => $this->get_tag(),
+				'attributes' => $this->get_attributes(),
+				'fields'     => $this->get_fields(),
 			)
 		);
 
