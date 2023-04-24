@@ -77,7 +77,7 @@ function convertKitGutenbergRegisterBlockFormatter( formatter ) {
                 // The tagName and className combination allow Gutenberg to uniquely identify
                 // whether this formatter has been used on the selected text.
                 tagName:    formatter.tag,
-                className:  formatter.name,
+                className:  'convertkit-' + formatter.name,
 
                 attributes: formatter.attributes,
 
