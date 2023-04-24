@@ -208,6 +208,50 @@ class WPGutenberg extends \Codeception\Module
 	}
 
 	/**
+	 * Applies the given block formatter to the currently selected block.
+	 *
+	 * @since   2.2.0
+	 *
+	 * @param   AcceptanceTester $I                      Acceptance Tester.
+	 * @param   string           $formatterName          Formatter Name (e.g. 'ConvertKit Form Trigger').
+	 * @param   string           $popoverClassName  	 Block formatter's popover class name (e.g. 'convertkit-popover').
+	 * @param   bool|array       $formatterConfiguration Block formatter's configuration (field => value key/value array).
+	 */
+	public function applyGutenbergFormatter($I, $formatterName, $popoverClassName, $formatterConfiguration = false)
+	{
+		// Click More button in block toolbar.
+		$I->waitForElementVisible('.block-editor-block-toolbar button[aria-label="More"]');
+		$I->click('.block-editor-block-toolbar button[aria-label="More"]');
+
+		// Click Block Formatter button.
+		$I->click($formatterName, '.components-dropdown-menu__popover');
+
+		// If no popover class name specified, return now as the formatting work is complete.
+		if (!$popoverClassName) {
+			return;
+		}
+
+		// Wait for popover to display.
+		$I->waitForElementVisible('.' . $popoverClassName);
+
+		// Apply formatter configuration.
+		foreach ($formatterConfiguration as $fieldID => $attributes) {
+			// Depending on the field's type, define its value.
+			switch ($attributes[0]) {
+				case 'select':
+					$I->selectOption('.' . $popoverClassName . ' ' . $fieldID, $attributes[1]);
+					break;
+				case 'toggle':
+					$I->click('.' . $popoverClassName . ' ' . $fieldID);
+					break;
+				default:
+					$I->fillField('.' . $popoverClassName . ' ' . $fieldID, $attributes[1]);
+					break;
+			}
+		}
+	}
+
+	/**
 	 * Check that the given block did not output any errors when rendered in the
 	 * Gutenberg editor.
 	 *

@@ -989,7 +989,7 @@ class Plugin extends \Codeception\Module
 	 * a Form Trigger block or shortcode, and that the button loads the expected
 	 * ConvertKit Form.
 	 *
-	 * @since   1.9.8.5
+	 * @since   2.2.0
 	 *
 	 * @param   AcceptanceTester $I              Tester.
 	 * @param   string           $formURL        Form URL.
@@ -1048,6 +1048,35 @@ class Plugin extends \Codeception\Module
 	{
 		// Confirm that the block does not display.
 		$I->dontSeeElementInDOM('div.wp-block-button a.convertkit-formtrigger');
+	}
+
+	/**
+	 * Check that expected HTML exists in the DOM of the page we're viewing for
+	 * a Form Trigger link, and that the link loads the expected
+	 * ConvertKit Form.
+	 *
+	 * @since   2.2.0
+	 *
+	 * @param   AcceptanceTester $I              Tester.
+	 * @param   string           $formURL        Form URL.
+	 * @param   bool|string      $text           Test if the text matches the given value.
+	 */
+	public function seeFormTriggerLinkOutput($I, $formURL, $text = false)
+	{
+		// Confirm that the link displays.
+		$I->seeElementInDOM('a.convertkit-form-link');
+
+		// Confirm that the button links to the correct form.
+		$I->assertEquals($formURL, $I->grabAttributeFrom('a.convertkit-form-link', 'href'));
+
+		// Confirm that the text is as expected.
+		if ($text !== false) {
+			$I->see($text);
+		}
+
+		// Click the link to confirm that the ConvertKit form displays.
+		$I->click('a.convertkit-form-link');
+		$I->waitForElementVisible('div.formkit-overlay');
 	}
 
 	/**
