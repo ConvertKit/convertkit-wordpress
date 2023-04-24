@@ -153,6 +153,7 @@ function convertKitGutenbergRegisterBlockFormatter( formatter ) {
                             SelectControl,
                             {
                                 key:        'convertkit_' + formatter.name + '_' + fieldName,
+                                id:         'convertkit-' + formatter.name + '-' + fieldName,
                                 label:      field.label,
                                 value:      attributes[ fieldName ],
                                 help:       field.description,
