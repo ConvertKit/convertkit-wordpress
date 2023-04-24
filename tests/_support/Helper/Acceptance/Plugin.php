@@ -1080,6 +1080,20 @@ class Plugin extends \Codeception\Module
 	}
 
 	/**
+	 * Check that expected HTML does not exist in the DOM of the page we're viewing for
+	 * a Form Trigger link formatter.
+	 *
+	 * @since   2.2.0
+	 *
+	 * @param   AcceptanceTester $I      Tester.
+	 */
+	public function dontSeeFormTriggerLinkOutput($I)
+	{
+		// Confirm that the link does not display.
+		$I->dontSeeElementInDOM('a.convertkit-form-link');
+	}
+
+	/**
 	 * Check that expected HTML exists in the DOM of the page we're viewing for
 	 * a Product block or shortcode, and that the button loads the expected
 	 * ConvertKit Product modal.

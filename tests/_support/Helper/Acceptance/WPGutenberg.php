@@ -214,10 +214,10 @@ class WPGutenberg extends \Codeception\Module
 	 *
 	 * @param   AcceptanceTester $I                      Acceptance Tester.
 	 * @param   string           $formatterName          Formatter Name (e.g. 'ConvertKit Form Trigger').
-	 * @param   string           $popoverClassName  	 Block formatter's popover class name (e.g. 'convertkit-popover').
+	 * @param   string           $formatterProgrammaticName  Programmatic Formatter Name (e.g. 'convertkit-form-link').
 	 * @param   bool|array       $formatterConfiguration Block formatter's configuration (field => value key/value array).
 	 */
-	public function applyGutenbergFormatter($I, $formatterName, $popoverClassName, $formatterConfiguration = false)
+	public function applyGutenbergFormatter($I, $formatterName, $formatterProgrammaticName, $formatterConfiguration = false)
 	{
 		// Click More button in block toolbar.
 		$I->waitForElementVisible('.block-editor-block-toolbar button[aria-label="More"]');
@@ -226,27 +226,26 @@ class WPGutenberg extends \Codeception\Module
 		// Click Block Formatter button.
 		$I->click($formatterName, '.components-dropdown-menu__popover');
 
-		// If no popover class name specified, return now as the formatting work is complete.
-		if (!$popoverClassName) {
-			return;
-		}
-
-		// Wait for popover to display.
-		$I->waitForElementVisible('.' . $popoverClassName);
-
 		// Apply formatter configuration.
-		foreach ($formatterConfiguration as $fieldID => $attributes) {
-			// Depending on the field's type, define its value.
-			switch ($attributes[0]) {
-				case 'select':
-					$I->selectOption('.' . $popoverClassName . ' ' . $fieldID, $attributes[1]);
-					break;
-				case 'toggle':
-					$I->click('.' . $popoverClassName . ' ' . $fieldID);
-					break;
-				default:
-					$I->fillField('.' . $popoverClassName . ' ' . $fieldID, $attributes[1]);
-					break;
+		if ( $formatterConfiguration ) {
+			foreach ($formatterConfiguration as $field => $attributes) {
+				// Field ID will be formatter's programmatic name, followed by the attribute name.
+				$fieldID = '#' . $formatterProgrammaticName . '-' . $field;
+
+				$I->waitForElementVisible($fieldID);
+
+				// Depending on the field's type, define its value.
+				switch ($attributes[0]) {
+					case 'select':
+						$I->selectOption($fieldID, $attributes[1]);
+						break;
+					case 'toggle':
+						$I->click($fieldID);
+						break;
+					default:
+						$I->fillField($fieldID, $attributes[1]);
+						break;
+				}
 			}
 		}
 	}
