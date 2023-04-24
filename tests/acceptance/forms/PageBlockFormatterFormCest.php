@@ -65,6 +65,10 @@ class PageBlockFormatterFormTriggerCest
 
 		// Confirm that the link displays and works when clicked.
 		$I->seeFormTriggerLinkOutput($I, $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_URL'], 'Subscribe');
+
+		// Confirm that one ConvertKit Form is output in the DOM.
+		// This confirms that there is only one script on the page for this form, which renders the form.
+		$I->seeNumberOfElementsInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_ID'] . '"]', 1);
 	}
 
 	/**
