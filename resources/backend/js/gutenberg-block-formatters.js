@@ -104,13 +104,15 @@ function convertKitGutenbergRegisterBlockFormatter( formatter ) {
 					// If this formatter has been applied to the selected text,
 					// the selected text may have existing attributes.
 					// Fetch those attribute values.
-					const formats = activeFormats.filter( format => 'convertkit/' + formatter.name === format['type'] );
-					if ( formats.length > 0 ) {
-						for ( var attribute in formatter.attributes ) {
-							if ( typeof formats[0].unregisteredAttributes !== 'undefined' ) {
-								attributes[ attribute ] = formats[0].unregisteredAttributes[ attribute ];
-							} else if ( typeof formats[0].attributes !== 'undefined' ) {
-								attributes[ attribute ] = formats[0].attributes[ attribute ];
+					if ( typeof activeFormats !== 'undefined' ) {
+						const formats = activeFormats.filter( format => 'convertkit/' + formatter.name === format['type'] );
+						if ( formats.length > 0 ) {
+							for ( var attribute in formatter.attributes ) {
+								if ( typeof formats[0].unregisteredAttributes !== 'undefined' ) {
+									attributes[ attribute ] = formats[0].unregisteredAttributes[ attribute ];
+								} else if ( typeof formats[0].attributes !== 'undefined' ) {
+									attributes[ attribute ] = formats[0].attributes[ attribute ];
+								}
 							}
 						}
 					}
