@@ -112,15 +112,15 @@ class ConvertKit_Block_Formatter_Product_Link extends ConvertKit_Block_Formatter
 
 		// Get ConvertKit Products.
 		$products            = array();
-		$products_data 		 = array();
+		$products_data       = array();
 		$convertkit_products = new ConvertKit_Resource_Products();
 		if ( $convertkit_products->exist() ) {
 			foreach ( $convertkit_products->get() as $product ) {
-				$products[ absint( $product['id'] ) ] = sanitize_text_field( $product['name'] );
+				$products[ absint( $product['id'] ) ]      = sanitize_text_field( $product['name'] );
 				$products_data[ absint( $product['id'] ) ] = array(
-					'data-id'             => sanitize_text_field( $product['id'] ),
-					'data-commerce'		  => '1',
-					'href'                => $product['url'],
+					'data-id'       => sanitize_text_field( $product['id'] ),
+					'data-commerce' => '1',
+					'href'          => $product['url'],
 				);
 			}
 		}
