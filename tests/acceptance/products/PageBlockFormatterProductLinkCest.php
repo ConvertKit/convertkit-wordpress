@@ -44,7 +44,7 @@ class PageBlockFormatterProductLinkCest
 		);
 
 		// Add paragraph to Page.
-		$I->addGutenbergParagraphBlock($I, 'Buy now');
+		$I->addGutenbergParagraphBlock($I, $_ENV['CONVERTKIT_API_PRODUCT_NAME']);
 
 		// Select text.
 		$I->pressKey( '.wp-block-post-content p[data-empty="false"]', array( \Facebook\WebDriver\WebDriverKeys::COMMAND, 'a' ) );
@@ -52,7 +52,7 @@ class PageBlockFormatterProductLinkCest
 		// Apply formatter to link the selected text.
 		$I->applyGutenbergFormatter(
 			$I,
-			'ConvertKit Product Link',
+			'ConvertKit Product Trigger',
 			'convertkit-product-link',
 			[
 				// Product.
@@ -64,7 +64,7 @@ class PageBlockFormatterProductLinkCest
 		$I->publishAndViewGutenbergPage($I);
 
 		// Confirm that the link displays, links to the expected URL and the ConvertKit Product Modal works.
-		$I->seeProductLink($I, $_ENV['CONVERTKIT_API_PRODUCT_URL'], $_ENV['CONVERTKIT_API_PRODUCT_NAME'], 'Buy now');
+		$I->seeProductLink($I, $_ENV['CONVERTKIT_API_PRODUCT_URL'], $_ENV['CONVERTKIT_API_PRODUCT_NAME']);
 	}
 
 	/**
@@ -98,7 +98,7 @@ class PageBlockFormatterProductLinkCest
 		// Apply formatter to link the selected text.
 		$I->applyGutenbergFormatter(
 			$I,
-			'ConvertKit Product Link',
+			'ConvertKit Product Trigger',
 			'convertkit-product-link',
 			[
 				// Product.
@@ -109,7 +109,7 @@ class PageBlockFormatterProductLinkCest
 		// Apply the formatter again, this time selecting the 'None' option.
 		$I->applyGutenbergFormatter(
 			$I,
-			'ConvertKit Product Link',
+			'ConvertKit Product Trigger',
 			'convertkit-product-link',
 			[
 				// Form.
@@ -154,7 +154,7 @@ class PageBlockFormatterProductLinkCest
 		// Apply formatter to link the selected text.
 		$I->applyGutenbergFormatter(
 			$I,
-			'ConvertKit Product Link',
+			'ConvertKit Product Trigger',
 			'convertkit-product-link',
 			[
 				// Form.
