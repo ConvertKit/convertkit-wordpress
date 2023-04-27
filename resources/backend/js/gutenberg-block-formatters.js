@@ -53,7 +53,7 @@ function convertKitGutenbergRegisterBlockFormatter( formatter ) {
 		} = components;
 
 		// Build Icon, if it's an object.
-		var icon = 'dashicons-tablet';
+		let icon = 'dashicons-tablet';
 		if ( typeof formatter.gutenberg_icon !== 'undefined' ) {
 			if ( formatter.gutenberg_icon.search( 'svg' ) >= 0 ) {
 				// SVG.
@@ -93,11 +93,11 @@ function convertKitGutenbergRegisterBlockFormatter( formatter ) {
 					const [ showPopover, setShowPopover ] = useState( false );
 
 					// Define array of elements to display when the button is clicked.
-					var elements = [];
+					let elements = [];
 
 					// Define object comprising of attributes.
-					var attributes = {};
-					for ( var attribute in formatter.attributes ) {
+					let attributes = {};
+					for ( let attribute in formatter.attributes ) {
 						attributes[ attribute ] = '';
 					}
 
@@ -107,7 +107,7 @@ function convertKitGutenbergRegisterBlockFormatter( formatter ) {
 					if ( typeof activeFormats !== 'undefined' ) {
 						const formats = activeFormats.filter( format => 'convertkit/' + formatter.name === format['type'] );
 						if ( formats.length > 0 ) {
-							for ( var attribute in formatter.attributes ) {
+							for ( let attribute in formatter.attributes ) {
 								if ( typeof formats[0].unregisteredAttributes !== 'undefined' ) {
 									attributes[ attribute ] = formats[0].unregisteredAttributes[ attribute ];
 								} else if ( typeof formats[0].attributes !== 'undefined' ) {
@@ -118,17 +118,17 @@ function convertKitGutenbergRegisterBlockFormatter( formatter ) {
 					}
 
 					// Define fields.
-					for ( var fieldName in formatter.fields ) {
+					for ( let fieldName in formatter.fields ) {
 						const field = formatter.fields[ fieldName ];
 
 						// Build options for <select> input.
-						var fieldOptions = [
+						let fieldOptions = [
 							{
 								label: '(None)',
 								value: '',
 						}
 						];
-						for ( var fieldValue in field.values ) {
+						for ( let fieldValue in field.values ) {
 							fieldOptions.push(
 								{
 									label: field.values[ fieldValue ],
@@ -165,8 +165,8 @@ function convertKitGutenbergRegisterBlockFormatter( formatter ) {
 
 										if ( newValue ) {
 											// Build object of new attributes.
-											var newAttributes = {};
-											for ( var attribute in formatter.attributes ) {
+											let newAttributes = {};
+											for ( let attribute in formatter.attributes ) {
 												// If 'None' selected, blank the attribute's value.
 												if ( newValue === '' ) {
 													newAttributes[ attribute ] = '';
