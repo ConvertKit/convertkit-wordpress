@@ -56,9 +56,9 @@ function convertKitGutenbergRegisterBlockFormatter( formatter ) {
 		/**
 		 * Returns the icon to display in the block toolbar for this formatter, depending
 		 * on the supplied formatter's configuration.
-		 * 
+		 *
 		 * @since 	2.2.0
-		 * 
+		 *
 		 * @return 	element|string
 		 */
 		const getIcon = function() {
@@ -85,12 +85,12 @@ function convertKitGutenbergRegisterBlockFormatter( formatter ) {
 		/**
 		 * Returns an object of this formatter's attributes if this formatter
 		 * has been used on the selected text.
-		 * 
+		 *
 		 * Returns blank attributes if this formatter has not been used on the
 		 * selected text.
-		 * 
+		 *
 		 * @since 	2.2.0
-		 * 
+		 *
 		 * @param 	object 	formatter 		Block Formatter.
 		 * @param 	object  activeFormats 	All active formatters applied to the selected text.
 		 * @return 	object
@@ -125,30 +125,31 @@ function convertKitGutenbergRegisterBlockFormatter( formatter ) {
 			}
 
 			return attributes;
-			
+
 		}
 
 		/**
 		 * Return an array of field elements to display in the popover modal when
 		 * this formatter is active.
-		 * 
+		 *
 		 * @since 	2.2.0
-		 * 
+		 *
 		 * @param 	object 	attributes 	Field attributes.
 		 * @return 	array 				Field elements
 		 */
 		const getFields = function( props, setShowPopover, attributes ) {
 
+			// Define properties and functions to use.
 			const { onChange, value } = props;
 
-			// Define array of field elements. 
+			// Define array of field elements.
 			let elements = [];
 
 			// Return if no fields exist.
 			if ( formatter.fields.length === 0 ) {
 				return elements;
 			}
-			
+
 			// Iterate through the formatter's fields, adding a field element for each.
 			for ( let fieldName in formatter.fields ) {
 				const field = formatter.fields[ fieldName ];
@@ -157,8 +158,8 @@ function convertKitGutenbergRegisterBlockFormatter( formatter ) {
 				let fieldOptions = [
 					{
 						label: '(None)',
-						value: '',
-					}
+						value: ''
+				}
 				];
 				for ( let fieldValue in field.values ) {
 					fieldOptions.push(
@@ -193,6 +194,7 @@ function convertKitGutenbergRegisterBlockFormatter( formatter ) {
 							options:    fieldOptions,
 							onChange:   function( newValue ) {
 
+								// Hide popover.
 								setShowPopover( false );
 
 								if ( newValue ) {
@@ -243,9 +245,9 @@ function convertKitGutenbergRegisterBlockFormatter( formatter ) {
 		/**
 		 * Display modal when the formatter's button is clicked, and save
 		 * changes that are made.
-		 * 
+		 *
 		 * @since 	2.2.0
-		 * 
+		 *
 		 * @param 	object 	props 	Block formatter properties.
 		 * @return 	object 			Block formatter button and modal elements
 		 */
@@ -272,7 +274,6 @@ function convertKitGutenbergRegisterBlockFormatter( formatter ) {
 					{
 						key:  'convertkit_' + formatter.name + '_rich_text_toolbar_fragment'
 					},
-
 					// Register the button in the rich text toolbar.
 					createElement(
 						RichTextToolbarButton,
@@ -286,7 +287,6 @@ function convertKitGutenbergRegisterBlockFormatter( formatter ) {
 							}
 						},
 					),
-
 					// Popover which displays fields when the button is active.
 					showPopover && ( createElement(
 						Popover,
