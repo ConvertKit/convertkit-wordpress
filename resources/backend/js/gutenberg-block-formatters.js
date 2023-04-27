@@ -91,7 +91,6 @@ function convertKitGutenbergRegisterBlockFormatter( formatter ) {
 		 *
 		 * @since 	2.2.0
 		 *
-		 * @param 	object 	formatter 		Block Formatter.
 		 * @param 	object  activeFormats 	All active formatters applied to the selected text.
 		 * @return 	object
 		 */
@@ -134,8 +133,10 @@ function convertKitGutenbergRegisterBlockFormatter( formatter ) {
 		 *
 		 * @since 	2.2.0
 		 *
-		 * @param 	object 	attributes 	Field attributes.
-		 * @return 	array 				Field elements
+		 * @param   object  props           Block formatter properties.
+		 * @param   object  setShowPopover  Function to toggle showing/hiding the popover.
+		 * @param 	object 	attributes 	    Field attributes.
+		 * @return 	array 				    Field elements
 		 */
 		const getFields = function( props, setShowPopover, attributes ) {
 
