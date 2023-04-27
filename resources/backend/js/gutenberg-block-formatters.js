@@ -133,10 +133,9 @@ function convertKitGutenbergRegisterBlockFormatter( formatter ) {
 		 *
 		 * @since   2.2.0
 		 *
-		 * @param   object  props           Block formatter properties.
-		 * @param   object  setShowPopover  Function to toggle showing/hiding the popover.
-		 * @param   object  attributes      Field attributes.
-		 * @return  array                   Field elements
+		 * @param   object  props         Block formatter properties.
+		 * @param   array   field         Field definition.
+		 * @param   string  newValue      New value
 		 */
 		const setAttributes = function( props, field, newValue ) {
 
@@ -284,7 +283,7 @@ function convertKitGutenbergRegisterBlockFormatter( formatter ) {
 			let attributes = getAttributes( activeFormats );
 
 			// Define fields to display in the popover modal.
-			let elements = getFields( props, setShowPopover, attributes );
+			let popoverModalElements = getFields( props, setShowPopover, attributes );
 
 			// Return block toolbar button and its modal.
 			return (
@@ -317,7 +316,7 @@ function convertKitGutenbergRegisterBlockFormatter( formatter ) {
 								setShowPopover( false );
 							}
 						},
-						elements
+						popoverModalElements
 					) )
 				)
 			);
