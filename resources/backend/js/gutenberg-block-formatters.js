@@ -57,9 +57,9 @@ function convertKitGutenbergRegisterBlockFormatter( formatter ) {
 		 * Returns the icon to display in the block toolbar for this formatter, depending
 		 * on the supplied formatter's configuration.
 		 *
-		 * @since 	2.2.0
+		 * @since   2.2.0
 		 *
-		 * @return 	element|string
+		 * @return  element|string
 		 */
 		const getIcon = function() {
 
@@ -89,10 +89,10 @@ function convertKitGutenbergRegisterBlockFormatter( formatter ) {
 		 * Returns blank attributes if this formatter has not been used on the
 		 * selected text.
 		 *
-		 * @since 	2.2.0
+		 * @since   2.2.0
 		 *
-		 * @param 	object  activeFormats 	All active formatters applied to the selected text.
-		 * @return 	object
+		 * @param   object  activeFormats   All active formatters applied to the selected text.
+		 * @return  object
 		 */
 		const getAttributes = function( activeFormats ) {
 
@@ -128,20 +128,68 @@ function convertKitGutenbergRegisterBlockFormatter( formatter ) {
 		}
 
 		/**
-		 * Return an array of field elements to display in the popover modal when
-		 * this formatter is active.
+		 * Updates the block formatter's attributes when a field in the
+		 * formatter's popover modal has its value changed.
 		 *
-		 * @since 	2.2.0
+		 * @since   2.2.0
 		 *
-		 * @param   object  props           Block formatter properties.
-		 * @param   object  setShowPopover  Function to toggle showing/hiding the popover.
-		 * @param 	object 	attributes 	    Field attributes.
-		 * @return 	array 				    Field elements
+		 * @param   object  props         Block formatter properties.
+		 * @param   array   field         Field definition.
+		 * @param   string  newValue      New value
 		 */
-		const getFields = function( props, setShowPopover, attributes ) {
+		const setAttributes = function( props, field, newValue ) {
 
 			// Define properties and functions to use.
 			const { onChange, value } = props;
+
+			// If no value exists, remove the formatter.
+			if ( newValue === '' ) {
+				return onChange(
+					toggleFormat(
+						value,
+						{
+							type: 'convertkit/' + formatter.name
+						}
+					)
+				);
+			}
+
+			// Build object of new attributes.
+			let attributes = {};
+			for ( let attribute in formatter.attributes ) {
+				// If 'None' selected, blank the attribute's value.
+				if ( newValue === '' ) {
+					attributes[ attribute ] = '';
+				} else {
+					attributes[ attribute ] = field.data[ newValue ][ attribute ];
+				}
+			}
+
+			// Apply formatter with new attributes.
+			return onChange(
+				applyFormat(
+					value,
+					{
+						type: 'convertkit/' + formatter.name,
+						attributes: attributes
+					}
+				)
+			);
+
+		}
+
+		/**
+		 * Return an array of field elements to display in the popover modal when
+		 * this formatter is active.
+		 *
+		 * @since   2.2.0
+		 *
+		 * @param   object  props           Block formatter properties.
+		 * @param   object  setShowPopover  Function to toggle showing/hiding the popover.
+		 * @param   object  attributes      Field attributes.
+		 * @return  array                   Field elements
+		 */
+		const getFields = function( props, setShowPopover, attributes ) {
 
 			// Define array of field elements.
 			let elements = [];
@@ -198,39 +246,8 @@ function convertKitGutenbergRegisterBlockFormatter( formatter ) {
 								// Hide popover.
 								setShowPopover( false );
 
-								if ( newValue ) {
-									// Build object of new attributes.
-									let newAttributes = {};
-									for ( let attribute in formatter.attributes ) {
-										// If 'None' selected, blank the attribute's value.
-										if ( newValue === '' ) {
-											newAttributes[ attribute ] = '';
-										} else {
-											newAttributes[ attribute ] = field.data[ newValue ][ attribute ];
-										}
-									}
-
-									// Apply format.
-									onChange(
-										applyFormat(
-											value,
-											{
-												type: 'convertkit/' + formatter.name,
-												attributes: newAttributes
-											}
-										)
-									);
-								} else {
-									// Remove format.
-									onChange(
-										toggleFormat(
-											value,
-											{
-												type: 'convertkit/' + formatter.name
-											}
-										)
-									);
-								}
+								// Update and apply attributes to the selected text.
+								setAttributes( props, field, newValue );
 
 							}
 						}
@@ -247,10 +264,10 @@ function convertKitGutenbergRegisterBlockFormatter( formatter ) {
 		 * Display modal when the formatter's button is clicked, and save
 		 * changes that are made.
 		 *
-		 * @since 	2.2.0
+		 * @since   2.2.0
 		 *
-		 * @param 	object 	props 	Block formatter properties.
-		 * @return 	object 			Block formatter button and modal elements
+		 * @param   object  props   Block formatter properties.
+		 * @return  object          Block formatter button and modal elements
 		 */
 		const editFormatType = function( props ) {
 
@@ -266,7 +283,7 @@ function convertKitGutenbergRegisterBlockFormatter( formatter ) {
 			let attributes = getAttributes( activeFormats );
 
 			// Define fields to display in the popover modal.
-			let elements = getFields( props, setShowPopover, attributes );
+			let popoverModalElements = getFields( props, setShowPopover, attributes );
 
 			// Return block toolbar button and its modal.
 			return (
@@ -279,9 +296,9 @@ function convertKitGutenbergRegisterBlockFormatter( formatter ) {
 					createElement(
 						RichTextToolbarButton,
 						{
-							key:  	  'convertkit_' + formatter.name + '_rich_text_toolbar_button',
-							icon: 	  getIcon( formatter ),
-							title: 	  formatter.title,
+							key:      'convertkit_' + formatter.name + '_rich_text_toolbar_button',
+							icon:     getIcon( formatter ),
+							title:    formatter.title,
 							isActive: isActive,
 							onClick:  function() {
 								setShowPopover( true );
@@ -292,14 +309,14 @@ function convertKitGutenbergRegisterBlockFormatter( formatter ) {
 					showPopover && ( createElement(
 						Popover,
 						{
-							key:  		'convertkit_' + formatter.name + '_popover',
+							key:        'convertkit_' + formatter.name + '_popover',
 							className:  'convertkit-popover',
-							anchor: 	anchorRef,
-							onClose: 	function() {
+							anchor:     anchorRef,
+							onClose:    function() {
 								setShowPopover( false );
 							}
 						},
-						elements
+						popoverModalElements
 					) )
 				)
 			);
@@ -317,7 +334,7 @@ function convertKitGutenbergRegisterBlockFormatter( formatter ) {
 				tagName:    formatter.tag,
 				className:  'convertkit-' + formatter.name,
 				attributes: formatter.attributes,
-				edit: 		editFormatType,
+				edit:       editFormatType,
 			}
 		);
 
