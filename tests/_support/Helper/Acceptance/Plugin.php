@@ -1160,25 +1160,25 @@ class Plugin extends \Codeception\Module
 		$I->dontSeeElementInDOM('div.wp-block-button a.convertkit-product');
 	}
 
-    /**
-     * Selects all text for the given input field.
-     *
-     * @since   2.2.0
-     *
-     * @param   AcceptanceTester $I         Acceptance Tester.
-     * @param   string           $selector  CSS or ID selector for the input element.
-     */
-    public function selectAllText($I, $selector)
-    {
-        // Determine whether to use the control or command key, depending on the OS.
-        $key = \Facebook\WebDriver\WebDriverKeys::CONTROL;
+	/**
+	 * Selects all text for the given input field.
+	 *
+	 * @since   2.2.0
+	 *
+	 * @param   AcceptanceTester $I         Acceptance Tester.
+	 * @param   string           $selector  CSS or ID selector for the input element.
+	 */
+	public function selectAllText($I, $selector)
+	{
+		// Determine whether to use the control or command key, depending on the OS.
+		$key = \Facebook\WebDriver\WebDriverKeys::CONTROL;
 
-        // If we're on OSX, use the command key instead.
-        if (array_key_exists('TERM_PROGRAM', $_SERVER) && strpos( $_SERVER['TERM_PROGRAM'], 'Apple') !== false) {
-            $key = \Facebook\WebDriver\WebDriverKeys::COMMAND;
-        }
+		// If we're on OSX, use the command key instead.
+		if (array_key_exists('TERM_PROGRAM', $_SERVER) && strpos( $_SERVER['TERM_PROGRAM'], 'Apple') !== false) {
+			$key = \Facebook\WebDriver\WebDriverKeys::COMMAND;
+		}
 
-        // Press Ctrl/Command + a on Keyboard.
-        $I->pressKey($selector, array($key, 'a'));
-    }
+		// Press Ctrl/Command + a on Keyboard.
+		$I->pressKey($selector, array( $key, 'a' ));
+	}
 }
