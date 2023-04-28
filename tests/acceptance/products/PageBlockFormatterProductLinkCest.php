@@ -47,7 +47,7 @@ class PageBlockFormatterProductLinkCest
 		$I->addGutenbergParagraphBlock($I, $_ENV['CONVERTKIT_API_PRODUCT_NAME']);
 
 		// Select text.
-		$I->pressKey( '.wp-block-post-content p[data-empty="false"]', array( \Facebook\WebDriver\WebDriverKeys::CONTROL, 'a' ) );
+		$I->selectAllText($I, '.wp-block-post-content p[data-empty="false"]');
 
 		// Apply formatter to link the selected text.
 		$I->applyGutenbergFormatter(
@@ -93,7 +93,7 @@ class PageBlockFormatterProductLinkCest
 		$I->addGutenbergParagraphBlock($I, 'Buy now');
 
 		// Select text.
-		$I->pressKey( '.wp-block-post-content p[data-empty="false"]', array( \Facebook\WebDriver\WebDriverKeys::CONTROL, 'a' ) );
+		$I->selectAllText($I, '.wp-block-post-content p[data-empty="false"]');
 
 		// Apply formatter to link the selected text.
 		$I->applyGutenbergFormatter(
@@ -149,7 +149,7 @@ class PageBlockFormatterProductLinkCest
 		$I->addGutenbergParagraphBlock($I, 'Buy now');
 
 		// Select text.
-		$I->pressKey( '.wp-block-post-content p[data-empty="false"]', array( \Facebook\WebDriver\WebDriverKeys::CONTROL, 'a' ) );
+		$I->selectAllText($I, '.wp-block-post-content p[data-empty="false"]');
 
 		// Apply formatter to link the selected text.
 		$I->applyGutenbergFormatter(
