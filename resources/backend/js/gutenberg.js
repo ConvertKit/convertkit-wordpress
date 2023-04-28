@@ -32,10 +32,10 @@ function convertKitGutenbergRegisterBlock( block ) {
 	( function( blocks, editor, element, components ) {
 
 		// Define some constants for the various items we'll use.
-		const el                              = element.createElement;
-		const { registerBlockType }           = blocks;
+		const el                    = element.createElement;
+		const { registerBlockType } = blocks;
 		const { InspectorControls } = editor;
-		const { Fragment } 		  			  = element;
+		const { Fragment }          = element;
 		const {
 			TextControl,
 			SelectControl,
@@ -43,7 +43,7 @@ function convertKitGutenbergRegisterBlock( block ) {
 			Panel,
 			PanelBody,
 			PanelRow
-		}                                     = components;
+		}                           = components;
 
 		/**
 		 * Returns the icon to display for this block, depending
@@ -122,12 +122,13 @@ function convertKitGutenbergRegisterBlock( block ) {
 
 				case 'select':
 					// Build options for <select> input.
-					let fieldOptions = [
+					let fieldOptions = [];
+					fieldOptions.push(
 						{
 							label: '(None)',
 							value: '',
-					}
-					];
+						}
+					);
 					for ( let value in field.values ) {
 						fieldOptions.push(
 							{
@@ -210,9 +211,9 @@ function convertKitGutenbergRegisterBlock( block ) {
 			let rows = [];
 			for ( let i in block.panels[ panel ].fields ) {
 				const attribute = block.panels[ panel ].fields[ i ], // e.g. 'term'.
-			  		  field     = block.fields[ attribute ]; // field array.
+					field       = block.fields[ attribute ]; // field array.
 
-			  	// If this field doesn't exist as an attribute in the block's get_attributes(),
+				// If this field doesn't exist as an attribute in the block's get_attributes(),
 				// this is a non-Gutenberg field (such as a color picker for shortcodes),
 				// which should be ignored.
 				if ( typeof block.attributes[ attribute ] === 'undefined' ) {
@@ -245,7 +246,7 @@ function convertKitGutenbergRegisterBlock( block ) {
 		 */
 		const getPanels = function( props ) {
 
-			let panels = [],
+			let panels      = [],
 				initialOpen = true;
 
 			// Build Inspector Control Panels.
@@ -298,7 +299,7 @@ function convertKitGutenbergRegisterBlock( block ) {
 			}
 
 			// Build Inspector Control Panels, which will appear in the Sidebar when editing the Block.
-			let panels  = getPanels( props );
+			let panels = getPanels( props );
 
 			// Generate Block Preview.
 			let preview = '';
