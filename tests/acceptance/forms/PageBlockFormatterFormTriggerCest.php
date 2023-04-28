@@ -47,7 +47,7 @@ class PageBlockFormatterFormTriggerCest
 		$I->addGutenbergParagraphBlock($I, 'Subscribe');
 
 		// Select text.
-		$I->pressKey( '.wp-block-post-content p[data-empty="false"]', array( \Facebook\WebDriver\WebDriverKeys::CONTROL, 'a' ) );
+		$I->selectAllText($I, '.wp-block-post-content p[data-empty="false"]');
 
 		// Apply formatter to link the selected text.
 		$I->applyGutenbergFormatter(
@@ -97,7 +97,7 @@ class PageBlockFormatterFormTriggerCest
 		$I->addGutenbergParagraphBlock($I, 'Subscribe');
 
 		// Select text.
-		$I->pressKey( '.wp-block-post-content p[data-empty="false"]', array( \Facebook\WebDriver\WebDriverKeys::CONTROL, 'a' ) );
+		$I->selectAllText($I, '.wp-block-post-content p[data-empty="false"]');
 
 		// Apply formatter to link the selected text.
 		$I->applyGutenbergFormatter(
@@ -153,7 +153,7 @@ class PageBlockFormatterFormTriggerCest
 		$I->addGutenbergParagraphBlock($I, 'Subscribe');
 
 		// Select text.
-		$I->pressKey( '.wp-block-post-content p[data-empty="false"]', array( \Facebook\WebDriver\WebDriverKeys::CONTROL, 'a' ) );
+		$I->selectAllText($I, '.wp-block-post-content p[data-empty="false"]');
 
 		// Apply formatter to link the selected text.
 		$I->applyGutenbergFormatter(
