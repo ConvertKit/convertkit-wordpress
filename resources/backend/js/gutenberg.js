@@ -94,7 +94,7 @@ function convertKitGutenbergRegisterBlock( block ) {
 				help: 		field.description,
 				value: 		props.attributes[ attribute ],
 				onChange: 	function( value ) {
-					if ( field.type == 'number' ) {
+					if ( field.type === 'number' ) {
 						// If value is a blank string i.e. no attribute value was provided,
 						// cast it to the field's minimum number setting.
 						// This prevents WordPress' block renderer API returning a 400 error
