@@ -200,6 +200,30 @@ function convertkit_get_blocks() {
 }
 
 /**
+ * Helper method to get registered Block formatters for Gutenberg.
+ *
+ * @since   2.2.0
+ *
+ * @return  array   Block formatters
+ */
+function convertkit_get_block_formatters() {
+
+	$block_formatters = array();
+
+	/**
+	 * Registers block formatters in Gutenberg for the ConvertKit Plugin.
+	 *
+	 * @since   2.2.0
+	 *
+	 * @param   array   $block_formatters     Block formatters.
+	 */
+	$block_formatters = apply_filters( 'convertkit_get_block_formatters', $block_formatters );
+
+	return $block_formatters;
+
+}
+
+/**
  * Helper method to return the Plugin Settings Link
  *
  * @since   1.9.6

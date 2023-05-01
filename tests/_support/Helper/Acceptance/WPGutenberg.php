@@ -208,6 +208,49 @@ class WPGutenberg extends \Codeception\Module
 	}
 
 	/**
+	 * Applies the given block formatter to the currently selected block.
+	 *
+	 * @since   2.2.0
+	 *
+	 * @param   AcceptanceTester $I                      Acceptance Tester.
+	 * @param   string           $formatterName          Formatter Name (e.g. 'ConvertKit Form Trigger').
+	 * @param   string           $formatterProgrammaticName  Programmatic Formatter Name (e.g. 'convertkit-form-link').
+	 * @param   bool|array       $formatterConfiguration Block formatter's configuration (field => value key/value array).
+	 */
+	public function applyGutenbergFormatter($I, $formatterName, $formatterProgrammaticName, $formatterConfiguration = false)
+	{
+		// Click More button in block toolbar.
+		$I->waitForElementVisible('.block-editor-block-toolbar button[aria-label="More"]');
+		$I->click('.block-editor-block-toolbar button[aria-label="More"]');
+
+		// Click Block Formatter button.
+		$I->click($formatterName, '.components-dropdown-menu__popover');
+
+		// Apply formatter configuration.
+		if ( $formatterConfiguration ) {
+			$I->waitForElementVisible('.components-popover');
+
+			foreach ($formatterConfiguration as $field => $attributes) {
+				// Field ID will be formatter's programmatic name, followed by the attribute name.
+				$fieldID = '#' . $formatterProgrammaticName . '-' . $field;
+
+				// Depending on the field's type, define its value.
+				switch ($attributes[0]) {
+					case 'select':
+						$I->selectOption($fieldID, $attributes[1]);
+						break;
+					case 'toggle':
+						$I->click($fieldID);
+						break;
+					default:
+						$I->fillField($fieldID, $attributes[1]);
+						break;
+				}
+			}
+		}
+	}
+
+	/**
 	 * Check that the given block did not output any errors when rendered in the
 	 * Gutenberg editor.
 	 *

@@ -989,7 +989,7 @@ class Plugin extends \Codeception\Module
 	 * a Form Trigger block or shortcode, and that the button loads the expected
 	 * ConvertKit Form.
 	 *
-	 * @since   1.9.8.5
+	 * @since   2.2.0
 	 *
 	 * @param   AcceptanceTester $I              Tester.
 	 * @param   string           $formURL        Form URL.
@@ -1048,6 +1048,49 @@ class Plugin extends \Codeception\Module
 	{
 		// Confirm that the block does not display.
 		$I->dontSeeElementInDOM('div.wp-block-button a.convertkit-formtrigger');
+	}
+
+	/**
+	 * Check that expected HTML exists in the DOM of the page we're viewing for
+	 * a Form Trigger link, and that the link loads the expected
+	 * ConvertKit Form.
+	 *
+	 * @since   2.2.0
+	 *
+	 * @param   AcceptanceTester $I              Tester.
+	 * @param   string           $formURL        Form URL.
+	 * @param   bool|string      $text           Test if the text matches the given value.
+	 */
+	public function seeFormTriggerLinkOutput($I, $formURL, $text = false)
+	{
+		// Confirm that the link displays.
+		$I->seeElementInDOM('a.convertkit-form-link');
+
+		// Confirm that the button links to the correct form.
+		$I->assertEquals($formURL, $I->grabAttributeFrom('a.convertkit-form-link', 'href'));
+
+		// Confirm that the text is as expected.
+		if ($text !== false) {
+			$I->see($text);
+		}
+
+		// Click the link to confirm that the ConvertKit form displays.
+		$I->click('a.convertkit-form-link');
+		$I->waitForElementVisible('div.formkit-overlay');
+	}
+
+	/**
+	 * Check that expected HTML does not exist in the DOM of the page we're viewing for
+	 * a Form Trigger link formatter.
+	 *
+	 * @since   2.2.0
+	 *
+	 * @param   AcceptanceTester $I      Tester.
+	 */
+	public function dontSeeFormTriggerLinkOutput($I)
+	{
+		// Confirm that the link does not display.
+		$I->dontSeeElementInDOM('a.convertkit-form-link');
 	}
 
 	/**
@@ -1115,5 +1158,27 @@ class Plugin extends \Codeception\Module
 	{
 		// Confirm that the block does not display.
 		$I->dontSeeElementInDOM('div.wp-block-button a.convertkit-product');
+	}
+
+	/**
+	 * Selects all text for the given input field.
+	 *
+	 * @since   2.2.0
+	 *
+	 * @param   AcceptanceTester $I         Acceptance Tester.
+	 * @param   string           $selector  CSS or ID selector for the input element.
+	 */
+	public function selectAllText($I, $selector)
+	{
+		// Determine whether to use the control or command key, depending on the OS.
+		$key = \Facebook\WebDriver\WebDriverKeys::CONTROL;
+
+		// If we're on OSX, use the command key instead.
+		if (array_key_exists('TERM_PROGRAM', $_SERVER) && strpos( $_SERVER['TERM_PROGRAM'], 'Apple') !== false) {
+			$key = \Facebook\WebDriver\WebDriverKeys::COMMAND;
+		}
+
+		// Press Ctrl/Command + a on Keyboard.
+		$I->pressKey($selector, array( $key, 'a' ));
 	}
 }
