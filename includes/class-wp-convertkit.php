@@ -170,7 +170,6 @@ class WP_ConvertKit {
 		$this->classes['block_formatter_product_link']   = new ConvertKit_Block_Formatter_Product_Link();
 		$this->classes['elementor']                      = new ConvertKit_Elementor();
 		$this->classes['gutenberg']                      = new ConvertKit_Gutenberg();
-		$this->classes['post_type_product']              = new ConvertKit_Post_Type_Product();
 		$this->classes['review_request']                 = new ConvertKit_Review_Request( 'ConvertKit', 'convertkit', CONVERTKIT_PLUGIN_PATH );
 		$this->classes['preview_output']                 = new ConvertKit_Preview_Output();
 		$this->classes['setup']                          = new ConvertKit_Setup();
