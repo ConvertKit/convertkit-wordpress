@@ -189,13 +189,20 @@ jobs:
         working-directory: ${{ env.PLUGIN_DIR }}
         run: composer dump-autoload
 
-      # This ensures that applicable folders can be written to by WordPress and third party Plugins.
-      - name: Set Permissions for wp-config.php, wp-content, uploads and wp-super-cache Directories
+      # This ensures that applicable files and folders can be written to by the WP Super Cache Plugin.
+      # We only do this on Restrict Content tests, as doing so on wpunit tests results in WordPress
+      # bizarrely attempting to use FTP to write files.
+      - name: Set Permissions for WP Super Cache
+        if: ${{ matrix.test-groups == 'acceptance/restrict-content' }}
         run: |
           sudo chmod g+w ${{ env.ROOT_DIR }}/wp-config.php
           sudo chown www-data:www-data ${{ env.ROOT_DIR }}/wp-config.php
           sudo chmod g+w ${{ env.ROOT_DIR }}/wp-content
           sudo chown www-data:www-data ${{ env.ROOT_DIR }}/wp-content
+
+      # This ensures the wp-content/uploads folder can be written to by WordPress and third party Plugins.
+      - name: Set Permissions for Uploads Directory
+        run: |
           sudo chmod g+w ${{ env.ROOT_DIR }}/wp-content/uploads
           sudo chown www-data:www-data ${{ env.ROOT_DIR }}/wp-content/uploads
 
