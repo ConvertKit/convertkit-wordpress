@@ -126,6 +126,7 @@ jobs:
       # WP_DEBUG = true is required so all PHP errors are output and caught by tests (E_ALL).
       # WP_DEBUG = false for WishList Member tests on PHP 8.2, as WLM is not PHP 8.2 compatible and throws a lot of errors.
       - name: Enable WP_DEBUG
+        if: ${{ matrix.php-versions != '8.2' && matrix.test-groups != 'acceptance/wlm' }}
         working-directory: ${{ env.ROOT_DIR }}
         run: |
           wp-cli config set WP_DEBUG true --raw
