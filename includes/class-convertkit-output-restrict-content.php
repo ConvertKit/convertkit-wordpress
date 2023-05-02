@@ -217,10 +217,18 @@ class ConvertKit_Output_Restrict_Content {
 		$subscriber = new ConvertKit_Subscriber();
 		$subscriber->set( $subscriber_id );
 
+		// We append a query parameter to the URL to prevent caching plugins and
+		// aggressive cache hosting configurations from serving a cached page, which would
+		// result in maybe_restrict_content() not being honored if the subscriber is now
+		// authenticated.
+		$url = add_query_arg( array(
+			'ck-cache-bust' => microtime(),
+		), $this->get_url() );
+
 		// Redirect to the Post without the token and subscriber parameters.
 		// This will then run maybe_restrict_content() to get the subscriber's ID from the cookie,
 		// and determine if the content can be displayed.
-		wp_safe_redirect( $this->get_url() );
+		wp_safe_redirect( $url );
 		exit;
 
 	}
