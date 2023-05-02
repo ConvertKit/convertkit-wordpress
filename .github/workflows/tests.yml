@@ -130,13 +130,6 @@ jobs:
         run: |
           wp-cli config set DISALLOW_FILE_MODS true --raw
 
-      # Configure caching using WP Super Cache Plugin
-      - name: Configure WP Super Cache
-        working-directory: ${{ env.ROOT_DIR }}
-        run: |
-          wp-cli config set WP_CACHE true --raw
-          wp-cli config set WPCACHEHOME ${{ env.CACHE_DIR }}
-
       # This step is deliberately after WordPress installation and configuration, as enabling PHP 8.x before using WP-CLI results
       # in the workflow failing due to incompatibilities between WP-CLI and PHP 8.x.
       # By installing PHP at this stage, we can still run our tests against e.g. PHP 8.x.
@@ -190,8 +183,10 @@ jobs:
         run: composer dump-autoload
 
       # This ensures that applicable folders can be written to by WordPress and third party Plugins.
-      - name: Set Permissions for wp-content, uploads and wp-super-cache Directories
+      - name: Set Permissions for wp-config.php, wp-content, uploads and wp-super-cache Directories
         run: |
+          sudo chmod g+w ${{ env.ROOT_DIR }}/wp-config.php
+          sudo chown www-data:www-data ${{ env.ROOT_DIR }}/wp-config.php
           sudo chmod g+w ${{ env.ROOT_DIR }}/wp-content
           sudo chown www-data:www-data ${{ env.ROOT_DIR }}/wp-content
           sudo chmod g+w ${{ env.ROOT_DIR }}/wp-content/uploads
