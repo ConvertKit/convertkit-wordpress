@@ -10,7 +10,7 @@ namespace Helper\Acceptance;
 class WPSuperCachePlugin extends \Codeception\Module
 {
 	/**
-	 * Helper method to activate the WP Super Cache Plugin, and then 
+	 * Helper method to activate the WP Super Cache Plugin, and then
 	 * enable it to perform caching.
 	 *
 	 * @since   2.2.0

@@ -221,9 +221,12 @@ class ConvertKit_Output_Restrict_Content {
 		// aggressive cache hosting configurations from serving a cached page, which would
 		// result in maybe_restrict_content() not showing an error message or permitting
 		// access to the content.
-		$url = add_query_arg( array(
-			'ck-cache-bust' => microtime(),
-		), $this->get_url() );
+		$url = add_query_arg(
+			array(
+				'ck-cache-bust' => microtime(),
+			),
+			$this->get_url()
+		);
 
 		// Redirect to the Post without the token and subscriber parameters.
 		// This will then run maybe_restrict_content() to get the subscriber's ID from the cookie,
