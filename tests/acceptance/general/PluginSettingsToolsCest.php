@@ -140,6 +140,15 @@ class PluginSettingsToolsCest
 	{
 		$I->setupConvertKitPlugin($I);
 		$I->setupConvertKitPluginResources($I);
+		$I->setupConvertKitPluginRestrictContent(
+			$I,
+			array_merge(
+				$I->getRestrictedContentDefaultSettings(),
+				[
+					'enabled' => 'on',
+				]
+			)
+		);
 		$I->loadConvertKitSettingsToolsScreen($I);
 
 		// Click the Export button.
@@ -150,9 +159,14 @@ class PluginSettingsToolsCest
 		// Wait 2 seconds for the download to complete.
 		sleep(2);
 
-		// Check downloaded file exists and contains some expected information.
+		// Check downloaded file exists.
 		$I->openFile($_ENV['WP_ROOT_FOLDER'] . '/convertkit-export.json');
+
+		// Confirm some expected general settings data is included.
 		$I->seeInThisFile('{"settings":{"api_key":"' . $_ENV['CONVERTKIT_API_KEY'] . '","api_secret":"' . $_ENV['CONVERTKIT_API_SECRET'] . '"');
+
+		// Confirm some expected Restrict Content settings data is included.
+		$I->seeInThisFile('"restrict_content":{"enabled":"on","subscribe_text":');
 
 		// Delete the file.
 		$I->deleteFile($_ENV['WP_ROOT_FOLDER'] . '/convertkit-export.json');
@@ -191,6 +205,18 @@ class PluginSettingsToolsCest
 
 		// Check the fields are ticked.
 		$I->seeCheckboxIsChecked('#debug');
+
+		// Go to the Plugin's Restrict Content Settings Screen.
+		$I->loadConvertKitSettingsRestrictContentScreen($I);
+
+		// Check the field is ticked.
+		$I->seeCheckboxIsChecked('#enabled');
+
+		// Confirm that the text fields contain the expected data.
+		$defaults = $I->getRestrictedContentDefaultSettings();
+		foreach ( $defaults as $key => $value ) {
+			$I->seeInField('_wp_convertkit_settings_restrict_content[' . $key . ']', $value);
+		}
 	}
 
 	/**
