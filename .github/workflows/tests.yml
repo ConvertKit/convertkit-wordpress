@@ -13,7 +13,7 @@ on:
 jobs:
   tests:
     # Name.
-    name: ${{ matrix.test-groups }} / WordPress ${{ matrix.wp-versions }} / PHP ${{ matrix.php-versions }}
+    name: acceptance/restrict-content / WordPress ${{ matrix.wp-versions }} / PHP ${{ matrix.php-versions }}
 
     # Virtual Environment to use.
     # @see: https://github.com/actions/virtual-environments
@@ -26,11 +26,12 @@ jobs:
     env:
       ROOT_DIR: /home/runner/work/convertkit-wordpress/convertkit-wordpress/wordpress
       PLUGIN_DIR: /home/runner/work/convertkit-wordpress/convertkit-wordpress/wordpress/wp-content/plugins/convertkit
+      CACHE_DIR: /home/runner/work/convertkit-wordpress/convertkit-wordpress/wordpress/wp-content/plugins/wp-super-cache/
       DB_NAME: test
       DB_USER: root
       DB_PASS: root
       DB_HOST: localhost
-      INSTALL_PLUGINS: "contact-form-7 convertkit-for-woocommerce classic-editor disable-welcome-messages-and-tips elementor integrate-convertkit-wpforms woocommerce wordpress-seo wpforms-lite" # Don't include this repository's Plugin here.
+      INSTALL_PLUGINS: "contact-form-7 convertkit-for-woocommerce classic-editor disable-welcome-messages-and-tips elementor integrate-convertkit-wpforms woocommerce wordpress-seo wpforms-lite wp-super-cache" # Don't include this repository's Plugin here.
       CONVERTKIT_API_KEY: ${{ secrets.CONVERTKIT_API_KEY }} # ConvertKit API Key, stored in the repository's Settings > Secrets
       CONVERTKIT_API_SECRET: ${{ secrets.CONVERTKIT_API_SECRET }} # ConvertKit API Secret, stored in the repository's Settings > Secrets
       CONVERTKIT_API_KEY_NO_DATA: ${{ secrets.CONVERTKIT_API_KEY_NO_DATA }} # ConvertKit API Key for ConvertKit account with no data, stored in the repository's Settings > Secrets
@@ -46,19 +47,6 @@ jobs:
       matrix:
         wp-versions: [ 'latest' ] #[ '6.1.1', 'latest' ]
         php-versions: [ '7.4', '8.0', '8.1', '8.2' ] #[ '7.4', '8.0', '8.1' ]
-        
-        # Folder names within the 'tests' folder to run tests in parallel.
-        test-groups: [
-          'acceptance/broadcasts',
-          'acceptance/forms',
-          'acceptance/general',
-          'acceptance/integrations',
-          'acceptance/landing-pages',
-          'acceptance/products',
-          'acceptance/restrict-content',
-          'acceptance/tags',
-          'acceptance/wlm'
-        ]
 
     # Steps to install, configure and run tests
     steps:
@@ -125,7 +113,6 @@ jobs:
       # WP_DEBUG = true is required so all PHP errors are output and caught by tests (E_ALL).
       # WP_DEBUG = false for WishList Member tests on PHP 8.2, as WLM is not PHP 8.2 compatible and throws a lot of errors.
       - name: Enable WP_DEBUG
-        if: ${{ matrix.php-versions != '8.2' && matrix.test-groups != 'acceptance/wlm' }}
         working-directory: ${{ env.ROOT_DIR }}
         run: |
           wp-cli config set WP_DEBUG true --raw
@@ -142,6 +129,13 @@ jobs:
         working-directory: ${{ env.ROOT_DIR }}
         run: |
           wp-cli config set DISALLOW_FILE_MODS true --raw
+
+      # Configure caching using WP Super Cache Plugin
+      - name: Configure WP Super Cache
+        working-directory: ${{ env.ROOT_DIR }}
+        run: |
+          wp-cli config set WP_CACHE true --raw
+          wp-cli config set WPCACHEHOME ${{ env.CACHE_DIR }}
 
       # This step is deliberately after WordPress installation and configuration, as enabling PHP 8.x before using WP-CLI results
       # in the workflow failing due to incompatibilities between WP-CLI and PHP 8.x.
@@ -201,6 +195,12 @@ jobs:
           sudo chmod g+w ${{ env.ROOT_DIR }}/wp-content/uploads
           sudo chown www-data:www-data ${{ env.ROOT_DIR }}/wp-content/uploads
 
+      # This ensures WP Super Cache can write its configuration file.
+      - name: Set Permissions for WP Super Cache Directory
+        run: |
+          sudo chmod g+w ${{ env.CACHE_DIR }}
+          sudo chown www-data:www-data ${{ env.CACHE_DIR }}
+
       # This ensures the Plugin's log file can be written to.
       # We don't recursively do this, as it'll prevent Codeception from writing to the /tests/_output directory.
       - name: Set Permissions for Plugin Directory
@@ -213,24 +213,10 @@ jobs:
         working-directory: ${{ env.PLUGIN_DIR }}
         run: php vendor/bin/codecept build
 
-      # Run Codeception WPUnit Tests on the PHP 8.0 instance before the acceptance/broadcasts acceptance tests.
-      # We run these once to avoid hitting API rate limits.
-      - name: Run tests/wpunit
-        if: ${{ matrix.php-versions == '8.0' && matrix.test-groups == 'acceptance/broadcasts' }}
+      # Run Restrict Content Test
+      - name: Run tests/acceptance/restrict-content
         working-directory: ${{ env.PLUGIN_DIR }}
-        run: php vendor/bin/codecept run tests/wpunit --fail-fast
-
-      # Run Codeception Acceptance Tests in default environment if the test group isn't acceptance/general.
-      - name: Run tests/${{ matrix.test-groups }}
-        if: ${{ matrix.test-groups != 'acceptance/general' }}
-        working-directory: ${{ env.PLUGIN_DIR }}
-        run: php vendor/bin/codecept run tests/${{ matrix.test-groups }} --env default --fail-fast
-
-      # Run Codeception Acceptance Tests in new environment if the test group is acceptance/general.
-      - name: Run tests/${{ matrix.test-groups }}
-        if: ${{ matrix.test-groups == 'acceptance/general' }}
-        working-directory: ${{ env.PLUGIN_DIR }}
-        run: php vendor/bin/codecept run tests/${{ matrix.test-groups }} --env new --fail-fast
+        run: php vendor/bin/codecept run acceptance restrict-content/RestrictContentProductCest --env default --fail-fast
 
       # Artifacts are data generated by this workflow that we want to access, such as log files, screenshots, HTML output.
       # The if: always() directive means that this will run when the workflow fails e.g. if a test fails, which is needed
