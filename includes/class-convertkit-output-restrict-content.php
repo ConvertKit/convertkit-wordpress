@@ -219,8 +219,8 @@ class ConvertKit_Output_Restrict_Content {
 
 		// We append a query parameter to the URL to prevent caching plugins and
 		// aggressive cache hosting configurations from serving a cached page, which would
-		// result in maybe_restrict_content() not being honored if the subscriber is now
-		// authenticated.
+		// result in maybe_restrict_content() not showing an error message or permitting
+		// access to the content.
 		$url = add_query_arg( array(
 			'ck-cache-bust' => microtime(),
 		), $this->get_url() );
