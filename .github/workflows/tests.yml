@@ -194,6 +194,8 @@ jobs:
         run: |
           sudo chmod g+w ${{ env.ROOT_DIR }}/wp-config.php
           sudo chown www-data:www-data ${{ env.ROOT_DIR }}/wp-config.php
+          sudo chmod g+w ${{ env.ROOT_DIR }}/wp-content
+          sudo chown www-data:www-data ${{ env.ROOT_DIR }}/wp-content
           sudo chmod g+w ${{ env.ROOT_DIR }}/wp-content/uploads
           sudo chown www-data:www-data ${{ env.ROOT_DIR }}/wp-content/uploads
 
