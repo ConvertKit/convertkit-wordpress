@@ -156,7 +156,7 @@ class ConvertKit_Admin_Settings_Restrict_Content extends ConvertKit_Settings_Bas
 		<p class="description"><?php esc_html_e( 'Defines the text and button labels to display when a Page, Post or Custom Post has its Member Content setting set to a Product, and the visitor has not authenticated/subscribed.', 'convertkit' ); ?></p>
 		<div class="notice notice-warning">
 			<p>
-				<?php 
+				<?php
 				echo sprintf(
 					'%s %s %s',
 					esc_html__( 'If you have server side or a caching plugin enabled, you must configure it to disable caching when the', 'convertkit' ),
