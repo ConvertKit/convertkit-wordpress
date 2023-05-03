@@ -38,6 +38,8 @@ class ConvertKit_Cache_Exclude {
 
 	}
 
+	
+
 	/**
 	 * Automatically add a rule to WP Fastest Cache to prevent caching when
 	 * the ck_subscriber_id cookie is present.
@@ -45,6 +47,11 @@ class ConvertKit_Cache_Exclude {
 	 * @since 	2.2.0
 	 */
 	public function wp_fastest_cache() {
+
+		// Bail if the WP Fastest Cache plugin is not active.
+		if ( ! is_plugin_active( 'wp-fastest-cache/wpFastestCache.php' ) ) {
+			return;
+		}
 
 		// Fetch exclusion rules.
 		$exclusion_rules = get_option( 'WpFastestCacheExclude' );
