@@ -46,6 +46,7 @@ require_once CONVERTKIT_PLUGIN_PATH . '/includes/cron-functions.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/functions.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-wp-convertkit.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-ajax.php';
+require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-cache-exclude.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-gutenberg.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-output.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-output-restrict-content.php';
