@@ -861,15 +861,13 @@ class Plugin extends \Codeception\Module
 		$I->see('Email address is invalid'); // Response from the API.
 		$this->testRestrictContentHidesContentWithCTA($I, $visibleContent, $memberContent, $textItems);
 
-		// Set cookie with signed subscriber ID, as if we entered the code sent in the email as a ConvertKit
-		// subscriber who has not subscribed to the product.
+		// Set cookie with signed subscriber ID and reload the restricted content page, as if we entered the
+		// code sent in the email as a ConvertKit subscriber who has not subscribed to the product.
 		$I->setCookie('ck_subscriber_id', $_ENV['CONVERTKIT_API_SIGNED_SUBSCRIBER_ID_NO_ACCESS']);
-
-		// Reload the restricted content page.
 		if ( is_numeric( $urlOrPageID ) ) {
-			$I->amOnPage('?p=' . $urlOrPageID);
+			$I->amOnPage('?p=' . $urlOrPageID . '&ck-cache-bust=' . microtime() );
 		} else {
-			$I->amOnUrl($urlOrPageID);
+			$I->amOnUrl($urlOrPageID . '?ck-cache-bust=' . microtime() );
 		}
 
 		// Check content is / is not displayed, and CTA displays with expected text.
@@ -889,9 +887,9 @@ class Plugin extends \Codeception\Module
 
 		// Reload the restricted content page.
 		if ( is_numeric( $urlOrPageID ) ) {
-			$I->amOnPage('?p=' . $urlOrPageID);
+			$I->amOnPage('?p=' . $urlOrPageID . '&ck-cache-bust=' . microtime() );
 		} else {
-			$I->amOnUrl($urlOrPageID);
+			$I->amOnUrl($urlOrPageID . '?ck-cache-bust=' . microtime() );
 		}
 
 		// Confirm cookie was set with the expected value.

@@ -160,11 +160,15 @@ class ConvertKit_Settings_Tools extends ConvertKit_Settings_Base {
 			return;
 		}
 
+		// Initialize classes that hold settings.
+		$settings                  = new ConvertKit_Settings();
+		$restrict_content_settings = new ConvertKit_Settings_Restrict_Content();
+
 		// Define configuration data to include in the export file.
-		$settings = new ConvertKit_Settings();
-		$json     = wp_json_encode(
+		$json = wp_json_encode(
 			array(
-				'settings' => $settings->get(),
+				'settings'         => $settings->get(),
+				'restrict_content' => $restrict_content_settings->get(),
 			)
 		);
 
@@ -222,8 +226,16 @@ class ConvertKit_Settings_Tools extends ConvertKit_Settings_Base {
 		}
 
 		// Import: Settings.
-		$settings = new ConvertKit_Settings();
-		update_option( $settings::SETTINGS_NAME, $import['settings'] );
+		if ( array_key_exists( 'settings', $import ) ) {
+			$settings = new ConvertKit_Settings();
+			update_option( $settings::SETTINGS_NAME, $import['settings'] );
+		}
+
+		// Import: Restrict Content Settings.
+		if ( array_key_exists( 'restrict_content', $import ) ) {
+			$restrict_content_settings = new ConvertKit_Settings_Restrict_Content();
+			update_option( $restrict_content_settings::SETTINGS_NAME, $import['restrict_content'] );
+		}
 
 		// Redirect to Tools screen.
 		$this->redirect_to_tools_screen( false, 'import_configuration_success' );

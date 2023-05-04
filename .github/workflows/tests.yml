@@ -26,11 +26,12 @@ jobs:
     env:
       ROOT_DIR: /home/runner/work/convertkit-wordpress/convertkit-wordpress/wordpress
       PLUGIN_DIR: /home/runner/work/convertkit-wordpress/convertkit-wordpress/wordpress/wp-content/plugins/convertkit
+      CACHE_DIR: /home/runner/work/convertkit-wordpress/convertkit-wordpress/wordpress/wp-content/plugins/wp-super-cache/
       DB_NAME: test
       DB_USER: root
       DB_PASS: root
       DB_HOST: localhost
-      INSTALL_PLUGINS: "contact-form-7 convertkit-for-woocommerce classic-editor disable-welcome-messages-and-tips elementor integrate-convertkit-wpforms woocommerce wordpress-seo wpforms-lite" # Don't include this repository's Plugin here.
+      INSTALL_PLUGINS: "contact-form-7 convertkit-for-woocommerce classic-editor disable-welcome-messages-and-tips elementor integrate-convertkit-wpforms woocommerce wordpress-seo wpforms-lite wp-super-cache" # Don't include this repository's Plugin here.
       CONVERTKIT_API_KEY: ${{ secrets.CONVERTKIT_API_KEY }} # ConvertKit API Key, stored in the repository's Settings > Secrets
       CONVERTKIT_API_SECRET: ${{ secrets.CONVERTKIT_API_SECRET }} # ConvertKit API Secret, stored in the repository's Settings > Secrets
       CONVERTKIT_API_KEY_NO_DATA: ${{ secrets.CONVERTKIT_API_KEY_NO_DATA }} # ConvertKit API Key for ConvertKit account with no data, stored in the repository's Settings > Secrets
@@ -46,7 +47,7 @@ jobs:
       matrix:
         wp-versions: [ 'latest' ] #[ '6.1.1', 'latest' ]
         php-versions: [ '7.4', '8.0', '8.1', '8.2' ] #[ '7.4', '8.0', '8.1' ]
-        
+
         # Folder names within the 'tests' folder to run tests in parallel.
         test-groups: [
           'acceptance/broadcasts',
@@ -194,6 +195,17 @@ jobs:
       - name: Build PHP Autoloader
         working-directory: ${{ env.PLUGIN_DIR }}
         run: composer dump-autoload
+
+      # This ensures that applicable files and folders can be written to by the WP Super Cache Plugin.
+      # We only do this on Restrict Content tests, as doing so on wpunit tests results in WordPress
+      # bizarrely attempting to use FTP to write files.
+      - name: Set Permissions for WP Super Cache
+        if: ${{ matrix.test-groups == 'acceptance/restrict-content' }}
+        run: |
+          sudo chmod g+w ${{ env.ROOT_DIR }}/wp-config.php
+          sudo chown www-data:www-data ${{ env.ROOT_DIR }}/wp-config.php
+          sudo chmod g+w ${{ env.ROOT_DIR }}/wp-content
+          sudo chown www-data:www-data ${{ env.ROOT_DIR }}/wp-content
 
       # This ensures the wp-content/uploads folder can be written to by WordPress and third party Plugins.
       - name: Set Permissions for Uploads Directory
