@@ -159,9 +159,9 @@ class ConvertKit_Admin_Settings_Restrict_Content extends ConvertKit_Settings_Bas
 				<?php
 				echo sprintf(
 					'%s %s %s',
-					esc_html__( 'If you have server side or a caching plugin enabled, you must configure it to disable caching when the', 'convertkit' ),
+					esc_html__( 'If your web host has caching configured (or you are using a caching plugin), you must configure it to disable caching when the', 'convertkit' ),
 					'<code>ck_subscriber_id</code>',
-					esc_html__( 'cookie is present. Failing to do so will result in incorrect working functionality.', 'convertkit' )
+					esc_html__( 'cookie is present. Failing to do so will result in errors.', 'convertkit' )
 				);
 				?>
 			</p>
