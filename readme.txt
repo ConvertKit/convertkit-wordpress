@@ -143,7 +143,7 @@ Full Plugin documentation can be found [here](https://help.convertkit.com/en/art
 * Fix: Forms: Output non-inline scripts using the `wp_footer` hook, ensuring modal overlays fill the screen
 * Fix: Member Content: Append `ck-cache-bust` query parameter after entering code, to prevent plugin / host caching showing stale data
 * Fix: Settings: Tools: Import / Export: Include Member Content settings in import and export configuration
-* Fix: Settings: Member Content: Display warning notice that server caching / cache plugins must disable caching when the `ck_subscriber_id` cookie is present
+* Fix: Settings: Member Content: Display warning notice that web host caching / caching plugins must be configured to disable caching when the `ck_subscriber_id` cookie is present
 
 ### 2.1.3 2023-04-06
 * Fix: Improve UI compatibility for buttons in WordPress 5.x, using `button-hero` CSS class instead of custom padding 
