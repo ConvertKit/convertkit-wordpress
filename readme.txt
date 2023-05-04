@@ -1,11 +1,11 @@
-=== ConvertKit - Email Marketing, Email Newsletter and Landing Pages ===
+=== ConvertKit - Email Marketing, Newsletter, Subscribers and Landing Pages ===
 Contributors: nathanbarry, growdev, travisnorthcutt, ggwicz
 Donate link: https://convertkit.com
 Tags: email marketing, email newsletter, newsletter, subscribers, convertkit
 Requires at least: 5.0
 Tested up to: 6.2
 Requires PHP: 5.6.20
-Stable tag: 2.1.3
+Stable tag: 2.2.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -63,7 +63,7 @@ Embed existing email newsletters on your WordPress web site, ensuring visitors n
 
 Embed buttons (or link text) to sell your ConvertKit Products in seconds - whether that's digital goods, paid newsletters, music, coaching and more.
 
-Already have content on your site that you want to sell? Use the Member's Content functionality on Pages to require email subscribers purchase a ConvertKit Product to access your content - whether that's a course or digital download.
+Already have content on your site that you want to sell? Use the Member Content functionality on Pages to require email subscribers purchase a ConvertKit Product to access your content - whether that's a course or digital download.
 
 = Plugin Integrations =
 
@@ -134,6 +134,17 @@ Full Plugin documentation can be found [here](https://help.convertkit.com/en/art
 
 == Changelog ==
 
+### 2.2.0 2023-05-04
+* Added: ConvertKit Form Trigger Block, outputting a button which displays a non-inline form (modal, slide in, sticky bar) when pressed
+* Added: ConvertKit Form Trigger Shortcode, outputting a button which displays a non-inline form (modal, slide in, sticky bar) when pressed
+* Added: Block Editor: Link text to display a non-inline form (modal, slide in, sticky bar) when pressed
+* Added: Block Editor: Link text to display a ConvertKit Product or Tip Jar when pressed
+* Fix: Forms: Output non-inline scripts once per form, to avoid the same form displaying twice when embedded two or more times in a page
+* Fix: Forms: Output non-inline scripts using the `wp_footer` hook, ensuring modal overlays fill the screen
+* Fix: Member Content: Append `ck-cache-bust` query parameter after entering code, to prevent plugin / host caching showing stale data
+* Fix: Settings: Tools: Import / Export: Include Member Content settings in import and export configuration
+* Fix: Settings: Member Content: Display warning notice that web host caching / caching plugins must be configured to disable caching when the `ck_subscriber_id` cookie is present
+
 ### 2.1.3 2023-04-06
 * Fix: Improve UI compatibility for buttons in WordPress 5.x, using `button-hero` CSS class instead of custom padding 
 * Updated: ConvertKit WordPress Libraries to 1.3.4
@@ -147,7 +158,7 @@ Full Plugin documentation can be found [here](https://help.convertkit.com/en/art
 * Fix: Landing Pages and Legacy Forms: Deprecated `mb_convert_encoding()` message in PHP 8.2
 
 ### 2.1.0 2023-02-15
-* Added: Member's Content (Beta): Require subscribers to purchase a ConvertKit Product to access specific Pages on your WordPress site. Head over to `Settings > ConvertKit > Member's Content` to get started.
+* Added: Member Content (Beta): Require subscribers to purchase a ConvertKit Product to access specific Pages on your WordPress site. Head over to `Settings > ConvertKit > Member Content` to get started.
 * Fix: Product: Block and Shortcode: Set stylesheet ID to `convertkit-product-css`, to match other blocks
 * Fix: Blocks: Use wp.serverSideRender instead of soon to be deprecated wp.components.ServerSideRender
 * Fix: Forms: Preview: Support for previewing and editing Legacy Forms
