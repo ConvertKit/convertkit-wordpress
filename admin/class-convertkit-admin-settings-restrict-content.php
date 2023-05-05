@@ -154,6 +154,18 @@ class ConvertKit_Admin_Settings_Restrict_Content extends ConvertKit_Settings_Bas
 		?>
 		<span class="convertkit-beta-label"><?php esc_html_e( 'Beta', 'convertkit' ); ?></span>
 		<p class="description"><?php esc_html_e( 'Defines the text and button labels to display when a Page, Post or Custom Post has its Member Content setting set to a Product, and the visitor has not authenticated/subscribed.', 'convertkit' ); ?></p>
+		<div class="notice notice-warning">
+			<p>
+				<?php
+				echo sprintf(
+					'%s %s %s',
+					esc_html__( 'If your web host has caching configured (or you are using a caching plugin), you must configure it to disable caching when the', 'convertkit' ),
+					'<code>ck_subscriber_id</code>',
+					esc_html__( 'cookie is present. Failing to do so will result in errors.', 'convertkit' )
+				);
+				?>
+			</p>
+		</div>
 		<?php
 
 	}
