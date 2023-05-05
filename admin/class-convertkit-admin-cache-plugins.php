@@ -88,7 +88,46 @@ class ConvertKit_Admin_Cache_Plugins {
 		// caching when the ck_subscriber_id cookie is present.
 		// Show a notice in the WordPress Administration, as we can't directly write to the WP
 		// Super Cache configuration files.
-		
+		WP_ConvertKit()->get_class( 'admin_notices' )->add( 'wp_super_cache' );
+
+		// Define the output of the persistent notice.
+		add_filter( 'convertkit_admin_notices_output_wp_super_cache', array( $this, 'wp_super_cache_notice' ) );
+
+	}
+
+	/**
+	 * Define the notice text to display in the WordPress Administration interface
+	 * when WP Super Cache is active, its caching enabled and no rule to disable caching
+	 * exists when the ck_subscriber_id cookie is present.
+	 * 
+	 * @since 	2.2.1
+	 *
+	 * @param 	string 	$notice 	Notice text.
+	 * @return 	string 				Notice text
+	 */
+	public function wp_super_cache_notice( $notice ) {
+
+		return sprintf(
+			'%s %s %s %s',
+			esc_html__( 'ConvertKit: Member Content: Please add', 'convertkit' ),
+			'<code>ck_subscriber_id</code>',
+			sprintf(
+				'<a href="%s">%s</a>',
+				esc_url( 
+					admin_url(
+						add_query_arg(
+							array(
+								'page' => 'wpsupercache',
+								'tab' => 'settings#rejectcookies',
+							),
+							'options-general.php'
+						)
+					)
+				),
+				esc_html__( 'to WP Super Cache\'s "Rejected Cookies" setting by clicking here.', 'convertkit' )
+			),
+			esc_html__( 'Failing to do so will result in errors.', 'convertkit' ),
+		);
 
 	}
 
