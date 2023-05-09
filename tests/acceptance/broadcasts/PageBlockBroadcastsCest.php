@@ -86,7 +86,7 @@ class PageBlockBroadcastsCest
 		// Confirm that the expected Broadcast name is displayed first links to the expected URL, with UTM parameters.
 		$I->assertEquals(
 			$I->grabAttributeFrom('div.convertkit-broadcasts ul.convertkit-broadcasts-list li.convertkit-broadcast:first-child a', 'href'),
-			$_ENV['CONVERTKIT_API_BROADCAST_FIRST_URL'] . '?utm_source=wordpress&utm_content=convertkit'
+			$_ENV['CONVERTKIT_API_BROADCAST_FIRST_URL'] . '?utm_source=wordpress&utm_term=en_US&utm_content=convertkit'
 		);
 	}
 
@@ -131,7 +131,7 @@ class PageBlockBroadcastsCest
 		// Confirm that the expected Broadcast name is displayed first links to the expected URL, with UTM parameters.
 		$I->assertEquals(
 			$I->grabAttributeFrom('div.convertkit-broadcasts ul.convertkit-broadcasts-list li.convertkit-broadcast:first-child a', 'href'),
-			$_ENV['CONVERTKIT_API_BROADCAST_FIRST_URL'] . '?utm_source=wordpress&utm_content=convertkit'
+			$_ENV['CONVERTKIT_API_BROADCAST_FIRST_URL'] . '?utm_source=wordpress&utm_term=en_US&utm_content=convertkit'
 		);
 	}
 
@@ -173,7 +173,7 @@ class PageBlockBroadcastsCest
 		// Confirm that the expected Broadcast name is displayed first links to the expected URL, with UTM parameters.
 		$I->assertEquals(
 			$I->grabAttributeFrom('div.convertkit-broadcasts ul.convertkit-broadcasts-list li.convertkit-broadcast:first-child a', 'href'),
-			$_ENV['CONVERTKIT_API_BROADCAST_FIRST_URL'] . '?utm_source=wordpress&utm_content=convertkit'
+			$_ENV['CONVERTKIT_API_BROADCAST_FIRST_URL'] . '?utm_source=wordpress&utm_term=en_US&utm_content=convertkit'
 		);
 	}
 
@@ -216,7 +216,7 @@ class PageBlockBroadcastsCest
 		// Confirm that the expected Broadcast name is displayed first links to the expected URL, with UTM parameters.
 		$I->assertEquals(
 			$I->grabAttributeFrom('div.convertkit-broadcasts ul.convertkit-broadcasts-list li.convertkit-broadcast:first-child a', 'href'),
-			$_ENV['CONVERTKIT_API_BROADCAST_FIRST_URL'] . '?utm_source=wordpress&utm_content=convertkit'
+			$_ENV['CONVERTKIT_API_BROADCAST_FIRST_URL'] . '?utm_source=wordpress&utm_term=en_US&utm_content=convertkit'
 		);
 	}
 

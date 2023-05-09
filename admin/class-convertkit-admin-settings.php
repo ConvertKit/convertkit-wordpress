@@ -330,6 +330,7 @@ class ConvertKit_Admin_Settings {
 		return add_query_arg(
 			array(
 				'utm_source'  => 'wordpress',
+				'utm_term'	  => get_locale(),
 				'utm_content' => 'convertkit',
 			),
 			$this->sections[ $active_section ]->documentation_url()

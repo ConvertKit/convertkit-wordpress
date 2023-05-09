@@ -644,7 +644,7 @@ class Plugin extends \Codeception\Module
 
 		// Confirm that UTM parameters exist on a broadcast link.
 		$I->assertStringContainsString(
-			'utm_source=wordpress&utm_content=convertkit',
+			'utm_source=wordpress&utm_term=en_US&utm_content=convertkit',
 			$I->grabAttributeFrom('div.convertkit-broadcasts ul.convertkit-broadcasts-list li.convertkit-broadcast a', 'href')
 		);
 
@@ -691,7 +691,7 @@ class Plugin extends \Codeception\Module
 		$I->seeBroadcastsOutput($I, 1, $previousLabel, false);
 
 		// Confirm that the expected Broadcast name is displayed and links to the expected URL, with UTM parameters.
-		$I->seeInSource('<a href="' . $_ENV['CONVERTKIT_API_BROADCAST_SECOND_URL'] . '?utm_source=wordpress&amp;utm_content=convertkit" target="_blank" rel="nofollow noopener"');
+		$I->seeInSource('<a href="' . $_ENV['CONVERTKIT_API_BROADCAST_SECOND_URL'] . '?utm_source=wordpress&amp;utm_term=en_US&amp;utm_content=convertkit" target="_blank" rel="nofollow noopener"');
 		$I->seeInSource($_ENV['CONVERTKIT_API_BROADCAST_SECOND_TITLE']);
 
 		// Click the Newer Posts link.
@@ -705,7 +705,7 @@ class Plugin extends \Codeception\Module
 		$I->seeBroadcastsOutput($I, 1, false, $nextLabel);
 
 		// Confirm that the expected Broadcast name is displayed and links to the expected URL, with UTM parameters.
-		$I->seeInSource('<a href="' . $_ENV['CONVERTKIT_API_BROADCAST_FIRST_URL'] . '?utm_source=wordpress&amp;utm_content=convertkit" target="_blank" rel="nofollow noopener"');
+		$I->seeInSource('<a href="' . $_ENV['CONVERTKIT_API_BROADCAST_FIRST_URL'] . '?utm_source=wordpress&amp;utm_term=en_US&amp;utm_content=convertkit" target="_blank" rel="nofollow noopener"');
 		$I->seeInSource($_ENV['CONVERTKIT_API_BROADCAST_FIRST_TITLE']);
 	}
 
