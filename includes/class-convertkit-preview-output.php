@@ -181,7 +181,7 @@ class ConvertKit_Preview_Output {
 			$link = add_query_arg(
 				array(
 					'utm_source'  => 'wordpress',
-					'utm_term'	  => get_locale(),
+					'utm_term'    => get_locale(),
 					'utm_content' => 'convertkit',
 				),
 				sprintf(
@@ -193,7 +193,7 @@ class ConvertKit_Preview_Output {
 			$link = add_query_arg(
 				array(
 					'utm_source'  => 'wordpress',
-					'utm_term'	  => get_locale(),
+					'utm_term'    => get_locale(),
 					'utm_content' => 'convertkit',
 				),
 				sprintf(

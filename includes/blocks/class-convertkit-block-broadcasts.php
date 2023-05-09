@@ -499,7 +499,7 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 			$url = add_query_arg(
 				array(
 					'utm_source'  => 'wordpress',
-					'utm_term'	  => get_locale(),
+					'utm_term'    => get_locale(),
 					'utm_content' => 'convertkit',
 				),
 				$broadcast['url']
