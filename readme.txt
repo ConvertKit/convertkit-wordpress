@@ -5,7 +5,7 @@ Tags: email marketing, email newsletter, newsletter, subscribers, convertkit
 Requires at least: 5.0
 Tested up to: 6.2
 Requires PHP: 5.6.20
-Stable tag: 2.2.0
+Stable tag: 2.2.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -133,6 +133,9 @@ Full Plugin documentation can be found [here](https://help.convertkit.com/en/art
 7. Track subscriber growth
 
 == Changelog ==
+
+### 2.2.1 2023-05-10
+* Fix: Settings: Escape tab links on output
 
 ### 2.2.0 2023-05-04
 * Added: ConvertKit Form Trigger Block, outputting a button which displays a non-inline form (modal, slide in, sticky bar) when pressed
