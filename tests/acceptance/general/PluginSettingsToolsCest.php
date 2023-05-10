@@ -324,8 +324,8 @@ class PluginSettingsToolsCest
 		// Click the submit button.
 		$I->click('Submit');
 
-		// Check that no alert is displayed, which confirms XSS isn't possible as the query parameter is correctly escaped.
-		$I->see('xxxxxxxx');
+		// Check that document.write did not work, which confirms XSS isn't possible as the query parameter is correctly escaped.
+		$I->dontSee('/XSS/');
 	}
 
 	/**
