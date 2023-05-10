@@ -295,6 +295,40 @@ class PluginSettingsToolsCest
 	}
 
 	/**
+	 * Test that any $_REQUEST['page'] parameter on a settings screen is correctly escaped on output
+	 * to prevent XSS.
+	 *
+	 * @since   2.2.1
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testTabParameterEscaping(AcceptanceTester $I)
+	{
+		// Define a page with a form that exploits the query parameter not being escaped.
+		$I->havePageInDatabase(
+			[
+				'post_name'    => 'convertkit-settings-tab-parameter-escaping',
+				'post_content' => '<form action="' . $_ENV['TEST_SITE_WP_URL'] . '/wp-admin/options-general.php?page=_wp_convertkit_settings&tab=tools" method="POST">
+      <input type="hidden" name="page" value=\'"style=animation-name:rotation onanimationstart=document.write(/XSS/)//\' />
+      <input type="submit" value="Submit" />
+    </form>'
+    		]
+		);
+
+		// Load the Page on the frontend site.
+		$I->amOnPage('/convertkit-settings-tab-parameter-escaping');
+
+		// Wait for frontend web site to load.
+		$I->waitForElementVisible('body.page-template-default');
+
+		// Click the submit button.
+		$I->click('Submit');
+
+		// Check that no alert is displayed, which confirms XSS isn't possible as the query parameter is correctly escaped.
+		$I->see('xxxxxxxx');
+	}
+
+	/**
 	 * Deactivate and reset Plugin(s) after each test, if the test passes.
 	 * We don't use _after, as this would provide a screenshot of the Plugin
 	 * deactivation and not the true test error.
