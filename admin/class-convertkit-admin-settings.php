@@ -225,10 +225,17 @@ class ConvertKit_Admin_Settings {
 			<?php
 			foreach ( $this->sections as $section ) {
 				printf(
-					'<li><a href="?page=%s&tab=%s" class="convertkit-tab %s">%s%s</a></li>',
-					sanitize_text_field( $_REQUEST['page'] ), // phpcs:ignore WordPress.Security.NonceVerification
-					esc_html( $section->name ),
-					$active_section === $section->name ? 'convertkit-tab-active' : '',
+					'<li><a href="%s" class="convertkit-tab %s">%s%s</a></li>',
+					esc_url(
+						add_query_arg(
+							array(
+								'page' => self::SETTINGS_PAGE_SLUG,
+								'tab'  => $section->name,
+							),
+							admin_url( 'options-general.php' )
+						)
+					),
+					( $active_section === $section->name ? 'convertkit-tab-active' : '' ),
 					esc_html( $section->tab_text ),
 					$section->is_beta ? $this->get_beta_tab() : '' // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				);
@@ -330,6 +337,7 @@ class ConvertKit_Admin_Settings {
 		return add_query_arg(
 			array(
 				'utm_source'  => 'wordpress',
+				'utm_term'    => get_locale(),
 				'utm_content' => 'convertkit',
 			),
 			$this->sections[ $active_section ]->documentation_url()

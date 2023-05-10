@@ -253,7 +253,14 @@ function convertkit_get_settings_link( $query_args = array() ) {
  */
 function convertkit_get_registration_url() {
 
-	return 'https://app.convertkit.com/users/signup?utm_source=wordpress&utm_content=convertkit';
+	return add_query_arg(
+		array(
+			'utm_source'  => 'wordpress',
+			'utm_term'    => get_locale(),
+			'utm_content' => 'convertkit',
+		),
+		'https://app.convertkit.com/users/signup'
+	);
 
 }
 
@@ -266,7 +273,14 @@ function convertkit_get_registration_url() {
  */
 function convertkit_get_sign_in_url() {
 
-	return 'https://app.convertkit.com/?utm_source=wordpress&utm_content=convertkit';
+	return add_query_arg(
+		array(
+			'utm_source'  => 'wordpress',
+			'utm_term'    => get_locale(),
+			'utm_content' => 'convertkit',
+		),
+		'https://app.convertkit.com/'
+	);
 
 }
 
@@ -279,7 +293,14 @@ function convertkit_get_sign_in_url() {
  */
 function convertkit_get_api_key_url() {
 
-	return 'https://app.convertkit.com/account_settings/advanced_settings/?utm_source=wordpress&utm_content=convertkit';
+	return add_query_arg(
+		array(
+			'utm_source'  => 'wordpress',
+			'utm_term'    => get_locale(),
+			'utm_content' => 'convertkit',
+		),
+		'https://app.convertkit.com/account_settings/advanced_settings/'
+	);
 
 }
 

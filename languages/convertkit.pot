@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the ConvertKit plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: ConvertKit 2.1.3\n"
+"Project-Id-Version: ConvertKit 2.2.1\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/convertkit\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-05-04T11:58:32+00:00\n"
+"POT-Creation-Date: 2023-05-10T12:55:26+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.7.1\n"
 "X-Domain: convertkit\n"
@@ -123,7 +123,7 @@ msgid "The text to display for a subscriber who authenticates via the login link
 msgstr ""
 
 #: admin/class-convertkit-admin-settings-restrict-content.php:155
-#: admin/class-convertkit-admin-settings.php:270
+#: admin/class-convertkit-admin-settings.php:277
 msgid "Beta"
 msgstr ""
 
@@ -151,7 +151,7 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-#: admin/class-convertkit-admin-settings.php:243
+#: admin/class-convertkit-admin-settings.php:250
 msgid "Documentation"
 msgstr ""
 
@@ -700,7 +700,7 @@ msgstr ""
 msgid "Invalid nonce specified. Please try again."
 msgstr ""
 
-#: includes/class-convertkit-preview-output.php:196
+#: includes/class-convertkit-preview-output.php:210
 msgid "Edit form in ConvertKit"
 msgstr ""
 

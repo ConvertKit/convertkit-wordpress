@@ -185,7 +185,7 @@ add_filter( 'convertkit_plugin_screen_action_links', function( $links ) {
 </pre>
 <h3 id="convertkit_admin_settings_register_sections">
 						convertkit_admin_settings_register_sections
-						<code>admin/class-convertkit-admin-settings.php::301</code>
+						<code>admin/class-convertkit-admin-settings.php::308</code>
 					</h3><h4>Overview</h4>
 						<p>Registers settings sections at Settings > ConvertKit.</p><h4>Parameters</h4>
 					<table>
