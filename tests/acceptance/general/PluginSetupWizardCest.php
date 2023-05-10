@@ -90,7 +90,7 @@ class PluginSetupWizardCest
 		$I->click('Register');
 		$I->wait(2); // Required, otherwise switchToNextTab fails.
 		$I->switchToNextTab();
-		$I->seeInCurrentUrl('users/signup?utm_source=wordpress&utm_content=convertkit');
+		$I->seeInCurrentUrl('users/signup?utm_source=wordpress&utm_term=en_US&utm_content=convertkit');
 
 		// Close newly opened tab from above button.
 		$I->closeTab();
