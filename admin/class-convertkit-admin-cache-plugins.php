@@ -53,8 +53,73 @@ class ConvertKit_Admin_Cache_Plugins {
 			return;
 		}
 
+		$this->w3_total_cache();
 		$this->wp_super_cache();
 		$this->wp_fastest_cache();
+
+	}
+
+	public function w3_total_cache() {
+
+		// Bail if the W3 Total Cache plugin is not active.
+		if ( ! is_plugin_active( 'w3-total-cache/w3-total-cache.php' ) ) {
+			return;
+		}
+
+		// Bail if caching isn't enabled in the W3 Total Cache Plugin.
+		$config = new \W3TC\Config();
+		if ( ! $config->get_boolean( 'pgcache.enabled' ) ) {
+			return;
+		}
+
+		// If the exclusion rule exists, no need to modify anything.
+		if ( in_array( $this->key, $config->get_array( 'pgcache.reject.cookie' ) ) ) {
+			return;
+		}
+
+		// W3 Total Cache is active, with page caching enabled, but has not been configured to disable
+		// caching when the ck_subscriber_id cookie is present.
+		// Show a notice in the WordPress Administration, as we can't directly write to the W3
+		// Total Cache configuration files.
+		WP_ConvertKit()->get_class( 'admin_notices' )->add( 'w3_total_cache' );
+
+		// Define the output of the persistent notice.
+		add_filter( 'convertkit_admin_notices_output_w3_total_cache', array( $this, 'w3_total_cache_notice' ) );
+
+	}
+
+	/**
+	 * Define the notice text to display in the WordPress Administration interface
+	 * when W3 Total Cache is active, its caching enabled and no rule to disable caching
+	 * exists when the ck_subscriber_id cookie is present.
+	 * 
+	 * @since 	2.2.1
+	 *
+	 * @param 	string 	$notice 	Notice text.
+	 * @return 	string 				Notice text
+	 */
+	public function w3_total_cache_notice( $notice ) {
+
+		return sprintf(
+			'%s %s %s %s',
+			esc_html__( 'ConvertKit: Member Content: Please add', 'convertkit' ),
+			'<code>ck_subscriber_id</code>',
+			sprintf(
+				'<a href="%s">%s</a>',
+				esc_url( 
+					admin_url(
+						add_query_arg(
+							array(
+								'page' => 'w3tc_pgcache#pgcache_reject_cookie',
+							),
+							'admin.php'
+						)
+					)
+				),
+				esc_html__( 'to W3 Total Cache\'s "Rejected Cookies" setting by clicking here.', 'convertkit' )
+			),
+			esc_html__( 'Failing to do so will result in errors.', 'convertkit' ),
+		);
 
 	}
 
