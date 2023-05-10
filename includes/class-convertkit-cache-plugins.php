@@ -15,7 +15,7 @@
  * @package ConvertKit
  * @author ConvertKit
  */
-class ConvertKit_Admin_Cache_Plugins {
+class ConvertKit_Cache_Plugins {
 
 	/**
 	 * Holds the cookie name.
@@ -33,6 +33,12 @@ class ConvertKit_Admin_Cache_Plugins {
 	 */
 	public function __construct() {
 
+		// When WP Rocket is active, add the ck_subscriber_id cookie to the list of cookies.
+		add_filter( 'rocket_cache_reject_cookies', array( $this, 'wp_rocket_cache' ) );
+
+		// For other caching plugins, automatically update their configuration when in the
+		// WordPress Administration interface, or show a notice when in the WordPress
+		// Administration interface for caching plugins we cannot automatically configure.
 		add_action( 'admin_init', array( $this, 'maybe_configure_cache_plugins' ) );
 
 	}
@@ -59,6 +65,29 @@ class ConvertKit_Admin_Cache_Plugins {
 
 	}
 
+	/**
+	 * Automatically add the ck_subscriber_id cookie to the list of cookies
+	 * in WP Rocket that, if present, stop WP Rocket from caching pages.
+	 * 
+	 * @since 	2.2.1
+	 * 
+	 * @param 	array 	$cookies 	Cookies.
+	 * @return 	array 				Cookies
+	 */
+	public function wp_rocket_cache( $cookies ) {
+
+		$cookies[] = $this->key;
+		return $cookies;
+
+	}
+
+	/**
+	 * Show a notice in the WordPress Administration interface if
+	 * W3 Total Cache is active, its caching enabled and no rule to disable caching
+	 * exists when the ck_subscriber_id cookie is present.
+	 * 
+	 * @since 	2.2.1
+	 */
 	public function w3_total_cache() {
 
 		// Bail if the W3 Total Cache plugin is not active.
