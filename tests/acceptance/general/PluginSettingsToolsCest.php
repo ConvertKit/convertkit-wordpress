@@ -311,8 +311,8 @@ class PluginSettingsToolsCest
 				'post_content' => '<form action="' . $_ENV['TEST_SITE_WP_URL'] . '/wp-admin/options-general.php?page=_wp_convertkit_settings&tab=tools" method="POST">
       <input type="hidden" name="page" value=\'"style=animation-name:rotation onanimationstart=document.write(/XSS/)//\' />
       <input type="submit" value="Submit" />
-    </form>'
-    		]
+    </form>',
+			]
 		);
 
 		// Load the Page on the frontend site.

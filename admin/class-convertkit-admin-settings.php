@@ -227,10 +227,13 @@ class ConvertKit_Admin_Settings {
 				printf(
 					'<li><a href="%s" class="convertkit-tab %s">%s%s</a></li>',
 					esc_attr(
-						add_query_arg( array(
-							'page' => self::SETTINGS_PAGE_SLUG,
-							'tab' => $section->name,
-						), admin_url( 'options-general.php' ) )
+						add_query_arg(
+							array(
+								'page' => self::SETTINGS_PAGE_SLUG,
+								'tab'  => $section->name,
+							),
+							admin_url( 'options-general.php' )
+						)
 					),
 					( $active_section === $section->name ? 'convertkit-tab-active' : '' ),
 					esc_html( $section->tab_text ),
