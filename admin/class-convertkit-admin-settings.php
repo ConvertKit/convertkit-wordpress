@@ -226,7 +226,7 @@ class ConvertKit_Admin_Settings {
 			foreach ( $this->sections as $section ) {
 				printf(
 					'<li><a href="%s" class="convertkit-tab %s">%s%s</a></li>',
-					esc_attr(
+					esc_url(
 						add_query_arg(
 							array(
 								'page' => self::SETTINGS_PAGE_SLUG,
