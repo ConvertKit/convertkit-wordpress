@@ -132,7 +132,7 @@ class ConvertKit_Resource_Forms extends ConvertKit_Resource {
 		}
 
 		// If here, return Form <script> embed now, as we want the inline form to display at this specific point of the content.
-		return '<script async data-uid="' . esc_attr( $this->resources[ $id ]['uid'] ) . '" src="' . esc_attr( $this->resources[ $id ]['embed_js'] ) . '"></script>';
+		return '<script async data-uid="' . esc_attr( $this->resources[ $id ]['uid'] ) . '" src="' . esc_url( $this->resources[ $id ]['embed_js'] ) . '"></script>';
 
 	}
 

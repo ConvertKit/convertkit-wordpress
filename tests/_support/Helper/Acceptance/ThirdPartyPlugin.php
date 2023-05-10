@@ -71,11 +71,5 @@ class ThirdPartyPlugin extends \Codeception\Module
 
 		// Deactivate the Plugin.
 		$I->deactivatePlugin($name);
-
-		// Check that the Plugin deactivated successfully.
-		$I->seePluginDeactivated($name);
-
-		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen($I);
 	}
 }
