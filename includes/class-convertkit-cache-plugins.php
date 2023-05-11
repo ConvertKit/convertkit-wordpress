@@ -20,7 +20,7 @@ class ConvertKit_Cache_Plugins {
 	/**
 	 * Holds the cookie name.
 	 *
-	 * @since   2.2.1
+	 * @since   2.2.2
 	 *
 	 * @var     string
 	 */
@@ -29,16 +29,16 @@ class ConvertKit_Cache_Plugins {
 	/**
 	 * Registers action and filter hooks.
 	 *
-	 * @since   2.2.1
+	 * @since   2.2.2
 	 */
 	public function __construct() {
 
 		// When WP Rocket is active, add the ck_subscriber_id cookie to the list of cookies.
 		add_filter( 'rocket_cache_reject_cookies', array( $this, 'wp_rocket_cache' ) );
 
-		// For other caching plugins, automatically update their configuration when in the
-		// WordPress Administration interface, or show a notice when in the WordPress
-		// Administration interface for caching plugins we cannot automatically configure.
+		// For other caching plugins, either automatically update their configuration when in the
+		// WordPress Administration interface, or show a notice for caching plugins we cannot
+		// automatically configure.
 		add_action( 'admin_init', array( $this, 'maybe_configure_cache_plugins' ) );
 
 	}
@@ -49,7 +49,7 @@ class ConvertKit_Cache_Plugins {
 	 * is present, or show a notice in the WordPress Administration interface
 	 * where we cannot automatically configure a caching plugin.
 	 * 
-	 * @since 	2.2.1
+	 * @since 	2.2.2
 	 */
 	public function maybe_configure_cache_plugins() {
 
@@ -59,6 +59,7 @@ class ConvertKit_Cache_Plugins {
 			return;
 		}
 
+		$this->litespeed_cache();
 		$this->w3_total_cache();
 		$this->wp_super_cache();
 		$this->wp_fastest_cache();
@@ -69,7 +70,7 @@ class ConvertKit_Cache_Plugins {
 	 * Automatically add the ck_subscriber_id cookie to the list of cookies
 	 * in WP Rocket that, if present, stop WP Rocket from caching pages.
 	 * 
-	 * @since 	2.2.1
+	 * @since 	2.2.2
 	 * 
 	 * @param 	array 	$cookies 	Cookies.
 	 * @return 	array 				Cookies
@@ -83,10 +84,81 @@ class ConvertKit_Cache_Plugins {
 
 	/**
 	 * Show a notice in the WordPress Administration interface if
+	 * Litespeed Cache is active, its caching enabled and no rule to disable caching
+	 * exists when the ck_subscriber_id cookie is present.
+	 * 
+	 * @since 	2.2.2
+	 */
+	public function litespeed_cache() {
+
+		// Bail if the Litespeed Cache plugin is not active.
+		if ( ! is_plugin_active( 'litespeed-cache/litespeed-cache.php' ) ) {
+			return;
+		}
+
+		// Bail if caching isn't enabled in the Litespeed Plugin.
+		$config = new \Litespeed\Base();
+		if ( ! $config->conf( \Litespeed\Base::O_CACHE ) ) {
+			return;
+		}
+
+		// If the exclusion rule exists, no need to modify anything.
+		if ( in_array( $this->key, $config->conf( \Litespeed\Base::O_CACHE_EXC_COOKIES ) ) ) {
+			return;
+		}
+
+		// Litespeed Cache is active, with page caching enabled, but has not been configured to disable
+		// caching when the ck_subscriber_id cookie is present.
+		// Show a notice in the WordPress Administration, as we can't directly write to the
+		// Litespeed Cache configuration files.
+		WP_ConvertKit()->get_class( 'admin_notices' )->add( 'litespeed_cache' );
+
+		// Define the output of the persistent notice.
+		add_filter( 'convertkit_admin_notices_output_litespeed_cache', array( $this, 'litespeed_cache_notice' ) );
+	
+	}
+
+	/**
+	 * Define the notice text to display in the WordPress Administration interface
+	 * when Litespeed Cache is active, its caching enabled and no rule to disable caching
+	 * exists when the ck_subscriber_id cookie is present.
+	 * 
+	 * @since 	2.2.2
+	 *
+	 * @param 	string 	$notice 	Notice text.
+	 * @return 	string 				Notice text
+	 */
+	public function litespeed_cache_notice( $notice ) {
+
+		return sprintf(
+			'%s %s %s %s',
+			esc_html__( 'ConvertKit: Member Content: Please add', 'convertkit' ),
+			'<code>ck_subscriber_id</code>',
+			sprintf(
+				'<a href="%s">%s</a>',
+				esc_url( 
+					admin_url(
+						add_query_arg(
+							array(
+								'page' => 'litespeed-cache#excludes',
+							),
+							'admin.php'
+						)
+					)
+				),
+				esc_html__( 'to Litespeed Cache\'s "Do Not Cache Cookies" setting by clicking here.', 'convertkit' )
+			),
+			esc_html__( 'Failing to do so will result in errors.', 'convertkit' ),
+		);
+
+	}
+
+	/**
+	 * Show a notice in the WordPress Administration interface if
 	 * W3 Total Cache is active, its caching enabled and no rule to disable caching
 	 * exists when the ck_subscriber_id cookie is present.
 	 * 
-	 * @since 	2.2.1
+	 * @since 	2.2.2
 	 */
 	public function w3_total_cache() {
 
@@ -122,7 +194,7 @@ class ConvertKit_Cache_Plugins {
 	 * when W3 Total Cache is active, its caching enabled and no rule to disable caching
 	 * exists when the ck_subscriber_id cookie is present.
 	 * 
-	 * @since 	2.2.1
+	 * @since 	2.2.2
 	 *
 	 * @param 	string 	$notice 	Notice text.
 	 * @return 	string 				Notice text
@@ -157,7 +229,7 @@ class ConvertKit_Cache_Plugins {
 	 * WP Super Cache is active, its caching enabled and no rule to disable caching
 	 * exists when the ck_subscriber_id cookie is present.
 	 * 
-	 * @since 	2.2.1
+	 * @since 	2.2.2
 	 */
 	public function wp_super_cache() {
 
@@ -194,7 +266,7 @@ class ConvertKit_Cache_Plugins {
 	 * when WP Super Cache is active, its caching enabled and no rule to disable caching
 	 * exists when the ck_subscriber_id cookie is present.
 	 * 
-	 * @since 	2.2.1
+	 * @since 	2.2.2
 	 *
 	 * @param 	string 	$notice 	Notice text.
 	 * @return 	string 				Notice text
@@ -229,7 +301,7 @@ class ConvertKit_Cache_Plugins {
 	 * Add a rule to WP Fastest Cache to prevent caching when
 	 * the ck_subscriber_id cookie is present.
 	 * 
-	 * @since 	2.2.1
+	 * @since 	2.2.2
 	 */
 	public function wp_fastest_cache() {
 
