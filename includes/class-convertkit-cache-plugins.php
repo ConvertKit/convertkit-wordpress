@@ -33,8 +33,10 @@ class ConvertKit_Cache_Plugins {
 	 */
 	public function __construct() {
 
-		// When WP Rocket is active, add the ck_subscriber_id cookie to the list of cookies.
-		add_filter( 'rocket_cache_reject_cookies', array( $this, 'wp_rocket_cache' ) );
+		// When WP Rocket or WP-Optimize is active, add the ck_subscriber_id cookie to the list of cookies
+		// to exclude caching for when present.
+		add_filter( 'rocket_cache_reject_cookies', array( $this, 'exclude_caching_when_cookie_exists' ) );
+		add_filter( 'wpo_cache_exception_cookies', array( $this, 'exclude_caching_when_cookie_exists' ) );
 
 		// For other caching plugins, either automatically update their configuration when in the
 		// WordPress Administration interface, or show a notice for caching plugins we cannot
@@ -68,14 +70,15 @@ class ConvertKit_Cache_Plugins {
 
 	/**
 	 * Automatically add the ck_subscriber_id cookie to the list of cookies
-	 * in WP Rocket that, if present, stop WP Rocket from caching pages.
+	 * in WP Rocket and WP-Optimize that, if present, stop those plugins from
+	 * caching pages.
 	 * 
 	 * @since 	2.2.2
 	 * 
 	 * @param 	array 	$cookies 	Cookies.
 	 * @return 	array 				Cookies
 	 */
-	public function wp_rocket_cache( $cookies ) {
+	public function exclude_caching_when_cookie_exists( $cookies ) {
 
 		$cookies[] = $this->key;
 		return $cookies;
