@@ -108,13 +108,13 @@ class ConvertKit_Cache_Plugins {
 		}
 
 		// Bail if caching isn't enabled in the Litespeed Plugin.
-		$config = new \Litespeed\Base();
-		if ( ! $config->conf( \Litespeed\Base::O_CACHE ) ) {
+		$config = new \LiteSpeed\Base();
+		if ( ! $config->conf( \LiteSpeed\Base::O_CACHE ) ) {
 			return;
 		}
 
 		// If the exclusion rule exists, no need to modify anything.
-		if ( in_array( $this->key, $config->conf( \Litespeed\Base::O_CACHE_EXC_COOKIES ), true ) ) {
+		if ( in_array( $this->key, $config->conf( \LiteSpeed\Base::O_CACHE_EXC_COOKIES ), true ) ) {
 			return;
 		}
 
