@@ -80,10 +80,10 @@ class ConvertKit_Admin_Notices {
 
 					/**
 					 * Define the text to output in an admin error notice.
-					 * 
-					 * @since 	2.2.1
-					 * 
-					 * @param 	string 	$notice 	Admin notice name.
+					 *
+					 * @since   2.2.1
+					 *
+					 * @param   string  $notice     Admin notice name.
 					 */
 					$output = apply_filters( 'convertkit_admin_notices_output_' . $notice, $output );
 					break;
@@ -96,7 +96,7 @@ class ConvertKit_Admin_Notices {
 			?>
 			<div class="notice notice-error">
 				<p>
-					<?php echo $output; ?>
+					<?php echo $output; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 				</p>
 			</div>
 			<?php

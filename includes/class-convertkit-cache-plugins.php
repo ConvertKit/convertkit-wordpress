@@ -8,9 +8,17 @@
 
 /**
  * If Restrict Content is enabled, run functions for common caching plugins
- * to either configure them to disable caching when the ck_subscriber_id
- * is present, or show a notice in the WordPress Administration interface
- * where we cannot automatically configure a caching plugin.
+ * to either:
+ * - automatically configure them to disable caching when the ck_subscriber_id is present,
+ * - show a notice in the WordPress Administration interface where we cannot automatically configure a caching plugin.
+ *
+ * Currently supported third party Plugins:
+ * - WP Rocket
+ * - WP-Optimize
+ * - Litespeed Cache
+ * - W3 Total Cache
+ * - WP Super Cache
+ * - WP Fastest Cache
  *
  * @package ConvertKit
  * @author ConvertKit
@@ -33,8 +41,8 @@ class ConvertKit_Cache_Plugins {
 	 */
 	public function __construct() {
 
-		// When WP Rocket or WP-Optimize is active, add the ck_subscriber_id cookie to the list of cookies
-		// to exclude caching for when present.
+		// When WP Rocket or WP-Optimize is active, we can use their hooks to add the ck_subscriber_id
+		// cookie to the list of cookies to exclude caching for when present.
 		add_filter( 'rocket_cache_reject_cookies', array( $this, 'exclude_caching_when_cookie_exists' ) );
 		add_filter( 'wpo_cache_exception_cookies', array( $this, 'exclude_caching_when_cookie_exists' ) );
 
@@ -50,8 +58,8 @@ class ConvertKit_Cache_Plugins {
 	 * to either configure them to disable caching when the ck_subscriber_id
 	 * is present, or show a notice in the WordPress Administration interface
 	 * where we cannot automatically configure a caching plugin.
-	 * 
-	 * @since 	2.2.2
+	 *
+	 * @since   2.2.2
 	 */
 	public function maybe_configure_cache_plugins() {
 
@@ -72,11 +80,11 @@ class ConvertKit_Cache_Plugins {
 	 * Automatically add the ck_subscriber_id cookie to the list of cookies
 	 * in WP Rocket and WP-Optimize that, if present, stop those plugins from
 	 * caching pages.
-	 * 
-	 * @since 	2.2.2
-	 * 
-	 * @param 	array 	$cookies 	Cookies.
-	 * @return 	array 				Cookies
+	 *
+	 * @since   2.2.2
+	 *
+	 * @param   array $cookies    Cookies.
+	 * @return  array               Cookies
 	 */
 	public function exclude_caching_when_cookie_exists( $cookies ) {
 
@@ -89,8 +97,8 @@ class ConvertKit_Cache_Plugins {
 	 * Show a notice in the WordPress Administration interface if
 	 * Litespeed Cache is active, its caching enabled and no rule to disable caching
 	 * exists when the ck_subscriber_id cookie is present.
-	 * 
-	 * @since 	2.2.2
+	 *
+	 * @since   2.2.2
 	 */
 	public function litespeed_cache() {
 
@@ -106,7 +114,7 @@ class ConvertKit_Cache_Plugins {
 		}
 
 		// If the exclusion rule exists, no need to modify anything.
-		if ( in_array( $this->key, $config->conf( \Litespeed\Base::O_CACHE_EXC_COOKIES ) ) ) {
+		if ( in_array( $this->key, $config->conf( \Litespeed\Base::O_CACHE_EXC_COOKIES ), true ) ) {
 			return;
 		}
 
@@ -118,20 +126,20 @@ class ConvertKit_Cache_Plugins {
 
 		// Define the output of the persistent notice.
 		add_filter( 'convertkit_admin_notices_output_litespeed_cache', array( $this, 'litespeed_cache_notice' ) );
-	
+
 	}
 
 	/**
 	 * Define the notice text to display in the WordPress Administration interface
 	 * when Litespeed Cache is active, its caching enabled and no rule to disable caching
 	 * exists when the ck_subscriber_id cookie is present.
-	 * 
-	 * @since 	2.2.2
 	 *
-	 * @param 	string 	$notice 	Notice text.
-	 * @return 	string 				Notice text
+	 * @since   2.2.2
+	 *
+	 * @param   string $notice     Notice text.
+	 * @return  string              Notice text
 	 */
-	public function litespeed_cache_notice( $notice ) {
+	public function litespeed_cache_notice( $notice ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.Found
 
 		return sprintf(
 			'%s %s %s %s',
@@ -139,7 +147,7 @@ class ConvertKit_Cache_Plugins {
 			'<code>ck_subscriber_id</code>',
 			sprintf(
 				'<a href="%s">%s</a>',
-				esc_url( 
+				esc_url(
 					admin_url(
 						add_query_arg(
 							array(
@@ -160,8 +168,8 @@ class ConvertKit_Cache_Plugins {
 	 * Show a notice in the WordPress Administration interface if
 	 * W3 Total Cache is active, its caching enabled and no rule to disable caching
 	 * exists when the ck_subscriber_id cookie is present.
-	 * 
-	 * @since 	2.2.2
+	 *
+	 * @since   2.2.2
 	 */
 	public function w3_total_cache() {
 
@@ -177,7 +185,7 @@ class ConvertKit_Cache_Plugins {
 		}
 
 		// If the exclusion rule exists, no need to modify anything.
-		if ( in_array( $this->key, $config->get_array( 'pgcache.reject.cookie' ) ) ) {
+		if ( in_array( $this->key, $config->get_array( 'pgcache.reject.cookie' ), true ) ) {
 			return;
 		}
 
@@ -196,13 +204,13 @@ class ConvertKit_Cache_Plugins {
 	 * Define the notice text to display in the WordPress Administration interface
 	 * when W3 Total Cache is active, its caching enabled and no rule to disable caching
 	 * exists when the ck_subscriber_id cookie is present.
-	 * 
-	 * @since 	2.2.2
 	 *
-	 * @param 	string 	$notice 	Notice text.
-	 * @return 	string 				Notice text
+	 * @since   2.2.2
+	 *
+	 * @param   string $notice     Notice text.
+	 * @return  string              Notice text
 	 */
-	public function w3_total_cache_notice( $notice ) {
+	public function w3_total_cache_notice( $notice ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.Found
 
 		return sprintf(
 			'%s %s %s %s',
@@ -210,7 +218,7 @@ class ConvertKit_Cache_Plugins {
 			'<code>ck_subscriber_id</code>',
 			sprintf(
 				'<a href="%s">%s</a>',
-				esc_url( 
+				esc_url(
 					admin_url(
 						add_query_arg(
 							array(
@@ -231,8 +239,8 @@ class ConvertKit_Cache_Plugins {
 	 * Show a notice in the WordPress Administration interface if
 	 * WP Super Cache is active, its caching enabled and no rule to disable caching
 	 * exists when the ck_subscriber_id cookie is present.
-	 * 
-	 * @since 	2.2.2
+	 *
+	 * @since   2.2.2
 	 */
 	public function wp_super_cache() {
 
@@ -249,7 +257,7 @@ class ConvertKit_Cache_Plugins {
 
 		// If the exclusion rule exists, no need to modify anything.
 		global $wpsc_rejected_cookies;
-		if ( is_array( $wpsc_rejected_cookies ) && in_array( $this->key, $wpsc_rejected_cookies ) ) {
+		if ( is_array( $wpsc_rejected_cookies ) && in_array( $this->key, $wpsc_rejected_cookies, true ) ) {
 			return;
 		}
 
@@ -268,13 +276,13 @@ class ConvertKit_Cache_Plugins {
 	 * Define the notice text to display in the WordPress Administration interface
 	 * when WP Super Cache is active, its caching enabled and no rule to disable caching
 	 * exists when the ck_subscriber_id cookie is present.
-	 * 
-	 * @since 	2.2.2
 	 *
-	 * @param 	string 	$notice 	Notice text.
-	 * @return 	string 				Notice text
+	 * @since   2.2.2
+	 *
+	 * @param   string $notice     Notice text.
+	 * @return  string              Notice text
 	 */
-	public function wp_super_cache_notice( $notice ) {
+	public function wp_super_cache_notice( $notice ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.Found
 
 		return sprintf(
 			'%s %s %s %s',
@@ -282,12 +290,12 @@ class ConvertKit_Cache_Plugins {
 			'<code>ck_subscriber_id</code>',
 			sprintf(
 				'<a href="%s">%s</a>',
-				esc_url( 
+				esc_url(
 					admin_url(
 						add_query_arg(
 							array(
 								'page' => 'wpsupercache',
-								'tab' => 'settings#rejectcookies',
+								'tab'  => 'settings#rejectcookies',
 							),
 							'options-general.php'
 						)
@@ -303,8 +311,8 @@ class ConvertKit_Cache_Plugins {
 	/**
 	 * Add a rule to WP Fastest Cache to prevent caching when
 	 * the ck_subscriber_id cookie is present.
-	 * 
-	 * @since 	2.2.2
+	 *
+	 * @since   2.2.2
 	 */
 	public function wp_fastest_cache() {
 
@@ -325,7 +333,7 @@ class ConvertKit_Cache_Plugins {
 		$rule = array(
 			'prefix'  => 'contain',
 			'content' => $this->key,
-			'type' 	  => 'cookie',
+			'type'    => 'cookie',
 		);
 
 		// If no rules exist, add the rule.
@@ -334,7 +342,7 @@ class ConvertKit_Cache_Plugins {
 		}
 
 		// Append the rule to the existing ruleset.
-		$exclusion_rules = json_decode( $exclusion_rules );
+		$exclusion_rules   = json_decode( $exclusion_rules );
 		$exclusion_rules[] = $rule;
 		return update_option( 'WpFastestCacheExclude', wp_json_encode( $exclusion_rules ) );
 
