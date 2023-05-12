@@ -70,25 +70,6 @@ class ConvertKit_Admin_Cache_Plugins {
 	}
 
 	/**
-	 * Automatically add the ck_subscriber_id cookie to the list of cookies
-	 * in WP Rocket and WP-Optimize that, if present, stop those plugins from
-	 * caching pages.
-	 *
-	 * @since   2.2.2
-	 *
-	 * @param   array $cookies    Cookies.
-	 * @return  array               Cookies
-	 */
-	public function exclude_caching_when_cookie_exists( $cookies ) {
-
-		var_dump( $cookies );
-
-		$cookies[] = $this->key;
-		return $cookies;
-
-	}
-
-	/**
 	 * Show a notice in the WordPress Administration interface if
 	 * Litespeed Cache is active, its caching enabled and no rule to disable caching
 	 * exists when the ck_subscriber_id cookie is present.
