@@ -13,12 +13,11 @@
  * - show a notice in the WordPress Administration interface where we cannot automatically configure a caching plugin.
  *
  * Currently supported third party Plugins:
- * - WP Rocket
- * - WP-Optimize
  * - Litespeed Cache
+ * - WP-Optimize
  * - W3 Total Cache
- * - WP Super Cache
  * - WP Fastest Cache
+ * - WP Super Cache
  *
  * @package ConvertKit
  * @author ConvertKit
