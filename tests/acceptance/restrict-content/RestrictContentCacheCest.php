@@ -22,32 +22,6 @@ class RestrictContentCacheCest
 	}
 
 	/**
-	 * Tests that the WP Rocket Plugin does not interfere with Restrict Content
-	 * output when a ck_subscriber_id cookie is present.
-	 * 
-	 * @since 	2.2.1
-	 *
-	 * @param   AcceptanceTester $I  Tester.
-	 */
-	public function testRestrictContentWPRocket(AcceptanceTester $I)
-	{
-		
-	}
-
-	/**
-	 * Tests that the WP-Optimize Plugin does not interfere with Restrict Content
-	 * output when a ck_subscriber_id cookie is present.
-	 * 
-	 * @since 	2.2.1
-	 *
-	 * @param   AcceptanceTester $I  Tester.
-	 */
-	public function testRestrictContentWPOptimize(AcceptanceTester $I)
-	{
-		
-	}
-
-	/**
 	 * Tests that the LiteSpeed Cache Plugin does not interfere with Restrict Content
 	 * output when a ck_subscriber_id cookie is present.
 	 * 
@@ -57,7 +31,8 @@ class RestrictContentCacheCest
 	 */
 	public function testRestrictContentLiteSpeedCache(AcceptanceTester $I)
 	{
-		
+		// Activate and enable LiteSpeed Cache Plugin.
+		$I->activeAndEnableLiteSpeedCachePlugin($I);
 	}
 
 	/**
@@ -70,20 +45,8 @@ class RestrictContentCacheCest
 	 */
 	public function testRestrictContentW3TotalCache(AcceptanceTester $I)
 	{
-		
-	}
-
-	/**
-	 * Tests that the WP Super Cache Plugin does not interfere with Restrict Content
-	 * output when a ck_subscriber_id cookie is present.
-	 * 
-	 * @since 	2.2.1
-	 *
-	 * @param   AcceptanceTester $I  Tester.
-	 */
-	public function testRestrictContentWPSuperCache(AcceptanceTester $I)
-	{
-		
+		// Activate and enable W3 Total Cache Plugin.
+		$I->activeAndEnableW3TotalCachePlugin($I);
 	}
 
 	/**
@@ -96,7 +59,36 @@ class RestrictContentCacheCest
 	 */
 	public function testRestrictContentWPFastestCache(AcceptanceTester $I)
 	{
-		
+		// Activate and enable WP Fastest Cache Plugin.
+		$I->activeAndEnableWPFastestCachePlugin($I);
+	}
+
+	/**
+	 * Tests that the WP-Optimize Plugin does not interfere with Restrict Content
+	 * output when a ck_subscriber_id cookie is present.
+	 * 
+	 * @since 	2.2.1
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testRestrictContentWPOptimize(AcceptanceTester $I)
+	{
+		// Activate and enable WP-Optimize Plugin.
+		$I->activeAndEnableWPOptimizePlugin($I);
+	}
+
+	/**
+	 * Tests that the WP Super Cache Plugin does not interfere with Restrict Content
+	 * output when a ck_subscriber_id cookie is present.
+	 * 
+	 * @since 	2.2.1
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testRestrictContentWPSuperCache(AcceptanceTester $I)
+	{
+		// Activate and enable WP Super Cache Plugin.
+		$I->activeAndEnableWPSuperCachePlugin($I);
 	}
 
 	/**
