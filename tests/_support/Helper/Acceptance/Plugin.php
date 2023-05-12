@@ -882,14 +882,21 @@ class Plugin extends \Codeception\Module
 		// Confirm that confirmation an email has been sent is displayed.
 		$this->testRestrictContentShowsEmailCodeForm($I, $visibleContent, $memberContent);
 
+		// Test that the restricted content displays when a valid signed subscriber ID is used,
+		// as if we entered the code sent in the email.
+		$this->testRestrictedContentShowsContentWithValidSubscriberID($I, $urlOrPageID, $visibleContent, $memberContent);
+	}
+
+	public function testRestrictedContentShowsContentWithValidSubscriberID($I, $urlOrPageID, $visibleContent, $memberContent)
+	{
 		// Set cookie with signed subscriber ID, as if we entered the code sent in the email.
 		$I->setCookie('ck_subscriber_id', $_ENV['CONVERTKIT_API_SIGNED_SUBSCRIBER_ID']);
 
 		// Reload the restricted content page.
 		if ( is_numeric( $urlOrPageID ) ) {
-			$I->amOnPage('?p=' . $urlOrPageID . '&ck-cache-bust=' . microtime() );
+			$I->amOnPage('?p=' . $urlOrPageID );
 		} else {
-			$I->amOnUrl($urlOrPageID . '?ck-cache-bust=' . microtime() );
+			$I->amOnUrl($urlOrPageID );
 		}
 
 		// Confirm cookie was set with the expected value.
@@ -915,6 +922,11 @@ class Plugin extends \Codeception\Module
 	 */
 	public function testRestrictContentHidesContentWithCTA($I, $visibleContent = 'Visible content.', $memberContent = 'Member only content.', $textItems = false)
 	{
+		// Define expected text and labels if not supplied.
+		if ( ! $textItems ) {
+			$textItems = $this->getRestrictedContentDefaultSettings();
+		}
+
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
 

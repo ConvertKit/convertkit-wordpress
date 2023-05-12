@@ -77,7 +77,7 @@ class RestrictContentProductCest
 		// Add a Page using the Gutenberg editor.
 		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Restrict Content: Product');
 
-		// Configure metabox's Restrict Content setting = Tag name.
+		// Configure metabox's Restrict Content setting = Product name.
 		$I->configureMetaboxSettings(
 			$I,
 			'wp-convertkit-meta-box',
