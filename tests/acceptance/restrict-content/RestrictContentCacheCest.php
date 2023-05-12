@@ -34,6 +34,7 @@ class RestrictContentCacheCest
 
 		// Clear up any cache configuration files that might exist from previous tests.
 		$I->deleteWPCacheConfigFiles($I);
+		$I->resetCookie('ck_subscriber_id');
 	}
 
 	/**
@@ -84,7 +85,34 @@ class RestrictContentCacheCest
 	public function testRestrictContentW3TotalCache(AcceptanceTester $I)
 	{
 		// Activate and enable W3 Total Cache Plugin.
-		$I->activeAndEnableW3TotalCachePlugin($I);
+		$I->activateThirdPartyPlugin($I, 'w3-total-cache');
+		$I->enableCachingW3TotalCachePlugin($I);
+
+		// Configure W3 Total Cache Plugin to exclude caching when the ck_subscriber_id cookie is set.
+		$I->excludeCachingW3TotalCachePlugin($I);
+
+		// Create Restricted Content Page.
+		$pageID = $I->createRestrictedContentPage(
+			$I,
+			'ConvertKit: Restrict Content: Product: W3 Total Cache',
+			$this->visibleContent,
+			$this->memberContent,
+			'product_' . $_ENV['CONVERTKIT_API_PRODUCT_ID']
+		);
+
+		// Log out, so that caching is honored.
+		$I->logOut();
+
+		// Navigate to the page.
+		$I->amOnPage('?p=' . $pageID);
+
+		// Test that the restricted content CTA displays when no valid signed subscriber ID is used,
+		// to confirm caching does not show member only content.
+		$I->testRestrictContentHidesContentWithCTA($I, $this->visibleContent, $this->memberContent);
+
+		// Test that the restricted content displays when a valid signed subscriber ID is used,
+		// to confirm caching does not show the incorrect content.
+		$I->testRestrictedContentShowsContentWithValidSubscriberID($I, $pageID, $this->visibleContent, $this->memberContent);
 	}
 
 	/**
@@ -221,6 +249,7 @@ class RestrictContentCacheCest
 	 */
 	public function _passed(AcceptanceTester $I)
 	{
+		$I->deleteWPCacheConfigFiles($I);
 		$I->resetCookie('ck_subscriber_id');
 		$I->deactivateConvertKitPlugin($I);
 		$I->resetConvertKitPlugin($I);

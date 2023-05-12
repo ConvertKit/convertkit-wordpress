@@ -36,21 +36,14 @@ class WPCachePlugins extends \Codeception\Module
 	}
 
 	/**
-	 * Helper method to activate the W3 Total Cache Plugin, and then
-	 * enable it to perform caching.
+	 * Helper method to enable caching in the W3 Total Cache Plugin.
 	 *
 	 * @since   2.2.2
 	 *
 	 * @param   AcceptanceTester $I      Acceptance Tester.
 	 */
-	public function activeAndEnableW3TotalCachePlugin($I)
+	public function enableCachingW3TotalCachePlugin($I)
 	{
-		// Clear up any cache configuration files that might exist from previous tests.
-		$I->deleteAdvancedCacheConfig($I);
-
-		// Activate Plugin.
-		$I->activateThirdPartyPlugin($I, 'w3-total-cache');
-
 		// Navigate to its settings screen.
 		$I->amOnAdminPage('admin.php?page=w3tc_general');
 
@@ -66,6 +59,28 @@ class WPCachePlugins extends \Codeception\Module
 
 		// Save.
 		$I->click('Save all settings');
+	}
+
+	/**
+	 * Helper method to exclude caching when a cookie is present
+	 * in the W3 Total Cache Plugin.
+	 *
+	 * @since   2.2.2
+	 *
+	 * @param   AcceptanceTester $I      Acceptance Tester.
+	 */
+	public function excludeCachingW3TotalCachePlugin($I, $cookieName = 'ck_subscriber_id')
+	{
+		// Navigate to its settings screen.
+		$I->amOnAdminPage('admin.php?page=w3tc_pgcache');
+
+		// Add cookie to "Rejected Cookies" setting.
+		$I->scrollTo('#pgcache_reject_cookie');
+		$I->fillField('#pgcache_reject_cookie', $cookieName);
+
+		// Save.
+		$I->scrollTo('#notes');
+		$I->click('#w3tc_save_options_pagecache_advanced');
 	}
 
 	/**
@@ -148,7 +163,7 @@ class WPCachePlugins extends \Codeception\Module
 		// Navigate to its settings screen.
 		$I->amOnAdminPage('options-general.php?page=wpsupercache&tab=settings');
 
-		// Add cookis to "Rejected Cookies" setting.
+		// Add cookie to "Rejected Cookies" setting.
 		$I->fillField('wp_rejected_cookies', $cookieName);
 
 		// Save.
