@@ -23,7 +23,7 @@
  * @package ConvertKit
  * @author ConvertKit
  */
-class ConvertKit_Cache_Plugins {
+class ConvertKit_Admin_Cache_Plugins {
 
 	/**
 	 * Holds the cookie name.
@@ -41,13 +41,6 @@ class ConvertKit_Cache_Plugins {
 	 */
 	public function __construct() {
 
-		// When WP Rocket or WP-Optimize is active, we can use their hooks to add the ck_subscriber_id
-		// cookie to the list of cookies to exclude caching for when present.
-		add_filter( 'rocket_cache_reject_cookies', array( $this, 'exclude_caching_when_cookie_exists' ) );
-		
-		// For other caching plugins, either automatically update their configuration when in the
-		// WordPress Administration interface, or show a notice for caching plugins we cannot
-		// automatically configure.
 		add_action( 'admin_init', array( $this, 'maybe_configure_cache_plugins' ) );
 
 	}
