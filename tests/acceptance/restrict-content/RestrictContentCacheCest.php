@@ -3,18 +3,32 @@
  * Tests that common caching plugins do not interfere with Restrict Content
  * output when configured correctly.
  *
- * @since   2.2.1
+ * @since   2.2.2
  */
 class RestrictContentCacheCest
 {
+	/**
+	 * The visible content to all users.
+	 *
+	 * @since   2.2.2
+	 *
+	 * @var     string
+	 */
 	public $visibleContent = 'Visible content';
 
+	/**
+	 * The content only available to authorized users.
+	 *
+	 * @since   2.2.2
+	 *
+	 * @var     string
+	 */
 	public $memberContent = 'Member only content.';
 
 	/**
 	 * Run common actions before running the test functions in this class.
 	 *
-	 * @since   2.2.1
+	 * @since   2.2.2
 	 *
 	 * @param   AcceptanceTester $I  Tester.
 	 */
@@ -40,8 +54,8 @@ class RestrictContentCacheCest
 	/**
 	 * Tests that the LiteSpeed Cache Plugin does not interfere with Restrict Content
 	 * output when a ck_subscriber_id cookie is present.
-	 * 
-	 * @since 	2.2.1
+	 *
+	 * @since   2.2.2
 	 *
 	 * @param   AcceptanceTester $I  Tester.
 	 */
@@ -81,8 +95,8 @@ class RestrictContentCacheCest
 	/**
 	 * Tests that the W3 Total Cache Plugin does not interfere with Restrict Content
 	 * output when a ck_subscriber_id cookie is present.
-	 * 
-	 * @since 	2.2.1
+	 *
+	 * @since   2.2.2
 	 *
 	 * @param   AcceptanceTester $I  Tester.
 	 */
@@ -122,8 +136,8 @@ class RestrictContentCacheCest
 	/**
 	 * Tests that the WP Fatest Cache Plugin does not interfere with Restrict Content
 	 * output when a ck_subscriber_id cookie is present.
-	 * 
-	 * @since 	2.2.1
+	 *
+	 * @since   2.2.2
 	 *
 	 * @param   AcceptanceTester $I  Tester.
 	 */
@@ -163,8 +177,8 @@ class RestrictContentCacheCest
 	/**
 	 * Tests that the WP-Optimize Plugin does not interfere with Restrict Content
 	 * output when a ck_subscriber_id cookie is present.
-	 * 
-	 * @since 	2.2.1
+	 *
+	 * @since   2.2.2
 	 *
 	 * @param   AcceptanceTester $I  Tester.
 	 */
@@ -204,8 +218,8 @@ class RestrictContentCacheCest
 	/**
 	 * Tests that the WP Super Cache Plugin does not interfere with Restrict Content
 	 * output when a ck_subscriber_id cookie is present.
-	 * 
-	 * @since 	2.2.1
+	 *
+	 * @since   2.2.2
 	 *
 	 * @param   AcceptanceTester $I  Tester.
 	 */
@@ -247,7 +261,7 @@ class RestrictContentCacheCest
 	 * We don't use _after, as this would provide a screenshot of the Plugin
 	 * deactivation and not the true test error.
 	 *
-	 * @since   2.2.1
+	 * @since   2.2.2
 	 *
 	 * @param   AcceptanceTester $I  Tester.
 	 */

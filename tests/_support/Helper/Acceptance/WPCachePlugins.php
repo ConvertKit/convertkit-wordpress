@@ -34,7 +34,8 @@ class WPCachePlugins extends \Codeception\Module
 	 *
 	 * @since   2.2.2
 	 *
-	 * @param   AcceptanceTester $I      Acceptance Tester.
+	 * @param   AcceptanceTester $I             Acceptance Tester.
+	 * @param   string           $cookieName    Cookie Name to exclude from caching.
 	 */
 	public function excludeCachingLiteSpeedCachePlugin($I, $cookieName = 'ck_subscriber_id')
 	{
@@ -84,7 +85,8 @@ class WPCachePlugins extends \Codeception\Module
 	 *
 	 * @since   2.2.2
 	 *
-	 * @param   AcceptanceTester $I      Acceptance Tester.
+	 * @param   AcceptanceTester $I             Acceptance Tester.
+	 * @param   string           $cookieName    Cookie Name to exclude from caching.
 	 */
 	public function excludeCachingW3TotalCachePlugin($I, $cookieName = 'ck_subscriber_id')
 	{
@@ -173,7 +175,8 @@ class WPCachePlugins extends \Codeception\Module
 	 *
 	 * @since   2.2.2
 	 *
-	 * @param   AcceptanceTester $I      Acceptance Tester.
+	 * @param   AcceptanceTester $I             Acceptance Tester.
+	 * @param   string           $cookieName    Cookie Name to exclude from caching.
 	 */
 	public function excludeCachingWPSuperCachePlugin($I, $cookieName = 'ck_subscriber_id')
 	{
@@ -191,8 +194,8 @@ class WPCachePlugins extends \Codeception\Module
 	 * Helper method to delete the files at wp-content/advanced-cache.php
 	 * and wp-content/wp-cache-config.php, which may have been created by a
 	 * previous caching plugin that was enabled in a previous test.
-	 * 
-	 * @since 	2.2.2
+	 *
+	 * @since   2.2.2
 	 *
 	 * @param   AcceptanceTester $I      Acceptance Tester.
 	 */

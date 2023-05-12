@@ -270,7 +270,7 @@ class ConvertKit_Admin_Cache_Plugins {
 		}
 
 		// Fetch settings.
-		$config = new WPO_Cache_Config();
+		$config   = new WPO_Cache_Config();
 		$settings = $config->get();
 
 		// Check that we received an array of settings.
