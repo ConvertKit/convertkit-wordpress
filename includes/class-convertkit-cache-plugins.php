@@ -44,8 +44,7 @@ class ConvertKit_Cache_Plugins {
 		// When WP Rocket or WP-Optimize is active, we can use their hooks to add the ck_subscriber_id
 		// cookie to the list of cookies to exclude caching for when present.
 		add_filter( 'rocket_cache_reject_cookies', array( $this, 'exclude_caching_when_cookie_exists' ) );
-		add_filter( 'wpo_cache_exception_cookies', array( $this, 'exclude_caching_when_cookie_exists' ) );
-
+		
 		// For other caching plugins, either automatically update their configuration when in the
 		// WordPress Administration interface, or show a notice for caching plugins we cannot
 		// automatically configure.
@@ -71,8 +70,9 @@ class ConvertKit_Cache_Plugins {
 
 		$this->litespeed_cache();
 		$this->w3_total_cache();
-		$this->wp_super_cache();
 		$this->wp_fastest_cache();
+		$this->wp_optimize();
+		$this->wp_super_cache();
 
 	}
 
@@ -87,6 +87,8 @@ class ConvertKit_Cache_Plugins {
 	 * @return  array               Cookies
 	 */
 	public function exclude_caching_when_cookie_exists( $cookies ) {
+
+		var_dump( $cookies );
 
 		$cookies[] = $this->key;
 		return $cookies;
@@ -236,6 +238,91 @@ class ConvertKit_Cache_Plugins {
 	}
 
 	/**
+	 * Add a rule to WP Fastest Cache to prevent caching when
+	 * the ck_subscriber_id cookie is present.
+	 *
+	 * @since   2.2.2
+	 */
+	public function wp_fastest_cache() {
+
+		// Bail if the WP Fastest Cache plugin is not active.
+		if ( ! is_plugin_active( 'wp-fastest-cache/wpFastestCache.php' ) ) {
+			return;
+		}
+
+		// Fetch exclusion rules.
+		$exclusion_rules = get_option( 'WpFastestCacheExclude' );
+
+		// If the exclusion exists, no need to modify anything.
+		if ( strpos( $exclusion_rules, $this->key ) !== false ) {
+			return;
+		}
+
+		// Define the rule.
+		$rule = array(
+			'prefix'  => 'contain',
+			'content' => $this->key,
+			'type'    => 'cookie',
+		);
+
+		// If no rules exist, add the rule.
+		if ( ! $exclusion_rules ) {
+			return update_option( 'WpFastestCacheExclude', wp_json_encode( array( $rule ) ) );
+		}
+
+		// Append the rule to the existing ruleset.
+		$exclusion_rules   = json_decode( $exclusion_rules );
+		$exclusion_rules[] = $rule;
+		return update_option( 'WpFastestCacheExclude', wp_json_encode( $exclusion_rules ) );
+
+	}
+
+	/**
+	 * Add a rule to WP-Optimize to prevent caching when
+	 * the ck_subscriber_id cookie is present.
+	 *
+	 * @since   2.2.2
+	 */
+	public function wp_optimize() {
+
+		// Bail if the WP Fastest Cache plugin is not active.
+		if ( ! is_plugin_active( 'wp-optimize/wp-optimize.php' ) ) {
+			return;
+		}
+
+		// Sanity check that we can access WP-Optimize's configuration class.
+		if ( ! class_exists( 'WPO_Cache_Config' ) ) {
+			return;
+		}
+
+		// Fetch settings.
+		$config = new WPO_Cache_Config();
+		$settings = $config->get();
+
+		// Check that we received an array of settings.
+		if ( ! is_array( $settings ) ) {
+			return;
+		}
+
+		// Check the exception cookies array key exists in the settings.
+		if ( ! array_key_exists( 'cache_exception_cookies', $settings ) ) {
+			$settings['cache_exception_cookies'] = array();
+		}
+
+		// If the cookie exception exists, no need to modify anything.
+		if ( in_array( $this->key, $config->get_option( 'cache_exception_cookies' ), true ) !== false ) {
+			return;
+		}
+
+		// Add cookie to exceptions.
+		$settings['cache_exception_cookies'][] = $this->key;
+
+		// Update configuration to include excluding caching for the ck_subscriber_id cookie.
+		return $config->update( $settings );
+
+	}
+
+	/**
 	 * Show a notice in the WordPress Administration interface if
 	 * WP Super Cache is active, its caching enabled and no rule to disable caching
 	 * exists when the ck_subscriber_id cookie is present.
@@ -305,46 +392,6 @@ class ConvertKit_Cache_Plugins {
 			),
 			esc_html__( 'Failing to do so will result in errors.', 'convertkit' ),
 		);
-
-	}
-
-	/**
-	 * Add a rule to WP Fastest Cache to prevent caching when
-	 * the ck_subscriber_id cookie is present.
-	 *
-	 * @since   2.2.2
-	 */
-	public function wp_fastest_cache() {
-
-		// Bail if the WP Fastest Cache plugin is not active.
-		if ( ! is_plugin_active( 'wp-fastest-cache/wpFastestCache.php' ) ) {
-			return;
-		}
-
-		// Fetch exclusion rules.
-		$exclusion_rules = get_option( 'WpFastestCacheExclude' );
-
-		// If the exclusion exists, no need to modify anything.
-		if ( strpos( $exclusion_rules, $this->key ) !== false ) {
-			return;
-		}
-
-		// Define the rule.
-		$rule = array(
-			'prefix'  => 'contain',
-			'content' => $this->key,
-			'type'    => 'cookie',
-		);
-
-		// If no rules exist, add the rule.
-		if ( ! $exclusion_rules ) {
-			return update_option( 'WpFastestCacheExclude', wp_json_encode( array( $rule ) ) );
-		}
-
-		// Append the rule to the existing ruleset.
-		$exclusion_rules   = json_decode( $exclusion_rules );
-		$exclusion_rules[] = $rule;
-		return update_option( 'WpFastestCacheExclude', wp_json_encode( $exclusion_rules ) );
 
 	}
 
