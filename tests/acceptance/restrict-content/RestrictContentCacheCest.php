@@ -48,7 +48,11 @@ class RestrictContentCacheCest
 	public function testRestrictContentLiteSpeedCache(AcceptanceTester $I)
 	{
 		// Activate and enable LiteSpeed Cache Plugin.
-		$I->activeAndEnableLiteSpeedCachePlugin($I);
+		$I->activateThirdPartyPlugin($I, 'litespeed-cache');
+		$I->enableCachingLiteSpeedCachePlugin($I);
+
+		// Configure LiteSpeed Cache Plugin to exclude caching when the ck_subscriber_id cookie is set.
+		$I->excludeCachingLiteSpeedCachePlugin($I);
 
 		// Create Restricted Content Page.
 		$pageID = $I->createRestrictedContentPage(

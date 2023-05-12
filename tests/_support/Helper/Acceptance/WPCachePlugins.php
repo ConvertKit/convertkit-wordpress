@@ -10,21 +10,14 @@ namespace Helper\Acceptance;
 class WPCachePlugins extends \Codeception\Module
 {
 	/**
-	 * Helper method to activate the LiteSpeed Plugin, and then
-	 * enable it to perform caching.
+	 * Helper method to enable caching in the LiteSpeed Plugin.
 	 *
 	 * @since   2.2.2
 	 *
 	 * @param   AcceptanceTester $I      Acceptance Tester.
 	 */
-	public function activeAndEnableLiteSpeedCachePlugin($I)
+	public function enableCachingLiteSpeedCachePlugin($I)
 	{
-		// Clear up any cache configuration files that might exist from previous tests.
-		$I->deleteAdvancedCacheConfig($I);
-
-		// Activate Plugin.
-		$I->activateThirdPartyPlugin($I, 'litespeed-cache');
-
 		// Navigate to its settings screen.
 		$I->amOnAdminPage('admin.php?page=litespeed-cache');
 
@@ -33,6 +26,30 @@ class WPCachePlugins extends \Codeception\Module
 
 		// Save.
 		$I->click('Save Changes');
+	}
+
+	/**
+	 * Helper method to exclude caching when a cookie is present
+	 * in the LiteSpeed Cache Plugin.
+	 *
+	 * @since   2.2.2
+	 *
+	 * @param   AcceptanceTester $I      Acceptance Tester.
+	 */
+	public function excludeCachingLiteSpeedCachePlugin($I, $cookieName = 'ck_subscriber_id')
+	{
+		// Navigate to its settings screen.
+		$I->amOnAdminPage('admin.php?page=litespeed-cache');
+
+		// Click Excludes tab.
+		$I->click('a[litespeed-accesskey="4"]');
+
+		// Add cookie to "Do Not Cache Cookies" setting.
+		$I->fillField('cache-exc_cookies', $cookieName);
+
+		// Save.
+		$I->scrollTo('#litespeed-submit-0');
+		$I->click('#litespeed-submit-0');
 	}
 
 	/**
