@@ -261,6 +261,9 @@ class PluginSettingsToolsCest
 		// Select the invalid configuration file at tests/_data/convertkit-export-invalid.json to import.
 		$I->attachFile('input[name=import]', 'convertkit-export-invalid.json');
 
+		// Wait for page to load.
+		$I->waitForElementVisible('#wpfooter');
+
 		// Click the Import button.
 		$I->click('input#convertkit-import');
 
@@ -289,6 +292,9 @@ class PluginSettingsToolsCest
 
 		// Click the Import button.
 		$I->click('input#convertkit-import');
+
+		// Wait for page to load.
+		$I->waitForElementVisible('#wpfooter');
 
 		// Confirm error message displays.
 		$I->see('The uploaded configuration file isn\'t valid.');
