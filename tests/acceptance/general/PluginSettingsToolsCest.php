@@ -194,7 +194,7 @@ class PluginSettingsToolsCest
 		$I->click('input#convertkit-import');
 
 		// Confirm success message displays.
-		$I->seeInSource('Configuration imported successfully.');
+		$I->see('Configuration imported successfully.');
 
 		// Go to the Plugin's Settings Screen.
 		$I->loadConvertKitSettingsGeneralScreen($I);
@@ -239,7 +239,7 @@ class PluginSettingsToolsCest
 		$I->click('input#convertkit-import');
 
 		// Confirm error message displays.
-		$I->seeInSource('An error occured uploading the configuration file.');
+		$I->see('An error occured uploading the configuration file.');
 	}
 
 	/**
@@ -265,7 +265,7 @@ class PluginSettingsToolsCest
 		$I->click('input#convertkit-import');
 
 		// Confirm error message displays.
-		$I->seeInSource('The uploaded configuration file contains no settings.');
+		$I->see('The uploaded configuration file contains no settings.');
 	}
 
 	/**
@@ -291,7 +291,7 @@ class PluginSettingsToolsCest
 		$I->click('input#convertkit-import');
 
 		// Confirm error message displays.
-		$I->seeInSource('The uploaded configuration file isn\'t valid.');
+		$I->see('The uploaded configuration file isn\'t valid.');
 	}
 
 	/**
