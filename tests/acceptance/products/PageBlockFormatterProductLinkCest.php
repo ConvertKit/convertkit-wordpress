@@ -16,10 +16,6 @@ class PageBlockFormatterProductLinkCest
 	public function _before(AcceptanceTester $I)
 	{
 		$I->activateConvertKitPlugin($I);
-
-		// Setup ConvertKit Plugin with no default form specified.
-		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY'], $_ENV['CONVERTKIT_API_SECRET'], '', '', '');
-		$I->setupConvertKitPluginResources($I);
 	}
 
 	/**
@@ -31,6 +27,10 @@ class PageBlockFormatterProductLinkCest
 	 */
 	public function testProductLinkFormatter(AcceptanceTester $I)
 	{
+		// Setup ConvertKit Plugin with no default form specified.
+		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY'], $_ENV['CONVERTKIT_API_SECRET'], '', '', '');
+		$I->setupConvertKitPluginResources($I);
+
 		// Add a Page using the Gutenberg editor.
 		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Product Link Formatter');
 
@@ -77,6 +77,10 @@ class PageBlockFormatterProductLinkCest
 	 */
 	public function testProductLinkFormatterToggleProductSelection(AcceptanceTester $I)
 	{
+		// Setup ConvertKit Plugin with no default form specified.
+		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY'], $_ENV['CONVERTKIT_API_SECRET'], '', '', '');
+		$I->setupConvertKitPluginResources($I);
+
 		// Add a Page using the Gutenberg editor.
 		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Product Link Formatter: Product Toggle');
 
@@ -131,8 +135,12 @@ class PageBlockFormatterProductLinkCest
 	 *
 	 * @param   AcceptanceTester $I  Tester.
 	 */
-	public function testFormLinkFormatterWithNoForm(AcceptanceTester $I)
+	public function testProductLinkFormatterWithNoProduct(AcceptanceTester $I)
 	{
+		// Setup ConvertKit Plugin with no default form specified.
+		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY'], $_ENV['CONVERTKIT_API_SECRET'], '', '', '');
+		$I->setupConvertKitPluginResources($I);
+
 		// Add a Page using the Gutenberg editor.
 		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Product Link Formatter: No Product');
 
@@ -167,6 +175,31 @@ class PageBlockFormatterProductLinkCest
 
 		// Confirm that the link does not display, as no product was selected.
 		$I->dontSeeElementInDOM('a[data-commerce]');
+	}
+
+	/**
+	 * Test the Product Link formatter is not available when no products exist in ConvertKit.
+	 *
+	 * @since   2.2.2
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testProductLinkFormatterNotRegisteredWhenNoProductsExist(AcceptanceTester $I)
+	{
+		// Add a Page using the Gutenberg editor.
+		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Product Link Formatter: No Products Exist');
+
+		// Add paragraph to Page.
+		$I->addGutenbergParagraphBlock($I, 'Subscribe');
+
+		// Select text.
+		$I->selectAllText($I, '.wp-block-post-content p[data-empty="false"]');
+
+		// Confirm the formatter is not registered.
+		$I->dontSeeGutenbergFormatter($I, 'ConvertKit Product Trigger');
+
+		// Publish the page, to avoid an alert when navigating away.
+		$I->publishGutenbergPage($I);
 	}
 
 	/**
