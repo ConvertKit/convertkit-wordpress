@@ -134,7 +134,7 @@ class ConvertKit_Admin_Cache_Plugins {
 				),
 				esc_html__( 'to Litespeed Cache\'s "Do Not Cache Cookies" setting by clicking here.', 'convertkit' )
 			),
-			esc_html__( 'Failing to do so will result in errors.', 'convertkit' ),
+			esc_html__( 'Failing to do so will result in errors.', 'convertkit' )
 		);
 
 	}
@@ -205,7 +205,7 @@ class ConvertKit_Admin_Cache_Plugins {
 				),
 				esc_html__( 'to W3 Total Cache\'s "Rejected Cookies" setting by clicking here.', 'convertkit' )
 			),
-			esc_html__( 'Failing to do so will result in errors.', 'convertkit' ),
+			esc_html__( 'Failing to do so will result in errors.', 'convertkit' )
 		);
 
 	}
@@ -363,7 +363,7 @@ class ConvertKit_Admin_Cache_Plugins {
 				),
 				esc_html__( 'to WP Super Cache\'s "Rejected Cookies" setting by clicking here.', 'convertkit' )
 			),
-			esc_html__( 'Failing to do so will result in errors.', 'convertkit' ),
+			esc_html__( 'Failing to do so will result in errors.', 'convertkit' )
 		);
 
 	}

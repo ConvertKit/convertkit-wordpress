@@ -222,7 +222,6 @@ class RestrictContentProductCest
 	public function _passed(AcceptanceTester $I)
 	{
 		$I->resetCookie('ck_subscriber_id');
-		$I->deactivateThirdPartyPlugin($I, 'wp-super-cache');
 		$I->deactivateConvertKitPlugin($I);
 		$I->resetConvertKitPlugin($I);
 	}

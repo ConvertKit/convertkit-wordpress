@@ -122,6 +122,9 @@ class RestrictContentFilterCest
 		// Navigate to Pages.
 		$I->amOnAdminPage('edit.php?post_type=page');
 
+		// Wait for the WP_List_Table of Pages to load.
+		$I->waitForElementVisible('tbody#the-list');
+
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
 
@@ -132,6 +135,9 @@ class RestrictContentFilterCest
 		// Filter by Product.
 		$I->selectOption('#wp-convertkit-restrict-content-filter', $_ENV['CONVERTKIT_API_PRODUCT_NAME']);
 		$I->click('Filter');
+
+		// Wait for the WP_List_Table of Pages to load.
+		$I->waitForElementVisible('tbody#the-list');
 
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
