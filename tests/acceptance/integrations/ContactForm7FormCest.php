@@ -84,7 +84,7 @@ class ContactForm7FormCest
 		$I->performOn(
 			'form.sent',
 			function($I) {
-				$I->seeInSource('Thank you for your message. It has been sent.');
+				$I->see('Thank you for your message. It has been sent.');
 			}
 		);
 
