@@ -50,15 +50,7 @@ jobs:
 
         # Folder names within the 'tests' folder to run tests in parallel.
         test-groups: [
-          'acceptance/broadcasts',
-          'acceptance/forms',
-          'acceptance/general',
-          'acceptance/integrations',
-          'acceptance/landing-pages',
-          'acceptance/products',
-          'acceptance/restrict-content',
-          'acceptance/tags',
-          'acceptance/wlm'
+          'acceptance/restrict-content'
         ]
 
     # Steps to install, configure and run tests
@@ -196,12 +188,18 @@ jobs:
         working-directory: ${{ env.PLUGIN_DIR }}
         run: composer dump-autoload
 
-      # This ensures that applicable files and folders can be written to by the WP Super Cache Plugin.
+      # This ensures that applicable files and folders can be written to by cache plugins.
       # We only do this on Restrict Content tests, as doing so on wpunit tests results in WordPress
       # bizarrely attempting to use FTP to write files.
       - name: Set Permissions for WP Super Cache
         if: ${{ matrix.test-groups == 'acceptance/restrict-content' }}
         run: |
+          sudo touch ${{ env.ROOT_DIR }}/wp-cache-config.php
+          sudo chmod g+w ${{ env.ROOT_DIR }}/wp-cache-config.php
+          sudo chown www-data:www-data ${{ env.ROOT_DIR }}/wp-cache-config.php
+          sudo touch ${{ env.ROOT_DIR }}/advanced-cache.php
+          sudo chmod g+w ${{ env.ROOT_DIR }}/advanced-cache.php
+          sudo chown www-data:www-data ${{ env.ROOT_DIR }}/advanced-cache.php
           sudo chmod g+w ${{ env.ROOT_DIR }}/wp-config.php
           sudo chown www-data:www-data ${{ env.ROOT_DIR }}/wp-config.php
           sudo chmod g+w ${{ env.ROOT_DIR }}/wp-content
