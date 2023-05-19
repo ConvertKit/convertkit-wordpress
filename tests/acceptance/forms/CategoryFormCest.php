@@ -126,6 +126,9 @@ class CategoryFormCest
 		// Click Update.
 		$I->click('Update');
 
+		// Wait for the page to load.
+		$I->waitForElementVisible('#wpfooter');
+
 		// Check that the update succeeded.
 		$I->seeElementInDOM('div.notice-success');
 

@@ -87,7 +87,7 @@ class PluginSettingsGeneralCest
 		$I->checkNoWarningsAndNoticesOnScreen($I);
 
 		// Check that 'No Forms exist in ConvertKit' is displayed.
-		$I->seeInSource('No Forms exist in ConvertKit.');
+		$I->see('No Forms exist in ConvertKit.');
 	}
 
 	/**
