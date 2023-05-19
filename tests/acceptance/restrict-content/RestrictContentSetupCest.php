@@ -105,6 +105,9 @@ class RestrictContentSetupCest
 		// Confirm exit.
 		$I->acceptPopup();
 
+		// Wait for the WP_List_Table of Pages to load.
+		$I->waitForElementVisible('tbody#the-list');
+
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
 
@@ -143,6 +146,9 @@ class RestrictContentSetupCest
 
 		// Click submit button.
 		$I->click('Submit');
+
+		// Wait for the WP_List_Table of Pages to load.
+		$I->waitForElementVisible('tbody#the-list');
 
 		// Confirm that one Page is listed in the WP_List_Table.
 		$I->see('ConvertKit: Member Content: Download');
@@ -192,6 +198,9 @@ class RestrictContentSetupCest
 		// Click submit button.
 		$I->click('Submit');
 
+		// Wait for the WP_List_Table of Pages to load.
+		$I->waitForElementVisible('tbody#the-list');
+
 		// Confirm that four Pages are listed in the WP_List_Table.
 		$I->see('ConvertKit: Member Content: Course');
 		$I->see('— ConvertKit: Member Content: Course: 1/3');
@@ -224,21 +233,25 @@ class RestrictContentSetupCest
 
 		// Test Next / Previous links.
 		$I->click('Next Lesson');
+		$I->waitForElementVisible('body.page-template-default');
 		$I->see('ConvertKit: Member Content: Course: 2/3');
 		$I->see('Some introductory text about lesson 2');
 		$I->see('Lesson 2 content (that is available when the visitor has paid for the ConvertKit product) goes here');
 
 		$I->click('Next Lesson');
+		$I->waitForElementVisible('body.page-template-default');
 		$I->see('ConvertKit: Member Content: Course: 3/3');
 		$I->see('Some introductory text about lesson 3');
 		$I->see('Lesson 3 content (that is available when the visitor has paid for the ConvertKit product) goes here');
 
 		$I->click('Previous Lesson');
+		$I->waitForElementVisible('body.page-template-default');
 		$I->see('ConvertKit: Member Content: Course: 2/3');
 		$I->see('Some introductory text about lesson 2');
 		$I->see('Lesson 2 content (that is available when the visitor has paid for the ConvertKit product) goes here');
 
 		$I->click('Previous Lesson');
+		$I->waitForElementVisible('body.page-template-default');
 		$I->see('ConvertKit: Member Content: Course: 1/3');
 		$I->see('Some introductory text about lesson 1');
 		$I->see('Lesson 1 content (that is available when the visitor has paid for the ConvertKit product) goes here');
