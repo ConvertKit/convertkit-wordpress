@@ -196,6 +196,8 @@ jobs:
         run: |
           sudo chmod g+w ${{ env.ROOT_DIR }}/wp-config.php
           sudo chown www-data:www-data ${{ env.ROOT_DIR }}/wp-config.php
+          sudo chmod g+w ${{ env.ROOT_DIR }}/wp-content
+          sudo chown www-data:www-data ${{ env.ROOT_DIR }}/wp-content
 
       # This ensures the wp-content/uploads folder can be written to by WordPress and third party Plugins.
       - name: Set Permissions for Uploads Directory
