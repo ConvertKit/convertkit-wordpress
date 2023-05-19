@@ -21,7 +21,7 @@ class WP_ConvertKit {
 	 *
 	 * @var     object
 	 */
-	public static $instance;
+	private static $instance;
 
 	/**
 	 * Holds singleton initialized classes that include
@@ -362,7 +362,7 @@ class WP_ConvertKit {
 	 */
 	public function load_language_files() {
 
-		load_plugin_textdomain( 'convertkit', false, basename( dirname( CONVERTKIT_PLUGIN_FILE ) ) . '/languages/' );  // @phpstan-ignore-line.
+		load_plugin_textdomain( 'convertkit', false, 'convertkit/languages' );
 
 	}
 
@@ -419,9 +419,9 @@ class WP_ConvertKit {
 	 */
 	public static function get_instance() {
 
-		if ( ! isset( self::$instance ) && ! ( self::$instance instanceof self ) ) {  // @phpstan-ignore-line.
-			self::$instance = new self();
-		}
+		if ( null === self::$instance ) {
+            self::$instance = new self();
+        }
 
 		return self::$instance;
 
