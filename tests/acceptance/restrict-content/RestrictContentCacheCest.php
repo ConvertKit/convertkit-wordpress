@@ -52,50 +52,6 @@ class RestrictContentCacheCest
 	}
 
 	/**
-	 * Tests that the WP Super Cache Plugin does not interfere with Restrict Content
-	 * output when a ck_subscriber_id cookie is present.
-	 *
-	 * @since   2.2.2
-	 *
-	 * @param   AcceptanceTester $I  Tester.
-	 */
-	public function testRestrictContentWPSuperCache(AcceptanceTester $I)
-	{
-		// Activate and enable WP Super Cache Plugin.
-		$I->activateThirdPartyPlugin($I, 'wp-super-cache');
-		$I->enableCachingWPSuperCachePlugin($I);
-
-		// Configure WP Super Cache Plugin to exclude caching when the ck_subscriber_id cookie is set.
-		$I->excludeCachingWPSuperCachePlugin($I);
-
-		// Create Restricted Content Page.
-		$pageID = $I->createRestrictedContentPage(
-			$I,
-			'ConvertKit: Restrict Content: Product: WP Super Cache',
-			$this->visibleContent,
-			$this->memberContent,
-			'product_' . $_ENV['CONVERTKIT_API_PRODUCT_ID']
-		);
-
-		// Log out, so that caching is honored.
-		$I->logOut();
-
-		// Navigate to the page.
-		$I->amOnPage('?p=' . $pageID);
-
-		// Test that the restricted content CTA displays when no valid signed subscriber ID is used,
-		// to confirm caching does not show member only content.
-		$I->testRestrictContentHidesContentWithCTA($I, $this->visibleContent, $this->memberContent);
-
-		// Test that the restricted content displays when a valid signed subscriber ID is used,
-		// to confirm caching does not show the incorrect content.
-		$I->testRestrictedContentShowsContentWithValidSubscriberID($I, $pageID, $this->visibleContent, $this->memberContent);
-
-		// Deactivate WP Super Cache Plugin.
-		$I->deactivateThirdPartyPlugin($I, 'wp-super-cache');
-	}
-
-	/**
 	 * Tests that the LiteSpeed Cache Plugin does not interfere with Restrict Content
 	 * output when a ck_subscriber_id cookie is present.
 	 *
@@ -137,6 +93,9 @@ class RestrictContentCacheCest
 
 		// Deactivate Litespeed Cache Plugin.
 		$I->deactivateThirdPartyPlugin($I, 'litespeed-cache');
+
+		// Delete any cache configuration files.
+		$I->deleteWPCacheConfigFiles($I);
 	}
 
 	/**
@@ -181,6 +140,9 @@ class RestrictContentCacheCest
 
 		// Deactivate W3 Total Cache Plugin.
 		$I->deactivateThirdPartyPlugin($I, 'w3-total-cache');
+
+		// Delete any cache configuration files.
+		$I->deleteWPCacheConfigFiles($I);
 	}
 
 	/**
@@ -225,6 +187,9 @@ class RestrictContentCacheCest
 
 		// Deactivate WP Fastest Cache Plugin.
 		$I->deactivateThirdPartyPlugin($I, 'wp-fastest-cache');
+
+		// Delete any cache configuration files.
+		$I->deleteWPCacheConfigFiles($I);
 	}
 
 	/**
@@ -269,6 +234,53 @@ class RestrictContentCacheCest
 
 		// Deactivate WP-Optimize Cache Plugin.
 		$I->deactivateThirdPartyPlugin($I, 'wp-optimize');
+
+		// Delete any cache configuration files.
+		$I->deleteWPCacheConfigFiles($I);
+	}
+
+	/**
+	 * Tests that the WP Super Cache Plugin does not interfere with Restrict Content
+	 * output when a ck_subscriber_id cookie is present.
+	 *
+	 * @since   2.2.2
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testRestrictContentWPSuperCache(AcceptanceTester $I)
+	{
+		// Activate and enable WP Super Cache Plugin.
+		$I->activateThirdPartyPlugin($I, 'wp-super-cache');
+		$I->enableCachingWPSuperCachePlugin($I);
+
+		// Configure WP Super Cache Plugin to exclude caching when the ck_subscriber_id cookie is set.
+		$I->excludeCachingWPSuperCachePlugin($I);
+
+		// Create Restricted Content Page.
+		$pageID = $I->createRestrictedContentPage(
+			$I,
+			'ConvertKit: Restrict Content: Product: WP Super Cache',
+			$this->visibleContent,
+			$this->memberContent,
+			'product_' . $_ENV['CONVERTKIT_API_PRODUCT_ID']
+		);
+
+		// Log out, so that caching is honored.
+		$I->logOut();
+
+		// Navigate to the page.
+		$I->amOnPage('?p=' . $pageID);
+
+		// Test that the restricted content CTA displays when no valid signed subscriber ID is used,
+		// to confirm caching does not show member only content.
+		$I->testRestrictContentHidesContentWithCTA($I, $this->visibleContent, $this->memberContent);
+
+		// Test that the restricted content displays when a valid signed subscriber ID is used,
+		// to confirm caching does not show the incorrect content.
+		$I->testRestrictedContentShowsContentWithValidSubscriberID($I, $pageID, $this->visibleContent, $this->memberContent);
+
+		// Deactivate WP Super Cache Plugin.
+		$I->deactivateThirdPartyPlugin($I, 'wp-super-cache');
 	}
 
 	/**
@@ -282,7 +294,6 @@ class RestrictContentCacheCest
 	 */
 	public function _passed(AcceptanceTester $I)
 	{
-		$I->deleteWPCacheConfigFiles($I);
 		$I->resetCookie('ck_subscriber_id');
 		$I->deactivateConvertKitPlugin($I);
 		$I->resetConvertKitPlugin($I);

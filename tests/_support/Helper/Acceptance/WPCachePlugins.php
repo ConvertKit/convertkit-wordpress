@@ -201,6 +201,9 @@ class WPCachePlugins extends \Codeception\Module
 	 */
 	public function deleteWPCacheConfigFiles($I)
 	{
+		if (file_exists($_ENV['WP_ROOT_FOLDER'] . '/wp-content/advanced-cache.php')) {
+			$I->deleteFile($_ENV['WP_ROOT_FOLDER'] . '/wp-content/advanced-cache.php');
+		}
 		if (file_exists($_ENV['WP_ROOT_FOLDER'] . '/wp-content/wp-cache-config.php')) {
 			$I->deleteFile($_ENV['WP_ROOT_FOLDER'] . '/wp-content/wp-cache-config.php');
 		}
