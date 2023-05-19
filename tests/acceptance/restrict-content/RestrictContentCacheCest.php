@@ -109,7 +109,9 @@ class RestrictContentCacheCest
 	public function testRestrictContentW3TotalCache(AcceptanceTester $I)
 	{
 		// Activate and enable W3 Total Cache Plugin.
-		$I->activateThirdPartyPlugin($I, 'w3-total-cache');
+		// Don't use activateThirdPartyPlugin(), as W3 Total Cache returns a PHP Deprecated notice in 8.1+.
+		$I->amOnPluginsPage();
+		$I->activatePlugin('w3-total-cache');
 		$I->enableCachingW3TotalCachePlugin($I);
 
 		// Configure W3 Total Cache Plugin to exclude caching when the ck_subscriber_id cookie is set.
