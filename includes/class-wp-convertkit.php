@@ -356,12 +356,15 @@ class WP_ConvertKit {
 	}
 
 	/**
-	 * Loads plugin textdomain
+	 * Loads the plugin's translated strings, if available.
 	 *
 	 * @since   1.0.0
 	 */
 	public function load_language_files() {
 
+		// If the .mo file for a given language is available in WP_LANG_DIR/convertkit
+		// i.e. it's available as a translation at https://translate.wordpress.org/projects/wp-plugins/convertkit/,
+		// it will be used instead of the .mo file in convertkit/languages.
 		load_plugin_textdomain( 'convertkit', false, 'convertkit/languages' );
 
 	}
@@ -420,8 +423,8 @@ class WP_ConvertKit {
 	public static function get_instance() {
 
 		if ( null === self::$instance ) {
-            self::$instance = new self();
-        }
+			self::$instance = new self();
+		}
 
 		return self::$instance;
 

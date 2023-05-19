@@ -722,7 +722,7 @@ class ConvertKit_Output_Restrict_Content {
 
 		// Read success and error notices from this class.
 		$success = $this->success;
-		$error = $this->error;
+		$error   = $this->error;
 
 		// This is deliberately a switch statement, because we will likely add in support
 		// for restrict by tag and form later.
