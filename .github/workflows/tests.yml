@@ -194,8 +194,6 @@ jobs:
       - name: Set Permissions for Caching Plugins
         if: ${{ matrix.test-groups == 'acceptance/restrict-content' }}
         run: |
-         sudo chmod g+w ${{ env.ROOT_DIR }}/nginx.conf
-          sudo chown www-data:www-data ${{ env.ROOT_DIR }}/nginx.conf
           sudo chmod g+w ${{ env.ROOT_DIR }}/wp-config.php
           sudo chown www-data:www-data ${{ env.ROOT_DIR }}/wp-config.php
           sudo chmod g+w ${{ env.ROOT_DIR }}/wp-content
