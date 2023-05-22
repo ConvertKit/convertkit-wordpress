@@ -21,7 +21,7 @@ class WP_ConvertKit {
 	 *
 	 * @var     object
 	 */
-	public static $instance;
+	private static $instance;
 
 	/**
 	 * Holds singleton initialized classes that include
@@ -356,13 +356,16 @@ class WP_ConvertKit {
 	}
 
 	/**
-	 * Loads plugin textdomain
+	 * Loads the plugin's translated strings, if available.
 	 *
 	 * @since   1.0.0
 	 */
 	public function load_language_files() {
 
-		load_plugin_textdomain( 'convertkit', false, basename( dirname( CONVERTKIT_PLUGIN_FILE ) ) . '/languages/' );  // @phpstan-ignore-line.
+		// If the .mo file for a given language is available in WP_LANG_DIR/convertkit
+		// i.e. it's available as a translation at https://translate.wordpress.org/projects/wp-plugins/convertkit/,
+		// it will be used instead of the .mo file in convertkit/languages.
+		load_plugin_textdomain( 'convertkit', false, 'convertkit/languages' );
 
 	}
 
@@ -419,7 +422,7 @@ class WP_ConvertKit {
 	 */
 	public static function get_instance() {
 
-		if ( ! isset( self::$instance ) && ! ( self::$instance instanceof self ) ) {  // @phpstan-ignore-line.
+		if ( null === self::$instance ) {
 			self::$instance = new self();
 		}
 
