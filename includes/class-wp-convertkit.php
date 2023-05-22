@@ -21,7 +21,7 @@ class WP_ConvertKit {
 	 *
 	 * @var     object
 	 */
-	public static $instance;
+	private static $instance;
 
 	/**
 	 * Holds singleton initialized classes that include
@@ -65,6 +65,7 @@ class WP_ConvertKit {
 		}
 
 		$this->classes['admin_bulk_edit']                     = new ConvertKit_Admin_Bulk_Edit();
+		$this->classes['admin_cache_plugins']                 = new ConvertKit_Admin_Cache_Plugins();
 		$this->classes['admin_category']                      = new ConvertKit_Admin_Category();
 		$this->classes['admin_notices']                       = new ConvertKit_Admin_Notices();
 		$this->classes['admin_post']                          = new ConvertKit_Admin_Post();
@@ -160,21 +161,21 @@ class WP_ConvertKit {
 	 */
 	private function initialize_global() {
 
-		$this->classes['ajax']                           = new ConvertKit_AJAX();
-		$this->classes['blocks_convertkit_broadcasts']   = new ConvertKit_Block_Broadcasts();
-		$this->classes['blocks_convertkit_content']      = new ConvertKit_Block_Content();
-		$this->classes['blocks_convertkit_form_trigger'] = new ConvertKit_Block_Form_Trigger();
-		$this->classes['blocks_convertkit_form']         = new ConvertKit_Block_Form();
-		$this->classes['blocks_convertkit_product']      = new ConvertKit_Block_Product();
-		$this->classes['block_formatter_form_link']      = new ConvertKit_Block_Formatter_Form_Link();
-		$this->classes['block_formatter_product_link']   = new ConvertKit_Block_Formatter_Product_Link();
-		$this->classes['elementor']                      = new ConvertKit_Elementor();
-		$this->classes['gutenberg']                      = new ConvertKit_Gutenberg();
-		$this->classes['review_request']                 = new ConvertKit_Review_Request( 'ConvertKit', 'convertkit', CONVERTKIT_PLUGIN_PATH );
-		$this->classes['preview_output']                 = new ConvertKit_Preview_Output();
-		$this->classes['setup']                          = new ConvertKit_Setup();
-		$this->classes['shortcodes']                     = new ConvertKit_Shortcodes();
-		$this->classes['widgets']                        = new ConvertKit_Widgets();
+		$this->classes['ajax']                          = new ConvertKit_AJAX();
+		$this->classes['blocks_convertkit_broadcasts']  = new ConvertKit_Block_Broadcasts();
+		$this->classes['blocks_convertkit_content']     = new ConvertKit_Block_Content();
+		$this->classes['blocks_convertkit_formtrigger'] = new ConvertKit_Block_Form_Trigger();
+		$this->classes['blocks_convertkit_form']        = new ConvertKit_Block_Form();
+		$this->classes['blocks_convertkit_product']     = new ConvertKit_Block_Product();
+		$this->classes['block_formatter_form_link']     = new ConvertKit_Block_Formatter_Form_Link();
+		$this->classes['block_formatter_product_link']  = new ConvertKit_Block_Formatter_Product_Link();
+		$this->classes['elementor']                     = new ConvertKit_Elementor();
+		$this->classes['gutenberg']                     = new ConvertKit_Gutenberg();
+		$this->classes['review_request']                = new ConvertKit_Review_Request( 'ConvertKit', 'convertkit', CONVERTKIT_PLUGIN_PATH );
+		$this->classes['preview_output']                = new ConvertKit_Preview_Output();
+		$this->classes['setup']                         = new ConvertKit_Setup();
+		$this->classes['shortcodes']                    = new ConvertKit_Shortcodes();
+		$this->classes['widgets']                       = new ConvertKit_Widgets();
 
 		// Run the setup's update process on WordPress' init hook.
 		// Doing this sooner may result in errors with WordPress functions that are not yet
@@ -356,13 +357,16 @@ class WP_ConvertKit {
 	}
 
 	/**
-	 * Loads plugin textdomain
+	 * Loads the plugin's translated strings, if available.
 	 *
 	 * @since   1.0.0
 	 */
 	public function load_language_files() {
 
-		load_plugin_textdomain( 'convertkit', false, basename( dirname( CONVERTKIT_PLUGIN_FILE ) ) . '/languages/' );  // @phpstan-ignore-line.
+		// If the .mo file for a given language is available in WP_LANG_DIR/convertkit
+		// i.e. it's available as a translation at https://translate.wordpress.org/projects/wp-plugins/convertkit/,
+		// it will be used instead of the .mo file in convertkit/languages.
+		load_plugin_textdomain( 'convertkit', false, 'convertkit/languages' );
 
 	}
 
@@ -419,7 +423,7 @@ class WP_ConvertKit {
 	 */
 	public static function get_instance() {
 
-		if ( ! isset( self::$instance ) && ! ( self::$instance instanceof self ) ) {  // @phpstan-ignore-line.
+		if ( null === self::$instance ) {
 			self::$instance = new self();
 		}
 
