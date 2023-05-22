@@ -196,10 +196,10 @@ jobs:
         working-directory: ${{ env.PLUGIN_DIR }}
         run: composer dump-autoload
 
-      # This ensures that applicable files and folders can be written to by the WP Super Cache Plugin.
+      # This ensures that applicable files and folders can be written to by cache plugins.
       # We only do this on Restrict Content tests, as doing so on wpunit tests results in WordPress
       # bizarrely attempting to use FTP to write files.
-      - name: Set Permissions for WP Super Cache
+      - name: Set Permissions for Caching Plugins
         if: ${{ matrix.test-groups == 'acceptance/restrict-content' }}
         run: |
           sudo chmod g+w ${{ env.ROOT_DIR }}/wp-config.php
