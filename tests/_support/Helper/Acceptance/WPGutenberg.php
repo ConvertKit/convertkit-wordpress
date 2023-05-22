@@ -252,6 +252,27 @@ class WPGutenberg extends \Codeception\Module
 	}
 
 	/**
+	 * Asserts that the given block formatter is not registered.
+	 *
+	 * @since   2.2.2
+	 *
+	 * @param   AcceptanceTester $I                      Acceptance Tester.
+	 * @param   string           $formatterName          Formatter Name (e.g. 'ConvertKit Form Trigger').
+	 */
+	public function dontSeeGutenbergFormatter($I, $formatterName)
+	{
+		// Click More button in block toolbar.
+		$I->waitForElementVisible('.block-editor-block-toolbar button[aria-label="More"]');
+		$I->click('.block-editor-block-toolbar button[aria-label="More"]');
+
+		// Click Block Formatter button.
+		$I->waitForElementVisible('.components-dropdown-menu__popover');
+
+		// Confirm the Block Formatter is not registered.
+		$I->dontSee($formatterName, '.components-dropdown-menu__popover');
+	}
+
+	/**
 	 * Check that the given block did not output any errors when rendered in the
 	 * Gutenberg editor.
 	 *

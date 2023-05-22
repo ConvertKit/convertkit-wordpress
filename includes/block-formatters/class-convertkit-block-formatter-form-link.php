@@ -39,8 +39,12 @@ class ConvertKit_Block_Formatter_Form_Link extends ConvertKit_Block_Formatter {
 	 */
 	public function __construct() {
 
-		// Register this as a Gutenberg block formatter in the ConvertKit Plugin.
-		add_filter( 'convertkit_get_block_formatters', array( $this, 'register' ) );
+		// Register this as a Gutenberg block formatter in the ConvertKit Plugin,
+		// if forms exist on ConvertKit.
+		$this->forms = new ConvertKit_Resource_Forms( 'block_formatter_register' );
+		if ( $this->forms->exist() ) {
+			add_filter( 'convertkit_get_block_formatters', array( $this, 'register' ) );
+		}
 
 		// Enqueue JS in footer if links exist in the content that have the formatter applied.
 		add_filter( 'the_content', array( $this, 'maybe_enqueue_scripts' ) );
@@ -114,11 +118,10 @@ class ConvertKit_Block_Formatter_Form_Link extends ConvertKit_Block_Formatter {
 		}
 
 		// Get ConvertKit Forms.
-		$forms            = array();
-		$forms_data       = array();
-		$convertkit_forms = new ConvertKit_Resource_Forms( 'block_edit' );
-		if ( $convertkit_forms->exist() ) {
-			foreach ( $convertkit_forms->get() as $form ) {
+		$forms      = array();
+		$forms_data = array();
+		if ( $this->forms->exist() ) {
+			foreach ( $this->forms->get() as $form ) {
 				// Ignore inline forms; this formatter is only for modal, slide in and sticky bar forms.
 				if ( ! array_key_exists( 'format', $form ) ) {
 					continue;
@@ -173,9 +176,6 @@ class ConvertKit_Block_Formatter_Form_Link extends ConvertKit_Block_Formatter {
 		if ( strpos( $content, 'data-formkit-toggle' ) === false ) {
 			return $content;
 		}
-
-		// Get Forms.
-		$this->forms = new ConvertKit_Resource_Forms();
 
 		// Return content, unedited, if no Forms exist.
 		if ( ! $this->forms->exist() ) {

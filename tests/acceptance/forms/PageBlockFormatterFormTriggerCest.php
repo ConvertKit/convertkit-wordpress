@@ -16,10 +16,6 @@ class PageBlockFormatterFormTriggerCest
 	public function _before(AcceptanceTester $I)
 	{
 		$I->activateConvertKitPlugin($I);
-
-		// Setup ConvertKit Plugin with no default form specified.
-		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY'], $_ENV['CONVERTKIT_API_SECRET'], '', '', '');
-		$I->setupConvertKitPluginResources($I);
 	}
 
 	/**
@@ -31,6 +27,10 @@ class PageBlockFormatterFormTriggerCest
 	 */
 	public function testFormTriggerFormatterWithModalForm(AcceptanceTester $I)
 	{
+		// Setup ConvertKit Plugin with no default form specified.
+		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY'], $_ENV['CONVERTKIT_API_SECRET'], '', '', '');
+		$I->setupConvertKitPluginResources($I);
+
 		// Add a Page using the Gutenberg editor.
 		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form Trigger Formatter: Modal Form');
 
@@ -81,6 +81,10 @@ class PageBlockFormatterFormTriggerCest
 	 */
 	public function testFormTriggerFormatterToggleFormSelection(AcceptanceTester $I)
 	{
+		// Setup ConvertKit Plugin with no default form specified.
+		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY'], $_ENV['CONVERTKIT_API_SECRET'], '', '', '');
+		$I->setupConvertKitPluginResources($I);
+
 		// Add a Page using the Gutenberg editor.
 		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form Trigger Formatter: Modal Form Toggle');
 
@@ -137,6 +141,10 @@ class PageBlockFormatterFormTriggerCest
 	 */
 	public function testFormTriggerFormatterWithNoForm(AcceptanceTester $I)
 	{
+		// Setup ConvertKit Plugin with no default form specified.
+		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY'], $_ENV['CONVERTKIT_API_SECRET'], '', '', '');
+		$I->setupConvertKitPluginResources($I);
+
 		// Add a Page using the Gutenberg editor.
 		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form Trigger Formatter: No Form');
 
@@ -171,6 +179,31 @@ class PageBlockFormatterFormTriggerCest
 
 		// Confirm that the link does not display, as no form was selected.
 		$I->dontSeeFormTriggerLinkOutput($I);
+	}
+
+	/**
+	 * Test the Form Trigger formatter is not available when no forms exist in ConvertKit.
+	 *
+	 * @since   2.2.2
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testFormTriggerFormatterNotRegisteredWhenNoFormsExist(AcceptanceTester $I)
+	{
+		// Add a Page using the Gutenberg editor.
+		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form Trigger Formatter: No Forms Exist');
+
+		// Add paragraph to Page.
+		$I->addGutenbergParagraphBlock($I, 'Subscribe');
+
+		// Select text.
+		$I->selectAllText($I, '.wp-block-post-content p[data-empty="false"]');
+
+		// Confirm the formatter is not registered.
+		$I->dontSeeGutenbergFormatter($I, 'ConvertKit Form Trigger');
+
+		// Publish the page, to avoid an alert when navigating away.
+		$I->publishGutenbergPage($I);
 	}
 
 	/**

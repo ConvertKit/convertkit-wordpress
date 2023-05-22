@@ -39,8 +39,12 @@ class ConvertKit_Block_Formatter_Product_Link extends ConvertKit_Block_Formatter
 	 */
 	public function __construct() {
 
-		// Register this as a Gutenberg block formatter in the ConvertKit Plugin.
-		add_filter( 'convertkit_get_block_formatters', array( $this, 'register' ) );
+		// Register this as a Gutenberg block formatter in the ConvertKit Plugin,
+		// if forms exist on ConvertKit.
+		$this->products = new ConvertKit_Resource_Products( 'block_formatter_register' );
+		if ( $this->products->exist() ) {
+			add_filter( 'convertkit_get_block_formatters', array( $this, 'register' ) );
+		}
 
 	}
 
@@ -111,11 +115,10 @@ class ConvertKit_Block_Formatter_Product_Link extends ConvertKit_Block_Formatter
 		}
 
 		// Get ConvertKit Products.
-		$products            = array();
-		$products_data       = array();
-		$convertkit_products = new ConvertKit_Resource_Products();
-		if ( $convertkit_products->exist() ) {
-			foreach ( $convertkit_products->get() as $product ) {
+		$products      = array();
+		$products_data = array();
+		if ( $this->products->exist() ) {
+			foreach ( $this->products->get() as $product ) {
 				$products[ absint( $product['id'] ) ]      = sanitize_text_field( $product['name'] );
 				$products_data[ absint( $product['id'] ) ] = array(
 					'data-id'       => sanitize_text_field( $product['id'] ),
