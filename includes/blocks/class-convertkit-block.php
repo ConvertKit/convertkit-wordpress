@@ -392,6 +392,9 @@ class ConvertKit_Block {
 		// Call globals.
 		global $wp_filesystem;
 
+		// Load filesystem class.
+		require_once( ABSPATH . 'wp-admin/includes/file.php' );
+
 		// Initiate.
 		WP_Filesystem();
 
