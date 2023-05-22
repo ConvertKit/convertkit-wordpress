@@ -18,9 +18,6 @@ class RestrictContentProductCest
 		// Activate and Setup ConvertKit plugin.
 		$I->activateConvertKitPlugin($I);
 		$I->setupConvertKitPlugin($I);
-
-		// Activate and enable the WP Super Cache plugin.
-		$I->activeAndEnableWPSuperCachePlugin($I);
 	}
 
 	/**
@@ -46,9 +43,6 @@ class RestrictContentProductCest
 
 		// Publish Page.
 		$url = $I->publishGutenbergPage($I);
-
-		// Log out, so that WP Super Cache (if enabled) is honored.
-		$I->logOut();
 
 		// Confirm that all content is displayed.
 		$I->amOnUrl($url);
@@ -77,7 +71,7 @@ class RestrictContentProductCest
 		// Add a Page using the Gutenberg editor.
 		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Restrict Content: Product');
 
-		// Configure metabox's Restrict Content setting = Tag name.
+		// Configure metabox's Restrict Content setting = Product name.
 		$I->configureMetaboxSettings(
 			$I,
 			'wp-convertkit-meta-box',
@@ -94,9 +88,6 @@ class RestrictContentProductCest
 
 		// Publish Page.
 		$url = $I->publishGutenbergPage($I);
-
-		// Log out, so that WP Super Cache (if enabled) is honored.
-		$I->logOut();
 
 		// Test Restrict Content functionality.
 		$I->testRestrictedContentOnFrontend(
@@ -138,9 +129,6 @@ class RestrictContentProductCest
 			]
 		);
 
-		// Log out, so that WP Super Cache (if enabled) is honored.
-		$I->logOut();
-
 		// Test Restrict Content functionality.
 		$I->testRestrictedContentOnFrontend($I, $pageID);
 	}
@@ -178,9 +166,6 @@ class RestrictContentProductCest
 				'restrict_content' => [ 'select', $_ENV['CONVERTKIT_API_PRODUCT_NAME'] ],
 			]
 		);
-
-		// Log out, so that WP Super Cache (if enabled) is honored.
-		$I->logOut();
 
 		// Iterate through Pages to run frontend tests.
 		foreach ($pageIDs as $pageID) {
@@ -237,7 +222,6 @@ class RestrictContentProductCest
 	public function _passed(AcceptanceTester $I)
 	{
 		$I->resetCookie('ck_subscriber_id');
-		$I->deactivateThirdPartyPlugin($I, 'wp-super-cache');
 		$I->deactivateConvertKitPlugin($I);
 		$I->resetConvertKitPlugin($I);
 	}
