@@ -327,3 +327,32 @@ function convertkit_select2_enqueue_styles() {
 	wp_enqueue_style( 'convertkit-admin-select2', CONVERTKIT_PLUGIN_URL . 'resources/backend/css/select2.css', array(), CONVERTKIT_PLUGIN_VERSION );
 
 }
+
+/**
+ * Return the contents of the given local file.
+ *
+ * @since   2.2.2
+ *
+ * @param   string $local_file     Local file, including path.
+ * @return  string                  File contents.
+ */
+function convertkit_get_file_contents( $local_file ) {
+
+	// Call globals.
+	global $wp_filesystem;
+
+	// Load filesystem class.
+	require_once ABSPATH . 'wp-admin/includes/file.php';
+
+	// Initiate.
+	WP_Filesystem();
+
+	// Bail if the file doesn't exist.
+	if ( ! $wp_filesystem->exists( $local_file ) ) {
+		return '';
+	}
+
+	// Return file's contents.
+	return $wp_filesystem->get_contents( $local_file );
+
+}

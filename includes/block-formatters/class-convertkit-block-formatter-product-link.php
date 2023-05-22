@@ -76,7 +76,7 @@ class ConvertKit_Block_Formatter_Product_Link extends ConvertKit_Block_Formatter
 			'icon'           => 'resources/backend/images/block-icon-product.png',
 
 			// Gutenberg: Block Icon in Editor.
-			'gutenberg_icon' => $this->get_file_contents( CONVERTKIT_PLUGIN_PATH . '/resources/backend/images/block-icon-product.svg' ),
+			'gutenberg_icon' => convertkit_get_file_contents( CONVERTKIT_PLUGIN_PATH . '/resources/backend/images/block-icon-product.svg' ),
 		);
 
 	}

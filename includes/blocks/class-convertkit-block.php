@@ -379,33 +379,4 @@ class ConvertKit_Block {
 
 	}
 
-	/**
-	 * Return the contents of the given local file.
-	 *
-	 * @since   2.2.2
-	 *
-	 * @param   string $local_file     Local file, including path.
-	 * @return  string                  File contents.
-	 */
-	public function get_file_contents( $local_file ) {
-
-		// Call globals.
-		global $wp_filesystem;
-
-		// Load filesystem class.
-		require_once ABSPATH . 'wp-admin/includes/file.php';
-
-		// Initiate.
-		WP_Filesystem();
-
-		// Bail if the file doesn't exist.
-		if ( ! $wp_filesystem->exists( $local_file ) ) {
-			return '';
-		}
-
-		// Return file's contents.
-		return $wp_filesystem->get_contents( $local_file );
-
-	}
-
 }
