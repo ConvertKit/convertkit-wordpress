@@ -120,7 +120,7 @@ class ConvertKit_Block_Formatter {
 		global $wp_filesystem;
 
 		// Load filesystem class.
-		require_once( ABSPATH . 'wp-admin/includes/file.php' );
+		require_once ABSPATH . 'wp-admin/includes/file.php';
 
 		// Initiate.
 		WP_Filesystem();
