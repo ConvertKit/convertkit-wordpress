@@ -177,7 +177,7 @@ class ConvertKit_Settings_Tools extends ConvertKit_Settings_Base {
 		header( 'Content-Disposition: attachment; filename=convertkit-export.json' );
 		header( 'Pragma: no-cache' );
 		header( 'Expires: 0' );
-		echo $json; /* phpcs:ignore */
+		echo $json; // phpcs:ignore WordPress.Security.EscapeOutput
 		exit();
 
 	}
