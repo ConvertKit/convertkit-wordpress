@@ -36,8 +36,27 @@ jQuery( document ).ready(
 				// Store the target URL.
 				convertkit_deactivation_url = $( this ).attr( 'href' );
 
+				// Position the modal.
+				$( '#convertkit-deactivation-modal' ).css({
+					top: $( this ).offset().top + 'px',
+					left: $( this ).offset().left + 'px'
+				});
+
 				// Show the modal.
 				$( '#convertkit-deactivation-modal, #convertkit-deactivation-modal-overlay' ).show();
+
+			}
+		);
+
+		/**
+		 * Show input text field when a reason radio button is clicked
+		 */
+		$( 'input[type=radio]' ).on(
+			'change',
+			'form#convertkit-deactivation-modal-form',
+			function( e ) {
+
+				console.log( 'clicked' );
 
 			}
 		);

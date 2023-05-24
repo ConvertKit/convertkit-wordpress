@@ -4,34 +4,56 @@
 	z-index: 99999999;
 	top: 0;
 	left: 0;
-	opacity: 0.7;
+	opacity: 0.5;
 	width: 100vw;
 	height: 100vh;
 	background-color: #000;
 }
 .convertkit-modal {
 	display: none;
-	position: fixed;
+	position: absolute;
+	white-space: normal;
+    width: 400px;
+
 	z-index: 100000000;
-
-	top: 50vh;
-	left: 50vw;
-	width: 50vw;
-	height: 300px;
-	margin: -150px 0 0 -25vw;
-
 	box-sizing: border-box;
 	background-color: #f7f7f7;
+	box-shadow: 0 0 15px -5px rgba(0, 0, 0, .5);
+    transition: all .3s ease-out;
+}
+.convertkit-modal header {
+	position: relative;
+	height: 40px;
+	background: url(../images/logomark-red.svg) 20px 50% no-repeat;
+    background-size: 20px auto;
+    background-color: #212f4f;
+}
+.convertkit-modal header::before {
+	content: "";
+    display: block;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: -10px;
+    border-top: 20px solid transparent;
+    border-right: 20px solid #212f4f;
+    border-bottom: 20px solid transparent;
+}
+.convertkit-modal header h2 {
+	font-size: 16px;
+	line-height: 40px;
+	font-weight: 400;
+	margin: 0;
+	padding: 0 20px 0 50px;
+	color: #fff;
+}
+.convertkit-modal form {
 	padding: 20px;
 }
-.convertkit-modal h2 {
-	font-size: 20px;
-	line-height: 25px;
-	font-weight: 700;
-	margin: 0 0 10px 0;
-	padding: 0;
-}
-.convertkit-modal p.message {
+.convertkit-modal form ul {
 	margin: 0 0 20px 0;
 	padding: 0;
+}
+.convertkit-modal form input[type="text"] {
+	display: none;
 }
