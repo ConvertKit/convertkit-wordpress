@@ -249,7 +249,7 @@ class Plugin extends \Codeception\Module
 					'id'           => 572575,
 					'title'        => 'Paid Subscriber Broadcast',
 					'url'          => 'https://cheerful-architect-3237.ck.page/posts/paid-subscriber-broadcast',
-					'published_at' => '2022-05-03T14:51:50.000Z',
+					'published_at' => '2022-05-03T00:00:00.000Z',
 					'is_paid'      => true,
 				],
 			]
