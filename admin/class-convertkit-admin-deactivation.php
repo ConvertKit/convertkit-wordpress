@@ -90,8 +90,8 @@ class ConvertKit_Admin_Deactivation {
 
 		// Define the deactivation reasons.
 		$reasons = array(
-			'not_working'        => __( 'The Plugin didn\'t work', 'convertkit' ),
-			'better_alternative' => __( 'I found a better Plugin', 'convertkit' ),
+			'not_working'        => __( 'The plugin didn\'t work', 'convertkit' ),
+			'better_alternative' => __( 'I found a better plugin', 'convertkit' ),
 			'other'              => __( 'Other', 'convertkit' ),
 		);
 

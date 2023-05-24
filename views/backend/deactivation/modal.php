@@ -17,7 +17,7 @@
 		<?php
 		echo sprintf(
 			/* Translators: Plugin Name */
-			esc_html__( 'Optional: We\'d be super grateful if you could take a moment to let us know why you\'re deactivating %s', 'convertkit' ),
+			esc_html__( 'Optional: We\'d be grateful if you could take a moment to let us know why you\'re deactivating %s', 'convertkit' ),
 			esc_html( CONVERTKIT_PLUGIN_NAME )
 		);
 		?>
