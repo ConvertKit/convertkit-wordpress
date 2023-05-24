@@ -7,6 +7,12 @@
 					</tr>
 				</thead>
 				<tbody><tr>
+						<td colspan="3">../admin/class-convertkit-admin-notices.php</td>
+					</tr><tr>
+						<td>&nbsp;</td>
+						<td><a href="#convertkit_admin_notices_output_  notice"><code>convertkit_admin_notices_output_  notice</code></a></td>
+						<td>Define the text to output in an admin error notice.</td>
+					</tr><tr>
 						<td colspan="3">../admin/class-convertkit-admin-settings.php</td>
 					</tr><tr>
 						<td>&nbsp;</td>
@@ -156,7 +162,34 @@
 						<td>Filters whether the current request is a WordPress Administration / Frontend Editor request or not. Page Builders can set this to true to allow ConvertKit to load its administration functionality.</td>
 					</tr>
 					</tbody>
-				</table><h3 id="convertkit_plugin_screen_action_links">
+				</table><h3 id="convertkit_admin_notices_output_  notice">
+						convertkit_admin_notices_output_  notice
+						<code>admin/class-convertkit-admin-notices.php::87</code>
+					</h3><h4>Overview</h4>
+						<p>Define the text to output in an admin error notice.</p><h4>Parameters</h4>
+					<table>
+						<thead>
+							<tr>
+								<th>Parameter</th>
+								<th>Type</th>
+								<th>Description</th>
+							</tr>
+						</thead>
+						<tbody><tr>
+							<td>$notice</td>
+							<td>string</td>
+							<td>Admin notice name.</td>
+						</tr>
+						</tbody>
+					</table><h4>Usage</h4>
+<pre>
+add_filter( 'convertkit_admin_notices_output_  notice', function( $output ) {
+	// ... your code here
+	// Return value
+	return $output;
+}, 10, 1 );
+</pre>
+<h3 id="convertkit_plugin_screen_action_links">
 						convertkit_plugin_screen_action_links
 						<code>admin/class-convertkit-admin-settings.php::208</code>
 					</h3><h4>Overview</h4>
@@ -688,7 +721,7 @@ add_filter( 'convertkit_admin_gutenberg_add_block_categories', function( $catego
 </pre>
 <h3 id="convertkit_contactform7_settings_get_defaults">
 						convertkit_contactform7_settings_get_defaults
-						<code>includes/integrations/contactform7/class-convertkit-contactform7-settings.php::128</code>
+						<code>includes/integrations/contactform7/class-convertkit-contactform7-settings.php::125</code>
 					</h3><h4>Overview</h4>
 						<p>The default settings, used when Contact Form 7's Settings haven't been saved e.g. on a new installation or when the Contact Form 7 Plugin has just been activated for the first time.</p><h4>Parameters</h4>
 					<table>
@@ -715,7 +748,7 @@ add_filter( 'convertkit_contactform7_settings_get_defaults', function( $defaults
 </pre>
 <h3 id="convertkit_wishlist_settings_get_defaults">
 						convertkit_wishlist_settings_get_defaults
-						<code>includes/integrations/wishlist/class-convertkit-wishlist-settings.php::152</code>
+						<code>includes/integrations/wishlist/class-convertkit-wishlist-settings.php::149</code>
 					</h3><h4>Overview</h4>
 						<p>The default settings, used when WishList's Settings haven't been saved e.g. on a new installation or when the WishList Plugin has just been activated for the first time.</p><h4>Parameters</h4>
 					<table>
@@ -959,7 +992,7 @@ add_filter( 'convertkit_settings_get_defaults', function( $defaults ) {
 </pre>
 <h3 id="convertkit_is_admin_or_frontend_editor">
 						convertkit_is_admin_or_frontend_editor
-						<code>includes/class-wp-convertkit.php::308</code>
+						<code>includes/class-wp-convertkit.php::309</code>
 					</h3><h4>Overview</h4>
 						<p>Filters whether the current request is a WordPress Administration / Frontend Editor request or not. Page Builders can set this to true to allow ConvertKit to load its administration functionality.</p><h4>Parameters</h4>
 					<table>
@@ -1461,7 +1494,7 @@ do_action( 'convertkit_output_output_form', function(  ) {
 </pre>
 <h3 id="convertkit_initialize_admin">
 						convertkit_initialize_admin
-						<code>includes/class-wp-convertkit.php::84</code>
+						<code>includes/class-wp-convertkit.php::85</code>
 					</h3><h4>Parameters</h4>
 					<table>
 						<thead>
@@ -1481,7 +1514,7 @@ do_action( 'convertkit_initialize_admin', function(  ) {
 </pre>
 <h3 id="convertkit_initialize_admin_or_frontend_editor">
 						convertkit_initialize_admin_or_frontend_editor
-						<code>includes/class-wp-convertkit.php::105</code>
+						<code>includes/class-wp-convertkit.php::106</code>
 					</h3><h4>Parameters</h4>
 					<table>
 						<thead>
@@ -1501,7 +1534,7 @@ do_action( 'convertkit_initialize_admin_or_frontend_editor', function(  ) {
 </pre>
 <h3 id="convertkit_initialize_cli_cron">
 						convertkit_initialize_cli_cron
-						<code>includes/class-wp-convertkit.php::126</code>
+						<code>includes/class-wp-convertkit.php::127</code>
 					</h3><h4>Parameters</h4>
 					<table>
 						<thead>
@@ -1521,7 +1554,7 @@ do_action( 'convertkit_initialize_cli_cron', function(  ) {
 </pre>
 <h3 id="convertkit_initialize_frontend">
 						convertkit_initialize_frontend
-						<code>includes/class-wp-convertkit.php::150</code>
+						<code>includes/class-wp-convertkit.php::151</code>
 					</h3><h4>Parameters</h4>
 					<table>
 						<thead>
@@ -1541,7 +1574,7 @@ do_action( 'convertkit_initialize_frontend', function(  ) {
 </pre>
 <h3 id="convertkit_initialize_global">
 						convertkit_initialize_global
-						<code>includes/class-wp-convertkit.php::188</code>
+						<code>includes/class-wp-convertkit.php::189</code>
 					</h3><h4>Parameters</h4>
 					<table>
 						<thead>

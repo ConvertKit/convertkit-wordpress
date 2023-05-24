@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the ConvertKit plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: ConvertKit 2.2.1\n"
+"Project-Id-Version: ConvertKit 2.2.2\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/convertkit\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-05-10T12:55:26+00:00\n"
+"POT-Creation-Date: 2023-05-23T17:35:49+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.7.1\n"
 "X-Domain: convertkit\n"
@@ -43,11 +43,35 @@ msgstr ""
 msgid "Sorry, you are not allowed to edit %s."
 msgstr ""
 
-#: admin/class-convertkit-admin-notices.php:74
+#: admin/class-convertkit-admin-cache-plugins.php:121
+#: admin/class-convertkit-admin-cache-plugins.php:192
+#: admin/class-convertkit-admin-cache-plugins.php:349
+msgid "ConvertKit: Member Content: Please add"
+msgstr ""
+
+#: admin/class-convertkit-admin-cache-plugins.php:135
+msgid "to Litespeed Cache's \"Do Not Cache Cookies\" setting by clicking here."
+msgstr ""
+
+#: admin/class-convertkit-admin-cache-plugins.php:137
+#: admin/class-convertkit-admin-cache-plugins.php:208
+#: admin/class-convertkit-admin-cache-plugins.php:366
+msgid "Failing to do so will result in errors."
+msgstr ""
+
+#: admin/class-convertkit-admin-cache-plugins.php:206
+msgid "to W3 Total Cache's \"Rejected Cookies\" setting by clicking here."
+msgstr ""
+
+#: admin/class-convertkit-admin-cache-plugins.php:364
+msgid "to WP Super Cache's \"Rejected Cookies\" setting by clicking here."
+msgstr ""
+
+#: admin/class-convertkit-admin-notices.php:69
 msgid "ConvertKit: Authorization failed. Please enter valid API credentials on the"
 msgstr ""
 
-#: admin/class-convertkit-admin-notices.php:78
+#: admin/class-convertkit-admin-notices.php:73
 msgid "settings screen."
 msgstr ""
 
@@ -61,7 +85,7 @@ msgstr ""
 
 #: admin/class-convertkit-admin-settings-restrict-content.php:32
 #: admin/class-convertkit-admin-settings-restrict-content.php:33
-#: views/backend/post/meta-box.php:161
+#: views/backend/post/meta-box.php:158
 #: views/backend/setup-wizard/convertkit-restrict-content-setup/content-1.php:11
 msgid "Member Content"
 msgstr ""
@@ -268,8 +292,8 @@ msgid "To create a form, %s"
 msgstr ""
 
 #: admin/section/class-convertkit-settings-general.php:377
-#: views/backend/post/meta-box.php:58
-#: views/backend/post/meta-box.php:110
+#: views/backend/post/meta-box.php:55
+#: views/backend/post/meta-box.php:107
 msgid "sign in to ConvertKit"
 msgstr ""
 
@@ -280,8 +304,9 @@ msgstr ""
 #: views/backend/post/bulk-edit.php:25
 #: views/backend/post/bulk-edit.php:56
 #: views/backend/post/meta-box.php:24
-#: views/backend/post/meta-box.php:78
-#: views/backend/post/meta-box.php:130
+#: views/backend/post/meta-box.php:46
+#: views/backend/post/meta-box.php:75
+#: views/backend/post/meta-box.php:127
 #: views/backend/post/quick-edit.php:17
 #: views/backend/post/quick-edit.php:40
 msgid "None"
@@ -434,16 +459,16 @@ msgstr ""
 msgid "Start Course"
 msgstr ""
 
-#: includes/block-formatters/class-convertkit-block-formatter-form-link.php:73
+#: includes/block-formatters/class-convertkit-block-formatter-form-link.php:77
 #: includes/blocks/class-convertkit-block-form-trigger.php:84
 msgid "ConvertKit Form Trigger"
 msgstr ""
 
-#: includes/block-formatters/class-convertkit-block-formatter-form-link.php:74
+#: includes/block-formatters/class-convertkit-block-formatter-form-link.php:78
 msgid "Displays a modal, sticky bar or slide in form to display when the link is pressed."
 msgstr ""
 
-#: includes/block-formatters/class-convertkit-block-formatter-form-link.php:143
+#: includes/block-formatters/class-convertkit-block-formatter-form-link.php:146
 #: includes/blocks/class-convertkit-block-form-trigger.php:90
 #: includes/blocks/class-convertkit-block-form-trigger.php:254
 #: includes/blocks/class-convertkit-block-form.php:95
@@ -455,25 +480,25 @@ msgstr ""
 msgid "Form"
 msgstr ""
 
-#: includes/block-formatters/class-convertkit-block-formatter-form-link.php:145
+#: includes/block-formatters/class-convertkit-block-formatter-form-link.php:148
 msgid "The modal, sticky bar or slide in form to display when the text is clicked."
 msgstr ""
 
-#: includes/block-formatters/class-convertkit-block-formatter-product-link.php:70
+#: includes/block-formatters/class-convertkit-block-formatter-product-link.php:74
 msgid "ConvertKit Product Trigger"
 msgstr ""
 
-#: includes/block-formatters/class-convertkit-block-formatter-product-link.php:71
+#: includes/block-formatters/class-convertkit-block-formatter-product-link.php:75
 msgid "Displays the Product modal when the link is pressed."
 msgstr ""
 
-#: includes/block-formatters/class-convertkit-block-formatter-product-link.php:131
+#: includes/block-formatters/class-convertkit-block-formatter-product-link.php:134
 #: includes/blocks/class-convertkit-block-product.php:112
 #: includes/blocks/class-convertkit-block-product.php:263
 msgid "Product"
 msgstr ""
 
-#: includes/block-formatters/class-convertkit-block-formatter-product-link.php:133
+#: includes/block-formatters/class-convertkit-block-formatter-product-link.php:136
 msgid "The product modal to display when the text is clicked."
 msgstr ""
 
@@ -744,11 +769,11 @@ msgid "API Key and Secret not configured in Plugin Settings."
 msgstr ""
 
 #. translators: %1$s: PHP class name
-#: includes/class-wp-convertkit.php:387
+#: includes/class-wp-convertkit.php:391
 msgid "ConvertKit Error: Could not load Plugin class <strong>%1$s</strong>"
 msgstr ""
 
-#: includes/class-wp-convertkit.php:397
+#: includes/class-wp-convertkit.php:401
 msgid "ConvertKit Error"
 msgstr ""
 
@@ -867,9 +892,12 @@ msgstr ""
 
 #: views/backend/post/bulk-edit.php:24
 #: views/backend/post/meta-box.php:21
+#: views/backend/post/meta-box.php:42
 #: views/backend/post/quick-edit.php:16
 #: views/backend/term/fields-add.php:16
+#: views/backend/term/fields-add.php:34
 #: views/backend/term/fields-edit.php:18
+#: views/backend/term/fields-edit.php:36
 msgid "Default"
 msgstr ""
 
@@ -882,7 +910,7 @@ msgid "Refresh Forms from ConvertKit account"
 msgstr ""
 
 #: views/backend/post/bulk-edit.php:69
-#: views/backend/post/meta-box.php:144
+#: views/backend/post/meta-box.php:141
 #: views/backend/post/quick-edit.php:53
 msgid "Refresh Tags from ConvertKit account"
 msgstr ""
@@ -893,13 +921,13 @@ msgid "Member"
 msgstr ""
 
 #: views/backend/post/bulk-edit.php:91
-#: views/backend/post/meta-box.php:167
+#: views/backend/post/meta-box.php:164
 #: views/backend/post/quick-edit.php:67
 msgid "Don't restrict content to members only."
 msgstr ""
 
 #: views/backend/post/bulk-edit.php:98
-#: views/backend/post/meta-box.php:173
+#: views/backend/post/meta-box.php:170
 #: views/backend/post/quick-edit.php:74
 #: views/backend/post/wp-list-table-filter.php:19
 #: views/backend/setup-wizard/convertkit-restrict-content-setup/content-2.php:65
@@ -911,58 +939,61 @@ msgstr ""
 msgid "Refresh Products from ConvertKit account"
 msgstr ""
 
-#. translators: settings url
-#: views/backend/post/meta-box.php:45
-msgid "<code>Default</code>: Uses the form specified on the <a href=\"%s\" target=\"_blank\">settings page</a>."
+#: views/backend/post/meta-box.php:43
+msgid ": Uses the form specified on the"
 msgstr ""
 
-#: views/backend/post/meta-box.php:50
-msgid "<code>None</code>: do not display a form."
+#: views/backend/post/meta-box.php:44
+msgid "settings page"
 msgstr ""
 
-#: views/backend/post/meta-box.php:52
+#: views/backend/post/meta-box.php:47
+msgid ": do not display a form."
+msgstr ""
+
+#: views/backend/post/meta-box.php:49
 msgid "Any other option will display that form after the main content."
 msgstr ""
 
 #. translators: Link to sign in to ConvertKit
-#: views/backend/post/meta-box.php:57
+#: views/backend/post/meta-box.php:54
 msgid "To make changes to your forms, %s"
 msgstr ""
 
-#: views/backend/post/meta-box.php:72
+#: views/backend/post/meta-box.php:69
 msgid "Landing Page"
 msgstr ""
 
-#: views/backend/post/meta-box.php:100
+#: views/backend/post/meta-box.php:97
 msgid "Refresh Landing Pages from ConvertKit account"
 msgstr ""
 
-#: views/backend/post/meta-box.php:104
+#: views/backend/post/meta-box.php:101
 msgid "Select a landing page to make it appear in place of this page."
 msgstr ""
 
 #. translators: Link to sign in to ConvertKit
-#: views/backend/post/meta-box.php:109
+#: views/backend/post/meta-box.php:106
 msgid "To make changes to your landing pages, %s"
 msgstr ""
 
-#: views/backend/post/meta-box.php:124
+#: views/backend/post/meta-box.php:121
 msgid "Add a Tag"
 msgstr ""
 
-#: views/backend/post/meta-box.php:148
+#: views/backend/post/meta-box.php:145
 msgid "Select a tag to apply to visitors of this page who are subscribed."
 msgstr ""
 
-#: views/backend/post/meta-box.php:150
+#: views/backend/post/meta-box.php:147
 msgid "A visitor is deemed to be subscribed if they have clicked a link in an email to this site which includes their subscriber ID, or have entered their email address in a ConvertKit Form on this site."
 msgstr ""
 
-#: views/backend/post/meta-box.php:188
+#: views/backend/post/meta-box.php:185
 msgid "Refresh Products Pages from ConvertKit account"
 msgstr ""
 
-#: views/backend/post/meta-box.php:192
+#: views/backend/post/meta-box.php:189
 msgid "Select the ConvertKit product that the visitor must be subscribed to, permitting them access to view this members only content."
 msgstr ""
 
@@ -1265,14 +1296,14 @@ msgstr ""
 msgid "Step %1$s of %2$s"
 msgstr ""
 
-#: views/backend/term/fields-add.php:34
-#: views/backend/term/fields-edit.php:36
-msgid "<code>Default</code>: Display a form based on the Post's settings."
+#: views/backend/term/fields-add.php:35
+#: views/backend/term/fields-edit.php:37
+msgid ": Display a form based on the Post's settings."
 msgstr ""
 
 #. translators: Taxonomy Name
-#: views/backend/term/fields-add.php:39
-#: views/backend/term/fields-edit.php:41
+#: views/backend/term/fields-add.php:40
+#: views/backend/term/fields-edit.php:42
 msgid "Any other option will display that form after the main content for Posts assigned to this %s."
 msgstr ""
 

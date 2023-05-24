@@ -3,9 +3,9 @@ Contributors: nathanbarry, growdev, travisnorthcutt, ggwicz
 Donate link: https://convertkit.com
 Tags: email marketing, email newsletter, newsletter, subscribers, convertkit
 Requires at least: 5.0
-Tested up to: 6.2
+Tested up to: 6.2.2
 Requires PHP: 5.6.20
-Stable tag: 2.2.1
+Stable tag: 2.2.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -133,6 +133,14 @@ Full Plugin documentation can be found [here](https://help.convertkit.com/en/art
 7. Track subscriber growth
 
 == Changelog ==
+
+### 2.2.2 2023-05-24
+* Added: Elementor: ConvertKit Form Trigger Block
+* Added: Member Content: Automatically configure WP Fastest Cache and WP-Optimize Plugins to not cache when the `ck_subscriber_id` cookie is present, to ensure Member Content correctly displays
+* Added: Member Content: Display a notice if Litespeed Cache, W3 Total Cache or WP Super Cache Plugins are active and have not been configured to exclude caching when the `ck_subscriber_id` cookie is present
+* Fix: Elementor: ConvertKit Product: Button icon was missing
+* Fix: Block Editor: Don't display options to link text to display a non-inline form if no forms exist in ConvertKit
+* Fix: Block Editor: Don't display options to link text to display a Product or Tip Jar if no Product / Tip Jar exists in ConvertKit
 
 ### 2.2.1 2023-05-10
 * Fix: Settings: Escape tab links on output
