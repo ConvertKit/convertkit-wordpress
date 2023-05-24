@@ -109,5 +109,17 @@ jQuery( document ).ready(
 			}
 		);
 
+		/**
+		 * Hide the overlay and modal when the overlay is clicked.
+		 */
+		$( '#convertkit-deactivation-modal-overlay' ).on(
+			'click',
+			function( e ) {
+
+				$( '#convertkit-deactivation-modal, #convertkit-deactivation-modal-overlay' ).hide();
+
+			}
+		);
+
 	}
 );
