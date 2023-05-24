@@ -249,7 +249,7 @@ class Plugin extends \Codeception\Module
 					'id'           => 572575,
 					'title'        => 'Paid Subscriber Broadcast',
 					'url'          => 'https://cheerful-architect-3237.ck.page/posts/paid-subscriber-broadcast',
-					'published_at' => '2022-05-03T14:51:50.000Z',
+					'published_at' => '2022-05-03T00:00:00.000Z',
 					'is_paid'      => true,
 				],
 			]
@@ -281,6 +281,11 @@ class Plugin extends \Codeception\Module
 					'id'         => 2907192,
 					'name'       => 'gravityforms-tag-1',
 					'created_at' => '2022-02-02T14:06:32.000Z',
+				],
+				3748541 => [
+					'id'         => 3748541,
+					'name'       => 'wpforms',
+					'created_at' => '2023-03-29T12:32:38.000Z',
 				],
 				2907193 => [
 					'id'         => 2907193,
@@ -348,6 +353,44 @@ class Plugin extends \Codeception\Module
 	}
 
 	/**
+	 * Helper method to setup the Plugin's Member Content settings.
+	 *
+	 * @since   2.1.0
+	 *
+	 * @param   AcceptanceTester $I          AcceptanceTester.
+	 * @param   bool|array       $settings   Array of key/value settings. If not defined, uses expected defaults.
+	 */
+	public function setupConvertKitPluginRestrictContent($I, $settings = false)
+	{
+		// Go to the Plugin's Member Content Screen.
+		$I->loadConvertKitSettingsRestrictContentScreen($I);
+
+		// Complete fields.
+		if ( $settings ) {
+			foreach ( $settings as $key => $value ) {
+				switch ( $key ) {
+					case 'enabled':
+						if ( $value ) {
+							$I->checkOption('_wp_convertkit_settings_restrict_content[' . $key . ']');
+						} else {
+							$I->uncheckOption('_wp_convertkit_settings_restrict_content[' . $key . ']');
+						}
+						break;
+					default:
+						$I->fillField('_wp_convertkit_settings_restrict_content[' . $key . ']', $value);
+						break;
+				}
+			}
+		}
+
+		// Click the Save Changes button.
+		$I->click('Save Changes');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+	}
+
+	/**
 	 * Helper method to reset the ConvertKit Plugin settings, as if it's a clean installation.
 	 *
 	 * @since   1.9.6.7
@@ -358,6 +401,7 @@ class Plugin extends \Codeception\Module
 	{
 		// Plugin Settings.
 		$I->dontHaveOptionInDatabase('_wp_convertkit_settings');
+		$I->dontHaveOptionInDatabase('_wp_convertkit_settings_restrict_content');
 		$I->dontHaveOptionInDatabase('convertkit_version');
 
 		// Resources.
@@ -405,6 +449,21 @@ class Plugin extends \Codeception\Module
 	public function loadConvertKitSettingsToolsScreen($I)
 	{
 		$I->amOnAdminPage('options-general.php?page=_wp_convertkit_settings&tab=tools');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+	}
+
+	/**
+	 * Helper method to load the Plugin's Settings > Member Content screen.
+	 *
+	 * @since   2.1.0
+	 *
+	 * @param   AcceptanceTester $I     AcceptanceTester.
+	 */
+	public function loadConvertKitSettingsRestrictContentScreen($I)
+	{
+		$I->amOnAdminPage('options-general.php?page=_wp_convertkit_settings&tab=restrict-content');
 
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
@@ -523,7 +582,7 @@ class Plugin extends \Codeception\Module
 		// Define options.
 		$options = [
 			'gravityforms-tag-1', // First item.
-			'wordpress', // Last item.
+			'wpforms', // Last item.
 		];
 
 		// Prepend options, such as 'Default' and 'None' to the options, if required.
@@ -585,7 +644,7 @@ class Plugin extends \Codeception\Module
 
 		// Confirm that UTM parameters exist on a broadcast link.
 		$I->assertStringContainsString(
-			'utm_source=wordpress&utm_content=convertkit',
+			'utm_source=wordpress&utm_term=en_US&utm_content=convertkit',
 			$I->grabAttributeFrom('div.convertkit-broadcasts ul.convertkit-broadcasts-list li.convertkit-broadcast a', 'href')
 		);
 
@@ -632,7 +691,7 @@ class Plugin extends \Codeception\Module
 		$I->seeBroadcastsOutput($I, 1, $previousLabel, false);
 
 		// Confirm that the expected Broadcast name is displayed and links to the expected URL, with UTM parameters.
-		$I->seeInSource('<a href="' . $_ENV['CONVERTKIT_API_BROADCAST_SECOND_URL'] . '?utm_source=wordpress&amp;utm_content=convertkit" target="_blank" rel="nofollow noopener"');
+		$I->seeInSource('<a href="' . $_ENV['CONVERTKIT_API_BROADCAST_SECOND_URL'] . '?utm_source=wordpress&amp;utm_term=en_US&amp;utm_content=convertkit" target="_blank" rel="nofollow noopener"');
 		$I->seeInSource($_ENV['CONVERTKIT_API_BROADCAST_SECOND_TITLE']);
 
 		// Click the Newer Posts link.
@@ -646,7 +705,7 @@ class Plugin extends \Codeception\Module
 		$I->seeBroadcastsOutput($I, 1, false, $nextLabel);
 
 		// Confirm that the expected Broadcast name is displayed and links to the expected URL, with UTM parameters.
-		$I->seeInSource('<a href="' . $_ENV['CONVERTKIT_API_BROADCAST_FIRST_URL'] . '?utm_source=wordpress&amp;utm_content=convertkit" target="_blank" rel="nofollow noopener"');
+		$I->seeInSource('<a href="' . $_ENV['CONVERTKIT_API_BROADCAST_FIRST_URL'] . '?utm_source=wordpress&amp;utm_term=en_US&amp;utm_content=convertkit" target="_blank" rel="nofollow noopener"');
 		$I->seeInSource($_ENV['CONVERTKIT_API_BROADCAST_FIRST_TITLE']);
 	}
 
@@ -703,6 +762,359 @@ class Plugin extends \Codeception\Module
 	}
 
 	/**
+	 * Returns the expected default settings for Restricted Content.
+	 *
+	 * @since   2.1.0
+	 *
+	 * @return  array
+	 */
+	public function getRestrictedContentDefaultSettings()
+	{
+		return array(
+			'subscribe_text'         => 'This content is only available to premium subscribers',
+			'subscribe_button_label' => 'Subscribe',
+			'email_text'             => 'Already a premium subscriber? Enter the email address used when purchasing below, to receive a login link to access.',
+			'email_button_label'     => 'Send email',
+			'email_check_text'       => 'Check your email and click the link to login, or enter the code from the email below.',
+			'no_access_text'         => 'Your account does not have access to this content. Please use the button below to purchase, or enter the email address you used to purchase the product.',
+		);
+	}
+
+	/**
+	 * Creates a Page in the database with the given title for restricted content.
+	 *
+	 * The Page's content comprises of a mix of visible and member's only content.
+	 * The default form setting is set to 'None'.
+	 *
+	 * @since   2.1.0
+	 *
+	 * @param   AcceptanceTester $I                          Tester.
+	 * @param   string           $title                      Title.
+	 * @param   string           $visibleContent             Content that should always be visible.
+	 * @param   string           $memberContent              Content that should only be available to authenticated subscribers.
+	 * @param   string           $restrictContentSetting     Restrict Content setting.
+	 * @return  int                                          Page ID.
+	 */
+	public function createRestrictedContentPage($I, $title, $visibleContent = 'Visible content.', $memberContent = 'Member only content.', $restrictContentSetting = '')
+	{
+		return $I->havePostInDatabase(
+			[
+				'post_type'    => 'page',
+				'post_title'   => $title,
+
+				// Emulate Gutenberg content with visible and members only content sections.
+				'post_content' => '<!-- wp:paragraph --><p>' . $visibleContent . '</p><!-- /wp:paragraph -->
+<!-- wp:more --><!--more--><!-- /wp:more -->
+<!-- wp:paragraph -->' . $memberContent . '<!-- /wp:paragraph -->',
+
+				// Don't display a Form on this Page, so we test against Restrict Content's Form.
+				'meta_input'   => [
+					'_wp_convertkit_post_meta' => [
+						'form'             => '-1',
+						'landing_page'     => '',
+						'tag'              => '',
+						'restrict_content' => $restrictContentSetting,
+					],
+				],
+			]
+		);
+	}
+
+	/**
+	 * Run frontend tests for restricted content, to confirm that visible and member's content
+	 * is / is not displayed when logging in with valid and invalid subscriber email addresses.
+	 *
+	 * @since   2.1.0
+	 *
+	 * @param   AcceptanceTester $I                  Tester.
+	 * @param   string|int       $urlOrPageID        URL or ID of Restricted Content Page.
+	 * @param   string           $visibleContent     Content that should always be visible.
+	 * @param   string           $memberContent      Content that should only be available to authenticated subscribers.
+	 * @param   bool|array       $textItems          Expected text for subscribe text, subscribe button label, email text etc. If not defined, uses expected defaults.
+	 */
+	public function testRestrictedContentOnFrontend($I, $urlOrPageID, $visibleContent = 'Visible content.', $memberContent = 'Member only content.', $textItems = false)
+	{
+		// Define expected text and labels if not supplied.
+		if ( ! $textItems ) {
+			$textItems = $this->getRestrictedContentDefaultSettings();
+		}
+
+		// Navigate to the page.
+		if ( is_numeric( $urlOrPageID ) ) {
+			$I->amOnPage('?p=' . $urlOrPageID);
+		} else {
+			$I->amOnUrl($urlOrPageID);
+		}
+
+		// Confirm Restrict Content CSS is output.
+		$I->seeInSource('<link rel="stylesheet" id="convertkit-restrict-content-css" href="' . $_ENV['TEST_SITE_WP_URL'] . '/wp-content/plugins/convertkit/resources/frontend/css/restrict-content.css');
+
+		// Check content is / is not displayed, and CTA displays with expected text.
+		$this->testRestrictContentHidesContentWithCTA($I, $visibleContent, $memberContent, $textItems);
+
+		// Login as a ConvertKit subscriber who does not exist in ConvertKit.
+		$I->waitForElementVisible('input#convertkit_email');
+		$I->fillField('convertkit_email', 'fail@convertkit.com');
+		$I->click('input.wp-block-button__link');
+
+		// Check content is / is not displayed, and CTA displays with expected text.
+		$I->see('Email address is invalid'); // Response from the API.
+		$this->testRestrictContentHidesContentWithCTA($I, $visibleContent, $memberContent, $textItems);
+
+		// Set cookie with signed subscriber ID and reload the restricted content page, as if we entered the
+		// code sent in the email as a ConvertKit subscriber who has not subscribed to the product.
+		$I->setCookie('ck_subscriber_id', $_ENV['CONVERTKIT_API_SIGNED_SUBSCRIBER_ID_NO_ACCESS']);
+		if ( is_numeric( $urlOrPageID ) ) {
+			$I->amOnPage('?p=' . $urlOrPageID . '&ck-cache-bust=' . microtime() );
+		} else {
+			$I->amOnUrl($urlOrPageID . '?ck-cache-bust=' . microtime() );
+		}
+
+		// Check content is / is not displayed, and CTA displays with expected text.
+		$I->see($textItems['no_access_text']);
+		$this->testRestrictContentHidesContentWithCTA($I, $visibleContent, $memberContent, $textItems);
+
+		// Login as a ConvertKit subscriber who has subscribed to the product.
+		$I->waitForElementVisible('input#convertkit_email');
+		$I->fillField('convertkit_email', $_ENV['CONVERTKIT_API_SUBSCRIBER_EMAIL']);
+		$I->click('input.wp-block-button__link');
+
+		// Confirm that confirmation an email has been sent is displayed.
+		$this->testRestrictContentShowsEmailCodeForm($I, $visibleContent, $memberContent);
+
+		// Test that the restricted content displays when a valid signed subscriber ID is used,
+		// as if we entered the code sent in the email.
+		$this->testRestrictedContentShowsContentWithValidSubscriberID($I, $urlOrPageID, $visibleContent, $memberContent);
+	}
+
+	/**
+	 * Run frontend tests for restricted content, to confirm that both visible and member content is displayed
+	 * when a valid signed subscriber ID is set as a cookie, as if the user entered a code sent in the email.
+	 *
+	 * @since   2.2.2
+	 *
+	 * @param   AcceptanceTester $I                  Tester.
+	 * @param   string|int       $urlOrPageID        URL or ID of Restricted Content Page.
+	 * @param   string           $visibleContent     Content that should always be visible.
+	 * @param   string           $memberContent      Content that should only be available to authenticated subscribers.
+	 */
+	public function testRestrictedContentShowsContentWithValidSubscriberID($I, $urlOrPageID, $visibleContent, $memberContent)
+	{
+		// Set cookie with signed subscriber ID, as if we entered the code sent in the email.
+		$I->setCookie('ck_subscriber_id', $_ENV['CONVERTKIT_API_SIGNED_SUBSCRIBER_ID']);
+
+		// Reload the restricted content page.
+		if ( is_numeric( $urlOrPageID ) ) {
+			$I->amOnPage('?p=' . $urlOrPageID );
+		} else {
+			$I->amOnUrl($urlOrPageID );
+		}
+
+		// Confirm cookie was set with the expected value.
+		$I->assertEquals($I->grabCookie('ck_subscriber_id'), $_ENV['CONVERTKIT_API_SIGNED_SUBSCRIBER_ID']);
+
+		// Confirm that the restricted content is now displayed, as we've authenticated as a subscriber
+		// who has access to this Product.
+		$I->testRestrictContentDisplaysContent($I, $visibleContent, $memberContent);
+	}
+
+	/**
+	 * Run frontend tests for restricted content, to confirm that:
+	 * - visible content is displayed,
+	 * - member's content is not displayed,
+	 * - the CTA is displayed with the expected text
+	 *
+	 * @since   2.1.0
+	 *
+	 * @param   AcceptanceTester $I                  Tester.
+	 * @param   string           $visibleContent     Content that should always be visible.
+	 * @param   string           $memberContent      Content that should only be available to authenticated subscribers.
+	 * @param   bool|array       $textItems          Expected text for subscribe text, subscribe button label, email text etc. If not defined, uses expected defaults.
+	 */
+	public function testRestrictContentHidesContentWithCTA($I, $visibleContent = 'Visible content.', $memberContent = 'Member only content.', $textItems = false)
+	{
+		// Define expected text and labels if not supplied.
+		if ( ! $textItems ) {
+			$textItems = $this->getRestrictedContentDefaultSettings();
+		}
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Confirm that the visible text displays, hidden text does not display and the CTA displays.
+		$I->see($visibleContent);
+		$I->dontSee($memberContent);
+
+		// Confirm that the CTA displays with the expected text.
+		$I->seeElementInDOM('#convertkit-restrict-content');
+		$I->see($textItems['subscribe_text']);
+		$I->see($textItems['subscribe_button_label']);
+		$I->see($textItems['email_text']);
+		$I->seeInSource('<input type="submit" class="wp-block-button__link wp-block-button__link" value="' . $textItems['email_button_label'] . '">');
+	}
+
+	/**
+	 * Run frontend tests for restricted content, to confirm that:
+	 * - visible content is displayed,
+	 * - member's content is not displayed,
+	 * - the email code form is displayed with the expected text.
+	 *
+	 * @since   2.1.0
+	 *
+	 * @param   AcceptanceTester $I                  Tester.
+	 * @param   string           $visibleContent     Content that should always be visible.
+	 * @param   string           $memberContent      Content that should only be available to authenticated subscribers.
+	 */
+	public function testRestrictContentShowsEmailCodeForm($I, $visibleContent = 'Visible content.', $memberContent = 'Member only content.')
+	{
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Confirm that the visible text displays, hidden text does not display and the CTA displays.
+		$I->see($visibleContent);
+		$I->dontSee($memberContent);
+
+		// Confirm that the CTA displays with the expected text.
+		$I->seeElementInDOM('#convertkit-restrict-content');
+		$I->seeElementInDOM('input#convertkit_subscriber_code');
+		$I->seeElementInDOM('input.wp-block-button__link');
+	}
+
+	/**
+	 * Run frontend tests for restricted content, to confirm that:
+	 * - visible content is displayed,
+	 * - member's content is displayed,
+	 * - the CTA is not displayed
+	 *
+	 * @since   2.1.0
+	 *
+	 * @param   AcceptanceTester $I                  Tester.
+	 * @param   string           $visibleContent     Content that should always be visible.
+	 * @param   string           $memberContent      Content that should only be available to authenticated subscribers.
+	 */
+	public function testRestrictContentDisplaysContent($I, $visibleContent = 'Visible content.', $memberContent = 'Member only content.')
+	{
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Confirm that the visible and hidden text displays.
+		$I->see($visibleContent);
+		$I->see($memberContent);
+
+		// Confirm that the CTA is not displayed.
+		$I->dontSeeElementInDOM('#convertkit-restrict-content');
+	}
+
+	/**
+	 * Check that expected HTML exists in the DOM of the page we're viewing for
+	 * a Form Trigger block or shortcode, and that the button loads the expected
+	 * ConvertKit Form.
+	 *
+	 * @since   2.2.0
+	 *
+	 * @param   AcceptanceTester $I              Tester.
+	 * @param   string           $formURL        Form URL.
+	 * @param   bool|string      $text           Test if the button text matches the given value.
+	 * @param   bool|string      $textColor      Test if the given text color is applied.
+	 * @param   bool|string      $backgroundColor Test is the given background color is applied.
+	 */
+	public function seeFormTriggerOutput($I, $formURL, $text = false, $textColor = false, $backgroundColor = false)
+	{
+		// Confirm that the button stylesheet loaded.
+		$I->seeInSource('<link rel="stylesheet" id="convertkit-button-css" href="' . $_ENV['TEST_SITE_WP_URL'] . '/wp-content/plugins/convertkit/resources/frontend/css/button.css');
+
+		// Confirm that the block displays.
+		$I->seeElementInDOM('a.convertkit-formtrigger.wp-block-button__link');
+
+		// Confirm that the button links to the correct form.
+		$I->assertEquals($formURL, $I->grabAttributeFrom('a.convertkit-formtrigger', 'href'));
+
+		// Confirm that the text is as expected.
+		if ($text !== false) {
+			$I->see($text);
+		}
+
+		// Confirm that the text color is as expected.
+		if ($textColor !== false) {
+			$I->seeElementInDOM('a.convertkit-formtrigger.has-text-color');
+			$I->assertStringContainsString(
+				'color:' . $textColor,
+				$I->grabAttributeFrom('a.convertkit-formtrigger', 'style')
+			);
+		}
+
+		// Confirm that the background color is as expected.
+		if ($backgroundColor !== false) {
+			$I->seeElementInDOM('a.convertkit-formtrigger.has-background');
+			$I->assertStringContainsString(
+				'background-color:' . $backgroundColor,
+				$I->grabAttributeFrom('a.convertkit-formtrigger', 'style')
+			);
+		}
+
+		// Click the button to confirm that the ConvertKit modal displays.
+		$I->click('a.convertkit-formtrigger');
+		$I->waitForElementVisible('div.formkit-overlay');
+	}
+
+	/**
+	 * Check that expected HTML does not exist in the DOM of the page we're viewing for
+	 * a Form Trigger block or shortcode.
+	 *
+	 * @since   2.2.0
+	 *
+	 * @param   AcceptanceTester $I      Tester.
+	 */
+	public function dontSeeFormTriggerOutput($I)
+	{
+		// Confirm that the block does not display.
+		$I->dontSeeElementInDOM('div.wp-block-button a.convertkit-formtrigger');
+	}
+
+	/**
+	 * Check that expected HTML exists in the DOM of the page we're viewing for
+	 * a Form Trigger link, and that the link loads the expected
+	 * ConvertKit Form.
+	 *
+	 * @since   2.2.0
+	 *
+	 * @param   AcceptanceTester $I              Tester.
+	 * @param   string           $formURL        Form URL.
+	 * @param   bool|string      $text           Test if the text matches the given value.
+	 */
+	public function seeFormTriggerLinkOutput($I, $formURL, $text = false)
+	{
+		// Confirm that the link displays.
+		$I->seeElementInDOM('a.convertkit-form-link');
+
+		// Confirm that the button links to the correct form.
+		$I->assertEquals($formURL, $I->grabAttributeFrom('a.convertkit-form-link', 'href'));
+
+		// Confirm that the text is as expected.
+		if ($text !== false) {
+			$I->see($text);
+		}
+
+		// Click the link to confirm that the ConvertKit form displays.
+		$I->click('a.convertkit-form-link');
+		$I->waitForElementVisible('div.formkit-overlay');
+	}
+
+	/**
+	 * Check that expected HTML does not exist in the DOM of the page we're viewing for
+	 * a Form Trigger link formatter.
+	 *
+	 * @since   2.2.0
+	 *
+	 * @param   AcceptanceTester $I      Tester.
+	 */
+	public function dontSeeFormTriggerLinkOutput($I)
+	{
+		// Confirm that the link does not display.
+		$I->dontSeeElementInDOM('a.convertkit-form-link');
+	}
+
+	/**
 	 * Check that expected HTML exists in the DOM of the page we're viewing for
 	 * a Product block or shortcode, and that the button loads the expected
 	 * ConvertKit Product modal.
@@ -718,7 +1130,7 @@ class Plugin extends \Codeception\Module
 	public function seeProductOutput($I, $productURL, $text = false, $textColor = false, $backgroundColor = false)
 	{
 		// Confirm that the product stylesheet loaded.
-		$I->seeInSource('<link rel="stylesheet" id="convertkit-gutenberg-block-product-frontend-css" href="' . $_ENV['TEST_SITE_WP_URL'] . '/wp-content/plugins/convertkit/resources/frontend/css/product.css');
+		$I->seeInSource('<link rel="stylesheet" id="convertkit-button-css" href="' . $_ENV['TEST_SITE_WP_URL'] . '/wp-content/plugins/convertkit/resources/frontend/css/button.css');
 
 		// Confirm that the block displays.
 		$I->seeElementInDOM('a.convertkit-product.wp-block-button__link');
@@ -756,7 +1168,7 @@ class Plugin extends \Codeception\Module
 	}
 
 	/**
-	 * Check that expected HTML does exists in the DOM of the page we're viewing for
+	 * Check that expected HTML does not exist in the DOM of the page we're viewing for
 	 * a Product block or shortcode.
 	 *
 	 * @since   1.9.8.5
@@ -767,5 +1179,27 @@ class Plugin extends \Codeception\Module
 	{
 		// Confirm that the block does not display.
 		$I->dontSeeElementInDOM('div.wp-block-button a.convertkit-product');
+	}
+
+	/**
+	 * Selects all text for the given input field.
+	 *
+	 * @since   2.2.0
+	 *
+	 * @param   AcceptanceTester $I         Acceptance Tester.
+	 * @param   string           $selector  CSS or ID selector for the input element.
+	 */
+	public function selectAllText($I, $selector)
+	{
+		// Determine whether to use the control or command key, depending on the OS.
+		$key = \Facebook\WebDriver\WebDriverKeys::CONTROL;
+
+		// If we're on OSX, use the command key instead.
+		if (array_key_exists('TERM_PROGRAM', $_SERVER) && strpos( $_SERVER['TERM_PROGRAM'], 'Apple') !== false) {
+			$key = \Facebook\WebDriver\WebDriverKeys::COMMAND;
+		}
+
+		// Press Ctrl/Command + a on Keyboard.
+		$I->pressKey($selector, array( $key, 'a' ));
 	}
 }

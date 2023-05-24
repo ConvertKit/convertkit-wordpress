@@ -131,10 +131,6 @@ class ConvertKit_Admin_Settings {
 			<h1><?php esc_html_e( 'ConvertKit', 'convertkit' ); ?></h1>
 		</header>
 
-		<?php
-		$this->maybe_display_notices();
-		?>
-
 		<div class="wrap">
 			<?php
 			if ( count( $this->sections ) > 1 ) {
@@ -189,69 +185,34 @@ class ConvertKit_Admin_Settings {
 	}
 
 	/**
-	 * Display notice(s) immediately after the settings screen header.
-	 *
-	 * @since   1.9.6
-	 */
-	private function maybe_display_notices() {
-
-		$notices = array();
-
-		// Check the mbstring extension is loaded.
-		if ( ! extension_loaded( 'mbstring' ) ) {
-			$notices[] = array(
-				'type'    => 'warning',
-				'message' => sprintf(
-					/* translators: link to php.net manual */
-					__( 'Notice: Your server does not support the %s function - this is required for better character encoding. Please contact your webhost to have it installed.', 'convertkit' ),
-					'<a href="https://php.net/manual/en/mbstring.installation.php">mbstring</a>'
-				),
-			);
-		}
-
-		// Bail if no notices exist.
-		if ( ! count( $notices ) ) {
-			return;
-		}
-		?>
-		<div class="notices">
-			<?php
-			// Output inline notices.
-			foreach ( $notices as $notice ) {
-				?>
-				<div class="inline notice notice-<?php echo esc_attr( $notice['type'] ); ?>">
-					<p>
-						<?php echo esc_attr( $notice['message'] ); ?>
-					</p>
-				</div>
-				<?php
-			}
-			?>
-		</div>
-		<?php
-
-	}
-
-	/**
 	 * Define links to display below the Plugin Name on the WP_List_Table at in the Plugins screen.
 	 *
 	 * @param   array $links      Links.
 	 * @return  array               Links
 	 */
-	public static function add_settings_page_link( $links ) {
+	public function add_settings_page_link( $links ) {
 
-		return array_merge(
-			array(
-				'settings' => sprintf(
-					'<a href="%s">%s</a>',
-					convertkit_get_settings_link(),
-					__( 'Settings', 'convertkit' )
-				),
-			),
-			$links
+		// Add link to Plugin settings screen.
+		$links['settings'] = sprintf(
+			'<a href="%s">%s</a>',
+			convertkit_get_settings_link(),
+			__( 'Settings', 'convertkit' )
 		);
 
+		/**
+		 * Define links to display below the Plugin Name on the WP_List_Table at Plugins > Installed Plugins.
+		 *
+		 * @since   2.1.2
+		 *
+		 * @param   array   $links  HTML Links.
+		 */
+		$links = apply_filters( 'convertkit_plugin_screen_action_links', $links );
+
+		// Return.
+		return $links;
+
 	}
+
 	/**
 	 * Output tabs, one for each registered settings section.
 	 *
@@ -264,11 +225,19 @@ class ConvertKit_Admin_Settings {
 			<?php
 			foreach ( $this->sections as $section ) {
 				printf(
-					'<li><a href="?page=%s&tab=%s" class="convertkit-tab %s">%s</a></li>',
-					sanitize_text_field( $_REQUEST['page'] ), // phpcs:ignore WordPress.Security.NonceVerification
-					esc_html( $section->name ),
-					$active_section === $section->name ? 'convertkit-tab-active' : '',
-					esc_html( $section->tab_text )
+					'<li><a href="%s" class="convertkit-tab %s">%s%s</a></li>',
+					esc_url(
+						add_query_arg(
+							array(
+								'page' => self::SETTINGS_PAGE_SLUG,
+								'tab'  => $section->name,
+							),
+							admin_url( 'options-general.php' )
+						)
+					),
+					( $active_section === $section->name ? 'convertkit-tab-active' : '' ),
+					esc_html( $section->tab_text ),
+					$section->is_beta ? $this->get_beta_tab() : '' // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				);
 			}
 
@@ -291,6 +260,27 @@ class ConvertKit_Admin_Settings {
 		?>
 		<hr class="wp-header-end">
 		<?php
+
+	}
+
+	/**
+	 * Returns a 'beta' tab wrapped in a span, using wp_kses to ensure only permitted
+	 * HTML elements are included in the output.
+	 *
+	 * @since   2.1.0
+	 *
+	 * @return  string
+	 */
+	private function get_beta_tab() {
+
+		return wp_kses(
+			'<span class="convertkit-beta-label">' . esc_html__( 'Beta', 'convertkit' ) . '</span>',
+			array(
+				'span' => array(
+					'class' => array(),
+				),
+			)
+		);
 
 	}
 
@@ -347,6 +337,7 @@ class ConvertKit_Admin_Settings {
 		return add_query_arg(
 			array(
 				'utm_source'  => 'wordpress',
+				'utm_term'    => get_locale(),
 				'utm_content' => 'convertkit',
 			),
 			$this->sections[ $active_section ]->documentation_url()

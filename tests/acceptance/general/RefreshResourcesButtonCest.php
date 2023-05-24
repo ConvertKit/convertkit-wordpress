@@ -19,10 +19,18 @@ class RefreshResourcesButtonCest
 		// Activate and Setup ConvertKit plugin.
 		$I->activateConvertKitPlugin($I);
 		$I->setupConvertKitPluginResources($I);
+
+		// Enable Restrict Content, so the Products refresh button can be tested.
+		$I->setupConvertKitPluginRestrictContent(
+			$I,
+			[
+				'enabled' => true,
+			]
+		);
 	}
 
 	/**
-	 * Test that the refresh buttons for Forms, Landing Pages and Tags works when adding a new Page.
+	 * Test that the refresh buttons for Forms, Landing Pages, Tags and Restrict Content works when adding a new Page.
 	 *
 	 * @since   1.9.8.0
 	 *
@@ -96,6 +104,16 @@ class RefreshResourcesButtonCest
 		// Change resource to value specified in the .env file, which should now be available.
 		// If the expected dropdown value does not exist in the Select2 field, this will fail the test.
 		$I->fillSelect2Field($I, '#select2-wp-convertkit-tag-container', $_ENV['CONVERTKIT_API_TAG_NAME']);
+
+		// Click the Restrict Content refresh button.
+		$I->click('button.wp-convertkit-refresh-resources[data-resource="products"]');
+
+		// Wait for button to change its state from disabled.
+		$I->waitForElementVisible('button.wp-convertkit-refresh-resources[data-resource="products"]:not(:disabled)');
+
+		// Change resource to value specified in the .env file, which should now be available.
+		// If the expected dropdown value does not exist in the Select2 field, this will fail the test.
+		$I->fillSelect2Field($I, '#select2-wp-convertkit-restrict_content-container', $_ENV['CONVERTKIT_API_PRODUCT_NAME']);
 	}
 
 	/**
@@ -159,6 +177,16 @@ class RefreshResourcesButtonCest
 		// Change resource to value specified in the .env file, which should now be available.
 		// If the expected dropdown value does not exist, this will fail the test.
 		$I->selectOption('#wp-convertkit-quick-edit-tag', $_ENV['CONVERTKIT_API_TAG_NAME']);
+
+		// Click the Products refresh button.
+		$I->click('button.wp-convertkit-refresh-resources[data-resource="products"]');
+
+		// Wait for button to change its state from disabled.
+		$I->waitForElementVisible('button.wp-convertkit-refresh-resources[data-resource="products"]:not(:disabled)');
+
+		// Change resource to value specified in the .env file, which should now be available.
+		// If the expected dropdown value does not exist, this will fail the test.
+		$I->selectOption('#wp-convertkit-quick-edit-restrict_content', $_ENV['CONVERTKIT_API_PRODUCT_NAME']);
 	}
 
 	/**
@@ -232,6 +260,16 @@ class RefreshResourcesButtonCest
 		// Change resource to value specified in the .env file, which should now be available.
 		// If the expected dropdown value does not exist, this will fail the test.
 		$I->selectOption('#wp-convertkit-bulk-edit-tag', $_ENV['CONVERTKIT_API_TAG_NAME']);
+
+		// Click the Products refresh button.
+		$I->click('button.wp-convertkit-refresh-resources[data-resource="products"]');
+
+		// Wait for button to change its state from disabled.
+		$I->waitForElementVisible('button.wp-convertkit-refresh-resources[data-resource="products"]:not(:disabled)');
+
+		// Change resource to value specified in the .env file, which should now be available.
+		// If the expected dropdown value does not exist, this will fail the test.
+		$I->selectOption('#wp-convertkit-bulk-edit-restrict_content', $_ENV['CONVERTKIT_API_PRODUCT_NAME']);
 	}
 
 	/**
@@ -334,7 +372,8 @@ class RefreshResourcesButtonCest
 		$I->waitForElementVisible('button.wp-convertkit-refresh-resources[data-resource="forms"]:not(:disabled)');
 
 		// Confirm that an error notification is displayed on screen, with the expected error message.
-		$I->see('ConvertKit:', 'div.components-notice-list div.is-error');
+		$I->seeElementInDOM('div.components-notice-list div.is-error');
+		$I->see('API Key not valid');
 
 		// Confirm that the notice is dismissible.
 		$I->click('div.components-notice-list div.is-error button.components-notice__dismiss');
@@ -365,7 +404,8 @@ class RefreshResourcesButtonCest
 		$I->waitForElementVisible('button.wp-convertkit-refresh-resources[data-resource="forms"]:not(:disabled)');
 
 		// Confirm that an error notification is displayed on screen, with the expected error message.
-		$I->see('ConvertKit:', 'div.convertkit-error');
+		$I->seeElementInDOM('div.convertkit-error');
+		$I->see('API Key not valid');
 
 		// Confirm that the notice is dismissible.
 		$I->click('div.convertkit-error button.notice-dismiss');
@@ -404,7 +444,8 @@ class RefreshResourcesButtonCest
 		$I->waitForElementVisible('button.wp-convertkit-refresh-resources[data-resource="forms"]:not(:disabled)', 5);
 
 		// Confirm that an error notification is displayed on screen, with the expected error message.
-		$I->see('ConvertKit:', 'div.convertkit-error');
+		$I->seeElementInDOM('div.convertkit-error');
+		$I->see('API Key not valid');
 
 		// Confirm that the notice is dismissible.
 		$I->click('div.convertkit-error button.notice-dismiss');
@@ -451,7 +492,8 @@ class RefreshResourcesButtonCest
 		$I->waitForElementVisible('button.wp-convertkit-refresh-resources[data-resource="forms"]:not(:disabled)');
 
 		// Confirm that an error notification is displayed on screen, with the expected error message.
-		$I->see('ConvertKit:', 'div.convertkit-error');
+		$I->seeElementInDOM('div.convertkit-error');
+		$I->see('API Key not valid');
 
 		// Confirm that the notice is dismissible.
 		$I->click('div.convertkit-error button.notice-dismiss');
@@ -482,7 +524,8 @@ class RefreshResourcesButtonCest
 		$I->waitForElementVisible('button.wp-convertkit-refresh-resources[data-resource="forms"]:not(:disabled)');
 
 		// Confirm that an error notification is displayed on screen, with the expected error message.
-		$I->see('ConvertKit:', 'div.convertkit-error');
+		$I->seeElementInDOM('div.convertkit-error');
+		$I->see('API Key not valid');
 
 		// Confirm that the notice is dismissible.
 		$I->click('div.convertkit-error button.notice-dismiss');
@@ -517,7 +560,8 @@ class RefreshResourcesButtonCest
 		$I->waitForElementVisible('button.wp-convertkit-refresh-resources[data-resource="forms"]:not(:disabled)');
 
 		// Confirm that an error notification is displayed on screen, with the expected error message.
-		$I->see('ConvertKit:', 'div.convertkit-error');
+		$I->seeElementInDOM('div.convertkit-error');
+		$I->see('API Key not valid');
 
 		// Confirm that the notice is dismissible.
 		$I->click('div.convertkit-error button.notice-dismiss');

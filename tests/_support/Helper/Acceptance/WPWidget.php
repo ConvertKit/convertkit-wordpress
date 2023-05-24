@@ -37,8 +37,9 @@ class WPWidget extends \Codeception\Module
 		// First matching item will be the legacy widget; any blocks will follow.
 		// We can't target using the CSS selector button.editor-block-list-item-legacy-widget/{name}, as Codeception
 		// fails stating this is malformed CSS.
-		$I->seeElementInDOM('.block-editor-inserter__panel-content .block-editor-block-types-list__list-item button[tabindex="0"]');
-		$I->click('.block-editor-inserter__panel-content .block-editor-block-types-list__list-item button[tabindex="0"]');
+		$I->wait(2);
+		$I->waitForElementVisible('.block-editor-inserter__panel-content button');
+		$I->click('.block-editor-inserter__panel-content button');
 
 		// If a Block configuration is specified, apply it to the Block now.
 		if ($blockConfiguration) {
@@ -116,11 +117,16 @@ class WPWidget extends \Codeception\Module
 		// Click Add Block Button.
 		$I->click('button.edit-widgets-header-toolbar__inserter-toggle');
 
-		// When the Blocks sidebar appears, search for the legacy widget.
-		$I->waitForElementVisible('.interface-interface-skeleton__secondary-sidebar');
+		// When the Blocks sidebar appears, search for the block.
+		$I->waitForElementVisible('.interface-interface-skeleton__secondary-sidebar[aria-label="Block Library"]');
+		$I->seeElementInDOM('.interface-interface-skeleton__secondary-sidebar[aria-label="Block Library"]');
 		$I->fillField('.block-editor-inserter__menu input[type=search]', $blockName);
+		$I->waitForElementVisible('.block-editor-inserter__panel-content button.editor-block-list-item-' . $blockProgrammaticName);
 		$I->seeElementInDOM('.block-editor-inserter__panel-content button.editor-block-list-item-' . $blockProgrammaticName);
 		$I->click('.block-editor-inserter__panel-content button.editor-block-list-item-' . $blockProgrammaticName);
+
+		// Close block inserter.
+		$I->click('button.edit-widgets-header-toolbar__inserter-toggle');
 
 		// If a Block configuration is specified, apply it to the Block now.
 		if ($blockConfiguration) {

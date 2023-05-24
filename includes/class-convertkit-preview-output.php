@@ -170,14 +170,43 @@ class ConvertKit_Preview_Output {
 
 		// Bail if the Form's format isn't an inline form - we don't want to show an edit link for
 		// e.g. a sticky bar form.
-		if ( $form['format'] !== 'inline' ) {
+		// Legacy Forms won't have a format array key.
+		if ( array_key_exists( 'format', $form ) && $form['format'] !== 'inline' ) {
 			return $form_html;
+		}
+
+		// If no format array key is specified, this is a Legacy Form, which has a different edit URL on ConvertKit.
+		if ( ! array_key_exists( 'format', $form ) ) {
+			// Legacy Form.
+			$link = add_query_arg(
+				array(
+					'utm_source'  => 'wordpress',
+					'utm_term'    => get_locale(),
+					'utm_content' => 'convertkit',
+				),
+				sprintf(
+					'https://app.convertkit.com/landing_pages/%s/edit/',
+					esc_attr( (string) $form_id )
+				)
+			);
+		} else {
+			$link = add_query_arg(
+				array(
+					'utm_source'  => 'wordpress',
+					'utm_term'    => get_locale(),
+					'utm_content' => 'convertkit',
+				),
+				sprintf(
+					'https://app.convertkit.com/forms/designers/%s/edit/',
+					esc_attr( (string) $form_id )
+				)
+			);
 		}
 
 		// Append a link to edit the Form on ConvertKit.
 		$form_html .= sprintf(
-			'<div style="margin:0;padding:5px;text-align:right;font-size:13px;"><a href="https://app.convertkit.com/forms/designers/%s/edit/?utm_source=wordpress&utm_content=convertkit" target="_blank">%s</a></div>',
-			esc_attr( (string) $form_id ),
+			'<div style="margin:0;padding:5px;text-align:right;font-size:13px;"><a href="%s" target="_blank">%s</a></div>',
+			esc_url( $link ),
 			esc_html__( 'Edit form in ConvertKit', 'convertkit' )
 		);
 

@@ -9,7 +9,7 @@
  * Plugin Name: ConvertKit
  * Plugin URI: https://convertkit.com/
  * Description: Quickly and easily integrate ConvertKit forms into your site.
- * Version: 2.0.8
+ * Version: 2.2.2
  * Author: ConvertKit
  * Author URI: https://convertkit.com/
  * Text Domain: convertkit
@@ -25,7 +25,7 @@ define( 'CONVERTKIT_PLUGIN_NAME', 'ConvertKit' ); // Used for user-agent in API 
 define( 'CONVERTKIT_PLUGIN_FILE', plugin_basename( __FILE__ ) );
 define( 'CONVERTKIT_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'CONVERTKIT_PLUGIN_PATH', __DIR__ );
-define( 'CONVERTKIT_PLUGIN_VERSION', '2.0.8' );
+define( 'CONVERTKIT_PLUGIN_VERSION', '2.2.2' );
 
 // Load shared classes, if they have not been included by another ConvertKit Plugin.
 if ( ! class_exists( 'ConvertKit_API' ) ) {
@@ -48,8 +48,8 @@ require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-wp-convertkit.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-ajax.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-gutenberg.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-output.php';
+require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-output-restrict-content.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-post.php';
-require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-post-type-product.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-preview-output.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-resource-forms.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-resource-landing-pages.php';
@@ -57,6 +57,7 @@ require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-resource-posts
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-resource-products.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-resource-tags.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-settings.php';
+require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-settings-restrict-content.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-setup.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-shortcodes.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-subscriber.php';
@@ -66,8 +67,12 @@ require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-widgets.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/blocks/class-convertkit-block.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/blocks/class-convertkit-block-broadcasts.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/blocks/class-convertkit-block-content.php';
+require_once CONVERTKIT_PLUGIN_PATH . '/includes/blocks/class-convertkit-block-form-trigger.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/blocks/class-convertkit-block-form.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/blocks/class-convertkit-block-product.php';
+require_once CONVERTKIT_PLUGIN_PATH . '/includes/block-formatters/class-convertkit-block-formatter.php';
+require_once CONVERTKIT_PLUGIN_PATH . '/includes/block-formatters/class-convertkit-block-formatter-form-link.php';
+require_once CONVERTKIT_PLUGIN_PATH . '/includes/block-formatters/class-convertkit-block-formatter-product-link.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/widgets/class-ck-widget-form.php';
 
 // Contact Form 7 Integration.
@@ -88,8 +93,10 @@ require_once CONVERTKIT_PLUGIN_PATH . '/includes/integrations/woocommerce/class-
 if ( is_admin() ) {
 	require_once CONVERTKIT_PLUGIN_PATH . '/admin/class-convertkit-admin-bulk-edit.php';
 	require_once CONVERTKIT_PLUGIN_PATH . '/admin/class-convertkit-admin-quick-edit.php';
+	require_once CONVERTKIT_PLUGIN_PATH . '/admin/class-convertkit-admin-cache-plugins.php';
 	require_once CONVERTKIT_PLUGIN_PATH . '/admin/class-convertkit-admin-category.php';
 	require_once CONVERTKIT_PLUGIN_PATH . '/admin/class-convertkit-admin-deactivation.php';
+	require_once CONVERTKIT_PLUGIN_PATH . '/admin/class-convertkit-admin-notices.php';
 	require_once CONVERTKIT_PLUGIN_PATH . '/admin/class-convertkit-admin-post.php';
 	require_once CONVERTKIT_PLUGIN_PATH . '/admin/class-convertkit-admin-refresh-resources.php';
 	require_once CONVERTKIT_PLUGIN_PATH . '/admin/class-convertkit-admin-settings.php';
@@ -107,6 +114,11 @@ if ( is_admin() ) {
 
 	// WishList Member Integration.
 	require_once CONVERTKIT_PLUGIN_PATH . '/includes/integrations/wishlist/class-convertkit-wishlist-admin-settings.php';
+
+	// Restrict Content Integration.
+	require_once CONVERTKIT_PLUGIN_PATH . '/admin/class-convertkit-admin-restrict-content.php';
+	require_once CONVERTKIT_PLUGIN_PATH . '/admin/class-convertkit-admin-settings-restrict-content.php';
+	require_once CONVERTKIT_PLUGIN_PATH . '/admin/setup-wizard/class-convertkit-admin-setup-wizard-restrict-content.php';
 }
 
 // Register Plugin activation and deactivation functions.

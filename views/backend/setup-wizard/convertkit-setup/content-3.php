@@ -19,7 +19,7 @@ if ( ! $this->forms->exist() ) {
 
 	<hr />
 
-	<a href="https://app.convertkit.com/forms/new?format=inline" target="_blank" class="button button-primary">
+	<a href="https://app.convertkit.com/forms/new?format=inline" target="_blank" class="button button-primary button-hero">
 		<?php esc_html_e( 'Create form', 'convertkit' ); ?>
 	</a>
 

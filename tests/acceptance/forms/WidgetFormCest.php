@@ -45,7 +45,7 @@ class WidgetFormCest
 		// Add legacy widget, setting the Form setting to the value specified in the .env file.
 		$I->addLegacyWidget(
 			$I,
-			'ConvertKit Form',
+			'ConvertKit Form (Legacy Widget)',
 			'convertkit-form',
 			[
 				'form' => [ 'select', $_ENV['CONVERTKIT_API_FORM_NAME'] ],
@@ -72,7 +72,7 @@ class WidgetFormCest
 		// Add legacy widget, setting the Form setting to the value specified in the .env file.
 		$I->addLegacyWidget(
 			$I,
-			'ConvertKit Form',
+			'ConvertKit Form (Legacy Widget)',
 			'convertkit-form',
 			[
 				'form' => [ 'select', $_ENV['CONVERTKIT_API_LEGACY_FORM_NAME'] ],

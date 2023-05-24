@@ -1,0 +1,79 @@
+#convertkit-restrict-content {
+	max-width: 610px;
+	background: #f6f8fa;
+	box-shadow: 0 2px 5px #0000000d;
+	color: #373f45;
+	margin: 30px auto;
+	padding: 40px 30px 30px 30px;
+	border: 1px solid #EDF2F4;
+	text-align: center;
+	box-sizing: border-box;
+}
+#convertkit-restrict-content * {
+	box-sizing: border-box;
+}
+#convertkit-restrict-content p, #convertkit-restrict-content div {
+	margin: 0 0 20px 0;
+	padding: 0;
+}
+
+#convertkit-restrict-content .convertkit-restrict-content-actions {
+	margin: 0;
+}
+#convertkit-restrict-content .convertkit-restrict-content-actions p:last-child {
+	margin: 0;
+}
+#convertkit-restrict-content .convertkit-restrict-content-actions hr {
+	margin: 0 0 20px 0;
+	padding: 0;
+	width: 100%;
+	height: 1px;
+	border: none;
+	background: #EDF2F4;
+}
+#convertkit-restrict-content .convertkit-restrict-content-actions .convertkit-product a {
+	display: inline-block;
+	text-decoration: none;
+}
+
+#convertkit-restrict-content .convertkit-restrict-content-notice {
+	margin: 0 0 20px 0;
+	padding: 10px;
+}
+#convertkit-restrict-content .convertkit-restrict-content-notice-success {
+	background: #daf7e1;
+}
+#convertkit-restrict-content .convertkit-restrict-content-notice-error {
+	background: #f7dada;
+}
+
+#convertkit-restrict-content input[type=email], #convertkit-restrict-content input[type=text] {
+	display: inline-block;
+	width: 75%;
+	height: 48px;
+	margin: 0;
+	padding: 0 10px;
+	border: 1px solid #949494;
+	font-family: inherit;
+}
+#convertkit-restrict-content input#convertkit_subscriber_code {
+	width: 100%;
+	margin-bottom: 20px;
+	font-size: 24px;
+}
+#convertkit-restrict-content #convertkit-restrict-content input[type=submit] {
+	display: inline-block;
+	border: none;
+}
+
+@media screen and (max-width: 450px) {
+	#convertkit-restrict-content {
+		padding: 0;
+	}
+	#convertkit-restrict-content .convertkit-restrict-content-actions {
+		padding: 10px;
+	}
+	#convertkit-restrict-content input[type=email], #convertkit-restrict-content input[type=text], #convertkit-restrict-content input#convertkit_subscriber_code {
+		width: 100%;
+	}
+}

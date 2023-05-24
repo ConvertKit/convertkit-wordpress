@@ -75,7 +75,7 @@ class ConvertKit_Block_Product extends ConvertKit_Block {
 	 */
 	public function enqueue_styles() {
 
-		wp_enqueue_style( 'convertkit-gutenberg-block-product-frontend', CONVERTKIT_PLUGIN_URL . 'resources/frontend/css/product.css', array(), CONVERTKIT_PLUGIN_VERSION );
+		wp_enqueue_style( 'convertkit-button', CONVERTKIT_PLUGIN_URL . 'resources/frontend/css/button.css', array(), CONVERTKIT_PLUGIN_VERSION );
 
 	}
 
@@ -125,7 +125,7 @@ class ConvertKit_Block_Product extends ConvertKit_Block {
 			'shortcode_include_closing_tag'     => false,
 
 			// Gutenberg: Block Icon in Editor.
-			'gutenberg_icon'                => file_get_contents( CONVERTKIT_PLUGIN_PATH . '/resources/backend/images/block-icon-product.svg' ), /* phpcs:ignore */
+			'gutenberg_icon'                    => convertkit_get_file_contents( CONVERTKIT_PLUGIN_PATH . '/resources/backend/images/block-icon-product.svg' ),
 
 			// Gutenberg: Example image showing how this block looks when choosing it in Gutenberg.
 			'gutenberg_example_image'           => CONVERTKIT_PLUGIN_URL . 'resources/backend/images/block-example-product.png',

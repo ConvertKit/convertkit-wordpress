@@ -26,16 +26,19 @@ jobs:
     env:
       ROOT_DIR: /home/runner/work/convertkit-wordpress/convertkit-wordpress/wordpress
       PLUGIN_DIR: /home/runner/work/convertkit-wordpress/convertkit-wordpress/wordpress/wp-content/plugins/convertkit
+      CACHE_DIR: /home/runner/work/convertkit-wordpress/convertkit-wordpress/wordpress/wp-content/plugins/wp-super-cache/
       DB_NAME: test
       DB_USER: root
       DB_PASS: root
       DB_HOST: localhost
-      INSTALL_PLUGINS: "contact-form-7 convertkit-for-woocommerce convertkit-gravity-forms classic-editor disable-welcome-messages-and-tips elementor woocommerce wordpress-seo" # Don't include this repository's Plugin here.
+      INSTALL_PLUGINS: "contact-form-7 convertkit-for-woocommerce classic-editor disable-welcome-messages-and-tips elementor integrate-convertkit-wpforms woocommerce wordpress-seo wpforms-lite litespeed-cache wp-super-cache w3-total-cache wp-fastest-cache wp-optimize" # Don't include this repository's Plugin here.
       CONVERTKIT_API_KEY: ${{ secrets.CONVERTKIT_API_KEY }} # ConvertKit API Key, stored in the repository's Settings > Secrets
       CONVERTKIT_API_SECRET: ${{ secrets.CONVERTKIT_API_SECRET }} # ConvertKit API Secret, stored in the repository's Settings > Secrets
       CONVERTKIT_API_KEY_NO_DATA: ${{ secrets.CONVERTKIT_API_KEY_NO_DATA }} # ConvertKit API Key for ConvertKit account with no data, stored in the repository's Settings > Secrets
       CONVERTKIT_API_SECRET_NO_DATA: ${{ secrets.CONVERTKIT_API_SECRET_NO_DATA }} # ConvertKit API Secret for ConvertKit account with no data, stored in the repository's Settings > Secrets
-
+      CONVERTKIT_API_SIGNED_SUBSCRIBER_ID: ${{ secrets.CONVERTKIT_API_SIGNED_SUBSCRIBER_ID }} # ConvertKit API Signed Subscriber ID, stored in the repository's Settings > Secrets
+      CONVERTKIT_API_SIGNED_SUBSCRIBER_ID_NO_ACCESS: ${{ secrets.CONVERTKIT_API_SIGNED_SUBSCRIBER_ID_NO_ACCESS }} # ConvertKit API Signed Subscriber ID with no access to Products, stored in the repository's Settings > Secrets
+      
     # Defines the WordPress and PHP Versions matrix to run tests on
     # WooCommerce 5.9.0 requires WordPress 5.6 or greater, so we do not test on earlier versions
     # If testing older WordPress versions, ensure they are e.g. 5.7.4, 5.6.6 that have the X3 SSL fix: https://core.trac.wordpress.org/ticket/54207
@@ -44,7 +47,7 @@ jobs:
       matrix:
         wp-versions: [ 'latest' ] #[ '6.1.1', 'latest' ]
         php-versions: [ '7.4', '8.0', '8.1', '8.2' ] #[ '7.4', '8.0', '8.1' ]
-        
+
         # Folder names within the 'tests' folder to run tests in parallel.
         test-groups: [
           'acceptance/broadcasts',
@@ -53,7 +56,9 @@ jobs:
           'acceptance/integrations',
           'acceptance/landing-pages',
           'acceptance/products',
-          'acceptance/tags'
+          'acceptance/restrict-content',
+          'acceptance/tags',
+          'acceptance/wlm'
         ]
 
     # Steps to install, configure and run tests
@@ -119,9 +124,9 @@ jobs:
         run: wp-cli plugin install ${{ secrets.CONVERTKIT_PAID_PLUGIN_URLS }}
       
       # WP_DEBUG = true is required so all PHP errors are output and caught by tests (E_ALL).
-      # WP_DEBUG = false for PHP 8.1, 8.2, otherwise E_DEPRECATED is output due to https://core.trac.wordpress.org/ticket/54504
+      # WP_DEBUG = false for WishList Member tests on PHP 8.2, as WLM is not PHP 8.2 compatible and throws a lot of errors.
       - name: Enable WP_DEBUG
-        if: ${{ matrix.php-versions != '8.1' && matrix.php-versions != '8.2' }}
+        if: ${{ matrix.php-versions != '8.2' && matrix.test-groups != 'acceptance/wlm' }}
         working-directory: ${{ env.ROOT_DIR }}
         run: |
           wp-cli config set WP_DEBUG true --raw
@@ -131,6 +136,13 @@ jobs:
         working-directory: ${{ env.ROOT_DIR }}
         run: |
           wp-cli config set FS_METHOD direct
+
+      # DISALLOW_FILE_MODS = true is required to disable the block directory's "Available to Install" suggestions, which trips up
+      # tests that search and wait for block results.
+      - name: Enable DISALLOW_FILE_MODS
+        working-directory: ${{ env.ROOT_DIR }}
+        run: |
+          wp-cli config set DISALLOW_FILE_MODS true --raw
 
       # This step is deliberately after WordPress installation and configuration, as enabling PHP 8.x before using WP-CLI results
       # in the workflow failing due to incompatibilities between WP-CLI and PHP 8.x.
@@ -151,9 +163,6 @@ jobs:
 
       - name: Start nginx
         run: sudo systemctl start nginx.service
-        
-      - name: Install chromedriver
-        uses: nanasess/setup-chromedriver@master
 
       - name: Start chromedriver
         run: |
@@ -174,6 +183,8 @@ jobs:
             CONVERTKIT_API_SECRET=${{ env.CONVERTKIT_API_SECRET }}
             CONVERTKIT_API_KEY_NO_DATA=${{ env.CONVERTKIT_API_KEY_NO_DATA }}
             CONVERTKIT_API_SECRET_NO_DATA=${{ env.CONVERTKIT_API_SECRET_NO_DATA }}
+            CONVERTKIT_API_SIGNED_SUBSCRIBER_ID=${{ env.CONVERTKIT_API_SIGNED_SUBSCRIBER_ID }}
+            CONVERTKIT_API_SIGNED_SUBSCRIBER_ID_NO_ACCESS=${{ env.CONVERTKIT_API_SIGNED_SUBSCRIBER_ID_NO_ACCESS }}
           write-mode: append
 
       # Installs wp-browser, Codeception, PHP CodeSniffer and anything else needed to run tests.
@@ -184,6 +195,17 @@ jobs:
       - name: Build PHP Autoloader
         working-directory: ${{ env.PLUGIN_DIR }}
         run: composer dump-autoload
+
+      # This ensures that applicable files and folders can be written to by cache plugins.
+      # We only do this on Restrict Content tests, as doing so on wpunit tests results in WordPress
+      # bizarrely attempting to use FTP to write files.
+      - name: Set Permissions for Caching Plugins
+        if: ${{ matrix.test-groups == 'acceptance/restrict-content' }}
+        run: |
+          sudo chmod g+w ${{ env.ROOT_DIR }}/wp-config.php
+          sudo chown www-data:www-data ${{ env.ROOT_DIR }}/wp-config.php
+          sudo chmod g+w ${{ env.ROOT_DIR }}/wp-content
+          sudo chown www-data:www-data ${{ env.ROOT_DIR }}/wp-content
 
       # This ensures the wp-content/uploads folder can be written to by WordPress and third party Plugins.
       - name: Set Permissions for Uploads Directory
@@ -210,10 +232,17 @@ jobs:
         working-directory: ${{ env.PLUGIN_DIR }}
         run: php vendor/bin/codecept run tests/wpunit --fail-fast
 
-      # Run Codeception Acceptance Tests.
+      # Run Codeception Acceptance Tests in default environment if the test group isn't acceptance/general.
       - name: Run tests/${{ matrix.test-groups }}
+        if: ${{ matrix.test-groups != 'acceptance/general' }}
         working-directory: ${{ env.PLUGIN_DIR }}
-        run: php vendor/bin/codecept run tests/${{ matrix.test-groups }} --fail-fast
+        run: php vendor/bin/codecept run tests/${{ matrix.test-groups }} --env default --fail-fast
+
+      # Run Codeception Acceptance Tests in new environment if the test group is acceptance/general.
+      - name: Run tests/${{ matrix.test-groups }}
+        if: ${{ matrix.test-groups == 'acceptance/general' }}
+        working-directory: ${{ env.PLUGIN_DIR }}
+        run: php vendor/bin/codecept run tests/${{ matrix.test-groups }} --env new --fail-fast
 
       # Artifacts are data generated by this workflow that we want to access, such as log files, screenshots, HTML output.
       # The if: always() directive means that this will run when the workflow fails e.g. if a test fails, which is needed

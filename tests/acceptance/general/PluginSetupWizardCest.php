@@ -90,7 +90,7 @@ class PluginSetupWizardCest
 		$I->click('Register');
 		$I->wait(2); // Required, otherwise switchToNextTab fails.
 		$I->switchToNextTab();
-		$I->seeInCurrentUrl('users/signup?utm_source=wordpress&utm_content=convertkit');
+		$I->seeInCurrentUrl('users/signup?utm_source=wordpress&utm_term=en_US&utm_content=convertkit');
 
 		// Close newly opened tab from above button.
 		$I->closeTab();
@@ -253,8 +253,9 @@ class PluginSetupWizardCest
 		// Switch to newly opened tab.
 		$I->switchToNextTab();
 
-		// Confirm expected Form is displayed.
-		$I->seeElementInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]');
+		// Confirm that one ConvertKit Form is output in the DOM.
+		// This confirms that there is only one script on the page for this form, which renders the form.
+		$I->seeNumberOfElementsInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]', 1);
 
 		// Close newly opened tab.
 		$I->closeTab();
@@ -269,8 +270,9 @@ class PluginSetupWizardCest
 		// Switch to newly opened tab.
 		$I->switchToNextTab();
 
-		// Confirm expected Form is displayed.
-		$I->seeElementInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]');
+		// Confirm that one ConvertKit Form is output in the DOM.
+		// This confirms that there is only one script on the page for this form, which renders the form.
+		$I->seeNumberOfElementsInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]', 1);
 
 		// Close newly opened tab.
 		$I->closeTab();
@@ -375,6 +377,30 @@ class PluginSetupWizardCest
 		// Confirm no Page or Post preview links exist, because there are no Pages or Posts in WordPress.
 		$I->dontSeeElementInDOM('a#convertkit-preview-form-post');
 		$I->dontSeeElementInDOM('a#convertkit-preview-form-page');
+	}
+
+	/**
+	 * Tests that a link to the Setup Wizard exists on the Plugins screen, and works when clicked.
+	 *
+	 * @since   2.1.2
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testSetupWizardLinkOnPluginsScreen(AcceptanceTester $I)
+	{
+		// Activate and Setup ConvertKit plugin.
+		$I->activateConvertKitPlugin($I);
+		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPluginResources($I);
+
+		// Navigate to Plugins screen.
+		$I->amOnPluginsPage();
+
+		// Click Setup Wizard link underneath the Plugin in the WP_List_Table.
+		$I->click('tr[data-slug="convertkit"] td div.row-actions span.setup_wizard a');
+
+		// Confirm expected setup wizard screen is displayed.
+		$this->_seeExpectedSetupWizardScreen($I, 1, 'Welcome to the ConvertKit Setup Wizard');
 	}
 
 	/**
