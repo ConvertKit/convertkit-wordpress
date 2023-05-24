@@ -90,25 +90,25 @@ class ConvertKit_Admin_Deactivation {
 
 		// Define the deactivation reasons.
 		$reasons = array(
-			'temporary'			 => array(
-				'label' => __( 'This is temporary / debugging an issue.', 'convertkit' ),
+			'temporary'          => array(
+				'label'       => __( 'This is temporary / debugging an issue.', 'convertkit' ),
 				'placeholder' => __( 'What problem are you experiencing?', 'convertkit' ),
 			),
-			'not_working'			 => array(
-				'label' => __( 'Could not get the plugin to work.', 'convertkit' ),
+			'not_working'        => array(
+				'label'       => __( 'Could not get the plugin to work.', 'convertkit' ),
 				'placeholder' => __( 'What problem are you experiencing?', 'convertkit' ),
 			),
-			'better_alternative'			 => array(
-				'label' => __( 'Found a better plugin.', 'convertkit' ),
+			'better_alternative' => array(
+				'label'       => __( 'Found a better plugin.', 'convertkit' ),
 				'placeholder' => __( 'What\'s the plugin\'s name?', 'convertkit' ),
 			),
-			'not_required'			 => array(
-				'label' => __( 'Don\'t need this plugin.', 'convertkit' ),
+			'not_required'       => array(
+				'label'       => __( 'Don\'t need this plugin.', 'convertkit' ),
 				'placeholder' => __( 'What\'s one thing we could improve?', 'convertkit' ),
 			),
-			'other'			 => array(
-				'label' => __( 'Other.', 'convertkit' ),
-				'placeholder' => __( 'What can be do better?', 'convertkit' ),
+			'other'              => array(
+				'label'       => __( 'Other.', 'convertkit' ),
+				'placeholder' => __( 'What can we do better?', 'convertkit' ),
 			),
 		);
 

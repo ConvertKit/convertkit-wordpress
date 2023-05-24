@@ -11,7 +11,7 @@
 <div id="convertkit-deactivation-modal" class="convertkit-modal">
 	<header>
 		<h2 class="title">
-			<?php echo _e( 'What went wrong?', 'convertkit' ); ?>
+			<?php echo esc_html_e( 'What went wrong?', 'convertkit' ); ?>
 		</h2>
 	</header>
 
@@ -23,16 +23,19 @@
 					?>
 					<li>
 						<label>
-							<span><input type="radio" name="reason" value="<?php echo esc_attr( $reason ); ?>" /></span>
+							<span>
+								<input type="radio" name="convertkit-deactivation-reason" value="<?php echo esc_attr( $reason ); ?>" data-placeholder="<?php echo esc_attr( $labels['placeholder'] ); ?>" />
+							</span>
 							<span><?php echo esc_html( $labels['label'] ); ?></span>
 						</label>
-						<input type="text" name="xxx" placeholder="<?php echo esc_html( $labels['placeholder'] ); ?>" class="widefat" />
 					</li>
 					<?php
 				}
 			}
 			?>
 		</ul>
+
+		<input type="text" name="convertkit-deactivation-reason-text" placeholder="" class="widefat" />
 
 		<input type="submit" name="submit" value="<?php esc_attr_e( 'Deactivate', 'convertkit' ); ?>" class="button" />
 	</form>

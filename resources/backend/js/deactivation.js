@@ -37,10 +37,12 @@ jQuery( document ).ready(
 				convertkit_deactivation_url = $( this ).attr( 'href' );
 
 				// Position the modal.
-				$( '#convertkit-deactivation-modal' ).css({
-					top: $( this ).offset().top + 'px',
-					left: $( this ).offset().left + 'px'
-				});
+				$( '#convertkit-deactivation-modal' ).css(
+					{
+						top: ( $( this ).offset().top - $( this ).height() - 25 ) + 'px',
+						left: ( $( this ).offset().left + $( this ).width() + 20 ) + 'px'
+					}
+				);
 
 				// Show the modal.
 				$( '#convertkit-deactivation-modal, #convertkit-deactivation-modal-overlay' ).show();
@@ -49,14 +51,16 @@ jQuery( document ).ready(
 		);
 
 		/**
-		 * Show input text field when a reason radio button is clicked
+		 * Update input text field's placeholder when a reason radio button is clicked
 		 */
-		$( 'input[type=radio]' ).on(
+		$( 'input[name="convertkit-deactivation-reason"]' ).on(
 			'change',
-			'form#convertkit-deactivation-modal-form',
 			function( e ) {
 
-				console.log( 'clicked' );
+				$( 'input[name="convertkit-deactivation-reason-text"]' ).attr(
+					'placeholder',
+					$( this ).data( 'placeholder' )
+				).show();
 
 			}
 		);
@@ -71,8 +75,8 @@ jQuery( document ).ready(
 
 				e.preventDefault();
 
-				var convertkit_deactivation_reason  = $( 'input[name=reason]:checked', $( this ) ).val(),
-				convertkit_deactivation_reason_text = $( 'input[name=reason_text]', $( this ) ).val();
+				var convertkit_deactivation_reason  = $( 'input[name=convertkit-deactivation-reason]:checked', $( this ) ).val(),
+				convertkit_deactivation_reason_text = $( 'input[name=convertkit-deactivation-reason-text]', $( this ) ).val();
 
 				// Submit the form via AJAX if a reason was given.
 				if ( typeof convertkit_deactivation_reason !== 'undefined' ) {
