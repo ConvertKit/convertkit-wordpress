@@ -49,7 +49,7 @@ class ActivateDeactivatePluginCest
 	 * Test that the ConvertKit Plugin deactivates when clicking the Deactivate link on the Plugins
 	 * screen, completing the form fields on the deactivational modal and then submitting.
 	 *
-	 * @since   2.0.3
+	 * @since   2.2.3
 	 *
 	 * @param   AcceptanceTester $I  Tester.
 	 */
@@ -64,9 +64,27 @@ class ActivateDeactivatePluginCest
 		// Wait for modal to appear.
 		$I->waitForElementVisible('#convertkit-deactivation-modal');
 
-		// Fill modal fields.
-		$I->selectOption('#convertkit-deactivation-modal input[name="reason"]', 'not_working');
-		$I->fillField('reason_text', 'Testing');
+		// Select each reason, ensuring the text input's placeholder updates.
+		$reasons = [
+			'temporary'          => 'What problem are you experiencing?',
+			'not_working'        => 'What problem are you experiencing?',
+			'better_alternative' => 'What\'s the plugin\'s name?',
+			'not_required'       => 'What\'s one thing we could improve?',
+			'other'              => 'What can we do better?',
+		];
+		foreach ($reasons as $reason => $placeholder) {
+			// Confirm reason can be selected as a radio button.
+			$I->selectOption('#convertkit-deactivation-modal input[name="convertkit-deactivation-reason"]', $reason);
+
+			// Confirm input field's placeholder has updated, based on the selected reason.
+			$I->assertEquals(
+				$I->grabAttributeFrom('input[name="convertkit-deactivation-reason-text"]', 'placeholder'),
+				$placeholder
+			);
+		}
+
+		// Complete the input field and submit.
+		$I->fillField('convertkit-deactivation-reason-text', 'Testing');
 		$I->click('#convertkit-deactivation-modal input[type="submit"]');
 
 		// Check that the Plugin deactivated successfully.
@@ -80,7 +98,7 @@ class ActivateDeactivatePluginCest
 	 * Test that the ConvertKit Plugin deactivates when clicking the Deactivate link on the Plugins
 	 * screen, ignoring the form fields on the deactivational modal and then submitting.
 	 *
-	 * @since   2.0.3
+	 * @since   2.2.3
 	 *
 	 * @param   AcceptanceTester $I  Tester.
 	 */
