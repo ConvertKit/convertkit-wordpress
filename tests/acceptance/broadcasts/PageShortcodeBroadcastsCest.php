@@ -56,7 +56,7 @@ class PageShortcodeBroadcastsCest
 		// Confirm that the expected Broadcast name is displayed first links to the expected URL, with UTM parameters.
 		$I->assertEquals(
 			$I->grabAttributeFrom('div.convertkit-broadcasts ul.convertkit-broadcasts-list li.convertkit-broadcast:first-child a', 'href'),
-			$_ENV['CONVERTKIT_API_BROADCAST_FIRST_URL'] . '?utm_source=wordpress&utm_content=convertkit'
+			$_ENV['CONVERTKIT_API_BROADCAST_FIRST_URL'] . '?utm_source=wordpress&utm_term=en_US&utm_content=convertkit'
 		);
 	}
 
@@ -98,7 +98,7 @@ class PageShortcodeBroadcastsCest
 		// Confirm that the expected Broadcast name is displayed first links to the expected URL, with UTM parameters.
 		$I->assertEquals(
 			$I->grabAttributeFrom('div.convertkit-broadcasts ul.convertkit-broadcasts-list li.convertkit-broadcast:first-child a', 'href'),
-			$_ENV['CONVERTKIT_API_BROADCAST_FIRST_URL'] . '?utm_source=wordpress&utm_content=convertkit'
+			$_ENV['CONVERTKIT_API_BROADCAST_FIRST_URL'] . '?utm_source=wordpress&utm_term=en_US&utm_content=convertkit'
 		);
 	}
 
@@ -140,7 +140,7 @@ class PageShortcodeBroadcastsCest
 		// Confirm that the expected Broadcast name is displayed first links to the expected URL, with UTM parameters.
 		$I->assertEquals(
 			$I->grabAttributeFrom('div.convertkit-broadcasts ul.convertkit-broadcasts-list li.convertkit-broadcast:first-child a', 'href'),
-			$_ENV['CONVERTKIT_API_BROADCAST_FIRST_URL'] . '?utm_source=wordpress&utm_content=convertkit'
+			$_ENV['CONVERTKIT_API_BROADCAST_FIRST_URL'] . '?utm_source=wordpress&utm_term=en_US&utm_content=convertkit'
 		);
 	}
 
@@ -284,13 +284,13 @@ class PageShortcodeBroadcastsCest
 
 		// Confirm that the chosen colors are applied as CSS styles.
 		$I->seeInSource('<div class="convertkit-broadcasts has-text-color has-background" style="color:' . $textColor . ';background-color:' . $backgroundColor . '"');
-		$I->seeInSource('<a href="https://cheerful-architect-3237.ck.page/posts/paid-subscriber-broadcast?utm_source=wordpress&amp;utm_content=convertkit" target="_blank" rel="nofollow noopener" style="color:' . $linkColor . '"');
+		$I->seeInSource('<a href="https://cheerful-architect-3237.ck.page/posts/paid-subscriber-broadcast?utm_source=wordpress&amp;utm_term=en_US&amp;utm_content=convertkit" target="_blank" rel="nofollow noopener" style="color:' . $linkColor . '"');
 
 		// Test pagination.
 		$I->testBroadcastsPagination($I, 'Older', 'Newer');
 
 		// Confirm that link styles are still applied to refreshed data.
-		$I->seeInSource('<a href="https://cheerful-architect-3237.ck.page/posts/paid-subscriber-broadcast?utm_source=wordpress&amp;utm_content=convertkit" target="_blank" rel="nofollow noopener" style="color:' . $linkColor . '"');
+		$I->seeInSource('<a href="https://cheerful-architect-3237.ck.page/posts/paid-subscriber-broadcast?utm_source=wordpress&amp;utm_term=en_US&amp;utm_content=convertkit" target="_blank" rel="nofollow noopener" style="color:' . $linkColor . '"');
 	}
 
 	/**

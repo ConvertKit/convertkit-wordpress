@@ -50,7 +50,9 @@ class ConvertKit_Post {
 
 		// Get Post Meta.
 		$meta = get_post_meta( $post_id, self::POST_META_KEY, true );
-		if ( ! $meta ) {
+
+		// If no settings exist, or the settings are a string, fallback to the default settings.
+		if ( ! $meta || is_string( $meta ) ) {
 			// Fallback to default settings.
 			$meta = $this->get_default_settings();
 
@@ -129,6 +131,74 @@ class ConvertKit_Post {
 	}
 
 	/**
+	 * Returns the restrict content setting for the Post, which might be a
+	 * Form, Tag or Product.
+	 *
+	 * @since   2.1.0
+	 *
+	 * @return  string
+	 */
+	public function get_restrict_content() {
+
+		return $this->settings['restrict_content'];
+
+	}
+
+	/**
+	 * Returns the restrict content setting's resource type.
+	 *
+	 * @since   2.1.0
+	 *
+	 * @return  string
+	 */
+	public function get_restrict_content_type() {
+
+		// No type if restrict content isn't enabled on this Post.
+		if ( ! $this->restrict_content_enabled() ) {
+			return '';
+		}
+
+		// No type if the setting isn't of the expected format resource_ID.
+		if ( strpos( $this->settings['restrict_content'], '_' ) === false ) {
+			return '';
+		}
+
+		// Extract resource type from the setting.
+		list( $resource_type, $resource_id ) = explode( '_', $this->settings['restrict_content'] );
+
+		// Return resource type.
+		return $resource_type;
+
+	}
+
+	/**
+	 * Returns the restrict content setting's resource ID.
+	 *
+	 * @since   2.1.0
+	 *
+	 * @return  bool|int
+	 */
+	public function get_restrict_content_id() {
+
+		// No ID if restrict content isn't enabled on this Post.
+		if ( ! $this->restrict_content_enabled() ) {
+			return false;
+		}
+
+		// No ID if the setting isn't of the expected format resource_ID.
+		if ( strpos( $this->settings['restrict_content'], '_' ) === false ) {
+			return false;
+		}
+
+		// Extract resource ID from the setting.
+		list( $resource_type, $resource_id ) = explode( '_', $this->settings['restrict_content'] );
+
+		// Return resource ID.
+		return (int) $resource_id;
+
+	}
+
+	/**
 	 * Whether the Post has a ConvertKit Form defined.
 	 *
 	 * @since   1.9.6
@@ -194,6 +264,19 @@ class ConvertKit_Post {
 	}
 
 	/**
+	 * Whether the Post has a ConvertKit Form, Tag or Product defined for restricted content.
+	 *
+	 * @since   2.0.0
+	 *
+	 * @return  bool
+	 */
+	public function restrict_content_enabled() {
+
+		return ! empty( $this->settings['restrict_content'] );
+
+	}
+
+	/**
 	 * Saves Post settings to the Post.
 	 *
 	 * @since   1.9.6
@@ -218,9 +301,10 @@ class ConvertKit_Post {
 	public function get_default_settings() {
 
 		$defaults = array(
-			'form'         => '-1', // -1: Plugin Default Form, 0: No Form, 1+: Specific Form ID on ConvertKit.
-			'landing_page' => '',
-			'tag'          => '',
+			'form'             => '-1', // -1: Plugin Default Form, 0: No Form, 1+: Specific Form ID on ConvertKit.
+			'landing_page'     => '',
+			'tag'              => '',
+			'restrict_content' => '',
 		);
 
 		/**

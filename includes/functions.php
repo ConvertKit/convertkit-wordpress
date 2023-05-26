@@ -126,6 +126,32 @@ function convertkit_get_supported_post_types() {
 }
 
 /**
+ * Helper method to get supported Post Types for Restricted Content (Member's Content)
+ *
+ * @since   2.1.0
+ *
+ * @return  array   Post Types
+ */
+function convertkit_get_supported_restrict_content_post_types() {
+
+	$post_types = array(
+		'page',
+	);
+
+	/**
+	 * Defines the Post Types that support Restricted Content / Members Content functionality.
+	 *
+	 * @since   2.0.0
+	 *
+	 * @param   array   $post_types     Post Types
+	 */
+	$post_types = apply_filters( 'convertkit_get_supported_restrict_content_post_types', $post_types );
+
+	return $post_types;
+
+}
+
+/**
  * Helper method to get registered Shortcodes.
  *
  * @since   1.9.6.5
@@ -174,6 +200,30 @@ function convertkit_get_blocks() {
 }
 
 /**
+ * Helper method to get registered Block formatters for Gutenberg.
+ *
+ * @since   2.2.0
+ *
+ * @return  array   Block formatters
+ */
+function convertkit_get_block_formatters() {
+
+	$block_formatters = array();
+
+	/**
+	 * Registers block formatters in Gutenberg for the ConvertKit Plugin.
+	 *
+	 * @since   2.2.0
+	 *
+	 * @param   array   $block_formatters     Block formatters.
+	 */
+	$block_formatters = apply_filters( 'convertkit_get_block_formatters', $block_formatters );
+
+	return $block_formatters;
+
+}
+
+/**
  * Helper method to return the Plugin Settings Link
  *
  * @since   1.9.6
@@ -203,7 +253,14 @@ function convertkit_get_settings_link( $query_args = array() ) {
  */
 function convertkit_get_registration_url() {
 
-	return 'https://app.convertkit.com/users/signup?utm_source=wordpress&utm_content=convertkit';
+	return add_query_arg(
+		array(
+			'utm_source'  => 'wordpress',
+			'utm_term'    => get_locale(),
+			'utm_content' => 'convertkit',
+		),
+		'https://app.convertkit.com/users/signup'
+	);
 
 }
 
@@ -216,7 +273,14 @@ function convertkit_get_registration_url() {
  */
 function convertkit_get_sign_in_url() {
 
-	return 'https://app.convertkit.com/?utm_source=wordpress&utm_content=convertkit';
+	return add_query_arg(
+		array(
+			'utm_source'  => 'wordpress',
+			'utm_term'    => get_locale(),
+			'utm_content' => 'convertkit',
+		),
+		'https://app.convertkit.com/'
+	);
 
 }
 
@@ -229,7 +293,14 @@ function convertkit_get_sign_in_url() {
  */
 function convertkit_get_api_key_url() {
 
-	return 'https://app.convertkit.com/account_settings/advanced_settings/?utm_source=wordpress&utm_content=convertkit';
+	return add_query_arg(
+		array(
+			'utm_source'  => 'wordpress',
+			'utm_term'    => get_locale(),
+			'utm_content' => 'convertkit',
+		),
+		'https://app.convertkit.com/account_settings/advanced_settings/'
+	);
 
 }
 
@@ -254,5 +325,34 @@ function convertkit_select2_enqueue_styles() {
 
 	wp_enqueue_style( 'convertkit-select2', 'https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css', array(), CONVERTKIT_PLUGIN_VERSION );
 	wp_enqueue_style( 'convertkit-admin-select2', CONVERTKIT_PLUGIN_URL . 'resources/backend/css/select2.css', array(), CONVERTKIT_PLUGIN_VERSION );
+
+}
+
+/**
+ * Return the contents of the given local file.
+ *
+ * @since   2.2.2
+ *
+ * @param   string $local_file     Local file, including path.
+ * @return  string                  File contents.
+ */
+function convertkit_get_file_contents( $local_file ) {
+
+	// Call globals.
+	global $wp_filesystem;
+
+	// Load filesystem class.
+	require_once ABSPATH . 'wp-admin/includes/file.php';
+
+	// Initiate.
+	WP_Filesystem();
+
+	// Bail if the file doesn't exist.
+	if ( ! $wp_filesystem->exists( $local_file ) ) {
+		return '';
+	}
+
+	// Return file's contents.
+	return $wp_filesystem->get_contents( $local_file );
 
 }

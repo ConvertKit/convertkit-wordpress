@@ -99,7 +99,7 @@ class PageShortcodeCustomContentCest
 		$I->checkNoWarningsAndNoticesOnScreen($I);
 
 		// Confirm that the Custom Content is not yet displayed.
-		$I->dontSeeInSource('ConvertKitCustomContent');
+		$I->dontSee('ConvertKitCustomContent');
 
 		// Reload the page, this time with an invalid subscriber ID .
 		$I->amOnPage('/convertkit-custom-content-shortcode-valid-tag-param-and-invalid-subscriber-id?ck_subscriber_id=1');
@@ -108,7 +108,7 @@ class PageShortcodeCustomContentCest
 		$I->checkNoWarningsAndNoticesOnScreen($I);
 
 		// Confirm that the Custom Content is not yet displayed.
-		$I->dontSeeInSource('ConvertKitCustomContent');
+		$I->dontSee('ConvertKitCustomContent');
 	}
 
 	/**
@@ -136,7 +136,7 @@ class PageShortcodeCustomContentCest
 		$I->checkNoWarningsAndNoticesOnScreen($I);
 
 		// Confirm that the Custom Content is not yet displayed.
-		$I->dontSeeInSource('ConvertKitCustomContent');
+		$I->dontSee('ConvertKitCustomContent');
 
 		// Reload the page, this time with a subscriber ID who is already subscribed to the tag.
 		$I->amOnPage('/convertkit-custom-content-shortcode-valid-tag-param-and-valid-subscriber-id?ck_subscriber_id=' . $_ENV['CONVERTKIT_API_SUBSCRIBER_ID']);
@@ -145,7 +145,7 @@ class PageShortcodeCustomContentCest
 		$I->checkNoWarningsAndNoticesOnScreen($I);
 
 		// Confirm that the Custom Content is now displayed.
-		$I->seeInSource('ConvertKitCustomContent');
+		$I->see('ConvertKitCustomContent');
 	}
 
 	/**

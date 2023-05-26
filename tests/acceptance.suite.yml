@@ -26,9 +26,11 @@ modules:
         - \Helper\Acceptance\Select2
         - \Helper\Acceptance\ThirdPartyPlugin
         - \Helper\Acceptance\WPBulkEdit
+        - \Helper\Acceptance\WPCachePlugins
         - \Helper\Acceptance\WPClassicEditor
         - \Helper\Acceptance\WPGutenberg
         - \Helper\Acceptance\WPMetabox
+        - \Helper\Acceptance\WPNotices
         - \Helper\Acceptance\WPQuickEdit
         - \Helper\Acceptance\WPWidget
         - \Helper\Acceptance\Xdebug
@@ -63,8 +65,34 @@ modules:
             host: localhost
             port: 9515
             window_size: 1920x1080
-            capabilities:
-                chromeOptions:
-                    args: ["--headless", "--disable-gpu"]
-                    prefs:
-                        download.default_directory: '%WP_ROOT_FOLDER%'
+
+env:
+    # Default environment, runs headless mode.
+    default:
+        modules:
+            config:
+                WPWebDriver:
+                    capabilities:
+                        chromeOptions:
+                            args: [
+                                "--headless",
+                                "--disable-gpu"
+                            ]
+                            prefs:
+                                download.default_directory: '%WP_ROOT_FOLDER%'
+    
+    # New environment, runs headless=new mode. Required for tests involving browser downloads, flaky
+    # for other tests since ChromeDriver 111.
+    new:
+        modules:
+            config:
+                WPWebDriver:
+                    capabilities:
+                        chromeOptions:
+                            args: [
+                                "--headless=new",
+                                "--disable-gpu",
+                                "--user-agent=HeadlessChrome"
+                            ]
+                            prefs:
+                                download.default_directory: '%WP_ROOT_FOLDER%'

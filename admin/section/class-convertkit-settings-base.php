@@ -47,9 +47,18 @@ abstract class ConvertKit_Settings_Base {
 	 *
 	 * @since   1.9.6
 	 *
-	 * @var     false|ConvertKit_Settings|ConvertKit_ContactForm7_Settings|ConvertKit_Wishlist_Settings
+	 * @var     false|ConvertKit_Settings|ConvertKit_ContactForm7_Settings|ConvertKit_Wishlist_Settings|ConvertKit_Settings_Restrict_Content
 	 */
 	public $settings;
+
+	/**
+	 * Holds whether this settings section is for beta functionality.
+	 *
+	 * @since   2.1.0
+	 *
+	 * @var     bool
+	 */
+	public $is_beta = false;
 
 	/**
 	 * Constructor
@@ -144,7 +153,7 @@ abstract class ConvertKit_Settings_Base {
 
 		?>
 		<div class="metabox-holder">
-			<div class="postbox">
+			<div class="postbox <?php echo sanitize_html_class( $this->is_beta ? 'convertkit-beta' : '' ); ?>">
 		<?php
 
 	}
@@ -233,13 +242,15 @@ abstract class ConvertKit_Settings_Base {
 	 *
 	 * @param   string            $name           Name.
 	 * @param   string            $value          Value.
-	 * @param   bool|string|array $description    Description.
+	 * @param   bool|string|array $description    Description (false|string|array).
+	 * @param   bool|array        $css_classes    CSS Classes (false|array).
 	 * @return  string                              HTML Field
 	 */
-	public function get_text_field( $name, $value = '', $description = false ) {
+	public function get_text_field( $name, $value = '', $description = false, $css_classes = false ) {
 
 		$html = sprintf(
-			'<input type="text" class="regular-text code" id="%s" name="%s[%s]" value="%s" />',
+			'<input type="text" class="%s" id="%s" name="%s[%s]" value="%s" />',
+			( is_array( $css_classes ) ? implode( ' ', $css_classes ) : 'regular-text' ),
 			$name,
 			$this->settings_key,
 			$name,

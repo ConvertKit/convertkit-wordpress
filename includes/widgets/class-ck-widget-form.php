@@ -32,7 +32,7 @@ class CK_Widget_Form extends WP_Widget {
 
 		parent::__construct(
 			'convertkit_form',
-			__( 'ConvertKit Form', 'convertkit' ),
+			__( 'ConvertKit Form (Legacy Widget)', 'convertkit' ),
 			array(
 				'classname'                   => 'convertkit widget_convertkit_form',
 				'description'                 => __( 'Display a ConvertKit form.', 'convertkit' ),

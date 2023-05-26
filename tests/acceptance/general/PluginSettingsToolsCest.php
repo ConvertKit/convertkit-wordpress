@@ -140,6 +140,15 @@ class PluginSettingsToolsCest
 	{
 		$I->setupConvertKitPlugin($I);
 		$I->setupConvertKitPluginResources($I);
+		$I->setupConvertKitPluginRestrictContent(
+			$I,
+			array_merge(
+				$I->getRestrictedContentDefaultSettings(),
+				[
+					'enabled' => 'on',
+				]
+			)
+		);
 		$I->loadConvertKitSettingsToolsScreen($I);
 
 		// Click the Export button.
@@ -150,9 +159,14 @@ class PluginSettingsToolsCest
 		// Wait 2 seconds for the download to complete.
 		sleep(2);
 
-		// Check downloaded file exists and contains some expected information.
+		// Check downloaded file exists.
 		$I->openFile($_ENV['WP_ROOT_FOLDER'] . '/convertkit-export.json');
+
+		// Confirm some expected general settings data is included.
 		$I->seeInThisFile('{"settings":{"api_key":"' . $_ENV['CONVERTKIT_API_KEY'] . '","api_secret":"' . $_ENV['CONVERTKIT_API_SECRET'] . '"');
+
+		// Confirm some expected Restrict Content settings data is included.
+		$I->seeInThisFile('"restrict_content":{"enabled":"on","subscribe_text":');
 
 		// Delete the file.
 		$I->deleteFile($_ENV['WP_ROOT_FOLDER'] . '/convertkit-export.json');
@@ -180,7 +194,7 @@ class PluginSettingsToolsCest
 		$I->click('input#convertkit-import');
 
 		// Confirm success message displays.
-		$I->seeInSource('Configuration imported successfully.');
+		$I->see('Configuration imported successfully.');
 
 		// Go to the Plugin's Settings Screen.
 		$I->loadConvertKitSettingsGeneralScreen($I);
@@ -191,6 +205,18 @@ class PluginSettingsToolsCest
 
 		// Check the fields are ticked.
 		$I->seeCheckboxIsChecked('#debug');
+
+		// Go to the Plugin's Restrict Content Settings Screen.
+		$I->loadConvertKitSettingsRestrictContentScreen($I);
+
+		// Check the field is ticked.
+		$I->seeCheckboxIsChecked('#enabled');
+
+		// Confirm that the text fields contain the expected data.
+		$defaults = $I->getRestrictedContentDefaultSettings();
+		foreach ( $defaults as $key => $value ) {
+			$I->seeInField('_wp_convertkit_settings_restrict_content[' . $key . ']', $value);
+		}
 	}
 
 	/**
@@ -213,7 +239,7 @@ class PluginSettingsToolsCest
 		$I->click('input#convertkit-import');
 
 		// Confirm error message displays.
-		$I->seeInSource('An error occured uploading the configuration file.');
+		$I->see('An error occured uploading the configuration file.');
 	}
 
 	/**
@@ -235,11 +261,14 @@ class PluginSettingsToolsCest
 		// Select the invalid configuration file at tests/_data/convertkit-export-invalid.json to import.
 		$I->attachFile('input[name=import]', 'convertkit-export-invalid.json');
 
+		// Wait for page to load.
+		$I->waitForElementVisible('#wpfooter');
+
 		// Click the Import button.
 		$I->click('input#convertkit-import');
 
 		// Confirm error message displays.
-		$I->seeInSource('The uploaded configuration file contains no settings.');
+		$I->see('The uploaded configuration file contains no settings.');
 	}
 
 	/**
@@ -264,8 +293,45 @@ class PluginSettingsToolsCest
 		// Click the Import button.
 		$I->click('input#convertkit-import');
 
+		// Wait for page to load.
+		$I->waitForElementVisible('#wpfooter');
+
 		// Confirm error message displays.
-		$I->seeInSource('The uploaded configuration file isn\'t valid.');
+		$I->see('The uploaded configuration file isn\'t valid.');
+	}
+
+	/**
+	 * Test that any $_REQUEST['page'] parameter on a settings screen is correctly escaped on output
+	 * to prevent XSS.
+	 *
+	 * @since   2.2.1
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testTabParameterEscaping(AcceptanceTester $I)
+	{
+		// Define a page with a form that exploits the query parameter not being escaped.
+		$I->havePageInDatabase(
+			[
+				'post_name'    => 'convertkit-settings-tab-parameter-escaping',
+				'post_content' => '<form action="' . $_ENV['TEST_SITE_WP_URL'] . '/wp-admin/options-general.php?page=_wp_convertkit_settings&tab=tools" method="POST">
+      <input type="hidden" name="page" value=\'"style=animation-name:rotation onanimationstart=document.write(/XSS/)//\' />
+      <input type="submit" value="Submit" />
+    </form>',
+			]
+		);
+
+		// Load the Page on the frontend site.
+		$I->amOnPage('/convertkit-settings-tab-parameter-escaping');
+
+		// Wait for frontend web site to load.
+		$I->waitForElementVisible('body.page-template-default');
+
+		// Click the submit button.
+		$I->click('Submit');
+
+		// Check that document.write did not work, which confirms XSS isn't possible as the query parameter is correctly escaped.
+		$I->dontSee('/XSS/');
 	}
 
 	/**
