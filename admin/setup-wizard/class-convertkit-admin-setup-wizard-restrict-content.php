@@ -300,6 +300,10 @@ class ConvertKit_Admin_Setup_Wizard_Restrict_Content extends ConvertKit_Admin_Se
 			return $page_id;
 		}
 
+		// Usage tracking.
+		$usage_tracking = new ConvertKit_Usage_Tracking();
+		$usage_tracking->set( 'setup_wizard_restrict_content' );
+
 		// Redirect to the Pages WP_List_Table screen, showing the generated page.
 		wp_safe_redirect(
 			add_query_arg(
@@ -377,6 +381,10 @@ class ConvertKit_Admin_Setup_Wizard_Restrict_Content extends ConvertKit_Admin_Se
 
 		// Add a link from the parent page to the first child page.
 		$this->add_link_from_parent_to_child_page( $parent_page_id, $page_ids[0] );
+
+		// Usage tracking.
+		$usage_tracking = new ConvertKit_Usage_Tracking();
+		$usage_tracking->set( 'setup_wizard_restrict_content' );
 
 		// Redirect to the Pages WP_List_Table screen, showing the generated pages.
 		wp_safe_redirect(
