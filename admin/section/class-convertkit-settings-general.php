@@ -69,10 +69,6 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 	 */
 	public function register_fields() {
 
-		// Usage tracking.
-		$usage_tracking = new ConvertKit_Usage_Tracking();
-		$usage_tracking->set( 'settings_general' );
-
 		add_settings_field(
 			'account_name',
 			__( 'Account Name', 'convertkit' ),
