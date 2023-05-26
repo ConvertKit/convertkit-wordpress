@@ -296,6 +296,12 @@ class ConvertKit_Output_Restrict_Content {
 			return $this->restrict_content( $content, $resource_type, $resource_id );
 		}
 
+		// Usage tracking.
+		if ( ! is_admin() ) {
+			$usage_tracking = new ConvertKit_Usage_Tracking();
+			$usage_tracking->set( 'restrict_content_completed' );
+		}
+
 		// If here, the subscriber has subscribed to the product.
 		// Show the full Post Content.
 		return $content;

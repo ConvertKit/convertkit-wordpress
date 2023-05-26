@@ -378,6 +378,12 @@ class ConvertKit_Block_Form_Trigger extends ConvertKit_Block {
 		 */
 		$html = apply_filters( 'convertkit_block_form_trigger_render', $html, $atts );
 
+		// Usage tracking.
+		if ( ! is_admin() ) {
+			$usage_tracking = new ConvertKit_Usage_Tracking();
+			$usage_tracking->set( 'formtrigger_block' );
+		}
+
 		return $html;
 
 	}

@@ -389,6 +389,12 @@ class ConvertKit_Block_Product extends ConvertKit_Block {
 		 */
 		$html = apply_filters( 'convertkit_block_product_render', $html, $atts );
 
+		// Usage tracking.
+		if ( ! is_admin() ) {
+			$usage_tracking = new ConvertKit_Usage_Tracking();
+			$usage_tracking->set( 'product_block' );
+		}
+
 		return $html;
 
 	}
