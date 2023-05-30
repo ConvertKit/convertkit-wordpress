@@ -305,6 +305,26 @@ function convertkit_get_api_key_url() {
 }
 
 /**
+ * Helper method to return the URL the user needs to visit to edit ConvertKit forms.
+ *
+ * @since   2.2.3
+ *
+ * @return  string  ConvertKit Form Editor URL.
+ */
+function convertkit_get_form_editor_url() {
+
+	return add_query_arg(
+		array(
+			'utm_source'  => 'wordpress',
+			'utm_term'    => get_locale(),
+			'utm_content' => 'convertkit',
+		),
+		'https://app.convertkit.com/forms'
+	);
+
+}
+
+/**
  * Helper method to enqueue Select2 scripts for use within the ConvertKit Plugin.
  *
  * @since   1.9.6.4
