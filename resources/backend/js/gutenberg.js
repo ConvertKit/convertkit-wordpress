@@ -374,9 +374,9 @@ function convertKitGutenbergRegisterBlock( block ) {
  * have not been defined, no API key exists in the Plugin or no resources
  * (forms, products) exist in ConvertKit, and the user adds an e.g.
  * Form / Product block.
- * 
+ *
  * @since 	2.2.3
- * 
+ *
  * @param 	string 	block_name 	Block Name.
  * @param 	string 	notice 		Notice to display.
  * @return 	object 				HTMLElement
@@ -400,9 +400,9 @@ function convertKitGutenbergDisplayBlockNotice( block_name, notice ) {
  * have not been defined, no API key exists in the Plugin or no resources
  * (forms, products) exist in ConvertKit, and the user adds an e.g.
  * Form / Product block.
- * 
+ *
  * @since 	2.2.3
- * 
+ *
  * @param 	string 	block_name 	Block Name.
  * @param 	string 	notice 		Notice to display.
  * @param 	string  link 		URL.

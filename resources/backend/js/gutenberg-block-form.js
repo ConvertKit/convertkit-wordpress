@@ -11,7 +11,7 @@
  * Custom callback function to render the ConvertKit Form Block preview in the Gutenberg Editor.
  *
  * @since 	1.9.6.5
- * 
+ *
  * @param 	object 	block 	Block
  * @param 	obejct  props 	Block properties
  */
@@ -20,7 +20,7 @@ function convertKitGutenbergFormBlockRenderPreview( block, props ) {
 	// If no API Key has been defined in the Plugin, return a prompt to tell the editor
 	// what to do.
 	if ( ! block.has_api_key ) {
-		return convertKitGutenbergDisplayBlockNoticeWithLink( 
+		return convertKitGutenbergDisplayBlockNoticeWithLink(
 			block.name,
 			block.gutenberg_help_description_no_api_key.notice,
 			block.gutenberg_help_description_no_api_key.link,
@@ -31,7 +31,7 @@ function convertKitGutenbergFormBlockRenderPreview( block, props ) {
 	// If no Forms exist in ConvertKit, return a prompt to tell the editor
 	// what to do.
 	if ( ! block.has_resources ) {
-		return convertKitGutenbergDisplayBlockNoticeWithLink( 
+		return convertKitGutenbergDisplayBlockNoticeWithLink(
 			block.name,
 			block.gutenberg_help_description_no_resources.notice,
 			block.gutenberg_help_description_no_resources.link,

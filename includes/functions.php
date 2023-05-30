@@ -306,10 +306,10 @@ function convertkit_get_api_key_url() {
 
 /**
  * Helper method to return the URL the user needs to visit on the ConvertKit app to create a new Form or Landing Page.
- * 
- * @since 	2.2.3
- * 
- * @return 	string 	ConvertKit App URL.
+ *
+ * @since   2.2.3
+ *
+ * @return  string  ConvertKit App URL.
  */
 function convertkit_get_new_form_url() {
 
