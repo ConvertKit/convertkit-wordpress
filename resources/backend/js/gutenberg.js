@@ -368,3 +368,67 @@ function convertKitGutenbergRegisterBlock( block ) {
 	) );
 
 }
+
+/**
+ * Outputs a notice for the block.  Typically used when a block's settings
+ * have not been defined, no API key exists in the Plugin or no resources
+ * (forms, products) exist in ConvertKit, and the user adds an e.g.
+ * Form / Product block.
+ * 
+ * @since 	2.2.3
+ * 
+ * @param 	string 	block_name 	Block Name.
+ * @param 	string 	notice 		Notice to display.
+ * @return 	object 				HTMLElement
+ */
+function convertKitGutenbergDisplayBlockNotice( block_name, notice ) {
+
+	return wp.element.createElement(
+		'div',
+		{
+			// convertkit-no-content class allows resources/backend/css/gutenberg.css
+			// to apply styling/branding to the block.
+			className: 'convertkit-' + block_name + ' convertkit-no-content'
+		},
+		notice
+	);
+
+}
+
+/**
+ * Outputs a notice for the block with a clickable link.  Typically used when a block's settings
+ * have not been defined, no API key exists in the Plugin or no resources
+ * (forms, products) exist in ConvertKit, and the user adds an e.g.
+ * Form / Product block.
+ * 
+ * @since 	2.2.3
+ * 
+ * @param 	string 	block_name 	Block Name.
+ * @param 	string 	notice 		Notice to display.
+ * @param 	string  link 		URL.
+ * @param 	string  link_text 	Link text for URL.
+ * @return 	object 				HTMLElement
+ */
+function convertKitGutenbergDisplayBlockNoticeWithLink( block_name, notice, link, link_text ) {
+
+	return wp.element.createElement(
+		'div',
+		{
+			// convertkit-no-content class allows resources/backend/css/gutenberg.css
+			// to apply styling/branding to the block.
+			className: 'convertkit-' + block_name + ' convertkit-no-content'
+		},
+		[
+			notice + ' ',
+			wp.element.createElement(
+				'a',
+				{
+					href: link,
+					target: '_blank'
+				},
+				link_text
+			)
+		]
+	);
+
+}
