@@ -85,6 +85,9 @@ class ConvertKit_Block_Form extends ConvertKit_Block {
 	 */
 	public function get_overview() {
 
+		$convertkit_forms = new ConvertKit_Resource_Forms( 'block_edit' );
+		$settings = new ConvertKit_Settings();
+
 		return array(
 			'title'                             => __( 'ConvertKit Form', 'convertkit' ),
 			'description'                       => __( 'Displays a ConvertKit Form.', 'convertkit' ),
@@ -113,8 +116,18 @@ class ConvertKit_Block_Form extends ConvertKit_Block {
 			// Gutenberg: Example image showing how this block looks when choosing it in Gutenberg.
 			'gutenberg_example_image'           => CONVERTKIT_PLUGIN_URL . 'resources/backend/images/block-example-form.png',
 
-			// Gutenberg: Help description, displayed when no settings defined for a newly added Block.
-			'gutenberg_help_description'        => __( 'Select a Form using the Form option in the Gutenberg sidebar.', 'convertkit' ),
+			// Gutenberg: Help descriptions, displayed when no settings defined for a newly added Block, or API keys / forms don't exist.
+			'gutenberg_help_description_no_api_key' 	=> array(
+				'notice' 	=> __( 'No API Key specified.', 'convertkit' ),
+				'link' 		=> convertkit_get_settings_link(),
+				'link_text' => __( 'Click here to add your API Key.', 'convertkit' )
+			),
+			'gutenberg_help_description_no_resources' 	=> array(
+				'notice' 	=> __( 'No forms exist in ConvertKit.', 'convertkit' ),
+				'link' 		=> convertkit_get_new_form_url(),
+				'link_text' => __( 'Click here to create your first form.', 'convertkit' )
+			),
+			'gutenberg_help_description' 				=> __( 'Select a Form using the Form option in the Gutenberg sidebar.', 'convertkit' ),
 
 			// Gutenberg: JS function to call when rendering the block preview in the Gutenberg editor.
 			// If not defined, render_callback above will be used.
@@ -131,6 +144,11 @@ class ConvertKit_Block_Form extends ConvertKit_Block {
 				/* translators: Form name in ConvertKit */
 				'gutenberg_form_sticky_bar' => __( 'Sticky bar form "%s" selected. View on the frontend site to see the sticky bar form.', 'convertkit' ),
 			),
+
+			// Whether an API Key exists in the Plugin, and are the required resources (forms) available.
+			// If no API Key is specified in the Plugin's settings, render the "No API Key" output.
+			'has_api_key' 	=> $settings->has_api_key_and_secret(),
+			'has_resources' => $convertit_forms->exist(),
 		);
 
 	}
