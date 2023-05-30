@@ -492,7 +492,7 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 					esc_html__( 'For developers who require custom form designs through use of CSS, consider using the', 'convertkit' ),
 					esc_html__( 'or', 'convertkit' ),
 					esc_html__( 'integrations.', 'convertkit' )
-				)
+				),
 			)
 		);
 
