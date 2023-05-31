@@ -445,7 +445,7 @@ class ConvertKit_Block_Form_Trigger extends ConvertKit_Block {
 		if ( $return_as_span ) {
 			$html .= '<span';
 		} else {
-			$html .= '<a data-formkit-toggle="' . esc_attr( $form['uid'] ) . '" href="' . esc_attr( $form['embed_url'] ) . '"';
+			$html .= '<a data-formkit-toggle="' . esc_attr( $form['uid'] ) . '" href="' . esc_url( $form['embed_url'] ) . '"';
 		}
 
 		$html .= ' class="wp-block-button__link ' . implode( ' ', map_deep( $css_classes, 'sanitize_html_class' ) ) . '" style="' . implode( ';', map_deep( $css_styles, 'esc_attr' ) ) . '">';

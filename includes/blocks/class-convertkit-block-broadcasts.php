@@ -508,7 +508,7 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 			// Add broadcast as list item.
 			$html .= '<li class="convertkit-broadcast">
 				<time datetime="' . esc_attr( date_i18n( 'Y-m-d', $date_timestamp ) ) . '">' . esc_html( date_i18n( $atts['date_format'], $date_timestamp ) ) . '</time>
-				<a href="' . esc_attr( $url ) . '" target="_blank" rel="nofollow noopener"' . $this->get_link_style_tag( $atts ) . '>' . esc_html( $broadcast['title'] ) . '</a>
+				<a href="' . esc_url( $url ) . '" target="_blank" rel="nofollow noopener"' . $this->get_link_style_tag( $atts ) . '>' . esc_html( $broadcast['title'] ) . '</a>
 			</li>';
 		}
 
@@ -563,7 +563,7 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 	 */
 	private function get_pagination_link_prev_html( $atts, $nonce ) {
 
-		return '<a href="' . esc_attr( $this->get_pagination_link( $atts['page'] - 1, $nonce ) ) . '" title="' . esc_attr( $atts['paginate_label_prev'] ) . '" data-page="' . esc_attr( (string) ( $atts['page'] - 1 ) ) . '" data-nonce="' . esc_attr( $nonce ) . '"' . $this->get_link_style_tag( $atts ) . '>
+		return '<a href="' . esc_url( $this->get_pagination_link( $atts['page'] - 1, $nonce ) ) . '" title="' . esc_attr( $atts['paginate_label_prev'] ) . '" data-page="' . esc_attr( (string) ( $atts['page'] - 1 ) ) . '" data-nonce="' . esc_attr( $nonce ) . '"' . $this->get_link_style_tag( $atts ) . '>
 			' . esc_html( $atts['paginate_label_prev'] ) . '
 		</a>';
 
@@ -581,7 +581,7 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 	 */
 	private function get_pagination_link_next_html( $atts, $nonce ) {
 
-		return '<a href="' . esc_attr( $this->get_pagination_link( $atts['page'] + 1, $nonce ) ) . '" title="' . esc_attr( $atts['paginate_label_next'] ) . '" data-page="' . esc_attr( (string) ( $atts['page'] + 1 ) ) . '" data-nonce="' . esc_attr( $nonce ) . '"' . $this->get_link_style_tag( $atts ) . '>
+		return '<a href="' . esc_url( $this->get_pagination_link( $atts['page'] + 1, $nonce ) ) . '" title="' . esc_attr( $atts['paginate_label_next'] ) . '" data-page="' . esc_attr( (string) ( $atts['page'] + 1 ) ) . '" data-nonce="' . esc_attr( $nonce ) . '"' . $this->get_link_style_tag( $atts ) . '>
 			' . esc_html( $atts['paginate_label_next'] ) . '
 		</a>';
 
