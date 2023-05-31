@@ -479,7 +479,21 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 			'no_css',
 			'on',
 			$this->settings->css_disabled(), // phpcs:ignore WordPress.Security.EscapeOutput
-			esc_html__( 'Prevent plugin from loading CSS files. This will disable styling on broadcasts, product buttons and member\'s content. Use with caution!', 'convertkit' )
+			esc_html__( 'Prevents loading plugin CSS files. This will disable styling on broadcasts, form trigger buttons, product buttons and member\'s content. Use with caution!', 'convertkit' ),
+			array(
+				sprintf(
+					'%s <a href="%s" target="_blank">%s</a>',
+					esc_html__( 'To customize forms and their styling, use the', 'convertkit' ),
+					esc_url( convertkit_get_form_editor_url() ),
+					esc_html__( 'ConvertKit form editor', 'convertkit' )
+				),
+				sprintf(
+					'%s <a href="https://wordpress.org/plugins/contact-form-7/" target="_blank">Contact Form 7</a>, <a href="https://wordpress.org/plugins/convertkit-gravity-forms/" target="_blank">Gravity Forms</a> %s <a href="https://wordpress.org/plugins/integrate-convertkit-wpforms/" target="_blank">WPForms</a> %s',
+					esc_html__( 'For developers who require custom form designs through use of CSS, consider using the', 'convertkit' ),
+					esc_html__( 'or', 'convertkit' ),
+					esc_html__( 'integrations.', 'convertkit' )
+				),
+			)
 		);
 
 	}
