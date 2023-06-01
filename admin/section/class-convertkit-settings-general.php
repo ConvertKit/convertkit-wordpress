@@ -399,7 +399,7 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 					esc_html__( 'Select a form above to automatically output below all %s.', 'convertkit' ),
 					$args['post_type_object']->label
 				),
-				'<a href="' . esc_attr( $preview_url ) . '" id="convertkit-preview-form-' . esc_attr( $args['post_type'] ) . '" target="_blank">' . esc_html__( 'Click here', 'convertkit' ) . '</a>',
+				'<a href="' . esc_url( $preview_url ) . '" id="convertkit-preview-form-' . esc_attr( $args['post_type'] ) . '" target="_blank">' . esc_html__( 'Click here', 'convertkit' ) . '</a>',
 				esc_html__( 'to preview how this will display.', 'convertkit' )
 			);
 		} else {
