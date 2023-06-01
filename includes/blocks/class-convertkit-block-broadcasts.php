@@ -356,7 +356,6 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 			'general' => array(
 				'label'  => __( 'General', 'convertkit' ),
 				'fields' => array(
-					// 'layout',
 					'display_date',
 					'date_format',
 					'display_image',
@@ -386,7 +385,6 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 	public function get_default_values() {
 
 		return array(
-			'layout'              => 'list',
 			'display_date'        => true,
 			'date_format'         => 'F j, Y',
 			'display_image'       => false,
@@ -478,13 +476,13 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 
 		// Build attributes array.
 		$atts = array(
-			'display_date'        => stripslashes( sanitize_text_field( $_REQUEST['display_date'] ) ),
+			'display_date'        => absint( $_REQUEST['display_date'] ),
 			'date_format'         => stripslashes( sanitize_text_field( $_REQUEST['date_format'] ) ),
-			'display_image'       => stripslashes( sanitize_text_field( $_REQUEST['display_image'] ) ),
-			'display_description' => stripslashes( sanitize_text_field( $_REQUEST['display_description'] ) ),
-			'display_read_more'   => stripslashes( sanitize_text_field( $_REQUEST['display_read_more'] ) ),
+			'display_image'       => absint( $_REQUEST['display_image'] ),
+			'display_description' => absint( $_REQUEST['display_description'] ),
+			'display_read_more'   => absint( $_REQUEST['display_read_more'] ),
 			'read_more_label'     => stripslashes( sanitize_text_field( $_REQUEST['read_more_label'] ) ),
-			'limit'               => stripslashes( sanitize_text_field( $_REQUEST['limit'] ) ),
+			'limit'               => absint( $_REQUEST['limit'] ),
 			'page'                => absint( $_REQUEST['page'] ),
 			'paginate'            => absint( $_REQUEST['paginate'] ),
 			'paginate_label_next' => stripslashes( sanitize_text_field( $_REQUEST['paginate_label_next'] ) ),
@@ -542,7 +540,7 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 
 		// Include container, if required.
 		if ( $include_container ) {
-			$html = '<div class="' . implode( ' ', map_deep( $atts['_css_classes'], 'sanitize_html_class' ) ) . '" style="' . implode( ';', map_deep( $atts['_css_styles'], 'esc_attr' ) ) . '" ' . $this->get_atts_as_html_data_attributes( $atts ) . '>';
+			$html .= '<div class="' . implode( ' ', map_deep( $atts['_css_classes'], 'sanitize_html_class' ) ) . '" style="' . implode( ';', map_deep( $atts['_css_styles'], 'esc_attr' ) ) . '" ' . $this->get_atts_as_html_data_attributes( $atts ) . '>';
 		}
 
 		// Start list.
@@ -596,7 +594,7 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 		 * @param   string  $html       ConvertKit Broadcasts HTML.
 		 * @param   array   $atts       Block Attributes.
 		 */
-		$html = apply_filters( 'convertkit_block_broadcasts_render', $form, $atts );
+		$html = apply_filters( 'convertkit_block_broadcasts_render', $html, $atts );
 
 		// Return.
 		return $html;
@@ -613,6 +611,11 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 	 * @return  string              HTML
 	 */
 	private function build_html_list_item( $broadcast, $atts ) {
+
+		// @TODO Remove debugging.
+		$broadcast['description'] = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce aliquam dui sed mattis aliquam. Aliquam fringilla lobortis diam nec posuere. Phasellus auctor et lacus eget consectetur.';
+		$broadcast['thumbnail_url'] = 'https://placehold.co/600x400';
+		$broadcast['thumbnail_alt'] = 'Broadcast image alt text';
 
 		// Convert UTC date to timestamp.
 		$date_timestamp = strtotime( $broadcast['published_at'] );
@@ -632,17 +635,19 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 
 		// Display date, if enabled.
 		if ( $atts['display_date'] ) {
-			$html .= '<time datetime="' . esc_attr( date_i18n( 'Y-m-d', $date_timestamp ) ) . '">' . esc_html( date_i18n( $atts['date_format'], $date_timestamp ) ) . '</time>';
+			$html .= '<time datetime="' . esc_attr( date_i18n( 'Y-m-d', $date_timestamp ) ) . '" class="convertkit-broadcast-date">' . esc_html( date_i18n( $atts['date_format'], $date_timestamp ) ) . '</time>';
 		}
 
 		// Display linked title.
-		$html .= '<a href="' . esc_attr( $url ) . '" target="_blank" rel="nofollow noopener"' . $this->get_link_style_tag( $atts ) . '>' . esc_html( $broadcast['title'] ) . '</a>';
+		$html .= '<a href="' . esc_attr( $url ) . '" target="_blank" rel="nofollow noopener"' . $this->get_link_style_tag( $atts ) . ' class="convertkit-broadcast-title">' . esc_html( $broadcast['title'] ) . '</a>';
 
 		// Display image.
 		// We check for thumbnail_url, as these were added to the API in https://github.com/ConvertKit/convertkit/pull/23938,
 		// and might not immediately be available until the resources are refreshed.
 		if ( $atts['display_image'] && array_key_exists( 'thumbnail_url', $broadcast ) && ! is_null( $broadcast['thumbnail_url'] ) ) {
-			$html .= '<img class="convertkit-broadcast-image" src="' . esc_url( $broadcast['thumbnail_url'] ) . '" alt="' . esc_attr( $broadcast['thumbnail_alt'] ) . '" />';
+			$html .= '<a href="' . esc_attr( $url ) . '" target="_blank" rel="nofollow noopener" class="convertkit-broadcast-image">
+				<img src="' . esc_url( $broadcast['thumbnail_url'] ) . '" alt="' . esc_attr( $broadcast['thumbnail_alt'] ) . '" />
+			</a>';
 		}
 
 		// Display description.
