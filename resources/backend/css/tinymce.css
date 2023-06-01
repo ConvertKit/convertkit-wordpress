@@ -4,7 +4,7 @@
 .convertkit-option {
 	display: grid;
 	grid-template-areas: "left right";
-	grid-template-columns: 120px auto;
+	grid-template-columns: 150px auto;
 	grid-column-gap: 5px;
 	grid-row-gap: 5px;
 	justify-items: start;

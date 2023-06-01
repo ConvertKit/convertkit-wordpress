@@ -131,7 +131,7 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 
 			// Shortcode: TinyMCE / QuickTags Modal Width and Height.
 			'modal'                             => array(
-				'width'  => 500,
+				'width'  => 650,
 				'height' => 580,
 			),
 
@@ -267,8 +267,8 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 
 		return array(
 			'display_grid'        => array(
-				'label' => __( 'Display as grid', 'convertkit' ),
-				'type'  => 'toggle',
+				'label'       => __( 'Display as grid', 'convertkit' ),
+				'type'        => 'toggle',
 				'description' => __( 'If enabled, displays broadcasts in a three column grid, instead of a list.', 'convertkit' ),
 			),
 			'date_format'         => array(
@@ -386,7 +386,7 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 	public function get_default_values() {
 
 		return array(
-			'display_grid'		  => false,
+			'display_grid'        => false,
 			'date_format'         => 'F j, Y',
 			'display_image'       => false,
 			'display_description' => false,

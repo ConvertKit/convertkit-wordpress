@@ -38,6 +38,7 @@
 	grid-template-columns: repeat(3, 1fr);
 	grid-column-gap: 20px;
 	grid-row-gap: 20px;
+	align-items: start;
 }
 .convertkit-broadcasts[data-display-grid="1"] .convertkit-broadcasts-list li {
 	grid-template-areas:
