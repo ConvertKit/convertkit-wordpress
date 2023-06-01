@@ -23,7 +23,7 @@
  */
 .convertkit-broadcasts-list li {
 	display: grid;
-	grid-template-areas: 
+	grid-template-areas:
 		"date title"
 		"image description"
 		"blank read-more";

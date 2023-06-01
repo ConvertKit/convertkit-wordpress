@@ -613,7 +613,7 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 	private function build_html_list_item( $broadcast, $atts ) {
 
 		// @TODO Remove debugging.
-		$broadcast['description'] = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce aliquam dui sed mattis aliquam. Aliquam fringilla lobortis diam nec posuere. Phasellus auctor et lacus eget consectetur.';
+		$broadcast['description']   = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce aliquam dui sed mattis aliquam. Aliquam fringilla lobortis diam nec posuere. Phasellus auctor et lacus eget consectetur.';
 		$broadcast['thumbnail_url'] = 'https://placehold.co/600x400';
 		$broadcast['thumbnail_alt'] = 'Broadcast image alt text';
 
