@@ -232,25 +232,34 @@ class Plugin extends \Codeception\Module
 			'convertkit_posts',
 			[
 				224758 => [
-					'id'           => 224758,
-					'title'        => 'Test Subject',
-					'url'          => 'https://cheerful-architect-3237.ck.page/posts/test-subject',
-					'published_at' => '2022-01-24T00:00:00.000Z',
-					'is_paid'      => null,
+					'id'            => 224758,
+					'title'         => 'Test Subject',
+					'url'           => 'https://cheerful-architect-3237.ck.page/posts/test-subject',
+					'published_at'  => '2022-01-24T00:00:00.000Z',
+					'description'   => 'Description text for Test Subject',
+					'thumbnail_url' => 'https://placehold.co/600x400',
+					'thumbnail_alt' => 'Alt text for Test Subject',
+					'is_paid'       => null,
 				],
 				489480 => [
-					'id'           => 489480,
-					'title'        => 'Broadcast 2',
-					'url'          => 'https://cheerful-architect-3237.ck.page/posts/broadcast-2',
-					'published_at' => '2022-04-08T00:00:00.000Z',
-					'is_paid'      => null,
+					'id'            => 489480,
+					'title'         => 'Broadcast 2',
+					'url'           => 'https://cheerful-architect-3237.ck.page/posts/broadcast-2',
+					'published_at'  => '2022-04-08T00:00:00.000Z',
+					'description'   => 'Description text for Broadcast 2',
+					'thumbnail_url' => 'https://placehold.co/600x400',
+					'thumbnail_alt' => 'Alt text for Broadcast 2',
+					'is_paid'       => null,
 				],
 				572575 => [
-					'id'           => 572575,
-					'title'        => 'Paid Subscriber Broadcast',
-					'url'          => 'https://cheerful-architect-3237.ck.page/posts/paid-subscriber-broadcast',
-					'published_at' => '2022-05-03T00:00:00.000Z',
-					'is_paid'      => true,
+					'id'            => 572575,
+					'title'         => 'Paid Subscriber Broadcast',
+					'url'           => 'https://cheerful-architect-3237.ck.page/posts/paid-subscriber-broadcast',
+					'published_at'  => '2022-05-03T00:00:00.000Z',
+					'description'   => 'Description text for Paid Subscriber Broadcast',
+					'thumbnail_url' => 'https://placehold.co/600x400',
+					'thumbnail_alt' => 'Alt text for Paid Subscriber Broadcast',
+					'is_paid'       => true,
 				],
 			]
 		);
@@ -625,7 +634,7 @@ class Plugin extends \Codeception\Module
 
 	/**
 	 * Check that expected HTML exists in the DOM of the page we're viewing for
-	 * a Broadcasts block or shortcode.
+	 * a Broadcasts block or shortcode, based on its configuration.
 	 *
 	 * @since   1.9.7.5
 	 *
@@ -633,33 +642,73 @@ class Plugin extends \Codeception\Module
 	 * @param   bool|int         $numberOfPosts          Number of Broadcasts listed.
 	 * @param   bool|string      $seePrevPaginationLabel Test if the "previous" pagination link is output and matches expected label.
 	 * @param   bool|string      $seeNextPaginationLabel Test if the "next" pagination link is output and matches expected label.
+	 * @param 	bool 			 $seeGrid 				 Test if the broadcasts are displayed in grid view (false = list view).
+	 * @param 	bool 			 $seeImage 				 Test if the broadcasts display images.
+	 * @param 	bool 			 $seeDescription 		 Test if the broadcasts display descriptions.
+	 * @param 	bool|string 	 $seeReadMore 			 Test if the broadcasts display a read more link matching the given text.
 	 */
-	public function seeBroadcastsOutput($I, $numberOfPosts = false, $seePrevPaginationLabel = false, $seeNextPaginationLabel = false)
+	public function seeBroadcastsOutput($I, $numberOfPosts = false, $seePrevPaginationLabel = false, $seeNextPaginationLabel = false, $seeGrid = false, $seeImage = false, $seeDescription = false, $seeReadMore = false)
 	{
 		// Confirm that the block displays.
 		$I->seeElementInDOM('div.convertkit-broadcasts');
 		$I->seeElementInDOM('div.convertkit-broadcasts ul.convertkit-broadcasts-list');
 		$I->seeElementInDOM('div.convertkit-broadcasts ul.convertkit-broadcasts-list li.convertkit-broadcast');
-		$I->seeElementInDOM('div.convertkit-broadcasts ul.convertkit-broadcasts-list li.convertkit-broadcast a');
+		$I->seeElementInDOM('div.convertkit-broadcasts ul.convertkit-broadcasts-list li.convertkit-broadcast a.convertkit-broadcast-title');
 
 		// Confirm that UTM parameters exist on a broadcast link.
 		$I->assertStringContainsString(
 			'utm_source=wordpress&utm_term=en_US&utm_content=convertkit',
-			$I->grabAttributeFrom('div.convertkit-broadcasts ul.convertkit-broadcasts-list li.convertkit-broadcast a', 'href')
+			$I->grabAttributeFrom('a.convertkit-broadcast-title', 'href')
 		);
+
+		// If Display as grid is enabled, confirm the applicable HTML exists so that CSS can style this layout.
+		if ($seeGrid) {
+			$I->seeElementInDOM('div.convertkit-broadcasts[data-display-grid="1"]');
+		} else {
+			$I->dontSeeElementInDOM('div.convertkit-broadcasts[data-display-grid="1"]');
+		}
+
+		// If Display image is enabled, confirm the image is displayed.
+		if ($seeImage) {
+			$I->seeElementInDOM('a.convertkit-broadcast-image img');
+			$I->assertStringContainsString(
+				'utm_source=wordpress&utm_term=en_US&utm_content=convertkit',
+				$I->grabAttributeFrom('a.convertkit-broadcast-image', 'href')
+			);
+		} else {
+			$I->dontSeeElementInDOM('a.convertkit-broadcast-image img');
+		}
+
+		// If Display description is enabled, confirm the description is displayed.
+		if ($seeDescription) {
+			$I->seeElementInDOM('.convertkit-broadcast-text');
+		} else {
+			$I->dontSeeElementInDOM('.convertkit-broadcast-text');
+		}
+
+		// If Display read more link is enabled, confirm the read more link is displayed and matches the given text.
+		if ($seeReadMore) {
+			$I->seeElementInDOM('a.convertkit-broadcast-read-more');
+			$I->assertStringContainsString(
+				'utm_source=wordpress&utm_term=en_US&utm_content=convertkit',
+				$I->grabAttributeFrom('a.convertkit-broadcast-read-more', 'href')
+			);
+		} else {
+			$I->dontSeeElementInDOM('a.convertkit-broadcast-read-more');
+		}
 
 		// Confirm that the number of expected broadcasts displays.
 		if ($numberOfPosts !== false) {
 			$I->seeNumberOfElements('li.convertkit-broadcast', $numberOfPosts);
 		}
 
-		// Confirm that previous pagination displays.
+		// Confirm that previous pagination displays, if expected.
 		if ($seePrevPaginationLabel !== false) {
 			$I->seeElementInDOM('div.convertkit-broadcasts ul.convertkit-broadcasts-pagination li.convertkit-broadcasts-pagination-prev a');
 			$I->seeInSource($seePrevPaginationLabel);
 		}
 
-		// Confirm that next pagination displays.
+		// Confirm that next pagination displays, if expected.
 		if ($seeNextPaginationLabel !== false) {
 			$I->seeElementInDOM('div.convertkit-broadcasts ul.convertkit-broadcasts-pagination li.convertkit-broadcasts-pagination-next a');
 		}

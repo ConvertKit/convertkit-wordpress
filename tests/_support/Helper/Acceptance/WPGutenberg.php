@@ -103,7 +103,9 @@ class WPGutenberg extends \Codeception\Module
 						$I->selectOption($fieldID, $attributes[1]);
 						break;
 					case 'toggle':
-						$I->click($field);
+						if ( $attributes[1] ) {
+							$I->click($field);
+						}
 						break;
 					default:
 						$I->fillField($fieldID, $attributes[1]);
