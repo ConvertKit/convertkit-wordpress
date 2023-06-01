@@ -675,7 +675,7 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 		 * @param   array   $atts       Block attributes.
 		 * @return  string              HTML
 		 */
-		$html = apply_filters( 'convertkit_block_broadcasts_build_html_list_item', $html, $broadcast );
+		$html = apply_filters( 'convertkit_block_broadcasts_build_html_list_item', $html, $broadcast, $atts );
 
 		return $html;
 
