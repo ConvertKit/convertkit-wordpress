@@ -17,21 +17,58 @@
 	margin: 0;
 	padding: 0;
 }
+
+/**
+ * List View
+ */
 .convertkit-broadcasts-list li {
 	display: grid;
-	grid-template-areas: "date subject";
+	grid-template-areas: 
+		"date title"
+		"image description"
+		"blank read-more";
 	grid-template-columns: 150px auto;
 	grid-column-gap: 20px;
+}
+
+/**
+ * Grid View - TODO.
+ */
+
+
+/**
+ * Broadcast Item
+ */
+.convertkit-broadcasts-list li {
 	list-style: none;
 	margin: 0;
 	padding: 5px 0;
 }
-.convertkit-broadcasts-list li time {
+.convertkit-broadcasts-list li .convertkit-broadcast-date {
 	grid-area: date;
 }
-.convertkit-broadcasts-list li a {
-	grid-area: subject;
+.convertkit-broadcasts-list li .convertkit-broadcast-title {
+	grid-area: title;
 }
+.convertkit-broadcasts-list li .convertkit-broadcast-image {
+	grid-area: image;
+}
+.convertkit-broadcasts-list li .convertkit-broadcast-image img {
+	max-width: 100%;
+	height: auto;
+}
+.convertkit-broadcasts-list li .convertkit-broadcast-description {
+	grid-area: description;
+	font-size: 16px;
+	font-style: italic;
+}
+.convertkit-broadcasts-list li .convertkit-broadcast-read-more {
+	grid-area: read-more;
+}
+
+/**
+ * Pagination
+ */
 .convertkit-broadcasts-pagination {
 	display: grid;
 	grid-template-areas: "prev next";
