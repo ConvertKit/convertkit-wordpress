@@ -129,7 +129,7 @@ class ConvertKit_Resource_Products extends ConvertKit_Resource {
 		if ( $return_as_span ) {
 			$html .= '<span';
 		} else {
-			$html .= '<a href="' . esc_attr( $this->resources[ $id ]['url'] ) . '"';
+			$html .= '<a href="' . esc_url( $this->resources[ $id ]['url'] ) . '"';
 		}
 
 		$html .= ' class="wp-block-button__link ' . implode( ' ', map_deep( $css_classes, 'sanitize_html_class' ) ) . '" style="' . implode( ';', map_deep( $css_styles, 'esc_attr' ) ) . '" data-commerce>';

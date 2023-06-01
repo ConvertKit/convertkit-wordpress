@@ -637,13 +637,13 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 		$html .= '<time datetime="' . esc_attr( date_i18n( 'Y-m-d', $date_timestamp ) ) . '">' . esc_html( date_i18n( $atts['date_format'], $date_timestamp ) ) . '</time>';
 
 		// Display linked title.
-		$html .= '<a href="' . esc_attr( $url ) . '" target="_blank" rel="nofollow noopener"' . $this->get_link_style_tag( $atts ) . ' class="convertkit-broadcast-title">' . esc_html( $broadcast['title'] ) . '</a>';
+		$html .= '<a href="' . esc_url( $url ) . '" target="_blank" rel="nofollow noopener"' . $this->get_link_style_tag( $atts ) . ' class="convertkit-broadcast-title">' . esc_html( $broadcast['title'] ) . '</a>';
 
 		// Display image.
 		// We check for thumbnail_url, as these were added to the API in https://github.com/ConvertKit/convertkit/pull/23938,
 		// and might not immediately be available until the resources are refreshed.
 		if ( $atts['display_image'] && array_key_exists( 'thumbnail_url', $broadcast ) && ! is_null( $broadcast['thumbnail_url'] ) ) {
-			$html .= '<a href="' . esc_attr( $url ) . '" target="_blank" rel="nofollow noopener" class="convertkit-broadcast-image">
+			$html .= '<a href="' . esc_url( $url ) . '" target="_blank" rel="nofollow noopener" class="convertkit-broadcast-image">
 				<img src="' . esc_url( $broadcast['thumbnail_url'] ) . '" alt="' . esc_attr( $broadcast['thumbnail_alt'] ) . '" />
 			</a>';
 		}
@@ -661,7 +661,7 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 
 			// Display read more link.
 			if ( $atts['display_read_more'] ) {
-				$html .= '<a href="' . esc_attr( $url ) . '" target="_blank" rel="nofollow noopener" class="convertkit-broadcast-read-more">' . esc_html( $atts['read_more_label'] ) . '</a>';
+				$html .= '<a href="' . esc_url( $url ) . '" target="_blank" rel="nofollow noopener" class="convertkit-broadcast-read-more">' . esc_html( $atts['read_more_label'] ) . '</a>';
 			}
 
 			$html .= '</span>';
@@ -698,7 +698,7 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 	 */
 	private function get_pagination_link_prev_html( $atts, $nonce ) {
 
-		return '<a href="' . esc_attr( $this->get_pagination_link( $atts['page'] - 1, $nonce ) ) . '" title="' . esc_attr( $atts['paginate_label_prev'] ) . '" data-page="' . esc_attr( (string) ( $atts['page'] - 1 ) ) . '" data-nonce="' . esc_attr( $nonce ) . '"' . $this->get_link_style_tag( $atts ) . '>
+		return '<a href="' . esc_url( $this->get_pagination_link( $atts['page'] - 1, $nonce ) ) . '" title="' . esc_attr( $atts['paginate_label_prev'] ) . '" data-page="' . esc_attr( (string) ( $atts['page'] - 1 ) ) . '" data-nonce="' . esc_attr( $nonce ) . '"' . $this->get_link_style_tag( $atts ) . '>
 			' . esc_html( $atts['paginate_label_prev'] ) . '
 		</a>';
 
@@ -716,7 +716,7 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 	 */
 	private function get_pagination_link_next_html( $atts, $nonce ) {
 
-		return '<a href="' . esc_attr( $this->get_pagination_link( $atts['page'] + 1, $nonce ) ) . '" title="' . esc_attr( $atts['paginate_label_next'] ) . '" data-page="' . esc_attr( (string) ( $atts['page'] + 1 ) ) . '" data-nonce="' . esc_attr( $nonce ) . '"' . $this->get_link_style_tag( $atts ) . '>
+		return '<a href="' . esc_url( $this->get_pagination_link( $atts['page'] + 1, $nonce ) ) . '" title="' . esc_attr( $atts['paginate_label_next'] ) . '" data-page="' . esc_attr( (string) ( $atts['page'] + 1 ) ) . '" data-nonce="' . esc_attr( $nonce ) . '"' . $this->get_link_style_tag( $atts ) . '>
 			' . esc_html( $atts['paginate_label_next'] ) . '
 		</a>';
 

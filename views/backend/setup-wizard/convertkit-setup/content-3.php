@@ -70,7 +70,7 @@ if ( ! $this->forms->exist() ) {
 				echo sprintf(
 					'%s %s %s',
 					esc_html__( 'Select a form above.', 'convertkit' ),
-					'<a href="' . esc_attr( $this->preview_post_url ) . '" id="convertkit-preview-form-post" target="_blank">' . esc_html__( 'Click here', 'convertkit' ) . '</a>',
+					'<a href="' . esc_url( $this->preview_post_url ) . '" id="convertkit-preview-form-post" target="_blank">' . esc_html__( 'Click here', 'convertkit' ) . '</a>',
 					esc_html__( 'to preview how this will look on individual posts.', 'convertkit' )
 				);
 			} else {
@@ -105,7 +105,7 @@ if ( ! $this->forms->exist() ) {
 				echo sprintf(
 					'%s %s %s',
 					esc_html__( 'Select a form above.', 'convertkit' ),
-					'<a href="' . esc_attr( $this->preview_page_url ) . '" id="convertkit-preview-form-page" target="_blank">' . esc_html__( 'Click here', 'convertkit' ) . '</a>',
+					'<a href="' . esc_url( $this->preview_page_url ) . '" id="convertkit-preview-form-page" target="_blank">' . esc_html__( 'Click here', 'convertkit' ) . '</a>',
 					esc_html__( 'to preview how this will look on individual pages.', 'convertkit' )
 				);
 			} else {
