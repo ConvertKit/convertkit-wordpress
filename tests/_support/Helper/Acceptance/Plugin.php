@@ -642,10 +642,10 @@ class Plugin extends \Codeception\Module
 	 * @param   bool|int         $numberOfPosts          Number of Broadcasts listed.
 	 * @param   bool|string      $seePrevPaginationLabel Test if the "previous" pagination link is output and matches expected label.
 	 * @param   bool|string      $seeNextPaginationLabel Test if the "next" pagination link is output and matches expected label.
-	 * @param 	bool 			 $seeGrid 				 Test if the broadcasts are displayed in grid view (false = list view).
-	 * @param 	bool 			 $seeImage 				 Test if the broadcasts display images.
-	 * @param 	bool 			 $seeDescription 		 Test if the broadcasts display descriptions.
-	 * @param 	bool|string 	 $seeReadMore 			 Test if the broadcasts display a read more link matching the given text.
+	 * @param   bool             $seeGrid                Test if the broadcasts are displayed in grid view (false = list view).
+	 * @param   bool             $seeImage               Test if the broadcasts display images.
+	 * @param   bool             $seeDescription         Test if the broadcasts display descriptions.
+	 * @param   bool|string      $seeReadMore            Test if the broadcasts display a read more link matching the given text.
 	 */
 	public function seeBroadcastsOutput($I, $numberOfPosts = false, $seePrevPaginationLabel = false, $seeNextPaginationLabel = false, $seeGrid = false, $seeImage = false, $seeDescription = false, $seeReadMore = false)
 	{
@@ -681,9 +681,9 @@ class Plugin extends \Codeception\Module
 
 		// If Display description is enabled, confirm the description is displayed.
 		if ($seeDescription) {
-			$I->seeElementInDOM('.convertkit-broadcast-text');
+			$I->seeElementInDOM('.convertkit-broadcast-description');
 		} else {
-			$I->dontSeeElementInDOM('.convertkit-broadcast-text');
+			$I->dontSeeElementInDOM('.convertkit-broadcast-description');
 		}
 
 		// If Display read more link is enabled, confirm the read more link is displayed and matches the given text.

@@ -61,7 +61,7 @@
 	margin: 0;
 	padding: 5px 0;
 }
-.convertkit-broadcasts-list li .convertkit-broadcast-date {
+.convertkit-broadcasts-list li time {
 	display: inline-block;
 	grid-area: date;
 }

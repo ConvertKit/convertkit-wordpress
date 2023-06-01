@@ -269,7 +269,7 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 			'display_grid'        => array(
 				'label'       => __( 'Display as grid', 'convertkit' ),
 				'type'        => 'toggle',
-				'description' => __( 'If enabled, displays broadcasts in a three column grid, instead of a list.', 'convertkit' ),
+				'description' => __( 'If enabled, displays broadcasts in a grid, instead of a list.', 'convertkit' ),
 			),
 			'date_format'         => array(
 				'label'  => __( 'Date format', 'convertkit' ),
@@ -282,15 +282,15 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 				),
 			),
 			'display_image'       => array(
-				'label' => __( 'Display image', 'convertkit' ),
+				'label' => __( 'Display images', 'convertkit' ),
 				'type'  => 'toggle',
 			),
 			'display_description' => array(
-				'label' => __( 'Display description', 'convertkit' ),
+				'label' => __( 'Display descriptions', 'convertkit' ),
 				'type'  => 'toggle',
 			),
 			'display_read_more'   => array(
-				'label' => __( 'Display read more link', 'convertkit' ),
+				'label' => __( 'Display read more links', 'convertkit' ),
 				'type'  => 'toggle',
 			),
 			'read_more_label'     => array(
@@ -634,7 +634,7 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 		$html = '<li class="convertkit-broadcast">';
 
 		// Display date.
-		$html .= '<time datetime="' . esc_attr( date_i18n( 'Y-m-d', $date_timestamp ) ) . '" class="convertkit-broadcast-date">' . esc_html( date_i18n( $atts['date_format'], $date_timestamp ) ) . '</time>';
+		$html .= '<time datetime="' . esc_attr( date_i18n( 'Y-m-d', $date_timestamp ) ) . '">' . esc_html( date_i18n( $atts['date_format'], $date_timestamp ) ) . '</time>';
 
 		// Display linked title.
 		$html .= '<a href="' . esc_attr( $url ) . '" target="_blank" rel="nofollow noopener"' . $this->get_link_style_tag( $atts ) . ' class="convertkit-broadcast-title">' . esc_html( $broadcast['title'] ) . '</a>';
@@ -656,7 +656,7 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 			// We check for description, as these were added to the API in https://github.com/ConvertKit/convertkit/pull/23938,
 			// and might not immediately be available until the resources are refreshed.
 			if ( $atts['display_description'] && array_key_exists( 'description', $broadcast ) && ! is_null( $broadcast['description'] ) ) {
-				$html .= esc_html( $broadcast['description'] );
+				$html .= '<span class="convertkit-broadcast-description">' . esc_html( $broadcast['description'] ) . '</span>';
 			}
 
 			// Display read more link.

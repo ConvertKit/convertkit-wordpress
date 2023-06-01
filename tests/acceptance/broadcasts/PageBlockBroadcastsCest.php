@@ -121,9 +121,9 @@ class PageBlockBroadcastsCest
 
 		// Confirm that the block displays correctly with the expected number of Broadcasts in the grid format.
 		$I->seeBroadcastsOutput(
-			$I, 
+			$I,
 			3, // Confirm 3 broadcasts are output.
-			false, // Don't check previous pagination label. 
+			false, // Don't check previous pagination label.
 			false, // Don't check next pagination label.
 			true // Confirm grid mode is set.
 		);
@@ -204,9 +204,9 @@ class PageBlockBroadcastsCest
 
 		// Confirm that the block displays correctly with the expected number of Broadcasts in the grid format.
 		$I->seeBroadcastsOutput(
-			$I, 
+			$I,
 			3, // Confirm 3 broadcasts are output.
-			false, // Don't check previous pagination label. 
+			false, // Don't check previous pagination label.
 			false, // Don't check next pagination label.
 			true, // Confirm grid mode is set.
 			true // Confirm images are displayed.
@@ -245,9 +245,9 @@ class PageBlockBroadcastsCest
 
 		// Confirm that the block displays correctly with the expected number of Broadcasts in the grid format.
 		$I->seeBroadcastsOutput(
-			$I, 
+			$I,
 			3, // Confirm 3 broadcasts are output.
-			false, // Don't check previous pagination label. 
+			false, // Don't check previous pagination label.
 			false, // Don't check next pagination label.
 			false, // Confirm grid mode is not set.
 			false, // Confirm images are not displayed.
@@ -279,7 +279,7 @@ class PageBlockBroadcastsCest
 			'convertkit-broadcasts',
 			[
 				'#inspector-toggle-control-3' => [ 'toggle', true ],
-				'read_more_label'     		  => [ 'input', 'Continue reading' ],
+				'read_more_label'             => [ 'input', 'Continue reading' ],
 			]
 		);
 
@@ -288,9 +288,9 @@ class PageBlockBroadcastsCest
 
 		// Confirm that the block displays correctly with the expected number of Broadcasts in the grid format.
 		$I->seeBroadcastsOutput(
-			$I, 
+			$I,
 			3, // Confirm 3 broadcasts are output.
-			false, // Don't check previous pagination label. 
+			false, // Don't check previous pagination label.
 			false, // Don't check next pagination label.
 			false, // Confirm grid mode is not set.
 			false, // Confirm images are not displayed.
@@ -370,7 +370,7 @@ class PageBlockBroadcastsCest
 		$I->publishAndViewGutenbergPage($I);
 
 		// Confirm that the block displays correctly with the expected number of Broadcasts.
-		$I->seeBroadcastsOutput($I, 3);
+		$I->seeBroadcastsOutput($I, 1);
 
 		// Confirm that the expected Broadcast name is displayed first links to the expected URL, with UTM parameters.
 		$I->assertEquals(
@@ -401,8 +401,8 @@ class PageBlockBroadcastsCest
 			'ConvertKit Broadcasts',
 			'convertkit-broadcasts',
 			[
-				'limit'                   => [ 'input', '1' ],
-				'.components-form-toggle' => [ 'toggle', true ],
+				'limit'                       => [ 'input', '1' ],
+				'#inspector-toggle-control-4' => [ 'toggle', true ],
 			]
 		);
 
@@ -435,10 +435,10 @@ class PageBlockBroadcastsCest
 			'ConvertKit Broadcasts',
 			'convertkit-broadcasts',
 			[
-				'limit'                   => [ 'input', '1' ],
-				'.components-form-toggle' => [ 'toggle', true ],
-				'paginate_label_prev'     => [ 'input', 'Newer' ],
-				'paginate_label_next'     => [ 'input', 'Older' ],
+				'limit'                       => [ 'input', '1' ],
+				'#inspector-toggle-control-4' => [ 'toggle', true ],
+				'paginate_label_prev'         => [ 'input', 'Newer' ],
+				'paginate_label_next'         => [ 'input', 'Older' ],
 			]
 		);
 
@@ -471,10 +471,10 @@ class PageBlockBroadcastsCest
 			'ConvertKit Broadcasts',
 			'convertkit-broadcasts',
 			[
-				'limit'                   => [ 'input', '1' ],
-				'.components-form-toggle' => [ 'toggle', true ],
-				'paginate_label_prev'     => [ 'input', '' ],
-				'paginate_label_next'     => [ 'input', '' ],
+				'limit'                       => [ 'input', '1' ],
+				'#inspector-toggle-control-4' => [ 'toggle', true ],
+				'paginate_label_prev'         => [ 'input', '' ],
+				'paginate_label_next'         => [ 'input', '' ],
 			]
 		);
 
