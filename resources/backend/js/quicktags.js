@@ -62,7 +62,7 @@ function convertKitQuickTagRegister( block ) {
 						if ( height > 580 ) {
 							height = 580;
 						}
-						
+
 						$( 'div.convertkit-quicktags-modal div.media-modal.wp-core-ui' ).css(
 							{
 								height: ( $( 'div.convertkit-quicktags-modal div.media-frame-title h1' ).outerHeight() + height + 6 ) + 'px' // Additional 6px prevents a vertical scroll bar due to larger title vs. TinyMCE.

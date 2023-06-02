@@ -74,14 +74,11 @@ class PageBlockBroadcastsCest
 		// Publish and view the Page on the frontend site.
 		$I->publishAndViewGutenbergPage($I);
 
-		// Confirm that the block displays.
-		$I->seeBroadcastsOutput($I);
+		// Confirm that the block displays correctly with the expected number of Broadcasts.
+		$I->seeBroadcastsOutput($I, 3);
 
 		// Confirm that the default date format is as expected.
 		$I->seeInSource('<time datetime="2022-04-08">April 8, 2022</time>');
-
-		// Confirm that the default expected number of Broadcasts are displayed.
-		$I->seeNumberOfElements('li.convertkit-broadcast', [ 1, 10 ]);
 
 		// Confirm that the expected Broadcast name is displayed first links to the expected URL, with UTM parameters.
 		$I->assertEquals(
@@ -522,7 +519,7 @@ class PageBlockBroadcastsCest
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
 
-		// Confirm that the block displays.
+		// Confirm that the block displays correctly with the expected number of Broadcasts.
 		$I->seeBroadcastsOutput($I, 3);
 
 		// Confirm that our stylesheet loaded.
@@ -569,7 +566,7 @@ class PageBlockBroadcastsCest
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
 
-		// Confirm that the block displays.
+		// Confirm that the block displays correctly with the expected number of Broadcasts.
 		$I->seeBroadcastsOutput($I, 3);
 
 		// Confirm that our stylesheet loaded.

@@ -33,7 +33,7 @@ class PageShortcodeBroadcastsCest
 		// Add a Page using the Classic Editor.
 		$I->addClassicEditorPage($I, 'page', 'ConvertKit: Page: Broadcasts: Shortcode: Visual Editor');
 
-		// Add shortcode to Page, setting the Form setting to the value specified in the .env file.
+		// Add shortcode to Page.
 		$I->addVisualEditorShortcode(
 			$I,
 			'ConvertKit Broadcasts',
@@ -44,19 +44,51 @@ class PageShortcodeBroadcastsCest
 		// Publish and view the Page on the frontend site.
 		$I->publishAndViewClassicEditorPage($I);
 
-		// Confirm that the shortcode output displays.
-		$I->seeBroadcastsOutput($I);
+		// Confirm that the shortcode displays correctly with the expected number of Broadcasts.
+		$I->seeBroadcastsOutput($I, 3);
 
 		// Confirm that the default date format is as expected.
 		$I->seeInSource('<time datetime="2022-04-08">April 8, 2022</time>');
-
-		// Confirm that the default expected number of Broadcasts are displayed.
-		$I->seeNumberOfElements('li.convertkit-broadcast', [ 1, 10 ]);
 
 		// Confirm that the expected Broadcast name is displayed first links to the expected URL, with UTM parameters.
 		$I->assertEquals(
 			$I->grabAttributeFrom('div.convertkit-broadcasts ul.convertkit-broadcasts-list li.convertkit-broadcast:first-child a', 'href'),
 			$_ENV['CONVERTKIT_API_BROADCAST_FIRST_URL'] . '?utm_source=wordpress&utm_term=en_US&utm_content=convertkit'
+		);
+	}
+
+	/**
+	 * Test the [convertkit_broadcasts] shortcode's "Display as grid" parameter works.
+	 *
+	 * @since   2.2.3
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testBroadcastsShortcodeInVisualEditorWithDisplayGridParameter(AcceptanceTester $I)
+	{
+		// Add a Page using the Classic Editor.
+		$I->addClassicEditorPage($I, 'page', 'ConvertKit: Page: Broadcasts: Shortcode: Visual Editor: Display as Grid');
+
+		// Add shortcode to Page.
+		$I->addVisualEditorShortcode(
+			$I,
+			'ConvertKit Broadcasts',
+			[
+				'display_grid' => [ 'toggle', 'Yes' ],
+			],
+			'[convertkit_broadcasts display_grid="1" date_format="F j, Y" display_image="0" display_description="0" display_read_more="0" read_more_label="Read more" limit="10" paginate="0" paginate_label_prev="Previous" paginate_label_next="Next"]'
+		);
+
+		// Publish and view the Page on the frontend site.
+		$I->publishAndViewClassicEditorPage($I);
+
+		// Confirm that the shortcode displays correctly with the expected number of Broadcasts in the grid format.
+		$I->seeBroadcastsOutput(
+			$I,
+			3, // Confirm 3 broadcasts are output.
+			false, // Don't check previous pagination label.
+			false, // Don't check next pagination label.
+			true // Confirm grid mode is set.
 		);
 	}
 
@@ -73,7 +105,7 @@ class PageShortcodeBroadcastsCest
 		// Add a Page using the Classic Editor.
 		$I->addClassicEditorPage($I, 'page', 'ConvertKit: Page: Broadcasts: Shortcode: Visual Editor: Date Format');
 
-		// Add shortcode to Page, setting the Form setting to the value specified in the .env file.
+		// Add shortcode to Page.
 		$I->addVisualEditorShortcode(
 			$I,
 			'ConvertKit Broadcasts',
@@ -86,19 +118,128 @@ class PageShortcodeBroadcastsCest
 		// Publish and view the Page on the frontend site.
 		$I->publishAndViewClassicEditorPage($I);
 
-		// Confirm that the shortcode output displays.
-		$I->seeBroadcastsOutput($I);
+		// Confirm that the shortcode displays correctly with the expected number of Broadcasts.
+		$I->seeBroadcastsOutput($I, 3);
 
 		// Confirm that the default date format is as expected.
 		$I->seeInSource('<time datetime="2022-04-08">2022-04-08</time>');
-
-		// Confirm that the default expected number of Broadcasts are displayed.
-		$I->seeNumberOfElements('li.convertkit-broadcast', [ 1, 10 ]);
 
 		// Confirm that the expected Broadcast name is displayed first links to the expected URL, with UTM parameters.
 		$I->assertEquals(
 			$I->grabAttributeFrom('div.convertkit-broadcasts ul.convertkit-broadcasts-list li.convertkit-broadcast:first-child a', 'href'),
 			$_ENV['CONVERTKIT_API_BROADCAST_FIRST_URL'] . '?utm_source=wordpress&utm_term=en_US&utm_content=convertkit'
+		);
+	}
+
+	/**
+	 * Test the [convertkit_broadcasts] shortcode's "Display image" parameter works.
+	 *
+	 * @since   2.2.3
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testBroadcastsShortcodeInVisualEditorWithDisplayImageParameter(AcceptanceTester $I)
+	{
+		// Add a Page using the Classic Editor.
+		$I->addClassicEditorPage($I, 'page', 'ConvertKit: Page: Broadcasts: Shortcode: Visual Editor: Display image');
+
+		// Add shortcode to Page.
+		$I->addVisualEditorShortcode(
+			$I,
+			'ConvertKit Broadcasts',
+			[
+				'display_image' => [ 'toggle', 'Yes' ],
+			],
+			'[convertkit_broadcasts display_grid="0" date_format="F j, Y" display_image="1" display_description="0" display_read_more="0" read_more_label="Read more" limit="10" paginate="0" paginate_label_prev="Previous" paginate_label_next="Next"]'
+		);
+
+		// Publish and view the Page on the frontend site.
+		$I->publishAndViewClassicEditorPage($I);
+
+		// Confirm that the shortcode displays correctly with the expected number of Broadcasts in the grid format.
+		$I->seeBroadcastsOutput(
+			$I,
+			3, // Confirm 3 broadcasts are output.
+			false, // Don't check previous pagination label.
+			false, // Don't check next pagination label.
+			false, // Confirm grid mode is not set.
+			true // Confirm images are displayed.
+		);
+	}
+
+	/**
+	 * Test the [convertkit_broadcasts] shortcode's "Display description" parameter works.
+	 *
+	 * @since   2.2.3
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testBroadcastsShortcodeInVisualEditorWithDisplayDescriptionParameter(AcceptanceTester $I)
+	{
+		// Add a Page using the Classic Editor.
+		$I->addClassicEditorPage($I, 'page', 'ConvertKit: Page: Broadcasts: Shortcode: Visual Editor: Display description');
+
+		// Add shortcode to Page.
+		$I->addVisualEditorShortcode(
+			$I,
+			'ConvertKit Broadcasts',
+			[
+				'display_description' => [ 'toggle', 'Yes' ],
+			],
+			'[convertkit_broadcasts display_grid="0" date_format="F j, Y" display_image="0" display_description="1" display_read_more="0" read_more_label="Read more" limit="10" paginate="0" paginate_label_prev="Previous" paginate_label_next="Next"]'
+		);
+
+		// Publish and view the Page on the frontend site.
+		$I->publishAndViewClassicEditorPage($I);
+
+		// Confirm that the shortcode displays correctly with the expected number of Broadcasts in the grid format.
+		$I->seeBroadcastsOutput(
+			$I,
+			3, // Confirm 3 broadcasts are output.
+			false, // Don't check previous pagination label.
+			false, // Don't check next pagination label.
+			false, // Confirm grid mode is not set.
+			false, // Confirm images are not displayed.
+			true // Confirm description is displayed.
+		);
+	}
+
+	/**
+	 * Test the [convertkit_broadcasts] shortcode's "Display read more link" parameter works.
+	 *
+	 * @since   2.2.3
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testBroadcastsShortcodeInVisualEditorWithDisplayReadMoreLinkParameter(AcceptanceTester $I)
+	{
+		// Add a Page using the Classic Editor.
+		$I->addClassicEditorPage($I, 'page', 'ConvertKit: Page: Broadcasts: Shortcode: Visual Editor: Display read more link');
+
+		// Add shortcode to Page.
+		$I->addVisualEditorShortcode(
+			$I,
+			'ConvertKit Broadcasts',
+			[
+				'display_read_more' => [ 'toggle', 'Yes' ],
+				'read_more_label'   => [ 'input', 'Continue reading' ],
+			],
+			'[convertkit_broadcasts display_grid="0" date_format="F j, Y" display_image="0" display_description="0" display_read_more="1" read_more_label="Continue reading" limit="10" paginate="0" paginate_label_prev="Previous" paginate_label_next="Next"]'
+		);
+
+		// Publish and view the Page on the frontend site.
+		$I->publishAndViewClassicEditorPage($I);
+
+		// Confirm that the shortcode displays correctly with the expected number of Broadcasts in the grid format.
+		$I->seeBroadcastsOutput(
+			$I,
+			3, // Confirm 3 broadcasts are output.
+			false, // Don't check previous pagination label.
+			false, // Don't check next pagination label.
+			false, // Confirm grid mode is not set.
+			false, // Confirm images are not displayed.
+			false, // Confirm description is not displayed.
+			'Continue reading' // Confirm read more link is displayed with correct text.
 		);
 	}
 
@@ -115,7 +256,7 @@ class PageShortcodeBroadcastsCest
 		// Add a Page using the Classic Editor.
 		$I->addClassicEditorPage($I, 'page', 'ConvertKit: Page: Broadcasts: Shortcode: Visual Editor: Limit');
 
-		// Add shortcode to Page, setting the Form setting to the value specified in the .env file.
+		// Add shortcode to Page.
 		$I->addVisualEditorShortcode(
 			$I,
 			'ConvertKit Broadcasts',
@@ -129,13 +270,7 @@ class PageShortcodeBroadcastsCest
 		$I->publishAndViewClassicEditorPage($I);
 
 		// Confirm that the shortcode output displays.
-		$I->seeBroadcastsOutput($I);
-
-		// Confirm that the default date format is as expected.
-		$I->seeInSource('<time datetime="2022-04-08">April 8, 2022</time>');
-
-		// Confirm that the default expected number of Broadcasts are displayed.
-		$I->seeNumberOfElements('li.convertkit-broadcast', 2);
+		$I->seeBroadcastsOutput($I, 2);
 
 		// Confirm that the expected Broadcast name is displayed first links to the expected URL, with UTM parameters.
 		$I->assertEquals(
@@ -157,7 +292,7 @@ class PageShortcodeBroadcastsCest
 		// Add a Page using the Classic Editor.
 		$I->addClassicEditorPage($I, 'page', 'ConvertKit: Page: Broadcasts: Shortcode: Visual Editor: Pagination');
 
-		// Add shortcode to Page, setting the Form setting to the value specified in the .env file.
+		// Add shortcode to Page.
 		$I->addVisualEditorShortcode(
 			$I,
 			'ConvertKit Broadcasts',
@@ -188,7 +323,7 @@ class PageShortcodeBroadcastsCest
 		// Add a Page using the Classic Editor.
 		$I->addClassicEditorPage($I, 'page', 'ConvertKit: Page: Broadcasts: Shortcode: Visual Editor: Pagination Labels');
 
-		// Add shortcode to Page, setting the Form setting to the value specified in the .env file.
+		// Add shortcode to Page.
 		$I->addVisualEditorShortcode(
 			$I,
 			'ConvertKit Broadcasts',
@@ -221,7 +356,7 @@ class PageShortcodeBroadcastsCest
 		// Add a Page using the Classic Editor.
 		$I->addClassicEditorPage($I, 'page', 'ConvertKit: Page: Broadcasts: Shortcode: Visual Editor: Blank Pagination Labels');
 
-		// Add shortcode to Page, setting the Form setting to the value specified in the .env file.
+		// Add shortcode to Page.
 		$I->addVisualEditorShortcode(
 			$I,
 			'ConvertKit Broadcasts',
@@ -276,8 +411,8 @@ class PageShortcodeBroadcastsCest
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
 
-		// Confirm that the block displays.
-		$I->seeBroadcastsOutput($I);
+		// Confirm that the shortcode displays correctly with the expected number of Broadcasts.
+		$I->seeBroadcastsOutput($I, 1);
 
 		// Confirm that our stylesheet loaded.
 		$I->seeInSource('<link rel="stylesheet" id="convertkit-broadcasts-css" href="' . $_ENV['TEST_SITE_WP_URL'] . '/wp-content/plugins/convertkit/resources/frontend/css/broadcasts.css');
@@ -306,7 +441,7 @@ class PageShortcodeBroadcastsCest
 		// Add a Page using the Classic Editor.
 		$I->addClassicEditorPage($I, 'page', 'ConvertKit: Page: Broadcasts: Shortcode: Text Editor');
 
-		// Add shortcode to Page, setting the Form setting to the value specified in the .env file.
+		// Add shortcode to Page.
 		$I->addTextEditorShortcode(
 			$I,
 			'convertkit-broadcasts',
@@ -317,14 +452,50 @@ class PageShortcodeBroadcastsCest
 		// Publish and view the Page on the frontend site.
 		$I->publishAndViewClassicEditorPage($I);
 
-		// Confirm that the shortcode output displays.
-		$I->seeBroadcastsOutput($I);
+		// Confirm that the shortcode displays correctly with the expected number of Broadcasts.
+		$I->seeBroadcastsOutput($I, 3);
 
 		// Confirm that the default date format is as expected.
 		$I->seeInSource('<time datetime="2022-04-08">April 8, 2022</time>');
 
 		// Confirm that the default expected number of Broadcasts are displayed.
 		$I->seeNumberOfElements('li.convertkit-broadcast', [ 1, 10 ]);
+	}
+
+	/**
+	 * Test the [convertkit_broadcasts] shortcode's "Display as grid" parameter works
+	 * using the Text Editor.
+	 *
+	 * @since   2.2.3
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testBroadcastsShortcodeInTextEditorWithDisplayGridParameter(AcceptanceTester $I)
+	{
+		// Add a Page using the Classic Editor.
+		$I->addClassicEditorPage($I, 'page', 'ConvertKit: Page: Broadcasts: Shortcode: Text Editor: Display as Grid');
+
+		// Add shortcode to Page.
+		$I->addTextEditorShortcode(
+			$I,
+			'convertkit-broadcasts',
+			[
+				'display_grid' => [ 'toggle', 'Yes' ],
+			],
+			'[convertkit_broadcasts display_grid="1" date_format="F j, Y" display_image="0" display_description="0" display_read_more="0" read_more_label="Read more" limit="10" paginate="0" paginate_label_prev="Previous" paginate_label_next="Next"]'
+		);
+
+		// Publish and view the Page on the frontend site.
+		$I->publishAndViewClassicEditorPage($I);
+
+		// Confirm that the shortcode displays correctly with the expected number of Broadcasts in the grid format.
+		$I->seeBroadcastsOutput(
+			$I,
+			3, // Confirm 3 broadcasts are output.
+			false, // Don't check previous pagination label.
+			false, // Don't check next pagination label.
+			true // Confirm grid mode is set.
+		);
 	}
 
 	/**
@@ -353,14 +524,126 @@ class PageShortcodeBroadcastsCest
 		// Publish and view the Page on the frontend site.
 		$I->publishAndViewClassicEditorPage($I);
 
-		// Confirm that the shortcode output displays.
-		$I->seeBroadcastsOutput($I);
+		// Confirm that the shortcode displays correctly with the expected number of Broadcasts.
+		$I->seeBroadcastsOutput($I, 3);
 
 		// Confirm that the default date format is as expected.
 		$I->seeInSource('<time datetime="2022-04-08">2022-04-08</time>');
+	}
 
-		// Confirm that the default expected number of Broadcasts are displayed.
-		$I->seeNumberOfElements('li.convertkit-broadcast', [ 1, 10 ]);
+	/**
+	 * Test the [convertkit_broadcasts] shortcode's "Display image" parameter works
+	 * using the Text Editor.
+	 *
+	 * @since   2.2.3
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testBroadcastsShortcodeInTextEditorWithDisplayImageParameter(AcceptanceTester $I)
+	{
+		// Add a Page using the Classic Editor.
+		$I->addClassicEditorPage($I, 'page', 'ConvertKit: Page: Broadcasts: Shortcode: Text Editor: Display image');
+
+		// Add shortcode to Page.
+		$I->addTextEditorShortcode(
+			$I,
+			'convertkit-broadcasts',
+			[
+				'display_image' => [ 'toggle', 'Yes' ],
+			],
+			'[convertkit_broadcasts display_grid="0" date_format="F j, Y" display_image="1" display_description="0" display_read_more="0" read_more_label="Read more" limit="10" paginate="0" paginate_label_prev="Previous" paginate_label_next="Next"]'
+		);
+
+		// Publish and view the Page on the frontend site.
+		$I->publishAndViewClassicEditorPage($I);
+
+		// Confirm that the block displays correctly with the expected number of Broadcasts in the grid format.
+		$I->seeBroadcastsOutput(
+			$I,
+			3, // Confirm 3 broadcasts are output.
+			false, // Don't check previous pagination label.
+			false, // Don't check next pagination label.
+			false, // Confirm grid mode is not set.
+			true // Confirm images are displayed.
+		);
+	}
+
+	/**
+	 * Test the [convertkit_broadcasts] shortcode's "Display description" parameter works
+	 * using the Text Editor.
+	 *
+	 * @since   2.2.3
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testBroadcastsShortcodeInTextEditorWithDisplayDescriptionParameter(AcceptanceTester $I)
+	{
+		// Add a Page using the Classic Editor.
+		$I->addClassicEditorPage($I, 'page', 'ConvertKit: Page: Broadcasts: Shortcode: Text Editor: Display description');
+
+		// Add shortcode to Page.
+		$I->addTextEditorShortcode(
+			$I,
+			'convertkit-broadcasts',
+			[
+				'display_description' => [ 'toggle', 'Yes' ],
+			],
+			'[convertkit_broadcasts display_grid="0" date_format="F j, Y" display_image="0" display_description="1" display_read_more="0" read_more_label="Read more" limit="10" paginate="0" paginate_label_prev="Previous" paginate_label_next="Next"]'
+		);
+
+		// Publish and view the Page on the frontend site.
+		$I->publishAndViewClassicEditorPage($I);
+
+		// Confirm that the block displays correctly with the expected number of Broadcasts in the grid format.
+		$I->seeBroadcastsOutput(
+			$I,
+			3, // Confirm 3 broadcasts are output.
+			false, // Don't check previous pagination label.
+			false, // Don't check next pagination label.
+			false, // Confirm grid mode is not set.
+			false, // Confirm images are not displayed.
+			true // Confirm description is displayed.
+		);
+	}
+
+	/**
+	 * Test the [convertkit_broadcasts] shortcode's "Display read more link" parameter works
+	 * using the Text Editor.
+	 *
+	 * @since   2.2.3
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testBroadcastsShortcodeInTextEditorWithDisplayReadMoreLinkParameter(AcceptanceTester $I)
+	{
+		// Add a Page using the Classic Editor.
+		$I->addClassicEditorPage($I, 'page', 'ConvertKit: Page: Broadcasts: Shortcode: Text Editor: Display read more link');
+
+		// Add shortcode to Page.
+		$I->addTextEditorShortcode(
+			$I,
+			'convertkit-broadcasts',
+			[
+				'display_read_more' => [ 'toggle', 'Yes' ],
+				'read_more_label'   => [ 'input', 'Continue reading' ],
+			],
+			'[convertkit_broadcasts display_grid="0" date_format="F j, Y" display_image="0" display_description="0" display_read_more="1" read_more_label="Continue reading" limit="10" paginate="0" paginate_label_prev="Previous" paginate_label_next="Next"]'
+		);
+
+		// Publish and view the Page on the frontend site.
+		$I->publishAndViewClassicEditorPage($I);
+
+		// Confirm that the block displays correctly with the expected number of Broadcasts in the grid format.
+		$I->seeBroadcastsOutput(
+			$I,
+			3, // Confirm 3 broadcasts are output.
+			false, // Don't check previous pagination label.
+			false, // Don't check next pagination label.
+			false, // Confirm grid mode is not set.
+			false, // Confirm images are not displayed.
+			false, // Confirm description is not displayed.
+			'Continue reading' // Confirm read more link is displayed with correct text.
+		);
 	}
 
 	/**
@@ -389,14 +672,11 @@ class PageShortcodeBroadcastsCest
 		// Publish and view the Page on the frontend site.
 		$I->publishAndViewClassicEditorPage($I);
 
-		// Confirm that the shortcode output displays.
-		$I->seeBroadcastsOutput($I);
+		// Confirm that the shortcode displays correctly with the expected number of Broadcasts.
+		$I->seeBroadcastsOutput($I, 2);
 
 		// Confirm that the default date format is as expected.
 		$I->seeInSource('<time datetime="2022-04-08">April 8, 2022</time>');
-
-		// Confirm that the default expected number of Broadcasts are displayed.
-		$I->seeNumberOfElements('li.convertkit-broadcast', 2);
 	}
 
 	/**
