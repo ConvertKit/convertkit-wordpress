@@ -44,7 +44,10 @@ function convertKitTinyMCERegisterPlugin( block ) {
 								id: 	'convertkit-modal-body',
 								title: 	block.title,
 								width: 	block.modal.width,
-								height: block.modal.height,
+								
+								// Set modal height up to a maximum of 580px.
+								// Content will overflow-y to show a scrollbar where necessary.
+								height: ( block.modal.height < 580 ? block.modal.height : 580 ),
 								inline: 1,
 								buttons:[],
 							}

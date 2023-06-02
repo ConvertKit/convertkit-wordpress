@@ -66,7 +66,7 @@ class ConvertKit_Block_Content extends ConvertKit_Block {
 			// TinyMCE / QuickTags Modal Width and Height.
 			'modal'                         => array(
 				'width'  => 500,
-				'height' => 100,
+				'height' => 106,
 			),
 
 			'shortcode_include_closing_tag' => true,
