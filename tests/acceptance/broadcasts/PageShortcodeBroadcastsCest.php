@@ -38,7 +38,7 @@ class PageShortcodeBroadcastsCest
 			$I,
 			'ConvertKit Broadcasts',
 			false,
-			'[convertkit_broadcasts date_format="F j, Y" limit="10" paginate="0" paginate_label_prev="Previous" paginate_label_next="Next"]'
+			'[convertkit_broadcasts display_grid="0" date_format="F j, Y" display_image="0" display_description="0" display_read_more="0" read_more_label="Read more" limit="10" paginate="0" paginate_label_prev="Previous" paginate_label_next="Next"]'
 		);
 
 		// Publish and view the Page on the frontend site.
@@ -80,7 +80,7 @@ class PageShortcodeBroadcastsCest
 			[
 				'date_format' => [ 'select', date('Y-m-d') ],
 			],
-			'[convertkit_broadcasts date_format="Y-m-d" limit="10" paginate="0" paginate_label_prev="Previous" paginate_label_next="Next"]'
+			'[convertkit_broadcasts display_grid="0" date_format="Y-m-d" display_image="0" display_description="0" display_read_more="0" read_more_label="Read more" limit="10" paginate="0" paginate_label_prev="Previous" paginate_label_next="Next"]'
 		);
 
 		// Publish and view the Page on the frontend site.
@@ -122,7 +122,7 @@ class PageShortcodeBroadcastsCest
 			[
 				'limit' => [ 'input', '2' ],
 			],
-			'[convertkit_broadcasts date_format="F j, Y" limit="2" paginate="0" paginate_label_prev="Previous" paginate_label_next="Next"]'
+			'[convertkit_broadcasts display_grid="0" date_format="F j, Y" display_image="0" display_description="0" display_read_more="0" read_more_label="Read more" limit="2" paginate="0" paginate_label_prev="Previous" paginate_label_next="Next"]'
 		);
 
 		// Publish and view the Page on the frontend site.
@@ -165,7 +165,7 @@ class PageShortcodeBroadcastsCest
 				'limit'    => [ 'input', '1' ],
 				'paginate' => [ 'toggle', 'Yes' ],
 			],
-			'[convertkit_broadcasts date_format="F j, Y" limit="1" paginate="1" paginate_label_prev="Previous" paginate_label_next="Next"]'
+			'[convertkit_broadcasts display_grid="0" date_format="F j, Y" display_image="0" display_description="0" display_read_more="0" read_more_label="Read more" limit="1" paginate="1" paginate_label_prev="Previous" paginate_label_next="Next"]'
 		);
 
 		// Publish and view the Page on the frontend site.
@@ -198,7 +198,7 @@ class PageShortcodeBroadcastsCest
 				'paginate_label_prev' => [ 'input', 'Newer' ],
 				'paginate_label_next' => [ 'input', 'Older' ],
 			],
-			'[convertkit_broadcasts date_format="F j, Y" limit="1" paginate="1" paginate_label_prev="Newer" paginate_label_next="Older"]'
+			'[convertkit_broadcasts display_grid="0" date_format="F j, Y" display_image="0" display_description="0" display_read_more="0" read_more_label="Read more" limit="1" paginate="1" paginate_label_prev="Newer" paginate_label_next="Older"]'
 		);
 
 		// Publish and view the Page on the frontend site.
@@ -231,7 +231,7 @@ class PageShortcodeBroadcastsCest
 				'paginate_label_prev' => [ 'input', '' ],
 				'paginate_label_next' => [ 'input', '' ],
 			],
-			'[convertkit_broadcasts date_format="F j, Y" limit="1" paginate="1"]'
+			'[convertkit_broadcasts display_grid="0" date_format="F j, Y" display_image="0" display_description="0" display_read_more="0" read_more_label="Read more" limit="1" paginate="1"]'
 		);
 
 		// Publish and view the Page on the frontend site.
@@ -263,7 +263,7 @@ class PageShortcodeBroadcastsCest
 		$I->havePageInDatabase(
 			[
 				'post_name'    => 'convertkit-page-broadcasts-shortcode-hex-color-params',
-				'post_content' => '[convertkit_broadcasts date_format="F j, Y" limit="1" paginate="1" paginate_label_prev="Newer" paginate_label_next="Older" link_color="' . $linkColor . '" background_color="' . $backgroundColor . '" text_color="' . $textColor . '"]',
+				'post_content' => '[convertkit_broadcasts display_grid="0" date_format="F j, Y" display_image="0" display_description="0" display_read_more="0" read_more_label="Read more" limit="1" paginate="1" paginate_label_prev="Newer" paginate_label_next="Older" link_color="' . $linkColor . '" background_color="' . $backgroundColor . '" text_color="' . $textColor . '"]',
 			]
 		);
 
@@ -311,7 +311,7 @@ class PageShortcodeBroadcastsCest
 			$I,
 			'convertkit-broadcasts',
 			false,
-			'[convertkit_broadcasts date_format="F j, Y" limit="10" paginate="0" paginate_label_prev="Previous" paginate_label_next="Next"]'
+			'[convertkit_broadcasts display_grid="0" date_format="F j, Y" display_image="0" display_description="0" display_read_more="0" read_more_label="Read more" limit="10" paginate="0" paginate_label_prev="Previous" paginate_label_next="Next"]'
 		);
 
 		// Publish and view the Page on the frontend site.
@@ -347,7 +347,7 @@ class PageShortcodeBroadcastsCest
 			[
 				'date_format' => [ 'select', date('Y-m-d') ],
 			],
-			'[convertkit_broadcasts date_format="Y-m-d" limit="10" paginate="0" paginate_label_prev="Previous" paginate_label_next="Next"]'
+			'[convertkit_broadcasts display_grid="0" date_format="Y-m-d" display_image="0" display_description="0" display_read_more="0" read_more_label="Read more" limit="10" paginate="0" paginate_label_prev="Previous" paginate_label_next="Next"]'
 		);
 
 		// Publish and view the Page on the frontend site.
@@ -383,7 +383,7 @@ class PageShortcodeBroadcastsCest
 			[
 				'limit' => [ 'input', '2' ],
 			],
-			'[convertkit_broadcasts date_format="F j, Y" limit="2" paginate="0" paginate_label_prev="Previous" paginate_label_next="Next"]'
+			'[convertkit_broadcasts display_grid="0" date_format="F j, Y" display_image="0" display_description="0" display_read_more="0" read_more_label="Read more" limit="2" paginate="0" paginate_label_prev="Previous" paginate_label_next="Next"]'
 		);
 
 		// Publish and view the Page on the frontend site.
@@ -420,7 +420,7 @@ class PageShortcodeBroadcastsCest
 				'limit'    => [ 'input', '1' ],
 				'paginate' => [ 'toggle', 'Yes' ],
 			],
-			'[convertkit_broadcasts date_format="F j, Y" limit="1" paginate="1" paginate_label_prev="Previous" paginate_label_next="Next"]'
+			'[convertkit_broadcasts display_grid="0" date_format="F j, Y" display_image="0" display_description="0" display_read_more="0" read_more_label="Read more" limit="1" paginate="1" paginate_label_prev="Previous" paginate_label_next="Next"]'
 		);
 
 		// Publish and view the Page on the frontend site.
@@ -453,7 +453,7 @@ class PageShortcodeBroadcastsCest
 				'paginate_label_prev' => [ 'input', 'Newer' ],
 				'paginate_label_next' => [ 'input', 'Older' ],
 			],
-			'[convertkit_broadcasts date_format="F j, Y" limit="1" paginate="1" paginate_label_prev="Newer" paginate_label_next="Older"]'
+			'[convertkit_broadcasts display_grid="0" date_format="F j, Y" display_image="0" display_description="0" display_read_more="0" read_more_label="Read more" limit="1" paginate="1" paginate_label_prev="Newer" paginate_label_next="Older"]'
 		);
 
 		// Publish and view the Page on the frontend site.
@@ -477,7 +477,7 @@ class PageShortcodeBroadcastsCest
 		$I->havePageInDatabase(
 			[
 				'post_name'    => 'convertkit-page-broadcasts-shortcode-parameter-escaping',
-				'post_content' => '[convertkit_broadcasts date_format="F j, Y" limit="1" paginate="1" paginate_label_prev="Previous" paginate_label_next="Next" link_color=\'red" onmouseover="alert(1)"\']',
+				'post_content' => '[convertkit_broadcasts display_grid="0" date_format="F j, Y" display_image="0" display_description="0" display_read_more="0" read_more_label="Read more" limit="1" paginate="1" paginate_label_prev="Previous" paginate_label_next="Next" link_color=\'red" onmouseover="alert(1)"\']',
 			]
 		);
 
