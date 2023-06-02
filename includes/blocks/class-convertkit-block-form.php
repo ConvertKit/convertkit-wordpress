@@ -85,43 +85,56 @@ class ConvertKit_Block_Form extends ConvertKit_Block {
 	 */
 	public function get_overview() {
 
+		$convertkit_forms = new ConvertKit_Resource_Forms( 'block_edit' );
+		$settings         = new ConvertKit_Settings();
+
 		return array(
-			'title'                             => __( 'ConvertKit Form', 'convertkit' ),
-			'description'                       => __( 'Displays a ConvertKit Form.', 'convertkit' ),
-			'icon'                              => 'resources/backend/images/block-icon-form.png',
-			'category'                          => 'convertkit',
-			'keywords'                          => array(
+			'title'                                   => __( 'ConvertKit Form', 'convertkit' ),
+			'description'                             => __( 'Displays a ConvertKit Form.', 'convertkit' ),
+			'icon'                                    => 'resources/backend/images/block-icon-form.png',
+			'category'                                => 'convertkit',
+			'keywords'                                => array(
 				__( 'ConvertKit', 'convertkit' ),
 				__( 'Form', 'convertkit' ),
 			),
 
 			// Function to call when rendering as a block or a shortcode on the frontend web site.
-			'render_callback'                   => array( $this, 'render' ),
+			'render_callback'                         => array( $this, 'render' ),
 
 			// Shortcode: TinyMCE / QuickTags Modal Width and Height.
-			'modal'                             => array(
+			'modal'                                   => array(
 				'width'  => 500,
 				'height' => 100,
 			),
 
 			// Shortcode: Include a closing [/shortcode] tag when using TinyMCE or QuickTag Modals.
-			'shortcode_include_closing_tag'     => false,
+			'shortcode_include_closing_tag'           => false,
 
 			// Gutenberg: Block Icon in Editor.
-			'gutenberg_icon'                    => convertkit_get_file_contents( CONVERTKIT_PLUGIN_PATH . '/resources/backend/images/block-icon-form.svg' ),
+			'gutenberg_icon'                          => convertkit_get_file_contents( CONVERTKIT_PLUGIN_PATH . '/resources/backend/images/block-icon-form.svg' ),
 
 			// Gutenberg: Example image showing how this block looks when choosing it in Gutenberg.
-			'gutenberg_example_image'           => CONVERTKIT_PLUGIN_URL . 'resources/backend/images/block-example-form.png',
+			'gutenberg_example_image'                 => CONVERTKIT_PLUGIN_URL . 'resources/backend/images/block-example-form.png',
 
-			// Gutenberg: Help description, displayed when no settings defined for a newly added Block.
-			'gutenberg_help_description'        => __( 'Select a Form using the Form option in the Gutenberg sidebar.', 'convertkit' ),
+			// Gutenberg: Help descriptions, displayed when no settings defined for a newly added Block, or API keys / forms don't exist.
+			'gutenberg_help_description_no_api_key'   => array(
+				'notice'    => __( 'No API Key specified.', 'convertkit' ),
+				'link'      => convertkit_get_settings_link(),
+				'link_text' => __( 'Click here to add your API Key.', 'convertkit' ),
+			),
+			'gutenberg_help_description_no_resources' => array(
+				'notice'    => __( 'No forms exist in ConvertKit.', 'convertkit' ),
+				'link'      => convertkit_get_new_form_url(),
+				'link_text' => __( 'Click here to create your first form.', 'convertkit' ),
+			),
+			'gutenberg_help_description'              => __( 'Select a Form using the Form option in the Gutenberg sidebar.', 'convertkit' ),
 
 			// Gutenberg: JS function to call when rendering the block preview in the Gutenberg editor.
 			// If not defined, render_callback above will be used.
-			'gutenberg_preview_render_callback' => 'convertKitGutenbergFormBlockRenderPreview',
+			'gutenberg_preview_render_callback'       => 'convertKitGutenbergFormBlockRenderPreview',
 
 			// General: Any other strings for use in JS that need to support translation / i18n.
-			'i18n'                              => array(
+			'i18n'                                    => array(
 				/* translators: Form name in ConvertKit */
 				'gutenberg_form_modal'      => __( 'Modal form "%s" selected. View on the frontend site to see the modal form.', 'convertkit' ),
 
@@ -131,6 +144,11 @@ class ConvertKit_Block_Form extends ConvertKit_Block {
 				/* translators: Form name in ConvertKit */
 				'gutenberg_form_sticky_bar' => __( 'Sticky bar form "%s" selected. View on the frontend site to see the sticky bar form.', 'convertkit' ),
 			),
+
+			// Whether an API Key exists in the Plugin, and are the required resources (forms) available.
+			// If no API Key is specified in the Plugin's settings, render the "No API Key" output.
+			'has_api_key'                             => $settings->has_api_key_and_secret(),
+			'has_resources'                           => $convertkit_forms->exist(),
 		);
 
 	}

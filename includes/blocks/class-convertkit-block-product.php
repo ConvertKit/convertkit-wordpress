@@ -102,40 +102,58 @@ class ConvertKit_Block_Product extends ConvertKit_Block {
 	 */
 	public function get_overview() {
 
+		$convertkit_products = new ConvertKit_Resource_Products( 'block_edit' );
+		$settings            = new ConvertKit_Settings();
+
 		return array(
-			'title'                             => __( 'ConvertKit Product', 'convertkit' ),
-			'description'                       => __( 'Displays a button to purchase a ConvertKit product.', 'convertkit' ),
-			'icon'                              => 'resources/backend/images/block-icon-product.png',
-			'category'                          => 'convertkit',
-			'keywords'                          => array(
+			'title'                                   => __( 'ConvertKit Product', 'convertkit' ),
+			'description'                             => __( 'Displays a button to purchase a ConvertKit product.', 'convertkit' ),
+			'icon'                                    => 'resources/backend/images/block-icon-product.png',
+			'category'                                => 'convertkit',
+			'keywords'                                => array(
 				__( 'ConvertKit', 'convertkit' ),
 				__( 'Product', 'convertkit' ),
 			),
 
 			// Function to call when rendering as a block or a shortcode on the frontend web site.
-			'render_callback'                   => array( $this, 'render' ),
+			'render_callback'                         => array( $this, 'render' ),
 
 			// Shortcode: TinyMCE / QuickTags Modal Width and Height.
-			'modal'                             => array(
+			'modal'                                   => array(
 				'width'  => 500,
 				'height' => 290,
 			),
 
 			// Shortcode: Include a closing [/shortcode] tag when using TinyMCE or QuickTag Modals.
-			'shortcode_include_closing_tag'     => false,
+			'shortcode_include_closing_tag'           => false,
 
 			// Gutenberg: Block Icon in Editor.
-			'gutenberg_icon'                    => convertkit_get_file_contents( CONVERTKIT_PLUGIN_PATH . '/resources/backend/images/block-icon-product.svg' ),
+			'gutenberg_icon'                          => convertkit_get_file_contents( CONVERTKIT_PLUGIN_PATH . '/resources/backend/images/block-icon-product.svg' ),
 
 			// Gutenberg: Example image showing how this block looks when choosing it in Gutenberg.
-			'gutenberg_example_image'           => CONVERTKIT_PLUGIN_URL . 'resources/backend/images/block-example-product.png',
+			'gutenberg_example_image'                 => CONVERTKIT_PLUGIN_URL . 'resources/backend/images/block-example-product.png',
 
-			// Gutenberg: Help description, displayed when no settings defined for a newly added Block.
-			'gutenberg_help_description'        => __( 'Select a Product using the Product option in the Gutenberg sidebar.', 'convertkit' ),
+			// Gutenberg: Help descriptions, displayed when no settings defined for a newly added Block, or API keys / products don't exist.
+			'gutenberg_help_description_no_api_key'   => array(
+				'notice'    => __( 'No API Key specified.', 'convertkit' ),
+				'link'      => convertkit_get_settings_link(),
+				'link_text' => __( 'Click here to add your API Key.', 'convertkit' ),
+			),
+			'gutenberg_help_description_no_resources' => array(
+				'notice'    => __( 'No products exist in ConvertKit.', 'convertkit' ),
+				'link'      => convertkit_get_new_product_url(),
+				'link_text' => __( 'Click here to create your first product.', 'convertkit' ),
+			),
+			'gutenberg_help_description'              => __( 'Select a Product using the Product option in the Gutenberg sidebar.', 'convertkit' ),
 
 			// Gutenberg: JS function to call when rendering the block preview in the Gutenberg editor.
 			// If not defined, render_callback above will be used.
-			'gutenberg_preview_render_callback' => 'convertKitGutenbergProductBlockRenderPreview',
+			'gutenberg_preview_render_callback'       => 'convertKitGutenbergProductBlockRenderPreview',
+
+			// Whether an API Key exists in the Plugin, and are the required resources (products) available.
+			// If no API Key is specified in the Plugin's settings, render the "No API Key" output.
+			'has_api_key'                             => $settings->has_api_key_and_secret(),
+			'has_resources'                           => $convertkit_products->exist(),
 		);
 
 	}
