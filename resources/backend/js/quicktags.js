@@ -54,10 +54,18 @@ function convertKitQuickTagRegister( block ) {
 						// Initialize color pickers.
 						$( '.convertkit-color-picker' ).wpColorPicker();
 
-						// Resize Modal height to prevent whitespace below form.
+						// Resize Modal height up to a maximum of 580px.
+						// This ensures shortcodes with fewer options don't display whitespace below form fields,
+						// and shortcodes with many options won't result in the modal exceeding the size of the screen.
+						// Content will overflow-y to show a scrollbar where necessary.
+						let height = $( 'div.convertkit-quicktags-modal form.convertkit-tinymce-popup' ).height();
+						if ( height > 580 ) {
+							height = 580;
+						}
+
 						$( 'div.convertkit-quicktags-modal div.media-modal.wp-core-ui' ).css(
 							{
-								height: ( $( 'div.convertkit-quicktags-modal div.media-frame-title h1' ).outerHeight() + $( 'div.convertkit-quicktags-modal form.convertkit-tinymce-popup' ).height() + 6 ) + 'px' // Additional 6px prevents a vertical scroll bar.
+								height: ( $( 'div.convertkit-quicktags-modal div.media-frame-title h1' ).outerHeight() + height + 6 ) + 'px' // Additional 6px prevents a vertical scroll bar due to larger title vs. TinyMCE.
 							}
 						);
 

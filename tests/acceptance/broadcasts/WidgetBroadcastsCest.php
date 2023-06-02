@@ -138,8 +138,8 @@ class WidgetBroadcastsCest
 			'ConvertKit Broadcasts',
 			'convertkit-broadcasts',
 			[
-				'.components-form-toggle' => [ 'toggle', true ],
-				'limit'                   => [ 'input', '1' ],
+				'#inspector-toggle-control-4' => [ 'toggle', true ],
+				'limit'                       => [ 'input', '1' ],
 			]
 		);
 
@@ -165,10 +165,10 @@ class WidgetBroadcastsCest
 			'ConvertKit Broadcasts',
 			'convertkit-broadcasts',
 			[
-				'.components-form-toggle' => [ 'toggle', true ],
-				'limit'                   => [ 'input', '1' ],
-				'paginate_label_prev'     => [ 'input', 'Newer' ],
-				'paginate_label_next'     => [ 'input', 'Older' ],
+				'#inspector-toggle-control-4' => [ 'toggle', true ],
+				'limit'                       => [ 'input', '1' ],
+				'paginate_label_prev'         => [ 'input', 'Newer' ],
+				'paginate_label_next'         => [ 'input', 'Older' ],
 			]
 		);
 
@@ -194,10 +194,10 @@ class WidgetBroadcastsCest
 			'ConvertKit Broadcasts',
 			'convertkit-broadcasts',
 			[
-				'.components-form-toggle' => [ 'toggle', true ],
-				'limit'                   => [ 'input', '1' ],
-				'paginate_label_prev'     => [ 'input', '' ],
-				'paginate_label_next'     => [ 'input', '' ],
+				'#inspector-toggle-control-4' => [ 'toggle', true ],
+				'limit'                       => [ 'input', '1' ],
+				'paginate_label_prev'         => [ 'input', '' ],
+				'paginate_label_next'         => [ 'input', '' ],
 			]
 		);
 
