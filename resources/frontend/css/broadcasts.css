@@ -106,7 +106,6 @@
 	display: block;
 }
 @media screen and (max-width: 478px) {
-	/* @TODO Add horizontal line? */
 	.convertkit-broadcasts[data-display-image="1"] .convertkit-broadcasts-list li {
 		margin: 0 0 20px 0;
 	}
@@ -134,5 +133,3 @@
 	grid-area: next;
 	text-align: right;
 }
-
-
