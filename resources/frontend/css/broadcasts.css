@@ -29,6 +29,16 @@
 	grid-template-columns: 150px auto;
 	grid-column-gap: 20px;
 }
+@media screen and (max-width: 478px) {
+	.convertkit-broadcasts-list li {
+		grid-template-areas:
+			"image image"
+			"date date"
+			"title title"
+			"text text";
+		grid-row-gap: 10px;
+	}
+}
 
 /**
  * Grid View.
@@ -51,6 +61,16 @@
 }
 .convertkit-broadcasts[data-display-grid="1"] .convertkit-broadcasts-list li .convertkit-broadcast-read-more {
 	margin: 10px 0 0 0;
+}
+@media screen and (max-width: 768px) {
+	.convertkit-broadcasts[data-display-grid="1"] .convertkit-broadcasts-list {
+		grid-template-columns: repeat(2, 1fr);
+	}
+}
+@media screen and (max-width: 478px) {
+	.convertkit-broadcasts[data-display-grid="1"] .convertkit-broadcasts-list {
+		grid-template-columns: repeat(1, 1fr);
+	}
 }
 
 /**
@@ -85,6 +105,12 @@
 .convertkit-broadcasts-list li .convertkit-broadcast-read-more {
 	display: block;
 }
+@media screen and (max-width: 478px) {
+	/* @TODO Add horizontal line? */
+	.convertkit-broadcasts[data-display-image="1"] .convertkit-broadcasts-list li {
+		margin: 0 0 20px 0;
+	}
+}
 
 /**
  * Pagination
@@ -108,3 +134,5 @@
 	grid-area: next;
 	text-align: right;
 }
+
+
