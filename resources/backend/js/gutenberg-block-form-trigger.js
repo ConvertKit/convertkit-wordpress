@@ -36,9 +36,6 @@ function convertKitGutenbergFormTriggerBlockRenderPreview( block, props ) {
 		);
 	}
 
-	// Get selected form.
-	var form = block.fields.form.data.forms[ props.attributes.form ];
-
 	// If no Form has been selected for display, return a prompt to tell the editor
 	// what to do.
 	if ( props.attributes.form === '' ) {
