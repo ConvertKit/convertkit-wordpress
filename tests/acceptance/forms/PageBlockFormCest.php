@@ -535,9 +535,8 @@ class PageBlockFormCest
 		// Switch to next browser tab, as the link opens in a new tab.
 		$I->switchToNextTab();
 
-		// Confirm the Plugin's settings screen is displayed.
-		$I->seeElementInDOM('input[name="_wp_convertkit_settings[api_key]"]');
-		$I->seeElementInDOM('input[name="_wp_convertkit_settings[api_secret]"]');
+		// Confirm the Plugin's setup wizard is displayed.
+		$I->seeInCurrentUrl('index.php?page=convertkit-setup');
 
 		// Close tab.
 		$I->closeTab();
