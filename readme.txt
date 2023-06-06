@@ -5,7 +5,7 @@ Tags: email marketing, email newsletter, newsletter, subscribers, convertkit
 Requires at least: 5.0
 Tested up to: 6.2.2
 Requires PHP: 5.6.20
-Stable tag: 2.2.2
+Stable tag: 2.2.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -133,6 +133,14 @@ Full Plugin documentation can be found [here](https://help.convertkit.com/en/art
 7. Track subscriber growth
 
 == Changelog ==
+
+### 2.2.3 2023-06-06
+* Added: Broadcasts: Options to display grid, images, descriptions and/or read more link
+* Added: Broadcasts: Output as single column on smaller screen resolutions
+* Added: Forms: Block: Display message with link when no API Key specified, or no Forms exist in ConvertKit
+* Added: Products: Block: Display message with link when no API Key specified, or no Products exist in ConvertKit
+* Fix: Settings: Disable CSS: Improve description of Disable CSS functionality, making it clearer what this setting does
+* Fix: Use `esc_url` instead of `esc_attr` for link `href` properties
 
 ### 2.2.2 2023-05-24
 * Added: Elementor: ConvertKit Form Trigger Block

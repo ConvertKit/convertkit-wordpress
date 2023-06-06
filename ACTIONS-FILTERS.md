@@ -67,6 +67,10 @@
 						<td><a href="#convertkit_block_broadcasts_render_ajax"><code>convertkit_block_broadcasts_render_ajax</code></a></td>
 						<td>Filter the block's inner content immediately before it is output by AJAX, which occurs when pagination was clicked.</td>
 					</tr><tr>
+						<td>&nbsp;</td>
+						<td><a href="#convertkit_block_broadcasts_build_html_list_item"><code>convertkit_block_broadcasts_build_html_list_item</code></a></td>
+						<td>Defines the HTML for an individual broadcast item in the Broadcasts block.</td>
+					</tr><tr>
 						<td colspan="3">../includes/blocks/class-convertkit-block-form.php</td>
 					</tr><tr>
 						<td>&nbsp;</td>
@@ -423,7 +427,7 @@ add_filter( 'convertkit_block_content_render', function( $content, $atts, $subsc
 </pre>
 <h3 id="convertkit_block_product_render">
 						convertkit_block_product_render
-						<code>includes/blocks/class-convertkit-block-product.php::389</code>
+						<code>includes/blocks/class-convertkit-block-product.php::407</code>
 					</h3><h4>Overview</h4>
 						<p>Filter the block's content immediately before it is output.</p><h4>Parameters</h4>
 					<table>
@@ -454,7 +458,7 @@ add_filter( 'convertkit_block_product_render', function( $html, $atts ) {
 </pre>
 <h3 id="convertkit_block_broadcasts_render">
 						convertkit_block_broadcasts_render
-						<code>includes/blocks/class-convertkit-block-broadcasts.php::408</code>
+						<code>includes/blocks/class-convertkit-block-broadcasts.php::596</code>
 					</h3><h4>Overview</h4>
 						<p>Filter the block's content immediately before it is output.</p><h4>Parameters</h4>
 					<table>
@@ -485,7 +489,7 @@ add_filter( 'convertkit_block_broadcasts_render', function( $html, $atts ) {
 </pre>
 <h3 id="convertkit_block_broadcasts_render_ajax">
 						convertkit_block_broadcasts_render_ajax
-						<code>includes/blocks/class-convertkit-block-broadcasts.php::455</code>
+						<code>includes/blocks/class-convertkit-block-broadcasts.php::511</code>
 					</h3><h4>Overview</h4>
 						<p>Filter the block's inner content immediately before it is output by AJAX, which occurs when pagination was clicked.</p><h4>Parameters</h4>
 					<table>
@@ -514,9 +518,44 @@ add_filter( 'convertkit_block_broadcasts_render_ajax', function( $html, $atts ) 
 	return $html;
 }, 10, 2 );
 </pre>
+<h3 id="convertkit_block_broadcasts_build_html_list_item">
+						convertkit_block_broadcasts_build_html_list_item
+						<code>includes/blocks/class-convertkit-block-broadcasts.php::677</code>
+					</h3><h4>Overview</h4>
+						<p>Defines the HTML for an individual broadcast item in the Broadcasts block.</p><h4>Parameters</h4>
+					<table>
+						<thead>
+							<tr>
+								<th>Parameter</th>
+								<th>Type</th>
+								<th>Description</th>
+							</tr>
+						</thead>
+						<tbody><tr>
+							<td>$html</td>
+							<td>string</td>
+							<td>HTML.</td>
+						</tr><tr>
+							<td>$broadcast</td>
+							<td>array</td>
+							<td>Broadcast.</td>
+						</tr><tr>
+							<td>$atts</td>
+							<td>array</td>
+							<td>Block attributes.</td>
+						</tr>
+						</tbody>
+					</table><h4>Usage</h4>
+<pre>
+add_filter( 'convertkit_block_broadcasts_build_html_list_item', function( $html, $broadcast, $atts ) {
+	// ... your code here
+	// Return value
+	return $html;
+}, 10, 3 );
+</pre>
 <h3 id="convertkit_block_form_render">
 						convertkit_block_form_render
-						<code>includes/blocks/class-convertkit-block-form.php::324</code>
+						<code>includes/blocks/class-convertkit-block-form.php::342</code>
 					</h3><h4>Overview</h4>
 						<p>Filter the block's content immediately before it is output.</p><h4>Parameters</h4>
 					<table>
