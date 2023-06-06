@@ -327,7 +327,7 @@ class PageShortcodeProductCest
 	 *
 	 * @param   AcceptanceTester $I  Tester.
 	 */
-	public function testProductShortcodeWhenNoForms(AcceptanceTester $I)
+	public function testProductShortcodeWhenNoProducts(AcceptanceTester $I)
 	{
 		// Setup Plugin.
 		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY_NO_DATA'], $_ENV['CONVERTKIT_API_SECRET_NO_DATA'], '', '', '');
