@@ -116,17 +116,19 @@ class ConvertKit_Block_Form extends ConvertKit_Block {
 			// Gutenberg: Example image showing how this block looks when choosing it in Gutenberg.
 			'gutenberg_example_image'                 => CONVERTKIT_PLUGIN_URL . 'resources/backend/images/block-example-form.png',
 
-			// Gutenberg: Help descriptions, displayed when no settings defined for a newly added Block, or API keys / forms don't exist.
-			'gutenberg_help_description_no_api_key'   => array(
+			// Help descriptions, displayed when no API key / resources exist and this block/shortcode is added.
+			'no_api_key'   => array(
 				'notice'    => __( 'No API Key specified.', 'convertkit' ),
-				'link'      => convertkit_get_settings_link(),
+				'link'      => convertkit_get_setup_wizard_plugin_link(),
 				'link_text' => __( 'Click here to add your API Key.', 'convertkit' ),
 			),
-			'gutenberg_help_description_no_resources' => array(
+			'no_resources' => array(
 				'notice'    => __( 'No forms exist in ConvertKit.', 'convertkit' ),
 				'link'      => convertkit_get_new_form_url(),
 				'link_text' => __( 'Click here to create your first form.', 'convertkit' ),
 			),
+
+			// Gutenberg: Help descriptions, displayed when no settings defined for a newly added Block,
 			'gutenberg_help_description'              => __( 'Select a Form using the Form option in the Gutenberg sidebar.', 'convertkit' ),
 
 			// Gutenberg: JS function to call when rendering the block preview in the Gutenberg editor.

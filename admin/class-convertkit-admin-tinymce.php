@@ -60,6 +60,20 @@ class ConvertKit_Admin_TinyMCE {
 		// Define shortcode.
 		$shortcode = $shortcodes[ $shortcode_name ];
 
+		// Show a message in the modal if no API Key is specified.
+		if ( array_key_exists( 'has_api_key', $shortcode ) && ! $shortcode['has_api_key'] ) {
+			$notice = $shortcode['no_api_key'];
+			require_once CONVERTKIT_PLUGIN_PATH . '/views/backend/tinymce/modal-notice.php';
+			die();
+		}
+
+		// Show a message in the modal if no resources exist.
+		if ( array_key_exists( 'has_resources', $shortcode ) && ! $shortcode['has_resources'] ) {
+			$notice = $shortcode['no_resources'];
+			require_once CONVERTKIT_PLUGIN_PATH . '/views/backend/tinymce/modal-notice.php';
+			die();
+		}
+
 		// Output the modal.
 		require_once CONVERTKIT_PLUGIN_PATH . '/views/backend/tinymce/modal.php';
 		die();
