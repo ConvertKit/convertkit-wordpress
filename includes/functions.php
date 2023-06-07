@@ -245,6 +245,27 @@ function convertkit_get_settings_link( $query_args = array() ) {
 }
 
 /**
+ * Helper method to return the Plugin Settings Link
+ *
+ * @since   2.2.4
+ *
+ * @param   array $query_args     Optional Query Args.
+ * @return  string                  Settings Link
+ */
+function convertkit_get_setup_wizard_plugin_link( $query_args = array() ) {
+
+	$query_args = array_merge(
+		$query_args,
+		array(
+			'page' => 'convertkit-setup',
+		)
+	);
+
+	return add_query_arg( $query_args, admin_url( 'index.php' ) );
+
+}
+
+/**
  * Helper method to return the URL the user needs to visit to register a ConvertKit account.
  *
  * @since   1.9.8.4

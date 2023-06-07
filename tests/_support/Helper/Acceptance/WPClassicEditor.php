@@ -46,21 +46,8 @@ class WPClassicEditor extends \Codeception\Module
 	 */
 	public function addVisualEditorShortcode($I, $shortcodeName, $shortcodeConfiguration = false, $expectedShortcodeOutput = false, $targetEditor = 'content')
 	{
-		// Scroll to the applicable TinyMCE editor.
-		switch ($targetEditor) {
-			case 'excerpt':
-				$I->scrollTo('#tagsdiv-product_tag');
-				break;
-			default:
-				$I->scrollTo('h1.wp-heading-inline');
-				break;
-		}
-
-		// Click the Visual tab on the applicable TinyMCE editor.
-		$I->click('button#' . $targetEditor . '-tmce');
-
-		// Click the TinyMCE Button for this shortcode.
-		$I->click('#wp-' . $targetEditor . '-editor-container div.mce-container div[aria-label="' . $shortcodeName . '"] button');
+		// Open Visual Editor shortcode modal.
+		$I->openVisualEditorShortcodeModal($I, $shortcodeName, $targetEditor);
 
 		// Wait for the modal's contents to load.
 		$I->waitForElementVisible('#convertkit-modal-body input.button-primary');
@@ -98,6 +85,37 @@ class WPClassicEditor extends \Codeception\Module
 	}
 
 	/**
+	 * Open the Visual Editor (TinyMCE) modal for the given shortcode.
+	 *
+	 * @since   2.2.4
+	 *
+	 * @param   AcceptanceTester $I                          Acceptance Tester.
+	 * @param   string           $shortcodeName              Shortcode Name (e.g. 'ConvertKit Form').
+	 * @param   string           $targetEditor               Target TinyMCE editor instance.
+	 */
+	public function openVisualEditorShortcodeModal($I, $shortcodeName, $targetEditor = 'content')
+	{
+		// Scroll to the applicable TinyMCE editor.
+		switch ($targetEditor) {
+			case 'excerpt':
+				$I->scrollTo('#tagsdiv-product_tag');
+				break;
+			default:
+				$I->scrollTo('h1.wp-heading-inline');
+				break;
+		}
+
+		// Click the Visual tab on the applicable TinyMCE editor.
+		$I->click('button#' . $targetEditor . '-tmce');
+
+		// Click the TinyMCE Button for this shortcode.
+		$I->click('#wp-' . $targetEditor . '-editor-container div.mce-container div[aria-label="' . $shortcodeName . '"] button');
+
+		// Confirm that the modal is displayed.
+		$I->waitForElementVisible('#convertkit-modal-body');
+	}
+
+	/**
 	 * Add the given shortcode when adding or editing a Page, Post or Custom Post Type
 	 * in the Text Editor.
 	 *
@@ -113,21 +131,8 @@ class WPClassicEditor extends \Codeception\Module
 	 */
 	public function addTextEditorShortcode($I, $shortcodeProgrammaticName, $shortcodeConfiguration = false, $expectedShortcodeOutput = false, $targetEditor = 'content')
 	{
-		// Scroll to the applicable TinyMCE editor.
-		switch ($targetEditor) {
-			case 'excerpt':
-				$I->scrollTo('#tagsdiv-product_tag');
-				break;
-			default:
-				$I->scrollTo('h1.wp-heading-inline');
-				break;
-		}
-
-		// Click the Text tab.
-		$I->click('button#' . $targetEditor . '-html');
-
-		// Click the QuickTags Button for this shortcode.
-		$I->click('input#qt_' . $targetEditor . '_' . $shortcodeProgrammaticName);
+		// Open Text Editor shortcode modal.
+		$I->openTextEditorShortcodeModal($I, $shortcodeProgrammaticName, $targetEditor);
 
 		// Wait for the modal's contents to load.
 		$I->waitForElementVisible('#convertkit-quicktags-modal input.button-primary');
@@ -160,6 +165,37 @@ class WPClassicEditor extends \Codeception\Module
 		if ($expectedShortcodeOutput) {
 			$I->seeInField('textarea#' . $targetEditor, $expectedShortcodeOutput);
 		}
+	}
+
+	/**
+	 * Open the Text Editor modal for the given shortcode.
+	 *
+	 * @since   2.2.4
+	 *
+	 * @param   AcceptanceTester $I                          Acceptance Tester.
+	 * @param   string           $shortcodeProgrammaticName  Programmatic Shortcode Name (e.g. 'convertkit-form').
+	 * @param   string           $targetEditor               Target TinyMCE editor instance.
+	 */
+	public function openTextEditorShortcodeModal($I, $shortcodeProgrammaticName, $targetEditor = 'content')
+	{
+		// Scroll to the applicable TinyMCE editor.
+		switch ($targetEditor) {
+			case 'excerpt':
+				$I->scrollTo('#tagsdiv-product_tag');
+				break;
+			default:
+				$I->scrollTo('h1.wp-heading-inline');
+				break;
+		}
+
+		// Click the Text tab.
+		$I->click('button#' . $targetEditor . '-html');
+
+		// Click the QuickTags Button for this shortcode.
+		$I->click('input#qt_' . $targetEditor . '_' . $shortcodeProgrammaticName);
+
+		// Confirm that the modal is displayed.
+		$I->waitForElementVisible('#convertkit-quicktags-modal');
 	}
 
 	/**
