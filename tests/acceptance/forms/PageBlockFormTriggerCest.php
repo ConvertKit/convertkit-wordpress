@@ -16,10 +16,6 @@ class PageBlockFormTriggerCest
 	public function _before(AcceptanceTester $I)
 	{
 		$I->activateConvertKitPlugin($I);
-
-		// Setup ConvertKit Plugin with no default form specified.
-		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY'], $_ENV['CONVERTKIT_API_SECRET'], '', '', '');
-		$I->setupConvertKitPluginResources($I);
 	}
 
 	/**
@@ -31,6 +27,10 @@ class PageBlockFormTriggerCest
 	 */
 	public function testFormTriggerBlockWithValidFormParameter(AcceptanceTester $I)
 	{
+		// Setup ConvertKit Plugin with no default form specified.
+		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY'], $_ENV['CONVERTKIT_API_SECRET'], '', '', '');
+		$I->setupConvertKitPluginResources($I);
+
 		// Add a Page using the Gutenberg editor.
 		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form Trigger: Valid Form Param');
 
@@ -69,6 +69,10 @@ class PageBlockFormTriggerCest
 	 */
 	public function testFormTriggerBlocksWithValidFormParameter(AcceptanceTester $I)
 	{
+		// Setup ConvertKit Plugin with no default form specified.
+		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY'], $_ENV['CONVERTKIT_API_SECRET'], '', '', '');
+		$I->setupConvertKitPluginResources($I);
+
 		// Add a Page using the Gutenberg editor.
 		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form Trigger: Valid Form Param, Multiple Blocks');
 
@@ -121,6 +125,10 @@ class PageBlockFormTriggerCest
 	 */
 	public function testFormTriggerBlockWithNoFormParameter(AcceptanceTester $I)
 	{
+		// Setup ConvertKit Plugin with no default form specified.
+		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY'], $_ENV['CONVERTKIT_API_SECRET'], '', '', '');
+		$I->setupConvertKitPluginResources($I);
+
 		// Add a Page using the Gutenberg editor.
 		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form Trigger: No Form Param');
 
@@ -160,6 +168,10 @@ class PageBlockFormTriggerCest
 	 */
 	public function testFormTriggerBlockWithTextParameter(AcceptanceTester $I)
 	{
+		// Setup ConvertKit Plugin with no default form specified.
+		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY'], $_ENV['CONVERTKIT_API_SECRET'], '', '', '');
+		$I->setupConvertKitPluginResources($I);
+
 		// Add a Page using the Gutenberg editor.
 		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form Trigger: Text Param');
 
@@ -190,6 +202,10 @@ class PageBlockFormTriggerCest
 	 */
 	public function testFormTriggerBlockWithBlankTextParameter(AcceptanceTester $I)
 	{
+		// Setup ConvertKit Plugin with no default form specified.
+		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY'], $_ENV['CONVERTKIT_API_SECRET'], '', '', '');
+		$I->setupConvertKitPluginResources($I);
+
 		// Add a Page using the Gutenberg editor.
 		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form Trigger: Blank Text Param');
 
@@ -220,6 +236,10 @@ class PageBlockFormTriggerCest
 	 */
 	public function testFormTriggerBlockWithThemeColorParameters(AcceptanceTester $I)
 	{
+		// Setup ConvertKit Plugin with no default form specified.
+		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY'], $_ENV['CONVERTKIT_API_SECRET'], '', '', '');
+		$I->setupConvertKitPluginResources($I);
+
 		// Define colors.
 		$backgroundColor = 'white';
 		$textColor       = 'purple';
@@ -260,6 +280,10 @@ class PageBlockFormTriggerCest
 	 */
 	public function testFormTriggerBlockWithHexColorParameters(AcceptanceTester $I)
 	{
+		// Setup ConvertKit Plugin with no default form specified.
+		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY'], $_ENV['CONVERTKIT_API_SECRET'], '', '', '');
+		$I->setupConvertKitPluginResources($I);
+
 		// Define colors.
 		$backgroundColor = '#ee1616';
 		$textColor       = '#1212c0';
@@ -298,6 +322,10 @@ class PageBlockFormTriggerCest
 	 */
 	public function testFormTriggerBlockParameterEscaping(AcceptanceTester $I)
 	{
+		// Setup ConvertKit Plugin with no default form specified.
+		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY'], $_ENV['CONVERTKIT_API_SECRET'], '', '', '');
+		$I->setupConvertKitPluginResources($I);
+
 		// Define a 'bad' block.  This is difficult to do in Gutenberg, but let's assume it's possible.
 		$I->havePageInDatabase(
 			[
@@ -321,6 +349,101 @@ class PageBlockFormTriggerCest
 
 		// Confirm that the ConvertKit Form Trigger is displayed.
 		$I->seeFormTriggerOutput($I, $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_URL'], 'Subscribe');
+	}
+
+	/**
+	 * Test the Form Trigger block displays a message with a link to the Plugin's
+	 * settings screen, when the Plugin has no API key specified.
+	 *
+	 * @since   2.2.3
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testFormTriggerBlockWhenNoAPIKey(AcceptanceTester $I)
+	{
+		// Add a Page using the Gutenberg editor.
+		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form Trigger: Block: No API Key');
+
+		// Add block to Page.
+		$I->addGutenbergBlock($I, 'ConvertKit Form Trigger', 'convertkit-formtrigger');
+
+		// Confirm that the Form block displays instructions to the user on how to enter their API Key.
+		$I->see(
+			'No API Key specified.',
+			[
+				'css' => '.convertkit-no-content',
+			]
+		);
+
+		// Click the link to confirm it loads the Plugin's settings screen.
+		$I->click(
+			'Click here to add your API Key.',
+			[
+				'css' => '.convertkit-no-content',
+			]
+		);
+
+		// Switch to next browser tab, as the link opens in a new tab.
+		$I->switchToNextTab();
+
+		// Confirm the Plugin's settings screen is displayed.
+		$I->seeElementInDOM('input[name="_wp_convertkit_settings[api_key]"]');
+		$I->seeElementInDOM('input[name="_wp_convertkit_settings[api_secret]"]');
+
+		// Close tab.
+		$I->closeTab();
+
+		// Save page to avoid alert box when _passed() runs to deactivate the Plugin.
+		$I->publishGutenbergPage($I);
+	}
+
+	/**
+	 * Test the Form Trigger block displays a message with a link to the Plugin's
+	 * settings screen, when the ConvertKit account has no forms.
+	 *
+	 * @since   2.2.3
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testFormTriggerBlockWhenNoForms(AcceptanceTester $I)
+	{
+		// Setup Plugin.
+		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY_NO_DATA'], $_ENV['CONVERTKIT_API_SECRET_NO_DATA'], '', '', '');
+		$I->setupConvertKitPluginResourcesNoData($I);
+
+		// Add a Page using the Gutenberg editor.
+		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form Trigger: Block: No Forms');
+
+		// Add block to Page.
+		$I->addGutenbergBlock($I, 'ConvertKit Form Trigger', 'convertkit-formtrigger');
+
+		// Confirm that the Form block displays instructions to the user on how to add a Form in ConvertKit.
+		$I->see(
+			'No forms exist in ConvertKit.',
+			[
+				'css' => '.convertkit-no-content',
+			]
+		);
+
+		// Click the link to confirm it loads ConvertKit.
+		$I->click(
+			'Click here to create your first form.',
+			[
+				'css' => '.convertkit-no-content',
+			]
+		);
+
+		// Switch to next browser tab, as the link opens in a new tab.
+		$I->switchToNextTab();
+
+		// Confirm the ConvertKit login screen loaded.
+		$I->seeElementInDOM('input[name="user[email]"]');
+
+		// Close tab.
+		$I->closeTab();
+
+		// Save page to avoid alert box when _passed() runs to deactivate the Plugin.
+		$I->publishGutenbergPage($I);
 	}
 
 	/**
