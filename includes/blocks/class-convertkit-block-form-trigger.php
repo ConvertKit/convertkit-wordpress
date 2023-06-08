@@ -246,7 +246,7 @@ class ConvertKit_Block_Form_Trigger extends ConvertKit_Block {
 		// Get non-inline ConvertKit Forms.
 		$forms            = array();
 		$convertkit_forms = new ConvertKit_Resource_Forms( 'block_edit' );
-		if ( count( $convertkit_forms->get_non_inline() ) > 0 ) {
+		if ( $convertkit_forms->exist() ) {
 			foreach ( $convertkit_forms->get_non_inline() as $form ) {
 				$forms[ absint( $form['id'] ) ] = sanitize_text_field( $form['name'] );
 			}

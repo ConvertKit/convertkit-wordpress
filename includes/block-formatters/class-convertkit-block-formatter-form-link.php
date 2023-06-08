@@ -120,7 +120,7 @@ class ConvertKit_Block_Formatter_Form_Link extends ConvertKit_Block_Formatter {
 		// Get non-inline ConvertKit Forms.
 		$forms      = array();
 		$forms_data = array();
-		if ( count( $this->forms->get_non_inline() ) > 0 ) {
+		if ( $this->forms->exist() ) {
 			foreach ( $this->forms->get_non_inline() as $form ) {
 				// Add this form's necessary to the attribute arrays.
 				$forms[ absint( $form['id'] ) ]      = sanitize_text_field( $form['name'] );
