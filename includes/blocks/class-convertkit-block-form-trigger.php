@@ -243,24 +243,11 @@ class ConvertKit_Block_Form_Trigger extends ConvertKit_Block {
 			return false;
 		}
 
-		// Get ConvertKit Forms.
+		// Get non-inline ConvertKit Forms.
 		$forms            = array();
 		$convertkit_forms = new ConvertKit_Resource_Forms( 'block_edit' );
-		if ( $convertkit_forms->exist() ) {
-			foreach ( $convertkit_forms->get() as $form ) {
-				// Ignore inline forms; this button link is only for modal, slide in and sticky bar forms.
-				if ( ! array_key_exists( 'format', $form ) ) {
-					continue;
-				}
-				if ( $form['format'] === 'inline' ) {
-					continue;
-				}
-
-				// Ignore forms that are missing a uid.
-				if ( ! array_key_exists( 'uid', $form ) ) {
-					continue;
-				}
-
+		if ( count( $convertkit_forms->get_non_inline() ) > 0 ) {
+			foreach ( $convertkit_forms->get_non_inline() as $form ) {
 				$forms[ absint( $form['id'] ) ] = sanitize_text_field( $form['name'] );
 			}
 		}
