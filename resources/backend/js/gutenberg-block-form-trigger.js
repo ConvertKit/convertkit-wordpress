@@ -19,9 +19,9 @@ function convertKitGutenbergFormTriggerBlockRenderPreview( block, props ) {
 	if ( ! block.has_api_key ) {
 		return convertKitGutenbergDisplayBlockNoticeWithLink(
 			block.name,
-			block.gutenberg_help_description_no_api_key.notice,
-			block.gutenberg_help_description_no_api_key.link,
-			block.gutenberg_help_description_no_api_key.link_text
+			block.no_api_key.notice,
+			block.no_api_key.link,
+			block.no_api_key.link_text
 		);
 	}
 
@@ -30,9 +30,9 @@ function convertKitGutenbergFormTriggerBlockRenderPreview( block, props ) {
 	if ( ! block.has_resources ) {
 		return convertKitGutenbergDisplayBlockNoticeWithLink(
 			block.name,
-			block.gutenberg_help_description_no_resources.notice,
-			block.gutenberg_help_description_no_resources.link,
-			block.gutenberg_help_description_no_resources.link_text
+			block.no_resources.notice,
+			block.no_resources.link,
+			block.no_resources.link_text
 		);
 	}
 
