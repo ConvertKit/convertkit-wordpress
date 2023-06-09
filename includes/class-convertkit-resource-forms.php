@@ -82,11 +82,6 @@ class ConvertKit_Resource_Forms extends ConvertKit_Resource {
 
 		return true;
 
-		// If no forms exist, return false.
-		if ( ! $this->exist() ) {
-			return false;
-		}
-
 	}
 
 	/**
