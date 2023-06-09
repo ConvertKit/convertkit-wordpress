@@ -117,19 +117,11 @@ class ConvertKit_Block_Formatter_Form_Link extends ConvertKit_Block_Formatter {
 			return false;
 		}
 
-		// Get ConvertKit Forms.
+		// Get non-inline ConvertKit Forms.
 		$forms      = array();
 		$forms_data = array();
 		if ( $this->forms->exist() ) {
-			foreach ( $this->forms->get() as $form ) {
-				// Ignore inline forms; this formatter is only for modal, slide in and sticky bar forms.
-				if ( ! array_key_exists( 'format', $form ) ) {
-					continue;
-				}
-				if ( $form['format'] === 'inline' ) {
-					continue;
-				}
-
+			foreach ( $this->forms->get_non_inline() as $form ) {
 				// Add this form's necessary to the attribute arrays.
 				$forms[ absint( $form['id'] ) ]      = sanitize_text_field( $form['name'] );
 				$forms_data[ absint( $form['id'] ) ] = array(

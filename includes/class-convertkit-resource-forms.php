@@ -54,6 +54,20 @@ class ConvertKit_Resource_Forms extends ConvertKit_Resource {
 	}
 
 	/**
+	 * Returns all non-inline forms based on the sort order.
+	 *
+	 * @since   2.2.4
+	 *
+	 * @return  array
+	 */
+	public function get_non_inline() {
+
+		return $this->get_by( 'format', array( 'modal', 'slide in', 'sticky bar' ) );
+
+	}
+
+
+	/**
 	 * Returns whether any non-inline forms exist in the options table.
 	 *
 	 * @since   2.2.4
@@ -62,32 +76,16 @@ class ConvertKit_Resource_Forms extends ConvertKit_Resource {
 	 */
 	public function non_inline_exist() {
 
+		if ( ! $this->get_non_inline() ) {
+			return false;
+		}
+
+		return true;
+
 		// If no forms exist, return false.
 		if ( ! $this->exist() ) {
 			return false;
 		}
-
-		// Iterate through forms until a non-inline form is found.
-		foreach ( $this->resources as $form_id => $form ) {
-			// Ignore inline forms.
-			if ( ! array_key_exists( 'format', $form ) ) {
-				continue;
-			}
-			if ( $form['format'] === 'inline' ) {
-				continue;
-			}
-
-			// Ignore forms that are missing a uid.
-			if ( ! array_key_exists( 'uid', $form ) ) {
-				continue;
-			}
-
-			// This is a non-inline form.
-			return true;
-		}
-
-		// If here, no non-inline forms exist.
-		return false;
 
 	}
 
