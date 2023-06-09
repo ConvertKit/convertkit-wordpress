@@ -54,6 +54,44 @@ class ConvertKit_Resource_Forms extends ConvertKit_Resource {
 	}
 
 	/**
+	 * Returns whether any non-inline forms exist in the options table.
+	 *
+	 * @since   2.2.4
+	 *
+	 * @return  bool
+	 */
+	public function non_inline_exist() {
+
+		// If no forms exist, return false.
+		if ( ! $this->exist() ) {
+			return false;
+		}
+
+		// Iterate through forms until a non-inline form is found.
+		foreach ( $this->resources as $form_id => $form ) {
+			// Ignore inline forms.
+			if ( ! array_key_exists( 'format', $form ) ) {
+				continue;
+			}
+			if ( $form['format'] === 'inline' ) {
+				continue;
+			}
+
+			// Ignore forms that are missing a uid.
+			if ( ! array_key_exists( 'uid', $form ) ) {
+				continue;
+			}
+
+			// This is a non-inline form.
+			return true;
+		}
+
+		// If here, no non-inline forms exist.
+		return false;
+
+	}
+
+	/**
 	 * Returns the HTML/JS markup for the given Form ID.
 	 *
 	 * Legacy Forms will return HTML.
