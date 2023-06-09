@@ -62,54 +62,7 @@ class ConvertKit_Resource_Forms extends ConvertKit_Resource {
 	 */
 	public function get_non_inline() {
 
-		// Don't mutate the underlying resources, so multiple calls to get()
-		// with different order_by and order properties are supported.
-		$resources = $this->resources;
-
-		// Don't attempt sorting if no resources exist.
-		if ( ! $this->exist() ) {
-			return $resources;
-		}
-
-		// Remove forms that are inline or cannot have their format determined.
-		foreach ( $resources as $form_id => $form ) {
-			// Ignore inline forms.
-			if ( ! array_key_exists( 'format', $form ) ) {
-				unset( $resources[ $form_id ] );
-				continue;
-			}
-			if ( $form['format'] === 'inline' ) {
-				unset( $resources[ $form_id ] );
-				continue;
-			}
-
-			// Ignore forms that are missing a uid.
-			if ( ! array_key_exists( 'uid', $form ) ) {
-				unset( $resources[ $form_id ] );
-				continue;
-			}
-		}
-
-		// Don't attempt sorting if the order_by property doesn't exist as a key
-		// in the API response.
-		if ( ! array_key_exists( $this->order_by, reset( $resources ) ) ) {
-			return $resources;
-		}
-
-		// Sort resources ascending by the order_by property.
-		uasort(
-			$resources,
-			function( $a, $b ) {
-				return strcmp( $a[ $this->order_by ], $b[ $this->order_by ] );
-			}
-		);
-
-		// Reverse the array if the results should be returned in descending order.
-		if ( $this->order === 'desc' ) {
-			$resources = array_reverse( $resources, true );
-		}
-
-		return $resources;
+		return $this->get_by( 'format', array( 'modal', 'slide in', 'sticky bar' ) );
 
 	}
 
