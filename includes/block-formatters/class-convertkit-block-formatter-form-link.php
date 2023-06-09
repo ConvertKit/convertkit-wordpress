@@ -40,9 +40,9 @@ class ConvertKit_Block_Formatter_Form_Link extends ConvertKit_Block_Formatter {
 	public function __construct() {
 
 		// Register this as a Gutenberg block formatter in the ConvertKit Plugin,
-		// if forms exist on ConvertKit.
+		// if non-inline forms exist on ConvertKit.
 		$this->forms = new ConvertKit_Resource_Forms( 'block_formatter_register' );
-		if ( $this->forms->exist() ) {
+		if ( $this->forms->non_inline_exist() ) {
 			add_filter( 'convertkit_get_block_formatters', array( $this, 'register' ) );
 		}
 
