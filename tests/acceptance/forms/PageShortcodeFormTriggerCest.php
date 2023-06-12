@@ -347,7 +347,7 @@ class PageShortcodeFormTriggerCest
 
 		// Confirm that the Form block displays instructions to the user on how to add a Form in ConvertKit.
 		$I->see(
-			'No forms exist in ConvertKit.',
+			'No modal, sticky bar or slide in forms exist in ConvertKit.',
 			[
 				'css' => '#convertkit-modal-body-body',
 			]
@@ -355,7 +355,7 @@ class PageShortcodeFormTriggerCest
 
 		// Click the link to confirm it loads ConvertKit.
 		$I->click(
-			'Click here to create your first form.',
+			'Click here to create a form.',
 			[
 				'css' => '#convertkit-modal-body-body',
 			]

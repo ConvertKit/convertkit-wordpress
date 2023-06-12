@@ -66,6 +66,24 @@ class ConvertKit_Resource_Forms extends ConvertKit_Resource {
 
 	}
 
+
+	/**
+	 * Returns whether any non-inline forms exist in the options table.
+	 *
+	 * @since   2.2.4
+	 *
+	 * @return  bool
+	 */
+	public function non_inline_exist() {
+
+		if ( ! $this->get_non_inline() ) {
+			return false;
+		}
+
+		return true;
+
+	}
+
 	/**
 	 * Returns the HTML/JS markup for the given Form ID.
 	 *
