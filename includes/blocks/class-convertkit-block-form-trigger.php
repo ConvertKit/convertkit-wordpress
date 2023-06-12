@@ -118,9 +118,9 @@ class ConvertKit_Block_Form_Trigger extends ConvertKit_Block {
 				'link_text' => __( 'Click here to add your API Key.', 'convertkit' ),
 			),
 			'no_resources'                      => array(
-				'notice'    => __( 'No forms exist in ConvertKit.', 'convertkit' ),
+				'notice'    => __( 'No modal, sticky bar or slide in forms exist in ConvertKit.', 'convertkit' ),
 				'link'      => convertkit_get_new_form_url(),
-				'link_text' => __( 'Click here to create your first form.', 'convertkit' ),
+				'link_text' => __( 'Click here to create a form.', 'convertkit' ),
 			),
 			'gutenberg_help_description'        => __( 'Select a Form using the Form option in the Gutenberg sidebar.', 'convertkit' ),
 
@@ -128,10 +128,10 @@ class ConvertKit_Block_Form_Trigger extends ConvertKit_Block {
 			// If not defined, render_callback above will be used.
 			'gutenberg_preview_render_callback' => 'convertKitGutenbergFormTriggerBlockRenderPreview',
 
-			// Whether an API Key exists in the Plugin, and are the required resources (forms) available.
+			// Whether an API Key exists in the Plugin, and are the required resources (non-inline forms) available.
 			// If no API Key is specified in the Plugin's settings, render the "No API Key" output.
 			'has_api_key'                       => $settings->has_api_key_and_secret(),
-			'has_resources'                     => $convertkit_forms->exist(),
+			'has_resources'                     => $convertkit_forms->non_inline_exist(),
 		);
 
 	}
@@ -243,24 +243,11 @@ class ConvertKit_Block_Form_Trigger extends ConvertKit_Block {
 			return false;
 		}
 
-		// Get ConvertKit Forms.
+		// Get non-inline ConvertKit Forms.
 		$forms            = array();
 		$convertkit_forms = new ConvertKit_Resource_Forms( 'block_edit' );
-		if ( $convertkit_forms->exist() ) {
-			foreach ( $convertkit_forms->get() as $form ) {
-				// Ignore inline forms; this button link is only for modal, slide in and sticky bar forms.
-				if ( ! array_key_exists( 'format', $form ) ) {
-					continue;
-				}
-				if ( $form['format'] === 'inline' ) {
-					continue;
-				}
-
-				// Ignore forms that are missing a uid.
-				if ( ! array_key_exists( 'uid', $form ) ) {
-					continue;
-				}
-
+		if ( $convertkit_forms->non_inline_exist() ) {
+			foreach ( $convertkit_forms->get_non_inline() as $form ) {
 				$forms[ absint( $form['id'] ) ] = sanitize_text_field( $form['name'] );
 			}
 		}
