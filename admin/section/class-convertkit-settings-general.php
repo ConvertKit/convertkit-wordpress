@@ -371,11 +371,7 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 		// Bail if no Forms exist.
 		if ( ! $this->forms->exist() ) {
 			esc_html_e( 'No Forms exist in ConvertKit.', 'convertkit' );
-			echo '<br />' . sprintf(
-				/* translators: Link to sign in to ConvertKit */
-				esc_html__( 'To create a form, %s', 'convertkit' ),
-				'<a href="' . esc_url( convertkit_get_sign_in_url() ) . '" target="_blank">' . esc_html__( 'sign in to ConvertKit', 'convertkit' ) . '</a>'
-			);
+			echo '<br /><a href="' . esc_url( convertkit_get_new_form_url( 'inline' ) ) . '" target="_blank">' . esc_html__( 'Click here to create a form', 'convertkit' ) . '</a>';
 			return;
 		}
 

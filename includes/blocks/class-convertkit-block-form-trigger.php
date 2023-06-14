@@ -119,7 +119,7 @@ class ConvertKit_Block_Form_Trigger extends ConvertKit_Block {
 			),
 			'no_resources'                      => array(
 				'notice'    => __( 'No modal, sticky bar or slide in forms exist in ConvertKit.', 'convertkit' ),
-				'link'      => convertkit_get_new_form_url(),
+				'link'      => convertkit_get_new_form_url( 'modal' ),
 				'link_text' => __( 'Click here to create a form.', 'convertkit' ),
 			),
 			'gutenberg_help_description'        => __( 'Select a Form using the Form option in the Gutenberg sidebar.', 'convertkit' ),

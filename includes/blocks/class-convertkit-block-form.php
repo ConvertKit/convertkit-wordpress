@@ -124,7 +124,7 @@ class ConvertKit_Block_Form extends ConvertKit_Block {
 			),
 			'no_resources'                      => array(
 				'notice'    => __( 'No forms exist in ConvertKit.', 'convertkit' ),
-				'link'      => convertkit_get_new_form_url(),
+				'link'      => convertkit_get_new_form_url( 'inline' ),
 				'link_text' => __( 'Click here to create your first form.', 'convertkit' ),
 			),
 

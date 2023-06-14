@@ -330,17 +330,19 @@ function convertkit_get_api_key_url() {
  *
  * @since   2.2.3
  *
- * @return  string  ConvertKit App URL.
+ * @param 	string 	$format 	Format (inline|modal|slide in|sticky bar).
+ * @return  string  			ConvertKit App URL
  */
-function convertkit_get_new_form_url() {
+function convertkit_get_new_form_url( $format = '' ) {
 
 	return add_query_arg(
 		array(
+			'format'	  => $format,
 			'utm_source'  => 'wordpress',
 			'utm_term'    => get_locale(),
 			'utm_content' => 'convertkit',
 		),
-		'https://app.convertkit.com/forms/designers/new/'
+		'https://app.convertkit.com/forms/new/'
 	);
 
 }
