@@ -146,7 +146,7 @@ class PluginSettingsToolsCest
 				[
 					'enabled' => 'on',
 				],
-				$I->getRestrictedContentDefaultSettings(),
+				$I->getRestrictedContentDefaultSettings()
 			)
 		);
 		$I->loadConvertKitSettingsToolsScreen($I);
