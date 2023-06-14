@@ -1,7 +1,7 @@
-=== ConvertKit - Email Marketing, Newsletter, Subscribers and Landing Pages ===
+=== ConvertKit - Email Marketing, Email Newsletter, Subscribers and Landing Pages ===
 Contributors: nathanbarry, growdev, travisnorthcutt, ggwicz
 Donate link: https://convertkit.com
-Tags: email, email marketing, newsletter, subscribers, convertkit
+Tags: email marketing, email newsletter, newsletter, subscribers, convertkit
 Requires at least: 5.0
 Tested up to: 6.2.2
 Requires PHP: 5.6.20
@@ -15,11 +15,11 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 **New to ConvertKit? [Creating an account](https://app.convertkit.com/users/signup?plan=1k&utm_source=wordpress&utm_term=en_US&utm_content=readme) is 100% free for your first 1,000 subscribers, making ConvertKit an email marketing solution for everyone - whether you're new to email marketing or a seasoned professional email marketer.**
 
-= Email Marketing and Newsletter Features =
+= Email Marketing and Email Newsletter Features =
 
-- Design [newsletter subscription forms](https://convertkit.com/features/forms?utm_source=wordpress&utm_term=en_US&utm_content=readme) in ConvertKit, automatically appending them to any WordPress post or page, or displaying forms within your WordPress content using the supplied Gutenberg block and shortcode options. Perfect for building your email subscriber lists.
+- Design [email newsletter subscription forms](https://convertkit.com/features/forms?utm_source=wordpress&utm_term=en_US&utm_content=readme) in ConvertKit, automatically appending them to any WordPress post or page, or displaying forms within your WordPress content using the supplied Gutenberg block and shortcode options. Perfect for building your email subscriber lists.
 - Build [landing pages](https://convertkit.com/features/landing-pages?utm_source=wordpress&utm_term=en_US&utm_content=readme) in ConvertKit, and display them on a WordPress page to capture email subscribers
-- List past [newsletters](https://convertkit.com/features/email-marketing?utm_source=wordpress&utm_term=en_US&utm_content=readme) on your WordPress site
+- List past [email newsletters](https://convertkit.com/features/email-marketing?utm_source=wordpress&utm_term=en_US&utm_content=readme) on your WordPress site
 
 = Forms =
 
@@ -29,7 +29,7 @@ Sign up forms can be configured to:
 
 - Send free content, such as a PDF
 - Display when the user is about to leave the page
-- Subscribe to a newsletter, with powerful tagging and segmentation options
+- Subscribe to an email newsletter, with powerful tagging and segmentation options
 
 Embedding ConvertKit forms on your WordPress web site with the ConvertKit Plugin is quick and simple:
 
@@ -44,11 +44,11 @@ For greater control, ConvertKit's email marketing subscription forms can be disp
 
 Start collecting email subscribers today!
 
-= Send Newsletters =
+= Send Email Newsletters =
 
 Use ConvertKit's [email marketing](https://convertkit.com/features/email-marketing?utm_source=wordpress&utm_term=en_US&utm_content=readme) feature to build and send emails and newsletters to your subscribers and leads.
 
-Embed existing newsletters on your WordPress web site, ensuring visitors never miss your newsletter content, by:
+Embed existing email newsletters on your WordPress web site, ensuring visitors never miss your email newsletter content, by:
 
 - Using the ConvertKit Broadcasts block in Gutenberg
 - Using the `[convertkit_broadcasts]` shortcode in the Classic Editor
@@ -61,7 +61,7 @@ Create or edit a WordPress Page, choose the ConvertKit landing page from the Con
 
 = Sell Products =
 
-Embed buttons (or link text) to sell your ConvertKit Products in seconds - whether that's digital goods, paid newsletters, music, coaching and more.
+Embed buttons (or link text) to sell your ConvertKit Products in seconds - whether that's digital goods, paid email newsletters, music, coaching and more.
 
 Already have content on your site that you want to sell? Use the Member Content functionality on Pages to require email subscribers purchase a ConvertKit Product to access your content - whether that's a course or digital download - all without leaving your web site. 
 
