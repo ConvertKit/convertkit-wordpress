@@ -15,7 +15,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 **New to ConvertKit? [Creating an account](https://app.convertkit.com/users/signup?plan=1k&utm_source=wordpress&utm_term=en_US&utm_content=readme) is 100% free for your first 1,000 subscribers, making ConvertKit an email marketing solution for everyone - whether you're new to email marketing or a seasoned professional email marketer.**
 
-= Email Marketing and Email Newsletter Features =
+### Email Marketing and Email Newsletter Features
 
 - Design [email newsletter subscription forms](https://convertkit.com/features/forms?utm_source=wordpress&utm_term=en_US&utm_content=readme) in ConvertKit, automatically appending them to any WordPress post or page, or displaying forms within your WordPress content using the supplied Gutenberg block and shortcode options. Perfect for building your email subscriber lists.
 - Build [landing pages](https://convertkit.com/features/landing-pages?utm_source=wordpress&utm_term=en_US&utm_content=readme) in ConvertKit, and display them on a WordPress page to capture email subscribers
@@ -44,7 +44,7 @@ For greater control, ConvertKit's email marketing subscription forms can be disp
 
 Start collecting email subscribers today!
 
-= Send Email Newsletters =
+### Send Email Newsletters
 
 Use ConvertKit's [email marketing](https://convertkit.com/features/email-marketing?utm_source=wordpress&utm_term=en_US&utm_content=readme) feature to build and send emails and newsletters to your subscribers and leads.
 
