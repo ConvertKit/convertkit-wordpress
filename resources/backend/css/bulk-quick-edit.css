@@ -23,17 +23,17 @@
 }
 .convertkit-bulk-quick-edit > div label span.title.convertkit-icon-form {
 	background: url(../images/block-icon-form.png) 0% 50% no-repeat;
-	background-size: 16px 16px;
+	background-size: 20px 20px;
 	text-indent: 24px;
 }
 .convertkit-bulk-quick-edit > div label span.title.convertkit-icon-tag {
-	background: url(../images/block-icon-tag.png) 0% 50% no-repeat;
-	background-size: 16px 16px;
+	background: url(../images/tag.png) 0% 50% no-repeat;
+	background-size: 20px 20px;
 	text-indent: 24px;
 }
 .convertkit-bulk-quick-edit > div label span.title.convertkit-icon-restrict-content {
 	background: url(../images/block-icon-product.png) 0% 50% no-repeat;
-	background-size: 16px 16px;
+	background-size: 20px 20px;
 	text-indent: 24px;
 }
 
