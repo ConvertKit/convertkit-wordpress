@@ -86,10 +86,10 @@ class PluginSettingsGeneralCest
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
 
-		// Check that the 'Click here to create a form' link is displayed and links
+		// Check that the 'Click here to create your first form' link is displayed and links
 		// to creating an inline Form in ConvertKit.
 		$I->see('No Forms exist in ConvertKit.');
-		$I->seeInSource('<a href="https://app.convertkit.com/forms/new/?format=inline&amp;utm_source=wordpress&amp;utm_term=en_US&amp;utm_content=convertkit" target="_blank">Click here to create a form</a>');
+		$I->seeInSource('<a href="https://app.convertkit.com/forms/new/?format=inline&amp;utm_source=wordpress&amp;utm_term=en_US&amp;utm_content=convertkit" target="_blank">Click here to create your first form</a>');
 	}
 
 	/**
@@ -199,10 +199,10 @@ class PluginSettingsGeneralCest
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
 
-		// Check that the 'Click here to create a form' link is displayed and links
+		// Check that the 'Click here to create your first form' link is displayed and links
 		// to creating an inline Form in ConvertKit.
 		$I->see('No Forms exist in ConvertKit.');
-		$I->seeInSource('<a href="https://app.convertkit.com/forms/new/?format=inline&amp;utm_source=wordpress&amp;utm_term=en_US&amp;utm_content=convertkit" target="_blank">Click here to create a form</a>');
+		$I->seeInSource('<a href="https://app.convertkit.com/forms/new/?format=inline&amp;utm_source=wordpress&amp;utm_term=en_US&amp;utm_content=convertkit" target="_blank">Click here to create your first form</a>');
 	}
 
 	/**
