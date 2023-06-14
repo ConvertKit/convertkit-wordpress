@@ -63,8 +63,8 @@ class ConvertKit_Admin_Settings {
 		 * Enqueue JavaScript for the Settings Screen at Settings > ConvertKit
 		 *
 		 * @since   1.9.6
-		 * 
-		 * @param 	string 	$section 	Settings section / tab (general|tools|restrict-content).
+		 *
+		 * @param   string  $section    Settings section / tab (general|tools|restrict-content).
 		 */
 		do_action( 'convertkit_admin_settings_enqueue_scripts', $section );
 
@@ -95,7 +95,7 @@ class ConvertKit_Admin_Settings {
 		 *
 		 * @since   1.9.6
 		 *
-		 * @param 	string 	$section 	Settings section / tab (general|tools|restrict-content).
+		 * @param   string  $section    Settings section / tab (general|tools|restrict-content).
 		 */
 		do_action( 'convertkit_admin_settings_enqueue_styles', $section );
 

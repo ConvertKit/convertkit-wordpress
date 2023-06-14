@@ -44,18 +44,18 @@ class ConvertKit_Admin_Settings_Restrict_Content extends ConvertKit_Settings_Bas
 
 	/**
 	 * Enqueues scripts for the Settings > Member's Content screen.
-	 * 
-	 * @since 	2.2.4
-	 * 
-	 * @param 	string 	$section 	Settings section / tab (general|tools|restrict-content).
-	 */ 
+	 *
+	 * @since   2.2.4
+	 *
+	 * @param   string $section    Settings section / tab (general|tools|restrict-content).
+	 */
 	public function enqueue_scripts( $section ) {
 
 		// Bail if we're not on the Member's Content section.
 		if ( $section !== $this->name ) {
 			return;
 		}
-		
+
 		// Enqueue JS.
 		wp_enqueue_script( 'convertkit-admin-settings-conditional-display', CONVERTKIT_PLUGIN_URL . 'resources/backend/js/settings-conditional-display.js', array( 'jquery' ), CONVERTKIT_PLUGIN_VERSION, true );
 

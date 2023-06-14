@@ -70,18 +70,18 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 
 	/**
 	 * Enqueues scripts for the Settings > General screen.
-	 * 
-	 * @since 	2.2.4
-	 * 
-	 * @param 	string 	$section 	Settings section / tab (general|tools|restrict-content).
-	 */ 
+	 *
+	 * @since   2.2.4
+	 *
+	 * @param   string $section    Settings section / tab (general|tools|restrict-content).
+	 */
 	public function enqueue_scripts( $section ) {
 
 		// Bail if we're not on the general section.
 		if ( $section !== $this->name ) {
 			return;
 		}
-		
+
 		// Enqueue Select2 JS.
 		convertkit_select2_enqueue_scripts();
 
@@ -92,18 +92,18 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 
 	/**
 	 * Enqueues styles for the Settings > General screen.
-	 * 
-	 * @since 	2.2.4
-	 * 
-	 * @param 	string 	$section 	Settings section / tab (general|tools|restrict-content).
-	 */ 
+	 *
+	 * @since   2.2.4
+	 *
+	 * @param   string $section    Settings section / tab (general|tools|restrict-content).
+	 */
 	public function enqueue_styles( $section ) {
 
 		// Bail if we're not on the general section.
 		if ( $section !== $this->name ) {
 			return;
 		}
-		
+
 		// Enqueue Select2 CSS.
 		convertkit_select2_enqueue_styles();
 
