@@ -143,10 +143,10 @@ class PluginSettingsToolsCest
 		$I->setupConvertKitPluginRestrictContent(
 			$I,
 			array_merge(
-				$I->getRestrictedContentDefaultSettings(),
 				[
 					'enabled' => 'on',
-				]
+				],
+				$I->getRestrictedContentDefaultSettings(),
 			)
 		);
 		$I->loadConvertKitSettingsToolsScreen($I);
