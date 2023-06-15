@@ -118,7 +118,7 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 		return array(
 			'title'                             => __( 'ConvertKit Broadcasts', 'convertkit' ),
 			'description'                       => __( 'Displays a list of your ConvertKit broadcasts.', 'convertkit' ),
-			'icon'                              => 'resources/backend/images/block-icon-broadcasts.png',
+			'icon'                              => 'resources/backend/images/block-icon-broadcasts.svg',
 			'category'                          => 'convertkit',
 			'keywords'                          => array(
 				__( 'ConvertKit', 'convertkit' ),

@@ -76,7 +76,7 @@ class ConvertKit_Block_Formatter_Form_Link extends ConvertKit_Block_Formatter {
 		return array(
 			'title'          => __( 'ConvertKit Form Trigger', 'convertkit' ),
 			'description'    => __( 'Displays a modal, sticky bar or slide in form to display when the link is pressed.', 'convertkit' ),
-			'icon'           => 'resources/backend/images/block-icon-formtrigger.png',
+			'icon'           => 'resources/backend/images/block-icon-formtrigger.svg',
 
 			// Gutenberg: Block Icon in Editor.
 			'gutenberg_icon' => convertkit_get_file_contents( CONVERTKIT_PLUGIN_PATH . '/resources/backend/images/block-icon-formtrigger.svg' ),
