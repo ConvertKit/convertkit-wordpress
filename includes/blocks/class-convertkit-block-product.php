@@ -108,7 +108,7 @@ class ConvertKit_Block_Product extends ConvertKit_Block {
 		return array(
 			'title'                             => __( 'ConvertKit Product', 'convertkit' ),
 			'description'                       => __( 'Displays a button to purchase a ConvertKit product.', 'convertkit' ),
-			'icon'                              => 'resources/backend/images/block-icon-product.png',
+			'icon'                              => 'resources/backend/images/block-icon-product.svg',
 			'category'                          => 'convertkit',
 			'keywords'                          => array(
 				__( 'ConvertKit', 'convertkit' ),

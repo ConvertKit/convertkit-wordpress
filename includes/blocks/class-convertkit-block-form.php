@@ -91,7 +91,7 @@ class ConvertKit_Block_Form extends ConvertKit_Block {
 		return array(
 			'title'                             => __( 'ConvertKit Form', 'convertkit' ),
 			'description'                       => __( 'Displays a ConvertKit Form.', 'convertkit' ),
-			'icon'                              => 'resources/backend/images/block-icon-form.png',
+			'icon'                              => 'resources/backend/images/block-icon-form.svg',
 			'category'                          => 'convertkit',
 			'keywords'                          => array(
 				__( 'ConvertKit', 'convertkit' ),

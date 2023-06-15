@@ -73,7 +73,7 @@ class ConvertKit_Block_Formatter_Product_Link extends ConvertKit_Block_Formatter
 		return array(
 			'title'          => __( 'ConvertKit Product Trigger', 'convertkit' ),
 			'description'    => __( 'Displays the Product modal when the link is pressed.', 'convertkit' ),
-			'icon'           => 'resources/backend/images/block-icon-product.png',
+			'icon'           => 'resources/backend/images/block-icon-product.svg',
 
 			// Gutenberg: Block Icon in Editor.
 			'gutenberg_icon' => convertkit_get_file_contents( CONVERTKIT_PLUGIN_PATH . '/resources/backend/images/block-icon-product.svg' ),
