@@ -195,7 +195,7 @@ add_filter( 'convertkit_admin_notices_output_  notice', function( $output ) {
 </pre>
 <h3 id="convertkit_plugin_screen_action_links">
 						convertkit_plugin_screen_action_links
-						<code>admin/class-convertkit-admin-settings.php::208</code>
+						<code>admin/class-convertkit-admin-settings.php::209</code>
 					</h3><h4>Overview</h4>
 						<p>Define links to display below the Plugin Name on the WP_List_Table at Plugins > Installed Plugins.</p><h4>Parameters</h4>
 					<table>
@@ -222,7 +222,7 @@ add_filter( 'convertkit_plugin_screen_action_links', function( $links ) {
 </pre>
 <h3 id="convertkit_admin_settings_register_sections">
 						convertkit_admin_settings_register_sections
-						<code>admin/class-convertkit-admin-settings.php::308</code>
+						<code>admin/class-convertkit-admin-settings.php::309</code>
 					</h3><h4>Overview</h4>
 						<p>Registers settings sections at Settings > ConvertKit.</p><h4>Parameters</h4>
 					<table>
@@ -427,7 +427,7 @@ add_filter( 'convertkit_block_content_render', function( $content, $atts, $subsc
 </pre>
 <h3 id="convertkit_block_product_render">
 						convertkit_block_product_render
-						<code>includes/blocks/class-convertkit-block-product.php::407</code>
+						<code>includes/blocks/class-convertkit-block-product.php::409</code>
 					</h3><h4>Overview</h4>
 						<p>Filter the block's content immediately before it is output.</p><h4>Parameters</h4>
 					<table>
@@ -555,7 +555,7 @@ add_filter( 'convertkit_block_broadcasts_build_html_list_item', function( $html,
 </pre>
 <h3 id="convertkit_block_form_render">
 						convertkit_block_form_render
-						<code>includes/blocks/class-convertkit-block-form.php::342</code>
+						<code>includes/blocks/class-convertkit-block-form.php::344</code>
 					</h3><h4>Overview</h4>
 						<p>Filter the block's content immediately before it is output.</p><h4>Parameters</h4>
 					<table>
@@ -590,7 +590,7 @@ add_filter( 'convertkit_block_form_render', function( $form, $atts, $form_id ) {
 </pre>
 <h3 id="convertkit_block_form_trigger_render">
 						convertkit_block_form_trigger_render
-						<code>includes/blocks/class-convertkit-block-form-trigger.php::378</code>
+						<code>includes/blocks/class-convertkit-block-form-trigger.php::383</code>
 					</h3><h4>Overview</h4>
 						<p>Filter the block's content immediately before it is output.</p><h4>Parameters</h4>
 					<table>
@@ -1089,11 +1089,11 @@ add_filter( 'convertkit_is_admin_or_frontend_editor', function( $is_admin_or_fro
 					</tr><tr>
 						<td>&nbsp;</td>
 						<td><a href="#convertkit_admin_settings_enqueue_scripts"><code>convertkit_admin_settings_enqueue_scripts</code></a></td>
-						<td></td>
+						<td>Enqueue JavaScript for the Settings Screen at Settings > ConvertKit</td>
 					</tr><tr>
 						<td>&nbsp;</td>
 						<td><a href="#convertkit_admin_settings_enqueue_styles"><code>convertkit_admin_settings_enqueue_styles</code></a></td>
-						<td></td>
+						<td>Enqueue CSS for the Settings Screen at Settings > ConvertKit</td>
 					</tr><tr>
 						<td colspan="3">../admin/class-convertkit-admin-category.php</td>
 					</tr><tr>
@@ -1254,8 +1254,9 @@ do_action( 'convertkit_settings_base_render_after', function(  ) {
 </pre>
 <h3 id="convertkit_admin_settings_enqueue_scripts">
 						convertkit_admin_settings_enqueue_scripts
-						<code>admin/class-convertkit-admin-settings.php::69</code>
-					</h3><h4>Parameters</h4>
+						<code>admin/class-convertkit-admin-settings.php::68</code>
+					</h3><h4>Overview</h4>
+						<p>Enqueue JavaScript for the Settings Screen at Settings > ConvertKit</p><h4>Parameters</h4>
 					<table>
 						<thead>
 							<tr>
@@ -1264,18 +1265,23 @@ do_action( 'convertkit_settings_base_render_after', function(  ) {
 								<th>Description</th>
 							</tr>
 						</thead>
-						<tbody>
+						<tbody><tr>
+							<td>$section</td>
+							<td>string</td>
+							<td>Settings section / tab (general|tools|restrict-content).</td>
+						</tr>
 						</tbody>
 					</table><h4>Usage</h4>
 <pre>
-do_action( 'convertkit_admin_settings_enqueue_scripts', function(  ) {
+do_action( 'convertkit_admin_settings_enqueue_scripts', function( $section ) {
 	// ... your code here
-}, 10, 0 );
+}, 10, 1 );
 </pre>
 <h3 id="convertkit_admin_settings_enqueue_styles">
 						convertkit_admin_settings_enqueue_styles
-						<code>admin/class-convertkit-admin-settings.php::98</code>
-					</h3><h4>Parameters</h4>
+						<code>admin/class-convertkit-admin-settings.php::99</code>
+					</h3><h4>Overview</h4>
+						<p>Enqueue CSS for the Settings Screen at Settings > ConvertKit</p><h4>Parameters</h4>
 					<table>
 						<thead>
 							<tr>
@@ -1284,13 +1290,17 @@ do_action( 'convertkit_admin_settings_enqueue_scripts', function(  ) {
 								<th>Description</th>
 							</tr>
 						</thead>
-						<tbody>
+						<tbody><tr>
+							<td>$section</td>
+							<td>string</td>
+							<td>Settings section / tab (general|tools|restrict-content).</td>
+						</tr>
 						</tbody>
 					</table><h4>Usage</h4>
 <pre>
-do_action( 'convertkit_admin_settings_enqueue_styles', function(  ) {
+do_action( 'convertkit_admin_settings_enqueue_styles', function( $section ) {
 	// ... your code here
-}, 10, 0 );
+}, 10, 1 );
 </pre>
 <h3 id="convertkit_admin_category_enqueue_scripts">
 						convertkit_admin_category_enqueue_scripts

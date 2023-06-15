@@ -5,7 +5,7 @@ Tags: email marketing, email newsletter, newsletter, subscribers, convertkit
 Requires at least: 5.0
 Tested up to: 6.2.2
 Requires PHP: 5.6.20
-Stable tag: 2.2.3
+Stable tag: 2.2.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -131,6 +131,17 @@ Full Plugin documentation can be found [here](https://help.convertkit.com/en/art
 7. Track subscriber growth
 
 == Changelog ==
+
+### 2.2.4 2023-06-15
+* Added: Form Trigger: Block: Display message with link when no API Key specified, or no non-inline Forms exist in ConvertKit
+* Added: Form Trigger: Shortcode: Display message with link when no API Key specified, or no non-inline Forms exist in ConvertKit
+* Added: Forms: Shortcode: Display message with link when no API Key specified, or no inline Forms exist in ConvertKit
+* Added: Products: Shortcode: Display message with link when no API Key specified, or no Products exist in ConvertKit
+* Fix: Bulk & Quick Edit: Show contextual icons for Form, Tag and Member Content settings, instead of the default Form icon
+* Fix: Settings: Conditionally load CSS and JS depending on the section (General, Tools, Member Content)
+* Fix: Settings: Link to ConvertKit form creator when no Forms exist in ConvertKit
+* Fix: Use higher quality SVG icons for blocks, shortcodes and formatters 
+* Updated: ConvertKit WordPress Libraries to 1.3.6
 
 ### 2.2.3 2023-06-06
 * Added: Broadcasts: Options to display grid, images, descriptions and/or read more link
