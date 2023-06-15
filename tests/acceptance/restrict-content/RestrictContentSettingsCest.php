@@ -22,7 +22,8 @@ class RestrictContentSettingsCest
 
 
 	/**
-	 * Tests that enabling and disabling Restrict Content works with no errors.
+	 * Tests that enabling and disabling Restrict Content works with no errors,
+	 * and that other form fields show / hide depending on the setting.
 	 *
 	 * @since   2.1.0
 	 *
@@ -30,27 +31,43 @@ class RestrictContentSettingsCest
 	 */
 	public function testEnableDisable(AcceptanceTester $I)
 	{
-		// Save settings.
-		$I->setupConvertKitPluginRestrictContent(
-			$I,
-			[
-				'enabled' => true,
-			]
-		);
+		// Go to the Plugin's Member Content Screen.
+		$I->loadConvertKitSettingsRestrictContentScreen($I);
 
-		// Confirm settings were saved.
+		// Confirm that additional fields are hidden, because the 'Enable' option is not checked.
+		$I->dontSeeElement('input.enabled');
+
+		// Enable Member Content.
+		$I->checkOption('#enabled');
+
+		// Confirm that additional fields are now displayed.
+		$I->waitForElementVisible('input.enabled');
+
+		// Click the Save Changes button.
+		$I->click('Save Changes');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Confirm that settings saved and additional fields remain displayed.
 		$I->seeCheckboxIsChecked('#enabled');
+		$I->seeElement('input.enabled');
 
-		// Save settings.
-		$I->setupConvertKitPluginRestrictContent(
-			$I,
-			[
-				'enabled' => false,
-			]
-		);
+		// Disable Member Content.
+		$I->uncheckOption('#enabled');
 
-		// Confirm settings were saved.
+		// Confirm that additional fields are hidden, because the 'Enable' option is not checked.
+		$I->waitForElementNotVisible('input.enabled');
+
+		// Click the Save Changes button.
+		$I->click('Save Changes');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Confirm that settings saved and additional fields are hidden, because the 'Enable' option is not checked.
 		$I->dontSeeCheckboxIsChecked('#enabled');
+		$I->dontSeeElement('input.enabled');
 	}
 
 	/**

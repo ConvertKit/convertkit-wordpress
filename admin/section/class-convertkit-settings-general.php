@@ -57,10 +57,55 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 		$this->title    = __( 'General Settings', 'convertkit' );
 		$this->tab_text = __( 'General', 'convertkit' );
 
+		// Enqueue scripts and CSS.
+		add_action( 'convertkit_admin_settings_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
+		add_action( 'convertkit_admin_settings_enqueue_styles', array( $this, 'enqueue_styles' ) );
+
 		// Render container element.
 		add_action( 'convertkit_settings_base_render_before', array( $this, 'render_before' ) );
 
 		parent::__construct();
+
+	}
+
+	/**
+	 * Enqueues scripts for the Settings > General screen.
+	 *
+	 * @since   2.2.4
+	 *
+	 * @param   string $section    Settings section / tab (general|tools|restrict-content).
+	 */
+	public function enqueue_scripts( $section ) {
+
+		// Bail if we're not on the general section.
+		if ( $section !== $this->name ) {
+			return;
+		}
+
+		// Enqueue Select2 JS.
+		convertkit_select2_enqueue_scripts();
+
+		// Enqueue Preview Output JS.
+		wp_enqueue_script( 'convertkit-admin-preview-output', CONVERTKIT_PLUGIN_URL . 'resources/backend/js/preview-output.js', array( 'jquery' ), CONVERTKIT_PLUGIN_VERSION, true );
+
+	}
+
+	/**
+	 * Enqueues styles for the Settings > General screen.
+	 *
+	 * @since   2.2.4
+	 *
+	 * @param   string $section    Settings section / tab (general|tools|restrict-content).
+	 */
+	public function enqueue_styles( $section ) {
+
+		// Bail if we're not on the general section.
+		if ( $section !== $this->name ) {
+			return;
+		}
+
+		// Enqueue Select2 CSS.
+		convertkit_select2_enqueue_styles();
 
 	}
 
@@ -371,11 +416,7 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 		// Bail if no Forms exist.
 		if ( ! $this->forms->exist() ) {
 			esc_html_e( 'No Forms exist in ConvertKit.', 'convertkit' );
-			echo '<br />' . sprintf(
-				/* translators: Link to sign in to ConvertKit */
-				esc_html__( 'To create a form, %s', 'convertkit' ),
-				'<a href="' . esc_url( convertkit_get_sign_in_url() ) . '" target="_blank">' . esc_html__( 'sign in to ConvertKit', 'convertkit' ) . '</a>'
-			);
+			echo '<br /><a href="' . esc_url( convertkit_get_new_form_url() ) . '" target="_blank">' . esc_html__( 'Click here to create your first form', 'convertkit' ) . '</a>';
 			return;
 		}
 

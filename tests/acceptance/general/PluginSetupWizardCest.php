@@ -324,7 +324,7 @@ class PluginSetupWizardCest
 		$this->_seeExpectedSetupWizardScreen($I, 3, 'Create your first ConvertKit Form', true);
 
 		// Confirm button link to create a form on ConvertKit is correct.
-		$I->seeInSource('<a href="https://app.convertkit.com/forms/new?format=inline"');
+		$I->seeInSource('<a href="https://app.convertkit.com/forms/new/?utm_source=wordpress&amp;utm_term=en_US&amp;utm_content=convertkit"');
 
 		// Define Plugin settings with a ConvertKit account containing forms,
 		// as if we created a form in ConvertKit.

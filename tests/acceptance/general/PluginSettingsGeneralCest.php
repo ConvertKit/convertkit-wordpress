@@ -59,8 +59,8 @@ class PluginSettingsGeneralCest
 		// Confirm that UTM parameters exist for the 'Get your ConvertKit API Secret' link.
 		$I->seeInSource('<a href="https://app.convertkit.com/account_settings/advanced_settings/?utm_source=wordpress&amp;utm_term=en_US&amp;utm_content=convertkit" target="_blank">Get your ConvertKit API Secret.</a>');
 
-		// Confirm that UTM parameters exist for the 'sign in to ConvertKit' link.
-		$I->seeInSource('<a href="https://app.convertkit.com/?utm_source=wordpress&amp;utm_term=en_US&amp;utm_content=convertkit" target="_blank">sign in to ConvertKit</a>');
+		// Confirm that UTM parameters exist for the 'Click here to create your first form' link.
+		$I->seeInSource('<a href="https://app.convertkit.com/forms/new/?utm_source=wordpress&amp;utm_term=en_US&amp;utm_content=convertkit" target="_blank">Click here to create your first form</a>');
 
 		// Confirm that the UTM parameters exist for the documentation links.
 		$I->seeInSource('<a href="https://help.convertkit.com/en/articles/2502591-the-convertkit-wordpress-plugin?utm_source=wordpress&amp;utm_term=en_US&amp;utm_content=convertkit" class="convertkit-tab" target="_blank">Documentation <span class="dashicons dashicons-external"></span></a>');
@@ -86,8 +86,10 @@ class PluginSettingsGeneralCest
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
 
-		// Check that 'No Forms exist in ConvertKit' is displayed.
+		// Check that the 'Click here to create your first form' link is displayed and links
+		// to creating an inline Form in ConvertKit.
 		$I->see('No Forms exist in ConvertKit.');
+		$I->seeInSource('<a href="https://app.convertkit.com/forms/new/?utm_source=wordpress&amp;utm_term=en_US&amp;utm_content=convertkit" target="_blank">Click here to create your first form</a>');
 	}
 
 	/**
@@ -197,8 +199,10 @@ class PluginSettingsGeneralCest
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
 
-		// Check that 'No Forms exist in ConvertKit' is displayed.
-		$I->seeInSource('No Forms exist in ConvertKit.');
+		// Check that the 'Click here to create your first form' link is displayed and links
+		// to creating an inline Form in ConvertKit.
+		$I->see('No Forms exist in ConvertKit.');
+		$I->seeInSource('<a href="https://app.convertkit.com/forms/new/?utm_source=wordpress&amp;utm_term=en_US&amp;utm_content=convertkit" target="_blank">Click here to create your first form</a>');
 	}
 
 	/**
