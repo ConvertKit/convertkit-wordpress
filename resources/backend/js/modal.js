@@ -13,7 +13,7 @@ jQuery( document ).ready(
 		// Cancel.
 		$( 'body' ).on(
 			'click',
-			'form.convertkit-tinymce-popup button.close',
+			'#convertkit-modal-body div.mce-cancel button',
 			function( e ) {
 
 				// TinyMCE.
@@ -31,14 +31,14 @@ jQuery( document ).ready(
 		// Insert.
 		$( 'body' ).on(
 			'click',
-			'form.convertkit-tinymce-popup div.buttons input[type=button]',
+			'#convertkit-modal-body div.mce-insert button',
 			function( e ) {
 
 				// Prevent default action.
 				e.preventDefault();
 
 				// Get containing form.
-				var form = $( this ).closest( 'form.convertkit-tinymce-popup' );
+				var form = $( 'form.convertkit-tinymce-popup' );
 
 				// Build Shortcode.
 				var shortcode  = '[' + $( 'input[name="shortcode"]', $( form ) ).val(),

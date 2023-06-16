@@ -4,6 +4,7 @@
 #convertkit-modal-body #convertkit-modal-body-body {
 	/* Scroll inner contents so that modal height doesn't need to exceed screen resolution. */
 	overflow-y: auto;
+	background-color: #f7f7f7;
 }
 #convertkit-modal-body-body .notice-error {
 	background: #f5eeee;
@@ -101,7 +102,7 @@
 .convertkit-vertical-tabbed-ui ul.convertkit-nav-tabs li.convertkit-nav-tab a {
 	position: relative;
 	display: block;
-	width: 140px;
+	width: 100%;
 	margin: 0;
 	padding: 20px;
 	text-decoration: none;
@@ -149,9 +150,15 @@
 	display: table;
 	clear: both;
 }
-.convertkit-vertical-tabbed-ui  .convertkit-nav-tabs-content div.postbox {
+.convertkit-vertical-tabbed-ui .convertkit-nav-tabs-content .postbox {
 	margin: 0;
 	padding: 0;
 	border: none;
 	background-color: transparent;
+}
+.convertkit-vertical-tabbed-ui .convertkit-nav-tabs-content .postbox .convertkit-option:first-child {
+	padding-top: 15px;
+}
+.convertkit-vertical-tabbed-ui .convertkit-nav-tabs-content .postbox .convertkit-option:last-child {
+	border-bottom: none;
 }

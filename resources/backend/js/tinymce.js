@@ -53,12 +53,12 @@ function convertKitTinyMCERegisterPlugin( block ) {
 									{
 										text: 'Cancel',
 										classes: 'cancel'
-									},
+								},
 									{
 										text: 'Insert',
 										subtype: 'primary',
 										classes: 'insert'
-									}
+								}
 								]
 							}
 						);
