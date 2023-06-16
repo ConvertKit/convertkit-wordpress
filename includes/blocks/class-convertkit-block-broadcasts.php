@@ -132,7 +132,7 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 			// Shortcode: TinyMCE / QuickTags Modal Width and Height.
 			'modal'                             => array(
 				'width'  => 650,
-				'height' => 580,
+				'height' => 400,
 			),
 
 			// Shortcode: Include a closing [/shortcode] tag when using TinyMCE or QuickTag Modals.
@@ -363,9 +363,6 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 					'display_description',
 					'display_read_more',
 					'read_more_label',
-					'link_color',
-					'background_color',
-					'text_color',
 				),
 			),
 			'pagination' => array(
@@ -377,6 +374,14 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 					'paginate_label_next',
 				),
 			),
+			'styles' => array(
+				'label'  => __( 'Styles', 'convertkit' ),
+				'fields' => array(
+					'link_color',
+					'background_color',
+					'text_color',
+				),
+			)
 		);
 
 	}

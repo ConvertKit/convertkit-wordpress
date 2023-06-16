@@ -77,6 +77,9 @@ function convertKitTinyMCERegisterPlugin( block ) {
 								// Inject HTML into modal.
 								$( '#convertkit-modal-body-body' ).html( response );
 
+								// Initialize tabbed interface.
+								convertKitTabsInit();
+
 								// Initialize color pickers.
 								$( '.convertkit-color-picker' ).wpColorPicker();
 
