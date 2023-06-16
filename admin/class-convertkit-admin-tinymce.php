@@ -74,8 +74,14 @@ class ConvertKit_Admin_TinyMCE {
 			die();
 		}
 
-		// Output the modal.
-		require_once CONVERTKIT_PLUGIN_PATH . '/views/backend/tinymce/modal.php';
+		// If we have less than two panels defined in the shortcode properties, output a basic modal.
+		if ( count( $shortcode['panels'] ) < 2 ) {
+			require_once CONVERTKIT_PLUGIN_PATH . '/views/backend/tinymce/modal.php';
+			die();
+		}
+
+		// Output tabbed view.
+		require_once CONVERTKIT_PLUGIN_PATH . '/views/backend/tinymce/modal-tabbed.php';
 		die();
 
 	}

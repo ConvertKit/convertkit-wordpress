@@ -76,3 +76,95 @@
 	font-size: 11px;
 	text-align: center;
 }
+
+/**
+ * Settings UI - Vertical Tabbed Interface
+ */
+.convertkit-vertical-tabbed-ui {
+	display: grid;
+	grid-template-columns: 180px auto;
+	grid-template-areas: "tabs content";
+	border: 1px solid #e5e5e5 !important;
+	background: #f7f7f7;
+}
+.convertkit-vertical-tabbed-ui ul.convertkit-nav-tabs {
+	grid-area: tabs;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	border-right: 1px solid #e5e5e5;
+}
+.convertkit-vertical-tabbed-ui ul.convertkit-nav-tabs li.convertkit-nav-tab {
+	width: 100%;
+	margin: 0;
+	padding: 0;
+}
+.convertkit-vertical-tabbed-ui ul.convertkit-nav-tabs li.convertkit-nav-tab a {
+	position: relative;
+	display: block;
+	width: 140px;
+	margin: 0 20px;
+	padding: 20px 0 20px 25px;
+	text-decoration: none;
+	color: #999;
+	border-bottom: 1px solid #e5e5e5;
+	box-sizing: border-box;
+	transition: none;
+	background-position: 0 50%;
+	background-repeat: no-repeat;
+}
+.convertkit-vertical-tabbed-ui ul.convertkit-nav-tabs li.convertkit-nav-tab a.convertkit-nav-tab-vertical-active,
+.convertkit-vertical-tabbed-ui ul.convertkit-nav-tabs li.convertkit-nav-tab a:hover {
+	width: 181px;
+	margin: -1px 0 0 0;
+	padding: 20px 20px 20px 45px;
+	text-decoration: none;
+	color: #444;
+	border-top: 1px solid #e5e5e5;
+	border-bottom: 1px solid #e5e5e5;
+	border-right: 1px solid #fff;
+	background-color: #fff;
+	background-position: 20px 50%;
+	background-repeat: no-repeat;
+}
+.convertkit-vertical-tabbed-ui ul.convertkit-nav-tabs li.convertkit-nav-tab a.convertkit-nav-tab-vertical-active {
+	font-weight: 700;
+}
+.convertkit-vertical-tabbed-ui ul.convertkit-nav-tabs li.convertkit-nav-tab a:hover {
+	background-color: #fefefe;
+}
+.convertkit-vertical-tabbed-ui ul.convertkit-nav-tabs li.convertkit-nav-tab a:focus {
+	box-shadow: none;
+}
+.convertkit-vertical-tabbed-ui ul.convertkit-nav-tabs li.convertkit-nav-tab:last-child a {
+	border-bottom: none;
+}
+.convertkit-vertical-tabbed-ui .convertkit-nav-tabs-content {
+	grid-area: content;
+	margin: 0;
+	padding: 0;
+	background: #fff;
+	border-left: 1px solid #e5e5e5;
+}
+.convertkit-vertical-tabbed-ui .convertkit-nav-tabs-content:after {
+	content: "";
+	display: table;
+	clear: both;
+}
+.convertkit-vertical-tabbed-ui  .convertkit-nav-tabs-content div.postbox {
+	margin: 0;
+	padding: 0;
+	border: none;
+	background-color: transparent;
+}
+.convertkit-vertical-tabbed-ui .convertkit-nav-tabs-content div.postbox header {
+	padding: 19px 15px 18px 15px;
+	border-bottom: 1px solid #e5e5e5;
+}
+.convertkit-vertical-tabbed-ui .convertkit-nav-tabs-content div.postbox header h3 {
+  display: block;
+  margin: 0;
+  font-size: 1.3em;
+  font-weight: 600;
+  color: #23282d;
+}
