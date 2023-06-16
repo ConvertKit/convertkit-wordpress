@@ -10,6 +10,9 @@
 
 <!-- .wp-core-ui ensures styles are applied on frontend editors for e.g. buttons.css -->
 <form class="convertkit-tinymce-popup wp-core-ui">
+	<input type="hidden" name="shortcode" value="convertkit_<?php echo esc_attr( $shortcode['name'] ); ?>" />
+	<input type="hidden" name="editor_type" value="<?php echo esc_attr( $editor_type ); // quicktags|tinymce. ?>" />
+
 	<!-- Vertical Tabbed UI -->
 	<div class="convertkit-vertical-tabbed-ui">
 		<!-- Tabs -->
@@ -44,19 +47,6 @@
 				?>
 				<div id="<?php echo esc_attr( $shortcode['name'] ) . '-' . esc_attr( $modal_tab_name ); ?>" class="<?php echo esc_attr( $shortcode['name'] ); ?>">
 					<div class="postbox">
-						<header>
-							<h3><?php echo esc_html( $modal_tab['label'] ); ?></h3>
-							<?php
-							if ( isset( $modal_tab['description'] ) && ! empty( $modal_tab['description'] ) ) {
-								?>
-								<p class="description">
-									<?php echo $modal_tab['description']; // phpcs:ignore WordPress.Security.EscapeOutput ?>
-								</p>
-								<?php
-							}
-							?>
-						</header>
-
 						<?php
 						// Iterate through this tab's field names.
 						foreach ( $modal_tab['fields'] as $field_name ) {
@@ -77,25 +67,6 @@
 				<?php
 			}
 			?>
-		</div>
-	</div>
-
-	<div class="convertkit-option buttons">
-		<div class="left">
-			<button type="button" class="close button"><?php esc_html_e( 'Cancel', 'convertkit' ); ?></button>
-		</div>
-		<div class="right">
-			<input type="hidden" name="shortcode" value="convertkit_<?php echo esc_attr( $shortcode['name'] ); ?>" />
-			<input type="hidden" name="editor_type" value="<?php echo esc_attr( $editor_type ); // quicktags|tinymce. ?>" />
-
-			<?php
-			if ( $shortcode['shortcode_include_closing_tag'] ) {
-				?>
-				<input type="hidden" name="close_shortcode" value="1" />
-				<?php
-			}
-			?>
-			<input type="button" value="<?php esc_html_e( 'Insert', 'convertkit' ); ?>" class="button button-primary right" />
 		</div>
 	</div>
 </form>
