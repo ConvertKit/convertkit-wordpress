@@ -319,7 +319,7 @@ class PageBlockBroadcastsCest
 			'ConvertKit Broadcasts',
 			'convertkit-broadcasts',
 			[
-				'limit' => [ 'input', '2' ],
+				'limit' => [ 'input', '2', 'Pagination' ], // Click the Pagination tab first before starting to complete fields.
 			]
 		);
 
@@ -357,6 +357,7 @@ class PageBlockBroadcastsCest
 
 		// When the sidebar appears, blank the limit parameter as the user might, by pressing the backspace key twice.
 		$I->waitForElementVisible('.interface-interface-skeleton__sidebar[aria-label="Editor settings"]');
+		$I->click('Pagination', '.interface-interface-skeleton__sidebar[aria-label="Editor settings"]');
 		$I->pressKey('#convertkit_broadcasts_limit', \Facebook\WebDriver\WebDriverKeys::BACKSPACE );
 		$I->pressKey('#convertkit_broadcasts_limit', \Facebook\WebDriver\WebDriverKeys::BACKSPACE );
 
@@ -398,7 +399,7 @@ class PageBlockBroadcastsCest
 			'ConvertKit Broadcasts',
 			'convertkit-broadcasts',
 			[
-				'limit'                       => [ 'input', '1' ],
+				'limit'                       => [ 'input', '1', 'Pagination' ], // Click the Pagination tab first before starting to complete fields.
 				'#inspector-toggle-control-4' => [ 'toggle', true ],
 			]
 		);
@@ -432,7 +433,7 @@ class PageBlockBroadcastsCest
 			'ConvertKit Broadcasts',
 			'convertkit-broadcasts',
 			[
-				'limit'                       => [ 'input', '1' ],
+				'limit'                       => [ 'input', '1', 'Pagination' ], // Click the Pagination tab first before starting to complete fields.
 				'#inspector-toggle-control-4' => [ 'toggle', true ],
 				'paginate_label_prev'         => [ 'input', 'Newer' ],
 				'paginate_label_next'         => [ 'input', 'Older' ],
@@ -468,7 +469,7 @@ class PageBlockBroadcastsCest
 			'ConvertKit Broadcasts',
 			'convertkit-broadcasts',
 			[
-				'limit'                       => [ 'input', '1' ],
+				'limit'                       => [ 'input', '1', 'Pagination' ], // Click the Pagination tab first before starting to complete fields.
 				'#inspector-toggle-control-4' => [ 'toggle', true ],
 				'paginate_label_prev'         => [ 'input', '' ],
 				'paginate_label_next'         => [ 'input', '' ],

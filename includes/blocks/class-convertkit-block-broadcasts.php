@@ -354,7 +354,7 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 		}
 
 		return array(
-			'general' => array(
+			'general'    => array(
 				'label'  => __( 'General', 'convertkit' ),
 				'fields' => array(
 					'display_grid',
@@ -363,13 +363,18 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 					'display_description',
 					'display_read_more',
 					'read_more_label',
+					'link_color',
+					'background_color',
+					'text_color',
+				),
+			),
+			'pagination' => array(
+				'label'  => __( 'Pagination', 'convertkit' ),
+				'fields' => array(
 					'limit',
 					'paginate',
 					'paginate_label_prev',
 					'paginate_label_next',
-					'link_color',
-					'background_color',
-					'text_color',
 				),
 			),
 		);
