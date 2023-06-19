@@ -50,15 +50,15 @@ function convertKitTinyMCERegisterPlugin( block ) {
 								height: ( block.modal.height < 580 ? block.modal.height : 580 ),
 								inline: 1,
 								buttons: [
-									{
-										text: 'Cancel',
-										classes: 'cancel'
-									},
-									{
-										text: 'Insert',
-										subtype: 'primary',
-										classes: 'insert'
-									}
+								{
+									text: 'Cancel',
+									classes: 'cancel'
+								},
+								{
+									text: 'Insert',
+									subtype: 'primary',
+									classes: 'insert'
+								}
 								]
 							}
 						);
