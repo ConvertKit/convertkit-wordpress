@@ -109,7 +109,7 @@ class WidgetBroadcastsCest
 			'ConvertKit Broadcasts',
 			'convertkit-broadcasts',
 			[
-				'limit' => [ 'input', '2' ],
+				'limit' => [ 'input', '2', 'Pagination' ], // Click the Pagination tab first before starting to complete fields.
 			]
 		);
 
@@ -138,7 +138,7 @@ class WidgetBroadcastsCest
 			'ConvertKit Broadcasts',
 			'convertkit-broadcasts',
 			[
-				'#inspector-toggle-control-4' => [ 'toggle', true ],
+				'#inspector-toggle-control-4' => [ 'toggle', true, 'Pagination' ], // Click the Pagination tab first before starting to complete fields.
 				'limit'                       => [ 'input', '1' ],
 			]
 		);
@@ -165,7 +165,7 @@ class WidgetBroadcastsCest
 			'ConvertKit Broadcasts',
 			'convertkit-broadcasts',
 			[
-				'#inspector-toggle-control-4' => [ 'toggle', true ],
+				'#inspector-toggle-control-4' => [ 'toggle', true, 'Pagination' ], // Click the Pagination tab first before starting to complete fields.
 				'limit'                       => [ 'input', '1' ],
 				'paginate_label_prev'         => [ 'input', 'Newer' ],
 				'paginate_label_next'         => [ 'input', 'Older' ],
@@ -194,7 +194,7 @@ class WidgetBroadcastsCest
 			'ConvertKit Broadcasts',
 			'convertkit-broadcasts',
 			[
-				'#inspector-toggle-control-4' => [ 'toggle', true ],
+				'#inspector-toggle-control-4' => [ 'toggle', true, 'Pagination' ], // Click the Pagination tab first before starting to complete fields.
 				'limit'                       => [ 'input', '1' ],
 				'paginate_label_prev'         => [ 'input', '' ],
 				'paginate_label_next'         => [ 'input', '' ],
