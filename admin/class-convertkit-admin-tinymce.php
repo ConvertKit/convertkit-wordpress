@@ -212,8 +212,18 @@ class ConvertKit_Admin_TinyMCE {
 		?>
 		<script type="text/template" id="tmpl-convertkit-quicktags-modal">
 			<div id="convertkit-quicktags-modal">
-				<div class="media-frame-title"><h1>Title</h1></div>
-				<div class="media-frame-content">Content</div>
+				<div class="media-frame-title"><h1></h1></div>
+				<div class="media-frame-content"></div>
+				<div class="media-frame-toolbar">
+					<div class="media-toolbar">
+						<div class="media-toolbar-secondary">
+							<button type="button" class="button button-large cancel"><?php esc_html_e( 'Cancel', 'convertkit' ); ?></button>
+						</div>
+						<div class="media-toolbar-primary">
+							<button type="button" class="button button-primary button-large"><?php esc_html_e( 'Insert', 'convertkit' ); ?></button>
+						</div>
+					</div>
+				</div>
 			</div>
 		</script>
 		<?php

@@ -1,9 +1,11 @@
 /**
  * TinyMCE and QuickTag Modals
  */
-#convertkit-modal-body #convertkit-modal-body-body {
+#convertkit-modal-body {
 	/* Scroll inner contents so that modal height doesn't need to exceed screen resolution. */
 	overflow-y: auto;
+}
+#convertkit-modal-body #convertkit-modal-body-body {
 	background-color: #f7f7f7;
 }
 #convertkit-modal-body-body .notice-error {
@@ -60,6 +62,13 @@
 }
 .convertkit-option p {
 	white-space: normal;
+}
+
+/**
+ * Buttons
+ */
+#convertkit-modal-body div.mce-foot div.mce-cancel {
+	left: 10px !important;
 }
 
 /**
