@@ -13,7 +13,7 @@ jQuery( document ).ready(
 		// Cancel.
 		$( 'body' ).on(
 			'click',
-			'#convertkit-modal-body div.mce-cancel button',
+			'#convertkit-modal-body div.mce-cancel button, #convertkit-quicktags-modal .media-toolbar .media-toolbar-secondary button.cancel',
 			function( e ) {
 
 				// TinyMCE.
@@ -31,7 +31,7 @@ jQuery( document ).ready(
 		// Insert.
 		$( 'body' ).on(
 			'click',
-			'#convertkit-modal-body div.mce-insert button',
+			'#convertkit-modal-body div.mce-insert button, #convertkit-quicktags-modal .media-toolbar .media-toolbar-primary button.button-primary',
 			function( e ) {
 
 				// Prevent default action.

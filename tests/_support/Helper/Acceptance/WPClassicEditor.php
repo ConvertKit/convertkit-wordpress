@@ -49,14 +49,20 @@ class WPClassicEditor extends \Codeception\Module
 		// Open Visual Editor shortcode modal.
 		$I->openVisualEditorShortcodeModal($I, $shortcodeName, $targetEditor);
 
-		// Wait for the modal's contents to load.
-		$I->waitForElementVisible('#convertkit-modal-body input.button-primary');
+		// Wait for the modal's form to load.
+		$I->waitForElementVisible('#convertkit-modal-body form.convertkit-tinymce-popup');
 
 		// If a shortcode configuration is specified, apply it to the shortcode's modal window now.
 		if ($shortcodeConfiguration) {
 			foreach ($shortcodeConfiguration as $field => $attributes) {
 				// Field ID will be the attribute name, prefixed with tinymce_modal.
 				$fieldID = '#tinymce_modal_' . $field;
+
+				// If the attribute has a third value, we may need to open the panel
+				// to see the fields.
+				if (count($attributes) > 2) {
+					$I->click($attributes[2], '#convertkit-modal-body');
+				}
 
 				// Depending on the field's type, define its value.
 				switch ($attributes[0]) {
@@ -74,7 +80,10 @@ class WPClassicEditor extends \Codeception\Module
 		}
 
 		// Click the Insert button.
-		$I->click('#convertkit-modal-body input.button-primary');
+		$I->click('#convertkit-modal-body div.mce-insert button');
+
+		// Confirm the modal closes.
+		$I->waitForElementNotVisible('#convertkit-modal-body');
 
 		// If the expected shortcode output is provided, check it exists in the Visual editor.
 		if ($expectedShortcodeOutput) {
@@ -134,14 +143,20 @@ class WPClassicEditor extends \Codeception\Module
 		// Open Text Editor shortcode modal.
 		$I->openTextEditorShortcodeModal($I, $shortcodeProgrammaticName, $targetEditor);
 
-		// Wait for the modal's contents to load.
-		$I->waitForElementVisible('#convertkit-quicktags-modal input.button-primary');
+		// Wait for the modal's form to load.
+		$I->waitForElementVisible('#convertkit-quicktags-modal form.convertkit-tinymce-popup');
 
 		// If a shortcode configuration is specified, apply it to the shortcode's modal window now.
 		if ($shortcodeConfiguration) {
 			foreach ($shortcodeConfiguration as $field => $attributes) {
 				// Field ID will be the attribute name, prefixed with tinymce_modal.
 				$fieldID = '#tinymce_modal_' . $field;
+
+				// If the attribute has a third value, we may need to open the panel
+				// to see the fields.
+				if (count($attributes) > 2) {
+					$I->click($attributes[2], '#convertkit-quicktags-modal');
+				}
 
 				// Depending on the field's type, define its value.
 				switch ($attributes[0]) {
@@ -159,7 +174,10 @@ class WPClassicEditor extends \Codeception\Module
 		}
 
 		// Click the Insert button.
-		$I->click('#convertkit-quicktags-modal input.button-primary');
+		$I->click('#convertkit-quicktags-modal button.button-primary');
+
+		// Confirm the modal closes.
+		$I->waitForElementNotVisible('#convertkit-quicktags-modal');
 
 		// If the expected shortcode output is provided, check it exists in the Text editor.
 		if ($expectedShortcodeOutput) {
