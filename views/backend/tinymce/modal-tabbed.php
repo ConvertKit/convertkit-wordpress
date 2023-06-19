@@ -13,6 +13,14 @@
 	<input type="hidden" name="shortcode" value="convertkit_<?php echo esc_attr( $shortcode['name'] ); ?>" />
 	<input type="hidden" name="editor_type" value="<?php echo esc_attr( $editor_type ); // quicktags|tinymce. ?>" />
 
+	<?php
+	if ( $shortcode['shortcode_include_closing_tag'] ) {
+		?>
+		<input type="hidden" name="close_shortcode" value="1" />
+		<?php
+	}
+	?>
+
 	<!-- Vertical Tabbed UI -->
 	<div class="convertkit-vertical-tabbed-ui">
 		<!-- Tabs -->
