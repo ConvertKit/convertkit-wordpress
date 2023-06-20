@@ -744,6 +744,43 @@ class PageShortcodeBroadcastsCest
 	}
 
 	/**
+	 * Test that using the Broadcasts shortcode in the Text editor, switching to the Visual Editor and
+	 * then using the Broadcasts shortcode again works by interacting with the tabbed UI.
+	 * 
+	 * @since 	2.2.5
+	 * 
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testBroadcastsShortcodeWhenSwitchingEditors(AcceptanceTester $I)
+	{
+		// Add a Page using the Classic Editor.
+		$I->addClassicEditorPage($I, 'page', 'ConvertKit: Page: Broadcasts: Shortcode: Editor Switching');
+
+		// Open Text Editor modal.
+		$I->openTextEditorShortcodeModal($I, 'convertkit-broadcasts', 'content');
+
+		// Close modal.
+		$I->click('.convertkit-quicktags-modal button.media-modal-close');
+
+		// Open Visual Editor modal, clicking the pagination tab to confirm that the UI
+		// still works, inserting the shortcode into the Visual Editor.
+		$I->addVisualEditorShortcode(
+			$I,
+			'ConvertKit Broadcasts',
+			[
+				'limit'    => [ 'input', '1', 'Pagination' ], // Click the Pagination tab first before starting to complete fields.
+				'paginate' => [ 'toggle', 'Yes' ],
+			],
+			'[convertkit_broadcasts display_grid="0" date_format="F j, Y" display_image="0" display_description="0" display_read_more="0" read_more_label="Read more" limit="1" paginate="1" paginate_label_prev="Previous" paginate_label_next="Next"]'
+		);
+
+		// Publish and view the Page on the frontend site.
+		$I->publishAndViewClassicEditorPage($I);
+
+
+	}
+
+	/**
 	 * Test the [convertkit_broadcasts] shortcode parameters are correctly escaped on output,
 	 * to prevent XSS.
 	 *
