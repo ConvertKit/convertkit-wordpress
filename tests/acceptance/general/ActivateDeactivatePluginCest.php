@@ -34,10 +34,9 @@ class ActivateDeactivatePluginCest
 		$I->activateThirdPartyPlugin($I, 'convertkit-for-woocommerce');
 
 		// Activate this Plugin.
-		$I->activateConvertKitPlugin($I);
-
 		// If this Plugin calls a function that doesn't exist in the outdated ConvertKit WordPress Library,
-		// this will throw an error and the test will fail at this point.
+		// activating this Plugin will fail, therefore failing the test.
+		$I->activateConvertKitPlugin($I);
 
 		// Setup API Keys at Settings > ConvertKit, which will use WordPress Libraries and show errors
 		// if there's a conflict e.g. an older WordPress Library was loaded from another ConvertKit Plugin.
