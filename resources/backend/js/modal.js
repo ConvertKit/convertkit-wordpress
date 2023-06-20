@@ -38,11 +38,11 @@ jQuery( document ).ready(
 				e.preventDefault();
 
 				// Get containing form.
-				var form = $( 'form.convertkit-tinymce-popup' );
+				let form = $( 'form.convertkit-tinymce-popup' );
 
 				// Build Shortcode.
-				var shortcode  = '[' + $( 'input[name="shortcode"]', $( form ) ).val(),
-				shortcodeClose = ( $( 'input[name="close_shortcode"]', $( form ) ).val() == '1' ? true : false );
+				let shortcode  = '[' + $( 'input[name="shortcode"]', $( form ) ).val(),
+				shortcodeClose = ( $( 'input[name="close_shortcode"]', $( form ) ).val() === '1' ? true : false );
 
 				$( 'input, select', $( form ) ).each(
 					function( i ) {
@@ -55,13 +55,13 @@ jQuery( document ).ready(
 						if ( ! $( this ).val() ) {
 							return true;
 						}
-						if ( $( this ).val().length == 0 ) {
+						if ( $( this ).val().length === 0 ) {
 							return true;
 						}
 
 						// Get shortcode attribute.
-						var key = $( this ).data( 'shortcode' ),
-						trim    = ( $( this ).data( 'trim' ) == '0' ? false : true ),
+						let key = $( this ).data( 'shortcode' ),
+						trim    = ( $( this ).data( 'trim' ) === '0' ? false : true ),
 						val     = $( this ).val();
 
 						// Skip if the shortcode is empty.
@@ -116,13 +116,13 @@ jQuery( document ).ready(
 
 // QuickTags: Setup Backbone Modal and Template.
 if ( typeof wp !== 'undefined' && typeof wp.media !== 'undefined' ) {
-	var convertKitQuickTagsModal        = new wp.media.view.Modal(
+	const convertKitQuickTagsModal        = new wp.media.view.Modal(
 		{
 			controller: { trigger: function() {} },
 			className: 'convertkit-quicktags-modal'
 		}
 	);
-	var convertKitQuickTagsModalContent = wp.Backbone.View.extend(
+	const convertKitQuickTagsModalContent = wp.Backbone.View.extend(
 		{
 			template: wp.template( 'convertkit-quicktags-modal' )
 		}

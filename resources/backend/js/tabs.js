@@ -23,7 +23,7 @@ function convertKitTabsInit() {
 		$( '.convertkit-js-tabs' ).each(
 			function() {
 
-				var nav_tab_container    = $( this ),
+				const nav_tab_container    = $( this ),
 				nav_tab_panels_container = $( nav_tab_container ).data( 'panels-container' ),
 				nav_tab_panel            = $( nav_tab_container ).data( 'panel' ),
 				nav_tab_active           = $( nav_tab_container ).data( 'active' ),
@@ -76,15 +76,12 @@ function convertKitTabsUpdate( nav_tab_container, nav_tab_panels_container, nav_
 	( function( $ ) {
 
 		// If we don't have an active tab at this point, we don't have any tabs, so bail.
-		if ( typeof active_tab == 'undefined' ) {
+		if ( typeof active_tab === 'undefined' ) {
 			return;
 		}
-		if ( active_tab.length == 0 ) {
+		if ( active_tab.length === 0 ) {
 			return;
 		}
-
-		// Fetch the <a> element that was clicked / selected.
-		var link = $( 'a[href="' + active_tab + '"]', $( nav_tab_container ) );
 
 		// Deactivate all tabs in this container.
 		$( 'a', $( nav_tab_container ) ).removeClass( nav_tab_active );
