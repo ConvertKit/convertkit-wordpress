@@ -116,7 +116,8 @@ jQuery( document ).ready(
 
 // QuickTags: Setup Backbone Modal and Template.
 if ( typeof wp !== 'undefined' && typeof wp.media !== 'undefined' ) {
-	const convertKitQuickTagsModal        = new wp.media.view.Modal(
+	// Declared globally, as used in this file and quicktags.js.
+	var convertKitQuickTagsModal          = new wp.media.view.Modal(
 		{
 			controller: { trigger: function() {} },
 			className: 'convertkit-quicktags-modal'
