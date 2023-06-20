@@ -38,6 +38,12 @@ function convertKitTinyMCERegisterPlugin( block ) {
 					'convertkit_' + block.name,
 					function() {
 
+						// Reset the content in the non-TinyMCE modal.
+						// If we don't do this, switching from Text to Visual Editor for the same shortcode results
+						// code picking up data from the QuickTags modal, not the TinyMCE one, resulting in e.g.
+						// tabbed UI not loading correctly, form field values fetched from the wrong modal etc.
+						convertKitQuickTagsModal.content( new convertKitQuickTagsModalContent() );
+
 						// Open the TinyMCE Modal.
 						editor.windowManager.open(
 							{

@@ -25,6 +25,12 @@ jQuery( document ).ready(
 				// Text Editor.
 				convertKitQuickTagsModal.close();
 
+				// Reset the content in the non-TinyMCE modal.
+				// If we don't do this, switching from Text to Visual Editor for the same shortcode results
+				// code picking up data from the QuickTags modal, not the TinyMCE one, resulting in e.g.
+				// tabbed UI not loading correctly, form field values fetched from the wrong modal etc.
+				convertKitQuickTagsModal.content( new convertKitQuickTagsModalContent() );
+
 			}
 		);
 
@@ -106,6 +112,12 @@ jQuery( document ).ready(
 
 						// Close modal.
 						convertKitQuickTagsModal.close();
+
+						// Reset the content in the non-TinyMCE modal.
+						// If we don't do this, switching from Text to Visual Editor for the same shortcode results
+						// code picking up data from the QuickTags modal, not the TinyMCE one, resulting in e.g.
+						// tabbed UI not loading correctly, form field values fetched from the wrong modal etc.
+						convertKitQuickTagsModal.content( new convertKitQuickTagsModalContent() );
 						break;
 				}
 			}
@@ -123,7 +135,7 @@ if ( typeof wp !== 'undefined' && typeof wp.media !== 'undefined' ) {
 			className: 'convertkit-quicktags-modal'
 		}
 	);
-	const convertKitQuickTagsModalContent = wp.Backbone.View.extend(
+	var convertKitQuickTagsModalContent = wp.Backbone.View.extend(
 		{
 			template: wp.template( 'convertkit-quicktags-modal' )
 		}
