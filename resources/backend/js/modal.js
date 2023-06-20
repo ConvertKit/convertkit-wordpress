@@ -135,13 +135,16 @@ if ( typeof wp !== 'undefined' && typeof wp.media !== 'undefined' ) {
 
 	/**
 	 * Resets the content of the convertKitQuickTagsModal when closing.
-	 * 
+	 *
 	 * If this isn't performed, switching from Text to Visual Editor for the same shortcode results
 	 * code picking up data from the QuickTags modal, not the TinyMCE one, due to this 'stale'
 	 * modal remaining in the DOM, resulting in e.g. the tabbed UI not loading correctly.
 	 */
-	convertKitQuickTagsModal.on( 'close', function( e ) {
-		this.content( new convertKitQuickTagsModalContent() );
-	} );
+	convertKitQuickTagsModal.on(
+		'close',
+		function( e ) {
+			this.content( new convertKitQuickTagsModalContent() );
+		}
+	);
 
 }
