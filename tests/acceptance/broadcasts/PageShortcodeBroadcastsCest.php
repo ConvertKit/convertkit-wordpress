@@ -261,7 +261,7 @@ class PageShortcodeBroadcastsCest
 			$I,
 			'ConvertKit Broadcasts',
 			[
-				'limit' => [ 'input', '2' ],
+				'limit' => [ 'input', '2', 'Pagination' ], // Click the Pagination tab first before starting to complete fields.
 			],
 			'[convertkit_broadcasts display_grid="0" date_format="F j, Y" display_image="0" display_description="0" display_read_more="0" read_more_label="Read more" limit="2" paginate="0" paginate_label_prev="Previous" paginate_label_next="Next"]'
 		);
@@ -297,7 +297,7 @@ class PageShortcodeBroadcastsCest
 			$I,
 			'ConvertKit Broadcasts',
 			[
-				'limit'    => [ 'input', '1' ],
+				'limit'    => [ 'input', '1', 'Pagination' ], // Click the Pagination tab first before starting to complete fields.
 				'paginate' => [ 'toggle', 'Yes' ],
 			],
 			'[convertkit_broadcasts display_grid="0" date_format="F j, Y" display_image="0" display_description="0" display_read_more="0" read_more_label="Read more" limit="1" paginate="1" paginate_label_prev="Previous" paginate_label_next="Next"]'
@@ -328,7 +328,7 @@ class PageShortcodeBroadcastsCest
 			$I,
 			'ConvertKit Broadcasts',
 			[
-				'limit'               => [ 'input', '1' ],
+				'limit'               => [ 'input', '1', 'Pagination' ], // Click the Pagination tab first before starting to complete fields.
 				'paginate'            => [ 'toggle', 'Yes' ],
 				'paginate_label_prev' => [ 'input', 'Newer' ],
 				'paginate_label_next' => [ 'input', 'Older' ],
@@ -361,7 +361,7 @@ class PageShortcodeBroadcastsCest
 			$I,
 			'ConvertKit Broadcasts',
 			[
-				'limit'               => [ 'input', '1' ],
+				'limit'               => [ 'input', '1', 'Pagination' ], // Click the Pagination tab first before starting to complete fields.
 				'paginate'            => [ 'toggle', 'Yes' ],
 				'paginate_label_prev' => [ 'input', '' ],
 				'paginate_label_next' => [ 'input', '' ],
@@ -664,7 +664,7 @@ class PageShortcodeBroadcastsCest
 			$I,
 			'convertkit-broadcasts',
 			[
-				'limit' => [ 'input', '2' ],
+				'limit' => [ 'input', '2', 'Pagination' ], // Click the Pagination tab first before starting to complete fields.
 			],
 			'[convertkit_broadcasts display_grid="0" date_format="F j, Y" display_image="0" display_description="0" display_read_more="0" read_more_label="Read more" limit="2" paginate="0" paginate_label_prev="Previous" paginate_label_next="Next"]'
 		);
@@ -697,7 +697,7 @@ class PageShortcodeBroadcastsCest
 			$I,
 			'convertkit-broadcasts',
 			[
-				'limit'    => [ 'input', '1' ],
+				'limit'    => [ 'input', '1', 'Pagination' ], // Click the Pagination tab first before starting to complete fields.
 				'paginate' => [ 'toggle', 'Yes' ],
 			],
 			'[convertkit_broadcasts display_grid="0" date_format="F j, Y" display_image="0" display_description="0" display_read_more="0" read_more_label="Read more" limit="1" paginate="1" paginate_label_prev="Previous" paginate_label_next="Next"]'
@@ -728,7 +728,7 @@ class PageShortcodeBroadcastsCest
 			$I,
 			'convertkit-broadcasts',
 			[
-				'limit'               => [ 'input', '1' ],
+				'limit'               => [ 'input', '1', 'Pagination' ], // Click the Pagination tab first before starting to complete fields.
 				'paginate'            => [ 'toggle', 'Yes' ],
 				'paginate_label_prev' => [ 'input', 'Newer' ],
 				'paginate_label_next' => [ 'input', 'Older' ],

@@ -13,7 +13,7 @@ jQuery( document ).ready(
 		// Cancel.
 		$( 'body' ).on(
 			'click',
-			'form.convertkit-tinymce-popup button.close',
+			'#convertkit-modal-body div.mce-cancel button, #convertkit-quicktags-modal .media-toolbar .media-toolbar-secondary button.cancel',
 			function( e ) {
 
 				// TinyMCE.
@@ -31,18 +31,18 @@ jQuery( document ).ready(
 		// Insert.
 		$( 'body' ).on(
 			'click',
-			'form.convertkit-tinymce-popup div.buttons input[type=button]',
+			'#convertkit-modal-body div.mce-insert button, #convertkit-quicktags-modal .media-toolbar .media-toolbar-primary button.button-primary',
 			function( e ) {
 
 				// Prevent default action.
 				e.preventDefault();
 
 				// Get containing form.
-				var form = $( this ).closest( 'form.convertkit-tinymce-popup' );
+				let form = $( 'form.convertkit-tinymce-popup' );
 
 				// Build Shortcode.
-				var shortcode  = '[' + $( 'input[name="shortcode"]', $( form ) ).val(),
-				shortcodeClose = ( $( 'input[name="close_shortcode"]', $( form ) ).val() == '1' ? true : false );
+				let shortcode  = '[' + $( 'input[name="shortcode"]', $( form ) ).val(),
+				shortcodeClose = ( $( 'input[name="close_shortcode"]', $( form ) ).val() === '1' ? true : false );
 
 				$( 'input, select', $( form ) ).each(
 					function( i ) {
@@ -55,13 +55,13 @@ jQuery( document ).ready(
 						if ( ! $( this ).val() ) {
 							return true;
 						}
-						if ( $( this ).val().length == 0 ) {
+						if ( $( this ).val().length === 0 ) {
 							return true;
 						}
 
 						// Get shortcode attribute.
-						var key = $( this ).data( 'shortcode' ),
-						trim    = ( $( this ).data( 'trim' ) == '0' ? false : true ),
+						let key = $( this ).data( 'shortcode' ),
+						trim    = ( $( this ).data( 'trim' ) === '0' ? false : true ),
 						val     = $( this ).val();
 
 						// Skip if the shortcode is empty.
@@ -116,13 +116,14 @@ jQuery( document ).ready(
 
 // QuickTags: Setup Backbone Modal and Template.
 if ( typeof wp !== 'undefined' && typeof wp.media !== 'undefined' ) {
-	var convertKitQuickTagsModal        = new wp.media.view.Modal(
+	// Declared globally, as used in this file and quicktags.js.
+	var convertKitQuickTagsModal          = new wp.media.view.Modal(
 		{
 			controller: { trigger: function() {} },
 			className: 'convertkit-quicktags-modal'
 		}
 	);
-	var convertKitQuickTagsModalContent = wp.Backbone.View.extend(
+	const convertKitQuickTagsModalContent = wp.Backbone.View.extend(
 		{
 			template: wp.template( 'convertkit-quicktags-modal' )
 		}

@@ -251,6 +251,15 @@ function convertKitGutenbergRegisterBlock( block ) {
 
 			// Build Inspector Control Panels.
 			for ( const panel in block.panels ) {
+				let panelRows = getPanelRows( props, panel );
+
+				// If no panel rows exist (e.g. this is a shortcode only panel,
+				// for styles, which Gutenberg registers in its own styles tab),
+				// don't add this panel.
+				if ( ! panelRows.length ) {
+					continue;
+				}
+
 				panels.push(
 					el(
 						PanelBody,
@@ -259,7 +268,7 @@ function convertKitGutenbergRegisterBlock( block ) {
 							key: panel,
 							initialOpen: initialOpen
 						},
-						getPanelRows( props, panel )
+						panelRows
 					)
 				);
 

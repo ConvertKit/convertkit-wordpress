@@ -49,7 +49,17 @@ function convertKitTinyMCERegisterPlugin( block ) {
 								// Content will overflow-y to show a scrollbar where necessary.
 								height: ( block.modal.height < 580 ? block.modal.height : 580 ),
 								inline: 1,
-								buttons:[],
+								buttons: [
+								{
+									text: 'Cancel',
+									classes: 'cancel'
+								},
+								{
+									text: 'Insert',
+									subtype: 'primary',
+									classes: 'insert'
+								}
+								]
 							}
 						);
 
@@ -66,6 +76,9 @@ function convertKitTinyMCERegisterPlugin( block ) {
 
 								// Inject HTML into modal.
 								$( '#convertkit-modal-body-body' ).html( response );
+
+								// Initialize tabbed interface.
+								convertKitTabsInit();
 
 								// Initialize color pickers.
 								$( '.convertkit-color-picker' ).wpColorPicker();
