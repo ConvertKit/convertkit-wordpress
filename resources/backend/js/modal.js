@@ -23,13 +23,7 @@ jQuery( document ).ready(
 				}
 
 				// Text Editor.
-				convertKitQuickTagsModal.close();
-
-				// Reset the content in the non-TinyMCE modal.
-				// If we don't do this, switching from Text to Visual Editor for the same shortcode results
-				// code picking up data from the QuickTags modal, not the TinyMCE one, resulting in e.g.
-				// tabbed UI not loading correctly, form field values fetched from the wrong modal etc.
-				convertKitQuickTagsModal.content( new convertKitQuickTagsModalContent() );
+				convertKitQuickTagsModalClose();
 
 			}
 		);
@@ -111,13 +105,7 @@ jQuery( document ).ready(
 						QTags.insertContent( shortcode );
 
 						// Close modal.
-						convertKitQuickTagsModal.close();
-
-						// Reset the content in the non-TinyMCE modal.
-						// If we don't do this, switching from Text to Visual Editor for the same shortcode results
-						// code picking up data from the QuickTags modal, not the TinyMCE one, resulting in e.g.
-						// tabbed UI not loading correctly, form field values fetched from the wrong modal etc.
-						convertKitQuickTagsModal.content( new convertKitQuickTagsModalContent() );
+						convertKitQuickTagsModalClose();
 						break;
 				}
 			}
@@ -126,8 +114,23 @@ jQuery( document ).ready(
 	}
 );
 
+/**
+ * Resets the content of the convertKitQuickTagsModal when closing.
+ * 
+ * If this isn't performed, switching from Text to Visual Editor for the same shortcode results
+ * code picking up data from the QuickTags modal, not the TinyMCE one, due to this 'stale'
+ * modal remaining in the DOM, resulting in e.g. the tabbed UI not loading correctly.
+ */
+function convertKitQuickTagsModalClose() {
+
+	convertKitQuickTagsModal.close();
+	convertKitQuickTagsModal.content( new convertKitQuickTagsModalContent() );
+
+}
+
 // QuickTags: Setup Backbone Modal and Template.
 if ( typeof wp !== 'undefined' && typeof wp.media !== 'undefined' ) {
+
 	// Declared globally, as used in this file and quicktags.js.
 	var convertKitQuickTagsModal          = new wp.media.view.Modal(
 		{
@@ -141,4 +144,5 @@ if ( typeof wp !== 'undefined' && typeof wp.media !== 'undefined' ) {
 		}
 	);
 	convertKitQuickTagsModal.content( new convertKitQuickTagsModalContent() );
+
 }
