@@ -23,7 +23,7 @@ function convertKitTabsInit() {
 		$( '.convertkit-js-tabs' ).each(
 			function() {
 
-				const nav_tab_container    = $( this ),
+				const nav_tab_container  = $( this ),
 				nav_tab_panels_container = $( nav_tab_container ).data( 'panels-container' ),
 				nav_tab_panel            = $( nav_tab_container ).data( 'panel' ),
 				nav_tab_active           = $( nav_tab_container ).data( 'active' ),
