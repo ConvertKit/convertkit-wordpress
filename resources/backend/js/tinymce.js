@@ -38,8 +38,8 @@ function convertKitTinyMCERegisterPlugin( block ) {
 					'convertkit_' + block.name,
 					function() {
 
-						// Truly close any existing QuickTags modal.
-						convertKitQuickTagsModalClose();
+						// Close any existing QuickTags modal.
+						convertKitQuickTagsModal.close();
 
 						// Open the TinyMCE Modal.
 						editor.windowManager.open(
