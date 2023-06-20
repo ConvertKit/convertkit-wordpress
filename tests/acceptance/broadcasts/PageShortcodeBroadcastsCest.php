@@ -746,9 +746,9 @@ class PageShortcodeBroadcastsCest
 	/**
 	 * Test that using the Broadcasts shortcode in the Text editor, switching to the Visual Editor and
 	 * then using the Broadcasts shortcode again works by interacting with the tabbed UI.
-	 * 
-	 * @since 	2.2.5
-	 * 
+	 *
+	 * @since   2.2.5
+	 *
 	 * @param   AcceptanceTester $I  Tester.
 	 */
 	public function testBroadcastsShortcodeWhenSwitchingEditors(AcceptanceTester $I)
@@ -776,7 +776,6 @@ class PageShortcodeBroadcastsCest
 
 		// Publish and view the Page on the frontend site.
 		$I->publishAndViewClassicEditorPage($I);
-
 
 	}
 
