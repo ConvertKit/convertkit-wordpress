@@ -41,7 +41,7 @@ function convertKitGutenbergRegisterBlockFormatter( formatter ) {
 			registerFormatType,
 			toggleFormat,
 			applyFormat,
-			useAnchorRef
+			useAnchor
 		} = richText;
 		const {
 			BlockControls,
@@ -274,7 +274,7 @@ function convertKitGutenbergRegisterBlockFormatter( formatter ) {
 			// Get props and anchor reference to the text.
 			const { contentRef, isActive, value } = props;
 			const { activeFormats }               = value;
-			const anchorRef                       = useAnchorRef( { ref: contentRef, value } );
+			const anchorRef                       = useAnchor( { editableContentElement: contentRef.current, value } );
 
 			// State to show popover.
 			const [ showPopover, setShowPopover ] = useState( false );
