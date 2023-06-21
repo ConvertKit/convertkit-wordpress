@@ -5,7 +5,7 @@ Tags: email marketing, email newsletter, newsletter, subscribers, convertkit
 Requires at least: 5.0
 Tested up to: 6.2.2
 Requires PHP: 5.6.20
-Stable tag: 2.2.4
+Stable tag: 2.2.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -131,6 +131,12 @@ Full Plugin documentation can be found [here](https://help.convertkit.com/en/art
 7. Track subscriber growth
 
 == Changelog ==
+
+### 2.2.5 2023-06-21
+* Added: Broadcasts: Shortcode: Tabbed UI when adding broadcasts through the Classic or Text Editor
+* Added: Broadcasts: Block: Moved pagination settings to own sidebar panel
+* Fix: Classic Editor: Insert button would stop working when switching from Text Editor to Classic Editor
+* Fix: Uncaught Error: Call to undefined method ConvertKit_Resource_Forms::get_by()
 
 ### 2.2.4 2023-06-15
 * Added: Form Trigger: Block: Display message with link when no API Key specified, or no non-inline Forms exist in ConvertKit

@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the ConvertKit plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: ConvertKit 2.2.4\n"
+"Project-Id-Version: ConvertKit 2.2.5\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/convertkit\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-06-15T16:24:47+00:00\n"
+"POT-Creation-Date: 2023-06-21T15:05:49+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.7.1\n"
 "X-Domain: convertkit\n"
@@ -181,6 +181,15 @@ msgstr ""
 
 #: admin/class-convertkit-admin-setup-wizard.php:203
 msgid "Invalid nonce specified."
+msgstr ""
+
+#: admin/class-convertkit-admin-tinymce.php:220
+#: views/backend/tinymce/modal-missing.php:16
+msgid "Cancel"
+msgstr ""
+
+#: admin/class-convertkit-admin-tinymce.php:223
+msgid "Insert"
 msgstr ""
 
 #: admin/section/class-convertkit-settings-general.php:57
@@ -611,19 +620,27 @@ msgstr ""
 msgid "Text color"
 msgstr ""
 
-#: includes/blocks/class-convertkit-block-broadcasts.php:394
+#: includes/blocks/class-convertkit-block-broadcasts.php:369
+msgid "Pagination"
+msgstr ""
+
+#: includes/blocks/class-convertkit-block-broadcasts.php:378
+msgid "Styles"
+msgstr ""
+
+#: includes/blocks/class-convertkit-block-broadcasts.php:404
 msgid "Read more"
 msgstr ""
 
-#: includes/blocks/class-convertkit-block-broadcasts.php:397
+#: includes/blocks/class-convertkit-block-broadcasts.php:407
 msgid "Previous"
 msgstr ""
 
-#: includes/blocks/class-convertkit-block-broadcasts.php:398
+#: includes/blocks/class-convertkit-block-broadcasts.php:408
 msgid "Next"
 msgstr ""
 
-#: includes/blocks/class-convertkit-block-broadcasts.php:444
+#: includes/blocks/class-convertkit-block-broadcasts.php:454
 msgid "No Broadcasts exist in ConvertKit."
 msgstr ""
 
@@ -695,7 +712,7 @@ msgstr ""
 
 #. translators: ConvertKit Form ID
 #: includes/blocks/class-convertkit-block-form-trigger.php:419
-#: includes/class-convertkit-resource-forms.php:114
+#: includes/class-convertkit-resource-forms.php:122
 msgid "ConvertKit Form ID %s does not exist on ConvertKit."
 msgstr ""
 
@@ -810,7 +827,7 @@ msgstr ""
 msgid "Edit form in ConvertKit"
 msgstr ""
 
-#: includes/class-convertkit-resource-forms.php:130
+#: includes/class-convertkit-resource-forms.php:138
 msgid "ConvertKit Legacy Form could not be fetched as no API Key specified in Plugin Settings"
 msgstr ""
 
@@ -1403,15 +1420,6 @@ msgstr ""
 
 #: views/backend/tinymce/modal-missing.php:13
 msgid "The block could not be found. Check it is registered and its class initialized."
-msgstr ""
-
-#: views/backend/tinymce/modal-missing.php:16
-#: views/backend/tinymce/modal.php:22
-msgid "Cancel"
-msgstr ""
-
-#: views/backend/tinymce/modal.php:35
-msgid "Insert"
 msgstr ""
 
 #: views/frontend/restrict-content/product-code.php:21
