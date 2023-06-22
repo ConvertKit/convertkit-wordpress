@@ -43,9 +43,6 @@ class WPBulkEdit extends \Codeception\Module
 			}
 		}
 
-		// Scroll to Update button.
-		$I->scrollTo('#bulk_edit');
-
 		// Click Update.
 		$I->click('#bulk_edit');
 
