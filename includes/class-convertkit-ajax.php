@@ -35,22 +35,22 @@ class ConvertKit_AJAX {
 
 	/**
 	 * Returns all ConvertKit registered blocks.
-	 * 
+	 *
 	 * Typically used when a refresh button in a block has been pressed when
 	 * convertKitGutenbergDisplayBlockNoticeWithLink() is called, because either
 	 * no API keys were specified, or no resources exist in ConvertKit.
-	 * 
-	 * @since 	2.2.6
+	 *
+	 * @since   2.2.6
 	 */
-	 public function get_blocks() {
+	public function get_blocks() {
 
-	 	// Check nonce.
-	 	check_ajax_referer( 'convertkit_get_blocks', 'nonce' );
+		// Check nonce.
+		check_ajax_referer( 'convertkit_get_blocks', 'nonce' );
 
-	 	// Return blocks.
-	 	wp_send_json_success( convertkit_get_blocks() );
+		// Return blocks.
+		wp_send_json_success( convertkit_get_blocks() );
 
-	 }
+	}
 
 	/**
 	 * Stores the ConvertKit Subscriber's ID in a cookie.

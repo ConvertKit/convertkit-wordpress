@@ -358,16 +358,16 @@ function convertKitGutenbergRegisterBlock( block ) {
 		const displayNoticeWithLink = function( props ) {
 
 			// Build notice, depending on the type of notice that needs displaying.
-			let notice = '',
-				link = '',
+			let notice    = '',
+				link      = '',
 				link_text = '';
 			if ( ! block.has_api_key ) {
-				notice = block.no_api_key.notice;
-				link = block.no_api_key.link;
+				notice    = block.no_api_key.notice;
+				link      = block.no_api_key.link;
 				link_text = block.no_api_key.link_text;
 			} else {
-				notice = block.no_resources.notice;
-				link = block.no_resources.link;
+				notice    = block.no_resources.notice;
+				link      = block.no_resources.link;
 				link_text = block.no_resources.link_text;
 			}
 
@@ -417,7 +417,6 @@ function convertKitGutenbergRegisterBlock( block ) {
 		 */
 		const refreshBlocksDefinitions = function( props ) {
 
-			// @TODO Can we use fetch() instead of jQuery?
 			jQuery.ajax(
 				{
 					type: 'POST',
@@ -438,9 +437,11 @@ function convertKitGutenbergRegisterBlock( block ) {
 
 						// Call setAttributes on props to trigger the editBlock() function, which will re-render
 						// the block, reflecting any changes to its properties.
-						props.setAttributes( {
-							refresh: Date.now()
-						} );
+						props.setAttributes(
+							{
+								refresh: Date.now()
+							}
+						);
 
 					}
 				}
