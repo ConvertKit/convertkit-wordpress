@@ -76,8 +76,9 @@ class WooCommerceProductFormCest
 		// Publish and view the Page on the frontend site.
 		$I->publishAndViewClassicEditorPage($I);
 
-		// Confirm that the ConvertKit Default Form displays.
-		$I->seeElementInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]');
+		// Confirm that one ConvertKit Form is output in the DOM.
+		// This confirms that there is only one script on the page for this form, which renders the form.
+		$I->seeNumberOfElementsInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]', 1);
 	}
 
 	/**
@@ -148,8 +149,9 @@ class WooCommerceProductFormCest
 		// Publish and view the Product.
 		$I->publishAndViewClassicEditorPage($I);
 
-		// Confirm that the ConvertKit Form displays.
-		$I->seeElementInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]');
+		// Confirm that one ConvertKit Form is output in the DOM.
+		// This confirms that there is only one script on the page for this form, which renders the form.
+		$I->seeNumberOfElementsInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]', 1);
 	}
 
 	/**
@@ -188,7 +190,7 @@ class WooCommerceProductFormCest
 		);
 
 		// Add shortcode to Content, setting the Form setting to the value specified in the .env file,
-		// and confirming that the expected shortcode is displayed in the Excerpt field.
+		// and confirming that the expected shortcode is displayed in the Content field.
 		$I->addVisualEditorShortcode(
 			$I,
 			'ConvertKit Form',
@@ -202,8 +204,9 @@ class WooCommerceProductFormCest
 		// Publish and view the Product on the frontend site.
 		$I->publishAndViewClassicEditorPage($I);
 
-		// Confirm that the ConvertKit Form is displayed.
-		$I->seeElementInDOM('form[data-sv-form]');
+		// Confirm that one ConvertKit Form is output in the DOM.
+		// This confirms that there is only one script on the page for this form, which renders the form.
+		$I->seeNumberOfElementsInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]', 2);
 	}
 
 	/**
@@ -242,7 +245,7 @@ class WooCommerceProductFormCest
 		);
 
 		// Add shortcode to Content, setting the Form setting to the value specified in the .env file,
-		// and confirming that the expected shortcode is displayed in the Excerpt field.
+		// and confirming that the expected shortcode is displayed in the Content field.
 		$I->addTextEditorShortcode(
 			$I,
 			'convertkit-form',
@@ -256,8 +259,9 @@ class WooCommerceProductFormCest
 		// Publish and view the Product on the frontend site.
 		$I->publishAndViewClassicEditorPage($I);
 
-		// Confirm that the ConvertKit Form is displayed.
-		$I->seeElementInDOM('form[data-sv-form]');
+		// Confirm that one ConvertKit Form is output in the DOM.
+		// This confirms that there is only one script on the page for this form, which renders the form.
+		$I->seeNumberOfElementsInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]', 2);
 	}
 
 	/**
@@ -298,8 +302,9 @@ class WooCommerceProductFormCest
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
 
-		// Confirm that the ConvertKit Default Form displays.
-		$I->seeElementInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]');
+		// Confirm that one ConvertKit Form is output in the DOM.
+		// This confirms that there is only one script on the page for this form, which renders the form.
+		$I->seeNumberOfElementsInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]', 1);
 	}
 
 	/**
@@ -340,8 +345,9 @@ class WooCommerceProductFormCest
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
 
-		// Confirm that the ConvertKit Default Form displays.
-		$I->seeElementInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]');
+		// Confirm that one ConvertKit Form is output in the DOM.
+		// This confirms that there is only one script on the page for this form, which renders the form.
+		$I->seeNumberOfElementsInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]', 1);
 	}
 
 	/**
@@ -392,8 +398,9 @@ class WooCommerceProductFormCest
 			// Check that no PHP warnings or notices were output.
 			$I->checkNoWarningsAndNoticesOnScreen($I);
 
-			// Confirm that the ConvertKit Default Form displays.
-			$I->seeElementInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]');
+			// Confirm that one ConvertKit Form is output in the DOM.
+			// This confirms that there is only one script on the page for this form, which renders the form.
+			$I->seeNumberOfElementsInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]', 1);
 		}
 	}
 
@@ -445,8 +452,9 @@ class WooCommerceProductFormCest
 			// Check that no PHP warnings or notices were output.
 			$I->checkNoWarningsAndNoticesOnScreen($I);
 
-			// Confirm that the ConvertKit Default Form displays.
-			$I->seeElementInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]');
+			// Confirm that one ConvertKit Form is output in the DOM.
+			// This confirms that there is only one script on the page for this form, which renders the form.
+			$I->seeNumberOfElementsInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]', 1);
 		}
 	}
 
@@ -512,8 +520,9 @@ class WooCommerceProductFormCest
 			// Check that no PHP warnings or notices were output.
 			$I->checkNoWarningsAndNoticesOnScreen($I);
 
-			// Confirm that the ConvertKit Form displays.
-			$I->seeElementInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]');
+			// Confirm that one ConvertKit Form is output in the DOM.
+			// This confirms that there is only one script on the page for this form, which renders the form.
+			$I->seeNumberOfElementsInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]', 1);
 		}
 	}
 

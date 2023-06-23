@@ -21,7 +21,7 @@ class ConvertKit_Output_Restrict_Content {
 	 *
 	 * @var     bool|string
 	 */
-	private $success = false; // @phpstan-ignore-line.
+	private $success = false;
 
 	/**
 	 * Holds the WP_Error object if an API call / authentication failed,
@@ -31,7 +31,7 @@ class ConvertKit_Output_Restrict_Content {
 	 *
 	 * @var     bool|WP_Error
 	 */
-	private $error = false; // @phpstan-ignore-line.
+	private $error = false;
 
 	/**
 	 * Holds the ConvertKit Plugin Settings class
@@ -217,10 +217,21 @@ class ConvertKit_Output_Restrict_Content {
 		$subscriber = new ConvertKit_Subscriber();
 		$subscriber->set( $subscriber_id );
 
+		// We append a query parameter to the URL to prevent caching plugins and
+		// aggressive cache hosting configurations from serving a cached page, which would
+		// result in maybe_restrict_content() not showing an error message or permitting
+		// access to the content.
+		$url = add_query_arg(
+			array(
+				'ck-cache-bust' => microtime(),
+			),
+			$this->get_url()
+		);
+
 		// Redirect to the Post without the token and subscriber parameters.
 		// This will then run maybe_restrict_content() to get the subscriber's ID from the cookie,
 		// and determine if the content can be displayed.
-		wp_safe_redirect( $this->get_url() );
+		wp_safe_redirect( $url );
 		exit;
 
 	}
@@ -708,6 +719,10 @@ class ConvertKit_Output_Restrict_Content {
 	 * @return  string                  HTML
 	 */
 	private function get_call_to_action( $post_id, $resource_type, $resource_id ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter
+
+		// Read success and error notices from this class.
+		$success = $this->success;
+		$error   = $this->error;
 
 		// This is deliberately a switch statement, because we will likely add in support
 		// for restrict by tag and form later.

@@ -26,6 +26,7 @@ modules:
         - \Helper\Acceptance\Select2
         - \Helper\Acceptance\ThirdPartyPlugin
         - \Helper\Acceptance\WPBulkEdit
+        - \Helper\Acceptance\WPCachePlugins
         - \Helper\Acceptance\WPClassicEditor
         - \Helper\Acceptance\WPGutenberg
         - \Helper\Acceptance\WPMetabox

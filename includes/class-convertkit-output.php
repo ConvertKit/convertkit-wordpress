@@ -72,6 +72,7 @@ class ConvertKit_Output {
 		add_action( 'template_redirect', array( $this, 'page_takeover' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		add_filter( 'the_content', array( $this, 'append_form_to_content' ) );
+		add_action( 'wp_footer', array( $this, 'output_scripts_footer' ) );
 
 	}
 
@@ -403,6 +404,67 @@ class ConvertKit_Output {
 		}
 
 		$this->subscriber_id = $subscriber_id;
+
+	}
+
+	/**
+	 * Outputs any JS <script> tags registered with the convertkit_output_scripts_footer
+	 * filter
+	 *
+	 * @since   2.1.4
+	 */
+	public function output_scripts_footer() {
+
+		// Define array of scripts.
+		$scripts = array();
+
+		/**
+		 * Define an array of scripts to output in the footer of the WordPress site.
+		 *
+		 * @since   2.1.4
+		 *
+		 * @param   array   $scripts    Scripts.
+		 */
+		$scripts = apply_filters( 'convertkit_output_scripts_footer', $scripts );
+
+		// Bail if no scripts exist.
+		if ( ! count( $scripts ) ) {
+			return;
+		}
+
+		// Define array to store <script> outputs.
+		$output_scripts = array();
+
+		// Iterate through scripts, building the <script> tag for each.
+		foreach ( $scripts as $script ) {
+			$output = '<script';
+
+			foreach ( $script as $attribute => $value ) {
+				// If the value is true, just output the attribute.
+				if ( $value === true ) {
+					$output .= ' ' . esc_attr( $attribute );
+					continue;
+				}
+
+				// Output the attribute and value.
+				$output .= ' ' . esc_attr( $attribute ) . '="' . esc_attr( $value ) . '"';
+			}
+			$output .= '></script>';
+
+			// Add to array.
+			$output_scripts[] = $output;
+		}
+
+		// Remove duplicate scripts.
+		// This prevents the same non-inline form displaying twice. For example, if a modal form is specified both
+		// in the Page's settings and the Form block, the user would see the same modal form displayed twice
+		// because the script would be output twice.
+		$output_scripts = array_unique( $output_scripts );
+
+		// Output scripts.
+		foreach ( $output_scripts as $output_script ) {
+			echo $output_script . "\n"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		}
 
 	}
 

@@ -21,17 +21,21 @@ jQuery( document ).ready(
 				e.preventDefault();
 
 				// Get block container and build object of data-* attributes.
-				var blockContainer = $( this ).closest( 'div.convertkit-broadcasts' ),
-					atts           = {
-						date_format: $( blockContainer ).data( 'date-format' ),
-						limit: $( blockContainer ).data( 'limit' ),
-						paginate: $( blockContainer ).data( 'paginate' ),
-						paginate_label_prev: $( blockContainer ).data( 'paginate-label-prev' ),
-						paginate_label_next: $( blockContainer ).data( 'paginate-label-next' ),
-						link_color: $( blockContainer ).data( 'link-color' ),
-
-						page: $( this ).data( 'page' ), // Page is supplied as a data- attribute on the link clicked, not the container.
-						nonce: $( this ).data( 'nonce' ) // Nonce is supplied as a data- attribute on the link clicked, not the container.
+				let blockContainer = $( this ).closest( 'div.convertkit-broadcasts' );
+				let atts           = {
+					display_date: $( blockContainer ).data( 'display-date' ),
+					date_format: $( blockContainer ).data( 'date-format' ),
+					display_image: $( blockContainer ).data( 'display-image' ),
+					display_description: $( blockContainer ).data( 'display-description' ),
+					display_read_more: $( blockContainer ).data( 'display-read-more' ),
+					read_more_label: $( blockContainer ).data( 'read-more-label' ),
+					limit: $( blockContainer ).data( 'limit' ),
+					paginate: $( blockContainer ).data( 'paginate' ),
+					paginate_label_prev: $( blockContainer ).data( 'paginate-label-prev' ),
+					paginate_label_next: $( blockContainer ).data( 'paginate-label-next' ),
+					link_color: $( blockContainer ).data( 'link-color' ),
+					page: $( this ).data( 'page' ), // Page is supplied as a data- attribute on the link clicked, not the container.
+					nonce: $( this ).data( 'nonce' ) // Nonce is supplied as a data- attribute on the link clicked, not the container.
 				};
 
 				convertKitBroadcastsRender( blockContainer, atts );

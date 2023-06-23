@@ -39,15 +39,12 @@
 						<span class="dashicons dashicons-update"></span>
 					</button>
 					<p class="description">
-						<?php
-						printf(
-							/* translators: settings url */
-							__( '<code>Default</code>: Uses the form specified on the <a href="%s" target="_blank">settings page</a>.', 'convertkit' ), /* phpcs:ignore */
-							esc_attr( esc_url( $settings_link ) )
-						);
-						?>
+						<code><?php esc_html_e( 'Default', 'convertkit' ); ?></code>
+						<?php esc_html_e( ': Uses the form specified on the', 'convertkit' ); ?>
+						<a href="<?php echo esc_url( $settings_link ); ?>"><?php esc_html_e( 'settings page', 'convertkit' ); ?></a>
 						<br />
-						<?php _e( '<code>None</code>: do not display a form.', 'convertkit' ); /* phpcs:ignore */ ?>
+						<code><?php esc_html_e( 'None', 'convertkit' ); ?></code>
+						<?php esc_html_e( ': do not display a form.', 'convertkit' ); ?>
 						<br />
 						<?php esc_html_e( 'Any other option will display that form after the main content.', 'convertkit' ); ?>
 						<br />

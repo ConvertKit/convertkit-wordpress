@@ -201,6 +201,94 @@ class ResourceFormsTest extends \Codeception\TestCase\WPTestCase
 	}
 
 	/**
+	 * Tests that the get_non_inline() function returns resources in alphabetical ascending order
+	 * by default.
+	 *
+	 * @since   1.9.7.4
+	 */
+	public function testGetNonInline()
+	{
+		// Call resource class' get_non_inline() function.
+		$result = $this->resource->get_non_inline();
+
+		// Assert result is an array.
+		$this->assertIsArray($result);
+
+		// Assert top level array keys are preserved.
+		$this->assertArrayHasKey($_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_ID'], $result);
+		$this->assertArrayHasKey($_ENV['CONVERTKIT_API_FORM_FORMAT_STICKY_BAR_ID'], $result);
+
+		// Assert resource within results has expected array keys.
+		$this->assertArrayHasKey('id', reset($result));
+		$this->assertArrayHasKey('name', reset($result));
+
+		// Assert order of data is in ascending alphabetical order.
+		$this->assertEquals($_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_NAME'], reset($result)[ $this->resource->order_by ]);
+		$this->assertEquals($_ENV['CONVERTKIT_API_FORM_FORMAT_STICKY_BAR_NAME'], end($result)[ $this->resource->order_by ]);
+	}
+
+	/**
+	 * Tests that the get_non_inline() function returns resources in alphabetical descending order
+	 * when a valid order_by and order properties are defined.
+	 *
+	 * @since   2.0.8
+	 */
+	public function testGetNonInlineWithValidOrderByAndOrder()
+	{
+		// Define order_by and order.
+		$this->resource->order_by = 'name';
+		$this->resource->order    = 'desc';
+
+		// Call resource class' get_non_inline() function.
+		$result = $this->resource->get_non_inline();
+
+		// Assert result is an array.
+		$this->assertIsArray($result);
+
+		// Assert top level array keys are preserved.
+		$this->assertArrayHasKey($_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_ID'], $result);
+		$this->assertArrayHasKey($_ENV['CONVERTKIT_API_FORM_FORMAT_STICKY_BAR_ID'], $result);
+
+		// Assert resource within results has expected array keys.
+		$this->assertArrayHasKey('id', reset($result));
+		$this->assertArrayHasKey('name', reset($result));
+
+		// Assert order of data is in ascending alphabetical order.
+		$this->assertEquals($_ENV['CONVERTKIT_API_FORM_FORMAT_STICKY_BAR_NAME'], reset($result)[ $this->resource->order_by ]);
+		$this->assertEquals($_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_NAME'], end($result)[ $this->resource->order_by ]);
+	}
+
+	/**
+	 * Tests that the get_non_inline() function returns resources in their original order
+	 * when populated with Forms and an invalid order_by value is specified.
+	 *
+	 * @since   2.2.4
+	 */
+	public function testGetNonInlineWithInvalidOrderBy()
+	{
+		// Define order_by with an invalid value (i.e. an array key that does not exist).
+		$this->resource->order_by = 'invalid_key';
+
+		// Call resource class' get_non_inline() function.
+		$result = $this->resource->get_non_inline();
+
+		// Assert result is an array.
+		$this->assertIsArray($result);
+
+		// Assert top level array keys are preserved.
+		$this->assertArrayHasKey($_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_ID'], $result);
+		$this->assertArrayHasKey($_ENV['CONVERTKIT_API_FORM_FORMAT_STICKY_BAR_ID'], $result);
+
+		// Assert resource within results has expected array keys.
+		$this->assertArrayHasKey('id', reset($result));
+		$this->assertArrayHasKey('name', reset($result));
+
+		// Assert order of data has not changed.
+		$this->assertEquals($_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_NAME'], reset($result)['name']);
+		$this->assertEquals($_ENV['CONVERTKIT_API_FORM_FORMAT_STICKY_BAR_NAME'], end($result)['name']);
+	}
+
+	/**
 	 * Test that the count() function returns the number of resources.
 	 *
 	 * @since   1.9.7.6
@@ -220,6 +308,18 @@ class ResourceFormsTest extends \Codeception\TestCase\WPTestCase
 	{
 		// Confirm that the function returns true, because resources exist.
 		$result = $this->resource->exist();
+		$this->assertSame($result, true);
+	}
+
+	/**
+	 * Test that the non_inline_exist() function performs as expected.
+	 *
+	 * @since   2.2.4
+	 */
+	public function testNonInlineExist()
+	{
+		// Confirm that the function returns true, because resources exist.
+		$result = $this->resource->non_inline_exist();
 		$this->assertSame($result, true);
 	}
 

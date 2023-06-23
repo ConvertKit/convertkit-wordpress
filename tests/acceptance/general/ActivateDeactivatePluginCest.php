@@ -31,10 +31,11 @@ class ActivateDeactivatePluginCest
 	public function testPluginActivationAndDeactivationWithOtherPlugins(AcceptanceTester $I)
 	{
 		// Activate other ConvertKit Plugins from wordpress.org.
-		$I->activateThirdPartyPlugin($I, 'wpforms-lite');
-		$I->activateThirdPartyPlugin($I, 'integrate-convertkit-wpforms');
+		$I->activateThirdPartyPlugin($I, 'convertkit-for-woocommerce');
 
 		// Activate this Plugin.
+		// If this Plugin calls a function that doesn't exist in the outdated ConvertKit WordPress Library,
+		// activating this Plugin will fail, therefore failing the test.
 		$I->activateConvertKitPlugin($I);
 
 		// Setup API Keys at Settings > ConvertKit, which will use WordPress Libraries and show errors

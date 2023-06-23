@@ -62,25 +62,41 @@ class ConvertKit_Admin_Notices {
 
 		// Output notices.
 		foreach ( $notices as $notice ) {
+			switch ( $notice ) {
+				case 'authorization_failed':
+					$output = sprintf(
+						'%s %s',
+						esc_html__( 'ConvertKit: Authorization failed. Please enter valid API credentials on the', 'convertkit' ),
+						sprintf(
+							'<a href="%s">%s</a>',
+							esc_url( convertkit_get_settings_link() ),
+							esc_html__( 'settings screen.', 'convertkit' )
+						)
+					);
+					break;
+
+				default:
+					$output = '';
+
+					/**
+					 * Define the text to output in an admin error notice.
+					 *
+					 * @since   2.2.1
+					 *
+					 * @param   string  $notice     Admin notice name.
+					 */
+					$output = apply_filters( 'convertkit_admin_notices_output_' . $notice, $output );
+					break;
+			}
+
+			// If no output defined, skip.
+			if ( empty( $output ) ) {
+				continue;
+			}
 			?>
 			<div class="notice notice-error">
 				<p>
-					<?php
-					// Depending on the notice, output the applicable error message.
-					switch ( $notice ) {
-						case 'authorization_failed':
-							echo sprintf(
-								'%s %s',
-								esc_html__( 'ConvertKit: Authorization failed. Please enter valid API credentials on the', 'convertkit' ),
-								sprintf(
-									'<a href="%s">%s</a>',
-									esc_url( convertkit_get_settings_link() ),
-									esc_html__( 'settings screen.', 'convertkit' )
-								)
-							);
-							break;
-					}
-					?>
+					<?php echo $output; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 				</p>
 			</div>
 			<?php

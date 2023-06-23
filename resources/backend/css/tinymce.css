@@ -1,10 +1,26 @@
 /**
  * TinyMCE and QuickTag Modals
  */
+#convertkit-modal-body {
+	/* Scroll inner contents so that modal height doesn't need to exceed screen resolution. */
+	overflow-y: auto;
+}
+#convertkit-modal-body #convertkit-modal-body-body {
+	background-color: #f7f7f7;
+}
+#convertkit-modal-body-body .notice-error {
+	background: #f5eeee;
+	border: 1px solid #c3c4c7;
+	border-left-width: 4px;
+	box-shadow: 0 1px 1px rgba(0,0,0,.04);
+	margin: 20px 20px 0 20px;
+	padding: 1px 12px;
+	border-left-color: #d63638;
+}
 .convertkit-option {
 	display: grid;
 	grid-template-areas: "left right";
-	grid-template-columns: 120px auto;
+	grid-template-columns: 150px auto;
 	grid-column-gap: 5px;
 	grid-row-gap: 5px;
 	justify-items: start;
@@ -49,6 +65,13 @@
 }
 
 /**
+ * Buttons
+ */
+#convertkit-modal-body div.mce-foot div.mce-cancel {
+	left: 10px !important;
+}
+
+/**
  * Ensures consistent styling applied to 'Select color' button
  * provided by WordPress' color picker across TinyMCE and QuickTag modals
  */
@@ -62,4 +85,89 @@
 	padding: 0 6px;
 	font-size: 11px;
 	text-align: center;
+}
+
+/**
+ * Settings UI - Vertical Tabbed Interface
+ */
+.convertkit-vertical-tabbed-ui {
+	display: grid;
+	grid-template-columns: 180px auto;
+	grid-template-areas: "tabs content";
+	background: #f7f7f7;
+}
+.convertkit-vertical-tabbed-ui ul.convertkit-nav-tabs {
+	grid-area: tabs;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	border-right: 1px solid #e5e5e5;
+}
+.convertkit-vertical-tabbed-ui ul.convertkit-nav-tabs li.convertkit-nav-tab {
+	width: 100%;
+	margin: 0;
+	padding: 0;
+}
+.convertkit-vertical-tabbed-ui ul.convertkit-nav-tabs li.convertkit-nav-tab a {
+	position: relative;
+	display: block;
+	width: 100%;
+	margin: 0;
+	padding: 20px;
+	text-decoration: none;
+	color: #999;
+	border-bottom: 1px solid #e5e5e5;
+	box-sizing: border-box;
+	transition: none;
+	background-position: 0 50%;
+	background-repeat: no-repeat;
+}
+.convertkit-vertical-tabbed-ui ul.convertkit-nav-tabs li.convertkit-nav-tab a.convertkit-nav-tab-vertical-active,
+.convertkit-vertical-tabbed-ui ul.convertkit-nav-tabs li.convertkit-nav-tab a:hover {
+	width: 181px;
+	margin: -1px 0 0 0;
+	text-decoration: none;
+	color: #444;
+	border-top: 1px solid #e5e5e5;
+	border-bottom: 1px solid #e5e5e5;
+	border-right: 1px solid #fff;
+	background-color: #fff;
+	background-position: 20px 50%;
+	background-repeat: no-repeat;
+}
+.convertkit-vertical-tabbed-ui ul.convertkit-nav-tabs li.convertkit-nav-tab a.convertkit-nav-tab-vertical-active {
+	font-weight: 700;
+}
+.convertkit-vertical-tabbed-ui ul.convertkit-nav-tabs li.convertkit-nav-tab a:hover {
+	background-color: #fefefe;
+}
+.convertkit-vertical-tabbed-ui ul.convertkit-nav-tabs li.convertkit-nav-tab a:focus {
+	box-shadow: none;
+}
+.convertkit-vertical-tabbed-ui ul.convertkit-nav-tabs li.convertkit-nav-tab:last-child a {
+	border-bottom: none;
+}
+.convertkit-vertical-tabbed-ui .convertkit-nav-tabs-content {
+	grid-area: content;
+	margin: 0;
+	padding: 0;
+	background: #fff;
+	border-left: 1px solid #e5e5e5;
+}
+.convertkit-vertical-tabbed-ui .convertkit-nav-tabs-content:after {
+	content: "";
+	display: table;
+	clear: both;
+}
+.convertkit-vertical-tabbed-ui .convertkit-nav-tabs-content .postbox {
+	margin: 0;
+	padding: 0;
+	border: none;
+	background-color: transparent;
+}
+.convertkit-vertical-tabbed-ui .convertkit-nav-tabs-content .postbox .convertkit-option:first-child {
+	padding-top: 15px;
+}
+.convertkit-vertical-tabbed-ui .convertkit-nav-tabs-content .postbox .convertkit-option:last-child {
+	border-bottom: none;
 }

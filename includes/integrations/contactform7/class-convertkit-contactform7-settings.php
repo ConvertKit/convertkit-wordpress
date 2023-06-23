@@ -72,9 +72,6 @@ class ConvertKit_ContactForm7_Settings {
 		if ( empty( $this->get() ) ) {
 			return false;
 		}
-		if ( count( $this->get() ) === 0 ) { // @phpstan-ignore-line.
-			return false;
-		}
 
 		return true;
 

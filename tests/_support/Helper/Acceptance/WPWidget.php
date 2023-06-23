@@ -137,6 +137,12 @@ class WPWidget extends \Codeception\Module
 				// followed by the attribute name.
 				$fieldID = '#' . str_replace('-', '_', $blockProgrammaticName) . '_' . $field;
 
+				// If the attribute has a third value, we may need to open the panel
+				// to see the fields.
+				if (count($attributes) > 2) {
+					$I->click($attributes[2], '.interface-interface-skeleton__sidebar[aria-label="Widgets settings"]');
+				}
+
 				// Depending on the field's type, define its value.
 				switch ($attributes[0]) {
 					case 'select':

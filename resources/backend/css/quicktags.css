@@ -1,19 +1,23 @@
 .convertkit-quicktags-modal .media-modal {
-	position: fixed;
+	position: absolute;
 	left: 50%;
 	top: 50%;
 	transform: translate(-50%, -50%);
-	width: 500px;
 }
-.convertkit-quicktags-modal .media-modal .media-modal-content {
-	min-height: auto;
-}
-.convertkit-quicktags-modal .media-modal .media-modal-content .media-frame-title {
+.convertkit-quicktags-modal .media-modal .media-frame-title {
 	left: 0;
 	height: 30px;
 }
 .convertkit-quicktags-modal .media-modal .media-frame-content {
 	left: 0;
 	top: 54px;
-	bottom: 0;
+	bottom: 54px; /* 34px + .media-toolbar top and bottom padding */
+}
+.convertkit-quicktags-modal .media-modal .media-frame-toolbar {
+	left: 0;
+	bottom: 47px;
+	background: #fff;
+}
+.convertkit-quicktags-modal .media-modal .media-frame-toolbar .media-toolbar {
+	padding: 10px;
 }

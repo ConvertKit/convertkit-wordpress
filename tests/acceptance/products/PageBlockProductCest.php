@@ -16,10 +16,6 @@ class PageBlockProductCest
 	public function _before(AcceptanceTester $I)
 	{
 		$I->activateConvertKitPlugin($I);
-
-		// Setup ConvertKit Plugin with no default form specified.
-		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY'], $_ENV['CONVERTKIT_API_SECRET'], '', '', '');
-		$I->setupConvertKitPluginResources($I);
 	}
 
 	/**
@@ -31,6 +27,10 @@ class PageBlockProductCest
 	 */
 	public function testProductBlockWithValidProductParameter(AcceptanceTester $I)
 	{
+		// Setup ConvertKit Plugin with no default form specified.
+		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY'], $_ENV['CONVERTKIT_API_SECRET'], '', '', '');
+		$I->setupConvertKitPluginResources($I);
+
 		// Add a Page using the Gutenberg editor.
 		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Product: Valid Product Param');
 
@@ -69,6 +69,10 @@ class PageBlockProductCest
 	 */
 	public function testProductBlockWithNoProductParameter(AcceptanceTester $I)
 	{
+		// Setup ConvertKit Plugin with no default form specified.
+		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY'], $_ENV['CONVERTKIT_API_SECRET'], '', '', '');
+		$I->setupConvertKitPluginResources($I);
+
 		// Add a Page using the Gutenberg editor.
 		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Product: No Product Param');
 
@@ -108,6 +112,10 @@ class PageBlockProductCest
 	 */
 	public function testProductBlockWithTextParameter(AcceptanceTester $I)
 	{
+		// Setup ConvertKit Plugin with no default form specified.
+		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY'], $_ENV['CONVERTKIT_API_SECRET'], '', '', '');
+		$I->setupConvertKitPluginResources($I);
+
 		// Add a Page using the Gutenberg editor.
 		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Product: Text Param');
 
@@ -138,6 +146,10 @@ class PageBlockProductCest
 	 */
 	public function testProductBlockWithBlankTextParameter(AcceptanceTester $I)
 	{
+		// Setup ConvertKit Plugin with no default form specified.
+		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY'], $_ENV['CONVERTKIT_API_SECRET'], '', '', '');
+		$I->setupConvertKitPluginResources($I);
+
 		// Add a Page using the Gutenberg editor.
 		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Product: Blank Text Param');
 
@@ -168,6 +180,10 @@ class PageBlockProductCest
 	 */
 	public function testProductBlockWithThemeColorParameters(AcceptanceTester $I)
 	{
+		// Setup ConvertKit Plugin with no default form specified.
+		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY'], $_ENV['CONVERTKIT_API_SECRET'], '', '', '');
+		$I->setupConvertKitPluginResources($I);
+
 		// Define colors.
 		$backgroundColor = 'white';
 		$textColor       = 'purple';
@@ -208,6 +224,10 @@ class PageBlockProductCest
 	 */
 	public function testProductBlockWithHexColorParameters(AcceptanceTester $I)
 	{
+		// Setup ConvertKit Plugin with no default form specified.
+		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY'], $_ENV['CONVERTKIT_API_SECRET'], '', '', '');
+		$I->setupConvertKitPluginResources($I);
+
 		// Define colors.
 		$backgroundColor = '#ee1616';
 		$textColor       = '#1212c0';
@@ -237,6 +257,100 @@ class PageBlockProductCest
 	}
 
 	/**
+	 * Test the Product block displays a message with a link to the Plugin's
+	 * settings screen, when the Plugin has no API key specified.
+	 *
+	 * @since   2.2.3
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testProductBlockWhenNoAPIKey(AcceptanceTester $I)
+	{
+		// Add a Page using the Gutenberg editor.
+		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Product: Block: No API Key');
+
+		// Add block to Page.
+		$I->addGutenbergBlock($I, 'ConvertKit Product', 'convertkit-product');
+
+		// Confirm that the Product block displays instructions to the user on how to enter their API Key.
+		$I->see(
+			'No API Key specified.',
+			[
+				'css' => '.convertkit-no-content',
+			]
+		);
+
+		// Click the link to confirm it loads the Plugin's settings screen.
+		$I->click(
+			'Click here to add your API Key.',
+			[
+				'css' => '.convertkit-no-content',
+			]
+		);
+
+		// Switch to next browser tab, as the link opens in a new tab.
+		$I->switchToNextTab();
+
+		// Confirm the Plugin's setup wizard is displayed.
+		$I->seeInCurrentUrl('index.php?page=convertkit-setup');
+
+		// Close tab.
+		$I->closeTab();
+
+		// Save page to avoid alert box when _passed() runs to deactivate the Plugin.
+		$I->publishGutenbergPage($I);
+	}
+
+	/**
+	 * Test the Product block displays a message with a link to the Plugin's
+	 * settings screen, when the ConvertKit account has no products.
+	 *
+	 * @since   2.2.3
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testProductBlockWhenNoProducts(AcceptanceTester $I)
+	{
+		// Setup Plugin.
+		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY_NO_DATA'], $_ENV['CONVERTKIT_API_SECRET_NO_DATA'], '', '', '');
+		$I->setupConvertKitPluginResourcesNoData($I);
+
+		// Add a Page using the Gutenberg editor.
+		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Product: Block: No Products');
+
+		// Add block to Page.
+		$I->addGutenbergBlock($I, 'ConvertKit Product', 'convertkit-product');
+
+		// Confirm that the Product block displays instructions to the user on how to add a Product in ConvertKit.
+		$I->see(
+			'No products exist in ConvertKit.',
+			[
+				'css' => '.convertkit-no-content',
+			]
+		);
+
+		// Click the link to confirm it loads ConvertKit.
+		$I->click(
+			'Click here to create your first product.',
+			[
+				'css' => '.convertkit-no-content',
+			]
+		);
+
+		// Switch to next browser tab, as the link opens in a new tab.
+		$I->switchToNextTab();
+
+		// Confirm the ConvertKit login screen loaded.
+		$I->seeElementInDOM('input[name="user[email]"]');
+
+		// Close tab.
+		$I->closeTab();
+
+		// Save page to avoid alert box when _passed() runs to deactivate the Plugin.
+		$I->publishGutenbergPage($I);
+	}
+
+	/**
 	 * Test the Product block's parameters are correctly escaped on output,
 	 * to prevent XSS.
 	 *
@@ -246,6 +360,10 @@ class PageBlockProductCest
 	 */
 	public function testProductBlockParameterEscaping(AcceptanceTester $I)
 	{
+		// Setup ConvertKit Plugin with no default form specified.
+		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY'], $_ENV['CONVERTKIT_API_SECRET'], '', '', '');
+		$I->setupConvertKitPluginResources($I);
+
 		// Define a 'bad' block.  This is difficult to do in Gutenberg, but let's assume it's possible.
 		$I->havePageInDatabase(
 			[

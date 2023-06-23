@@ -148,4 +148,16 @@ class ResourceFormsNoDataTest extends \Codeception\TestCase\WPTestCase
 		$result = $this->resource->exist();
 		$this->assertSame($result, false);
 	}
+
+	/**
+	 * Test that the non_inline_exist() function performs as expected.
+	 *
+	 * @since   2.2.4
+	 */
+	public function testNonInlineExist()
+	{
+		// Confirm that the function returns true, because resources exist.
+		$result = $this->resource->non_inline_exist();
+		$this->assertSame($result, false);
+	}
 }

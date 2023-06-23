@@ -45,21 +45,25 @@ function convertKitQuickTagRegister( block ) {
 						// Show Modal.
 						convertKitQuickTagsModal.open();
 
+						// Resize Modal so it's not full screen.
+						$( 'div.convertkit-quicktags-modal div.media-modal.wp-core-ui' ).css(
+							{
+								width: ( block.modal.width ) + 'px',
+								height: ( block.modal.height + 106 ) + 'px' // Prevents a vertical scroll bar.
+							}
+						);
+
 						// Set Title.
 						$( '#convertkit-quicktags-modal .media-frame-title h1' ).text( block.title );
 
 						// Inject HTML into modal.
 						$( '#convertkit-quicktags-modal .media-frame-content' ).html( response );
 
+						// Initialize tabbed interface.
+						convertKitTabsInit();
+
 						// Initialize color pickers.
 						$( '.convertkit-color-picker' ).wpColorPicker();
-
-						// Resize Modal height to prevent whitespace below form.
-						$( 'div.convertkit-quicktags-modal div.media-modal.wp-core-ui' ).css(
-							{
-								height: ( $( 'div.convertkit-quicktags-modal div.media-frame-title h1' ).outerHeight() + $( 'div.convertkit-quicktags-modal form.convertkit-tinymce-popup' ).height() + 6 ) + 'px' // Additional 6px prevents a vertical scroll bar.
-							}
-						);
 
 					}
 				);

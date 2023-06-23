@@ -54,17 +54,17 @@ class PluginSettingsGeneralCest
 		$I->loadConvertKitSettingsGeneralScreen($I);
 
 		// Confirm that UTM parameters exist for the 'Get your ConvertKit API Key' link.
-		$I->seeInSource('<a href="https://app.convertkit.com/account_settings/advanced_settings/?utm_source=wordpress&amp;utm_content=convertkit" target="_blank">Get your ConvertKit API Key.</a>');
+		$I->seeInSource('<a href="https://app.convertkit.com/account_settings/advanced_settings/?utm_source=wordpress&amp;utm_term=en_US&amp;utm_content=convertkit" target="_blank">Get your ConvertKit API Key.</a>');
 
 		// Confirm that UTM parameters exist for the 'Get your ConvertKit API Secret' link.
-		$I->seeInSource('<a href="https://app.convertkit.com/account_settings/advanced_settings/?utm_source=wordpress&amp;utm_content=convertkit" target="_blank">Get your ConvertKit API Secret.</a>');
+		$I->seeInSource('<a href="https://app.convertkit.com/account_settings/advanced_settings/?utm_source=wordpress&amp;utm_term=en_US&amp;utm_content=convertkit" target="_blank">Get your ConvertKit API Secret.</a>');
 
-		// Confirm that UTM parameters exist for the 'sign in to ConvertKit' link.
-		$I->seeInSource('<a href="https://app.convertkit.com/?utm_source=wordpress&amp;utm_content=convertkit" target="_blank">sign in to ConvertKit</a>');
+		// Confirm that UTM parameters exist for the 'Click here to create your first form' link.
+		$I->seeInSource('<a href="https://app.convertkit.com/forms/new/?utm_source=wordpress&amp;utm_term=en_US&amp;utm_content=convertkit" target="_blank">Click here to create your first form</a>');
 
 		// Confirm that the UTM parameters exist for the documentation links.
-		$I->seeInSource('<a href="https://help.convertkit.com/en/articles/2502591-the-convertkit-wordpress-plugin?utm_source=wordpress&amp;utm_content=convertkit" class="convertkit-tab" target="_blank">Documentation <span class="dashicons dashicons-external"></span></a>');
-		$I->seeInSource('<a href="https://help.convertkit.com/en/articles/2502591-the-convertkit-wordpress-plugin?utm_source=wordpress&amp;utm_content=convertkit" target="_blank">plugin documentation</a>');
+		$I->seeInSource('<a href="https://help.convertkit.com/en/articles/2502591-the-convertkit-wordpress-plugin?utm_source=wordpress&amp;utm_term=en_US&amp;utm_content=convertkit" class="convertkit-tab" target="_blank">Documentation <span class="dashicons dashicons-external"></span></a>');
+		$I->seeInSource('<a href="https://help.convertkit.com/en/articles/2502591-the-convertkit-wordpress-plugin?utm_source=wordpress&amp;utm_term=en_US&amp;utm_content=convertkit" target="_blank">plugin documentation</a>');
 	}
 
 	/**
@@ -86,8 +86,10 @@ class PluginSettingsGeneralCest
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
 
-		// Check that 'No Forms exist in ConvertKit' is displayed.
-		$I->seeInSource('No Forms exist in ConvertKit.');
+		// Check that the 'Click here to create your first form' link is displayed and links
+		// to creating an inline Form in ConvertKit.
+		$I->see('No Forms exist in ConvertKit.');
+		$I->seeInSource('<a href="https://app.convertkit.com/forms/new/?utm_source=wordpress&amp;utm_term=en_US&amp;utm_content=convertkit" target="_blank">Click here to create your first form</a>');
 	}
 
 	/**
@@ -197,8 +199,10 @@ class PluginSettingsGeneralCest
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
 
-		// Check that 'No Forms exist in ConvertKit' is displayed.
-		$I->seeInSource('No Forms exist in ConvertKit.');
+		// Check that the 'Click here to create your first form' link is displayed and links
+		// to creating an inline Form in ConvertKit.
+		$I->see('No Forms exist in ConvertKit.');
+		$I->seeInSource('<a href="https://app.convertkit.com/forms/new/?utm_source=wordpress&amp;utm_term=en_US&amp;utm_content=convertkit" target="_blank">Click here to create your first form</a>');
 	}
 
 	/**
@@ -273,8 +277,9 @@ class PluginSettingsGeneralCest
 		// Switch to newly opened tab.
 		$I->switchToNextTab();
 
-		// Confirm expected Form is displayed.
-		$I->seeElementInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]');
+		// Confirm that one ConvertKit Form is output in the DOM.
+		// This confirms that there is only one script on the page for this form, which renders the form.
+		$I->seeNumberOfElementsInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]', 1);
 
 		// Close newly opened tab.
 		$I->closeTab();
@@ -289,8 +294,9 @@ class PluginSettingsGeneralCest
 		// Switch to newly opened tab.
 		$I->switchToNextTab();
 
-		// Confirm expected Form is displayed.
-		$I->seeElementInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]');
+		// Confirm that one ConvertKit Form is output in the DOM.
+		// This confirms that there is only one script on the page for this form, which renders the form.
+		$I->seeNumberOfElementsInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]', 1);
 
 		// Close newly opened tab.
 		$I->closeTab();
@@ -433,7 +439,7 @@ class PluginSettingsGeneralCest
 
 		// Confirm no CSS is output by the Plugin.
 		$I->dontSeeInSource('broadcasts.css');
-		$I->dontSeeInSource('product.css');
+		$I->dontSeeInSource('button.css');
 
 		// Go to the Plugin's Settings Screen.
 		$I->loadConvertKitSettingsGeneralScreen($I);
@@ -455,7 +461,7 @@ class PluginSettingsGeneralCest
 
 		// Confirm CSS is output by the Plugin.
 		$I->seeInSource('<link rel="stylesheet" id="convertkit-broadcasts-css" href="' . $_ENV['TEST_SITE_WP_URL'] . '/wp-content/plugins/convertkit/resources/frontend/css/broadcasts.css');
-		$I->seeInSource('<link rel="stylesheet" id="convertkit-product-css" href="' . $_ENV['TEST_SITE_WP_URL'] . '/wp-content/plugins/convertkit/resources/frontend/css/product.css');
+		$I->seeInSource('<link rel="stylesheet" id="convertkit-button-css" href="' . $_ENV['TEST_SITE_WP_URL'] . '/wp-content/plugins/convertkit/resources/frontend/css/button.css');
 	}
 
 	/**

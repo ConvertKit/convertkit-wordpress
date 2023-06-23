@@ -30,7 +30,7 @@ jobs:
       DB_USER: root
       DB_PASS: root
       DB_HOST: localhost
-      INSTALL_PLUGINS: "classic-editor contact-form-7 elementor woocommerce wordpress-seo" # Don't include this repository's Plugin here.
+      INSTALL_PLUGINS: "classic-editor contact-form-7 elementor woocommerce wordpress-seo litespeed-cache w3-total-cache" # Don't include this repository's Plugin here.
 
     # Defines the WordPress and PHP Versions matrix to run tests on.
     strategy:

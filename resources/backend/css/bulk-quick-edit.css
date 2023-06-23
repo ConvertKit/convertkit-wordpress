@@ -21,11 +21,22 @@
 	width: 100%;
 	max-width: 100%;
 }
-.convertkit-bulk-quick-edit > div label span.title {
-	background: url(../images/block-icon-form.png) 0% 50% no-repeat;
-	background-size: 16px 16px;
+.convertkit-bulk-quick-edit > div label span.title.convertkit-icon-form {
+	background: url(../images/block-icon-form.svg) 0% 50% no-repeat;
+	background-size: 20px 20px;
 	text-indent: 24px;
 }
+.convertkit-bulk-quick-edit > div label span.title.convertkit-icon-tag {
+	background: url(../images/tag.svg) 0% 50% no-repeat;
+	background-size: 20px 20px;
+	text-indent: 24px;
+}
+.convertkit-bulk-quick-edit > div label span.title.convertkit-icon-restrict-content {
+	background: url(../images/members.svg) 0% 50% no-repeat;
+	background-size: 20px 20px;
+	text-indent: 24px;
+}
+
 .convertkit-bulk-quick-edit > div button {
 	width: 36px;
 	height: 32px;

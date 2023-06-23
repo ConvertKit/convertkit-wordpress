@@ -31,7 +31,8 @@
 			<span class="dashicons dashicons-update"></span>
 		</button>
 		<p class="description">
-			<?php _e( '<code>Default</code>: Display a form based on the Post\'s settings.', 'convertkit' ); /* phpcs:ignore */ ?>
+			<code><?php esc_html_e( 'Default', 'convertkit' ); ?></code>
+			<?php esc_html_e( ': Display a form based on the Post\'s settings.', 'convertkit' ); ?>
 			<br />
 			<?php
 			echo sprintf(

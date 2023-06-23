@@ -178,14 +178,28 @@ class ConvertKit_Preview_Output {
 		// If no format array key is specified, this is a Legacy Form, which has a different edit URL on ConvertKit.
 		if ( ! array_key_exists( 'format', $form ) ) {
 			// Legacy Form.
-			$link = sprintf(
-				'https://app.convertkit.com/landing_pages/%s/edit/?utm_source=wordpress&utm_content=convertkit',
-				esc_attr( (string) $form_id )
+			$link = add_query_arg(
+				array(
+					'utm_source'  => 'wordpress',
+					'utm_term'    => get_locale(),
+					'utm_content' => 'convertkit',
+				),
+				sprintf(
+					'https://app.convertkit.com/landing_pages/%s/edit/',
+					esc_attr( (string) $form_id )
+				)
 			);
 		} else {
-			$link = sprintf(
-				'https://app.convertkit.com/forms/designers/%s/edit/?utm_source=wordpress&utm_content=convertkit',
-				esc_attr( (string) $form_id )
+			$link = add_query_arg(
+				array(
+					'utm_source'  => 'wordpress',
+					'utm_term'    => get_locale(),
+					'utm_content' => 'convertkit',
+				),
+				sprintf(
+					'https://app.convertkit.com/forms/designers/%s/edit/',
+					esc_attr( (string) $form_id )
+				)
 			);
 		}
 
