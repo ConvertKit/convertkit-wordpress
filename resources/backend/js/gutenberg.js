@@ -345,14 +345,19 @@ function convertKitGutenbergRegisterBlock( block ) {
 
 		}
 
+		/**
+		 * Display a notice in the block with a clickable link to perform an action, and a refresh
+		 * button to trigger editBlock().  Typically used when no API key exists in the Plugin,
+		 * or no resources (forms, products) exist in ConvertKit.
+		 *
+		 * @since 	2.2.5
+		 *
+		 * @param   object  props   Block properties.
+		 * @return  object          Notice.
+		 */
 		const displayNoticeWithLink = function( props ) {
 
-			console.log( 'displayNoticeWithLink() fired' );
-
-			console.log( block );
-			console.log( props );
-
-			// Build notice.
+			// Build notice, depending on the type of notice that needs displaying.
 			let notice = '',
 				link = '',
 				link_text = '';
@@ -366,6 +371,7 @@ function convertKitGutenbergRegisterBlock( block ) {
 				link_text = block.no_resources.link_text;
 			}
 
+			// Return the element with the notice and refresh button.
 			return el(
 				'div',
 				{
@@ -389,7 +395,6 @@ function convertKitGutenbergRegisterBlock( block ) {
 							className: 'button button-secondary',
 							text: 'Refresh',
 							onClick: function() {
-								console.log( 'Clicked' );
 								refreshBlocksDefinitions( props );
 							}
 						}
@@ -399,16 +404,26 @@ function convertKitGutenbergRegisterBlock( block ) {
 
 		}
 
+		/**
+		 * Refreshes this block's properties by:
+		 * - making an AJAX call to fetch all registered blocks via convertkit_get_blocks(),
+		 * - storing the registered blocks in the `convertkit_blocks` global object,
+		 * - updating this block's properties by updating the `block` object.
+		 *
+		 * @since 	2.2.5
+		 *
+		 * @param   object  props   Block properties.
+		 * @return  object          Notice.
+		 */
 		const refreshBlocksDefinitions = function( props ) {
 
-			console.log( 'refreshBlocksDefinitions()' );
-
+			// @TODO Can we use fetch() instead of jQuery?
 			jQuery.ajax(
 				{
 					type: 'POST',
 					data: {
 						action: 'convertkit_get_blocks',
-						//nonce: convertkit_admin_refresh_resources.nonce, // @TODO.
+						nonce: convertkit_gutenberg.get_blocks_nonce,
 					},
 					url: ajaxurl,
 					success: function ( response ) {
@@ -417,7 +432,7 @@ function convertKitGutenbergRegisterBlock( block ) {
 						// are reflected when adding new ConvertKit Blocks.
 						convertkit_blocks = response.data;
 
-						// Update this block's definition, so that has_api_key, has_resources
+						// Update this block's properties, so that has_api_key, has_resources
 						// and the resources properties are updated.
 						block = convertkit_blocks[ block.name ];
 
@@ -427,16 +442,18 @@ function convertKitGutenbergRegisterBlock( block ) {
 							refresh: Date.now()
 						} );
 
-						console.log( 'refreshBlocksDefinitions() complete');
-
 					}
 				}
 			).fail(
 				function ( response ) {
-					
-					// @TODO Handle this.
-					console.log( 'Fail' );
-					console.log( response );
+
+					// Show an error in the Gutenberg editor.
+					wp.data.dispatch( 'core/notices' ).createErrorNotice(
+						'ConvertKit: ' + response.status + ' ' + response.statusText,
+						{
+							id: 'convertkit-error'
+						}
+					);
 
 				}
 			);

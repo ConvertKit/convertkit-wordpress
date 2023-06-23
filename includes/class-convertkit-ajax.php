@@ -44,8 +44,8 @@ class ConvertKit_AJAX {
 	 */
 	 public function get_blocks() {
 
-	 	// @TODO Check nonce.
-	 	// check_ajax_referer( 'convertkit', 'convertkit_nonce' );
+	 	// Check nonce.
+	 	check_ajax_referer( 'convertkit_get_blocks', 'nonce' );
 
 	 	// Return blocks.
 	 	wp_send_json_success( convertkit_get_blocks() );
