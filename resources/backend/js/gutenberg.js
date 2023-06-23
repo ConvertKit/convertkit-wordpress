@@ -37,6 +37,7 @@ function convertKitGutenbergRegisterBlock( block ) {
 		const { InspectorControls } = editor;
 		const { Fragment }          = element;
 		const {
+			Button,
 			TextControl,
 			SelectControl,
 			ToggleControl,
@@ -312,6 +313,13 @@ function convertKitGutenbergRegisterBlock( block ) {
 
 			// Generate Block Preview.
 			let preview = '';
+
+			// If no API Key has been defined in the Plugin, or no resources exist in ConvertKit
+			// for this block, show a message in the block to tell the user what to do.
+			if ( ! block.has_api_key || ! block.has_resources ) {
+				return displayNoticeWithLink( props );
+			}
+
 			if ( typeof block.gutenberg_preview_render_callback !== 'undefined' ) {
 				// Use a custom callback function to render this block's preview in the Gutenberg Editor.
 				// This doesn't affect the output for this block on the frontend site, which will always
@@ -319,7 +327,7 @@ function convertKitGutenbergRegisterBlock( block ) {
 				preview = window[ block.gutenberg_preview_render_callback ]( block, props );
 			}
 
-			// Return settings sidebar panel with fields and the bloc preview.
+			// Return settings sidebar panel with fields and the block preview.
 			return (
 				el(
 					// Sidebar Panel with Fields.
@@ -333,6 +341,104 @@ function convertKitGutenbergRegisterBlock( block ) {
 					// Block Preview.
 					preview
 				)
+			);
+
+		}
+
+		const displayNoticeWithLink = function( props ) {
+
+			console.log( 'displayNoticeWithLink() fired' );
+
+			console.log( block );
+			console.log( props );
+
+			// Build notice.
+			let notice = '',
+				link = '',
+				link_text = '';
+			if ( ! block.has_api_key ) {
+				notice = block.no_api_key.notice;
+				link = block.no_api_key.link;
+				link_text = block.no_api_key.link_text;
+			} else {
+				notice = block.no_resources.notice;
+				link = block.no_resources.link;
+				link_text = block.no_resources.link_text;
+			}
+
+			return el(
+				'div',
+				{
+					// convertkit-no-content class allows resources/backend/css/gutenberg.css
+					// to apply styling/branding to the block.
+					className: 'convertkit-' + block.name + ' convertkit-no-content'
+				},
+				[
+					notice + ' ',
+					el(
+						'a',
+						{
+							href: link,
+							target: '_blank'
+						},
+						link_text
+					),
+					el(
+						Button,
+						{
+							className: 'button button-secondary',
+							text: 'Refresh',
+							onClick: function() {
+								console.log( 'Clicked' );
+								refreshBlocksDefinitions( props );
+							}
+						}
+					)
+				]
+			);
+
+		}
+
+		const refreshBlocksDefinitions = function( props ) {
+
+			console.log( 'refreshBlocksDefinitions()' );
+
+			jQuery.ajax(
+				{
+					type: 'POST',
+					data: {
+						action: 'convertkit_get_blocks',
+						//nonce: convertkit_admin_refresh_resources.nonce, // @TODO.
+					},
+					url: ajaxurl,
+					success: function ( response ) {
+
+						// Update global ConvertKit Blocks object, so that any updated resources
+						// are reflected when adding new ConvertKit Blocks.
+						convertkit_blocks = response.data;
+
+						// Update this block's definition, so that has_api_key, has_resources
+						// and the resources properties are updated.
+						block = convertkit_blocks[ block.name ];
+
+						// Call setAttributes on props to trigger the editBlock() function, which will re-render
+						// the block, reflecting any changes to its properties.
+						props.setAttributes( {
+							refresh: Date.now()
+						} );
+
+						console.log( 'refreshBlocksDefinitions() complete');
+
+					}
+				}
+			).fail(
+				function ( response ) {
+					
+					// @TODO Handle this.
+					console.log( 'Fail' );
+					console.log( response );
+
+				}
 			);
 
 		}
@@ -400,44 +506,6 @@ function convertKitGutenbergDisplayBlockNotice( block_name, notice ) {
 			className: 'convertkit-' + block_name + ' convertkit-no-content'
 		},
 		notice
-	);
-
-}
-
-/**
- * Outputs a notice for the block with a clickable link.  Typically used when a block's settings
- * have not been defined, no API key exists in the Plugin or no resources
- * (forms, products) exist in ConvertKit, and the user adds an e.g.
- * Form / Product block.
- *
- * @since 	2.2.3
- *
- * @param 	string 	block_name 	Block Name.
- * @param 	string 	notice 		Notice to display.
- * @param 	string  link 		URL.
- * @param 	string  link_text 	Link text for URL.
- * @return 	object 				HTMLElement
- */
-function convertKitGutenbergDisplayBlockNoticeWithLink( block_name, notice, link, link_text ) {
-
-	return wp.element.createElement(
-		'div',
-		{
-			// convertkit-no-content class allows resources/backend/css/gutenberg.css
-			// to apply styling/branding to the block.
-			className: 'convertkit-' + block_name + ' convertkit-no-content'
-		},
-		[
-			notice + ' ',
-			wp.element.createElement(
-				'a',
-				{
-					href: link,
-					target: '_blank'
-				},
-				link_text
-			)
-		]
 	);
 
 }

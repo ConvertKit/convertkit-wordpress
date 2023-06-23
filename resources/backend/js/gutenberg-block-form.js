@@ -17,26 +17,10 @@
  */
 function convertKitGutenbergFormBlockRenderPreview( block, props ) {
 
-	// If no API Key has been defined in the Plugin, return a prompt to tell the editor
-	// what to do.
-	if ( ! block.has_api_key ) {
-		return convertKitGutenbergDisplayBlockNoticeWithLink(
-			block.name,
-			block.no_api_key.notice,
-			block.no_api_key.link,
-			block.no_api_key.link_text
-		);
-	}
-
-	// If no Forms exist in ConvertKit, return a prompt to tell the editor
-	// what to do.
-	if ( ! block.has_resources ) {
-		return convertKitGutenbergDisplayBlockNoticeWithLink(
-			block.name,
-			block.no_resources.notice,
-			block.no_resources.link,
-			block.no_resources.link_text
-		);
+	// If no API Key has been defined in the Plugin, or no Forms exist in ConvertKit,
+	// return a prompt to tell the editor what to do.
+	if ( ! block.has_api_key || ! block.has_resources ) {
+		return convertKitGutenbergDisplayBlockNoticeWithLink( block, props );
 	}
 
 	// Get selected form.
