@@ -11,7 +11,7 @@
 	<!-- Form -->
 	<div>
 		<label for="wp-convertkit-quick-edit-form">
-			<span class="title"><?php esc_html_e( 'Form', 'convertkit' ); ?></span>
+			<span class="title convertkit-icon-form"><?php esc_html_e( 'Form', 'convertkit' ); ?></span>
 			<select name="wp-convertkit[form]" id="wp-convertkit-quick-edit-form" size="1">
 				<option value="-1" data-preserve-on-refresh="1"><?php esc_html_e( 'Default', 'convertkit' ); ?></option>
 				<option value="0" data-preserve-on-refresh="1"><?php esc_html_e( 'None', 'convertkit' ); ?></option>
@@ -34,7 +34,7 @@
 	<!-- Tag -->
 	<div>
 		<label for="wp-convertkit-quick-edit-tag">
-			<span class="title"><?php esc_html_e( 'Tag', 'convertkit' ); ?></span>
+			<span class="title convertkit-icon-tag"><?php esc_html_e( 'Tag', 'convertkit' ); ?></span>
 			<select name="wp-convertkit[tag]" id="wp-convertkit-quick-edit-tag" size="1">
 				<option value="0" data-preserve-on-refresh="1">
 					<?php esc_html_e( 'None', 'convertkit' ); ?>
@@ -61,7 +61,7 @@
 		<!-- Restrict Content -->
 		<div>
 			<label for="wp-convertkit-quick-edit-restrict_content">
-				<span class="title"><?php esc_html_e( 'Member', 'convertkit' ); ?></span>
+				<span class="title convertkit-icon-restrict-content"><?php esc_html_e( 'Member', 'convertkit' ); ?></span>
 				<select name="wp-convertkit[restrict_content]" id="wp-convertkit-quick-edit-restrict_content" size="1">
 					<option value="0" data-preserve-on-refresh="1">
 						<?php esc_html_e( 'Don\'t restrict content to members only.', 'convertkit' ); ?>

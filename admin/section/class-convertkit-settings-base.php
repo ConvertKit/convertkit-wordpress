@@ -314,12 +314,12 @@ abstract class ConvertKit_Settings_Base {
 	 *
 	 * @since   1.9.6
 	 *
-	 * @param   string      $name           Name.
-	 * @param   string      $value          Value.
-	 * @param   bool        $checked        Should checkbox be checked/ticked.
-	 * @param   bool|string $label          Label.
-	 * @param   bool|string $description    Description.
-	 * @return  string                      HTML Checkbox
+	 * @param   string            $name           Name.
+	 * @param   string            $value          Value.
+	 * @param   bool              $checked        Should checkbox be checked/ticked.
+	 * @param   bool|string       $label          Label.
+	 * @param   bool|string|array $description    Description.
+	 * @return  string                            HTML Checkbox
 	 */
 	public function get_checkbox_field( $name, $value, $checked = false, $label = '', $description = '' ) {
 

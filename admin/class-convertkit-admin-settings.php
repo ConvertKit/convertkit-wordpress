@@ -56,18 +56,17 @@ class ConvertKit_Admin_Settings {
 			return;
 		}
 
-		// Enqueue Select2 JS.
-		convertkit_select2_enqueue_scripts();
-
-		// Enqueue Preview Output JS.
-		wp_enqueue_script( 'convertkit-admin-preview-output', CONVERTKIT_PLUGIN_URL . 'resources/backend/js/preview-output.js', array( 'jquery' ), CONVERTKIT_PLUGIN_VERSION, true );
+		// Get active settings section / tab that has been requested.
+		$section = $this->get_active_section();
 
 		/**
 		 * Enqueue JavaScript for the Settings Screen at Settings > ConvertKit
 		 *
 		 * @since   1.9.6
+		 *
+		 * @param   string  $section    Settings section / tab (general|tools|restrict-content).
 		 */
-		do_action( 'convertkit_admin_settings_enqueue_scripts' );
+		do_action( 'convertkit_admin_settings_enqueue_scripts', $section );
 
 	}
 
@@ -85,18 +84,20 @@ class ConvertKit_Admin_Settings {
 			return;
 		}
 
-		// Enqueue Select2 CSS.
-		convertkit_select2_enqueue_styles();
+		// Get active settings section / tab that has been requested.
+		$section = $this->get_active_section();
 
-		// Enqueue Settings CSS.
+		// Always enqueue Settings CSS, as this is used for the UI across all settings sections.
 		wp_enqueue_style( 'convertkit-admin-settings', CONVERTKIT_PLUGIN_URL . 'resources/backend/css/settings.css', array(), CONVERTKIT_PLUGIN_VERSION );
 
 		/**
 		 * Enqueue CSS for the Settings Screen at Settings > ConvertKit
 		 *
 		 * @since   1.9.6
+		 *
+		 * @param   string  $section    Settings section / tab (general|tools|restrict-content).
 		 */
-		do_action( 'convertkit_admin_settings_enqueue_styles' );
+		do_action( 'convertkit_admin_settings_enqueue_styles', $section );
 
 	}
 
@@ -225,10 +226,17 @@ class ConvertKit_Admin_Settings {
 			<?php
 			foreach ( $this->sections as $section ) {
 				printf(
-					'<li><a href="?page=%s&tab=%s" class="convertkit-tab %s">%s%s</a></li>',
-					sanitize_text_field( $_REQUEST['page'] ), // phpcs:ignore WordPress.Security.NonceVerification
-					esc_html( $section->name ),
-					$active_section === $section->name ? 'convertkit-tab-active' : '',
+					'<li><a href="%s" class="convertkit-tab %s">%s%s</a></li>',
+					esc_url(
+						add_query_arg(
+							array(
+								'page' => self::SETTINGS_PAGE_SLUG,
+								'tab'  => $section->name,
+							),
+							admin_url( 'options-general.php' )
+						)
+					),
+					( $active_section === $section->name ? 'convertkit-tab-active' : '' ),
 					esc_html( $section->tab_text ),
 					$section->is_beta ? $this->get_beta_tab() : '' // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				);
@@ -330,6 +338,7 @@ class ConvertKit_Admin_Settings {
 		return add_query_arg(
 			array(
 				'utm_source'  => 'wordpress',
+				'utm_term'    => get_locale(),
 				'utm_content' => 'convertkit',
 			),
 			$this->sections[ $active_section ]->documentation_url()

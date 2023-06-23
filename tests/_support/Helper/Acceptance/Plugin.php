@@ -232,25 +232,34 @@ class Plugin extends \Codeception\Module
 			'convertkit_posts',
 			[
 				224758 => [
-					'id'           => 224758,
-					'title'        => 'Test Subject',
-					'url'          => 'https://cheerful-architect-3237.ck.page/posts/test-subject',
-					'published_at' => '2022-01-24T00:00:00.000Z',
-					'is_paid'      => null,
+					'id'            => 224758,
+					'title'         => 'Test Subject',
+					'url'           => 'https://cheerful-architect-3237.ck.page/posts/test-subject',
+					'published_at'  => '2022-01-24T00:00:00.000Z',
+					'description'   => 'Description text for Test Subject',
+					'thumbnail_url' => 'https://placehold.co/600x400',
+					'thumbnail_alt' => 'Alt text for Test Subject',
+					'is_paid'       => null,
 				],
 				489480 => [
-					'id'           => 489480,
-					'title'        => 'Broadcast 2',
-					'url'          => 'https://cheerful-architect-3237.ck.page/posts/broadcast-2',
-					'published_at' => '2022-04-08T00:00:00.000Z',
-					'is_paid'      => null,
+					'id'            => 489480,
+					'title'         => 'Broadcast 2',
+					'url'           => 'https://cheerful-architect-3237.ck.page/posts/broadcast-2',
+					'published_at'  => '2022-04-08T00:00:00.000Z',
+					'description'   => 'Description text for Broadcast 2',
+					'thumbnail_url' => 'https://placehold.co/600x400',
+					'thumbnail_alt' => 'Alt text for Broadcast 2',
+					'is_paid'       => null,
 				],
 				572575 => [
-					'id'           => 572575,
-					'title'        => 'Paid Subscriber Broadcast',
-					'url'          => 'https://cheerful-architect-3237.ck.page/posts/paid-subscriber-broadcast',
-					'published_at' => '2022-05-03T14:51:50.000Z',
-					'is_paid'      => true,
+					'id'            => 572575,
+					'title'         => 'Paid Subscriber Broadcast',
+					'url'           => 'https://cheerful-architect-3237.ck.page/posts/paid-subscriber-broadcast',
+					'published_at'  => '2022-05-03T00:00:00.000Z',
+					'description'   => 'Description text for Paid Subscriber Broadcast',
+					'thumbnail_url' => 'https://placehold.co/600x400',
+					'thumbnail_alt' => 'Alt text for Paid Subscriber Broadcast',
+					'is_paid'       => true,
 				],
 			]
 		);
@@ -625,7 +634,7 @@ class Plugin extends \Codeception\Module
 
 	/**
 	 * Check that expected HTML exists in the DOM of the page we're viewing for
-	 * a Broadcasts block or shortcode.
+	 * a Broadcasts block or shortcode, based on its configuration.
 	 *
 	 * @since   1.9.7.5
 	 *
@@ -633,33 +642,73 @@ class Plugin extends \Codeception\Module
 	 * @param   bool|int         $numberOfPosts          Number of Broadcasts listed.
 	 * @param   bool|string      $seePrevPaginationLabel Test if the "previous" pagination link is output and matches expected label.
 	 * @param   bool|string      $seeNextPaginationLabel Test if the "next" pagination link is output and matches expected label.
+	 * @param   bool             $seeGrid                Test if the broadcasts are displayed in grid view (false = list view).
+	 * @param   bool             $seeImage               Test if the broadcasts display images.
+	 * @param   bool             $seeDescription         Test if the broadcasts display descriptions.
+	 * @param   bool|string      $seeReadMore            Test if the broadcasts display a read more link matching the given text.
 	 */
-	public function seeBroadcastsOutput($I, $numberOfPosts = false, $seePrevPaginationLabel = false, $seeNextPaginationLabel = false)
+	public function seeBroadcastsOutput($I, $numberOfPosts = false, $seePrevPaginationLabel = false, $seeNextPaginationLabel = false, $seeGrid = false, $seeImage = false, $seeDescription = false, $seeReadMore = false)
 	{
 		// Confirm that the block displays.
 		$I->seeElementInDOM('div.convertkit-broadcasts');
 		$I->seeElementInDOM('div.convertkit-broadcasts ul.convertkit-broadcasts-list');
 		$I->seeElementInDOM('div.convertkit-broadcasts ul.convertkit-broadcasts-list li.convertkit-broadcast');
-		$I->seeElementInDOM('div.convertkit-broadcasts ul.convertkit-broadcasts-list li.convertkit-broadcast a');
+		$I->seeElementInDOM('div.convertkit-broadcasts ul.convertkit-broadcasts-list li.convertkit-broadcast a.convertkit-broadcast-title');
 
 		// Confirm that UTM parameters exist on a broadcast link.
 		$I->assertStringContainsString(
-			'utm_source=wordpress&utm_content=convertkit',
-			$I->grabAttributeFrom('div.convertkit-broadcasts ul.convertkit-broadcasts-list li.convertkit-broadcast a', 'href')
+			'utm_source=wordpress&utm_term=en_US&utm_content=convertkit',
+			$I->grabAttributeFrom('a.convertkit-broadcast-title', 'href')
 		);
+
+		// If Display as grid is enabled, confirm the applicable HTML exists so that CSS can style this layout.
+		if ($seeGrid) {
+			$I->seeElementInDOM('div.convertkit-broadcasts[data-display-grid="1"]');
+		} else {
+			$I->dontSeeElementInDOM('div.convertkit-broadcasts[data-display-grid="1"]');
+		}
+
+		// If Display image is enabled, confirm the image is displayed.
+		if ($seeImage) {
+			$I->seeElementInDOM('a.convertkit-broadcast-image img');
+			$I->assertStringContainsString(
+				'utm_source=wordpress&utm_term=en_US&utm_content=convertkit',
+				$I->grabAttributeFrom('a.convertkit-broadcast-image', 'href')
+			);
+		} else {
+			$I->dontSeeElementInDOM('a.convertkit-broadcast-image img');
+		}
+
+		// If Display description is enabled, confirm the description is displayed.
+		if ($seeDescription) {
+			$I->seeElementInDOM('.convertkit-broadcast-description');
+		} else {
+			$I->dontSeeElementInDOM('.convertkit-broadcast-description');
+		}
+
+		// If Display read more link is enabled, confirm the read more link is displayed and matches the given text.
+		if ($seeReadMore) {
+			$I->seeElementInDOM('a.convertkit-broadcast-read-more');
+			$I->assertStringContainsString(
+				'utm_source=wordpress&utm_term=en_US&utm_content=convertkit',
+				$I->grabAttributeFrom('a.convertkit-broadcast-read-more', 'href')
+			);
+		} else {
+			$I->dontSeeElementInDOM('a.convertkit-broadcast-read-more');
+		}
 
 		// Confirm that the number of expected broadcasts displays.
 		if ($numberOfPosts !== false) {
 			$I->seeNumberOfElements('li.convertkit-broadcast', $numberOfPosts);
 		}
 
-		// Confirm that previous pagination displays.
+		// Confirm that previous pagination displays, if expected.
 		if ($seePrevPaginationLabel !== false) {
 			$I->seeElementInDOM('div.convertkit-broadcasts ul.convertkit-broadcasts-pagination li.convertkit-broadcasts-pagination-prev a');
 			$I->seeInSource($seePrevPaginationLabel);
 		}
 
-		// Confirm that next pagination displays.
+		// Confirm that next pagination displays, if expected.
 		if ($seeNextPaginationLabel !== false) {
 			$I->seeElementInDOM('div.convertkit-broadcasts ul.convertkit-broadcasts-pagination li.convertkit-broadcasts-pagination-next a');
 		}
@@ -691,7 +740,7 @@ class Plugin extends \Codeception\Module
 		$I->seeBroadcastsOutput($I, 1, $previousLabel, false);
 
 		// Confirm that the expected Broadcast name is displayed and links to the expected URL, with UTM parameters.
-		$I->seeInSource('<a href="' . $_ENV['CONVERTKIT_API_BROADCAST_SECOND_URL'] . '?utm_source=wordpress&amp;utm_content=convertkit" target="_blank" rel="nofollow noopener"');
+		$I->seeInSource('<a href="' . $_ENV['CONVERTKIT_API_BROADCAST_SECOND_URL'] . '?utm_source=wordpress&amp;utm_term=en_US&amp;utm_content=convertkit" target="_blank" rel="nofollow noopener"');
 		$I->seeInSource($_ENV['CONVERTKIT_API_BROADCAST_SECOND_TITLE']);
 
 		// Click the Newer Posts link.
@@ -705,7 +754,7 @@ class Plugin extends \Codeception\Module
 		$I->seeBroadcastsOutput($I, 1, false, $nextLabel);
 
 		// Confirm that the expected Broadcast name is displayed and links to the expected URL, with UTM parameters.
-		$I->seeInSource('<a href="' . $_ENV['CONVERTKIT_API_BROADCAST_FIRST_URL'] . '?utm_source=wordpress&amp;utm_content=convertkit" target="_blank" rel="nofollow noopener"');
+		$I->seeInSource('<a href="' . $_ENV['CONVERTKIT_API_BROADCAST_FIRST_URL'] . '?utm_source=wordpress&amp;utm_term=en_US&amp;utm_content=convertkit" target="_blank" rel="nofollow noopener"');
 		$I->seeInSource($_ENV['CONVERTKIT_API_BROADCAST_FIRST_TITLE']);
 	}
 
@@ -861,15 +910,13 @@ class Plugin extends \Codeception\Module
 		$I->see('Email address is invalid'); // Response from the API.
 		$this->testRestrictContentHidesContentWithCTA($I, $visibleContent, $memberContent, $textItems);
 
-		// Set cookie with signed subscriber ID, as if we entered the code sent in the email as a ConvertKit
-		// subscriber who has not subscribed to the product.
+		// Set cookie with signed subscriber ID and reload the restricted content page, as if we entered the
+		// code sent in the email as a ConvertKit subscriber who has not subscribed to the product.
 		$I->setCookie('ck_subscriber_id', $_ENV['CONVERTKIT_API_SIGNED_SUBSCRIBER_ID_NO_ACCESS']);
-
-		// Reload the restricted content page.
 		if ( is_numeric( $urlOrPageID ) ) {
-			$I->amOnPage('?p=' . $urlOrPageID);
+			$I->amOnPage('?p=' . $urlOrPageID . '&ck-cache-bust=' . microtime() );
 		} else {
-			$I->amOnUrl($urlOrPageID);
+			$I->amOnUrl($urlOrPageID . '?ck-cache-bust=' . microtime() );
 		}
 
 		// Check content is / is not displayed, and CTA displays with expected text.
@@ -884,14 +931,32 @@ class Plugin extends \Codeception\Module
 		// Confirm that confirmation an email has been sent is displayed.
 		$this->testRestrictContentShowsEmailCodeForm($I, $visibleContent, $memberContent);
 
+		// Test that the restricted content displays when a valid signed subscriber ID is used,
+		// as if we entered the code sent in the email.
+		$this->testRestrictedContentShowsContentWithValidSubscriberID($I, $urlOrPageID, $visibleContent, $memberContent);
+	}
+
+	/**
+	 * Run frontend tests for restricted content, to confirm that both visible and member content is displayed
+	 * when a valid signed subscriber ID is set as a cookie, as if the user entered a code sent in the email.
+	 *
+	 * @since   2.2.2
+	 *
+	 * @param   AcceptanceTester $I                  Tester.
+	 * @param   string|int       $urlOrPageID        URL or ID of Restricted Content Page.
+	 * @param   string           $visibleContent     Content that should always be visible.
+	 * @param   string           $memberContent      Content that should only be available to authenticated subscribers.
+	 */
+	public function testRestrictedContentShowsContentWithValidSubscriberID($I, $urlOrPageID, $visibleContent, $memberContent)
+	{
 		// Set cookie with signed subscriber ID, as if we entered the code sent in the email.
 		$I->setCookie('ck_subscriber_id', $_ENV['CONVERTKIT_API_SIGNED_SUBSCRIBER_ID']);
 
 		// Reload the restricted content page.
 		if ( is_numeric( $urlOrPageID ) ) {
-			$I->amOnPage('?p=' . $urlOrPageID);
+			$I->amOnPage('?p=' . $urlOrPageID );
 		} else {
-			$I->amOnUrl($urlOrPageID);
+			$I->amOnUrl($urlOrPageID );
 		}
 
 		// Confirm cookie was set with the expected value.
@@ -917,6 +982,11 @@ class Plugin extends \Codeception\Module
 	 */
 	public function testRestrictContentHidesContentWithCTA($I, $visibleContent = 'Visible content.', $memberContent = 'Member only content.', $textItems = false)
 	{
+		// Define expected text and labels if not supplied.
+		if ( ! $textItems ) {
+			$textItems = $this->getRestrictedContentDefaultSettings();
+		}
+
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
 
@@ -986,6 +1056,115 @@ class Plugin extends \Codeception\Module
 
 	/**
 	 * Check that expected HTML exists in the DOM of the page we're viewing for
+	 * a Form Trigger block or shortcode, and that the button loads the expected
+	 * ConvertKit Form.
+	 *
+	 * @since   2.2.0
+	 *
+	 * @param   AcceptanceTester $I              Tester.
+	 * @param   string           $formURL        Form URL.
+	 * @param   bool|string      $text           Test if the button text matches the given value.
+	 * @param   bool|string      $textColor      Test if the given text color is applied.
+	 * @param   bool|string      $backgroundColor Test is the given background color is applied.
+	 */
+	public function seeFormTriggerOutput($I, $formURL, $text = false, $textColor = false, $backgroundColor = false)
+	{
+		// Confirm that the button stylesheet loaded.
+		$I->seeInSource('<link rel="stylesheet" id="convertkit-button-css" href="' . $_ENV['TEST_SITE_WP_URL'] . '/wp-content/plugins/convertkit/resources/frontend/css/button.css');
+
+		// Confirm that the block displays.
+		$I->seeElementInDOM('a.convertkit-formtrigger.wp-block-button__link');
+
+		// Confirm that the button links to the correct form.
+		$I->assertEquals($formURL, $I->grabAttributeFrom('a.convertkit-formtrigger', 'href'));
+
+		// Confirm that the text is as expected.
+		if ($text !== false) {
+			$I->see($text);
+		}
+
+		// Confirm that the text color is as expected.
+		if ($textColor !== false) {
+			$I->seeElementInDOM('a.convertkit-formtrigger.has-text-color');
+			$I->assertStringContainsString(
+				'color:' . $textColor,
+				$I->grabAttributeFrom('a.convertkit-formtrigger', 'style')
+			);
+		}
+
+		// Confirm that the background color is as expected.
+		if ($backgroundColor !== false) {
+			$I->seeElementInDOM('a.convertkit-formtrigger.has-background');
+			$I->assertStringContainsString(
+				'background-color:' . $backgroundColor,
+				$I->grabAttributeFrom('a.convertkit-formtrigger', 'style')
+			);
+		}
+
+		// Click the button to confirm that the ConvertKit modal displays.
+		$I->click('a.convertkit-formtrigger');
+		$I->waitForElementVisible('div.formkit-overlay');
+	}
+
+	/**
+	 * Check that expected HTML does not exist in the DOM of the page we're viewing for
+	 * a Form Trigger block or shortcode.
+	 *
+	 * @since   2.2.0
+	 *
+	 * @param   AcceptanceTester $I      Tester.
+	 */
+	public function dontSeeFormTriggerOutput($I)
+	{
+		// Confirm that the block does not display.
+		$I->dontSeeElementInDOM('div.wp-block-button a.convertkit-formtrigger');
+	}
+
+	/**
+	 * Check that expected HTML exists in the DOM of the page we're viewing for
+	 * a Form Trigger link, and that the link loads the expected
+	 * ConvertKit Form.
+	 *
+	 * @since   2.2.0
+	 *
+	 * @param   AcceptanceTester $I              Tester.
+	 * @param   string           $formURL        Form URL.
+	 * @param   bool|string      $text           Test if the text matches the given value.
+	 */
+	public function seeFormTriggerLinkOutput($I, $formURL, $text = false)
+	{
+		// Confirm that the link displays.
+		$I->seeElementInDOM('a.convertkit-form-link');
+
+		// Confirm that the button links to the correct form.
+		$I->assertEquals($formURL, $I->grabAttributeFrom('a.convertkit-form-link', 'href'));
+
+		// Confirm that the text is as expected.
+		if ($text !== false) {
+			$I->see($text);
+		}
+
+		// Click the link to confirm that the ConvertKit form displays.
+		$I->click('a.convertkit-form-link');
+		$I->waitForElementVisible('div.formkit-overlay');
+	}
+
+	/**
+	 * Check that expected HTML does not exist in the DOM of the page we're viewing for
+	 * a Form Trigger link formatter.
+	 *
+	 * @since   2.2.0
+	 *
+	 * @param   AcceptanceTester $I      Tester.
+	 */
+	public function dontSeeFormTriggerLinkOutput($I)
+	{
+		// Confirm that the link does not display.
+		$I->dontSeeElementInDOM('a.convertkit-form-link');
+	}
+
+	/**
+	 * Check that expected HTML exists in the DOM of the page we're viewing for
 	 * a Product block or shortcode, and that the button loads the expected
 	 * ConvertKit Product modal.
 	 *
@@ -1000,7 +1179,7 @@ class Plugin extends \Codeception\Module
 	public function seeProductOutput($I, $productURL, $text = false, $textColor = false, $backgroundColor = false)
 	{
 		// Confirm that the product stylesheet loaded.
-		$I->seeInSource('<link rel="stylesheet" id="convertkit-product-css" href="' . $_ENV['TEST_SITE_WP_URL'] . '/wp-content/plugins/convertkit/resources/frontend/css/product.css');
+		$I->seeInSource('<link rel="stylesheet" id="convertkit-button-css" href="' . $_ENV['TEST_SITE_WP_URL'] . '/wp-content/plugins/convertkit/resources/frontend/css/button.css');
 
 		// Confirm that the block displays.
 		$I->seeElementInDOM('a.convertkit-product.wp-block-button__link');
@@ -1038,7 +1217,7 @@ class Plugin extends \Codeception\Module
 	}
 
 	/**
-	 * Check that expected HTML does exists in the DOM of the page we're viewing for
+	 * Check that expected HTML does not exist in the DOM of the page we're viewing for
 	 * a Product block or shortcode.
 	 *
 	 * @since   1.9.8.5
@@ -1049,5 +1228,27 @@ class Plugin extends \Codeception\Module
 	{
 		// Confirm that the block does not display.
 		$I->dontSeeElementInDOM('div.wp-block-button a.convertkit-product');
+	}
+
+	/**
+	 * Selects all text for the given input field.
+	 *
+	 * @since   2.2.0
+	 *
+	 * @param   AcceptanceTester $I         Acceptance Tester.
+	 * @param   string           $selector  CSS or ID selector for the input element.
+	 */
+	public function selectAllText($I, $selector)
+	{
+		// Determine whether to use the control or command key, depending on the OS.
+		$key = \Facebook\WebDriver\WebDriverKeys::CONTROL;
+
+		// If we're on OSX, use the command key instead.
+		if (array_key_exists('TERM_PROGRAM', $_SERVER) && strpos( $_SERVER['TERM_PROGRAM'], 'Apple') !== false) {
+			$key = \Facebook\WebDriver\WebDriverKeys::COMMAND;
+		}
+
+		// Press Ctrl/Command + a on Keyboard.
+		$I->pressKey($selector, array( $key, 'a' ));
 	}
 }

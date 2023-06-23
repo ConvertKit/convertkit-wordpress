@@ -54,6 +54,45 @@ class ConvertKit_Resource_Forms extends ConvertKit_Resource {
 	}
 
 	/**
+	 * Returns all non-inline forms based on the sort order.
+	 *
+	 * @since   2.2.4
+	 *
+	 * @return  bool|array
+	 */
+	public function get_non_inline() {
+
+		// If the ConvertKit WordPress Libraries are < 1.3.6 (e.g. loaded by an outdated
+		// addon), or a WordPress site updates this Plugin before other ConvertKit Plugins,
+		// get_by() won't be available and will cause an E_ERROR, crashing the site.
+		// @see https://wordpress.org/support/topic/error-1795/.
+		if ( ! method_exists( $this, 'get_by' ) ) {
+			return false;
+		}
+
+		return $this->get_by( 'format', array( 'modal', 'slide in', 'sticky bar' ) );
+
+	}
+
+
+	/**
+	 * Returns whether any non-inline forms exist in the options table.
+	 *
+	 * @since   2.2.4
+	 *
+	 * @return  bool
+	 */
+	public function non_inline_exist() {
+
+		if ( ! $this->get_non_inline() ) {
+			return false;
+		}
+
+		return true;
+
+	}
+
+	/**
 	 * Returns the HTML/JS markup for the given Form ID.
 	 *
 	 * Legacy Forms will return HTML.
@@ -107,8 +146,32 @@ class ConvertKit_Resource_Forms extends ConvertKit_Resource {
 			return $api->get_form_html( $id );
 		}
 
-		// If here, return Form <script> embed.
-		return '<script async data-uid="' . esc_attr( $this->resources[ $id ]['uid'] ) . '" src="' . esc_attr( $this->resources[ $id ]['embed_js'] ) . '"></script>';
+		// If the form's format is not an inline form, add the inline script before the closing </body> tag.
+		// This prevents a modal form's overlay being constrained by the WordPress Theme's styles,
+		// and accidentally embedding the same non-inline form twice, which would result in e.g. the same modal form
+		// displaying twice.
+		if ( $this->resources[ $id ]['format'] !== 'inline' ) {
+			add_filter(
+				'convertkit_output_scripts_footer',
+				function( $scripts ) use ( $id ) {
+
+					$scripts[] = array(
+						'async'    => true,
+						'data-uid' => $this->resources[ $id ]['uid'],
+						'src'      => $this->resources[ $id ]['embed_js'],
+					);
+
+					return $scripts;
+
+				}
+			);
+
+			// Don't return a script for output, as it'll be output in the site's footer.
+			return '';
+		}
+
+		// If here, return Form <script> embed now, as we want the inline form to display at this specific point of the content.
+		return '<script async data-uid="' . esc_attr( $this->resources[ $id ]['uid'] ) . '" src="' . esc_url( $this->resources[ $id ]['embed_js'] ) . '"></script>';
 
 	}
 

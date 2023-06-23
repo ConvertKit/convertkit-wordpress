@@ -90,7 +90,7 @@ class PluginSetupWizardCest
 		$I->click('Register');
 		$I->wait(2); // Required, otherwise switchToNextTab fails.
 		$I->switchToNextTab();
-		$I->seeInCurrentUrl('users/signup?utm_source=wordpress&utm_content=convertkit');
+		$I->seeInCurrentUrl('users/signup?utm_source=wordpress&utm_term=en_US&utm_content=convertkit');
 
 		// Close newly opened tab from above button.
 		$I->closeTab();
@@ -253,8 +253,9 @@ class PluginSetupWizardCest
 		// Switch to newly opened tab.
 		$I->switchToNextTab();
 
-		// Confirm expected Form is displayed.
-		$I->seeElementInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]');
+		// Confirm that one ConvertKit Form is output in the DOM.
+		// This confirms that there is only one script on the page for this form, which renders the form.
+		$I->seeNumberOfElementsInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]', 1);
 
 		// Close newly opened tab.
 		$I->closeTab();
@@ -269,8 +270,9 @@ class PluginSetupWizardCest
 		// Switch to newly opened tab.
 		$I->switchToNextTab();
 
-		// Confirm expected Form is displayed.
-		$I->seeElementInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]');
+		// Confirm that one ConvertKit Form is output in the DOM.
+		// This confirms that there is only one script on the page for this form, which renders the form.
+		$I->seeNumberOfElementsInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]', 1);
 
 		// Close newly opened tab.
 		$I->closeTab();
@@ -322,7 +324,7 @@ class PluginSetupWizardCest
 		$this->_seeExpectedSetupWizardScreen($I, 3, 'Create your first ConvertKit Form', true);
 
 		// Confirm button link to create a form on ConvertKit is correct.
-		$I->seeInSource('<a href="https://app.convertkit.com/forms/new?format=inline"');
+		$I->seeInSource('<a href="https://app.convertkit.com/forms/new/?utm_source=wordpress&amp;utm_term=en_US&amp;utm_content=convertkit"');
 
 		// Define Plugin settings with a ConvertKit account containing forms,
 		// as if we created a form in ConvertKit.

@@ -97,13 +97,21 @@ class WPGutenberg extends \Codeception\Module
 				// followed by the attribute name.
 				$fieldID = '#' . str_replace('-', '_', $blockProgrammaticName) . '_' . $field;
 
+				// If the attribute has a third value, we may need to open the panel
+				// to see the fields.
+				if (count($attributes) > 2) {
+					$I->click($attributes[2], '.interface-interface-skeleton__sidebar[aria-label="Editor settings"]');
+				}
+
 				// Depending on the field's type, define its value.
 				switch ($attributes[0]) {
 					case 'select':
 						$I->selectOption($fieldID, $attributes[1]);
 						break;
 					case 'toggle':
-						$I->click($field);
+						if ( $attributes[1] ) {
+							$I->click($field);
+						}
 						break;
 					default:
 						$I->fillField($fieldID, $attributes[1]);
@@ -205,6 +213,71 @@ class WPGutenberg extends \Codeception\Module
 
 		// Click the Product name to create a link to it.
 		$I->click($name, '.block-editor-link-control__search-results');
+	}
+
+	/**
+	 * Applies the given block formatter to the currently selected block.
+	 *
+	 * @since   2.2.0
+	 *
+	 * @param   AcceptanceTester $I                      Acceptance Tester.
+	 * @param   string           $formatterName          Formatter Name (e.g. 'ConvertKit Form Trigger').
+	 * @param   string           $formatterProgrammaticName  Programmatic Formatter Name (e.g. 'convertkit-form-link').
+	 * @param   bool|array       $formatterConfiguration Block formatter's configuration (field => value key/value array).
+	 */
+	public function applyGutenbergFormatter($I, $formatterName, $formatterProgrammaticName, $formatterConfiguration = false)
+	{
+		// Click More button in block toolbar.
+		$I->waitForElementVisible('.block-editor-block-toolbar button[aria-label="More"]');
+		$I->click('.block-editor-block-toolbar button[aria-label="More"]');
+
+		// Click Block Formatter button.
+		$I->waitForElementVisible('.components-dropdown-menu__popover');
+		$I->click($formatterName, '.components-dropdown-menu__popover');
+
+		// Apply formatter configuration.
+		if ( $formatterConfiguration ) {
+			$I->waitForElementVisible('.components-popover');
+
+			foreach ($formatterConfiguration as $field => $attributes) {
+				// Field ID will be formatter's programmatic name, followed by the attribute name.
+				$fieldID = '#' . $formatterProgrammaticName . '-' . $field;
+
+				// Depending on the field's type, define its value.
+				switch ($attributes[0]) {
+					case 'select':
+						$I->selectOption($fieldID, $attributes[1]);
+						break;
+					case 'toggle':
+						$I->click($fieldID);
+						break;
+					default:
+						$I->fillField($fieldID, $attributes[1]);
+						break;
+				}
+			}
+		}
+	}
+
+	/**
+	 * Asserts that the given block formatter is not registered.
+	 *
+	 * @since   2.2.2
+	 *
+	 * @param   AcceptanceTester $I                      Acceptance Tester.
+	 * @param   string           $formatterName          Formatter Name (e.g. 'ConvertKit Form Trigger').
+	 */
+	public function dontSeeGutenbergFormatter($I, $formatterName)
+	{
+		// Click More button in block toolbar.
+		$I->waitForElementVisible('.block-editor-block-toolbar button[aria-label="More"]');
+		$I->click('.block-editor-block-toolbar button[aria-label="More"]');
+
+		// Click Block Formatter button.
+		$I->waitForElementVisible('.components-dropdown-menu__popover');
+
+		// Confirm the Block Formatter is not registered.
+		$I->dontSee($formatterName, '.components-dropdown-menu__popover');
 	}
 
 	/**

@@ -11,7 +11,7 @@
 	<!-- Form -->
 	<div>
 		<label for="wp-convertkit-bulk-edit-form">
-			<span class="title"><?php esc_html_e( 'Form', 'convertkit' ); ?></span>
+			<span class="title convertkit-icon-form"><?php esc_html_e( 'Form', 'convertkit' ); ?></span>
 			<select name="wp-convertkit[form]" id="wp-convertkit-bulk-edit-form" size="1">
 				<?php
 				// For Bulk Edit, the 'No Change' value is -1. However, because this Plugin has historically used -1
@@ -42,7 +42,7 @@
 	<!-- Tag -->
 	<div>
 		<label for="wp-convertkit-bulk-edit-tag">
-			<span class="title"><?php esc_html_e( 'Tag', 'convertkit' ); ?></span>
+			<span class="title convertkit-icon-tag"><?php esc_html_e( 'Tag', 'convertkit' ); ?></span>
 			<select name="wp-convertkit[tag]" id="wp-convertkit-bulk-edit-tag" size="1">
 				<?php
 				// For Bulk Edit, the 'No Change' value is -1. However, because this Plugin has historically used -1
@@ -77,7 +77,7 @@
 		<!-- Restrict Content -->
 		<div>
 			<label for="wp-convertkit-bulk-edit-restrict_content">
-				<span class="title"><?php esc_html_e( 'Member', 'convertkit' ); ?></span>
+				<span class="title convertkit-icon-restrict-content"><?php esc_html_e( 'Member', 'convertkit' ); ?></span>
 				<select name="wp-convertkit[restrict_content]" id="wp-convertkit-bulk-edit-restrict_content" size="1">
 					<?php
 					// For Bulk Edit, the 'No Change' value is -1. However, because this Plugin has historically used -1

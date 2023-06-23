@@ -58,7 +58,7 @@ class EditFormLinkCest
 		$I->checkNoWarningsAndNoticesOnScreen($I);
 
 		// Confirm that the Edit Form link is displayed.
-		$I->seeInSource('<a href="https://app.convertkit.com/forms/designers/' . $_ENV['CONVERTKIT_API_FORM_ID'] . '/edit/?utm_source=wordpress&amp;utm_content=convertkit" target="_blank">Edit form in ConvertKit</a>');
+		$I->seeInSource('<a href="https://app.convertkit.com/forms/designers/' . $_ENV['CONVERTKIT_API_FORM_ID'] . '/edit/?utm_source=wordpress&amp;utm_term=en_US&amp;utm_content=convertkit" target="_blank">Edit form in ConvertKit</a>');
 	}
 
 	/**
@@ -184,7 +184,7 @@ class EditFormLinkCest
 		$I->checkNoWarningsAndNoticesOnScreen($I);
 
 		// Confirm that the Edit Form link is displayed.
-		$I->seeInSource('<a href="https://app.convertkit.com/landing_pages/' . $_ENV['CONVERTKIT_API_LEGACY_FORM_ID'] . '/edit/?utm_source=wordpress&amp;utm_content=convertkit" target="_blank">Edit form in ConvertKit</a>');
+		$I->seeInSource('<a href="https://app.convertkit.com/landing_pages/' . $_ENV['CONVERTKIT_API_LEGACY_FORM_ID'] . '/edit/?utm_source=wordpress&amp;utm_term=en_US&amp;utm_content=convertkit" target="_blank">Edit form in ConvertKit</a>');
 	}
 
 	/**
@@ -232,7 +232,7 @@ class EditFormLinkCest
 		$I->checkNoWarningsAndNoticesOnScreen($I);
 
 		// Confirm that the Edit Form link is displayed.
-		$I->seeInSource('<a href="https://app.convertkit.com/forms/designers/' . $_ENV['CONVERTKIT_API_FORM_ID'] . '/edit/?utm_source=wordpress&amp;utm_content=convertkit" target="_blank">Edit form in ConvertKit</a>');
+		$I->seeInSource('<a href="https://app.convertkit.com/forms/designers/' . $_ENV['CONVERTKIT_API_FORM_ID'] . '/edit/?utm_source=wordpress&amp;utm_term=en_US&amp;utm_content=convertkit" target="_blank">Edit form in ConvertKit</a>');
 	}
 
 	/**
@@ -322,7 +322,7 @@ class EditFormLinkCest
 		$I->checkNoWarningsAndNoticesOnScreen($I);
 
 		// Confirm that the Edit Form link is displayed.
-		$I->seeInSource('<a href="https://app.convertkit.com/forms/designers/' . $_ENV['CONVERTKIT_API_FORM_ID'] . '/edit/?utm_source=wordpress&amp;utm_content=convertkit" target="_blank">Edit form in ConvertKit</a>');
+		$I->seeInSource('<a href="https://app.convertkit.com/forms/designers/' . $_ENV['CONVERTKIT_API_FORM_ID'] . '/edit/?utm_source=wordpress&amp;utm_term=en_US&amp;utm_content=convertkit" target="_blank">Edit form in ConvertKit</a>');
 	}
 
 	/**

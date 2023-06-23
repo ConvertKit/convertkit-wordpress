@@ -16,10 +16,6 @@ class PageShortcodeProductCest
 	public function _before(AcceptanceTester $I)
 	{
 		$I->activateConvertKitPlugin($I);
-
-		// Setup ConvertKit Plugin with no default form specified.
-		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY'], $_ENV['CONVERTKIT_API_SECRET'], '', '', '');
-		$I->setupConvertKitPluginResources($I);
 	}
 
 	/**
@@ -32,6 +28,10 @@ class PageShortcodeProductCest
 	 */
 	public function testProductShortcodeInVisualEditorWithValidProductParameter(AcceptanceTester $I)
 	{
+		// Setup ConvertKit Plugin with no default form specified.
+		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY'], $_ENV['CONVERTKIT_API_SECRET'], '', '', '');
+		$I->setupConvertKitPluginResources($I);
+
 		// Add a Page using the Classic Editor.
 		$I->addClassicEditorPage($I, 'page', 'ConvertKit: Page: Product: Shortcode: Visual Editor');
 
@@ -62,6 +62,10 @@ class PageShortcodeProductCest
 	 */
 	public function testProductShortcodeInTextEditorWithValidProductParameter(AcceptanceTester $I)
 	{
+		// Setup ConvertKit Plugin with no default form specified.
+		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY'], $_ENV['CONVERTKIT_API_SECRET'], '', '', '');
+		$I->setupConvertKitPluginResources($I);
+
 		// Add a Page using the Classic Editor.
 		$I->addClassicEditorPage($I, 'page', 'ConvertKit: Page: Product: Shortcode: Text Editor');
 
@@ -91,6 +95,10 @@ class PageShortcodeProductCest
 	 */
 	public function testProductShortcodeWithInvalidProductParameter(AcceptanceTester $I)
 	{
+		// Setup ConvertKit Plugin with no default form specified.
+		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY'], $_ENV['CONVERTKIT_API_SECRET'], '', '', '');
+		$I->setupConvertKitPluginResources($I);
+
 		// Create Page with Shortcode.
 		$I->havePageInDatabase(
 			[
@@ -118,6 +126,10 @@ class PageShortcodeProductCest
 	 */
 	public function testProductShortcodeInVisualEditorWithTextParameter(AcceptanceTester $I)
 	{
+		// Setup ConvertKit Plugin with no default form specified.
+		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY'], $_ENV['CONVERTKIT_API_SECRET'], '', '', '');
+		$I->setupConvertKitPluginResources($I);
+
 		// Add a Page using the Classic Editor.
 		$I->addClassicEditorPage($I, 'page', 'ConvertKit: Page: Product: Shortcode: Text Param');
 
@@ -148,6 +160,10 @@ class PageShortcodeProductCest
 	 */
 	public function testProductShortcodeInVisualEditorWithBlankTextParameter(AcceptanceTester $I)
 	{
+		// Setup ConvertKit Plugin with no default form specified.
+		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY'], $_ENV['CONVERTKIT_API_SECRET'], '', '', '');
+		$I->setupConvertKitPluginResources($I);
+
 		// Add a Page using the Classic Editor.
 		$I->addClassicEditorPage($I, 'page', 'ConvertKit: Page: Product: Shortcode: Blank Text Param');
 
@@ -178,6 +194,10 @@ class PageShortcodeProductCest
 	 */
 	public function testProductShortcodeWithHexColorParameters(AcceptanceTester $I)
 	{
+		// Setup ConvertKit Plugin with no default form specified.
+		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY'], $_ENV['CONVERTKIT_API_SECRET'], '', '', '');
+		$I->setupConvertKitPluginResources($I);
+
 		// Define colors.
 		$backgroundColor = '#ee1616';
 		$textColor       = '#1212c0';
@@ -216,6 +236,10 @@ class PageShortcodeProductCest
 	 */
 	public function testProductShortcodeParameterEscaping(AcceptanceTester $I)
 	{
+		// Setup ConvertKit Plugin with no default form specified.
+		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY'], $_ENV['CONVERTKIT_API_SECRET'], '', '', '');
+		$I->setupConvertKitPluginResources($I);
+
 		// Define a 'bad' shortcode.
 		$I->havePageInDatabase(
 			[
@@ -239,6 +263,118 @@ class PageShortcodeProductCest
 
 		// Confirm that the ConvertKit Product is displayed.
 		$I->seeProductOutput($I, $_ENV['CONVERTKIT_API_PRODUCT_URL'], 'Buy my product');
+	}
+
+	/**
+	 * Test the Product shortcode displays a message with a link to the Plugin's
+	 * setup wizard, when the Plugin has no API key specified.
+	 *
+	 * @since   2.2.4
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testProductShortcodeWhenNoAPIKey(AcceptanceTester $I)
+	{
+		// Add a Page using the Classic Editor.
+		$I->addClassicEditorPage($I, 'page', 'ConvertKit: Page: Product: Shortcode: No API Key');
+
+		// Open Visual Editor modal for the shortcode.
+		$I->openVisualEditorShortcodeModal(
+			$I,
+			'ConvertKit Product'
+		);
+
+		// Confirm an error notice displays.
+		$I->waitForElementVisible('#convertkit-modal-body-body div.notice');
+
+		// Confirm that the modal displays instructions to the user on how to enter their API Key.
+		$I->see(
+			'No API Key specified.',
+			[
+				'css' => '#convertkit-modal-body-body',
+			]
+		);
+
+		// Click the link to confirm it loads the Plugin's settings screen.
+		$I->click(
+			'Click here to add your API Key.',
+			[
+				'css' => '#convertkit-modal-body-body',
+			]
+		);
+
+		// Switch to next browser tab, as the link opens in a new tab.
+		$I->switchToNextTab();
+
+		// Confirm the Plugin's setup wizard is displayed.
+		$I->seeInCurrentUrl('index.php?page=convertkit-setup');
+
+		// Close tab.
+		$I->closeTab();
+
+		// Close modal.
+		$I->click('#convertkit-modal-body-head button.mce-close');
+
+		// Save page to avoid alert box when _passed() runs to deactivate the Plugin.
+		$I->publishAndViewClassicEditorPage($I);
+	}
+
+	/**
+	 * Test the Product shortcode displays a message with a link to ConvertKit,
+	 * when the ConvertKit account has no forms.
+	 *
+	 * @since   2.2.3
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testProductShortcodeWhenNoProducts(AcceptanceTester $I)
+	{
+		// Setup Plugin.
+		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY_NO_DATA'], $_ENV['CONVERTKIT_API_SECRET_NO_DATA'], '', '', '');
+		$I->setupConvertKitPluginResourcesNoData($I);
+
+		// Add a Page using the Classic Editor.
+		$I->addClassicEditorPage($I, 'page', 'ConvertKit: Page: Product: Shortcode: No Products');
+
+		// Open Visual Editor modal for the shortcode.
+		$I->openVisualEditorShortcodeModal(
+			$I,
+			'ConvertKit Product'
+		);
+
+		// Confirm an error notice displays.
+		$I->waitForElementVisible('#convertkit-modal-body-body div.notice');
+
+		// Confirm that the Form block displays instructions to the user on how to add a Form in ConvertKit.
+		$I->see(
+			'No products exist in ConvertKit.',
+			[
+				'css' => '#convertkit-modal-body-body',
+			]
+		);
+
+		// Click the link to confirm it loads ConvertKit.
+		$I->click(
+			'Click here to create your first product.',
+			[
+				'css' => '#convertkit-modal-body-body',
+			]
+		);
+
+		// Switch to next browser tab, as the link opens in a new tab.
+		$I->switchToNextTab();
+
+		// Confirm the ConvertKit login screen loaded.
+		$I->seeElementInDOM('input[name="user[email]"]');
+
+		// Close tab.
+		$I->closeTab();
+
+		// Close modal.
+		$I->click('#convertkit-modal-body-head button.mce-close');
+
+		// Save page to avoid alert box when _passed() runs to deactivate the Plugin.
+		$I->publishAndViewClassicEditorPage($I);
 	}
 
 	/**

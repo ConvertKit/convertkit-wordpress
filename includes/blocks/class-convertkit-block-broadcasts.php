@@ -118,7 +118,7 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 		return array(
 			'title'                             => __( 'ConvertKit Broadcasts', 'convertkit' ),
 			'description'                       => __( 'Displays a list of your ConvertKit broadcasts.', 'convertkit' ),
-			'icon'                              => 'resources/backend/images/block-icon-broadcasts.png',
+			'icon'                              => 'resources/backend/images/block-icon-broadcasts.svg',
 			'category'                          => 'convertkit',
 			'keywords'                          => array(
 				__( 'ConvertKit', 'convertkit' ),
@@ -131,15 +131,15 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 
 			// Shortcode: TinyMCE / QuickTags Modal Width and Height.
 			'modal'                             => array(
-				'width'  => 500,
-				'height' => 580,
+				'width'  => 650,
+				'height' => 405,
 			),
 
 			// Shortcode: Include a closing [/shortcode] tag when using TinyMCE or QuickTag Modals.
 			'shortcode_include_closing_tag'     => false,
 
 			// Gutenberg: Block Icon in Editor.
-			'gutenberg_icon'                		=> file_get_contents( CONVERTKIT_PLUGIN_PATH . '/resources/backend/images/block-icon-broadcasts.svg' ), /* phpcs:ignore */
+			'gutenberg_icon'                    => convertkit_get_file_contents( CONVERTKIT_PLUGIN_PATH . '/resources/backend/images/block-icon-broadcasts.svg' ),
 
 			// Gutenberg: Example image showing how this block looks when choosing it in Gutenberg.
 			'gutenberg_example_image'           => CONVERTKIT_PLUGIN_URL . 'resources/backend/images/block-example-broadcasts.png',
@@ -166,9 +166,29 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 
 		return array(
 			// Block attributes.
+			'display_grid'         => array(
+				'type'    => 'boolean',
+				'default' => $this->get_default_value( 'display_grid' ),
+			),
 			'date_format'          => array(
 				'type'    => 'string',
 				'default' => $this->get_default_value( 'date_format' ),
+			),
+			'display_image'        => array(
+				'type'    => 'boolean',
+				'default' => $this->get_default_value( 'display_image' ),
+			),
+			'display_description'  => array(
+				'type'    => 'boolean',
+				'default' => $this->get_default_value( 'display_description' ),
+			),
+			'display_read_more'    => array(
+				'type'    => 'boolean',
+				'default' => $this->get_default_value( 'display_read_more' ),
+			),
+			'read_more_label'      => array(
+				'type'    => 'string',
+				'default' => $this->get_default_value( 'read_more_label' ),
 			),
 			'limit'                => array(
 				'type'    => 'number',
@@ -246,6 +266,11 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 		}
 
 		return array(
+			'display_grid'        => array(
+				'label'       => __( 'Display as grid', 'convertkit' ),
+				'type'        => 'toggle',
+				'description' => __( 'If enabled, displays broadcasts in a grid, instead of a list.', 'convertkit' ),
+			),
 			'date_format'         => array(
 				'label'  => __( 'Date format', 'convertkit' ),
 				'type'   => 'select',
@@ -255,6 +280,23 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 					'm/d/Y'  => date_i18n( 'm/d/Y', strtotime( 'now' ) ),
 					'd/m/Y'  => date_i18n( 'd/m/Y', strtotime( 'now' ) ),
 				),
+			),
+			'display_image'       => array(
+				'label' => __( 'Display images', 'convertkit' ),
+				'type'  => 'toggle',
+			),
+			'display_description' => array(
+				'label' => __( 'Display descriptions', 'convertkit' ),
+				'type'  => 'toggle',
+			),
+			'display_read_more'   => array(
+				'label' => __( 'Display read more links', 'convertkit' ),
+				'type'  => 'toggle',
+			),
+			'read_more_label'     => array(
+				'label'       => __( 'Read more label', 'convertkit' ),
+				'type'        => 'text',
+				'description' => __( 'The label to display for the "read more" link below each broadcast.', 'convertkit' ),
 			),
 			'limit'               => array(
 				'label' => __( 'Number of posts', 'convertkit' ),
@@ -312,14 +354,29 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 		}
 
 		return array(
-			'general' => array(
+			'general'    => array(
 				'label'  => __( 'General', 'convertkit' ),
 				'fields' => array(
+					'display_grid',
 					'date_format',
+					'display_image',
+					'display_description',
+					'display_read_more',
+					'read_more_label',
+				),
+			),
+			'pagination' => array(
+				'label'  => __( 'Pagination', 'convertkit' ),
+				'fields' => array(
 					'limit',
 					'paginate',
 					'paginate_label_prev',
 					'paginate_label_next',
+				),
+			),
+			'styles'     => array(
+				'label'  => __( 'Styles', 'convertkit' ),
+				'fields' => array(
 					'link_color',
 					'background_color',
 					'text_color',
@@ -339,7 +396,12 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 	public function get_default_values() {
 
 		return array(
+			'display_grid'        => false,
 			'date_format'         => 'F j, Y',
+			'display_image'       => false,
+			'display_description' => false,
+			'display_read_more'   => false,
+			'read_more_label'     => __( 'Read more', 'convertkit' ),
 			'limit'               => 10,
 			'paginate'            => false,
 			'paginate_label_prev' => __( 'Previous', 'convertkit' ),
@@ -426,7 +488,11 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 		// Build attributes array.
 		$atts = array(
 			'date_format'         => stripslashes( sanitize_text_field( $_REQUEST['date_format'] ) ),
-			'limit'               => stripslashes( sanitize_text_field( $_REQUEST['limit'] ) ),
+			'display_image'       => absint( $_REQUEST['display_image'] ),
+			'display_description' => absint( $_REQUEST['display_description'] ),
+			'display_read_more'   => absint( $_REQUEST['display_read_more'] ),
+			'read_more_label'     => stripslashes( sanitize_text_field( $_REQUEST['read_more_label'] ) ),
+			'limit'               => absint( $_REQUEST['limit'] ),
 			'page'                => absint( $_REQUEST['page'] ),
 			'paginate'            => absint( $_REQUEST['paginate'] ),
 			'paginate_label_next' => stripslashes( sanitize_text_field( $_REQUEST['paginate_label_next'] ) ),
@@ -484,31 +550,16 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 
 		// Include container, if required.
 		if ( $include_container ) {
-			$html = '<div class="' . implode( ' ', map_deep( $atts['_css_classes'], 'sanitize_html_class' ) ) . '" style="' . implode( ';', map_deep( $atts['_css_styles'], 'esc_attr' ) ) . '" ' . $this->get_atts_as_html_data_attributes( $atts ) . '>';
+			$html .= '<div class="' . implode( ' ', map_deep( $atts['_css_classes'], 'sanitize_html_class' ) ) . '" style="' . implode( ';', map_deep( $atts['_css_styles'], 'esc_attr' ) ) . '" ' . $this->get_atts_as_html_data_attributes( $atts ) . '>';
 		}
 
 		// Start list.
 		$html .= '<ul class="convertkit-broadcasts-list">';
 
-		// Iterate through broadcasts.
+		// Iterate through broadcasts, building HTML list items.
 		foreach ( $broadcasts['items'] as $count => $broadcast ) {
-			// Convert UTC date to timestamp.
-			$date_timestamp = strtotime( $broadcast['published_at'] );
-
-			// Build broadcast URL.
-			$url = add_query_arg(
-				array(
-					'utm_source'  => 'wordpress',
-					'utm_content' => 'convertkit',
-				),
-				$broadcast['url']
-			);
-
 			// Add broadcast as list item.
-			$html .= '<li class="convertkit-broadcast">
-				<time datetime="' . esc_attr( date_i18n( 'Y-m-d', $date_timestamp ) ) . '">' . esc_html( date_i18n( $atts['date_format'], $date_timestamp ) ) . '</time>
-				<a href="' . esc_attr( $url ) . '" target="_blank" rel="nofollow noopener"' . $this->get_link_style_tag( $atts ) . '>' . esc_html( $broadcast['title'] ) . '</a>
-			</li>';
+			$html .= $this->build_html_list_item( $broadcast, $atts );
 		}
 
 		// End list.
@@ -545,7 +596,97 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 			$html .= '</div>';
 		}
 
+		/**
+		 * Filter the block's content immediately before it is output.
+		 *
+		 * @since   2.2.3
+		 *
+		 * @param   string  $html       ConvertKit Broadcasts HTML.
+		 * @param   array   $atts       Block Attributes.
+		 */
+		$html = apply_filters( 'convertkit_block_broadcasts_render', $html, $atts );
+
 		// Return.
+		return $html;
+
+	}
+
+	/**
+	 * Defines the HTML for an individual broadcast item in the Broadcasts block.
+	 *
+	 * @since   2.2.3
+	 *
+	 * @param   array $broadcast  Broadcast.
+	 * @param   array $atts       Block attributes.
+	 * @return  string              HTML
+	 */
+	private function build_html_list_item( $broadcast, $atts ) {
+
+		// Convert UTC date to timestamp.
+		$date_timestamp = strtotime( $broadcast['published_at'] );
+
+		// Build broadcast URL.
+		$url = add_query_arg(
+			array(
+				'utm_source'  => 'wordpress',
+				'utm_term'    => get_locale(),
+				'utm_content' => 'convertkit',
+			),
+			$broadcast['url']
+		);
+
+		// Build HTML.
+		$html = '<li class="convertkit-broadcast">';
+
+		// Display date.
+		$html .= '<time datetime="' . esc_attr( date_i18n( 'Y-m-d', $date_timestamp ) ) . '">' . esc_html( date_i18n( $atts['date_format'], $date_timestamp ) ) . '</time>';
+
+		// Display linked title.
+		$html .= '<a href="' . esc_url( $url ) . '" target="_blank" rel="nofollow noopener"' . $this->get_link_style_tag( $atts ) . ' class="convertkit-broadcast-title">' . esc_html( $broadcast['title'] ) . '</a>';
+
+		// Display image.
+		// We check for thumbnail_url, as these were added to the API in https://github.com/ConvertKit/convertkit/pull/23938,
+		// and might not immediately be available until the resources are refreshed.
+		if ( $atts['display_image'] && array_key_exists( 'thumbnail_url', $broadcast ) && ! is_null( $broadcast['thumbnail_url'] ) ) {
+			$html .= '<a href="' . esc_url( $url ) . '" target="_blank" rel="nofollow noopener" class="convertkit-broadcast-image">
+				<img src="' . esc_url( $broadcast['thumbnail_url'] ) . '" alt="' . esc_attr( $broadcast['thumbnail_alt'] ) . '" />
+			</a>';
+		}
+
+		// Display description / read more.
+		if ( $atts['display_description'] || $atts['display_read_more'] ) {
+			$html .= '<span class="convertkit-broadcast-text">';
+
+			// Display description.
+			// We check for description, as these were added to the API in https://github.com/ConvertKit/convertkit/pull/23938,
+			// and might not immediately be available until the resources are refreshed.
+			if ( $atts['display_description'] && array_key_exists( 'description', $broadcast ) && ! is_null( $broadcast['description'] ) ) {
+				$html .= '<span class="convertkit-broadcast-description">' . esc_html( $broadcast['description'] ) . '</span>';
+			}
+
+			// Display read more link.
+			if ( $atts['display_read_more'] ) {
+				$html .= '<a href="' . esc_url( $url ) . '" target="_blank" rel="nofollow noopener" class="convertkit-broadcast-read-more">' . esc_html( $atts['read_more_label'] ) . '</a>';
+			}
+
+			$html .= '</span>';
+		}
+
+		// Close list item.
+		$html .= '</li>';
+
+		/**
+		 * Defines the HTML for an individual broadcast item in the Broadcasts block.
+		 *
+		 * @since   2.2.3
+		 *
+		 * @param   string  $html       HTML.
+		 * @param   array   $broadcast  Broadcast.
+		 * @param   array   $atts       Block attributes.
+		 * @return  string              HTML
+		 */
+		$html = apply_filters( 'convertkit_block_broadcasts_build_html_list_item', $html, $broadcast, $atts );
+
 		return $html;
 
 	}
@@ -562,7 +703,7 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 	 */
 	private function get_pagination_link_prev_html( $atts, $nonce ) {
 
-		return '<a href="' . esc_attr( $this->get_pagination_link( $atts['page'] - 1, $nonce ) ) . '" title="' . esc_attr( $atts['paginate_label_prev'] ) . '" data-page="' . esc_attr( (string) ( $atts['page'] - 1 ) ) . '" data-nonce="' . esc_attr( $nonce ) . '"' . $this->get_link_style_tag( $atts ) . '>
+		return '<a href="' . esc_url( $this->get_pagination_link( $atts['page'] - 1, $nonce ) ) . '" title="' . esc_attr( $atts['paginate_label_prev'] ) . '" data-page="' . esc_attr( (string) ( $atts['page'] - 1 ) ) . '" data-nonce="' . esc_attr( $nonce ) . '"' . $this->get_link_style_tag( $atts ) . '>
 			' . esc_html( $atts['paginate_label_prev'] ) . '
 		</a>';
 
@@ -580,7 +721,7 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 	 */
 	private function get_pagination_link_next_html( $atts, $nonce ) {
 
-		return '<a href="' . esc_attr( $this->get_pagination_link( $atts['page'] + 1, $nonce ) ) . '" title="' . esc_attr( $atts['paginate_label_next'] ) . '" data-page="' . esc_attr( (string) ( $atts['page'] + 1 ) ) . '" data-nonce="' . esc_attr( $nonce ) . '"' . $this->get_link_style_tag( $atts ) . '>
+		return '<a href="' . esc_url( $this->get_pagination_link( $atts['page'] + 1, $nonce ) ) . '" title="' . esc_attr( $atts['paginate_label_next'] ) . '" data-page="' . esc_attr( (string) ( $atts['page'] + 1 ) ) . '" data-nonce="' . esc_attr( $nonce ) . '"' . $this->get_link_style_tag( $atts ) . '>
 			' . esc_html( $atts['paginate_label_next'] ) . '
 		</a>';
 
