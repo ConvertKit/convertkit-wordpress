@@ -17,12 +17,6 @@
  */
 function convertKitGutenbergFormBlockRenderPreview( block, props ) {
 
-	// If no API Key has been defined in the Plugin, or no Forms exist in ConvertKit,
-	// return a prompt to tell the editor what to do.
-	if ( ! block.has_api_key || ! block.has_resources ) {
-		return convertKitGutenbergDisplayBlockNoticeWithLink( block, props );
-	}
-
 	// Get selected form.
 	var form = block.fields.form.data.forms[ props.attributes.form ];
 
