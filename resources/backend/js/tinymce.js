@@ -38,15 +38,31 @@ function convertKitTinyMCERegisterPlugin( block ) {
 					'convertkit_' + block.name,
 					function() {
 
+						// Close any existing QuickTags modal.
+						convertKitQuickTagsModal.close();
+
 						// Open the TinyMCE Modal.
 						editor.windowManager.open(
 							{
 								id: 	'convertkit-modal-body',
 								title: 	block.title,
 								width: 	block.modal.width,
-								height: block.modal.height,
+
+								// Set modal height up to a maximum of 580px.
+								// Content will overflow-y to show a scrollbar where necessary.
+								height: ( block.modal.height < 580 ? block.modal.height : 580 ),
 								inline: 1,
-								buttons:[],
+								buttons: [
+								{
+									text: 'Cancel',
+									classes: 'cancel'
+								},
+								{
+									text: 'Insert',
+									subtype: 'primary',
+									classes: 'insert'
+								}
+								]
 							}
 						);
 
@@ -63,6 +79,9 @@ function convertKitTinyMCERegisterPlugin( block ) {
 
 								// Inject HTML into modal.
 								$( '#convertkit-modal-body-body' ).html( response );
+
+								// Initialize tabbed interface.
+								convertKitTabsInit();
 
 								// Initialize color pickers.
 								$( '.convertkit-color-picker' ).wpColorPicker();

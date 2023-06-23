@@ -60,8 +60,28 @@ class ConvertKit_Admin_TinyMCE {
 		// Define shortcode.
 		$shortcode = $shortcodes[ $shortcode_name ];
 
-		// Output the modal.
-		require_once CONVERTKIT_PLUGIN_PATH . '/views/backend/tinymce/modal.php';
+		// Show a message in the modal if no API Key is specified.
+		if ( array_key_exists( 'has_api_key', $shortcode ) && ! $shortcode['has_api_key'] ) {
+			$notice = $shortcode['no_api_key'];
+			require_once CONVERTKIT_PLUGIN_PATH . '/views/backend/tinymce/modal-notice.php';
+			die();
+		}
+
+		// Show a message in the modal if no resources exist.
+		if ( array_key_exists( 'has_resources', $shortcode ) && ! $shortcode['has_resources'] ) {
+			$notice = $shortcode['no_resources'];
+			require_once CONVERTKIT_PLUGIN_PATH . '/views/backend/tinymce/modal-notice.php';
+			die();
+		}
+
+		// If we have less than two panels defined in the shortcode properties, output a basic modal.
+		if ( count( $shortcode['panels'] ) < 2 ) {
+			require_once CONVERTKIT_PLUGIN_PATH . '/views/backend/tinymce/modal.php';
+			die();
+		}
+
+		// Output tabbed view.
+		require_once CONVERTKIT_PLUGIN_PATH . '/views/backend/tinymce/modal-tabbed.php';
 		die();
 
 	}
@@ -128,6 +148,7 @@ class ConvertKit_Admin_TinyMCE {
 		}
 
 		// Enqueue TinyMCE CSS and JS.
+		wp_enqueue_script( 'convertkit-admin-tabs', CONVERTKIT_PLUGIN_URL . 'resources/backend/js/tabs.js', array( 'jquery' ), CONVERTKIT_PLUGIN_VERSION, true );
 		wp_enqueue_script( 'convertkit-admin-tinymce', CONVERTKIT_PLUGIN_URL . 'resources/backend/js/tinymce.js', array( 'jquery' ), CONVERTKIT_PLUGIN_VERSION, true );
 		wp_enqueue_script( 'convertkit-admin-modal', CONVERTKIT_PLUGIN_URL . 'resources/backend/js/modal.js', array( 'jquery' ), CONVERTKIT_PLUGIN_VERSION, true );
 		wp_enqueue_style( 'convertkit-admin-tinymce', CONVERTKIT_PLUGIN_URL . 'resources/backend/css/tinymce.css', array(), CONVERTKIT_PLUGIN_VERSION );
@@ -191,8 +212,18 @@ class ConvertKit_Admin_TinyMCE {
 		?>
 		<script type="text/template" id="tmpl-convertkit-quicktags-modal">
 			<div id="convertkit-quicktags-modal">
-				<div class="media-frame-title"><h1>Title</h1></div>
-				<div class="media-frame-content">Content</div>
+				<div class="media-frame-title"><h1></h1></div>
+				<div class="media-frame-content"></div>
+				<div class="media-frame-toolbar">
+					<div class="media-toolbar">
+						<div class="media-toolbar-secondary">
+							<button type="button" class="button button-large cancel"><?php esc_html_e( 'Cancel', 'convertkit' ); ?></button>
+						</div>
+						<div class="media-toolbar-primary">
+							<button type="button" class="button button-primary button-large"><?php esc_html_e( 'Insert', 'convertkit' ); ?></button>
+						</div>
+					</div>
+				</div>
 			</div>
 		</script>
 		<?php

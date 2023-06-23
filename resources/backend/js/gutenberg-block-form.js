@@ -11,23 +11,41 @@
  * Custom callback function to render the ConvertKit Form Block preview in the Gutenberg Editor.
  *
  * @since 	1.9.6.5
+ *
+ * @param 	object 	block 	Block
+ * @param 	obejct  props 	Block properties
  */
 function convertKitGutenbergFormBlockRenderPreview( block, props ) {
 
+	// If no API Key has been defined in the Plugin, return a prompt to tell the editor
+	// what to do.
+	if ( ! block.has_api_key ) {
+		return convertKitGutenbergDisplayBlockNoticeWithLink(
+			block.name,
+			block.no_api_key.notice,
+			block.no_api_key.link,
+			block.no_api_key.link_text
+		);
+	}
+
+	// If no Forms exist in ConvertKit, return a prompt to tell the editor
+	// what to do.
+	if ( ! block.has_resources ) {
+		return convertKitGutenbergDisplayBlockNoticeWithLink(
+			block.name,
+			block.no_resources.notice,
+			block.no_resources.link,
+			block.no_resources.link_text
+		);
+	}
+
+	// Get selected form.
 	var form = block.fields.form.data.forms[ props.attributes.form ];
 
 	// If no Form has been selected for display, return a prompt to tell the editor
 	// what to do.
 	if ( typeof form === 'undefined' ) {
-		return wp.element.createElement(
-			'div',
-			{
-				// convertkit-no-content class allows resources/backend/css/gutenberg.css
-				// to apply styling/branding to the block.
-				className: 'convertkit-' + block.name + ' convertkit-no-content'
-			},
-			block.gutenberg_help_description
-		);
+		return convertKitGutenbergDisplayBlockNotice( block.name, block.gutenberg_help_description );
 	}
 
 	// If the Form is a <script> embed, use the SandBox because the Gutenberg editor

@@ -4,7 +4,7 @@
     "type": "project",
     "license": "GPLv3",
     "require": {
-        "convertkit/convertkit-wordpress-libraries": "1.3.4"
+        "convertkit/convertkit-wordpress-libraries": "1.3.6"
     },
     "require-dev": {
         "lucatume/wp-browser": "^3.0",
@@ -19,7 +19,8 @@
         "dealerdirect/phpcodesniffer-composer-installer": "^0.7",
         "wp-coding-standards/wpcs": "*",
         "phpstan/phpstan": "^1.7",
-        "szepeviktor/phpstan-wordpress": "^1.0"
+        "szepeviktor/phpstan-wordpress": "^1.0",
+        "wp-cli/wp-cli": "2.7.1"
     },
     "minimum-stability": "dev",
     "prefer-stable": true,

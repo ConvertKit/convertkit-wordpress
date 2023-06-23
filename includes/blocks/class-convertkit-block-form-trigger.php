@@ -80,10 +80,13 @@ class ConvertKit_Block_Form_Trigger extends ConvertKit_Block {
 	 */
 	public function get_overview() {
 
+		$convertkit_forms = new ConvertKit_Resource_Forms( 'block_edit' );
+		$settings         = new ConvertKit_Settings();
+
 		return array(
 			'title'                             => __( 'ConvertKit Form Trigger', 'convertkit' ),
 			'description'                       => __( 'Displays a modal, sticky bar or slide in form to display when the button is pressed.', 'convertkit' ),
-			'icon'                              => 'resources/backend/images/block-icon-formtrigger.png',
+			'icon'                              => 'resources/backend/images/block-icon-formtrigger.svg',
 			'category'                          => 'convertkit',
 			'keywords'                          => array(
 				__( 'ConvertKit', 'convertkit' ),
@@ -96,7 +99,7 @@ class ConvertKit_Block_Form_Trigger extends ConvertKit_Block {
 			// Shortcode: TinyMCE / QuickTags Modal Width and Height.
 			'modal'                             => array(
 				'width'  => 500,
-				'height' => 290,
+				'height' => 352,
 			),
 
 			// Shortcode: Include a closing [/shortcode] tag when using TinyMCE or QuickTag Modals.
@@ -108,12 +111,27 @@ class ConvertKit_Block_Form_Trigger extends ConvertKit_Block {
 			// Gutenberg: Example image showing how this block looks when choosing it in Gutenberg.
 			'gutenberg_example_image'           => CONVERTKIT_PLUGIN_URL . 'resources/backend/images/block-example-formtrigger.png',
 
-			// Gutenberg: Help description, displayed when no settings defined for a newly added Block.
+			// Help descriptions, displayed when no API key / resources exist and this block/shortcode is added.
+			'no_api_key'                        => array(
+				'notice'    => __( 'No API Key specified.', 'convertkit' ),
+				'link'      => convertkit_get_setup_wizard_plugin_link(),
+				'link_text' => __( 'Click here to add your API Key.', 'convertkit' ),
+			),
+			'no_resources'                      => array(
+				'notice'    => __( 'No modal, sticky bar or slide in forms exist in ConvertKit.', 'convertkit' ),
+				'link'      => convertkit_get_new_form_url(),
+				'link_text' => __( 'Click here to create a form.', 'convertkit' ),
+			),
 			'gutenberg_help_description'        => __( 'Select a Form using the Form option in the Gutenberg sidebar.', 'convertkit' ),
 
 			// Gutenberg: JS function to call when rendering the block preview in the Gutenberg editor.
 			// If not defined, render_callback above will be used.
 			'gutenberg_preview_render_callback' => 'convertKitGutenbergFormTriggerBlockRenderPreview',
+
+			// Whether an API Key exists in the Plugin, and are the required resources (non-inline forms) available.
+			// If no API Key is specified in the Plugin's settings, render the "No API Key" output.
+			'has_api_key'                       => $settings->has_api_key_and_secret(),
+			'has_resources'                     => $convertkit_forms->non_inline_exist(),
 		);
 
 	}
@@ -225,24 +243,11 @@ class ConvertKit_Block_Form_Trigger extends ConvertKit_Block {
 			return false;
 		}
 
-		// Get ConvertKit Forms.
+		// Get non-inline ConvertKit Forms.
 		$forms            = array();
 		$convertkit_forms = new ConvertKit_Resource_Forms( 'block_edit' );
-		if ( $convertkit_forms->exist() ) {
-			foreach ( $convertkit_forms->get() as $form ) {
-				// Ignore inline forms; this button link is only for modal, slide in and sticky bar forms.
-				if ( ! array_key_exists( 'format', $form ) ) {
-					continue;
-				}
-				if ( $form['format'] === 'inline' ) {
-					continue;
-				}
-
-				// Ignore forms that are missing a uid.
-				if ( ! array_key_exists( 'uid', $form ) ) {
-					continue;
-				}
-
+		if ( $convertkit_forms->non_inline_exist() ) {
+			foreach ( $convertkit_forms->get_non_inline() as $form ) {
 				$forms[ absint( $form['id'] ) ] = sanitize_text_field( $form['name'] );
 			}
 		}
@@ -451,7 +456,7 @@ class ConvertKit_Block_Form_Trigger extends ConvertKit_Block {
 		if ( $return_as_span ) {
 			$html .= '<span';
 		} else {
-			$html .= '<a data-formkit-toggle="' . esc_attr( $form['uid'] ) . '" href="' . esc_attr( $form['embed_url'] ) . '"';
+			$html .= '<a data-formkit-toggle="' . esc_attr( $form['uid'] ) . '" href="' . esc_url( $form['embed_url'] ) . '"';
 		}
 
 		$html .= ' class="wp-block-button__link ' . implode( ' ', map_deep( $css_classes, 'sanitize_html_class' ) ) . '" style="' . implode( ';', map_deep( $css_styles, 'esc_attr' ) ) . '">';
