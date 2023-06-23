@@ -245,6 +245,27 @@ function convertkit_get_settings_link( $query_args = array() ) {
 }
 
 /**
+ * Helper method to return the Plugin Settings Link
+ *
+ * @since   2.2.4
+ *
+ * @param   array $query_args     Optional Query Args.
+ * @return  string                  Settings Link
+ */
+function convertkit_get_setup_wizard_plugin_link( $query_args = array() ) {
+
+	$query_args = array_merge(
+		$query_args,
+		array(
+			'page' => 'convertkit-setup',
+		)
+	);
+
+	return add_query_arg( $query_args, admin_url( 'index.php' ) );
+
+}
+
+/**
  * Helper method to return the URL the user needs to visit to register a ConvertKit account.
  *
  * @since   1.9.8.4
@@ -300,6 +321,66 @@ function convertkit_get_api_key_url() {
 			'utm_content' => 'convertkit',
 		),
 		'https://app.convertkit.com/account_settings/advanced_settings/'
+	);
+
+}
+
+/**
+ * Helper method to return the URL the user needs to visit on the ConvertKit app to create a new Form or Landing Page.
+ *
+ * @since   2.2.3
+ *
+ * @return  string              ConvertKit App URL
+ */
+function convertkit_get_new_form_url() {
+
+	return add_query_arg(
+		array(
+			'utm_source'  => 'wordpress',
+			'utm_term'    => get_locale(),
+			'utm_content' => 'convertkit',
+		),
+		'https://app.convertkit.com/forms/new/'
+	);
+
+}
+
+/**
+ * Helper method to return the URL the user needs to visit to edit ConvertKit forms.
+ *
+ * @since   2.2.3
+ *
+ * @return  string  ConvertKit Form Editor URL.
+ */
+function convertkit_get_form_editor_url() {
+
+	return add_query_arg(
+		array(
+			'utm_source'  => 'wordpress',
+			'utm_term'    => get_locale(),
+			'utm_content' => 'convertkit',
+		),
+		'https://app.convertkit.com/forms'
+	);
+
+}
+
+/**
+ * Helper method to return the URL the user needs to visit on the ConvertKit app to create a new Product.
+ *
+ * @since   2.2.3
+ *
+ * @return  string  ConvertKit App URL.
+ */
+function convertkit_get_new_product_url() {
+
+	return add_query_arg(
+		array(
+			'utm_source'  => 'wordpress',
+			'utm_term'    => get_locale(),
+			'utm_content' => 'convertkit',
+		),
+		'https://app.convertkit.com/products/new/'
 	);
 
 }

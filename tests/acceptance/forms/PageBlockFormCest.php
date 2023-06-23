@@ -16,8 +16,6 @@ class PageBlockFormCest
 	public function _before(AcceptanceTester $I)
 	{
 		$I->activateConvertKitPlugin($I);
-		$I->setupConvertKitPlugin($I);
-		$I->setupConvertKitPluginResources($I);
 	}
 
 	/**
@@ -29,6 +27,10 @@ class PageBlockFormCest
 	 */
 	public function testFormBlockWithValidFormParameter(AcceptanceTester $I)
 	{
+		// Setup Plugin and Resources.
+		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPluginResources($I);
+
 		// Add a Page using the Gutenberg editor.
 		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form: Block: Valid Form Param');
 
@@ -68,6 +70,10 @@ class PageBlockFormCest
 	 */
 	public function testFormBlockWithValidLegacyFormParameter(AcceptanceTester $I)
 	{
+		// Setup Plugin and Resources.
+		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPluginResources($I);
+
 		// Add a Page using the Gutenberg editor.
 		$I->addGutenbergPage($I, 'page', 'ConvertKit: Legacy Form: Block: Valid Form Param');
 
@@ -107,6 +113,10 @@ class PageBlockFormCest
 	 */
 	public function testFormBlockWithValidModalFormParameter(AcceptanceTester $I)
 	{
+		// Setup Plugin and Resources.
+		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPluginResources($I);
+
 		// Add a Page using the Gutenberg editor.
 		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form: Block: Valid Modal Form Param');
 
@@ -157,6 +167,10 @@ class PageBlockFormCest
 	 */
 	public function testFormBlocksWithValidModalFormParameter(AcceptanceTester $I)
 	{
+		// Setup Plugin and Resources.
+		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPluginResources($I);
+
 		// Add a Page using the Gutenberg editor.
 		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form: Block: Valid Modal Form Param');
 
@@ -217,6 +231,10 @@ class PageBlockFormCest
 	 */
 	public function testFormBlockWithValidSlideInFormParameter(AcceptanceTester $I)
 	{
+		// Setup Plugin and Resources.
+		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPluginResources($I);
+
 		// Add a Page using the Gutenberg editor.
 		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form: Block: Valid Slide In Form Param');
 
@@ -267,6 +285,10 @@ class PageBlockFormCest
 	 */
 	public function testFormBlocksWithValidSlideInFormParameter(AcceptanceTester $I)
 	{
+		// Setup Plugin and Resources.
+		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPluginResources($I);
+
 		// Add a Page using the Gutenberg editor.
 		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form: Block: Valid Slide In Form Param');
 
@@ -327,6 +349,10 @@ class PageBlockFormCest
 	 */
 	public function testFormBlockWithValidStickyBarFormParameter(AcceptanceTester $I)
 	{
+		// Setup Plugin and Resources.
+		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPluginResources($I);
+
 		// Add a Page using the Gutenberg editor.
 		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form: Block: Valid Sticky Bar Form Param');
 
@@ -377,6 +403,10 @@ class PageBlockFormCest
 	 */
 	public function testFormBlocksWithValidStickyBarFormParameter(AcceptanceTester $I)
 	{
+		// Setup Plugin and Resources.
+		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPluginResources($I);
+
 		// Add a Page using the Gutenberg editor.
 		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form: Block: Valid Sticky Bar Form Param');
 
@@ -436,6 +466,10 @@ class PageBlockFormCest
 	 */
 	public function testFormBlockWithNoFormParameter(AcceptanceTester $I)
 	{
+		// Setup Plugin and Resources.
+		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPluginResources($I);
+
 		// Add a Page using the Gutenberg editor.
 		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form: Block: Valid Sticky Bar Form Param');
 
@@ -464,6 +498,100 @@ class PageBlockFormCest
 
 		// Confirm that no ConvertKit Form is displayed.
 		$I->dontSeeElementInDOM('form[data-sv-form]');
+	}
+
+	/**
+	 * Test the Form block displays a message with a link to the Plugin's
+	 * settings screen, when the Plugin has no API key specified.
+	 *
+	 * @since   2.2.3
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testFormBlockWhenNoAPIKey(AcceptanceTester $I)
+	{
+		// Add a Page using the Gutenberg editor.
+		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form: Block: No API Key');
+
+		// Add block to Page.
+		$I->addGutenbergBlock($I, 'ConvertKit Form', 'convertkit-form');
+
+		// Confirm that the Form block displays instructions to the user on how to enter their API Key.
+		$I->see(
+			'No API Key specified.',
+			[
+				'css' => '.convertkit-no-content',
+			]
+		);
+
+		// Click the link to confirm it loads the Plugin's settings screen.
+		$I->click(
+			'Click here to add your API Key.',
+			[
+				'css' => '.convertkit-no-content',
+			]
+		);
+
+		// Switch to next browser tab, as the link opens in a new tab.
+		$I->switchToNextTab();
+
+		// Confirm the Plugin's setup wizard is displayed.
+		$I->seeInCurrentUrl('index.php?page=convertkit-setup');
+
+		// Close tab.
+		$I->closeTab();
+
+		// Save page to avoid alert box when _passed() runs to deactivate the Plugin.
+		$I->publishGutenbergPage($I);
+	}
+
+	/**
+	 * Test the Form block displays a message with a link to the Plugin's
+	 * settings screen, when the ConvertKit account has no forms.
+	 *
+	 * @since   2.2.3
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testFormBlockWhenNoForms(AcceptanceTester $I)
+	{
+		// Setup Plugin.
+		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY_NO_DATA'], $_ENV['CONVERTKIT_API_SECRET_NO_DATA'], '', '', '');
+		$I->setupConvertKitPluginResourcesNoData($I);
+
+		// Add a Page using the Gutenberg editor.
+		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form: Block: No Forms');
+
+		// Add block to Page.
+		$I->addGutenbergBlock($I, 'ConvertKit Form', 'convertkit-form');
+
+		// Confirm that the Form block displays instructions to the user on how to add a Form in ConvertKit.
+		$I->see(
+			'No forms exist in ConvertKit.',
+			[
+				'css' => '.convertkit-no-content',
+			]
+		);
+
+		// Click the link to confirm it loads ConvertKit.
+		$I->click(
+			'Click here to create your first form.',
+			[
+				'css' => '.convertkit-no-content',
+			]
+		);
+
+		// Switch to next browser tab, as the link opens in a new tab.
+		$I->switchToNextTab();
+
+		// Confirm the ConvertKit login screen loaded.
+		$I->seeElementInDOM('input[name="user[email]"]');
+
+		// Close tab.
+		$I->closeTab();
+
+		// Save page to avoid alert box when _passed() runs to deactivate the Plugin.
+		$I->publishGutenbergPage($I);
 	}
 
 	/**

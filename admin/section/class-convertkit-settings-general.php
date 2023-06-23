@@ -57,10 +57,55 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 		$this->title    = __( 'General Settings', 'convertkit' );
 		$this->tab_text = __( 'General', 'convertkit' );
 
+		// Enqueue scripts and CSS.
+		add_action( 'convertkit_admin_settings_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
+		add_action( 'convertkit_admin_settings_enqueue_styles', array( $this, 'enqueue_styles' ) );
+
 		// Render container element.
 		add_action( 'convertkit_settings_base_render_before', array( $this, 'render_before' ) );
 
 		parent::__construct();
+
+	}
+
+	/**
+	 * Enqueues scripts for the Settings > General screen.
+	 *
+	 * @since   2.2.4
+	 *
+	 * @param   string $section    Settings section / tab (general|tools|restrict-content).
+	 */
+	public function enqueue_scripts( $section ) {
+
+		// Bail if we're not on the general section.
+		if ( $section !== $this->name ) {
+			return;
+		}
+
+		// Enqueue Select2 JS.
+		convertkit_select2_enqueue_scripts();
+
+		// Enqueue Preview Output JS.
+		wp_enqueue_script( 'convertkit-admin-preview-output', CONVERTKIT_PLUGIN_URL . 'resources/backend/js/preview-output.js', array( 'jquery' ), CONVERTKIT_PLUGIN_VERSION, true );
+
+	}
+
+	/**
+	 * Enqueues styles for the Settings > General screen.
+	 *
+	 * @since   2.2.4
+	 *
+	 * @param   string $section    Settings section / tab (general|tools|restrict-content).
+	 */
+	public function enqueue_styles( $section ) {
+
+		// Bail if we're not on the general section.
+		if ( $section !== $this->name ) {
+			return;
+		}
+
+		// Enqueue Select2 CSS.
+		convertkit_select2_enqueue_styles();
 
 	}
 
@@ -371,11 +416,7 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 		// Bail if no Forms exist.
 		if ( ! $this->forms->exist() ) {
 			esc_html_e( 'No Forms exist in ConvertKit.', 'convertkit' );
-			echo '<br />' . sprintf(
-				/* translators: Link to sign in to ConvertKit */
-				esc_html__( 'To create a form, %s', 'convertkit' ),
-				'<a href="' . esc_url( convertkit_get_sign_in_url() ) . '" target="_blank">' . esc_html__( 'sign in to ConvertKit', 'convertkit' ) . '</a>'
-			);
+			echo '<br /><a href="' . esc_url( convertkit_get_new_form_url() ) . '" target="_blank">' . esc_html__( 'Click here to create your first form', 'convertkit' ) . '</a>';
 			return;
 		}
 
@@ -399,7 +440,7 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 					esc_html__( 'Select a form above to automatically output below all %s.', 'convertkit' ),
 					$args['post_type_object']->label
 				),
-				'<a href="' . esc_attr( $preview_url ) . '" id="convertkit-preview-form-' . esc_attr( $args['post_type'] ) . '" target="_blank">' . esc_html__( 'Click here', 'convertkit' ) . '</a>',
+				'<a href="' . esc_url( $preview_url ) . '" id="convertkit-preview-form-' . esc_attr( $args['post_type'] ) . '" target="_blank">' . esc_html__( 'Click here', 'convertkit' ) . '</a>',
 				esc_html__( 'to preview how this will display.', 'convertkit' )
 			);
 		} else {
@@ -479,7 +520,21 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 			'no_css',
 			'on',
 			$this->settings->css_disabled(), // phpcs:ignore WordPress.Security.EscapeOutput
-			esc_html__( 'Prevent plugin from loading CSS files. This will disable styling on broadcasts, product buttons and member\'s content. Use with caution!', 'convertkit' )
+			esc_html__( 'Prevents loading plugin CSS files. This will disable styling on broadcasts, form trigger buttons, product buttons and member\'s content. Use with caution!', 'convertkit' ),
+			array(
+				sprintf(
+					'%s <a href="%s" target="_blank">%s</a>',
+					esc_html__( 'To customize forms and their styling, use the', 'convertkit' ),
+					esc_url( convertkit_get_form_editor_url() ),
+					esc_html__( 'ConvertKit form editor', 'convertkit' )
+				),
+				sprintf(
+					'%s <a href="https://wordpress.org/plugins/contact-form-7/" target="_blank">Contact Form 7</a>, <a href="https://wordpress.org/plugins/convertkit-gravity-forms/" target="_blank">Gravity Forms</a> %s <a href="https://wordpress.org/plugins/integrate-convertkit-wpforms/" target="_blank">WPForms</a> %s',
+					esc_html__( 'For developers who require custom form designs through use of CSS, consider using the', 'convertkit' ),
+					esc_html__( 'or', 'convertkit' ),
+					esc_html__( 'integrations.', 'convertkit' )
+				),
+			)
 		);
 
 	}

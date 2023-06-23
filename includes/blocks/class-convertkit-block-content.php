@@ -56,7 +56,7 @@ class ConvertKit_Block_Content extends ConvertKit_Block {
 		return array(
 			'title'                         => __( 'ConvertKit Custom Content', 'convertkit' ),
 			'description'                   => __( 'Displays ConvertKit Custom Content for a subscriber if their tag matches the Page\'s tag.', 'convertkit' ),
-			'icon'                          => 'resources/backend/images/block-icon-content.png',
+			'icon'                          => 'resources/backend/images/block-icon-content.svg',
 			'category'                      => 'convertkit',
 			'keywords'                      => array(
 				__( 'ConvertKit', 'convertkit' ),
@@ -66,7 +66,7 @@ class ConvertKit_Block_Content extends ConvertKit_Block {
 			// TinyMCE / QuickTags Modal Width and Height.
 			'modal'                         => array(
 				'width'  => 500,
-				'height' => 100,
+				'height' => 106,
 			),
 
 			'shortcode_include_closing_tag' => true,

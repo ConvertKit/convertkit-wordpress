@@ -1,23 +1,23 @@
-=== ConvertKit - Email Marketing, Newsletter, Subscribers and Landing Pages ===
+=== ConvertKit - Email Marketing, Email Newsletter, Subscribers and Landing Pages ===
 Contributors: nathanbarry, growdev, travisnorthcutt, ggwicz
 Donate link: https://convertkit.com
 Tags: email marketing, email newsletter, newsletter, subscribers, convertkit
 Requires at least: 5.0
 Tested up to: 6.2.2
 Requires PHP: 5.6.20
-Stable tag: 2.2.2
+Stable tag: 2.2.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-ConvertKit is an email marketing and email newsletter platform for capturing email subscribers and leads from your WordPress blog.
-
 == Description ==
 
-[ConvertKit](https://convertkit.com?utm_source=wordpress&utm_term=en_US&utm_content=readme) makes it easy to grow your email subscribers lists, sell more products and send targeted email newsletters - all by easily embedding email marketing / email subscriber forms anywhere on your WordPress web site.
+[ConvertKit](https://convertkit.com?utm_source=wordpress&utm_term=en_US&utm_content=readme) makes it easy to create, send and manage your email marketing campaigns; grow your email subscribers lists; send targeted newsletters; and sell more products - all by easily embedding email marketing / email subscriber forms anywhere on your WordPress web site.
 
-= Email Marketing and Email Newsletter Features =
+**New to ConvertKit? [Creating an account](https://app.convertkit.com/users/signup?plan=1k&utm_source=wordpress&utm_term=en_US&utm_content=readme) is 100% free for your first 1,000 subscribers, making ConvertKit an email marketing solution for everyone - whether you're new to email marketing or a seasoned professional email marketer.**
 
-- Design [subscription forms](https://convertkit.com/features/forms?utm_source=wordpress&utm_term=en_US&utm_content=readme) in ConvertKit, automatically appending them to any WordPress post or page, or displaying forms within your WordPress content using the supplied Gutenberg block and shortcode options. Perfect for building your email subscriber lists.
+### Email Marketing and Email Newsletter Features
+
+- Design [email newsletter subscription forms](https://convertkit.com/features/forms?utm_source=wordpress&utm_term=en_US&utm_content=readme) in ConvertKit, automatically appending them to any WordPress post or page, or displaying forms within your WordPress content using the supplied Gutenberg block and shortcode options. Perfect for building your email subscriber lists.
 - Build [landing pages](https://convertkit.com/features/landing-pages?utm_source=wordpress&utm_term=en_US&utm_content=readme) in ConvertKit, and display them on a WordPress page to capture email subscribers
 - List past [email newsletters](https://convertkit.com/features/email-marketing?utm_source=wordpress&utm_term=en_US&utm_content=readme) on your WordPress site
 
@@ -44,26 +44,26 @@ For greater control, ConvertKit's email marketing subscription forms can be disp
 
 Start collecting email subscribers today!
 
+### Send Email Newsletters
+
+Use ConvertKit's [email marketing](https://convertkit.com/features/email-marketing?utm_source=wordpress&utm_term=en_US&utm_content=readme) feature to build and send emails and newsletters to your subscribers and leads.
+
+Embed existing email newsletters on your WordPress web site, ensuring visitors never miss your email newsletter content, by:
+
+- Using the ConvertKit Broadcasts block in Gutenberg
+- Using the `[convertkit_broadcasts]` shortcode in the Classic Editor
+
 = Landing Pages =
 
 Embed [landing pages](https://convertkit.com/features/landing-pages?utm_source=wordpress&utm_term=en_US&utm_content=readme), designed in ConvertKit, on your WordPress web site, choosing from a variety of designs, customisable to your branding and ideal for building your email marketing list or selling a product.
 
 Create or edit a WordPress Page, choose the ConvertKit landing page from the ConvertKit meta box settings to display, and you're all set to begin growing your email subscribers list.
 
-= Email Newsletter Broadcasts =
-
-Use ConvertKit's [email marketing](https://convertkit.com/features/email-marketing?utm_source=wordpress&utm_term=en_US&utm_content=readme) feature to send email newsletters to your subscribers and leads.
-
-Embed existing email newsletters on your WordPress web site, ensuring visitors never miss your email marketing content, by:
-
-- Using the ConvertKit Broadcasts block in Gutenberg
-- Using the `[convertkit_broadcasts]` shortcode in the Classic Editor
-
 = Sell Products =
 
-Embed buttons (or link text) to sell your ConvertKit Products in seconds - whether that's digital goods, paid newsletters, music, coaching and more.
+Embed buttons (or link text) to sell your ConvertKit Products in seconds - whether that's digital goods, paid email newsletters, music, coaching and more.
 
-Already have content on your site that you want to sell? Use the Member Content functionality on Pages to require email subscribers purchase a ConvertKit Product to access your content - whether that's a course or digital download.
+Already have content on your site that you want to sell? Use the Member Content functionality on Pages to require email subscribers purchase a ConvertKit Product to access your content - whether that's a course or digital download - all without leaving your web site. 
 
 = Plugin Integrations =
 
@@ -80,15 +80,13 @@ Our other WordPress Plugins provide further integrations between WordPress and C
 
 = What is ConvertKit? =
 
-ConvertKit is the go-to marketing hub for creators that helps you grow and monetize your audience with ease.
+ConvertKit is the go-to email marketing hub for creators that helps you grow and monetize your audience with ease.
 
 **Grow your audience:** Increase subscribers with beautiful landing pages, sign up forms, and link pages that make your work stand out.
 
-**Automate your marketing:** Create lasting connections and promote like a pro with our intuitive email editor, powerful sales funnels and subscriber list segmentation using tags.
+**Automate your email marketing:** Create lasting connections and promote like a pro with our intuitive email editor, powerful sales funnels and subscriber list segmentation using tags.
 
 **Sell your digital products:** Market and sell your digital products and subscriptions with ConvertKit to drive higher conversions and save big on fees.
-
-If you are not yet using ConvertKit, [creating an account](https://app.convertkit.com/users/signup?plan=1k&utm_source=wordpress&utm_term=en_US&utm_content=readme) is 100% free and only takes you about 30 seconds.
 
 = Documentation =
 
@@ -133,6 +131,31 @@ Full Plugin documentation can be found [here](https://help.convertkit.com/en/art
 7. Track subscriber growth
 
 == Changelog ==
+
+### 2.2.5 2023-06-21
+* Added: Broadcasts: Shortcode: Tabbed UI when adding broadcasts through the Classic or Text Editor
+* Added: Broadcasts: Block: Moved pagination settings to own sidebar panel
+* Fix: Classic Editor: Insert button would stop working when switching from Text Editor to Classic Editor
+* Fix: Uncaught Error: Call to undefined method ConvertKit_Resource_Forms::get_by()
+
+### 2.2.4 2023-06-15
+* Added: Form Trigger: Block: Display message with link when no API Key specified, or no non-inline Forms exist in ConvertKit
+* Added: Form Trigger: Shortcode: Display message with link when no API Key specified, or no non-inline Forms exist in ConvertKit
+* Added: Forms: Shortcode: Display message with link when no API Key specified, or no inline Forms exist in ConvertKit
+* Added: Products: Shortcode: Display message with link when no API Key specified, or no Products exist in ConvertKit
+* Fix: Bulk & Quick Edit: Show contextual icons for Form, Tag and Member Content settings, instead of the default Form icon
+* Fix: Settings: Conditionally load CSS and JS depending on the section (General, Tools, Member Content)
+* Fix: Settings: Link to ConvertKit form creator when no Forms exist in ConvertKit
+* Fix: Use higher quality SVG icons for blocks, shortcodes and formatters 
+* Updated: ConvertKit WordPress Libraries to 1.3.6
+
+### 2.2.3 2023-06-06
+* Added: Broadcasts: Options to display grid, images, descriptions and/or read more link
+* Added: Broadcasts: Output as single column on smaller screen resolutions
+* Added: Forms: Block: Display message with link when no API Key specified, or no Forms exist in ConvertKit
+* Added: Products: Block: Display message with link when no API Key specified, or no Products exist in ConvertKit
+* Fix: Settings: Disable CSS: Improve description of Disable CSS functionality, making it clearer what this setting does
+* Fix: Use `esc_url` instead of `esc_attr` for link `href` properties
 
 ### 2.2.2 2023-05-24
 * Added: Elementor: ConvertKit Form Trigger Block

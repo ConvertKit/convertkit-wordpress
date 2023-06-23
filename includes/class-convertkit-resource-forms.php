@@ -54,6 +54,45 @@ class ConvertKit_Resource_Forms extends ConvertKit_Resource {
 	}
 
 	/**
+	 * Returns all non-inline forms based on the sort order.
+	 *
+	 * @since   2.2.4
+	 *
+	 * @return  bool|array
+	 */
+	public function get_non_inline() {
+
+		// If the ConvertKit WordPress Libraries are < 1.3.6 (e.g. loaded by an outdated
+		// addon), or a WordPress site updates this Plugin before other ConvertKit Plugins,
+		// get_by() won't be available and will cause an E_ERROR, crashing the site.
+		// @see https://wordpress.org/support/topic/error-1795/.
+		if ( ! method_exists( $this, 'get_by' ) ) {
+			return false;
+		}
+
+		return $this->get_by( 'format', array( 'modal', 'slide in', 'sticky bar' ) );
+
+	}
+
+
+	/**
+	 * Returns whether any non-inline forms exist in the options table.
+	 *
+	 * @since   2.2.4
+	 *
+	 * @return  bool
+	 */
+	public function non_inline_exist() {
+
+		if ( ! $this->get_non_inline() ) {
+			return false;
+		}
+
+		return true;
+
+	}
+
+	/**
 	 * Returns the HTML/JS markup for the given Form ID.
 	 *
 	 * Legacy Forms will return HTML.

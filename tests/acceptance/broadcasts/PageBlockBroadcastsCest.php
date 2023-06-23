@@ -74,20 +74,57 @@ class PageBlockBroadcastsCest
 		// Publish and view the Page on the frontend site.
 		$I->publishAndViewGutenbergPage($I);
 
-		// Confirm that the block displays.
-		$I->seeBroadcastsOutput($I);
+		// Confirm that the block displays correctly with the expected number of Broadcasts.
+		$I->seeBroadcastsOutput($I, 3);
 
 		// Confirm that the default date format is as expected.
 		$I->seeInSource('<time datetime="2022-04-08">April 8, 2022</time>');
-
-		// Confirm that the default expected number of Broadcasts are displayed.
-		$I->seeNumberOfElements('li.convertkit-broadcast', [ 1, 10 ]);
 
 		// Confirm that the expected Broadcast name is displayed first links to the expected URL, with UTM parameters.
 		$I->assertEquals(
 			$I->grabAttributeFrom('div.convertkit-broadcasts ul.convertkit-broadcasts-list li.convertkit-broadcast:first-child a', 'href'),
 			$_ENV['CONVERTKIT_API_BROADCAST_FIRST_URL'] . '?utm_source=wordpress&utm_term=en_US&utm_content=convertkit'
 		);
+	}
+
+	/**
+	 * Test the Broadcasts block's "Display as grid" parameter works.
+	 *
+	 * @since   2.2.3
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testBroadcastsBlockWithDisplayGridParameter(AcceptanceTester $I)
+	{
+		// Setup Plugin and enable debug log.
+		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPluginResources($I);
+
+		// Add a Page using the Gutenberg editor.
+		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Broadcasts: Display as Grid');
+
+		// Add block to Page, setting the date format.
+		$I->addGutenbergBlock(
+			$I,
+			'ConvertKit Broadcasts',
+			'convertkit-broadcasts',
+			[
+				'#inspector-toggle-control-0' => [ 'toggle', true ],
+			]
+		);
+
+		// Publish and view the Page on the frontend site.
+		$I->publishAndViewGutenbergPage($I);
+
+		// Confirm that the block displays correctly with the expected number of Broadcasts in the grid format.
+		$I->seeBroadcastsOutput(
+			$I,
+			3, // Confirm 3 broadcasts are output.
+			false, // Don't check previous pagination label.
+			false, // Don't check next pagination label.
+			true // Confirm grid mode is set.
+		);
+
 	}
 
 	/**
@@ -119,20 +156,145 @@ class PageBlockBroadcastsCest
 		// Publish and view the Page on the frontend site.
 		$I->publishAndViewGutenbergPage($I);
 
-		// Confirm that the block displays.
-		$I->seeBroadcastsOutput($I);
+		// Confirm that the block displays correctly with the expected number of Broadcasts.
+		$I->seeBroadcastsOutput($I, 3);
 
 		// Confirm that the date format is as expected.
 		$I->seeInSource('<time datetime="2022-04-08">2022-04-08</time>');
-
-		// Confirm that the default expected number of Broadcasts are displayed.
-		$I->seeNumberOfElements('li.convertkit-broadcast', [ 1, 10 ]);
 
 		// Confirm that the expected Broadcast name is displayed first links to the expected URL, with UTM parameters.
 		$I->assertEquals(
 			$I->grabAttributeFrom('div.convertkit-broadcasts ul.convertkit-broadcasts-list li.convertkit-broadcast:first-child a', 'href'),
 			$_ENV['CONVERTKIT_API_BROADCAST_FIRST_URL'] . '?utm_source=wordpress&utm_term=en_US&utm_content=convertkit'
 		);
+	}
+
+	/**
+	 * Test the Broadcasts block's "Display image" parameter works.
+	 *
+	 * @since   2.2.3
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testBroadcastsBlockWithDisplayImageParameter(AcceptanceTester $I)
+	{
+		// Setup Plugin and enable debug log.
+		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPluginResources($I);
+
+		// Add a Page using the Gutenberg editor.
+		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Broadcasts: Display image');
+
+		// Add block to Page, setting the date format.
+		$I->addGutenbergBlock(
+			$I,
+			'ConvertKit Broadcasts',
+			'convertkit-broadcasts',
+			[
+				'#inspector-toggle-control-0' => [ 'toggle', true ],
+				'#inspector-toggle-control-1' => [ 'toggle', true ],
+			]
+		);
+
+		// Publish and view the Page on the frontend site.
+		$I->publishAndViewGutenbergPage($I);
+
+		// Confirm that the block displays correctly with the expected number of Broadcasts in the grid format.
+		$I->seeBroadcastsOutput(
+			$I,
+			3, // Confirm 3 broadcasts are output.
+			false, // Don't check previous pagination label.
+			false, // Don't check next pagination label.
+			true, // Confirm grid mode is set.
+			true // Confirm images are displayed.
+		);
+
+	}
+
+	/**
+	 * Test the Broadcasts block's "Display description" parameter works.
+	 *
+	 * @since   2.2.3
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testBroadcastsBlockWithDisplayDescriptionParameter(AcceptanceTester $I)
+	{
+		// Setup Plugin and enable debug log.
+		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPluginResources($I);
+
+		// Add a Page using the Gutenberg editor.
+		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Broadcasts: Display description');
+
+		// Add block to Page, setting the date format.
+		$I->addGutenbergBlock(
+			$I,
+			'ConvertKit Broadcasts',
+			'convertkit-broadcasts',
+			[
+				'#inspector-toggle-control-2' => [ 'toggle', true ],
+			]
+		);
+
+		// Publish and view the Page on the frontend site.
+		$I->publishAndViewGutenbergPage($I);
+
+		// Confirm that the block displays correctly with the expected number of Broadcasts in the grid format.
+		$I->seeBroadcastsOutput(
+			$I,
+			3, // Confirm 3 broadcasts are output.
+			false, // Don't check previous pagination label.
+			false, // Don't check next pagination label.
+			false, // Confirm grid mode is not set.
+			false, // Confirm images are not displayed.
+			true // Confirm description is displayed.
+		);
+
+	}
+
+	/**
+	 * Test the Broadcasts block's "Display read more link" parameter works.
+	 *
+	 * @since   2.2.3
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testBroadcastsBlockWithDisplayReadMoreLinkParameter(AcceptanceTester $I)
+	{
+		// Setup Plugin and enable debug log.
+		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPluginResources($I);
+
+		// Add a Page using the Gutenberg editor.
+		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Broadcasts: Display read more link');
+
+		// Add block to Page, setting the date format.
+		$I->addGutenbergBlock(
+			$I,
+			'ConvertKit Broadcasts',
+			'convertkit-broadcasts',
+			[
+				'#inspector-toggle-control-3' => [ 'toggle', true ],
+				'read_more_label'             => [ 'input', 'Continue reading' ],
+			]
+		);
+
+		// Publish and view the Page on the frontend site.
+		$I->publishAndViewGutenbergPage($I);
+
+		// Confirm that the block displays correctly with the expected number of Broadcasts in the grid format.
+		$I->seeBroadcastsOutput(
+			$I,
+			3, // Confirm 3 broadcasts are output.
+			false, // Don't check previous pagination label.
+			false, // Don't check next pagination label.
+			false, // Confirm grid mode is not set.
+			false, // Confirm images are not displayed.
+			false, // Confirm description is not displayed.
+			'Continue reading' // Confirm read more link is displayed with correct text.
+		);
+
 	}
 
 	/**
@@ -157,18 +319,15 @@ class PageBlockBroadcastsCest
 			'ConvertKit Broadcasts',
 			'convertkit-broadcasts',
 			[
-				'limit' => [ 'input', '2' ],
+				'limit' => [ 'input', '2', 'Pagination' ], // Click the Pagination tab first before starting to complete fields.
 			]
 		);
 
 		// Publish and view the Page on the frontend site.
 		$I->publishAndViewGutenbergPage($I);
 
-		// Confirm that the block displays.
-		$I->seeBroadcastsOutput($I);
-
-		// Confirm that the expected number of Broadcasts are displayed.
-		$I->seeNumberOfElements('li.convertkit-broadcast', 2);
+		// Confirm that the block displays correctly with the expected number of Broadcasts.
+		$I->seeBroadcastsOutput($I, 2);
 
 		// Confirm that the expected Broadcast name is displayed first links to the expected URL, with UTM parameters.
 		$I->assertEquals(
@@ -198,6 +357,7 @@ class PageBlockBroadcastsCest
 
 		// When the sidebar appears, blank the limit parameter as the user might, by pressing the backspace key twice.
 		$I->waitForElementVisible('.interface-interface-skeleton__sidebar[aria-label="Editor settings"]');
+		$I->click('Pagination', '.interface-interface-skeleton__sidebar[aria-label="Editor settings"]');
 		$I->pressKey('#convertkit_broadcasts_limit', \Facebook\WebDriver\WebDriverKeys::BACKSPACE );
 		$I->pressKey('#convertkit_broadcasts_limit', \Facebook\WebDriver\WebDriverKeys::BACKSPACE );
 
@@ -207,11 +367,8 @@ class PageBlockBroadcastsCest
 		// Publish and view the Page on the frontend site.
 		$I->publishAndViewGutenbergPage($I);
 
-		// Confirm that the block displays.
-		$I->seeBroadcastsOutput($I);
-
-		// Confirm that the expected number of Broadcasts are displayed.
-		$I->seeNumberOfElements('li.convertkit-broadcast', [ 1, 10 ]);
+		// Confirm that the block displays correctly with the expected number of Broadcasts.
+		$I->seeBroadcastsOutput($I, 1);
 
 		// Confirm that the expected Broadcast name is displayed first links to the expected URL, with UTM parameters.
 		$I->assertEquals(
@@ -242,8 +399,8 @@ class PageBlockBroadcastsCest
 			'ConvertKit Broadcasts',
 			'convertkit-broadcasts',
 			[
-				'limit'                   => [ 'input', '1' ],
-				'.components-form-toggle' => [ 'toggle', true ],
+				'limit'                       => [ 'input', '1', 'Pagination' ], // Click the Pagination tab first before starting to complete fields.
+				'#inspector-toggle-control-4' => [ 'toggle', true ],
 			]
 		);
 
@@ -276,10 +433,10 @@ class PageBlockBroadcastsCest
 			'ConvertKit Broadcasts',
 			'convertkit-broadcasts',
 			[
-				'limit'                   => [ 'input', '1' ],
-				'.components-form-toggle' => [ 'toggle', true ],
-				'paginate_label_prev'     => [ 'input', 'Newer' ],
-				'paginate_label_next'     => [ 'input', 'Older' ],
+				'limit'                       => [ 'input', '1', 'Pagination' ], // Click the Pagination tab first before starting to complete fields.
+				'#inspector-toggle-control-4' => [ 'toggle', true ],
+				'paginate_label_prev'         => [ 'input', 'Newer' ],
+				'paginate_label_next'         => [ 'input', 'Older' ],
 			]
 		);
 
@@ -312,10 +469,10 @@ class PageBlockBroadcastsCest
 			'ConvertKit Broadcasts',
 			'convertkit-broadcasts',
 			[
-				'limit'                   => [ 'input', '1' ],
-				'.components-form-toggle' => [ 'toggle', true ],
-				'paginate_label_prev'     => [ 'input', '' ],
-				'paginate_label_next'     => [ 'input', '' ],
+				'limit'                       => [ 'input', '1', 'Pagination' ], // Click the Pagination tab first before starting to complete fields.
+				'#inspector-toggle-control-4' => [ 'toggle', true ],
+				'paginate_label_prev'         => [ 'input', '' ],
+				'paginate_label_next'         => [ 'input', '' ],
 			]
 		);
 
@@ -363,8 +520,8 @@ class PageBlockBroadcastsCest
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
 
-		// Confirm that the block displays.
-		$I->seeBroadcastsOutput($I);
+		// Confirm that the block displays correctly with the expected number of Broadcasts.
+		$I->seeBroadcastsOutput($I, 3);
 
 		// Confirm that our stylesheet loaded.
 		$I->seeInSource('<link rel="stylesheet" id="convertkit-broadcasts-css" href="' . $_ENV['TEST_SITE_WP_URL'] . '/wp-content/plugins/convertkit/resources/frontend/css/broadcasts.css');
@@ -410,8 +567,8 @@ class PageBlockBroadcastsCest
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
 
-		// Confirm that the block displays.
-		$I->seeBroadcastsOutput($I);
+		// Confirm that the block displays correctly with the expected number of Broadcasts.
+		$I->seeBroadcastsOutput($I, 3);
 
 		// Confirm that our stylesheet loaded.
 		$I->seeInSource('<link rel="stylesheet" id="convertkit-broadcasts-css" href="' . $_ENV['TEST_SITE_WP_URL'] . '/wp-content/plugins/convertkit/resources/frontend/css/broadcasts.css');
