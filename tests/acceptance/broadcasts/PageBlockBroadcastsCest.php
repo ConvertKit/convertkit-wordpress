@@ -37,13 +37,30 @@ class PageBlockBroadcastsCest
 		// Add block to Page.
 		$I->addGutenbergBlock($I, 'ConvertKit Broadcasts', 'convertkit-broadcasts');
 
-		// Confirm that the Broadcasts block tells the user that no Broadcasts exist in ConvertKit.
+		// Confirm that the Broadcasts block displays instructions to the user on how to add a Broadcast in ConvertKit.
 		$I->see(
-			'No Broadcasts exist in ConvertKit. Send your first Broadcast in ConvertKit to see the link to it here.',
+			'No broadcasts exist in ConvertKit.',
 			[
 				'css' => '.convertkit-no-content',
 			]
 		);
+
+		// Click the link to confirm it loads ConvertKit.
+		$I->click(
+			'Click here to send your first broadcast.',
+			[
+				'css' => '.convertkit-no-content',
+			]
+		);
+
+		// Switch to next browser tab, as the link opens in a new tab.
+		$I->switchToNextTab();
+
+		// Confirm the ConvertKit login screen loaded.
+		$I->seeElementInDOM('input[name="user[email]"]');
+
+		// Close tab.
+		$I->closeTab();
 
 		// Publish and view the Page on the frontend site.
 		$I->publishAndViewGutenbergPage($I);
