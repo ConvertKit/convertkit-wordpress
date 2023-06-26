@@ -70,6 +70,42 @@ class PageBlockBroadcastsCest
 	}
 
 	/**
+	 * Test the Broadcasts block's refresh button works.
+	 *
+	 * @since   2.2.6
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testBroadcastsBlockRefreshButton(AcceptanceTester $I)
+	{
+		// Setup Plugin with API keys for ConvertKit Account that has no Broadcasts.
+		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY_NO_DATA'], $_ENV['CONVERTKIT_API_SECRET_NO_DATA']);
+		$I->setupConvertKitPluginResourcesNoData($I);
+
+		// Add a Page using the Gutenberg editor.
+		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Broadcasts: Refresh Button');
+
+		// Add block to Page.
+		$I->addGutenbergBlock($I, 'ConvertKit Broadcasts', 'convertkit-broadcasts');
+
+		// Setup Plugin with resources.
+		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPluginResources($I);
+
+		// Click the refresh button.
+		$I->click('button.convertkit-block-refresh');
+
+		// Wait for the refresh button to disappear, confirming that an API Key and resources now exist.
+		$I->waitForElementNotVisible('button.convertkit-block-refresh');
+
+		// Publish and view the Page on the frontend site.
+		$I->publishAndViewGutenbergPage($I);
+
+		// Confirm that the block displays correctly with the expected number of Broadcasts.
+		$I->seeBroadcastsOutput($I, 3);
+	}
+
+	/**
 	 * Test the Broadcasts block works when using the default parameters.
 	 *
 	 * @since   1.9.7.4

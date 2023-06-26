@@ -595,6 +595,47 @@ class PageBlockFormCest
 	}
 
 	/**
+	 * Test the Form block's refresh button works.
+	 *
+	 * @since   2.2.6
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testFormBlockRefreshButton(AcceptanceTester $I)
+	{
+		// Setup Plugin with API keys for ConvertKit Account that has no Broadcasts.
+		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY_NO_DATA'], $_ENV['CONVERTKIT_API_SECRET_NO_DATA']);
+		$I->setupConvertKitPluginResourcesNoData($I);
+
+		// Add a Page using the Gutenberg editor.
+		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Forms: Refresh Button');
+
+		// Add block to Page.
+		$I->addGutenbergBlock($I, 'ConvertKit Form', 'convertkit-form');
+
+		// Setup Plugin with resources.
+		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPluginResources($I);
+
+		// Click the refresh button.
+		$I->click('button.convertkit-block-refresh');
+
+		// Wait for the refresh button to disappear, confirming that an API Key and resources now exist.
+		$I->waitForElementNotVisible('button.convertkit-block-refresh');
+
+		// Confirm that the Form block displays instructions to the user on how to select a Form.
+		$I->see(
+			'Select a Form using the Form option in the Gutenberg sidebar.',
+			[
+				'css' => '.convertkit-no-content',
+			]
+		);
+
+		// Publish and view the Page on the frontend site.
+		$I->publishAndViewGutenbergPage($I);
+	}
+
+	/**
 	 * Deactivate and reset Plugin(s) after each test, if the test passes.
 	 * We don't use _after, as this would provide a screenshot of the Plugin
 	 * deactivation and not the true test error.
