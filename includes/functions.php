@@ -366,6 +366,26 @@ function convertkit_get_form_editor_url() {
 }
 
 /**
+ * Helper method to return the URL the user needs to visit on the ConvertKit app to create a new Broadcast.
+ *
+ * @since   2.2.6
+ *
+ * @return  string  ConvertKit App URL.
+ */
+function convertkit_get_new_broadcast_url() {
+
+	return add_query_arg(
+		array(
+			'utm_source'  => 'wordpress',
+			'utm_term'    => get_locale(),
+			'utm_content' => 'convertkit',
+		),
+		'https://app.convertkit.com/campaigns/'
+	);
+
+}
+
+/**
  * Helper method to return the URL the user needs to visit on the ConvertKit app to create a new Product.
  *
  * @since   2.2.3

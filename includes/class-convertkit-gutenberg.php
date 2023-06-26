@@ -148,6 +148,13 @@ class ConvertKit_Gutenberg {
 		// Enqueue Gutenberg Javascript, and set the blocks data.
 		wp_enqueue_script( 'convertkit-gutenberg', CONVERTKIT_PLUGIN_URL . 'resources/backend/js/gutenberg.js', array( 'jquery' ), CONVERTKIT_PLUGIN_VERSION, true );
 		wp_localize_script( 'convertkit-gutenberg', 'convertkit_blocks', $blocks );
+		wp_localize_script(
+			'convertkit-gutenberg',
+			'convertkit_gutenberg',
+			array(
+				'get_blocks_nonce' => wp_create_nonce( 'convertkit_get_blocks' ),
+			)
+		);
 
 		// Enqueue Gutenberg Block Toolbar Javascript, and set the block toolbar buttons data.
 		wp_enqueue_script( 'convertkit-gutenberg-block-formatters', CONVERTKIT_PLUGIN_URL . 'resources/backend/js/gutenberg-block-formatters.js', array( 'jquery' ), CONVERTKIT_PLUGIN_VERSION, true );
