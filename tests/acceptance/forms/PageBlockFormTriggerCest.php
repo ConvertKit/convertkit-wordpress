@@ -464,7 +464,8 @@ class PageBlockFormTriggerCest
 		// Add block to Page.
 		$I->addGutenbergBlock($I, 'ConvertKit Form Trigger', 'convertkit-formtrigger');
 
-		// Setup Plugin with resources.
+		// Setup Plugin with a valid API Key and resources, as if the user performed the necessary steps to authenticate
+		// and create a form.
 		$I->setupConvertKitPlugin($I);
 		$I->setupConvertKitPluginResources($I);
 

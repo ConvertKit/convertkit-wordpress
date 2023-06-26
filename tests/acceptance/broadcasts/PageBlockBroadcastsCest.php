@@ -88,7 +88,8 @@ class PageBlockBroadcastsCest
 		// Add block to Page.
 		$I->addGutenbergBlock($I, 'ConvertKit Broadcasts', 'convertkit-broadcasts');
 
-		// Setup Plugin with resources.
+		// Setup Plugin with a valid API Key and resources, as if the user performed the necessary steps to authenticate
+		// and created a broadcast.
 		$I->setupConvertKitPlugin($I);
 		$I->setupConvertKitPluginResources($I);
 
