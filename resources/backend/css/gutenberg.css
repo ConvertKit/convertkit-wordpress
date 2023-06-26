@@ -19,6 +19,7 @@
 	position: absolute;
 	top: 20px;
 	right: 20px;
+	line-height: 22px;
 }
 .wp-block .convertkit-no-content button.convertkit-block-refresh span.dashicon {
 	display: inline-block;

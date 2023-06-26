@@ -397,10 +397,11 @@ function convertKitGutenbergRegisterBlock( block ) {
 		}
 
 		/**
-		 * Returns a refresh button.
-		 * 
+		 * Returns a refresh button, used to refresh a block when it has no API Keys
+		 * or resources.
+		 *
 		 * @since 	2.2.6
-		 * 
+		 *
 		 * @param 	object 	props 	Block properties.
 		 * @return 	object 			Button.
 		 */
@@ -417,15 +418,15 @@ function convertKitGutenbergRegisterBlock( block ) {
 							icon: 'update'
 						}
 					),
-					onClick: function( e ) {
+				onClick: function( e ) {
 
-						// Disable button to prevent multiple clicks.
-						e.target.disabled = true;
+					// Disable button to prevent multiple clicks.
+					e.target.disabled = true;
 
-						// Refresh block definitions.
-						refreshBlocksDefinitions( props, e.target );
+					// Refresh block definitions.
+					refreshBlocksDefinitions( props, e.target );
 
-					}
+				}
 				}
 			)
 

@@ -48,7 +48,6 @@ class ConvertKit_AJAX {
 		check_ajax_referer( 'convertkit_get_blocks', 'nonce' );
 
 		// Refresh resources from the API, to reflect any changes.
-		// @TODO Optimize this based on the block we want to refresh, so we only make one API call?
 		$forms = new ConvertKit_Resource_Forms( 'block_edit' );
 		$forms->refresh();
 

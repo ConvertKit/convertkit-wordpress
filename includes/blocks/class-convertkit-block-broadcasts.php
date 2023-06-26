@@ -113,8 +113,8 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 	public function get_overview() {
 
 		// Fetch Posts.
-		$posts 		= new ConvertKit_Resource_Posts( 'output_broadcasts' );
-		$settings   = new ConvertKit_Settings();
+		$posts    = new ConvertKit_Resource_Posts( 'output_broadcasts' );
+		$settings = new ConvertKit_Settings();
 
 		return array(
 			'title'                             => __( 'ConvertKit Broadcasts', 'convertkit' ),
