@@ -38,6 +38,7 @@ function convertKitGutenbergRegisterBlock( block ) {
 		const { Fragment }          = element;
 		const {
 			Button,
+			Dashicon,
 			TextControl,
 			SelectControl,
 			ToggleControl,
@@ -389,18 +390,44 @@ function convertKitGutenbergRegisterBlock( block ) {
 						},
 						link_text
 					),
-					el(
-						Button,
-						{
-							className: 'button button-secondary',
-							text: 'Refresh',
-							onClick: function() {
-								refreshBlocksDefinitions( props );
-							}
-						}
-					)
+					getRefreshButton( props )
 				]
 			);
+
+		}
+
+		/**
+		 * Returns a refresh button.
+		 * 
+		 * @since 	2.2.6
+		 * 
+		 * @param 	object 	props 	Block properties.
+		 * @return 	object 			Button.
+		 */
+		const getRefreshButton = function( props ) {
+
+			return el(
+				Button,
+				{
+					className: 'button button-secondary convertkit-block-refresh',
+					text: 'Refresh',
+					icon: el(
+						Dashicon,
+						{
+							icon: 'update'
+						}
+					),
+					onClick: function( e ) {
+
+						// Disable button to prevent multiple clicks.
+						e.target.disabled = true;
+
+						// Refresh block definitions.
+						refreshBlocksDefinitions( props, e.target );
+
+					}
+				}
+			)
 
 		}
 
@@ -413,9 +440,10 @@ function convertKitGutenbergRegisterBlock( block ) {
 		 * @since 	2.2.5
 		 *
 		 * @param   object  props   Block properties.
+		 * @param 	object  button 	Refresh button.
 		 * @return  object          Notice.
 		 */
-		const refreshBlocksDefinitions = function( props ) {
+		const refreshBlocksDefinitions = function( props, button ) {
 
 			jQuery.ajax(
 				{
@@ -443,6 +471,9 @@ function convertKitGutenbergRegisterBlock( block ) {
 							}
 						);
 
+						// Enable refresh button.
+						button.disabled = false;
+
 					}
 				}
 			).fail(
@@ -455,6 +486,9 @@ function convertKitGutenbergRegisterBlock( block ) {
 							id: 'convertkit-error'
 						}
 					);
+
+					// Enable refresh button.
+					button.disabled = false;
 
 				}
 			);
