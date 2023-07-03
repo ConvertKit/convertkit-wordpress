@@ -27,11 +27,7 @@ class ThirdPartyPlugin extends \Codeception\Module
 		$I->amOnPluginsPage();
 
 		// Activate the Plugin.
-		// WordPress 6.3 breaks activatePlugin() by introducing a label that covers the checkbox
-		// that activatePlugin() would check.
-		$I->click('//*[@data-slug="' . $name . '"]/th/label');
-		$I->selectOption('action', 'activate-selected');
-		$I->click('#doaction');
+		$I->activatePluginWordPress($I, $name);
 
 		// Go to the Plugins screen again; this prevents any Plugin that loads a wizard-style screen from
 		// causing seePluginActivated() to fail.
@@ -74,6 +70,44 @@ class ThirdPartyPlugin extends \Codeception\Module
 		$I->amOnPluginsPage();
 
 		// Deactivate the Plugin.
-		$I->deactivatePlugin($name);
+		$I->deactivatePluginWordPress($I, $name);
+	}
+
+	/**
+	 * WordPress 6.3 beta 2 and higher compatible method for selecting a Plugin
+	 * for activation on the Plugins screen.
+	 *
+	 * WordPress 6.3 breaks wp-browser's activatePlugin() by introducing a label that covers the checkbox
+	 * which activatePlugin() would attempt to select.
+	 *
+	 * @since   2.2.6
+	 *
+	 * @param   AcceptanceTester $I      Acceptance Tester.
+	 * @param   string           $name   Plugin Slug.
+	 */
+	public function activatePluginWordPress($I, $name)
+	{
+		$I->click('//*[@data-slug="' . $name . '"]/th/label');
+		$I->selectOption('action', 'activate-selected');
+		$I->click('#doaction');
+	}
+
+	/**
+	 * WordPress 6.3 beta 2 and higher compatible method for selecting a Plugin
+	 * for deactivation on the Plugins screen.
+	 *
+	 * WordPress 6.3 breaks wp-browser's deactivatePlugin() by introducing a label that covers the checkbox
+	 * which deactivatePlugin() would attempt to select.
+	 *
+	 * @since   2.2.6
+	 *
+	 * @param   AcceptanceTester $I      Acceptance Tester.
+	 * @param   string           $name   Plugin Slug.
+	 */
+	public function deactivatePluginWordPress($I, $name)
+	{
+		$I->click('//*[@data-slug="' . $name . '"]/th/label');
+		$this->selectOption('action', 'deactivate-selected');
+		$this->click('#doaction');
 	}
 }

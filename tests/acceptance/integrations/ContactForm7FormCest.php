@@ -136,6 +136,12 @@ class ContactForm7FormCest
 		// Contact Form 7 throws a warning on deactivation related to WordPress capabilities,
 		// which is outside of our control and would result in the test not completing.
 		$I->amOnPluginsPage();
-		$I->deactivatePlugin('contact-form-7');
+
+		// Deactivate the Plugin.
+		// WordPress 6.3 breaks activatePlugin() by introducing a label that covers the checkbox
+		// that deactivatePlugin() would check.
+		$I->click('//*[@data-slug="contact-form-7"]/th/label');
+		$this->selectOption('action', 'deactivate-selected');
+		$this->click('#doaction');
 	}
 }
