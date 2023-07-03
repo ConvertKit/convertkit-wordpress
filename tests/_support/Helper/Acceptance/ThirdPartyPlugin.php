@@ -107,7 +107,7 @@ class ThirdPartyPlugin extends \Codeception\Module
 	public function deactivatePluginWordPress($I, $name)
 	{
 		$I->click('//*[@data-slug="' . $name . '"]/th/label');
-		$this->selectOption('action', 'deactivate-selected');
-		$this->click('#doaction');
+		$I->selectOption('action', 'deactivate-selected');
+		$I->click('#doaction');
 	}
 }
