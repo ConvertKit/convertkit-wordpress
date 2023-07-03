@@ -418,7 +418,7 @@ class PluginSetupWizardCest
 	{
 		$I->loginAsAdmin();
 		$I->amOnPluginsPage();
-		$I->activatePluginWordPress('convertkit');
+		$I->activatePluginWordPress($I, 'convertkit');
 
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
