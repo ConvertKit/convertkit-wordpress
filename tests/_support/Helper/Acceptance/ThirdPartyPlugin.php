@@ -30,8 +30,8 @@ class ThirdPartyPlugin extends \Codeception\Module
 		// WordPress 6.3 breaks activatePlugin() by introducing a label that covers the checkbox
 		// that activatePlugin() would check.
 		$this->click('//*[@data-slug="' . $name . '"]/th/label');
-        $this->selectOption('action', 'activate-selected');
-        $this->click('#doaction');
+		$this->selectOption('action', 'activate-selected');
+		$this->click('#doaction');
 
 		// Go to the Plugins screen again; this prevents any Plugin that loads a wizard-style screen from
 		// causing seePluginActivated() to fail.
