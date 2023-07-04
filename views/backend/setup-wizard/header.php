@@ -22,7 +22,7 @@
 		do_action( 'admin_head' );
 		?>
 	</head>
-	<body class="wp-admin wp-core-ui convertkit">
+	<body class="wp-admin wp-core-ui convertkit <?php echo esc_attr( $this->is_modal() ? ' convertkit-modal' : '' ); ?>">
 		<div id="convertkit-setup-wizard">
 			<header id="convertkit-setup-wizard-header">
 				<h1><?php echo esc_html( CONVERTKIT_PLUGIN_NAME ); ?></h1>
