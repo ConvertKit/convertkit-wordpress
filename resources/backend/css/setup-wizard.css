@@ -221,18 +221,12 @@
  */
 body.convertkit-modal #convertkit-setup-wizard {
 	width: 100%;
-	max-width: 760px;
+	max-width: 100%;
 	margin: 0;
 	padding: 0;
 }
 body.convertkit-modal #convertkit-setup-wizard .wrap {
 	margin: 0;
-}
-body.convertkit-modal #convertkit-setup-wizard-header {
-	display: none;
-}
-body.convertkit-modal #convertkit-setup-wizard-progress {
-	display: none;
 }
 body.convertkit-modal #convertkit-setup-wizard-body {
 	box-shadow: none;
@@ -242,7 +236,4 @@ body.convertkit-modal #convertkit-setup-wizard-content {
 }
 body.convertkit-modal #convertkit-setup-wizard-footer {
 	padding: 0 20px 20px 20px;
-}
-body.convertkit-modal #convertkit-setup-wizard-exit-link {
-	display: none;
 }
