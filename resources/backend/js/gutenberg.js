@@ -35,7 +35,10 @@ function convertKitGutenbergRegisterBlock( block ) {
 		const el                    = element.createElement;
 		const { registerBlockType } = blocks;
 		const { InspectorControls } = editor;
-		const { Fragment }          = element;
+		const {
+			Fragment,
+			useState
+		}                           = element;
 		const {
 			Button,
 			Dashicon,
@@ -358,21 +361,29 @@ function convertKitGutenbergRegisterBlock( block ) {
 		 */
 		const displayNoticeWithLink = function( props ) {
 
-			// Build notice, depending on the type of notice that needs displaying.
-			let notice    = '',
-				link      = '',
-				link_text = '';
-			if ( ! block.has_api_key ) {
-				notice    = block.no_api_key.notice;
-				link      = block.no_api_key.link;
-				link_text = block.no_api_key.link_text;
+			// useState to toggle the refresh button's disabled state.
+			const [ buttonDisabled, setButtonDisabled ] = useState( false );
+
+			// Holds the array of elements to display in the notice component.
+			let elements;
+
+			// Define elements to display, based on whether the refresh button is disabled.
+			if ( buttonDisabled ) {
+				// Refresh button disabled; display a spinner and the button.
+				elements = [
+					spinner( props ),
+					refreshButton( props, buttonDisabled, setButtonDisabled )
+				];
 			} else {
-				notice    = block.no_resources.notice;
-				link      = block.no_resources.link;
-				link_text = block.no_resources.link_text;
+				// Refresh button enabled; display the notice, link and button.
+				elements = [
+					( ! block.has_api_key ? block.no_api_key.notice : block.no_resources.notice ),
+					noticeLink( props, setButtonDisabled ),
+					refreshButton( props, buttonDisabled, setButtonDisabled )
+				];
 			}
 
-			// Return the element with the notice and refresh button.
+			// Return the element.
 			return el(
 				'div',
 				{
@@ -380,18 +391,80 @@ function convertKitGutenbergRegisterBlock( block ) {
 					// to apply styling/branding to the block.
 					className: 'convertkit-' + block.name + ' convertkit-no-content'
 				},
-				[
-					notice + ' ',
-					el(
-						'a',
-						{
-							href: link,
-							target: '_blank'
-						},
-						link_text
-					),
-					getRefreshButton( props )
-				]
+				elements
+			);
+
+		}
+
+		/**
+		 * Returns a spinner element, to show that a block is loading / refreshing.
+		 *
+		 * @since 	2.2.6
+		 *
+		 * @param   object  props   			Block properties.
+		 * @return  object          			Spinner.
+		 */
+		const spinner = function( props ) {
+
+			return el(
+				'span',
+				{
+					key: props.clientId + '-spinner',
+					className: 'spinner is-active'
+				}
+			);
+
+		}
+
+		/**
+		 * Returns a WordPress Dashicon element.
+		 *
+		 * @since 	2.2.6
+		 *
+		 * @param   string 	iconName 	Dashicon Name.
+		 * @return  object 				Dashicon.
+		 */
+		const dashIcon = function( iconName ) {
+
+			return el(
+				Dashicon,
+				{
+					icon: iconName
+				}
+			);
+
+		}
+
+		/**
+		 * Returns the notice link for the displayNoticeWithLink element.
+		 *
+		 * @since 	2.2.6
+		 *
+		 * @param   object  props   			Block properties.
+		 * @param 	object 	setButtonDisabled 	Function to enable or disable the refresh button.
+		 * @return  object          			Notice Link.
+		 */
+		const noticeLink = function( props, setButtonDisabled ) {
+
+			return el(
+				'a',
+				{
+					key: props.clientId + '-notice-link',
+					href: ( ! block.has_api_key ? block.no_api_key.link : block.no_resources.link ),
+					className: ( ! block.has_api_key ? 'convertkit-block-modal' : '' ),
+					target: '_blank',
+					onClick: function( e ) {
+
+						// Show popup window with setup wizard if we need to define an API Key.
+						if ( ! block.has_api_key ) {
+							e.preventDefault();
+							showConvertKitModal( props, e.target, setButtonDisabled );
+						}
+
+						// Allow the link to load, as it's likely a link to the ConvertKit site.
+					}
+				},
+				( ! block.has_api_key ? block.no_api_key.link_text : block.no_resources.link_text )
 			);
 
 		}
@@ -402,33 +475,72 @@ function convertKitGutenbergRegisterBlock( block ) {
 		 *
 		 * @since 	2.2.6
 		 *
-		 * @param 	object 	props 	Block properties.
-		 * @return 	object 			Button.
+		 * @param 	object 	props 				Block properties.
+		 * @param 	bool 	buttonDisabled 		Whether the refresh button is disabled (true) or enabled (false)/
+		 * @param 	object 	setButtonDisabled 	Function to enable or disable the refresh button.
+		 * @return 	object 						Button.
 		 */
-		const getRefreshButton = function( props ) {
+		const refreshButton = function( props, buttonDisabled, setButtonDisabled ) {
 
 			return el(
 				Button,
 				{
+					key: props.clientId + '-refresh-button',
 					className: 'button button-secondary convertkit-block-refresh',
+					disabled: buttonDisabled,
 					text: 'Refresh',
-					icon: el(
-						Dashicon,
-						{
-							icon: 'update'
-						}
-					),
-				onClick: function( e ) {
+					icon: dashIcon( 'update' ),
+					onClick: function() {
 
-					// Disable button to prevent multiple clicks.
-					e.target.disabled = true;
+						// Refresh block definitions.
+						refreshBlocksDefinitions( props, setButtonDisabled );
 
-					// Refresh block definitions.
-					refreshBlocksDefinitions( props, e.target );
-
-				}
+					}
 				}
 			)
+
+		}
+
+		/**
+		 * Displays a new window with a given width and height to display the given URL.
+		 *
+		 * Typically used for displaying a modal version of the Setup Wizard, where the
+		 * user clicks the 'click here to add your API Key' link in a block, and then
+		 * enters their API Key and Secret.  Will be used to show the ConvertKit
+		 * oAuth window in the future.
+		 *
+		 * @since 	2.2.6
+		 *
+		 * @param 	object 	props 				Block properties.
+		 * @param 	object 	link 				Link that was clicked.
+		 * @param 	object 	setButtonDisabled 	Function to enable or disable the refresh button.
+		 */
+		const showConvertKitModal = function( props, link, setButtonDisabled ) {
+
+			let convertKitPopup = window.open(
+				link.href,
+				'convertKitModal',
+				'toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=640,height=480'
+			);
+
+			// Refresh the block when the popup is closed using self.close().
+			// Won't fire if the user closes the popup manually, which is fine because that means
+			// they didn't complete the steps, so refreshing wouldn't show anything new.
+			// The onbeforeunload would seem suitable here, but it fires whenever the popup window's
+			// document changes (e.g. as the user steps through a wizard), and doesn't fire when
+			// the window is closed.
+			// See https://stackoverflow.com/questions/9388380/capture-the-close-event-of-popup-window-in-javascript/48240128#48240128.
+			var convertKitPopupTimer = setInterval(
+				function() {
+					if ( convertKitPopup.closed ) {
+						clearInterval( convertKitPopupTimer );
+
+						// Refresh block.
+						refreshBlocksDefinitions( props, setButtonDisabled );
+					}
+				},
+				1000
+			);
 
 		}
 
@@ -438,58 +550,76 @@ function convertKitGutenbergRegisterBlock( block ) {
 		 * - storing the registered blocks in the `convertkit_blocks` global object,
 		 * - updating this block's properties by updating the `block` object.
 		 *
-		 * @since 	2.2.5
+		 * @since 	2.2.6
 		 *
-		 * @param   object  props   Block properties.
-		 * @param 	object  button 	Refresh button.
-		 * @return  object          Notice.
+		 * @param   object  props   			Block properties.
+		 * @param 	object 	setButtonDisabled 	Function to enable or disable the refresh button.
+		 * @return  object          			Notice.
 		 */
-		const refreshBlocksDefinitions = function( props, button ) {
+		const refreshBlocksDefinitions = function( props, setButtonDisabled ) {
 
-			jQuery.ajax(
+			// Define data for WordPress AJAX request.
+			let data = new FormData();
+			data.append( 'action', 'convertkit_get_blocks' );
+			data.append( 'nonce', convertkit_gutenberg.get_blocks_nonce );
+
+			// Disable the button.
+			setButtonDisabled( true );
+
+			// Send AJAX request.
+			fetch(
+				ajaxurl,
 				{
-					type: 'POST',
-					data: {
-						action: 'convertkit_get_blocks',
-						nonce: convertkit_gutenberg.get_blocks_nonce,
-					},
-					url: ajaxurl,
-					success: function ( response ) {
-
-						// Update global ConvertKit Blocks object, so that any updated resources
-						// are reflected when adding new ConvertKit Blocks.
-						convertkit_blocks = response.data;
-
-						// Update this block's properties, so that has_api_key, has_resources
-						// and the resources properties are updated.
-						block = convertkit_blocks[ block.name ];
-
-						// Call setAttributes on props to trigger the editBlock() function, which will re-render
-						// the block, reflecting any changes to its properties.
-						props.setAttributes(
-							{
-								refresh: Date.now()
-							}
-						);
-
-						// Enable refresh button.
-						button.disabled = false;
-
-					}
+					method: 'POST',
+					credentials: 'same-origin',
+					body: data
 				}
-			).fail(
-				function ( response ) {
+			)
+			.then(
+				function( response ) {
+
+					// Convert response JSON string to object.
+					return response.json();
+
+				}
+			)
+			.then(
+				function( response ) {
+
+					// Update global ConvertKit Blocks object, so that any updated resources
+					// are reflected when adding new ConvertKit Blocks.
+					convertkit_blocks = response.data;
+
+					// Update this block's properties, so that has_api_key, has_resources
+					// and the resources properties are updated.
+					block = convertkit_blocks[ block.name ];
+
+					// Call setAttributes on props to trigger the editBlock() function, which will re-render
+					// the block, reflecting any changes to its properties.
+					props.setAttributes(
+						{
+							refresh: Date.now()
+						}
+					);
+
+					// Enable refresh button.
+					setButtonDisabled( false );
+
+				}
+			)
+			.catch(
+				function( error ) {
 
 					// Show an error in the Gutenberg editor.
 					wp.data.dispatch( 'core/notices' ).createErrorNotice(
-						'ConvertKit: ' + response.status + ' ' + response.statusText,
+						'ConvertKit: ' + error,
 						{
 							id: 'convertkit-error'
 						}
 					);
 
 					// Enable refresh button.
-					button.disabled = false;
+					setButtonDisabled( false );
 
 				}
 			);
