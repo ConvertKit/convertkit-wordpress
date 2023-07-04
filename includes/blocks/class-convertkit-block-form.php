@@ -119,7 +119,11 @@ class ConvertKit_Block_Form extends ConvertKit_Block {
 			// Help descriptions, displayed when no API key / resources exist and this block/shortcode is added.
 			'no_api_key'                        => array(
 				'notice'    => __( 'No API Key specified.', 'convertkit' ),
-				'link'      => convertkit_get_setup_wizard_plugin_link(),
+				'link'      => convertkit_get_setup_wizard_plugin_link(
+					array(
+						'convertkit-modal' => true,
+					)
+				),
 				'link_text' => __( 'Click here to add your API Key.', 'convertkit' ),
 			),
 			'no_resources'                      => array(
