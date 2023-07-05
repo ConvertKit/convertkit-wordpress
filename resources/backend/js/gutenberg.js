@@ -517,11 +517,22 @@ function convertKitGutenbergRegisterBlock( block ) {
 		 */
 		const showConvertKitPopupWindow = function( props, link, setButtonDisabled ) {
 
-			let convertKitPopup = window.open(
+			// Define popup width, height and positioning.
+			const width = 640,
+				  height = 520,
+				  top = ( window.screen.height - height ) / 2,
+				  left = ( window.screen.width - width ) / 2;
+
+			// Open popup.
+			const convertKitPopup = window.open(
 				link.href,
 				'convertkit_popup_window',
-				'toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=640,height=480'
+				'toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=' + width + ',height=' + height + ',top=' + top + ',left=' + left
 			);
+
+			// Center popup and focus.
+			convertKitPopup.moveTo( left, top );
+			convertKitPopup.focus();
 
 			// Refresh the block when the popup is closed using self.close().
 			// Won't fire if the user closes the popup manually, which is fine because that means
