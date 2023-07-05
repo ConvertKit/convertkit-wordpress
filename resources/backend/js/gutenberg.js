@@ -525,7 +525,7 @@ function convertKitGutenbergRegisterBlock( block ) {
 
 			// Open popup.
 			const convertKitPopup = window.open(
-				link.href,
+				link.href + '&convertkit-modal=1',
 				'convertkit_popup_window',
 				'toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=' + width + ',height=' + height + ',top=' + top + ',left=' + left
 			);
