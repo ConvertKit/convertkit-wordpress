@@ -458,7 +458,7 @@ function convertKitGutenbergRegisterBlock( block ) {
 						// Show popup window with setup wizard if we need to define an API Key.
 						if ( ! block.has_api_key ) {
 							e.preventDefault();
-							showConvertKitModal( props, e.target, setButtonDisabled );
+							showConvertKitPopupWindow( props, e.target, setButtonDisabled );
 						}
 
 						// Allow the link to load, as it's likely a link to the ConvertKit site.
@@ -515,11 +515,11 @@ function convertKitGutenbergRegisterBlock( block ) {
 		 * @param 	object 	link 				Link that was clicked.
 		 * @param 	object 	setButtonDisabled 	Function to enable or disable the refresh button.
 		 */
-		const showConvertKitModal = function( props, link, setButtonDisabled ) {
+		const showConvertKitPopupWindow = function( props, link, setButtonDisabled ) {
 
 			let convertKitPopup = window.open(
 				link.href,
-				'convertKitModal',
+				'convertkit_popup_window',
 				'toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=640,height=480'
 			);
 
