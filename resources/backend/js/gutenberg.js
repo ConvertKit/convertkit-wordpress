@@ -518,10 +518,10 @@ function convertKitGutenbergRegisterBlock( block ) {
 		const showConvertKitPopupWindow = function( props, link, setButtonDisabled ) {
 
 			// Define popup width, height and positioning.
-			const width = 640,
-				  height = 520,
-				  top = ( window.screen.height - height ) / 2,
-				  left = ( window.screen.width - width ) / 2;
+			const 	width  = 640,
+					height = 520,
+					top    = ( window.screen.height - height ) / 2,
+					left   = ( window.screen.width - width ) / 2;
 
 			// Open popup.
 			const convertKitPopup = window.open(
