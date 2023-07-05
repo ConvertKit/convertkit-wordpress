@@ -501,8 +501,9 @@ class PageBlockFormCest
 	}
 
 	/**
-	 * Test the Form block displays a message with a link to the Plugin's
-	 * settings screen, when the Plugin has no API key specified.
+	 * Test the Forms block displays a message with a link that opens
+	 * a popup window with the Plugin's Setup Wizard, when the Plugin has
+	 * no API key specified.
 	 *
 	 * @since   2.2.3
 	 *
