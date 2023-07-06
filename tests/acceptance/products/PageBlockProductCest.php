@@ -272,30 +272,12 @@ class PageBlockProductCest
 		// Add block to Page.
 		$I->addGutenbergBlock($I, 'ConvertKit Product', 'convertkit-product');
 
-		// Confirm that the Product block displays instructions to the user on how to enter their API Key.
-		$I->see(
-			'No API Key specified.',
-			[
-				'css' => '.convertkit-no-content',
-			]
+		// Test that the popup window works.
+		$I->testBlockNoAPIKeyPopupWindow(
+			$I,
+			'convertkit-product',
+			'Select a Product using the Product option in the Gutenberg sidebar.'
 		);
-
-		// Click the link to confirm it loads the Plugin's settings screen.
-		$I->click(
-			'Click here to add your API Key.',
-			[
-				'css' => '.convertkit-no-content',
-			]
-		);
-
-		// Switch to next browser tab, as the link opens in a new tab.
-		$I->switchToNextTab();
-
-		// Confirm the Plugin's setup wizard is displayed.
-		$I->seeInCurrentUrl('index.php?page=convertkit-setup');
-
-		// Close tab.
-		$I->closeTab();
 
 		// Save page to avoid alert box when _passed() runs to deactivate the Plugin.
 		$I->publishGutenbergPage($I);
@@ -359,7 +341,7 @@ class PageBlockProductCest
 	 */
 	public function testProductBlockRefreshButton(AcceptanceTester $I)
 	{
-		// Setup Plugin with API keys for ConvertKit Account that has no Broadcasts.
+		// Setup Plugin with API keys for ConvertKit Account that has no Products.
 		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY_NO_DATA'], $_ENV['CONVERTKIT_API_SECRET_NO_DATA']);
 		$I->setupConvertKitPluginResourcesNoData($I);
 

@@ -219,6 +219,7 @@
 /**
  * Modal View
  */
+body.convertkit-modal { overflow: hidden; }
 body.convertkit-modal #convertkit-setup-wizard {
 	width: 100%;
 	max-width: 100%;

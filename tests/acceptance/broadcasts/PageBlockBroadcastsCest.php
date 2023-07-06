@@ -19,6 +19,36 @@ class PageBlockBroadcastsCest
 	}
 
 	/**
+	 * Test the Broadcasts block displays a message with a link that opens
+	 * a popup window with the Plugin's Setup Wizard, when the Plugin has
+	 * no API key specified.
+	 *
+	 * @since   2.2.6
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testBroadcastsBlockWhenNoAPIKey(AcceptanceTester $I)
+	{
+		// Add a Page using the Gutenberg editor.
+		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Broadcasts: Block: No API Key');
+
+		// Add block to Page.
+		$I->addGutenbergBlock($I, 'ConvertKit Broadcasts', 'convertkit-broadcasts');
+
+		// Test that the popup window works.
+		$I->testBlockNoAPIKeyPopupWindow(
+			$I,
+			'convertkit-broadcasts'
+		);
+
+		// Publish and view the Page on the frontend site.
+		$I->publishAndViewGutenbergPage($I);
+
+		// Confirm that the block displays correctly with the expected number of Broadcasts.
+		$I->seeBroadcastsOutput($I, 3);
+	}
+
+	/**
 	 * Test the Broadcasts block outputs a message when no Broadcasts exist.
 	 *
 	 * @since   2.0.1
