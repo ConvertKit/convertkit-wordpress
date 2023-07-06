@@ -367,30 +367,12 @@ class PageBlockFormTriggerCest
 		// Add block to Page.
 		$I->addGutenbergBlock($I, 'ConvertKit Form Trigger', 'convertkit-formtrigger');
 
-		// Confirm that the Form block displays instructions to the user on how to enter their API Key.
-		$I->see(
-			'No API Key specified.',
-			[
-				'css' => '.convertkit-no-content',
-			]
+		// Test that the popup window works.
+		$I->testBlockNoAPIKeyPopupWindow(
+			$I,
+			'convertkit-formtrigger',
+			'Select a Form using the Form option in the Gutenberg sidebar.'
 		);
-
-		// Click the link to confirm it loads the Plugin's settings screen.
-		$I->click(
-			'Click here to add your API Key.',
-			[
-				'css' => '.convertkit-no-content',
-			]
-		);
-
-		// Switch to next browser tab, as the link opens in a new tab.
-		$I->switchToNextTab();
-
-		// Confirm the Plugin's setup wizard is displayed.
-		$I->seeInCurrentUrl('index.php?page=convertkit-setup');
-
-		// Close tab.
-		$I->closeTab();
 
 		// Save page to avoid alert box when _passed() runs to deactivate the Plugin.
 		$I->publishGutenbergPage($I);

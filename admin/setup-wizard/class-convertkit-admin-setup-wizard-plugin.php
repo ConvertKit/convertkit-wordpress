@@ -245,6 +245,10 @@ class ConvertKit_Admin_Setup_Wizard_Plugin extends ConvertKit_Admin_Setup_Wizard
 	 */
 	public function load_screen_data( $step ) {
 
+		// If this wizard is being served in a modal window, adjust the steps.
+		if ( $this->is_modal() ) {
+			unset( $this->steps[3], $this->steps[4] );
+		}
 		switch ( $step ) {
 			case 2:
 				// Load settings class.
@@ -252,6 +256,9 @@ class ConvertKit_Admin_Setup_Wizard_Plugin extends ConvertKit_Admin_Setup_Wizard
 				break;
 
 			case 3:
+				// If this wizard is being served in a modal window, we can exit after obtaining valid API credentials.
+				$this->maybe_close_modal();
+
 				// Re-load settings class now that the API Key and Secret has been defined.
 				$this->settings = new ConvertKit_Settings();
 
