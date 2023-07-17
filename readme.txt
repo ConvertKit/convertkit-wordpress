@@ -11,7 +11,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 == Description ==
 
-[ConvertKit](https://convertkit.com?utm_source=wordpress&utm_term=en_US&utm_content=readme) makes it easy to create, send and manage your email marketing campaigns; grow your email subscribers lists; send targeted newsletters; and sell more products - all by easily embedding email marketing / email subscriber forms anywhere on your WordPress web site.
+[ConvertKit](https://convertkit.com?utm_source=wordpress&utm_term=en_US&utm_content=readme) makes it easy to create, send and manage your email marketing campaigns; grow your email subscribers lists; send targeted newsletters; sell more products and build your membership site - all by easily embedding email marketing / email subscriber forms anywhere on your WordPress web site.
 
 **New to ConvertKit? [Creating an account](https://app.convertkit.com/users/signup?plan=1k&utm_source=wordpress&utm_term=en_US&utm_content=readme) is 100% free for your first 1,000 subscribers, making ConvertKit an email marketing solution for everyone - whether you're new to email marketing or a seasoned professional email marketer.**
 
@@ -63,7 +63,13 @@ Create or edit a WordPress Page, choose the ConvertKit landing page from the Con
 
 Embed buttons (or link text) to sell your ConvertKit Products in seconds - whether that's digital goods, paid email newsletters, music, coaching and more.
 
-Already have content on your site that you want to sell? Use the Member Content functionality on Pages to require email subscribers purchase a ConvertKit Product to access your content - whether that's a course or digital download - all without leaving your web site. 
+### Membership Sites
+
+Using the Member Content functionality on Pages, email subscribers are required to purchase a [ConvertKit Product](https://convertkit.com/features/commerce) to access your content - whether that's a course, ebook, digital download, album, presets, coaching and more - all without leaving your web site. 
+
+Once purchased, subscribers access their membership by entering their email address, receiving a one time passcode by email and clicking the link in the email. That's it - no complex membership plugins or payment gateways to configure.
+
+There's no limit to the number of ConvertKit Products you can create, and each can be assigned to one or more WordPress Pages, instantly turning them into membership only content. 
 
 = Plugin Integrations =
 
