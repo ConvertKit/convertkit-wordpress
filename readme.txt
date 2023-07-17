@@ -1,7 +1,7 @@
 === ConvertKit - Email Marketing, Email Newsletter, Subscribers and Landing Pages ===
 Contributors: nathanbarry, growdev, travisnorthcutt, ggwicz
 Donate link: https://convertkit.com
-Tags: email marketing, email newsletter, newsletter, subscribers, convertkit
+Tags: email marketing, email newsletter, newsletter, subscribers, membership
 Requires at least: 5.0
 Tested up to: 6.2.2
 Requires PHP: 5.6.20
