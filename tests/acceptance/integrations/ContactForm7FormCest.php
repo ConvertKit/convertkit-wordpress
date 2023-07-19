@@ -138,8 +138,6 @@ class ContactForm7FormCest
 		$I->amOnPluginsPage();
 
 		// Deactivate the Plugin.
-		// WordPress 6.3 breaks activatePlugin() by introducing a label that covers the checkbox
-		// that deactivatePlugin() would check.
-		$I->deactivatePluginWordPress($I, 'contact-form-7');
+		$I->deactivatePlugin('contact-form-7');
 	}
 }
