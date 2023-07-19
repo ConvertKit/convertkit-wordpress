@@ -404,6 +404,71 @@ class PluginSetupWizardCest
 	}
 
 	/**
+	 * Tests that a slimline modal version of the Plugin Setup Wizard is displayed
+	 * when the `convertkit-modal` request parameter is included.
+	 *
+	 * @since   2.2.6
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testSetupWizardModal(AcceptanceTester $I)
+	{
+		// Activate ConvertKit Plugin.
+		$I->activateConvertKitPlugin($I);
+
+		// Manually navigate to the Plugin Setup Wizard; this will be performed via a block
+		// in a future PR, so this test can be moved to e.g. PageBlockFormCest.
+		$I->amOnAdminPage('index.php?page=convertkit-setup&convertkit-modal=1');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Confirm no logo or progress bar is displayed.
+		$I->dontSeeElementInDOM('#convertkit-setup-wizard-header');
+
+		// Confirm no exit wizard link is displayed.
+		$I->dontSeeElementInDOM('#convertkit-setup-wizard-exit-link');
+
+		// Confirm expected title is displayed.
+		$I->see('Welcome to the ConvertKit Setup Wizard');
+
+		// Confirm Step text is correct.
+		$I->see('Step 1 of 2');
+
+		// Test Connect button.
+		$I->click('Connect');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Confirm no logo or progress bar is displayed.
+		$I->dontSeeElementInDOM('#convertkit-setup-wizard-header');
+
+		// Confirm no exit wizard link is displayed.
+		$I->dontSeeElementInDOM('#convertkit-setup-wizard-exit-link');
+
+		// Confirm expected title is displayed.
+		$I->see('Connect your ConvertKit account');
+
+		// Confirm Step text is correct.
+		$I->see('Step 2 of 2');
+
+		// Confirm Back and Connect buttons display.
+		$I->seeElementInDOM('#convertkit-setup-wizard-footer div.left a.button');
+		$I->seeElementInDOM('#convertkit-setup-wizard-footer div.right button');
+
+		// Fill fields with valid API Keys.
+		$I->fillField('api_key', $_ENV['CONVERTKIT_API_KEY']);
+		$I->fillField('api_secret', $_ENV['CONVERTKIT_API_SECRET']);
+
+		// Click Connect button.
+		$I->click('Connect');
+
+		// Confirm the close modal view was loaded, which includes some JS.
+		$I->seeInSource('self.close();');
+	}
+
+	/**
 	 * Activate the Plugin, without checking it is activated, so that its Setup Wizard
 	 * screen loads.
 	 *

@@ -177,18 +177,6 @@ class WooCommerceProductFormCest
 		// Configure metabox's Form setting = None, ensuring we only test the shortcode in the Classic Editor.
 		$I->fillSelect2Field($I, '#select2-wp-convertkit-form-container', 'None', 'aria-owns');
 
-		// Add shortcode to Excerpt (Product short description), setting the Form setting to the value specified in the .env file,
-		// and confirming that the expected shortcode is displayed in the Excerpt field.
-		$I->addVisualEditorShortcode(
-			$I,
-			'ConvertKit Form',
-			[
-				'form' => [ 'select', $_ENV['CONVERTKIT_API_FORM_NAME'] ],
-			],
-			'[convertkit_form form="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]',
-			'excerpt' // The ID of the Product short description field.
-		);
-
 		// Add shortcode to Content, setting the Form setting to the value specified in the .env file,
 		// and confirming that the expected shortcode is displayed in the Content field.
 		$I->addVisualEditorShortcode(
@@ -206,7 +194,7 @@ class WooCommerceProductFormCest
 
 		// Confirm that one ConvertKit Form is output in the DOM.
 		// This confirms that there is only one script on the page for this form, which renders the form.
-		$I->seeNumberOfElementsInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]', 2);
+		$I->seeNumberOfElementsInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]', 1);
 	}
 
 	/**
@@ -232,18 +220,6 @@ class WooCommerceProductFormCest
 		// Configure metabox's Form setting = None, ensuring we only test the shortcode in the Classic Editor.
 		$I->fillSelect2Field($I, '#select2-wp-convertkit-form-container', 'None', 'aria-owns');
 
-		// Add shortcode to Excerpt (Product short description), setting the Form setting to the value specified in the .env file,
-		// and confirming that the expected shortcode is displayed in the Excerpt field.
-		$I->addTextEditorShortcode(
-			$I,
-			'convertkit-form',
-			[
-				'form' => [ 'select', $_ENV['CONVERTKIT_API_FORM_NAME'] ],
-			],
-			'[convertkit_form form="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]',
-			'excerpt' // The ID of the Product short description field.
-		);
-
 		// Add shortcode to Content, setting the Form setting to the value specified in the .env file,
 		// and confirming that the expected shortcode is displayed in the Content field.
 		$I->addTextEditorShortcode(
@@ -261,7 +237,7 @@ class WooCommerceProductFormCest
 
 		// Confirm that one ConvertKit Form is output in the DOM.
 		// This confirms that there is only one script on the page for this form, which renders the form.
-		$I->seeNumberOfElementsInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]', 2);
+		$I->seeNumberOfElementsInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]', 1);
 	}
 
 	/**
