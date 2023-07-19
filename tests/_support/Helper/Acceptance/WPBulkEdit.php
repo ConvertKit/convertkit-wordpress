@@ -69,7 +69,7 @@ class WPBulkEdit extends \Codeception\Module
 
 		// Check boxes for Post IDs.
 		foreach ($postIDs as $postID) {
-			$I->click('label[for="cb-select-' . $postID . '"]');
+			$I->checkOption('#cb-select-' . $postID);
 		}
 
 		// Select Edit from the Bulk actions dropdown.
