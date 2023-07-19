@@ -103,9 +103,9 @@ class ConvertKit_ContactForm7_Settings {
 
 	/**
 	 * Returns whether Creator Network Recommendations are enabled for the given Contact Form 7 Form ID.
-	 * 
-	 * @since 	2.2.7
-	 * 
+	 *
+	 * @since   2.2.7
+	 *
 	 * @param   int $cf7_form_id    Contact Form 7 Form ID.
 	 * @return  bool
 	 */

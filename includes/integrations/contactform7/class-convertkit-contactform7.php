@@ -44,7 +44,7 @@ class ConvertKit_ContactForm7 {
 
 		// Initialize classes.
 		$creator_network_recommendations = new ConvertKit_Resource_Creator_Network_Recommendations( 'contact_form_7' );
-		$contact_form_7_settings = new ConvertKit_ContactForm7_Settings();
+		$contact_form_7_settings         = new ConvertKit_ContactForm7_Settings();
 
 		// Bail if Creator Network Recommendations are not enabled for this form.
 		if ( ! $contact_form_7_settings->get_creator_network_recommendations_enabled_by_cf7_form_id( $contact_form->id() ) ) {

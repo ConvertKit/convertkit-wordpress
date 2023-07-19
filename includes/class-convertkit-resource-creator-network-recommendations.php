@@ -17,7 +17,7 @@ class ConvertKit_Resource_Creator_Network_Recommendations extends ConvertKit_Res
 	/**
 	 * Holds the Settings Key that stores site wide ConvertKit settings
 	 *
-	 * @since 	2.2.7
+	 * @since   2.2.7
 	 *
 	 * @var     string
 	 */
@@ -51,12 +51,12 @@ class ConvertKit_Resource_Creator_Network_Recommendations extends ConvertKit_Res
 	/**
 	 * Queries the API to determine whether the Creator Network Recommendation feature is enabled
 	 * on the ConvertKit account.
-	 * 
+	 *
 	 * If so, caches the script to use on the frontend site.
-	 * 
-	 * @since 	2.2.7
-	 * 
-	 * @return 	bool
+	 *
+	 * @since   2.2.7
+	 *
+	 * @return  bool
 	 */
 	public function enabled() {
 
@@ -95,10 +95,10 @@ class ConvertKit_Resource_Creator_Network_Recommendations extends ConvertKit_Res
 	/**
 	 * Override the get() function of the ConvertKit_Resource class, as we store a string
 	 * containing the embed script, not an array of data.
-	 * 
-	 * @since 	2.2.7
-	 * 
-	 * @return 	bool|string
+	 *
+	 * @since   2.2.7
+	 *
+	 * @return  bool|string
 	 */
 	public function get() {
 

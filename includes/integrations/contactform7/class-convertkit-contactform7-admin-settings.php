@@ -98,7 +98,7 @@ class ConvertKit_ContactForm7_Admin_Settings extends ConvertKit_Settings_Base {
 		do_settings_sections( $this->settings_key );
 
 		// Get Forms.
-		$forms = new ConvertKit_Resource_Forms( 'contact_form_7' );
+		$forms                           = new ConvertKit_Resource_Forms( 'contact_form_7' );
 		$creator_network_recommendations = new ConvertKit_Resource_Creator_Network_Recommendations( 'contact_form_7' );
 
 		// Bail with an error if no ConvertKit Forms exist.
@@ -136,7 +136,7 @@ class ConvertKit_ContactForm7_Admin_Settings extends ConvertKit_Settings_Base {
 		$table->add_column( 'email', __( 'Contact Form 7 Email Field', 'convertkit' ), false );
 		$table->add_column( 'name', __( 'Contact Form 7 Name Field', 'convertkit' ), false );
 		$table->add_column( 'creator_network_recommendations', __( 'Enable Creator Network Recommendations', 'convertkit' ), false );
-		
+
 		// Iterate through Contact Form 7 Forms, adding a table row for each Contact Form 7 Form.
 		foreach ( $cf7_forms as $cf7_form ) {
 			// Build row.
