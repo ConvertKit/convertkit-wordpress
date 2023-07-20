@@ -185,7 +185,7 @@ class ContactForm7FormCest
 	 *
 	 * @param   AcceptanceTester $I  Tester.
 	 */
-	public function testSettingsContactForm7CreatorNetworkRecommendations(AcceptanceTester $I)
+	public function testSettingsContactForm7CreatorNetworkRecommendationsWhenEnabledOnConvertKitAccount(AcceptanceTester $I)
 	{
 		// Setup ConvertKit Plugin.
 		$I->setupConvertKitPlugin($I);
@@ -240,6 +240,7 @@ class ContactForm7FormCest
 		$I->switchToIFrame();
 
 		// Close the modal.
+		$I->waitForElementVisible('.formkit-modal button.formkit-close');
 		$I->click('.formkit-modal button.formkit-close');
 		$I->waitForElementNotVisible('.formkit-modal');
 
