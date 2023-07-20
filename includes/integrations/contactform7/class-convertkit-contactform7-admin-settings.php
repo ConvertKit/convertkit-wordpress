@@ -118,6 +118,7 @@ class ConvertKit_ContactForm7_Admin_Settings extends ConvertKit_Settings_Base {
 
 		// Get Creator Network Recommendations script.
 		$creator_network_recommendations_enabled = $creator_network_recommendations->enabled();
+		$creator_network_recommendations_enabled = false;
 
 		// Get Contact Form 7 Forms.
 		$cf7_forms = $this->get_cf7_forms();
@@ -159,7 +160,12 @@ class ConvertKit_ContactForm7_Admin_Settings extends ConvertKit_Settings_Base {
 					$this->settings->get_creator_network_recommendations_enabled_by_cf7_form_id( $cf7_form['id'] )
 				);
 			} else {
-				$table_row['creator_network_recommendations'] = 'N/A';
+				$table_row['creator_network_recommendations'] = sprintf(
+					'%s <a href="%s" target="_blank">%s</a>',
+					esc_html__( 'Creator Network Recommendations requires a', 'convertkit' ),
+					convertkit_get_billing_url(),
+					esc_html__( 'paid ConvertKit Plan', 'convertkit' )
+				);
 			}
 
 			// Add row to table of settings.

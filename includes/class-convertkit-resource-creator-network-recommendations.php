@@ -76,6 +76,7 @@ class ConvertKit_Resource_Creator_Network_Recommendations extends ConvertKit_Res
 
 		// Bail if an error occured.
 		if ( is_wp_error( $result ) ) {
+			delete_option( $this->settings_name );
 			return false;
 		}
 
@@ -93,7 +94,11 @@ class ConvertKit_Resource_Creator_Network_Recommendations extends ConvertKit_Res
 	}
 
 	/**
-	 * Override the get() function of the ConvertKit_Resource class, as we store a string
+	 *
+	 * Returns the embed script, or false if no script exists i.e. Creator Network Recommendations
+	 * are disabled.
+	 *
+	 * Overrides the get() function of the ConvertKit_Resource class as we store a string
 	 * containing the embed script, not an array of data.
 	 *
 	 * @since   2.2.7
