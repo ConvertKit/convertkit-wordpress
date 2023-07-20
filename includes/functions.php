@@ -308,7 +308,7 @@ function convertkit_get_sign_in_url() {
 /**
  * Helper method to return the URL the user needs to visit to manage thier billing.
  *
- * @since   2.2.8
+ * @since   2.2.7
  *
  * @return  string  ConvertKit Billing URL.
  */
