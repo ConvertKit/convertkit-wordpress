@@ -103,7 +103,7 @@ class ConvertKit_Resource_Creator_Network_Recommendations extends ConvertKit_Res
 	 *
 	 * @since   2.2.7
 	 *
-	 * @return  bool|string
+	 * @return  bool|string|array
 	 */
 	public function get() {
 
