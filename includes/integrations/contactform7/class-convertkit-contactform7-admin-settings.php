@@ -151,14 +151,16 @@ class ConvertKit_ContactForm7_Admin_Settings extends ConvertKit_Settings_Base {
 				'name'  => 'your-name',
 			);
 
-			// If Creator Network Recommendations are enabled, add a table column.
+			// Add Creator Network Recommendations table column.
 			if ( $creator_network_recommendations_enabled ) {
+				// Show checkbox to enable Creator Network Recommendations for this Contact Form 7 Form.
 				$table_row['creator_network_recommendations'] = $this->get_checkbox_field(
 					'creator_network_recommendations_' . $cf7_form['id'],
 					'1',
 					$this->settings->get_creator_network_recommendations_enabled_by_cf7_form_id( $cf7_form['id'] )
 				);
 			} else {
+				// Show a link to the ConvertKit billing page, as a paid plan is required for Creator Network Recommendations.
 				$table_row['creator_network_recommendations'] = sprintf(
 					'%s <a href="%s" target="_blank">%s</a>',
 					esc_html__( 'Creator Network Recommendations requires a', 'convertkit' ),

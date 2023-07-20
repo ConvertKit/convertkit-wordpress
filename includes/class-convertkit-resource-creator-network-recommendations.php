@@ -52,7 +52,7 @@ class ConvertKit_Resource_Creator_Network_Recommendations extends ConvertKit_Res
 	 * Queries the API to determine whether the Creator Network Recommendation feature is enabled
 	 * on the ConvertKit account.
 	 *
-	 * If so, caches the script to use on the frontend site.
+	 * If enabled, caches the script to use on the frontend site.
 	 *
 	 * @since   2.2.7
 	 *
