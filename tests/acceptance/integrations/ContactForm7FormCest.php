@@ -239,10 +239,15 @@ class ContactForm7FormCest
 		$I->waitForElementVisible('div[data-component="Page"]');
 		$I->switchToIFrame();
 
-		// Close the modal.
-		$I->waitForElementVisible('.formkit-modal button.formkit-close');
-		$I->click('.formkit-modal button.formkit-close');
-		$I->waitForElementNotVisible('.formkit-modal');
+		// Close the modal by clicking it.
+		// Attempting to click the close button doesn't work, as in tests the iframe intercepts
+		// the click.
+		$I->clickWithLeftButton(
+			[ 'css' => '.formkit-overlay' ],
+			200,
+			200
+		);
+		$I->waitForElementNotVisible('.formkit-overlay');
 
 		// Confirm the form submitted without errors.
 		$I->performOn(
