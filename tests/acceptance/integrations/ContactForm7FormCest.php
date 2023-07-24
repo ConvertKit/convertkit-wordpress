@@ -233,22 +233,6 @@ class ContactForm7FormCest
 		// Submit Form.
 		$I->click('Submit');
 
-		// Wait for Creator Network Recommendations modal to display.
-		$I->waitForElementVisible('.formkit-modal');
-		$I->switchToIFrame('.formkit-modal iframe');
-		$I->waitForElementVisible('div[data-component="Page"]');
-		$I->switchToIFrame();
-
-		// Close the modal by clicking it.
-		// Attempting to click the close button doesn't work, as in tests the iframe intercepts
-		// the click.
-		$I->clickWithLeftButton(
-			[ 'css' => '.formkit-overlay' ],
-			200,
-			200
-		);
-		$I->waitForElementNotVisible('.formkit-overlay');
-
 		// Confirm the form submitted without errors.
 		$I->performOn(
 			'form.sent',
@@ -256,6 +240,11 @@ class ContactForm7FormCest
 				$I->see('Thank you for your message. It has been sent.');
 			}
 		);
+
+		// Wait for Creator Network Recommendations modal to display.
+		$I->waitForElementVisible('.formkit-modal');
+		$I->switchToIFrame('.formkit-modal iframe');
+		$I->waitForElementVisible('div[data-component="Page"]');
 	}
 
 	/**
