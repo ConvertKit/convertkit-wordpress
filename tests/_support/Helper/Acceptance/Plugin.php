@@ -1327,6 +1327,48 @@ class Plugin extends \Codeception\Module
 	}
 
 	/**
+	 * Check that the given Page does output the Creator Network Recommendations
+	 * script.
+	 *
+	 * @since   2.2.7
+	 *
+	 * @param   AcceptanceTester $I             AcceptanceTester.
+	 * @param   int              $pageID        Page ID.
+	 */
+	public function seeCreatorNetworkRecommendationsScript($I, $pageID)
+	{
+		// Load the Page on the frontend site.
+		$I->amOnPage('/?p=' . $pageID);
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Confirm the recommendations script was not loaded.
+		$I->seeInSource('recommendations.js');
+	}
+
+	/**
+	 * Check that the given Page does not output the Creator Network Recommendations
+	 * script.
+	 *
+	 * @since   2.2.7
+	 *
+	 * @param   AcceptanceTester $I             AcceptanceTester.
+	 * @param   int              $pageID        Page ID.
+	 */
+	public function dontSeeCreatorNetworkRecommendationsScript($I, $pageID)
+	{
+		// Load the Page on the frontend site.
+		$I->amOnPage('/?p=' . $pageID);
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Confirm the recommendations script was not loaded.
+		$I->dontSeeInSource('recommendations.js');
+	}
+
+	/**
 	 * Selects all text for the given input field.
 	 *
 	 * @since   2.2.0

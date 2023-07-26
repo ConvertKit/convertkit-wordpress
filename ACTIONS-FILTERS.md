@@ -760,7 +760,7 @@ add_filter( 'convertkit_admin_gutenberg_add_block_categories', function( $catego
 </pre>
 <h3 id="convertkit_contactform7_settings_get_defaults">
 						convertkit_contactform7_settings_get_defaults
-						<code>includes/integrations/contactform7/class-convertkit-contactform7-settings.php::125</code>
+						<code>includes/integrations/contactform7/class-convertkit-contactform7-settings.php::149</code>
 					</h3><h4>Overview</h4>
 						<p>The default settings, used when Contact Form 7's Settings haven't been saved e.g. on a new installation or when the Contact Form 7 Plugin has just been activated for the first time.</p><h4>Parameters</h4>
 					<table>
