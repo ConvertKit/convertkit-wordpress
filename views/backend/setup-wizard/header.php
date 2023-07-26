@@ -22,26 +22,36 @@
 		do_action( 'admin_head' );
 		?>
 	</head>
-	<body class="wp-admin wp-core-ui convertkit">
+	<body class="wp-admin wp-core-ui convertkit <?php echo esc_attr( $this->is_modal() ? ' convertkit-modal' : '' ); ?>">
 		<div id="convertkit-setup-wizard">
-			<header id="convertkit-setup-wizard-header">
-				<h1><?php echo esc_html( CONVERTKIT_PLUGIN_NAME ); ?></h1>
-			</header>
+			<?php
+			if ( ! $this->is_modal() ) {
+				?>
+				<header id="convertkit-setup-wizard-header">
+					<h1><?php echo esc_html( CONVERTKIT_PLUGIN_NAME ); ?></h1>
+				</header>
+				<?php
+			}
+			?>
 
 			<div class="wrap">
-				<div id="convertkit-setup-wizard-progress">
-					<ol>
-						<?php
-						foreach ( $this->steps as $step_count => $step ) {
-							?>
-							<li class="step-<?php echo esc_attr( $step_count ); ?><?php echo ( $step_count <= $this->step ? ' done' : '' ); ?>"><?php echo esc_html( $step['name'] ); ?></li>
-							<?php
-						}
-						?>
-					</ol>
-				</div>
-
 				<?php
+				if ( ! $this->is_modal() ) {
+					?>
+					<div id="convertkit-setup-wizard-progress">
+						<ol>
+							<?php
+							foreach ( $this->steps as $step_count => $step ) {
+								?>
+								<li class="step-<?php echo esc_attr( $step_count ); ?><?php echo ( $step_count <= $this->step ? ' done' : '' ); ?>"><?php echo esc_html( $step['name'] ); ?></li>
+								<?php
+							}
+							?>
+						</ol>
+					</div>
+					<?php
+				}
+
 				// If an error occured, display an error notice.
 				if ( $this->error ) {
 					?>

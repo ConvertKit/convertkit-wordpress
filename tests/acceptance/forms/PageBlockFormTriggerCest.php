@@ -367,30 +367,12 @@ class PageBlockFormTriggerCest
 		// Add block to Page.
 		$I->addGutenbergBlock($I, 'ConvertKit Form Trigger', 'convertkit-formtrigger');
 
-		// Confirm that the Form block displays instructions to the user on how to enter their API Key.
-		$I->see(
-			'No API Key specified.',
-			[
-				'css' => '.convertkit-no-content',
-			]
+		// Test that the popup window works.
+		$I->testBlockNoAPIKeyPopupWindow(
+			$I,
+			'convertkit-formtrigger',
+			'Select a Form using the Form option in the Gutenberg sidebar.'
 		);
-
-		// Click the link to confirm it loads the Plugin's settings screen.
-		$I->click(
-			'Click here to add your API Key.',
-			[
-				'css' => '.convertkit-no-content',
-			]
-		);
-
-		// Switch to next browser tab, as the link opens in a new tab.
-		$I->switchToNextTab();
-
-		// Confirm the Plugin's setup wizard is displayed.
-		$I->seeInCurrentUrl('index.php?page=convertkit-setup');
-
-		// Close tab.
-		$I->closeTab();
 
 		// Save page to avoid alert box when _passed() runs to deactivate the Plugin.
 		$I->publishGutenbergPage($I);
@@ -443,6 +425,48 @@ class PageBlockFormTriggerCest
 
 		// Save page to avoid alert box when _passed() runs to deactivate the Plugin.
 		$I->publishGutenbergPage($I);
+	}
+
+	/**
+	 * Test the Form Trigger block's refresh button works.
+	 *
+	 * @since   2.2.6
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testFormTriggerBlockRefreshButton(AcceptanceTester $I)
+	{
+		// Setup Plugin with API keys for ConvertKit Account that has no Broadcasts.
+		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY_NO_DATA'], $_ENV['CONVERTKIT_API_SECRET_NO_DATA']);
+		$I->setupConvertKitPluginResourcesNoData($I);
+
+		// Add a Page using the Gutenberg editor.
+		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form Trigger: Refresh Button');
+
+		// Add block to Page.
+		$I->addGutenbergBlock($I, 'ConvertKit Form Trigger', 'convertkit-formtrigger');
+
+		// Setup Plugin with a valid API Key and resources, as if the user performed the necessary steps to authenticate
+		// and create a form.
+		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPluginResources($I);
+
+		// Click the refresh button.
+		$I->click('button.convertkit-block-refresh');
+
+		// Wait for the refresh button to disappear, confirming that an API Key and resources now exist.
+		$I->waitForElementNotVisible('button.convertkit-block-refresh');
+
+		// Confirm that the Form Trigger block displays instructions to the user on how to select a Form.
+		$I->see(
+			'Select a Form using the Form option in the Gutenberg sidebar.',
+			[
+				'css' => '.convertkit-no-content',
+			]
+		);
+
+		// Publish and view the Page on the frontend site.
+		$I->publishAndViewGutenbergPage($I);
 	}
 
 	/**

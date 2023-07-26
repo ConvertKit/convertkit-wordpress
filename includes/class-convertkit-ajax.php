@@ -20,6 +20,8 @@ class ConvertKit_AJAX {
 	 */
 	public function __construct() {
 
+		add_action( 'wp_ajax_convertkit_get_blocks', array( $this, 'get_blocks' ) );
+
 		add_action( 'wp_ajax_nopriv_convertkit_store_subscriber_id_in_cookie', array( $this, 'store_subscriber_id_in_cookie' ) );
 		add_action( 'wp_ajax_convertkit_store_subscriber_id_in_cookie', array( $this, 'store_subscriber_id_in_cookie' ) );
 
@@ -28,6 +30,35 @@ class ConvertKit_AJAX {
 
 		add_action( 'wp_ajax_nopriv_convertkit_tag_subscriber', array( $this, 'tag_subscriber' ) );
 		add_action( 'wp_ajax_convertkit_tag_subscriber', array( $this, 'tag_subscriber' ) );
+
+	}
+
+	/**
+	 * Returns all ConvertKit registered blocks.
+	 *
+	 * Typically used when a refresh button in a block has been pressed when
+	 * convertKitGutenbergDisplayBlockNoticeWithLink() is called, because either
+	 * no API keys were specified, or no resources exist in ConvertKit.
+	 *
+	 * @since   2.2.6
+	 */
+	public function get_blocks() {
+
+		// Check nonce.
+		check_ajax_referer( 'convertkit_get_blocks', 'nonce' );
+
+		// Refresh resources from the API, to reflect any changes.
+		$forms = new ConvertKit_Resource_Forms( 'block_edit' );
+		$forms->refresh();
+
+		$posts = new ConvertKit_Resource_Posts( 'block_edit' );
+		$posts->refresh();
+
+		$products = new ConvertKit_Resource_Products( 'block_edit' );
+		$products->refresh();
+
+		// Return blocks.
+		wp_send_json_success( convertkit_get_blocks() );
 
 	}
 

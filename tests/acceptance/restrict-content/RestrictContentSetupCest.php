@@ -217,6 +217,9 @@ class RestrictContentSetupCest
 		// Click View link.
 		$I->click('tr.iedit:first-child span.view a');
 
+		// Wait for frontend web site to load.
+		$I->waitForElementVisible('body.page-template-default');
+
 		// Confirm the Start Course button exists.
 		$I->see('Start Course');
 

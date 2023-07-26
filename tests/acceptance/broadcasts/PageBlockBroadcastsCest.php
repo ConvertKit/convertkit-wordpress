@@ -19,6 +19,36 @@ class PageBlockBroadcastsCest
 	}
 
 	/**
+	 * Test the Broadcasts block displays a message with a link that opens
+	 * a popup window with the Plugin's Setup Wizard, when the Plugin has
+	 * no API key specified.
+	 *
+	 * @since   2.2.6
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testBroadcastsBlockWhenNoAPIKey(AcceptanceTester $I)
+	{
+		// Add a Page using the Gutenberg editor.
+		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Broadcasts: Block: No API Key');
+
+		// Add block to Page.
+		$I->addGutenbergBlock($I, 'ConvertKit Broadcasts', 'convertkit-broadcasts');
+
+		// Test that the popup window works.
+		$I->testBlockNoAPIKeyPopupWindow(
+			$I,
+			'convertkit-broadcasts'
+		);
+
+		// Publish and view the Page on the frontend site.
+		$I->publishAndViewGutenbergPage($I);
+
+		// Confirm that the block displays correctly with the expected number of Broadcasts.
+		$I->seeBroadcastsOutput($I, 3);
+	}
+
+	/**
 	 * Test the Broadcasts block outputs a message when no Broadcasts exist.
 	 *
 	 * @since   2.0.1
@@ -37,19 +67,73 @@ class PageBlockBroadcastsCest
 		// Add block to Page.
 		$I->addGutenbergBlock($I, 'ConvertKit Broadcasts', 'convertkit-broadcasts');
 
-		// Confirm that the Broadcasts block tells the user that no Broadcasts exist in ConvertKit.
+		// Confirm that the Broadcasts block displays instructions to the user on how to add a Broadcast in ConvertKit.
 		$I->see(
-			'No Broadcasts exist in ConvertKit. Send your first Broadcast in ConvertKit to see the link to it here.',
+			'No broadcasts exist in ConvertKit.',
 			[
 				'css' => '.convertkit-no-content',
 			]
 		);
+
+		// Click the link to confirm it loads ConvertKit.
+		$I->click(
+			'Click here to send your first broadcast.',
+			[
+				'css' => '.convertkit-no-content',
+			]
+		);
+
+		// Switch to next browser tab, as the link opens in a new tab.
+		$I->switchToNextTab();
+
+		// Confirm the ConvertKit login screen loaded.
+		$I->seeElementInDOM('input[name="user[email]"]');
+
+		// Close tab.
+		$I->closeTab();
 
 		// Publish and view the Page on the frontend site.
 		$I->publishAndViewGutenbergPage($I);
 
 		// Confirm that no ConvertKit Broadcasts are displayed.
 		$I->dontSeeElementInDOM('div.convertkit-broadcasts');
+	}
+
+	/**
+	 * Test the Broadcasts block's refresh button works.
+	 *
+	 * @since   2.2.6
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testBroadcastsBlockRefreshButton(AcceptanceTester $I)
+	{
+		// Setup Plugin with API keys for ConvertKit Account that has no Broadcasts.
+		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY_NO_DATA'], $_ENV['CONVERTKIT_API_SECRET_NO_DATA']);
+		$I->setupConvertKitPluginResourcesNoData($I);
+
+		// Add a Page using the Gutenberg editor.
+		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Broadcasts: Refresh Button');
+
+		// Add block to Page.
+		$I->addGutenbergBlock($I, 'ConvertKit Broadcasts', 'convertkit-broadcasts');
+
+		// Setup Plugin with a valid API Key and resources, as if the user performed the necessary steps to authenticate
+		// and created a broadcast.
+		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPluginResources($I);
+
+		// Click the refresh button.
+		$I->click('button.convertkit-block-refresh');
+
+		// Wait for the refresh button to disappear, confirming that an API Key and resources now exist.
+		$I->waitForElementNotVisible('button.convertkit-block-refresh');
+
+		// Publish and view the Page on the frontend site.
+		$I->publishAndViewGutenbergPage($I);
+
+		// Confirm that the block displays correctly with the expected number of Broadcasts.
+		$I->seeBroadcastsOutput($I, 3);
 	}
 
 	/**

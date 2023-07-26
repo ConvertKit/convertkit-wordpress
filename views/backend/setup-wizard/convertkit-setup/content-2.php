@@ -9,13 +9,20 @@
 ?>
 
 <h1><?php esc_html_e( 'Connect your ConvertKit account', 'convertkit' ); ?></h1>
-<p>
-	<?php
-	esc_html_e( 'To connect this Plugin to your ConvertKit account, we need your API Key and Secret.', 'convertkit' );
-	?>
-</p>
 
-<hr />
+<?php
+if ( ! $this->is_modal() ) {
+	?>
+	<p>
+		<?php
+		esc_html_e( 'To connect this Plugin to your ConvertKit account, we need your API Key and Secret.', 'convertkit' );
+		?>
+	</p>
+
+	<hr />
+	<?php
+}
+?>
 
 <div>
 	<label for="api_key">

@@ -43,11 +43,8 @@ class WPBulkEdit extends \Codeception\Module
 			}
 		}
 
-		// Scroll to Update button.
-		$I->scrollTo('#bulk_edit');
-
 		// Click Update.
-		$I->click('Update');
+		$I->click('#bulk_edit');
 
 		// Wait for the WP_List_Table of Pages to load.
 		$I->waitForElementVisible('tbody#the-list');
