@@ -1,17 +1,17 @@
 === ConvertKit - Email Marketing, Email Newsletter, Subscribers and Landing Pages ===
 Contributors: nathanbarry, growdev, travisnorthcutt, ggwicz
 Donate link: https://convertkit.com
-Tags: email marketing, email newsletter, newsletter, subscribers, convertkit
+Tags: email marketing, email newsletter, newsletter, subscribers, membership
 Requires at least: 5.0
 Tested up to: 6.2.2
 Requires PHP: 5.6.20
-Stable tag: 2.2.5
+Stable tag: 2.2.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 == Description ==
 
-[ConvertKit](https://convertkit.com?utm_source=wordpress&utm_term=en_US&utm_content=readme) makes it easy to create, send and manage your email marketing campaigns; grow your email subscribers lists; send targeted newsletters; and sell more products - all by easily embedding email marketing / email subscriber forms anywhere on your WordPress web site.
+[ConvertKit](https://convertkit.com?utm_source=wordpress&utm_term=en_US&utm_content=readme) makes it easy to create, send and manage your email marketing campaigns; grow your email subscribers lists; send targeted newsletters; sell more products and build your membership site - all by easily embedding email marketing / email subscriber forms anywhere on your WordPress web site.
 
 **New to ConvertKit? [Creating an account](https://app.convertkit.com/users/signup?plan=1k&utm_source=wordpress&utm_term=en_US&utm_content=readme) is 100% free for your first 1,000 subscribers, making ConvertKit an email marketing solution for everyone - whether you're new to email marketing or a seasoned professional email marketer.**
 
@@ -63,7 +63,13 @@ Create or edit a WordPress Page, choose the ConvertKit landing page from the Con
 
 Embed buttons (or link text) to sell your ConvertKit Products in seconds - whether that's digital goods, paid email newsletters, music, coaching and more.
 
-Already have content on your site that you want to sell? Use the Member Content functionality on Pages to require email subscribers purchase a ConvertKit Product to access your content - whether that's a course or digital download - all without leaving your web site. 
+### Membership Sites
+
+Using the Member Content functionality on Pages, email subscribers are required to purchase a [ConvertKit Product](https://convertkit.com/features/commerce) to access your content - whether that's a course, ebook, digital download, album, presets, coaching and more - all without leaving your web site. 
+
+Once purchased, subscribers access their membership by entering their email address, receiving a one time passcode by email and clicking the link in the email. That's it - no complex membership plugins or payment gateways to configure.
+
+There's no limit to the number of ConvertKit Products you can create, and each can be assigned to one or more WordPress Pages, instantly turning them into membership only content. 
 
 = Plugin Integrations =
 
@@ -131,6 +137,15 @@ Full Plugin documentation can be found [here](https://help.convertkit.com/en/art
 7. Track subscriber growth
 
 == Changelog ==
+
+### 2.2.7 2023-07-24
+* Added: Contact Form 7: Option to Enable Creator Network Recommendations modal on individual Forms at Settings > ConvertKit > Contact Form 7
+
+### 2.2.6 2023-07-18
+* Added: Form Trigger: Block: When no API Key specified, link to Setup Wizard in a popup window to complete setup
+* Added: Form: Block: When no API Key specified, link to Setup Wizard in a popup window to complete setup
+* Added: Product: Block: When no API Key specified, link to Setup Wizard in a popup window to complete setup
+* Updated: Member Content: Removed beta label
 
 ### 2.2.5 2023-06-21
 * Added: Broadcasts: Shortcode: Tabbed UI when adding broadcasts through the Classic or Text Editor

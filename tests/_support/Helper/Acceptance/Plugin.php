@@ -1231,6 +1231,144 @@ class Plugin extends \Codeception\Module
 	}
 
 	/**
+	 * Test that the 'Click here to add your API Key' link displays a popup window,
+	 * when using a block with no API Keys specified.
+	 *
+	 * @since   2.2.6
+	 *
+	 * @param   AcceptanceTester $I                 Tester.
+	 * @param   string           $blockName         Block Name.
+	 * @param   bool|string      $expectedMessage   Expected message displayed in block after entering valid API Keys.
+	 */
+	public function testBlockNoAPIKeyPopupWindow($I, $blockName, $expectedMessage = false)
+	{
+		// Confirm that the Form block displays instructions to the user on how to enter their API Key.
+		$I->see(
+			'No API Key specified.',
+			[
+				'css' => '.convertkit-no-content',
+			]
+		);
+
+		// Click the link to confirm it loads the Plugin's setup wizard.
+		$I->click(
+			'Click here to add your API Key.',
+			[
+				'css' => '.convertkit-no-content',
+			]
+		);
+
+		// Switch to the window that just opened.
+		$I->switchToWindow('convertkit_popup_window');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Confirm no logo or progress bar is displayed, as this is the modal version of the wizard.
+		$I->dontSeeElementInDOM('#convertkit-setup-wizard-header');
+
+		// Confirm no exit wizard link is displayed.
+		$I->dontSeeElementInDOM('#convertkit-setup-wizard-exit-link');
+
+		// Confirm expected title is displayed.
+		$I->see('Welcome to the ConvertKit Setup Wizard');
+
+		// Confirm Step text is correct.
+		$I->see('Step 1 of 2');
+
+		// Test Connect button.
+		$I->click('Connect');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Confirm no logo or progress bar is displayed, as this is the modal version of the wizard.
+		$I->dontSeeElementInDOM('#convertkit-setup-wizard-header');
+
+		// Confirm no exit wizard link is displayed.
+		$I->dontSeeElementInDOM('#convertkit-setup-wizard-exit-link');
+
+		// Confirm expected title is displayed.
+		$I->see('Connect your ConvertKit account');
+
+		// Confirm Step text is correct.
+		$I->see('Step 2 of 2');
+
+		// Confirm Back and Connect buttons display.
+		$I->seeElementInDOM('#convertkit-setup-wizard-footer div.left a.button');
+		$I->seeElementInDOM('#convertkit-setup-wizard-footer div.right button');
+
+		// Fill fields with valid API Keys.
+		$I->fillField('api_key', $_ENV['CONVERTKIT_API_KEY']);
+		$I->fillField('api_secret', $_ENV['CONVERTKIT_API_SECRET']);
+
+		// Click Connect button.
+		$I->click('Connect');
+
+		// Switch back to the main browser window.
+		$I->switchToWindow();
+
+		// Wait until the block changes to refreshing.
+		$I->waitForElementVisible('.' . $blockName . ' span.spinner', 5);
+
+		// Wait for the refresh button to disappear, confirming that the block refresh completed
+		// and that resources now exist.
+		$I->waitForElementNotVisible('button.convertkit-block-refresh');
+
+		// Confirm that the block displays the expected message.
+		if ($expectedMessage) {
+			$I->see(
+				$expectedMessage,
+				[
+					'css' => '.convertkit-no-content',
+				]
+			);
+		}
+	}
+
+	/**
+	 * Check that the given Page does output the Creator Network Recommendations
+	 * script.
+	 *
+	 * @since   2.2.7
+	 *
+	 * @param   AcceptanceTester $I             AcceptanceTester.
+	 * @param   int              $pageID        Page ID.
+	 */
+	public function seeCreatorNetworkRecommendationsScript($I, $pageID)
+	{
+		// Load the Page on the frontend site.
+		$I->amOnPage('/?p=' . $pageID);
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Confirm the recommendations script was not loaded.
+		$I->seeInSource('recommendations.js');
+	}
+
+	/**
+	 * Check that the given Page does not output the Creator Network Recommendations
+	 * script.
+	 *
+	 * @since   2.2.7
+	 *
+	 * @param   AcceptanceTester $I             AcceptanceTester.
+	 * @param   int              $pageID        Page ID.
+	 */
+	public function dontSeeCreatorNetworkRecommendationsScript($I, $pageID)
+	{
+		// Load the Page on the frontend site.
+		$I->amOnPage('/?p=' . $pageID);
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Confirm the recommendations script was not loaded.
+		$I->dontSeeInSource('recommendations.js');
+	}
+
+	/**
 	 * Selects all text for the given input field.
 	 *
 	 * @since   2.2.0

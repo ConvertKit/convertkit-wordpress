@@ -102,6 +102,30 @@ class ConvertKit_ContactForm7_Settings {
 	}
 
 	/**
+	 * Returns whether Creator Network Recommendations are enabled for the given Contact Form 7 Form ID.
+	 *
+	 * @since   2.2.7
+	 *
+	 * @param   int $cf7_form_id    Contact Form 7 Form ID.
+	 * @return  bool
+	 */
+	public function get_creator_network_recommendations_enabled_by_cf7_form_id( $cf7_form_id ) {
+
+		// Bail if no settings exist for any Contact Form 7 Forms.
+		if ( ! $this->has_settings() ) {
+			return false;
+		}
+
+		// Bail if no setting exists for the given Contact Form 7 Form.
+		if ( ! array_key_exists( 'creator_network_recommendations_' . $cf7_form_id, $this->get() ) ) {
+			return false;
+		}
+
+		return (bool) $this->get()[ 'creator_network_recommendations_' . $cf7_form_id ];
+
+	}
+
+	/**
 	 * The default settings, used when this integration's Settings haven't been saved
 	 * e.g. on a new installation or when the integration's Plugin has just been activated
 	 * for the first time.

@@ -113,7 +113,8 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 	public function get_overview() {
 
 		// Fetch Posts.
-		$posts = new ConvertKit_Resource_Posts( 'output_broadcasts' );
+		$posts    = new ConvertKit_Resource_Posts( 'output_broadcasts' );
+		$settings = new ConvertKit_Settings();
 
 		return array(
 			'title'                             => __( 'ConvertKit Broadcasts', 'convertkit' ),
@@ -144,15 +145,26 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 			// Gutenberg: Example image showing how this block looks when choosing it in Gutenberg.
 			'gutenberg_example_image'           => CONVERTKIT_PLUGIN_URL . 'resources/backend/images/block-example-broadcasts.png',
 
-			// Gutenberg: Help description, displayed when no Posts exist.
-			'gutenberg_help_description'        => __( 'No Broadcasts exist in ConvertKit. Send your first Broadcast in ConvertKit to see the link to it here.', 'convertkit' ),
+			// Help descriptions, displayed when no API key / resources exist and this block/shortcode is added.
+			'no_api_key'                        => array(
+				'notice'    => __( 'No API Key specified.', 'convertkit' ),
+				'link'      => convertkit_get_setup_wizard_plugin_link(),
+				'link_text' => __( 'Click here to add your API Key.', 'convertkit' ),
+			),
+			'no_resources'                      => array(
+				'notice'    => __( 'No broadcasts exist in ConvertKit.', 'convertkit' ),
+				'link'      => convertkit_get_new_broadcast_url(),
+				'link_text' => __( 'Click here to send your first broadcast.', 'convertkit' ),
+			),
 
 			// Gutenberg: JS function to call when rendering the block preview in the Gutenberg editor.
 			// If not defined, render_callback above will be used.
 			'gutenberg_preview_render_callback' => 'convertKitGutenbergBroadcastsBlockRenderPreview',
 
-			// Flag to determine if Broadcasts exist.
-			'has_posts'                         => $posts->exist(),
+			// Whether an API Key exists in the Plugin, and are the required resources (broadcasts) available.
+			// If no API Key is specified in the Plugin's settings, render the "No API Key" output.
+			'has_api_key'                       => $settings->has_api_key_and_secret(),
+			'has_resources'                     => $posts->exist(),
 		);
 
 	}
