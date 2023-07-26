@@ -62,8 +62,8 @@ function convertkit_resource_refresh_broadcasts() {
 	}
 
 	// Refresh Broadcasts Resource.
-	$broadcasts  = new ConvertKit_Resource_Broadcasts( 'cron' );
-	$result = $broadcasts->refresh();
+	$broadcasts = new ConvertKit_Resource_Broadcasts( 'cron' );
+	$result     = $broadcasts->refresh();
 
 	// If debug logging is enabled, write to it now.
 	if ( $settings->debug_enabled() ) {

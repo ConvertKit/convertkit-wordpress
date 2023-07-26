@@ -46,7 +46,9 @@ require_once CONVERTKIT_PLUGIN_PATH . '/includes/cron-functions.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/functions.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-wp-convertkit.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-ajax.php';
+require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-broadcasts.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-gutenberg.php';
+require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-media-library.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-output.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-output-restrict-content.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-post.php';
@@ -124,7 +126,6 @@ if ( is_admin() ) {
 
 	// Broadcasts Integration.
 	require_once CONVERTKIT_PLUGIN_PATH . '/admin/section/class-convertkit-admin-settings-broadcasts.php';
-	require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-broadcasts.php';
 }
 
 // Register Plugin activation and deactivation functions.

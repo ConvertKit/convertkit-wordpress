@@ -80,8 +80,6 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 			)
 		);
 
-		// @TODO Other settings here.
-
 	}
 
 	/**

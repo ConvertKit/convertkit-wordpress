@@ -8,7 +8,7 @@
 
 /**
  * Class to publish WordPress Posts based on ConvertKit Broadcasts,
- * if the Broadcasts functionality is enabled in the Plugin's settings. 
+ * if the Broadcasts functionality is enabled in the Plugin's settings.
  *
  * @since   2.2.8
  */
@@ -25,28 +25,23 @@ class ConvertKit_Broadcasts {
 		// Create and update Broadcasts stored as Posts when the Broadcasts Resource is refreshed.
 		add_action( 'convertkit_resource_refreshed_broadcasts', array( $this, 'refresh' ) );
 
-		// Debug @TODO Remove.
-		add_action( 'init', function() {
-			$broadcasts = new ConvertKit_Resource_Broadcasts();
-			$broadcasts->refresh();
-		} );
-
 	}
 
 	/**
 	 * When the list of broadcasts is refreshed by the resource class, iterate through
 	 * each Broadcast, to check if a Post exists in WordPress for it.
-	 * 
-	 * If not, add the Post.
-	 * 
-	 * @since 	2.2.8
-	 * 
-	 * @param 	array 	$broadcasts 	Broadcasts.
+	 *
+	 * If not, creates the WordPress Post.
+	 *
+	 * @since   2.2.8
+	 *
+	 * @param   array $broadcasts     Broadcasts.
 	 */
 	public function refresh( $broadcasts ) {
 
-		// Get broadcasts settings class.
+		// Initialize required classes.
 		$broadcasts_settings = new ConvertKit_Settings_Broadcasts();
+		$settings            = new ConvertKit_Settings();
 
 		// Bail if Broadcasts to Posts are disabled.
 		if ( ! $broadcasts_settings->enabled() ) {
@@ -57,9 +52,6 @@ class ConvertKit_Broadcasts {
 		if ( ! count( $broadcasts ) ) {
 			return;
 		}
-
-		// Get settings class.
-		$settings = new ConvertKit_Settings();
 
 		// Bail if the Plugin API keys have not been configured.
 		if ( ! $settings->has_api_key_and_secret() ) {
@@ -89,52 +81,58 @@ class ConvertKit_Broadcasts {
 			// We need to query v3/broadcasts/{id} to fetch the full Broadcast information and content.
 			$broadcast = $api->get_broadcast( $broadcast_id );
 
-			// Skip if an error occured.
+			// Skip if an error occured fetching the Broadcast.
 			if ( is_wp_error( $broadcast ) ) {
 				continue;
 			}
 
-			// Create wp_insert_post() compatible array from Broadcast.
-			$post_args = $this->build_post_args( $broadcast );
+			// Create Post as a draft.
+			$post_id = wp_insert_post( $this->build_post_args( $broadcast ), true );
 
-			// Create Post.
-			$post_id = wp_insert_post( $post_args );
+			// Skip if an error occured.
+			if ( is_wp_error( $post_id ) ) {
+				continue;
+			}
 
 			// If the Broadcast has an image, save it to the Media Library and link it to the Post.
-			// @TODO.
+			$this->add_broadcast_image_to_post( $broadcast, $post_id );
 
-			// Publish the Post.
-			// @TODO.
+			// Publish the draft Post, now that the image has been added to it.
+			$post_id = wp_update_post(
+				array(
+					'ID'          => $post_id,
+					'post_status' => 'publish',
+				)
+			);
 		}
-
-		var_dump( $broadcasts );
-		die();
 
 	}
 
 	/**
 	 * Helper method to determine if the given ConvertKit Broadcast already exists
 	 * as a WordPress Post.
-	 * 
-	 * @since 	2.2.7
-	 * 
-	 * @param 	int 	$broadcast_id 	ConvertKit Broadcast ID.
-	 * @return 	bool 					Broadcast exists as a WordPress Post
+	 *
+	 * @since   2.2.7
+	 *
+	 * @param   int $broadcast_id   ConvertKit Broadcast ID.
+	 * @return  bool                    Broadcast exists as a WordPress Post
 	 */
 	private function broadcast_exists_as_post( $broadcast_id ) {
 
-		$posts = new WP_Query( array(
-			'post_type' => 'post',
-			'post_status' => 'any',
-			'meta_query' => array(
-				array(
-					'key' 	=> '_convertkit_broadcast_id',
-					'value' => $broadcast_id,
+		$posts = new WP_Query(
+			array(
+				'post_type'         => 'post',
+				'post_status'       => 'any',
+				'meta_query'        => array(
+					array(
+						'key'   => '_convertkit_broadcast_id',
+						'value' => $broadcast_id,
+					),
 				),
-			),
-			'fields' => 'ids',
-			'update_post_cache' => false,
-		) );
+				'fields'            => 'ids',
+				'update_post_cache' => false,
+			)
+		);
 
 		if ( ! $posts->post_count ) {
 			return false;
@@ -144,41 +142,33 @@ class ConvertKit_Broadcasts {
 
 	}
 
-	private function parse_content( $broadcast_content ) {
-
-
-
-		return $content;
-
-	}
-
 	/**
 	 * Defines the wp_insert_post() compatible arguments for importing the given ConvertKit
 	 * Broadcast to a new WordPress Post.
-	 * 
-	 * @since 	2.2.8
-	 * 
-	 * @param 	array 	$broadcast 	Broadcast.
-	 * @return 	array 				wp_insert_post() compatible arguments.
+	 *
+	 * @since   2.2.8
+	 *
+	 * @param   array $broadcast  Broadcast.
+	 * @return  array               wp_insert_post() compatible arguments.
 	 */
 	private function build_post_args( $broadcast ) {
 
 		// Define array for the wp_insert_post() compatible arguments.
 		$post_args = array(
-			'post_type' 	=> 'post',
-			'post_title' 	=> $broadcast['subject'],
-			'post_excerpt' 	=> $broadcast['description'],
-			'post_content' 	=> $this->parse_broadcast_content( $broadcast['content'] ),
+			'post_type'    => 'post',
+			'post_title'   => $broadcast['subject'],
+			'post_excerpt' => $broadcast['description'],
+			'post_content' => $this->parse_broadcast_content( $broadcast['content'] ),
 		);
 
 		/**
 		 * Define the wp_insert_post() compatible arguments for importing a ConvertKit Broadcast
 		 * to a new WordPress Post.
-		 * 
-		 * @since 	2.2.8
-		 * 
-		 * @param 	array 	$post_args 	Post arguments.
-		 * @param 	array 	$broadcast 	Broadcast.
+		 *
+		 * @since   2.2.8
+		 *
+		 * @param   array   $post_args  Post arguments.
+		 * @param   array   $broadcast  Broadcast.
 		 */
 		$post_args = apply_filters( 'convertkit_broadcasts_build_post_args', $post_args, $broadcast );
 
@@ -188,12 +178,130 @@ class ConvertKit_Broadcasts {
 		$post_args['post_status'] = 'draft';
 
 		// Deliberate: ensure the Broadcast ID is always defined.
-		if ( ! is_array( $post_args['meta_input'] ) ) {
+		if ( ! array_key_exists( 'meta_input', $post_args ) ) {
 			$post_args['meta_input'] = array();
 		}
 		$post_args['meta_input']['_convertkit_broadcast_id'] = $broadcast['id'];
 
 		return $post_args;
+
+	}
+
+	/**
+	 * Parses the given Broadcast's content, removing unnecessary HTML tags and styles.
+	 *
+	 * @since   2.2.8
+	 *
+	 * @param   string $broadcast_content  Broadcast Content.
+	 * @return  string                      Parsed Content.
+	 */
+	private function parse_broadcast_content( $broadcast_content ) {
+
+		$content = $broadcast_content;
+
+		// Remove some tags, including their contents.
+		$content = preg_replace( '/<script.*?>(.*)?<\/script>/ims', '', $content );
+		$content = preg_replace( '/<style.*?>(.*)?<\/style>/ims', '', $content );
+
+		// Define HTML tags to retain in the content.
+		$permitted_html_tags = array(
+			'p',
+			'a',
+			'img',
+			'ul',
+			'ol',
+			'li',
+			'br',
+		);
+
+		/**
+		 * Define the HTML tags to retain in the Broadcast Content.
+		 *
+		 * @since   2.2.8
+		 *
+		 * @param   string  $permitted_html_tags    Permitted HTML Tags.
+		 */
+		$permitted_html_tags = apply_filters( 'convertkit_broadcasts_parse_broadcast_content_permitted_html_tags', $permitted_html_tags );
+
+		// Remove other tags, retaining inner contents.
+		$content = strip_tags( $content, $permitted_html_tags );
+
+		/**
+		 * Parses the given Broadcast's content, removing unnecessary HTML tags and styles.
+		 *
+		 * @since   2.2.8
+		 *
+		 * @param   string  $content            Parsed Content.
+		 * @param   string  $broadcast_content  Original Broadcast's Content.
+		 */
+		$content = apply_filters( 'convertkit_broadcasts_parse_broadcast_content', $content, $broadcast_content );
+
+		return $content;
+
+	}
+
+	/**
+	 * Strips <html>, <head> and <body> opening and closing tags from the given markup,
+	 * as well as the Content-Type meta tag we might have added in get_html().
+	 *
+	 * @since   1.0.0
+	 *
+	 * @param   string $markup     HTML Markup.
+	 * @return  string              HTML Markup
+	 * */
+	private function strip_html_head_body_tags( $markup ) {
+
+		$markup = str_replace( '<html>', '', $markup );
+		$markup = str_replace( '</html>', '', $markup );
+		$markup = str_replace( '<head>', '', $markup );
+		$markup = str_replace( '</head>', '', $markup );
+		$markup = str_replace( '<body>', '', $markup );
+		$markup = str_replace( '</body>', '', $markup );
+		$markup = str_replace( '<meta http-equiv="Content-Type" content="text/html; charset=utf-8">', '', $markup );
+
+		return $markup;
+
+	}
+
+	/**
+	 * Imports the broadcast's thumbnail_url image to the WordPress Media Library,
+	 * assigning it as the WordPress Post's featured image.
+	 *
+	 * @since   2.2.8
+	 *
+	 * @param   array $broadcast  ConvertKit Broadcast.
+	 * @param   int   $post_id    Post ID.
+	 * @return  WP_Post|int
+	 */
+	private function add_broadcast_image_to_post( $broadcast, $post_id ) {
+
+		// Bail if no image specified.
+		if ( empty( $broadcast['thumbnail_url'] ) ) {
+			return;
+		}
+
+		// Initialize class.
+		$media_library = new ConvertKit_Media_Library();
+
+		// Import Image into the Media Library.
+		$image_id = $media_library->import_remote_image(
+			$broadcast['thumbnail_url'],
+			$post_id,
+			$broadcast['thumbnail_alt']
+		);
+
+		// Destroy class.
+		unset( $media_library );
+
+		// Bail if an error occured.
+		if ( is_wp_error( $image_id ) ) {
+			return $image_id;
+		}
+
+		// Assign the imported Media Library image as the Post's Featured Image.
+		update_post_meta( $post_id, '_thumbnail_id', $image_id );
+
+		return $image_id;
 
 	}
 
