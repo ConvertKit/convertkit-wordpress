@@ -42,6 +42,7 @@ class ConvertKit_Broadcasts {
 		// Initialize required classes.
 		$broadcasts_settings = new ConvertKit_Settings_Broadcasts();
 		$settings            = new ConvertKit_Settings();
+		$log      			 = new ConvertKit_Log( CONVERTKIT_PLUGIN_PATH );
 
 		// Bail if Broadcasts to Posts are disabled.
 		if ( ! $broadcasts_settings->enabled() ) {
@@ -72,6 +73,9 @@ class ConvertKit_Broadcasts {
 		foreach ( $broadcasts as $broadcast_id => $broadcast ) {
 			// If a WordPress Post exists for this Broadcast ID, we previously imported it - skip it.
 			if ( $this->broadcast_exists_as_post( $broadcast_id ) ) {
+				if ( $settings->debug_enabled() ) {
+					$log->add( 'CRON: convertkit_resource_refresh_broacasts(): Broadcast #' . $broadcast_id . ' already exists as a WordPress Post. Skipping...' );
+				}
 				continue;
 			}
 
@@ -83,6 +87,17 @@ class ConvertKit_Broadcasts {
 
 			// Skip if an error occured fetching the Broadcast.
 			if ( is_wp_error( $broadcast ) ) {
+				if ( $settings->debug_enabled() ) {
+					$log->add( 'CRON: convertkit_resource_refresh_broacasts(): Broadcast #' . $broadcast_id . '. Error fetching from API: ' . $broadcast->get_error_message() );
+				}
+				continue;
+			}
+
+			// Skip if not public.
+			if ( ! $broadcast['public'] ) {
+				if ( $settings->debug_enabled() ) {
+					$log->add( 'CRON: convertkit_resource_refresh_broacasts(): Broadcast #' . $broadcast_id . ' is private. Skipping...' );
+				}
 				continue;
 			}
 
@@ -91,6 +106,9 @@ class ConvertKit_Broadcasts {
 
 			// Skip if an error occured.
 			if ( is_wp_error( $post_id ) ) {
+				if ( $settings->debug_enabled() ) {
+					$log->add( 'CRON: convertkit_resource_refresh_broacasts(): Broadcast #' . $broadcast_id . '. Error on wp_insert_post(): ' . $post_id->get_error_message() );
+				}
 				continue;
 			}
 
@@ -104,6 +122,14 @@ class ConvertKit_Broadcasts {
 					'post_status' => 'publish',
 				)
 			);
+
+			// Maybe log if an error occured updating the Post to the publish status.
+			if ( is_wp_error( $post_id ) ) {
+				if ( $settings->debug_enabled() ) {
+					$log->add( 'CRON: convertkit_resource_refresh_broacasts(): Broadcast #' . $broadcast_id . '. Error on wp_update_post(): ' . $post_id->get_error_message() );
+				}
+			}
+			break;
 		}
 
 	}
