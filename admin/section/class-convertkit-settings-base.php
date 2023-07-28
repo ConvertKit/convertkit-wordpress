@@ -415,7 +415,18 @@ abstract class ConvertKit_Settings_Base {
 			WP_ConvertKit()->get_class( 'review_request' )->request_review();
 		}
 
-		return wp_parse_args( $settings, $this->settings->get_defaults() );
+		// Merge settings with defaults.
+		$settings = wp_parse_args( $settings, $this->settings->get_defaults() );
+
+		/**
+		 * Performs actions prior to settings being saved.
+		 *
+		 * @since   2.2.8
+		 */
+		do_action( 'convertkit_settings_base_sanitize_settings', $this->name, $settings );
+
+		// Return settings to be saved.
+		return $settings;
 
 	}
 

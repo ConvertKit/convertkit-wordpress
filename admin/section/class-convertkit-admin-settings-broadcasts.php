@@ -35,7 +35,42 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 		// Identify that this is beta functionality.
 		$this->is_beta = true;
 
+		// Enable or disable the scheduled task when settings are saved.
+		add_action( 'convertkit_settings_base_sanitize_settings', array( $this, 'schedule_or_unschedule_cron_event' ), 10, 2 );
+
 		parent::__construct();
+
+	}
+
+	/**
+	 * Schedules or unschedules the WordPress Cron event, based on whether
+	 * the Broadcast to Post functionality's is enabled or disabled.
+	 * 
+	 * @since 	2.2.8
+	 * 
+	 * @param 	string 	$section 	Settings section.
+	 * @param 	array 	$settings 	Settings.
+	 */
+	public function schedule_or_unschedule_cron_event( $section, $settings ) {
+
+		// Bail if we're not on the Broadcasts section.
+		if ( $section !== $this->name ) {
+			return;
+		}
+
+		// Initialize resource class.
+		$broadcasts = new ConvertKit_Resource_Broadcasts( 'cron' );
+
+		// If the functionality is not enabled, unschedule the cron event.
+		if ( $settings['enabled'] !== 'on' ) {
+			$broadcasts->unschedule_cron_event();
+			return;
+		}
+
+		// Schedule the cron event, which will import Broadcasts to WordPress Posts.
+		// ConvertKit_Broadcasts_Importer::refresh() will then run when Broadcasts
+		// are refreshed by the cron event.
+		$broadcasts->schedule_cron_event();
 
 	}
 
