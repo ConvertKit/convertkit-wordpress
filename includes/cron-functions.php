@@ -44,3 +44,42 @@ function convertkit_resource_refresh_posts() {
 // Register action to run above function; this action is created by WordPress' wp_schedule_event() function
 // in the ConvertKit_Resource_Posts class.
 add_action( 'convertkit_resource_refresh_posts', 'convertkit_resource_refresh_posts' );
+
+/**
+ * Refresh the Broadcasts Resource cache, triggered by WordPress' Cron.
+ *
+ * @since   2.2.8
+ */
+function convertkit_resource_refresh_broadcasts() {
+
+	// Get Settings and Log classes.
+	$settings = new ConvertKit_Settings();
+	$log      = new ConvertKit_Log( CONVERTKIT_PLUGIN_PATH );
+
+	// If debug logging is enabled, write to it now.
+	if ( $settings->debug_enabled() ) {
+		$log->add( 'CRON: convertkit_resource_refresh_broadcasts(): Started' );
+	}
+
+	// Refresh Broadcasts Resource.
+	$broadcasts = new ConvertKit_Resource_Broadcasts( 'cron' );
+	$result     = $broadcasts->refresh();
+
+	// If debug logging is enabled, write to it now.
+	if ( $settings->debug_enabled() ) {
+		// If an error occured, log it.
+		if ( is_wp_error( $result ) ) {
+			$log->add( 'CRON: convertkit_resource_refresh_broadcasts(): Error: ' . $result->get_error_message() );
+		}
+		if ( is_array( $result ) ) {
+			$log->add( 'CRON: convertkit_resource_refresh_broadcasts(): Success: ' . count( $result ) . ' broadcasts fetched from API and cached.' );
+		}
+
+		$log->add( 'CRON: convertkit_resource_refresh_broadcasts(): Finished' );
+	}
+
+}
+
+// Register action to run above function; this action is created by WordPress' wp_schedule_event() function
+// in the ConvertKit_Resource_Broadcasts class.
+add_action( 'convertkit_resource_refresh_broadcasts', 'convertkit_resource_refresh_broadcasts' );
