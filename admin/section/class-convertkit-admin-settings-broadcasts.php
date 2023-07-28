@@ -35,29 +35,7 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 		// Identify that this is beta functionality.
 		$this->is_beta = true;
 
-		// Enqueue scripts.
-		add_action( 'convertkit_admin_settings_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
-
 		parent::__construct();
-
-	}
-
-	/**
-	 * Enqueues scripts for the Settings > Member's Content screen.
-	 *
-	 * @since   2.2.8
-	 *
-	 * @param   string $section    Settings section / tab (general|tools|restrict-content|broadcasts).
-	 */
-	public function enqueue_scripts( $section ) {
-
-		// Bail if we're not on the Member's Content section.
-		if ( $section !== $this->name ) {
-			return;
-		}
-
-		// Enqueue JS.
-		wp_enqueue_script( 'convertkit-admin-settings-conditional-display', CONVERTKIT_PLUGIN_URL . 'resources/backend/js/settings-conditional-display.js', array( 'jquery' ), CONVERTKIT_PLUGIN_VERSION, true );
 
 	}
 

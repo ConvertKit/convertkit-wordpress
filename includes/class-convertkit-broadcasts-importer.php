@@ -1,6 +1,6 @@
 <?php
 /**
- * ConvertKit Broadcasts class.
+ * ConvertKit Broadcasts Importer class.
  *
  * @package ConvertKit
  * @author ConvertKit
@@ -12,7 +12,7 @@
  *
  * @since   2.2.8
  */
-class ConvertKit_Broadcasts {
+class ConvertKit_Broadcasts_Importer {
 
 	/**
 	 * Constructor. Registers actions and filters to output ConvertKit Forms and Landing Pages
@@ -74,7 +74,7 @@ class ConvertKit_Broadcasts {
 			// If a WordPress Post exists for this Broadcast ID, we previously imported it - skip it.
 			if ( $this->broadcast_exists_as_post( $broadcast_id ) ) {
 				if ( $settings->debug_enabled() ) {
-					$log->add( 'CRON: convertkit_resource_refresh_broacasts(): Broadcast #' . $broadcast_id . ' already exists as a WordPress Post. Skipping...' );
+					$log->add( 'ConvertKit_Broadcasts_Importer::refresh(): Broadcast #' . $broadcast_id . ' already exists as a WordPress Post. Skipping...' );
 				}
 				continue;
 			}
@@ -88,7 +88,7 @@ class ConvertKit_Broadcasts {
 			// Skip if an error occured fetching the Broadcast.
 			if ( is_wp_error( $broadcast ) ) {
 				if ( $settings->debug_enabled() ) {
-					$log->add( 'CRON: convertkit_resource_refresh_broacasts(): Broadcast #' . $broadcast_id . '. Error fetching from API: ' . $broadcast->get_error_message() );
+					$log->add( 'ConvertKit_Broadcasts_Importer::refresh(): Broadcast #' . $broadcast_id . '. Error fetching from API: ' . $broadcast->get_error_message() );
 				}
 				continue;
 			}
@@ -96,7 +96,7 @@ class ConvertKit_Broadcasts {
 			// Skip if not public.
 			if ( ! $broadcast['public'] ) {
 				if ( $settings->debug_enabled() ) {
-					$log->add( 'CRON: convertkit_resource_refresh_broacasts(): Broadcast #' . $broadcast_id . ' is private. Skipping...' );
+					$log->add( 'ConvertKit_Broadcasts_Importer::refresh()): Broadcast #' . $broadcast_id . ' is private. Skipping...' );
 				}
 				continue;
 			}
@@ -107,7 +107,7 @@ class ConvertKit_Broadcasts {
 			// Skip if an error occured.
 			if ( is_wp_error( $post_id ) ) {
 				if ( $settings->debug_enabled() ) {
-					$log->add( 'CRON: convertkit_resource_refresh_broacasts(): Broadcast #' . $broadcast_id . '. Error on wp_insert_post(): ' . $post_id->get_error_message() );
+					$log->add( 'ConvertKit_Broadcasts_Importer::refresh(): Broadcast #' . $broadcast_id . '. Error on wp_insert_post(): ' . $post_id->get_error_message() );
 				}
 				continue;
 			}
@@ -126,7 +126,7 @@ class ConvertKit_Broadcasts {
 			// Maybe log if an error occured updating the Post to the publish status.
 			if ( is_wp_error( $post_id ) ) {
 				if ( $settings->debug_enabled() ) {
-					$log->add( 'CRON: convertkit_resource_refresh_broacasts(): Broadcast #' . $broadcast_id . '. Error on wp_update_post(): ' . $post_id->get_error_message() );
+					$log->add( 'ConvertKit_Broadcasts_Importer::refresh(): Broadcast #' . $broadcast_id . '. Error on wp_update_post(): ' . $post_id->get_error_message() );
 				}
 			}
 			break;

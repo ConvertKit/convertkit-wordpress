@@ -26,9 +26,6 @@ class ConvertKit_Setup {
 		$posts = new ConvertKit_Resource_Posts( 'cron' );
 		$posts->schedule_cron_event();
 
-		$broadcasts = new ConvertKit_Resource_Broadcasts( 'cron' );
-		$broadcasts->schedule_cron_event();
-
 	}
 
 	/**
@@ -78,15 +75,6 @@ class ConvertKit_Setup {
 		if ( version_compare( $current_version, '1.9.7.4', '<' ) ) {
 			$posts = new ConvertKit_Resource_Posts( 'cron' );
 			$posts->schedule_cron_event();
-		}
-
-		/**
-		 * 2.2.8+: Schedule Post Resources' Cron event to refresh Posts cache hourly,
-		 * as the activate() routine won't pick this up for existing active installations.
-		 */
-		if ( version_compare( $current_version, '2.2.8', '<' ) ) {
-			$broadcasts = new ConvertKit_Resource_Broadcasts( 'cron' );
-			$broadcasts->schedule_cron_event();
 		}
 
 		// Update the installed version number in the options table.
