@@ -42,7 +42,7 @@ class ConvertKit_Broadcasts_Importer {
 		// Initialize required classes.
 		$broadcasts_settings = new ConvertKit_Settings_Broadcasts();
 		$settings            = new ConvertKit_Settings();
-		$log      			 = new ConvertKit_Log( CONVERTKIT_PLUGIN_PATH );
+		$log                 = new ConvertKit_Log( CONVERTKIT_PLUGIN_PATH );
 
 		// Bail if Broadcasts to Posts are disabled.
 		if ( ! $broadcasts_settings->enabled() ) {
@@ -120,7 +120,8 @@ class ConvertKit_Broadcasts_Importer {
 				array(
 					'ID'          => $post_id,
 					'post_status' => 'publish',
-				)
+				),
+				true
 			);
 
 			// Maybe log if an error occured updating the Post to the publish status.
@@ -129,7 +130,9 @@ class ConvertKit_Broadcasts_Importer {
 					$log->add( 'ConvertKit_Broadcasts_Importer::refresh(): Broadcast #' . $broadcast_id . '. Error on wp_update_post(): ' . $post_id->get_error_message() );
 				}
 			}
-			break;
+			if ( $settings->debug_enabled() ) {
+				$log->add( 'ConvertKit_Broadcasts_Importer::refresh(): Broadcast #' . $broadcast_id . '. Added as Post ID #' . $post_id );
+			}
 		}
 
 	}
@@ -245,7 +248,7 @@ class ConvertKit_Broadcasts_Importer {
 		 *
 		 * @since   2.2.8
 		 *
-		 * @param   string  $permitted_html_tags    Permitted HTML Tags.
+		 * @param   array  $permitted_html_tags    Permitted HTML Tags.
 		 */
 		$permitted_html_tags = apply_filters( 'convertkit_broadcasts_parse_broadcast_content_permitted_html_tags', $permitted_html_tags );
 
@@ -267,29 +270,6 @@ class ConvertKit_Broadcasts_Importer {
 	}
 
 	/**
-	 * Strips <html>, <head> and <body> opening and closing tags from the given markup,
-	 * as well as the Content-Type meta tag we might have added in get_html().
-	 *
-	 * @since   1.0.0
-	 *
-	 * @param   string $markup     HTML Markup.
-	 * @return  string              HTML Markup
-	 * */
-	private function strip_html_head_body_tags( $markup ) {
-
-		$markup = str_replace( '<html>', '', $markup );
-		$markup = str_replace( '</html>', '', $markup );
-		$markup = str_replace( '<head>', '', $markup );
-		$markup = str_replace( '</head>', '', $markup );
-		$markup = str_replace( '<body>', '', $markup );
-		$markup = str_replace( '</body>', '', $markup );
-		$markup = str_replace( '<meta http-equiv="Content-Type" content="text/html; charset=utf-8">', '', $markup );
-
-		return $markup;
-
-	}
-
-	/**
 	 * Imports the broadcast's thumbnail_url image to the WordPress Media Library,
 	 * assigning it as the WordPress Post's featured image.
 	 *
@@ -297,13 +277,13 @@ class ConvertKit_Broadcasts_Importer {
 	 *
 	 * @param   array $broadcast  ConvertKit Broadcast.
 	 * @param   int   $post_id    Post ID.
-	 * @return  WP_Post|int
+	 * @return  WP_Error|bool|int
 	 */
 	private function add_broadcast_image_to_post( $broadcast, $post_id ) {
 
 		// Bail if no image specified.
 		if ( empty( $broadcast['thumbnail_url'] ) ) {
-			return;
+			return false;
 		}
 
 		// Initialize class.

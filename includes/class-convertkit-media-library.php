@@ -51,7 +51,8 @@ class ConvertKit_Media_Library {
 		$file_array['tmp_name'] = $tmp;
 
 		// Add the extension to the filename, if it doesn't exist.
-		// This happens if we streamed an image URL e.g. https://embed.filekitcdn.com/e/pX62TATVeCKK5QzkXWNLw3/iLRneK6yxY4WwQUdkkUMaq.
+		// This happens if we streamed an image URL with no extension specified.
+		// e.g. https://embed.filekitcdn.com/e/pX62TATVeCKK5QzkXWNLw3/iLRneK6yxY4WwQUdkkUMaq.
 		switch ( $ext ) {
 			case 'jpeg':
 			case 'jpg':
