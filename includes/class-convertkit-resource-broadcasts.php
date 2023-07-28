@@ -45,7 +45,7 @@ class ConvertKit_Resource_Broadcasts extends ConvertKit_Resource {
 	 *
 	 * @var     bool|string
 	 */
-	public $wp_cron_schedule = 'hourly';
+	public $wp_cron_schedule = 'daily';
 
 	/**
 	 * The key to use when alphabetically sorting resources.
