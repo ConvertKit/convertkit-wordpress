@@ -238,11 +238,12 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 				'show_option_none' => __( 'None', 'convertkit' ),
 				'echo'             => 0,
 				'hierarhical'      => 1,
-				'name'             => $args['name'],
-				'id'               => $args['name'],
+				'name'             => $this->settings_key . '[' . $args['name'] . ']',
+				'id'               => $this->settings_key . '_' . $args['name'],
 				'class'            => 'convertkit-select2 enabled',
 				'selected'         => $this->settings->get_by_key( $args['name'] ),
 				'taxonomy'         => 'category',
+				'hide_empty'       => false,
 			)
 		);
 
