@@ -56,7 +56,7 @@ class BroadcastsSettingsCest
 		$I->seeElement('input.enabled');
 
 		// Check the WordPress Cron task was scheduled.
-		// @TODO.
+		$I->seeCronEvent($I, 'convertkit_resource_refresh_broadcasts');
 
 		// Disable Broadcasts to Posts.
 		$I->uncheckOption('#enabled');
@@ -75,7 +75,7 @@ class BroadcastsSettingsCest
 		$I->dontSeeElement('input.enabled');
 
 		// Check the WordPress Cron task was unscheduled.
-		// @TODO.
+		$I->dontSeeCronEvent($I, 'convertkit_resource_refresh_broadcasts');
 	}
 
 	/**
