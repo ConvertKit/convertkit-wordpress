@@ -240,7 +240,7 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 				'hierarhical'      => 1,
 				'name'             => $args['name'],
 				'id'               => $args['name'],
-				'class'            => 'convertkit-select2',
+				'class'            => 'convertkit-select2 enabled',
 				'selected'         => $this->settings->get_by_key( $args['name'] ),
 				'taxonomy'         => 'category',
 			)
@@ -310,6 +310,7 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 			$args['description'],
 			array(
 				'convertkit-select2',
+				'enabled',
 			)
 		);
 
