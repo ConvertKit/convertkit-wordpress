@@ -113,7 +113,8 @@ class ConvertKit_Settings_Broadcasts {
 	public function get_defaults() {
 
 		$defaults = array(
-			'enabled' => '',
+			'enabled'  => '',
+			'category' => '',
 		);
 
 		/**

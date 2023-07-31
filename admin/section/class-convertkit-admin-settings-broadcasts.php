@@ -93,6 +93,18 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 			)
 		);
 
+		add_settings_field(
+			'category',
+			__( 'Category', 'convertkit' ),
+			array( $this, 'category_callback' ),
+			$this->settings_key,
+			$this->name,
+			array(
+				'name'        => 'category',
+				'description' => __( 'The category to assign imported Broadcasts to.', 'convertkit' ),
+			)
+		);
+
 	}
 
 	/**
@@ -138,6 +150,54 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 			'on',
 			$this->settings->enabled(), // phpcs:ignore WordPress.Security.EscapeOutput
 			$args['description'] // phpcs:ignore WordPress.Security.EscapeOutput
+		);
+
+	}
+
+	/**
+	 * Renders the input for the category setting.
+	 *
+	 * @since   2.2.8
+	 *
+	 * @param   array $args   Setting field arguments (name,description).
+	 */
+	public function category_callback( $args ) {
+
+		// Build field.
+		$select_field = wp_dropdown_categories( array(
+			'show_option_none' => __( 'None', 'convertkit' ),
+			'echo' => 0,
+			'hierarhical' => 1,
+			'name' => $args['name'],
+			'id' => $args['name'],
+			'class' => 'convertkit-select2',
+			'selected' => $this->settings->get_by_key( $args['name'] ),
+			'taxonomy' => 'category',
+		) );
+
+		// Output field.
+		echo '<div class="convertkit-select2-container">' . $select_field . '</div>'; // phpcs:ignore WordPress.Security.EscapeOutput
+
+	}
+
+	/**
+	 * Renders the input for the text setting.
+	 *
+	 * @since   2.2.8
+	 *
+	 * @param   array $args   Setting field arguments (name,description).
+	 */
+	public function text_callback( $args ) {
+
+		// Output field.
+		echo $this->category_callback( // phpcs:ignore WordPress.Security.EscapeOutput
+			$args['name'],
+			esc_attr( $this->settings->get_by_key( $args['name'] ) ),
+			$args['description'], // phpcs:ignore WordPress.Security.EscapeOutput
+			array(
+				'widefat',
+				'enabled',
+			)
 		);
 
 	}
