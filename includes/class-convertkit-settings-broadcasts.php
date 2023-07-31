@@ -113,11 +113,11 @@ class ConvertKit_Settings_Broadcasts {
 	public function get_defaults() {
 
 		$defaults = array(
-			'enabled'  		   => '',
-			'category' 		   => '',
+			'enabled'          => '',
+			'category'         => '',
 
 			// By default, only import Broadcasts as Posts for the last 30 days.
-			'send_at_min_date' => date( 'Y-m-d', strtotime( '-30 days' ) ),
+			'send_at_min_date' => gmdate( 'Y-m-d', strtotime( '-30 days' ) ),
 
 			'restrict_content' => '',
 		);

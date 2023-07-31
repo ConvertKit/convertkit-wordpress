@@ -45,11 +45,11 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 	/**
 	 * Schedules or unschedules the WordPress Cron event, based on whether
 	 * the Broadcast to Post functionality's is enabled or disabled.
-	 * 
-	 * @since 	2.2.8
-	 * 
-	 * @param 	string 	$section 	Settings section.
-	 * @param 	array 	$settings 	Settings.
+	 *
+	 * @since   2.2.8
+	 *
+	 * @param   string $section    Settings section.
+	 * @param   array  $settings   Settings.
 	 */
 	public function schedule_or_unschedule_cron_event( $section, $settings ) {
 
@@ -188,16 +188,18 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 	public function category_callback( $args ) {
 
 		// Build field.
-		$select_field = wp_dropdown_categories( array(
-			'show_option_none' => __( 'None', 'convertkit' ),
-			'echo' => 0,
-			'hierarhical' => 1,
-			'name' => $args['name'],
-			'id' => $args['name'],
-			'class' => 'convertkit-select2',
-			'selected' => $this->settings->get_by_key( $args['name'] ),
-			'taxonomy' => 'category',
-		) );
+		$select_field = wp_dropdown_categories(
+			array(
+				'show_option_none' => __( 'None', 'convertkit' ),
+				'echo'             => 0,
+				'hierarhical'      => 1,
+				'name'             => $args['name'],
+				'id'               => $args['name'],
+				'class'            => 'convertkit-select2',
+				'selected'         => $this->settings->get_by_key( $args['name'] ),
+				'taxonomy'         => 'category',
+			)
+		);
 
 		// Output field.
 		echo '<div class="convertkit-select2-container">' . $select_field . '</div>'; // phpcs:ignore WordPress.Security.EscapeOutput
