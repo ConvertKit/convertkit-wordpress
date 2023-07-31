@@ -105,6 +105,30 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 			)
 		);
 
+		add_settings_field(
+			'send_at_min_date',
+			__( 'Earliest Date', 'convertkit' ),
+			array( $this, 'date_callback' ),
+			$this->settings_key,
+			$this->name,
+			array(
+				'name'        => 'send_at_min_date',
+				'description' => __( 'The earliest date to import Broadcasts from, based on the Broadcast\'s sent date and time.', 'convertkit' ),
+			)
+		);
+
+		add_settings_field(
+			'restrict_content',
+			__( 'Member Content', 'convertkit' ),
+			array( $this, 'restrict_content_callback' ),
+			$this->settings_key,
+			$this->name,
+			array(
+				'name'        => 'restrict_content',
+				'description' => __( 'For Broadcasts marked as "paid subscribers only" in ConvertKit, select the ConvertKit product that the visitor must be subscribed to, permitting them access to view this members only content.', 'convertkit' ),
+			)
+		);
+
 	}
 
 	/**
@@ -181,24 +205,69 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 	}
 
 	/**
-	 * Renders the input for the text setting.
+	 * Renders the input for the date setting.
 	 *
 	 * @since   2.2.8
 	 *
 	 * @param   array $args   Setting field arguments (name,description).
 	 */
-	public function text_callback( $args ) {
+	public function date_callback( $args ) {
 
 		// Output field.
-		echo $this->category_callback( // phpcs:ignore WordPress.Security.EscapeOutput
+		echo $this->get_date_field( // phpcs:ignore WordPress.Security.EscapeOutput
 			$args['name'],
 			esc_attr( $this->settings->get_by_key( $args['name'] ) ),
 			$args['description'], // phpcs:ignore WordPress.Security.EscapeOutput
 			array(
-				'widefat',
 				'enabled',
 			)
 		);
+
+	}
+
+	/**
+	 * Renders the input for the Member Content setting.
+	 *
+	 * @since  2.2.8
+	 *
+	 * @param   array $args  Field arguments.
+	 */
+	public function restrict_content_callback( $args ) {
+
+		// Refresh Products.
+		$products = new ConvertKit_Resource_Products( 'settings' );
+		$products->refresh();
+
+		// Bail if no Forms exist.
+		if ( ! $products->exist() ) {
+			esc_html_e( 'No Products exist in ConvertKit.', 'convertkit' );
+			echo '<br /><a href="' . esc_url( convertkit_get_new_form_url() ) . '" target="_blank">' . esc_html__( 'Click here to create your first Product.', 'convertkit' ) . '</a>';
+			return;
+		}
+
+		// Build array of select options.
+		$options = array(
+			'0' => esc_html__( 'Don\'t restrict content to members only.', 'convertkit' ),
+		);
+		foreach ( $products->get() as $product ) {
+			// Prefix of 'product_' is deliberate; we may support restricting content by tag in the future,
+			// and therefore need to denote the resource ID's type (product, tag etc).
+			$options[ 'product_' . esc_attr( $product['id'] ) ] = esc_html( $product['name'] );
+		}
+
+		// Build field.
+		$select_field = $this->get_select_field(
+			$args['name'],
+			esc_attr( $this->settings->get_by_key( $args['name'] ) ),
+			$options,
+			$args['description'],
+			array(
+				'convertkit-select2',
+			)
+		);
+
+		// Output field.
+		echo '<div class="convertkit-select2-container">' . $select_field . '</div>'; // phpcs:ignore WordPress.Security.EscapeOutput
 
 	}
 

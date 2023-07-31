@@ -262,6 +262,32 @@ abstract class ConvertKit_Settings_Base {
 	}
 
 	/**
+	 * Returns a date field.
+	 *
+	 * @since   2.2.8
+	 *
+	 * @param   string            $name           Name.
+	 * @param   string            $value          Value.
+	 * @param   bool|string|array $description    Description (false|string|array).
+	 * @param   bool|array        $css_classes    CSS Classes (false|array).
+	 * @return  string                              HTML Field
+	 */
+	public function get_date_field( $name, $value = '', $description = false, $css_classes = false ) {
+
+		$html = sprintf(
+			'<input type="date" class="%s" id="%s" name="%s[%s]" value="%s" />',
+			( is_array( $css_classes ) ? implode( ' ', $css_classes ) : 'regular-text' ),
+			$name,
+			$this->settings_key,
+			$name,
+			$value
+		);
+
+		return $html . $this->get_description( $description );
+
+	}
+
+	/**
 	 * Returns a select dropdown field.
 	 *
 	 * @since   1.9.6
