@@ -38,7 +38,52 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 		// Enable or disable the scheduled task when settings are saved.
 		add_action( 'convertkit_settings_base_sanitize_settings', array( $this, 'schedule_or_unschedule_cron_event' ), 10, 2 );
 
+		// Enqueue scripts and CSS.
+		add_action( 'convertkit_admin_settings_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
+		add_action( 'convertkit_admin_settings_enqueue_styles', array( $this, 'enqueue_styles' ) );
+
 		parent::__construct();
+
+	}
+
+	/**
+	 * Enqueues scripts for the Settings > Broadcasts screen.
+	 *
+	 * @since   2.2.4
+	 *
+	 * @param   string $section    Settings section / tab (general|tools|restrict-content).
+	 */
+	public function enqueue_scripts( $section ) {
+
+		// Bail if we're not on the Broadcasts section.
+		if ( $section !== $this->name ) {
+			return;
+		}
+
+		// Enqueue Select2 JS.
+		convertkit_select2_enqueue_scripts();
+
+		// Enqueue JS.
+		wp_enqueue_script( 'convertkit-admin-settings-conditional-display', CONVERTKIT_PLUGIN_URL . 'resources/backend/js/settings-conditional-display.js', array( 'jquery' ), CONVERTKIT_PLUGIN_VERSION, true );
+
+	}
+
+	/**
+	 * Enqueues styles for the Settings > General screen.
+	 *
+	 * @since   2.2.8
+	 *
+	 * @param   string $section    Settings section / tab (general|tools|restrict-content).
+	 */
+	public function enqueue_styles( $section ) {
+
+		// Bail if we're not on the Broadcasts section.
+		if ( $section !== $this->name ) {
+			return;
+		}
+
+		// Enqueue Select2 CSS.
+		convertkit_select2_enqueue_styles();
 
 	}
 
