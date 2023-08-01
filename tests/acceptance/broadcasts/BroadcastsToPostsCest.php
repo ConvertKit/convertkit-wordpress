@@ -18,19 +18,19 @@ class BroadcastsToPostsCest
 	/**
 	 * The WordPress Category name, used for tests that assign imported Broadcasts
 	 * to Posts where the Category setting is defined.
-	 * 
-	 * @since 	2.2.8
-	 * 
-	 * @var 	string
+	 *
+	 * @since   2.2.8
+	 *
+	 * @var     string
 	 */
 	private $categoryName = 'ConvertKit Broadcasts to Posts';
 
 	/**
 	 * The WordPress Category created before each test was run.
-	 * 
-	 * @since 	2.2.8
-	 * 
-	 * @var 	int
+	 *
+	 * @since   2.2.8
+	 *
+	 * @var     int
 	 */
 	private $categoryID = 0;
 
@@ -52,7 +52,8 @@ class BroadcastsToPostsCest
 		$I->activateThirdPartyPlugin($I, 'wp-crontrol');
 
 		// Create a Category named 'ConvertKit Broadcasts to Posts'.
-		$this->categoryID = $I->haveTermInDatabase($this->categoryName, 'category');
+		$result = $I->haveTermInDatabase($this->categoryName, 'category');
+		$this->categoryID = $result[0]; // term_id.
 	}
 
 	/**
@@ -104,7 +105,7 @@ class BroadcastsToPostsCest
 			$I,
 			[
 				'enabled'          => true,
-				'category'		   => $this->categoryName,
+				'category'         => $this->categoryName,
 				'send_at_min_date' => '01/01/2020',
 			]
 		);
@@ -123,8 +124,17 @@ class BroadcastsToPostsCest
 		$I->see($_ENV['CONVERTKIT_API_BROADCAST_SECOND_TITLE']);
 		$I->see($_ENV['CONVERTKIT_API_BROADCAST_THIRD_TITLE']);
 
+		// Get created Post IDs.
+		$postIDs = [
+			(int) str_replace('post-', '', $I->grabAttributeFrom('tbody#the-list > tr:nth-child(1)', 'id')),
+			(int) str_replace('post-', '', $I->grabAttributeFrom('tbody#the-list > tr:nth-child(2)', 'id')),
+			(int) str_replace('post-', '', $I->grabAttributeFrom('tbody#the-list > tr:nth-child(3)', 'id')),
+		];
+
 		// Confirm each Post is assigned to the Category.
-		// @TODO.
+		foreach ($postIDs as $postID) {
+			$I->seePostWithTermInDatabase($postID, $this->categoryID, null, 'category');
+		}
 	}
 
 	/**
@@ -190,18 +200,37 @@ class BroadcastsToPostsCest
 		$I->amOnAdminPage('edit.php');
 
 		// Check that no PHP warnings or notices were output.
-		//$I->checkNoWarningsAndNoticesOnScreen($I);
+		$I->checkNoWarningsAndNoticesOnScreen($I);
 
 		// Confirm expected Broadcasts exist as Posts.
 		$I->see($_ENV['CONVERTKIT_API_BROADCAST_FIRST_TITLE']);
 		$I->see($_ENV['CONVERTKIT_API_BROADCAST_SECOND_TITLE']);
 		$I->see($_ENV['CONVERTKIT_API_BROADCAST_THIRD_TITLE']);
 
+		// Get created Post IDs.
+		$postIDs = [
+			(int) str_replace('post-', '', $I->grabAttributeFrom('tbody#the-list > tr:nth-child(1)', 'id')),
+			(int) str_replace('post-', '', $I->grabAttributeFrom('tbody#the-list > tr:nth-child(2)', 'id')),
+			(int) str_replace('post-', '', $I->grabAttributeFrom('tbody#the-list > tr:nth-child(3)', 'id')),
+		];
+
 		// Confirm each Post's Restrict Content setting is correct.
-		// @TODO.
+		foreach($postIDs as $postID) {
+			// Edit Post.
+			$I->amOnAdminPage('post.php?post=' . $postID . '&action=edit');
+
+			// Confirm Restrict Content setting is correct.
+			// @TODO.
+		}
 
 		// Test the first Post's Restrict Content functionality.
 		// @TODO.
+		$I->testRestrictedContentOnFrontend(
+			$I,
+			$url,
+			'',
+			'?'
+		);
 	}
 
 	/**
@@ -227,9 +256,12 @@ class BroadcastsToPostsCest
 		);
 
 		// Remove imported Posts.
-		$I->dontHavePostInDatabase([
-			'post_type' => 'post',
-			'post_status' => 'publish', 
-		], true);
+		$I->dontHavePostInDatabase(
+			[
+				'post_type'   => 'post',
+				'post_status' => 'publish',
+			],
+			true
+		);
 	}
 }

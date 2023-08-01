@@ -56,6 +56,9 @@ class WPCron extends \Codeception\Module
 
 		// Run the event.
 		$I->click('Run now');
+
+		// Confirm the event is scheduled to run.
+		$I->see('Scheduled the cron event ' . $name . ' to run now.');
 	}
 
 	/**
