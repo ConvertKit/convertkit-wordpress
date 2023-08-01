@@ -400,6 +400,50 @@ class Plugin extends \Codeception\Module
 	}
 
 	/**
+	 * Helper method to setup the Plugin's Broadcasts to Posts settings.
+	 *
+	 * @since   2.2.8
+	 *
+	 * @param   AcceptanceTester $I          AcceptanceTester.
+	 * @param   bool|array       $settings   Array of key/value settings. If not defined, uses expected defaults.
+	 */
+	public function setupConvertKitPluginBroadcastsToPosts($I, $settings = false)
+	{
+		// Go to the Plugin's Broadcasts screen.
+		$I->loadConvertKitSettingsBroadcastsScreen($I);
+
+		// Complete fields.
+		if ( $settings ) {
+			foreach ( $settings as $key => $value ) {
+				switch ( $key ) {
+					case 'enabled':
+						if ( $value ) {
+							$I->checkOption('_wp_convertkit_settings_broadcasts[' . $key . ']');
+						} else {
+							$I->uncheckOption('_wp_convertkit_settings_broadcasts[' . $key . ']');
+						}
+						break;
+
+					case 'category':
+					case 'restrict_content':
+						$I->fillSelect2Field($I, '#select2-_wp_convertkit_settings_broadcasts_' . $key . '-container', $value);
+
+						break;
+					default:
+						$I->fillField('_wp_convertkit_settings_broadcasts[' . $key . ']', $value);
+						break;
+				}
+			}
+		}
+
+		// Click the Save Changes button.
+		$I->click('Save Changes');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+	}
+
+	/**
 	 * Helper method to reset the ConvertKit Plugin settings, as if it's a clean installation.
 	 *
 	 * @since   1.9.6.7
