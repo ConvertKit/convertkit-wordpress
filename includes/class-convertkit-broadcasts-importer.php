@@ -252,7 +252,8 @@ class ConvertKit_Broadcasts_Importer {
 		 */
 		$permitted_html_tags = apply_filters( 'convertkit_broadcasts_parse_broadcast_content_permitted_html_tags', $permitted_html_tags );
 
-		// For PHP 7.4 compat, convert permitted HTML tags to a string.
+		// For PHP 7.4 and lower compatibility, convert permitted HTML tags array to a string
+		// for use in strip_tags().
 		$permitted_html_tags_string = '<' . implode( '><', $permitted_html_tags ) . '>';
 
 		// Remove other tags, retaining inner contents.
