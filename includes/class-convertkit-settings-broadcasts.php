@@ -103,6 +103,60 @@ class ConvertKit_Settings_Broadcasts {
 	}
 
 	/**
+	 * Returns the WordPress Category to assign imported Broadcasts to.
+	 *
+	 * @since   2.2.8
+	 *
+	 * @return  bool
+	 */
+	public function category() {
+
+		return $this->settings['category'];
+
+	}
+
+	/**
+	 * Returns the earliest date that Broadcasts should be imported,
+	 * based on their send_at date.
+	 *
+	 * @since   2.2.8
+	 *
+	 * @return  string  Date (yyyy-mm-dd)
+	 */
+	public function send_at_min_date() {
+
+		return $this->settings['send_at_min_date'];
+
+	}
+
+	/**
+	 * Returns whether imported Broadcasts should have their Restrict Content
+	 * setting defined, if the Broadcast is marked as paid.
+	 *
+	 * @since   2.2.8
+	 *
+	 * @return  bool
+	 */
+	public function restrict_content_enabled() {
+
+		return ! empty( $this->settings['restrict_content'] );
+
+	}
+
+	/**
+	 * Returns the Restrict Content setting to assign to imported Broadcasts
+	 *
+	 * @since   2.2.8
+	 *
+	 * @return  string
+	 */
+	public function restrict_content() {
+
+		return $this->settings['restrict_content'];
+
+	}
+
+	/**
 	 * The default settings, used when the ConvertKit Broadcasts Settings haven't been saved
 	 * e.g. on a new installation.
 	 *
