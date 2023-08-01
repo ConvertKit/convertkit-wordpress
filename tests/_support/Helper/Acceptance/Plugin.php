@@ -455,9 +455,12 @@ class Plugin extends \Codeception\Module
 		// Plugin Settings.
 		$I->dontHaveOptionInDatabase('_wp_convertkit_settings');
 		$I->dontHaveOptionInDatabase('_wp_convertkit_settings_restrict_content');
+		$I->dontHaveOptionInDatabase('_wp_convertkit_settings_broadcasts');
 		$I->dontHaveOptionInDatabase('convertkit_version');
 
 		// Resources.
+		$I->dontHaveOptionInDatabase('convertkit_broadcasts');
+		$I->dontHaveOptionInDatabase('convertkit_broadcasts_last_queried');
 		$I->dontHaveOptionInDatabase('convertkit_forms');
 		$I->dontHaveOptionInDatabase('convertkit_forms_last_queried');
 		$I->dontHaveOptionInDatabase('convertkit_landing_pages');

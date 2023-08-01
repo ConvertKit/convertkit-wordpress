@@ -52,7 +52,7 @@ class BroadcastsToPostsCest
 		$I->activateThirdPartyPlugin($I, 'wp-crontrol');
 
 		// Create a Category named 'ConvertKit Broadcasts to Posts'.
-		$result = $I->haveTermInDatabase($this->categoryName, 'category');
+		$result           = $I->haveTermInDatabase($this->categoryName, 'category');
 		$this->categoryID = $result[0]; // term_id.
 	}
 
@@ -77,11 +77,14 @@ class BroadcastsToPostsCest
 		// Run the WordPress Cron event to import Broadcasts to WordPress Posts.
 		$I->runCronEvent($I, $this->cronEventName);
 
+		// Wait a few seconds for the Cron event to complete importing Broadcasts.
+		$I->wait(5);
+
 		// Load the Posts screen.
 		$I->amOnAdminPage('edit.php');
 
 		// Check that no PHP warnings or notices were output.
-		//$I->checkNoWarningsAndNoticesOnScreen($I);
+		$I->checkNoWarningsAndNoticesOnScreen($I);
 
 		// Confirm expected Broadcasts exist as Posts.
 		$I->see($_ENV['CONVERTKIT_API_BROADCAST_FIRST_TITLE']);
@@ -113,11 +116,14 @@ class BroadcastsToPostsCest
 		// Run the WordPress Cron event to import Broadcasts to WordPress Posts.
 		$I->runCronEvent($I, $this->cronEventName);
 
+		// Wait a few seconds for the Cron event to complete importing Broadcasts.
+		$I->wait(5);
+
 		// Load the Posts screen.
 		$I->amOnAdminPage('edit.php');
 
 		// Check that no PHP warnings or notices were output.
-		//$I->checkNoWarningsAndNoticesOnScreen($I);
+		$I->checkNoWarningsAndNoticesOnScreen($I);
 
 		// Confirm expected Broadcasts exist as Posts.
 		$I->see($_ENV['CONVERTKIT_API_BROADCAST_FIRST_TITLE']);
@@ -160,6 +166,9 @@ class BroadcastsToPostsCest
 		// Run the WordPress Cron event to import Broadcasts to WordPress Posts.
 		$I->runCronEvent($I, $this->cronEventName);
 
+		// Wait a few seconds for the Cron event to complete importing Broadcasts.
+		$I->wait(5);
+
 		// Load the Posts screen.
 		$I->amOnAdminPage('edit.php');
 
@@ -167,6 +176,7 @@ class BroadcastsToPostsCest
 		$I->checkNoWarningsAndNoticesOnScreen($I);
 
 		// Confirm no Broadcasts exist as Posts.
+		$I->wait(3);
 		$I->dontSee($_ENV['CONVERTKIT_API_BROADCAST_FIRST_TITLE']);
 		$I->dontSee($_ENV['CONVERTKIT_API_BROADCAST_SECOND_TITLE']);
 		$I->dontSee($_ENV['CONVERTKIT_API_BROADCAST_THIRD_TITLE']);
@@ -196,6 +206,9 @@ class BroadcastsToPostsCest
 		// Run the WordPress Cron event to import Broadcasts to WordPress Posts.
 		$I->runCronEvent($I, $this->cronEventName);
 
+		// Wait a few seconds for the Cron event to complete importing Broadcasts.
+		$I->wait(5);
+
 		// Load the Posts screen.
 		$I->amOnAdminPage('edit.php');
 
@@ -215,21 +228,20 @@ class BroadcastsToPostsCest
 		];
 
 		// Confirm each Post's Restrict Content setting is correct.
-		foreach($postIDs as $postID) {
+		foreach ($postIDs as $postID) {
 			// Edit Post.
 			$I->amOnAdminPage('post.php?post=' . $postID . '&action=edit');
 
 			// Confirm Restrict Content setting is correct.
-			// @TODO.
+			$I->seeInField('wp-convertkit[restrict_content]', $_ENV['CONVERTKIT_API_PRODUCT_NAME']);
 		}
 
 		// Test the first Post's Restrict Content functionality.
-		// @TODO.
 		$I->testRestrictedContentOnFrontend(
 			$I,
-			$url,
+			$postIDs[0],
 			'',
-			'?'
+			'Here\'s some content for paid subscribers only.'
 		);
 	}
 
