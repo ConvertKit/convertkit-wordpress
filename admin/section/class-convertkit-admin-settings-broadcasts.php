@@ -126,6 +126,9 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 	 */
 	public function register_fields() {
 
+		// Initialize classes that will be used.
+		$restrict_content_settings = new ConvertKit_Settings_Restrict_Content();
+
 		add_settings_field(
 			'enabled',
 			__( 'Enable', 'convertkit' ),
@@ -134,7 +137,7 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 			$this->name,
 			array(
 				'name'        => 'enabled',
-				'description' => __( 'Enables automatic publication of ConvertKit Broadcasts to WordPress Posts.', 'convertkit' ),
+				'description' => __( 'Enables automatic publication of ConvertKit broadcasts to WordPress Posts.', 'convertkit' ),
 			)
 		);
 
@@ -146,7 +149,7 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 			$this->name,
 			array(
 				'name'        => 'category',
-				'description' => __( 'The category to assign imported Broadcasts to.', 'convertkit' ),
+				'description' => __( 'The category to assign imported broadcasts to.', 'convertkit' ),
 			)
 		);
 
@@ -158,21 +161,24 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 			$this->name,
 			array(
 				'name'        => 'send_at_min_date',
-				'description' => __( 'The earliest date to import Broadcasts from, based on the Broadcast\'s sent date and time.', 'convertkit' ),
+				'description' => __( 'The earliest date to import broadcasts from, based on the broadcast\'s sent date and time.', 'convertkit' ),
 			)
 		);
 
-		add_settings_field(
-			'restrict_content',
-			__( 'Member Content', 'convertkit' ),
-			array( $this, 'restrict_content_callback' ),
-			$this->settings_key,
-			$this->name,
-			array(
-				'name'        => 'restrict_content',
-				'description' => __( 'For Broadcasts marked as "paid subscribers only" in ConvertKit, select the ConvertKit product that the visitor must be subscribed to, permitting them access to view this members only content.', 'convertkit' ),
-			)
-		);
+		// Only register the Member Content field if Restrict Content is enabled.
+		if ( $restrict_content_settings->enabled() ) {
+			add_settings_field(
+				'restrict_content',
+				__( 'Member Content', 'convertkit' ),
+				array( $this, 'restrict_content_callback' ),
+				$this->settings_key,
+				$this->name,
+				array(
+					'name'        => 'restrict_content',
+					'description' => __( 'Select the ConvertKit product that the visitor must be subscribed to, permitting them access to view the imported broadcast.', 'convertkit' ),
+				)
+			);
+		}
 
 	}
 
