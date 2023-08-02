@@ -107,7 +107,7 @@ class ConvertKit_Settings_Broadcasts {
 	 *
 	 * @since   2.2.8
 	 *
-	 * @return  bool
+	 * @return  int
 	 */
 	public function author_id() {
 
@@ -120,7 +120,7 @@ class ConvertKit_Settings_Broadcasts {
 	 *
 	 * @since   2.2.8
 	 *
-	 * @return  bool
+	 * @return  int
 	 */
 	public function category_id() {
 
