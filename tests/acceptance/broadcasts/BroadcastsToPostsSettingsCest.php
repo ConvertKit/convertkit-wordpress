@@ -4,7 +4,7 @@
  *
  * @since   2.2.8
  */
-class BroadcastsSettingsCest
+class BroadcastsToPostsSettingsCest
 {
 	/**
 	 * Run common actions before running the test functions in this class.

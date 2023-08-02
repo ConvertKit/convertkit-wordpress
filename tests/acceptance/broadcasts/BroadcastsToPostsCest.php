@@ -193,6 +193,14 @@ class BroadcastsToPostsCest
 	 */
 	public function testBroadcastsImportWithMemberContentEnabled(AcceptanceTester $I)
 	{
+		// Enable Restrict Content.
+		$I->setupConvertKitPluginRestrictContent(
+			$I,
+			[
+				'enabled' => true,
+			]
+		);
+
 		// Enable Broadcasts to Posts.
 		$I->setupConvertKitPluginBroadcastsToPosts(
 			$I,
