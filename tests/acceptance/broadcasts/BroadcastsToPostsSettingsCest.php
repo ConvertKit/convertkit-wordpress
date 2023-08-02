@@ -92,7 +92,7 @@ class BroadcastsToPostsSettingsCest
 
 		// Enable Broadcasts to Posts, and modify settings.
 		$I->checkOption('#enabled');
-		$I->fillSelect2Field($I, '#select2-_wp_convertkit_settings_broadcasts_category-container', 'ConvertKit Broadcasts to Posts');
+		$I->fillSelect2Field($I, '#select2-_wp_convertkit_settings_broadcasts_category_id-container', 'ConvertKit Broadcasts to Posts');
 		$I->fillField('_wp_convertkit_settings_broadcasts[send_at_min_date]', '01/01/2023');
 
 		// Click the Save Changes button.

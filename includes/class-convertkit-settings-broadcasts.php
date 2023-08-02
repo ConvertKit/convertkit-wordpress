@@ -103,15 +103,28 @@ class ConvertKit_Settings_Broadcasts {
 	}
 
 	/**
-	 * Returns the WordPress Category to assign imported Broadcasts to.
+	 * Returns the WordPress Author ID to assign imported Broadcasts to.
 	 *
 	 * @since   2.2.8
 	 *
 	 * @return  bool
 	 */
-	public function category() {
+	public function author_id() {
 
-		return $this->settings['category'];
+		return $this->settings['author_id'];
+
+	}
+
+	/**
+	 * Returns the WordPress Category ID to assign imported Broadcasts to.
+	 *
+	 * @since   2.2.8
+	 *
+	 * @return  bool
+	 */
+	public function category_id() {
+
+		return $this->settings['category_id'];
 
 	}
 
@@ -168,7 +181,8 @@ class ConvertKit_Settings_Broadcasts {
 
 		$defaults = array(
 			'enabled'          => '',
-			'category'         => '',
+			'author_id'		   => get_current_user_id(),
+			'category_id'      => '',
 
 			// By default, only import Broadcasts as Posts for the last 30 days.
 			'send_at_min_date' => gmdate( 'Y-m-d', strtotime( '-30 days' ) ),

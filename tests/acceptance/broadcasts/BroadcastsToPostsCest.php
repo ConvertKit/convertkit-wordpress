@@ -108,7 +108,7 @@ class BroadcastsToPostsCest
 			$I,
 			[
 				'enabled'          => true,
-				'category'         => $this->categoryName,
+				'category_id'      => $this->categoryName,
 				'send_at_min_date' => '01/01/2020',
 			]
 		);

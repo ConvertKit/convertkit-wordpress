@@ -113,7 +113,8 @@ class ConvertKit_Broadcasts_Importer {
 			$post_id = wp_insert_post(
 				$this->build_post_args(
 					$broadcast,
-					$broadcasts_settings->category()
+					$broadcasts_settings->author_id(),
+					$broadcasts_settings->category_id()
 				),
 				true
 			);
@@ -209,17 +210,19 @@ class ConvertKit_Broadcasts_Importer {
 	 * @since   2.2.8
 	 *
 	 * @param   array    $broadcast          Broadcast.
+	 * @param 	int 	 $author_id 		 WordPress User to assign as the author of the Post.
 	 * @param   bool|int $category_id        Category ID.
 	 * @return  array                           wp_insert_post() compatible arguments.
 	 */
-	private function build_post_args( $broadcast, $category_id = false ) {
+	private function build_post_args( $broadcast, $author_id, $category_id = false ) {
 
 		// Define array for the wp_insert_post() compatible arguments.
 		$post_args = array(
 			'post_type'    => 'post',
 			'post_title'   => $broadcast['subject'],
-			'post_excerpt' => $broadcast['description'],
+			'post_excerpt' => ( ! is_null( $broadcast['description'] ) ? $broadcast['description'] : '' ),
 			'post_content' => $this->parse_broadcast_content( $broadcast['content'] ),
+			'post_author'  => $author_id,
 		);
 
 		// If a Category was supplied, assign the Post to the given Category ID when created.
