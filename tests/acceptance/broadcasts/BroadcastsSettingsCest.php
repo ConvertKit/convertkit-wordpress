@@ -33,7 +33,7 @@ class BroadcastsSettingsCest
 	 */
 	public function testEnableDisable(AcceptanceTester $I)
 	{
-		// Go to the Plugin's Member Content Screen.
+		// Go to the Plugin's Broadcasts Screen.
 		$I->loadConvertKitSettingsBroadcastsScreen($I);
 
 		// Confirm that additional fields are hidden, because the 'Enable' option is not checked.
@@ -87,14 +87,13 @@ class BroadcastsSettingsCest
 	 */
 	public function testSaveSettings(AcceptanceTester $I)
 	{
-		// Go to the Plugin's Member Content Screen.
+		// Go to the Plugin's Broadcasts Screen.
 		$I->loadConvertKitSettingsBroadcastsScreen($I);
 
 		// Enable Broadcasts to Posts, and modify settings.
 		$I->checkOption('#enabled');
 		$I->fillSelect2Field($I, '#select2-_wp_convertkit_settings_broadcasts_category-container', 'ConvertKit Broadcasts to Posts');
 		$I->fillField('_wp_convertkit_settings_broadcasts[send_at_min_date]', '01/01/2023');
-		$I->fillSelect2Field($I, '#select2-_wp_convertkit_settings_broadcasts_restrict_content-container', $_ENV['CONVERTKIT_API_PRODUCT_NAME']);
 
 		// Click the Save Changes button.
 		$I->click('Save Changes');
@@ -106,6 +105,62 @@ class BroadcastsSettingsCest
 		$I->seeCheckboxIsChecked('#enabled');
 		$I->seeInField('_wp_convertkit_settings_broadcasts[category]', 'ConvertKit Broadcasts to Posts');
 		$I->seeInField('_wp_convertkit_settings_broadcasts[send_at_min_date]', '2023-01-01');
+	}
+
+	/**
+	 * Tests that the Member Content setting is not displayed when Member Content is disabled at
+	 * Settings > ConvertKit > Member Content.
+	 *
+	 * @since   2.2.8
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testRestrictContentSettingHiddenWhenRestrictContentDisabled(AcceptanceTester $I)
+	{
+		// Go to the Plugin's Broadcasts Screen.
+		$I->loadConvertKitSettingsBroadcastsScreen($I);
+
+		// Enable Broadcasts to Posts.
+		$I->checkOption('#enabled');
+
+		// Confirm no Restrict Content option is displayed.
+		$I->dontSeeElementInDOM('select#_wp_convertkit_settings_broadcasts_restrict_content');
+	}
+
+	/**
+	 * Tests that the Member Content setting is displayed when Member Content is disabled at
+	 * Settings > ConvertKit > Member Content.
+	 *
+	 * @since   2.2.8
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testRestrictContentSettingDisplayedWhenRestrictContentEnabled(AcceptanceTester $I)
+	{
+		// Enable Restrict Content.
+		$I->setupConvertKitPluginRestrictContent(
+			$I,
+			[
+				'enabled' => true,
+			]
+		);
+
+		// Go to the Plugin's Broadcasts Screen.
+		$I->loadConvertKitSettingsBroadcastsScreen($I);
+
+		// Enable Broadcasts to Posts.
+		$I->checkOption('#enabled');
+
+		// Confirm no Restrict Content option is displayed.
+		$I->fillSelect2Field($I, '#select2-_wp_convertkit_settings_broadcasts_restrict_content-container', $_ENV['CONVERTKIT_API_PRODUCT_NAME']);
+
+		// Click the Save Changes button.
+		$I->click('Save Changes');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Confirm the setting saved.
 		$I->seeInField('_wp_convertkit_settings_broadcasts[restrict_content]', $_ENV['CONVERTKIT_API_PRODUCT_NAME']);
 	}
 
