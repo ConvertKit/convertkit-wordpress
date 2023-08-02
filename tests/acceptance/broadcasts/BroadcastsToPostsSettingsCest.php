@@ -103,7 +103,7 @@ class BroadcastsToPostsSettingsCest
 
 		// Confirm that settings saved.
 		$I->seeCheckboxIsChecked('#enabled');
-		$I->seeInField('_wp_convertkit_settings_broadcasts[category]', 'ConvertKit Broadcasts to Posts');
+		$I->seeInField('_wp_convertkit_settings_broadcasts[category_id]', 'ConvertKit Broadcasts to Posts');
 		$I->seeInField('_wp_convertkit_settings_broadcasts[send_at_min_date]', '2023-01-01');
 	}
 

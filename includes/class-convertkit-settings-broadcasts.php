@@ -181,7 +181,7 @@ class ConvertKit_Settings_Broadcasts {
 
 		$defaults = array(
 			'enabled'          => '',
-			'author_id'		   => get_current_user_id(),
+			'author_id'        => get_current_user_id(),
 			'category_id'      => '',
 
 			// By default, only import Broadcasts as Posts for the last 30 days.

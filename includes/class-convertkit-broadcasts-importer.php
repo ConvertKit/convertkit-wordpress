@@ -210,7 +210,7 @@ class ConvertKit_Broadcasts_Importer {
 	 * @since   2.2.8
 	 *
 	 * @param   array    $broadcast          Broadcast.
-	 * @param 	int 	 $author_id 		 WordPress User to assign as the author of the Post.
+	 * @param   int      $author_id          WordPress User to assign as the author of the Post.
 	 * @param   bool|int $category_id        Category ID.
 	 * @return  array                           wp_insert_post() compatible arguments.
 	 */
