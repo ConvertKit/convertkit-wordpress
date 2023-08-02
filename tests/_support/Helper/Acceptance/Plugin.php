@@ -479,6 +479,21 @@ class Plugin extends \Codeception\Module
 	}
 
 	/**
+	 * Helper method to load the Plugin's Settings > Broadcasts screen.
+	 *
+	 * @since   2.2.8
+	 *
+	 * @param   AcceptanceTester $I     AcceptanceTester.
+	 */
+	public function loadConvertKitSettingsBroadcastsScreen($I)
+	{
+		$I->amOnAdminPage('options-general.php?page=_wp_convertkit_settings&tab=broadcasts');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+	}
+
+	/**
 	 * Helper method to clear the Plugin's debug log.
 	 *
 	 * @since   1.9.6
