@@ -1053,7 +1053,9 @@ class Plugin extends \Codeception\Module
 		$I->checkNoWarningsAndNoticesOnScreen($I);
 
 		// Confirm that the visible text displays, hidden text does not display and the CTA displays.
-		$I->see($visibleContent);
+		if ( ! empty($visibleContent)) {
+			$I->see($visibleContent);
+		}
 		$I->dontSee($memberContent);
 
 		// Confirm that the CTA displays with the expected text.
@@ -1082,7 +1084,9 @@ class Plugin extends \Codeception\Module
 		$I->checkNoWarningsAndNoticesOnScreen($I);
 
 		// Confirm that the visible text displays, hidden text does not display and the CTA displays.
-		$I->see($visibleContent);
+		if ( ! empty($visibleContent)) {
+			$I->see($visibleContent);
+		}
 		$I->dontSee($memberContent);
 
 		// Confirm that the CTA displays with the expected text.
@@ -1109,7 +1113,9 @@ class Plugin extends \Codeception\Module
 		$I->checkNoWarningsAndNoticesOnScreen($I);
 
 		// Confirm that the visible and hidden text displays.
-		$I->see($visibleContent);
+		if ( ! empty($visibleContent)) {
+			$I->see($visibleContent);
+		}
 		$I->see($memberContent);
 
 		// Confirm that the CTA is not displayed.
