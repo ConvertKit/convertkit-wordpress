@@ -228,19 +228,36 @@ class ConvertKit_Broadcasts_Importer {
 
 		$content = $broadcast_content;
 
-		// Remove some tags, including their contents.
-		$content = preg_replace( '/<script.*?>(.*)?<\/script>/ims', '', $content );
-		$content = preg_replace( '/<style.*?>(.*)?<\/style>/ims', '', $content );
+		// Remove unsubscribe section.
+		$content = preg_replace( "/(<div class=\"ck-section ck-hide-in-public-posts\".*?>.*?<\/div>)/is", '', $content );
+
+		// Remove <style> elements.
+		$content = preg_replace( "/(<style *?>.*?<\/style>)/is", '', $content );
+		$content = preg_replace( "/(<style>.*?<\/style>)/is", '', $content );
 
 		// Define HTML tags to retain in the content.
 		$permitted_html_tags = array(
+			'h1',
+			'h2',
+			'h3',
 			'p',
-			'a',
-			'img',
 			'ul',
 			'ol',
 			'li',
+			'blockquote',
+			'strong',
+			'em',
+			'u',
+			's',
+			'a',
+			'img',
 			'br',
+			'span',
+			'div',
+			'table',
+			'tbody',
+			'tr',
+			'td',
 		);
 
 		/**
@@ -257,6 +274,7 @@ class ConvertKit_Broadcasts_Importer {
 		$permitted_html_tags_string = '<' . implode( '><', $permitted_html_tags ) . '>';
 
 		// Remove other tags, retaining inner contents.
+		// For HTML broadcasts, this will remove e.g. <html>, <head> and <body> tags.
 		$content = strip_tags( $content, $permitted_html_tags_string );
 
 		/**
