@@ -69,7 +69,7 @@ class WPCachePlugins extends \Codeception\Module
 		$I->click('#w3tc-wizard-skip');
 
 		// Navigate to its settings screen.
-		$I->waitForElementVisible('input.w3tc-gopro-button');
+		$I->waitForElementVisible('input.button-buy-plugin');
 		$I->amOnAdminPage('admin.php?page=w3tc_general');
 
 		// Enable.
