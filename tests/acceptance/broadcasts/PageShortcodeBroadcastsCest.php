@@ -45,10 +45,10 @@ class PageShortcodeBroadcastsCest
 		$I->publishAndViewClassicEditorPage($I);
 
 		// Confirm that the shortcode displays correctly with the expected number of Broadcasts.
-		$I->seeBroadcastsOutput($I, 4);
+		$I->seeBroadcastsOutput($I, $_ENV['CONVERTKIT_API_BROADCAST_COUNT']);
 
 		// Confirm that the default date format is as expected.
-		$I->seeInSource('<time datetime="' . $_ENV['CONVERTKIT_API_BROADCAST_FIRST_DATE'] . '">' . date( 'F j, Y', strtotime( $_ENV['CONVERTKIT_API_BROADCAST_FIRST_DATE'] ) ) . '</time>');
+		$I->seeInSource('<time datetime="' . date( 'Y-m-d', strtotime( $_ENV['CONVERTKIT_API_BROADCAST_FIRST_DATE'] ) ) . '">' . date( 'F j, Y', strtotime( $_ENV['CONVERTKIT_API_BROADCAST_FIRST_DATE'] ) ) . '</time>');
 
 		// Confirm that the expected Broadcast name is displayed first links to the expected URL, with UTM parameters.
 		$I->assertEquals(
@@ -85,7 +85,7 @@ class PageShortcodeBroadcastsCest
 		// Confirm that the shortcode displays correctly with the expected number of Broadcasts in the grid format.
 		$I->seeBroadcastsOutput(
 			$I,
-			4, // Confirm 4 broadcasts are output.
+			$_ENV['CONVERTKIT_API_BROADCAST_COUNT'], // Confirm expected number of broadcasts are output.
 			false, // Don't check previous pagination label.
 			false, // Don't check next pagination label.
 			true // Confirm grid mode is set.
@@ -119,10 +119,10 @@ class PageShortcodeBroadcastsCest
 		$I->publishAndViewClassicEditorPage($I);
 
 		// Confirm that the shortcode displays correctly with the expected number of Broadcasts.
-		$I->seeBroadcastsOutput($I, 4);
+		$I->seeBroadcastsOutput($I, $_ENV['CONVERTKIT_API_BROADCAST_COUNT']);
 
 		// Confirm that the default date format is as expected.
-		$I->seeInSource('<time datetime="' . $_ENV['CONVERTKIT_API_BROADCAST_FIRST_DATE'] . '">' . $_ENV['CONVERTKIT_API_BROADCAST_FIRST_DATE'] . '</time>');
+		$I->seeInSource('<time datetime="' . date( 'Y-m-d', strtotime( $_ENV['CONVERTKIT_API_BROADCAST_FIRST_DATE'] ) ) . '">' . date( 'Y-m-d', strtotime( $_ENV['CONVERTKIT_API_BROADCAST_FIRST_DATE'] ) ) . '</time>');
 
 		// Confirm that the expected Broadcast name is displayed first links to the expected URL, with UTM parameters.
 		$I->assertEquals(
@@ -159,7 +159,7 @@ class PageShortcodeBroadcastsCest
 		// Confirm that the shortcode displays correctly with the expected number of Broadcasts in the grid format.
 		$I->seeBroadcastsOutput(
 			$I,
-			4, // Confirm 4 broadcasts are output.
+			$_ENV['CONVERTKIT_API_BROADCAST_COUNT'], // Confirm expected number of broadcasts are output.
 			false, // Don't check previous pagination label.
 			false, // Don't check next pagination label.
 			false, // Confirm grid mode is not set.
@@ -195,7 +195,7 @@ class PageShortcodeBroadcastsCest
 		// Confirm that the shortcode displays correctly with the expected number of Broadcasts in the grid format.
 		$I->seeBroadcastsOutput(
 			$I,
-			4, // Confirm 4 broadcasts are output.
+			$_ENV['CONVERTKIT_API_BROADCAST_COUNT'], // Confirm expected number of broadcasts are output.
 			false, // Don't check previous pagination label.
 			false, // Don't check next pagination label.
 			false, // Confirm grid mode is not set.
@@ -233,7 +233,7 @@ class PageShortcodeBroadcastsCest
 		// Confirm that the shortcode displays correctly with the expected number of Broadcasts in the grid format.
 		$I->seeBroadcastsOutput(
 			$I,
-			4, // Confirm 4 broadcasts are output.
+			$_ENV['CONVERTKIT_API_BROADCAST_COUNT'], // Confirm expected number of broadcasts are output.
 			false, // Don't check previous pagination label.
 			false, // Don't check next pagination label.
 			false, // Confirm grid mode is not set.
@@ -453,10 +453,10 @@ class PageShortcodeBroadcastsCest
 		$I->publishAndViewClassicEditorPage($I);
 
 		// Confirm that the shortcode displays correctly with the expected number of Broadcasts.
-		$I->seeBroadcastsOutput($I, 4);
+		$I->seeBroadcastsOutput($I, $_ENV['CONVERTKIT_API_BROADCAST_COUNT']);
 
 		// Confirm that the default date format is as expected.
-		$I->seeInSource('<time datetime="' . $_ENV['CONVERTKIT_API_BROADCAST_FIRST_DATE'] . '">' . date( 'F j, Y', strtotime( $_ENV['CONVERTKIT_API_BROADCAST_FIRST_DATE'] ) ) . '</time>');
+		$I->seeInSource('<time datetime="' . date( 'Y-m-d', strtotime( $_ENV['CONVERTKIT_API_BROADCAST_FIRST_DATE'] ) ) . '">' . date( 'F j, Y', strtotime( $_ENV['CONVERTKIT_API_BROADCAST_FIRST_DATE'] ) ) . '</time>');
 
 		// Confirm that the default expected number of Broadcasts are displayed.
 		$I->seeNumberOfElements('li.convertkit-broadcast', [ 1, 10 ]);
@@ -491,7 +491,7 @@ class PageShortcodeBroadcastsCest
 		// Confirm that the shortcode displays correctly with the expected number of Broadcasts in the grid format.
 		$I->seeBroadcastsOutput(
 			$I,
-			4, // Confirm 4 broadcasts are output.
+			$_ENV['CONVERTKIT_API_BROADCAST_COUNT'], // Confirm expected number of broadcasts are output.
 			false, // Don't check previous pagination label.
 			false, // Don't check next pagination label.
 			true // Confirm grid mode is set.
@@ -525,10 +525,10 @@ class PageShortcodeBroadcastsCest
 		$I->publishAndViewClassicEditorPage($I);
 
 		// Confirm that the shortcode displays correctly with the expected number of Broadcasts.
-		$I->seeBroadcastsOutput($I, 4);
+		$I->seeBroadcastsOutput($I, $_ENV['CONVERTKIT_API_BROADCAST_COUNT']);
 
 		// Confirm that the default date format is as expected.
-		$I->seeInSource('<time datetime="' . $_ENV['CONVERTKIT_API_BROADCAST_FIRST_DATE'] . '">' . $_ENV['CONVERTKIT_API_BROADCAST_FIRST_DATE'] . '</time>');
+		$I->seeInSource('<time datetime="' . date( 'Y-m-d', strtotime( $_ENV['CONVERTKIT_API_BROADCAST_FIRST_DATE'] ) ) . '">' . date( 'Y-m-d', strtotime( $_ENV['CONVERTKIT_API_BROADCAST_FIRST_DATE'] ) ) . '</time>');
 	}
 
 	/**
@@ -560,7 +560,7 @@ class PageShortcodeBroadcastsCest
 		// Confirm that the block displays correctly with the expected number of Broadcasts in the grid format.
 		$I->seeBroadcastsOutput(
 			$I,
-			4, // Confirm 4 broadcasts are output.
+			$_ENV['CONVERTKIT_API_BROADCAST_COUNT'], // Confirm expected number of broadcasts are output.
 			false, // Don't check previous pagination label.
 			false, // Don't check next pagination label.
 			false, // Confirm grid mode is not set.
@@ -597,7 +597,7 @@ class PageShortcodeBroadcastsCest
 		// Confirm that the block displays correctly with the expected number of Broadcasts in the grid format.
 		$I->seeBroadcastsOutput(
 			$I,
-			4, // Confirm 4 broadcasts are output.
+			$_ENV['CONVERTKIT_API_BROADCAST_COUNT'], // Confirm expected number of broadcasts are output.
 			false, // Don't check previous pagination label.
 			false, // Don't check next pagination label.
 			false, // Confirm grid mode is not set.
@@ -636,7 +636,7 @@ class PageShortcodeBroadcastsCest
 		// Confirm that the block displays correctly with the expected number of Broadcasts in the grid format.
 		$I->seeBroadcastsOutput(
 			$I,
-			4, // Confirm 4 broadcasts are output.
+			$_ENV['CONVERTKIT_API_BROADCAST_COUNT'], // Confirm expected number of broadcasts are output.
 			false, // Don't check previous pagination label.
 			false, // Don't check next pagination label.
 			false, // Confirm grid mode is not set.
@@ -676,7 +676,7 @@ class PageShortcodeBroadcastsCest
 		$I->seeBroadcastsOutput($I, 2);
 
 		// Confirm that the default date format is as expected.
-		$I->seeInSource('<time datetime="' . $_ENV['CONVERTKIT_API_BROADCAST_FIRST_DATE'] . '">' . date( 'F j, Y', strtotime( $_ENV['CONVERTKIT_API_BROADCAST_FIRST_DATE'] ) ) . '</time>');
+		$I->seeInSource('<time datetime="' . date( 'Y-m-d', strtotime( $_ENV['CONVERTKIT_API_BROADCAST_FIRST_DATE'] ) ) . '">' . date( 'F j, Y', strtotime( $_ENV['CONVERTKIT_API_BROADCAST_FIRST_DATE'] ) ) . '</time>');
 	}
 
 	/**
