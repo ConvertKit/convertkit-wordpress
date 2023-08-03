@@ -65,13 +65,6 @@ class WPCachePlugins extends \Codeception\Module
 		// Navigate to its settings screen.
 		$I->amOnAdminPage('admin.php?page=w3tc_general');
 
-		// Skip Setup Guide.
-		$I->click('#w3tc-wizard-skip');
-
-		// Navigate to its settings screen.
-		$I->waitForElementVisible('input.w3tc-gopro-button');
-		$I->amOnAdminPage('admin.php?page=w3tc_general');
-
 		// Enable.
 		$I->checkOption('#pgcache__enabled');
 
