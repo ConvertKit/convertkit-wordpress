@@ -45,7 +45,7 @@ class PageBlockBroadcastsCest
 		$I->publishAndViewGutenbergPage($I);
 
 		// Confirm that the block displays correctly with the expected number of Broadcasts.
-		$I->seeBroadcastsOutput($I, 3);
+		$I->seeBroadcastsOutput($I, 4);
 	}
 
 	/**
@@ -133,7 +133,7 @@ class PageBlockBroadcastsCest
 		$I->publishAndViewGutenbergPage($I);
 
 		// Confirm that the block displays correctly with the expected number of Broadcasts.
-		$I->seeBroadcastsOutput($I, 3);
+		$I->seeBroadcastsOutput($I, 4);
 	}
 
 	/**
@@ -159,10 +159,10 @@ class PageBlockBroadcastsCest
 		$I->publishAndViewGutenbergPage($I);
 
 		// Confirm that the block displays correctly with the expected number of Broadcasts.
-		$I->seeBroadcastsOutput($I, 3);
+		$I->seeBroadcastsOutput($I, 4);
 
 		// Confirm that the default date format is as expected.
-		$I->seeInSource('<time datetime="2022-04-08">April 8, 2022</time>');
+		$I->seeInSource('<time datetime="' . $_ENV['CONVERTKIT_API_BROADCAST_FIRST_DATE'] . '">' . date( 'F j, Y', strtotime( $_ENV['CONVERTKIT_API_BROADCAST_FIRST_DATE'] ) ) . '</time>');
 
 		// Confirm that the expected Broadcast name is displayed first links to the expected URL, with UTM parameters.
 		$I->assertEquals(
@@ -203,7 +203,7 @@ class PageBlockBroadcastsCest
 		// Confirm that the block displays correctly with the expected number of Broadcasts in the grid format.
 		$I->seeBroadcastsOutput(
 			$I,
-			3, // Confirm 3 broadcasts are output.
+			4, // Confirm 4 broadcasts are output.
 			false, // Don't check previous pagination label.
 			false, // Don't check next pagination label.
 			true // Confirm grid mode is set.
@@ -241,10 +241,10 @@ class PageBlockBroadcastsCest
 		$I->publishAndViewGutenbergPage($I);
 
 		// Confirm that the block displays correctly with the expected number of Broadcasts.
-		$I->seeBroadcastsOutput($I, 3);
+		$I->seeBroadcastsOutput($I, 4);
 
 		// Confirm that the date format is as expected.
-		$I->seeInSource('<time datetime="2022-04-08">2022-04-08</time>');
+		$I->seeInSource('<time datetime="' . $_ENV['CONVERTKIT_API_BROADCAST_FIRST_DATE'] . '">' . $_ENV['CONVERTKIT_API_BROADCAST_FIRST_DATE'] . '</time>');
 
 		// Confirm that the expected Broadcast name is displayed first links to the expected URL, with UTM parameters.
 		$I->assertEquals(
@@ -286,7 +286,7 @@ class PageBlockBroadcastsCest
 		// Confirm that the block displays correctly with the expected number of Broadcasts in the grid format.
 		$I->seeBroadcastsOutput(
 			$I,
-			3, // Confirm 3 broadcasts are output.
+			4, // Confirm 4 broadcasts are output.
 			false, // Don't check previous pagination label.
 			false, // Don't check next pagination label.
 			true, // Confirm grid mode is set.
@@ -327,7 +327,7 @@ class PageBlockBroadcastsCest
 		// Confirm that the block displays correctly with the expected number of Broadcasts in the grid format.
 		$I->seeBroadcastsOutput(
 			$I,
-			3, // Confirm 3 broadcasts are output.
+			4, // Confirm 4 broadcasts are output.
 			false, // Don't check previous pagination label.
 			false, // Don't check next pagination label.
 			false, // Confirm grid mode is not set.
@@ -370,7 +370,7 @@ class PageBlockBroadcastsCest
 		// Confirm that the block displays correctly with the expected number of Broadcasts in the grid format.
 		$I->seeBroadcastsOutput(
 			$I,
-			3, // Confirm 3 broadcasts are output.
+			4, // Confirm 4 broadcasts are output.
 			false, // Don't check previous pagination label.
 			false, // Don't check next pagination label.
 			false, // Confirm grid mode is not set.
@@ -605,7 +605,7 @@ class PageBlockBroadcastsCest
 		$I->checkNoWarningsAndNoticesOnScreen($I);
 
 		// Confirm that the block displays correctly with the expected number of Broadcasts.
-		$I->seeBroadcastsOutput($I, 3);
+		$I->seeBroadcastsOutput($I, 4);
 
 		// Confirm that our stylesheet loaded.
 		$I->seeInSource('<link rel="stylesheet" id="convertkit-broadcasts-css" href="' . $_ENV['TEST_SITE_WP_URL'] . '/wp-content/plugins/convertkit/resources/frontend/css/broadcasts.css');
@@ -638,7 +638,7 @@ class PageBlockBroadcastsCest
 		$I->havePageInDatabase(
 			[
 				'post_name'    => 'convertkit-page-broadcasts-block-hex-color-params',
-				'post_content' => '<!-- wp:convertkit/broadcasts {"date_format":"m/d/Y","limit":3,"style":{"color":{"text":"' . $textColor . '","background":"' . $backgroundColor . '"}}} /-->',
+				'post_content' => '<!-- wp:convertkit/broadcasts {"date_format":"m/d/Y","limit":4,"style":{"color":{"text":"' . $textColor . '","background":"' . $backgroundColor . '"}}} /-->',
 			]
 		);
 
@@ -652,7 +652,7 @@ class PageBlockBroadcastsCest
 		$I->checkNoWarningsAndNoticesOnScreen($I);
 
 		// Confirm that the block displays correctly with the expected number of Broadcasts.
-		$I->seeBroadcastsOutput($I, 3);
+		$I->seeBroadcastsOutput($I, 4);
 
 		// Confirm that our stylesheet loaded.
 		$I->seeInSource('<link rel="stylesheet" id="convertkit-broadcasts-css" href="' . $_ENV['TEST_SITE_WP_URL'] . '/wp-content/plugins/convertkit/resources/frontend/css/broadcasts.css');
