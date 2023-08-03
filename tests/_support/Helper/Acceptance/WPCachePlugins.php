@@ -70,9 +70,10 @@ class WPCachePlugins extends \Codeception\Module
 
 		// Navigate to its settings screen.
 		$I->waitForElementVisible('input.button-buy-plugin');
-		$I->amOnAdminPage('admin.php?page=w3tc_general');
+		$I->click('General Settings');
 
 		// Enable.
+		$I->waitForElementVisible('#pgcache__enabled');
 		$I->checkOption('#pgcache__enabled');
 
 		// Save.
