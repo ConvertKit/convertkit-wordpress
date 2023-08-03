@@ -62,15 +62,11 @@ class WPCachePlugins extends \Codeception\Module
 	 */
 	public function enableCachingW3TotalCachePlugin($I)
 	{
-		// Navigate to its settings screen.
+		// Bypass the setup guide.
+		$I->haveOptionInDatabase('w3tc_setupguide_completed', strtotime('now'));
+
+		// Navigate to the General Settings screen.
 		$I->amOnAdminPage('admin.php?page=w3tc_general');
-
-		// Skip Setup Guide.
-		$I->click('#w3tc-wizard-skip');
-
-		// Navigate to its settings screen.
-		$I->waitForElementVisible('input.button-buy-plugin');
-		$I->click('General Settings');
 
 		// Enable.
 		$I->waitForElementVisible('#pgcache__enabled');
