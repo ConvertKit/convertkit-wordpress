@@ -76,7 +76,7 @@ class WPCachePlugins extends \Codeception\Module
 		$I->checkOption('#pgcache__enabled');
 
 		// Save.
-		$I->click('Save all settings');
+		$I->click('Save Settings');
 	}
 
 	/**
@@ -98,8 +98,7 @@ class WPCachePlugins extends \Codeception\Module
 		$I->fillField('#pgcache_reject_cookie', $cookieName);
 
 		// Save.
-		$I->scrollTo('#notes');
-		$I->click('#w3tc_save_options_pagecache_advanced');
+		$I->click('Save Settings');
 	}
 
 	/**
