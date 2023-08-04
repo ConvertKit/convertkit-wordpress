@@ -459,15 +459,20 @@ function convertkit_select2_enqueue_styles() {
  */
 function convertkit_get_file_contents( $local_file ) {
 
+	// Bail if the file doesn't exist.
+	if ( ! file_exists( $local_file ) ) {
+		return '';
+	}
+
 	// Read file.
 	$contents = file_get_contents( $local_file ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
 
-	// Return an empty string if false.
+	// Return an empty string if the contents of the file could not be read.
 	if ( ! $contents ) {
 		return '';
 	}
 
-	// Return contents.
+	// Return file's contents.
 	return $contents;
 
 }
