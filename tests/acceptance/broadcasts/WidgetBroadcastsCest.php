@@ -56,7 +56,7 @@ class WidgetBroadcastsCest
 		$I->seeBroadcastsOutput($I);
 
 		// Confirm that the default date format is as expected.
-		$I->seeInSource('<time datetime="2022-04-08">April 8, 2022</time>');
+		$I->seeInSource('<time datetime="' . date( 'Y-m-d', strtotime( $_ENV['CONVERTKIT_API_BROADCAST_FIRST_DATE'] ) ) . '">' . date( 'F j, Y', strtotime( $_ENV['CONVERTKIT_API_BROADCAST_FIRST_DATE'] ) ) . '</time>');
 
 		// Confirm that the default expected number of Broadcasts are displayed.
 		$I->seeNumberOfElements('li.convertkit-broadcast', [ 1, 10 ]);
@@ -88,7 +88,7 @@ class WidgetBroadcastsCest
 		$I->seeBroadcastsOutput($I);
 
 		// Confirm that the date format is as expected.
-		$I->seeInSource('<time datetime="2022-04-08">2022-04-08</time>');
+		$I->seeInSource('<time datetime="' . date( 'Y-m-d', strtotime( $_ENV['CONVERTKIT_API_BROADCAST_FIRST_DATE'] ) ) . '">' . date( 'Y-m-d', strtotime( $_ENV['CONVERTKIT_API_BROADCAST_FIRST_DATE'] ) ) . '</time>');
 
 		// Confirm that the default expected number of Broadcasts are displayed.
 		$I->seeNumberOfElements('li.convertkit-broadcast', [ 1, 10 ]);

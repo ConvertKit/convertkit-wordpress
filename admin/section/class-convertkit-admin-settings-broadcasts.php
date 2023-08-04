@@ -142,13 +142,13 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 		);
 
 		add_settings_field(
-			'category',
+			'category_id',
 			__( 'Category', 'convertkit' ),
 			array( $this, 'category_callback' ),
 			$this->settings_key,
 			$this->name,
 			array(
-				'name'        => 'category',
+				'name'        => 'category_id',
 				'description' => __( 'The category to assign imported broadcasts to.', 'convertkit' ),
 			)
 		);
