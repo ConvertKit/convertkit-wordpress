@@ -267,11 +267,11 @@ class ConvertKit_Broadcasts_Importer {
 		$content = $broadcast_content;
 
 		// Remove unsubscribe section.
-		$content = preg_replace( "/(<div class=\"ck-section ck-hide-in-public-posts\".*?>.*?<\/div>)/is", '', $content );
+		$content = preg_replace( '/(<div class="ck-section ck-hide-in-public-posts".*?>.*?<\/div>)/is', '', $content );
 
 		// Remove <style> elements.
-		$content = preg_replace( "/(<style *?>.*?<\/style>)/is", '', $content );
-		$content = preg_replace( "/(<style>.*?<\/style>)/is", '', $content );
+		$content = preg_replace( '/(<style *?>.*?<\/style>)/is', '', $content );
+		$content = preg_replace( '/(<style>.*?<\/style>)/is', '', $content );
 
 		// Define HTML tags to retain in the content.
 		$permitted_html_tags = array(
