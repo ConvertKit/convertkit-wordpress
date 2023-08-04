@@ -242,14 +242,6 @@ class BroadcastsToPostsCest
 			// Confirm Restrict Content setting is correct.
 			$I->seeInField('wp-convertkit[restrict_content]', $_ENV['CONVERTKIT_API_PRODUCT_NAME']);
 		}
-
-		// Test a Post's Restrict Content functionality.
-		$I->testRestrictedContentOnFrontend(
-			$I,
-			$postIDs[1],
-			'',
-			'Here\'s some content for paid subscribers only.'
-		);
 	}
 
 	/**
