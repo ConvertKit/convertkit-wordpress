@@ -70,7 +70,7 @@ class BroadcastsToPostsCest
 			$I,
 			[
 				'enabled'          => true,
-				'send_at_min_date' => '01/01/2020',
+				'send_at_min_date' => '2020-01-01',
 			]
 		);
 
@@ -109,7 +109,7 @@ class BroadcastsToPostsCest
 			[
 				'enabled'          => true,
 				'category_id'      => $this->categoryName,
-				'send_at_min_date' => '01/01/2020',
+				'send_at_min_date' => '2020-01-01',
 			]
 		);
 
@@ -159,7 +159,7 @@ class BroadcastsToPostsCest
 			$I,
 			[
 				'enabled'          => true,
-				'send_at_min_date' => '01/07/2023',
+				'send_at_min_date' => '2023-08-04',
 			]
 		);
 
@@ -206,7 +206,7 @@ class BroadcastsToPostsCest
 			$I,
 			[
 				'enabled'          => true,
-				'send_at_min_date' => '01/01/2020',
+				'send_at_min_date' => '2020-01-01',
 				'restrict_content' => $_ENV['CONVERTKIT_API_PRODUCT_NAME'],
 			]
 		);
