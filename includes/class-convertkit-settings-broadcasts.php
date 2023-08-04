@@ -103,6 +103,19 @@ class ConvertKit_Settings_Broadcasts {
 	}
 
 	/**
+	 * Returns whether Broadcasts should have their styles imported.
+	 *
+	 * @since   2.2.8
+	 *
+	 * @return  bool
+	 */
+	public function no_styles() {
+
+		return ( $this->settings['no_styles'] === 'on' ? true : false );
+
+	}
+
+	/**
 	 * The default settings, used when the ConvertKit Broadcasts Settings haven't been saved
 	 * e.g. on a new installation.
 	 *
@@ -120,6 +133,7 @@ class ConvertKit_Settings_Broadcasts {
 			'send_at_min_date' => gmdate( 'Y-m-d', strtotime( '-30 days' ) ),
 
 			'restrict_content' => '',
+			'no_styles'		   => '',
 		);
 
 		/**

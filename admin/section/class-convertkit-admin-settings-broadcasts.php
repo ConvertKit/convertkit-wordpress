@@ -180,6 +180,18 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 			);
 		}
 
+		add_settings_field(
+			'no_styles',
+			__( 'Disable Styles', 'convertkit' ),
+			array( $this, 'no_styles_callback' ),
+			$this->settings_key,
+			$this->name,
+			array(
+				'name'        => 'no_styles',
+				'description' => __( 'Removes non-text elements and styles when importing broadcasts.', 'convertkit' ),
+			)
+		);
+
 	}
 
 	/**
@@ -323,6 +335,25 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 
 		// Output field.
 		echo '<div class="convertkit-select2-container">' . $select_field . '</div>'; // phpcs:ignore WordPress.Security.EscapeOutput
+
+	}
+
+	/**
+	 * Renders the input for the No Styles setting.
+	 *
+	 * @since   2.2.8
+	 *
+	 * @param   array $args   Setting field arguments (name,description).
+	 */
+	public function no_styles_callback( $args ) {
+
+		// Output field.
+		echo $this->get_checkbox_field( // phpcs:ignore WordPress.Security.EscapeOutput
+			$args['name'],
+			'on',
+			$this->settings->no_styles(), // phpcs:ignore WordPress.Security.EscapeOutput
+			$args['description'] // phpcs:ignore WordPress.Security.EscapeOutput
+		);
 
 	}
 
