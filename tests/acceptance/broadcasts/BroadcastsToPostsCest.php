@@ -57,6 +57,44 @@ class BroadcastsToPostsCest
 	}
 
 	/**
+	 * Tests that Broadcasts do not import when enabled in the Plugin's settings
+	 * and an Earliest Date is specified that is newer than any Broadcasts sent
+	 * on the ConvertKit account.
+	 *
+	 * @since   2.2.8
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testBroadcastsImportWithEarliestDate(AcceptanceTester $I)
+	{
+		// Enable Broadcasts to Posts.
+		$I->setupConvertKitPluginBroadcastsToPosts(
+			$I,
+			[
+				'enabled'          => true,
+				'send_at_min_date' => '2030-01-01',
+			]
+		);
+
+		// Run the WordPress Cron event to import Broadcasts to WordPress Posts.
+		$I->runCronEvent($I, $this->cronEventName);
+
+		// Wait a few seconds for the Cron event to complete.
+		$I->wait(7);
+
+		// Load the Posts screen.
+		$I->amOnAdminPage('edit.php');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Confirm no Broadcasts exist as Posts.
+		$I->dontSee($_ENV['CONVERTKIT_API_BROADCAST_FIRST_TITLE']);
+		$I->dontSee($_ENV['CONVERTKIT_API_BROADCAST_SECOND_TITLE']);
+		$I->dontSee($_ENV['CONVERTKIT_API_BROADCAST_THIRD_TITLE']);
+	}
+
+	/**
 	 * Tests that Broadcasts import when enabled in the Plugin's settings.
 	 *
 	 * @since   2.2.8
@@ -141,44 +179,6 @@ class BroadcastsToPostsCest
 		foreach ($postIDs as $postID) {
 			$I->seePostWithTermInDatabase($postID, $this->categoryID, null, 'category');
 		}
-	}
-
-	/**
-	 * Tests that Broadcasts do not import when enabled in the Plugin's settings
-	 * and an Earliest Date is specified that is newer than any Broadcasts sent
-	 * on the ConvertKit account.
-	 *
-	 * @since   2.2.8
-	 *
-	 * @param   AcceptanceTester $I  Tester.
-	 */
-	public function testBroadcastsImportWithEarliestDate(AcceptanceTester $I)
-	{
-		// Enable Broadcasts to Posts.
-		$I->setupConvertKitPluginBroadcastsToPosts(
-			$I,
-			[
-				'enabled'          => true,
-				'send_at_min_date' => '2030-01-01',
-			]
-		);
-
-		// Run the WordPress Cron event to import Broadcasts to WordPress Posts.
-		$I->runCronEvent($I, $this->cronEventName);
-
-		// Wait a few seconds for the Cron event to complete.
-		$I->wait(7);
-
-		// Load the Posts screen.
-		$I->amOnAdminPage('edit.php');
-
-		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen($I);
-
-		// Confirm no Broadcasts exist as Posts.
-		$I->dontSee($_ENV['CONVERTKIT_API_BROADCAST_FIRST_TITLE']);
-		$I->dontSee($_ENV['CONVERTKIT_API_BROADCAST_SECOND_TITLE']);
-		$I->dontSee($_ENV['CONVERTKIT_API_BROADCAST_THIRD_TITLE']);
 	}
 
 	/**
