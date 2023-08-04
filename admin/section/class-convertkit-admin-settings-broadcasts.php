@@ -188,7 +188,7 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 			$this->name,
 			array(
 				'name'        => 'no_styles',
-				'description' => __( 'Removes non-text elements and styles when importing broadcasts.', 'convertkit' ),
+				'description' => __( 'Removes inline styles and layout when importing broadcasts.', 'convertkit' ),
 			)
 		);
 

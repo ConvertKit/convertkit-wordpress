@@ -201,7 +201,7 @@ class ConvertKit_Settings_Broadcasts {
 			'send_at_min_date' => gmdate( 'Y-m-d', strtotime( '-30 days' ) ),
 
 			'restrict_content' => '',
-			'no_styles'		   => '',
+			'no_styles'        => '',
 		);
 
 		/**
