@@ -62,21 +62,18 @@ class WPCachePlugins extends \Codeception\Module
 	 */
 	public function enableCachingW3TotalCachePlugin($I)
 	{
-		// Navigate to its settings screen.
-		$I->amOnAdminPage('admin.php?page=w3tc_general');
+		// Bypass the setup guide.
+		$I->haveOptionInDatabase('w3tc_setupguide_completed', strtotime('now'));
 
-		// Skip Setup Guide.
-		$I->click('#w3tc-wizard-skip');
-
-		// Navigate to its settings screen.
-		$I->waitForElementVisible('input.w3tc-gopro-button');
+		// Navigate to the General Settings screen.
 		$I->amOnAdminPage('admin.php?page=w3tc_general');
 
 		// Enable.
+		$I->waitForElementVisible('#pgcache__enabled');
 		$I->checkOption('#pgcache__enabled');
 
 		// Save.
-		$I->click('Save all settings');
+		$I->click('Save Settings');
 	}
 
 	/**
@@ -98,8 +95,7 @@ class WPCachePlugins extends \Codeception\Module
 		$I->fillField('#pgcache_reject_cookie', $cookieName);
 
 		// Save.
-		$I->scrollTo('#notes');
-		$I->click('#w3tc_save_options_pagecache_advanced');
+		$I->click('Save Settings');
 	}
 
 	/**
