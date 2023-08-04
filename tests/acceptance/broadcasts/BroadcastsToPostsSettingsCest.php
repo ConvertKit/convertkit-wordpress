@@ -4,7 +4,7 @@
  *
  * @since   2.2.8
  */
-class BroadcastsSettingsCest
+class BroadcastsToPostsSettingsCest
 {
 	/**
 	 * Run common actions before running the test functions in this class.
@@ -92,7 +92,7 @@ class BroadcastsSettingsCest
 
 		// Enable Broadcasts to Posts, and modify settings.
 		$I->checkOption('#enabled');
-		$I->fillSelect2Field($I, '#select2-_wp_convertkit_settings_broadcasts_category-container', 'ConvertKit Broadcasts to Posts');
+		$I->fillSelect2Field($I, '#select2-_wp_convertkit_settings_broadcasts_category_id-container', 'ConvertKit Broadcasts to Posts');
 		$I->fillField('_wp_convertkit_settings_broadcasts[send_at_min_date]', '01/01/2023');
 
 		// Click the Save Changes button.
@@ -103,7 +103,7 @@ class BroadcastsSettingsCest
 
 		// Confirm that settings saved.
 		$I->seeCheckboxIsChecked('#enabled');
-		$I->seeInField('_wp_convertkit_settings_broadcasts[category]', 'ConvertKit Broadcasts to Posts');
+		$I->seeInField('_wp_convertkit_settings_broadcasts[category_id]', 'ConvertKit Broadcasts to Posts');
 		$I->seeInField('_wp_convertkit_settings_broadcasts[send_at_min_date]', '2023-01-01');
 	}
 

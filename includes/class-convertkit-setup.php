@@ -205,6 +205,9 @@ class ConvertKit_Setup {
 		$posts = new ConvertKit_Resource_Posts( 'cron' );
 		$posts->unschedule_cron_event();
 
+		$broadcasts = new ConvertKit_Resource_Broadcasts( 'cron' );
+		$broadcasts->unschedule_cron_event();
+
 	}
 
 }
