@@ -459,6 +459,15 @@ function convertkit_select2_enqueue_styles() {
  */
 function convertkit_get_file_contents( $local_file ) {
 
-	return file_get_contents( $local_file ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
+	// Read file.
+	$contents = file_get_contents( $local_file ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
+
+	// Return an empty string if false.
+	if ( ! $contents ) {
+		return '';
+	}
+
+	// Return contents.
+	return $contents;
 
 }
