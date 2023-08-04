@@ -72,7 +72,7 @@ class BroadcastsToPostsCest
 			$I,
 			[
 				'enabled'          => true,
-				'send_at_min_date' => '2030-01-01',
+				'send_at_min_date' => '01/01/2030',
 			]
 		);
 
