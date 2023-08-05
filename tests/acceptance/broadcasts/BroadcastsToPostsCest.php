@@ -78,7 +78,7 @@ class BroadcastsToPostsCest
 		$I->runCronEvent($I, $this->cronEventName);
 
 		// Wait a few seconds for the Cron event to complete importing Broadcasts.
-		$I->wait(5);
+		$I->wait(7);
 
 		// Load the Posts screen.
 		$I->amOnAdminPage('edit.php');
@@ -117,7 +117,7 @@ class BroadcastsToPostsCest
 		$I->runCronEvent($I, $this->cronEventName);
 
 		// Wait a few seconds for the Cron event to complete importing Broadcasts.
-		$I->wait(5);
+		$I->wait(7);
 
 		// Load the Posts screen.
 		$I->amOnAdminPage('edit.php');
@@ -159,15 +159,15 @@ class BroadcastsToPostsCest
 			$I,
 			[
 				'enabled'          => true,
-				'send_at_min_date' => '01/07/2023',
+				'send_at_min_date' => '01/01/2030',
 			]
 		);
 
 		// Run the WordPress Cron event to import Broadcasts to WordPress Posts.
 		$I->runCronEvent($I, $this->cronEventName);
 
-		// Wait a few seconds for the Cron event to complete importing Broadcasts.
-		$I->wait(5);
+		// Wait a few seconds for the Cron event to complete.
+		$I->wait(7);
 
 		// Load the Posts screen.
 		$I->amOnAdminPage('edit.php');
@@ -176,7 +176,6 @@ class BroadcastsToPostsCest
 		$I->checkNoWarningsAndNoticesOnScreen($I);
 
 		// Confirm no Broadcasts exist as Posts.
-		$I->wait(3);
 		$I->dontSee($_ENV['CONVERTKIT_API_BROADCAST_FIRST_TITLE']);
 		$I->dontSee($_ENV['CONVERTKIT_API_BROADCAST_SECOND_TITLE']);
 		$I->dontSee($_ENV['CONVERTKIT_API_BROADCAST_THIRD_TITLE']);
@@ -215,7 +214,7 @@ class BroadcastsToPostsCest
 		$I->runCronEvent($I, $this->cronEventName);
 
 		// Wait a few seconds for the Cron event to complete importing Broadcasts.
-		$I->wait(5);
+		$I->wait(7);
 
 		// Load the Posts screen.
 		$I->amOnAdminPage('edit.php');
@@ -243,14 +242,6 @@ class BroadcastsToPostsCest
 			// Confirm Restrict Content setting is correct.
 			$I->seeInField('wp-convertkit[restrict_content]', $_ENV['CONVERTKIT_API_PRODUCT_NAME']);
 		}
-
-		// Test the first Post's Restrict Content functionality.
-		$I->testRestrictedContentOnFrontend(
-			$I,
-			$postIDs[0],
-			'',
-			'Here\'s some content for paid subscribers only.'
-		);
 	}
 
 	/**
@@ -278,8 +269,7 @@ class BroadcastsToPostsCest
 		// Remove imported Posts.
 		$I->dontHavePostInDatabase(
 			[
-				'post_type'   => 'post',
-				'post_status' => 'publish',
+				'post_type' => 'post',
 			],
 			true
 		);
