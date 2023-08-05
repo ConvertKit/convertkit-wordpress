@@ -41,6 +41,7 @@ function convertKitGutenbergRegisterBlockFormatter( formatter ) {
 			registerFormatType,
 			toggleFormat,
 			applyFormat,
+			useAnchorRef,
 			useAnchor
 		} = richText;
 		const {
@@ -271,10 +272,19 @@ function convertKitGutenbergRegisterBlockFormatter( formatter ) {
 		 */
 		const editFormatType = function( props ) {
 
-			// Get props and anchor reference to the text.
+			// Get props.
 			const { contentRef, isActive, value } = props;
 			const { activeFormats }               = value;
-			const anchorRef                       = useAnchor( { editableContentElement: contentRef.current, value } );
+			let anchorRef;
+
+			// Get anchor reference to the text.
+			if ( typeof useAnchor === 'undefined' ) {
+				// Use WordPress 6.0 and lower useAnchorRef(), as useAnchor() isn't available.
+				anchorRef = useAnchorRef( { ref: contentRef, value } );
+			} else {
+				// Use WordPress 6.1+ useAnchor(), as useAnchorRef() is deprecated in 6.2+.
+				anchorRef = useAnchor( { editableContentElement: contentRef.current, value } );
+			}
 
 			// State to show popover.
 			const [ showPopover, setShowPopover ] = useState( false );
