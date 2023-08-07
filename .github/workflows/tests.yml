@@ -46,7 +46,7 @@ jobs:
     # For PHP, make sure that an nginx configuration file exists for the required PHP version in this repository at tests/nginx/php-x.x.conf
     strategy:
       matrix:
-        wp-versions: [ '6.3-RC2' ] #[ '6.1.1', 'latest' ]
+        wp-versions: [ '6.3-RC3' ] #[ '6.1.1', 'latest' ]
         php-versions: [ '7.4', '8.0', '8.1', '8.2' ] #[ '7.4', '8.0', '8.1' ]
 
         # Folder names within the 'tests' folder to run tests in parallel.
