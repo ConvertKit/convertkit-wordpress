@@ -231,7 +231,7 @@ class Plugin extends \Codeception\Module
 		$I->haveOptionInDatabase(
 			'convertkit_posts',
 			[
-				224758 => [
+				224758  => [
 					'id'            => 224758,
 					'title'         => 'Test Subject',
 					'url'           => 'https://cheerful-architect-3237.ck.page/posts/test-subject',
@@ -241,7 +241,7 @@ class Plugin extends \Codeception\Module
 					'thumbnail_alt' => 'Alt text for Test Subject',
 					'is_paid'       => null,
 				],
-				489480 => [
+				489480  => [
 					'id'            => 489480,
 					'title'         => 'Broadcast 2',
 					'url'           => 'https://cheerful-architect-3237.ck.page/posts/broadcast-2',
@@ -251,7 +251,17 @@ class Plugin extends \Codeception\Module
 					'thumbnail_alt' => 'Alt text for Broadcast 2',
 					'is_paid'       => null,
 				],
-				572575 => [
+				3175837 => [
+					'id'            => 3175837,
+					'title'         => 'HTML Template Test',
+					'url'           => 'https://cheerful-architect-3237.ck.page/posts/html-template-test',
+					'published_at'  => '2023-08-02T16:34:51.000Z',
+					'description'   => "Heading 1\nParagraph\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi ultrices vehicula erat, eu faucibus ligula viverra sit amet. Nullam porta scelerisque lacus eu dignissim. Curabitur mattis dui est, sed gravida ex tincidunt sed.\nLorem ipsum dolor sit amet, consectetur adipiscing...",
+					'thumbnail_url' => 'https://embed.filekitcdn.com/e/pX62TATVeCKK5QzkXWNLw3/qM63x7vF3qN1whboGdEpuL',
+					'thumbnail_alt' => 'MacBook Pro beside plant in vase',
+					'is_paid'       => true,
+				],
+				572575  => [
 					'id'            => 572575,
 					'title'         => 'Paid Subscriber Broadcast',
 					'url'           => 'https://cheerful-architect-3237.ck.page/posts/paid-subscriber-broadcast',
