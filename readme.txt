@@ -5,7 +5,7 @@ Tags: email marketing, email newsletter, newsletter, subscribers, membership
 Requires at least: 5.0
 Tested up to: 6.2.2
 Requires PHP: 5.6.20
-Stable tag: 2.2.7
+Stable tag: 2.2.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -137,6 +137,10 @@ Full Plugin documentation can be found [here](https://help.convertkit.com/en/art
 7. Track subscriber growth
 
 == Changelog ==
+
+### 2.2.8 2023-08-07
+* Fix: Use `file_get_contents` instead of `WP_Filesystem` for reading plugin files, to avoid fatal error on activation when file ownership/permission issues occur
+* Fix: Block Editor: Prevent block error in WordPress 6.0 and lower by checking if `useAnchor` is available
 
 ### 2.2.7 2023-07-24
 * Added: Contact Form 7: Option to Enable Creator Network Recommendations modal on individual Forms at Settings > ConvertKit > Contact Form 7
