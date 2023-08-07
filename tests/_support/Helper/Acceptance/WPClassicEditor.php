@@ -266,5 +266,8 @@ class WPClassicEditor extends \Codeception\Module
 
 		// Wait for frontend web site to load.
 		$I->waitForElementVisible('body');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
 	}
 }
