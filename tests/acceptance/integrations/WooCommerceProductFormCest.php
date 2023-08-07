@@ -493,6 +493,9 @@ class WooCommerceProductFormCest
 			// Load Page on the frontend site.
 			$I->amOnPage('/?p=' . $productID);
 
+			// Check that no PHP warnings or notices were output.
+			$I->checkNoWarningsAndNoticesOnScreen($I);
+
 			// Confirm that one ConvertKit Form is output in the DOM.
 			// This confirms that there is only one script on the page for this form, which renders the form.
 			$I->seeNumberOfElementsInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]', 1);
