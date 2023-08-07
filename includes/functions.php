@@ -459,21 +459,20 @@ function convertkit_select2_enqueue_styles() {
  */
 function convertkit_get_file_contents( $local_file ) {
 
-	// Call globals.
-	global $wp_filesystem;
-
-	// Load filesystem class.
-	require_once ABSPATH . 'wp-admin/includes/file.php';
-
-	// Initiate.
-	WP_Filesystem();
-
 	// Bail if the file doesn't exist.
-	if ( ! $wp_filesystem->exists( $local_file ) ) {
+	if ( ! file_exists( $local_file ) ) {
+		return '';
+	}
+
+	// Read file.
+	$contents = file_get_contents( $local_file ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
+
+	// Return an empty string if the contents of the file could not be read.
+	if ( ! $contents ) {
 		return '';
 	}
 
 	// Return file's contents.
-	return $wp_filesystem->get_contents( $local_file );
+	return $contents;
 
 }
