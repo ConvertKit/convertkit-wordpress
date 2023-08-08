@@ -36,6 +36,32 @@ class WPCron extends \Codeception\Module
 	}
 
 	/**
+	 * Runs the given event name using WordPress' Cron, as if
+	 * WordPress' Cron system ran the scheduled event.
+	 *
+	 * Requires the WP-Crontrol Plugin to be installed and activated.
+	 *
+	 * @since   2.2.8
+	 *
+	 * @param   AcceptanceTester $I     AcceptanceTester.
+	 * @param   string           $name  Event Name.
+	 */
+	public function runCronEvent($I, $name)
+	{
+		// List cron event in WP-Crontrol Plugin.
+		$I->amOnAdminPage('tools.php?page=crontrol_admin_manage_page&s=' . $name);
+
+		// Hover mouse over event's name.
+		$I->moveMouseOver('#the-list tr');
+
+		// Run the event.
+		$I->click('Run now');
+
+		// Confirm the event is scheduled to run.
+		$I->see('Scheduled the cron event ' . $name . ' to run now.');
+	}
+
+	/**
 	 * Returns whether the given event name is scheduled in WordPress' Cron.
 	 *
 	 * @since   2.2.8

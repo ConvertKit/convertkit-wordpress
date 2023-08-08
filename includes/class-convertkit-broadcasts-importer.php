@@ -96,13 +96,28 @@ class ConvertKit_Broadcasts_Importer {
 			// Skip if not public.
 			if ( ! $broadcast['public'] ) {
 				if ( $settings->debug_enabled() ) {
-					$log->add( 'ConvertKit_Broadcasts_Importer::refresh()): Broadcast #' . $broadcast_id . ' is private. Skipping...' );
+					$log->add( 'ConvertKit_Broadcasts_Importer::refresh(): Broadcast #' . $broadcast_id . ' is private. Skipping...' );
+				}
+				continue;
+			}
+
+			// Skip if the send_at date is older than the 'Earliest Date' setting.
+			if ( strtotime( $broadcast['send_at'] ) < strtotime( $broadcasts_settings->send_at_min_date() ) ) {
+				if ( $settings->debug_enabled() ) {
+					$log->add( 'ConvertKit_Broadcasts_Importer::refresh(): Broadcast #' . $broadcast_id . ' send_at date is before ' . $broadcasts_settings->send_at_min_date() . '. Skipping...' );
 				}
 				continue;
 			}
 
 			// Create Post as a draft.
-			$post_id = wp_insert_post( $this->build_post_args( $broadcast ), true );
+			$post_id = wp_insert_post(
+				$this->build_post_args(
+					$broadcast,
+					$broadcasts_settings->author_id(),
+					$broadcasts_settings->category_id()
+				),
+				true
+			);
 
 			// Skip if an error occured.
 			if ( is_wp_error( $post_id ) ) {
@@ -110,6 +125,23 @@ class ConvertKit_Broadcasts_Importer {
 					$log->add( 'ConvertKit_Broadcasts_Importer::refresh(): Broadcast #' . $broadcast_id . '. Error on wp_insert_post(): ' . $post_id->get_error_message() );
 				}
 				continue;
+			}
+
+			// If the Restrict Content setting is defined, apply it to the Post now.
+			if ( $broadcasts_settings->restrict_content_enabled() ) {
+				// Fetch Post's settings.
+				$convertkit_post = new ConvertKit_Post( $post_id );
+				$meta            = $convertkit_post->get();
+
+				// Define Restrict Content setting.
+				$meta['restrict_content'] = $broadcasts_settings->restrict_content();
+
+				// Save Post's settings.
+				$convertkit_post->save( $meta );
+
+				if ( $settings->debug_enabled() ) {
+					$log->add( 'ConvertKit_Broadcasts_Importer::refresh(): Broadcast #' . $broadcast_id . '. Set Restrict Content = ' . $broadcasts_settings->restrict_content() );
+				}
 			}
 
 			// If the Broadcast has an image, save it to the Media Library and link it to the Post.
@@ -177,18 +209,24 @@ class ConvertKit_Broadcasts_Importer {
 	 *
 	 * @since   2.2.8
 	 *
-	 * @param   array $broadcast  Broadcast.
-	 * @return  array               wp_insert_post() compatible arguments.
+	 * @param   array    $broadcast          Broadcast.
+	 * @param   int      $author_id          WordPress User to assign as the author of the Post.
+	 * @param   bool|int $category_id        Category ID.
+	 * @return  array                           wp_insert_post() compatible arguments.
 	 */
-	private function build_post_args( $broadcast ) {
+	private function build_post_args( $broadcast, $author_id, $category_id = false ) {
 
 		// Define array for the wp_insert_post() compatible arguments.
 		$post_args = array(
 			'post_type'    => 'post',
 			'post_title'   => $broadcast['subject'],
-			'post_excerpt' => $broadcast['description'],
+			'post_excerpt' => ( ! is_null( $broadcast['description'] ) ? $broadcast['description'] : '' ),
 			'post_content' => $this->parse_broadcast_content( $broadcast['content'] ),
+			'post_author'  => $author_id,
 		);
+
+		// If a Category was supplied, assign the Post to the given Category ID when created.
+		$post_args['post_category'] = array( $category_id );
 
 		/**
 		 * Define the wp_insert_post() compatible arguments for importing a ConvertKit Broadcast
@@ -228,19 +266,36 @@ class ConvertKit_Broadcasts_Importer {
 
 		$content = $broadcast_content;
 
-		// Remove some tags, including their contents.
-		$content = preg_replace( '/<script.*?>(.*)?<\/script>/ims', '', $content );
-		$content = preg_replace( '/<style.*?>(.*)?<\/style>/ims', '', $content );
+		// Remove unsubscribe section.
+		$content = preg_replace( '/(<div class="ck-section ck-hide-in-public-posts".*?>.*?<\/div>)/is', '', $content );
+
+		// Remove <style> elements.
+		$content = preg_replace( '/(<style *?>.*?<\/style>)/is', '', $content );
+		$content = preg_replace( '/(<style>.*?<\/style>)/is', '', $content );
 
 		// Define HTML tags to retain in the content.
 		$permitted_html_tags = array(
+			'h1',
+			'h2',
+			'h3',
 			'p',
-			'a',
-			'img',
 			'ul',
 			'ol',
 			'li',
+			'blockquote',
+			'strong',
+			'em',
+			'u',
+			's',
+			'a',
+			'img',
 			'br',
+			'span',
+			'div',
+			'table',
+			'tbody',
+			'tr',
+			'td',
 		);
 
 		/**
@@ -257,6 +312,7 @@ class ConvertKit_Broadcasts_Importer {
 		$permitted_html_tags_string = '<' . implode( '><', $permitted_html_tags ) . '>';
 
 		// Remove other tags, retaining inner contents.
+		// For HTML broadcasts, this will remove e.g. <html>, <head> and <body> tags.
 		$content = strip_tags( $content, $permitted_html_tags_string );
 
 		/**
