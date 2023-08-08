@@ -90,6 +90,23 @@ class BroadcastsToPostsCest
 		$I->see($_ENV['CONVERTKIT_API_BROADCAST_FIRST_TITLE']);
 		$I->see($_ENV['CONVERTKIT_API_BROADCAST_SECOND_TITLE']);
 		$I->see($_ENV['CONVERTKIT_API_BROADCAST_THIRD_TITLE']);
+
+		// Get created Post IDs.
+		$postIDs = [
+			(int) str_replace('post-', '', $I->grabAttributeFrom('tbody#the-list > tr:nth-child(1)', 'id')),
+			(int) str_replace('post-', '', $I->grabAttributeFrom('tbody#the-list > tr:nth-child(2)', 'id')),
+			(int) str_replace('post-', '', $I->grabAttributeFrom('tbody#the-list > tr:nth-child(3)', 'id')),
+		];
+
+		// View the first post.
+		$I->amOnPage('?p=' . $postIDs[0]);
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Confirm inline styles exist in the imported Broadcast.
+		$I->seeElementInDOM('div.ck-inner-section');
+		$I->assertNotNull($I->grabAttributeFrom('div.wp-block-post-content h1', 'style'));
 	}
 
 	/**
@@ -242,6 +259,61 @@ class BroadcastsToPostsCest
 			// Confirm Restrict Content setting is correct.
 			$I->seeInField('wp-convertkit[restrict_content]', $_ENV['CONVERTKIT_API_PRODUCT_NAME']);
 		}
+	}
+
+	/**
+	 * Tests that Broadcasts import when enabled in the Plugin's settings,
+	 * with the Disable Styles setting enabled.
+	 *
+	 * @since   2.2.8
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testBroadcastsImportWithDisableStylesEnabled(AcceptanceTester $I)
+	{
+		// Enable Broadcasts to Posts.
+		$I->setupConvertKitPluginBroadcastsToPosts(
+			$I,
+			[
+				'enabled'          => true,
+				'send_at_min_date' => '01/01/2020',
+				'no_styles'        => true,
+			]
+		);
+
+		// Run the WordPress Cron event to import Broadcasts to WordPress Posts.
+		$I->runCronEvent($I, $this->cronEventName);
+
+		// Wait a few seconds for the Cron event to complete importing Broadcasts.
+		$I->wait(7);
+
+		// Load the Posts screen.
+		$I->amOnAdminPage('edit.php');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Confirm expected Broadcasts exist as Posts.
+		$I->see($_ENV['CONVERTKIT_API_BROADCAST_FIRST_TITLE']);
+		$I->see($_ENV['CONVERTKIT_API_BROADCAST_SECOND_TITLE']);
+		$I->see($_ENV['CONVERTKIT_API_BROADCAST_THIRD_TITLE']);
+
+		// Get created Post IDs.
+		$postIDs = [
+			(int) str_replace('post-', '', $I->grabAttributeFrom('tbody#the-list > tr:nth-child(1)', 'id')),
+			(int) str_replace('post-', '', $I->grabAttributeFrom('tbody#the-list > tr:nth-child(2)', 'id')),
+			(int) str_replace('post-', '', $I->grabAttributeFrom('tbody#the-list > tr:nth-child(3)', 'id')),
+		];
+
+		// View the first post.
+		$I->amOnPage('?p=' . $postIDs[0]);
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Confirm no inline styles exist in the imported Broadcast.
+		$I->dontSeeElementInDOM('div.ck-inner-section');
+		$I->assertNull($I->grabAttributeFrom('div.wp-block-post-content h1', 'style'));
 	}
 
 	/**

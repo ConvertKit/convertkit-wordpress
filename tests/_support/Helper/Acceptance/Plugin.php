@@ -427,6 +427,7 @@ class Plugin extends \Codeception\Module
 			foreach ( $settings as $key => $value ) {
 				switch ( $key ) {
 					case 'enabled':
+					case 'no_styles':
 						if ( $value ) {
 							$I->checkOption('_wp_convertkit_settings_broadcasts[' . $key . ']');
 						} else {
