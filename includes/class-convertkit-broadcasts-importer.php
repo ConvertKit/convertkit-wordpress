@@ -15,6 +15,15 @@
 class ConvertKit_Broadcasts_Importer {
 
 	/**
+	 * Holds the Broadcasts Settings class.
+	 *
+	 * @since   2.2.8
+	 *
+	 * @var     bool|ConvertKit_Settings_Broadcasts
+	 */
+	private $broadcasts_settings = false;
+
+	/**
 	 * Constructor. Registers actions and filters to output ConvertKit Forms and Landing Pages
 	 * on the frontend web site.
 	 *
@@ -40,12 +49,12 @@ class ConvertKit_Broadcasts_Importer {
 	public function refresh( $broadcasts ) {
 
 		// Initialize required classes.
-		$broadcasts_settings = new ConvertKit_Settings_Broadcasts();
-		$settings            = new ConvertKit_Settings();
-		$log                 = new ConvertKit_Log( CONVERTKIT_PLUGIN_PATH );
+		$this->broadcasts_settings = new ConvertKit_Settings_Broadcasts();
+		$settings                  = new ConvertKit_Settings();
+		$log                       = new ConvertKit_Log( CONVERTKIT_PLUGIN_PATH );
 
 		// Bail if Broadcasts to Posts are disabled.
-		if ( ! $broadcasts_settings->enabled() ) {
+		if ( ! $this->broadcasts_settings->enabled() ) {
 			return;
 		}
 
@@ -102,9 +111,9 @@ class ConvertKit_Broadcasts_Importer {
 			}
 
 			// Skip if the send_at date is older than the 'Earliest Date' setting.
-			if ( strtotime( $broadcast['send_at'] ) < strtotime( $broadcasts_settings->send_at_min_date() ) ) {
+			if ( strtotime( $broadcast['send_at'] ) < strtotime( $this->broadcasts_settings->send_at_min_date() ) ) {
 				if ( $settings->debug_enabled() ) {
-					$log->add( 'ConvertKit_Broadcasts_Importer::refresh(): Broadcast #' . $broadcast_id . ' send_at date is before ' . $broadcasts_settings->send_at_min_date() . '. Skipping...' );
+					$log->add( 'ConvertKit_Broadcasts_Importer::refresh(): Broadcast #' . $broadcast_id . ' send_at date is before ' . $this->broadcasts_settings->send_at_min_date() . '. Skipping...' );
 				}
 				continue;
 			}
@@ -113,8 +122,8 @@ class ConvertKit_Broadcasts_Importer {
 			$post_id = wp_insert_post(
 				$this->build_post_args(
 					$broadcast,
-					$broadcasts_settings->author_id(),
-					$broadcasts_settings->category_id()
+					$this->broadcasts_settings->author_id(),
+					$this->broadcasts_settings->category_id()
 				),
 				true
 			);
@@ -128,19 +137,19 @@ class ConvertKit_Broadcasts_Importer {
 			}
 
 			// If the Restrict Content setting is defined, apply it to the Post now.
-			if ( $broadcasts_settings->restrict_content_enabled() ) {
+			if ( $this->broadcasts_settings->restrict_content_enabled() ) {
 				// Fetch Post's settings.
 				$convertkit_post = new ConvertKit_Post( $post_id );
 				$meta            = $convertkit_post->get();
 
 				// Define Restrict Content setting.
-				$meta['restrict_content'] = $broadcasts_settings->restrict_content();
+				$meta['restrict_content'] = $this->broadcasts_settings->restrict_content();
 
 				// Save Post's settings.
 				$convertkit_post->save( $meta );
 
 				if ( $settings->debug_enabled() ) {
-					$log->add( 'ConvertKit_Broadcasts_Importer::refresh(): Broadcast #' . $broadcast_id . '. Set Restrict Content = ' . $broadcasts_settings->restrict_content() );
+					$log->add( 'ConvertKit_Broadcasts_Importer::refresh(): Broadcast #' . $broadcast_id . '. Set Restrict Content = ' . $this->broadcasts_settings->restrict_content() );
 				}
 			}
 
@@ -274,6 +283,43 @@ class ConvertKit_Broadcasts_Importer {
 		$content = preg_replace( '/(<style *?>.*?<\/style>)/is', '', $content );
 		$content = preg_replace( '/(<style>.*?<\/style>)/is', '', $content );
 
+		// For PHP 7.4 and lower compatibility, convert permitted HTML tags array to a string
+		// for use in strip_tags().
+		$permitted_html_tags_string = '<' . implode( '><', $this->permitted_html_tags() ) . '>';
+
+		// Remove other tags, retaining inner contents.
+		// For HTML broadcasts, this will remove e.g. <html>, <head> and <body> tags.
+		$content = strip_tags( $content, $permitted_html_tags_string );
+
+		// If Disable Styles is checked, remove inline styles and class attributes from remaining HTML elements.
+		if ( $this->broadcasts_settings->no_styles() ) {
+			$content = preg_replace( '/(<[^>]+) style=".*?"/i', '$1', $content );
+			$content = preg_replace( '/(<[^>]+) class=".*?"/i', '$1', $content );
+		}
+
+		/**
+		 * Parses the given Broadcast's content, removing unnecessary HTML tags and styles.
+		 *
+		 * @since   2.2.8
+		 *
+		 * @param   string  $content            Parsed Content.
+		 * @param   string  $broadcast_content  Original Broadcast's Content.
+		 */
+		$content = apply_filters( 'convertkit_broadcasts_parse_broadcast_content', $content, $broadcast_content );
+
+		return $content;
+
+	}
+
+	/**
+	 * Returns an array of permitted HTML tags to retain in the imported Broadcast.
+	 *
+	 * @since   2.2.8
+	 *
+	 * @return  array
+	 */
+	private function permitted_html_tags() {
+
 		// Define HTML tags to retain in the content.
 		$permitted_html_tags = array(
 			'h1',
@@ -291,13 +337,22 @@ class ConvertKit_Broadcasts_Importer {
 			'a',
 			'img',
 			'br',
-			'span',
-			'div',
-			'table',
-			'tbody',
-			'tr',
-			'td',
 		);
+
+		// If Disable Styles isn't selected, include layout tags.
+		if ( ! $this->broadcasts_settings->no_styles() ) {
+			$permitted_html_tags = array_merge(
+				$permitted_html_tags,
+				array(
+					'span',
+					'div',
+					'table',
+					'tbody',
+					'tr',
+					'td',
+				)
+			);
+		}
 
 		/**
 		 * Define the HTML tags to retain in the Broadcast Content.
@@ -308,25 +363,8 @@ class ConvertKit_Broadcasts_Importer {
 		 */
 		$permitted_html_tags = apply_filters( 'convertkit_broadcasts_parse_broadcast_content_permitted_html_tags', $permitted_html_tags );
 
-		// For PHP 7.4 and lower compatibility, convert permitted HTML tags array to a string
-		// for use in strip_tags().
-		$permitted_html_tags_string = '<' . implode( '><', $permitted_html_tags ) . '>';
-
-		// Remove other tags, retaining inner contents.
-		// For HTML broadcasts, this will remove e.g. <html>, <head> and <body> tags.
-		$content = strip_tags( $content, $permitted_html_tags_string );
-
-		/**
-		 * Parses the given Broadcast's content, removing unnecessary HTML tags and styles.
-		 *
-		 * @since   2.2.8
-		 *
-		 * @param   string  $content            Parsed Content.
-		 * @param   string  $broadcast_content  Original Broadcast's Content.
-		 */
-		$content = apply_filters( 'convertkit_broadcasts_parse_broadcast_content', $content, $broadcast_content );
-
-		return $content;
+		// Return.
+		return $permitted_html_tags;
 
 	}
 
