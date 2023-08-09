@@ -227,12 +227,12 @@ class ConvertKit_Broadcasts_Importer {
 
 		// Define array for the wp_insert_post() compatible arguments.
 		$post_args = array(
-			'post_type'      => 'post',
-			'post_title'     => $broadcast['subject'],
-			'post_excerpt'   => ( ! is_null( $broadcast['description'] ) ? $broadcast['description'] : '' ),
-			'post_content'   => $this->parse_broadcast_content( $broadcast['content'] ),
-			'post_date_gmt'	 => gmdate( 'Y-m-d H:i:s', strtotime( $broadcast['published_at'] ) ),
-			'post_author'    => $author_id,
+			'post_type'     => 'post',
+			'post_title'    => $broadcast['subject'],
+			'post_excerpt'  => ( ! is_null( $broadcast['description'] ) ? $broadcast['description'] : '' ),
+			'post_content'  => $this->parse_broadcast_content( $broadcast['content'] ),
+			'post_date_gmt' => gmdate( 'Y-m-d H:i:s', strtotime( $broadcast['published_at'] ) ),
+			'post_author'   => $author_id,
 		);
 
 		// If a Category was supplied, assign the Post to the given Category ID when created.

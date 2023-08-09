@@ -107,6 +107,10 @@ class BroadcastsToPostsCest
 		// Confirm inline styles exist in the imported Broadcast.
 		$I->seeElementInDOM('div.ck-inner-section');
 		$I->assertNotNull($I->grabAttributeFrom('div.wp-block-post-content h1', 'style'));
+
+		// Confirm published date matches the Broadcast.
+		$date = date('Y-m-d', strtotime($_ENV['CONVERTKIT_API_BROADCAST_FIRST_DATE'])) . 'T' . date('H:i:s', strtotime($_ENV['CONVERTKIT_API_BROADCAST_FIRST_DATE']));
+		$I->seeInSource('<time datetime="' . $date);
 	}
 
 	/**
