@@ -143,6 +143,19 @@ class ConvertKit_Settings_Broadcasts {
 	}
 
 	/**
+	 * Returns whether Broadcasts should have their styles imported.
+	 *
+	 * @since   2.2.8
+	 *
+	 * @return  bool
+	 */
+	public function no_styles() {
+
+		return ( $this->settings['no_styles'] === 'on' ? true : false );
+
+	}
+
+	/**
 	 * Returns whether imported Broadcasts should have their Restrict Content
 	 * setting defined, if the Broadcast is marked as paid.
 	 *
@@ -188,6 +201,7 @@ class ConvertKit_Settings_Broadcasts {
 			'send_at_min_date' => gmdate( 'Y-m-d', strtotime( '-30 days' ) ),
 
 			'restrict_content' => '',
+			'no_styles'        => '',
 		);
 
 		/**
