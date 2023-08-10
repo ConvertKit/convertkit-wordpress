@@ -129,6 +129,28 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 		// Initialize classes that will be used.
 		$restrict_content_settings = new ConvertKit_Settings_Restrict_Content();
 
+		// Define description for the 'Enabled' setting.
+		$enabled_description = __( 'Enables automatic publication of ConvertKit broadcasts to WordPress Posts.', 'convertkit' );
+
+		// If enabled, include the next scheduled date and time the Plugin will import broadcasts.
+		if ( $this->settings->enabled() ) {
+			$broadcasts = new ConvertKit_Resource_Broadcasts( 'cron' );
+
+			// If a next scheduled timestamp exists, include it in the description.
+			if ( $broadcasts->get_cron_event_next_scheduled() ) {
+				$enabled_description .= sprintf(
+					'<br />%s %s',
+					esc_html__( 'Broadcasts will next import on ', 'convertkit' ),
+					// The cron event's next scheduled timestamp is always in UTC.
+					// Display it converted to the WordPress site's timezone.
+					get_date_from_gmt(
+						gmdate( 'Y-m-d H:i:s', $broadcasts->get_cron_event_next_scheduled() ),
+						get_option( 'date_format' ) . ' ' . get_option( 'time_format' )
+					)
+				);
+			}
+		}
+
 		add_settings_field(
 			'enabled',
 			__( 'Enable', 'convertkit' ),
@@ -137,7 +159,7 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 			$this->name,
 			array(
 				'name'        => 'enabled',
-				'description' => __( 'Enables automatic publication of ConvertKit broadcasts to WordPress Posts.', 'convertkit' ),
+				'description' => $enabled_description,
 			)
 		);
 
