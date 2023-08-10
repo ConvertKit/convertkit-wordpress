@@ -140,7 +140,7 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 			if ( $broadcasts->get_cron_event_next_scheduled() ) {
 				$enabled_description .= sprintf(
 					'<br />%s %s',
-					esc_html__( 'Broadcasts will next import on ', 'convertkit' ),
+					esc_html__( 'Broadcasts will next import at approximately ', 'convertkit' ),
 					// The cron event's next scheduled timestamp is always in UTC.
 					// Display it converted to the WordPress site's timezone.
 					get_date_from_gmt(

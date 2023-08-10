@@ -58,6 +58,9 @@ class BroadcastsToPostsSettingsCest
 		// Check the WordPress Cron task was scheduled.
 		$I->seeCronEvent($I, 'convertkit_resource_refresh_broadcasts');
 
+		// Check the next import date and time is displayed.
+		$I->see('Broadcasts will next import at approximately');
+
 		// Disable Broadcasts to Posts.
 		$I->uncheckOption('#enabled');
 
@@ -76,6 +79,9 @@ class BroadcastsToPostsSettingsCest
 
 		// Check the WordPress Cron task was unscheduled.
 		$I->dontSeeCronEvent($I, 'convertkit_resource_refresh_broadcasts');
+
+		// Check the next import date and time is not displayed.
+		$I->dontSee('Broadcasts will next import at approximately');
 	}
 
 	/**
