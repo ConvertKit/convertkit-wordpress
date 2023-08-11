@@ -200,12 +200,12 @@ jobs:
       - name: Set Permissions for Caching Plugins
         if: ${{ matrix.test-groups == 'acceptance/restrict-content' }}
         run: |
+          mkdir ${{ env.ROOT_DIR }}/wp-content/wpo-cache
+          mkdir ${{ env.ROOT_DIR }}/wp-content/wpo-cache/config
           sudo chmod g+w ${{ env.ROOT_DIR }}/wp-config.php
           sudo chown www-data:www-data ${{ env.ROOT_DIR }}/wp-config.php
           sudo chmod g+w ${{ env.ROOT_DIR }}/wp-content
           sudo chown www-data:www-data ${{ env.ROOT_DIR }}/wp-content
-          mkdir ${{ env.ROOT_DIR }}/wp-content/wpo-cache
-          mkdir ${{ env.ROOT_DIR }}/wp-content/wpo-cache/config
           sudo chmod g+w ${{ env.ROOT_DIR }}/wp-content/wpo-cache
           sudo chown www-data:www-data ${{ env.ROOT_DIR }}/wp-content/wpo-cache
           sudo chmod g+w ${{ env.ROOT_DIR }}/wp-content/wpo-cache/config
