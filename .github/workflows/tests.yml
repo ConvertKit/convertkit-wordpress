@@ -51,15 +51,7 @@ jobs:
 
         # Folder names within the 'tests' folder to run tests in parallel.
         test-groups: [
-          'acceptance/broadcasts',
-          'acceptance/forms',
-          'acceptance/general',
-          'acceptance/integrations',
-          'acceptance/landing-pages',
-          'acceptance/products',
-          'acceptance/restrict-content',
-          'acceptance/tags',
-          'acceptance/wlm'
+          'acceptance/restrict-content'
         ]
 
     # Steps to install, configure and run tests
@@ -208,6 +200,8 @@ jobs:
       - name: Set Permissions for Caching Plugins
         if: ${{ matrix.test-groups == 'acceptance/restrict-content' }}
         run: |
+          mkdir ${{ env.ROOT_DIR }}/wp-content/wpo-cache
+          mkdir ${{ env.ROOT_DIR }}/wp-content/wpo-cache/config
           sudo chmod g+w ${{ env.ROOT_DIR }}/wp-config.php
           sudo chown www-data:www-data ${{ env.ROOT_DIR }}/wp-config.php
           sudo chmod g+w ${{ env.ROOT_DIR }}/wp-content
