@@ -352,7 +352,11 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 			$args['name'],
 			'on',
 			$this->settings->no_styles(), // phpcs:ignore WordPress.Security.EscapeOutput
-			$args['description'] // phpcs:ignore WordPress.Security.EscapeOutput
+			$args['description'], // phpcs:ignore WordPress.Security.EscapeOutput
+			'',
+			array(
+				'enabled',
+			)
 		);
 
 	}
