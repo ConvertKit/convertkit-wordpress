@@ -64,7 +64,7 @@ class RestrictContentProductCest
 		$I->setupConvertKitPluginRestrictContent(
 			$I,
 			[
-				'enabled' => true,
+				'enabled' => 'on',
 			]
 		);
 
@@ -112,7 +112,7 @@ class RestrictContentProductCest
 		$I->setupConvertKitPluginRestrictContent(
 			$I,
 			[
-				'enabled' => true,
+				'enabled' => 'on',
 			]
 		);
 
@@ -147,7 +147,7 @@ class RestrictContentProductCest
 		$I->setupConvertKitPluginRestrictContent(
 			$I,
 			[
-				'enabled' => true,
+				'enabled' => 'on',
 			]
 		);
 

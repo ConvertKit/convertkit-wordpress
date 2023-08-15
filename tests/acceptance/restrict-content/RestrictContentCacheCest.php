@@ -42,7 +42,7 @@ class RestrictContentCacheCest
 		$I->setupConvertKitPluginRestrictContent(
 			$I,
 			[
-				'enabled' => true,
+				'enabled' => 'on',
 			]
 		);
 

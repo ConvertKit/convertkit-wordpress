@@ -372,41 +372,22 @@ class Plugin extends \Codeception\Module
 	}
 
 	/**
-	 * Helper method to setup the Plugin's Member Content settings.
+	 * Helper method to programmatically setup the Plugin's Member Content settings.
 	 *
 	 * @since   2.1.0
 	 *
 	 * @param   AcceptanceTester $I          AcceptanceTester.
-	 * @param   bool|array       $settings   Array of key/value settings. If not defined, uses expected defaults.
+	 * @param   bool|array       $settings   Array of key/value settings.
 	 */
-	public function setupConvertKitPluginRestrictContent($I, $settings = false)
+	public function setupConvertKitPluginRestrictContent($I, $settings)
 	{
-		// Go to the Plugin's Member Content Screen.
-		$I->loadConvertKitSettingsRestrictContentScreen($I);
-
-		// Complete fields.
-		if ( $settings ) {
-			foreach ( $settings as $key => $value ) {
-				switch ( $key ) {
-					case 'enabled':
-						if ( $value ) {
-							$I->checkOption('_wp_convertkit_settings_restrict_content[' . $key . ']');
-						} else {
-							$I->uncheckOption('_wp_convertkit_settings_restrict_content[' . $key . ']');
-						}
-						break;
-					default:
-						$I->fillField('_wp_convertkit_settings_restrict_content[' . $key . ']', $value);
-						break;
-				}
-			}
-		}
-
-		// Click the Save Changes button.
-		$I->click('Save Changes');
-
-		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen($I);
+		$I->haveOptionInDatabase(
+			'_wp_convertkit_settings_restrict_content',
+			array_merge(
+				$settings,
+				$I->getRestrictedContentDefaultSettings()
+			)
+		);
 	}
 
 	/**

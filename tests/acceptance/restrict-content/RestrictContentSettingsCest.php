@@ -84,7 +84,7 @@ class RestrictContentSettingsCest
 		$memberContent  = 'Member only content.';
 
 		// Save settings.
-		$I->setupConvertKitPluginRestrictContent(
+		$this->_setupConvertKitPluginRestrictContent(
 			$I,
 			[
 				'enabled' => true,
@@ -136,7 +136,7 @@ class RestrictContentSettingsCest
 		);
 
 		// Save settings.
-		$I->setupConvertKitPluginRestrictContent($I, $settings);
+		$this->_setupConvertKitPluginRestrictContent($I, $settings);
 
 		// Confirm default values were saved and display in the form fields.
 		$defaults = $I->getRestrictedContentDefaultSettings();
@@ -183,7 +183,7 @@ class RestrictContentSettingsCest
 		);
 
 		// Save settings.
-		$I->setupConvertKitPluginRestrictContent($I, $settings);
+		$this->_setupConvertKitPluginRestrictContent($I, $settings);
 
 		// Confirm custom values were saved and display in the form fields.
 		foreach ( $settings as $key => $value ) {
@@ -213,7 +213,7 @@ class RestrictContentSettingsCest
 	public function testDisableCSSSetting(AcceptanceTester $I)
 	{
 		// Enable Restrict Content.
-		$I->setupConvertKitPluginRestrictContent(
+		$this->_setupConvertKitPluginRestrictContent(
 			$I,
 			[
 				'enabled' => true,
@@ -236,6 +236,44 @@ class RestrictContentSettingsCest
 
 		// Confirm no CSS is output by the Plugin.
 		$I->dontSeeInSource('restrict-content.css');
+	}
+
+	/**
+	 * Helper method to setup the Plugin's Member Content settings.
+	 *
+	 * @since   2.1.0
+	 *
+	 * @param   AcceptanceTester $I          AcceptanceTester.
+	 * @param   bool|array       $settings   Array of key/value settings. If not defined, uses expected defaults.
+	 */
+	public function _setupConvertKitPluginRestrictContent($I, $settings = false)
+	{
+		// Go to the Plugin's Member Content Screen.
+		$I->loadConvertKitSettingsRestrictContentScreen($I);
+
+		// Complete fields.
+		if ( $settings ) {
+			foreach ( $settings as $key => $value ) {
+				switch ( $key ) {
+					case 'enabled':
+						if ( $value ) {
+							$I->checkOption('_wp_convertkit_settings_restrict_content[' . $key . ']');
+						} else {
+							$I->uncheckOption('_wp_convertkit_settings_restrict_content[' . $key . ']');
+						}
+						break;
+					default:
+						$I->fillField('_wp_convertkit_settings_restrict_content[' . $key . ']', $value);
+						break;
+				}
+			}
+		}
+
+		// Click the Save Changes button.
+		$I->click('Save Changes');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
 	}
 
 	/**
