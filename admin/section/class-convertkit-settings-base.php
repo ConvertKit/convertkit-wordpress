@@ -345,9 +345,10 @@ abstract class ConvertKit_Settings_Base {
 	 * @param   bool              $checked        Should checkbox be checked/ticked.
 	 * @param   bool|string       $label          Label.
 	 * @param   bool|string|array $description    Description.
+	 * @param   bool|array        $css_classes    CSS class(es).
 	 * @return  string                            HTML Checkbox
 	 */
-	public function get_checkbox_field( $name, $value, $checked = false, $label = '', $description = '' ) {
+	public function get_checkbox_field( $name, $value, $checked = false, $label = '', $description = '', $css_classes = false ) {
 
 		$html = '';
 
@@ -359,10 +360,11 @@ abstract class ConvertKit_Settings_Base {
 		}
 
 		$html .= sprintf(
-			'<input type="checkbox" id="%s" name="%s[%s]" value="%s" %s />',
+			'<input type="checkbox" id="%s" name="%s[%s]" class="%s" value="%s" %s />',
 			$name,
 			$this->settings_key,
 			$name,
+			( is_array( $css_classes ) ? implode( ' ', $css_classes ) : '' ),
 			$value,
 			( $checked ? ' checked' : '' )
 		);

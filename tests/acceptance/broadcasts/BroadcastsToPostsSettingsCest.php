@@ -53,7 +53,9 @@ class BroadcastsToPostsSettingsCest
 
 		// Confirm that settings saved and additional fields remain displayed.
 		$I->seeCheckboxIsChecked('#enabled');
-		$I->seeElement('input.enabled');
+		$I->seeElement('div.convertkit-select2-container');
+		$I->seeElement('input#send_at_min_date');
+		$I->seeElement('input#no_styles');
 
 		// Check the WordPress Cron task was scheduled.
 		$I->seeCronEvent($I, 'convertkit_resource_refresh_broadcasts');
@@ -72,7 +74,9 @@ class BroadcastsToPostsSettingsCest
 
 		// Confirm that settings saved and additional fields are hidden, because the 'Enable' option is not checked.
 		$I->dontSeeCheckboxIsChecked('#enabled');
-		$I->dontSeeElement('input.enabled');
+		$I->dontSeeElement('div.convertkit-select2-container');
+		$I->dontSeeElement('input#send_at_min_date');
+		$I->dontSeeElement('input#no_styles');
 
 		// Check the WordPress Cron task was unscheduled.
 		$I->dontSeeCronEvent($I, 'convertkit_resource_refresh_broadcasts');
