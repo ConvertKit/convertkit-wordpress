@@ -19,13 +19,15 @@ class PluginSettingsGeneralCest
 	}
 
 	/**
-	 * Test that the Settings > ConvertKit > General screen has expected a11y output, such as label[for].
+	 * Test that the Settings > ConvertKit > General screen has expected a11y output, such as label[for], and
+	 * UTM parameters are included in links displayed on the Plugins' Setting screen for the user to obtain
+	 * their API Key and Secret, or sign in to their ConvertKit account.
 	 *
 	 * @since   1.9.7.6
 	 *
 	 * @param   AcceptanceTester $I  Tester.
 	 */
-	public function testAccessibility(AcceptanceTester $I)
+	public function testAccessibilityAndUTMParameters(AcceptanceTester $I)
 	{
 		// Go to the Plugin's Settings Screen.
 		$I->loadConvertKitSettingsGeneralScreen($I);
@@ -38,20 +40,6 @@ class PluginSettingsGeneralCest
 		$I->seeInSource('<label for="debug">');
 		$I->seeInSource('<label for="no_scripts">');
 		$I->seeInSource('<label for="no_css">');
-	}
-
-	/**
-	 * Test that UTM parameters are included in links displayed on the Plugins' Setting screen for the user to obtain
-	 * their API Key and Secret, or sign in to their ConvertKit account.
-	 *
-	 * @since   1.9.6
-	 *
-	 * @param   AcceptanceTester $I  Tester.
-	 */
-	public function testUTMParametersExist(AcceptanceTester $I)
-	{
-		// Go to the Plugin's Settings Screen.
-		$I->loadConvertKitSettingsGeneralScreen($I);
 
 		// Confirm that UTM parameters exist for the 'Get your ConvertKit API Key' link.
 		$I->seeInSource('<a href="https://app.convertkit.com/account_settings/advanced_settings/?utm_source=wordpress&amp;utm_term=en_US&amp;utm_content=convertkit" target="_blank">Get your ConvertKit API Key.</a>');
@@ -93,15 +81,17 @@ class PluginSettingsGeneralCest
 	}
 
 	/**
-	 * Test that no PHP errors or notices are displayed on the Plugin's Setting screen,
-	 * and a warning is displayed that the supplied API credentials are invalid, when
-	 * saving invalid API credentials.
+	 * Test that:
+	 * - no PHP errors or notices are displayed on the Plugin's Setting screen,
+	 * - a warning is displayed that the supplied API credentials are invalid, when
+	 * saving invalid API credentials,
+	 * - no warning is displayed when the supplied API credentials are valid.
 	 *
 	 * @since   1.9.6
 	 *
 	 * @param   AcceptanceTester $I  Tester.
 	 */
-	public function testSaveInvalidAPICredentials(AcceptanceTester $I)
+	public function testSaveInvalidAndValidAPICredentials(AcceptanceTester $I)
 	{
 		// Go to the Plugin's Settings Screen.
 		$I->loadConvertKitSettingsGeneralScreen($I);
@@ -127,22 +117,8 @@ class PluginSettingsGeneralCest
 
 		// Check that a notice is displayed that the API credentials are invalid.
 		$I->seeErrorNotice($I, 'Convertkit: Authorization failed. Please enter valid API credentials on the settings screen.');
-	}
 
-	/**
-	 * Test that no PHP errors or notices are displayed on the Plugin's Setting screen,
-	 * when valid API credentials are saved.
-	 *
-	 * @since   1.9.6
-	 *
-	 * @param   AcceptanceTester $I  Tester.
-	 */
-	public function testSaveValidAPICredentials(AcceptanceTester $I)
-	{
-		// Go to the Plugin's Settings Screen.
-		$I->loadConvertKitSettingsGeneralScreen($I);
-
-		// Complete API Fields.
+		// Complete API Fields with valid API credentials.
 		$I->fillField('_wp_convertkit_settings[api_key]', $_ENV['CONVERTKIT_API_KEY']);
 		$I->fillField('_wp_convertkit_settings[api_secret]', $_ENV['CONVERTKIT_API_SECRET']);
 
@@ -207,43 +183,14 @@ class PluginSettingsGeneralCest
 
 	/**
 	 * Test that no PHP errors or notices are displayed on the Plugin's Setting screen,
-	 * when the Default Form is changed.
+	 * when the Default Form for Pages and Posts are changed, and that the preview links
+	 * work when the Default Form is changed.
 	 *
 	 * @since   1.9.6
 	 *
 	 * @param   AcceptanceTester $I  Tester.
 	 */
-	public function testChangeDefaultFormSetting(AcceptanceTester $I)
-	{
-		// Setup Plugin, without defining default Forms.
-		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY'], $_ENV['CONVERTKIT_API_SECRET'], '', '');
-
-		// Go to the Plugin's Settings Screen.
-		$I->loadConvertKitSettingsGeneralScreen($I);
-
-		// Select Default Form for Pages and Posts.
-		$I->fillSelect2Field($I, '#select2-_wp_convertkit_settings_page_form-container', $_ENV['CONVERTKIT_API_FORM_NAME']);
-		$I->fillSelect2Field($I, '#select2-_wp_convertkit_settings_post_form-container', $_ENV['CONVERTKIT_API_FORM_NAME']);
-
-		// Click the Save Changes button.
-		$I->click('Save Changes');
-
-		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen($I);
-
-		// Check the value of the fields match the inputs provided.
-		$I->seeInField('_wp_convertkit_settings[page_form]', $_ENV['CONVERTKIT_API_FORM_NAME']);
-		$I->seeInField('_wp_convertkit_settings[post_form]', $_ENV['CONVERTKIT_API_FORM_NAME']);
-	}
-
-	/**
-	 * Test that the preview link for the Default Form settings works.
-	 *
-	 * @since   1.9.8.5
-	 *
-	 * @param   AcceptanceTester $I  Tester.
-	 */
-	public function testPreviewFormLinks(AcceptanceTester $I)
+	public function testChangeDefaultFormSettingAndPreviewFormLinks(AcceptanceTester $I)
 	{
 		// Create a Page and a Post, so that preview links display.
 		$I->havePostInDatabase(
@@ -300,6 +247,16 @@ class PluginSettingsGeneralCest
 
 		// Close newly opened tab.
 		$I->closeTab();
+
+		// Click the Save Changes button.
+		$I->click('Save Changes');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Check the value of the fields match the inputs provided.
+		$I->seeInField('_wp_convertkit_settings[page_form]', $_ENV['CONVERTKIT_API_FORM_NAME']);
+		$I->seeInField('_wp_convertkit_settings[post_form]', $_ENV['CONVERTKIT_API_FORM_NAME']);
 	}
 
 	/**
