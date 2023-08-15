@@ -81,17 +81,15 @@ class PluginSettingsGeneralCest
 	}
 
 	/**
-	 * Test that:
-	 * - no PHP errors or notices are displayed on the Plugin's Setting screen,
-	 * - a warning is displayed that the supplied API credentials are invalid, when
-	 * saving invalid API credentials,
-	 * - no warning is displayed when the supplied API credentials are valid.
+	 * Test that no PHP errors or notices are displayed on the Plugin's Setting screen,
+	 * and a warning is displayed that the supplied API credentials are invalid, when
+	 * saving invalid API credentials.
 	 *
 	 * @since   1.9.6
 	 *
 	 * @param   AcceptanceTester $I  Tester.
 	 */
-	public function testSaveInvalidAndValidAPICredentials(AcceptanceTester $I)
+	public function testSaveInvalidAPICredentials(AcceptanceTester $I)
 	{
 		// Go to the Plugin's Settings Screen.
 		$I->loadConvertKitSettingsGeneralScreen($I);
@@ -117,8 +115,22 @@ class PluginSettingsGeneralCest
 
 		// Check that a notice is displayed that the API credentials are invalid.
 		$I->seeErrorNotice($I, 'Convertkit: Authorization failed. Please enter valid API credentials on the settings screen.');
+	}
 
-		// Complete API Fields with valid API credentials.
+	/**
+	 * Test that no PHP errors or notices are displayed on the Plugin's Setting screen,
+	 * when valid API credentials are saved.
+	 *
+	 * @since   1.9.6
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testSaveValidAPICredentials(AcceptanceTester $I)
+	{
+		// Go to the Plugin's Settings Screen.
+		$I->loadConvertKitSettingsGeneralScreen($I);
+
+		// Complete API Fields.
 		$I->fillField('_wp_convertkit_settings[api_key]', $_ENV['CONVERTKIT_API_KEY']);
 		$I->fillField('_wp_convertkit_settings[api_secret]', $_ENV['CONVERTKIT_API_SECRET']);
 
