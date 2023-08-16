@@ -15,16 +15,18 @@
 class ConvertKit_Cron {
 
 	/**
-	 * Helper method for running a scheduled event immediately through WordPress' Cron system,
-	 * instead of at its next scheduled date and time.
-	 * 
-	 * Preserves the event's next scheduled date and time.
+	 * Runs an existing scheduled event immediately through WordPress' Cron system.
+	 *
+	 * The scheduled event will still run as its original date and time,
+	 * based on the event's existing schedule e.g. daily / weekly.
 	 *
 	 * @since   2.2.9
+	 *
+	 * @param   string $event_name     Event Name.
 	 */
 	public function run( $event_name ) {
 
-		// Only allow Administrators to run events. 
+		// Only allow Administrators to run events.
 		if ( ! current_user_can( 'manage_options' ) ) {
 			return new WP_Error(
 				'convertkit_cron_run_error',
@@ -45,6 +47,13 @@ class ConvertKit_Cron {
 
 	}
 
+	/**
+	 * Returns an array of all scheduled WordPress Cron Events.
+	 *
+	 * @since   2.2.9
+	 *
+	 * @return  array
+	 */
 	private function get_all_events() {
 
 		$events = _get_cron_array();
@@ -57,6 +66,15 @@ class ConvertKit_Cron {
 
 	}
 
+	/**
+	 * Returns the given event name's arguments array, if any were supplied when
+	 * the event was registered using wp_schedule_event().
+	 *
+	 * @since   2.2.9
+	 *
+	 * @param   string $event_name     Event Name.
+	 * @return  WP_Error|array
+	 */
 	private function get_event_args( $event_name ) {
 
 		// Fetch all scheduled events.
@@ -87,6 +105,18 @@ class ConvertKit_Cron {
 
 	}
 
+	/**
+	 * Schedules the given event name to run immediately in WordPress' Cron system.
+	 *
+	 * The scheduled event will still run as its original date and time,
+	 * based on the event's existing schedule e.g. daily / weekly.
+	 *
+	 * @since   2.2.9
+	 *
+	 * @param   string $event_name     Event Name.
+	 * @param   array  $event_args     Event function arguments.
+	 * @return  WP_Error|bool
+	 */
 	private function schedule_event_now( $event_name, $event_args ) {
 
 		// Clear the WordPress Cron transient.
@@ -99,14 +129,15 @@ class ConvertKit_Cron {
 		$timestamp = 1;
 
 		// Define the key and add the event to the array of scheduled events.
-		$key = md5( serialize( $event_args ) );
+		$serialized_args = serialize( $event_args ); // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.serialize_serialize
+		$key             = md5( $serialized_args );
 		$events[ $timestamp ][ $event_name ][ $key ] = array(
 			'schedule' => false,
-			'args'     => $event_args
+			'args'     => $event_args,
 		);
 		ksort( $events );
 
-		// Update WordPress' Cron events.
+		// Update WordPress' Cron events, returning the result.
 		return _set_cron_array( $events, true );
 
 	}
