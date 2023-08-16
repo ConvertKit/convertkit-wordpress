@@ -44,6 +44,37 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 
 		parent::__construct();
 
+		$this->maybe_import_now();
+
+	}
+
+	/**
+	 * Import Broadcasts now, if requested through the UI.
+	 *
+	 * @since   2.2.9
+	 */
+	private function maybe_import_now() {
+
+		// Bail if nonce verification fails.
+		if ( ! isset( $_REQUEST['_convertkit_settings_broadcasts_nonce'] ) ) {
+			return false;
+		}
+		if ( ! wp_verify_nonce( sanitize_key( $_REQUEST['_convertkit_settings_broadcasts_nonce'] ), 'convertkit-settings-broadcasts' ) ) {
+			return false;
+		}
+
+		// Run the import task through WordPress' Cron system now.
+		$cron   = new ConvertKit_Cron();
+		$result = $cron->run( 'convertkit_resource_refresh_broadcasts' );
+
+		// If an error occured, show it now.
+		if ( is_wp_error( $result ) ) {
+			$this->output_error( $result->get_error_message() );
+			return;
+		}
+
+		// If here, the task scheduled.
+		$this->output_success( __( 'Broadcast importer run started. Check the Posts screen shortly to confirm Broadcasts imported successfully.', 'convertkit' ) );
 	}
 
 	/**
@@ -141,6 +172,7 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 				$enabled_description .= sprintf(
 					'<br />%s %s',
 					esc_html__( 'Broadcasts will next import at approximately ', 'convertkit' ),
+
 					// The cron event's next scheduled timestamp is always in UTC.
 					// Display it converted to the WordPress site's timezone.
 					get_date_from_gmt(
@@ -148,6 +180,15 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 						get_option( 'date_format' ) . ' ' . get_option( 'time_format' )
 					)
 				);
+
+				// Add a link to import Broadcasts now.
+				$import_url = add_query_arg( array(
+					'page' => '_wp_convertkit_settings',
+					'tab' => 'broadcasts',
+					'_convertkit_settings_broadcasts_nonce' => wp_create_nonce( 'convertkit-settings-broadcasts' ),
+				), 'options-general.php' );
+
+				$enabled_description .= '<br /><a href="' . esc_url( $import_url ) .'" class="button button-secondary">' . esc_html__( 'Import now', 'convertkit' ) . '</a>';
 			}
 		}
 
