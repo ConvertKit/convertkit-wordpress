@@ -24,7 +24,7 @@ class RefreshResourcesButtonCest
 		$I->setupConvertKitPluginRestrictContent(
 			$I,
 			[
-				'enabled' => true,
+				'enabled' => 'on',
 			]
 		);
 	}
