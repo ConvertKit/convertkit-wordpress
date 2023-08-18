@@ -53,6 +53,7 @@ jobs:
         test-groups: [
           'acceptance/broadcasts/blocks',
           'acceptance/broadcasts/shortcodes',
+          'acceptance/broadcasts/import',
           'acceptance/forms/blocks',
           'acceptance/forms/general',
           'acceptance/forms/shortcodes',

@@ -53,6 +53,7 @@ class BroadcastsToPostsSettingsCest
 
 		// Confirm that settings saved and additional fields remain displayed.
 		$I->seeCheckboxIsChecked('#enabled');
+		$I->seeElement('table.form-table tbody tr d a.button');
 		$I->seeElement('div.convertkit-select2-container');
 		$I->seeElement('input#send_at_min_date');
 		$I->seeElement('input#no_styles');
@@ -77,6 +78,7 @@ class BroadcastsToPostsSettingsCest
 
 		// Confirm that settings saved and additional fields are hidden, because the 'Enable' option is not checked.
 		$I->dontSeeCheckboxIsChecked('#enabled');
+		$I->dontSeeElement('table.form-table tbody tr d a.button');
 		$I->dontSeeElement('div.convertkit-select2-container');
 		$I->dontSeeElement('input#send_at_min_date');
 		$I->dontSeeElement('input#no_styles');

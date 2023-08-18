@@ -114,6 +114,67 @@ class BroadcastsToPostsCest
 	}
 
 	/**
+	 * Tests that Broadcasts import when enabled and then 'Import now' button
+	 * is used.
+	 *
+	 * @since   2.2.8
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testBroadcastsManualImportWhenEnabled(AcceptanceTester $I)
+	{
+		// Enable Broadcasts to Posts.
+		$I->setupConvertKitPluginBroadcastsToPosts(
+			$I,
+			[
+				'enabled'          => true,
+				'send_at_min_date' => '01/01/2020',
+			]
+		);
+
+		// Click the Import now button.
+		$I->click('Import now');
+
+		// Confirm a success message displays.
+		$I->see('Broadcasts import started. Check the Posts screen shortly to confirm Broadcasts imported successfully.');
+
+		// Wait a few seconds for the Cron event to complete importing Broadcasts.
+		$I->wait(7);
+
+		// Load the Posts screen.
+		$I->amOnAdminPage('edit.php');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Confirm expected Broadcasts exist as Posts.
+		$I->see($_ENV['CONVERTKIT_API_BROADCAST_FIRST_TITLE']);
+		$I->see($_ENV['CONVERTKIT_API_BROADCAST_SECOND_TITLE']);
+		$I->see($_ENV['CONVERTKIT_API_BROADCAST_THIRD_TITLE']);
+
+		// Get created Post IDs.
+		$postIDs = [
+			(int) str_replace('post-', '', $I->grabAttributeFrom('tbody#the-list > tr:nth-child(1)', 'id')),
+			(int) str_replace('post-', '', $I->grabAttributeFrom('tbody#the-list > tr:nth-child(2)', 'id')),
+			(int) str_replace('post-', '', $I->grabAttributeFrom('tbody#the-list > tr:nth-child(3)', 'id')),
+		];
+
+		// View the first post.
+		$I->amOnPage('?p=' . $postIDs[0]);
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Confirm inline styles exist in the imported Broadcast.
+		$I->seeElementInDOM('div.ck-inner-section');
+		$I->assertNotNull($I->grabAttributeFrom('div.wp-block-post-content h1', 'style'));
+
+		// Confirm published date matches the Broadcast.
+		$date = date('Y-m-d', strtotime($_ENV['CONVERTKIT_API_BROADCAST_FIRST_DATE'])) . 'T' . date('H:i:s', strtotime($_ENV['CONVERTKIT_API_BROADCAST_FIRST_DATE']));
+		$I->seeInSource('<time datetime="' . $date);
+	}
+
+	/**
 	 * Tests that Broadcasts import when enabled in the Plugin's settings
 	 * a Category is defined and the Category is assigned to the created
 	 * WordPress Posts.

@@ -74,7 +74,7 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 		}
 
 		// If here, the task scheduled.
-		$this->output_success( __( 'Broadcast importer run started. Check the Posts screen shortly to confirm Broadcasts imported successfully.', 'convertkit' ) );
+		$this->output_success( __( 'Broadcasts import started. Check the Posts screen shortly to confirm Broadcasts imported successfully.', 'convertkit' ) );
 	}
 
 	/**
@@ -159,7 +159,7 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 
 		// Initialize classes that will be used.
 		$restrict_content_settings = new ConvertKit_Settings_Restrict_Content();
-		$broadcasts = new ConvertKit_Resource_Broadcasts( 'cron' );
+		$broadcasts                = new ConvertKit_Resource_Broadcasts( 'cron' );
 
 		// Define description for the 'Enabled' setting.
 		// If enabled, include the next scheduled date and time the Plugin will import broadcasts.
@@ -168,7 +168,6 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 			$enabled_description = sprintf(
 				'%s %s',
 				esc_html__( 'Broadcasts will next import at approximately ', 'convertkit' ),
-
 				// The cron event's next scheduled timestamp is always in UTC.
 				// Display it converted to the WordPress site's timezone.
 				get_date_from_gmt(
@@ -186,7 +185,7 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 			$this->name,
 			array(
 				'name'        => 'enabled',
-				'label'		  => __( 'Enables automatic publication of ConvertKit broadcasts to WordPress Posts.', 'convertkit' ),
+				'label'       => __( 'Enables automatic publication of ConvertKit broadcasts to WordPress Posts.', 'convertkit' ),
 				'description' => $enabled_description,
 			)
 		);
@@ -311,15 +310,16 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 	public function import_button_callback() {
 
 		// Define link to import Broadcasts now.
-		$import_url = add_query_arg( array(
-			'page' => '_wp_convertkit_settings',
-			'tab' => 'broadcasts',
-			'_convertkit_settings_broadcasts_nonce' => wp_create_nonce( 'convertkit-settings-broadcasts' ),
-		), 'options-general.php' );
+		$import_url = add_query_arg(
+			array(
+				'page'                                  => '_wp_convertkit_settings',
+				'tab'                                   => 'broadcasts',
+				'_convertkit_settings_broadcasts_nonce' => wp_create_nonce( 'convertkit-settings-broadcasts' ),
+			),
+			'options-general.php'
+		);
 
-
-		echo '<a href="' . esc_url( $import_url ) .'" class="button button-secondary enabled">' . esc_html__( 'Import now', 'convertkit' ) . '</a>';
-			
+		echo '<a href="' . esc_url( $import_url ) . '" class="button button-secondary enabled">' . esc_html__( 'Import now', 'convertkit' ) . '</a>';
 
 	}
 
