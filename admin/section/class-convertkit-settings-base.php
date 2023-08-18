@@ -348,7 +348,7 @@ abstract class ConvertKit_Settings_Base {
 	 * @param   bool|array        $css_classes    CSS class(es).
 	 * @return  string                            HTML Checkbox
 	 */
-	public function get_checkbox_field( $name, $value, $checked = false, $label = '', $description = '', $css_classes = false ) {
+	public function get_checkbox_field( $name, $value, $checked = false, $label = '', $description = false, $css_classes = false ) {
 
 		$html = '';
 
@@ -376,6 +376,12 @@ abstract class ConvertKit_Settings_Base {
 			);
 		}
 
+		// If no description exists, just return the field.
+		if ( empty( $description ) ) {
+			return $html;
+		}
+
+		// Return field with description appended to it.
 		return $html . $this->get_description( $description );
 
 	}

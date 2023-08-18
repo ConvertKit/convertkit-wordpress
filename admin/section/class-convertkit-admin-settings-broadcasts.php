@@ -159,37 +159,23 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 
 		// Initialize classes that will be used.
 		$restrict_content_settings = new ConvertKit_Settings_Restrict_Content();
+		$broadcasts = new ConvertKit_Resource_Broadcasts( 'cron' );
 
 		// Define description for the 'Enabled' setting.
-		$enabled_description = __( 'Enables automatic publication of ConvertKit broadcasts to WordPress Posts.', 'convertkit' );
-
 		// If enabled, include the next scheduled date and time the Plugin will import broadcasts.
-		if ( $this->settings->enabled() ) {
-			$broadcasts = new ConvertKit_Resource_Broadcasts( 'cron' );
+		$enabled_description = '';
+		if ( $this->settings->enabled() && $broadcasts->get_cron_event_next_scheduled() ) {
+			$enabled_description = sprintf(
+				'%s %s',
+				esc_html__( 'Broadcasts will next import at approximately ', 'convertkit' ),
 
-			// If a next scheduled timestamp exists, include it in the description.
-			if ( $broadcasts->get_cron_event_next_scheduled() ) {
-				$enabled_description .= sprintf(
-					'<br />%s %s',
-					esc_html__( 'Broadcasts will next import at approximately ', 'convertkit' ),
-
-					// The cron event's next scheduled timestamp is always in UTC.
-					// Display it converted to the WordPress site's timezone.
-					get_date_from_gmt(
-						gmdate( 'Y-m-d H:i:s', $broadcasts->get_cron_event_next_scheduled() ),
-						get_option( 'date_format' ) . ' ' . get_option( 'time_format' )
-					)
-				);
-
-				// Add a link to import Broadcasts now.
-				$import_url = add_query_arg( array(
-					'page' => '_wp_convertkit_settings',
-					'tab' => 'broadcasts',
-					'_convertkit_settings_broadcasts_nonce' => wp_create_nonce( 'convertkit-settings-broadcasts' ),
-				), 'options-general.php' );
-
-				$enabled_description .= '<br /><a href="' . esc_url( $import_url ) .'" class="button button-secondary">' . esc_html__( 'Import now', 'convertkit' ) . '</a>';
-			}
+				// The cron event's next scheduled timestamp is always in UTC.
+				// Display it converted to the WordPress site's timezone.
+				get_date_from_gmt(
+					gmdate( 'Y-m-d H:i:s', $broadcasts->get_cron_event_next_scheduled() ),
+					get_option( 'date_format' ) . ' ' . get_option( 'time_format' )
+				),
+			);
 		}
 
 		add_settings_field(
@@ -200,9 +186,21 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 			$this->name,
 			array(
 				'name'        => 'enabled',
+				'label'		  => __( 'Enables automatic publication of ConvertKit broadcasts to WordPress Posts.', 'convertkit' ),
 				'description' => $enabled_description,
 			)
 		);
+
+		// Render import button if the feature is enabled.
+		if ( $this->settings->enabled() && $broadcasts->get_cron_event_next_scheduled() ) {
+			add_settings_field(
+				'import_button',
+				'',
+				array( $this, 'import_button_callback' ),
+				$this->settings_key,
+				$this->name
+			);
+		}
 
 		add_settings_field(
 			'category_id',
@@ -299,8 +297,29 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 			$args['name'],
 			'on',
 			$this->settings->enabled(), // phpcs:ignore WordPress.Security.EscapeOutput
+			$args['label'],  // phpcs:ignore WordPress.Security.EscapeOutput
 			$args['description'] // phpcs:ignore WordPress.Security.EscapeOutput
 		);
+
+	}
+
+	/**
+	 * Renders the import button.
+	 *
+	 * @since   2.2.8
+	 */
+	public function import_button_callback() {
+
+		// Define link to import Broadcasts now.
+		$import_url = add_query_arg( array(
+			'page' => '_wp_convertkit_settings',
+			'tab' => 'broadcasts',
+			'_convertkit_settings_broadcasts_nonce' => wp_create_nonce( 'convertkit-settings-broadcasts' ),
+		), 'options-general.php' );
+
+
+		echo '<a href="' . esc_url( $import_url ) .'" class="button button-secondary enabled">' . esc_html__( 'Import now', 'convertkit' ) . '</a>';
+			
 
 	}
 
