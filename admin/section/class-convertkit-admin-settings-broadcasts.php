@@ -17,7 +17,7 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 	/**
 	 * Constructor.
 	 *
-	 * @since   2.2.8
+	 * @since   2.2.9
 	 */
 	public function __construct() {
 
@@ -84,7 +84,7 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 	/**
 	 * Enqueues scripts for the Settings > Broadcasts screen.
 	 *
-	 * @since   2.2.8
+	 * @since   2.2.9
 	 *
 	 * @param   string $section    Settings section / tab (general|tools|restrict-content|broadcasts).
 	 */
@@ -106,7 +106,7 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 	/**
 	 * Enqueues styles for the Settings > General screen.
 	 *
-	 * @since   2.2.8
+	 * @since   2.2.9
 	 *
 	 * @param   string $section    Settings section / tab (general|tools|restrict-content|broadcasts).
 	 */
@@ -126,7 +126,7 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 	 * Schedules or unschedules the WordPress Cron event, based on whether
 	 * the Broadcast to Post functionality's is enabled or disabled.
 	 *
-	 * @since   2.2.8
+	 * @since   2.2.9
 	 *
 	 * @param   string $section    Settings section.
 	 * @param   array  $settings   Settings.
@@ -157,7 +157,7 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 	/**
 	 * Redirects to the ConvertKit > Broadcasts screen.
 	 *
-	 * @since   2.2.8
+	 * @since   2.2.9
 	 *
 	 * @param   false|string $error      The error message key.
 	 * @param   false|string $success    The success message key.
@@ -185,7 +185,7 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 	/**
 	 * Outputs success and/or error notices if required.
 	 *
-	 * @since   2.2.8
+	 * @since   2.2.9
 	 */
 	public function maybe_output_notices() {
 
@@ -210,7 +210,7 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 	/**
 	 * Registers settings fields for this section.
 	 *
-	 * @since   2.2.8
+	 * @since   2.2.9
 	 */
 	public function register_fields() {
 
@@ -314,7 +314,7 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 	/**
 	 * Prints help info for this section
 	 *
-	 * @since   2.2.8
+	 * @since   2.2.9
 	 */
 	public function print_section_info() {
 
@@ -329,7 +329,7 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 	/**
 	 * Returns the URL for the ConvertKit documentation for this setting section.
 	 *
-	 * @since   2.2.8
+	 * @since   2.2.9
 	 *
 	 * @return  string  Documentation URL.
 	 */
@@ -342,7 +342,7 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 	/**
 	 * Renders the input for the Enable setting.
 	 *
-	 * @since   2.2.8
+	 * @since   2.2.9
 	 *
 	 * @param   array $args   Setting field arguments (name,description).
 	 */
@@ -362,7 +362,7 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 	/**
 	 * Renders the import button.
 	 *
-	 * @since   2.2.8
+	 * @since   2.2.9
 	 */
 	public function import_button_callback() {
 
@@ -383,7 +383,7 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 	/**
 	 * Renders the input for the category setting.
 	 *
-	 * @since   2.2.8
+	 * @since   2.2.9
 	 *
 	 * @param   array $args   Setting field arguments (name,description).
 	 */
@@ -412,7 +412,7 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 	/**
 	 * Renders the input for the date setting.
 	 *
-	 * @since   2.2.8
+	 * @since   2.2.9
 	 *
 	 * @param   array $args   Setting field arguments (name,description).
 	 */
@@ -433,7 +433,7 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 	/**
 	 * Renders the input for the Member Content setting.
 	 *
-	 * @since  2.2.8
+	 * @since  2.2.9
 	 *
 	 * @param   array $args  Field arguments.
 	 */
@@ -480,7 +480,7 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 	/**
 	 * Renders the input for the No Styles setting.
 	 *
-	 * @since   2.2.8
+	 * @since   2.2.9
 	 *
 	 * @param   array $args   Setting field arguments (name,description).
 	 */
