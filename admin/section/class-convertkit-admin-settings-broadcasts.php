@@ -35,6 +35,9 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 		// Identify that this is beta functionality.
 		$this->is_beta = true;
 
+		// Output notices.
+		add_action( 'convertkit_settings_base_render_before', array( $this, 'maybe_output_notices' ) );
+
 		// Enable or disable the scheduled task when settings are saved.
 		add_action( 'convertkit_settings_base_sanitize_settings', array( $this, 'schedule_or_unschedule_cron_event' ), 10, 2 );
 
@@ -69,20 +72,21 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 
 		// If an error occured, show it now.
 		if ( is_wp_error( $result ) ) {
-			$this->output_error( $result->get_error_message() );
+			// Redirect to Broadcasts screen.
+			$this->redirect_to_broadcasts_screen( 'broadcast_import_error' );
 			return;
 		}
 
 		// If here, the task scheduled.
-		$this->output_success( __( 'Broadcasts import started. Check the Posts screen shortly to confirm Broadcasts imported successfully.', 'convertkit' ) );
+		$this->redirect_to_broadcasts_screen( false, 'broadcast_import_success' );
 	}
 
 	/**
 	 * Enqueues scripts for the Settings > Broadcasts screen.
 	 *
-	 * @since   2.2.4
+	 * @since   2.2.8
 	 *
-	 * @param   string $section    Settings section / tab (general|tools|restrict-content).
+	 * @param   string $section    Settings section / tab (general|tools|restrict-content|broadcasts).
 	 */
 	public function enqueue_scripts( $section ) {
 
@@ -104,7 +108,7 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 	 *
 	 * @since   2.2.8
 	 *
-	 * @param   string $section    Settings section / tab (general|tools|restrict-content).
+	 * @param   string $section    Settings section / tab (general|tools|restrict-content|broadcasts).
 	 */
 	public function enqueue_styles( $section ) {
 
@@ -147,6 +151,59 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 		// ConvertKit_Broadcasts_Importer::refresh() will then run when Broadcasts
 		// are refreshed by the cron event.
 		$broadcasts->schedule_cron_event();
+
+	}
+
+	/**
+	 * Redirects to the ConvertKit > Broadcasts screen.
+	 *
+	 * @since   2.2.8
+	 *
+	 * @param   false|string $error      The error message key.
+	 * @param   false|string $success    The success message key.
+	 */
+	private function redirect_to_broadcasts_screen( $error = false, $success = false ) {
+
+		// Build URL to redirect to, depending on whether a message is included.
+		$args = array(
+			'page' => '_wp_convertkit_settings',
+			'tab'  => 'broadcasts',
+		);
+		if ( $error !== false ) {
+			$args['error'] = $error;
+		}
+		if ( $success !== false ) {
+			$args['success'] = $success;
+		}
+
+		// Redirect to ConvertKit > Broadcasts screen.
+		wp_safe_redirect( add_query_arg( $args, 'options-general.php' ) );
+		exit();
+
+	}
+
+	/**
+	 * Outputs success and/or error notices if required.
+	 *
+	 * @since   2.2.8
+	 */
+	public function maybe_output_notices() {
+
+		// Define messages that might be displayed as a notification.
+		$messages = array(
+			'broadcast_import_error'   => __( 'Broadcasts import failed. Please try again.', 'convertkit' ),
+			'broadcast_import_success' => __( 'Broadcasts import started. Check the Posts screen shortly to confirm Broadcasts imported successfully.', 'convertkit' ),
+		);
+
+		// Output error notification if defined.
+		if ( isset( $_REQUEST['error'] ) && array_key_exists( sanitize_text_field( $_REQUEST['error'] ), $messages ) ) { // phpcs:ignore WordPress.Security.NonceVerification
+			$this->output_error( $messages[ sanitize_text_field( $_REQUEST['error'] ) ] ); // phpcs:ignore WordPress.Security.NonceVerification
+		}
+
+		// Output success notification if defined.
+		if ( isset( $_REQUEST['success'] ) && array_key_exists( sanitize_text_field( $_REQUEST['success'] ), $messages ) ) { // phpcs:ignore WordPress.Security.NonceVerification
+			$this->output_success( $messages[ sanitize_text_field( $_REQUEST['success'] ) ] ); // phpcs:ignore WordPress.Security.NonceVerification
+		}
 
 	}
 

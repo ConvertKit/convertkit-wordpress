@@ -278,7 +278,7 @@ class BroadcastsToPostsCest
 		$I->setupConvertKitPluginRestrictContent(
 			$I,
 			[
-				'enabled' => true,
+				'enabled' => 'on',
 			]
 		);
 
