@@ -51,15 +51,18 @@ jobs:
 
         # Folder names within the 'tests' folder to run tests in parallel.
         test-groups: [
-          'acceptance/broadcasts',
-          'acceptance/forms',
+          'acceptance/broadcasts/blocks',
+          'acceptance/broadcasts/shortcodes',
+          'acceptance/forms/blocks',
+          'acceptance/forms/general',
+          'acceptance/forms/shortcodes',
           'acceptance/general',
-          'acceptance/integrations',
-          'acceptance/landing-pages',
+          'acceptance/integrations/elementor',
+          'acceptance/integrations/other',
+          'acceptance/integrations/woocommerce',
           'acceptance/products',
           'acceptance/restrict-content',
-          'acceptance/tags',
-          'acceptance/wlm'
+          'acceptance/tags'
         ]
 
     # Steps to install, configure and run tests
@@ -208,10 +211,16 @@ jobs:
       - name: Set Permissions for Caching Plugins
         if: ${{ matrix.test-groups == 'acceptance/restrict-content' }}
         run: |
+          mkdir ${{ env.ROOT_DIR }}/wp-content/wpo-cache
+          mkdir ${{ env.ROOT_DIR }}/wp-content/wpo-cache/config
           sudo chmod g+w ${{ env.ROOT_DIR }}/wp-config.php
           sudo chown www-data:www-data ${{ env.ROOT_DIR }}/wp-config.php
           sudo chmod g+w ${{ env.ROOT_DIR }}/wp-content
           sudo chown www-data:www-data ${{ env.ROOT_DIR }}/wp-content
+          sudo chmod g+w ${{ env.ROOT_DIR }}/wp-content/wpo-cache
+          sudo chown www-data:www-data ${{ env.ROOT_DIR }}/wp-content/wpo-cache
+          sudo chmod g+w ${{ env.ROOT_DIR }}/wp-content/wpo-cache/config
+          sudo chown www-data:www-data ${{ env.ROOT_DIR }}/wp-content/wpo-cache/config
 
       # This ensures the wp-content/uploads folder can be written to by WordPress and third party Plugins.
       - name: Set Permissions for Uploads Directory
