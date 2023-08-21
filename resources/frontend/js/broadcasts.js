@@ -11,12 +11,12 @@
  * Register events
  */
 jQuery( document ).ready(
-	function( $ ) {
+	function ( $ ) {
 
 		$( document ).on(
 			'click',
 			'ul.convertkit-broadcasts-pagination a',
-			function( e ) {
+			function ( e ) {
 
 				e.preventDefault();
 
@@ -57,7 +57,7 @@ jQuery( document ).ready(
  */
 function convertKitBroadcastsRender( blockContainer, atts ) {
 
-	( function( $ ) {
+	( function ( $ ) {
 
 		// Append action.
 		atts.action = convertkit_broadcasts.action;
@@ -76,7 +76,7 @@ function convertKitBroadcastsRender( blockContainer, atts ) {
 				type:       'POST',
 				async:      true,
 				data:      	atts,
-				success: function( result ) {
+				success: function ( result ) {
 					if ( convertkit_broadcasts.debug ) {
 						console.log( result );
 					}

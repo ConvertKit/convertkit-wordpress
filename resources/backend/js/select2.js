@@ -14,7 +14,7 @@
  */
 function convertKitSelect2Init() {
 
-	( function( $ ) {
+	( function ( $ ) {
 
 		$( '.convertkit-select2' ).select2();
 
@@ -23,7 +23,7 @@ function convertKitSelect2Init() {
 }
 
 jQuery( document ).ready(
-	function( $ ) {
+	function ( $ ) {
 
 		convertKitSelect2Init();
 

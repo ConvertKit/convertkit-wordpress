@@ -153,7 +153,7 @@ class ConvertKit_Admin_Settings {
 				// Output Documentation link, if it exists.
 				$documentation_url = $this->get_active_section_documentation_url( $active_section );
 				if ( $documentation_url !== false ) {
-					echo sprintf(
+					printf(
 						'%s <a href="%s" target="_blank">%s</a>',
 						esc_html__( 'If you need help setting up the plugin please refer to the', 'convertkit' ),
 						esc_attr( $documentation_url ),

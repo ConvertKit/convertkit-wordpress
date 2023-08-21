@@ -17,7 +17,6 @@ class RestrictContentFilterCest
 	{
 		// Activate ConvertKit plugin.
 		$I->activateConvertKitPlugin($I);
-
 	}
 
 	/**
@@ -37,7 +36,6 @@ class RestrictContentFilterCest
 
 		// Check no filter is displayed, as the Plugin isn't configured.
 		$I->dontSeeElementInDOM('#wp-convertkit-restrict-content-filter');
-
 	}
 
 	/**

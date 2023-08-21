@@ -25,7 +25,7 @@ if ( ! $this->forms->exist() ) {
 
 	<p>
 		<?php
-		echo sprintf(
+		printf(
 			'%1$s <a href="https://help.convertkit.com/en/articles/3860348-how-to-create-your-first-form-in-convertkit" target="_blank">%2$s</a>',
 			esc_html__( 'Not sure how to do this in ConvertKit?', 'convertkit' ),
 			esc_html__( 'Follow our step by step documentation', 'convertkit' )
@@ -67,7 +67,7 @@ if ( ! $this->forms->exist() ) {
 		<p class="description">
 			<?php
 			if ( $this->preview_post_url ) {
-				echo sprintf(
+				printf(
 					'%s %s %s',
 					esc_html__( 'Select a form above.', 'convertkit' ),
 					'<a href="' . esc_url( $this->preview_post_url ) . '" id="convertkit-preview-form-post" target="_blank">' . esc_html__( 'Click here', 'convertkit' ) . '</a>',
@@ -102,7 +102,7 @@ if ( ! $this->forms->exist() ) {
 		<p class="description">
 			<?php
 			if ( $this->preview_page_url ) {
-				echo sprintf(
+				printf(
 					'%s %s %s',
 					esc_html__( 'Select a form above.', 'convertkit' ),
 					'<a href="' . esc_url( $this->preview_page_url ) . '" id="convertkit-preview-form-page" target="_blank">' . esc_html__( 'Click here', 'convertkit' ) . '</a>',

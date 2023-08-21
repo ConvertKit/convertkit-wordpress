@@ -35,7 +35,7 @@
 			<?php esc_html_e( ': Display a form based on the Post\'s settings.', 'convertkit' ); ?>
 			<br />
 			<?php
-			echo sprintf(
+			printf(
 				/* translators: Taxonomy Name */
 				esc_html__( 'Any other option will display that form after the main content for Posts assigned to this %s.', 'convertkit' ),
 				'category'

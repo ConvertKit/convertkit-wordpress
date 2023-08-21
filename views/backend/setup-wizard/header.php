@@ -69,7 +69,7 @@
 					<div id="convertkit-setup-wizard-content">
 						<div id="convertkit-setup-wizard-step">
 							<?php
-							echo sprintf(
+							printf(
 								/* translators: %1$s: Current Step, %2$s: Total Steps */
 								esc_html__( 'Step %1$s of %2$s', 'convertkit' ),
 								esc_html( $this->step ),

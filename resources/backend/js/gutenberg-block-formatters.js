@@ -29,7 +29,7 @@ if ( typeof wp !== 'undefined' &&
  */
 function convertKitGutenbergRegisterBlockFormatter( formatter ) {
 
-	( function( editor, richText, element, components ) {
+	( function ( editor, richText, element, components ) {
 
 		// Define the Gutenberg/React components to use.
 		const {
@@ -62,7 +62,7 @@ function convertKitGutenbergRegisterBlockFormatter( formatter ) {
 		 *
 		 * @return  element|string
 		 */
-		const getIcon = function() {
+		const getIcon = function () {
 
 			// Return a fallback default icon if none is specified for this block formatter.
 			if ( typeof formatter.gutenberg_icon === 'undefined' ) {
@@ -95,7 +95,7 @@ function convertKitGutenbergRegisterBlockFormatter( formatter ) {
 		 * @param   object  activeFormats   All active formatters applied to the selected text.
 		 * @return  object
 		 */
-		const getAttributes = function( activeFormats ) {
+		const getAttributes = function ( activeFormats ) {
 
 			// Define the attribute object.
 			let attributes = {};
@@ -138,7 +138,7 @@ function convertKitGutenbergRegisterBlockFormatter( formatter ) {
 		 * @param   array   field         Field definition.
 		 * @param   string  newValue      New value
 		 */
-		const setAttributes = function( props, field, newValue ) {
+		const setAttributes = function ( props, field, newValue ) {
 
 			// Define properties and functions to use.
 			const { onChange, value } = props;
@@ -190,7 +190,7 @@ function convertKitGutenbergRegisterBlockFormatter( formatter ) {
 		 * @param   object  attributes      Field attributes.
 		 * @return  array                   Field elements
 		 */
-		const getFields = function( props, setShowPopover, attributes ) {
+		const getFields = function ( props, setShowPopover, attributes ) {
 
 			// Define array of field elements.
 			let elements = [];
@@ -242,7 +242,7 @@ function convertKitGutenbergRegisterBlockFormatter( formatter ) {
 							value:      attributes[ fieldName ],
 							help:       field.description,
 							options:    fieldOptions,
-							onChange:   function( newValue ) {
+							onChange:   function ( newValue ) {
 
 								// Hide popover.
 								setShowPopover( false );
@@ -270,7 +270,7 @@ function convertKitGutenbergRegisterBlockFormatter( formatter ) {
 		 * @param   object  props   Block formatter properties.
 		 * @return  object          Block formatter button and modal elements
 		 */
-		const editFormatType = function( props ) {
+		const editFormatType = function ( props ) {
 
 			// Get props.
 			const { contentRef, isActive, value } = props;
@@ -310,7 +310,7 @@ function convertKitGutenbergRegisterBlockFormatter( formatter ) {
 							icon:     getIcon( formatter ),
 							title:    formatter.title,
 							isActive: isActive,
-							onClick:  function() {
+							onClick:  function () {
 								setShowPopover( true );
 							}
 						},
@@ -322,7 +322,7 @@ function convertKitGutenbergRegisterBlockFormatter( formatter ) {
 							key:        'convertkit_' + formatter.name + '_popover',
 							className:  'convertkit-popover',
 							anchor:     anchorRef,
-							onClose:    function() {
+							onClose:    function () {
 								setShowPopover( false );
 							}
 						},
