@@ -96,7 +96,7 @@ class ConvertKit_Cron {
 		return new WP_Error(
 			'convertkit_cron_get_event_args_error',
 			sprintf(
-				'%s %s',
+				'%s %s %s',
 				esc_html__( 'The event', 'convertkit' ),
 				esc_html( $event_name ),
 				esc_html__( 'could not be found in WordPress\' cron.', 'convertkit' )
