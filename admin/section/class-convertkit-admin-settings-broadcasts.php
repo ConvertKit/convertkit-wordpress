@@ -230,7 +230,7 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 				get_date_from_gmt(
 					gmdate( 'Y-m-d H:i:s', $broadcasts->get_cron_event_next_scheduled() ),
 					get_option( 'date_format' ) . ' ' . get_option( 'time_format' )
-				),
+				)
 			);
 		}
 
