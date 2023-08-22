@@ -121,26 +121,16 @@ jobs:
       - name: Run Coding Standards on Tests
         id: phpcs-tests
         working-directory: ${{ env.PLUGIN_DIR }}
-        run: php vendor/bin/phpcs ./tests --standard=phpcs.tests.xml --report-full --report-checkstyle=./phpcs-tests-report.xml -v -s
+        run: php vendor/bin/phpcs -q --standard=phpcs.tests.xml --report=checkstyle ./tests | cs2pr
 
       # Run WordPress Coding Standards on Plugin.
       - name: Run WordPress Coding Standards
         id: phpcs
         working-directory: ${{ env.PLUGIN_DIR }}
-        run: php vendor/bin/phpcs ./ --standard=phpcs.xml --report-full --report-checkstyle=./phpcs-report.xml -v -s
+        run: php vendor/bin/phpcs -q --standard=phpcs.xml --report=checkstyle ./ | cs2pr
 
       # Run PHPStan for static analysis.
       - name: Run PHPStan Static Analysis
         id: phpstan
         working-directory: ${{ env.PLUGIN_DIR }}
         run: php vendor/bin/phpstan --memory-limit=1024M
-
-      # Show Coding Standards on Tests Errors in PR
-      - name: Show Coding Standards on Tests Errors in PR
-        if: ${{ always() && steps.phpcs-tests.outcome == 'failure' }}
-        run: cs2pr ./phpcs-tests-report.xml
-
-      # Show Coding Standards Errors in PR
-      - name: Show Coding Standards Errors in PR
-        if: ${{ always() && steps.phpcs.outcome == 'failure' }}
-        run: cs2pr ./phpcs-report.xml
