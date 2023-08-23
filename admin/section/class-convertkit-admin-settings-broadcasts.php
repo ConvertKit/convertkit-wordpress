@@ -242,7 +242,7 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 			$this->name,
 			array(
 				'name'        => 'enabled',
-				'label'       => __( 'Enables automatic publication of ConvertKit broadcasts to WordPress Posts.', 'convertkit' ),
+				'label'       => __( 'Enables automatic publication of ConvertKit Broadcasts to WordPress Posts.', 'convertkit' ),
 				'description' => $enabled_description,
 			)
 		);
