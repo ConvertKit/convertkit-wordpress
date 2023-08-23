@@ -53,6 +53,7 @@ class BroadcastsToPostsSettingsCest
 
 		// Confirm that settings saved and additional fields remain displayed.
 		$I->seeCheckboxIsChecked('#enabled');
+		$I->seeElement('table.form-table tbody tr td a.button');
 		$I->seeElement('div.convertkit-select2-container');
 		$I->seeElement('input#send_at_min_date');
 		$I->seeElement('input#no_styles');
@@ -77,6 +78,7 @@ class BroadcastsToPostsSettingsCest
 
 		// Confirm that settings saved and additional fields are hidden, because the 'Enable' option is not checked.
 		$I->dontSeeCheckboxIsChecked('#enabled');
+		$I->dontSeeElement('table.form-table tbody tr td a.button');
 		$I->dontSeeElement('div.convertkit-select2-container');
 		$I->dontSeeElement('input#send_at_min_date');
 		$I->dontSeeElement('input#no_styles');
@@ -151,7 +153,7 @@ class BroadcastsToPostsSettingsCest
 		$I->setupConvertKitPluginRestrictContent(
 			$I,
 			[
-				'enabled' => true,
+				'enabled' => 'on',
 			]
 		);
 
@@ -161,7 +163,7 @@ class BroadcastsToPostsSettingsCest
 		// Enable Broadcasts to Posts.
 		$I->checkOption('#enabled');
 
-		// Confirm no Restrict Content option is displayed.
+		// Complete the Member Content option.
 		$I->fillSelect2Field($I, '#select2-_wp_convertkit_settings_broadcasts_restrict_content-container', $_ENV['CONVERTKIT_API_PRODUCT_NAME']);
 
 		// Click the Save Changes button.

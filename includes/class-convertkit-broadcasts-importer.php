@@ -10,14 +10,14 @@
  * Class to publish WordPress Posts based on ConvertKit Broadcasts,
  * if the Broadcasts functionality is enabled in the Plugin's settings.
  *
- * @since   2.2.8
+ * @since   2.2.9
  */
 class ConvertKit_Broadcasts_Importer {
 
 	/**
 	 * Holds the Broadcasts Settings class.
 	 *
-	 * @since   2.2.8
+	 * @since   2.2.9
 	 *
 	 * @var     bool|ConvertKit_Settings_Broadcasts
 	 */
@@ -27,7 +27,7 @@ class ConvertKit_Broadcasts_Importer {
 	 * Constructor. Registers actions and filters to output ConvertKit Forms and Landing Pages
 	 * on the frontend web site.
 	 *
-	 * @since   2.2.8
+	 * @since   2.2.9
 	 */
 	public function __construct() {
 
@@ -42,7 +42,7 @@ class ConvertKit_Broadcasts_Importer {
 	 *
 	 * If not, creates the WordPress Post.
 	 *
-	 * @since   2.2.8
+	 * @since   2.2.9
 	 *
 	 * @param   array $broadcasts     Broadcasts.
 	 */
@@ -216,7 +216,7 @@ class ConvertKit_Broadcasts_Importer {
 	 * Defines the wp_insert_post() compatible arguments for importing the given ConvertKit
 	 * Broadcast to a new WordPress Post.
 	 *
-	 * @since   2.2.8
+	 * @since   2.2.9
 	 *
 	 * @param   array    $broadcast          Broadcast.
 	 * @param   int      $author_id          WordPress User to assign as the author of the Post.
@@ -242,7 +242,7 @@ class ConvertKit_Broadcasts_Importer {
 		 * Define the wp_insert_post() compatible arguments for importing a ConvertKit Broadcast
 		 * to a new WordPress Post.
 		 *
-		 * @since   2.2.8
+		 * @since   2.2.9
 		 *
 		 * @param   array   $post_args  Post arguments.
 		 * @param   array   $broadcast  Broadcast.
@@ -267,7 +267,7 @@ class ConvertKit_Broadcasts_Importer {
 	/**
 	 * Parses the given Broadcast's content, removing unnecessary HTML tags and styles.
 	 *
-	 * @since   2.2.8
+	 * @since   2.2.9
 	 *
 	 * @param   string $broadcast_content  Broadcast Content.
 	 * @return  string                      Parsed Content.
@@ -300,7 +300,7 @@ class ConvertKit_Broadcasts_Importer {
 		/**
 		 * Parses the given Broadcast's content, removing unnecessary HTML tags and styles.
 		 *
-		 * @since   2.2.8
+		 * @since   2.2.9
 		 *
 		 * @param   string  $content            Parsed Content.
 		 * @param   string  $broadcast_content  Original Broadcast's Content.
@@ -314,7 +314,7 @@ class ConvertKit_Broadcasts_Importer {
 	/**
 	 * Returns an array of permitted HTML tags to retain in the imported Broadcast.
 	 *
-	 * @since   2.2.8
+	 * @since   2.2.9
 	 *
 	 * @return  array
 	 */
@@ -357,7 +357,7 @@ class ConvertKit_Broadcasts_Importer {
 		/**
 		 * Define the HTML tags to retain in the Broadcast Content.
 		 *
-		 * @since   2.2.8
+		 * @since   2.2.9
 		 *
 		 * @param   array  $permitted_html_tags    Permitted HTML Tags.
 		 */
@@ -372,7 +372,7 @@ class ConvertKit_Broadcasts_Importer {
 	 * Imports the broadcast's thumbnail_url image to the WordPress Media Library,
 	 * assigning it as the WordPress Post's featured image.
 	 *
-	 * @since   2.2.8
+	 * @since   2.2.9
 	 *
 	 * @param   array $broadcast  ConvertKit Broadcast.
 	 * @param   int   $post_id    Post ID.

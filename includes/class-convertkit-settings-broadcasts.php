@@ -9,7 +9,7 @@
 /**
  * Class to read ConvertKit Broadcasts Settings.
  *
- * @since   2.2.8
+ * @since   2.2.9
  */
 class ConvertKit_Settings_Broadcasts {
 
@@ -18,7 +18,7 @@ class ConvertKit_Settings_Broadcasts {
 	 *
 	 * @var     string
 	 *
-	 * @since   2.2.8
+	 * @since   2.2.9
 	 */
 	const SETTINGS_NAME = '_wp_convertkit_settings_broadcasts';
 
@@ -27,7 +27,7 @@ class ConvertKit_Settings_Broadcasts {
 	 *
 	 * @var     array
 	 *
-	 * @since   2.2.8
+	 * @since   2.2.9
 	 */
 	private $settings = array();
 
@@ -35,7 +35,7 @@ class ConvertKit_Settings_Broadcasts {
 	 * Constructor. Reads settings from options table, falling back to defaults
 	 * if no settings exist.
 	 *
-	 * @since   2.2.8
+	 * @since   2.2.9
 	 */
 	public function __construct() {
 
@@ -54,7 +54,7 @@ class ConvertKit_Settings_Broadcasts {
 	/**
 	 * Returns Plugin settings.
 	 *
-	 * @since   2.2.8
+	 * @since   2.2.9
 	 *
 	 * @return  array
 	 */
@@ -67,7 +67,7 @@ class ConvertKit_Settings_Broadcasts {
 	/**
 	 * Returns Broadcasts settings value for the given key.
 	 *
-	 * @since   2.2.8
+	 * @since   2.2.9
 	 *
 	 * @param   string $key    Setting Key.
 	 * @return  string          Value
@@ -92,7 +92,7 @@ class ConvertKit_Settings_Broadcasts {
 	/**
 	 * Returns whether Broadcasts are enabled in the Plugin settings.
 	 *
-	 * @since   2.2.8
+	 * @since   2.2.9
 	 *
 	 * @return  bool
 	 */
@@ -105,7 +105,7 @@ class ConvertKit_Settings_Broadcasts {
 	/**
 	 * Returns the WordPress Author ID to assign imported Broadcasts to.
 	 *
-	 * @since   2.2.8
+	 * @since   2.2.9
 	 *
 	 * @return  int
 	 */
@@ -118,7 +118,7 @@ class ConvertKit_Settings_Broadcasts {
 	/**
 	 * Returns the WordPress Category ID to assign imported Broadcasts to.
 	 *
-	 * @since   2.2.8
+	 * @since   2.2.9
 	 *
 	 * @return  int
 	 */
@@ -132,7 +132,7 @@ class ConvertKit_Settings_Broadcasts {
 	 * Returns the earliest date that Broadcasts should be imported,
 	 * based on their send_at date.
 	 *
-	 * @since   2.2.8
+	 * @since   2.2.9
 	 *
 	 * @return  string  Date (yyyy-mm-dd)
 	 */
@@ -145,7 +145,7 @@ class ConvertKit_Settings_Broadcasts {
 	/**
 	 * Returns whether Broadcasts should have their styles imported.
 	 *
-	 * @since   2.2.8
+	 * @since   2.2.9
 	 *
 	 * @return  bool
 	 */
@@ -159,7 +159,7 @@ class ConvertKit_Settings_Broadcasts {
 	 * Returns whether imported Broadcasts should have their Restrict Content
 	 * setting defined, if the Broadcast is marked as paid.
 	 *
-	 * @since   2.2.8
+	 * @since   2.2.9
 	 *
 	 * @return  bool
 	 */
@@ -172,7 +172,7 @@ class ConvertKit_Settings_Broadcasts {
 	/**
 	 * Returns the Restrict Content setting to assign to imported Broadcasts
 	 *
-	 * @since   2.2.8
+	 * @since   2.2.9
 	 *
 	 * @return  string
 	 */
@@ -186,7 +186,7 @@ class ConvertKit_Settings_Broadcasts {
 	 * The default settings, used when the ConvertKit Broadcasts Settings haven't been saved
 	 * e.g. on a new installation.
 	 *
-	 * @since   2.2.8
+	 * @since   2.2.9
 	 *
 	 * @return  array
 	 */
@@ -208,7 +208,7 @@ class ConvertKit_Settings_Broadcasts {
 		 * The default settings, used when the ConvertKit Broadcasts Settings haven't been saved
 		 * e.g. on a new installation.
 		 *
-		 * @since   2.2.8
+		 * @since   2.2.9
 		 *
 		 * @param   array   $defaults
 		 */
@@ -221,7 +221,7 @@ class ConvertKit_Settings_Broadcasts {
 	/**
 	 * Saves the given array of settings to the WordPress options table.
 	 *
-	 * @since   2.2.8
+	 * @since   2.2.9
 	 *
 	 * @param   array $settings   Settings.
 	 */
