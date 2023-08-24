@@ -38,9 +38,6 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 		// Output notices.
 		add_action( 'convertkit_settings_base_render_before', array( $this, 'maybe_output_notices' ) );
 
-		// Enable or disable the scheduled task when settings are saved.
-		add_action( 'convertkit_settings_base_sanitize_settings', array( $this, 'schedule_or_unschedule_cron_event' ), 10, 2 );
-
 		// Enqueue scripts and CSS.
 		add_action( 'convertkit_admin_settings_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		add_action( 'convertkit_admin_settings_enqueue_styles', array( $this, 'enqueue_styles' ) );
@@ -123,38 +120,6 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 	}
 
 	/**
-	 * Schedules or unschedules the WordPress Cron event, based on whether
-	 * the Broadcast to Post functionality's is enabled or disabled.
-	 *
-	 * @since   2.2.9
-	 *
-	 * @param   string $section    Settings section.
-	 * @param   array  $settings   Settings.
-	 */
-	public function schedule_or_unschedule_cron_event( $section, $settings ) {
-
-		// Bail if we're not on the Broadcasts section.
-		if ( $section !== $this->name ) {
-			return;
-		}
-
-		// Initialize resource class.
-		$broadcasts = new ConvertKit_Resource_Broadcasts( 'cron' );
-
-		// If the functionality is not enabled, unschedule the cron event.
-		if ( $settings['enabled'] !== 'on' ) {
-			$broadcasts->unschedule_cron_event();
-			return;
-		}
-
-		// Schedule the cron event, which will import Broadcasts to WordPress Posts.
-		// ConvertKit_Broadcasts_Importer::refresh() will then run when Broadcasts
-		// are refreshed by the cron event.
-		$broadcasts->schedule_cron_event();
-
-	}
-
-	/**
 	 * Redirects to the ConvertKit > Broadcasts screen.
 	 *
 	 * @since   2.2.9
@@ -216,19 +181,19 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 
 		// Initialize classes that will be used.
 		$restrict_content_settings = new ConvertKit_Settings_Restrict_Content();
-		$broadcasts                = new ConvertKit_Resource_Broadcasts( 'cron' );
+		$posts                	   = new ConvertKit_Resource_Posts( 'cron' );
 
 		// Define description for the 'Enabled' setting.
 		// If enabled, include the next scheduled date and time the Plugin will import broadcasts.
 		$enabled_description = '';
-		if ( $this->settings->enabled() && $broadcasts->get_cron_event_next_scheduled() ) {
+		if ( $this->settings->enabled() && $posts->get_cron_event_next_scheduled() ) {
 			$enabled_description = sprintf(
 				'%s %s',
 				esc_html__( 'Broadcasts will next import at approximately ', 'convertkit' ),
 				// The cron event's next scheduled timestamp is always in UTC.
 				// Display it converted to the WordPress site's timezone.
 				get_date_from_gmt(
-					gmdate( 'Y-m-d H:i:s', $broadcasts->get_cron_event_next_scheduled() ),
+					gmdate( 'Y-m-d H:i:s', $posts->get_cron_event_next_scheduled() ),
 					get_option( 'date_format' ) . ' ' . get_option( 'time_format' )
 				)
 			);
@@ -248,7 +213,7 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 		);
 
 		// Render import button if the feature is enabled.
-		if ( $this->settings->enabled() && $broadcasts->get_cron_event_next_scheduled() ) {
+		if ( $this->settings->enabled() && $posts->get_cron_event_next_scheduled() ) {
 			add_settings_field(
 				'import_button',
 				'',
