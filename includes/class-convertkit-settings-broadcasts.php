@@ -130,15 +130,15 @@ class ConvertKit_Settings_Broadcasts {
 
 	/**
 	 * Returns the earliest date that Broadcasts should be imported,
-	 * based on their send_at date.
+	 * based on their published_at date.
 	 *
 	 * @since   2.2.9
 	 *
 	 * @return  string  Date (yyyy-mm-dd)
 	 */
-	public function send_at_min_date() {
+	public function published_at_min_date() {
 
-		return $this->settings['send_at_min_date'];
+		return $this->settings['published_at_min_date'];
 
 	}
 
@@ -198,7 +198,7 @@ class ConvertKit_Settings_Broadcasts {
 			'category_id'      => '',
 
 			// By default, only import Broadcasts as Posts for the last 30 days.
-			'send_at_min_date' => gmdate( 'Y-m-d', strtotime( '-30 days' ) ),
+			'published_at_min_date' => gmdate( 'Y-m-d', strtotime( '-30 days' ) ),
 
 			'restrict_content' => '',
 			'no_styles'        => '',

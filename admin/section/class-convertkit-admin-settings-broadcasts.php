@@ -271,14 +271,14 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 		);
 
 		add_settings_field(
-			'send_at_min_date',
+			'published_at_min_date',
 			__( 'Earliest Date', 'convertkit' ),
 			array( $this, 'date_callback' ),
 			$this->settings_key,
 			$this->name,
 			array(
-				'name'        => 'send_at_min_date',
-				'description' => __( 'The earliest date to import broadcasts from, based on the broadcast\'s sent date and time.', 'convertkit' ),
+				'name'        => 'published_at_min_date',
+				'description' => __( 'The earliest date to import broadcasts from, based on the broadcast\'s published date and time.', 'convertkit' ),
 			)
 		);
 
