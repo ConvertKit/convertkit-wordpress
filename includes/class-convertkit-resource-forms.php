@@ -153,7 +153,7 @@ class ConvertKit_Resource_Forms extends ConvertKit_Resource {
 		if ( $this->resources[ $id ]['format'] !== 'inline' ) {
 			add_filter(
 				'convertkit_output_scripts_footer',
-				function( $scripts ) use ( $id ) {
+				function ( $scripts ) use ( $id ) {
 
 					$scripts[] = array(
 						'async'    => true,

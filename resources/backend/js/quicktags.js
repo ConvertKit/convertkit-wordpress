@@ -23,12 +23,12 @@ for ( const block in convertkit_quicktags ) {
  */
 function convertKitQuickTagRegister( block ) {
 
-	( function( $ ) {
+	( function ( $ ) {
 
 		QTags.addButton(
 			'convertkit-' + block.name,
 			block.title,
-			function() {
+			function () {
 
 				// Perform an AJAX call to load the modal's view.
 				$.post(
@@ -40,7 +40,7 @@ function convertKitQuickTagRegister( block ) {
 						'shortcode': 	block.name
 
 					},
-					function( response ) {
+					function ( response ) {
 
 						// Show Modal.
 						convertKitQuickTagsModal.open();

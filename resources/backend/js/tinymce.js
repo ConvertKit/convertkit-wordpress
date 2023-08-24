@@ -17,11 +17,11 @@
  */
 function convertKitTinyMCERegisterPlugin( block ) {
 
-	( function( $ ) {
+	( function ( $ ) {
 
 		tinymce.PluginManager.add(
 			'convertkit_' + block.name,
-			function( editor, url ) {
+			function ( editor, url ) {
 
 				// Add Button to Visual Editor Toolbar.
 				editor.addButton(
@@ -36,7 +36,7 @@ function convertKitTinyMCERegisterPlugin( block ) {
 				// Load View when button clicked.
 				editor.addCommand(
 					'convertkit_' + block.name,
-					function() {
+					function () {
 
 						// Close any existing QuickTags modal.
 						convertKitQuickTagsModal.close();
@@ -75,7 +75,7 @@ function convertKitTinyMCERegisterPlugin( block ) {
 								'editor_type':  'tinymce',
 								'shortcode': 	block.name
 							},
-							function( response ) {
+							function ( response ) {
 
 								// Inject HTML into modal.
 								$( '#convertkit-modal-body-body' ).html( response );

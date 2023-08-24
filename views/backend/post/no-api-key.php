@@ -10,7 +10,7 @@
 
 <p>
 	<?php
-	echo sprintf(
+	printf(
 		/* translators: %1$s: Post Type Singular Name, %2$s: Link to Plugin Settings */
 		esc_html__( 'To configure the ConvertKit Form / Landing Page to display on this %1$s, enter your ConvertKit API credentials in the %2$s', 'convertkit' ),
 		esc_attr( $post_type->labels->singular_name ),
