@@ -202,15 +202,15 @@ class ConvertKit_Settings_Tools extends ConvertKit_Settings_Base {
 		}
 
 		// Bail if no configuration file was supplied.
-		if ( ! is_array( $_FILES ) ) {
+		if ( ! is_array( $_FILES ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
 			$this->redirect();
 		}
-		if ( $_FILES['import']['error'] !== 0 ) {
+		if ( $_FILES['import']['error'] !== 0 ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
 			$this->redirect( 'import_configuration_upload_error' );
 		}
 
 		// Read file.
-		$json = $wp_filesystem->get_contents( $_FILES['import']['tmp_name'] );
+		$json = $wp_filesystem->get_contents( $_FILES['import']['tmp_name'] ); // phpcs:ignore WordPress.Security.NonceVerification.Missing
 
 		// Decode.
 		$import = json_decode( $json, true );
