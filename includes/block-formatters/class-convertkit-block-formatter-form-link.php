@@ -191,32 +191,32 @@ class ConvertKit_Block_Formatter_Form_Link extends ConvertKit_Block_Formatter {
 	 *
 	 * @since   2.2.0
 	 *
-	 * @param   array $match  preg_replace_callback() match.
-	 * @return  string          Link with script appended
+	 * @param   array $preg_match  preg_replace_callback() match.
+	 * @return  string              Link with script appended
 	 */
-	public function enqueue_scripts( $match ) {
+	public function enqueue_scripts( $preg_match ) {
 
 		// Get Form by its ID.
-		$form = $this->forms->get_by_id( absint( $match[1] ) );
+		$form = $this->forms->get_by_id( absint( $preg_match[1] ) );
 
 		// Just return the original element, unedited, if the Form could not be found.
 		if ( ! $form ) {
-			return $match[0];
+			return $preg_match[0];
 		}
 
 		// Return the original link, unedited, if the Form doesn't have a UID or JS embed.
 		// This prevents issues with legacy modal forms.
 		if ( ! array_key_exists( 'uid', $form ) ) {
-			return $match[0];
+			return $preg_match[0];
 		}
 		if ( ! array_key_exists( 'embed_js', $form ) ) {
-			return $match[0];
+			return $preg_match[0];
 		}
 
 		// Register the script, so it's only loaded once for this non-inline form across the entire page.
 		add_filter(
 			'convertkit_output_scripts_footer',
-			function( $scripts ) use ( $form ) {
+			function ( $scripts ) use ( $form ) {
 
 				$scripts[] = array(
 					'async'    => true,
@@ -230,7 +230,7 @@ class ConvertKit_Block_Formatter_Form_Link extends ConvertKit_Block_Formatter {
 		);
 
 		// Return original link.
-		return $match[0];
+		return $preg_match[0];
 
 	}
 

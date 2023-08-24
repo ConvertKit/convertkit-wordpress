@@ -11,7 +11,7 @@
 <h1><?php esc_html_e( 'Member Content', 'convertkit' ); ?></h1>
 <p>
 	<?php
-	echo sprintf(
+	printf(
 		/* translators: Link to ConvertKit Products */
 		esc_html__( 'This will generate content that visitors can access once they purchase a %s.', 'convertkit' ),
 		sprintf(

@@ -11,11 +11,11 @@
  * @since 	1.9.8.0
  */
 jQuery( document ).ready(
-	function( $ ) {
+	function ( $ ) {
 
 		$( 'button.wp-convertkit-refresh-resources' ).on(
 			'click',
-			function( e ) {
+			function ( e ) {
 
 				// Prevent default button behaviour.
 				e.preventDefault();
@@ -63,7 +63,7 @@ jQuery( document ).ready(
 
 							// Remove existing select options.
 							$( 'option', $( field ) ).each(
-								function() {
+								function () {
 									// Skip if data-preserve-on-refresh is specified, as this means we want to keep this specific option.
 									// This will be present on the 'None' and 'Default' options.
 									if ( typeof $( this ).data( 'preserve-on-refresh' ) !== 'undefined' ) {
@@ -77,7 +77,7 @@ jQuery( document ).ready(
 
 							// Populate select options from response data.
 							response.data.forEach(
-								function( item ) {
+								function ( item ) {
 									$( field ).append( new Option( item.name, item.id, false, ( selectedOption == item.id ? true : false ) ) );
 								}
 							);
@@ -127,7 +127,7 @@ function convertKitRefreshResourcesRemoveNotices() {
 	}
 
 	// Classic Editor, WP_List_Table (Bulk/Quick edit) or Edit Term.
-	( function( $ ) {
+	( function ( $ ) {
 
 		$( 'div.convertkit-error' ).remove();
 
@@ -162,7 +162,7 @@ function convertKitRefreshResourcesOutputErrorNotice( message ) {
 	}
 
 	// Classic Editor, WP_List_Table (Bulk/Quick edit) or Edit Term.
-	( function( $ ) {
+	( function ( $ ) {
 
 		var notice = '<div id="message" class="error convertkit-error notice is-dismissible"><p>' + message + '</p></div>';
 

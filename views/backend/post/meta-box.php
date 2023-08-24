@@ -49,7 +49,7 @@
 						<?php esc_html_e( 'Any other option will display that form after the main content.', 'convertkit' ); ?>
 						<br />
 						<?php
-						echo sprintf(
+						printf(
 							/* translators: Link to sign in to ConvertKit */
 							esc_html__( 'To make changes to your forms, %s', 'convertkit' ),
 							'<a href="' . esc_url( convertkit_get_sign_in_url() ) . '" target="_blank">' . esc_html__( 'sign in to ConvertKit', 'convertkit' ) . '</a>'
@@ -101,7 +101,7 @@
 							<?php esc_html_e( 'Select a landing page to make it appear in place of this page.', 'convertkit' ); ?>
 							<br />
 							<?php
-							echo sprintf(
+							printf(
 								/* translators: Link to sign in to ConvertKit */
 								esc_html__( 'To make changes to your landing pages, %s', 'convertkit' ),
 								'<a href="' . esc_url( convertkit_get_sign_in_url() ) . '" target="_blank">' . esc_html__( 'sign in to ConvertKit', 'convertkit' ) . '</a>'

@@ -14,14 +14,14 @@
  */
 function convertKitTabsInit() {
 
-	( function( $ ) {
+	( function ( $ ) {
 
 		// Safely call this function by destroying any previously initialized instances.
 		convertKitTabsDestroy();
 
 		// Iterate through all JS tab instances, initializing each one.
 		$( '.convertkit-js-tabs' ).each(
-			function() {
+			function () {
 
 				const nav_tab_container  = $( this ),
 				nav_tab_panels_container = $( nav_tab_container ).data( 'panels-container' ),
@@ -41,7 +41,7 @@ function convertKitTabsInit() {
 				$( nav_tab_container ).on(
 					'click.convertkit_tabs',
 					'a',
-					function( e ) {
+					function ( e ) {
 
 						e.preventDefault();
 
@@ -73,7 +73,7 @@ function convertKitTabsInit() {
  */
 function convertKitTabsUpdate( nav_tab_container, nav_tab_panels_container, nav_tab_panel, nav_tab_active, active_tab ) {
 
-	( function( $ ) {
+	( function ( $ ) {
 
 		// If we don't have an active tab at this point, we don't have any tabs, so bail.
 		if ( typeof active_tab === 'undefined' ) {
@@ -107,11 +107,11 @@ function convertKitTabsUpdate( nav_tab_container, nav_tab_panels_container, nav_
  */
 function convertKitTabsDestroy() {
 
-	( function( $ ) {
+	( function ( $ ) {
 
 		// Iterate through all JS tab instances, destroying each one.
 		$( '.convertkit-js-tabs' ).each(
-			function() {
+			function () {
 
 				$( this ).off( 'click.convertkit_tabs', 'a' );
 

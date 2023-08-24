@@ -29,7 +29,7 @@ if ( typeof wp !== 'undefined' &&
  */
 function convertKitGutenbergRegisterBlock( block ) {
 
-	( function( blocks, editor, element, components ) {
+	( function ( blocks, editor, element, components ) {
 
 		// Define some constants for the various items we'll use.
 		const el                    = element.createElement;
@@ -58,7 +58,7 @@ function convertKitGutenbergRegisterBlock( block ) {
 		 *
 		 * @return  element|string
 		 */
-		const getIcon = function() {
+		const getIcon = function () {
 
 			// Return a fallback default icon if none is specified for this block.
 			if ( typeof block.gutenberg_icon === 'undefined' ) {
@@ -90,7 +90,7 @@ function convertKitGutenbergRegisterBlock( block ) {
 		 * @param 	string 	attribute 		Attribute name to store the field's data in.
 		 * @return  array                   Field element
 		 */
-		const getField = function( props, field, attribute ) {
+		const getField = function ( props, field, attribute ) {
 
 			// Define some field properties shared across all field types.
 			let fieldProperties = {
@@ -98,7 +98,7 @@ function convertKitGutenbergRegisterBlock( block ) {
 				label: 		field.label,
 				help: 		field.description,
 				value: 		props.attributes[ attribute ],
-				onChange: 	function( value ) {
+				onChange: 	function ( value ) {
 					if ( field.type === 'number' ) {
 						// If value is a blank string i.e. no attribute value was provided,
 						// cast it to the field's minimum number setting.
@@ -210,7 +210,7 @@ function convertKitGutenbergRegisterBlock( block ) {
 		 * @param   string  panel 	Panel name.
 		 * @return  array           Panel rows
 		 */
-		const getPanelRows = function( props, panel ) {
+		const getPanelRows = function ( props, panel ) {
 
 			// Build Inspector Control Panel Rows, one for each Field.
 			let rows = [];
@@ -249,7 +249,7 @@ function convertKitGutenbergRegisterBlock( block ) {
 		 * @param   object  props 	Block formatter properties.
 		 * @return 	array 			Block sidebar panels.
 		 */
-		const getPanels = function( props ) {
+		const getPanels = function ( props ) {
 
 			let panels      = [],
 				initialOpen = true;
@@ -294,7 +294,7 @@ function convertKitGutenbergRegisterBlock( block ) {
 		 * @param   object  props   Block properties.
 		 * @return  object          Block settings sidebar elements
 		 */
-		const editBlock = function( props ) {
+		const editBlock = function ( props ) {
 
 			// If requesting an example of how this block looks (which is requested
 			// when the user adds a new block and hovers over this block's icon),
@@ -359,7 +359,7 @@ function convertKitGutenbergRegisterBlock( block ) {
 		 * @param   object  props   Block properties.
 		 * @return  object          Notice.
 		 */
-		const displayNoticeWithLink = function( props ) {
+		const displayNoticeWithLink = function ( props ) {
 
 			// useState to toggle the refresh button's disabled state.
 			const [ buttonDisabled, setButtonDisabled ] = useState( false );
@@ -404,7 +404,7 @@ function convertKitGutenbergRegisterBlock( block ) {
 		 * @param   object  props   			Block properties.
 		 * @return  object          			Spinner.
 		 */
-		const spinner = function( props ) {
+		const spinner = function ( props ) {
 
 			return el(
 				'span',
@@ -424,7 +424,7 @@ function convertKitGutenbergRegisterBlock( block ) {
 		 * @param   string 	iconName 	Dashicon Name.
 		 * @return  object 				Dashicon.
 		 */
-		const dashIcon = function( iconName ) {
+		const dashIcon = function ( iconName ) {
 
 			return el(
 				Dashicon,
@@ -444,7 +444,7 @@ function convertKitGutenbergRegisterBlock( block ) {
 		 * @param 	object 	setButtonDisabled 	Function to enable or disable the refresh button.
 		 * @return  object          			Notice Link.
 		 */
-		const noticeLink = function( props, setButtonDisabled ) {
+		const noticeLink = function ( props, setButtonDisabled ) {
 
 			return el(
 				'a',
@@ -453,7 +453,7 @@ function convertKitGutenbergRegisterBlock( block ) {
 					href: ( ! block.has_api_key ? block.no_api_key.link : block.no_resources.link ),
 					className: ( ! block.has_api_key ? 'convertkit-block-modal' : '' ),
 					target: '_blank',
-					onClick: function( e ) {
+					onClick: function ( e ) {
 
 						// Show popup window with setup wizard if we need to define an API Key.
 						if ( ! block.has_api_key ) {
@@ -480,7 +480,7 @@ function convertKitGutenbergRegisterBlock( block ) {
 		 * @param 	object 	setButtonDisabled 	Function to enable or disable the refresh button.
 		 * @return 	object 						Button.
 		 */
-		const refreshButton = function( props, buttonDisabled, setButtonDisabled ) {
+		const refreshButton = function ( props, buttonDisabled, setButtonDisabled ) {
 
 			return el(
 				Button,
@@ -490,7 +490,7 @@ function convertKitGutenbergRegisterBlock( block ) {
 					disabled: buttonDisabled,
 					text: 'Refresh',
 					icon: dashIcon( 'update' ),
-					onClick: function() {
+					onClick: function () {
 
 						// Refresh block definitions.
 						refreshBlocksDefinitions( props, setButtonDisabled );
@@ -515,7 +515,7 @@ function convertKitGutenbergRegisterBlock( block ) {
 		 * @param 	object 	link 				Link that was clicked.
 		 * @param 	object 	setButtonDisabled 	Function to enable or disable the refresh button.
 		 */
-		const showConvertKitPopupWindow = function( props, link, setButtonDisabled ) {
+		const showConvertKitPopupWindow = function ( props, link, setButtonDisabled ) {
 
 			// Define popup width, height and positioning.
 			const 	width  = 640,
@@ -542,7 +542,7 @@ function convertKitGutenbergRegisterBlock( block ) {
 			// the window is closed.
 			// See https://stackoverflow.com/questions/9388380/capture-the-close-event-of-popup-window-in-javascript/48240128#48240128.
 			var convertKitPopupTimer = setInterval(
-				function() {
+				function () {
 					if ( convertKitPopup.closed ) {
 						clearInterval( convertKitPopupTimer );
 
@@ -567,7 +567,7 @@ function convertKitGutenbergRegisterBlock( block ) {
 		 * @param 	object 	setButtonDisabled 	Function to enable or disable the refresh button.
 		 * @return  object          			Notice.
 		 */
-		const refreshBlocksDefinitions = function( props, setButtonDisabled ) {
+		const refreshBlocksDefinitions = function ( props, setButtonDisabled ) {
 
 			// Define data for WordPress AJAX request.
 			let data = new FormData();
@@ -587,7 +587,7 @@ function convertKitGutenbergRegisterBlock( block ) {
 				}
 			)
 			.then(
-				function( response ) {
+				function ( response ) {
 
 					// Convert response JSON string to object.
 					return response.json();
@@ -595,7 +595,7 @@ function convertKitGutenbergRegisterBlock( block ) {
 				}
 			)
 			.then(
-				function( response ) {
+				function ( response ) {
 
 					// Update global ConvertKit Blocks object, so that any updated resources
 					// are reflected when adding new ConvertKit Blocks.
@@ -619,7 +619,7 @@ function convertKitGutenbergRegisterBlock( block ) {
 				}
 			)
 			.catch(
-				function( error ) {
+				function ( error ) {
 
 					// Show an error in the Gutenberg editor.
 					wp.data.dispatch( 'core/notices' ).createErrorNotice(
@@ -658,7 +658,7 @@ function convertKitGutenbergRegisterBlock( block ) {
 				edit: editBlock,
 
 				// Output.
-				save: function( props ) {
+				save: function ( props ) {
 
 					// Deliberate; preview in the editor is determined by the return statement in `edit` above.
 					// On the frontend site, the block's render() PHP class is always called, so we dynamically
