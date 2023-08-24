@@ -198,7 +198,7 @@ class ContactForm7FormCest
 		$I->amOnAdminPage('options-general.php?page=_wp_convertkit_settings&tab=contactform7');
 
 		// Enable Creator Network Recommendations on the Contact Form 7.
-		$I->checkOption('#creator_network_recommendations_' . $contactForm7ID);
+		$I->checkOption('#_wp_convertkit_integration_contactform7_settings_creator_network_recommendations_' . $contactForm7ID);
 
 		// Save.
 		$I->click('Save Changes');
@@ -207,7 +207,7 @@ class ContactForm7FormCest
 		$I->checkNoWarningsAndNoticesOnScreen($I);
 
 		// Confirm checkbox is checked after saving.
-		$I->seeCheckboxIsChecked('#creator_network_recommendations_' . $contactForm7ID);
+		$I->seeCheckboxIsChecked('#_wp_convertkit_integration_contactform7_settings_creator_network_recommendations_' . $contactForm7ID);
 
 		// Create Page with Contact Form 7 Shortcode.
 		$pageID = $I->havePageInDatabase(
