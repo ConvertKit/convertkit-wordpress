@@ -394,7 +394,7 @@ abstract class ConvertKit_Settings_Base {
 	 * @param   bool|string|array $description    Description.
 	 * @return  string                              HTML Description
 	 */
-	private function get_description( $description ) {
+	public function get_description( $description ) {
 
 		// Return blank string if no description specified.
 		if ( ! $description ) {
