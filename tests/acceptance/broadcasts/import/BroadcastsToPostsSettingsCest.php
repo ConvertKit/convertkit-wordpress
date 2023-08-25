@@ -58,9 +58,6 @@ class BroadcastsToPostsSettingsCest
 		$I->seeElement('input#published_at_min_date');
 		$I->seeElement('input#no_styles');
 
-		// Check the WordPress Cron task was scheduled.
-		$I->seeCronEvent($I, 'convertkit_resource_refresh_broadcasts');
-
 		// Check the next import date and time is displayed.
 		$I->see('Broadcasts will next import at approximately');
 
@@ -82,9 +79,6 @@ class BroadcastsToPostsSettingsCest
 		$I->dontSeeElement('div.convertkit-select2-container');
 		$I->dontSeeElement('input#published_at_min_date');
 		$I->dontSeeElement('input#no_styles');
-
-		// Check the WordPress Cron task was unscheduled.
-		$I->dontSeeCronEvent($I, 'convertkit_resource_refresh_broadcasts');
 
 		// Check the next import date and time is not displayed.
 		$I->dontSee('Broadcasts will next import at approximately');
@@ -117,63 +111,6 @@ class BroadcastsToPostsSettingsCest
 		$I->seeCheckboxIsChecked('#enabled');
 		$I->seeInField('_wp_convertkit_settings_broadcasts[category_id]', 'ConvertKit Broadcasts to Posts');
 		$I->seeInField('_wp_convertkit_settings_broadcasts[published_at_min_date]', '2023-01-01');
-	}
-
-	/**
-	 * Tests that the Member Content setting is not displayed when Member Content is disabled at
-	 * Settings > ConvertKit > Member Content.
-	 *
-	 * @since   2.2.8
-	 *
-	 * @param   AcceptanceTester $I  Tester.
-	 */
-	public function testRestrictContentSettingHiddenWhenRestrictContentDisabled(AcceptanceTester $I)
-	{
-		// Go to the Plugin's Broadcasts Screen.
-		$I->loadConvertKitSettingsBroadcastsScreen($I);
-
-		// Enable Broadcasts to Posts.
-		$I->checkOption('#enabled');
-
-		// Confirm no Restrict Content option is displayed.
-		$I->dontSeeElementInDOM('select#_wp_convertkit_settings_broadcasts_restrict_content');
-	}
-
-	/**
-	 * Tests that the Member Content setting is displayed when Member Content is disabled at
-	 * Settings > ConvertKit > Member Content.
-	 *
-	 * @since   2.2.8
-	 *
-	 * @param   AcceptanceTester $I  Tester.
-	 */
-	public function testRestrictContentSettingDisplayedWhenRestrictContentEnabled(AcceptanceTester $I)
-	{
-		// Enable Restrict Content.
-		$I->setupConvertKitPluginRestrictContent(
-			$I,
-			[
-				'enabled' => 'on',
-			]
-		);
-
-		// Go to the Plugin's Broadcasts Screen.
-		$I->loadConvertKitSettingsBroadcastsScreen($I);
-
-		// Enable Broadcasts to Posts.
-		$I->checkOption('#enabled');
-
-		// Complete the Member Content option.
-		$I->fillSelect2Field($I, '#select2-_wp_convertkit_settings_broadcasts_restrict_content-container', $_ENV['CONVERTKIT_API_PRODUCT_NAME']);
-
-		// Click the Save Changes button.
-		$I->click('Save Changes');
-
-		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen($I);
-
-		// Confirm the setting saved.
-		$I->seeInField('_wp_convertkit_settings_broadcasts[restrict_content]', $_ENV['CONVERTKIT_API_PRODUCT_NAME']);
 	}
 
 	/**

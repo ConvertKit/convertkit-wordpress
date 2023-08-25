@@ -65,7 +65,7 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 
 		// Run the import task through WordPress' Cron system now.
 		$cron   = new ConvertKit_Cron();
-		$result = $cron->run( 'convertkit_resource_refresh_broadcasts' );
+		$result = $cron->run( 'convertkit_resource_refresh_posts' );
 
 		// If an error occured, show it now.
 		if ( is_wp_error( $result ) ) {
@@ -76,6 +76,7 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 
 		// If here, the task scheduled.
 		$this->redirect_to_broadcasts_screen( false, 'broadcast_import_success' );
+
 	}
 
 	/**
@@ -180,8 +181,7 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 	public function register_fields() {
 
 		// Initialize classes that will be used.
-		$restrict_content_settings = new ConvertKit_Settings_Restrict_Content();
-		$posts                	   = new ConvertKit_Resource_Posts( 'cron' );
+		$posts = new ConvertKit_Resource_Posts( 'cron' );
 
 		// Define description for the 'Enabled' setting.
 		// If enabled, include the next scheduled date and time the Plugin will import broadcasts.
@@ -247,21 +247,6 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 			)
 		);
 
-		// Only register the Member Content field if Restrict Content is enabled.
-		if ( $restrict_content_settings->enabled() ) {
-			add_settings_field(
-				'restrict_content',
-				__( 'Member Content', 'convertkit' ),
-				array( $this, 'restrict_content_callback' ),
-				$this->settings_key,
-				$this->name,
-				array(
-					'name'        => 'restrict_content',
-					'description' => __( 'Select the ConvertKit product that the visitor must be subscribed to, permitting them access to view the imported broadcast.', 'convertkit' ),
-				)
-			);
-		}
-
 		add_settings_field(
 			'no_styles',
 			__( 'Disable Styles', 'convertkit' ),
@@ -285,7 +270,7 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 
 		?>
 		<span class="convertkit-beta-label"><?php esc_html_e( 'Beta', 'convertkit' ); ?></span>
-		<p class="description"><?php esc_html_e( 'Defines whether broadcasts created in ConvertKit should automatically be published on this site as WordPress Posts.', 'convertkit' ); ?></p>
+		<p class="description"><?php esc_html_e( 'Defines whether public broadcasts created in ConvertKit should automatically be published on this site as WordPress Posts.', 'convertkit' ); ?></p>
 		<?php
 
 	}
@@ -392,53 +377,6 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 				'enabled',
 			)
 		);
-
-	}
-
-	/**
-	 * Renders the input for the Member Content setting.
-	 *
-	 * @since  2.2.9
-	 *
-	 * @param   array $args  Field arguments.
-	 */
-	public function restrict_content_callback( $args ) {
-
-		// Refresh Products.
-		$products = new ConvertKit_Resource_Products( 'settings' );
-		$products->refresh();
-
-		// Bail if no Forms exist.
-		if ( ! $products->exist() ) {
-			esc_html_e( 'No Products exist in ConvertKit.', 'convertkit' );
-			echo '<br /><a href="' . esc_url( convertkit_get_new_form_url() ) . '" target="_blank">' . esc_html__( 'Click here to create your first Product.', 'convertkit' ) . '</a>';
-			return;
-		}
-
-		// Build array of select options.
-		$options = array(
-			'0' => esc_html__( 'Don\'t restrict content to members only.', 'convertkit' ),
-		);
-		foreach ( $products->get() as $product ) {
-			// Prefix of 'product_' is deliberate; we may support restricting content by tag in the future,
-			// and therefore need to denote the resource ID's type (product, tag etc).
-			$options[ 'product_' . esc_attr( $product['id'] ) ] = esc_html( $product['name'] );
-		}
-
-		// Build field.
-		$select_field = $this->get_select_field(
-			$args['name'],
-			esc_attr( $this->settings->get_by_key( $args['name'] ) ),
-			$options,
-			$args['description'],
-			array(
-				'convertkit-select2',
-				'enabled',
-			)
-		);
-
-		// Output field.
-		echo '<div class="convertkit-select2-container">' . $select_field . '</div>'; // phpcs:ignore WordPress.Security.EscapeOutput
 
 	}
 

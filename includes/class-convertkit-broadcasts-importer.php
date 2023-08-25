@@ -133,7 +133,7 @@ class ConvertKit_Broadcasts_Importer {
 				$meta            = $convertkit_post->get();
 
 				// Define Restrict Content setting.
-				$meta['restrict_content'] = absint( $broadcast['product_id'] );
+				$meta['restrict_content'] = 'product_' . $broadcast['product_id'];
 
 				// Save Post's settings.
 				$convertkit_post->save( $meta );

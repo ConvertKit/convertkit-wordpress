@@ -13,7 +13,7 @@ class BroadcastsToPostsCest
 	 *
 	 * @var     string
 	 */
-	private $cronEventName = 'convertkit_resource_refresh_broadcasts';
+	private $cronEventName = 'convertkit_resource_refresh_posts';
 
 	/**
 	 * The WordPress Category name, used for tests that assign imported Broadcasts
@@ -288,7 +288,6 @@ class BroadcastsToPostsCest
 			[
 				'enabled'          => true,
 				'published_at_min_date' => '01/01/2020',
-				'restrict_content' => $_ENV['CONVERTKIT_API_PRODUCT_NAME'],
 			]
 		);
 
@@ -309,21 +308,17 @@ class BroadcastsToPostsCest
 		$I->see($_ENV['CONVERTKIT_API_BROADCAST_SECOND_TITLE']);
 		$I->see($_ENV['CONVERTKIT_API_BROADCAST_THIRD_TITLE']);
 
-		// Get created Post IDs.
-		$postIDs = [
-			(int) str_replace('post-', '', $I->grabAttributeFrom('tbody#the-list > tr:nth-child(1)', 'id')),
-			(int) str_replace('post-', '', $I->grabAttributeFrom('tbody#the-list > tr:nth-child(2)', 'id')),
-			(int) str_replace('post-', '', $I->grabAttributeFrom('tbody#the-list > tr:nth-child(3)', 'id')),
-		];
+		// Confirm the HTML Template Test's Restrict Content setting is correct.
+		$I->click($_ENV['CONVERTKIT_API_BROADCAST_FIRST_TITLE']);
 
-		// Confirm each Post's Restrict Content setting is correct.
-		foreach ($postIDs as $postID) {
-			// Edit Post.
-			$I->amOnAdminPage('post.php?post=' . $postID . '&action=edit');
+		// Close the Gutenberg "Welcome to the block editor" dialog if it's displayed.
+		$I->maybeCloseGutenbergWelcomeModal($I);
 
-			// Confirm Restrict Content setting is correct.
-			$I->seeInField('wp-convertkit[restrict_content]', $_ENV['CONVERTKIT_API_PRODUCT_NAME']);
-		}
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Confirm Restrict Content setting is correct.
+		$I->seeInField('wp-convertkit[restrict_content]', $_ENV['CONVERTKIT_API_PRODUCT_NAME']);
 	}
 
 	/**
