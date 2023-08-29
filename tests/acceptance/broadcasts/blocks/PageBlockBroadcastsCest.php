@@ -208,7 +208,6 @@ class PageBlockBroadcastsCest
 			false, // Don't check next pagination label.
 			true // Confirm grid mode is set.
 		);
-
 	}
 
 	/**
@@ -292,7 +291,6 @@ class PageBlockBroadcastsCest
 			true, // Confirm grid mode is set.
 			true // Confirm images are displayed.
 		);
-
 	}
 
 	/**
@@ -334,7 +332,6 @@ class PageBlockBroadcastsCest
 			false, // Confirm images are not displayed.
 			true // Confirm description is displayed.
 		);
-
 	}
 
 	/**
@@ -378,7 +375,6 @@ class PageBlockBroadcastsCest
 			false, // Confirm description is not displayed.
 			'Continue reading' // Confirm read more link is displayed with correct text.
 		);
-
 	}
 
 	/**

@@ -57,7 +57,7 @@ class ConvertKit_ContactForm7_Admin_Settings extends ConvertKit_Settings_Base {
 		</p>
 		<p>
 			<?php
-			echo sprintf(
+			printf(
 				'%s <code>text*</code> %s <code>your-name</code> %s <code>email*</code> %s <code>your-email</code>%s',
 				esc_html__( 'The Contact Form 7 form must have a', 'convertkit' ),
 				esc_html__( 'field named', 'convertkit' ),
@@ -233,7 +233,7 @@ add_filter(
 	 * @param   array   $sections   Settings Sections.
 	 * @return  array
 	 */
-	function( $sections ) {
+	function ( $sections ) {
 
 		// Bail if Contact Form 7 isn't enabled.
 		if ( ! defined( 'WPCF7_VERSION' ) ) {

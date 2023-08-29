@@ -206,7 +206,7 @@ add_filter(
 	 * @param   array   $sections   Settings Sections.
 	 * @return  array
 	 */
-	function( $sections ) {
+	function ( $sections ) {
 
 		// Bail if WishList Member isn't enabled.
 		if ( ! function_exists( 'wlmapi_get_levels' ) ) {

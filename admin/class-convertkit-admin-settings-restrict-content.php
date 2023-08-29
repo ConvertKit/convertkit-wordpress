@@ -175,7 +175,7 @@ class ConvertKit_Admin_Settings_Restrict_Content extends ConvertKit_Settings_Bas
 		<div class="notice notice-warning">
 			<p>
 				<?php
-				echo sprintf(
+				printf(
 					'%s %s %s',
 					esc_html__( 'If your web host has caching configured (or you are using a caching plugin), you must configure it to disable caching when the', 'convertkit' ),
 					'<code>ck_subscriber_id</code>',
@@ -248,7 +248,7 @@ class ConvertKit_Admin_Settings_Restrict_Content extends ConvertKit_Settings_Bas
 // Bootstrap.
 add_action(
 	'convertkit_admin_settings_register_sections',
-	function( $sections ) {
+	function ( $sections ) {
 
 		$sections['restrict-content'] = new ConvertKit_Admin_Settings_Restrict_Content();
 		return $sections;
