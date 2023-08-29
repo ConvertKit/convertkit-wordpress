@@ -106,6 +106,7 @@ jobs:
         with:
           php-version: ${{ matrix.php-versions }}
           coverage: xdebug
+          tools: cs2pr
 
       # Installs wp-browser, Codeception, PHP CodeSniffer and anything else needed to run tests.
       - name: Run Composer
@@ -119,14 +120,14 @@ jobs:
       # Run Coding Standards on Tests.
       - name: Run Coding Standards on Tests
         working-directory: ${{ env.PLUGIN_DIR }}
-        run: php vendor/bin/phpcs ./tests --standard=phpcs.tests.xml -v -s
+        run: php vendor/bin/phpcs -q --standard=phpcs.tests.xml --report=checkstyle ./tests | cs2pr
 
       # Run WordPress Coding Standards on Plugin.
       - name: Run WordPress Coding Standards
         working-directory: ${{ env.PLUGIN_DIR }}
-        run: php vendor/bin/phpcs ./ --standard=phpcs.xml -v -s
+        run: php vendor/bin/phpcs -q --standard=phpcs.xml --report=checkstyle ./ | cs2pr
 
       # Run PHPStan for static analysis.
       - name: Run PHPStan Static Analysis
         working-directory: ${{ env.PLUGIN_DIR }}
-        run: php vendor/bin/phpstan --memory-limit=1024M
+        run: php vendor/bin/phpstan analyse --memory-limit=1024M
