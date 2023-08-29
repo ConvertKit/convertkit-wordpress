@@ -69,7 +69,7 @@ class BroadcastsToPostsCest
 		$I->setupConvertKitPluginBroadcastsToPosts(
 			$I,
 			[
-				'enabled'          => true,
+				'enabled'               => true,
 				'published_at_min_date' => '01/01/2020',
 			]
 		);
@@ -127,7 +127,7 @@ class BroadcastsToPostsCest
 		$I->setupConvertKitPluginBroadcastsToPosts(
 			$I,
 			[
-				'enabled'          => true,
+				'enabled'               => true,
 				'published_at_min_date' => '01/01/2020',
 			]
 		);
@@ -189,8 +189,8 @@ class BroadcastsToPostsCest
 		$I->setupConvertKitPluginBroadcastsToPosts(
 			$I,
 			[
-				'enabled'          => true,
-				'category_id'      => $this->categoryName,
+				'enabled'               => true,
+				'category_id'           => $this->categoryName,
 				'published_at_min_date' => '01/01/2020',
 			]
 		);
@@ -240,7 +240,7 @@ class BroadcastsToPostsCest
 		$I->setupConvertKitPluginBroadcastsToPosts(
 			$I,
 			[
-				'enabled'          => true,
+				'enabled'               => true,
 				'published_at_min_date' => '01/01/2030',
 			]
 		);
@@ -286,7 +286,7 @@ class BroadcastsToPostsCest
 		$I->setupConvertKitPluginBroadcastsToPosts(
 			$I,
 			[
-				'enabled'          => true,
+				'enabled'               => true,
 				'published_at_min_date' => '01/01/2020',
 			]
 		);
@@ -335,9 +335,9 @@ class BroadcastsToPostsCest
 		$I->setupConvertKitPluginBroadcastsToPosts(
 			$I,
 			[
-				'enabled'          => true,
+				'enabled'               => true,
 				'published_at_min_date' => '01/01/2020',
-				'no_styles'        => true,
+				'no_styles'             => true,
 			]
 		);
 

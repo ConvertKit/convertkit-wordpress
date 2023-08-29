@@ -408,7 +408,7 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 // Bootstrap.
 add_action(
 	'convertkit_admin_settings_register_sections',
-	function( $sections ) {
+	function ( $sections ) {
 
 		$sections['broadcasts'] = new ConvertKit_Admin_Settings_Broadcasts();
 		return $sections;

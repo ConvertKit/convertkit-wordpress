@@ -193,15 +193,15 @@ class ConvertKit_Settings_Broadcasts {
 	public function get_defaults() {
 
 		$defaults = array(
-			'enabled'          => '',
-			'author_id'        => get_current_user_id(),
-			'category_id'      => '',
+			'enabled'               => '',
+			'author_id'             => get_current_user_id(),
+			'category_id'           => '',
 
 			// By default, only import Broadcasts as Posts for the last 30 days.
 			'published_at_min_date' => gmdate( 'Y-m-d', strtotime( '-30 days' ) ),
 
-			'restrict_content' => '',
-			'no_styles'        => '',
+			'restrict_content'      => '',
+			'no_styles'             => '',
 		);
 
 		/**
