@@ -13,12 +13,12 @@
  * @since 	2.2.4
  */
 jQuery( document ).ready(
-	function( $ ) {
+	function ( $ ) {
 
 		// Update settings and refresh UI when a setting is changed.
 		$( 'input[type=checkbox]' ).on(
 			'change',
-			function() {
+			function () {
 
 				convertKitConditionallyDisplaySettings( $( this ).attr( 'id' ), $( this ).prop( 'checked' ) );
 
@@ -39,7 +39,7 @@ jQuery( document ).ready(
  */
 function convertKitConditionallyDisplaySettings( name, display ) {
 
-	( function( $ ) {
+	( function ( $ ) {
 
 		// Show all rows.
 		$( 'table.form-table tr' ).show();
@@ -51,7 +51,7 @@ function convertKitConditionallyDisplaySettings( name, display ) {
 
 		// Iterate through the table rows, hiding any settings.
 		$( 'table.form-table tr' ).each(
-			function() {
+			function () {
 
 				// Skip if this table row is for the setting we've just checked/unchecked.
 				if ( $( '[id="' + name + '"]', $( this ) ).length > 0 ) {

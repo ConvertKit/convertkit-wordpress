@@ -29,6 +29,8 @@
 		<exclude name="WordPress.Security.EscapeOutput"/>
 		-->
 		<exclude name="WordPress.PHP.YodaConditions" />
+		<exclude name="PSR2.Methods.FunctionClosingBrace.SpacingBeforeClose" />
+		<exclude name="PSR2.Classes.ClassDeclaration.CloseBraceAfterBody" />
 	</rule>
 
 	<!-- Check that code is documented to WordPress Standards. -->

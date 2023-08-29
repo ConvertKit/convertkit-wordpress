@@ -132,7 +132,7 @@ class ConvertKit_ContactForm7 {
 // Bootstrap.
 add_action(
 	'convertkit_initialize_global',
-	function() {
+	function () {
 
 		new ConvertKit_ContactForm7();
 

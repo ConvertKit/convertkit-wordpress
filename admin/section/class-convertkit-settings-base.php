@@ -416,13 +416,13 @@ abstract class ConvertKit_Settings_Base {
 	 *
 	 * @since   1.9.8.5
 	 *
-	 * @param   array $array  Attributes.
-	 * @return  string          HTML attributes string
+	 * @param   array $attributes_array  Attributes.
+	 * @return  string                  HTML attributes string
 	 */
-	private function array_to_attributes( $array ) {
+	private function array_to_attributes( $attributes_array ) {
 
 		$attributes = '';
-		foreach ( $array as $key => $value ) {
+		foreach ( $attributes_array as $key => $value ) {
 			$attributes .= esc_attr( $key ) . '="' . esc_attr( $value ) . '" ';
 		}
 

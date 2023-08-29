@@ -8,13 +8,13 @@
  */
 
 jQuery( document ).ready(
-	function( $ ) {
+	function ( $ ) {
 
 		// Cancel.
 		$( 'body' ).on(
 			'click',
 			'#convertkit-modal-body div.mce-cancel button, #convertkit-quicktags-modal .media-toolbar .media-toolbar-secondary button.cancel',
-			function( e ) {
+			function ( e ) {
 
 				// TinyMCE.
 				if ( typeof tinyMCE !== 'undefined' && tinyMCE.activeEditor && ! tinyMCE.activeEditor.isHidden() ) {
@@ -33,7 +33,7 @@ jQuery( document ).ready(
 		$( 'body' ).on(
 			'click',
 			'#convertkit-modal-body div.mce-insert button, #convertkit-quicktags-modal .media-toolbar .media-toolbar-primary button.button-primary',
-			function( e ) {
+			function ( e ) {
 
 				// Prevent default action.
 				e.preventDefault();
@@ -46,7 +46,7 @@ jQuery( document ).ready(
 				shortcodeClose = ( $( 'input[name="close_shortcode"]', $( form ) ).val() === '1' ? true : false );
 
 				$( 'input, select', $( form ) ).each(
-					function( i ) {
+					function ( i ) {
 						// Skip if no data-shortcode attribute.
 						if ( typeof $( this ).data( 'shortcode' ) === 'undefined' ) {
 							return true;
@@ -122,7 +122,7 @@ if ( typeof wp !== 'undefined' && typeof wp.media !== 'undefined' ) {
 	// Declared globally, as used in this file and quicktags.js.
 	var convertKitQuickTagsModal          = new wp.media.view.Modal(
 		{
-			controller: { trigger: function() {} },
+			controller: { trigger: function () {} },
 			className: 'convertkit-quicktags-modal'
 		}
 	);
@@ -142,7 +142,7 @@ if ( typeof wp !== 'undefined' && typeof wp.media !== 'undefined' ) {
 	 */
 	convertKitQuickTagsModal.on(
 		'close',
-		function( e ) {
+		function ( e ) {
 			this.content( new convertKitQuickTagsModalContent() );
 		}
 	);

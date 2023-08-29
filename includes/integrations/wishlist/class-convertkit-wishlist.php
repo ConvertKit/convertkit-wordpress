@@ -224,7 +224,7 @@ class ConvertKit_Wishlist {
 // Bootstrap.
 add_action(
 	'convertkit_initialize_global',
-	function() {
+	function () {
 
 		new ConvertKit_Wishlist();
 
