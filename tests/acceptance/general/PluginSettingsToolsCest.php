@@ -56,7 +56,7 @@ class PluginSettingsToolsCest
 		$I->click('input#convertkit-download-debug-log');
 
 		// Wait 2 seconds for the download to complete.
-		sleep(2);
+		sleep(4);
 
 		// Check downloaded file exists and contains some expected information.
 		$I->openFile($_ENV['WP_ROOT_FOLDER'] . '/convertkit-log.txt');
