@@ -10,7 +10,7 @@
 
 <h1>
 	<?php
-	echo sprintf(
+	printf(
 		/* translators: Type of content (download, course) */
 		esc_html__( 'Configure %s', 'convertkit' ),
 		esc_html( $this->type_label )

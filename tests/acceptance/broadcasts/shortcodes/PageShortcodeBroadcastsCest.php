@@ -776,7 +776,6 @@ class PageShortcodeBroadcastsCest
 
 		// Publish and view the Page on the frontend site.
 		$I->publishAndViewClassicEditorPage($I);
-
 	}
 
 	/**

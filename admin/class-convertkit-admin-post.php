@@ -205,7 +205,7 @@ class ConvertKit_Admin_Post {
 
 			// Skip if the setting value is -2, as this means it's a Bulk Edit request and this setting
 			// is set as 'No Change'.
-			if ( $new_value == '-2' ) { // phpcs:ignore WordPress.PHP.StrictComparisons
+			if ( $new_value == '-2' ) { // phpcs:ignore Universal.Operators.StrictComparisons.LooseEqual
 				continue;
 			}
 
