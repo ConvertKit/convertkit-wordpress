@@ -31,8 +31,8 @@ class ConvertKit_Broadcasts_Importer {
 	 */
 	public function __construct() {
 
-		// Create and update Broadcasts stored as Posts when the Broadcasts Resource is refreshed.
-		add_action( 'convertkit_resource_refreshed_broadcasts', array( $this, 'refresh' ) );
+		// Create WordPress Posts when the ConvertKit Posts Resource is refreshed.
+		add_action( 'convertkit_resource_refreshed_posts', array( $this, 'refresh' ) );
 
 	}
 
@@ -74,7 +74,7 @@ class ConvertKit_Broadcasts_Importer {
 		// Check that we're using the ConvertKit WordPress Libraries 1.3.8 or higher.
 		// If another ConvertKit Plugin is active and out of date, its libraries might
 		// be loaded that don't have this method.
-		if ( ! method_exists( $api, 'get_broadcast' ) ) {
+		if ( ! method_exists( $api, 'get_post' ) ) {
 			return;
 		}
 
@@ -89,10 +89,8 @@ class ConvertKit_Broadcasts_Importer {
 			}
 
 			// Fetch Broadcast's content.
-			// This is because the resource will only contain results from v3/broadcasts, which
-			// contains the ID, created_at and subject only.
-			// We need to query v3/broadcasts/{id} to fetch the full Broadcast information and content.
-			$broadcast = $api->get_broadcast( $broadcast_id );
+			// We need to query wordpress/posts/{id} to fetch the full Broadcast information and content.
+			$broadcast = $api->get_post( $broadcast_id );
 
 			// Skip if an error occured fetching the Broadcast.
 			if ( is_wp_error( $broadcast ) ) {
@@ -102,18 +100,10 @@ class ConvertKit_Broadcasts_Importer {
 				continue;
 			}
 
-			// Skip if not public.
-			if ( ! $broadcast['public'] ) {
+			// Skip if the published_at date is older than the 'Earliest Date' setting.
+			if ( strtotime( $broadcast['published_at'] ) < strtotime( $this->broadcasts_settings->published_at_min_date() ) ) {
 				if ( $settings->debug_enabled() ) {
-					$log->add( 'ConvertKit_Broadcasts_Importer::refresh(): Broadcast #' . $broadcast_id . ' is private. Skipping...' );
-				}
-				continue;
-			}
-
-			// Skip if the send_at date is older than the 'Earliest Date' setting.
-			if ( strtotime( $broadcast['send_at'] ) < strtotime( $this->broadcasts_settings->send_at_min_date() ) ) {
-				if ( $settings->debug_enabled() ) {
-					$log->add( 'ConvertKit_Broadcasts_Importer::refresh(): Broadcast #' . $broadcast_id . ' send_at date is before ' . $this->broadcasts_settings->send_at_min_date() . '. Skipping...' );
+					$log->add( 'ConvertKit_Broadcasts_Importer::refresh(): Broadcast #' . $broadcast_id . ' published_at date is before ' . $this->broadcasts_settings->published_at_min_date() . '. Skipping...' );
 				}
 				continue;
 			}
@@ -136,20 +126,20 @@ class ConvertKit_Broadcasts_Importer {
 				continue;
 			}
 
-			// If the Restrict Content setting is defined, apply it to the Post now.
-			if ( $this->broadcasts_settings->restrict_content_enabled() ) {
+			// If a Product is specified, apply it as the Restrict Content setting.
+			if ( $broadcast['is_paid'] && $broadcast['product_id'] ) {
 				// Fetch Post's settings.
 				$convertkit_post = new ConvertKit_Post( $post_id );
 				$meta            = $convertkit_post->get();
 
 				// Define Restrict Content setting.
-				$meta['restrict_content'] = $this->broadcasts_settings->restrict_content();
+				$meta['restrict_content'] = 'product_' . $broadcast['product_id'];
 
 				// Save Post's settings.
 				$convertkit_post->save( $meta );
 
 				if ( $settings->debug_enabled() ) {
-					$log->add( 'ConvertKit_Broadcasts_Importer::refresh(): Broadcast #' . $broadcast_id . '. Set Restrict Content = ' . $this->broadcasts_settings->restrict_content() );
+					$log->add( 'ConvertKit_Broadcasts_Importer::refresh(): Broadcast #' . $broadcast_id . '. Set Restrict Content = ' . $broadcast['product_id'] );
 				}
 			}
 
@@ -228,7 +218,7 @@ class ConvertKit_Broadcasts_Importer {
 		// Define array for the wp_insert_post() compatible arguments.
 		$post_args = array(
 			'post_type'     => 'post',
-			'post_title'    => $broadcast['subject'],
+			'post_title'    => $broadcast['title'],
 			'post_excerpt'  => ( ! is_null( $broadcast['description'] ) ? $broadcast['description'] : '' ),
 			'post_content'  => $this->parse_broadcast_content( $broadcast['content'] ),
 			'post_date_gmt' => gmdate( 'Y-m-d H:i:s', strtotime( $broadcast['published_at'] ) ),

@@ -38,9 +38,6 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 		// Output notices.
 		add_action( 'convertkit_settings_base_render_before', array( $this, 'maybe_output_notices' ) );
 
-		// Enable or disable the scheduled task when settings are saved.
-		add_action( 'convertkit_settings_base_sanitize_settings', array( $this, 'schedule_or_unschedule_cron_event' ), 10, 2 );
-
 		// Enqueue scripts and CSS.
 		add_action( 'convertkit_admin_settings_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		add_action( 'convertkit_admin_settings_enqueue_styles', array( $this, 'enqueue_styles' ) );
@@ -68,7 +65,7 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 
 		// Run the import task through WordPress' Cron system now.
 		$cron   = new ConvertKit_Cron();
-		$result = $cron->run( 'convertkit_resource_refresh_broadcasts' );
+		$result = $cron->run( 'convertkit_resource_refresh_posts' );
 
 		// If an error occured, show it now.
 		if ( is_wp_error( $result ) ) {
@@ -79,6 +76,7 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 
 		// If here, the task scheduled.
 		$this->redirect_to_broadcasts_screen( false, 'broadcast_import_success' );
+
 	}
 
 	/**
@@ -119,38 +117,6 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 
 		// Enqueue Select2 CSS.
 		convertkit_select2_enqueue_styles();
-
-	}
-
-	/**
-	 * Schedules or unschedules the WordPress Cron event, based on whether
-	 * the Broadcast to Post functionality's is enabled or disabled.
-	 *
-	 * @since   2.2.9
-	 *
-	 * @param   string $section    Settings section.
-	 * @param   array  $settings   Settings.
-	 */
-	public function schedule_or_unschedule_cron_event( $section, $settings ) {
-
-		// Bail if we're not on the Broadcasts section.
-		if ( $section !== $this->name ) {
-			return;
-		}
-
-		// Initialize resource class.
-		$broadcasts = new ConvertKit_Resource_Broadcasts( 'cron' );
-
-		// If the functionality is not enabled, unschedule the cron event.
-		if ( $settings['enabled'] !== 'on' ) {
-			$broadcasts->unschedule_cron_event();
-			return;
-		}
-
-		// Schedule the cron event, which will import Broadcasts to WordPress Posts.
-		// ConvertKit_Broadcasts_Importer::refresh() will then run when Broadcasts
-		// are refreshed by the cron event.
-		$broadcasts->schedule_cron_event();
 
 	}
 
@@ -215,20 +181,19 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 	public function register_fields() {
 
 		// Initialize classes that will be used.
-		$restrict_content_settings = new ConvertKit_Settings_Restrict_Content();
-		$broadcasts                = new ConvertKit_Resource_Broadcasts( 'cron' );
+		$posts = new ConvertKit_Resource_Posts( 'cron' );
 
 		// Define description for the 'Enabled' setting.
 		// If enabled, include the next scheduled date and time the Plugin will import broadcasts.
 		$enabled_description = '';
-		if ( $this->settings->enabled() && $broadcasts->get_cron_event_next_scheduled() ) {
+		if ( $this->settings->enabled() && $posts->get_cron_event_next_scheduled() ) {
 			$enabled_description = sprintf(
 				'%s %s',
 				esc_html__( 'Broadcasts will next import at approximately ', 'convertkit' ),
 				// The cron event's next scheduled timestamp is always in UTC.
 				// Display it converted to the WordPress site's timezone.
 				get_date_from_gmt(
-					gmdate( 'Y-m-d H:i:s', $broadcasts->get_cron_event_next_scheduled() ),
+					gmdate( 'Y-m-d H:i:s', $posts->get_cron_event_next_scheduled() ),
 					get_option( 'date_format' ) . ' ' . get_option( 'time_format' )
 				)
 			);
@@ -248,7 +213,7 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 		);
 
 		// Render import button if the feature is enabled.
-		if ( $this->settings->enabled() && $broadcasts->get_cron_event_next_scheduled() ) {
+		if ( $this->settings->enabled() && $posts->get_cron_event_next_scheduled() ) {
 			add_settings_field(
 				'import_button',
 				'',
@@ -271,31 +236,16 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 		);
 
 		add_settings_field(
-			'send_at_min_date',
+			'published_at_min_date',
 			__( 'Earliest Date', 'convertkit' ),
 			array( $this, 'date_callback' ),
 			$this->settings_key,
 			$this->name,
 			array(
-				'name'        => 'send_at_min_date',
-				'description' => __( 'The earliest date to import broadcasts from, based on the broadcast\'s sent date and time.', 'convertkit' ),
+				'name'        => 'published_at_min_date',
+				'description' => __( 'The earliest date to import broadcasts from, based on the broadcast\'s published date and time.', 'convertkit' ),
 			)
 		);
-
-		// Only register the Member Content field if Restrict Content is enabled.
-		if ( $restrict_content_settings->enabled() ) {
-			add_settings_field(
-				'restrict_content',
-				__( 'Member Content', 'convertkit' ),
-				array( $this, 'restrict_content_callback' ),
-				$this->settings_key,
-				$this->name,
-				array(
-					'name'        => 'restrict_content',
-					'description' => __( 'Select the ConvertKit product that the visitor must be subscribed to, permitting them access to view the imported broadcast.', 'convertkit' ),
-				)
-			);
-		}
 
 		add_settings_field(
 			'no_styles',
@@ -320,7 +270,7 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 
 		?>
 		<span class="convertkit-beta-label"><?php esc_html_e( 'Beta', 'convertkit' ); ?></span>
-		<p class="description"><?php esc_html_e( 'Defines whether broadcasts created in ConvertKit should automatically be published on this site as WordPress Posts.', 'convertkit' ); ?></p>
+		<p class="description"><?php esc_html_e( 'Defines whether public broadcasts created in ConvertKit should automatically be published on this site as WordPress Posts.', 'convertkit' ); ?></p>
 		<?php
 
 	}
@@ -405,7 +355,7 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 		);
 
 		// Output field.
-		echo '<div class="convertkit-select2-container">' . $select_field . '</div>'; // phpcs:ignore WordPress.Security.EscapeOutput
+		echo '<div class="convertkit-select2-container">' . $select_field . '</div>' . $this->get_description( $args['description'] ); // phpcs:ignore WordPress.Security.EscapeOutput
 
 	}
 
@@ -427,53 +377,6 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 				'enabled',
 			)
 		);
-
-	}
-
-	/**
-	 * Renders the input for the Member Content setting.
-	 *
-	 * @since  2.2.9
-	 *
-	 * @param   array $args  Field arguments.
-	 */
-	public function restrict_content_callback( $args ) {
-
-		// Refresh Products.
-		$products = new ConvertKit_Resource_Products( 'settings' );
-		$products->refresh();
-
-		// Bail if no Forms exist.
-		if ( ! $products->exist() ) {
-			esc_html_e( 'No Products exist in ConvertKit.', 'convertkit' );
-			echo '<br /><a href="' . esc_url( convertkit_get_new_form_url() ) . '" target="_blank">' . esc_html__( 'Click here to create your first Product.', 'convertkit' ) . '</a>';
-			return;
-		}
-
-		// Build array of select options.
-		$options = array(
-			'0' => esc_html__( 'Don\'t restrict content to members only.', 'convertkit' ),
-		);
-		foreach ( $products->get() as $product ) {
-			// Prefix of 'product_' is deliberate; we may support restricting content by tag in the future,
-			// and therefore need to denote the resource ID's type (product, tag etc).
-			$options[ 'product_' . esc_attr( $product['id'] ) ] = esc_html( $product['name'] );
-		}
-
-		// Build field.
-		$select_field = $this->get_select_field(
-			$args['name'],
-			esc_attr( $this->settings->get_by_key( $args['name'] ) ),
-			$options,
-			$args['description'],
-			array(
-				'convertkit-select2',
-				'enabled',
-			)
-		);
-
-		// Output field.
-		echo '<div class="convertkit-select2-container">' . $select_field . '</div>'; // phpcs:ignore WordPress.Security.EscapeOutput
 
 	}
 
@@ -505,7 +408,7 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 // Bootstrap.
 add_action(
 	'convertkit_admin_settings_register_sections',
-	function( $sections ) {
+	function ( $sections ) {
 
 		$sections['broadcasts'] = new ConvertKit_Admin_Settings_Broadcasts();
 		return $sections;
