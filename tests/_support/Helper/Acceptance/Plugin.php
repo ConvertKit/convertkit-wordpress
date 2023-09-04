@@ -391,6 +391,51 @@ class Plugin extends \Codeception\Module
 	}
 
 	/**
+	 * Helper method to setup the Plugin's Broadcasts to Posts settings.
+	 *
+	 * @since   2.2.8
+	 *
+	 * @param   AcceptanceTester $I          AcceptanceTester.
+	 * @param   bool|array       $settings   Array of key/value settings. If not defined, uses expected defaults.
+	 */
+	public function setupConvertKitPluginBroadcastsToPosts($I, $settings = false)
+	{
+		// Go to the Plugin's Broadcasts screen.
+		$I->loadConvertKitSettingsBroadcastsScreen($I);
+
+		// Complete fields.
+		if ( $settings ) {
+			foreach ( $settings as $key => $value ) {
+				switch ( $key ) {
+					case 'enabled':
+					case 'no_styles':
+						if ( $value ) {
+							$I->checkOption('_wp_convertkit_settings_broadcasts[' . $key . ']');
+						} else {
+							$I->uncheckOption('_wp_convertkit_settings_broadcasts[' . $key . ']');
+						}
+						break;
+
+					case 'category_id':
+					case 'restrict_content':
+						$I->fillSelect2Field($I, '#select2-_wp_convertkit_settings_broadcasts_' . $key . '-container', $value);
+
+						break;
+					default:
+						$I->fillField('_wp_convertkit_settings_broadcasts[' . $key . ']', $value);
+						break;
+				}
+			}
+		}
+
+		// Click the Save Changes button.
+		$I->click('Save Changes');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+	}
+
+	/**
 	 * Helper method to reset the ConvertKit Plugin settings, as if it's a clean installation.
 	 *
 	 * @since   1.9.6.7
@@ -402,9 +447,12 @@ class Plugin extends \Codeception\Module
 		// Plugin Settings.
 		$I->dontHaveOptionInDatabase('_wp_convertkit_settings');
 		$I->dontHaveOptionInDatabase('_wp_convertkit_settings_restrict_content');
+		$I->dontHaveOptionInDatabase('_wp_convertkit_settings_broadcasts');
 		$I->dontHaveOptionInDatabase('convertkit_version');
 
 		// Resources.
+		$I->dontHaveOptionInDatabase('convertkit_broadcasts');
+		$I->dontHaveOptionInDatabase('convertkit_broadcasts_last_queried');
 		$I->dontHaveOptionInDatabase('convertkit_forms');
 		$I->dontHaveOptionInDatabase('convertkit_forms_last_queried');
 		$I->dontHaveOptionInDatabase('convertkit_landing_pages');
@@ -464,6 +512,21 @@ class Plugin extends \Codeception\Module
 	public function loadConvertKitSettingsRestrictContentScreen($I)
 	{
 		$I->amOnAdminPage('options-general.php?page=_wp_convertkit_settings&tab=restrict-content');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+	}
+
+	/**
+	 * Helper method to load the Plugin's Settings > Broadcasts screen.
+	 *
+	 * @since   2.2.8
+	 *
+	 * @param   AcceptanceTester $I     AcceptanceTester.
+	 */
+	public function loadConvertKitSettingsBroadcastsScreen($I)
+	{
+		$I->amOnAdminPage('options-general.php?page=_wp_convertkit_settings&tab=broadcasts');
 
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
@@ -982,7 +1045,9 @@ class Plugin extends \Codeception\Module
 		$I->checkNoWarningsAndNoticesOnScreen($I);
 
 		// Confirm that the visible text displays, hidden text does not display and the CTA displays.
-		$I->see($visibleContent);
+		if ( ! empty($visibleContent)) {
+			$I->see($visibleContent);
+		}
 		$I->dontSee($memberContent);
 
 		// Confirm that the CTA displays with the expected text.
@@ -1011,7 +1076,9 @@ class Plugin extends \Codeception\Module
 		$I->checkNoWarningsAndNoticesOnScreen($I);
 
 		// Confirm that the visible text displays, hidden text does not display and the CTA displays.
-		$I->see($visibleContent);
+		if ( ! empty($visibleContent)) {
+			$I->see($visibleContent);
+		}
 		$I->dontSee($memberContent);
 
 		// Confirm that the CTA displays with the expected text.
@@ -1038,7 +1105,9 @@ class Plugin extends \Codeception\Module
 		$I->checkNoWarningsAndNoticesOnScreen($I);
 
 		// Confirm that the visible and hidden text displays.
-		$I->see($visibleContent);
+		if ( ! empty($visibleContent)) {
+			$I->see($visibleContent);
+		}
 		$I->see($memberContent);
 
 		// Confirm that the CTA is not displayed.

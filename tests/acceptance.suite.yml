@@ -28,6 +28,7 @@ modules:
         - \Helper\Acceptance\WPBulkEdit
         - \Helper\Acceptance\WPCachePlugins
         - \Helper\Acceptance\WPClassicEditor
+        - \Helper\Acceptance\WPCron
         - \Helper\Acceptance\WPGutenberg
         - \Helper\Acceptance\WPMetabox
         - \Helper\Acceptance\WPNotices
