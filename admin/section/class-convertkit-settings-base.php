@@ -47,7 +47,7 @@ abstract class ConvertKit_Settings_Base {
 	 *
 	 * @since   1.9.6
 	 *
-	 * @var     false|ConvertKit_Settings|ConvertKit_ContactForm7_Settings|ConvertKit_Wishlist_Settings|ConvertKit_Settings_Restrict_Content
+	 * @var     false|ConvertKit_Settings|ConvertKit_ContactForm7_Settings|ConvertKit_Wishlist_Settings|ConvertKit_Settings_Restrict_Content|ConvertKit_Settings_Broadcasts
 	 */
 	public $settings;
 
@@ -262,6 +262,32 @@ abstract class ConvertKit_Settings_Base {
 	}
 
 	/**
+	 * Returns a date field.
+	 *
+	 * @since   2.2.8
+	 *
+	 * @param   string            $name           Name.
+	 * @param   string            $value          Value.
+	 * @param   bool|string|array $description    Description (false|string|array).
+	 * @param   bool|array        $css_classes    CSS Classes (false|array).
+	 * @return  string                              HTML Field
+	 */
+	public function get_date_field( $name, $value = '', $description = false, $css_classes = false ) {
+
+		$html = sprintf(
+			'<input type="date" class="%s" id="%s" name="%s[%s]" value="%s" />',
+			( is_array( $css_classes ) ? implode( ' ', $css_classes ) : 'regular-text' ),
+			$name,
+			$this->settings_key,
+			$name,
+			$value
+		);
+
+		return $html . $this->get_description( $description );
+
+	}
+
+	/**
 	 * Returns a select dropdown field.
 	 *
 	 * @since   1.9.6
@@ -319,9 +345,10 @@ abstract class ConvertKit_Settings_Base {
 	 * @param   bool              $checked        Should checkbox be checked/ticked.
 	 * @param   bool|string       $label          Label.
 	 * @param   bool|string|array $description    Description.
+	 * @param   bool|array        $css_classes    CSS class(es).
 	 * @return  string                            HTML Checkbox
 	 */
-	public function get_checkbox_field( $name, $value, $checked = false, $label = '', $description = '' ) {
+	public function get_checkbox_field( $name, $value, $checked = false, $label = '', $description = false, $css_classes = false ) {
 
 		$html = '';
 
@@ -333,10 +360,11 @@ abstract class ConvertKit_Settings_Base {
 		}
 
 		$html .= sprintf(
-			'<input type="checkbox" id="%s" name="%s[%s]" value="%s" %s />',
+			'<input type="checkbox" id="%s" name="%s[%s]" class="%s" value="%s" %s />',
 			$name,
 			$this->settings_key,
 			$name,
+			( is_array( $css_classes ) ? implode( ' ', $css_classes ) : '' ),
 			$value,
 			( $checked ? ' checked' : '' )
 		);
@@ -348,6 +376,12 @@ abstract class ConvertKit_Settings_Base {
 			);
 		}
 
+		// If no description exists, just return the field.
+		if ( empty( $description ) ) {
+			return $html;
+		}
+
+		// Return field with description appended to it.
 		return $html . $this->get_description( $description );
 
 	}
@@ -360,7 +394,7 @@ abstract class ConvertKit_Settings_Base {
 	 * @param   bool|string|array $description    Description.
 	 * @return  string                              HTML Description
 	 */
-	private function get_description( $description ) {
+	public function get_description( $description ) {
 
 		// Return blank string if no description specified.
 		if ( ! $description ) {
@@ -415,7 +449,18 @@ abstract class ConvertKit_Settings_Base {
 			WP_ConvertKit()->get_class( 'review_request' )->request_review();
 		}
 
-		return wp_parse_args( $settings, $this->settings->get_defaults() );
+		// Merge settings with defaults.
+		$settings = wp_parse_args( $settings, $this->settings->get_defaults() );
+
+		/**
+		 * Performs actions prior to settings being saved.
+		 *
+		 * @since   2.2.8
+		 */
+		do_action( 'convertkit_settings_base_sanitize_settings', $this->name, $settings );
+
+		// Return settings to be saved.
+		return $settings;
 
 	}
 

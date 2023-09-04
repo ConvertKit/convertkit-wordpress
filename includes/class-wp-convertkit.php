@@ -169,8 +169,10 @@ class WP_ConvertKit {
 		$this->classes['blocks_convertkit_product']     = new ConvertKit_Block_Product();
 		$this->classes['block_formatter_form_link']     = new ConvertKit_Block_Formatter_Form_Link();
 		$this->classes['block_formatter_product_link']  = new ConvertKit_Block_Formatter_Product_Link();
+		$this->classes['broadcasts_importer']           = new ConvertKit_Broadcasts_Importer();
 		$this->classes['elementor']                     = new ConvertKit_Elementor();
 		$this->classes['gutenberg']                     = new ConvertKit_Gutenberg();
+		$this->classes['media_library']                 = new ConvertKit_Media_Library();
 		$this->classes['review_request']                = new ConvertKit_Review_Request( 'ConvertKit', 'convertkit', CONVERTKIT_PLUGIN_PATH );
 		$this->classes['preview_output']                = new ConvertKit_Preview_Output();
 		$this->classes['setup']                         = new ConvertKit_Setup();

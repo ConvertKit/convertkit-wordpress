@@ -31,7 +31,7 @@ jobs:
       DB_USER: root
       DB_PASS: root
       DB_HOST: localhost
-      INSTALL_PLUGINS: "contact-form-7 classic-editor disable-welcome-messages-and-tips elementor woocommerce wordpress-seo wpforms-lite litespeed-cache wp-super-cache w3-total-cache wp-fastest-cache wp-optimize" # Don't include this repository's Plugin here.
+      INSTALL_PLUGINS: "contact-form-7 classic-editor disable-welcome-messages-and-tips elementor woocommerce wordpress-seo wpforms-lite litespeed-cache wp-crontrol wp-super-cache w3-total-cache wp-fastest-cache wp-optimize" # Don't include this repository's Plugin here.
       INSTALL_PLUGINS_URLS: "https://downloads.wordpress.org/plugin/convertkit-for-woocommerce.1.6.4.zip" # URLs to specific third party Plugins
       CONVERTKIT_API_KEY: ${{ secrets.CONVERTKIT_API_KEY }} # ConvertKit API Key, stored in the repository's Settings > Secrets
       CONVERTKIT_API_SECRET: ${{ secrets.CONVERTKIT_API_SECRET }} # ConvertKit API Secret, stored in the repository's Settings > Secrets
@@ -53,6 +53,7 @@ jobs:
         test-groups: [
           'acceptance/broadcasts/blocks',
           'acceptance/broadcasts/shortcodes',
+          'acceptance/broadcasts/import',
           'acceptance/forms/blocks',
           'acceptance/forms/general',
           'acceptance/forms/shortcodes',
