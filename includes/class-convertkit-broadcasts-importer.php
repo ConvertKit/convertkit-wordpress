@@ -34,6 +34,12 @@ class ConvertKit_Broadcasts_Importer {
 		// Create WordPress Posts when the ConvertKit Posts Resource is refreshed.
 		add_action( 'convertkit_resource_refreshed_posts', array( $this, 'refresh' ) );
 
+		add_action( 'xxx', function() {
+			$resource = new ConvertKit_Resource_Posts();
+			$resource->refresh();
+			die('Done');
+		} );
+
 	}
 
 	/**
@@ -266,12 +272,15 @@ class ConvertKit_Broadcasts_Importer {
 
 		$content = $broadcast_content;
 
-		// Remove unsubscribe section.
-		$content = preg_replace( '/(<div class="ck-section ck-hide-in-public-posts".*?>.*?<\/div>)/is', '', $content );
+		// Remove open tracking.
+		$content = str_replace( '<img src="https://preview.convertkit-mail2.com/open" alt="">', '', $content );
 
 		// Remove <style> elements.
 		$content = preg_replace( '/(<style *?>.*?<\/style>)/is', '', $content );
 		$content = preg_replace( '/(<style>.*?<\/style>)/is', '', $content );
+
+		// Remove blank contenteditable table cells.
+		$content = str_replace( '<td contenteditable="false"></td>', '', $content );
 
 		// For PHP 7.4 and lower compatibility, convert permitted HTML tags array to a string
 		// for use in strip_tags().
@@ -286,6 +295,16 @@ class ConvertKit_Broadcasts_Importer {
 			$content = preg_replace( '/(<[^>]+) style=".*?"/i', '$1', $content );
 			$content = preg_replace( '/(<[^>]+) class=".*?"/i', '$1', $content );
 		}
+
+		// Remove empty div elements, which may remain because they contained HTML comments only, which were removed above.
+		$content = str_replace( '<div></div>', '', $content );
+
+		// Remove leading and trailing newlines and spaces, so WordPress doesn't convert these to blank paragraph tags.
+		$content = preg_replace( "/(^[\r\n]*|[\r\n]+)[\s\t]*[\r\n]+/", "\n", $content );
+		$content = trim( $content );
+
+		// Remove unsubscribe section.
+		$content = preg_replace( '/(<div class="ck-section ck-hide-in-public-posts".*?>.*?<\/tr><\/tbody><\/table>\\n<\/div>\\n)/is', '', $content );
 
 		/**
 		 * Parses the given Broadcast's content, removing unnecessary HTML tags and styles.
