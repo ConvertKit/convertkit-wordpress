@@ -108,6 +108,12 @@ class BroadcastsToPostsCest
 		$I->seeElementInDOM('div.ck-inner-section');
 		$I->assertNotNull($I->grabAttributeFrom('div.wp-block-post-content h1', 'style'));
 
+		// Confirm tracking image has been removed.
+		$I->dontSee('<img src="https://preview.convertkit-mail2.com/open" alt="">');
+
+		// Confirm unsubscribe link section has been removed.
+		$I->dontSee('<div class="ck-section ck-hide-in-public-posts"');
+
 		// Confirm published date matches the Broadcast.
 		$date = date('Y-m-d', strtotime($_ENV['CONVERTKIT_API_BROADCAST_FIRST_DATE'])) . 'T' . date('H:i:s', strtotime($_ENV['CONVERTKIT_API_BROADCAST_FIRST_DATE']));
 		$I->seeInSource('<time datetime="' . $date);

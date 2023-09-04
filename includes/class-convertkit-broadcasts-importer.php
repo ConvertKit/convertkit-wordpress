@@ -34,12 +34,6 @@ class ConvertKit_Broadcasts_Importer {
 		// Create WordPress Posts when the ConvertKit Posts Resource is refreshed.
 		add_action( 'convertkit_resource_refreshed_posts', array( $this, 'refresh' ) );
 
-		add_action( 'xxx', function() {
-			$resource = new ConvertKit_Resource_Posts();
-			$resource->refresh();
-			die('Done');
-		} );
-
 	}
 
 	/**
