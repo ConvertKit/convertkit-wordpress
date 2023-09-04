@@ -70,12 +70,12 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 		// If an error occured, show it now.
 		if ( is_wp_error( $result ) ) {
 			// Redirect to Broadcasts screen.
-			$this->redirect_to_broadcasts_screen( 'broadcast_import_error' );
+			$this->redirect( 'broadcast_import_error' );
 			return;
 		}
 
 		// If here, the task scheduled.
-		$this->redirect_to_broadcasts_screen( false, 'broadcast_import_success' );
+		$this->redirect( false, 'broadcast_import_success' );
 
 	}
 
@@ -117,34 +117,6 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 
 		// Enqueue Select2 CSS.
 		convertkit_select2_enqueue_styles();
-
-	}
-
-	/**
-	 * Redirects to the ConvertKit > Broadcasts screen.
-	 *
-	 * @since   2.2.9
-	 *
-	 * @param   false|string $error      The error message key.
-	 * @param   false|string $success    The success message key.
-	 */
-	private function redirect_to_broadcasts_screen( $error = false, $success = false ) {
-
-		// Build URL to redirect to, depending on whether a message is included.
-		$args = array(
-			'page' => '_wp_convertkit_settings',
-			'tab'  => 'broadcasts',
-		);
-		if ( $error !== false ) {
-			$args['error'] = $error;
-		}
-		if ( $success !== false ) {
-			$args['success'] = $success;
-		}
-
-		// Redirect to ConvertKit > Broadcasts screen.
-		wp_safe_redirect( add_query_arg( $args, 'options-general.php' ) );
-		exit();
 
 	}
 
