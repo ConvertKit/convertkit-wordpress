@@ -184,7 +184,7 @@ jobs:
       # Make sure your committed .env.dist.testing file ends with a newline.
       # The formatting of the contents to include a blank newline is deliberate.
       - name: Define GitHub Secrets in .env.dist.testing
-        uses: DamianReeves/write-file-action@v1.1
+        uses: DamianReeves/write-file-action@v2
         with:
           path: ${{ env.PLUGIN_DIR }}/.env.dist.testing
           contents: |
