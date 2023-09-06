@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the ConvertKit plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: ConvertKit 2.2.8\n"
+"Project-Id-Version: ConvertKit 2.2.9\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/convertkit\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-08-07T14:04:35+00:00\n"
+"POT-Creation-Date: 2023-09-06T14:50:40+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.7.1\n"
 "X-Domain: convertkit\n"
@@ -91,6 +91,7 @@ msgid "Member Content"
 msgstr ""
 
 #: admin/class-convertkit-admin-settings-restrict-content.php:70
+#: admin/section/class-convertkit-admin-settings-broadcasts.php:176
 msgid "Enable"
 msgstr ""
 
@@ -175,6 +176,7 @@ msgid "Documentation"
 msgstr ""
 
 #: admin/class-convertkit-admin-settings.php:278
+#: admin/section/class-convertkit-admin-settings-broadcasts.php:244
 msgid "Beta"
 msgstr ""
 
@@ -189,6 +191,79 @@ msgstr ""
 
 #: admin/class-convertkit-admin-tinymce.php:223
 msgid "Insert"
+msgstr ""
+
+#: admin/section/class-convertkit-admin-settings-broadcasts.php:32
+msgid "Broadcasts to Posts"
+msgstr ""
+
+#: admin/section/class-convertkit-admin-settings-broadcasts.php:33
+#: includes/blocks/class-convertkit-block-broadcasts.php:126
+msgid "Broadcasts"
+msgstr ""
+
+#: admin/section/class-convertkit-admin-settings-broadcasts.php:132
+msgid "Broadcasts import failed. Please try again."
+msgstr ""
+
+#: admin/section/class-convertkit-admin-settings-broadcasts.php:133
+msgid "Broadcasts import started. Check the Posts screen shortly to confirm Broadcasts imported successfully."
+msgstr ""
+
+#: admin/section/class-convertkit-admin-settings-broadcasts.php:164
+msgid "Broadcasts will next import at approximately "
+msgstr ""
+
+#: admin/section/class-convertkit-admin-settings-broadcasts.php:182
+msgid "Enables automatic publication of ConvertKit Broadcasts to WordPress Posts."
+msgstr ""
+
+#: admin/section/class-convertkit-admin-settings-broadcasts.php:200
+msgid "Category"
+msgstr ""
+
+#: admin/section/class-convertkit-admin-settings-broadcasts.php:206
+msgid "The category to assign imported broadcasts to."
+msgstr ""
+
+#: admin/section/class-convertkit-admin-settings-broadcasts.php:212
+msgid "Earliest Date"
+msgstr ""
+
+#: admin/section/class-convertkit-admin-settings-broadcasts.php:218
+msgid "The earliest date to import broadcasts from, based on the broadcast's published date and time."
+msgstr ""
+
+#: admin/section/class-convertkit-admin-settings-broadcasts.php:224
+msgid "Disable Styles"
+msgstr ""
+
+#: admin/section/class-convertkit-admin-settings-broadcasts.php:230
+msgid "Removes inline styles and layout when importing broadcasts."
+msgstr ""
+
+#: admin/section/class-convertkit-admin-settings-broadcasts.php:245
+msgid "Defines whether public broadcasts created in ConvertKit should automatically be published on this site as WordPress Posts."
+msgstr ""
+
+#: admin/section/class-convertkit-admin-settings-broadcasts.php:301
+msgid "Import now"
+msgstr ""
+
+#: admin/section/class-convertkit-admin-settings-broadcasts.php:317
+#: admin/section/class-convertkit-settings-general.php:425
+#: includes/integrations/contactform7/class-convertkit-contactform7-admin-settings.php:113
+#: includes/integrations/wishlist/class-convertkit-wishlist-admin-settings.php:124
+#: includes/integrations/wishlist/class-convertkit-wishlist-admin-settings.php:132
+#: views/backend/post/bulk-edit.php:25
+#: views/backend/post/bulk-edit.php:56
+#: views/backend/post/meta-box.php:24
+#: views/backend/post/meta-box.php:46
+#: views/backend/post/meta-box.php:75
+#: views/backend/post/meta-box.php:127
+#: views/backend/post/quick-edit.php:17
+#: views/backend/post/quick-edit.php:40
+msgid "None"
 msgstr ""
 
 #: admin/section/class-convertkit-settings-general.php:57
@@ -298,21 +373,6 @@ msgstr ""
 msgid "Click here to create your first form"
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:425
-#: includes/integrations/contactform7/class-convertkit-contactform7-admin-settings.php:113
-#: includes/integrations/wishlist/class-convertkit-wishlist-admin-settings.php:124
-#: includes/integrations/wishlist/class-convertkit-wishlist-admin-settings.php:132
-#: views/backend/post/bulk-edit.php:25
-#: views/backend/post/bulk-edit.php:56
-#: views/backend/post/meta-box.php:24
-#: views/backend/post/meta-box.php:46
-#: views/backend/post/meta-box.php:75
-#: views/backend/post/meta-box.php:127
-#: views/backend/post/quick-edit.php:17
-#: views/backend/post/quick-edit.php:40
-msgid "None"
-msgstr ""
-
 #. translators: Post Type name, plural
 #: admin/section/class-convertkit-settings-general.php:440
 #: admin/section/class-convertkit-settings-general.php:450
@@ -370,27 +430,27 @@ msgstr ""
 msgid "Tools"
 msgstr ""
 
-#: admin/section/class-convertkit-settings-tools.php:310
+#: admin/section/class-convertkit-settings-tools.php:282
 msgid "An error occured uploading the configuration file."
 msgstr ""
 
-#: admin/section/class-convertkit-settings-tools.php:311
+#: admin/section/class-convertkit-settings-tools.php:283
 msgid "The uploaded configuration file isn't valid."
 msgstr ""
 
-#: admin/section/class-convertkit-settings-tools.php:312
+#: admin/section/class-convertkit-settings-tools.php:284
 msgid "The uploaded configuration file contains no settings."
 msgstr ""
 
-#: admin/section/class-convertkit-settings-tools.php:313
+#: admin/section/class-convertkit-settings-tools.php:285
 msgid "Configuration imported successfully."
 msgstr ""
 
-#: admin/section/class-convertkit-settings-tools.php:364
+#: admin/section/class-convertkit-settings-tools.php:336
 msgid "Tools to help you manage ConvertKit on your site."
 msgstr ""
 
-#: admin/section/class-convertkit-settings-tools.php:392
+#: admin/section/class-convertkit-settings-tools.php:364
 msgid "WordPress 5.2 or higher is required for system information report."
 msgstr ""
 
@@ -529,10 +589,6 @@ msgstr ""
 
 #: includes/blocks/class-convertkit-block-broadcasts.php:121
 msgid "Displays a list of your ConvertKit broadcasts."
-msgstr ""
-
-#: includes/blocks/class-convertkit-block-broadcasts.php:126
-msgid "Broadcasts"
 msgstr ""
 
 #: includes/blocks/class-convertkit-block-broadcasts.php:127
@@ -824,6 +880,22 @@ msgstr ""
 msgid "ConvertKit: API Keys not defined in Plugin Settings."
 msgstr ""
 
+#: includes/class-convertkit-cron.php:33
+msgid "You are not allowed to run cron events."
+msgstr ""
+
+#: includes/class-convertkit-cron.php:100
+msgid "The event"
+msgstr ""
+
+#: includes/class-convertkit-cron.php:102
+msgid "could not be found in WordPress' cron."
+msgstr ""
+
+#: includes/class-convertkit-media-library.php:44
+msgid "Could not identify MIME type of imported image."
+msgstr ""
+
 #: includes/class-convertkit-output-restrict-content.php:134
 msgid "Invalid nonce specified. Please try again."
 msgstr ""
@@ -872,11 +944,11 @@ msgid "API Key and Secret not configured in Plugin Settings."
 msgstr ""
 
 #. translators: %1$s: PHP class name
-#: includes/class-wp-convertkit.php:391
+#: includes/class-wp-convertkit.php:393
 msgid "ConvertKit Error: Could not load Plugin class <strong>%1$s</strong>"
 msgstr ""
 
-#: includes/class-wp-convertkit.php:401
+#: includes/class-wp-convertkit.php:403
 msgid "ConvertKit Error"
 msgstr ""
 

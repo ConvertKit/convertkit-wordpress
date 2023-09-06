@@ -95,6 +95,12 @@
 						<td><a href="#convertkit_term_get_default_settings"><code>convertkit_term_get_default_settings</code></a></td>
 						<td>The default settings, used to populate the Term's Settings when a Term has no Settings.</td>
 					</tr><tr>
+						<td colspan="3">../includes/class-convertkit-settings-broadcasts.php</td>
+					</tr><tr>
+						<td>&nbsp;</td>
+						<td><a href="#convertkit_settings_broadcasts_get_defaults"><code>convertkit_settings_broadcasts_get_defaults</code></a></td>
+						<td>The default settings, used when the ConvertKit Broadcasts Settings haven't been saved e.g. on a new installation.</td>
+					</tr><tr>
 						<td colspan="3">../includes/class-convertkit-settings-restrict-content.php</td>
 					</tr><tr>
 						<td>&nbsp;</td>
@@ -164,6 +170,20 @@
 						<td>&nbsp;</td>
 						<td><a href="#convertkit_is_admin_or_frontend_editor"><code>convertkit_is_admin_or_frontend_editor</code></a></td>
 						<td>Filters whether the current request is a WordPress Administration / Frontend Editor request or not. Page Builders can set this to true to allow ConvertKit to load its administration functionality.</td>
+					</tr><tr>
+						<td colspan="3">../includes/class-convertkit-broadcasts-importer.php</td>
+					</tr><tr>
+						<td>&nbsp;</td>
+						<td><a href="#convertkit_broadcasts_build_post_args"><code>convertkit_broadcasts_build_post_args</code></a></td>
+						<td>Define the wp_insert_post() compatible arguments for importing a ConvertKit Broadcast to a new WordPress Post.</td>
+					</tr><tr>
+						<td>&nbsp;</td>
+						<td><a href="#convertkit_broadcasts_parse_broadcast_content"><code>convertkit_broadcasts_parse_broadcast_content</code></a></td>
+						<td>Parses the given Broadcast's content, removing unnecessary HTML tags and styles.</td>
+					</tr><tr>
+						<td>&nbsp;</td>
+						<td><a href="#convertkit_broadcasts_parse_broadcast_content_permitted_html_tags"><code>convertkit_broadcasts_parse_broadcast_content_permitted_html_tags</code></a></td>
+						<td>Define the HTML tags to retain in the Broadcast Content.</td>
 					</tr>
 					</tbody>
 				</table><h3 id="convertkit_admin_notices_output_  notice">
@@ -673,6 +693,33 @@ add_filter( 'convertkit_term_get_default_settings', function( $defaults ) {
 	return $defaults;
 }, 10, 1 );
 </pre>
+<h3 id="convertkit_settings_broadcasts_get_defaults">
+						convertkit_settings_broadcasts_get_defaults
+						<code>includes/class-convertkit-settings-broadcasts.php::214</code>
+					</h3><h4>Overview</h4>
+						<p>The default settings, used when the ConvertKit Broadcasts Settings haven't been saved e.g. on a new installation.</p><h4>Parameters</h4>
+					<table>
+						<thead>
+							<tr>
+								<th>Parameter</th>
+								<th>Type</th>
+								<th>Description</th>
+							</tr>
+						</thead>
+						<tbody><tr>
+							<td>$defaults</td>
+							<td>array</td>
+							<td></td>
+						</tr>
+						</tbody>
+					</table><h4>Usage</h4>
+<pre>
+add_filter( 'convertkit_settings_broadcasts_get_defaults', function( $defaults ) {
+	// ... your code here
+	// Return value
+	return $defaults;
+}, 10, 1 );
+</pre>
 <h3 id="convertkit_settings_restrict_content_get_defaults">
 						convertkit_settings_restrict_content_get_defaults
 						<code>includes/class-convertkit-settings-restrict-content.php::132</code>
@@ -1031,7 +1078,7 @@ add_filter( 'convertkit_settings_get_defaults', function( $defaults ) {
 </pre>
 <h3 id="convertkit_is_admin_or_frontend_editor">
 						convertkit_is_admin_or_frontend_editor
-						<code>includes/class-wp-convertkit.php::309</code>
+						<code>includes/class-wp-convertkit.php::311</code>
 					</h3><h4>Overview</h4>
 						<p>Filters whether the current request is a WordPress Administration / Frontend Editor request or not. Page Builders can set this to true to allow ConvertKit to load its administration functionality.</p><h4>Parameters</h4>
 					<table>
@@ -1056,6 +1103,95 @@ add_filter( 'convertkit_is_admin_or_frontend_editor', function( $is_admin_or_fro
 	return $is_admin_or_frontend_editor;
 }, 10, 1 );
 </pre>
+<h3 id="convertkit_broadcasts_build_post_args">
+						convertkit_broadcasts_build_post_args
+						<code>includes/class-convertkit-broadcasts-importer.php::239</code>
+					</h3><h4>Overview</h4>
+						<p>Define the wp_insert_post() compatible arguments for importing a ConvertKit Broadcast to a new WordPress Post.</p><h4>Parameters</h4>
+					<table>
+						<thead>
+							<tr>
+								<th>Parameter</th>
+								<th>Type</th>
+								<th>Description</th>
+							</tr>
+						</thead>
+						<tbody><tr>
+							<td>$post_args</td>
+							<td>array</td>
+							<td>Post arguments.</td>
+						</tr><tr>
+							<td>$broadcast</td>
+							<td>array</td>
+							<td>Broadcast.</td>
+						</tr>
+						</tbody>
+					</table><h4>Usage</h4>
+<pre>
+add_filter( 'convertkit_broadcasts_build_post_args', function( $post_args, $broadcast ) {
+	// ... your code here
+	// Return value
+	return $post_args;
+}, 10, 2 );
+</pre>
+<h3 id="convertkit_broadcasts_parse_broadcast_content">
+						convertkit_broadcasts_parse_broadcast_content
+						<code>includes/class-convertkit-broadcasts-importer.php::310</code>
+					</h3><h4>Overview</h4>
+						<p>Parses the given Broadcast's content, removing unnecessary HTML tags and styles.</p><h4>Parameters</h4>
+					<table>
+						<thead>
+							<tr>
+								<th>Parameter</th>
+								<th>Type</th>
+								<th>Description</th>
+							</tr>
+						</thead>
+						<tbody><tr>
+							<td>$content</td>
+							<td>string</td>
+							<td>Parsed Content.</td>
+						</tr><tr>
+							<td>$broadcast_content</td>
+							<td>string</td>
+							<td>Original Broadcast's Content.</td>
+						</tr>
+						</tbody>
+					</table><h4>Usage</h4>
+<pre>
+add_filter( 'convertkit_broadcasts_parse_broadcast_content', function( $content, $broadcast_content ) {
+	// ... your code here
+	// Return value
+	return $content;
+}, 10, 2 );
+</pre>
+<h3 id="convertkit_broadcasts_parse_broadcast_content_permitted_html_tags">
+						convertkit_broadcasts_parse_broadcast_content_permitted_html_tags
+						<code>includes/class-convertkit-broadcasts-importer.php::366</code>
+					</h3><h4>Overview</h4>
+						<p>Define the HTML tags to retain in the Broadcast Content.</p><h4>Parameters</h4>
+					<table>
+						<thead>
+							<tr>
+								<th>Parameter</th>
+								<th>Type</th>
+								<th>Description</th>
+							</tr>
+						</thead>
+						<tbody><tr>
+							<td>$permitted_html_tags</td>
+							<td>array</td>
+							<td>Permitted HTML Tags.</td>
+						</tr>
+						</tbody>
+					</table><h4>Usage</h4>
+<pre>
+add_filter( 'convertkit_broadcasts_parse_broadcast_content_permitted_html_tags', function( $permitted_html_tags ) {
+	// ... your code here
+	// Return value
+	return $permitted_html_tags;
+}, 10, 1 );
+</pre>
 <h1>Actions</h1><table>
 				<thead>
 					<tr>
@@ -1073,6 +1209,10 @@ add_filter( 'convertkit_is_admin_or_frontend_editor', function( $is_admin_or_fro
 					</tr><tr>
 						<td>&nbsp;</td>
 						<td><a href="#convertkit_settings_base_render_after"><code>convertkit_settings_base_render_after</code></a></td>
+						<td></td>
+					</tr><tr>
+						<td>&nbsp;</td>
+						<td><a href="#convertkit_settings_base_sanitize_settings"><code>convertkit_settings_base_sanitize_settings</code></a></td>
 						<td></td>
 					</tr><tr>
 						<td colspan="3">../admin/section/class-convertkit-settings-tools.php</td>
@@ -1212,9 +1352,37 @@ do_action( 'convertkit_settings_base_render_after', function(  ) {
 	// ... your code here
 }, 10, 0 );
 </pre>
+<h3 id="convertkit_settings_base_sanitize_settings">
+						convertkit_settings_base_sanitize_settings
+						<code>admin/section/class-convertkit-settings-base.php::487</code>
+					</h3><h4>Parameters</h4>
+					<table>
+						<thead>
+							<tr>
+								<th>Parameter</th>
+								<th>Type</th>
+								<th>Description</th>
+							</tr>
+						</thead>
+						<tbody><tr>
+							<td>$name</td>
+							<td>Unknown</td>
+							<td>N/A</td>
+						</tr><tr>
+							<td>$settings</td>
+							<td>Unknown</td>
+							<td>N/A</td>
+						</tr>
+						</tbody>
+					</table><h4>Usage</h4>
+<pre>
+do_action( 'convertkit_settings_base_sanitize_settings', function( $name, $settings ) {
+	// ... your code here
+}, 10, 2 );
+</pre>
 <h3 id="convertkit_settings_base_render_before">
 						convertkit_settings_base_render_before
-						<code>admin/section/class-convertkit-settings-tools.php::339</code>
+						<code>admin/section/class-convertkit-settings-tools.php::311</code>
 					</h3><h4>Parameters</h4>
 					<table>
 						<thead>
@@ -1234,7 +1402,7 @@ do_action( 'convertkit_settings_base_render_before', function(  ) {
 </pre>
 <h3 id="convertkit_settings_base_render_after">
 						convertkit_settings_base_render_after
-						<code>admin/section/class-convertkit-settings-tools.php::353</code>
+						<code>admin/section/class-convertkit-settings-tools.php::325</code>
 					</h3><h4>Parameters</h4>
 					<table>
 						<thead>
@@ -1623,7 +1791,7 @@ do_action( 'convertkit_initialize_frontend', function(  ) {
 </pre>
 <h3 id="convertkit_initialize_global">
 						convertkit_initialize_global
-						<code>includes/class-wp-convertkit.php::189</code>
+						<code>includes/class-wp-convertkit.php::191</code>
 					</h3><h4>Parameters</h4>
 					<table>
 						<thead>
