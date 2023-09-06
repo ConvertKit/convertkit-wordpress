@@ -57,6 +57,41 @@ class BroadcastsToPostsCest
 	}
 
 	/**
+	 * Tests that Broadcasts do not import when disabled in the Plugin's settings.
+	 *
+	 * @since   2.2.9
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testBroadcastsImportWhenDisabled(AcceptanceTester $I)
+	{
+		// Enable Broadcasts to Posts.
+		$I->setupConvertKitPluginBroadcastsToPosts(
+			$I,
+			[
+				'enabled' => false,
+			]
+		);
+
+		// Run the WordPress Cron event to refresh Broadcasts.
+		$I->runCronEvent($I, $this->cronEventName);
+
+		// Wait a few seconds for the Cron event to complete importing Broadcasts.
+		$I->wait(7);
+
+		// Load the Posts screen.
+		$I->amOnAdminPage('edit.php');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Confirm no Broadcasts exist as Posts.
+		$I->dontSee($_ENV['CONVERTKIT_API_BROADCAST_FIRST_TITLE']);
+		$I->dontSee($_ENV['CONVERTKIT_API_BROADCAST_SECOND_TITLE']);
+		$I->dontSee($_ENV['CONVERTKIT_API_BROADCAST_THIRD_TITLE']);
+	}
+
+	/**
 	 * Tests that Broadcasts import when enabled in the Plugin's settings.
 	 *
 	 * @since   2.2.8
