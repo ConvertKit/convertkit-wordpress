@@ -174,6 +174,34 @@ abstract class ConvertKit_Settings_Base {
 	}
 
 	/**
+	 * Redirects to the settings screen, with an option success or error message.
+	 *
+	 * @since   2.2.9
+	 *
+	 * @param   false|string $error      The error message key.
+	 * @param   false|string $success    The success message key.
+	 */
+	public function redirect( $error = false, $success = false ) {
+
+		// Build URL to redirect to, depending on whether a message is included.
+		$args = array(
+			'page' => '_wp_convertkit_settings',
+			'tab'  => $this->name,
+		);
+		if ( $error !== false ) {
+			$args['error'] = $error;
+		}
+		if ( $success !== false ) {
+			$args['success'] = $success;
+		}
+
+		// Redirect.
+		wp_safe_redirect( add_query_arg( $args, 'options-general.php' ) );
+		exit();
+
+	}
+
+	/**
 	 * Outputs the given success message in an inline notice.
 	 *
 	 * @since   2.0.0
