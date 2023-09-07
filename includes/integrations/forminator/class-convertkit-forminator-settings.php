@@ -17,8 +17,8 @@ class ConvertKit_Forminator_Settings {
 	 * Holds the Settings Key that stores this integration's settings.
 	 *
 	 * @var     string
-	 * 
-	 * @since 	2.3.0
+	 *
+	 * @since   2.3.0
 	 */
 	const SETTINGS_NAME = '_wp_convertkit_integration_forminator_settings';
 
@@ -26,8 +26,8 @@ class ConvertKit_Forminator_Settings {
 	 * Holds the Settings
 	 *
 	 * @var     array
-	 * 
-	 * @since 	2.3.0
+	 *
+	 * @since   2.3.0
 	 */
 	private $settings = array();
 
@@ -102,30 +102,6 @@ class ConvertKit_Forminator_Settings {
 		}
 
 		return $this->get()[ $forminator_form_id ];
-
-	}
-
-	/**
-	 * Returns whether Creator Network Recommendations are enabled for the given Forminator Form ID.
-	 *
-	 * @since   2.3.0
-	 *
-	 * @param   int $forminator_form_id    Forminator Form ID.
-	 * @return  bool
-	 */
-	public function get_creator_network_recommendations_enabled_by_forminator_form_id( $forminator_form_id ) {
-
-		// Bail if no settings exist for any Forminator Forms.
-		if ( ! $this->has_settings() ) {
-			return false;
-		}
-
-		// Bail if no setting exists for the given Forminator Form.
-		if ( ! array_key_exists( 'creator_network_recommendations_' . $forminator_form_id, $this->get() ) ) {
-			return false;
-		}
-
-		return (bool) $this->get()[ 'creator_network_recommendations_' . $forminator_form_id ];
 
 	}
 
