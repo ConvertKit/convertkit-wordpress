@@ -148,7 +148,7 @@ class ConvertKit_Forminator_Admin_Settings extends ConvertKit_Settings_Base {
 
 			// Add Creator Network Recommendations table column.
 			if ( $creator_network_recommendations_enabled ) {
-				// Show checkbox to enable Creator Network Recommendations for this Contact Form 7 Form.
+				// Show checkbox to enable Creator Network Recommendations for this Forminator Form.
 				$table_row['creator_network_recommendations'] = $this->get_checkbox_field(
 					'creator_network_recommendations_' . $forminator_form['id'],
 					'1',
