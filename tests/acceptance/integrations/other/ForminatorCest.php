@@ -148,7 +148,7 @@ class ForminatorCest
 	 *
 	 * @param   AcceptanceTester $I  Tester.
 	 */
-	public function testSettingsForminatorCreatorNetworkRecommendationsOptionWhenDisabledOnConvertKitAccount(AcceptanceTester $I)
+	public function testSettingsForminatorCreatorNetworkRecommendationsWhenDisabledOnConvertKitAccount(AcceptanceTester $I)
 	{
 		// Setup ConvertKit Plugin.
 		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY_NO_DATA'], $_ENV['CONVERTKIT_API_SECRET_NO_DATA'], '', '', '');
@@ -268,19 +268,24 @@ class ForminatorCest
 				'post_status' => 'publish',
 				'meta_input'  => [
 					'forminator_form_meta' => [
-						'fields' => [
+						'fields'   => [
 							[
 								'id'          => 'name-1',
 								'element_id'  => 'name-1',
 								'type'        => 'name',
-								'field_label' => 'Name',
+								'required'    => 'true',
+								'field_label' => 'First Name',
 							],
 							[
 								'id'          => 'email-1',
 								'element_id'  => 'email-1',
 								'type'        => 'email',
-								'field_label' => 'email',
+								'required'    => 'true',
+								'field_label' => 'Email Address',
 							],
+						],
+						'settings' => [
+							'enable-ajax' => 'true',
 						],
 					],
 				],
