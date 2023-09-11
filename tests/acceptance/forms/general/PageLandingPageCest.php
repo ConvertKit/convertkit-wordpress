@@ -92,6 +92,9 @@ class PageLandingPageCest
 		// Confirm that the basic HTML structure is correct.
 		$this->_seeBasicHTMLStructure($I);
 
+		// Confirm the ConvertKit Site Icon displays.
+		$I->seeInSource('<link rel="shortcut icon" type="image/x-icon" href="https://pages.convertkit.com/templates/favicon.ico">');
+
 		// Confirm that the ConvertKit Landing Page displays.
 		$I->dontSeeElementInDOM('body.page'); // WordPress didn't load its template, which is correct.
 		$I->seeElementInDOM('form[data-sv-form="' . $landingPageID . '"]'); // ConvertKit injected its Landing Page Form, which is correct.
