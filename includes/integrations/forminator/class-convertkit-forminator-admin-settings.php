@@ -97,7 +97,8 @@ class ConvertKit_Forminator_Admin_Settings extends ConvertKit_Settings_Base {
 		do_settings_sections( $this->settings_key );
 
 		// Get Forms.
-		$forms = new ConvertKit_Resource_Forms( 'forminator' );
+		$forms                           = new ConvertKit_Resource_Forms( 'forminator' );
+		$creator_network_recommendations = new ConvertKit_Resource_Creator_Network_Recommendations( 'forminator' );
 
 		// Bail with an error if no ConvertKit Forms exist.
 		if ( ! $forms->exist() ) {
@@ -114,6 +115,9 @@ class ConvertKit_Forminator_Admin_Settings extends ConvertKit_Settings_Base {
 			$options[ esc_attr( $form['id'] ) ] = esc_html( $form['name'] );
 		}
 
+		// Get Creator Network Recommendations script.
+		$creator_network_recommendations_enabled = $creator_network_recommendations->enabled();
+
 		// Get Forminator Forms.
 		$forminator_forms = $this->get_forminator_forms();
 
@@ -128,6 +132,7 @@ class ConvertKit_Forminator_Admin_Settings extends ConvertKit_Settings_Base {
 		$table = new Multi_Value_Field_Table();
 		$table->add_column( 'title', __( 'Forminator Form', 'convertkit' ), true );
 		$table->add_column( 'form', __( 'ConvertKit Form', 'convertkit' ), false );
+		$table->add_column( 'creator_network_recommendations', __( 'Enable Creator Network Recommendations', 'convertkit' ), false );
 
 		// Iterate through Forminator Forms, adding a table row for each Forminator Form.
 		foreach ( $forminator_forms as $forminator_form ) {
@@ -140,6 +145,24 @@ class ConvertKit_Forminator_Admin_Settings extends ConvertKit_Settings_Base {
 					$options
 				),
 			);
+
+			// Add Creator Network Recommendations table column.
+			if ( $creator_network_recommendations_enabled ) {
+				// Show checkbox to enable Creator Network Recommendations for this Forminator Form.
+				$table_row['creator_network_recommendations'] = $this->get_checkbox_field(
+					'creator_network_recommendations_' . $forminator_form['id'],
+					'1',
+					$this->settings->get_creator_network_recommendations_enabled_by_forminator_form_id( $forminator_form['id'] )
+				);
+			} else {
+				// Show a link to the ConvertKit billing page, as a paid plan is required for Creator Network Recommendations.
+				$table_row['creator_network_recommendations'] = sprintf(
+					'%s <a href="%s" target="_blank">%s</a>',
+					esc_html__( 'Creator Network Recommendations requires a', 'convertkit' ),
+					convertkit_get_billing_url(),
+					esc_html__( 'paid ConvertKit Plan', 'convertkit' )
+				);
+			}
 
 			// Add row to table of settings.
 			$table->add_item( $table_row );

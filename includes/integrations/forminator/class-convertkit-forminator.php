@@ -21,7 +21,46 @@ class ConvertKit_Forminator {
 	 */
 	public function __construct() {
 
+		add_action( 'forminator_before_form_render', array( $this, 'maybe_enqueue_creator_network_recommendations_script' ) );
 		add_action( 'forminator_custom_form_submit_before_set_fields', array( $this, 'maybe_subscribe' ), 10, 3 );
+
+	}
+
+	/**
+	 * Enqueues the Creator Network Recommendations script, if the Forminator Form
+	 * has the 'Enable Creator Network Recommendations' setting enabled at Settings >
+	 * ConvertKit > Forminator.
+	 *
+	 * @since   2.3.0
+	 *
+	 * @param   int $form_id    Forminator Form ID.
+	 */
+	public function maybe_enqueue_creator_network_recommendations_script( $form_id ) {
+
+		// Don't enqueue if this is a WordPress Admin screen request.
+		if ( is_admin() ) {
+			return;
+		}
+
+		// Initialize classes.
+		$creator_network_recommendations = new ConvertKit_Resource_Creator_Network_Recommendations( 'forminator' );
+		$forminator_settings             = new ConvertKit_Forminator_Settings();
+
+		// Bail if Creator Network Recommendations are not enabled for this form.
+		if ( ! $forminator_settings->get_creator_network_recommendations_enabled_by_forminator_form_id( $form_id ) ) {
+			return;
+		}
+
+		// Get script.
+		$script_url = $creator_network_recommendations->get();
+
+		// Bail if no script exists (i.e. the Creator Network Recommendations is not enabled on the ConvertKit account).
+		if ( ! $script_url ) {
+			return;
+		}
+
+		// Enqueue script.
+		wp_enqueue_script( 'convertkit-creator-network-recommendations', $script_url, array(), CONVERTKIT_PLUGIN_VERSION, true );
 
 	}
 

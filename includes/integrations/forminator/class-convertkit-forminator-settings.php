@@ -106,6 +106,30 @@ class ConvertKit_Forminator_Settings {
 	}
 
 	/**
+	 * Returns whether Creator Network Recommendations are enabled for the given Forminator Form ID.
+	 *
+	 * @since   2.3.0
+	 *
+	 * @param   int $forminator_form_id    Forminator Form ID.
+	 * @return  bool
+	 */
+	public function get_creator_network_recommendations_enabled_by_forminator_form_id( $forminator_form_id ) {
+
+		// Bail if no settings exist for any Forminator Forms.
+		if ( ! $this->has_settings() ) {
+			return false;
+		}
+
+		// Bail if no setting exists for the given Forminator Form.
+		if ( ! array_key_exists( 'creator_network_recommendations_' . $forminator_form_id, $this->get() ) ) {
+			return false;
+		}
+
+		return (bool) $this->get()[ 'creator_network_recommendations_' . $forminator_form_id ];
+
+	}
+
+	/**
 	 * The default settings, used when this integration's Settings haven't been saved
 	 * e.g. on a new installation or when the integration's Plugin has just been activated
 	 * for the first time.

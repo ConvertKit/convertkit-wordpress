@@ -141,6 +141,116 @@ class ForminatorCest
 	}
 
 	/**
+	 * Tests that the 'Enable Creator Network Recommendations' is not displayed when API Keys are specified
+	 * for a ConvertKit account that does not have Creator Network Recommendations enabled.
+	 *
+	 * @since   2.3.0
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testSettingsForminatorCreatorNetworkRecommendationsWhenDisabledOnConvertKitAccount(AcceptanceTester $I)
+	{
+		// Setup ConvertKit Plugin.
+		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY_NO_DATA'], $_ENV['CONVERTKIT_API_SECRET_NO_DATA'], '', '', '');
+		$I->setupConvertKitPluginResources($I);
+
+		// Create Forminator Form.
+		$forminatorFormID = $this->_createForminatorForm($I);
+
+		// Load Forminator Plugin Settings.
+		$I->amOnAdminPage('options-general.php?page=_wp_convertkit_settings&tab=forminator');
+
+		// Confirm a message is displayed telling the user a paid plan is required.
+		$I->seeInSource('Creator Network Recommendations requires a <a href="https://app.convertkit.com/account_settings/billing/?utm_source=wordpress&amp;utm_term=en_US&amp;utm_content=convertkit" target="_blank">paid ConvertKit Plan</a>');
+
+		// Create Page with Forminator Shortcode.
+		$pageID = $I->havePageInDatabase(
+			[
+				'post_title'   => 'ConvertKit: Forminator: Creator Network Recommendations Disabled on ConvertKit',
+				'post_name'    => 'convertkit-forminator-creator-network-recommendations-disabled-convertkit',
+				'post_content' => 'Form:
+[forminator_form id="' . $forminatorFormID . '"]',
+			]
+		);
+
+		// Confirm the recommendations script was not loaded, as the API Key and Secret are invalid.
+		$I->dontSeeCreatorNetworkRecommendationsScript($I, $pageID);
+	}
+
+	/**
+	 * Tests that the 'Enable Creator Network Recommendations' option is displayed and saves correctly when
+	 * a valid API Key and Secret are specified, and the ConvertKit account has the Creator Network enabled.
+	 * Viewing and submitting the Form then correctly displays the Creator Network Recommendations modal.
+	 *
+	 * @since   2.3.0
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testSettingsForminatorCreatorNetworkRecommendationsWhenEnabledOnConvertKitAccount(AcceptanceTester $I)
+	{
+		// Setup ConvertKit Plugin.
+		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPluginResources($I);
+
+		// Create Forminator Form.
+		$forminatorFormID = $this->_createForminatorForm($I);
+
+		// Load Forminator Plugin Settings.
+		$I->amOnAdminPage('options-general.php?page=_wp_convertkit_settings&tab=forminator');
+
+		// Enable Creator Network Recommendations on the Forminator Form.
+		$I->checkOption('#creator_network_recommendations_' . $forminatorFormID);
+
+		// Save.
+		$I->click('Save Changes');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Confirm checkbox is checked after saving.
+		$I->seeCheckboxIsChecked('#creator_network_recommendations_' . $forminatorFormID);
+
+		// Create Page with Forminator Shortcode.
+		$pageID = $I->havePageInDatabase(
+			[
+				'post_title'   => 'ConvertKit: Forminator: Creator Network Recommendations',
+				'post_name'    => 'convertkit-forminator-creator-network-recommendations',
+				'post_content' => 'Form:
+[forminator_form id="' . $forminatorFormID . '"]',
+			]
+		);
+
+		// Confirm the recommendations script was loaded.
+		$I->seeCreatorNetworkRecommendationsScript($I, $pageID);
+
+		// Define email address for this test.
+		$emailAddress = $I->generateEmailAddress();
+
+		// Complete Name and Email.
+		$I->fillField('input[name=name-1]', 'ConvertKit Name');
+		$I->fillField('input[name=email-1]', $emailAddress);
+
+		// Submit Form.
+		$I->click('button.forminator-button-submit');
+
+		// Wait for response message.
+		$I->waitForElementVisible('.forminator-response-message');
+
+		// Confirm the form submitted without errors.
+		$I->performOn(
+			'.forminator-response-message',
+			function($I) {
+				$I->see('Form entry saved');
+			}
+		);
+
+		// Wait for Creator Network Recommendations modal to display.
+		$I->waitForElementVisible('.formkit-modal');
+		$I->switchToIFrame('.formkit-modal iframe');
+		$I->waitForElementVisible('div[data-component="Page"]');
+	}
+
+	/**
 	 * Creates a Forminator Form
 	 *
 	 * @since   2.3.0
@@ -158,19 +268,24 @@ class ForminatorCest
 				'post_status' => 'publish',
 				'meta_input'  => [
 					'forminator_form_meta' => [
-						'fields' => [
+						'fields'   => [
 							[
 								'id'          => 'name-1',
 								'element_id'  => 'name-1',
 								'type'        => 'name',
-								'field_label' => 'Name',
+								'required'    => 'true',
+								'field_label' => 'First Name',
 							],
 							[
 								'id'          => 'email-1',
 								'element_id'  => 'email-1',
 								'type'        => 'email',
-								'field_label' => 'email',
+								'required'    => 'true',
+								'field_label' => 'Email Address',
 							],
+						],
+						'settings' => [
+							'enable-ajax' => 'true',
 						],
 					],
 				],
@@ -183,7 +298,7 @@ class ForminatorCest
 	 * We don't use _after, as this would provide a screenshot of the Plugin
 	 * deactivation and not the true test error.
 	 *
-	 * @since   2.3.0.7
+	 * @since   2.3.0
 	 *
 	 * @param   AcceptanceTester $I  Tester.
 	 */
