@@ -171,8 +171,8 @@ class ConvertKit_Forminator_Admin_Settings extends ConvertKit_Settings_Base {
 
 		$forms = array();
 
-		// Get forms using Forminator API class.
-		$results = Forminator_API::get_forms( null, 1, 100 );
+		// Get all forms using Forminator API class.
+		$results = Forminator_API::get_forms( null, 1, -1 );
 
 		// Bail if no results.
 		if ( ! count( $results ) ) {
