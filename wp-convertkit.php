@@ -87,6 +87,10 @@ require_once CONVERTKIT_PLUGIN_PATH . '/includes/integrations/contactform7/class
 // Elementor Integration.
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/integrations/elementor/class-convertkit-elementor.php';
 
+// Forminator Integration.
+require_once CONVERTKIT_PLUGIN_PATH . '/includes/integrations/forminator/class-convertkit-forminator.php';
+require_once CONVERTKIT_PLUGIN_PATH . '/includes/integrations/forminator/class-convertkit-forminator-settings.php';
+
 // WishList Member Integration.
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/integrations/wishlist/class-convertkit-wishlist.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/integrations/wishlist/class-convertkit-wishlist-settings.php';
@@ -115,6 +119,9 @@ if ( is_admin() ) {
 
 	// Contact Form 7 Integration.
 	require_once CONVERTKIT_PLUGIN_PATH . '/includes/integrations/contactform7/class-convertkit-contactform7-admin-settings.php';
+
+	// Forminator Integration.
+	require_once CONVERTKIT_PLUGIN_PATH . '/includes/integrations/forminator/class-convertkit-forminator-admin-settings.php';
 
 	// WishList Member Integration.
 	require_once CONVERTKIT_PLUGIN_PATH . '/includes/integrations/wishlist/class-convertkit-wishlist-admin-settings.php';
