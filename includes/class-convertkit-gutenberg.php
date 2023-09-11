@@ -104,7 +104,7 @@ class ConvertKit_Gutenberg {
 
 			// Register block.
 			register_block_type(
-				'convertkit/' . $block,
+				CONVERTKIT_PLUGIN_PATH . '/includes/blocks/' . $block,
 				array(
 					'attributes'      => $properties['attributes'],
 					'editor_script'   => 'convertkit-gutenberg',
@@ -114,6 +114,7 @@ class ConvertKit_Gutenberg {
 					),
 				)
 			);
+
 		}
 
 		// Enqueue block scripts and styles in the editor view.
