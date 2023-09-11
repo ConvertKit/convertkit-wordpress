@@ -105,4 +105,55 @@ class ConvertKit_Resource_Landing_Pages extends ConvertKit_Resource {
 
 	}
 
+	/**
+	 * Replaces the favicon in the given Landing Page HTML with the site icon specified
+	 * in WordPress.
+	 *
+	 * If no site icon is specified in WordPress, returns the original Landing Page HTML.
+	 *
+	 * @since   2.3.0
+	 *
+	 * @param   string $html   Landing Page HTML.
+	 * @return  string          Landing Page HTML
+	 */
+	public function replace_favicon( $html ) {
+
+		// Get link rel and meta tags for site icon.
+		$site_icon = $this->get_site_icon();
+
+		// Bail if no site icon specified.
+		if ( empty( $site_icon ) ) {
+			return $html;
+		}
+
+		// Replace the link rel="shortcut icon" with the above.
+		$html = str_replace(
+			'<link rel="shortcut icon" type="image/x-icon" href="https://pages.convertkit.com/templates/favicon.ico">',
+			$site_icon,
+			$html
+		);
+
+		// Return.
+		return $html;
+
+	}
+
+	/**
+	 * Returns the output of the WordPress wp_site_icon() function, which returns
+	 * the necessary link rel and meta tags to display this site's favicon.
+	 *
+	 * If no site icon is specified in WordPress, returns a blank string.
+	 *
+	 * @since   2.3.0
+	 *
+	 * @return  string
+	 */
+	private function get_site_icon() {
+
+		ob_start();
+		wp_site_icon();
+		return trim( ob_get_clean() );
+
+	}
+
 }

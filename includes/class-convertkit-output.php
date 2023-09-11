@@ -157,6 +157,9 @@ class ConvertKit_Output {
 			return;
 		}
 
+		// Replace the favicon with the WordPress site's favicon, if specified.
+		$landing_page = $this->landing_pages->replace_favicon( $landing_page );
+
 		// Output Landing Page.
 		// Output is supplied from ConvertKit's API, which is already sanitized.
 		echo $landing_page; // phpcs:ignore WordPress.Security.EscapeOutput
