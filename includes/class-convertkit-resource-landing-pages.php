@@ -126,9 +126,25 @@ class ConvertKit_Resource_Landing_Pages extends ConvertKit_Resource {
 			return $html;
 		}
 
+		// Define the ConvertKit favicon tag that exists in Landing Pages.
+		$convertkit_favicon_tag = '<link rel="shortcut icon" type="image/x-icon" href="https://pages.convertkit.com/templates/favicon.ico">';
+
+		// If the ConvertKit favicon tag does not exist in the HTML, this is a legacy landing page, which doesn't specify a link rel="shortcut icon".
+		if ( strpos( $html, $convertkit_favicon_tag ) === false ) {
+			// Prepend the WordPress site icon tags imemdiately before the closing </head> tag.
+			$html = str_replace(
+				'</head>',
+				$site_icon . "\n" . '</head>',
+				$html
+			);
+
+			return $html;
+		}
+
+		// This is a standard landing page that contains link rel="shortcut icon".
 		// Replace the link rel="shortcut icon" with the above.
 		$html = str_replace(
-			'<link rel="shortcut icon" type="image/x-icon" href="https://pages.convertkit.com/templates/favicon.ico">',
+			$convertkit_favicon_tag,
 			$site_icon,
 			$html
 		);

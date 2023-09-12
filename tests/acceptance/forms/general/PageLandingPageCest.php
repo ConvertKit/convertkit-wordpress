@@ -218,6 +218,53 @@ class PageLandingPageCest
 	}
 
 	/**
+	 * Test that the WordPress site icon is output as the favicon on a Legacy Landing Page,
+	 * when defined.
+	 *
+	 * @since   2.3.0
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testLegacyLandingPageSiteIcon(AcceptanceTester $I)
+	{
+		// Define a WordPress Site Icon.
+		$imageID = $I->haveAttachmentInDatabase(codecept_data_dir('icon.png'));
+		$I->haveOptionInDatabase('site_icon', $imageID);
+
+		// Add a Page using the Gutenberg editor.
+		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Legacy Landing Page: Site Icon: ' . $_ENV['CONVERTKIT_API_LEGACY_LANDING_PAGE_NAME']);
+
+		// Configure metabox's Landing Page setting to value specified in the .env file.
+		$I->configureMetaboxSettings(
+			$I,
+			'wp-convertkit-meta-box',
+			[
+				'landing_page' => [ 'select2', $_ENV['CONVERTKIT_API_LEGACY_LANDING_PAGE_NAME'] ],
+			]
+		);
+
+		// Get Landing Page ID.
+		$landingPageID = $I->grabValueFrom('#wp-convertkit-landing_page');
+
+		// Publish and view the Page on the frontend site.
+		$I->publishAndViewGutenbergPage($I);
+
+		// Confirm that the basic HTML structure is correct.
+		$this->_seeBasicHTMLStructure($I);
+
+		// Confirm the WordPress Site Icon displays.
+		$I->seeInSource('<link rel="icon" href="' . $_ENV['TEST_SITE_WP_URL'] . '/wp-content/uploads/' . date( 'Y' ) . '/' . date( 'm' ) . '/icon-150x150.png" sizes="32x32">');
+		$I->seeInSource('<link rel="icon" href="' . $_ENV['TEST_SITE_WP_URL'] . '/wp-content/uploads/' . date( 'Y' ) . '/' . date( 'm' ) . '/icon-300x300.png" sizes="192x192">');
+		$I->seeInSource('<link rel="apple-touch-icon" href="' . $_ENV['TEST_SITE_WP_URL'] . '/wp-content/uploads/' . date( 'Y' ) . '/' . date( 'm' ) . '/icon-300x300.png">');
+		$I->seeInSource('<meta name="msapplication-TileImage" content="' . $_ENV['TEST_SITE_WP_URL'] . '/wp-content/uploads/' . date( 'Y' ) . '/' . date( 'm' ) . '/icon-300x300.png">');
+		$I->dontSeeInSource('<link rel="shortcut icon" type="image/x-icon" href="https://pages.convertkit.com/templates/favicon.ico">');
+
+		// Confirm that the ConvertKit Landing Page displays.
+		$I->dontSeeElementInDOM('body.page'); // WordPress didn't load its template, which is correct.
+		$I->seeInSource('<form id="ck_subscribe_form" class="ck_subscribe_form" action="https://app.convertkit.com/landing_pages/' . $_ENV['CONVERTKIT_API_LEGACY_LANDING_PAGE_ID'] . '/subscribe" data-remote="true">'); // ConvertKit injected its Landing Page Form, which is correct.
+	}
+
+	/**
 	 * Test that the Legacy Landing Page specified in the Page Settings works when
 	 * the Landing Page was defined by the ConvertKit Plugin < 1.9.6, which used a URL
 	 * instead of an ID.
