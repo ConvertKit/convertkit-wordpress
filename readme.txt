@@ -5,7 +5,7 @@ Tags: email marketing, email newsletter, newsletter, subscribers, membership
 Requires at least: 5.0
 Tested up to: 6.3.1
 Requires PHP: 5.6.20
-Stable tag: 2.2.9
+Stable tag: 2.3.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -137,6 +137,12 @@ Full Plugin documentation can be found [here](https://help.convertkit.com/en/art
 7. Track subscriber growth
 
 == Changelog ==
+
+### 2.3.0 2023-09-12
+* Added: Forminator: Option to map Forminator Forms to ConvertKit Forms, to subscribe email addresses at Settings > ConvertKit > Forminator
+* Added: Forminator: Option to Enable Creator Network Recommendations modal on individual Forms at Settings > ConvertKit > Forminator
+* Added: Blocks: Register blocks using block.json
+* Fix: Landing Pages: Use WordPress Site Icon as favicon, if defined
 
 ### 2.2.9 2023-09-06
 * Added: Broadcasts (Beta): Automatically publish public ConvertKit Broadcasts as WordPress Posts. Head over to `Settings > ConvertKit > Broadcasts` to get started.

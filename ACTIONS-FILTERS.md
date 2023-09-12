@@ -125,6 +125,12 @@
 						<td><a href="#convertkit_contactform7_settings_get_defaults"><code>convertkit_contactform7_settings_get_defaults</code></a></td>
 						<td>The default settings, used when Contact Form 7's Settings haven't been saved e.g. on a new installation or when the Contact Form 7 Plugin has just been activated for the first time.</td>
 					</tr><tr>
+						<td colspan="3">../includes/integrations/forminator/class-convertkit-forminator-settings.php</td>
+					</tr><tr>
+						<td>&nbsp;</td>
+						<td><a href="#convertkit_forminator_settings_get_defaults"><code>convertkit_forminator_settings_get_defaults</code></a></td>
+						<td>The default settings, used when Forminator's Settings haven't been saved e.g. on a new installation or when the Forminator Plugin has just been activated for the first time.</td>
+					</tr><tr>
 						<td colspan="3">../includes/integrations/wishlist/class-convertkit-wishlist-settings.php</td>
 					</tr><tr>
 						<td>&nbsp;</td>
@@ -832,6 +838,33 @@ add_filter( 'convertkit_contactform7_settings_get_defaults', function( $defaults
 	return $defaults;
 }, 10, 1 );
 </pre>
+<h3 id="convertkit_forminator_settings_get_defaults">
+						convertkit_forminator_settings_get_defaults
+						<code>includes/integrations/forminator/class-convertkit-forminator-settings.php::153</code>
+					</h3><h4>Overview</h4>
+						<p>The default settings, used when Forminator's Settings haven't been saved e.g. on a new installation or when the Forminator Plugin has just been activated for the first time.</p><h4>Parameters</h4>
+					<table>
+						<thead>
+							<tr>
+								<th>Parameter</th>
+								<th>Type</th>
+								<th>Description</th>
+							</tr>
+						</thead>
+						<tbody><tr>
+							<td>$defaults</td>
+							<td>array</td>
+							<td>Default Settings.</td>
+						</tr>
+						</tbody>
+					</table><h4>Usage</h4>
+<pre>
+add_filter( 'convertkit_forminator_settings_get_defaults', function( $defaults ) {
+	// ... your code here
+	// Return value
+	return $defaults;
+}, 10, 1 );
+</pre>
 <h3 id="convertkit_wishlist_settings_get_defaults">
 						convertkit_wishlist_settings_get_defaults
 						<code>includes/integrations/wishlist/class-convertkit-wishlist-settings.php::149</code>
@@ -954,7 +987,7 @@ add_filter( 'convertkit_output_page_takeover_landing_page_id', function( $landin
 </pre>
 <h3 id="convertkit_output_append_form_to_content_form_id">
 						convertkit_output_append_form_to_content_form_id
-						<code>includes/class-convertkit-output.php::194</code>
+						<code>includes/class-convertkit-output.php::197</code>
 					</h3><h4>Overview</h4>
 						<p>Define the ConvertKit Form ID to display for the given Post ID, overriding the Post, Category or Plugin settings. Return false to not display any ConvertKit Form.</p><h4>Parameters</h4>
 					<table>
@@ -985,7 +1018,7 @@ add_filter( 'convertkit_output_append_form_to_content_form_id', function( $form_
 </pre>
 <h3 id="convertkit_frontend_append_form">
 						convertkit_frontend_append_form
-						<code>includes/class-convertkit-output.php::258</code>
+						<code>includes/class-convertkit-output.php::261</code>
 					</h3><h4>Overview</h4>
 						<p>Filter the Post's Content, which includes a ConvertKit Form, immediately before it is output.</p><h4>Parameters</h4>
 					<table>
@@ -1024,7 +1057,7 @@ add_filter( 'convertkit_frontend_append_form', function( $content, $form, $post_
 </pre>
 <h3 id="convertkit_output_scripts_footer">
 						convertkit_output_scripts_footer
-						<code>includes/class-convertkit-output.php::427</code>
+						<code>includes/class-convertkit-output.php::430</code>
 					</h3><h4>Overview</h4>
 						<p>Define an array of scripts to output in the footer of the WordPress site.</p><h4>Parameters</h4>
 					<table>
@@ -1602,7 +1635,7 @@ do_action( 'convertkit_admin_setup_wizard_load_screen_data_  this-page_name', fu
 </pre>
 <h3 id="convertkit_gutenberg_enqueue_scripts">
 						convertkit_gutenberg_enqueue_scripts
-						<code>includes/class-convertkit-gutenberg.php::170</code>
+						<code>includes/class-convertkit-gutenberg.php::171</code>
 					</h3><h4>Overview</h4>
 						<p>Enqueue any additional scripts for Gutenberg blocks that have been registered.</p><h4>Parameters</h4>
 					<table>
@@ -1631,7 +1664,7 @@ do_action( 'convertkit_gutenberg_enqueue_scripts', function( $blocks, $block_for
 </pre>
 <h3 id="convertkit_gutenberg_enqueue_styles">
 						convertkit_gutenberg_enqueue_styles
-						<code>includes/class-convertkit-gutenberg.php::194</code>
+						<code>includes/class-convertkit-gutenberg.php::195</code>
 					</h3><h4>Parameters</h4>
 					<table>
 						<thead>
@@ -1651,7 +1684,7 @@ do_action( 'convertkit_gutenberg_enqueue_styles', function(  ) {
 </pre>
 <h3 id="convertkit_gutenberg_enqueue_scripts_editor_and_frontend">
 						convertkit_gutenberg_enqueue_scripts_editor_and_frontend
-						<code>includes/class-convertkit-gutenberg.php::218</code>
+						<code>includes/class-convertkit-gutenberg.php::219</code>
 					</h3><h4>Parameters</h4>
 					<table>
 						<thead>
@@ -1671,7 +1704,7 @@ do_action( 'convertkit_gutenberg_enqueue_scripts_editor_and_frontend', function(
 </pre>
 <h3 id="convertkit_gutenberg_enqueue_styles_editor_and_frontend">
 						convertkit_gutenberg_enqueue_styles_editor_and_frontend
-						<code>includes/class-convertkit-gutenberg.php::242</code>
+						<code>includes/class-convertkit-gutenberg.php::243</code>
 					</h3><h4>Parameters</h4>
 					<table>
 						<thead>
