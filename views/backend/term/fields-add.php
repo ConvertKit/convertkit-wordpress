@@ -8,7 +8,7 @@
 
 ?>
 <div class="form-field term-description-wrap">
-	<label for="tag-description"><?php esc_html_e( 'ConvertKit Form', 'convertkit' ); ?></label>
+	<label for="wp-convertkit-form"><?php esc_html_e( 'ConvertKit Form', 'convertkit' ); ?></label>
 
 	<div class="convertkit-select2-container convertkit-select2-container-grid">
 		<select name="wp-convertkit[form]" id="wp-convertkit-form" class="convertkit-select2">
