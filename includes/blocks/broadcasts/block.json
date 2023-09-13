@@ -62,5 +62,6 @@
             "background": true,
             "text": true
         }
-    }
+    },
+    "editorScript": "convertkit-gutenberg"
 }
