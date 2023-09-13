@@ -24,6 +24,25 @@ class BroadcastsToPostsSettingsCest
 	}
 
 	/**
+	 * Test that the Settings > ConvertKit > Broadcasts screen has expected a11y output, such as label[for].
+	 *
+	 * @since   2.3.1
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testAccessibility(AcceptanceTester $I)
+	{
+		// Go to the Plugin's Broadcasts Screen.
+		$I->loadConvertKitSettingsBroadcastsScreen($I);
+
+		// Confirm that settings have label[for] attributes.
+		$I->seeInSource('<label for="enabled">');
+		$I->seeInSource('<label for="category_id">');
+		$I->seeInSource('<label for="published_at_min_date">');
+		$I->seeInSource('<label for="no_styles">');	
+	}
+
+	/**
 	 * Tests that enabling and disabling Broadcasts works with no errors,
 	 * and that other form fields show / hide depending on the setting.
 	 *

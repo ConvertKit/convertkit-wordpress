@@ -20,6 +20,27 @@ class RestrictContentSettingsCest
 		$I->setupConvertKitPlugin($I);
 	}
 
+	/**
+	 * Test that the Settings > ConvertKit > Member Content screen has expected a11y output, such as label[for].
+	 *
+	 * @since   2.3.1
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testAccessibility(AcceptanceTester $I)
+	{
+		// Go to the Plugin's Member Content Screen.
+		$I->loadConvertKitSettingsRestrictContentScreen($I);
+
+		// Confirm that settings have label[for] attributes.
+		$I->seeInSource('<label for="enabled">');
+		$I->seeInSource('<label for="subscribe_text">');
+		$I->seeInSource('<label for="subscribe_button_label">');
+		$I->seeInSource('<label for="email_text">');
+		$I->seeInSource('<label for="email_button_label">');
+		$I->seeInSource('<label for="email_check_text">');
+		$I->seeInSource('<label for="no_access_text">');	
+	}
 
 	/**
 	 * Tests that enabling and disabling Restrict Content works with no errors,
