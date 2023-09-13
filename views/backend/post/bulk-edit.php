@@ -52,9 +52,7 @@
 				// Therefore, we use -2 to denote 'No Change', even though this setting is for the Tag, so we're at least consistent.
 				?>
 				<option value="-2" data-preserve-on-refresh="1"><?php esc_html_e( '— No Change —', 'convertkit' ); ?></option>
-				<option value="0" data-preserve-on-refresh="1">
-					<?php esc_html_e( 'None', 'convertkit' ); ?>
-				</option>
+				<option value="0" data-preserve-on-refresh="1"><?php esc_html_e( 'None', 'convertkit' ); ?></option>
 				<?php
 				if ( $convertkit_tags->exist() ) {
 					foreach ( $convertkit_tags->get() as $convertkit_tag ) {
@@ -87,9 +85,7 @@
 					// Therefore, we use -2 to denote 'No Change', even though this setting is for the Tag, so we're at least consistent.
 					?>
 					<option value="-2" data-preserve-on-refresh="1"><?php esc_html_e( '— No Change —', 'convertkit' ); ?></option>
-					<option value="0" data-preserve-on-refresh="1">
-						<?php esc_html_e( 'Don\'t restrict content to members only.', 'convertkit' ); ?>
-					</option>
+					<option value="0" data-preserve-on-refresh="1"><?php esc_html_e( 'Don\'t restrict content to members only.', 'convertkit' ); ?></option>
 
 					<?php
 					// Products.
@@ -99,9 +95,7 @@
 							<?php
 							foreach ( $convertkit_products->get() as $product ) {
 								?>
-								<option value="product_<?php echo esc_attr( $product['id'] ); ?>">
-									<?php echo esc_attr( $product['name'] ); ?>
-								</option>
+								<option value="product_<?php echo esc_attr( $product['id'] ); ?>"><?php echo esc_attr( $product['name'] ); ?></option>
 								<?php
 							}
 							?>

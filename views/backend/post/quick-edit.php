@@ -36,9 +36,7 @@
 		<label for="wp-convertkit-quick-edit-tag">
 			<span class="title convertkit-icon-tag"><?php esc_html_e( 'Tag', 'convertkit' ); ?></span>
 			<select name="wp-convertkit[tag]" id="wp-convertkit-quick-edit-tag" size="1">
-				<option value="0" data-preserve-on-refresh="1">
-					<?php esc_html_e( 'None', 'convertkit' ); ?>
-				</option>
+				<option value="0" data-preserve-on-refresh="1"><?php esc_html_e( 'None', 'convertkit' ); ?></option>
 				<?php
 				if ( $convertkit_tags->exist() ) {
 					foreach ( $convertkit_tags->get() as $convertkit_tag ) {
@@ -63,9 +61,7 @@
 			<label for="wp-convertkit-quick-edit-restrict_content">
 				<span class="title convertkit-icon-restrict-content"><?php esc_html_e( 'Member', 'convertkit' ); ?></span>
 				<select name="wp-convertkit[restrict_content]" id="wp-convertkit-quick-edit-restrict_content" size="1">
-					<option value="0" data-preserve-on-refresh="1">
-						<?php esc_html_e( 'Don\'t restrict content to members only.', 'convertkit' ); ?>
-					</option>
+					<option value="0" data-preserve-on-refresh="1"><?php esc_html_e( 'Don\'t restrict content to members only.', 'convertkit' ); ?></option>
 
 					<?php
 					// Products.
@@ -75,9 +71,7 @@
 							<?php
 							foreach ( $convertkit_products->get() as $product ) {
 								?>
-								<option value="product_<?php echo esc_attr( $product['id'] ); ?>">
-									<?php echo esc_attr( $product['name'] ); ?>
-								</option>
+								<option value="product_<?php echo esc_attr( $product['id'] ); ?>"><?php echo esc_attr( $product['name'] ); ?></option>
 								<?php
 							}
 							?>

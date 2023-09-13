@@ -12,16 +12,12 @@
 
 	<div class="convertkit-select2-container convertkit-select2-container-grid">
 		<select name="wp-convertkit[form]" id="wp-convertkit-form" class="convertkit-select2">
-			<option value="0" data-preserve-on-refresh="1" selected>
-				<?php esc_html_e( 'Default', 'convertkit' ); ?>
-			</option>
+			<option value="0" data-preserve-on-refresh="1" selected><?php esc_html_e( 'Default', 'convertkit' ); ?></option>
 			<?php
 			if ( $convertkit_forms->exist() ) {
 				foreach ( $convertkit_forms->get() as $convertkit_form ) {
 					?>
-					<option value="<?php echo esc_attr( $convertkit_form['id'] ); ?>">
-						<?php echo esc_html( $convertkit_form['name'] ); ?>
-					</option>
+					<option value="<?php echo esc_attr( $convertkit_form['id'] ); ?>"><?php echo esc_html( $convertkit_form['name'] ); ?></option>
 					<?php
 				}
 			}
