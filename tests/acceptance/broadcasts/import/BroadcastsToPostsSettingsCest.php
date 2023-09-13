@@ -39,7 +39,7 @@ class BroadcastsToPostsSettingsCest
 		$I->seeInSource('<label for="enabled">');
 		$I->seeInSource('<label for="category_id">');
 		$I->seeInSource('<label for="published_at_min_date">');
-		$I->seeInSource('<label for="no_styles">');	
+		$I->seeInSource('<label for="no_styles">');
 	}
 
 	/**

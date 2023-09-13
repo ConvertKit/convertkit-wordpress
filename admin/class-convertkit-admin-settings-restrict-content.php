@@ -73,7 +73,7 @@ class ConvertKit_Admin_Settings_Restrict_Content extends ConvertKit_Settings_Bas
 			$this->name,
 			array(
 				'name'        => 'enabled',
-				'label_for'	  => 'enabled',
+				'label_for'   => 'enabled',
 				'description' => __( 'Enables the Member Content functionality, displaying configuration options on pages to require a subscription to a ConvertKit product', 'convertkit' ),
 			)
 		);
@@ -86,7 +86,7 @@ class ConvertKit_Admin_Settings_Restrict_Content extends ConvertKit_Settings_Bas
 			$this->name,
 			array(
 				'name'        => 'subscribe_text',
-				'label_for'	  => 'subscribe_text',
+				'label_for'   => 'subscribe_text',
 				'description' => array(
 					__( 'The text to display above the subscribe button, explaining why the content is only available to subscribers.', 'convertkit' ),
 				),
@@ -101,7 +101,7 @@ class ConvertKit_Admin_Settings_Restrict_Content extends ConvertKit_Settings_Bas
 			$this->name,
 			array(
 				'name'        => 'subscribe_button_label',
-				'label_for'	  => 'subscribe_button_label',
+				'label_for'   => 'subscribe_button_label',
 				'description' => array(
 					__( 'The text to display for the call to action button to subscribe to the ConvertKit product.', 'convertkit' ),
 				),
@@ -116,7 +116,7 @@ class ConvertKit_Admin_Settings_Restrict_Content extends ConvertKit_Settings_Bas
 			$this->name,
 			array(
 				'name'        => 'email_text',
-				'label_for'	  => 'email_text',
+				'label_for'   => 'email_text',
 				'description' => array(
 					__( 'The text to display above the email form, instructing the subscriber to enter their email address to receive a login link to access the member\'s only content.', 'convertkit' ),
 				),
@@ -131,7 +131,7 @@ class ConvertKit_Admin_Settings_Restrict_Content extends ConvertKit_Settings_Bas
 			$this->name,
 			array(
 				'name'        => 'email_button_label',
-				'label_for'	  => 'email_button_label',
+				'label_for'   => 'email_button_label',
 				'description' => array(
 					__( 'The text to display for the button to submit the subscriber\'s email address and receive a login link to access the member only content.', 'convertkit' ),
 				),
@@ -146,7 +146,7 @@ class ConvertKit_Admin_Settings_Restrict_Content extends ConvertKit_Settings_Bas
 			$this->name,
 			array(
 				'name'        => 'email_check_text',
-				'label_for'	  => 'email_check_text',
+				'label_for'   => 'email_check_text',
 				'description' => array(
 					__( 'The text to display instructing the subscriber to check their email for the login link that was sent.', 'convertkit' ),
 				),
@@ -161,7 +161,7 @@ class ConvertKit_Admin_Settings_Restrict_Content extends ConvertKit_Settings_Bas
 			$this->name,
 			array(
 				'name'        => 'no_access_text',
-				'label_for'	  => 'no_access_text',
+				'label_for'   => 'no_access_text',
 				'description' => array(
 					__( 'The text to display for a subscriber who authenticates via the login link, but does not have access to the product.', 'convertkit' ),
 				),

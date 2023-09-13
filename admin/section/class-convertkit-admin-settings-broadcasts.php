@@ -179,7 +179,7 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 			$this->name,
 			array(
 				'name'        => 'enabled',
-				'label_for'	  => 'enabled',
+				'label_for'   => 'enabled',
 				'label'       => __( 'Enables automatic publication of ConvertKit Broadcasts to WordPress Posts.', 'convertkit' ),
 				'description' => $enabled_description,
 			)
@@ -204,7 +204,7 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 			$this->name,
 			array(
 				'name'        => 'category_id',
-				'label_for'	  => 'category_id',
+				'label_for'   => 'category_id',
 				'description' => __( 'The category to assign imported broadcasts to.', 'convertkit' ),
 			)
 		);
@@ -217,7 +217,7 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 			$this->name,
 			array(
 				'name'        => 'published_at_min_date',
-				'label_for'	  => 'published_at_min_date',
+				'label_for'   => 'published_at_min_date',
 				'description' => __( 'The earliest date to import broadcasts from, based on the broadcast\'s published date and time.', 'convertkit' ),
 			)
 		);
@@ -230,7 +230,7 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 			$this->name,
 			array(
 				'name'        => 'no_styles',
-				'label_for'	  => 'no_styles',
+				'label_for'   => 'no_styles',
 				'description' => __( 'Removes inline styles and layout when importing broadcasts.', 'convertkit' ),
 			)
 		);

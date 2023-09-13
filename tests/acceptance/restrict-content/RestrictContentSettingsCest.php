@@ -39,7 +39,7 @@ class RestrictContentSettingsCest
 		$I->seeInSource('<label for="email_text">');
 		$I->seeInSource('<label for="email_button_label">');
 		$I->seeInSource('<label for="email_check_text">');
-		$I->seeInSource('<label for="no_access_text">');	
+		$I->seeInSource('<label for="no_access_text">');
 	}
 
 	/**
