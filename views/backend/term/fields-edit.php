@@ -9,7 +9,7 @@
 ?>
 <tr class="form-field">
 	<th scope="row">
-		<label for="description"><?php esc_html_e( 'ConvertKit Form', 'convertkit' ); ?></label>
+		<label for="wp-convertkit-form"><?php esc_html_e( 'ConvertKit Form', 'convertkit' ); ?></label>
 	</th>
 	<td>
 		<div class="convertkit-select2-container convertkit-select2-container-grid">

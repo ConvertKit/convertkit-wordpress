@@ -35,6 +35,9 @@ class CategoryFormCest
 		// Navigate to Posts > Categories.
 		$I->amOnAdminPage('edit-tags.php?taxonomy=category');
 
+		// Confirm that settings have label[for] attributes.
+		$I->seeInSource('<label for="wp-convertkit-form">');
+
 		// Create Category.
 		$I->fillField('tag-name', 'ConvertKit: Create Category');
 		$I->fillSelect2Field($I, '#select2-wp-convertkit-form-container', $_ENV['CONVERTKIT_API_FORM_NAME']);
@@ -110,6 +113,9 @@ class CategoryFormCest
 
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Confirm that settings have label[for] attributes.
+		$I->seeInSource('<label for="wp-convertkit-form">');
 
 		// Check the order of the Form resources are alphabetical, with the Default option prepending the Forms.
 		$I->checkSelectFormOptionOrder(
