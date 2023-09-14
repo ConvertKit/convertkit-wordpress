@@ -17,19 +17,13 @@
 			<td>
 				<div class="convertkit-select2-container convertkit-select2-container-grid">
 					<select name="wp-convertkit[form]" id="wp-convertkit-form" class="convertkit-select2 widefat">
-						<option value="-1"<?php selected( - 1, $convertkit_post->get_form() ); ?> data-preserve-on-refresh="1">
-							<?php esc_html_e( 'Default', 'convertkit' ); ?>
-						</option>
-						<option value="0"<?php selected( 0, $convertkit_post->get_form() ); ?> data-preserve-on-refresh="1">
-							<?php esc_html_e( 'None', 'convertkit' ); ?>
-						</option>
+						<option value="-1"<?php selected( - 1, $convertkit_post->get_form() ); ?> data-preserve-on-refresh="1"><?php esc_html_e( 'Default', 'convertkit' ); ?></option>
+						<option value="0"<?php selected( 0, $convertkit_post->get_form() ); ?> data-preserve-on-refresh="1"><?php esc_html_e( 'None', 'convertkit' ); ?></option>
 						<?php
 						if ( $convertkit_forms->exist() ) {
 							foreach ( $convertkit_forms->get() as $form ) {
 								?>
-								<option value="<?php echo esc_attr( $form['id'] ); ?>"<?php selected( $form['id'], $convertkit_post->get_form() ); ?>>
-									<?php echo esc_attr( $form['name'] ); ?>
-								</option>
+								<option value="<?php echo esc_attr( $form['id'] ); ?>"<?php selected( $form['id'], $convertkit_post->get_form() ); ?>><?php echo esc_attr( $form['name'] ); ?></option>
 								<?php
 							}
 						}
@@ -71,23 +65,17 @@
 				<td>
 					<div class="convertkit-select2-container convertkit-select2-container-grid">
 						<select name="wp-convertkit[landing_page]" id="wp-convertkit-landing_page" class="convertkit-select2">
-							<option <?php selected( '', $convertkit_post->get_landing_page() ); ?> value="0" data-preserve-on-refresh="1">
-								<?php esc_html_e( 'None', 'convertkit' ); ?>
-							</option>
+							<option <?php selected( '', $convertkit_post->get_landing_page() ); ?> value="0" data-preserve-on-refresh="1"><?php esc_html_e( 'None', 'convertkit' ); ?></option>
 							<?php
 							if ( $convertkit_landing_pages->exist() ) {
 								foreach ( $convertkit_landing_pages->get() as $landing_page ) {
 									if ( isset( $convertkit_landing_page['url'] ) ) {
 										?>
-										<option value="<?php echo esc_attr( $landing_page['url'] ); ?>"<?php selected( $landing_page['url'], $convertkit_post->get_landing_page() ); ?>>
-											<?php echo esc_attr( $landing_page['name'] ); ?>
-										</option>
+										<option value="<?php echo esc_attr( $landing_page['url'] ); ?>"<?php selected( $landing_page['url'], $convertkit_post->get_landing_page() ); ?>><?php echo esc_attr( $landing_page['name'] ); ?></option>
 										<?php
 									} else {
 										?>
-										<option value="<?php echo esc_attr( $landing_page['id'] ); ?>"<?php selected( $landing_page['id'], $convertkit_post->get_landing_page() ); ?>>
-											<?php echo esc_attr( $landing_page['name'] ); ?>
-										</option>
+										<option value="<?php echo esc_attr( $landing_page['id'] ); ?>"<?php selected( $landing_page['id'], $convertkit_post->get_landing_page() ); ?>><?php echo esc_attr( $landing_page['name'] ); ?></option>
 										<?php
 									}
 								}
@@ -123,16 +111,12 @@
 			<td>
 				<div class="convertkit-select2-container convertkit-select2-container-grid">
 					<select name="wp-convertkit[tag]" id="wp-convertkit-tag" class="convertkit-select2">
-						<option value="0"<?php selected( '', $convertkit_post->get_tag() ); ?> data-preserve-on-refresh="1">
-							<?php esc_html_e( 'None', 'convertkit' ); ?>
-						</option>
+						<option value="0"<?php selected( '', $convertkit_post->get_tag() ); ?> data-preserve-on-refresh="1"><?php esc_html_e( 'None', 'convertkit' ); ?></option>
 						<?php
 						if ( $convertkit_tags->exist() ) {
 							foreach ( $convertkit_tags->get() as $convertkit_tag ) {
 								?>
-								<option value="<?php echo esc_attr( $convertkit_tag['id'] ); ?>"<?php selected( $convertkit_tag['id'], $convertkit_post->get_tag() ); ?>>
-									<?php echo esc_attr( $convertkit_tag['name'] ); ?>
-								</option>
+								<option value="<?php echo esc_attr( $convertkit_tag['id'] ); ?>"<?php selected( $convertkit_tag['id'], $convertkit_post->get_tag() ); ?>><?php echo esc_attr( $convertkit_tag['name'] ); ?></option>
 								<?php
 							}
 						}
@@ -160,9 +144,7 @@
 				<td>
 					<div class="convertkit-select2-container convertkit-select2-container-grid">
 						<select name="wp-convertkit[restrict_content]" id="wp-convertkit-restrict_content" class="convertkit-select2">
-							<option value="0"<?php selected( '', $convertkit_post->get_restrict_content() ); ?> data-preserve-on-refresh="1">
-								<?php esc_html_e( 'Don\'t restrict content to members only.', 'convertkit' ); ?>
-							</option>
+							<option value="0"<?php selected( '', $convertkit_post->get_restrict_content() ); ?> data-preserve-on-refresh="1"><?php esc_html_e( 'Don\'t restrict content to members only.', 'convertkit' ); ?></option>
 
 							<?php
 							if ( $convertkit_products->exist() ) {
@@ -171,9 +153,7 @@
 									<?php
 									foreach ( $convertkit_products->get() as $product ) {
 										?>
-										<option value="product_<?php echo esc_attr( $product['id'] ); ?>"<?php selected( 'product_' . $product['id'], $convertkit_post->get_restrict_content() ); ?>>
-											<?php echo esc_attr( $product['name'] ); ?>
-										</option>
+										<option value="product_<?php echo esc_attr( $product['id'] ); ?>"<?php selected( 'product_' . $product['id'], $convertkit_post->get_restrict_content() ); ?>><?php echo esc_attr( $product['name'] ); ?></option>
 										<?php
 									}
 									?>

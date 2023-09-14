@@ -8,9 +8,7 @@
 
 ?>
 <select name="convertkit_restrict_content" id="wp-convertkit-restrict-content-filter">
-	<option value="0">
-		<?php esc_html_e( 'All content', 'convertkit' ); ?>
-	</option>
+	<option value="0"><?php esc_html_e( 'All content', 'convertkit' ); ?></option>
 
 	<?php
 	// Products.
@@ -20,9 +18,7 @@
 			<?php
 			foreach ( $this->products->get() as $product ) {
 				?>
-				<option value="product_<?php echo esc_attr( $product['id'] ); ?>"<?php selected( 'product_' . $product['id'], $this->restrict_content_filter ); ?>>
-					<?php echo esc_attr( $product['name'] ); ?>
-				</option>
+				<option value="product_<?php echo esc_attr( $product['id'] ); ?>"<?php selected( 'product_' . $product['id'], $this->restrict_content_filter ); ?>><?php echo esc_attr( $product['name'] ); ?></option>
 				<?php
 			}
 			?>

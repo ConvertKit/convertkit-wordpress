@@ -81,9 +81,7 @@ class CK_Widget_Form extends WP_Widget {
 				<?php
 				foreach ( $forms->get() as $form ) {
 					?>
-					<option value="<?php echo esc_attr( $form['id'] ); ?>"<?php selected( $form['id'], $instance['form'] ); ?>>
-						<?php echo esc_attr( $form['name'] ); ?>
-					</option>
+					<option value="<?php echo esc_attr( $form['id'] ); ?>"<?php selected( $form['id'], $instance['form'] ); ?>><?php echo esc_attr( $form['name'] ); ?></option>
 					<?php
 				}
 				?>
