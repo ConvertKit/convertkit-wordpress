@@ -25,6 +25,7 @@ DEVELOPMENT.md
 LICENSE
 log.txt
 phpcs.xml
+phpcs.tests.xml
 phpstan.neon
 phpstan.neon.dist
 phpstan.neon.example
