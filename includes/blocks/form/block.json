@@ -5,7 +5,13 @@
     "title": "ConvertKit Form",
     "category": "convertkit",
     "description": "Displays a ConvertKit Form.",
-    "keywords": [ "convertkit", "form" ],
+    "keywords": [
+        "form",
+        "embed",
+        "subscriber",
+        "email",
+        "convertkit"
+    ],
     "textdomain": "convertkit",
     "attributes": {
         "form": {
@@ -18,5 +24,6 @@
     },
     "supports": {
         "className": true
-    }
+    },
+    "editorScript": "convertkit-gutenberg"
 }

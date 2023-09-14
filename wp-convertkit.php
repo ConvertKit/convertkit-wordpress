@@ -8,7 +8,7 @@
  * @wordpress-plugin
  * Plugin Name: ConvertKit
  * Plugin URI: https://convertkit.com/
- * Description: Quickly and easily integrate ConvertKit forms into your site.
+ * Description: Display ConvertKit email subscription forms, landing pages, products, broadcasts and more.
  * Version: 2.3.0
  * Author: ConvertKit
  * Author URI: https://convertkit.com/
