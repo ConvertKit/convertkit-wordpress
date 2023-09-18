@@ -131,8 +131,8 @@ class ConvertKit_Admin_Setup_Wizard {
 	/**
 	 * Register the wizard screen in WordPress' Dashboard, so that options.php?page={$this->page_name}
 	 * does not 404 when in the WordPress Admin interface.
-	 * 
-	 * Ensures the WordPress user has the given required_capability to access this screen. 
+	 *
+	 * Ensures the WordPress user has the given required_capability to access this screen.
 	 *
 	 * @since   1.9.8.4
 	 */
