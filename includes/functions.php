@@ -261,7 +261,7 @@ function convertkit_get_setup_wizard_plugin_link( $query_args = array() ) {
 		)
 	);
 
-	return add_query_arg( $query_args, admin_url( 'index.php' ) );
+	return add_query_arg( $query_args, admin_url( 'options.php' ) );
 
 }
 

@@ -188,7 +188,7 @@ class ConvertKit_Admin_Restrict_Content {
 				'page'         => 'convertkit-restrict-content-setup',
 				'ck_post_type' => 'page',
 			),
-			admin_url( 'index.php' )
+			admin_url( 'options.php' )
 		);
 
 		$views['convertkit_restrict_content_setup'] = '<a href="' . esc_attr( $url ) . '" class="convertkit-action page-title-action hidden">' . esc_html__( 'Add New Member Content', 'convertkit' ) . '</a>';

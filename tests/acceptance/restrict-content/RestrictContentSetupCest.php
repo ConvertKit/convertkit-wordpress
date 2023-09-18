@@ -122,7 +122,7 @@ class RestrictContentSetupCest
 		$I->amOnAdminPage('index.php');
 
 		// Confirm no Member Content Dashboard Submenu item exists.
-		$I->dontSeeInSource('<a href="index.php?page=convertkit-restrict-content-setup"></a>');
+		$I->dontSeeInSource('<a href="options.php?page=convertkit-restrict-content-setup"></a>');
 	}
 
 	/**
