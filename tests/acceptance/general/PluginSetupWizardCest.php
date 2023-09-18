@@ -44,6 +44,40 @@ class PluginSetupWizardCest
 	}
 
 	/**
+	 * Test that the Dashboard submenu item for this wizard does not display when a
+	 * third party Admin Menu editor type Plugin is installed and active.
+	 *
+	 * @since   2.3.2
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testNoSetupWizardDashboardSubmenuItem(AcceptanceTester $I)
+	{
+		// Activate Admin Menu Editor Plugin.
+		$I->activateThirdPartyPlugin($I, 'admin-menu-editor');
+
+		// Setup ConvertKit Plugin.
+		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPluginResources($I);
+
+		// Activate Plugin.
+		$this->_activatePlugin($I);
+
+		// Navigate to Admin Menu Editor's settings.
+		$I->amOnAdminPage('options-general.php?page=menu_editor');
+
+		// Save settings. If hiding submenu items fails in the Plugin, this step
+		// will display those submenu items on subsequent page loads.
+		$I->click('Save Changes');
+
+		// Navigate to Dashboard.
+		$I->amOnAdminPage('index.php');
+
+		// Confirm no Dashboard Submenu item exists.
+		$I->dontSeeInSource('<a href="index.php?page=convertkit-setup"></a>');
+	}
+
+	/**
 	 * Test that the Setup Wizard exit link works.
 	 *
 	 * @since   1.9.8.4
