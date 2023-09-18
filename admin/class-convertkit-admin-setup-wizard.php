@@ -121,7 +121,7 @@ class ConvertKit_Admin_Setup_Wizard {
 		if ( $this->page_name === false ) {
 			return;
 		}
-		
+
 		// Define actions to register the setup screen.
 		add_action( 'admin_menu', array( $this, 'register_screen' ) );
 		add_action( 'admin_init', array( $this, 'maybe_load_setup_screen' ) );
@@ -147,7 +147,7 @@ class ConvertKit_Admin_Setup_Wizard {
 		// doesn't work, because again Admin Menu Editor will re-inject menu items.
 		// Using `admin_menu` with a later priority results in a 'Sorry, you are not allowed to access this page' errpr
 		// when serving the wizard through a modal (as we do for blocks when there are no API credentials specified).
-		$hook_name = get_plugin_page_hookname( $this->page_name, '' );
+		$hook_name                       = get_plugin_page_hookname( $this->page_name, '' );
 		$_registered_pages[ $hook_name ] = true;
 
 	}
