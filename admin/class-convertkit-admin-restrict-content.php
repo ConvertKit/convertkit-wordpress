@@ -182,7 +182,13 @@ class ConvertKit_Admin_Restrict_Content {
 			return $views;
 		}
 
-		$views['convertkit_restrict_content_setup'] = '<a href="admin.php?page=convertkit-restrict-content-setup&post_type=' . esc_attr( $post_type ) . '" class="convertkit-action page-title-action hidden">' . esc_html__( 'Add New Member Content', 'convertkit' ) . '</a>';
+		// Build URL for Restrict Content Setup Wizard.
+		$url = add_query_arg( array(
+			'page' => 'convertkit-restrict-content-setup',
+			'ck_post_type' => 'page',
+		), admin_url( 'index.php' ) );
+
+		$views['convertkit_restrict_content_setup'] = '<a href="' . esc_attr( $url ) . '" class="convertkit-action page-title-action hidden">' . esc_html__( 'Add New Member Content', 'convertkit' ) . '</a>';
 		return $views;
 
 	}
