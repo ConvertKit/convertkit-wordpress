@@ -124,7 +124,12 @@ class ConvertKit_Admin_Setup_Wizard {
 
 		// Define actions to register the setup screen.
 		add_action( 'admin_menu', array( $this, 'register_screen' ) );
-		add_action( 'admin_head', array( $this, 'hide_screen_from_menu' ) );
+
+		// Hide submenu item under Dashboard menu. admin_menu hook is deliberate, to prevent
+		// plugins such as Admin Menu Editor not honoring this setting. 
+		add_action( 'admin_menu', array( $this, 'hide_screen_from_menu' ), 9999 );
+
+		// Determine whether to load a ConvertKit wizard screen.
 		add_action( 'admin_init', array( $this, 'maybe_load_setup_screen' ) );
 
 	}
@@ -137,7 +142,7 @@ class ConvertKit_Admin_Setup_Wizard {
 	 */
 	public function register_screen() {
 
-		add_dashboard_page( '', '', 'edit_posts', $this->page_name, '__return_false' );
+		add_dashboard_page( '', '', $this->required_capability, $this->page_name, '__return_false' );
 
 	}
 
