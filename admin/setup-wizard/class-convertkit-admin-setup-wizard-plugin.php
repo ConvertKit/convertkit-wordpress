@@ -57,6 +57,15 @@ class ConvertKit_Admin_Setup_Wizard_Plugin extends ConvertKit_Admin_Setup_Wizard
 	public $preview_page_url = false;
 
 	/**
+	 * The required user capability to access the setup wizard.
+	 *
+	 * @since   2.3.2
+	 *
+	 * @var     string
+	 */
+	public $required_capability = 'edit_posts';
+
+	/**
 	 * The programmatic name for this wizard.
 	 *
 	 * @since   1.9.8.4
