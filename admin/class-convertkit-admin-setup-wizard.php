@@ -126,7 +126,7 @@ class ConvertKit_Admin_Setup_Wizard {
 		add_action( 'admin_menu', array( $this, 'register_screen' ) );
 
 		// Hide submenu item under Dashboard menu. admin_menu hook is deliberate, to prevent
-		// plugins such as Admin Menu Editor not honoring this setting. 
+		// plugins such as Admin Menu Editor not honoring this setting.
 		add_action( 'admin_menu', array( $this, 'hide_screen_from_menu' ), 9999 );
 
 		// Determine whether to load a ConvertKit wizard screen.

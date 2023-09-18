@@ -257,7 +257,7 @@ class ConvertKit_Admin_Setup_Wizard_Restrict_Content extends ConvertKit_Admin_Se
 				// Define Download and Course button links.
 				$this->download_url = add_query_arg(
 					array(
-						'type'      => 'download',
+						'type'         => 'download',
 						'ck_post_type' => $this->post_type,
 					),
 					$this->next_step_url
@@ -265,8 +265,8 @@ class ConvertKit_Admin_Setup_Wizard_Restrict_Content extends ConvertKit_Admin_Se
 
 				$this->course_url = add_query_arg(
 					array(
-						'type'      	=> 'course',
-						'ck_post_type' 	=> $this->post_type,
+						'type'         => 'course',
+						'ck_post_type' => $this->post_type,
 					),
 					$this->next_step_url
 				);
