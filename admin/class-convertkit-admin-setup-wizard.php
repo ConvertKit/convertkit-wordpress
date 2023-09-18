@@ -121,40 +121,34 @@ class ConvertKit_Admin_Setup_Wizard {
 		if ( $this->page_name === false ) {
 			return;
 		}
-
+		
 		// Define actions to register the setup screen.
 		add_action( 'admin_menu', array( $this, 'register_screen' ) );
-
-		// Hide submenu item under Dashboard menu. admin_menu hook is deliberate, to prevent
-		// plugins such as Admin Menu Editor not honoring this setting.
-		add_action( 'admin_menu', array( $this, 'hide_screen_from_menu' ), 9999 );
-
-		// Determine whether to load a ConvertKit wizard screen.
 		add_action( 'admin_init', array( $this, 'maybe_load_setup_screen' ) );
 
 	}
 
 	/**
 	 * Register the setup screen in WordPress' Dashboard, so that index.php?page={$this->page_name}
-	 * does not 404 when in the WordPress Admin interface.
+	 * does not 404 or return a 'Sorry, you are not allowed to access this page' error when in the
+	 * WordPress Admin interface.
 	 *
 	 * @since   1.9.8.4
 	 */
 	public function register_screen() {
 
-		add_dashboard_page( '', '', $this->required_capability, $this->page_name, '__return_false' );
+		global $_registered_pages;
 
-	}
-
-	/**
-	 * Hides the menu registered when register_screen() above is called, otherwise
-	 * we would have a blank submenu entry below the Dashboard menu.
-	 *
-	 * @since   1.9.8.4
-	 */
-	public function hide_screen_from_menu() {
-
-		remove_submenu_page( 'index.php', $this->page_name );
+		// Ideally we'd use add_dashboard_page() or add_submenu_page(), which registers the screen
+		// with WordPress in this global variable and doesn't add a submenu item because the name is blank.
+		// However, third party plugins, such as Admin Menu Editor, will then present these blank submenu items to
+		// the user, causing confusion.
+		// Use of the documented remove_submenu_page() in the `admin_head` action [https://core.trac.wordpress.org/ticket/18850]
+		// doesn't work, because again Admin Menu Editor will re-inject menu items.
+		// Using `admin_menu` with a later priority results in a 'Sorry, you are not allowed to access this page' errpr
+		// when serving the wizard through a modal (as we do for blocks when there are no API credentials specified).
+		$hook_name = get_plugin_page_hookname( $this->page_name, '' );
+		$_registered_pages[ $hook_name ] = true;
 
 	}
 
