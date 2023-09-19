@@ -124,32 +124,21 @@ class ConvertKit_Admin_Setup_Wizard {
 
 		// Define actions to register the setup screen.
 		add_action( 'admin_menu', array( $this, 'register_screen' ) );
-		add_action( 'admin_head', array( $this, 'hide_screen_from_menu' ) );
 		add_action( 'admin_init', array( $this, 'maybe_load_setup_screen' ) );
 
 	}
 
 	/**
-	 * Register the setup screen in WordPress' Dashboard, so that index.php?page={$this->page_name}
+	 * Register the wizard screen in WordPress' Dashboard, so that options.php?page={$this->page_name}
 	 * does not 404 when in the WordPress Admin interface.
+	 *
+	 * Ensures the WordPress user has the given required_capability to access this screen.
 	 *
 	 * @since   1.9.8.4
 	 */
 	public function register_screen() {
 
-		add_dashboard_page( '', '', 'edit_posts', $this->page_name, '__return_false' );
-
-	}
-
-	/**
-	 * Hides the menu registered when register_screen() above is called, otherwise
-	 * we would have a blank submenu entry below the Dashboard menu.
-	 *
-	 * @since   1.9.8.4
-	 */
-	public function hide_screen_from_menu() {
-
-		remove_submenu_page( 'index.php', $this->page_name );
+		add_submenu_page( '', '', '', $this->required_capability, $this->page_name, '__return_false' );
 
 	}
 
@@ -247,7 +236,7 @@ class ConvertKit_Admin_Setup_Wizard {
 				'convertkit-modal' => $this->is_modal(),
 				'step'             => $this->step,
 			),
-			admin_url( 'index.php' )
+			admin_url( 'options.php' )
 		);
 
 		// Define the previous step URL if we're not on the first or last step.
@@ -258,7 +247,7 @@ class ConvertKit_Admin_Setup_Wizard {
 					'convertkit-modal' => $this->is_modal(),
 					'step'             => ( $this->step - 1 ),
 				),
-				admin_url( 'index.php' )
+				admin_url( 'options.php' )
 			);
 		}
 
@@ -270,7 +259,7 @@ class ConvertKit_Admin_Setup_Wizard {
 					'convertkit-modal' => $this->is_modal(),
 					'step'             => ( $this->step + 1 ),
 				),
-				admin_url( 'index.php' )
+				admin_url( 'options.php' )
 			);
 		}
 

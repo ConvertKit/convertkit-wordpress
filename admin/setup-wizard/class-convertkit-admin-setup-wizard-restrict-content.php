@@ -210,7 +210,7 @@ class ConvertKit_Admin_Setup_Wizard_Restrict_Content extends ConvertKit_Admin_Se
 		}
 
 		// Bail if the Post Type isn't supported.
-		$this->post_type = isset( $_REQUEST['post_type'] ) ? sanitize_text_field( $_REQUEST['post_type'] ) : 'page'; // phpcs:ignore WordPress.Security.NonceVerification
+		$this->post_type = isset( $_REQUEST['ck_post_type'] ) ? sanitize_text_field( $_REQUEST['ck_post_type'] ) : 'page'; // phpcs:ignore WordPress.Security.NonceVerification
 		if ( ! in_array( $this->post_type, convertkit_get_supported_restrict_content_post_types(), true ) ) {
 			wp_die(
 				sprintf(
@@ -257,16 +257,16 @@ class ConvertKit_Admin_Setup_Wizard_Restrict_Content extends ConvertKit_Admin_Se
 				// Define Download and Course button links.
 				$this->download_url = add_query_arg(
 					array(
-						'type'      => 'download',
-						'post_type' => $this->post_type,
+						'type'         => 'download',
+						'ck_post_type' => $this->post_type,
 					),
 					$this->next_step_url
 				);
 
 				$this->course_url = add_query_arg(
 					array(
-						'type'      => 'course',
-						'post_type' => $this->post_type,
+						'type'         => 'course',
+						'ck_post_type' => $this->post_type,
 					),
 					$this->next_step_url
 				);

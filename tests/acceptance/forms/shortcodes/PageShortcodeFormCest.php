@@ -389,7 +389,7 @@ class PageShortcodeFormCest
 		$I->switchToNextTab();
 
 		// Confirm the Plugin's setup wizard is displayed.
-		$I->seeInCurrentUrl('index.php?page=convertkit-setup');
+		$I->seeInCurrentUrl('options.php?page=convertkit-setup');
 
 		// Close tab.
 		$I->closeTab();

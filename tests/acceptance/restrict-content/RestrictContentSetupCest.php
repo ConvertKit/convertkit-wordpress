@@ -88,6 +88,44 @@ class RestrictContentSetupCest
 	}
 
 	/**
+	 * Test that the Dashboard submenu item for this wizard does not display when a
+	 * third party Admin Menu editor type Plugin is installed and active.
+	 *
+	 * @since   2.3.2
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testNoMemberContentWizardDashboardSubmenuItem(AcceptanceTester $I)
+	{
+		// Activate Admin Menu Editor Plugin.
+		$I->activateThirdPartyPlugin($I, 'admin-menu-editor');
+
+		// Setup Plugin.
+		$I->setupConvertKitPlugin($I);
+
+		// Enable Restrict Content.
+		$I->setupConvertKitPluginRestrictContent(
+			$I,
+			[
+				'enabled' => 'on',
+			]
+		);
+
+		// Navigate to Admin Menu Editor's settings.
+		$I->amOnAdminPage('options-general.php?page=menu_editor');
+
+		// Save settings. If hiding submenu items fails in the Plugin, this step
+		// will display those submenu items on subsequent page loads.
+		$I->click('Save Changes');
+
+		// Navigate to Dashboard.
+		$I->amOnAdminPage('index.php');
+
+		// Confirm no Member Content Dashboard Submenu item exists.
+		$I->dontSeeInSource('<a href="options.php?page=convertkit-restrict-content-setup"></a>');
+	}
+
+	/**
 	 * Test that the Add New Member Content > Exit wizard link returns to the Pages screen.
 	 *
 	 * @since   2.1.0
