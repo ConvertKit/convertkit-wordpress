@@ -29,7 +29,7 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 
 		// Define the programmatic name, Title and Tab Text.
 		$this->name     = 'broadcasts';
-		$this->title    = __( 'Broadcasts', 'convertkit' );
+		$this->title    = __( 'Broadcasts to Posts', 'convertkit' );
 		$this->tab_text = __( 'Broadcasts', 'convertkit' );
 
 		// Identify that this is beta functionality.
@@ -219,19 +219,6 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 				'name'        => 'published_at_min_date',
 				'label_for'   => 'published_at_min_date',
 				'description' => __( 'The earliest date to import broadcasts from, based on the broadcast\'s published date and time.', 'convertkit' ),
-			)
-		);
-
-		add_settings_field(
-			'enabled_export',
-			__( 'Enable Export Actions', 'convertkit' ),
-			array( $this, 'enable_export_callback' ),
-			$this->settings_key,
-			$this->name,
-			array(
-				'name'      => 'enabled_export',
-				'label_for' => 'enabled_export',
-				'label'     => __( 'Displays actions in WordPress to create draft broadcasts from existing WordPress posts.', 'convertkit' ),
 			)
 		);
 
