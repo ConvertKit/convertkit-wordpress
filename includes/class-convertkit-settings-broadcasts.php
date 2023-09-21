@@ -143,19 +143,6 @@ class ConvertKit_Settings_Broadcasts {
 	}
 
 	/**
-	 * Returns whether exporting Posts to Broadcasts is enabled in the Plugin settings.
-	 *
-	 * @since   2.4.0
-	 *
-	 * @return  bool
-	 */
-	public function enabled_export() {
-
-		return ( $this->settings['enabled_export'] === 'on' ? true : false );
-
-	}
-
-	/**
 	 * Returns whether Broadcasts should have their styles imported.
 	 *
 	 * @since   2.2.9
@@ -213,7 +200,7 @@ class ConvertKit_Settings_Broadcasts {
 			// By default, only import Broadcasts as Posts for the last 30 days.
 			'published_at_min_date' => gmdate( 'Y-m-d', strtotime( '-30 days' ) ),
 
-			'enabled_export'        => '',
+			'restrict_content'      => '',
 			'no_styles'             => '',
 		);
 
