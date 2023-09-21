@@ -29,7 +29,7 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 
 		// Define the programmatic name, Title and Tab Text.
 		$this->name     = 'broadcasts';
-		$this->title    = __( 'Broadcasts to Posts', 'convertkit' );
+		$this->title    = __( 'Broadcasts', 'convertkit' );
 		$this->tab_text = __( 'Broadcasts', 'convertkit' );
 
 		// Identify that this is beta functionality.
@@ -173,14 +173,14 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 
 		add_settings_field(
 			'enabled',
-			__( 'Enable', 'convertkit' ),
+			__( 'Enable Automatic Import', 'convertkit' ),
 			array( $this, 'enable_callback' ),
 			$this->settings_key,
 			$this->name,
 			array(
 				'name'        => 'enabled',
 				'label_for'   => 'enabled',
-				'label'       => __( 'Enables automatic publication of ConvertKit Broadcasts to WordPress Posts.', 'convertkit' ),
+				'label'       => __( 'Enables automatic publication of public ConvertKit Broadcasts as WordPress Posts.', 'convertkit' ),
 				'description' => $enabled_description,
 			)
 		);
@@ -223,6 +223,19 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 		);
 
 		add_settings_field(
+			'enabled_export',
+			__( 'Enable Export Actions', 'convertkit' ),
+			array( $this, 'enable_export_callback' ),
+			$this->settings_key,
+			$this->name,
+			array(
+				'name'      => 'enabled_export',
+				'label_for' => 'enabled_export',
+				'label'     => __( 'Displays actions in WordPress to create draft broadcasts from existing WordPress posts.', 'convertkit' ),
+			)
+		);
+
+		add_settings_field(
 			'no_styles',
 			__( 'Disable Styles', 'convertkit' ),
 			array( $this, 'no_styles_callback' ),
@@ -231,7 +244,7 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 			array(
 				'name'        => 'no_styles',
 				'label_for'   => 'no_styles',
-				'description' => __( 'Removes inline styles and layout when importing broadcasts.', 'convertkit' ),
+				'description' => __( 'Removes inline styles and layout when importing broadcasts and exporting posts.', 'convertkit' ),
 			)
 		);
 
@@ -246,7 +259,7 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 
 		?>
 		<span class="convertkit-beta-label"><?php esc_html_e( 'Beta', 'convertkit' ); ?></span>
-		<p class="description"><?php esc_html_e( 'Defines whether public broadcasts created in ConvertKit should automatically be published on this site as WordPress Posts.', 'convertkit' ); ?></p>
+		<p class="description"><?php esc_html_e( 'Defines whether public broadcasts created in ConvertKit should automatically be published on this site as WordPress Posts, and whether to enable options to create draft ConvertKit Broadcasts from WordPress Posts.', 'convertkit' ); ?></p>
 		<?php
 
 	}
@@ -357,6 +370,25 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 	}
 
 	/**
+	 * Renders the input for the Enable Export setting.
+	 *
+	 * @since   2.4.0
+	 *
+	 * @param   array $args   Setting field arguments (name,description).
+	 */
+	public function enable_export_callback( $args ) {
+
+		// Output field.
+		echo $this->get_checkbox_field( // phpcs:ignore WordPress.Security.EscapeOutput
+			$args['name'],
+			'on',
+			$this->settings->enabled_export(), // phpcs:ignore WordPress.Security.EscapeOutput
+			$args['label']  // phpcs:ignore WordPress.Security.EscapeOutput
+		);
+
+	}
+
+	/**
 	 * Renders the input for the No Styles setting.
 	 *
 	 * @since   2.2.9
@@ -370,11 +402,7 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 			$args['name'],
 			'on',
 			$this->settings->no_styles(), // phpcs:ignore WordPress.Security.EscapeOutput
-			$args['description'], // phpcs:ignore WordPress.Security.EscapeOutput
-			'',
-			array(
-				'enabled',
-			)
+			$args['description'] // phpcs:ignore WordPress.Security.EscapeOutput
 		);
 
 	}
