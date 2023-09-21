@@ -64,6 +64,7 @@ class WP_ConvertKit {
 			return;
 		}
 
+		$this->classes['admin_broadcasts_exporter']           = new ConvertKit_Admin_Broadcasts_Exporter();
 		$this->classes['admin_bulk_edit']                     = new ConvertKit_Admin_Bulk_Edit();
 		$this->classes['admin_cache_plugins']                 = new ConvertKit_Admin_Cache_Plugins();
 		$this->classes['admin_category']                      = new ConvertKit_Admin_Category();
