@@ -406,6 +406,30 @@ function convertkit_get_new_broadcast_url() {
 }
 
 /**
+ * Helper method to return the URL the user needs to visit on the ConvertKit app to edit a draft Broadcast.
+ *
+ * @since   2.4.0
+ *
+ * @param   int $broadcast_id   ConvertKit Broadcast ID.
+ * @return  string                  ConvertKit App URL.
+ */
+function convertkit_get_edit_broadcast_url( $broadcast_id ) {
+
+	return add_query_arg(
+		array(
+			'utm_source'  => 'wordpress',
+			'utm_term'    => get_locale(),
+			'utm_content' => 'convertkit',
+		),
+		sprintf(
+			'https://app.convertkit.com/campaigns/%s/draft',
+			$broadcast_id
+		)
+	);
+
+}
+
+/**
  * Helper method to return the URL the user needs to visit on the ConvertKit app to create a new Product.
  *
  * @since   2.2.3
