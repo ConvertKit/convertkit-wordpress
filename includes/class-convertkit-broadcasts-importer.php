@@ -276,26 +276,8 @@ class ConvertKit_Broadcasts_Importer {
 		// Remove blank contenteditable table cells.
 		$content = str_replace( '<td contenteditable="false"></td>', '', $content );
 
-		// For PHP 7.4 and lower compatibility, convert permitted HTML tags array to a string
-		// for use in strip_tags().
-		$permitted_html_tags_string = '<' . implode( '><', $this->permitted_html_tags() ) . '>';
-
-		// Remove other tags, retaining inner contents.
-		// For HTML broadcasts, this will remove e.g. <html>, <head> and <body> tags.
-		$content = strip_tags( $content, $permitted_html_tags_string );
-
-		// If Disable Styles is checked, remove inline styles and class attributes from remaining HTML elements.
-		if ( $this->broadcasts_settings->no_styles() ) {
-			$content = preg_replace( '/(<[^>]+) style=".*?"/i', '$1', $content );
-			$content = preg_replace( '/(<[^>]+) class=".*?"/i', '$1', $content );
-		}
-
-		// Remove empty div elements, which may remain because they contained HTML comments only, which were removed above.
-		$content = str_replace( '<div></div>', '', $content );
-
-		// Remove leading and trailing newlines and spaces, so WordPress doesn't convert these to blank paragraph tags.
-		$content = preg_replace( "/(^[\r\n]*|[\r\n]+)[\s\t]*[\r\n]+/", "\n", $content );
-		$content = trim( $content );
+		// Extract just the permitted HTML.
+		$content = $this->get_permitted_html( $content, $this->broadcasts_settings->no_styles() );
 
 		// Remove unsubscribe section.
 		$content = preg_replace( '/(<div class="ck-section ck-hide-in-public-posts".*?>.*?<\/tr><\/tbody><\/table>\\n<\/div>\\n)/is', '', $content );
@@ -315,13 +297,51 @@ class ConvertKit_Broadcasts_Importer {
 	}
 
 	/**
+	 * Returns the given content containing only the permitted HTML tags,
+	 * and cleans up empty div elements and multiple newlines.
+	 *
+	 * @since   2.4.0
+	 *
+	 * @param   string $content         HTML Content.
+	 * @param   bool   $disable_styles  Disable styles.
+	 * @return  string                  HTML Content
+	 */
+	public function get_permitted_html( $content, $disable_styles = false ) {
+
+		// For PHP 7.4 and lower compatibility, convert permitted HTML tags array to a string
+		// for use in strip_tags().
+		$permitted_html_tags_string = '<' . implode( '><', $this->permitted_html_tags( $disable_styles ) ) . '>';
+
+		// Remove other tags, retaining inner contents.
+		// For HTML broadcasts, this will remove e.g. <html>, <head> and <body> tags.
+		$content = strip_tags( $content, $permitted_html_tags_string );
+
+		// If Disable Styles is enabled, remove inline styles and class attributes from remaining HTML elements.
+		if ( $disable_styles ) {
+			$content = preg_replace( '/(<[^>]+) style=".*?"/i', '$1', $content );
+			$content = preg_replace( '/(<[^>]+) class=".*?"/i', '$1', $content );
+		}
+
+		// Remove empty div elements, which may remain because they contained HTML comments only, which were removed above.
+		$content = str_replace( '<div></div>', '', $content );
+
+		// Remove leading and trailing newlines and spaces, so WordPress doesn't convert these to blank paragraph tags.
+		$content = preg_replace( "/(^[\r\n]*|[\r\n]+)[\s\t]*[\r\n]+/", "\n", $content );
+		$content = trim( $content );
+
+		return $content;
+
+	}
+
+	/**
 	 * Returns an array of permitted HTML tags to retain in the imported Broadcast.
 	 *
 	 * @since   2.2.9
 	 *
+	 * @param   bool $disable_styles  Disable styles.
 	 * @return  array
 	 */
-	private function permitted_html_tags() {
+	private function permitted_html_tags( $disable_styles = false ) {
 
 		// Define HTML tags to retain in the content.
 		$permitted_html_tags = array(
@@ -342,8 +362,8 @@ class ConvertKit_Broadcasts_Importer {
 			'br',
 		);
 
-		// If Disable Styles isn't selected, include layout tags.
-		if ( ! $this->broadcasts_settings->no_styles() ) {
+		// If Disable Styles is false, include layout tags.
+		if ( $disable_styles ) {
 			$permitted_html_tags = array_merge(
 				$permitted_html_tags,
 				array(
