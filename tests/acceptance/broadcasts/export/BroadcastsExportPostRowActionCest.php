@@ -44,11 +44,8 @@ class BroadcastsExportPostRowActionCest
 		// Navigate to the Posts WP_List_Table.
 		$I->amOnAdminPage('edit.php');
 
-		// Hover mouse over Post's table row.
-		$I->moveMouseOver('tr.iedit:first-child');
-
 		// Confirm that no action to export the Post is displayed.
-
+		$I->dontSeeInSource('span.convertkit_broadcast_export');
 	}
 
 	/**
@@ -74,7 +71,7 @@ class BroadcastsExportPostRowActionCest
 			[
 				'post_type'    => 'post',
 				'post_title'   => 'ConvertKit: Export Post to Broadcast',
-				'post_content' => 'ConvertKit: Export Post to Broadcast: Content',
+				'post_content' => '<p class="style-test">ConvertKit: Export Post to Broadcast: Content</p>',
 				'post_excerpt' => 'ConvertKit: Export Post to Broadcast: Excerpt',
 			]
 		);
@@ -85,12 +82,27 @@ class BroadcastsExportPostRowActionCest
 		// Hover mouse over Post's table row.
 		$I->moveMouseOver('tr.iedit:first-child');
 
+		// Wait for export link to be visible.
+		$I->waitForElementVisible('tr.iedit:first-child span.convertkit_broadcast_export a');
+
 		// Click the export action.
+		$I->click('tr.iedit:first-child span.convertkit_broadcast_export a');
 
 		// Confirm that a success message displays.
+		$I->waitForElementVisible('.notice-success');
+		$I->see('Successfully created ConvertKit Broadcast from Post');
+
+		// Get Broadcast ID from 'Click here' link.
+		$broadcastID = (int) filter_var($I->grabAttributeFrom('.notice-success p a', 'href'), FILTER_SANITIZE_NUMBER_INT);
+
+		// Fetch Broadcast from the API.
+		$broadcast = $I->apiGetBroadcast($broadcastID);
 
 		// Delete Broadcast.
-		
+		$I->apiDeleteBroadcast($broadcastID);
+
+		// Confirm styles were included in the Broadcast.
+		$I->assertStringContainsString('class="style-test"', $broadcast['broadcast']['content']);
 	}
 
 	/**
@@ -103,7 +115,52 @@ class BroadcastsExportPostRowActionCest
 	 */
 	public function testBroadcastsExportActionWithDisableStylesEnabled(AcceptanceTester $I)
 	{
+		// Enable Export Actions for Posts.
+		$I->setupConvertKitPluginBroadcasts(
+			$I,
+			[
+				'enabled_export' => true,
+				'no_styles'      => true,
+			]
+		);
 
+		// Programmatically create a Post.
+		$postID = $I->havePostInDatabase(
+			[
+				'post_type'    => 'post',
+				'post_title'   => 'ConvertKit: Export Post to Broadcast: Disable Styles',
+				'post_content' => '<p class="style-test">ConvertKit: Export Post to Broadcast: Disable Styles: Content</p>',
+				'post_excerpt' => 'ConvertKit: Export Post to Broadcast: Disable Styles: Excerpt',
+			]
+		);
+
+		// Navigate to the Posts WP_List_Table.
+		$I->amOnAdminPage('edit.php');
+
+		// Hover mouse over Post's table row.
+		$I->moveMouseOver('tr.iedit:first-child');
+
+		// Wait for export link to be visible.
+		$I->waitForElementVisible('tr.iedit:first-child span.convertkit_broadcast_export a');
+
+		// Click the export action.
+		$I->click('tr.iedit:first-child span.convertkit_broadcast_export a');
+
+		// Confirm that a success message displays.
+		$I->waitForElementVisible('.notice-success');
+		$I->see('Successfully created ConvertKit Broadcast from Post');
+
+		// Get Broadcast ID from 'Click here' link.
+		$broadcastID = (int) filter_var($I->grabAttributeFrom('.notice-success p a', 'href'), FILTER_SANITIZE_NUMBER_INT);
+
+		// Fetch Broadcast from the API.
+		$broadcast = $I->apiGetBroadcast($broadcastID);
+
+		// Delete Broadcast.
+		$I->apiDeleteBroadcast($broadcastID);
+
+		// Confirm styles were not included in the Broadcast.
+		$I->assertStringNotContainsString('class="style-test"', $broadcast['broadcast']['content']);
 	}
 
 	/**

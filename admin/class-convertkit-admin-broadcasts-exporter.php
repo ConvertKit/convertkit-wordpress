@@ -33,18 +33,18 @@ class ConvertKit_Admin_Broadcasts_Exporter {
 
 	/**
 	 * Holds the Broadcasts Settings class.
-	 * 
+	 *
 	 * @since 2.4.0
-	 * 
+	 *
 	 * @var   bool|ConvertKit_Broadcasts_Settings
 	 */
 	private $broadcasts_settings = false;
 
 	/**
 	 * Holds the Settings class.
-	 * 
+	 *
 	 * @since 2.4.0
-	 * 
+	 *
 	 * @var   bool|ConvertKit_Settings
 	 */
 	private $settings = false;
@@ -215,7 +215,7 @@ class ConvertKit_Admin_Broadcasts_Exporter {
 		$content = WP_ConvertKit()->get_class( 'broadcasts_importer' )->get_permitted_html( $content, $this->broadcasts_settings->no_styles() );
 
 		// Initialize the API.
-		$api      = new ConvertKit_API( $this->settings->get_api_key(), $this->settings->get_api_secret(), $this->settings->debug_enabled() );
+		$api = new ConvertKit_API( $this->settings->get_api_key(), $this->settings->get_api_secret(), $this->settings->debug_enabled() );
 
 		// Create draft Broadcast in ConvertKit.
 		return $api->broadcast_create(
