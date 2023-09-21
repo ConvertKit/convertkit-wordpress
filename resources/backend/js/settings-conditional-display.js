@@ -16,7 +16,7 @@ jQuery( document ).ready(
 	function ( $ ) {
 
 		// Update settings and refresh UI when a setting is changed.
-		$( 'input[type=checkbox]' ).on(
+		$( 'input#enabled' ).on(
 			'change',
 			function () {
 
@@ -25,7 +25,6 @@ jQuery( document ).ready(
 			}
 		);
 
-		// Restrict Content.
 		convertKitConditionallyDisplaySettings( 'enabled', $( 'input#enabled' ).prop( 'checked' ) );
 
 	}
