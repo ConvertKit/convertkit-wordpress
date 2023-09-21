@@ -398,7 +398,7 @@ class Plugin extends \Codeception\Module
 	 * @param   AcceptanceTester $I          AcceptanceTester.
 	 * @param   bool|array       $settings   Array of key/value settings. If not defined, uses expected defaults.
 	 */
-	public function setupConvertKitPluginBroadcastsToPosts($I, $settings = false)
+	public function setupConvertKitPluginBroadcasts($I, $settings = false)
 	{
 		// Go to the Plugin's Broadcasts screen.
 		$I->loadConvertKitSettingsBroadcastsScreen($I);
@@ -408,6 +408,7 @@ class Plugin extends \Codeception\Module
 			foreach ( $settings as $key => $value ) {
 				switch ( $key ) {
 					case 'enabled':
+					case 'enabled_export':
 					case 'no_styles':
 						if ( $value ) {
 							$I->checkOption('_wp_convertkit_settings_broadcasts[' . $key . ']');

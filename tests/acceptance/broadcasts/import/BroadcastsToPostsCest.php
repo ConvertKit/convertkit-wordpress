@@ -66,7 +66,7 @@ class BroadcastsToPostsCest
 	public function testBroadcastsImportWhenDisabled(AcceptanceTester $I)
 	{
 		// Enable Broadcasts to Posts.
-		$I->setupConvertKitPluginBroadcastsToPosts(
+		$I->setupConvertKitPluginBroadcasts(
 			$I,
 			[
 				'enabled' => false,
@@ -101,7 +101,7 @@ class BroadcastsToPostsCest
 	public function testBroadcastsImportWhenEnabled(AcceptanceTester $I)
 	{
 		// Enable Broadcasts to Posts.
-		$I->setupConvertKitPluginBroadcastsToPosts(
+		$I->setupConvertKitPluginBroadcasts(
 			$I,
 			[
 				'enabled'               => true,
@@ -165,7 +165,7 @@ class BroadcastsToPostsCest
 	public function testBroadcastsManualImportWhenEnabled(AcceptanceTester $I)
 	{
 		// Enable Broadcasts to Posts.
-		$I->setupConvertKitPluginBroadcastsToPosts(
+		$I->setupConvertKitPluginBroadcasts(
 			$I,
 			[
 				'enabled'               => true,
@@ -227,7 +227,7 @@ class BroadcastsToPostsCest
 	public function testBroadcastsImportWithCategoryEnabled(AcceptanceTester $I)
 	{
 		// Enable Broadcasts to Posts.
-		$I->setupConvertKitPluginBroadcastsToPosts(
+		$I->setupConvertKitPluginBroadcasts(
 			$I,
 			[
 				'enabled'               => true,
@@ -278,7 +278,7 @@ class BroadcastsToPostsCest
 	public function testBroadcastsImportWithEarliestDate(AcceptanceTester $I)
 	{
 		// Enable Broadcasts to Posts.
-		$I->setupConvertKitPluginBroadcastsToPosts(
+		$I->setupConvertKitPluginBroadcasts(
 			$I,
 			[
 				'enabled'               => true,
@@ -324,7 +324,7 @@ class BroadcastsToPostsCest
 		);
 
 		// Enable Broadcasts to Posts.
-		$I->setupConvertKitPluginBroadcastsToPosts(
+		$I->setupConvertKitPluginBroadcasts(
 			$I,
 			[
 				'enabled'               => true,
@@ -373,7 +373,7 @@ class BroadcastsToPostsCest
 	public function testBroadcastsImportWithDisableStylesEnabled(AcceptanceTester $I)
 	{
 		// Enable Broadcasts to Posts.
-		$I->setupConvertKitPluginBroadcastsToPosts(
+		$I->setupConvertKitPluginBroadcasts(
 			$I,
 			[
 				'enabled'               => true,
