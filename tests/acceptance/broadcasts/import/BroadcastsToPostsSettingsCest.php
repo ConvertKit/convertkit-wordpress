@@ -119,6 +119,7 @@ class BroadcastsToPostsSettingsCest
 		$I->checkOption('#enabled');
 		$I->fillSelect2Field($I, '#select2-_wp_convertkit_settings_broadcasts_category_id-container', 'ConvertKit Broadcasts to Posts');
 		$I->fillField('_wp_convertkit_settings_broadcasts[published_at_min_date]', '01/01/2023');
+		$I->checkOption('#no_styles');
 
 		// Click the Save Changes button.
 		$I->click('Save Changes');
@@ -130,6 +131,7 @@ class BroadcastsToPostsSettingsCest
 		$I->seeCheckboxIsChecked('#enabled');
 		$I->seeInField('_wp_convertkit_settings_broadcasts[category_id]', 'ConvertKit Broadcasts to Posts');
 		$I->seeInField('_wp_convertkit_settings_broadcasts[published_at_min_date]', '2023-01-01');
+		$I->seeCheckboxIsChecked('#no_styles');
 	}
 
 	/**
