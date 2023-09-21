@@ -36,7 +36,7 @@ class ConvertKit_Admin_Broadcasts_Exporter {
 	 *
 	 * @since 2.4.0
 	 *
-	 * @var   bool|ConvertKit_Broadcasts_Settings
+	 * @var   bool|ConvertKit_Settings_Broadcasts
 	 */
 	private $broadcasts_settings = false;
 
