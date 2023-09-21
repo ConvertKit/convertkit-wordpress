@@ -224,14 +224,14 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 
 		add_settings_field(
 			'enabled_export',
-			__( 'Enable Export Options', 'convertkit' ),
+			__( 'Enable Export Actions', 'convertkit' ),
 			array( $this, 'enable_export_callback' ),
 			$this->settings_key,
 			$this->name,
 			array(
 				'name'      => 'enabled_export',
 				'label_for' => 'enabled_export',
-				'label'     => __( 'Enables options in WordPress to create draft broadcasts from existing WordPress posts.', 'convertkit' ),
+				'label'     => __( 'Displays actions in WordPress to create draft broadcasts from existing WordPress posts.', 'convertkit' ),
 			)
 		);
 
