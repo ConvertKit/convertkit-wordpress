@@ -32,6 +32,24 @@ class ConvertKit_Admin_Broadcasts_Exporter {
 	private $broadcast_id = false;
 
 	/**
+	 * Holds the Broadcasts Settings class.
+	 * 
+	 * @since 2.4.0
+	 * 
+	 * @var   bool|ConvertKit_Broadcasts_Settings
+	 */
+	private $broadcasts_settings = false;
+
+	/**
+	 * Holds the Settings class.
+	 * 
+	 * @since 2.4.0
+	 * 
+	 * @var   bool|ConvertKit_Settings
+	 */
+	private $settings = false;
+
+	/**
 	 * Constructor
 	 *
 	 * @since   2.4.0
@@ -39,14 +57,14 @@ class ConvertKit_Admin_Broadcasts_Exporter {
 	public function __construct() {
 
 		// Bail if no API credentials have been set.
-		$settings = new ConvertKit_Settings();
-		if ( ! $settings->has_api_key_and_secret() ) {
+		$this->settings = new ConvertKit_Settings();
+		if ( ! $this->settings->has_api_key_and_secret() ) {
 			return;
 		}
 
 		// Bail if the Enable Export Actions setting is not enabled.
-		$broadcasts_settings = new ConvertKit_Settings_Broadcasts();
-		if ( ! $broadcasts_settings->enabled_export() ) {
+		$this->broadcasts_settings = new ConvertKit_Settings_Broadcasts();
+		if ( ! $this->broadcasts_settings->enabled_export() ) {
 			return;
 		}
 
@@ -194,11 +212,10 @@ class ConvertKit_Admin_Broadcasts_Exporter {
 		$content = apply_filters( 'the_content', $post->post_content );
 
 		// Remove HTML tags that are not supported in ConvertKit Broadcasts.
-		$content = WP_ConvertKit()->get_class( 'broadcasts_importer' )->get_permitted_html( $content );
+		$content = WP_ConvertKit()->get_class( 'broadcasts_importer' )->get_permitted_html( $content, $this->broadcasts_settings->no_styles() );
 
 		// Initialize the API.
-		$settings = new ConvertKit_Settings();
-		$api      = new ConvertKit_API( $settings->get_api_key(), $settings->get_api_secret(), $settings->debug_enabled() );
+		$api      = new ConvertKit_API( $this->settings->get_api_key(), $this->settings->get_api_secret(), $this->settings->debug_enabled() );
 
 		// Create draft Broadcast in ConvertKit.
 		return $api->broadcast_create(
