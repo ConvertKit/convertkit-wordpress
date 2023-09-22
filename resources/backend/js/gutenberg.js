@@ -18,6 +18,9 @@ if ( typeof wp !== 'undefined' &&
 		convertKitGutenbergRegisterBlock( convertkit_blocks[ block ] );
 	}
 
+	// Register ConvertKit Pre-publish actions in Gutenberg.
+	convertKitGutenbergRegisterPrePublishActions( convertkit_pre_publish_actions );
+
 }
 
 /**
@@ -672,6 +675,81 @@ function convertKitGutenbergRegisterBlock( block ) {
 	} (
 		window.wp.blocks,
 		window.wp.blockEditor,
+		window.wp.element,
+		window.wp.components
+	) );
+
+}
+
+
+function convertKitGutenbergRegisterPrePublishActions( actions ) {
+
+	console.log( actions );
+
+	( function ( plugins, editPost, element, components ) {
+
+		// Define some constants for the various items we'll use.
+		const el                 		= element.createElement;
+		const { ToggleControl }         = components;
+		const { registerPlugin } 		= plugins;
+		const { PluginPrePublishPanel } = editPost;
+
+		/**
+		 * Returns a PluginPrePublishPanel for this Plugin, comprising of all
+		 * pre-publish actions.
+		 *
+		 * @since   2.4.0
+		 *
+		 * @param   object  				props   ?
+		 * @return  PluginPrePublishPanel
+		 */
+		const renderPanel = function ( props ) {
+
+			// Build rows.
+			let rows = [];
+			for ( const [ name, action ] of Object.entries( actions ) ) {
+			    rows.push(
+					el(
+						ToggleControl,
+						{
+							id:  		'convertkit_action_' + action.name,
+							label: 		action.label,
+							help: 		action.description,
+							value: 		false,
+							onChange: 	function ( value ) {
+								let newValue          = {};
+								newValue[ action.name ] = value;
+								props.setAttributes( newValue );
+							}
+						}
+					)
+				);
+			}
+
+			// Return actions in the pre-publish panel.
+			return el(
+		        PluginPrePublishPanel,
+		        {   
+		            className: 'convertkit-pre-publish-actions',
+		            title: 'ConvertKit',
+		            initialOpen: true,
+		        },
+		        rows
+		    );
+
+		}
+
+		// Register pre-publish action.
+		registerPlugin(
+			'convertkit-pre-publish-actions',
+			{
+				render: renderPanel
+			}
+		);
+
+	} (
+		window.wp.plugins,
+		window.wp.editPost,
 		window.wp.element,
 		window.wp.components
 	) );
