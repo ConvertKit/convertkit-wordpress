@@ -686,13 +686,14 @@ function convertKitGutenbergRegisterPrePublishActions( actions ) {
 
 	console.log( actions );
 
-	( function ( plugins, editPost, element, components ) {
+	( function ( plugins, editPost, element, components, data ) {
 
 		// Define some constants for the various items we'll use.
 		const el                 		= element.createElement;
 		const { ToggleControl }         = components;
 		const { registerPlugin } 		= plugins;
 		const { PluginPrePublishPanel } = editPost;
+		const { useSelect, useDispatch }= data;
 
 		/**
 		 * Returns a PluginPrePublishPanel for this Plugin, comprising of all
@@ -708,6 +709,17 @@ function convertKitGutenbergRegisterPrePublishActions( actions ) {
 			// Build rows.
 			let rows = [];
 			for ( const [ name, action ] of Object.entries( actions ) ) {
+
+				// Must match the meta key defined in register_meta() in ConvertKit_Pre_Publish_Action.
+				const metaKey = 'convertkit_action_' + action.name;
+				const { postMeta } = useSelect( ( select ) => {		
+					return {
+						postMeta: select( 'core/editor' ).getEditedPostAttribute( 'meta' ),
+					};
+				} );
+				const { editPost } = useDispatch( 'core/editor', [ postMeta[ metaKey ] ] );
+
+				// Add row.
 			    rows.push(
 					el(
 						ToggleControl,
@@ -715,11 +727,11 @@ function convertKitGutenbergRegisterPrePublishActions( actions ) {
 							id:  		'convertkit_action_' + action.name,
 							label: 		action.label,
 							help: 		action.description,
-							value: 		false,
+							checked: 	postMeta[ metaKey ],
 							onChange: 	function ( value ) {
-								let newValue          = {};
-								newValue[ action.name ] = value;
-								props.setAttributes( newValue );
+								editPost( {
+						            meta: { [ metaKey ]: value },
+						        } );
 							}
 						}
 					)
@@ -751,7 +763,8 @@ function convertKitGutenbergRegisterPrePublishActions( actions ) {
 		window.wp.plugins,
 		window.wp.editPost,
 		window.wp.element,
-		window.wp.components
+		window.wp.components,
+		window.wp.data
 	) );
 
 }

@@ -21,8 +21,25 @@ class ConvertKit_Pre_Publish_Action_Broadcast_Export extends ConvertKit_Pre_Publ
 	 */
 	public function __construct() {
 
+		add_action( 'init', array( $this, 'reg' ) );
+
 		// Register this as a Gutenberg pre-publish action in the ConvertKit Plugin.
 		add_filter( 'convertkit_get_pre_publish_actions', array( $this, 'register' ) );
+
+	}
+
+	public function reg() {
+
+		// Register action as a meta key.
+		register_meta(
+			'post',
+			'convertkit_action_' . $this->get_name(),
+			array(
+			    'show_in_rest'  => true,
+			    'single' 		=> true,
+			    'type' 			=> 'boolean'
+			)
+		);
 
 	}
 
@@ -40,7 +57,7 @@ class ConvertKit_Pre_Publish_Action_Broadcast_Export extends ConvertKit_Pre_Publ
 		 * - a Classic Editor pre-publish action, displayed as a checkbox on a draft Post.
 		 * - a Gutenberg pre-publish action, with the name convertkit-action-broadcast-export.
 		 */
-		return 'broadcast-export';
+		return 'broadcast_export';
 
 	}
 
