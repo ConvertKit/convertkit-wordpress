@@ -363,7 +363,7 @@ class ConvertKit_Broadcasts_Importer {
 		);
 
 		// If Disable Styles is false, include layout tags.
-		if ( $disable_styles ) {
+		if ( ! $disable_styles ) {
 			$permitted_html_tags = array_merge(
 				$permitted_html_tags,
 				array(
