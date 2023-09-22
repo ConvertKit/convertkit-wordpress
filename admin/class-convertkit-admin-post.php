@@ -23,6 +23,7 @@ class ConvertKit_Admin_Post {
 	 */
 	public function __construct() {
 
+		add_action( 'post_submitbox_misc_actions', array( $this, 'register_pre_publish_actions' ) );
 		add_action( 'add_meta_boxes', array( $this, 'add_meta_boxes' ) );
 		add_action( 'save_post', array( $this, 'save_post_meta' ) );
 
@@ -69,6 +70,30 @@ class ConvertKit_Admin_Post {
 		 * @since   1.9.6.4
 		 */
 		do_action( 'convertkit_admin_post_enqueue_styles' );
+
+	}
+
+	/**
+	 * Registers actions in the pre-publish actions section of the Publish metabox
+	 * in the Classic Editor.
+	 * 
+	 * @since 	2.4.0
+	 * 
+	 * @param 	WP_Post 	$post 	WordPress Post.
+	 */
+	public function register_pre_publish_actions( $post ) {
+
+		// bail if no actions
+
+		// Bail if Post is not a draft.
+		if ( ! in_array( $post->post_status, array( 'draft', 'auto-draft' ) ) ) {
+			return;
+		}
+
+		echo '<h4>ConvertKit</h4>';
+
+		// iterate through actions
+		//echo '<input type="checkbox" name="' . $this->get_name() . '" value="1" />' . $this->get_label();
 
 	}
 

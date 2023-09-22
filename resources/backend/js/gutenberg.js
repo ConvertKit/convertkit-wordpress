@@ -684,8 +684,6 @@ function convertKitGutenbergRegisterBlock( block ) {
 
 function convertKitGutenbergRegisterPrePublishActions( actions ) {
 
-	console.log( actions );
-
 	( function ( plugins, editPost, element, components, data ) {
 
 		// Define some constants for the various items we'll use.
@@ -710,7 +708,7 @@ function convertKitGutenbergRegisterPrePublishActions( actions ) {
 			let rows = [];
 			for ( const [ name, action ] of Object.entries( actions ) ) {
 
-				// Must match the meta key defined in register_meta() in ConvertKit_Pre_Publish_Action.
+				// The meta key defined 
 				const metaKey = 'convertkit_action_' + action.name;
 				const { postMeta } = useSelect( ( select ) => {		
 					return {

@@ -21,25 +21,12 @@ class ConvertKit_Pre_Publish_Action_Broadcast_Export extends ConvertKit_Pre_Publ
 	 */
 	public function __construct() {
 
-		add_action( 'init', array( $this, 'reg' ) );
+		// Register meta key.
+		add_action( 'init', array( $this, 'register_meta_key' ) );
 
 		// Register this as a Gutenberg pre-publish action in the ConvertKit Plugin.
 		add_filter( 'convertkit_get_pre_publish_actions', array( $this, 'register' ) );
 
-	}
-
-	public function reg() {
-
-		// Register action as a meta key.
-		register_meta(
-			'post',
-			'convertkit_action_' . $this->get_name(),
-			array(
-			    'show_in_rest'  => true,
-			    'single' 		=> true,
-			    'type' 			=> 'boolean'
-			)
-		);
 
 	}
 
@@ -70,7 +57,7 @@ class ConvertKit_Pre_Publish_Action_Broadcast_Export extends ConvertKit_Pre_Publ
 	 */
 	public function get_label() {
 
-		return __( 'Create draft ConvertKit Broadcast', 'convertkit' );
+		return __( 'Create Broadcast', 'convertkit' );
 
 	}
 
