@@ -21,6 +21,12 @@ class ConvertKit_Pre_Publish_Action_Broadcast_Export extends ConvertKit_Pre_Publ
 	 */
 	public function __construct() {
 
+		// Bail if the Enable Export Actions setting is not enabled.
+		$broadcasts_settings = new ConvertKit_Settings_Broadcasts();
+		if ( ! $broadcasts_settings->enabled_export() ) {
+			return;
+		}
+
 		// Register meta key.
 		add_action( 'init', array( $this, 'register_meta_key' ) );
 

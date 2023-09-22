@@ -83,17 +83,35 @@ class ConvertKit_Admin_Post {
 	 */
 	public function register_pre_publish_actions( $post ) {
 
-		// bail if no actions
+		// Bail if no actions registered.
+		$pre_publish_actions = convertkit_get_pre_publish_actions();
+		if ( ! count( $pre_publish_actions ) ) {
+			return;
+		}
 
 		// Bail if Post is not a draft.
 		if ( ! in_array( $post->post_status, array( 'draft', 'auto-draft' ) ) ) {
 			return;
 		}
 
+		// @TODO Tidy this up.
 		echo '<h4>ConvertKit</h4>';
 
-		// iterate through actions
-		//echo '<input type="checkbox" name="' . $this->get_name() . '" value="1" />' . $this->get_label();
+		// Iterate through actions.
+		foreach ( $pre_publish_actions as $name => $action ) {
+			printf(
+				'<label for="convertkit_action_%s">
+					<input type="checkbox" name="convertkit_action_%s" id="convertkit_action_%s" value="1" />
+					%s
+				</label>
+				<p class="description">%s</p>',
+				$name,
+				$name,
+				$name,
+				$action['label'],
+				$action['description']
+			);
+		}
 
 	}
 

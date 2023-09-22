@@ -52,8 +52,6 @@ class ConvertKit_Pre_Publish_Action {
 			'description'    => $this->get_description(),
 		);
 
-		
-
 		return $pre_publish_actions;
 
 	}

@@ -19,7 +19,9 @@ if ( typeof wp !== 'undefined' &&
 	}
 
 	// Register ConvertKit Pre-publish actions in Gutenberg.
-	convertKitGutenbergRegisterPrePublishActions( convertkit_pre_publish_actions );
+	if ( typeof convertkit_pre_publish_actions !== 'undefined' ) {
+		convertKitGutenbergRegisterPrePublishActions( convertkit_pre_publish_actions );
+	}
 
 }
 
