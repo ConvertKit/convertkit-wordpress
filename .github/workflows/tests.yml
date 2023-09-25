@@ -276,3 +276,10 @@ jobs:
         with:
           name: log.txt
           path: ${{ env.PLUGIN_DIR }}/log.txt
+
+      - name: Upload .env File to Artifact
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: .env.dist.testing
+          path: ${{ env.PLUGIN_DIR }}/.env.dist.testing
