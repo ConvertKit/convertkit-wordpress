@@ -43,14 +43,14 @@ class BroadcastsToPostsSettingsCest
 	}
 
 	/**
-	 * Tests that enabling and disabling Broadcasts works with no errors,
+	 * Tests that enabling and disabling the import option works with no errors,
 	 * and that other form fields show / hide depending on the setting.
 	 *
 	 * @since   2.2.8
 	 *
 	 * @param   AcceptanceTester $I  Tester.
 	 */
-	public function testEnableDisable(AcceptanceTester $I)
+	public function testEnableDisableImport(AcceptanceTester $I)
 	{
 		// Go to the Plugin's Broadcasts Screen.
 		$I->loadConvertKitSettingsBroadcastsScreen($I);
@@ -117,6 +117,8 @@ class BroadcastsToPostsSettingsCest
 		$I->checkOption('#enabled');
 		$I->fillSelect2Field($I, '#select2-_wp_convertkit_settings_broadcasts_category_id-container', 'ConvertKit Broadcasts to Posts');
 		$I->fillField('_wp_convertkit_settings_broadcasts[published_at_min_date]', '01/01/2023');
+		$I->checkOption('#enabled_export');
+		$I->checkOption('#no_styles');
 
 		// Click the Save Changes button.
 		$I->click('Save Changes');
@@ -128,6 +130,8 @@ class BroadcastsToPostsSettingsCest
 		$I->seeCheckboxIsChecked('#enabled');
 		$I->seeInField('_wp_convertkit_settings_broadcasts[category_id]', 'ConvertKit Broadcasts to Posts');
 		$I->seeInField('_wp_convertkit_settings_broadcasts[published_at_min_date]', '2023-01-01');
+		$I->seeCheckboxIsChecked('#enabled_export');
+		$I->seeCheckboxIsChecked('#no_styles');
 	}
 
 	/**
