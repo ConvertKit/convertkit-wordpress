@@ -23,7 +23,7 @@ class ConvertKit_Admin_Post {
 	 */
 	public function __construct() {
 
-		add_action( 'post_submitbox_misc_actions', array( $this, 'register_pre_publish_actions' ) );
+		add_action( 'post_submitbox_misc_actions', array( $this, 'output_pre_publish_actions' ) );
 		add_action( 'add_meta_boxes', array( $this, 'add_meta_boxes' ) );
 		add_action( 'save_post', array( $this, 'save_post_meta' ) );
 
@@ -81,7 +81,7 @@ class ConvertKit_Admin_Post {
 	 * 
 	 * @param 	WP_Post 	$post 	WordPress Post.
 	 */
-	public function register_pre_publish_actions( $post ) {
+	public function output_pre_publish_actions( $post ) {
 
 		// Bail if no actions registered.
 		$pre_publish_actions = convertkit_get_pre_publish_actions();
@@ -94,24 +94,8 @@ class ConvertKit_Admin_Post {
 			return;
 		}
 
-		// @TODO Tidy this up.
-		echo '<h4>ConvertKit</h4>';
-
-		// Iterate through actions.
-		foreach ( $pre_publish_actions as $name => $action ) {
-			printf(
-				'<label for="convertkit_action_%s">
-					<input type="checkbox" name="convertkit_action_%s" id="convertkit_action_%s" value="1" />
-					%s
-				</label>
-				<p class="description">%s</p>',
-				$name,
-				$name,
-				$name,
-				$action['label'],
-				$action['description']
-			);
-		}
+		// Load pre-publish actions view.
+		include CONVERTKIT_PLUGIN_PATH . '/views/backend/post/pre-publish-actions.php';
 
 	}
 
