@@ -15,16 +15,28 @@
 class ConvertKit_Pre_Publish_Action {
 
 	/**
-	 * Holds the Post Meta Key prefix that stores the ConvertKit pre-publish action setting on a per-Post basis
+	 * Holds the Post Meta Key prefix that stores the ConvertKit pre-publish action setting on a per-Post basis.
 	 *
 	 * @var     string
-	 * 
-	 * @since 	2.4.0
+	 *
+	 * @since   2.4.0
 	 */
 	const POST_META_KEY_PREFIX = '_convertkit_action_';
 
+	/**
+	 * Holds the Post Meta Key that stores whether to run a given ConvertKit pre-publish action on a per-Post basis.
+	 *
+	 * @var     string
+	 *
+	 * @since   2.4.0
+	 */
 	private $meta_key = '';
 
+	/**
+	 * Constructor
+	 *
+	 * @since   2.4.0
+	 */
 	public function __construct() {
 
 		// Define the meta key.
@@ -36,6 +48,7 @@ class ConvertKit_Pre_Publish_Action {
 		// Register this as a pre-publish action in the ConvertKit Plugin.
 		add_filter( 'convertkit_get_pre_publish_actions', array( $this, 'register' ) );
 
+		// Save whether to run the pre-publish action when the Post is saved.
 		add_action( 'save_post', array( $this, 'save_post_meta' ) );
 
 		// Perform pre-publish action.
@@ -47,8 +60,8 @@ class ConvertKit_Pre_Publish_Action {
 	 * Registers the action's meta key in WordPress.
 	 * This is required for Gutenberg to save the 'convertkit_action_{$name}'
 	 * meta key/value pair when a Post is published.
-	 * 
-	 * @since 	2.4.0
+	 *
+	 * @since   2.4.0
 	 */
 	public function register_meta_key() {
 
@@ -57,14 +70,11 @@ class ConvertKit_Pre_Publish_Action {
 			'post',
 			$this->meta_key,
 			array(
-			    'show_in_rest'  => true,
-			    'single' 		=> true,
-			    'type' 			=> 'boolean'
+				'show_in_rest' => true,
+				'single'       => true,
+				'type'         => 'boolean',
 			)
 		);
-
-		// Save post meta?
-
 
 	}
 
@@ -74,14 +84,14 @@ class ConvertKit_Pre_Publish_Action {
 	 * @since   2.4.0
 	 *
 	 * @param   array $pre_publish_actions    Pre-publish actions to register.
-	 * @return  array               		  Pre-publish actions to register.
+	 * @return  array                         Pre-publish actions to register.
 	 */
 	public function register( $pre_publish_actions ) {
 
 		$pre_publish_actions[ $this->get_name() ] = array(
-			'name'           => $this->get_name(),
-			'label' 		 => $this->get_label(),
-			'description'    => $this->get_description(),
+			'name'        => $this->get_name(),
+			'label'       => $this->get_label(),
+			'description' => $this->get_description(),
 		);
 
 		return $pre_publish_actions;
@@ -89,7 +99,8 @@ class ConvertKit_Pre_Publish_Action {
 	}
 
 	/**
-	 * Saves... @TODO.
+	 * Saves a meta key/value pair against the Post, based on whether the user has permitted
+	 * that the pre-publish action should run when the Post is published.
 	 *
 	 * @since  2.4.0
 	 *
@@ -129,9 +140,9 @@ class ConvertKit_Pre_Publish_Action {
 
 	/**
 	 * Performs the pre-publish action, if the Post has been transitioned to published.
-	 * 
-	 * @since 	2.4.0
-	 * 
+	 *
+	 * @since   2.4.0
+	 *
 	 * @param   string  $new_status     New Status.
 	 * @param   string  $old_status     Old Status.
 	 * @param   WP_Post $post           Post.
@@ -156,10 +167,10 @@ class ConvertKit_Pre_Publish_Action {
 		/**
 		 * Run this pre-publish action, as the WordPress Post has just transitioned to publish
 		 * from another state.
-		 * 
-		 * @since 	2.4.0
-		 * 
-		 * @param 	WP_Post 	$post 	Post.
+		 *
+		 * @since   2.4.0
+		 *
+		 * @param   WP_Post     $post   Post.
 		 */
 		do_action( 'convertkit_pre_publish_action_run_' . $this->get_name(), $post );
 
@@ -212,11 +223,11 @@ class ConvertKit_Pre_Publish_Action {
 	/**
 	 * Returns whether this action has been enabled by the user to be run
 	 * when the Post is published.
-	 * 
-	 * @since 	2.4.0
-	 * 
-	 * @param 	int 	$post_id 	Post ID.
-	 * @return 	bool
+	 *
+	 * @since   2.4.0
+	 *
+	 * @param   int $post_id    Post ID.
+	 * @return  bool
 	 */
 	public function is_enabled( $post_id ) {
 

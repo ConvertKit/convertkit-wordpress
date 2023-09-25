@@ -34,6 +34,14 @@ class ConvertKit_Pre_Publish_Action_Broadcast_Export extends ConvertKit_Pre_Publ
 
 	}
 
+	/**
+	 * Exports the given WordPress Post to a draft ConvertKit Broadcast,
+	 * when the WordPress Post's status transitions to published.
+	 *
+	 * @since   2.4.0
+	 *
+	 * @param   WP_Post $post   Post.
+	 */
 	public function export_broadcast( $post ) {
 
 		$broadcasts_exporter = WP_ConvertKit()->get_class( 'admin_broadcasts_exporter' );

@@ -76,10 +76,10 @@ class ConvertKit_Admin_Post {
 	/**
 	 * Registers actions in the pre-publish actions section of the Publish metabox
 	 * in the Classic Editor.
-	 * 
-	 * @since 	2.4.0
-	 * 
-	 * @param 	WP_Post 	$post 	WordPress Post.
+	 *
+	 * @since   2.4.0
+	 *
+	 * @param   WP_Post $post   WordPress Post.
 	 */
 	public function output_pre_publish_actions( $post ) {
 
@@ -90,7 +90,7 @@ class ConvertKit_Admin_Post {
 		}
 
 		// Bail if Post is not a draft.
-		if ( ! in_array( $post->post_status, array( 'draft', 'auto-draft' ) ) ) {
+		if ( ! in_array( $post->post_status, array( 'draft', 'auto-draft' ), true ) ) {
 			return;
 		}
 
