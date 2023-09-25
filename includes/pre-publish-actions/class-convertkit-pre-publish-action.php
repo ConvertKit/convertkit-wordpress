@@ -149,7 +149,7 @@ class ConvertKit_Pre_Publish_Action {
 		}
 
 		// Check the action was enabled on this Post by the user.
-		if ( ! $this->enabled( $post->ID ) ) {
+		if ( ! $this->is_enabled( $post->ID ) ) {
 			return;
 		}
 
@@ -220,7 +220,7 @@ class ConvertKit_Pre_Publish_Action {
 	 */
 	public function is_enabled( $post_id ) {
 
-		return (bool) get_post_meta( $post_id, $this->meta_key . $this->get_name(), true );
+		return (bool) get_post_meta( $post_id, $this->meta_key, true );
 
 	}
 

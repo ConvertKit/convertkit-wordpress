@@ -190,7 +190,7 @@ class ConvertKit_Admin_Broadcasts_Exporter {
 	 * @param   int $post_id    Post ID.
 	 * @return  WP_Error|array
 	 */
-	private function export_post_to_broadcast( $post_id ) {
+	public function export_post_to_broadcast( $post_id ) {
 
 		// Get Post.
 		$post = get_post( $post_id );

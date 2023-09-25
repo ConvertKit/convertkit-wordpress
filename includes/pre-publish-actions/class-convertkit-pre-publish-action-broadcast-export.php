@@ -36,7 +36,8 @@ class ConvertKit_Pre_Publish_Action_Broadcast_Export extends ConvertKit_Pre_Publ
 
 	public function export_broadcast( $post ) {
 
-		die('would export post to convertkit as a broadcast' );
+		$broadcasts_exporter = WP_ConvertKit()->get_class( 'admin_broadcasts_exporter' );
+		$broadcasts_exporter->export_post_to_broadcast( $post->ID );
 
 	}
 
