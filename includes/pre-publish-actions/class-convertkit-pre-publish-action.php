@@ -34,6 +34,14 @@ class ConvertKit_Pre_Publish_Action {
 			)
 		);
 
+		// Define as a meta key in the Plugin's post settings defaults array.
+		add_filter( 'convertkit_post_get_default_settings', function( $defaults ) {
+
+			$defaults[ $this->get_name() ] = '';
+			return $defaults;
+
+		} );
+
 	}
 
 	/**
