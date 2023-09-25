@@ -15,17 +15,18 @@
 			printf(
 				'<label for="convertkit_action_%s">
 					%s
-					<input type="checkbox" name="wp-convertkit[%s]" id="convertkit_action_%s" value="1" />
+					<input type="checkbox" name="_convertkit_action_%s" id="convertkit_action_%s" value="1"%s />
 				</label>
 				<p class="description">%s</p>',
 				$name,
 				$action['label'],
 				$name,
 				$name,
+				checked( get_post_meta( $post->ID, '_convertkit_action_' . $name, true ), '1', false ),
 				$action['description']
 			);
 		}
-		wp_nonce_field( 'wp-convertkit-save-meta', 'wp-convertkit-save-meta-nonce' );
+		wp_nonce_field( 'wp-convertkit-pre-publish-actions', 'wp-convertkit-pre-publish-actions-nonce' );
 		?>
 	</div>
 </div>

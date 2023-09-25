@@ -27,12 +27,16 @@ class ConvertKit_Pre_Publish_Action_Broadcast_Export extends ConvertKit_Pre_Publ
 			return;
 		}
 
-		// Register meta key.
-		add_action( 'init', array( $this, 'register_meta_key' ) );
+		// Register action to export Post to ConvertKit Broadcast when published.
+		add_action( 'convertkit_pre_publish_action_run_' . $this->get_name(), array( $this, 'export_broadcast' ) );
 
-		// Register this as a Gutenberg pre-publish action in the ConvertKit Plugin.
-		add_filter( 'convertkit_get_pre_publish_actions', array( $this, 'register' ) );
+		parent::__construct();
 
+	}
+
+	public function export_broadcast( $post ) {
+
+		die('would export post to convertkit as a broadcast' );
 
 	}
 
