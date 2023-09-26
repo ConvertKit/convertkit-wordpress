@@ -183,7 +183,8 @@ class ConvertKit_Admin_Broadcasts_Exporter {
 	}
 
 	/**
-	 * Creates a draft Broadcast in ConvertKit from the given WordPress Post ID.
+	 * Creates a draft Broadcast in ConvertKit from the given WordPress Post ID,
+	 * storing the Broadcast ID against in the Post's meta.
 	 *
 	 * @since   2.4.0
 	 *
@@ -218,11 +219,22 @@ class ConvertKit_Admin_Broadcasts_Exporter {
 		$api = new ConvertKit_API( $this->settings->get_api_key(), $this->settings->get_api_secret(), $this->settings->debug_enabled() );
 
 		// Create draft Broadcast in ConvertKit.
-		return $api->broadcast_create(
+		$result = $api->broadcast_create(
 			$post->post_title,
 			$content,
 			$post->post_excerpt
 		);
+
+		// If an error occured, return it now.
+		if ( is_wp_error( $result ) ) {
+			return $result;
+		}
+
+		// Store the Broadcast ID against the WordPress Post.
+		update_post_meta( $post->ID, '_convertkit_broadcast_export_id', $result['id'] );
+
+		// Return result.
+		return $result;
 
 	}
 
