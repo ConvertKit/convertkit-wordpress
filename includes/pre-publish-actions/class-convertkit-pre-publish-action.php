@@ -50,9 +50,29 @@ class ConvertKit_Pre_Publish_Action {
 
 		// Perform pre-publish action.
 		add_action( 'transition_post_status', array( $this, 'run' ), 10, 3 );
+		add_action( 'rest_after_insert_post', array( $this, 'rest_api_post_publish' ), 10, 1 );
+		add_action( 'wp_after_insert_post', array( $this, 'wp_after_insert_post' ), 10, 4 );
 
 		// Save whether to run the pre-publish action when the Post is saved.
 		add_action( 'save_post', array( $this, 'save_post_meta' ) );
+
+	}
+
+	public function rest_api_post_publish( $post ) {
+
+		error_log( '---' );
+		error_log( 'rest_after_insert_post' );
+		error_log( 'enabled = ' . $this->is_enabled( $post->ID ) );
+
+	}
+
+	public function wp_after_insert_post( $post_id, $post, $update, $post_before ) {
+
+		error_log( '---' );
+		error_log( 'wp_after_insert_post' );
+		error_log( 'enabled = ' . $this->is_enabled( $post->ID ) );
+		error_log( 'update = ' . $update );
+		error_log( print_r( $post_before, true ) );
 
 	}
 
@@ -109,6 +129,11 @@ class ConvertKit_Pre_Publish_Action {
 	 * @param   WP_Post $post           Post.
 	 */
 	public function run( $new_status, $old_status, $post ) {
+
+		error_log( '---' );
+		error_log( $new_status );
+		error_log( $old_status );
+		error_log( 'enabled = ' . $this->is_enabled( $post->ID ) );
 
 		// Ignore if the Post is not transitioning to published.
 		if ( $new_status !== 'publish' ) {
