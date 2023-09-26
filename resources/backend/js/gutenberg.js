@@ -710,14 +710,13 @@ function convertKitGutenbergRegisterPrePublishActions( actions ) {
 			let rows = [];
 			for ( const [ name, action ] of Object.entries( actions ) ) {
 
-				// The meta key defined 
-				const metaKey = 'convertkit_action_' + action.name;
-				const { postMeta } = useSelect( ( select ) => {		
+				const key = '_convertkit_action_' + action.name;
+				const { meta } = useSelect( function( select ) {
 					return {
-						postMeta: select( 'core/editor' ).getEditedPostAttribute( 'meta' ),
+						meta: select( 'core/editor' ).getEditedPostAttribute( 'meta' ),
 					};
 				} );
-				const { editPost } = useDispatch( 'core/editor', [ postMeta[ metaKey ] ] );
+				const { editPost } = useDispatch( 'core/editor', [ meta[ key ] ] );
 
 				// Add row.
 			    rows.push(
@@ -727,10 +726,11 @@ function convertKitGutenbergRegisterPrePublishActions( actions ) {
 							id:  		'convertkit_action_' + action.name,
 							label: 		action.label,
 							help: 		action.description,
-							checked: 	postMeta[ metaKey ],
+							value:      true, // @TODO is this right?
+							checked: 	meta[ key ],
 							onChange: 	function ( value ) {
 								editPost( {
-						            meta: { [ metaKey ]: value },
+						            meta: { [ key ]: value },
 						        } );
 							}
 						}

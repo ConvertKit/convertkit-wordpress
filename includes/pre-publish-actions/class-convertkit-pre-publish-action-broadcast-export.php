@@ -30,13 +30,16 @@ class ConvertKit_Pre_Publish_Action_Broadcast_Export extends ConvertKit_Pre_Publ
 		// Register action to export Post to ConvertKit Broadcast when published.
 		add_action( 'convertkit_pre_publish_action_run_' . $this->get_name(), array( $this, 'export_broadcast' ) );
 
+		// Call parent class constructor.
 		parent::__construct();
 
 	}
 
 	/**
 	 * Exports the given WordPress Post to a draft ConvertKit Broadcast,
-	 * when the WordPress Post's status transitions to published.
+	 * if the user has enabled this pre-publish action in the Post's settings,
+	 * and the WordPress Post's status transitions to published from either
+	 * draft or scheduled.
 	 *
 	 * @since   2.4.0
 	 *

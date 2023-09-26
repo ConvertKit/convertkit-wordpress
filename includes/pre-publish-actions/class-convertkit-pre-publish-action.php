@@ -52,13 +52,13 @@ class ConvertKit_Pre_Publish_Action {
 		add_action( 'save_post', array( $this, 'save_post_meta' ) );
 
 		// Perform pre-publish action.
-		add_action( 'transition_post_status', array( $this, 'run' ), 10, 3 );
+		// add_action( 'transition_post_status', array( $this, 'run' ), 10, 3 );
 
 	}
 
 	/**
 	 * Registers the action's meta key in WordPress.
-	 * This is required for Gutenberg to save the 'convertkit_action_{$name}'
+	 * This is required for Gutenberg to save the '_convertkit_action_{$name}'
 	 * meta key/value pair when a Post is published.
 	 *
 	 * @since   2.4.0
@@ -66,13 +66,14 @@ class ConvertKit_Pre_Publish_Action {
 	public function register_meta_key() {
 
 		// Register action as a meta key.
-		register_meta(
+		register_post_meta(
 			'post',
 			$this->meta_key,
 			array(
 				'show_in_rest' => true,
 				'single'       => true,
 				'type'         => 'boolean',
+				'auth_callback' => '__return_true',
 			)
 		);
 
@@ -99,7 +100,7 @@ class ConvertKit_Pre_Publish_Action {
 	}
 
 	/**
-	 * Saves a meta key/value pair against the Post, based on whether the user has permitted
+	 * Saves a meta key/value pair against the Post in the Classic Editor, based on whether the user has permitted
 	 * that the pre-publish action should run when the Post is published.
 	 *
 	 * @since  2.4.0
