@@ -4,7 +4,7 @@
  *
  * @since   2.4.0
  */
-class BroadcastsExportPostClassicEditor
+class BroadcastsExportPostClassicEditorCest
 {
 	/**
 	 * Run common actions before running the test functions in this class.
@@ -164,6 +164,9 @@ class BroadcastsExportPostClassicEditor
 
 		// Create a Post.
 		$I->addClassicEditorPage($I, 'post', 'ConvertKit: Broadcasts: Export: Enabled in Post');
+
+		// Enable the Create Broadcast option.
+		$I->checkOption('#convertkit_action_broadcast_export');
 
 		// Scroll to Publish meta box, so its buttons are not hidden.
 		$I->scrollTo('#submitdiv');
