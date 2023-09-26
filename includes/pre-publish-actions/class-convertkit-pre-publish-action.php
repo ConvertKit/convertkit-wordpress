@@ -52,7 +52,7 @@ class ConvertKit_Pre_Publish_Action {
 		add_action( 'save_post', array( $this, 'save_post_meta' ) );
 
 		// Perform pre-publish action.
-		// add_action( 'transition_post_status', array( $this, 'run' ), 10, 3 );
+		add_action( 'transition_post_status', array( $this, 'run' ), 10, 3 );
 
 	}
 
