@@ -89,6 +89,11 @@ class ConvertKit_Admin_Post {
 			return;
 		}
 
+		// Bail if Post is not a supported Post Type.
+		if ( get_post_type( $post ) !== 'post' ) {
+			return;
+		}
+
 		// Bail if Post is not a draft.
 		if ( ! in_array( $post->post_status, array( 'draft', 'auto-draft' ), true ) ) {
 			return;
