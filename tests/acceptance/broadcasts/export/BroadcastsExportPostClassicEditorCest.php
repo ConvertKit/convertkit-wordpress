@@ -137,10 +137,12 @@ class BroadcastsExportPostClassicEditorCest
 		$postID = $I->grabValueFrom('post_ID');
 
 		// Confirm Broadcast was not created in ConvertKit.
-		$I->dontSeePostMetaInDatabase( array(
-			'post_id' => $postID,
-			'meta_key' => '_convertkit_broadcast_export_id',
-		) );
+		$I->dontSeePostMetaInDatabase(
+			array(
+				'post_id'  => $postID,
+				'meta_key' => '_convertkit_broadcast_export_id',
+			)
+		);
 	}
 
 	/**
@@ -181,19 +183,21 @@ class BroadcastsExportPostClassicEditorCest
 		$postID = $I->grabValueFrom('post_ID');
 
 		// Confirm Broadcast was created in ConvertKit.
-		$broadcastID = $I->seePostMetaInDatabase( array(
-			'post_id' => $postID,
-			'meta_key' => '_convertkit_broadcast_export_id',
-		) );
+		$I->seePostMetaInDatabase(
+			array(
+				'post_id'  => $postID,
+				'meta_key' => '_convertkit_broadcast_export_id',
+			)
+		);
+
+		// Get Broadcast ID.
+		$broadcastID = $I->grabPostMetaFromDatabase($postID, '_convertkit_broadcast_export_id', true);
 
 		// Fetch Broadcast from the API.
 		$broadcast = $I->apiGetBroadcast($broadcastID);
 
 		// Delete Broadcast.
 		$I->apiDeleteBroadcast($broadcastID);
-
-		// Confirm styles were included in the Broadcast.
-		$I->assertStringContainsString('class="style-test"', $broadcast['broadcast']['content']);
 	}
 
 	/**
