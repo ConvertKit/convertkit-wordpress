@@ -45,11 +45,11 @@ class ConvertKit_Pre_Publish_Action {
 		// Register this as a pre-publish action in the ConvertKit Plugin.
 		add_filter( 'convertkit_get_pre_publish_actions', array( $this, 'register' ) );
 
-		// Save whether to run the pre-publish action when the Post is saved.
-		add_action( 'save_post', array( $this, 'save_post_meta' ) );
-
 		// Perform pre-publish action.
 		add_action( 'transition_post_status', array( $this, 'run' ), 10, 3 );
+
+		// Save whether to run the pre-publish action when the Post is saved.
+		add_action( 'save_post', array( $this, 'save_post_meta' ) );
 
 	}
 
@@ -70,6 +70,50 @@ class ConvertKit_Pre_Publish_Action {
 		);
 
 		return $pre_publish_actions;
+
+	}
+
+	/**
+	 * Performs the pre-publish action, if the Post has been transitioned to published.
+	 *
+	 * @since   2.4.0
+	 *
+	 * @param   string  $new_status     New Status.
+	 * @param   string  $old_status     Old Status.
+	 * @param   WP_Post $post           Post.
+	 */
+	public function run( $new_status, $old_status, $post ) {
+
+		// Ignore if the Post is not transitioning to published.
+		if ( $new_status !== 'publish' ) {
+			return;
+		}
+
+		// Ignore if the statuses match i.e. it's already a published Post that is being updated.
+		if ( $new_status === $old_status ) {
+			return;
+		}
+
+		// transition_post_status hooks are always called before save_post hooks.  Therefore, if a Post
+		// is created and immediately published (it's not saved as a draft first), we need to
+		// manually call the save_post_meta() function now, before checking whether the action is enabled.
+		// Otherwise, is_enabled() will return false because save_post_meta() has not yet been triggered.
+		$this->save_post_meta( $post->ID );
+
+		// Check the action was enabled on this Post by the user.
+		if ( ! $this->is_enabled( $post->ID ) ) {
+			return;
+		}
+
+		/**
+		 * Run this pre-publish action, as the WordPress Post has just transitioned to publish
+		 * from another state.
+		 *
+		 * @since   2.4.0
+		 *
+		 * @param   WP_Post     $post   Post.
+		 */
+		do_action( 'convertkit_pre_publish_action_run_' . $this->get_name(), $post );
 
 	}
 
@@ -110,44 +154,6 @@ class ConvertKit_Pre_Publish_Action {
 
 		// Save setting.
 		update_post_meta( $post_id, $this->meta_key, true );
-
-	}
-
-	/**
-	 * Performs the pre-publish action, if the Post has been transitioned to published.
-	 *
-	 * @since   2.4.0
-	 *
-	 * @param   string  $new_status     New Status.
-	 * @param   string  $old_status     Old Status.
-	 * @param   WP_Post $post           Post.
-	 */
-	public function run( $new_status, $old_status, $post ) {
-
-		// Ignore if the Post is not transitioning to published.
-		if ( $new_status !== 'publish' ) {
-			return;
-		}
-
-		// Ignore if the statuses match i.e. it's already a published Post that is being updated.
-		if ( $new_status === $old_status ) {
-			return;
-		}
-
-		// Check the action was enabled on this Post by the user.
-		if ( ! $this->is_enabled( $post->ID ) ) {
-			return;
-		}
-
-		/**
-		 * Run this pre-publish action, as the WordPress Post has just transitioned to publish
-		 * from another state.
-		 *
-		 * @since   2.4.0
-		 *
-		 * @param   WP_Post     $post   Post.
-		 */
-		do_action( 'convertkit_pre_publish_action_run_' . $this->get_name(), $post );
 
 	}
 
