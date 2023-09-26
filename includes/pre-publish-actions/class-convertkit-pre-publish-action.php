@@ -42,9 +42,6 @@ class ConvertKit_Pre_Publish_Action {
 		// Define the meta key.
 		$this->meta_key = self::POST_META_KEY_PREFIX . $this->get_name();
 
-		// Register meta key.
-		add_action( 'init', array( $this, 'register_meta_key' ) );
-
 		// Register this as a pre-publish action in the ConvertKit Plugin.
 		add_filter( 'convertkit_get_pre_publish_actions', array( $this, 'register' ) );
 
@@ -53,29 +50,6 @@ class ConvertKit_Pre_Publish_Action {
 
 		// Perform pre-publish action.
 		add_action( 'transition_post_status', array( $this, 'run' ), 10, 3 );
-
-	}
-
-	/**
-	 * Registers the action's meta key in WordPress.
-	 * This is required for Gutenberg to save the '_convertkit_action_{$name}'
-	 * meta key/value pair when a Post is published.
-	 *
-	 * @since   2.4.0
-	 */
-	public function register_meta_key() {
-
-		// Register action as a meta key.
-		register_post_meta(
-			'post',
-			$this->meta_key,
-			array(
-				'show_in_rest' => true,
-				'single'       => true,
-				'type'         => 'boolean',
-				'auth_callback' => '__return_true',
-			)
-		);
 
 	}
 
