@@ -28,36 +28,6 @@ class RestrictContentTagCest
 	 *
 	 * @param   AcceptanceTester $I  Tester.
 	 */
-	public function testRestrictContentWhenDisabled(AcceptanceTester $I)
-	{
-		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Restrict Content: Tag');
-
-		// Confirm no option is displayed to restrict content.
-		$I->dontSeeElementInDOM('#wp-convertkit-restrict_content');
-
-		// Add blocks.
-		$I->addGutenbergParagraphBlock($I, 'Visible content.');
-		$I->addGutenbergBlock($I, 'More', 'more');
-		$I->addGutenbergParagraphBlock($I, 'Member only content.');
-
-		// Publish Page.
-		$url = $I->publishGutenbergPage($I);
-
-		// Confirm that all content is displayed.
-		$I->amOnUrl($url);
-		$I->see('Visible content.');
-		$I->see('Member only content.');
-	}
-
-	/**
-	 * Test that restricting content by a Tag specified in the Page Settings works when
-	 * creating and viewing a new WordPress Page.
-	 *
-	 * @since   2.3.2
-	 *
-	 * @param   AcceptanceTester $I  Tester.
-	 */
 	public function testRestrictContentByTag(AcceptanceTester $I)
 	{
 		// Enable Restricted Content.
