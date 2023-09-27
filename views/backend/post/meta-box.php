@@ -180,7 +180,9 @@
 							<span class="dashicons dashicons-update"></span>
 						</button>
 						<p class="description">
-							<?php esc_html_e( 'Select the ConvertKit product that the visitor must be subscribed to, permitting them access to view this members only content.', 'convertkit' ); ?>
+							<?php esc_html_e( 'Select the ConvertKit tag or product that the visitor must be subscribed to, permitting them access to view this members only content.', 'convertkit' ); ?>
+							<br />
+							<?php esc_html_e( 'If a tag is selected, a subscription form will be displayed. On submission, the email address will be subscribed to the selected tag, granting access to the members only content.', 'convertkit' ); ?>
 						</p>
 					</div>
 				</td>
