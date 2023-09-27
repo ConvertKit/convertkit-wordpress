@@ -151,27 +151,6 @@ class ConvertKit_Output_Restrict_Content {
 
 		// Run subscriber authentication / subscription depending on the resource type.
 		switch ( $resource_type ) {
-			case 'tag':
-				// Tag the subscriber.
-				$result = $this->api->tag_subscribe( $resource_id, $email );
-
-				// Bail if an error occured.
-				if ( is_wp_error( $result ) ) {
-					$this->error = $result;
-					return;
-				}
-
-				// Clear any existing subscriber ID cookie, as the authentication flow has started by sending the email.
-				$subscriber = new ConvertKit_Subscriber();
-				$subscriber->forget();
-
-				// Fetch the subscriber ID from the result.
-				$subscriber_id = $result['subscription']['subscriber']['id'];
-
-				// Store subscriber ID in cookie and redirect.
-				$this->store_subscriber_id_in_cookie_and_redirect( $subscriber_id );
-				break;
-
 			case 'product':
 				// Send email to subscriber with a link to authenticate they have access to the email address submitted.
 				$result = $this->api->subscriber_authentication_send_code(
@@ -194,6 +173,27 @@ class ConvertKit_Output_Restrict_Content {
 
 				// Show a message telling the subscriber to check their email and click the link in the email.
 				$this->success = $this->restrict_content_settings->get_by_key( 'email_check_text' );
+				break;
+
+			case 'tag':
+				// Tag the subscriber.
+				$result = $this->api->tag_subscribe( $resource_id, $email );
+
+				// Bail if an error occured.
+				if ( is_wp_error( $result ) ) {
+					$this->error = $result;
+					return;
+				}
+
+				// Clear any existing subscriber ID cookie, as the authentication flow has started by sending the email.
+				$subscriber = new ConvertKit_Subscriber();
+				$subscriber->forget();
+
+				// Fetch the subscriber ID from the result.
+				$subscriber_id = $result['subscription']['subscriber']['id'];
+
+				// Store subscriber ID in cookie and redirect.
+				$this->store_subscriber_id_in_cookie_and_redirect( $subscriber_id );
 				break;
 
 		}
@@ -641,6 +641,28 @@ class ConvertKit_Output_Restrict_Content {
 		// This is deliberately a switch statement, because we will likely add in support
 		// for restrict by tag and form later.
 		switch ( $resource_type ) {
+			case 'product':
+				// Get products that the subscriber has access to.
+				$result = $this->api->profile( $subscriber_id );
+
+				// If an error occured, the subscriber ID is invalid.
+				if ( is_wp_error( $result ) ) {
+					return false;
+				}
+
+				// If no products exist, there's no access.
+				if ( ! $result['products'] || ! count( $result['products'] ) ) {
+					return false;
+				}
+
+				// Return if the subscriber is not subscribed to the product.
+				if ( ! in_array( absint( $resource_id ), $result['products'], true ) ) {
+					return false;
+				}
+
+				// If here, the subscriber is subscribed to the product.
+				return true;
+
 			case 'tag':
 				// Get tags that the subscriber has been assigned.
 				$tags = $this->api->get_subscriber_tags( $subscriber_id );
@@ -665,28 +687,6 @@ class ConvertKit_Output_Restrict_Content {
 
 				// If here, the subscriber does not have the tag.
 				return false;
-
-			case 'product':
-				// Get products that the subscriber has access to.
-				$result = $this->api->profile( $subscriber_id );
-
-				// If an error occured, the subscriber ID is invalid.
-				if ( is_wp_error( $result ) ) {
-					return false;
-				}
-
-				// If no products exist, there's no access.
-				if ( ! $result['products'] || ! count( $result['products'] ) ) {
-					return false;
-				}
-
-				// Return if the subscriber is not subscribed to the product.
-				if ( ! in_array( absint( $resource_id ), $result['products'], true ) ) {
-					return false;
-				}
-
-				// If here, the subscriber is subscribed to the product.
-				return true;
 		}
 
 		// If here, the subscriber does not have access.
@@ -807,12 +807,6 @@ class ConvertKit_Output_Restrict_Content {
 		// This is deliberately a switch statement, because we will likely add in support
 		// for restrict by tag and form later.
 		switch ( $resource_type ) {
-			case 'tag':
-				// Output.
-				ob_start();
-				include CONVERTKIT_PLUGIN_PATH . '/views/frontend/restrict-content/tag.php';
-				return trim( ob_get_clean() );
-
 			case 'product':
 				// Output product code form if this request is after the user entered their email address,
 				// which means we're going through the authentication flow.
@@ -837,6 +831,12 @@ class ConvertKit_Output_Restrict_Content {
 				ob_start();
 				$button = $products->get_html( $resource_id, $this->restrict_content_settings->get_by_key( 'subscribe_button_label' ) );
 				include CONVERTKIT_PLUGIN_PATH . '/views/frontend/restrict-content/product.php';
+				return trim( ob_get_clean() );
+
+			case 'tag':
+				// Output.
+				ob_start();
+				include CONVERTKIT_PLUGIN_PATH . '/views/frontend/restrict-content/tag.php';
 				return trim( ob_get_clean() );
 
 			default:

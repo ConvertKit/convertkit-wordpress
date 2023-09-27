@@ -151,9 +151,9 @@
 								?>
 								<optgroup label="<?php esc_attr_e( 'Tags', 'convertkit' ); ?>">
 									<?php
-									foreach ( $convertkit_tags->get() as $tag ) {
+									foreach ( $convertkit_tags->get() as $convertkit_tag ) {
 										?>
-										<option value="tag_<?php echo esc_attr( $tag['id'] ); ?>"<?php selected( 'tag_' . $tag['id'], $convertkit_post->get_restrict_content() ); ?>><?php echo esc_attr( $tag['name'] ); ?></option>
+										<option value="tag_<?php echo esc_attr( $convertkit_tag['id'] ); ?>"<?php selected( 'tag_' . $convertkit_tag['id'], $convertkit_post->get_restrict_content() ); ?>><?php echo esc_attr( $convertkit_tag['name'] ); ?></option>
 										<?php
 									}
 									?>
