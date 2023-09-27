@@ -998,15 +998,15 @@ class Plugin extends \Codeception\Module
 	 *
 	 * @param   AcceptanceTester $I                  Tester.
 	 * @param   string|int       $urlOrPageID        URL or ID of Restricted Content Page.
+	 * @param   string           $emailAddress       Email Address.
 	 * @param   string           $visibleContent     Content that should always be visible.
 	 * @param   string           $memberContent      Content that should only be available to authenticated subscribers.
-	 * @param   bool|array       $textItems          Expected text for subscribe text, subscribe button label, email text etc. If not defined, uses expected defaults.
 	 */
 	public function testRestrictedContentByTagOnFrontend($I, $urlOrPageID, $emailAddress, $visibleContent = 'Visible content.', $memberContent = 'Member only content.')
 	{
 		// Get default settings.
 		$textItems = $this->getRestrictedContentDefaultSettings();
-		
+
 		// Navigate to the page.
 		if ( is_numeric( $urlOrPageID ) ) {
 			$I->amOnPage('?p=' . $urlOrPageID);
@@ -1028,7 +1028,7 @@ class Plugin extends \Codeception\Module
 		$I->seeElementInDOM('#convertkit-restrict-content');
 		$I->see($textItems['subscribe_text']);
 		$I->see($textItems['subscribe_button_label']);
-		
+
 		// Enter the email address and submit the form.
 		$I->fillField('convertkit_email', $emailAddress);
 		$I->click('input.wp-block-button__link');

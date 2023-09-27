@@ -228,7 +228,7 @@ class ConvertKit_Admin_Restrict_Content {
 
 		// Fetch Products and Tags.
 		$this->products = new ConvertKit_Resource_Products();
-		$this->tags = new ConvertKit_Resource_Tags();
+		$this->tags     = new ConvertKit_Resource_Tags();
 
 		// Don't display filter if no Tags and no Products exist.
 		if ( ! $this->products->exist() && ! $this->tags->exist() ) {

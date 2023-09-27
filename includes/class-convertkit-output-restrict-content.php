@@ -673,7 +673,7 @@ class ConvertKit_Output_Restrict_Content {
 				}
 
 				// If no tags exist, there's no access.
-				if ( ! $tags || ! count( $tags ) ) {
+				if ( ! count( $tags ) ) {
 					return false;
 				}
 
