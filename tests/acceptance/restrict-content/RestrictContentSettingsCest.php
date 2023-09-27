@@ -128,7 +128,7 @@ class RestrictContentSettingsCest
 		);
 
 		// Test Restrict Content functionality.
-		$I->testRestrictedContentOnFrontend($I, $pageID, $visibleContent, $memberContent);
+		$I->testRestrictedContentByProductOnFrontend($I, $pageID, $visibleContent, $memberContent);
 	}
 
 	/**
@@ -175,7 +175,7 @@ class RestrictContentSettingsCest
 		);
 
 		// Test Restrict Content functionality.
-		$I->testRestrictedContentOnFrontend($I, $pageID, $visibleContent, $memberContent);
+		$I->testRestrictedContentByProductOnFrontend($I, $pageID, $visibleContent, $memberContent);
 	}
 
 	/**
@@ -221,7 +221,7 @@ class RestrictContentSettingsCest
 		);
 
 		// Test Restrict Content functionality.
-		$I->testRestrictedContentOnFrontend($I, $pageID, $visibleContent, $memberContent, $settings);
+		$I->testRestrictedContentByProductOnFrontend($I, $pageID, $visibleContent, $memberContent, $settings);
 	}
 
 	/**
