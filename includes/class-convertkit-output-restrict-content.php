@@ -312,7 +312,7 @@ class ConvertKit_Output_Restrict_Content {
 
 		// If here, the subscriber has subscribed to the product.
 		// Show the full Post Content.
-		return $content;
+		return 'subscriber id = ' . $subscriber_id . $content;
 
 	}
 

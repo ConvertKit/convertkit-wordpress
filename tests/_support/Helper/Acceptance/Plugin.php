@@ -1004,6 +1004,9 @@ class Plugin extends \Codeception\Module
 	 */
 	public function testRestrictedContentByTagOnFrontend($I, $urlOrPageID, $emailAddress, $visibleContent = 'Visible content.', $memberContent = 'Member only content.')
 	{
+		// Reset cookie.
+		$I->resetCookie('ck_subscriber_id');
+
 		// Get default settings.
 		$textItems = $this->getRestrictedContentDefaultSettings();
 
