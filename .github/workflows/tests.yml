@@ -51,6 +51,17 @@ jobs:
 
         # Folder names within the 'tests' folder to run tests in parallel.
         test-groups: [
+          'acceptance/broadcasts/blocks',
+          'acceptance/broadcasts/shortcodes',
+          'acceptance/broadcasts/import',
+          'acceptance/forms/blocks',
+          'acceptance/forms/general',
+          'acceptance/forms/shortcodes',
+          'acceptance/general',
+          'acceptance/integrations/elementor',
+          'acceptance/integrations/other',
+          'acceptance/integrations/woocommerce',
+          'acceptance/products',
           'acceptance/restrict-content'
         ]
 
