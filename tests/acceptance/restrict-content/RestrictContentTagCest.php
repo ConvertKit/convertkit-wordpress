@@ -142,7 +142,6 @@ class RestrictContentTagCest
 		foreach ($pageIDs as $pageID) {
 			// Test Restrict Content functionality.
 			$I->testRestrictedContentByTagOnFrontend($I, $pageID, $I->generateEmailAddress());
-			$I->resetCookie('ck_subscriber_id');
 		}
 	}
 
