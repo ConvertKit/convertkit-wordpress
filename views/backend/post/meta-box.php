@@ -147,6 +147,20 @@
 							<option value="0"<?php selected( '', $convertkit_post->get_restrict_content() ); ?> data-preserve-on-refresh="1"><?php esc_html_e( 'Don\'t restrict content to members only.', 'convertkit' ); ?></option>
 
 							<?php
+							if ( $convertkit_tags->exist() ) {
+								?>
+								<optgroup label="<?php esc_attr_e( 'Tags', 'convertkit' ); ?>">
+									<?php
+									foreach ( $convertkit_tags->get() as $tag ) {
+										?>
+										<option value="tag_<?php echo esc_attr( $tag['id'] ); ?>"<?php selected( 'tag_' . $tag['id'], $convertkit_post->get_restrict_content() ); ?>><?php echo esc_attr( $tag['name'] ); ?></option>
+										<?php
+									}
+									?>
+								</optgroup>
+								<?php
+							}
+
 							if ( $convertkit_products->exist() ) {
 								?>
 								<optgroup label="<?php esc_attr_e( 'Products', 'convertkit' ); ?>">
