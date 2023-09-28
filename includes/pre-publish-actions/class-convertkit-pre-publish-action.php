@@ -90,9 +90,9 @@ class ConvertKit_Pre_Publish_Action {
 			'post',
 			$this->meta_key,
 			array(
-				'show_in_rest' => true,
-				'single'       => true,
-				'type'         => 'boolean',
+				'show_in_rest'  => true,
+				'single'        => true,
+				'type'          => 'boolean',
 				'auth_callback' => '__return_true',
 			)
 		);
@@ -113,7 +113,7 @@ class ConvertKit_Pre_Publish_Action {
 		// Remove actions registered by this Plugin.
 		// This ensures that when Page Builders call trigger actions via AJAX, we don't run this multiple times.
 		remove_action( 'wp_insert_post', array( $this, 'classic_editor_post_published' ), 999 );
-		remove_action( 'rest_after_insert_' . $post->post_type, array( $this, 'rest_api_post_published' ), 10, 3 );
+		remove_action( 'rest_after_insert_' . $post->post_type, array( $this, 'rest_api_post_published' ), 10 );
 
 		// Ignore if the Post is not transitioning to published.
 		if ( $new_status !== 'publish' ) {
@@ -142,12 +142,12 @@ class ConvertKit_Pre_Publish_Action {
 
 	/**
 	 * Called when a Post is created or updated using the Classic Editor.
-	 * 
-	 * @since 	2.4.0
-	 * 
-	 * @param 	int     $post_id Post ID.
-	 * @param 	WP_Post $post    Post object.
-	 * @param 	bool    $update  Whether this is an existing post being updated.
+	 *
+	 * @since   2.4.0
+	 *
+	 * @param   int     $post_id Post ID.
+	 * @param   WP_Post $post    Post object.
+	 * @param   bool    $update  Whether this is an existing post being updated.
 	 */
 	public function classic_editor_post_published( $post_id, $post, $update ) {
 
@@ -171,21 +171,21 @@ class ConvertKit_Pre_Publish_Action {
 		 */
 		do_action( 'convertkit_pre_publish_action_run_' . $this->get_name(), $post );
 
-	} 
+	}
 
 	/**
 	 * Called when a Post is created or updated via the REST API, including Gutenberg.
-	 * 
-	 * @since 	2.4.0
-	 * 
-	 * @param 	WP_Post         $post     Inserted or updated post object.
-	 * @param 	WP_REST_Request $request  Request object.
-	 * @param 	bool            $creating True when creating a post, false when updating.
+	 *
+	 * @since   2.4.0
+	 *
+	 * @param   WP_Post         $post     Inserted or updated post object.
+	 * @param   WP_REST_Request $request  Request object.
+	 * @param   bool            $creating True when creating a post, false when updating.
 	 */
-	public function rest_api_post_publish( $post, $request, $publishing ) {
+	public function rest_api_post_publish( $post, $request, $creating ) {
 
 		// If the Post is not being published (i.e. it's an update), don't do anything.
-		if ( ! $publishing ) {
+		if ( ! $creating ) {
 			return;
 		}
 
@@ -243,6 +243,19 @@ class ConvertKit_Pre_Publish_Action {
 
 		// Save setting.
 		update_post_meta( $post_id, $this->meta_key, true );
+
+	}
+
+	/**
+	 * Deletes the action's meta key and value from the given Post.
+	 *
+	 * @since   2.4.0
+	 *
+	 * @param   int $post_id    Post ID.
+	 */
+	public function delete_post_meta( $post_id ) {
+
+		delete_post_meta( $post_id, $this->meta_key );
 
 	}
 

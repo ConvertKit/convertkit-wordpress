@@ -715,28 +715,32 @@ function convertKitGutenbergRegisterPrePublishActions( actions ) {
 			let rows = [];
 			for ( const [ name, action ] of Object.entries( actions ) ) {
 
-				const key = '_convertkit_action_' + action.name;
-				const { meta } = useSelect( function( select ) {
-					return {
-						meta: select( 'core/editor' ).getEditedPostAttribute( 'meta' ),
-					};
-				} );
+				const key          = '_convertkit_action_' + action.name;
+				const { meta }     = useSelect(
+					function ( select ) {
+						return {
+							meta: select( 'core/editor' ).getEditedPostAttribute( 'meta' ),
+						};
+					}
+				);
 				const { editPost } = useDispatch( 'core/editor', [ meta[ key ] ] );
 
 				// Add row.
-			    rows.push(
+				rows.push(
 					el(
 						ToggleControl,
 						{
 							id:  		'convertkit_action_' + action.name,
 							label: 		action.label,
 							help: 		action.description,
-							value:      true, // @TODO is this right?
+							value:      true,
 							checked: 	meta[ key ],
 							onChange: 	function ( value ) {
-								editPost( {
-						            meta: { [ key ]: value },
-						        } );
+								editPost(
+									{
+										meta: { [ key ]: value },
+									}
+								);
 							}
 						}
 					)
@@ -745,14 +749,14 @@ function convertKitGutenbergRegisterPrePublishActions( actions ) {
 
 			// Return actions in the pre-publish panel.
 			return el(
-		        PluginPrePublishPanel,
-		        {   
-		            className: 'convertkit-pre-publish-actions',
-		            title: 'ConvertKit',
-		            initialOpen: true,
-		        },
-		        rows
-		    );
+				PluginPrePublishPanel,
+				{
+					className: 'convertkit-pre-publish-actions',
+					title: 'ConvertKit',
+					initialOpen: true,
+				},
+				rows
+			);
 
 		}
 
