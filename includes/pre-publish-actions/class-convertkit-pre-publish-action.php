@@ -125,36 +125,18 @@ class ConvertKit_Pre_Publish_Action {
 			return;
 		}
 
-		// Classic Editor.
-		if ( ! $this->is_rest_api_request() ) {
-			// Determine whether to send this Post to ConvertKit using the wp_insert_post hook.
-			// This hook is called after the save_post hook, ensuring that any metadata
-			// (including whether this action is enabled) has been saved before we check whether
-			// to send the Post to ConvertKit.
-			add_action( 'wp_insert_post', array( $this, 'classic_editor_post_published' ), 999, 3 );
-			return;
-		}
-
 		// REST API and Gutenberg / Block Editor.
-		add_action( 'rest_after_insert_' . $post->post_type, array( $this, 'rest_api_post_publish' ), 10, 3 );
-
-	}
-
-	/**
-	 * Called when a Post is created or updated using the Classic Editor.
-	 *
-	 * @since   2.4.0
-	 *
-	 * @param   int     $post_id Post ID.
-	 * @param   WP_Post $post    Post object.
-	 * @param   bool    $update  Whether this is an existing post being updated.
-	 */
-	public function classic_editor_post_published( $post_id, $post, $update ) {
-
-		// If the Post is not being published (i.e. it's an update), don't do anything.
-		if ( $update ) {
+		if ( $this->is_rest_api_request() ) {
+			add_action( 'rest_after_insert_' . $post->post_type, array( $this, 'rest_api_post_publish' ), 10 );
 			return;
 		}
+
+		// Classic Editor.
+		// transition_post_status hooks are always called before save_post hooks.  Therefore, if a Post
+		// is created and immediately published (it's not saved as a draft first), we need to
+		// manually call the save_post_meta() function now, before checking whether the action is enabled.
+		// Otherwise, is_enabled() will return false because save_post_meta() has not yet been triggered.
+		$this->save_post_meta( $post->ID );
 
 		// Check the action was enabled on this Post by the user.
 		if ( ! $this->is_enabled( $post->ID ) ) {
@@ -178,16 +160,9 @@ class ConvertKit_Pre_Publish_Action {
 	 *
 	 * @since   2.4.0
 	 *
-	 * @param   WP_Post         $post     Inserted or updated post object.
-	 * @param   WP_REST_Request $request  Request object.
-	 * @param   bool            $creating True when creating a post, false when updating.
+	 * @param   WP_Post $post     Post.
 	 */
-	public function rest_api_post_publish( $post, $request, $creating ) {
-
-		// If the Post is not being published (i.e. it's an update), don't do anything.
-		if ( ! $creating ) {
-			return;
-		}
+	public function rest_api_post_publish( $post ) {
 
 		// Check the action was enabled on this Post by the user.
 		if ( ! $this->is_enabled( $post->ID ) ) {
