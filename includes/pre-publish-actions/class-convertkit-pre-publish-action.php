@@ -50,29 +50,9 @@ class ConvertKit_Pre_Publish_Action {
 
 		// Perform pre-publish action.
 		add_action( 'transition_post_status', array( $this, 'run' ), 10, 3 );
-		add_action( 'rest_after_insert_post', array( $this, 'rest_api_post_publish' ), 10, 1 );
-		add_action( 'wp_after_insert_post', array( $this, 'wp_after_insert_post' ), 10, 4 );
 
 		// Save whether to run the pre-publish action when the Post is saved.
 		add_action( 'save_post', array( $this, 'save_post_meta' ) );
-
-	}
-
-	public function rest_api_post_publish( $post ) {
-
-		error_log( '---' );
-		error_log( 'rest_after_insert_post' );
-		error_log( 'enabled = ' . $this->is_enabled( $post->ID ) );
-
-	}
-
-	public function wp_after_insert_post( $post_id, $post, $update, $post_before ) {
-
-		error_log( '---' );
-		error_log( 'wp_after_insert_post' );
-		error_log( 'enabled = ' . $this->is_enabled( $post->ID ) );
-		error_log( 'update = ' . $update );
-		error_log( print_r( $post_before, true ) );
 
 	}
 
@@ -130,10 +110,10 @@ class ConvertKit_Pre_Publish_Action {
 	 */
 	public function run( $new_status, $old_status, $post ) {
 
-		error_log( '---' );
-		error_log( $new_status );
-		error_log( $old_status );
-		error_log( 'enabled = ' . $this->is_enabled( $post->ID ) );
+		// Remove actions registered by this Plugin.
+		// This ensures that when Page Builders call trigger actions via AJAX, we don't run this multiple times.
+		remove_action( 'wp_insert_post', array( $this, 'classic_editor_post_published' ), 999 );
+		remove_action( 'rest_after_insert_' . $post->post_type, array( $this, 'rest_api_post_published' ), 10, 3 );
 
 		// Ignore if the Post is not transitioning to published.
 		if ( $new_status !== 'publish' ) {
@@ -145,11 +125,69 @@ class ConvertKit_Pre_Publish_Action {
 			return;
 		}
 
-		// transition_post_status hooks are always called before save_post hooks.  Therefore, if a Post
-		// is created and immediately published (it's not saved as a draft first), we need to
-		// manually call the save_post_meta() function now, before checking whether the action is enabled.
-		// Otherwise, is_enabled() will return false because save_post_meta() has not yet been triggered.
-		$this->save_post_meta( $post->ID );
+		// Classic Editor.
+		if ( ! $this->is_rest_api_request() ) {
+			// Determine whether to send this Post to ConvertKit using the wp_insert_post hook.
+			// This hook is called after the save_post hook, ensuring that any metadata
+			// (including whether this action is enabled) has been saved before we check whether
+			// to send the Post to ConvertKit.
+			add_action( 'wp_insert_post', array( $this, 'classic_editor_post_published' ), 999, 3 );
+			return;
+		}
+
+		// REST API and Gutenberg / Block Editor.
+		add_action( 'rest_after_insert_' . $post->post_type, array( $this, 'rest_api_post_publish' ), 10, 3 );
+
+	}
+
+	/**
+	 * Called when a Post is created or updated using the Classic Editor.
+	 * 
+	 * @since 	2.4.0
+	 * 
+	 * @param 	int     $post_id Post ID.
+	 * @param 	WP_Post $post    Post object.
+	 * @param 	bool    $update  Whether this is an existing post being updated.
+	 */
+	public function classic_editor_post_published( $post_id, $post, $update ) {
+
+		// If the Post is not being published (i.e. it's an update), don't do anything.
+		if ( $update ) {
+			return;
+		}
+
+		// Check the action was enabled on this Post by the user.
+		if ( ! $this->is_enabled( $post->ID ) ) {
+			return;
+		}
+
+		/**
+		 * Run this pre-publish action, as the WordPress Post has just transitioned to publish
+		 * from another state.
+		 *
+		 * @since   2.4.0
+		 *
+		 * @param   WP_Post     $post   Post.
+		 */
+		do_action( 'convertkit_pre_publish_action_run_' . $this->get_name(), $post );
+
+	} 
+
+	/**
+	 * Called when a Post is created or updated via the REST API, including Gutenberg.
+	 * 
+	 * @since 	2.4.0
+	 * 
+	 * @param 	WP_Post         $post     Inserted or updated post object.
+	 * @param 	WP_REST_Request $request  Request object.
+	 * @param 	bool            $creating True when creating a post, false when updating.
+	 */
+	public function rest_api_post_publish( $post, $request, $publishing ) {
+
+		// If the Post is not being published (i.e. it's an update), don't do anything.
+		if ( ! $publishing ) {
+			return;
+		}
 
 		// Check the action was enabled on this Post by the user.
 		if ( ! $this->is_enabled( $post->ID ) ) {
@@ -264,6 +302,27 @@ class ConvertKit_Pre_Publish_Action {
 	public function is_enabled( $post_id ) {
 
 		return (bool) get_post_meta( $post_id, $this->meta_key, true );
+
+	}
+
+	/**
+	 * Helper function to determine if the request is a REST API request.
+	 *
+	 * @since   2.4.0
+	 *
+	 * @return  bool    Is REST API Request
+	 */
+	public function is_rest_api_request() {
+
+		if ( ! defined( 'REST_REQUEST' ) ) {
+			return false;
+		}
+
+		if ( ! REST_REQUEST ) {
+			return false;
+		}
+
+		return true;
 
 	}
 

@@ -11,7 +11,7 @@
  *
  * @since   2.4.0
  */
-class ConvertKit_Admin_Broadcasts_Exporter {
+class ConvertKit_Broadcasts_Exporter {
 
 	/**
 	 * Holds the action name in the WP_List_Table.
@@ -199,7 +199,7 @@ class ConvertKit_Admin_Broadcasts_Exporter {
 		// Return an error if the Post could not be fetched.
 		if ( ! $post ) {
 			return new WP_Error(
-				'convertkit_admin_broadcasts_exporter_export_post_to_broadcast',
+				'convertkit_broadcasts_exporter_export_post_to_broadcast',
 				sprintf(
 					/* translators: WordPress Post ID */
 					esc_html__( 'Could not fetch Post ID %s.', 'convertkit' ),
