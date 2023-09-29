@@ -892,7 +892,7 @@ class Plugin extends \Codeception\Module
 	 * @since   2.1.0
 	 *
 	 * @param   AcceptanceTester $I                          Tester.
-	 * @param 	string 			 $postType 					 Post Type.
+	 * @param   string           $postType                   Post Type.
 	 * @param   string           $title                      Title.
 	 * @param   string           $visibleContent             Content that should always be visible.
 	 * @param   string           $memberContent              Content that should only be available to authenticated subscribers.
