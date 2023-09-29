@@ -695,10 +695,10 @@ function convertKitGutenbergRegisterPrePublishActions( actions ) {
 	( function ( plugins, editPost, element, components, data ) {
 
 		// Define some constants for the various items we'll use.
-		const el                 		 = element.createElement;
-		const { ToggleControl }          = components;
-		const { registerPlugin } 		 = plugins;
-		const { PluginPrePublishPanel }  = editPost;
+		const el                                 = element.createElement;
+		const { ToggleControl }                  = components;
+		const { registerPlugin }                 = plugins;
+		const { PluginPrePublishPanel }          = editPost;
 		const { useSelect, useDispatch, select } = data;
 
 		/**
