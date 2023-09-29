@@ -699,7 +699,7 @@ function convertKitGutenbergRegisterPrePublishActions( actions ) {
 		const { ToggleControl }          = components;
 		const { registerPlugin } 		 = plugins;
 		const { PluginPrePublishPanel }  = editPost;
-		const { useSelect, useDispatch } = data;
+		const { useSelect, useDispatch, select } = data;
 
 		/**
 		 * Returns a PluginPrePublishPanel for this Plugin, comprising of all
@@ -710,6 +710,11 @@ function convertKitGutenbergRegisterPrePublishActions( actions ) {
 		 * @return  PluginPrePublishPanel
 		 */
 		const renderPanel = function () {
+
+			// Bail if the Post Type isn't a Post.
+			if ( select( 'core/editor' ).getCurrentPostType() !== 'post' ) {
+				return;
+			}
 
 			// Build rows.
 			let rows = [];
@@ -760,7 +765,7 @@ function convertKitGutenbergRegisterPrePublishActions( actions ) {
 
 		}
 
-		// Register pre-publish action.
+		// Register pre-publish actions.
 		registerPlugin(
 			'convertkit-pre-publish-actions',
 			{
