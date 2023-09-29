@@ -111,7 +111,7 @@ class RestrictContentFilterPageCest
 		// Create Page, set to restrict content to a Product.
 		$I->createRestrictedContentPage(
 			$I,
-			'page'
+			'page',
 			'ConvertKit: Page: Restricted Content: Product: Filter Test',
 			'Visible content.',
 			'Member only content.',
