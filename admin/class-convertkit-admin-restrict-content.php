@@ -60,11 +60,9 @@ class ConvertKit_Admin_Restrict_Content {
 			return;
 		}
 
-		// Add New Member Content button.
+		// Add New Member Content Wizard button to Pages.
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts_and_css' ) );
-		foreach ( convertkit_get_supported_restrict_content_post_types() as $post_type ) {
-			add_filter( 'views_edit-' . $post_type, array( $this, 'output_wp_list_table_buttons' ) );
-		}
+		add_filter( 'views_edit-page', array( $this, 'output_wp_list_table_buttons' ) );
 
 		// Filter WP_List_Table by Restrict Content setting.
 		add_action( 'pre_get_posts', array( $this, 'filter_wp_list_table_output' ) );
@@ -186,7 +184,7 @@ class ConvertKit_Admin_Restrict_Content {
 		$url = add_query_arg(
 			array(
 				'page'         => 'convertkit-restrict-content-setup',
-				'ck_post_type' => 'page',
+				'ck_post_type' => $post_type,
 			),
 			admin_url( 'options.php' )
 		);
