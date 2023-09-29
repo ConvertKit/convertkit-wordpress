@@ -903,7 +903,7 @@ class Plugin extends \Codeception\Module
 	{
 		return $I->havePostInDatabase(
 			[
-				'post_type'    => 'page',
+				'post_type'    => $postType,
 				'post_title'   => $title,
 
 				// Emulate Gutenberg content with visible and members only content sections.

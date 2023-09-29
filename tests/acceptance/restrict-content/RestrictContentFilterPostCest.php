@@ -111,7 +111,7 @@ class RestrictContentFilterPostCest
 		// Create Post, set to restrict content to a Product.
 		$I->createRestrictedContentPage(
 			$I,
-			'post'
+			'post',
 			'ConvertKit: Post: Restricted Content: Product: Filter Test',
 			'Visible content.',
 			'Member only content.',
