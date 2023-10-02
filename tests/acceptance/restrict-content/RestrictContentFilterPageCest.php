@@ -4,7 +4,7 @@
  *
  * @since   2.1.0
  */
-class RestrictContentFilterCest
+class RestrictContentFilterPageCest
 {
 	/**
 	 * Run common actions before running the test functions in this class.
@@ -111,6 +111,7 @@ class RestrictContentFilterCest
 		// Create Page, set to restrict content to a Product.
 		$I->createRestrictedContentPage(
 			$I,
+			'page',
 			'ConvertKit: Page: Restricted Content: Product: Filter Test',
 			'Visible content.',
 			'Member only content.',

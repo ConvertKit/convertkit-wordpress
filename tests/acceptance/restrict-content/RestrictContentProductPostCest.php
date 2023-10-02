@@ -1,15 +1,15 @@
 <?php
 /**
- * Tests Restrict Content by Product functionality.
+ * Tests Restrict Content by Product functionality on WordPress Posts.
  *
- * @since   2.1.0
+ * @since   2.3.2
  */
-class RestrictContentProductCest
+class RestrictContentProductPostCest
 {
 	/**
 	 * Run common actions before running the test functions in this class.
 	 *
-	 * @since   2.1.0
+	 * @since   2.3.2
 	 *
 	 * @param   AcceptanceTester $I  Tester.
 	 */
@@ -21,17 +21,17 @@ class RestrictContentProductCest
 	}
 
 	/**
-	 * Test that restricting content by a Product specified in the Page Settings works when
-	 * creating and viewing a new WordPress Page.
+	 * Test that restricting content by a Product specified in the Post Settings works when
+	 * creating and viewing a new WordPress Post.
 	 *
-	 * @since   2.1.0
+	 * @since   2.3.2
 	 *
 	 * @param   AcceptanceTester $I  Tester.
 	 */
 	public function testRestrictContentWhenDisabled(AcceptanceTester $I)
 	{
-		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Restrict Content: Product');
+		// Add a Post using the Gutenberg editor.
+		$I->addGutenbergPage($I, 'post', 'ConvertKit: Post: Restrict Content: Product');
 
 		// Confirm no option is displayed to restrict content.
 		$I->dontSeeElementInDOM('#wp-convertkit-restrict_content');
@@ -41,7 +41,7 @@ class RestrictContentProductCest
 		$I->addGutenbergBlock($I, 'More', 'more');
 		$I->addGutenbergParagraphBlock($I, 'Member only content.');
 
-		// Publish Page.
+		// Publish Post.
 		$url = $I->publishGutenbergPage($I);
 
 		// Confirm that all content is displayed.
@@ -51,10 +51,10 @@ class RestrictContentProductCest
 	}
 
 	/**
-	 * Test that restricting content by a Product specified in the Page Settings works when
-	 * creating and viewing a new WordPress Page.
+	 * Test that restricting content by a Product specified in the Post Settings works when
+	 * creating and viewing a new WordPress Post.
 	 *
-	 * @since   2.1.0
+	 * @since   2.3.2
 	 *
 	 * @param   AcceptanceTester $I  Tester.
 	 */
@@ -68,8 +68,8 @@ class RestrictContentProductCest
 			]
 		);
 
-		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Restrict Content: Product');
+		// Add a Post using the Gutenberg editor.
+		$I->addGutenbergPage($I, 'post', 'ConvertKit: Post: Restrict Content: Product');
 
 		// Configure metabox's Restrict Content setting = Product name.
 		$I->configureMetaboxSettings(
@@ -86,11 +86,11 @@ class RestrictContentProductCest
 		$I->addGutenbergBlock($I, 'More', 'more');
 		$I->addGutenbergParagraphBlock($I, 'Member only content.');
 
-		// Publish Page.
+		// Publish Post.
 		$url = $I->publishGutenbergPage($I);
 
 		// Test Restrict Content functionality.
-		$I->testRestrictedContentByProductOnFrontend(
+		$I->testRestrictedContentOnFrontend(
 			$I,
 			$url,
 			'Visible content.',
@@ -99,10 +99,10 @@ class RestrictContentProductCest
 	}
 
 	/**
-	 * Test that restricting content by a Product specified in the Page Settings works when
+	 * Test that restricting content by a Product specified in the Post Settings works when
 	 * using the Quick Edit functionality.
 	 *
-	 * @since   2.1.0
+	 * @since   2.3.2
 	 *
 	 * @param   AcceptanceTester $I  Tester.
 	 */
@@ -116,28 +116,32 @@ class RestrictContentProductCest
 			]
 		);
 
-		// Programmatically create a Page.
-		$pageID = $I->createRestrictedContentPage($I, 'ConvertKit: Page: Restrict Content: Product: ' . $_ENV['CONVERTKIT_API_PRODUCT_NAME'] . ': Quick Edit');
+		// Programmatically create a Post.
+		$postID = $I->createRestrictedContentPage(
+			$I,
+			'post',
+			'ConvertKit: Post: Restrict Content: Product: ' . $_ENV['CONVERTKIT_API_PRODUCT_NAME'] . ': Quick Edit'
+		);
 
-		// Quick Edit the Page in the Pages WP_List_Table.
+		// Quick Edit the Post in the Posts WP_List_Table.
 		$I->quickEdit(
 			$I,
-			'page',
-			$pageID,
+			'post',
+			$postID,
 			[
 				'restrict_content' => [ 'select', $_ENV['CONVERTKIT_API_PRODUCT_NAME'] ],
 			]
 		);
 
 		// Test Restrict Content functionality.
-		$I->testRestrictedContentByProductOnFrontend($I, $pageID);
+		$I->testRestrictedContentOnFrontend($I, $postID);
 	}
 
 	/**
-	 * Test that restricting content by a Product specified in the Page Settings works when
+	 * Test that restricting content by a Product specified in the Post Settings works when
 	 * using the Bulk Edit functionality.
 	 *
-	 * @since   2.1.0
+	 * @since   2.3.2
 	 *
 	 * @param   AcceptanceTester $I  Tester.
 	 */
@@ -151,26 +155,26 @@ class RestrictContentProductCest
 			]
 		);
 
-		// Programmatically create two Pages.
-		$pageIDs = array(
-			$I->createRestrictedContentPage($I, 'ConvertKit: Page: Restrict Content: Product: ' . $_ENV['CONVERTKIT_API_PRODUCT_NAME'] . ': Bulk Edit #1'),
-			$I->createRestrictedContentPage($I, 'ConvertKit: Page: Restrict Content: Product: ' . $_ENV['CONVERTKIT_API_PRODUCT_NAME'] . ': Bulk Edit #2'),
+		// Programmatically create two Posts.
+		$postIDs = array(
+			$I->createRestrictedContentPage($I, 'post', 'ConvertKit: Post: Restrict Content: Product: ' . $_ENV['CONVERTKIT_API_PRODUCT_NAME'] . ': Bulk Edit #1'),
+			$I->createRestrictedContentPage($I, 'post', 'ConvertKit: Post: Restrict Content: Product: ' . $_ENV['CONVERTKIT_API_PRODUCT_NAME'] . ': Bulk Edit #2'),
 		);
 
-		// Bulk Edit the Pages in the Pages WP_List_Table.
+		// Bulk Edit the Posts in the Posts WP_List_Table.
 		$I->bulkEdit(
 			$I,
-			'page',
-			$pageIDs,
+			'post',
+			$postIDs,
 			[
 				'restrict_content' => [ 'select', $_ENV['CONVERTKIT_API_PRODUCT_NAME'] ],
 			]
 		);
 
-		// Iterate through Pages to run frontend tests.
-		foreach ($pageIDs as $pageID) {
+		// Iterate through Posts to run frontend tests.
+		foreach ($postIDs as $postID) {
 			// Test Restrict Content functionality.
-			$I->testRestrictedContentByProductOnFrontend($I, $pageID);
+			$I->testRestrictedContentOnFrontend($I, $postID);
 			$I->resetCookie('ck_subscriber_id');
 		}
 	}
@@ -179,23 +183,23 @@ class RestrictContentProductCest
 	 * Test that no option to restrict content by a Product is displayed when disabled and using
 	 * the Bulk and Quick Edit functionality.
 	 *
-	 * @since   2.1.0
+	 * @since   2.3.2
 	 *
 	 * @param   AcceptanceTester $I  Tester.
 	 */
 	public function testRestrictContentBulkQuickEditWhenDisabled(AcceptanceTester $I)
 	{
-		// Programmatically create two Pages.
-		$pageIDs = array(
-			$I->createRestrictedContentPage($I, 'ConvertKit: Page: Restrict Content: Disabled: Bulk Edit #1'),
-			$I->createRestrictedContentPage($I, 'ConvertKit: Page: Restrict Content: Disabled: Bulk Edit #2'),
+		// Programmatically create two Posts.
+		$postIDs = array(
+			$I->createRestrictedContentPage($I, 'post', 'ConvertKit: Post: Restrict Content: Disabled: Bulk Edit #1'),
+			$I->createRestrictedContentPage($I, 'post', 'ConvertKit: Post: Restrict Content: Disabled: Bulk Edit #2'),
 		);
 
-		// Navigate to Pages > Edit.
-		$I->amOnAdminPage('edit.php?post_type=page');
+		// Navigate to Posts > Edit.
+		$I->amOnAdminPage('edit.php?post_type=post');
 
-		// Open Quick Edit form for the Page.
-		$I->openQuickEdit($I, 'page', $pageIDs[0]);
+		// Open Quick Edit form for the Post.
+		$I->openQuickEdit($I, 'post', $postIDs[0]);
 
 		// Confirm no option exists to restrict content.
 		$I->dontSeeElementInDOM('#convertkit-quick-edit #wp-convertkit-quick-edit-restrict_content');
@@ -203,8 +207,8 @@ class RestrictContentProductCest
 		// Cancel Quick Edit.
 		$I->click('Cancel');
 
-		// Open Bulk Edit form for the Pages.
-		$I->openBulkEdit($I, 'page', $pageIDs);
+		// Open Bulk Edit form for the Posts.
+		$I->openBulkEdit($I, 'post', $postIDs);
 
 		// Confirm no option exists to restrict content.
 		$I->dontSeeElementInDOM('#convertkit-bulk-edit #wp-convertkit-bulk-edit-restrict_content');
@@ -215,7 +219,7 @@ class RestrictContentProductCest
 	 * We don't use _after, as this would provide a screenshot of the Plugin
 	 * deactivation and not the true test error.
 	 *
-	 * @since   2.1.0
+	 * @since   2.3.2
 	 *
 	 * @param   AcceptanceTester $I  Tester.
 	 */

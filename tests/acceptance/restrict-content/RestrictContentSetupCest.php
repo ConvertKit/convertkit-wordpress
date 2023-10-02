@@ -88,6 +88,33 @@ class RestrictContentSetupCest
 	}
 
 	/**
+	 * Test that the Add New Member Content button does not display on the Posts screen.
+	 *
+	 * @since   2.3.2
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testAddNewMemberContentButtonNotDisplayedOnPosts(AcceptanceTester $I)
+	{
+		// Setup Plugin.
+		$I->setupConvertKitPlugin($I);
+
+		// Enable Restrict Content.
+		$I->setupConvertKitPluginRestrictContent(
+			$I,
+			[
+				'enabled' => 'on',
+			]
+		);
+
+		// Navigate to Posts.
+		$I->amOnAdminPage('edit.php?post_type=post');
+
+		// Check the button isn't displayed.
+		$I->dontSeeElementInDOM('a.convertkit-action');
+	}
+
+	/**
 	 * Test that the Dashboard submenu item for this wizard does not display when a
 	 * third party Admin Menu editor type Plugin is installed and active.
 	 *

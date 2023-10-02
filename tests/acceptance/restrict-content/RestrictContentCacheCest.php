@@ -71,6 +71,7 @@ class RestrictContentCacheCest
 		// Create Restricted Content Page.
 		$pageID = $I->createRestrictedContentPage(
 			$I,
+			'page',
 			'ConvertKit: Restrict Content: Product: LiteSpeed Cache',
 			$this->visibleContent,
 			$this->memberContent,
@@ -120,6 +121,7 @@ class RestrictContentCacheCest
 		// Create Restricted Content Page.
 		$pageID = $I->createRestrictedContentPage(
 			$I,
+			'page',
 			'ConvertKit: Restrict Content: Product: W3 Total Cache',
 			$this->visibleContent,
 			$this->memberContent,
@@ -167,6 +169,7 @@ class RestrictContentCacheCest
 		// Create Restricted Content Page.
 		$pageID = $I->createRestrictedContentPage(
 			$I,
+			'page',
 			'ConvertKit: Restrict Content: Product: WP Fastest Cache',
 			$this->visibleContent,
 			$this->memberContent,
@@ -214,6 +217,7 @@ class RestrictContentCacheCest
 		// Create Restricted Content Page.
 		$pageID = $I->createRestrictedContentPage(
 			$I,
+			'page',
 			'ConvertKit: Restrict Content: Product: WP-Optimize',
 			$this->visibleContent,
 			$this->memberContent,
@@ -261,6 +265,7 @@ class RestrictContentCacheCest
 		// Create Restricted Content Page.
 		$pageID = $I->createRestrictedContentPage(
 			$I,
+			'page',
 			'ConvertKit: Restrict Content: Product: WP Super Cache',
 			$this->visibleContent,
 			$this->memberContent,
