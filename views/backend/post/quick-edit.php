@@ -64,6 +64,21 @@
 					<option value="0" data-preserve-on-refresh="1"><?php esc_html_e( 'Don\'t restrict content to members only.', 'convertkit' ); ?></option>
 
 					<?php
+					// Tags.
+					if ( $convertkit_tags->exist() ) {
+						?>
+						<optgroup label="<?php esc_attr_e( 'Tags', 'convertkit' ); ?>">
+							<?php
+							foreach ( $convertkit_tags->get() as $convertkit_tag ) {
+								?>
+								<option value="tag_<?php echo esc_attr( $convertkit_tag['id'] ); ?>"><?php echo esc_attr( $convertkit_tag['name'] ); ?></option>
+								<?php
+							}
+							?>
+						</optgroup>
+						<?php
+					}
+
 					// Products.
 					if ( $convertkit_products->exist() ) {
 						?>

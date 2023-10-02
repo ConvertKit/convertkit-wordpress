@@ -18,6 +18,15 @@
 class ConvertKit_Admin_Restrict_Content {
 
 	/**
+	 * Holds the ConvertKit Tags resource class.
+	 *
+	 * @since   2.3.2
+	 *
+	 * @var     bool|ConvertKit_Resource_Tags
+	 */
+	public $tags = false;
+
+	/**
 	 * Holds the ConvertKit Products resource class.
 	 *
 	 * @since   2.1.0
@@ -217,11 +226,12 @@ class ConvertKit_Admin_Restrict_Content {
 			return;
 		}
 
-		// Fetch Products.
+		// Fetch Products and Tags.
 		$this->products = new ConvertKit_Resource_Products();
+		$this->tags     = new ConvertKit_Resource_Tags();
 
-		// Don't display filter if no Products exist.
-		if ( ! $this->products->exist() ) {
+		// Don't display filter if no Tags and no Products exist.
+		if ( ! $this->products->exist() && ! $this->tags->exist() ) {
 			return;
 		}
 
