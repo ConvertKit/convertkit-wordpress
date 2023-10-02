@@ -62,8 +62,7 @@ jobs:
           'acceptance/integrations/other',
           'acceptance/integrations/woocommerce',
           'acceptance/products',
-          'acceptance/restrict-content',
-          'acceptance/tags'
+          'acceptance/restrict-content'
         ]
 
     # Steps to install, configure and run tests

@@ -226,7 +226,7 @@ class RestrictContentSetupCest
 		$url = $I->grabAttributeFrom('tr.iedit span.view a', 'href');
 
 		// Test Restrict Content functionality.
-		$I->testRestrictedContentOnFrontend(
+		$I->testRestrictedContentByProductOnFrontend(
 			$I,
 			$url,
 			'Visible content.',
@@ -292,7 +292,7 @@ class RestrictContentSetupCest
 		$url = $I->grabAttributeFrom('.wp-block-button a', 'href');
 
 		// Test Restrict Content functionality.
-		$I->testRestrictedContentOnFrontend(
+		$I->testRestrictedContentByProductOnFrontend(
 			$I,
 			$url,
 			'Some introductory text about lesson 1',
