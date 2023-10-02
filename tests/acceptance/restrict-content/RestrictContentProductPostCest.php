@@ -21,8 +21,7 @@ class RestrictContentProductPostCest
 	}
 
 	/**
-	 * Test that restricting content by a Product specified in the Post Settings works when
-	 * creating and viewing a new WordPress Post.
+	 * Test that content is not restricted when not configured on a WordPress Post.
 	 *
 	 * @since   2.3.2
 	 *
@@ -32,9 +31,6 @@ class RestrictContentProductPostCest
 	{
 		// Add a Post using the Gutenberg editor.
 		$I->addGutenbergPage($I, 'post', 'ConvertKit: Post: Restrict Content: Product');
-
-		// Confirm no option is displayed to restrict content.
-		$I->dontSeeElementInDOM('#wp-convertkit-restrict_content');
 
 		// Add blocks.
 		$I->addGutenbergParagraphBlock($I, 'Visible content.');

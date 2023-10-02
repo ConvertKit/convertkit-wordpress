@@ -72,7 +72,7 @@ class RestrictContentTagCest
 	public function testRestrictContentByTagUsingQuickEdit(AcceptanceTester $I)
 	{
 		// Programmatically create a Page.
-		$pageID = $I->createRestrictedContentPage($I, 'ConvertKit: Page: Restrict Content: Tag: ' . $_ENV['CONVERTKIT_API_TAG_NAME'] . ': Quick Edit');
+		$pageID = $I->createRestrictedContentPage($I, 'page', 'ConvertKit: Page: Restrict Content: Tag: ' . $_ENV['CONVERTKIT_API_TAG_NAME'] . ': Quick Edit');
 
 		// Quick Edit the Page in the Pages WP_List_Table.
 		$I->quickEdit(
@@ -100,8 +100,8 @@ class RestrictContentTagCest
 	{
 		// Programmatically create two Pages.
 		$pageIDs = array(
-			$I->createRestrictedContentPage($I, 'ConvertKit: Page: Restrict Content: Tag: ' . $_ENV['CONVERTKIT_API_TAG_NAME'] . ': Bulk Edit #1'),
-			$I->createRestrictedContentPage($I, 'ConvertKit: Page: Restrict Content: Tag: ' . $_ENV['CONVERTKIT_API_TAG_NAME'] . ': Bulk Edit #2'),
+			$I->createRestrictedContentPage($I, 'page', 'ConvertKit: Page: Restrict Content: Tag: ' . $_ENV['CONVERTKIT_API_TAG_NAME'] . ': Bulk Edit #1'),
+			$I->createRestrictedContentPage($I, 'page', 'ConvertKit: Page: Restrict Content: Tag: ' . $_ENV['CONVERTKIT_API_TAG_NAME'] . ': Bulk Edit #2'),
 		);
 
 		// Bulk Edit the Pages in the Pages WP_List_Table.
