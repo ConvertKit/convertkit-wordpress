@@ -52,14 +52,6 @@ class ConvertKit_Admin_Restrict_Content {
 	 */
 	public function __construct() {
 
-		// Initialize classes that will be used.
-		$this->restrict_content_settings = new ConvertKit_Settings_Restrict_Content();
-
-		// Bail if Restrict Content isn't enabled.
-		if ( ! $this->restrict_content_settings->enabled() ) {
-			return;
-		}
-
 		// Add New Member Content button.
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts_and_css' ) );
 		foreach ( convertkit_get_supported_restrict_content_post_types() as $post_type ) {

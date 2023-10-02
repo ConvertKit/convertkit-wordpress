@@ -21,8 +21,7 @@ class RestrictContentProductCest
 	}
 
 	/**
-	 * Test that restricting content by a Product specified in the Page Settings works when
-	 * creating and viewing a new WordPress Page.
+	 * Test that content is not restricted when not configured on a WordPress Page.
 	 *
 	 * @since   2.1.0
 	 *

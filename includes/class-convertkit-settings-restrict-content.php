@@ -90,19 +90,6 @@ class ConvertKit_Settings_Restrict_Content {
 	}
 
 	/**
-	 * Returns whether Restrict Content is enabled in the Plugin settings.
-	 *
-	 * @since   2.1.0
-	 *
-	 * @return  bool
-	 */
-	public function enabled() {
-
-		return ( $this->settings['enabled'] === 'on' ? true : false );
-
-	}
-
-	/**
 	 * The default settings, used when the ConvertKit Restrict Content Settings haven't been saved
 	 * e.g. on a new installation.
 	 *
@@ -113,7 +100,6 @@ class ConvertKit_Settings_Restrict_Content {
 	public function get_defaults() {
 
 		$defaults = array(
-			'enabled'                => '',
 			'subscribe_text'         => __( 'This content is only available to premium subscribers', 'convertkit' ),
 			'subscribe_button_label' => __( 'Subscribe', 'convertkit' ),
 			'email_text'             => __( 'Already a premium subscriber? Enter the email address used when purchasing below, to receive a login link to access.', 'convertkit' ),

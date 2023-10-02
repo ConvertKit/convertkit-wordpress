@@ -54,12 +54,6 @@ class ConvertKit_Admin_Cache_Plugins {
 	 */
 	public function maybe_configure_cache_plugins() {
 
-		// Bail if Restrict Content is disabled.
-		$restrict_content_settings = new ConvertKit_Settings_Restrict_Content();
-		if ( ! $restrict_content_settings->enabled() ) {
-			return;
-		}
-
 		$this->litespeed_cache();
 		$this->w3_total_cache();
 		$this->wp_fastest_cache();

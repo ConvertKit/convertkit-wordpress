@@ -38,14 +38,6 @@ class RestrictContentCacheCest
 		$I->activateConvertKitPlugin($I);
 		$I->setupConvertKitPlugin($I);
 
-		// Enable Restricted Content.
-		$I->setupConvertKitPluginRestrictContent(
-			$I,
-			[
-				'enabled' => 'on',
-			]
-		);
-
 		// Clear up any cache configuration files that might exist from previous tests.
 		$I->deleteWPCacheConfigFiles($I);
 		$I->resetCookie('ck_subscriber_id');

@@ -73,12 +73,6 @@ class RestrictContentFilterCest
 	{
 		// Setup Plugin using API keys that have no resources.
 		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY_NO_DATA'], $_ENV['CONVERTKIT_API_SECRET_NO_DATA']);
-		$I->setupConvertKitPluginRestrictContent(
-			$I,
-			[
-				'enabled' => 'on',
-			]
-		);
 
 		// Navigate to Pages.
 		$I->amOnAdminPage('edit.php?post_type=page');
@@ -101,12 +95,6 @@ class RestrictContentFilterCest
 	{
 		// Setup Plugin.
 		$I->setupConvertKitPlugin($I);
-		$I->setupConvertKitPluginRestrictContent(
-			$I,
-			[
-				'enabled' => 'on',
-			]
-		);
 
 		// Create Page, set to restrict content to a Product.
 		$I->createRestrictedContentPage(
