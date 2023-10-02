@@ -139,6 +139,12 @@ class BroadcastsToPostsCest
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
 
+		// Set cookie with signed subscriber ID, as if we completed the Restrict Content authentication flow.
+		$I->setCookie('ck_subscriber_id', $_ENV['CONVERTKIT_API_SIGNED_SUBSCRIBER_ID']);
+
+		// Reload the post.
+		$I->reloadPage();
+
 		// Confirm inline styles exist in the imported Broadcast.
 		$I->seeElementInDOM('div.ck-inner-section');
 		$I->assertNotNull($I->grabAttributeFrom('div.wp-block-post-content h1', 'style'));
@@ -205,6 +211,12 @@ class BroadcastsToPostsCest
 
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Set cookie with signed subscriber ID, as if we completed the Restrict Content authentication flow.
+		$I->setCookie('ck_subscriber_id', $_ENV['CONVERTKIT_API_SIGNED_SUBSCRIBER_ID']);
+
+		// Reload the post.
+		$I->reloadPage();
 
 		// Confirm inline styles exist in the imported Broadcast.
 		$I->seeElementInDOM('div.ck-inner-section');
@@ -411,6 +423,12 @@ class BroadcastsToPostsCest
 
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Set cookie with signed subscriber ID, as if we completed the Restrict Content authentication flow.
+		$I->setCookie('ck_subscriber_id', $_ENV['CONVERTKIT_API_SIGNED_SUBSCRIBER_ID']);
+
+		// Reload the post.
+		$I->reloadPage();
 
 		// Confirm no inline styles exist in the imported Broadcast.
 		$I->dontSeeElementInDOM('div.ck-inner-section');
