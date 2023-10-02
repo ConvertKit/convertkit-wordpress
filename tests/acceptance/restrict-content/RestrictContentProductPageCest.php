@@ -1,10 +1,10 @@
 <?php
 /**
- * Tests Restrict Content by Product functionality.
+ * Tests Restrict Content by Product functionality on WordPress Pages.
  *
  * @since   2.1.0
  */
-class RestrictContentProductCest
+class RestrictContentProductPageCest
 {
 	/**
 	 * Run common actions before running the test functions in this class.
@@ -86,7 +86,7 @@ class RestrictContentProductCest
 		$url = $I->publishGutenbergPage($I);
 
 		// Test Restrict Content functionality.
-		$I->testRestrictedContentOnFrontend(
+		$I->testRestrictedContentByProductOnFrontend(
 			$I,
 			$url,
 			'Visible content.',
@@ -113,7 +113,7 @@ class RestrictContentProductCest
 		);
 
 		// Programmatically create a Page.
-		$pageID = $I->createRestrictedContentPage($I, 'ConvertKit: Page: Restrict Content: Product: ' . $_ENV['CONVERTKIT_API_PRODUCT_NAME'] . ': Quick Edit');
+		$pageID = $I->createRestrictedContentPage($I, 'page', 'ConvertKit: Page: Restrict Content: Product: ' . $_ENV['CONVERTKIT_API_PRODUCT_NAME'] . ': Quick Edit');
 
 		// Quick Edit the Page in the Pages WP_List_Table.
 		$I->quickEdit(
@@ -126,7 +126,7 @@ class RestrictContentProductCest
 		);
 
 		// Test Restrict Content functionality.
-		$I->testRestrictedContentOnFrontend($I, $pageID);
+		$I->testRestrictedContentByProductOnFrontend($I, $pageID);
 	}
 
 	/**
@@ -149,8 +149,8 @@ class RestrictContentProductCest
 
 		// Programmatically create two Pages.
 		$pageIDs = array(
-			$I->createRestrictedContentPage($I, 'ConvertKit: Page: Restrict Content: Product: ' . $_ENV['CONVERTKIT_API_PRODUCT_NAME'] . ': Bulk Edit #1'),
-			$I->createRestrictedContentPage($I, 'ConvertKit: Page: Restrict Content: Product: ' . $_ENV['CONVERTKIT_API_PRODUCT_NAME'] . ': Bulk Edit #2'),
+			$I->createRestrictedContentPage($I, 'page', 'ConvertKit: Page: Restrict Content: Product: ' . $_ENV['CONVERTKIT_API_PRODUCT_NAME'] . ': Bulk Edit #1'),
+			$I->createRestrictedContentPage($I, 'page', 'ConvertKit: Page: Restrict Content: Product: ' . $_ENV['CONVERTKIT_API_PRODUCT_NAME'] . ': Bulk Edit #2'),
 		);
 
 		// Bulk Edit the Pages in the Pages WP_List_Table.
@@ -166,9 +166,44 @@ class RestrictContentProductCest
 		// Iterate through Pages to run frontend tests.
 		foreach ($pageIDs as $pageID) {
 			// Test Restrict Content functionality.
-			$I->testRestrictedContentOnFrontend($I, $pageID);
+			$I->testRestrictedContentByProductOnFrontend($I, $pageID);
 			$I->resetCookie('ck_subscriber_id');
 		}
+	}
+
+	/**
+	 * Test that no option to restrict content by a Product is displayed when disabled and using
+	 * the Bulk and Quick Edit functionality.
+	 *
+	 * @since   2.1.0
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testRestrictContentBulkQuickEditWhenDisabled(AcceptanceTester $I)
+	{
+		// Programmatically create two Pages.
+		$pageIDs = array(
+			$I->createRestrictedContentPage($I, 'page', 'ConvertKit: Page: Restrict Content: Disabled: Bulk Edit #1'),
+			$I->createRestrictedContentPage($I, 'page', 'ConvertKit: Page: Restrict Content: Disabled: Bulk Edit #2'),
+		);
+
+		// Navigate to Pages > Edit.
+		$I->amOnAdminPage('edit.php?post_type=page');
+
+		// Open Quick Edit form for the Page.
+		$I->openQuickEdit($I, 'page', $pageIDs[0]);
+
+		// Confirm no option exists to restrict content.
+		$I->dontSeeElementInDOM('#convertkit-quick-edit #wp-convertkit-quick-edit-restrict_content');
+
+		// Cancel Quick Edit.
+		$I->click('Cancel');
+
+		// Open Bulk Edit form for the Pages.
+		$I->openBulkEdit($I, 'page', $pageIDs);
+
+		// Confirm no option exists to restrict content.
+		$I->dontSeeElementInDOM('#convertkit-bulk-edit #wp-convertkit-bulk-edit-restrict_content');
 	}
 
 	/**

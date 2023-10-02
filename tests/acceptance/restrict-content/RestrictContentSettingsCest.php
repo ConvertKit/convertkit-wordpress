@@ -66,6 +66,7 @@ class RestrictContentSettingsCest
 		// Create Restricted Content Page.
 		$pageID = $I->createRestrictedContentPage(
 			$I,
+			'page',
 			'ConvertKit: Restrict Content: Settings',
 			$visibleContent,
 			$memberContent,
@@ -73,7 +74,7 @@ class RestrictContentSettingsCest
 		);
 
 		// Test Restrict Content functionality.
-		$I->testRestrictedContentOnFrontend($I, $pageID, $visibleContent, $memberContent);
+		$I->testRestrictedContentByProductOnFrontend($I, $pageID, $visibleContent, $memberContent);
 	}
 
 	/**
@@ -112,6 +113,7 @@ class RestrictContentSettingsCest
 		// Create Restricted Content Page.
 		$pageID = $I->createRestrictedContentPage(
 			$I,
+			'page',
 			'ConvertKit: Restrict Content: Settings: Blank',
 			$visibleContent,
 			$memberContent,
@@ -119,7 +121,7 @@ class RestrictContentSettingsCest
 		);
 
 		// Test Restrict Content functionality.
-		$I->testRestrictedContentOnFrontend($I, $pageID, $visibleContent, $memberContent);
+		$I->testRestrictedContentByProductOnFrontend($I, $pageID, $visibleContent, $memberContent);
 	}
 
 	/**
@@ -157,6 +159,7 @@ class RestrictContentSettingsCest
 		// Create Restricted Content Page.
 		$pageID = $I->createRestrictedContentPage(
 			$I,
+			'page',
 			'ConvertKit: Restrict Content: Settings: Custom',
 			$visibleContent,
 			$memberContent,
@@ -164,7 +167,7 @@ class RestrictContentSettingsCest
 		);
 
 		// Test Restrict Content functionality.
-		$I->testRestrictedContentOnFrontend($I, $pageID, $visibleContent, $memberContent, $settings);
+		$I->testRestrictedContentByProductOnFrontend($I, $pageID, $visibleContent, $memberContent, $settings);
 	}
 
 	/**
@@ -184,6 +187,7 @@ class RestrictContentSettingsCest
 		// Create Restricted Content Page.
 		$pageID = $I->createRestrictedContentPage(
 			$I,
+			'page',
 			'ConvertKit: Restrict Content: Settings: Custom',
 			'Visible content.',
 			'Member only content.',
