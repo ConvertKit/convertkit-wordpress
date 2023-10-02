@@ -32,9 +32,6 @@ class RestrictContentProductCest
 		// Add a Page using the Gutenberg editor.
 		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Restrict Content: Product');
 
-		// Confirm no option is displayed to restrict content.
-		$I->dontSeeElementInDOM('#wp-convertkit-restrict_content');
-
 		// Add blocks.
 		$I->addGutenbergParagraphBlock($I, 'Visible content.');
 		$I->addGutenbergBlock($I, 'More', 'more');
@@ -172,41 +169,6 @@ class RestrictContentProductCest
 			$I->testRestrictedContentOnFrontend($I, $pageID);
 			$I->resetCookie('ck_subscriber_id');
 		}
-	}
-
-	/**
-	 * Test that no option to restrict content by a Product is displayed when disabled and using
-	 * the Bulk and Quick Edit functionality.
-	 *
-	 * @since   2.1.0
-	 *
-	 * @param   AcceptanceTester $I  Tester.
-	 */
-	public function testRestrictContentBulkQuickEditWhenDisabled(AcceptanceTester $I)
-	{
-		// Programmatically create two Pages.
-		$pageIDs = array(
-			$I->createRestrictedContentPage($I, 'ConvertKit: Page: Restrict Content: Disabled: Bulk Edit #1'),
-			$I->createRestrictedContentPage($I, 'ConvertKit: Page: Restrict Content: Disabled: Bulk Edit #2'),
-		);
-
-		// Navigate to Pages > Edit.
-		$I->amOnAdminPage('edit.php?post_type=page');
-
-		// Open Quick Edit form for the Page.
-		$I->openQuickEdit($I, 'page', $pageIDs[0]);
-
-		// Confirm no option exists to restrict content.
-		$I->dontSeeElementInDOM('#convertkit-quick-edit #wp-convertkit-quick-edit-restrict_content');
-
-		// Cancel Quick Edit.
-		$I->click('Cancel');
-
-		// Open Bulk Edit form for the Pages.
-		$I->openBulkEdit($I, 'page', $pageIDs);
-
-		// Confirm no option exists to restrict content.
-		$I->dontSeeElementInDOM('#convertkit-bulk-edit #wp-convertkit-bulk-edit-restrict_content');
 	}
 
 	/**

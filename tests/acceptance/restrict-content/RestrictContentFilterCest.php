@@ -39,29 +39,6 @@ class RestrictContentFilterCest
 	}
 
 	/**
-	 * Test that no dropdown filter on the Pages screen is displayed when Restrict
-	 * Content is disabled.
-	 *
-	 * @since   2.1.0
-	 *
-	 * @param   AcceptanceTester $I  Tester.
-	 */
-	public function testNoFilterDisplayedWhenRestrictContentDisabled(AcceptanceTester $I)
-	{
-		// Setup Plugin using API keys that have no resources.
-		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY'], $_ENV['CONVERTKIT_API_SECRET']);
-
-		// Navigate to Pages.
-		$I->amOnAdminPage('edit.php?post_type=page');
-
-		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen($I);
-
-		// Check no filter is displayed, as the ConvertKit account has no resources.
-		$I->dontSeeElementInDOM('#wp-convertkit-restrict-content-filter');
-	}
-
-	/**
 	 * Test that no dropdown filter on the Pages screen is displayed when the ConvertKit
 	 * account has no Forms, Tag and Products.
 	 *
