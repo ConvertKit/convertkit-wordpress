@@ -166,7 +166,7 @@ class PluginSettingsToolsCest
 		$I->seeInThisFile('{"settings":{"api_key":"' . $_ENV['CONVERTKIT_API_KEY'] . '","api_secret":"' . $_ENV['CONVERTKIT_API_SECRET'] . '"');
 
 		// Confirm some expected Restrict Content settings data is included.
-		$I->seeInThisFile('"restrict_content":{"enabled":"on","subscribe_text":');
+		$I->seeInThisFile('"restrict_content":{"subscribe_text":');
 
 		// Delete the file.
 		$I->deleteFile($_ENV['WP_ROOT_FOLDER'] . '/convertkit-export.json');
@@ -208,9 +208,6 @@ class PluginSettingsToolsCest
 
 		// Go to the Plugin's Restrict Content Settings Screen.
 		$I->loadConvertKitSettingsRestrictContentScreen($I);
-
-		// Check the field is ticked.
-		$I->seeCheckboxIsChecked('#enabled');
 
 		// Confirm that the text fields contain the expected data.
 		$defaults = $I->getRestrictedContentDefaultSettings();
