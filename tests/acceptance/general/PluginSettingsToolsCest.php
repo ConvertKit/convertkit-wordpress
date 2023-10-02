@@ -140,15 +140,6 @@ class PluginSettingsToolsCest
 	{
 		$I->setupConvertKitPlugin($I);
 		$I->setupConvertKitPluginResources($I);
-		$I->setupConvertKitPluginRestrictContent(
-			$I,
-			array_merge(
-				[
-					'enabled' => 'on',
-				],
-				$I->getRestrictedContentDefaultSettings()
-			)
-		);
 		$I->loadConvertKitSettingsToolsScreen($I);
 
 		// Click the Export button.

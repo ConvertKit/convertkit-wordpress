@@ -67,14 +67,6 @@ class RestrictContentSetupCest
 		// Setup Plugin.
 		$I->setupConvertKitPlugin($I);
 
-		// Enable Restrict Content.
-		$I->setupConvertKitPluginRestrictContent(
-			$I,
-			[
-				'enabled' => 'on',
-			]
-		);
-
 		// Navigate to Posts.
 		$I->amOnAdminPage('edit.php?post_type=post');
 

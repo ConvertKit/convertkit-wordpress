@@ -19,14 +19,6 @@ class RefreshResourcesButtonCest
 		// Activate and Setup ConvertKit plugin.
 		$I->activateConvertKitPlugin($I);
 		$I->setupConvertKitPluginResources($I);
-
-		// Enable Restrict Content, so the Products refresh button can be tested.
-		$I->setupConvertKitPluginRestrictContent(
-			$I,
-			[
-				'enabled' => 'on',
-			]
-		);
 	}
 
 	/**

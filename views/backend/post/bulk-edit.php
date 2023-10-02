@@ -112,7 +112,7 @@
 						}
 						?>
 					</optgroup>
-				<?php
+					<?php
 				}
 				?>
 			</select>
