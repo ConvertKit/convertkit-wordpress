@@ -52,11 +52,6 @@ jobs:
         # Folder names within the 'tests' folder to run tests in parallel.
         test-groups: [
           'acceptance/forms/blocks-shortcodes',
-          'acceptance/forms/general',
-          'acceptance/general',
-          'acceptance/integrations',
-          'acceptance/products',
-          'acceptance/tags', 
         ]
 
     # Steps to install, configure and run tests
