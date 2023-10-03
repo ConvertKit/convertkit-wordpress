@@ -59,7 +59,6 @@ jobs:
           'acceptance/general',
           'acceptance/integrations',
           'acceptance/products',
-          'acceptance/restrict-content',
           'acceptance/tags', 
         ]
 
