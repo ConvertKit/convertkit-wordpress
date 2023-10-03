@@ -45,8 +45,8 @@ jobs:
     # If testing older WordPress versions, ensure they are e.g. 5.7.4, 5.6.6 that have the X3 SSL fix: https://core.trac.wordpress.org/ticket/54207
     # For PHP, make sure that an nginx configuration file exists for the required PHP version in this repository at tests/nginx/php-x.x.conf
     strategy:
+      fail-fast: false
       matrix:
-        fail-fast: false
         wp-versions: [ 'latest' ] #[ '6.1.1', 'latest' ]
         php-versions: [ '7.4', '8.0', '8.1', '8.2' ] #[ '7.4', '8.0', '8.1' ]
 
