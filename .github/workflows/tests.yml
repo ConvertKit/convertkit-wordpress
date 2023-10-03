@@ -17,7 +17,7 @@ jobs:
 
     # Virtual Environment to use.
     # @see: https://github.com/actions/virtual-environments
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
 
     # Environment Variables.
     # Accessible by using ${{ env.NAME }}
@@ -88,14 +88,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           path: ${{ env.PLUGIN_DIR }}
-
-      # This step is deliberate, to force PHP 7.4 for WP-CLI to work.
-      # PHP 8.x results in the workflow failing due to incompatibilities between WP-CLI and PHP 8.x.
-      - name: Install PHP 7.4.26
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: 7.4.26
-          coverage: xdebug
 
       # We install WP-CLI, as it provides useful commands to setup and install WordPress through the command line.
       - name: Install WP-CLI
