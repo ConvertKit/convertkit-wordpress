@@ -51,14 +51,12 @@ jobs:
 
         # Folder names within the 'tests' folder to run tests in parallel.
         test-groups: [
-          'acceptance/broadcasts/blocks',
-          'acceptance/broadcasts/shortcodes',
-          'acceptance/broadcasts/import',
           'acceptance/forms/blocks-shortcodes',
           'acceptance/forms/general',
           'acceptance/general',
           'acceptance/integrations',
           'acceptance/products',
+          'acceptance/restrict-content',
           'acceptance/tags', 
         ]
 
