@@ -29,7 +29,7 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 
 		// Define the programmatic name, Title and Tab Text.
 		$this->name     = 'broadcasts';
-		$this->title    = __( 'Broadcasts', 'convertkit' );
+		$this->title    = __( 'Broadcasts to Posts', 'convertkit' );
 		$this->tab_text = __( 'Broadcasts', 'convertkit' );
 
 		// Identify that this is beta functionality.
