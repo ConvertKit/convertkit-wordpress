@@ -61,14 +61,6 @@ class ConvertKit_Admin_Restrict_Content {
 	 */
 	public function __construct() {
 
-		// Initialize classes that will be used.
-		$this->restrict_content_settings = new ConvertKit_Settings_Restrict_Content();
-
-		// Bail if Restrict Content isn't enabled.
-		if ( ! $this->restrict_content_settings->enabled() ) {
-			return;
-		}
-
 		// Add New Member Content Wizard button to Pages.
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts_and_css' ) );
 		add_filter( 'views_edit-page', array( $this, 'output_wp_list_table_buttons' ) );

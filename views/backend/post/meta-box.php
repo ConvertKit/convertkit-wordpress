@@ -134,62 +134,56 @@
 			</td>
 		</tr>
 
-		<?php
-		if ( $restrict_content_settings->enabled() ) {
-			?>
-			<tr valign="top">
-				<th scope="row">
-					<label for="wp-convertkit-restrict_content"><?php esc_html_e( 'Member Content', 'convertkit' ); ?></label>
-				</th>
-				<td>
-					<div class="convertkit-select2-container convertkit-select2-container-grid">
-						<select name="wp-convertkit[restrict_content]" id="wp-convertkit-restrict_content" class="convertkit-select2">
-							<option value="0"<?php selected( '', $convertkit_post->get_restrict_content() ); ?> data-preserve-on-refresh="1"><?php esc_html_e( 'Don\'t restrict content to members only.', 'convertkit' ); ?></option>
+		<tr valign="top">
+			<th scope="row">
+				<label for="wp-convertkit-restrict_content"><?php esc_html_e( 'Member Content', 'convertkit' ); ?></label>
+			</th>
+			<td>
+				<div class="convertkit-select2-container convertkit-select2-container-grid">
+					<select name="wp-convertkit[restrict_content]" id="wp-convertkit-restrict_content" class="convertkit-select2">
+						<option value="0"<?php selected( '', $convertkit_post->get_restrict_content() ); ?> data-preserve-on-refresh="1"><?php esc_html_e( 'Don\'t restrict content to members only.', 'convertkit' ); ?></option>
 
-							<?php
-							if ( $convertkit_tags->exist() ) {
-								?>
-								<optgroup label="<?php esc_attr_e( 'Tags', 'convertkit' ); ?>">
-									<?php
-									foreach ( $convertkit_tags->get() as $convertkit_tag ) {
-										?>
-										<option value="tag_<?php echo esc_attr( $convertkit_tag['id'] ); ?>"<?php selected( 'tag_' . $convertkit_tag['id'], $convertkit_post->get_restrict_content() ); ?>><?php echo esc_attr( $convertkit_tag['name'] ); ?></option>
-										<?php
-									}
-									?>
-								</optgroup>
-								<?php
-							}
-
-							if ( $convertkit_products->exist() ) {
-								?>
-								<optgroup label="<?php esc_attr_e( 'Products', 'convertkit' ); ?>">
-									<?php
-									foreach ( $convertkit_products->get() as $product ) {
-										?>
-										<option value="product_<?php echo esc_attr( $product['id'] ); ?>"<?php selected( 'product_' . $product['id'], $convertkit_post->get_restrict_content() ); ?>><?php echo esc_attr( $product['name'] ); ?></option>
-										<?php
-									}
-									?>
-								</optgroup>
-								<?php
-							}
+						<?php
+						if ( $convertkit_tags->exist() ) {
 							?>
-						</select>
-						<button class="wp-convertkit-refresh-resources" class="button button-secondary hide-if-no-js" title="<?php esc_attr_e( 'Refresh Products Pages from ConvertKit account', 'convertkit' ); ?>" data-resource="products" data-field="#wp-convertkit-restrict_content">
-							<span class="dashicons dashicons-update"></span>
-						</button>
-						<p class="description">
-							<?php esc_html_e( 'Select the ConvertKit tag or product that the visitor must be subscribed to, permitting them access to view this members only content.', 'convertkit' ); ?>
-							<br />
-							<?php esc_html_e( 'If a tag is selected, a subscription form will be displayed. On submission, the email address will be subscribed to the selected tag, granting access to the members only content.', 'convertkit' ); ?>
-						</p>
-					</div>
-				</td>
-			</tr>
-			<?php
-		}
-		?>
+							<optgroup label="<?php esc_attr_e( 'Tags', 'convertkit' ); ?>">
+								<?php
+								foreach ( $convertkit_tags->get() as $convertkit_tag ) {
+									?>
+									<option value="tag_<?php echo esc_attr( $convertkit_tag['id'] ); ?>"<?php selected( 'tag_' . $convertkit_tag['id'], $convertkit_post->get_restrict_content() ); ?>><?php echo esc_attr( $convertkit_tag['name'] ); ?></option>
+									<?php
+								}
+								?>
+							</optgroup>
+							<?php
+						}
+
+						if ( $convertkit_products->exist() ) {
+							?>
+							<optgroup label="<?php esc_attr_e( 'Products', 'convertkit' ); ?>">
+								<?php
+								foreach ( $convertkit_products->get() as $product ) {
+									?>
+									<option value="product_<?php echo esc_attr( $product['id'] ); ?>"<?php selected( 'product_' . $product['id'], $convertkit_post->get_restrict_content() ); ?>><?php echo esc_attr( $product['name'] ); ?></option>
+									<?php
+								}
+								?>
+							</optgroup>
+							<?php
+						}
+						?>
+					</select>
+					<button class="wp-convertkit-refresh-resources" class="button button-secondary hide-if-no-js" title="<?php esc_attr_e( 'Refresh Products Pages from ConvertKit account', 'convertkit' ); ?>" data-resource="products" data-field="#wp-convertkit-restrict_content">
+						<span class="dashicons dashicons-update"></span>
+					</button>
+					<p class="description">
+						<?php esc_html_e( 'Select the ConvertKit tag or product that the visitor must be subscribed to, permitting them access to view this members only content.', 'convertkit' ); ?>
+						<br />
+						<?php esc_html_e( 'If a tag is selected, a subscription form will be displayed. On submission, the email address will be subscribed to the selected tag, granting access to the members only content.', 'convertkit' ); ?>
+					</p>
+				</div>
+			</td>
+		</tr>
 	</tbody>
 </table>
 

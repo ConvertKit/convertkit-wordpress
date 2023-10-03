@@ -33,62 +33,12 @@ class RestrictContentSettingsCest
 		$I->loadConvertKitSettingsRestrictContentScreen($I);
 
 		// Confirm that settings have label[for] attributes.
-		$I->seeInSource('<label for="enabled">');
 		$I->seeInSource('<label for="subscribe_text">');
 		$I->seeInSource('<label for="subscribe_button_label">');
 		$I->seeInSource('<label for="email_text">');
 		$I->seeInSource('<label for="email_button_label">');
 		$I->seeInSource('<label for="email_check_text">');
 		$I->seeInSource('<label for="no_access_text">');
-	}
-
-	/**
-	 * Tests that enabling and disabling Restrict Content works with no errors,
-	 * and that other form fields show / hide depending on the setting.
-	 *
-	 * @since   2.1.0
-	 *
-	 * @param   AcceptanceTester $I  Tester.
-	 */
-	public function testEnableDisable(AcceptanceTester $I)
-	{
-		// Go to the Plugin's Member Content Screen.
-		$I->loadConvertKitSettingsRestrictContentScreen($I);
-
-		// Confirm that additional fields are hidden, because the 'Enable' option is not checked.
-		$I->dontSeeElement('input.enabled');
-
-		// Enable Member Content.
-		$I->checkOption('#enabled');
-
-		// Confirm that additional fields are now displayed.
-		$I->waitForElementVisible('input.enabled');
-
-		// Click the Save Changes button.
-		$I->click('Save Changes');
-
-		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen($I);
-
-		// Confirm that settings saved and additional fields remain displayed.
-		$I->seeCheckboxIsChecked('#enabled');
-		$I->seeElement('input.enabled');
-
-		// Disable Member Content.
-		$I->uncheckOption('#enabled');
-
-		// Confirm that additional fields are hidden, because the 'Enable' option is not checked.
-		$I->waitForElementNotVisible('input.enabled');
-
-		// Click the Save Changes button.
-		$I->click('Save Changes');
-
-		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen($I);
-
-		// Confirm that settings saved and additional fields are hidden, because the 'Enable' option is not checked.
-		$I->dontSeeCheckboxIsChecked('#enabled');
-		$I->dontSeeElement('input.enabled');
 	}
 
 	/**
@@ -105,12 +55,7 @@ class RestrictContentSettingsCest
 		$memberContent  = 'Member only content.';
 
 		// Save settings.
-		$this->_setupConvertKitPluginRestrictContent(
-			$I,
-			[
-				'enabled' => true,
-			]
-		);
+		$this->_setupConvertKitPluginRestrictContent($I);
 
 		// Confirm default values were saved and display in the form fields.
 		$defaults = $I->getRestrictedContentDefaultSettings();
@@ -148,7 +93,6 @@ class RestrictContentSettingsCest
 
 		// Define settings.
 		$settings = array(
-			'enabled'                => true,
 			'subscribe_text'         => '',
 			'subscribe_button_label' => '',
 			'email_text'             => '',
@@ -196,7 +140,6 @@ class RestrictContentSettingsCest
 
 		// Define settings.
 		$settings = array(
-			'enabled'                => true,
 			'subscribe_text'         => 'Subscribe Text',
 			'subscribe_button_label' => 'Subscribe Button Label',
 			'email_text'             => 'Email Text',
@@ -236,14 +179,6 @@ class RestrictContentSettingsCest
 	 */
 	public function testDisableCSSSetting(AcceptanceTester $I)
 	{
-		// Enable Restrict Content.
-		$this->_setupConvertKitPluginRestrictContent(
-			$I,
-			[
-				'enabled' => true,
-			]
-		);
-
 		// Disable CSS.
 		$I->loadConvertKitSettingsGeneralScreen($I);
 		$I->checkOption('#no_css');
@@ -279,18 +214,7 @@ class RestrictContentSettingsCest
 		// Complete fields.
 		if ( $settings ) {
 			foreach ( $settings as $key => $value ) {
-				switch ( $key ) {
-					case 'enabled':
-						if ( $value ) {
-							$I->checkOption('_wp_convertkit_settings_restrict_content[' . $key . ']');
-						} else {
-							$I->uncheckOption('_wp_convertkit_settings_restrict_content[' . $key . ']');
-						}
-						break;
-					default:
-						$I->fillField('_wp_convertkit_settings_restrict_content[' . $key . ']', $value);
-						break;
-				}
+				$I->fillField('_wp_convertkit_settings_restrict_content[' . $key . ']', $value);
 			}
 		}
 
