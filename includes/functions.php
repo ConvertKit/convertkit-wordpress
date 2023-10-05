@@ -225,6 +225,30 @@ function convertkit_get_block_formatters() {
 }
 
 /**
+ * Helper method to get registered pre-publish actions.
+ *
+ * @since   2.4.0
+ *
+ * @return  array   Pre-publish actions
+ */
+function convertkit_get_pre_publish_actions() {
+
+	$pre_publish_actions = array();
+
+	/**
+	 * Registers pre-publish actions for the ConvertKit Plugin.
+	 *
+	 * @since   2.4.0
+	 *
+	 * @param   array   $pre_publish_panels     Pre-publish actions.
+	 */
+	$pre_publish_actions = apply_filters( 'convertkit_get_pre_publish_actions', $pre_publish_actions );
+
+	return $pre_publish_actions;
+
+}
+
+/**
  * Helper method to return the Plugin Settings Link
  *
  * @since   1.9.6
