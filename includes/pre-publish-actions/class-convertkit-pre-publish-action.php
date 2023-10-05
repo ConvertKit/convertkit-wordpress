@@ -45,6 +45,9 @@ class ConvertKit_Pre_Publish_Action {
 		// Register this as a pre-publish action in the ConvertKit Plugin.
 		add_filter( 'convertkit_get_pre_publish_actions', array( $this, 'register' ) );
 
+		// Register meta key for Gutenberg.
+		add_action( 'init', array( $this, 'register_meta_key' ) );
+
 		// Perform pre-publish action.
 		add_action( 'transition_post_status', array( $this, 'run' ), 10, 3 );
 
@@ -74,6 +77,29 @@ class ConvertKit_Pre_Publish_Action {
 	}
 
 	/**
+	 * Registers the action's meta key in WordPress.
+	 * This is required for Gutenberg to save the '_convertkit_action_{$name}'
+	 * meta key/value pair when a Post is saved.
+	 *
+	 * @since   2.4.0
+	 */
+	public function register_meta_key() {
+
+		// Register action as a meta key.
+		register_post_meta(
+			'post',
+			$this->meta_key,
+			array(
+				'show_in_rest'  => true,
+				'single'        => true,
+				'type'          => 'boolean',
+				'auth_callback' => '__return_true',
+			)
+		);
+
+	}
+
+	/**
 	 * Performs the pre-publish action, if the Post has been transitioned to published.
 	 *
 	 * @since   2.4.0
@@ -83,6 +109,11 @@ class ConvertKit_Pre_Publish_Action {
 	 * @param   WP_Post $post           Post.
 	 */
 	public function run( $new_status, $old_status, $post ) {
+
+		// Remove actions registered by this Plugin.
+		// This ensures that when Page Builders call trigger actions via AJAX, we don't run this multiple times.
+		remove_action( 'wp_insert_post', array( $this, 'classic_editor_post_published' ), 999 );
+		remove_action( 'rest_after_insert_' . $post->post_type, array( $this, 'rest_api_post_published' ), 10 );
 
 		// Ignore if the Post is not transitioning to published.
 		if ( $new_status !== 'publish' ) {
@@ -94,11 +125,44 @@ class ConvertKit_Pre_Publish_Action {
 			return;
 		}
 
+		// REST API and Gutenberg / Block Editor.
+		if ( $this->is_rest_api_request() ) {
+			add_action( 'rest_after_insert_' . $post->post_type, array( $this, 'rest_api_post_publish' ), 10 );
+			return;
+		}
+
+		// Classic Editor.
 		// transition_post_status hooks are always called before save_post hooks.  Therefore, if a Post
 		// is created and immediately published (it's not saved as a draft first), we need to
 		// manually call the save_post_meta() function now, before checking whether the action is enabled.
 		// Otherwise, is_enabled() will return false because save_post_meta() has not yet been triggered.
 		$this->save_post_meta( $post->ID );
+
+		// Check the action was enabled on this Post by the user.
+		if ( ! $this->is_enabled( $post->ID ) ) {
+			return;
+		}
+
+		/**
+		 * Run this pre-publish action, as the WordPress Post has just transitioned to publish
+		 * from another state.
+		 *
+		 * @since   2.4.0
+		 *
+		 * @param   WP_Post     $post   Post.
+		 */
+		do_action( 'convertkit_pre_publish_action_run_' . $this->get_name(), $post );
+
+	}
+
+	/**
+	 * Called when a Post is created or updated via the REST API, including Gutenberg.
+	 *
+	 * @since   2.4.0
+	 *
+	 * @param   WP_Post $post     Post.
+	 */
+	public function rest_api_post_publish( $post ) {
 
 		// Check the action was enabled on this Post by the user.
 		if ( ! $this->is_enabled( $post->ID ) ) {
@@ -158,6 +222,19 @@ class ConvertKit_Pre_Publish_Action {
 	}
 
 	/**
+	 * Deletes the action's meta key and value from the given Post.
+	 *
+	 * @since   2.4.0
+	 *
+	 * @param   int $post_id    Post ID.
+	 */
+	public function delete_post_meta( $post_id ) {
+
+		delete_post_meta( $post_id, $this->meta_key );
+
+	}
+
+	/**
 	 * Returns this action's programmatic name, excluding the convertkit- prefix.
 	 *
 	 * @since   2.4.0
@@ -213,6 +290,27 @@ class ConvertKit_Pre_Publish_Action {
 	public function is_enabled( $post_id ) {
 
 		return (bool) get_post_meta( $post_id, $this->meta_key, true );
+
+	}
+
+	/**
+	 * Helper function to determine if the request is a REST API request.
+	 *
+	 * @since   2.4.0
+	 *
+	 * @return  bool    Is REST API Request
+	 */
+	public function is_rest_api_request() {
+
+		if ( ! defined( 'REST_REQUEST' ) ) {
+			return false;
+		}
+
+		if ( ! REST_REQUEST ) {
+			return false;
+		}
+
+		return true;
 
 	}
 
