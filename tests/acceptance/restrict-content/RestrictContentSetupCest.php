@@ -26,32 +26,8 @@ class RestrictContentSetupCest
 	 *
 	 * @param   AcceptanceTester $I  Tester.
 	 */
-	public function testAddNewMemberContentButtonNotDisplayedWhenDisabled(AcceptanceTester $I)
-	{
-		// Navigate to Pages.
-		$I->amOnAdminPage('edit.php?post_type=page');
-
-		// Check the button isn't displayed.
-		$I->dontSeeElementInDOM('a.convertkit-action page-title-action');
-	}
-
-	/**
-	 * Test that the Add New Member Content button does not display on the Pages screen when no API keys are configured.
-	 *
-	 * @since   2.1.0
-	 *
-	 * @param   AcceptanceTester $I  Tester.
-	 */
 	public function testAddNewMemberContentButtonNotDisplayedWhenNoAPIKeys(AcceptanceTester $I)
 	{
-		// Enable Restrict Content.
-		$I->setupConvertKitPluginRestrictContent(
-			$I,
-			[
-				'enabled' => 'on',
-			]
-		);
-
 		// Navigate to Pages.
 		$I->amOnAdminPage('edit.php?post_type=page');
 
@@ -69,14 +45,6 @@ class RestrictContentSetupCest
 	 */
 	public function testAddNewMemberContentButtonNotDisplayedWhenNoResources(AcceptanceTester $I)
 	{
-		// Enable Restrict Content.
-		$I->setupConvertKitPluginRestrictContent(
-			$I,
-			[
-				'enabled' => 'on',
-			]
-		);
-
 		// Setup Plugin using API keys that have no resources.
 		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY_NO_DATA'], $_ENV['CONVERTKIT_API_SECRET_NO_DATA']);
 
@@ -85,6 +53,25 @@ class RestrictContentSetupCest
 
 		// Check the button isn't displayed.
 		$I->dontSeeElementInDOM('a.convertkit-action page-title-action');
+	}
+
+	/**
+	 * Test that the Add New Member Content button does not display on the Posts screen.
+	 *
+	 * @since   2.3.2
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testAddNewMemberContentButtonNotDisplayedOnPosts(AcceptanceTester $I)
+	{
+		// Setup Plugin.
+		$I->setupConvertKitPlugin($I);
+
+		// Navigate to Posts.
+		$I->amOnAdminPage('edit.php?post_type=post');
+
+		// Check the button isn't displayed.
+		$I->dontSeeElementInDOM('a.convertkit-action');
 	}
 
 	/**
@@ -102,14 +89,6 @@ class RestrictContentSetupCest
 
 		// Setup Plugin.
 		$I->setupConvertKitPlugin($I);
-
-		// Enable Restrict Content.
-		$I->setupConvertKitPluginRestrictContent(
-			$I,
-			[
-				'enabled' => 'on',
-			]
-		);
 
 		// Navigate to Admin Menu Editor's settings.
 		$I->amOnAdminPage('options-general.php?page=menu_editor');
@@ -199,7 +178,7 @@ class RestrictContentSetupCest
 		$url = $I->grabAttributeFrom('tr.iedit span.view a', 'href');
 
 		// Test Restrict Content functionality.
-		$I->testRestrictedContentOnFrontend(
+		$I->testRestrictedContentByProductOnFrontend(
 			$I,
 			$url,
 			'Visible content.',
@@ -265,7 +244,7 @@ class RestrictContentSetupCest
 		$url = $I->grabAttributeFrom('.wp-block-button a', 'href');
 
 		// Test Restrict Content functionality.
-		$I->testRestrictedContentOnFrontend(
+		$I->testRestrictedContentByProductOnFrontend(
 			$I,
 			$url,
 			'Some introductory text about lesson 1',
@@ -309,14 +288,6 @@ class RestrictContentSetupCest
 	{
 		// Setup Plugin.
 		$I->setupConvertKitPlugin($I);
-
-		// Enable Restrict Content.
-		$I->setupConvertKitPluginRestrictContent(
-			$I,
-			[
-				'enabled' => 'on',
-			]
-		);
 
 		// Navigate to Pages.
 		$I->amOnAdminPage('edit.php?post_type=page');
