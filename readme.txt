@@ -5,7 +5,7 @@ Tags: email marketing, email newsletter, newsletter, subscribers, membership
 Requires at least: 5.0
 Tested up to: 6.3.1
 Requires PHP: 5.6.20
-Stable tag: 2.3.1
+Stable tag: 2.3.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -137,6 +137,13 @@ Full Plugin documentation can be found [here](https://help.convertkit.com/en/art
 7. Track subscriber growth
 
 == Changelog ==
+
+### 2.3.2 2023-10-05
+* Added: Member Content: Option to restrict content by ConvertKit Tag, displaying a subscription form and subscribing the entered email address to the tag
+* Added: Member Content: Posts: Display Filter dropdown in Posts table
+* Fix: Member Content: Always enable Member Content options, ensuring imported Paid Broadcasts correctly show / hide content.
+* Fix: Prevent blank submenu entries displaying under `Dashboard` menu when using a third party admin menu editor Plugin
+* Updated: ConvertKit WordPress Libraries to 1.3.9
 
 ### 2.3.1 2023-09-14
 * Fix: Settings: Member Content: Added missing`for` label attributes
