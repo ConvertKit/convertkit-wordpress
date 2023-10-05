@@ -99,11 +99,6 @@ class ConvertKit_Output_Restrict_Content {
 		$this->settings                  = new ConvertKit_Settings();
 		$this->restrict_content_settings = new ConvertKit_Settings_Restrict_Content();
 
-		// Bail if Restrict Content isn't enabled.
-		if ( ! $this->restrict_content_settings->enabled() ) {
-			return;
-		}
-
 		add_action( 'init', array( $this, 'maybe_run_subscriber_authentication' ), 1 );
 		add_action( 'init', array( $this, 'maybe_run_subscriber_verification' ), 2 );
 		add_filter( 'the_content', array( $this, 'maybe_restrict_content' ) );
@@ -115,10 +110,11 @@ class ConvertKit_Output_Restrict_Content {
 	}
 
 	/**
-	 * Checks if the request is a Restrict Content login request with an email address,
-	 * calling the API to send the subscriber a magic link by email.
-	 *
-	 * Once they click the link in the email, maybe_run_subscriber_verification() will run.
+	 * Checks if the request is a Restrict Content request with an email address.
+	 * If so, calls the API depending on the Restrict Content resource that's required:
+	 * - tag: subscribes the email address to the tag, storing the subscriber ID in a cookie and redirecting
+	 * - product: calls the API to send the subscriber a magic link by email containing a code. See maybe_run_subscriber_verification()
+	 * for logic once they click the link in the email or enter the code on screen.
 	 *
 	 * @since   2.1.0
 	 */
@@ -143,27 +139,59 @@ class ConvertKit_Output_Restrict_Content {
 		// Initialize the API.
 		$this->api = new ConvertKit_API( $this->settings->get_api_key(), $this->settings->get_api_secret(), $this->settings->debug_enabled() );
 
-		// Send email to subscriber with a link to authenticate they have access to the email address submitted.
-		$result = $this->api->subscriber_authentication_send_code(
-			sanitize_text_field( $_REQUEST['convertkit_email'] ),
-			$this->get_url()
-		);
+		// Sanitize inputs.
+		$email         = sanitize_text_field( $_REQUEST['convertkit_email'] );
+		$resource_type = sanitize_text_field( $_REQUEST['convertkit_resource_type'] );
+		$resource_id   = absint( sanitize_text_field( $_REQUEST['convertkit_resource_id'] ) );
 
-		// Bail if an error occured.
-		if ( is_wp_error( $result ) ) {
-			$this->error = $result;
-			return;
+		// Run subscriber authentication / subscription depending on the resource type.
+		switch ( $resource_type ) {
+			case 'product':
+				// Send email to subscriber with a link to authenticate they have access to the email address submitted.
+				$result = $this->api->subscriber_authentication_send_code(
+					$email,
+					$this->get_url()
+				);
+
+				// Bail if an error occured.
+				if ( is_wp_error( $result ) ) {
+					$this->error = $result;
+					return;
+				}
+
+				// Clear any existing subscriber ID cookie, as the authentication flow has started by sending the email.
+				$subscriber = new ConvertKit_Subscriber();
+				$subscriber->forget();
+
+				// Store the token so it's included in the subscriber code form.
+				$this->token = $result;
+
+				// Show a message telling the subscriber to check their email and click the link in the email.
+				$this->success = $this->restrict_content_settings->get_by_key( 'email_check_text' );
+				break;
+
+			case 'tag':
+				// Tag the subscriber.
+				$result = $this->api->tag_subscribe( $resource_id, $email );
+
+				// Bail if an error occured.
+				if ( is_wp_error( $result ) ) {
+					$this->error = $result;
+					return;
+				}
+
+				// Clear any existing subscriber ID cookie, as the authentication flow has started by sending the email.
+				$subscriber = new ConvertKit_Subscriber();
+				$subscriber->forget();
+
+				// Fetch the subscriber ID from the result.
+				$subscriber_id = $result['subscription']['subscriber']['id'];
+
+				// Store subscriber ID in cookie and redirect.
+				$this->store_subscriber_id_in_cookie_and_redirect( $subscriber_id );
+				break;
+
 		}
-
-		// Clear any existing subscriber ID cookie, as the authentication flow has started by sending the email.
-		$subscriber = new ConvertKit_Subscriber();
-		$subscriber->forget();
-
-		// Store the token so it's included in the subscriber code form.
-		$this->token = $result;
-
-		// Show a message telling the subscriber to check their email and click the link in the email.
-		$this->success = $this->restrict_content_settings->get_by_key( 'email_check_text' );
 
 	}
 
@@ -212,34 +240,15 @@ class ConvertKit_Output_Restrict_Content {
 			return;
 		}
 
-		// Store subscriber ID in cookie.
-		// We don't need to use validate_and_store_subscriber_id() as we just validated the subscriber via authentication above.
-		$subscriber = new ConvertKit_Subscriber();
-		$subscriber->set( $subscriber_id );
-
-		// We append a query parameter to the URL to prevent caching plugins and
-		// aggressive cache hosting configurations from serving a cached page, which would
-		// result in maybe_restrict_content() not showing an error message or permitting
-		// access to the content.
-		$url = add_query_arg(
-			array(
-				'ck-cache-bust' => microtime(),
-			),
-			$this->get_url()
-		);
-
-		// Redirect to the Post without the token and subscriber parameters.
-		// This will then run maybe_restrict_content() to get the subscriber's ID from the cookie,
-		// and determine if the content can be displayed.
-		wp_safe_redirect( $url );
-		exit;
+		// Store subscriber ID in cookie and redirect.
+		$this->store_subscriber_id_in_cookie_and_redirect( $subscriber_id );
 
 	}
 
 	/**
 	 * Displays (or hides) content on a singular Page, Post or Custom Post Type's Content,
 	 * depending on whether the visitor is an authenticated ConvertKit subscriber and has
-	 * subscribed to the ConvertKit Product.
+	 * subscribed to the ConvertKit Product or Tag.
 	 *
 	 * @since   2.1.0
 	 *
@@ -253,7 +262,7 @@ class ConvertKit_Output_Restrict_Content {
 			return $content;
 		}
 
-		// Get resource type (Product) that the visitor must be subscribed against to access this content.
+		// Get resource type (Product or Tag) that the visitor must be subscribed against to access this content.
 		$resource_type = $this->get_resource_type( $this->post_id );
 
 		// Return the Post Content, unedited, if the Resource Type is false.
@@ -261,7 +270,7 @@ class ConvertKit_Output_Restrict_Content {
 			return $content;
 		}
 
-		// Get resource ID (Product ID) that the visitor must be subscribed against to access this content.
+		// Get resource ID (Product ID or Tag ID) that the visitor must be subscribed against to access this content.
 		$resource_id = $this->get_resource_id( $this->post_id );
 
 		// Return the full Post Content, unedited, if the Resource ID is false, as this means
@@ -409,6 +418,41 @@ class ConvertKit_Output_Restrict_Content {
 
 		// Order by Page order (menu_order), highest to lowest, instead of post_date.
 		return 'ORDER BY p.menu_order ' . $order . ' LIMIT 1';
+
+	}
+
+	/**
+	 * Stores the given subscriber ID in the ck_subscriber_id cookie, and redirects
+	 * to the current URL, removing any query parameters (such as tokens), and appending
+	 * a ck-cache-bust query parameter to beat caching plugins.
+	 *
+	 * @since   2.3.2
+	 *
+	 * @param   string|int $subscriber_id  Subscriber ID (int if restrict by tag, signed subscriber id string if restrict by product).
+	 */
+	private function store_subscriber_id_in_cookie_and_redirect( $subscriber_id ) {
+
+		// Store subscriber ID in cookie.
+		// We don't need to use validate_and_store_subscriber_id() as we just validated the subscriber via authentication above.
+		$subscriber = new ConvertKit_Subscriber();
+		$subscriber->set( $subscriber_id );
+
+		// We append a query parameter to the URL to prevent caching plugins and
+		// aggressive cache hosting configurations from serving a cached page, which would
+		// result in maybe_restrict_content() not showing an error message or permitting
+		// access to the content.
+		$url = add_query_arg(
+			array(
+				'ck-cache-bust' => microtime(),
+			),
+			$this->get_url()
+		);
+
+		// Redirect to the Post without parameters.
+		// This will then run maybe_restrict_content() to get the subscriber's ID from the cookie,
+		// and determine if the content can be displayed.
+		wp_safe_redirect( $url );
+		exit;
 
 	}
 
@@ -613,6 +657,31 @@ class ConvertKit_Output_Restrict_Content {
 
 				// If here, the subscriber is subscribed to the product.
 				return true;
+
+			case 'tag':
+				// Get tags that the subscriber has been assigned.
+				$tags = $this->api->get_subscriber_tags( $subscriber_id );
+
+				// If an error occured, the subscriber ID is invalid.
+				if ( is_wp_error( $tags ) ) {
+					return false;
+				}
+
+				// If no tags exist, there's no access.
+				if ( ! count( $tags ) ) {
+					return false;
+				}
+
+				// Iterate through the subscriber's tags to see if they have the required tag.
+				foreach ( $tags as $tag ) {
+					if ( $tag['id'] === absint( $resource_id ) ) {
+						// Subscriber has the required tag assigned to them - grant access.
+						return true;
+					}
+				}
+
+				// If here, the subscriber does not have the tag.
+				return false;
 		}
 
 		// If here, the subscriber does not have access.
@@ -724,16 +793,16 @@ class ConvertKit_Output_Restrict_Content {
 		$success = $this->success;
 		$error   = $this->error;
 
+		// Only load styles if the Disable CSS option is off.
+		if ( ! $this->settings->css_disabled() ) {
+			// Enqueue styles.
+			wp_enqueue_style( 'convertkit-restrict-content', CONVERTKIT_PLUGIN_URL . 'resources/frontend/css/restrict-content.css', array(), CONVERTKIT_PLUGIN_VERSION );
+		}
+
 		// This is deliberately a switch statement, because we will likely add in support
 		// for restrict by tag and form later.
 		switch ( $resource_type ) {
 			case 'product':
-				// Only load styles if the Disable CSS option is off.
-				if ( ! $this->settings->css_disabled() ) {
-					// Enqueue styles.
-					wp_enqueue_style( 'convertkit-restrict-content', CONVERTKIT_PLUGIN_URL . 'resources/frontend/css/restrict-content.css', array(), CONVERTKIT_PLUGIN_VERSION );
-				}
-
 				// Output product code form if this request is after the user entered their email address,
 				// which means we're going through the authentication flow.
 				if ( $this->in_authentication_flow() ) { // phpcs:ignore WordPress.Security.NonceVerification
@@ -757,6 +826,12 @@ class ConvertKit_Output_Restrict_Content {
 				ob_start();
 				$button = $products->get_html( $resource_id, $this->restrict_content_settings->get_by_key( 'subscribe_button_label' ) );
 				include CONVERTKIT_PLUGIN_PATH . '/views/frontend/restrict-content/product.php';
+				return trim( ob_get_clean() );
+
+			case 'tag':
+				// Output.
+				ob_start();
+				include CONVERTKIT_PLUGIN_PATH . '/views/frontend/restrict-content/tag.php';
 				return trim( ob_get_clean() );
 
 			default:
