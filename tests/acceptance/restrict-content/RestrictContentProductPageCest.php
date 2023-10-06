@@ -106,7 +106,7 @@ class RestrictContentProductPageCest
 			'ConvertKit: Page: Restrict Content: Invalid Product',
 			'Visible content.',
 			'Member only content.',
-			'product_12345', // A fake Product that does not exist in ConvertKit.
+			'product_12345' // A fake Product that does not exist in ConvertKit.
 		);
 
 		// Navigate to the page.
