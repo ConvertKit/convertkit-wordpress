@@ -617,14 +617,60 @@ class ConvertKit_Output_Restrict_Content {
 	}
 
 	/**
+	 * Queries the API to confirm whether the resource exists.
+	 *
+	 * @since   2.3.3
+	 *
+	 * @param   string $resource_type  Resource Type (tag, product).
+	 * @param   int    $resource_id    Resource ID (Tag ID, Product ID).
+	 * @return  bool
+	 */
+	private function resource_exists( $resource_type, $resource_id ) {
+
+		switch ( $resource_type ) {
+
+			case 'product':
+				// Get Product.
+				$products = new ConvertKit_Resource_Products( 'restrict_content' );
+				$product  = $products->get_by_id( $resource_id );
+
+				// If the Product does not exist, return false.
+				if ( ! $product ) {
+					return false;
+				}
+
+				// Product exists in ConvertKit.
+				return true;
+
+			case 'tag':
+				// Get Tag.
+				$tags = new ConvertKit_Resource_Tags( 'restrict_content' );
+				$tag  = $tags->get_by_id( $resource_id );
+
+				// If the Tag does not exist, return false.
+				if ( ! $tag ) {
+					return false;
+				}
+
+				// Tag exists in ConvertKit.
+				return true;
+
+			default:
+				return false;
+
+		}
+
+	}
+
+	/**
 	 * Determines if the given subscriber has an active subscription to
 	 * the given resource and its ID.
 	 *
 	 * @since   2.1.0
 	 *
 	 * @param   string|int $subscriber_id  Signed Subscriber ID or Subscriber ID.
-	 * @param   string     $resource_type  Resource Type (product).
-	 * @param   int        $resource_id    Resource ID (Product ID).
+	 * @param   string     $resource_type  Resource Type (tag, product).
+	 * @param   int        $resource_id    Resource ID (Tag ID, Product ID).
 	 * @return  bool                        Can view restricted content
 	 */
 	private function subscriber_has_access( $subscriber_id, $resource_type, $resource_id ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter
@@ -723,6 +769,15 @@ class ConvertKit_Output_Restrict_Content {
 	 * @return  string                  Post Content preview with call to action
 	 */
 	private function restrict_content( $content, $resource_type, $resource_id ) {
+
+		// Check that the resource exists before restricting the content.
+		// This handles cases where e.g. a Tag or Product has been deleted in ConvertKit,
+		// but the Page / Post still references the (now deleted) resource to restrict content with
+		// under the 'Member Content' setting.
+		if ( ! $this->resource_exists( $resource_type, $resource_id ) ) {
+			// Return the full Post Content, as we can't restrict it to a Product or Tag that no longer exists.
+			return $content;
+		}
 
 		return $this->get_content_preview( $content ) . $this->get_call_to_action( $this->post_id, $resource_type, $resource_id );
 
