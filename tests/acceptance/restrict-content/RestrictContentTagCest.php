@@ -81,7 +81,7 @@ class RestrictContentTagCest
 			'ConvertKit: Page: Restrict Content: Invalid Tag',
 			'Visible content.',
 			'Member only content.',
-			'tag_12345', // A fake Tag that does not exist in ConvertKit.
+			'tag_12345' // A fake Tag that does not exist in ConvertKit.
 		);
 
 		// Navigate to the page.
