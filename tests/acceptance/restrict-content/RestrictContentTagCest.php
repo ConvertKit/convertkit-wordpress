@@ -62,6 +62,36 @@ class RestrictContentTagCest
 	}
 
 	/**
+	 * Test that restricting content by a Tag that does not exist does not output
+	 * a fatal error and instead displays all of the Page's content.
+	 *
+	 * This checks for when a Tag is deleted in ConvertKit, but is still specified
+	 * as the Restrict Content setting for a Page.
+	 *
+	 * @since   2.3.3
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testRestrictContentByInvalidTag(AcceptanceTester $I)
+	{
+		// Programmatically create a Page.
+		$pageID = $I->createRestrictedContentPage(
+			$I,
+			'page',
+			'ConvertKit: Page: Restrict Content: Invalid Tag',
+			'Visible content.',
+			'Member only content.',
+			'tag_12345', // A fake Tag that does not exist in ConvertKit.
+		);
+
+		// Navigate to the page.
+		$I->amOnPage('?p=' . $pageID);
+
+		// Confirm all content displays, with no errors, as the Tag is invalid.
+		$I->testRestrictContentDisplaysContent($I);
+	}
+
+	/**
 	 * Test that restricting content by a Tag specified in the Page Settings works when
 	 * using the Quick Edit functionality.
 	 *

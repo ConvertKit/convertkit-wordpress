@@ -87,6 +87,36 @@ class RestrictContentProductPostCest
 	}
 
 	/**
+	 * Test that restricting content by a Product that does not exist does not output
+	 * a fatal error and instead displays all of the Post's content.
+	 *
+	 * This checks for when a Product is deleted in ConvertKit, but is still specified
+	 * as the Restrict Content setting for a Post.
+	 *
+	 * @since   2.3.3
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testRestrictContentByInvalidProduct(AcceptanceTester $I)
+	{
+		// Programmatically create a Page.
+		$postID = $I->createRestrictedContentPage(
+			$I,
+			'post',
+			'ConvertKit: Post: Restrict Content: Invalid Product',
+			'Visible content.',
+			'Member only content.',
+			'product_12345', // A fake Product that does not exist in ConvertKit.
+		);
+
+		// Navigate to the post.
+		$I->amOnPage('?p=' . $postID);
+
+		// Confirm all content displays, with no errors, as the Product is invalid.
+		$I->testRestrictContentDisplaysContent($I);
+	}
+
+	/**
 	 * Test that restricting content by a Product specified in the Post Settings works when
 	 * using the Quick Edit functionality.
 	 *
