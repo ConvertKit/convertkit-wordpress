@@ -231,19 +231,14 @@ INSERT INTO `wp_options` (`option_id`, `option_name`, `option_value`, `autoload`
 (119, 'widget_custom_html', 'a:1:{s:12:\"_multiwidget\";i:1;}', 'yes'),
 (120, 'nonce_key',  ':@mS9DsY,vFI=iAKiwy;g$hm^l d4nE(_%Bd+>v2K`d;Km2Me;mO9[f_-Q Zh=[Q', 'no'),
 (121, 'nonce_salt', '/?#2ig*c_e_}-[mel-$?%U;;@}oC9TF%|l /Df%)V@kV~|$Lo[bKcL,W{y-]4%S>', 'no'),
-(122, 'widget_recent-posts',  'a:1:{s:12:\"_multiwidget\";i:1;}', 'yes'),
-(123, 'widget_recent-comments', 'a:1:{s:12:\"_multiwidget\";i:1;}', 'yes'),
-(124, 'widget_tag_cloud', 'a:1:{s:12:\"_multiwidget\";i:1;}', 'yes'),
-(125, 'widget_nav_menu',  'a:1:{s:12:\"_multiwidget\";i:1;}', 'yes'),
-(126, 'widget_custom_html', 'a:1:{s:12:\"_multiwidget\";i:1;}', 'yes'),
-(127, 'recovery_keys',  'a:0:{}', 'yes'),
-(128, 'theme_mods_twentytwentythree', 'a:1:{s:18:\"custom_css_post_id\";i:-1;}',  'yes'),
-(129, 'db_upgraded',  '', 'yes'),
-(130, 'can_compress_scripts', '1',  'yes'),
-(131, 'WishListMemberOptions_Migrated', '1',  'yes'),
-(132, 'widget_wishlistwidget',  'a:1:{s:12:\"_multiwidget\";i:1;}', 'yes'),
-(133, 'WishListMemberOptions_MigrateLevelData', '1',  'yes'),
-(134, 'WishListMemberOptions_MigrateContentLevelData',  '1',  'yes');
+(122, 'recovery_keys',  'a:0:{}', 'yes'),
+(123, 'theme_mods_twentytwentythree', 'a:1:{s:18:\"custom_css_post_id\";i:-1;}',  'yes'),
+(124, 'db_upgraded',  '', 'yes'),
+(125, 'can_compress_scripts', '1',  'yes'),
+(126, 'WishListMemberOptions_Migrated', '1',  'yes'),
+(127, 'widget_wishlistwidget',  'a:1:{s:12:\"_multiwidget\";i:1;}', 'yes'),
+(128, 'WishListMemberOptions_MigrateLevelData', '1',  'yes'),
+(129, 'WishListMemberOptions_MigrateContentLevelData',  '1',  'yes');
 
 DROP TABLE IF EXISTS `wp_postmeta`;
 CREATE TABLE `wp_postmeta` (
