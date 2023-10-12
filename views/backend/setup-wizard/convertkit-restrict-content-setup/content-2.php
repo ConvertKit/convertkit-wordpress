@@ -53,12 +53,27 @@ if ( $this->type === 'course' ) {
 
 <div>
 	<label for="wp-convertkit-restrict_content">
-		<?php esc_html_e( 'The ConvertKit Product the visitor must purchase to see the content.', 'convertkit' ); ?>
+		<?php esc_html_e( 'The ConvertKit Product or Tag the visitor must subscribe to, in order to see the content', 'convertkit' ); ?>
 	</label>
 
 	<div class="convertkit-select2-container">
 		<select name="restrict_content" id="wp-convertkit-restrict_content" class="convertkit-select2 widefat">
 			<?php
+			// Tags.
+			if ( $this->tags->exist() ) {
+				?>
+				<optgroup label="<?php esc_attr_e( 'Tags', 'convertkit' ); ?>">
+					<?php
+					foreach ( $this->tags->get() as $convertkit_tag ) {
+						?>
+						<option value="tag_<?php echo esc_attr( $convertkit_tag['id'] ); ?>"><?php echo esc_attr( $convertkit_tag['name'] ); ?></option>
+						<?php
+					}
+					?>
+				</optgroup>
+				<?php
+			}
+
 			// Products.
 			if ( $this->products->exist() ) {
 				?>

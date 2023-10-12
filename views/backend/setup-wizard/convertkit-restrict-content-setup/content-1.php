@@ -12,13 +12,14 @@
 <p>
 	<?php
 	printf(
-		/* translators: Link to ConvertKit Products */
-		esc_html__( 'This will generate content that visitors can access once they purchase a %s.', 'convertkit' ),
+		/* translators: %1$s: Link to ConvertKit Products, %2$s: ConvertKit Tag */
+		esc_html__( 'This will generate content that visitors can access once they purchase a %1$s or subscribe to a %2$s.', 'convertkit' ),
 		sprintf(
 			'<a href="%1$s" target="_blank">%2$s</a>',
 			esc_attr( 'https://app.convertkit.com/products' ),
 			esc_html__( 'ConvertKit product', 'convertkit' )
-		)
+		),
+		esc_html__( 'ConvertKit tag', 'convertkit' )
 	);
 	?>
 </p>
@@ -33,7 +34,7 @@
 			<?php esc_html_e( 'Download', 'convertkit' ); ?>
 		</a>
 		<span class="description">
-			<?php esc_html_e( 'Require visitors to purchase a ConvertKit product, granting access to a single Page\'s content, which includes downloadable assets.', 'convertkit' ); ?>
+			<?php esc_html_e( 'Require visitors to purchase a ConvertKit product, or subscribe to a ConvertKit tag, granting access to a single Page\'s content, which includes downloadable assets.', 'convertkit' ); ?>
 		</span>
 	</div>
 
@@ -42,7 +43,7 @@
 			<?php esc_html_e( 'Course', 'convertkit' ); ?>
 		</a>
 		<span class="description">
-			<?php esc_html_e( 'Require visitors to purchase a ConvertKit product, granting access to a sequential series of Pages, such as a course, lessons or tutorials.', 'convertkit' ); ?>
+			<?php esc_html_e( 'Require visitors to purchase a ConvertKit product, or subscribe to a ConvertKit tag, granting access to a sequential series of Pages, such as a course, lessons or tutorials.', 'convertkit' ); ?>
 		</span>
 	</div>
 </div>
