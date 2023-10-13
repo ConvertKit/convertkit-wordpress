@@ -54,6 +54,12 @@ if ( ! $this->products->exist() && ! $this->tags->exist() ) {
 			</span>
 		</div>
 	</div>
+
+	<center>
+		<a href="<?php echo esc_url( $this->current_url ); ?>" class="button button-primary button-hero">
+			<?php esc_html_e( 'I\'ve created a Product or Tag in ConvertKit', 'convertkit' ); ?>
+		</a>
+	</center>			
 	<?php
 } else {
 	?>

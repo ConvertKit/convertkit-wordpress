@@ -87,6 +87,15 @@ class ConvertKit_Admin_Setup_Wizard_Restrict_Content extends ConvertKit_Admin_Se
 	public $course_url = false;
 
 	/**
+	 * Holds the URL to the current setup wizard screen.
+	 *
+	 * @since   2.3.3
+	 *
+	 * @var     bool|string
+	 */
+	public $current_url = false;
+
+	/**
 	 * The required user capability to access the setup wizard.
 	 *
 	 * @since   2.1.0
@@ -257,8 +266,8 @@ class ConvertKit_Admin_Setup_Wizard_Restrict_Content extends ConvertKit_Admin_Se
 				// If no Products and Tags exist in ConvertKit, change the next button label and make it a link to reload
 				// the screen.
 				if ( ! $this->products->exist() && ! $this->tags->exist() ) {
-					$this->steps[1]['next_button']['label'] = __( 'I\'ve created a Product or Tag in ConvertKit', 'convertkit' );
-					$this->steps[1]['next_button']['link']  = add_query_arg(
+					unset( $this->steps[1]['next_button'] );
+					$this->current_url = add_query_arg(
 						array(
 							'page'         => $this->page_name,
 							'ck_post_type' => $this->post_type,
