@@ -51,6 +51,15 @@ class ConvertKit_Admin_Setup_Wizard_Restrict_Content extends ConvertKit_Admin_Se
 	public $products = false;
 
 	/**
+	 * Holds the ConvertKit Tags resource class.
+	 *
+	 * @since   2.3.3
+	 *
+	 * @var     bool|ConvertKit_Resource_Tags
+	 */
+	public $tags = false;
+
+	/**
 	 * Holds the Pages created by this setup wizard.
 	 *
 	 * @since   2.1.0
@@ -249,8 +258,9 @@ class ConvertKit_Admin_Setup_Wizard_Restrict_Content extends ConvertKit_Admin_Se
 						break;
 				}
 
-				// Fetch Products.
+				// Fetch Products and Tags.
 				$this->products = new ConvertKit_Resource_Products( 'restrict_content_wizard' );
+				$this->tags     = new ConvertKit_Resource_Tags( 'restrict_content_wizard' );
 				break;
 
 			case 1:
