@@ -36,26 +36,6 @@ class RestrictContentSetupCest
 	}
 
 	/**
-	 * Test that the Add New Member Content button does not display on the Pages screen when the ConvertKit
-	 * account has no Forms, Tag and Products.
-	 *
-	 * @since   2.1.0
-	 *
-	 * @param   AcceptanceTester $I  Tester.
-	 */
-	public function testAddNewMemberContentButtonNotDisplayedWhenNoResources(AcceptanceTester $I)
-	{
-		// Setup Plugin using API keys that have no resources.
-		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY_NO_DATA'], $_ENV['CONVERTKIT_API_SECRET_NO_DATA']);
-
-		// Navigate to Pages.
-		$I->amOnAdminPage('edit.php?post_type=page');
-
-		// Check the button isn't displayed.
-		$I->dontSeeElementInDOM('a.convertkit-action page-title-action');
-	}
-
-	/**
 	 * Test that the Add New Member Content button does not display on the Posts screen.
 	 *
 	 * @since   2.3.2
@@ -102,6 +82,49 @@ class RestrictContentSetupCest
 
 		// Confirm no Member Content Dashboard Submenu item exists.
 		$I->dontSeeInSource('<a href="options.php?page=convertkit-restrict-content-setup"></a>');
+	}
+
+	/**
+	 * Test that the Add New Member Content wizard displays call to actions to add a Product or Tag in ConvertKit
+	 * when the ConvertKit account has no Tags and Products.
+	 *
+	 * @since   2.3.3
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testAddNewMemberContentDisplaysCTAWhenNoResources(AcceptanceTester $I)
+	{
+		// Setup Plugin using API keys that have no resources.
+		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY_NO_DATA'], $_ENV['CONVERTKIT_API_SECRET_NO_DATA']);
+
+		// Navigate to Pages.
+		$I->amOnAdminPage('edit.php?post_type=page');
+
+		// Click Add New Member Content button.
+		$I->click('Add New Member Content');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Check that the expected buttons display linking to ConvertKit.
+		$I->see('Create product');
+		$I->see('Create tag');
+		$I->seeInSource('<a href="https://app.convertkit.com/products/new/?utm_source=wordpress&amp;utm_term=en_US&amp;utm_content=convertkit"');
+		$I->seeInSource('<a href="https://app.convertkit.com/subscribers/?utm_source=wordpress&amp;utm_term=en_US&amp;utm_content=convertkit"');
+
+		// Update the Plugin to use API keys that have resources.
+		$I->setupConvertKitPlugin($I);
+
+		// Click the button to reload the wizard.
+		$I->click('#convertkit-setup-wizard-footer a.button-primary');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Check that the Download and Course buttons now display.
+		$I->see('What type of content are you offering?');
+		$I->see('Download');
+		$I->see('Course');
 	}
 
 	/**
