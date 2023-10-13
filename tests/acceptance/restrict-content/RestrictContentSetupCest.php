@@ -116,7 +116,7 @@ class RestrictContentSetupCest
 		$I->setupConvertKitPlugin($I);
 
 		// Click the button to reload the wizard.
-		$I->click('#convertkit-setup-wizard-footer a.button-primary');
+		$I->click('center a.button-primary');
 
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
