@@ -244,6 +244,31 @@ class ConvertKit_Admin_Setup_Wizard_Restrict_Content extends ConvertKit_Admin_Se
 
 		// Load data depending on the current step.
 		switch ( $step ) {
+			case 1:
+				// Fetch Products and Tags.
+				$this->products = new ConvertKit_Resource_Products( 'restrict_content_wizard' );
+				$this->tags     = new ConvertKit_Resource_Tags( 'restrict_content_wizard' );
+
+				// Refresh Products and Tags resources, in case the user just created their first Product or Tag
+				// in ConvertKit.
+				$this->products->refresh();
+				$this->tags->refresh();
+
+				// If no Products and Tags exist in ConvertKit, change the next button label and make it a link to reload
+				// the screen.
+				if ( ! $this->products->exist() && ! $this->tags->exist() ) {
+					$this->steps[1]['next_button']['label'] = __( 'I\'ve created a Product or Tag in ConvertKit', 'convertkit' );
+					$this->steps[1]['next_button']['link']  = add_query_arg(
+						array(
+							'page' 		   => $this->page_name,
+							'ck_post_type' => $this->post_type,
+							'step' 		   => 1,
+						),
+						admin_url( 'options.php' )
+					);
+				}
+				break;
+
 			case 2:
 				// Define Member Content Type.
 				$this->type = sanitize_text_field( $_REQUEST['type'] ); // phpcs:ignore WordPress.Security.NonceVerification
