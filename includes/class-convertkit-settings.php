@@ -229,7 +229,7 @@ class ConvertKit_Settings {
 	 */
 	public function has_non_inline_form() {
 
-		return ( ! empty( 'non_inline_form' ) ? true : false );
+		return ( ! empty( $this->settings['non_inline_form'] ) ? true : false );
 
 	}
 
