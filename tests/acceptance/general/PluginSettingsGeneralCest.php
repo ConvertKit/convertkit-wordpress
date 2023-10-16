@@ -272,7 +272,6 @@ class PluginSettingsGeneralCest
 
 		// Confirm that one ConvertKit Form is output in the DOM.
 		// This confirms that there is only one script on the page for this form, which renders the form.
-		// @TODO Check this is correct.
 		$I->seeNumberOfElementsInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_FORMAT_STICKY_BAR_ID'] . '"]', 1);
 
 		// Close newly opened tab.
@@ -320,6 +319,15 @@ class PluginSettingsGeneralCest
 	 */
 	public function testDefaultNonInlineForm(AcceptanceTester $I)
 	{
+		// Create a Page in the database.
+		$I->havePostInDatabase(
+			[
+				'post_title'  => 'ConvertKit: Default Non Inline Global',
+				'post_type'   => 'page',
+				'post_status' => 'publish',
+			]
+		);
+
 		// Setup Plugin.
 		$I->setupConvertKitPlugin($I);
 
@@ -335,11 +343,16 @@ class PluginSettingsGeneralCest
 		// View the home page.
 		$I->amOnPage('/');
 
-		// @TODO Confirm the non-inline form displays.
+		// Confirm that one ConvertKit Form is output in the DOM.
+		// This confirms that there is only one script on the page for this form, which renders the form.
+		$I->seeNumberOfElementsInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_FORMAT_STICKY_BAR_ID'] . '"]', 1);
 
-		// @TODO View something else.
+		// View another Page.
+		$I->amOnPage('/convertkit-default-non-inline-global');
 
-		// @TOOD Confirm the non-inline form displays.
+		// Confirm that one ConvertKit Form is output in the DOM.
+		// This confirms that there is only one script on the page for this form, which renders the form.
+		$I->seeNumberOfElementsInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_FORMAT_STICKY_BAR_ID'] . '"]', 1);
 	}
 
 	/**
