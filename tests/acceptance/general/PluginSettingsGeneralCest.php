@@ -356,6 +356,25 @@ class PluginSettingsGeneralCest
 	}
 
 	/**
+	 * Test that no non-inline form displays site wide when not selected in the Plugin's settings.
+	 *
+	 * @since   2.3.3
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testNoFormWhenNoDefaultNonInlineForm(AcceptanceTester $I)
+	{
+		// Setup Plugin.
+		$I->setupConvertKitPlugin($I);
+
+		// View the home page.
+		$I->amOnPage('/');
+
+		// Confirm that no ConvertKit Form is output in the DOM.
+		$I->dontSeeElementInDOM('form[data-sv-form]');
+	}
+
+	/**
 	 * Test that no PHP errors or notices are displayed on the Plugin's Setting screen
 	 * when Debug settings are enabled and disabled.
 	 *
