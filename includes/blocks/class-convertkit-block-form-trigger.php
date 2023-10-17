@@ -215,6 +215,11 @@ class ConvertKit_Block_Form_Trigger extends ConvertKit_Block {
 			'color'      => array(
 				'background' => true,
 				'text'       => true,
+
+				// Don't apply styles to the block editor's div element.
+				// This ensures what's rendered in the Gutenberg editor matches the frontend output for styling.
+				// See: https://github.com/WordPress/gutenberg/issues/32417
+				'__experimentalSkipSerialization' => true,
 			),
 			'typography' => array(
 				'fontSize' => true,
