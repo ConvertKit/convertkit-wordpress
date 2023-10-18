@@ -331,7 +331,21 @@ class WPGutenberg extends \Codeception\Module
 		// Click the Publish button.
 		$I->click('.editor-post-publish-button__button');
 
-		// When the pre-publish panel displays, click Publish again.
+		// Click the Publish button on the pre-publish Panel.
+		return $I->clickPublishOnPrePublishChecksForGutenbergPage($I);
+	}
+
+	/**
+	 * Clicks the Publish button the pre-publish checks sidebar, confirming the Page, Post or Custom Post Type
+	 * published and returning its URL.
+	 *
+	 * @since   2.4.0
+	 *
+	 * @param   AcceptanceTester $I                      Acceptance Tester.
+	 */
+	public function clickPublishOnPrePublishChecksForGutenbergPage($I)
+	{
+		// Click publish on the pre-publish panel.
 		$I->waitForElementVisible('.editor-post-publish-panel__header-publish-button');
 		$I->performOn(
 			'.editor-post-publish-panel__header-publish-button',

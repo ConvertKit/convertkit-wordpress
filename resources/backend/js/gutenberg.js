@@ -18,6 +18,11 @@ if ( typeof wp !== 'undefined' &&
 		convertKitGutenbergRegisterBlock( convertkit_blocks[ block ] );
 	}
 
+	// Register ConvertKit Pre-publish actions in Gutenberg.
+	if ( typeof convertkit_pre_publish_actions !== 'undefined' ) {
+		convertKitGutenbergRegisterPrePublishActions( convertkit_pre_publish_actions );
+	}
+
 }
 
 /**
@@ -674,6 +679,106 @@ function convertKitGutenbergRegisterBlock( block ) {
 		window.wp.blockEditor,
 		window.wp.element,
 		window.wp.components
+	) );
+
+}
+
+/**
+ * Registers pre-publish actions in Gutenberg's pre-publish checks panel.
+ *
+ * @since 	2.4.0
+ *
+ * @param 	object 	actions 	Pre-publish actions.
+ */
+function convertKitGutenbergRegisterPrePublishActions( actions ) {
+
+	( function ( plugins, editPost, element, components, data ) {
+
+		// Define some constants for the various items we'll use.
+		const el                                 = element.createElement;
+		const { ToggleControl }                  = components;
+		const { registerPlugin }                 = plugins;
+		const { PluginPrePublishPanel }          = editPost;
+		const { useSelect, useDispatch, select } = data;
+
+		/**
+		 * Returns a PluginPrePublishPanel for this Plugin, comprising of all
+		 * pre-publish actions.
+		 *
+		 * @since   2.4.0
+		 *
+		 * @return  PluginPrePublishPanel
+		 */
+		const renderPanel = function () {
+
+			// Bail if the Post Type isn't a Post.
+			if ( select( 'core/editor' ).getCurrentPostType() !== 'post' ) {
+				return;
+			}
+
+			// Build rows.
+			let rows = [];
+			for ( const [ name, action ] of Object.entries( actions ) ) {
+
+				const key          = '_convertkit_action_' + action.name;
+				const { meta }     = useSelect(
+					function ( select ) {
+						return {
+							meta: select( 'core/editor' ).getEditedPostAttribute( 'meta' ),
+						};
+					}
+				);
+				const { editPost } = useDispatch( 'core/editor', [ meta[ key ] ] );
+
+				// Add row.
+				rows.push(
+					el(
+						ToggleControl,
+						{
+							id:  		'convertkit_action_' + action.name,
+							label: 		action.label,
+							help: 		action.description,
+							value:      true,
+							checked: 	meta[ key ],
+							onChange: 	function ( value ) {
+								editPost(
+									{
+										meta: { [ key ]: value },
+									}
+								);
+							}
+						}
+					)
+				);
+			}
+
+			// Return actions in the pre-publish panel.
+			return el(
+				PluginPrePublishPanel,
+				{
+					className: 'convertkit-pre-publish-actions',
+					title: 'ConvertKit',
+					initialOpen: true,
+				},
+				rows
+			);
+
+		}
+
+		// Register pre-publish actions.
+		registerPlugin(
+			'convertkit-pre-publish-actions',
+			{
+				render: renderPanel
+			}
+		);
+
+	} (
+		window.wp.plugins,
+		window.wp.editPost,
+		window.wp.element,
+		window.wp.components,
+		window.wp.data
 	) );
 
 }

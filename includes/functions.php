@@ -225,6 +225,30 @@ function convertkit_get_block_formatters() {
 }
 
 /**
+ * Helper method to get registered pre-publish actions.
+ *
+ * @since   2.4.0
+ *
+ * @return  array   Pre-publish actions
+ */
+function convertkit_get_pre_publish_actions() {
+
+	$pre_publish_actions = array();
+
+	/**
+	 * Registers pre-publish actions for the ConvertKit Plugin.
+	 *
+	 * @since   2.4.0
+	 *
+	 * @param   array   $pre_publish_panels     Pre-publish actions.
+	 */
+	$pre_publish_actions = apply_filters( 'convertkit_get_pre_publish_actions', $pre_publish_actions );
+
+	return $pre_publish_actions;
+
+}
+
+/**
  * Helper method to return the Plugin Settings Link
  *
  * @since   1.9.6
@@ -387,6 +411,26 @@ function convertkit_get_form_editor_url() {
 }
 
 /**
+ * Helper method to return the URL the user needs to visit on the ConvertKit app to create a new Tag.
+ *
+ * @since   2.3.3
+ *
+ * @return  string  ConvertKit App URL.
+ */
+function convertkit_get_new_tag_url() {
+
+	return add_query_arg(
+		array(
+			'utm_source'  => 'wordpress',
+			'utm_term'    => get_locale(),
+			'utm_content' => 'convertkit',
+		),
+		'https://app.convertkit.com/subscribers/'
+	);
+
+}
+
+/**
  * Helper method to return the URL the user needs to visit on the ConvertKit app to create a new Broadcast.
  *
  * @since   2.2.6
@@ -402,6 +446,30 @@ function convertkit_get_new_broadcast_url() {
 			'utm_content' => 'convertkit',
 		),
 		'https://app.convertkit.com/campaigns/'
+	);
+
+}
+
+/**
+ * Helper method to return the URL the user needs to visit on the ConvertKit app to edit a draft Broadcast.
+ *
+ * @since   2.4.0
+ *
+ * @param   int $broadcast_id   ConvertKit Broadcast ID.
+ * @return  string                  ConvertKit App URL.
+ */
+function convertkit_get_edit_broadcast_url( $broadcast_id ) {
+
+	return add_query_arg(
+		array(
+			'utm_source'  => 'wordpress',
+			'utm_term'    => get_locale(),
+			'utm_content' => 'convertkit',
+		),
+		sprintf(
+			'https://app.convertkit.com/campaigns/%s/draft',
+			$broadcast_id
+		)
 	);
 
 }

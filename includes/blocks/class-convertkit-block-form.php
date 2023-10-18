@@ -33,6 +33,9 @@ class ConvertKit_Block_Form extends ConvertKit_Block {
 		// Enqueue styles for this Gutenberg Block in the editor view.
 		add_action( 'convertkit_gutenberg_enqueue_styles', array( $this, 'enqueue_styles_editor' ) );
 
+		// Enqueue scripts and styles for this Gutenberg Block in the editor and frontend views.
+		add_action( 'convertkit_gutenberg_enqueue_styles_editor_and_frontend', array( $this, 'enqueue_styles' ) );
+
 	}
 
 	/**
@@ -54,6 +57,17 @@ class ConvertKit_Block_Form extends ConvertKit_Block {
 	public function enqueue_styles_editor() {
 
 		wp_enqueue_style( 'convertkit-gutenberg', CONVERTKIT_PLUGIN_URL . 'resources/backend/css/gutenberg.css', array( 'wp-edit-blocks' ), CONVERTKIT_PLUGIN_VERSION );
+
+	}
+
+	/**
+	 * Enqueues styles for this Gutenberg Block in the editor and frontend views.
+	 *
+	 * @since   2.3.3
+	 */
+	public function enqueue_styles() {
+
+		wp_enqueue_style( 'convertkit-form', CONVERTKIT_PLUGIN_URL . 'resources/frontend/css/form.css', array(), CONVERTKIT_PLUGIN_VERSION );
 
 	}
 

@@ -51,6 +51,15 @@ class ConvertKit_Admin_Setup_Wizard_Restrict_Content extends ConvertKit_Admin_Se
 	public $products = false;
 
 	/**
+	 * Holds the ConvertKit Tags resource class.
+	 *
+	 * @since   2.3.3
+	 *
+	 * @var     bool|ConvertKit_Resource_Tags
+	 */
+	public $tags = false;
+
+	/**
 	 * Holds the Pages created by this setup wizard.
 	 *
 	 * @since   2.1.0
@@ -76,6 +85,15 @@ class ConvertKit_Admin_Setup_Wizard_Restrict_Content extends ConvertKit_Admin_Se
 	 * @var     bool|string
 	 */
 	public $course_url = false;
+
+	/**
+	 * Holds the URL to the current setup wizard screen.
+	 *
+	 * @since   2.3.3
+	 *
+	 * @var     bool|string
+	 */
+	public $current_url = false;
 
 	/**
 	 * The required user capability to access the setup wizard.
@@ -235,6 +253,48 @@ class ConvertKit_Admin_Setup_Wizard_Restrict_Content extends ConvertKit_Admin_Se
 
 		// Load data depending on the current step.
 		switch ( $step ) {
+			case 1:
+				// Fetch Products and Tags.
+				$this->products = new ConvertKit_Resource_Products( 'restrict_content_wizard' );
+				$this->tags     = new ConvertKit_Resource_Tags( 'restrict_content_wizard' );
+
+				// Refresh Products and Tags resources, in case the user just created their first Product or Tag
+				// in ConvertKit.
+				$this->products->refresh();
+				$this->tags->refresh();
+
+				// If no Products and Tags exist in ConvertKit, change the next button label and make it a link to reload
+				// the screen.
+				if ( ! $this->products->exist() && ! $this->tags->exist() ) {
+					unset( $this->steps[1]['next_button'] );
+					$this->current_url = add_query_arg(
+						array(
+							'page'         => $this->page_name,
+							'ck_post_type' => $this->post_type,
+							'step'         => 1,
+						),
+						admin_url( 'options.php' )
+					);
+				} else {
+					// Define Download and Course button links.
+					$this->download_url = add_query_arg(
+						array(
+							'type'         => 'download',
+							'ck_post_type' => $this->post_type,
+						),
+						$this->next_step_url
+					);
+
+					$this->course_url = add_query_arg(
+						array(
+							'type'         => 'course',
+							'ck_post_type' => $this->post_type,
+						),
+						$this->next_step_url
+					);
+				}
+				break;
+
 			case 2:
 				// Define Member Content Type.
 				$this->type = sanitize_text_field( $_REQUEST['type'] ); // phpcs:ignore WordPress.Security.NonceVerification
@@ -249,27 +309,9 @@ class ConvertKit_Admin_Setup_Wizard_Restrict_Content extends ConvertKit_Admin_Se
 						break;
 				}
 
-				// Fetch Products.
+				// Fetch Products and Tags.
 				$this->products = new ConvertKit_Resource_Products( 'restrict_content_wizard' );
-				break;
-
-			case 1:
-				// Define Download and Course button links.
-				$this->download_url = add_query_arg(
-					array(
-						'type'         => 'download',
-						'ck_post_type' => $this->post_type,
-					),
-					$this->next_step_url
-				);
-
-				$this->course_url = add_query_arg(
-					array(
-						'type'         => 'course',
-						'ck_post_type' => $this->post_type,
-					),
-					$this->next_step_url
-				);
+				$this->tags     = new ConvertKit_Resource_Tags( 'restrict_content_wizard' );
 				break;
 		}
 
