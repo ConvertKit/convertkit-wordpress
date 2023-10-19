@@ -365,7 +365,7 @@ class PageShortcodeFormTriggerCest
 		$I->switchToNextTab();
 
 		// Confirm the ConvertKit login screen loaded.
-		$I->seeElementInDOM('input[name="user[email]"]');
+		$I->waitForElementVisible('input[name="user[email]"]');
 
 		// Close tab.
 		$I->closeTab();
