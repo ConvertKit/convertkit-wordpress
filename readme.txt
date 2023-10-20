@@ -3,9 +3,9 @@ Contributors: nathanbarry, growdev, travisnorthcutt, ggwicz
 Donate link: https://convertkit.com
 Tags: email marketing, email newsletter, newsletter, subscribers, membership
 Requires at least: 5.0
-Tested up to: 6.3.1
+Tested up to: 6.3.2
 Requires PHP: 5.6.20
-Stable tag: 2.3.2
+Stable tag: 2.3.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -137,6 +137,15 @@ Full Plugin documentation can be found [here](https://help.convertkit.com/en/art
 7. Track subscriber growth
 
 == Changelog ==
+
+### 2.3.3 2023-10-18
+* Added: Broadcasts (Beta): Option to export WordPress Posts to draft ConvertKit Broadcasts
+* Added: Member Content: Wizard: Option to restrict content by ConvertKit Tag
+* Fix: Member Content: Check Product or Tag exists in ConvertKit before restricting content
+* Fix: Form Trigger Block: Add spacing to button on non-block themes
+* Fix: Form Trigger Block: Render button in Gutenberg to better match frontend output when changing background color
+* Fix: Product Block: Add spacing to button on non-block themes
+* Fix: Product Block: Render button in Gutenberg to better match frontend output when changing background color
 
 ### 2.3.2 2023-10-05
 * Added: Member Content: Option to restrict content by ConvertKit Tag, displaying a subscription form and subscribing the entered email address to the tag
