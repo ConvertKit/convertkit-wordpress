@@ -65,31 +65,6 @@ class ConvertKit_Settings_Broadcasts {
 	}
 
 	/**
-	 * Returns Broadcasts settings value for the given key.
-	 *
-	 * @since   2.2.9
-	 *
-	 * @param   string $key    Setting Key.
-	 * @return  string          Value
-	 */
-	public function get_by_key( $key ) {
-
-		// If the setting doesn't exist, bail.
-		if ( ! array_key_exists( $key, $this->settings ) ) {
-			return '';
-		}
-
-		// If the setting is empty, fallback to the default.
-		if ( empty( $this->settings[ $key ] ) ) {
-			$defaults = $this->get_defaults();
-			return $defaults[ $key ];
-		}
-
-		return $this->settings[ $key ];
-
-	}
-
-	/**
 	 * Returns whether Broadcasts are enabled in the Plugin settings.
 	 *
 	 * @since   2.2.9
