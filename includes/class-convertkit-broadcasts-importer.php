@@ -146,11 +146,11 @@ class ConvertKit_Broadcasts_Importer {
 			// If the Broadcast has an image, save it to the Media Library and link it to the Post.
 			$this->add_broadcast_image_to_post( $broadcast, $post_id );
 
-			// Publish the draft Post, now that the image has been added to it.
+			// Transition the Post to the defined Post Status in the settings, now that the image has been added to it.
 			$post_id = wp_update_post(
 				array(
 					'ID'          => $post_id,
-					'post_status' => 'publish',
+					'post_status' => $this->broadcasts_settings->post_status(),
 				),
 				true
 			);
