@@ -417,8 +417,8 @@ class Plugin extends \Codeception\Module
 						}
 						break;
 
+					case 'post_status':
 					case 'category_id':
-					case 'restrict_content':
 						$I->fillSelect2Field($I, '#select2-_wp_convertkit_settings_broadcasts_' . $key . '-container', $value);
 
 						break;
