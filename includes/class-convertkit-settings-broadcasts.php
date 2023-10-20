@@ -120,7 +120,7 @@ class ConvertKit_Settings_Broadcasts {
 	 *
 	 * @since   2.3.4
 	 *
-	 * @return  int
+	 * @return  string
 	 */
 	public function post_status() {
 
@@ -221,7 +221,7 @@ class ConvertKit_Settings_Broadcasts {
 		$defaults = array(
 			'enabled'               => '',
 			'author_id'             => get_current_user_id(),
-			'post_status'			=> 'publish',
+			'post_status'           => 'publish',
 			'category_id'           => '',
 
 			// By default, only import Broadcasts as Posts for the last 30 days.
