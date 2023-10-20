@@ -331,6 +331,15 @@ class BroadcastsToPostsCest
 
 		// Confirm each Post is assigned to the Category.
 		foreach ($postIDs as $postID) {
+			// Confirm the Post is published.
+			$I->seePostInDatabase(
+				[
+					'ID'          => $postID,
+					'post_status' => 'publish',
+				]
+			);
+
+			// Confirm the Post is assigned to the Category.
 			$I->seePostWithTermInDatabase($postID, $this->categoryID, null, 'category');
 		}
 	}
