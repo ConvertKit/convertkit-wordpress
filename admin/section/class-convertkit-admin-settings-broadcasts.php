@@ -360,7 +360,7 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 		// Output field.
 		echo $this->get_date_field( // phpcs:ignore WordPress.Security.EscapeOutput
 			$args['name'],
-			esc_attr( $this->settings->g( $args['name'] ) ),
+			esc_attr( $this->settings->published_at_min_date() ),
 			$args['description'], // phpcs:ignore WordPress.Security.EscapeOutput
 			array(
 				'enabled',
