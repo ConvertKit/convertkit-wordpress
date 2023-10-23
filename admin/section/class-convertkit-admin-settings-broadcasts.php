@@ -376,7 +376,7 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 				'name'             => $this->settings_key . '[' . $args['name'] . ']',
 				'id'               => $this->settings_key . '_' . $args['name'],
 				'class'            => 'convertkit-select2 enabled',
-				'selected'         => $this->settings->get_by_key( $args['name'] ),
+				'selected'         => $this->settings->category_id(),
 				'taxonomy'         => 'category',
 				'hide_empty'       => false,
 			)
@@ -399,7 +399,7 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 		// Output field.
 		echo $this->get_date_field( // phpcs:ignore WordPress.Security.EscapeOutput
 			$args['name'],
-			esc_attr( $this->settings->get_by_key( $args['name'] ) ),
+			esc_attr( $this->settings->published_at_min_date() ),
 			$args['description'], // phpcs:ignore WordPress.Security.EscapeOutput
 			array(
 				'enabled',
