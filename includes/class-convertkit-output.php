@@ -438,7 +438,7 @@ class ConvertKit_Output {
 			return;
 		}
 
-		// Add the form to the scripts array so it is included in the preview.
+		// Add the form to the scripts array so it is included in the output.
 		add_filter(
 			'convertkit_output_scripts_footer',
 			function ( $scripts ) use ( $form ) {
