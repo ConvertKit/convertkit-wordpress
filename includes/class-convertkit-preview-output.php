@@ -25,12 +25,17 @@ class ConvertKit_Preview_Output {
 	 */
 	public function __construct() {
 
+		// Preview inline forms.
 		add_filter( 'convertkit_output_append_form_to_content_form_id', array( $this, 'preview_form' ), 99999 );
+
+		// Preview non-inline forms.
+		add_filter( 'template_redirect', array( $this, 'preview_non_inline_form' ) );
+
+		// Append edit link to inline forms.
 		add_filter( 'convertkit_block_form_render', array( $this, 'maybe_append_edit_form_link_to_form_block' ), 10, 3 );
 		add_filter( 'convertkit_frontend_append_form', array( $this, 'maybe_append_edit_form_link_to_form' ), 10, 4 );
 
 	}
-
 
 	/**
 	 * Changes the form to display for the given Post ID if the request is
@@ -67,6 +72,64 @@ class ConvertKit_Preview_Output {
 	}
 
 	/**
+	 * Adds a non-inline form for display if the request is from a logged in user who has clicked a preview link
+	 * and is viewing the home page.
+	 *
+	 * @since   2.3.3
+	 */
+	public function preview_non_inline_form() {
+
+		// Bail if not on the home page.
+		if ( ! is_home() ) {
+			return;
+		}
+
+		// Bail if the user isn't logged in.
+		if ( ! is_user_logged_in() ) {
+			return;
+		}
+
+		// Bail if no nonce field exists.
+		if ( ! isset( $_REQUEST['convertkit-preview-form-nonce'] ) ) {
+			return;
+		}
+
+		// Bail if the nonce verification fails.
+		if ( ! wp_verify_nonce( sanitize_key( wp_unslash( $_REQUEST['convertkit-preview-form-nonce'] ) ), 'convertkit-preview-form' ) ) {
+			return;
+		}
+
+		// Determine the form to preview.
+		$preview_form_id = (int) ( isset( $_REQUEST['convertkit_form_id'] ) ? sanitize_text_field( $_REQUEST['convertkit_form_id'] ) : 0 );
+
+		// Get form.
+		$convertkit_forms = new ConvertKit_Resource_Forms();
+		$form             = $convertkit_forms->get_by_id( $preview_form_id );
+
+		// Bail if the Form doesn't exist (this shouldn't happen, but you never know).
+		if ( ! $form ) {
+			return;
+		}
+
+		// Add the form to the scripts array so it is included in the preview.
+		add_filter(
+			'convertkit_output_scripts_footer',
+			function ( $scripts ) use ( $form ) {
+
+				$scripts[] = array(
+					'async'    => true,
+					'data-uid' => $form['uid'],
+					'src'      => $form['embed_js'],
+				);
+
+				return $scripts;
+
+			}
+		);
+
+	}
+
+	/**
 	 * Returns the URL for the most recent published Post based on the supplied Post Type,
 	 * with a preview form nonce included in the URL.
 	 *
@@ -91,6 +154,25 @@ class ConvertKit_Preview_Output {
 				'convertkit-preview-form-nonce' => $this->get_preview_form_nonce(),
 			),
 			get_permalink( $post_id )
+		);
+
+	}
+
+	/**
+	 * Returns the URL for the home page, with a preview form nonce included in the URL.
+	 *
+	 * @since   2.3.3
+	 *
+	 * @return  string
+	 */
+	public function get_preview_form_home_url() {
+
+		// Return preview URL.
+		return add_query_arg(
+			array(
+				'convertkit-preview-form-nonce' => $this->get_preview_form_nonce(),
+			),
+			get_home_url()
 		);
 
 	}

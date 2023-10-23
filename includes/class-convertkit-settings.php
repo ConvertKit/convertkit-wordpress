@@ -203,6 +203,37 @@ class ConvertKit_Settings {
 	}
 
 	/**
+	 * Returns the Global non-inline Form Plugin setting.
+	 *
+	 * @since   2.3.3
+	 *
+	 * @return  string|int       Non-inline Form (blank string|form id)
+	 */
+	public function get_non_inline_form() {
+
+		// Return blank string if no inline form is specified.
+		if ( ! $this->has_non_inline_form() ) {
+			return '';
+		}
+
+		return $this->settings['non_inline_form'];
+
+	}
+
+	/**
+	 * Returns whether the Global non-inline Form has been set in the Plugin settings.
+	 *
+	 * @since   2.3.3
+	 *
+	 * @return  bool    Global non-inline Form setting specified in Plugin Settings.
+	 */
+	public function has_non_inline_form() {
+
+		return ( ! empty( $this->settings['non_inline_form'] ) ? true : false );
+
+	}
+
+	/**
 	 * Returns whether debugging is enabled in the Plugin settings.
 	 *
 	 * @since   1.9.6
@@ -252,11 +283,12 @@ class ConvertKit_Settings {
 	public function get_defaults() {
 
 		$defaults = array(
-			'api_key'    => '', // string.
-			'api_secret' => '', // string.
-			'debug'      => '', // blank|on.
-			'no_scripts' => '', // blank|on.
-			'no_css'     => '', // blank|on.
+			'api_key'         => '', // string.
+			'api_secret'      => '', // string.
+			'non_inline_form' => '', // string.
+			'debug'           => '', // blank|on.
+			'no_scripts'      => '', // blank|on.
+			'no_css'          => '', // blank|on.
 		);
 
 		// Add Post Type Default Forms.
