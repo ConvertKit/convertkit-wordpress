@@ -37,6 +37,7 @@ class BroadcastsToPostsSettingsCest
 
 		// Confirm that settings have label[for] attributes.
 		$I->seeInSource('<label for="enabled">');
+		$I->seeInSource('<label for="post_status">');
 		$I->seeInSource('<label for="category_id">');
 		$I->seeInSource('<label for="published_at_min_date">');
 		$I->seeInSource('<label for="no_styles">');
@@ -73,6 +74,8 @@ class BroadcastsToPostsSettingsCest
 		// Confirm that settings saved and additional fields remain displayed.
 		$I->seeCheckboxIsChecked('#enabled');
 		$I->seeElement('table.form-table tbody tr td a.button');
+		$I->seeElement('span[aria-labelledby="select2-_wp_convertkit_settings_broadcasts_post_status-container"]');
+		$I->seeElement('span[aria-labelledby="select2-_wp_convertkit_settings_broadcasts_category_id-container"]');
 		$I->seeElement('div.convertkit-select2-container');
 		$I->seeElement('input#published_at_min_date');
 
@@ -94,7 +97,8 @@ class BroadcastsToPostsSettingsCest
 		// Confirm that settings saved and additional fields are hidden, because the 'Enable' option is not checked.
 		$I->dontSeeCheckboxIsChecked('#enabled');
 		$I->dontSeeElement('table.form-table tbody tr td a.button');
-		$I->dontSeeElement('div.convertkit-select2-container');
+		$I->dontSeeElement('span[aria-labelledby="select2-_wp_convertkit_settings_broadcasts_post_status-container"]');
+		$I->dontSeeElement('span[aria-labelledby="select2-_wp_convertkit_settings_broadcasts_category_id-container"]');
 		$I->dontSeeElement('input#published_at_min_date');
 
 		// Check the next import date and time is not displayed.
@@ -115,6 +119,7 @@ class BroadcastsToPostsSettingsCest
 
 		// Enable Broadcasts to Posts, and modify settings.
 		$I->checkOption('#enabled');
+		$I->fillSelect2Field($I, '#select2-_wp_convertkit_settings_broadcasts_post_status-container', 'Draft');
 		$I->fillSelect2Field($I, '#select2-_wp_convertkit_settings_broadcasts_category_id-container', 'ConvertKit Broadcasts to Posts');
 		$I->fillField('_wp_convertkit_settings_broadcasts[published_at_min_date]', '01/01/2023');
 		$I->checkOption('#enabled_export');
@@ -128,6 +133,7 @@ class BroadcastsToPostsSettingsCest
 
 		// Confirm that settings saved.
 		$I->seeCheckboxIsChecked('#enabled');
+		$I->seeInField('_wp_convertkit_settings_broadcasts[post_status]', 'Draft');
 		$I->seeInField('_wp_convertkit_settings_broadcasts[category_id]', 'ConvertKit Broadcasts to Posts');
 		$I->seeInField('_wp_convertkit_settings_broadcasts[published_at_min_date]', '2023-01-01');
 		$I->seeCheckboxIsChecked('#enabled_export');

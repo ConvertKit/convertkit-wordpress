@@ -116,6 +116,19 @@ class ConvertKit_Settings_Broadcasts {
 	}
 
 	/**
+	 * Returns the WordPress Post Status to assign to Posts created from imported Broadcasts.
+	 *
+	 * @since   2.3.4
+	 *
+	 * @return  string
+	 */
+	public function post_status() {
+
+		return $this->settings['post_status'];
+
+	}
+
+	/**
 	 * Returns the WordPress Category ID to assign imported Broadcasts to.
 	 *
 	 * @since   2.2.9
@@ -208,6 +221,7 @@ class ConvertKit_Settings_Broadcasts {
 		$defaults = array(
 			'enabled'               => '',
 			'author_id'             => get_current_user_id(),
+			'post_status'           => 'publish',
 			'category_id'           => '',
 
 			// By default, only import Broadcasts as Posts for the last 30 days.

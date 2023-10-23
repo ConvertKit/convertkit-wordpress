@@ -197,6 +197,19 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 		}
 
 		add_settings_field(
+			'post_status',
+			__( 'Status', 'convertkit' ),
+			array( $this, 'post_status_callback' ),
+			$this->settings_key,
+			$this->name,
+			array(
+				'name'        => 'post_status',
+				'label_for'   => 'post_status',
+				'description' => __( 'The WordPress Post status to assign imported broadcasts to.', 'convertkit' ),
+			)
+		);
+
+		add_settings_field(
 			'category_id',
 			__( 'Category', 'convertkit' ),
 			array( $this, 'category_callback' ),
@@ -316,6 +329,32 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 		);
 
 		echo '<a href="' . esc_url( $import_url ) . '" class="button button-secondary enabled">' . esc_html__( 'Import now', 'convertkit' ) . '</a>';
+
+	}
+
+	/**
+	 * Renders the input for the status setting.
+	 *
+	 * @since   2.3.4
+	 *
+	 * @param   array $args   Setting field arguments (name,description).
+	 */
+	public function post_status_callback( $args ) {
+
+		// Build field.
+		$select_field = $this->get_select_field(
+			$args['name'],
+			$this->settings->post_status(),
+			get_post_statuses(),
+			$args['description'],
+			array(
+				'enabled',
+				'convertkit-select2',
+			)
+		);
+
+		// Output field.
+		echo '<div class="convertkit-select2-container">' . $select_field . '</div>'; // phpcs:ignore WordPress.Security.EscapeOutput
 
 	}
 
