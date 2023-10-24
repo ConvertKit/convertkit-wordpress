@@ -67,17 +67,18 @@
 	background: #dce1e5;
 }
 #convertkit-restrict-content input#convertkit_subscriber_code {
-	--otp-digits: 6; /* Number of input digits */
+	--otp-digits: 6;
 	--otp-height: 98px;
-	--otp-number-width: 70px; /* Width of each digit / box */
+	--otp-number-width: 70px;
 	--otp-border-color: #dce1e5;
 	--otp-text-color: #697177;
 	--otp-font-size: 60px;
-
-	--_otp-digit: 0; /* Current input digit, zero based index. Updated by JS as the user types. */
+	--_otp-digit: 0;
 	--_otp-bgsz: calc(var(--otp-number-width) + 1px);
-	
 	all: unset;
+	text-align: left;
+	margin: 0;
+	padding: 0;
 	background: 
 		linear-gradient(90deg, #dce1e5 var(--otp-number-width), transparent 0),
 		linear-gradient(90deg, #fff var(--otp-number-width), transparent 0);
@@ -85,22 +86,14 @@
 	background-repeat: no-repeat, repeat-x;
 	background-size: var(--_otp-bgsz) 100%;
 	inline-size: calc(var(--otp-digits) * var(--_otp-bgsz));
-	letter-spacing: 43px; /* this determines if the numbers run away as we type */
-	
+	letter-spacing: calc(var(--otp-number-width) / 2);
+	text-indent: calc(var(--otp-number-width) / 4);
 	width: 100%;
 	height: var(--otp-height);
 	color: var(--otp-text-color);
 	font-size: var(--otp-font-size);
-
-	/* CK specific */
-	text-align: left;
-	margin: 0;
-	padding: 0;
+	font-family: ui-monospace, monospace;
 }
-
-
-
-
 
 #convertkit-restrict-content #convertkit-restrict-content input[type=submit] {
 	display: inline-block;
