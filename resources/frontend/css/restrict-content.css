@@ -80,7 +80,7 @@
 	text-align: left;
 	margin: 0;
 	padding: 0;
-	background: 
+	background:
 		linear-gradient(90deg, #dce1e5 var(--otp-number-width), transparent 0),
 		linear-gradient(90deg, #fff var(--otp-number-width), transparent 0);
 	background-position: calc(var(--_otp-digit) * (calc(var(--otp-number-width) + 1px))) 0, 0 0;
