@@ -732,7 +732,7 @@ add_filter( 'convertkit_term_get_default_settings', function( $defaults ) {
 </pre>
 <h3 id="convertkit_settings_broadcasts_get_defaults">
 						convertkit_settings_broadcasts_get_defaults
-						<code>includes/class-convertkit-settings-broadcasts.php::227</code>
+						<code>includes/class-convertkit-settings-broadcasts.php::216</code>
 					</h3><h4>Overview</h4>
 						<p>The default settings, used when the ConvertKit Broadcasts Settings haven't been saved e.g. on a new installation.</p><h4>Parameters</h4>
 					<table>
@@ -987,7 +987,7 @@ add_filter( 'convertkit_output_restrict_content_get_resource_id', function( $res
 </pre>
 <h3 id="convertkit_output_page_takeover_landing_page_id">
 						convertkit_output_page_takeover_landing_page_id
-						<code>includes/class-convertkit-output.php::139</code>
+						<code>includes/class-convertkit-output.php::140</code>
 					</h3><h4>Overview</h4>
 						<p>Define the ConvertKit Landing Page ID to display for the given Post ID, overriding the Post settings. Return false to not display any ConvertKit Landing Page.</p><h4>Parameters</h4>
 					<table>
@@ -1018,7 +1018,7 @@ add_filter( 'convertkit_output_page_takeover_landing_page_id', function( $landin
 </pre>
 <h3 id="convertkit_output_append_form_to_content_form_id">
 						convertkit_output_append_form_to_content_form_id
-						<code>includes/class-convertkit-output.php::197</code>
+						<code>includes/class-convertkit-output.php::198</code>
 					</h3><h4>Overview</h4>
 						<p>Define the ConvertKit Form ID to display for the given Post ID, overriding the Post, Category or Plugin settings. Return false to not display any ConvertKit Form.</p><h4>Parameters</h4>
 					<table>
@@ -1049,7 +1049,7 @@ add_filter( 'convertkit_output_append_form_to_content_form_id', function( $form_
 </pre>
 <h3 id="convertkit_frontend_append_form">
 						convertkit_frontend_append_form
-						<code>includes/class-convertkit-output.php::261</code>
+						<code>includes/class-convertkit-output.php::262</code>
 					</h3><h4>Overview</h4>
 						<p>Filter the Post's Content, which includes a ConvertKit Form, immediately before it is output.</p><h4>Parameters</h4>
 					<table>
@@ -1088,7 +1088,7 @@ add_filter( 'convertkit_frontend_append_form', function( $content, $form, $post_
 </pre>
 <h3 id="convertkit_output_scripts_footer">
 						convertkit_output_scripts_footer
-						<code>includes/class-convertkit-output.php::430</code>
+						<code>includes/class-convertkit-output.php::476</code>
 					</h3><h4>Overview</h4>
 						<p>Define an array of scripts to output in the footer of the WordPress site.</p><h4>Parameters</h4>
 					<table>
@@ -1115,7 +1115,7 @@ add_filter( 'convertkit_output_scripts_footer', function( $scripts ) {
 </pre>
 <h3 id="convertkit_settings_get_defaults">
 						convertkit_settings_get_defaults
-						<code>includes/class-convertkit-settings.php::274</code>
+						<code>includes/class-convertkit-settings.php::306</code>
 					</h3><h4>Overview</h4>
 						<p>The default settings, used when the ConvertKit Plugin Settings haven't been saved e.g. on a new installation.</p><h4>Parameters</h4>
 					<table>
@@ -1786,7 +1786,7 @@ do_action( 'convertkit_gutenberg_enqueue_styles_editor_and_frontend', function( 
 </pre>
 <h3 id="convertkit_output_output_form">
 						convertkit_output_output_form
-						<code>includes/class-convertkit-output.php::94</code>
+						<code>includes/class-convertkit-output.php::95</code>
 					</h3><h4>Parameters</h4>
 					<table>
 						<thead>
