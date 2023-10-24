@@ -33,6 +33,12 @@
 			const convertKitRestrictContentSubscriberCodeInput = document.querySelector( '#convertkit_subscriber_code' );
 			convertKitRestrictContentSubscriberCodeInput.addEventListener( 'input', function() {
 				convertKitRestrictContentSubscriberCodeInput.style.setProperty( '--_otp-digit', convertKitRestrictContentSubscriberCodeInput.selectionStart );
+
+				// If all 6 digits entered, set caret to start, to avoid numbers shifting in input.
+				if ( convertKitRestrictContentSubscriberCodeInput.selectionStart === 6 ) {
+					convertKitRestrictContentSubscriberCodeInput.setSelectionRange(0, 0);
+					convertKitRestrictContentSubscriberCodeInput.blur();	
+				}
 			} );
 		</script>
 	</div>
