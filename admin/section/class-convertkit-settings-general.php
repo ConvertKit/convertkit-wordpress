@@ -173,6 +173,17 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 		}
 
 		add_settings_field(
+			'non_inline_form',
+			__( 'Default Non-Inline Form (Global)', 'convertkit' ),
+			array( $this, 'non_inline_form_callback' ),
+			$this->settings_key,
+			$this->name,
+			array(
+				'label_for' => 'non_inline_form',
+			)
+		);
+
+		add_settings_field(
 			'debug',
 			__( 'Debug', 'convertkit' ),
 			array( $this, 'debug_callback' ),
@@ -465,6 +476,61 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 			array(
 				'data-target' => '#convertkit-preview-form-' . esc_attr( $args['post_type'] ),
 				'data-link'   => esc_attr( $preview_url ) . '&convertkit_form_id=',
+			)
+		);
+
+		// Output field.
+		echo '<div class="convertkit-select2-container">' . $select_field . '</div>'; // phpcs:ignore WordPress.Security.EscapeOutput
+
+	}
+
+
+	/**
+	 * Renders the input for the Non-inline Form setting.
+	 *
+	 * @since  2.2.3
+	 *
+	 * @param   array $args  Field arguments.
+	 */
+	public function non_inline_form_callback( $args ) {
+
+		// Bail if no non-inline Forms exist.
+		if ( ! $this->forms->non_inline_exist() ) {
+			esc_html_e( 'No non-inline Forms exist in ConvertKit.', 'convertkit' );
+			echo '<br /><a href="' . esc_url( convertkit_get_new_form_url() ) . '" target="_blank">' . esc_html__( 'Click here to create your first modal, slide in or sticky bar form', 'convertkit' ) . '</a>';
+			return;
+		}
+
+		// Build array of select options.
+		$options = array(
+			'' => esc_html__( 'None', 'convertkit' ),
+		);
+		foreach ( $this->forms->get_non_inline() as $form ) {
+			$options[ esc_attr( $form['id'] ) ] = esc_html( $form['name'] );
+		}
+
+		// Build description with preview link.
+		$preview_url = WP_ConvertKit()->get_class( 'preview_output' )->get_preview_form_home_url();
+		$description = sprintf(
+			'%s %s %s',
+			esc_html__( 'Select a modal, slide in or sticky bar form to automatically display site wide.', 'convertkit' ),
+			'<a href="' . esc_url( $preview_url ) . '" id="convertkit-preview-non-inline-form" target="_blank">' . esc_html__( 'Click here', 'convertkit' ) . '</a>',
+			esc_html__( 'to preview how this will display.', 'convertkit' )
+		);
+
+		// Build field.
+		$select_field = $this->get_select_field(
+			'non_inline_form',
+			$this->settings->get_non_inline_form(),
+			$options,
+			$description,
+			array(
+				'convertkit-select2',
+				'convertkit-preview-output-link',
+			),
+			array(
+				'data-target' => '#convertkit-preview-non-inline-form',
+				'data-link'   => esc_url( $preview_url ) . '&convertkit_form_id=',
 			)
 		);
 

@@ -260,6 +260,23 @@ class PluginSettingsGeneralCest
 		// Close newly opened tab.
 		$I->closeTab();
 
+		// Select a non-inline form for the Default non-inline form setting.
+		$I->fillSelect2Field($I, '#select2-_wp_convertkit_settings_non_inline_form-container', $_ENV['CONVERTKIT_API_FORM_FORMAT_STICKY_BAR_NAME']);
+
+		// Open preview.
+		$I->click('a#convertkit-preview-non-inline-form');
+		$I->wait(2); // Required, otherwise switchToNextTab fails.
+
+		// Switch to newly opened tab.
+		$I->switchToNextTab();
+
+		// Confirm that one ConvertKit Form is output in the DOM.
+		// This confirms that there is only one script on the page for this form, which renders the form.
+		$I->seeNumberOfElementsInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_FORMAT_STICKY_BAR_ID'] . '"]', 1);
+
+		// Close newly opened tab.
+		$I->closeTab();
+
 		// Click the Save Changes button.
 		$I->click('Save Changes');
 
@@ -269,6 +286,7 @@ class PluginSettingsGeneralCest
 		// Check the value of the fields match the inputs provided.
 		$I->seeInField('_wp_convertkit_settings[page_form]', $_ENV['CONVERTKIT_API_FORM_NAME']);
 		$I->seeInField('_wp_convertkit_settings[post_form]', $_ENV['CONVERTKIT_API_FORM_NAME']);
+		$I->seeInField('_wp_convertkit_settings[non_inline_form]', $_ENV['CONVERTKIT_API_FORM_FORMAT_STICKY_BAR_NAME']);
 	}
 
 	/**
@@ -290,6 +308,70 @@ class PluginSettingsGeneralCest
 		// Confirm no Page or Post preview links exist, because there are no Pages or Posts in WordPress.
 		$I->dontSeeElementInDOM('a#convertkit-preview-form-post');
 		$I->dontSeeElementInDOM('a#convertkit-preview-form-page');
+	}
+
+	/**
+	 * Test that the defined default non-inline form displays site wide.
+	 *
+	 * @since   2.3.3
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testDefaultNonInlineForm(AcceptanceTester $I)
+	{
+		// Create a Page in the database.
+		$I->havePostInDatabase(
+			[
+				'post_title'  => 'ConvertKit: Default Non Inline Global',
+				'post_type'   => 'page',
+				'post_status' => 'publish',
+			]
+		);
+
+		// Setup Plugin.
+		$I->setupConvertKitPlugin($I);
+
+		// Go to the Plugin's Settings Screen.
+		$I->loadConvertKitSettingsGeneralScreen($I);
+
+		// Select a non-inline form for the Default non-inline form setting.
+		$I->fillSelect2Field($I, '#select2-_wp_convertkit_settings_non_inline_form-container', $_ENV['CONVERTKIT_API_FORM_FORMAT_STICKY_BAR_NAME']);
+
+		// Click the Save Changes button.
+		$I->click('Save Changes');
+
+		// View the home page.
+		$I->amOnPage('/');
+
+		// Confirm that one ConvertKit Form is output in the DOM.
+		// This confirms that there is only one script on the page for this form, which renders the form.
+		$I->seeNumberOfElementsInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_FORMAT_STICKY_BAR_ID'] . '"]', 1);
+
+		// View another Page.
+		$I->amOnPage('/convertkit-default-non-inline-global');
+
+		// Confirm that one ConvertKit Form is output in the DOM.
+		// This confirms that there is only one script on the page for this form, which renders the form.
+		$I->seeNumberOfElementsInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_FORMAT_STICKY_BAR_ID'] . '"]', 1);
+	}
+
+	/**
+	 * Test that no non-inline form displays site wide when not selected in the Plugin's settings.
+	 *
+	 * @since   2.3.3
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testNoFormWhenNoDefaultNonInlineForm(AcceptanceTester $I)
+	{
+		// Setup Plugin.
+		$I->setupConvertKitPlugin($I);
+
+		// View the home page.
+		$I->amOnPage('/');
+
+		// Confirm that no ConvertKit Form is output in the DOM.
+		$I->dontSeeElementInDOM('form[data-sv-form]');
 	}
 
 	/**

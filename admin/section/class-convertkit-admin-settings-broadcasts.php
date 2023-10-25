@@ -197,6 +197,19 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 		}
 
 		add_settings_field(
+			'post_status',
+			__( 'Status', 'convertkit' ),
+			array( $this, 'post_status_callback' ),
+			$this->settings_key,
+			$this->name,
+			array(
+				'name'        => 'post_status',
+				'label_for'   => 'post_status',
+				'description' => __( 'The WordPress Post status to assign imported broadcasts to.', 'convertkit' ),
+			)
+		);
+
+		add_settings_field(
 			'category_id',
 			__( 'Category', 'convertkit' ),
 			array( $this, 'category_callback' ),
@@ -320,6 +333,32 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 	}
 
 	/**
+	 * Renders the input for the status setting.
+	 *
+	 * @since   2.3.4
+	 *
+	 * @param   array $args   Setting field arguments (name,description).
+	 */
+	public function post_status_callback( $args ) {
+
+		// Build field.
+		$select_field = $this->get_select_field(
+			$args['name'],
+			$this->settings->post_status(),
+			get_post_statuses(),
+			$args['description'],
+			array(
+				'enabled',
+				'convertkit-select2',
+			)
+		);
+
+		// Output field.
+		echo '<div class="convertkit-select2-container">' . $select_field . '</div>'; // phpcs:ignore WordPress.Security.EscapeOutput
+
+	}
+
+	/**
 	 * Renders the input for the category setting.
 	 *
 	 * @since   2.2.9
@@ -337,7 +376,7 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 				'name'             => $this->settings_key . '[' . $args['name'] . ']',
 				'id'               => $this->settings_key . '_' . $args['name'],
 				'class'            => 'convertkit-select2 enabled',
-				'selected'         => $this->settings->get_by_key( $args['name'] ),
+				'selected'         => $this->settings->category_id(),
 				'taxonomy'         => 'category',
 				'hide_empty'       => false,
 			)
@@ -360,7 +399,7 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 		// Output field.
 		echo $this->get_date_field( // phpcs:ignore WordPress.Security.EscapeOutput
 			$args['name'],
-			esc_attr( $this->settings->get_by_key( $args['name'] ) ),
+			esc_attr( $this->settings->published_at_min_date() ),
 			$args['description'], // phpcs:ignore WordPress.Security.EscapeOutput
 			array(
 				'enabled',

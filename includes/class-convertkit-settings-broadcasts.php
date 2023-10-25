@@ -65,31 +65,6 @@ class ConvertKit_Settings_Broadcasts {
 	}
 
 	/**
-	 * Returns Broadcasts settings value for the given key.
-	 *
-	 * @since   2.2.9
-	 *
-	 * @param   string $key    Setting Key.
-	 * @return  string          Value
-	 */
-	public function get_by_key( $key ) {
-
-		// If the setting doesn't exist, bail.
-		if ( ! array_key_exists( $key, $this->settings ) ) {
-			return '';
-		}
-
-		// If the setting is empty, fallback to the default.
-		if ( empty( $this->settings[ $key ] ) ) {
-			$defaults = $this->get_defaults();
-			return $defaults[ $key ];
-		}
-
-		return $this->settings[ $key ];
-
-	}
-
-	/**
 	 * Returns whether Broadcasts are enabled in the Plugin settings.
 	 *
 	 * @since   2.2.9
@@ -112,6 +87,19 @@ class ConvertKit_Settings_Broadcasts {
 	public function author_id() {
 
 		return $this->settings['author_id'];
+
+	}
+
+	/**
+	 * Returns the WordPress Post Status to assign to Posts created from imported Broadcasts.
+	 *
+	 * @since   2.3.4
+	 *
+	 * @return  string
+	 */
+	public function post_status() {
+
+		return $this->settings['post_status'];
 
 	}
 
@@ -208,6 +196,7 @@ class ConvertKit_Settings_Broadcasts {
 		$defaults = array(
 			'enabled'               => '',
 			'author_id'             => get_current_user_id(),
+			'post_status'           => 'publish',
 			'category_id'           => '',
 
 			// By default, only import Broadcasts as Posts for the last 30 days.
