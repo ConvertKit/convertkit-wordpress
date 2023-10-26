@@ -1,20 +1,33 @@
 #convertkit-restrict-content {
-	max-width: 610px;
+	width: 100%;
 	background: #f6f8fa;
-	box-shadow: 0 2px 5px #0000000d;
 	color: #373f45;
 	margin: 30px auto;
-	padding: 40px 30px 30px 30px;
-	border: 1px solid #EDF2F4;
+	padding: 40px;
 	text-align: center;
 	box-sizing: border-box;
+	border-radius: 8px;
 }
 #convertkit-restrict-content * {
 	box-sizing: border-box;
 }
-#convertkit-restrict-content p, #convertkit-restrict-content div {
+#convertkit-restrict-content h3 {
 	margin: 0 0 20px 0;
 	padding: 0;
+	font-size: 24px;
+	line-height: 40px;
+	font-style: normal;
+}
+#convertkit-restrict-content p {
+	margin: 0 0 20px 0;
+	padding: 0;
+	font-size: 16px;
+	line-height: 28px;
+}
+#convertkit-restrict-content small {
+	font-size: 13px;
+	line-height: 22px;
+	color: #111;
 }
 
 #convertkit-restrict-content .convertkit-restrict-content-actions {
@@ -22,14 +35,6 @@
 }
 #convertkit-restrict-content .convertkit-restrict-content-actions p:last-child {
 	margin: 0;
-}
-#convertkit-restrict-content .convertkit-restrict-content-actions hr {
-	margin: 0 0 20px 0;
-	padding: 0;
-	width: 100%;
-	height: 1px;
-	border: none;
-	background: #EDF2F4;
 }
 #convertkit-restrict-content .convertkit-restrict-content-actions .convertkit-product a {
 	display: inline-block;
@@ -47,14 +52,45 @@
 	background: #f7dada;
 }
 
-#convertkit-restrict-content input[type=email], #convertkit-restrict-content input[type=text] {
-	display: inline-block;
-	width: 75%;
-	height: 48px;
+#convertkit-restrict-content form div {
+	display: grid;
+	grid-template-areas: "email button";
+	grid-template-columns: auto 85px;
+	grid-column-gap: 5px;
+	text-align: left;
+	max-width: 500px;
+	height: 56px;
+	margin: 0 auto 20px auto;
+	padding: 6px 10px;
+	background-image: url(../images/email.svg);
+	background-repeat: no-repeat;
+	background-color: red;
+	background-size: 15px 15px;
+	background-position: 10px 20px;
+	border-radius: 3px;
+}
+#convertkit-restrict-content form div input[type=email] {
+	grid-area: email;
+	height: 42px;
+	line-height: 42px;
+	font-size: 15px;
+	background: none;
+	border: none;
+}
+#convertkit-restrict-content form div input[type=submit] {
+	grid-area: button;
+	height: 42px;
+	line-height: 42px;
+	font-size: 15px;
 	margin: 0;
-	padding: 0 10px;
-	border: 1px solid #949494;
-	font-family: inherit;
+	padding: 0 20px;
+	border-radius: 3px;
+	background: #000;
+	color: #fff;
+}
+
+#convertkit-restrict-content input[type=email], #convertkit-restrict-content input[type=text] {
+
 }
 #convertkit-restrict-content input#convertkit_subscriber_code {
 	width: 100%;

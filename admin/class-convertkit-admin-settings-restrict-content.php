@@ -66,6 +66,21 @@ class ConvertKit_Admin_Settings_Restrict_Content extends ConvertKit_Settings_Bas
 	public function register_fields() {
 
 		add_settings_field(
+			'subscribe_heading',
+			__( 'Subscribe Heading', 'convertkit' ),
+			array( $this, 'text_callback' ),
+			$this->settings_key,
+			$this->name,
+			array(
+				'name'        => 'subscribe_heading',
+				'label_for'   => 'subscribe_heading',
+				'description' => array(
+					__( 'The heading to display above the subscribe button, explaining why the content is only available to subscribers.', 'convertkit' ),
+				),
+			)
+		);
+
+		add_settings_field(
 			'subscribe_text',
 			__( 'Subscribe Text', 'convertkit' ),
 			array( $this, 'text_callback' ),
@@ -105,7 +120,22 @@ class ConvertKit_Admin_Settings_Restrict_Content extends ConvertKit_Settings_Bas
 				'name'        => 'email_text',
 				'label_for'   => 'email_text',
 				'description' => array(
-					__( 'The text to display above the email form, instructing the subscriber to enter their email address to receive a login link to access the member\'s only content.', 'convertkit' ),
+					__( 'The text to display asking if the subscriber has already subscribed.', 'convertkit' ),
+				),
+			)
+		);
+
+		add_settings_field(
+			'email_description_text',
+			__( 'Email Field Description', 'convertkit' ),
+			array( $this, 'text_callback' ),
+			$this->settings_key,
+			$this->name,
+			array(
+				'name'        => 'email_description_text',
+				'label_for'   => 'email_description_text',
+				'description' => array(
+					__( 'The text to display below the email field, explaining the subscriber will receive a code by email.', 'convertkit' ),
 				),
 			)
 		);
