@@ -64,15 +64,18 @@
 	padding: 6px 10px;
 	background-image: url(../images/email.svg);
 	background-repeat: no-repeat;
-	background-color: red;
+	background-color: #fff;
 	background-size: 15px 15px;
-	background-position: 10px 20px;
+	background-position: 18px 20px;
 	border-radius: 3px;
 }
 #convertkit-restrict-content form div input[type=email] {
 	grid-area: email;
+	text-indent: 35px;
 	height: 42px;
 	line-height: 42px;
+	margin: 0;
+	padding: 0;
 	font-size: 15px;
 	background: none;
 	border: none;
@@ -84,13 +87,10 @@
 	font-size: 15px;
 	margin: 0;
 	padding: 0 20px;
+	border: none;
 	border-radius: 3px;
 	background: #000;
 	color: #fff;
-}
-
-#convertkit-restrict-content input[type=email], #convertkit-restrict-content input[type=text] {
-
 }
 #convertkit-restrict-content input#convertkit_subscriber_code {
 	width: 100%;
