@@ -100,8 +100,15 @@ class ConvertKit_Settings_Restrict_Content {
 	public function get_defaults() {
 
 		$defaults = array(
+			// Restrict by Product.
 			'subscribe_heading'      => __( 'Read this post with a premium subscription', 'convertkit' ),
 			'subscribe_text'         => __( 'This post is only available to premium subscribers. Join today to get access to all posts.', 'convertkit' ),
+			
+			// Restrict by Tag.
+			'subscribe_heading_tag'  => __( 'Subscribe to keep reading', 'convertkit' ),
+			'subscribe_text_tag'     => __( 'This post is free to read but only available to subscribers. Join today to get access to all posts.', 'convertkit' ),
+			
+			// All.
 			'subscribe_button_label' => __( 'Subscribe', 'convertkit' ),
 			'email_text'             => __( 'Already subscribed?', 'convertkit' ),
 			'email_button_label'     => __( 'Log in', 'convertkit' ),

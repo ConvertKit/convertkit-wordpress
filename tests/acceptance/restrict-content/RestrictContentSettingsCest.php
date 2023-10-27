@@ -142,6 +142,8 @@ class RestrictContentSettingsCest
 		$settings = array(
 			'subscribe_heading'		 => 'Subscribe Heading',
 			'subscribe_text'         => 'Subscribe Text',
+			'subscribe_heading_tag'	 => 'Subscribe Heading Tag',
+			'subscribe_text_tag'	 => 'Subscribe Text Tag',
 			'subscribe_button_label' => 'Subscribe Button Label',
 			'email_text'             => 'Email Text',
 			'email_button_label'     => 'Email Button Label',
