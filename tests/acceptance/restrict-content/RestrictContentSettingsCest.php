@@ -140,10 +140,13 @@ class RestrictContentSettingsCest
 
 		// Define settings.
 		$settings = array(
+			'subscribe_heading'		 => 'Subscribe Heading',
 			'subscribe_text'         => 'Subscribe Text',
 			'subscribe_button_label' => 'Subscribe Button Label',
 			'email_text'             => 'Email Text',
 			'email_button_label'     => 'Email Button Label',
+			'emal_description_text'  => 'Email Description Text',
+			'email_check_heading'	 => 'Email Check Heading',
 			'email_check_text'       => 'Email Check Text',
 			'no_access_text'         => 'No Access Text',
 		);

@@ -875,11 +875,14 @@ class Plugin extends \Codeception\Module
 	public function getRestrictedContentDefaultSettings()
 	{
 		return array(
-			'subscribe_text'         => 'This content is only available to premium subscribers',
+			'subscribe_heading'      => 'Read this post with a premium subscription',
+			'subscribe_text'         => 'This post is only available to premium subscribers. Join today to get access to all posts.',
 			'subscribe_button_label' => 'Subscribe',
-			'email_text'             => 'Already a premium subscriber? Enter the email address used when purchasing below, to receive a login link to access.',
-			'email_button_label'     => 'Send email',
-			'email_check_text'       => 'Check your email and click the link to login, or enter the code from the email below.',
+			'email_text'             => 'Already subscribed?',
+			'email_button_label'     => 'Log in',
+			'email_description_text' => 'We\'ll email you a magic code to log you in without a password.',
+			'email_check_heading'    => 'We just emailed you a log in code',
+			'email_check_text'       => 'Enter the code below to finish logging in',
 			'no_access_text'         => 'Your account does not have access to this content. Please use the button below to purchase, or enter the email address you used to purchase the product.',
 		);
 	}
@@ -1106,12 +1109,14 @@ class Plugin extends \Codeception\Module
 		}
 		$I->dontSee($memberContent);
 
-		// Confirm that the CTA displays with the expected text.
+		// Confirm that the CTA displays with the expected headings, text and other elements.
 		$I->seeElementInDOM('#convertkit-restrict-content');
+		$I->seeInSource('<h3>'.$textItems['subscribe_heading'].'</h3>');
 		$I->see($textItems['subscribe_text']);
 		$I->see($textItems['subscribe_button_label']);
 		$I->see($textItems['email_text']);
 		$I->seeInSource('<input type="submit" class="wp-block-button__link wp-block-button__link" value="' . $textItems['email_button_label'] . '">');
+		$I->seeInSource('<small>'.$textItems['email_description_text'].'</small>');
 	}
 
 	/**
