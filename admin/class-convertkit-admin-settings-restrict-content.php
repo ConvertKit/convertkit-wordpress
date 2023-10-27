@@ -84,7 +84,7 @@ class ConvertKit_Admin_Settings_Restrict_Content extends ConvertKit_Settings_Bas
 		add_settings_field(
 			'subscribe_text',
 			__( 'Product: Subscribe Text', 'convertkit' ),
-			array( $this, 'text_callback' ),
+			array( $this, 'textarea_callback' ),
 			$this->settings_key,
 			$this->name,
 			array(
@@ -115,7 +115,7 @@ class ConvertKit_Admin_Settings_Restrict_Content extends ConvertKit_Settings_Bas
 		add_settings_field(
 			'subscribe_text_tag',
 			__( 'Tag: Subscribe Text', 'convertkit' ),
-			array( $this, 'text_callback' ),
+			array( $this, 'textarea_callback' ),
 			$this->settings_key,
 			$this->name,
 			array(
@@ -270,6 +270,27 @@ class ConvertKit_Admin_Settings_Restrict_Content extends ConvertKit_Settings_Bas
 
 		// Output field.
 		echo $this->get_text_field( // phpcs:ignore WordPress.Security.EscapeOutput
+			$args['name'],
+			esc_attr( $this->settings->get_by_key( $args['name'] ) ),
+			$args['description'], // phpcs:ignore WordPress.Security.EscapeOutput
+			array(
+				'widefat',
+			)
+		);
+
+	}
+
+	/**
+	 * Renders the input for the textarea setting.
+	 *
+	 * @since   2.3.5
+	 *
+	 * @param   array $args   Setting field arguments (name,description).
+	 */
+	public function textarea_callback( $args ) {
+
+		// Output field.
+		echo $this->get_textarea_field( // phpcs:ignore WordPress.Security.EscapeOutput
 			$args['name'],
 			esc_attr( $this->settings->get_by_key( $args['name'] ) ),
 			$args['description'], // phpcs:ignore WordPress.Security.EscapeOutput

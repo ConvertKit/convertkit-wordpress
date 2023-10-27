@@ -18,7 +18,13 @@
 
 	<div class="convertkit-restrict-content-actions">
 		<h3><?php echo esc_html( $this->restrict_content_settings->get_by_key( 'subscribe_heading_tag' ) ); ?></h3>
-		<p><?php echo esc_html( $this->restrict_content_settings->get_by_key( 'subscribe_text_tag' ) ); ?></p>
+		<p>
+			<?php
+			foreach ( explode( "\n", $this->restrict_content_settings->get_by_key( 'subscribe_text' ) ) as $text_line ) {
+				echo esc_html( $text_line ) . '<br />';
+			}
+			?>
+		</p>
 
 		<form class="convertkit-restrict-content-login" action="<?php echo esc_attr( add_query_arg( array( 'convertkit_login' => 1 ), get_permalink( $post_id ) ) ); ?>#convertkit-restrict-content" method="post">
 			<div>
