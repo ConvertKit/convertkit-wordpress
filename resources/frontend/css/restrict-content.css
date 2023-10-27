@@ -55,7 +55,7 @@
 #convertkit-restrict-content form div {
 	display: grid;
 	grid-template-areas: "email button";
-	grid-template-columns: auto 85px;
+	grid-template-columns: 3fr 1fr;
 	grid-column-gap: 5px;
 	text-align: left;
 	max-width: 500px;
