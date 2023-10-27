@@ -958,7 +958,7 @@ class Plugin extends \Codeception\Module
 		$I->seeInSource('<link rel="stylesheet" id="convertkit-restrict-content-css" href="' . $_ENV['TEST_SITE_WP_URL'] . '/wp-content/plugins/convertkit/resources/frontend/css/restrict-content.css');
 
 		// Check content is / is not displayed, and CTA displays with expected text.
-		$this->testRestrictContentHidesContentWithCTA($I, $visibleContent, $memberContent, $textItems);
+		$this->testRestrictContentByProductHidesContentWithCTA($I, $visibleContent, $memberContent, $textItems);
 
 		// Login as a ConvertKit subscriber who does not exist in ConvertKit.
 		$I->waitForElementVisible('input#convertkit_email');
@@ -967,7 +967,7 @@ class Plugin extends \Codeception\Module
 
 		// Check content is / is not displayed, and CTA displays with expected text.
 		$I->see('Email address is invalid'); // Response from the API.
-		$this->testRestrictContentHidesContentWithCTA($I, $visibleContent, $memberContent, $textItems);
+		$this->testRestrictContentByProductHidesContentWithCTA($I, $visibleContent, $memberContent, $textItems);
 
 		// Set cookie with signed subscriber ID and reload the restricted content page, as if we entered the
 		// code sent in the email as a ConvertKit subscriber who has not subscribed to the product.
@@ -980,7 +980,7 @@ class Plugin extends \Codeception\Module
 
 		// Check content is / is not displayed, and CTA displays with expected text.
 		$I->see($textItems['no_access_text']);
-		$this->testRestrictContentHidesContentWithCTA($I, $visibleContent, $memberContent, $textItems);
+		$this->testRestrictContentByProductHidesContentWithCTA($I, $visibleContent, $memberContent, $textItems);
 
 		// Login as a ConvertKit subscriber who has subscribed to the product.
 		$I->waitForElementVisible('input#convertkit_email');
@@ -1033,10 +1033,18 @@ class Plugin extends \Codeception\Module
 		$I->see($visibleContent);
 		$I->dontSee($memberContent);
 
-		// Confirm that the CTA displays with the expected text.
+		// Confirm that the CTA displays with the expected headings, text and other elements.
 		$I->seeElementInDOM('#convertkit-restrict-content');
-		$I->see($textItems['subscribe_text']);
+		$I->seeInSource('<h3>'.$textItems['subscribe_heading_tag'].'</h3>');
+		$I->see($textItems['subscribe_text_tag']);
 		$I->see($textItems['subscribe_button_label']);
+		$I->seeInSource('<input type="submit" class="wp-block-button__link wp-block-button__link" value="' . $textItems['email_button_label'] . '">');
+		
+		// Confirm text for Restrict Content by Product is not displayed.
+		$I->dontSeeInSource('<h3>'.$textItems['subscribe_heading'].'</h3>');
+		$I->dontSee($textItems['subscribe_text']);
+		$I->dontSee($textItems['email_text']);
+		$I->dontSee($textItems['email_description_text']);
 
 		// Enter the email address and submit the form.
 		$I->fillField('convertkit_email', $emailAddress);
@@ -1093,7 +1101,7 @@ class Plugin extends \Codeception\Module
 	 * @param   string           $memberContent      Content that should only be available to authenticated subscribers.
 	 * @param   bool|array       $textItems          Expected text for subscribe text, subscribe button label, email text etc. If not defined, uses expected defaults.
 	 */
-	public function testRestrictContentHidesContentWithCTA($I, $visibleContent = 'Visible content.', $memberContent = 'Member only content.', $textItems = false)
+	public function testRestrictContentByProductHidesContentWithCTA($I, $visibleContent = 'Visible content.', $memberContent = 'Member only content.', $textItems = false)
 	{
 		// Define expected text and labels if not supplied.
 		if ( ! $textItems ) {
