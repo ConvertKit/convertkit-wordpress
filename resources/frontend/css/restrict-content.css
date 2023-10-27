@@ -39,6 +39,13 @@
 #convertkit-restrict-content .convertkit-restrict-content-actions .convertkit-product a {
 	display: inline-block;
 	text-decoration: none;
+	height: 42px;
+	line-height: 42px;
+	font-size: 15px;
+	margin: 0;
+	padding: 0 20px;
+	border: none;
+	border-radius: 3px;
 }
 
 #convertkit-restrict-content .convertkit-restrict-content-notice {
@@ -89,8 +96,6 @@
 	padding: 0 20px;
 	border: none;
 	border-radius: 3px;
-	background: #000;
-	color: #fff;
 }
 #convertkit-restrict-content input#convertkit_subscriber_code {
 	width: 100%;
