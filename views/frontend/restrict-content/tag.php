@@ -20,7 +20,7 @@
 		<h3><?php echo esc_html( $this->restrict_content_settings->get_by_key( 'subscribe_heading_tag' ) ); ?></h3>
 		<p>
 			<?php
-			foreach ( explode( "\n", $this->restrict_content_settings->get_by_key( 'subscribe_text' ) ) as $text_line ) {
+			foreach ( explode( "\n", $this->restrict_content_settings->get_by_key( 'subscribe_text_tag' ) ) as $text_line ) {
 				echo esc_html( $text_line ) . '<br />';
 			}
 			?>
