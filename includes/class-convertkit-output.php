@@ -176,8 +176,8 @@ class ConvertKit_Output {
 	 */
 	public function append_form_to_content( $content ) {
 
-		// Bail if not a singular Post Type.
-		if ( ! is_singular() ) {
+		// Bail if not a singular Post Type supported by ConvertKit.
+		if ( ! is_singular( convertkit_get_supported_post_types() ) ) {
 			return $content;
 		}
 
