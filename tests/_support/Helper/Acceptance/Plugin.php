@@ -875,8 +875,15 @@ class Plugin extends \Codeception\Module
 	public function getRestrictedContentDefaultSettings()
 	{
 		return array(
+			// Restrict by Product.
 			'subscribe_heading'      => 'Read this post with a premium subscription',
 			'subscribe_text'         => 'This post is only available to premium subscribers. Join today to get access to all posts.',
+
+			// Restrict by Tag.
+			'subscribe_heading_tag'  => 'Subscribe to keep reading',
+			'subscribe_text_tag'     => 'This post is free to read but only available to subscribers. Join today to get access to all posts.',
+
+			// All.
 			'subscribe_button_label' => 'Subscribe',
 			'email_text'             => 'Already subscribed?',
 			'email_button_label'     => 'Log in',
