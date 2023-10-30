@@ -6,7 +6,6 @@
  * @author ConvertKit
  */
 
-
 // If an error occured, show it now.
 if ( is_wp_error( $error ) ) {
 	?>
