@@ -883,7 +883,7 @@ class Plugin extends \Codeception\Module
 			'email_description_text' => 'We\'ll email you a magic code to log you in without a password.',
 			'email_check_heading'    => 'We just emailed you a log in code',
 			'email_check_text'       => 'Enter the code below to finish logging in',
-			'no_access_text'         => 'Your account does not have access to this content. Please use the button below to purchase, or enter the email address you used to purchase the product.',
+			'no_access_text'         => 'Your account does not have access to this content. Please use the button above to purchase, or enter the email address you used to purchase the product.',
 		);
 	}
 

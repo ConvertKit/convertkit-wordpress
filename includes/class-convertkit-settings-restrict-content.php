@@ -115,7 +115,7 @@ class ConvertKit_Settings_Restrict_Content {
 			'email_description_text' => __( 'We\'ll email you a magic code to log you in without a password.', 'convertkit' ),
 			'email_check_heading'    => __( 'We just emailed you a log in code', 'convertkit' ),
 			'email_check_text'       => __( 'Enter the code below to finish logging in', 'convertkit' ),
-			'no_access_text'         => __( 'Your account does not have access to this content. Please use the button below to purchase, or enter the email address you used to purchase the product.', 'convertkit' ),
+			'no_access_text'         => __( 'Your account does not have access to this content. Please use the button above to purchase, or enter the email address you used to purchase the product.', 'convertkit' ),
 		);
 
 		/**
