@@ -1,3 +1,4 @@
+/* Overlay */
 #convertkit-restrict-content {
 	width: 100%;
 	background: #f6f8fa;
@@ -8,6 +9,8 @@
 	box-sizing: border-box;
 	border-radius: 8px;
 }
+
+/* Resets and typography */
 #convertkit-restrict-content * {
 	box-sizing: border-box;
 }
@@ -30,13 +33,9 @@
 	color: #111;
 }
 
-#convertkit-restrict-content .convertkit-restrict-content-actions {
-	margin: 0;
-}
-#convertkit-restrict-content .convertkit-restrict-content-actions p:last-child {
-	margin: 0;
-}
-#convertkit-restrict-content .convertkit-restrict-content-actions .convertkit-product a {
+/* Actions */
+
+#convertkit-restrict-content .convertkit-product a {
 	display: inline-block;
 	text-decoration: none;
 	height: 42px;
@@ -48,6 +47,7 @@
 	border-radius: 3px;
 }
 
+/* Notices */
 #convertkit-restrict-content .convertkit-restrict-content-notice {
 	margin: 0 0 20px 0;
 	padding: 10px;
@@ -59,7 +59,19 @@
 	background: #f7dada;
 }
 
-#convertkit-restrict-content form div {
+/* Buttons */
+#convertkit-restrict-content form input[type=submit] {
+	height: 42px;
+	line-height: 42px;
+	font-size: 15px;
+	margin: 0;
+	padding: 0 20px;
+	border: none;
+	border-radius: 3px;
+}
+
+/* Email input with inline button */
+#convertkit-restrict-content form div#convertkit-restrict-content-email-field {
 	display: grid;
 	grid-template-areas: "email button";
 	grid-template-columns: 3fr 1fr;
@@ -76,7 +88,7 @@
 	background-position: 18px 20px;
 	border-radius: 3px;
 }
-#convertkit-restrict-content form div input[type=email] {
+#convertkit-restrict-content form div#convertkit-restrict-content-email-field input[type=email] {
 	grid-area: email;
 	text-indent: 35px;
 	height: 42px;
@@ -87,19 +99,12 @@
 	background: none;
 	border: none;
 }
-#convertkit-restrict-content form div input[type=submit] {
+#convertkit-restrict-content form div#convertkit-restrict-content-email-field input[type=submit] {
 	grid-area: button;
-	height: 42px;
-	line-height: 42px;
-	font-size: 15px;
-	margin: 0;
-	padding: 0 20px;
-	border: none;
-	border-radius: 3px;
 }
 
 /* One time code */
-#convertkit-restrict-content #convertkit-subscriber-code-container {
+#convertkit-restrict-content form div#convertkit-subscriber-code-container {
 	width: 427px;
 	height: 100px;
 	border: 1px solid #dce1e5;
@@ -107,7 +112,7 @@
 	overflow: hidden;
 	background: #dce1e5;
 }
-#convertkit-restrict-content input#convertkit_subscriber_code {
+#convertkit-restrict-content form div#convertkit-subscriber-code-container input#convertkit_subscriber_code {
 	--otp-digits: 6;
 	--otp-height: 98px;
 	--otp-number-width: 70px;
@@ -138,11 +143,7 @@
 	font-weight: 400;
 }
 
-#convertkit-restrict-content #convertkit-restrict-content input[type=submit] {
-	display: inline-block;
-	border: none;
-}
-
+/* Responsive */
 @media screen and (max-width: 450px) {
 	#convertkit-restrict-content {
 		padding: 0;
