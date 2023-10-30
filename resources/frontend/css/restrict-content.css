@@ -97,11 +97,47 @@
 	border: none;
 	border-radius: 3px;
 }
-#convertkit-restrict-content input#convertkit_subscriber_code {
-	width: 100%;
-	margin-bottom: 20px;
-	font-size: 24px;
+
+/* One time code */
+#convertkit-restrict-content #convertkit-subscriber-code-container {
+	width: 427px;
+	height: 100px;
+	border: 1px solid #dce1e5;
+	margin: 0 auto 20px auto;
+	overflow: hidden;
+	background: #dce1e5;
 }
+#convertkit-restrict-content input#convertkit_subscriber_code {
+	--otp-digits: 6;
+	--otp-height: 98px;
+	--otp-number-width: 70px;
+	--otp-letter-spacing: 41px;
+	--otp-text-indent: 20px;
+	--otp-border-color: #dce1e5;
+	--otp-text-color: #697177;
+	--otp-font-size: 50px;
+	--_otp-digit: 0;
+	all: unset;
+	text-align: left;
+	margin: 0;
+	padding: 0;
+	background:
+		linear-gradient(90deg, #dce1e5 var(--otp-number-width), transparent 0),
+		linear-gradient(90deg, #fff var(--otp-number-width), transparent 0);
+	background-position: calc(var(--_otp-digit) * (calc(var(--otp-number-width) + 1px))) 0, 0 0;
+	background-repeat: no-repeat, repeat-x;
+	background-size: calc(var(--otp-number-width) + 1px) 100%;
+	inline-size: calc(var(--otp-digits) * calc(var(--otp-number-width) + 1px));
+	letter-spacing: var(--otp-letter-spacing);
+	text-indent: var(--otp-text-indent);
+	width: calc((var(--otp-number-width) * var(--otp-digits)) + var(--otp-digits));
+	height: var(--otp-height);
+	color: var(--otp-text-color);
+	font-size: var(--otp-font-size);
+	font-family: monospace;
+	font-weight: 400;
+}
+
 #convertkit-restrict-content #convertkit-restrict-content input[type=submit] {
 	display: inline-block;
 	border: none;
