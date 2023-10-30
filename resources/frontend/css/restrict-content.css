@@ -41,7 +41,6 @@
 }
 
 /* Actions */
-
 #convertkit-restrict-content .convertkit-product a {
 	display: inline-block;
 	text-decoration: none;
@@ -56,15 +55,18 @@
 
 /* Notices */
 #convertkit-restrict-content .convertkit-restrict-content-notice {
+	display: inline-block;
 	margin: 0 0 20px 0;
-	padding: 10px;
+	padding: 0 0 0 30px;
+	color: #d3434a;
+	font-size: 12px;
+	line-height: 24px;
+	font-weight: 400;
+	background-image: url(../images/error.svg);
+	background-repeat: no-repeat;
+	background-size: 24px 24px;
 }
-#convertkit-restrict-content .convertkit-restrict-content-notice-success {
-	background: #daf7e1;
-}
-#convertkit-restrict-content .convertkit-restrict-content-notice-error {
-	background: #f7dada;
-}
+
 
 /* Buttons */
 #convertkit-restrict-content form input[type=submit] {
@@ -95,6 +97,9 @@
 	background-position: 18px 20px;
 	border-radius: 3px;
 }
+#convertkit-restrict-content form div#convertkit-restrict-content-email-field.convertkit-restrict-content-error {
+	border-color: #d3434a;
+}
 #convertkit-restrict-content form div#convertkit-restrict-content-email-field input[type=email] {
 	grid-area: email;
 	text-indent: 35px;
@@ -115,9 +120,13 @@
 	width: 427px;
 	height: 100px;
 	border: 1px solid #dce1e5;
+	border-radius: 4px;
 	margin: 0 auto 20px auto;
 	overflow: hidden;
 	background: #dce1e5;
+}
+#convertkit-restrict-content form div#convertkit-subscriber-code-container.convertkit-restrict-content-error {
+	border-color: #d3434a;
 }
 #convertkit-restrict-content form div#convertkit-subscriber-code-container input#convertkit_subscriber_code {
 	--otp-digits: 6;
