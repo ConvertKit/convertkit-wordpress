@@ -35,7 +35,7 @@ class RestrictContentSettingsCest
 		// Confirm that settings have label[for] attributes.
 		$defaults = $I->getRestrictedContentDefaultSettings();
 		foreach ($defaults as $key => $value) {
-			$I->seeInSource('<label for="'.$key.'">');
+			$I->seeInSource('<label for="' . $key . '">');
 		}
 	}
 
@@ -92,11 +92,11 @@ class RestrictContentSettingsCest
 		// Define settings.
 		$settings = array(
 			// Restrict by Product.
-			'subscribe_heading'		 => '',
+			'subscribe_heading'      => '',
 			'subscribe_text'         => '',
 
 			// Restrict by Tag.
-			'subscribe_heading_tag'	 => '',
+			'subscribe_heading_tag'  => '',
 			'subscribe_text_tag'     => '',
 
 			// All.
@@ -149,19 +149,19 @@ class RestrictContentSettingsCest
 		// Define settings.
 		$settings = array(
 			// Restrict by Product.
-			'subscribe_heading'		 => 'Subscribe Heading',
+			'subscribe_heading'      => 'Subscribe Heading',
 			'subscribe_text'         => 'Subscribe Text',
 
 			// Restrict by Tag.
-			'subscribe_heading_tag'	 => 'Subscribe Heading Tag',
-			'subscribe_text_tag'	 => 'Subscribe Text Tag',
+			'subscribe_heading_tag'  => 'Subscribe Heading Tag',
+			'subscribe_text_tag'     => 'Subscribe Text Tag',
 
 			// All.
 			'subscribe_button_label' => 'Subscribe Button Label',
 			'email_text'             => 'Email Text',
 			'email_button_label'     => 'Email Button Label',
 			'email_description_text' => 'Email Description Text',
-			'email_check_heading'	 => 'Email Check Heading',
+			'email_check_heading'    => 'Email Check Heading',
 			'email_check_text'       => 'Email Check Text',
 			'no_access_text'         => 'No Access Text',
 		);
