@@ -746,6 +746,17 @@ class ConvertKit_Output_Restrict_Content {
 	}
 
 	/**
+	 * Outputs the modal for email login and entering the subscriber authentication code.
+	 * 
+	 * @since 	2.3.6
+	 */
+	public function output_modal() {
+
+		include_once CONVERTKIT_PLUGIN_PATH . '/views/frontend/restrict-content/modal.php';
+
+	}
+
+	/**
 	 * Restrict the given Post Content by showing a preview of the content, and appending
 	 * the call to action to subscribe or authenticate.
 	 *
@@ -841,6 +852,9 @@ class ConvertKit_Output_Restrict_Content {
 			wp_enqueue_style( 'convertkit-restrict-content', CONVERTKIT_PLUGIN_URL . 'resources/frontend/css/restrict-content.css', array(), CONVERTKIT_PLUGIN_VERSION );
 		}
 
+		// Enqueue scripts.
+		wp_enqueue_script( 'convertkit-restrict-content', CONVERTKIT_PLUGIN_URL . 'resources/frontend/js/restrict-content.js', array( 'jquery' ), CONVERTKIT_PLUGIN_VERSION, true );	
+
 		// This is deliberately a switch statement, because we will likely add in support
 		// for restrict by tag and form later.
 		switch ( $resource_type ) {
@@ -858,12 +872,15 @@ class ConvertKit_Output_Restrict_Content {
 				$products = new ConvertKit_Resource_Products( 'restrict_content' );
 				$product  = $products->get_by_id( $resource_id );
 
-				// Get commerce.js URL and enqueue.
+				// Enqueue scripts.
 				$url = $products->get_commerce_js_url();
 				if ( $url ) {
 					wp_enqueue_script( 'convertkit-commerce', $url, array(), CONVERTKIT_PLUGIN_VERSION, true );
 				}
 
+				// Output JS modal in footer.
+				add_action( 'wp_footer', array( $this, 'output_modal' ) );
+				
 				// Output.
 				ob_start();
 				$button = $products->get_html( $resource_id, $this->restrict_content_settings->get_by_key( 'subscribe_button_label' ) );
