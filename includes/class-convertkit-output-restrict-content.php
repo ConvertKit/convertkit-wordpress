@@ -15,15 +15,6 @@
 class ConvertKit_Output_Restrict_Content {
 
 	/**
-	 * Holds the success message to display on screen as a notification.
-	 *
-	 * @since   2.1.0
-	 *
-	 * @var     bool|string
-	 */
-	private $success = false;
-
-	/**
 	 * Holds the WP_Error object if an API call / authentication failed,
 	 * to display on screen as a notification.
 	 *
@@ -165,9 +156,6 @@ class ConvertKit_Output_Restrict_Content {
 
 				// Store the token so it's included in the subscriber code form.
 				$this->token = $result;
-
-				// Show a message telling the subscriber to check their email and click the link in the email.
-				$this->success = $this->restrict_content_settings->get_by_key( 'email_check_text' );
 				break;
 
 			case 'tag':
@@ -844,9 +832,8 @@ class ConvertKit_Output_Restrict_Content {
 	 */
 	private function get_call_to_action( $post_id, $resource_type, $resource_id ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter
 
-		// Read success and error notices from this class.
-		$success = $this->success;
-		$error   = $this->error;
+		// Read error notices from this class.
+		$error = $this->error;
 
 		// Only load styles if the Disable CSS option is off.
 		if ( ! $this->settings->css_disabled() ) {

@@ -33,12 +33,10 @@ class RestrictContentSettingsCest
 		$I->loadConvertKitSettingsRestrictContentScreen($I);
 
 		// Confirm that settings have label[for] attributes.
-		$I->seeInSource('<label for="subscribe_text">');
-		$I->seeInSource('<label for="subscribe_button_label">');
-		$I->seeInSource('<label for="email_text">');
-		$I->seeInSource('<label for="email_button_label">');
-		$I->seeInSource('<label for="email_check_text">');
-		$I->seeInSource('<label for="no_access_text">');
+		$defaults = $I->getRestrictedContentDefaultSettings();
+		foreach ($defaults as $key => $value) {
+			$I->seeInSource('<label for="' . $key . '">');
+		}
 	}
 
 	/**
@@ -93,10 +91,20 @@ class RestrictContentSettingsCest
 
 		// Define settings.
 		$settings = array(
+			// Restrict by Product.
+			'subscribe_heading'      => '',
 			'subscribe_text'         => '',
+
+			// Restrict by Tag.
+			'subscribe_heading_tag'  => '',
+			'subscribe_text_tag'     => '',
+
+			// All.
 			'subscribe_button_label' => '',
 			'email_text'             => '',
 			'email_button_label'     => '',
+			'email_description_text' => '',
+			'email_check_heading'    => '',
 			'email_check_text'       => '',
 			'no_access_text'         => '',
 		);
@@ -140,10 +148,20 @@ class RestrictContentSettingsCest
 
 		// Define settings.
 		$settings = array(
+			// Restrict by Product.
+			'subscribe_heading'      => 'Subscribe Heading',
 			'subscribe_text'         => 'Subscribe Text',
+
+			// Restrict by Tag.
+			'subscribe_heading_tag'  => 'Subscribe Heading Tag',
+			'subscribe_text_tag'     => 'Subscribe Text Tag',
+
+			// All.
 			'subscribe_button_label' => 'Subscribe Button Label',
 			'email_text'             => 'Email Text',
 			'email_button_label'     => 'Email Button Label',
+			'email_description_text' => 'Email Description Text',
+			'email_check_heading'    => 'Email Check Heading',
 			'email_check_text'       => 'Email Check Text',
 			'no_access_text'         => 'No Access Text',
 		);

@@ -78,7 +78,7 @@ class RestrictContentCacheCest
 
 		// Test that the restricted content CTA displays when no valid signed subscriber ID is used,
 		// to confirm caching does not show member only content.
-		$I->testRestrictContentHidesContentWithCTA($I, $this->visibleContent, $this->memberContent);
+		$I->testRestrictContentByProductHidesContentWithCTA($I, $this->visibleContent, $this->memberContent);
 
 		// Test that the restricted content displays when a valid signed subscriber ID is used,
 		// to confirm caching does not show the incorrect content.
@@ -128,7 +128,7 @@ class RestrictContentCacheCest
 
 		// Test that the restricted content CTA displays when no valid signed subscriber ID is used,
 		// to confirm caching does not show member only content.
-		$I->testRestrictContentHidesContentWithCTA($I, $this->visibleContent, $this->memberContent);
+		$I->testRestrictContentByProductHidesContentWithCTA($I, $this->visibleContent, $this->memberContent);
 
 		// Test that the restricted content displays when a valid signed subscriber ID is used,
 		// to confirm caching does not show the incorrect content.
@@ -176,7 +176,7 @@ class RestrictContentCacheCest
 
 		// Test that the restricted content CTA displays when no valid signed subscriber ID is used,
 		// to confirm caching does not show member only content.
-		$I->testRestrictContentHidesContentWithCTA($I, $this->visibleContent, $this->memberContent);
+		$I->testRestrictContentByProductHidesContentWithCTA($I, $this->visibleContent, $this->memberContent);
 
 		// Test that the restricted content displays when a valid signed subscriber ID is used,
 		// to confirm caching does not show the incorrect content.
@@ -224,7 +224,7 @@ class RestrictContentCacheCest
 
 		// Test that the restricted content CTA displays when no valid signed subscriber ID is used,
 		// to confirm caching does not show member only content.
-		$I->testRestrictContentHidesContentWithCTA($I, $this->visibleContent, $this->memberContent);
+		$I->testRestrictContentByProductHidesContentWithCTA($I, $this->visibleContent, $this->memberContent);
 
 		// Test that the restricted content displays when a valid signed subscriber ID is used,
 		// to confirm caching does not show the incorrect content.
@@ -272,7 +272,7 @@ class RestrictContentCacheCest
 
 		// Test that the restricted content CTA displays when no valid signed subscriber ID is used,
 		// to confirm caching does not show member only content.
-		$I->testRestrictContentHidesContentWithCTA($I, $this->visibleContent, $this->memberContent);
+		$I->testRestrictContentByProductHidesContentWithCTA($I, $this->visibleContent, $this->memberContent);
 
 		// Test that the restricted content displays when a valid signed subscriber ID is used,
 		// to confirm caching does not show the incorrect content.
