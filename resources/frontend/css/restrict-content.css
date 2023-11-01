@@ -1,3 +1,39 @@
+/* Resets and typography */
+#convertkit-restrict-content *,
+#convertkit-restrict-content-modal * {
+	box-sizing: border-box;
+}
+#convertkit-restrict-content h3,
+#convertkit-restrict-content-modal h3 {
+	margin: 0 0 20px 0;
+	padding: 0;
+	font-size: 24px;
+	line-height: 40px;
+	font-style: normal;
+}
+#convertkit-restrict-content h4,
+#convertkit-restrict-content-modal h4 {
+	margin: 0 0 5px 0;
+	padding: 0;
+	font-size: 18px;
+	line-height: 30px;
+	font-style: normal;
+}
+#convertkit-restrict-content p,
+#convertkit-restrict-content-modal p {
+	margin: 0 0 20px 0;
+	padding: 0;
+	font-size: 16px;
+	line-height: 28px;
+}
+#convertkit-restrict-content small,
+#convertkit-restrict-content-modal small {
+	display: block;
+	font-size: 13px;
+	line-height: 22px;
+	color: #111;
+}
+
 /* Overlay */
 #convertkit-restrict-content {
 	width: 100%;
@@ -8,37 +44,6 @@
 	text-align: center;
 	box-sizing: border-box;
 	border-radius: 8px;
-}
-
-/* Resets and typography */
-#convertkit-restrict-content * {
-	box-sizing: border-box;
-}
-#convertkit-restrict-content h3 {
-	margin: 0 0 20px 0;
-	padding: 0;
-	font-size: 24px;
-	line-height: 40px;
-	font-style: normal;
-}
-#convertkit-restrict-content h4 {
-	margin: 0 0 5px 0;
-	padding: 0;
-	font-size: 18px;
-	line-height: 30px;
-	font-style: normal;
-}
-#convertkit-restrict-content p {
-	margin: 0 0 20px 0;
-	padding: 0;
-	font-size: 16px;
-	line-height: 28px;
-}
-#convertkit-restrict-content small {
-	display: block;
-	font-size: 13px;
-	line-height: 22px;
-	color: #111;
 }
 
 /* Actions */
@@ -55,7 +60,7 @@
 }
 
 /* Notices */
-#convertkit-restrict-content .convertkit-restrict-content-notice {
+.convertkit-restrict-content-notice {
 	display: inline-block;
 	margin: 0 0 20px 0;
 	padding: 0 0 0 30px;
@@ -161,7 +166,7 @@ form#convertkit-restrict-content-form div#convertkit-subscriber-code-container i
 	font-weight: 400;
 }
 
-/* Modal */
+/* Modal version*/
 .convertkit-restrict-content-modal-open {
 	display: none;
 }
@@ -176,15 +181,22 @@ form#convertkit-restrict-content-form div#convertkit-subscriber-code-container i
 	background: rgba(9, 13, 22, 0.8);
 }
 #convertkit-restrict-content-modal {
+	box-sizing: border-box;
 	display: none;
 	position: fixed;
 	width: 730px;
 	height: 328px;
 	top: calc(50% - 164px);
 	left: calc(50% - 365px);
+	margin: 0;
+	padding: 80px 115px 0 115px;
 	background: #fff;
 	border: 1px solid #fff;
 	border-radius: 8px;
+	text-align: center;
+}
+#convertkit-restrict-content-modal form#convertkit-restrict-content-form div#convertkit-restrict-content-email-field {
+	background-color: #f4f6f8;
 }
 #convertkit-restrict-content-modal-close {
 	position: absolute;
@@ -196,6 +208,7 @@ form#convertkit-restrict-content-form div#convertkit-subscriber-code-container i
 	background-size: 12px 12px;
 	background-color: transparent;
 	border: none;
+	cursor: pointer;
 }
 
 /* Responsive */
