@@ -7,6 +7,8 @@
  * @author ConvertKit
  */
 
+console.log( convertkit_restrict_content );
+
 /**
  * Register events
  */
@@ -25,6 +27,20 @@ jQuery( document ).ready(
 		$( '.convertkit-restrict-content-modal-open' ).on( 'click', function( e ) {
 			e.preventDefault();
 			convertKitRestrictContentOpenModal();
+		} );
+
+		// Submit form.
+		$( 'form#convertkit-restrict-content-form' ).on( 'submit', function( e ) {
+
+			e.preventDefault();
+
+			convertKitRestrictContentSubmitForm(
+				$( 'input[name="_wpnonce"]' ).val(),
+				$( 'input[name="convertkit_email"]' ).val(),
+				$( 'input[name="convertkit_resource_type"]' ).val(),
+				$( 'input[name="convertkit_resource_id"]' ).val()
+			);
+
 		} );
 
 		// Close modal.
@@ -64,6 +80,46 @@ function convertKitRestrictContentCloseModal() {
 
 		$( '#convertkit-restrict-content-modal-background' ).hide();
 		$( '#convertkit-restrict-content-modal' ).hide();
+
+	} )( jQuery );
+
+}
+
+function convertKitRestrictContentSubmitForm( nonce, email, resource_type, resource_id ) {
+
+	console.log( nonce );
+	console.log( email );
+	console.log( resource_type );
+	console.log( resource_id );
+
+	( function ( $ ) {
+
+		$.ajax(
+			{
+				type: 'POST',
+				data: {
+					action: 'convertkit_subscriber_authentication_send_code',
+					'_wpnonce': nonce,
+					convertkit_email: email,
+					convertkit_resource_type: resource_type,
+					convertkit_resource_id: resource_id
+				},
+				url: convertkit_restrict_content.ajaxurl,
+				success: function ( response ) {
+					if ( convertkit.debug ) {
+						console.log( response );
+					}
+					
+				}
+			}
+		).fail(
+			function ( response ) {
+				if ( convertkit.debug ) {
+					console.log( response );
+				}
+				
+			}
+		);
 
 	} )( jQuery );
 

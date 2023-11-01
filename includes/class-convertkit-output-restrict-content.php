@@ -22,7 +22,7 @@ class ConvertKit_Output_Restrict_Content {
 	 *
 	 * @var     bool|WP_Error
 	 */
-	private $error = false;
+	public $error = false;
 
 	/**
 	 * Holds the ConvertKit Plugin Settings class
@@ -31,7 +31,7 @@ class ConvertKit_Output_Restrict_Content {
 	 *
 	 * @var     bool|ConvertKit_Settings
 	 */
-	private $settings = false;
+	public $settings = false;
 
 	/**
 	 * Holds the ConvertKit Restrict Content Settings class
@@ -40,7 +40,7 @@ class ConvertKit_Output_Restrict_Content {
 	 *
 	 * @var     bool|ConvertKit_Settings_Restrict_Content
 	 */
-	private $restrict_content_settings = false;
+	public $restrict_content_settings = false;
 
 	/**
 	 * Holds the ConvertKit Post Settings class
@@ -49,7 +49,7 @@ class ConvertKit_Output_Restrict_Content {
 	 *
 	 * @var     bool|ConvertKit_Post
 	 */
-	private $post_settings = false;
+	public $post_settings = false;
 
 	/**
 	 * Holds the Post ID
@@ -58,7 +58,7 @@ class ConvertKit_Output_Restrict_Content {
 	 *
 	 * @var     bool|int
 	 */
-	private $post_id = false;
+	public $post_id = false;
 
 	/**
 	 * Holds the ConvertKit API class
@@ -67,7 +67,7 @@ class ConvertKit_Output_Restrict_Content {
 	 *
 	 * @var     bool|ConvertKit_API
 	 */
-	private $api = false;
+	public $api = false;
 
 	/**
 	 * Holds the token returned from calling the subscriber_authentication_send_code API endpoint.
@@ -76,7 +76,7 @@ class ConvertKit_Output_Restrict_Content {
 	 *
 	 * @var     bool|string
 	 */
-	private $token = false;
+	public $token = false;
 
 	/**
 	 * Constructor. Registers actions and filters to possibly limit output of a Page/Post/CPT's
@@ -147,7 +147,7 @@ class ConvertKit_Output_Restrict_Content {
 				// Bail if an error occured.
 				if ( is_wp_error( $result ) ) {
 					$this->error = $result;
-					return;
+					return $result;
 				}
 
 				// Clear any existing subscriber ID cookie, as the authentication flow has started by sending the email.
@@ -156,6 +156,7 @@ class ConvertKit_Output_Restrict_Content {
 
 				// Store the token so it's included in the subscriber code form.
 				$this->token = $result;
+				return $result;
 				break;
 
 			case 'tag':
@@ -165,7 +166,7 @@ class ConvertKit_Output_Restrict_Content {
 				// Bail if an error occured.
 				if ( is_wp_error( $result ) ) {
 					$this->error = $result;
-					return;
+					return $result;
 				}
 
 				// Clear any existing subscriber ID cookie, as the authentication flow has started by sending the email.
@@ -177,6 +178,8 @@ class ConvertKit_Output_Restrict_Content {
 
 				// Store subscriber ID in cookie and redirect.
 				$this->store_subscriber_id_in_cookie_and_redirect( $subscriber_id );
+
+				return $subscriber_id;
 				break;
 
 		}
@@ -854,6 +857,17 @@ class ConvertKit_Output_Restrict_Content {
 
 		// Enqueue scripts.
 		wp_enqueue_script( 'convertkit-restrict-content', CONVERTKIT_PLUGIN_URL . 'resources/frontend/js/restrict-content.js', array( 'jquery' ), CONVERTKIT_PLUGIN_VERSION, true );	
+		wp_localize_script(
+			'convertkit-restrict-content',
+			'convertkit_restrict_content',
+			array(
+				'ajaxurl'       => admin_url( 'admin-ajax.php' ),
+				'debug'         => $this->settings->debug_enabled(),
+				'resource_type' => $resource_type,
+				'resource_id' 	=> $resource_id,
+				'post_id'       => $post_id,
+			)
+		);
 
 		// This is deliberately a switch statement, because we will likely add in support
 		// for restrict by tag and form later.
