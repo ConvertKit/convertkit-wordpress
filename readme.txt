@@ -5,7 +5,7 @@ Tags: email marketing, email newsletter, newsletter, subscribers, membership
 Requires at least: 5.0
 Tested up to: 6.3.2
 Requires PHP: 5.6.20
-Stable tag: 2.3.5
+Stable tag: 2.3.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -137,6 +137,10 @@ Full Plugin documentation can be found [here](https://help.convertkit.com/en/art
 7. Track subscriber growth
 
 == Changelog ==
+
+### 2.3.6 2023-11-02
+* Added: Member Content: Updated UI of gated content screens to better match ConvertKit
+* Added: Settings: Member Content: Separate text settings can be configured for display when restricting by ConvertKit Tag
 
 ### 2.3.5 2023-10-30
 * Added: Member Content: Improve UI of authentication code screen
