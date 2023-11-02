@@ -27,7 +27,7 @@ jQuery( document ).ready(
 		);
 
 		// Submit form.
-		/*
+
 		$( 'form#convertkit-restrict-content-form' ).on( 'submit', function( e ) {
 
 			e.preventDefault();
@@ -40,7 +40,6 @@ jQuery( document ).ready(
 			);
 
 		} );
-		*/
 
 		// Close modal.
 		$( '#convertkit-restrict-content-modal-close' ).on(
@@ -108,15 +107,17 @@ function convertKitRestrictContentSubmitForm( nonce, email, resource_type, resou
 				},
 				url: convertkit_restrict_content.ajaxurl,
 				success: function ( response ) {
-					if ( convertkit.debug ) {
+					if ( convertkit_restrict_content.debug ) {
 						console.log( response );
 					}
+
+					$( '')
 
 				}
 			}
 		).fail(
 			function ( response ) {
-				if ( convertkit.debug ) {
+				if ( convertkit_restrict_content.debug ) {
 					console.log( response );
 				}
 

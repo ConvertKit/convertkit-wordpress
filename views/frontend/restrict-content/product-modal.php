@@ -17,5 +17,5 @@
 		<?php
 		require 'email-login-form.php';
 		?>
-	</div>	
+	</div>
 </div>

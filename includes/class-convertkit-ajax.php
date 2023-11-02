@@ -31,6 +31,9 @@ class ConvertKit_AJAX {
 		add_action( 'wp_ajax_nopriv_convertkit_tag_subscriber', array( $this, 'tag_subscriber' ) );
 		add_action( 'wp_ajax_convertkit_tag_subscriber', array( $this, 'tag_subscriber' ) );
 
+		add_action( 'wp_ajax_nopriv_convertkit_subscriber_authentication_send_code', array( $this, 'subscriber_authentication_send_code' ) );
+		add_action( 'wp_ajax_convertkit_subscriber_authentication_send_code', array( $this, 'subscriber_authentication_send_code' ) );
+
 	}
 
 	/**
@@ -216,5 +219,31 @@ class ConvertKit_AJAX {
 		wp_send_json_success( $tag );
 
 	}
+
+	public function subscriber_authentication_send_code() {
+
+		// Load Restrict Content clas.
+		$output_restrict_content = WP_ConvertKit()->get_class( 'output_restrict_content' );
+
+		// Fetch result of running subscriber authentication.
+		$error = $output_restrict_content->maybe_run_subscriber_authentication();
+
+		// If an error occured, build the email form view with the error message.
+		if ( is_wp_error( $error ) ) {
+			ob_start();
+			include CONVERTKIT_PLUGIN_PATH . '/views/frontend/restrict-content/email-login-form.php';
+			$output = trim( ob_get_clean() );
+			wp_send_json_success( $output );
+		}
+
+		// Build authentication code view to return for output.
+		ob_start();
+		include CONVERTKIT_PLUGIN_PATH . '/views/frontend/restrict-content/product-code.php';
+		$output = trim( ob_get_clean() );
+		wp_send_json_success( $output );
+
+	}
+
+
 
 }
