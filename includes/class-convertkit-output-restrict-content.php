@@ -22,7 +22,7 @@ class ConvertKit_Output_Restrict_Content {
 	 *
 	 * @var     bool|WP_Error
 	 */
-	public $error = false;
+	private $error = false;
 
 	/**
 	 * Holds the ConvertKit Plugin Settings class
@@ -31,7 +31,7 @@ class ConvertKit_Output_Restrict_Content {
 	 *
 	 * @var     bool|ConvertKit_Settings
 	 */
-	public $settings = false;
+	private $settings = false;
 
 	/**
 	 * Holds the ConvertKit Restrict Content Settings class
@@ -40,7 +40,7 @@ class ConvertKit_Output_Restrict_Content {
 	 *
 	 * @var     bool|ConvertKit_Settings_Restrict_Content
 	 */
-	public $restrict_content_settings = false;
+	private $restrict_content_settings = false;
 
 	/**
 	 * Holds the ConvertKit Post Settings class
@@ -49,7 +49,7 @@ class ConvertKit_Output_Restrict_Content {
 	 *
 	 * @var     bool|ConvertKit_Post
 	 */
-	public $post_settings = false;
+	private $post_settings = false;
 
 	/**
 	 * Holds the Post ID
@@ -58,25 +58,7 @@ class ConvertKit_Output_Restrict_Content {
 	 *
 	 * @var     bool|int
 	 */
-	public $post_id = false;
-
-	/**
-	 * Holds the Resource Type (product|tag)
-	 *
-	 * @since   2.3.6
-	 *
-	 * @var     string
-	 */
-	public $resource_type = '';
-
-	/**
-	 * Holds the Resource ID
-	 *
-	 * @since   2.3.6
-	 *
-	 * @var     bool|int
-	 */
-	public $resource_id = false;
+	private $post_id = false;
 
 	/**
 	 * Holds the ConvertKit API class
@@ -165,7 +147,7 @@ class ConvertKit_Output_Restrict_Content {
 				// Bail if an error occured.
 				if ( is_wp_error( $result ) ) {
 					$this->error = $result;
-					return $result;
+					return;
 				}
 
 				// Clear any existing subscriber ID cookie, as the authentication flow has started by sending the email.
@@ -174,7 +156,6 @@ class ConvertKit_Output_Restrict_Content {
 
 				// Store the token so it's included in the subscriber code form.
 				$this->token = $result;
-				return $result;
 				break;
 
 			case 'tag':
@@ -184,7 +165,7 @@ class ConvertKit_Output_Restrict_Content {
 				// Bail if an error occured.
 				if ( is_wp_error( $result ) ) {
 					$this->error = $result;
-					return $result;
+					return;
 				}
 
 				// Clear any existing subscriber ID cookie, as the authentication flow has started by sending the email.
@@ -196,8 +177,6 @@ class ConvertKit_Output_Restrict_Content {
 
 				// Store subscriber ID in cookie and redirect.
 				$this->store_subscriber_id_in_cookie_and_redirect( $subscriber_id );
-
-				return $subscriber_id;
 				break;
 
 		}
@@ -898,13 +877,14 @@ class ConvertKit_Output_Restrict_Content {
 				$products = new ConvertKit_Resource_Products( 'restrict_content' );
 				$product  = $products->get_by_id( $resource_id );
 
-				// Enqueue scripts.
+				// Get commerce.js URL and enqueue.
 				$url = $products->get_commerce_js_url();
 				if ( $url ) {
 					wp_enqueue_script( 'convertkit-commerce', $url, array(), CONVERTKIT_PLUGIN_VERSION, true );
 				}
 
-				// Output JS modal in footer.
+				// If scripts are enabled, output the email login form in a modal, which will be displayed
+				// when the 'log in' link is clicked.
 				if ( ! $this->settings->scripts_disabled() ) {
 					add_action( 'wp_footer', function() use ( $post_id, $resource_type, $resource_id, $error ) {
 						
@@ -929,19 +909,6 @@ class ConvertKit_Output_Restrict_Content {
 				return '';
 
 		}
-
-	}
-
-	/**
-	 * Outputs the modal for the email login when a Post is restricted by Product. 
-	 * 
-	 * @since 	2.3.6
-	 */
-	public function output_product_modal() {
-
-
-
-		include_once CONVERTKIT_PLUGIN_PATH . '/views/frontend/restrict-content/product-modal.php';
 
 	}
 
