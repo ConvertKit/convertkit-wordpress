@@ -100,12 +100,22 @@ class ConvertKit_Settings_Restrict_Content {
 	public function get_defaults() {
 
 		$defaults = array(
-			'subscribe_text'         => __( 'This content is only available to premium subscribers', 'convertkit' ),
+			// Restrict by Product.
+			'subscribe_heading'      => __( 'Read this post with a premium subscription', 'convertkit' ),
+			'subscribe_text'         => __( 'This post is only available to premium subscribers. Join today to get access to all posts.', 'convertkit' ),
+
+			// Restrict by Tag.
+			'subscribe_heading_tag'  => __( 'Subscribe to keep reading', 'convertkit' ),
+			'subscribe_text_tag'     => __( 'This post is free to read but only available to subscribers. Join today to get access to all posts.', 'convertkit' ),
+
+			// All.
 			'subscribe_button_label' => __( 'Subscribe', 'convertkit' ),
-			'email_text'             => __( 'Already a premium subscriber? Enter the email address used when purchasing below, to receive a login link to access.', 'convertkit' ),
-			'email_button_label'     => __( 'Send email', 'convertkit' ),
-			'email_check_text'       => __( 'Check your email and click the link to login, or enter the code from the email below.', 'convertkit' ),
-			'no_access_text'         => __( 'Your account does not have access to this content. Please use the button below to purchase, or enter the email address you used to purchase the product.', 'convertkit' ),
+			'email_text'             => __( 'Already subscribed?', 'convertkit' ),
+			'email_button_label'     => __( 'Log in', 'convertkit' ),
+			'email_description_text' => __( 'We\'ll email you a magic code to log you in without a password.', 'convertkit' ),
+			'email_check_heading'    => __( 'We just emailed you a log in code', 'convertkit' ),
+			'email_check_text'       => __( 'Enter the code below to finish logging in', 'convertkit' ),
+			'no_access_text'         => __( 'Your account does not have access to this content. Please use the button above to purchase, or enter the email address you used to purchase the product.', 'convertkit' ),
 		);
 
 		/**

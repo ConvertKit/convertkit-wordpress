@@ -1,71 +1,167 @@
+/* Overlay */
 #convertkit-restrict-content {
-	max-width: 610px;
+	width: 100%;
 	background: #f6f8fa;
-	box-shadow: 0 2px 5px #0000000d;
 	color: #373f45;
 	margin: 30px auto;
-	padding: 40px 30px 30px 30px;
-	border: 1px solid #EDF2F4;
+	padding: 40px;
 	text-align: center;
 	box-sizing: border-box;
+	border-radius: 8px;
 }
+
+/* Resets and typography */
 #convertkit-restrict-content * {
 	box-sizing: border-box;
 }
-#convertkit-restrict-content p, #convertkit-restrict-content div {
+#convertkit-restrict-content h3 {
 	margin: 0 0 20px 0;
 	padding: 0;
+	font-size: 24px;
+	line-height: 40px;
+	font-style: normal;
+}
+#convertkit-restrict-content h4 {
+	margin: 0 0 5px 0;
+	padding: 0;
+	font-size: 18px;
+	line-height: 30px;
+	font-style: normal;
+}
+#convertkit-restrict-content p {
+	margin: 0 0 20px 0;
+	padding: 0;
+	font-size: 16px;
+	line-height: 28px;
+}
+#convertkit-restrict-content small {
+	display: block;
+	font-size: 13px;
+	line-height: 22px;
+	color: #111;
 }
 
-#convertkit-restrict-content .convertkit-restrict-content-actions {
-	margin: 0;
-}
-#convertkit-restrict-content .convertkit-restrict-content-actions p:last-child {
-	margin: 0;
-}
-#convertkit-restrict-content .convertkit-restrict-content-actions hr {
-	margin: 0 0 20px 0;
-	padding: 0;
-	width: 100%;
-	height: 1px;
-	border: none;
-	background: #EDF2F4;
-}
-#convertkit-restrict-content .convertkit-restrict-content-actions .convertkit-product a {
+/* Actions */
+#convertkit-restrict-content .convertkit-product a {
 	display: inline-block;
 	text-decoration: none;
-}
-
-#convertkit-restrict-content .convertkit-restrict-content-notice {
-	margin: 0 0 20px 0;
-	padding: 10px;
-}
-#convertkit-restrict-content .convertkit-restrict-content-notice-success {
-	background: #daf7e1;
-}
-#convertkit-restrict-content .convertkit-restrict-content-notice-error {
-	background: #f7dada;
-}
-
-#convertkit-restrict-content input[type=email], #convertkit-restrict-content input[type=text] {
-	display: inline-block;
-	width: 75%;
-	height: 48px;
+	height: 42px;
+	line-height: 42px;
+	font-size: 15px;
 	margin: 0;
-	padding: 0 10px;
-	border: 1px solid #949494;
-	font-family: inherit;
+	padding: 0 20px;
+	border: none;
+	border-radius: 3px;
 }
-#convertkit-restrict-content input#convertkit_subscriber_code {
-	width: 100%;
-	margin-bottom: 20px;
-	font-size: 24px;
-}
-#convertkit-restrict-content #convertkit-restrict-content input[type=submit] {
+
+/* Notices */
+#convertkit-restrict-content .convertkit-restrict-content-notice {
 	display: inline-block;
+	margin: 0 0 20px 0;
+	padding: 0 0 0 30px;
+	color: #d3434a;
+	font-size: 12px;
+	line-height: 24px;
+	font-weight: 400;
+	background-image: url(../images/error.svg);
+	background-repeat: no-repeat;
+	background-size: 24px 24px;
+}
+
+
+/* Buttons */
+#convertkit-restrict-content form input[type=submit] {
+	height: 42px;
+	line-height: 42px;
+	font-size: 15px;
+	margin: 0;
+	padding: 0 20px;
+	border: none;
+	border-radius: 3px;
+}
+
+/* Email input with inline button */
+#convertkit-restrict-content form div#convertkit-restrict-content-email-field {
+	display: grid;
+	grid-template-areas: "email button";
+	grid-template-columns: 3fr 1fr;
+	grid-column-gap: 5px;
+	text-align: left;
+	max-width: 500px;
+	height: 56px;
+	margin: 0 auto 20px auto;
+	padding: 6px 10px;
+	background-image: url(../images/email.svg);
+	background-repeat: no-repeat;
+	background-color: #fff;
+	background-size: 15px 15px;
+	background-position: 18px 20px;
+	border: 1px solid #fff;
+	border-radius: 3px;
+}
+#convertkit-restrict-content form div#convertkit-restrict-content-email-field.convertkit-restrict-content-error {
+	border-color: #d3434a;
+}
+#convertkit-restrict-content form div#convertkit-restrict-content-email-field input[type=email] {
+	grid-area: email;
+	text-indent: 35px;
+	height: 42px;
+	line-height: 42px;
+	margin: 0;
+	padding: 0;
+	font-size: 15px;
+	background: none;
 	border: none;
 }
+#convertkit-restrict-content form div#convertkit-restrict-content-email-field input[type=submit] {
+	grid-area: button;
+}
 
+/* One time code */
+#convertkit-restrict-content form div#convertkit-subscriber-code-container {
+	width: 427px;
+	height: 100px;
+	border: 1px solid #dce1e5;
+	border-radius: 4px;
+	margin: 0 auto 20px auto;
+	overflow: hidden;
+	background: #dce1e5;
+}
+#convertkit-restrict-content form div#convertkit-subscriber-code-container.convertkit-restrict-content-error {
+	border-color: #d3434a;
+}
+#convertkit-restrict-content form div#convertkit-subscriber-code-container input#convertkit_subscriber_code {
+	--otp-digits: 6;
+	--otp-height: 98px;
+	--otp-number-width: 70px;
+	--otp-letter-spacing: 41px;
+	--otp-text-indent: 20px;
+	--otp-border-color: #dce1e5;
+	--otp-text-color: #697177;
+	--otp-font-size: 50px;
+	--_otp-digit: 0;
+	all: unset;
+	text-align: left;
+	margin: 0;
+	padding: 0;
+	background:
+		linear-gradient(90deg, #dce1e5 var(--otp-number-width), transparent 0),
+		linear-gradient(90deg, #fff var(--otp-number-width), transparent 0);
+	background-position: calc(var(--_otp-digit) * (calc(var(--otp-number-width) + 1px))) 0, 0 0;
+	background-repeat: no-repeat, repeat-x;
+	background-size: calc(var(--otp-number-width) + 1px) 100%;
+	inline-size: calc(var(--otp-digits) * calc(var(--otp-number-width) + 1px));
+	letter-spacing: var(--otp-letter-spacing);
+	text-indent: var(--otp-text-indent);
+	width: calc((var(--otp-number-width) * var(--otp-digits)) + var(--otp-digits));
+	height: var(--otp-height);
+	color: var(--otp-text-color);
+	font-size: var(--otp-font-size);
+	font-family: monospace;
+	font-weight: 400;
+}
+
+/* Responsive */
 @media screen and (max-width: 450px) {
 	#convertkit-restrict-content {
 		padding: 0;

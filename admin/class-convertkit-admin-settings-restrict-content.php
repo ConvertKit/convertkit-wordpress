@@ -65,21 +65,69 @@ class ConvertKit_Admin_Settings_Restrict_Content extends ConvertKit_Settings_Bas
 	 */
 	public function register_fields() {
 
+		// Restrict by Product.
+		add_settings_field(
+			'subscribe_heading',
+			__( 'Product: Subscribe Heading', 'convertkit' ),
+			array( $this, 'text_callback' ),
+			$this->settings_key,
+			$this->name,
+			array(
+				'name'        => 'subscribe_heading',
+				'label_for'   => 'subscribe_heading',
+				'description' => array(
+					__( 'When a Page, Post or Custom Post\'s Member Content setting is set to a ConvertKit Product, displays text in a heading explaining why the content is only available to subscribers.', 'convertkit' ),
+				),
+			)
+		);
+
 		add_settings_field(
 			'subscribe_text',
-			__( 'Subscribe Text', 'convertkit' ),
-			array( $this, 'text_callback' ),
+			__( 'Product: Subscribe Text', 'convertkit' ),
+			array( $this, 'textarea_callback' ),
 			$this->settings_key,
 			$this->name,
 			array(
 				'name'        => 'subscribe_text',
 				'label_for'   => 'subscribe_text',
 				'description' => array(
-					__( 'The text to display above the subscribe button, explaining why the content is only available to subscribers.', 'convertkit' ),
+					__( 'When a Page, Post or Custom Post\'s Member Content setting is set to a ConvertKit Product, displays text explaining why the content is only available to subscribers.', 'convertkit' ),
 				),
 			)
 		);
 
+		// Restrict by Tag.
+		add_settings_field(
+			'subscribe_heading_tag',
+			__( 'Tag: Subscribe Heading', 'convertkit' ),
+			array( $this, 'text_callback' ),
+			$this->settings_key,
+			$this->name,
+			array(
+				'name'        => 'subscribe_heading_tag',
+				'label_for'   => 'subscribe_heading_tag',
+				'description' => array(
+					__( 'When a Page, Post or Custom Post\'s Member Content setting is set to a ConvertKit Tag, displays text in a heading explaining why the content is only available to subscribers.', 'convertkit' ),
+				),
+			)
+		);
+
+		add_settings_field(
+			'subscribe_text_tag',
+			__( 'Tag: Subscribe Text', 'convertkit' ),
+			array( $this, 'textarea_callback' ),
+			$this->settings_key,
+			$this->name,
+			array(
+				'name'        => 'subscribe_text_tag',
+				'label_for'   => 'subscribe_text_tag',
+				'description' => array(
+					__( 'When a Page, Post or Custom Post\'s Member Content setting is set to a ConvertKit Tag, displays text explaining why the content is only available to subscribers.', 'convertkit' ),
+				),
+			)
+		);
+
+		// All.
 		add_settings_field(
 			'subscribe_button_label',
 			__( 'Subscribe Button Label', 'convertkit' ),
@@ -90,7 +138,7 @@ class ConvertKit_Admin_Settings_Restrict_Content extends ConvertKit_Settings_Bas
 				'name'        => 'subscribe_button_label',
 				'label_for'   => 'subscribe_button_label',
 				'description' => array(
-					__( 'The text to display for the call to action button to subscribe to the ConvertKit product.', 'convertkit' ),
+					__( 'The text to display for the call to action button to subscribe.', 'convertkit' ),
 				),
 			)
 		);
@@ -105,7 +153,22 @@ class ConvertKit_Admin_Settings_Restrict_Content extends ConvertKit_Settings_Bas
 				'name'        => 'email_text',
 				'label_for'   => 'email_text',
 				'description' => array(
-					__( 'The text to display above the email form, instructing the subscriber to enter their email address to receive a login link to access the member\'s only content.', 'convertkit' ),
+					__( 'The text to display asking if the subscriber has already subscribed.', 'convertkit' ),
+				),
+			)
+		);
+
+		add_settings_field(
+			'email_description_text',
+			__( 'Email Field Description', 'convertkit' ),
+			array( $this, 'text_callback' ),
+			$this->settings_key,
+			$this->name,
+			array(
+				'name'        => 'email_description_text',
+				'label_for'   => 'email_description_text',
+				'description' => array(
+					__( 'The text to display below the email field, explaining the subscriber will receive a code by email.', 'convertkit' ),
 				),
 			)
 		);
@@ -121,6 +184,21 @@ class ConvertKit_Admin_Settings_Restrict_Content extends ConvertKit_Settings_Bas
 				'label_for'   => 'email_button_label',
 				'description' => array(
 					__( 'The text to display for the button to submit the subscriber\'s email address and receive a login link to access the member only content.', 'convertkit' ),
+				),
+			)
+		);
+
+		add_settings_field(
+			'email_check_heading',
+			__( 'Email Check Heading', 'convertkit' ),
+			array( $this, 'text_callback' ),
+			$this->settings_key,
+			$this->name,
+			array(
+				'name'        => 'email_check_heading',
+				'label_for'   => 'email_check_heading',
+				'description' => array(
+					__( 'The heading to display telling the subscriber an email with a log in code was just sent.', 'convertkit' ),
 				),
 			)
 		);
@@ -150,7 +228,7 @@ class ConvertKit_Admin_Settings_Restrict_Content extends ConvertKit_Settings_Bas
 				'name'        => 'no_access_text',
 				'label_for'   => 'no_access_text',
 				'description' => array(
-					__( 'The text to display for a subscriber who authenticates via the login link, but does not have access to the product.', 'convertkit' ),
+					__( 'The text to display for a subscriber who authenticates via the login link, but is not subscribed.', 'convertkit' ),
 				),
 			)
 		);
@@ -165,7 +243,7 @@ class ConvertKit_Admin_Settings_Restrict_Content extends ConvertKit_Settings_Bas
 	public function print_section_info() {
 
 		?>
-		<p class="description"><?php esc_html_e( 'Defines the text and button labels to display when a Page, Post or Custom Post has its Member Content setting set to a Product, and the visitor has not authenticated/subscribed.', 'convertkit' ); ?></p>
+		<p class="description"><?php esc_html_e( 'Defines the text and button labels to display when a Page, Post or Custom Post has its Member Content setting defined.', 'convertkit' ); ?></p>
 		<div class="notice notice-warning">
 			<p>
 				<?php
@@ -207,6 +285,27 @@ class ConvertKit_Admin_Settings_Restrict_Content extends ConvertKit_Settings_Bas
 
 		// Output field.
 		echo $this->get_text_field( // phpcs:ignore WordPress.Security.EscapeOutput
+			$args['name'],
+			esc_attr( $this->settings->get_by_key( $args['name'] ) ),
+			$args['description'], // phpcs:ignore WordPress.Security.EscapeOutput
+			array(
+				'widefat',
+			)
+		);
+
+	}
+
+	/**
+	 * Renders the input for the textarea setting.
+	 *
+	 * @since   2.3.5
+	 *
+	 * @param   array $args   Setting field arguments (name,description).
+	 */
+	public function textarea_callback( $args ) {
+
+		// Output field.
+		echo $this->get_textarea_field( // phpcs:ignore WordPress.Security.EscapeOutput
 			$args['name'],
 			esc_attr( $this->settings->get_by_key( $args['name'] ) ),
 			$args['description'], // phpcs:ignore WordPress.Security.EscapeOutput

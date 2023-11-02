@@ -22,6 +22,7 @@ modules:
         # Our helper classes, which contain functions used across multiple tests.
         # If you created a new file in tests/_support/Helper/Acceptance, add its namespace and class below,
         - \Helper\Acceptance\ConvertKitAPI
+        - \Helper\Acceptance\CustomPostType
         - \Helper\Acceptance\Email
         - \Helper\Acceptance\Plugin
         - \Helper\Acceptance\Select2
