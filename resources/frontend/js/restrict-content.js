@@ -18,10 +18,13 @@ jQuery( document ).ready(
 		convertKitRestrictContentOTPField();
 
 		// Open modal.
-		$( '.convertkit-restrict-content-modal-open' ).on( 'click', function( e ) {
-			e.preventDefault();
-			convertKitRestrictContentOpenModal();
-		} );
+		$( '.convertkit-restrict-content-modal-open' ).on(
+			'click',
+			function ( e ) {
+				e.preventDefault();
+				convertKitRestrictContentOpenModal();
+			}
+		);
 
 		// Submit form.
 		/*
@@ -40,10 +43,13 @@ jQuery( document ).ready(
 		*/
 
 		// Close modal.
-		$( '#convertkit-restrict-content-modal-close' ).on( 'click', function( e ) {
-			e.preventDefault();
-			convertKitRestrictContentCloseModal();
-		} );
+		$( '#convertkit-restrict-content-modal-close' ).on(
+			'click',
+			function ( e ) {
+				e.preventDefault();
+				convertKitRestrictContentCloseModal();
+			}
+		);
 
 	}
 );
@@ -51,7 +57,7 @@ jQuery( document ).ready(
 /**
  * Opens the modal, displaying the content stored within the
  * #convertkit-restrict-content-modal-content element.
- * 
+ *
  * @since 	2.3.6
  */
 function convertKitRestrictContentOpenModal() {
@@ -67,7 +73,7 @@ function convertKitRestrictContentOpenModal() {
 
 /**
  * Closes the modal.
- * 
+ *
  * @since 	2.3.6
  */
 function convertKitRestrictContentCloseModal() {
@@ -105,7 +111,7 @@ function convertKitRestrictContentSubmitForm( nonce, email, resource_type, resou
 					if ( convertkit.debug ) {
 						console.log( response );
 					}
-					
+
 				}
 			}
 		).fail(
@@ -113,7 +119,7 @@ function convertKitRestrictContentSubmitForm( nonce, email, resource_type, resou
 				if ( convertkit.debug ) {
 					console.log( response );
 				}
-				
+
 			}
 		);
 
@@ -124,7 +130,7 @@ function convertKitRestrictContentSubmitForm( nonce, email, resource_type, resou
 /**
  * Defines the `--opt-digit` CSS var, so that the background color shifts to the next input
  * when entering the one time code.
- * 
+ *
  * @since 	2.3.6
  */
 function convertKitRestrictContentOTPField() {
@@ -135,16 +141,19 @@ function convertKitRestrictContentOTPField() {
 		return;
 	}
 
-	convertKitRestrictContentSubscriberCodeInput.addEventListener( 'input', function() {
-		convertKitRestrictContentSubscriberCodeInput.style.setProperty( '--_otp-digit', convertKitRestrictContentSubscriberCodeInput.selectionStart );
+	convertKitRestrictContentSubscriberCodeInput.addEventListener(
+		'input',
+		function () {
+			convertKitRestrictContentSubscriberCodeInput.style.setProperty( '--_otp-digit', convertKitRestrictContentSubscriberCodeInput.selectionStart );
 
-		// If all 6 digits have been entered, move the caret input to the start, to avoid numbers shifting in input,
-		// and blur the input now that all numbers are entered.
-		// When served in a modal, there won't be a submit button, so this event will also be used to submit the form.
-		if ( convertKitRestrictContentSubscriberCodeInput.selectionStart === 6 ) {
-			convertKitRestrictContentSubscriberCodeInput.setSelectionRange(0, 0);
-			convertKitRestrictContentSubscriberCodeInput.blur();
+			// If all 6 digits have been entered, move the caret input to the start, to avoid numbers shifting in input,
+			// and blur the input now that all numbers are entered.
+			// When served in a modal, there won't be a submit button, so this event will also be used to submit the form.
+			if ( convertKitRestrictContentSubscriberCodeInput.selectionStart === 6 ) {
+				convertKitRestrictContentSubscriberCodeInput.setSelectionRange( 0, 0 );
+				convertKitRestrictContentSubscriberCodeInput.blur();
+			}
 		}
-	} );
+	);
 
 }

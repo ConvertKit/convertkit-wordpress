@@ -67,7 +67,7 @@ class ConvertKit_Output_Restrict_Content {
 	 *
 	 * @var     bool|ConvertKit_API
 	 */
-	public $api = false;
+	private $api = false;
 
 	/**
 	 * Holds the token returned from calling the subscriber_authentication_send_code API endpoint.
@@ -76,7 +76,7 @@ class ConvertKit_Output_Restrict_Content {
 	 *
 	 * @var     bool|string
 	 */
-	public $token = false;
+	private $token = false;
 
 	/**
 	 * Constructor. Registers actions and filters to possibly limit output of a Page/Post/CPT's
@@ -844,7 +844,7 @@ class ConvertKit_Output_Restrict_Content {
 		// Only load scripts if the Disable Scripts option is off.
 		if ( ! $this->settings->scripts_disabled() ) {
 			// Enqueue scripts.
-			wp_enqueue_script( 'convertkit-restrict-content', CONVERTKIT_PLUGIN_URL . 'resources/frontend/js/restrict-content.js', array( 'jquery' ), CONVERTKIT_PLUGIN_VERSION, true );	
+			wp_enqueue_script( 'convertkit-restrict-content', CONVERTKIT_PLUGIN_URL . 'resources/frontend/js/restrict-content.js', array( 'jquery' ), CONVERTKIT_PLUGIN_VERSION, true );
 			wp_localize_script(
 				'convertkit-restrict-content',
 				'convertkit_restrict_content',
@@ -852,11 +852,10 @@ class ConvertKit_Output_Restrict_Content {
 					'ajaxurl'       => admin_url( 'admin-ajax.php' ),
 					'debug'         => $this->settings->debug_enabled(),
 					'resource_type' => $resource_type,
-					'resource_id' 	=> $resource_id,
+					'resource_id'   => $resource_id,
 					'post_id'       => $post_id,
 				)
 			);
-
 
 		}
 
@@ -886,13 +885,16 @@ class ConvertKit_Output_Restrict_Content {
 				// If scripts are enabled, output the email login form in a modal, which will be displayed
 				// when the 'log in' link is clicked.
 				if ( ! $this->settings->scripts_disabled() ) {
-					add_action( 'wp_footer', function() use ( $post_id, $resource_type, $resource_id, $error ) {
-						
-						include_once CONVERTKIT_PLUGIN_PATH . '/views/frontend/restrict-content/product-modal.php';
+					add_action(
+						'wp_footer',
+						function () use ( $post_id, $resource_type, $resource_id, $error ) {
 
-					} );
+							include_once CONVERTKIT_PLUGIN_PATH . '/views/frontend/restrict-content/product-modal.php';
+
+						}
+					);
 				}
-				
+
 				// Output.
 				ob_start();
 				$button = $products->get_html( $resource_id, $this->restrict_content_settings->get_by_key( 'subscribe_button_label' ) );
