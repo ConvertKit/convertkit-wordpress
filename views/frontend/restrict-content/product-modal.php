@@ -1,6 +1,6 @@
 <?php
 /**
- * Outputs the restricted content modal.
+ * Outputs the Restrict Content by Product Email Login Modal.
  *
  * @package ConvertKit
  * @author ConvertKit
@@ -11,6 +11,11 @@
 <div id="convertkit-restrict-content-modal-background">
 	<div id="convertkit-restrict-content-modal">
 		<button id="convertkit-restrict-content-modal-close"><?php _e( 'Close', 'convertkit' ); ?></button>
-		<!-- #convertkit-restrict-content-modal-content will be injected here with JS -->
+
+		<h3><?php echo esc_html( $this->restrict_content_settings->get_by_key( 'email_heading' ) ); ?></h3>
+
+		<?php
+		require 'email-login-form.php';
+		?>
 	</div>	
 </div>

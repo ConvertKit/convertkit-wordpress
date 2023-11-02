@@ -17,12 +17,6 @@ jQuery( document ).ready(
 
 		convertKitRestrictContentOTPField();
 
-		// Show link to display modal.
-		$( '.convertkit-restrict-content-modal-open' ).show();
-
-		// Move content to within the modal, ready for when it is opened.
-		$( '#convertkit-restrict-content-modal-content' ).appendTo( '#convertkit-restrict-content-modal' );
-
 		// Open modal.
 		$( '.convertkit-restrict-content-modal-open' ).on( 'click', function( e ) {
 			e.preventDefault();
@@ -30,6 +24,7 @@ jQuery( document ).ready(
 		} );
 
 		// Submit form.
+		/*
 		$( 'form#convertkit-restrict-content-form' ).on( 'submit', function( e ) {
 
 			e.preventDefault();
@@ -42,6 +37,7 @@ jQuery( document ).ready(
 			);
 
 		} );
+		*/
 
 		// Close modal.
 		$( '#convertkit-restrict-content-modal-close' ).on( 'click', function( e ) {

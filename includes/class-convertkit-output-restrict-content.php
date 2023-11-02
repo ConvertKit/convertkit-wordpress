@@ -61,6 +61,24 @@ class ConvertKit_Output_Restrict_Content {
 	public $post_id = false;
 
 	/**
+	 * Holds the Resource Type (product|tag)
+	 *
+	 * @since   2.3.6
+	 *
+	 * @var     string
+	 */
+	public $resource_type = '';
+
+	/**
+	 * Holds the Resource ID
+	 *
+	 * @since   2.3.6
+	 *
+	 * @var     bool|int
+	 */
+	public $resource_id = false;
+
+	/**
 	 * Holds the ConvertKit API class
 	 *
 	 * @since   2.1.0
@@ -749,17 +767,6 @@ class ConvertKit_Output_Restrict_Content {
 	}
 
 	/**
-	 * Outputs the modal for email login and entering the subscriber authentication code.
-	 * 
-	 * @since 	2.3.6
-	 */
-	public function output_modal() {
-
-		include_once CONVERTKIT_PLUGIN_PATH . '/views/frontend/restrict-content/modal.php';
-
-	}
-
-	/**
 	 * Restrict the given Post Content by showing a preview of the content, and appending
 	 * the call to action to subscribe or authenticate.
 	 *
@@ -855,19 +862,24 @@ class ConvertKit_Output_Restrict_Content {
 			wp_enqueue_style( 'convertkit-restrict-content', CONVERTKIT_PLUGIN_URL . 'resources/frontend/css/restrict-content.css', array(), CONVERTKIT_PLUGIN_VERSION );
 		}
 
-		// Enqueue scripts.
-		wp_enqueue_script( 'convertkit-restrict-content', CONVERTKIT_PLUGIN_URL . 'resources/frontend/js/restrict-content.js', array( 'jquery' ), CONVERTKIT_PLUGIN_VERSION, true );	
-		wp_localize_script(
-			'convertkit-restrict-content',
-			'convertkit_restrict_content',
-			array(
-				'ajaxurl'       => admin_url( 'admin-ajax.php' ),
-				'debug'         => $this->settings->debug_enabled(),
-				'resource_type' => $resource_type,
-				'resource_id' 	=> $resource_id,
-				'post_id'       => $post_id,
-			)
-		);
+		// Only load scripts if the Disable Scripts option is off.
+		if ( ! $this->settings->scripts_disabled() ) {
+			// Enqueue scripts.
+			wp_enqueue_script( 'convertkit-restrict-content', CONVERTKIT_PLUGIN_URL . 'resources/frontend/js/restrict-content.js', array( 'jquery' ), CONVERTKIT_PLUGIN_VERSION, true );	
+			wp_localize_script(
+				'convertkit-restrict-content',
+				'convertkit_restrict_content',
+				array(
+					'ajaxurl'       => admin_url( 'admin-ajax.php' ),
+					'debug'         => $this->settings->debug_enabled(),
+					'resource_type' => $resource_type,
+					'resource_id' 	=> $resource_id,
+					'post_id'       => $post_id,
+				)
+			);
+
+
+		}
 
 		// This is deliberately a switch statement, because we will likely add in support
 		// for restrict by tag and form later.
@@ -893,7 +905,13 @@ class ConvertKit_Output_Restrict_Content {
 				}
 
 				// Output JS modal in footer.
-				add_action( 'wp_footer', array( $this, 'output_modal' ) );
+				if ( ! $this->settings->scripts_disabled() ) {
+					add_action( 'wp_footer', function() use ( $post_id, $resource_type, $resource_id, $error ) {
+						
+						include_once CONVERTKIT_PLUGIN_PATH . '/views/frontend/restrict-content/product-modal.php';
+
+					} );
+				}
 				
 				// Output.
 				ob_start();
@@ -911,6 +929,19 @@ class ConvertKit_Output_Restrict_Content {
 				return '';
 
 		}
+
+	}
+
+	/**
+	 * Outputs the modal for the email login when a Post is restricted by Product. 
+	 * 
+	 * @since 	2.3.6
+	 */
+	public function output_product_modal() {
+
+
+
+		include_once CONVERTKIT_PLUGIN_PATH . '/views/frontend/restrict-content/product-modal.php';
 
 	}
 

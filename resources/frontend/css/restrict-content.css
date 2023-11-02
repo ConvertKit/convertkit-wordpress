@@ -166,10 +166,7 @@ form#convertkit-restrict-content-form div#convertkit-subscriber-code-container i
 	font-weight: 400;
 }
 
-/* Modal version*/
-.convertkit-restrict-content-modal-open {
-	display: none;
-}
+/* Modal */
 #convertkit-restrict-content-modal-background {
 	display: none;
 	position: fixed;
