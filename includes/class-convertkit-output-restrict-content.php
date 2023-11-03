@@ -22,7 +22,7 @@ class ConvertKit_Output_Restrict_Content {
 	 *
 	 * @var     bool|WP_Error
 	 */
-	private $error = false;
+	public $error = false;
 
 	/**
 	 * Holds the ConvertKit Plugin Settings class
@@ -31,7 +31,7 @@ class ConvertKit_Output_Restrict_Content {
 	 *
 	 * @var     bool|ConvertKit_Settings
 	 */
-	private $settings = false;
+	public $settings = false;
 
 	/**
 	 * Holds the ConvertKit Restrict Content Settings class
@@ -40,7 +40,7 @@ class ConvertKit_Output_Restrict_Content {
 	 *
 	 * @var     bool|ConvertKit_Settings_Restrict_Content
 	 */
-	private $restrict_content_settings = false;
+	public $restrict_content_settings = false;
 
 	/**
 	 * Holds the ConvertKit Post Settings class
@@ -49,7 +49,7 @@ class ConvertKit_Output_Restrict_Content {
 	 *
 	 * @var     bool|ConvertKit_Post
 	 */
-	private $post_settings = false;
+	public $post_settings = false;
 
 	/**
 	 * Holds the Post ID
@@ -58,7 +58,7 @@ class ConvertKit_Output_Restrict_Content {
 	 *
 	 * @var     bool|int
 	 */
-	private $post_id = false;
+	public $post_id = false;
 
 	/**
 	 * Holds the ConvertKit API class
@@ -67,7 +67,7 @@ class ConvertKit_Output_Restrict_Content {
 	 *
 	 * @var     bool|ConvertKit_API
 	 */
-	private $api = false;
+	public $api = false;
 
 	/**
 	 * Holds the token returned from calling the subscriber_authentication_send_code API endpoint.
@@ -76,7 +76,7 @@ class ConvertKit_Output_Restrict_Content {
 	 *
 	 * @var     bool|string
 	 */
-	private $token = false;
+	public $token = false;
 
 	/**
 	 * Constructor. Registers actions and filters to possibly limit output of a Page/Post/CPT's
@@ -134,6 +134,7 @@ class ConvertKit_Output_Restrict_Content {
 		$email         = sanitize_text_field( $_REQUEST['convertkit_email'] );
 		$resource_type = sanitize_text_field( $_REQUEST['convertkit_resource_type'] );
 		$resource_id   = absint( sanitize_text_field( $_REQUEST['convertkit_resource_id'] ) );
+		$post_id       = absint( sanitize_text_field( $_REQUEST['convertkit_post_id'] ) );
 
 		// Run subscriber authentication / subscription depending on the resource type.
 		switch ( $resource_type ) {
@@ -141,7 +142,7 @@ class ConvertKit_Output_Restrict_Content {
 				// Send email to subscriber with a link to authenticate they have access to the email address submitted.
 				$result = $this->api->subscriber_authentication_send_code(
 					$email,
-					$this->get_url()
+					$this->get_url( $post_id )
 				);
 
 				// Bail if an error occured.
@@ -176,7 +177,7 @@ class ConvertKit_Output_Restrict_Content {
 				$subscriber_id = $result['subscription']['subscriber']['id'];
 
 				// Store subscriber ID in cookie and redirect.
-				$this->store_subscriber_id_in_cookie_and_redirect( $subscriber_id );
+				$this->store_subscriber_id_in_cookie_and_redirect( $subscriber_id, $post_id );
 				break;
 
 		}
@@ -211,6 +212,7 @@ class ConvertKit_Output_Restrict_Content {
 
 		// Store the token so it's included in the subscriber code form if verification fails.
 		$this->token = sanitize_text_field( $_REQUEST['token'] );
+		$post_id     = absint( sanitize_text_field( $_REQUEST['convertkit_post_id'] ) );
 
 		// Initialize the API.
 		$this->api = new ConvertKit_API( $this->settings->get_api_key(), $this->settings->get_api_secret(), $this->settings->debug_enabled() );
@@ -229,7 +231,7 @@ class ConvertKit_Output_Restrict_Content {
 		}
 
 		// Store subscriber ID in cookie and redirect.
-		$this->store_subscriber_id_in_cookie_and_redirect( $subscriber_id );
+		$this->store_subscriber_id_in_cookie_and_redirect( $subscriber_id, $post_id );
 
 	}
 
@@ -417,8 +419,9 @@ class ConvertKit_Output_Restrict_Content {
 	 * @since   2.3.2
 	 *
 	 * @param   string|int $subscriber_id  Subscriber ID (int if restrict by tag, signed subscriber id string if restrict by product).
+	 * @param 	int 	   $post_id 	   WordPress Post to redirect to after storing the subscriber ID in the cookie.
 	 */
-	private function store_subscriber_id_in_cookie_and_redirect( $subscriber_id ) {
+	private function store_subscriber_id_in_cookie_and_redirect( $subscriber_id, $post_id ) {
 
 		// Store subscriber ID in cookie.
 		// We don't need to use validate_and_store_subscriber_id() as we just validated the subscriber via authentication above.
@@ -433,7 +436,7 @@ class ConvertKit_Output_Restrict_Content {
 			array(
 				'ck-cache-bust' => microtime(),
 			),
-			$this->get_url()
+			$this->get_url( $post_id )
 		);
 
 		// Redirect to the Post without parameters.
@@ -449,12 +452,12 @@ class ConvertKit_Output_Restrict_Content {
 	 *
 	 * @since   2.1.0
 	 *
+	 * @param 	int 	$post_id 	WordPress Post ID to return URL for.
 	 * @return  string  URL.
 	 */
-	private function get_url() {
+	private function get_url( $post_id ) {
 
-		$url = wp_parse_url( get_site_url() . $_SERVER['REQUEST_URI'] );
-		return $url['scheme'] . '://' . $url['host'] . $url['path'];
+		return get_permalink( $post_id );
 
 	}
 

@@ -29,6 +29,7 @@
 			<div>
 				<input type="submit" class="wp-block-button__link" value="<?php esc_html_e( 'Verify', 'convertkit' ); ?>" />
 				<input type="hidden" name="token" value="<?php echo esc_attr( WP_ConvertKit()->get_class( 'output_restrict_content' )->token ); ?>" />
+				<input type="hidden" name="convertkit_post_id" value="<?php echo esc_attr( $post_id ); ?>" />
 				<?php wp_nonce_field( 'convertkit_restrict_content_subscriber_code' ); ?>
 			</div>
 		</form>
