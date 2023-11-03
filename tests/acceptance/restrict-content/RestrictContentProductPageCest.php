@@ -87,6 +87,50 @@ class RestrictContentProductPageCest
 	}
 
 	/**
+	 * Test that restricting content by a Product specified in the Page Settings works when
+	 * creating and viewing a new WordPress Page, and that the WordPress generated Page Excerpt
+	 * is displayed when no more tag exists.
+	 *
+	 * @since   2.3.5
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testRestrictContentByProductWithGeneratedExcerpt(AcceptanceTester $I)
+	{
+		// Define visible content and member only content.
+		$visibleContent = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec at velit purus. Nam gravida tempor tellus, sit amet euismod arcu. Mauris sed mattis leo. Mauris viverra eget tellus sit amet vehicula. Nulla eget sapien quis felis euismod pellentesque. Quisque elementum et diam nec eleifend. Sed ornare quam eget augue consequat, in maximus quam fringilla. Morbi';
+		$memberOnlyContent = 'Member only content';
+
+		// Add a Page using the Gutenberg editor.
+		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Restrict Content: Product: Generated Excerpt');
+
+		// Configure metabox's Restrict Content setting = Product name.
+		$I->configureMetaboxSettings(
+			$I,
+			'wp-convertkit-meta-box',
+			[
+				'form'             => [ 'select2', 'None' ],
+				'restrict_content' => [ 'select2', $_ENV['CONVERTKIT_API_PRODUCT_NAME'] ],
+			]
+		);
+
+		// Add blocks.
+		$I->addGutenbergParagraphBlock($I, $visibleContent);
+		$I->addGutenbergParagraphBlock($I, $memberOnlyContent);
+
+		// Publish Page.
+		$url = $I->publishGutenbergPage($I);
+
+		// Test Restrict Content functionality.
+		$I->testRestrictedContentByProductOnFrontend(
+			$I,
+			$url,
+			$visibleContent,
+			$memberOnlyContent
+		);
+	}
+
+	/**
 	 * Test that restricting content by a Product that does not exist does not output
 	 * a fatal error and instead displays all of the Page's content.
 	 *

@@ -187,6 +187,19 @@ class WPGutenberg extends \Codeception\Module
 	}
 
 	/**
+	 * Adds the given text as the excerpt in the Gutenberg editor.
+	 * 
+	 * @since 	2.3.5
+	 * 
+	 * @param   AcceptanceTester $I      	Acceptance Tester.
+	 * @param   string           $excerpt   Post excerpt.
+	 */
+	public function addGutenbergExcerpt($I, $excerpt)
+	{
+		// @TODO.
+	}
+
+	/**
 	 * Helper method to insert a link into the selected element, by:
 	 * - clicking the link button in the selected block's toolbar,
 	 * - searching for the Page, Post or Custom Post Type,
