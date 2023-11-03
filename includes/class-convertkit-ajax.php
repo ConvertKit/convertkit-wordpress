@@ -225,13 +225,13 @@ class ConvertKit_AJAX {
 		// Load Restrict Content clas.
 		$output_restrict_content = WP_ConvertKit()->get_class( 'output_restrict_content' );
 
-		// Fetch result of running subscriber authentication.
-		$error = $output_restrict_content->maybe_run_subscriber_authentication();
+		// Run subscriber authentication.
+		$output_restrict_content->maybe_run_subscriber_authentication();
 
 		// If an error occured, build the email form view with the error message.
-		if ( is_wp_error( $error ) ) {
+		if ( is_wp_error( $output_restrict_content->error ) ) {
 			ob_start();
-			include CONVERTKIT_PLUGIN_PATH . '/views/frontend/restrict-content/email-login-form.php';
+			include CONVERTKIT_PLUGIN_PATH . '/views/frontend/restrict-content/product-modal-content-email.php';
 			$output = trim( ob_get_clean() );
 			wp_send_json_success( $output );
 		}

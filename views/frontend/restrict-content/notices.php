@@ -7,8 +7,8 @@
  */
 
 // If an error occured, show it now.
-if ( is_wp_error( $error ) ) {
+if ( is_wp_error( WP_ConvertKit()->get_class( 'output_restrict_content' )->error ) ) {
 	?>
-	<div class="convertkit-restrict-content-notice convertkit-restrict-content-notice-error"><?php echo esc_html( $error->get_error_message() ); ?></div>
+	<div class="convertkit-restrict-content-notice convertkit-restrict-content-notice-error"><?php echo esc_html( WP_ConvertKit()->get_class( 'output_restrict_content' )->error->get_error_message() ); ?></div>
 	<?php
 }

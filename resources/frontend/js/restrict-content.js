@@ -28,7 +28,7 @@ jQuery( document ).ready(
 
 		// Submit form.
 
-		$( 'form#convertkit-restrict-content-form' ).on( 'submit', function( e ) {
+		$( 'body' ).on( 'submit', 'form#convertkit-restrict-content-form', function( e ) {
 
 			e.preventDefault();
 
@@ -36,7 +36,8 @@ jQuery( document ).ready(
 				$( 'input[name="_wpnonce"]' ).val(),
 				$( 'input[name="convertkit_email"]' ).val(),
 				$( 'input[name="convertkit_resource_type"]' ).val(),
-				$( 'input[name="convertkit_resource_id"]' ).val()
+				$( 'input[name="convertkit_resource_id"]' ).val(),
+				$( 'input[name="convertkit_post_id"]' ).val()
 			);
 
 		} );
@@ -86,12 +87,13 @@ function convertKitRestrictContentCloseModal() {
 
 }
 
-function convertKitRestrictContentSubmitForm( nonce, email, resource_type, resource_id ) {
+function convertKitRestrictContentSubmitForm( nonce, email, resource_type, resource_id, post_id ) {
 
 	console.log( nonce );
 	console.log( email );
 	console.log( resource_type );
 	console.log( resource_id );
+	console.log( post_id );
 
 	( function ( $ ) {
 
@@ -103,7 +105,8 @@ function convertKitRestrictContentSubmitForm( nonce, email, resource_type, resou
 					'_wpnonce': nonce,
 					convertkit_email: email,
 					convertkit_resource_type: resource_type,
-					convertkit_resource_id: resource_id
+					convertkit_resource_id: resource_id,
+					convertkit_post_id: post_id
 				},
 				url: convertkit_restrict_content.ajaxurl,
 				success: function ( response ) {
@@ -111,7 +114,7 @@ function convertKitRestrictContentSubmitForm( nonce, email, resource_type, resou
 						console.log( response );
 					}
 
-					$( '')
+					$( '#convertkit-restrict-content-modal-content' ).html( response.data );
 
 				}
 			}

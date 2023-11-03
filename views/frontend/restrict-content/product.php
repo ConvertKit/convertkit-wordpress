@@ -33,7 +33,7 @@
 			<?php echo esc_html( $this->restrict_content_settings->get_by_key( 'email_text' ) ); ?>
 		</p>
 		<?php
-		require 'email-login-form.php';
+		require 'product-email.php';
 	} else {
 		// Just output the paragraph with a link to login, which will trigger the modal to display.
 		?>

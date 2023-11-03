@@ -12,9 +12,8 @@
 	<div id="convertkit-restrict-content-modal">
 		<button id="convertkit-restrict-content-modal-close"><?php esc_html_e( 'Close', 'convertkit' ); ?></button>
 		<div id="convertkit-restrict-content-modal-content">
-			<h3><?php echo esc_html( $this->restrict_content_settings->get_by_key( 'email_heading' ) ); ?></h3>
 			<?php
-			require 'email-login-form.php';
+			require 'product-modal-content-email.php';
 			?>
 		</div>
 	</div>
