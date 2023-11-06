@@ -188,15 +188,22 @@ class WPGutenberg extends \Codeception\Module
 
 	/**
 	 * Adds the given text as the excerpt in the Gutenberg editor.
-	 * 
-	 * @since 	2.3.5
-	 * 
-	 * @param   AcceptanceTester $I      	Acceptance Tester.
+	 *
+	 * @since   2.3.5
+	 *
+	 * @param   AcceptanceTester $I         Acceptance Tester.
 	 * @param   string           $excerpt   Post excerpt.
 	 */
 	public function addGutenbergExcerpt($I, $excerpt)
 	{
-		// @TODO.
+		// Click the Post tab.
+		$I->click('button[aria-label="Post"]');
+
+		// Click the Excerpt tab.
+		$I->click('Excerpt');
+
+		// Insert the excerpt into the field.
+		$I->fillField('.editor-post-excerpt textarea', $excerpt);
 	}
 
 	/**

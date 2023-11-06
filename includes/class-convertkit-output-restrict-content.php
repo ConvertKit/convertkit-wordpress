@@ -821,13 +821,13 @@ class ConvertKit_Output_Restrict_Content {
 
 	/**
 	 * Returns the excerpt for the given Post.
-	 * 
+	 *
 	 * If no excerpt is defined, generates one from the Post's content.
-	 * 
-	 * @since 	2.3.5
-	 * 
-	 * @param 	int 	$post_id 	Post ID.
-	 * @return 	string 				Post excerpt.
+	 *
+	 * @since   2.3.5
+	 *
+	 * @param   int $post_id    Post ID.
+	 * @return  string              Post excerpt.
 	 */
 	private function get_excerpt( $post_id ) {
 
@@ -840,7 +840,7 @@ class ConvertKit_Output_Restrict_Content {
 
 		// Restore filters so other functions and Plugins aren't affected.
 		add_filter( 'the_content', array( $this, 'maybe_restrict_content' ) );
-		
+
 		// Return the excerpt.
 		return wpautop( $excerpt );
 

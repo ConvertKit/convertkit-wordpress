@@ -98,7 +98,7 @@ class RestrictContentProductPostCest
 	public function testRestrictContentByProductWithGeneratedExcerpt(AcceptanceTester $I)
 	{
 		// Define visible content and member only content.
-		$visibleContent = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec at velit purus. Nam gravida tempor tellus, sit amet euismod arcu. Mauris sed mattis leo. Mauris viverra eget tellus sit amet vehicula. Nulla eget sapien quis felis euismod pellentesque. Quisque elementum et diam nec eleifend. Sed ornare quam eget augue consequat, in maximus quam fringilla. Morbi';
+		$visibleContent    = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec at velit purus. Nam gravida tempor tellus, sit amet euismod arcu. Mauris sed mattis leo. Mauris viverra eget tellus sit amet vehicula. Nulla eget sapien quis felis euismod pellentesque. Quisque elementum et diam nec eleifend. Sed ornare quam eget augue consequat, in maximus quam fringilla. Morbi';
 		$memberOnlyContent = 'Member only content';
 
 		// Add a Post using the Gutenberg editor.
@@ -142,9 +142,9 @@ class RestrictContentProductPostCest
 	public function testRestrictContentByProductWithDefinedExcerpt(AcceptanceTester $I)
 	{
 		// Define visible content and member only content.
-		$visibleContent = 'This is a defined excerpt';
+		$excerpt           = 'This is a defined excerpt';
 		$memberOnlyContent = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec at velit purus. Nam gravida tempor tellus, sit amet euismod arcu. Mauris sed mattis leo. Mauris viverra eget tellus sit amet vehicula. Nulla eget sapien quis felis euismod pellentesque. Quisque elementum et diam nec eleifend. Sed ornare quam eget augue consequat, in maximus quam fringilla. Morbi';
-		
+
 		// Add a Post using the Gutenberg editor.
 		$I->addGutenbergPage($I, 'post', 'ConvertKit: Post: Restrict Content: Product: Defined Excerpt');
 
@@ -163,18 +163,25 @@ class RestrictContentProductPostCest
 		$I->addGutenbergParagraphBlock($I, $memberOnlyContent);
 
 		// Define excerpt.
-		$I->addGutenbergExcerpt($I, $visibleContent);
+		$I->addGutenbergExcerpt($I, $excerpt);
 
 		// Publish Post.
 		$url = $I->publishGutenbergPage($I);
 
+		// Navigate to the page.
+		$I->amOnUrl($url);
+
 		// Test Restrict Content functionality.
-		$I->testRestrictedContentByProductOnFrontend(
-			$I,
-			$url,
-			$visibleContent,
-			$memberOnlyContent
-		);
+		// Check content is not displayed, and CTA displays with expected text.
+		$I->testRestrictContentByProductHidesContentWithCTA($I, $excerpt, $memberOnlyContent);
+
+		// Test that the restricted content displays when a valid signed subscriber ID is used,
+		// as if we entered the code sent in the email.
+		// Excerpt should not be displayed, as its an excerpt, and we now show the member content instead.
+		$I->testRestrictedContentShowsContentWithValidSubscriberID($I, $url, '', $memberOnlyContent);
+
+		// Assert that the excerpt is no longer displayed.
+		$I->dontSee($excerpt);
 	}
 
 	/**
