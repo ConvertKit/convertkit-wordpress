@@ -34,6 +34,9 @@ class ConvertKit_AJAX {
 		add_action( 'wp_ajax_nopriv_convertkit_subscriber_authentication_send_code', array( $this, 'subscriber_authentication_send_code' ) );
 		add_action( 'wp_ajax_convertkit_subscriber_authentication_send_code', array( $this, 'subscriber_authentication_send_code' ) );
 
+		add_action( 'wp_ajax_nopriv_convertkit_subscriber_verification', array( $this, 'subscriber_verification' ) );
+		add_action( 'wp_ajax_convertkit_subscriber_verification', array( $this, 'subscriber_verification' ) );
+
 	}
 
 	/**
@@ -220,9 +223,21 @@ class ConvertKit_AJAX {
 
 	}
 
+	/**
+	 * Calls the API to send the subscriber a magic link by email containing a code when
+	 * the modal version of Restrict Content is used, and the user has submitted their email address.
+	 * 
+	 * Returns a view of either:
+	 * - an error message and email input i.e. the user entered an invalid email address,
+	 * - the code input, which is then displayed in the modal for the user to enter the code sent by email.
+	 * 
+	 * See maybe_run_subscriber_verification() for logic once they enter the code on screen.
+	 *
+	 * @since   2.3.7
+	 */
 	public function subscriber_authentication_send_code() {
 
-		// Load Restrict Content clas.
+		// Load Restrict Content class.
 		$output_restrict_content = WP_ConvertKit()->get_class( 'output_restrict_content' );
 
 		// Run subscriber authentication.
@@ -238,12 +253,38 @@ class ConvertKit_AJAX {
 
 		// Build authentication code view to return for output.
 		ob_start();
-		include CONVERTKIT_PLUGIN_PATH . '/views/frontend/restrict-content/product-code.php';
+		include CONVERTKIT_PLUGIN_PATH . '/views/frontend/restrict-content/product-modal-content-code.php';
 		$output = trim( ob_get_clean() );
 		wp_send_json_success( $output );
 
 	}
 
+	/**
+	 * Calls the API to verify the token and entered subscriber code, which tells us that the email
+	 * address supplied truly belongs to the user, and that we can safely trust their subscriber ID
+	 * to be valid.
+	 *
+	 * @since   2.3.7
+	 */
+	public function subscriber_verification() {
 
+		// Load Restrict Content class.
+		$output_restrict_content = WP_ConvertKit()->get_class( 'output_restrict_content' );
+
+		// Run subscriber authentication.
+		$output_restrict_content->maybe_run_subscriber_verification();
+
+		// If an error occured, build the code form view with the error message.
+		if ( is_wp_error( $output_restrict_content->error ) ) {
+			ob_start();
+			include CONVERTKIT_PLUGIN_PATH . '/views/frontend/restrict-content/product-modal-content-code.php';
+			$output = trim( ob_get_clean() );
+			wp_send_json_success( $output );
+		}
+
+		// Return success, so JS can reload the page with cache busting.
+		wp_send_json_success();
+
+	}
 
 }
