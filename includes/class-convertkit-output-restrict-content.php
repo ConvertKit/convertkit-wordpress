@@ -22,7 +22,7 @@ class ConvertKit_Output_Restrict_Content {
 	 *
 	 * @var     bool|WP_Error
 	 */
-	private $error = false;
+	public $error = false;
 
 	/**
 	 * Holds the ConvertKit Plugin Settings class
@@ -31,7 +31,7 @@ class ConvertKit_Output_Restrict_Content {
 	 *
 	 * @var     bool|ConvertKit_Settings
 	 */
-	private $settings = false;
+	public $settings = false;
 
 	/**
 	 * Holds the ConvertKit Restrict Content Settings class
@@ -40,7 +40,7 @@ class ConvertKit_Output_Restrict_Content {
 	 *
 	 * @var     bool|ConvertKit_Settings_Restrict_Content
 	 */
-	private $restrict_content_settings = false;
+	public $restrict_content_settings = false;
 
 	/**
 	 * Holds the ConvertKit Post Settings class
@@ -49,7 +49,27 @@ class ConvertKit_Output_Restrict_Content {
 	 *
 	 * @var     bool|ConvertKit_Post
 	 */
-	private $post_settings = false;
+	public $post_settings = false;
+
+	/**
+	 * Holds the Resource Type (product|tag) that must be subscribed to in order
+	 * to grant access to the Post.
+	 *
+	 * @since   2.3.7
+	 *
+	 * @var     bool|string
+	 */
+	public $resource_type = false;
+
+	/**
+	 * Holds the Resource ID that must be subscribed to in order
+	 * to grant access to the Post.
+	 *
+	 * @since   2.3.7
+	 *
+	 * @var     bool|int
+	 */
+	public $resource_id = false;
 
 	/**
 	 * Holds the Post ID
@@ -58,7 +78,7 @@ class ConvertKit_Output_Restrict_Content {
 	 *
 	 * @var     bool|int
 	 */
-	private $post_id = false;
+	public $post_id = false;
 
 	/**
 	 * Holds the ConvertKit API class
@@ -67,7 +87,7 @@ class ConvertKit_Output_Restrict_Content {
 	 *
 	 * @var     bool|ConvertKit_API
 	 */
-	private $api = false;
+	public $api = false;
 
 	/**
 	 * Holds the token returned from calling the subscriber_authentication_send_code API endpoint.
@@ -76,7 +96,7 @@ class ConvertKit_Output_Restrict_Content {
 	 *
 	 * @var     bool|string
 	 */
-	private $token = false;
+	public $token = false;
 
 	/**
 	 * Constructor. Registers actions and filters to possibly limit output of a Page/Post/CPT's
@@ -131,12 +151,13 @@ class ConvertKit_Output_Restrict_Content {
 		$this->api = new ConvertKit_API( $this->settings->get_api_key(), $this->settings->get_api_secret(), $this->settings->debug_enabled() );
 
 		// Sanitize inputs.
-		$email         = sanitize_text_field( $_REQUEST['convertkit_email'] );
-		$resource_type = sanitize_text_field( $_REQUEST['convertkit_resource_type'] );
-		$resource_id   = absint( sanitize_text_field( $_REQUEST['convertkit_resource_id'] ) );
+		$email         		 = sanitize_text_field( $_REQUEST['convertkit_email'] );
+		$this->resource_type = sanitize_text_field( $_REQUEST['convertkit_resource_type'] );
+		$this->resource_id   = absint( sanitize_text_field( $_REQUEST['convertkit_resource_id'] ) );
+		$this->post_id       = absint( sanitize_text_field( $_REQUEST['convertkit_post_id'] ) );
 
 		// Run subscriber authentication / subscription depending on the resource type.
-		switch ( $resource_type ) {
+		switch ( $this->resource_type ) {
 			case 'product':
 				// Send email to subscriber with a link to authenticate they have access to the email address submitted.
 				$result = $this->api->subscriber_authentication_send_code(
@@ -160,7 +181,7 @@ class ConvertKit_Output_Restrict_Content {
 
 			case 'tag':
 				// Tag the subscriber.
-				$result = $this->api->tag_subscribe( $resource_id, $email );
+				$result = $this->api->tag_subscribe( $this->resource_id, $email );
 
 				// Bail if an error occured.
 				if ( is_wp_error( $result ) ) {
@@ -210,7 +231,8 @@ class ConvertKit_Output_Restrict_Content {
 		}
 
 		// Store the token so it's included in the subscriber code form if verification fails.
-		$this->token = sanitize_text_field( $_REQUEST['token'] );
+		$this->token   = sanitize_text_field( $_REQUEST['token'] );
+		$this->post_id = absint( sanitize_text_field( $_REQUEST['convertkit_post_id'] ) );
 
 		// Initialize the API.
 		$this->api = new ConvertKit_API( $this->settings->get_api_key(), $this->settings->get_api_secret(), $this->settings->debug_enabled() );
@@ -251,26 +273,26 @@ class ConvertKit_Output_Restrict_Content {
 		}
 
 		// Get resource type (Product or Tag) that the visitor must be subscribed against to access this content.
-		$resource_type = $this->get_resource_type( $this->post_id );
+		$this->resource_type = $this->get_resource_type();
 
 		// Return the Post Content, unedited, if the Resource Type is false.
-		if ( ! $resource_type ) {
+		if ( ! $this->resource_type ) {
 			return $content;
 		}
 
 		// Get resource ID (Product ID or Tag ID) that the visitor must be subscribed against to access this content.
-		$resource_id = $this->get_resource_id( $this->post_id );
+		$this->resource_id = $this->get_resource_id();
 
 		// Return the full Post Content, unedited, if the Resource ID is false, as this means
 		// no restrict content setting has been defined for this Post.
-		if ( ! $resource_id ) {
+		if ( ! $this->resource_id ) {
 			return $content;
 		}
 
 		// Return if this request is after the user entered their email address,
 		// which means we're going through the authentication flow.
 		if ( $this->in_authentication_flow() ) {
-			return $this->restrict_content( $content, $resource_type, $resource_id );
+			return $this->restrict_content( $content );
 		}
 
 		// Get the subscriber ID, either from the request or an existing cookie.
@@ -278,11 +300,11 @@ class ConvertKit_Output_Restrict_Content {
 
 		// If no subscriber ID exists, the visitor cannot view the content.
 		if ( ! $subscriber_id ) {
-			return $this->restrict_content( $content, $resource_type, $resource_id );
+			return $this->restrict_content( $content);
 		}
 
 		// If the subscriber is not subscribed to the product, restrict the content.
-		if ( ! $this->subscriber_has_access( $subscriber_id, $resource_type, $resource_id ) ) {
+		if ( ! $this->subscriber_has_access( $subscriber_id ) ) {
 			// Show an error before the call to action, to tell the subscriber why they still cannot
 			// view the content.
 			$this->error = new WP_Error(
@@ -290,7 +312,7 @@ class ConvertKit_Output_Restrict_Content {
 				esc_html( $this->restrict_content_settings->get_by_key( 'no_access_text' ) )
 			);
 
-			return $this->restrict_content( $content, $resource_type, $resource_id );
+			return $this->restrict_content( $content );
 		}
 
 		// If here, the subscriber has subscribed to the product.
@@ -453,8 +475,7 @@ class ConvertKit_Output_Restrict_Content {
 	 */
 	private function get_url() {
 
-		$url = wp_parse_url( get_site_url() . $_SERVER['REQUEST_URI'] );
-		return $url['scheme'] . '://' . $url['host'] . $url['path'];
+		return get_permalink( $this->post_id );
 
 	}
 
@@ -473,10 +494,10 @@ class ConvertKit_Output_Restrict_Content {
 			return false;
 		}
 
-		// If a Post ID is already defined in this class, this check has already been performed,
-		// and the Post's settings class has been initialized.
-		if ( $this->post_id ) {
-			return true;
+		// If the Plugin API keys have not been configured, we can't determine the validity of this subscriber ID
+		// or which resource(s) they have access to.
+		if ( ! $this->settings->has_api_key_and_secret() ) {
+			return false;
 		}
 
 		// Get Post ID.
@@ -484,12 +505,6 @@ class ConvertKit_Output_Restrict_Content {
 
 		// Initialize Settings and Post Setting classes.
 		$this->post_settings = new ConvertKit_Post( $this->post_id );
-
-		// If the Plugin API keys have not been configured, we can't determine the validity of this subscriber ID
-		// or which resource(s) they have access to.
-		if ( ! $this->settings->has_api_key_and_secret() ) {
-			return false;
-		}
 
 		// Return whether the Post's settings are set to restrict content.
 		return $this->post_settings->restrict_content_enabled();
@@ -542,10 +557,12 @@ class ConvertKit_Output_Restrict_Content {
 	 *
 	 * @since   2.1.0
 	 *
-	 * @param   int $post_id    Post ID.
 	 * @return  bool|string     Resource Type (product).
 	 */
-	private function get_resource_type( $post_id ) {
+	private function get_resource_type() {
+
+		// Initialize Post Setting classes.
+		$this->post_settings = new ConvertKit_Post( $this->post_id );
 
 		// Get resource type.
 		$resource_type = $this->post_settings->get_restrict_content_type();
@@ -561,7 +578,7 @@ class ConvertKit_Output_Restrict_Content {
 		 * @param   string $resource_type   Resource Type (product)
 		 * @param   int    $post_id         Post ID
 		 */
-		$resource_type = apply_filters( 'convertkit_output_restrict_content_get_resource_type', $resource_type, $post_id );
+		$resource_type = apply_filters( 'convertkit_output_restrict_content_get_resource_type', $resource_type, $this->post_id );
 
 		// If resource type is blank, set it to false.
 		if ( empty( $resource_type ) ) {
@@ -578,10 +595,12 @@ class ConvertKit_Output_Restrict_Content {
 	 *
 	 * @since   2.1.0
 	 *
-	 * @param   int $post_id    Post ID.
 	 * @return  int             Resource ID (product ID).
 	 */
-	private function get_resource_id( $post_id ) {
+	private function get_resource_id() {
+
+		// Initialize Post Setting classes.
+		$this->post_settings = new ConvertKit_Post( $this->post_id );
 
 		// Get resource ID.
 		$resource_id = $this->post_settings->get_restrict_content_id();
@@ -597,7 +616,7 @@ class ConvertKit_Output_Restrict_Content {
 		 * @param   int    $resource_id     Resource ID
 		 * @param   int    $post_id         Post ID
 		 */
-		$resource_id = apply_filters( 'convertkit_output_restrict_content_get_resource_id', $resource_id, $post_id );
+		$resource_id = apply_filters( 'convertkit_output_restrict_content_get_resource_id', $resource_id, $this->post_id );
 
 		// Return.
 		return $resource_id;
@@ -609,18 +628,16 @@ class ConvertKit_Output_Restrict_Content {
 	 *
 	 * @since   2.3.3
 	 *
-	 * @param   string $resource_type  Resource Type (tag, product).
-	 * @param   int    $resource_id    Resource ID (Tag ID, Product ID).
 	 * @return  bool
 	 */
-	private function resource_exists( $resource_type, $resource_id ) {
+	private function resource_exists() {
 
-		switch ( $resource_type ) {
+		switch ( $this->resource_type ) {
 
 			case 'product':
 				// Get Product.
 				$products = new ConvertKit_Resource_Products( 'restrict_content' );
-				$product  = $products->get_by_id( $resource_id );
+				$product  = $products->get_by_id( $this->resource_id );
 
 				// If the Product does not exist, return false.
 				if ( ! $product ) {
@@ -633,7 +650,7 @@ class ConvertKit_Output_Restrict_Content {
 			case 'tag':
 				// Get Tag.
 				$tags = new ConvertKit_Resource_Tags( 'restrict_content' );
-				$tag  = $tags->get_by_id( $resource_id );
+				$tag  = $tags->get_by_id( $this->resource_id );
 
 				// If the Tag does not exist, return false.
 				if ( ! $tag ) {
@@ -657,11 +674,9 @@ class ConvertKit_Output_Restrict_Content {
 	 * @since   2.1.0
 	 *
 	 * @param   string|int $subscriber_id  Signed Subscriber ID or Subscriber ID.
-	 * @param   string     $resource_type  Resource Type (tag, product).
-	 * @param   int        $resource_id    Resource ID (Tag ID, Product ID).
 	 * @return  bool                        Can view restricted content
 	 */
-	private function subscriber_has_access( $subscriber_id, $resource_type, $resource_id ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter
+	private function subscriber_has_access( $subscriber_id ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter
 
 		// Initialize the API.
 		$this->api = new ConvertKit_API( $this->settings->get_api_key(), $this->settings->get_api_secret(), $this->settings->debug_enabled() );
@@ -669,7 +684,7 @@ class ConvertKit_Output_Restrict_Content {
 		// Depending on the resource type, determine if the subscriber has access to it.
 		// This is deliberately a switch statement, because we will likely add in support
 		// for restrict by tag and form later.
-		switch ( $resource_type ) {
+		switch ( $this->resource_type ) {
 			case 'product':
 				// Get products that the subscriber has access to.
 				$result = $this->api->profile( $subscriber_id );
@@ -685,7 +700,7 @@ class ConvertKit_Output_Restrict_Content {
 				}
 
 				// Return if the subscriber is not subscribed to the product.
-				if ( ! in_array( absint( $resource_id ), $result['products'], true ) ) {
+				if ( ! in_array( absint( $this->resource_id ), $result['products'], true ) ) {
 					return false;
 				}
 
@@ -708,7 +723,7 @@ class ConvertKit_Output_Restrict_Content {
 
 				// Iterate through the subscriber's tags to see if they have the required tag.
 				foreach ( $tags as $tag ) {
-					if ( $tag['id'] === absint( $resource_id ) ) {
+					if ( $tag['id'] === absint( $this->resource_id ) ) {
 						// Subscriber has the required tag assigned to them - grant access.
 						return true;
 					}
@@ -752,22 +767,20 @@ class ConvertKit_Output_Restrict_Content {
 	 * @since   2.1.0
 	 *
 	 * @param   string $content        Post Content.
-	 * @param   string $resource_type  Resource Type (product).
-	 * @param   int    $resource_id    Resource ID (Product ID).
-	 * @return  string                  Post Content preview with call to action
+	 * @return  string                 Post Content preview with call to action
 	 */
-	private function restrict_content( $content, $resource_type, $resource_id ) {
+	private function restrict_content( $content ) {
 
 		// Check that the resource exists before restricting the content.
 		// This handles cases where e.g. a Tag or Product has been deleted in ConvertKit,
 		// but the Page / Post still references the (now deleted) resource to restrict content with
 		// under the 'Member Content' setting.
-		if ( ! $this->resource_exists( $resource_type, $resource_id ) ) {
+		if ( ! $this->resource_exists() ) {
 			// Return the full Post Content, as we can't restrict it to a Product or Tag that no longer exists.
 			return $content;
 		}
 
-		return $this->get_content_preview( $content ) . $this->get_call_to_action( $this->post_id, $resource_type, $resource_id );
+		return $this->get_content_preview( $content ) . $this->get_call_to_action( $this->post_id );
 
 	}
 
@@ -853,14 +866,9 @@ class ConvertKit_Output_Restrict_Content {
 	 * @since   2.1.0
 	 *
 	 * @param   int    $post_id        Post ID.
-	 * @param   string $resource_type  Resource Type (product).
-	 * @param   int    $resource_id    Resource ID (Product ID).
 	 * @return  string                  HTML
 	 */
-	private function get_call_to_action( $post_id, $resource_type, $resource_id ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter
-
-		// Read error notices from this class.
-		$error = $this->error;
+	private function get_call_to_action( $post_id ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter
 
 		// Only load styles if the Disable CSS option is off.
 		if ( ! $this->settings->css_disabled() ) {
@@ -868,9 +876,24 @@ class ConvertKit_Output_Restrict_Content {
 			wp_enqueue_style( 'convertkit-restrict-content', CONVERTKIT_PLUGIN_URL . 'resources/frontend/css/restrict-content.css', array(), CONVERTKIT_PLUGIN_VERSION );
 		}
 
+		// Only load scripts if the Disable Scripts option is off.
+		if ( ! $this->settings->scripts_disabled() ) {
+			// Enqueue scripts.
+			wp_enqueue_script( 'convertkit-restrict-content', CONVERTKIT_PLUGIN_URL . 'resources/frontend/js/restrict-content.js', array( 'jquery' ), CONVERTKIT_PLUGIN_VERSION, true );
+			wp_localize_script(
+				'convertkit-restrict-content',
+				'convertkit_restrict_content',
+				array(
+					'ajaxurl'       => admin_url( 'admin-ajax.php' ),
+					'debug'         => $this->settings->debug_enabled(),
+				)
+			);
+
+		}
+
 		// This is deliberately a switch statement, because we will likely add in support
 		// for restrict by tag and form later.
-		switch ( $resource_type ) {
+		switch ( $this->resource_type ) {
 			case 'product':
 				// Output product code form if this request is after the user entered their email address,
 				// which means we're going through the authentication flow.
@@ -883,7 +906,7 @@ class ConvertKit_Output_Restrict_Content {
 				// Output product restricted message and email form.
 				// Get Product.
 				$products = new ConvertKit_Resource_Products( 'restrict_content' );
-				$product  = $products->get_by_id( $resource_id );
+				$product  = $products->get_by_id( $this->resource_id );
 
 				// Get commerce.js URL and enqueue.
 				$url = $products->get_commerce_js_url();
@@ -891,9 +914,22 @@ class ConvertKit_Output_Restrict_Content {
 					wp_enqueue_script( 'convertkit-commerce', $url, array(), CONVERTKIT_PLUGIN_VERSION, true );
 				}
 
+				// If scripts are enabled, output the email login form in a modal, which will be displayed
+				// when the 'log in' link is clicked.
+				if ( ! $this->settings->scripts_disabled() ) {
+					add_action(
+						'wp_footer',
+						function () {
+
+							include_once CONVERTKIT_PLUGIN_PATH . '/views/frontend/restrict-content/product-modal.php';
+
+						}
+					);
+				}
+
 				// Output.
 				ob_start();
-				$button = $products->get_html( $resource_id, $this->restrict_content_settings->get_by_key( 'subscribe_button_label' ) );
+				$button = $products->get_html( $this->resource_id, $this->restrict_content_settings->get_by_key( 'subscribe_button_label' ) );
 				include CONVERTKIT_PLUGIN_PATH . '/views/frontend/restrict-content/product.php';
 				return trim( ob_get_clean() );
 
