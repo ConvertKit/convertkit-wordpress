@@ -23,9 +23,7 @@
 
 	<?php
 	echo $button; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-	?>
 
-	<?php
 	// If scripts are disabled in the Plugin's settings, output the email login form now.
 	if ( $this->settings->scripts_disabled() ) {
 		?>

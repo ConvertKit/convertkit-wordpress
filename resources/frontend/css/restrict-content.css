@@ -54,7 +54,7 @@
 	line-height: 42px;
 	font-size: 15px;
 	margin: 0;
-	padding: 0 20px;
+	padding: 0 20px !important;
 	border: none;
 	border-radius: 3px;
 }
@@ -80,7 +80,7 @@ form#convertkit-restrict-content-form input[type=submit] {
 	line-height: 42px;
 	font-size: 15px;
 	margin: 0;
-	padding: 0 20px;
+	padding: 0 20px !important;
 	border: none;
 	border-radius: 3px;
 }
