@@ -28,12 +28,18 @@ jQuery( document ).ready(
 		);
 
 		// Handle modal form submissions.
-		$( 'body' ).on( 'submit', '#convertkit-restrict-content-modal form#convertkit-restrict-content-form', function( e ) {
+		$( document ).on( 'submit', '#convertkit-restrict-content-form', function( e ) {
+
+			alert('yes');
+
+			console.log( 'Fired' );
 
 			e.preventDefault();
 
 			// Determine if this is the email or code submission.
 			if ( $( 'input#convertkit_subscriber_code' ).length > 0 ) {
+				console.log( 'code submission' );
+
 				// Code submission.
 				convertKitRestrictContentSubscriberVerification(
 					$( 'input[name="_wpnonce"]' ).val(),
@@ -41,10 +47,12 @@ jQuery( document ).ready(
 					$( 'input[name="token"]' ).val(),
 					$( 'input[name="convertkit_post_id"]' ).val()
 				);
-				return;
+
+				return false;
 			}
 
 			// Email submission.
+			console.log( 'email submission' );
 			convertKitRestrictContentSubscriberAuthenticationSendCode(
 				$( 'input[name="_wpnonce"]' ).val(),
 				$( 'input[name="convertkit_email"]' ).val(),
@@ -150,11 +158,11 @@ function convertKitRestrictContentSubscriberAuthenticationSendCode( nonce, email
 
 }
 
-function convertKitRestrictContentSubscriberVerification( nonce, code, token, post_id ) {
+function convertKitRestrictContentSubscriberVerification( nonce, subscriber_code, token, post_id ) {
 
 	console.log( 'convertKitRestrictContentSubscriberVerification' );
 	console.log( nonce );
-	console.log( code );
+	console.log( subscriber_code );
 	console.log( token );
 	console.log( post_id );
 
@@ -164,9 +172,8 @@ function convertKitRestrictContentSubscriberVerification( nonce, code, token, po
 			{
 				type: 'POST',
 				data: {
-					action: 'subscriber_verification',
-					'_wpnonce': nonce,
-					code: code,
+					action: 'convertkit_subscriber_verification',
+					subscriber_code: subscriber_code,
 					token: token,
 					convertkit_post_id: post_id
 				},
@@ -221,7 +228,7 @@ function convertKitRestrictContentOTPField() {
 			if ( convertKitRestrictContentSubscriberCodeInput.selectionStart === 6 ) {
 				convertKitRestrictContentSubscriberCodeInput.setSelectionRange( 0, 0 );
 				convertKitRestrictContentSubscriberCodeInput.blur();
-				document.querySelector( '#convertkit-restrict-content-form' ).submit();
+				//document.querySelector( '#convertkit-restrict-content-form' ).submit();
 			}
 		}
 	);

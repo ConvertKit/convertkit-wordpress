@@ -196,8 +196,13 @@ class ConvertKit_Output_Restrict_Content {
 				// Fetch the subscriber ID from the result.
 				$subscriber_id = $result['subscription']['subscriber']['id'];
 
-				// Store subscriber ID in cookie and redirect.
-				$this->store_subscriber_id_in_cookie_and_redirect( $subscriber_id );
+				// Store subscriber ID in cookie.
+				$this->store_subscriber_id_in_cookie( $subscriber_id );
+
+				// If this isn't an AJAX request, redirect now to reload the Post.
+				if ( ! wp_doing_ajax() ) {
+					$this->redirect();
+				}
 				break;
 
 		}
@@ -215,6 +220,8 @@ class ConvertKit_Output_Restrict_Content {
 	 * @since   2.1.0
 	 */
 	public function maybe_run_subscriber_verification() {
+
+		error_log( 'maybe_run_subscriber_verification() called.' );
 
 		// phpcs:disable WordPress.Security.NonceVerification.Recommended
 		// Bail if the expected token and subscriber code is missing.
@@ -250,8 +257,13 @@ class ConvertKit_Output_Restrict_Content {
 			return;
 		}
 
-		// Store subscriber ID in cookie and redirect.
-		$this->store_subscriber_id_in_cookie_and_redirect( $subscriber_id );
+		// Store subscriber ID in cookie.
+		$this->store_subscriber_id_in_cookie( $subscriber_id );
+
+		// If this isn't an AJAX request, redirect now to reload the Post.
+		if ( ! wp_doing_ajax() ) {
+			$this->redirect();
+		}
 
 	}
 
@@ -436,16 +448,26 @@ class ConvertKit_Output_Restrict_Content {
 	 * to the current URL, removing any query parameters (such as tokens), and appending
 	 * a ck-cache-bust query parameter to beat caching plugins.
 	 *
-	 * @since   2.3.2
+	 * @since   2.3.7
 	 *
 	 * @param   string|int $subscriber_id  Subscriber ID (int if restrict by tag, signed subscriber id string if restrict by product).
 	 */
-	private function store_subscriber_id_in_cookie_and_redirect( $subscriber_id ) {
+	private function store_subscriber_id_in_cookie( $subscriber_id ) {
 
 		// Store subscriber ID in cookie.
 		// We don't need to use validate_and_store_subscriber_id() as we just validated the subscriber via authentication above.
 		$subscriber = new ConvertKit_Subscriber();
 		$subscriber->set( $subscriber_id );
+
+	}
+
+	/**
+	 * Redirects to the current URL, removing any query parameters (such as tokens), and appending
+	 * a ck-cache-bust query parameter to beat caching plugins.
+	 *
+	 * @since   2.3.7
+	 */
+	private function redirect() {
 
 		// We append a query parameter to the URL to prevent caching plugins and
 		// aggressive cache hosting configurations from serving a cached page, which would
