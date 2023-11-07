@@ -824,7 +824,7 @@ class ConvertKit_Output_Restrict_Content {
 	 *
 	 * If no excerpt is defined, generates one from the Post's content.
 	 *
-	 * @since   2.3.5
+	 * @since   2.3.7
 	 *
 	 * @param   int $post_id    Post ID.
 	 * @return  string              Post excerpt.
