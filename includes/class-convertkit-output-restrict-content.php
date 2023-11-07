@@ -55,7 +55,7 @@ class ConvertKit_Output_Restrict_Content {
 	 * Holds the Resource Type (product|tag) that must be subscribed to in order
 	 * to grant access to the Post.
 	 *
-	 * @since   2.3.5
+	 * @since   2.3.7
 	 *
 	 * @var     bool|string
 	 */
@@ -65,7 +65,7 @@ class ConvertKit_Output_Restrict_Content {
 	 * Holds the Resource ID that must be subscribed to in order
 	 * to grant access to the Post.
 	 *
-	 * @since   2.3.5
+	 * @since   2.3.7
 	 *
 	 * @var     bool|int
 	 */
@@ -151,7 +151,7 @@ class ConvertKit_Output_Restrict_Content {
 		$this->api = new ConvertKit_API( $this->settings->get_api_key(), $this->settings->get_api_secret(), $this->settings->debug_enabled() );
 
 		// Sanitize inputs.
-		$email         = sanitize_text_field( $_REQUEST['convertkit_email'] );
+		$email         		 = sanitize_text_field( $_REQUEST['convertkit_email'] );
 		$this->resource_type = sanitize_text_field( $_REQUEST['convertkit_resource_type'] );
 		$this->resource_id   = absint( sanitize_text_field( $_REQUEST['convertkit_resource_id'] ) );
 		$this->post_id       = absint( sanitize_text_field( $_REQUEST['convertkit_post_id'] ) );
@@ -175,7 +175,7 @@ class ConvertKit_Output_Restrict_Content {
 				$subscriber = new ConvertKit_Subscriber();
 				$subscriber->forget();
 
-				// Store the token so they are included in the subscriber code form.
+				// Store the token so it's included in the subscriber code form.
 				$this->token = $result;
 				break;
 
@@ -494,10 +494,10 @@ class ConvertKit_Output_Restrict_Content {
 			return false;
 		}
 
-		// If a Post ID is already defined in this class, this check has already been performed,
-		// and the Post's settings class has been initialized.
-		if ( $this->post_id ) {
-			return true;
+		// If the Plugin API keys have not been configured, we can't determine the validity of this subscriber ID
+		// or which resource(s) they have access to.
+		if ( ! $this->settings->has_api_key_and_secret() ) {
+			return false;
 		}
 
 		// Get Post ID.
@@ -505,12 +505,6 @@ class ConvertKit_Output_Restrict_Content {
 
 		// Initialize Settings and Post Setting classes.
 		$this->post_settings = new ConvertKit_Post( $this->post_id );
-
-		// If the Plugin API keys have not been configured, we can't determine the validity of this subscriber ID
-		// or which resource(s) they have access to.
-		if ( ! $this->settings->has_api_key_and_secret() ) {
-			return false;
-		}
 
 		// Return whether the Post's settings are set to restrict content.
 		return $this->post_settings->restrict_content_enabled();
