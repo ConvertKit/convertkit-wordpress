@@ -91,7 +91,7 @@ class RestrictContentProductPostCest
 	 * creating and viewing a new WordPress Post, and that the WordPress generated Post Excerpt
 	 * is displayed when no more tag exists.
 	 *
-	 * @since   2.3.5
+	 * @since   2.3.7
 	 *
 	 * @param   AcceptanceTester $I  Tester.
 	 */
@@ -135,7 +135,7 @@ class RestrictContentProductPostCest
 	 * creating and viewing a new WordPress Post, and that the Excerpt defined in the Post
 	 * is displayed when no more tag exists.
 	 *
-	 * @since   2.3.5
+	 * @since   2.3.7
 	 *
 	 * @param   AcceptanceTester $I  Tester.
 	 */
