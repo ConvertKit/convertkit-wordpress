@@ -136,7 +136,7 @@ jobs:
       # WP_DEBUG = true is required so all PHP errors are output and caught by tests (E_ALL).
       # WP_DEBUG = false for Elementor and WishList Member tests, as WLM is not yet updated with WordPress 6.4 deprecated functions.
       - name: Enable WP_DEBUG
-        if: ${{ matrix.test-groups != 'acceptance/integrations/wlm' || matrix.test-groups != 'acceptance/integrations/elementor' }}
+        if: ${{ matrix.test-groups != 'acceptance/integrations/wlm' && matrix.test-groups != 'acceptance/integrations/elementor' }}
         working-directory: ${{ env.ROOT_DIR }}
         run: |
           wp-cli config set WP_DEBUG true --raw
