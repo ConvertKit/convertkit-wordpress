@@ -118,7 +118,6 @@ class ConvertKit_Output_Restrict_Content {
 
 		// Bail if the nonce failed validation.
 		if ( ! wp_verify_nonce( sanitize_key( $_REQUEST['_wpnonce'] ), 'convertkit_restrict_content_login' ) ) {
-			$this->error = new WP_Error( 'convertkit_output_restrict_content_error', __( 'Invalid nonce specified. Please try again.', 'convertkit' ) );
 			return;
 		}
 
@@ -195,7 +194,16 @@ class ConvertKit_Output_Restrict_Content {
 	 */
 	public function maybe_run_subscriber_verification() {
 
-		// phpcs:disable WordPress.Security.NonceVerification.Recommended
+		// Bail if no nonce was specified.
+		if ( ! array_key_exists( '_wpnonce', $_REQUEST ) ) {
+			return;
+		}
+
+		// Bail if the nonce failed validation.
+		if ( ! wp_verify_nonce( sanitize_key( $_REQUEST['_wpnonce'] ), 'convertkit_restrict_content_subscriber_code' ) ) {
+			return;
+		}
+
 		// Bail if the expected token and subscriber code is missing.
 		if ( ! array_key_exists( 'token', $_REQUEST ) ) {
 			return;
@@ -220,7 +228,6 @@ class ConvertKit_Output_Restrict_Content {
 			sanitize_text_field( $_REQUEST['token'] ),
 			sanitize_text_field( $_REQUEST['subscriber_code'] )
 		);
-		// phpcs:enable
 
 		// Bail if an error occured.
 		if ( is_wp_error( $subscriber_id ) ) {
@@ -778,10 +785,10 @@ class ConvertKit_Output_Restrict_Content {
 	 * - A single <!--more--> tag being placed between WordPress paragraphs when using the Classic Editor.
 	 * Content before the tag will be returned as the preview, unless 'noteaser' is enabled.
 	 * - A single 'Read More' block being placed between WordPress blocks when using the Gutenberg Editor.
-	 * Content before the Read More block will be returned as the preview, unless 'Hide th excerpt
+	 * Content before the Read More block will be returned as the preview, unless 'Hide the excerpt
 	 * on the full content page' is enabled.
 	 *
-	 * No preview content is returned if the above conditions are not met.
+	 * If no more tag or Read More block is present, returns the Post's excerpt.
 	 *
 	 * @since   2.1.0
 	 *
@@ -814,8 +821,35 @@ class ConvertKit_Output_Restrict_Content {
 			return $content_breakdown[0];
 		}
 
-		// If here, there is no preview content available. Don't return any content.
-		return '';
+		// If here, there is no preview content available. Use the Post's excerpt.
+		return $this->get_excerpt( $post->ID );
+
+	}
+
+	/**
+	 * Returns the excerpt for the given Post.
+	 *
+	 * If no excerpt is defined, generates one from the Post's content.
+	 *
+	 * @since   2.3.7
+	 *
+	 * @param   int $post_id    Post ID.
+	 * @return  string              Post excerpt.
+	 */
+	private function get_excerpt( $post_id ) {
+
+		// Remove 'the_content' filter, as if the Post contains no defined excerpt, WordPress
+		// will invoke the Post's content to build an excerpt, resulting in an infinite loop.
+		remove_filter( 'the_content', array( $this, 'maybe_restrict_content' ) );
+
+		// Generate the Post's excerpt.
+		$excerpt = get_the_excerpt( $post_id );
+
+		// Restore filters so other functions and Plugins aren't affected.
+		add_filter( 'the_content', array( $this, 'maybe_restrict_content' ) );
+
+		// Return the excerpt.
+		return wpautop( $excerpt );
 
 	}
 
