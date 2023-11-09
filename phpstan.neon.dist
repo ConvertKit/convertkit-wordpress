@@ -24,3 +24,10 @@ parameters:
     # Should not need to edit anything below here
     # Rule Level: https://phpstan.org/user-guide/rule-levels
     level: 5
+
+    # Ignore the following errors, as PHPStan and PHPStan for WordPress haven't registered symbols for them yet,
+    # so they're false positives.
+    ignoreErrors:
+        - '#Multi_Value_Field_Table#'
+        - '#Method CK_Widget_Form#'
+        - '#code above always terminates#'
