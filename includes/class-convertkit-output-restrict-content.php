@@ -110,6 +110,13 @@ class ConvertKit_Output_Restrict_Content {
 		$this->settings                  = new ConvertKit_Settings();
 		$this->restrict_content_settings = new ConvertKit_Settings_Restrict_Content();
 
+		// Don't register any hooks if this is an AJAX request, otherwise
+		// maybe_run_subscriber_authentication() and maybe_run_subscriber_verification() will run
+		// twice in an AJAX request (once here, and once when called by the ConvertKit_AJAX class).
+		if ( wp_doing_ajax() ) {
+			return;
+		}
+
 		add_action( 'init', array( $this, 'maybe_run_subscriber_authentication' ), 1 );
 		add_action( 'init', array( $this, 'maybe_run_subscriber_verification' ), 2 );
 		add_filter( 'the_content', array( $this, 'maybe_restrict_content' ) );
@@ -141,6 +148,20 @@ class ConvertKit_Output_Restrict_Content {
 			return;
 		}
 
+		// Bail if the expected email, resource ID or Post ID are missing.
+		if ( ! array_key_exists( 'convertkit_email', $_REQUEST ) ) {
+			return;
+		}
+		if ( ! array_key_exists( 'convertkit_resource_type', $_REQUEST ) ) {
+			return;
+		}
+		if ( ! array_key_exists( 'convertkit_resource_id', $_REQUEST ) ) {
+			return;
+		}
+		if ( ! array_key_exists( 'convertkit_post_id', $_REQUEST ) ) {
+			return;
+		}
+
 		// If the Plugin API keys have not been configured, we can't get this subscriber's ID by email.
 		if ( ! $this->settings->has_api_key_and_secret() ) {
 			return;
@@ -163,6 +184,8 @@ class ConvertKit_Output_Restrict_Content {
 					$email,
 					$this->get_url()
 				);
+
+				error_log( print_r( $result, true ) );
 
 				// Bail if an error occured.
 				if ( is_wp_error( $result ) ) {
@@ -220,8 +243,6 @@ class ConvertKit_Output_Restrict_Content {
 	 */
 	public function maybe_run_subscriber_verification() {
 
-		error_log( 'maybe_run_subscriber_verification() called.' );
-
 		// Bail if no nonce was specified.
 		if ( ! array_key_exists( '_wpnonce', $_REQUEST ) ) {
 			return;
@@ -244,6 +265,8 @@ class ConvertKit_Output_Restrict_Content {
 		if ( ! $this->settings->has_api_key_and_secret() ) {
 			return;
 		}
+
+		error_log( 'maybe_run_subscriber_verification() called.' );
 
 		// Store the token so it's included in the subscriber code form if verification fails.
 		$this->token   = sanitize_text_field( $_REQUEST['token'] );
@@ -451,9 +474,7 @@ class ConvertKit_Output_Restrict_Content {
 	}
 
 	/**
-	 * Stores the given subscriber ID in the ck_subscriber_id cookie, and redirects
-	 * to the current URL, removing any query parameters (such as tokens), and appending
-	 * a ck-cache-bust query parameter to beat caching plugins.
+	 * Stores the given subscriber ID in the ck_subscriber_id cookie.
 	 *
 	 * @since   2.3.7
 	 *
@@ -476,21 +497,11 @@ class ConvertKit_Output_Restrict_Content {
 	 */
 	private function redirect() {
 
-		// We append a query parameter to the URL to prevent caching plugins and
+		// Redirect to the Post, appending a query parameter to the URL to prevent caching plugins and
 		// aggressive cache hosting configurations from serving a cached page, which would
 		// result in maybe_restrict_content() not showing an error message or permitting
 		// access to the content.
-		$url = add_query_arg(
-			array(
-				'ck-cache-bust' => microtime(),
-			),
-			$this->get_url()
-		);
-
-		// Redirect to the Post without parameters.
-		// This will then run maybe_restrict_content() to get the subscriber's ID from the cookie,
-		// and determine if the content can be displayed.
-		wp_safe_redirect( $url );
+		wp_safe_redirect( $this->get_url( true ) );
 		exit;
 
 	}
@@ -500,11 +511,29 @@ class ConvertKit_Output_Restrict_Content {
 	 *
 	 * @since   2.1.0
 	 *
+	 * @param   bool    $cache_bust 	Include `ck-cache-bust` parameter in URL.
 	 * @return  string  URL.
 	 */
-	private function get_url() {
+	public function get_url( $cache_bust = false ) {
 
-		return get_permalink( $this->post_id );
+		// Get URL of Post.
+		$url = get_permalink( $this->post_id );
+
+		// If no cache busting required, return the URL now.
+		if ( ! $cache_bust ) {
+			return $url;
+		}
+
+		// Append a query parameter to the URL to prevent caching plugins and
+		// aggressive cache hosting configurations from serving a cached page, which would
+		// result in maybe_restrict_content() not showing an error message or permitting
+		// access to the content.
+		return add_query_arg(
+			array(
+				'ck-cache-bust' => microtime(),
+			),
+			$url
+		);
 
 	}
 

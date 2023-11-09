@@ -233,7 +233,7 @@ class ConvertKit_AJAX {
 	 * 
 	 * See maybe_run_subscriber_verification() for logic once they enter the code on screen.
 	 *
-	 * @since   2.3.7
+	 * @since   2.3.8
 	 */
 	public function subscriber_authentication_send_code() {
 
@@ -264,7 +264,7 @@ class ConvertKit_AJAX {
 	 * address supplied truly belongs to the user, and that we can safely trust their subscriber ID
 	 * to be valid.
 	 *
-	 * @since   2.3.7
+	 * @since   2.3.8
 	 */
 	public function subscriber_verification() {
 
@@ -274,16 +274,19 @@ class ConvertKit_AJAX {
 		// Run subscriber authentication.
 		$output_restrict_content->maybe_run_subscriber_verification();
 
+		error_log( print_r( $output_restrict_content->error, true ) );
+
 		// If an error occured, build the code form view with the error message.
 		if ( is_wp_error( $output_restrict_content->error ) ) {
 			ob_start();
 			include CONVERTKIT_PLUGIN_PATH . '/views/frontend/restrict-content/product-modal-content-code.php';
 			$output = trim( ob_get_clean() );
-			wp_send_json_success( $output );
+			wp_send_json_error( $output );
 		}
 
-		// Return success, so JS can reload the page with cache busting.
-		wp_send_json_success();
+		// Return success with the URL to the Post, including the `ck-cache-bust` parameter.
+		// JS will load the given URL to show the restricted content.
+		wp_send_json_success( $output_restrict_content->get_url( true ) );
 
 	}
 

@@ -173,6 +173,7 @@ function convertKitRestrictContentSubscriberVerification( nonce, subscriber_code
 				type: 'POST',
 				data: {
 					action: 'convertkit_subscriber_verification',
+					'_wpnonce': nonce,
 					subscriber_code: subscriber_code,
 					token: token,
 					convertkit_post_id: post_id
@@ -184,8 +185,16 @@ function convertKitRestrictContentSubscriberVerification( nonce, subscriber_code
 						console.log( response );
 					}
 
-					// @TODO Check output to determine if we need to redirect or not.
-					$( '#convertkit-restrict-content-modal-content' ).html( response.data );
+					// If the entered code is invalid, show the response in the modal.
+					if ( ! response.success ) {
+						$( '#convertkit-restrict-content-modal-content' ).html( response.data );
+						return;
+					}
+
+					// Code entered is valid; load the URL in the response data, which will be the
+					// current URL with the `ck-cache-bust` parameter appended to it.
+					// As cookies are set, the user will now see the restricted content.
+					window.location = response.data;
 
 				}
 			}
