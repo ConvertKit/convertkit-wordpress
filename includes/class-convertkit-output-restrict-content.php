@@ -138,7 +138,6 @@ class ConvertKit_Output_Restrict_Content {
 
 		// Bail if the nonce failed validation.
 		if ( ! wp_verify_nonce( sanitize_key( $_REQUEST['_wpnonce'] ), 'convertkit_restrict_content_login' ) ) {
-			$this->error = new WP_Error( 'convertkit_output_restrict_content_error', __( 'Invalid nonce specified. Please try again.', 'convertkit' ) );
 			return;
 		}
 
@@ -216,7 +215,16 @@ class ConvertKit_Output_Restrict_Content {
 	 */
 	public function maybe_run_subscriber_verification() {
 
-		// phpcs:disable WordPress.Security.NonceVerification.Recommended
+		// Bail if no nonce was specified.
+		if ( ! array_key_exists( '_wpnonce', $_REQUEST ) ) {
+			return;
+		}
+
+		// Bail if the nonce failed validation.
+		if ( ! wp_verify_nonce( sanitize_key( $_REQUEST['_wpnonce'] ), 'convertkit_restrict_content_subscriber_code' ) ) {
+			return;
+		}
+
 		// Bail if the expected token and subscriber code is missing.
 		if ( ! array_key_exists( 'token', $_REQUEST ) ) {
 			return;
@@ -242,7 +250,6 @@ class ConvertKit_Output_Restrict_Content {
 			sanitize_text_field( $_REQUEST['token'] ),
 			sanitize_text_field( $_REQUEST['subscriber_code'] )
 		);
-		// phpcs:enable
 
 		// Bail if an error occured.
 		if ( is_wp_error( $subscriber_id ) ) {
@@ -837,7 +844,7 @@ class ConvertKit_Output_Restrict_Content {
 	 *
 	 * If no excerpt is defined, generates one from the Post's content.
 	 *
-	 * @since   2.3.5
+	 * @since   2.3.7
 	 *
 	 * @param   int $post_id    Post ID.
 	 * @return  string              Post excerpt.

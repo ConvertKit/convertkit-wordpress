@@ -61,6 +61,7 @@ jobs:
           'acceptance/general',
           'acceptance/integrations/elementor',
           'acceptance/integrations/other',
+          'acceptance/integrations/wlm',
           'acceptance/integrations/woocommerce',
           'acceptance/products',
           'acceptance/restrict-content',
@@ -125,11 +126,17 @@ jobs:
       - name: Install Paid Third Party WordPress Plugins
         working-directory: ${{ env.ROOT_DIR }}
         run: wp-cli plugin install ${{ secrets.CONVERTKIT_PAID_PLUGIN_URLS }}
+
+      # Install 2021 Theme, which provides support for widgets.
+      # 2021 Theme isn't included in WordPress 6.4 or higher, but is required for our widget tests.
+      - name: Install WordPress Themes
+        working-directory: ${{ env.ROOT_DIR }}
+        run: wp-cli theme install twentytwentyone
       
       # WP_DEBUG = true is required so all PHP errors are output and caught by tests (E_ALL).
-      # WP_DEBUG = false for WishList Member tests on PHP 8.2, as WLM is not PHP 8.2 compatible and throws a lot of errors.
+      # WP_DEBUG = false for Elementor and WishList Member tests, as WLM is not yet updated with WordPress 6.4 deprecated functions.
       - name: Enable WP_DEBUG
-        if: ${{ matrix.php-versions != '8.2' && matrix.test-groups != 'acceptance/wlm' }}
+        if: ${{ matrix.test-groups != 'acceptance/integrations/wlm' && matrix.test-groups != 'acceptance/integrations/elementor' }}
         working-directory: ${{ env.ROOT_DIR }}
         run: |
           wp-cli config set WP_DEBUG true --raw

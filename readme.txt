@@ -3,9 +3,9 @@ Contributors: nathanbarry, growdev, travisnorthcutt, ggwicz
 Donate link: https://convertkit.com
 Tags: email marketing, email newsletter, newsletter, subscribers, membership
 Requires at least: 5.0
-Tested up to: 6.3.2
+Tested up to: 6.4.1
 Requires PHP: 5.6.20
-Stable tag: 2.3.6
+Stable tag: 2.3.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -137,6 +137,11 @@ Full Plugin documentation can be found [here](https://help.convertkit.com/en/art
 7. Track subscriber growth
 
 == Changelog ==
+
+### 2.3.7 2023-11-09
+* Added: Member Content: Output manual or generated excerpt if no read more tag present in the Post's content
+* Fix: Member Content: Force padding on buttons to prevent Themes overriding button layout
+* Fix: Member Content: Add `required` attribute on form fields
 
 ### 2.3.6 2023-11-02
 * Added: Member Content: Updated UI of gated content screens to better match ConvertKit
