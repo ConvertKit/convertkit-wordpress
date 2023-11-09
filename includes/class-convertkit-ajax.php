@@ -226,11 +226,11 @@ class ConvertKit_AJAX {
 	/**
 	 * Calls the API to send the subscriber a magic link by email containing a code when
 	 * the modal version of Restrict Content is used, and the user has submitted their email address.
-	 * 
+	 *
 	 * Returns a view of either:
 	 * - an error message and email input i.e. the user entered an invalid email address,
 	 * - the code input, which is then displayed in the modal for the user to enter the code sent by email.
-	 * 
+	 *
 	 * See maybe_run_subscriber_verification() for logic once they enter the code on screen.
 	 *
 	 * @since   2.3.8
@@ -273,8 +273,6 @@ class ConvertKit_AJAX {
 
 		// Run subscriber authentication.
 		$output_restrict_content->maybe_run_subscriber_verification();
-
-		error_log( print_r( $output_restrict_content->error, true ) );
 
 		// If an error occured, build the code form view with the error message.
 		if ( is_wp_error( $output_restrict_content->error ) ) {

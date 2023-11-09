@@ -2,7 +2,8 @@
 /**
  * Outputs the restricted content product code field
  * for the subscriber to enter their code if
- * they've already subscribed to the ConvertKit Product.
+ * they've already subscribed to the ConvertKit Product,
+ * displayed within a modal.
  *
  * @package ConvertKit
  * @author ConvertKit

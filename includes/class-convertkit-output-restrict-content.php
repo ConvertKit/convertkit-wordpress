@@ -171,7 +171,7 @@ class ConvertKit_Output_Restrict_Content {
 		$this->api = new ConvertKit_API( $this->settings->get_api_key(), $this->settings->get_api_secret(), $this->settings->debug_enabled() );
 
 		// Sanitize inputs.
-		$email         		 = sanitize_text_field( $_REQUEST['convertkit_email'] );
+		$email               = sanitize_text_field( $_REQUEST['convertkit_email'] );
 		$this->resource_type = sanitize_text_field( $_REQUEST['convertkit_resource_type'] );
 		$this->resource_id   = absint( sanitize_text_field( $_REQUEST['convertkit_resource_id'] ) );
 		$this->post_id       = absint( sanitize_text_field( $_REQUEST['convertkit_post_id'] ) );
@@ -184,8 +184,6 @@ class ConvertKit_Output_Restrict_Content {
 					$email,
 					$this->get_url()
 				);
-
-				error_log( print_r( $result, true ) );
 
 				// Bail if an error occured.
 				if ( is_wp_error( $result ) ) {
@@ -266,8 +264,6 @@ class ConvertKit_Output_Restrict_Content {
 			return;
 		}
 
-		error_log( 'maybe_run_subscriber_verification() called.' );
-
 		// Store the token so it's included in the subscriber code form if verification fails.
 		$this->token   = sanitize_text_field( $_REQUEST['token'] );
 		$this->post_id = absint( sanitize_text_field( $_REQUEST['convertkit_post_id'] ) );
@@ -342,7 +338,7 @@ class ConvertKit_Output_Restrict_Content {
 
 		// If no subscriber ID exists, the visitor cannot view the content.
 		if ( ! $subscriber_id ) {
-			return $this->restrict_content( $content);
+			return $this->restrict_content( $content );
 		}
 
 		// If the subscriber is not subscribed to the product, restrict the content.
@@ -511,7 +507,7 @@ class ConvertKit_Output_Restrict_Content {
 	 *
 	 * @since   2.1.0
 	 *
-	 * @param   bool    $cache_bust 	Include `ck-cache-bust` parameter in URL.
+	 * @param   bool $cache_bust     Include `ck-cache-bust` parameter in URL.
 	 * @return  string  URL.
 	 */
 	public function get_url( $cache_bust = false ) {
@@ -923,7 +919,7 @@ class ConvertKit_Output_Restrict_Content {
 	 *
 	 * @since   2.1.0
 	 *
-	 * @param   int    $post_id        Post ID.
+	 * @param   int $post_id        Post ID.
 	 * @return  string                  HTML
 	 */
 	private function get_call_to_action( $post_id ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter
@@ -942,8 +938,8 @@ class ConvertKit_Output_Restrict_Content {
 				'convertkit-restrict-content',
 				'convertkit_restrict_content',
 				array(
-					'ajaxurl'       => admin_url( 'admin-ajax.php' ),
-					'debug'         => $this->settings->debug_enabled(),
+					'ajaxurl' => admin_url( 'admin-ajax.php' ),
+					'debug'   => $this->settings->debug_enabled(),
 				)
 			);
 

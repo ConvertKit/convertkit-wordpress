@@ -7,8 +7,6 @@
  * @author ConvertKit
  */
 
-console.log( convertkit_restrict_content );
-
 /**
  * Register events
  */
@@ -28,40 +26,37 @@ jQuery( document ).ready(
 		);
 
 		// Handle modal form submissions.
-		$( document ).on( 'submit', '#convertkit-restrict-content-form', function( e ) {
+		$( document ).on(
+			'submit',
+			'#convertkit-restrict-content-form',
+			function ( e ) {
 
-			alert('yes');
+				e.preventDefault();
 
-			console.log( 'Fired' );
+				// Determine if this is the email or code submission.
+				if ( $( 'input#convertkit_subscriber_code' ).length > 0 ) {
+					// Code submission.
+					convertKitRestrictContentSubscriberVerification(
+						$( 'input[name="_wpnonce"]' ).val(),
+						$( 'input[name="subscriber_code"]' ).val(),
+						$( 'input[name="token"]' ).val(),
+						$( 'input[name="convertkit_post_id"]' ).val()
+					);
 
-			e.preventDefault();
+					return false;
+				}
 
-			// Determine if this is the email or code submission.
-			if ( $( 'input#convertkit_subscriber_code' ).length > 0 ) {
-				console.log( 'code submission' );
-
-				// Code submission.
-				convertKitRestrictContentSubscriberVerification(
+				// Email submission.
+				convertKitRestrictContentSubscriberAuthenticationSendCode(
 					$( 'input[name="_wpnonce"]' ).val(),
-					$( 'input[name="subscriber_code"]' ).val(),
-					$( 'input[name="token"]' ).val(),
+					$( 'input[name="convertkit_email"]' ).val(),
+					$( 'input[name="convertkit_resource_type"]' ).val(),
+					$( 'input[name="convertkit_resource_id"]' ).val(),
 					$( 'input[name="convertkit_post_id"]' ).val()
 				);
 
-				return false;
 			}
-
-			// Email submission.
-			console.log( 'email submission' );
-			convertKitRestrictContentSubscriberAuthenticationSendCode(
-				$( 'input[name="_wpnonce"]' ).val(),
-				$( 'input[name="convertkit_email"]' ).val(),
-				$( 'input[name="convertkit_resource_type"]' ).val(),
-				$( 'input[name="convertkit_resource_id"]' ).val(),
-				$( 'input[name="convertkit_post_id"]' ).val()
-			);
-
-		} );
+		);
 
 		// Close modal.
 		$( '#convertkit-restrict-content-modal-close' ).on(
@@ -79,7 +74,7 @@ jQuery( document ).ready(
  * Opens the modal, displaying the content stored within the
  * #convertkit-restrict-content-modal-content element.
  *
- * @since 	2.3.7
+ * @since 	2.3.8
  */
 function convertKitRestrictContentOpenModal() {
 
@@ -95,7 +90,7 @@ function convertKitRestrictContentOpenModal() {
 /**
  * Closes the modal.
  *
- * @since 	2.3.7
+ * @since 	2.3.8
  */
 function convertKitRestrictContentCloseModal() {
 
@@ -108,14 +103,21 @@ function convertKitRestrictContentCloseModal() {
 
 }
 
+/**
+ * Submits the given email address to maybe_run_subscriber_authentication(), which
+ * will return either:
+ * - the email form view, with an error message e.g. invalid email,
+ * - the code form view, where the user can enter the OTP.
+ *
+ * @since 	2.3.8
+ *
+ * @param   string   nonce   	     WordPress nonce.
+ * @param   string   email   	     Email address.
+ * @param   string   resource_type   Resource Type (tag|product).
+ * @param   int      resource_id     Resource ID (ConvertKit Tag or Product ID).
+ * @param   int      post_id         WordPress Post ID being viewed / accessed.
+ */
 function convertKitRestrictContentSubscriberAuthenticationSendCode( nonce, email, resource_type, resource_id, post_id ) {
-
-	console.log( 'convertKitRestrictContentSubscriberAuthenticationSendCode' );
-	console.log( nonce );
-	console.log( email );
-	console.log( resource_type );
-	console.log( resource_id );
-	console.log( post_id );
 
 	( function ( $ ) {
 
@@ -158,13 +160,20 @@ function convertKitRestrictContentSubscriberAuthenticationSendCode( nonce, email
 
 }
 
+/**
+ * Submits the given email address to maybe_run_subscriber_verification(), which
+ * will return either:
+ * - the code form view, with an error message e.g. invalid code entered,
+ * - the Post's URL, with a `ck-cache-bust` parameter appended, which can then be loaded to show the content.
+ *
+ * @since 	2.3.8
+ *
+ * @param   string   nonce   	     WordPress nonce.
+ * @param   string   subscriber_code OTP Subscriber Code.
+ * @param   string   token           Subscriber Token.
+ * @param   int      post_id         WordPress Post ID being viewed / accessed.
+ */
 function convertKitRestrictContentSubscriberVerification( nonce, subscriber_code, token, post_id ) {
-
-	console.log( 'convertKitRestrictContentSubscriberVerification' );
-	console.log( nonce );
-	console.log( subscriber_code );
-	console.log( token );
-	console.log( post_id );
 
 	( function ( $ ) {
 
@@ -215,7 +224,7 @@ function convertKitRestrictContentSubscriberVerification( nonce, subscriber_code
  * Defines the `--opt-digit` CSS var, so that the background color shifts to the next input
  * when entering the one time code.
  *
- * @since 	2.3.7
+ * @since 	2.3.8
  */
 function convertKitRestrictContentOTPField() {
 
@@ -237,7 +246,8 @@ function convertKitRestrictContentOTPField() {
 			if ( convertKitRestrictContentSubscriberCodeInput.selectionStart === 6 ) {
 				convertKitRestrictContentSubscriberCodeInput.setSelectionRange( 0, 0 );
 				convertKitRestrictContentSubscriberCodeInput.blur();
-				//document.querySelector( '#convertkit-restrict-content-form' ).submit();
+
+				document.querySelector( '#convertkit-restrict-content-form' ).submit();
 			}
 		}
 	);
