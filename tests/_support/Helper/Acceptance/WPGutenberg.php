@@ -189,7 +189,7 @@ class WPGutenberg extends \Codeception\Module
 	/**
 	 * Adds the given text as the excerpt in the Gutenberg editor.
 	 *
-	 * @since   2.3.5
+	 * @since   2.3.7
 	 *
 	 * @param   AcceptanceTester $I         Acceptance Tester.
 	 * @param   string           $excerpt   Post excerpt.

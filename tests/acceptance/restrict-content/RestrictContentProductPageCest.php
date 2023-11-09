@@ -91,7 +91,7 @@ class RestrictContentProductPageCest
 	 * creating and viewing a new WordPress Page, and that the WordPress generated Page Excerpt
 	 * is displayed when no more tag exists.
 	 *
-	 * @since   2.3.5
+	 * @since   2.3.7
 	 *
 	 * @param   AcceptanceTester $I  Tester.
 	 */
