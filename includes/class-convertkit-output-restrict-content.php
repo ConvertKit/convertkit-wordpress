@@ -883,21 +883,6 @@ class ConvertKit_Output_Restrict_Content {
 			wp_enqueue_style( 'convertkit-restrict-content', CONVERTKIT_PLUGIN_URL . 'resources/frontend/css/restrict-content.css', array(), CONVERTKIT_PLUGIN_VERSION );
 		}
 
-		// Only load scripts if the Disable Scripts option is off.
-		if ( ! $this->settings->scripts_disabled() ) {
-			// Enqueue scripts.
-			wp_enqueue_script( 'convertkit-restrict-content', CONVERTKIT_PLUGIN_URL . 'resources/frontend/js/restrict-content.js', array( 'jquery' ), CONVERTKIT_PLUGIN_VERSION, true );
-			wp_localize_script(
-				'convertkit-restrict-content',
-				'convertkit_restrict_content',
-				array(
-					'ajaxurl' => admin_url( 'admin-ajax.php' ),
-					'debug'   => $this->settings->debug_enabled(),
-				)
-			);
-
-		}
-
 		// This is deliberately a switch statement, because we will likely add in support
 		// for restrict by tag and form later.
 		switch ( $this->resource_type ) {
