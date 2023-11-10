@@ -142,7 +142,7 @@ function convertKitRestrictContentSubscriberAuthenticationSendCode( nonce, email
 					// Output response, which will be a form with/without an error message.
 					$( '#convertkit-restrict-content-modal-content' ).html( response.data );
 
-					// Update --opt-digit when code is input into the OTP field.
+					// Re-bind OTP listener.
 					convertKitRestrictContentOTPField();
 
 				}
@@ -228,28 +228,30 @@ function convertKitRestrictContentSubscriberVerification( nonce, subscriber_code
  */
 function convertKitRestrictContentOTPField() {
 
-	// Bail if the OTP input isn't displayed on screen.
-	const convertKitRestrictContentSubscriberCodeInput = document.querySelector( '#convertkit_subscriber_code' );
-	if ( convertKitRestrictContentSubscriberCodeInput == null ) {
-		return;
-	}
+	( function ( $ ) {
 
-	convertKitRestrictContentSubscriberCodeInput.addEventListener(
-		'input',
-		function () {
-			convertKitRestrictContentSubscriberCodeInput.style.setProperty( '--_otp-digit', convertKitRestrictContentSubscriberCodeInput.selectionStart );
+		// Bail if the OTP input isn't displayed on screen.
+		if ( $( '#convertkit_subscriber_code' ) === null ) {
+			return;
+		}
+
+		$( '#convertkit_subscriber_code' ).on( 'change keyup input paste', function() {
+
+			// Update the --_otp-digit property when the input value changes.
+			$( '#convertkit_subscriber_code' ).css( '--_otp-digit', $( '#convertkit_subscriber_code' ).val().length );
 
 			// If all 6 digits have been entered:
 			// - move the caret input to the start, to avoid numbers shifting in input,
 			// - blur the input now that all numbers are entered,
 			// - submit the form.
-			if ( convertKitRestrictContentSubscriberCodeInput.selectionStart === 6 ) {
-				convertKitRestrictContentSubscriberCodeInput.setSelectionRange( 0, 0 );
-				convertKitRestrictContentSubscriberCodeInput.blur();
-
-				document.querySelector( '#convertkit-restrict-content-form' ).submit();
+			if ( $( '#convertkit_subscriber_code' ).val().length === 6 ) {
+				$( '#convertkit_subscriber_code' )[0].setSelectionRange( 0, 0 );
+				$( '#convertkit_subscriber_code' ).blur();
+				$( '#convertkit-restrict-content-form' ).trigger( 'submit' );
 			}
-		}
-	);
+
+		} );
+
+	} )( jQuery );
 
 }
