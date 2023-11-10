@@ -921,19 +921,6 @@ class ConvertKit_Output_Restrict_Content {
 					wp_enqueue_script( 'convertkit-commerce', $url, array(), CONVERTKIT_PLUGIN_VERSION, true );
 				}
 
-				// If scripts are enabled, output the email login form in a modal, which will be displayed
-				// when the 'log in' link is clicked.
-				if ( ! $this->settings->scripts_disabled() ) {
-					add_action(
-						'wp_footer',
-						function () {
-
-							include_once CONVERTKIT_PLUGIN_PATH . '/views/frontend/restrict-content/product-modal.php';
-
-						}
-					);
-				}
-
 				// Output.
 				ob_start();
 				$button = $products->get_html( $this->resource_id, $this->restrict_content_settings->get_by_key( 'subscribe_button_label' ) );
