@@ -1047,7 +1047,7 @@ class Plugin extends \Codeception\Module
 		$I->waitForElementVisible('#convertkit-restrict-content-modal');
 		$I->waitForElementVisible('input#convertkit_email');
 		$I->fillField('convertkit_email', 'fail@convertkit.com');
-		$I->click('input.wp-block-button__link');
+		$I->click('#convertkit-restrict-content-modal input.wp-block-button__link');
 
 		// Confirm an inline error message is displayed.
 		$I->waitForElementVisible('.convertkit-restrict-content-notice-error');
@@ -1055,7 +1055,7 @@ class Plugin extends \Codeception\Module
 
 		// Login as a ConvertKit subscriber who has subscribed to the product.
 		$I->fillField('convertkit_email', $_ENV['CONVERTKIT_API_SUBSCRIBER_EMAIL']);
-		$I->click('input.wp-block-button__link');
+		$I->click('#convertkit-restrict-content-modal input.wp-block-button__link');
 
 		// Confirm that confirmation an email has been sent is displayed.
 		$I->waitForElementVisible('input#convertkit_subscriber_code');
