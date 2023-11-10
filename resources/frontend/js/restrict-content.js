@@ -235,22 +235,25 @@ function convertKitRestrictContentOTPField() {
 			return;
 		}
 
-		$( '#convertkit_subscriber_code' ).on( 'change keyup input paste', function() {
+		$( '#convertkit_subscriber_code' ).on(
+			'change keyup input paste',
+			function () {
 
-			// Update the --_otp-digit property when the input value changes.
-			$( '#convertkit_subscriber_code' ).css( '--_otp-digit', $( '#convertkit_subscriber_code' ).val().length );
+				// Update the --_otp-digit property when the input value changes.
+				$( '#convertkit_subscriber_code' ).css( '--_otp-digit', $( '#convertkit_subscriber_code' ).val().length );
 
-			// If all 6 digits have been entered:
-			// - move the caret input to the start, to avoid numbers shifting in input,
-			// - blur the input now that all numbers are entered,
-			// - submit the form.
-			if ( $( '#convertkit_subscriber_code' ).val().length === 6 ) {
-				$( '#convertkit_subscriber_code' )[0].setSelectionRange( 0, 0 );
-				$( '#convertkit_subscriber_code' ).blur();
-				$( '#convertkit-restrict-content-form' ).trigger( 'submit' );
+				// If all 6 digits have been entered:
+				// - move the caret input to the start, to avoid numbers shifting in input,
+				// - blur the input now that all numbers are entered,
+				// - submit the form.
+				if ( $( '#convertkit_subscriber_code' ).val().length === 6 ) {
+					$( '#convertkit_subscriber_code' )[0].setSelectionRange( 0, 0 );
+					$( '#convertkit_subscriber_code' ).blur();
+					$( '#convertkit-restrict-content-form' ).trigger( 'submit' );
+				}
+
 			}
-
-		} );
+		);
 
 	} )( jQuery );
 
