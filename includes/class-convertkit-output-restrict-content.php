@@ -55,7 +55,7 @@ class ConvertKit_Output_Restrict_Content {
 	 * Holds the Resource Type (product|tag) that must be subscribed to in order
 	 * to grant access to the Post.
 	 *
-	 * @since   2.3.7
+	 * @since   2.3.8
 	 *
 	 * @var     bool|string
 	 */
@@ -65,7 +65,7 @@ class ConvertKit_Output_Restrict_Content {
 	 * Holds the Resource ID that must be subscribed to in order
 	 * to grant access to the Post.
 	 *
-	 * @since   2.3.7
+	 * @since   2.3.8
 	 *
 	 * @var     bool|int
 	 */
