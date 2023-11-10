@@ -47,8 +47,8 @@ class Plugin extends \Codeception\Module
 	 * @param   bool|string      $pageFormID     Default Form ID for Pages (if specified, used instead of CONVERTKIT_API_FORM_ID).
 	 * @param   bool|string      $postFormID     Default Form ID for Posts (if specified, used instead of CONVERTKIT_API_FORM_ID).
 	 * @param   bool|string      $productFormID  Default Form ID for Products (if specified, used instead of CONVERTKIT_API_FORM_ID).
-	 * @param 	bool 			 $disableJS 	 Disable JS.
-	 * @param 	bool 			 $disableCSS 	 Disable CSS.
+	 * @param   bool             $disableJS      Disable JS.
+	 * @param   bool             $disableCSS     Disable CSS.
 	 */
 	public function setupConvertKitPlugin($I, $apiKey = false, $apiSecret = false, $pageFormID = false, $postFormID = false, $productFormID = false, $disableJS = false, $disableCSS = false)
 	{
