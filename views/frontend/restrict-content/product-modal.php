@@ -17,4 +17,5 @@
 			?>
 		</div>
 	</div>
+	<div id="convertkit-restrict-content-modal-loading"></div>
 </div>

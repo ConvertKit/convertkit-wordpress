@@ -13,9 +13,6 @@
 jQuery( document ).ready(
 	function ( $ ) {
 
-		// Update --opt-digit when code is input into the OTP field.
-		convertKitRestrictContentOTPField();
-
 		// Open modal.
 		$( '.convertkit-restrict-content-modal-open' ).on(
 			'click',
@@ -32,6 +29,12 @@ jQuery( document ).ready(
 			function ( e ) {
 
 				e.preventDefault();
+
+				// Disable inputs.
+				$( 'input[type="text"], input[type="email"], input[type="submit"]' ).attr( 'disabled', 'disabled' );
+
+				// Show loading overlay.
+				$( '#convertkit-restrict-content-modal-loading' ).show();
 
 				// Determine if this is the email or code submission.
 				if ( $( 'input#convertkit_subscriber_code' ).length > 0 ) {
@@ -97,6 +100,7 @@ function convertKitRestrictContentCloseModal() {
 	( function ( $ ) {
 
 		$( '#convertkit-restrict-content-modal-background' ).hide();
+		$( '#convertkit-restrict-content-modal-loading' ).hide();
 		$( '#convertkit-restrict-content-modal' ).hide();
 
 	} )( jQuery );
@@ -141,6 +145,9 @@ function convertKitRestrictContentSubscriberAuthenticationSendCode( nonce, email
 
 					// Output response, which will be a form with/without an error message.
 					$( '#convertkit-restrict-content-modal-content' ).html( response.data );
+
+					// Hide loading overlay.
+					$( '#convertkit-restrict-content-modal-loading' ).hide();
 
 					// Re-bind OTP listener.
 					convertKitRestrictContentOTPField();
@@ -197,6 +204,12 @@ function convertKitRestrictContentSubscriberVerification( nonce, subscriber_code
 					// If the entered code is invalid, show the response in the modal.
 					if ( ! response.success ) {
 						$( '#convertkit-restrict-content-modal-content' ).html( response.data );
+
+						// Hide loading overlay.
+						$( '#convertkit-restrict-content-modal-loading' ).hide();
+
+						// Re-bind OTP listener.
+						convertKitRestrictContentOTPField();
 						return;
 					}
 
