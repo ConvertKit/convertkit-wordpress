@@ -18,7 +18,7 @@
 
 	<div class="convertkit-restrict-content-actions">
 		<form class="convertkit-restrict-content-subscriber-code" action="<?php echo esc_attr( add_query_arg( array( 'convertkit_login' => 1 ), get_permalink( $post_id ) ) ); ?>" method="post">
-			<div id="convertkit-subscriber-code-container" class="<?php echo sanitize_html_class( ( is_wp_error( $error ) ? 'convertkit-restrict-content-error' : '' ) ); ?>">
+			<div id="convertkit-subscriber-code-container" class="<?php echo sanitize_html_class( ( is_wp_error( $this->error ) ? 'convertkit-restrict-content-error' : '' ) ); ?>">
 				<input type="text" name="subscriber_code" id="convertkit_subscriber_code" inputmode="numeric" maxlength="6" pattern="[0-9]{6}" autocomplete="one-time-code" value="" required />
 			</div>
 
@@ -29,6 +29,7 @@
 			<div>
 				<input type="submit" class="wp-block-button__link" value="<?php esc_html_e( 'Verify', 'convertkit' ); ?>" />
 				<input type="hidden" name="token" value="<?php echo esc_attr( $this->token ); ?>" />
+				<input type="hidden" name="convertkit_post_id" value="<?php echo esc_attr( $this->post_id ); ?>" />
 				<?php wp_nonce_field( 'convertkit_restrict_content_subscriber_code' ); ?>
 			</div>
 		</form>
