@@ -17,7 +17,9 @@ class RestrictContentSettingsCest
 	{
 		// Activate ConvertKit Plugin.
 		$I->activateConvertKitPlugin($I);
-		$I->setupConvertKitPlugin($I);
+
+		// Setup ConvertKit Plugin, disabling JS.
+		$I->setupConvertKitPlugin($I, false, false, false, false, false, true);
 	}
 
 	/**

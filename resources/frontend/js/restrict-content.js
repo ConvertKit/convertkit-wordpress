@@ -25,7 +25,7 @@ jQuery( document ).ready(
 		// Handle modal form submissions.
 		$( document ).on(
 			'submit',
-			'#convertkit-restrict-content-form',
+			'#convertkit-restrict-content-modal form#convertkit-restrict-content-form',
 			function ( e ) {
 
 				e.preventDefault();
