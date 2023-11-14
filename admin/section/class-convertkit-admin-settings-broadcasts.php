@@ -210,6 +210,19 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 		);
 
 		add_settings_field(
+			'author_id',
+			__( 'Author', 'convertkit' ),
+			array( $this, 'author_id_callback' ),
+			$this->settings_key,
+			$this->name,
+			array(
+				'name'        => 'author_id',
+				'label_for'   => 'author_id',
+				'description' => __( 'The WordPress User to set as the author for WordPress Posts created from imported broadcasts.', 'convertkit' ),
+			)
+		);
+
+		add_settings_field(
 			'category_id',
 			__( 'Category', 'convertkit' ),
 			array( $this, 'category_callback' ),
@@ -355,6 +368,32 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 
 		// Output field.
 		echo '<div class="convertkit-select2-container">' . $select_field . '</div>'; // phpcs:ignore WordPress.Security.EscapeOutput
+
+	}
+
+	/**
+	 * Renders the input for the author setting.
+	 *
+	 * @since   2.3.9
+	 *
+	 * @param   array $args   Setting field arguments (name,description).
+	 */
+	public function author_id_callback( $args ) {
+
+		// Build field.
+		$select_field = wp_dropdown_users(
+			array(
+				'echo'             => false,
+				'selected'         => $this->settings->author_id(),
+				'include_selected' => true,
+				'name'             => $this->settings_key . '[' . $args['name'] . ']',
+				'id'               => $args['name'],
+				'class'            => 'enabled convertkit-select2',
+			)
+		);
+
+		// Output field.
+		echo '<div class="convertkit-select2-container">' . $select_field . '</div>' . $this->get_description( $args['description'] ); // phpcs:ignore WordPress.Security.EscapeOutput
 
 	}
 
