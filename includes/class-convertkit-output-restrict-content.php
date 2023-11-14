@@ -110,6 +110,13 @@ class ConvertKit_Output_Restrict_Content {
 		$this->settings                  = new ConvertKit_Settings();
 		$this->restrict_content_settings = new ConvertKit_Settings_Restrict_Content();
 
+		// Don't register any hooks if this is an AJAX request, otherwise
+		// maybe_run_subscriber_authentication() and maybe_run_subscriber_verification() will run
+		// twice in an AJAX request (once here, and once when called by the ConvertKit_AJAX class).
+		if ( wp_doing_ajax() ) {
+			return;
+		}
+
 		add_action( 'init', array( $this, 'maybe_run_subscriber_authentication' ), 1 );
 		add_action( 'init', array( $this, 'maybe_run_subscriber_verification' ), 2 );
 		add_filter( 'the_content', array( $this, 'maybe_restrict_content' ) );
@@ -138,6 +145,20 @@ class ConvertKit_Output_Restrict_Content {
 
 		// Bail if the nonce failed validation.
 		if ( ! wp_verify_nonce( sanitize_key( $_REQUEST['_wpnonce'] ), 'convertkit_restrict_content_login' ) ) {
+			return;
+		}
+
+		// Bail if the expected email, resource ID or Post ID are missing.
+		if ( ! array_key_exists( 'convertkit_email', $_REQUEST ) ) {
+			return;
+		}
+		if ( ! array_key_exists( 'convertkit_resource_type', $_REQUEST ) ) {
+			return;
+		}
+		if ( ! array_key_exists( 'convertkit_resource_id', $_REQUEST ) ) {
+			return;
+		}
+		if ( ! array_key_exists( 'convertkit_post_id', $_REQUEST ) ) {
 			return;
 		}
 
@@ -195,8 +216,13 @@ class ConvertKit_Output_Restrict_Content {
 				// Fetch the subscriber ID from the result.
 				$subscriber_id = $result['subscription']['subscriber']['id'];
 
-				// Store subscriber ID in cookie and redirect.
-				$this->store_subscriber_id_in_cookie_and_redirect( $subscriber_id );
+				// Store subscriber ID in cookie.
+				$this->store_subscriber_id_in_cookie( $subscriber_id );
+
+				// If this isn't an AJAX request, redirect now to reload the Post.
+				if ( ! wp_doing_ajax() ) {
+					$this->redirect();
+				}
 				break;
 
 		}
@@ -257,8 +283,13 @@ class ConvertKit_Output_Restrict_Content {
 			return;
 		}
 
-		// Store subscriber ID in cookie and redirect.
-		$this->store_subscriber_id_in_cookie_and_redirect( $subscriber_id );
+		// Store subscriber ID in cookie.
+		$this->store_subscriber_id_in_cookie( $subscriber_id );
+
+		// If this isn't an AJAX request, redirect now to reload the Post.
+		if ( ! wp_doing_ajax() ) {
+			$this->redirect();
+		}
 
 	}
 
@@ -439,36 +470,34 @@ class ConvertKit_Output_Restrict_Content {
 	}
 
 	/**
-	 * Stores the given subscriber ID in the ck_subscriber_id cookie, and redirects
-	 * to the current URL, removing any query parameters (such as tokens), and appending
-	 * a ck-cache-bust query parameter to beat caching plugins.
+	 * Stores the given subscriber ID in the ck_subscriber_id cookie.
 	 *
-	 * @since   2.3.2
+	 * @since   2.3.7
 	 *
 	 * @param   string|int $subscriber_id  Subscriber ID (int if restrict by tag, signed subscriber id string if restrict by product).
 	 */
-	private function store_subscriber_id_in_cookie_and_redirect( $subscriber_id ) {
+	private function store_subscriber_id_in_cookie( $subscriber_id ) {
 
 		// Store subscriber ID in cookie.
 		// We don't need to use validate_and_store_subscriber_id() as we just validated the subscriber via authentication above.
 		$subscriber = new ConvertKit_Subscriber();
 		$subscriber->set( $subscriber_id );
 
-		// We append a query parameter to the URL to prevent caching plugins and
+	}
+
+	/**
+	 * Redirects to the current URL, removing any query parameters (such as tokens), and appending
+	 * a ck-cache-bust query parameter to beat caching plugins.
+	 *
+	 * @since   2.3.7
+	 */
+	private function redirect() {
+
+		// Redirect to the Post, appending a query parameter to the URL to prevent caching plugins and
 		// aggressive cache hosting configurations from serving a cached page, which would
 		// result in maybe_restrict_content() not showing an error message or permitting
 		// access to the content.
-		$url = add_query_arg(
-			array(
-				'ck-cache-bust' => microtime(),
-			),
-			$this->get_url()
-		);
-
-		// Redirect to the Post without parameters.
-		// This will then run maybe_restrict_content() to get the subscriber's ID from the cookie,
-		// and determine if the content can be displayed.
-		wp_safe_redirect( $url );
+		wp_safe_redirect( $this->get_url( true ) );
 		exit;
 
 	}
@@ -478,11 +507,29 @@ class ConvertKit_Output_Restrict_Content {
 	 *
 	 * @since   2.1.0
 	 *
+	 * @param   bool $cache_bust     Include `ck-cache-bust` parameter in URL.
 	 * @return  string  URL.
 	 */
-	private function get_url() {
+	public function get_url( $cache_bust = false ) {
 
-		return get_permalink( $this->post_id );
+		// Get URL of Post.
+		$url = get_permalink( $this->post_id );
+
+		// If no cache busting required, return the URL now.
+		if ( ! $cache_bust ) {
+			return $url;
+		}
+
+		// Append a query parameter to the URL to prevent caching plugins and
+		// aggressive cache hosting configurations from serving a cached page, which would
+		// result in maybe_restrict_content() not showing an error message or permitting
+		// access to the content.
+		return add_query_arg(
+			array(
+				'ck-cache-bust' => microtime(),
+			),
+			$url
+		);
 
 	}
 
@@ -883,6 +930,21 @@ class ConvertKit_Output_Restrict_Content {
 			wp_enqueue_style( 'convertkit-restrict-content', CONVERTKIT_PLUGIN_URL . 'resources/frontend/css/restrict-content.css', array(), CONVERTKIT_PLUGIN_VERSION );
 		}
 
+		// Only load scripts if the Disable Scripts option is off.
+		if ( ! $this->settings->scripts_disabled() ) {
+			// Enqueue scripts.
+			wp_enqueue_script( 'convertkit-restrict-content', CONVERTKIT_PLUGIN_URL . 'resources/frontend/js/restrict-content.js', array( 'jquery' ), CONVERTKIT_PLUGIN_VERSION, true );
+			wp_localize_script(
+				'convertkit-restrict-content',
+				'convertkit_restrict_content',
+				array(
+					'ajaxurl' => admin_url( 'admin-ajax.php' ),
+					'debug'   => $this->settings->debug_enabled(),
+				)
+			);
+
+		}
+
 		// This is deliberately a switch statement, because we will likely add in support
 		// for restrict by tag and form later.
 		switch ( $this->resource_type ) {
@@ -904,6 +966,19 @@ class ConvertKit_Output_Restrict_Content {
 				$url = $products->get_commerce_js_url();
 				if ( $url ) {
 					wp_enqueue_script( 'convertkit-commerce', $url, array(), CONVERTKIT_PLUGIN_VERSION, true );
+				}
+
+				// If scripts are enabled, output the email login form in a modal, which will be displayed
+				// when the 'log in' link is clicked.
+				if ( ! $this->settings->scripts_disabled() ) {
+					add_action(
+						'wp_footer',
+						function () {
+
+							include_once CONVERTKIT_PLUGIN_PATH . '/views/frontend/restrict-content/product-modal.php';
+
+						}
+					);
 				}
 
 				// Output.

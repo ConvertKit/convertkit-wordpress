@@ -17,7 +17,9 @@ class RestrictContentSettingsCest
 	{
 		// Activate ConvertKit Plugin.
 		$I->activateConvertKitPlugin($I);
-		$I->setupConvertKitPlugin($I);
+
+		// Setup ConvertKit Plugin, disabling JS.
+		$I->setupConvertKitPlugin($I, false, false, false, false, false, true);
 	}
 
 	/**
@@ -103,6 +105,7 @@ class RestrictContentSettingsCest
 			'subscribe_button_label' => '',
 			'email_text'             => '',
 			'email_button_label'     => '',
+			'email_heading'          => '',
 			'email_description_text' => '',
 			'email_check_heading'    => '',
 			'email_check_text'       => '',
@@ -160,6 +163,7 @@ class RestrictContentSettingsCest
 			'subscribe_button_label' => 'Subscribe Button Label',
 			'email_text'             => 'Email Text',
 			'email_button_label'     => 'Email Button Label',
+			'email_heading'          => 'Email Heading',
 			'email_description_text' => 'Email Description Text',
 			'email_check_heading'    => 'Email Check Heading',
 			'email_check_text'       => 'Email Check Text',
