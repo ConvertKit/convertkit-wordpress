@@ -141,8 +141,7 @@ class WP_ConvertKit {
 			return;
 		}
 
-		$this->classes['output']                  = new ConvertKit_Output();
-		$this->classes['output_restrict_content'] = new ConvertKit_Output_Restrict_Content();
+		$this->classes['output'] = new ConvertKit_Output();
 
 		/**
 		 * Initialize integration classes for the frontend web site.
@@ -175,6 +174,7 @@ class WP_ConvertKit {
 		$this->classes['elementor']                           = new ConvertKit_Elementor();
 		$this->classes['gutenberg']                           = new ConvertKit_Gutenberg();
 		$this->classes['media_library']                       = new ConvertKit_Media_Library();
+		$this->classes['output_restrict_content']             = new ConvertKit_Output_Restrict_Content();
 		$this->classes['review_request']                      = new ConvertKit_Review_Request( 'ConvertKit', 'convertkit', CONVERTKIT_PLUGIN_PATH );
 		$this->classes['preview_output']                      = new ConvertKit_Preview_Output();
 		$this->classes['setup']                               = new ConvertKit_Setup();

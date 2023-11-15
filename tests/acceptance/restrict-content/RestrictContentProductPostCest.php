@@ -15,9 +15,8 @@ class RestrictContentProductPostCest
 	 */
 	public function _before(AcceptanceTester $I)
 	{
-		// Activate and Setup ConvertKit plugin.
+		// Activate ConvertKit plugin.
 		$I->activateConvertKitPlugin($I);
-		$I->setupConvertKitPlugin($I);
 	}
 
 	/**
@@ -29,6 +28,9 @@ class RestrictContentProductPostCest
 	 */
 	public function testRestrictContentWhenDisabled(AcceptanceTester $I)
 	{
+		// Setup ConvertKit Plugin, disabling JS.
+		$I->setupConvertKitPlugin($I, false, false, false, false, false, true);
+
 		// Add a Post using the Gutenberg editor.
 		$I->addGutenbergPage($I, 'post', 'ConvertKit: Post: Restrict Content: Product');
 
@@ -56,6 +58,9 @@ class RestrictContentProductPostCest
 	 */
 	public function testRestrictContentByProduct(AcceptanceTester $I)
 	{
+		// Setup ConvertKit Plugin, disabling JS.
+		$I->setupConvertKitPlugin($I, false, false, false, false, false, true);
+
 		// Add a Post using the Gutenberg editor.
 		$I->addGutenbergPage($I, 'post', 'ConvertKit: Post: Restrict Content: Product');
 
@@ -97,6 +102,9 @@ class RestrictContentProductPostCest
 	 */
 	public function testRestrictContentByProductWithGeneratedExcerpt(AcceptanceTester $I)
 	{
+		// Setup ConvertKit Plugin, disabling JS.
+		$I->setupConvertKitPlugin($I, false, false, false, false, false, true);
+
 		// Define visible content and member only content.
 		$visibleContent    = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec at velit purus. Nam gravida tempor tellus, sit amet euismod arcu. Mauris sed mattis leo. Mauris viverra eget tellus sit amet vehicula. Nulla eget sapien quis felis euismod pellentesque. Quisque elementum et diam nec eleifend. Sed ornare quam eget augue consequat, in maximus quam fringilla. Morbi';
 		$memberOnlyContent = 'Member only content';
@@ -141,6 +149,9 @@ class RestrictContentProductPostCest
 	 */
 	public function testRestrictContentByProductWithDefinedExcerpt(AcceptanceTester $I)
 	{
+		// Setup ConvertKit Plugin, disabling JS.
+		$I->setupConvertKitPlugin($I, false, false, false, false, false, true);
+
 		// Define visible content and member only content.
 		$excerpt           = 'This is a defined excerpt';
 		$memberOnlyContent = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec at velit purus. Nam gravida tempor tellus, sit amet euismod arcu. Mauris sed mattis leo. Mauris viverra eget tellus sit amet vehicula. Nulla eget sapien quis felis euismod pellentesque. Quisque elementum et diam nec eleifend. Sed ornare quam eget augue consequat, in maximus quam fringilla. Morbi';
@@ -185,6 +196,50 @@ class RestrictContentProductPostCest
 	}
 
 	/**
+	 * Test that restricting content by a Product specified in the Post Settings works when
+	 * creating and viewing a new WordPress Post, and JS is enabled to allow the modal
+	 * version for the authentication flow to be used.
+	 *
+	 * @since   2.3.8
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testRestrictContentModalByProduct(AcceptanceTester $I)
+	{
+		// Setup ConvertKit Plugin.
+		$I->setupConvertKitPlugin($I);
+
+		// Add a Post using the Gutenberg editor.
+		$I->addGutenbergPage($I, 'post', 'ConvertKit: Post: Restrict Content: Product: Modal');
+
+		// Configure metabox's Restrict Content setting = Product name.
+		$I->configureMetaboxSettings(
+			$I,
+			'wp-convertkit-meta-box',
+			[
+				'form'             => [ 'select2', 'None' ],
+				'restrict_content' => [ 'select2', $_ENV['CONVERTKIT_API_PRODUCT_NAME'] ],
+			]
+		);
+
+		// Add blocks.
+		$I->addGutenbergParagraphBlock($I, 'Visible content.');
+		$I->addGutenbergBlock($I, 'More', 'more');
+		$I->addGutenbergParagraphBlock($I, 'Member only content.');
+
+		// Publish Post.
+		$url = $I->publishGutenbergPage($I);
+
+		// Test Restrict Content functionality.
+		$I->testRestrictedContentModalByProductOnFrontend(
+			$I,
+			$url,
+			'Visible content.',
+			'Member only content.'
+		);
+	}
+
+	/**
 	 * Test that restricting content by a Product that does not exist does not output
 	 * a fatal error and instead displays all of the Post's content.
 	 *
@@ -197,6 +252,9 @@ class RestrictContentProductPostCest
 	 */
 	public function testRestrictContentByInvalidProduct(AcceptanceTester $I)
 	{
+		// Setup ConvertKit Plugin, disabling JS.
+		$I->setupConvertKitPlugin($I, false, false, false, false, false, true);
+
 		// Programmatically create a Page.
 		$postID = $I->createRestrictedContentPage(
 			$I,
@@ -224,6 +282,9 @@ class RestrictContentProductPostCest
 	 */
 	public function testRestrictContentByProductUsingQuickEdit(AcceptanceTester $I)
 	{
+		// Setup ConvertKit Plugin, disabling JS.
+		$I->setupConvertKitPlugin($I, false, false, false, false, false, true);
+
 		// Programmatically create a Post.
 		$postID = $I->createRestrictedContentPage(
 			$I,
@@ -255,6 +316,9 @@ class RestrictContentProductPostCest
 	 */
 	public function testRestrictContentByProductUsingBulkEdit(AcceptanceTester $I)
 	{
+		// Setup ConvertKit Plugin, disabling JS.
+		$I->setupConvertKitPlugin($I, false, false, false, false, false, true);
+
 		// Programmatically create two Posts.
 		$postIDs = array(
 			$I->createRestrictedContentPage($I, 'post', 'ConvertKit: Post: Restrict Content: Product: ' . $_ENV['CONVERTKIT_API_PRODUCT_NAME'] . ': Bulk Edit #1'),

@@ -112,6 +112,7 @@ class ConvertKit_Settings_Restrict_Content {
 			'subscribe_button_label' => __( 'Subscribe', 'convertkit' ),
 			'email_text'             => __( 'Already subscribed?', 'convertkit' ),
 			'email_button_label'     => __( 'Log in', 'convertkit' ),
+			'email_heading'          => __( 'Log in to read this post', 'convertkit' ),
 			'email_description_text' => __( 'We\'ll email you a magic code to log you in without a password.', 'convertkit' ),
 			'email_check_heading'    => __( 'We just emailed you a log in code', 'convertkit' ),
 			'email_check_text'       => __( 'Enter the code below to finish logging in', 'convertkit' ),
