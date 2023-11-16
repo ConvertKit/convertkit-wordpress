@@ -387,7 +387,7 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 				'selected'         => $this->settings->author_id(),
 				'include_selected' => true,
 				'name'             => $this->settings_key . '[' . $args['name'] . ']',
-				'id'               => $args['name'],
+				'id'               => $this->settings_key . '_' . $args['name'],
 				'class'            => 'enabled convertkit-select2',
 			)
 		);

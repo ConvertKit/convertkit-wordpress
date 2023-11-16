@@ -288,8 +288,6 @@ class BroadcastsToPostsCest
 	 * Tests that Broadcasts import when enabled in the Plugin's settings,
 	 * an Author is defined and the Author is assigned to the created
 	 * WordPress Posts.
-	 * 
-	 * @TODO Run this test. Register a new user so it's not the admin user.
 	 *
 	 * @since   2.3.8
 	 *
@@ -297,12 +295,15 @@ class BroadcastsToPostsCest
 	 */
 	public function testBroadcastsImportWithAuthorIDEnabled(AcceptanceTester $I)
 	{
+		// Add a WordPress User with an Editor role.
+		$I->haveUserInDatabase( 'editor', 'editor' );
+
 		// Enable Broadcasts to Posts.
 		$I->setupConvertKitPluginBroadcasts(
 			$I,
 			[
 				'enabled'               => true,
-				'author_id'             => 'admin',
+				'author_id'             => 'editor',
 				'category_id'           => $this->categoryName,
 				'published_at_min_date' => '01/01/2020',
 			]
@@ -337,7 +338,7 @@ class BroadcastsToPostsCest
 			$I->seePostInDatabase(
 				[
 					'ID'          => $postID,
-					'post_author' => '1',
+					'post_author' => '2',
 				]
 			);
 		}
