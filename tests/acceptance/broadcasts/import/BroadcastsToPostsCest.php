@@ -285,6 +285,65 @@ class BroadcastsToPostsCest
 	}
 
 	/**
+	 * Tests that Broadcasts import when enabled in the Plugin's settings,
+	 * an Author is defined and the Author is assigned to the created
+	 * WordPress Posts.
+	 * 
+	 * @TODO Run this test. Register a new user so it's not the admin user.
+	 *
+	 * @since   2.3.8
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testBroadcastsImportWithAuthorIDEnabled(AcceptanceTester $I)
+	{
+		// Enable Broadcasts to Posts.
+		$I->setupConvertKitPluginBroadcasts(
+			$I,
+			[
+				'enabled'               => true,
+				'author_id'             => 'admin',
+				'category_id'           => $this->categoryName,
+				'published_at_min_date' => '01/01/2020',
+			]
+		);
+
+		// Run the WordPress Cron event to import Broadcasts to WordPress Posts.
+		$I->runCronEvent($I, $this->cronEventName);
+
+		// Wait a few seconds for the Cron event to complete importing Broadcasts.
+		$I->wait(7);
+
+		// Load the Posts screen.
+		$I->amOnAdminPage('edit.php');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Confirm expected Broadcasts exist as Posts.
+		$I->see($_ENV['CONVERTKIT_API_BROADCAST_FIRST_TITLE']);
+		$I->see($_ENV['CONVERTKIT_API_BROADCAST_SECOND_TITLE']);
+		$I->see($_ENV['CONVERTKIT_API_BROADCAST_THIRD_TITLE']);
+
+		// Get created Post IDs.
+		$postIDs = [
+			(int) str_replace('post-', '', $I->grabAttributeFrom('tbody#the-list > tr:nth-child(1)', 'id')),
+			(int) str_replace('post-', '', $I->grabAttributeFrom('tbody#the-list > tr:nth-child(2)', 'id')),
+			(int) str_replace('post-', '', $I->grabAttributeFrom('tbody#the-list > tr:nth-child(3)', 'id')),
+		];
+
+		// Confirm each Post's status is private.
+		foreach ($postIDs as $postID) {
+			$I->seePostInDatabase(
+				[
+					'ID'          => $postID,
+					'post_author' => '1',
+				]
+			);
+		}
+	}
+
+	/**
 	 * Tests that Broadcasts import when enabled in the Plugin's settings
 	 * a Category is defined and the Category is assigned to the created
 	 * WordPress Posts.
