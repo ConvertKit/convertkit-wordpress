@@ -159,6 +159,21 @@ class ConvertKit_Admin_Settings_Restrict_Content extends ConvertKit_Settings_Bas
 		);
 
 		add_settings_field(
+			'email_heading',
+			__( 'Email Heading', 'convertkit' ),
+			array( $this, 'text_callback' ),
+			$this->settings_key,
+			$this->name,
+			array(
+				'name'        => 'email_heading',
+				'label_for'   => 'email_heading',
+				'description' => array(
+					__( 'The heading to display above the email field, directing the subscriber to log in.', 'convertkit' ),
+				),
+			)
+		);
+
+		add_settings_field(
 			'email_description_text',
 			__( 'Email Field Description', 'convertkit' ),
 			array( $this, 'text_callback' ),
