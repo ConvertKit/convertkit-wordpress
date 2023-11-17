@@ -185,6 +185,9 @@ class BroadcastsToPostsCest
 		// Confirm a success message displays.
 		$I->see('Broadcasts import started. Check the Posts screen shortly to confirm Broadcasts imported successfully.');
 
+		// Confirm the next scheduled date/time is not displayed, as the event is running.
+		$I->dontSee('Broadcasts will next import at approximately');
+
 		// Wait a few seconds for the Cron event to complete importing Broadcasts.
 		$I->wait(7);
 
