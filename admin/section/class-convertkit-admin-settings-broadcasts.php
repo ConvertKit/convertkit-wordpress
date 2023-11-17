@@ -157,8 +157,9 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 
 		// Define description for the 'Enabled' setting.
 		// If enabled, include the next scheduled date and time the Plugin will import broadcasts.
+		// If the next scheduled timestamp is 1, the event is running now.
 		$enabled_description = '';
-		if ( $this->settings->enabled() && $posts->get_cron_event_next_scheduled() ) {
+		if ( $this->settings->enabled() && $posts->get_cron_event_next_scheduled() && $posts->get_cron_event_next_scheduled() > 1 ) {
 			$enabled_description = sprintf(
 				'%s %s',
 				esc_html__( 'Broadcasts will next import at approximately ', 'convertkit' ),
