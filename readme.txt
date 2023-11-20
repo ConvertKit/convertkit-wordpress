@@ -5,7 +5,7 @@ Tags: email marketing, email newsletter, newsletter, subscribers, membership
 Requires at least: 5.0
 Tested up to: 6.4.1
 Requires PHP: 5.6.20
-Stable tag: 2.3.7
+Stable tag: 2.3.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -137,6 +137,12 @@ Full Plugin documentation can be found [here](https://help.convertkit.com/en/art
 7. Track subscriber growth
 
 == Changelog ==
+
+### 2.3.8 2023-11-20
+* Added: Member Content: Display log in and authentication code forms in modal to better match ConvertKit
+* Added: Broadcasts (Beta): Define WordPress Post Author when importing ConvertKit Broadcasts
+* Fix: Broadcasts (Beta): Don't show next scheduled date and time immediately after clicking `Import Now`
+* Fix: PHP Warning: Use of deprecated `FILTER_SANITIZE_STRING`
 
 ### 2.3.7 2023-11-09
 * Added: Member Content: Output manual or generated excerpt if no read more tag present in the Post's content

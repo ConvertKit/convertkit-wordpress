@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the ConvertKit plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: ConvertKit 2.3.7\n"
+"Project-Id-Version: ConvertKit 2.3.8\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/convertkit\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-11-09T15:28:26+00:00\n"
+"POT-Creation-Date: 2023-11-20T15:54:17+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.7.1\n"
 "X-Domain: convertkit\n"
@@ -139,54 +139,62 @@ msgid "The text to display asking if the subscriber has already subscribed."
 msgstr ""
 
 #: admin/class-convertkit-admin-settings-restrict-content.php:163
-msgid "Email Field Description"
+msgid "Email Heading"
 msgstr ""
 
 #: admin/class-convertkit-admin-settings-restrict-content.php:171
-msgid "The text to display below the email field, explaining the subscriber will receive a code by email."
+msgid "The heading to display above the email field, directing the subscriber to log in."
 msgstr ""
 
 #: admin/class-convertkit-admin-settings-restrict-content.php:178
-msgid "Email Button Label"
+msgid "Email Field Description"
 msgstr ""
 
 #: admin/class-convertkit-admin-settings-restrict-content.php:186
-msgid "The text to display for the button to submit the subscriber's email address and receive a login link to access the member only content."
+msgid "The text to display below the email field, explaining the subscriber will receive a code by email."
 msgstr ""
 
 #: admin/class-convertkit-admin-settings-restrict-content.php:193
-msgid "Email Check Heading"
+msgid "Email Button Label"
 msgstr ""
 
 #: admin/class-convertkit-admin-settings-restrict-content.php:201
-msgid "The heading to display telling the subscriber an email with a log in code was just sent."
+msgid "The text to display for the button to submit the subscriber's email address and receive a login link to access the member only content."
 msgstr ""
 
 #: admin/class-convertkit-admin-settings-restrict-content.php:208
-msgid "Email Check Text"
+msgid "Email Check Heading"
 msgstr ""
 
 #: admin/class-convertkit-admin-settings-restrict-content.php:216
-msgid "The text to display instructing the subscriber to check their email for the login link that was sent."
+msgid "The heading to display telling the subscriber an email with a log in code was just sent."
 msgstr ""
 
 #: admin/class-convertkit-admin-settings-restrict-content.php:223
-msgid "No Access Text"
+msgid "Email Check Text"
 msgstr ""
 
 #: admin/class-convertkit-admin-settings-restrict-content.php:231
-msgid "The text to display for a subscriber who authenticates via the login link, but is not subscribed."
+msgid "The text to display instructing the subscriber to check their email for the login link that was sent."
+msgstr ""
+
+#: admin/class-convertkit-admin-settings-restrict-content.php:238
+msgid "No Access Text"
 msgstr ""
 
 #: admin/class-convertkit-admin-settings-restrict-content.php:246
+msgid "The text to display for a subscriber who authenticates via the login link, but is not subscribed."
+msgstr ""
+
+#: admin/class-convertkit-admin-settings-restrict-content.php:261
 msgid "Defines the text and button labels to display when a Page, Post or Custom Post has its Member Content setting defined."
 msgstr ""
 
-#: admin/class-convertkit-admin-settings-restrict-content.php:252
+#: admin/class-convertkit-admin-settings-restrict-content.php:267
 msgid "If your web host has caching configured (or you are using a caching plugin), you must configure it to disable caching when the"
 msgstr ""
 
-#: admin/class-convertkit-admin-settings-restrict-content.php:254
+#: admin/class-convertkit-admin-settings-restrict-content.php:269
 msgid "cookie is present. Failing to do so will result in errors."
 msgstr ""
 
@@ -207,7 +215,7 @@ msgid "Documentation"
 msgstr ""
 
 #: admin/class-convertkit-admin-settings.php:278
-#: admin/section/class-convertkit-admin-settings-broadcasts.php:274
+#: admin/section/class-convertkit-admin-settings-broadcasts.php:288
 msgid "Beta"
 msgstr ""
 
@@ -238,67 +246,75 @@ msgstr ""
 msgid "Broadcasts import started. Check the Posts screen shortly to confirm Broadcasts imported successfully."
 msgstr ""
 
-#: admin/section/class-convertkit-admin-settings-broadcasts.php:164
+#: admin/section/class-convertkit-admin-settings-broadcasts.php:165
 msgid "Broadcasts will next import at approximately "
 msgstr ""
 
-#: admin/section/class-convertkit-admin-settings-broadcasts.php:176
+#: admin/section/class-convertkit-admin-settings-broadcasts.php:177
 msgid "Enable Automatic Import"
 msgstr ""
 
-#: admin/section/class-convertkit-admin-settings-broadcasts.php:183
+#: admin/section/class-convertkit-admin-settings-broadcasts.php:184
 msgid "Enables automatic publication of public ConvertKit Broadcasts as WordPress Posts."
 msgstr ""
 
-#: admin/section/class-convertkit-admin-settings-broadcasts.php:201
+#: admin/section/class-convertkit-admin-settings-broadcasts.php:202
 msgid "Status"
 msgstr ""
 
-#: admin/section/class-convertkit-admin-settings-broadcasts.php:208
+#: admin/section/class-convertkit-admin-settings-broadcasts.php:209
 msgid "The WordPress Post status to assign imported broadcasts to."
 msgstr ""
 
-#: admin/section/class-convertkit-admin-settings-broadcasts.php:214
+#: admin/section/class-convertkit-admin-settings-broadcasts.php:215
+msgid "Author"
+msgstr ""
+
+#: admin/section/class-convertkit-admin-settings-broadcasts.php:222
+msgid "The WordPress User to set as the author for WordPress Posts created from imported broadcasts."
+msgstr ""
+
+#: admin/section/class-convertkit-admin-settings-broadcasts.php:228
 msgid "Category"
 msgstr ""
 
-#: admin/section/class-convertkit-admin-settings-broadcasts.php:221
+#: admin/section/class-convertkit-admin-settings-broadcasts.php:235
 msgid "The category to assign imported broadcasts to."
 msgstr ""
 
-#: admin/section/class-convertkit-admin-settings-broadcasts.php:227
+#: admin/section/class-convertkit-admin-settings-broadcasts.php:241
 msgid "Earliest Date"
 msgstr ""
 
-#: admin/section/class-convertkit-admin-settings-broadcasts.php:234
+#: admin/section/class-convertkit-admin-settings-broadcasts.php:248
 msgid "The earliest date to import broadcasts from, based on the broadcast's published date and time."
 msgstr ""
 
-#: admin/section/class-convertkit-admin-settings-broadcasts.php:240
+#: admin/section/class-convertkit-admin-settings-broadcasts.php:254
 msgid "Enable Export Actions"
 msgstr ""
 
-#: admin/section/class-convertkit-admin-settings-broadcasts.php:247
+#: admin/section/class-convertkit-admin-settings-broadcasts.php:261
 msgid "Displays actions in WordPress to create draft broadcasts from existing WordPress posts."
 msgstr ""
 
-#: admin/section/class-convertkit-admin-settings-broadcasts.php:253
+#: admin/section/class-convertkit-admin-settings-broadcasts.php:267
 msgid "Disable Styles"
 msgstr ""
 
-#: admin/section/class-convertkit-admin-settings-broadcasts.php:260
+#: admin/section/class-convertkit-admin-settings-broadcasts.php:274
 msgid "Removes inline styles and layout when importing broadcasts and exporting posts."
 msgstr ""
 
-#: admin/section/class-convertkit-admin-settings-broadcasts.php:275
+#: admin/section/class-convertkit-admin-settings-broadcasts.php:289
 msgid "Defines whether public broadcasts created in ConvertKit should automatically be published on this site as WordPress Posts, and whether to enable options to create draft ConvertKit Broadcasts from WordPress Posts."
 msgstr ""
 
-#: admin/section/class-convertkit-admin-settings-broadcasts.php:331
+#: admin/section/class-convertkit-admin-settings-broadcasts.php:345
 msgid "Import now"
 msgstr ""
 
-#: admin/section/class-convertkit-admin-settings-broadcasts.php:373
+#: admin/section/class-convertkit-admin-settings-broadcasts.php:413
 #: admin/section/class-convertkit-settings-general.php:436
 #: admin/section/class-convertkit-settings-general.php:506
 #: includes/integrations/contactform7/class-convertkit-contactform7-admin-settings.php:113
@@ -916,37 +932,37 @@ msgstr ""
 msgid "Buy my product"
 msgstr ""
 
-#: includes/class-convertkit-ajax.php:81
-#: includes/class-convertkit-ajax.php:168
+#: includes/class-convertkit-ajax.php:87
+#: includes/class-convertkit-ajax.php:174
 msgid "ConvertKit: Required parameter `subscriber_id` not included in AJAX request."
 msgstr ""
 
-#: includes/class-convertkit-ajax.php:87
-#: includes/class-convertkit-ajax.php:178
+#: includes/class-convertkit-ajax.php:93
+#: includes/class-convertkit-ajax.php:184
 msgid "ConvertKit: Required parameter `subscriber_id` empty in AJAX request."
 msgstr ""
 
-#: includes/class-convertkit-ajax.php:123
+#: includes/class-convertkit-ajax.php:129
 msgid "ConvertKit: Required parameter `email` not included in AJAX request."
 msgstr ""
 
-#: includes/class-convertkit-ajax.php:129
+#: includes/class-convertkit-ajax.php:135
 msgid "ConvertKit: Required parameter `email` is empty."
 msgstr ""
 
-#: includes/class-convertkit-ajax.php:134
+#: includes/class-convertkit-ajax.php:140
 msgid "ConvertKit: Required parameter `email` is not an email address."
 msgstr ""
 
-#: includes/class-convertkit-ajax.php:171
+#: includes/class-convertkit-ajax.php:177
 msgid "ConvertKit: Required parameter `tag` not included in AJAX request."
 msgstr ""
 
-#: includes/class-convertkit-ajax.php:181
+#: includes/class-convertkit-ajax.php:187
 msgid "ConvertKit: Required parameter `tag` empty in AJAX request."
 msgstr ""
 
-#: includes/class-convertkit-ajax.php:187
+#: includes/class-convertkit-ajax.php:193
 msgid "ConvertKit: API Keys not defined in Plugin Settings."
 msgstr ""
 
@@ -1026,18 +1042,22 @@ msgid "Log in"
 msgstr ""
 
 #: includes/class-convertkit-settings-restrict-content.php:115
-msgid "We'll email you a magic code to log you in without a password."
+msgid "Log in to read this post"
 msgstr ""
 
 #: includes/class-convertkit-settings-restrict-content.php:116
-msgid "We just emailed you a log in code"
+msgid "We'll email you a magic code to log you in without a password."
 msgstr ""
 
 #: includes/class-convertkit-settings-restrict-content.php:117
-msgid "Enter the code below to finish logging in"
+msgid "We just emailed you a log in code"
 msgstr ""
 
 #: includes/class-convertkit-settings-restrict-content.php:118
+msgid "Enter the code below to finish logging in"
+msgstr ""
+
+#: includes/class-convertkit-settings-restrict-content.php:119
 msgid "Your account does not have access to this content. Please use the button above to purchase, or enter the email address you used to purchase the product."
 msgstr ""
 
@@ -1694,9 +1714,13 @@ msgstr ""
 msgid "Verify"
 msgstr ""
 
-#: views/frontend/restrict-content/product.php:32
+#: views/frontend/restrict-content/product-email.php:14
 #: views/frontend/restrict-content/tag.php:27
 msgid "Email Address"
+msgstr ""
+
+#: views/frontend/restrict-content/product-modal.php:13
+msgid "Close"
 msgstr ""
 
 #: includes/blocks/broadcasts/block.json
