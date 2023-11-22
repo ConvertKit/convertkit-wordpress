@@ -93,7 +93,7 @@ class ConvertKit_Resource_Forms extends ConvertKit_Resource {
 	}
 
 	/**
-	 * Returns a <select> field populated with the resources, based on the given parameters.
+	 * Returns a <select> field populated with all forms, based on the given parameters.
 	 *
 	 * @since   2.3.9
 	 *
@@ -106,7 +106,66 @@ class ConvertKit_Resource_Forms extends ConvertKit_Resource {
 	 * @param   bool|string|array $description     Description.
 	 * @return  string                             HTML Select Field
 	 */
-	public function get_select_field( $name, $id, $css_classes, $selected_option, $prepend_options = false, $attributes = false, $description = false ) {
+	public function get_select_field_all( $name, $id, $css_classes, $selected_option, $prepend_options = false, $attributes = false, $description = false ) {
+
+		return $this->get_select_field(
+			$this->get(),
+			$name,
+			$id,
+			$css_classes,
+			$selected_option,
+			$prepend_options,
+			$attributes,
+			$description
+		);
+
+	}
+
+	/**
+	 * Returns a <select> field populated with all non-inline forms, based on the given parameters.
+	 *
+	 * @since   2.3.9
+	 *
+	 * @param   string            $name            Name.
+	 * @param   string            $id              ID.
+	 * @param   bool|array        $css_classes     <select> CSS class(es).
+	 * @param   string            $selected_option <option> value to mark as selected.
+	 * @param   bool|array        $prepend_options <option> elements to prepend before resources.
+	 * @param   bool|array        $attributes      <select> attributes.
+	 * @param   bool|string|array $description     Description.
+	 * @return  string                             HTML Select Field
+	 */
+	public function get_select_field_non_inline( $name, $id, $css_classes, $selected_option, $prepend_options = false, $attributes = false, $description = false ) {
+
+		return $this->get_select_field(
+			$this->get_non_inline(),
+			$name,
+			$id,
+			$css_classes,
+			$selected_option,
+			$prepend_options,
+			$attributes,
+			$description
+		);
+
+	}
+
+	/**
+	 * Returns a <select> field populated with the resources, based on the given parameters.
+	 *
+	 * @since   2.3.9
+	 *
+	 * @param   array             $forms           Forms.
+	 * @param   string            $name            Name.
+	 * @param   string            $id              ID.
+	 * @param   bool|array        $css_classes     <select> CSS class(es).
+	 * @param   string            $selected_option <option> value to mark as selected.
+	 * @param   bool|array        $prepend_options <option> elements to prepend before resources.
+	 * @param   bool|array        $attributes      <select> attributes.
+	 * @param   bool|string|array $description     Description.
+	 * @return  string                             HTML Select Field
+	 */
+	private function get_select_field( $forms, $name, $id, $css_classes, $selected_option, $prepend_options = false, $attributes = false, $description = false ) {
 
 		$html = sprintf(
 			'<select name="%s" id="%s" class="%s"',
@@ -142,8 +201,8 @@ class ConvertKit_Resource_Forms extends ConvertKit_Resource {
 		}
 
 		// Iterate through resources, if they exist, building <option> elements.
-		if ( $this->exist() ) {
-			foreach ( $this->get() as $form ) {
+		if ( $forms ) {
+			foreach ( $forms as $form ) {
 				$html .= sprintf(
 					'<option value="%s"%s>%s</option>',
 					esc_attr( $form['id'] ),

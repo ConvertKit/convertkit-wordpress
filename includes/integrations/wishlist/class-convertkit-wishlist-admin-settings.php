@@ -139,7 +139,7 @@ class ConvertKit_Wishlist_Admin_Settings extends ConvertKit_Settings_Base {
 			$table->add_item(
 				array(
 					'title'       => $wlm_level['name'],
-					'form'        => $forms->get_select_field(
+					'form'        => $forms->get_select_field_all(
 						$wlm_level['id'] . '_form',
 						$wlm_level['id'] . '_form',
 						false,

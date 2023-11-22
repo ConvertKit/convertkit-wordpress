@@ -134,7 +134,7 @@ class ConvertKit_ContactForm7_Admin_Settings extends ConvertKit_Settings_Base {
 			// Build row.
 			$table_row = array(
 				'title' => $cf7_form['name'],
-				'form'  => $forms->get_select_field(
+				'form'  => $forms->get_select_field_all(
 					$cf7_form['id'] . '_form',
 					$cf7_form['id'] . '_form',
 					false,

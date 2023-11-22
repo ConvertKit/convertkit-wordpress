@@ -131,7 +131,7 @@ class ConvertKit_Forminator_Admin_Settings extends ConvertKit_Settings_Base {
 			// Build row.
 			$table_row = array(
 				'title' => $forminator_form['name'],
-				'form'  => $forms->get_select_field(
+				'form'  => $forms->get_select_field_all(
 					$forminator_form['id'] . '_form',
 					$forminator_form['id'] . '_form',
 					false,
