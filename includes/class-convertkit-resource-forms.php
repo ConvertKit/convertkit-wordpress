@@ -125,7 +125,7 @@ class ConvertKit_Resource_Forms extends ConvertKit_Resource {
 		if ( $prepend_options ) {
 			foreach ( $prepend_options as $value => $label ) {
 				$html .= sprintf(
-					'<option value="%s"%s>%s</option>',
+					'<option value="%s" data-preserve-on-refresh="1"%s>%s</option>',
 					esc_attr( $value ),
 					selected( $selected_option, $value, false ),
 					esc_attr( $label )
@@ -133,14 +133,16 @@ class ConvertKit_Resource_Forms extends ConvertKit_Resource {
 			}
 		}
 
-		// Iterate through resources, building <option> elements.
-		foreach ( $this->get() as $form ) {
-			$html .= sprintf(
-				'<option value="%s"%s>%s</option>',
-				esc_attr( $form['id'] ),
-				selected( $selected_option, $form['id'], false ),
-				esc_attr( $form['name'] )
-			);
+		// Iterate through resources, if they exist, building <option> elements.
+		if ( $this->exist() ) {
+			foreach ( $this->get() as $form ) {
+				$html .= sprintf(
+					'<option value="%s"%s>%s</option>',
+					esc_attr( $form['id'] ),
+					selected( $selected_option, $form['id'], false ),
+					esc_attr( $form['name'] )
+				);
+			}
 		}
 
 		// Close select.

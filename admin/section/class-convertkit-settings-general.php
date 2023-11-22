@@ -431,14 +431,6 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 			return;
 		}
 
-		// Build array of select options.
-		$options = array(
-			'default' => esc_html__( 'None', 'convertkit' ),
-		);
-		foreach ( $this->forms->get() as $form ) {
-			$options[ esc_attr( $form['id'] ) ] = esc_html( $form['name'] );
-		}
-
 		// Build description with preview link.
 		$description = false;
 		$preview_url = WP_ConvertKit()->get_class( 'preview_output' )->get_preview_form_url( $args['post_type'] );
@@ -464,19 +456,22 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 		}
 
 		// Build field.
-		$select_field = $this->get_select_field(
-			$args['post_type'] . '_form',
-			$this->settings->get_default_form( $args['post_type'] ),
-			$options,
-			$description,
+		$select_field = $this->forms->get_select_field(
+			$this->settings_key . '[' . $args['post_type'] . '_form' . ']',
+			$this->settings_key . '_' . $args['post_type'] . '_form' ,
 			array(
 				'convertkit-select2',
 				'convertkit-preview-output-link',
 			),
+			$this->settings->get_default_form( $args['post_type'] ),
+			array(
+				'default' => esc_html__( 'None', 'convertkit' ),
+			),
 			array(
 				'data-target' => '#convertkit-preview-form-' . esc_attr( $args['post_type'] ),
 				'data-link'   => esc_attr( $preview_url ) . '&convertkit_form_id=',
-			)
+			),
+			$description
 		);
 
 		// Output field.
