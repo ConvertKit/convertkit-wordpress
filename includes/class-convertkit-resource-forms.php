@@ -94,9 +94,17 @@ class ConvertKit_Resource_Forms extends ConvertKit_Resource {
 
 	/**
 	 * Returns a <select> field populated with the resources, based on the given parameters.
-	 * 
-	 * @since 	2.3.9
-	 * 
+	 *
+	 * @since   2.3.9
+	 *
+	 * @param   string            $name            Name.
+	 * @param   string            $id              ID.
+	 * @param   bool|array        $css_classes     <select> CSS class(es).
+	 * @param   string            $selected_option <option> value to mark as selected.
+	 * @param   bool|array        $prepend_options <option> elements to prepend before resources.
+	 * @param   bool|array        $attributes      <select> attributes.
+	 * @param   bool|string|array $description     Description.
+	 * @return  string                             HTML Select Field
 	 */
 	public function get_select_field( $name, $id, $css_classes, $selected_option, $prepend_options = false, $attributes = false, $description = false ) {
 

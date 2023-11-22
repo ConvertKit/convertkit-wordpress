@@ -51,7 +51,7 @@ if ( ! $this->forms->exist() ) {
 		</label>
 
 		<?php
-		echo $this->forms->get_select_field(
+		echo $this->forms->get_select_field( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			'post_form',
 			'wp-convertkit-form-posts',
 			array(
@@ -59,7 +59,7 @@ if ( ! $this->forms->exist() ) {
 				'convertkit-preview-output-link',
 				'widefat',
 			),
-			$this->settings->get_default_form( 'post' ),
+			esc_attr( $this->settings->get_default_form( 'post' ) ),
 			array(
 				'0' => esc_html__( 'Don\'t display an email subscription form on posts.', 'convertkit' ),
 			),
@@ -92,7 +92,7 @@ if ( ! $this->forms->exist() ) {
 		</label>
 
 		<?php
-		echo $this->forms->get_select_field(
+		echo $this->forms->get_select_field( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			'page_form',
 			'wp-convertkit-form-pages',
 			array(
@@ -100,7 +100,7 @@ if ( ! $this->forms->exist() ) {
 				'convertkit-preview-output-link',
 				'widefat',
 			),
-			$this->settings->get_default_form( 'page' ),
+			esc_attr( $this->settings->get_default_form( 'page' ) ),
 			array(
 				'0' => esc_html__( 'Don\'t display an email subscription form on pages.', 'convertkit' ),
 			),

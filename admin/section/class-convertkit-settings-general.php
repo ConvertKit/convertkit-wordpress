@@ -457,8 +457,8 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 
 		// Build field.
 		$select_field = $this->forms->get_select_field(
-			$this->settings_key . '[' . $args['post_type'] . '_form' . ']',
-			$this->settings_key . '_' . $args['post_type'] . '_form' ,
+			$this->settings_key . '[' . $args['post_type'] . '_form]',
+			$this->settings_key . '_' . $args['post_type'] . '_form',
 			array(
 				'convertkit-select2',
 				'convertkit-preview-output-link',

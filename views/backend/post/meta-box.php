@@ -17,17 +17,17 @@
 			<td>
 				<div class="convertkit-select2-container convertkit-select2-container-grid">
 					<?php
-					echo $convertkit_forms->get_select_field(
+					echo $convertkit_forms->get_select_field( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 						'wp-convertkit[form]',
 						'wp-convertkit-form',
 						array(
 							'convertkit-select2',
 							'widefat',
 						),
-						$convertkit_post->get_form(),
+						esc_attr( $convertkit_post->get_form() ),
 						array(
 							'-1' => esc_html__( 'Default', 'convertkit' ),
-							'0' => esc_html__( 'None', 'convertkit' ),
+							'0'  => esc_html__( 'None', 'convertkit' ),
 						)
 					);
 					?>

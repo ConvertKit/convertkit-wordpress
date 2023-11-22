@@ -14,14 +14,14 @@
 			<span class="title convertkit-icon-form"><?php esc_html_e( 'Form', 'convertkit' ); ?></span>
 
 			<?php
-			echo $convertkit_forms->get_select_field(
+			echo $convertkit_forms->get_select_field( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				'wp-convertkit[form]',
 				'wp-convertkit-quick-edit-form',
 				false,
 				false,
 				array(
 					'-1' => esc_html__( 'Default', 'convertkit' ),
-					'0' => esc_html__( 'None', 'convertkit' ),
+					'0'  => esc_html__( 'None', 'convertkit' ),
 				)
 			);
 			?>

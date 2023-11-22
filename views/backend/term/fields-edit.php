@@ -14,13 +14,13 @@
 	<td>
 		<div class="convertkit-select2-container convertkit-select2-container-grid">
 			<?php
-			echo $convertkit_forms->get_select_field(
+			echo $convertkit_forms->get_select_field( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				'wp-convertkit[form]',
 				'wp-convertkit-form',
 				array(
 					'convertkit-select2',
 				),
-				$convertkit_term->get_form(),
+				esc_attr( $convertkit_term->get_form() ),
 				array(
 					'0' => esc_html__( 'Default', 'convertkit' ),
 				)
