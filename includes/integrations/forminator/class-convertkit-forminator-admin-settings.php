@@ -132,8 +132,8 @@ class ConvertKit_Forminator_Admin_Settings extends ConvertKit_Settings_Base {
 			$table_row = array(
 				'title' => $forminator_form['name'],
 				'form'  => $forms->get_select_field_all(
-					$forminator_form['id'] . '_form',
-					$forminator_form['id'] . '_form',
+					'_wp_convertkit_integration_forminator_settings[' . $wlm_level['id'] . ']',
+					'_wp_convertkit_integration_forminator_settings_' . $wlm_level['id'] . '',
 					false,
 					(string) $this->settings->get_convertkit_form_id_by_forminator_form_id( $forminator_form['id'] ),
 					array(
