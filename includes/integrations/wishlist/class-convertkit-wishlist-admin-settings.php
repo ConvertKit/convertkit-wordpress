@@ -140,8 +140,8 @@ class ConvertKit_Wishlist_Admin_Settings extends ConvertKit_Settings_Base {
 				array(
 					'title'       => $wlm_level['name'],
 					'form'        => $forms->get_select_field_all(
-						$wlm_level['id'] . '_form',
-						$wlm_level['id'] . '_form',
+						'_wp_convertkit_integration_wishlistmember_settings[' . $wlm_level['id'] . '_form]',
+						'_wp_convertkit_integration_wishlistmember_settings_' . $wlm_level['id'] . '_form',
 						false,
 						(string) $this->settings->get_convertkit_form_id_by_wishlist_member_level_id( $wlm_level['id'] ),
 						array(

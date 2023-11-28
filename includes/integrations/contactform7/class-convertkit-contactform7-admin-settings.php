@@ -135,8 +135,8 @@ class ConvertKit_ContactForm7_Admin_Settings extends ConvertKit_Settings_Base {
 			$table_row = array(
 				'title' => $cf7_form['name'],
 				'form'  => $forms->get_select_field_all(
-					$cf7_form['id'] . '_form',
-					$cf7_form['id'] . '_form',
+					'_wp_convertkit_integration_contactform7_settings[' . $cf7_form['id'] . '_form]',
+					'_wp_convertkit_integration_contactform7_settings_' . $cf7_form['id'] . '_form',
 					false,
 					(string) $this->settings->get_convertkit_form_id_by_cf7_form_id( $cf7_form['id'] ),
 					array(
