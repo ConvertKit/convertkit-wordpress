@@ -356,7 +356,7 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 	public function post_status_callback( $args ) {
 
 		// Build field.
-		$select_field = $this->get_select_field_all(
+		$select_field = $this->get_select_field(
 			$args['name'],
 			$this->settings->post_status(),
 			get_post_statuses(),
