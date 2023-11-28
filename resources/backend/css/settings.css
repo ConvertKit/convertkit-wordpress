@@ -30,10 +30,13 @@ body.settings_page__wp_convertkit_settings header a.convertkit-docs {
 	margin: 20px 20px 0 0;
 	padding: 0 0 0 30px;
 	font-weight: 400;
-	color: #fff;
+	color: #cfd4d9;
 	text-decoration: none;
 	background: url(../images/help.svg) 0 0% no-repeat;
 	background-size: 20px 20px;
+}
+body.settings_page__wp_convertkit_settings header a.convertkit-docs:hover {
+	color: #fff;
 }
 body.settings_page__wp_convertkit_settings .wrap {
 	margin-left: 20px;
