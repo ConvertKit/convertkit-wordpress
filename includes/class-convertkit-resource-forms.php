@@ -171,7 +171,7 @@ class ConvertKit_Resource_Forms extends ConvertKit_Resource {
 			'<select name="%s" id="%s" class="%s"',
 			esc_attr( $name ),
 			esc_attr( $id ),
-			esc_attr( ( is_array( $css_classes ) ? implode( ' ', $css_classes ) : '' ) ),
+			esc_attr( ( is_array( $css_classes ) ? implode( ' ', $css_classes ) : '' ) )
 		);
 
 		// Append any attributes.
