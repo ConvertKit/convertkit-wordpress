@@ -226,7 +226,7 @@ class ConvertKit_Resource_Forms extends ConvertKit_Resource {
 		}
 
 		// Return description lines in a paragraph, using breaklines for each description entry in the array.
-		return $html . '<p class="description">' . implode( '<br />', $description );
+		return $html . '<p class="description">' . implode( '<br />', $description ) . '</p>';
 
 	}
 
