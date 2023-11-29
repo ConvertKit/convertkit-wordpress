@@ -204,10 +204,11 @@ class ConvertKit_Resource_Forms extends ConvertKit_Resource {
 		if ( $forms ) {
 			foreach ( $forms as $form ) {
 				$html .= sprintf(
-					'<option value="%s"%s>%s</option>',
+					'<option value="%s"%s>%s [%s]</option>',
 					esc_attr( $form['id'] ),
 					selected( $selected_option, $form['id'], false ),
-					esc_attr( $form['name'] )
+					esc_attr( $form['name'] ),
+					esc_attr( $form['format'] )
 				);
 			}
 		}
