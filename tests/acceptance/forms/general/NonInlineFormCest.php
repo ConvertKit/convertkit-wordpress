@@ -188,6 +188,112 @@ class NonInlineFormCest
 	}
 
 	/**
+	 * Test that the non-inline form output using the Form Block overrides the non-inline form defined
+	 * in the Default Non-Inline Form (Global) setting when a Page is viewed.
+	 *
+	 * @since   2.3.9
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testDefaultNonInlineFormIgnoredWhenPageNonInlineFormDefinedInBlock(AcceptanceTester $I)
+	{
+		// Setup Plugin with a non-inline Default Form for Site Wide.
+		$I->setupConvertKitPlugin(
+			$I,
+			false,
+			false,
+			false,
+			false,
+			false,
+			false,
+			false,
+			$_ENV['CONVERTKIT_API_FORM_FORMAT_STICKY_BAR_ID'] // Site Wide.
+		);
+
+		// Add a Page using the Gutenberg editor.
+		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Non-Inline Form: Block');
+
+		// Configure metabox's Form setting = None.
+		$I->configureMetaboxSettings(
+			$I,
+			'wp-convertkit-meta-box',
+			[
+				'form' => [ 'select2', 'None' ],
+			]
+		);
+
+		// Add Form block to the Page set to the Modal Form.
+		$I->addGutenbergBlock(
+			$I,
+			'ConvertKit Form',
+			'convertkit-form',
+			[
+				'form' => [ 'select', $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_NAME'] ],
+			]
+		);
+
+		// Publish and view the Page on the frontend site.
+		$I->publishAndViewGutenbergPage($I);
+
+		// Confirm that the modal form displays, and no sticky bar form displays.
+		$I->seeElementInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_ID'] . '"]');
+		$I->dontSeeElementInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_FORMAT_STICKY_BAR_ID'] . '"]');
+	}
+
+	/**
+	 * Test that the non-inline form output using the Form shortcode overrides the non-inline form defined
+	 * in the Default Non-Inline Form (Global) setting when a Page is viewed.
+	 *
+	 * @since   2.3.9
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testDefaultNonInlineFormIgnoredWhenPageNonInlineFormDefinedInShortcode(AcceptanceTester $I)
+	{
+		// Setup Plugin with a non-inline Default Form for Site Wide.
+		$I->setupConvertKitPlugin(
+			$I,
+			false,
+			false,
+			false,
+			false,
+			false,
+			false,
+			false,
+			$_ENV['CONVERTKIT_API_FORM_FORMAT_STICKY_BAR_ID'] // Site Wide.
+		);
+
+		// Add a Page using the Classic Editor.
+		$I->addClassicEditorPage($I, 'page', 'ConvertKit: Page: Non-Inline Form: Shortcode');
+
+		// Configure metabox's Form setting = None, ensuring we only test the shortcode in the Classic Editor.
+		$I->configureMetaboxSettings(
+			$I,
+			'wp-convertkit-meta-box',
+			[
+				'form' => [ 'select2', 'None' ],
+			]
+		);
+
+		// Add shortcode to Page, setting the Form setting to the value specified in the .env file.
+		$I->addVisualEditorShortcode(
+			$I,
+			'ConvertKit Form',
+			[
+				'form' => [ 'select', $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_NAME'] ],
+			],
+			'[convertkit_form form="' . $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_ID'] . '"]'
+		);
+
+		// Publish and view the Page on the frontend site.
+		$I->publishAndViewClassicEditorPage($I);
+
+		// Confirm that the modal form displays, and no sticky bar form displays.
+		$I->seeElementInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_ID'] . '"]');
+		$I->dontSeeElementInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_FORMAT_STICKY_BAR_ID'] . '"]');
+	}
+
+	/**
 	 * Test that the non-inline form defined as the Default Form for Posts overrides
 	 * the non-inline form defined in the Default Non-Inline Form (Global) setting
 	 * when a Post is viewed.
