@@ -40,9 +40,6 @@ class WooCommerceProductFormCest
 		// Define a Product Title.
 		$I->fillField('#title', 'ConvertKit: Product: Form: Default: None');
 
-		// Wait, otherwise publishing will fail in WooCommerce.
-		$I->wait(1);
-
 		// Publish and view the Page on the frontend site.
 		$I->publishAndViewClassicEditorPage($I);
 
@@ -69,9 +66,6 @@ class WooCommerceProductFormCest
 
 		// Define a Product Title.
 		$I->fillField('#title', 'ConvertKit: Product: Form: Default');
-
-		// Wait, otherwise publishing will fail in WooCommerce.
-		$I->wait(1);
 
 		// Publish and view the Page on the frontend site.
 		$I->publishAndViewClassicEditorPage($I);
@@ -107,9 +101,6 @@ class WooCommerceProductFormCest
 		// Define a Product Title.
 		$I->fillField('#title', 'ConvertKit: Product: Form: None');
 
-		// Wait, otherwise publishing will fail in WooCommerce.
-		$I->wait(1);
-
 		// Publish and view the Product.
 		$I->publishAndViewClassicEditorPage($I);
 
@@ -142,9 +133,6 @@ class WooCommerceProductFormCest
 
 		// Define a Product Title.
 		$I->fillField('#title', 'ConvertKit: Product: Form: Defined');
-
-		// Wait, otherwise publishing will fail in WooCommerce.
-		$I->wait(1);
 
 		// Publish and view the Product.
 		$I->publishAndViewClassicEditorPage($I);
