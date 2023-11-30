@@ -211,10 +211,11 @@ class ConvertKit_Block_Form extends ConvertKit_Block {
 		$convertkit_forms = new ConvertKit_Resource_Forms( 'block_edit' );
 		if ( $convertkit_forms->exist() ) {
 			foreach ( $convertkit_forms->get() as $form ) {
+				// Legacy forms don't include a `format` key, so define them as inline.
 				$forms[ absint( $form['id'] ) ] = sprintf(
 					'%s [%s]',
 					sanitize_text_field( $form['name'] ),
-					sanitize_text_field( $form['format'] )
+					( ! empty( $form['format'] ) ? sanitize_text_field( $form['format'] ) : 'inline' )
 				);
 			}
 		}

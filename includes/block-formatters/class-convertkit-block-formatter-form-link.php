@@ -123,10 +123,11 @@ class ConvertKit_Block_Formatter_Form_Link extends ConvertKit_Block_Formatter {
 		if ( $this->forms->exist() ) {
 			foreach ( $this->forms->get_non_inline() as $form ) {
 				// Add this form's necessary to the attribute arrays.
-				$forms[ absint( $form['id'] ) ] = sprintf(
+				// Legacy forms don't include a `format` key, so define them as inline.
+				$forms[ absint( $form['id'] ) ]      = sprintf(
 					'%s [%s]',
 					sanitize_text_field( $form['name'] ),
-					sanitize_text_field( $form['format'] )
+					( ! empty( $form['format'] ) ? sanitize_text_field( $form['format'] ) : 'inline' )
 				);
 				$forms_data[ absint( $form['id'] ) ] = array(
 					'data-id'             => sanitize_text_field( $form['id'] ),
