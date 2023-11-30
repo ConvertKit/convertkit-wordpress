@@ -77,15 +77,16 @@ class CK_Widget_Form extends WP_Widget {
 		</p>
 		<p>
 			<label for="<?php echo esc_attr( $this->get_field_id( 'form' ) ); ?>"><?php esc_html_e( 'Form', 'convertkit' ); ?></label>
-			<select name="<?php echo esc_attr( $this->get_field_name( 'form' ) ); ?>" class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'form' ) ); ?>" size="1">
-				<?php
-				foreach ( $forms->get() as $form ) {
-					?>
-					<option value="<?php echo esc_attr( $form['id'] ); ?>"<?php selected( $form['id'], $instance['form'] ); ?>><?php echo esc_attr( $form['name'] ); ?></option>
-					<?php
-				}
-				?>
-			</select>
+			<?php
+			echo $forms->get_select_field_all( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+				esc_attr( $this->get_field_name( 'form' ) ),
+				esc_attr( $this->get_field_id( 'form' ) ),
+				array(
+					'widefat',
+				),
+				esc_attr( $instance['form'] )
+			);
+			?>
 		</p>
 		<?php
 

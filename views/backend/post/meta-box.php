@@ -16,19 +16,21 @@
 			</th>
 			<td>
 				<div class="convertkit-select2-container convertkit-select2-container-grid">
-					<select name="wp-convertkit[form]" id="wp-convertkit-form" class="convertkit-select2 widefat">
-						<option value="-1"<?php selected( - 1, $convertkit_post->get_form() ); ?> data-preserve-on-refresh="1"><?php esc_html_e( 'Default', 'convertkit' ); ?></option>
-						<option value="0"<?php selected( 0, $convertkit_post->get_form() ); ?> data-preserve-on-refresh="1"><?php esc_html_e( 'None', 'convertkit' ); ?></option>
-						<?php
-						if ( $convertkit_forms->exist() ) {
-							foreach ( $convertkit_forms->get() as $form ) {
-								?>
-								<option value="<?php echo esc_attr( $form['id'] ); ?>"<?php selected( $form['id'], $convertkit_post->get_form() ); ?>><?php echo esc_attr( $form['name'] ); ?></option>
-								<?php
-							}
-						}
-						?>
-					</select>
+					<?php
+					echo $convertkit_forms->get_select_field_all( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+						'wp-convertkit[form]',
+						'wp-convertkit-form',
+						array(
+							'convertkit-select2',
+							'widefat',
+						),
+						esc_attr( $convertkit_post->get_form() ),
+						array(
+							'-1' => esc_html__( 'Default', 'convertkit' ),
+							'0'  => esc_html__( 'None', 'convertkit' ),
+						)
+					);
+					?>
 					<button class="wp-convertkit-refresh-resources" class="button button-secondary hide-if-no-js" title="<?php esc_attr_e( 'Refresh Forms from ConvertKit account', 'convertkit' ); ?>" data-resource="forms" data-field="#wp-convertkit-form">
 						<span class="dashicons dashicons-update"></span>
 					</button>

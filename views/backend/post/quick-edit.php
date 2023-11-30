@@ -12,19 +12,19 @@
 	<div>
 		<label for="wp-convertkit-quick-edit-form">
 			<span class="title convertkit-icon-form"><?php esc_html_e( 'Form', 'convertkit' ); ?></span>
-			<select name="wp-convertkit[form]" id="wp-convertkit-quick-edit-form" size="1">
-				<option value="-1" data-preserve-on-refresh="1"><?php esc_html_e( 'Default', 'convertkit' ); ?></option>
-				<option value="0" data-preserve-on-refresh="1"><?php esc_html_e( 'None', 'convertkit' ); ?></option>
-				<?php
-				if ( $convertkit_forms->exist() ) {
-					foreach ( $convertkit_forms->get() as $form ) {
-						?>
-						<option value="<?php echo esc_attr( $form['id'] ); ?>"><?php echo esc_attr( $form['name'] ); ?></option>
-						<?php
-					}
-				}
-				?>
-			</select>
+
+			<?php
+			echo $convertkit_forms->get_select_field_all( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+				'wp-convertkit[form]',
+				'wp-convertkit-quick-edit-form',
+				false,
+				false,
+				array(
+					'-1' => esc_html__( 'Default', 'convertkit' ),
+					'0'  => esc_html__( 'None', 'convertkit' ),
+				)
+			);
+			?>
 		</label>
 		<button class="wp-convertkit-refresh-resources" class="button button-secondary" title="<?php esc_attr_e( 'Refresh Forms from ConvertKit account', 'convertkit' ); ?>" data-resource="forms" data-field="#wp-convertkit-quick-edit-form">
 			<span class="dashicons dashicons-update"></span>

@@ -461,7 +461,7 @@ abstract class ConvertKit_Settings_Base {
 		}
 
 		// Return description lines in a paragraph, using breaklines for each description entry in the array.
-		return '<p class="description">' . implode( '<br />', $description );
+		return '<p class="description">' . implode( '<br />', $description ) . '</p>';
 
 	}
 
