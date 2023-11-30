@@ -12,27 +12,25 @@
 	<div>
 		<label for="wp-convertkit-bulk-edit-form">
 			<span class="title convertkit-icon-form"><?php esc_html_e( 'Form', 'convertkit' ); ?></span>
-			<select name="wp-convertkit[form]" id="wp-convertkit-bulk-edit-form" size="1">
-				<?php
-				// For Bulk Edit, the 'No Change' value is -1. However, because this Plugin has historically used -1
-				// to mean that the Default form for the Post Type should be displayed, using -1 as 'No Change' in Bulk Edit
-				// would result in Posts/Pages having (or not having) the Form setting updated, when the user may/may not
-				// have selected the 'Default' option.
-				// Therefore, we use -2 to denote 'No Change'.
-				?>
-				<option value="-2" data-preserve-on-refresh="1"><?php esc_html_e( '— No Change —', 'convertkit' ); ?></option>
-				<option value="-1" data-preserve-on-refresh="1"><?php esc_html_e( 'Default', 'convertkit' ); ?></option>
-				<option value="0" data-preserve-on-refresh="1"><?php esc_html_e( 'None', 'convertkit' ); ?></option>
-				<?php
-				if ( $convertkit_forms->exist() ) {
-					foreach ( $convertkit_forms->get() as $form ) {
-						?>
-						<option value="<?php echo esc_attr( $form['id'] ); ?>"><?php echo esc_attr( $form['name'] ); ?></option>
-						<?php
-					}
-				}
-				?>
-			</select>
+
+			<?php
+			// For Bulk Edit, the 'No Change' value is -1. However, because this Plugin has historically used -1
+			// to mean that the Default form for the Post Type should be displayed, using -1 as 'No Change' in Bulk Edit
+			// would result in Posts/Pages having (or not having) the Form setting updated, when the user may/may not
+			// have selected the 'Default' option.
+			// Therefore, we use -2 to denote 'No Change'.
+			echo $convertkit_forms->get_select_field_all( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+				'wp-convertkit[form]',
+				'wp-convertkit-bulk-edit-form',
+				false,
+				false,
+				array(
+					'-2' => esc_html__( '— No Change —', 'convertkit' ),
+					'-1' => esc_html__( 'Default', 'convertkit' ),
+					'0'  => esc_html__( 'None', 'convertkit' ),
+				)
+			);
+			?>
 		</label>
 		<button class="wp-convertkit-refresh-resources" class="button button-secondary" title="<?php esc_attr_e( 'Refresh Forms from ConvertKit account', 'convertkit' ); ?>" data-resource="forms" data-field="#wp-convertkit-bulk-edit-form">
 			<span class="dashicons dashicons-update"></span>

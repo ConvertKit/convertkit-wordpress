@@ -119,14 +119,6 @@ class ConvertKit_Wishlist_Admin_Settings extends ConvertKit_Settings_Base {
 			return;
 		}
 
-		// Build array of select options for Forms.
-		$form_options = array(
-			'default' => __( 'None', 'convertkit' ),
-		);
-		foreach ( $forms->get() as $form ) {
-			$form_options[ esc_attr( $form['id'] ) ] = esc_html( $form['name'] );
-		}
-
 		// Build array of select options for Tags.
 		$tag_options = array(
 			'0' => __( 'None', 'convertkit' ),
@@ -147,10 +139,14 @@ class ConvertKit_Wishlist_Admin_Settings extends ConvertKit_Settings_Base {
 			$table->add_item(
 				array(
 					'title'       => $wlm_level['name'],
-					'form'        => $this->get_select_field(
-						$wlm_level['id'] . '_form',
+					'form'        => $forms->get_select_field_all(
+						'_wp_convertkit_integration_wishlistmember_settings[' . $wlm_level['id'] . '_form]',
+						'_wp_convertkit_integration_wishlistmember_settings_' . $wlm_level['id'] . '_form',
+						false,
 						(string) $this->settings->get_convertkit_form_id_by_wishlist_member_level_id( $wlm_level['id'] ),
-						$form_options
+						array(
+							'default' => __( 'None', 'convertkit' ),
+						)
 					),
 					'unsubscribe' => $this->get_select_field(
 						$wlm_level['id'] . '_unsubscribe',
