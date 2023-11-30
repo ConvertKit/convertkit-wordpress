@@ -130,6 +130,18 @@ class ConvertKit_Admin_Settings {
 
 		<header>
 			<h1><?php esc_html_e( 'ConvertKit', 'convertkit' ); ?></h1>
+
+			<?php
+			// Output Help link tab, if it exists.
+			$documentation_url = $this->get_active_section_documentation_url( $active_section );
+			if ( $documentation_url !== false ) {
+				printf(
+					'<a href="%s" class="convertkit-docs" target="_blank">%s</a>',
+					esc_attr( $documentation_url ),
+					esc_html__( 'Help', 'convertkit' )
+				);
+			}
+			?>
 		</header>
 
 		<div class="wrap">
@@ -150,7 +162,7 @@ class ConvertKit_Admin_Settings {
 
 			<p class="description">
 				<?php
-				// Output Documentation link, if it exists.
+				// Output Help link, if it exists.
 				$documentation_url = $this->get_active_section_documentation_url( $active_section );
 				if ( $documentation_url !== false ) {
 					printf(
@@ -239,16 +251,6 @@ class ConvertKit_Admin_Settings {
 					( $active_section === $section->name ? 'convertkit-tab-active' : '' ),
 					esc_html( $section->tab_text ),
 					$section->is_beta ? $this->get_beta_tab() : '' // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-				);
-			}
-
-			// Output Documentation link tab, if it exists.
-			$documentation_url = $this->get_active_section_documentation_url( $active_section );
-			if ( $documentation_url !== false ) {
-				printf(
-					'<li class="convertkit-docs"><a href="%s" class="convertkit-tab" target="_blank">%s <span class="dashicons dashicons-external"></span></a></li>',
-					esc_attr( $documentation_url ),
-					esc_html__( 'Documentation', 'convertkit' )
 				);
 			}
 			?>
