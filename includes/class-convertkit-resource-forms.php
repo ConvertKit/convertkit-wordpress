@@ -203,11 +203,13 @@ class ConvertKit_Resource_Forms extends ConvertKit_Resource {
 		// Iterate through resources, if they exist, building <option> elements.
 		if ( $forms ) {
 			foreach ( $forms as $form ) {
+				// Legacy forms don't include a `format` key, so define them as inline.
 				$html .= sprintf(
-					'<option value="%s"%s>%s</option>',
+					'<option value="%s"%s>%s [%s]</option>',
 					esc_attr( $form['id'] ),
 					selected( $selected_option, $form['id'], false ),
-					esc_attr( $form['name'] )
+					esc_attr( $form['name'] ),
+					( ! empty( $form['format'] ) ? esc_attr( $form['format'] ) : 'inline' )
 				);
 			}
 		}

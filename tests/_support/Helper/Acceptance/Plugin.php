@@ -596,8 +596,8 @@ class Plugin extends \Codeception\Module
 	{
 		// Define options.
 		$options = [
-			'AAA Test', // First item.
-			'WooCommerce Product Form', // Last item.
+			'AAA Test [inline]', // First item.
+			'WooCommerce Product Form [inline]', // Last item.
 		];
 
 		// Prepend options, such as 'Default' and 'None' to the options, if required.

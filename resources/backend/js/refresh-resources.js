@@ -78,7 +78,21 @@ jQuery( document ).ready(
 							// Populate select options from response data.
 							response.data.forEach(
 								function ( item ) {
-									$( field ).append( new Option( item.name, item.id, false, ( selectedOption == item.id ? true : false ) ) );
+									// Define label.
+									let label = '';
+									switch ( resource ) {
+										case 'forms':
+											label = item.name + ' [' + ( item.format !== '' ? item.format : 'inline' ) + ']';
+											break;
+
+										default:
+											label = item.name;
+											break;
+									}
+
+									// Add option.
+									$( field ).append( new Option( label, item.id, false, ( selectedOption == item.id ? true : false ) ) );
+
 								}
 							);
 

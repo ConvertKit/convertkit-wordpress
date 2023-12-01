@@ -253,7 +253,12 @@ class ConvertKit_Block_Form_Trigger extends ConvertKit_Block {
 		$convertkit_forms = new ConvertKit_Resource_Forms( 'block_edit' );
 		if ( $convertkit_forms->non_inline_exist() ) {
 			foreach ( $convertkit_forms->get_non_inline() as $form ) {
-				$forms[ absint( $form['id'] ) ] = sanitize_text_field( $form['name'] );
+				// Legacy forms don't include a `format` key, so define them as inline.
+				$forms[ absint( $form['id'] ) ] = sprintf(
+					'%s [%s]',
+					sanitize_text_field( $form['name'] ),
+					( ! empty( $form['format'] ) ? sanitize_text_field( $form['format'] ) : 'inline' )
+				);
 			}
 		}
 
