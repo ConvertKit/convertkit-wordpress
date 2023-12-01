@@ -255,6 +255,9 @@ class WPClassicEditor extends \Codeception\Module
 		// Scroll to Publish meta box, so its buttons are not hidden.
 		$I->scrollTo('#submitdiv');
 
+		// Wait for the Publish button to change its state from disabled (WordPress disables it for a moment when auto-saving).
+		$I->waitForElementVisible('input#publish:not(:disabled)');
+
 		// Click the Publish button.
 		$I->click('input#publish');
 
