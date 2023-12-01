@@ -43,6 +43,9 @@ class WPBulkEdit extends \Codeception\Module
 			}
 		}
 
+		// Scroll so that the Update button is in the viewport.
+		$I->scrollTo('#bulk-edit .inline-edit-wrapper:last-child');
+
 		// Click Update.
 		$I->click('#bulk_edit');
 
