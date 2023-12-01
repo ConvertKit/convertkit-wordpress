@@ -69,10 +69,10 @@ class ConvertKit_Output {
 
 		add_action( 'init', array( $this, 'get_subscriber_id_from_request' ), 1 );
 		add_action( 'template_redirect', array( $this, 'output_form' ) );
-		add_action( 'template_redirect', array( $this, 'output_global_non_inline_form' ) );
 		add_action( 'template_redirect', array( $this, 'page_takeover' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		add_filter( 'the_content', array( $this, 'append_form_to_content' ) );
+		add_action( 'wp_footer', array( $this, 'output_global_non_inline_form' ), 1 );
 		add_action( 'wp_footer', array( $this, 'output_scripts_footer' ) );
 
 	}

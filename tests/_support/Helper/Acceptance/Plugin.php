@@ -41,29 +41,31 @@ class Plugin extends \Codeception\Module
 	 *
 	 * @since   1.9.6
 	 *
-	 * @param   AcceptanceTester $I              AcceptanceTester.
-	 * @param   bool|string      $apiKey         API Key (if specified, used instead of CONVERTKIT_API_KEY).
-	 * @param   bool|string      $apiSecret      API Secret (if specified, used instead of CONVERTKIT_API_SECRET).
-	 * @param   bool|string      $pageFormID     Default Form ID for Pages (if specified, used instead of CONVERTKIT_API_FORM_ID).
-	 * @param   bool|string      $postFormID     Default Form ID for Posts (if specified, used instead of CONVERTKIT_API_FORM_ID).
-	 * @param   bool|string      $productFormID  Default Form ID for Products (if specified, used instead of CONVERTKIT_API_FORM_ID).
-	 * @param   bool             $disableJS      Disable JS.
-	 * @param   bool             $disableCSS     Disable CSS.
+	 * @param   AcceptanceTester $I                     AcceptanceTester.
+	 * @param   bool|string      $apiKey                API Key (if specified, used instead of CONVERTKIT_API_KEY).
+	 * @param   bool|string      $apiSecret             API Secret (if specified, used instead of CONVERTKIT_API_SECRET).
+	 * @param   bool|string      $pageFormID            Default Form ID for Pages (if specified, used instead of CONVERTKIT_API_FORM_ID).
+	 * @param   bool|string      $postFormID            Default Form ID for Posts (if specified, used instead of CONVERTKIT_API_FORM_ID).
+	 * @param   bool|string      $productFormID         Default Form ID for Products (if specified, used instead of CONVERTKIT_API_FORM_ID).
+	 * @param   bool             $disableJS             Disable JS.
+	 * @param   bool             $disableCSS            Disable CSS.
+	 * @param   bool|string      $globalNonInlineFormID Default Global non-inline Form ID (if specified, none if false).
 	 */
-	public function setupConvertKitPlugin($I, $apiKey = false, $apiSecret = false, $pageFormID = false, $postFormID = false, $productFormID = false, $disableJS = false, $disableCSS = false)
+	public function setupConvertKitPlugin($I, $apiKey = false, $apiSecret = false, $pageFormID = false, $postFormID = false, $productFormID = false, $disableJS = false, $disableCSS = false, $globalNonInlineFormID = false)
 	{
 		// Define the API Key and Secret, with Debug Log enabled.
 		$I->haveOptionInDatabase(
 			'_wp_convertkit_settings',
 			[
-				'api_key'      => ( $apiKey !== false ? $apiKey : $_ENV['CONVERTKIT_API_KEY'] ),
-				'api_secret'   => ( $apiSecret !== false ? $apiSecret : $_ENV['CONVERTKIT_API_SECRET'] ),
-				'debug'        => 'on',
-				'no_scripts'   => ( $disableJS ? 'on' : '' ),
-				'no_css'       => ( $disableCSS ? 'on' : '' ),
-				'post_form'    => ( $postFormID !== false ? $postFormID : $_ENV['CONVERTKIT_API_FORM_ID'] ),
-				'page_form'    => ( $pageFormID !== false ? $pageFormID : $_ENV['CONVERTKIT_API_FORM_ID'] ),
-				'product_form' => ( $productFormID !== false ? $productFormID : $_ENV['CONVERTKIT_API_FORM_ID'] ),
+				'api_key'         => ( $apiKey !== false ? $apiKey : $_ENV['CONVERTKIT_API_KEY'] ),
+				'api_secret'      => ( $apiSecret !== false ? $apiSecret : $_ENV['CONVERTKIT_API_SECRET'] ),
+				'debug'           => 'on',
+				'no_scripts'      => ( $disableJS ? 'on' : '' ),
+				'no_css'          => ( $disableCSS ? 'on' : '' ),
+				'post_form'       => ( $postFormID !== false ? $postFormID : $_ENV['CONVERTKIT_API_FORM_ID'] ),
+				'page_form'       => ( $pageFormID !== false ? $pageFormID : $_ENV['CONVERTKIT_API_FORM_ID'] ),
+				'product_form'    => ( $productFormID !== false ? $productFormID : $_ENV['CONVERTKIT_API_FORM_ID'] ),
+				'non_inline_form' => ( $globalNonInlineFormID !== false ? $globalNonInlineFormID : '' ),
 			]
 		);
 	}
@@ -594,8 +596,8 @@ class Plugin extends \Codeception\Module
 	{
 		// Define options.
 		$options = [
-			'AAA Test', // First item.
-			'WooCommerce Product Form', // Last item.
+			'AAA Test [inline]', // First item.
+			'WooCommerce Product Form [inline]', // Last item.
 		];
 
 		// Prepend options, such as 'Default' and 'None' to the options, if required.

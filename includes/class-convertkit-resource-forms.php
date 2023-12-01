@@ -203,11 +203,13 @@ class ConvertKit_Resource_Forms extends ConvertKit_Resource {
 		// Iterate through resources, if they exist, building <option> elements.
 		if ( $forms ) {
 			foreach ( $forms as $form ) {
+				// Legacy forms don't include a `format` key, so define them as inline.
 				$html .= sprintf(
-					'<option value="%s"%s>%s</option>',
+					'<option value="%s"%s>%s [%s]</option>',
 					esc_attr( $form['id'] ),
 					selected( $selected_option, $form['id'], false ),
-					esc_attr( $form['name'] )
+					esc_attr( $form['name'] ),
+					( ! empty( $form['format'] ) ? esc_attr( $form['format'] ) : 'inline' )
 				);
 			}
 		}
@@ -303,6 +305,12 @@ class ConvertKit_Resource_Forms extends ConvertKit_Resource {
 
 				}
 			);
+
+			// Don't output the global non-inline form, if defined, because
+			// a non-inline form was specified at either Post/Page default level, Post/Page level
+			// or Post Category level.
+			// This prevents multiple non-inline forms loading.
+			remove_action( 'wp_footer', array( WP_ConvertKit()->get_class( 'output' ), 'output_global_non_inline_form' ), 1 );
 
 			// Don't return a script for output, as it'll be output in the site's footer.
 			return '';
