@@ -304,6 +304,12 @@ class ConvertKit_Resource_Forms extends ConvertKit_Resource {
 				}
 			);
 
+			// Don't output the global non-inline form, if defined, because
+			// a non-inline form was specified at either Post/Page default level, Post/Page level
+			// or Post Category level.
+			// This prevents multiple non-inline forms loading.
+			remove_action( 'wp_footer', array( WP_ConvertKit()->get_class( 'output' ), 'output_global_non_inline_form' ), 1 );
+
 			// Don't return a script for output, as it'll be output in the site's footer.
 			return '';
 		}
