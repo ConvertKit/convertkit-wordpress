@@ -225,7 +225,7 @@ add_filter( 'convertkit_admin_notices_output_  notice', function( $output ) {
 </pre>
 <h3 id="convertkit_plugin_screen_action_links">
 						convertkit_plugin_screen_action_links
-						<code>admin/class-convertkit-admin-settings.php::209</code>
+						<code>admin/class-convertkit-admin-settings.php::221</code>
 					</h3><h4>Overview</h4>
 						<p>Define links to display below the Plugin Name on the WP_List_Table at Plugins > Installed Plugins.</p><h4>Parameters</h4>
 					<table>
@@ -252,7 +252,7 @@ add_filter( 'convertkit_plugin_screen_action_links', function( $links ) {
 </pre>
 <h3 id="convertkit_admin_settings_register_sections">
 						convertkit_admin_settings_register_sections
-						<code>admin/class-convertkit-admin-settings.php::309</code>
+						<code>admin/class-convertkit-admin-settings.php::311</code>
 					</h3><h4>Overview</h4>
 						<p>Registers settings sections at Settings > ConvertKit.</p><h4>Parameters</h4>
 					<table>
@@ -612,7 +612,7 @@ add_filter( 'convertkit_block_broadcasts_build_html_list_item', function( $html,
 </pre>
 <h3 id="convertkit_block_form_render">
 						convertkit_block_form_render
-						<code>includes/blocks/class-convertkit-block-form.php::358</code>
+						<code>includes/blocks/class-convertkit-block-form.php::363</code>
 					</h3><h4>Overview</h4>
 						<p>Filter the block's content immediately before it is output.</p><h4>Parameters</h4>
 					<table>
@@ -647,7 +647,7 @@ add_filter( 'convertkit_block_form_render', function( $form, $atts, $form_id ) {
 </pre>
 <h3 id="convertkit_block_form_trigger_render">
 						convertkit_block_form_trigger_render
-						<code>includes/blocks/class-convertkit-block-form-trigger.php::388</code>
+						<code>includes/blocks/class-convertkit-block-form-trigger.php::393</code>
 					</h3><h4>Overview</h4>
 						<p>Filter the block's content immediately before it is output.</p><h4>Parameters</h4>
 					<table>

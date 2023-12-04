@@ -5,7 +5,7 @@ Tags: email marketing, email newsletter, newsletter, subscribers, membership
 Requires at least: 5.0
 Tested up to: 6.4.1
 Requires PHP: 5.6.20
-Stable tag: 2.3.8
+Stable tag: 2.3.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -155,6 +155,11 @@ Full Plugin documentation can be found [here](https://help.convertkit.com/en/art
 10. Track subscriber growth
 
 == Changelog ==
+
+### 2.3.9 2023-12-04
+* Added: Settings: Display ConvertKit Form's format (inline, slide in, sticky bar, modal) where a `select` dropdown option is presented
+* Fix: Settings: Default Form (Site Wide): If defined, honor non-inline Form specified at Page, Post or Post Category level, to avoid two non-inline forms displaying
+* Fix: Settings: Moved Documentation tab to Help link in header, for compat. with smaller screen resolutions
 
 ### 2.3.8 2023-11-20
 * Added: Member Content: Display log in and authentication code forms in modal to better match ConvertKit
