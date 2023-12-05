@@ -120,7 +120,7 @@ class Plugin extends \Codeception\Module
 		$I->setupConvertKitPlugin(
 			$I,
 			[
-				'api_key'      => 'fakeApiKey'
+				'api_key'      => 'fakeApiKey',
 				'api_secret'   => 'fakeApiSecret',
 				'post_form'    => '',
 				'page_form'    => '',
