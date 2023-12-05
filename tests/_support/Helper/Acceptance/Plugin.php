@@ -69,10 +69,23 @@ class Plugin extends \Codeception\Module
 		// If supplied options are an array, merge them with the defaults.
 		if (is_array($options)) {
 			$options = array_merge($defaults, $options);
+		} else {
+			$options = $defaults;
 		}
 
 		// Define settings in options table.
 		$I->haveOptionInDatabase('_wp_convertkit_settings', $options);
+	}
+
+	public function setupConvertKitPluginAPIKeyNoData($I)
+	{
+		$I->setupConvertKitPlugin($I, [
+			'api_key' => $_ENV['CONVERTKIT_API_KEY_NO_DATA'],
+			'api_secret' => $_ENV['CONVERTKIT_API_SECRET_NO_DATA'],
+			'post_form' => '',
+			'page_form' => '',
+			'product_form' => '',
+		]);
 	}
 
 	/**

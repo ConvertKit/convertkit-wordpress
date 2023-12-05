@@ -30,7 +30,7 @@ class NonInlineFormCest
 	public function testSettingsWhenNoNonInlineForms(AcceptanceTester $I)
 	{
 		// Setup Plugin with API Keys for an account that has no non-inline forms.
-		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY_NO_DATA'], $_ENV['CONVERTKIT_API_SECRET_NO_DATA']);
+		$I->setupConvertKitPluginAPIKeyNoData($I);
 	}
 
 	/**

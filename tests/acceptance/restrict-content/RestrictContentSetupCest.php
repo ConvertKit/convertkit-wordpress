@@ -95,7 +95,7 @@ class RestrictContentSetupCest
 	public function testAddNewMemberContentDisplaysCTAWhenNoResources(AcceptanceTester $I)
 	{
 		// Setup Plugin using API keys that have no resources.
-		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY_NO_DATA'], $_ENV['CONVERTKIT_API_SECRET_NO_DATA']);
+		$I->setupConvertKitPluginAPIKeyNoData($I);
 
 		// Navigate to Pages.
 		$I->amOnAdminPage('edit.php?post_type=page');
