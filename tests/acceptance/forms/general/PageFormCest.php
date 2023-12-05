@@ -130,11 +130,14 @@ class PageFormCest
 	public function testAddNewPageUsingDefaultLegacyForm(AcceptanceTester $I)
 	{
 		// Setup ConvertKit plugin to use legacy Form as default for Pages.
-		$I->setupConvertKitPlugin($I, [
-			'page_form' => $_ENV['CONVERTKIT_API_LEGACY_FORM_ID'],
-			'post_form' => '',
-			'product_form' => ''
-		]);
+		$I->setupConvertKitPlugin(
+			$I,
+			[
+				'page_form'    => $_ENV['CONVERTKIT_API_LEGACY_FORM_ID'],
+				'post_form'    => '',
+				'product_form' => '',
+			]
+		);
 		$I->setupConvertKitPluginResources($I);
 
 		// Add a Page using the Gutenberg editor.
