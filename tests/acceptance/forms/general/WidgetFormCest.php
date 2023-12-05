@@ -22,7 +22,7 @@ class WidgetFormCest
 	public function _before(AcceptanceTester $I)
 	{
 		$I->activateConvertKitPlugin($I);
-		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY'], $_ENV['CONVERTKIT_API_SECRET'], '', '', '');
+		$I->setupConvertKitPluginNoForms($I);
 		$I->setupConvertKitPluginResources($I);
 
 		// Activate an older WordPress Theme that supports Widgets.

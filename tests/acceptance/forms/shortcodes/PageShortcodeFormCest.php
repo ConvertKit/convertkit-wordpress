@@ -29,7 +29,7 @@ class PageShortcodeFormCest
 	public function testFormShortcodeInVisualEditorWithValidFormParameter(AcceptanceTester $I)
 	{
 		// Setup Plugin.
-		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY'], $_ENV['CONVERTKIT_API_SECRET'], '', '', ''); // Don't specify default forms.
+		$I->setupConvertKitPluginNoForms($I); // Don't specify default forms.
 		$I->setupConvertKitPluginResources($I);
 
 		// Add a Page using the Classic Editor.
@@ -73,7 +73,7 @@ class PageShortcodeFormCest
 	public function testFormShortcodeInTextEditorWithValidFormParameter(AcceptanceTester $I)
 	{
 		// Setup Plugin.
-		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY'], $_ENV['CONVERTKIT_API_SECRET'], '', '', ''); // Don't specify default forms.
+		$I->setupConvertKitPluginNoForms($I); // Don't specify default forms.
 		$I->setupConvertKitPluginResources($I);
 
 		// Add a Page using the Classic Editor.
@@ -116,7 +116,7 @@ class PageShortcodeFormCest
 	public function testFormShortcodeWithInvalidFormParameter(AcceptanceTester $I)
 	{
 		// Setup Plugin.
-		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY'], $_ENV['CONVERTKIT_API_SECRET'], '', '', ''); // Don't specify default forms.
+		$I->setupConvertKitPluginNoForms($I); // Don't specify default forms.
 		$I->setupConvertKitPluginResources($I);
 
 		// Create Page with Shortcode.
@@ -147,7 +147,7 @@ class PageShortcodeFormCest
 	public function testFormShortcodeWithValidIDParameter(AcceptanceTester $I)
 	{
 		// Setup Plugin.
-		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY'], $_ENV['CONVERTKIT_API_SECRET'], '', '', ''); // Don't specify default forms.
+		$I->setupConvertKitPluginNoForms($I); // Don't specify default forms.
 		$I->setupConvertKitPluginResources($I);
 
 		// Create Page with Shortcode.
@@ -179,7 +179,7 @@ class PageShortcodeFormCest
 	public function testFormShortcodeWithInvalidIDParameter(AcceptanceTester $I)
 	{
 		// Setup Plugin.
-		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY'], $_ENV['CONVERTKIT_API_SECRET'], '', '', ''); // Don't specify default forms.
+		$I->setupConvertKitPluginNoForms($I); // Don't specify default forms.
 		$I->setupConvertKitPluginResources($I);
 
 		// Create Page with Shortcode.
@@ -217,7 +217,7 @@ class PageShortcodeFormCest
 	public function testFormShortcodeWhenFormDoesNotExistInPluginFormResources(AcceptanceTester $I)
 	{
 		// Setup Plugin.
-		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY'], $_ENV['CONVERTKIT_API_SECRET'], '', '', ''); // Don't specify default forms.
+		$I->setupConvertKitPluginNoForms($I); // Don't specify default forms.
 		$I->setupConvertKitPluginResources($I);
 
 		// Update the Form Resource option table value to only contain a dummy Form with an ID
@@ -262,7 +262,7 @@ class PageShortcodeFormCest
 	public function testFormShortcodeWithValidLegacyFormParameter(AcceptanceTester $I)
 	{
 		// Setup Plugin.
-		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY'], $_ENV['CONVERTKIT_API_SECRET'], '', '', ''); // Don't specify default forms.
+		$I->setupConvertKitPluginNoForms($I); // Don't specify default forms.
 		$I->setupConvertKitPluginResources($I);
 
 		// Create Page with Shortcode.
@@ -293,7 +293,7 @@ class PageShortcodeFormCest
 	public function testFormShortcodeWithValidLegacyIDParameter(AcceptanceTester $I)
 	{
 		// Setup Plugin.
-		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY'], $_ENV['CONVERTKIT_API_SECRET'], '', '', ''); // Don't specify default forms.
+		$I->setupConvertKitPluginNoForms($I); // Don't specify default forms.
 		$I->setupConvertKitPluginResources($I);
 
 		// Create Page with Shortcode.
@@ -326,7 +326,7 @@ class PageShortcodeFormCest
 	public function testFormShortcodeWithValidLegacyFormShortcodeFromConvertKitApp(AcceptanceTester $I)
 	{
 		// Setup Plugin.
-		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY'], $_ENV['CONVERTKIT_API_SECRET'], '', '', ''); // Don't specify default forms.
+		$I->setupConvertKitPluginNoForms($I); // Don't specify default forms.
 		$I->setupConvertKitPluginResources($I);
 
 		// Create Page with Shortcode.

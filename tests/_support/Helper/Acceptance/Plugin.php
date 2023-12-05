@@ -88,6 +88,15 @@ class Plugin extends \Codeception\Module
 		]);
 	}
 
+	public function setupConvertKitPluginNoForms($I)
+	{
+		$I->setupConvertKitPlugin($I, [
+			'post_form' => '',
+			'page_form' => '',
+			'product_form' => '',
+		]);
+	}
+
 	/**
 	 * Helper method to define cached Resources (Forms, Landing Pages, Posts, Products and Tags),
 	 * directly into the database, instead of querying the API for them via the Resource classes.

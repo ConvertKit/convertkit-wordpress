@@ -52,7 +52,7 @@ class PostFormCest
 	public function testAddNewPostUsingDefaultFormWithNoDefaultFormSpecifiedInPlugin(AcceptanceTester $I)
 	{
 		// Setup Plugin, without defining default Forms.
-		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY'], $_ENV['CONVERTKIT_API_SECRET'], '', '', '');
+		$I->setupConvertKitPluginNoForms($I);
 		$I->setupConvertKitPluginResources($I);
 
 		// Add a Post using the Gutenberg editor.
