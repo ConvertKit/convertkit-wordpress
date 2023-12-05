@@ -88,12 +88,30 @@ class Plugin extends \Codeception\Module
 		]);
 	}
 
+	public function setupConvertKitPluginFakeAPIKey($I)
+	{
+		$I->setupConvertKitPlugin($I, [
+			'api_key' => 'fakeApiKey'
+			'api_secret' => 'fakeApiSecret',
+			'post_form' => '',
+			'page_form' => '',
+			'product_form' => '',
+		]);
+	}
+
 	public function setupConvertKitPluginNoDefaultForms($I)
 	{
 		$I->setupConvertKitPlugin($I, [
 			'post_form' => '',
 			'page_form' => '',
 			'product_form' => '',
+		]);
+	}
+
+	public function setupConvertKitPluginDisableJS($I)
+	{
+		$I->setupConvertKitPlugin($I, [
+			'no_scripts' => 'on',
 		]);
 	}
 

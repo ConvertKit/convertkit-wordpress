@@ -460,7 +460,7 @@ class RestrictContentSetupCest
 	private function _setupAndLoadAddNewMemberContentScreen(AcceptanceTester $I)
 	{
 		// Setup ConvertKit Plugin, disabling JS.
-		$I->setupConvertKitPlugin($I, false, false, false, false, false, true);
+		$I->setupConvertKitPluginDisableJS($I);
 
 		// Navigate to Pages.
 		$I->amOnAdminPage('edit.php?post_type=page');

@@ -19,7 +19,7 @@ class CPTFormCest
 		$I->activateConvertKitPlugin($I);
 
 		// Setup ConvertKit plugin .
-		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY'], $_ENV['CONVERTKIT_API_SECRET']);
+		$I->setupConvertKitPlugin($I);
 		$I->setupConvertKitPluginResources($I);
 
 		// Create a Custom Post Type called Articles, using the Custom Post Type UI Plugin.
