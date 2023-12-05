@@ -28,7 +28,7 @@ class PageBlockFormatterProductLinkCest
 	public function testProductLinkFormatter(AcceptanceTester $I)
 	{
 		// Setup ConvertKit Plugin with no default form specified.
-		$I->setupConvertKitPluginNoForms($I);
+		$I->setupConvertKitPluginNoDefaultForms($I);
 		$I->setupConvertKitPluginResources($I);
 
 		// Add a Page using the Gutenberg editor.
@@ -78,7 +78,7 @@ class PageBlockFormatterProductLinkCest
 	public function testProductLinkFormatterToggleProductSelection(AcceptanceTester $I)
 	{
 		// Setup ConvertKit Plugin with no default form specified.
-		$I->setupConvertKitPluginNoForms($I);
+		$I->setupConvertKitPluginNoDefaultForms($I);
 		$I->setupConvertKitPluginResources($I);
 
 		// Add a Page using the Gutenberg editor.
@@ -138,7 +138,7 @@ class PageBlockFormatterProductLinkCest
 	public function testProductLinkFormatterWithNoProduct(AcceptanceTester $I)
 	{
 		// Setup ConvertKit Plugin with no default form specified.
-		$I->setupConvertKitPluginNoForms($I);
+		$I->setupConvertKitPluginNoDefaultForms($I);
 		$I->setupConvertKitPluginResources($I);
 
 		// Add a Page using the Gutenberg editor.

@@ -19,7 +19,7 @@ class ElementorFormCest
 		$I->activateThirdPartyPlugin($I, 'elementor');
 
 		// Setup Plugin, without defining default Forms.
-		$I->setupConvertKitPluginNoForms($I);
+		$I->setupConvertKitPluginNoDefaultForms($I);
 		$I->setupConvertKitPluginResources($I);
 	}
 

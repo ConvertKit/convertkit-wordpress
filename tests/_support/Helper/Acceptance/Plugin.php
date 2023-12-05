@@ -88,7 +88,7 @@ class Plugin extends \Codeception\Module
 		]);
 	}
 
-	public function setupConvertKitPluginNoForms($I)
+	public function setupConvertKitPluginNoDefaultForms($I)
 	{
 		$I->setupConvertKitPlugin($I, [
 			'post_form' => '',

@@ -29,7 +29,7 @@ class PageShortcodeFormTriggerCest
 	public function testFormTriggerShortcodeInVisualEditorWithValidFormParameter(AcceptanceTester $I)
 	{
 		// Setup ConvertKit Plugin with no default form specified.
-		$I->setupConvertKitPluginNoForms($I);
+		$I->setupConvertKitPluginNoDefaultForms($I);
 		$I->setupConvertKitPluginResources($I);
 
 		// Add a Page using the Classic Editor.
@@ -63,7 +63,7 @@ class PageShortcodeFormTriggerCest
 	public function testFormTriggerShortcodeInTextEditorWithValidFormTriggerParameter(AcceptanceTester $I)
 	{
 		// Setup ConvertKit Plugin with no default form specified.
-		$I->setupConvertKitPluginNoForms($I);
+		$I->setupConvertKitPluginNoDefaultForms($I);
 		$I->setupConvertKitPluginResources($I);
 
 		// Add a Page using the Classic Editor.
@@ -96,7 +96,7 @@ class PageShortcodeFormTriggerCest
 	public function testFormTriggerShortcodeWithInvalidFormParameter(AcceptanceTester $I)
 	{
 		// Setup ConvertKit Plugin with no default form specified.
-		$I->setupConvertKitPluginNoForms($I);
+		$I->setupConvertKitPluginNoDefaultForms($I);
 		$I->setupConvertKitPluginResources($I);
 
 		// Create Page with Shortcode.
@@ -127,7 +127,7 @@ class PageShortcodeFormTriggerCest
 	public function testFormTriggerShortcodeInVisualEditorWithTextParameter(AcceptanceTester $I)
 	{
 		// Setup ConvertKit Plugin with no default form specified.
-		$I->setupConvertKitPluginNoForms($I);
+		$I->setupConvertKitPluginNoDefaultForms($I);
 		$I->setupConvertKitPluginResources($I);
 
 		// Add a Page using the Classic Editor.
@@ -161,7 +161,7 @@ class PageShortcodeFormTriggerCest
 	public function testFormTriggerShortcodeInVisualEditorWithBlankTextParameter(AcceptanceTester $I)
 	{
 		// Setup ConvertKit Plugin with no default form specified.
-		$I->setupConvertKitPluginNoForms($I);
+		$I->setupConvertKitPluginNoDefaultForms($I);
 		$I->setupConvertKitPluginResources($I);
 
 		// Add a Page using the Classic Editor.
@@ -195,7 +195,7 @@ class PageShortcodeFormTriggerCest
 	public function testFormTriggerShortcodeWithHexColorParameters(AcceptanceTester $I)
 	{
 		// Setup ConvertKit Plugin with no default form specified.
-		$I->setupConvertKitPluginNoForms($I);
+		$I->setupConvertKitPluginNoDefaultForms($I);
 		$I->setupConvertKitPluginResources($I);
 
 		// Define colors.
@@ -237,7 +237,7 @@ class PageShortcodeFormTriggerCest
 	public function testFormTriggerShortcodeParameterEscaping(AcceptanceTester $I)
 	{
 		// Setup ConvertKit Plugin with no default form specified.
-		$I->setupConvertKitPluginNoForms($I);
+		$I->setupConvertKitPluginNoDefaultForms($I);
 		$I->setupConvertKitPluginResources($I);
 
 		// Define a 'bad' shortcode.
