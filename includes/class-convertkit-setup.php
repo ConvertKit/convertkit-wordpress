@@ -166,7 +166,7 @@ class ConvertKit_Setup {
 		$mappings = $api->get_subscription_forms();
 
 		// Bail if no form mappings exist.
-		if ( ! $mappings ) {
+		if ( ! $mappings || is_wp_error( $mappings ) ) {
 			return;
 		}
 
