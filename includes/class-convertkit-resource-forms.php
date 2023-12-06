@@ -306,6 +306,13 @@ class ConvertKit_Resource_Forms extends ConvertKit_Resource {
 				}
 			);
 
+			// Sanity check we're not in the WordPress Admin interface.
+			// Some third party REST API Plugins seem to load frontend Posts, which would result in a wp_die() as
+			// the output Plugin class (rightly) isn't initialized in the backend.
+			if ( is_admin() ) {
+				return '';
+			}
+
 			// Don't output the global non-inline form, if defined, because
 			// a non-inline form was specified at either Post/Page default level, Post/Page level
 			// or Post Category level.
