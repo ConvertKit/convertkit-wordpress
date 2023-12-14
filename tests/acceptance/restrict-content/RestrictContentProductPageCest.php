@@ -29,7 +29,7 @@ class RestrictContentProductPageCest
 	public function testRestrictContentWhenDisabled(AcceptanceTester $I)
 	{
 		// Setup ConvertKit Plugin, disabling JS.
-		$I->setupConvertKitPlugin($I, false, false, false, false, false, true);
+		$I->setupConvertKitPluginDisableJS($I);
 
 		// Add a Page using the Gutenberg editor.
 		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Restrict Content: Product');
@@ -59,7 +59,7 @@ class RestrictContentProductPageCest
 	public function testRestrictContentByProduct(AcceptanceTester $I)
 	{
 		// Setup ConvertKit Plugin, disabling JS.
-		$I->setupConvertKitPlugin($I, false, false, false, false, false, true);
+		$I->setupConvertKitPluginDisableJS($I);
 
 		// Add a Page using the Gutenberg editor.
 		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Restrict Content: Product');
@@ -103,7 +103,7 @@ class RestrictContentProductPageCest
 	public function testRestrictContentByProductWithGeneratedExcerpt(AcceptanceTester $I)
 	{
 		// Setup ConvertKit Plugin, disabling JS.
-		$I->setupConvertKitPlugin($I, false, false, false, false, false, true);
+		$I->setupConvertKitPluginDisableJS($I);
 
 		// Define visible content and member only content.
 		$visibleContent    = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec at velit purus. Nam gravida tempor tellus, sit amet euismod arcu. Mauris sed mattis leo. Mauris viverra eget tellus sit amet vehicula. Nulla eget sapien quis felis euismod pellentesque. Quisque elementum et diam nec eleifend. Sed ornare quam eget augue consequat, in maximus quam fringilla. Morbi';
@@ -196,7 +196,7 @@ class RestrictContentProductPageCest
 	public function testRestrictContentByInvalidProduct(AcceptanceTester $I)
 	{
 		// Setup ConvertKit Plugin, disabling JS.
-		$I->setupConvertKitPlugin($I, false, false, false, false, false, true);
+		$I->setupConvertKitPluginDisableJS($I);
 
 		// Programmatically create a Page.
 		$pageID = $I->createRestrictedContentPage(
@@ -226,7 +226,7 @@ class RestrictContentProductPageCest
 	public function testRestrictContentByProductUsingQuickEdit(AcceptanceTester $I)
 	{
 		// Setup ConvertKit Plugin, disabling JS.
-		$I->setupConvertKitPlugin($I, false, false, false, false, false, true);
+		$I->setupConvertKitPluginDisableJS($I);
 
 		// Programmatically create a Page.
 		$pageID = $I->createRestrictedContentPage($I, 'page', 'ConvertKit: Page: Restrict Content: Product: ' . $_ENV['CONVERTKIT_API_PRODUCT_NAME'] . ': Quick Edit');
@@ -256,7 +256,7 @@ class RestrictContentProductPageCest
 	public function testRestrictContentByProductUsingBulkEdit(AcceptanceTester $I)
 	{
 		// Setup ConvertKit Plugin, disabling JS.
-		$I->setupConvertKitPlugin($I, false, false, false, false, false, true);
+		$I->setupConvertKitPluginDisableJS($I);
 
 		// Programmatically create two Pages.
 		$pageIDs = array(

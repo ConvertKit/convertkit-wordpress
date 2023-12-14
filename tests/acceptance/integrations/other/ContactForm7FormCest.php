@@ -50,7 +50,7 @@ class ContactForm7FormCest
 	public function testSettingsContactForm7WhenNoForms(AcceptanceTester $I)
 	{
 		// Setup Plugin.
-		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY_NO_DATA'], $_ENV['CONVERTKIT_API_SECRET_NO_DATA'], '', '', '');
+		$I->setupConvertKitPluginAPIKeyNoData($I);
 		$I->setupConvertKitPluginResourcesNoData($I);
 
 		// Load Contact Form 7 Plugin Settings.
@@ -149,7 +149,7 @@ class ContactForm7FormCest
 	public function testSettingsContactForm7CreatorNetworkRecommendationsOptionWhenDisabledOnConvertKitAccount(AcceptanceTester $I)
 	{
 		// Setup ConvertKit Plugin.
-		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY_NO_DATA'], $_ENV['CONVERTKIT_API_SECRET_NO_DATA'], '', '', '');
+		$I->setupConvertKitPluginAPIKeyNoData($I);
 		$I->setupConvertKitPluginResources($I);
 
 		// Create Contact Form 7 Form.

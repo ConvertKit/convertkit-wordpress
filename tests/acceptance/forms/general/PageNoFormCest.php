@@ -17,7 +17,7 @@ class PageNoFormCest
 	{
 		// Activate and Setup ConvertKit plugin.
 		$I->activateConvertKitPlugin($I);
-		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY_NO_DATA'], $_ENV['CONVERTKIT_API_SECRET_NO_DATA'], '', '', '');
+		$I->setupConvertKitPluginAPIKeyNoData($I);
 		$I->setupConvertKitPluginResourcesNoData($I);
 
 		// Navigate to Pages > Add New.

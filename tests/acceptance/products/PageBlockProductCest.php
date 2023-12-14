@@ -28,7 +28,7 @@ class PageBlockProductCest
 	public function testProductBlockWithValidProductParameter(AcceptanceTester $I)
 	{
 		// Setup ConvertKit Plugin with no default form specified.
-		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY'], $_ENV['CONVERTKIT_API_SECRET'], '', '', '');
+		$I->setupConvertKitPluginNoDefaultForms($I);
 		$I->setupConvertKitPluginResources($I);
 
 		// Add a Page using the Gutenberg editor.
@@ -70,7 +70,7 @@ class PageBlockProductCest
 	public function testProductBlockWithNoProductParameter(AcceptanceTester $I)
 	{
 		// Setup ConvertKit Plugin with no default form specified.
-		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY'], $_ENV['CONVERTKIT_API_SECRET'], '', '', '');
+		$I->setupConvertKitPluginNoDefaultForms($I);
 		$I->setupConvertKitPluginResources($I);
 
 		// Add a Page using the Gutenberg editor.
@@ -113,7 +113,7 @@ class PageBlockProductCest
 	public function testProductBlockWithTextParameter(AcceptanceTester $I)
 	{
 		// Setup ConvertKit Plugin with no default form specified.
-		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY'], $_ENV['CONVERTKIT_API_SECRET'], '', '', '');
+		$I->setupConvertKitPluginNoDefaultForms($I);
 		$I->setupConvertKitPluginResources($I);
 
 		// Add a Page using the Gutenberg editor.
@@ -147,7 +147,7 @@ class PageBlockProductCest
 	public function testProductBlockWithBlankTextParameter(AcceptanceTester $I)
 	{
 		// Setup ConvertKit Plugin with no default form specified.
-		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY'], $_ENV['CONVERTKIT_API_SECRET'], '', '', '');
+		$I->setupConvertKitPluginNoDefaultForms($I);
 		$I->setupConvertKitPluginResources($I);
 
 		// Add a Page using the Gutenberg editor.
@@ -181,7 +181,7 @@ class PageBlockProductCest
 	public function testProductBlockWithThemeColorParameters(AcceptanceTester $I)
 	{
 		// Setup ConvertKit Plugin with no default form specified.
-		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY'], $_ENV['CONVERTKIT_API_SECRET'], '', '', '');
+		$I->setupConvertKitPluginNoDefaultForms($I);
 		$I->setupConvertKitPluginResources($I);
 
 		// Define colors.
@@ -225,7 +225,7 @@ class PageBlockProductCest
 	public function testProductBlockWithHexColorParameters(AcceptanceTester $I)
 	{
 		// Setup ConvertKit Plugin with no default form specified.
-		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY'], $_ENV['CONVERTKIT_API_SECRET'], '', '', '');
+		$I->setupConvertKitPluginNoDefaultForms($I);
 		$I->setupConvertKitPluginResources($I);
 
 		// Define colors.
@@ -294,7 +294,7 @@ class PageBlockProductCest
 	public function testProductBlockWhenNoProducts(AcceptanceTester $I)
 	{
 		// Setup Plugin.
-		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY_NO_DATA'], $_ENV['CONVERTKIT_API_SECRET_NO_DATA'], '', '', '');
+		$I->setupConvertKitPluginAPIKeyNoData($I);
 		$I->setupConvertKitPluginResourcesNoData($I);
 
 		// Add a Page using the Gutenberg editor.
@@ -342,7 +342,7 @@ class PageBlockProductCest
 	public function testProductBlockRefreshButton(AcceptanceTester $I)
 	{
 		// Setup Plugin with API keys for ConvertKit Account that has no Products.
-		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY_NO_DATA'], $_ENV['CONVERTKIT_API_SECRET_NO_DATA']);
+		$I->setupConvertKitPluginAPIKeyNoData($I);
 		$I->setupConvertKitPluginResourcesNoData($I);
 
 		// Add a Page using the Gutenberg editor.
@@ -385,7 +385,7 @@ class PageBlockProductCest
 	public function testProductBlockParameterEscaping(AcceptanceTester $I)
 	{
 		// Setup ConvertKit Plugin with no default form specified.
-		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY'], $_ENV['CONVERTKIT_API_SECRET'], '', '', '');
+		$I->setupConvertKitPluginNoDefaultForms($I);
 		$I->setupConvertKitPluginResources($I);
 
 		// Define a 'bad' block.  This is difficult to do in Gutenberg, but let's assume it's possible.

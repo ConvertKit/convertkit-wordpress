@@ -31,7 +31,7 @@ class WooCommerceProductFormCest
 	public function testAddNewProductUsingDefaultFormWithNoDefaultFormSpecifiedInPlugin(AcceptanceTester $I)
 	{
 		// Setup ConvertKit Plugin with no default form specified.
-		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY'], $_ENV['CONVERTKIT_API_SECRET'], '', '', '');
+		$I->setupConvertKitPluginNoDefaultForms($I);
 		$I->setupConvertKitPluginResources($I);
 
 		// Navigate to Products > Add New.
@@ -153,7 +153,7 @@ class WooCommerceProductFormCest
 	public function testAddNewProductUsingFormShortcodeInVisualEditor(AcceptanceTester $I)
 	{
 		// Setup ConvertKit Plugin with no default form specified.
-		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY'], $_ENV['CONVERTKIT_API_SECRET'], '', '', '');
+		$I->setupConvertKitPluginNoDefaultForms($I);
 		$I->setupConvertKitPluginResources($I);
 
 		// Add a Product using the Classic Editor.
@@ -196,7 +196,7 @@ class WooCommerceProductFormCest
 	public function testAddNewProductUsingFormShortcodeInTextEditor(AcceptanceTester $I)
 	{
 		// Setup ConvertKit Plugin with no default form specified.
-		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY'], $_ENV['CONVERTKIT_API_SECRET'], '', '', '');
+		$I->setupConvertKitPluginNoDefaultForms($I);
 		$I->setupConvertKitPluginResources($I);
 
 		// Add a Product using the Classic Editor.

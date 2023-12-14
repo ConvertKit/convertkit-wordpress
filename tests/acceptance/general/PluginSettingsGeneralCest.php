@@ -221,7 +221,7 @@ class PluginSettingsGeneralCest
 		);
 
 		// Setup Plugin, without defining default Forms.
-		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY'], $_ENV['CONVERTKIT_API_SECRET'], '', '');
+		$I->setupConvertKitPluginNoDefaultForms($I);
 
 		// Go to the Plugin's Settings Screen.
 		$I->loadConvertKitSettingsGeneralScreen($I);

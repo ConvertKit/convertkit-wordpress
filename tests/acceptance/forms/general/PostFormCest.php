@@ -52,7 +52,7 @@ class PostFormCest
 	public function testAddNewPostUsingDefaultFormWithNoDefaultFormSpecifiedInPlugin(AcceptanceTester $I)
 	{
 		// Setup Plugin, without defining default Forms.
-		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY'], $_ENV['CONVERTKIT_API_SECRET'], '', '', '');
+		$I->setupConvertKitPluginNoDefaultForms($I);
 		$I->setupConvertKitPluginResources($I);
 
 		// Add a Post using the Gutenberg editor.
@@ -129,7 +129,14 @@ class PostFormCest
 	public function testAddNewPostUsingDefaultLegacyForm(AcceptanceTester $I)
 	{
 		// Setup Plugin, without defining default Forms.
-		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY'], $_ENV['CONVERTKIT_API_SECRET'], '', $_ENV['CONVERTKIT_API_LEGACY_FORM_ID'], '');
+		$I->setupConvertKitPlugin(
+			$I,
+			[
+				'page_form'    => '',
+				'post_form'    => $_ENV['CONVERTKIT_API_LEGACY_FORM_ID'],
+				'product_form' => '',
+			]
+		);
 		$I->setupConvertKitPluginResources($I);
 
 		// Add a Post using the Gutenberg editor.

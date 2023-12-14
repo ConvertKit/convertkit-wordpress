@@ -31,7 +31,7 @@ class RefreshResourcesButtonCest
 	public function testRefreshResourcesOnPage(AcceptanceTester $I)
 	{
 		// Setup ConvertKit Plugin.
-		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY'], $_ENV['CONVERTKIT_API_SECRET']);
+		$I->setupConvertKitPlugin($I);
 
 		// Navigate to Pages > Add New.
 		$I->amOnAdminPage('post-new.php?post_type=page');
@@ -118,7 +118,7 @@ class RefreshResourcesButtonCest
 	public function testRefreshResourcesOnQuickEdit(AcceptanceTester $I)
 	{
 		// Setup ConvertKit Plugin.
-		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY'], $_ENV['CONVERTKIT_API_SECRET']);
+		$I->setupConvertKitPlugin($I);
 
 		// Programmatically create a Page.
 		$pageID = $I->havePostInDatabase(
@@ -191,7 +191,7 @@ class RefreshResourcesButtonCest
 	public function testRefreshResourcesOnBulkEdit(AcceptanceTester $I)
 	{
 		// Setup ConvertKit Plugin.
-		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY'], $_ENV['CONVERTKIT_API_SECRET']);
+		$I->setupConvertKitPlugin($I);
 
 		// Programmatically create two Pages.
 		$pageIDs = array(
@@ -274,7 +274,7 @@ class RefreshResourcesButtonCest
 	public function testRefreshResourcesOnAddCategory(AcceptanceTester $I)
 	{
 		// Setup ConvertKit Plugin.
-		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY'], $_ENV['CONVERTKIT_API_SECRET']);
+		$I->setupConvertKitPlugin($I);
 
 		// Navigate to Posts > Categories.
 		$I->amOnAdminPage('edit-tags.php?taxonomy=category');
@@ -309,7 +309,7 @@ class RefreshResourcesButtonCest
 	public function testRefreshResourcesOnEditCategory(AcceptanceTester $I)
 	{
 		// Setup ConvertKit Plugin.
-		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY'], $_ENV['CONVERTKIT_API_SECRET']);
+		$I->setupConvertKitPlugin($I);
 
 		// Create Category.
 		$termID = $I->haveTermInDatabase( 'ConvertKit Refresh Resources', 'category' );
@@ -349,7 +349,7 @@ class RefreshResourcesButtonCest
 	public function testRefreshResourcesErrorNoticeOnPage(AcceptanceTester $I)
 	{
 		// Setup ConvertKit Plugin with invalid API credentials, so that the AJAX request returns an error.
-		$I->setupConvertKitPlugin($I, 'fakeApiKey', 'fakeApiSecret', '', '', '');
+		$I->setupConvertKitPluginFakeAPIKey($I);
 
 		// Navigate to Pages > Add New.
 		$I->amOnAdminPage('post-new.php?post_type=page');
@@ -384,7 +384,7 @@ class RefreshResourcesButtonCest
 	public function testRefreshResourcesErrorNoticeOnPageClassicEditor(AcceptanceTester $I)
 	{
 		// Setup ConvertKit Plugin with invalid API credentials, so that the AJAX request returns an error.
-		$I->setupConvertKitPlugin($I, 'fakeApiKey', 'fakeApiSecret', '', '', '');
+		$I->setupConvertKitPluginFakeAPIKey($I);
 
 		// Add a Page using the Classic Editor.
 		$I->addClassicEditorPage($I, 'page', 'ConvertKit: Page: Refresh Resources: Classic Editor' );
@@ -416,7 +416,7 @@ class RefreshResourcesButtonCest
 	public function testRefreshResourcesErrorNoticeOnQuickEdit(AcceptanceTester $I)
 	{
 		// Setup ConvertKit Plugin with invalid API credentials, so that the AJAX request returns an error.
-		$I->setupConvertKitPlugin($I, 'fakeApiKey', 'fakeApiSecret', '', '', '');
+		$I->setupConvertKitPluginFakeAPIKey($I);
 
 		// Programmatically create a Page.
 		$pageID = $I->havePostInDatabase(
@@ -456,7 +456,7 @@ class RefreshResourcesButtonCest
 	public function testRefreshResourcesErrorNoticeOnBulkEdit(AcceptanceTester $I)
 	{
 		// Setup ConvertKit Plugin with invalid API credentials, so that the AJAX request returns an error.
-		$I->setupConvertKitPlugin($I, 'fakeApiKey', 'fakeApiSecret', '', '', '');
+		$I->setupConvertKitPluginFakeAPIKey($I);
 
 		// Programmatically create two Pages.
 		$pageIDs = array(
@@ -504,7 +504,7 @@ class RefreshResourcesButtonCest
 	public function testRefreshResourcesErrorNoticeOnAddCategory(AcceptanceTester $I)
 	{
 		// Setup ConvertKit Plugin with invalid API credentials, so that the AJAX request returns an error.
-		$I->setupConvertKitPlugin($I, 'fakeApiKey', 'fakeApiSecret', '', '', '');
+		$I->setupConvertKitPluginFakeAPIKey($I);
 
 		// Navigate to Posts > Categories.
 		$I->amOnAdminPage('edit-tags.php?taxonomy=category');
@@ -536,7 +536,7 @@ class RefreshResourcesButtonCest
 	public function testRefreshResourcesErrorNoticeOnEditCategory(AcceptanceTester $I)
 	{
 		// Setup ConvertKit Plugin with invalid API credentials, so that the AJAX request returns an error.
-		$I->setupConvertKitPlugin($I, 'fakeApiKey', 'fakeApiSecret', '', '', '');
+		$I->setupConvertKitPluginFakeAPIKey($I);
 
 		// Create Category.
 		$termID = $I->haveTermInDatabase( 'ConvertKit Refresh Resources', 'category' );

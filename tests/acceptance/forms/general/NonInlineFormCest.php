@@ -30,7 +30,7 @@ class NonInlineFormCest
 	public function testSettingsWhenNoNonInlineForms(AcceptanceTester $I)
 	{
 		// Setup Plugin with API Keys for an account that has no non-inline forms.
-		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY_NO_DATA'], $_ENV['CONVERTKIT_API_SECRET_NO_DATA']);
+		$I->setupConvertKitPluginAPIKeyNoData($I);
 	}
 
 	/**
@@ -45,14 +45,9 @@ class NonInlineFormCest
 		// Setup Plugin with a non-inline Default Form (Site Wide).
 		$I->setupConvertKitPlugin(
 			$I,
-			false,
-			false,
-			false,
-			false,
-			false,
-			false,
-			false,
-			$_ENV['CONVERTKIT_API_FORM_FORMAT_STICKY_BAR_ID']
+			[
+				'non_inline_form' => $_ENV['CONVERTKIT_API_FORM_FORMAT_STICKY_BAR_ID'],
+			]
 		);
 		$I->setupConvertKitPluginResources($I);
 
@@ -114,14 +109,10 @@ class NonInlineFormCest
 		// Setup Plugin with a non-inline Default Form for both Pages and Site Wide.
 		$I->setupConvertKitPlugin(
 			$I,
-			false,
-			false,
-			$_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_ID'], // Page Default.
-			false,
-			false,
-			false,
-			false,
-			$_ENV['CONVERTKIT_API_FORM_FORMAT_STICKY_BAR_ID'] // Site Wide.
+			[
+				'page_form'       => $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_ID'],
+				'non_inline_form' => $_ENV['CONVERTKIT_API_FORM_FORMAT_STICKY_BAR_ID'],
+			]
 		);
 
 		// Add a Page using the Gutenberg editor.
@@ -157,14 +148,9 @@ class NonInlineFormCest
 		// Setup Plugin with a non-inline Default Form for Site Wide.
 		$I->setupConvertKitPlugin(
 			$I,
-			false,
-			false,
-			false,
-			false,
-			false,
-			false,
-			false,
-			$_ENV['CONVERTKIT_API_FORM_FORMAT_STICKY_BAR_ID'] // Site Wide.
+			[
+				'non_inline_form' => $_ENV['CONVERTKIT_API_FORM_FORMAT_STICKY_BAR_ID'],
+			]
 		);
 
 		// Add a Page using the Gutenberg editor.
@@ -200,14 +186,9 @@ class NonInlineFormCest
 		// Setup Plugin with a non-inline Default Form for Site Wide.
 		$I->setupConvertKitPlugin(
 			$I,
-			false,
-			false,
-			false,
-			false,
-			false,
-			false,
-			false,
-			$_ENV['CONVERTKIT_API_FORM_FORMAT_STICKY_BAR_ID'] // Site Wide.
+			[
+				'non_inline_form' => $_ENV['CONVERTKIT_API_FORM_FORMAT_STICKY_BAR_ID'],
+			]
 		);
 
 		// Add a Page using the Gutenberg editor.
@@ -253,14 +234,9 @@ class NonInlineFormCest
 		// Setup Plugin with a non-inline Default Form for Site Wide.
 		$I->setupConvertKitPlugin(
 			$I,
-			false,
-			false,
-			false,
-			false,
-			false,
-			false,
-			false,
-			$_ENV['CONVERTKIT_API_FORM_FORMAT_STICKY_BAR_ID'] // Site Wide.
+			[
+				'non_inline_form' => $_ENV['CONVERTKIT_API_FORM_FORMAT_STICKY_BAR_ID'],
+			]
 		);
 
 		// Add a Page using the Classic Editor.
@@ -307,14 +283,10 @@ class NonInlineFormCest
 		// Setup Plugin with a non-inline Default Form for both Posts and Site Wide.
 		$I->setupConvertKitPlugin(
 			$I,
-			false,
-			false,
-			false,
-			$_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_ID'], // Post Default.
-			false,
-			false,
-			false,
-			$_ENV['CONVERTKIT_API_FORM_FORMAT_STICKY_BAR_ID'] // Site Wide.
+			[
+				'post_form'       => $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_ID'],
+				'non_inline_form' => $_ENV['CONVERTKIT_API_FORM_FORMAT_STICKY_BAR_ID'],
+			]
 		);
 
 		// Add a Post using the Gutenberg editor.
@@ -347,17 +319,12 @@ class NonInlineFormCest
 	 */
 	public function testDefaultNonInlineFormIgnoredWhenPostNonInlineFormDefined(AcceptanceTester $I)
 	{
-		// Setup Plugin with a non-inline Default Form for both Posts and Site Wide.
+		// Setup Plugin with a non-inline Default Form for Site Wide.
 		$I->setupConvertKitPlugin(
 			$I,
-			false,
-			false,
-			false,
-			false,
-			false,
-			false,
-			false,
-			$_ENV['CONVERTKIT_API_FORM_FORMAT_STICKY_BAR_ID'] // Site Wide.
+			[
+				'non_inline_form' => $_ENV['CONVERTKIT_API_FORM_FORMAT_STICKY_BAR_ID'],
+			]
 		);
 
 		// Add a Post using the Gutenberg editor.
@@ -390,17 +357,12 @@ class NonInlineFormCest
 	 */
 	public function testDefaultNonInlineFormIgnoredWhenPostCategoryNonInlineFormDefined(AcceptanceTester $I)
 	{
-		// Setup Plugin with a non-inline Default Form for both Posts and Site Wide.
+		// Setup Plugin with a non-inline Default Form for Site Wide.
 		$I->setupConvertKitPlugin(
 			$I,
-			false,
-			false,
-			false,
-			false,
-			false,
-			false,
-			false,
-			$_ENV['CONVERTKIT_API_FORM_FORMAT_STICKY_BAR_ID'] // Site Wide.
+			[
+				'non_inline_form' => $_ENV['CONVERTKIT_API_FORM_FORMAT_STICKY_BAR_ID'],
+			]
 		);
 
 		// Create Category.
