@@ -12,6 +12,7 @@ modules:
     enabled:
         # wp-browser supplied classes, which provide WordPress specific functions
         - WPDb
+        - WPFilesystem
         - WPWebDriver
 
         # Codeception supplied classes, which provide assertions and filesystem functions
@@ -21,13 +22,19 @@ modules:
         # Our helper classes, which contain functions used across multiple tests.
         # If you created a new file in tests/_support/Helper/Acceptance, add its namespace and class below,
         - \Helper\Acceptance\ConvertKitAPI
+        - \Helper\Acceptance\ConvertKitBroadcasts
+        - \Helper\Acceptance\ConvertKitForms
+        - \Helper\Acceptance\ConvertKitPlugin
+        - \Helper\Acceptance\ConvertKitProducts
+        - \Helper\Acceptance\ConvertKitRestrictContent
+        - \Helper\Acceptance\CustomPostType
         - \Helper\Acceptance\Email
-        - \Helper\Acceptance\Plugin
         - \Helper\Acceptance\Select2
         - \Helper\Acceptance\ThirdPartyPlugin
         - \Helper\Acceptance\WPBulkEdit
         - \Helper\Acceptance\WPCachePlugins
         - \Helper\Acceptance\WPClassicEditor
+        - \Helper\Acceptance\WPCron
         - \Helper\Acceptance\WPGutenberg
         - \Helper\Acceptance\WPMetabox
         - \Helper\Acceptance\WPNotices
@@ -56,6 +63,8 @@ modules:
             headers:
                 X_TEST_REQUEST: 1
                 X_WPBROWSER_REQUEST: 1
+        WPFilesystem:
+            wpRootFolder: '%WP_ROOT_FOLDER%'
         WPWebDriver:
             url: '%TEST_SITE_WP_URL%'
             adminUsername: '%TEST_SITE_ADMIN_USERNAME%'
@@ -65,34 +74,12 @@ modules:
             host: localhost
             port: 9515
             window_size: 1920x1080
-
-env:
-    # Default environment, runs headless mode.
-    default:
-        modules:
-            config:
-                WPWebDriver:
-                    capabilities:
-                        chromeOptions:
-                            args: [
-                                "--headless",
-                                "--disable-gpu"
-                            ]
-                            prefs:
-                                download.default_directory: '%WP_ROOT_FOLDER%'
-    
-    # New environment, runs headless=new mode. Required for tests involving browser downloads, flaky
-    # for other tests since ChromeDriver 111.
-    new:
-        modules:
-            config:
-                WPWebDriver:
-                    capabilities:
-                        chromeOptions:
-                            args: [
-                                "--headless=new",
-                                "--disable-gpu",
-                                "--user-agent=HeadlessChrome"
-                            ]
-                            prefs:
-                                download.default_directory: '%WP_ROOT_FOLDER%'
+            capabilities:
+                chromeOptions:
+                    args: [
+                        "--headless=new",
+                        "--disable-gpu",
+                        "--user-agent=HeadlessChrome"
+                    ]
+                    prefs:
+                        download.default_directory: '%WP_ROOT_FOLDER%'

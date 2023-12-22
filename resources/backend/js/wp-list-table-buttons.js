@@ -7,11 +7,11 @@
  */
 
 jQuery( document ).ready(
-	function( $ ) {
+	function ( $ ) {
 
 		// Move any buttons from the filter list to display next to the Add New button.
 		$( 'ul.subsubsub a' ).each(
-			function() {
+			function () {
 
 				// Ignore if not a ConvertKit Group Action.
 				if ( ! $( this ).hasClass( 'convertkit-action' ) ) {

@@ -93,6 +93,146 @@ class ConvertKit_Resource_Forms extends ConvertKit_Resource {
 	}
 
 	/**
+	 * Returns a <select> field populated with all forms, based on the given parameters.
+	 *
+	 * @since   2.3.9
+	 *
+	 * @param   string            $name            Name.
+	 * @param   string            $id              ID.
+	 * @param   bool|array        $css_classes     <select> CSS class(es).
+	 * @param   string            $selected_option <option> value to mark as selected.
+	 * @param   bool|array        $prepend_options <option> elements to prepend before resources.
+	 * @param   bool|array        $attributes      <select> attributes.
+	 * @param   bool|string|array $description     Description.
+	 * @return  string                             HTML Select Field
+	 */
+	public function get_select_field_all( $name, $id, $css_classes, $selected_option, $prepend_options = false, $attributes = false, $description = false ) {
+
+		return $this->get_select_field(
+			$this->get(),
+			$name,
+			$id,
+			$css_classes,
+			$selected_option,
+			$prepend_options,
+			$attributes,
+			$description
+		);
+
+	}
+
+	/**
+	 * Returns a <select> field populated with all non-inline forms, based on the given parameters.
+	 *
+	 * @since   2.3.9
+	 *
+	 * @param   string            $name            Name.
+	 * @param   string            $id              ID.
+	 * @param   bool|array        $css_classes     <select> CSS class(es).
+	 * @param   string            $selected_option <option> value to mark as selected.
+	 * @param   bool|array        $prepend_options <option> elements to prepend before resources.
+	 * @param   bool|array        $attributes      <select> attributes.
+	 * @param   bool|string|array $description     Description.
+	 * @return  string                             HTML Select Field
+	 */
+	public function get_select_field_non_inline( $name, $id, $css_classes, $selected_option, $prepend_options = false, $attributes = false, $description = false ) {
+
+		return $this->get_select_field(
+			$this->get_non_inline(),
+			$name,
+			$id,
+			$css_classes,
+			$selected_option,
+			$prepend_options,
+			$attributes,
+			$description
+		);
+
+	}
+
+	/**
+	 * Returns a <select> field populated with the resources, based on the given parameters.
+	 *
+	 * @since   2.3.9
+	 *
+	 * @param   array             $forms           Forms.
+	 * @param   string            $name            Name.
+	 * @param   string            $id              ID.
+	 * @param   bool|array        $css_classes     <select> CSS class(es).
+	 * @param   string            $selected_option <option> value to mark as selected.
+	 * @param   bool|array        $prepend_options <option> elements to prepend before resources.
+	 * @param   bool|array        $attributes      <select> attributes.
+	 * @param   bool|string|array $description     Description.
+	 * @return  string                             HTML Select Field
+	 */
+	private function get_select_field( $forms, $name, $id, $css_classes, $selected_option, $prepend_options = false, $attributes = false, $description = false ) {
+
+		$html = sprintf(
+			'<select name="%s" id="%s" class="%s"',
+			esc_attr( $name ),
+			esc_attr( $id ),
+			esc_attr( ( is_array( $css_classes ) ? implode( ' ', $css_classes ) : '' ) )
+		);
+
+		// Append any attributes.
+		if ( $attributes ) {
+			foreach ( $attributes as $key => $value ) {
+				$html .= sprintf(
+					' %s="%s"',
+					esc_attr( $key ),
+					esc_attr( $value )
+				);
+			}
+		}
+
+		// Close select tag.
+		$html .= '>';
+
+		// If any prepended options exist, add them now.
+		if ( $prepend_options ) {
+			foreach ( $prepend_options as $value => $label ) {
+				$html .= sprintf(
+					'<option value="%s" data-preserve-on-refresh="1"%s>%s</option>',
+					esc_attr( $value ),
+					selected( $selected_option, $value, false ),
+					esc_attr( $label )
+				);
+			}
+		}
+
+		// Iterate through resources, if they exist, building <option> elements.
+		if ( $forms ) {
+			foreach ( $forms as $form ) {
+				// Legacy forms don't include a `format` key, so define them as inline.
+				$html .= sprintf(
+					'<option value="%s"%s>%s [%s]</option>',
+					esc_attr( $form['id'] ),
+					selected( $selected_option, $form['id'], false ),
+					esc_attr( $form['name'] ),
+					( ! empty( $form['format'] ) ? esc_attr( $form['format'] ) : 'inline' )
+				);
+			}
+		}
+
+		// Close select.
+		$html .= '</select>';
+
+		// If no description is provided, return the select field now.
+		if ( ! $description ) {
+			return $html;
+		}
+
+		// Append description before returning field.
+		if ( ! is_array( $description ) ) {
+			return $html . '<p class="description">' . $description . '</p>';
+		}
+
+		// Return description lines in a paragraph, using breaklines for each description entry in the array.
+		return $html . '<p class="description">' . implode( '<br />', $description ) . '</p>';
+
+	}
+
+	/**
 	 * Returns the HTML/JS markup for the given Form ID.
 	 *
 	 * Legacy Forms will return HTML.
@@ -153,7 +293,7 @@ class ConvertKit_Resource_Forms extends ConvertKit_Resource {
 		if ( $this->resources[ $id ]['format'] !== 'inline' ) {
 			add_filter(
 				'convertkit_output_scripts_footer',
-				function( $scripts ) use ( $id ) {
+				function ( $scripts ) use ( $id ) {
 
 					$scripts[] = array(
 						'async'    => true,
@@ -165,6 +305,19 @@ class ConvertKit_Resource_Forms extends ConvertKit_Resource {
 
 				}
 			);
+
+			// Sanity check we're not in the WordPress Admin interface.
+			// Some third party REST API Plugins seem to load frontend Posts, which would result in a wp_die() as
+			// the output Plugin class (rightly) isn't initialized in the backend.
+			if ( is_admin() ) {
+				return '';
+			}
+
+			// Don't output the global non-inline form, if defined, because
+			// a non-inline form was specified at either Post/Page default level, Post/Page level
+			// or Post Category level.
+			// This prevents multiple non-inline forms loading.
+			remove_action( 'wp_footer', array( WP_ConvertKit()->get_class( 'output' ), 'output_global_non_inline_form' ), 1 );
 
 			// Don't return a script for output, as it'll be output in the site's footer.
 			return '';

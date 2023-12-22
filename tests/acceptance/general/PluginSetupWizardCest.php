@@ -44,6 +44,40 @@ class PluginSetupWizardCest
 	}
 
 	/**
+	 * Test that the Dashboard submenu item for this wizard does not display when a
+	 * third party Admin Menu editor type Plugin is installed and active.
+	 *
+	 * @since   2.3.2
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testNoSetupWizardDashboardSubmenuItem(AcceptanceTester $I)
+	{
+		// Activate Admin Menu Editor Plugin.
+		$I->activateThirdPartyPlugin($I, 'admin-menu-editor');
+
+		// Setup ConvertKit Plugin.
+		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPluginResources($I);
+
+		// Activate Plugin.
+		$this->_activatePlugin($I);
+
+		// Navigate to Admin Menu Editor's settings.
+		$I->amOnAdminPage('options-general.php?page=menu_editor');
+
+		// Save settings. If hiding submenu items fails in the Plugin, this step
+		// will display those submenu items on subsequent page loads.
+		$I->click('Save Changes');
+
+		// Navigate to Dashboard.
+		$I->amOnAdminPage('index.php');
+
+		// Confirm no Dashboard Submenu item exists.
+		$I->dontSeeInSource('<a href="options.php?page=convertkit-setup"></a>');
+	}
+
+	/**
 	 * Test that the Setup Wizard exit link works.
 	 *
 	 * @since   1.9.8.4
@@ -238,7 +272,7 @@ class PluginSetupWizardCest
 		);
 
 		// Load Step 3/4.
-		$I->amOnAdminPage('index.php?page=convertkit-setup&step=3');
+		$I->amOnAdminPage('options.php?page=convertkit-setup&step=3');
 
 		// Confirm expected setup wizard screen is displayed.
 		$this->_seeExpectedSetupWizardScreen($I, 3, 'Display an email capture form');
@@ -318,7 +352,7 @@ class PluginSetupWizardCest
 		);
 
 		// Load Step 3/4.
-		$I->amOnAdminPage('index.php?page=convertkit-setup&step=3');
+		$I->amOnAdminPage('options.php?page=convertkit-setup&step=3');
 
 		// Confirm expected setup wizard screen is displayed.
 		$this->_seeExpectedSetupWizardScreen($I, 3, 'Create your first ConvertKit Form', true);
@@ -369,7 +403,7 @@ class PluginSetupWizardCest
 		);
 
 		// Load Step 3/4.
-		$I->amOnAdminPage('index.php?page=convertkit-setup&step=3');
+		$I->amOnAdminPage('options.php?page=convertkit-setup&step=3');
 
 		// Confirm expected setup wizard screen is displayed.
 		$this->_seeExpectedSetupWizardScreen($I, 3, 'Display an email capture form');
@@ -418,7 +452,7 @@ class PluginSetupWizardCest
 
 		// Manually navigate to the Plugin Setup Wizard; this will be performed via a block
 		// in a future PR, so this test can be moved to e.g. PageBlockFormCest.
-		$I->amOnAdminPage('index.php?page=convertkit-setup&convertkit-modal=1');
+		$I->amOnAdminPage('options.php?page=convertkit-setup&convertkit-modal=1');
 
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
@@ -506,7 +540,7 @@ class PluginSetupWizardCest
 		$I->checkNoWarningsAndNoticesOnScreen($I);
 
 		// Confirm expected setup wizard screen loaded.
-		$I->seeInCurrentUrl('index.php?page=convertkit-setup');
+		$I->seeInCurrentUrl('options.php?page=convertkit-setup');
 
 		// Confirm expected title is displayed.
 		$I->see($title);

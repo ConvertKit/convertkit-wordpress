@@ -75,7 +75,7 @@ class ConvertKit_Settings_Tools extends ConvertKit_Settings_Base {
 		$log->clear();
 
 		// Redirect to Tools screen.
-		$this->redirect_to_tools_screen();
+		$this->redirect();
 
 	}
 
@@ -202,27 +202,27 @@ class ConvertKit_Settings_Tools extends ConvertKit_Settings_Base {
 		}
 
 		// Bail if no configuration file was supplied.
-		if ( ! is_array( $_FILES ) ) {
-			$this->redirect_to_tools_screen();
+		if ( ! is_array( $_FILES ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
+			$this->redirect();
 		}
-		if ( $_FILES['import']['error'] !== 0 ) {
-			$this->redirect_to_tools_screen( 'import_configuration_upload_error' );
+		if ( $_FILES['import']['error'] !== 0 ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
+			$this->redirect( 'import_configuration_upload_error' );
 		}
 
 		// Read file.
-		$json = $wp_filesystem->get_contents( $_FILES['import']['tmp_name'] );
+		$json = $wp_filesystem->get_contents( $_FILES['import']['tmp_name'] ); // phpcs:ignore WordPress.Security.NonceVerification.Missing
 
 		// Decode.
 		$import = json_decode( $json, true );
 
 		// Bail if the data isn't JSON.
 		if ( is_null( $import ) ) {
-			$this->redirect_to_tools_screen( 'import_configuration_invalid_file_type' );
+			$this->redirect( 'import_configuration_invalid_file_type' );
 		}
 
 		// Bail if no settings exist.
 		if ( ! array_key_exists( 'settings', $import ) ) {
-			$this->redirect_to_tools_screen( 'import_configuration_empty' );
+			$this->redirect( 'import_configuration_empty' );
 		}
 
 		// Import: Settings.
@@ -238,7 +238,7 @@ class ConvertKit_Settings_Tools extends ConvertKit_Settings_Base {
 		}
 
 		// Redirect to Tools screen.
-		$this->redirect_to_tools_screen( false, 'import_configuration_success' );
+		$this->redirect( false, 'import_configuration_success' );
 
 	}
 
@@ -258,34 +258,6 @@ class ConvertKit_Settings_Tools extends ConvertKit_Settings_Base {
 		}
 
 		return wp_verify_nonce( sanitize_key( $_REQUEST['_convertkit_settings_tools_nonce'] ), 'convertkit-settings-tools' );
-
-	}
-
-	/**
-	 * Redirects to the ConvertKit > Tools screen.
-	 *
-	 * @since   1.9.7.4
-	 *
-	 * @param   false|string $error      The error message key.
-	 * @param   false|string $success    The success message key.
-	 */
-	private function redirect_to_tools_screen( $error = false, $success = false ) {
-
-		// Build URL to redirect to, depending on whether a message is included.
-		$args = array(
-			'page' => '_wp_convertkit_settings',
-			'tab'  => 'tools',
-		);
-		if ( $error !== false ) {
-			$args['error'] = $error;
-		}
-		if ( $success !== false ) {
-			$args['success'] = $success;
-		}
-
-		// Redirect to ConvertKit > Tools screen.
-		wp_safe_redirect( add_query_arg( $args, 'options-general.php' ) );
-		exit();
 
 	}
 

@@ -38,14 +38,6 @@ class RestrictContentCacheCest
 		$I->activateConvertKitPlugin($I);
 		$I->setupConvertKitPlugin($I);
 
-		// Enable Restricted Content.
-		$I->setupConvertKitPluginRestrictContent(
-			$I,
-			[
-				'enabled' => true,
-			]
-		);
-
 		// Clear up any cache configuration files that might exist from previous tests.
 		$I->deleteWPCacheConfigFiles($I);
 		$I->resetCookie('ck_subscriber_id');
@@ -71,6 +63,7 @@ class RestrictContentCacheCest
 		// Create Restricted Content Page.
 		$pageID = $I->createRestrictedContentPage(
 			$I,
+			'page',
 			'ConvertKit: Restrict Content: Product: LiteSpeed Cache',
 			$this->visibleContent,
 			$this->memberContent,
@@ -85,7 +78,7 @@ class RestrictContentCacheCest
 
 		// Test that the restricted content CTA displays when no valid signed subscriber ID is used,
 		// to confirm caching does not show member only content.
-		$I->testRestrictContentHidesContentWithCTA($I, $this->visibleContent, $this->memberContent);
+		$I->testRestrictContentByProductHidesContentWithCTA($I, $this->visibleContent, $this->memberContent);
 
 		// Test that the restricted content displays when a valid signed subscriber ID is used,
 		// to confirm caching does not show the incorrect content.
@@ -120,6 +113,7 @@ class RestrictContentCacheCest
 		// Create Restricted Content Page.
 		$pageID = $I->createRestrictedContentPage(
 			$I,
+			'page',
 			'ConvertKit: Restrict Content: Product: W3 Total Cache',
 			$this->visibleContent,
 			$this->memberContent,
@@ -134,7 +128,7 @@ class RestrictContentCacheCest
 
 		// Test that the restricted content CTA displays when no valid signed subscriber ID is used,
 		// to confirm caching does not show member only content.
-		$I->testRestrictContentHidesContentWithCTA($I, $this->visibleContent, $this->memberContent);
+		$I->testRestrictContentByProductHidesContentWithCTA($I, $this->visibleContent, $this->memberContent);
 
 		// Test that the restricted content displays when a valid signed subscriber ID is used,
 		// to confirm caching does not show the incorrect content.
@@ -167,6 +161,7 @@ class RestrictContentCacheCest
 		// Create Restricted Content Page.
 		$pageID = $I->createRestrictedContentPage(
 			$I,
+			'page',
 			'ConvertKit: Restrict Content: Product: WP Fastest Cache',
 			$this->visibleContent,
 			$this->memberContent,
@@ -181,7 +176,7 @@ class RestrictContentCacheCest
 
 		// Test that the restricted content CTA displays when no valid signed subscriber ID is used,
 		// to confirm caching does not show member only content.
-		$I->testRestrictContentHidesContentWithCTA($I, $this->visibleContent, $this->memberContent);
+		$I->testRestrictContentByProductHidesContentWithCTA($I, $this->visibleContent, $this->memberContent);
 
 		// Test that the restricted content displays when a valid signed subscriber ID is used,
 		// to confirm caching does not show the incorrect content.
@@ -214,6 +209,7 @@ class RestrictContentCacheCest
 		// Create Restricted Content Page.
 		$pageID = $I->createRestrictedContentPage(
 			$I,
+			'page',
 			'ConvertKit: Restrict Content: Product: WP-Optimize',
 			$this->visibleContent,
 			$this->memberContent,
@@ -228,7 +224,7 @@ class RestrictContentCacheCest
 
 		// Test that the restricted content CTA displays when no valid signed subscriber ID is used,
 		// to confirm caching does not show member only content.
-		$I->testRestrictContentHidesContentWithCTA($I, $this->visibleContent, $this->memberContent);
+		$I->testRestrictContentByProductHidesContentWithCTA($I, $this->visibleContent, $this->memberContent);
 
 		// Test that the restricted content displays when a valid signed subscriber ID is used,
 		// to confirm caching does not show the incorrect content.
@@ -261,6 +257,7 @@ class RestrictContentCacheCest
 		// Create Restricted Content Page.
 		$pageID = $I->createRestrictedContentPage(
 			$I,
+			'page',
 			'ConvertKit: Restrict Content: Product: WP Super Cache',
 			$this->visibleContent,
 			$this->memberContent,
@@ -275,7 +272,7 @@ class RestrictContentCacheCest
 
 		// Test that the restricted content CTA displays when no valid signed subscriber ID is used,
 		// to confirm caching does not show member only content.
-		$I->testRestrictContentHidesContentWithCTA($I, $this->visibleContent, $this->memberContent);
+		$I->testRestrictContentByProductHidesContentWithCTA($I, $this->visibleContent, $this->memberContent);
 
 		// Test that the restricted content displays when a valid signed subscriber ID is used,
 		// to confirm caching does not show the incorrect content.

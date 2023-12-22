@@ -25,7 +25,7 @@ if ( ! $this->forms->exist() ) {
 
 	<p>
 		<?php
-		echo sprintf(
+		printf(
 			'%1$s <a href="https://help.convertkit.com/en/articles/3860348-how-to-create-your-first-form-in-convertkit" target="_blank">%2$s</a>',
 			esc_html__( 'Not sure how to do this in ConvertKit?', 'convertkit' ),
 			esc_html__( 'Follow our step by step documentation', 'convertkit' )
@@ -49,25 +49,31 @@ if ( ! $this->forms->exist() ) {
 		<label for="wp-convertkit-form-posts">
 			<?php esc_html_e( 'Which form would you like to display below all blog posts?', 'convertkit' ); ?>
 		</label>
-		<select name="post_form" id="wp-convertkit-form-posts" class="convertkit-select2 convertkit-preview-output-link widefat" data-target="#convertkit-preview-form-post" data-link="<?php echo esc_attr( $this->preview_post_url ); ?>&convertkit_form_id=">
-			<option value="0">
-				<?php esc_html_e( 'Don\'t display an email subscription form on posts.', 'convertkit' ); ?>
-			</option>	
-			<?php
-			foreach ( $this->forms->get() as $form ) {
-				?>
-				<option value="<?php echo esc_attr( $form['id'] ); ?>"<?php selected( $this->settings->get_default_form( 'post' ), $form['id'] ); ?>>
-					<?php echo esc_attr( $form['name'] ); ?>
-				</option>
-				<?php
-			}
-			?>
-		</select>
+
+		<?php
+		echo $this->forms->get_select_field_all( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			'post_form',
+			'wp-convertkit-form-posts',
+			array(
+				'convertkit-select2',
+				'convertkit-preview-output-link',
+				'widefat',
+			),
+			esc_attr( $this->settings->get_default_form( 'post' ) ),
+			array(
+				'0' => esc_html__( 'Don\'t display an email subscription form on posts.', 'convertkit' ),
+			),
+			array(
+				'data-target' => '#convertkit-preview-form-post',
+				'data-link'   => esc_attr( $this->preview_post_url ) . '&convertkit_form_id=',
+			)
+		);
+		?>
 
 		<p class="description">
 			<?php
 			if ( $this->preview_post_url ) {
-				echo sprintf(
+				printf(
 					'%s %s %s',
 					esc_html__( 'Select a form above.', 'convertkit' ),
 					'<a href="' . esc_url( $this->preview_post_url ) . '" id="convertkit-preview-form-post" target="_blank">' . esc_html__( 'Click here', 'convertkit' ) . '</a>',
@@ -84,25 +90,31 @@ if ( ! $this->forms->exist() ) {
 		<label for="wp-convertkit-form-pages">
 			<?php esc_html_e( 'Which form would you like to display below all Pages?', 'convertkit' ); ?>
 		</label>
-		<select name="page_form" id="wp-convertkit-form-pages" class="convertkit-select2 convertkit-preview-output-link widefat" data-target="#convertkit-preview-form-page" data-link="<?php echo esc_attr( $this->preview_page_url ); ?>&convertkit_form_id=">	
-			<option value="0">
-				<?php esc_html_e( 'Don\'t display an email subscription form on pages.', 'convertkit' ); ?>
-			</option>
-			<?php
-			foreach ( $this->forms->get() as $form ) {
-				?>
-				<option value="<?php echo esc_attr( $form['id'] ); ?>"<?php selected( $this->settings->get_default_form( 'page' ), $form['id'] ); ?>>
-					<?php echo esc_attr( $form['name'] ); ?>
-				</option>
-				<?php
-			}
-			?>
-		</select>
+
+		<?php
+		echo $this->forms->get_select_field_all( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			'page_form',
+			'wp-convertkit-form-pages',
+			array(
+				'convertkit-select2',
+				'convertkit-preview-output-link',
+				'widefat',
+			),
+			esc_attr( $this->settings->get_default_form( 'page' ) ),
+			array(
+				'0' => esc_html__( 'Don\'t display an email subscription form on pages.', 'convertkit' ),
+			),
+			array(
+				'data-target' => '#convertkit-preview-form-page',
+				'data-link'   => esc_attr( $this->preview_post_url ) . '&convertkit_form_id=',
+			)
+		);
+		?>
 
 		<p class="description">
 			<?php
 			if ( $this->preview_page_url ) {
-				echo sprintf(
+				printf(
 					'%s %s %s',
 					esc_html__( 'Select a form above.', 'convertkit' ),
 					'<a href="' . esc_url( $this->preview_page_url ) . '" id="convertkit-preview-form-page" target="_blank">' . esc_html__( 'Click here', 'convertkit' ) . '</a>',

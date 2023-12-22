@@ -12,7 +12,8 @@ body.settings_page__wp_convertkit_settings #wpcontent {
  * Header
  */
 body.settings_page__wp_convertkit_settings header {
-	padding: 40px 20px;
+	height: 98px;
+	padding: 0 20px;
 	background: url(../images/convertkit-long-inverted.svg) 20px 50% no-repeat;
 	background-size: 200px auto;
 	background-color: #212f4f;
@@ -23,6 +24,19 @@ body.settings_page__wp_convertkit_settings h1 {
 	font-weight: 400;
 	color: #D2D8DD;
 	text-indent: -9999px;
+}
+body.settings_page__wp_convertkit_settings header a.convertkit-docs {
+	float: right;
+	margin: 20px 20px 0 0;
+	padding: 0 0 0 30px;
+	font-weight: 400;
+	color: #cfd4d9;
+	text-decoration: none;
+	background: url(../images/help.svg) 0 0% no-repeat;
+	background-size: 20px 20px;
+}
+body.settings_page__wp_convertkit_settings header a.convertkit-docs:hover {
+	color: #fff;
 }
 body.settings_page__wp_convertkit_settings .wrap {
 	margin-left: 20px;
@@ -51,12 +65,6 @@ ul.convertkit-tabs li {
 	height: 64px;
 	line-height: 64px;
 	list-style-type: none;
-}
-ul.convertkit-tabs li.convertkit-docs {
-	float: right;
-}
-ul.convertkit-tabs li.convertkit-docs a span.dashicons {
-	vertical-align: middle;
 }
 ul.convertkit-tabs li a {
 	display: inline-block;
