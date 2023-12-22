@@ -57,6 +57,15 @@ class ConvertKit_Admin_Setup_Wizard_Plugin extends ConvertKit_Admin_Setup_Wizard
 	public $preview_page_url = false;
 
 	/**
+	 * The required user capability to access the setup wizard.
+	 *
+	 * @since   2.3.2
+	 *
+	 * @var     string
+	 */
+	public $required_capability = 'edit_posts';
+
+	/**
 	 * The programmatic name for this wizard.
 	 *
 	 * @since   1.9.8.4
@@ -134,7 +143,7 @@ class ConvertKit_Admin_Setup_Wizard_Plugin extends ConvertKit_Admin_Setup_Wizard
 						array(
 							'page' => $this->page_name,
 						),
-						admin_url( 'index.php' )
+						admin_url( 'options.php' )
 					),
 					__( 'Setup Wizard', 'convertkit' )
 				),
@@ -174,7 +183,7 @@ class ConvertKit_Admin_Setup_Wizard_Plugin extends ConvertKit_Admin_Setup_Wizard
 		}
 
 		// Show the setup screen.
-		wp_safe_redirect( admin_url( 'index.php?page=' . $this->page_name ) );
+		wp_safe_redirect( admin_url( 'options.php?page=' . $this->page_name ) );
 		exit;
 
 	}
@@ -275,7 +284,7 @@ class ConvertKit_Admin_Setup_Wizard_Plugin extends ConvertKit_Admin_Setup_Wizard
 							'page' => $this->page_name,
 							'step' => 3,
 						),
-						admin_url( 'index.php' )
+						admin_url( 'options.php' )
 					);
 				}
 

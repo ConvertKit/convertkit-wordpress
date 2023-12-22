@@ -173,7 +173,7 @@ class ActivatePluginCest
         // Go to the Plugins screen in the WordPress Administration interface.
         $I->amOnPluginsPage();
 
-        // Activate the Plugin.
+        // Deactivate the Plugin.
         $I->deactivatePlugin('convertkit');
 
         // Check that the Plugin activated successfully.

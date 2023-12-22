@@ -45,6 +45,10 @@
 						<td><a href="#convertkit_get_block_formatters"><code>convertkit_get_block_formatters</code></a></td>
 						<td>Registers block formatters in Gutenberg for the ConvertKit Plugin.</td>
 					</tr><tr>
+						<td>&nbsp;</td>
+						<td><a href="#convertkit_get_pre_publish_actions"><code>convertkit_get_pre_publish_actions</code></a></td>
+						<td>Registers pre-publish actions for the ConvertKit Plugin.</td>
+					</tr><tr>
 						<td colspan="3">../includes/blocks/class-convertkit-block-content.php</td>
 					</tr><tr>
 						<td>&nbsp;</td>
@@ -95,6 +99,12 @@
 						<td><a href="#convertkit_term_get_default_settings"><code>convertkit_term_get_default_settings</code></a></td>
 						<td>The default settings, used to populate the Term's Settings when a Term has no Settings.</td>
 					</tr><tr>
+						<td colspan="3">../includes/class-convertkit-settings-broadcasts.php</td>
+					</tr><tr>
+						<td>&nbsp;</td>
+						<td><a href="#convertkit_settings_broadcasts_get_defaults"><code>convertkit_settings_broadcasts_get_defaults</code></a></td>
+						<td>The default settings, used when the ConvertKit Broadcasts Settings haven't been saved e.g. on a new installation.</td>
+					</tr><tr>
 						<td colspan="3">../includes/class-convertkit-settings-restrict-content.php</td>
 					</tr><tr>
 						<td>&nbsp;</td>
@@ -118,6 +128,12 @@
 						<td>&nbsp;</td>
 						<td><a href="#convertkit_contactform7_settings_get_defaults"><code>convertkit_contactform7_settings_get_defaults</code></a></td>
 						<td>The default settings, used when Contact Form 7's Settings haven't been saved e.g. on a new installation or when the Contact Form 7 Plugin has just been activated for the first time.</td>
+					</tr><tr>
+						<td colspan="3">../includes/integrations/forminator/class-convertkit-forminator-settings.php</td>
+					</tr><tr>
+						<td>&nbsp;</td>
+						<td><a href="#convertkit_forminator_settings_get_defaults"><code>convertkit_forminator_settings_get_defaults</code></a></td>
+						<td>The default settings, used when Forminator's Settings haven't been saved e.g. on a new installation or when the Forminator Plugin has just been activated for the first time.</td>
 					</tr><tr>
 						<td colspan="3">../includes/integrations/wishlist/class-convertkit-wishlist-settings.php</td>
 					</tr><tr>
@@ -164,6 +180,20 @@
 						<td>&nbsp;</td>
 						<td><a href="#convertkit_is_admin_or_frontend_editor"><code>convertkit_is_admin_or_frontend_editor</code></a></td>
 						<td>Filters whether the current request is a WordPress Administration / Frontend Editor request or not. Page Builders can set this to true to allow ConvertKit to load its administration functionality.</td>
+					</tr><tr>
+						<td colspan="3">../includes/class-convertkit-broadcasts-importer.php</td>
+					</tr><tr>
+						<td>&nbsp;</td>
+						<td><a href="#convertkit_broadcasts_build_post_args"><code>convertkit_broadcasts_build_post_args</code></a></td>
+						<td>Define the wp_insert_post() compatible arguments for importing a ConvertKit Broadcast to a new WordPress Post.</td>
+					</tr><tr>
+						<td>&nbsp;</td>
+						<td><a href="#convertkit_broadcasts_parse_broadcast_content"><code>convertkit_broadcasts_parse_broadcast_content</code></a></td>
+						<td>Parses the given Broadcast's content, removing unnecessary HTML tags and styles.</td>
+					</tr><tr>
+						<td>&nbsp;</td>
+						<td><a href="#convertkit_broadcasts_parse_broadcast_content_permitted_html_tags"><code>convertkit_broadcasts_parse_broadcast_content_permitted_html_tags</code></a></td>
+						<td>Define the HTML tags to retain in the Broadcast Content.</td>
 					</tr>
 					</tbody>
 				</table><h3 id="convertkit_admin_notices_output_  notice">
@@ -195,7 +225,7 @@ add_filter( 'convertkit_admin_notices_output_  notice', function( $output ) {
 </pre>
 <h3 id="convertkit_plugin_screen_action_links">
 						convertkit_plugin_screen_action_links
-						<code>admin/class-convertkit-admin-settings.php::209</code>
+						<code>admin/class-convertkit-admin-settings.php::221</code>
 					</h3><h4>Overview</h4>
 						<p>Define links to display below the Plugin Name on the WP_List_Table at Plugins > Installed Plugins.</p><h4>Parameters</h4>
 					<table>
@@ -222,7 +252,7 @@ add_filter( 'convertkit_plugin_screen_action_links', function( $links ) {
 </pre>
 <h3 id="convertkit_admin_settings_register_sections">
 						convertkit_admin_settings_register_sections
-						<code>admin/class-convertkit-admin-settings.php::309</code>
+						<code>admin/class-convertkit-admin-settings.php::311</code>
 					</h3><h4>Overview</h4>
 						<p>Registers settings sections at Settings > ConvertKit.</p><h4>Parameters</h4>
 					<table>
@@ -276,7 +306,7 @@ add_filter( 'convertkit_get_supported_post_types', function( $post_types ) {
 </pre>
 <h3 id="convertkit_get_supported_restrict_content_post_types">
 						convertkit_get_supported_restrict_content_post_types
-						<code>includes/functions.php::147</code>
+						<code>includes/functions.php::148</code>
 					</h3><h4>Overview</h4>
 						<p>Defines the Post Types that support Restricted Content / Members Content functionality.</p><h4>Parameters</h4>
 					<table>
@@ -303,7 +333,7 @@ add_filter( 'convertkit_get_supported_restrict_content_post_types', function( $p
 </pre>
 <h3 id="convertkit_shortcodes">
 						convertkit_shortcodes
-						<code>includes/functions.php::171</code>
+						<code>includes/functions.php::172</code>
 					</h3><h4>Overview</h4>
 						<p>Registers shortcodes for the ConvertKit Plugin.</p><h4>Parameters</h4>
 					<table>
@@ -330,7 +360,7 @@ add_filter( 'convertkit_shortcodes', function( $shortcodes ) {
 </pre>
 <h3 id="convertkit_blocks">
 						convertkit_blocks
-						<code>includes/functions.php::195</code>
+						<code>includes/functions.php::196</code>
 					</h3><h4>Overview</h4>
 						<p>Registers blocks for the ConvertKit Plugin.</p><h4>Parameters</h4>
 					<table>
@@ -357,7 +387,7 @@ add_filter( 'convertkit_blocks', function( $blocks ) {
 </pre>
 <h3 id="convertkit_get_block_formatters">
 						convertkit_get_block_formatters
-						<code>includes/functions.php::219</code>
+						<code>includes/functions.php::220</code>
 					</h3><h4>Overview</h4>
 						<p>Registers block formatters in Gutenberg for the ConvertKit Plugin.</p><h4>Parameters</h4>
 					<table>
@@ -380,6 +410,33 @@ add_filter( 'convertkit_get_block_formatters', function( $block_formatters ) {
 	// ... your code here
 	// Return value
 	return $block_formatters;
+}, 10, 1 );
+</pre>
+<h3 id="convertkit_get_pre_publish_actions">
+						convertkit_get_pre_publish_actions
+						<code>includes/functions.php::244</code>
+					</h3><h4>Overview</h4>
+						<p>Registers pre-publish actions for the ConvertKit Plugin.</p><h4>Parameters</h4>
+					<table>
+						<thead>
+							<tr>
+								<th>Parameter</th>
+								<th>Type</th>
+								<th>Description</th>
+							</tr>
+						</thead>
+						<tbody><tr>
+							<td>$pre_publish_panels</td>
+							<td>array</td>
+							<td>Pre-publish actions.</td>
+						</tr>
+						</tbody>
+					</table><h4>Usage</h4>
+<pre>
+add_filter( 'convertkit_get_pre_publish_actions', function( $pre_publish_actions ) {
+	// ... your code here
+	// Return value
+	return $pre_publish_actions;
 }, 10, 1 );
 </pre>
 <h3 id="convertkit_block_content_render">
@@ -427,7 +484,7 @@ add_filter( 'convertkit_block_content_render', function( $content, $atts, $subsc
 </pre>
 <h3 id="convertkit_block_product_render">
 						convertkit_block_product_render
-						<code>includes/blocks/class-convertkit-block-product.php::409</code>
+						<code>includes/blocks/class-convertkit-block-product.php::414</code>
 					</h3><h4>Overview</h4>
 						<p>Filter the block's content immediately before it is output.</p><h4>Parameters</h4>
 					<table>
@@ -555,7 +612,7 @@ add_filter( 'convertkit_block_broadcasts_build_html_list_item', function( $html,
 </pre>
 <h3 id="convertkit_block_form_render">
 						convertkit_block_form_render
-						<code>includes/blocks/class-convertkit-block-form.php::344</code>
+						<code>includes/blocks/class-convertkit-block-form.php::363</code>
 					</h3><h4>Overview</h4>
 						<p>Filter the block's content immediately before it is output.</p><h4>Parameters</h4>
 					<table>
@@ -590,7 +647,7 @@ add_filter( 'convertkit_block_form_render', function( $form, $atts, $form_id ) {
 </pre>
 <h3 id="convertkit_block_form_trigger_render">
 						convertkit_block_form_trigger_render
-						<code>includes/blocks/class-convertkit-block-form-trigger.php::383</code>
+						<code>includes/blocks/class-convertkit-block-form-trigger.php::393</code>
 					</h3><h4>Overview</h4>
 						<p>Filter the block's content immediately before it is output.</p><h4>Parameters</h4>
 					<table>
@@ -673,9 +730,36 @@ add_filter( 'convertkit_term_get_default_settings', function( $defaults ) {
 	return $defaults;
 }, 10, 1 );
 </pre>
+<h3 id="convertkit_settings_broadcasts_get_defaults">
+						convertkit_settings_broadcasts_get_defaults
+						<code>includes/class-convertkit-settings-broadcasts.php::216</code>
+					</h3><h4>Overview</h4>
+						<p>The default settings, used when the ConvertKit Broadcasts Settings haven't been saved e.g. on a new installation.</p><h4>Parameters</h4>
+					<table>
+						<thead>
+							<tr>
+								<th>Parameter</th>
+								<th>Type</th>
+								<th>Description</th>
+							</tr>
+						</thead>
+						<tbody><tr>
+							<td>$defaults</td>
+							<td>array</td>
+							<td></td>
+						</tr>
+						</tbody>
+					</table><h4>Usage</h4>
+<pre>
+add_filter( 'convertkit_settings_broadcasts_get_defaults', function( $defaults ) {
+	// ... your code here
+	// Return value
+	return $defaults;
+}, 10, 1 );
+</pre>
 <h3 id="convertkit_settings_restrict_content_get_defaults">
 						convertkit_settings_restrict_content_get_defaults
-						<code>includes/class-convertkit-settings-restrict-content.php::132</code>
+						<code>includes/class-convertkit-settings-restrict-content.php::129</code>
 					</h3><h4>Overview</h4>
 						<p>The default settings, used when the ConvertKit Restrict Content Settings haven't been saved e.g. on a new installation.</p><h4>Parameters</h4>
 					<table>
@@ -785,6 +869,33 @@ add_filter( 'convertkit_contactform7_settings_get_defaults', function( $defaults
 	return $defaults;
 }, 10, 1 );
 </pre>
+<h3 id="convertkit_forminator_settings_get_defaults">
+						convertkit_forminator_settings_get_defaults
+						<code>includes/integrations/forminator/class-convertkit-forminator-settings.php::153</code>
+					</h3><h4>Overview</h4>
+						<p>The default settings, used when Forminator's Settings haven't been saved e.g. on a new installation or when the Forminator Plugin has just been activated for the first time.</p><h4>Parameters</h4>
+					<table>
+						<thead>
+							<tr>
+								<th>Parameter</th>
+								<th>Type</th>
+								<th>Description</th>
+							</tr>
+						</thead>
+						<tbody><tr>
+							<td>$defaults</td>
+							<td>array</td>
+							<td>Default Settings.</td>
+						</tr>
+						</tbody>
+					</table><h4>Usage</h4>
+<pre>
+add_filter( 'convertkit_forminator_settings_get_defaults', function( $defaults ) {
+	// ... your code here
+	// Return value
+	return $defaults;
+}, 10, 1 );
+</pre>
 <h3 id="convertkit_wishlist_settings_get_defaults">
 						convertkit_wishlist_settings_get_defaults
 						<code>includes/integrations/wishlist/class-convertkit-wishlist-settings.php::149</code>
@@ -814,7 +925,7 @@ add_filter( 'convertkit_wishlist_settings_get_defaults', function( $defaults ) {
 </pre>
 <h3 id="convertkit_output_restrict_content_get_resource_type">
 						convertkit_output_restrict_content_get_resource_type
-						<code>includes/class-convertkit-output-restrict-content.php::531</code>
+						<code>includes/class-convertkit-output-restrict-content.php::634</code>
 					</h3><h4>Overview</h4>
 						<p>Define the ConvertKit Resource Type that the visitor must be subscribed against to access this content, overriding the Post setting. Return false or an empty string to not restrict content.</p><h4>Parameters</h4>
 					<table>
@@ -845,7 +956,7 @@ add_filter( 'convertkit_output_restrict_content_get_resource_type', function( $r
 </pre>
 <h3 id="convertkit_output_restrict_content_get_resource_id">
 						convertkit_output_restrict_content_get_resource_id
-						<code>includes/class-convertkit-output-restrict-content.php::567</code>
+						<code>includes/class-convertkit-output-restrict-content.php::672</code>
 					</h3><h4>Overview</h4>
 						<p>Define the ConvertKit Resource ID that the visitor must be subscribed against to access this content, overriding the Post setting. Return 0 to not restrict content.</p><h4>Parameters</h4>
 					<table>
@@ -876,7 +987,7 @@ add_filter( 'convertkit_output_restrict_content_get_resource_id', function( $res
 </pre>
 <h3 id="convertkit_output_page_takeover_landing_page_id">
 						convertkit_output_page_takeover_landing_page_id
-						<code>includes/class-convertkit-output.php::139</code>
+						<code>includes/class-convertkit-output.php::140</code>
 					</h3><h4>Overview</h4>
 						<p>Define the ConvertKit Landing Page ID to display for the given Post ID, overriding the Post settings. Return false to not display any ConvertKit Landing Page.</p><h4>Parameters</h4>
 					<table>
@@ -907,7 +1018,7 @@ add_filter( 'convertkit_output_page_takeover_landing_page_id', function( $landin
 </pre>
 <h3 id="convertkit_output_append_form_to_content_form_id">
 						convertkit_output_append_form_to_content_form_id
-						<code>includes/class-convertkit-output.php::194</code>
+						<code>includes/class-convertkit-output.php::198</code>
 					</h3><h4>Overview</h4>
 						<p>Define the ConvertKit Form ID to display for the given Post ID, overriding the Post, Category or Plugin settings. Return false to not display any ConvertKit Form.</p><h4>Parameters</h4>
 					<table>
@@ -938,7 +1049,7 @@ add_filter( 'convertkit_output_append_form_to_content_form_id', function( $form_
 </pre>
 <h3 id="convertkit_frontend_append_form">
 						convertkit_frontend_append_form
-						<code>includes/class-convertkit-output.php::258</code>
+						<code>includes/class-convertkit-output.php::262</code>
 					</h3><h4>Overview</h4>
 						<p>Filter the Post's Content, which includes a ConvertKit Form, immediately before it is output.</p><h4>Parameters</h4>
 					<table>
@@ -977,7 +1088,7 @@ add_filter( 'convertkit_frontend_append_form', function( $content, $form, $post_
 </pre>
 <h3 id="convertkit_output_scripts_footer">
 						convertkit_output_scripts_footer
-						<code>includes/class-convertkit-output.php::427</code>
+						<code>includes/class-convertkit-output.php::476</code>
 					</h3><h4>Overview</h4>
 						<p>Define an array of scripts to output in the footer of the WordPress site.</p><h4>Parameters</h4>
 					<table>
@@ -1004,7 +1115,7 @@ add_filter( 'convertkit_output_scripts_footer', function( $scripts ) {
 </pre>
 <h3 id="convertkit_settings_get_defaults">
 						convertkit_settings_get_defaults
-						<code>includes/class-convertkit-settings.php::274</code>
+						<code>includes/class-convertkit-settings.php::306</code>
 					</h3><h4>Overview</h4>
 						<p>The default settings, used when the ConvertKit Plugin Settings haven't been saved e.g. on a new installation.</p><h4>Parameters</h4>
 					<table>
@@ -1031,7 +1142,7 @@ add_filter( 'convertkit_settings_get_defaults', function( $defaults ) {
 </pre>
 <h3 id="convertkit_is_admin_or_frontend_editor">
 						convertkit_is_admin_or_frontend_editor
-						<code>includes/class-wp-convertkit.php::309</code>
+						<code>includes/class-wp-convertkit.php::313</code>
 					</h3><h4>Overview</h4>
 						<p>Filters whether the current request is a WordPress Administration / Frontend Editor request or not. Page Builders can set this to true to allow ConvertKit to load its administration functionality.</p><h4>Parameters</h4>
 					<table>
@@ -1056,6 +1167,95 @@ add_filter( 'convertkit_is_admin_or_frontend_editor', function( $is_admin_or_fro
 	return $is_admin_or_frontend_editor;
 }, 10, 1 );
 </pre>
+<h3 id="convertkit_broadcasts_build_post_args">
+						convertkit_broadcasts_build_post_args
+						<code>includes/class-convertkit-broadcasts-importer.php::239</code>
+					</h3><h4>Overview</h4>
+						<p>Define the wp_insert_post() compatible arguments for importing a ConvertKit Broadcast to a new WordPress Post.</p><h4>Parameters</h4>
+					<table>
+						<thead>
+							<tr>
+								<th>Parameter</th>
+								<th>Type</th>
+								<th>Description</th>
+							</tr>
+						</thead>
+						<tbody><tr>
+							<td>$post_args</td>
+							<td>array</td>
+							<td>Post arguments.</td>
+						</tr><tr>
+							<td>$broadcast</td>
+							<td>array</td>
+							<td>Broadcast.</td>
+						</tr>
+						</tbody>
+					</table><h4>Usage</h4>
+<pre>
+add_filter( 'convertkit_broadcasts_build_post_args', function( $post_args, $broadcast ) {
+	// ... your code here
+	// Return value
+	return $post_args;
+}, 10, 2 );
+</pre>
+<h3 id="convertkit_broadcasts_parse_broadcast_content">
+						convertkit_broadcasts_parse_broadcast_content
+						<code>includes/class-convertkit-broadcasts-importer.php::292</code>
+					</h3><h4>Overview</h4>
+						<p>Parses the given Broadcast's content, removing unnecessary HTML tags and styles.</p><h4>Parameters</h4>
+					<table>
+						<thead>
+							<tr>
+								<th>Parameter</th>
+								<th>Type</th>
+								<th>Description</th>
+							</tr>
+						</thead>
+						<tbody><tr>
+							<td>$content</td>
+							<td>string</td>
+							<td>Parsed Content.</td>
+						</tr><tr>
+							<td>$broadcast_content</td>
+							<td>string</td>
+							<td>Original Broadcast's Content.</td>
+						</tr>
+						</tbody>
+					</table><h4>Usage</h4>
+<pre>
+add_filter( 'convertkit_broadcasts_parse_broadcast_content', function( $content, $broadcast_content ) {
+	// ... your code here
+	// Return value
+	return $content;
+}, 10, 2 );
+</pre>
+<h3 id="convertkit_broadcasts_parse_broadcast_content_permitted_html_tags">
+						convertkit_broadcasts_parse_broadcast_content_permitted_html_tags
+						<code>includes/class-convertkit-broadcasts-importer.php::386</code>
+					</h3><h4>Overview</h4>
+						<p>Define the HTML tags to retain in the Broadcast Content.</p><h4>Parameters</h4>
+					<table>
+						<thead>
+							<tr>
+								<th>Parameter</th>
+								<th>Type</th>
+								<th>Description</th>
+							</tr>
+						</thead>
+						<tbody><tr>
+							<td>$permitted_html_tags</td>
+							<td>array</td>
+							<td>Permitted HTML Tags.</td>
+						</tr>
+						</tbody>
+					</table><h4>Usage</h4>
+<pre>
+add_filter( 'convertkit_broadcasts_parse_broadcast_content_permitted_html_tags', function( $permitted_html_tags ) {
+	// ... your code here
+	// Return value
+	return $permitted_html_tags;
+}, 10, 1 );
+</pre>
 <h1>Actions</h1><table>
 				<thead>
 					<tr>
@@ -1073,6 +1273,10 @@ add_filter( 'convertkit_is_admin_or_frontend_editor', function( $is_admin_or_fro
 					</tr><tr>
 						<td>&nbsp;</td>
 						<td><a href="#convertkit_settings_base_render_after"><code>convertkit_settings_base_render_after</code></a></td>
+						<td></td>
+					</tr><tr>
+						<td>&nbsp;</td>
+						<td><a href="#convertkit_settings_base_sanitize_settings"><code>convertkit_settings_base_sanitize_settings</code></a></td>
 						<td></td>
 					</tr><tr>
 						<td colspan="3">../admin/section/class-convertkit-settings-tools.php</td>
@@ -1124,6 +1328,12 @@ add_filter( 'convertkit_is_admin_or_frontend_editor', function( $is_admin_or_fro
 						<td>&nbsp;</td>
 						<td><a href="#convertkit_admin_setup_wizard_load_screen_data_  this-page_name"><code>convertkit_admin_setup_wizard_load_screen_data_  this-page_name</code></a></td>
 						<td>Load any data into class variables for the given setup wizard name and current step.</td>
+					</tr><tr>
+						<td colspan="3">../includes/pre-publish-actions/class-convertkit-pre-publish-action.php</td>
+					</tr><tr>
+						<td>&nbsp;</td>
+						<td><a href="#convertkit_pre_publish_action_run_  this-get_name"><code>convertkit_pre_publish_action_run_  this-get_name</code></a></td>
+						<td>Run this pre-publish action, as the WordPress Post has just transitioned to publish from another state.</td>
 					</tr><tr>
 						<td colspan="3">../includes/class-convertkit-gutenberg.php</td>
 					</tr><tr>
@@ -1212,9 +1422,37 @@ do_action( 'convertkit_settings_base_render_after', function(  ) {
 	// ... your code here
 }, 10, 0 );
 </pre>
+<h3 id="convertkit_settings_base_sanitize_settings">
+						convertkit_settings_base_sanitize_settings
+						<code>admin/section/class-convertkit-settings-base.php::513</code>
+					</h3><h4>Parameters</h4>
+					<table>
+						<thead>
+							<tr>
+								<th>Parameter</th>
+								<th>Type</th>
+								<th>Description</th>
+							</tr>
+						</thead>
+						<tbody><tr>
+							<td>$name</td>
+							<td>Unknown</td>
+							<td>N/A</td>
+						</tr><tr>
+							<td>$settings</td>
+							<td>Unknown</td>
+							<td>N/A</td>
+						</tr>
+						</tbody>
+					</table><h4>Usage</h4>
+<pre>
+do_action( 'convertkit_settings_base_sanitize_settings', function( $name, $settings ) {
+	// ... your code here
+}, 10, 2 );
+</pre>
 <h3 id="convertkit_settings_base_render_before">
 						convertkit_settings_base_render_before
-						<code>admin/section/class-convertkit-settings-tools.php::339</code>
+						<code>admin/section/class-convertkit-settings-tools.php::311</code>
 					</h3><h4>Parameters</h4>
 					<table>
 						<thead>
@@ -1234,7 +1472,7 @@ do_action( 'convertkit_settings_base_render_before', function(  ) {
 </pre>
 <h3 id="convertkit_settings_base_render_after">
 						convertkit_settings_base_render_after
-						<code>admin/section/class-convertkit-settings-tools.php::353</code>
+						<code>admin/section/class-convertkit-settings-tools.php::325</code>
 					</h3><h4>Parameters</h4>
 					<table>
 						<thead>
@@ -1344,7 +1582,7 @@ do_action( 'convertkit_admin_category_enqueue_styles', function(  ) {
 </pre>
 <h3 id="convertkit_admin_post_enqueue_scripts">
 						convertkit_admin_post_enqueue_scripts
-						<code>admin/class-convertkit-admin-post.php::47</code>
+						<code>admin/class-convertkit-admin-post.php::48</code>
 					</h3><h4>Parameters</h4>
 					<table>
 						<thead>
@@ -1364,7 +1602,7 @@ do_action( 'convertkit_admin_post_enqueue_scripts', function(  ) {
 </pre>
 <h3 id="convertkit_admin_post_enqueue_styles">
 						convertkit_admin_post_enqueue_styles
-						<code>admin/class-convertkit-admin-post.php::70</code>
+						<code>admin/class-convertkit-admin-post.php::71</code>
 					</h3><h4>Parameters</h4>
 					<table>
 						<thead>
@@ -1384,7 +1622,7 @@ do_action( 'convertkit_admin_post_enqueue_styles', function(  ) {
 </pre>
 <h3 id="convertkit_admin_setup_wizard_process_form_  this-page_name">
 						convertkit_admin_setup_wizard_process_form_  this-page_name
-						<code>admin/class-convertkit-admin-setup-wizard.php::229</code>
+						<code>admin/class-convertkit-admin-setup-wizard.php::218</code>
 					</h3><h4>Overview</h4>
 						<p>Process submitted form data for the given setup wizard name and current step.</p><h4>Parameters</h4>
 					<table>
@@ -1409,7 +1647,7 @@ do_action( 'convertkit_admin_setup_wizard_process_form_  this-page_name', functi
 </pre>
 <h3 id="convertkit_admin_setup_wizard_load_screen_data_  this-page_name">
 						convertkit_admin_setup_wizard_load_screen_data_  this-page_name
-						<code>admin/class-convertkit-admin-setup-wizard.php::292</code>
+						<code>admin/class-convertkit-admin-setup-wizard.php::281</code>
 					</h3><h4>Overview</h4>
 						<p>Load any data into class variables for the given setup wizard name and current step.</p><h4>Parameters</h4>
 					<table>
@@ -1432,9 +1670,34 @@ do_action( 'convertkit_admin_setup_wizard_load_screen_data_  this-page_name', fu
 	// ... your code here
 }, 10, 1 );
 </pre>
+<h3 id="convertkit_pre_publish_action_run_  this-get_name">
+						convertkit_pre_publish_action_run_  this-get_name
+						<code>includes/pre-publish-actions/class-convertkit-pre-publish-action.php::179</code>
+					</h3><h4>Overview</h4>
+						<p>Run this pre-publish action, as the WordPress Post has just transitioned to publish from another state.</p><h4>Parameters</h4>
+					<table>
+						<thead>
+							<tr>
+								<th>Parameter</th>
+								<th>Type</th>
+								<th>Description</th>
+							</tr>
+						</thead>
+						<tbody><tr>
+							<td>$post</td>
+							<td>WP_Post</td>
+							<td>Post.</td>
+						</tr>
+						</tbody>
+					</table><h4>Usage</h4>
+<pre>
+do_action( 'convertkit_pre_publish_action_run_  this-get_name', function(  ) {
+	// ... your code here
+}, 10, 0 );
+</pre>
 <h3 id="convertkit_gutenberg_enqueue_scripts">
 						convertkit_gutenberg_enqueue_scripts
-						<code>includes/class-convertkit-gutenberg.php::170</code>
+						<code>includes/class-convertkit-gutenberg.php::175</code>
 					</h3><h4>Overview</h4>
 						<p>Enqueue any additional scripts for Gutenberg blocks that have been registered.</p><h4>Parameters</h4>
 					<table>
@@ -1463,7 +1726,7 @@ do_action( 'convertkit_gutenberg_enqueue_scripts', function( $blocks, $block_for
 </pre>
 <h3 id="convertkit_gutenberg_enqueue_styles">
 						convertkit_gutenberg_enqueue_styles
-						<code>includes/class-convertkit-gutenberg.php::194</code>
+						<code>includes/class-convertkit-gutenberg.php::199</code>
 					</h3><h4>Parameters</h4>
 					<table>
 						<thead>
@@ -1483,7 +1746,7 @@ do_action( 'convertkit_gutenberg_enqueue_styles', function(  ) {
 </pre>
 <h3 id="convertkit_gutenberg_enqueue_scripts_editor_and_frontend">
 						convertkit_gutenberg_enqueue_scripts_editor_and_frontend
-						<code>includes/class-convertkit-gutenberg.php::218</code>
+						<code>includes/class-convertkit-gutenberg.php::223</code>
 					</h3><h4>Parameters</h4>
 					<table>
 						<thead>
@@ -1503,7 +1766,7 @@ do_action( 'convertkit_gutenberg_enqueue_scripts_editor_and_frontend', function(
 </pre>
 <h3 id="convertkit_gutenberg_enqueue_styles_editor_and_frontend">
 						convertkit_gutenberg_enqueue_styles_editor_and_frontend
-						<code>includes/class-convertkit-gutenberg.php::242</code>
+						<code>includes/class-convertkit-gutenberg.php::247</code>
 					</h3><h4>Parameters</h4>
 					<table>
 						<thead>
@@ -1523,7 +1786,7 @@ do_action( 'convertkit_gutenberg_enqueue_styles_editor_and_frontend', function( 
 </pre>
 <h3 id="convertkit_output_output_form">
 						convertkit_output_output_form
-						<code>includes/class-convertkit-output.php::94</code>
+						<code>includes/class-convertkit-output.php::95</code>
 					</h3><h4>Parameters</h4>
 					<table>
 						<thead>
@@ -1603,7 +1866,7 @@ do_action( 'convertkit_initialize_cli_cron', function(  ) {
 </pre>
 <h3 id="convertkit_initialize_frontend">
 						convertkit_initialize_frontend
-						<code>includes/class-wp-convertkit.php::151</code>
+						<code>includes/class-wp-convertkit.php::150</code>
 					</h3><h4>Parameters</h4>
 					<table>
 						<thead>
@@ -1623,7 +1886,7 @@ do_action( 'convertkit_initialize_frontend', function(  ) {
 </pre>
 <h3 id="convertkit_initialize_global">
 						convertkit_initialize_global
-						<code>includes/class-wp-convertkit.php::189</code>
+						<code>includes/class-wp-convertkit.php::193</code>
 					</h3><h4>Parameters</h4>
 					<table>
 						<thead>

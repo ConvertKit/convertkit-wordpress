@@ -187,6 +187,26 @@ class WPGutenberg extends \Codeception\Module
 	}
 
 	/**
+	 * Adds the given text as the excerpt in the Gutenberg editor.
+	 *
+	 * @since   2.3.7
+	 *
+	 * @param   AcceptanceTester $I         Acceptance Tester.
+	 * @param   string           $excerpt   Post excerpt.
+	 */
+	public function addGutenbergExcerpt($I, $excerpt)
+	{
+		// Click the Post tab.
+		$I->click('button[aria-label="Post"]');
+
+		// Click the Excerpt tab.
+		$I->click('Excerpt');
+
+		// Insert the excerpt into the field.
+		$I->fillField('.editor-post-excerpt textarea', $excerpt);
+	}
+
+	/**
 	 * Helper method to insert a link into the selected element, by:
 	 * - clicking the link button in the selected block's toolbar,
 	 * - searching for the Page, Post or Custom Post Type,
@@ -331,7 +351,21 @@ class WPGutenberg extends \Codeception\Module
 		// Click the Publish button.
 		$I->click('.editor-post-publish-button__button');
 
-		// When the pre-publish panel displays, click Publish again.
+		// Click the Publish button on the pre-publish Panel.
+		return $I->clickPublishOnPrePublishChecksForGutenbergPage($I);
+	}
+
+	/**
+	 * Clicks the Publish button the pre-publish checks sidebar, confirming the Page, Post or Custom Post Type
+	 * published and returning its URL.
+	 *
+	 * @since   2.4.0
+	 *
+	 * @param   AcceptanceTester $I                      Acceptance Tester.
+	 */
+	public function clickPublishOnPrePublishChecksForGutenbergPage($I)
+	{
+		// Click publish on the pre-publish panel.
 		$I->waitForElementVisible('.editor-post-publish-panel__header-publish-button');
 		$I->performOn(
 			'.editor-post-publish-panel__header-publish-button',
