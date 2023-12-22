@@ -22,26 +22,28 @@
         <exclude name="WordPress.WhiteSpace.ControlStructureSpacing.NoSpaceAfterOpenParenthesis" />
         <exclude name="WordPress.WhiteSpace.ControlStructureSpacing.ExtraSpaceAfterCloseParenthesis" />
         <exclude name="Squiz.Functions.FunctionDeclarationArgumentSpacing.SpacingAfterOpen" />
+        <exclude name="Squiz.Functions.FunctionDeclarationArgumentSpacing.SpacingBeforeClose" />
         <exclude name="WordPress.WhiteSpace.ControlStructureSpacing.NoSpaceBeforeCloseParenthesis" />
         <exclude name="Generic.Classes.OpeningBraceSameLine.BraceOnNewLine" />
         <exclude name="Generic.Functions.OpeningFunctionBraceKernighanRitchie.BraceOnNewLine" />
         <exclude name="PEAR.Functions.FunctionCallSignature.SpaceBeforeOpenBracket" />
         <exclude name="PEAR.Functions.FunctionCallSignature.SpaceAfterOpenBracket" />
         <exclude name="PEAR.Functions.FunctionCallSignature.SpaceBeforeCloseBracket" />
+        <exclude name="Squiz.Functions.MultiLineFunctionDeclaration.SpaceAfterFunction" />
 
         <!-- _before() and _passed() must use underscores in Codeception -->
         <exclude name="PSR2.Methods.MethodDeclaration.Underscore" />
 
         <!-- Permit [] instead of array() -->
-        <exclude name="Generic.Arrays.DisallowShortArraySyntax.Found" />
-        
+        <exclude name="Universal.Arrays.DisallowShortArraySyntax.Found" />
+
         <!-- We might use some datetime functions for tests -->
         <exclude name="WordPress.DateTime.RestrictedFunctions" />
 
         <!-- Handles false positives where Coding Standards thinks we did something wrong when we're just checking for e.g. a stylesheet -->
         <exclude name="WordPress.WP.EnqueuedResources" />
         <exclude name="WordPress.PHP.DiscouragedPHPFunctions" />
-        <exclude name="WordPress.WP.CapitalPDangit.Misspelled" />
+        <exclude name="WordPress.WP.CapitalPDangit.MisspelledInText" />
     </rule>
 
     <!-- Check that code is documented to WordPress Standards. -->

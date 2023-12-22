@@ -18,6 +18,11 @@ if ( typeof wp !== 'undefined' &&
 		convertKitGutenbergRegisterBlock( convertkit_blocks[ block ] );
 	}
 
+	// Register ConvertKit Pre-publish actions in Gutenberg.
+	if ( typeof convertkit_pre_publish_actions !== 'undefined' ) {
+		convertKitGutenbergRegisterPrePublishActions( convertkit_pre_publish_actions );
+	}
+
 }
 
 /**
@@ -29,14 +34,19 @@ if ( typeof wp !== 'undefined' &&
  */
 function convertKitGutenbergRegisterBlock( block ) {
 
-	( function( blocks, editor, element, components ) {
+	( function ( blocks, editor, element, components ) {
 
 		// Define some constants for the various items we'll use.
 		const el                    = element.createElement;
 		const { registerBlockType } = blocks;
 		const { InspectorControls } = editor;
-		const { Fragment }          = element;
 		const {
+			Fragment,
+			useState
+		}                           = element;
+		const {
+			Button,
+			Dashicon,
 			TextControl,
 			SelectControl,
 			ToggleControl,
@@ -53,7 +63,7 @@ function convertKitGutenbergRegisterBlock( block ) {
 		 *
 		 * @return  element|string
 		 */
-		const getIcon = function() {
+		const getIcon = function () {
 
 			// Return a fallback default icon if none is specified for this block.
 			if ( typeof block.gutenberg_icon === 'undefined' ) {
@@ -85,7 +95,7 @@ function convertKitGutenbergRegisterBlock( block ) {
 		 * @param 	string 	attribute 		Attribute name to store the field's data in.
 		 * @return  array                   Field element
 		 */
-		const getField = function( props, field, attribute ) {
+		const getField = function ( props, field, attribute ) {
 
 			// Define some field properties shared across all field types.
 			let fieldProperties = {
@@ -93,7 +103,7 @@ function convertKitGutenbergRegisterBlock( block ) {
 				label: 		field.label,
 				help: 		field.description,
 				value: 		props.attributes[ attribute ],
-				onChange: 	function( value ) {
+				onChange: 	function ( value ) {
 					if ( field.type === 'number' ) {
 						// If value is a blank string i.e. no attribute value was provided,
 						// cast it to the field's minimum number setting.
@@ -205,7 +215,7 @@ function convertKitGutenbergRegisterBlock( block ) {
 		 * @param   string  panel 	Panel name.
 		 * @return  array           Panel rows
 		 */
-		const getPanelRows = function( props, panel ) {
+		const getPanelRows = function ( props, panel ) {
 
 			// Build Inspector Control Panel Rows, one for each Field.
 			let rows = [];
@@ -244,7 +254,7 @@ function convertKitGutenbergRegisterBlock( block ) {
 		 * @param   object  props 	Block formatter properties.
 		 * @return 	array 			Block sidebar panels.
 		 */
-		const getPanels = function( props ) {
+		const getPanels = function ( props ) {
 
 			let panels      = [],
 				initialOpen = true;
@@ -289,7 +299,7 @@ function convertKitGutenbergRegisterBlock( block ) {
 		 * @param   object  props   Block properties.
 		 * @return  object          Block settings sidebar elements
 		 */
-		const editBlock = function( props ) {
+		const editBlock = function ( props ) {
 
 			// If requesting an example of how this block looks (which is requested
 			// when the user adds a new block and hovers over this block's icon),
@@ -312,6 +322,13 @@ function convertKitGutenbergRegisterBlock( block ) {
 
 			// Generate Block Preview.
 			let preview = '';
+
+			// If no API Key has been defined in the Plugin, or no resources exist in ConvertKit
+			// for this block, show a message in the block to tell the user what to do.
+			if ( ! block.has_api_key || ! block.has_resources ) {
+				return displayNoticeWithLink( props );
+			}
+
 			if ( typeof block.gutenberg_preview_render_callback !== 'undefined' ) {
 				// Use a custom callback function to render this block's preview in the Gutenberg Editor.
 				// This doesn't affect the output for this block on the frontend site, which will always
@@ -319,7 +336,7 @@ function convertKitGutenbergRegisterBlock( block ) {
 				preview = window[ block.gutenberg_preview_render_callback ]( block, props );
 			}
 
-			// Return settings sidebar panel with fields and the bloc preview.
+			// Return settings sidebar panel with fields and the block preview.
 			return (
 				el(
 					// Sidebar Panel with Fields.
@@ -333,6 +350,294 @@ function convertKitGutenbergRegisterBlock( block ) {
 					// Block Preview.
 					preview
 				)
+			);
+
+		}
+
+		/**
+		 * Display a notice in the block with a clickable link to perform an action, and a refresh
+		 * button to trigger editBlock().  Typically used when no API key exists in the Plugin,
+		 * or no resources (forms, products) exist in ConvertKit.
+		 *
+		 * @since 	2.2.5
+		 *
+		 * @param   object  props   Block properties.
+		 * @return  object          Notice.
+		 */
+		const displayNoticeWithLink = function ( props ) {
+
+			// useState to toggle the refresh button's disabled state.
+			const [ buttonDisabled, setButtonDisabled ] = useState( false );
+
+			// Holds the array of elements to display in the notice component.
+			let elements;
+
+			// Define elements to display, based on whether the refresh button is disabled.
+			if ( buttonDisabled ) {
+				// Refresh button disabled; display a spinner and the button.
+				elements = [
+					spinner( props ),
+					refreshButton( props, buttonDisabled, setButtonDisabled )
+				];
+			} else {
+				// Refresh button enabled; display the notice, link and button.
+				elements = [
+					( ! block.has_api_key ? block.no_api_key.notice : block.no_resources.notice ),
+					noticeLink( props, setButtonDisabled ),
+					refreshButton( props, buttonDisabled, setButtonDisabled )
+				];
+			}
+
+			// Return the element.
+			return el(
+				'div',
+				{
+					// convertkit-no-content class allows resources/backend/css/gutenberg.css
+					// to apply styling/branding to the block.
+					className: 'convertkit-' + block.name + ' convertkit-no-content'
+				},
+				elements
+			);
+
+		}
+
+		/**
+		 * Returns a spinner element, to show that a block is loading / refreshing.
+		 *
+		 * @since 	2.2.6
+		 *
+		 * @param   object  props   			Block properties.
+		 * @return  object          			Spinner.
+		 */
+		const spinner = function ( props ) {
+
+			return el(
+				'span',
+				{
+					key: props.clientId + '-spinner',
+					className: 'spinner is-active'
+				}
+			);
+
+		}
+
+		/**
+		 * Returns a WordPress Dashicon element.
+		 *
+		 * @since 	2.2.6
+		 *
+		 * @param   string 	iconName 	Dashicon Name.
+		 * @return  object 				Dashicon.
+		 */
+		const dashIcon = function ( iconName ) {
+
+			return el(
+				Dashicon,
+				{
+					icon: iconName
+				}
+			);
+
+		}
+
+		/**
+		 * Returns the notice link for the displayNoticeWithLink element.
+		 *
+		 * @since 	2.2.6
+		 *
+		 * @param   object  props   			Block properties.
+		 * @param 	object 	setButtonDisabled 	Function to enable or disable the refresh button.
+		 * @return  object          			Notice Link.
+		 */
+		const noticeLink = function ( props, setButtonDisabled ) {
+
+			return el(
+				'a',
+				{
+					key: props.clientId + '-notice-link',
+					href: ( ! block.has_api_key ? block.no_api_key.link : block.no_resources.link ),
+					className: ( ! block.has_api_key ? 'convertkit-block-modal' : '' ),
+					target: '_blank',
+					onClick: function ( e ) {
+
+						// Show popup window with setup wizard if we need to define an API Key.
+						if ( ! block.has_api_key ) {
+							e.preventDefault();
+							showConvertKitPopupWindow( props, e.target, setButtonDisabled );
+						}
+
+						// Allow the link to load, as it's likely a link to the ConvertKit site.
+					}
+				},
+				( ! block.has_api_key ? block.no_api_key.link_text : block.no_resources.link_text )
+			);
+
+		}
+
+		/**
+		 * Returns a refresh button, used to refresh a block when it has no API Keys
+		 * or resources.
+		 *
+		 * @since 	2.2.6
+		 *
+		 * @param 	object 	props 				Block properties.
+		 * @param 	bool 	buttonDisabled 		Whether the refresh button is disabled (true) or enabled (false)/
+		 * @param 	object 	setButtonDisabled 	Function to enable or disable the refresh button.
+		 * @return 	object 						Button.
+		 */
+		const refreshButton = function ( props, buttonDisabled, setButtonDisabled ) {
+
+			return el(
+				Button,
+				{
+					key: props.clientId + '-refresh-button',
+					className: 'button button-secondary convertkit-block-refresh',
+					disabled: buttonDisabled,
+					text: 'Refresh',
+					icon: dashIcon( 'update' ),
+					onClick: function () {
+
+						// Refresh block definitions.
+						refreshBlocksDefinitions( props, setButtonDisabled );
+
+					}
+				}
+			)
+
+		}
+
+		/**
+		 * Displays a new window with a given width and height to display the given URL.
+		 *
+		 * Typically used for displaying a modal version of the Setup Wizard, where the
+		 * user clicks the 'click here to add your API Key' link in a block, and then
+		 * enters their API Key and Secret.  Will be used to show the ConvertKit
+		 * oAuth window in the future.
+		 *
+		 * @since 	2.2.6
+		 *
+		 * @param 	object 	props 				Block properties.
+		 * @param 	object 	link 				Link that was clicked.
+		 * @param 	object 	setButtonDisabled 	Function to enable or disable the refresh button.
+		 */
+		const showConvertKitPopupWindow = function ( props, link, setButtonDisabled ) {
+
+			// Define popup width, height and positioning.
+			const 	width  = 640,
+					height = 520,
+					top    = ( window.screen.height - height ) / 2,
+					left   = ( window.screen.width - width ) / 2;
+
+			// Open popup.
+			const convertKitPopup = window.open(
+				link.href + '&convertkit-modal=1',
+				'convertkit_popup_window',
+				'toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=' + width + ',height=' + height + ',top=' + top + ',left=' + left
+			);
+
+			// Center popup and focus.
+			convertKitPopup.moveTo( left, top );
+			convertKitPopup.focus();
+
+			// Refresh the block when the popup is closed using self.close().
+			// Won't fire if the user closes the popup manually, which is fine because that means
+			// they didn't complete the steps, so refreshing wouldn't show anything new.
+			// The onbeforeunload would seem suitable here, but it fires whenever the popup window's
+			// document changes (e.g. as the user steps through a wizard), and doesn't fire when
+			// the window is closed.
+			// See https://stackoverflow.com/questions/9388380/capture-the-close-event-of-popup-window-in-javascript/48240128#48240128.
+			var convertKitPopupTimer = setInterval(
+				function () {
+					if ( convertKitPopup.closed ) {
+						clearInterval( convertKitPopupTimer );
+
+						// Refresh block.
+						refreshBlocksDefinitions( props, setButtonDisabled );
+					}
+				},
+				1000
+			);
+
+		}
+
+		/**
+		 * Refreshes this block's properties by:
+		 * - making an AJAX call to fetch all registered blocks via convertkit_get_blocks(),
+		 * - storing the registered blocks in the `convertkit_blocks` global object,
+		 * - updating this block's properties by updating the `block` object.
+		 *
+		 * @since 	2.2.6
+		 *
+		 * @param   object  props   			Block properties.
+		 * @param 	object 	setButtonDisabled 	Function to enable or disable the refresh button.
+		 * @return  object          			Notice.
+		 */
+		const refreshBlocksDefinitions = function ( props, setButtonDisabled ) {
+
+			// Define data for WordPress AJAX request.
+			let data = new FormData();
+			data.append( 'action', 'convertkit_get_blocks' );
+			data.append( 'nonce', convertkit_gutenberg.get_blocks_nonce );
+
+			// Disable the button.
+			setButtonDisabled( true );
+
+			// Send AJAX request.
+			fetch(
+				ajaxurl,
+				{
+					method: 'POST',
+					credentials: 'same-origin',
+					body: data
+				}
+			)
+			.then(
+				function ( response ) {
+
+					// Convert response JSON string to object.
+					return response.json();
+
+				}
+			)
+			.then(
+				function ( response ) {
+
+					// Update global ConvertKit Blocks object, so that any updated resources
+					// are reflected when adding new ConvertKit Blocks.
+					convertkit_blocks = response.data;
+
+					// Update this block's properties, so that has_api_key, has_resources
+					// and the resources properties are updated.
+					block = convertkit_blocks[ block.name ];
+
+					// Call setAttributes on props to trigger the editBlock() function, which will re-render
+					// the block, reflecting any changes to its properties.
+					props.setAttributes(
+						{
+							refresh: Date.now()
+						}
+					);
+
+					// Enable refresh button.
+					setButtonDisabled( false );
+
+				}
+			)
+			.catch(
+				function ( error ) {
+
+					// Show an error in the Gutenberg editor.
+					wp.data.dispatch( 'core/notices' ).createErrorNotice(
+						'ConvertKit: ' + error,
+						{
+							id: 'convertkit-error'
+						}
+					);
+
+					// Enable refresh button.
+					setButtonDisabled( false );
+
+				}
 			);
 
 		}
@@ -358,7 +663,7 @@ function convertKitGutenbergRegisterBlock( block ) {
 				edit: editBlock,
 
 				// Output.
-				save: function( props ) {
+				save: function ( props ) {
 
 					// Deliberate; preview in the editor is determined by the return statement in `edit` above.
 					// On the frontend site, the block's render() PHP class is always called, so we dynamically
@@ -374,6 +679,106 @@ function convertKitGutenbergRegisterBlock( block ) {
 		window.wp.blockEditor,
 		window.wp.element,
 		window.wp.components
+	) );
+
+}
+
+/**
+ * Registers pre-publish actions in Gutenberg's pre-publish checks panel.
+ *
+ * @since 	2.4.0
+ *
+ * @param 	object 	actions 	Pre-publish actions.
+ */
+function convertKitGutenbergRegisterPrePublishActions( actions ) {
+
+	( function ( plugins, editPost, element, components, data ) {
+
+		// Define some constants for the various items we'll use.
+		const el                                 = element.createElement;
+		const { ToggleControl }                  = components;
+		const { registerPlugin }                 = plugins;
+		const { PluginPrePublishPanel }          = editPost;
+		const { useSelect, useDispatch, select } = data;
+
+		/**
+		 * Returns a PluginPrePublishPanel for this Plugin, comprising of all
+		 * pre-publish actions.
+		 *
+		 * @since   2.4.0
+		 *
+		 * @return  PluginPrePublishPanel
+		 */
+		const renderPanel = function () {
+
+			// Bail if the Post Type isn't a Post.
+			if ( select( 'core/editor' ).getCurrentPostType() !== 'post' ) {
+				return;
+			}
+
+			// Build rows.
+			let rows = [];
+			for ( const [ name, action ] of Object.entries( actions ) ) {
+
+				const key          = '_convertkit_action_' + action.name;
+				const { meta }     = useSelect(
+					function ( select ) {
+						return {
+							meta: select( 'core/editor' ).getEditedPostAttribute( 'meta' ),
+						};
+					}
+				);
+				const { editPost } = useDispatch( 'core/editor', [ meta[ key ] ] );
+
+				// Add row.
+				rows.push(
+					el(
+						ToggleControl,
+						{
+							id:  		'convertkit_action_' + action.name,
+							label: 		action.label,
+							help: 		action.description,
+							value:      true,
+							checked: 	meta[ key ],
+							onChange: 	function ( value ) {
+								editPost(
+									{
+										meta: { [ key ]: value },
+									}
+								);
+							}
+						}
+					)
+				);
+			}
+
+			// Return actions in the pre-publish panel.
+			return el(
+				PluginPrePublishPanel,
+				{
+					className: 'convertkit-pre-publish-actions',
+					title: 'ConvertKit',
+					initialOpen: true,
+				},
+				rows
+			);
+
+		}
+
+		// Register pre-publish actions.
+		registerPlugin(
+			'convertkit-pre-publish-actions',
+			{
+				render: renderPanel
+			}
+		);
+
+	} (
+		window.wp.plugins,
+		window.wp.editPost,
+		window.wp.element,
+		window.wp.components,
+		window.wp.data
 	) );
 
 }
@@ -400,44 +805,6 @@ function convertKitGutenbergDisplayBlockNotice( block_name, notice ) {
 			className: 'convertkit-' + block_name + ' convertkit-no-content'
 		},
 		notice
-	);
-
-}
-
-/**
- * Outputs a notice for the block with a clickable link.  Typically used when a block's settings
- * have not been defined, no API key exists in the Plugin or no resources
- * (forms, products) exist in ConvertKit, and the user adds an e.g.
- * Form / Product block.
- *
- * @since 	2.2.3
- *
- * @param 	string 	block_name 	Block Name.
- * @param 	string 	notice 		Notice to display.
- * @param 	string  link 		URL.
- * @param 	string  link_text 	Link text for URL.
- * @return 	object 				HTMLElement
- */
-function convertKitGutenbergDisplayBlockNoticeWithLink( block_name, notice, link, link_text ) {
-
-	return wp.element.createElement(
-		'div',
-		{
-			// convertkit-no-content class allows resources/backend/css/gutenberg.css
-			// to apply styling/branding to the block.
-			className: 'convertkit-' + block_name + ' convertkit-no-content'
-		},
-		[
-			notice + ' ',
-			wp.element.createElement(
-				'a',
-				{
-					href: link,
-					target: '_blank'
-				},
-				link_text
-			)
-		]
 	);
 
 }

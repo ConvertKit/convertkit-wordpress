@@ -215,3 +215,26 @@
 #convertkit-setup-wizard-exit-link a {
 	color: #8c8f9a;
 }
+
+/**
+ * Modal View
+ */
+body.convertkit-modal { overflow: hidden; }
+body.convertkit-modal #convertkit-setup-wizard {
+	width: 100%;
+	max-width: 100%;
+	margin: 0;
+	padding: 0;
+}
+body.convertkit-modal #convertkit-setup-wizard .wrap {
+	margin: 0;
+}
+body.convertkit-modal #convertkit-setup-wizard-body {
+	box-shadow: none;
+}
+body.convertkit-modal #convertkit-setup-wizard-content {
+	padding: 20px 20px 0 20px;
+}
+body.convertkit-modal #convertkit-setup-wizard-footer {
+	padding: 0 20px 20px 20px;
+}

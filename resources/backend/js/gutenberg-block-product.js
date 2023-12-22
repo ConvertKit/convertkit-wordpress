@@ -49,7 +49,10 @@ function convertKitGutenbergProductBlockRenderPreview( block, props ) {
 		{
 			block: 'convertkit/' + block.name,
 			attributes: props.attributes,
-			className: 'convertkit-' + block.name,
+
+			// This is only output in the Gutenberg editor, so must be slightly different from the inner class name used to
+			// apply styles with i.e. convertkit-block.name.
+			className: 'convertkit-ssr-' + block.name,
 		}
 	);
 

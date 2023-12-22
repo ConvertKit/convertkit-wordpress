@@ -43,8 +43,11 @@ class ThirdPartyPlugin extends \Codeception\Module
 				break;
 		}
 
-		// Some Plugins throw warnings / errors on activation with PHP 8.1+, so we can't reliably check for errors.
+		// Some Plugins throw warnings / errors on activation, so we can't reliably check for errors.
 		if ($name === 'wishlist-member' && version_compare( phpversion(), '8.1', '>' )) {
+			return;
+		}
+		if ($name === 'woocommerce') {
 			return;
 		}
 

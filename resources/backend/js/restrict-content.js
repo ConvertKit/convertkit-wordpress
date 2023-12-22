@@ -12,15 +12,15 @@
  * @since 	2.1.0
  */
 jQuery( document ).ready(
-	function( $ ) {
+	function ( $ ) {
 
 		$( 'input[name=type]' ).on(
 			'change',
-			function( e ) {
+			function ( e ) {
 
 				// For all type radio buttons, hide elements with a class matching the value.
 				$( 'input[name=type]' ).each(
-					function() {
+					function () {
 						$( 'div.' + $( this ).val() ).hide();
 					}
 				);

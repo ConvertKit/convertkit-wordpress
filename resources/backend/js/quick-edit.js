@@ -18,7 +18,7 @@
  * @since 	1.9.8.0
  */
 jQuery( document ).ready(
-	function( $ ) {
+	function ( $ ) {
 
 		// Move Quick Edit fields from footer into the hidden inline-edit table row.
 		$( 'tr#inline-edit .inline-edit-wrapper fieldset.inline-edit-col-left' ).first().append( $( '#convertkit-quick-edit' ) );
@@ -29,7 +29,7 @@ jQuery( document ).ready(
 		var convertKitInlineEditPost = inlineEditPost.edit;
 
 		// Extend WordPress' inline edit function to load the Plugin's Quick Edit fields.
-		inlineEditPost.edit = function( id ) {
+		inlineEditPost.edit = function ( id ) {
 
 			// Merge arguments from original function.
 			convertKitInlineEditPost.apply( this, arguments );
@@ -41,7 +41,7 @@ jQuery( document ).ready(
 
 			// Iterate through any ConvertKit inline data, assigning values to Quick Edit fields.
 			$( '.convertkit', $( '#inline_' + id ) ).each(
-				function() {
+				function () {
 
 					// Assign the setting's value to the setting's Quick Edit field.
 					$( '#convertkit-quick-edit select[name="wp-convertkit[' + $( this ).data( 'setting' ) + ']"]' ).val( $( this ).data( 'value' ) );

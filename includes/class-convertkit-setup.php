@@ -25,6 +25,7 @@ class ConvertKit_Setup {
 		// Call any functions to e.g. schedule WordPress Cron events now.
 		$posts = new ConvertKit_Resource_Posts( 'cron' );
 		$posts->schedule_cron_event();
+
 	}
 
 	/**

@@ -136,6 +136,7 @@ function convertkit_get_supported_restrict_content_post_types() {
 
 	$post_types = array(
 		'page',
+		'post',
 	);
 
 	/**
@@ -224,6 +225,30 @@ function convertkit_get_block_formatters() {
 }
 
 /**
+ * Helper method to get registered pre-publish actions.
+ *
+ * @since   2.4.0
+ *
+ * @return  array   Pre-publish actions
+ */
+function convertkit_get_pre_publish_actions() {
+
+	$pre_publish_actions = array();
+
+	/**
+	 * Registers pre-publish actions for the ConvertKit Plugin.
+	 *
+	 * @since   2.4.0
+	 *
+	 * @param   array   $pre_publish_panels     Pre-publish actions.
+	 */
+	$pre_publish_actions = apply_filters( 'convertkit_get_pre_publish_actions', $pre_publish_actions );
+
+	return $pre_publish_actions;
+
+}
+
+/**
  * Helper method to return the Plugin Settings Link
  *
  * @since   1.9.6
@@ -261,7 +286,7 @@ function convertkit_get_setup_wizard_plugin_link( $query_args = array() ) {
 		)
 	);
 
-	return add_query_arg( $query_args, admin_url( 'index.php' ) );
+	return add_query_arg( $query_args, admin_url( 'options.php' ) );
 
 }
 
@@ -301,6 +326,26 @@ function convertkit_get_sign_in_url() {
 			'utm_content' => 'convertkit',
 		),
 		'https://app.convertkit.com/'
+	);
+
+}
+
+/**
+ * Helper method to return the URL the user needs to visit to manage thier billing.
+ *
+ * @since   2.2.7
+ *
+ * @return  string  ConvertKit Billing URL.
+ */
+function convertkit_get_billing_url() {
+
+	return add_query_arg(
+		array(
+			'utm_source'  => 'wordpress',
+			'utm_term'    => get_locale(),
+			'utm_content' => 'convertkit',
+		),
+		'https://app.convertkit.com/account_settings/billing/'
 	);
 
 }
@@ -366,6 +411,70 @@ function convertkit_get_form_editor_url() {
 }
 
 /**
+ * Helper method to return the URL the user needs to visit on the ConvertKit app to create a new Tag.
+ *
+ * @since   2.3.3
+ *
+ * @return  string  ConvertKit App URL.
+ */
+function convertkit_get_new_tag_url() {
+
+	return add_query_arg(
+		array(
+			'utm_source'  => 'wordpress',
+			'utm_term'    => get_locale(),
+			'utm_content' => 'convertkit',
+		),
+		'https://app.convertkit.com/subscribers/'
+	);
+
+}
+
+/**
+ * Helper method to return the URL the user needs to visit on the ConvertKit app to create a new Broadcast.
+ *
+ * @since   2.2.6
+ *
+ * @return  string  ConvertKit App URL.
+ */
+function convertkit_get_new_broadcast_url() {
+
+	return add_query_arg(
+		array(
+			'utm_source'  => 'wordpress',
+			'utm_term'    => get_locale(),
+			'utm_content' => 'convertkit',
+		),
+		'https://app.convertkit.com/campaigns/'
+	);
+
+}
+
+/**
+ * Helper method to return the URL the user needs to visit on the ConvertKit app to edit a draft Broadcast.
+ *
+ * @since   2.4.0
+ *
+ * @param   int $broadcast_id   ConvertKit Broadcast ID.
+ * @return  string                  ConvertKit App URL.
+ */
+function convertkit_get_edit_broadcast_url( $broadcast_id ) {
+
+	return add_query_arg(
+		array(
+			'utm_source'  => 'wordpress',
+			'utm_term'    => get_locale(),
+			'utm_content' => 'convertkit',
+		),
+		sprintf(
+			'https://app.convertkit.com/campaigns/%s/draft',
+			$broadcast_id
+		)
+	);
+
+}
+
+/**
  * Helper method to return the URL the user needs to visit on the ConvertKit app to create a new Product.
  *
  * @since   2.2.3
@@ -419,21 +528,20 @@ function convertkit_select2_enqueue_styles() {
  */
 function convertkit_get_file_contents( $local_file ) {
 
-	// Call globals.
-	global $wp_filesystem;
-
-	// Load filesystem class.
-	require_once ABSPATH . 'wp-admin/includes/file.php';
-
-	// Initiate.
-	WP_Filesystem();
-
 	// Bail if the file doesn't exist.
-	if ( ! $wp_filesystem->exists( $local_file ) ) {
+	if ( ! file_exists( $local_file ) ) {
+		return '';
+	}
+
+	// Read file.
+	$contents = file_get_contents( $local_file ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
+
+	// Return an empty string if the contents of the file could not be read.
+	if ( ! $contents ) {
 		return '';
 	}
 
 	// Return file's contents.
-	return $wp_filesystem->get_contents( $local_file );
+	return $contents;
 
 }

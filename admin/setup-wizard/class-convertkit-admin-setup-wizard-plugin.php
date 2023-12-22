@@ -66,6 +66,15 @@ class ConvertKit_Admin_Setup_Wizard_Plugin extends ConvertKit_Admin_Setup_Wizard
 	public $preview_page_url = false;
 
 	/**
+	 * The required user capability to access the setup wizard.
+	 *
+	 * @since   2.3.2
+	 *
+	 * @var     string
+	 */
+	public $required_capability = 'edit_posts';
+
+	/**
 	 * The programmatic name for this wizard.
 	 *
 	 * @since   1.9.8.4
@@ -159,7 +168,7 @@ class ConvertKit_Admin_Setup_Wizard_Plugin extends ConvertKit_Admin_Setup_Wizard
 						array(
 							'page' => $this->page_name,
 						),
-						admin_url( 'index.php' )
+						admin_url( 'options.php' )
 					),
 					__( 'Setup Wizard', 'convertkit' )
 				),
@@ -199,7 +208,7 @@ class ConvertKit_Admin_Setup_Wizard_Plugin extends ConvertKit_Admin_Setup_Wizard
 		}
 
 		// Show the setup screen.
-		wp_safe_redirect( admin_url( 'index.php?page=' . $this->page_name ) );
+		wp_safe_redirect( admin_url( 'options.php?page=' . $this->page_name ) );
 		exit;
 
 	}
@@ -271,8 +280,15 @@ class ConvertKit_Admin_Setup_Wizard_Plugin extends ConvertKit_Admin_Setup_Wizard
 	 */
 	public function load_screen_data( $step ) {
 
+		// If this wizard is being served in a modal window, adjust the steps.
+		if ( $this->is_modal() ) {
+			unset( $this->steps[3], $this->steps[4] );
+		}
 		switch ( $step ) {
 			case 3:
+				// If this wizard is being served in a modal window, we can exit after obtaining valid API credentials.
+				$this->maybe_close_modal();
+
 				// Re-load settings class now that the API Key and Secret has been defined.
 				$this->settings = new ConvertKit_Settings();
 
@@ -289,7 +305,7 @@ class ConvertKit_Admin_Setup_Wizard_Plugin extends ConvertKit_Admin_Setup_Wizard
 							'page' => $this->page_name,
 							'step' => 3,
 						),
-						admin_url( 'index.php' )
+						admin_url( 'options.php' )
 					);
 				}
 

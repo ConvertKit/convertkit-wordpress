@@ -18,7 +18,7 @@ class PageShortcodeCustomContentCest
 		$I->activateConvertKitPlugin($I);
 
 		// Setup ConvertKit Plugin with no default form specified.
-		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY'], $_ENV['CONVERTKIT_API_SECRET'], '', '', '');
+		$I->setupConvertKitPluginNoDefaultForms($I);
 		$I->setupConvertKitPluginResources($I);
 	}
 

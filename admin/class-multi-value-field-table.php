@@ -198,7 +198,7 @@ class Multi_Value_Field_Table extends WP_List_Table {
 
 		usort(
 			$data,
-			function( $a, $b ) {
+			function ( $a, $b ) {
 
 				if ( empty( $_REQUEST['orderby'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification
 					$orderby = 'title';

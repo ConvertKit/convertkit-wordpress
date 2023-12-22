@@ -14,27 +14,16 @@
  */
 function convertKitGutenbergBroadcastsBlockRenderPreview( block, props ) {
 
-	// If no Broadcasts exist, return a prompt to tell the editor what to do.
-	if ( ! block.has_posts ) {
-		return wp.element.createElement(
-			'div',
-			{
-				// convertkit-no-content class allows resources/backend/css/gutenberg.css
-				// to apply styling/branding to the block.
-				className: 'convertkit-' + block.name + ' convertkit-no-content'
-			},
-			block.gutenberg_help_description
-		);
-	}
-
-	// A Product is specified.
 	// Use the block's PHP's render() function by calling the ServerSideRender component.
 	return wp.element.createElement(
 		wp.serverSideRender,
 		{
 			block: 'convertkit/' + block.name,
 			attributes: props.attributes,
-			className: 'convertkit-' + block.name,
+
+			// This is only output in the Gutenberg editor, so must be slightly different from the inner class name used to
+			// apply styles with i.e. convertkit-block.name.
+			className: 'convertkit-ssr-' + block.name,
 		}
 	);
 

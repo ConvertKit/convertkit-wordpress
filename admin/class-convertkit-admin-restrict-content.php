@@ -18,6 +18,15 @@
 class ConvertKit_Admin_Restrict_Content {
 
 	/**
+	 * Holds the ConvertKit Tags resource class.
+	 *
+	 * @since   2.3.2
+	 *
+	 * @var     bool|ConvertKit_Resource_Tags
+	 */
+	public $tags = false;
+
+	/**
 	 * Holds the ConvertKit Products resource class.
 	 *
 	 * @since   2.1.0
@@ -52,19 +61,9 @@ class ConvertKit_Admin_Restrict_Content {
 	 */
 	public function __construct() {
 
-		// Initialize classes that will be used.
-		$this->restrict_content_settings = new ConvertKit_Settings_Restrict_Content();
-
-		// Bail if Restrict Content isn't enabled.
-		if ( ! $this->restrict_content_settings->enabled() ) {
-			return;
-		}
-
-		// Add New Member Content button.
+		// Add New Member Content Wizard button to Pages.
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts_and_css' ) );
-		foreach ( convertkit_get_supported_restrict_content_post_types() as $post_type ) {
-			add_filter( 'views_edit-' . $post_type, array( $this, 'output_wp_list_table_buttons' ) );
-		}
+		add_filter( 'views_edit-page', array( $this, 'output_wp_list_table_buttons' ) );
 
 		// Filter WP_List_Table by Restrict Content setting.
 		add_action( 'pre_get_posts', array( $this, 'filter_wp_list_table_output' ) );
@@ -182,7 +181,16 @@ class ConvertKit_Admin_Restrict_Content {
 			return $views;
 		}
 
-		$views['convertkit_restrict_content_setup'] = '<a href="admin.php?page=convertkit-restrict-content-setup&post_type=' . esc_attr( $post_type ) . '" class="convertkit-action page-title-action hidden">' . esc_html__( 'Add New Member Content', 'convertkit' ) . '</a>';
+		// Build URL for Restrict Content Setup Wizard.
+		$url = add_query_arg(
+			array(
+				'page'         => 'convertkit-restrict-content-setup',
+				'ck_post_type' => $post_type,
+			),
+			admin_url( 'options.php' )
+		);
+
+		$views['convertkit_restrict_content_setup'] = '<a href="' . esc_attr( $url ) . '" class="convertkit-action page-title-action hidden">' . esc_html__( 'Add New Member Content', 'convertkit' ) . '</a>';
 		return $views;
 
 	}
@@ -208,11 +216,12 @@ class ConvertKit_Admin_Restrict_Content {
 			return;
 		}
 
-		// Fetch Products.
+		// Fetch Products and Tags.
 		$this->products = new ConvertKit_Resource_Products();
+		$this->tags     = new ConvertKit_Resource_Tags();
 
-		// Don't display filter if no Products exist.
-		if ( ! $this->products->exist() ) {
+		// Don't display filter if no Tags and no Products exist.
+		if ( ! $this->products->exist() && ! $this->tags->exist() ) {
 			return;
 		}
 

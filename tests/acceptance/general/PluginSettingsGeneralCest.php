@@ -19,13 +19,15 @@ class PluginSettingsGeneralCest
 	}
 
 	/**
-	 * Test that the Settings > ConvertKit > General screen has expected a11y output, such as label[for].
+	 * Test that the Settings > ConvertKit > General screen has expected a11y output, such as label[for], and
+	 * UTM parameters are included in links displayed on the Plugins' Setting screen for the user to obtain
+	 * their API Key and Secret, or sign in to their ConvertKit account.
 	 *
 	 * @since   1.9.7.6
 	 *
 	 * @param   AcceptanceTester $I  Tester.
 	 */
-	public function testAccessibility(AcceptanceTester $I)
+	public function testAccessibilityAndUTMParameters(AcceptanceTester $I)
 	{
 		// Go to the Plugin's Settings Screen.
 		$I->loadConvertKitSettingsGeneralScreen($I);
@@ -38,20 +40,6 @@ class PluginSettingsGeneralCest
 		$I->seeInSource('<label for="debug">');
 		$I->seeInSource('<label for="no_scripts">');
 		$I->seeInSource('<label for="no_css">');
-	}
-
-	/**
-	 * Test that UTM parameters are included in links displayed on the Plugins' Setting screen for the user to obtain
-	 * their API Key and Secret, or sign in to their ConvertKit account.
-	 *
-	 * @since   1.9.6
-	 *
-	 * @param   AcceptanceTester $I  Tester.
-	 */
-	public function testUTMParametersExist(AcceptanceTester $I)
-	{
-		// Go to the Plugin's Settings Screen.
-		$I->loadConvertKitSettingsGeneralScreen($I);
 
 		// Confirm that UTM parameters exist for the 'Get your ConvertKit API Key' link.
 		$I->seeInSource('<a href="https://app.convertkit.com/account_settings/advanced_settings/?utm_source=wordpress&amp;utm_term=en_US&amp;utm_content=convertkit" target="_blank">Get your ConvertKit API Key.</a>');
@@ -63,7 +51,7 @@ class PluginSettingsGeneralCest
 		$I->seeInSource('<a href="https://app.convertkit.com/forms/new/?utm_source=wordpress&amp;utm_term=en_US&amp;utm_content=convertkit" target="_blank">Click here to create your first form</a>');
 
 		// Confirm that the UTM parameters exist for the documentation links.
-		$I->seeInSource('<a href="https://help.convertkit.com/en/articles/2502591-the-convertkit-wordpress-plugin?utm_source=wordpress&amp;utm_term=en_US&amp;utm_content=convertkit" class="convertkit-tab" target="_blank">Documentation <span class="dashicons dashicons-external"></span></a>');
+		$I->seeInSource('<a href="https://help.convertkit.com/en/articles/2502591-the-convertkit-wordpress-plugin?utm_source=wordpress&amp;utm_term=en_US&amp;utm_content=convertkit" class="convertkit-docs" target="_blank">Help</a>');
 		$I->seeInSource('<a href="https://help.convertkit.com/en/articles/2502591-the-convertkit-wordpress-plugin?utm_source=wordpress&amp;utm_term=en_US&amp;utm_content=convertkit" target="_blank">plugin documentation</a>');
 	}
 
@@ -207,43 +195,14 @@ class PluginSettingsGeneralCest
 
 	/**
 	 * Test that no PHP errors or notices are displayed on the Plugin's Setting screen,
-	 * when the Default Form is changed.
+	 * when the Default Form for Pages and Posts are changed, and that the preview links
+	 * work when the Default Form is changed.
 	 *
 	 * @since   1.9.6
 	 *
 	 * @param   AcceptanceTester $I  Tester.
 	 */
-	public function testChangeDefaultFormSetting(AcceptanceTester $I)
-	{
-		// Setup Plugin, without defining default Forms.
-		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY'], $_ENV['CONVERTKIT_API_SECRET'], '', '');
-
-		// Go to the Plugin's Settings Screen.
-		$I->loadConvertKitSettingsGeneralScreen($I);
-
-		// Select Default Form for Pages and Posts.
-		$I->fillSelect2Field($I, '#select2-_wp_convertkit_settings_page_form-container', $_ENV['CONVERTKIT_API_FORM_NAME']);
-		$I->fillSelect2Field($I, '#select2-_wp_convertkit_settings_post_form-container', $_ENV['CONVERTKIT_API_FORM_NAME']);
-
-		// Click the Save Changes button.
-		$I->click('Save Changes');
-
-		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen($I);
-
-		// Check the value of the fields match the inputs provided.
-		$I->seeInField('_wp_convertkit_settings[page_form]', $_ENV['CONVERTKIT_API_FORM_NAME']);
-		$I->seeInField('_wp_convertkit_settings[post_form]', $_ENV['CONVERTKIT_API_FORM_NAME']);
-	}
-
-	/**
-	 * Test that the preview link for the Default Form settings works.
-	 *
-	 * @since   1.9.8.5
-	 *
-	 * @param   AcceptanceTester $I  Tester.
-	 */
-	public function testPreviewFormLinks(AcceptanceTester $I)
+	public function testChangeDefaultFormSettingAndPreviewFormLinks(AcceptanceTester $I)
 	{
 		// Create a Page and a Post, so that preview links display.
 		$I->havePostInDatabase(
@@ -262,7 +221,7 @@ class PluginSettingsGeneralCest
 		);
 
 		// Setup Plugin, without defining default Forms.
-		$I->setupConvertKitPlugin($I, $_ENV['CONVERTKIT_API_KEY'], $_ENV['CONVERTKIT_API_SECRET'], '', '');
+		$I->setupConvertKitPluginNoDefaultForms($I);
 
 		// Go to the Plugin's Settings Screen.
 		$I->loadConvertKitSettingsGeneralScreen($I);
@@ -300,6 +259,34 @@ class PluginSettingsGeneralCest
 
 		// Close newly opened tab.
 		$I->closeTab();
+
+		// Select a non-inline form for the Default non-inline form setting.
+		$I->fillSelect2Field($I, '#select2-_wp_convertkit_settings_non_inline_form-container', $_ENV['CONVERTKIT_API_FORM_FORMAT_STICKY_BAR_NAME']);
+
+		// Open preview.
+		$I->click('a#convertkit-preview-non-inline-form');
+		$I->wait(2); // Required, otherwise switchToNextTab fails.
+
+		// Switch to newly opened tab.
+		$I->switchToNextTab();
+
+		// Confirm that one ConvertKit Form is output in the DOM.
+		// This confirms that there is only one script on the page for this form, which renders the form.
+		$I->seeNumberOfElementsInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_FORMAT_STICKY_BAR_ID'] . '"]', 1);
+
+		// Close newly opened tab.
+		$I->closeTab();
+
+		// Click the Save Changes button.
+		$I->click('Save Changes');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Check the value of the fields match the inputs provided.
+		$I->seeInField('_wp_convertkit_settings[page_form]', $_ENV['CONVERTKIT_API_FORM_NAME']);
+		$I->seeInField('_wp_convertkit_settings[post_form]', $_ENV['CONVERTKIT_API_FORM_NAME']);
+		$I->seeInField('_wp_convertkit_settings[non_inline_form]', $_ENV['CONVERTKIT_API_FORM_FORMAT_STICKY_BAR_NAME']);
 	}
 
 	/**

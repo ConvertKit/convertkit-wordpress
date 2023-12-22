@@ -102,7 +102,7 @@ class ConvertKit_WooCommerce_Product_Form {
 // Bootstrap.
 add_action(
 	'convertkit_initialize_global',
-	function() {
+	function () {
 
 		new ConvertKit_WooCommerce_Product_Form();
 

@@ -26,7 +26,7 @@ function convertKitTagSubscriber( subscriber_id, tag, post_id ) {
 		console.log( post_id );
 	}
 
-	( function( $ ) {
+	( function ( $ ) {
 
 		$.ajax(
 			{
@@ -79,7 +79,7 @@ function convertStoreSubscriberIDInCookie( subscriber_id ) {
 		console.log( subscriber_id );
 	}
 
-	( function( $ ) {
+	( function ( $ ) {
 
 		$.ajax(
 			{
@@ -132,7 +132,7 @@ function convertStoreSubscriberEmailAsIDInCookie( emailAddress ) {
 		console.log( emailAddress );
 	}
 
-	( function( $ ) {
+	( function ( $ ) {
 
 		$.ajax(
 			{
@@ -203,7 +203,7 @@ function convertKitSleep( milliseconds ) {
  * Register events
  */
 jQuery( document ).ready(
-	function( $ ) {
+	function ( $ ) {
 
 		if ( convertkit.subscriber_id > 0 && convertkit.tag && convertkit.post_id ) {
 			// If the user can be detected as a ConvertKit Subscriber (i.e. their Subscriber ID is in a cookie or the URL),
@@ -219,7 +219,7 @@ jQuery( document ).ready(
 		$( document ).on(
 			'click',
 			'.formkit-submit',
-			function() {
+			function () {
 				var emailAddress = $( 'input[name="email_address"]' ).val();
 
 				// If the email address is empty, don't attempt to get the subscriber ID by email.

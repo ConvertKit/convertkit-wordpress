@@ -113,6 +113,38 @@ class ConvertKitAPI extends \Codeception\Module
 	}
 
 	/**
+	 * Fetches the given broadcast from ConvertKit.
+	 *
+	 * @since   2.4.0
+	 *
+	 * @param   int $broadcastID    Broadcast ID.
+	 */
+	public function apiGetBroadcast($broadcastID)
+	{
+		// Run request.
+		return $this->apiRequest(
+			'broadcasts/' . $broadcastID,
+			'GET'
+		);
+	}
+
+	/**
+	 * Deletes the given broadcast from ConvertKit.
+	 *
+	 * @since   2.4.0
+	 *
+	 * @param   int $broadcastID    Broadcast ID.
+	 */
+	public function apiDeleteBroadcast($broadcastID)
+	{
+		// Run request.
+		$this->apiRequest(
+			'broadcasts/' . $broadcastID,
+			'DELETE'
+		);
+	}
+
+	/**
 	 * Sends a request to the ConvertKit API, typically used to read an endpoint to confirm
 	 * that data in an Acceptance Test was added/edited/deleted successfully.
 	 *

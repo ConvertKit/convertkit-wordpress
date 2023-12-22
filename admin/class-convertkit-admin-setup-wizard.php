@@ -65,6 +65,16 @@ class ConvertKit_Admin_Setup_Wizard {
 	public $page_name = false;
 
 	/**
+	 * Whether the wizard is being served within a modal or
+	 * new window.
+	 *
+	 * @since   2.2.6
+	 *
+	 * @var     bool
+	 */
+	public $is_modal = false;
+
+	/**
 	 * The URL to take the user to when they click the Exit link.
 	 *
 	 * @since   1.9.8.4
@@ -114,32 +124,21 @@ class ConvertKit_Admin_Setup_Wizard {
 
 		// Define actions to register the setup screen.
 		add_action( 'admin_menu', array( $this, 'register_screen' ) );
-		add_action( 'admin_head', array( $this, 'hide_screen_from_menu' ) );
 		add_action( 'admin_init', array( $this, 'maybe_load_setup_screen' ) );
 
 	}
 
 	/**
-	 * Register the setup screen in WordPress' Dashboard, so that index.php?page={$this->page_name}
+	 * Register the wizard screen in WordPress' Dashboard, so that options.php?page={$this->page_name}
 	 * does not 404 when in the WordPress Admin interface.
+	 *
+	 * Ensures the WordPress user has the given required_capability to access this screen.
 	 *
 	 * @since   1.9.8.4
 	 */
 	public function register_screen() {
 
-		add_dashboard_page( '', '', 'edit_posts', $this->page_name, '__return_false' );
-
-	}
-
-	/**
-	 * Hides the menu registered when register_screen() above is called, otherwise
-	 * we would have a blank submenu entry below the Dashboard menu.
-	 *
-	 * @since   1.9.8.4
-	 */
-	public function hide_screen_from_menu() {
-
-		remove_submenu_page( 'index.php', $this->page_name );
+		add_submenu_page( '', '', '', $this->required_capability, $this->page_name, '__return_false' );
 
 	}
 
@@ -163,6 +162,12 @@ class ConvertKit_Admin_Setup_Wizard {
 
 		// Define current screen, so that calls to get_current_screen() tell Plugins which screen is loaded.
 		set_current_screen( $this->page_name );
+
+		// If the convertkit-modal parameter exists and is 1, set the flag to denote
+		// this wizard is served in a modal.
+		if ( array_key_exists( 'convertkit-modal', $_REQUEST ) && $_REQUEST['convertkit-modal'] === '1' ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			$this->is_modal = true;
+		}
 
 		// Define the step the user is on in the setup process.
 		$this->step = ( isset( $_REQUEST['step'] ) ? absint( $_REQUEST['step'] ) : 1 ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
@@ -227,20 +232,22 @@ class ConvertKit_Admin_Setup_Wizard {
 		// Define the current step URL.
 		$this->current_step_url = add_query_arg(
 			array(
-				'page' => $this->page_name,
-				'step' => $this->step,
+				'page'             => $this->page_name,
+				'convertkit-modal' => $this->is_modal(),
+				'step'             => $this->step,
 			),
-			admin_url( 'index.php' )
+			admin_url( 'options.php' )
 		);
 
 		// Define the previous step URL if we're not on the first or last step.
 		if ( $this->step > 1 && $this->step < count( $this->steps ) ) {
 			$this->previous_step_url = add_query_arg(
 				array(
-					'page' => $this->page_name,
-					'step' => ( $this->step - 1 ),
+					'page'             => $this->page_name,
+					'convertkit-modal' => $this->is_modal(),
+					'step'             => ( $this->step - 1 ),
 				),
-				admin_url( 'index.php' )
+				admin_url( 'options.php' )
 			);
 		}
 
@@ -248,10 +255,11 @@ class ConvertKit_Admin_Setup_Wizard {
 		if ( $this->step < count( $this->steps ) ) {
 			$this->next_step_url = add_query_arg(
 				array(
-					'page' => $this->page_name,
-					'step' => ( $this->step + 1 ),
+					'page'             => $this->page_name,
+					'convertkit-modal' => $this->is_modal(),
+					'step'             => ( $this->step + 1 ),
 				),
-				admin_url( 'index.php' )
+				admin_url( 'options.php' )
 			);
 		}
 
@@ -354,6 +362,38 @@ class ConvertKit_Admin_Setup_Wizard {
 
 		// Load footer view.
 		include_once CONVERTKIT_PLUGIN_PATH . '/views/backend/setup-wizard/footer.php';
+
+	}
+
+	/**
+	 * Whether this wizard is served in a modal window.
+	 *
+	 * @since   2.2.6
+	 *
+	 * @return bool
+	 */
+	public function is_modal() {
+
+		return $this->is_modal;
+
+	}
+
+	/**
+	 * Outputs HTML to close the current window, due to it being opened
+	 * by window.open().
+	 *
+	 * @since   2.2.6
+	 */
+	public function maybe_close_modal() {
+
+		// Sanity check we requested a modal.
+		if ( ! $this->is_modal() ) {
+			return;
+		}
+
+		// Load HTML to close the modal.
+		include_once CONVERTKIT_PLUGIN_PATH . '/views/backend/setup-wizard/close-modal.php';
+		exit;
 
 	}
 

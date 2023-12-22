@@ -57,7 +57,7 @@ class ConvertKit_ContactForm7_Admin_Settings extends ConvertKit_Settings_Base {
 		</p>
 		<p>
 			<?php
-			echo sprintf(
+			printf(
 				'%s <code>text*</code> %s <code>your-name</code> %s <code>email*</code> %s <code>your-email</code>%s',
 				esc_html__( 'The Contact Form 7 form must have a', 'convertkit' ),
 				esc_html__( 'field named', 'convertkit' ),
@@ -98,7 +98,8 @@ class ConvertKit_ContactForm7_Admin_Settings extends ConvertKit_Settings_Base {
 		do_settings_sections( $this->settings_key );
 
 		// Get Forms.
-		$forms = new ConvertKit_Resource_Forms( 'contact_form_7' );
+		$forms                           = new ConvertKit_Resource_Forms( 'contact_form_7' );
+		$creator_network_recommendations = new ConvertKit_Resource_Creator_Network_Recommendations( 'contact_form_7' );
 
 		// Bail with an error if no ConvertKit Forms exist.
 		if ( ! $forms->exist() ) {
@@ -107,13 +108,8 @@ class ConvertKit_ContactForm7_Admin_Settings extends ConvertKit_Settings_Base {
 			return;
 		}
 
-		// Build array of select options.
-		$options = array(
-			'default' => __( 'None', 'convertkit' ),
-		);
-		foreach ( $forms->get() as $form ) {
-			$options[ esc_attr( $form['id'] ) ] = esc_html( $form['name'] );
-		}
+		// Get Creator Network Recommendations script.
+		$creator_network_recommendations_enabled = $creator_network_recommendations->enabled();
 
 		// Get Contact Form 7 Forms.
 		$cf7_forms = $this->get_cf7_forms();
@@ -131,21 +127,46 @@ class ConvertKit_ContactForm7_Admin_Settings extends ConvertKit_Settings_Base {
 		$table->add_column( 'form', __( 'ConvertKit Form', 'convertkit' ), false );
 		$table->add_column( 'email', __( 'Contact Form 7 Email Field', 'convertkit' ), false );
 		$table->add_column( 'name', __( 'Contact Form 7 Name Field', 'convertkit' ), false );
+		$table->add_column( 'creator_network_recommendations', __( 'Enable Creator Network Recommendations', 'convertkit' ), false );
 
 		// Iterate through Contact Form 7 Forms, adding a table row for each Contact Form 7 Form.
 		foreach ( $cf7_forms as $cf7_form ) {
-			$table->add_item(
-				array(
-					'title' => $cf7_form['name'],
-					'form'  => $this->get_select_field(
-						$cf7_form['id'],
-						(string) $this->settings->get_convertkit_form_id_by_cf7_form_id( $cf7_form['id'] ),
-						$options
-					),
-					'email' => 'your-email',
-					'name'  => 'your-name',
-				)
+			// Build row.
+			$table_row = array(
+				'title' => $cf7_form['name'],
+				'form'  => $forms->get_select_field_all(
+					'_wp_convertkit_integration_contactform7_settings[' . $cf7_form['id'] . ']',
+					'_wp_convertkit_integration_contactform7_settings_' . $cf7_form['id'],
+					false,
+					(string) $this->settings->get_convertkit_form_id_by_cf7_form_id( $cf7_form['id'] ),
+					array(
+						'default' => __( 'None', 'convertkit' ),
+					)
+				),
+				'email' => 'your-email',
+				'name'  => 'your-name',
 			);
+
+			// Add Creator Network Recommendations table column.
+			if ( $creator_network_recommendations_enabled ) {
+				// Show checkbox to enable Creator Network Recommendations for this Contact Form 7 Form.
+				$table_row['creator_network_recommendations'] = $this->get_checkbox_field(
+					'creator_network_recommendations_' . $cf7_form['id'],
+					'1',
+					$this->settings->get_creator_network_recommendations_enabled_by_cf7_form_id( $cf7_form['id'] )
+				);
+			} else {
+				// Show a link to the ConvertKit billing page, as a paid plan is required for Creator Network Recommendations.
+				$table_row['creator_network_recommendations'] = sprintf(
+					'%s <a href="%s" target="_blank">%s</a>',
+					esc_html__( 'Creator Network Recommendations requires a', 'convertkit' ),
+					convertkit_get_billing_url(),
+					esc_html__( 'paid ConvertKit Plan', 'convertkit' )
+				);
+			}
+
+			// Add row to table of settings.
+			$table->add_item( $table_row );
 		}
 
 		// Prepare and display WP_List_Table.
@@ -208,7 +229,7 @@ add_filter(
 	 * @param   array   $sections   Settings Sections.
 	 * @return  array
 	 */
-	function( $sections ) {
+	function ( $sections ) {
 
 		// Bail if Contact Form 7 isn't enabled.
 		if ( ! defined( 'WPCF7_VERSION' ) ) {

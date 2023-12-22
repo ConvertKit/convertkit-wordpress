@@ -213,8 +213,13 @@ class ConvertKit_Block_Form_Trigger extends ConvertKit_Block {
 		return array(
 			'className'  => true,
 			'color'      => array(
-				'background' => true,
-				'text'       => true,
+				'background'                      => true,
+				'text'                            => true,
+
+				// Don't apply styles to the block editor's div element.
+				// This ensures what's rendered in the Gutenberg editor matches the frontend output for styling.
+				// See: https://github.com/WordPress/gutenberg/issues/32417.
+				'__experimentalSkipSerialization' => true,
 			),
 			'typography' => array(
 				'fontSize' => true,
@@ -248,7 +253,12 @@ class ConvertKit_Block_Form_Trigger extends ConvertKit_Block {
 		$convertkit_forms = new ConvertKit_Resource_Forms( 'block_edit' );
 		if ( $convertkit_forms->non_inline_exist() ) {
 			foreach ( $convertkit_forms->get_non_inline() as $form ) {
-				$forms[ absint( $form['id'] ) ] = sanitize_text_field( $form['name'] );
+				// Legacy forms don't include a `format` key, so define them as inline.
+				$forms[ absint( $form['id'] ) ] = sprintf(
+					'%s [%s]',
+					sanitize_text_field( $form['name'] ),
+					( ! empty( $form['format'] ) ? sanitize_text_field( $form['format'] ) : 'inline' )
+				);
 			}
 		}
 
@@ -467,7 +477,7 @@ class ConvertKit_Block_Form_Trigger extends ConvertKit_Block {
 		// Register the script, so it's only loaded once for this non-inline form across the entire page.
 		add_filter(
 			'convertkit_output_scripts_footer',
-			function( $scripts ) use ( $form ) {
+			function ( $scripts ) use ( $form ) {
 
 				$scripts[] = array(
 					'async'    => true,
