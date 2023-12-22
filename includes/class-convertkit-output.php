@@ -72,6 +72,7 @@ class ConvertKit_Output {
 		add_action( 'template_redirect', array( $this, 'page_takeover' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		add_filter( 'the_content', array( $this, 'append_form_to_content' ) );
+		add_action( 'wp_footer', array( $this, 'output_global_non_inline_form' ), 1 );
 		add_action( 'wp_footer', array( $this, 'output_scripts_footer' ) );
 
 	}
@@ -157,6 +158,9 @@ class ConvertKit_Output {
 			return;
 		}
 
+		// Replace the favicon with the WordPress site's favicon, if specified.
+		$landing_page = $this->landing_pages->replace_favicon( $landing_page );
+
 		// Output Landing Page.
 		// Output is supplied from ConvertKit's API, which is already sanitized.
 		echo $landing_page; // phpcs:ignore WordPress.Security.EscapeOutput
@@ -172,8 +176,8 @@ class ConvertKit_Output {
 	 */
 	public function append_form_to_content( $content ) {
 
-		// Bail if not a singular Post Type.
-		if ( ! is_singular() ) {
+		// Bail if not a singular Post Type supported by ConvertKit.
+		if ( ! is_singular( convertkit_get_supported_post_types() ) ) {
 			return $content;
 		}
 
@@ -404,6 +408,51 @@ class ConvertKit_Output {
 		}
 
 		$this->subscriber_id = $subscriber_id;
+
+	}
+
+	/**
+	 * Outputs a non-inline form if defined in the Plugin's settings >
+	 * Default Non-Inline Form (Global) setting.
+	 *
+	 * @since   2.3.3
+	 */
+	public function output_global_non_inline_form() {
+
+		// Get Settings, if they have not yet been loaded.
+		if ( ! $this->settings ) {
+			$this->settings = new ConvertKit_Settings();
+		}
+
+		// Bail if no non-inline form setting is specified.
+		if ( ! $this->settings->has_non_inline_form() ) {
+			return;
+		}
+
+		// Get form.
+		$convertkit_forms = new ConvertKit_Resource_Forms();
+		$form             = $convertkit_forms->get_by_id( (int) $this->settings->get_non_inline_form() );
+
+		// Bail if the Form doesn't exist (this shouldn't happen, but you never know).
+		if ( ! $form ) {
+			return;
+		}
+
+		// Add the form to the scripts array so it is included in the output.
+		add_filter(
+			'convertkit_output_scripts_footer',
+			function ( $scripts ) use ( $form ) {
+
+				$scripts[] = array(
+					'async'    => true,
+					'data-uid' => $form['uid'],
+					'src'      => $form['embed_js'],
+				);
+
+				return $scripts;
+
+			}
+		);
 
 	}
 

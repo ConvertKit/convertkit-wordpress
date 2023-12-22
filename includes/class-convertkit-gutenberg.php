@@ -104,7 +104,7 @@ class ConvertKit_Gutenberg {
 
 			// Register block.
 			register_block_type(
-				'convertkit/' . $block,
+				CONVERTKIT_PLUGIN_PATH . '/includes/blocks/' . $block,
 				array(
 					'attributes'      => $properties['attributes'],
 					'editor_script'   => 'convertkit-gutenberg',
@@ -114,6 +114,7 @@ class ConvertKit_Gutenberg {
 					),
 				)
 			);
+
 		}
 
 		// Enqueue block scripts and styles in the editor view.
@@ -142,12 +143,16 @@ class ConvertKit_Gutenberg {
 		$settings = new ConvertKit_Settings();
 
 		// Get blocks and block toolbar buttons.
-		$blocks           = convertkit_get_blocks();
-		$block_formatters = convertkit_get_block_formatters();
+		$blocks              = convertkit_get_blocks();
+		$block_formatters    = convertkit_get_block_formatters();
+		$pre_publish_actions = convertkit_get_pre_publish_actions();
 
 		// Enqueue Gutenberg Javascript, and set the blocks data.
 		wp_enqueue_script( 'convertkit-gutenberg', CONVERTKIT_PLUGIN_URL . 'resources/backend/js/gutenberg.js', array( 'jquery' ), CONVERTKIT_PLUGIN_VERSION, true );
 		wp_localize_script( 'convertkit-gutenberg', 'convertkit_blocks', $blocks );
+		if ( count( $pre_publish_actions ) ) {
+			wp_localize_script( 'convertkit-gutenberg', 'convertkit_pre_publish_actions', $pre_publish_actions );
+		}
 		wp_localize_script(
 			'convertkit-gutenberg',
 			'convertkit_gutenberg',

@@ -31,7 +31,7 @@ if ( ! $this->is_modal() ) {
 	<input type="text" name="api_key" id="api_key" value="<?php echo esc_attr( $this->settings->get_api_key() ); ?>" class="widefat" placeholder="<?php esc_attr_e( 'Click the link below, copy the API Key, and paste it here.', 'convertkit' ); ?>" required />
 	<p class="description">
 		<?php
-		echo sprintf(
+		printf(
 			/* translators: %1$s: Link to ConvertKit Account */
 			esc_html__( '%1$s, and enter it in the above field.', 'convertkit' ),
 			'<a href="' . esc_url( convertkit_get_api_key_url() ) . '" target="_blank">' . esc_html__( 'Click here to get your ConvertKit API Key', 'convertkit' ) . '</a>'
@@ -47,7 +47,7 @@ if ( ! $this->is_modal() ) {
 	<input type="text" name="api_secret" id="api_secret" value="<?php echo esc_attr( $this->settings->get_api_secret() ); ?>" class="widefat" placeholder="<?php esc_attr_e( 'Click the link below, copy the API Secret, and paste it here.', 'convertkit' ); ?>" required />
 	<p class="description">
 		<?php
-		echo sprintf(
+		printf(
 			/* translators: %1$s: Link to ConvertKit Account */
 			esc_html__( '%1$s, and enter it in the above field.', 'convertkit' ),
 			'<a href="' . esc_url( convertkit_get_api_key_url() ) . '" target="_blank">' . esc_html__( 'Click here to get your ConvertKit API Secret', 'convertkit' ) . '</a>'

@@ -12,34 +12,34 @@
 ?>
 
 <div id="convertkit-restrict-content">
-	<?php
-	require 'notices.php';
-	?>
-
-	<div class="convertkit-restrict-content-actions">
-		<p><?php echo esc_html( $this->restrict_content_settings->get_by_key( 'subscribe_text' ) ); ?></p>
-
+	<h3><?php echo esc_html( $this->restrict_content_settings->get_by_key( 'subscribe_heading' ) ); ?></h3>
+	<p>
 		<?php
-		echo $button; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		foreach ( explode( "\n", $this->restrict_content_settings->get_by_key( 'subscribe_text' ) ) as $text_line ) {
+			echo esc_html( $text_line ) . '<br />';
+		}
 		?>
+	</p>
 
-		<hr />
+	<?php
+	echo $button; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
+	// If scripts are disabled in the Plugin's settings, output the email login form now.
+	if ( $this->settings->scripts_disabled() ) {
+		?>
 		<p>
-			<?php
-			echo esc_html( $this->restrict_content_settings->get_by_key( 'email_text' ) );
-			?>
+			<?php echo esc_html( $this->restrict_content_settings->get_by_key( 'email_text' ) ); ?>
 		</p>
-
-		<form class="convertkit-restrict-content-login" action="<?php echo esc_attr( add_query_arg( array( 'convertkit_login' => 1 ), get_permalink( $post_id ) ) ); ?>#convertkit-restrict-content" method="post">
-			<div>
-				<input type="email" name="convertkit_email" id="convertkit_email" value="" placeholder="example@convertkit.com" />
-			</div>
-			<div>
-				<input type="submit" class="wp-block-button__link wp-block-button__link" value="<?php echo esc_attr( $this->restrict_content_settings->get_by_key( 'email_button_label' ) ); ?>" />
-
-				<?php wp_nonce_field( 'convertkit_restrict_content_login' ); ?>
-			</div>
-		</form>
-	</div>
+		<?php
+		require 'product-email.php';
+	} else {
+		// Just output the paragraph with a link to login, which will trigger the modal to display.
+		?>
+		<p>
+			<?php echo esc_html( $this->restrict_content_settings->get_by_key( 'email_text' ) ); ?>
+			<a href="#" class="convertkit-restrict-content-modal-open"><?php echo esc_attr( $this->restrict_content_settings->get_by_key( 'email_button_label' ) ); ?></a>
+		</p>
+		<?php
+	}
+	?>
 </div>

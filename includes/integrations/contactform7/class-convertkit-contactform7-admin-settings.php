@@ -57,7 +57,7 @@ class ConvertKit_ContactForm7_Admin_Settings extends ConvertKit_Settings_Base {
 		</p>
 		<p>
 			<?php
-			echo sprintf(
+			printf(
 				'%s <code>text*</code> %s <code>your-name</code> %s <code>email*</code> %s <code>your-email</code>%s',
 				esc_html__( 'The Contact Form 7 form must have a', 'convertkit' ),
 				esc_html__( 'field named', 'convertkit' ),
@@ -108,14 +108,6 @@ class ConvertKit_ContactForm7_Admin_Settings extends ConvertKit_Settings_Base {
 			return;
 		}
 
-		// Build array of select options.
-		$options = array(
-			'default' => __( 'None', 'convertkit' ),
-		);
-		foreach ( $forms->get() as $form ) {
-			$options[ esc_attr( $form['id'] ) ] = esc_html( $form['name'] );
-		}
-
 		// Get Creator Network Recommendations script.
 		$creator_network_recommendations_enabled = $creator_network_recommendations->enabled();
 
@@ -142,10 +134,14 @@ class ConvertKit_ContactForm7_Admin_Settings extends ConvertKit_Settings_Base {
 			// Build row.
 			$table_row = array(
 				'title' => $cf7_form['name'],
-				'form'  => $this->get_select_field(
-					$cf7_form['id'],
+				'form'  => $forms->get_select_field_all(
+					'_wp_convertkit_integration_contactform7_settings[' . $cf7_form['id'] . ']',
+					'_wp_convertkit_integration_contactform7_settings_' . $cf7_form['id'],
+					false,
 					(string) $this->settings->get_convertkit_form_id_by_cf7_form_id( $cf7_form['id'] ),
-					$options
+					array(
+						'default' => __( 'None', 'convertkit' ),
+					)
 				),
 				'email' => 'your-email',
 				'name'  => 'your-name',
@@ -233,7 +229,7 @@ add_filter(
 	 * @param   array   $sections   Settings Sections.
 	 * @return  array
 	 */
-	function( $sections ) {
+	function ( $sections ) {
 
 		// Bail if Contact Form 7 isn't enabled.
 		if ( ! defined( 'WPCF7_VERSION' ) ) {
