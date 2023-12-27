@@ -344,6 +344,14 @@ class BroadcastsToPostsCest
 					'post_author' => '2',
 				]
 			);
+
+			// Confirm Featured Image exists.
+			$I->seePostMetaInDatabase(
+				[
+					'post_id'  => $postID,
+					'meta_key' => '_thumbnail_id',
+				]
+			);
 		}
 	}
 
@@ -404,6 +412,69 @@ class BroadcastsToPostsCest
 
 			// Confirm the Post is assigned to the Category.
 			$I->seePostWithTermInDatabase($postID, $this->categoryID, null, 'category');
+		}
+	}
+
+	/**
+	 * Tests that Broadcasts import without a Featured Image when the Import Thumbnail
+	 * option is disabled.
+	 *
+	 * @since   2.4.1
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testBroadcastsImportWithImportThumbnailDisabled(AcceptanceTester $I)
+	{
+		// Enable Broadcasts to Posts.
+		$I->setupConvertKitPluginBroadcasts(
+			$I,
+			[
+				'enabled'          => true,
+				'import_thumbnail' => false,
+			]
+		);
+
+		// Run the WordPress Cron event to import Broadcasts to WordPress Posts.
+		$I->runCronEvent($I, $this->cronEventName);
+
+		// Wait a few seconds for the Cron event to complete importing Broadcasts.
+		$I->wait(7);
+
+		// Load the Posts screen.
+		$I->amOnAdminPage('edit.php');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Confirm expected Broadcasts exist as Posts.
+		$I->see($_ENV['CONVERTKIT_API_BROADCAST_FIRST_TITLE']);
+		$I->see($_ENV['CONVERTKIT_API_BROADCAST_SECOND_TITLE']);
+		$I->see($_ENV['CONVERTKIT_API_BROADCAST_THIRD_TITLE']);
+
+		// Get created Post IDs.
+		$postIDs = [
+			(int) str_replace('post-', '', $I->grabAttributeFrom('tbody#the-list > tr:nth-child(1)', 'id')),
+			(int) str_replace('post-', '', $I->grabAttributeFrom('tbody#the-list > tr:nth-child(2)', 'id')),
+			(int) str_replace('post-', '', $I->grabAttributeFrom('tbody#the-list > tr:nth-child(3)', 'id')),
+		];
+
+		// Confirm each Post does not have a Featured Image.
+		foreach ($postIDs as $postID) {
+			// Confirm the Post is published.
+			$I->seePostInDatabase(
+				[
+					'ID'          => $postID,
+					'post_status' => 'publish',
+				]
+			);
+
+			// Confirm the Post does not have a Featured Image.
+			$I->dontSeePostMetaInDatabase(
+				[
+					'post_id'  => $postID,
+					'meta_key' => '_thumbnail_id',
+				]
+			);
 		}
 	}
 

@@ -27,6 +27,7 @@ class ConvertKitBroadcasts extends \Codeception\Module
 			foreach ( $settings as $key => $value ) {
 				switch ( $key ) {
 					case 'enabled':
+					case 'import_thumbnail':
 					case 'enabled_export':
 					case 'no_styles':
 						if ( $value ) {

@@ -523,6 +523,31 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 
 	}
 
+	/**
+	 * Sanitizes the settings prior to being saved.
+	 *
+	 * @since   2.4.1
+	 *
+	 * @param   array $settings   Submitted Settings Fields.
+	 * @return  array               Sanitized Settings with Defaults
+	 */
+	public function sanitize_settings( $settings ) {
+
+		// If the 'Include Thumbnail' setting isn't checked, it won't be included
+		// in the array of settings, and the defaults will enable this.
+		// Therefore, if the setting doesn't exist, set it to blank.
+		if ( ! array_key_exists( 'import_thumbnail', $settings ) ) {
+			$settings['import_thumbnail'] = '';
+		}
+
+		// Merge settings with defaults.
+		$settings = wp_parse_args( $settings, $this->settings->get_defaults() );
+
+		// Return settings to be saved.
+		return $settings;
+
+	}
+
 }
 
 // Bootstrap.
