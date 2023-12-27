@@ -143,8 +143,10 @@ class ConvertKit_Broadcasts_Importer {
 				}
 			}
 
-			// If the Broadcast has an image, save it to the Media Library and link it to the Post.
-			$this->add_broadcast_image_to_post( $broadcast, $post_id );
+			// If the Import Thumbnail setting is enabled, and the Broadcast has an image, save it to the Media Library and link it to the Post.
+			if ( $this->broadcasts_settings->import_thumbnail() ) {
+				$this->add_broadcast_image_to_post( $broadcast, $post_id );
+			}
 
 			// Transition the Post to the defined Post Status in the settings, now that the image has been added to it.
 			$post_id = wp_update_post(
