@@ -429,8 +429,9 @@ class BroadcastsToPostsCest
 		$I->setupConvertKitPluginBroadcasts(
 			$I,
 			[
-				'enabled'          => true,
-				'import_thumbnail' => false,
+				'enabled'               => true,
+				'import_thumbnail'      => false,
+				'published_at_min_date' => '01/01/2020',
 			]
 		);
 
