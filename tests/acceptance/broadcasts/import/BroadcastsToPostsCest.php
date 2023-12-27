@@ -284,6 +284,14 @@ class BroadcastsToPostsCest
 					'post_status' => 'private',
 				]
 			);
+
+			// Confirm Featured Image exists.
+			$I->seePostMetaInDatabase(
+				[
+					'post_id'  => $postID,
+					'meta_key' => '_thumbnail_id',
+				]
+			);
 		}
 	}
 
@@ -407,6 +415,14 @@ class BroadcastsToPostsCest
 				[
 					'ID'          => $postID,
 					'post_status' => 'publish',
+				]
+			);
+
+			// Confirm Featured Image exists.
+			$I->seePostMetaInDatabase(
+				[
+					'post_id'  => $postID,
+					'meta_key' => '_thumbnail_id',
 				]
 			);
 
