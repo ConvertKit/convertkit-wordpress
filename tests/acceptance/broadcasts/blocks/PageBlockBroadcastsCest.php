@@ -307,6 +307,7 @@ class PageBlockBroadcastsCest
 			$I,
 			[
 				'number_posts' => $_ENV['CONVERTKIT_API_BROADCAST_COUNT'],
+				'see_grid'     => true,
 				'see_image'    => true,
 			]
 		);
