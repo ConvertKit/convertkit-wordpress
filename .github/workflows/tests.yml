@@ -216,6 +216,7 @@ jobs:
       - name: Set Permissions for Uploads Directory
         run: |
           mkdir ${{ env.ROOT_DIR }}/wp-content/uploads/2023/08
+          mkdir ${{ env.ROOT_DIR }}/wp-content/uploads/2022
           mkdir ${{ env.ROOT_DIR }}/wp-content/uploads/2022/05
           mkdir ${{ env.ROOT_DIR }}/wp-content/uploads/2022/04
           mkdir ${{ env.ROOT_DIR }}/wp-content/uploads/2022/01
