@@ -206,9 +206,6 @@ jobs:
           sudo chmod 767 ${{ env.ROOT_DIR }}/wp-content
           sudo chown www-data:www-data ${{ env.ROOT_DIR }}/wp-content
 
-          sudo chmod -R 767 ${{ env.ROOT_DIR }}/wp-content/wpo-cache
-          sudo chown www-data:www-data ${{ env.ROOT_DIR }}/wp-content/wpo-cache
-
           sudo chmod -R 767 ${{ env.ROOT_DIR }}/wp-content/uploads
           sudo chown www-data:www-data ${{ env.ROOT_DIR }}/wp-content/uploads
 
