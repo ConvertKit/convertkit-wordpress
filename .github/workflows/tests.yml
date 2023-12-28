@@ -48,19 +48,28 @@ jobs:
       fail-fast: false
       matrix:
         wp-versions: [ 'latest' ] #[ '6.1.1', 'latest' ]
-        php-versions: [ '7.4' ] #[ '7.4', '8.0', '8.1' ]
+        php-versions: [ '7.4', '8.0', '8.1', '8.2', '8.3' ] #[ '7.4', '8.0', '8.1' ]
 
         # Folder names within the 'tests' folder to run tests in parallel.
         test-groups: [
-          'acceptance/broadcasts/import'
+          'acceptance/broadcasts/blocks',
+          'acceptance/broadcasts/shortcodes',
+          'acceptance/broadcasts/import',
+          'acceptance/forms/blocks',
+          'acceptance/forms/general',
+          'acceptance/forms/shortcodes',
+          'acceptance/general',
+          'acceptance/integrations/elementor',
+          'acceptance/integrations/other',
+          'acceptance/integrations/wlm',
+          'acceptance/integrations/woocommerce',
+          'acceptance/products',
+          'acceptance/restrict-content',
+          'acceptance/tags',
         ]
 
     # Steps to install, configure and run tests
     steps:
-      # Add `runner` user to `www-data` group, so WordPress can create folders and files without permission issues.
-      - name: Add User runner to Group www-data
-        run: sudo usermod -a -G www-data runner
-
       - name: Start MySQL
         run: sudo systemctl start mysql.service
 
