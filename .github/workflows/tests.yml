@@ -206,33 +206,28 @@ jobs:
           mkdir ${{ env.ROOT_DIR }}/wp-content/wpo-cache
           mkdir ${{ env.ROOT_DIR }}/wp-content/wpo-cache/config
           sudo chmod g+w ${{ env.ROOT_DIR }}/wp-config.php
-          sudo chown www-data:www-data ${{ env.ROOT_DIR }}/wp-config.php
+          sudo chown runner:www-data ${{ env.ROOT_DIR }}/wp-config.php
           sudo chmod g+w ${{ env.ROOT_DIR }}/wp-content
-          sudo chown www-data:www-data ${{ env.ROOT_DIR }}/wp-content
+          sudo chown runner:www-data ${{ env.ROOT_DIR }}/wp-content
           sudo chmod g+w ${{ env.ROOT_DIR }}/wp-content/wpo-cache
-          sudo chown www-data:www-data ${{ env.ROOT_DIR }}/wp-content/wpo-cache
+          sudo chown runner:www-data ${{ env.ROOT_DIR }}/wp-content/wpo-cache
           sudo chmod g+w ${{ env.ROOT_DIR }}/wp-content/wpo-cache/config
-          sudo chown www-data:www-data ${{ env.ROOT_DIR }}/wp-content/wpo-cache/config
+          sudo chown runner:www-data ${{ env.ROOT_DIR }}/wp-content/wpo-cache/config
 
       # This ensures the wp-content/uploads folder can be written to by WordPress and third party Plugins.
       # Specific year and month based folders are created based on Broadcasts dates when imported
       # running Broadcasts to Posts tests
       - name: Set Permissions for Uploads Directory
         run: |
-          mkdir ${{ env.ROOT_DIR }}/wp-content/uploads/2023/08
-          mkdir ${{ env.ROOT_DIR }}/wp-content/uploads/2022
-          mkdir ${{ env.ROOT_DIR }}/wp-content/uploads/2022/05
-          mkdir ${{ env.ROOT_DIR }}/wp-content/uploads/2022/04
-          mkdir ${{ env.ROOT_DIR }}/wp-content/uploads/2022/01
           sudo chmod g+w ${{ env.ROOT_DIR }}/wp-content/uploads
-          sudo chown www-data:www-data ${{ env.ROOT_DIR }}/wp-content/uploads
+          sudo chown runner:www-data ${{ env.ROOT_DIR }}/wp-content/uploads
 
       # This ensures the Plugin's log file can be written to.
       # We don't recursively do this, as it'll prevent Codeception from writing to the /tests/_output directory.
       - name: Set Permissions for Plugin Directory
         run: |
           sudo chmod g+w ${{ env.PLUGIN_DIR }}
-          sudo chown www-data:www-data ${{ env.PLUGIN_DIR }}
+          sudo chown runner:www-data ${{ env.PLUGIN_DIR }}
 
       # Build Codeception Tests.
       - name: Build Tests
