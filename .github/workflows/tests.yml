@@ -57,6 +57,10 @@ jobs:
 
     # Steps to install, configure and run tests
     steps:
+      # Add `runner` user to `www-data` group, so WordPress can create folders and files without permission issues.
+      - name: Add User runner to Group www-data
+        run: usermod -a -G www-data runner
+
       - name: Start MySQL
         run: sudo systemctl start mysql.service
 
@@ -192,10 +196,6 @@ jobs:
       - name: Build PHP Autoloader
         working-directory: ${{ env.PLUGIN_DIR }}
         run: composer dump-autoload
-
-      # Add `runner` user to `www-data` group, so WordPress can create folders and files without permission issues.
-      - name: Add User runner to Group www-data
-        run: usermod -a -G www-data runner
 
       # This ensures that applicable files and folders can be written to by cache plugins.
       # We only do this on Restrict Content tests, as doing so on wpunit tests results in WordPress
