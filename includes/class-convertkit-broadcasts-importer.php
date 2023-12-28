@@ -145,10 +145,6 @@ class ConvertKit_Broadcasts_Importer {
 
 			// If the Import Thumbnail setting is enabled, and the Broadcast has an image, save it to the Media Library and link it to the Post.
 			if ( $this->broadcasts_settings->import_thumbnail() ) {
-				if ( $settings->debug_enabled() ) {
-					$log->add( 'ConvertKit_Broadcasts_Importer::refresh(): Broadcast #' . $broadcast_id . '. Importing thumbnail ' . $broadcast['thumbnail_url'] . 'to featured image.' );
-				}
-
 				$result = $this->add_broadcast_image_to_post( $broadcast, $post_id );
 
 				if ( is_wp_error( $result ) && $settings->debug_enabled() ) {
