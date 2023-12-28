@@ -211,9 +211,14 @@ jobs:
           sudo chown www-data:www-data ${{ env.ROOT_DIR }}/wp-content/wpo-cache/config
 
       # This ensures the wp-content/uploads folder can be written to by WordPress and third party Plugins.
+      # Specific year and month based folders are created based on Broadcasts dates when imported
+      # running Broadcasts to Posts tests
       - name: Set Permissions for Uploads Directory
         run: |
-          mkdir ${{ env.ROOT_DIR }}/wp-content/uploads/2023
+          mkdir ${{ env.ROOT_DIR }}/wp-content/uploads/2023/08
+          mkdir ${{ env.ROOT_DIR }}/wp-content/uploads/2022/05
+          mkdir ${{ env.ROOT_DIR }}/wp-content/uploads/2022/04
+          mkdir ${{ env.ROOT_DIR }}/wp-content/uploads/2022/01
           sudo chmod g+w ${{ env.ROOT_DIR }}/wp-content/uploads
           sudo chown www-data:www-data ${{ env.ROOT_DIR }}/wp-content/uploads
 
