@@ -145,7 +145,12 @@ class ConvertKit_Broadcasts_Importer {
 
 			// If the Import Thumbnail setting is enabled, and the Broadcast has an image, save it to the Media Library and link it to the Post.
 			if ( $this->broadcasts_settings->import_thumbnail() ) {
+				if ( $settings->debug_enabled() ) {
+					$log->add( 'ConvertKit_Broadcasts_Importer::refresh(): Broadcast #' . $broadcast_id . '. Importing thumbnail to featured image.' );
+				}
 				$this->add_broadcast_image_to_post( $broadcast, $post_id );
+			} elseif ( $settings->debug_enabled() ) {
+				$log->add( 'ConvertKit_Broadcasts_Importer::refresh(): Broadcast #' . $broadcast_id . '. Skipping thumbnail.' );
 			}
 
 			// Transition the Post to the defined Post Status in the settings, now that the image has been added to it.
