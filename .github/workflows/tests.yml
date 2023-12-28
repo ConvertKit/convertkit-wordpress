@@ -52,5 +52,5 @@ jobs:
 
     # Steps to install, configure and run tests
     steps:
-      - name: whoami
-        run: whoami
+      - name: groups
+        run: groups
