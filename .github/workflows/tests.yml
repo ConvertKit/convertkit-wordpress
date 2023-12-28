@@ -59,7 +59,7 @@ jobs:
     steps:
       # Add `runner` user to `www-data` group, so WordPress can create folders and files without permission issues.
       - name: Add User runner to Group www-data
-        run: usermod -a -G www-data runner
+        run: sudo usermod -a -G www-data runner
 
       - name: Start MySQL
         run: sudo systemctl start mysql.service
