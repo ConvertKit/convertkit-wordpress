@@ -83,12 +83,7 @@ class RestrictContentProductPageCest
 		$url = $I->publishGutenbergPage($I);
 
 		// Test Restrict Content functionality.
-		$I->testRestrictedContentByProductOnFrontend(
-			$I,
-			$url,
-			'Visible content.',
-			'Member only content.'
-		);
+		$I->testRestrictedContentByProductOnFrontend($I, $url);
 	}
 
 	/**
@@ -133,8 +128,10 @@ class RestrictContentProductPageCest
 		$I->testRestrictedContentByProductOnFrontend(
 			$I,
 			$url,
-			$visibleContent,
-			$memberOnlyContent
+			[
+				'visible_content' => $visibleContent,
+				'member_content' => $memberOnlyContent,
+			]
 		);
 	}
 
@@ -174,12 +171,7 @@ class RestrictContentProductPageCest
 		$url = $I->publishGutenbergPage($I);
 
 		// Test Restrict Content functionality.
-		$I->testRestrictedContentModalByProductOnFrontend(
-			$I,
-			$url,
-			'Visible content.',
-			'Member only content.'
-		);
+		$I->testRestrictedContentModalByProductOnFrontend($I, $url);
 	}
 
 	/**

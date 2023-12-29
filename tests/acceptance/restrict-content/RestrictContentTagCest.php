@@ -52,13 +52,7 @@ class RestrictContentTagCest
 		$url = $I->publishGutenbergPage($I);
 
 		// Test Restrict Content functionality.
-		$I->testRestrictedContentByTagOnFrontend(
-			$I,
-			$url,
-			$I->generateEmailAddress(),
-			'Visible content.',
-			'Member only content.'
-		);
+		$I->testRestrictedContentByTagOnFrontend($I, $url, $I->generateEmailAddress());
 	}
 
 	/**

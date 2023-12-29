@@ -83,12 +83,7 @@ class RestrictContentProductPostCest
 		$url = $I->publishGutenbergPage($I);
 
 		// Test Restrict Content functionality.
-		$I->testRestrictedContentByProductOnFrontend(
-			$I,
-			$url,
-			'Visible content.',
-			'Member only content.'
-		);
+		$I->testRestrictedContentByProductOnFrontend($I, $url);
 	}
 
 	/**
@@ -133,8 +128,10 @@ class RestrictContentProductPostCest
 		$I->testRestrictedContentByProductOnFrontend(
 			$I,
 			$url,
-			$visibleContent,
-			$memberOnlyContent
+			[
+				'visible_content' => $visibleContent,
+				'member_content' => $memberOnlyContent,
+			]
 		);
 	}
 
@@ -184,12 +181,25 @@ class RestrictContentProductPostCest
 
 		// Test Restrict Content functionality.
 		// Check content is not displayed, and CTA displays with expected text.
-		$I->testRestrictContentByProductHidesContentWithCTA($I, $excerpt, $memberOnlyContent);
+		$I->testRestrictContentByProductHidesContentWithCTA(
+			$I,
+			[
+				'visible_content' => $excerpt,
+				'member_content' => $memberOnlyContent,
+			]
+		);
 
 		// Test that the restricted content displays when a valid signed subscriber ID is used,
 		// as if we entered the code sent in the email.
 		// Excerpt should not be displayed, as its an excerpt, and we now show the member content instead.
-		$I->testRestrictedContentShowsContentWithValidSubscriberID($I, $url, '', $memberOnlyContent);
+		$I->testRestrictedContentShowsContentWithValidSubscriberID(
+			$I,
+			$url,
+			[
+				'visible_content' => '',
+				'member_content' => $memberOnlyContent,
+			]
+		);
 
 		// Assert that the excerpt is no longer displayed.
 		$I->dontSee($excerpt);
@@ -231,12 +241,7 @@ class RestrictContentProductPostCest
 		$url = $I->publishGutenbergPage($I);
 
 		// Test Restrict Content functionality.
-		$I->testRestrictedContentModalByProductOnFrontend(
-			$I,
-			$url,
-			'Visible content.',
-			'Member only content.'
-		);
+		$I->testRestrictedContentModalByProductOnFrontend($I, $url);
 	}
 
 	/**

@@ -202,7 +202,26 @@ class ConvertKitRestrictContent extends \Codeception\Module
 		$I->click('input.wp-block-button__link');
 
 		// Confirm that confirmation an email has been sent is displayed.
-		$this->testRestrictContentShowsEmailCodeForm($I, $options);
+		// Confirm that the visible text displays, hidden text does not display and the CTA displays.
+		if ( ! empty($options['visible_content'])) {
+			$I->see($options['visible_content']);
+		}
+		$I->dontSee($options['member_content']);
+
+		// Confirm that the CTA displays with the expected text.
+		$I->seeElementInDOM('#convertkit-restrict-content');
+		$I->seeInSource('<h4>' . $options['text_items']['email_check_heading'] . '</h4>');
+		$I->see($options['text_items']['email_check_text']);
+		$I->seeElementInDOM('input#convertkit_subscriber_code');
+		$I->seeElementInDOM('input.wp-block-button__link');
+
+		// Enter an invalid code.
+		$I->fillField('subscriber_code', '999999');
+		$I->click('Verify');
+
+		// Confirm an inline error message is displayed.
+		$I->seeInSource('<div class="convertkit-restrict-content-notice convertkit-restrict-content-notice-error">The entered code is invalid. Please try again, or click the link sent in the email.</div>');
+		$I->seeInSource('<div id="convertkit-subscriber-code-container" class="convertkit-restrict-content-error">');
 
 		// Test that the restricted content displays when a valid signed subscriber ID is used,
 		// as if we entered the code sent in the email.
@@ -415,53 +434,6 @@ class ConvertKitRestrictContent extends \Codeception\Module
 		$I->see($options['text_items']['email_text']);
 		$I->seeInSource('<input type="submit" class="wp-block-button__link wp-block-button__link" value="' . $options['text_items']['email_button_label'] . '">');
 		$I->seeInSource('<small>' . $options['text_items']['email_description_text'] . '</small>');
-	}
-
-	/**
-	 * Run frontend tests for restricted content, to confirm that:
-	 * - visible content is displayed,
-	 * - member's content is not displayed,
-	 * - the email code form is displayed with the expected text.
-	 *
-	 * @since   2.1.0
-	 *
-	 * @param   AcceptanceTester $I                  Tester.
-	 * @param   bool|array       $options {
-	 *           Optional. An array of settings.
-	 *
-	 *     @type string $visible_content            Content that should always be visible.
-	 *     @type string $member_content         	Content that should only be available to authenticated subscribers.
-	 *     @type array  $text_items 				Expected text for subscribe text, subscribe button label, email text etc. If not defined, uses expected defaults.
-	 * }
-	 */
-	public function testRestrictContentShowsEmailCodeForm($I, $options = false)
-	{
-		// Merge options with defaults.
-		$options = $this->_getRestrictedContentOptionsWithDefaultsMerged($options);
-
-		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen($I);
-
-		// Confirm that the visible text displays, hidden text does not display and the CTA displays.
-		if ( ! empty($options['visible_content'])) {
-			$I->see($options['visible_content']);
-		}
-		$I->dontSee($options['member_content']);
-
-		// Confirm that the CTA displays with the expected text.
-		$I->seeElementInDOM('#convertkit-restrict-content');
-		$I->seeInSource('<h4>' . $options['text_items']['email_check_heading'] . '</h4>');
-		$I->see($options['text_items']['email_check_text']);
-		$I->seeElementInDOM('input#convertkit_subscriber_code');
-		$I->seeElementInDOM('input.wp-block-button__link');
-
-		// Enter an invalid code.
-		$I->fillField('subscriber_code', '999999');
-		$I->click('Verify');
-
-		// Confirm an inline error message is displayed.
-		$I->seeInSource('<div class="convertkit-restrict-content-notice convertkit-restrict-content-notice-error">The entered code is invalid. Please try again, or click the link sent in the email.</div>');
-		$I->seeInSource('<div id="convertkit-subscriber-code-container" class="convertkit-restrict-content-error">');
 	}
 
 	/**
