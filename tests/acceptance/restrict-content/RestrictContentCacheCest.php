@@ -46,7 +46,7 @@ class RestrictContentCacheCest
 		$pageID = $I->createRestrictedContentPage(
 			$I,
 			[
-				'post_title' => 'ConvertKit: Restrict Content: Product: LiteSpeed Cache',
+				'post_title'               => 'ConvertKit: Restrict Content: Product: LiteSpeed Cache',
 				'restrict_content_setting' => 'product_' . $_ENV['CONVERTKIT_API_PRODUCT_ID'],
 			]
 		);
@@ -95,7 +95,7 @@ class RestrictContentCacheCest
 		$pageID = $I->createRestrictedContentPage(
 			$I,
 			[
-				'post_title' => 'ConvertKit: Restrict Content: Product: W3 Total Cache',
+				'post_title'               => 'ConvertKit: Restrict Content: Product: W3 Total Cache',
 				'restrict_content_setting' => 'product_' . $_ENV['CONVERTKIT_API_PRODUCT_ID'],
 			]
 		);
@@ -142,7 +142,7 @@ class RestrictContentCacheCest
 		$pageID = $I->createRestrictedContentPage(
 			$I,
 			[
-				'post_title' => 'ConvertKit: Restrict Content: Product: WP Fastest Cache',
+				'post_title'               => 'ConvertKit: Restrict Content: Product: WP Fastest Cache',
 				'restrict_content_setting' => 'product_' . $_ENV['CONVERTKIT_API_PRODUCT_ID'],
 			]
 		);
@@ -189,7 +189,7 @@ class RestrictContentCacheCest
 		$pageID = $I->createRestrictedContentPage(
 			$I,
 			[
-				'post_title' => 'ConvertKit: Restrict Content: Product: WP-Optimize',
+				'post_title'               => 'ConvertKit: Restrict Content: Product: WP-Optimize',
 				'restrict_content_setting' => 'product_' . $_ENV['CONVERTKIT_API_PRODUCT_ID'],
 			]
 		);
@@ -236,7 +236,7 @@ class RestrictContentCacheCest
 		$pageID = $I->createRestrictedContentPage(
 			$I,
 			[
-				'post_title' => 'ConvertKit: Restrict Content: Product: WP Super Cache',
+				'post_title'               => 'ConvertKit: Restrict Content: Product: WP Super Cache',
 				'restrict_content_setting' => 'product_' . $_ENV['CONVERTKIT_API_PRODUCT_ID'],
 			]
 		);

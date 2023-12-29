@@ -130,7 +130,7 @@ class RestrictContentProductPostCest
 			$url,
 			[
 				'visible_content' => $visibleContent,
-				'member_content' => $memberOnlyContent,
+				'member_content'  => $memberOnlyContent,
 			]
 		);
 	}
@@ -185,7 +185,7 @@ class RestrictContentProductPostCest
 			$I,
 			[
 				'visible_content' => $excerpt,
-				'member_content' => $memberOnlyContent,
+				'member_content'  => $memberOnlyContent,
 			]
 		);
 
@@ -197,7 +197,7 @@ class RestrictContentProductPostCest
 			$url,
 			[
 				'visible_content' => '',
-				'member_content' => $memberOnlyContent,
+				'member_content'  => $memberOnlyContent,
 			]
 		);
 
@@ -264,9 +264,9 @@ class RestrictContentProductPostCest
 		$postID = $I->createRestrictedContentPage(
 			$I,
 			[
-				'post_type' => 'post',
-				'post_title' => 'ConvertKit: Post: Restrict Content: Invalid Product',
-				'restrict_content_setting' => 'product_12345' // A fake Product that does not exist in ConvertKit.
+				'post_type'                => 'post',
+				'post_title'               => 'ConvertKit: Post: Restrict Content: Invalid Product',
+				'restrict_content_setting' => 'product_12345', // A fake Product that does not exist in ConvertKit.
 			]
 		);
 
@@ -294,8 +294,8 @@ class RestrictContentProductPostCest
 		$postID = $I->createRestrictedContentPage(
 			$I,
 			[
-				'post_type' => 'post',
-				'post_title' => 'ConvertKit: Post: Restrict Content: Product: ' . $_ENV['CONVERTKIT_API_PRODUCT_NAME'] . ': Quick Edit'
+				'post_type'  => 'post',
+				'post_title' => 'ConvertKit: Post: Restrict Content: Product: ' . $_ENV['CONVERTKIT_API_PRODUCT_NAME'] . ': Quick Edit',
 			]
 		);
 
@@ -331,15 +331,15 @@ class RestrictContentProductPostCest
 			$I->createRestrictedContentPage(
 				$I,
 				[
-					'post_type' => 'post',
-					'post_title' => 'ConvertKit: Post: Restrict Content: Product: ' . $_ENV['CONVERTKIT_API_PRODUCT_NAME'] . ': Bulk Edit #1'
+					'post_type'  => 'post',
+					'post_title' => 'ConvertKit: Post: Restrict Content: Product: ' . $_ENV['CONVERTKIT_API_PRODUCT_NAME'] . ': Bulk Edit #1',
 				]
 			),
 			$I->createRestrictedContentPage(
 				$I,
 				[
-					'post_type' => 'post',
-					'post_title' => 'ConvertKit: Post: Restrict Content: Product: ' . $_ENV['CONVERTKIT_API_PRODUCT_NAME'] . ': Bulk Edit #2'
+					'post_type'  => 'post',
+					'post_title' => 'ConvertKit: Post: Restrict Content: Product: ' . $_ENV['CONVERTKIT_API_PRODUCT_NAME'] . ': Bulk Edit #2',
 				]
 			),
 		);

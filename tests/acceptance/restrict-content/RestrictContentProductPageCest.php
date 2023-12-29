@@ -130,7 +130,7 @@ class RestrictContentProductPageCest
 			$url,
 			[
 				'visible_content' => $visibleContent,
-				'member_content' => $memberOnlyContent,
+				'member_content'  => $memberOnlyContent,
 			]
 		);
 	}
@@ -194,8 +194,8 @@ class RestrictContentProductPageCest
 		$pageID = $I->createRestrictedContentPage(
 			$I,
 			[
-				'post_title' => 'ConvertKit: Page: Restrict Content: Invalid Product',
-				'restrict_content_setting' => 'product_12345' // A fake Product that does not exist in ConvertKit.
+				'post_title'               => 'ConvertKit: Page: Restrict Content: Invalid Product',
+				'restrict_content_setting' => 'product_12345', // A fake Product that does not exist in ConvertKit.
 			]
 		);
 

@@ -84,11 +84,11 @@ class ConvertKitRestrictContent extends \Codeception\Module
 	 * @param   bool|array       $options {
 	 *           Optional. An array of settings.
 	 *
-	 *     @type string $post_type            		Post Type.
-	 *     @type string $post_title         		Post Title.
+	 *     @type string $post_type                  Post Type.
+	 *     @type string $post_title                 Post Title.
 	 *     @type string $visible_content            Content that should always be visible.
-	 *     @type string $member_content         	Content that should only be available to authenticated subscribers.
-	 *     @type string $restrict_content_setting 	Restrict Content setting.
+	 *     @type string $member_content             Content that should only be available to authenticated subscribers.
+	 *     @type string $restrict_content_setting   Restrict Content setting.
 	 * }
 	 *
 	 * @return  int                                          Page ID.
@@ -97,10 +97,10 @@ class ConvertKitRestrictContent extends \Codeception\Module
 	{
 		// Define default options.
 		$defaults = [
-			'post_type'       => 'page',
-			'post_title'      => 'Restrict Content',
-			'visible_content' => 'Visible content.',
-			'member_content'  => 'Member only content.',
+			'post_type'                => 'page',
+			'post_title'               => 'Restrict Content',
+			'visible_content'          => 'Visible content.',
+			'member_content'           => 'Member only content.',
 			'restrict_content_setting' => '',
 		];
 
@@ -146,8 +146,8 @@ class ConvertKitRestrictContent extends \Codeception\Module
 	 *           Optional. An array of settings.
 	 *
 	 *     @type string $visible_content            Content that should always be visible.
-	 *     @type string $member_content         	Content that should only be available to authenticated subscribers.
-	 *     @type array  $text_items 				Expected text for subscribe text, subscribe button label, email text etc. If not defined, uses expected defaults.
+	 *     @type string $member_content             Content that should only be available to authenticated subscribers.
+	 *     @type array  $text_items                 Expected text for subscribe text, subscribe button label, email text etc. If not defined, uses expected defaults.
 	 * }
 	 */
 	public function testRestrictedContentByProductOnFrontend($I, $urlOrPageID, $options = false)
@@ -240,8 +240,8 @@ class ConvertKitRestrictContent extends \Codeception\Module
 	 *           Optional. An array of settings.
 	 *
 	 *     @type string $visible_content            Content that should always be visible.
-	 *     @type string $member_content         	Content that should only be available to authenticated subscribers.
-	 *     @type array  $text_items 				Expected text for subscribe text, subscribe button label, email text etc. If not defined, uses expected defaults.
+	 *     @type string $member_content             Content that should only be available to authenticated subscribers.
+	 *     @type array  $text_items                 Expected text for subscribe text, subscribe button label, email text etc. If not defined, uses expected defaults.
 	 * }
 	 */
 	public function testRestrictedContentModalByProductOnFrontend($I, $urlOrPageID, $options = false)
@@ -308,8 +308,8 @@ class ConvertKitRestrictContent extends \Codeception\Module
 	 *           Optional. An array of settings.
 	 *
 	 *     @type string $visible_content            Content that should always be visible.
-	 *     @type string $member_content         	Content that should only be available to authenticated subscribers.
-	 *     @type array  $text_items 				Expected text for subscribe text, subscribe button label, email text etc. If not defined, uses expected defaults.
+	 *     @type string $member_content             Content that should only be available to authenticated subscribers.
+	 *     @type array  $text_items                 Expected text for subscribe text, subscribe button label, email text etc. If not defined, uses expected defaults.
 	 * }
 	 */
 	public function testRestrictedContentByTagOnFrontend($I, $urlOrPageID, $emailAddress, $options = false)
@@ -367,8 +367,8 @@ class ConvertKitRestrictContent extends \Codeception\Module
 	 *           Optional. An array of settings.
 	 *
 	 *     @type string $visible_content            Content that should always be visible.
-	 *     @type string $member_content         	Content that should only be available to authenticated subscribers.
-	 *     @type array  $text_items 				Expected text for subscribe text, subscribe button label, email text etc. If not defined, uses expected defaults.
+	 *     @type string $member_content             Content that should only be available to authenticated subscribers.
+	 *     @type array  $text_items                 Expected text for subscribe text, subscribe button label, email text etc. If not defined, uses expected defaults.
 	 * }
 	 */
 	public function testRestrictedContentShowsContentWithValidSubscriberID($I, $urlOrPageID, $options = false)
@@ -404,8 +404,8 @@ class ConvertKitRestrictContent extends \Codeception\Module
 	 *           Optional. An array of settings.
 	 *
 	 *     @type string $visible_content            Content that should always be visible.
-	 *     @type string $member_content         	Content that should only be available to authenticated subscribers.
-	 *     @type array  $text_items 				Expected text for subscribe text, subscribe button label, email text etc. If not defined, uses expected defaults.
+	 *     @type string $member_content             Content that should only be available to authenticated subscribers.
+	 *     @type array  $text_items                 Expected text for subscribe text, subscribe button label, email text etc. If not defined, uses expected defaults.
 	 * }
 	 */
 	public function testRestrictContentByProductHidesContentWithCTA($I, $options = false)
@@ -449,8 +449,8 @@ class ConvertKitRestrictContent extends \Codeception\Module
 	 *           Optional. An array of settings.
 	 *
 	 *     @type string $visible_content            Content that should always be visible.
-	 *     @type string $member_content         	Content that should only be available to authenticated subscribers.
-	 *     @type array  $text_items 				Expected text for subscribe text, subscribe button label, email text etc. If not defined, uses expected defaults.
+	 *     @type string $member_content             Content that should only be available to authenticated subscribers.
+	 *     @type array  $text_items                 Expected text for subscribe text, subscribe button label, email text etc. If not defined, uses expected defaults.
 	 * }
 	 */
 	public function testRestrictContentDisplaysContent($I, $options = false)
@@ -476,13 +476,12 @@ class ConvertKitRestrictContent extends \Codeception\Module
 	 *
 	 * @since   2.4.1
 	 *
-	 * @param   AcceptanceTester $I                  Tester.
-	 * @param   bool|array       $options {
-	 *           Optional. An array of settings.
+	 * @param   bool|array $options {
+	 *     Optional. An array of settings.
 	 *
 	 *     @type string $visible_content            Content that should always be visible.
-	 *     @type string $member_content         	Content that should only be available to authenticated subscribers.
-	 *     @type array  $text_items 				Expected text for subscribe text, subscribe button label, email text etc. If not defined, uses expected defaults.
+	 *     @type string $member_content             Content that should only be available to authenticated subscribers.
+	 *     @type array  $text_items                 Expected text for subscribe text, subscribe button label, email text etc. If not defined, uses expected defaults.
 	 * }
 	 */
 	private function _getRestrictedContentOptionsWithDefaultsMerged($options = false)
@@ -491,7 +490,7 @@ class ConvertKitRestrictContent extends \Codeception\Module
 		$defaults = [
 			'visible_content' => 'Visible content.',
 			'member_content'  => 'Member only content.',
-			'text_items' 	  => $this->getRestrictedContentDefaultSettings(),
+			'text_items'      => $this->getRestrictedContentDefaultSettings(),
 		];
 
 		// If supplied options are an array, merge them with the defaults.
@@ -501,6 +500,5 @@ class ConvertKitRestrictContent extends \Codeception\Module
 
 		// Just return defaults.
 		return $defaults;
-
 	}
 }

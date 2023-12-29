@@ -72,8 +72,8 @@ class RestrictContentTagCest
 		$pageID = $I->createRestrictedContentPage(
 			$I,
 			[
-				'post_title' => 'ConvertKit: Page: Restrict Content: Invalid Tag',
-				'restrict_content_setting' => 'tag_12345' // A fake Tag that does not exist in ConvertKit.
+				'post_title'               => 'ConvertKit: Page: Restrict Content: Invalid Tag',
+				'restrict_content_setting' => 'tag_12345', // A fake Tag that does not exist in ConvertKit.
 			]
 		);
 

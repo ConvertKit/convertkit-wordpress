@@ -275,7 +275,7 @@ class RestrictContentSetupCest
 			$url,
 			[
 				'visible_content' => 'Some introductory text about lesson 1',
-				'member_content' => 'Lesson 1 content (that is available when the visitor has paid for the ConvertKit product) goes here.',
+				'member_content'  => 'Lesson 1 content (that is available when the visitor has paid for the ConvertKit product) goes here.',
 			]
 		);
 
@@ -426,7 +426,7 @@ class RestrictContentSetupCest
 			$I->generateEmailAddress(),
 			[
 				'visible_content' => 'Some introductory text about lesson 1',
-				'member_content' => 'Lesson 1 content (that is available when the visitor has paid for the ConvertKit product) goes here.'
+				'member_content'  => 'Lesson 1 content (that is available when the visitor has paid for the ConvertKit product) goes here.',
 			]
 		);
 

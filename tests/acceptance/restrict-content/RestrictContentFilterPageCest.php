@@ -77,7 +77,7 @@ class RestrictContentFilterPageCest
 		$I->createRestrictedContentPage(
 			$I,
 			[
-				'post_title' => 'ConvertKit: Page: Restricted Content: Product: Filter Test',
+				'post_title'               => 'ConvertKit: Page: Restricted Content: Product: Filter Test',
 				'restrict_content_setting' => 'product_' . $_ENV['CONVERTKIT_API_PRODUCT_ID'],
 			]
 		);
