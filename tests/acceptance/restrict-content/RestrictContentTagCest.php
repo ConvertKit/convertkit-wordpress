@@ -77,11 +77,10 @@ class RestrictContentTagCest
 		// Programmatically create a Page.
 		$pageID = $I->createRestrictedContentPage(
 			$I,
-			'page',
-			'ConvertKit: Page: Restrict Content: Invalid Tag',
-			'Visible content.',
-			'Member only content.',
-			'tag_12345' // A fake Tag that does not exist in ConvertKit.
+			[
+				'post_title' => 'ConvertKit: Page: Restrict Content: Invalid Tag',
+				'restrict_content_setting' => 'tag_12345' // A fake Tag that does not exist in ConvertKit.
+			]
 		);
 
 		// Navigate to the page.
@@ -102,7 +101,12 @@ class RestrictContentTagCest
 	public function testRestrictContentByTagUsingQuickEdit(AcceptanceTester $I)
 	{
 		// Programmatically create a Page.
-		$pageID = $I->createRestrictedContentPage($I, 'page', 'ConvertKit: Page: Restrict Content: Tag: ' . $_ENV['CONVERTKIT_API_TAG_NAME'] . ': Quick Edit');
+		$pageID = $I->createRestrictedContentPage(
+			$I,
+			[
+				'post_title' => 'ConvertKit: Page: Restrict Content: Tag: ' . $_ENV['CONVERTKIT_API_TAG_NAME'] . ': Quick Edit',
+			]
+		);
 
 		// Quick Edit the Page in the Pages WP_List_Table.
 		$I->quickEdit(
@@ -130,8 +134,18 @@ class RestrictContentTagCest
 	{
 		// Programmatically create two Pages.
 		$pageIDs = array(
-			$I->createRestrictedContentPage($I, 'page', 'ConvertKit: Page: Restrict Content: Tag: ' . $_ENV['CONVERTKIT_API_TAG_NAME'] . ': Bulk Edit #1'),
-			$I->createRestrictedContentPage($I, 'page', 'ConvertKit: Page: Restrict Content: Tag: ' . $_ENV['CONVERTKIT_API_TAG_NAME'] . ': Bulk Edit #2'),
+			$I->createRestrictedContentPage(
+				$I,
+				[
+					'post_title' => 'ConvertKit: Page: Restrict Content: Tag: ' . $_ENV['CONVERTKIT_API_TAG_NAME'] . ': Bulk Edit #1',
+				]
+			),
+			$I->createRestrictedContentPage(
+				$I,
+				[
+					'post_title' => 'ConvertKit: Page: Restrict Content: Tag: ' . $_ENV['CONVERTKIT_API_TAG_NAME'] . ': Bulk Edit #2',
+				]
+			),
 		);
 
 		// Bulk Edit the Pages in the Pages WP_List_Table.

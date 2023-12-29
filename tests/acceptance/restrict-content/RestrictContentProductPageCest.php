@@ -201,11 +201,10 @@ class RestrictContentProductPageCest
 		// Programmatically create a Page.
 		$pageID = $I->createRestrictedContentPage(
 			$I,
-			'page',
-			'ConvertKit: Page: Restrict Content: Invalid Product',
-			'Visible content.',
-			'Member only content.',
-			'product_12345' // A fake Product that does not exist in ConvertKit.
+			[
+				'post_title' => 'ConvertKit: Page: Restrict Content: Invalid Product',
+				'restrict_content_setting' => 'product_12345' // A fake Product that does not exist in ConvertKit.
+			]
 		);
 
 		// Navigate to the page.
@@ -229,7 +228,12 @@ class RestrictContentProductPageCest
 		$I->setupConvertKitPluginDisableJS($I);
 
 		// Programmatically create a Page.
-		$pageID = $I->createRestrictedContentPage($I, 'page', 'ConvertKit: Page: Restrict Content: Product: ' . $_ENV['CONVERTKIT_API_PRODUCT_NAME'] . ': Quick Edit');
+		$pageID = $I->createRestrictedContentPage(
+			$I,
+			[
+				'post_title' => 'ConvertKit: Page: Restrict Content: Product: ' . $_ENV['CONVERTKIT_API_PRODUCT_NAME'] . ': Quick Edit',
+			]
+		);
 
 		// Quick Edit the Page in the Pages WP_List_Table.
 		$I->quickEdit(
@@ -260,8 +264,18 @@ class RestrictContentProductPageCest
 
 		// Programmatically create two Pages.
 		$pageIDs = array(
-			$I->createRestrictedContentPage($I, 'page', 'ConvertKit: Page: Restrict Content: Product: ' . $_ENV['CONVERTKIT_API_PRODUCT_NAME'] . ': Bulk Edit #1'),
-			$I->createRestrictedContentPage($I, 'page', 'ConvertKit: Page: Restrict Content: Product: ' . $_ENV['CONVERTKIT_API_PRODUCT_NAME'] . ': Bulk Edit #2'),
+			$I->createRestrictedContentPage(
+				$I,
+				[
+					'post_title' => 'ConvertKit: Page: Restrict Content: Product: ' . $_ENV['CONVERTKIT_API_PRODUCT_NAME'] . ': Bulk Edit #1',
+				]
+			),
+			$I->createRestrictedContentPage(
+				$I,
+				[
+					'post_title' => 'ConvertKit: Page: Restrict Content: Product: ' . $_ENV['CONVERTKIT_API_PRODUCT_NAME'] . ': Bulk Edit #2',
+				]
+			),
 		);
 
 		// Bulk Edit the Pages in the Pages WP_List_Table.

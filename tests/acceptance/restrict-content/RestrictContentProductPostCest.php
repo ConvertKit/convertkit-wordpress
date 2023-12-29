@@ -255,14 +255,14 @@ class RestrictContentProductPostCest
 		// Setup ConvertKit Plugin, disabling JS.
 		$I->setupConvertKitPluginDisableJS($I);
 
-		// Programmatically create a Page.
+		// Programmatically create a Post.
 		$postID = $I->createRestrictedContentPage(
 			$I,
-			'post',
-			'ConvertKit: Post: Restrict Content: Invalid Product',
-			'Visible content.',
-			'Member only content.',
-			'product_12345' // A fake Product that does not exist in ConvertKit.
+			[
+				'post_type' => 'post',
+				'post_title' => 'ConvertKit: Post: Restrict Content: Invalid Product',
+				'restrict_content_setting' => 'product_12345' // A fake Product that does not exist in ConvertKit.
+			]
 		);
 
 		// Navigate to the post.
@@ -288,8 +288,10 @@ class RestrictContentProductPostCest
 		// Programmatically create a Post.
 		$postID = $I->createRestrictedContentPage(
 			$I,
-			'post',
-			'ConvertKit: Post: Restrict Content: Product: ' . $_ENV['CONVERTKIT_API_PRODUCT_NAME'] . ': Quick Edit'
+			[
+				'post_type' => 'post',
+				'post_title' => 'ConvertKit: Post: Restrict Content: Product: ' . $_ENV['CONVERTKIT_API_PRODUCT_NAME'] . ': Quick Edit'
+			]
 		);
 
 		// Quick Edit the Post in the Posts WP_List_Table.
@@ -321,8 +323,20 @@ class RestrictContentProductPostCest
 
 		// Programmatically create two Posts.
 		$postIDs = array(
-			$I->createRestrictedContentPage($I, 'post', 'ConvertKit: Post: Restrict Content: Product: ' . $_ENV['CONVERTKIT_API_PRODUCT_NAME'] . ': Bulk Edit #1'),
-			$I->createRestrictedContentPage($I, 'post', 'ConvertKit: Post: Restrict Content: Product: ' . $_ENV['CONVERTKIT_API_PRODUCT_NAME'] . ': Bulk Edit #2'),
+			$I->createRestrictedContentPage(
+				$I,
+				[
+					'post_type' => 'post',
+					'post_title' => 'ConvertKit: Post: Restrict Content: Product: ' . $_ENV['CONVERTKIT_API_PRODUCT_NAME'] . ': Bulk Edit #1'
+				]
+			),
+			$I->createRestrictedContentPage(
+				$I,
+				[
+					'post_type' => 'post',
+					'post_title' => 'ConvertKit: Post: Restrict Content: Product: ' . $_ENV['CONVERTKIT_API_PRODUCT_NAME'] . ': Bulk Edit #2'
+				]
+			),
 		);
 
 		// Bulk Edit the Posts in the Posts WP_List_Table.

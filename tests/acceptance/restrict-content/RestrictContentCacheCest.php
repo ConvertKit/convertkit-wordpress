@@ -8,24 +8,6 @@
 class RestrictContentCacheCest
 {
 	/**
-	 * The visible content to all users.
-	 *
-	 * @since   2.2.2
-	 *
-	 * @var     string
-	 */
-	public $visibleContent = 'Visible content';
-
-	/**
-	 * The content only available to authorized users.
-	 *
-	 * @since   2.2.2
-	 *
-	 * @var     string
-	 */
-	public $memberContent = 'Member only content.';
-
-	/**
 	 * Run common actions before running the test functions in this class.
 	 *
 	 * @since   2.2.2
@@ -63,11 +45,10 @@ class RestrictContentCacheCest
 		// Create Restricted Content Page.
 		$pageID = $I->createRestrictedContentPage(
 			$I,
-			'page',
-			'ConvertKit: Restrict Content: Product: LiteSpeed Cache',
-			$this->visibleContent,
-			$this->memberContent,
-			'product_' . $_ENV['CONVERTKIT_API_PRODUCT_ID']
+			[
+				'post_title' => 'ConvertKit: Restrict Content: Product: LiteSpeed Cache',
+				'restrict_content_setting' => 'product_' . $_ENV['CONVERTKIT_API_PRODUCT_ID'],
+			]
 		);
 
 		// Log out, so that caching is honored.
@@ -113,11 +94,10 @@ class RestrictContentCacheCest
 		// Create Restricted Content Page.
 		$pageID = $I->createRestrictedContentPage(
 			$I,
-			'page',
-			'ConvertKit: Restrict Content: Product: W3 Total Cache',
-			$this->visibleContent,
-			$this->memberContent,
-			'product_' . $_ENV['CONVERTKIT_API_PRODUCT_ID']
+			[
+				'post_title' => 'ConvertKit: Restrict Content: Product: W3 Total Cache',
+				'restrict_content_setting' => 'product_' . $_ENV['CONVERTKIT_API_PRODUCT_ID'],
+			]
 		);
 
 		// Log out, so that caching is honored.
@@ -161,11 +141,10 @@ class RestrictContentCacheCest
 		// Create Restricted Content Page.
 		$pageID = $I->createRestrictedContentPage(
 			$I,
-			'page',
-			'ConvertKit: Restrict Content: Product: WP Fastest Cache',
-			$this->visibleContent,
-			$this->memberContent,
-			'product_' . $_ENV['CONVERTKIT_API_PRODUCT_ID']
+			[
+				'post_title' => 'ConvertKit: Restrict Content: Product: WP Fastest Cache',
+				'restrict_content_setting' => 'product_' . $_ENV['CONVERTKIT_API_PRODUCT_ID'],
+			]
 		);
 
 		// Log out, so that caching is honored.
@@ -209,11 +188,10 @@ class RestrictContentCacheCest
 		// Create Restricted Content Page.
 		$pageID = $I->createRestrictedContentPage(
 			$I,
-			'page',
-			'ConvertKit: Restrict Content: Product: WP-Optimize',
-			$this->visibleContent,
-			$this->memberContent,
-			'product_' . $_ENV['CONVERTKIT_API_PRODUCT_ID']
+			[
+				'post_title' => 'ConvertKit: Restrict Content: Product: WP-Optimize',
+				'restrict_content_setting' => 'product_' . $_ENV['CONVERTKIT_API_PRODUCT_ID'],
+			]
 		);
 
 		// Log out, so that caching is honored.
@@ -257,11 +235,10 @@ class RestrictContentCacheCest
 		// Create Restricted Content Page.
 		$pageID = $I->createRestrictedContentPage(
 			$I,
-			'page',
-			'ConvertKit: Restrict Content: Product: WP Super Cache',
-			$this->visibleContent,
-			$this->memberContent,
-			'product_' . $_ENV['CONVERTKIT_API_PRODUCT_ID']
+			[
+				'post_title' => 'ConvertKit: Restrict Content: Product: WP Super Cache',
+				'restrict_content_setting' => 'product_' . $_ENV['CONVERTKIT_API_PRODUCT_ID'],
+			]
 		);
 
 		// Log out, so that caching is honored.
