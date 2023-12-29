@@ -190,7 +190,7 @@ class ConvertKitRestrictContent extends \Codeception\Module
 		}
 
 		// Confirm an inline error message is displayed.
-		$I->seeInSource('<div class="convertkit-restrict-content-notice convertkit-restrict-content-notice-error">' . $textItems['no_access_text'] . '</div>');
+		$I->seeInSource('<div class="convertkit-restrict-content-notice convertkit-restrict-content-notice-error">' . $options['text_items']['no_access_text'] . '</div>');
 		$I->seeInSource('<div id="convertkit-restrict-content-email-field" class="convertkit-restrict-content-error">');
 
 		// Check content is not displayed, and CTA displays with expected text.
@@ -279,8 +279,8 @@ class ConvertKitRestrictContent extends \Codeception\Module
 
 		// Confirm that confirmation an email has been sent is displayed.
 		$I->waitForElementVisible('input#convertkit_subscriber_code');
-		$I->see($textItems['email_check_heading'], 'h4');
-		$I->see($textItems['email_check_text'], 'p');
+		$I->see($options['text_items']['email_check_heading'], 'h4');
+		$I->see($options['text_items']['email_check_text'], 'p');
 
 		// Enter an invalid code.
 		$I->fillField('subscriber_code', '999999');
