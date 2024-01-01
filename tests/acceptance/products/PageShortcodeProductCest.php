@@ -186,7 +186,7 @@ class PageShortcodeProductCest
 	}
 
 	/**
-	 * Test the Product shortcode's discount code parameter works when
+	 * Test the Product shortcode works when using a valid discount code.
 	 *
 	 * @since   2.4.1
 	 *
@@ -225,8 +225,7 @@ class PageShortcodeProductCest
 	}
 
 	/**
-	 * Test the Product shortcode's discount code parameter works when an invalid discount code
-	 * is provided.
+	 * Test the Product block works when using an invalid discount code.
 	 *
 	 * @since   2.4.1
 	 *
