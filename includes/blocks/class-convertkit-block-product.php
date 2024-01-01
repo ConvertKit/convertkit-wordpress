@@ -243,7 +243,7 @@ class ConvertKit_Block_Product extends ConvertKit_Block {
 			'color'      => array(
 				'background'                      => true,
 				'text'                            => true,
-				'discount_code'					  => true,
+				'discount_code'                   => true,
 
 				// Don't apply styles to the block editor's div element.
 				// This ensures what's rendered in the Gutenberg editor matches the frontend output for styling.
@@ -362,7 +362,7 @@ class ConvertKit_Block_Product extends ConvertKit_Block {
 		return array(
 			'product'          => '',
 			'text'             => __( 'Buy my product', 'convertkit' ),
-			'discount_code'	   => '',
+			'discount_code'    => '',
 			'background_color' => '',
 			'text_color'       => '',
 

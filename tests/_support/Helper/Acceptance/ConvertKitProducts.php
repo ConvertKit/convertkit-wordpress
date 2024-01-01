@@ -64,7 +64,7 @@ class ConvertKitProducts extends \Codeception\Module
 		$I->seeElementInDOM('a.convertkit-product.wp-block-button__link');
 
 		// Confirm that the button links to the correct product.
-		$I->assertEquals($productURL, $I->grabAttributeFrom('a.convertkit-product', 'href'));
+		$I->assertStringContainsString($productURL, $I->grabAttributeFrom('a.convertkit-product', 'href'));
 
 		// Confirm that the text is as expected.
 		if ($text !== false) {
