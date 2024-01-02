@@ -237,6 +237,20 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 		);
 
 		add_settings_field(
+			'import_thumbnail',
+			__( 'Include Thumbnail', 'convertkit' ),
+			array( $this, 'import_thumbnail_callback' ),
+			$this->settings_key,
+			$this->name,
+			array(
+				'name'        => 'import_thumbnail',
+				'label_for'   => 'import_thumbnail',
+				'label'       => __( 'If enabled, the Broadcast\'s thumbnail will be used as the WordPress Post\'s featured image.', 'convertkit' ),
+				'description' => '',
+			)
+		);
+
+		add_settings_field(
 			'published_at_min_date',
 			__( 'Earliest Date', 'convertkit' ),
 			array( $this, 'date_callback' ),
@@ -428,6 +442,29 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 	}
 
 	/**
+	 * Renders the input for the Import Thumbnail setting.
+	 *
+	 * @since   2.4.1
+	 *
+	 * @param   array $args   Setting field arguments (name,description).
+	 */
+	public function import_thumbnail_callback( $args ) {
+
+		// Output field.
+		echo $this->get_checkbox_field( // phpcs:ignore WordPress.Security.EscapeOutput
+			$args['name'],
+			'on',
+			$this->settings->import_thumbnail(), // phpcs:ignore WordPress.Security.EscapeOutput
+			$args['label'],  // phpcs:ignore WordPress.Security.EscapeOutput
+			$args['description'], // phpcs:ignore WordPress.Security.EscapeOutput
+			array(
+				'enabled',
+			)
+		);
+
+	}
+
+	/**
 	 * Renders the input for the date setting.
 	 *
 	 * @since   2.2.9
@@ -483,6 +520,31 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 			$this->settings->no_styles(), // phpcs:ignore WordPress.Security.EscapeOutput
 			$args['description'] // phpcs:ignore WordPress.Security.EscapeOutput
 		);
+
+	}
+
+	/**
+	 * Sanitizes the settings prior to being saved.
+	 *
+	 * @since   2.4.1
+	 *
+	 * @param   array $settings   Submitted Settings Fields.
+	 * @return  array               Sanitized Settings with Defaults
+	 */
+	public function sanitize_settings( $settings ) {
+
+		// If the 'Include Thumbnail' setting isn't checked, it won't be included
+		// in the array of settings, and the defaults will enable this.
+		// Therefore, if the setting doesn't exist, set it to blank.
+		if ( ! array_key_exists( 'import_thumbnail', $settings ) ) {
+			$settings['import_thumbnail'] = '';
+		}
+
+		// Merge settings with defaults.
+		$settings = wp_parse_args( $settings, $this->settings->get_defaults() );
+
+		// Return settings to be saved.
+		return $settings;
 
 	}
 

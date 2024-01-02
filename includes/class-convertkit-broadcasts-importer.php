@@ -143,8 +143,16 @@ class ConvertKit_Broadcasts_Importer {
 				}
 			}
 
-			// If the Broadcast has an image, save it to the Media Library and link it to the Post.
-			$this->add_broadcast_image_to_post( $broadcast, $post_id );
+			// If the Import Thumbnail setting is enabled, and the Broadcast has an image, save it to the Media Library and link it to the Post.
+			if ( $this->broadcasts_settings->import_thumbnail() ) {
+				$result = $this->add_broadcast_image_to_post( $broadcast, $post_id );
+
+				if ( is_wp_error( $result ) && $settings->debug_enabled() ) {
+					$log->add( 'ConvertKit_Broadcasts_Importer::refresh(): Broadcast #' . $broadcast_id . '. Error on add_broadcast_image_to_post(): ' . $result->get_error_message() );
+				}
+			} elseif ( $settings->debug_enabled() ) {
+				$log->add( 'ConvertKit_Broadcasts_Importer::refresh(): Broadcast #' . $broadcast_id . '. Skipping thumbnail.' );
+			}
 
 			// Transition the Post to the defined Post Status in the settings, now that the image has been added to it.
 			$post_id = wp_update_post(
