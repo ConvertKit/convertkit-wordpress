@@ -79,7 +79,7 @@ modules:
                     args: [
                         "--headless=new",
                         "--disable-gpu",
-                        "--user-agent=HeadlessChrome"
+                        "--user-agent=%TEST_SITE_HTTP_USER_AGENT%"
                     ]
                     prefs:
                         download.default_directory: '%WP_ROOT_FOLDER%'

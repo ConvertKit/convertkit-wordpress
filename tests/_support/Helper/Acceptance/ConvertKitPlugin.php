@@ -855,4 +855,28 @@ class ConvertKitPlugin extends \Codeception\Module
 		// Press Ctrl/Command + a on Keyboard.
 		$I->pressKey($selector, array( $key, 'a' ));
 	}
+
+	/**
+	 * Changes the WPWebBrowser Chrome User Agent to the supplied value,
+	 * restarting the headless Chrome instance.
+	 * 
+	 * @since 	2.4.1
+	 * 
+	 * @param 	string 	$userAgent 	User Agent.
+	 */
+	public function changeUserAgent($userAgent)
+	{
+		$this->getModule('WPWebDriver')->_reconfigure([
+			'capabilities' => [
+				'chromeOptions' => [
+					'args' => [
+						'--headless=new',
+	                    '--disable-gpu',
+	                    '--user-agent=' . $userAgent,
+					],
+				],
+			],
+		]);
+		$this->getModule('WPWebDriver')->_restart();
+	}
 }
