@@ -78,16 +78,38 @@ class ConvertKitBroadcasts extends \Codeception\Module
 	 * @since   1.9.7.5
 	 *
 	 * @param   AcceptanceTester $I                      Tester.
-	 * @param   bool|int         $numberOfPosts          Number of Broadcasts listed.
-	 * @param   bool|string      $seePrevPaginationLabel Test if the "previous" pagination link is output and matches expected label.
-	 * @param   bool|string      $seeNextPaginationLabel Test if the "next" pagination link is output and matches expected label.
-	 * @param   bool             $seeGrid                Test if the broadcasts are displayed in grid view (false = list view).
-	 * @param   bool             $seeImage               Test if the broadcasts display images.
-	 * @param   bool             $seeDescription         Test if the broadcasts display descriptions.
-	 * @param   bool|string      $seeReadMore            Test if the broadcasts display a read more link matching the given text.
+	 * @param   bool|array       $options {
+	 *           Optional. An array of settings.
+	 *
+	 *     @type bool|int    $number_posts              Number of Broadcasts listed.
+	 *     @type bool|string $see_prev_pagination_label Test if the "previous" pagination link is output and matches expected label.
+	 *     @type bool|string $see_next_pagination_label Test if the "next" pagination link is output and matches expected label.
+	 *     @type bool        $see_grid                  Test if the broadcasts are displayed in grid view (false = list view).
+	 *     @type bool        $see_image                 Test if the broadcasts display images.
+	 *     @type bool        $see_description           Test if the broadcasts display descriptions.
+	 *     @type bool|string $see_read_more             Test if the broadcasts display a read more link matching the given text.
+	 * }
 	 */
-	public function seeBroadcastsOutput($I, $numberOfPosts = false, $seePrevPaginationLabel = false, $seeNextPaginationLabel = false, $seeGrid = false, $seeImage = false, $seeDescription = false, $seeReadMore = false)
+	public function seeBroadcastsOutput($I, $options = false)
 	{
+		// Define default options.
+		$defaults = [
+			'number_posts'              => false,
+			'see_prev_pagination_label' => false,
+			'see_next_pagination_label' => false,
+			'see_grid'                  => false,
+			'see_image'                 => false,
+			'see_description'           => false,
+			'see_read_more'             => false,
+		];
+
+		// If supplied options are an array, merge them with the defaults.
+		if (is_array($options)) {
+			$options = array_merge($defaults, $options);
+		} else {
+			$options = $defaults;
+		}
+
 		// Confirm that the block displays.
 		$I->seeElementInDOM('div.convertkit-broadcasts');
 		$I->seeElementInDOM('div.convertkit-broadcasts ul.convertkit-broadcasts-list');
@@ -101,14 +123,14 @@ class ConvertKitBroadcasts extends \Codeception\Module
 		);
 
 		// If Display as grid is enabled, confirm the applicable HTML exists so that CSS can style this layout.
-		if ($seeGrid) {
+		if ($options['see_grid']) {
 			$I->seeElementInDOM('div.convertkit-broadcasts[data-display-grid="1"]');
 		} else {
 			$I->dontSeeElementInDOM('div.convertkit-broadcasts[data-display-grid="1"]');
 		}
 
 		// If Display image is enabled, confirm the image is displayed.
-		if ($seeImage) {
+		if ($options['see_image']) {
 			$I->seeElementInDOM('a.convertkit-broadcast-image img');
 			$I->assertStringContainsString(
 				'utm_source=wordpress&utm_term=en_US&utm_content=convertkit',
@@ -119,14 +141,14 @@ class ConvertKitBroadcasts extends \Codeception\Module
 		}
 
 		// If Display description is enabled, confirm the description is displayed.
-		if ($seeDescription) {
+		if ($options['see_description']) {
 			$I->seeElementInDOM('.convertkit-broadcast-description');
 		} else {
 			$I->dontSeeElementInDOM('.convertkit-broadcast-description');
 		}
 
 		// If Display read more link is enabled, confirm the read more link is displayed and matches the given text.
-		if ($seeReadMore) {
+		if ($options['see_read_more']) {
 			$I->seeElementInDOM('a.convertkit-broadcast-read-more');
 			$I->assertStringContainsString(
 				'utm_source=wordpress&utm_term=en_US&utm_content=convertkit',
@@ -137,19 +159,20 @@ class ConvertKitBroadcasts extends \Codeception\Module
 		}
 
 		// Confirm that the number of expected broadcasts displays.
-		if ($numberOfPosts !== false) {
-			$I->seeNumberOfElements('li.convertkit-broadcast', $numberOfPosts);
+		if ($options['number_posts'] !== false) {
+			$I->seeNumberOfElements('li.convertkit-broadcast', $options['number_posts']);
 		}
 
 		// Confirm that previous pagination displays, if expected.
-		if ($seePrevPaginationLabel !== false) {
+		if ($options['see_prev_pagination_label'] !== false) {
 			$I->seeElementInDOM('div.convertkit-broadcasts ul.convertkit-broadcasts-pagination li.convertkit-broadcasts-pagination-prev a');
-			$I->seeInSource($seePrevPaginationLabel);
+			$I->seeInSource($options['see_prev_pagination_label']);
 		}
 
 		// Confirm that next pagination displays, if expected.
-		if ($seeNextPaginationLabel !== false) {
+		if ($options['see_next_pagination_label'] !== false) {
 			$I->seeElementInDOM('div.convertkit-broadcasts ul.convertkit-broadcasts-pagination li.convertkit-broadcasts-pagination-next a');
+			$I->seeInSource($options['see_next_pagination_label']);
 		}
 	}
 
@@ -166,7 +189,13 @@ class ConvertKitBroadcasts extends \Codeception\Module
 	public function testBroadcastsPagination($I, $previousLabel, $nextLabel)
 	{
 		// Confirm that the block displays one broadcast with a pagination link to older broadcasts.
-		$I->seeBroadcastsOutput($I, 1, false, $nextLabel);
+		$I->seeBroadcastsOutput(
+			$I,
+			[
+				'number_posts'              => 1,
+				'see_next_pagination_label' => $nextLabel,
+			]
+		);
 
 		// Click the Older Posts link.
 		$I->click('li.convertkit-broadcasts-pagination-next a');
@@ -176,7 +205,13 @@ class ConvertKitBroadcasts extends \Codeception\Module
 		$I->waitForBroadcastsToLoad($I);
 
 		// Confirm that the block displays one broadcast with a pagination link to newer broadcasts.
-		$I->seeBroadcastsOutput($I, 1, $previousLabel, false);
+		$I->seeBroadcastsOutput(
+			$I,
+			[
+				'number_posts'              => 1,
+				'see_prev_pagination_label' => $previousLabel,
+			]
+		);
 
 		// Confirm that the expected Broadcast name is displayed and links to the expected URL, with UTM parameters.
 		$I->seeInSource('<a href="' . $_ENV['CONVERTKIT_API_BROADCAST_SECOND_URL'] . '?utm_source=wordpress&amp;utm_term=en_US&amp;utm_content=convertkit" target="_blank" rel="nofollow noopener"');
@@ -190,7 +225,13 @@ class ConvertKitBroadcasts extends \Codeception\Module
 		$I->waitForBroadcastsToLoad($I);
 
 		// Confirm that the block displays one broadcast with a pagination link to older broadcasts.
-		$I->seeBroadcastsOutput($I, 1, false, $nextLabel);
+		$I->seeBroadcastsOutput(
+			$I,
+			[
+				'number_posts'              => 1,
+				'see_next_pagination_label' => $nextLabel,
+			]
+		);
 
 		// Confirm that the expected Broadcast name is displayed and links to the expected URL, with UTM parameters.
 		$I->seeInSource('<a href="' . $_ENV['CONVERTKIT_API_BROADCAST_FIRST_URL'] . '?utm_source=wordpress&amp;utm_term=en_US&amp;utm_content=convertkit" target="_blank" rel="nofollow noopener"');
