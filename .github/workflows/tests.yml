@@ -209,13 +209,13 @@ jobs:
       # This ensures that applicable files and folders can be written to by WordPress and cache Plugins.
       - name: Set File and Folder Permissions
         run: |
-          sudo chmod 666 ${{ env.ROOT_DIR }}/wp-config.php
+          sudo chmod 767 ${{ env.ROOT_DIR }}/wp-config.php
           sudo chown www-data:www-data ${{ env.ROOT_DIR }}/wp-config.php
 
-          sudo chmod 666 ${{ env.ROOT_DIR }}/wp-content
+          sudo chmod 767 ${{ env.ROOT_DIR }}/wp-content
           sudo chown www-data:www-data ${{ env.ROOT_DIR }}/wp-content
 
-          sudo chmod -R 666 ${{ env.ROOT_DIR }}/wp-content/uploads
+          sudo chmod -R 767 ${{ env.ROOT_DIR }}/wp-content/uploads
           sudo chown www-data:www-data ${{ env.ROOT_DIR }}/wp-content/uploads
 
       # This ensures the Plugin's log file can be written to.
