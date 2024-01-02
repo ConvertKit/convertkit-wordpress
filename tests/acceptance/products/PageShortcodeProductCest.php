@@ -225,7 +225,7 @@ class PageShortcodeProductCest
 	}
 
 	/**
-	 * Test the Product block works when using an invalid discount code.
+	 * Test the Product shortcode works when using an invalid discount code.
 	 *
 	 * @since   2.4.1
 	 *
@@ -261,6 +261,58 @@ class PageShortcodeProductCest
 		$I->switchToIFrame('iframe[data-active]');
 		$I->waitForElementVisible('.formkit-main');
 		$I->see('The coupon is not valid.');
+	}
+
+	/**
+	 * Test the Product shortcode opens the ConvertKit Product in the same window instead
+	 * of a modal when the Disable modal on mobile option is enabled.
+	 *
+	 * @since   2.4.1
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testProductShortcodeWithDisableModalOnMobileParameterEnabled(AcceptanceTester $I)
+	{
+		// Setup ConvertKit Plugin with no default form specified.
+		$I->setupConvertKitPluginNoDefaultForms($I);
+		$I->setupConvertKitPluginResources($I);
+
+		// Add a Page using the Classic Editor.
+		$I->addClassicEditorPage($I, 'page', 'ConvertKit: Page: Product: Shortcode: Disable Modal on Mobile');
+
+		// Add shortcode to Page, setting the Product setting to the value specified in the .env file.
+		$I->addVisualEditorShortcode(
+			$I,
+			'ConvertKit Product',
+			[
+				'product'                 => [ 'select', $_ENV['CONVERTKIT_API_PRODUCT_NAME'] ],
+				'disable_modal_on_mobile' => [ 'toggle', 'Yes' ],
+			],
+			'[convertkit_product product="' . $_ENV['CONVERTKIT_API_PRODUCT_ID'] . '" text="Buy my product" disable_modal_on_mobile="1"]'
+		);
+
+		// Publish and view the Page on the frontend site.
+		$I->publishAndViewClassicEditorPage($I);
+
+		// Get Page URL.
+		$url = $I->grabFromCurrentUrl();
+
+		// Change user agent to a mobile user agent.
+		$I->changeUserAgent($_ENV['TEST_SITE_HTTP_USER_AGENT_MOBILE']);
+
+		// Load page.
+		$I->amOnPage($url);
+
+		// Confirm that the shortcode displays without the data-commerce attribute.
+		$I->seeElementInDOM('.convertkit-product a');
+		$I->dontSeeElementInDOM('.convertkit-product a[data-commerce]');
+
+		// Confirm that clicking the button opens the URL in the same browser tab, and not a modal.
+		$I->click('.convertkit-product a');
+		$I->waitForElementVisible('body[data-template]');
+
+		// Change user agent back, as it persists through tests.
+		$I->changeUserAgent($_ENV['TEST_SITE_HTTP_USER_AGENT']);
 	}
 
 	/**
@@ -423,7 +475,7 @@ class PageShortcodeProductCest
 		// Confirm an error notice displays.
 		$I->waitForElementVisible('#convertkit-modal-body-body div.notice');
 
-		// Confirm that the Form block displays instructions to the user on how to add a Form in ConvertKit.
+		// Confirm that the Product shortcode displays instructions to the user on how to add a Form in ConvertKit.
 		$I->see(
 			'No products exist in ConvertKit.',
 			[

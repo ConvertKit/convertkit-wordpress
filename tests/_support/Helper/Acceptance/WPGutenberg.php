@@ -322,7 +322,7 @@ class WPGutenberg extends \Codeception\Module
 	 * @since   1.9.7.5
 	 *
 	 * @param   AcceptanceTester $I     Acceptance Tester.
-	 * @return 	string 			 $url 	Page / Post URL.
+	 * @return  string           $url   Page / Post URL.
 	 */
 	public function publishAndViewGutenbergPage($I)
 	{

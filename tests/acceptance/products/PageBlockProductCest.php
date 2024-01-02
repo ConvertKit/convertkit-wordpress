@@ -299,7 +299,7 @@ class PageBlockProductCest
 			'ConvertKit Product',
 			'convertkit-product',
 			[
-				'product'       			  => [ 'select', $_ENV['CONVERTKIT_API_PRODUCT_NAME'] ],
+				'product'                     => [ 'select', $_ENV['CONVERTKIT_API_PRODUCT_NAME'] ],
 				'#inspector-toggle-control-0' => [ 'toggle', true ],
 			]
 		);
