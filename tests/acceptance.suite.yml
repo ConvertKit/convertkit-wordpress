@@ -74,6 +74,7 @@ modules:
             host: localhost
             port: 9515
             window_size: 1920x1080
+            restart: true
             capabilities:
                 chromeOptions:
                     args: [
