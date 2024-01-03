@@ -75,7 +75,7 @@ modules:
             port: 9515
             window_size: 1920x1080
             capabilities:
-                chromeOptions:
+                goog:chromeOptions:
                     args: [
                         "--headless=new",
                         "--disable-gpu",
