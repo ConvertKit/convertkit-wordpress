@@ -8,24 +8,6 @@
 class RestrictContentCacheCest
 {
 	/**
-	 * The visible content to all users.
-	 *
-	 * @since   2.2.2
-	 *
-	 * @var     string
-	 */
-	public $visibleContent = 'Visible content';
-
-	/**
-	 * The content only available to authorized users.
-	 *
-	 * @since   2.2.2
-	 *
-	 * @var     string
-	 */
-	public $memberContent = 'Member only content.';
-
-	/**
 	 * Run common actions before running the test functions in this class.
 	 *
 	 * @since   2.2.2
@@ -63,11 +45,10 @@ class RestrictContentCacheCest
 		// Create Restricted Content Page.
 		$pageID = $I->createRestrictedContentPage(
 			$I,
-			'page',
-			'ConvertKit: Restrict Content: Product: LiteSpeed Cache',
-			$this->visibleContent,
-			$this->memberContent,
-			'product_' . $_ENV['CONVERTKIT_API_PRODUCT_ID']
+			[
+				'post_title'               => 'ConvertKit: Restrict Content: Product: LiteSpeed Cache',
+				'restrict_content_setting' => 'product_' . $_ENV['CONVERTKIT_API_PRODUCT_ID'],
+			]
 		);
 
 		// Log out, so that caching is honored.
@@ -78,11 +59,11 @@ class RestrictContentCacheCest
 
 		// Test that the restricted content CTA displays when no valid signed subscriber ID is used,
 		// to confirm caching does not show member only content.
-		$I->testRestrictContentByProductHidesContentWithCTA($I, $this->visibleContent, $this->memberContent);
+		$I->testRestrictContentByProductHidesContentWithCTA($I);
 
 		// Test that the restricted content displays when a valid signed subscriber ID is used,
 		// to confirm caching does not show the incorrect content.
-		$I->testRestrictedContentShowsContentWithValidSubscriberID($I, $pageID, $this->visibleContent, $this->memberContent);
+		$I->testRestrictedContentShowsContentWithValidSubscriberID($I, $pageID);
 
 		// Deactivate Litespeed Cache Plugin.
 		$I->deactivateThirdPartyPlugin($I, 'litespeed-cache');
@@ -113,11 +94,10 @@ class RestrictContentCacheCest
 		// Create Restricted Content Page.
 		$pageID = $I->createRestrictedContentPage(
 			$I,
-			'page',
-			'ConvertKit: Restrict Content: Product: W3 Total Cache',
-			$this->visibleContent,
-			$this->memberContent,
-			'product_' . $_ENV['CONVERTKIT_API_PRODUCT_ID']
+			[
+				'post_title'               => 'ConvertKit: Restrict Content: Product: W3 Total Cache',
+				'restrict_content_setting' => 'product_' . $_ENV['CONVERTKIT_API_PRODUCT_ID'],
+			]
 		);
 
 		// Log out, so that caching is honored.
@@ -128,11 +108,11 @@ class RestrictContentCacheCest
 
 		// Test that the restricted content CTA displays when no valid signed subscriber ID is used,
 		// to confirm caching does not show member only content.
-		$I->testRestrictContentByProductHidesContentWithCTA($I, $this->visibleContent, $this->memberContent);
+		$I->testRestrictContentByProductHidesContentWithCTA($I);
 
 		// Test that the restricted content displays when a valid signed subscriber ID is used,
 		// to confirm caching does not show the incorrect content.
-		$I->testRestrictedContentShowsContentWithValidSubscriberID($I, $pageID, $this->visibleContent, $this->memberContent);
+		$I->testRestrictedContentShowsContentWithValidSubscriberID($I, $pageID);
 
 		// Deactivate W3 Total Cache Plugin.
 		$I->deactivateThirdPartyPlugin($I, 'w3-total-cache');
@@ -161,11 +141,10 @@ class RestrictContentCacheCest
 		// Create Restricted Content Page.
 		$pageID = $I->createRestrictedContentPage(
 			$I,
-			'page',
-			'ConvertKit: Restrict Content: Product: WP Fastest Cache',
-			$this->visibleContent,
-			$this->memberContent,
-			'product_' . $_ENV['CONVERTKIT_API_PRODUCT_ID']
+			[
+				'post_title'               => 'ConvertKit: Restrict Content: Product: WP Fastest Cache',
+				'restrict_content_setting' => 'product_' . $_ENV['CONVERTKIT_API_PRODUCT_ID'],
+			]
 		);
 
 		// Log out, so that caching is honored.
@@ -176,11 +155,11 @@ class RestrictContentCacheCest
 
 		// Test that the restricted content CTA displays when no valid signed subscriber ID is used,
 		// to confirm caching does not show member only content.
-		$I->testRestrictContentByProductHidesContentWithCTA($I, $this->visibleContent, $this->memberContent);
+		$I->testRestrictContentByProductHidesContentWithCTA($I);
 
 		// Test that the restricted content displays when a valid signed subscriber ID is used,
 		// to confirm caching does not show the incorrect content.
-		$I->testRestrictedContentShowsContentWithValidSubscriberID($I, $pageID, $this->visibleContent, $this->memberContent);
+		$I->testRestrictedContentShowsContentWithValidSubscriberID($I, $pageID);
 
 		// Deactivate WP Fastest Cache Plugin.
 		$I->deactivateThirdPartyPlugin($I, 'wp-fastest-cache');
@@ -209,11 +188,10 @@ class RestrictContentCacheCest
 		// Create Restricted Content Page.
 		$pageID = $I->createRestrictedContentPage(
 			$I,
-			'page',
-			'ConvertKit: Restrict Content: Product: WP-Optimize',
-			$this->visibleContent,
-			$this->memberContent,
-			'product_' . $_ENV['CONVERTKIT_API_PRODUCT_ID']
+			[
+				'post_title'               => 'ConvertKit: Restrict Content: Product: WP-Optimize',
+				'restrict_content_setting' => 'product_' . $_ENV['CONVERTKIT_API_PRODUCT_ID'],
+			]
 		);
 
 		// Log out, so that caching is honored.
@@ -224,11 +202,11 @@ class RestrictContentCacheCest
 
 		// Test that the restricted content CTA displays when no valid signed subscriber ID is used,
 		// to confirm caching does not show member only content.
-		$I->testRestrictContentByProductHidesContentWithCTA($I, $this->visibleContent, $this->memberContent);
+		$I->testRestrictContentByProductHidesContentWithCTA($I);
 
 		// Test that the restricted content displays when a valid signed subscriber ID is used,
 		// to confirm caching does not show the incorrect content.
-		$I->testRestrictedContentShowsContentWithValidSubscriberID($I, $pageID, $this->visibleContent, $this->memberContent);
+		$I->testRestrictedContentShowsContentWithValidSubscriberID($I, $pageID);
 
 		// Deactivate WP-Optimize Cache Plugin.
 		$I->deactivateThirdPartyPlugin($I, 'wp-optimize');
@@ -257,11 +235,10 @@ class RestrictContentCacheCest
 		// Create Restricted Content Page.
 		$pageID = $I->createRestrictedContentPage(
 			$I,
-			'page',
-			'ConvertKit: Restrict Content: Product: WP Super Cache',
-			$this->visibleContent,
-			$this->memberContent,
-			'product_' . $_ENV['CONVERTKIT_API_PRODUCT_ID']
+			[
+				'post_title'               => 'ConvertKit: Restrict Content: Product: WP Super Cache',
+				'restrict_content_setting' => 'product_' . $_ENV['CONVERTKIT_API_PRODUCT_ID'],
+			]
 		);
 
 		// Log out, so that caching is honored.
@@ -272,11 +249,11 @@ class RestrictContentCacheCest
 
 		// Test that the restricted content CTA displays when no valid signed subscriber ID is used,
 		// to confirm caching does not show member only content.
-		$I->testRestrictContentByProductHidesContentWithCTA($I, $this->visibleContent, $this->memberContent);
+		$I->testRestrictContentByProductHidesContentWithCTA($I);
 
 		// Test that the restricted content displays when a valid signed subscriber ID is used,
 		// to confirm caching does not show the incorrect content.
-		$I->testRestrictedContentShowsContentWithValidSubscriberID($I, $pageID, $this->visibleContent, $this->memberContent);
+		$I->testRestrictedContentShowsContentWithValidSubscriberID($I, $pageID);
 
 		// Deactivate WP Super Cache Plugin.
 		$I->deactivateThirdPartyPlugin($I, 'wp-super-cache');

@@ -50,10 +50,6 @@ class RestrictContentSettingsCest
 	 */
 	public function testSaveDefaultSettings(AcceptanceTester $I)
 	{
-		// Define visible and member only content.
-		$visibleContent = 'Visible content.';
-		$memberContent  = 'Member only content.';
-
 		// Save settings.
 		$this->_setupConvertKitPluginRestrictContent($I);
 
@@ -66,15 +62,14 @@ class RestrictContentSettingsCest
 		// Create Restricted Content Page.
 		$pageID = $I->createRestrictedContentPage(
 			$I,
-			'page',
-			'ConvertKit: Restrict Content: Settings',
-			$visibleContent,
-			$memberContent,
-			'product_' . $_ENV['CONVERTKIT_API_PRODUCT_ID']
+			[
+				'post_title'               => 'ConvertKit: Restrict Content: Settings',
+				'restrict_content_setting' => 'product_' . $_ENV['CONVERTKIT_API_PRODUCT_ID'],
+			]
 		);
 
 		// Test Restrict Content functionality.
-		$I->testRestrictedContentByProductOnFrontend($I, $pageID, $visibleContent, $memberContent);
+		$I->testRestrictedContentByProductOnFrontend($I, $pageID);
 	}
 
 	/**
@@ -87,10 +82,6 @@ class RestrictContentSettingsCest
 	 */
 	public function testSaveBlankSettings(AcceptanceTester $I)
 	{
-		// Define visible and member only content.
-		$visibleContent = 'Visible content.';
-		$memberContent  = 'Member only content.';
-
 		// Define settings.
 		$settings = array(
 			// Restrict by Product.
@@ -124,15 +115,14 @@ class RestrictContentSettingsCest
 		// Create Restricted Content Page.
 		$pageID = $I->createRestrictedContentPage(
 			$I,
-			'page',
-			'ConvertKit: Restrict Content: Settings: Blank',
-			$visibleContent,
-			$memberContent,
-			'product_' . $_ENV['CONVERTKIT_API_PRODUCT_ID']
+			[
+				'post_title'               => 'ConvertKit: Restrict Content: Settings: Blank',
+				'restrict_content_setting' => 'product_' . $_ENV['CONVERTKIT_API_PRODUCT_ID'],
+			]
 		);
 
 		// Test Restrict Content functionality.
-		$I->testRestrictedContentByProductOnFrontend($I, $pageID, $visibleContent, $memberContent);
+		$I->testRestrictedContentByProductOnFrontend($I, $pageID);
 	}
 
 	/**
@@ -145,10 +135,6 @@ class RestrictContentSettingsCest
 	 */
 	public function testSaveSettings(AcceptanceTester $I)
 	{
-		// Define visible and member only content.
-		$visibleContent = 'Visible content.';
-		$memberContent  = 'Member only content.';
-
 		// Define settings.
 		$settings = array(
 			// Restrict by Product.
@@ -181,15 +167,20 @@ class RestrictContentSettingsCest
 		// Create Restricted Content Page.
 		$pageID = $I->createRestrictedContentPage(
 			$I,
-			'page',
-			'ConvertKit: Restrict Content: Settings: Custom',
-			$visibleContent,
-			$memberContent,
-			'product_' . $_ENV['CONVERTKIT_API_PRODUCT_ID']
+			[
+				'post_title'               => 'ConvertKit: Restrict Content: Settings: Custom',
+				'restrict_content_setting' => 'product_' . $_ENV['CONVERTKIT_API_PRODUCT_ID'],
+			]
 		);
 
 		// Test Restrict Content functionality.
-		$I->testRestrictedContentByProductOnFrontend($I, $pageID, $visibleContent, $memberContent, $settings);
+		$I->testRestrictedContentByProductOnFrontend(
+			$I,
+			$pageID,
+			[
+				'text_items' => $settings,
+			]
+		);
 	}
 
 	/**
@@ -209,11 +200,10 @@ class RestrictContentSettingsCest
 		// Create Restricted Content Page.
 		$pageID = $I->createRestrictedContentPage(
 			$I,
-			'page',
-			'ConvertKit: Restrict Content: Settings: Custom',
-			'Visible content.',
-			'Member only content.',
-			'product_' . $_ENV['CONVERTKIT_API_PRODUCT_ID']
+			[
+				'post_title'               => 'ConvertKit: Restrict Content: Settings: Custom',
+				'restrict_content_setting' => 'product_' . $_ENV['CONVERTKIT_API_PRODUCT_ID'],
+			]
 		);
 
 		// Confirm no CSS is output by the Plugin.

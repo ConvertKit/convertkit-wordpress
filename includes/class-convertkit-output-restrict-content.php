@@ -834,7 +834,36 @@ class ConvertKit_Output_Restrict_Content {
 			return $content;
 		}
 
-		return $this->get_content_preview( $content ) . $this->get_call_to_action( $this->post_id );
+		// Fetch the content preview.
+		$content_preview = $this->get_content_preview( $content );
+
+		/**
+		 * Define the output for the content preview when the visitor is not
+		 * an authenticated subscriber.
+		 *
+		 * @since   2.4.1
+		 *
+		 * @param   string  $content_preview    Content preview.
+		 * @param   int     $post_id            Post ID.
+		 */
+		$content_preview = apply_filters( 'convertkit_output_restrict_content_content_preview', $content_preview, $this->post_id );
+
+		// Fetch the call to action.
+		$call_to_action = $this->get_call_to_action( $this->post_id );
+
+		/**
+		 * Define the output for the call to action, displayed below the content preview,
+		 * when the visitor is not an authenticated subscriber.
+		 *
+		 * @since   2.4.1
+		 *
+		 * @param   string  $call_to_action     Call to Action.
+		 * @param   int     $post_id            Post ID.
+		 */
+		$call_to_action = apply_filters( 'convertkit_output_restrict_content_call_to_action', $call_to_action, $this->post_id );
+
+		// Return the content preview and its call to action.
+		return $content_preview . $call_to_action;
 
 	}
 
