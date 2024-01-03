@@ -94,14 +94,15 @@ class ConvertKit_Resource_Products extends ConvertKit_Resource {
 	 *
 	 * @since   2.0.0
 	 *
-	 * @param   int    $id             Product ID.
-	 * @param   string $button_text    Button Text.
-	 * @param   array  $css_classes    CSS classes to apply to link (typically included when using Gutenberg).
-	 * @param   array  $css_styles     CSS inline styles to apply to link (typically included when using Gutenberg).
-	 * @param   bool   $return_as_span If true, returns a <span> instead of <a>. Useful for the block editor so that the element is interactible.
-	 * @return  WP_Error|string         Button HTML
+	 * @param   int         $id             Product ID.
+	 * @param   string      $button_text    Button Text.
+	 * @param   bool|string $discount_code  Discount Code to include.
+	 * @param   array       $css_classes    CSS classes to apply to link (typically included when using Gutenberg).
+	 * @param   array       $css_styles     CSS inline styles to apply to link (typically included when using Gutenberg).
+	 * @param   bool        $return_as_span If true, returns a <span> instead of <a>. Useful for the block editor so that the element is interactible.
+	 * @return  WP_Error|string                 Button HTML
 	 */
-	public function get_html( $id, $button_text, $css_classes = array(), $css_styles = array(), $return_as_span = false ) {
+	public function get_html( $id, $button_text, $discount_code = false, $css_classes = array(), $css_styles = array(), $return_as_span = false ) {
 
 		// Cast ID to integer.
 		$id = absint( $id );
@@ -123,13 +124,24 @@ class ConvertKit_Resource_Products extends ConvertKit_Resource {
 			);
 		}
 
+		// Build product URL.
+		$product_url = $this->resources[ $id ]['url'];
+		if ( $discount_code ) {
+			$product_url = add_query_arg(
+				array(
+					'promo' => $discount_code,
+				),
+				$product_url
+			);
+		}
+
 		// Build button HTML.
 		$html = '<div class="convertkit-product">';
 
 		if ( $return_as_span ) {
 			$html .= '<span';
 		} else {
-			$html .= '<a href="' . esc_url( $this->resources[ $id ]['url'] ) . '"';
+			$html .= '<a href="' . esc_url( $product_url ) . '"';
 		}
 
 		$html .= ' class="wp-block-button__link ' . implode( ' ', map_deep( $css_classes, 'sanitize_html_class' ) ) . '" style="' . implode( ';', map_deep( $css_styles, 'esc_attr' ) ) . '" data-commerce>';

@@ -186,6 +186,84 @@ class PageShortcodeProductCest
 	}
 
 	/**
+	 * Test the Product shortcode works when using a valid discount code.
+	 *
+	 * @since   2.4.1
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testProductShortcodeInVisualEditorWithValidDiscountCodeParameter(AcceptanceTester $I)
+	{
+		// Setup ConvertKit Plugin with no default form specified.
+		$I->setupConvertKitPluginNoDefaultForms($I);
+		$I->setupConvertKitPluginResources($I);
+
+		// Add a Page using the Classic Editor.
+		$I->addClassicEditorPage($I, 'page', 'ConvertKit: Page: Product: Shortcode: Valid Discount Code Param');
+
+		// Add shortcode to Page, setting the Product setting to the value specified in the .env file.
+		$I->addVisualEditorShortcode(
+			$I,
+			'ConvertKit Product',
+			[
+				'product'       => [ 'select', $_ENV['CONVERTKIT_API_PRODUCT_NAME'] ],
+				'discount_code' => [ 'input', $_ENV['CONVERTKIT_API_PRODUCT_DISCOUNT_CODE'] ],
+			],
+			'[convertkit_product product="' . $_ENV['CONVERTKIT_API_PRODUCT_ID'] . '" text="Buy my product" discount_code="' . $_ENV['CONVERTKIT_API_PRODUCT_DISCOUNT_CODE'] . '"]'
+		);
+
+		// Publish and view the Page on the frontend site.
+		$I->publishAndViewClassicEditorPage($I);
+
+		// Confirm that the ConvertKit Product is displayed.
+		$I->seeProductOutput($I, $_ENV['CONVERTKIT_API_PRODUCT_URL'], 'Buy my product');
+
+		// Confirm the discount code has been applied.
+		$I->switchToIFrame('iframe[data-active]');
+		$I->waitForElementVisible('.formkit-main');
+		$I->see('$0.00');
+	}
+
+	/**
+	 * Test the Product block works when using an invalid discount code.
+	 *
+	 * @since   2.4.1
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testProductShortcodeInVisualEditorWithInvalidDiscountCodeParameter(AcceptanceTester $I)
+	{
+		// Setup ConvertKit Plugin with no default form specified.
+		$I->setupConvertKitPluginNoDefaultForms($I);
+		$I->setupConvertKitPluginResources($I);
+
+		// Add a Page using the Classic Editor.
+		$I->addClassicEditorPage($I, 'page', 'ConvertKit: Page: Product: Shortcode: Valid Discount Code Param');
+
+		// Add shortcode to Page, setting the Product setting to the value specified in the .env file.
+		$I->addVisualEditorShortcode(
+			$I,
+			'ConvertKit Product',
+			[
+				'product'       => [ 'select', $_ENV['CONVERTKIT_API_PRODUCT_NAME'] ],
+				'discount_code' => [ 'input', 'fake' ],
+			],
+			'[convertkit_product product="' . $_ENV['CONVERTKIT_API_PRODUCT_ID'] . '" text="Buy my product" discount_code="fake"]'
+		);
+
+		// Publish and view the Page on the frontend site.
+		$I->publishAndViewClassicEditorPage($I);
+
+		// Confirm that the ConvertKit Product is displayed.
+		$I->seeProductOutput($I, $_ENV['CONVERTKIT_API_PRODUCT_URL'], 'Buy my product');
+
+		// Confirm the discount code is not valid, but the modal displays so the user can still purchase.
+		$I->switchToIFrame('iframe[data-active]');
+		$I->waitForElementVisible('.formkit-main');
+		$I->see('The coupon is not valid.');
+	}
+
+	/**
 	 * Test the [convertkit_product] shortcode hex colors works when defined.
 	 *
 	 * @since   1.9.8.5
