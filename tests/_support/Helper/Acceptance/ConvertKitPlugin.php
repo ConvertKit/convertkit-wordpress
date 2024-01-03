@@ -866,8 +866,9 @@ class ConvertKitPlugin extends \Codeception\Module
 	 */
 	public function changeUserAgent($userAgent)
 	{
-		$this->getModule('WPWebDriver')->_reconfigure(
+		$this->getModule('WPWebDriver')->_restart(
 			[
+				'browser'      => 'chrome',
 				'capabilities' => [
 					'chromeOptions' => [
 						'args' => [
@@ -879,6 +880,5 @@ class ConvertKitPlugin extends \Codeception\Module
 				],
 			]
 		);
-		$this->getModule('WPWebDriver')->_restart();
 	}
 }
