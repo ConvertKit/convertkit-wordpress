@@ -427,6 +427,8 @@ class ConvertKit_Block_Product extends ConvertKit_Block {
 			)
 		);
 
+		$html .= '<!-- ' . $_SERVER['HTTP_USER_AGENT'] . ' -->';
+
 		// Bail if an error occured.
 		if ( is_wp_error( $html ) ) {
 			if ( $settings->debug_enabled() ) {
