@@ -42,7 +42,7 @@ class PageShortcodeProductCest
 			[
 				'product' => [ 'select', $_ENV['CONVERTKIT_API_PRODUCT_NAME'] ],
 			],
-			'[convertkit_product product="' . $_ENV['CONVERTKIT_API_PRODUCT_ID'] . '" text="Buy my product"]'
+			'[convertkit_product product="' . $_ENV['CONVERTKIT_API_PRODUCT_ID'] . '" text="Buy my product" disable_modal_on_mobile="0"]'
 		);
 
 		// Publish and view the Page on the frontend site.
@@ -76,7 +76,7 @@ class PageShortcodeProductCest
 			[
 				'product' => [ 'select', $_ENV['CONVERTKIT_API_PRODUCT_NAME'] ],
 			],
-			'[convertkit_product product="' . $_ENV['CONVERTKIT_API_PRODUCT_ID'] . '" text="Buy my product"]'
+			'[convertkit_product product="' . $_ENV['CONVERTKIT_API_PRODUCT_ID'] . '" text="Buy my product" disable_modal_on_mobile="0"]'
 		);
 
 		// Publish and view the Page on the frontend site.
@@ -141,7 +141,7 @@ class PageShortcodeProductCest
 				'product' => [ 'select', $_ENV['CONVERTKIT_API_PRODUCT_NAME'] ],
 				'text'    => [ 'input', 'Buy now' ],
 			],
-			'[convertkit_product product="' . $_ENV['CONVERTKIT_API_PRODUCT_ID'] . '" text="Buy now"]'
+			'[convertkit_product product="' . $_ENV['CONVERTKIT_API_PRODUCT_ID'] . '" text="Buy now"  disable_modal_on_mobile="0"]'
 		);
 
 		// Publish and view the Page on the frontend site.
@@ -175,7 +175,7 @@ class PageShortcodeProductCest
 				'product' => [ 'select', $_ENV['CONVERTKIT_API_PRODUCT_NAME'] ],
 				'text'    => [ 'input', '' ],
 			],
-			'[convertkit_product product="' . $_ENV['CONVERTKIT_API_PRODUCT_ID'] . '"]'
+			'[convertkit_product product="' . $_ENV['CONVERTKIT_API_PRODUCT_ID'] . '"  disable_modal_on_mobile="0"]'
 		);
 
 		// Publish and view the Page on the frontend site.
@@ -209,7 +209,7 @@ class PageShortcodeProductCest
 				'product'       => [ 'select', $_ENV['CONVERTKIT_API_PRODUCT_NAME'] ],
 				'discount_code' => [ 'input', $_ENV['CONVERTKIT_API_PRODUCT_DISCOUNT_CODE'] ],
 			],
-			'[convertkit_product product="' . $_ENV['CONVERTKIT_API_PRODUCT_ID'] . '" text="Buy my product" discount_code="' . $_ENV['CONVERTKIT_API_PRODUCT_DISCOUNT_CODE'] . '"]'
+			'[convertkit_product product="' . $_ENV['CONVERTKIT_API_PRODUCT_ID'] . '" text="Buy my product" discount_code="' . $_ENV['CONVERTKIT_API_PRODUCT_DISCOUNT_CODE'] . '"  disable_modal_on_mobile="0"]'
 		);
 
 		// Publish and view the Page on the frontend site.
@@ -248,7 +248,7 @@ class PageShortcodeProductCest
 				'product'       => [ 'select', $_ENV['CONVERTKIT_API_PRODUCT_NAME'] ],
 				'discount_code' => [ 'input', 'fake' ],
 			],
-			'[convertkit_product product="' . $_ENV['CONVERTKIT_API_PRODUCT_ID'] . '" text="Buy my product" discount_code="fake"]'
+			'[convertkit_product product="' . $_ENV['CONVERTKIT_API_PRODUCT_ID'] . '" text="Buy my product" discount_code="fake"  disable_modal_on_mobile="0"]'
 		);
 
 		// Publish and view the Page on the frontend site.
@@ -339,7 +339,7 @@ class PageShortcodeProductCest
 		$I->havePageInDatabase(
 			[
 				'post_name'    => 'convertkit-page-product-shortcode-hex-color-params',
-				'post_content' => '[convertkit_product product="' . $_ENV['CONVERTKIT_API_PRODUCT_ID'] . '" text="Buy my product" background_color="' . $backgroundColor . '" text_color="' . $textColor . '"]',
+				'post_content' => '[convertkit_product product="' . $_ENV['CONVERTKIT_API_PRODUCT_ID'] . '" text="Buy my product"  disable_modal_on_mobile="0" background_color="' . $backgroundColor . '" text_color="' . $textColor . '"]',
 			]
 		);
 
