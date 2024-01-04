@@ -874,8 +874,8 @@ class ConvertKitPlugin extends \Codeception\Module
 						'args' => [
 							'--headless=new',
 							'--disable-gpu',
-							'--disable-features=UserAgentClientHint',
 							'--user-agent=' . $userAgent,
+							'--disable-features=UserAgentClientHint',
 						],
 					],
 				],
