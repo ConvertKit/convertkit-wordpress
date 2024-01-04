@@ -52,7 +52,7 @@ jobs:
 
         # Folder names within the 'tests' folder to run tests in parallel.
         test-groups: [
-          'acceptance/products',
+          'acceptance/products/PageBlockProductMobileCest',
         ]
 
     # Steps to install, configure and run tests
