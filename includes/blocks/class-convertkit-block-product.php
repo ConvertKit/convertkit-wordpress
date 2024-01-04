@@ -414,10 +414,15 @@ class ConvertKit_Block_Product extends ConvertKit_Block {
 		// Get Products Resource.
 		$convertkit_products = new ConvertKit_Resource_Products();
 
+		// Log some vars for debugging.
+		if ( $settings->debug_enabled() ) {
+			return '<!-- user agent = ' . $_SERVER['HTTP_USER_AGENT'] . ' -->';
+		}
+		
 		// Build HTML.
 		$html = $convertkit_products->get_html(
 			$atts['product'],
-			$_SERVER['HTTP_USER_AGENT'] . ': disable: ' . (string) $atts['disable_modal_on_mobile'] . ', is mobile: ' . (string) wp_is_mobile(),
+			$atts['text'],
 			array(
 				'discount_code'  => $atts['discount_code'],
 				'disable_modal'  => ( $atts['disable_modal_on_mobile'] && wp_is_mobile() ),
