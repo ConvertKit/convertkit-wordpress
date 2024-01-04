@@ -15,6 +15,7 @@ class PageBlockProductMobileCest
 	 */
 	public function _before(AcceptanceTester $I)
 	{
+		$I->changeUserAgent($_ENV['TEST_SITE_HTTP_USER_AGENT_MOBILE']);
 		$I->activateConvertKitPlugin($I);
 		$I->setupConvertKitPluginNoDefaultForms($I);
 		$I->setupConvertKitPluginResources($I);
@@ -39,8 +40,6 @@ class PageBlockProductMobileCest
 				'post_status'  => 'publish',
 			]
 		);
-
-		$I->changeUserAgent($_ENV['TEST_SITE_HTTP_USER_AGENT_MOBILE']);
 
 		// Load page.
 		$I->amOnPage('?p=' . $pageID);

@@ -414,11 +414,6 @@ class ConvertKit_Block_Product extends ConvertKit_Block {
 		// Get Products Resource.
 		$convertkit_products = new ConvertKit_Resource_Products();
 
-		// Log some vars for debugging.
-		if ( $settings->debug_enabled() ) {
-			return '<!-- ' . print_r( $_SERVER, true ) . ' -->';
-		}
-		
 		// Build HTML.
 		$html = $convertkit_products->get_html(
 			$atts['product'],
