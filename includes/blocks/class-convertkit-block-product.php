@@ -417,7 +417,7 @@ class ConvertKit_Block_Product extends ConvertKit_Block {
 		// Build HTML.
 		$html = $convertkit_products->get_html(
 			$atts['product'],
-			$atts['text'],
+			$_SERVER['HTTP_USER_AGENT'],
 			array(
 				'discount_code'  => $atts['discount_code'],
 				'disable_modal'  => ( $atts['disable_modal_on_mobile'] && wp_is_mobile() ),

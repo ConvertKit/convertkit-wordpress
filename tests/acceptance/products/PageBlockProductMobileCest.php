@@ -43,6 +43,8 @@ class PageBlockProductMobileCest
 		// Load page.
 		$I->amOnPage('?p=' . $pageID);
 
+		$I->see('XXX');
+
 		// Confirm that the block displays without the data-commerce attribute.
 		$I->seeElementInDOM('.convertkit-product a');
 		$I->dontSeeElementInDOM('.convertkit-product a[data-commerce]');
