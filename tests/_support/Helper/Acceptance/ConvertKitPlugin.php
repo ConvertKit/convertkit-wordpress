@@ -870,7 +870,7 @@ class ConvertKitPlugin extends \Codeception\Module
 			[
 				'browser'      => 'chrome',
 				'capabilities' => [
-					'chromeOptions' => [
+					'goog:chromeOptions' => [
 						'args' => [
 							'--headless=new',
 							'--disable-gpu',
