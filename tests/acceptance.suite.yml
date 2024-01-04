@@ -79,6 +79,7 @@ modules:
                     args: [
                         "--headless=new",
                         "--disable-gpu",
+                        "--disable-features=UserAgentClientHint"
                         "--user-agent=%TEST_SITE_HTTP_USER_AGENT%"
                     ]
                     prefs:
