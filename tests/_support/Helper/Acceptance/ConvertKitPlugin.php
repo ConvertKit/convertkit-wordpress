@@ -871,19 +871,11 @@ class ConvertKitPlugin extends \Codeception\Module
 				'browser'      => 'chrome',
 				'capabilities' => [
 					'goog:chromeOptions' => [
-						'mobileEmulation' => [
-							'deviceMetrics' => [
-								'width' => 768,
-								'height' => 1024,
-								'pixelRatio' => 2,
-							],
-							'userAgent' => $userAgent,
-						],
 						'args' => [
 							'--headless=new',
 							'--disable-gpu',
+							'--disable-features=UserAgentClientHint',
 							'--user-agent=' . $userAgent,
-							'--use-mobile-user-agent',
 						],
 					],
 				],
