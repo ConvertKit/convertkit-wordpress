@@ -416,7 +416,7 @@ class ConvertKit_Block_Product extends ConvertKit_Block {
 
 		// Log some vars for debugging.
 		if ( $settings->debug_enabled() ) {
-			return '<!-- user agent = ' . $_SERVER['HTTP_USER_AGENT'] . ' -->';
+			return '<!-- ' . print_r( $_SERVER, true ) . ' -->';
 		}
 		
 		// Build HTML.
