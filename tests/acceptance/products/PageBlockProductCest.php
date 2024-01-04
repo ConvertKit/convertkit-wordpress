@@ -277,41 +277,24 @@ class PageBlockProductCest
 	 */
 	public function testProductBlockWithDisableModalOnMobileParameterEnabled(AcceptanceTester $I)
 	{
+		// Change user agent to a mobile user agent.
+		$I->changeUserAgent($_ENV['TEST_SITE_HTTP_USER_AGENT_MOBILE']);
+
 		// Setup ConvertKit Plugin with no default form specified.
 		$I->setupConvertKitPluginNoDefaultForms($I);
 		$I->setupConvertKitPluginResources($I);
 
-		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Product: Disable Modal on Mobile');
-
-		// Configure metabox's Form setting = None, ensuring we only test the block in Gutenberg.
-		$I->configureMetaboxSettings(
-			$I,
-			'wp-convertkit-meta-box',
+		// Create Page.
+		$pageID = $I->havePageInDatabase(
 			[
-				'form' => [ 'select2', 'None' ],
+				'post_title'   => 'ConvertKit: Page: Product: Disable Modal on Mobile',
+				'post_name'    => 'convertkit-page-product-disable-modal-on-mobile',
+				'post_content' => '<!-- wp:convertkit/product {"product":"' . $_ENV['CONVERTKIT_API_PRODUCT_ID'] . '","text":"Buy Now","disable_modal_on_mobile":true} /-->',
 			]
 		);
-
-		// Add block to Page, setting the Product setting to the value specified in the .env file.
-		$I->addGutenbergBlock(
-			$I,
-			'ConvertKit Product',
-			'convertkit-product',
-			[
-				'product'                     => [ 'select', $_ENV['CONVERTKIT_API_PRODUCT_NAME'] ],
-				'#inspector-toggle-control-0' => [ 'toggle', true ],
-			]
-		);
-
-		// Publish and view the Page on the frontend site.
-		$url = $I->publishAndViewGutenbergPage($I);
-
-		// Change user agent to a mobile user agent.
-		$I->changeUserAgent($_ENV['TEST_SITE_HTTP_USER_AGENT_MOBILE']);
 
 		// Load page.
-		$I->amOnUrl($url);
+		$I->amOnPage('?p=' . $pageID);
 
 		// Confirm that the block displays without the data-commerce attribute.
 		$I->seeElementInDOM('.convertkit-product a');
