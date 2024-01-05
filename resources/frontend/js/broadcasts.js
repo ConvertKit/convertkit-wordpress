@@ -10,40 +10,43 @@
 /**
  * Register events
  */
-document.addEventListener( 'DOMContentLoaded', () => {
+document.addEventListener(
+	'DOMContentLoaded',
+	function () {
+		// Listen for click events.
+		document.addEventListener(
+			'click',
+			function (e) {
+				// Check the broadcasts pagination was clicked.
+				if ( e.target.matches( 'ul.convertkit-broadcasts-pagination a' ) ) {
 
-	// Listen for click events.
-	document.addEventListener( 'click', (e) => {
+					e.preventDefault();
 
-		// If the click isn't on a broadcast pagination element, ignore it. 
-    	if ( e.target.matches( 'ul.convertkit-broadcasts-pagination a' ) ) {
-      		
-      		e.preventDefault();
+					// Get block container and build object of data-* attributes.
+					let blockContainer = e.target.closest( 'div.convertkit-broadcasts' );
+					let atts           = {
+						display_date: blockContainer.dataset.displayDate,
+						date_format: blockContainer.dataset.dateFormat,
+						display_image: blockContainer.dataset.displayImage,
+						display_description: blockContainer.dataset.displayDescription,
+						display_read_more: blockContainer.dataset.displayReadMore,
+						read_more_label: blockContainer.dataset.readMoreLabel,
+						limit: blockContainer.dataset.limit,
+						paginate: blockContainer.dataset.paginate,
+						paginate_label_prev: blockContainer.dataset.paginateLabelPrev,
+						paginate_label_next: blockContainer.dataset.paginateLabelNext,
+						link_color: blockContainer.dataset.linkColor,
+						page: e.target.dataset.page,
+						nonce: e.target.dataset.nonce,
+					};
 
-			// Get block container and build object of data-* attributes.
-			let blockContainer = e.target.closest( 'div.convertkit-broadcasts' );
-			let atts = {
-				display_date: blockContainer.dataset.displayDate,
-				date_format: blockContainer.dataset.dateFormat,
-				display_image: blockContainer.dataset.displayImage,
-				display_description: blockContainer.dataset.displayDescription,
-				display_read_more: blockContainer.dataset.displayReadMore,
-				read_more_label: blockContainer.dataset.readMoreLabel,
-				limit: blockContainer.dataset.limit,
-				paginate: blockContainer.dataset.paginate,
-				paginate_label_prev: blockContainer.dataset.paginateLabelPrev,
-				paginate_label_next: blockContainer.dataset.paginateLabelNext,
-				link_color: blockContainer.dataset.linkColor,
-				page: e.target.dataset.page,
-				nonce: e.target.dataset.nonce,
-			};
+					convertKitBroadcastsRender( blockContainer, atts );
+				}
 
-			convertKitBroadcastsRender( blockContainer, atts );
-		}
-
-	} );
-
-} );
+			}
+		);
+	}
+);
 
 /**
  * Sends an AJAX request to request HTML based on the supplied block attributes,
@@ -68,38 +71,47 @@ function convertKitBroadcastsRender( blockContainer, atts ) {
 	blockContainer.classList.add( 'convertkit-broadcasts-loading' );
 
 	// Fetch HTML.
-	fetch( convertkit_broadcasts.ajax_url, {
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/x-www-form-urlencoded',
-		},
-		body: new URLSearchParams( atts ),
-	} )
-	.then( ( response ) => {
-		if ( convertkit_broadcasts.debug ) {
-			console.log( response );
+	fetch(
+		convertkit_broadcasts.ajax_url,
+		{
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/x-www-form-urlencoded',
+			},
+			body: new URLSearchParams( atts ),
 		}
-		
-		return response.json();
-	} )
-	.then( ( result ) => {
-		if ( convertkit_broadcasts.debug ) {
-			console.log( result );
+	)
+	.then(
+		function ( response ) {
+			if ( convertkit_broadcasts.debug ) {
+				console.log( response );
+			}
+
+			return response.json();
 		}
+	)
+	.then(
+		function ( result ) {
+			if ( convertkit_broadcasts.debug ) {
+				console.log( result );
+			}
 
-		// Remove loading indicator.
-		blockContainer.classList.remove( 'convertkit-broadcasts-loading' );
+			// Remove loading indicator.
+			blockContainer.classList.remove( 'convertkit-broadcasts-loading' );
 
-		// Replace block container's HTML with response data.
-		blockContainer.innerHTML = result.data;
-	} )
-	.catch( ( error ) => {
-		// Remove loading indicator.
-		blockContainer.classList.remove('convertkit-broadcasts-loading');
-
-		if ( convertkit.debug ) {
-			console.error( error );
+			// Replace block container's HTML with response data.
+			blockContainer.innerHTML = result.data;
 		}
-	} );
+	)
+	.catch(
+		function ( error ) {
+			if ( convertkit.debug ) {
+				console.error( error );
+			}
+
+			// Remove loading indicator.
+			blockContainer.classList.remove( 'convertkit-broadcasts-loading' );
+		}
+	);
 
 }
