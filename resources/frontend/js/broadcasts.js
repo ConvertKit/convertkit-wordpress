@@ -1,7 +1,7 @@
 /**
- * Frontend functionality for subscribers and tags.
+ * Frontend functionality for the Broadcasts block and shortcode.
  *
- * @since   1.9.6
+ * @since   1.9.7.4
  *
  * @package ConvertKit
  * @author ConvertKit
