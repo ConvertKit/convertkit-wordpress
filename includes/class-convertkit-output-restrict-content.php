@@ -962,7 +962,7 @@ class ConvertKit_Output_Restrict_Content {
 		// Only load scripts if the Disable Scripts option is off.
 		if ( ! $this->settings->scripts_disabled() ) {
 			// Enqueue scripts.
-			wp_enqueue_script( 'convertkit-restrict-content', CONVERTKIT_PLUGIN_URL . 'resources/frontend/js/restrict-content.js', array( 'jquery' ), CONVERTKIT_PLUGIN_VERSION, true );
+			wp_enqueue_script( 'convertkit-restrict-content', CONVERTKIT_PLUGIN_URL . 'resources/frontend/js/restrict-content.js', array(), CONVERTKIT_PLUGIN_VERSION, true );
 			wp_localize_script(
 				'convertkit-restrict-content',
 				'convertkit_restrict_content',
