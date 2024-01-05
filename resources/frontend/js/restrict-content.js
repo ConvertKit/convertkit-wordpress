@@ -19,7 +19,7 @@ document.addEventListener(
 			function ( element ) {
 				element.addEventListener(
 					'click',
-					function( e ) {
+					function ( e ) {
 						e.preventDefault();
 						convertKitRestrictContentOpenModal();
 					}
@@ -30,36 +30,40 @@ document.addEventListener(
 		// Handle modal form submissions.
 		document.addEventListener(
 			'submit',
-			function( e ) {
+			function ( e ) {
 				// Bail if the submission was not for the Restrict Content form.
 				if ( ! e.target.matches( '#convertkit-restrict-content-modal form#convertkit-restrict-content-form' ) ) {
 					return;
 				}
 
 				e.preventDefault();
-				convertKitRestrictContentFormSubmit();
+				convertKitRestrictContentFormSubmit( e );
 			}
-			
 		);
 
 		// Close modal.
-		document.querySelector( '#convertkit-restrict-content-modal-close' ).addEventListener(
-			'click',
-			function( e ) {
-				e.preventDefault();
-				convertKitRestrictContentCloseModal();
-			}
-		);
+		// Check if the element exists on screen; if another JS error occurs, OTP submission might not be async,
+		// resulting in the non-JS OTP code screen loading without a modal (i.e. ?convertkit_login=1).
+		let convertKitRestrictContentCloseElement = document.querySelector( '#convertkit-restrict-content-modal-close' );
+		if ( convertKitRestrictContentCloseElement !== null ) {
+			convertKitRestrictContentCloseElement.addEventListener(
+				'click',
+				function ( e ) {
+					e.preventDefault();
+					convertKitRestrictContentCloseModal();
+				}
+			);
+		}
 
 	}
 );
 
 /**
  * Handles Restrict Content form submission.
- * 
+ *
  * @since 	2.4.2
- * 
- * @param 	object 	e 	Event
+ *
+ * @param 	Event 	e 	Form submission event.
  */
 function convertKitRestrictContentFormSubmit( e ) {
 
@@ -96,7 +100,7 @@ function convertKitRestrictContentFormSubmit( e ) {
 		e.target.querySelector( 'input[name="convertkit_resource_id"]' ).value,
 		e.target.querySelector( 'input[name="convertkit_post_id"]' ).value
 	);
-		
+
 }
 
 /**
@@ -240,7 +244,7 @@ function convertKitRestrictContentSubscriberVerification( nonce, subscriber_code
 	.then(
 		function ( result ) {
 			if ( convertkit_restrict_content.debug ) {
-					console.log( result );
+				console.log( result );
 			}
 
 			// If the entered code is invalid, show the response in the modal.
@@ -285,7 +289,7 @@ function convertKitRestrictContentOTPField() {
 	}
 
 	otpInput.addEventListener(
-		'change',
+		'input',
 		function () {
 			// Update the --_otp-digit property when the input value changes.
 			otpInput.style.setProperty( '--_otp-digit', otpInput.value.length );
@@ -297,7 +301,7 @@ function convertKitRestrictContentOTPField() {
 			if ( otpInput.value.length === 6 ) {
 				otpInput.setSelectionRange( 0, 0 );
 				otpInput.blur();
-				document.querySelector( '#convertkit-restrict-content-form' ).dispatchEvent( new Event( 'submit' ) );
+				document.querySelector( '#convertkit-restrict-content-form' ).requestSubmit();
 			}
 		}
 	);
