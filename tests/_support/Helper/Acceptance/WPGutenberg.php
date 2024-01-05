@@ -321,7 +321,8 @@ class WPGutenberg extends \Codeception\Module
 	 *
 	 * @since   1.9.7.5
 	 *
-	 * @param   AcceptanceTester $I                      Acceptance Tester.
+	 * @param   AcceptanceTester $I     Acceptance Tester.
+	 * @return  string           $url   Page / Post URL.
 	 */
 	public function publishAndViewGutenbergPage($I)
 	{
@@ -336,6 +337,9 @@ class WPGutenberg extends \Codeception\Module
 
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Return URL.
+		return $url;
 	}
 
 	/**

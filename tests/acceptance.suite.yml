@@ -79,7 +79,15 @@ modules:
                     args: [
                         "--headless=new",
                         "--disable-gpu",
-                        "--user-agent=HeadlessChrome"
+                        "--user-agent=%TEST_SITE_HTTP_USER_AGENT%",
+
+                        # wp_is_mobile() rightly checks if HTTP_SEC_CH_UA_MOBILE=1 first, before falling back to checking the
+                        # User Agent string. However, chromedriver through GitHub Actions always sets HTTP_SEC_CH_UA_MOBILE=0,
+                        # even if mobileEmulation is enabled. Setting the below flag stops chromedriver from including
+                        # HTTP_SEC_CH_UA_MOBILE and other client hints in HTTP headers, resulting in wp_is_mobile() checking
+                        # the User Agent.
+                        # Ideally this should be removed in the future when chromedriver accurately reports HTTP_SEC_CH_UA_MOBILE.
+                        "--disable-features=UserAgentClientHint"
                     ]
                     prefs:
                         download.default_directory: '%WP_ROOT_FOLDER%'
