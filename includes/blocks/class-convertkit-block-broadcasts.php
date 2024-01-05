@@ -61,7 +61,7 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 		// Get ConvertKit Settings.
 		$settings = new ConvertKit_Settings();
 
-		wp_enqueue_script( 'convertkit-' . $this->get_name(), CONVERTKIT_PLUGIN_URL . 'resources/frontend/js/broadcasts.js', array( 'jquery' ), CONVERTKIT_PLUGIN_VERSION, true );
+		wp_enqueue_script( 'convertkit-' . $this->get_name(), CONVERTKIT_PLUGIN_URL . 'resources/frontend/js/broadcasts.js', array(), CONVERTKIT_PLUGIN_VERSION, true );
 		wp_localize_script(
 			'convertkit-' . $this->get_name(),
 			'convertkit_broadcasts',
