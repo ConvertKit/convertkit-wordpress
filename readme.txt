@@ -3,9 +3,9 @@ Contributors: nathanbarry, growdev, travisnorthcutt, ggwicz
 Donate link: https://convertkit.com
 Tags: email marketing, email newsletter, newsletter, subscribers, membership
 Requires at least: 5.0
-Tested up to: 6.4.1
+Tested up to: 6.4.2
 Requires PHP: 5.6.20
-Stable tag: 2.4.0
+Stable tag: 2.4.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -155,6 +155,11 @@ Full Plugin documentation can be found [here](https://help.convertkit.com/en/art
 10. Track subscriber growth
 
 == Changelog ==
+
+### 2.4.1 2024-01-08
+* Added: Broadcasts (Beta): Option to store ConvertKit Broadcast thumbnails as WordPress Post's Featured Image
+* Added: Products: Block and Shortcode: Option to include a discount code
+* Added: Products: Block and Shortcode: Option to disable modal on mobile. Recommended if the ConvertKit Product is a digital download (PDF) being purchased on mobile, to ensure the subscriber can immediately download the PDF once purchased.
 
 ### 2.4.0 2023-12-06
 * Fix: ConvertKit Error: Could not load Plugin class `output` when editing, quick or bulk editing a Post.

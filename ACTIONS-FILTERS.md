@@ -151,6 +151,14 @@
 						<td><a href="#convertkit_output_restrict_content_get_resource_id"><code>convertkit_output_restrict_content_get_resource_id</code></a></td>
 						<td>Define the ConvertKit Resource ID that the visitor must be subscribed against to access this content, overriding the Post setting. Return 0 to not restrict content.</td>
 					</tr><tr>
+						<td>&nbsp;</td>
+						<td><a href="#convertkit_output_restrict_content_content_preview"><code>convertkit_output_restrict_content_content_preview</code></a></td>
+						<td>Define the output for the content preview when the visitor is not an authenticated subscriber.</td>
+					</tr><tr>
+						<td>&nbsp;</td>
+						<td><a href="#convertkit_output_restrict_content_call_to_action"><code>convertkit_output_restrict_content_call_to_action</code></a></td>
+						<td>Define the output for the call to action, displayed below the content preview, when the visitor is not an authenticated subscriber.</td>
+					</tr><tr>
 						<td colspan="3">../includes/class-convertkit-output.php</td>
 					</tr><tr>
 						<td>&nbsp;</td>
@@ -484,7 +492,7 @@ add_filter( 'convertkit_block_content_render', function( $content, $atts, $subsc
 </pre>
 <h3 id="convertkit_block_product_render">
 						convertkit_block_product_render
-						<code>includes/blocks/class-convertkit-block-product.php::414</code>
+						<code>includes/blocks/class-convertkit-block-product.php::446</code>
 					</h3><h4>Overview</h4>
 						<p>Filter the block's content immediately before it is output.</p><h4>Parameters</h4>
 					<table>
@@ -732,7 +740,7 @@ add_filter( 'convertkit_term_get_default_settings', function( $defaults ) {
 </pre>
 <h3 id="convertkit_settings_broadcasts_get_defaults">
 						convertkit_settings_broadcasts_get_defaults
-						<code>includes/class-convertkit-settings-broadcasts.php::216</code>
+						<code>includes/class-convertkit-settings-broadcasts.php::230</code>
 					</h3><h4>Overview</h4>
 						<p>The default settings, used when the ConvertKit Broadcasts Settings haven't been saved e.g. on a new installation.</p><h4>Parameters</h4>
 					<table>
@@ -985,6 +993,68 @@ add_filter( 'convertkit_output_restrict_content_get_resource_id', function( $res
 	return $resource_id;
 }, 10, 2 );
 </pre>
+<h3 id="convertkit_output_restrict_content_content_preview">
+						convertkit_output_restrict_content_content_preview
+						<code>includes/class-convertkit-output-restrict-content.php::848</code>
+					</h3><h4>Overview</h4>
+						<p>Define the output for the content preview when the visitor is not an authenticated subscriber.</p><h4>Parameters</h4>
+					<table>
+						<thead>
+							<tr>
+								<th>Parameter</th>
+								<th>Type</th>
+								<th>Description</th>
+							</tr>
+						</thead>
+						<tbody><tr>
+							<td>$content_preview</td>
+							<td>string</td>
+							<td>Content preview.</td>
+						</tr><tr>
+							<td>$post_id</td>
+							<td>int</td>
+							<td>Post ID.</td>
+						</tr>
+						</tbody>
+					</table><h4>Usage</h4>
+<pre>
+add_filter( 'convertkit_output_restrict_content_content_preview', function( $content_preview, $post_id ) {
+	// ... your code here
+	// Return value
+	return $content_preview;
+}, 10, 2 );
+</pre>
+<h3 id="convertkit_output_restrict_content_call_to_action">
+						convertkit_output_restrict_content_call_to_action
+						<code>includes/class-convertkit-output-restrict-content.php::862</code>
+					</h3><h4>Overview</h4>
+						<p>Define the output for the call to action, displayed below the content preview, when the visitor is not an authenticated subscriber.</p><h4>Parameters</h4>
+					<table>
+						<thead>
+							<tr>
+								<th>Parameter</th>
+								<th>Type</th>
+								<th>Description</th>
+							</tr>
+						</thead>
+						<tbody><tr>
+							<td>$call_to_action</td>
+							<td>string</td>
+							<td>Call to Action.</td>
+						</tr><tr>
+							<td>$post_id</td>
+							<td>int</td>
+							<td>Post ID.</td>
+						</tr>
+						</tbody>
+					</table><h4>Usage</h4>
+<pre>
+add_filter( 'convertkit_output_restrict_content_call_to_action', function( $call_to_action, $post_id ) {
+	// ... your code here
+	// Return value
+	return $call_to_action;
+}, 10, 2 );
+</pre>
 <h3 id="convertkit_output_page_takeover_landing_page_id">
 						convertkit_output_page_takeover_landing_page_id
 						<code>includes/class-convertkit-output.php::140</code>
@@ -1169,7 +1239,7 @@ add_filter( 'convertkit_is_admin_or_frontend_editor', function( $is_admin_or_fro
 </pre>
 <h3 id="convertkit_broadcasts_build_post_args">
 						convertkit_broadcasts_build_post_args
-						<code>includes/class-convertkit-broadcasts-importer.php::239</code>
+						<code>includes/class-convertkit-broadcasts-importer.php::247</code>
 					</h3><h4>Overview</h4>
 						<p>Define the wp_insert_post() compatible arguments for importing a ConvertKit Broadcast to a new WordPress Post.</p><h4>Parameters</h4>
 					<table>
@@ -1200,7 +1270,7 @@ add_filter( 'convertkit_broadcasts_build_post_args', function( $post_args, $broa
 </pre>
 <h3 id="convertkit_broadcasts_parse_broadcast_content">
 						convertkit_broadcasts_parse_broadcast_content
-						<code>includes/class-convertkit-broadcasts-importer.php::292</code>
+						<code>includes/class-convertkit-broadcasts-importer.php::300</code>
 					</h3><h4>Overview</h4>
 						<p>Parses the given Broadcast's content, removing unnecessary HTML tags and styles.</p><h4>Parameters</h4>
 					<table>
@@ -1231,7 +1301,7 @@ add_filter( 'convertkit_broadcasts_parse_broadcast_content', function( $content,
 </pre>
 <h3 id="convertkit_broadcasts_parse_broadcast_content_permitted_html_tags">
 						convertkit_broadcasts_parse_broadcast_content_permitted_html_tags
-						<code>includes/class-convertkit-broadcasts-importer.php::386</code>
+						<code>includes/class-convertkit-broadcasts-importer.php::394</code>
 					</h3><h4>Overview</h4>
 						<p>Define the HTML tags to retain in the Broadcast Content.</p><h4>Parameters</h4>
 					<table>
