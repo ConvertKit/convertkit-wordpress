@@ -259,8 +259,14 @@ document.addEventListener(
 		document.addEventListener(
 			'click',
 			function (e) {
-				// Check the broadcasts pagination was clicked.
-				if ( ! e.target.matches( '.formkit-submit' ) ) {
+				console.log( e );
+
+				// Check if the form submit button was clicked, or the span element was clicked and its parent is the form submit button.
+				if ( ! e.target.matches( '.formkit-submit' ) && ! e.target.parentElement.matches( '.formkit-submit' ) ) {
+					if ( convertkit.debug ) {
+						console.log( 'not a ck form' );
+					}
+
 					return;
 				}
 
