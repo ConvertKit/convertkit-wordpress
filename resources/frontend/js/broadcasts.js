@@ -1,7 +1,7 @@
 /**
- * Frontend functionality for subscribers and tags.
+ * Frontend functionality for the Broadcasts block and shortcode.
  *
- * @since   1.9.6
+ * @since   1.9.7.4
  *
  * @package ConvertKit
  * @author ConvertKit
@@ -10,39 +10,41 @@
 /**
  * Register events
  */
-jQuery( document ).ready(
-	function ( $ ) {
-
-		$( document ).on(
+document.addEventListener(
+	'DOMContentLoaded',
+	function () {
+		// Listen for click events.
+		document.addEventListener(
 			'click',
-			'ul.convertkit-broadcasts-pagination a',
-			function ( e ) {
+			function (e) {
+				// Check the broadcasts pagination was clicked.
+				if ( e.target.matches( 'ul.convertkit-broadcasts-pagination a' ) ) {
 
-				e.preventDefault();
+					e.preventDefault();
 
-				// Get block container and build object of data-* attributes.
-				let blockContainer = $( this ).closest( 'div.convertkit-broadcasts' );
-				let atts           = {
-					display_date: $( blockContainer ).data( 'display-date' ),
-					date_format: $( blockContainer ).data( 'date-format' ),
-					display_image: $( blockContainer ).data( 'display-image' ),
-					display_description: $( blockContainer ).data( 'display-description' ),
-					display_read_more: $( blockContainer ).data( 'display-read-more' ),
-					read_more_label: $( blockContainer ).data( 'read-more-label' ),
-					limit: $( blockContainer ).data( 'limit' ),
-					paginate: $( blockContainer ).data( 'paginate' ),
-					paginate_label_prev: $( blockContainer ).data( 'paginate-label-prev' ),
-					paginate_label_next: $( blockContainer ).data( 'paginate-label-next' ),
-					link_color: $( blockContainer ).data( 'link-color' ),
-					page: $( this ).data( 'page' ), // Page is supplied as a data- attribute on the link clicked, not the container.
-					nonce: $( this ).data( 'nonce' ) // Nonce is supplied as a data- attribute on the link clicked, not the container.
-				};
+					// Get block container and build object of data-* attributes.
+					let blockContainer = e.target.closest( 'div.convertkit-broadcasts' );
+					let atts           = {
+						display_date: blockContainer.dataset.displayDate,
+						date_format: blockContainer.dataset.dateFormat,
+						display_image: blockContainer.dataset.displayImage,
+						display_description: blockContainer.dataset.displayDescription,
+						display_read_more: blockContainer.dataset.displayReadMore,
+						read_more_label: blockContainer.dataset.readMoreLabel,
+						limit: blockContainer.dataset.limit,
+						paginate: blockContainer.dataset.paginate,
+						paginate_label_prev: blockContainer.dataset.paginateLabelPrev,
+						paginate_label_next: blockContainer.dataset.paginateLabelNext,
+						link_color: blockContainer.dataset.linkColor,
+						page: e.target.dataset.page,
+						nonce: e.target.dataset.nonce,
+					};
 
-				convertKitBroadcastsRender( blockContainer, atts );
+					convertKitBroadcastsRender( blockContainer, atts );
+				}
 
 			}
 		);
-
 	}
 );
 
@@ -57,48 +59,59 @@ jQuery( document ).ready(
  */
 function convertKitBroadcastsRender( blockContainer, atts ) {
 
-	( function ( $ ) {
+	// Append action.
+	atts.action = convertkit_broadcasts.action;
 
-		// Append action.
-		atts.action = convertkit_broadcasts.action;
+	if ( convertkit_broadcasts.debug ) {
+		console.log( 'convertKitBroadcastsRender()' );
+		console.log( atts );
+	}
 
-		if ( convertkit_broadcasts.debug ) {
-			console.log( 'convertKitBroadcastsRender()' );
-			console.log( atts );
+	// Show loading indicator.
+	blockContainer.classList.add( 'convertkit-broadcasts-loading' );
+
+	// Fetch HTML.
+	fetch(
+		convertkit_broadcasts.ajax_url,
+		{
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/x-www-form-urlencoded',
+			},
+			body: new URLSearchParams( atts ),
 		}
-
-		// Show loading indicator.
-		$( blockContainer ).addClass( 'convertkit-broadcasts-loading' );
-
-		$.ajax(
-			{
-				url:        convertkit_broadcasts.ajax_url,
-				type:       'POST',
-				async:      true,
-				data:      	atts,
-				success: function ( result ) {
-					if ( convertkit_broadcasts.debug ) {
-						console.log( result );
-					}
-
-					// Remove loading indicator.
-					$( blockContainer ).removeClass( 'convertkit-broadcasts-loading' );
-
-					// Replace block container's HTML with response data.
-					$( blockContainer ).html( result.data );
-				}
+	)
+	.then(
+		function ( response ) {
+			if ( convertkit_broadcasts.debug ) {
+				console.log( response );
 			}
-		).fail(
-			function (response) {
-				// Remove loading indicator.
-				$( blockContainer ).removeClass( 'convertkit-broadcasts-loading' );
 
-				if ( convertkit.debug ) {
-					console.log( response );
-				}
+			return response.json();
+		}
+	)
+	.then(
+		function ( result ) {
+			if ( convertkit_broadcasts.debug ) {
+				console.log( result );
 			}
-		);
 
-	} )( jQuery );
+			// Remove loading indicator.
+			blockContainer.classList.remove( 'convertkit-broadcasts-loading' );
+
+			// Replace block container's HTML with response data.
+			blockContainer.innerHTML = result.data;
+		}
+	)
+	.catch(
+		function ( error ) {
+			if ( convertkit.debug ) {
+				console.error( error );
+			}
+
+			// Remove loading indicator.
+			blockContainer.classList.remove( 'convertkit-broadcasts-loading' );
+		}
+	);
 
 }
