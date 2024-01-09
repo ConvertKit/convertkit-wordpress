@@ -364,7 +364,7 @@ class ConvertKit_Output {
 		wp_register_script(
 			'convertkit-js',
 			CONVERTKIT_PLUGIN_URL . 'resources/frontend/js/convertkit.js',
-			array( 'jquery' ),
+			array(),
 			CONVERTKIT_PLUGIN_VERSION,
 			true
 		);
