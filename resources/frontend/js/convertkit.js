@@ -259,8 +259,6 @@ document.addEventListener(
 		document.addEventListener(
 			'click',
 			function (e) {
-				console.log( e );
-
 				// Check if the form submit button was clicked, or the span element was clicked and its parent is the form submit button.
 				if ( ! e.target.matches( '.formkit-submit' ) && ! e.target.parentElement.matches( '.formkit-submit' ) ) {
 					if ( convertkit.debug ) {
