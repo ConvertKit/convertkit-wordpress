@@ -119,7 +119,7 @@ class ConvertKit_Gutenberg {
 
 		// Enqueue block scripts and styles in the editor view.
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
-		add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_styles' ) );
+		add_action( 'enqueue_block_assets', array( $this, 'enqueue_styles' ) );
 
 		// Enqueue block scripts and styles in the editor and frontend views.
 		add_action( 'enqueue_block_assets', array( $this, 'enqueue_scripts_editor_and_frontend' ) );
