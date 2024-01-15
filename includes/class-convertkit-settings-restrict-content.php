@@ -114,7 +114,7 @@ class ConvertKit_Settings_Restrict_Content {
 
 		$defaults = array(
 			// Permit Crawlers.
-			'permit_crawlers'		 => '',
+			'permit_crawlers'        => '',
 
 			// Restrict by Product.
 			'subscribe_heading'      => __( 'Read this post with a premium subscription', 'convertkit' ),

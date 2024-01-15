@@ -1036,15 +1036,17 @@ class ConvertKit_Output_Restrict_Content {
 
 	/**
 	 * Whether this request is from a search engine crawler.
-	 * 
-	 * @since 	2.4.2
-	 * 
-	 * @return 	bool
+	 *
+	 * @since   2.4.2
+	 *
+	 * @return  bool
 	 */
 	private function is_crawler() {
 
 		// Define permitted user agent crawlers and their IP addresses.
-		$permitted = array(
+		$permitted_user_agent_ip_ranges = array(
+			// Google.
+			// https://developers.google.com/static/search/apis/ipranges/googlebot.json.
 			'Googlebot' => array(
 				'192.178.5.0/27',
 				'34.100.182.96/28',
@@ -1175,7 +1177,50 @@ class ConvertKit_Output_Restrict_Content {
 				'66.249.79.64/27',
 				'66.249.79.96/27',
 			),
+
+			// Bing.
+			// https://www.bing.com/toolbox/bingbot.json.
+			'Bingbot'   => array(
+				'157.55.39.0/24',
+				'207.46.13.0/24',
+				'40.77.167.0/24',
+				'13.66.139.0/24',
+				'13.66.144.0/24',
+				'52.167.144.0/24',
+				'13.67.10.16/28',
+				'13.69.66.240/28',
+				'13.71.172.224/28',
+				'139.217.52.0/28',
+				'191.233.204.224/28',
+				'20.36.108.32/28',
+				'20.43.120.16/28',
+				'40.79.131.208/28',
+				'40.79.186.176/28',
+				'52.231.148.0/28',
+				'20.79.107.240/28',
+				'51.105.67.0/28',
+				'20.125.163.80/28',
+				'40.77.188.0/22',
+				'65.55.210.0/24',
+				'199.30.24.0/23',
+				'40.77.202.0/24',
+				'40.77.139.0/25',
+				'20.74.197.0/28',
+				'20.15.133.160/27',
+				'40.77.177.0/24',
+				'40.77.178.0/23',
+			),
 		);
+
+		/**
+		 * Define the permitted user agents and their IP address ranges that can bypass
+		 * Restrict Content to index content for search engines.
+		 *
+		 * @since   2.4.2
+		 *
+		 * @param   array   $permitted  Permitted user agent and IP address ranges.
+		 */
+		$permitted_user_agent_ip_ranges = apply_filters( 'convertkit_output_restrict_content_is_crawler_permitted_user_agent_ip_ranges', $permitted_user_agent_ip_ranges );
 
 		// Not a crawler if no user agent defined or client IP address defined.
 		if ( ! array_key_exists( 'HTTP_USER_AGENT', $_SERVER ) || ! array_key_exists( 'REMOTE_ADDR', $_SERVER ) ) {
@@ -1183,7 +1228,7 @@ class ConvertKit_Output_Restrict_Content {
 		}
 
 		// Iterate through permitted crawler IP addresses.
-		foreach ( $permitted as $permitted_user_agent => $permitted_ip_addresses ) {
+		foreach ( $permitted_user_agent_ip_ranges as $permitted_user_agent => $permitted_ip_addresses ) {
 			// Skip this user agent's IP addresses if the client user agent doesn't contain this user agent.
 			if ( stripos( $_SERVER['HTTP_USER_AGENT'], $permitted_user_agent ) === false ) {
 				continue;
@@ -1208,32 +1253,27 @@ class ConvertKit_Output_Restrict_Content {
 
 	/**
 	 * Determines if the given IP address falls within the given CIDR range.
-	 * 
-	 * @since 	2.4.2
-	 * 
-	 * @param 	string 	$ip 	Client IP Address (e.g. 127.0.0.1).
-	 * @param 	string 	$range 	IP Address and bits (e.g. 127.0.0.1/27).
-	 * @return 	bool 			Client IP Address matches range.
+	 *
+	 * @since   2.4.2
+	 *
+	 * @param   string $ip     Client IP Address (e.g. 127.0.0.1).
+	 * @param   string $range  IP Address and bits (e.g. 127.0.0.1/27).
+	 * @return  bool           Client IP Address matches range.
 	 */
 	private function ip_in_range( $ip, $range ) {
 
 		// Get subnet and bits from range.
-	    list( $subnet, $bits ) = explode( '/', $range );
+		list( $subnet, $bits ) = explode( '/', $range );
 
-	    // If no bits defined, define now.
-	    if ( is_null( $bits ) ) {
-	    	$bits = 32;
-	    }
+		// Convert to long representation.
+		$ip     = ip2long( $ip );
+		$subnet = ip2long( $subnet );
+		$mask   = -1 << ( 32 - (int) $bits );
 
-	    // Convert to long representation. 
-	    $ip = ip2long( $ip );
-	    $subnet = ip2long( $subnet );
-	    $mask = -1 << ( 32 - $bits );
+		// If the supplied subnet wasn't correctly aligned.
+		$subnet &= $mask;
 
-	    // If the supplied subnet wasn't correctly aligned.
-	    $subnet &= $mask;
-
-	    return ( $ip & $mask ) == $subnet;
+		return ( $ip & $mask ) === $subnet;
 
 	}
 
