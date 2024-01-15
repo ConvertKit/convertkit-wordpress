@@ -54,10 +54,7 @@ class RestrictContentSettingsCest
 		$this->_setupConvertKitPluginRestrictContent($I);
 
 		// Confirm default values were saved and display in the form fields.
-		$defaults = $I->getRestrictedContentDefaultSettings();
-		foreach ( $defaults as $key => $value ) {
-			$I->seeInField('_wp_convertkit_settings_restrict_content[' . $key . ']', $value);
-		}
+		$this->_checkConvertKitPluginRestrictContentSettings($I, $I->getRestrictedContentDefaultSettings());
 
 		// Create Restricted Content Page.
 		$pageID = $I->createRestrictedContentPage(
@@ -107,10 +104,7 @@ class RestrictContentSettingsCest
 		$this->_setupConvertKitPluginRestrictContent($I, $settings);
 
 		// Confirm default values were saved and display in the form fields.
-		$defaults = $I->getRestrictedContentDefaultSettings();
-		foreach ( $defaults as $key => $value ) {
-			$I->seeInField('_wp_convertkit_settings_restrict_content[' . $key . ']', $value);
-		}
+		$this->_checkConvertKitPluginRestrictContentSettings($I, $I->getRestrictedContentDefaultSettings());
 
 		// Create Restricted Content Page.
 		$pageID = $I->createRestrictedContentPage(
@@ -137,6 +131,9 @@ class RestrictContentSettingsCest
 	{
 		// Define settings.
 		$settings = array(
+			// Permit Crawlers.
+			'permit_crawlers'        => true,
+
 			// Restrict by Product.
 			'subscribe_heading'      => 'Subscribe Heading',
 			'subscribe_text'         => 'Subscribe Text',
@@ -160,9 +157,7 @@ class RestrictContentSettingsCest
 		$this->_setupConvertKitPluginRestrictContent($I, $settings);
 
 		// Confirm custom values were saved and display in the form fields.
-		foreach ( $settings as $key => $value ) {
-			$I->seeInField('_wp_convertkit_settings_restrict_content[' . $key . ']', $value);
-		}
+		$this->_checkConvertKitPluginRestrictContentSettings($I, $settings);
 
 		// Create Restricted Content Page.
 		$pageID = $I->createRestrictedContentPage(
@@ -226,7 +221,19 @@ class RestrictContentSettingsCest
 		// Complete fields.
 		if ( $settings ) {
 			foreach ( $settings as $key => $value ) {
-				$I->fillField('_wp_convertkit_settings_restrict_content[' . $key . ']', $value);
+				switch ( $key ) {
+					case 'permit_crawlers':
+						if ( $value ) {
+							$I->checkOption('_wp_convertkit_settings_restrict_content[' . $key . ']');
+						} else {
+							$I->uncheckOption('_wp_convertkit_settings_restrict_content[' . $key . ']');
+						}
+						break;
+
+					default:
+						$I->fillField('_wp_convertkit_settings_restrict_content[' . $key . ']', $value);
+						break;
+				}
 			}
 		}
 
@@ -235,6 +242,33 @@ class RestrictContentSettingsCest
 
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
+	}
+
+	/**
+	 * Helper method to check the Plugin's Member Content settings.
+	 *
+	 * @since   2.4.2
+	 *
+	 * @param   AcceptanceTester $I          AcceptanceTester.
+	 * @param   bool|array       $settings   Array of expected key/value settings.
+	 */
+	public function _checkConvertKitPluginRestrictContentSettings($I, $settings)
+	{
+		foreach ( $settings as $key => $value ) {
+			switch ( $key ) {
+				case 'permit_crawlers':
+					if ( $value ) {
+						$I->seeCheckboxIsChecked('_wp_convertkit_settings_restrict_content[' . $key . ']');
+					} else {
+						$I->dontSeeCheckboxIsChecked('_wp_convertkit_settings_restrict_content[' . $key . ']');
+					}
+					break;
+
+				default:
+					$I->seeInField('_wp_convertkit_settings_restrict_content[' . $key . ']', $value);
+					break;
+			}
+		}
 	}
 
 	/**
