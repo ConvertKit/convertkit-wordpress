@@ -81,6 +81,9 @@ class RestrictContentSettingsCest
 	{
 		// Define settings.
 		$settings = array(
+			// Permit Crawlers.
+			'permit_crawlers'        => '',
+
 			// Restrict by Product.
 			'subscribe_heading'      => '',
 			'subscribe_text'         => '',

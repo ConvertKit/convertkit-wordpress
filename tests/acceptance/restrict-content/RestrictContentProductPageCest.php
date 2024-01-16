@@ -207,6 +207,58 @@ class RestrictContentProductPageCest
 	}
 
 	/**
+	 * Test that search engines can access Restrict Content.
+	 *
+	 * @since   2.4.2
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testRestrictContentUsingCrawler(AcceptanceTester $I)
+	{
+		// Setup ConvertKit Plugin.
+		$I->setupConvertKitPlugin($I);
+
+		// Setup Restrict Content functionality with permit crawlers setting enabled.
+		$I->setupConvertKitPluginRestrictContent($I, [
+			'permit_crawlers' => 'on',
+		]);
+
+		// Add a Page using the Gutenberg editor.
+		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Restrict Content: Product: Search Engines');
+
+		// Configure metabox's Restrict Content setting = Product name.
+		$I->configureMetaboxSettings(
+			$I,
+			'wp-convertkit-meta-box',
+			[
+				'form'             => [ 'select2', 'None' ],
+				'restrict_content' => [ 'select2', $_ENV['CONVERTKIT_API_PRODUCT_NAME'] ],
+			]
+		);
+
+		// Add blocks.
+		$I->addGutenbergParagraphBlock($I, 'Visible content.');
+		$I->addGutenbergBlock($I, 'More', 'more');
+		$I->addGutenbergParagraphBlock($I, 'Member only content.');
+
+		// Publish Page.
+		$url = $I->publishGutenbergPage($I);
+
+		// Emulate a Googlebot IP address and user agent.
+		$_SERVER['REMOTE_ADDR'] = $_ENV['TEST_SITE_HTTP_REMOTE_ADDR_GOOGLEBOT'];
+		$I->changeUserAgent($_ENV['TEST_SITE_HTTP_USER_AGENT_GOOGLEBOT']);
+		
+		// Load page.
+		$I->amOnUrl($url);
+
+		// Confirm page displays all content, as we're a crawler.
+		$I->testRestrictContentDisplaysContent($I);
+
+		// Change user agent back, as it persists through tests.
+		$I->changeUserAgent($_ENV['TEST_SITE_HTTP_USER_AGENT']);
+	}
+
+	/**
 	 * Test that restricting content by a Product specified in the Page Settings works when
 	 * using the Quick Edit functionality.
 	 *
@@ -287,6 +339,8 @@ class RestrictContentProductPageCest
 			$I->resetCookie('ck_subscriber_id');
 		}
 	}
+
+
 
 	/**
 	 * Deactivate and reset Plugin(s) after each test, if the test passes.

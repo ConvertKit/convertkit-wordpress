@@ -53,6 +53,9 @@ class ConvertKitRestrictContent extends \Codeception\Module
 	public function getRestrictedContentDefaultSettings()
 	{
 		return array(
+			// Permit Crawlers.
+			'permit_crawlers'        => '',
+
 			// Restrict by Product.
 			'subscribe_heading'      => 'Read this post with a premium subscription',
 			'subscribe_text'         => 'This post is only available to premium subscribers. Join today to get access to all posts.',
