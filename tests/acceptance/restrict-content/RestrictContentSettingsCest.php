@@ -54,7 +54,7 @@ class RestrictContentSettingsCest
 		$this->_setupConvertKitPluginRestrictContent($I);
 
 		// Confirm default values were saved and display in the form fields.
-		$this->checkRestrictContentSettings($I, $I->getRestrictedContentDefaultSettings());
+		$I->checkRestrictContentSettings($I, $I->getRestrictedContentDefaultSettings());
 
 		// Create Restricted Content Page.
 		$pageID = $I->createRestrictedContentPage(
@@ -107,7 +107,7 @@ class RestrictContentSettingsCest
 		$this->_setupConvertKitPluginRestrictContent($I, $settings);
 
 		// Confirm default values were saved and display in the form fields.
-		$this->checkRestrictContentSettings($I, $I->getRestrictedContentDefaultSettings());
+		$I->checkRestrictContentSettings($I, $I->getRestrictedContentDefaultSettings());
 
 		// Create Restricted Content Page.
 		$pageID = $I->createRestrictedContentPage(
@@ -160,7 +160,7 @@ class RestrictContentSettingsCest
 		$this->_setupConvertKitPluginRestrictContent($I, $settings);
 
 		// Confirm custom values were saved and display in the form fields.
-		$this->checkRestrictContentSettings($I, $settings);
+		$I->checkRestrictContentSettings($I, $settings);
 
 		// Create Restricted Content Page.
 		$pageID = $I->createRestrictedContentPage(
