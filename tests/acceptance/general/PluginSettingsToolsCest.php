@@ -201,10 +201,7 @@ class PluginSettingsToolsCest
 		$I->loadConvertKitSettingsRestrictContentScreen($I);
 
 		// Confirm that the text fields contain the expected data.
-		$defaults = $I->getRestrictedContentDefaultSettings();
-		foreach ( $defaults as $key => $value ) {
-			$I->seeInField('_wp_convertkit_settings_restrict_content[' . $key . ']', $value);
-		}
+		$I->checkRestrictContentSettings($I, $I->getRestrictedContentDefaultSettings());
 	}
 
 	/**

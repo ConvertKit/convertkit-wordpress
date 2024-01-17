@@ -54,7 +54,7 @@ class RestrictContentSettingsCest
 		$this->_setupConvertKitPluginRestrictContent($I);
 
 		// Confirm default values were saved and display in the form fields.
-		$this->_checkConvertKitPluginRestrictContentSettings($I, $I->getRestrictedContentDefaultSettings());
+		$this->checkRestrictContentSettings($I, $I->getRestrictedContentDefaultSettings());
 
 		// Create Restricted Content Page.
 		$pageID = $I->createRestrictedContentPage(
@@ -107,7 +107,7 @@ class RestrictContentSettingsCest
 		$this->_setupConvertKitPluginRestrictContent($I, $settings);
 
 		// Confirm default values were saved and display in the form fields.
-		$this->_checkConvertKitPluginRestrictContentSettings($I, $I->getRestrictedContentDefaultSettings());
+		$this->checkRestrictContentSettings($I, $I->getRestrictedContentDefaultSettings());
 
 		// Create Restricted Content Page.
 		$pageID = $I->createRestrictedContentPage(
@@ -160,7 +160,7 @@ class RestrictContentSettingsCest
 		$this->_setupConvertKitPluginRestrictContent($I, $settings);
 
 		// Confirm custom values were saved and display in the form fields.
-		$this->_checkConvertKitPluginRestrictContentSettings($I, $settings);
+		$this->checkRestrictContentSettings($I, $settings);
 
 		// Create Restricted Content Page.
 		$pageID = $I->createRestrictedContentPage(
@@ -245,33 +245,6 @@ class RestrictContentSettingsCest
 
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
-	}
-
-	/**
-	 * Helper method to check the Plugin's Member Content settings.
-	 *
-	 * @since   2.4.2
-	 *
-	 * @param   AcceptanceTester $I          AcceptanceTester.
-	 * @param   bool|array       $settings   Array of expected key/value settings.
-	 */
-	public function _checkConvertKitPluginRestrictContentSettings($I, $settings)
-	{
-		foreach ( $settings as $key => $value ) {
-			switch ( $key ) {
-				case 'permit_crawlers':
-					if ( $value ) {
-						$I->seeCheckboxIsChecked('_wp_convertkit_settings_restrict_content[' . $key . ']');
-					} else {
-						$I->dontSeeCheckboxIsChecked('_wp_convertkit_settings_restrict_content[' . $key . ']');
-					}
-					break;
-
-				default:
-					$I->seeInField('_wp_convertkit_settings_restrict_content[' . $key . ']', $value);
-					break;
-			}
-		}
 	}
 
 	/**

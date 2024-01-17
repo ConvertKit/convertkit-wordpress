@@ -76,6 +76,33 @@ class ConvertKitRestrictContent extends \Codeception\Module
 	}
 
 	/**
+	 * Helper method to check the Plugin's Member Content settings.
+	 *
+	 * @since   2.4.2
+	 *
+	 * @param   AcceptanceTester $I          AcceptanceTester.
+	 * @param   bool|array       $settings   Array of expected key/value settings.
+	 */
+	public function checkRestrictContentSettings($I, $settings)
+	{
+		foreach ( $settings as $key => $value ) {
+			switch ( $key ) {
+				case 'permit_crawlers':
+					if ( $value ) {
+						$I->seeCheckboxIsChecked('_wp_convertkit_settings_restrict_content[' . $key . ']');
+					} else {
+						$I->dontSeeCheckboxIsChecked('_wp_convertkit_settings_restrict_content[' . $key . ']');
+					}
+					break;
+
+				default:
+					$I->seeInField('_wp_convertkit_settings_restrict_content[' . $key . ']', $value);
+					break;
+			}
+		}
+	}
+
+	/**
 	 * Creates a Page in the database with the given title for restricted content.
 	 *
 	 * The Page's content comprises of a mix of visible and member's only content.
