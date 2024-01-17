@@ -215,13 +215,21 @@ class RestrictContentProductPageCest
 	 */
 	public function testRestrictContentUsingCrawler(AcceptanceTester $I)
 	{
+		// Enable ConvertKit Action and Filter Tests Plugin.
+		// This will register Chrome and 127.0.0.1 as a user agent and client IP address combination
+		// that is permitted to bypass Restrict Content functionality, as if we were a crawler.
+		$I->activateThirdPartyPlugin($I, 'convertkit-actions-and-filters-tests');
+
 		// Setup ConvertKit Plugin.
 		$I->setupConvertKitPlugin($I);
 
 		// Setup Restrict Content functionality with permit crawlers setting enabled.
-		$I->setupConvertKitPluginRestrictContent($I, [
-			'permit_crawlers' => 'on',
-		]);
+		$I->setupConvertKitPluginRestrictContent(
+			$I,
+			[
+				'permit_crawlers' => 'on',
+			]
+		);
 
 		// Add a Page using the Gutenberg editor.
 		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Restrict Content: Product: Search Engines');
@@ -244,18 +252,11 @@ class RestrictContentProductPageCest
 		// Publish Page.
 		$url = $I->publishGutenbergPage($I);
 
-		// Emulate a Googlebot IP address and user agent.
-		$_SERVER['REMOTE_ADDR'] = $_ENV['TEST_SITE_HTTP_REMOTE_ADDR_GOOGLEBOT'];
-		$I->changeUserAgent($_ENV['TEST_SITE_HTTP_USER_AGENT_GOOGLEBOT']);
-		
 		// Load page.
 		$I->amOnUrl($url);
 
 		// Confirm page displays all content, as we're a crawler.
 		$I->testRestrictContentDisplaysContent($I);
-
-		// Change user agent back, as it persists through tests.
-		$I->changeUserAgent($_ENV['TEST_SITE_HTTP_USER_AGENT']);
 	}
 
 	/**
@@ -354,6 +355,7 @@ class RestrictContentProductPageCest
 	public function _passed(AcceptanceTester $I)
 	{
 		$I->resetCookie('ck_subscriber_id');
+		$I->deactivateThirdPartyPlugin($I, 'convertkit-actions-and-filters-tests');
 		$I->deactivateConvertKitPlugin($I);
 		$I->resetConvertKitPlugin($I);
 	}

@@ -22,8 +22,8 @@ class ConvertKitRestrictContent extends \Codeception\Module
 		$I->haveOptionInDatabase(
 			'_wp_convertkit_settings_restrict_content',
 			array_merge(
-				$settings,
-				$I->getRestrictedContentDefaultSettings()
+				$I->getRestrictedContentDefaultSettings(),
+				$settings
 			)
 		);
 	}
