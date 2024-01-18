@@ -1260,15 +1260,38 @@ class ConvertKit_Output_Restrict_Content {
 	 * @param   string $range  IP Address and bits (e.g. 127.0.0.1/27).
 	 * @return  bool           Client IP Address matches range.
 	 */
-	private function ip_in_range( $ip, $range ) {
+	public function ip_in_range( $ip, $range ) {
+
+		// Return false if the IP address isn't valid.
+		if ( ! filter_var( $ip, FILTER_VALIDATE_IP ) ) {
+			return false;
+		}
+
+		// Return false if the range doesn't include the CIDR.
+		if ( strpos( $range, '/' ) === false ) {
+			return false;
+		}
 
 		// Get subnet and bits from range.
 		list( $subnet, $bits ) = explode( '/', $range );
 
+		// Return false if the CIDR isn't numerical.
+		if ( ! is_numeric( $bits ) ) {
+			return false;
+		}
+
+		// Cast CIDR to integer.
+		$bits = (int) $bits;
+
+		// Return false if the CIDR is not wihtin the permitted range.
+		if ( $bits < 0 || $bits > 32 ) {
+			return false;
+		}
+
 		// Convert to long representation.
 		$ip     = ip2long( $ip );
 		$subnet = ip2long( $subnet );
-		$mask   = -1 << ( 32 - (int) $bits );
+		$mask   = -1 << ( 32 - $bits );
 
 		// If the supplied subnet wasn't correctly aligned.
 		$subnet &= $mask;
