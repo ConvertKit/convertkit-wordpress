@@ -207,6 +207,59 @@ class RestrictContentProductPageCest
 	}
 
 	/**
+	 * Test that search engines can access Restrict Content.
+	 *
+	 * @since   2.4.2
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testRestrictContentUsingCrawler(AcceptanceTester $I)
+	{
+		// Enable ConvertKit Action and Filter Tests Plugin.
+		// This will register Chrome and 127.0.0.1 as a user agent and client IP address combination
+		// that is permitted to bypass Restrict Content functionality, as if we were a crawler.
+		$I->activateThirdPartyPlugin($I, 'convertkit-actions-and-filters-tests');
+
+		// Setup ConvertKit Plugin.
+		$I->setupConvertKitPlugin($I);
+
+		// Setup Restrict Content functionality with permit crawlers setting enabled.
+		$I->setupConvertKitPluginRestrictContent(
+			$I,
+			[
+				'permit_crawlers' => 'on',
+			]
+		);
+
+		// Add a Page using the Gutenberg editor.
+		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Restrict Content: Product: Search Engines');
+
+		// Configure metabox's Restrict Content setting = Product name.
+		$I->configureMetaboxSettings(
+			$I,
+			'wp-convertkit-meta-box',
+			[
+				'form'             => [ 'select2', 'None' ],
+				'restrict_content' => [ 'select2', $_ENV['CONVERTKIT_API_PRODUCT_NAME'] ],
+			]
+		);
+
+		// Add blocks.
+		$I->addGutenbergParagraphBlock($I, 'Visible content.');
+		$I->addGutenbergBlock($I, 'More', 'more');
+		$I->addGutenbergParagraphBlock($I, 'Member only content.');
+
+		// Publish Page.
+		$url = $I->publishGutenbergPage($I);
+
+		// Load page.
+		$I->amOnUrl($url);
+
+		// Confirm page displays all content, as we're a crawler.
+		$I->testRestrictContentDisplaysContent($I);
+	}
+
+	/**
 	 * Test that restricting content by a Product specified in the Page Settings works when
 	 * using the Quick Edit functionality.
 	 *
@@ -288,6 +341,8 @@ class RestrictContentProductPageCest
 		}
 	}
 
+
+
 	/**
 	 * Deactivate and reset Plugin(s) after each test, if the test passes.
 	 * We don't use _after, as this would provide a screenshot of the Plugin
@@ -300,6 +355,7 @@ class RestrictContentProductPageCest
 	public function _passed(AcceptanceTester $I)
 	{
 		$I->resetCookie('ck_subscriber_id');
+		$I->deactivateThirdPartyPlugin($I, 'convertkit-actions-and-filters-tests');
 		$I->deactivateConvertKitPlugin($I);
 		$I->resetConvertKitPlugin($I);
 	}

@@ -65,6 +65,21 @@ class ConvertKit_Admin_Settings_Restrict_Content extends ConvertKit_Settings_Bas
 	 */
 	public function register_fields() {
 
+		// Permit Crawlers.
+		add_settings_field(
+			'permit_crawlers',
+			__( 'Permit Search Engine Crawlers', 'convertkit' ),
+			array( $this, 'permit_crawlers_callback' ),
+			$this->settings_key,
+			$this->name,
+			array(
+				'name'        => 'permit_crawlers',
+				'label_for'   => 'permit_crawlers',
+				'label'       => __( 'When enabled, search engine crawlers (such as Google and Bing) are able to access Member Content for indexing.', 'convertkit' ),
+				'description' => '',
+			)
+		);
+
 		// Restrict by Product.
 		add_settings_field(
 			'subscribe_heading',
@@ -286,6 +301,26 @@ class ConvertKit_Admin_Settings_Restrict_Content extends ConvertKit_Settings_Bas
 	public function documentation_url() {
 
 		return 'https://help.convertkit.com/en/articles/2502591-the-convertkit-wordpress-plugin';
+
+	}
+
+	/**
+	 * Renders the input for the Enable setting.
+	 *
+	 * @since   2.4.1
+	 *
+	 * @param   array $args   Setting field arguments (name,description).
+	 */
+	public function permit_crawlers_callback( $args ) {
+
+		// Output field.
+		echo $this->get_checkbox_field( // phpcs:ignore WordPress.Security.EscapeOutput
+			$args['name'],
+			'on',
+			$this->settings->permit_crawlers(), // phpcs:ignore WordPress.Security.EscapeOutput
+			$args['label'],  // phpcs:ignore WordPress.Security.EscapeOutput
+			$args['description'] // phpcs:ignore WordPress.Security.EscapeOutput
+		);
 
 	}
 

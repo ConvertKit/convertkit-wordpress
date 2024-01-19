@@ -22,8 +22,8 @@ class ConvertKitRestrictContent extends \Codeception\Module
 		$I->haveOptionInDatabase(
 			'_wp_convertkit_settings_restrict_content',
 			array_merge(
-				$settings,
-				$I->getRestrictedContentDefaultSettings()
+				$I->getRestrictedContentDefaultSettings(),
+				$settings
 			)
 		);
 	}
@@ -53,6 +53,9 @@ class ConvertKitRestrictContent extends \Codeception\Module
 	public function getRestrictedContentDefaultSettings()
 	{
 		return array(
+			// Permit Crawlers.
+			'permit_crawlers'        => '',
+
 			// Restrict by Product.
 			'subscribe_heading'      => 'Read this post with a premium subscription',
 			'subscribe_text'         => 'This post is only available to premium subscribers. Join today to get access to all posts.',
@@ -70,6 +73,33 @@ class ConvertKitRestrictContent extends \Codeception\Module
 			'email_check_text'       => 'Enter the code below to finish logging in',
 			'no_access_text'         => 'Your account does not have access to this content. Please use the button above to purchase, or enter the email address you used to purchase the product.',
 		);
+	}
+
+	/**
+	 * Helper method to check the Plugin's Member Content settings.
+	 *
+	 * @since   2.4.2
+	 *
+	 * @param   AcceptanceTester $I          AcceptanceTester.
+	 * @param   bool|array       $settings   Array of expected key/value settings.
+	 */
+	public function checkRestrictContentSettings($I, $settings)
+	{
+		foreach ( $settings as $key => $value ) {
+			switch ( $key ) {
+				case 'permit_crawlers':
+					if ( $value ) {
+						$I->seeCheckboxIsChecked('_wp_convertkit_settings_restrict_content[' . $key . ']');
+					} else {
+						$I->dontSeeCheckboxIsChecked('_wp_convertkit_settings_restrict_content[' . $key . ']');
+					}
+					break;
+
+				default:
+					$I->seeInField('_wp_convertkit_settings_restrict_content[' . $key . ']', $value);
+					break;
+			}
+		}
 	}
 
 	/**
