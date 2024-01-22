@@ -5,7 +5,7 @@ Tags: email marketing, email newsletter, newsletter, subscribers, membership
 Requires at least: 5.0
 Tested up to: 6.4.2
 Requires PHP: 5.6.20
-Stable tag: 2.4.1
+Stable tag: 2.4.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -155,6 +155,12 @@ Full Plugin documentation can be found [here](https://help.convertkit.com/en/art
 10. Track subscriber growth
 
 == Changelog ==
+
+### 2.4.2 2024-01-22
+* Added: Member Content: Option to permit search engines to crawl Member Content at `ConvertKit > Member Content > Permit Search Engine Crawlers`
+* Added: Removed jQuery from frontend JS and as a dependency
+* Fix: Site Editor: Use `enqueue_block_assets` hook instead of `enqueue_block_editor_assets` hook
+* Updated: WordPress Libraries to 1.4.1
 
 ### 2.4.1 2024-01-08
 * Added: Broadcasts (Beta): Option to store ConvertKit Broadcast thumbnails as WordPress Post's Featured Image

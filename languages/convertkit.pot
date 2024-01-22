@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the ConvertKit plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: ConvertKit 2.4.1\n"
+"Project-Id-Version: ConvertKit 2.4.2\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/convertkit\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-01-08T13:17:14+00:00\n"
+"POT-Creation-Date: 2024-01-19T16:08:59+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.9.0\n"
 "X-Domain: convertkit\n"
@@ -91,110 +91,118 @@ msgid "Member Content"
 msgstr ""
 
 #: admin/class-convertkit-admin-settings-restrict-content.php:71
-msgid "Product: Subscribe Heading"
+msgid "Permit Search Engine Crawlers"
 msgstr ""
 
-#: admin/class-convertkit-admin-settings-restrict-content.php:79
-msgid "When a Page, Post or Custom Post's Member Content setting is set to a ConvertKit Product, displays text in a heading explaining why the content is only available to subscribers."
+#: admin/class-convertkit-admin-settings-restrict-content.php:78
+msgid "When enabled, search engine crawlers (such as Google and Bing) are able to access Member Content for indexing."
 msgstr ""
 
 #: admin/class-convertkit-admin-settings-restrict-content.php:86
-msgid "Product: Subscribe Text"
+msgid "Product: Subscribe Heading"
 msgstr ""
 
 #: admin/class-convertkit-admin-settings-restrict-content.php:94
+msgid "When a Page, Post or Custom Post's Member Content setting is set to a ConvertKit Product, displays text in a heading explaining why the content is only available to subscribers."
+msgstr ""
+
+#: admin/class-convertkit-admin-settings-restrict-content.php:101
+msgid "Product: Subscribe Text"
+msgstr ""
+
+#: admin/class-convertkit-admin-settings-restrict-content.php:109
 msgid "When a Page, Post or Custom Post's Member Content setting is set to a ConvertKit Product, displays text explaining why the content is only available to subscribers."
 msgstr ""
 
-#: admin/class-convertkit-admin-settings-restrict-content.php:102
+#: admin/class-convertkit-admin-settings-restrict-content.php:117
 msgid "Tag: Subscribe Heading"
 msgstr ""
 
-#: admin/class-convertkit-admin-settings-restrict-content.php:110
+#: admin/class-convertkit-admin-settings-restrict-content.php:125
 msgid "When a Page, Post or Custom Post's Member Content setting is set to a ConvertKit Tag, displays text in a heading explaining why the content is only available to subscribers."
 msgstr ""
 
-#: admin/class-convertkit-admin-settings-restrict-content.php:117
+#: admin/class-convertkit-admin-settings-restrict-content.php:132
 msgid "Tag: Subscribe Text"
 msgstr ""
 
-#: admin/class-convertkit-admin-settings-restrict-content.php:125
+#: admin/class-convertkit-admin-settings-restrict-content.php:140
 msgid "When a Page, Post or Custom Post's Member Content setting is set to a ConvertKit Tag, displays text explaining why the content is only available to subscribers."
 msgstr ""
 
-#: admin/class-convertkit-admin-settings-restrict-content.php:133
+#: admin/class-convertkit-admin-settings-restrict-content.php:148
 msgid "Subscribe Button Label"
 msgstr ""
 
-#: admin/class-convertkit-admin-settings-restrict-content.php:141
+#: admin/class-convertkit-admin-settings-restrict-content.php:156
 msgid "The text to display for the call to action button to subscribe."
 msgstr ""
 
-#: admin/class-convertkit-admin-settings-restrict-content.php:148
+#: admin/class-convertkit-admin-settings-restrict-content.php:163
 msgid "Email Text"
 msgstr ""
 
-#: admin/class-convertkit-admin-settings-restrict-content.php:156
+#: admin/class-convertkit-admin-settings-restrict-content.php:171
 msgid "The text to display asking if the subscriber has already subscribed."
 msgstr ""
 
-#: admin/class-convertkit-admin-settings-restrict-content.php:163
+#: admin/class-convertkit-admin-settings-restrict-content.php:178
 msgid "Email Heading"
 msgstr ""
 
-#: admin/class-convertkit-admin-settings-restrict-content.php:171
+#: admin/class-convertkit-admin-settings-restrict-content.php:186
 msgid "The heading to display above the email field, directing the subscriber to log in."
 msgstr ""
 
-#: admin/class-convertkit-admin-settings-restrict-content.php:178
+#: admin/class-convertkit-admin-settings-restrict-content.php:193
 msgid "Email Field Description"
 msgstr ""
 
-#: admin/class-convertkit-admin-settings-restrict-content.php:186
+#: admin/class-convertkit-admin-settings-restrict-content.php:201
 msgid "The text to display below the email field, explaining the subscriber will receive a code by email."
 msgstr ""
 
-#: admin/class-convertkit-admin-settings-restrict-content.php:193
+#: admin/class-convertkit-admin-settings-restrict-content.php:208
 msgid "Email Button Label"
 msgstr ""
 
-#: admin/class-convertkit-admin-settings-restrict-content.php:201
+#: admin/class-convertkit-admin-settings-restrict-content.php:216
 msgid "The text to display for the button to submit the subscriber's email address and receive a login link to access the member only content."
 msgstr ""
 
-#: admin/class-convertkit-admin-settings-restrict-content.php:208
+#: admin/class-convertkit-admin-settings-restrict-content.php:223
 msgid "Email Check Heading"
 msgstr ""
 
-#: admin/class-convertkit-admin-settings-restrict-content.php:216
+#: admin/class-convertkit-admin-settings-restrict-content.php:231
 msgid "The heading to display telling the subscriber an email with a log in code was just sent."
 msgstr ""
 
-#: admin/class-convertkit-admin-settings-restrict-content.php:223
+#: admin/class-convertkit-admin-settings-restrict-content.php:238
 msgid "Email Check Text"
 msgstr ""
 
-#: admin/class-convertkit-admin-settings-restrict-content.php:231
+#: admin/class-convertkit-admin-settings-restrict-content.php:246
 msgid "The text to display instructing the subscriber to check their email for the login link that was sent."
 msgstr ""
 
-#: admin/class-convertkit-admin-settings-restrict-content.php:238
+#: admin/class-convertkit-admin-settings-restrict-content.php:253
 msgid "No Access Text"
 msgstr ""
 
-#: admin/class-convertkit-admin-settings-restrict-content.php:246
+#: admin/class-convertkit-admin-settings-restrict-content.php:261
 msgid "The text to display for a subscriber who authenticates via the login link, but is not subscribed."
 msgstr ""
 
-#: admin/class-convertkit-admin-settings-restrict-content.php:261
+#: admin/class-convertkit-admin-settings-restrict-content.php:276
 msgid "Defines the text and button labels to display when a Page, Post or Custom Post has its Member Content setting defined."
 msgstr ""
 
-#: admin/class-convertkit-admin-settings-restrict-content.php:267
+#: admin/class-convertkit-admin-settings-restrict-content.php:282
 msgid "If your web host has caching configured (or you are using a caching plugin), you must configure it to disable caching when the"
 msgstr ""
 
-#: admin/class-convertkit-admin-settings-restrict-content.php:269
+#: admin/class-convertkit-admin-settings-restrict-content.php:284
 msgid "cookie is present. Failing to do so will result in errors."
 msgstr ""
 
@@ -860,7 +868,7 @@ msgid "The text to display for the button."
 msgstr ""
 
 #: includes/blocks/class-convertkit-block-form-trigger.php:335
-#: includes/class-convertkit-settings-restrict-content.php:112
+#: includes/class-convertkit-settings-restrict-content.php:128
 msgid "Subscribe"
 msgstr ""
 
@@ -1032,7 +1040,7 @@ msgid "ConvertKit Legacy Form could not be fetched as no API Key specified in Pl
 msgstr ""
 
 #. translators: ConvertKit Landing Page ID
-#: includes/class-convertkit-resource-landing-pages.php:91
+#: includes/class-convertkit-resource-landing-pages.php:92
 msgid "ConvertKit Landing Page ID %s does not exist on ConvertKit."
 msgstr ""
 
@@ -1041,47 +1049,47 @@ msgstr ""
 msgid "ConvertKit Product ID %s does not exist on ConvertKit."
 msgstr ""
 
-#: includes/class-convertkit-settings-restrict-content.php:104
+#: includes/class-convertkit-settings-restrict-content.php:120
 msgid "Read this post with a premium subscription"
 msgstr ""
 
-#: includes/class-convertkit-settings-restrict-content.php:105
+#: includes/class-convertkit-settings-restrict-content.php:121
 msgid "This post is only available to premium subscribers. Join today to get access to all posts."
 msgstr ""
 
-#: includes/class-convertkit-settings-restrict-content.php:108
+#: includes/class-convertkit-settings-restrict-content.php:124
 msgid "Subscribe to keep reading"
 msgstr ""
 
-#: includes/class-convertkit-settings-restrict-content.php:109
+#: includes/class-convertkit-settings-restrict-content.php:125
 msgid "This post is free to read but only available to subscribers. Join today to get access to all posts."
 msgstr ""
 
-#: includes/class-convertkit-settings-restrict-content.php:113
+#: includes/class-convertkit-settings-restrict-content.php:129
 msgid "Already subscribed?"
 msgstr ""
 
-#: includes/class-convertkit-settings-restrict-content.php:114
+#: includes/class-convertkit-settings-restrict-content.php:130
 msgid "Log in"
 msgstr ""
 
-#: includes/class-convertkit-settings-restrict-content.php:115
+#: includes/class-convertkit-settings-restrict-content.php:131
 msgid "Log in to read this post"
 msgstr ""
 
-#: includes/class-convertkit-settings-restrict-content.php:116
+#: includes/class-convertkit-settings-restrict-content.php:132
 msgid "We'll email you a magic code to log you in without a password."
 msgstr ""
 
-#: includes/class-convertkit-settings-restrict-content.php:117
+#: includes/class-convertkit-settings-restrict-content.php:133
 msgid "We just emailed you a log in code"
 msgstr ""
 
-#: includes/class-convertkit-settings-restrict-content.php:118
+#: includes/class-convertkit-settings-restrict-content.php:134
 msgid "Enter the code below to finish logging in"
 msgstr ""
 
-#: includes/class-convertkit-settings-restrict-content.php:119
+#: includes/class-convertkit-settings-restrict-content.php:135
 msgid "Your account does not have access to this content. Please use the button above to purchase, or enter the email address you used to purchase the product."
 msgstr ""
 

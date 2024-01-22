@@ -226,7 +226,7 @@ class ConvertKit_Settings_Broadcasts {
 		 *
 		 * @since   2.2.9
 		 *
-		 * @param   array   $defaults
+		 * @param   array   $defaults   Default settings.
 		 */
 		$defaults = apply_filters( 'convertkit_settings_broadcasts_get_defaults', $defaults );
 

@@ -141,7 +141,7 @@ class ConvertKit_Settings_Restrict_Content {
 		 *
 		 * @since   2.1.0
 		 *
-		 * @param   array   $defaults
+		 * @param   array   $defaults   Default settings.
 		 */
 		$defaults = apply_filters( 'convertkit_settings_restrict_content_get_defaults', $defaults );
 

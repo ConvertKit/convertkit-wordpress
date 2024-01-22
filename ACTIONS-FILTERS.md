@@ -159,6 +159,10 @@
 						<td><a href="#convertkit_output_restrict_content_call_to_action"><code>convertkit_output_restrict_content_call_to_action</code></a></td>
 						<td>Define the output for the call to action, displayed below the content preview, when the visitor is not an authenticated subscriber.</td>
 					</tr><tr>
+						<td>&nbsp;</td>
+						<td><a href="#convertkit_output_restrict_content_is_crawler_permitted_user_agent_ip_ranges"><code>convertkit_output_restrict_content_is_crawler_permitted_user_agent_ip_ranges</code></a></td>
+						<td>Define the permitted user agents and their IP address ranges that can bypass Restrict Content to index content for search engines.</td>
+					</tr><tr>
 						<td colspan="3">../includes/class-convertkit-output.php</td>
 					</tr><tr>
 						<td>&nbsp;</td>
@@ -754,7 +758,7 @@ add_filter( 'convertkit_term_get_default_settings', function( $defaults ) {
 						<tbody><tr>
 							<td>$defaults</td>
 							<td>array</td>
-							<td></td>
+							<td>Default settings.</td>
 						</tr>
 						</tbody>
 					</table><h4>Usage</h4>
@@ -767,7 +771,7 @@ add_filter( 'convertkit_settings_broadcasts_get_defaults', function( $defaults )
 </pre>
 <h3 id="convertkit_settings_restrict_content_get_defaults">
 						convertkit_settings_restrict_content_get_defaults
-						<code>includes/class-convertkit-settings-restrict-content.php::129</code>
+						<code>includes/class-convertkit-settings-restrict-content.php::145</code>
 					</h3><h4>Overview</h4>
 						<p>The default settings, used when the ConvertKit Restrict Content Settings haven't been saved e.g. on a new installation.</p><h4>Parameters</h4>
 					<table>
@@ -781,7 +785,7 @@ add_filter( 'convertkit_settings_broadcasts_get_defaults', function( $defaults )
 						<tbody><tr>
 							<td>$defaults</td>
 							<td>array</td>
-							<td></td>
+							<td>Default settings.</td>
 						</tr>
 						</tbody>
 					</table><h4>Usage</h4>
@@ -933,7 +937,7 @@ add_filter( 'convertkit_wishlist_settings_get_defaults', function( $defaults ) {
 </pre>
 <h3 id="convertkit_output_restrict_content_get_resource_type">
 						convertkit_output_restrict_content_get_resource_type
-						<code>includes/class-convertkit-output-restrict-content.php::634</code>
+						<code>includes/class-convertkit-output-restrict-content.php::639</code>
 					</h3><h4>Overview</h4>
 						<p>Define the ConvertKit Resource Type that the visitor must be subscribed against to access this content, overriding the Post setting. Return false or an empty string to not restrict content.</p><h4>Parameters</h4>
 					<table>
@@ -964,7 +968,7 @@ add_filter( 'convertkit_output_restrict_content_get_resource_type', function( $r
 </pre>
 <h3 id="convertkit_output_restrict_content_get_resource_id">
 						convertkit_output_restrict_content_get_resource_id
-						<code>includes/class-convertkit-output-restrict-content.php::672</code>
+						<code>includes/class-convertkit-output-restrict-content.php::677</code>
 					</h3><h4>Overview</h4>
 						<p>Define the ConvertKit Resource ID that the visitor must be subscribed against to access this content, overriding the Post setting. Return 0 to not restrict content.</p><h4>Parameters</h4>
 					<table>
@@ -995,7 +999,7 @@ add_filter( 'convertkit_output_restrict_content_get_resource_id', function( $res
 </pre>
 <h3 id="convertkit_output_restrict_content_content_preview">
 						convertkit_output_restrict_content_content_preview
-						<code>includes/class-convertkit-output-restrict-content.php::848</code>
+						<code>includes/class-convertkit-output-restrict-content.php::853</code>
 					</h3><h4>Overview</h4>
 						<p>Define the output for the content preview when the visitor is not an authenticated subscriber.</p><h4>Parameters</h4>
 					<table>
@@ -1026,7 +1030,7 @@ add_filter( 'convertkit_output_restrict_content_content_preview', function( $con
 </pre>
 <h3 id="convertkit_output_restrict_content_call_to_action">
 						convertkit_output_restrict_content_call_to_action
-						<code>includes/class-convertkit-output-restrict-content.php::862</code>
+						<code>includes/class-convertkit-output-restrict-content.php::867</code>
 					</h3><h4>Overview</h4>
 						<p>Define the output for the call to action, displayed below the content preview, when the visitor is not an authenticated subscriber.</p><h4>Parameters</h4>
 					<table>
@@ -1054,6 +1058,33 @@ add_filter( 'convertkit_output_restrict_content_call_to_action', function( $call
 	// Return value
 	return $call_to_action;
 }, 10, 2 );
+</pre>
+<h3 id="convertkit_output_restrict_content_is_crawler_permitted_user_agent_ip_ranges">
+						convertkit_output_restrict_content_is_crawler_permitted_user_agent_ip_ranges
+						<code>includes/class-convertkit-output-restrict-content.php::1222</code>
+					</h3><h4>Overview</h4>
+						<p>Define the permitted user agents and their IP address ranges that can bypass Restrict Content to index content for search engines.</p><h4>Parameters</h4>
+					<table>
+						<thead>
+							<tr>
+								<th>Parameter</th>
+								<th>Type</th>
+								<th>Description</th>
+							</tr>
+						</thead>
+						<tbody><tr>
+							<td>$permitted</td>
+							<td>array</td>
+							<td>Permitted user agent and IP address ranges.</td>
+						</tr>
+						</tbody>
+					</table><h4>Usage</h4>
+<pre>
+add_filter( 'convertkit_output_restrict_content_is_crawler_permitted_user_agent_ip_ranges', function( $permitted_user_agent_ip_ranges ) {
+	// ... your code here
+	// Return value
+	return $permitted_user_agent_ip_ranges;
+}, 10, 1 );
 </pre>
 <h3 id="convertkit_output_page_takeover_landing_page_id">
 						convertkit_output_page_takeover_landing_page_id
