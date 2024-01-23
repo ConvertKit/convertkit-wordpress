@@ -52,10 +52,6 @@ jQuery( document ).ready(
 							return true;
 						}
 
-						// Get shortcode attribute.
-						let key = $( this ).data( 'shortcode' ),
-						trim    = ( $( this ).data( 'trim' ) === '0' ? false : true );
-
 						let val = '';
 
 						// If this is a color picker, #000000 will be submitted by the browser as the value
@@ -70,9 +66,6 @@ jQuery( document ).ready(
 								break;
 						}
 
-						console.log( key );
-						console.log( val );
-
 						// Skip if the value is empty.
 						if ( ! val ) {
 							return true;
@@ -80,6 +73,10 @@ jQuery( document ).ready(
 						if ( val.length === 0 ) {
 							return true;
 						}
+
+						// Get shortcode attribute.
+						let key = $( this ).data( 'shortcode' ),
+						trim    = ( $( this ).data( 'trim' ) === '0' ? false : true );
 
 						// Skip if the shortcode is empty.
 						if ( ! key.length ) {
