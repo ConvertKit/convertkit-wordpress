@@ -94,6 +94,9 @@ function convertKitTinyMCERegisterPlugin( block ) {
 
 							// Initialize tabbed interface.
 							convertKitTabsInit();
+
+							// Listen for color input changes.
+							convertKitColorInputInit();
 						}
 					)
 					.catch(
@@ -105,6 +108,30 @@ function convertKitTinyMCERegisterPlugin( block ) {
 				}
 			);
 
+		}
+	);
+
+}
+
+/**
+ * Listens for changes to input[type=color] inputs within a TinyMCE or QuickTags modal,
+ * assigning the value to the input's data-value attribute.
+ *
+ * The modal.js will check the data-value for the 'true' value, as any color input will always
+ * send #000000 as the value, even when none is supplied.
+ *
+ * @since 	2.4.3
+ */
+function convertKitColorInputInit() {
+
+	document.querySelectorAll( '.convertkit-option input[type=color]' ).forEach(
+		function ( colorPicker ) {
+			colorPicker.addEventListener(
+				'change',
+				function ( event ) {
+					event.target.dataset.value = event.target.value;
+				}
+			);
 		}
 	);
 

@@ -71,6 +71,9 @@ function convertKitQuickTagRegister( block ) {
 
 					// Initialize tabbed interface.
 					convertKitTabsInit();
+
+					// Listen for color input changes.
+					convertKitColorInputInit();
 				}
 			)
 			.catch(

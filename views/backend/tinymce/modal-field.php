@@ -92,6 +92,7 @@ switch ( $field['type'] ) {
 				id="tinymce_modal_<?php echo esc_attr( $field_name ); ?>"
 				name="<?php echo esc_attr( $field_name ); ?>"
 				value="<?php echo esc_attr( isset( $shortcode['attributes'][ $field_name ]['default'] ) ? $shortcode['attributes'][ $field_name ]['default'] : '' ); ?>" 
+				data-value="<?php echo esc_attr( isset( $shortcode['attributes'][ $field_name ]['default'] ) ? $shortcode['attributes'][ $field_name ]['default'] : '' ); ?>" 
 				data-shortcode="<?php echo esc_attr( $field_name ); ?>"
 				placeholder="<?php echo esc_attr( isset( $field['placeholder'] ) ? $field['placeholder'] : '' ); ?>" />
 		<?php
