@@ -45,10 +45,19 @@ document.addEventListener(
 				}
 
 				// Iterate through any ConvertKit inline data, assigning values to Quick Edit fields.
-				document.querySelectorAll( '.convertkit', document.querySelector( '#inline_' + id ) ).forEach(
+				document.querySelectorAll( '#inline_' + id + ' .convertkit' ).forEach(
 					function ( element ) {
+						// Get Quick Edit field.
+						let convertKitQuickEditField = document.querySelector( '#convertkit-quick-edit select[name="wp-convertkit[' + element.dataset.setting + ']"]' );
+
+						// If the Quick Edit field doesn't exist for this setting, skip it.
+						// (e.g. we're editing a Post and this is a Landing Page setting, that isn't supported in Posts).
+						if ( convertKitQuickEditField === null ) {
+							return;
+						}
+
 						// Assign the setting's value to the setting's Quick Edit field.
-						document.querySelector( '#convertkit-quick-edit select[name="wp-convertkit[' + element.dataset.setting + ']"]' ).value = element.dataset.value;
+						convertKitQuickEditField.value = element.dataset.value;
 					}
 				);
 
