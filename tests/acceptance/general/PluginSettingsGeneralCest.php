@@ -194,6 +194,42 @@ class PluginSettingsGeneralCest
 	}
 
 	/**
+	 * Test that API credentials have spaces removed when entered.
+	 *
+	 * @since   2.4.3
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testSaveValidAPICredentialsContainingSpaces(AcceptanceTester $I)
+	{
+		// Go to the Plugin's Settings Screen.
+		$I->loadConvertKitSettingsGeneralScreen($I);
+
+		// Complete API Fields.
+		$I->fillField('_wp_convertkit_settings[api_key]', '   ' . $_ENV['CONVERTKIT_API_KEY'] . '   ' );
+		$I->fillField('_wp_convertkit_settings[api_secret]', '   ' . $_ENV['CONVERTKIT_API_SECRET'] . '   ' );
+
+		// Click the Save Changes button.
+		$I->click('Save Changes');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Check the value of the fields match the inputs provided.
+		$I->seeInField('_wp_convertkit_settings[api_key]', $_ENV['CONVERTKIT_API_KEY']);
+		$I->seeInField('_wp_convertkit_settings[api_secret]', $_ENV['CONVERTKIT_API_SECRET']);
+
+		// Check that no notice is displayed that the API credentials are invalid.
+		$I->dontSeeErrorNotice($I, 'Authorization Failed: API Key not valid');
+
+		// Navigate to the WordPress Admin.
+		$I->amOnAdminPage('index.php');
+
+		// Check that no notice is displayed that the API credentials are invalid.
+		$I->dontSeeErrorNotice($I, 'Convertkit: Authorization failed. Please enter valid API credentials on the settings screen.');
+	}
+
+	/**
 	 * Test that no PHP errors or notices are displayed on the Plugin's Setting screen,
 	 * when the Default Form for Pages and Posts are changed, and that the preview links
 	 * work when the Default Form is changed.

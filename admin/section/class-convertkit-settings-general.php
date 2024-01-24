@@ -595,4 +595,23 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 
 	}
 
+	/**
+	 * Sanitizes the settings prior to being saved.
+	 *
+	 * @since   2.4.3
+	 *
+	 * @param   array $settings   Submitted Settings Fields.
+	 * @return  array               Sanitized Settings with Defaults
+	 */
+	public function sanitize_settings( $settings ) {
+
+		// Remove whitespace, tabs and line ends from the API Key and Secret.
+		$settings['api_key']    = preg_replace( '/\s+/', '', $settings['api_key'] );
+		$settings['api_secret'] = preg_replace( '/\s+/', '', $settings['api_secret'] );
+
+		// Return settings to be saved.
+		return $settings;
+
+	}
+
 }
