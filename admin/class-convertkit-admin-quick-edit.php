@@ -51,7 +51,7 @@ class ConvertKit_Admin_Quick_Edit {
 		}
 
 		// Enqueue JS.
-		wp_enqueue_script( 'convertkit-admin-quick-edit', CONVERTKIT_PLUGIN_URL . 'resources/backend/js/quick-edit.js', array( 'jquery' ), CONVERTKIT_PLUGIN_VERSION, true );
+		wp_enqueue_script( 'convertkit-admin-quick-edit', CONVERTKIT_PLUGIN_URL . 'resources/backend/js/quick-edit.js', array(), CONVERTKIT_PLUGIN_VERSION, true );
 
 		// Enqueue CSS.
 		wp_enqueue_style( 'convertkit-admin-bulk-quick-edit', CONVERTKIT_PLUGIN_URL . 'resources/backend/css/bulk-quick-edit.css', array(), CONVERTKIT_PLUGIN_VERSION );
