@@ -141,6 +141,7 @@ class WP_ConvertKit {
 			return;
 		}
 
+		$this->classes['cache_minification_plugins'] = new ConvertKit_Cache_Minification_Plugins();
 		$this->classes['output'] = new ConvertKit_Output();
 
 		/**
