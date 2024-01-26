@@ -141,8 +141,8 @@ class WP_ConvertKit {
 			return;
 		}
 
-		$this->classes['cache_minification_plugins'] = new ConvertKit_Cache_Minification_Plugins();
-		$this->classes['output']                     = new ConvertKit_Output();
+		$this->classes['output']    = new ConvertKit_Output();
+		$this->classes['wp_rocket'] = new ConvertKit_WP_Rocket();
 
 		/**
 		 * Initialize integration classes for the frontend web site.

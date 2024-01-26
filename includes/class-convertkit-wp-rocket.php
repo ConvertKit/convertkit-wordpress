@@ -1,19 +1,19 @@
 <?php
 /**
- * ConvertKit Cache and Minification Plugins class.
+ * ConvertKit WP-Rocket Class.
  *
  * @package ConvertKit
  * @author ConvertKit
  */
 
 /**
- * Configures third party caching Plugins to ensure ConvertKit functionality
- * (such as Landing Pages) works correctly by disabling minification and/or
- * caching as applicable.
+ * Disables WP-Rocket from:
+ * - minifying JS / CSS and lazy loading images on Landing Pages,
+ * - []
  *
  * @since   2.4.3
  */
-class ConvertKit_Cache_Minification_Plugins {
+class ConvertKit_WP_Rocket {
 
 	/**
 	 * Holds sensible external hosts to exclude from CSS and JS minification.
@@ -35,6 +35,7 @@ class ConvertKit_Cache_Minification_Plugins {
 	 */
 	public function __construct() {
 
+		
 		add_action( 'convertkit_output_landing_page_before', array( $this, 'disable_caching_and_minification_on_landing_pages' ) );
 
 	}
