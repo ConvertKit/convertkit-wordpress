@@ -142,7 +142,7 @@ class WP_ConvertKit {
 		}
 
 		$this->classes['cache_minification_plugins'] = new ConvertKit_Cache_Minification_Plugins();
-		$this->classes['output'] = new ConvertKit_Output();
+		$this->classes['output']                     = new ConvertKit_Output();
 
 		/**
 		 * Initialize integration classes for the frontend web site.

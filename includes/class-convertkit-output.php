@@ -67,8 +67,6 @@ class ConvertKit_Output {
 	 */
 	public function __construct() {
 
-
-
 		add_action( 'init', array( $this, 'get_subscriber_id_from_request' ), 1 );
 		add_action( 'template_redirect', array( $this, 'output_form' ) );
 		add_action( 'template_redirect', array( $this, 'page_takeover' ) );
@@ -165,16 +163,16 @@ class ConvertKit_Output {
 
 		/**
 		 * Perform any actions immediately prior to outputting the Landing Page.
-		 * 
+		 *
 		 * Caching and minification Plugins may need to hook here to prevent
 		 * CSS / JS minification and lazy loading images, which can interfere
 		 * with Landing Pages.
-		 * 
-		 * @since 	2.4.3
-		 * 
-		 * @param 	string 	$landing_page 		ConvertKit Landing Page HTML.
-		 * @param 	int 	$landing_page_id 	ConvertKit Landing Page ID.
-		 * @param 	int 	$post_id 			WordPress Page ID.
+		 *
+		 * @since   2.4.3
+		 *
+		 * @param   string  $landing_page       ConvertKit Landing Page HTML.
+		 * @param   int     $landing_page_id    ConvertKit Landing Page ID.
+		 * @param   int     $post_id            WordPress Page ID.
 		 */
 		do_action( 'convertkit_output_landing_page_before', $landing_page, $landing_page_id, $post_id );
 

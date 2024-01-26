@@ -17,10 +17,10 @@ class ConvertKit_Cache_Minification_Plugins {
 
 	/**
 	 * Holds sensible external hosts to exclude from CSS and JS minification.
-	 * 
-	 * @since 	2.4.3
-	 * 
-	 * @var 	array
+	 *
+	 * @since   2.4.3
+	 *
+	 * @var     array
 	 */
 	public $exclude_hosts = array(
 		'cdnjs.cloudflare.com',
@@ -30,8 +30,8 @@ class ConvertKit_Cache_Minification_Plugins {
 
 	/**
 	 * Constructor
-	 * 
-	 * @since 	2.4.3
+	 *
+	 * @since   2.4.3
 	 */
 	public function __construct() {
 
@@ -42,8 +42,8 @@ class ConvertKit_Cache_Minification_Plugins {
 	/**
 	 * Disable caching and minification when a WordPress Page configured to display a
 	 * ConvertKit Landing Page is viewed.
-	 * 
-	 * @since 	2.4.3
+	 *
+	 * @since   2.4.3
 	 */
 	public function disable_caching_and_minification_on_landing_pages() {
 
@@ -57,11 +57,11 @@ class ConvertKit_Cache_Minification_Plugins {
 	/**
 	 * Appends the $exclude_hosts property to an array of existing hosts excluded from
 	 * minification for third party Plugins.
-	 * 
-	 * @since 	2.4.3
-	 * 
-	 * @param 	array 	$hosts 	External hosts to ignore.
-	 * @return 	array
+	 *
+	 * @since   2.4.3
+	 *
+	 * @param   array $hosts  External hosts to ignore.
+	 * @return  array
 	 */
 	public function exclude_hosts_from_minification( $hosts ) {
 
