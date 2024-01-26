@@ -161,14 +161,17 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 		$enabled_description = '';
 		if ( $this->settings->enabled() && $posts->get_cron_event_next_scheduled() && $posts->get_cron_event_next_scheduled() > 1 ) {
 			$enabled_description = sprintf(
-				'%s %s',
+				'%s %s<br />%s <strong>%s</strong> %s',
 				esc_html__( 'Broadcasts will next import at approximately ', 'convertkit' ),
 				// The cron event's next scheduled timestamp is always in UTC.
 				// Display it converted to the WordPress site's timezone.
 				get_date_from_gmt(
 					gmdate( 'Y-m-d H:i:s', $posts->get_cron_event_next_scheduled() ),
 					get_option( 'date_format' ) . ' ' . get_option( 'time_format' )
-				)
+				),
+				esc_html__( 'Broadcasts', 'convertkit' ),
+				esc_html__( 'must', 'convertkit' ),
+				esc_html__( 'have their "Enabled on public feeds" setting enabled in ConvertKit, to be eligible for import.', 'convertkit' )
 			);
 		}
 
@@ -206,7 +209,7 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 			array(
 				'name'        => 'post_status',
 				'label_for'   => 'post_status',
-				'description' => __( 'The WordPress Post status to assign imported broadcasts to.', 'convertkit' ),
+				'description' => __( 'The WordPress Post status to assign imported public broadcasts to.', 'convertkit' ),
 			)
 		);
 
@@ -219,7 +222,7 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 			array(
 				'name'        => 'author_id',
 				'label_for'   => 'author_id',
-				'description' => __( 'The WordPress User to set as the author for WordPress Posts created from imported broadcasts.', 'convertkit' ),
+				'description' => __( 'The WordPress User to set as the author for WordPress Posts created from imported public broadcasts.', 'convertkit' ),
 			)
 		);
 
@@ -232,7 +235,7 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 			array(
 				'name'        => 'category_id',
 				'label_for'   => 'category_id',
-				'description' => __( 'The category to assign imported broadcasts to.', 'convertkit' ),
+				'description' => __( 'The category to assign imported public broadcasts to.', 'convertkit' ),
 			)
 		);
 
@@ -259,7 +262,7 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 			array(
 				'name'        => 'published_at_min_date',
 				'label_for'   => 'published_at_min_date',
-				'description' => __( 'The earliest date to import broadcasts from, based on the broadcast\'s published date and time.', 'convertkit' ),
+				'description' => __( 'The earliest date to import public broadcasts from, based on the broadcast\'s published date and time.', 'convertkit' ),
 			)
 		);
 
@@ -300,7 +303,7 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 
 		?>
 		<span class="convertkit-beta-label"><?php esc_html_e( 'Beta', 'convertkit' ); ?></span>
-		<p class="description"><?php esc_html_e( 'Defines whether public broadcasts created in ConvertKit should automatically be published on this site as WordPress Posts, and whether to enable options to create draft ConvertKit Broadcasts from WordPress Posts.', 'convertkit' ); ?></p>
+		<p class="description"><?php esc_html_e( 'Defines whether public broadcasts ("Enabled on public feeds") in ConvertKit should automatically be published on this site as WordPress Posts, and whether to enable options to create draft ConvertKit Broadcasts from WordPress Posts.', 'convertkit' ); ?></p>
 		<?php
 
 	}
