@@ -24,6 +24,9 @@ class CPTFormCest
 
 		// Create a public Custom Post Type called Articles, using the Custom Post Type UI Plugin.
 		$I->registerCustomPostType($I, 'article', 'Articles', 'Article');
+
+		// Create a non-public Custom Post Type called Private, using the Custom Post Type UI Plugin.
+		$I->registerCustomPostType($I, 'private', 'Private', 'Private', false);
 	}
 
 	/**
@@ -45,6 +48,66 @@ class CPTFormCest
 		// Confirm that settings have label[for] attributes.
 		$I->seeInSource('<label for="wp-convertkit-form">');
 		$I->seeInSource('<label for="wp-convertkit-tag">');
+	}
+
+	/**
+	 * Tests that:
+	 * - no ConvertKit options are displayed when adding a new private Custom Post Type,
+	 * - no debug output is displayed when viewing a private Custom Post Type.
+	 *
+	 * @since   2.4.3
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testNoOptionsOrOutputOnPrivateCustomPostType(AcceptanceTester $I)
+	{
+		// Add a Private CPT using the Gutenberg editor.
+		$I->addGutenbergPage($I, 'private', 'ConvertKit: Private: Form: None');
+
+		// Check that the metabox is not displayed.
+		$I->dontSeeElementInDOM('#wp-convertkit-meta-box');
+
+		// Publish and view the Page on the frontend site.
+		$I->publishAndViewGutenbergPage($I);
+
+		// Confirm that no ConvertKit Form is displayed.
+		$I->dontSeeElementInDOM('form[data-sv-form]');
+
+		// Confirm that no debug data is output, as this isn't a supported Post Type.
+		$I->dontSeeInSource('<!-- ConvertKit append_form_to_content()');
+	}
+
+	/**
+	 * Tests that no ConvertKit options are display when quick or bulk editing in a private Custom Post Type.
+	 *
+	 * @since   2.4.3
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testNoBulkOrQuickEditOptionsOnPrivateCustomPostType(AcceptanceTester $I)
+	{
+		// Programmatically create two Private CPTs.
+		$postIDs = array(
+			$I->havePostInDatabase(
+				[
+					'post_type'  => 'private',
+					'post_title' => 'ConvertKit: Private: #1',
+				]
+			),
+			$I->havePostInDatabase(
+				[
+					'post_type'  => 'private',
+					'post_title' => 'ConvertKit: Private: #2',
+				]
+			),
+		);
+
+		// Navigate to Private CPT.
+		$I->amOnAdminPage('edit.php?post_type=private');
+
+		// Confirm no Bulk or Quick Edit settings are available.
+		$I->dontSeeElementInDOM('#convertkit-bulk-edit');
+		$I->dontSeeElementInDOM('#convertkit-quick-edit');
 	}
 
 	/**
@@ -662,6 +725,7 @@ class CPTFormCest
 	public function _passed(AcceptanceTester $I)
 	{
 		$I->unregisterCustomPostType($I, 'article');
+		$I->unregisterCustomPostType($I, 'private');
 		$I->deactivateConvertKitPlugin($I);
 		$I->resetConvertKitPlugin($I);
 	}
