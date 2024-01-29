@@ -22,7 +22,7 @@ class CPTFormCest
 		$I->setupConvertKitPlugin($I);
 		$I->setupConvertKitPluginResources($I);
 
-		// Create a Custom Post Type called Articles, using the Custom Post Type UI Plugin.
+		// Create a public Custom Post Type called Articles, using the Custom Post Type UI Plugin.
 		$I->registerCustomPostType($I, 'article', 'Articles', 'Article');
 	}
 

@@ -18,7 +18,7 @@ class CustomPostType extends \Codeception\Module
 	 * @param   string           $singularLabel Singular Label.
 	 * @param   string           $pluralLabel   Plural Label.
 	 */
-	public function registerCustomPostType($I, $slug, $singularLabel, $pluralLabel)
+	public function registerCustomPostType($I, $slug, $singularLabel, $pluralLabel, $public = true)
 	{
 		// Activate CPT UI Plugin.
 		$I->activateThirdPartyPlugin($I, 'custom-post-type-ui');
@@ -30,6 +30,9 @@ class CustomPostType extends \Codeception\Module
 		$I->fillField('cpt_custom_post_type[name]', $slug);
 		$I->fillField('cpt_custom_post_type[label]', $pluralLabel);
 		$I->fillField('cpt_custom_post_type[singular_label]', $singularLabel);
+		if (!$public) {
+			$I->selectOption('cpt_custom_post_type[public]', 'False');
+		}
 		$I->click('Add Post Type');
 
 		// Confirm the Post Type was created.
