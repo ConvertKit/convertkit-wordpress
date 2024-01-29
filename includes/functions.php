@@ -115,19 +115,23 @@ function convertkit_get_supported_post_types() {
 
 	// If public Custom Post Types can be fetched, include them now.
 	if ( function_exists( 'get_post_types' ) ) {
-		$post_types = array_merge(
-			$post_types,
-			array_keys(
-				get_post_types(
-					array(
-						'public'   => true,
+		// Get public Custom Post Types.
+		$custom_post_types = get_post_types(
+			array(
+				'public'   => true,
 
-						// Don't include WordPress' built in Post Types, such as attachment, revisino and nav_menu_item.
-						'_builtin' => false,
-					)
-				)
+				// Don't include WordPress' built in Post Types, such as attachment, revisino and nav_menu_item.
+				'_builtin' => false,
 			)
 		);
+
+		// Sanity check an array was returned.
+		if ( is_array( $custom_post_types ) ) {
+			$post_types = array_merge(
+				$post_types,
+				array_keys( $custom_post_types )
+			);
+		}
 	}
 
 	/**
