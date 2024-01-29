@@ -56,6 +56,7 @@ class WPBulkEdit extends \Codeception\Module
 		switch ($postType) {
 			case 'post':
 			case 'page':
+			case 'product':
 				$I->see(count($postIDs) . ' ' . $postType . 's updated.');
 				break;
 			default:
