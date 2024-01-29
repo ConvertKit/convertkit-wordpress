@@ -112,7 +112,7 @@ class ConvertKit_Forminator_Admin_Settings extends ConvertKit_Settings_Base {
 
 		// Get Forminator Forms.
 		$forminator_forms = $this->get_forminator_forms();
-		
+
 		// Bail with an error if no Forminator Forms exist.
 		if ( ! $forminator_forms ) {
 			$this->output_error( __( 'No Forminator Forms or Quizzes exist in the Forminator Plugin.', 'convertkit' ) );
