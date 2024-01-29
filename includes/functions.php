@@ -120,7 +120,7 @@ function convertkit_get_supported_post_types() {
 			array_keys(
 				get_post_types(
 					array(
-						'public' => true,
+						'public'   => true,
 
 						// Don't include WordPress' built in Post Types, such as attachment, revisino and nav_menu_item.
 						'_builtin' => false,
@@ -146,10 +146,10 @@ function convertkit_get_supported_post_types() {
 /**
  * Helper method to get supported Post Types for Restricted Content (Member's Content).
  *
- * @since   	2.1.0
- * @deprecated 	2.4.3 	No longer used by internal code and not recommended. Use convertkit_get_supported_post_types() instead.
+ * @since       2.1.0
+ * @deprecated  2.4.3   No longer used by internal code and not recommended. Use convertkit_get_supported_post_types() instead.
  *
- * @return  	array   Post Types
+ * @return      array   Post Types
  */
 function convertkit_get_supported_restrict_content_post_types() {
 

@@ -53,7 +53,15 @@ class WPBulkEdit extends \Codeception\Module
 		$I->waitForElementVisible('tbody#the-list');
 
 		// Confirm that Bulk Editing saved with no errors.
-		$I->see(count($postIDs) . ' ' . $postType . 's updated.');
+		switch ($postType) {
+			case 'post':
+			case 'page':
+				$I->see(count($postIDs) . ' ' . $postType . 's updated.');
+				break;
+			default:
+				$I->see(count($postIDs) . ' posts updated.');
+				break;
+		}
 	}
 
 	/**
