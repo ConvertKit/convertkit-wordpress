@@ -71,9 +71,9 @@ class ConvertKit_Forminator {
 	 *
 	 * @since   2.3.0
 	 *
-	 * @param   array $entry              Entry.
-	 * @param   int   $form_id            Forminator Form ID.
-	 * @param   array $form_data_array    Forminator submitted data.
+	 * @param   Forminator_Form_Entry_Model $entry              Entry.
+	 * @param   int                         $form_id            Forminator Form ID.
+	 * @param   array                       $form_data_array    Forminator submitted data.
 	 */
 	public function maybe_subscribe( $entry, $form_id, $form_data_array ) {
 
