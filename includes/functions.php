@@ -152,25 +152,13 @@ function convertkit_get_supported_post_types() {
  *
  * @since   2.1.0
  *
+ * @deprecated 2.4.3 No longer used by internal code and not recommended. Use `convertkit_get_supported_post_types` instead.
+ *
  * @return  array   Post Types
  */
 function convertkit_get_supported_restrict_content_post_types() {
 
-	$post_types = array(
-		'page',
-		'post',
-	);
-
-	/**
-	 * Defines the Post Types that support Restricted Content / Members Content functionality.
-	 *
-	 * @since   2.0.0
-	 *
-	 * @param   array   $post_types     Post Types
-	 */
-	$post_types = apply_filters( 'convertkit_get_supported_restrict_content_post_types', $post_types );
-
-	return $post_types;
+	return convertkit_get_supported_post_types();
 
 }
 
