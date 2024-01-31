@@ -130,7 +130,7 @@ class ConvertKitRestrictContent extends \Codeception\Module
 			'post_type'                => 'page',
 			'post_title'               => 'Restrict Content',
 			'visible_content'          => 'Visible content.',
-			'member_content'           => 'Member only content.',
+			'member_content'           => 'Member-only content.',
 			'restrict_content_setting' => '',
 		];
 
@@ -519,7 +519,7 @@ class ConvertKitRestrictContent extends \Codeception\Module
 		// Define default options for Restrict Content tests.
 		$defaults = [
 			'visible_content' => 'Visible content.',
-			'member_content'  => 'Member only content.',
+			'member_content'  => 'Member-only content.',
 			'text_items'      => $this->getRestrictedContentDefaultSettings(),
 		];
 

@@ -46,7 +46,7 @@ class RestrictContentTagCest
 		// Add blocks.
 		$I->addGutenbergParagraphBlock($I, 'Visible content.');
 		$I->addGutenbergBlock($I, 'More', 'more');
-		$I->addGutenbergParagraphBlock($I, 'Member only content.');
+		$I->addGutenbergParagraphBlock($I, 'Member-only content.');
 
 		// Publish Page.
 		$url = $I->publishGutenbergPage($I);

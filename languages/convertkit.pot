@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-01-31T16:12:21+00:00\n"
+"POT-Creation-Date: 2024-01-31T16:18:12+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.9.0\n"
 "X-Domain: convertkit\n"
@@ -167,7 +167,7 @@ msgid "Email Button Label"
 msgstr ""
 
 #: admin/class-convertkit-admin-settings-restrict-content.php:216
-msgid "The text to display for the button to submit the subscriber's email address and receive a login link to access the member only content."
+msgid "The text to display for the button to submit the subscriber's email address and receive a login link to access the member-only content."
 msgstr ""
 
 #: admin/class-convertkit-admin-settings-restrict-content.php:223
