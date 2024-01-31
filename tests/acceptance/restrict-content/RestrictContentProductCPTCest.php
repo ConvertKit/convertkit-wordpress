@@ -55,6 +55,29 @@ class RestrictContentProductCPTCest
 	}
 
 	/**
+	 * Test that no Restrict Content options are displayed when the Post Type
+	 * is not public.
+	 *
+	 * @since   2.4.3
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testNoRestrictContentOnPrivateCPT(AcceptanceTester $I)
+	{
+		// Setup ConvertKit Plugin, disabling JS.
+		$I->setupConvertKitPluginDisableJS($I);
+
+		// Add the CPT using the Gutenberg editor.
+		$I->addGutenbergPage($I, 'private', 'ConvertKit: Private: Restrict Content');
+
+		// Check that the metabox is not displayed.
+		$I->dontSeeElementInDOM('#wp-convertkit-meta-box');
+
+		// Publish and view the Page on the frontend site.
+		$I->publishAndViewGutenbergPage($I);
+	}
+
+	/**
 	 * Test that restricting content by a Product specified in the CPT Settings works when
 	 * creating and viewing a new WordPress CPT.
 	 *
@@ -309,6 +332,8 @@ class RestrictContentProductCPTCest
 	 */
 	public function _passed(AcceptanceTester $I)
 	{
+		$I->unregisterCustomPostType($I, 'article');
+		$I->unregisterCustomPostType($I, 'private');
 		$I->resetCookie('ck_subscriber_id');
 		$I->deactivateConvertKitPlugin($I);
 		$I->resetConvertKitPlugin($I);
