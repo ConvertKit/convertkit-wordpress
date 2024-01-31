@@ -187,8 +187,8 @@ class ConvertKit_Gutenberg {
 	 */
 	public function enqueue_styles() {
 
-		// Bail if request isn't for the Admin or a Frontend Editor.
-		if ( ! WP_ConvertKit()->is_admin_or_frontend_editor() ) {
+		// Bail if request isn't for the Admin.
+		if ( ! is_admin() ) {
 			return;
 		}
 
