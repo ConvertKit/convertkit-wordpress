@@ -97,7 +97,7 @@ class RestrictContentProductCPTCest
 	 * creating and viewing a new WordPress CPT, and that the WordPress generated CPT Excerpt
 	 * is displayed when no more tag exists.
 	 *
-	 * @since   2.3.7
+	 * @since   2.4.3
 	 *
 	 * @param   AcceptanceTester $I  Tester.
 	 */
@@ -146,7 +146,7 @@ class RestrictContentProductCPTCest
 	 * creating and viewing a new WordPress CPT, and JS is enabled to allow the modal
 	 * version for the authentication flow to be used.
 	 *
-	 * @since   2.3.8
+	 * @since   2.4.3
 	 *
 	 * @param   AcceptanceTester $I  Tester.
 	 */
