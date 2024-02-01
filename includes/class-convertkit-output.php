@@ -168,7 +168,7 @@ class ConvertKit_Output {
 		 * CSS / JS minification and lazy loading images, which can interfere
 		 * with Landing Pages.
 		 *
-		 * @since   2.4.3
+		 * @since   2.4.4
 		 *
 		 * @param   string  $landing_page       ConvertKit Landing Page HTML.
 		 * @param   int     $landing_page_id    ConvertKit Landing Page ID.
