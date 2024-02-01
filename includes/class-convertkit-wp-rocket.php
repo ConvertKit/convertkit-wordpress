@@ -1,13 +1,13 @@
 <?php
 /**
- * ConvertKit WP-Rocket Class.
+ * ConvertKit WP Rocket Class.
  *
  * @package ConvertKit
  * @author ConvertKit
  */
 
 /**
- * Disables WP-Rocket from minifying JS / CSS and lazy loading images on Landing Pages.
+ * Disables WP Rocket from minifying JS / CSS and lazy loading images on Landing Pages.
  *
  * @since   2.4.4
  */
@@ -57,7 +57,6 @@ class ConvertKit_WP_Rocket {
 	 */
 	public function disable_caching_and_minification_on_landing_pages() {
 
-		// WP-Rocket.
 		add_filter( 'rocket_minify_excluded_external_js', array( $this, 'exclude_hosts_from_minification' ) );
 		add_filter( 'rocket_exclude_css', array( $this, 'exclude_hosts_from_minification' ) );
 		add_filter( 'rocket_exclude_js', array( $this, 'exclude_local_js_from_minification' ) );
