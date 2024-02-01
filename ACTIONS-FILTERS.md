@@ -30,10 +30,6 @@
 						<td>Defines the Post Types that support ConvertKit Forms.</td>
 					</tr><tr>
 						<td>&nbsp;</td>
-						<td><a href="#convertkit_get_supported_restrict_content_post_types"><code>convertkit_get_supported_restrict_content_post_types</code></a></td>
-						<td>Defines the Post Types that support Restricted Content / Members Content functionality.</td>
-					</tr><tr>
-						<td>&nbsp;</td>
 						<td><a href="#convertkit_shortcodes"><code>convertkit_shortcodes</code></a></td>
 						<td>Registers shortcodes for the ConvertKit Plugin.</td>
 					</tr><tr>
@@ -291,7 +287,7 @@ add_filter( 'convertkit_admin_settings_register_sections', function( $sections )
 </pre>
 <h3 id="convertkit_get_supported_post_types">
 						convertkit_get_supported_post_types
-						<code>includes/functions.php::121</code>
+						<code>includes/functions.php::143</code>
 					</h3><h4>Overview</h4>
 						<p>Defines the Post Types that support ConvertKit Forms.</p><h4>Parameters</h4>
 					<table>
@@ -316,36 +312,9 @@ add_filter( 'convertkit_get_supported_post_types', function( $post_types ) {
 	return $post_types;
 }, 10, 1 );
 </pre>
-<h3 id="convertkit_get_supported_restrict_content_post_types">
-						convertkit_get_supported_restrict_content_post_types
-						<code>includes/functions.php::148</code>
-					</h3><h4>Overview</h4>
-						<p>Defines the Post Types that support Restricted Content / Members Content functionality.</p><h4>Parameters</h4>
-					<table>
-						<thead>
-							<tr>
-								<th>Parameter</th>
-								<th>Type</th>
-								<th>Description</th>
-							</tr>
-						</thead>
-						<tbody><tr>
-							<td>$post_types</td>
-							<td>array</td>
-							<td>Post Types</td>
-						</tr>
-						</tbody>
-					</table><h4>Usage</h4>
-<pre>
-add_filter( 'convertkit_get_supported_restrict_content_post_types', function( $post_types ) {
-	// ... your code here
-	// Return value
-	return $post_types;
-}, 10, 1 );
-</pre>
 <h3 id="convertkit_shortcodes">
 						convertkit_shortcodes
-						<code>includes/functions.php::172</code>
+						<code>includes/functions.php::182</code>
 					</h3><h4>Overview</h4>
 						<p>Registers shortcodes for the ConvertKit Plugin.</p><h4>Parameters</h4>
 					<table>
@@ -372,7 +341,7 @@ add_filter( 'convertkit_shortcodes', function( $shortcodes ) {
 </pre>
 <h3 id="convertkit_blocks">
 						convertkit_blocks
-						<code>includes/functions.php::196</code>
+						<code>includes/functions.php::206</code>
 					</h3><h4>Overview</h4>
 						<p>Registers blocks for the ConvertKit Plugin.</p><h4>Parameters</h4>
 					<table>
@@ -399,7 +368,7 @@ add_filter( 'convertkit_blocks', function( $blocks ) {
 </pre>
 <h3 id="convertkit_get_block_formatters">
 						convertkit_get_block_formatters
-						<code>includes/functions.php::220</code>
+						<code>includes/functions.php::230</code>
 					</h3><h4>Overview</h4>
 						<p>Registers block formatters in Gutenberg for the ConvertKit Plugin.</p><h4>Parameters</h4>
 					<table>
@@ -426,7 +395,7 @@ add_filter( 'convertkit_get_block_formatters', function( $block_formatters ) {
 </pre>
 <h3 id="convertkit_get_pre_publish_actions">
 						convertkit_get_pre_publish_actions
-						<code>includes/functions.php::244</code>
+						<code>includes/functions.php::254</code>
 					</h3><h4>Overview</h4>
 						<p>Registers pre-publish actions for the ConvertKit Plugin.</p><h4>Parameters</h4>
 					<table>
@@ -1525,7 +1494,7 @@ do_action( 'convertkit_settings_base_render_after', function(  ) {
 </pre>
 <h3 id="convertkit_settings_base_sanitize_settings">
 						convertkit_settings_base_sanitize_settings
-						<code>admin/section/class-convertkit-settings-base.php::513</code>
+						<code>admin/section/class-convertkit-settings-base.php::504</code>
 					</h3><h4>Parameters</h4>
 					<table>
 						<thead>

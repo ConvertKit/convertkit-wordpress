@@ -115,7 +115,7 @@ class ConvertKit_Forminator_Admin_Settings extends ConvertKit_Settings_Base {
 
 		// Bail with an error if no Forminator Forms exist.
 		if ( ! $forminator_forms ) {
-			$this->output_error( __( 'No Forminator Forms exist in the Forminator Plugin.', 'convertkit' ) );
+			$this->output_error( __( 'No Forminator Forms or Quizzes exist in the Forminator Plugin.', 'convertkit' ) );
 			$this->render_container_end();
 			return;
 		}
@@ -191,18 +191,31 @@ class ConvertKit_Forminator_Admin_Settings extends ConvertKit_Settings_Base {
 		$forms = array();
 
 		// Get all forms using Forminator API class.
-		$results = Forminator_API::get_forms( null, 1, -1 );
-
-		// Bail if no results.
-		if ( ! count( $results ) ) {
-			return false;
-		}
-
-		foreach ( $results as $forminator_form ) {
+		foreach ( Forminator_API::get_forms( null, 1, -1 ) as $forminator_form ) {
 			$forms[] = array(
 				'id'   => $forminator_form->id,
-				'name' => $forminator_form->name,
+				'name' => sprintf(
+					'%s: %s',
+					esc_html__( 'Form', 'convertkit' ),
+					$forminator_form->name
+				),
 			);
+		}
+
+		foreach ( Forminator_API::get_quizzes( null, 1, -1 ) as $forminator_form ) {
+			$forms[] = array(
+				'id'   => $forminator_form->id,
+				'name' => sprintf(
+					'%s: %s',
+					esc_html__( 'Quiz', 'convertkit' ),
+					$forminator_form->name
+				),
+			);
+		}
+
+		// If no Forms or Quizzes were found in Forminator, return false.
+		if ( ! count( $forms ) ) {
+			return false;
 		}
 
 		return $forms;

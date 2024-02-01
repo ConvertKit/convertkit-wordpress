@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the ConvertKit plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: ConvertKit 2.4.2\n"
+"Project-Id-Version: ConvertKit 2.4.3\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/convertkit\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-01-19T16:08:59+00:00\n"
+"POT-Creation-Date: 2024-01-31T16:12:21+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.9.0\n"
 "X-Domain: convertkit\n"
@@ -223,7 +223,7 @@ msgid "Settings"
 msgstr ""
 
 #: admin/class-convertkit-admin-settings.php:280
-#: admin/section/class-convertkit-admin-settings-broadcasts.php:302
+#: admin/section/class-convertkit-admin-settings-broadcasts.php:305
 msgid "Beta"
 msgstr ""
 
@@ -231,17 +231,18 @@ msgstr ""
 msgid "Invalid nonce specified."
 msgstr ""
 
-#: admin/class-convertkit-admin-tinymce.php:220
+#: admin/class-convertkit-admin-tinymce.php:216
 #: views/backend/tinymce/modal-missing.php:16
 msgid "Cancel"
 msgstr ""
 
-#: admin/class-convertkit-admin-tinymce.php:223
+#: admin/class-convertkit-admin-tinymce.php:219
 msgid "Insert"
 msgstr ""
 
 #: admin/section/class-convertkit-admin-settings-broadcasts.php:32
 #: admin/section/class-convertkit-admin-settings-broadcasts.php:33
+#: admin/section/class-convertkit-admin-settings-broadcasts.php:172
 #: includes/blocks/class-convertkit-block-broadcasts.php:126
 msgid "Broadcasts"
 msgstr ""
@@ -258,79 +259,87 @@ msgstr ""
 msgid "Broadcasts will next import at approximately "
 msgstr ""
 
-#: admin/section/class-convertkit-admin-settings-broadcasts.php:177
+#: admin/section/class-convertkit-admin-settings-broadcasts.php:173
+msgid "must"
+msgstr ""
+
+#: admin/section/class-convertkit-admin-settings-broadcasts.php:174
+msgid "have their \"Enabled on public feeds\" setting enabled in ConvertKit, to be eligible for import."
+msgstr ""
+
+#: admin/section/class-convertkit-admin-settings-broadcasts.php:180
 msgid "Enable Automatic Import"
 msgstr ""
 
-#: admin/section/class-convertkit-admin-settings-broadcasts.php:184
+#: admin/section/class-convertkit-admin-settings-broadcasts.php:187
 msgid "Enables automatic publication of public ConvertKit Broadcasts as WordPress Posts."
 msgstr ""
 
-#: admin/section/class-convertkit-admin-settings-broadcasts.php:202
+#: admin/section/class-convertkit-admin-settings-broadcasts.php:205
 msgid "Status"
 msgstr ""
 
-#: admin/section/class-convertkit-admin-settings-broadcasts.php:209
-msgid "The WordPress Post status to assign imported broadcasts to."
+#: admin/section/class-convertkit-admin-settings-broadcasts.php:212
+msgid "The WordPress Post status to assign imported public broadcasts to."
 msgstr ""
 
-#: admin/section/class-convertkit-admin-settings-broadcasts.php:215
+#: admin/section/class-convertkit-admin-settings-broadcasts.php:218
 msgid "Author"
 msgstr ""
 
-#: admin/section/class-convertkit-admin-settings-broadcasts.php:222
-msgid "The WordPress User to set as the author for WordPress Posts created from imported broadcasts."
+#: admin/section/class-convertkit-admin-settings-broadcasts.php:225
+msgid "The WordPress User to set as the author for WordPress Posts created from imported public broadcasts."
 msgstr ""
 
-#: admin/section/class-convertkit-admin-settings-broadcasts.php:228
+#: admin/section/class-convertkit-admin-settings-broadcasts.php:231
 msgid "Category"
 msgstr ""
 
-#: admin/section/class-convertkit-admin-settings-broadcasts.php:235
-msgid "The category to assign imported broadcasts to."
+#: admin/section/class-convertkit-admin-settings-broadcasts.php:238
+msgid "The category to assign imported public broadcasts to."
 msgstr ""
 
-#: admin/section/class-convertkit-admin-settings-broadcasts.php:241
+#: admin/section/class-convertkit-admin-settings-broadcasts.php:244
 msgid "Include Thumbnail"
 msgstr ""
 
-#: admin/section/class-convertkit-admin-settings-broadcasts.php:248
+#: admin/section/class-convertkit-admin-settings-broadcasts.php:251
 msgid "If enabled, the Broadcast's thumbnail will be used as the WordPress Post's featured image."
 msgstr ""
 
-#: admin/section/class-convertkit-admin-settings-broadcasts.php:255
+#: admin/section/class-convertkit-admin-settings-broadcasts.php:258
 msgid "Earliest Date"
 msgstr ""
 
-#: admin/section/class-convertkit-admin-settings-broadcasts.php:262
-msgid "The earliest date to import broadcasts from, based on the broadcast's published date and time."
+#: admin/section/class-convertkit-admin-settings-broadcasts.php:265
+msgid "The earliest date to import public broadcasts from, based on the broadcast's published date and time."
 msgstr ""
 
-#: admin/section/class-convertkit-admin-settings-broadcasts.php:268
+#: admin/section/class-convertkit-admin-settings-broadcasts.php:271
 msgid "Enable Export Actions"
 msgstr ""
 
-#: admin/section/class-convertkit-admin-settings-broadcasts.php:275
+#: admin/section/class-convertkit-admin-settings-broadcasts.php:278
 msgid "Displays actions in WordPress to create draft broadcasts from existing WordPress posts."
 msgstr ""
 
-#: admin/section/class-convertkit-admin-settings-broadcasts.php:281
+#: admin/section/class-convertkit-admin-settings-broadcasts.php:284
 msgid "Disable Styles"
 msgstr ""
 
-#: admin/section/class-convertkit-admin-settings-broadcasts.php:288
+#: admin/section/class-convertkit-admin-settings-broadcasts.php:291
 msgid "Removes inline styles and layout when importing broadcasts and exporting posts."
 msgstr ""
 
-#: admin/section/class-convertkit-admin-settings-broadcasts.php:303
-msgid "Defines whether public broadcasts created in ConvertKit should automatically be published on this site as WordPress Posts, and whether to enable options to create draft ConvertKit Broadcasts from WordPress Posts."
+#: admin/section/class-convertkit-admin-settings-broadcasts.php:306
+msgid "Defines whether public broadcasts (\"Enabled on public feeds\") in ConvertKit should automatically be published on this site as WordPress Posts, and whether to enable options to create draft ConvertKit Broadcasts from WordPress Posts."
 msgstr ""
 
-#: admin/section/class-convertkit-admin-settings-broadcasts.php:359
+#: admin/section/class-convertkit-admin-settings-broadcasts.php:362
 msgid "Import now"
 msgstr ""
 
-#: admin/section/class-convertkit-admin-settings-broadcasts.php:427
+#: admin/section/class-convertkit-admin-settings-broadcasts.php:430
 #: admin/section/class-convertkit-settings-general.php:468
 #: admin/section/class-convertkit-settings-general.php:518
 #: includes/integrations/contactform7/class-convertkit-contactform7-admin-settings.php:143
@@ -655,6 +664,7 @@ msgstr ""
 #: includes/blocks/class-convertkit-block-form-trigger.php:269
 #: includes/blocks/class-convertkit-block-form.php:112
 #: includes/blocks/class-convertkit-block-form.php:225
+#: includes/integrations/forminator/class-convertkit-forminator-admin-settings.php:199
 #: includes/widgets/class-ck-widget-form.php:79
 #: views/backend/post/bulk-edit.php:14
 #: views/backend/post/meta-box.php:15
@@ -1199,11 +1209,15 @@ msgid "The Forminator form must have Name and Email fields. These fields will be
 msgstr ""
 
 #: includes/integrations/forminator/class-convertkit-forminator-admin-settings.php:118
-msgid "No Forminator Forms exist in the Forminator Plugin."
+msgid "No Forminator Forms or Quizzes exist in the Forminator Plugin."
 msgstr ""
 
 #: includes/integrations/forminator/class-convertkit-forminator-admin-settings.php:125
 msgid "Forminator Form"
+msgstr ""
+
+#: includes/integrations/forminator/class-convertkit-forminator-admin-settings.php:210
+msgid "Quiz"
 msgstr ""
 
 #: includes/integrations/wishlist/class-convertkit-wishlist-admin-settings.php:32

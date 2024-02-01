@@ -324,7 +324,9 @@ class ConvertKit_Resource_Forms extends ConvertKit_Resource {
 		}
 
 		// If here, return Form <script> embed now, as we want the inline form to display at this specific point of the content.
-		return '<script async data-uid="' . esc_attr( $this->resources[ $id ]['uid'] ) . '" src="' . esc_url( $this->resources[ $id ]['embed_js'] ) . '"></script>';
+		// data-jetpack-boost="ignore" is required to prevent Jetpack Boost from moving this to the footer when its
+		// "Defer Non-Essential JavaScript" setting is enabled: https://jetpack.com/support/jetpack-boost/.
+		return '<script async data-uid="' . esc_attr( $this->resources[ $id ]['uid'] ) . '" src="' . esc_url( $this->resources[ $id ]['embed_js'] ) . '" data-jetpack-boost="ignore"></script>';
 
 	}
 

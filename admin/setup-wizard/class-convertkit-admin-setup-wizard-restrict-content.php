@@ -229,7 +229,7 @@ class ConvertKit_Admin_Setup_Wizard_Restrict_Content extends ConvertKit_Admin_Se
 
 		// Bail if the Post Type isn't supported.
 		$this->post_type = isset( $_REQUEST['ck_post_type'] ) ? sanitize_text_field( $_REQUEST['ck_post_type'] ) : 'page'; // phpcs:ignore WordPress.Security.NonceVerification
-		if ( ! in_array( $this->post_type, convertkit_get_supported_restrict_content_post_types(), true ) ) {
+		if ( ! in_array( $this->post_type, convertkit_get_supported_post_types(), true ) ) {
 			wp_die(
 				sprintf(
 					/* translators: Post Type */
