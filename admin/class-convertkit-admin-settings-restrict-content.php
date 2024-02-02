@@ -213,7 +213,7 @@ class ConvertKit_Admin_Settings_Restrict_Content extends ConvertKit_Settings_Bas
 				'name'        => 'email_button_label',
 				'label_for'   => 'email_button_label',
 				'description' => array(
-					__( 'The text to display for the button to submit the subscriber\'s email address and receive a login link to access the member only content.', 'convertkit' ),
+					__( 'The text to display for the button to submit the subscriber\'s email address and receive a login link to access the member-only content.', 'convertkit' ),
 				),
 			)
 		);

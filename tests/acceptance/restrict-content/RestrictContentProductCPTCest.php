@@ -43,7 +43,7 @@ class RestrictContentProductCPTCest
 		// Add blocks.
 		$I->addGutenbergParagraphBlock($I, 'Visible content.');
 		$I->addGutenbergBlock($I, 'More', 'more');
-		$I->addGutenbergParagraphBlock($I, 'Member only content.');
+		$I->addGutenbergParagraphBlock($I, 'Member-only content.');
 
 		// Publish Article.
 		$url = $I->publishGutenbergPage($I);
@@ -51,7 +51,7 @@ class RestrictContentProductCPTCest
 		// Confirm that all content is displayed.
 		$I->amOnUrl($url);
 		$I->see('Visible content.');
-		$I->see('Member only content.');
+		$I->see('Member-only content.');
 	}
 
 	/**
@@ -106,7 +106,7 @@ class RestrictContentProductCPTCest
 		// Add blocks.
 		$I->addGutenbergParagraphBlock($I, 'Visible content.');
 		$I->addGutenbergBlock($I, 'More', 'more');
-		$I->addGutenbergParagraphBlock($I, 'Member only content.');
+		$I->addGutenbergParagraphBlock($I, 'Member-only content.');
 
 		// Publish Article.
 		$url = $I->publishGutenbergPage($I);
@@ -129,9 +129,9 @@ class RestrictContentProductCPTCest
 		// Setup ConvertKit Plugin, disabling JS.
 		$I->setupConvertKitPluginDisableJS($I);
 
-		// Define visible content and member only content.
+		// Define visible content and member-only content.
 		$visibleContent    = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec at velit purus. Nam gravida tempor tellus, sit amet euismod arcu. Mauris sed mattis leo. Mauris viverra eget tellus sit amet vehicula. Nulla eget sapien quis felis euismod pellentesque. Quisque elementum et diam nec eleifend. Sed ornare quam eget augue consequat, in maximus quam fringilla. Morbi';
-		$memberOnlyContent = 'Member only content';
+		$memberOnlyContent = 'Member-only content';
 
 		// Add the CPT using the Gutenberg editor.
 		$I->addGutenbergPage($I, 'article', 'ConvertKit: Article: Restrict Content: Product: Generated Excerpt');
@@ -194,7 +194,7 @@ class RestrictContentProductCPTCest
 		// Add blocks.
 		$I->addGutenbergParagraphBlock($I, 'Visible content.');
 		$I->addGutenbergBlock($I, 'More', 'more');
-		$I->addGutenbergParagraphBlock($I, 'Member only content.');
+		$I->addGutenbergParagraphBlock($I, 'Member-only content.');
 
 		// Publish Article.
 		$url = $I->publishGutenbergPage($I);

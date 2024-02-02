@@ -58,7 +58,7 @@ class RestrictContentCacheCest
 		$I->amOnPage('?p=' . $pageID);
 
 		// Test that the restricted content CTA displays when no valid signed subscriber ID is used,
-		// to confirm caching does not show member only content.
+		// to confirm caching does not show member-only content.
 		$I->testRestrictContentByProductHidesContentWithCTA($I);
 
 		// Test that the restricted content displays when a valid signed subscriber ID is used,
@@ -107,7 +107,7 @@ class RestrictContentCacheCest
 		$I->amOnPage('?p=' . $pageID);
 
 		// Test that the restricted content CTA displays when no valid signed subscriber ID is used,
-		// to confirm caching does not show member only content.
+		// to confirm caching does not show member-only content.
 		$I->testRestrictContentByProductHidesContentWithCTA($I);
 
 		// Test that the restricted content displays when a valid signed subscriber ID is used,
@@ -154,7 +154,7 @@ class RestrictContentCacheCest
 		$I->amOnPage('?p=' . $pageID);
 
 		// Test that the restricted content CTA displays when no valid signed subscriber ID is used,
-		// to confirm caching does not show member only content.
+		// to confirm caching does not show member-only content.
 		$I->testRestrictContentByProductHidesContentWithCTA($I);
 
 		// Test that the restricted content displays when a valid signed subscriber ID is used,
@@ -201,7 +201,7 @@ class RestrictContentCacheCest
 		$I->amOnPage('?p=' . $pageID);
 
 		// Test that the restricted content CTA displays when no valid signed subscriber ID is used,
-		// to confirm caching does not show member only content.
+		// to confirm caching does not show member-only content.
 		$I->testRestrictContentByProductHidesContentWithCTA($I);
 
 		// Test that the restricted content displays when a valid signed subscriber ID is used,
@@ -248,7 +248,7 @@ class RestrictContentCacheCest
 		$I->amOnPage('?p=' . $pageID);
 
 		// Test that the restricted content CTA displays when no valid signed subscriber ID is used,
-		// to confirm caching does not show member only content.
+		// to confirm caching does not show member-only content.
 		$I->testRestrictContentByProductHidesContentWithCTA($I);
 
 		// Test that the restricted content displays when a valid signed subscriber ID is used,
