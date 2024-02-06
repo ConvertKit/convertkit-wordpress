@@ -70,6 +70,7 @@ require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-subscriber.php
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-term.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-user.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-widgets.php';
+require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-wp-rocket.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/blocks/class-convertkit-block.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/blocks/class-convertkit-block-broadcasts.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/blocks/class-convertkit-block-content.php';
