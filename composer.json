@@ -4,7 +4,7 @@
     "type": "project",
     "license": "GPLv3",
     "require": {
-        "convertkit/convertkit-wordpress-libraries": "1.4.0"
+        "convertkit/convertkit-wordpress-libraries": "1.4.1"
     },
     "require-dev": {
         "lucatume/wp-browser": "^3.0",
@@ -15,7 +15,7 @@
         "codeception/module-filesystem": "^1.0",                                   
         "codeception/module-cli": "^1.0",                                          
         "codeception/util-universalframework": "^1.0",
-        "php-webdriver/webdriver": "<=1.14.0",
+        "php-webdriver/webdriver": "^1.0",
         "wp-coding-standards/wpcs": "^3.0.0",
         "phpstan/phpstan": "^1.7",
         "szepeviktor/phpstan-wordpress": "^1.0",

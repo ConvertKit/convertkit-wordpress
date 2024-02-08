@@ -52,18 +52,31 @@ jQuery( document ).ready(
 							return true;
 						}
 
+						let val = '';
+
+						// If this is a color picker, #000000 will be submitted by the browser as the value
+						// even if no value / color was selected.
+						// Check the data-value attribute instead.
+						switch ( $( this ).attr( 'type' ) ) {
+							case 'color':
+								val = $( this ).data( 'value' );
+								break;
+							default:
+								val = $( this ).val();
+								break;
+						}
+
 						// Skip if the value is empty.
-						if ( ! $( this ).val() ) {
+						if ( ! val ) {
 							return true;
 						}
-						if ( $( this ).val().length === 0 ) {
+						if ( val.length === 0 ) {
 							return true;
 						}
 
 						// Get shortcode attribute.
 						let key = $( this ).data( 'shortcode' ),
-						trim    = ( $( this ).data( 'trim' ) === '0' ? false : true ),
-						val     = $( this ).val();
+						trim    = ( $( this ).data( 'trim' ) === '0' ? false : true );
 
 						// Skip if the shortcode is empty.
 						if ( ! key.length ) {
