@@ -327,6 +327,11 @@ class ConvertKit_Output_Restrict_Content {
 			return $content;
 		}
 
+		// Return the full Post Content, unedited, if the request is from a crawler.
+		if ( $this->restrict_content_settings->permit_crawlers() && $this->is_crawler() ) {
+			return $content;
+		}
+
 		// Return if this request is after the user entered their email address,
 		// which means we're going through the authentication flow.
 		if ( $this->in_authentication_flow() ) {
@@ -834,7 +839,36 @@ class ConvertKit_Output_Restrict_Content {
 			return $content;
 		}
 
-		return $this->get_content_preview( $content ) . $this->get_call_to_action( $this->post_id );
+		// Fetch the content preview.
+		$content_preview = $this->get_content_preview( $content );
+
+		/**
+		 * Define the output for the content preview when the visitor is not
+		 * an authenticated subscriber.
+		 *
+		 * @since   2.4.1
+		 *
+		 * @param   string  $content_preview    Content preview.
+		 * @param   int     $post_id            Post ID.
+		 */
+		$content_preview = apply_filters( 'convertkit_output_restrict_content_content_preview', $content_preview, $this->post_id );
+
+		// Fetch the call to action.
+		$call_to_action = $this->get_call_to_action( $this->post_id );
+
+		/**
+		 * Define the output for the call to action, displayed below the content preview,
+		 * when the visitor is not an authenticated subscriber.
+		 *
+		 * @since   2.4.1
+		 *
+		 * @param   string  $call_to_action     Call to Action.
+		 * @param   int     $post_id            Post ID.
+		 */
+		$call_to_action = apply_filters( 'convertkit_output_restrict_content_call_to_action', $call_to_action, $this->post_id );
+
+		// Return the content preview and its call to action.
+		return $content_preview . $call_to_action;
 
 	}
 
@@ -933,7 +967,7 @@ class ConvertKit_Output_Restrict_Content {
 		// Only load scripts if the Disable Scripts option is off.
 		if ( ! $this->settings->scripts_disabled() ) {
 			// Enqueue scripts.
-			wp_enqueue_script( 'convertkit-restrict-content', CONVERTKIT_PLUGIN_URL . 'resources/frontend/js/restrict-content.js', array( 'jquery' ), CONVERTKIT_PLUGIN_VERSION, true );
+			wp_enqueue_script( 'convertkit-restrict-content', CONVERTKIT_PLUGIN_URL . 'resources/frontend/js/restrict-content.js', array(), CONVERTKIT_PLUGIN_VERSION, true );
 			wp_localize_script(
 				'convertkit-restrict-content',
 				'convertkit_restrict_content',
@@ -997,6 +1031,272 @@ class ConvertKit_Output_Restrict_Content {
 				return '';
 
 		}
+
+	}
+
+	/**
+	 * Whether this request is from a search engine crawler.
+	 *
+	 * @since   2.4.2
+	 *
+	 * @return  bool
+	 */
+	private function is_crawler() {
+
+		// Define permitted user agent crawlers and their IP addresses.
+		$permitted_user_agent_ip_ranges = array(
+			// Google.
+			// https://developers.google.com/static/search/apis/ipranges/googlebot.json.
+			'Googlebot' => array(
+				'192.178.5.0/27',
+				'34.100.182.96/28',
+				'34.101.50.144/28',
+				'34.118.254.0/28',
+				'34.118.66.0/28',
+				'34.126.178.96/28',
+				'34.146.150.144/28',
+				'34.147.110.144/28',
+				'34.151.74.144/28',
+				'34.152.50.64/28',
+				'34.154.114.144/28',
+				'34.155.98.32/28',
+				'34.165.18.176/28',
+				'34.175.160.64/28',
+				'34.176.130.16/28',
+				'34.22.85.0/27',
+				'34.64.82.64/28',
+				'34.65.242.112/28',
+				'34.80.50.80/28',
+				'34.88.194.0/28',
+				'34.89.10.80/28',
+				'34.89.198.80/28',
+				'34.96.162.48/28',
+				'35.247.243.240/28',
+				'66.249.64.0/27',
+				'66.249.64.128/27',
+				'66.249.64.160/27',
+				'66.249.64.192/27',
+				'66.249.64.224/27',
+				'66.249.64.32/27',
+				'66.249.64.64/27',
+				'66.249.64.96/27',
+				'66.249.65.0/27',
+				'66.249.65.160/27',
+				'66.249.65.192/27',
+				'66.249.65.224/27',
+				'66.249.65.32/27',
+				'66.249.65.64/27',
+				'66.249.65.96/27',
+				'66.249.66.0/27',
+				'66.249.66.128/27',
+				'66.249.66.160/27',
+				'66.249.66.192/27',
+				'66.249.66.32/27',
+				'66.249.66.64/27',
+				'66.249.66.96/27',
+				'66.249.68.0/27',
+				'66.249.68.32/27',
+				'66.249.68.64/27',
+				'66.249.69.0/27',
+				'66.249.69.128/27',
+				'66.249.69.160/27',
+				'66.249.69.192/27',
+				'66.249.69.224/27',
+				'66.249.69.32/27',
+				'66.249.69.64/27',
+				'66.249.69.96/27',
+				'66.249.70.0/27',
+				'66.249.70.128/27',
+				'66.249.70.160/27',
+				'66.249.70.192/27',
+				'66.249.70.224/27',
+				'66.249.70.32/27',
+				'66.249.70.64/27',
+				'66.249.70.96/27',
+				'66.249.71.0/27',
+				'66.249.71.128/27',
+				'66.249.71.160/27',
+				'66.249.71.192/27',
+				'66.249.71.224/27',
+				'66.249.71.32/27',
+				'66.249.71.64/27',
+				'66.249.71.96/27',
+				'66.249.72.0/27',
+				'66.249.72.128/27',
+				'66.249.72.160/27',
+				'66.249.72.192/27',
+				'66.249.72.224/27',
+				'66.249.72.32/27',
+				'66.249.72.64/27',
+				'66.249.72.96/27',
+				'66.249.73.0/27',
+				'66.249.73.128/27',
+				'66.249.73.160/27',
+				'66.249.73.192/27',
+				'66.249.73.224/27',
+				'66.249.73.32/27',
+				'66.249.73.64/27',
+				'66.249.73.96/27',
+				'66.249.74.0/27',
+				'66.249.74.128/27',
+				'66.249.74.32/27',
+				'66.249.74.64/27',
+				'66.249.74.96/27',
+				'66.249.75.0/27',
+				'66.249.75.128/27',
+				'66.249.75.160/27',
+				'66.249.75.192/27',
+				'66.249.75.224/27',
+				'66.249.75.32/27',
+				'66.249.75.64/27',
+				'66.249.75.96/27',
+				'66.249.76.0/27',
+				'66.249.76.128/27',
+				'66.249.76.160/27',
+				'66.249.76.192/27',
+				'66.249.76.224/27',
+				'66.249.76.32/27',
+				'66.249.76.64/27',
+				'66.249.76.96/27',
+				'66.249.77.0/27',
+				'66.249.77.128/27',
+				'66.249.77.160/27',
+				'66.249.77.192/27',
+				'66.249.77.224/27',
+				'66.249.77.32/27',
+				'66.249.77.64/27',
+				'66.249.77.96/27',
+				'66.249.78.0/27',
+				'66.249.78.32/27',
+				'66.249.79.0/27',
+				'66.249.79.128/27',
+				'66.249.79.160/27',
+				'66.249.79.192/27',
+				'66.249.79.224/27',
+				'66.249.79.32/27',
+				'66.249.79.64/27',
+				'66.249.79.96/27',
+			),
+
+			// Bing.
+			// https://www.bing.com/toolbox/bingbot.json.
+			'Bingbot'   => array(
+				'157.55.39.0/24',
+				'207.46.13.0/24',
+				'40.77.167.0/24',
+				'13.66.139.0/24',
+				'13.66.144.0/24',
+				'52.167.144.0/24',
+				'13.67.10.16/28',
+				'13.69.66.240/28',
+				'13.71.172.224/28',
+				'139.217.52.0/28',
+				'191.233.204.224/28',
+				'20.36.108.32/28',
+				'20.43.120.16/28',
+				'40.79.131.208/28',
+				'40.79.186.176/28',
+				'52.231.148.0/28',
+				'20.79.107.240/28',
+				'51.105.67.0/28',
+				'20.125.163.80/28',
+				'40.77.188.0/22',
+				'65.55.210.0/24',
+				'199.30.24.0/23',
+				'40.77.202.0/24',
+				'40.77.139.0/25',
+				'20.74.197.0/28',
+				'20.15.133.160/27',
+				'40.77.177.0/24',
+				'40.77.178.0/23',
+			),
+		);
+
+		/**
+		 * Define the permitted user agents and their IP address ranges that can bypass
+		 * Restrict Content to index content for search engines.
+		 *
+		 * @since   2.4.2
+		 *
+		 * @param   array   $permitted  Permitted user agent and IP address ranges.
+		 */
+		$permitted_user_agent_ip_ranges = apply_filters( 'convertkit_output_restrict_content_is_crawler_permitted_user_agent_ip_ranges', $permitted_user_agent_ip_ranges );
+
+		// Not a crawler if no user agent defined or client IP address defined.
+		if ( ! array_key_exists( 'HTTP_USER_AGENT', $_SERVER ) || ! array_key_exists( 'REMOTE_ADDR', $_SERVER ) ) {
+			return false;
+		}
+
+		// Iterate through permitted crawler IP addresses.
+		foreach ( $permitted_user_agent_ip_ranges as $permitted_user_agent => $permitted_ip_addresses ) {
+			// Skip this user agent's IP addresses if the client user agent doesn't contain this user agent.
+			if ( stripos( $_SERVER['HTTP_USER_AGENT'], $permitted_user_agent ) === false ) {
+				continue;
+			}
+
+			// Check IP address.
+			foreach ( $permitted_ip_addresses as $permitted_ip_range ) {
+				if ( ! $this->ip_in_range( $_SERVER['REMOTE_ADDR'], $permitted_ip_range ) ) {
+					continue;
+				}
+
+				// The client user agent and IP address match a known crawler and its IP address.
+				// This is a crawler.
+				return true;
+			}
+		}
+
+		// If here, the client IP address isn't from a crawler.
+		return false;
+
+	}
+
+	/**
+	 * Determines if the given IP address falls within the given CIDR range.
+	 *
+	 * @since   2.4.2
+	 *
+	 * @param   string $ip     Client IP Address (e.g. 127.0.0.1).
+	 * @param   string $range  IP Address and bits (e.g. 127.0.0.1/27).
+	 * @return  bool           Client IP Address matches range.
+	 */
+	public function ip_in_range( $ip, $range ) {
+
+		// Return false if the IP address isn't valid.
+		if ( ! filter_var( $ip, FILTER_VALIDATE_IP ) ) {
+			return false;
+		}
+
+		// Return false if the range doesn't include the CIDR.
+		if ( strpos( $range, '/' ) === false ) {
+			return false;
+		}
+
+		// Get subnet and bits from range.
+		list( $subnet, $bits ) = explode( '/', $range );
+
+		// Return false if the CIDR isn't numerical.
+		if ( ! is_numeric( $bits ) ) {
+			return false;
+		}
+
+		// Cast CIDR to integer.
+		$bits = (int) $bits;
+
+		// Return false if the CIDR is not wihtin the permitted range.
+		if ( $bits < 0 || $bits > 32 ) {
+			return false;
+		}
+
+		// Convert to long representation.
+		$ip     = ip2long( $ip );
+		$subnet = ip2long( $subnet );
+		$mask   = -1 << ( 32 - $bits );
+
+		// If the supplied subnet wasn't correctly aligned.
+		$subnet &= $mask;
+
+		return ( $ip & $mask ) === $subnet;
 
 	}
 

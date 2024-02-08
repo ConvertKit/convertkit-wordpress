@@ -157,7 +157,7 @@ class PluginSettingsToolsCest
 		$I->seeInThisFile('{"settings":{"api_key":"' . $_ENV['CONVERTKIT_API_KEY'] . '","api_secret":"' . $_ENV['CONVERTKIT_API_SECRET'] . '"');
 
 		// Confirm some expected Restrict Content settings data is included.
-		$I->seeInThisFile('"restrict_content":{"subscribe_heading":');
+		$I->seeInThisFile('"restrict_content":{"permit_crawlers":');
 
 		// Delete the file.
 		$I->deleteFile($_ENV['WP_ROOT_FOLDER'] . '/convertkit-export.json');
@@ -201,10 +201,7 @@ class PluginSettingsToolsCest
 		$I->loadConvertKitSettingsRestrictContentScreen($I);
 
 		// Confirm that the text fields contain the expected data.
-		$defaults = $I->getRestrictedContentDefaultSettings();
-		foreach ( $defaults as $key => $value ) {
-			$I->seeInField('_wp_convertkit_settings_restrict_content[' . $key . ']', $value);
-		}
+		$I->checkRestrictContentSettings($I, $I->getRestrictedContentDefaultSettings());
 	}
 
 	/**

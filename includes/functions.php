@@ -107,10 +107,32 @@ function convertkit_plugin_deactivate( $network_wide ) {
  */
 function convertkit_get_supported_post_types() {
 
+	// Define supported Post Types.
 	$post_types = array(
 		'page',
 		'post',
 	);
+
+	// If public Custom Post Types can be fetched, include them now.
+	if ( function_exists( 'get_post_types' ) ) {
+		// Get public Custom Post Types.
+		$custom_post_types = get_post_types(
+			array(
+				'public'   => true,
+
+				// Don't include WordPress' built in Post Types, such as attachment, revisino and nav_menu_item.
+				'_builtin' => false,
+			)
+		);
+
+		// Sanity check an array was returned.
+		if ( is_array( $custom_post_types ) ) {
+			$post_types = array_merge(
+				$post_types,
+				array_keys( $custom_post_types )
+			);
+		}
+	}
 
 	/**
 	 * Defines the Post Types that support ConvertKit Forms.
@@ -130,25 +152,13 @@ function convertkit_get_supported_post_types() {
  *
  * @since   2.1.0
  *
+ * @deprecated 2.4.3 No longer used by internal code and not recommended. Use `convertkit_get_supported_post_types` instead.
+ *
  * @return  array   Post Types
  */
 function convertkit_get_supported_restrict_content_post_types() {
 
-	$post_types = array(
-		'page',
-		'post',
-	);
-
-	/**
-	 * Defines the Post Types that support Restricted Content / Members Content functionality.
-	 *
-	 * @since   2.0.0
-	 *
-	 * @param   array   $post_types     Post Types
-	 */
-	$post_types = apply_filters( 'convertkit_get_supported_restrict_content_post_types', $post_types );
-
-	return $post_types;
+	return convertkit_get_supported_post_types();
 
 }
 

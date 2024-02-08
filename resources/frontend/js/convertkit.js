@@ -26,36 +26,51 @@ function convertKitTagSubscriber( subscriber_id, tag, post_id ) {
 		console.log( post_id );
 	}
 
-	( function ( $ ) {
-
-		$.ajax(
-			{
-				type: 'POST',
-				data: {
+	fetch(
+		convertkit.ajaxurl,
+		{
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/x-www-form-urlencoded',
+			},
+			body: new URLSearchParams(
+				{
 					action: 'convertkit_tag_subscriber',
 					convertkit_nonce: convertkit.nonce,
 					subscriber_id: subscriber_id,
 					tag: tag,
-					post_id: post_id
-				},
-				url: convertkit.ajaxurl,
-				success: function ( response ) {
-					if ( convertkit.debug ) {
-						console.log( response );
-					}
-					convertKitRemoveSubscriberIDFromURL( window.location.href );
+					post_id: post_id,
 				}
+			)
+		}
+	)
+	.then(
+		function ( response ) {
+			if ( convertkit.debug ) {
+				console.log( response );
 			}
-		).fail(
-			function (response) {
-				if ( convertkit.debug ) {
-					console.log( response );
-				}
-				convertKitRemoveSubscriberIDFromURL( window.location.href );
-			}
-		);
 
-	} )( jQuery );
+			return response.json();
+		}
+	)
+	.then(
+		function ( result ) {
+			if ( convertkit.debug ) {
+				console.log( result );
+			}
+
+			convertKitRemoveSubscriberIDFromURL( window.location.href );
+		}
+	)
+	.catch(
+		function ( error ) {
+			if ( convertkit.debug ) {
+				console.error( error );
+			}
+
+			convertKitRemoveSubscriberIDFromURL( window.location.href );
+		}
+	);
 
 }
 
@@ -79,36 +94,49 @@ function convertStoreSubscriberIDInCookie( subscriber_id ) {
 		console.log( subscriber_id );
 	}
 
-	( function ( $ ) {
-
-		$.ajax(
-			{
-				type: 'POST',
-				data: {
+	fetch(
+		convertkit.ajaxurl,
+		{
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/x-www-form-urlencoded',
+			},
+			body: new URLSearchParams(
+				{
 					action: 'convertkit_store_subscriber_id_in_cookie',
 					convertkit_nonce: convertkit.nonce,
 					subscriber_id: subscriber_id
-				},
-				url: convertkit.ajaxurl,
-				success: function ( response ) {
-					if ( convertkit.debug ) {
-						console.log( response );
-					}
-
-					convertKitRemoveSubscriberIDFromURL( window.location.href );
 				}
+			)
+		}
+	)
+	.then(
+		function ( response ) {
+			if ( convertkit.debug ) {
+				console.log( response );
 			}
-		).fail(
-			function (response) {
-				if ( convertkit.debug ) {
-					console.log( response );
-				}
 
-				convertKitRemoveSubscriberIDFromURL( window.location.href );
+			return response.json();
+		}
+	)
+	.then(
+		function ( result ) {
+			if ( convertkit.debug ) {
+				console.log( result );
 			}
-		);
 
-	} )( jQuery );
+			convertKitRemoveSubscriberIDFromURL( window.location.href );
+		}
+	)
+	.catch(
+		function ( error ) {
+			if ( convertkit.debug ) {
+				console.error( error );
+			}
+
+			convertKitRemoveSubscriberIDFromURL( window.location.href );
+		}
+	);
 
 }
 
@@ -132,32 +160,43 @@ function convertStoreSubscriberEmailAsIDInCookie( emailAddress ) {
 		console.log( emailAddress );
 	}
 
-	( function ( $ ) {
-
-		$.ajax(
-			{
-				type: 'POST',
-				data: {
+	fetch(
+		convertkit.ajaxurl,
+		{
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/x-www-form-urlencoded',
+			},
+			body: new URLSearchParams(
+				{
 					action: 'convertkit_store_subscriber_email_as_id_in_cookie',
 					convertkit_nonce: convertkit.nonce,
-					email:  emailAddress
-				},
-				url: convertkit.ajaxurl,
-				success: function ( response ) {
-					if ( convertkit.debug ) {
-						console.log( response );
-					}
+					email: emailAddress
 				}
+			)
+		}
+	)
+	.then(
+		function ( response ) {
+			if ( convertkit.debug ) {
+				console.log( response );
 			}
-		).fail(
-			function (response) {
-				if ( convertkit.debug ) {
-					console.log( response );
-				}
+		}
+	)
+	.then(
+		function ( result ) {
+			if ( convertkit.debug ) {
+				console.log( result );
 			}
-		);
-
-	} )( jQuery );
+		}
+	)
+	.catch(
+		function ( error ) {
+			if ( convertkit.debug ) {
+				console.error( error );
+			}
+		}
+	);
 
 }
 
@@ -202,8 +241,9 @@ function convertKitSleep( milliseconds ) {
 /**
  * Register events
  */
-jQuery( document ).ready(
-	function ( $ ) {
+document.addEventListener(
+	'DOMContentLoaded',
+	function () {
 
 		if ( convertkit.subscriber_id > 0 && convertkit.tag && convertkit.post_id ) {
 			// If the user can be detected as a ConvertKit Subscriber (i.e. their Subscriber ID is in a cookie or the URL),
@@ -216,11 +256,20 @@ jQuery( document ).ready(
 		}
 
 		// Store subscriber ID as a cookie from the email address used when a ConvertKit Form is submitted.
-		$( document ).on(
+		document.addEventListener(
 			'click',
-			'.formkit-submit',
-			function () {
-				var emailAddress = $( 'input[name="email_address"]' ).val();
+			function (e) {
+				// Check if the form submit button was clicked, or the span element was clicked and its parent is the form submit button.
+				if ( ! e.target.matches( '.formkit-submit' ) && ! e.target.parentElement.matches( '.formkit-submit' ) ) {
+					if ( convertkit.debug ) {
+						console.log( 'not a ck form' );
+					}
+
+					return;
+				}
+
+				// Get email address.
+				let emailAddress = document.querySelector( 'input[name="email_address"]' ).value;
 
 				// If the email address is empty, don't attempt to get the subscriber ID by email.
 				if ( ! emailAddress.length ) {

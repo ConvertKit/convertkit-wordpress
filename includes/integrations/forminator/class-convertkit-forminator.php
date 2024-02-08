@@ -71,15 +71,17 @@ class ConvertKit_Forminator {
 	 *
 	 * @since   2.3.0
 	 *
-	 * @param   array $entry              Entry.
-	 * @param   int   $form_id            Forminator Form ID.
-	 * @param   array $form_data_array    Forminator submitted data.
+	 * @param   Forminator_Form_Entry_Model $entry              Entry.
+	 * @param   int                         $form_id            Forminator Form ID.
+	 * @param   array                       $form_data_array    Forminator submitted data.
 	 */
 	public function maybe_subscribe( $entry, $form_id, $form_data_array ) {
 
 		// Get ConvertKit Form ID mapped to this Forminator Form.
+		// We deliberately use the entry's form ID, as $form_id for a Quiz will point to a lead generation form, which
+		// has a different Form ID.
 		$forminator_settings = new ConvertKit_Forminator_Settings();
-		$convertkit_form_id  = $forminator_settings->get_convertkit_form_id_by_forminator_form_id( $form_id );
+		$convertkit_form_id  = $forminator_settings->get_convertkit_form_id_by_forminator_form_id( $entry->form_id );
 
 		// If no ConvertKit Form is mapped to this Forminator Form, bail.
 		if ( ! $convertkit_form_id ) {

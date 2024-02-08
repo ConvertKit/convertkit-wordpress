@@ -172,6 +172,160 @@ class PageBlockProductCest
 	}
 
 	/**
+	 * Test the Product block works when using a valid discount code.
+	 *
+	 * @since   2.4.1
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testProductBlockWithValidDiscountCodeParameter(AcceptanceTester $I)
+	{
+		// Setup ConvertKit Plugin with no default form specified.
+		$I->setupConvertKitPluginNoDefaultForms($I);
+		$I->setupConvertKitPluginResources($I);
+
+		// Add a Page using the Gutenberg editor.
+		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Product: Valid Discount Code Param');
+
+		// Configure metabox's Form setting = None, ensuring we only test the block in Gutenberg.
+		$I->configureMetaboxSettings(
+			$I,
+			'wp-convertkit-meta-box',
+			[
+				'form' => [ 'select2', 'None' ],
+			]
+		);
+
+		// Add block to Page, setting the Product setting to the value specified in the .env file.
+		$I->addGutenbergBlock(
+			$I,
+			'ConvertKit Product',
+			'convertkit-product',
+			[
+				'product'       => [ 'select', $_ENV['CONVERTKIT_API_PRODUCT_NAME'] ],
+				'discount_code' => [ 'text', $_ENV['CONVERTKIT_API_PRODUCT_DISCOUNT_CODE'] ],
+			]
+		);
+
+		// Publish and view the Page on the frontend site.
+		$I->publishAndViewGutenbergPage($I);
+
+		// Confirm that the block displays.
+		$I->seeProductOutput($I, $_ENV['CONVERTKIT_API_PRODUCT_URL'], 'Buy my product');
+
+		// Confirm the discount code has been applied.
+		$I->switchToIFrame('iframe[data-active]');
+		$I->waitForElementVisible('.formkit-main');
+		$I->see('$0.00');
+	}
+
+	/**
+	 * Test the Product block works when using an invalid discount code.
+	 *
+	 * @since   2.4.1
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testProductBlockWithInvalidDiscountCodeParameter(AcceptanceTester $I)
+	{
+		// Setup ConvertKit Plugin with no default form specified.
+		$I->setupConvertKitPluginNoDefaultForms($I);
+		$I->setupConvertKitPluginResources($I);
+
+		// Add a Page using the Gutenberg editor.
+		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Product: Invalid Discount Code Param');
+
+		// Configure metabox's Form setting = None, ensuring we only test the block in Gutenberg.
+		$I->configureMetaboxSettings(
+			$I,
+			'wp-convertkit-meta-box',
+			[
+				'form' => [ 'select2', 'None' ],
+			]
+		);
+
+		// Add block to Page, setting the Product setting to the value specified in the .env file.
+		$I->addGutenbergBlock(
+			$I,
+			'ConvertKit Product',
+			'convertkit-product',
+			[
+				'product'       => [ 'select', $_ENV['CONVERTKIT_API_PRODUCT_NAME'] ],
+				'discount_code' => [ 'text', 'fake' ],
+			]
+		);
+
+		// Publish and view the Page on the frontend site.
+		$I->publishAndViewGutenbergPage($I);
+
+		// Confirm that the block displays.
+		$I->seeProductOutput($I, $_ENV['CONVERTKIT_API_PRODUCT_URL'], 'Buy my product');
+
+		// Confirm the discount code is not valid, but the modal displays so the user can still purchase.
+		$I->switchToIFrame('iframe[data-active]');
+		$I->waitForElementVisible('.formkit-main');
+		$I->see('The coupon is not valid.');
+	}
+
+	/**
+	 * Test the Product block opens the ConvertKit Product in the same window instead
+	 * of a modal when the Disable modal on mobile option is enabled.
+	 *
+	 * @since   2.4.1
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testProductBlockWithDisableModalOnMobileParameterEnabled(AcceptanceTester $I)
+	{
+		// Setup ConvertKit Plugin with no default form specified.
+		$I->setupConvertKitPluginNoDefaultForms($I);
+		$I->setupConvertKitPluginResources($I);
+
+		// Add a Page using the Gutenberg editor.
+		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Product: Disable Modal on Mobile');
+
+		// Configure metabox's Form setting = None, ensuring we only test the block in Gutenberg.
+		$I->configureMetaboxSettings(
+			$I,
+			'wp-convertkit-meta-box',
+			[
+				'form' => [ 'select2', 'None' ],
+			]
+		);
+
+		// Add block to Page, setting the Product setting to the value specified in the .env file.
+		$I->addGutenbergBlock(
+			$I,
+			'ConvertKit Product',
+			'convertkit-product',
+			[
+				'product'                     => [ 'select', $_ENV['CONVERTKIT_API_PRODUCT_NAME'] ],
+				'#inspector-toggle-control-0' => [ 'toggle', true ],
+			]
+		);
+
+		// Publish and view the Page on the frontend site.
+		$url = $I->publishAndViewGutenbergPage($I);
+
+		// Change user agent to a mobile user agent.
+		$I->changeUserAgent($_ENV['TEST_SITE_HTTP_USER_AGENT_MOBILE']);
+
+		// Load page.
+		$I->amOnUrl($url);
+
+		// Confirm that the block displays without the data-commerce attribute.
+		$I->seeElementInDOM('.convertkit-product a');
+		$I->dontSeeElementInDOM('.convertkit-product a[data-commerce]');
+
+		// Confirm that clicking the button opens the URL in the same browser tab, and not a modal.
+		$I->click('.convertkit-product a');
+		$I->waitForElementVisible('body[data-template]');
+
+		// Change user agent back, as it persists through tests.
+		$I->changeUserAgent($_ENV['TEST_SITE_HTTP_USER_AGENT']);
+	}
+
+	/**
 	 * Test the Product block's theme color parameters works.
 	 *
 	 * @since   1.9.8.5

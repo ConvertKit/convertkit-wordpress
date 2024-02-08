@@ -309,6 +309,88 @@ class PageLandingPageCest
 	}
 
 	/**
+	 * Test that the Landing Page specified in the Page Settings works when
+	 * creating and viewing a new WordPress Page, with the WP-Rocket caching
+	 * and minification Plugin active.
+	 *
+	 * @since   2.4.4
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testAddNewPageUsingDefinedLandingPageWithWPRocket(AcceptanceTester $I)
+	{
+		// Activate WP Rocket Plugin.
+		$I->activateThirdPartyPlugin($I, 'wp-rocket');
+
+		// Load WP Rocket settings screen.
+		$I->amOnAdminPage('options-general.php?page=wprocket#file_optimization');
+
+		// Enable CSS minification.
+		$I->click('label[for=minify_css]');
+		$I->waitForElementVisible('.wpr-isOpen');
+		$I->click('Activate minify CSS');
+
+		// Enable JS minification.
+		$I->click('label[for=minify_js]');
+		$I->waitForElementVisible('.wpr-isOpen');
+		$I->click('Activate minify JavaScript');
+
+		// Enable image lazy loading.
+		$I->click('#wpr-nav-media');
+		$I->click('label[for=lazyload]');
+		$I->click('label[for=lazyload_css_bg_img]');
+
+		// Click Save Changes button.
+		$I->click('Save Changes');
+
+		// Confirm changes saved successfully.
+		$I->waitForElementVisible('#setting-error-settings_updated');
+
+		// Add a Page using the Gutenberg editor.
+		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Landing Page: WP Rocket: ' . $_ENV['CONVERTKIT_API_LANDING_PAGE_NAME']);
+
+		// Configure metabox's Landing Page setting to value specified in the .env file.
+		$I->configureMetaboxSettings(
+			$I,
+			'wp-convertkit-meta-box',
+			[
+				'landing_page' => [ 'select2', $_ENV['CONVERTKIT_API_LANDING_PAGE_NAME'] ],
+			]
+		);
+
+		// Get Landing Page ID.
+		$landingPageID = $I->grabValueFrom('#wp-convertkit-landing_page');
+
+		// Publish and view the Page on the frontend site.
+		$url = $I->publishAndViewGutenbergPage($I);
+
+		// Log out, as WP Rocket won't cache or minify for logged in WordPress Users.
+		$I->logOut();
+
+		// View the Page.
+		$I->amOnUrl($url);
+
+		// Confirm that the basic HTML structure is correct.
+		$this->_seeBasicHTMLStructure($I);
+
+		// Confirm the ConvertKit Site Icon displays.
+		$I->seeInSource('<link rel="shortcut icon" type="image/x-icon" href="https://pages.convertkit.com/templates/favicon.ico">');
+
+		// Confirm that the ConvertKit Landing Page displays.
+		$I->dontSeeElementInDOM('body.page'); // WordPress didn't load its template, which is correct.
+		$I->seeElementInDOM('form[data-sv-form="' . $landingPageID . '"]'); // ConvertKit injected its Landing Page Form, which is correct.
+
+		// Confirm that WP Rocket has not minified any CSS or JS assets.
+		$I->dontSeeElementInDOM('script[data-minify="1"]');
+
+		// Confirm that WP Rocket has not attempted to lazy load images.
+		$I->dontSeeElementInDOM('.rocket-lazyload');
+
+		// Deactivate WP Rocket Plugin.
+		$I->deactivateThirdPartyPlugin($I, 'wp-rocket');
+	}
+
+	/**
 	 * Helper method to assert that the expected landing page HTML is output.
 	 *
 	 * @since   1.9.7.5

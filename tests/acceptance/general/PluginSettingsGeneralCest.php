@@ -194,6 +194,42 @@ class PluginSettingsGeneralCest
 	}
 
 	/**
+	 * Test that API credentials have spaces removed when entered.
+	 *
+	 * @since   2.4.3
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testSaveValidAPICredentialsContainingSpaces(AcceptanceTester $I)
+	{
+		// Go to the Plugin's Settings Screen.
+		$I->loadConvertKitSettingsGeneralScreen($I);
+
+		// Complete API Fields.
+		$I->fillField('_wp_convertkit_settings[api_key]', '   ' . $_ENV['CONVERTKIT_API_KEY'] . '   ' );
+		$I->fillField('_wp_convertkit_settings[api_secret]', '   ' . $_ENV['CONVERTKIT_API_SECRET'] . '   ' );
+
+		// Click the Save Changes button.
+		$I->click('Save Changes');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Check the value of the fields match the inputs provided.
+		$I->seeInField('_wp_convertkit_settings[api_key]', $_ENV['CONVERTKIT_API_KEY']);
+		$I->seeInField('_wp_convertkit_settings[api_secret]', $_ENV['CONVERTKIT_API_SECRET']);
+
+		// Check that no notice is displayed that the API credentials are invalid.
+		$I->dontSeeErrorNotice($I, 'Authorization Failed: API Key not valid');
+
+		// Navigate to the WordPress Admin.
+		$I->amOnAdminPage('index.php');
+
+		// Check that no notice is displayed that the API credentials are invalid.
+		$I->dontSeeErrorNotice($I, 'Convertkit: Authorization failed. Please enter valid API credentials on the settings screen.');
+	}
+
+	/**
 	 * Test that no PHP errors or notices are displayed on the Plugin's Setting screen,
 	 * when the Default Form for Pages and Posts are changed, and that the preview links
 	 * work when the Default Form is changed.
@@ -308,6 +344,48 @@ class PluginSettingsGeneralCest
 		// Confirm no Page or Post preview links exist, because there are no Pages or Posts in WordPress.
 		$I->dontSeeElementInDOM('a#convertkit-preview-form-post');
 		$I->dontSeeElementInDOM('a#convertkit-preview-form-page');
+	}
+
+	/**
+	 * Test that a Default Form setting for a public Custom Post Type exists in the settings screen,
+	 * and no Default Form setting for a private Custom Post Type exists.
+	 *
+	 * @since   1.9.8.5
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testPublicPrivateCustomPostTypeSettingsExist(AcceptanceTester $I)
+	{
+		// Create a public Custom Post Type called Articles, using the Custom Post Type UI Plugin.
+		$I->registerCustomPostType($I, 'article', 'Articles', 'Article');
+
+		// Create a non-public Custom Post Type called Private, using the Custom Post Type UI Plugin.
+		$I->registerCustomPostType($I, 'private', 'Private', 'Private', false);
+
+		// Setup Plugin, without defining default Forms.
+		$I->setupConvertKitPluginNoDefaultForms($I);
+
+		// Go to the Plugin's Settings Screen.
+		$I->loadConvertKitSettingsGeneralScreen($I);
+
+		// Select Default Form for Articles.
+		$I->fillSelect2Field($I, '#select2-_wp_convertkit_settings_article_form-container', $_ENV['CONVERTKIT_API_FORM_NAME']);
+
+		// Confirm no Default Form option is displayed for the Private CPT.
+		$I->dontSeeElementInDOM('#_wp_convertkit_settings_private_form');
+
+		// Click the Save Changes button.
+		$I->click('Save Changes');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Check the value of the fields match the inputs provided.
+		$I->seeInField('_wp_convertkit_settings[article_form]', $_ENV['CONVERTKIT_API_FORM_NAME']);
+
+		// Unregister CPTs.
+		$I->unregisterCustomPostType($I, 'article');
+		$I->unregisterCustomPostType($I, 'private');
 	}
 
 	/**

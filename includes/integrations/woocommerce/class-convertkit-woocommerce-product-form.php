@@ -7,7 +7,7 @@
  */
 
 /**
- * Registers ConvertKit Forms on WooCommerce Products
+ * Outputs ConvertKit Forms on WooCommerce Products.
  *
  * @package ConvertKit
  * @author ConvertKit
@@ -21,34 +21,13 @@ class ConvertKit_WooCommerce_Product_Form {
 	 */
 	public function __construct() {
 
-		add_filter( 'convertkit_get_supported_post_types', array( $this, 'register_post_type_support' ) );
 		add_action( 'convertkit_output_output_form', array( $this, 'output_form' ) );
 
 	}
 
 	/**
-	 * Register ConvertKit Form support for WooCommerce Products.
-	 *
-	 * @since   1.9.6
-	 *
-	 * @param   array $post_types     Supported Post Types.
-	 * @return  array   $post_types     Supported Post Types
-	 */
-	public function register_post_type_support( $post_types ) {
-
-		// Bail if WooCommerce isn't active.
-		if ( ! $this->is_active() ) {
-			return $post_types;
-		}
-
-		// Register WooCommerce Product support.
-		$post_types[] = 'product';
-		return $post_types;
-
-	}
-
-	/**
-	 * Output the ConvertKit Form after the Product's Summary.
+	 * Output the ConvertKit Form after the Product's Summary, as `the_content` isn't a reliable
+	 * hook to use for output when viewing a WooCommerce Product.
 	 *
 	 * @since   1.9.6
 	 */

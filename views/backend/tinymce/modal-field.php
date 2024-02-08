@@ -88,13 +88,13 @@ switch ( $field['type'] ) {
 	 */
 	case 'color':
 		?>
-		<input type="text" 
+		<input type="color" 
 				id="tinymce_modal_<?php echo esc_attr( $field_name ); ?>"
 				name="<?php echo esc_attr( $field_name ); ?>"
 				value="<?php echo esc_attr( isset( $shortcode['attributes'][ $field_name ]['default'] ) ? $shortcode['attributes'][ $field_name ]['default'] : '' ); ?>" 
+				data-value="<?php echo esc_attr( isset( $shortcode['attributes'][ $field_name ]['default'] ) ? $shortcode['attributes'][ $field_name ]['default'] : '' ); ?>" 
 				data-shortcode="<?php echo esc_attr( $field_name ); ?>"
-				placeholder="<?php echo esc_attr( isset( $field['placeholder'] ) ? $field['placeholder'] : '' ); ?>"
-				class="widefat convertkit-color-picker" />
+				placeholder="<?php echo esc_attr( isset( $field['placeholder'] ) ? $field['placeholder'] : '' ); ?>" />
 		<?php
 		break;
 }

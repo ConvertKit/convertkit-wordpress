@@ -37,7 +37,7 @@ class RestrictContentProductPostCest
 		// Add blocks.
 		$I->addGutenbergParagraphBlock($I, 'Visible content.');
 		$I->addGutenbergBlock($I, 'More', 'more');
-		$I->addGutenbergParagraphBlock($I, 'Member only content.');
+		$I->addGutenbergParagraphBlock($I, 'Member-only content.');
 
 		// Publish Post.
 		$url = $I->publishGutenbergPage($I);
@@ -45,7 +45,7 @@ class RestrictContentProductPostCest
 		// Confirm that all content is displayed.
 		$I->amOnUrl($url);
 		$I->see('Visible content.');
-		$I->see('Member only content.');
+		$I->see('Member-only content.');
 	}
 
 	/**
@@ -77,18 +77,13 @@ class RestrictContentProductPostCest
 		// Add blocks.
 		$I->addGutenbergParagraphBlock($I, 'Visible content.');
 		$I->addGutenbergBlock($I, 'More', 'more');
-		$I->addGutenbergParagraphBlock($I, 'Member only content.');
+		$I->addGutenbergParagraphBlock($I, 'Member-only content.');
 
 		// Publish Post.
 		$url = $I->publishGutenbergPage($I);
 
 		// Test Restrict Content functionality.
-		$I->testRestrictedContentByProductOnFrontend(
-			$I,
-			$url,
-			'Visible content.',
-			'Member only content.'
-		);
+		$I->testRestrictedContentByProductOnFrontend($I, $url);
 	}
 
 	/**
@@ -105,9 +100,9 @@ class RestrictContentProductPostCest
 		// Setup ConvertKit Plugin, disabling JS.
 		$I->setupConvertKitPluginDisableJS($I);
 
-		// Define visible content and member only content.
+		// Define visible content and member-only content.
 		$visibleContent    = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec at velit purus. Nam gravida tempor tellus, sit amet euismod arcu. Mauris sed mattis leo. Mauris viverra eget tellus sit amet vehicula. Nulla eget sapien quis felis euismod pellentesque. Quisque elementum et diam nec eleifend. Sed ornare quam eget augue consequat, in maximus quam fringilla. Morbi';
-		$memberOnlyContent = 'Member only content';
+		$memberOnlyContent = 'Member-only content';
 
 		// Add a Post using the Gutenberg editor.
 		$I->addGutenbergPage($I, 'post', 'ConvertKit: Post: Restrict Content: Product: Generated Excerpt');
@@ -133,8 +128,10 @@ class RestrictContentProductPostCest
 		$I->testRestrictedContentByProductOnFrontend(
 			$I,
 			$url,
-			$visibleContent,
-			$memberOnlyContent
+			[
+				'visible_content' => $visibleContent,
+				'member_content'  => $memberOnlyContent,
+			]
 		);
 	}
 
@@ -152,7 +149,7 @@ class RestrictContentProductPostCest
 		// Setup ConvertKit Plugin, disabling JS.
 		$I->setupConvertKitPluginDisableJS($I);
 
-		// Define visible content and member only content.
+		// Define visible content and member-only content.
 		$excerpt           = 'This is a defined excerpt';
 		$memberOnlyContent = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec at velit purus. Nam gravida tempor tellus, sit amet euismod arcu. Mauris sed mattis leo. Mauris viverra eget tellus sit amet vehicula. Nulla eget sapien quis felis euismod pellentesque. Quisque elementum et diam nec eleifend. Sed ornare quam eget augue consequat, in maximus quam fringilla. Morbi';
 
@@ -184,12 +181,25 @@ class RestrictContentProductPostCest
 
 		// Test Restrict Content functionality.
 		// Check content is not displayed, and CTA displays with expected text.
-		$I->testRestrictContentByProductHidesContentWithCTA($I, $excerpt, $memberOnlyContent);
+		$I->testRestrictContentByProductHidesContentWithCTA(
+			$I,
+			[
+				'visible_content' => $excerpt,
+				'member_content'  => $memberOnlyContent,
+			]
+		);
 
 		// Test that the restricted content displays when a valid signed subscriber ID is used,
 		// as if we entered the code sent in the email.
 		// Excerpt should not be displayed, as its an excerpt, and we now show the member content instead.
-		$I->testRestrictedContentShowsContentWithValidSubscriberID($I, $url, '', $memberOnlyContent);
+		$I->testRestrictedContentShowsContentWithValidSubscriberID(
+			$I,
+			$url,
+			[
+				'visible_content' => '',
+				'member_content'  => $memberOnlyContent,
+			]
+		);
 
 		// Assert that the excerpt is no longer displayed.
 		$I->dontSee($excerpt);
@@ -225,18 +235,13 @@ class RestrictContentProductPostCest
 		// Add blocks.
 		$I->addGutenbergParagraphBlock($I, 'Visible content.');
 		$I->addGutenbergBlock($I, 'More', 'more');
-		$I->addGutenbergParagraphBlock($I, 'Member only content.');
+		$I->addGutenbergParagraphBlock($I, 'Member-only content.');
 
 		// Publish Post.
 		$url = $I->publishGutenbergPage($I);
 
 		// Test Restrict Content functionality.
-		$I->testRestrictedContentModalByProductOnFrontend(
-			$I,
-			$url,
-			'Visible content.',
-			'Member only content.'
-		);
+		$I->testRestrictedContentModalByProductOnFrontend($I, $url);
 	}
 
 	/**
@@ -255,14 +260,14 @@ class RestrictContentProductPostCest
 		// Setup ConvertKit Plugin, disabling JS.
 		$I->setupConvertKitPluginDisableJS($I);
 
-		// Programmatically create a Page.
+		// Programmatically create a Post.
 		$postID = $I->createRestrictedContentPage(
 			$I,
-			'post',
-			'ConvertKit: Post: Restrict Content: Invalid Product',
-			'Visible content.',
-			'Member only content.',
-			'product_12345' // A fake Product that does not exist in ConvertKit.
+			[
+				'post_type'                => 'post',
+				'post_title'               => 'ConvertKit: Post: Restrict Content: Invalid Product',
+				'restrict_content_setting' => 'product_12345', // A fake Product that does not exist in ConvertKit.
+			]
 		);
 
 		// Navigate to the post.
@@ -288,8 +293,10 @@ class RestrictContentProductPostCest
 		// Programmatically create a Post.
 		$postID = $I->createRestrictedContentPage(
 			$I,
-			'post',
-			'ConvertKit: Post: Restrict Content: Product: ' . $_ENV['CONVERTKIT_API_PRODUCT_NAME'] . ': Quick Edit'
+			[
+				'post_type'  => 'post',
+				'post_title' => 'ConvertKit: Post: Restrict Content: Product: ' . $_ENV['CONVERTKIT_API_PRODUCT_NAME'] . ': Quick Edit',
+			]
 		);
 
 		// Quick Edit the Post in the Posts WP_List_Table.
@@ -321,8 +328,20 @@ class RestrictContentProductPostCest
 
 		// Programmatically create two Posts.
 		$postIDs = array(
-			$I->createRestrictedContentPage($I, 'post', 'ConvertKit: Post: Restrict Content: Product: ' . $_ENV['CONVERTKIT_API_PRODUCT_NAME'] . ': Bulk Edit #1'),
-			$I->createRestrictedContentPage($I, 'post', 'ConvertKit: Post: Restrict Content: Product: ' . $_ENV['CONVERTKIT_API_PRODUCT_NAME'] . ': Bulk Edit #2'),
+			$I->createRestrictedContentPage(
+				$I,
+				[
+					'post_type'  => 'post',
+					'post_title' => 'ConvertKit: Post: Restrict Content: Product: ' . $_ENV['CONVERTKIT_API_PRODUCT_NAME'] . ': Bulk Edit #1',
+				]
+			),
+			$I->createRestrictedContentPage(
+				$I,
+				[
+					'post_type'  => 'post',
+					'post_title' => 'ConvertKit: Post: Restrict Content: Product: ' . $_ENV['CONVERTKIT_API_PRODUCT_NAME'] . ': Bulk Edit #2',
+				]
+			),
 		);
 
 		// Bulk Edit the Posts in the Posts WP_List_Table.

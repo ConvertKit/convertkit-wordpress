@@ -17,38 +17,51 @@
  *
  * @since 	1.9.8.0
  */
-jQuery( document ).ready(
-	function ( $ ) {
 
-		// Move Quick Edit fields from footer into the hidden inline-edit table row.
-		$( 'tr#inline-edit .inline-edit-wrapper fieldset.inline-edit-col-left' ).first().append( $( '#convertkit-quick-edit' ) );
+document.addEventListener(
+	'DOMContentLoaded',
+	function () {
 
-		// Show the Quick Edit fields, as they are now contained in the inline-edit row which WordPress will show/hide as necessary.
-		$( '#convertkit-quick-edit' ).show();
+		const convertKitQuickEditWrapper = document.querySelector( 'tr#inline-edit .inline-edit-wrapper fieldset.inline-edit-col-left' ),
+			convertKitQuickEdit          = document.querySelector( '#convertkit-quick-edit' ),
+			convertKitInlineEditPost     = inlineEditPost.edit;
 
-		var convertKitInlineEditPost = inlineEditPost.edit;
+		if ( convertKitQuickEditWrapper ) {
+			// Move Quick Edit fields from footer into the hidden inline-edit table row.
+			convertKitQuickEditWrapper.appendChild( convertKitQuickEdit );
 
-		// Extend WordPress' inline edit function to load the Plugin's Quick Edit fields.
-		inlineEditPost.edit = function ( id ) {
+			// Show the Quick Edit fields, as they are now contained in the inline-edit row which WordPress will show/hide as necessary.
+			convertKitQuickEdit.style.display = 'block';
 
-			// Merge arguments from original function.
-			convertKitInlineEditPost.apply( this, arguments );
+			// Extend WordPress' inline edit function to load the Plugin's Quick Edit fields.
+			inlineEditPost.edit = function ( id ) {
 
-			// Get Post ID.
-			if ( typeof( id ) === 'object' ) {
-				id = parseInt( this.getId( id ) );
-			}
+				// Merge arguments from the original function.
+				convertKitInlineEditPost.apply( this, arguments );
 
-			// Iterate through any ConvertKit inline data, assigning values to Quick Edit fields.
-			$( '.convertkit', $( '#inline_' + id ) ).each(
-				function () {
-
-					// Assign the setting's value to the setting's Quick Edit field.
-					$( '#convertkit-quick-edit select[name="wp-convertkit[' + $( this ).data( 'setting' ) + ']"]' ).val( $( this ).data( 'value' ) );
-
+				// Get Post ID.
+				if (typeof id === 'object') {
+					id = parseInt( this.getId( id ) );
 				}
-			);
 
+				// Iterate through any ConvertKit inline data, assigning values to Quick Edit fields.
+				document.querySelectorAll( '#inline_' + id + ' .convertkit' ).forEach(
+					function ( element ) {
+						// Get Quick Edit field.
+						let convertKitQuickEditField = document.querySelector( '#convertkit-quick-edit select[name="wp-convertkit[' + element.dataset.setting + ']"]' );
+
+						// If the Quick Edit field doesn't exist for this setting, skip it.
+						// (e.g. we're editing a Post and this is a Landing Page setting, that isn't supported in Posts).
+						if ( convertKitQuickEditField === null ) {
+							return;
+						}
+
+						// Assign the setting's value to the setting's Quick Edit field.
+						convertKitQuickEditField.value = element.dataset.value;
+					}
+				);
+
+			};
 		}
 
 	}

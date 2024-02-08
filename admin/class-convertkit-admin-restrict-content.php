@@ -113,7 +113,7 @@ class ConvertKit_Admin_Restrict_Content {
 		}
 
 		// Don't filter if we're not querying a Post Type that supports Restricted Content.
-		if ( ! in_array( $query->get( 'post_type' ), convertkit_get_supported_restrict_content_post_types(), true ) ) {
+		if ( ! in_array( $query->get( 'post_type' ), convertkit_get_supported_post_types(), true ) ) {
 			return;
 		}
 
@@ -206,7 +206,7 @@ class ConvertKit_Admin_Restrict_Content {
 	public function output_wp_list_table_filters( $post_type ) {
 
 		// Don't output filters if we're not viewing a Post Type that supports Restricted Content.
-		if ( ! in_array( $post_type, convertkit_get_supported_restrict_content_post_types(), true ) ) {
+		if ( ! in_array( $post_type, convertkit_get_supported_post_types(), true ) ) {
 			return;
 		}
 
@@ -280,7 +280,7 @@ class ConvertKit_Admin_Restrict_Content {
 		}
 
 		// Return whether Post Type is supported for Restrict Content functionality.
-		return in_array( $screen->post_type, convertkit_get_supported_restrict_content_post_types(), true );
+		return in_array( $screen->post_type, convertkit_get_supported_post_types(), true );
 
 	}
 

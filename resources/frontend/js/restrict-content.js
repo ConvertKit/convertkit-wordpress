@@ -10,68 +10,98 @@
 /**
  * Register events
  */
-jQuery( document ).ready(
-	function ( $ ) {
+document.addEventListener(
+	'DOMContentLoaded',
+	function () {
 
 		// Open modal.
-		$( '.convertkit-restrict-content-modal-open' ).on(
-			'click',
-			function ( e ) {
-				e.preventDefault();
-				convertKitRestrictContentOpenModal();
+		document.querySelectorAll( '.convertkit-restrict-content-modal-open' ).forEach(
+			function ( element ) {
+				element.addEventListener(
+					'click',
+					function ( e ) {
+						e.preventDefault();
+						convertKitRestrictContentOpenModal();
+					}
+				);
 			}
 		);
 
 		// Handle modal form submissions.
-		$( document ).on(
+		document.addEventListener(
 			'submit',
-			'#convertkit-restrict-content-modal form#convertkit-restrict-content-form',
 			function ( e ) {
-
-				e.preventDefault();
-
-				// Disable inputs.
-				$( 'input[type="text"], input[type="email"], input[type="submit"]' ).attr( 'disabled', 'disabled' );
-
-				// Show loading overlay.
-				$( '#convertkit-restrict-content-modal-loading' ).show();
-
-				// Determine if this is the email or code submission.
-				if ( $( 'input#convertkit_subscriber_code' ).length > 0 ) {
-					// Code submission.
-					convertKitRestrictContentSubscriberVerification(
-						$( 'input[name="_wpnonce"]' ).val(),
-						$( 'input[name="subscriber_code"]' ).val(),
-						$( 'input[name="token"]' ).val(),
-						$( 'input[name="convertkit_post_id"]' ).val()
-					);
-
-					return false;
+				// Bail if the submission was not for the Restrict Content form.
+				if ( ! e.target.matches( '#convertkit-restrict-content-modal form#convertkit-restrict-content-form' ) ) {
+					return;
 				}
 
-				// Email submission.
-				convertKitRestrictContentSubscriberAuthenticationSendCode(
-					$( 'input[name="_wpnonce"]' ).val(),
-					$( 'input[name="convertkit_email"]' ).val(),
-					$( 'input[name="convertkit_resource_type"]' ).val(),
-					$( 'input[name="convertkit_resource_id"]' ).val(),
-					$( 'input[name="convertkit_post_id"]' ).val()
-				);
-
+				e.preventDefault();
+				convertKitRestrictContentFormSubmit( e );
 			}
 		);
 
 		// Close modal.
-		$( '#convertkit-restrict-content-modal-close' ).on(
-			'click',
-			function ( e ) {
-				e.preventDefault();
-				convertKitRestrictContentCloseModal();
-			}
-		);
+		// Check if the element exists on screen; if another JS error occurs, OTP submission might not be async,
+		// resulting in the non-JS OTP code screen loading without a modal (i.e. ?convertkit_login=1).
+		let convertKitRestrictContentCloseElement = document.querySelector( '#convertkit-restrict-content-modal-close' );
+		if ( convertKitRestrictContentCloseElement !== null ) {
+			convertKitRestrictContentCloseElement.addEventListener(
+				'click',
+				function ( e ) {
+					e.preventDefault();
+					convertKitRestrictContentCloseModal();
+				}
+			);
+		}
 
 	}
 );
+
+/**
+ * Handles Restrict Content form submission.
+ *
+ * @since 	2.4.2
+ *
+ * @param 	Event 	e 	Form submission event.
+ */
+function convertKitRestrictContentFormSubmit( e ) {
+
+	// Disable inputs.
+	document.querySelectorAll( 'input[type="text"], input[type="email"], input[type="submit"]' ).forEach(
+		function ( input ) {
+			input.setAttribute( 'disabled', 'disabled' );
+		}
+	);
+
+	// Show loading overlay.
+	document.querySelector( '#convertkit-restrict-content-modal-loading' ).style.display = 'block';
+
+	// Determine if this is the email or code submission.
+	let isCodeSubmission = document.querySelector( 'input#convertkit_subscriber_code' ) !== null;
+
+	if ( isCodeSubmission ) {
+		// Code submission.
+		convertKitRestrictContentSubscriberVerification(
+			e.target.querySelector( 'input[name="_wpnonce"]' ).value,
+			e.target.querySelector( 'input[name="subscriber_code"]' ).value,
+			e.target.querySelector( 'input[name="token"]' ).value,
+			e.target.querySelector( 'input[name="convertkit_post_id"]' ).value
+		);
+
+		return false;
+	}
+
+	// Email submission.
+	convertKitRestrictContentSubscriberAuthenticationSendCode(
+		e.target.querySelector( 'input[name="_wpnonce"]' ).value,
+		e.target.querySelector( 'input[name="convertkit_email"]' ).value,
+		e.target.querySelector( 'input[name="convertkit_resource_type"]' ).value,
+		e.target.querySelector( 'input[name="convertkit_resource_id"]' ).value,
+		e.target.querySelector( 'input[name="convertkit_post_id"]' ).value
+	);
+
+}
 
 /**
  * Opens the modal, displaying the content stored within the
@@ -81,12 +111,8 @@ jQuery( document ).ready(
  */
 function convertKitRestrictContentOpenModal() {
 
-	( function ( $ ) {
-
-		$( '#convertkit-restrict-content-modal-background' ).show();
-		$( '#convertkit-restrict-content-modal' ).show();
-
-	} )( jQuery );
+	document.querySelector( '#convertkit-restrict-content-modal-background' ).style.display = 'block';
+	document.querySelector( '#convertkit-restrict-content-modal' ).style.display            = 'block';
 
 }
 
@@ -97,13 +123,9 @@ function convertKitRestrictContentOpenModal() {
  */
 function convertKitRestrictContentCloseModal() {
 
-	( function ( $ ) {
-
-		$( '#convertkit-restrict-content-modal-background' ).hide();
-		$( '#convertkit-restrict-content-modal-loading' ).hide();
-		$( '#convertkit-restrict-content-modal' ).hide();
-
-	} )( jQuery );
+	document.querySelector( '#convertkit-restrict-content-modal-background' ).style.display = 'none';
+	document.querySelector( '#convertkit-restrict-content-modal-loading' ).style.display    = 'none';
+	document.querySelector( '#convertkit-restrict-content-modal' ).style.display            = 'none';
 
 }
 
@@ -123,47 +145,57 @@ function convertKitRestrictContentCloseModal() {
  */
 function convertKitRestrictContentSubscriberAuthenticationSendCode( nonce, email, resource_type, resource_id, post_id ) {
 
-	( function ( $ ) {
-
-		$.ajax(
-			{
-				type: 'POST',
-				data: {
+	fetch(
+		convertkit_restrict_content.ajaxurl,
+		{
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/x-www-form-urlencoded',
+			},
+			body: new URLSearchParams(
+				{
 					action: 'convertkit_subscriber_authentication_send_code',
 					'_wpnonce': nonce,
 					convertkit_email: email,
 					convertkit_resource_type: resource_type,
 					convertkit_resource_id: resource_id,
-					convertkit_post_id: post_id
-				},
-				url: convertkit_restrict_content.ajaxurl,
-				success: function ( response ) {
-
-					if ( convertkit_restrict_content.debug ) {
-						console.log( response );
-					}
-
-					// Output response, which will be a form with/without an error message.
-					$( '#convertkit-restrict-content-modal-content' ).html( response.data );
-
-					// Hide loading overlay.
-					$( '#convertkit-restrict-content-modal-loading' ).hide();
-
-					// Re-bind OTP listener.
-					convertKitRestrictContentOTPField();
-
+					convertkit_post_id: post_id,
 				}
+			),
+		}
+	)
+	.then(
+		function ( response ) {
+			if ( convertkit_restrict_content.debug ) {
+				console.log( response );
 			}
-		).fail(
-			function ( response ) {
-				if ( convertkit_restrict_content.debug ) {
-					console.log( response );
-				}
 
+			return response.json();
+		}
+	)
+	.then(
+		function ( result ) {
+			if ( convertkit_restrict_content.debug ) {
+				console.log( result );
 			}
-		);
 
-	} )( jQuery );
+			// Output response, which will be a form with/without an error message.
+			document.querySelector( '#convertkit-restrict-content-modal-content' ).innerHTML = result.data;
+
+			// Hide loading overlay.
+			document.querySelector( '#convertkit-restrict-content-modal-loading' ).style.display = 'none';
+
+			// Re-bind OTP listener.
+			convertKitRestrictContentOTPField();
+		}
+	)
+	.catch(
+		function ( error ) {
+			if ( convertkit_restrict_content.debug ) {
+				console.error( error );
+			}
+		}
+	);
 
 }
 
@@ -182,54 +214,62 @@ function convertKitRestrictContentSubscriberAuthenticationSendCode( nonce, email
  */
 function convertKitRestrictContentSubscriberVerification( nonce, subscriber_code, token, post_id ) {
 
-	( function ( $ ) {
-
-		$.ajax(
-			{
-				type: 'POST',
-				data: {
+	fetch(
+		convertkit_restrict_content.ajaxurl,
+		{
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/x-www-form-urlencoded',
+			},
+			body: new URLSearchParams(
+				{
 					action: 'convertkit_subscriber_verification',
 					'_wpnonce': nonce,
 					subscriber_code: subscriber_code,
 					token: token,
-					convertkit_post_id: post_id
-				},
-				url: convertkit_restrict_content.ajaxurl,
-				success: function ( response ) {
-
-					if ( convertkit_restrict_content.debug ) {
-						console.log( response );
-					}
-
-					// If the entered code is invalid, show the response in the modal.
-					if ( ! response.success ) {
-						$( '#convertkit-restrict-content-modal-content' ).html( response.data );
-
-						// Hide loading overlay.
-						$( '#convertkit-restrict-content-modal-loading' ).hide();
-
-						// Re-bind OTP listener.
-						convertKitRestrictContentOTPField();
-						return;
-					}
-
-					// Code entered is valid; load the URL in the response data, which will be the
-					// current URL with the `ck-cache-bust` parameter appended to it.
-					// As cookies are set, the user will now see the restricted content.
-					window.location = response.data;
-
+					convertkit_post_id: post_id,
 				}
+			),
+		}
+	)
+	.then(
+		function ( response ) {
+			if ( convertkit_restrict_content.debug ) {
+				console.log( response );
 			}
-		).fail(
-			function ( response ) {
-				if ( convertkit_restrict_content.debug ) {
-					console.log( response );
-				}
 
+			return response.json();
+		}
+	)
+	.then(
+		function ( result ) {
+			if ( convertkit_restrict_content.debug ) {
+				console.log( result );
 			}
-		);
 
-	} )( jQuery );
+			// If the entered code is invalid, show the response in the modal.
+			if ( ! result.success ) {
+				document.querySelector( '#convertkit-restrict-content-modal-content' ).innerHTML = result.data;
+
+				// Hide loading overlay.
+				document.querySelector( '#convertkit-restrict-content-modal-loading' ).style.display = 'none';
+
+				// Re-bind OTP listener.
+				convertKitRestrictContentOTPField();
+				return;
+			}
+
+			// Code entered is valid; load the URL in the response data.
+			window.location = result.data;
+		}
+	)
+	.catch(
+		function ( error ) {
+			if ( convertkit_restrict_content.debug ) {
+				console.error( error );
+			}
+		}
+	);
 
 }
 
@@ -241,33 +281,29 @@ function convertKitRestrictContentSubscriberVerification( nonce, subscriber_code
  */
 function convertKitRestrictContentOTPField() {
 
-	( function ( $ ) {
+	let otpInput = document.querySelector( '#convertkit_subscriber_code' );
 
-		// Bail if the OTP input isn't displayed on screen.
-		if ( $( '#convertkit_subscriber_code' ) === null ) {
-			return;
-		}
+	// Bail if the OTP input isn't displayed on screen.
+	if ( otpInput === null ) {
+		return;
+	}
 
-		$( '#convertkit_subscriber_code' ).on(
-			'change keyup input paste',
-			function () {
+	otpInput.addEventListener(
+		'input',
+		function () {
+			// Update the --_otp-digit property when the input value changes.
+			otpInput.style.setProperty( '--_otp-digit', otpInput.value.length );
 
-				// Update the --_otp-digit property when the input value changes.
-				$( '#convertkit_subscriber_code' ).css( '--_otp-digit', $( '#convertkit_subscriber_code' ).val().length );
-
-				// If all 6 digits have been entered:
-				// - move the caret input to the start, to avoid numbers shifting in input,
-				// - blur the input now that all numbers are entered,
-				// - submit the form.
-				if ( $( '#convertkit_subscriber_code' ).val().length === 6 ) {
-					$( '#convertkit_subscriber_code' )[0].setSelectionRange( 0, 0 );
-					$( '#convertkit_subscriber_code' ).blur();
-					$( '#convertkit-restrict-content-form' ).trigger( 'submit' );
-				}
-
+			// If all 6 digits have been entered:
+			// - move the caret input to the start,
+			// - blur the input now that all numbers are entered,
+			// - submit the form.
+			if ( otpInput.value.length === 6 ) {
+				otpInput.setSelectionRange( 0, 0 );
+				otpInput.blur();
+				document.querySelector( '#convertkit-restrict-content-form' ).requestSubmit();
 			}
-		);
-
-	} )( jQuery );
+		}
+	);
 
 }
