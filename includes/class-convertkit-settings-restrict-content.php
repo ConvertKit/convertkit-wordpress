@@ -65,6 +65,19 @@ class ConvertKit_Settings_Restrict_Content {
 	}
 
 	/**
+	 * Returns whether crawlers are permitted to index Member Content in the Plugin settings.
+	 *
+	 * @since   2.4.1
+	 *
+	 * @return  bool
+	 */
+	public function permit_crawlers() {
+
+		return ( $this->settings['permit_crawlers'] === 'on' ? true : false );
+
+	}
+
+	/**
 	 * Returns Restrict Content settings value for the given key.
 	 *
 	 * @since   2.1.0
@@ -100,6 +113,9 @@ class ConvertKit_Settings_Restrict_Content {
 	public function get_defaults() {
 
 		$defaults = array(
+			// Permit Crawlers.
+			'permit_crawlers'        => '',
+
 			// Restrict by Product.
 			'subscribe_heading'      => __( 'Read this post with a premium subscription', 'convertkit' ),
 			'subscribe_text'         => __( 'This post is only available to premium subscribers. Join today to get access to all posts.', 'convertkit' ),
@@ -125,7 +141,7 @@ class ConvertKit_Settings_Restrict_Content {
 		 *
 		 * @since   2.1.0
 		 *
-		 * @param   array   $defaults
+		 * @param   array   $defaults   Default settings.
 		 */
 		$defaults = apply_filters( 'convertkit_settings_restrict_content_get_defaults', $defaults );
 

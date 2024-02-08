@@ -609,7 +609,7 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 	/**
 	 * Renders the input for the Usage Tracking setting.
 	 *
-	 * @since   1.9.8.6
+	 * @since   @TODO
 	 */
 	public function usage_tracking_callback() {
 
@@ -620,6 +620,37 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 			$this->settings->usage_tracking_enabled(), // phpcs:ignore WordPress.Security.EscapeOutput
 			esc_html__( 'If enabled, sends data to ConvertKit once per week on the settings and functionality used. This helps us determine which features to work on.', 'convertkit' )
 		);
+
+	}
+
+	/**
+	 * Sanitizes the settings prior to being saved.
+	 *
+	 * @since   2.4.3
+	 *
+	 * @param   array $settings   Submitted Settings Fields.
+	 * @return  array               Sanitized Settings with Defaults
+	 */
+	public function sanitize_settings( $settings ) {
+
+		// Call parent class to merge settings with defaults.
+		$settings = parent::sanitize_settings( $settings );
+
+		// Remove whitespace, tabs and line ends from the API Key and Secret.
+		$settings['api_key']    = preg_replace( '/\s+/', '', $settings['api_key'] );
+		$settings['api_secret'] = preg_replace( '/\s+/', '', $settings['api_secret'] );
+
+		// If a Form or Landing Page was specified, request a review.
+		// This can safely be called multiple times, as the review request
+		// class will ensure once a review request is dismissed by the user,
+		// it is never displayed again.
+		if ( ( isset( $settings['page_form'] ) && $settings['page_form'] ) ||
+			( isset( $settings['post_form'] ) && $settings['post_form'] ) ) {
+			WP_ConvertKit()->get_class( 'review_request' )->request_review();
+		}
+
+		// Return settings to be saved.
+		return $settings;
 
 	}
 

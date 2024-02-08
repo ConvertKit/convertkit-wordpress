@@ -120,8 +120,8 @@ class ConvertKit_Block_Product extends ConvertKit_Block {
 
 			// Shortcode: TinyMCE / QuickTags Modal Width and Height.
 			'modal'                             => array(
-				'width'  => 500,
-				'height' => 295,
+				'width'  => 600,
+				'height' => 440,
 			),
 
 			// Shortcode: Include a closing [/shortcode] tag when using TinyMCE or QuickTag Modals.
@@ -169,32 +169,40 @@ class ConvertKit_Block_Product extends ConvertKit_Block {
 
 		return array(
 			// Block attributes.
-			'product'              => array(
+			'product'                 => array(
 				'type'    => 'string',
 				'default' => $this->get_default_value( 'product' ),
 			),
-			'text'                 => array(
+			'text'                    => array(
 				'type'    => 'string',
 				'default' => $this->get_default_value( 'text' ),
+			),
+			'discount_code'           => array(
+				'type'    => 'string',
+				'default' => $this->get_default_value( 'discount_code' ),
+			),
+			'disable_modal_on_mobile' => array(
+				'type'    => 'boolean',
+				'default' => $this->get_default_value( 'disable_modal_on_mobile' ),
 			),
 
 			// The below are built in Gutenberg attributes registered in get_supports().
 
 			// Color.
-			'backgroundColor'      => array(
+			'backgroundColor'         => array(
 				'type' => 'string',
 			),
-			'textColor'            => array(
+			'textColor'               => array(
 				'type' => 'string',
 			),
 
 			// Typography.
-			'fontSize'             => array(
+			'fontSize'                => array(
 				'type' => 'string',
 			),
 
 			// Spacing/Dimensions > Padding.
-			'style'                => array(
+			'style'                   => array(
 				'type'        => 'object',
 				'visualizers' => array(
 					'type'    => 'object',
@@ -217,7 +225,7 @@ class ConvertKit_Block_Product extends ConvertKit_Block {
 			),
 
 			// Always required for Gutenberg.
-			'is_gutenberg_example' => array(
+			'is_gutenberg_example'    => array(
 				'type'    => 'boolean',
 				'default' => false,
 			),
@@ -284,24 +292,34 @@ class ConvertKit_Block_Product extends ConvertKit_Block {
 		// Gutenberg's built-in fields (such as styling, padding etc) don't need to be defined here, as they'll be included
 		// automatically by Gutenberg.
 		return array(
-			'product'          => array(
+			'product'                 => array(
 				'label'  => __( 'Product', 'convertkit' ),
 				'type'   => 'select',
 				'values' => $products,
 			),
-			'text'             => array(
+			'text'                    => array(
 				'label'       => __( 'Button Text', 'convertkit' ),
 				'type'        => 'text',
 				'description' => __( 'The text to display for the button.', 'convertkit' ),
 			),
+			'discount_code'           => array(
+				'label'       => __( 'Discount Code', 'convertkit' ),
+				'type'        => 'text',
+				'description' => __( 'Optional: A discount code to include. Must be defined in the ConvertKit Product.', 'convertkit' ),
+			),
+			'disable_modal_on_mobile' => array(
+				'label'       => __( 'Disable modal on mobile', 'convertkit' ),
+				'type'        => 'toggle',
+				'description' => __( 'Recommended if the ConvertKit Product is a digital download being purchased on mobile, to ensure the subscriber can immediately download the PDF once purchased.', 'convertkit' ),
+			),
 
 			// These fields will only display on the shortcode, and are deliberately not registered in get_attributes(),
 			// because Gutenberg will register its own color pickers for link, background and text.
-			'background_color' => array(
+			'background_color'        => array(
 				'label' => __( 'Background color', 'convertkit' ),
 				'type'  => 'color',
 			),
-			'text_color'       => array(
+			'text_color'              => array(
 				'label' => __( 'Text color', 'convertkit' ),
 				'type'  => 'color',
 			),
@@ -331,6 +349,8 @@ class ConvertKit_Block_Product extends ConvertKit_Block {
 				'fields' => array(
 					'product',
 					'text',
+					'discount_code',
+					'disable_modal_on_mobile',
 					'background_color',
 					'text_color',
 				),
@@ -349,16 +369,18 @@ class ConvertKit_Block_Product extends ConvertKit_Block {
 	public function get_default_values() {
 
 		return array(
-			'product'          => '',
-			'text'             => __( 'Buy my product', 'convertkit' ),
-			'background_color' => '',
-			'text_color'       => '',
+			'product'                 => '',
+			'text'                    => __( 'Buy my product', 'convertkit' ),
+			'discount_code'           => '',
+			'disable_modal_on_mobile' => false,
+			'background_color'        => '',
+			'text_color'              => '',
 
 			// Built-in Gutenberg block attributes.
-			'backgroundColor'  => '',
-			'textColor'        => '',
-			'fontSize'         => '',
-			'style'            => array(
+			'backgroundColor'         => '',
+			'textColor'               => '',
+			'fontSize'                => '',
+			'style'                   => array(
 				'visualizers' => array(
 					'padding' => array(
 						'top'    => '',
@@ -393,7 +415,17 @@ class ConvertKit_Block_Product extends ConvertKit_Block {
 		$convertkit_products = new ConvertKit_Resource_Products();
 
 		// Build HTML.
-		$html = $convertkit_products->get_html( $atts['product'], $atts['text'], $atts['_css_classes'], $atts['_css_styles'], $this->is_block_editor_request() );
+		$html = $convertkit_products->get_html(
+			$atts['product'],
+			$atts['text'],
+			array(
+				'discount_code'  => $atts['discount_code'],
+				'disable_modal'  => ( $atts['disable_modal_on_mobile'] && wp_is_mobile() ),
+				'css_classes'    => $atts['_css_classes'],
+				'css_styles'     => $atts['_css_styles'],
+				'return_as_span' => $this->is_block_editor_request(),
+			)
+		);
 
 		// Bail if an error occured.
 		if ( is_wp_error( $html ) ) {

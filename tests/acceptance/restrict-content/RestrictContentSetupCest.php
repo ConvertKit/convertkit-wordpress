@@ -205,8 +205,9 @@ class RestrictContentSetupCest
 		$I->testRestrictedContentByProductOnFrontend(
 			$I,
 			$url,
-			'Visible content.',
-			'The downloadable content (that is available when the visitor has paid for the ConvertKit product) goes here.'
+			[
+				'member_content' => 'The downloadable content (that is available when the visitor has paid for the ConvertKit product) goes here.',
+			]
 		);
 	}
 
@@ -272,8 +273,10 @@ class RestrictContentSetupCest
 		$I->testRestrictedContentByProductOnFrontend(
 			$I,
 			$url,
-			'Some introductory text about lesson 1',
-			'Lesson 1 content (that is available when the visitor has paid for the ConvertKit product) goes here.'
+			[
+				'visible_content' => 'Some introductory text about lesson 1',
+				'member_content'  => 'Lesson 1 content (that is available when the visitor has paid for the ConvertKit product) goes here.',
+			]
 		);
 
 		// Test Next / Previous links.
@@ -352,8 +355,9 @@ class RestrictContentSetupCest
 			$I,
 			$url,
 			$I->generateEmailAddress(),
-			'Visible content.',
-			'The downloadable content (that is available when the visitor has paid for the ConvertKit product) goes here.'
+			[
+				'member_content' => 'The downloadable content (that is available when the visitor has paid for the ConvertKit product) goes here.',
+			]
 		);
 	}
 
@@ -420,8 +424,10 @@ class RestrictContentSetupCest
 			$I,
 			$url,
 			$I->generateEmailAddress(),
-			'Some introductory text about lesson 1',
-			'Lesson 1 content (that is available when the visitor has paid for the ConvertKit product) goes here.'
+			[
+				'visible_content' => 'Some introductory text about lesson 1',
+				'member_content'  => 'Lesson 1 content (that is available when the visitor has paid for the ConvertKit product) goes here.',
+			]
 		);
 
 		// Test Next / Previous links.

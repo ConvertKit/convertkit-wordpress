@@ -494,15 +494,6 @@ abstract class ConvertKit_Settings_Base {
 	 */
 	public function sanitize_settings( $settings ) {
 
-		// If a Form or Landing Page was specified, request a review.
-		// This can safely be called multiple times, as the review request
-		// class will ensure once a review request is dismissed by the user,
-		// it is never displayed again.
-		if ( ( isset( $settings['page_form'] ) && $settings['page_form'] ) ||
-			( isset( $settings['post_form'] ) && $settings['post_form'] ) ) {
-			WP_ConvertKit()->get_class( 'review_request' )->request_review();
-		}
-
 		// Merge settings with defaults.
 		$settings = wp_parse_args( $settings, $this->settings->get_defaults() );
 
