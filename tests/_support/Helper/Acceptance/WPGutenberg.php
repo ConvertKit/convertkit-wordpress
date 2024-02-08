@@ -257,11 +257,16 @@ class WPGutenberg extends \Codeception\Module
 
 		// Apply formatter configuration.
 		if ( $formatterConfiguration ) {
+			// Confirm the popover displays.
 			$I->waitForElementVisible('.components-popover');
 
 			foreach ($formatterConfiguration as $field => $attributes) {
 				// Field ID will be formatter's programmatic name, followed by the attribute name.
 				$fieldID = '#' . $formatterProgrammaticName . '-' . $field;
+
+				// Wait for the field to be visible within the popover.
+				// This prevents tests from trying to fill out the field before it is positioned.
+				$I->waitForElementVisible('.components-popover ' . $fieldID);
 
 				// Depending on the field's type, define its value.
 				switch ($attributes[0]) {
@@ -321,7 +326,8 @@ class WPGutenberg extends \Codeception\Module
 	 *
 	 * @since   1.9.7.5
 	 *
-	 * @param   AcceptanceTester $I                      Acceptance Tester.
+	 * @param   AcceptanceTester $I     Acceptance Tester.
+	 * @return  string           $url   Page / Post URL.
 	 */
 	public function publishAndViewGutenbergPage($I)
 	{
@@ -336,6 +342,9 @@ class WPGutenberg extends \Codeception\Module
 
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Return URL.
+		return $url;
 	}
 
 	/**

@@ -47,6 +47,7 @@
 }
 .convertkit-option div.left *:not(input) {
 	line-height: 27px;
+	text-wrap: wrap;
 }
 .convertkit-option div.right {
 	width: 100%;
@@ -60,6 +61,13 @@
 .convertkit-option select {
 	border: 1px solid #8c8f94;
 }
+.convertkit-option input[type=color] {
+	width: 80px;
+	height: 27px;
+	border: none;
+	margin: 0;
+	padding: 0;
+}
 .convertkit-option p {
 	white-space: normal;
 }
@@ -69,22 +77,6 @@
  */
 #convertkit-modal-body div.mce-foot div.mce-cancel {
 	left: 10px !important;
-}
-
-/**
- * Ensures consistent styling applied to 'Select color' button
- * provided by WordPress' color picker across TinyMCE and QuickTag modals
- */
-.convertkit-option .wp-color-result-text {
-	background: #f6f7f7;
-	border-radius: 0 2px 2px 0;
-	border-left: 1px solid #c3c4c7;
-	color: #50575e;
-	display: block;
-	line-height: 2.54545455;
-	padding: 0 6px;
-	font-size: 11px;
-	text-align: center;
 }
 
 /**

@@ -30,10 +30,6 @@
 						<td>Defines the Post Types that support ConvertKit Forms.</td>
 					</tr><tr>
 						<td>&nbsp;</td>
-						<td><a href="#convertkit_get_supported_restrict_content_post_types"><code>convertkit_get_supported_restrict_content_post_types</code></a></td>
-						<td>Defines the Post Types that support Restricted Content / Members Content functionality.</td>
-					</tr><tr>
-						<td>&nbsp;</td>
 						<td><a href="#convertkit_shortcodes"><code>convertkit_shortcodes</code></a></td>
 						<td>Registers shortcodes for the ConvertKit Plugin.</td>
 					</tr><tr>
@@ -150,6 +146,18 @@
 						<td>&nbsp;</td>
 						<td><a href="#convertkit_output_restrict_content_get_resource_id"><code>convertkit_output_restrict_content_get_resource_id</code></a></td>
 						<td>Define the ConvertKit Resource ID that the visitor must be subscribed against to access this content, overriding the Post setting. Return 0 to not restrict content.</td>
+					</tr><tr>
+						<td>&nbsp;</td>
+						<td><a href="#convertkit_output_restrict_content_content_preview"><code>convertkit_output_restrict_content_content_preview</code></a></td>
+						<td>Define the output for the content preview when the visitor is not an authenticated subscriber.</td>
+					</tr><tr>
+						<td>&nbsp;</td>
+						<td><a href="#convertkit_output_restrict_content_call_to_action"><code>convertkit_output_restrict_content_call_to_action</code></a></td>
+						<td>Define the output for the call to action, displayed below the content preview, when the visitor is not an authenticated subscriber.</td>
+					</tr><tr>
+						<td>&nbsp;</td>
+						<td><a href="#convertkit_output_restrict_content_is_crawler_permitted_user_agent_ip_ranges"><code>convertkit_output_restrict_content_is_crawler_permitted_user_agent_ip_ranges</code></a></td>
+						<td>Define the permitted user agents and their IP address ranges that can bypass Restrict Content to index content for search engines.</td>
 					</tr><tr>
 						<td colspan="3">../includes/class-convertkit-output.php</td>
 					</tr><tr>
@@ -279,7 +287,7 @@ add_filter( 'convertkit_admin_settings_register_sections', function( $sections )
 </pre>
 <h3 id="convertkit_get_supported_post_types">
 						convertkit_get_supported_post_types
-						<code>includes/functions.php::121</code>
+						<code>includes/functions.php::143</code>
 					</h3><h4>Overview</h4>
 						<p>Defines the Post Types that support ConvertKit Forms.</p><h4>Parameters</h4>
 					<table>
@@ -304,36 +312,9 @@ add_filter( 'convertkit_get_supported_post_types', function( $post_types ) {
 	return $post_types;
 }, 10, 1 );
 </pre>
-<h3 id="convertkit_get_supported_restrict_content_post_types">
-						convertkit_get_supported_restrict_content_post_types
-						<code>includes/functions.php::148</code>
-					</h3><h4>Overview</h4>
-						<p>Defines the Post Types that support Restricted Content / Members Content functionality.</p><h4>Parameters</h4>
-					<table>
-						<thead>
-							<tr>
-								<th>Parameter</th>
-								<th>Type</th>
-								<th>Description</th>
-							</tr>
-						</thead>
-						<tbody><tr>
-							<td>$post_types</td>
-							<td>array</td>
-							<td>Post Types</td>
-						</tr>
-						</tbody>
-					</table><h4>Usage</h4>
-<pre>
-add_filter( 'convertkit_get_supported_restrict_content_post_types', function( $post_types ) {
-	// ... your code here
-	// Return value
-	return $post_types;
-}, 10, 1 );
-</pre>
 <h3 id="convertkit_shortcodes">
 						convertkit_shortcodes
-						<code>includes/functions.php::172</code>
+						<code>includes/functions.php::182</code>
 					</h3><h4>Overview</h4>
 						<p>Registers shortcodes for the ConvertKit Plugin.</p><h4>Parameters</h4>
 					<table>
@@ -360,7 +341,7 @@ add_filter( 'convertkit_shortcodes', function( $shortcodes ) {
 </pre>
 <h3 id="convertkit_blocks">
 						convertkit_blocks
-						<code>includes/functions.php::196</code>
+						<code>includes/functions.php::206</code>
 					</h3><h4>Overview</h4>
 						<p>Registers blocks for the ConvertKit Plugin.</p><h4>Parameters</h4>
 					<table>
@@ -387,7 +368,7 @@ add_filter( 'convertkit_blocks', function( $blocks ) {
 </pre>
 <h3 id="convertkit_get_block_formatters">
 						convertkit_get_block_formatters
-						<code>includes/functions.php::220</code>
+						<code>includes/functions.php::230</code>
 					</h3><h4>Overview</h4>
 						<p>Registers block formatters in Gutenberg for the ConvertKit Plugin.</p><h4>Parameters</h4>
 					<table>
@@ -414,7 +395,7 @@ add_filter( 'convertkit_get_block_formatters', function( $block_formatters ) {
 </pre>
 <h3 id="convertkit_get_pre_publish_actions">
 						convertkit_get_pre_publish_actions
-						<code>includes/functions.php::244</code>
+						<code>includes/functions.php::254</code>
 					</h3><h4>Overview</h4>
 						<p>Registers pre-publish actions for the ConvertKit Plugin.</p><h4>Parameters</h4>
 					<table>
@@ -484,7 +465,7 @@ add_filter( 'convertkit_block_content_render', function( $content, $atts, $subsc
 </pre>
 <h3 id="convertkit_block_product_render">
 						convertkit_block_product_render
-						<code>includes/blocks/class-convertkit-block-product.php::414</code>
+						<code>includes/blocks/class-convertkit-block-product.php::446</code>
 					</h3><h4>Overview</h4>
 						<p>Filter the block's content immediately before it is output.</p><h4>Parameters</h4>
 					<table>
@@ -732,7 +713,7 @@ add_filter( 'convertkit_term_get_default_settings', function( $defaults ) {
 </pre>
 <h3 id="convertkit_settings_broadcasts_get_defaults">
 						convertkit_settings_broadcasts_get_defaults
-						<code>includes/class-convertkit-settings-broadcasts.php::216</code>
+						<code>includes/class-convertkit-settings-broadcasts.php::230</code>
 					</h3><h4>Overview</h4>
 						<p>The default settings, used when the ConvertKit Broadcasts Settings haven't been saved e.g. on a new installation.</p><h4>Parameters</h4>
 					<table>
@@ -746,7 +727,7 @@ add_filter( 'convertkit_term_get_default_settings', function( $defaults ) {
 						<tbody><tr>
 							<td>$defaults</td>
 							<td>array</td>
-							<td></td>
+							<td>Default settings.</td>
 						</tr>
 						</tbody>
 					</table><h4>Usage</h4>
@@ -759,7 +740,7 @@ add_filter( 'convertkit_settings_broadcasts_get_defaults', function( $defaults )
 </pre>
 <h3 id="convertkit_settings_restrict_content_get_defaults">
 						convertkit_settings_restrict_content_get_defaults
-						<code>includes/class-convertkit-settings-restrict-content.php::129</code>
+						<code>includes/class-convertkit-settings-restrict-content.php::145</code>
 					</h3><h4>Overview</h4>
 						<p>The default settings, used when the ConvertKit Restrict Content Settings haven't been saved e.g. on a new installation.</p><h4>Parameters</h4>
 					<table>
@@ -773,7 +754,7 @@ add_filter( 'convertkit_settings_broadcasts_get_defaults', function( $defaults )
 						<tbody><tr>
 							<td>$defaults</td>
 							<td>array</td>
-							<td></td>
+							<td>Default settings.</td>
 						</tr>
 						</tbody>
 					</table><h4>Usage</h4>
@@ -925,7 +906,7 @@ add_filter( 'convertkit_wishlist_settings_get_defaults', function( $defaults ) {
 </pre>
 <h3 id="convertkit_output_restrict_content_get_resource_type">
 						convertkit_output_restrict_content_get_resource_type
-						<code>includes/class-convertkit-output-restrict-content.php::634</code>
+						<code>includes/class-convertkit-output-restrict-content.php::639</code>
 					</h3><h4>Overview</h4>
 						<p>Define the ConvertKit Resource Type that the visitor must be subscribed against to access this content, overriding the Post setting. Return false or an empty string to not restrict content.</p><h4>Parameters</h4>
 					<table>
@@ -956,7 +937,7 @@ add_filter( 'convertkit_output_restrict_content_get_resource_type', function( $r
 </pre>
 <h3 id="convertkit_output_restrict_content_get_resource_id">
 						convertkit_output_restrict_content_get_resource_id
-						<code>includes/class-convertkit-output-restrict-content.php::672</code>
+						<code>includes/class-convertkit-output-restrict-content.php::677</code>
 					</h3><h4>Overview</h4>
 						<p>Define the ConvertKit Resource ID that the visitor must be subscribed against to access this content, overriding the Post setting. Return 0 to not restrict content.</p><h4>Parameters</h4>
 					<table>
@@ -984,6 +965,95 @@ add_filter( 'convertkit_output_restrict_content_get_resource_id', function( $res
 	// Return value
 	return $resource_id;
 }, 10, 2 );
+</pre>
+<h3 id="convertkit_output_restrict_content_content_preview">
+						convertkit_output_restrict_content_content_preview
+						<code>includes/class-convertkit-output-restrict-content.php::853</code>
+					</h3><h4>Overview</h4>
+						<p>Define the output for the content preview when the visitor is not an authenticated subscriber.</p><h4>Parameters</h4>
+					<table>
+						<thead>
+							<tr>
+								<th>Parameter</th>
+								<th>Type</th>
+								<th>Description</th>
+							</tr>
+						</thead>
+						<tbody><tr>
+							<td>$content_preview</td>
+							<td>string</td>
+							<td>Content preview.</td>
+						</tr><tr>
+							<td>$post_id</td>
+							<td>int</td>
+							<td>Post ID.</td>
+						</tr>
+						</tbody>
+					</table><h4>Usage</h4>
+<pre>
+add_filter( 'convertkit_output_restrict_content_content_preview', function( $content_preview, $post_id ) {
+	// ... your code here
+	// Return value
+	return $content_preview;
+}, 10, 2 );
+</pre>
+<h3 id="convertkit_output_restrict_content_call_to_action">
+						convertkit_output_restrict_content_call_to_action
+						<code>includes/class-convertkit-output-restrict-content.php::867</code>
+					</h3><h4>Overview</h4>
+						<p>Define the output for the call to action, displayed below the content preview, when the visitor is not an authenticated subscriber.</p><h4>Parameters</h4>
+					<table>
+						<thead>
+							<tr>
+								<th>Parameter</th>
+								<th>Type</th>
+								<th>Description</th>
+							</tr>
+						</thead>
+						<tbody><tr>
+							<td>$call_to_action</td>
+							<td>string</td>
+							<td>Call to Action.</td>
+						</tr><tr>
+							<td>$post_id</td>
+							<td>int</td>
+							<td>Post ID.</td>
+						</tr>
+						</tbody>
+					</table><h4>Usage</h4>
+<pre>
+add_filter( 'convertkit_output_restrict_content_call_to_action', function( $call_to_action, $post_id ) {
+	// ... your code here
+	// Return value
+	return $call_to_action;
+}, 10, 2 );
+</pre>
+<h3 id="convertkit_output_restrict_content_is_crawler_permitted_user_agent_ip_ranges">
+						convertkit_output_restrict_content_is_crawler_permitted_user_agent_ip_ranges
+						<code>includes/class-convertkit-output-restrict-content.php::1222</code>
+					</h3><h4>Overview</h4>
+						<p>Define the permitted user agents and their IP address ranges that can bypass Restrict Content to index content for search engines.</p><h4>Parameters</h4>
+					<table>
+						<thead>
+							<tr>
+								<th>Parameter</th>
+								<th>Type</th>
+								<th>Description</th>
+							</tr>
+						</thead>
+						<tbody><tr>
+							<td>$permitted</td>
+							<td>array</td>
+							<td>Permitted user agent and IP address ranges.</td>
+						</tr>
+						</tbody>
+					</table><h4>Usage</h4>
+<pre>
+add_filter( 'convertkit_output_restrict_content_is_crawler_permitted_user_agent_ip_ranges', function( $permitted_user_agent_ip_ranges ) {
+	// ... your code here
+	// Return value
+	return $permitted_user_agent_ip_ranges;
+}, 10, 1 );
 </pre>
 <h3 id="convertkit_output_page_takeover_landing_page_id">
 						convertkit_output_page_takeover_landing_page_id
@@ -1169,7 +1239,7 @@ add_filter( 'convertkit_is_admin_or_frontend_editor', function( $is_admin_or_fro
 </pre>
 <h3 id="convertkit_broadcasts_build_post_args">
 						convertkit_broadcasts_build_post_args
-						<code>includes/class-convertkit-broadcasts-importer.php::239</code>
+						<code>includes/class-convertkit-broadcasts-importer.php::247</code>
 					</h3><h4>Overview</h4>
 						<p>Define the wp_insert_post() compatible arguments for importing a ConvertKit Broadcast to a new WordPress Post.</p><h4>Parameters</h4>
 					<table>
@@ -1200,7 +1270,7 @@ add_filter( 'convertkit_broadcasts_build_post_args', function( $post_args, $broa
 </pre>
 <h3 id="convertkit_broadcasts_parse_broadcast_content">
 						convertkit_broadcasts_parse_broadcast_content
-						<code>includes/class-convertkit-broadcasts-importer.php::292</code>
+						<code>includes/class-convertkit-broadcasts-importer.php::300</code>
 					</h3><h4>Overview</h4>
 						<p>Parses the given Broadcast's content, removing unnecessary HTML tags and styles.</p><h4>Parameters</h4>
 					<table>
@@ -1231,7 +1301,7 @@ add_filter( 'convertkit_broadcasts_parse_broadcast_content', function( $content,
 </pre>
 <h3 id="convertkit_broadcasts_parse_broadcast_content_permitted_html_tags">
 						convertkit_broadcasts_parse_broadcast_content_permitted_html_tags
-						<code>includes/class-convertkit-broadcasts-importer.php::386</code>
+						<code>includes/class-convertkit-broadcasts-importer.php::394</code>
 					</h3><h4>Overview</h4>
 						<p>Define the HTML tags to retain in the Broadcast Content.</p><h4>Parameters</h4>
 					<table>
@@ -1424,7 +1494,7 @@ do_action( 'convertkit_settings_base_render_after', function(  ) {
 </pre>
 <h3 id="convertkit_settings_base_sanitize_settings">
 						convertkit_settings_base_sanitize_settings
-						<code>admin/section/class-convertkit-settings-base.php::513</code>
+						<code>admin/section/class-convertkit-settings-base.php::504</code>
 					</h3><h4>Parameters</h4>
 					<table>
 						<thead>

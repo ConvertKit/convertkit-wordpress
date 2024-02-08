@@ -50,31 +50,23 @@ class RestrictContentSettingsCest
 	 */
 	public function testSaveDefaultSettings(AcceptanceTester $I)
 	{
-		// Define visible and member only content.
-		$visibleContent = 'Visible content.';
-		$memberContent  = 'Member only content.';
-
 		// Save settings.
 		$this->_setupConvertKitPluginRestrictContent($I);
 
 		// Confirm default values were saved and display in the form fields.
-		$defaults = $I->getRestrictedContentDefaultSettings();
-		foreach ( $defaults as $key => $value ) {
-			$I->seeInField('_wp_convertkit_settings_restrict_content[' . $key . ']', $value);
-		}
+		$I->checkRestrictContentSettings($I, $I->getRestrictedContentDefaultSettings());
 
 		// Create Restricted Content Page.
 		$pageID = $I->createRestrictedContentPage(
 			$I,
-			'page',
-			'ConvertKit: Restrict Content: Settings',
-			$visibleContent,
-			$memberContent,
-			'product_' . $_ENV['CONVERTKIT_API_PRODUCT_ID']
+			[
+				'post_title'               => 'ConvertKit: Restrict Content: Settings',
+				'restrict_content_setting' => 'product_' . $_ENV['CONVERTKIT_API_PRODUCT_ID'],
+			]
 		);
 
 		// Test Restrict Content functionality.
-		$I->testRestrictedContentByProductOnFrontend($I, $pageID, $visibleContent, $memberContent);
+		$I->testRestrictedContentByProductOnFrontend($I, $pageID);
 	}
 
 	/**
@@ -87,12 +79,11 @@ class RestrictContentSettingsCest
 	 */
 	public function testSaveBlankSettings(AcceptanceTester $I)
 	{
-		// Define visible and member only content.
-		$visibleContent = 'Visible content.';
-		$memberContent  = 'Member only content.';
-
 		// Define settings.
 		$settings = array(
+			// Permit Crawlers.
+			'permit_crawlers'        => '',
+
 			// Restrict by Product.
 			'subscribe_heading'      => '',
 			'subscribe_text'         => '',
@@ -116,23 +107,19 @@ class RestrictContentSettingsCest
 		$this->_setupConvertKitPluginRestrictContent($I, $settings);
 
 		// Confirm default values were saved and display in the form fields.
-		$defaults = $I->getRestrictedContentDefaultSettings();
-		foreach ( $defaults as $key => $value ) {
-			$I->seeInField('_wp_convertkit_settings_restrict_content[' . $key . ']', $value);
-		}
+		$I->checkRestrictContentSettings($I, $I->getRestrictedContentDefaultSettings());
 
 		// Create Restricted Content Page.
 		$pageID = $I->createRestrictedContentPage(
 			$I,
-			'page',
-			'ConvertKit: Restrict Content: Settings: Blank',
-			$visibleContent,
-			$memberContent,
-			'product_' . $_ENV['CONVERTKIT_API_PRODUCT_ID']
+			[
+				'post_title'               => 'ConvertKit: Restrict Content: Settings: Blank',
+				'restrict_content_setting' => 'product_' . $_ENV['CONVERTKIT_API_PRODUCT_ID'],
+			]
 		);
 
 		// Test Restrict Content functionality.
-		$I->testRestrictedContentByProductOnFrontend($I, $pageID, $visibleContent, $memberContent);
+		$I->testRestrictedContentByProductOnFrontend($I, $pageID);
 	}
 
 	/**
@@ -145,12 +132,11 @@ class RestrictContentSettingsCest
 	 */
 	public function testSaveSettings(AcceptanceTester $I)
 	{
-		// Define visible and member only content.
-		$visibleContent = 'Visible content.';
-		$memberContent  = 'Member only content.';
-
 		// Define settings.
 		$settings = array(
+			// Permit Crawlers.
+			'permit_crawlers'        => true,
+
 			// Restrict by Product.
 			'subscribe_heading'      => 'Subscribe Heading',
 			'subscribe_text'         => 'Subscribe Text',
@@ -174,22 +160,25 @@ class RestrictContentSettingsCest
 		$this->_setupConvertKitPluginRestrictContent($I, $settings);
 
 		// Confirm custom values were saved and display in the form fields.
-		foreach ( $settings as $key => $value ) {
-			$I->seeInField('_wp_convertkit_settings_restrict_content[' . $key . ']', $value);
-		}
+		$I->checkRestrictContentSettings($I, $settings);
 
 		// Create Restricted Content Page.
 		$pageID = $I->createRestrictedContentPage(
 			$I,
-			'page',
-			'ConvertKit: Restrict Content: Settings: Custom',
-			$visibleContent,
-			$memberContent,
-			'product_' . $_ENV['CONVERTKIT_API_PRODUCT_ID']
+			[
+				'post_title'               => 'ConvertKit: Restrict Content: Settings: Custom',
+				'restrict_content_setting' => 'product_' . $_ENV['CONVERTKIT_API_PRODUCT_ID'],
+			]
 		);
 
 		// Test Restrict Content functionality.
-		$I->testRestrictedContentByProductOnFrontend($I, $pageID, $visibleContent, $memberContent, $settings);
+		$I->testRestrictedContentByProductOnFrontend(
+			$I,
+			$pageID,
+			[
+				'text_items' => $settings,
+			]
+		);
 	}
 
 	/**
@@ -209,11 +198,10 @@ class RestrictContentSettingsCest
 		// Create Restricted Content Page.
 		$pageID = $I->createRestrictedContentPage(
 			$I,
-			'page',
-			'ConvertKit: Restrict Content: Settings: Custom',
-			'Visible content.',
-			'Member only content.',
-			'product_' . $_ENV['CONVERTKIT_API_PRODUCT_ID']
+			[
+				'post_title'               => 'ConvertKit: Restrict Content: Settings: Custom',
+				'restrict_content_setting' => 'product_' . $_ENV['CONVERTKIT_API_PRODUCT_ID'],
+			]
 		);
 
 		// Confirm no CSS is output by the Plugin.
@@ -236,7 +224,19 @@ class RestrictContentSettingsCest
 		// Complete fields.
 		if ( $settings ) {
 			foreach ( $settings as $key => $value ) {
-				$I->fillField('_wp_convertkit_settings_restrict_content[' . $key . ']', $value);
+				switch ( $key ) {
+					case 'permit_crawlers':
+						if ( $value ) {
+							$I->checkOption('_wp_convertkit_settings_restrict_content[' . $key . ']');
+						} else {
+							$I->uncheckOption('_wp_convertkit_settings_restrict_content[' . $key . ']');
+						}
+						break;
+
+					default:
+						$I->fillField('_wp_convertkit_settings_restrict_content[' . $key . ']', $value);
+						break;
+				}
 			}
 		}
 

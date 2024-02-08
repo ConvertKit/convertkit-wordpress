@@ -31,8 +31,8 @@ jobs:
       DB_USER: root
       DB_PASS: root
       DB_HOST: localhost
-      INSTALL_PLUGINS: "admin-menu-editor contact-form-7 classic-editor custom-post-type-ui disable-welcome-messages-and-tips elementor forminator woocommerce wordpress-seo wpforms-lite litespeed-cache wp-crontrol wp-super-cache w3-total-cache wp-fastest-cache wp-optimize" # Don't include this repository's Plugin here.
-      INSTALL_PLUGINS_URLS: "https://downloads.wordpress.org/plugin/convertkit-for-woocommerce.1.6.4.zip" # URLs to specific third party Plugins
+      INSTALL_PLUGINS: "admin-menu-editor contact-form-7 classic-editor custom-post-type-ui disable-welcome-messages-and-tips elementor forminator jetpack-boost woocommerce wordpress-seo wpforms-lite litespeed-cache wp-crontrol wp-super-cache w3-total-cache wp-fastest-cache wp-optimize" # Don't include this repository's Plugin here.
+      INSTALL_PLUGINS_URLS: "https://downloads.wordpress.org/plugin/convertkit-for-woocommerce.1.6.4.zip http://cktestplugins.wpengine.com/wp-content/uploads/2024/01/convertkit-action-filter-tests.zip" # URLs to specific third party Plugins
       CONVERTKIT_API_KEY: ${{ secrets.CONVERTKIT_API_KEY }} # ConvertKit API Key, stored in the repository's Settings > Secrets
       CONVERTKIT_API_SECRET: ${{ secrets.CONVERTKIT_API_SECRET }} # ConvertKit API Secret, stored in the repository's Settings > Secrets
       CONVERTKIT_API_KEY_NO_DATA: ${{ secrets.CONVERTKIT_API_KEY_NO_DATA }} # ConvertKit API Key for ConvertKit account with no data, stored in the repository's Settings > Secrets
@@ -206,27 +206,16 @@ jobs:
         working-directory: ${{ env.PLUGIN_DIR }}
         run: composer dump-autoload
 
-      # This ensures that applicable files and folders can be written to by cache plugins.
-      # We only do this on Restrict Content tests, as doing so on wpunit tests results in WordPress
-      # bizarrely attempting to use FTP to write files.
-      - name: Set Permissions for Caching Plugins
-        if: ${{ matrix.test-groups == 'acceptance/restrict-content' }}
+      # This ensures that applicable files and folders can be written to by WordPress and cache Plugins.
+      - name: Set File and Folder Permissions
         run: |
-          mkdir ${{ env.ROOT_DIR }}/wp-content/wpo-cache
-          mkdir ${{ env.ROOT_DIR }}/wp-content/wpo-cache/config
-          sudo chmod g+w ${{ env.ROOT_DIR }}/wp-config.php
+          sudo chmod 767 ${{ env.ROOT_DIR }}/wp-config.php
           sudo chown www-data:www-data ${{ env.ROOT_DIR }}/wp-config.php
-          sudo chmod g+w ${{ env.ROOT_DIR }}/wp-content
-          sudo chown www-data:www-data ${{ env.ROOT_DIR }}/wp-content
-          sudo chmod g+w ${{ env.ROOT_DIR }}/wp-content/wpo-cache
-          sudo chown www-data:www-data ${{ env.ROOT_DIR }}/wp-content/wpo-cache
-          sudo chmod g+w ${{ env.ROOT_DIR }}/wp-content/wpo-cache/config
-          sudo chown www-data:www-data ${{ env.ROOT_DIR }}/wp-content/wpo-cache/config
 
-      # This ensures the wp-content/uploads folder can be written to by WordPress and third party Plugins.
-      - name: Set Permissions for Uploads Directory
-        run: |
-          sudo chmod g+w ${{ env.ROOT_DIR }}/wp-content/uploads
+          sudo chmod 767 ${{ env.ROOT_DIR }}/wp-content
+          sudo chown www-data:www-data ${{ env.ROOT_DIR }}/wp-content
+
+          sudo chmod -R 767 ${{ env.ROOT_DIR }}/wp-content/uploads
           sudo chown www-data:www-data ${{ env.ROOT_DIR }}/wp-content/uploads
 
       # This ensures the Plugin's log file can be written to.
