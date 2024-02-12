@@ -1,10 +1,6 @@
 /**
  * TinyMCE and QuickTag Modals
  */
-#convertkit-modal-body {
-	/* Scroll inner contents so that modal height doesn't need to exceed screen resolution. */
-	overflow-y: auto;
-}
 #convertkit-modal-body #convertkit-modal-body-body {
 	background-color: #f7f7f7;
 }
