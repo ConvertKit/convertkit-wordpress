@@ -43,7 +43,7 @@
 }
 .convertkit-option div.left *:not(input) {
 	line-height: 27px;
-	text-wrap: wrap;
+	white-space: normal;
 }
 .convertkit-option div.right {
 	width: 100%;

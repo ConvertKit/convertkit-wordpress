@@ -57,9 +57,9 @@ function convertKitQuickTagRegister( block ) {
 					convertKitQuickTagsModal.open();
 
 					// Get Modal.
-					const quicktagsModal = document.querySelector( 'div.convertkit-quicktags-modal div.media-modal.wp-core-ui' ),
-						  quicktagsModalHeader = quicktagsModal.querySelector( 'div.media-frame-title' ),
-						  quicktagsModalFooter = quicktagsModal.querySelector( 'div.media-frame-toolbar div.media-toolbar' );
+					const quicktagsModal         = document.querySelector( 'div.convertkit-quicktags-modal div.media-modal.wp-core-ui' ),
+							quicktagsModalHeader = quicktagsModal.querySelector( 'div.media-frame-title' ),
+							quicktagsModalFooter = quicktagsModal.querySelector( 'div.media-frame-toolbar div.media-toolbar' );
 
 					// Resize Modal so it's not full screen.
 					quicktagsModal.style.width  = block.modal.width + 'px';
