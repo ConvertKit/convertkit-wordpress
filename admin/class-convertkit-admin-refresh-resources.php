@@ -69,7 +69,7 @@ class ConvertKit_Admin_Refresh_Resources {
 
 			case 'restrict_content':
 				// Fetch Tags.
-				$tags    = new ConvertKit_Resource_Tags( 'user_refresh_resource' );
+				$tags         = new ConvertKit_Resource_Tags( 'user_refresh_resource' );
 				$results_tags = $tags->refresh();
 
 				// Bail if an error occured.
@@ -78,8 +78,8 @@ class ConvertKit_Admin_Refresh_Resources {
 				}
 
 				// Fetch Products.
-				$products = new ConvertKit_Resource_Products( 'user_refresh_resource' );
-				$results_products  = $products->refresh();
+				$products         = new ConvertKit_Resource_Products( 'user_refresh_resource' );
+				$results_products = $products->refresh();
 
 				// Bail if an error occured.
 				if ( is_wp_error( $results_products ) ) {
@@ -87,10 +87,12 @@ class ConvertKit_Admin_Refresh_Resources {
 				}
 
 				// Return resources.
-				wp_send_json_success( array(
-					'tags' => array_values( $results_tags ),
-					'products' => array_values( $results_products ),
-				) );
+				wp_send_json_success(
+					array(
+						'tags'     => array_values( $results_tags ),
+						'products' => array_values( $results_products ),
+					)
+				);
 				break;
 
 			default:

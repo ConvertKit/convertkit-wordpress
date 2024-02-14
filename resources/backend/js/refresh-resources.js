@@ -61,8 +61,6 @@ jQuery( document ).ready(
 							// Get currently selected option.
 							var selectedOption = $( field ).val();
 
-							console.log( selectedOption );
-
 							// Remove existing select options.
 							$( 'option', $( field ) ).each(
 								function () {
@@ -80,17 +78,32 @@ jQuery( document ).ready(
 							// Depending on the resource we're refreshing, populate the <select> options.
 							switch ( resource ) {
 								case 'restrict_content':
-									console.log( response.data );
-									// Populate select opgroups from response data, which comprises of Tags and Products.
+									// Populate select `optgroup`` from response data, which comprises of Tags and Products.
+									// Tags.
 									response.data.tags.forEach(
 										function ( item ) {
-											$( 'optgroup[data-resource="tags"]', field ).append( new Option( item.name, 'tag_' + item.id, false, ( selectedOption == 'tag_' + item.id ? true : false ) ) );
+											$( 'optgroup[data-resource="tags"]', field ).append(
+												new Option(
+													item.name,
+													'tag_' + item.id,
+													false,
+													( selectedOption == 'tag_' + item.id ? true : false )
+												)
+											);
 										}
 									);
 
+									// Products.
 									response.data.products.forEach(
 										function ( item ) {
-											$( 'optgroup[data-resource="products"]', field ).append( new Option( item.name, 'product_' + item.id, false, ( selectedOption == 'product_' + item.id ? true : false ) ) );
+											$( 'optgroup[data-resource="products"]', field ).append(
+												new Option(
+													item.name,
+													'product_' + item.id,
+													false,
+													( selectedOption == 'product_' + item.id ? true : false )
+												)
+											);
 										}
 									);
 									break;
@@ -118,7 +131,7 @@ jQuery( document ).ready(
 										}
 									);
 									break;
-								}
+							}
 
 							// Trigger a change event on the select field, to allow Select2 instances to repopulate their options.
 							$( field ).trigger( 'change' );
