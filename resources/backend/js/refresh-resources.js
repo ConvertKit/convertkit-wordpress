@@ -61,6 +61,8 @@ jQuery( document ).ready(
 							// Get currently selected option.
 							var selectedOption = $( field ).val();
 
+							console.log( selectedOption );
+
 							// Remove existing select options.
 							$( 'option', $( field ) ).each(
 								function () {
@@ -82,13 +84,13 @@ jQuery( document ).ready(
 									// Populate select opgroups from response data, which comprises of Tags and Products.
 									response.data.tags.forEach(
 										function ( item ) {
-											$( 'optgroup[data-resource="tags"]', field ).append( new Option( item.name, item.id, false, ( selectedOption == item.id ? true : false ) ) );
+											$( 'optgroup[data-resource="tags"]', field ).append( new Option( item.name, 'tag_' + item.id, false, ( selectedOption == 'tag_' + item.id ? true : false ) ) );
 										}
 									);
 
 									response.data.products.forEach(
 										function ( item ) {
-											$( 'optgroup[data-resource="products"]', field ).append( new Option( item.name, item.id, false, ( selectedOption == item.id ? true : false ) ) );
+											$( 'optgroup[data-resource="products"]', field ).append( new Option( item.name, 'product_' + item.id, false, ( selectedOption == 'product_' + item.id ? true : false ) ) );
 										}
 									);
 									break;
