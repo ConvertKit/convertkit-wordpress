@@ -75,26 +75,48 @@ jQuery( document ).ready(
 								}
 							);
 
-							// Populate select options from response data.
-							response.data.forEach(
-								function ( item ) {
-									// Define label.
-									let label = '';
-									switch ( resource ) {
-										case 'forms':
-											label = item.name + ' [' + ( item.format !== '' ? item.format : 'inline' ) + ']';
-											break;
+							// Depending on the resource we're refreshing, populate the <select> options.
+							switch ( resource ) {
+								case 'restrict_content':
+									console.log( response.data );
+									// Populate select opgroups from response data, which comprises of Tags and Products.
+									response.data.tags.forEach(
+										function ( item ) {
+											$( 'optgroup[data-resource="tags"]', field ).append( new Option( item.name, item.id, false, ( selectedOption == item.id ? true : false ) ) );
+										}
+									);
 
-										default:
-											label = item.name;
-											break;
-									}
+									response.data.products.forEach(
+										function ( item ) {
+											$( 'optgroup[data-resource="products"]', field ).append( new Option( item.name, item.id, false, ( selectedOption == item.id ? true : false ) ) );
+										}
+									);
+									break;
 
-									// Add option.
-									$( field ).append( new Option( label, item.id, false, ( selectedOption == item.id ? true : false ) ) );
+								default:
+									// Populate select options from response data.
+									response.data.forEach(
+										function ( item ) {
 
+											// Define label.
+											let label = '';
+											switch ( resource ) {
+												case 'forms':
+													label = item.name + ' [' + ( item.format !== '' ? item.format : 'inline' ) + ']';
+													break;
+
+												default:
+													label = item.name;
+													break;
+											}
+
+											// Add option.
+											$( field ).append( new Option( label, item.id, false, ( selectedOption == item.id ? true : false ) ) );
+
+										}
+									);
+									break;
 								}
-							);
 
 							// Trigger a change event on the select field, to allow Select2 instances to repopulate their options.
 							$( field ).trigger( 'change' );

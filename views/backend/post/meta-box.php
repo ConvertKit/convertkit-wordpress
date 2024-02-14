@@ -145,37 +145,33 @@
 					<select name="wp-convertkit[restrict_content]" id="wp-convertkit-restrict_content" class="convertkit-select2">
 						<option value="0"<?php selected( '', $convertkit_post->get_restrict_content() ); ?> data-preserve-on-refresh="1"><?php esc_html_e( 'Don\'t restrict content to members only.', 'convertkit' ); ?></option>
 
-						<?php
-						if ( $convertkit_tags->exist() ) {
-							?>
-							<optgroup label="<?php esc_attr_e( 'Tags', 'convertkit' ); ?>">
-								<?php
+						<optgroup label="<?php esc_attr_e( 'Tags', 'convertkit' ); ?>" data-resource="tags">
+							<?php
+							// Tags.
+							if ( $convertkit_tags->exist() ) {
 								foreach ( $convertkit_tags->get() as $convertkit_tag ) {
 									?>
 									<option value="tag_<?php echo esc_attr( $convertkit_tag['id'] ); ?>"<?php selected( 'tag_' . $convertkit_tag['id'], $convertkit_post->get_restrict_content() ); ?>><?php echo esc_attr( $convertkit_tag['name'] ); ?></option>
 									<?php
 								}
-								?>
-							</optgroup>
-							<?php
-						}
-
-						if ( $convertkit_products->exist() ) {
+							}
 							?>
-							<optgroup label="<?php esc_attr_e( 'Products', 'convertkit' ); ?>">
-								<?php
+						</optgroup>
+
+						<optgroup label="<?php esc_attr_e( 'Products', 'convertkit' ); ?>" data-resource="products">
+							<?php
+							// Products.
+							if ( $convertkit_products->exist() ) {
 								foreach ( $convertkit_products->get() as $product ) {
 									?>
 									<option value="product_<?php echo esc_attr( $product['id'] ); ?>"<?php selected( 'product_' . $product['id'], $convertkit_post->get_restrict_content() ); ?>><?php echo esc_attr( $product['name'] ); ?></option>
 									<?php
 								}
-								?>
-							</optgroup>
-							<?php
-						}
-						?>
+							}
+							?>
+						</optgroup>
 					</select>
-					<button class="wp-convertkit-refresh-resources" class="button button-secondary hide-if-no-js" title="<?php esc_attr_e( 'Refresh Products Pages from ConvertKit account', 'convertkit' ); ?>" data-resource="products" data-field="#wp-convertkit-restrict_content">
+					<button class="wp-convertkit-refresh-resources" class="button button-secondary hide-if-no-js" title="<?php esc_attr_e( 'Refresh Products and Tags from ConvertKit account', 'convertkit' ); ?>" data-resource="restrict_content" data-field="#wp-convertkit-restrict_content">
 						<span class="dashicons dashicons-update"></span>
 					</button>
 					<p class="description">

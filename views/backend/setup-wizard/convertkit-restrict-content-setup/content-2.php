@@ -62,7 +62,7 @@ if ( $this->type === 'course' ) {
 			// Tags.
 			if ( $this->tags->exist() ) {
 				?>
-				<optgroup label="<?php esc_attr_e( 'Tags', 'convertkit' ); ?>">
+				<optgroup label="<?php esc_attr_e( 'Tags', 'convertkit' ); ?>" data-resource="tags">
 					<?php
 					foreach ( $this->tags->get() as $convertkit_tag ) {
 						?>
@@ -77,7 +77,7 @@ if ( $this->type === 'course' ) {
 			// Products.
 			if ( $this->products->exist() ) {
 				?>
-				<optgroup label="<?php esc_attr_e( 'Products', 'convertkit' ); ?>">
+				<optgroup label="<?php esc_attr_e( 'Products', 'convertkit' ); ?>" data-resource="products">
 					<?php
 					foreach ( $this->products->get() as $product ) {
 						?>
