@@ -73,6 +73,18 @@ class ConvertKit_Post {
 			}
 		}
 
+		/**
+		 * Programmatically define ConvertKit settings for an individual Post, overriding those defined in the
+		 * meta box.
+		 *
+		 * @since   2.4.4
+		 *
+		 * @param   array   $meta       Post Settings.
+		 * @param   int     $post_id    Post ID.
+		 * @return  array               Post Settings.
+		 */
+		$meta = apply_filters( 'convertkit_post_settings', $meta, $this->post_id );
+
 		// Assign Post's Settings to the object.
 		$this->settings = $meta;
 
@@ -313,8 +325,9 @@ class ConvertKit_Post {
 		 * @since   1.9.6
 		 *
 		 * @param   array   $defaults   Default Settings.
+		 * @param   int     $post_id    Post ID.
 		 */
-		$defaults = apply_filters( 'convertkit_post_get_default_settings', $defaults );
+		$defaults = apply_filters( 'convertkit_post_get_default_settings', $defaults, $this->post_id );
 
 		return $defaults;
 
