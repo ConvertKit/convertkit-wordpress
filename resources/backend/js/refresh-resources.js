@@ -5,25 +5,32 @@
  * @author ConvertKit
  */
 
-document.addEventListener(
-	'DOMContentLoaded',
-	function () {
+document.addEventListener( 'DOMContentLoaded', convertKitRefreshResourcesInitEventListeners );
 
-		// Refreshes resources when the Refresh button is clicked.
-		document.querySelectorAll( 'button.wp-convertkit-refresh-resources' ).forEach(
-			function ( button ) {
-				button.addEventListener(
-					'click',
-					function ( e ) {
-						e.preventDefault();
-						convertKitRefreshResources( button );
-					}
-				);
-			}
-		);
+/**
+ * Binds click event listeners to refresh resource buttons.
+ *
+ * @since 	2.4.4
+ */
+function convertKitRefreshResourcesInitEventListeners() {
 
-	}
-);
+	// Refreshes resources when the Refresh button is clicked.
+	document.querySelectorAll( 'button.wp-convertkit-refresh-resources' ).forEach(
+		function ( element ) {
+
+			element.addEventListener(
+				'click',
+				function ( e ) {
+					e.preventDefault();
+					convertKitRefreshResources( element );
+				},
+				false
+			);
+
+		},
+	);
+
+}
 
 /**
  * Refresh resources when a button is clicked.
@@ -38,7 +45,7 @@ function convertKitRefreshResources( button ) {
 	convertKitRefreshResourcesRemoveNotices();
 
 	const resource = button.dataset.resource,
-			 field = button.dataset.field;
+			field  = button.dataset.field;
 
 	// Disable button.
 	button.disabled = true;
