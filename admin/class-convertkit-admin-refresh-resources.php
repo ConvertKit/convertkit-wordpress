@@ -93,7 +93,6 @@ class ConvertKit_Admin_Refresh_Resources {
 						'products' => array_values( $results_products ),
 					)
 				);
-				break;
 
 			default:
 				$results = new WP_Error(
