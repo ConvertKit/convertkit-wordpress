@@ -166,15 +166,13 @@ function convertKitRefreshResources( button ) {
 									item.id,
 									false,
 									( selectedOption == item.id ? true : false )
-								) 
+								)
 							);
 
 						}
 					);
 					break;
 			}
-
-
 
 			// Trigger a change event on the select field, to allow Select2 instances to repopulate their options.
 			document.querySelector( field ).dispatchEvent( new Event( 'change' ) );
