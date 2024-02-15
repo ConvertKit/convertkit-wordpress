@@ -93,6 +93,7 @@ class ConvertKit_Admin_Refresh_Resources {
 						'products' => array_values( $results_products ),
 					)
 				);
+				// no break as wp_send_json_success terminates.
 
 			default:
 				$results = new WP_Error(
