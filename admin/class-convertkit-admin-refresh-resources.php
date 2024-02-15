@@ -111,7 +111,7 @@ class ConvertKit_Admin_Refresh_Resources {
 		}
 
 		// Enqueue JS to perform AJAX request to refresh resources.
-		wp_enqueue_script( 'convertkit-admin-refresh-resources', CONVERTKIT_PLUGIN_URL . 'resources/backend/js/refresh-resources.js', array( 'jquery' ), CONVERTKIT_PLUGIN_VERSION, true );
+		wp_enqueue_script( 'convertkit-admin-refresh-resources', CONVERTKIT_PLUGIN_URL . 'resources/backend/js/refresh-resources.js', array(), CONVERTKIT_PLUGIN_VERSION, true );
 		wp_localize_script(
 			'convertkit-admin-refresh-resources',
 			'convertkit_admin_refresh_resources',
