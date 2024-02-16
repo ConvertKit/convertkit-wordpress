@@ -2,11 +2,13 @@
  * Replicates CSS styles provided by block themes for older non-block themes
  * that may not include these definitions, resulting in incorrect spacing.
  */
-form.formkit-form {
+form.formkit-form[data-format="inline"] {
+	margin-left: auto;
+	margin-right: auto;
 	margin-bottom: 20px;
 }
 @media only screen and (min-width: 482px) {
-	form.formkit-form {
+	form.formkit-form[data-format="inline"] {
 		margin-bottom: 30px;
 	}
 }
