@@ -515,6 +515,63 @@ class PageShortcodeFormCest
 	}
 
 	/**
+	 * Test that the Form <script> embed is output in the content, and not the footer of the site
+	 * when the LiteSpeed Cache Plugin is active and its "Load JS Deferred" setting is enabled.
+	 *
+	 * @since   2.4.5
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testFormShortcodeWithLiteSpeedCachePlugin(AcceptanceTester $I)
+	{
+		// Setup Plugin and Resources.
+		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPluginResources($I);
+
+		// Activate and enable LiteSpeed Cache Plugin.
+		$I->activateThirdPartyPlugin($I, 'litespeed-cache');
+		$I->enableCachingLiteSpeedCachePlugin($I);
+
+		// Enable LiteSpeed Cache's "Load JS Deferred" setting.
+		$I->amOnAdminPage('admin.php?page=litespeed-page_optm#settings_js');
+		$I->click('label[for=input_radio_optmjs_defer_1]');
+		$I->click('Save Changes');
+
+		// Add a Page using the Classic Editor.
+		$I->addClassicEditorPage($I, 'page', 'ConvertKit: Page: Form: Shortcode: LiteSpeed Cache');
+
+		// Configure metabox's Form setting = None, ensuring we only test the shortcode in the Classic Editor.
+		$I->configureMetaboxSettings(
+			$I,
+			'wp-convertkit-meta-box',
+			[
+				'form' => [ 'select2', 'None' ],
+			]
+		);
+
+		// Add shortcode to Page, setting the Form setting to the value specified in the .env file.
+		$I->addVisualEditorShortcode(
+			$I,
+			'ConvertKit Form',
+			[
+				'form' => [ 'select', $_ENV['CONVERTKIT_API_FORM_NAME'] ],
+			],
+			'[convertkit_form form="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]'
+		);
+
+		// Publish and view the Page on the frontend site.
+		$I->publishAndViewClassicEditorPage($I);
+
+		// Confirm that one ConvertKit Form is output in the DOM within the <main> element.
+		// This confirms that there is only one script on the page for this form, which renders the form,
+		// and that LiteSpeed Cache hasn't moved the script embed to the footer of the site.
+		$I->seeNumberOfElementsInDOM('main form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]', 1);
+
+		// Deactivate Jetpack Boost Plugin.
+		$I->deactivateThirdPartyPlugin($I, 'litespeed-cache');
+	}
+
+	/**
 	 * Deactivate and reset Plugin(s) after each test, if the test passes.
 	 * We don't use _after, as this would provide a screenshot of the Plugin
 	 * deactivation and not the true test error.

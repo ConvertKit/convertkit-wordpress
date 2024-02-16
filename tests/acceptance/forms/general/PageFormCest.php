@@ -230,6 +230,98 @@ class PageFormCest
 	}
 
 	/**
+	 * Test that the Modal Form is output once when the Jetpack Boost Plugin is active and
+	 * its "Defer Non-Essential JavaScript" setting is enabled.
+	 *
+	 * @since   2.4.5
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testAddNewPageUsingModalFormWithJetpackBoostPlugin(AcceptanceTester $I)
+	{
+		// Setup Plugin and Resources.
+		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPluginResources($I);
+
+		// Activate Jetpack Boost Plugin.
+		$I->activateThirdPartyPlugin($I, 'jetpack-boost');
+
+		// Enable Jetpack Boost's "Defer Non-Essential JavaScript" setting.
+		$I->amOnAdminPage('admin.php?page=jetpack-boost');
+		$I->click('#inspector-toggle-control-1');
+
+		// Add a Page using the Gutenberg editor.
+		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form: ' . $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_NAME'] . ': Jetpack Boost');
+
+		// Configure metabox's Form setting = None.
+		$I->configureMetaboxSettings(
+			$I,
+			'wp-convertkit-meta-box',
+			[
+				'form' => [ 'select2', $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_NAME'] ],
+			]
+		);
+
+		// Publish and view the Page on the frontend site.
+		$I->publishAndViewGutenbergPage($I);
+
+		// Confirm that one ConvertKit Form is output in the DOM.
+		// This confirms that there is only one script on the page for this form, which renders the form,
+		// and that Jetpack Boost hasn't moved the script embed to the footer of the site.
+		$I->seeNumberOfElementsInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_ID'] . '"]', 1);
+
+		// Deactivate Jetpack Boost Plugin.
+		$I->deactivateThirdPartyPlugin($I, 'jetpack-boost');
+	}
+
+	/**
+	 * Test that the Modal Form is output once when the LiteSpeed Cache Plugin is active and
+	 * its "Load JS Deferred" setting is enabled.
+	 *
+	 * @since   2.4.5
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testAddNewPageUsingModalFormWithLiteSpeedCachePlugin(AcceptanceTester $I)
+	{
+		// Setup ConvertKit plugin.
+		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPluginResources($I);
+
+		// Activate and enable LiteSpeed Cache Plugin.
+		$I->activateThirdPartyPlugin($I, 'litespeed-cache');
+		$I->enableCachingLiteSpeedCachePlugin($I);
+
+		// Enable LiteSpeed Cache's "Load JS Deferred" setting.
+		$I->amOnAdminPage('admin.php?page=litespeed-page_optm#settings_js');
+		$I->click('label[for=input_radio_optmjs_defer_1]');
+		$I->click('Save Changes');
+
+		// Add a Page using the Gutenberg editor.
+		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form: ' . $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_NAME'] . ': LiteSpeed Cache');
+
+		// Configure metabox's Form setting = None.
+		$I->configureMetaboxSettings(
+			$I,
+			'wp-convertkit-meta-box',
+			[
+				'form' => [ 'select2', $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_NAME'] ],
+			]
+		);
+
+		// Publish and view the Page on the frontend site.
+		$I->publishAndViewGutenbergPage($I);
+
+		// Confirm that one ConvertKit Form is output in the DOM.
+		// This confirms that there is only one script on the page for this form, which renders the form,
+		// and that LiteSpeed Cache hasn't moved the script embed to the footer of the site.
+		$I->seeNumberOfElementsInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_ID'] . '"]', 1);
+
+		// Deactivate LiteSpeed Cache Plugin.
+		$I->deactivateThirdPartyPlugin($I, 'litespeed-cache');
+	}
+
+	/**
 	 * Test that the Legacy Form specified in the Page Settings works when
 	 * creating and viewing a new WordPress Page.
 	 *

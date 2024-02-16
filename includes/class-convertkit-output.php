@@ -487,7 +487,7 @@ class ConvertKit_Output {
 		// which may result in non-inline forms displaying twice.
 		$data_attributes = array(
 			'data-jetpack-boost' => 'ignore', // Jetpack Boost.
-			'data-no-defer' => '1', // LiteSpeed Cache.
+			'data-no-defer'      => '1', // LiteSpeed Cache.
 		);
 
 		/**
