@@ -109,24 +109,70 @@ function convertKitRefreshResources( button ) {
 				}
 			);
 
-			// Populate select options from response data.
-			response.data.forEach(
-				function ( item ) {
-					let label = '';
-					switch ( resource ) {
-						case 'forms':
-							label = item.name + ' [' + ( item.format !== '' ? item.format : 'inline' ) + ']';
-								break;
-						default:
-							label = item.name;
-						break;
-					}
+			// Depending on the resource we're refreshing, populate the <select> options.
+			switch ( resource ) {
+				case 'restrict_content':
+					// Populate select `optgroup`` from response data, which comprises of Tags and Products.
+					// Tags.
+					response.data.tags.forEach(
+						function ( item ) {
+							document.querySelector( field + ' optgroup[data-resource=tags]' ).appendChild(
+								new Option(
+									item.name,
+									'tag_' + item.id,
+									false,
+									( selectedOption === 'tag_' + item.id )
+								)
+							);
+						}
+					);
 
-					// Add option.
-					const option = new Option( label, item.id, false, selectedOption == item.id );
-					document.querySelector( field ).add( option );
-				}
-			);
+					// Products.
+					response.data.products.forEach(
+						function ( item ) {
+							document.querySelector( field + ' optgroup[data-resource=products]' ).appendChild(
+								new Option(
+									item.name,
+									'product_' + item.id,
+									false,
+									( selectedOption === 'product_' + item.id )
+								)
+							);
+						}
+					);
+					break;
+
+				default:
+					// Populate select options from response data.
+					response.data.forEach(
+						function ( item ) {
+
+							// Define label.
+							let label = '';
+							switch ( resource ) {
+								case 'forms':
+									label = item.name + ' [' + ( item.format !== '' ? item.format : 'inline' ) + ']';
+									break;
+
+								default:
+									label = item.name;
+									break;
+							}
+
+							// Add option.
+							document.querySelector( field ).add(
+								new Option(
+									label,
+									item.id,
+									false,
+									( selectedOption == item.id ? true : false )
+								)
+							);
+
+						}
+					);
+					break;
+			}
 
 			// Trigger a change event on the select field, to allow Select2 instances to repopulate their options.
 			document.querySelector( field ).dispatchEvent( new Event( 'change' ) );
@@ -140,14 +186,14 @@ function convertKitRefreshResources( button ) {
 		function ( error ) {
 
 			if ( convertkit_admin_refresh_resources.debug ) {
-				console.log( error );
+				console.error( error );
 			}
 
 			// Remove any existing error notices that might be displayed.
 			convertKitRefreshResourcesRemoveNotices();
 
 			// Show error notice.
-			convertKitRefreshResourcesOutputErrorNotice( 'ConvertKit: ' + error.status + ' ' + error.statusText );
+			convertKitRefreshResourcesOutputErrorNotice( error );
 
 			// Enable button.
 			button.disabled = false;
