@@ -121,7 +121,7 @@ function convertKitRefreshResources( button ) {
 									item.name,
 									'tag_' + item.id,
 									false,
-									( selectedOption == 'tag_' + item.id ? true : false )
+									( selectedOption === 'tag_' + item.id )
 								)
 							);
 						}
@@ -135,7 +135,7 @@ function convertKitRefreshResources( button ) {
 									item.name,
 									'product_' + item.id,
 									false,
-									( selectedOption == 'product_' + item.id ? true : false )
+									( selectedOption === 'product_' + item.id )
 								)
 							);
 						}
