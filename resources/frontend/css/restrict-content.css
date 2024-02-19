@@ -199,7 +199,7 @@ form#convertkit-restrict-content-form div#convertkit-subscriber-code-container i
 	position: fixed;
 	z-index: 1000000;
 	width: 730px;
-	height: 328px;
+	height: auto;
 	top: calc(50% - 164px);
 	left: calc(50% - 365px);
 	margin: 0;
@@ -226,14 +226,37 @@ form#convertkit-restrict-content-form div#convertkit-subscriber-code-container i
 }
 
 /* Responsive */
-@media screen and (max-width: 450px) {
+@media screen and (max-width: 730px) {
 	#convertkit-restrict-content {
-		padding: 0;
+		padding: 20px;
 	}
 	#convertkit-restrict-content .convertkit-restrict-content-actions {
 		padding: 10px;
 	}
 	#convertkit-restrict-content input[type=email], #convertkit-restrict-content input[type=text], #convertkit-restrict-content input#convertkit_subscriber_code {
 		width: 100%;
+	}
+	#convertkit-restrict-content-modal {
+		width: 90%;
+		height: auto;
+		left: 5%;
+		padding: 40px;
+	}
+	form#convertkit-restrict-content-form div#convertkit-subscriber-code-container {
+		width: 213px;
+		height: 50px;
+	}
+	form#convertkit-restrict-content-form div#convertkit-subscriber-code-container input#convertkit_subscriber_code {
+		--otp-height: 98px;
+		--otp-number-width: 35px;
+		--otp-letter-spacing: 20px;
+		--otp-text-indent: 10px;
+		--otp-font-size: 25px;
+	}
+	#convertkit-restrict-content-modal-loading {
+		width: 90%;
+	    height: auto;
+	    left: 5%;
+	    padding: 40px;
 	}
 }
