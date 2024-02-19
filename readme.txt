@@ -5,7 +5,7 @@ Tags: email marketing, email newsletter, newsletter, subscribers, membership
 Requires at least: 5.0
 Tested up to: 6.4.3
 Requires PHP: 5.6.20
-Stable tag: 2.4.3
+Stable tag: 2.4.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -155,6 +155,17 @@ Full Plugin documentation can be found [here](https://help.convertkit.com/en/art
 10. Track subscriber growth
 
 == Changelog ==
+
+### 2.4.4 2024-02-19
+* Added: Remove jQuery as a dependency from Setup Wizard, Modals and Refresh buttons
+* Added: Forms: Automatically center inline forms on non-block Themes
+* Fix: Forms: Remove bottom margin on non-inline forms
+* Fix: Setup Wizard: Preview Form link for Pages would incorrectly display a Post
+* Fix: Landing Pages: Prevent WP Rocket caching and lazy loading images on Landing Pages, which would result in missing background images
+* Fix: Classic Editor: Modal window: Don't display vertical scrollbar on Safari
+* Fix: Member Content: Refresh button: Populate Tags and Products in applicable option groups
+* Fix: Member Content: Refresh button: Define correct option values on refresh, ensuring settings save successfully.
+* Fix: Member Content: Corrected grammar for `member-only`
 
 ### 2.4.3 2024-01-31
 * Added: Settings: Option to specify Default Form on public Custom Post Types

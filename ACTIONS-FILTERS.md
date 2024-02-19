@@ -86,6 +86,10 @@
 						<td colspan="3">../includes/class-convertkit-post.php</td>
 					</tr><tr>
 						<td>&nbsp;</td>
+						<td><a href="#convertkit_post_settings"><code>convertkit_post_settings</code></a></td>
+						<td>Programmatically define ConvertKit settings for an individual Post, overriding those defined in the meta box.</td>
+					</tr><tr>
+						<td>&nbsp;</td>
 						<td><a href="#convertkit_post_get_default_settings"><code>convertkit_post_get_default_settings</code></a></td>
 						<td>The default settings, used to populate the Post's Settings when a Post has no Settings.</td>
 					</tr><tr>
@@ -657,9 +661,40 @@ add_filter( 'convertkit_block_form_trigger_render', function( $html, $atts ) {
 	return $html;
 }, 10, 2 );
 </pre>
+<h3 id="convertkit_post_settings">
+						convertkit_post_settings
+						<code>includes/class-convertkit-post.php::85</code>
+					</h3><h4>Overview</h4>
+						<p>Programmatically define ConvertKit settings for an individual Post, overriding those defined in the meta box.</p><h4>Parameters</h4>
+					<table>
+						<thead>
+							<tr>
+								<th>Parameter</th>
+								<th>Type</th>
+								<th>Description</th>
+							</tr>
+						</thead>
+						<tbody><tr>
+							<td>$meta</td>
+							<td>array</td>
+							<td>Post Settings.</td>
+						</tr><tr>
+							<td>$post_id</td>
+							<td>int</td>
+							<td>Post ID.</td>
+						</tr>
+						</tbody>
+					</table><h4>Usage</h4>
+<pre>
+add_filter( 'convertkit_post_settings', function( $meta, $post_id ) {
+	// ... your code here
+	// Return value
+	return $meta;
+}, 10, 2 );
+</pre>
 <h3 id="convertkit_post_get_default_settings">
 						convertkit_post_get_default_settings
-						<code>includes/class-convertkit-post.php::316</code>
+						<code>includes/class-convertkit-post.php::329</code>
 					</h3><h4>Overview</h4>
 						<p>The default settings, used to populate the Post's Settings when a Post has no Settings.</p><h4>Parameters</h4>
 					<table>
@@ -674,15 +709,19 @@ add_filter( 'convertkit_block_form_trigger_render', function( $html, $atts ) {
 							<td>$defaults</td>
 							<td>array</td>
 							<td>Default Settings.</td>
+						</tr><tr>
+							<td>$post_id</td>
+							<td>int</td>
+							<td>Post ID.</td>
 						</tr>
 						</tbody>
 					</table><h4>Usage</h4>
 <pre>
-add_filter( 'convertkit_post_get_default_settings', function( $defaults ) {
+add_filter( 'convertkit_post_get_default_settings', function( $defaults, $post_id ) {
 	// ... your code here
 	// Return value
 	return $defaults;
-}, 10, 1 );
+}, 10, 2 );
 </pre>
 <h3 id="convertkit_term_get_default_settings">
 						convertkit_term_get_default_settings
@@ -1088,7 +1127,7 @@ add_filter( 'convertkit_output_page_takeover_landing_page_id', function( $landin
 </pre>
 <h3 id="convertkit_output_append_form_to_content_form_id">
 						convertkit_output_append_form_to_content_form_id
-						<code>includes/class-convertkit-output.php::198</code>
+						<code>includes/class-convertkit-output.php::213</code>
 					</h3><h4>Overview</h4>
 						<p>Define the ConvertKit Form ID to display for the given Post ID, overriding the Post, Category or Plugin settings. Return false to not display any ConvertKit Form.</p><h4>Parameters</h4>
 					<table>
@@ -1119,7 +1158,7 @@ add_filter( 'convertkit_output_append_form_to_content_form_id', function( $form_
 </pre>
 <h3 id="convertkit_frontend_append_form">
 						convertkit_frontend_append_form
-						<code>includes/class-convertkit-output.php::262</code>
+						<code>includes/class-convertkit-output.php::277</code>
 					</h3><h4>Overview</h4>
 						<p>Filter the Post's Content, which includes a ConvertKit Form, immediately before it is output.</p><h4>Parameters</h4>
 					<table>
@@ -1158,7 +1197,7 @@ add_filter( 'convertkit_frontend_append_form', function( $content, $form, $post_
 </pre>
 <h3 id="convertkit_output_scripts_footer">
 						convertkit_output_scripts_footer
-						<code>includes/class-convertkit-output.php::476</code>
+						<code>includes/class-convertkit-output.php::491</code>
 					</h3><h4>Overview</h4>
 						<p>Define an array of scripts to output in the footer of the WordPress site.</p><h4>Parameters</h4>
 					<table>
@@ -1212,7 +1251,7 @@ add_filter( 'convertkit_settings_get_defaults', function( $defaults ) {
 </pre>
 <h3 id="convertkit_is_admin_or_frontend_editor">
 						convertkit_is_admin_or_frontend_editor
-						<code>includes/class-wp-convertkit.php::313</code>
+						<code>includes/class-wp-convertkit.php::314</code>
 					</h3><h4>Overview</h4>
 						<p>Filters whether the current request is a WordPress Administration / Frontend Editor request or not. Page Builders can set this to true to allow ConvertKit to load its administration functionality.</p><h4>Parameters</h4>
 					<table>
@@ -1428,6 +1467,10 @@ add_filter( 'convertkit_broadcasts_parse_broadcast_content_permitted_html_tags',
 						<td>&nbsp;</td>
 						<td><a href="#convertkit_output_output_form"><code>convertkit_output_output_form</code></a></td>
 						<td></td>
+					</tr><tr>
+						<td>&nbsp;</td>
+						<td><a href="#convertkit_output_landing_page_before"><code>convertkit_output_landing_page_before</code></a></td>
+						<td>Perform any actions immediately prior to outputting the Landing Page. Caching and minification Plugins may need to hook here to prevent CSS / JS minification and lazy loading images, which can interfere with Landing Pages.</td>
 					</tr><tr>
 						<td colspan="3">../includes/class-wp-convertkit.php</td>
 					</tr><tr>
@@ -1874,6 +1917,39 @@ do_action( 'convertkit_output_output_form', function(  ) {
 	// ... your code here
 }, 10, 0 );
 </pre>
+<h3 id="convertkit_output_landing_page_before">
+						convertkit_output_landing_page_before
+						<code>includes/class-convertkit-output.php::176</code>
+					</h3><h4>Overview</h4>
+						<p>Perform any actions immediately prior to outputting the Landing Page. Caching and minification Plugins may need to hook here to prevent CSS / JS minification and lazy loading images, which can interfere with Landing Pages.</p><h4>Parameters</h4>
+					<table>
+						<thead>
+							<tr>
+								<th>Parameter</th>
+								<th>Type</th>
+								<th>Description</th>
+							</tr>
+						</thead>
+						<tbody><tr>
+							<td>$landing_page</td>
+							<td>string</td>
+							<td>ConvertKit Landing Page HTML.</td>
+						</tr><tr>
+							<td>$landing_page_id</td>
+							<td>int</td>
+							<td>ConvertKit Landing Page ID.</td>
+						</tr><tr>
+							<td>$post_id</td>
+							<td>int</td>
+							<td>WordPress Page ID.</td>
+						</tr>
+						</tbody>
+					</table><h4>Usage</h4>
+<pre>
+do_action( 'convertkit_output_landing_page_before', function( $landing_page, $landing_page_id, $post_id ) {
+	// ... your code here
+}, 10, 3 );
+</pre>
 <h3 id="convertkit_initialize_admin">
 						convertkit_initialize_admin
 						<code>includes/class-wp-convertkit.php::85</code>
@@ -1936,7 +2012,7 @@ do_action( 'convertkit_initialize_cli_cron', function(  ) {
 </pre>
 <h3 id="convertkit_initialize_frontend">
 						convertkit_initialize_frontend
-						<code>includes/class-wp-convertkit.php::150</code>
+						<code>includes/class-wp-convertkit.php::151</code>
 					</h3><h4>Parameters</h4>
 					<table>
 						<thead>
@@ -1956,7 +2032,7 @@ do_action( 'convertkit_initialize_frontend', function(  ) {
 </pre>
 <h3 id="convertkit_initialize_global">
 						convertkit_initialize_global
-						<code>includes/class-wp-convertkit.php::193</code>
+						<code>includes/class-wp-convertkit.php::194</code>
 					</h3><h4>Parameters</h4>
 					<table>
 						<thead>
