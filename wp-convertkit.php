@@ -48,7 +48,7 @@ require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-wp-convertkit.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-ajax.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-broadcasts-exporter.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-broadcasts-importer.php';
-require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-caching-plugins.php';
+require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-cache-plugins.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-cron.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-gutenberg.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-media-library.php';

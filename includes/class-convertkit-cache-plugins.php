@@ -12,7 +12,7 @@
  *
  * @since   2.4.5
  */
-class ConvertKit_Caching_Plugins {
+class ConvertKit_Cache_Plugins {
 
 	/**
 	 * Holds external hosts to exclude from CSS and JS minification.
@@ -114,7 +114,15 @@ class ConvertKit_Caching_Plugins {
 	 */
 	public function siteground_speed_optimizer_exclude_js_combine( $script ) {
 
-		// @TODO.
+		add_filter(
+			'sgo_javascript_combine_excluded_external_paths',
+			function ( $excluded_paths ) use ( $script ) {
+
+				$excluded_paths[] = $script['src'];
+				return $excluded_paths;
+
+			}
+		);
 
 		// Return original script.
 		return $script;
