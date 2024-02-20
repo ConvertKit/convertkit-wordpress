@@ -515,6 +515,59 @@ class PageShortcodeFormCest
 	}
 
 	/**
+	 * Test that the Form <script> embed is output in the content when the Siteground Speed Optimizer Plugin is active
+	 * and its "Combine JavaScript Files" setting is enabled.
+	 *
+	 * @since   2.4.5
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testFormShortcodeWithSitegroundSpeedOptimizerPlugin(AcceptanceTester $I)
+	{
+		// Setup Plugin and Resources.
+		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPluginResources($I);
+
+		// Activate Siteground Speed Optimizer Plugin.
+		$I->activateThirdPartyPlugin($I, 'sg-cachepress');
+
+		// Enable Siteground Speed Optimizer's "Combine JavaScript Files" setting.
+		$I->haveOptionInDatabase('siteground_optimizer_combine_javascript', '1');
+
+		// Add a Page using the Classic Editor.
+		$I->addClassicEditorPage($I, 'page', 'ConvertKit: Page: Form: Shortcode: Siteground Speed Optimizer');
+
+		// Configure metabox's Form setting = None, ensuring we only test the shortcode in the Classic Editor.
+		$I->configureMetaboxSettings(
+			$I,
+			'wp-convertkit-meta-box',
+			[
+				'form' => [ 'select2', 'None' ],
+			]
+		);
+
+		// Add shortcode to Page, setting the Form setting to the value specified in the .env file.
+		$I->addVisualEditorShortcode(
+			$I,
+			'ConvertKit Form',
+			[
+				'form' => [ 'select', $_ENV['CONVERTKIT_API_FORM_NAME'] ],
+			],
+			'[convertkit_form form="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]'
+		);
+
+		// Publish and view the Page on the frontend site.
+		$I->publishAndViewClassicEditorPage($I);
+
+		// Confirm that one ConvertKit Form is output in the DOM within the <main> element.
+		// This confirms that there is only one script on the page for this form, which renders the form.
+		$I->seeNumberOfElementsInDOM('main form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]', 1);
+
+		// Deactivate Jetpack Boost Plugin.
+		$I->deactivateThirdPartyPlugin($I, 'sg-cachepress');
+	}
+
+	/**
 	 * Deactivate and reset Plugin(s) after each test, if the test passes.
 	 * We don't use _after, as this would provide a screenshot of the Plugin
 	 * deactivation and not the true test error.
