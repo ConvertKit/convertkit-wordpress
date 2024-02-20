@@ -324,9 +324,39 @@ class ConvertKit_Resource_Forms extends ConvertKit_Resource {
 		}
 
 		// If here, return Form <script> embed now, as we want the inline form to display at this specific point of the content.
-		// data-jetpack-boost="ignore" is required to prevent Jetpack Boost from moving this to the footer when its
-		// "Defer Non-Essential JavaScript" setting is enabled: https://jetpack.com/support/jetpack-boost/.
-		return '<script async data-uid="' . esc_attr( $this->resources[ $id ]['uid'] ) . '" src="' . esc_url( $this->resources[ $id ]['embed_js'] ) . '" data-jetpack-boost="ignore"></script>';
+
+		// Define script key-value pairs.
+		$script = array(
+			'async'    => true,
+			'data-uid' => $this->resources[ $id ]['uid'],
+			'src'      => $this->resources[ $id ]['embed_js'],
+		);
+
+		/**
+		 * Filter the form <script> key/value pairs immediately before the script is output.
+		 *
+		 * @since   2.4.5
+		 *
+		 * @param   array   $script     Form script key/value pairs to output as <script> tag.
+		 */
+		$script = apply_filters( 'convertkit_resource_forms_script', $script );
+
+		// Build script output.
+		$output = '<script';
+		foreach ( $script as $attribute => $value ) {
+			// If the value is true, just output the attribute.
+			if ( $value === true ) {
+				$output .= ' ' . esc_attr( $attribute );
+				continue;
+			}
+
+			// Output the attribute and value.
+			$output .= ' ' . esc_attr( $attribute ) . '="' . esc_url( $value ) . '"';
+		}
+		$output .= '></script>';
+
+		// Return script output.
+		return $output;
 
 	}
 

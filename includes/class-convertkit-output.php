@@ -496,6 +496,15 @@ class ConvertKit_Output {
 			return;
 		}
 
+		/**
+		 * Make changes to scripts before they are output in the footer of the WordPress site.
+		 *
+		 * @since   2.4.5
+		 *
+		 * @param   array   $scripts    Scripts.
+		 */
+		$scripts = apply_filters( 'convertkit_output_scripts_footer_before_output', $scripts );
+
 		// Define array to store <script> outputs.
 		$output_scripts = array();
 
@@ -511,7 +520,7 @@ class ConvertKit_Output {
 				}
 
 				// Output the attribute and value.
-				$output .= ' ' . esc_attr( $attribute ) . '="' . esc_attr( $value ) . '"';
+				$output .= ' ' . esc_attr( $attribute ) . '="' . esc_url( $value ) . '"';
 			}
 			$output .= '></script>';
 
