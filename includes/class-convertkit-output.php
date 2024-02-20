@@ -501,8 +501,18 @@ class ConvertKit_Output {
 
 		// Iterate through scripts, building the <script> tag for each.
 		foreach ( $scripts as $script ) {
-			$output = '<script';
+			// Prevent Siteground Speed Optimizer Plugin from attempting to combine this JS file with others.
+			add_filter(
+				'sgo_javascript_combine_excluded_external_paths',
+				function ( $excluded_paths ) use ( $script ) {
 
+					$excluded_paths[] = esc_url( $script['src'] );
+					return $excluded_paths;
+
+				}
+			);
+
+			$output = '<script';
 			foreach ( $script as $attribute => $value ) {
 				// If the value is true, just output the attribute.
 				if ( $value === true ) {
