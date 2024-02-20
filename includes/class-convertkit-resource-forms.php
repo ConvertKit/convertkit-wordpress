@@ -339,7 +339,7 @@ class ConvertKit_Resource_Forms extends ConvertKit_Resource {
 		 *
 		 * @param   array   $script     Form script key/value pairs to output as <script> tag.
 		 */
-		$script = apply_filters( 'convertkit_resource_forms_script', $script );
+		$script = apply_filters( 'convertkit_resource_forms_output_script', $script );
 
 		// Build script output.
 		$output = '<script';

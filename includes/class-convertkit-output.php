@@ -496,22 +496,23 @@ class ConvertKit_Output {
 			return;
 		}
 
-		/**
-		 * Make changes to scripts before they are output in the footer of the WordPress site.
-		 *
-		 * @since   2.4.5
-		 *
-		 * @param   array   $scripts    Scripts.
-		 */
-		$scripts = apply_filters( 'convertkit_output_scripts_footer_before_output', $scripts );
-
 		// Define array to store <script> outputs.
 		$output_scripts = array();
 
 		// Iterate through scripts, building the <script> tag for each.
 		foreach ( $scripts as $script ) {
-			$output = '<script';
 
+			/**
+			 * Filter the form <script> key/value pairs immediately before the script is output.
+			 *
+			 * @since   2.4.5
+			 *
+			 * @param   array   $script     Form script key/value pairs to output as <script> tag.
+			 */
+			$script = apply_filters( 'convertkit_output_script_footer', $script );
+
+			// Build output.
+			$output = '<script';
 			foreach ( $script as $attribute => $value ) {
 				// If the value is true, just output the attribute.
 				if ( $value === true ) {
