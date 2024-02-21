@@ -16,9 +16,6 @@ class PageShortcodeFormCest
 	public function _before(AcceptanceTester $I)
 	{
 		$I->activateConvertKitPlugin($I);
-		
-		// Activate Siteground Speed Optimizer Plugin.
-		$I->activateThirdPartyPlugin($I, 'sg-cachepress');
 	}
 
 	/**
