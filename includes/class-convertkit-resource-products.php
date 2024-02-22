@@ -113,6 +113,7 @@ class ConvertKit_Resource_Products extends ConvertKit_Resource {
 		$defaults = array(
 			'disable_modal'  => false,
 			'discount_code'  => false,
+			'checkout'       => false,
 			'css_classes'    => array(),
 			'css_styles'     => array(),
 			'return_as_span' => false,
@@ -143,10 +144,22 @@ class ConvertKit_Resource_Products extends ConvertKit_Resource {
 
 		// Build product URL.
 		$product_url = $this->resources[ $id ]['url'];
+
+		// If a discount code is specified, add it to the URL now.
 		if ( $options['discount_code'] ) {
 			$product_url = add_query_arg(
 				array(
 					'promo' => $options['discount_code'],
+				),
+				$product_url
+			);
+		}
+
+		// If the URL should directly load the checkout step, add it to the URL now.
+		if ( $options['checkout'] ) {
+			$product_url = add_query_arg(
+				array(
+					'step' => 'checkout',
 				),
 				$product_url
 			);
