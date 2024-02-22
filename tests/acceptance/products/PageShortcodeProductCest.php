@@ -288,7 +288,7 @@ class PageShortcodeProductCest
 				'product'  => [ 'select', $_ENV['CONVERTKIT_API_PRODUCT_NAME'] ],
 				'checkout' => [ 'toggle', 'Yes' ],
 			],
-			'[convertkit_product product="' . $_ENV['CONVERTKIT_API_PRODUCT_ID'] . '" text="Buy my product" checkout="1"]'
+			'[convertkit_product product="' . $_ENV['CONVERTKIT_API_PRODUCT_ID'] . '" text="Buy my product" checkout="1" disable_modal_on_mobile="0"]'
 		);
 
 		// Publish and view the Page on the frontend site.
