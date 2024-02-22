@@ -264,6 +264,46 @@ class PageShortcodeProductCest
 	}
 
 	/**
+	 * Test the Product shortcode opens the ConvertKit Product's checkuot step
+	 * when the Checkout option is enabled.
+	 *
+	 * @since   2.4.5
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testProductShortcodeWithCheckoutParameterEnabled(AcceptanceTester $I)
+	{
+		// Setup ConvertKit Plugin with no default form specified.
+		$I->setupConvertKitPluginNoDefaultForms($I);
+		$I->setupConvertKitPluginResources($I);
+
+		// Add a Page using the Classic Editor.
+		$I->addClassicEditorPage($I, 'page', 'ConvertKit: Page: Product: Shortcode: Checkout Step');
+
+		// Add shortcode to Page, setting the Product setting to the value specified in the .env file.
+		$I->addVisualEditorShortcode(
+			$I,
+			'ConvertKit Product',
+			[
+				'product'  => [ 'select', $_ENV['CONVERTKIT_API_PRODUCT_NAME'] ],
+				'checkout' => [ 'toggle', 'Yes' ],
+			],
+			'[convertkit_product product="' . $_ENV['CONVERTKIT_API_PRODUCT_ID'] . '" text="Buy my product" checkout="1"]'
+		);
+
+		// Publish and view the Page on the frontend site.
+		$I->publishAndViewClassicEditorPage($I);
+
+		// Confirm that the ConvertKit Product is displayed.
+		$I->seeProductOutput($I, $_ENV['CONVERTKIT_API_PRODUCT_URL'], 'Buy my product');
+
+		// Confirm the checkout step is displayed.
+		$I->switchToIFrame('iframe[data-active]');
+		$I->waitForElementVisible('.formkit-main');
+		$I->see('Order Summary');
+	}
+
+	/**
 	 * Test the Product shortcode opens the ConvertKit Product in the same window instead
 	 * of a modal when the Disable modal on mobile option is enabled.
 	 *
