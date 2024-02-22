@@ -765,7 +765,7 @@ class ConvertKitPlugin extends \Codeception\Module
 		$I->seeElementInDOM('#convertkit-setup-wizard-footer div.right button');
 
 		// Fill fields with valid API Keys.
-		$I->fillField('api_key', $_ENV['CONVERTKIT_API_FORM_ID']);
+		$I->fillField('api_key', $_ENV['CONVERTKIT_API_KEY']);
 		$I->fillField('api_secret', $_ENV['CONVERTKIT_API_SECRET']);
 
 		// Click Connect button.
