@@ -182,7 +182,7 @@ jobs:
       # Make sure your committed .env.dist.testing file ends with a newline.
       # The formatting of the contents to include a blank newline is deliberate.
       - name: Define GitHub Secrets in .env.dist.testing
-        uses: DamianReeves/write-file-action@v1.2
+        uses: DamianReeves/write-file-action@v1.3
         with:
           path: ${{ env.PLUGIN_DIR }}/.env.dist.testing
           contents: |
@@ -245,14 +245,14 @@ jobs:
       # because we want to see why a test failed.
       - name: Upload Test Results to Artifact
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: test-results
           path: ${{ env.PLUGIN_DIR }}/tests/_output/
 
       - name: Upload Plugin Log File to Artifact
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: log.txt
           path: ${{ env.PLUGIN_DIR }}/log.txt
