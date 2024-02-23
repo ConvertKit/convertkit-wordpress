@@ -76,7 +76,7 @@ jobs:
         with:
           source: ${{ matrix.test-groups }}
           find: '/'        
-          replace: ''
+          replace: '-'
           replaceAll: true
 
       - name: Start MySQL
