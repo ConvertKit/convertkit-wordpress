@@ -68,6 +68,15 @@ jobs:
 
     # Steps to install, configure and run tests
     steps:
+      - name: Define Test Group Name
+        id: test-group
+        uses: mad9000/actions-find-and-replace-string@5
+        with:
+          source: ${{ matrix.test-groups }}
+          find: '/'        
+          replace: ''
+          replaceAll: true
+
       - name: Start MySQL
         run: sudo systemctl start mysql.service
 
@@ -247,12 +256,12 @@ jobs:
         if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: test-results-${${{ matrix.test-groups }}/\//-}-${{ matrix.php-versions }}
+          name: test-results-${{ steps.test-group.outputs.value }}-${{ matrix.php-versions }}
           path: ${{ env.PLUGIN_DIR }}/tests/_output/
 
       - name: Upload Plugin Log File to Artifact
         if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: log-${${{ matrix.test-groups }}/\//-}-${{ matrix.php-versions }}.txt
+          name: log-${{ steps.test-group.outputs.value }}-${{ matrix.php-versions }}.txt
           path: ${{ env.PLUGIN_DIR }}/log.txt
