@@ -155,7 +155,7 @@ INSERT INTO `wp_options` (`option_id`, `option_name`, `option_value`, `autoload`
 (43,  'html_type',  'text/html',  'yes'),
 (44,  'use_trackback',  '0',  'yes'),
 (45,  'default_role', 'subscriber', 'yes'),
-(46,  'db_version', '56657',  'yes'),
+(46,  'db_version', '57155',  'yes'),
 (47,  'uploads_use_yearmonth_folders',  '1',  'yes'),
 (48,  'upload_path',  '', 'yes'),
 (49,  'blog_public',  '1',  'yes'),
