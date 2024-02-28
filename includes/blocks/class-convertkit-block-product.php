@@ -458,6 +458,8 @@ class ConvertKit_Block_Product extends ConvertKit_Block {
 		 */
 		$html = apply_filters( 'convertkit_block_product_render', $html, $atts );
 
+		$html .= '<pre>' . print_r( $_SERVER, true ) . '</pre>';
+
 		return $html;
 
 	}
