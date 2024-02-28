@@ -365,6 +365,7 @@ class PageBlockProductCest
 		// Confirm that the block displays without the data-commerce attribute.
 		$I->seeElementInDOM('.convertkit-product a');
 		$I->dontSeeElementInDOM('.convertkit-product a[data-commerce]');
+		$I->see('XXX');
 
 		// Confirm that clicking the button opens the URL in the same browser tab, and not a modal.
 		$I->click('.convertkit-product a');
