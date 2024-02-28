@@ -196,14 +196,14 @@ form#convertkit-restrict-content-form div#convertkit-subscriber-code-container i
 #convertkit-restrict-content-modal-loading {
 	box-sizing: border-box;
 	display: none;
-	position: fixed;
+	position: absolute;
 	z-index: 1000000;
-	width: 730px;
-	height: 328px;
-	top: calc(50% - 164px);
-	left: calc(50% - 365px);
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
 	margin: 0;
-	padding: 80px 115px;
+	padding: 0;
 	background: url(../images/spinner.gif) center no-repeat rgba(255, 255, 255, 0.8);
 	border: none;
 	border-radius: 8px;
@@ -226,14 +226,28 @@ form#convertkit-restrict-content-form div#convertkit-subscriber-code-container i
 }
 
 /* Responsive */
-@media screen and (max-width: 450px) {
-	#convertkit-restrict-content {
-		padding: 0;
-	}
+@media screen and (max-width: 730px) {
 	#convertkit-restrict-content .convertkit-restrict-content-actions {
 		padding: 10px;
 	}
 	#convertkit-restrict-content input[type=email], #convertkit-restrict-content input[type=text], #convertkit-restrict-content input#convertkit_subscriber_code {
 		width: 100%;
+	}
+	#convertkit-restrict-content-modal {
+		width: 90%;
+		height: auto;
+		left: 5%;
+		padding: 40px;
+	}
+	form#convertkit-restrict-content-form div#convertkit-subscriber-code-container {
+		width: 213px;
+		height: 50px;
+	}
+	form#convertkit-restrict-content-form div#convertkit-subscriber-code-container input#convertkit_subscriber_code {
+		--otp-height: 49px;
+		--otp-number-width: 35px;
+		--otp-letter-spacing: 20px;
+		--otp-text-indent: 10px;
+		--otp-font-size: 25px;
 	}
 }
