@@ -357,7 +357,7 @@ class PageBlockProductCest
 		$url = $I->publishAndViewGutenbergPage($I);
 
 		// Change user agent to a mobile user agent.
-		$I->changeUserAgent($_ENV['TEST_SITE_HTTP_USER_AGENT_MOBILE']);
+		$I->enableMobileEmulation();
 
 		// Load page.
 		$I->amOnUrl($url);
@@ -365,14 +365,13 @@ class PageBlockProductCest
 		// Confirm that the block displays without the data-commerce attribute.
 		$I->seeElementInDOM('.convertkit-product a');
 		$I->dontSeeElementInDOM('.convertkit-product a[data-commerce]');
-		$I->see('XXX');
 
 		// Confirm that clicking the button opens the URL in the same browser tab, and not a modal.
 		$I->click('.convertkit-product a');
 		$I->waitForElementVisible('body[data-template]');
 
 		// Change user agent back, as it persists through tests.
-		$I->changeUserAgent($_ENV['TEST_SITE_HTTP_USER_AGENT']);
+		$I->disableMobileEmulation();
 	}
 
 	/**

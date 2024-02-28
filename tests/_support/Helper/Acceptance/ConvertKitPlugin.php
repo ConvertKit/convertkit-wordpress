@@ -875,7 +875,57 @@ class ConvertKitPlugin extends \Codeception\Module
 							'--headless=new',
 							'--disable-gpu',
 							'--user-agent=' . $userAgent,
-							'--disable-features=UserAgentClientHint',
+						],
+						'mobileEmulation' => [
+							'deviceName' => 'Nexus 5',
+						],
+					],
+				],
+			]
+		);
+	}
+
+	public function enableMobileEmulation()
+	{
+		$this->getModule('WPWebDriver')->_restart(
+			[
+				'browser'      => 'chrome',
+				'capabilities' => [
+					'goog:chromeOptions' => [
+						'args' => [
+							'--headless=new',
+							'--disable-gpu',
+							'--user-agent=' . $_ENV['TEST_SITE_HTTP_USER_AGENT_MOBILE'],
+						],
+						'mobileEmulation' => [
+							'deviceMetrics' => [
+								'width' => 430,
+								'height' => 932,
+								'pixelRatio' => 1,
+							],
+							'clientHints' => [
+								'platform' => 'Android',
+								'mobile' => true,
+							],
+							'userAgent'  => $_ENV['TEST_SITE_HTTP_USER_AGENT_MOBILE'],
+						],
+					],
+				],
+			]
+		);
+	}
+
+	public function disableMobileEmulation()
+	{
+		$this->getModule('WPWebDriver')->_restart(
+			[
+				'browser'      => 'chrome',
+				'capabilities' => [
+					'goog:chromeOptions' => [
+						'args' => [
+							'--headless=new',
+							'--disable-gpu',
+							'--user-agent=' . $_ENV['TEST_SITE_HTTP_USER_AGENT'],
 						],
 					],
 				],
