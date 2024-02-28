@@ -428,7 +428,7 @@ class ConvertKit_Block_Product extends ConvertKit_Block {
 		// Build HTML.
 		$html = $convertkit_products->get_html(
 			$atts['product'],
-			$atts['text'] . ' wp_is_mobile=' . wp_is_mobile(),
+			$atts['text'],
 			array(
 				'discount_code'  => $atts['discount_code'],
 				'checkout'       => $atts['checkout'],
@@ -457,8 +457,6 @@ class ConvertKit_Block_Product extends ConvertKit_Block {
 		 * @param   array   $atts   Block Attributes.
 		 */
 		$html = apply_filters( 'convertkit_block_product_render', $html, $atts );
-
-		$html .= '<pre>' . print_r( $_SERVER, true ) . '</pre>';
 
 		return $html;
 

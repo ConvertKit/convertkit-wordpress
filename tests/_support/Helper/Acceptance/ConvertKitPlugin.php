@@ -857,34 +857,11 @@ class ConvertKitPlugin extends \Codeception\Module
 	}
 
 	/**
-	 * Changes the WPWebBrowser Chrome User Agent to the supplied value,
+	 * Changes the WPWebBrowser Chrome User Agent to a mobile device,
 	 * restarting the headless Chrome instance.
 	 *
-	 * @since   2.4.1
-	 *
-	 * @param   string $userAgent  User Agent.
+	 * @since   2.4.6
 	 */
-	public function changeUserAgent($userAgent)
-	{
-		$this->getModule('WPWebDriver')->_restart(
-			[
-				'browser'      => 'chrome',
-				'capabilities' => [
-					'goog:chromeOptions' => [
-						'args' => [
-							'--headless=new',
-							'--disable-gpu',
-							'--user-agent=' . $userAgent,
-						],
-						'mobileEmulation' => [
-							'deviceName' => 'Nexus 5',
-						],
-					],
-				],
-			]
-		);
-	}
-
 	public function enableMobileEmulation()
 	{
 		$this->getModule('WPWebDriver')->_restart(
@@ -892,22 +869,22 @@ class ConvertKitPlugin extends \Codeception\Module
 				'browser'      => 'chrome',
 				'capabilities' => [
 					'goog:chromeOptions' => [
-						'args' => [
+						'args'            => [
 							'--headless=new',
 							'--disable-gpu',
 							'--user-agent=' . $_ENV['TEST_SITE_HTTP_USER_AGENT_MOBILE'],
 						],
 						'mobileEmulation' => [
 							'deviceMetrics' => [
-								'width' => 430,
-								'height' => 932,
+								'width'      => 430,
+								'height'     => 932,
 								'pixelRatio' => 1,
 							],
-							'clientHints' => [
+							'clientHints'   => [
 								'platform' => 'Android',
-								'mobile' => true,
+								'mobile'   => true,
 							],
-							'userAgent'  => $_ENV['TEST_SITE_HTTP_USER_AGENT_MOBILE'],
+							'userAgent'     => $_ENV['TEST_SITE_HTTP_USER_AGENT_MOBILE'],
 						],
 					],
 				],
@@ -915,6 +892,12 @@ class ConvertKitPlugin extends \Codeception\Module
 		);
 	}
 
+	/**
+	 * Changes the WPWebBrowser Chrome User Agent to a desktop device,
+	 * restarting the headless Chrome instance.
+	 *
+	 * @since   2.4.6
+	 */
 	public function disableMobileEmulation()
 	{
 		$this->getModule('WPWebDriver')->_restart(
@@ -927,6 +910,7 @@ class ConvertKitPlugin extends \Codeception\Module
 							'--disable-gpu',
 							'--user-agent=' . $_ENV['TEST_SITE_HTTP_USER_AGENT'],
 						],
+						// excluding mobileEmulation arguments here makes chromedriver behave in desktop mode.
 					],
 				],
 			]
