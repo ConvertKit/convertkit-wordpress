@@ -121,8 +121,7 @@ class ConvertKit_Settings_oAuth extends ConvertKit_Settings_Base {
 		// Determine the oAuth URL to begin the authorization process.
 		$api = new ConvertKit_API();
 		$api->set_client_id( CONVERTKIT_OAUTH_CLIENT_ID );
-		//$oauth_url = $this->api->get_oauth_url( admin_url( 'options-general.php?page=_wp_convertkit_settings' ) );
-		$oauth_url = admin_url( 'options-general.php?page=_wp_convertkit_settings&code=authcode&code_verifier=codeverifier' );
+		$oauth_url = $api->get_oauth_url( admin_url( 'options-general.php?page=_wp_convertkit_settings' ) );
 
 		/**
 		 * Performs actions prior to rendering the settings form.
