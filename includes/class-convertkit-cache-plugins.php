@@ -10,14 +10,14 @@
  * Programmatically changes settings for third party caching Plugins which interfere with Forms
  * and Landing Pages loading correctly.
  *
- * @since   2.4.5
+ * @since   2.4.6
  */
 class ConvertKit_Cache_Plugins {
 
 	/**
 	 * Holds external hosts to exclude from CSS and JS minification.
 	 *
-	 * @since   2.4.5
+	 * @since   2.4.6
 	 *
 	 * @var     array
 	 */
@@ -31,7 +31,7 @@ class ConvertKit_Cache_Plugins {
 	 * Holds internal JS paths to exclude from JS minification.
 	 * Supports regular expressions.
 	 *
-	 * @since   2.4.5
+	 * @since   2.4.6
 	 *
 	 * @var     array
 	 */
@@ -42,7 +42,7 @@ class ConvertKit_Cache_Plugins {
 	/**
 	 * Constructor
 	 *
-	 * @since   2.4.5
+	 * @since   2.4.6
 	 */
 	public function __construct() {
 
@@ -65,12 +65,12 @@ class ConvertKit_Cache_Plugins {
 
 	/**
 	 * Disable JS defer on ConvertKit scripts when the Jetpack Boost Plugin is installed, active
-	 * and its "" setting is enabled.
-	 * 
-	 * @since 	2.4.5
-	 * 
-	 * @param 	array 	$script 	Script key/value pairs to output as <script> tag.
-	 * @return 	array
+	 * and its "Defer Non-Essential JavaScript" setting is enabled.
+	 *
+	 * @since   2.4.6
+	 *
+	 * @param   array $script     Script key/value pairs to output as <script> tag.
+	 * @return  array
 	 */
 	public function jetpack_boost_exclude_js_defer( $script ) {
 
@@ -85,12 +85,12 @@ class ConvertKit_Cache_Plugins {
 
 	/**
 	 * Disable JS defer on ConvertKit scripts when the LiteSpeed Cache Plugin is installed, active
-	 * and its "" setting is enabled.
-	 * 
-	 * @since 	2.4.5
-	 * 
-	 * @param 	array 	$script 	Script key/value pairs to output as <script> tag.
-	 * @return 	array
+	 * and its "Load JS Deferred" setting is enabled.
+	 *
+	 * @since   2.4.6
+	 *
+	 * @param   array $script     Script key/value pairs to output as <script> tag.
+	 * @return  array
 	 */
 	public function litespeed_cache_exclude_js_defer( $script ) {
 
@@ -105,12 +105,12 @@ class ConvertKit_Cache_Plugins {
 
 	/**
 	 * Disable JS combining on ConvertKit scripts when the Siteground Speed Optimizer Plugin is installed, active
-	 * and its "" setting is enabled.
-	 * 
-	 * @since 	2.4.5
-	 * 
-	 * @param 	array 	$script 	Script key/value pairs to output as <script> tag.
-	 * @return 	array
+	 * and its "Combine JavaScript Files" setting is enabled.
+	 *
+	 * @since   2.4.6
+	 *
+	 * @param   array $script     Script key/value pairs to output as <script> tag.
+	 * @return  array
 	 */
 	public function siteground_speed_optimizer_exclude_js_combine( $script ) {
 
@@ -133,7 +133,7 @@ class ConvertKit_Cache_Plugins {
 	 * Disable caching and minification when a WordPress Page configured to display a
 	 * ConvertKit Landing Page is viewed.
 	 *
-	 * @since   2.4.5
+	 * @since   2.4.6
 	 */
 	public function wp_rocket_disable_caching_and_minification_on_landing_pages() {
 
@@ -148,7 +148,7 @@ class ConvertKit_Cache_Plugins {
 	 * Appends the $exclude_hosts property to an array of existing hosts excluded from
 	 * minification.
 	 *
-	 * @since   2.4.5
+	 * @since   2.4.6
 	 *
 	 * @param   array $hosts  External hosts to ignore.
 	 * @return  array
@@ -163,7 +163,7 @@ class ConvertKit_Cache_Plugins {
 	 * Appends the $exclude_plugin_js property to an array of existing JS files excluded from
 	 * minification.
 	 *
-	 * @since   2.4.5
+	 * @since   2.4.6
 	 *
 	 * @param   array $scripts  Internal JS scripts to ignore.
 	 * @return  array

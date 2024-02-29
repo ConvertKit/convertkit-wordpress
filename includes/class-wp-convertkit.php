@@ -142,8 +142,8 @@ class WP_ConvertKit {
 		}
 
 		$this->classes['cache_plugins'] = new ConvertKit_Cache_Plugins();
-		$this->classes['output']    = new ConvertKit_Output();
-		
+		$this->classes['output']        = new ConvertKit_Output();
+
 		/**
 		 * Initialize integration classes for the frontend web site.
 		 *
