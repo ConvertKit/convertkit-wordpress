@@ -482,14 +482,6 @@ class ConvertKit_Output {
 		// Define array of scripts.
 		$scripts = array();
 
-		// Define data attributes to apply to all scripts.
-		// These are typically to prevent third party performance / caching Plugins interfering with ConvertKit scripts,
-		// which may result in non-inline forms displaying twice.
-		$data_attributes = array(
-			'data-jetpack-boost' => 'ignore', // Jetpack Boost.
-			'data-no-defer'      => '1', // LiteSpeed Cache.
-		);
-
 		/**
 		 * Define an array of scripts to output in the footer of the WordPress site.
 		 *
