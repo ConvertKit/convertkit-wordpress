@@ -356,8 +356,8 @@ class PageBlockProductCest
 		// Publish and view the Page on the frontend site.
 		$url = $I->publishAndViewGutenbergPage($I);
 
-		// Change user agent to a mobile user agent.
-		$I->changeUserAgent($_ENV['TEST_SITE_HTTP_USER_AGENT_MOBILE']);
+		// Change device and user agent to a mobile.
+		$I->enableMobileEmulation();
 
 		// Load page.
 		$I->amOnUrl($url);
@@ -370,8 +370,8 @@ class PageBlockProductCest
 		$I->click('.convertkit-product a');
 		$I->waitForElementVisible('body[data-template]');
 
-		// Change user agent back, as it persists through tests.
-		$I->changeUserAgent($_ENV['TEST_SITE_HTTP_USER_AGENT']);
+		// Change device and user agent to desktop.
+		$I->disableMobileEmulation();
 	}
 
 	/**

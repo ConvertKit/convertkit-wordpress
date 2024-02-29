@@ -857,14 +857,48 @@ class ConvertKitPlugin extends \Codeception\Module
 	}
 
 	/**
-	 * Changes the WPWebBrowser Chrome User Agent to the supplied value,
+	 * Changes the WPWebBrowser Chrome User Agent to a mobile device,
 	 * restarting the headless Chrome instance.
 	 *
-	 * @since   2.4.1
-	 *
-	 * @param   string $userAgent  User Agent.
+	 * @since   2.4.6
 	 */
-	public function changeUserAgent($userAgent)
+	public function enableMobileEmulation()
+	{
+		$this->getModule('WPWebDriver')->_restart(
+			[
+				'browser'      => 'chrome',
+				'capabilities' => [
+					'goog:chromeOptions' => [
+						'args'            => [
+							'--headless=new',
+							'--disable-gpu',
+							'--user-agent=' . $_ENV['TEST_SITE_HTTP_USER_AGENT_MOBILE'],
+						],
+						'mobileEmulation' => [
+							'deviceMetrics' => [
+								'width'      => 430,
+								'height'     => 932,
+								'pixelRatio' => 1,
+							],
+							'clientHints'   => [
+								'platform' => 'Android',
+								'mobile'   => true,
+							],
+							'userAgent'     => $_ENV['TEST_SITE_HTTP_USER_AGENT_MOBILE'],
+						],
+					],
+				],
+			]
+		);
+	}
+
+	/**
+	 * Changes the WPWebBrowser Chrome User Agent to a desktop device,
+	 * restarting the headless Chrome instance.
+	 *
+	 * @since   2.4.6
+	 */
+	public function disableMobileEmulation()
 	{
 		$this->getModule('WPWebDriver')->_restart(
 			[
@@ -874,9 +908,9 @@ class ConvertKitPlugin extends \Codeception\Module
 						'args' => [
 							'--headless=new',
 							'--disable-gpu',
-							'--user-agent=' . $userAgent,
-							'--disable-features=UserAgentClientHint',
+							'--user-agent=' . $_ENV['TEST_SITE_HTTP_USER_AGENT'],
 						],
+						// excluding mobileEmulation arguments here makes chromedriver behave in desktop mode.
 					],
 				],
 			]
