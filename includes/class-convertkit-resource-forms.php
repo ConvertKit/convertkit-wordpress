@@ -323,6 +323,17 @@ class ConvertKit_Resource_Forms extends ConvertKit_Resource {
 			return '';
 		}
 
+		// Prevent Siteground Speed Optimizer Plugin from attempting to combine this JS file with others.
+		add_filter(
+			'sgo_javascript_combine_excluded_external_paths',
+			function ( $excluded_paths ) use ( $id ) {
+
+				$excluded_paths[] = esc_url( $this->resources[ $id ]['embed_js'] );
+				return $excluded_paths;
+
+			}
+		);
+
 		// If here, return Form <script> embed now, as we want the inline form to display at this specific point of the content.
 
 		// Define script key-value pairs.

@@ -268,6 +268,55 @@ class PageBlockProductCest
 	}
 
 	/**
+	 * Test the Product shortcode opens the ConvertKit Product's checkuot step
+	 * when the Checkout option is enabled.
+	 *
+	 * @since   2.4.5
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testProductBlockWithCheckoutParameterEnabled(AcceptanceTester $I)
+	{
+		// Setup ConvertKit Plugin with no default form specified.
+		$I->setupConvertKitPluginNoDefaultForms($I);
+		$I->setupConvertKitPluginResources($I);
+
+		// Add a Page using the Gutenberg editor.
+		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Product: Checkout Step');
+
+		// Configure metabox's Form setting = None, ensuring we only test the block in Gutenberg.
+		$I->configureMetaboxSettings(
+			$I,
+			'wp-convertkit-meta-box',
+			[
+				'form' => [ 'select2', 'None' ],
+			]
+		);
+
+		// Add block to Page, setting the Product setting to the value specified in the .env file.
+		$I->addGutenbergBlock(
+			$I,
+			'ConvertKit Product',
+			'convertkit-product',
+			[
+				'product'                     => [ 'select', $_ENV['CONVERTKIT_API_PRODUCT_NAME'] ],
+				'#inspector-toggle-control-0' => [ 'toggle', true ],
+			]
+		);
+
+		// Publish and view the Page on the frontend site.
+		$I->publishAndViewGutenbergPage($I);
+
+		// Confirm that the ConvertKit Product is displayed.
+		$I->seeProductOutput($I, $_ENV['CONVERTKIT_API_PRODUCT_URL'], 'Buy my product');
+
+		// Confirm the checkout step is displayed.
+		$I->switchToIFrame('iframe[data-active]');
+		$I->waitForElementVisible('.formkit-main');
+		$I->see('Order Summary');
+	}
+
+	/**
 	 * Test the Product block opens the ConvertKit Product in the same window instead
 	 * of a modal when the Disable modal on mobile option is enabled.
 	 *
@@ -300,15 +349,15 @@ class PageBlockProductCest
 			'convertkit-product',
 			[
 				'product'                     => [ 'select', $_ENV['CONVERTKIT_API_PRODUCT_NAME'] ],
-				'#inspector-toggle-control-0' => [ 'toggle', true ],
+				'#inspector-toggle-control-1' => [ 'toggle', true ],
 			]
 		);
 
 		// Publish and view the Page on the frontend site.
 		$url = $I->publishAndViewGutenbergPage($I);
 
-		// Change user agent to a mobile user agent.
-		$I->changeUserAgent($_ENV['TEST_SITE_HTTP_USER_AGENT_MOBILE']);
+		// Change device and user agent to a mobile.
+		$I->enableMobileEmulation();
 
 		// Load page.
 		$I->amOnUrl($url);
@@ -321,8 +370,8 @@ class PageBlockProductCest
 		$I->click('.convertkit-product a');
 		$I->waitForElementVisible('body[data-template]');
 
-		// Change user agent back, as it persists through tests.
-		$I->changeUserAgent($_ENV['TEST_SITE_HTTP_USER_AGENT']);
+		// Change device and user agent to desktop.
+		$I->disableMobileEmulation();
 	}
 
 	/**

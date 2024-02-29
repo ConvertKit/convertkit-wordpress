@@ -509,7 +509,6 @@ class ConvertKit_Output {
 
 		// Iterate through scripts, building the <script> tag for each.
 		foreach ( $scripts as $script ) {
-
 			/**
 			 * Filter the form <script> key/value pairs immediately before the script is output.
 			 *
