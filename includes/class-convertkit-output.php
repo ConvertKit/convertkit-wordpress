@@ -527,11 +527,6 @@ class ConvertKit_Output {
 				$output .= ' ' . $attribute . '="' . $value . '"';
 			}
 
-			// Append data attributes.
-			foreach ( $data_attributes as $attribute => $value ) {
-				$output .= ' ' . esc_attr( $attribute ) . '="' . esc_attr( $value ) . '"';
-			}
-
 			$output .= '></script>';
 
 			// Add to array.
