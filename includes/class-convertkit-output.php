@@ -521,7 +521,7 @@ class ConvertKit_Output {
 
 				// Sanitize attribute and value.
 				$attribute = esc_attr( $attribute );
-				$value     = ( $attribute == 'src' ? esc_url( $value ) : esc_attr( $value ) );
+				$value     = ( $attribute === 'src' ? esc_url( $value ) : esc_attr( $value ) );
 
 				// Output the attribute and value.
 				$output .= ' ' . $attribute . '="' . $value . '"';
