@@ -58,22 +58,33 @@ class ConvertKit_Settings_oAuth extends ConvertKit_Settings_Base {
 		if ( ! array_key_exists( 'code', $_REQUEST ) ) { // phpcs:ignore WordPress.Security.NonceVerification
 			return;
 		}
+		/*
+		// PKCE.
 		if ( ! array_key_exists( 'code_verifier', $_REQUEST ) ) { // phpcs:ignore WordPress.Security.NonceVerification
 			return;
 		}
+		*/
 
 		// Sanitize token.
 		$authorization_code = sanitize_text_field( $_REQUEST['code'] ); // phpcs:ignore WordPress.Security.NonceVerification
-		$code_verifier = sanitize_text_field( $_REQUEST['code_verifier'] ); // phpcs:ignore WordPress.Security.NonceVerification
-
-		// @TODO Exchange the authorization code and verifier for a long lived access token.
-		$result = 'example-access-token';
-		//$result = new WP_Error( 'example_error', 'You did not authorize this application. Please try again.' );
-		/*
+		
+		// Exchange the authorization code and verifier for an access token.
 		$api = new ConvertKit_API();
 		$api->set_client_id( CONVERTKIT_OAUTH_CLIENT_ID );
-		$access_token = $api->get_access_token( $code_verifier, $authorization_code );
+		$api->set_client_secret( CONVERTKIT_OAUTH_CLIENT_SECRET ); // currently in wp-config.php for security.
+		$access_token = $api->get_access_token( $authorization_code );
+		var_dump( $access_token );
+		die();
+
+		// PKCE method, not yet supported.
+		/*
+		$code_verifier = sanitize_text_field( $_REQUEST['code_verifier'] ); // phpcs:ignore WordPress.Security.NonceVerification
+		$api = new ConvertKit_API();
+		$api->set_client_id( CONVERTKIT_OAUTH_CLIENT_ID );
+		$access_token = $api->get_access_token( $authorization_code, $code_verifier );
 		*/
+
+		//$result = new WP_Error( 'example_error', 'You did not authorize this application. Please try again.' );
 
 		// Redirect with an error if we could not fetch the access token.
 		if ( is_wp_error( $result ) ) {
