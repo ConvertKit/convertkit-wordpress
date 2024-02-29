@@ -122,8 +122,8 @@ abstract class ConvertKit_Settings_Base {
 		// Define messages that might be displayed as a notification.
 		$messages = array(
 			// oAuth.
-			'oauth2_success'						 => __( 'Successfully authorized with ConvertKit.', 'convertkit' ),
-			'oauth2_error'							 => __( 'Could not authorize with ConvertKit. Please try again.', 'convertkit' ),
+			'oauth2_success'						 		=> __( 'Successfully authorized with ConvertKit.', 'convertkit' ),
+			'convertkit_api_get_access_token_invalid_grant' => __( 'The provided authorization grant is invalid, expired, revoked, does not match the redirection URI used in the authorization request, or was issued to another client.', 'convertkit' ),
 
 			// Tools.
 			'import_configuration_upload_error'      => __( 'An error occured uploading the configuration file.', 'convertkit' ),

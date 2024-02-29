@@ -166,7 +166,7 @@ class ConvertKit_Settings {
 	/**
 	 * Returns the Access Token Plugin setting.
 	 *
-	 * @since   2.2.0
+	 * @since   2.5.0
 	 *
 	 * @return  string
 	 */
@@ -180,7 +180,7 @@ class ConvertKit_Settings {
 	/**
 	 * Returns whether the Access Token has been set in the Plugin settings.
 	 *
-	 * @since   2.2.0
+	 * @since   2.5.0
 	 *
 	 * @return  bool
 	 */
@@ -191,9 +191,65 @@ class ConvertKit_Settings {
 	}
 
 	/**
+	 * Returns the Refresh Token Plugin setting.
+	 *
+	 * @since   2.5.0
+	 *
+	 * @return  string
+	 */
+	public function get_refresh_token() {
+
+		// Return Refresh Token from settings.
+		return $this->settings['refresh_token'];
+
+	}
+
+	/**
+	 * Returns whether the Refresh Token has been set in the Plugin settings.
+	 *
+	 * @since   2.5.0
+	 *
+	 * @return  bool
+	 */
+	public function has_refresh_token() {
+
+		return ( ! empty( $this->get_refresh_token() ) ? true : false );
+
+	}
+
+	/**
+	 * Returns whether to use Access and Refresh Tokens for API requests,
+	 * based on whether an Access Token and Refresh Token have been saved
+	 * in the Plugin settings.
+	 *
+	 * @since   2.5.0
+	 *
+	 * @return  bool
+	 */
+	public function uses_oauth() {
+
+		return $this->has_access_token() && $this->has_refresh_token();
+
+	}
+
+	/**
+	 * Returns the Access Token expiry timestamp.
+	 *
+	 * @since   2.5.0
+	 *
+	 * @return  int
+	 */
+	public function get_token_expiry() {
+
+		// Return Token Expiry from settings.
+		return $this->settings['token_expires'];
+
+	}
+
+	/**
 	 * Returns whether the Plugin is authenticated with ConvertKit, by checking either:
 	 * - the API Key and Secret have been set in the Plugin settings,
-	 * - an access token exists
+	 * - the Access Token and Refresh Token have been set in the Plugin settings
 	 *
 	 * @since   2.2.0
 	 *
@@ -201,7 +257,7 @@ class ConvertKit_Settings {
 	 */
 	public function is_authenticated() {
 
-		return ( $this->has_api_key() && $this->has_api_secret() ) || $this->has_access_token();
+		return ( $this->has_api_key() && $this->has_api_secret() ) || ( $this->has_access_token() && $this->has_refresh_token() );
 
 	}
 
@@ -327,11 +383,15 @@ class ConvertKit_Settings {
 		$defaults = array(
 			'api_key'         => '', // string.
 			'api_secret'      => '', // string.
-			'access_token'    => '', // string.
 			'non_inline_form' => '', // string.
 			'debug'           => '', // blank|on.
 			'no_scripts'      => '', // blank|on.
 			'no_css'          => '', // blank|on.
+
+			// OAuth.
+			'access_token'    => '', // string.
+			'refresh_token'   => '', // string.
+			'token_expires'   => '', // integer.
 		);
 
 		// Add Post Type Default Forms.
