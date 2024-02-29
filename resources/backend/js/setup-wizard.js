@@ -11,38 +11,49 @@
  *
  * @since 	1.9.8.4
  */
-jQuery( document ).ready(
-	function ( $ ) {
+document.addEventListener(
+	'DOMContentLoaded',
+	function () {
 
 		// Redirect parent screen to a given URL after clicking a link that opens
 		// the href URL in a new tab.
-		$( 'a.convertkit-redirect' ).on(
-			'click',
-			function ( e ) {
+		document.querySelectorAll( 'a.convertkit-redirect' ).forEach(
+			function ( element ) {
 
-				var link = this;
+				element.addEventListener(
+					'click',
+					function ( e ) {
 
-				// Delay the redirect, otherwise browsers will block opening the href attribute
-				// thinking it's a popup.
-				setTimeout(
-					function () {
-						// Redirect the parent screen to the link's data-convertkit-redirect-url property.
-						window.location.href = $( link ).data( 'convertkit-redirect-url' );
-					},
-					1000
+						// Delay the redirect, otherwise browsers will block opening the href attribute
+						// thinking it's a popup.
+						setTimeout(
+							function () {
+								// Redirect the parent screen to the link's data-convertkit-redirect-url property.
+								window.location.href = element.dataset.convertkitRedirectUrl;
+							},
+							1000
+						);
+
+					}
 				);
 
 			}
 		);
 
 		// Show a confirmation dialog for specific links.
-		$( 'a.convertkit-confirm' ).on(
-			'click',
-			function ( e ) {
+		document.querySelectorAll( 'a.convertkit-confirm' ).forEach(
+			function ( element ) {
 
-				if ( ! confirm( $( this ).data( 'message' ) ) ) {
-					e.preventDefault();
-				}
+				element.addEventListener(
+					'click',
+					function ( e ) {
+
+						if ( ! confirm( element.dataset.message ) ) {
+							e.preventDefault();
+						}
+
+					}
+				);
 
 			}
 		);

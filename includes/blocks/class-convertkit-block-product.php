@@ -121,7 +121,7 @@ class ConvertKit_Block_Product extends ConvertKit_Block {
 			// Shortcode: TinyMCE / QuickTags Modal Width and Height.
 			'modal'                             => array(
 				'width'  => 600,
-				'height' => 440,
+				'height' => 518,
 			),
 
 			// Shortcode: Include a closing [/shortcode] tag when using TinyMCE or QuickTag Modals.
@@ -180,6 +180,10 @@ class ConvertKit_Block_Product extends ConvertKit_Block {
 			'discount_code'           => array(
 				'type'    => 'string',
 				'default' => $this->get_default_value( 'discount_code' ),
+			),
+			'checkout'                => array(
+				'type'    => 'boolean',
+				'default' => $this->get_default_value( 'checkout' ),
 			),
 			'disable_modal_on_mobile' => array(
 				'type'    => 'boolean',
@@ -307,6 +311,11 @@ class ConvertKit_Block_Product extends ConvertKit_Block {
 				'type'        => 'text',
 				'description' => __( 'Optional: A discount code to include. Must be defined in the ConvertKit Product.', 'convertkit' ),
 			),
+			'checkout'                => array(
+				'label'       => __( 'Load checkout step', 'convertkit' ),
+				'type'        => 'toggle',
+				'description' => __( 'If enabled, immediately loads the checkout screen, instead of the ConvertKit Product description.', 'convertkit' ),
+			),
 			'disable_modal_on_mobile' => array(
 				'label'       => __( 'Disable modal on mobile', 'convertkit' ),
 				'type'        => 'toggle',
@@ -350,6 +359,7 @@ class ConvertKit_Block_Product extends ConvertKit_Block {
 					'product',
 					'text',
 					'discount_code',
+					'checkout',
 					'disable_modal_on_mobile',
 					'background_color',
 					'text_color',
@@ -372,6 +382,7 @@ class ConvertKit_Block_Product extends ConvertKit_Block {
 			'product'                 => '',
 			'text'                    => __( 'Buy my product', 'convertkit' ),
 			'discount_code'           => '',
+			'checkout'                => false,
 			'disable_modal_on_mobile' => false,
 			'background_color'        => '',
 			'text_color'              => '',
@@ -420,6 +431,7 @@ class ConvertKit_Block_Product extends ConvertKit_Block {
 			$atts['text'],
 			array(
 				'discount_code'  => $atts['discount_code'],
+				'checkout'       => $atts['checkout'],
 				'disable_modal'  => ( $atts['disable_modal_on_mobile'] && wp_is_mobile() ),
 				'css_classes'    => $atts['_css_classes'],
 				'css_styles'     => $atts['_css_styles'],

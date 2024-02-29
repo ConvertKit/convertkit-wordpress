@@ -12,14 +12,7 @@
 <form class="convertkit-tinymce-popup wp-core-ui">
 	<input type="hidden" name="shortcode" value="convertkit_<?php echo esc_attr( $shortcode['name'] ); ?>" />
 	<input type="hidden" name="editor_type" value="<?php echo esc_attr( $editor_type ); // quicktags|tinymce. ?>" />
-
-	<?php
-	if ( $shortcode['shortcode_include_closing_tag'] ) {
-		?>
-		<input type="hidden" name="close_shortcode" value="1" />
-		<?php
-	}
-	?>
+	<input type="hidden" name="close_shortcode" value="<?php echo esc_attr( $shortcode['shortcode_include_closing_tag'] ? '1' : '0' ); ?>" />
 
 	<!-- Vertical Tabbed UI -->
 	<div class="convertkit-vertical-tabbed-ui">

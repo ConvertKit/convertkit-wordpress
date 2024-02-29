@@ -82,40 +82,34 @@
 				<option value="-2" data-preserve-on-refresh="1"><?php esc_html_e( '— No Change —', 'convertkit' ); ?></option>
 				<option value="0" data-preserve-on-refresh="1"><?php esc_html_e( 'Don\'t restrict content to members only.', 'convertkit' ); ?></option>
 
-				<?php
-				// Tags.
-				if ( $convertkit_tags->exist() ) {
-					?>
-					<optgroup label="<?php esc_attr_e( 'Tags', 'convertkit' ); ?>">
-						<?php
+				<optgroup label="<?php esc_attr_e( 'Tags', 'convertkit' ); ?>" data-resource="tags">
+					<?php
+					// Tags.
+					if ( $convertkit_tags->exist() ) {
 						foreach ( $convertkit_tags->get() as $convertkit_tag ) {
 							?>
 							<option value="tag_<?php echo esc_attr( $convertkit_tag['id'] ); ?>"><?php echo esc_attr( $convertkit_tag['name'] ); ?></option>
 							<?php
 						}
-						?>
-					</optgroup>
-					<?php
-				}
-
-				// Products.
-				if ( $convertkit_products->exist() ) {
+					}
 					?>
-					<optgroup label="<?php esc_attr_e( 'Products', 'convertkit' ); ?>">
-						<?php
+				</optgroup>
+
+				<optgroup label="<?php esc_attr_e( 'Products', 'convertkit' ); ?>" data-resource="products">
+					<?php
+					// Products.
+					if ( $convertkit_products->exist() ) {
 						foreach ( $convertkit_products->get() as $product ) {
 							?>
 							<option value="product_<?php echo esc_attr( $product['id'] ); ?>"><?php echo esc_attr( $product['name'] ); ?></option>
 							<?php
 						}
-						?>
-					</optgroup>
-					<?php
-				}
-				?>
+					}
+					?>
+				</optgroup>
 			</select>
 		</label>
-		<button class="wp-convertkit-refresh-resources" class="button button-secondary" title="<?php esc_attr_e( 'Refresh Products from ConvertKit account', 'convertkit' ); ?>" data-resource="products" data-field="#wp-convertkit-bulk-edit-restrict_content">
+		<button class="wp-convertkit-refresh-resources" class="button button-secondary" title="<?php esc_attr_e( 'Refresh Products and Tags from ConvertKit account', 'convertkit' ); ?>" data-resource="restrict_content" data-field="#wp-convertkit-bulk-edit-restrict_content">
 			<span class="dashicons dashicons-update"></span>
 		</button>
 	</div>

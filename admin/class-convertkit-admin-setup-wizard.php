@@ -295,7 +295,7 @@ class ConvertKit_Admin_Setup_Wizard {
 
 		// Enqueue JS.
 		wp_enqueue_script( 'convertkit-admin-preview-output', CONVERTKIT_PLUGIN_URL . 'resources/backend/js/preview-output.js', array( 'jquery' ), CONVERTKIT_PLUGIN_VERSION, true );
-		wp_enqueue_script( 'convertkit-admin-setup-wizard', CONVERTKIT_PLUGIN_URL . 'resources/backend/js/setup-wizard.js', array( 'jquery' ), CONVERTKIT_PLUGIN_VERSION, true );
+		wp_enqueue_script( 'convertkit-admin-setup-wizard', CONVERTKIT_PLUGIN_URL . 'resources/backend/js/setup-wizard.js', array(), CONVERTKIT_PLUGIN_VERSION, true );
 
 	}
 

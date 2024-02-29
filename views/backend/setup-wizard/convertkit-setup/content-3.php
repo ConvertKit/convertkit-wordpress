@@ -106,7 +106,7 @@ if ( ! $this->forms->exist() ) {
 			),
 			array(
 				'data-target' => '#convertkit-preview-form-page',
-				'data-link'   => esc_attr( $this->preview_post_url ) . '&convertkit_form_id=',
+				'data-link'   => esc_attr( $this->preview_page_url ) . '&convertkit_form_id=',
 			)
 		);
 		?>

@@ -7,127 +7,131 @@
  * @author ConvertKit
  */
 
-jQuery( document ).ready(
-	function ( $ ) {
+document.addEventListener(
+	'DOMContentLoaded',
+	function () {
 
 		// Cancel.
-		$( 'body' ).on(
+		document.body.addEventListener(
 			'click',
-			'#convertkit-modal-body div.mce-cancel button, #convertkit-quicktags-modal .media-toolbar .media-toolbar-secondary button.cancel',
 			function ( e ) {
 
-				// TinyMCE.
-				if ( typeof tinyMCE !== 'undefined' && tinyMCE.activeEditor && ! tinyMCE.activeEditor.isHidden() ) {
-					tinymce.activeEditor.windowManager.close();
-					return;
+				// Check if a cancel button was clicked.
+				if ( e.target.matches( '#convertkit-modal-body div.mce-cancel button, #convertkit-modal-body div.mce-cancel button *, #convertkit-quicktags-modal .media-toolbar .media-toolbar-secondary button.cancel' ) ) {
+					// TinyMCE.
+					if ( typeof tinyMCE !== 'undefined' && tinyMCE.activeEditor && ! tinyMCE.activeEditor.isHidden() ) {
+						tinymce.activeEditor.windowManager.close();
+						return;
+					}
+
+					// Text Editor.
+					// Close the QuickTags modal.
+					convertKitQuickTagsModal.close();
 				}
-
-				// Text Editor.
-				// Close the QuickTags modal.
-				convertKitQuickTagsModal.close();
-
 			}
 		);
 
 		// Insert.
-		$( 'body' ).on(
+		document.body.addEventListener(
 			'click',
-			'#convertkit-modal-body div.mce-insert button, #convertkit-quicktags-modal .media-toolbar .media-toolbar-primary button.button-primary',
 			function ( e ) {
 
-				// Prevent default action.
-				e.preventDefault();
+				// Check if an insert button was clicked.
+				if ( e.target.matches( '#convertkit-modal-body div.mce-insert button, #convertkit-modal-body div.mce-insert button *, #convertkit-quicktags-modal .media-toolbar .media-toolbar-primary button.button-primary' ) ) {
+					// Prevent default action.
+					e.preventDefault();
 
-				// Get containing form.
-				let form = $( 'form.convertkit-tinymce-popup' );
+					// Get containing form.
+					const form = document.querySelector( 'form.convertkit-tinymce-popup' );
 
-				// Build Shortcode.
-				let shortcode  = '[' + $( 'input[name="shortcode"]', $( form ) ).val(),
-				shortcodeClose = ( $( 'input[name="close_shortcode"]', $( form ) ).val() === '1' ? true : false );
+					// Build Shortcode.
+					let shortcode        = '[' + form.querySelector( 'input[name="shortcode"]' ).value;
+					const shortcodeClose = form.querySelector( 'input[name="close_shortcode"]' ).value === '1';
 
-				$( 'input, select', $( form ) ).each(
-					function ( i ) {
-						// Skip if no data-shortcode attribute.
-						if ( typeof $( this ).data( 'shortcode' ) === 'undefined' ) {
-							return true;
+					// Iterate through form fields.
+					form.querySelectorAll( 'input, select' ).forEach(
+						function ( element ) {
+							// Skip if no data-shortcode attribute.
+							if ( ! element.dataset.shortcode ) {
+									return;
+							}
+
+							let val = '';
+
+							// If this is a color picker, #000000 will be submitted by the browser as the value
+							// even if no value / color was selected.
+							// Check the data-value attribute instead.
+							switch ( element.type ) {
+								case 'color':
+									val = element.dataset.value;
+									break;
+								default:
+									val = element.value;
+									break;
+							}
+
+							// Skip if the value is empty.
+							if ( ! val ) {
+								return;
+							}
+							if ( val.length === 0 ) {
+								return;
+							}
+
+							// Get shortcode attribute.
+							const key  = element.dataset.shortcode;
+							const trim = element.dataset.trim !== '0';
+
+							// Skip if the shortcode is empty.
+							if ( ! key.length ) {
+								return;
+							}
+
+							// Trim the value, unless the shortcode attribute disables string trimming.
+							if ( trim ) {
+								val = val.trim();
+							}
+
+							// Append attribute and value to shortcode string.
+							shortcode += ' ' + key.trim() + '="' + val + '"';
 						}
+					);
 
-						let val = '';
+					// Close Shortcode.
+					shortcode += ']';
 
-						// If this is a color picker, #000000 will be submitted by the browser as the value
-						// even if no value / color was selected.
-						// Check the data-value attribute instead.
-						switch ( $( this ).attr( 'type' ) ) {
-							case 'color':
-								val = $( this ).data( 'value' );
-								break;
-							default:
-								val = $( this ).val();
-								break;
-						}
-
-						// Skip if the value is empty.
-						if ( ! val ) {
-							return true;
-						}
-						if ( val.length === 0 ) {
-							return true;
-						}
-
-						// Get shortcode attribute.
-						let key = $( this ).data( 'shortcode' ),
-						trim    = ( $( this ).data( 'trim' ) === '0' ? false : true );
-
-						// Skip if the shortcode is empty.
-						if ( ! key.length ) {
-							return true;
-						}
-
-						// Trim the value, unless the shortcode attribute disables string trimming.
-						if ( trim ) {
-							val = val.trim();
-						}
-
-						// Append attribute and value to shortcode string.
-						shortcode += ' ' + key.trim() + '="' + val + '"';
+					// If the shortcode includes a closing element, append it now.
+					if ( shortcodeClose ) {
+						shortcode += '[/' + form.querySelector( 'input[name="shortcode"]' ).value + ']';
 					}
-				);
 
-				// Close Shortcode.
-				shortcode += ']';
+					// Depending on the editor type, insert the shortcode.
+					switch ( form.querySelector( 'input[name="editor_type"]' ).value ) {
+						case 'tinymce':
+							// Sanity check that a Visual editor exists and is active.
+							if ( typeof tinyMCE !== 'undefined' && tinyMCE.activeEditor && ! tinyMCE.activeEditor.isHidden() ) {
+								// Insert into editor.
+								tinyMCE.activeEditor.execCommand( 'mceReplaceContent', false, shortcode );
 
-				// If the shortcode includes a closing element, append it now.
-				if ( shortcodeClose ) {
-					shortcode += '[/' + $( 'input[name="shortcode"]', $( form ) ).val() + ']';
-				}
+								// Close modal.
+								tinyMCE.activeEditor.windowManager.close();
+							}
+							break;
 
-				// Depending on the editor type, insert the shortcode.
-				switch ( $( 'input[name="editor_type"]', $( form ) ).val() ) {
-					case 'tinymce':
-						// Sanity check that a Visual editor exists and is active.
-						if ( typeof tinyMCE !== 'undefined' && tinyMCE.activeEditor && ! tinyMCE.activeEditor.isHidden() ) {
+						case 'quicktags':
 							// Insert into editor.
-							tinyMCE.activeEditor.execCommand( 'mceReplaceContent', false, shortcode );
+							QTags.insertContent( shortcode );
 
 							// Close modal.
-							tinyMCE.activeEditor.windowManager.close();
-						}
-						break;
-
-					case 'quicktags':
-						// Insert into editor.
-						QTags.insertContent( shortcode );
-
-						// Close modal.
-						convertKitQuickTagsModal.close();
-						break;
+							convertKitQuickTagsModal.close();
+							break;
+					}
 				}
 			}
 		);
 
 	}
 );
-
 
 // QuickTags: Setup Backbone Modal and Template.
 if ( typeof wp !== 'undefined' && typeof wp.media !== 'undefined' ) {

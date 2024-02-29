@@ -42,7 +42,7 @@ class PageShortcodeProductCest
 			[
 				'product' => [ 'select', $_ENV['CONVERTKIT_API_PRODUCT_NAME'] ],
 			],
-			'[convertkit_product product="' . $_ENV['CONVERTKIT_API_PRODUCT_ID'] . '" text="Buy my product" disable_modal_on_mobile="0"]'
+			'[convertkit_product product="' . $_ENV['CONVERTKIT_API_PRODUCT_ID'] . '" text="Buy my product" checkout="0" disable_modal_on_mobile="0"]'
 		);
 
 		// Publish and view the Page on the frontend site.
@@ -76,7 +76,7 @@ class PageShortcodeProductCest
 			[
 				'product' => [ 'select', $_ENV['CONVERTKIT_API_PRODUCT_NAME'] ],
 			],
-			'[convertkit_product product="' . $_ENV['CONVERTKIT_API_PRODUCT_ID'] . '" text="Buy my product" disable_modal_on_mobile="0"]'
+			'[convertkit_product product="' . $_ENV['CONVERTKIT_API_PRODUCT_ID'] . '" text="Buy my product" checkout="0" disable_modal_on_mobile="0"]'
 		);
 
 		// Publish and view the Page on the frontend site.
@@ -141,7 +141,7 @@ class PageShortcodeProductCest
 				'product' => [ 'select', $_ENV['CONVERTKIT_API_PRODUCT_NAME'] ],
 				'text'    => [ 'input', 'Buy now' ],
 			],
-			'[convertkit_product product="' . $_ENV['CONVERTKIT_API_PRODUCT_ID'] . '" text="Buy now"  disable_modal_on_mobile="0"]'
+			'[convertkit_product product="' . $_ENV['CONVERTKIT_API_PRODUCT_ID'] . '" text="Buy now" checkout="0" disable_modal_on_mobile="0"]'
 		);
 
 		// Publish and view the Page on the frontend site.
@@ -175,7 +175,7 @@ class PageShortcodeProductCest
 				'product' => [ 'select', $_ENV['CONVERTKIT_API_PRODUCT_NAME'] ],
 				'text'    => [ 'input', '' ],
 			],
-			'[convertkit_product product="' . $_ENV['CONVERTKIT_API_PRODUCT_ID'] . '"  disable_modal_on_mobile="0"]'
+			'[convertkit_product product="' . $_ENV['CONVERTKIT_API_PRODUCT_ID'] . '" checkout="0" disable_modal_on_mobile="0"]'
 		);
 
 		// Publish and view the Page on the frontend site.
@@ -209,7 +209,7 @@ class PageShortcodeProductCest
 				'product'       => [ 'select', $_ENV['CONVERTKIT_API_PRODUCT_NAME'] ],
 				'discount_code' => [ 'input', $_ENV['CONVERTKIT_API_PRODUCT_DISCOUNT_CODE'] ],
 			],
-			'[convertkit_product product="' . $_ENV['CONVERTKIT_API_PRODUCT_ID'] . '" text="Buy my product" discount_code="' . $_ENV['CONVERTKIT_API_PRODUCT_DISCOUNT_CODE'] . '"  disable_modal_on_mobile="0"]'
+			'[convertkit_product product="' . $_ENV['CONVERTKIT_API_PRODUCT_ID'] . '" text="Buy my product" discount_code="' . $_ENV['CONVERTKIT_API_PRODUCT_DISCOUNT_CODE'] . '" checkout="0" disable_modal_on_mobile="0"]'
 		);
 
 		// Publish and view the Page on the frontend site.
@@ -248,7 +248,7 @@ class PageShortcodeProductCest
 				'product'       => [ 'select', $_ENV['CONVERTKIT_API_PRODUCT_NAME'] ],
 				'discount_code' => [ 'input', 'fake' ],
 			],
-			'[convertkit_product product="' . $_ENV['CONVERTKIT_API_PRODUCT_ID'] . '" text="Buy my product" discount_code="fake"  disable_modal_on_mobile="0"]'
+			'[convertkit_product product="' . $_ENV['CONVERTKIT_API_PRODUCT_ID'] . '" text="Buy my product" discount_code="fake" checkout="0" disable_modal_on_mobile="0"]'
 		);
 
 		// Publish and view the Page on the frontend site.
@@ -261,6 +261,46 @@ class PageShortcodeProductCest
 		$I->switchToIFrame('iframe[data-active]');
 		$I->waitForElementVisible('.formkit-main');
 		$I->see('The coupon is not valid.');
+	}
+
+	/**
+	 * Test the Product shortcode opens the ConvertKit Product's checkuot step
+	 * when the Checkout option is enabled.
+	 *
+	 * @since   2.4.5
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testProductShortcodeWithCheckoutParameterEnabled(AcceptanceTester $I)
+	{
+		// Setup ConvertKit Plugin with no default form specified.
+		$I->setupConvertKitPluginNoDefaultForms($I);
+		$I->setupConvertKitPluginResources($I);
+
+		// Add a Page using the Classic Editor.
+		$I->addClassicEditorPage($I, 'page', 'ConvertKit: Page: Product: Shortcode: Checkout Step');
+
+		// Add shortcode to Page, setting the Product setting to the value specified in the .env file.
+		$I->addVisualEditorShortcode(
+			$I,
+			'ConvertKit Product',
+			[
+				'product'  => [ 'select', $_ENV['CONVERTKIT_API_PRODUCT_NAME'] ],
+				'checkout' => [ 'toggle', 'Yes' ],
+			],
+			'[convertkit_product product="' . $_ENV['CONVERTKIT_API_PRODUCT_ID'] . '" text="Buy my product" checkout="1" disable_modal_on_mobile="0"]'
+		);
+
+		// Publish and view the Page on the frontend site.
+		$I->publishAndViewClassicEditorPage($I);
+
+		// Confirm that the ConvertKit Product is displayed.
+		$I->seeProductOutput($I, $_ENV['CONVERTKIT_API_PRODUCT_URL'], 'Buy my product');
+
+		// Confirm the checkout step is displayed.
+		$I->switchToIFrame('iframe[data-active]');
+		$I->waitForElementVisible('.formkit-main');
+		$I->see('Order Summary');
 	}
 
 	/**
@@ -288,7 +328,7 @@ class PageShortcodeProductCest
 				'product'                 => [ 'select', $_ENV['CONVERTKIT_API_PRODUCT_NAME'] ],
 				'disable_modal_on_mobile' => [ 'toggle', 'Yes' ],
 			],
-			'[convertkit_product product="' . $_ENV['CONVERTKIT_API_PRODUCT_ID'] . '" text="Buy my product" disable_modal_on_mobile="1"]'
+			'[convertkit_product product="' . $_ENV['CONVERTKIT_API_PRODUCT_ID'] . '" text="Buy my product" checkout="0" disable_modal_on_mobile="1"]'
 		);
 
 		// Publish and view the Page on the frontend site.
@@ -297,8 +337,8 @@ class PageShortcodeProductCest
 		// Get Page URL.
 		$url = $I->grabFromCurrentUrl();
 
-		// Change user agent to a mobile user agent.
-		$I->changeUserAgent($_ENV['TEST_SITE_HTTP_USER_AGENT_MOBILE']);
+		// Change device and user agent to a mobile.
+		$I->enableMobileEmulation();
 
 		// Load page.
 		$I->amOnPage($url);
@@ -311,8 +351,8 @@ class PageShortcodeProductCest
 		$I->click('.convertkit-product a');
 		$I->waitForElementVisible('body[data-template]');
 
-		// Change user agent back, as it persists through tests.
-		$I->changeUserAgent($_ENV['TEST_SITE_HTTP_USER_AGENT']);
+		// Change device and user agent to desktop.
+		$I->disableMobileEmulation();
 	}
 
 	/**
@@ -339,7 +379,7 @@ class PageShortcodeProductCest
 		$I->havePageInDatabase(
 			[
 				'post_name'    => 'convertkit-page-product-shortcode-hex-color-params',
-				'post_content' => '[convertkit_product product="' . $_ENV['CONVERTKIT_API_PRODUCT_ID'] . '" text="Buy my product"  disable_modal_on_mobile="0" background_color="' . $backgroundColor . '" text_color="' . $textColor . '"]',
+				'post_content' => '[convertkit_product product="' . $_ENV['CONVERTKIT_API_PRODUCT_ID'] . '" text="Buy my product" checkout="0" disable_modal_on_mobile="0" background_color="' . $backgroundColor . '" text_color="' . $textColor . '"]',
 			]
 		);
 

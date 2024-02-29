@@ -63,9 +63,37 @@ class ConvertKit_Admin_Refresh_Resources {
 				break;
 
 			case 'products':
-				$products = new ConvertKit_Resource_Products();
+				$products = new ConvertKit_Resource_Products( 'user_refresh_resource' );
 				$results  = $products->refresh();
 				break;
+
+			case 'restrict_content':
+				// Fetch Tags.
+				$tags         = new ConvertKit_Resource_Tags( 'user_refresh_resource' );
+				$results_tags = $tags->refresh();
+
+				// Bail if an error occured.
+				if ( is_wp_error( $results_tags ) ) {
+					wp_send_json_error( $results_tags->get_error_message() );
+				}
+
+				// Fetch Products.
+				$products         = new ConvertKit_Resource_Products( 'user_refresh_resource' );
+				$results_products = $products->refresh();
+
+				// Bail if an error occured.
+				if ( is_wp_error( $results_products ) ) {
+					wp_send_json_error( $results_products->get_error_message() );
+				}
+
+				// Return resources.
+				wp_send_json_success(
+					array(
+						'tags'     => array_values( $results_tags ),
+						'products' => array_values( $results_products ),
+					)
+				);
+				// no break as wp_send_json_success terminates.
 
 			default:
 				$results = new WP_Error(
@@ -111,7 +139,7 @@ class ConvertKit_Admin_Refresh_Resources {
 		}
 
 		// Enqueue JS to perform AJAX request to refresh resources.
-		wp_enqueue_script( 'convertkit-admin-refresh-resources', CONVERTKIT_PLUGIN_URL . 'resources/backend/js/refresh-resources.js', array( 'jquery' ), CONVERTKIT_PLUGIN_VERSION, true );
+		wp_enqueue_script( 'convertkit-admin-refresh-resources', CONVERTKIT_PLUGIN_URL . 'resources/backend/js/refresh-resources.js', array(), CONVERTKIT_PLUGIN_VERSION, true );
 		wp_localize_script(
 			'convertkit-admin-refresh-resources',
 			'convertkit_admin_refresh_resources',

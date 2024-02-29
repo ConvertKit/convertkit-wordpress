@@ -61,6 +61,9 @@ document.addEventListener(
 					}
 				);
 
+				// Bind refresh resource event listeners.
+				convertKitRefreshResourcesInitEventListeners();
+
 			};
 		}
 

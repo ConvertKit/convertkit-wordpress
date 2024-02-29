@@ -98,13 +98,17 @@ class RefreshResourcesButtonCest
 		$I->fillSelect2Field($I, '#select2-wp-convertkit-tag-container', $_ENV['CONVERTKIT_API_TAG_NAME']);
 
 		// Click the Restrict Content refresh button.
-		$I->click('button.wp-convertkit-refresh-resources[data-resource="products"]');
+		$I->click('button.wp-convertkit-refresh-resources[data-resource="restrict_content"]');
 
 		// Wait for button to change its state from disabled.
-		$I->waitForElementVisible('button.wp-convertkit-refresh-resources[data-resource="products"]:not(:disabled)');
+		$I->waitForElementVisible('button.wp-convertkit-refresh-resources[data-resource="restrict_content"]:not(:disabled)');
 
-		// Change resource to value specified in the .env file, which should now be available.
-		// If the expected dropdown value does not exist in the Select2 field, this will fail the test.
+		// Confirm that the expected Tag is within the Tags option group and selectable.
+		$I->seeElementInDOM('select#wp-convertkit-restrict_content optgroup[data-resource="tags"] option[value="tag_' . $_ENV['CONVERTKIT_API_TAG_ID'] . '"]');
+		$I->fillSelect2Field($I, '#select2-wp-convertkit-restrict_content-container', $_ENV['CONVERTKIT_API_TAG_NAME']);
+
+		// Confirm that the expected Product is within the Products option group and selectable.
+		$I->seeElementInDOM('select#wp-convertkit-restrict_content optgroup[data-resource="products"] option[value="product_' . $_ENV['CONVERTKIT_API_PRODUCT_ID'] . '"]');
 		$I->fillSelect2Field($I, '#select2-wp-convertkit-restrict_content-container', $_ENV['CONVERTKIT_API_PRODUCT_NAME']);
 	}
 
@@ -170,14 +174,18 @@ class RefreshResourcesButtonCest
 		// If the expected dropdown value does not exist, this will fail the test.
 		$I->selectOption('#wp-convertkit-quick-edit-tag', $_ENV['CONVERTKIT_API_TAG_NAME']);
 
-		// Click the Products refresh button.
-		$I->click('button.wp-convertkit-refresh-resources[data-resource="products"]');
+		// Click the Restrict Content refresh button.
+		$I->click('button.wp-convertkit-refresh-resources[data-resource="restrict_content"]');
 
 		// Wait for button to change its state from disabled.
-		$I->waitForElementVisible('button.wp-convertkit-refresh-resources[data-resource="products"]:not(:disabled)');
+		$I->waitForElementVisible('button.wp-convertkit-refresh-resources[data-resource="restrict_content"]:not(:disabled)');
 
-		// Change resource to value specified in the .env file, which should now be available.
-		// If the expected dropdown value does not exist, this will fail the test.
+		// Confirm that the expected Tag is within the Tags option group and selectable.
+		$I->seeElementInDOM('#wp-convertkit-quick-edit-restrict_content optgroup[data-resource="tags"] option[value="tag_' . $_ENV['CONVERTKIT_API_TAG_ID'] . '"]');
+		$I->selectOption('#wp-convertkit-quick-edit-restrict_content', $_ENV['CONVERTKIT_API_TAG_NAME']);
+
+		// Confirm that the expected Product is within the Products option group and selectable.
+		$I->seeElementInDOM('#wp-convertkit-quick-edit-restrict_content optgroup[data-resource="products"] option[value="product_' . $_ENV['CONVERTKIT_API_PRODUCT_ID'] . '"]');
 		$I->selectOption('#wp-convertkit-quick-edit-restrict_content', $_ENV['CONVERTKIT_API_PRODUCT_NAME']);
 	}
 
@@ -253,14 +261,18 @@ class RefreshResourcesButtonCest
 		// If the expected dropdown value does not exist, this will fail the test.
 		$I->selectOption('#wp-convertkit-bulk-edit-tag', $_ENV['CONVERTKIT_API_TAG_NAME']);
 
-		// Click the Products refresh button.
-		$I->click('button.wp-convertkit-refresh-resources[data-resource="products"]');
+		// Click the Restrict Content refresh button.
+		$I->click('button.wp-convertkit-refresh-resources[data-resource="restrict_content"]');
 
 		// Wait for button to change its state from disabled.
-		$I->waitForElementVisible('button.wp-convertkit-refresh-resources[data-resource="products"]:not(:disabled)');
+		$I->waitForElementVisible('button.wp-convertkit-refresh-resources[data-resource="restrict_content"]:not(:disabled)');
 
-		// Change resource to value specified in the .env file, which should now be available.
-		// If the expected dropdown value does not exist, this will fail the test.
+		// Confirm that the expected Tag is within the Tags option group and selectable.
+		$I->seeElementInDOM('#wp-convertkit-bulk-edit-restrict_content optgroup[data-resource="tags"] option[value="tag_' . $_ENV['CONVERTKIT_API_TAG_ID'] . '"]');
+		$I->selectOption('#wp-convertkit-bulk-edit-restrict_content', $_ENV['CONVERTKIT_API_TAG_NAME']);
+
+		// Confirm that the expected Product is within the Products option group and selectable.
+		$I->seeElementInDOM('#wp-convertkit-bulk-edit-restrict_content optgroup[data-resource="products"] option[value="product_' . $_ENV['CONVERTKIT_API_PRODUCT_ID'] . '"]');
 		$I->selectOption('#wp-convertkit-bulk-edit-restrict_content', $_ENV['CONVERTKIT_API_PRODUCT_NAME']);
 	}
 
