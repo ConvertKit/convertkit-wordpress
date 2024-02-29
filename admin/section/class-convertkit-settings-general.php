@@ -71,12 +71,14 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 	}
 
 	/**
-	 * Deletes the access token from the Plugin's settings, if the user
+	 * Deletes the oAuth Access Token, Refresh Token and Expiry from the Plugin's settings, if the user
 	 * clicked the Disconnect button.
 	 *
-	 * @since   2.2.0
+	 * @since   2.5.0
 	 */
 	private function maybe_disconnect() {
+
+		// @TODO Nonce verification.
 
 		// Bail if no request to disconnect exists.
 		if ( ! array_key_exists( 'disconnect', $_REQUEST ) ) { // phpcs:ignore WordPress.Security.NonceVerification
@@ -87,6 +89,8 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 		$settings = new ConvertKit_Settings;
 		$settings->save( array(
 			'access_token' => '',
+			'refresh_token' => '',
+			'token_expires' => '',
 		) );
 
 		// Redirect to General screen, which will now show the Plugin's settings, because the Plugin

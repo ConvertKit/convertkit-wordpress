@@ -8,7 +8,7 @@
 
 /**
  * Registers oAuth integration that is be accessed at Settings > ConvertKit, when the Plugin
- * has no API Key, Secret or Access Token.
+ * has no API Key, Secret, Access Token or Refresh Token specified.
  *
  * @package ConvertKit
  * @author ConvertKit
