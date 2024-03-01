@@ -323,22 +323,44 @@ class ConvertKit_Resource_Forms extends ConvertKit_Resource {
 			return '';
 		}
 
-		// Prevent Siteground Speed Optimizer Plugin from attempting to combine this JS file with others.
-		add_filter(
-			'sgo_javascript_combine_excluded_external_paths',
-			function ( $excluded_paths ) use ( $id ) {
+		// If here, return Form <script> embed now, as we want the inline form to display at this specific point of the content.
 
-				$excluded_paths[] = esc_url( $this->resources[ $id ]['embed_js'] );
-				return $excluded_paths;
-
-			}
+		// Define script key-value pairs.
+		$script = array(
+			'async'    => true,
+			'data-uid' => $this->resources[ $id ]['uid'],
+			'src'      => $this->resources[ $id ]['embed_js'],
 		);
 
-		// If here, return Form <script> embed now, as we want the inline form to display at this specific point of the content.
-		// To prevent third party caching / performance Plugins moving this to the footer of the site, data- attributes are added:
-		// data-jetpack-boost="ignore": Ignore Jetpack Boost "Defer Non-Essential JavaScript" setting: https://jetpack.com/support/jetpack-boost/.
-		// data-no-defer="1": Ignore LiteSpeed Cache "Load JS Deferred" setting.
-		return '<script async data-uid="' . esc_attr( $this->resources[ $id ]['uid'] ) . '" src="' . esc_url( $this->resources[ $id ]['embed_js'] ) . '" data-jetpack-boost="ignore" data-no-defer="1"></script>';
+		/**
+		 * Filter the form <script> key/value pairs immediately before the script is output.
+		 *
+		 * @since   2.4.5
+		 *
+		 * @param   array   $script     Form script key/value pairs to output as <script> tag.
+		 */
+		$script = apply_filters( 'convertkit_resource_forms_output_script', $script );
+
+		// Build script output.
+		$output = '<script';
+		foreach ( $script as $attribute => $value ) {
+			// If the value is true, just output the attribute.
+			if ( $value === true ) {
+				$output .= ' ' . esc_attr( $attribute );
+				continue;
+			}
+
+			// Sanitize attribute and value.
+			$attribute = esc_attr( $attribute );
+			$value     = ( $attribute === 'src' ? esc_url( $value ) : esc_attr( $value ) );
+
+			// Output the attribute and value.
+			$output .= ' ' . $attribute . '="' . $value . '"';
+		}
+		$output .= '></script>';
+
+		// Return script output.
+		return $output;
 
 	}
 

@@ -48,6 +48,7 @@ require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-wp-convertkit.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-ajax.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-broadcasts-exporter.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-broadcasts-importer.php';
+require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-cache-plugins.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-cron.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-gutenberg.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-media-library.php';
@@ -70,7 +71,6 @@ require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-subscriber.php
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-term.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-user.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-widgets.php';
-require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-wp-rocket.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/blocks/class-convertkit-block.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/blocks/class-convertkit-block-broadcasts.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/blocks/class-convertkit-block-content.php';
