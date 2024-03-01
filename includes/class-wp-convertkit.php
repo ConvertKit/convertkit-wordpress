@@ -141,8 +141,8 @@ class WP_ConvertKit {
 			return;
 		}
 
-		$this->classes['output']    = new ConvertKit_Output();
-		$this->classes['wp_rocket'] = new ConvertKit_WP_Rocket();
+		$this->classes['cache_plugins'] = new ConvertKit_Cache_Plugins();
+		$this->classes['output']        = new ConvertKit_Output();
 
 		/**
 		 * Initialize integration classes for the frontend web site.
