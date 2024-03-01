@@ -222,7 +222,7 @@ class ConvertKit_Block_Content extends ConvertKit_Block {
 
 		// Bail if the API hasn't been configured.
 		$settings = new ConvertKit_Settings();
-		if ( ! $settings->has_api_key_and_secret() ) {
+		if ( ! $settings->is_authenticated() ) {
 			if ( $settings->debug_enabled() ) {
 				return '<!-- ConvertKit Custom Content: No API Key and Secret -->';
 			}

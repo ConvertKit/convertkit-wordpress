@@ -63,7 +63,7 @@ class ConvertKit_Subscriber {
 
 		// Bail if the API hasn't been configured.
 		$settings = new ConvertKit_Settings();
-		if ( ! $settings->has_api_key_and_secret() ) {
+		if ( ! $settings->is_authenticated() ) {
 			return new WP_Error(
 				'convertkit_subscriber_get_subscriber_id_from_request_error',
 				__( 'API Key and Secret not configured in Plugin Settings.', 'convertkit' )
@@ -106,7 +106,7 @@ class ConvertKit_Subscriber {
 
 		// Bail if the API hasn't been configured.
 		$settings = new ConvertKit_Settings();
-		if ( ! $settings->has_api_key_and_secret() ) {
+		if ( ! $settings->is_authenticated() ) {
 			return new WP_Error(
 				'convertkit_subscriber_get_subscriber_id_from_request_error',
 				__( 'API Key and Secret not configured in Plugin Settings.', 'convertkit' )

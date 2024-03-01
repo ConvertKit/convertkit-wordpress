@@ -298,7 +298,7 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 	public function render_before() {
 
 		// Initialize the API if an API Key and Secret is defined.
-		if ( ! $this->settings->has_api_key_and_secret() ) {
+		if ( ! $this->settings->is_authenticated() ) {
 			return;
 		}
 
@@ -340,7 +340,7 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 	public function account_name_callback() {
 
 		// Output a notice telling the user to enter their API Key and Secret if they haven't done so yet.
-		if ( ( ! $this->settings->has_api_key_and_secret() && ! $this->settings->has_access_token() ) || is_wp_error( $this->account ) ) {
+		if ( ! $this->settings->is_authenticated() || is_wp_error( $this->account ) ) {
 			echo '<p class="description">' . esc_html__( 'Add a valid API Key and Secret to get started', 'convertkit' ) . '</p>';
 			return;
 		}
@@ -352,7 +352,7 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 		);
 
 		// If an access token is used, display an option to disconnect.
-		if ( $this->settings->has_access_token() && ! $this->settings->has_api_key_and_secret() ) {
+		if ( $this->settings->has_access_token() && ! $this->settings->is_authenticated() ) {
 			$html .= sprintf(
 				'<br /><a href="%1$s" class="button button-primary">%2$s</a>',
 				esc_url(

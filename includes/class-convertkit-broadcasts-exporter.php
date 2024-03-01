@@ -58,7 +58,7 @@ class ConvertKit_Broadcasts_Exporter {
 
 		// Bail if no API credentials have been set.
 		$this->settings = new ConvertKit_Settings();
-		if ( ! $this->settings->has_api_key_and_secret() ) {
+		if ( ! $this->settings->is_authenticated() ) {
 			return;
 		}
 

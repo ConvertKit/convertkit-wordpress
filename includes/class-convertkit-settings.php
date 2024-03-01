@@ -226,7 +226,7 @@ class ConvertKit_Settings {
 	 *
 	 * @return  bool
 	 */
-	public function uses_oauth() {
+	public function has_access_and_refresh_token() {
 
 		return $this->has_access_token() && $this->has_refresh_token();
 
@@ -251,13 +251,13 @@ class ConvertKit_Settings {
 	 * - the API Key and Secret have been set in the Plugin settings,
 	 * - the Access Token and Refresh Token have been set in the Plugin settings
 	 *
-	 * @since   2.2.0
+	 * @since   2.5.0
 	 *
 	 * @return  bool
 	 */
 	public function is_authenticated() {
 
-		return ( $this->has_api_key() && $this->has_api_secret() ) || ( $this->has_access_token() && $this->has_refresh_token() );
+		return $this->has_api_key_and_secret() || $this->has_access_and_refresh_token();
 
 	}
 

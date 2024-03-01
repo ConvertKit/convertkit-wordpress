@@ -223,7 +223,7 @@ class ConvertKit_Admin_Setup_Wizard_Restrict_Content extends ConvertKit_Admin_Se
 		// This shouldn't happen, because the 'Add New Member Content' button is only displayed
 		// if valid credentials have been specified.
 		$settings = new ConvertKit_Settings();
-		if ( ! $settings->has_api_key_and_secret() ) {
+		if ( ! $settings->is_authenticated() ) {
 			wp_die( esc_html__( 'Add a valid API Key and Secret in the ConvertKit Plugin\'s settings to get started', 'convertkit' ) );
 		}
 

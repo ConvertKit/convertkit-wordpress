@@ -163,7 +163,7 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 
 			// Whether an API Key exists in the Plugin, and are the required resources (broadcasts) available.
 			// If no API Key is specified in the Plugin's settings, render the "No API Key" output.
-			'has_api_key'                       => $settings->has_api_key_and_secret(),
+			'has_api_key'                       => $settings->is_authenticated(),
 			'has_resources'                     => $posts->exist(),
 		);
 

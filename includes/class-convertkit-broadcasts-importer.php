@@ -64,7 +64,7 @@ class ConvertKit_Broadcasts_Importer {
 		}
 
 		// Bail if the Plugin API keys have not been configured.
-		if ( ! $settings->has_api_key_and_secret() ) {
+		if ( ! $settings->is_authenticated() ) {
 			return;
 		}
 

@@ -189,7 +189,7 @@ class ConvertKit_AJAX {
 
 		// Bail if the API hasn't been configured.
 		$settings = new ConvertKit_Settings();
-		if ( ! $settings->has_api_key_and_secret() ) {
+		if ( ! $settings->is_authenticated() ) {
 			wp_send_json_error( __( 'ConvertKit: API Keys not defined in Plugin Settings.', 'convertkit' ) );
 		}
 

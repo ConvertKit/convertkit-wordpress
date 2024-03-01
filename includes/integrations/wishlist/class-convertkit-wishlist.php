@@ -118,7 +118,7 @@ class ConvertKit_Wishlist {
 
 		// Bail if the API hasn't been configured.
 		$settings = new ConvertKit_Settings();
-		if ( ! $settings->has_api_key_and_secret() ) {
+		if ( ! $settings->is_authenticated() ) {
 			return false;
 		}
 
@@ -157,7 +157,7 @@ class ConvertKit_Wishlist {
 
 		// Bail if the API hasn't been configured.
 		$settings = new ConvertKit_Settings();
-		if ( ! $settings->has_api_key_and_secret() ) {
+		if ( ! $settings->is_authenticated() ) {
 			return false;
 		}
 
@@ -187,7 +187,7 @@ class ConvertKit_Wishlist {
 
 		// Bail if the API hasn't been configured.
 		$settings = new ConvertKit_Settings();
-		if ( ! $settings->has_api_key_and_secret() ) {
+		if ( ! $settings->is_authenticated() ) {
 			return false;
 		}
 

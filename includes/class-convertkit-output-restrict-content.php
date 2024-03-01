@@ -163,7 +163,7 @@ class ConvertKit_Output_Restrict_Content {
 		}
 
 		// If the Plugin API keys have not been configured, we can't get this subscriber's ID by email.
-		if ( ! $this->settings->has_api_key_and_secret() ) {
+		if ( ! $this->settings->is_authenticated() ) {
 			return;
 		}
 
@@ -260,7 +260,7 @@ class ConvertKit_Output_Restrict_Content {
 		}
 
 		// If the Plugin API keys have not been configured, we can't get this subscriber's ID by email.
-		if ( ! $this->settings->has_api_key_and_secret() ) {
+		if ( ! $this->settings->is_authenticated() ) {
 			return;
 		}
 
@@ -555,7 +555,7 @@ class ConvertKit_Output_Restrict_Content {
 
 		// If the Plugin API keys have not been configured, we can't determine the validity of this subscriber ID
 		// or which resource(s) they have access to.
-		if ( ! $this->settings->has_api_key_and_secret() ) {
+		if ( ! $this->settings->is_authenticated() ) {
 			return false;
 		}
 

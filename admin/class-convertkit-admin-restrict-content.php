@@ -169,7 +169,7 @@ class ConvertKit_Admin_Restrict_Content {
 
 		// If no API credentials have been set, don't output the button.
 		$settings = new ConvertKit_Settings();
-		if ( ! $settings->has_api_key_and_secret() ) {
+		if ( ! $settings->is_authenticated() ) {
 			return $views;
 		}
 
@@ -212,7 +212,7 @@ class ConvertKit_Admin_Restrict_Content {
 
 		// Don't output filters if API credentials have not been defined in the Plugin's settings.
 		$settings = new ConvertKit_Settings();
-		if ( ! $settings->has_api_key_and_secret() ) {
+		if ( ! $settings->is_authenticated() ) {
 			return;
 		}
 
