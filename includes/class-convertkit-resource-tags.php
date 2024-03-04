@@ -39,10 +39,10 @@ class ConvertKit_Resource_Tags extends ConvertKit_Resource {
 
 		// Initialize the API if the API Key and Secret have been defined in the Plugin Settings.
 		$settings = new ConvertKit_Settings();
-		if ( $settings->is_authenticated() ) {
+		if ( $settings->has_access_and_refresh_token() ) {
 			$this->api = new ConvertKit_API(
-				$settings->get_api_key(),
-				$settings->get_api_secret(),
+				$settings->get_access_token(),
+				$settings->get_refresh_token(),
 				$settings->debug_enabled(),
 				$context
 			);

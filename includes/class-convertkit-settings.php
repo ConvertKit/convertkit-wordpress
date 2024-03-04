@@ -61,109 +61,6 @@ class ConvertKit_Settings {
 	}
 
 	/**
-	 * Returns the API Key Plugin setting.
-	 *
-	 * @since   1.9.6
-	 *
-	 * @return  string
-	 */
-	public function get_api_key() {
-
-		// Return API Key from constant, if defined.
-		if ( defined( 'CONVERTKIT_API_KEY' ) ) {
-			return CONVERTKIT_API_KEY;
-		}
-
-		// Return API Key from settings.
-		return $this->settings['api_key'];
-
-	}
-
-	/**
-	 * Returns whether the API Key has been set in the Plugin settings.
-	 *
-	 * @since   1.9.6
-	 *
-	 * @return  bool
-	 */
-	public function has_api_key() {
-
-		return ( ! empty( $this->get_api_key() ) ? true : false );
-
-	}
-
-	/**
-	 * Returns whether the API Key is stored as a constant in the wp-config.php file.
-	 *
-	 * @since   1.9.6
-	 *
-	 * @return  bool
-	 */
-	public function is_api_key_a_constant() {
-
-		return defined( 'CONVERTKIT_API_KEY' );
-
-	}
-
-	/**
-	 * Returns the API Secret Plugin setting.
-	 *
-	 * @since   1.9.6
-	 *
-	 * @return  string
-	 */
-	public function get_api_secret() {
-
-		// Return API Secret from constant, if defined.
-		if ( defined( 'CONVERTKIT_API_SECRET' ) ) {
-			return CONVERTKIT_API_SECRET;
-		}
-
-		// Return API Secret from settings.
-		return $this->settings['api_secret'];
-
-	}
-
-	/**
-	 * Returns whether the API Secret has been set in the Plugin settings.
-	 *
-	 * @since   1.9.6
-	 *
-	 * @return  bool
-	 */
-	public function has_api_secret() {
-
-		return ( ! empty( $this->get_api_secret() ) ? true : false );
-
-	}
-
-	/**
-	 * Returns whether the API Secret is stored as a constant in the wp-config.php file.
-	 *
-	 * @since   1.9.6
-	 *
-	 * @return  bool
-	 */
-	public function is_api_secret_a_constant() {
-
-		return defined( 'CONVERTKIT_API_SECRET' );
-
-	}
-
-	/**
-	 * Returns whether the API Key and Secret have been set in the Plugin settings.
-	 *
-	 * @since   1.9.6
-	 *
-	 * @return  bool
-	 */
-	public function has_api_key_and_secret() {
-
-		return $this->has_api_key() && $this->has_api_secret();
-
-	}
-
-	/**
 	 * Returns the Access Token Plugin setting.
 	 *
 	 * @since   2.5.0
@@ -243,21 +140,6 @@ class ConvertKit_Settings {
 
 		// Return Token Expiry from settings.
 		return $this->settings['token_expires'];
-
-	}
-
-	/**
-	 * Returns whether the Plugin is authenticated with ConvertKit, by checking either:
-	 * - the API Key and Secret have been set in the Plugin settings,
-	 * - the Access Token and Refresh Token have been set in the Plugin settings
-	 *
-	 * @since   2.5.0
-	 *
-	 * @return  bool
-	 */
-	public function is_authenticated() {
-
-		return $this->has_api_key_and_secret() || $this->has_access_and_refresh_token();
 
 	}
 

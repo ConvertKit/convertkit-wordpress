@@ -189,12 +189,12 @@ class ConvertKit_AJAX {
 
 		// Bail if the API hasn't been configured.
 		$settings = new ConvertKit_Settings();
-		if ( ! $settings->is_authenticated() ) {
+		if ( ! $settings->has_access_and_refresh_token() ) {
 			wp_send_json_error( __( 'ConvertKit: API Keys not defined in Plugin Settings.', 'convertkit' ) );
 		}
 
 		// Initialize the API.
-		$api = new ConvertKit_API( $settings->get_api_key(), $settings->get_api_secret(), $settings->debug_enabled() );
+		$api = new ConvertKit_API( $settings->get_access_token(), $settings->get_refresh_token(), $settings->debug_enabled() );
 
 		// Get subscriber's email address by subscriber ID.
 		$subscriber = $api->get_subscriber_by_id( $subscriber_id );

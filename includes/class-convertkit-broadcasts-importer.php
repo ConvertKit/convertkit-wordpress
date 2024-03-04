@@ -64,12 +64,12 @@ class ConvertKit_Broadcasts_Importer {
 		}
 
 		// Bail if the Plugin API keys have not been configured.
-		if ( ! $settings->is_authenticated() ) {
+		if ( ! $settings->has_access_and_refresh_token() ) {
 			return;
 		}
 
 		// Initialize the API.
-		$api = new ConvertKit_API( $settings->get_api_key(), $settings->get_api_secret(), $settings->debug_enabled() );
+		$api = new ConvertKit_API( $settings->get_access_token(), $settings->get_refresh_token(), $settings->debug_enabled() );
 
 		// Check that we're using the ConvertKit WordPress Libraries 1.3.8 or higher.
 		// If another ConvertKit Plugin is active and out of date, its libraries might

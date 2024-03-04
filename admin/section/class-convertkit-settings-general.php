@@ -156,31 +156,6 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 			$this->name
 		);
 
-		// Only display API Key and Secret fields if no access token exists.
-		if ( ! $this->settings->has_access_token() ) {
-			add_settings_field(
-				'api_key',
-				__( 'API Key', 'convertkit' ),
-				array( $this, 'api_key_callback' ),
-				$this->settings_key,
-				$this->name,
-				array(
-					'label_for' => 'api_key',
-				)
-			);
-
-			add_settings_field(
-				'api_secret',
-				__( 'API Secret', 'convertkit' ),
-				array( $this, 'api_secret_callback' ),
-				$this->settings_key,
-				$this->name,
-				array(
-					'label_for' => 'api_secret',
-				)
-			);
-		}
-
 		foreach ( convertkit_get_supported_post_types() as $supported_post_type ) {
 			// Get Post Type's Label.
 			$post_type = get_post_type_object( $supported_post_type );
@@ -298,13 +273,13 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 	public function render_before() {
 
 		// Initialize the API if an API Key and Secret is defined.
-		if ( ! $this->settings->is_authenticated() ) {
+		if ( ! $this->settings->has_access_and_refresh_token() ) {
 			return;
 		}
 
 		$this->api = new ConvertKit_API(
-			$this->settings->get_api_key(),
-			$this->settings->get_api_secret(),
+			$this->settings->get_access_token(),
+			$this->settings->get_refresh_token(),
 			$this->settings->debug_enabled(),
 			'settings'
 		);
@@ -340,7 +315,7 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 	public function account_name_callback() {
 
 		// Output a notice telling the user to enter their API Key and Secret if they haven't done so yet.
-		if ( ! $this->settings->is_authenticated() || is_wp_error( $this->account ) ) {
+		if ( ! $this->settings->has_access_and_refresh_token() || is_wp_error( $this->account ) ) {
 			echo '<p class="description">' . esc_html__( 'Add a valid API Key and Secret to get started', 'convertkit' ) . '</p>';
 			return;
 		}
@@ -352,7 +327,7 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 		);
 
 		// If an access token is used, display an option to disconnect.
-		if ( $this->settings->has_access_token() && ! $this->settings->is_authenticated() ) {
+		if ( $this->settings->has_access_token() && ! $this->settings->has_access_and_refresh_token() ) {
 			$html .= sprintf(
 				'<br /><a href="%1$s" class="button button-primary">%2$s</a>',
 				esc_url(
@@ -367,82 +342,6 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 
 		// Output has already been run through escaping functions above.
 		echo $html; // phpcs:ignore WordPress.Security.EscapeOutput
-	}
-
-	/**
-	 * Renders the input for the API Key setting.
-	 *
-	 * @since   1.9.6
-	 */
-	public function api_key_callback() {
-
-		// If the API Key is stored as a constant, it cannot be edited here.
-		if ( $this->settings->is_api_key_a_constant() ) {
-			echo $this->get_masked_value( // phpcs:ignore WordPress.Security.EscapeOutput
-				$this->settings->get_api_key(),
-				esc_html__( 'Your API Key has been defined in your wp-config.php file. For security, it is not displayed here.', 'convertkit' )
-			);
-			return;
-		}
-
-		// Output field.
-		echo $this->get_text_field( // phpcs:ignore WordPress.Security.EscapeOutput
-			'api_key',
-			esc_attr( $this->settings->get_api_key() ),
-			array(
-				sprintf(
-					/* translators: %1$s: Link to ConvertKit Account */
-					esc_html__( '%1$s Required for proper plugin function.', 'convertkit' ),
-					'<a href="' . esc_url( convertkit_get_api_key_url() ) . '" target="_blank">' . esc_html__( 'Get your ConvertKit API Key.', 'convertkit' ) . '</a>'
-				),
-				sprintf(
-					/* translators: Account, %1$s: wp-config.php, %2$s: <code> block for API Key definition */
-					esc_html__( 'Alternatively specify your API Key in the %1$s file using %2$s', 'convertkit' ),
-					'<code>wp-config.php</code>',
-					'<code>define(\'CONVERTKIT_API_KEY\', \'your-api-key\');</code>'
-				),
-			),
-			array( 'regular-text', 'code' )
-		);
-
-	}
-
-	/**
-	 * Renders the input for the API Secret setting.
-	 *
-	 * @since   1.9.6
-	 */
-	public function api_secret_callback() {
-
-		// If the API Secret is stored as a constant, it cannot be edited here.
-		if ( $this->settings->is_api_secret_a_constant() ) {
-			echo $this->get_masked_value( // phpcs:ignore WordPress.Security.EscapeOutput
-				$this->settings->get_api_secret(),
-				esc_html__( 'Your API Secret has been defined in your wp-config.php file. For security, it is not displayed here.', 'convertkit' )
-			);
-			return;
-		}
-
-		// Output field.
-		echo $this->get_text_field( // phpcs:ignore WordPress.Security.EscapeOutput
-			'api_secret',
-			esc_attr( $this->settings->get_api_secret() ),
-			array(
-				sprintf(
-					/* translators: %1$s: Link to ConvertKit Account */
-					esc_html__( '%1$s Required for proper plugin function.', 'convertkit' ),
-					'<a href="' . esc_url( convertkit_get_api_key_url() ) . '" target="_blank">' . esc_html__( 'Get your ConvertKit API Secret.', 'convertkit' ) . '</a>'
-				),
-				sprintf(
-					/* translators: Account, %1$s: wp-config.php, %2$s: <code> block for API Secret definition */
-					esc_html__( 'Alternatively specify your API Secret in the %1$s file using %2$s', 'convertkit' ),
-					'<code>wp-config.php</code>',
-					'<code>define(\'CONVERTKIT_API_SECRET\', \'your-api-secret\');</code>'
-				),
-			),
-			array( 'regular-text', 'code' )
-		);
-
 	}
 
 	/**
@@ -657,10 +556,6 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 
 		// Call parent class to merge settings with defaults.
 		$settings = parent::sanitize_settings( $settings );
-
-		// Remove whitespace, tabs and line ends from the API Key and Secret.
-		$settings['api_key']    = preg_replace( '/\s+/', '', $settings['api_key'] );
-		$settings['api_secret'] = preg_replace( '/\s+/', '', $settings['api_secret'] );
 
 		// If a Form or Landing Page was specified, request a review.
 		// This can safely be called multiple times, as the review request

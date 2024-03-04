@@ -72,7 +72,8 @@ class ConvertKit_Settings_oAuth extends ConvertKit_Settings_Base {
 		$api = new ConvertKit_API();
 		$api->set_client_id( CONVERTKIT_OAUTH_CLIENT_ID );
 		$api->set_client_secret( CONVERTKIT_OAUTH_CLIENT_SECRET ); // currently in wp-config.php for security.
-		$result = $api->get_access_token( $authorization_code, admin_url( 'options-general.php?page=_wp_convertkit_settings' ) );
+		$api->set_redirect_uri( admin_url( 'options-general.php?page=_wp_convertkit_settings' ) );
+		$result = $api->get_access_token( $authorization_code );
 
 		// PKCE method, not yet supported.
 		/*
@@ -96,11 +97,6 @@ class ConvertKit_Settings_oAuth extends ConvertKit_Settings_Base {
 		// Store Access Token, Refresh Token and expiry.
 		$settings = new ConvertKit_Settings;
 		$settings->save( array(
-			// Remove any existing API Key and Secret.
-			'api_key' 		=> '',
-			'api_secret' 	=> '',
-
-			// Add OAuth Tokens and Expiry.
 			'access_token'  => $result['access_token'],
 			'refresh_token' => $result['refresh_token'],
 			'token_expires' => ( $result['created_at'] + $result['expires_in'] ),
@@ -137,7 +133,8 @@ class ConvertKit_Settings_oAuth extends ConvertKit_Settings_Base {
 		// Determine the oAuth URL to begin the authorization process.
 		$api = new ConvertKit_API();
 		$api->set_client_id( CONVERTKIT_OAUTH_CLIENT_ID );
-		$oauth_url = $api->get_oauth_url( admin_url( 'options-general.php?page=_wp_convertkit_settings' ) );
+		$api->set_redirect_uri( admin_url( 'options-general.php?page=_wp_convertkit_settings' ) );
+		$oauth_url = $api->get_oauth_url();
 
 		/**
 		 * Performs actions prior to rendering the settings form.

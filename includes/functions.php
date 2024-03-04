@@ -361,26 +361,6 @@ function convertkit_get_billing_url() {
 }
 
 /**
- * Helper method to return the URL the user needs to visit on the ConvertKit app to obtain their API Key and Secret.
- *
- * @since   1.9.6.1
- *
- * @return  string  ConvertKit App URL.
- */
-function convertkit_get_api_key_url() {
-
-	return add_query_arg(
-		array(
-			'utm_source'  => 'wordpress',
-			'utm_term'    => get_locale(),
-			'utm_content' => 'convertkit',
-		),
-		'https://app.convertkit.com/account_settings/advanced_settings/'
-	);
-
-}
-
-/**
  * Helper method to return the URL the user needs to visit on the ConvertKit app to create a new Form or Landing Page.
  *
  * @since   2.2.3
