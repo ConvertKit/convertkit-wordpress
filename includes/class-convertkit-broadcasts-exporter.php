@@ -217,6 +217,9 @@ class ConvertKit_Broadcasts_Exporter {
 
 		// Initialize the API.
 		$api = new ConvertKit_API( $this->settings->get_access_token(), $this->settings->get_refresh_token(), $this->settings->debug_enabled() );
+		$api->set_client_id( CONVERTKIT_OAUTH_CLIENT_ID );
+		$api->set_client_secret( CONVERTKIT_OAUTH_CLIENT_SECRET ); // currently in wp-config.php for security.
+		$api->set_redirect_uri( admin_url( 'options-general.php?page=_wp_convertkit_settings' ) );
 
 		// Create draft Broadcast in ConvertKit.
 		$result = $api->broadcast_create(

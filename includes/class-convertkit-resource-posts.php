@@ -83,6 +83,9 @@ class ConvertKit_Resource_Posts extends ConvertKit_Resource {
 				$settings->debug_enabled(),
 				$context
 			);
+			$this->api->set_client_id( CONVERTKIT_OAUTH_CLIENT_ID );
+			$this->api->set_client_secret( CONVERTKIT_OAUTH_CLIENT_SECRET ); // currently in wp-config.php for security.
+			$this->api->set_redirect_uri( admin_url( 'options-general.php?page=_wp_convertkit_settings' ) );
 		}
 
 		// Call parent initialization function.

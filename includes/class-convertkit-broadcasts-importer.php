@@ -70,6 +70,9 @@ class ConvertKit_Broadcasts_Importer {
 
 		// Initialize the API.
 		$api = new ConvertKit_API( $settings->get_access_token(), $settings->get_refresh_token(), $settings->debug_enabled() );
+		$api->set_client_id( CONVERTKIT_OAUTH_CLIENT_ID );
+		$api->set_client_secret( CONVERTKIT_OAUTH_CLIENT_SECRET ); // currently in wp-config.php for security.
+		$api->set_redirect_uri( admin_url( 'options-general.php?page=_wp_convertkit_settings' ) );
 
 		// Check that we're using the ConvertKit WordPress Libraries 1.3.8 or higher.
 		// If another ConvertKit Plugin is active and out of date, its libraries might

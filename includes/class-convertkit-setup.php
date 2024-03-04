@@ -161,6 +161,9 @@ class ConvertKit_Setup {
 			$convertkit_settings->debug_enabled(),
 			'setup'
 		);
+		$api->set_client_id( CONVERTKIT_OAUTH_CLIENT_ID );
+		$api->set_client_secret( CONVERTKIT_OAUTH_CLIENT_SECRET ); // currently in wp-config.php for security.
+		$api->set_redirect_uri( admin_url( 'options-general.php?page=_wp_convertkit_settings' ) );
 
 		// Get form mappings.
 		$mappings = $api->get_subscription_forms();

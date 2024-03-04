@@ -338,6 +338,9 @@ class ConvertKit_Block_Form extends ConvertKit_Block {
 		if ( is_wp_error( $form ) ) {
 			// Initialize the API.
 			$api = new ConvertKit_API( $settings->get_access_token(), $settings->get_refresh_token(), $settings->debug_enabled(), 'output_form' );
+			$api->set_client_id( CONVERTKIT_OAUTH_CLIENT_ID );
+			$api->set_client_secret( CONVERTKIT_OAUTH_CLIENT_SECRET ); // currently in wp-config.php for security.
+			$api->set_redirect_uri( admin_url( 'options-general.php?page=_wp_convertkit_settings' ) );
 
 			// Return Legacy Form HTML from the API, which bypasses any internal Plugin check to see if the Form ID exists.
 			$form = $api->get_form_html( $form_id );

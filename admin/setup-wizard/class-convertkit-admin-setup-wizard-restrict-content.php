@@ -224,7 +224,7 @@ class ConvertKit_Admin_Setup_Wizard_Restrict_Content extends ConvertKit_Admin_Se
 		// if valid credentials have been specified.
 		$settings = new ConvertKit_Settings();
 		if ( ! $settings->has_access_and_refresh_token() ) {
-			wp_die( esc_html__( 'Add a valid API Key and Secret in the ConvertKit Plugin\'s settings to get started', 'convertkit' ) );
+			wp_die( esc_html__( 'Please connect the ConvertKit Plugin to your ConvertKit account to get started', 'convertkit' ) );
 		}
 
 		// Bail if the Post Type isn't supported.

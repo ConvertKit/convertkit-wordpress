@@ -283,6 +283,9 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 			$this->settings->debug_enabled(),
 			'settings'
 		);
+		$this->api->set_client_id( CONVERTKIT_OAUTH_CLIENT_ID );
+		$this->api->set_client_secret( CONVERTKIT_OAUTH_CLIENT_SECRET ); // currently in wp-config.php for security.
+		$this->api->set_redirect_uri( admin_url( 'options-general.php?page=_wp_convertkit_settings' ) );
 
 		// Get Account Details, which we'll use in account_name_callback(), but also lets us test
 		// whether the API credentials are valid.
@@ -316,7 +319,7 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 
 		// Output a notice telling the user to enter their API Key and Secret if they haven't done so yet.
 		if ( ! $this->settings->has_access_and_refresh_token() || is_wp_error( $this->account ) ) {
-			echo '<p class="description">' . esc_html__( 'Add a valid API Key and Secret to get started', 'convertkit' ) . '</p>';
+			echo '<p class="description">' . esc_html__( 'Please connect the ConvertKit Plugin to your ConvertKit account to get started', 'convertkit' ) . '</p>';
 			return;
 		}
 
@@ -363,11 +366,11 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 			$landing_pages = new ConvertKit_Resource_Landing_Pages( 'settings' );
 			$landing_pages->refresh();
 
-			$posts = new ConvertKit_Resource_Posts( 'settings' );
-			$posts->refresh();
+			//$posts = new ConvertKit_Resource_Posts( 'settings' );
+			//$posts->refresh();
 
-			$products = new ConvertKit_Resource_Products( 'settings' );
-			$products->refresh();
+			//$products = new ConvertKit_Resource_Products( 'settings' );
+			//$products->refresh();
 
 			$tags = new ConvertKit_Resource_Tags( 'settings' );
 			$tags->refresh();

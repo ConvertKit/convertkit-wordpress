@@ -232,6 +232,9 @@ class ConvertKit_Block_Content extends ConvertKit_Block {
 
 		// Initialize the API.
 		$api = new ConvertKit_API( $settings->get_access_token(), $settings->get_refresh_token(), $settings->debug_enabled(), 'output_content' );
+		$api->set_client_id( CONVERTKIT_OAUTH_CLIENT_ID );
+		$api->set_client_secret( CONVERTKIT_OAUTH_CLIENT_SECRET ); // currently in wp-config.php for security.
+		$api->set_redirect_uri( admin_url( 'options-general.php?page=_wp_convertkit_settings' ) );
 
 		// Get the subscriber's tags, to see if they subscribed to this tag.
 		$tags = $api->get_subscriber_tags( $subscriber_id );

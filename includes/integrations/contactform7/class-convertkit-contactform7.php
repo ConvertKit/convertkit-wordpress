@@ -121,6 +121,9 @@ class ConvertKit_ContactForm7 {
 		// If here, subscribe the user to the ConvertKit Form.
 		// Initialize the API.
 		$api = new ConvertKit_API( $settings->get_access_token(), $settings->get_refresh_token(), $settings->debug_enabled(), 'contact_form_7' );
+		$api->set_client_id( CONVERTKIT_OAUTH_CLIENT_ID );
+		$api->set_client_secret( CONVERTKIT_OAUTH_CLIENT_SECRET ); // currently in wp-config.php for security.
+		$api->set_redirect_uri( admin_url( 'options-general.php?page=_wp_convertkit_settings' ) );
 
 		// Send request.
 		$api->form_subscribe( $convertkit_form_id, $email, $first_name );

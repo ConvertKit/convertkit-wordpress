@@ -169,6 +169,9 @@ class ConvertKit_Output_Restrict_Content {
 
 		// Initialize the API.
 		$this->api = new ConvertKit_API( $this->settings->get_access_token(), $this->settings->get_refresh_token(), $this->settings->debug_enabled() );
+		$this->api->set_client_id( CONVERTKIT_OAUTH_CLIENT_ID );
+		$this->api->set_client_secret( CONVERTKIT_OAUTH_CLIENT_SECRET ); // currently in wp-config.php for security.
+		$this->api->set_redirect_uri( admin_url( 'options-general.php?page=_wp_convertkit_settings' ) );
 
 		// Sanitize inputs.
 		$email               = sanitize_text_field( $_REQUEST['convertkit_email'] );
@@ -270,6 +273,9 @@ class ConvertKit_Output_Restrict_Content {
 
 		// Initialize the API.
 		$this->api = new ConvertKit_API( $this->settings->get_access_token(), $this->settings->get_refresh_token(), $this->settings->debug_enabled() );
+		$this->api->set_client_id( CONVERTKIT_OAUTH_CLIENT_ID );
+		$this->api->set_client_secret( CONVERTKIT_OAUTH_CLIENT_SECRET ); // currently in wp-config.php for security.
+		$this->api->set_redirect_uri( admin_url( 'options-general.php?page=_wp_convertkit_settings' ) );
 
 		// Verify the token and subscriber code.
 		$subscriber_id = $this->api->subscriber_authentication_verify(
@@ -739,6 +745,9 @@ class ConvertKit_Output_Restrict_Content {
 
 		// Initialize the API.
 		$this->api = new ConvertKit_API( $this->settings->get_access_token(), $this->settings->get_refresh_token(), $this->settings->debug_enabled() );
+		$this->api->set_client_id( CONVERTKIT_OAUTH_CLIENT_ID );
+		$this->api->set_client_secret( CONVERTKIT_OAUTH_CLIENT_SECRET ); // currently in wp-config.php for security.
+		$this->api->set_redirect_uri( admin_url( 'options-general.php?page=_wp_convertkit_settings' ) );
 
 		// Depending on the resource type, determine if the subscriber has access to it.
 		// This is deliberately a switch statement, because we will likely add in support

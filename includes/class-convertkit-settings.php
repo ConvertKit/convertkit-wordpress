@@ -45,6 +45,9 @@ class ConvertKit_Settings {
 			$this->settings = array_merge( $this->get_defaults(), $settings );
 		}
 
+		// Update Access Token when refreshed by the API class.
+		add_action( 'convertkit_api_refresh_token', array( $this, 'update_credentials' ), 10, 2 );
+
 	}
 
 	/**
@@ -296,6 +299,25 @@ class ConvertKit_Settings {
 	}
 
 	/**
+	 * Saves the new access token, refresh token and its expiry when the API
+	 * class automatically refreshes an outdated access token.
+	 * 
+	 * @since 	2.5.0
+	 * 
+	 * @param 	array 	$result 	New Access Token, Refresh Token and Expiry.
+	 * @param 	string  $client_id  OAuth Client ID.
+	 */
+	public function update_credentials( $result, $client_id ) {
+
+		$this->save( array(
+			'access_token'  => $result['access_token'],
+			'refresh_token' => $result['refresh_token'],
+			'token_expires' => ( $result['created_at'] + $result['expires_in'] ),
+		) );
+
+	}
+
+	/**
 	 * Saves the given array of settings to the WordPress options table.
 	 *
 	 * @since   1.9.8.4
@@ -305,6 +327,9 @@ class ConvertKit_Settings {
 	public function save( $settings ) {
 
 		update_option( self::SETTINGS_NAME, array_merge( $this->get(), $settings ) );
+
+		// Reload settings in class, to reflect changes.
+		$this->settings = get_option( self::SETTINGS_NAME );
 
 	}
 

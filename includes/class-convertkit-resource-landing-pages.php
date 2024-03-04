@@ -46,6 +46,9 @@ class ConvertKit_Resource_Landing_Pages extends ConvertKit_Resource {
 				$settings->debug_enabled(),
 				$context
 			);
+			$this->api->set_client_id( CONVERTKIT_OAUTH_CLIENT_ID );
+			$this->api->set_client_secret( CONVERTKIT_OAUTH_CLIENT_SECRET ); // currently in wp-config.php for security.
+			$this->api->set_redirect_uri( admin_url( 'options-general.php?page=_wp_convertkit_settings' ) );
 		}
 
 		// Call parent initialization function.
@@ -65,6 +68,9 @@ class ConvertKit_Resource_Landing_Pages extends ConvertKit_Resource {
 
 		// Setup API.
 		$api      = new ConvertKit_API( false, false, true, 'output_landing_page' );
+		$api->set_client_id( CONVERTKIT_OAUTH_CLIENT_ID );
+		$api->set_client_secret( CONVERTKIT_OAUTH_CLIENT_SECRET ); // currently in wp-config.php for security.
+		$api->set_redirect_uri( admin_url( 'options-general.php?page=_wp_convertkit_settings' ) );
 		$settings = new ConvertKit_Settings();
 
 		// If the ID is a URL, this is a Legacy Landing Page defined for use on this Page
