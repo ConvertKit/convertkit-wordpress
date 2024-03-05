@@ -133,8 +133,7 @@ class ConvertKit_Admin_Setup_Wizard_Plugin extends ConvertKit_Admin_Setup_Wizard
 			2 => array(
 				'name'        => __( 'Connect Account', 'convertkit' ),
 				'next_button' => array(
-					//'link' 	=> $this->api->get_oauth_url( admin_url( 'index.php?page=convertkit-setup&step=3&_wpnonce=' . wp_create_nonce( $this->page_name ) ) ),
-					'link' 	=> admin_url( 'index.php?page=convertkit-setup&step=3&_wpnonce=' . wp_create_nonce( $this->page_name ) . '&code=authcode&code_verifier=codeverifier' ),
+					'link' 	=> $this->api->get_oauth_url(),
 					'label' => __( 'Connect', 'convertkit' ),
 				),
 			),
@@ -230,15 +229,12 @@ class ConvertKit_Admin_Setup_Wizard_Plugin extends ConvertKit_Admin_Setup_Wizard
 		// Depending on the step, process the form data.
 		switch ( $step ) {
 			case 3:
-				// @TODO Exchange the authorization code and verifier for a long lived access token.
-				$result = 'example-access-token';
-				//$result = new WP_Error( 'example_error', 'You did not authorize this application. Please try again.' );
-				/*
-				$api = new ConvertKit_API();
-				$api->set_client_id( CONVERTKIT_OAUTH_CLIENT_ID );
-				$access_token = $api->get_access_token( $code_verifier, $authorization_code );
-				*/
+				// Sanitize token.
+				$authorization_code = sanitize_text_field( $_REQUEST['code'] ); // phpcs:ignore WordPress.Security.NonceVerification
 				
+				// Exchange the authorization code and verifier for an access token.
+				$result = $this->api->get_access_token( $authorization_code );
+
 				// Show an error message if Account Details could not be fetched e.g. API credentials supplied are invalid.
 				if ( is_wp_error( $result ) ) {
 					// Decrement the step.
@@ -247,14 +243,13 @@ class ConvertKit_Admin_Setup_Wizard_Plugin extends ConvertKit_Admin_Setup_Wizard
 					return;
 				}
 
-				// If here, API credentials are valid.
-				// Save them.
-				$settings = new ConvertKit_Settings();
-				$settings->save(
-					array(
-						'access_token' => $result,
-					)
-				);
+				// Store Access Token, Refresh Token and expiry.
+				$settings = new ConvertKit_Settings;
+				$settings->save( array(
+					'access_token'  => $result['access_token'],
+					'refresh_token' => $result['refresh_token'],
+					'token_expires' => ( $result['created_at'] + $result['expires_in'] ),
+				) );
 				break;
 
 			case 4:
