@@ -180,7 +180,7 @@ class ConvertKit_Admin_Setup_Wizard_Plugin extends ConvertKit_Admin_Setup_Wizard
 
 	/**
 	 * Redirects to the setup screen if a transient was created on Plugin activation,
-	 * and the Plugin has no API Key and Secret configured.
+	 * and the Plugin has no Access Token configured.
 	 *
 	 * @since   1.9.8.4
 	 */
@@ -230,7 +230,7 @@ class ConvertKit_Admin_Setup_Wizard_Plugin extends ConvertKit_Admin_Setup_Wizard
 		switch ( $step ) {
 			case 3:
 				// Sanitize token.
-				$authorization_code = sanitize_text_field( $_REQUEST['code'] ); // phpcs:ignore WordPress.Security.NonceVerification
+				$authorization_code = sanitize_text_field( $_REQUEST['code'] );
 				
 				// Exchange the authorization code and verifier for an access token.
 				$result = $this->api->get_access_token( $authorization_code );
@@ -286,7 +286,7 @@ class ConvertKit_Admin_Setup_Wizard_Plugin extends ConvertKit_Admin_Setup_Wizard
 				// If this wizard is being served in a modal window, we can exit after obtaining valid API credentials.
 				$this->maybe_close_modal();
 
-				// Re-load settings class now that the API Key and Secret has been defined.
+				// Re-load settings class now that the Access Token has been defined.
 				$this->settings = new ConvertKit_Settings();
 
 				// Fetch Forms.

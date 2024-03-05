@@ -44,7 +44,7 @@ class ConvertKit_AJAX {
 	 *
 	 * Typically used when a refresh button in a block has been pressed when
 	 * convertKitGutenbergDisplayBlockNoticeWithLink() is called, because either
-	 * no API keys were specified, or no resources exist in ConvertKit.
+	 * no Access Token is specified, or no resources exist in ConvertKit.
 	 *
 	 * @since   2.2.6
 	 */
@@ -190,7 +190,7 @@ class ConvertKit_AJAX {
 		// Bail if the API hasn't been configured.
 		$settings = new ConvertKit_Settings();
 		if ( ! $settings->has_access_and_refresh_token() ) {
-			wp_send_json_error( __( 'ConvertKit: API Keys not defined in Plugin Settings.', 'convertkit' ) );
+			wp_send_json_error( __( 'ConvertKit: Access Token not defined in Plugin Settings.', 'convertkit' ) );
 		}
 
 		// Initialize the API.

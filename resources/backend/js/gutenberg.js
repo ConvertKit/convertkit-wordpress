@@ -512,7 +512,7 @@ function convertKitGutenbergRegisterBlock( block ) {
 		 * Typically used for displaying a modal version of the Setup Wizard, where the
 		 * user clicks the 'click here to add your API Key' link in a block, and then
 		 * enters their API Key and Secret.  Will be used to show the ConvertKit
-		 * oAuth window in the future.
+		 * OAuth window in the future.
 		 *
 		 * @since 	2.2.6
 		 *

@@ -162,7 +162,7 @@ class ConvertKit_Output_Restrict_Content {
 			return;
 		}
 
-		// If the Plugin API keys have not been configured, we can't get this subscriber's ID by email.
+		// If the Plugin Access Token has not been configured, we can't get this subscriber's ID by email.
 		if ( ! $this->settings->has_access_and_refresh_token() ) {
 			return;
 		}
@@ -262,7 +262,7 @@ class ConvertKit_Output_Restrict_Content {
 			return;
 		}
 
-		// If the Plugin API keys have not been configured, we can't get this subscriber's ID by email.
+		// If the Plugin Access Token has not been configured, we can't get this subscriber's ID by email.
 		if ( ! $this->settings->has_access_and_refresh_token() ) {
 			return;
 		}
@@ -559,7 +559,7 @@ class ConvertKit_Output_Restrict_Content {
 			return false;
 		}
 
-		// If the Plugin API keys have not been configured, we can't determine the validity of this subscriber ID
+		// If the Plugin Access Token has not been configured, we can't determine the validity of this subscriber ID
 		// or which resource(s) they have access to.
 		if ( ! $this->settings->has_access_and_refresh_token() ) {
 			return false;

@@ -60,7 +60,7 @@ class ConvertKit_Admin_TinyMCE {
 		// Define shortcode.
 		$shortcode = $shortcodes[ $shortcode_name ];
 
-		// Show a message in the modal if no API Key is specified.
+		// Show a message in the modal if no Access Token is specified.
 		if ( array_key_exists( 'has_access_token', $shortcode ) && ! $shortcode['has_access_token'] ) {
 			$notice = $shortcode['no_access_token'];
 			require_once CONVERTKIT_PLUGIN_PATH . '/views/backend/tinymce/modal-notice.php';

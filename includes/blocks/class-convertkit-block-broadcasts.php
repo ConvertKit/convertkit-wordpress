@@ -145,7 +145,7 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 			// Gutenberg: Example image showing how this block looks when choosing it in Gutenberg.
 			'gutenberg_example_image'           => CONVERTKIT_PLUGIN_URL . 'resources/backend/images/block-example-broadcasts.png',
 
-			// Help descriptions, displayed when no API key / resources exist and this block/shortcode is added.
+			// Help descriptions, displayed when no Access Token / resources exist and this block/shortcode is added.
 			'no_access_token'                        => array(
 				'notice'    => __( 'No API Key specified.', 'convertkit' ),
 				'link'      => convertkit_get_setup_wizard_plugin_link(),

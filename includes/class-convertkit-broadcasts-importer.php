@@ -63,7 +63,7 @@ class ConvertKit_Broadcasts_Importer {
 			return;
 		}
 
-		// Bail if the Plugin API keys have not been configured.
+		// Bail if the Plugin Access Token has not been configured.
 		if ( ! $settings->has_access_and_refresh_token() ) {
 			return;
 		}

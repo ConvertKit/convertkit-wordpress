@@ -1,19 +1,19 @@
 <?php
 /**
- * ConvertKit Settings oAuth class.
+ * ConvertKit Settings OAuth class.
  *
  * @package ConvertKit
  * @author ConvertKit
  */
 
 /**
- * Registers oAuth integration that is be accessed at Settings > ConvertKit, when the Plugin
- * has no API Key, Secret, Access Token or Refresh Token specified.
+ * Registers OAuth integration that is be accessed at Settings > ConvertKit, when the Plugin
+ * has no Access Token specified.
  *
  * @package ConvertKit
  * @author ConvertKit
  */
-class ConvertKit_Settings_oAuth extends ConvertKit_Settings_Base {
+class ConvertKit_Settings_OAuth extends ConvertKit_Settings_Base {
 
 	/**
 	 * Constructor
@@ -24,8 +24,8 @@ class ConvertKit_Settings_oAuth extends ConvertKit_Settings_Base {
 
 		$this->settings_key = '_wp_convertkit_oauth'; // Required for ConvertKit_Settings_Base, but we don't save settings on this screen.
 		$this->name         = 'oauth';
-		$this->title        = __( 'oAuth', 'convertkit' );
-		$this->tab_text     = __( 'oAuth', 'convertkit' );
+		$this->title        = __( 'OAuth', 'convertkit' );
+		$this->tab_text     = __( 'OAuth', 'convertkit' );
 
 		// Output notices.
 		add_action( 'convertkit_settings_base_render_before', array( $this, 'maybe_output_notices' ) );
@@ -36,7 +36,7 @@ class ConvertKit_Settings_oAuth extends ConvertKit_Settings_Base {
 	}
 
 	/**
-	 * Requests an access token via oAuth, if an authorization code and verifier are included in the request.
+	 * Requests an access token via OAuth, if an authorization code and verifier are included in the request.
 	 *
 	 * @since   2.2.0
 	 */
@@ -124,13 +124,13 @@ class ConvertKit_Settings_oAuth extends ConvertKit_Settings_Base {
 	}
 
 	/**
-	 * Outputs the oAuth screen.
+	 * Outputs the OAuth screen.
 	 *
 	 * @since   2.2.0
 	 */
 	public function render() {
 
-		// Determine the oAuth URL to begin the authorization process.
+		// Determine the OAuth URL to begin the authorization process.
 		$api = new ConvertKit_API();
 		$api->set_client_id( CONVERTKIT_OAUTH_CLIENT_ID );
 		$api->set_client_secret( CONVERTKIT_OAUTH_CLIENT_SECRET ); // currently in wp-config.php for security.

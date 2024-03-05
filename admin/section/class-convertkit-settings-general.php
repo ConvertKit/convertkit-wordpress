@@ -61,9 +61,6 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 		add_action( 'convertkit_admin_settings_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		add_action( 'convertkit_admin_settings_enqueue_styles', array( $this, 'enqueue_styles' ) );
 
-		// Render container element.
-		add_action( 'convertkit_settings_base_render_before', array( $this, 'render_before' ) );
-
 		parent::__construct();
 
 		$this->check_credentials();
@@ -89,7 +86,7 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 			return;
 		}
 
-		// Initialize the API if an API Key and Secret is defined.
+		// Initialize the API.
 		$this->api = new ConvertKit_API(
 			$this->settings->get_access_token(),
 			$this->settings->get_refresh_token(),
@@ -127,7 +124,7 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 				// Display a site wide notice.
 				WP_ConvertKit()->get_class( 'admin_notices' )->add( 'authorization_failed' );
 
-				// Redirect to General screen, which will now show the ConvertKit_Settings_oAuth screen, because
+				// Redirect to General screen, which will now show the ConvertKit_Settings_OAuth screen, because
 				// the Plugin has no access token.
 				wp_safe_redirect( add_query_arg( array(
 					'page' => $this->settings_key,
@@ -162,7 +159,7 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 		$settings = new ConvertKit_Settings;
 		$settings->delete_credentials();
 
-		// Redirect to General screen, which will now show the ConvertKit_Settings_oAuth screen, because
+		// Redirect to General screen, which will now show the ConvertKit_Settings_OAuth screen, because
 		// the Plugin has no access token.
 		wp_safe_redirect( add_query_arg( array(
 			'page' => $this->settings_key,
@@ -334,29 +331,11 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 	}
 
 	/**
-	 * Renders container divs for styling, and attempts to fetch the ConvertKit Account
-	 * details if API credentials have been specified.
-	 *
-	 * @since 1.9.6
-	 */
-	public function render_before() {
-
-
-
-	}
-
-	/**
 	 * Outputs the Account Name
 	 *
 	 * @since   1.9.6
 	 */
 	public function account_name_callback() {
-
-		// Output a notice telling the user to enter their API Key and Secret if they haven't done so yet.
-		if ( ! $this->settings->has_access_and_refresh_token() || is_wp_error( $this->account ) ) {
-			echo '<p class="description">' . esc_html__( 'Please connect the ConvertKit Plugin to your ConvertKit account to get started', 'convertkit' ) . '</p>';
-			return;
-		}
 
 		// Output Account Name.
 		$html  = sprintf(

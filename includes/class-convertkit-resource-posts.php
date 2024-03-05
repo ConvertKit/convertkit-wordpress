@@ -74,7 +74,7 @@ class ConvertKit_Resource_Posts extends ConvertKit_Resource {
 	 */
 	public function __construct( $context = false ) {
 
-		// Initialize the API if the API Key and Secret have been defined in the Plugin Settings.
+		// Initialize the API if the Access Token has been defined in the Plugin Settings.
 		$settings = new ConvertKit_Settings();
 		if ( $settings->has_access_and_refresh_token() ) {
 			$this->api = new ConvertKit_API(

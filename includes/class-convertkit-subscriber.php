@@ -66,7 +66,7 @@ class ConvertKit_Subscriber {
 		if ( ! $settings->has_access_and_refresh_token() ) {
 			return new WP_Error(
 				'convertkit_subscriber_get_subscriber_id_from_request_error',
-				__( 'API Key and Secret not configured in Plugin Settings.', 'convertkit' )
+				__( 'Access Token not configured in Plugin Settings.', 'convertkit' )
 			);
 		}
 
@@ -112,7 +112,7 @@ class ConvertKit_Subscriber {
 		if ( ! $settings->has_access_and_refresh_token() ) {
 			return new WP_Error(
 				'convertkit_subscriber_get_subscriber_id_from_request_error',
-				__( 'API Key and Secret not configured in Plugin Settings.', 'convertkit' )
+				__( 'Access Token not configured in Plugin Settings.', 'convertkit' )
 			);
 		}
 

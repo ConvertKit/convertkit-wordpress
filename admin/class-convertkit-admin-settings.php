@@ -296,13 +296,13 @@ class ConvertKit_Admin_Settings {
 	 */
 	public function register_sections() {
 
-		// If no API Key, Secret or Access Token exists, register a settings section that shows a button
-		// to start the oAuth authentication flow.
+		// If no Access Token exists, register a settings section that shows a button
+		// to start the OAuth authentication flow.
 		$settings = new ConvertKit_Settings;
 		if ( ! $settings->has_access_and_refresh_token() ) {
-			// Just register the oAuth screen.
+			// Just register the OAuth screen.
 			$sections = array(
-				'oauth' => new ConvertKit_Settings_oAuth(),
+				'oauth' => new ConvertKit_Settings_OAuth(),
 			);
 
 			// Assign them to this class.

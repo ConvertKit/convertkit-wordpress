@@ -224,7 +224,7 @@ class ConvertKit_Block_Content extends ConvertKit_Block {
 		$settings = new ConvertKit_Settings();
 		if ( ! $settings->has_access_and_refresh_token() ) {
 			if ( $settings->debug_enabled() ) {
-				return '<!-- ConvertKit Custom Content: No API Key and Secret -->';
+				return '<!-- ConvertKit Custom Content: No Access Token -->';
 			}
 
 			return '';
