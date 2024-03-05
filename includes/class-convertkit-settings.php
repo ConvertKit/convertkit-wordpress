@@ -318,6 +318,21 @@ class ConvertKit_Settings {
 	}
 
 	/**
+	 * Deletes any existing access token, refresh token and its expiry from the Plugin settings.
+	 * 
+	 * @since 	2.5.0
+	 */
+	public function delete_credentials() {
+
+		$this->save( array(
+			'access_token'  => '',
+			'refresh_token' => '',
+			'token_expires' => '',
+		) );
+
+	}
+
+	/**
 	 * Saves the given array of settings to the WordPress options table.
 	 *
 	 * @since   1.9.8.4

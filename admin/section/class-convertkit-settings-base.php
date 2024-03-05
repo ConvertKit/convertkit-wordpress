@@ -76,6 +76,28 @@ abstract class ConvertKit_Settings_Base {
 	}
 
 	/**
+	 * Helper method to determine if we're viewing the current settings screen.
+	 * 
+	 * @since 	2.5.0
+	 * 
+	 * @return 	bool
+	 */
+	public function on_settings_screen() {
+
+		// Bail if we're not on the settings screen.
+		if ( ! array_key_exists( 'page', $_REQUEST ) ) { // phpcs:ignore WordPress.Security.NonceVerification
+			return false;
+		}
+		$page = sanitize_text_field( $_REQUEST['page'] );
+		if ( $page !== $this->settings_key ) {
+			return false;
+		}
+
+		return true;
+
+	}
+
+	/**
 	 * Register settings section.
 	 */
 	public function register_section() {

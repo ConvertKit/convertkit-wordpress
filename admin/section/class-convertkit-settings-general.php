@@ -71,22 +71,25 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 
 	}
 
+	/**
+	 * Test the access token, if it exists.
+	 * If the access token has been revoked or is invalid, remove it from the settings now.
+	 * 
+	 * @since 	2.5.0
+	 */
 	private function check_credentials() {
 
 		// Bail if we're not on the settings screen.
-		if ( ! array_key_exists( 'page', $_REQUEST ) ) { // phpcs:ignore WordPress.Security.NonceVerification
-			return;
-		}
-		$page = sanitize_text_field( $_REQUEST['page'] );
-		if ( $page !== '_wp_convertkit_settings' ) {
+		if ( ! $this->on_settings_screen() ) {
 			return;
 		}
 
-		// Initialize the API if an API Key and Secret is defined.
+		// Bail if no access and refresh token exist.
 		if ( ! $this->settings->has_access_and_refresh_token() ) {
 			return;
 		}
 
+		// Initialize the API if an API Key and Secret is defined.
 		$this->api = new ConvertKit_API(
 			$this->settings->get_access_token(),
 			$this->settings->get_refresh_token(),
@@ -101,55 +104,52 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 		// whether the API credentials are valid.
 		$this->account = $this->api->account();
 
-		// Show an error message if Account Details could not be fetched e.g. API credentials supplied are invalid.
-		if ( is_wp_error( $this->account ) ) {
-			// Depending on the error code, maybe persist a notice in the WordPress Administration until the user
-			// fixes the problem.
-			switch ( $this->account->get_error_data( $this->account->get_error_code() ) ) {
-				case 401:
-					// Access token either expired or was revoked in ConvertKit.
-					// Remove from settings.
-					$this->settings->save( array(
-						'access_token' => '',
-						'refresh_token' => '',
-						'token_expires' => '',
-					) );
-
-					// Display a site wide notice.
-					WP_ConvertKit()->get_class( 'admin_notices' )->add( 'authorization_failed' );
-
-					// Redirect to General screen, which will now show the ConvertKit_Settings_oAuth screen, because
-					// the Plugin has no access token.
-					wp_safe_redirect( add_query_arg( array(
-						'page' 		=> '_wp_convertkit_settings',
-					), 'options-general.php' ) );
-					exit();
-			}
-
-			$this->output_error( $this->account->get_error_message() );
-		} else {
+		// If the request succeeded, no need to perform further actions.
+		if ( ! is_wp_error( $this->account ) ) {
 			// Remove any existing persistent notice.
 			WP_ConvertKit()->get_class( 'admin_notices' )->delete( 'authorization_failed' );
+
+			return;
 		}
 
+		// Depending on the error code, maybe persist a notice in the WordPress Administration until the user
+		// fixes the problem.
+		switch ( $this->account->get_error_data( $this->account->get_error_code() ) ) {
+			case 401:
+				// Access token either expired or was revoked in ConvertKit.
+				// Remove from settings.
+				$this->settings->save( array(
+					'access_token' => '',
+					'refresh_token' => '',
+					'token_expires' => '',
+				) );
+
+				// Display a site wide notice.
+				WP_ConvertKit()->get_class( 'admin_notices' )->add( 'authorization_failed' );
+
+				// Redirect to General screen, which will now show the ConvertKit_Settings_oAuth screen, because
+				// the Plugin has no access token.
+				wp_safe_redirect( add_query_arg( array(
+					'page' => $this->settings_key,
+				), 'options-general.php' ) );
+				exit();
+		}
+
+		// Output a non-401 error now.
+		$this->output_error( $this->account->get_error_message() );
+	
 	}
 
 	/**
-	 * Deletes the oAuth Access Token, Refresh Token and Expiry from the Plugin's settings, if the user
+	 * Deletes the OAuth Access Token, Refresh Token and Expiry from the Plugin's settings, if the user
 	 * clicked the Disconnect button.
 	 *
 	 * @since   2.5.0
 	 */
 	private function maybe_disconnect() {
 
-		// @TODO Nonce verification.
-
 		// Bail if we're not on the settings screen.
-		if ( ! array_key_exists( 'page', $_REQUEST ) ) { // phpcs:ignore WordPress.Security.NonceVerification
-			return;
-		}
-		$page = sanitize_text_field( $_REQUEST['page'] );
-		if ( $page !== '_wp_convertkit_settings' ) {
+		if ( ! $this->on_settings_screen() ) {
 			return;
 		}
 
@@ -160,16 +160,12 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 
 		// Delete Access Token.
 		$settings = new ConvertKit_Settings;
-		$settings->save( array(
-			'access_token' => '',
-			'refresh_token' => '',
-			'token_expires' => '',
-		) );
+		$settings->delete_credentials();
 
 		// Redirect to General screen, which will now show the ConvertKit_Settings_oAuth screen, because
 		// the Plugin has no access token.
 		wp_safe_redirect( add_query_arg( array(
-			'page' 		=> '_wp_convertkit_settings',
+			'page' => $this->settings_key,
 		), 'options-general.php' ) );
 		exit();
 
