@@ -146,6 +146,10 @@ class ConvertKit_Admin_Post {
 		$settings = new ConvertKit_Settings();
 		if ( ! $settings->has_access_and_refresh_token() ) {
 			$post_type = get_post_type_object( $post->post_type );
+			$api = new ConvertKit_API();
+			$api->set_client_id( CONVERTKIT_OAUTH_CLIENT_ID );
+			$api->set_client_secret( CONVERTKIT_OAUTH_CLIENT_SECRET ); // currently in wp-config.php for security.
+			$api->set_redirect_uri( admin_url( 'options-general.php?page=_wp_convertkit_settings' ) );
 			include CONVERTKIT_PLUGIN_PATH . '/views/backend/post/no-api-key.php';
 			return;
 		}
