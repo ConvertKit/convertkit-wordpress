@@ -197,7 +197,7 @@ class WPGutenberg extends \Codeception\Module
 	public function addGutenbergExcerpt($I, $excerpt)
 	{
 		// Click the Post tab.
-		$I->click('button[data-label="Post"]');
+		$I->click('button[data-tab-id="edit-post/document"]');
 
 		// Click the Excerpt tab.
 		$I->click('Excerpt');
