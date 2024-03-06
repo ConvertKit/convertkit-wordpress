@@ -322,6 +322,48 @@ class PageFormCest
 	}
 
 	/**
+	 * Test that the Modal Form <script> embed is output once when the Siteground Speed Optimizer Plugin is active
+	 * and its "Combine JavaScript Files" setting is enabled.
+	 *
+	 * @since   2.4.5
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testAddNewPageUsingModalFormWithSitegroundSpeedOptimizerPlugin(AcceptanceTester $I)
+	{
+		// Setup Plugin and Resources.
+		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPluginResources($I);
+
+		// Activate Siteground Speed Optimizer Plugin.
+		$I->activateThirdPartyPlugin($I, 'sg-cachepress');
+
+		// Enable Siteground Speed Optimizer's "Combine JavaScript Files" setting.
+		$I->haveOptionInDatabase('siteground_optimizer_combine_javascript', '1');
+
+		// Add a Page using the Gutenberg editor.
+		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form: ' . $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_NAME'] . ': Siteground Speed Optimizer');
+
+		// Configure metabox's Form setting = None.
+		$I->configureMetaboxSettings(
+			$I,
+			'wp-convertkit-meta-box',
+			[
+				'form' => [ 'select2', $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_NAME'] ],
+			]
+		);
+
+		// Publish and view the Page on the frontend site.
+		$I->publishAndViewGutenbergPage($I);
+
+		// Confirm that one ConvertKit Form is output in the DOM.
+		$I->seeNumberOfElementsInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_ID'] . '"]', 1);
+
+		// Deactivate Siteground Speed Optimizer Plugin.
+		$I->deactivateThirdPartyPlugin($I, 'sg-cachepress');
+	}
+
+	/**
 	 * Test that the Legacy Form specified in the Page Settings works when
 	 * creating and viewing a new WordPress Page.
 	 *

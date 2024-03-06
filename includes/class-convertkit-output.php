@@ -482,14 +482,6 @@ class ConvertKit_Output {
 		// Define array of scripts.
 		$scripts = array();
 
-		// Define data attributes to apply to all scripts.
-		// These are typically to prevent third party performance / caching Plugins interfering with ConvertKit scripts,
-		// which may result in non-inline forms displaying twice.
-		$data_attributes = array(
-			'data-jetpack-boost' => 'ignore', // Jetpack Boost.
-			'data-no-defer'      => '1', // LiteSpeed Cache.
-		);
-
 		/**
 		 * Define an array of scripts to output in the footer of the WordPress site.
 		 *
@@ -509,8 +501,17 @@ class ConvertKit_Output {
 
 		// Iterate through scripts, building the <script> tag for each.
 		foreach ( $scripts as $script ) {
-			$output = '<script';
+			/**
+			 * Filter the form <script> key/value pairs immediately before the script is output.
+			 *
+			 * @since   2.4.5
+			 *
+			 * @param   array   $script     Form script key/value pairs to output as <script> tag.
+			 */
+			$script = apply_filters( 'convertkit_output_script_footer', $script );
 
+			// Build output.
+			$output = '<script';
 			foreach ( $script as $attribute => $value ) {
 				// If the value is true, just output the attribute.
 				if ( $value === true ) {
@@ -518,13 +519,12 @@ class ConvertKit_Output {
 					continue;
 				}
 
-				// Output the attribute and value.
-				$output .= ' ' . esc_attr( $attribute ) . '="' . esc_attr( $value ) . '"';
-			}
+				// Sanitize attribute and value.
+				$attribute = esc_attr( $attribute );
+				$value     = ( $attribute === 'src' ? esc_url( $value ) : esc_attr( $value ) );
 
-			// Append data attributes.
-			foreach ( $data_attributes as $attribute => $value ) {
-				$output .= ' ' . esc_attr( $attribute ) . '="' . esc_attr( $value ) . '"';
+				// Output the attribute and value.
+				$output .= ' ' . $attribute . '="' . $value . '"';
 			}
 
 			$output .= '></script>';
