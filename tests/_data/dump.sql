@@ -291,6 +291,9 @@ CREATE TABLE `wp_posts` (
   KEY `post_author` (`post_author`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
 
+INSERT INTO `wp_posts` (`ID`, `post_author`, `post_date`, `post_date_gmt`, `post_content`, `post_title`, `post_excerpt`, `post_status`, `comment_status`, `ping_status`, `post_password`, `post_name`, `to_ping`, `pinged`, `post_modified`, `post_modified_gmt`, `post_content_filtered`, `post_parent`, `guid`, `menu_order`, `post_type`, `post_mime_type`, `comment_count`) VALUES
+(1, 1,  '2024-03-06 16:32:36',  '2024-03-06 16:32:36',  '', 'Sample Page',  '', 'inherit',  'closed', 'closed', '', '5-revision-v1',  '', '', '2024-03-06 16:32:36',  '2024-03-06 16:32:36',  '', 5,  'http://wordpress-beta.local/?p=7', 0,  'revision', '', 0);
+
 DROP TABLE IF EXISTS `wp_term_relationships`;
 CREATE TABLE `wp_term_relationships` (
   `object_id` bigint(20) unsigned NOT NULL DEFAULT '0',
