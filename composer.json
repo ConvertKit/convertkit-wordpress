@@ -4,7 +4,7 @@
     "type": "project",
     "license": "GPLv3",
     "require": {
-        "convertkit/convertkit-wordpress-libraries": "1.4.1"
+        "convertkit/convertkit-wordpress-libraries": "dev-secure-log-file"
     },
     "require-dev": {
         "lucatume/wp-browser": "<3.5",
@@ -42,6 +42,7 @@
             "composer.json",
             "composer.lock",
             "Gruntfile.js",
+            "log",
             "log.txt",
             "package.json",
             "package-lock.json",
