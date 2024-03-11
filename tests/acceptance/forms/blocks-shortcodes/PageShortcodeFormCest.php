@@ -567,7 +567,7 @@ class PageShortcodeFormCest
 		// and that LiteSpeed Cache hasn't moved the script embed to the footer of the site.
 		$I->seeNumberOfElementsInDOM('main form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]', 1);
 
-		// Deactivate Jetpack Boost Plugin.
+		// Deactivate Litespeed Cache Plugin.
 		$I->deactivateThirdPartyPlugin($I, 'litespeed-cache');
 	}
 
@@ -622,6 +622,73 @@ class PageShortcodeFormCest
 
 		// Deactivate Siteground Speed Optimizer Plugin.
 		$I->deactivateThirdPartyPlugin($I, 'sg-cachepress');
+	}
+
+	/**
+	 * Test that the Form <script> embed is output in the content when the WP Rocket Plugin is active and its "Delay JavaScript execution"
+	 * setting is enabled.
+	 *
+	 * @since   2.4.7
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testFormShortcodeWithWPRocketPlugin(AcceptanceTester $I)
+	{
+		// Setup Plugin and Resources.
+		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPluginResources($I);
+
+		// Activate WP Rocket Plugin.
+		$I->activateThirdPartyPlugin($I, 'wp-rocket');
+
+		// Load WP Rocket settings screen.
+		$I->amOnAdminPage('options-general.php?page=wprocket#file_optimization');
+
+		// Enable Delay JavaScript execution.
+		$I->click('label[for=delay_js]');
+		$I->waitForElementVisible('.wpr-isOpen');
+
+		// Click Save Changes button.
+		$I->click('Save Changes');
+
+		// Confirm changes saved successfully.
+		$I->waitForElementVisible('#setting-error-settings_updated');
+
+		// Add a Page using the Classic Editor.
+		$I->addClassicEditorPage($I, 'page', 'ConvertKit: Page: Form: Shortcode: WP Rocket');
+
+		// Configure metabox's Form setting = None, ensuring we only test the shortcode in the Classic Editor.
+		$I->configureMetaboxSettings(
+			$I,
+			'wp-convertkit-meta-box',
+			[
+				'form' => [ 'select2', 'None' ],
+			]
+		);
+
+		// Add shortcode to Page, setting the Form setting to the value specified in the .env file.
+		$I->addVisualEditorShortcode(
+			$I,
+			'ConvertKit Form',
+			[
+				'form' => [ 'select', $_ENV['CONVERTKIT_API_FORM_NAME'] ],
+			],
+			'[convertkit_form form="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]'
+		);
+
+		// Publish and view the Page on the frontend site.
+		$I->publishAndViewClassicEditorPage($I);
+
+		// Confirm that one ConvertKit Form is output in the DOM within the <main> element.
+		// This confirms that there is only one script on the page for this form, which renders the form.
+		$I->seeNumberOfElementsInDOM('main form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]', 1);
+
+		// Confirm source contains expected output.
+		$I->seeInSource('nowprocket></script>');
+		$I->dontSeeInSource('<script type="rocketlazyloadscript"');
+
+		// Deactivate WP Rocket Plugin.
+		$I->deactivateThirdPartyPlugin($I, 'wp-rocket');
 	}
 
 	/**

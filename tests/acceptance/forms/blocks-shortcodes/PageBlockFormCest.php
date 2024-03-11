@@ -785,6 +785,73 @@ class PageBlockFormCest
 	}
 
 	/**
+	 * Test that the Form <script> embed is output in the content when the WP Rocket Plugin is active and its "Delay JavaScript execution"
+	 * setting is enabled.
+	 *
+	 * @since   2.4.7
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testFormBlockWithWPRocketPlugin(AcceptanceTester $I)
+	{
+		// Setup Plugin and Resources.
+		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPluginResources($I);
+
+		// Activate WP Rocket Plugin.
+		$I->activateThirdPartyPlugin($I, 'wp-rocket');
+
+		// Load WP Rocket settings screen.
+		$I->amOnAdminPage('options-general.php?page=wprocket#file_optimization');
+
+		// Enable Delay JavaScript execution.
+		$I->click('label[for=delay_js]');
+		$I->waitForElementVisible('.wpr-isOpen');
+
+		// Click Save Changes button.
+		$I->click('Save Changes');
+
+		// Confirm changes saved successfully.
+		$I->waitForElementVisible('#setting-error-settings_updated');
+
+		// Add a Page using the Gutenberg editor.
+		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form: Block: WP Rocket');
+
+		// Configure metabox's Form setting = None, ensuring we only test the block in Gutenberg.
+		$I->configureMetaboxSettings(
+			$I,
+			'wp-convertkit-meta-box',
+			[
+				'form' => [ 'select2', 'None' ],
+			]
+		);
+
+		// Add block to Page, setting the Form setting to the value specified in the .env file.
+		$I->addGutenbergBlock(
+			$I,
+			'ConvertKit Form',
+			'convertkit-form',
+			[
+				'form' => [ 'select', $_ENV['CONVERTKIT_API_FORM_NAME'] ],
+			]
+		);
+
+		// Publish and view the Page on the frontend site.
+		$I->publishAndViewGutenbergPage($I);
+
+		// Confirm that one ConvertKit Form is output in the DOM within the <main> element.
+		// This confirms that there is only one script on the page for this form, which renders the form.
+		$I->seeNumberOfElementsInDOM('main form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]', 1);
+
+		// Confirm source contains expected output.
+		$I->seeInSource('nowprocket></script>');
+		$I->dontSeeInSource('<script type="rocketlazyloadscript"');
+
+		// Deactivate WP Rocket Plugin.
+		$I->deactivateThirdPartyPlugin($I, 'wp-rocket');
+	}
+
+	/**
 	 * Deactivate and reset Plugin(s) after each test, if the test passes.
 	 * We don't use _after, as this would provide a screenshot of the Plugin
 	 * deactivation and not the true test error.
