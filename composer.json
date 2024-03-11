@@ -42,6 +42,7 @@
             "composer.json",
             "composer.lock",
             "Gruntfile.js",
+            "log",
             "log.txt",
             "package.json",
             "package-lock.json",

@@ -3,6 +3,7 @@
 .env.testing
 codeception.yml
 composer.lock
+log
 log.txt
 phpstan.neon
 tests/_output

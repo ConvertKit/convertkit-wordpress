@@ -269,4 +269,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: log-${{ steps.test-group.outputs.value }}-${{ matrix.php-versions }}.txt
-          path: ${{ env.PLUGIN_DIR }}/log.txt
+          path: ${{ env.PLUGIN_DIR }}/log/log.txt

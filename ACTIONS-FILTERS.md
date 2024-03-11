@@ -181,6 +181,10 @@
 						<td><a href="#convertkit_output_scripts_footer"><code>convertkit_output_scripts_footer</code></a></td>
 						<td>Define an array of scripts to output in the footer of the WordPress site.</td>
 					</tr><tr>
+						<td>&nbsp;</td>
+						<td><a href="#convertkit_output_script_footer"><code>convertkit_output_script_footer</code></a></td>
+						<td>Filter the form <script> key/value pairs immediately before the script is output.</td>
+					</tr><tr>
 						<td colspan="3">../includes/class-convertkit-settings.php</td>
 					</tr><tr>
 						<td>&nbsp;</td>
@@ -192,6 +196,12 @@
 						<td>&nbsp;</td>
 						<td><a href="#convertkit_is_admin_or_frontend_editor"><code>convertkit_is_admin_or_frontend_editor</code></a></td>
 						<td>Filters whether the current request is a WordPress Administration / Frontend Editor request or not. Page Builders can set this to true to allow ConvertKit to load its administration functionality.</td>
+					</tr><tr>
+						<td colspan="3">../includes/class-convertkit-resource-forms.php</td>
+					</tr><tr>
+						<td>&nbsp;</td>
+						<td><a href="#convertkit_resource_forms_output_script"><code>convertkit_resource_forms_output_script</code></a></td>
+						<td>Filter the form <script> key/value pairs immediately before the script is output.</td>
 					</tr><tr>
 						<td colspan="3">../includes/class-convertkit-broadcasts-importer.php</td>
 					</tr><tr>
@@ -1197,7 +1207,7 @@ add_filter( 'convertkit_frontend_append_form', function( $content, $form, $post_
 </pre>
 <h3 id="convertkit_output_scripts_footer">
 						convertkit_output_scripts_footer
-						<code>includes/class-convertkit-output.php::499</code>
+						<code>includes/class-convertkit-output.php::491</code>
 					</h3><h4>Overview</h4>
 						<p>Define an array of scripts to output in the footer of the WordPress site.</p><h4>Parameters</h4>
 					<table>
@@ -1220,6 +1230,33 @@ add_filter( 'convertkit_output_scripts_footer', function( $scripts ) {
 	// ... your code here
 	// Return value
 	return $scripts;
+}, 10, 1 );
+</pre>
+<h3 id="convertkit_output_script_footer">
+						convertkit_output_script_footer
+						<code>includes/class-convertkit-output.php::510</code>
+					</h3><h4>Overview</h4>
+						<p>Filter the form <script> key/value pairs immediately before the script is output.</p><h4>Parameters</h4>
+					<table>
+						<thead>
+							<tr>
+								<th>Parameter</th>
+								<th>Type</th>
+								<th>Description</th>
+							</tr>
+						</thead>
+						<tbody><tr>
+							<td>$script</td>
+							<td>array</td>
+							<td>Form script key/value pairs to output as <script> tag.</td>
+						</tr>
+						</tbody>
+					</table><h4>Usage</h4>
+<pre>
+add_filter( 'convertkit_output_script_footer', function( $script ) {
+	// ... your code here
+	// Return value
+	return $script;
 }, 10, 1 );
 </pre>
 <h3 id="convertkit_settings_get_defaults">
@@ -1274,6 +1311,33 @@ add_filter( 'convertkit_is_admin_or_frontend_editor', function( $is_admin_or_fro
 	// ... your code here
 	// Return value
 	return $is_admin_or_frontend_editor;
+}, 10, 1 );
+</pre>
+<h3 id="convertkit_resource_forms_output_script">
+						convertkit_resource_forms_output_script
+						<code>includes/class-convertkit-resource-forms.php::341</code>
+					</h3><h4>Overview</h4>
+						<p>Filter the form <script> key/value pairs immediately before the script is output.</p><h4>Parameters</h4>
+					<table>
+						<thead>
+							<tr>
+								<th>Parameter</th>
+								<th>Type</th>
+								<th>Description</th>
+							</tr>
+						</thead>
+						<tbody><tr>
+							<td>$script</td>
+							<td>array</td>
+							<td>Form script key/value pairs to output as <script> tag.</td>
+						</tr>
+						</tbody>
+					</table><h4>Usage</h4>
+<pre>
+add_filter( 'convertkit_resource_forms_output_script', function( $script ) {
+	// ... your code here
+	// Return value
+	return $script;
 }, 10, 1 );
 </pre>
 <h3 id="convertkit_broadcasts_build_post_args">
