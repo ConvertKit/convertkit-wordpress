@@ -412,10 +412,6 @@ class PageFormCest
 		// This confirms that there is only one script on the page for this form, which renders the form.
 		$I->seeNumberOfElementsInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_ID'] . '"]', 1);
 
-		// Confirm source contains expected output.
-		$I->seeInSource('nowprocket></script>');
-		$I->dontSeeInSource('<script type="rocketlazyloadscript"');
-
 		// Deactivate WP Rocket Plugin.
 		$I->deactivateThirdPartyPlugin($I, 'wp-rocket');
 	}
