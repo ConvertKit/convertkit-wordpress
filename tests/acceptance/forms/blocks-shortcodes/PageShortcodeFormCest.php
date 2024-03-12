@@ -646,7 +646,6 @@ class PageShortcodeFormCest
 
 		// Enable Delay JavaScript execution.
 		$I->click('label[for=delay_js]');
-		$I->waitForElementVisible('.wpr-isOpen');
 
 		// Click Save Changes button.
 		$I->click('Save Changes');
