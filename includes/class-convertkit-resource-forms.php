@@ -355,7 +355,12 @@ class ConvertKit_Resource_Forms extends ConvertKit_Resource {
 			$value     = ( $attribute === 'src' ? esc_url( $value ) : esc_attr( $value ) );
 
 			// Output the attribute and value.
-			$output .= ' ' . $attribute . '="' . $value . '"';
+			$output .= ' ' . $attribute;
+
+			// Output the value, if it's not a blank string.
+			if ( strlen( $value ) > 0 ) {
+				$output .= '="' . $value . '"';
+			}
 		}
 		$output .= '></script>';
 
