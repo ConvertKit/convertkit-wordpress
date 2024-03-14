@@ -149,10 +149,11 @@ class ConvertKit_Cache_Plugins {
 	}
 
 	/**
-	 * Disable "Delay JavaScript execution" on ConvertKit scripts when the WP Rocket Plugin is installed, active
-	 * and its "Delay JavaScript execution" setting is enabled.
+	 * Disable WP Rocket's "Delay JavaScript execution" on ConvertKit scripts.
 	 *
 	 * @since   2.4.7
+	 *
+	 * @see     https://docs.wp-rocket.me/article/1349-delay-javascript-execution
 	 *
 	 * @param   array $script     Script key/value pairs to output as <script> tag.
 	 * @return  array
