@@ -70,7 +70,7 @@ class WPGutenberg extends \Codeception\Module
 	public function addGutenbergBlock($I, $blockName, $blockProgrammaticName, $blockConfiguration = false)
 	{
 		// Click Add Block Button.
-		$I->click('button.edit-post-header-toolbar__inserter-toggle');
+		$I->click('button.editor-document-tools__inserter-toggle');
 
 		// When the Blocks sidebar appears, search for the block.
 		$I->waitForElementVisible('.interface-interface-skeleton__secondary-sidebar[aria-label="Block Library"]');
@@ -87,7 +87,7 @@ class WPGutenberg extends \Codeception\Module
 		$I->click('.block-editor-inserter__panel-content button.editor-block-list-item-' . $blockProgrammaticName);
 
 		// Close block inserter.
-		$I->click('button.edit-post-header-toolbar__inserter-toggle');
+		$I->click('button.editor-document-tools__inserter-toggle');
 
 		// If a Block configuration is specified, apply it to the Block now.
 		if ($blockConfiguration) {
@@ -197,7 +197,7 @@ class WPGutenberg extends \Codeception\Module
 	public function addGutenbergExcerpt($I, $excerpt)
 	{
 		// Click the Post tab.
-		$I->click('button[aria-label="Post"]');
+		$I->click('button[data-tab-id="edit-post/document"]');
 
 		// Click the Excerpt tab.
 		$I->click('Excerpt');
