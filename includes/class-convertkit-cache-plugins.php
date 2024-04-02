@@ -57,7 +57,7 @@ class ConvertKit_Cache_Plugins {
 		// Perfmatters: Exclude Forms from Delay JavaScript.
 		add_filter( 'convertkit_output_script_footer', array( $this, 'perfmatters_exclude_delay_js' ) );
 		add_filter( 'convertkit_resource_forms_output_script', array( $this, 'perfmatters_exclude_delay_js' ) );
-		
+
 		// Siteground Speed Optimizer: Exclude Forms from JS combine.
 		add_filter( 'convertkit_output_script_footer', array( $this, 'siteground_speed_optimizer_exclude_js_combine' ) );
 		add_filter( 'convertkit_resource_forms_output_script', array( $this, 'siteground_speed_optimizer_exclude_js_combine' ) );
