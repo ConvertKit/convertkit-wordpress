@@ -315,12 +315,8 @@ class ConvertKit_Broadcasts_Importer {
 		// Save HTML to a string.
 		$content = $html->saveHTML();
 
-		// Return content with permitted HTML tags.
-		// All content within non-permitted HTML tags is still retained.
-		$content = $this->get_permitted_html( $content, true );
-
-		echo $content;
-		die();
+		// Return content with permitted HTML tags and inline styles included/excluded, depending on the setting.
+		$content = $this->get_permitted_html( $content, $this->broadcasts_settings->no_styles() );
 
 		/**
 		 * Parses the given Broadcast's content, removing unnecessary HTML tags and styles.
@@ -338,7 +334,7 @@ class ConvertKit_Broadcasts_Importer {
 
 	/**
 	 * Returns the given content containing only the permitted HTML tags,
-	 * and cleans up empty div elements and multiple newlines.
+	 * cleans up empty div elements and removes multiple newlines.
 	 * 
 	 * Content contained within non-permitted HTML tags is returned, without
 	 * the HTML tags wrapping the content.
