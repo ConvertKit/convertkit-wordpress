@@ -835,6 +835,11 @@ class PageBlockFormCest
 		);
 
 		// Publish and view the Page on the frontend site.
+		$url = $I->publishGutenbergPage($I);
+
+		$I->amOnAdminPage('options-general.php?page=perfmatters');
+		$I->see('XXX');
+
 		$I->publishAndViewGutenbergPage($I);
 
 		// Confirm that one ConvertKit Form is output in the DOM within the <main> element.
