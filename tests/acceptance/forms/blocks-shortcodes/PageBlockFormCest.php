@@ -825,7 +825,6 @@ class PageBlockFormCest
 		);
 
 		// Add block to Page, setting the Form setting to the value specified in the .env file.
-		/*
 		$I->addGutenbergBlock(
 			$I,
 			'ConvertKit Form',
@@ -834,7 +833,6 @@ class PageBlockFormCest
 				'form' => [ 'select', $_ENV['CONVERTKIT_API_FORM_NAME'] ],
 			]
 		);
-		*/
 
 		// Publish and view the Page on the frontend site.
 		$I->publishAndViewGutenbergPage($I);
