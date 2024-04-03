@@ -837,7 +837,7 @@ class PageBlockFormCest
 		// Publish and view the Page on the frontend site.
 		$url = $I->publishGutenbergPage($I);
 
-		$I->amOnAdminPage('options-general.php?page=perfmatters');
+		$I->amOnAdminPage('options-general.php?page=perfmatters#assets');
 		$I->see('XXX');
 
 		$I->publishAndViewGutenbergPage($I);
