@@ -274,21 +274,53 @@ class ConvertKit_Broadcasts_Importer {
 
 		$content = $broadcast_content;
 
-		// Remove open tracking.
-		$content = str_replace( '<img src="https://preview.convertkit-mail2.com/open" alt="">', '', $content );
+		// Wrap content in <html>, <head> and <body> tags with an UTF-8 Content-Type meta tag.
+		// Forcibly tell DOMDocument that this HTML uses the UTF-8 charset.
+		// <meta charset="utf-8"> isn't enough, as DOMDocument still interprets the HTML as ISO-8859, which breaks character encoding
+		// Use of mb_convert_encoding() with HTML-ENTITIES is deprecated in PHP 8.2, so we have to use this method.
+		// If we don't, special characters render incorrectly.
+		$content = '<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"></head><body>' . $content . '</body></html>';
 
-		// Remove <style> elements.
-		$content = preg_replace( '/(<style *?>.*?<\/style>)/is', '', $content );
-		$content = preg_replace( '/(<style>.*?<\/style>)/is', '', $content );
+		// Load the HTML into a DOMDocument.
+		libxml_use_internal_errors( true );
+		$html = new DOMDocument();
+		$html->loadHTML( $content );
+
+		// Load DOMDocument into XPath.
+		$xpath = new DOMXPath( $html );
+
+		// Remove certain elements and their contents, as we never want these to be included in the WordPress Post.
+
+		// Remove open tracking.
+		foreach( $xpath->query('//img[@src="https://preview.convertkit-mail2.com/open"]') as $node ) {
+		    $node->parentNode->removeChild( $node );
+		}
 
 		// Remove blank contenteditable table cells.
-		$content = str_replace( '<td contenteditable="false"></td>', '', $content );
+		foreach( $xpath->query('//td[@contenteditable="false"]') as $node ) {
+		    $node->parentNode->removeChild( $node );
+		}
 
-		// Extract just the permitted HTML.
-		$content = $this->get_permitted_html( $content, $this->broadcasts_settings->no_styles() );
+		// Remove <style> elements and their contents.
+		foreach( $xpath->query('//style') as $node ) {
+		    $node->parentNode->removeChild( $node );
+		}
 
-		// Remove unsubscribe section.
-		$content = preg_replace( '/(<div class="ck-section ck-hide-in-public-posts".*?>.*?<\/tr><\/tbody><\/table>\\n<\/div>\\n)/is', '', $content );
+		// Remove ck-hide-in-public-posts and their contents.
+		// This includesthe unsubscribe section.
+		foreach( $xpath->query( '//div[contains(@class, "ck-hide-in-public-posts")]' ) as $node ) {
+		    $node->parentNode->removeChild( $node );
+		}
+
+		// Save HTML to a string.
+		$content = $html->saveHTML();
+
+		// Return content with permitted HTML tags.
+		// All content within non-permitted HTML tags is still retained.
+		$content = $this->get_permitted_html( $content, true );
+
+		echo $content;
+		die();
 
 		/**
 		 * Parses the given Broadcast's content, removing unnecessary HTML tags and styles.
@@ -307,6 +339,9 @@ class ConvertKit_Broadcasts_Importer {
 	/**
 	 * Returns the given content containing only the permitted HTML tags,
 	 * and cleans up empty div elements and multiple newlines.
+	 * 
+	 * Content contained within non-permitted HTML tags is returned, without
+	 * the HTML tags wrapping the content.
 	 *
 	 * @since   2.4.0
 	 *
@@ -314,7 +349,7 @@ class ConvertKit_Broadcasts_Importer {
 	 * @param   bool   $disable_styles  Disable styles.
 	 * @return  string                  HTML Content
 	 */
-	public function get_permitted_html( $content, $disable_styles = false ) {
+	private function get_permitted_html( $content, $disable_styles = false ) {
 
 		// For PHP 7.4 and lower compatibility, convert permitted HTML tags array to a string
 		// for use in strip_tags().
@@ -368,6 +403,7 @@ class ConvertKit_Broadcasts_Importer {
 			'a',
 			'img',
 			'br',
+			'style', // Deliberate; we'll use DOMDocument to remove inline styles and their contents.
 		);
 
 		// If Disable Styles is false, include layout tags.
