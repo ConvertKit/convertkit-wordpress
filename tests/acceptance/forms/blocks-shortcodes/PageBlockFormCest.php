@@ -834,6 +834,11 @@ class PageBlockFormCest
 			]
 		);
 
+		// Publish Gutenberg Page.
+		$url = $I->publishGutenbergPage($I);
+
+		$I->see('XXXXXXX');
+
 		// Publish and view the Page on the frontend site.
 		$I->publishAndViewGutenbergPage($I);
 
