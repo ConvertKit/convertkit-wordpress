@@ -785,6 +785,67 @@ class PageBlockFormCest
 	}
 
 	/**
+	 * Test that the Form <script> embed is output in the content when the Perfmatters Plugin is active and its "Delay JavaScript"
+	 * setting is enabled.
+	 *
+	 * @since   2.4.7
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testFormBlockWithPerfmattersPlugin(AcceptanceTester $I)
+	{
+		// Setup Plugin and Resources.
+		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPluginResources($I);
+
+		// Activate Perfmatters Plugin.
+		$I->activateThirdPartyPlugin($I, 'perfmatters');
+
+		// Enable Defer and Delay JavaScript.
+		$I->haveOptionInDatabase(
+			'perfmatters_options',
+			[
+				'assets' => [
+					'defer_js' => 1,
+					'delay_js' => 1,
+				],
+			]
+		);
+
+		// Add a Page using the Gutenberg editor.
+		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form: Block: Perfmatters');
+
+		// Configure metabox's Form setting = None, ensuring we only test the block in Gutenberg.
+		$I->configureMetaboxSettings(
+			$I,
+			'wp-convertkit-meta-box',
+			[
+				'form' => [ 'select2', 'None' ],
+			]
+		);
+
+		// Add block to Page, setting the Form setting to the value specified in the .env file.
+		$I->addGutenbergBlock(
+			$I,
+			'ConvertKit Form',
+			'convertkit-form',
+			[
+				'form' => [ 'select', $_ENV['CONVERTKIT_API_FORM_NAME'] ],
+			]
+		);
+
+		// Publish and view the Page on the frontend site.
+		$I->publishAndViewGutenbergPage($I);
+
+		// Confirm that one ConvertKit Form is output in the DOM within the <main> element.
+		// This confirms that there is only one script on the page for this form, which renders the form.
+		$I->seeNumberOfElementsInDOM('main form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]', 1);
+
+		// Deactivate Perfmatters Plugin.
+		$I->deactivateThirdPartyPlugin($I, 'perfmatters');
+	}
+
+	/**
 	 * Test that the Form <script> embed is output in the content when the WP Rocket Plugin is active and its "Delay JavaScript execution"
 	 * setting is enabled.
 	 *
