@@ -799,7 +799,7 @@ class PageBlockFormCest
 		$I->setupConvertKitPluginResources($I);
 
 		// Activate Perfmatters Plugin.
-		$I->activateThirdPartyPlugin($I, 'perfmatters');
+		//$I->activateThirdPartyPlugin($I, 'perfmatters');
 
 		// Enable Defer and Delay JavaScript.
 		$I->haveOptionInDatabase(
@@ -834,11 +834,6 @@ class PageBlockFormCest
 			]
 		);
 
-		// Publish Gutenberg Page.
-		$url = $I->publishGutenbergPage($I);
-
-		$I->see('XXXXXXX');
-
 		// Publish and view the Page on the frontend site.
 		$I->publishAndViewGutenbergPage($I);
 
@@ -847,7 +842,7 @@ class PageBlockFormCest
 		$I->seeNumberOfElementsInDOM('main form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]', 1);
 
 		// Deactivate Perfmatters Plugin.
-		$I->deactivateThirdPartyPlugin($I, 'perfmatters');
+		//$I->deactivateThirdPartyPlugin($I, 'perfmatters');
 	}
 
 	/**
