@@ -801,7 +801,6 @@ class PageBlockFormCest
 		// Activate Perfmatters Plugin.
 		$I->activateThirdPartyPlugin($I, 'perfmatters');
 
-		/*
 		// Enable Defer and Delay JavaScript.
 		$I->haveOptionInDatabase(
 			'perfmatters_options',
@@ -812,7 +811,6 @@ class PageBlockFormCest
 				],
 			]
 		);
-		*/
 
 		// Add a Page using the Gutenberg editor.
 		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form: Block: Perfmatters');
