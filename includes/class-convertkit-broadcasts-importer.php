@@ -292,24 +292,24 @@ class ConvertKit_Broadcasts_Importer {
 		// Remove certain elements and their contents, as we never want these to be included in the WordPress Post.
 
 		// Remove open tracking.
-		foreach( $xpath->query('//img[@src="https://preview.convertkit-mail2.com/open"]') as $node ) {
-		    $node->parentNode->removeChild( $node );
+		foreach ( $xpath->query( '//img[@src="https://preview.convertkit-mail2.com/open"]' ) as $node ) {
+			$node->parentNode->removeChild( $node ); // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 		}
 
 		// Remove blank contenteditable table cells.
-		foreach( $xpath->query('//td[@contenteditable="false"]') as $node ) {
-		    $node->parentNode->removeChild( $node );
+		foreach ( $xpath->query( '//td[@contenteditable="false"]' ) as $node ) {
+			$node->parentNode->removeChild( $node ); // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 		}
 
 		// Remove <style> elements and their contents.
-		foreach( $xpath->query('//style') as $node ) {
-		    $node->parentNode->removeChild( $node );
+		foreach ( $xpath->query( '//style' ) as $node ) {
+			$node->parentNode->removeChild( $node ); // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 		}
 
 		// Remove ck-hide-in-public-posts and their contents.
 		// This includesthe unsubscribe section.
-		foreach( $xpath->query( '//div[contains(@class, "ck-hide-in-public-posts")]' ) as $node ) {
-		    $node->parentNode->removeChild( $node );
+		foreach ( $xpath->query( '//div[contains(@class, "ck-hide-in-public-posts")]' ) as $node ) {
+			$node->parentNode->removeChild( $node ); // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 		}
 
 		// Save HTML to a string.
@@ -335,7 +335,7 @@ class ConvertKit_Broadcasts_Importer {
 	/**
 	 * Returns the given content containing only the permitted HTML tags,
 	 * cleans up empty div elements and removes multiple newlines.
-	 * 
+	 *
 	 * Content contained within non-permitted HTML tags is returned, without
 	 * the HTML tags wrapping the content.
 	 *
