@@ -3,9 +3,9 @@ Contributors: nathanbarry, growdev, travisnorthcutt, ggwicz
 Donate link: https://convertkit.com
 Tags: email marketing, email newsletter, newsletter, subscribers, membership
 Requires at least: 5.0
-Tested up to: 6.4.3
+Tested up to: 6.5
 Requires PHP: 5.6.20
-Stable tag: 2.4.6
+Stable tag: 2.4.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -155,6 +155,10 @@ Full Plugin documentation can be found [here](https://help.convertkit.com/en/art
 10. Track subscriber growth
 
 == Changelog ==
+
+### 2.4.7 2024-04-03
+* Fix: WP-Rocket: Display Forms when WP-Rocket's `Delay JavaScript Execution` option is enabled
+* Fix: Perfmatters: Display Forms when Perfmatters' `Delay JavaScript` option is enabled
 
 ### 2.4.6 2024-03-08
 * Fix: Debug Log: Change log file location to log subfolder, with .htaccess and index.html protection
