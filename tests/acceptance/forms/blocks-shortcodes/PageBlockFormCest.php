@@ -808,6 +808,7 @@ class PageBlockFormCest
 				'assets' => [
 					'defer_js' => 1,
 					'delay_js' => 1,
+					'delay_js_inclusions' => '',
 				],
 			]
 		);
