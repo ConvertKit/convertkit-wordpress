@@ -593,8 +593,9 @@ class PageShortcodeFormCest
 			'perfmatters_options',
 			[
 				'assets' => [
-					'defer_js' => 1,
-					'delay_js' => 1,
+					'defer_js'            => 1,
+					'delay_js'            => 1,
+					'delay_js_inclusions' => '',
 				],
 			]
 		);
