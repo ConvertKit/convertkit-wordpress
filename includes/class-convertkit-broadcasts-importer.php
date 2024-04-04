@@ -345,7 +345,7 @@ class ConvertKit_Broadcasts_Importer {
 	 * @param   bool   $disable_styles  Disable styles.
 	 * @return  string                  HTML Content
 	 */
-	private function get_permitted_html( $content, $disable_styles = false ) {
+	public function get_permitted_html( $content, $disable_styles = false ) {
 
 		// For PHP 7.4 and lower compatibility, convert permitted HTML tags array to a string
 		// for use in strip_tags().
