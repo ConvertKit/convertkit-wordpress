@@ -255,6 +255,9 @@ class RestrictContentProductPageCest
 		// Check content is not displayed, and CTA displays with expected text,
 		// as we are not logged in.
 		$I->seeElementInDOM('#convertkit-restrict-content');
+
+		// Deactivate Beaver Builder Lite.
+		$I->deactivateThirdPartyPlugin($I, 'beaver-builder-lite-version');
 	}
 
 	/**
