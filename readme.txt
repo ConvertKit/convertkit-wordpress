@@ -156,9 +156,10 @@ Full Plugin documentation can be found [here](https://help.convertkit.com/en/art
 
 == Changelog ==
 
-### 2.4.7 2024-04-03
+### 2.4.7 2024-04-08
 * Fix: WP-Rocket: Display Forms when WP-Rocket's `Delay JavaScript Execution` option is enabled
 * Fix: Perfmatters: Display Forms when Perfmatters' `Delay JavaScript` option is enabled
+* Fix: Broadcasts (Beta): Improve parsing of Broadcasts when removing unsubscribe and hidden sections
 
 ### 2.4.6 2024-03-08
 * Fix: Debug Log: Change log file location to log subfolder, with .htaccess and index.html protection
