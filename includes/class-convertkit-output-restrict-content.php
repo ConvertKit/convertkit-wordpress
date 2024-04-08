@@ -310,6 +310,14 @@ class ConvertKit_Output_Restrict_Content {
 			return $content;
 		}
 
+		// Bail if the Page is being edited in a frontend Page Builder / Editor by a logged
+		// in WordPress user who has the capability to edit the Page.
+		// This ensures the User can view all content to edit it, instead of seeing the Restrict Content
+		// view.
+		if ( current_user_can( 'edit_post', get_the_ID() ) && WP_ConvertKit()->is_admin_or_frontend_editor() ) {
+			return $content;
+		}
+
 		// Get resource type (Product or Tag) that the visitor must be subscribed against to access this content.
 		$this->resource_type = $this->get_resource_type();
 
