@@ -207,6 +207,60 @@ class RestrictContentProductPageCest
 	}
 
 	/**
+	 * Test that content is displayed when the Page is being edited in a frontend
+	 * Page Builder / Editor by a logged in WordPress user who has the capability
+	 * to edit the Page.
+	 *
+	 * @since   2.4.8
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testRestrictContentWhenEditingWithFrontendPageBuilder(AcceptanceTester $I)
+	{
+		// Setup ConvertKit Plugin, disabling JS.
+		$I->setupConvertKitPluginDisableJS($I);
+
+		// Activate Beaver Builder Lite, a frontend Page Builder.
+		$I->activateThirdPartyPlugin($I, 'beaver-builder-lite-version');
+
+		// Add a Page using the Gutenberg editor.
+		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Restrict Content: Beaver Builder');
+
+		// Configure metabox's Restrict Content setting = Product name.
+		$I->configureMetaboxSettings(
+			$I,
+			'wp-convertkit-meta-box',
+			[
+				'form'             => [ 'select2', 'None' ],
+				'restrict_content' => [ 'select2', $_ENV['CONVERTKIT_API_PRODUCT_NAME'] ],
+			]
+		);
+
+		// Publish Page.
+		$url = $I->publishGutenbergPage($I);
+
+		// Edit Page in Beaver Builder.
+		$I->amOnUrl($url . '?fl_builder&fl_builder_ui');
+
+		// Confirm that the CTA is not displayed.
+		$I->dontSeeElementInDOM('#convertkit-restrict-content');
+
+		// Log out.
+		$I->logOut();
+
+		// Attempt to edit Page in Beaver Builder.
+		// Beaver Builder won't load as we're not logged in.
+		$I->amOnUrl($url . '?fl_builder&fl_builder_ui');
+
+		// Check content is not displayed, and CTA displays with expected text,
+		// as we are not logged in.
+		$I->seeElementInDOM('#convertkit-restrict-content');
+
+		// Deactivate Beaver Builder Lite.
+		$I->deactivateThirdPartyPlugin($I, 'beaver-builder-lite-version');
+	}
+
+	/**
 	 * Test that search engines can access Restrict Content.
 	 *
 	 * @since   2.4.2
