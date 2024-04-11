@@ -3,9 +3,9 @@ Contributors: nathanbarry, growdev, travisnorthcutt, ggwicz
 Donate link: https://convertkit.com
 Tags: email marketing, email newsletter, newsletter, subscribers, membership
 Requires at least: 5.0
-Tested up to: 6.5
+Tested up to: 6.5.2
 Requires PHP: 5.6.20
-Stable tag: 2.4.7
+Stable tag: 2.4.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -155,6 +155,10 @@ Full Plugin documentation can be found [here](https://help.convertkit.com/en/art
 10. Track subscriber growth
 
 == Changelog ==
+
+### 2.4.8 2024-04-11
+* Fix: Member Content: Display Content when using a frontend Page Builder, such as Beaver Builder
+* Fix: Forms: Sticky Bar: Set `z-index` CSS property to ensure Sticky Bar Forms correctly display over some WordPress Theme headers and menus
 
 ### 2.4.7 2024-04-08
 * Fix: WP-Rocket: Display Forms when WP-Rocket's `Delay JavaScript Execution` option is enabled
