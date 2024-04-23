@@ -352,7 +352,7 @@ class PluginSetupWizardCest
 		$I->haveOptionInDatabase(
 			'_wp_convertkit_settings',
 			[
-				'access_token' => $_ENV['CONVERTKIT_OAUTH_ACCESS_TOKEN_NO_DATA'],
+				'access_token'  => $_ENV['CONVERTKIT_OAUTH_ACCESS_TOKEN_NO_DATA'],
 				'refresh_token' => $_ENV['CONVERTKIT_OAUTH_REFRESH_TOKEN_NO_DATA'],
 			]
 		);

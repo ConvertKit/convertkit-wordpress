@@ -97,11 +97,11 @@ class ConvertKitPlugin extends \Codeception\Module
 		$I->setupConvertKitPlugin(
 			$I,
 			[
-				'access_token' => $_ENV['CONVERTKIT_OAUTH_ACCESS_TOKEN_NO_DATA'],
-				'refresh_token'=> $_ENV['CONVERTKIT_OAUTH_REFRESH_TOKEN_NO_DATA'],
-				'post_form'    => '',
-				'page_form'    => '',
-				'product_form' => '',
+				'access_token'  => $_ENV['CONVERTKIT_OAUTH_ACCESS_TOKEN_NO_DATA'],
+				'refresh_token' => $_ENV['CONVERTKIT_OAUTH_REFRESH_TOKEN_NO_DATA'],
+				'post_form'     => '',
+				'page_form'     => '',
+				'product_form'  => '',
 			]
 		);
 	}
@@ -120,11 +120,11 @@ class ConvertKitPlugin extends \Codeception\Module
 		$I->setupConvertKitPlugin(
 			$I,
 			[
-				'access_token' => 'fakeAccessToken',
-				'refresh_token'=> 'fakeRefreshToken',
-				'post_form'    => '',
-				'page_form'    => '',
-				'product_form' => '',
+				'access_token'  => 'fakeAccessToken',
+				'refresh_token' => 'fakeRefreshToken',
+				'post_form'     => '',
+				'page_form'     => '',
+				'product_form'  => '',
 			]
 		);
 	}
