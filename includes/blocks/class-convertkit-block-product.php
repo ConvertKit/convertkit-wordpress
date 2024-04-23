@@ -134,7 +134,7 @@ class ConvertKit_Block_Product extends ConvertKit_Block {
 			'gutenberg_example_image'           => CONVERTKIT_PLUGIN_URL . 'resources/backend/images/block-example-product.png',
 
 			// Help descriptions, displayed when no Access Token / resources exist and this block/shortcode is added.
-			'no_access_token'                        => array(
+			'no_access_token'                   => array(
 				'notice'    => __( 'Not connected to ConvertKit.', 'convertkit' ),
 				'link'      => convertkit_get_setup_wizard_plugin_link(),
 				'link_text' => __( 'Click here to connect your ConvertKit account.', 'convertkit' ),

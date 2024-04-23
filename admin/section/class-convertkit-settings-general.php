@@ -71,8 +71,8 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 	/**
 	 * Test the access token, if it exists.
 	 * If the access token has been revoked or is invalid, remove it from the settings now.
-	 * 
-	 * @since 	2.5.0
+	 *
+	 * @since   2.5.0
 	 */
 	private function check_credentials() {
 
@@ -114,26 +114,33 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 			case 401:
 				// Access token either expired or was revoked in ConvertKit.
 				// Remove from settings.
-				$this->settings->save( array(
-					'access_token' => '',
-					'refresh_token' => '',
-					'token_expires' => '',
-				) );
+				$this->settings->save(
+					array(
+						'access_token'  => '',
+						'refresh_token' => '',
+						'token_expires' => '',
+					)
+				);
 
 				// Display a site wide notice.
 				WP_ConvertKit()->get_class( 'admin_notices' )->add( 'authorization_failed' );
 
 				// Redirect to General screen, which will now show the ConvertKit_Settings_OAuth screen, because
 				// the Plugin has no access token.
-				wp_safe_redirect( add_query_arg( array(
-					'page' => $this->settings_key,
-				), 'options-general.php' ) );
+				wp_safe_redirect(
+					add_query_arg(
+						array(
+							'page' => $this->settings_key,
+						),
+						'options-general.php'
+					)
+				);
 				exit();
 		}
 
 		// Output a non-401 error now.
 		$this->output_error( $this->account->get_error_message() );
-	
+
 	}
 
 	/**
@@ -155,14 +162,19 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 		}
 
 		// Delete Access Token.
-		$settings = new ConvertKit_Settings;
+		$settings = new ConvertKit_Settings();
 		$settings->delete_credentials();
 
 		// Redirect to General screen, which will now show the ConvertKit_Settings_OAuth screen, because
 		// the Plugin has no access token.
-		wp_safe_redirect( add_query_arg( array(
-			'page' => $this->settings_key,
-		), 'options-general.php' ) );
+		wp_safe_redirect(
+			add_query_arg(
+				array(
+					'page' => $this->settings_key,
+				),
+				'options-general.php'
+			)
+		);
 		exit();
 
 	}
@@ -337,7 +349,7 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 	public function account_name_callback() {
 
 		// Output Account Name.
-		$html  = sprintf(
+		$html = sprintf(
 			'<code>%s</code>',
 			isset( $this->account['account']['name'] ) ? esc_attr( $this->account['account']['name'] ) : esc_html__( '(Not specified)', 'convertkit' )
 		);
@@ -346,14 +358,17 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 		$html .= sprintf(
 			'<p><a href="%1$s" class="button button-primary">%2$s</a></p>',
 			esc_url(
-				add_query_arg( array(
-					'page' => '_wp_convertkit_settings',
-					'disconnect' => '1',
-				), 'options-general.php' )
+				add_query_arg(
+					array(
+						'page'       => '_wp_convertkit_settings',
+						'disconnect' => '1',
+					),
+					'options-general.php'
+				)
 			),
 			esc_html__( 'Disconnect', 'convertkit' )
 		);
-		
+
 		// Output has already been run through escaping functions above.
 		echo $html; // phpcs:ignore WordPress.Security.EscapeOutput
 	}
