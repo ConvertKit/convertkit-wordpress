@@ -32,12 +32,14 @@ class ConvertKit_Resource_Creator_Network_Recommendations extends ConvertKit_Res
 	 */
 	public function __construct( $context = false ) {
 
-		// Initialize the API if the API Key and Secret have been defined in the Plugin Settings.
+		// Initialize the API if the Access Token has been defined in the Plugin Settings.
 		$settings = new ConvertKit_Settings();
-		if ( $settings->has_api_key_and_secret() ) {
+		if ( $settings->has_access_and_refresh_token() ) {
 			$this->api = new ConvertKit_API(
-				$settings->get_api_key(),
-				$settings->get_api_secret(),
+				CONVERTKIT_OAUTH_CLIENT_ID,
+				admin_url( 'options-general.php?page=_wp_convertkit_settings' ),
+				$settings->get_access_token(),
+				$settings->get_refresh_token(),
 				$settings->debug_enabled(),
 				$context
 			);

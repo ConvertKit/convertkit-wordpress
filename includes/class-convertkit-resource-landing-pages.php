@@ -37,14 +37,16 @@ class ConvertKit_Resource_Landing_Pages extends ConvertKit_Resource {
 	 */
 	public function __construct( $context = false ) {
 
-		// Initialize the API if the API Key and Secret have been defined in the Plugin Settings.
+		// Initialize the API if the Access Token has been defined in the Plugin Settings.
 		$settings = new ConvertKit_Settings();
-		if ( $settings->has_api_key_and_secret() ) {
+		if ( $settings->has_access_and_refresh_token() ) {
 			$this->api = new ConvertKit_API(
-				$settings->get_api_key(),
-				$settings->get_api_secret(),
+				CONVERTKIT_OAUTH_CLIENT_ID,
+				admin_url( 'options-general.php?page=_wp_convertkit_settings' ),
+				$settings->get_access_token(),
+				$settings->get_refresh_token(),
 				$settings->debug_enabled(),
-				$context
+				'landing_pages'
 			);
 		}
 
@@ -64,8 +66,15 @@ class ConvertKit_Resource_Landing_Pages extends ConvertKit_Resource {
 	public function get_html( $id ) {
 
 		// Setup API.
-		$api      = new ConvertKit_API( false, false, true, 'output_landing_page' );
 		$settings = new ConvertKit_Settings();
+		$this->api = new ConvertKit_API(
+			CONVERTKIT_OAUTH_CLIENT_ID,
+			admin_url( 'options-general.php?page=_wp_convertkit_settings' ),
+			$settings->get_access_token(),
+			$settings->get_refresh_token(),
+			$settings->debug_enabled(),
+			'output_landing_page'
+		);
 
 		// If the ID is a URL, this is a Legacy Landing Page defined for use on this Page
 		// in a Plugin version < 1.9.6.

@@ -201,10 +201,10 @@ class ConvertKit_Admin_Setup_Wizard {
 	private function process_form() {
 
 		// Run security checks.
-		if ( ! isset( $_POST['_wpnonce'] ) ) {
+		if ( ! isset( $_REQUEST['_wpnonce'] ) ) {
 			return;
 		}
-		if ( ! wp_verify_nonce( sanitize_key( $_POST['_wpnonce'] ), $this->page_name ) ) {
+		if ( ! wp_verify_nonce( sanitize_key( $_REQUEST['_wpnonce'] ), $this->page_name ) ) {
 			$this->error = __( 'Invalid nonce specified.', 'convertkit' );
 			return;
 		}

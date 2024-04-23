@@ -45,6 +45,9 @@ class ConvertKit_Settings {
 			$this->settings = array_merge( $this->get_defaults(), $settings );
 		}
 
+		// Update Access Token when refreshed by the API class.
+		add_action( 'convertkit_api_refresh_token', array( $this, 'update_credentials' ), 10, 2 );
+
 	}
 
 	/**
@@ -160,6 +163,89 @@ class ConvertKit_Settings {
 	public function has_api_key_and_secret() {
 
 		return $this->has_api_key() && $this->has_api_secret();
+
+	}
+
+	/**
+	 * Returns the Access Token Plugin setting.
+	 *
+	 * @since   2.5.0
+	 *
+	 * @return  string
+	 */
+	public function get_access_token() {
+
+		// Return Access Token from settings.
+		return $this->settings['access_token'];
+
+	}
+
+	/**
+	 * Returns whether the Access Token has been set in the Plugin settings.
+	 *
+	 * @since   2.5.0
+	 *
+	 * @return  bool
+	 */
+	public function has_access_token() {
+
+		return ( ! empty( $this->get_access_token() ) ? true : false );
+
+	}
+
+	/**
+	 * Returns the Refresh Token Plugin setting.
+	 *
+	 * @since   2.5.0
+	 *
+	 * @return  string
+	 */
+	public function get_refresh_token() {
+
+		// Return Refresh Token from settings.
+		return $this->settings['refresh_token'];
+
+	}
+
+	/**
+	 * Returns whether the Refresh Token has been set in the Plugin settings.
+	 *
+	 * @since   2.5.0
+	 *
+	 * @return  bool
+	 */
+	public function has_refresh_token() {
+
+		return ( ! empty( $this->get_refresh_token() ) ? true : false );
+
+	}
+
+	/**
+	 * Returns whether to use Access and Refresh Tokens for API requests,
+	 * based on whether an Access Token and Refresh Token have been saved
+	 * in the Plugin settings.
+	 *
+	 * @since   2.5.0
+	 *
+	 * @return  bool
+	 */
+	public function has_access_and_refresh_token() {
+
+		return $this->has_access_token() && $this->has_refresh_token();
+
+	}
+
+	/**
+	 * Returns the Access Token expiry timestamp.
+	 *
+	 * @since   2.5.0
+	 *
+	 * @return  int
+	 */
+	public function get_token_expiry() {
+
+		// Return Token Expiry from settings.
+		return $this->settings['token_expires'];
 
 	}
 
@@ -289,6 +375,11 @@ class ConvertKit_Settings {
 			'debug'           => '', // blank|on.
 			'no_scripts'      => '', // blank|on.
 			'no_css'          => '', // blank|on.
+
+			// OAuth.
+			'access_token'    => '', // string.
+			'refresh_token'   => '', // string.
+			'token_expires'   => '', // integer.
 		);
 
 		// Add Post Type Default Forms.
@@ -311,6 +402,40 @@ class ConvertKit_Settings {
 	}
 
 	/**
+	 * Saves the new access token, refresh token and its expiry when the API
+	 * class automatically refreshes an outdated access token.
+	 * 
+	 * @since 	2.5.0
+	 * 
+	 * @param 	array 	$result 	New Access Token, Refresh Token and Expiry.
+	 * @param 	string  $client_id  OAuth Client ID.
+	 */
+	public function update_credentials( $result, $client_id ) {
+
+		$this->save( array(
+			'access_token'  => $result['access_token'],
+			'refresh_token' => $result['refresh_token'],
+			'token_expires' => ( $result['created_at'] + $result['expires_in'] ),
+		) );
+
+	}
+
+	/**
+	 * Deletes any existing access token, refresh token and its expiry from the Plugin settings.
+	 * 
+	 * @since 	2.5.0
+	 */
+	public function delete_credentials() {
+
+		$this->save( array(
+			'access_token'  => '',
+			'refresh_token' => '',
+			'token_expires' => '',
+		) );
+
+	}
+
+	/**
 	 * Saves the given array of settings to the WordPress options table.
 	 *
 	 * @since   1.9.8.4
@@ -320,6 +445,9 @@ class ConvertKit_Settings {
 	public function save( $settings ) {
 
 		update_option( self::SETTINGS_NAME, array_merge( $this->get(), $settings ) );
+
+		// Reload settings in class, to reflect changes.
+		$this->settings = get_option( self::SETTINGS_NAME );
 
 	}
 

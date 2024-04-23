@@ -37,12 +37,14 @@ class ConvertKit_Resource_Forms extends ConvertKit_Resource {
 	 */
 	public function __construct( $context = false ) {
 
-		// Initialize the API if the API Key and Secret have been defined in the Plugin Settings.
+		// Initialize the API if the Access Token has been defined in the Plugin Settings.
 		$settings = new ConvertKit_Settings();
-		if ( $settings->has_api_key_and_secret() ) {
+		if ( $settings->has_access_and_refresh_token() ) {
 			$this->api = new ConvertKit_API(
-				$settings->get_api_key(),
-				$settings->get_api_secret(),
+				CONVERTKIT_OAUTH_CLIENT_ID,
+				admin_url( 'options-general.php?page=_wp_convertkit_settings' ),
+				$settings->get_access_token(),
+				$settings->get_refresh_token(),
 				$settings->debug_enabled(),
 				$context
 			);
@@ -271,16 +273,23 @@ class ConvertKit_Resource_Forms extends ConvertKit_Resource {
 			// Initialize Settings.
 			$settings = new ConvertKit_Settings();
 
-			// Bail if no API Key is specified in the Plugin Settings.
-			if ( ! $settings->has_api_key() ) {
+			// Bail if no Access Token is specified in the Plugin Settings.
+			if ( ! $settings->has_access_token() ) {
 				return new WP_Error(
 					'convertkit_resource_forms_get_html',
-					__( 'ConvertKit Legacy Form could not be fetched as no API Key specified in Plugin Settings', 'convertkit' )
+					__( 'ConvertKit Legacy Form could not be fetched as no Access Token specified in Plugin Settings', 'convertkit' )
 				);
 			}
 
 			// Initialize the API.
-			$api = new ConvertKit_API( $settings->get_api_key(), $settings->get_api_secret(), $settings->debug_enabled(), 'output_form' );
+			$api = new ConvertKit_API(
+				CONVERTKIT_OAUTH_CLIENT_ID,
+				admin_url( 'options-general.php?page=_wp_convertkit_settings' ),
+				$settings->get_access_token(),
+				$settings->get_refresh_token(),
+				$settings->debug_enabled(),
+				'output_form'
+			);
 
 			// Return Legacy Form HTML.
 			return $api->get_form_html( $id );

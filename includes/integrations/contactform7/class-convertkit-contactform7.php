@@ -98,7 +98,7 @@ class ConvertKit_ContactForm7 {
 
 		// Bail if the API hasn't been configured.
 		$settings = new ConvertKit_Settings();
-		if ( ! $settings->has_api_key_and_secret() ) {
+		if ( ! $settings->has_access_and_refresh_token() ) {
 			return;
 		}
 
@@ -120,7 +120,14 @@ class ConvertKit_ContactForm7 {
 
 		// If here, subscribe the user to the ConvertKit Form.
 		// Initialize the API.
-		$api = new ConvertKit_API( $settings->get_api_key(), $settings->get_api_secret(), $settings->debug_enabled(), 'contact_form_7' );
+		$api = new ConvertKit_API(
+			CONVERTKIT_OAUTH_CLIENT_ID,
+			admin_url( 'options-general.php?page=_wp_convertkit_settings' ),
+			$settings->get_access_token(),
+			$settings->get_refresh_token(),
+			$settings->debug_enabled(),
+			'contact_form_7'
+		);
 
 		// Send request.
 		$api->form_subscribe( $convertkit_form_id, $email, $first_name );

@@ -162,13 +162,20 @@ class ConvertKit_Output_Restrict_Content {
 			return;
 		}
 
-		// If the Plugin API keys have not been configured, we can't get this subscriber's ID by email.
-		if ( ! $this->settings->has_api_key_and_secret() ) {
+		// If the Plugin Access Token has not been configured, we can't get this subscriber's ID by email.
+		if ( ! $this->settings->has_access_and_refresh_token() ) {
 			return;
 		}
 
 		// Initialize the API.
-		$this->api = new ConvertKit_API( $this->settings->get_api_key(), $this->settings->get_api_secret(), $this->settings->debug_enabled() );
+		$this->api = new ConvertKit_API(
+			CONVERTKIT_OAUTH_CLIENT_ID,
+			admin_url( 'options-general.php?page=_wp_convertkit_settings' ),
+			$this->settings->get_access_token(),
+			$this->settings->get_refresh_token(),
+			$this->settings->debug_enabled(),
+			'restrict_content'
+		);
 
 		// Sanitize inputs.
 		$email               = sanitize_text_field( $_REQUEST['convertkit_email'] );
@@ -259,8 +266,8 @@ class ConvertKit_Output_Restrict_Content {
 			return;
 		}
 
-		// If the Plugin API keys have not been configured, we can't get this subscriber's ID by email.
-		if ( ! $this->settings->has_api_key_and_secret() ) {
+		// If the Plugin Access Token has not been configured, we can't get this subscriber's ID by email.
+		if ( ! $this->settings->has_access_and_refresh_token() ) {
 			return;
 		}
 
@@ -269,7 +276,14 @@ class ConvertKit_Output_Restrict_Content {
 		$this->post_id = absint( sanitize_text_field( $_REQUEST['convertkit_post_id'] ) );
 
 		// Initialize the API.
-		$this->api = new ConvertKit_API( $this->settings->get_api_key(), $this->settings->get_api_secret(), $this->settings->debug_enabled() );
+		$this->api = new ConvertKit_API(
+			CONVERTKIT_OAUTH_CLIENT_ID,
+			admin_url( 'options-general.php?page=_wp_convertkit_settings' ),
+			$this->settings->get_access_token(),
+			$this->settings->get_refresh_token(),
+			$this->settings->debug_enabled(),
+			'restrict_content'
+		);
 
 		// Verify the token and subscriber code.
 		$subscriber_id = $this->api->subscriber_authentication_verify(
@@ -561,9 +575,9 @@ class ConvertKit_Output_Restrict_Content {
 			return false;
 		}
 
-		// If the Plugin API keys have not been configured, we can't determine the validity of this subscriber ID
+		// If the Plugin Access Token has not been configured, we can't determine the validity of this subscriber ID
 		// or which resource(s) they have access to.
-		if ( ! $this->settings->has_api_key_and_secret() ) {
+		if ( ! $this->settings->has_access_and_refresh_token() ) {
 			return false;
 		}
 
@@ -746,7 +760,14 @@ class ConvertKit_Output_Restrict_Content {
 	private function subscriber_has_access( $subscriber_id ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter
 
 		// Initialize the API.
-		$this->api = new ConvertKit_API( $this->settings->get_api_key(), $this->settings->get_api_secret(), $this->settings->debug_enabled() );
+		$this->api = new ConvertKit_API(
+			CONVERTKIT_OAUTH_CLIENT_ID,
+			admin_url( 'options-general.php?page=_wp_convertkit_settings' ),
+			$this->settings->get_access_token(),
+			$this->settings->get_refresh_token(),
+			$this->settings->debug_enabled(),
+			'restrict_content'
+		);
 
 		// Depending on the resource type, determine if the subscriber has access to it.
 		// This is deliberately a switch statement, because we will likely add in support

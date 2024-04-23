@@ -122,7 +122,7 @@ class ConvertKit_Admin_Category {
 
 		// Bail if the API hasn't been configured.
 		$settings = new ConvertKit_Settings();
-		if ( ! $settings->has_api_key_and_secret() ) {
+		if ( ! $settings->has_access_and_refresh_token() ) {
 			return false;
 		}
 
@@ -138,7 +138,7 @@ class ConvertKit_Admin_Category {
 
 		// Don't show the form fields if the API hasn't been configured.
 		$settings = new ConvertKit_Settings();
-		if ( ! $settings->has_api_key_and_secret() ) {
+		if ( ! $settings->has_access_and_refresh_token() ) {
 			return;
 		}
 
@@ -161,7 +161,7 @@ class ConvertKit_Admin_Category {
 
 		// Don't show the form fields if the API hasn't been configured.
 		$settings = new ConvertKit_Settings();
-		if ( ! $settings->has_api_key_and_secret() ) {
+		if ( ! $settings->has_access_and_refresh_token() ) {
 			return;
 		}
 

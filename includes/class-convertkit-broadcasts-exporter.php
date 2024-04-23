@@ -58,7 +58,7 @@ class ConvertKit_Broadcasts_Exporter {
 
 		// Bail if no API credentials have been set.
 		$this->settings = new ConvertKit_Settings();
-		if ( ! $this->settings->has_api_key_and_secret() ) {
+		if ( ! $this->settings->has_access_and_refresh_token() ) {
 			return;
 		}
 
@@ -216,7 +216,14 @@ class ConvertKit_Broadcasts_Exporter {
 		$content = WP_ConvertKit()->get_class( 'broadcasts_importer' )->get_permitted_html( $content, $this->broadcasts_settings->no_styles() );
 
 		// Initialize the API.
-		$api = new ConvertKit_API( $this->settings->get_api_key(), $this->settings->get_api_secret(), $this->settings->debug_enabled() );
+		$api = new ConvertKit_API(
+			CONVERTKIT_OAUTH_CLIENT_ID,
+			admin_url( 'options-general.php?page=_wp_convertkit_settings' ),
+			$this->settings->get_access_token(),
+			$this->settings->get_refresh_token(),
+			$this->settings->debug_enabled(),
+			'settings'
+		);
 
 		// Create draft Broadcast in ConvertKit.
 		$result = $api->broadcast_create(

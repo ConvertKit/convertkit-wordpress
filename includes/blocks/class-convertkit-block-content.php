@@ -222,16 +222,23 @@ class ConvertKit_Block_Content extends ConvertKit_Block {
 
 		// Bail if the API hasn't been configured.
 		$settings = new ConvertKit_Settings();
-		if ( ! $settings->has_api_key_and_secret() ) {
+		if ( ! $settings->has_access_and_refresh_token() ) {
 			if ( $settings->debug_enabled() ) {
-				return '<!-- ConvertKit Custom Content: No API Key and Secret -->';
+				return '<!-- ConvertKit Custom Content: No Access Token -->';
 			}
 
 			return '';
 		}
 
 		// Initialize the API.
-		$api = new ConvertKit_API( $settings->get_api_key(), $settings->get_api_secret(), $settings->debug_enabled(), 'output_content' );
+		$api = new ConvertKit_API(
+			CONVERTKIT_OAUTH_CLIENT_ID,
+			admin_url( 'options-general.php?page=_wp_convertkit_settings' ),
+			$settings->get_access_token(),
+			$settings->get_refresh_token(),
+			$settings->debug_enabled(),
+			'output_content'
+		);
 
 		// Get the subscriber's tags, to see if they subscribed to this tag.
 		$tags = $api->get_subscriber_tags( $subscriber_id );

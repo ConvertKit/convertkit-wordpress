@@ -144,8 +144,9 @@ class ConvertKit_Admin_Post {
 
 		// Show a warning if the API credentials haven't been set.
 		$settings = new ConvertKit_Settings();
-		if ( ! $settings->has_api_key_and_secret() ) {
+		if ( ! $settings->has_access_and_refresh_token() ) {
 			$post_type = get_post_type_object( $post->post_type );
+			$api = new ConvertKit_API( CONVERTKIT_OAUTH_CLIENT_ID, admin_url( 'options-general.php?page=_wp_convertkit_settings' ) );
 			include CONVERTKIT_PLUGIN_PATH . '/views/backend/post/no-api-key.php';
 			return;
 		}

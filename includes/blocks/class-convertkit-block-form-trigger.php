@@ -112,7 +112,7 @@ class ConvertKit_Block_Form_Trigger extends ConvertKit_Block {
 			'gutenberg_example_image'           => CONVERTKIT_PLUGIN_URL . 'resources/backend/images/block-example-formtrigger.png',
 
 			// Help descriptions, displayed when no API key / resources exist and this block/shortcode is added.
-			'no_api_key'                        => array(
+			'no_access_token'                        => array(
 				'notice'    => __( 'No API Key specified.', 'convertkit' ),
 				'link'      => convertkit_get_setup_wizard_plugin_link(),
 				'link_text' => __( 'Click here to add your API Key.', 'convertkit' ),
@@ -130,7 +130,7 @@ class ConvertKit_Block_Form_Trigger extends ConvertKit_Block {
 
 			// Whether an API Key exists in the Plugin, and are the required resources (non-inline forms) available.
 			// If no API Key is specified in the Plugin's settings, render the "No API Key" output.
-			'has_api_key'                       => $settings->has_api_key_and_secret(),
+			'has_access_token'                       => $settings->has_access_and_refresh_token(),
 			'has_resources'                     => $convertkit_forms->non_inline_exist(),
 		);
 

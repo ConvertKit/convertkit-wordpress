@@ -63,15 +63,22 @@ class ConvertKit_Subscriber {
 
 		// Bail if the API hasn't been configured.
 		$settings = new ConvertKit_Settings();
-		if ( ! $settings->has_api_key_and_secret() ) {
+		if ( ! $settings->has_access_and_refresh_token() ) {
 			return new WP_Error(
 				'convertkit_subscriber_get_subscriber_id_from_request_error',
-				__( 'API Key and Secret not configured in Plugin Settings.', 'convertkit' )
+				__( 'Access Token not configured in Plugin Settings.', 'convertkit' )
 			);
 		}
 
 		// Initialize the API.
-		$api = new ConvertKit_API( $settings->get_api_key(), $settings->get_api_secret(), $settings->debug_enabled() );
+		$api = new ConvertKit_API(
+			CONVERTKIT_OAUTH_CLIENT_ID,
+			admin_url( 'options-general.php?page=_wp_convertkit_settings' ),
+			$settings->get_access_token(),
+			$settings->get_refresh_token(),
+			$settings->debug_enabled(),
+			'subscriber'
+		);
 
 		// Get subscriber by ID, to ensure they exist.
 		$subscriber = $api->get_subscriber_by_id( $subscriber_id );
@@ -106,15 +113,22 @@ class ConvertKit_Subscriber {
 
 		// Bail if the API hasn't been configured.
 		$settings = new ConvertKit_Settings();
-		if ( ! $settings->has_api_key_and_secret() ) {
+		if ( ! $settings->has_access_and_refresh_token() ) {
 			return new WP_Error(
 				'convertkit_subscriber_get_subscriber_id_from_request_error',
-				__( 'API Key and Secret not configured in Plugin Settings.', 'convertkit' )
+				__( 'Access Token not configured in Plugin Settings.', 'convertkit' )
 			);
 		}
 
 		// Initialize the API.
-		$api = new ConvertKit_API( $settings->get_api_key(), $settings->get_api_secret(), $settings->debug_enabled() );
+		$api = new ConvertKit_API(
+			CONVERTKIT_OAUTH_CLIENT_ID,
+			admin_url( 'options-general.php?page=_wp_convertkit_settings' ),
+			$settings->get_access_token(),
+			$settings->get_refresh_token(),
+			$settings->debug_enabled(),
+			'subscriber'
+		);
 
 		// Get subscriber by email, to ensure they exist.
 		$subscriber = $api->get_subscriber_by_email( $subscriber_email );

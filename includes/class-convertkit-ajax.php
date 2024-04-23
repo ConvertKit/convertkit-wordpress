@@ -44,7 +44,7 @@ class ConvertKit_AJAX {
 	 *
 	 * Typically used when a refresh button in a block has been pressed when
 	 * convertKitGutenbergDisplayBlockNoticeWithLink() is called, because either
-	 * no API keys were specified, or no resources exist in ConvertKit.
+	 * no Access Token is specified, or no resources exist in ConvertKit.
 	 *
 	 * @since   2.2.6
 	 */
@@ -189,12 +189,19 @@ class ConvertKit_AJAX {
 
 		// Bail if the API hasn't been configured.
 		$settings = new ConvertKit_Settings();
-		if ( ! $settings->has_api_key_and_secret() ) {
-			wp_send_json_error( __( 'ConvertKit: API Keys not defined in Plugin Settings.', 'convertkit' ) );
+		if ( ! $settings->has_access_and_refresh_token() ) {
+			wp_send_json_error( __( 'ConvertKit: Access Token not defined in Plugin Settings.', 'convertkit' ) );
 		}
 
 		// Initialize the API.
-		$api = new ConvertKit_API( $settings->get_api_key(), $settings->get_api_secret(), $settings->debug_enabled() );
+		$api = new ConvertKit_API(
+			CONVERTKIT_OAUTH_CLIENT_ID,
+			admin_url( 'options-general.php?page=_wp_convertkit_settings' ),
+			$settings->get_access_token(),
+			$settings->get_refresh_token(),
+			$settings->debug_enabled(),
+			'settings'
+		);
 
 		// Get subscriber's email address by subscriber ID.
 		$subscriber = $api->get_subscriber_by_id( $subscriber_id );

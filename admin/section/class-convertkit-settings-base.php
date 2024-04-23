@@ -76,6 +76,28 @@ abstract class ConvertKit_Settings_Base {
 	}
 
 	/**
+	 * Helper method to determine if we're viewing the current settings screen.
+	 * 
+	 * @since 	2.5.0
+	 * 
+	 * @return 	bool
+	 */
+	public function on_settings_screen() {
+
+		// Bail if we're not on the settings screen.
+		if ( ! array_key_exists( 'page', $_REQUEST ) ) { // phpcs:ignore WordPress.Security.NonceVerification
+			return false;
+		}
+		$page = sanitize_text_field( $_REQUEST['page'] );
+		if ( $page !== $this->settings_key ) {
+			return false;
+		}
+
+		return true;
+
+	}
+
+	/**
 	 * Register settings section.
 	 */
 	public function register_section() {
@@ -111,6 +133,38 @@ abstract class ConvertKit_Settings_Base {
 	 * Returns the URL for the ConvertKit documentation for this setting section.
 	 */
 	abstract public function documentation_url();
+
+	/**
+	 * Outputs success and/or error notices if required.
+	 *
+	 * @since   2.0.0
+	 */
+	public function maybe_output_notices() {
+
+		// Define messages that might be displayed as a notification.
+		$messages = array(
+			// OAuth.
+			'oauth2_success'						 		=> __( 'Successfully authorized with ConvertKit.', 'convertkit' ),
+			'convertkit_api_get_access_token_invalid_grant' => __( 'The provided authorization grant is invalid, expired, revoked, does not match the redirection URI used in the authorization request, or was issued to another client.', 'convertkit' ),
+			'convertkit_api_get_access_token_invalid_client'=> __( 'Client authentication failed due to unknown client, no client authentication included, or unsupported authentication method.', 'convertkit' ),
+			// Tools.
+			'import_configuration_upload_error'      => __( 'An error occured uploading the configuration file.', 'convertkit' ),
+			'import_configuration_invalid_file_type' => __( 'The uploaded configuration file isn\'t valid.', 'convertkit' ),
+			'import_configuration_empty'             => __( 'The uploaded configuration file contains no settings.', 'convertkit' ),
+			'import_configuration_success'           => __( 'Configuration imported successfully.', 'convertkit' ),
+		);
+
+		// Output error notification if defined.
+		if ( isset( $_REQUEST['error'] ) && array_key_exists( sanitize_text_field( $_REQUEST['error'] ), $messages ) ) { // phpcs:ignore WordPress.Security.NonceVerification
+			$this->output_error( $messages[ sanitize_text_field( $_REQUEST['error'] ) ] ); // phpcs:ignore WordPress.Security.NonceVerification
+		}
+
+		// Output success notification if defined.
+		if ( isset( $_REQUEST['success'] ) && array_key_exists( sanitize_text_field( $_REQUEST['success'] ), $messages ) ) { // phpcs:ignore WordPress.Security.NonceVerification
+			$this->output_success( $messages[ sanitize_text_field( $_REQUEST['success'] ) ] ); // phpcs:ignore WordPress.Security.NonceVerification
+		}
+
+	}
 
 	/**
 	 * Renders the section
@@ -495,17 +549,31 @@ abstract class ConvertKit_Settings_Base {
 	public function sanitize_settings( $settings ) {
 
 		// Merge settings with defaults.
-		$settings = wp_parse_args( $settings, $this->settings->get_defaults() );
+		$updated_settings = wp_parse_args( $settings, $this->settings->get_defaults() );
+
+		// If no Access Token, Refresh Token or Token Expiry keys were specified in the settings
+		// prior to save, don't overwrite them with the blank setting from get_defaults().
+		// This ensures we only blank these values if we explicitly do so via $settings,
+		// as they won't be included in the Settings screen for security.
+		if ( ! array_key_exists( 'access_token', $settings ) ) {
+			$updated_settings['access_token'] = $this->settings->get_access_token();
+		}
+		if ( ! array_key_exists( 'refresh_token', $settings ) ) {
+			$updated_settings['refresh_token'] = $this->settings->get_refresh_token();
+		}
+		if ( ! array_key_exists( 'token_expires', $settings ) ) {
+			$updated_settings['token_expires'] = $this->settings->get_token_expiry();
+		}
 
 		/**
 		 * Performs actions prior to settings being saved.
 		 *
 		 * @since   2.2.8
 		 */
-		do_action( 'convertkit_settings_base_sanitize_settings', $this->name, $settings );
+		do_action( 'convertkit_settings_base_sanitize_settings', $this->name, $updated_settings );
 
 		// Return settings to be saved.
-		return $settings;
+		return $updated_settings;
 
 	}
 
