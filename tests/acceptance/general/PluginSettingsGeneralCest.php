@@ -29,23 +29,19 @@ class PluginSettingsGeneralCest
 	 */
 	public function testAccessibilityAndUTMParameters(AcceptanceTester $I)
 	{
+		// Setup Plugin.
+		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPluginResources($I);
+
 		// Go to the Plugin's Settings Screen.
 		$I->loadConvertKitSettingsGeneralScreen($I);
 
 		// Confirm that settings have label[for] attributes.
-		$I->seeInSource('<label for="api_key">');
-		$I->seeInSource('<label for="api_secret">');
 		$I->seeInSource('<label for="_wp_convertkit_settings_page_form">');
 		$I->seeInSource('<label for="_wp_convertkit_settings_post_form">');
 		$I->seeInSource('<label for="debug">');
 		$I->seeInSource('<label for="no_scripts">');
 		$I->seeInSource('<label for="no_css">');
-
-		// Confirm that UTM parameters exist for the 'Get your ConvertKit API Key' link.
-		$I->seeInSource('<a href="https://app.convertkit.com/account_settings/advanced_settings/?utm_source=wordpress&amp;utm_term=en_US&amp;utm_content=convertkit" target="_blank">Get your ConvertKit API Key.</a>');
-
-		// Confirm that UTM parameters exist for the 'Get your ConvertKit API Secret' link.
-		$I->seeInSource('<a href="https://app.convertkit.com/account_settings/advanced_settings/?utm_source=wordpress&amp;utm_term=en_US&amp;utm_content=convertkit" target="_blank">Get your ConvertKit API Secret.</a>');
 
 		// Confirm that UTM parameters exist for the 'Click here to create your first form' link.
 		$I->seeInSource('<a href="https://app.convertkit.com/forms/new/?utm_source=wordpress&amp;utm_term=en_US&amp;utm_content=convertkit" target="_blank">Click here to create your first form</a>');
