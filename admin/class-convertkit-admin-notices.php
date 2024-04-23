@@ -67,7 +67,7 @@ class ConvertKit_Admin_Notices {
 					$api = new ConvertKit_API( CONVERTKIT_OAUTH_CLIENT_ID, admin_url( 'options-general.php?page=_wp_convertkit_settings' ) );
 					$output = sprintf(
 						'%s %s',
-						esc_html__( 'For the ConvertKit Plugin to function, please', 'convertkit' ),
+						esc_html__( 'ConvertKit: Authorization failed. Please', 'convertkit' ),
 						sprintf(
 							'<a href="%s">%s</a>',
 							esc_url( $api->get_oauth_url() ),
