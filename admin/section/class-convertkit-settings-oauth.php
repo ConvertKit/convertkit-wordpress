@@ -22,10 +22,15 @@ class ConvertKit_Settings_OAuth extends ConvertKit_Settings_Base {
 	 */
 	public function __construct() {
 
-		$this->settings_key = '_wp_convertkit_oauth'; // Required for ConvertKit_Settings_Base, but we don't save settings on this screen.
-		$this->name         = 'oauth';
-		$this->title        = __( 'OAuth', 'convertkit' );
-		$this->tab_text     = __( 'OAuth', 'convertkit' );
+		// Define the class that reads/writes settings.
+		$this->settings = new ConvertKit_Settings();
+
+		// Define the settings key.
+		$this->settings_key = $this->settings::SETTINGS_NAME;
+
+		$this->name     = 'oauth';
+		$this->title    = __( 'OAuth', 'convertkit' );
+		$this->tab_text = __( 'OAuth', 'convertkit' );
 
 		// Output notices.
 		add_action( 'convertkit_settings_base_render_before', array( $this, 'maybe_output_notices' ) );
@@ -74,8 +79,7 @@ class ConvertKit_Settings_OAuth extends ConvertKit_Settings_Base {
 		}
 
 		// Store Access Token, Refresh Token and expiry.
-		$settings = new ConvertKit_Settings();
-		$settings->save(
+		$this->settings->save(
 			array(
 				'access_token'  => $result['access_token'],
 				'refresh_token' => $result['refresh_token'],
