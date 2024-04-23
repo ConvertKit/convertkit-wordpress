@@ -20,8 +20,7 @@ class PluginSettingsGeneralCest
 
 	/**
 	 * Test that the Settings > ConvertKit > General screen has expected a11y output, such as label[for], and
-	 * UTM parameters are included in links displayed on the Plugins' Setting screen for the user to obtain
-	 * their API Key and Secret, or sign in to their ConvertKit account.
+	 * UTM parameters are included in links displayed on the Plugins' Setting screen.
 	 *
 	 * @since   1.9.7.6
 	 *
@@ -31,7 +30,6 @@ class PluginSettingsGeneralCest
 	{
 		// Setup Plugin.
 		$I->setupConvertKitPlugin($I);
-		$I->setupConvertKitPluginResources($I);
 
 		// Go to the Plugin's Settings Screen.
 		$I->loadConvertKitSettingsGeneralScreen($I);
@@ -43,68 +41,68 @@ class PluginSettingsGeneralCest
 		$I->seeInSource('<label for="no_scripts">');
 		$I->seeInSource('<label for="no_css">');
 
-		// Confirm that UTM parameters exist for the 'Click here to create your first form' link.
-		$I->seeInSource('<a href="https://app.convertkit.com/forms/new/?utm_source=wordpress&amp;utm_term=en_US&amp;utm_content=convertkit" target="_blank">Click here to create your first form</a>');
-
 		// Confirm that the UTM parameters exist for the documentation links.
 		$I->seeInSource('<a href="https://help.convertkit.com/en/articles/2502591-the-convertkit-wordpress-plugin?utm_source=wordpress&amp;utm_term=en_US&amp;utm_content=convertkit" class="convertkit-docs" target="_blank">Help</a>');
 		$I->seeInSource('<a href="https://help.convertkit.com/en/articles/2502591-the-convertkit-wordpress-plugin?utm_source=wordpress&amp;utm_term=en_US&amp;utm_content=convertkit" target="_blank">plugin documentation</a>');
 	}
 
 	/**
-	 * Test that no PHP errors or notices are displayed on the Plugin's Setting screen when the Save Changes
-	 * button is pressed and no settings are specified.
+	 * Test that no PHP errors or notices are displayed on the Plugin's Setting screen
+	 * and a Connect button is displayed when no credentials exist.
 	 *
 	 * @since   1.9.6
 	 *
 	 * @param   AcceptanceTester $I  Tester.
 	 */
-	public function testSaveBlankSettings(AcceptanceTester $I)
+	public function testNoCredentials(AcceptanceTester $I)
 	{
 		// Go to the Plugin's Settings Screen.
 		$I->loadConvertKitSettingsGeneralScreen($I);
 
-		// Click the Save Changes button.
-		$I->click('Save Changes');
+		// Confirm no option is displayed to save changes, as the Plugin isn't authenticated.
+		$I->dontSee('Save Changes');
+
+		// Confirm the Connect button displays.
+		$I->see('Connect');
+
+		// Navigate to the WordPress Admin.
+		$I->amOnAdminPage('index.php');
+
+		// Check that a notice is displayed that the API credentials are invalid.
+		$I->seeErrorNotice($I, 'Convertkit: Authorization failed. Please enter valid API credentials on the settings screen.');
 
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
-
-		// Check that the 'Click here to create your first form' link is displayed and links
-		// to creating an inline Form in ConvertKit.
-		$I->see('No Forms exist in ConvertKit.');
-		$I->seeInSource('<a href="https://app.convertkit.com/forms/new/?utm_source=wordpress&amp;utm_term=en_US&amp;utm_content=convertkit" target="_blank">Click here to create your first form</a>');
 	}
 
 	/**
 	 * Test that no PHP errors or notices are displayed on the Plugin's Setting screen,
-	 * and a warning is displayed that the supplied API credentials are invalid, when
-	 * saving invalid API credentials.
+	 * and a warning is displayed that the supplied credentials are invalid, when
+	 * e.g. the access token has been revoked.
 	 *
 	 * @since   1.9.6
 	 *
 	 * @param   AcceptanceTester $I  Tester.
 	 */
-	public function testSaveInvalidAPICredentials(AcceptanceTester $I)
+	public function testInvalidCredentials(AcceptanceTester $I)
 	{
+		// Setup Plugin.
+		$I->setupConvertKitPlugin($I, [
+			'access_token' => 'fakeAccessToken',
+			'refresh_token' => 'fakeRefreshToken'
+		]);
+
 		// Go to the Plugin's Settings Screen.
 		$I->loadConvertKitSettingsGeneralScreen($I);
-
-		// Complete API Fields with incorrect data.
-		$I->fillField('_wp_convertkit_settings[api_key]', 'fakeApiKey');
-		$I->fillField('_wp_convertkit_settings[api_secret]', 'fakeApiSecret');
-
-		// Click the Save Changes button.
-		$I->click('Save Changes');
 
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
 
-		// Check that a notice is displayed that the API credentials are invalid.
-		$I->seeErrorNotice($I, 'Authorization Failed: API Key not valid');
+		// Confirm no option is displayed to save changes, as the Plugin isn't authenticated.
+		$I->dontSee('Save Changes');
 
-		// Confirm option exists in DB.
-		$I->seeOptionInDatabase('convertkit-admin-notices');
+		// Confirm the Connect button displays.
+		$I->see('Connect');
 
 		// Navigate to the WordPress Admin.
 		$I->amOnAdminPage('index.php');
@@ -115,31 +113,20 @@ class PluginSettingsGeneralCest
 
 	/**
 	 * Test that no PHP errors or notices are displayed on the Plugin's Setting screen,
-	 * when valid API credentials are saved.
+	 * when valid credentials exist.
 	 *
 	 * @since   1.9.6
 	 *
 	 * @param   AcceptanceTester $I  Tester.
 	 */
-	public function testSaveValidAPICredentials(AcceptanceTester $I)
+	public function testValidCredentials(AcceptanceTester $I)
 	{
+		// Setup Plugin.
+		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPluginResources($I);
+
 		// Go to the Plugin's Settings Screen.
 		$I->loadConvertKitSettingsGeneralScreen($I);
-
-		// Complete API Fields.
-		// @TODO.
-		$I->fillField('_wp_convertkit_settings[api_key]', $_ENV['CONVERTKIT_API_KEY']);
-		$I->fillField('_wp_convertkit_settings[api_secret]', $_ENV['CONVERTKIT_API_SECRET']);
-
-		// Click the Save Changes button.
-		$I->click('Save Changes');
-
-		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen($I);
-
-		// Check the value of the fields match the inputs provided.
-		$I->seeInField('_wp_convertkit_settings[api_key]', $_ENV['CONVERTKIT_API_KEY']);
-		$I->seeInField('_wp_convertkit_settings[api_secret]', $_ENV['CONVERTKIT_API_SECRET']);
 
 		// Check the order of the Form resources are alphabetical, with 'None' as the first choice.
 		$I->checkSelectFormOptionOrder(
@@ -169,8 +156,12 @@ class PluginSettingsGeneralCest
 	 *
 	 * @param   AcceptanceTester $I  Tester.
 	 */
-	public function testSaveValidAPICredentialsWithNoForms(AcceptanceTester $I)
+	public function testValidCredentialsWithNoForms(AcceptanceTester $I)
 	{
+		// Setup Plugin.
+		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPluginResources($I);
+
 		// Go to the Plugin's Settings Screen.
 		$I->loadConvertKitSettingsGeneralScreen($I);
 
@@ -189,42 +180,6 @@ class PluginSettingsGeneralCest
 		// to creating an inline Form in ConvertKit.
 		$I->see('No Forms exist in ConvertKit.');
 		$I->seeInSource('<a href="https://app.convertkit.com/forms/new/?utm_source=wordpress&amp;utm_term=en_US&amp;utm_content=convertkit" target="_blank">Click here to create your first form</a>');
-	}
-
-	/**
-	 * Test that API credentials have spaces removed when entered.
-	 *
-	 * @since   2.4.3
-	 *
-	 * @param   AcceptanceTester $I  Tester.
-	 */
-	public function testSaveValidAPICredentialsContainingSpaces(AcceptanceTester $I)
-	{
-		// Go to the Plugin's Settings Screen.
-		$I->loadConvertKitSettingsGeneralScreen($I);
-
-		// Complete API Fields.
-		$I->fillField('_wp_convertkit_settings[api_key]', '   ' . $_ENV['CONVERTKIT_API_KEY'] . '   ' );
-		$I->fillField('_wp_convertkit_settings[api_secret]', '   ' . $_ENV['CONVERTKIT_API_SECRET'] . '   ' );
-
-		// Click the Save Changes button.
-		$I->click('Save Changes');
-
-		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen($I);
-
-		// Check the value of the fields match the inputs provided.
-		$I->seeInField('_wp_convertkit_settings[api_key]', $_ENV['CONVERTKIT_API_KEY']);
-		$I->seeInField('_wp_convertkit_settings[api_secret]', $_ENV['CONVERTKIT_API_SECRET']);
-
-		// Check that no notice is displayed that the API credentials are invalid.
-		$I->dontSeeErrorNotice($I, 'Authorization Failed: API Key not valid');
-
-		// Navigate to the WordPress Admin.
-		$I->amOnAdminPage('index.php');
-
-		// Check that no notice is displayed that the API credentials are invalid.
-		$I->dontSeeErrorNotice($I, 'Convertkit: Authorization failed. Please enter valid API credentials on the settings screen.');
 	}
 
 	/**
