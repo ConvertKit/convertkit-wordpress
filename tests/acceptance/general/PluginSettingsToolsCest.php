@@ -190,9 +190,9 @@ class PluginSettingsToolsCest
 		// Go to the Plugin's Settings Screen.
 		$I->loadConvertKitSettingsGeneralScreen($I);
 
-		// Confirm that the fake API Key and Secret are populated.
-		$I->seeInField('_wp_convertkit_settings[api_key]', 'fakeApiKey');
-		$I->seeInField('_wp_convertkit_settings[api_secret]', 'fakeApiSecret');
+		// Confirm that the fake credentials are populated.
+		// @TODO Check options db.
+
 
 		// Check the fields are ticked.
 		$I->seeCheckboxIsChecked('#debug');

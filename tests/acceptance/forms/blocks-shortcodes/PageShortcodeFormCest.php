@@ -412,7 +412,7 @@ class PageShortcodeFormCest
 	public function testFormShortcodeWhenNoForms(AcceptanceTester $I)
 	{
 		// Setup Plugin.
-		$I->setupConvertKitPluginAPIKeyNoData($I);
+		$I->setupConvertKitPluginCredentialsNoData($I);
 		$I->setupConvertKitPluginResourcesNoData($I);
 
 		// Add a Page using the Classic Editor.

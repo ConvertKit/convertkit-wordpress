@@ -43,7 +43,7 @@ class ResourceFormsNoDataTest extends \Codeception\TestCase\WPTestCase
 		// Activate Plugin.
 		activate_plugins('convertkit/wp-convertkit.php');
 
-		// Store API Key and Secret in Plugin's settings.
+		// Store credentials in Plugin's settings.
 		$this->settings = new ConvertKit_Settings();
 		update_option(
 			$this->settings::SETTINGS_NAME,
@@ -67,7 +67,7 @@ class ResourceFormsNoDataTest extends \Codeception\TestCase\WPTestCase
 	 */
 	public function tearDown(): void
 	{
-		// Delete API Key, API Secret and Resources from Plugin's settings.
+		// Delete Credentials and Resources from Plugin's settings.
 		delete_option($this->settings::SETTINGS_NAME);
 		delete_option($this->resource->settings_name);
 		delete_option($this->resource->settings_name . '_last_queried');

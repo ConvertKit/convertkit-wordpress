@@ -85,14 +85,13 @@ class ConvertKitPlugin extends \Codeception\Module
 	/**
 	 * Helper method to programmatically setup the Plugin's settings, as if the
 	 * user configured the Plugin at `Settings > ConvertKit` with a ConvertKit
-	 * API Key and Secret for a ConvertKit account that has no data (no forms,
-	 * products, tags etc).
+	 * account that has no data (no forms, products, tags etc).
 	 *
 	 * @since   2.4.0
 	 *
 	 * @param   AcceptanceTester $I         AcceptanceTester.
 	 */
-	public function setupConvertKitPluginAPIKeyNoData($I)
+	public function setupConvertKitPluginCredentialsNoData($I)
 	{
 		$I->setupConvertKitPlugin(
 			$I,
