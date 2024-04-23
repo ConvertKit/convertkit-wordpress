@@ -126,7 +126,7 @@ class PageTagCest
 		// "Auto-confirm new subscribers" setting is enabled.
 		// We need the subscriber to be confirmed so they can then be tagged.
 		$emailAddress = $I->generateEmailAddress('n7studios.com');
-		$subscriberID = $I->apiSubscribe($emailAddress, $_ENV['CONVERTKIT_API_FORM_ID']);
+		$subscriberID = $I->apiSubscribe($emailAddress);
 
 		// Load the page with the ?ck_subscriber_id parameter, as if the subscriber clicked a link in a ConvertKit broadcast.
 		$I->amOnPage('?p=' . $pageID . '&ck_subscriber_id=' . $subscriberID);

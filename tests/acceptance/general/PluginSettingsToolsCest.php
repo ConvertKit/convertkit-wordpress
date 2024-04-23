@@ -154,7 +154,7 @@ class PluginSettingsToolsCest
 		$I->openFile($_ENV['WP_ROOT_FOLDER'] . '/convertkit-export.json');
 
 		// Confirm some expected general settings data is included.
-		$I->seeInThisFile('{"settings":{"api_key":"' . $_ENV['CONVERTKIT_API_KEY'] . '","api_secret":"' . $_ENV['CONVERTKIT_API_SECRET'] . '"');
+		$I->seeInThisFile('{"settings":{"access_token":"' . $_ENV['CONVERTKIT_OAUTH_ACCESS_TOKEN'] . '","refresh_token":"' . $_ENV['CONVERTKIT_OAUTH_REFRESH_TOKEN'] . '"');
 
 		// Confirm some expected Restrict Content settings data is included.
 		$I->seeInThisFile('"restrict_content":{"permit_crawlers":');

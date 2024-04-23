@@ -76,14 +76,13 @@ class ConvertKitAPI extends \Codeception\Module
 	 * creating a subscriber to use in tests.
 	 *
 	 * @param   string $emailAddress   Email Address.
-	 * @param   int    $formID         Form ID.
-	 * @return  int                                 Subscriber ID
+	 * @return  int                    Subscriber ID
 	 */
-	public function apiSubscribe($emailAddress, $formID)
+	public function apiSubscribe($emailAddress)
 	{
 		// Run request.
 		$result = $this->apiRequest(
-			'forms/' . $formID . '/subscribe',
+			'subscribe',
 			'POST',
 			[
 				'email' => $emailAddress,
@@ -154,24 +153,16 @@ class ConvertKitAPI extends \Codeception\Module
 	 */
 	public function apiRequest($endpoint, $method = 'GET', $params = array())
 	{
-		// Build query parameters.
-		$params = array_merge(
-			$params,
-			[
-				'api_key'    => $_ENV['CONVERTKIT_API_KEY'],
-				'api_secret' => $_ENV['CONVERTKIT_API_SECRET'],
-			]
-		);
-
 		// Send request.
 		try {
 			$client = new \GuzzleHttp\Client();
 			$result = $client->request(
 				$method,
-				'https://api.convertkit.com/v3/' . $endpoint . '?' . http_build_query($params),
+				'https://api.convertkit.com/v4/' . $endpoint . '?' . http_build_query($params),
 				[
 					'headers' => [
 						'Accept-Encoding' => 'gzip',
+						'Authorization'   => 'Bearer ' . $_ENV['CONVERTKIT_OAUTH_ACCESS_TOKEN'],
 						'timeout'         => 5,
 					],
 				]

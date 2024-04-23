@@ -45,8 +45,8 @@ class ConvertKitPlugin extends \Codeception\Module
 	 * @param   bool|array       $options {
 	 *           Optional. An array of settings.
 	 *
-	 *     @type string $api_key            API Key (if specified, used instead of CONVERTKIT_API_KEY).
-	 *     @type string $api_secret         API Secret (if specified, used instead of CONVERTKIT_API_SECRET).
+	 *     @type string $access_token       Access Token (if specified, used instead of CONVERTKIT_OAUTH_ACCESS_TOKEN).
+	 *     @type string $refresh_token      Refresh Token (if specified, used instead of CONVERTKIT_OAUTH_REFRESH_TOKEN).
 	 *     @type string $debug              Enable debugging (default: on).
 	 *     @type string $no_scripts         Disable JS (default: off).
 	 *     @type string $no_css             Disable CSS (default: off).
@@ -60,8 +60,8 @@ class ConvertKitPlugin extends \Codeception\Module
 	{
 		// Define default options.
 		$defaults = [
-			'api_key'         => $_ENV['CONVERTKIT_API_KEY'],
-			'api_secret'      => $_ENV['CONVERTKIT_API_SECRET'],
+			'access_token'    => $_ENV['CONVERTKIT_OAUTH_ACCESS_TOKEN'],
+			'refresh_token'   => $_ENV['CONVERTKIT_OAUTH_REFRESH_TOKEN'],
 			'debug'           => 'on',
 			'no_scripts'      => '',
 			'no_css'          => '',
@@ -97,8 +97,8 @@ class ConvertKitPlugin extends \Codeception\Module
 		$I->setupConvertKitPlugin(
 			$I,
 			[
-				'api_key'      => $_ENV['CONVERTKIT_API_KEY_NO_DATA'],
-				'api_secret'   => $_ENV['CONVERTKIT_API_SECRET_NO_DATA'],
+				'access_token' => $_ENV['CONVERTKIT_OAUTH_ACCESS_TOKEN_NO_DATA'],
+				'refresh_token'=> $_ENV['CONVERTKIT_OAUTH_REFRESH_TOKEN_NO_DATA'],,
 				'post_form'    => '',
 				'page_form'    => '',
 				'product_form' => '',
@@ -238,20 +238,6 @@ class ConvertKitPlugin extends \Codeception\Module
 					'archived'   => false,
 					'uid'        => '85629c512d',
 				],
-				470099  => [
-					'id'                  => 470099,
-					'name'                => 'Legacy Form',
-					'created_at'          => null,
-					'type'                => 'embed',
-					'url'                 => 'https://app.convertkit.com/landing_pages/470099',
-					'embed_js'            => 'https://api.convertkit.com/api/v3/forms/470099.js?api_key=' . $_ENV['CONVERTKIT_API_KEY'],
-					'embed_url'           => 'https://api.convertkit.com/api/v3/forms/470099.html?api_key=' . $_ENV['CONVERTKIT_API_KEY'],
-					'title'               => 'Join the newsletter',
-					'description'         => '<p>Subscribe to get our latest content by email.</p>',
-					'sign_up_button_text' => 'Subscribe',
-					'success_message'     => 'Success! Now check your email to confirm your subscription.',
-					'archived'            => false,
-				],
 				2780980 => [
 					'id'         => 2780980,
 					'name'       => 'Sticky Bar Form',
@@ -313,20 +299,6 @@ class ConvertKitPlugin extends \Codeception\Module
 					'embed_url'  => 'https://cheerful-architect-3237.ck.page/cc5eb21744',
 					'archived'   => false,
 					'uid'        => 'cc5eb21744',
-				],
-				470103  => [
-					'id'                  => 470103,
-					'name'                => 'Legacy Landing Page',
-					'created_at'          => null,
-					'type'                => 'hosted',
-					'url'                 => 'https://app.convertkit.com/landing_pages/470103',
-					'embed_js'            => 'https://api.convertkit.com/api/v3/forms/470103.js?api_key=' . $_ENV['CONVERTKIT_API_KEY'],
-					'embed_url'           => 'https://api.convertkit.com/api/v3/forms/470103.html?api_key=' . $_ENV['CONVERTKIT_API_KEY'],
-					'title'               => '',
-					'description'         => '',
-					'sign_up_button_text' => 'Register',
-					'success_message'     => null,
-					'archived'            => false,
 				],
 			]
 		);
