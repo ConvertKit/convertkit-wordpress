@@ -17,15 +17,20 @@ class ConvertKit_Settings_OAuth extends ConvertKit_Settings_Base {
 
 	/**
 	 * Constructor
-	 * 
-	 * @since 	2.2.0
+	 *
+	 * @since   2.2.0
 	 */
 	public function __construct() {
 
-		$this->settings_key = '_wp_convertkit_oauth'; // Required for ConvertKit_Settings_Base, but we don't save settings on this screen.
-		$this->name         = 'oauth';
-		$this->title        = __( 'OAuth', 'convertkit' );
-		$this->tab_text     = __( 'OAuth', 'convertkit' );
+		// Define the class that reads/writes settings.
+		$this->settings = new ConvertKit_Settings();
+
+		// Define the settings key.
+		$this->settings_key = $this->settings::SETTINGS_NAME;
+
+		$this->name     = 'oauth';
+		$this->title    = __( 'OAuth', 'convertkit' );
+		$this->tab_text = __( 'OAuth', 'convertkit' );
 
 		// Output notices.
 		add_action( 'convertkit_settings_base_render_before', array( $this, 'maybe_output_notices' ) );
@@ -42,15 +47,8 @@ class ConvertKit_Settings_OAuth extends ConvertKit_Settings_Base {
 	 */
 	private function maybe_get_and_store_access_token() {
 
-		// @TODO Refine this to have a pre-check that we are on the settings screen for the Plugin, so it doesn't
-		// greedily attempt to take over the setup wizard submission.
-
 		// Bail if we're not on the settings screen.
-		if ( ! array_key_exists( 'page', $_REQUEST ) ) { // phpcs:ignore WordPress.Security.NonceVerification
-			return;
-		}
-		$page = sanitize_text_field( $_REQUEST['page'] );
-		if ( $page !== '_wp_convertkit_settings' ) {
+		if ( ! $this->on_settings_screen() ) {
 			return;
 		}
 
@@ -61,42 +59,53 @@ class ConvertKit_Settings_OAuth extends ConvertKit_Settings_Base {
 
 		// Sanitize token.
 		$authorization_code = sanitize_text_field( $_REQUEST['code'] ); // phpcs:ignore WordPress.Security.NonceVerification
-		
+
 		// Exchange the authorization code and verifier for an access token.
-		$api = new ConvertKit_API( CONVERTKIT_OAUTH_CLIENT_ID, admin_url( 'options-general.php?page=_wp_convertkit_settings' ) );
-		$result = $api->get_access_token( $authorization_code ); // @TODO.
+		$api    = new ConvertKit_API( CONVERTKIT_OAUTH_CLIENT_ID, admin_url( 'options-general.php?page=_wp_convertkit_settings' ) );
+		$result = $api->get_access_token( $authorization_code );
 
 		// Redirect with an error if we could not fetch the access token.
 		if ( is_wp_error( $result ) ) {
-			wp_safe_redirect( add_query_arg( array(
-				'page' 		=> '_wp_convertkit_settings',
-				'error' 	=> $result->get_error_code(),
-			), 'options-general.php' ) );
+			wp_safe_redirect(
+				add_query_arg(
+					array(
+						'page'  => '_wp_convertkit_settings',
+						'error' => $result->get_error_code(),
+					),
+					'options-general.php'
+				)
+			);
 			exit();
 		}
 
 		// Store Access Token, Refresh Token and expiry.
-		$settings = new ConvertKit_Settings;
-		$settings->save( array(
-			'access_token'  => $result['access_token'],
-			'refresh_token' => $result['refresh_token'],
-			'token_expires' => ( $result['created_at'] + $result['expires_in'] ),
-		) );
+		$this->settings->save(
+			array(
+				'access_token'  => $result['access_token'],
+				'refresh_token' => $result['refresh_token'],
+				'token_expires' => ( $result['created_at'] + $result['expires_in'] ),
+			)
+		);
 
 		// Redirect to General screen, which will now show the Plugin's settings, because the Plugin
 		// is now authenticated.
-		wp_safe_redirect( add_query_arg( array(
-			'page' 		=> '_wp_convertkit_settings',
-			'success' 	=> 'oauth2_success',
-		), 'options-general.php' ) );
+		wp_safe_redirect(
+			add_query_arg(
+				array(
+					'page'    => '_wp_convertkit_settings',
+					'success' => 'oauth2_success',
+				),
+				'options-general.php'
+			)
+		);
 		exit();
 
 	}
 
 	/**
 	 * Register fields for this section
-	 * 
-	 * @since 	2.2.0
+	 *
+	 * @since   2.2.0
 	 */
 	public function register_fields() {
 
@@ -112,7 +121,7 @@ class ConvertKit_Settings_OAuth extends ConvertKit_Settings_Base {
 	public function render() {
 
 		// Determine the OAuth URL to begin the authorization process.
-		$api = new ConvertKit_API( CONVERTKIT_OAUTH_CLIENT_ID, admin_url( 'options-general.php?page=_wp_convertkit_settings' ) );
+		$api       = new ConvertKit_API( CONVERTKIT_OAUTH_CLIENT_ID, admin_url( 'options-general.php?page=_wp_convertkit_settings' ) );
 		$oauth_url = $api->get_oauth_url();
 
 		/**
@@ -136,8 +145,8 @@ class ConvertKit_Settings_OAuth extends ConvertKit_Settings_Base {
 
 	/**
 	 * Prints help info for this section
-	 * 
-	 * @since 	2.2.0
+	 *
+	 * @since   2.2.0
 	 */
 	public function print_section_info() {
 	}

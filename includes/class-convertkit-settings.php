@@ -46,7 +46,7 @@ class ConvertKit_Settings {
 		}
 
 		// Update Access Token when refreshed by the API class.
-		add_action( 'convertkit_api_refresh_token', array( $this, 'update_credentials' ), 10, 2 );
+		add_action( 'convertkit_api_refresh_token', array( $this, 'update_credentials' ), 10, 1 );
 
 	}
 
@@ -404,34 +404,37 @@ class ConvertKit_Settings {
 	/**
 	 * Saves the new access token, refresh token and its expiry when the API
 	 * class automatically refreshes an outdated access token.
-	 * 
-	 * @since 	2.5.0
-	 * 
-	 * @param 	array 	$result 	New Access Token, Refresh Token and Expiry.
-	 * @param 	string  $client_id  OAuth Client ID.
+	 *
+	 * @since   2.5.0
+	 *
+	 * @param   array $result     New Access Token, Refresh Token and Expiry.
 	 */
-	public function update_credentials( $result, $client_id ) {
+	public function update_credentials( $result ) {
 
-		$this->save( array(
-			'access_token'  => $result['access_token'],
-			'refresh_token' => $result['refresh_token'],
-			'token_expires' => ( $result['created_at'] + $result['expires_in'] ),
-		) );
+		$this->save(
+			array(
+				'access_token'  => $result['access_token'],
+				'refresh_token' => $result['refresh_token'],
+				'token_expires' => ( $result['created_at'] + $result['expires_in'] ),
+			)
+		);
 
 	}
 
 	/**
 	 * Deletes any existing access token, refresh token and its expiry from the Plugin settings.
-	 * 
-	 * @since 	2.5.0
+	 *
+	 * @since   2.5.0
 	 */
 	public function delete_credentials() {
 
-		$this->save( array(
-			'access_token'  => '',
-			'refresh_token' => '',
-			'token_expires' => '',
-		) );
+		$this->save(
+			array(
+				'access_token'  => '',
+				'refresh_token' => '',
+				'token_expires' => '',
+			)
+		);
 
 	}
 

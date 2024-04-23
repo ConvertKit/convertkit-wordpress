@@ -298,7 +298,7 @@ class ConvertKit_Admin_Settings {
 
 		// If no Access Token exists, register a settings section that shows a button
 		// to start the OAuth authentication flow.
-		$settings = new ConvertKit_Settings;
+		$settings = new ConvertKit_Settings();
 		if ( ! $settings->has_access_and_refresh_token() ) {
 			// Just register the OAuth screen.
 			$sections = array(
@@ -310,7 +310,7 @@ class ConvertKit_Admin_Settings {
 
 			return;
 		}
-		
+
 		// Register the General and Tools settings sections.
 		$sections = array(
 			'general' => new ConvertKit_Settings_General(),

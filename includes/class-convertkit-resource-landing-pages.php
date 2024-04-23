@@ -66,7 +66,7 @@ class ConvertKit_Resource_Landing_Pages extends ConvertKit_Resource {
 	public function get_html( $id ) {
 
 		// Setup API.
-		$settings = new ConvertKit_Settings();
+		$settings  = new ConvertKit_Settings();
 		$this->api = new ConvertKit_API(
 			CONVERTKIT_OAUTH_CLIENT_ID,
 			admin_url( 'options-general.php?page=_wp_convertkit_settings' ),

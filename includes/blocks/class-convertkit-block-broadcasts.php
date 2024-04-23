@@ -146,7 +146,7 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 			'gutenberg_example_image'           => CONVERTKIT_PLUGIN_URL . 'resources/backend/images/block-example-broadcasts.png',
 
 			// Help descriptions, displayed when no Access Token / resources exist and this block/shortcode is added.
-			'no_access_token'                        => array(
+			'no_access_token'                   => array(
 				'notice'    => __( 'No API Key specified.', 'convertkit' ),
 				'link'      => convertkit_get_setup_wizard_plugin_link(),
 				'link_text' => __( 'Click here to add your API Key.', 'convertkit' ),
@@ -163,7 +163,7 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 
 			// Whether an API Key exists in the Plugin, and are the required resources (broadcasts) available.
 			// If no API Key is specified in the Plugin's settings, render the "No API Key" output.
-			'has_access_token'                       => $settings->has_access_and_refresh_token(),
+			'has_access_token'                  => $settings->has_access_and_refresh_token(),
 			'has_resources'                     => $posts->exist(),
 		);
 

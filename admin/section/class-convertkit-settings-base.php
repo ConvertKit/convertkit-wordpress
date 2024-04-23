@@ -77,10 +77,10 @@ abstract class ConvertKit_Settings_Base {
 
 	/**
 	 * Helper method to determine if we're viewing the current settings screen.
-	 * 
-	 * @since 	2.5.0
-	 * 
-	 * @return 	bool
+	 *
+	 * @since   2.5.0
+	 *
+	 * @return  bool
 	 */
 	public function on_settings_screen() {
 
@@ -88,7 +88,7 @@ abstract class ConvertKit_Settings_Base {
 		if ( ! array_key_exists( 'page', $_REQUEST ) ) { // phpcs:ignore WordPress.Security.NonceVerification
 			return false;
 		}
-		$page = sanitize_text_field( $_REQUEST['page'] );
+		$page = sanitize_text_field( $_REQUEST['page'] );  // phpcs:ignore WordPress.Security.NonceVerification
 		if ( $page !== $this->settings_key ) {
 			return false;
 		}
@@ -144,9 +144,9 @@ abstract class ConvertKit_Settings_Base {
 		// Define messages that might be displayed as a notification.
 		$messages = array(
 			// OAuth.
-			'oauth2_success'						 		=> __( 'Successfully authorized with ConvertKit.', 'convertkit' ),
+			'oauth2_success'                         => __( 'Successfully authorized with ConvertKit.', 'convertkit' ),
 			'convertkit_api_get_access_token_invalid_grant' => __( 'The provided authorization grant is invalid, expired, revoked, does not match the redirection URI used in the authorization request, or was issued to another client.', 'convertkit' ),
-			'convertkit_api_get_access_token_invalid_client'=> __( 'Client authentication failed due to unknown client, no client authentication included, or unsupported authentication method.', 'convertkit' ),
+			'convertkit_api_get_access_token_invalid_client' => __( 'Client authentication failed due to unknown client, no client authentication included, or unsupported authentication method.', 'convertkit' ),
 			// Tools.
 			'import_configuration_upload_error'      => __( 'An error occured uploading the configuration file.', 'convertkit' ),
 			'import_configuration_invalid_file_type' => __( 'The uploaded configuration file isn\'t valid.', 'convertkit' ),
