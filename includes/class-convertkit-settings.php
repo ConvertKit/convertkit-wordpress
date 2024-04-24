@@ -369,17 +369,20 @@ class ConvertKit_Settings {
 	public function get_defaults() {
 
 		$defaults = array(
-			'api_key'         => '', // string.
-			'api_secret'      => '', // string.
-			'non_inline_form' => '', // string.
-			'debug'           => '', // blank|on.
-			'no_scripts'      => '', // blank|on.
-			'no_css'          => '', // blank|on.
-
 			// OAuth.
 			'access_token'    => '', // string.
 			'refresh_token'   => '', // string.
 			'token_expires'   => '', // integer.
+
+			// API Key. Retained if needed for backward compat.
+			'api_key'         => '', // string.
+			'api_secret'      => '', // string.
+
+			// Settings.
+			'non_inline_form' => '', // string.
+			'debug'           => '', // blank|on.
+			'no_scripts'      => '', // blank|on.
+			'no_css'          => '', // blank|on.
 		);
 
 		// Add Post Type Default Forms.
