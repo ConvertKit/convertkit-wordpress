@@ -586,12 +586,17 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 		// Call parent class to merge settings with defaults.
 		$settings = parent::sanitize_settings( $settings );
 
-		// If a Form or Landing Page was specified, request a review.
+		// If a Form or Landing Page was specified that isn't the default,
+		// request a review.
+		// Since switching to OAuth means the settings screen will only display
+		// settings if the access token is valid, the Default Forms options will
+		// always be submitted. Previously, if no API Key/Secret was specified,
+		// no Default Forms options would render.
 		// This can safely be called multiple times, as the review request
 		// class will ensure once a review request is dismissed by the user,
 		// it is never displayed again.
-		if ( ( isset( $settings['page_form'] ) && $settings['page_form'] ) ||
-			( isset( $settings['post_form'] ) && $settings['post_form'] ) ) {
+		if ( ( isset( $settings['page_form'] ) && $settings['page_form'] !== 'default' ) ||
+			( isset( $settings['post_form'] ) && $settings['post_form'] !== 'default' ) ) {
 			WP_ConvertKit()->get_class( 'review_request' )->request_review();
 		}
 
