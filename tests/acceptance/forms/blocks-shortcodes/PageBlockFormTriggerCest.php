@@ -353,7 +353,7 @@ class PageBlockFormTriggerCest
 
 	/**
 	 * Test the Form Trigger block displays a message with a link to the Plugin's
-	 * settings screen, when the Plugin has no API key specified.
+	 * settings screen, when the Plugin has no credentials specified.
 	 *
 	 * @since   2.2.3
 	 *
@@ -364,7 +364,7 @@ class PageBlockFormTriggerCest
 		$I->markTestIncomplete();
 
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form Trigger: Block: No API Key');
+		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form Trigger: Block: No Credentials');
 
 		// Add block to Page.
 		$I->addGutenbergBlock($I, 'ConvertKit Form Trigger', 'convertkit-formtrigger');
