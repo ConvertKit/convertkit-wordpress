@@ -65,6 +65,16 @@ class PluginSettingsGeneralCest
 		// Confirm the Connect button displays.
 		$I->see('Connect');
 		$I->dontSee('Disconnect');
+
+		// Check that a link to the OAuth auth screen exists.
+		$I->seeInSource('<a href="https://app.convertkit.com/oauth/authorize?client_id=' . $_ENV['CONVERTKIT_OAUTH_CLIENT_ID'] . '&amp;response_type=code&amp;redirect_uri=' . urlencode( $_ENV['TEST_SITE_WP_URL'] ) );
+
+		// Click the connect button.
+		$I->click('Connect');
+
+		// Confirm the ConvertKit hosted OAuth login screen is displayed.
+		$I->waitForElementVisible('body.sessions');
+		$I->seeInSource('oauth/authorize?client_id=' . $_ENV['CONVERTKIT_OAUTH_CLIENT_ID']);
 	}
 
 	/**
