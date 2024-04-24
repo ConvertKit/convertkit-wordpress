@@ -159,7 +159,8 @@ class PluginSettingsToolsCest
 		// Confirm some expected Restrict Content settings data is included.
 		$I->seeInThisFile('"restrict_content":{"permit_crawlers":');
 
-		// Copy the file to the tests/_data folder.
+		// Copy the exported configuration file to the tests/_data folder.
+		// This is so we have a valid configuration file to test when testing the import next.
 		$I->writeToFile('tests/_data/convertkit-export.json', file_get_contents($_ENV['WP_ROOT_FOLDER'] . '/convertkit-export.json'));
 
 		// Import the created configuration file.
