@@ -81,7 +81,7 @@ class ConvertKit_Resource_Landing_Pages extends ConvertKit_Resource {
 		// 1.9.6+ always uses a Landing Page ID.
 		if ( strstr( $id, 'http' ) ) {
 			// Return Legacy Landing Page HTML for url property.
-			return $api->get_landing_page_html( $id, $settings->debug_enabled() );
+			return $this->api->get_landing_page_html( $id, $settings->debug_enabled() );
 		}
 
 		// Cast ID to integer.
@@ -107,11 +107,11 @@ class ConvertKit_Resource_Landing_Pages extends ConvertKit_Resource {
 		// If the resource has a 'url' property, this is a Legacy Landing Page, and the 'url' should be used.
 		if ( isset( $this->resources[ $id ]['url'] ) ) {
 			// Return Legacy Landing Page HTML for url property.
-			return $api->get_landing_page_html( $this->resources[ $id ]['url'], $settings->debug_enabled() );
+			return $this->api->get_landing_page_html( $this->resources[ $id ]['url'], $settings->debug_enabled() );
 		}
 
 		// Return Landing Page HTML for embed_url property.
-		return $api->get_landing_page_html( $this->resources[ $id ]['embed_url'], $settings->debug_enabled() );
+		return $this->api->get_landing_page_html( $this->resources[ $id ]['embed_url'], $settings->debug_enabled() );
 
 	}
 
