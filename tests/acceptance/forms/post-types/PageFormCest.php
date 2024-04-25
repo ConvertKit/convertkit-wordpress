@@ -481,7 +481,7 @@ class PageFormCest
 	public function testAddNewPageUsingDefinedLegacyForm(AcceptanceTester $I)
 	{
 		$I->markTestIncomplete();
-		
+
 		// Setup ConvertKit plugin.
 		$I->setupConvertKitPlugin($I);
 		$I->setupConvertKitPluginResources($I);

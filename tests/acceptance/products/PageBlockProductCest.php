@@ -470,7 +470,7 @@ class PageBlockProductCest
 	public function testProductBlockWhenNoAPIKey(AcceptanceTester $I)
 	{
 		$I->markTestIncomplete();
-		
+
 		// Add a Page using the Gutenberg editor.
 		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Product: Block: No API Key');
 

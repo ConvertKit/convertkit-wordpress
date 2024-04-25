@@ -230,7 +230,7 @@ class PageLandingPageCest
 	public function testLegacyLandingPageSiteIcon(AcceptanceTester $I)
 	{
 		$I->markTestIncomplete();
-		
+
 		// Define a WordPress Site Icon.
 		$imageID = $I->haveAttachmentInDatabase(codecept_data_dir('icon.png'));
 		$I->haveOptionInDatabase('site_icon', $imageID);

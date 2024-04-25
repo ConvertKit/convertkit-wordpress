@@ -161,7 +161,7 @@ class PluginSettingsToolsCest
 
 		// Copy the exported configuration file to the tests/_data folder.
 		// This is so we have a valid configuration file to test when testing the import next.
-		$I->writeToFile('tests/_data/convertkit-export.json', file_get_contents($_ENV['WP_ROOT_FOLDER'] . '/convertkit-export.json'));
+		$I->writeToFile('tests/_data/convertkit-export.json', file_get_contents($_ENV['WP_ROOT_FOLDER'] . '/convertkit-export.json')); // phpcs:ignore WordPress.WP.AlternativeFunctions
 
 		// Import the created configuration file.
 		// Load Tools screen.

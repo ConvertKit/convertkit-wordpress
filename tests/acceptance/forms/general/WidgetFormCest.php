@@ -70,7 +70,7 @@ class WidgetFormCest
 	public function testLegacyFormWidgetWithValidLegacyFormParameter(AcceptanceTester $I)
 	{
 		$I->markTestIncomplete();
-		
+
 		// Add legacy widget, setting the Form setting to the value specified in the .env file.
 		$I->addLegacyWidget(
 			$I,

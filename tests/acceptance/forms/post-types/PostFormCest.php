@@ -238,7 +238,7 @@ class PostFormCest
 	public function testAddNewPostUsingDefinedLegacyForm(AcceptanceTester $I)
 	{
 		$I->markTestIncomplete();
-		
+
 		// Setup ConvertKit Plugin.
 		$I->setupConvertKitPlugin($I);
 		$I->setupConvertKitPluginResources($I);

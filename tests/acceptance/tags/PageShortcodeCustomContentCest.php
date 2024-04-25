@@ -124,7 +124,7 @@ class PageShortcodeCustomContentCest
 	public function testCustomContentShortcodeWithValidTagParameterAndValidSubscriberID(AcceptanceTester $I)
 	{
 		$I->markTestIncomplete();
-		
+
 		// Create Page with Shortcode.
 		$I->havePageInDatabase(
 			[

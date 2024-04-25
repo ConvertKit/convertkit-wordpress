@@ -155,39 +155,38 @@ class ConvertKitAPI extends \Codeception\Module
 	{
 		// Send request.
 		$client = new \GuzzleHttp\Client();
-        switch ($method) {
-            case 'GET':
-                $result = $client->request(
-                    $method,
-                    'https://api.convertkit.com/v4/' . $endpoint . '?' . http_build_query($params),
-                    [
+		switch ($method) {
+			case 'GET':
+				$result = $client->request(
+					$method,
+					'https://api.convertkit.com/v4/' . $endpoint . '?' . http_build_query($params),
+					[
 						'headers' => [
-							'Authorization'   => 'Bearer ' . $_ENV['CONVERTKIT_OAUTH_ACCESS_TOKEN'],
-							'timeout'         => 5,
+							'Authorization' => 'Bearer ' . $_ENV['CONVERTKIT_OAUTH_ACCESS_TOKEN'],
+							'timeout'       => 5,
 						],
 					]
-                );
-                break;
+				);
+				break;
 
-            default:
-                $result = $client->request(
-                	$method,
-                	'https://api.convertkit.com/v4/' . $endpoint,
-                	[
-                		'headers' => [
-                			'Accept' 			=> 'application/json',
-                			'Content-Type' 		=> 'application/json; charset=utf-8',
-							'Authorization'   	=> 'Bearer ' . $_ENV['CONVERTKIT_OAUTH_ACCESS_TOKEN'],
-							'timeout'         	=> 5,
+			default:
+				$result = $client->request(
+					$method,
+					'https://api.convertkit.com/v4/' . $endpoint,
+					[
+						'headers' => [
+							'Accept'        => 'application/json',
+							'Content-Type'  => 'application/json; charset=utf-8',
+							'Authorization' => 'Bearer ' . $_ENV['CONVERTKIT_OAUTH_ACCESS_TOKEN'],
+							'timeout'       => 5,
 						],
-						'body' => (string) json_encode($params),
-                	]  
-                );
-                break;
-        }
+						'body'    => (string) json_encode($params), // phpcs:ignore WordPress.WP.AlternativeFunctions
+					]
+				);
+				break;
+		}
 
 		// Return JSON decoded response.
 		return json_decode($result->getBody()->getContents(), true);
-		
 	}
 }

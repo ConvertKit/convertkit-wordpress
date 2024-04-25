@@ -478,7 +478,7 @@ class PluginSetupWizardCest
 	public function testSetupWizardModal(AcceptanceTester $I)
 	{
 		$I->markTestIncomplete();
-		
+
 		// Activate ConvertKit Plugin.
 		$I->activateConvertKitPlugin($I);
 

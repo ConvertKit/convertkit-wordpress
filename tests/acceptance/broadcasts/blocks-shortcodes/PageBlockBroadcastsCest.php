@@ -30,7 +30,7 @@ class PageBlockBroadcastsCest
 	public function testBroadcastsBlockWhenNoAPIKey(AcceptanceTester $I)
 	{
 		$I->markTestIncomplete();
-		
+
 		// Add a Page using the Gutenberg editor.
 		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Broadcasts: Block: No API Key');
 

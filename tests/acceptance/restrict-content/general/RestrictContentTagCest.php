@@ -133,7 +133,7 @@ class RestrictContentTagCest
 	public function testRestrictContentByTagUsingBulkEdit(AcceptanceTester $I)
 	{
 		$I->markTestIncomplete();
-		
+
 		// Programmatically create two Pages.
 		$pageIDs = array(
 			$I->createRestrictedContentPage(

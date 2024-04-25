@@ -325,7 +325,7 @@ class CPTFormCest
 		$I->unregisterCustomPostType($I, 'article');
 		$I->unregisterCustomPostType($I, 'private');
 		$I->markTestIncomplete();
-		
+
 		// Setup ConvertKit Plugin.
 		$I->setupConvertKitPlugin(
 			$I,
