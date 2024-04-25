@@ -178,7 +178,7 @@ class ConvertKit_Admin_Setup_Wizard_Plugin extends ConvertKit_Admin_Setup_Wizard
 		// Check if any settings exist.
 		// If they do, the Plugin has already been setup, so no need to show the setup screen.
 		$settings = new ConvertKit_Settings();
-		if ( $settings->has_api_key_and_secret() ) {
+		if ( $settings->has_access_and_refresh_token() ) {
 			return;
 		}
 

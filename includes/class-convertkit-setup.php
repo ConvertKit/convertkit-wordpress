@@ -137,7 +137,7 @@ class ConvertKit_Setup {
 
 		// Bail if the API isn't configured.
 		$convertkit_settings = new ConvertKit_Settings();
-		if ( ! $convertkit_settings->has_api_key_and_secret() ) {
+		if ( ! $convertkit_settings->has_access_and_refresh_token() ) {
 			return;
 		}
 
