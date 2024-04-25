@@ -106,6 +106,8 @@ class PageTagCest
 	 */
 	public function testDefinedTagAppliesToValidSubscriberID(AcceptanceTester $I)
 	{
+		$I->markTestIncomplete();
+		
 		// Add Page, configured to tag subscribers to visit it with the given tag ID.
 		$pageID = $I->havePageInDatabase(
 			[

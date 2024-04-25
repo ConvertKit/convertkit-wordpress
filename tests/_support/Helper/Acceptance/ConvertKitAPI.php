@@ -72,7 +72,7 @@ class ConvertKitAPI extends \Codeception\Module
 	}
 
 	/**
-	 * Subscribes the given email address to the given form. Useful for
+	 * Subscribes the given email address. Useful for
 	 * creating a subscriber to use in tests.
 	 *
 	 * @param   string $emailAddress   Email Address.
@@ -82,15 +82,15 @@ class ConvertKitAPI extends \Codeception\Module
 	{
 		// Run request.
 		$result = $this->apiRequest(
-			'subscribe',
+			'subscribers',
 			'POST',
 			[
-				'email' => $emailAddress,
+				'email_address' => $emailAddress,
 			]
 		);
 
 		// Return subscriber ID.
-		return $result['subscription']['subscriber']['id'];
+		return $result['subscriber']['id'];
 	}
 
 	/**
@@ -154,24 +154,40 @@ class ConvertKitAPI extends \Codeception\Module
 	public function apiRequest($endpoint, $method = 'GET', $params = array())
 	{
 		// Send request.
-		try {
-			$client = new \GuzzleHttp\Client();
-			$result = $client->request(
-				$method,
-				'https://api.convertkit.com/v4/' . $endpoint . '?' . http_build_query($params),
-				[
-					'headers' => [
-						'Accept-Encoding' => 'gzip',
-						'Authorization'   => 'Bearer ' . $_ENV['CONVERTKIT_OAUTH_ACCESS_TOKEN'],
-						'timeout'         => 5,
-					],
-				]
-			);
+		$client = new \GuzzleHttp\Client();
+        switch ($method) {
+            case 'GET':
+                $result = $client->request(
+                    $method,
+                    'https://api.convertkit.com/v4/' . $endpoint . '?' . http_build_query($params),
+                    [
+						'headers' => [
+							'Authorization'   => 'Bearer ' . $_ENV['CONVERTKIT_OAUTH_ACCESS_TOKEN'],
+							'timeout'         => 5,
+						],
+					]
+                );
+                break;
 
-			// Return JSON decoded response.
-			return json_decode($result->getBody()->getContents(), true);
-		} catch (\GuzzleHttp\Exception\ClientException $e) {
-			return [];
-		}
+            default:
+                $result = $client->request(
+                	$method,
+                	'https://api.convertkit.com/v4/' . $endpoint,
+                	[
+                		'headers' => [
+                			'Accept' 			=> 'application/json',
+                			'Content-Type' 		=> 'application/json; charset=utf-8',
+							'Authorization'   	=> 'Bearer ' . $_ENV['CONVERTKIT_OAUTH_ACCESS_TOKEN'],
+							'timeout'         	=> 5,
+						],
+						'body' => (string) json_encode($params),
+                	]  
+                );
+                break;
+        }
+
+		// Return JSON decoded response.
+		return json_decode($result->getBody()->getContents(), true);
+		
 	}
 }
