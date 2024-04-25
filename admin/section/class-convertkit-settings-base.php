@@ -551,20 +551,6 @@ abstract class ConvertKit_Settings_Base {
 		// Merge settings with defaults.
 		$updated_settings = wp_parse_args( $settings, $this->settings->get_defaults() );
 
-		// If no Access Token, Refresh Token or Token Expiry keys were specified in the settings
-		// prior to save, don't overwrite them with the blank setting from get_defaults().
-		// This ensures we only blank these values if we explicitly do so via $settings,
-		// as they won't be included in the Settings screen for security.
-		if ( ! array_key_exists( 'access_token', $settings ) ) {
-			$updated_settings['access_token'] = $this->settings->get_access_token();
-		}
-		if ( ! array_key_exists( 'refresh_token', $settings ) ) {
-			$updated_settings['refresh_token'] = $this->settings->get_refresh_token();
-		}
-		if ( ! array_key_exists( 'token_expires', $settings ) ) {
-			$updated_settings['token_expires'] = $this->settings->get_token_expiry();
-		}
-
 		/**
 		 * Performs actions prior to settings being saved.
 		 *
