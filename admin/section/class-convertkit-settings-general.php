@@ -586,6 +586,22 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 		// Call parent class to merge settings with defaults.
 		$settings = parent::sanitize_settings( $settings );
 
+		// If no Access Token, Refresh Token or Token Expiry keys were specified in the settings
+		// prior to save, don't overwrite them with the blank setting from get_defaults().
+		// This ensures we only blank these values if we explicitly do so via $settings,
+		// as they won't be included in the Settings screen for security.
+		if ( ! array_key_exists( 'disconnect', $_REQUEST ) ) { // phpcs:ignore WordPress.Security.NonceVerification
+			if ( ! array_key_exists( 'access_token', $settings ) || empty( $settings['access_token'] ) ) {
+				$settings['access_token'] = $this->settings->get_access_token();
+			}
+			if ( ! array_key_exists( 'refresh_token', $settings ) || empty( $settings['refresh_token'] ) ) {
+				$settings['refresh_token'] = $this->settings->get_refresh_token();
+			}
+			if ( ! array_key_exists( 'token_expires', $settings ) || empty( $settings['token_expires'] ) ) {
+				$settings['token_expires'] = $this->settings->get_token_expiry();
+			}
+		}
+
 		// If a Form or Landing Page was specified that isn't the default,
 		// request a review.
 		// Since switching to OAuth means the settings screen will only display
