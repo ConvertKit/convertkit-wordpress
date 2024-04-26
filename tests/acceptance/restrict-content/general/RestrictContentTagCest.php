@@ -30,8 +30,6 @@ class RestrictContentTagCest
 	 */
 	public function testRestrictContentByTag(AcceptanceTester $I)
 	{
-		$I->markTestIncomplete();
-
 		// Add a Page using the Gutenberg editor.
 		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Restrict Content: Tag');
 
@@ -70,8 +68,6 @@ class RestrictContentTagCest
 	 */
 	public function testRestrictContentByInvalidTag(AcceptanceTester $I)
 	{
-		$I->markTestIncomplete();
-
 		// Programmatically create a Page.
 		$pageID = $I->createRestrictedContentPage(
 			$I,
@@ -98,8 +94,6 @@ class RestrictContentTagCest
 	 */
 	public function testRestrictContentByTagUsingQuickEdit(AcceptanceTester $I)
 	{
-		$I->markTestIncomplete();
-
 		// Programmatically create a Page.
 		$pageID = $I->createRestrictedContentPage(
 			$I,
@@ -132,8 +126,6 @@ class RestrictContentTagCest
 	 */
 	public function testRestrictContentByTagUsingBulkEdit(AcceptanceTester $I)
 	{
-		$I->markTestIncomplete();
-
 		// Programmatically create two Pages.
 		$pageIDs = array(
 			$I->createRestrictedContentPage(

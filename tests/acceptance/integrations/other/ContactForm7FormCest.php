@@ -69,8 +69,6 @@ class ContactForm7FormCest
 	 */
 	public function testSettingsContactForm7ToConvertKitFormMapping(AcceptanceTester $I)
 	{
-		$I->markTestIncomplete();
-
 		// Setup ConvertKit Plugin.
 		$I->setupConvertKitPlugin($I);
 		$I->setupConvertKitPluginResources($I);

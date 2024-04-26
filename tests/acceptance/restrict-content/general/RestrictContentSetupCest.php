@@ -316,8 +316,6 @@ class RestrictContentSetupCest
 	 */
 	public function testAddNewMemberContentDownloadsByTag(AcceptanceTester $I)
 	{
-		$I->markTestIncomplete();
-
 		// Setup Plugin and navigate to Add New Member Content screen.
 		$this->_setupAndLoadAddNewMemberContentScreen($I);
 
@@ -374,8 +372,6 @@ class RestrictContentSetupCest
 	 */
 	public function testAddNewMemberContentCourseByTag(AcceptanceTester $I)
 	{
-		$I->markTestIncomplete();
-
 		// Setup Plugin and navigate to Add New Member Content screen.
 		$this->_setupAndLoadAddNewMemberContentScreen($I);
 

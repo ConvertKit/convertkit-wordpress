@@ -355,18 +355,18 @@ class PageShortcodeFormCest
 
 	/**
 	 * Test the Form shortcode displays a message with a link to the Plugin's
-	 * setup wizard, when the Plugin has no API key specified.
+	 * setup wizard, when the Plugin has no credentials specified.
 	 *
 	 * @since   2.2.4
 	 *
 	 * @param   AcceptanceTester $I  Tester.
 	 */
-	public function testFormShortcodeWhenNoAPIKey(AcceptanceTester $I)
+	public function testFormShortcodeWhenNoCredentials(AcceptanceTester $I)
 	{
 		$I->markTestIncomplete();
 
 		// Add a Page using the Classic Editor.
-		$I->addClassicEditorPage($I, 'page', 'ConvertKit: Page: Form: Shortcode: No API Key');
+		$I->addClassicEditorPage($I, 'page', 'ConvertKit: Page: Form: Shortcode: No Credentials');
 
 		// Open Visual Editor modal for the shortcode.
 		$I->openVisualEditorShortcodeModal(

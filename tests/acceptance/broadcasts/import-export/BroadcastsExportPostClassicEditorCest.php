@@ -156,8 +156,6 @@ class BroadcastsExportPostClassicEditorCest
 	 */
 	public function testCreateBroadcastWhenEnabledInPost(AcceptanceTester $I)
 	{
-		$I->markTestIncomplete();
-
 		// Enable Export Actions for Posts.
 		$I->setupConvertKitPluginBroadcasts(
 			$I,
