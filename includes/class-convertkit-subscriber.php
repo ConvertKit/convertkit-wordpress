@@ -131,22 +131,22 @@ class ConvertKit_Subscriber {
 		);
 
 		// Get subscriber by email, to ensure they exist.
-		$subscriber = $api->get_subscribers( 'active', $subscriber_email );
+		$subscriber_id = $api->get_subscriber_id( $subscriber_email );
 
 		// Bail if no subscriber exists with the given subscriber ID, or an error occured.
-		if ( is_wp_error( $subscriber ) ) {
+		if ( is_wp_error( $subscriber_id ) ) {
 			// Delete the cookie.
 			$this->forget();
 
 			// Return error.
-			return $subscriber;
+			return $subscriber_id;
 		}
 
 		// Store the subscriber ID as a cookie.
-		$this->set( $subscriber['subscriber']['id'] );
+		$this->set( $subscriber_id );
 
 		// Return subscriber ID.
-		return $subscriber['subscriber']['id'];
+		return $subscriber_id;
 
 	}
 
