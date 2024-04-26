@@ -81,7 +81,7 @@ class ConvertKit_Subscriber {
 		);
 
 		// Get subscriber by ID, to ensure they exist.
-		$subscriber = $api->get_subscriber_by_id( $subscriber_id );
+		$subscriber = $api->get_subscriber( $subscriber_id );
 
 		// Bail if no subscriber exists with the given subscriber ID, or an error occured.
 		if ( is_wp_error( $subscriber ) ) {
@@ -93,10 +93,10 @@ class ConvertKit_Subscriber {
 		}
 
 		// Store the subscriber ID as a cookie.
-		$this->set( $subscriber['id'] );
+		$this->set( $subscriber['subscriber']['id'] );
 
 		// Return subscriber ID.
-		return $subscriber['id'];
+		return $subscriber['subscriber']['id'];
 
 	}
 
@@ -131,7 +131,7 @@ class ConvertKit_Subscriber {
 		);
 
 		// Get subscriber by email, to ensure they exist.
-		$subscriber = $api->get_subscriber_by_email( $subscriber_email );
+		$subscriber = $api->get_subscribers( 'active', $subscriber_email );
 
 		// Bail if no subscriber exists with the given subscriber ID, or an error occured.
 		if ( is_wp_error( $subscriber ) ) {
@@ -143,10 +143,10 @@ class ConvertKit_Subscriber {
 		}
 
 		// Store the subscriber ID as a cookie.
-		$this->set( $subscriber['id'] );
+		$this->set( $subscriber['subscriber']['id'] );
 
 		// Return subscriber ID.
-		return $subscriber['id'];
+		return $subscriber['subscriber']['id'];
 
 	}
 

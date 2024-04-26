@@ -204,7 +204,7 @@ class ConvertKit_AJAX {
 		);
 
 		// Get subscriber's email address by subscriber ID.
-		$subscriber = $api->get_subscriber_by_id( $subscriber_id );
+		$subscriber = $api->get_subscriber( $subscriber_id );
 
 		// Bail if the subscriber could not be found.
 		if ( is_wp_error( $subscriber ) ) {
@@ -212,7 +212,7 @@ class ConvertKit_AJAX {
 		}
 
 		// Extract the subscriber's email.
-		$email = $subscriber['email_address'];
+		$email = $subscriber['subscriber']['email_address'];
 
 		// Store the subscriber ID as a cookie.
 		$subscriber = new ConvertKit_Subscriber();

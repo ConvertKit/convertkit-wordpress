@@ -79,6 +79,6 @@ class APITest extends \Codeception\TestCase\WPTestCase
 		);
 
 		// Perform a request.
-		$result = $this->api->account();
+		$result = $this->api->get_account();
 	}
 }
