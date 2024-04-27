@@ -114,13 +114,7 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 			case 401:
 				// Access token either expired or was revoked in ConvertKit.
 				// Remove from settings.
-				$this->settings->save(
-					array(
-						'access_token'  => '',
-						'refresh_token' => '',
-						'token_expires' => '',
-					)
-				);
+				$this->settings->delete_credentials();
 
 				// Display a site wide notice.
 				WP_ConvertKit()->get_class( 'admin_notices' )->add( 'authorization_failed' );
@@ -583,24 +577,24 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 	 */
 	public function sanitize_settings( $settings ) {
 
-		// Call parent class to merge settings with defaults.
-		$settings = parent::sanitize_settings( $settings );
-
 		// If no Access Token, Refresh Token or Token Expiry keys were specified in the settings
 		// prior to save, don't overwrite them with the blank setting from get_defaults().
 		// This ensures we only blank these values if we explicitly do so via $settings,
 		// as they won't be included in the Settings screen for security.
 		if ( ! array_key_exists( 'disconnect', $_REQUEST ) ) { // phpcs:ignore WordPress.Security.NonceVerification
-			if ( ! array_key_exists( 'access_token', $settings ) || empty( $settings['access_token'] ) ) {
+			if ( ! array_key_exists( 'access_token', $settings ) ) {
 				$settings['access_token'] = $this->settings->get_access_token();
 			}
-			if ( ! array_key_exists( 'refresh_token', $settings ) || empty( $settings['refresh_token'] ) ) {
+			if ( ! array_key_exists( 'refresh_token', $settings ) ) {
 				$settings['refresh_token'] = $this->settings->get_refresh_token();
 			}
-			if ( ! array_key_exists( 'token_expires', $settings ) || empty( $settings['token_expires'] ) ) {
+			if ( ! array_key_exists( 'token_expires', $settings ) ) {
 				$settings['token_expires'] = $this->settings->get_token_expiry();
 			}
 		}
+
+		// Call parent class to merge settings with defaults.
+		$settings = parent::sanitize_settings( $settings );
 
 		// If a Form or Landing Page was specified that isn't the default,
 		// request a review.
