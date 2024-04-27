@@ -226,7 +226,7 @@ class ConvertKit_Broadcasts_Exporter {
 		);
 
 		// Create draft Broadcast in ConvertKit.
-		$result = $api->broadcast_create(
+		$result = $api->create_broadcast(
 			$post->post_title,
 			$content,
 			$post->post_excerpt
