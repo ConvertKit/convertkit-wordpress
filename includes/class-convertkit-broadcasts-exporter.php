@@ -238,10 +238,10 @@ class ConvertKit_Broadcasts_Exporter {
 		}
 
 		// Store the Broadcast ID against the WordPress Post.
-		update_post_meta( $post->ID, '_convertkit_broadcast_export_id', $result['id'] );
+		update_post_meta( $post->ID, '_convertkit_broadcast_export_id', $result['broadcast']['id'] );
 
 		// Return result.
-		return $result;
+		return $result['broadcast'];
 
 	}
 
