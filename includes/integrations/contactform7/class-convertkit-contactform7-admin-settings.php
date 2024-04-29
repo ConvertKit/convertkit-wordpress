@@ -140,7 +140,7 @@ class ConvertKit_ContactForm7_Admin_Settings extends ConvertKit_Settings_Base {
 					false,
 					(string) $this->settings->get_convertkit_form_id_by_cf7_form_id( $cf7_form['id'] ),
 					array(
-						'default' => __( 'None', 'convertkit' ),
+						'' => __( 'None', 'convertkit' ),
 					)
 				),
 				'email' => 'your-email',
