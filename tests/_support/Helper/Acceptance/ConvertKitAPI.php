@@ -23,11 +23,12 @@ class ConvertKitAPI extends \Codeception\Module
 			'GET',
 			[
 				'email_address' => $emailAddress,
+				'include_total_count' => true,
 			]
 		);
 
 		// Check at least one subscriber was returned and it matches the email address.
-		$I->assertGreaterThan(0, $results['total_subscribers']);
+		$I->assertGreaterThan(0, $results['pagination']['total_count']);
 		$I->assertEquals($emailAddress, $results['subscribers'][0]['email_address']);
 	}
 
