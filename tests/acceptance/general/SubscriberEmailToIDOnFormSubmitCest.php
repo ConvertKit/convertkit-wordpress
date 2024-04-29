@@ -134,7 +134,7 @@ class SubscriberEmailToIDOnFormSubmitCest
 
 		// Check log contains get_subscriber_by_email() call with masked email value.
 		$I->loadConvertKitSettingsToolsScreen($I);
-		$I->seeInSource('API: get_subscriber_by_email(): [ email: w********-2***');
+		$I->seeInSource('API: get_subscriber_by_email(): [ email: w********-2***'); // @TODO Fix.
 	}
 
 	/**
