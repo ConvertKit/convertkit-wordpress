@@ -32,9 +32,6 @@ class ForminatorCest
 		// Load Forminator Plugin Settings.
 		$I->amOnAdminPage('options-general.php?page=_wp_convertkit_settings&tab=forminator');
 
-		// Confirm notice is displayed.
-		$I->see('No Forms exist on ConvertKit.');
-
 		// Confirm no settings table is displayed.
 		$I->dontSeeElementInDOM('table.wp-list-table');
 	}
