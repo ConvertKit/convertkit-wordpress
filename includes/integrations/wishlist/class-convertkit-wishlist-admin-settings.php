@@ -145,7 +145,7 @@ class ConvertKit_Wishlist_Admin_Settings extends ConvertKit_Settings_Base {
 						false,
 						(string) $this->settings->get_convertkit_form_id_by_wishlist_member_level_id( $wlm_level['id'] ),
 						array(
-							'default' => __( 'None', 'convertkit' ),
+							'' => __( 'None', 'convertkit' ),
 						)
 					),
 					'unsubscribe' => $this->get_select_field(
