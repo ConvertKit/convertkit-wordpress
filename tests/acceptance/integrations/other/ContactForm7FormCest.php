@@ -27,7 +27,7 @@ class ContactForm7FormCest
 	 *
 	 * @param   AcceptanceTester $I  Tester.
 	 */
-	public function testSettingsContactForm7WhenNoAPIKeyAndSecret(AcceptanceTester $I)
+	public function testSettingsContactForm7WhenNoCredentials(AcceptanceTester $I)
 	{
 		// Load Contact Form 7 Plugin Settings.
 		$I->amOnAdminPage('options-general.php?page=_wp_convertkit_settings&tab=contactform7');
