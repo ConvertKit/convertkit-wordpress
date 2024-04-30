@@ -137,7 +137,7 @@ class ConvertKit_Forminator_Admin_Settings extends ConvertKit_Settings_Base {
 					false,
 					(string) $this->settings->get_convertkit_form_id_by_forminator_form_id( $forminator_form['id'] ),
 					array(
-						'default' => __( 'None', 'convertkit' ),
+						'' => __( 'None', 'convertkit' ),
 					)
 				),
 			);
