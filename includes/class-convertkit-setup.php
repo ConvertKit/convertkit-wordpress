@@ -45,6 +45,13 @@ class ConvertKit_Setup {
 		}
 
 		/**
+		 * 2.5.0: Exchange API Key and Secret for Access Token for API version 4.0.
+		 */
+		if ( ! $current_version || version_compare( $current_version, '2.5.0', '<' ) ) {
+			$this->maybe_exchange_api_key_and_secret_for_access_token();
+		}
+
+		/**
 		 * 1.4.1: Change ID to form_id for API version 3.0.
 		 */
 		if ( ! $current_version || version_compare( $current_version, '1.4.1', '<' ) ) {
@@ -79,6 +86,54 @@ class ConvertKit_Setup {
 
 		// Update the installed version number in the options table.
 		update_option( 'convertkit_version', CONVERTKIT_PLUGIN_VERSION );
+
+	}
+
+	/**
+	 * 2.5.0: Exchange the existing API Key and Secret for an Access Token,
+	 * Refresh Token and Expiry.
+	 *
+	 * @since   2.5.0
+	 */
+	private function maybe_exchange_api_key_and_secret_for_access_token() {
+
+		$convertkit_settings = new ConvertKit_Settings();
+
+		// Bail if an Access Token exists; we don't need to exchange anything.
+		if ( $convertkit_settings->has_access_token() ) {
+			return;
+		}
+
+		// Bail if no API Key or Secret.
+		if ( empty( $convertkit_settings->get_api_key() ) ) {
+			return;
+		}
+		if ( empty( $convertkit_settings->get_api_secret() ) ) {
+			return;
+		}
+
+		// Exchange API Key and Secret for an Access Token.
+		$api    = new ConvertKit_API( CONVERTKIT_OAUTH_CLIENT_ID, admin_url( 'options-general.php?page=_wp_convertkit_settings' ) );
+		$result = $api->exchange_api_key_and_secret_for_access_token(
+			$convertkit_settings->get_api_key(),
+			$convertkit_settings->get_api_secret()
+		);
+
+		// Bail if an error occured.
+		if ( is_wp_error( $result ) ) {
+			return;
+		}
+
+		// Store the new credentials, removing the API Key and Secret.
+		// We don't use update_credentials(), because the response
+		// includes an `expires_at`, not a `created_at` and `expires_in`.
+		$convertkit_settings->save(
+			array(
+				'access_token'  => $result['oauth']['access_token'],
+				'refresh_token' => $result['oauth']['refresh_token'],
+				'token_expires' => $result['oauth']['expires_at'],
+			)
+		);
 
 	}
 
@@ -156,8 +211,10 @@ class ConvertKit_Setup {
 
 		// Initialize the API.
 		$api = new ConvertKit_API(
-			$convertkit_settings->get_api_key(),
-			$convertkit_settings->get_api_secret(),
+			CONVERTKIT_OAUTH_CLIENT_ID,
+			admin_url( 'options-general.php?page=_wp_convertkit_settings' ),
+			$convertkit_settings->get_access_token(),
+			$convertkit_settings->get_refresh_token(),
 			$convertkit_settings->debug_enabled(),
 			'setup'
 		);
