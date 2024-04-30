@@ -26,8 +26,20 @@ class ThirdPartyPlugin extends \Codeception\Module
 		// Go to the Plugins screen in the WordPress Administration interface.
 		$I->amOnPluginsPage();
 
-		// Activate the Plugin.
-		$I->activatePlugin($name);
+		// Depending on the Plugin name, perform activation.
+		switch ($name) {
+			case 'woocommerce':
+				// The bulk action to activate won't be available in WordPress 6.5 due to dependent
+				// plugins being installed.
+				// See https://core.trac.wordpress.org/ticket/60863.
+				$I->click('a#activate-' . $name);
+				break;
+
+			default:
+				// Activate the Plugin.
+				$I->activatePlugin($name);
+				break;
+		}
 
 		// Go to the Plugins screen again; this prevents any Plugin that loads a wizard-style screen from
 		// causing seePluginActivated() to fail.
@@ -45,9 +57,6 @@ class ThirdPartyPlugin extends \Codeception\Module
 
 		// Some Plugins throw warnings / errors on activation, so we can't reliably check for errors.
 		if ($name === 'wishlist-member' && version_compare( phpversion(), '8.1', '>' )) {
-			return;
-		}
-		if ($name === 'woocommerce') {
 			return;
 		}
 
@@ -72,7 +81,25 @@ class ThirdPartyPlugin extends \Codeception\Module
 		// Go to the Plugins screen in the WordPress Administration interface.
 		$I->amOnPluginsPage();
 
-		// Deactivate the Plugin.
-		$I->deactivatePlugin($name);
+		// Depending on the Plugin name, perform activation.
+		switch ($name) {
+			case 'woocommerce':
+				// The bulk action to deactivate won't be available in WordPress 6.5 due to dependent
+				// plugins being installed.
+				// See https://core.trac.wordpress.org/ticket/60863.
+				$I->click('a#deactivate-' . $name);
+				break;
+
+			default:
+				// Dectivate the Plugin.
+				$I->deactivatePlugin($name);
+				break;
+		}
+
+		// Check that the Plugin deactivated successfully.
+		$I->seePluginDeactivated($name);
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
 	}
 }
