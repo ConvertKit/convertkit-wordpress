@@ -28,6 +28,15 @@ class ConvertKit_Admin_Setup_Wizard_Plugin extends ConvertKit_Admin_Setup_Wizard
 	public $forms = false;
 
 	/**
+	 * Holds the ConvertKit API class.
+	 * 
+	 * @since 	2.5.0
+	 * 
+	 * @var 	bool|ConvertKit_API
+	 */
+	public $api = false;
+
+	/**
 	 * Holds the ConvertKit Settings class.
 	 *
 	 * @since   1.9.8.4
@@ -90,24 +99,25 @@ class ConvertKit_Admin_Setup_Wizard_Plugin extends ConvertKit_Admin_Setup_Wizard
 	 */
 	public function __construct() {
 
+		// Setup API.
+		$this->api = new ConvertKit_API( CONVERTKIT_OAUTH_CLIENT_ID, admin_url( 'options-general.php?page=_wp_convertkit_settings' ), false, 'setup_wizard' );
+
 		// Define details for each step in the setup process.
 		$this->steps = array(
 			1 => array(
-				'name' => __( 'Setup', 'convertkit' ),
-			),
-			2 => array(
-				'name'        => __( 'Connect Account', 'convertkit' ),
+				'name' => __( 'Connect', 'convertkit' ),
 				'next_button' => array(
 					'label' => __( 'Connect', 'convertkit' ),
+					'link'  => $this->api->get_oauth_url(),
 				),
 			),
-			3 => array(
-				'name'        => __( 'Form Configuration', 'convertkit' ),
+			2 => array(
+				'name'        => __( 'Configuration', 'convertkit' ),
 				'next_button' => array(
 					'label' => __( 'Finish Setup', 'convertkit' ),
 				),
 			),
-			4 => array(
+			3 => array(
 				'name' => __( 'Done', 'convertkit' ),
 			),
 		);
@@ -202,7 +212,7 @@ class ConvertKit_Admin_Setup_Wizard_Plugin extends ConvertKit_Admin_Setup_Wizard
 
 		// Depending on the step, process the form data.
 		switch ( $step ) {
-			case 3:
+			case 2:
 				// Check that the API Key and Secret work.
 				$api_key    = sanitize_text_field( wp_unslash( $_POST['api_key'] ) );
 				$api_secret = sanitize_text_field( wp_unslash( $_POST['api_secret'] ) );
@@ -229,7 +239,7 @@ class ConvertKit_Admin_Setup_Wizard_Plugin extends ConvertKit_Admin_Setup_Wizard
 				);
 				break;
 
-			case 4:
+			case 3:
 				// Save Default Page and Post Form settings.
 				$settings = new ConvertKit_Settings();
 				$settings->save(
@@ -256,15 +266,16 @@ class ConvertKit_Admin_Setup_Wizard_Plugin extends ConvertKit_Admin_Setup_Wizard
 
 		// If this wizard is being served in a modal window, adjust the steps.
 		if ( $this->is_modal() ) {
-			unset( $this->steps[3], $this->steps[4] );
+			unset( $this->steps[2], $this->steps[3] );
 		}
+
 		switch ( $step ) {
-			case 2:
+			case 1:
 				// Load settings class.
 				$this->settings = new ConvertKit_Settings();
 				break;
 
-			case 3:
+			case 2:
 				// If this wizard is being served in a modal window, we can exit after obtaining valid API credentials.
 				$this->maybe_close_modal();
 
@@ -278,8 +289,8 @@ class ConvertKit_Admin_Setup_Wizard_Plugin extends ConvertKit_Admin_Setup_Wizard
 				// If no Forms exist in ConvertKit, change the next button label and make it a link to reload
 				// the screen.
 				if ( ! $this->forms->exist() ) {
-					$this->steps[3]['next_button']['label'] = __( 'I\'ve created a form in ConvertKit', 'convertkit' );
-					$this->steps[3]['next_button']['link']  = add_query_arg(
+					$this->steps[2]['next_button']['label'] = __( 'I\'ve created a form in ConvertKit', 'convertkit' );
+					$this->steps[2]['next_button']['link']  = add_query_arg(
 						array(
 							'page' => $this->page_name,
 							'step' => 3,
