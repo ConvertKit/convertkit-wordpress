@@ -33,9 +33,9 @@ class ConvertKit_Resource_Landing_Pages extends ConvertKit_Resource {
 	 *
 	 * @since   1.9.8.4
 	 *
-	 * @param   bool|string $context    Context.
+	 * @param   string $context    Context.
 	 */
-	public function __construct( $context = false ) {
+	public function __construct( $context = 'landing_pages' ) {
 
 		// Initialize the API if the Access Token has been defined in the Plugin Settings.
 		$settings = new ConvertKit_Settings();
@@ -46,7 +46,7 @@ class ConvertKit_Resource_Landing_Pages extends ConvertKit_Resource {
 				$settings->get_access_token(),
 				$settings->get_refresh_token(),
 				$settings->debug_enabled(),
-				'landing_pages'
+				$context
 			);
 		}
 
