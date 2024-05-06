@@ -46,6 +46,10 @@ class ConvertKit_Cache_Plugins {
 	 */
 	public function __construct() {
 
+		// Autoptimize: Exclude Forms from JS defer.
+		add_filter( 'convertkit_output_script_footer', array( $this, 'autoptimize_exclude_js_defer' ) );
+		add_filter( 'convertkit_resource_forms_output_script', array( $this, 'autoptimize_exclude_js_defer' ) );
+
 		// Jetpack Boost: Exclude Forms from JS defer.
 		add_filter( 'convertkit_output_script_footer', array( $this, 'jetpack_boost_exclude_js_defer' ) );
 		add_filter( 'convertkit_resource_forms_output_script', array( $this, 'jetpack_boost_exclude_js_defer' ) );
@@ -68,6 +72,31 @@ class ConvertKit_Cache_Plugins {
 		// WP Rocket: Exclude Forms from Delay JavaScript execution.
 		add_filter( 'convertkit_output_script_footer', array( $this, 'wp_rocket_exclude_delay_js_execution' ) );
 		add_filter( 'convertkit_resource_forms_output_script', array( $this, 'wp_rocket_exclude_delay_js_execution' ) );
+
+	}
+
+	/**
+	 * Exclude ConvertKit scripts from Autoptimize's "Defer JS" setting.
+	 *
+	 * @since   2.4.9
+	 *
+	 * @param   string $script     Script key/value pairs to exclude.
+	 * @return  string
+	 */
+	public function autoptimize_exclude_js_defer( $script ) {
+
+		add_filter(
+			'autoptimize_filter_js_exclude',
+			function ( $exclusions ) use ( $script ) {
+
+				$exclusions .= ', ' . $script['src'];
+				return $exclusions;
+
+			}
+		);
+
+		// Return original script.
+		return $script;
 
 	}
 
