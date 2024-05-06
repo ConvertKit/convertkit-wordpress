@@ -160,7 +160,12 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 			// Disable saving settings.
 			$this->save_disabled = true;
 
-			// Output a notice.
+			// Return if we're not on the Plugin settings screen.
+			if ( ! $this->on_settings_screen() ) {
+				return;
+			}
+
+			// Output a notice if we're on the Broadcasts settings screen.
 			$this->output_error(
 				__( 'Importing public broadcasts from ConvertKit requires the PHP extensions `php-dom` and `php-xml` to be installed. Work with your web host to do this, and reload the page when done.', 'convertkit' )
 			);
