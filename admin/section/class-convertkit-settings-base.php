@@ -61,6 +61,16 @@ abstract class ConvertKit_Settings_Base {
 	public $is_beta = false;
 
 	/**
+	 * Holds whether the save button should be disabled e.g. there are no
+	 * settings on screen to save.
+	 * 
+	 * @since 	2.4.9
+	 * 
+	 * @var 	bool
+	 */
+	public $save_disabled = false;
+
+	/**
 	 * Constructor
 	 */
 	public function __construct() {
@@ -130,7 +140,9 @@ abstract class ConvertKit_Settings_Base {
 
 		settings_fields( $this->settings_key );
 
-		submit_button();
+		if ( ! $this->save_disabled ) {
+			submit_button();
+		}
 
 		$this->render_container_end();
 

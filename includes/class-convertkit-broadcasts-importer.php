@@ -272,13 +272,6 @@ class ConvertKit_Broadcasts_Importer {
 	 */
 	private function parse_broadcast_content( $broadcast_content ) {
 
-		// Check if DOMDocument is installed.
-		// It should be installed as mosts hosts include php-dom and php-xml modules.
-		// If not, just return the content as we can't do anything.
-		if ( ! class_exists( 'DOMDocument' ) ) {
-			return $broadcast_content;
-		}
-
 		$content = $broadcast_content;
 
 		// Wrap content in <html>, <head> and <body> tags with an UTF-8 Content-Type meta tag.
