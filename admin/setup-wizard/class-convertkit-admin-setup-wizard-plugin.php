@@ -99,8 +99,9 @@ class ConvertKit_Admin_Setup_Wizard_Plugin extends ConvertKit_Admin_Setup_Wizard
 	 */
 	public function __construct() {
 
-		// Setup API.
+		// Setup API and settings classes.
 		$this->api = new ConvertKit_API( CONVERTKIT_OAUTH_CLIENT_ID, admin_url( 'options-general.php?page=_wp_convertkit_settings' ), false, 'setup_wizard' );
+		$this->settings = new ConvertKit_Settings();
 
 		// Define details for each step in the setup process.
 		$this->steps = array(
@@ -207,20 +208,21 @@ class ConvertKit_Admin_Setup_Wizard_Plugin extends ConvertKit_Admin_Setup_Wizard
 	 */
 	public function process_form( $step ) {
 
-		// phpcs:disable WordPress.Security.NonceVerification.Missing
-		// Nonce verification has been performed in ConvertKit_Admin_Setup_Wizard:process_form(), prior to calling this function.
-
 		// Depending on the step, process the form data.
 		switch ( $step ) {
 			case 2:
-				// Check that the API Key and Secret work.
-				$api_key    = sanitize_text_field( wp_unslash( $_POST['api_key'] ) );
-				$api_secret = sanitize_text_field( wp_unslash( $_POST['api_secret'] ) );
+				// Bail if no authorization code is included in the request.
+				if ( ! array_key_exists( 'code', $_REQUEST ) ) { // phpcs:ignore WordPress.Security.NonceVerification
+					return;
+				}
 
-				$api    = new ConvertKit_API( $api_key, $api_secret, false, 'setup_wizard' );
-				$result = $api->get_account();
+				// Sanitize token.
+				$authorization_code = sanitize_text_field( $_REQUEST['code'] ); // phpcs:ignore WordPress.Security.NonceVerification
 
-				// Show an error message if Account Details could not be fetched e.g. API credentials supplied are invalid.
+				// Exchange the authorization code and verifier for an access token.
+				$result = $this->api->get_access_token( $authorization_code );
+
+				// Show an error message if we could not fetch the access token.
 				if ( is_wp_error( $result ) ) {
 					// Decrement the step.
 					$this->step  = ( $this->step - 1 );
@@ -228,13 +230,12 @@ class ConvertKit_Admin_Setup_Wizard_Plugin extends ConvertKit_Admin_Setup_Wizard
 					return;
 				}
 
-				// If here, API credentials are valid.
-				// Save them.
-				$settings = new ConvertKit_Settings();
-				$settings->save(
+				// Store Access Token, Refresh Token and expiry.
+				$this->settings->save(
 					array(
-						'api_key'    => $api_key,
-						'api_secret' => $api_secret,
+						'access_token'  => $result['access_token'],
+						'refresh_token' => $result['refresh_token'],
+						'token_expires' => ( $result['created_at'] + $result['expires_in'] ),
 					)
 				);
 				break;
@@ -250,8 +251,6 @@ class ConvertKit_Admin_Setup_Wizard_Plugin extends ConvertKit_Admin_Setup_Wizard
 				);
 				break;
 		}
-
-		// phpcs:enable
 
 	}
 
@@ -270,11 +269,6 @@ class ConvertKit_Admin_Setup_Wizard_Plugin extends ConvertKit_Admin_Setup_Wizard
 		}
 
 		switch ( $step ) {
-			case 1:
-				// Load settings class.
-				$this->settings = new ConvertKit_Settings();
-				break;
-
 			case 2:
 				// If this wizard is being served in a modal window, we can exit after obtaining valid API credentials.
 				$this->maybe_close_modal();
