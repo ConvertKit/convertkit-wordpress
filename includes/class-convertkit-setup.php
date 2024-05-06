@@ -48,7 +48,6 @@ class ConvertKit_Setup {
 		 * 2.5.0: Exchange API Key and Secret for Access Token for API version 4.0.
 		 */
 		if ( ! $current_version || version_compare( $current_version, '2.5.0', '<' ) ) {
-			$this->maybe_cache_legacy_resources();
 			$this->maybe_exchange_api_key_and_secret_for_access_token();
 		}
 
@@ -87,17 +86,6 @@ class ConvertKit_Setup {
 
 		// Update the installed version number in the options table.
 		update_option( 'convertkit_version', CONVERTKIT_PLUGIN_VERSION );
-
-	}
-
-	private function maybe_cache_legacy_resources() {
-
-		$forms = new ConvertKit_Resource_Forms();
-		$landing_pages = new ConvertKit_Resource_Landing_Pages();
-
-		var_dump( $forms->get() );
-		var_dump( $landing_pages->get() );
-		die();
 
 	}
 
