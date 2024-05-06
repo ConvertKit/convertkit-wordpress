@@ -63,10 +63,10 @@ abstract class ConvertKit_Settings_Base {
 	/**
 	 * Holds whether the save button should be disabled e.g. there are no
 	 * settings on screen to save.
-	 * 
-	 * @since 	2.4.9
-	 * 
-	 * @var 	bool
+	 *
+	 * @since   2.4.9
+	 *
+	 * @var     bool
 	 */
 	public $save_disabled = false;
 
