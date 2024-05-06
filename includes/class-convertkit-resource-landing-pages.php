@@ -84,7 +84,7 @@ class ConvertKit_Resource_Landing_Pages extends ConvertKit_Resource {
 		}
 
 		// If legacy resources exist, merge them now.
-		$resources = array_merge( $resources, $this->get_legacy() );
+		$resources = ( $resources + $this->get_legacy() );
 
 		// Return resources sorted by order_by and order.
 		return $this->sort( $resources );
@@ -147,6 +147,9 @@ class ConvertKit_Resource_Landing_Pages extends ConvertKit_Resource {
 		if ( is_wp_error( $this->resources ) ) {
 			return $this->resources;
 		}
+
+		// Fetch all forms, including legacy.
+		$this->resources = $this->get();
 
 		// Bail if the resource doesn't exist.
 		if ( ! isset( $this->resources[ $id ] ) ) {

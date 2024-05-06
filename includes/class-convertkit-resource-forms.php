@@ -84,7 +84,7 @@ class ConvertKit_Resource_Forms extends ConvertKit_Resource {
 		}
 
 		// If legacy resources exist, merge them now.
-		$resources = array_merge( $resources, $this->get_legacy() );
+		$resources = ( $resources + $this->get_legacy() );
 
 		// Return resources sorted by order_by and order.
 		return $this->sort( $resources );
@@ -311,6 +311,9 @@ class ConvertKit_Resource_Forms extends ConvertKit_Resource {
 			return $this->resources;
 		}
 
+		// Fetch all forms, including legacy.
+		$this->resources = $this->get();
+
 		// Bail if the resource doesn't exist.
 		if ( ! isset( $this->resources[ $id ] ) ) {
 			return new WP_Error(
@@ -346,9 +349,9 @@ class ConvertKit_Resource_Forms extends ConvertKit_Resource {
 				$settings->debug_enabled(),
 				'output_form'
 			);
-
+			
 			// Return Legacy Form HTML.
-			return $api->get_form_html( $id );
+			return $api->get_form_html( $id, $settings->get_api_key() );
 		}
 
 		// If the form's format is not an inline form, add the inline script before the closing </body> tag.
