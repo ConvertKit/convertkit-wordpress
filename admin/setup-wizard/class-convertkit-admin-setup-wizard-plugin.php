@@ -29,10 +29,10 @@ class ConvertKit_Admin_Setup_Wizard_Plugin extends ConvertKit_Admin_Setup_Wizard
 
 	/**
 	 * Holds the ConvertKit API class.
-	 * 
-	 * @since 	2.5.0
-	 * 
-	 * @var 	bool|ConvertKit_API
+	 *
+	 * @since   2.5.0
+	 *
+	 * @var     bool|ConvertKit_API
 	 */
 	public $api = false;
 
@@ -100,13 +100,13 @@ class ConvertKit_Admin_Setup_Wizard_Plugin extends ConvertKit_Admin_Setup_Wizard
 	public function __construct() {
 
 		// Setup API and settings classes.
-		$this->api = new ConvertKit_API( CONVERTKIT_OAUTH_CLIENT_ID, admin_url( 'options-general.php?page=_wp_convertkit_settings' ), false, 'setup_wizard' );
+		$this->api      = new ConvertKit_API( CONVERTKIT_OAUTH_CLIENT_ID, admin_url( 'options-general.php?page=_wp_convertkit_settings' ), false, 'setup_wizard' );
 		$this->settings = new ConvertKit_Settings();
 
 		// Define details for each step in the setup process.
 		$this->steps = array(
 			1 => array(
-				'name' => __( 'Connect', 'convertkit' ),
+				'name'        => __( 'Connect', 'convertkit' ),
 				'next_button' => array(
 					'label' => __( 'Connect', 'convertkit' ),
 					'link'  => $this->api->get_oauth_url(),
@@ -241,6 +241,15 @@ class ConvertKit_Admin_Setup_Wizard_Plugin extends ConvertKit_Admin_Setup_Wizard
 				break;
 
 			case 3:
+				// Run security checks.
+				if ( ! isset( $_REQUEST['_wpnonce'] ) ) {
+					return;
+				}
+				if ( ! wp_verify_nonce( sanitize_key( $_REQUEST['_wpnonce'] ), $this->page_name ) ) {
+					$this->error = __( 'Invalid nonce specified.', 'convertkit' );
+					return;
+				}
+
 				// Save Default Page and Post Form settings.
 				$settings = new ConvertKit_Settings();
 				$settings->save(
