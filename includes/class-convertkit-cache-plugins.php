@@ -80,8 +80,8 @@ class ConvertKit_Cache_Plugins {
 	 *
 	 * @since   2.4.9
 	 *
-	 * @param   string $script     Script key/value pairs to exclude.
-	 * @return  string
+	 * @param   array $script     Script key/value pairs to output as <script> tag.
+	 * @return  array
 	 */
 	public function autoptimize_exclude_js_defer( $script ) {
 
