@@ -57,7 +57,7 @@ class PageShortcodeBroadcastsCest
 
 		// Confirm that the expected Broadcast name is displayed first links to the expected URL, with UTM parameters.
 		$I->assertEquals(
-			$I->grabAttributeFrom('div.convertkit-broadcasts ul.convertkit-broadcasts-list li.convertkit-broadcast:first-child a', 'href'),
+			$I->grabAttributeFrom('div.convertkit-broadcasts ul.convertkit-broadcasts-list li.convertkit-broadcast:nth-child(2) a', 'href'),
 			$_ENV['CONVERTKIT_API_BROADCAST_FIRST_URL'] . '?utm_source=wordpress&utm_term=en_US&utm_content=convertkit'
 		);
 	}
@@ -136,7 +136,7 @@ class PageShortcodeBroadcastsCest
 
 		// Confirm that the expected Broadcast name is displayed first links to the expected URL, with UTM parameters.
 		$I->assertEquals(
-			$I->grabAttributeFrom('div.convertkit-broadcasts ul.convertkit-broadcasts-list li.convertkit-broadcast:first-child a', 'href'),
+			$I->grabAttributeFrom('div.convertkit-broadcasts ul.convertkit-broadcasts-list li.convertkit-broadcast:nth-child(2) a', 'href'),
 			$_ENV['CONVERTKIT_API_BROADCAST_FIRST_URL'] . '?utm_source=wordpress&utm_term=en_US&utm_content=convertkit'
 		);
 	}
@@ -283,7 +283,7 @@ class PageShortcodeBroadcastsCest
 
 		// Confirm that the expected Broadcast name is displayed first links to the expected URL, with UTM parameters.
 		$I->assertEquals(
-			$I->grabAttributeFrom('div.convertkit-broadcasts ul.convertkit-broadcasts-list li.convertkit-broadcast:first-child a', 'href'),
+			$I->grabAttributeFrom('div.convertkit-broadcasts ul.convertkit-broadcasts-list li.convertkit-broadcast:nth-child(2) a', 'href'),
 			$_ENV['CONVERTKIT_API_BROADCAST_FIRST_URL'] . '?utm_source=wordpress&utm_term=en_US&utm_content=convertkit'
 		);
 	}
@@ -306,10 +306,10 @@ class PageShortcodeBroadcastsCest
 			$I,
 			'ConvertKit Broadcasts',
 			[
-				'limit'    => [ 'input', '1', 'Pagination' ], // Click the Pagination tab first before starting to complete fields.
+				'limit'    => [ 'input', '2', 'Pagination' ], // Click the Pagination tab first before starting to complete fields.
 				'paginate' => [ 'toggle', 'Yes' ],
 			],
-			'[convertkit_broadcasts display_grid="0" date_format="F j, Y" display_image="0" display_description="0" display_read_more="0" read_more_label="Read more" limit="1" paginate="1" paginate_label_prev="Previous" paginate_label_next="Next"]'
+			'[convertkit_broadcasts display_grid="0" date_format="F j, Y" display_image="0" display_description="0" display_read_more="0" read_more_label="Read more" limit="2" paginate="1" paginate_label_prev="Previous" paginate_label_next="Next"]'
 		);
 
 		// Publish and view the Page on the frontend site.
@@ -337,12 +337,12 @@ class PageShortcodeBroadcastsCest
 			$I,
 			'ConvertKit Broadcasts',
 			[
-				'limit'               => [ 'input', '1', 'Pagination' ], // Click the Pagination tab first before starting to complete fields.
+				'limit'               => [ 'input', '2', 'Pagination' ], // Click the Pagination tab first before starting to complete fields.
 				'paginate'            => [ 'toggle', 'Yes' ],
 				'paginate_label_prev' => [ 'input', 'Newer' ],
 				'paginate_label_next' => [ 'input', 'Older' ],
 			],
-			'[convertkit_broadcasts display_grid="0" date_format="F j, Y" display_image="0" display_description="0" display_read_more="0" read_more_label="Read more" limit="1" paginate="1" paginate_label_prev="Newer" paginate_label_next="Older"]'
+			'[convertkit_broadcasts display_grid="0" date_format="F j, Y" display_image="0" display_description="0" display_read_more="0" read_more_label="Read more" limit="2" paginate="1" paginate_label_prev="Newer" paginate_label_next="Older"]'
 		);
 
 		// Publish and view the Page on the frontend site.
@@ -370,12 +370,12 @@ class PageShortcodeBroadcastsCest
 			$I,
 			'ConvertKit Broadcasts',
 			[
-				'limit'               => [ 'input', '1', 'Pagination' ], // Click the Pagination tab first before starting to complete fields.
+				'limit'               => [ 'input', '2', 'Pagination' ], // Click the Pagination tab first before starting to complete fields.
 				'paginate'            => [ 'toggle', 'Yes' ],
 				'paginate_label_prev' => [ 'input', '' ],
 				'paginate_label_next' => [ 'input', '' ],
 			],
-			'[convertkit_broadcasts display_grid="0" date_format="F j, Y" display_image="0" display_description="0" display_read_more="0" read_more_label="Read more" limit="1" paginate="1"]'
+			'[convertkit_broadcasts display_grid="0" date_format="F j, Y" display_image="0" display_description="0" display_read_more="0" read_more_label="Read more" limit="2" paginate="1"]'
 		);
 
 		// Publish and view the Page on the frontend site.
@@ -407,7 +407,7 @@ class PageShortcodeBroadcastsCest
 		$I->havePageInDatabase(
 			[
 				'post_name'    => 'convertkit-page-broadcasts-shortcode-hex-color-params',
-				'post_content' => '[convertkit_broadcasts display_grid="0" date_format="F j, Y" display_image="0" display_description="0" display_read_more="0" read_more_label="Read more" limit="1" paginate="1" paginate_label_prev="Newer" paginate_label_next="Older" link_color="' . $linkColor . '" background_color="' . $backgroundColor . '" text_color="' . $textColor . '"]',
+				'post_content' => '[convertkit_broadcasts display_grid="0" date_format="F j, Y" display_image="0" display_description="0" display_read_more="0" read_more_label="Read more" limit="2" paginate="1" paginate_label_prev="Newer" paginate_label_next="Older" link_color="' . $linkColor . '" background_color="' . $backgroundColor . '" text_color="' . $textColor . '"]',
 			]
 		);
 
@@ -424,7 +424,7 @@ class PageShortcodeBroadcastsCest
 		$I->seeBroadcastsOutput(
 			$I,
 			[
-				'number_posts' => 1,
+				'number_posts' => 2,
 			]
 		);
 
@@ -720,10 +720,10 @@ class PageShortcodeBroadcastsCest
 			$I,
 			'convertkit-broadcasts',
 			[
-				'limit'    => [ 'input', '1', 'Pagination' ], // Click the Pagination tab first before starting to complete fields.
+				'limit'    => [ 'input', '2', 'Pagination' ], // Click the Pagination tab first before starting to complete fields.
 				'paginate' => [ 'toggle', 'Yes' ],
 			],
-			'[convertkit_broadcasts display_grid="0" date_format="F j, Y" display_image="0" display_description="0" display_read_more="0" read_more_label="Read more" limit="1" paginate="1" paginate_label_prev="Previous" paginate_label_next="Next"]'
+			'[convertkit_broadcasts display_grid="0" date_format="F j, Y" display_image="0" display_description="0" display_read_more="0" read_more_label="Read more" limit="2" paginate="1" paginate_label_prev="Previous" paginate_label_next="Next"]'
 		);
 
 		// Publish and view the Page on the frontend site.
@@ -751,12 +751,12 @@ class PageShortcodeBroadcastsCest
 			$I,
 			'convertkit-broadcasts',
 			[
-				'limit'               => [ 'input', '1', 'Pagination' ], // Click the Pagination tab first before starting to complete fields.
+				'limit'               => [ 'input', '2', 'Pagination' ], // Click the Pagination tab first before starting to complete fields.
 				'paginate'            => [ 'toggle', 'Yes' ],
 				'paginate_label_prev' => [ 'input', 'Newer' ],
 				'paginate_label_next' => [ 'input', 'Older' ],
 			],
-			'[convertkit_broadcasts display_grid="0" date_format="F j, Y" display_image="0" display_description="0" display_read_more="0" read_more_label="Read more" limit="1" paginate="1" paginate_label_prev="Newer" paginate_label_next="Older"]'
+			'[convertkit_broadcasts display_grid="0" date_format="F j, Y" display_image="0" display_description="0" display_read_more="0" read_more_label="Read more" limit="2" paginate="1" paginate_label_prev="Newer" paginate_label_next="Older"]'
 		);
 
 		// Publish and view the Page on the frontend site.
@@ -791,10 +791,10 @@ class PageShortcodeBroadcastsCest
 			$I,
 			'ConvertKit Broadcasts',
 			[
-				'limit'    => [ 'input', '1', 'Pagination' ], // Click the Pagination tab first before starting to complete fields.
+				'limit'    => [ 'input', '2', 'Pagination' ], // Click the Pagination tab first before starting to complete fields.
 				'paginate' => [ 'toggle', 'Yes' ],
 			],
-			'[convertkit_broadcasts display_grid="0" date_format="F j, Y" display_image="0" display_description="0" display_read_more="0" read_more_label="Read more" limit="1" paginate="1" paginate_label_prev="Previous" paginate_label_next="Next"]'
+			'[convertkit_broadcasts display_grid="0" date_format="F j, Y" display_image="0" display_description="0" display_read_more="0" read_more_label="Read more" limit="2" paginate="1" paginate_label_prev="Previous" paginate_label_next="Next"]'
 		);
 
 		// Publish and view the Page on the frontend site.
@@ -815,7 +815,7 @@ class PageShortcodeBroadcastsCest
 		$I->havePageInDatabase(
 			[
 				'post_name'    => 'convertkit-page-broadcasts-shortcode-parameter-escaping',
-				'post_content' => '[convertkit_broadcasts display_grid="0" date_format="F j, Y" display_image="0" display_description="0" display_read_more="0" read_more_label="Read more" limit="1" paginate="1" paginate_label_prev="Previous" paginate_label_next="Next" link_color=\'red" onmouseover="alert(1)"\']',
+				'post_content' => '[convertkit_broadcasts display_grid="0" date_format="F j, Y" display_image="0" display_description="0" display_read_more="0" read_more_label="Read more" limit="2" paginate="1" paginate_label_prev="Previous" paginate_label_next="Next" link_color=\'red" onmouseover="alert(1)"\']',
 			]
 		);
 
