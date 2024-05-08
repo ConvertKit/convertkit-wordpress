@@ -179,7 +179,7 @@ class ElementorBroadcastsCest
 			'ConvertKit: Page: Broadcasts: Elementor Widget: Pagination',
 			[
 				'date_format' => 'F j, Y',
-				'limit'       => 1,
+				'limit'       => 2,
 				'paginate'    => 1,
 			]
 		);
@@ -209,7 +209,7 @@ class ElementorBroadcastsCest
 			'ConvertKit: Page: Broadcasts: Elementor Widget: Valid Params',
 			[
 				'date_format'         => 'F j, Y',
-				'limit'               => 1,
+				'limit'               => 2,
 				'paginate'            => 1,
 				'paginate_label_prev' => 'Newer',
 				'paginate_label_next' => 'Older',
@@ -246,7 +246,7 @@ class ElementorBroadcastsCest
 			'ConvertKit: Page: Broadcasts: Elementor Widget: Hex Colors',
 			[
 				'date_format'         => 'F j, Y',
-				'limit'               => 1,
+				'limit'               => 2,
 				'paginate'            => 1,
 				'paginate_label_prev' => 'Newer',
 				'paginate_label_next' => 'Older',
