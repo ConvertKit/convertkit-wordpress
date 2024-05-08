@@ -375,6 +375,16 @@ class ConvertKitPlugin extends \Codeception\Module
 					'thumbnail_alt' => 'Alt text for Paid Subscriber Broadcast',
 					'is_paid'       => true,
 				],
+				5395025 => [
+					'id'            => 5395025,
+					'title'         => 'New Broadcast',
+					'url'           => 'https://cheerful-architect-3237.ck.page/posts/',
+					'published_at'  => '2024-04-30T08:00:36.000Z',
+					'description'   => 'Test Content',
+					'thumbnail_url' => null,
+					'thumbnail_alt' => null,
+					'is_paid'       => null,
+				],
 			]
 		);
 
