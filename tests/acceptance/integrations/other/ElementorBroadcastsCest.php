@@ -80,7 +80,7 @@ class ElementorBroadcastsCest
 
 		// Confirm that the expected Broadcast name is displayed first links to the expected URL, with UTM parameters.
 		$I->assertEquals(
-			$I->grabAttributeFrom('div.convertkit-broadcasts ul.convertkit-broadcasts-list li.convertkit-broadcast:first-child a', 'href'),
+			$I->grabAttributeFrom('div.convertkit-broadcasts ul.convertkit-broadcasts-list li.convertkit-broadcast:nth-child(2) a', 'href'),
 			$_ENV['CONVERTKIT_API_BROADCAST_FIRST_URL'] . '?utm_source=wordpress&utm_term=en_US&utm_content=convertkit'
 		);
 	}
@@ -121,7 +121,7 @@ class ElementorBroadcastsCest
 
 		// Confirm that the expected Broadcast name is displayed first links to the expected URL, with UTM parameters.
 		$I->assertEquals(
-			$I->grabAttributeFrom('div.convertkit-broadcasts ul.convertkit-broadcasts-list li.convertkit-broadcast:first-child a', 'href'),
+			$I->grabAttributeFrom('div.convertkit-broadcasts ul.convertkit-broadcasts-list li.convertkit-broadcast:nth-child(2) a', 'href'),
 			$_ENV['CONVERTKIT_API_BROADCAST_FIRST_URL'] . '?utm_source=wordpress&utm_term=en_US&utm_content=convertkit'
 		);
 	}
@@ -159,7 +159,7 @@ class ElementorBroadcastsCest
 
 		// Confirm that the expected Broadcast name is displayed first links to the expected URL, with UTM parameters.
 		$I->assertEquals(
-			$I->grabAttributeFrom('div.convertkit-broadcasts ul.convertkit-broadcasts-list li.convertkit-broadcast:first-child a', 'href'),
+			$I->grabAttributeFrom('div.convertkit-broadcasts ul.convertkit-broadcasts-list li.convertkit-broadcast:nth-child(2) a', 'href'),
 			$_ENV['CONVERTKIT_API_BROADCAST_FIRST_URL'] . '?utm_source=wordpress&utm_term=en_US&utm_content=convertkit'
 		);
 	}
@@ -179,7 +179,7 @@ class ElementorBroadcastsCest
 			'ConvertKit: Page: Broadcasts: Elementor Widget: Pagination',
 			[
 				'date_format' => 'F j, Y',
-				'limit'       => 1,
+				'limit'       => 2,
 				'paginate'    => 1,
 			]
 		);
@@ -209,7 +209,7 @@ class ElementorBroadcastsCest
 			'ConvertKit: Page: Broadcasts: Elementor Widget: Valid Params',
 			[
 				'date_format'         => 'F j, Y',
-				'limit'               => 1,
+				'limit'               => 2,
 				'paginate'            => 1,
 				'paginate_label_prev' => 'Newer',
 				'paginate_label_next' => 'Older',
@@ -246,7 +246,7 @@ class ElementorBroadcastsCest
 			'ConvertKit: Page: Broadcasts: Elementor Widget: Hex Colors',
 			[
 				'date_format'         => 'F j, Y',
-				'limit'               => 1,
+				'limit'               => 2,
 				'paginate'            => 1,
 				'paginate_label_prev' => 'Newer',
 				'paginate_label_next' => 'Older',
