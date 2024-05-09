@@ -61,6 +61,16 @@ abstract class ConvertKit_Settings_Base {
 	public $is_beta = false;
 
 	/**
+	 * Holds whether the save button should be disabled e.g. there are no
+	 * settings on screen to save.
+	 *
+	 * @since   2.4.9
+	 *
+	 * @var     bool
+	 */
+	public $save_disabled = false;
+
+	/**
 	 * Constructor
 	 */
 	public function __construct() {
@@ -72,6 +82,28 @@ abstract class ConvertKit_Settings_Base {
 
 		// Register the settings section.
 		$this->register_section();
+
+	}
+
+	/**
+	 * Helper method to determine if we're viewing the current settings screen.
+	 *
+	 * @since   2.4.9
+	 *
+	 * @return  bool
+	 */
+	public function on_settings_screen() {
+
+		// Bail if we're not on the settings screen.
+		if ( ! array_key_exists( 'page', $_REQUEST ) ) { // phpcs:ignore WordPress.Security.NonceVerification
+			return false;
+		}
+		$page = sanitize_text_field( $_REQUEST['page'] );  // phpcs:ignore WordPress.Security.NonceVerification
+		if ( $page !== '_wp_convertkit_settings' ) {
+			return false;
+		}
+
+		return true;
 
 	}
 
@@ -130,7 +162,9 @@ abstract class ConvertKit_Settings_Base {
 
 		settings_fields( $this->settings_key );
 
-		submit_button();
+		if ( ! $this->save_disabled ) {
+			submit_button();
+		}
 
 		$this->render_container_end();
 
