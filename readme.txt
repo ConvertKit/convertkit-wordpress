@@ -9,6 +9,8 @@ Stable tag: 2.4.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
+Build your email subscriber lists, send email marketing newsletters, sell more products and build your membership site with ConvertKit.
+
 == Description ==
 
 [ConvertKit](https://convertkit.com?utm_source=wordpress&utm_term=en_US&utm_content=readme) makes it easy to create, send and manage your email marketing campaigns; grow your email subscribers lists; send targeted email newsletters; sell more products and build your membership site - all by easily embedding email marketing / email subscriber forms anywhere on your WordPress web site.
