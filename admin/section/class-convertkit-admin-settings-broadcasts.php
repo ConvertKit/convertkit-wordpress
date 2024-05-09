@@ -152,6 +152,26 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 	 */
 	public function register_fields() {
 
+		// Check if DOMDocument is installed.
+		// It should be installed as mosts hosts include php-dom and php-xml modules.
+		// If not, disable Broadcast to Posts import functionality as we can't parse
+		// imported Broadcasts.
+		if ( ! class_exists( 'DOMDocument' ) ) {
+			// Disable saving settings.
+			$this->save_disabled = true;
+
+			// Return if we're not on the Plugin settings screen.
+			if ( ! $this->on_settings_screen() ) {
+				return;
+			}
+
+			// Output a notice if we're on the Broadcasts settings screen.
+			$this->output_error(
+				__( 'Importing public broadcasts from ConvertKit requires the PHP extensions `php-dom` and `php-xml` to be installed. Work with your web host to do this, and reload the page when done.', 'convertkit' )
+			);
+			return;
+		}
+
 		// Initialize classes that will be used.
 		$posts = new ConvertKit_Resource_Posts( 'cron' );
 
