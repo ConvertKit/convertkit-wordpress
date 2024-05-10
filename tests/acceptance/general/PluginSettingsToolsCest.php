@@ -65,7 +65,7 @@ class PluginSettingsToolsCest
 
 		// Check downloaded file exists and contains some expected information.
 		$I->openFile($_ENV['WP_ROOT_FOLDER'] . '/convertkit-log.txt');
-		//$I->seeInThisFile('API: account()'); // @TODO Fix with v4 log lib.
+		$I->seeInThisFile('API: GET account');
 
 		// Delete the file.
 		$I->deleteFile($_ENV['WP_ROOT_FOLDER'] . '/convertkit-log.txt');
