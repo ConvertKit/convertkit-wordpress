@@ -128,9 +128,9 @@ class BroadcastsToPostsCest
 
 		// Get created Post IDs.
 		$postIDs = [
-			(int) str_replace('post-', '', $I->grabAttributeFrom('tbody#the-list > tr:nth-child(1)', 'id')),
 			(int) str_replace('post-', '', $I->grabAttributeFrom('tbody#the-list > tr:nth-child(2)', 'id')),
 			(int) str_replace('post-', '', $I->grabAttributeFrom('tbody#the-list > tr:nth-child(3)', 'id')),
+			(int) str_replace('post-', '', $I->grabAttributeFrom('tbody#the-list > tr:nth-child(4)', 'id')),
 		];
 
 		// View the first post.
@@ -204,9 +204,9 @@ class BroadcastsToPostsCest
 
 		// Get created Post IDs.
 		$postIDs = [
-			(int) str_replace('post-', '', $I->grabAttributeFrom('tbody#the-list > tr:nth-child(1)', 'id')),
 			(int) str_replace('post-', '', $I->grabAttributeFrom('tbody#the-list > tr:nth-child(2)', 'id')),
 			(int) str_replace('post-', '', $I->grabAttributeFrom('tbody#the-list > tr:nth-child(3)', 'id')),
+			(int) str_replace('post-', '', $I->grabAttributeFrom('tbody#the-list > tr:nth-child(4)', 'id')),
 		];
 
 		// View the first post.
@@ -271,9 +271,9 @@ class BroadcastsToPostsCest
 
 		// Get created Post IDs.
 		$postIDs = [
-			(int) str_replace('post-', '', $I->grabAttributeFrom('tbody#the-list > tr:nth-child(1)', 'id')),
 			(int) str_replace('post-', '', $I->grabAttributeFrom('tbody#the-list > tr:nth-child(2)', 'id')),
 			(int) str_replace('post-', '', $I->grabAttributeFrom('tbody#the-list > tr:nth-child(3)', 'id')),
+			(int) str_replace('post-', '', $I->grabAttributeFrom('tbody#the-list > tr:nth-child(4)', 'id')),
 		];
 
 		// Confirm each Post's status is private.
@@ -331,9 +331,9 @@ class BroadcastsToPostsCest
 
 		// Get created Post IDs.
 		$postIDs = [
-			(int) str_replace('post-', '', $I->grabAttributeFrom('tbody#the-list > tr:nth-child(1)', 'id')),
 			(int) str_replace('post-', '', $I->grabAttributeFrom('tbody#the-list > tr:nth-child(2)', 'id')),
 			(int) str_replace('post-', '', $I->grabAttributeFrom('tbody#the-list > tr:nth-child(3)', 'id')),
+			(int) str_replace('post-', '', $I->grabAttributeFrom('tbody#the-list > tr:nth-child(4)', 'id')),
 		];
 
 		// Confirm each Post's status is private.
@@ -387,9 +387,9 @@ class BroadcastsToPostsCest
 
 		// Get created Post IDs.
 		$postIDs = [
-			(int) str_replace('post-', '', $I->grabAttributeFrom('tbody#the-list > tr:nth-child(1)', 'id')),
 			(int) str_replace('post-', '', $I->grabAttributeFrom('tbody#the-list > tr:nth-child(2)', 'id')),
 			(int) str_replace('post-', '', $I->grabAttributeFrom('tbody#the-list > tr:nth-child(3)', 'id')),
+			(int) str_replace('post-', '', $I->grabAttributeFrom('tbody#the-list > tr:nth-child(4)', 'id')),
 		];
 
 		// Confirm each Post is assigned to the Category.
@@ -446,9 +446,9 @@ class BroadcastsToPostsCest
 
 		// Get created Post IDs.
 		$postIDs = [
-			(int) str_replace('post-', '', $I->grabAttributeFrom('tbody#the-list > tr:nth-child(1)', 'id')),
 			(int) str_replace('post-', '', $I->grabAttributeFrom('tbody#the-list > tr:nth-child(2)', 'id')),
 			(int) str_replace('post-', '', $I->grabAttributeFrom('tbody#the-list > tr:nth-child(3)', 'id')),
+			(int) str_replace('post-', '', $I->grabAttributeFrom('tbody#the-list > tr:nth-child(4)', 'id')),
 		];
 
 		// Confirm each Post does not have a Featured Image.
@@ -598,9 +598,9 @@ class BroadcastsToPostsCest
 
 		// Get created Post IDs.
 		$postIDs = [
-			(int) str_replace('post-', '', $I->grabAttributeFrom('tbody#the-list > tr:nth-child(1)', 'id')),
 			(int) str_replace('post-', '', $I->grabAttributeFrom('tbody#the-list > tr:nth-child(2)', 'id')),
 			(int) str_replace('post-', '', $I->grabAttributeFrom('tbody#the-list > tr:nth-child(3)', 'id')),
+			(int) str_replace('post-', '', $I->grabAttributeFrom('tbody#the-list > tr:nth-child(4)', 'id')),
 		];
 
 		// View the first post.

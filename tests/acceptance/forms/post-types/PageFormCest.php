@@ -232,6 +232,47 @@ class PageFormCest
 	}
 
 	/**
+	 * Test that the Modal Form is output once when the Autoptimize Plugin is active and
+	 * its "Defer JavaScript" setting is enabled.
+	 *
+	 * @since   2.4.9
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testAddNewPageUsingModalFormWithAutoptimizePlugin(AcceptanceTester $I)
+	{
+		// Setup Plugin and Resources.
+		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPluginResources($I);
+
+		// Activate Autoptimize Plugin.
+		$I->activateThirdPartyPlugin($I, 'autoptimize');
+
+		// Add a Page using the Gutenberg editor.
+		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form: ' . $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_NAME'] . ': Autoptimize');
+
+		// Configure metabox's Form setting = None.
+		$I->configureMetaboxSettings(
+			$I,
+			'wp-convertkit-meta-box',
+			[
+				'form' => [ 'select2', $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_NAME'] ],
+			]
+		);
+
+		// Publish and view the Page on the frontend site.
+		$I->publishAndViewGutenbergPage($I);
+
+		// Confirm that one ConvertKit Form is output in the DOM.
+		// This confirms that there is only one script on the page for this form, which renders the form,
+		// and that Autoptimize hasn't moved the script embed to the footer of the site.
+		$I->seeNumberOfElementsInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_ID'] . '"]', 1);
+
+		// Deactivate Autoptimize Plugin.
+		$I->deactivateThirdPartyPlugin($I, 'autoptimize');
+	}
+
+	/**
 	 * Test that the Modal Form is output once when the Jetpack Boost Plugin is active and
 	 * its "Defer Non-Essential JavaScript" setting is enabled.
 	 *
