@@ -45,13 +45,6 @@ class ConvertKit_Setup {
 		}
 
 		/**
-		 * 1.4.1: Change ID to form_id for API version 3.0.
-		 */
-		if ( ! $current_version || version_compare( $current_version, '1.4.1', '<' ) ) {
-			$this->change_id_to_form_id();
-		}
-
-		/**
 		 * 1.6.1+: Refresh Forms, Landing Pages and Tags data stored in settings,
 		 * to get new Forms Builder Settings.
 		 */
@@ -125,72 +118,6 @@ class ConvertKit_Setup {
 		$forms->refresh();
 		$landing_pages->refresh();
 		$tags->refresh();
-
-	}
-
-	/**
-	 * 1.4.1: Change ID to form_id for API version 3.0.
-	 *
-	 * @since   1.4.1
-	 */
-	private function change_id_to_form_id() {
-
-		// Bail if the API isn't configured.
-		$convertkit_settings = new ConvertKit_Settings();
-		if ( ! $convertkit_settings->has_access_and_refresh_token() ) {
-			return;
-		}
-
-		// Get all posts and pages to track what has been updated.
-		$posts = get_option( '_wp_convertkit_upgrade_posts' );
-		if ( ! $posts ) {
-			$args = array(
-				'post_type' => array( 'post', 'page' ),
-				'fields'    => 'ids',
-			);
-
-			$result = new WP_Query( $args );
-			$posts  = $result->posts;
-			update_option( '_wp_convertkit_upgrade_posts', $posts );
-		}
-
-		// Initialize the API.
-		$api = new ConvertKit_API(
-			$convertkit_settings->get_api_key(),
-			$convertkit_settings->get_api_secret(),
-			$convertkit_settings->debug_enabled(),
-			'setup'
-		);
-
-		// Get form mappings.
-		$mappings = $api->get_subscription_forms();
-
-		// Bail if no form mappings exist.
-		if ( ! $mappings ) {
-			return;
-		}
-
-		// 1. Update global form.
-		$settings_data                 = $convertkit_settings->get();
-		$settings_data['default_form'] = isset( $mappings[ $convertkit_settings->get_default_form( 'post' ) ] ) ? $mappings[ $convertkit_settings->get_default_form( 'post' ) ] : 0;
-		update_option( $convertkit_settings::SETTINGS_NAME, $settings_data );
-
-		// 2. Scan posts/pages for _wp_convertkit_post_meta and update IDs
-		// Scan content for shortcode and update
-		// Remove page_id from posts array after page is updated.
-		foreach ( $posts as $key => $post_id ) {
-			$post_settings = get_post_meta( $post_id, '_wp_convertkit_post_meta', true );
-
-			if ( isset( $post_settings['form'] ) && ( 0 < $post_settings['form'] ) ) {
-				$post_settings['form'] = isset( $mappings[ $post_settings['form'] ] ) ? $mappings[ $post_settings['form'] ] : 0;
-			}
-			if ( isset( $post_settings['landing_page'] ) && ( 0 < $post_settings['landing_page'] ) ) {
-				$post_settings['landing_page'] = isset( $mappings[ $post_settings['landing_page'] ] ) ? $mappings[ $post_settings['landing_page'] ] : 0;
-			}
-			update_post_meta( $post_id, '_wp_convertkit_post_meta', $post_settings );
-			unset( $posts[ $key ] );
-			update_option( '_wp_convertkit_upgrade_posts', $posts );
-		}
 
 	}
 

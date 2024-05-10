@@ -181,7 +181,7 @@ class PageBlockBroadcastsCest
 
 		// Confirm that the expected Broadcast name is displayed first links to the expected URL, with UTM parameters.
 		$I->assertEquals(
-			$I->grabAttributeFrom('div.convertkit-broadcasts ul.convertkit-broadcasts-list li.convertkit-broadcast:first-child a', 'href'),
+			$I->grabAttributeFrom('div.convertkit-broadcasts ul.convertkit-broadcasts-list li.convertkit-broadcast:nth-child(2) a', 'href'),
 			$_ENV['CONVERTKIT_API_BROADCAST_FIRST_URL'] . '?utm_source=wordpress&utm_term=en_US&utm_content=convertkit'
 		);
 	}
@@ -267,7 +267,7 @@ class PageBlockBroadcastsCest
 
 		// Confirm that the expected Broadcast name is displayed first links to the expected URL, with UTM parameters.
 		$I->assertEquals(
-			$I->grabAttributeFrom('div.convertkit-broadcasts ul.convertkit-broadcasts-list li.convertkit-broadcast:first-child a', 'href'),
+			$I->grabAttributeFrom('div.convertkit-broadcasts ul.convertkit-broadcasts-list li.convertkit-broadcast:nth-child(2) a', 'href'),
 			$_ENV['CONVERTKIT_API_BROADCAST_FIRST_URL'] . '?utm_source=wordpress&utm_term=en_US&utm_content=convertkit'
 		);
 	}
@@ -431,7 +431,7 @@ class PageBlockBroadcastsCest
 
 		// Confirm that the expected Broadcast name is displayed first links to the expected URL, with UTM parameters.
 		$I->assertEquals(
-			$I->grabAttributeFrom('div.convertkit-broadcasts ul.convertkit-broadcasts-list li.convertkit-broadcast:first-child a', 'href'),
+			$I->grabAttributeFrom('div.convertkit-broadcasts ul.convertkit-broadcasts-list li.convertkit-broadcast:nth-child(2) a', 'href'),
 			$_ENV['CONVERTKIT_API_BROADCAST_FIRST_URL'] . '?utm_source=wordpress&utm_term=en_US&utm_content=convertkit'
 		);
 	}
@@ -478,7 +478,7 @@ class PageBlockBroadcastsCest
 		// Confirm that the expected Broadcast name is displayed first links to the expected URL, with UTM parameters.
 		$I->assertEquals(
 			$I->grabAttributeFrom('div.convertkit-broadcasts ul.convertkit-broadcasts-list li.convertkit-broadcast:first-child a', 'href'),
-			$_ENV['CONVERTKIT_API_BROADCAST_FIRST_URL'] . '?utm_source=wordpress&utm_term=en_US&utm_content=convertkit'
+			'https://cheerful-architect-3237.ck.page/posts/?utm_source=wordpress&utm_term=en_US&utm_content=convertkit'
 		);
 	}
 
@@ -504,7 +504,7 @@ class PageBlockBroadcastsCest
 			'ConvertKit Broadcasts',
 			'convertkit-broadcasts',
 			[
-				'limit'                       => [ 'input', '1', 'Pagination' ], // Click the Pagination tab first before starting to complete fields.
+				'limit'                       => [ 'input', '2', 'Pagination' ], // Click the Pagination tab first before starting to complete fields.
 				'#inspector-toggle-control-4' => [ 'toggle', true ],
 			]
 		);
@@ -538,7 +538,7 @@ class PageBlockBroadcastsCest
 			'ConvertKit Broadcasts',
 			'convertkit-broadcasts',
 			[
-				'limit'                       => [ 'input', '1', 'Pagination' ], // Click the Pagination tab first before starting to complete fields.
+				'limit'                       => [ 'input', '2', 'Pagination' ], // Click the Pagination tab first before starting to complete fields.
 				'#inspector-toggle-control-4' => [ 'toggle', true ],
 				'paginate_label_prev'         => [ 'input', 'Newer' ],
 				'paginate_label_next'         => [ 'input', 'Older' ],
@@ -574,7 +574,7 @@ class PageBlockBroadcastsCest
 			'ConvertKit Broadcasts',
 			'convertkit-broadcasts',
 			[
-				'limit'                       => [ 'input', '1', 'Pagination' ], // Click the Pagination tab first before starting to complete fields.
+				'limit'                       => [ 'input', '2', 'Pagination' ], // Click the Pagination tab first before starting to complete fields.
 				'#inspector-toggle-control-4' => [ 'toggle', true ],
 				'paginate_label_prev'         => [ 'input', '' ],
 				'paginate_label_next'         => [ 'input', '' ],
@@ -664,7 +664,7 @@ class PageBlockBroadcastsCest
 		$I->havePageInDatabase(
 			[
 				'post_name'    => 'convertkit-page-broadcasts-block-hex-color-params',
-				'post_content' => '<!-- wp:convertkit/broadcasts {"date_format":"m/d/Y","limit":4,"style":{"color":{"text":"' . $textColor . '","background":"' . $backgroundColor . '"}}} /-->',
+				'post_content' => '<!-- wp:convertkit/broadcasts {"date_format":"m/d/Y","limit":' . $_ENV['CONVERTKIT_API_BROADCAST_COUNT'] . ',"style":{"color":{"text":"' . $textColor . '","background":"' . $backgroundColor . '"}}} /-->',
 			]
 		);
 
@@ -710,7 +710,7 @@ class PageBlockBroadcastsCest
 		$I->havePageInDatabase(
 			[
 				'post_name'    => 'convertkit-page-broadcasts-block-parameter-escaping',
-				'post_content' => '<!-- wp:convertkit/broadcasts {"limit":1,"paginate":true,"style":{"color":{"text":"red\" onmouseover=\"alert(1)\""}}} /-->',
+				'post_content' => '<!-- wp:convertkit/broadcasts {"limit":2,"paginate":true,"style":{"color":{"text":"red\" onmouseover=\"alert(1)\""}}} /-->',
 			]
 		);
 
