@@ -262,7 +262,7 @@ class ConvertKit_Block_Content extends ConvertKit_Block {
 		}
 
 		// Iterate through ConvertKit Tags to find a match.
-		foreach ( $tags as $tag ) {
+		foreach ( $tags['tags'] as $tag ) {
 			// Skip if this ConvertKit Tag isn't the Tag specified in the block.
 			if ( absint( $tag['id'] ) !== absint( $atts['tag'] ) ) {
 				continue;
