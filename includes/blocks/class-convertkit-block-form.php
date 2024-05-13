@@ -347,7 +347,7 @@ class ConvertKit_Block_Form extends ConvertKit_Block {
 			);
 
 			// Return Legacy Form HTML from the API, which bypasses any internal Plugin check to see if the Form ID exists.
-			$form = $api->get_form_html( $form_id );
+			$form = $api->get_form_html( $form_id, $settings->get_api_key() );
 		}
 
 		// Finally, if we still get an error, there's nothing more we can do. The Form ID isn't valid.
