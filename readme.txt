@@ -3,11 +3,13 @@ Contributors: nathanbarry, growdev, travisnorthcutt, ggwicz
 Donate link: https://convertkit.com
 Tags: email marketing, email newsletter, newsletter, subscribers, membership
 Requires at least: 5.0
-Tested up to: 6.5.2
+Tested up to: 6.5.3
 Requires PHP: 5.6.20
-Stable tag: 2.4.8
+Stable tag: 2.4.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
+
+Build your email subscriber lists, send email marketing newsletters, sell more products and build your membership site with ConvertKit.
 
 == Description ==
 
@@ -155,6 +157,12 @@ Full Plugin documentation can be found [here](https://help.convertkit.com/en/art
 10. Track subscriber growth
 
 == Changelog ==
+
+### 2.4.9 2024-05-13
+* Fix: Settings: Don't import Broadcasts to WordPress Posts when viewing Settings screen, for performance
+* Fix: Broadcasts (Beta): Check `DOMDocument` available to parse Broadcasts, instead of producing a fatal error
+* Fix: Autoptimize: Don't output duplicate Forms when Autoptimize's `Defer JS` option is enabled
+* Updated: Removed upgrade path from Plugin versions below 1.4.1
 
 ### 2.4.8 2024-04-11
 * Fix: Member Content: Display Content when using a frontend Page Builder, such as Beaver Builder

@@ -73,6 +73,14 @@ class ConvertKit_Settings_Broadcasts {
 	 */
 	public function enabled() {
 
+		// Check if DOMDocument is installed.
+		// It should be installed as mosts hosts include php-dom and php-xml modules.
+		// If not, disable Broadcast to Posts import functionality as we can't parse
+		// imported Broadcasts.
+		if ( ! class_exists( 'DOMDocument' ) ) {
+			return false;
+		}
+
 		return ( $this->settings['enabled'] === 'on' ? true : false );
 
 	}

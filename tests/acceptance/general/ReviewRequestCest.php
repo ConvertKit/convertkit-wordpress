@@ -61,6 +61,9 @@ class ReviewRequestCest
 	 */
 	public function testReviewRequestOnSaveBlankSettings(AcceptanceTester $I)
 	{
+		// Setup Plugin, without defining default Forms.
+		$I->setupConvertKitPluginNoDefaultForms($I);
+
 		// Go to the Plugin's Settings Screen.
 		$I->loadConvertKitSettingsGeneralScreen($I);
 
