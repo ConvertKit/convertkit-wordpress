@@ -762,7 +762,7 @@ add_filter( 'convertkit_term_get_default_settings', function( $defaults ) {
 </pre>
 <h3 id="convertkit_settings_broadcasts_get_defaults">
 						convertkit_settings_broadcasts_get_defaults
-						<code>includes/class-convertkit-settings-broadcasts.php::230</code>
+						<code>includes/class-convertkit-settings-broadcasts.php::238</code>
 					</h3><h4>Overview</h4>
 						<p>The default settings, used when the ConvertKit Broadcasts Settings haven't been saved e.g. on a new installation.</p><h4>Parameters</h4>
 					<table>
@@ -1561,7 +1561,7 @@ add_filter( 'convertkit_broadcasts_parse_broadcast_content_permitted_html_tags',
 					</tbody>
 				</table><h3 id="convertkit_settings_base_render_before">
 						convertkit_settings_base_render_before
-						<code>admin/section/class-convertkit-settings-base.php::124</code>
+						<code>admin/section/class-convertkit-settings-base.php::156</code>
 					</h3><h4>Parameters</h4>
 					<table>
 						<thead>
@@ -1581,7 +1581,7 @@ do_action( 'convertkit_settings_base_render_before', function(  ) {
 </pre>
 <h3 id="convertkit_settings_base_render_after">
 						convertkit_settings_base_render_after
-						<code>admin/section/class-convertkit-settings-base.php::141</code>
+						<code>admin/section/class-convertkit-settings-base.php::175</code>
 					</h3><h4>Parameters</h4>
 					<table>
 						<thead>
@@ -1601,7 +1601,7 @@ do_action( 'convertkit_settings_base_render_after', function(  ) {
 </pre>
 <h3 id="convertkit_settings_base_sanitize_settings">
 						convertkit_settings_base_sanitize_settings
-						<code>admin/section/class-convertkit-settings-base.php::504</code>
+						<code>admin/section/class-convertkit-settings-base.php::538</code>
 					</h3><h4>Parameters</h4>
 					<table>
 						<thead>
