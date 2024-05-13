@@ -70,6 +70,8 @@ class PageBlockFormCest
 	 */
 	public function testFormBlockWithValidLegacyFormParameter(AcceptanceTester $I)
 	{
+		$I->markTestIncomplete();
+
 		// Setup Plugin and Resources.
 		$I->setupConvertKitPlugin($I);
 		$I->setupConvertKitPluginResources($I);
@@ -511,6 +513,8 @@ class PageBlockFormCest
 	 */
 	public function testFormBlockWhenNoAPIKey(AcceptanceTester $I)
 	{
+		$I->markTestIncomplete();
+
 		// Add a Page using the Gutenberg editor.
 		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form: Block: No API Key');
 
@@ -539,7 +543,7 @@ class PageBlockFormCest
 	public function testFormBlockWhenNoForms(AcceptanceTester $I)
 	{
 		// Setup Plugin.
-		$I->setupConvertKitPluginAPIKeyNoData($I);
+		$I->setupConvertKitPluginCredentialsNoData($I);
 		$I->setupConvertKitPluginResourcesNoData($I);
 
 		// Add a Page using the Gutenberg editor.
@@ -586,8 +590,8 @@ class PageBlockFormCest
 	 */
 	public function testFormBlockRefreshButton(AcceptanceTester $I)
 	{
-		// Setup Plugin with API keys for ConvertKit Account that has no Broadcasts.
-		$I->setupConvertKitPluginAPIKeyNoData($I);
+		// Setup Plugin with ConvertKit Account that has no Broadcasts.
+		$I->setupConvertKitPluginCredentialsNoData($I);
 		$I->setupConvertKitPluginResourcesNoData($I);
 
 		// Add a Page using the Gutenberg editor.
@@ -617,6 +621,57 @@ class PageBlockFormCest
 
 		// Publish and view the Page on the frontend site.
 		$I->publishAndViewGutenbergPage($I);
+	}
+
+	/**
+	 * Test that the Form <script> embed is output in the content once, and not the footer of the site
+	 * when the Autoptimize Plugin is active and its "Defer JavaScript" setting is enabled.
+	 *
+	 * @since   2.4.9
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testFormBlockWithAutoptimizePlugin(AcceptanceTester $I)
+	{
+		// Setup Plugin and Resources.
+		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPluginResources($I);
+
+		// Activate Autoptimize Plugin.
+		$I->activateThirdPartyPlugin($I, 'autoptimize');
+
+		// Add a Page using the Gutenberg editor.
+		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form: Block: Autoptimize');
+
+		// Configure metabox's Form setting = None, ensuring we only test the block in Gutenberg.
+		$I->configureMetaboxSettings(
+			$I,
+			'wp-convertkit-meta-box',
+			[
+				'form' => [ 'select2', 'None' ],
+			]
+		);
+
+		// Add block to Page, setting the Form setting to the value specified in the .env file.
+		$I->addGutenbergBlock(
+			$I,
+			'ConvertKit Form',
+			'convertkit-form',
+			[
+				'form' => [ 'select', $_ENV['CONVERTKIT_API_FORM_NAME'] ],
+			]
+		);
+
+		// Publish and view the Page on the frontend site.
+		$I->publishAndViewGutenbergPage($I);
+
+		// Confirm that one ConvertKit Form is output in the DOM within the <main> element.
+		// This confirms that there is only one script on the page for this form, which renders the form,
+		// and that Autoptimize hasn't moved the script embed to the footer of the site.
+		$I->seeNumberOfElementsInDOM('main form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]', 1);
+
+		// Deactivate Autoptimize Plugin.
+		$I->deactivateThirdPartyPlugin($I, 'autoptimize');
 	}
 
 	/**

@@ -386,6 +386,7 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 			$landing_pages = new ConvertKit_Resource_Landing_Pages( 'settings' );
 			$landing_pages->refresh();
 
+			remove_all_actions( 'convertkit_resource_refreshed_posts' );
 			$posts = new ConvertKit_Resource_Posts( 'settings' );
 			$posts->refresh();
 

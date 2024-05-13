@@ -26,13 +26,13 @@ class RestrictContentFilterCPTCest
 	}
 
 	/**
-	 * Test that no dropdown filter on the CPT screen is displayed when no API keys are configured.
+	 * Test that no dropdown filter on the CPT screen is displayed when no credentials are configured.
 	 *
 	 * @since   2.4.3
 	 *
 	 * @param   AcceptanceTester $I  Tester.
 	 */
-	public function testNoFilterDisplayedWhenNoAPIKeys(AcceptanceTester $I)
+	public function testNoFilterDisplayedWhenNoCredentials(AcceptanceTester $I)
 	{
 		// Navigate to Articles.
 		$I->amOnAdminPage('edit.php?post_type=article');
@@ -54,8 +54,8 @@ class RestrictContentFilterCPTCest
 	 */
 	public function testNoFilterDisplayedWhenNoResources(AcceptanceTester $I)
 	{
-		// Setup Plugin using API keys that have no resources.
-		$I->setupConvertKitPluginAPIKeyNoData($I);
+		// Setup Plugin using credentials that have no resources.
+		$I->setupConvertKitPluginCredentialsNoData($I);
 
 		// Navigate to Articles.
 		$I->amOnAdminPage('edit.php?post_type=article');

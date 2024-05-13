@@ -22,12 +22,13 @@ class ConvertKitAPI extends \Codeception\Module
 			'subscribers',
 			'GET',
 			[
-				'email_address' => $emailAddress,
+				'email_address'       => $emailAddress,
+				'include_total_count' => true,
 			]
 		);
 
 		// Check at least one subscriber was returned and it matches the email address.
-		$I->assertGreaterThan(0, $results['total_subscribers']);
+		$I->assertGreaterThan(0, $results['pagination']['total_count']);
 		$I->assertEquals($emailAddress, $results['subscribers'][0]['email_address']);
 	}
 
@@ -72,26 +73,25 @@ class ConvertKitAPI extends \Codeception\Module
 	}
 
 	/**
-	 * Subscribes the given email address to the given form. Useful for
+	 * Subscribes the given email address. Useful for
 	 * creating a subscriber to use in tests.
 	 *
 	 * @param   string $emailAddress   Email Address.
-	 * @param   int    $formID         Form ID.
-	 * @return  int                                 Subscriber ID
+	 * @return  int                    Subscriber ID
 	 */
-	public function apiSubscribe($emailAddress, $formID)
+	public function apiSubscribe($emailAddress)
 	{
 		// Run request.
 		$result = $this->apiRequest(
-			'forms/' . $formID . '/subscribe',
+			'subscribers',
 			'POST',
 			[
-				'email' => $emailAddress,
+				'email_address' => $emailAddress,
 			]
 		);
 
 		// Return subscriber ID.
-		return $result['subscription']['subscriber']['id'];
+		return $result['subscriber']['id'];
 	}
 
 	/**
@@ -154,33 +154,40 @@ class ConvertKitAPI extends \Codeception\Module
 	 */
 	public function apiRequest($endpoint, $method = 'GET', $params = array())
 	{
-		// Build query parameters.
-		$params = array_merge(
-			$params,
-			[
-				'api_key'    => $_ENV['CONVERTKIT_API_KEY'],
-				'api_secret' => $_ENV['CONVERTKIT_API_SECRET'],
-			]
-		);
-
 		// Send request.
-		try {
-			$client = new \GuzzleHttp\Client();
-			$result = $client->request(
-				$method,
-				'https://api.convertkit.com/v3/' . $endpoint . '?' . http_build_query($params),
-				[
-					'headers' => [
-						'Accept-Encoding' => 'gzip',
-						'timeout'         => 5,
-					],
-				]
-			);
+		$client = new \GuzzleHttp\Client();
+		switch ($method) {
+			case 'GET':
+				$result = $client->request(
+					$method,
+					'https://api.convertkit.com/v4/' . $endpoint . '?' . http_build_query($params),
+					[
+						'headers' => [
+							'Authorization' => 'Bearer ' . $_ENV['CONVERTKIT_OAUTH_ACCESS_TOKEN'],
+							'timeout'       => 5,
+						],
+					]
+				);
+				break;
 
-			// Return JSON decoded response.
-			return json_decode($result->getBody()->getContents(), true);
-		} catch (\GuzzleHttp\Exception\ClientException $e) {
-			return [];
+			default:
+				$result = $client->request(
+					$method,
+					'https://api.convertkit.com/v4/' . $endpoint,
+					[
+						'headers' => [
+							'Accept'        => 'application/json',
+							'Content-Type'  => 'application/json; charset=utf-8',
+							'Authorization' => 'Bearer ' . $_ENV['CONVERTKIT_OAUTH_ACCESS_TOKEN'],
+							'timeout'       => 5,
+						],
+						'body'    => (string) json_encode($params), // phpcs:ignore WordPress.WP.AlternativeFunctions
+					]
+				);
+				break;
 		}
+
+		// Return JSON decoded response.
+		return json_decode($result->getBody()->getContents(), true);
 	}
 }

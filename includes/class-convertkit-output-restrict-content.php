@@ -221,7 +221,7 @@ class ConvertKit_Output_Restrict_Content {
 				$subscriber->forget();
 
 				// Fetch the subscriber ID from the result.
-				$subscriber_id = $result['subscription']['subscriber']['id'];
+				$subscriber_id = $result['subscriber']['id'];
 
 				// Store subscriber ID in cookie.
 				$this->store_subscriber_id_in_cookie( $subscriber_id );
@@ -805,12 +805,12 @@ class ConvertKit_Output_Restrict_Content {
 				}
 
 				// If no tags exist, there's no access.
-				if ( ! count( $tags ) ) {
+				if ( ! count( $tags['tags'] ) ) {
 					return false;
 				}
 
 				// Iterate through the subscriber's tags to see if they have the required tag.
-				foreach ( $tags as $tag ) {
+				foreach ( $tags['tags'] as $tag ) {
 					if ( $tag['id'] === absint( $this->resource_id ) ) {
 						// Subscriber has the required tag assigned to them - grant access.
 						return true;
