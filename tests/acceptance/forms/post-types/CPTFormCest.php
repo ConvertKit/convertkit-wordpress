@@ -203,9 +203,6 @@ class CPTFormCest
 	 */
 	public function testAddNewCPTUsingDefaultLegacyForm(AcceptanceTester $I)
 	{
-		$I->unregisterCustomPostType($I, 'article');
-		$I->unregisterCustomPostType($I, 'private');
-
 		// Setup Plugin, without defining default Forms.
 		$I->setupConvertKitPlugin(
 			$I,
@@ -321,9 +318,6 @@ class CPTFormCest
 	 */
 	public function testAddNewCPTUsingDefinedLegacyForm(AcceptanceTester $I)
 	{
-		$I->unregisterCustomPostType($I, 'article');
-		$I->unregisterCustomPostType($I, 'private');
-
 		// Setup ConvertKit Plugin.
 		$I->setupConvertKitPlugin(
 			$I,
