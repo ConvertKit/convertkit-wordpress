@@ -637,7 +637,7 @@ class ConvertKitPlugin extends \Codeception\Module
 		// Define options.
 		$options = [
 			'Character Encoding', // First item.
-			'Landing Page', // Last item.
+			'Legacy Landing Page', // Last item.
 		];
 
 		// Prepend options, such as 'Default' and 'None' to the options, if required.
