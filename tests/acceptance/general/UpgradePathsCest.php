@@ -116,8 +116,7 @@ class UpgradePathsCest
 		// Activate the Plugin, as if we just upgraded to 2.5.0 or higher.
 		$I->activateConvertKitPlugin($I);
 
-		// Confirm the options table now contains an Access Token and Refresh Token,
-		// and they match the values in the .env file.
+		// Confirm the options table now contains an Access Token and Refresh Token.
 		$settings = $I->grabOptionFromDatabase('_wp_convertkit_settings');
 		$I->assertArrayHasKey('access_token', $settings);
 		$I->assertArrayHasKey('refresh_token', $settings);
