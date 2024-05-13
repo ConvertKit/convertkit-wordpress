@@ -92,7 +92,7 @@ class ConvertKit_Setup {
 	private function maybe_cache_legacy_resources() {
 
 		// Initialize resource classes.
-		$forms = new ConvertKit_Resource_Forms();
+		$forms         = new ConvertKit_Resource_Forms();
 		$landing_pages = new ConvertKit_Resource_Landing_Pages();
 
 		// Forms.

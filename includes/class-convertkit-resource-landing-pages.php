@@ -23,10 +23,10 @@ class ConvertKit_Resource_Landing_Pages extends ConvertKit_Resource {
 
 	/**
 	 * Holds the Settings Key that stores legacy Landing pages
-	 * 
-	 * @since 	2.5.0
-	 * 
-	 * @var 	string
+	 *
+	 * @since   2.5.0
+	 *
+	 * @var     string
 	 */
 	public $legacy_settings_name = 'convertkit_landing_pages_legacy';
 
@@ -94,10 +94,10 @@ class ConvertKit_Resource_Landing_Pages extends ConvertKit_Resource {
 	/**
 	 * Returns an array of legacy forms that might have been cached when upgrading to 2.5.0
 	 * by maybe_cache_legacy_resources().
-	 * 
-	 * @since 	2.5.0
-	 * 
-	 * @return 	array
+	 *
+	 * @since   2.5.0
+	 *
+	 * @return  array
 	 */
 	public function get_legacy() {
 
