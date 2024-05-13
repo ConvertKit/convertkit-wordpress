@@ -128,8 +128,6 @@ class PostFormCest
 	 */
 	public function testAddNewPostUsingDefaultLegacyForm(AcceptanceTester $I)
 	{
-		$I->markTestIncomplete();
-
 		// Setup Plugin, without defining default Forms.
 		$I->setupConvertKitPlugin(
 			$I,
@@ -237,8 +235,6 @@ class PostFormCest
 	 */
 	public function testAddNewPostUsingDefinedLegacyForm(AcceptanceTester $I)
 	{
-		$I->markTestIncomplete();
-
 		// Setup ConvertKit Plugin.
 		$I->setupConvertKitPlugin($I);
 		$I->setupConvertKitPluginResources($I);
