@@ -19,6 +19,7 @@ class RefreshResourcesButtonCest
 		// Activate and Setup ConvertKit plugin.
 		$I->activateConvertKitPlugin($I);
 		$I->setupConvertKitPluginResources($I);
+		$I->setupConvertKitPluginLegacyResources($I);
 	}
 
 	/**
