@@ -237,20 +237,6 @@ class ConvertKitPlugin extends \Codeception\Module
 					'archived'   => false,
 					'uid'        => '85629c512d',
 				],
-				470099  => [
-					'id'                  => 470099,
-					'name'                => 'Legacy Form',
-					'created_at'          => null,
-					'type'                => 'embed',
-					'url'                 => 'https://app.convertkit.com/landing_pages/470099',
-					'embed_js'            => 'https://api.convertkit.com/api/v3/forms/470099.js?api_key=' . $_ENV['CONVERTKIT_API_KEY'],
-					'embed_url'           => 'https://api.convertkit.com/api/v3/forms/470099.html?api_key=' . $_ENV['CONVERTKIT_API_KEY'],
-					'title'               => 'Join the newsletter',
-					'description'         => '<p>Subscribe to get our latest content by email.</p>',
-					'sign_up_button_text' => 'Subscribe',
-					'success_message'     => 'Success! Now check your email to confirm your subscription.',
-					'archived'            => false,
-				],
 				2780980 => [
 					'id'         => 2780980,
 					'name'       => 'Sticky Bar Form',
@@ -312,20 +298,6 @@ class ConvertKitPlugin extends \Codeception\Module
 					'embed_url'  => 'https://cheerful-architect-3237.ck.page/cc5eb21744',
 					'archived'   => false,
 					'uid'        => 'cc5eb21744',
-				],
-				470103  => [
-					'id'                  => 470103,
-					'name'                => 'Legacy Landing Page',
-					'created_at'          => null,
-					'type'                => 'hosted',
-					'url'                 => 'https://app.convertkit.com/landing_pages/470103',
-					'embed_js'            => 'https://api.convertkit.com/api/v3/forms/470103.js?api_key=' . $_ENV['CONVERTKIT_API_KEY'],
-					'embed_url'           => 'https://api.convertkit.com/api/v3/forms/470103.html?api_key=' . $_ENV['CONVERTKIT_API_KEY'],
-					'title'               => '',
-					'description'         => '',
-					'sign_up_button_text' => 'Register',
-					'success_message'     => null,
-					'archived'            => false,
 				],
 			]
 		);
@@ -637,7 +609,7 @@ class ConvertKitPlugin extends \Codeception\Module
 		// Define options.
 		$options = [
 			'Character Encoding', // First item.
-			'Legacy Landing Page', // Last item.
+			'Landing Page', // Last item.
 		];
 
 		// Prepend options, such as 'Default' and 'None' to the options, if required.
