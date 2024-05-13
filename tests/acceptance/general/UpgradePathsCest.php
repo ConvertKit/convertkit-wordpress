@@ -7,21 +7,6 @@
 class UpgradePathsCest
 {
 	/**
-	 * Run common actions before running the test functions in this class.
-	 *
-	 * @since   1.9.6.4
-	 *
-	 * @param   AcceptanceTester $I  Tester.
-	 */
-	public function _before(AcceptanceTester $I)
-	{
-		// Activate and Setup ConvertKit plugin.
-		$I->activateConvertKitPlugin($I);
-		$I->setupConvertKitPlugin($I);
-		$I->setupConvertKitPluginResources($I);
-	}
-
-	/**
 	 * Check for undefined index errors for a Post when upgrading from 1.4.6 or earlier to 1.4.7 or later.
 	 *
 	 * @since   1.9.6.4
@@ -30,6 +15,11 @@ class UpgradePathsCest
 	 */
 	public function testUndefinedIndexForPost(AcceptanceTester $I)
 	{
+		// Activate and Setup ConvertKit plugin.
+		$I->activateConvertKitPlugin($I);
+		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPluginResources($I);
+
 		// Create a Post with Post Meta that does not include landing_page and tag keys,
 		// mirroring how 1.4.6 and earlier of the Plugin worked.
 		$postID = $I->havePageInDatabase(
@@ -64,6 +54,11 @@ class UpgradePathsCest
 	 */
 	public function testUndefinedIndexForPage(AcceptanceTester $I)
 	{
+		// Activate and Setup ConvertKit plugin.
+		$I->activateConvertKitPlugin($I);
+		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPluginResources($I);
+
 		// Create a Page with Post Meta that does not include landing_page and tag keys,
 		// mirroring how 1.4.6 and earlier of the Plugin worked.
 		$postID = $I->havePageInDatabase(
@@ -87,6 +82,59 @@ class UpgradePathsCest
 
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
+	}
+
+	/**
+	 * Tests that any existing Legacy Forms and Landing Pages are correctly cached, and therefore available
+	 * for selection when upgrading to 2.5.0 or later.
+	 *
+	 * @since   2.5.0
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testLegacyResourcesCached(AcceptanceTester $I)
+	{
+		// Setup ConvertKit Plugin.
+		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPluginResources($I);
+
+		// Define an installation version older than 2.5.0.
+		$I->haveOptionInDatabase('convertkit_version', '2.4.0');
+
+		// Activate the Plugin, as if we just upgraded to 2.5.0 or higher.
+		$I->activateConvertKitPlugin($I);
+
+		// Confirm the options table now contains Legacy Forms and Landing Pages.
+		$legacyLandingPages = $I->grabOptionFromDatabase('convertkit_landing_pages_legacy');
+		var_dump( $legacyLandingPages );
+		die();
+		/*
+		$I->assertArrayHasKey('access_token', $settings);
+		$I->assertArrayHasKey('refresh_token', $settings);
+		$I->assertArrayHasKey('token_expires', $settings);
+
+		// Confirm the API Key and Secret are retained, in case we need them in the future.
+		$I->assertArrayHasKey('api_key', $settings);
+		$I->assertArrayHasKey('api_secret', $settings);
+		$I->assertEquals($settings['api_key'], $_ENV['CONVERTKIT_API_KEY']);
+		$I->assertEquals($settings['api_secret'], $_ENV['CONVERTKIT_API_SECRET']);
+
+		// Go to the Plugin's Settings Screen.
+		$I->loadConvertKitSettingsGeneralScreen($I);
+
+		// Confirm the Plugin authorized by checking for a Disconnect button.
+		$I->see('ConvertKit WordPress');
+		$I->see('Disconnect');
+
+		// Check the order of the Form resources are alphabetical, with 'None' as the first choice.
+		$I->checkSelectFormOptionOrder(
+			$I,
+			'#_wp_convertkit_settings_page_form',
+			[
+				'None',
+			]
+		);
+		*/
 	}
 
 	/**
