@@ -104,37 +104,29 @@ class UpgradePathsCest
 		// Activate the Plugin, as if we just upgraded to 2.5.0 or higher.
 		$I->activateConvertKitPlugin($I);
 
-		// Confirm the options table now contains Legacy Forms and Landing Pages.
-		$legacyLandingPages = $I->grabOptionFromDatabase('convertkit_landing_pages_legacy');
-		var_dump( $legacyLandingPages );
-		die();
-		/*
-		$I->assertArrayHasKey('access_token', $settings);
-		$I->assertArrayHasKey('refresh_token', $settings);
-		$I->assertArrayHasKey('token_expires', $settings);
-
-		// Confirm the API Key and Secret are retained, in case we need them in the future.
-		$I->assertArrayHasKey('api_key', $settings);
-		$I->assertArrayHasKey('api_secret', $settings);
-		$I->assertEquals($settings['api_key'], $_ENV['CONVERTKIT_API_KEY']);
-		$I->assertEquals($settings['api_secret'], $_ENV['CONVERTKIT_API_SECRET']);
-
 		// Go to the Plugin's Settings Screen.
 		$I->loadConvertKitSettingsGeneralScreen($I);
 
-		// Confirm the Plugin authorized by checking for a Disconnect button.
-		$I->see('ConvertKit WordPress');
-		$I->see('Disconnect');
+		// Confirm the options table now contains Legacy Forms and Landing Pages.
+		$legacyForms = $I->grabOptionFromDatabase('convertkit_forms_legacy');
+		$I->assertArrayHasKey($_ENV['CONVERTKIT_API_LEGACY_FORM_ID'], $legacyForms);
+		$I->assertEquals($_ENV['CONVERTKIT_API_LEGACY_FORM_ID'], $legacyForms[ $_ENV['CONVERTKIT_API_LEGACY_FORM_ID'] ]['id'] );
 
-		// Check the order of the Form resources are alphabetical, with 'None' as the first choice.
-		$I->checkSelectFormOptionOrder(
-			$I,
-			'#_wp_convertkit_settings_page_form',
-			[
-				'None',
-			]
-		);
-		*/
+		$legacyLandingPages = $I->grabOptionFromDatabase('convertkit_landing_pages_legacy');
+		$I->assertArrayHasKey($_ENV['CONVERTKIT_API_LEGACY_LANDING_PAGE_ID'], $legacyLandingPages);
+		$I->assertEquals($_ENV['CONVERTKIT_API_LEGACY_LANDING_PAGE_ID'], $legacyLandingPages[ $_ENV['CONVERTKIT_API_LEGACY_LANDING_PAGE_ID'] ]['id'] );
+
+		// Confirm the options table for the original resources no longer contains Legacy Forms and Landing Pages,
+		// as the v4 API won't return those.
+		$forms = $I->grabOptionFromDatabase('convertkit_forms');
+		$I->assertArrayNotHasKey($_ENV['CONVERTKIT_API_LEGACY_FORM_ID'], $forms);
+
+		$landingPages = $I->grabOptionFromDatabase('convertkit_landing_pages');
+		$I->assertArrayNotHasKey($_ENV['CONVERTKIT_API_LEGACY_LANDING_PAGE_ID'], $landingPages);
+
+		// Confirm the Legacy Form can be selected.
+		// This confirms they are cached as API calls to refresh resources are always made on the Plugin Settings screen.
+		$I->fillSelect2Field($I, '#select2-_wp_convertkit_settings_page_form-container', $_ENV['CONVERTKIT_API_LEGACY_FORM_NAME']);
 	}
 
 	/**
