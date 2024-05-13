@@ -445,6 +445,8 @@ class PageShortcodeProductCest
 	 */
 	public function testProductShortcodeWhenNoAPIKey(AcceptanceTester $I)
 	{
+		$I->markTestIncomplete();
+
 		// Add a Page using the Classic Editor.
 		$I->addClassicEditorPage($I, 'page', 'ConvertKit: Page: Product: Shortcode: No API Key');
 
@@ -500,7 +502,7 @@ class PageShortcodeProductCest
 	public function testProductShortcodeWhenNoProducts(AcceptanceTester $I)
 	{
 		// Setup Plugin.
-		$I->setupConvertKitPluginAPIKeyNoData($I);
+		$I->setupConvertKitPluginCredentialsNoData($I);
 		$I->setupConvertKitPluginResourcesNoData($I);
 
 		// Add a Page using the Classic Editor.

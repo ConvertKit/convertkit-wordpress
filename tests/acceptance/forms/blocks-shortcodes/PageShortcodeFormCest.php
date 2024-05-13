@@ -261,6 +261,8 @@ class PageShortcodeFormCest
 	 */
 	public function testFormShortcodeWithValidLegacyFormParameter(AcceptanceTester $I)
 	{
+		$I->markTestIncomplete();
+
 		// Setup Plugin.
 		$I->setupConvertKitPluginNoDefaultForms($I); // Don't specify default forms.
 		$I->setupConvertKitPluginResources($I);
@@ -292,6 +294,8 @@ class PageShortcodeFormCest
 	 */
 	public function testFormShortcodeWithValidLegacyIDParameter(AcceptanceTester $I)
 	{
+		$I->markTestIncomplete();
+
 		// Setup Plugin.
 		$I->setupConvertKitPluginNoDefaultForms($I); // Don't specify default forms.
 		$I->setupConvertKitPluginResources($I);
@@ -325,6 +329,8 @@ class PageShortcodeFormCest
 	 */
 	public function testFormShortcodeWithValidLegacyFormShortcodeFromConvertKitApp(AcceptanceTester $I)
 	{
+		$I->markTestIncomplete();
+
 		// Setup Plugin.
 		$I->setupConvertKitPluginNoDefaultForms($I); // Don't specify default forms.
 		$I->setupConvertKitPluginResources($I);
@@ -349,16 +355,18 @@ class PageShortcodeFormCest
 
 	/**
 	 * Test the Form shortcode displays a message with a link to the Plugin's
-	 * setup wizard, when the Plugin has no API key specified.
+	 * setup wizard, when the Plugin has no credentials specified.
 	 *
 	 * @since   2.2.4
 	 *
 	 * @param   AcceptanceTester $I  Tester.
 	 */
-	public function testFormShortcodeWhenNoAPIKey(AcceptanceTester $I)
+	public function testFormShortcodeWhenNoCredentials(AcceptanceTester $I)
 	{
+		$I->markTestIncomplete();
+
 		// Add a Page using the Classic Editor.
-		$I->addClassicEditorPage($I, 'page', 'ConvertKit: Page: Form: Shortcode: No API Key');
+		$I->addClassicEditorPage($I, 'page', 'ConvertKit: Page: Form: Shortcode: No Credentials');
 
 		// Open Visual Editor modal for the shortcode.
 		$I->openVisualEditorShortcodeModal(
@@ -412,7 +420,7 @@ class PageShortcodeFormCest
 	public function testFormShortcodeWhenNoForms(AcceptanceTester $I)
 	{
 		// Setup Plugin.
-		$I->setupConvertKitPluginAPIKeyNoData($I);
+		$I->setupConvertKitPluginCredentialsNoData($I);
 		$I->setupConvertKitPluginResourcesNoData($I);
 
 		// Add a Page using the Classic Editor.

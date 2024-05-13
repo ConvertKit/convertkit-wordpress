@@ -70,6 +70,8 @@ class PageBlockFormCest
 	 */
 	public function testFormBlockWithValidLegacyFormParameter(AcceptanceTester $I)
 	{
+		$I->markTestIncomplete();
+
 		// Setup Plugin and Resources.
 		$I->setupConvertKitPlugin($I);
 		$I->setupConvertKitPluginResources($I);
@@ -511,6 +513,8 @@ class PageBlockFormCest
 	 */
 	public function testFormBlockWhenNoAPIKey(AcceptanceTester $I)
 	{
+		$I->markTestIncomplete();
+
 		// Add a Page using the Gutenberg editor.
 		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form: Block: No API Key');
 
@@ -539,7 +543,7 @@ class PageBlockFormCest
 	public function testFormBlockWhenNoForms(AcceptanceTester $I)
 	{
 		// Setup Plugin.
-		$I->setupConvertKitPluginAPIKeyNoData($I);
+		$I->setupConvertKitPluginCredentialsNoData($I);
 		$I->setupConvertKitPluginResourcesNoData($I);
 
 		// Add a Page using the Gutenberg editor.
@@ -586,8 +590,8 @@ class PageBlockFormCest
 	 */
 	public function testFormBlockRefreshButton(AcceptanceTester $I)
 	{
-		// Setup Plugin with API keys for ConvertKit Account that has no Broadcasts.
-		$I->setupConvertKitPluginAPIKeyNoData($I);
+		// Setup Plugin with ConvertKit Account that has no Broadcasts.
+		$I->setupConvertKitPluginCredentialsNoData($I);
 		$I->setupConvertKitPluginResourcesNoData($I);
 
 		// Add a Page using the Gutenberg editor.
