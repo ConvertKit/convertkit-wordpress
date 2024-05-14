@@ -254,10 +254,23 @@ class ConvertKit_Admin_Setup_Wizard_Plugin extends ConvertKit_Admin_Setup_Wizard
 	 */
 	public function load_screen_data( $step ) {
 
-		// If this wizard is being served in a modal window, adjust the steps.
+		// If this wizard is being served in a modal window, change the flow.
+		// @TODO This should probably go in process_form().
 		if ( $this->is_modal() ) {
-			unset( $this->steps[3], $this->steps[4] );
+			switch ( $step ) {
+				case 1:
+					// Redirect to OAuth.
+					$api = new ConvertKit_API( CONVERTKIT_OAUTH_CLIENT_ID, admin_url( 'options-general.php?page=_wp_convertkit_settings' ) );
+					wp_redirect( $api->get_oauth_url() );
+					die();
+
+				case 2:
+					// Verify and close modal?
+					$this->maybe_close_modal();
+					break;
+			}
 		}
+
 		switch ( $step ) {
 			case 2:
 				// Load settings class.
