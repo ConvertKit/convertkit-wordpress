@@ -296,7 +296,7 @@ class ConvertKit_Admin_Setup_Wizard_Plugin extends ConvertKit_Admin_Setup_Wizard
 					$this->steps[2]['next_button']['link']  = add_query_arg(
 						array(
 							'page' => $this->page_name,
-							'step' => 3,
+							'step' => 2,
 						),
 						admin_url( 'options.php' )
 					);
