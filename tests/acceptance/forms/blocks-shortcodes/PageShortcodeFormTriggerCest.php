@@ -291,7 +291,7 @@ class PageShortcodeFormTriggerCest
 
 		// Confirm that the modal displays instructions to the user on how to enter their credentials.
 		$I->see(
-			'No API Key specified.',
+			'Not connected to ConvertKit.',
 			[
 				'css' => '#convertkit-modal-body-body',
 			]
@@ -299,7 +299,7 @@ class PageShortcodeFormTriggerCest
 
 		// Click the link to confirm it loads the Plugin's settings screen.
 		$I->click(
-			'Click here to add your API Key.',
+			'Click here to connect your ConvertKit account.',
 			[
 				'css' => '#convertkit-modal-body-body',
 			]

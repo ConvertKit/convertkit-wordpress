@@ -132,9 +132,9 @@ class ConvertKit_Block_Form extends ConvertKit_Block {
 
 			// Help descriptions, displayed when no API key / resources exist and this block/shortcode is added.
 			'no_access_token'                   => array(
-				'notice'    => __( 'No API Key specified.', 'convertkit' ),
+				'notice'    => __( 'Not connected to ConvertKit.', 'convertkit' ),
 				'link'      => convertkit_get_setup_wizard_plugin_link(),
-				'link_text' => __( 'Click here to add your API Key.', 'convertkit' ),
+				'link_text' => __( 'Click here to connect your ConvertKit account.', 'convertkit' ),
 			),
 			'no_resources'                      => array(
 				'notice'    => __( 'No forms exist in ConvertKit.', 'convertkit' ),

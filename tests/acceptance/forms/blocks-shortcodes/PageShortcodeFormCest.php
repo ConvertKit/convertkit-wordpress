@@ -363,8 +363,6 @@ class PageShortcodeFormCest
 	 */
 	public function testFormShortcodeWhenNoCredentials(AcceptanceTester $I)
 	{
-		$I->markTestIncomplete();
-
 		// Add a Page using the Classic Editor.
 		$I->addClassicEditorPage($I, 'page', 'ConvertKit: Page: Form: Shortcode: No Credentials');
 
@@ -379,7 +377,7 @@ class PageShortcodeFormCest
 
 		// Confirm that the modal displays instructions to the user on how to enter their API Key.
 		$I->see(
-			'No API Key specified.',
+			'Not connected to ConvertKit.',
 			[
 				'css' => '#convertkit-modal-body-body',
 			]
@@ -387,7 +385,7 @@ class PageShortcodeFormCest
 
 		// Click the link to confirm it loads the Plugin's settings screen.
 		$I->click(
-			'Click here to add your API Key.',
+			'Click here to connect your ConvertKit account.',
 			[
 				'css' => '#convertkit-modal-body-body',
 			]

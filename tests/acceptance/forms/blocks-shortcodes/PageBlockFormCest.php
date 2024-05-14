@@ -505,7 +505,7 @@ class PageBlockFormCest
 	/**
 	 * Test the Forms block displays a message with a link that opens
 	 * a popup window with the Plugin's Setup Wizard, when the Plugin has
-	 * no API key specified.
+	 * Not connected to ConvertKit.
 	 *
 	 * @since   2.2.3
 	 *
