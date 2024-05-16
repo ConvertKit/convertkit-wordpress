@@ -45,10 +45,10 @@ class ConvertKit_Setup {
 		}
 
 		/**
-		 * 2.5.0: Exchange API Key and Secret for Access Token for API version 4.0.
+		 * 2.5.0: Get Access token for API version 4.0 using a v3 API Key and Secret.
 		 */
 		if ( ! $current_version || version_compare( $current_version, '2.5.0', '<' ) ) {
-			$this->maybe_exchange_api_key_and_secret_for_access_token();
+			$this->maybe_get_access_token_by_api_key_and_secret();
 		}
 
 		/**
@@ -83,16 +83,16 @@ class ConvertKit_Setup {
 	}
 
 	/**
-	 * 2.5.0: Exchange the existing API Key and Secret for an Access Token,
-	 * Refresh Token and Expiry.
+	 * 2.5.0: Fetch an Access Token, Refresh Token and Expiry for v4 API use
+	 * based on the Plugin setting's v3 API Key and Secret.
 	 *
 	 * @since   2.5.0
 	 */
-	private function maybe_exchange_api_key_and_secret_for_access_token() {
+	private function maybe_get_access_token_by_api_key_and_secret() {
 
 		$convertkit_settings = new ConvertKit_Settings();
 
-		// Bail if an Access Token exists; we don't need to exchange anything.
+		// Bail if an Access Token exists; we don't need to fetch another one.
 		if ( $convertkit_settings->has_access_token() ) {
 			return;
 		}
@@ -105,7 +105,7 @@ class ConvertKit_Setup {
 			return;
 		}
 
-		// Exchange API Key and Secret for an Access Token.
+		// Get Access Token by API Key and Secret.
 		$api    = new ConvertKit_API( CONVERTKIT_OAUTH_CLIENT_ID, admin_url( 'options-general.php?page=_wp_convertkit_settings' ) );
 		$result = $api->exchange_api_key_and_secret_for_access_token(
 			$convertkit_settings->get_api_key(),
@@ -117,7 +117,7 @@ class ConvertKit_Setup {
 			return;
 		}
 
-		// Store the new credentials, removing the API Key and Secret.
+		// Store the new credentials.
 		// We don't use update_credentials(), because the response
 		// includes an `expires_at`, not a `created_at` and `expires_in`.
 		$convertkit_settings->save(
