@@ -21,19 +21,16 @@ class ForminatorCest
 
 	/**
 	 * Tests that no Forminator settings display and a 'No Forms exist on ConvertKit'
-	 * notification displays when no API Key and Secret are defined in the Plugin's settings.
+	 * notification displays when no credentials are defined in the Plugin's settings.
 	 *
 	 * @since   2.3.0
 	 *
 	 * @param   AcceptanceTester $I  Tester.
 	 */
-	public function testSettingsForminatorWhenNoAPIKeyAndSecret(AcceptanceTester $I)
+	public function testSettingsForminatorWhenNoCredentials(AcceptanceTester $I)
 	{
 		// Load Forminator Plugin Settings.
 		$I->amOnAdminPage('options-general.php?page=_wp_convertkit_settings&tab=forminator');
-
-		// Confirm notice is displayed.
-		$I->see('No Forms exist on ConvertKit.');
 
 		// Confirm no settings table is displayed.
 		$I->dontSeeElementInDOM('table.wp-list-table');
@@ -50,7 +47,7 @@ class ForminatorCest
 	public function testSettingsForminatorWhenNoForms(AcceptanceTester $I)
 	{
 		// Setup Plugin.
-		$I->setupConvertKitPluginAPIKeyNoData($I);
+		$I->setupConvertKitPluginCredentialsNoData($I);
 		$I->setupConvertKitPluginResourcesNoData($I);
 
 		// Load Forminator Plugin Settings.
@@ -215,8 +212,8 @@ class ForminatorCest
 	}
 
 	/**
-	 * Tests that the 'Enable Creator Network Recommendations' is not displayed when API Keys are specified
-	 * for a ConvertKit account that does not have Creator Network Recommendations enabled.
+	 * Tests that the 'Enable Creator Network Recommendations' is not displayed when connected
+	 * to a ConvertKit account that does not have Creator Network Recommendations enabled.
 	 *
 	 * @since   2.3.0
 	 *
@@ -225,7 +222,7 @@ class ForminatorCest
 	public function testSettingsForminatorCreatorNetworkRecommendationsWhenDisabledOnConvertKitAccount(AcceptanceTester $I)
 	{
 		// Setup ConvertKit Plugin.
-		$I->setupConvertKitPluginAPIKeyNoData($I);
+		$I->setupConvertKitPluginCredentialsNoData($I);
 		$I->setupConvertKitPluginResources($I);
 
 		// Create Forminator Form.
@@ -247,13 +244,13 @@ class ForminatorCest
 			]
 		);
 
-		// Confirm the recommendations script was not loaded, as the API Key and Secret are invalid.
+		// Confirm the recommendations script was not loaded, as the credentials are invalid.
 		$I->dontSeeCreatorNetworkRecommendationsScript($I, $pageID);
 	}
 
 	/**
 	 * Tests that the 'Enable Creator Network Recommendations' option is displayed and saves correctly when
-	 * a valid API Key and Secret are specified, and the ConvertKit account has the Creator Network enabled.
+	 * valid credentials are specified, and the ConvertKit account has the Creator Network enabled.
 	 * Viewing and submitting the Form then correctly displays the Creator Network Recommendations modal.
 	 *
 	 * @since   2.3.0

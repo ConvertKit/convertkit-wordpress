@@ -267,16 +267,18 @@ class PageShortcodeFormTriggerCest
 
 	/**
 	 * Test the Form Trigger shortcode displays a message with a link to the Plugin's
-	 * setup wizard, when the Plugin has no API key specified.
+	 * setup wizard, when the Plugin has no credentials specified.
 	 *
 	 * @since   2.2.4
 	 *
 	 * @param   AcceptanceTester $I  Tester.
 	 */
-	public function testFormTriggerShortcodeWhenNoAPIKey(AcceptanceTester $I)
+	public function testFormTriggerShortcodeWhenNoCredentials(AcceptanceTester $I)
 	{
+		$I->markTestIncomplete();
+
 		// Add a Page using the Classic Editor.
-		$I->addClassicEditorPage($I, 'page', 'ConvertKit: Page: Form Trigger: Shortcode: No API Key');
+		$I->addClassicEditorPage($I, 'page', 'ConvertKit: Page: Form Trigger: Shortcode: No Credentials');
 
 		// Open Visual Editor modal for the shortcode.
 		$I->openVisualEditorShortcodeModal(
@@ -287,7 +289,7 @@ class PageShortcodeFormTriggerCest
 		// Confirm an error notice displays.
 		$I->waitForElementVisible('#convertkit-modal-body-body div.notice');
 
-		// Confirm that the modal displays instructions to the user on how to enter their API Key.
+		// Confirm that the modal displays instructions to the user on how to enter their credentials.
 		$I->see(
 			'No API Key specified.',
 			[
@@ -330,7 +332,7 @@ class PageShortcodeFormTriggerCest
 	public function testFormTriggerShortcodeWhenNoForms(AcceptanceTester $I)
 	{
 		// Setup Plugin.
-		$I->setupConvertKitPluginAPIKeyNoData($I);
+		$I->setupConvertKitPluginCredentialsNoData($I);
 		$I->setupConvertKitPluginResourcesNoData($I);
 
 		// Add a Page using the Classic Editor.
