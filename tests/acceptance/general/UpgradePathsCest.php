@@ -85,14 +85,14 @@ class UpgradePathsCest
 	}
 
 	/**
-	 * Tests that an API Key and Secret are exchanged for an Access Token and Refresh Token
+	 * Tests that an Access Token and Refresh Token are obtained using an API Key and Secret
 	 * when upgrading to 2.5.0 or later.
 	 *
 	 * @since   2.5.0
 	 *
 	 * @param   AcceptanceTester $I  Tester.
 	 */
-	public function testExchangeAPIKeyAndSecretForAccessToken(AcceptanceTester $I)
+	public function testGetAccessTokenByAPIKeyAndSecret(AcceptanceTester $I)
 	{
 		// Setup ConvertKit Plugin's settings with an API Key and Secret.
 		$I->haveOptionInDatabase(
