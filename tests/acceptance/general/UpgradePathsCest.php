@@ -85,18 +85,30 @@ class UpgradePathsCest
 	}
 
 	/**
-	 * Tests that any existing Legacy Forms and Landing Pages are correctly cached, and therefore available
-	 * for selection when upgrading to 2.5.0 or later.
+	 * Tests that an Access Token and Refresh Token are obtained using an API Key and Secret
+	 * when upgrading to 2.5.0 or later.
 	 *
 	 * @since   2.5.0
 	 *
 	 * @param   AcceptanceTester $I  Tester.
 	 */
-	public function testLegacyResourcesCached(AcceptanceTester $I)
+	public function testGetAccessTokenByAPIKeyAndSecret(AcceptanceTester $I)
 	{
-		// Setup ConvertKit Plugin.
-		$I->setupConvertKitPlugin($I);
-		$I->setupConvertKitPluginResources($I);
+		// Setup ConvertKit Plugin's settings with an API Key and Secret.
+		$I->haveOptionInDatabase(
+			'_wp_convertkit_settings',
+			[
+				'api_key'         => $_ENV['CONVERTKIT_API_KEY'],
+				'api_secret'      => $_ENV['CONVERTKIT_API_SECRET'],
+				'debug'           => 'on',
+				'no_scripts'      => '',
+				'no_css'          => '',
+				'post_form'       => $_ENV['CONVERTKIT_API_FORM_ID'],
+				'page_form'       => $_ENV['CONVERTKIT_API_FORM_ID'],
+				'product_form'    => $_ENV['CONVERTKIT_API_FORM_ID'],
+				'non_inline_form' => '',
+			]
+		);
 
 		// Define an installation version older than 2.5.0.
 		$I->haveOptionInDatabase('convertkit_version', '2.4.0');
@@ -104,29 +116,33 @@ class UpgradePathsCest
 		// Activate the Plugin, as if we just upgraded to 2.5.0 or higher.
 		$I->activateConvertKitPlugin($I);
 
+		// Confirm the options table now contains an Access Token and Refresh Token.
+		$settings = $I->grabOptionFromDatabase('_wp_convertkit_settings');
+		$I->assertArrayHasKey('access_token', $settings);
+		$I->assertArrayHasKey('refresh_token', $settings);
+		$I->assertArrayHasKey('token_expires', $settings);
+
+		// Confirm the API Key and Secret are retained, in case we need them in the future.
+		$I->assertArrayHasKey('api_key', $settings);
+		$I->assertArrayHasKey('api_secret', $settings);
+		$I->assertEquals($settings['api_key'], $_ENV['CONVERTKIT_API_KEY']);
+		$I->assertEquals($settings['api_secret'], $_ENV['CONVERTKIT_API_SECRET']);
+
 		// Go to the Plugin's Settings Screen.
 		$I->loadConvertKitSettingsGeneralScreen($I);
 
-		// Confirm the options table now contains Legacy Forms and Landing Pages.
-		$legacyForms = $I->grabOptionFromDatabase('convertkit_forms_legacy');
-		$I->assertArrayHasKey($_ENV['CONVERTKIT_API_LEGACY_FORM_ID'], $legacyForms);
-		$I->assertEquals($_ENV['CONVERTKIT_API_LEGACY_FORM_ID'], $legacyForms[ $_ENV['CONVERTKIT_API_LEGACY_FORM_ID'] ]['id'] );
+		// Confirm the Plugin authorized by checking for a Disconnect button.
+		$I->see('ConvertKit WordPress');
+		$I->see('Disconnect');
 
-		$legacyLandingPages = $I->grabOptionFromDatabase('convertkit_landing_pages_legacy');
-		$I->assertArrayHasKey($_ENV['CONVERTKIT_API_LEGACY_LANDING_PAGE_ID'], $legacyLandingPages);
-		$I->assertEquals($_ENV['CONVERTKIT_API_LEGACY_LANDING_PAGE_ID'], $legacyLandingPages[ $_ENV['CONVERTKIT_API_LEGACY_LANDING_PAGE_ID'] ]['id'] );
-
-		// Confirm the options table for the original resources no longer contains Legacy Forms and Landing Pages,
-		// as the v4 API won't return those.
-		$forms = $I->grabOptionFromDatabase('convertkit_forms');
-		$I->assertArrayNotHasKey($_ENV['CONVERTKIT_API_LEGACY_FORM_ID'], $forms);
-
-		$landingPages = $I->grabOptionFromDatabase('convertkit_landing_pages');
-		$I->assertArrayNotHasKey($_ENV['CONVERTKIT_API_LEGACY_LANDING_PAGE_ID'], $landingPages);
-
-		// Confirm the Legacy Form can be selected.
-		// This confirms they are cached as API calls to refresh resources are always made on the Plugin Settings screen.
-		$I->fillSelect2Field($I, '#select2-_wp_convertkit_settings_page_form-container', $_ENV['CONVERTKIT_API_LEGACY_FORM_NAME']);
+		// Check the order of the Form resources are alphabetical, with 'None' as the first choice.
+		$I->checkSelectFormOptionOrder(
+			$I,
+			'#_wp_convertkit_settings_page_form',
+			[
+				'None',
+			]
+		);
 	}
 
 	/**
