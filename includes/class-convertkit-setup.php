@@ -45,13 +45,6 @@ class ConvertKit_Setup {
 		}
 
 		/**
-		 * 2.5.0: Cache legacy resources as they're not returned in the v4 API.
-		 */
-		if ( ! $current_version || version_compare( $current_version, '2.5.0', '<' ) ) {
-			$this->maybe_cache_legacy_resources();
-		}
-
-		/**
 		 * 1.6.1+: Refresh Forms, Landing Pages and Tags data stored in settings,
 		 * to get new Forms Builder Settings.
 		 */
@@ -79,55 +72,6 @@ class ConvertKit_Setup {
 
 		// Update the installed version number in the options table.
 		update_option( 'convertkit_version', CONVERTKIT_PLUGIN_VERSION );
-
-	}
-
-	/**
-	 * 2.5.0: Store legacy forms and landing pages in separate option settings
-	 * so they are preserved, as the v4 API won't return legacy forms and
-	 * landing pages.
-	 *
-	 * @since   2.5.0
-	 */
-	private function maybe_cache_legacy_resources() {
-
-		// Initialize resource classes.
-		$forms         = new ConvertKit_Resource_Forms();
-		$landing_pages = new ConvertKit_Resource_Landing_Pages();
-
-		// Forms.
-		$legacy_forms = array();
-		if ( $forms->exist() ) {
-			foreach ( $forms->get() as $form ) {
-				// If no uid is present in the Form API data, this is a legacy form that's served by directly fetching the HTML
-				// from forms.convertkit.com.
-				if ( array_key_exists( 'uid', $form ) ) {
-					continue;
-				}
-
-				// Cache this form.
-				$legacy_forms[ $form['id'] ] = $form;
-			}
-		}
-
-		// Landing Pages.
-		$legacy_landing_pages = array();
-		if ( $landing_pages->exist() ) {
-			foreach ( $landing_pages->get() as $landing_page ) {
-				// If no uid is present in the Form API data, this is a legacy landing page that's served by directly fetching the HTML
-				// from forms.convertkit.com.
-				if ( array_key_exists( 'uid', $landing_page ) ) {
-					continue;
-				}
-
-				// Cache this landing page.
-				$legacy_landing_pages[ $landing_page['id'] ] = $landing_page;
-			}
-		}
-
-		// Cache legacy resources.
-		update_option( $forms->legacy_settings_name, $legacy_forms );
-		update_option( $landing_pages->legacy_settings_name, $legacy_landing_pages );
 
 	}
 

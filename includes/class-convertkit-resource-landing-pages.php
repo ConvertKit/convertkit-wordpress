@@ -22,15 +22,6 @@ class ConvertKit_Resource_Landing_Pages extends ConvertKit_Resource {
 	public $settings_name = 'convertkit_landing_pages';
 
 	/**
-	 * Holds the Settings Key that stores legacy Landing pages
-	 *
-	 * @since   2.5.0
-	 *
-	 * @var     string
-	 */
-	public $legacy_settings_name = 'convertkit_landing_pages_legacy';
-
-	/**
 	 * The type of resource
 	 *
 	 * @var     string
@@ -61,53 +52,6 @@ class ConvertKit_Resource_Landing_Pages extends ConvertKit_Resource {
 
 		// Call parent initialization function.
 		parent::init();
-
-	}
-
-	/**
-	 * Override the base class' get method, to include returning legacy forms
-	 * that might be stored in `legacy_settings_name`.
-	 *
-	 * @since   2.5.0
-	 *
-	 * @return  array
-	 */
-	public function get() {
-
-		// Don't mutate the underlying resources, so multiple calls to get()
-		// with different order_by and order properties are supported.
-		$resources = $this->resources;
-
-		// Don't attempt sorting if no resources exist.
-		if ( ! $this->exist() ) {
-			return $resources;
-		}
-
-		// If legacy resources exist, merge them now.
-		$resources = ( $resources + $this->get_legacy() );
-
-		// Return resources sorted by order_by and order.
-		return $this->sort( $resources );
-
-	}
-
-	/**
-	 * Returns an array of legacy forms that might have been cached when upgrading to 2.5.0
-	 * by maybe_cache_legacy_resources().
-	 *
-	 * @since   2.5.0
-	 *
-	 * @return  array
-	 */
-	public function get_legacy() {
-
-		$resources = get_option( $this->legacy_settings_name );
-
-		if ( ! $resources ) {
-			return array();
-		}
-
-		return $resources;
 
 	}
 
@@ -147,9 +91,6 @@ class ConvertKit_Resource_Landing_Pages extends ConvertKit_Resource {
 		if ( is_wp_error( $this->resources ) ) {
 			return $this->resources;
 		}
-
-		// Fetch all forms, including legacy.
-		$this->resources = $this->get();
 
 		// Bail if the resource doesn't exist.
 		if ( ! isset( $this->resources[ $id ] ) ) {

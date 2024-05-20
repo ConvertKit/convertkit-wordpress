@@ -490,60 +490,6 @@ class ConvertKitPlugin extends \Codeception\Module
 	}
 
 	/**
-	 * Helper method to define cached Legacy Resources (Forms, Landing Pages),
-	 * directly into the database, as if we upgraded to OAuth and the Plugin cached
-	 * the legacy Forms and Landing Pages.
-	 *
-	 * @since   2.5.0
-	 *
-	 * @param   AcceptanceTester $I              AcceptanceTester.
-	 */
-	public function setupConvertKitPluginLegacyResources($I)
-	{
-		// Define Forms.
-		$I->haveOptionInDatabase(
-			'convertkit_forms_legacy',
-			[
-				470099 => [
-					'id'                  => 470099,
-					'name'                => 'Legacy Form',
-					'created_at'          => null,
-					'type'                => 'embed',
-					'url'                 => 'https://app.convertkit.com/landing_pages/470099',
-					'embed_js'            => 'https://api.convertkit.com/api/v3/forms/470099.js?api_key=' . $_ENV['CONVERTKIT_API_KEY'],
-					'embed_url'           => 'https://api.convertkit.com/api/v3/forms/470099.html?api_key=' . $_ENV['CONVERTKIT_API_KEY'],
-					'title'               => 'Join the newsletter',
-					'description'         => '<p>Subscribe to get our latest content by email.</p>',
-					'sign_up_button_text' => 'Subscribe',
-					'success_message'     => 'Success! Now check your email to confirm your subscription.',
-					'archived'            => false,
-				],
-			]
-		);
-
-		// Define Landing Pages.
-		$I->haveOptionInDatabase(
-			'convertkit_landing_pages_legacy',
-			[
-				470103 => [
-					'id'                  => 470103,
-					'name'                => 'Legacy Landing Page',
-					'created_at'          => null,
-					'type'                => 'hosted',
-					'url'                 => 'https://app.convertkit.com/landing_pages/470103',
-					'embed_js'            => 'https://api.convertkit.com/api/v3/forms/470103.js?api_key=' . $_ENV['CONVERTKIT_API_KEY'],
-					'embed_url'           => 'https://api.convertkit.com/api/v3/forms/470103.html?api_key=' . $_ENV['CONVERTKIT_API_KEY'],
-					'title'               => '',
-					'description'         => '',
-					'sign_up_button_text' => 'Register',
-					'success_message'     => null,
-					'archived'            => false,
-				],
-			]
-		);
-	}
-
-	/**
 	 * Helper method to reset the ConvertKit Plugin settings, as if it's a clean installation.
 	 *
 	 * @since   1.9.6.7
