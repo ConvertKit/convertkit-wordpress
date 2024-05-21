@@ -524,7 +524,7 @@ function convertKitGutenbergRegisterBlock( block ) {
 
 			// Define popup width, height and positioning.
 			const 	width  = 640,
-					height = 520,
+					height = 750,
 					top    = ( window.screen.height - height ) / 2,
 					left   = ( window.screen.width - width ) / 2;
 
