@@ -150,14 +150,31 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 			return;
 		}
 
-		// Bail if no request to disconnect exists.
-		if ( ! array_key_exists( 'disconnect', $_REQUEST ) ) { // phpcs:ignore WordPress.Security.NonceVerification
+		// Bail if nonce verification fails.
+		if ( ! isset( $_REQUEST['_convertkit_settings_oauth_disconnect'] ) ) {
+			return;
+		}
+		if ( ! wp_verify_nonce( sanitize_key( $_REQUEST['_convertkit_settings_oauth_disconnect'] ), 'convertkit-oauth-disconnect' ) ) {
 			return;
 		}
 
 		// Delete Access Token.
 		$settings = new ConvertKit_Settings();
 		$settings->delete_credentials();
+
+		// Delete cached resources.
+		$creator_network = new ConvertKit_Resource_Creator_Network_Recommendations();
+		$forms           = new ConvertKit_Resource_Forms();
+		$landing_pages   = new ConvertKit_Resource_Landing_Pages();
+		$posts           = new ConvertKit_Resource_Posts();
+		$products        = new ConvertKit_Resource_Products();
+		$tags            = new ConvertKit_Resource_Tags();
+		$creator_network->delete();
+		$forms->delete();
+		$landing_pages->delete();
+		$posts->delete();
+		$products->delete();
+		$tags->delete();
 
 		// Redirect to General screen, which will now show the ConvertKit_Settings_OAuth screen, because
 		// the Plugin has no access token.
@@ -354,8 +371,8 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 			esc_url(
 				add_query_arg(
 					array(
-						'page'       => '_wp_convertkit_settings',
-						'disconnect' => '1',
+						'page' => '_wp_convertkit_settings',
+						'_convertkit_settings_oauth_disconnect' => wp_create_nonce( 'convertkit-oauth-disconnect' ),
 					),
 					'options-general.php'
 				)
