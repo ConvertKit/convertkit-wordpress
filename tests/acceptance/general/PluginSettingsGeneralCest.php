@@ -157,6 +157,25 @@ class PluginSettingsGeneralCest
 
 		// Check that no notice is displayed that the API credentials are invalid.
 		$I->dontSeeErrorNotice($I, 'ConvertKit: Authorization failed. Please connect your ConvertKit account.');
+
+		// Go to the Plugin's Settings Screen.
+		$I->loadConvertKitSettingsGeneralScreen($I);
+
+		// Disconnect the Plugin connection to ConvertKit.
+		$I->click('Disconnect');
+
+		// Confirm the Connect button displays.
+		$I->see('Connect');
+		$I->dontSee('Disconnect');
+		$I->dontSeeElementInDOM('input#submit');
+
+		// Check that the option table no longer contains cached resources.
+		$I->dontSeeOptionInDatabase('convertkit_creator_network_recommendations');
+		$I->dontSeeOptionInDatabase('convertkit_forms');
+		$I->dontSeeOptionInDatabase('convertkit_landing_pages');
+		$I->dontSeeOptionInDatabase('convertkit_posts');
+		$I->dontSeeOptionInDatabase('convertkit_products');
+		$I->dontSeeOptionInDatabase('convertkit_tags');
 	}
 
 	/**
