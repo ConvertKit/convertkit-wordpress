@@ -292,7 +292,9 @@ class ConvertKit_Resource_Forms extends ConvertKit_Resource {
 			);
 
 			// Return Legacy Form HTML.
-			return $api->get_form_html( $id, $settings->get_api_key() );
+			// We now call get_html() with the `embed_url` property, instead of get_form_html() with the `id` property,
+			// because `embed_url` includes the API Key.
+			return $api->get_html( $this->resources[ $id ]['embed_url'] );
 		}
 
 		// If the form's format is not an inline form, add the inline script before the closing </body> tag.
