@@ -260,8 +260,8 @@ class ConvertKit_Admin_Setup_Wizard_Plugin extends ConvertKit_Admin_Setup_Wizard
 			switch ( $step ) {
 				case 1:
 					// Redirect to OAuth.
-					$api = new ConvertKit_API( CONVERTKIT_OAUTH_CLIENT_ID, admin_url( 'options-general.php?page=_wp_convertkit_settings' ) );
-					wp_redirect( $api->get_oauth_url() );
+					$api = new ConvertKit_API( CONVERTKIT_OAUTH_CLIENT_ID, CONVERTKIT_OAUTH_CLIENT_REDIRECT_URI );
+					wp_redirect( $api->get_oauth_url( admin_url( 'options.php?page=convertkit-setup&step=2' ) ) );
 					die();
 
 				case 2:
