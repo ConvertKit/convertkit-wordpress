@@ -100,7 +100,7 @@ class ConvertKit_Admin_Setup_Wizard_Plugin extends ConvertKit_Admin_Setup_Wizard
 	public function __construct() {
 
 		// Setup API and settings classes.
-		$this->api      = new ConvertKit_API( CONVERTKIT_OAUTH_CLIENT_ID, admin_url( 'options-general.php?page=_wp_convertkit_settings' ), false, 'setup_wizard' );
+		$this->api      = new ConvertKit_API( CONVERTKIT_OAUTH_CLIENT_ID, CONVERTKIT_OAUTH_CLIENT_REDIRECT_URI, false, 'setup_wizard' );
 		$this->settings = new ConvertKit_Settings();
 
 		// Define details for each step in the setup process.
@@ -109,7 +109,7 @@ class ConvertKit_Admin_Setup_Wizard_Plugin extends ConvertKit_Admin_Setup_Wizard
 				'name'        => __( 'Connect', 'convertkit' ),
 				'next_button' => array(
 					'label' => __( 'Connect', 'convertkit' ),
-					'link'  => $this->api->get_oauth_url(),
+					'link'  => $this->api->get_oauth_url( admin_url( 'options.php?page=convertkit-setup&step=2' ) ),
 				),
 			),
 			2 => array(
