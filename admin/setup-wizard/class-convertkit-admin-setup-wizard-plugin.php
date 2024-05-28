@@ -279,11 +279,11 @@ class ConvertKit_Admin_Setup_Wizard_Plugin extends ConvertKit_Admin_Setup_Wizard
 				case 1:
 					// Redirect to OAuth.
 					$api = new ConvertKit_API( CONVERTKIT_OAUTH_CLIENT_ID, CONVERTKIT_OAUTH_CLIENT_REDIRECT_URI );
-					wp_redirect( $api->get_oauth_url( admin_url( 'options.php?page=convertkit-setup&step=2' ) ) );
+					wp_redirect( $api->get_oauth_url( admin_url( 'options.php?page=convertkit-setup&step=2&convertkit-modal=1' ) ) );
 					die();
 
 				case 2:
-					// Verify and close modal?
+					// Close modal.
 					$this->maybe_close_modal();
 					break;
 			}
@@ -291,9 +291,6 @@ class ConvertKit_Admin_Setup_Wizard_Plugin extends ConvertKit_Admin_Setup_Wizard
 
 		switch ( $step ) {
 			case 2:
-				// If this wizard is being served in a modal window, we can exit after obtaining valid API credentials.
-				$this->maybe_close_modal();
-
 				// Re-load settings class now that the API Key and Secret has been defined.
 				$this->settings = new ConvertKit_Settings();
 
