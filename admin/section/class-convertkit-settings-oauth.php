@@ -61,7 +61,7 @@ class ConvertKit_Settings_OAuth extends ConvertKit_Settings_Base {
 		$authorization_code = sanitize_text_field( $_REQUEST['code'] ); // phpcs:ignore WordPress.Security.NonceVerification
 
 		// Exchange the authorization code and verifier for an access token.
-		$api    = new ConvertKit_API( CONVERTKIT_OAUTH_CLIENT_ID, admin_url( 'options-general.php?page=_wp_convertkit_settings' ) );
+		$api    = new ConvertKit_API( CONVERTKIT_OAUTH_CLIENT_ID, CONVERTKIT_OAUTH_CLIENT_REDIRECT_URI );
 		$result = $api->get_access_token( $authorization_code );
 
 		// Redirect with an error if we could not fetch the access token.
@@ -121,8 +121,8 @@ class ConvertKit_Settings_OAuth extends ConvertKit_Settings_Base {
 	public function render() {
 
 		// Determine the OAuth URL to begin the authorization process.
-		$api       = new ConvertKit_API( CONVERTKIT_OAUTH_CLIENT_ID, admin_url( 'options-general.php?page=_wp_convertkit_settings' ) );
-		$oauth_url = $api->get_oauth_url();
+		$api       = new ConvertKit_API( CONVERTKIT_OAUTH_CLIENT_ID, CONVERTKIT_OAUTH_CLIENT_REDIRECT_URI );
+		$oauth_url = $api->get_oauth_url( admin_url( 'options-general.php?page=_wp_convertkit_settings' ) );
 
 		/**
 		 * Performs actions prior to rendering the settings form.

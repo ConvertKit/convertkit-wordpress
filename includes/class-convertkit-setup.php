@@ -106,7 +106,7 @@ class ConvertKit_Setup {
 		}
 
 		// Get Access Token by API Key and Secret.
-		$api    = new ConvertKit_API( CONVERTKIT_OAUTH_CLIENT_ID, admin_url( 'options-general.php?page=_wp_convertkit_settings' ) );
+		$api    = new ConvertKit_API( CONVERTKIT_OAUTH_CLIENT_ID, CONVERTKIT_OAUTH_CLIENT_REDIRECT_URI );
 		$result = $api->get_access_token_by_api_key_and_secret(
 			$convertkit_settings->get_api_key(),
 			$convertkit_settings->get_api_secret()

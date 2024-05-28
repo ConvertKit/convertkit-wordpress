@@ -125,7 +125,7 @@ class ConvertKit_Wishlist {
 		// Initialize the API.
 		$api = new ConvertKit_API(
 			CONVERTKIT_OAUTH_CLIENT_ID,
-			admin_url( 'options-general.php?page=_wp_convertkit_settings' ),
+			CONVERTKIT_OAUTH_CLIENT_REDIRECT_URI,
 			$settings->get_access_token(),
 			$settings->get_refresh_token(),
 			$settings->debug_enabled(),
@@ -171,7 +171,7 @@ class ConvertKit_Wishlist {
 		// Initialize the API.
 		$api = new ConvertKit_API(
 			CONVERTKIT_OAUTH_CLIENT_ID,
-			admin_url( 'options-general.php?page=_wp_convertkit_settings' ),
+			CONVERTKIT_OAUTH_CLIENT_REDIRECT_URI,
 			$settings->get_access_token(),
 			$settings->get_refresh_token(),
 			$settings->debug_enabled(),
@@ -208,7 +208,7 @@ class ConvertKit_Wishlist {
 		// Initialize the API.
 		$api = new ConvertKit_API(
 			CONVERTKIT_OAUTH_CLIENT_ID,
-			admin_url( 'options-general.php?page=_wp_convertkit_settings' ),
+			CONVERTKIT_OAUTH_CLIENT_REDIRECT_URI,
 			$settings->get_access_token(),
 			$settings->get_refresh_token(),
 			$settings->debug_enabled(),

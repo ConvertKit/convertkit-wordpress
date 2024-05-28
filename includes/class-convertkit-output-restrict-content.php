@@ -170,7 +170,7 @@ class ConvertKit_Output_Restrict_Content {
 		// Initialize the API.
 		$this->api = new ConvertKit_API(
 			CONVERTKIT_OAUTH_CLIENT_ID,
-			admin_url( 'options-general.php?page=_wp_convertkit_settings' ),
+			CONVERTKIT_OAUTH_CLIENT_REDIRECT_URI,
 			$this->settings->get_access_token(),
 			$this->settings->get_refresh_token(),
 			$this->settings->debug_enabled(),
@@ -278,7 +278,7 @@ class ConvertKit_Output_Restrict_Content {
 		// Initialize the API.
 		$this->api = new ConvertKit_API(
 			CONVERTKIT_OAUTH_CLIENT_ID,
-			admin_url( 'options-general.php?page=_wp_convertkit_settings' ),
+			CONVERTKIT_OAUTH_CLIENT_REDIRECT_URI,
 			$this->settings->get_access_token(),
 			$this->settings->get_refresh_token(),
 			$this->settings->debug_enabled(),
@@ -762,7 +762,7 @@ class ConvertKit_Output_Restrict_Content {
 		// Initialize the API.
 		$this->api = new ConvertKit_API(
 			CONVERTKIT_OAUTH_CLIENT_ID,
-			admin_url( 'options-general.php?page=_wp_convertkit_settings' ),
+			CONVERTKIT_OAUTH_CLIENT_REDIRECT_URI,
 			$this->settings->get_access_token(),
 			$this->settings->get_refresh_token(),
 			$this->settings->debug_enabled(),
