@@ -145,6 +145,10 @@ class PluginSetupWizardCest
 	 */
 	public function testSetupWizardConnectAccountScreenWithInvalidCredentials(AcceptanceTester $I)
 	{
+		// Define OAuth error code and description.
+		$error            = 'access_denied';
+		$errorDescription = 'The resource owner or authorization server denied the request.';
+
 		// Activate Plugin.
 		$this->_activatePlugin($I);
 
@@ -158,15 +162,15 @@ class PluginSetupWizardCest
 		$I->waitForElementVisible('body.sessions');
 		$I->seeInSource('oauth/authorize?client_id=' . $_ENV['CONVERTKIT_OAUTH_CLIENT_ID']);
 
-		// Act as if OAuth failed.
-		$I->setupConvertKitPluginFakeAPIKey($I);
-		$I->amOnAdminPage('options.php?page=convertkit-setup&step=2');
+		// Act as if OAuth failed i.e. the user didn't authenticate.
+		$I->amOnAdminPage('options.php?page=convertkit-setup&step=2&error=' . $error . '&error_description=' . urlencode($errorDescription));
 
 		// Confirm expected setup wizard screen is still displayed.
-		$this->_seeExpectedSetupWizardScreen($I, 2, 'Connect your ConvertKit account');
+		$this->_seeExpectedSetupWizardScreen($I, 1, 'Welcome to the ConvertKit Setup Wizard');
 
 		// Confirm error notification is displayed.
 		$I->seeElement('div.notice.notice-error.is-dismissible');
+		$I->see($errorDescription);
 
 		// Dismiss notification.
 		$I->click('div.notice-error button.notice-dismiss');
