@@ -46,8 +46,9 @@ class PostCest
 		// Check that an expected message is displayed.
 		$I->see('For the ConvertKit Plugin to function, please connect your ConvertKit account.');
 
-		// Check that a link to the OAuth auth screen exists.
-		$I->seeInSource('<a href="https://app.convertkit.com/oauth/authorize?client_id=' . $_ENV['CONVERTKIT_OAUTH_CLIENT_ID'] . '&amp;response_type=code&amp;redirect_uri=' . urlencode( $_ENV['TEST_SITE_WP_URL'] ) );
+		// Check that a link to the OAuth auth screen exists and includes the state parameter.
+		$I->seeInSource('<a href="https://app.convertkit.com/oauth/authorize?client_id=' . $_ENV['CONVERTKIT_OAUTH_CLIENT_ID'] . '&amp;response_type=code&amp;redirect_uri=' . urlencode( $_ENV['CONVERTKIT_OAUTH_REDIRECT_URI'] ) );
+		$I->seeInSource('&amp;state=' . urlencode( $_ENV['TEST_SITE_WP_URL'] . '/wp-admin/options-general.php?page=_wp_convertkit_settings' ) );
 
 		// Click the link.
 		$I->click('connect your ConvertKit account.');

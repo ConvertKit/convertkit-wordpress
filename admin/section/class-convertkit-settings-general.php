@@ -89,7 +89,7 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 		// Initialize the API.
 		$this->api = new ConvertKit_API(
 			CONVERTKIT_OAUTH_CLIENT_ID,
-			admin_url( 'options-general.php?page=_wp_convertkit_settings' ),
+			CONVERTKIT_OAUTH_CLIENT_REDIRECT_URI,
 			$this->settings->get_access_token(),
 			$this->settings->get_refresh_token(),
 			$this->settings->debug_enabled(),
