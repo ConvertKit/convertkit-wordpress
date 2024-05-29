@@ -311,6 +311,7 @@ class ConvertKit_Output {
 			return $hooked_blocks;
 		}
 
+		// @TODO Read settings to fetch position.
 		if ( $position !== 'after' ) {
 			return $hooked_blocks;
 		}

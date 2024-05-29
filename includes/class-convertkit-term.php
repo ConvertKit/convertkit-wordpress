@@ -56,6 +56,16 @@ class ConvertKit_Term {
 			$meta = $this->get_default_settings();
 		}
 
+		// If a string, convert to array.
+		if ( is_string( $meta ) ) {
+			$meta = array(
+				'form' => $meta,
+				'position' => '',
+			);
+		}
+
+		var_dump( $meta );
+
 		// Assign Term's Settings to the object.
 		$this->settings = $meta;
 
@@ -83,7 +93,7 @@ class ConvertKit_Term {
 	 */
 	public function get_form() {
 
-		return $this->settings;
+		return $this->settings['form'];
 
 	}
 
@@ -96,20 +106,35 @@ class ConvertKit_Term {
 	 */
 	public function has_form() {
 
-		// Backward compat. for Terms created/edited prior to 1.9.6, where
-		// 'default' was used instead of zero to denote the Post / Post Type
-		// setting should be used for determining the Form to display.
-		// Using a comparison operator on 'default' will return different results in:
-		// PHP < 8.0: 'default' > 0 is false
-		// PHP 8.0+: 'default' > 0 is true
-		// See https://www.php.net/manual/en/language.operators.comparison.php.
-		if ( $this->settings === 'default' ) {
-			return false;
-		}
+		return ( $this->settings['form'] > 0 );
 
-		// If the setting is greater than zero, it's a specific Form ID that
-		// should be used for Posts assigned to this Category.
-		return ( $this->settings > 0 );
+	}
+
+	/**
+	 * Returns the form position setting for the Term
+	 * on the Term archive.
+	 *
+	 * @since   2.5.0
+	 *
+	 * @return  string
+	 */
+	public function get_position() {
+
+		return $this->settings['position'];
+
+	}
+
+	/**
+	 * Whether the Term has a ConvertKit Form Position defined
+	 * for the Term archive.
+	 *
+	 * @since   2.5.0
+	 *
+	 * @return  bool
+	 */
+	public function has_position() {
+
+		return ( $this->settings['position'] !== '' );
 
 	}
 
@@ -118,7 +143,8 @@ class ConvertKit_Term {
 	 *
 	 * @since   1.9.6
 	 *
-	 * @param   string $meta   Settings.
+	 * @param   array $meta   Settings.
+	 * @return  bool          Term Meta was updated
 	 */
 	public function save( $meta ) {
 
@@ -132,11 +158,14 @@ class ConvertKit_Term {
 	 *
 	 * @since   1.9.6
 	 *
-	 * @return  string
+	 * @return  array
 	 */
 	public function get_default_settings() {
 
-		$defaults = '';
+		$defaults = array(
+			'form' => '',
+			'position' => '',
+		);
 
 		/**
 		 * The default settings, used to populate the Term's Settings when a Term
@@ -144,7 +173,7 @@ class ConvertKit_Term {
 		 *
 		 * @since   1.9.6
 		 *
-		 * @param   string  $defaults   Default Form
+		 * @param   array  $defaults   Default Form
 		 */
 		$defaults = apply_filters( 'convertkit_term_get_default_settings', $defaults );
 

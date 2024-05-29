@@ -43,6 +43,22 @@
 				?>
 			</p>
 		</div>
+	</td>
+</tr>
+<tr class="form-field">
+	<th scope="row">
+		<label for="wp-convertkit-position"><?php esc_html_e( 'Display on Archive?', 'convertkit' ); ?></label>
+	</th>
+	<td>
+	
+		<div class="convertkit-select2-container convertkit-select2-container-grid">
+			<select name="wp-convertkit[position]" size="1">
+				<option value="">No</option>
+				<option value="above">Before Posts</option>
+				<option value="below">After Posts</option>
+			</select>
+		</div>
+
 		<?php
 		wp_nonce_field( 'wp-convertkit-save-meta', 'wp-convertkit-save-meta-nonce' );
 		?>
