@@ -303,11 +303,7 @@ class ConvertKit_Output {
 			return $hooked_blocks;
 		}
 
-		// Don't append if we cannot get the context.
-		if ( ! is_array( $context ) ) {
-			return $hooked_blocks;
-		}
-		if ( ! isset( $context['slug'] ) ) {
+		if ( $context instanceof WP_Block_Template && $context->slug !== 'archive' ) {
 			return $hooked_blocks;
 		}
 
