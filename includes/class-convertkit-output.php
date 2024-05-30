@@ -284,7 +284,7 @@ class ConvertKit_Output {
 	}
 
 	/**
-	 * Registers the ConvertKit Form block to display immediately after the Taxonomy Query Loop block, when viewing a taxonomy archive.
+	 * Registers the ConvertKit Form block to before or after the Query Loop block, when viewing a Category archive.
 	 *
 	 * See append_form_block_on_category_archive() configures the block to display the applicable category's Form.
 	 *
@@ -321,7 +321,7 @@ class ConvertKit_Output {
 		if ( ! $form_position ) {
 			// Unhook this function as we don't need to check again in this request, as we'll
 			// never output a form on the Category archive.
-			remove_filter( 'hooked_block_types', array( $this, 'maybe_register_form_block_on_category_archive' ), 10, 4 );
+			remove_filter( 'hooked_block_types', array( $this, 'maybe_register_form_block_on_category_archive' ), 10 );
 
 			return $hooked_blocks;
 		}
@@ -336,7 +336,7 @@ class ConvertKit_Output {
 
 		// Unhook this function as we don't need to check again in this request, as
 		// we have now appended the form.
-		remove_filter( 'hooked_block_types', array( $this, 'maybe_register_form_block_on_category_archive' ), 10, 4 );
+		remove_filter( 'hooked_block_types', array( $this, 'maybe_register_form_block_on_category_archive' ), 10 );
 
 		return $hooked_blocks;
 

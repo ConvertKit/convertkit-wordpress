@@ -99,7 +99,7 @@ class ConvertKit_Setup {
 				'fields'     => 'ids',
 				'meta_query' => array(
 					array(
-						'key'        => 'ck_default_form',
+						'key'        => 'ck_default_formXXX',
 						'comparison' => 'EXISTS',
 					),
 				),
@@ -107,7 +107,7 @@ class ConvertKit_Setup {
 		);
 
 		// Bail if no Terms exist.
-		if ( is_null( $query->terms ) ) {
+		if ( ! $query->terms ) {
 			return;
 		}
 

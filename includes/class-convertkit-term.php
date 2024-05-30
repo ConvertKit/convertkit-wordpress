@@ -32,7 +32,7 @@ class ConvertKit_Term {
 	/**
 	 * Holds the Term's Settings
 	 *
-	 * @var     bool|string
+	 * @var     bool|array
 	 */
 	private $settings = false;
 
@@ -66,7 +66,7 @@ class ConvertKit_Term {
 	 *
 	 * @since   1.9.6
 	 *
-	 * @return  string
+	 * @return  array
 	 */
 	public function get() {
 
