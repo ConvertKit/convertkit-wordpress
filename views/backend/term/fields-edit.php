@@ -47,13 +47,13 @@
 </tr>
 <tr class="form-field">
 	<th scope="row">
-		<label for="wp-convertkit-position"><?php esc_html_e( 'Display on Archive?', 'convertkit' ); ?></label>
+		<label for="wp-convertkit-form-position"><?php esc_html_e( 'Display ConvertKit Form on Archive?', 'convertkit' ); ?></label>
 	</th>
 	<td>
-		<select name="wp-convertkit[position]" size="1">
+		<select name="wp-convertkit[form_position]" id="wp-convertkit-form-position" size="1">
 			<option value=""><?php _e( 'No', 'convertkit' ); ?></option>
-			<option value="above"<?php selected( 'above', $convertkit_term->get_position() ); ?>><?php esc_attr_e( 'Before Posts', 'convertkit' ); ?></option>
-			<option value="below"<?php selected( 'below', $convertkit_term->get_position() ); ?>><?php esc_attr_e( 'After Posts', 'convertkit' ); ?></option>
+			<option value="before"<?php selected( 'before', $convertkit_term->get_form_position() ); ?>><?php esc_attr_e( 'Before Posts', 'convertkit' ); ?></option>
+			<option value="after"<?php selected( 'after', $convertkit_term->get_form_position() ); ?>><?php esc_attr_e( 'After Posts', 'convertkit' ); ?></option>
 		</select>
 		<p class="description">
 			<?php

@@ -201,7 +201,7 @@ class ConvertKit_Admin_Category {
 		// Build metadata.
 		$meta = array(
 			'form' 		=> ( isset( $_POST['wp-convertkit']['form'] ) ? intval( $_POST['wp-convertkit']['form'] ) : '' ),
-			'position' 	=> ( isset( $_POST['wp-convertkit']['position'] ) ? $_POST['wp-convertkit']['position'] : '' ),
+			'form_position' 	=> ( isset( $_POST['wp-convertkit']['form_position'] ) ? $_POST['wp-convertkit']['form_position'] : '' ),
 		);
 
 		// Save metadata.

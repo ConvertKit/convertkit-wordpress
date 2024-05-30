@@ -108,9 +108,9 @@ class ConvertKit_Term {
 	 *
 	 * @return  string
 	 */
-	public function get_position() {
+	public function get_form_position() {
 
-		return $this->settings['position'];
+		return $this->settings['form_position'];
 
 	}
 
@@ -122,9 +122,9 @@ class ConvertKit_Term {
 	 *
 	 * @return  bool
 	 */
-	public function has_position() {
+	public function has_form_position() {
 
-		return ( $this->settings['position'] !== '' );
+		return ( $this->settings['form_position'] !== '' );
 
 	}
 
@@ -153,8 +153,8 @@ class ConvertKit_Term {
 	public function get_default_settings() {
 
 		$defaults = array(
-			'form' => '',
-			'position' => '',
+			'form' 			=> '',
+			'form_position' => '',
 		);
 
 		/**

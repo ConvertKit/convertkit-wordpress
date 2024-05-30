@@ -114,7 +114,7 @@ class ConvertKit_Setup {
 			$term_settings = new ConvertKit_Term( $term_id );
 			$term_settings->save( array(
 				'form' 	   => get_term_meta( $term_id, 'ck_default_form', true ), // Fetch form setting from old meta key.
-				'position' => '', // Default to no position.
+				'form_position' => '', // Default to no position.
 			) );
 
 			// Delete old Term meta.

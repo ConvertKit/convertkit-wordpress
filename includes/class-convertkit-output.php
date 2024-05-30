@@ -299,25 +299,40 @@ class ConvertKit_Output {
 			return $hooked_blocks;
 		}
 
+		// Don't append if we cannot get the context.
 		if ( ! is_array( $context ) ) {
 			return $hooked_blocks;
 		}
-
 		if ( ! isset( $context['slug'] ) ) {
 			return $hooked_blocks;
 		}
 
+		// Don't append if the anchor block isn't the Query Loop block.
 		if ( $anchor_block !== 'core/query' ) {
 			return $hooked_blocks;
 		}
 
-		// @TODO Read settings to fetch position.
-		if ( $position !== 'after' ) {
+		// Don't append if the Category's form position setting is not defined.
+		$form_position = $this->get_term_form_position();
+		if ( ! $form_position ) {
+			// Unhook this function as we don't need to check again in this request, as we'll
+			// never output a form on the Category archive.
+			// @TODO.
+
+			return $hooked_blocks;
+		}
+
+		// Don't append if the position doesn't match.
+		if ( $form_position !== $position ) {
 			return $hooked_blocks;
 		}
 
 		// Hook the ConvertKit Form block.
 		$hooked_blocks[] = 'convertkit/form';
+
+		// Unhook this function as we don't need to check again in this request, as
+		// we have now appended the form.
+		// @TODO.
 
 		return $hooked_blocks;
 
@@ -439,6 +454,30 @@ class ConvertKit_Output {
 
 		// If here, use the Plugin's Default Form.
 		return $this->settings->get_default_form( get_post_type( $post_id ) );
+
+	}
+
+	private function get_term_form_position() {
+
+		// Get Category archive being viewed.
+		$category = get_category( get_query_var( 'cat' ) );
+
+		// Bail if the Category could be found.
+		if ( is_wp_error( $category ) || is_null( $category ) ) {
+			return false;
+		}
+
+		// Load Term Settings.
+		$term_settings = new ConvertKit_Term( $category->term_id );
+
+		// Return false if no form position is defined i.e. we don't want to display
+		// it on the Category archive.
+		if ( ! $term_settings->has_form_position() ) {
+			return false;
+		}
+
+		// Return form position.
+		return $term_settings->get_form_position();
 
 	}
 
