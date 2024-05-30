@@ -153,7 +153,7 @@ class ConvertKit_Term {
 	public function get_default_settings() {
 
 		$defaults = array(
-			'form' 			=> '',
+			'form'          => '',
 			'form_position' => '',
 		);
 

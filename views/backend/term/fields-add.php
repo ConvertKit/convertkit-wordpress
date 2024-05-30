@@ -47,7 +47,7 @@
 	<label for="wp-convertkit-form-position"><?php esc_html_e( 'Display CovertKit Form on Archive?', 'convertkit' ); ?></label>
 
 	<select name="wp-convertkit[form_position]" id="wp-convertkit-form-position" size="1">
-		<option value="" selected><?php _e( 'No', 'convertkit' ); ?></option>
+		<option value="" selected><?php esc_attr_e( 'No', 'convertkit' ); ?></option>
 		<option value="before"><?php esc_attr_e( 'Before Posts', 'convertkit' ); ?></option>
 		<option value="after"><?php esc_attr_e( 'After Posts', 'convertkit' ); ?></option>
 	</select>

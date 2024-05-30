@@ -73,7 +73,7 @@ class ConvertKit_Output {
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		add_filter( 'the_content', array( $this, 'append_form_to_content' ) );
 		add_filter( 'hooked_block_types', array( $this, 'maybe_register_form_block_on_category_archive' ), 10, 4 );
-		add_filter( 'hooked_block_convertkit/form', array( $this, 'append_form_block_to_category_archive' ), 10, 5 );
+		add_filter( 'hooked_block_convertkit/form', array( $this, 'append_form_block_to_category_archive' ), 10, 1 );
 		add_action( 'wp_footer', array( $this, 'output_global_non_inline_form' ), 1 );
 		add_action( 'wp_footer', array( $this, 'output_scripts_footer' ) );
 
@@ -285,12 +285,16 @@ class ConvertKit_Output {
 
 	/**
 	 * Registers the ConvertKit Form block to display immediately after the Taxonomy Query Loop block, when viewing a taxonomy archive.
-	 * 
-	 * append_form_block_on_category_archive() configures the block to display the applicable category's Form.
-	 * 
-	 * @since 	2.5.0
-	 * 
-	 * @TODO
+	 *
+	 * See append_form_block_on_category_archive() configures the block to display the applicable category's Form.
+	 *
+	 * @since   2.5.0
+	 *
+	 * @param   array                           $hooked_blocks              The list of hooked block types.
+	 * @param   string                          $position                   The relative position of the hooked blocks.
+	 * @param   string                          $anchor_block               The anchor block type.
+	 * @param   WP_Block_Template|WP_Post|array $context                    The block template, template part, wp_navigation post type, or pattern that the anchor block belongs to.
+	 * @return  array
 	 */
 	public function maybe_register_form_block_on_category_archive( $hooked_blocks, $position, $anchor_block, $context ) {
 
@@ -317,7 +321,7 @@ class ConvertKit_Output {
 		if ( ! $form_position ) {
 			// Unhook this function as we don't need to check again in this request, as we'll
 			// never output a form on the Category archive.
-			// @TODO.
+			remove_filter( 'hooked_block_types', array( $this, 'maybe_register_form_block_on_category_archive' ), 10, 4 );
 
 			return $hooked_blocks;
 		}
@@ -332,7 +336,7 @@ class ConvertKit_Output {
 
 		// Unhook this function as we don't need to check again in this request, as
 		// we have now appended the form.
-		// @TODO.
+		remove_filter( 'hooked_block_types', array( $this, 'maybe_register_form_block_on_category_archive' ), 10, 4 );
 
 		return $hooked_blocks;
 
@@ -341,12 +345,13 @@ class ConvertKit_Output {
 	/**
 	 * Configures the ConvertKit Form block that was hooked below the Query Loop block by maybe_register_form_block_on_category_archive,
 	 * defining the Form ID based on the current Category's Form ID.
-	 * 
-	 * @since 	2.5.0
-	 * 
-	 * @TODO
+	 *
+	 * @since   2.5.0
+	 *
+	 * @param   array $parsed_hooked_block    The parsed block array for the given hooked block type, or null to suppress the block.
+	 * @return  null|array
 	 */
-	public function append_form_block_to_category_archive( $parsed_hooked_block, $hooked_block_type, $relative_position, $parsed_anchor_block, $context ) {
+	public function append_form_block_to_category_archive( $parsed_hooked_block ) {
 
 		// Sanity check that we're still viewing a Category archive.
 		if ( ! is_category() ) {
@@ -457,6 +462,13 @@ class ConvertKit_Output {
 
 	}
 
+	/**
+	 * Returns the Form Position setting for the currently viewed Category.
+	 *
+	 * @since   2.5.0
+	 *
+	 * @return  bool|string
+	 */
 	private function get_term_form_position() {
 
 		// Get Category archive being viewed.

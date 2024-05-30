@@ -51,7 +51,7 @@
 	</th>
 	<td>
 		<select name="wp-convertkit[form_position]" id="wp-convertkit-form-position" size="1">
-			<option value=""><?php _e( 'No', 'convertkit' ); ?></option>
+			<option value=""><?php esc_attr_e( 'No', 'convertkit' ); ?></option>
 			<option value="before"<?php selected( 'before', $convertkit_term->get_form_position() ); ?>><?php esc_attr_e( 'Before Posts', 'convertkit' ); ?></option>
 			<option value="after"<?php selected( 'after', $convertkit_term->get_form_position() ); ?>><?php esc_attr_e( 'After Posts', 'convertkit' ); ?></option>
 		</select>
