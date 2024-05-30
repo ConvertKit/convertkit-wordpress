@@ -50,15 +50,17 @@
 		<label for="wp-convertkit-position"><?php esc_html_e( 'Display on Archive?', 'convertkit' ); ?></label>
 	</th>
 	<td>
+		<select name="wp-convertkit[position]" size="1">
+			<option value=""><?php _e( 'No', 'convertkit' ); ?></option>
+			<option value="above"<?php selected( 'above', $convertkit_term->get_position() ); ?>><?php esc_attr_e( 'Before Posts', 'convertkit' ); ?></option>
+			<option value="below"<?php selected( 'below', $convertkit_term->get_position() ); ?>><?php esc_attr_e( 'After Posts', 'convertkit' ); ?></option>
+		</select>
+		<p class="description">
+			<?php
+			esc_html_e( 'Whether to display the Form on this Category\'s archive page, above or below the main Query Loop block.', 'convertkit' );
+			?>
+		</p>
 	
-		<div class="convertkit-select2-container convertkit-select2-container-grid">
-			<select name="wp-convertkit[position]" size="1">
-				<option value="">No</option>
-				<option value="above">Before Posts</option>
-				<option value="below">After Posts</option>
-			</select>
-		</div>
-
 		<?php
 		wp_nonce_field( 'wp-convertkit-save-meta', 'wp-convertkit-save-meta-nonce' );
 		?>

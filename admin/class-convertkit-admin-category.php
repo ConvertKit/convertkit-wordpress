@@ -199,8 +199,10 @@ class ConvertKit_Admin_Category {
 		}
 
 		// Build metadata.
-		// @TODO update to support position.
-		$meta = ( isset( $_POST['wp-convertkit']['form'] ) ? intval( $_POST['wp-convertkit']['form'] ) : '' );
+		$meta = array(
+			'form' 		=> ( isset( $_POST['wp-convertkit']['form'] ) ? intval( $_POST['wp-convertkit']['form'] ) : '' ),
+			'position' 	=> ( isset( $_POST['wp-convertkit']['position'] ) ? $_POST['wp-convertkit']['position'] : '' ),
+		);
 
 		// Save metadata.
 		$convertkit_term = new ConvertKit_Term( $term_id );
