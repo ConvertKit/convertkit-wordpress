@@ -99,7 +99,7 @@ class ConvertKit_Setup {
 				'fields'     => 'ids',
 				'meta_query' => array(
 					array(
-						'key'        => 'ck_default_formXXX',
+						'key'        => 'ck_default_form',
 						'comparison' => 'EXISTS',
 					),
 				),
