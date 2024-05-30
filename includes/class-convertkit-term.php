@@ -18,7 +18,7 @@ class ConvertKit_Term {
 	 *
 	 * @var     string
 	 */
-	const TERM_META_KEY = 'ck_default_form';
+	const TERM_META_KEY = '_wp_convertkit_term_meta';
 
 	/**
 	 * Holds the Term ID
@@ -55,16 +55,6 @@ class ConvertKit_Term {
 			// Fallback to default settings.
 			$meta = $this->get_default_settings();
 		}
-
-		// If a string, convert to array.
-		if ( is_string( $meta ) ) {
-			$meta = array(
-				'form' => $meta,
-				'position' => '',
-			);
-		}
-
-		var_dump( $meta );
 
 		// Assign Term's Settings to the object.
 		$this->settings = $meta;
