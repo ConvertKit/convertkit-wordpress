@@ -214,9 +214,11 @@ class CategoryFormCest
 		$I->checkNoWarningsAndNoticesOnScreen($I);
 
 		// Confirm form is after closing h1 element.
-		$I->seeInSource('</h1>
+		$I->seeInSource(
+			'</h1>
 
-	<form action="https://app.convertkit.com/forms/' . $_ENV['CONVERTKIT_API_FORM_ID'] . '/subscriptions"');
+	<form action="https://app.convertkit.com/forms/' . $_ENV['CONVERTKIT_API_FORM_ID'] . '/subscriptions"'
+		);
 
 		// Confirm that one ConvertKit Form is output in the DOM.
 		// This confirms that there is only one script on the page for this form, which renders the form.
@@ -275,8 +277,10 @@ class CategoryFormCest
 		$I->checkNoWarningsAndNoticesOnScreen($I);
 
 		// Confirm form is after closing div element.
-		$I->seeInSource('</div>
-	<form action="https://app.convertkit.com/forms/' . $_ENV['CONVERTKIT_API_FORM_ID'] . '/subscriptions"');
+		$I->seeInSource(
+			'</div>
+	<form action="https://app.convertkit.com/forms/' . $_ENV['CONVERTKIT_API_FORM_ID'] . '/subscriptions"'
+		);
 
 		// Confirm that one ConvertKit Form is output in the DOM.
 		// This confirms that there is only one script on the page for this form, which renders the form.
@@ -356,9 +360,11 @@ class CategoryFormCest
 		$I->checkNoWarningsAndNoticesOnScreen($I);
 
 		// Confirm form is after closing h1 element.
-		$I->seeInSource('</h1>
+		$I->seeInSource(
+			'</h1>
 
-	<form action="https://app.convertkit.com/forms/' . $_ENV['CONVERTKIT_API_FORM_ID'] . '/subscriptions"');
+	<form action="https://app.convertkit.com/forms/' . $_ENV['CONVERTKIT_API_FORM_ID'] . '/subscriptions"'
+		);
 
 		// Confirm that one ConvertKit Form is output in the DOM.
 		// This confirms that there is only one script on the page for this form, which renders the form.
@@ -438,8 +444,10 @@ class CategoryFormCest
 		$I->checkNoWarningsAndNoticesOnScreen($I);
 
 		// Confirm form is after closing div element.
-		$I->seeInSource('</div>
-	<form action="https://app.convertkit.com/forms/' . $_ENV['CONVERTKIT_API_FORM_ID'] . '/subscriptions"');
+		$I->seeInSource(
+			'</div>
+	<form action="https://app.convertkit.com/forms/' . $_ENV['CONVERTKIT_API_FORM_ID'] . '/subscriptions"'
+		);
 
 		// Confirm that one ConvertKit Form is output in the DOM.
 		// This confirms that there is only one script on the page for this form, which renders the form.
@@ -507,9 +515,9 @@ class CategoryFormCest
 	/**
 	 * Tests that existing Category settings stored in the Term Meta key [] are
 	 * automatically migrated when updating the Plugin to 2.5.0 or higher.
-	 * 
-	 * @since 	2.5.0
-	 * 
+	 *
+	 * @since   2.5.0
+	 *
 	 * @param   AcceptanceTester $I  Tester.
 	 */
 	public function testCategorySettingsMigratedOnUpgrade(AcceptanceTester $I)
@@ -545,18 +553,22 @@ class CategoryFormCest
 		$I->amOnAdminPage('index.php');
 
 		// Check Category settings structure has been updated to the new meta key.
-		$I->dontSeeTermMetaInDatabase([
-			'term_id' => $termID,
-			'meta_key' => 'ck_default_form',
-		]);
-		$I->seeTermMetaInDatabase([
-			'term_id' => $termID,
-			'meta_key' => '_wp_convertkit_term_meta',
-			'meta_value' => [
-				'form' => $_ENV['CONVERTKIT_API_FORM_ID'],
-				'form_position' => '',
-			],
-		]);
+		$I->dontSeeTermMetaInDatabase(
+			[
+				'term_id'  => $termID,
+				'meta_key' => 'ck_default_form',
+			]
+		);
+		$I->seeTermMetaInDatabase(
+			[
+				'term_id'    => $termID,
+				'meta_key'   => '_wp_convertkit_term_meta',
+				'meta_value' => [
+					'form'          => $_ENV['CONVERTKIT_API_FORM_ID'],
+					'form_position' => '',
+				],
+			]
+		);
 
 		// Load the Post on the frontend site.
 		$I->amOnPage('/?p=' . $postID);
