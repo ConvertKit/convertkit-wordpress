@@ -17,6 +17,7 @@
  * @param   int     post_id         WordPress Post ID
  */
 function convertKitTagSubscriber( subscriber_id, tag, post_id ) {
+
 	if ( convertkit.debug ) {
 		console.log( 'convertKitTagSubscriber' );
 		console.log( convertkit );
@@ -40,7 +41,7 @@ function convertKitTagSubscriber( subscriber_id, tag, post_id ) {
 					tag: tag,
 					post_id: post_id,
 				}
-			),
+			)
 		}
 	)
 	.then(
@@ -70,6 +71,7 @@ function convertKitTagSubscriber( subscriber_id, tag, post_id ) {
 			convertKitRemoveSubscriberIDFromURL( window.location.href );
 		}
 	);
+
 }
 
 /**
@@ -86,6 +88,7 @@ function convertKitTagSubscriber( subscriber_id, tag, post_id ) {
  * @param   int  id   Subscriber ID
  */
 function convertStoreSubscriberIDInCookie( subscriber_id ) {
+
 	if ( convertkit.debug ) {
 		console.log( "convertStoreSubscriberIDInCookie" );
 		console.log( subscriber_id );
@@ -102,7 +105,7 @@ function convertStoreSubscriberIDInCookie( subscriber_id ) {
 				{
 					action: 'convertkit_store_subscriber_id_in_cookie',
 					convertkit_nonce: convertkit.nonce,
-					subscriber_id: subscriber_id,
+					subscriber_id: subscriber_id
 				}
 			),
 		}
@@ -143,6 +146,7 @@ function convertStoreSubscriberIDInCookie( subscriber_id ) {
 			convertKitRemoveSubscriberIDFromURL( window.location.href );
 		}
 	);
+
 }
 
 /**
@@ -175,9 +179,9 @@ function convertStoreSubscriberEmailAsIDInCookie( emailAddress ) {
 				{
 					action: 'convertkit_store_subscriber_email_as_id_in_cookie',
 					convertkit_nonce: convertkit.nonce,
-					email: emailAddress,
+					email: emailAddress
 				}
-			),
+			)
 		}
 	)
 	.then(
@@ -201,6 +205,7 @@ function convertStoreSubscriberEmailAsIDInCookie( emailAddress ) {
 			}
 		}
 	);
+
 }
 
 /**
@@ -214,11 +219,13 @@ function convertStoreSubscriberEmailAsIDInCookie( emailAddress ) {
  * @param url
  */
 function convertKitRemoveSubscriberIDFromURL( url ) {
-	var clean_url = url.substring( 0, url.indexOf( '?ck_subscriber_id' ) );
-	var title     = document.getElementsByTagName( 'title' )[0].innerHTML;
-	if (clean_url) {
+
+	var clean_url = url.substring( 0, url.indexOf( "?ck_subscriber_id" ) );
+	var title     = document.getElementsByTagName( "title" )[0].innerHTML;
+	if ( clean_url ) {
 		window.history.pushState( null, title, clean_url );
 	}
+
 }
 
 /**
@@ -229,12 +236,14 @@ function convertKitRemoveSubscriberIDFromURL( url ) {
  * @param   int     milliseconds
  */
 function convertKitSleep( milliseconds ) {
+
 	var start = new Date().getTime();
 	for (var i = 0; i < 1e7; i++) {
 		if ( new Date().getTime() - start > milliseconds ) {
 			break;
 		}
 	}
+
 }
 
 /**
@@ -257,16 +266,13 @@ function convertKitEmitCustomEvent( eventName, detail ) {
  * Register events
  */
 document.addEventListener(
-	"DOMContentLoaded",
+	'DOMContentLoaded',
 	function () {
+
 		if ( convertkit.subscriber_id > 0 && convertkit.tag && convertkit.post_id ) {
 			// If the user can be detected as a ConvertKit Subscriber (i.e. their Subscriber ID is in a cookie or the URL),
 			// and the Page/Post they are viewing has a Tag specified, subscribe them to the tag.
-			convertKitTagSubscriber(
-				convertkit.subscriber_id,
-				convertkit.tag,
-				convertkit.post_id
-			);
+			convertKitTagSubscriber( convertkit.subscriber_id, convertkit.tag, convertkit.post_id );
 		} else if ( convertkit.subscriber_id > 0 ) {
 			// If the user can be detected as a ConvertKit Subscriber (i.e. their Subscriber ID is in a cookie or the URL),
 			// update the cookie now.
@@ -278,9 +284,9 @@ document.addEventListener(
 			'click',
 			function (e) {
 				// Check if the form submit button was clicked, or the span element was clicked and its parent is the form submit button.
-				if ( ! e.target.matches( ".formkit-submit" ) && ! e.target.parentElement.matches( ".formkit-submit" ) ) {
+				if ( ! e.target.matches( '.formkit-submit' ) && ! e.target.parentElement.matches( '.formkit-submit' ) ) {
 					if ( convertkit.debug ) {
-							console.log( "not a ck form" );
+						console.log( 'not a ck form' );
 					}
 
 					return;
