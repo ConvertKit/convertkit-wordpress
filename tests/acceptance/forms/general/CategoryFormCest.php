@@ -32,11 +32,6 @@ class CategoryFormCest
 	 */
 	public function testAddCategoryWithValidFormSetting(AcceptanceTester $I)
 	{
-		// Activate and Setup ConvertKit plugin.
-		$I->activateConvertKitPlugin($I);
-		$I->setupConvertKitPlugin($I);
-		$I->setupConvertKitPluginResources($I);
-
 		// Navigate to Posts > Categories.
 		$I->amOnAdminPage('edit-tags.php?taxonomy=category');
 
@@ -98,11 +93,6 @@ class CategoryFormCest
 	 */
 	public function testEditCategoryWithValidFormSetting(AcceptanceTester $I)
 	{
-		// Activate and Setup ConvertKit plugin.
-		$I->activateConvertKitPlugin($I);
-		$I->setupConvertKitPlugin($I);
-		$I->setupConvertKitPluginResources($I);
-
 		// Create Category.
 		$termID = $I->haveTermInDatabase( 'ConvertKit: Edit Category', 'category' );
 		$termID = $termID[0];
@@ -174,11 +164,6 @@ class CategoryFormCest
 	 */
 	public function testAddCategoryWithFormPositionBefore(AcceptanceTester $I)
 	{
-		// Activate and Setup ConvertKit plugin.
-		$I->activateConvertKitPlugin($I);
-		$I->setupConvertKitPlugin($I);
-		$I->setupConvertKitPluginResources($I);
-
 		// Navigate to Posts > Categories.
 		$I->amOnAdminPage('edit-tags.php?taxonomy=category');
 
@@ -237,11 +222,6 @@ class CategoryFormCest
 	 */
 	public function testAddCategoryWithFormPositionAfter(AcceptanceTester $I)
 	{
-		// Activate and Setup ConvertKit plugin.
-		$I->activateConvertKitPlugin($I);
-		$I->setupConvertKitPlugin($I);
-		$I->setupConvertKitPluginResources($I);
-
 		// Navigate to Posts > Categories.
 		$I->amOnAdminPage('edit-tags.php?taxonomy=category');
 
@@ -299,11 +279,6 @@ class CategoryFormCest
 	 */
 	public function testEditCategoryWithFormPositionBefore(AcceptanceTester $I)
 	{
-		// Activate and Setup ConvertKit plugin.
-		$I->activateConvertKitPlugin($I);
-		$I->setupConvertKitPlugin($I);
-		$I->setupConvertKitPluginResources($I);
-
 		// Create Category.
 		$termID = $I->haveTermInDatabase( 'ConvertKit: Edit: Position: Before', 'category' );
 		$termID = $termID[0];
@@ -383,11 +358,6 @@ class CategoryFormCest
 	 */
 	public function testEditCategoryWithFormPositionAfter(AcceptanceTester $I)
 	{
-		// Activate and Setup ConvertKit plugin.
-		$I->activateConvertKitPlugin($I);
-		$I->setupConvertKitPlugin($I);
-		$I->setupConvertKitPluginResources($I);
-
 		// Create Category.
 		$termID = $I->haveTermInDatabase( 'ConvertKit: Edit: Position: After', 'category' );
 		$termID = $termID[0];
@@ -472,11 +442,6 @@ class CategoryFormCest
 	 */
 	public function testAddNewPostUsingDefaultFormWithCategoryCreatedBefore1960(AcceptanceTester $I)
 	{
-		// Activate and Setup ConvertKit plugin.
-		$I->activateConvertKitPlugin($I);
-		$I->setupConvertKitPlugin($I);
-		$I->setupConvertKitPluginResources($I);
-
 		// Create Category as if it were created / edited when the ConvertKit Plugin < 1.9.6.0
 		// was active.
 		$termID = $I->haveTermInDatabase(
@@ -500,6 +465,12 @@ class CategoryFormCest
 				],
 			]
 		);
+
+		// Downgrade the Plugin version to simulate an upgrade.
+		$I->haveOptionInDatabase('convertkit_version', '2.4.9');
+
+		// Load admin screen.
+		$I->amOnAdminPage('index.php');
 
 		// Load the Post on the frontend site.
 		$I->amOnPage('/?p=' . $postID);

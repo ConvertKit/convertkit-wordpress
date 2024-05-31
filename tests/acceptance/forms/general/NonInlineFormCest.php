@@ -371,7 +371,9 @@ class NonInlineFormCest
 			'category',
 			[
 				'meta' => [
-					'ck_default_form' => $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_ID'],
+					'_wp_convertkit_term_meta' => [
+						'form' => $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_ID'],
+					],
 				],
 			]
 		);
