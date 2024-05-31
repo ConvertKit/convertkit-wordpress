@@ -191,8 +191,6 @@ class PageLandingPageCest
 	 */
 	public function testAddNewPageUsingDefinedLegacyLandingPage(AcceptanceTester $I)
 	{
-		$I->markTestIncomplete();
-
 		// Add a Page using the Gutenberg editor.
 		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Landing Page: ' . $_ENV['CONVERTKIT_API_LEGACY_LANDING_PAGE_NAME']);
 
@@ -229,8 +227,6 @@ class PageLandingPageCest
 	 */
 	public function testLegacyLandingPageSiteIcon(AcceptanceTester $I)
 	{
-		$I->markTestIncomplete();
-
 		// Define a WordPress Site Icon.
 		$imageID = $I->haveAttachmentInDatabase(codecept_data_dir('icon.png'));
 		$I->haveOptionInDatabase('site_icon', $imageID);
