@@ -168,7 +168,7 @@ class ConvertKit_Output_Restrict_Content {
 		}
 
 		// Initialize the API.
-		$this->api = new ConvertKit_API(
+		$this->api = new ConvertKit_API_V4(
 			CONVERTKIT_OAUTH_CLIENT_ID,
 			admin_url( 'options-general.php?page=_wp_convertkit_settings' ),
 			$this->settings->get_access_token(),
@@ -276,7 +276,7 @@ class ConvertKit_Output_Restrict_Content {
 		$this->post_id = absint( sanitize_text_field( $_REQUEST['convertkit_post_id'] ) );
 
 		// Initialize the API.
-		$this->api = new ConvertKit_API(
+		$this->api = new ConvertKit_API_V4(
 			CONVERTKIT_OAUTH_CLIENT_ID,
 			admin_url( 'options-general.php?page=_wp_convertkit_settings' ),
 			$this->settings->get_access_token(),
@@ -760,7 +760,7 @@ class ConvertKit_Output_Restrict_Content {
 	private function subscriber_has_access( $subscriber_id ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter
 
 		// Initialize the API.
-		$this->api = new ConvertKit_API(
+		$this->api = new ConvertKit_API_V4(
 			CONVERTKIT_OAUTH_CLIENT_ID,
 			admin_url( 'options-general.php?page=_wp_convertkit_settings' ),
 			$this->settings->get_access_token(),

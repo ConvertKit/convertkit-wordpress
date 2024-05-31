@@ -123,7 +123,7 @@ class ConvertKit_Forminator {
 
 		// If here, subscribe the user to the ConvertKit Form.
 		// Initialize the API.
-		$api = new ConvertKit_API(
+		$api = new ConvertKit_API_V4(
 			CONVERTKIT_OAUTH_CLIENT_ID,
 			admin_url( 'options-general.php?page=_wp_convertkit_settings' ),
 			$settings->get_access_token(),
