@@ -129,8 +129,6 @@ class PageFormCest
 	 */
 	public function testAddNewPageUsingDefaultLegacyForm(AcceptanceTester $I)
 	{
-		$I->markTestIncomplete();
-
 		// Setup ConvertKit plugin to use legacy Form as default for Pages.
 		$I->setupConvertKitPlugin(
 			$I,
@@ -521,8 +519,6 @@ class PageFormCest
 	 */
 	public function testAddNewPageUsingDefinedLegacyForm(AcceptanceTester $I)
 	{
-		$I->markTestIncomplete();
-
 		// Setup ConvertKit plugin.
 		$I->setupConvertKitPlugin($I);
 		$I->setupConvertKitPluginResources($I);
