@@ -19,7 +19,7 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 	 *
 	 * @since   1.9.6
 	 *
-	 * @var     ConvertKit_API
+	 * @var     ConvertKit_API_V4
 	 */
 	private $api;
 

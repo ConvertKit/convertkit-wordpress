@@ -85,7 +85,7 @@ class ConvertKit_Output_Restrict_Content {
 	 *
 	 * @since   2.1.0
 	 *
-	 * @var     bool|ConvertKit_API
+	 * @var     bool|ConvertKit_API_V4
 	 */
 	public $api = false;
 
