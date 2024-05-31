@@ -145,6 +145,10 @@ class PluginSetupWizardCest
 	 */
 	public function testSetupWizardConnectAccountScreenWithInvalidCredentials(AcceptanceTester $I)
 	{
+		// Define OAuth error code and description.
+		$error            = 'access_denied';
+		$errorDescription = 'The resource owner or authorization server denied the request.';
+
 		// Activate Plugin.
 		$this->_activatePlugin($I);
 
@@ -158,15 +162,15 @@ class PluginSetupWizardCest
 		$I->waitForElementVisible('body.sessions');
 		$I->seeInSource('oauth/authorize?client_id=' . $_ENV['CONVERTKIT_OAUTH_CLIENT_ID']);
 
-		// Act as if OAuth failed.
-		$I->setupConvertKitPluginFakeAPIKey($I);
-		$I->amOnAdminPage('options.php?page=convertkit-setup&step=2');
+		// Act as if OAuth failed i.e. the user didn't authenticate.
+		$I->amOnAdminPage('options.php?page=convertkit-setup&step=2&error=' . $error . '&error_description=' . urlencode($errorDescription));
 
 		// Confirm expected setup wizard screen is still displayed.
-		$this->_seeExpectedSetupWizardScreen($I, 2, 'Connect your ConvertKit account');
+		$this->_seeExpectedSetupWizardScreen($I, 1, 'Welcome to the ConvertKit Setup Wizard');
 
 		// Confirm error notification is displayed.
 		$I->seeElement('div.notice.notice-error.is-dismissible');
+		$I->see($errorDescription);
 
 		// Dismiss notification.
 		$I->click('div.notice-error button.notice-dismiss');
@@ -443,6 +447,54 @@ class PluginSetupWizardCest
 				$I->dontSeeElementInDOM('#convertkit-setup-wizard-footer div.right a.button');
 				break;
 		}
+	}
+
+	/**
+	 * Tests that a slimline modal version of the Plugin Setup Wizard is displayed
+	 * when the `convertkit-modal` request parameter is included.
+	 *
+	 * @since   2.2.6
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testSetupWizardModal(AcceptanceTester $I)
+	{
+		// Activate ConvertKit Plugin.
+		$I->activateConvertKitPlugin($I);
+
+		// Manually navigate to the Plugin Setup Wizard; this will be performed via a block
+		// in a future PR, so this test can be moved to e.g. PageBlockFormCest.
+		$I->amOnAdminPage('options.php?page=convertkit-setup&convertkit-modal=1');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Confirm no logo or progress bar is displayed.
+		$I->dontSeeElementInDOM('#convertkit-setup-wizard-header');
+
+		// Confirm no exit wizard link is displayed.
+		$I->dontSeeElementInDOM('#convertkit-setup-wizard-exit-link');
+
+		// Confirm expected title is displayed.
+		$I->see('Welcome to the ConvertKit Setup Wizard');
+
+		// Confirm Step text is not displayed, as there's only one step so no point
+		// displaying this in the modal.
+		$I->dontSee('Step 1');
+
+		// Test Connect button.
+		$I->click('Connect');
+
+		// Confirm the ConvertKit hosted OAuth login screen is displayed.
+		$I->waitForElementVisible('body.sessions');
+		$I->seeInSource('oauth/authorize?client_id=' . $_ENV['CONVERTKIT_OAUTH_CLIENT_ID']);
+
+		// Act as if we completed OAuth.
+		$I->setupConvertKitPluginNoDefaultForms($I);
+		$I->amOnAdminPage('options.php?page=convertkit-setup&step=2&convertkit-modal=1');
+
+		// Confirm the close modal view was loaded, which includes some JS.
+		$I->seeInSource('self.close();');
 	}
 
 	/**

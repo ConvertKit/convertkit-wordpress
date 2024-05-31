@@ -211,6 +211,14 @@ class ConvertKit_Admin_Setup_Wizard_Plugin extends ConvertKit_Admin_Setup_Wizard
 		// Depending on the step, process the form data.
 		switch ( $step ) {
 			case 2:
+				// If an error occured from OAuth i.e. the user did not authorize, show it now.
+				if ( array_key_exists( 'error', $_REQUEST ) && array_key_exists( 'error_description', $_REQUEST ) ) {
+					// Decrement the step.
+					$this->step  = ( $this->step - 1 );
+					$this->error = sanitize_text_field( $_REQUEST['error_description'] );
+					return;
+				}
+
 				// Bail if no authorization code is included in the request.
 				if ( ! array_key_exists( 'code', $_REQUEST ) ) { // phpcs:ignore WordPress.Security.NonceVerification
 					return;
