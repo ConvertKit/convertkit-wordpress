@@ -88,7 +88,7 @@ if ( ! $this->forms->exist() ) {
 
 	<div>
 		<label for="wp-convertkit-form-pages">
-			<?php esc_html_e( 'Which form would you like to display below all Pages?', 'convertkit' ); ?>
+			<?php esc_html_e( 'Which form would you like to display below all pages?', 'convertkit' ); ?>
 		</label>
 
 		<?php
