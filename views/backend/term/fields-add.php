@@ -53,7 +53,7 @@
 	</select>
 	<p class="description">
 		<?php
-		esc_html_e( 'Whether to display the Form on this Category\'s archive page, above or below the main Query Loop block.', 'convertkit' );
+		esc_html_e( 'Whether to display the Form on this Category\'s archive page, above or below the main posts list.', 'convertkit' );
 		?>
 	</p>
 
