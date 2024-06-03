@@ -72,6 +72,8 @@ class ConvertKit_Output {
 		add_action( 'template_redirect', array( $this, 'page_takeover' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		add_filter( 'the_content', array( $this, 'append_form_to_content' ) );
+		add_filter( 'hooked_block_types', array( $this, 'maybe_register_form_block_on_category_archive' ), 10, 4 );
+		add_filter( 'hooked_block_convertkit/form', array( $this, 'append_form_block_to_category_archive' ), 10, 1 );
 		add_action( 'wp_footer', array( $this, 'output_global_non_inline_form' ), 1 );
 		add_action( 'wp_footer', array( $this, 'output_scripts_footer' ) );
 
@@ -282,6 +284,106 @@ class ConvertKit_Output {
 	}
 
 	/**
+	 * Registers the ConvertKit Form block to before or after the Query Loop block, when viewing a Category archive.
+	 *
+	 * See append_form_block_on_category_archive() configures the block to display the applicable category's Form.
+	 *
+	 * @since   2.5.0
+	 *
+	 * @param   array                           $hooked_blocks              The list of hooked block types.
+	 * @param   string                          $position                   The relative position of the hooked blocks.
+	 * @param   string                          $anchor_block               The anchor block type.
+	 * @param   WP_Block_Template|WP_Post|array $context                    The block template, template part, wp_navigation post type, or pattern that the anchor block belongs to.
+	 * @return  array
+	 */
+	public function maybe_register_form_block_on_category_archive( $hooked_blocks, $position, $anchor_block, $context ) {
+
+		// Don't append if we're not viewing a category archive.
+		if ( ! is_category() ) {
+			return $hooked_blocks;
+		}
+
+		if ( $context instanceof WP_Block_Template && $context->slug !== 'archive' ) {
+			return $hooked_blocks;
+		}
+
+		// Don't append if the anchor block isn't the Query Loop block.
+		if ( $anchor_block !== 'core/query' ) {
+			return $hooked_blocks;
+		}
+
+		// Don't append if the Category's form position setting is not defined.
+		$form_position = $this->get_term_form_position();
+		if ( ! $form_position ) {
+			// Unhook this function as we don't need to check again in this request, as we'll
+			// never output a form on the Category archive.
+			remove_filter( 'hooked_block_types', array( $this, 'maybe_register_form_block_on_category_archive' ), 10 );
+
+			return $hooked_blocks;
+		}
+
+		// Don't append if the position doesn't match.
+		if ( $form_position !== $position ) {
+			return $hooked_blocks;
+		}
+
+		// Hook the ConvertKit Form block.
+		$hooked_blocks[] = 'convertkit/form';
+
+		// Unhook this function as we don't need to check again in this request, as
+		// we have now appended the form.
+		remove_filter( 'hooked_block_types', array( $this, 'maybe_register_form_block_on_category_archive' ), 10 );
+
+		return $hooked_blocks;
+
+	}
+
+	/**
+	 * Configures the ConvertKit Form block that was hooked below the Query Loop block by maybe_register_form_block_on_category_archive,
+	 * defining the Form ID based on the current Category's Form ID.
+	 *
+	 * @since   2.5.0
+	 *
+	 * @param   array $parsed_hooked_block    The parsed block array for the given hooked block type, or null to suppress the block.
+	 * @return  null|array
+	 */
+	public function append_form_block_to_category_archive( $parsed_hooked_block ) {
+
+		// Sanity check that we're still viewing a Category archive.
+		if ( ! is_category() ) {
+			// Returning null will unregister the Form block from displaying.
+			return null;
+		}
+
+		// Get Category archive being viewed.
+		$category = get_category( get_query_var( 'cat' ) );
+
+		// Bail if the Category could be found.
+		if ( is_wp_error( $category ) || is_null( $category ) ) {
+			// Returning null will unregister the Form block from displaying.
+			return null;
+		}
+
+		// Load Term Settings.
+		$term_settings = new ConvertKit_Term( $category->term_id );
+
+		// Bail if no Form specified for the Category.
+		if ( ! $term_settings->has_form() ) {
+			// Returning null will unregister the Form block from displaying.
+			return null;
+		}
+
+		// Define the form block attributes to display the given Form ID.
+		$parsed_hooked_block['attrs'] = array(
+			'id' => absint( $term_settings->get_form() ),
+		);
+
+		// Return the Form block with its attributes.
+		return $parsed_hooked_block;
+
+	}
+
+	/**
 	 * Returns the Post, Category or Plugin ConvertKit Form ID for the given Post.
 	 *
 	 * If the Post specifies a form to use, returns that Form ID.
@@ -353,6 +455,37 @@ class ConvertKit_Output {
 
 		// If here, use the Plugin's Default Form.
 		return $this->settings->get_default_form( get_post_type( $post_id ) );
+
+	}
+
+	/**
+	 * Returns the Form Position setting for the currently viewed Category.
+	 *
+	 * @since   2.5.0
+	 *
+	 * @return  bool|string
+	 */
+	private function get_term_form_position() {
+
+		// Get Category archive being viewed.
+		$category = get_category( get_query_var( 'cat' ) );
+
+		// Bail if the Category could be found.
+		if ( is_wp_error( $category ) || is_null( $category ) ) {
+			return false;
+		}
+
+		// Load Term Settings.
+		$term_settings = new ConvertKit_Term( $category->term_id );
+
+		// Return false if no form position is defined i.e. we don't want to display
+		// it on the Category archive.
+		if ( ! $term_settings->has_form_position() ) {
+			return false;
+		}
+
+		// Return form position.
+		return $term_settings->get_form_position();
 
 	}
 
