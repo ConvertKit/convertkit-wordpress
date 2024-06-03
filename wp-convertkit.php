@@ -29,7 +29,7 @@ define( 'CONVERTKIT_PLUGIN_VERSION', '2.5.0' );
 define( 'CONVERTKIT_OAUTH_CLIENT_ID', 'HXZlOCj-K5r0ufuWCtyoyo3f688VmMAYSsKg1eGvw0Y' );
 
 // Load shared classes, if they have not been included by another ConvertKit Plugin.
-if ( ! class_exists( 'ConvertKit_API_Traits' ) ) {
+if ( ! trait_exists( 'ConvertKit_API_Traits' ) ) {
 	require_once CONVERTKIT_PLUGIN_PATH . '/vendor/convertkit/convertkit-wordpress-libraries/src/class-convertkit-api-traits.php';
 }
 if ( ! class_exists( 'ConvertKit_API_V4' ) ) {
