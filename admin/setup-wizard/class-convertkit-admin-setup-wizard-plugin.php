@@ -280,16 +280,41 @@ class ConvertKit_Admin_Setup_Wizard_Plugin extends ConvertKit_Admin_Setup_Wizard
 	 */
 	public function load_screen_data( $step ) {
 
-		// If this wizard is being served in a modal window, adjust the steps.
+		// If this wizard is being served in a modal window, change the flow.
 		if ( $this->is_modal() ) {
-			unset( $this->steps[2], $this->steps[3] );
+			switch ( $step ) {
+				case 1:
+					// Setup API.
+					$api = new ConvertKit_API( CONVERTKIT_OAUTH_CLIENT_ID, CONVERTKIT_OAUTH_CLIENT_REDIRECT_URI );
+
+					// Permit wp_safe_redirect to redirect to app.convertkit.com.
+					add_filter(
+						'allowed_redirect_hosts',
+						function ( $hosts ) {
+
+							return array_merge(
+								$hosts,
+								array(
+									'app.convertkit.com',
+								)
+							);
+
+						}
+					);
+
+					// Redirect to OAuth.
+					wp_safe_redirect( $api->get_oauth_url( admin_url( 'options.php?page=convertkit-setup&step=2&convertkit-modal=1' ) ) );
+					die();
+
+				case 2:
+					// Close modal.
+					$this->maybe_close_modal();
+					break;
+			}
 		}
 
 		switch ( $step ) {
 			case 2:
-				// If this wizard is being served in a modal window, we can exit after obtaining valid API credentials.
-				$this->maybe_close_modal();
-
 				// Re-load settings class now that the API Key and Secret has been defined.
 				$this->settings = new ConvertKit_Settings();
 

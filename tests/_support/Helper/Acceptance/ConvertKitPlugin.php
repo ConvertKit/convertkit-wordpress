@@ -711,7 +711,7 @@ class ConvertKitPlugin extends \Codeception\Module
 	}
 
 	/**
-	 * Test that the 'Click here to add your API Key' link displays a popup window,
+	 * Test that the 'Click here to connect your ConvertKit account' link displays a popup window,
 	 * when using a block with no API Keys specified.
 	 *
 	 * @since   2.2.6
@@ -724,7 +724,7 @@ class ConvertKitPlugin extends \Codeception\Module
 	{
 		// Confirm that the Form block displays instructions to the user on how to enter their API Key.
 		$I->see(
-			'No API Key specified.',
+			'Not connected to ConvertKit.',
 			[
 				'css' => '.convertkit-no-content',
 			]
@@ -732,7 +732,7 @@ class ConvertKitPlugin extends \Codeception\Module
 
 		// Click the link to confirm it loads the Plugin's setup wizard.
 		$I->click(
-			'Click here to add your API Key.',
+			'Click here to connect your ConvertKit account.',
 			[
 				'css' => '.convertkit-no-content',
 			]
