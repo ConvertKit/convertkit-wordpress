@@ -19,7 +19,7 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 	 *
 	 * @since   1.9.6
 	 *
-	 * @var     ConvertKit_API
+	 * @var     ConvertKit_API_V4
 	 */
 	private $api;
 
@@ -87,7 +87,7 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 		}
 
 		// Initialize the API.
-		$this->api = new ConvertKit_API(
+		$this->api = new ConvertKit_API_V4(
 			CONVERTKIT_OAUTH_CLIENT_ID,
 			CONVERTKIT_OAUTH_CLIENT_REDIRECT_URI,
 			$this->settings->get_access_token(),

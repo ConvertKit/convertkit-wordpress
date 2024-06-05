@@ -207,7 +207,7 @@ class ConvertKit_Admin_Setup_Wizard_Plugin extends ConvertKit_Admin_Setup_Wizard
 				$api_key    = sanitize_text_field( wp_unslash( $_POST['api_key'] ) );
 				$api_secret = sanitize_text_field( wp_unslash( $_POST['api_secret'] ) );
 
-				$api    = new ConvertKit_API( $api_key, $api_secret, false, 'setup_wizard' );
+				$api    = new ConvertKit_API_V4( $api_key, $api_secret, false, 'setup_wizard' );
 				$result = $api->get_account();
 
 				// Show an error message if Account Details could not be fetched e.g. API credentials supplied are invalid.

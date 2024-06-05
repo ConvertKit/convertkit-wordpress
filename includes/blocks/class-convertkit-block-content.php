@@ -231,7 +231,7 @@ class ConvertKit_Block_Content extends ConvertKit_Block {
 		}
 
 		// Initialize the API.
-		$api = new ConvertKit_API(
+		$api = new ConvertKit_API_V4(
 			CONVERTKIT_OAUTH_CLIENT_ID,
 			CONVERTKIT_OAUTH_CLIENT_REDIRECT_URI,
 			$settings->get_access_token(),

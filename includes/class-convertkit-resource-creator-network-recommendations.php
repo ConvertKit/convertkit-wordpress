@@ -12,7 +12,7 @@
  *
  * @since   2.2.7
  */
-class ConvertKit_Resource_Creator_Network_Recommendations extends ConvertKit_Resource {
+class ConvertKit_Resource_Creator_Network_Recommendations extends ConvertKit_Resource_V4 {
 
 	/**
 	 * Holds the Settings Key that stores site wide ConvertKit settings
@@ -35,7 +35,7 @@ class ConvertKit_Resource_Creator_Network_Recommendations extends ConvertKit_Res
 		// Initialize the API if the Access Token has been defined in the Plugin Settings.
 		$settings = new ConvertKit_Settings();
 		if ( $settings->has_access_and_refresh_token() ) {
-			$this->api = new ConvertKit_API(
+			$this->api = new ConvertKit_API_V4(
 				CONVERTKIT_OAUTH_CLIENT_ID,
 				CONVERTKIT_OAUTH_CLIENT_REDIRECT_URI,
 				$settings->get_access_token(),
