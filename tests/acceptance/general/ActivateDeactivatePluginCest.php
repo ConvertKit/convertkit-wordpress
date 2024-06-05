@@ -30,8 +30,6 @@ class ActivateDeactivatePluginCest
 	 */
 	public function testPluginActivationAndDeactivationWithOtherPlugins(AcceptanceTester $I)
 	{
-		$I->markTestIncomplete();
-
 		// Activate other ConvertKit Plugins from wordpress.org.
 		$I->activateThirdPartyPlugin($I, 'convertkit-for-woocommerce');
 

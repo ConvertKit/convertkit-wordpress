@@ -64,7 +64,7 @@ class ConvertKit_Admin_Notices {
 		foreach ( $notices as $notice ) {
 			switch ( $notice ) {
 				case 'authorization_failed':
-					$api    = new ConvertKit_API( CONVERTKIT_OAUTH_CLIENT_ID, admin_url( 'options-general.php?page=_wp_convertkit_settings' ) );
+					$api    = new ConvertKit_API_V4( CONVERTKIT_OAUTH_CLIENT_ID, admin_url( 'options-general.php?page=_wp_convertkit_settings' ) );
 					$output = sprintf(
 						'%s %s',
 						esc_html__( 'ConvertKit: Authorization failed. Please', 'convertkit' ),
