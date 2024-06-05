@@ -199,7 +199,10 @@ class ConvertKit_Admin_Category {
 		}
 
 		// Build metadata.
-		$meta = ( isset( $_POST['wp-convertkit']['form'] ) ? intval( $_POST['wp-convertkit']['form'] ) : '' );
+		$meta = array(
+			'form'          => ( isset( $_POST['wp-convertkit']['form'] ) ? intval( $_POST['wp-convertkit']['form'] ) : '' ),
+			'form_position' => ( isset( $_POST['wp-convertkit']['form_position'] ) ? $_POST['wp-convertkit']['form_position'] : '' ),
+		);
 
 		// Save metadata.
 		$convertkit_term = new ConvertKit_Term( $term_id );
