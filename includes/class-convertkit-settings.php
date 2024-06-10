@@ -410,7 +410,8 @@ class ConvertKit_Settings {
 	 *
 	 * @since   2.5.0
 	 *
-	 * @param   array $result     New Access Token, Refresh Token and Expiry.
+	 * @param   array  $result      New Access Token, Refresh Token and Expiry.
+	 * @param   string $client_id   OAuth Client ID used for the Access and Refresh Tokens.
 	 */
 	public function update_credentials( $result, $client_id ) {
 
