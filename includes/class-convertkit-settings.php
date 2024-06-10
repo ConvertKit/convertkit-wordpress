@@ -46,7 +46,7 @@ class ConvertKit_Settings {
 		}
 
 		// Update Access Token when refreshed by the API class.
-		add_action( 'convertkit_api_refresh_token', array( $this, 'update_credentials' ), 10, 1 );
+		add_action( 'convertkit_api_refresh_token', array( $this, 'update_credentials' ), 10, 2 );
 
 	}
 
@@ -412,7 +412,13 @@ class ConvertKit_Settings {
 	 *
 	 * @param   array $result     New Access Token, Refresh Token and Expiry.
 	 */
-	public function update_credentials( $result ) {
+	public function update_credentials( $result, $client_id ) {
+
+		// Don't save these credentials if they're not for this Client ID.
+		// They're for another ConvertKit Plugin that uses OAuth.
+		if ( $client_id !== CONVERTKIT_OAUTH_CLIENT_ID ) {
+			return;
+		}
 
 		$this->save(
 			array(
