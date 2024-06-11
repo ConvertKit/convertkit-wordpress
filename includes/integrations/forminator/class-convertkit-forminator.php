@@ -132,8 +132,21 @@ class ConvertKit_Forminator {
 			'forminator'
 		);
 
-		// Send request.
-		$api->form_subscribe( $convertkit_form_id, $email, $first_name );
+		// For Legacy Forms, a different endpoint is used.
+		$forms = new ConvertKit_Resource_Forms();
+		if ( $forms->is_legacy( $convertkit_form_id ) ) {
+			return $api->legacy_form_subscribe(
+				$convertkit_form_id,
+				$email,
+				$first_name
+			);
+		}
+
+		return $api->form_subscribe(
+			$convertkit_form_id,
+			$email,
+			$first_name
+		);
 
 	}
 
