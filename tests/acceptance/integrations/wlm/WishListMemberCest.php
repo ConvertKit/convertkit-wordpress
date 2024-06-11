@@ -81,6 +81,65 @@ class WishListMemberCest
 	}
 
 	/**
+	 * Test that saving a WishList Member Level to ConvertKit Legacy Form Mapping works.
+	 *
+	 * @since   2.5.0
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testSettingsWishListMemberLevelToConvertKitLegacyFormMapping(AcceptanceTester $I)
+	{
+		// Get WishList Member Level ID defined.
+		$wlmLevelID = $this->_getWishListMemberLevelID($I);
+
+		// Define email address for this test.
+		$emailAddress = $I->generateEmailAddress();
+
+		// Create a test WordPress User.
+		$userID = $this->_createUser($I, $emailAddress);
+
+		// Load WishList Member Plugin Settings.
+		$I->amOnAdminPage('options-general.php?page=_wp_convertkit_settings&tab=wishlist-member');
+
+		// Check that no PHP warnings or notices were output, if we're on PHP < 8.1 (WLM will throw errors in 8.1+, outside of our control).
+		if (version_compare( phpversion(), '8.1', '<' )) {
+			$I->checkNoWarningsAndNoticesOnScreen($I);
+		}
+
+		// Check that a Form Mapping option is displayed.
+		$I->seeElementInDOM('#_wp_convertkit_integration_wishlistmember_settings_' . $wlmLevelID . '_form');
+
+		// Change Form to value specified in the .env file.
+		$I->selectOption('#_wp_convertkit_integration_wishlistmember_settings_' . $wlmLevelID . '_form', $_ENV['CONVERTKIT_API_LEGACY_FORM_NAME']);
+
+		// Save Changes.
+		$I->click('Save Changes');
+
+		// Check that no PHP warnings or notices were output, if we're on PHP < 8.1 (WLM will throw errors in 8.1+, outside of our control).
+		if (version_compare( phpversion(), '8.1', '<' )) {
+			$I->checkNoWarningsAndNoticesOnScreen($I);
+		}
+
+		// Check the value of the Form field matches the input provided.
+		$I->seeOptionIsSelected('#_wp_convertkit_integration_wishlistmember_settings_' . $wlmLevelID . '_form', $_ENV['CONVERTKIT_API_LEGACY_FORM_NAME']);
+
+		// Edit the Test User.
+		$I->amOnAdminPage('user-edit.php?user_id=' . $userID . '&wp_http_referer=%2Fwp-admin%2Fusers.php');
+
+		// Map the User to the Bronze WLM Level.
+		$I->checkOption('#WishListMemberUserProfile input[value="' . $wlmLevelID . '"]');
+
+		// Save Changes.
+		$I->click('Update Member Profile');
+
+		// Confirm that the User is still assigned to the Bronze WLM Level.
+		$I->seeCheckboxIsChecked('#WishListMemberUserProfile input[value="' . $wlmLevelID . '"]');
+
+		// Confirm that the email address was added to ConvertKit.
+		$I->apiCheckSubscriberExists($I, $emailAddress);
+	}
+
+	/**
 	 * Returns the WishList Member Level ID created when setupWishListMemberPlugin() was called.
 	 *
 	 * @since   1.9.6
