@@ -147,6 +147,16 @@ class ConvertKit_Wishlist {
 		}
 
 		// Note Wishlist Member combines first and last name into 'display_name'.
+		// For Legacy Forms, a different endpoint is used.
+		$forms = new ConvertKit_Resource_Forms();
+		if ( $forms->is_legacy( $form_id ) ) {
+			return $api->legacy_form_subscribe(
+				$form_id,
+				$email,
+				$first_name
+			);
+		}
+
 		return $api->form_subscribe(
 			$form_id,
 			$email,

@@ -95,6 +95,32 @@ class ConvertKit_Resource_Forms extends ConvertKit_Resource_V4 {
 	}
 
 	/**
+	 * Determines if the given Form ID is a legacy Form or Landing Page.
+	 *
+	 * @since   2.5.0
+	 *
+	 * @param   int $id     Form or Landing Page ID.
+	 */
+	public function is_legacy( $id ) {
+
+		// Get Form.
+		$form = $this->get_by_id( (int) $id );
+
+		// Return false if no Form exists.
+		if ( ! $form ) {
+			return false;
+		}
+
+		// If the `format` key exists, this is not a legacy Form.
+		if ( array_key_exists( 'format', $form ) ) {
+			return false;
+		}
+
+		return true;
+
+	}
+
+	/**
 	 * Returns a <select> field populated with all forms, based on the given parameters.
 	 *
 	 * @since   2.3.9
