@@ -32,7 +32,7 @@ class ConvertKit_Admin_Setup_Wizard_Plugin extends ConvertKit_Admin_Setup_Wizard
 	 *
 	 * @since   2.5.0
 	 *
-	 * @var     bool|ConvertKit_API
+	 * @var     bool|ConvertKit_API_V4
 	 */
 	public $api = false;
 
