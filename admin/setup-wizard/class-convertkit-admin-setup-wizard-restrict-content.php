@@ -162,8 +162,14 @@ class ConvertKit_Admin_Setup_Wizard_Restrict_Content extends ConvertKit_Admin_Se
 	 */
 	public function process_form( $step ) {
 
-		// phpcs:disable WordPress.Security.NonceVerification.Missing
-		// Nonce verification has been performed in ConvertKit_Admin_Setup_Wizard:process_form(), prior to calling this function.
+		// Run security checks.
+		if ( ! isset( $_REQUEST['_wpnonce'] ) ) {
+			return;
+		}
+		if ( ! wp_verify_nonce( sanitize_key( $_REQUEST['_wpnonce'] ), $this->page_name ) ) {
+			$this->error = __( 'Invalid nonce specified.', 'convertkit' );
+			return;
+		}
 
 		// Depending on the step, process the form data.
 		switch ( $step ) {
