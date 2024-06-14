@@ -346,4 +346,37 @@ class ResourceFormsTest extends \Codeception\TestCase\WPTestCase
 		$this->assertNotInstanceOf(WP_Error::class, $result);
 		$this->assertStringContainsString('<form id="ck_subscribe_form" class="ck_subscribe_form" action="https://api.convertkit.com/landing_pages/' . $_ENV['CONVERTKIT_API_LEGACY_FORM_ID'] . '/subscribe" data-remote="true">', $result);
 	}
+
+	/**
+	 * Test that the is_legacy() function returns true for a Legacy Form ID.
+	 *
+	 * @since   2.5.0
+	 */
+	public function testIsLegacyFormWithLegacyFormID()
+	{
+		$this->resource->refresh();
+		$this->assertTrue($this->resource->is_legacy($_ENV['CONVERTKIT_API_LEGACY_FORM_ID']));
+	}
+
+	/**
+	 * Test that the is_legacy() function returns false for a non-Legacy Form ID.
+	 *
+	 * @since   2.5.0
+	 */
+	public function testIsLegacyFormWithFormID()
+	{
+		$this->resource->refresh();
+		$this->assertFalse($this->resource->is_legacy($_ENV['CONVERTKIT_API_FORM_ID']));
+	}
+
+	/**
+	 * Test that the is_legacy() function returns false for an invalid Form ID.
+	 *
+	 * @since   2.5.0
+	 */
+	public function testIsLegacyFormWithInvalidFormID()
+	{
+		$this->resource->refresh();
+		$this->assertFalse($this->resource->is_legacy(12345));
+	}
 }

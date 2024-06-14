@@ -216,7 +216,7 @@ class ConvertKit_Broadcasts_Exporter {
 		$content = WP_ConvertKit()->get_class( 'broadcasts_importer' )->get_permitted_html( $content, $this->broadcasts_settings->no_styles() );
 
 		// Initialize the API.
-		$api = new ConvertKit_API(
+		$api = new ConvertKit_API_V4(
 			CONVERTKIT_OAUTH_CLIENT_ID,
 			CONVERTKIT_OAUTH_CLIENT_REDIRECT_URI,
 			$this->settings->get_access_token(),

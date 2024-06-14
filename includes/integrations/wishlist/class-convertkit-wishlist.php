@@ -123,7 +123,7 @@ class ConvertKit_Wishlist {
 		}
 
 		// Initialize the API.
-		$api = new ConvertKit_API(
+		$api = new ConvertKit_API_V4(
 			CONVERTKIT_OAUTH_CLIENT_ID,
 			CONVERTKIT_OAUTH_CLIENT_REDIRECT_URI,
 			$settings->get_access_token(),
@@ -147,6 +147,16 @@ class ConvertKit_Wishlist {
 		}
 
 		// Note Wishlist Member combines first and last name into 'display_name'.
+		// For Legacy Forms, a different endpoint is used.
+		$forms = new ConvertKit_Resource_Forms();
+		if ( $forms->is_legacy( $form_id ) ) {
+			return $api->legacy_form_subscribe(
+				$form_id,
+				$email,
+				$first_name
+			);
+		}
+
 		return $api->form_subscribe(
 			$form_id,
 			$email,
@@ -169,7 +179,7 @@ class ConvertKit_Wishlist {
 		}
 
 		// Initialize the API.
-		$api = new ConvertKit_API(
+		$api = new ConvertKit_API_V4(
 			CONVERTKIT_OAUTH_CLIENT_ID,
 			CONVERTKIT_OAUTH_CLIENT_REDIRECT_URI,
 			$settings->get_access_token(),
@@ -206,7 +216,7 @@ class ConvertKit_Wishlist {
 		}
 
 		// Initialize the API.
-		$api = new ConvertKit_API(
+		$api = new ConvertKit_API_V4(
 			CONVERTKIT_OAUTH_CLIENT_ID,
 			CONVERTKIT_OAUTH_CLIENT_REDIRECT_URI,
 			$settings->get_access_token(),

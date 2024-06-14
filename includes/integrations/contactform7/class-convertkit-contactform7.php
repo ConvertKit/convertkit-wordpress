@@ -120,7 +120,7 @@ class ConvertKit_ContactForm7 {
 
 		// If here, subscribe the user to the ConvertKit Form.
 		// Initialize the API.
-		$api = new ConvertKit_API(
+		$api = new ConvertKit_API_V4(
 			CONVERTKIT_OAUTH_CLIENT_ID,
 			CONVERTKIT_OAUTH_CLIENT_REDIRECT_URI,
 			$settings->get_access_token(),
@@ -129,8 +129,21 @@ class ConvertKit_ContactForm7 {
 			'contact_form_7'
 		);
 
-		// Send request.
-		$api->form_subscribe( $convertkit_form_id, $email, $first_name );
+		// For Legacy Forms, a different endpoint is used.
+		$forms = new ConvertKit_Resource_Forms();
+		if ( $forms->is_legacy( $convertkit_form_id ) ) {
+			return $api->legacy_form_subscribe(
+				$convertkit_form_id,
+				$email,
+				$first_name
+			);
+		}
+
+		return $api->form_subscribe(
+			$convertkit_form_id,
+			$email,
+			$first_name
+		);
 
 	}
 

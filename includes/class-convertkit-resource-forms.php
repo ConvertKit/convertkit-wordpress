@@ -12,7 +12,7 @@
  *
  * @since   1.9.6
  */
-class ConvertKit_Resource_Forms extends ConvertKit_Resource {
+class ConvertKit_Resource_Forms extends ConvertKit_Resource_V4 {
 
 	/**
 	 * Holds the Settings Key that stores site wide ConvertKit settings
@@ -40,7 +40,7 @@ class ConvertKit_Resource_Forms extends ConvertKit_Resource {
 		// Initialize the API if the Access Token has been defined in the Plugin Settings.
 		$settings = new ConvertKit_Settings();
 		if ( $settings->has_access_and_refresh_token() ) {
-			$this->api = new ConvertKit_API(
+			$this->api = new ConvertKit_API_V4(
 				CONVERTKIT_OAUTH_CLIENT_ID,
 				CONVERTKIT_OAUTH_CLIENT_REDIRECT_URI,
 				$settings->get_access_token(),
@@ -87,6 +87,32 @@ class ConvertKit_Resource_Forms extends ConvertKit_Resource {
 	public function non_inline_exist() {
 
 		if ( ! $this->get_non_inline() ) {
+			return false;
+		}
+
+		return true;
+
+	}
+
+	/**
+	 * Determines if the given Form ID is a legacy Form or Landing Page.
+	 *
+	 * @since   2.5.0
+	 *
+	 * @param   int $id     Form or Landing Page ID.
+	 */
+	public function is_legacy( $id ) {
+
+		// Get Form.
+		$form = $this->get_by_id( (int) $id );
+
+		// Return false if no Form exists.
+		if ( ! $form ) {
+			return false;
+		}
+
+		// If the `format` key exists, this is not a legacy Form.
+		if ( array_key_exists( 'format', $form ) ) {
 			return false;
 		}
 
@@ -282,7 +308,7 @@ class ConvertKit_Resource_Forms extends ConvertKit_Resource {
 			}
 
 			// Initialize the API.
-			$api = new ConvertKit_API(
+			$api = new ConvertKit_API_V4(
 				CONVERTKIT_OAUTH_CLIENT_ID,
 				CONVERTKIT_OAUTH_CLIENT_REDIRECT_URI,
 				$settings->get_access_token(),
