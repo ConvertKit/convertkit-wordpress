@@ -106,8 +106,6 @@ class PageTagCest
 	 */
 	public function testDefinedTagAppliesToValidSubscriberID(AcceptanceTester $I)
 	{
-		// @TODO Check this still works when moving logic to backend.
-
 		// Add Page, configured to tag subscribers to visit it with the given tag ID.
 		$pageID = $I->havePageInDatabase(
 			[

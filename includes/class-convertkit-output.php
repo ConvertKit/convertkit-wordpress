@@ -593,10 +593,6 @@ class ConvertKit_Output {
 				'debug'         => $settings->debug_enabled(),
 				'nonce'         => wp_create_nonce( 'convertkit' ),
 				'subscriber_id' => $this->subscriber_id,
-
-				// @TODO Check if we need these.
-				'tag'           => ( ( is_singular() && $convertkit_post->has_tag() ) ? $convertkit_post->get_tag() : false ),
-				'post_id'       => $post->ID,
 			)
 		);
 
