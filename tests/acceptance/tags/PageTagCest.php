@@ -106,6 +106,8 @@ class PageTagCest
 	 */
 	public function testDefinedTagAppliesToValidSubscriberID(AcceptanceTester $I)
 	{
+		// @TODO Check this still works when moving logic to backend.
+
 		// Add Page, configured to tag subscribers to visit it with the given tag ID.
 		$pageID = $I->havePageInDatabase(
 			[
@@ -133,12 +135,6 @@ class PageTagCest
 
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
-
-		// Confirm that the post_has_tag parameter is set to true in the source code.
-		$I->seeInSource('"tag":"' . $_ENV['CONVERTKIT_API_TAG_ID'] . '"');
-
-		// Wait a moment for the AJAX request to complete the API request to tag the subscriber.
-		$I->wait(2);
 
 		// Check that the subscriber has been assigned to the tag.
 		$I->apiCheckSubscriberHasTag($I, $subscriberID, $_ENV['CONVERTKIT_API_TAG_ID']);
