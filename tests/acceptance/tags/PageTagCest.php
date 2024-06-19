@@ -161,6 +161,13 @@ class PageTagCest
 	 */
 	public function testQuickEditUsingDefinedTag(AcceptanceTester $I)
 	{
+		// Programmatically create a subscriber in ConvertKit.
+		// Must be a domain email doesn't bounce on, otherwise subscriber won't be confirmed even if the Form's
+		// "Auto-confirm new subscribers" setting is enabled.
+		// We need the subscriber to be confirmed so they can then be tagged.
+		$emailAddress = $I->generateEmailAddress('n7studios.com');
+		$subscriberID = $I->apiSubscribe($emailAddress, $_ENV['CONVERTKIT_API_FORM_ID']);
+
 		// Programmatically create a Page.
 		$pageID = $I->havePostInDatabase(
 			[
@@ -180,13 +187,13 @@ class PageTagCest
 		);
 
 		// Load the Page on the frontend site.
-		$I->amOnPage('/?p=' . $pageID);
+		$I->amOnPage('/?p=' . $pageID . '&ck_subscriber_id=' . $subscriberID);
 
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
 
-		// Confirm that the post_has_tag parameter is set to true in the source code.
-		$I->seeInSource('"tag":"' . $_ENV['CONVERTKIT_API_TAG_ID'] . '"');
+		// Check that the subscriber has been assigned to the tag.
+		$I->apiCheckSubscriberHasTag($I, $subscriberID, $_ENV['CONVERTKIT_API_TAG_ID']);
 	}
 
 	/**
@@ -227,14 +234,21 @@ class PageTagCest
 
 		// Iterate through Pages to run frontend tests.
 		foreach ($pageIDs as $pageID) {
+			// Programmatically create a subscriber in ConvertKit.
+			// Must be a domain email doesn't bounce on, otherwise subscriber won't be confirmed even if the Form's
+			// "Auto-confirm new subscribers" setting is enabled.
+			// We need the subscriber to be confirmed so they can then be tagged.
+			$emailAddress = $I->generateEmailAddress('n7studios.com');
+			$subscriberID = $I->apiSubscribe($emailAddress, $_ENV['CONVERTKIT_API_FORM_ID']);
+
 			// Load the Page on the frontend site.
-			$I->amOnPage('/?p=' . $pageID);
+			$I->amOnPage('/?p=' . $pageID . '&ck_subscriber_id=' . $subscriberID);
 
 			// Check that no PHP warnings or notices were output.
 			$I->checkNoWarningsAndNoticesOnScreen($I);
 
-			// Confirm that the post_has_tag parameter is set to true in the source code.
-			$I->seeInSource('"tag":"' . $_ENV['CONVERTKIT_API_TAG_ID'] . '"');
+			// Check that the subscriber has been assigned to the tag.
+			$I->apiCheckSubscriberHasTag($I, $subscriberID, $_ENV['CONVERTKIT_API_TAG_ID']);
 		}
 	}
 
@@ -290,14 +304,21 @@ class PageTagCest
 
 		// Iterate through Pages to run frontend tests.
 		foreach ($pageIDs as $pageID) {
+			// Programmatically create a subscriber in ConvertKit.
+			// Must be a domain email doesn't bounce on, otherwise subscriber won't be confirmed even if the Form's
+			// "Auto-confirm new subscribers" setting is enabled.
+			// We need the subscriber to be confirmed so they can then be tagged.
+			$emailAddress = $I->generateEmailAddress('n7studios.com');
+			$subscriberID = $I->apiSubscribe($emailAddress, $_ENV['CONVERTKIT_API_FORM_ID']);
+
 			// Load the Page on the frontend site.
-			$I->amOnPage('/?p=' . $pageID);
+			$I->amOnPage('/?p=' . $pageID . '&ck_subscriber_id=' . $subscriberID);
 
 			// Check that no PHP warnings or notices were output.
 			$I->checkNoWarningsAndNoticesOnScreen($I);
 
-			// Confirm that the post_has_tag parameter is set to true in the source code.
-			$I->seeInSource('"tag":"' . $_ENV['CONVERTKIT_API_TAG_ID'] . '"');
+			// Check that the subscriber has been assigned to the tag.
+			$I->apiCheckSubscriberHasTag($I, $subscriberID, $_ENV['CONVERTKIT_API_TAG_ID']);
 		}
 	}
 
