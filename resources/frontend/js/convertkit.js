@@ -8,73 +8,6 @@
  */
 
 /**
- * Tags the given subscriber ID with the given tag
- *
- * @since   1.9.6
- *
- * @param   int     subscriber_id   Subscriber ID
- * @param   string  tag             Tag
- * @param   int     post_id         WordPress Post ID
- */
-function convertKitTagSubscriber( subscriber_id, tag, post_id ) {
-
-	if ( convertkit.debug ) {
-		console.log( 'convertKitTagSubscriber' );
-		console.log( convertkit );
-		console.log( subscriber_id );
-		console.log( tag );
-		console.log( post_id );
-	}
-
-	fetch(
-		convertkit.ajaxurl,
-		{
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/x-www-form-urlencoded',
-			},
-			body: new URLSearchParams(
-				{
-					action: 'convertkit_tag_subscriber',
-					convertkit_nonce: convertkit.nonce,
-					subscriber_id: subscriber_id,
-					tag: tag,
-					post_id: post_id,
-				}
-			)
-		}
-	)
-	.then(
-		function ( response ) {
-			if ( convertkit.debug ) {
-				console.log( response );
-			}
-
-			return response.json();
-		}
-	)
-	.then(
-		function ( result ) {
-			if ( convertkit.debug ) {
-				console.log( result );
-			}
-
-			convertKitRemoveSubscriberIDFromURL( window.location.href );
-		}
-	)
-	.catch(
-		function ( error ) {
-			if ( convertkit.debug ) {
-				console.error( error );
-			}
-
-			convertKitRemoveSubscriberIDFromURL( window.location.href );
-		}
-	);
-
-}
-
-/**
  * Gets the subscriber ID for the given email address, storing
  * it in the `ck_subscriber_id` cookie if it exists.
  *
@@ -245,11 +178,7 @@ document.addEventListener(
 	'DOMContentLoaded',
 	function () {
 
-		if ( convertkit.subscriber_id > 0 && convertkit.tag && convertkit.post_id ) {
-			// If the user can be detected as a ConvertKit Subscriber (i.e. their Subscriber ID is in a cookie or the URL),
-			// and the Page/Post they are viewing has a Tag specified, subscribe them to the tag.
-			convertKitTagSubscriber( convertkit.subscriber_id, convertkit.tag, convertkit.post_id );
-		} else if ( convertkit.subscriber_id > 0 ) {
+		if ( convertkit.subscriber_id > 0 ) {
 			// If the user can be detected as a ConvertKit Subscriber (i.e. their Subscriber ID is in a cookie or the URL),
 			// update the cookie now.
 			convertStoreSubscriberIDInCookie( convertkit.subscriber_id );

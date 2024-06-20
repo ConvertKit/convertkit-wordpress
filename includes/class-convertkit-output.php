@@ -67,7 +67,8 @@ class ConvertKit_Output {
 	 */
 	public function __construct() {
 
-		add_action( 'init', array( $this, 'get_subscriber_id_from_request' ), 1 );
+		add_action( 'init', array( $this, 'get_subscriber_id_from_request' ) );
+		add_action( 'wp', array( $this, 'maybe_tag_subscriber' ) );
 		add_action( 'template_redirect', array( $this, 'output_form' ) );
 		add_action( 'template_redirect', array( $this, 'page_takeover' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
@@ -76,6 +77,74 @@ class ConvertKit_Output {
 		add_filter( 'hooked_block_convertkit/form', array( $this, 'append_form_block_to_category_archive' ), 10, 1 );
 		add_action( 'wp_footer', array( $this, 'output_global_non_inline_form' ), 1 );
 		add_action( 'wp_footer', array( $this, 'output_scripts_footer' ) );
+
+	}
+
+	/**
+	 * Tags the subscriber, if:
+	 * - a subscriber ID exists in the cookie or URL,
+	 * - the WordPress Page has the "Add a Tag" setting specified
+	 *
+	 * @since   2.4.9.1
+	 */
+	public function maybe_tag_subscriber() {
+
+		// Bail if no subscriber ID detected.
+		if ( ! $this->subscriber_id ) {
+			return;
+		}
+
+		// Bail if not a singular Post Type supported by ConvertKit.
+		if ( ! is_singular( convertkit_get_supported_post_types() ) ) {
+			return;
+		}
+
+		// Get Post ID.
+		$post_id = get_the_ID();
+
+		// Bail if a Post ID couldn't be identified.
+		if ( ! $post_id ) {
+			return;
+		}
+
+		// Get Settings, if they have not yet been loaded.
+		if ( ! $this->settings ) {
+			$this->settings = new ConvertKit_Settings();
+		}
+
+		// Bail if the API if an API Key and Secret is not defined.
+		if ( ! $this->settings->has_api_key_and_secret() ) {
+			return;
+		}
+
+		// Get ConvertKit Post's Settings, if they have not yet been loaded.
+		if ( ! $this->post_settings ) {
+			$this->post_settings = new ConvertKit_Post( $post_id );
+		}
+
+		// Bail if no "Add a Tag" setting specified for this Page.
+		if ( ! $this->post_settings->has_tag() ) {
+			return;
+		}
+
+		// Initialize the API.
+		$api = new ConvertKit_API(
+			$this->settings->get_api_key(),
+			$this->settings->get_api_secret(),
+			$this->settings->debug_enabled(),
+			'output'
+		);
+
+		// Get subscriber's email address by subscriber ID.
+		$subscriber = $api->get_subscriber_by_id( $this->subscriber_id );
+
+		// Bail if the subscriber could not be found.
+		if ( is_wp_error( $subscriber ) ) {
+			return;
+		}
+
+		// Tag subscriber.
+		$api->tag_subscribe( $this->post_settings->get_tag(), $subscriber['email_address'] );
 
 	}
 
@@ -524,8 +593,6 @@ class ConvertKit_Output {
 				'debug'         => $settings->debug_enabled(),
 				'nonce'         => wp_create_nonce( 'convertkit' ),
 				'subscriber_id' => $this->subscriber_id,
-				'tag'           => ( ( is_singular() && $convertkit_post->has_tag() ) ? $convertkit_post->get_tag() : false ),
-				'post_id'       => $post->ID,
 			)
 		);
 
