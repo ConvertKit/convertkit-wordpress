@@ -45,10 +45,10 @@ class ConvertKit_Setup {
 		}
 
 		/**
-		 * 2.5.0+: Migrate ck_default_form to _wp_convertkit_term_meta[form], as Term settings
+		 * 2.4.9.1+: Migrate ck_default_form to _wp_convertkit_term_meta[form], as Term settings
 		 * support multiple options (form, position etc).
 		 */
-		if ( version_compare( $current_version, '2.5.0', '<' ) ) {
+		if ( version_compare( $current_version, '2.4.9.1', '<' ) ) {
 			$this->migrate_term_form_settings();
 		}
 
@@ -87,7 +87,7 @@ class ConvertKit_Setup {
 	 * Migrate ck_default_form to _wp_convertkit_term_meta[form], as Term settings
 	 * support multiple options (form, position etc).
 	 *
-	 * @since   2.5.0
+	 * @since   2.4.9.1
 	 */
 	private function migrate_term_form_settings() {
 

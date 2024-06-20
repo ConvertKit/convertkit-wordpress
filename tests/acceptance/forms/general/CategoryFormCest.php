@@ -158,7 +158,7 @@ class CategoryFormCest
 	 * - Creates a Category in WordPress, selecting the ConvertKit Form to display before the Posts
 	 * - Creates a WordPress Post assigned to the created Category.
 	 *
-	 * @since   2.5.0
+	 * @since   2.4.9.1
 	 *
 	 * @param   AcceptanceTester $I  Tester.
 	 */
@@ -216,7 +216,7 @@ class CategoryFormCest
 	 * - Creates a Category in WordPress, selecting the ConvertKit Form to display after the Posts
 	 * - Creates a WordPress Post assigned to the created Category.
 	 *
-	 * @since   2.5.0
+	 * @since   2.4.9.1
 	 *
 	 * @param   AcceptanceTester $I  Tester.
 	 */
@@ -273,7 +273,7 @@ class CategoryFormCest
 	 * - Edits an existing Category in WordPress, selecting the ConvertKit Form to display before the Posts
 	 * - Creates a WordPress Post assigned to the created Category.
 	 *
-	 * @since   2.5.0
+	 * @since   2.4.9.1
 	 *
 	 * @param   AcceptanceTester $I  Tester.
 	 */
@@ -352,7 +352,7 @@ class CategoryFormCest
 	 * - Edits an existing Category in WordPress, selecting the ConvertKit Form to display after the Posts
 	 * - Creates a WordPress Post assigned to the created Category.
 	 *
-	 * @since   2.5.0
+	 * @since   2.4.9.1
 	 *
 	 * @param   AcceptanceTester $I  Tester.
 	 */
@@ -485,18 +485,18 @@ class CategoryFormCest
 
 	/**
 	 * Tests that existing Category settings stored in the Term Meta key [] are
-	 * automatically migrated when updating the Plugin to 2.5.0 or higher.
+	 * automatically migrated when updating the Plugin to 2.4.9.1 or higher.
 	 *
-	 * @since   2.5.0
+	 * @since   2.4.9.1
 	 *
 	 * @param   AcceptanceTester $I  Tester.
 	 */
 	public function testCategorySettingsMigratedOnUpgrade(AcceptanceTester $I)
 	{
-		// Create Category as if it were created / edited when the ConvertKit Plugin < 2.5.0
+		// Create Category as if it were created / edited when the ConvertKit Plugin < 2.4.9.1
 		// was active.
 		$termID = $I->haveTermInDatabase(
-			'ConvertKit 2.5.0 and earlier',
+			'ConvertKit 2.4.9.1 and earlier',
 			'category',
 			[
 				'meta' => [

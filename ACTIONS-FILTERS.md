@@ -735,7 +735,7 @@ add_filter( 'convertkit_post_get_default_settings', function( $defaults, $post_i
 </pre>
 <h3 id="convertkit_term_get_default_settings">
 						convertkit_term_get_default_settings
-						<code>includes/class-convertkit-term.php::148</code>
+						<code>includes/class-convertkit-term.php::167</code>
 					</h3><h4>Overview</h4>
 						<p>The default settings, used to populate the Term's Settings when a Term has no Settings.</p><h4>Parameters</h4>
 					<table>
@@ -748,7 +748,7 @@ add_filter( 'convertkit_post_get_default_settings', function( $defaults, $post_i
 						</thead>
 						<tbody><tr>
 							<td>$defaults</td>
-							<td>string</td>
+							<td>array</td>
 							<td>Default Form</td>
 						</tr>
 						</tbody>
@@ -1106,7 +1106,7 @@ add_filter( 'convertkit_output_restrict_content_is_crawler_permitted_user_agent_
 </pre>
 <h3 id="convertkit_output_page_takeover_landing_page_id">
 						convertkit_output_page_takeover_landing_page_id
-						<code>includes/class-convertkit-output.php::140</code>
+						<code>includes/class-convertkit-output.php::211</code>
 					</h3><h4>Overview</h4>
 						<p>Define the ConvertKit Landing Page ID to display for the given Post ID, overriding the Post settings. Return false to not display any ConvertKit Landing Page.</p><h4>Parameters</h4>
 					<table>
@@ -1137,7 +1137,7 @@ add_filter( 'convertkit_output_page_takeover_landing_page_id', function( $landin
 </pre>
 <h3 id="convertkit_output_append_form_to_content_form_id">
 						convertkit_output_append_form_to_content_form_id
-						<code>includes/class-convertkit-output.php::213</code>
+						<code>includes/class-convertkit-output.php::284</code>
 					</h3><h4>Overview</h4>
 						<p>Define the ConvertKit Form ID to display for the given Post ID, overriding the Post, Category or Plugin settings. Return false to not display any ConvertKit Form.</p><h4>Parameters</h4>
 					<table>
@@ -1168,7 +1168,7 @@ add_filter( 'convertkit_output_append_form_to_content_form_id', function( $form_
 </pre>
 <h3 id="convertkit_frontend_append_form">
 						convertkit_frontend_append_form
-						<code>includes/class-convertkit-output.php::277</code>
+						<code>includes/class-convertkit-output.php::348</code>
 					</h3><h4>Overview</h4>
 						<p>Filter the Post's Content, which includes a ConvertKit Form, immediately before it is output.</p><h4>Parameters</h4>
 					<table>
@@ -1207,7 +1207,7 @@ add_filter( 'convertkit_frontend_append_form', function( $content, $form, $post_
 </pre>
 <h3 id="convertkit_output_scripts_footer">
 						convertkit_output_scripts_footer
-						<code>includes/class-convertkit-output.php::491</code>
+						<code>includes/class-convertkit-output.php::691</code>
 					</h3><h4>Overview</h4>
 						<p>Define an array of scripts to output in the footer of the WordPress site.</p><h4>Parameters</h4>
 					<table>
@@ -1234,7 +1234,7 @@ add_filter( 'convertkit_output_scripts_footer', function( $scripts ) {
 </pre>
 <h3 id="convertkit_output_script_footer">
 						convertkit_output_script_footer
-						<code>includes/class-convertkit-output.php::510</code>
+						<code>includes/class-convertkit-output.php::710</code>
 					</h3><h4>Overview</h4>
 						<p>Filter the form <script> key/value pairs immediately before the script is output.</p><h4>Parameters</h4>
 					<table>
@@ -1963,7 +1963,7 @@ do_action( 'convertkit_gutenberg_enqueue_styles_editor_and_frontend', function( 
 </pre>
 <h3 id="convertkit_output_output_form">
 						convertkit_output_output_form
-						<code>includes/class-convertkit-output.php::95</code>
+						<code>includes/class-convertkit-output.php::166</code>
 					</h3><h4>Parameters</h4>
 					<table>
 						<thead>
@@ -1983,7 +1983,7 @@ do_action( 'convertkit_output_output_form', function(  ) {
 </pre>
 <h3 id="convertkit_output_landing_page_before">
 						convertkit_output_landing_page_before
-						<code>includes/class-convertkit-output.php::176</code>
+						<code>includes/class-convertkit-output.php::247</code>
 					</h3><h4>Overview</h4>
 						<p>Perform any actions immediately prior to outputting the Landing Page. Caching and minification Plugins may need to hook here to prevent CSS / JS minification and lazy loading images, which can interfere with Landing Pages.</p><h4>Parameters</h4>
 					<table>

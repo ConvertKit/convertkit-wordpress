@@ -104,7 +104,7 @@ class ConvertKit_Term {
 	 * Returns the form position setting for the Term
 	 * on the Term archive.
 	 *
-	 * @since   2.5.0
+	 * @since   2.4.9.1
 	 *
 	 * @return  string
 	 */
@@ -118,7 +118,7 @@ class ConvertKit_Term {
 	 * Whether the Term has a ConvertKit Form Position defined
 	 * for the Term archive.
 	 *
-	 * @since   2.5.0
+	 * @since   2.4.9.1
 	 *
 	 * @return  bool
 	 */

@@ -357,7 +357,7 @@ class ConvertKit_Output {
 	 *
 	 * See append_form_block_on_category_archive() configures the block to display the applicable category's Form.
 	 *
-	 * @since   2.5.0
+	 * @since   2.4.9.1
 	 *
 	 * @param   array                           $hooked_blocks              The list of hooked block types.
 	 * @param   string                          $position                   The relative position of the hooked blocks.
@@ -411,7 +411,7 @@ class ConvertKit_Output {
 	 * Configures the ConvertKit Form block that was hooked below the Query Loop block by maybe_register_form_block_on_category_archive,
 	 * defining the Form ID based on the current Category's Form ID.
 	 *
-	 * @since   2.5.0
+	 * @since   2.4.9.1
 	 *
 	 * @param   array $parsed_hooked_block    The parsed block array for the given hooked block type, or null to suppress the block.
 	 * @return  null|array
@@ -530,7 +530,7 @@ class ConvertKit_Output {
 	/**
 	 * Returns the Form Position setting for the currently viewed Category.
 	 *
-	 * @since   2.5.0
+	 * @since   2.4.9.1
 	 *
 	 * @return  bool|string
 	 */
