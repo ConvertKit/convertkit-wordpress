@@ -71,7 +71,7 @@ class ConvertKit_Broadcasts_Importer {
 		// Initialize the API.
 		$api = new ConvertKit_API_V4(
 			CONVERTKIT_OAUTH_CLIENT_ID,
-			admin_url( 'options-general.php?page=_wp_convertkit_settings' ),
+			CONVERTKIT_OAUTH_CLIENT_REDIRECT_URI,
 			$settings->get_access_token(),
 			$settings->get_refresh_token(),
 			$settings->debug_enabled(),

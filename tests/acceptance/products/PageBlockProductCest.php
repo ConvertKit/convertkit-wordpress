@@ -461,7 +461,7 @@ class PageBlockProductCest
 
 	/**
 	 * Test the Product block displays a message with a link to the Plugin's
-	 * settings screen, when the Plugin has no API key specified.
+	 * settings screen, when the Plugin has Not connected to ConvertKit.
 	 *
 	 * @since   2.2.3
 	 *

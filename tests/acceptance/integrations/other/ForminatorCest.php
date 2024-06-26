@@ -138,6 +138,83 @@ class ForminatorCest
 	}
 
 	/**
+	 * Test that saving a Forminator Form to ConvertKit Legacy Form Mapping works.
+	 *
+	 * @since   2.5.0
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testSettingsForminatorFormToConvertKitLegacyFormMapping(AcceptanceTester $I)
+	{
+		// Setup ConvertKit Plugin.
+		$I->setupConvertKitPluginNoDefaultForms($I);
+		$I->setupConvertKitPluginResources($I);
+
+		// Create Forminator Form.
+		$forminatorFormID = $this->_createForminatorForm($I);
+
+		// Load Forminator Plugin Settings.
+		$I->amOnAdminPage('options-general.php?page=_wp_convertkit_settings&tab=forminator');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Check that a Form Mapping option is displayed.
+		$I->seeElementInDOM('#_wp_convertkit_integration_forminator_settings_' . $forminatorFormID);
+
+		// Change Form to value specified in the .env file.
+		$I->selectOption('#_wp_convertkit_integration_forminator_settings_' . $forminatorFormID, $_ENV['CONVERTKIT_API_LEGACY_FORM_NAME']);
+
+		$I->click('Save Changes');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Check the value of the Form field matches the input provided.
+		$I->seeOptionIsSelected('#_wp_convertkit_integration_forminator_settings_' . $forminatorFormID, $_ENV['CONVERTKIT_API_LEGACY_FORM_NAME']);
+
+		// Create Page with Forminator Shortcode.
+		$I->havePageInDatabase(
+			[
+				'post_title'   => 'ConvertKit: Forminator Shortcode: Legacy Form',
+				'post_name'    => 'convertkit-forminator-form-shortcode-legacy-form',
+				'post_content' => 'Form:
+[forminator_form id="' . $forminatorFormID . '"]',
+			]
+		);
+
+		// Load the Page on the frontend site.
+		$I->amOnPage('/convertkit-forminator-form-shortcode-legacy-form');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Define email address for this test.
+		$emailAddress = $I->generateEmailAddress();
+
+		// Complete Name and Email.
+		$I->fillField('input[name=name-1]', 'ConvertKit Name');
+		$I->fillField('input[name=email-1]', $emailAddress);
+
+		// Submit Form.
+		$I->click('button.forminator-button-submit');
+
+		// Wait for response message.
+		$I->waitForElementVisible('.forminator-response-message');
+
+		// Confirm the form submitted without errors.
+		$I->performOn(
+			'.forminator-response-message',
+			function($I) {
+				$I->see('Form entry saved');
+			}
+		);
+
+		// Confirm that the email address was added to ConvertKit.
+		$I->apiCheckSubscriberExists($I, $emailAddress);
+	}
+
+	/**
 	 * Test that saving a Forminator Quiz to ConvertKit Form Mapping works.
 	 *
 	 * @since   2.4.3

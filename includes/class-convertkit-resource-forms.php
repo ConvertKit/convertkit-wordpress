@@ -42,7 +42,7 @@ class ConvertKit_Resource_Forms extends ConvertKit_Resource_V4 {
 		if ( $settings->has_access_and_refresh_token() ) {
 			$this->api = new ConvertKit_API_V4(
 				CONVERTKIT_OAUTH_CLIENT_ID,
-				admin_url( 'options-general.php?page=_wp_convertkit_settings' ),
+				CONVERTKIT_OAUTH_CLIENT_REDIRECT_URI,
 				$settings->get_access_token(),
 				$settings->get_refresh_token(),
 				$settings->debug_enabled(),
@@ -87,6 +87,32 @@ class ConvertKit_Resource_Forms extends ConvertKit_Resource_V4 {
 	public function non_inline_exist() {
 
 		if ( ! $this->get_non_inline() ) {
+			return false;
+		}
+
+		return true;
+
+	}
+
+	/**
+	 * Determines if the given Form ID is a legacy Form or Landing Page.
+	 *
+	 * @since   2.5.0
+	 *
+	 * @param   int $id     Form or Landing Page ID.
+	 */
+	public function is_legacy( $id ) {
+
+		// Get Form.
+		$form = $this->get_by_id( (int) $id );
+
+		// Return false if no Form exists.
+		if ( ! $form ) {
+			return false;
+		}
+
+		// If the `format` key exists, this is not a legacy Form.
+		if ( array_key_exists( 'format', $form ) ) {
 			return false;
 		}
 
@@ -284,7 +310,7 @@ class ConvertKit_Resource_Forms extends ConvertKit_Resource_V4 {
 			// Initialize the API.
 			$api = new ConvertKit_API_V4(
 				CONVERTKIT_OAUTH_CLIENT_ID,
-				admin_url( 'options-general.php?page=_wp_convertkit_settings' ),
+				CONVERTKIT_OAUTH_CLIENT_REDIRECT_URI,
 				$settings->get_access_token(),
 				$settings->get_refresh_token(),
 				$settings->debug_enabled(),
