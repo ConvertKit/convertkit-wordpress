@@ -28,9 +28,6 @@ class ConvertKit_AJAX {
 		add_action( 'wp_ajax_nopriv_convertkit_store_subscriber_email_as_id_in_cookie', array( $this, 'store_subscriber_email_as_id_in_cookie' ) );
 		add_action( 'wp_ajax_convertkit_store_subscriber_email_as_id_in_cookie', array( $this, 'store_subscriber_email_as_id_in_cookie' ) );
 
-		add_action( 'wp_ajax_nopriv_convertkit_tag_subscriber', array( $this, 'tag_subscriber' ) );
-		add_action( 'wp_ajax_convertkit_tag_subscriber', array( $this, 'tag_subscriber' ) );
-
 		add_action( 'wp_ajax_nopriv_convertkit_subscriber_authentication_send_code', array( $this, 'subscriber_authentication_send_code' ) );
 		add_action( 'wp_ajax_convertkit_subscriber_authentication_send_code', array( $this, 'subscriber_authentication_send_code' ) );
 
@@ -155,78 +152,6 @@ class ConvertKit_AJAX {
 				'id' => $subscriber_id,
 			)
 		);
-
-	}
-
-	/**
-	 * Tags a subscriber when their subscriber ID is present in the cookie or URL,
-	 * and the Page's ConvertKit Settings specify a Tag.
-	 *
-	 * @since   1.9.6
-	 */
-	public function tag_subscriber() {
-
-		// Check nonce.
-		check_ajax_referer( 'convertkit', 'convertkit_nonce' );
-
-		// Bail if required request parameters not submitted.
-		if ( ! isset( $_REQUEST['subscriber_id'] ) ) {
-			wp_send_json_error( __( 'ConvertKit: Required parameter `subscriber_id` not included in AJAX request.', 'convertkit' ) );
-		}
-		if ( ! isset( $_REQUEST['tag'] ) ) {
-			wp_send_json_error( __( 'ConvertKit: Required parameter `tag` not included in AJAX request.', 'convertkit' ) );
-		}
-		$subscriber_id = absint( sanitize_text_field( $_REQUEST['subscriber_id'] ) );
-		$tag_id        = absint( sanitize_text_field( $_REQUEST['tag'] ) );
-
-		// Bail if no subscriber ID or tag provided.
-		if ( empty( $subscriber_id ) ) {
-			wp_send_json_error( __( 'ConvertKit: Required parameter `subscriber_id` empty in AJAX request.', 'convertkit' ) );
-		}
-		if ( empty( $tag_id ) ) {
-			wp_send_json_error( __( 'ConvertKit: Required parameter `tag` empty in AJAX request.', 'convertkit' ) );
-		}
-
-		// Bail if the API hasn't been configured.
-		$settings = new ConvertKit_Settings();
-		if ( ! $settings->has_access_and_refresh_token() ) {
-			wp_send_json_error( __( 'ConvertKit: Access Token not defined in Plugin Settings.', 'convertkit' ) );
-		}
-
-		// Initialize the API.
-		$api = new ConvertKit_API_V4(
-			CONVERTKIT_OAUTH_CLIENT_ID,
-			admin_url( 'options-general.php?page=_wp_convertkit_settings' ),
-			$settings->get_access_token(),
-			$settings->get_refresh_token(),
-			$settings->debug_enabled(),
-			'settings'
-		);
-
-		// Get subscriber's email address by subscriber ID.
-		$subscriber = $api->get_subscriber( $subscriber_id );
-
-		// Bail if the subscriber could not be found.
-		if ( is_wp_error( $subscriber ) ) {
-			wp_send_json_error( $subscriber->get_error_message() );
-		}
-
-		// Extract the subscriber's email.
-		$email = $subscriber['subscriber']['email_address'];
-
-		// Store the subscriber ID as a cookie.
-		$subscriber = new ConvertKit_Subscriber();
-		$subscriber->set( $subscriber_id );
-
-		// Tag the subscriber with the Post's tag.
-		$tag = $api->tag_subscribe( $tag_id, $email );
-
-		// Bail if an error occured tagging the subscriber.
-		if ( is_wp_error( $tag ) ) {
-			wp_send_json_error( $tag );
-		}
-
-		wp_send_json_success( $tag );
 
 	}
 

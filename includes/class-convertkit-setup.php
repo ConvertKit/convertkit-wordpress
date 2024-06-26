@@ -52,6 +52,14 @@ class ConvertKit_Setup {
 		}
 
 		/**
+		 * 2.4.9.1+: Migrate ck_default_form to _wp_convertkit_term_meta[form], as Term settings
+		 * support multiple options (form, position etc).
+		 */
+		if ( version_compare( $current_version, '2.4.9.1', '<' ) ) {
+			$this->migrate_term_form_settings();
+		}
+
+		/**
 		 * 1.6.1+: Refresh Forms, Landing Pages and Tags data stored in settings,
 		 * to get new Forms Builder Settings.
 		 */
@@ -127,6 +135,50 @@ class ConvertKit_Setup {
 				'token_expires' => $result['oauth']['expires_at'],
 			)
 		);
+
+	}
+
+	/**
+	 * Migrate ck_default_form to _wp_convertkit_term_meta[form], as Term settings
+	 * support multiple options (form, position etc).
+	 *
+	 * @since   2.4.9.1
+	 */
+	private function migrate_term_form_settings() {
+
+		// Get all Terms that have ConvertKit settings defined.
+		$query = new WP_Term_Query(
+			array(
+				'taxonomy'   => 'category',
+				'hide_empty' => false,
+				'fields'     => 'ids',
+				'meta_query' => array(
+					array(
+						'key'        => 'ck_default_form',
+						'comparison' => 'EXISTS',
+					),
+				),
+			)
+		);
+
+		// Bail if no Terms exist.
+		if ( ! $query->terms ) {
+			return;
+		}
+
+		// Iterate through Terms, mapping settings.
+		foreach ( $query->terms as $term_id ) {
+			$term_settings = new ConvertKit_Term( $term_id );
+			$term_settings->save(
+				array(
+					'form'          => get_term_meta( $term_id, 'ck_default_form', true ), // Fetch form setting from old meta key.
+					'form_position' => '', // Default to no position.
+				)
+			);
+
+			// Delete old Term meta.
+			delete_term_meta( $term_id, 'ck_default_form' );
+		}
 
 	}
 
