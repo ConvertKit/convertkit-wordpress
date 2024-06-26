@@ -69,8 +69,8 @@ class ConvertKit_Settings_OAuth extends ConvertKit_Settings_Base {
 			wp_safe_redirect(
 				add_query_arg(
 					array(
-						'page'  => '_wp_convertkit_settings',
-						'error' => $result->get_error_code(),
+						'page'              => '_wp_convertkit_settings',
+						'error_description' => $result->get_error_message(),
 					),
 					'options-general.php'
 				)

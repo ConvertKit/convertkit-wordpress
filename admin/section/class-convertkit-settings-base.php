@@ -155,8 +155,6 @@ abstract class ConvertKit_Settings_Base {
 		$messages = array(
 			// OAuth.
 			'oauth2_success'                         => __( 'Successfully authorized with ConvertKit.', 'convertkit' ),
-			'convertkit_api_get_access_token_invalid_grant' => __( 'The provided authorization grant is invalid, expired, revoked, does not match the redirection URI used in the authorization request, or was issued to another client.', 'convertkit' ),
-			'convertkit_api_get_access_token_invalid_client' => __( 'Client authentication failed due to unknown client, no client authentication included, or unsupported authentication method.', 'convertkit' ),
 			// Tools.
 			'import_configuration_upload_error'      => __( 'An error occured uploading the configuration file.', 'convertkit' ),
 			'import_configuration_invalid_file_type' => __( 'The uploaded configuration file isn\'t valid.', 'convertkit' ),
@@ -164,7 +162,12 @@ abstract class ConvertKit_Settings_Base {
 			'import_configuration_success'           => __( 'Configuration imported successfully.', 'convertkit' ),
 		);
 
-		// Output error notification if defined.
+		// Output OAuth error notification if defined.
+		if ( isset( $_REQUEST['error_description'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification
+			$this->output_error( sanitize_text_field( $_REQUEST['error_description'] ) ); // phpcs:ignore WordPress.Security.NonceVerification
+		}
+
+		// Output plugin error notification if defined.
 		if ( isset( $_REQUEST['error'] ) && array_key_exists( sanitize_text_field( $_REQUEST['error'] ), $messages ) ) { // phpcs:ignore WordPress.Security.NonceVerification
 			$this->output_error( $messages[ sanitize_text_field( $_REQUEST['error'] ) ] ); // phpcs:ignore WordPress.Security.NonceVerification
 		}
