@@ -16,12 +16,12 @@ function convertKitGutenbergProductBlockRenderPreview( block, props ) {
 
 	// If no API Key has been defined in the Plugin, return a prompt to tell the editor
 	// what to do.
-	if ( ! block.has_api_key ) {
+	if ( ! block.has_access_token ) {
 		return convertKitGutenbergDisplayBlockNoticeWithLink(
 			block.name,
-			block.no_api_key.notice,
-			block.no_api_key.link,
-			block.no_api_key.link_text
+			block.no_access_token.notice,
+			block.no_access_token.link,
+			block.no_access_token.link_text
 		);
 	}
 

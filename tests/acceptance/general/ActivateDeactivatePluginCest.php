@@ -38,13 +38,12 @@ class ActivateDeactivatePluginCest
 		// activating this Plugin will fail, therefore failing the test.
 		$I->activateConvertKitPlugin($I);
 
-		// Setup API Keys at Settings > ConvertKit, which will use WordPress Libraries and show errors
+		// Setup Plugin as if we performed OAuth.
+		$I->setupConvertKitPlugin($I);
+
+		// Use API by loading Settings screen, which will use WordPress Libraries and show errors
 		// if there's a conflict e.g. an older WordPress Library was loaded from another ConvertKit Plugin.
 		$I->loadConvertKitSettingsGeneralScreen($I);
-
-		// Complete API Fields.
-		$I->fillField('_wp_convertkit_settings[api_key]', $_ENV['CONVERTKIT_API_KEY']);
-		$I->fillField('_wp_convertkit_settings[api_secret]', $_ENV['CONVERTKIT_API_SECRET']);
 
 		// Click the Save Changes button.
 		$I->click('Save Changes');

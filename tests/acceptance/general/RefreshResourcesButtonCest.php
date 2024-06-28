@@ -377,7 +377,7 @@ class RefreshResourcesButtonCest
 
 		// Confirm that an error notification is displayed on screen, with the expected error message.
 		$I->seeElementInDOM('div.components-notice-list div.is-error');
-		$I->see('API Key not valid');
+		$I->see('ConvertKit: The access token is invalid');
 
 		// Confirm that the notice is dismissible.
 		$I->click('div.components-notice-list div.is-error button.components-notice__dismiss');
@@ -409,7 +409,7 @@ class RefreshResourcesButtonCest
 
 		// Confirm that an error notification is displayed on screen, with the expected error message.
 		$I->seeElementInDOM('div.convertkit-error');
-		$I->see('API Key not valid');
+		$I->see('ConvertKit: The access token is invalid');
 
 		// Confirm that the notice is dismissible.
 		$I->click('div.convertkit-error button.notice-dismiss');
@@ -449,7 +449,7 @@ class RefreshResourcesButtonCest
 
 		// Confirm that an error notification is displayed on screen, with the expected error message.
 		$I->seeElementInDOM('div.convertkit-error');
-		$I->see('API Key not valid');
+		$I->see('ConvertKit: The access token is invalid');
 
 		// Confirm that the notice is dismissible.
 		$I->click('div.convertkit-error button.notice-dismiss');
@@ -497,7 +497,7 @@ class RefreshResourcesButtonCest
 
 		// Confirm that an error notification is displayed on screen, with the expected error message.
 		$I->seeElementInDOM('div.convertkit-error');
-		$I->see('API Key not valid');
+		$I->see('ConvertKit: The access token is invalid');
 
 		// Confirm that the notice is dismissible.
 		$I->click('div.convertkit-error button.notice-dismiss');
@@ -529,7 +529,7 @@ class RefreshResourcesButtonCest
 
 		// Confirm that an error notification is displayed on screen, with the expected error message.
 		$I->seeElementInDOM('div.convertkit-error');
-		$I->see('API Key not valid');
+		$I->see('ConvertKit: The access token is invalid');
 
 		// Confirm that the notice is dismissible.
 		$I->click('div.convertkit-error button.notice-dismiss');
@@ -565,7 +565,7 @@ class RefreshResourcesButtonCest
 
 		// Confirm that an error notification is displayed on screen, with the expected error message.
 		$I->seeElementInDOM('div.convertkit-error');
-		$I->see('API Key not valid');
+		$I->see('ConvertKit: The access token is invalid');
 
 		// Confirm that the notice is dismissible.
 		$I->click('div.convertkit-error button.notice-dismiss');

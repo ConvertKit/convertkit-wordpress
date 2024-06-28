@@ -20,13 +20,14 @@ class RestrictContentSetupCest
 	}
 
 	/**
-	 * Test that the Add New Member Content button does not display on the Pages screen when no API keys are configured.
+	 * Test that the Add New Member Content button does not display on the Pages screen when no ConvertKit
+	 * account is connected.
 	 *
 	 * @since   2.1.0
 	 *
 	 * @param   AcceptanceTester $I  Tester.
 	 */
-	public function testAddNewMemberContentButtonNotDisplayedWhenNoAPIKeys(AcceptanceTester $I)
+	public function testAddNewMemberContentButtonNotDisplayedWhenNoCredentials(AcceptanceTester $I)
 	{
 		// Navigate to Pages.
 		$I->amOnAdminPage('edit.php?post_type=page');
@@ -94,8 +95,8 @@ class RestrictContentSetupCest
 	 */
 	public function testAddNewMemberContentDisplaysCTAWhenNoResources(AcceptanceTester $I)
 	{
-		// Setup Plugin using API keys that have no resources.
-		$I->setupConvertKitPluginAPIKeyNoData($I);
+		// Setup Plugin using ConvertKit account that has no resources.
+		$I->setupConvertKitPluginCredentialsNoData($I);
 
 		// Navigate to Pages.
 		$I->amOnAdminPage('edit.php?post_type=page');
@@ -112,7 +113,7 @@ class RestrictContentSetupCest
 		$I->seeInSource('<a href="https://app.convertkit.com/products/new/?utm_source=wordpress&amp;utm_term=en_US&amp;utm_content=convertkit"');
 		$I->seeInSource('<a href="https://app.convertkit.com/subscribers/?utm_source=wordpress&amp;utm_term=en_US&amp;utm_content=convertkit"');
 
-		// Update the Plugin to use API keys that have resources.
+		// Update the Plugin to use credentials that have resources.
 		$I->setupConvertKitPlugin($I);
 
 		// Click the button to reload the wizard.

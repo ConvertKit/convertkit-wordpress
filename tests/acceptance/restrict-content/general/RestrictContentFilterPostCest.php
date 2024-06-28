@@ -20,13 +20,13 @@ class RestrictContentFilterPostCest
 	}
 
 	/**
-	 * Test that no dropdown filter on the Posts screen is displayed when no API keys are configured.
+	 * Test that no dropdown filter on the Posts screen is displayed when no credentials are configured.
 	 *
 	 * @since   2.3.2
 	 *
 	 * @param   AcceptanceTester $I  Tester.
 	 */
-	public function testNoFilterDisplayedWhenNoAPIKeys(AcceptanceTester $I)
+	public function testNoFilterDisplayedWhenNoCredentials(AcceptanceTester $I)
 	{
 		// Navigate to Posts.
 		$I->amOnAdminPage('edit.php?post_type=post');
@@ -48,8 +48,8 @@ class RestrictContentFilterPostCest
 	 */
 	public function testNoFilterDisplayedWhenNoResources(AcceptanceTester $I)
 	{
-		// Setup Plugin using API keys that have no resources.
-		$I->setupConvertKitPluginAPIKeyNoData($I);
+		// Setup Plugin using credentials that have no resources.
+		$I->setupConvertKitPluginCredentialsNoData($I);
 
 		// Navigate to Posts.
 		$I->amOnAdminPage('edit.php?post_type=post');

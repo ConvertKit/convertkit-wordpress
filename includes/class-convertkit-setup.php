@@ -45,6 +45,13 @@ class ConvertKit_Setup {
 		}
 
 		/**
+		 * 2.5.0: Get Access token for API version 4.0 using a v3 API Key and Secret.
+		 */
+		if ( ! $current_version || version_compare( $current_version, '2.5.0', '<' ) ) {
+			$this->maybe_get_access_token_by_api_key_and_secret();
+		}
+
+		/**
 		 * 2.4.9.1+: Migrate ck_default_form to _wp_convertkit_term_meta[form], as Term settings
 		 * support multiple options (form, position etc).
 		 */
@@ -80,6 +87,54 @@ class ConvertKit_Setup {
 
 		// Update the installed version number in the options table.
 		update_option( 'convertkit_version', CONVERTKIT_PLUGIN_VERSION );
+
+	}
+
+	/**
+	 * 2.5.0: Fetch an Access Token, Refresh Token and Expiry for v4 API use
+	 * based on the Plugin setting's v3 API Key and Secret.
+	 *
+	 * @since   2.5.0
+	 */
+	private function maybe_get_access_token_by_api_key_and_secret() {
+
+		$convertkit_settings = new ConvertKit_Settings();
+
+		// Bail if an Access Token exists; we don't need to fetch another one.
+		if ( $convertkit_settings->has_access_token() ) {
+			return;
+		}
+
+		// Bail if no API Key or Secret.
+		if ( empty( $convertkit_settings->get_api_key() ) ) {
+			return;
+		}
+		if ( empty( $convertkit_settings->get_api_secret() ) ) {
+			return;
+		}
+
+		// Get Access Token by API Key and Secret.
+		$api    = new ConvertKit_API_V4( CONVERTKIT_OAUTH_CLIENT_ID, CONVERTKIT_OAUTH_CLIENT_REDIRECT_URI );
+		$result = $api->get_access_token_by_api_key_and_secret(
+			$convertkit_settings->get_api_key(),
+			$convertkit_settings->get_api_secret()
+		);
+
+		// Bail if an error occured.
+		if ( is_wp_error( $result ) ) {
+			return;
+		}
+
+		// Store the new credentials.
+		// We don't use update_credentials(), because the response
+		// includes an `expires_at`, not a `created_at` and `expires_in`.
+		$convertkit_settings->save(
+			array(
+				'access_token'  => $result['oauth']['access_token'],
+				'refresh_token' => $result['oauth']['refresh_token'],
+				'token_expires' => $result['oauth']['expires_at'],
+			)
+		);
 
 	}
 

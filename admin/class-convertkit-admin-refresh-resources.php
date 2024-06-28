@@ -133,8 +133,8 @@ class ConvertKit_Admin_Refresh_Resources {
 		// Get settings.
 		$settings = new ConvertKit_Settings();
 
-		// Bail if no API keys are defined.
-		if ( ! $settings->has_api_key_and_secret() ) {
+		// Bail if no Access Token is defined.
+		if ( ! $settings->has_access_and_refresh_token() ) {
 			return;
 		}
 

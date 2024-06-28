@@ -133,11 +133,11 @@ class ConvertKit_Block_Product extends ConvertKit_Block {
 			// Gutenberg: Example image showing how this block looks when choosing it in Gutenberg.
 			'gutenberg_example_image'           => CONVERTKIT_PLUGIN_URL . 'resources/backend/images/block-example-product.png',
 
-			// Help descriptions, displayed when no API key / resources exist and this block/shortcode is added.
-			'no_api_key'                        => array(
-				'notice'    => __( 'No API Key specified.', 'convertkit' ),
+			// Help descriptions, displayed when no Access Token / resources exist and this block/shortcode is added.
+			'no_access_token'                   => array(
+				'notice'    => __( 'Not connected to ConvertKit.', 'convertkit' ),
 				'link'      => convertkit_get_setup_wizard_plugin_link(),
-				'link_text' => __( 'Click here to add your API Key.', 'convertkit' ),
+				'link_text' => __( 'Click here to connect your ConvertKit account.', 'convertkit' ),
 			),
 			'no_resources'                      => array(
 				'notice'    => __( 'No products exist in ConvertKit.', 'convertkit' ),
@@ -152,9 +152,9 @@ class ConvertKit_Block_Product extends ConvertKit_Block {
 			// If not defined, render_callback above will be used.
 			'gutenberg_preview_render_callback' => 'convertKitGutenbergProductBlockRenderPreview',
 
-			// Whether an API Key exists in the Plugin, and are the required resources (products) available.
-			// If no API Key is specified in the Plugin's settings, render the "No API Key" output.
-			'has_api_key'                       => $settings->has_api_key_and_secret(),
+			// Whether an Access Token exists in the Plugin, and are the required resources (products) available.
+			// If no Access Token is specified in the Plugin's settings, render the "Not Connected" output.
+			'has_access_token'                  => $settings->has_access_and_refresh_token(),
 			'has_resources'                     => $convertkit_products->exist(),
 		);
 

@@ -128,23 +128,17 @@ class ConvertKit_Output {
 		}
 
 		// Initialize the API.
-		$api = new ConvertKit_API(
-			$this->settings->get_api_key(),
-			$this->settings->get_api_secret(),
+		$api = new ConvertKit_API_V4(
+			CONVERTKIT_OAUTH_CLIENT_ID,
+			CONVERTKIT_OAUTH_CLIENT_REDIRECT_URI,
+			$this->settings->get_access_token(),
+			$this->settings->get_refresh_token(),
 			$this->settings->debug_enabled(),
 			'output'
 		);
 
-		// Get subscriber's email address by subscriber ID.
-		$subscriber = $api->get_subscriber_by_id( $this->subscriber_id );
-
-		// Bail if the subscriber could not be found.
-		if ( is_wp_error( $subscriber ) ) {
-			return;
-		}
-
 		// Tag subscriber.
-		$api->tag_subscribe( $this->post_settings->get_tag(), $subscriber['email_address'] );
+		$api->tag_subscriber( $this->post_settings->get_tag(), $this->subscriber_id );
 
 	}
 

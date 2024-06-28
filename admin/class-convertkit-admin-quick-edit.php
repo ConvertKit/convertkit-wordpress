@@ -106,7 +106,7 @@ class ConvertKit_Admin_Quick_Edit {
 
 		// Don't output Quick Edit fields if the API settings have not been defined.
 		$settings = new ConvertKit_Settings();
-		if ( ! $settings->has_api_key_and_secret() ) {
+		if ( ! $settings->has_access_and_refresh_token() ) {
 			return;
 		}
 

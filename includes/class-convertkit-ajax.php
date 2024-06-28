@@ -41,7 +41,7 @@ class ConvertKit_AJAX {
 	 *
 	 * Typically used when a refresh button in a block has been pressed when
 	 * convertKitGutenbergDisplayBlockNoticeWithLink() is called, because either
-	 * no API keys were specified, or no resources exist in ConvertKit.
+	 * no Access Token is specified, or no resources exist in ConvertKit.
 	 *
 	 * @since   2.2.6
 	 */

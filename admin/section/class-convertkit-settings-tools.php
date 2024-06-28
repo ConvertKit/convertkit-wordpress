@@ -271,33 +271,6 @@ class ConvertKit_Settings_Tools extends ConvertKit_Settings_Base {
 	}
 
 	/**
-	 * Outputs success and/or error notices if required.
-	 *
-	 * @since   2.0.0
-	 */
-	public function maybe_output_notices() {
-
-		// Define messages that might be displayed as a notification.
-		$messages = array(
-			'import_configuration_upload_error'      => __( 'An error occured uploading the configuration file.', 'convertkit' ),
-			'import_configuration_invalid_file_type' => __( 'The uploaded configuration file isn\'t valid.', 'convertkit' ),
-			'import_configuration_empty'             => __( 'The uploaded configuration file contains no settings.', 'convertkit' ),
-			'import_configuration_success'           => __( 'Configuration imported successfully.', 'convertkit' ),
-		);
-
-		// Output error notification if defined.
-		if ( isset( $_REQUEST['error'] ) && array_key_exists( sanitize_text_field( $_REQUEST['error'] ), $messages ) ) { // phpcs:ignore WordPress.Security.NonceVerification
-			$this->output_error( $messages[ sanitize_text_field( $_REQUEST['error'] ) ] ); // phpcs:ignore WordPress.Security.NonceVerification
-		}
-
-		// Output success notification if defined.
-		if ( isset( $_REQUEST['success'] ) && array_key_exists( sanitize_text_field( $_REQUEST['success'] ), $messages ) ) { // phpcs:ignore WordPress.Security.NonceVerification
-			$this->output_success( $messages[ sanitize_text_field( $_REQUEST['success'] ) ] ); // phpcs:ignore WordPress.Security.NonceVerification
-		}
-
-	}
-
-	/**
 	 * Outputs the Debug Log and System Info view.
 	 *
 	 * @since   1.9.6
