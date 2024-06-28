@@ -180,6 +180,29 @@ class PluginSettingsGeneralCest
 	}
 
 	/**
+	 * Test that an error notice displays when the `error_description` is present in the URL,
+	 * typically when the user denies access via OAuth or exchanging a code for an access token failed.
+	 *
+	 * @since   2.5.0
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testErrorNoticeDisplaysOnOAuthFailure($I)
+	{
+		// Go to the Plugin's Settings Screen, as if we came back from OAuth where the user did not
+		// grant access, or exchanging a code for an access token failed.
+		$I->amOnAdminPage('options-general.php?page=_wp_convertkit_settings&error_description=Client+authentication+failed+due+to+unknown+client%2C+no+client+authentication+included%2C+or+unsupported+authentication+method.');
+
+		// Check that a notice is displayed that the API credentials are invalid.
+		$I->seeErrorNotice($I, 'Client authentication failed due to unknown client, no client authentication included, or unsupported authentication method.');
+
+		// Confirm the Connect button displays.
+		$I->see('Connect');
+		$I->dontSee('Disconnect');
+		$I->dontSeeElementInDOM('input#submit');
+	}
+
+	/**
 	 * Test that no PHP errors or notices are displayed on the Plugin's Setting screen,
 	 * when the Default Form for Pages and Posts are changed, and that the preview links
 	 * work when the Default Form is changed.
