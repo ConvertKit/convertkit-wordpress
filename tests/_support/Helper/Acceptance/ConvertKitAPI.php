@@ -10,6 +10,36 @@ namespace Helper\Acceptance;
 class ConvertKitAPI extends \Codeception\Module
 {
 	/**
+	 * Returns an encoded `state` parameter compatible with OAuth.
+	 *
+	 * @since   2.5.0
+	 *
+	 * @param   string $returnTo   Return URL.
+	 * @param   string $clientID   OAuth Client ID.
+	 * @return  string
+	 */
+	public function apiEncodeState($returnTo, $clientID)
+	{
+		$str = json_encode( // phpcs:ignore WordPress.WP.AlternativeFunctions.json_encode_json_encode
+			array(
+				'return_to' => $returnTo,
+				'client_id' => $clientID,
+			)
+		);
+
+		// Encode to Base64 string.
+		$str = base64_encode( $str ); // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions
+
+		// Convert Base64 to Base64URL by replacing “+” with “-” and “/” with “_”.
+		$str = strtr( $str, '+/', '-_' );
+
+		// Remove padding character from the end of line.
+		$str = rtrim( $str, '=' );
+
+		return $str;
+	}
+
+	/**
 	 * Check the given email address exists as a subscriber.
 	 *
 	 * @param   AcceptanceTester $I             AcceptanceTester.
