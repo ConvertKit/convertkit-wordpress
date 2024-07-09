@@ -3,9 +3,9 @@ Contributors: nathanbarry, growdev, travisnorthcutt, ggwicz
 Donate link: https://convertkit.com
 Tags: email marketing, email newsletter, newsletter, subscribers, membership
 Requires at least: 5.0
-Tested up to: 6.5.4
+Tested up to: 6.5.5
 Requires PHP: 5.6.20
-Stable tag: 2.4.9.1
+Stable tag: 2.5.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -157,6 +157,10 @@ Full Plugin documentation can be found [here](https://help.convertkit.com/en/art
 10. Track subscriber growth
 
 == Changelog ==
+
+### 2.5.0 2024-07-09
+* Added: Use ConvertKit v4 API and OAuth
+* Updated: ConvertKit WordPress Libraries to 2.0.0
 
 ### 2.4.9.1 2024-06-20
 * Added: Categories: Option to display specified ConvertKit Form on Category archives
