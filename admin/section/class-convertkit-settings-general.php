@@ -19,7 +19,7 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 	 *
 	 * @since   1.9.6
 	 *
-	 * @var     ConvertKit_API
+	 * @var     ConvertKit_API_V4
 	 */
 	private $api;
 
@@ -61,10 +61,132 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 		add_action( 'convertkit_admin_settings_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		add_action( 'convertkit_admin_settings_enqueue_styles', array( $this, 'enqueue_styles' ) );
 
-		// Render container element.
-		add_action( 'convertkit_settings_base_render_before', array( $this, 'render_before' ) );
-
 		parent::__construct();
+
+		$this->check_credentials();
+		$this->maybe_disconnect();
+
+	}
+
+	/**
+	 * Test the access token, if it exists.
+	 * If the access token has been revoked or is invalid, remove it from the settings now.
+	 *
+	 * @since   2.5.0
+	 */
+	private function check_credentials() {
+
+		// Bail if we're not on the settings screen.
+		if ( ! $this->on_settings_screen() ) {
+			return;
+		}
+
+		// Bail if no access and refresh token exist.
+		if ( ! $this->settings->has_access_and_refresh_token() ) {
+			return;
+		}
+
+		// Initialize the API.
+		$this->api = new ConvertKit_API_V4(
+			CONVERTKIT_OAUTH_CLIENT_ID,
+			CONVERTKIT_OAUTH_CLIENT_REDIRECT_URI,
+			$this->settings->get_access_token(),
+			$this->settings->get_refresh_token(),
+			$this->settings->debug_enabled(),
+			'settings'
+		);
+
+		// Get Account Details, which we'll use in account_name_callback(), but also lets us test
+		// whether the API credentials are valid.
+		$this->account = $this->api->get_account();
+
+		// If the request succeeded, no need to perform further actions.
+		if ( ! is_wp_error( $this->account ) ) {
+			// Remove any existing persistent notice.
+			WP_ConvertKit()->get_class( 'admin_notices' )->delete( 'authorization_failed' );
+
+			return;
+		}
+
+		// Depending on the error code, maybe persist a notice in the WordPress Administration until the user
+		// fixes the problem.
+		switch ( $this->account->get_error_data( $this->account->get_error_code() ) ) {
+			case 401:
+				// Access token either expired or was revoked in ConvertKit.
+				// Remove from settings.
+				$this->settings->delete_credentials();
+
+				// Display a site wide notice.
+				WP_ConvertKit()->get_class( 'admin_notices' )->add( 'authorization_failed' );
+
+				// Redirect to General screen, which will now show the ConvertKit_Settings_OAuth screen, because
+				// the Plugin has no access token.
+				wp_safe_redirect(
+					add_query_arg(
+						array(
+							'page' => $this->settings_key,
+						),
+						'options-general.php'
+					)
+				);
+				exit();
+		}
+
+		// Output a non-401 error now.
+		$this->output_error( $this->account->get_error_message() );
+
+	}
+
+	/**
+	 * Deletes the OAuth Access Token, Refresh Token and Expiry from the Plugin's settings, if the user
+	 * clicked the Disconnect button.
+	 *
+	 * @since   2.5.0
+	 */
+	private function maybe_disconnect() {
+
+		// Bail if we're not on the settings screen.
+		if ( ! $this->on_settings_screen() ) {
+			return;
+		}
+
+		// Bail if nonce verification fails.
+		if ( ! isset( $_REQUEST['_convertkit_settings_oauth_disconnect'] ) ) {
+			return;
+		}
+		if ( ! wp_verify_nonce( sanitize_key( $_REQUEST['_convertkit_settings_oauth_disconnect'] ), 'convertkit-oauth-disconnect' ) ) {
+			return;
+		}
+
+		// Delete Access Token.
+		$settings = new ConvertKit_Settings();
+		$settings->delete_credentials();
+
+		// Delete cached resources.
+		$creator_network = new ConvertKit_Resource_Creator_Network_Recommendations();
+		$forms           = new ConvertKit_Resource_Forms();
+		$landing_pages   = new ConvertKit_Resource_Landing_Pages();
+		$posts           = new ConvertKit_Resource_Posts();
+		$products        = new ConvertKit_Resource_Products();
+		$tags            = new ConvertKit_Resource_Tags();
+		$creator_network->delete();
+		$forms->delete();
+		$landing_pages->delete();
+		$posts->delete();
+		$products->delete();
+		$tags->delete();
+
+		// Redirect to General screen, which will now show the ConvertKit_Settings_OAuth screen, because
+		// the Plugin has no access token.
+		wp_safe_redirect(
+			add_query_arg(
+				array(
+					'page' => $this->settings_key,
+				),
+				'options-general.php'
+			)
+		);
+		exit();
 
 	}
 
@@ -120,28 +242,6 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 			array( $this, 'account_name_callback' ),
 			$this->settings_key,
 			$this->name
-		);
-
-		add_settings_field(
-			'api_key',
-			__( 'API Key', 'convertkit' ),
-			array( $this, 'api_key_callback' ),
-			$this->settings_key,
-			$this->name,
-			array(
-				'label_for' => 'api_key',
-			)
-		);
-
-		add_settings_field(
-			'api_secret',
-			__( 'API Secret', 'convertkit' ),
-			array( $this, 'api_secret_callback' ),
-			$this->settings_key,
-			$this->name,
-			array(
-				'label_for' => 'api_secret',
-			)
 		);
 
 		foreach ( convertkit_get_supported_post_types() as $supported_post_type ) {
@@ -253,146 +353,35 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 	}
 
 	/**
-	 * Renders container divs for styling, and attempts to fetch the ConvertKit Account
-	 * details if API credentials have been specified.
-	 *
-	 * @since 1.9.6
-	 */
-	public function render_before() {
-
-		// Initialize the API if an API Key and Secret is defined.
-		if ( ! $this->settings->has_api_key_and_secret() ) {
-			return;
-		}
-
-		$this->api = new ConvertKit_API(
-			$this->settings->get_api_key(),
-			$this->settings->get_api_secret(),
-			$this->settings->debug_enabled(),
-			'settings'
-		);
-
-		// Get Account Details, which we'll use in account_name_callback(), but also lets us test
-		// whether the API credentials are valid.
-		$this->account = $this->api->account();
-
-		// Show an error message if Account Details could not be fetched e.g. API credentials supplied are invalid.
-		if ( is_wp_error( $this->account ) ) {
-			// Depending on the error code, maybe persist a notice in the WordPress Administration until the user
-			// fixes the problem.
-			switch ( $this->account->get_error_data( $this->account->get_error_code() ) ) {
-				case 401:
-					// API credentials are invalid.
-					WP_ConvertKit()->get_class( 'admin_notices' )->add( 'authorization_failed' );
-					break;
-			}
-
-			$this->output_error( $this->account->get_error_message() );
-		} else {
-			// Remove any existing persistent notice.
-			WP_ConvertKit()->get_class( 'admin_notices' )->delete( 'authorization_failed' );
-		}
-
-	}
-
-	/**
 	 * Outputs the Account Name
 	 *
 	 * @since   1.9.6
 	 */
 	public function account_name_callback() {
 
-		// Output a notice telling the user to enter their API Key and Secret if they haven't done so yet.
-		if ( ! $this->settings->has_api_key_and_secret() || is_wp_error( $this->account ) ) {
-			echo '<p class="description">' . esc_html__( 'Add a valid API Key and Secret to get started', 'convertkit' ) . '</p>';
-			return;
-		}
-
 		// Output Account Name.
-		$html  = sprintf(
+		$html = sprintf(
 			'<code>%s</code>',
-			isset( $this->account['name'] ) ? esc_attr( $this->account['name'] ) : esc_html__( '(Not specified)', 'convertkit' )
+			isset( $this->account['account']['name'] ) ? esc_attr( $this->account['account']['name'] ) : esc_html__( '(Not specified)', 'convertkit' )
 		);
-		$html .= '<p class="description">' . esc_html__( 'The name of your connected ConvertKit account.', 'convertkit' ) . '</p>';
+
+		// Display an option to disconnect.
+		$html .= sprintf(
+			'<p><a href="%1$s" class="button button-primary">%2$s</a></p>',
+			esc_url(
+				add_query_arg(
+					array(
+						'page' => '_wp_convertkit_settings',
+						'_convertkit_settings_oauth_disconnect' => wp_create_nonce( 'convertkit-oauth-disconnect' ),
+					),
+					'options-general.php'
+				)
+			),
+			esc_html__( 'Disconnect', 'convertkit' )
+		);
 
 		// Output has already been run through escaping functions above.
 		echo $html; // phpcs:ignore WordPress.Security.EscapeOutput
-	}
-
-	/**
-	 * Renders the input for the API Key setting.
-	 *
-	 * @since   1.9.6
-	 */
-	public function api_key_callback() {
-
-		// If the API Key is stored as a constant, it cannot be edited here.
-		if ( $this->settings->is_api_key_a_constant() ) {
-			echo $this->get_masked_value( // phpcs:ignore WordPress.Security.EscapeOutput
-				$this->settings->get_api_key(),
-				esc_html__( 'Your API Key has been defined in your wp-config.php file. For security, it is not displayed here.', 'convertkit' )
-			);
-			return;
-		}
-
-		// Output field.
-		echo $this->get_text_field( // phpcs:ignore WordPress.Security.EscapeOutput
-			'api_key',
-			esc_attr( $this->settings->get_api_key() ),
-			array(
-				sprintf(
-					/* translators: %1$s: Link to ConvertKit Account */
-					esc_html__( '%1$s Required for proper plugin function.', 'convertkit' ),
-					'<a href="' . esc_url( convertkit_get_api_key_url() ) . '" target="_blank">' . esc_html__( 'Get your ConvertKit API Key.', 'convertkit' ) . '</a>'
-				),
-				sprintf(
-					/* translators: Account, %1$s: wp-config.php, %2$s: <code> block for API Key definition */
-					esc_html__( 'Alternatively specify your API Key in the %1$s file using %2$s', 'convertkit' ),
-					'<code>wp-config.php</code>',
-					'<code>define(\'CONVERTKIT_API_KEY\', \'your-api-key\');</code>'
-				),
-			),
-			array( 'regular-text', 'code' )
-		);
-
-	}
-
-	/**
-	 * Renders the input for the API Secret setting.
-	 *
-	 * @since   1.9.6
-	 */
-	public function api_secret_callback() {
-
-		// If the API Secret is stored as a constant, it cannot be edited here.
-		if ( $this->settings->is_api_secret_a_constant() ) {
-			echo $this->get_masked_value( // phpcs:ignore WordPress.Security.EscapeOutput
-				$this->settings->get_api_secret(),
-				esc_html__( 'Your API Secret has been defined in your wp-config.php file. For security, it is not displayed here.', 'convertkit' )
-			);
-			return;
-		}
-
-		// Output field.
-		echo $this->get_text_field( // phpcs:ignore WordPress.Security.EscapeOutput
-			'api_secret',
-			esc_attr( $this->settings->get_api_secret() ),
-			array(
-				sprintf(
-					/* translators: %1$s: Link to ConvertKit Account */
-					esc_html__( '%1$s Required for proper plugin function.', 'convertkit' ),
-					'<a href="' . esc_url( convertkit_get_api_key_url() ) . '" target="_blank">' . esc_html__( 'Get your ConvertKit API Secret.', 'convertkit' ) . '</a>'
-				),
-				sprintf(
-					/* translators: Account, %1$s: wp-config.php, %2$s: <code> block for API Secret definition */
-					esc_html__( 'Alternatively specify your API Secret in the %1$s file using %2$s', 'convertkit' ),
-					'<code>wp-config.php</code>',
-					'<code>define(\'CONVERTKIT_API_SECRET\', \'your-api-secret\');</code>'
-				),
-			),
-			array( 'regular-text', 'code' )
-		);
-
 	}
 
 	/**
@@ -606,19 +595,36 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 	 */
 	public function sanitize_settings( $settings ) {
 
+		// If no Access Token, Refresh Token or Token Expiry keys were specified in the settings
+		// prior to save, don't overwrite them with the blank setting from get_defaults().
+		// This ensures we only blank these values if we explicitly do so via $settings,
+		// as they won't be included in the Settings screen for security.
+		if ( ! array_key_exists( 'disconnect', $_REQUEST ) ) { // phpcs:ignore WordPress.Security.NonceVerification
+			if ( ! array_key_exists( 'access_token', $settings ) ) {
+				$settings['access_token'] = $this->settings->get_access_token();
+			}
+			if ( ! array_key_exists( 'refresh_token', $settings ) ) {
+				$settings['refresh_token'] = $this->settings->get_refresh_token();
+			}
+			if ( ! array_key_exists( 'token_expires', $settings ) ) {
+				$settings['token_expires'] = $this->settings->get_token_expiry();
+			}
+		}
+
 		// Call parent class to merge settings with defaults.
 		$settings = parent::sanitize_settings( $settings );
 
-		// Remove whitespace, tabs and line ends from the API Key and Secret.
-		$settings['api_key']    = preg_replace( '/\s+/', '', $settings['api_key'] );
-		$settings['api_secret'] = preg_replace( '/\s+/', '', $settings['api_secret'] );
-
-		// If a Form or Landing Page was specified, request a review.
+		// If a Form or Landing Page was specified that isn't the default,
+		// request a review.
+		// Since switching to OAuth means the settings screen will only display
+		// settings if the access token is valid, the Default Forms options will
+		// always be submitted. Previously, if no API Key/Secret was specified,
+		// no Default Forms options would render.
 		// This can safely be called multiple times, as the review request
 		// class will ensure once a review request is dismissed by the user,
 		// it is never displayed again.
-		if ( ( isset( $settings['page_form'] ) && $settings['page_form'] ) ||
-			( isset( $settings['post_form'] ) && $settings['post_form'] ) ) {
+		if ( ( isset( $settings['page_form'] ) && $settings['page_form'] !== 'default' ) ||
+			( isset( $settings['post_form'] ) && $settings['post_form'] !== 'default' ) ) {
 			WP_ConvertKit()->get_class( 'review_request' )->request_review();
 		}
 

@@ -21,19 +21,16 @@ class ForminatorCest
 
 	/**
 	 * Tests that no Forminator settings display and a 'No Forms exist on ConvertKit'
-	 * notification displays when no API Key and Secret are defined in the Plugin's settings.
+	 * notification displays when no credentials are defined in the Plugin's settings.
 	 *
 	 * @since   2.3.0
 	 *
 	 * @param   AcceptanceTester $I  Tester.
 	 */
-	public function testSettingsForminatorWhenNoAPIKeyAndSecret(AcceptanceTester $I)
+	public function testSettingsForminatorWhenNoCredentials(AcceptanceTester $I)
 	{
 		// Load Forminator Plugin Settings.
 		$I->amOnAdminPage('options-general.php?page=_wp_convertkit_settings&tab=forminator');
-
-		// Confirm notice is displayed.
-		$I->see('No Forms exist on ConvertKit.');
 
 		// Confirm no settings table is displayed.
 		$I->dontSeeElementInDOM('table.wp-list-table');
@@ -50,7 +47,7 @@ class ForminatorCest
 	public function testSettingsForminatorWhenNoForms(AcceptanceTester $I)
 	{
 		// Setup Plugin.
-		$I->setupConvertKitPluginAPIKeyNoData($I);
+		$I->setupConvertKitPluginCredentialsNoData($I);
 		$I->setupConvertKitPluginResourcesNoData($I);
 
 		// Load Forminator Plugin Settings.
@@ -111,6 +108,83 @@ class ForminatorCest
 
 		// Load the Page on the frontend site.
 		$I->amOnPage('/convertkit-forminator-form-shortcode');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Define email address for this test.
+		$emailAddress = $I->generateEmailAddress();
+
+		// Complete Name and Email.
+		$I->fillField('input[name=name-1]', 'ConvertKit Name');
+		$I->fillField('input[name=email-1]', $emailAddress);
+
+		// Submit Form.
+		$I->click('button.forminator-button-submit');
+
+		// Wait for response message.
+		$I->waitForElementVisible('.forminator-response-message');
+
+		// Confirm the form submitted without errors.
+		$I->performOn(
+			'.forminator-response-message',
+			function($I) {
+				$I->see('Form entry saved');
+			}
+		);
+
+		// Confirm that the email address was added to ConvertKit.
+		$I->apiCheckSubscriberExists($I, $emailAddress);
+	}
+
+	/**
+	 * Test that saving a Forminator Form to ConvertKit Legacy Form Mapping works.
+	 *
+	 * @since   2.5.0
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testSettingsForminatorFormToConvertKitLegacyFormMapping(AcceptanceTester $I)
+	{
+		// Setup ConvertKit Plugin.
+		$I->setupConvertKitPluginNoDefaultForms($I);
+		$I->setupConvertKitPluginResources($I);
+
+		// Create Forminator Form.
+		$forminatorFormID = $this->_createForminatorForm($I);
+
+		// Load Forminator Plugin Settings.
+		$I->amOnAdminPage('options-general.php?page=_wp_convertkit_settings&tab=forminator');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Check that a Form Mapping option is displayed.
+		$I->seeElementInDOM('#_wp_convertkit_integration_forminator_settings_' . $forminatorFormID);
+
+		// Change Form to value specified in the .env file.
+		$I->selectOption('#_wp_convertkit_integration_forminator_settings_' . $forminatorFormID, $_ENV['CONVERTKIT_API_LEGACY_FORM_NAME']);
+
+		$I->click('Save Changes');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Check the value of the Form field matches the input provided.
+		$I->seeOptionIsSelected('#_wp_convertkit_integration_forminator_settings_' . $forminatorFormID, $_ENV['CONVERTKIT_API_LEGACY_FORM_NAME']);
+
+		// Create Page with Forminator Shortcode.
+		$I->havePageInDatabase(
+			[
+				'post_title'   => 'ConvertKit: Forminator Shortcode: Legacy Form',
+				'post_name'    => 'convertkit-forminator-form-shortcode-legacy-form',
+				'post_content' => 'Form:
+[forminator_form id="' . $forminatorFormID . '"]',
+			]
+		);
+
+		// Load the Page on the frontend site.
+		$I->amOnPage('/convertkit-forminator-form-shortcode-legacy-form');
 
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
@@ -215,8 +289,8 @@ class ForminatorCest
 	}
 
 	/**
-	 * Tests that the 'Enable Creator Network Recommendations' is not displayed when API Keys are specified
-	 * for a ConvertKit account that does not have Creator Network Recommendations enabled.
+	 * Tests that the 'Enable Creator Network Recommendations' is not displayed when connected
+	 * to a ConvertKit account that does not have Creator Network Recommendations enabled.
 	 *
 	 * @since   2.3.0
 	 *
@@ -225,7 +299,7 @@ class ForminatorCest
 	public function testSettingsForminatorCreatorNetworkRecommendationsWhenDisabledOnConvertKitAccount(AcceptanceTester $I)
 	{
 		// Setup ConvertKit Plugin.
-		$I->setupConvertKitPluginAPIKeyNoData($I);
+		$I->setupConvertKitPluginCredentialsNoData($I);
 		$I->setupConvertKitPluginResources($I);
 
 		// Create Forminator Form.
@@ -247,13 +321,13 @@ class ForminatorCest
 			]
 		);
 
-		// Confirm the recommendations script was not loaded, as the API Key and Secret are invalid.
+		// Confirm the recommendations script was not loaded, as the credentials are invalid.
 		$I->dontSeeCreatorNetworkRecommendationsScript($I, $pageID);
 	}
 
 	/**
 	 * Tests that the 'Enable Creator Network Recommendations' option is displayed and saves correctly when
-	 * a valid API Key and Secret are specified, and the ConvertKit account has the Creator Network enabled.
+	 * valid credentials are specified, and the ConvertKit account has the Creator Network enabled.
 	 * Viewing and submitting the Form then correctly displays the Creator Network Recommendations modal.
 	 *
 	 * @since   2.3.0

@@ -85,7 +85,7 @@ class ConvertKit_Output_Restrict_Content {
 	 *
 	 * @since   2.1.0
 	 *
-	 * @var     bool|ConvertKit_API
+	 * @var     bool|ConvertKit_API_V4
 	 */
 	public $api = false;
 
@@ -162,13 +162,20 @@ class ConvertKit_Output_Restrict_Content {
 			return;
 		}
 
-		// If the Plugin API keys have not been configured, we can't get this subscriber's ID by email.
-		if ( ! $this->settings->has_api_key_and_secret() ) {
+		// If the Plugin Access Token has not been configured, we can't get this subscriber's ID by email.
+		if ( ! $this->settings->has_access_and_refresh_token() ) {
 			return;
 		}
 
 		// Initialize the API.
-		$this->api = new ConvertKit_API( $this->settings->get_api_key(), $this->settings->get_api_secret(), $this->settings->debug_enabled() );
+		$this->api = new ConvertKit_API_V4(
+			CONVERTKIT_OAUTH_CLIENT_ID,
+			CONVERTKIT_OAUTH_CLIENT_REDIRECT_URI,
+			$this->settings->get_access_token(),
+			$this->settings->get_refresh_token(),
+			$this->settings->debug_enabled(),
+			'restrict_content'
+		);
 
 		// Sanitize inputs.
 		$email               = sanitize_text_field( $_REQUEST['convertkit_email'] );
@@ -214,7 +221,7 @@ class ConvertKit_Output_Restrict_Content {
 				$subscriber->forget();
 
 				// Fetch the subscriber ID from the result.
-				$subscriber_id = $result['subscription']['subscriber']['id'];
+				$subscriber_id = $result['subscriber']['id'];
 
 				// Store subscriber ID in cookie.
 				$this->store_subscriber_id_in_cookie( $subscriber_id );
@@ -259,8 +266,8 @@ class ConvertKit_Output_Restrict_Content {
 			return;
 		}
 
-		// If the Plugin API keys have not been configured, we can't get this subscriber's ID by email.
-		if ( ! $this->settings->has_api_key_and_secret() ) {
+		// If the Plugin Access Token has not been configured, we can't get this subscriber's ID by email.
+		if ( ! $this->settings->has_access_and_refresh_token() ) {
 			return;
 		}
 
@@ -269,7 +276,14 @@ class ConvertKit_Output_Restrict_Content {
 		$this->post_id = absint( sanitize_text_field( $_REQUEST['convertkit_post_id'] ) );
 
 		// Initialize the API.
-		$this->api = new ConvertKit_API( $this->settings->get_api_key(), $this->settings->get_api_secret(), $this->settings->debug_enabled() );
+		$this->api = new ConvertKit_API_V4(
+			CONVERTKIT_OAUTH_CLIENT_ID,
+			CONVERTKIT_OAUTH_CLIENT_REDIRECT_URI,
+			$this->settings->get_access_token(),
+			$this->settings->get_refresh_token(),
+			$this->settings->debug_enabled(),
+			'restrict_content'
+		);
 
 		// Verify the token and subscriber code.
 		$subscriber_id = $this->api->subscriber_authentication_verify(
@@ -561,9 +575,9 @@ class ConvertKit_Output_Restrict_Content {
 			return false;
 		}
 
-		// If the Plugin API keys have not been configured, we can't determine the validity of this subscriber ID
+		// If the Plugin Access Token has not been configured, we can't determine the validity of this subscriber ID
 		// or which resource(s) they have access to.
-		if ( ! $this->settings->has_api_key_and_secret() ) {
+		if ( ! $this->settings->has_access_and_refresh_token() ) {
 			return false;
 		}
 
@@ -746,7 +760,14 @@ class ConvertKit_Output_Restrict_Content {
 	private function subscriber_has_access( $subscriber_id ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter
 
 		// Initialize the API.
-		$this->api = new ConvertKit_API( $this->settings->get_api_key(), $this->settings->get_api_secret(), $this->settings->debug_enabled() );
+		$this->api = new ConvertKit_API_V4(
+			CONVERTKIT_OAUTH_CLIENT_ID,
+			CONVERTKIT_OAUTH_CLIENT_REDIRECT_URI,
+			$this->settings->get_access_token(),
+			$this->settings->get_refresh_token(),
+			$this->settings->debug_enabled(),
+			'restrict_content'
+		);
 
 		// Depending on the resource type, determine if the subscriber has access to it.
 		// This is deliberately a switch statement, because we will likely add in support
@@ -784,12 +805,12 @@ class ConvertKit_Output_Restrict_Content {
 				}
 
 				// If no tags exist, there's no access.
-				if ( ! count( $tags ) ) {
+				if ( ! count( $tags['tags'] ) ) {
 					return false;
 				}
 
 				// Iterate through the subscriber's tags to see if they have the required tag.
-				foreach ( $tags as $tag ) {
+				foreach ( $tags['tags'] as $tag ) {
 					if ( $tag['id'] === absint( $this->resource_id ) ) {
 						// Subscriber has the required tag assigned to them - grant access.
 						return true;

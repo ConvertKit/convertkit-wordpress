@@ -21,19 +21,16 @@ class ContactForm7FormCest
 
 	/**
 	 * Tests that no Contact Form 7 settings display and a 'No Forms exist on ConvertKit'
-	 * notification displays when no API Key and Secret are defined in the Plugin's settings.
+	 * notification displays when no credentials are defined in the Plugin's settings.
 	 *
 	 * @since   2.2.7
 	 *
 	 * @param   AcceptanceTester $I  Tester.
 	 */
-	public function testSettingsContactForm7WhenNoAPIKeyAndSecret(AcceptanceTester $I)
+	public function testSettingsContactForm7WhenNoCredentials(AcceptanceTester $I)
 	{
 		// Load Contact Form 7 Plugin Settings.
 		$I->amOnAdminPage('options-general.php?page=_wp_convertkit_settings&tab=contactform7');
-
-		// Confirm notice is displayed.
-		$I->see('No Forms exist on ConvertKit.');
 
 		// Confirm no settings table is displayed.
 		$I->dontSeeElementInDOM('table.wp-list-table');
@@ -50,7 +47,7 @@ class ContactForm7FormCest
 	public function testSettingsContactForm7WhenNoForms(AcceptanceTester $I)
 	{
 		// Setup Plugin.
-		$I->setupConvertKitPluginAPIKeyNoData($I);
+		$I->setupConvertKitPluginCredentialsNoData($I);
 		$I->setupConvertKitPluginResourcesNoData($I);
 
 		// Load Contact Form 7 Plugin Settings.
@@ -139,8 +136,83 @@ class ContactForm7FormCest
 	}
 
 	/**
+	 * Test that saving a Contact Form 7 to ConvertKit Legacy Form Mapping works.
+	 *
+	 * @since   2.5.0
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testSettingsContactForm7ToConvertKitLegacyFormMapping(AcceptanceTester $I)
+	{
+		// Setup ConvertKit Plugin.
+		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPluginResources($I);
+
+		// Create Contact Form 7 Form.
+		$contactForm7ID = $this->_createContactForm7Form($I);
+
+		// Load Contact Form 7 Plugin Settings.
+		$I->amOnAdminPage('options-general.php?page=_wp_convertkit_settings&tab=contactform7');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Check that a Form Mapping option is displayed.
+		$I->seeElementInDOM('#_wp_convertkit_integration_contactform7_settings_' . $contactForm7ID);
+
+		// Change Form to value specified in the .env file.
+		$I->selectOption('#_wp_convertkit_integration_contactform7_settings_' . $contactForm7ID, $_ENV['CONVERTKIT_API_LEGACY_FORM_NAME']);
+
+		$I->click('Save Changes');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Check the value of the Form field matches the input provided.
+		$I->seeOptionIsSelected('#_wp_convertkit_integration_contactform7_settings_' . $contactForm7ID, $_ENV['CONVERTKIT_API_LEGACY_FORM_NAME']);
+
+		// Create Page with Contact Form 7 Shortcode.
+		$I->havePageInDatabase(
+			[
+				'post_title'   => 'ConvertKit: Contact Form 7 Shortcode: Legacy Form',
+				'post_name'    => 'convertkit-contact-form-7-shortcode-legacy-form',
+				'post_content' => 'Form:
+[contact-form-7 id="' . $contactForm7ID . '"]',
+			]
+		);
+
+		// Load the Page on the frontend site.
+		$I->amOnPage('/convertkit-contact-form-7-shortcode-legacy-form');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Define email address for this test.
+		$emailAddress = $I->generateEmailAddress();
+
+		// Complete Name and Email.
+		$I->fillField('input[name=your-name]', 'ConvertKit Name');
+		$I->fillField('input[name=your-email]', $emailAddress);
+		$I->fillField('input[name=your-subject]', 'ConvertKit Subject');
+
+		// Submit Form.
+		$I->click('Submit');
+
+		// Confirm the form submitted without errors.
+		$I->performOn(
+			'form.sent',
+			function($I) {
+				$I->see('Thank you for your message. It has been sent.');
+			}
+		);
+
+		// Confirm that the email address was added to ConvertKit.
+		$I->apiCheckSubscriberExists($I, $emailAddress);
+	}
+
+	/**
 	 * Tests that the 'Enable Creator Network Recommendations' option on a Form's settings
-	 * is not displayed when invalid API Key and Secret are specified at WPForms > Settings > Integrations > ConvertKit.
+	 * is not displayed when invalid credentials are specified at WPForms > Settings > Integrations > ConvertKit.
 	 *
 	 * @since   2.2.7
 	 *
@@ -149,7 +221,7 @@ class ContactForm7FormCest
 	public function testSettingsContactForm7CreatorNetworkRecommendationsOptionWhenDisabledOnConvertKitAccount(AcceptanceTester $I)
 	{
 		// Setup ConvertKit Plugin.
-		$I->setupConvertKitPluginAPIKeyNoData($I);
+		$I->setupConvertKitPluginCredentialsNoData($I);
 		$I->setupConvertKitPluginResources($I);
 
 		// Create Contact Form 7 Form.
@@ -171,13 +243,13 @@ class ContactForm7FormCest
 			]
 		);
 
-		// Confirm the recommendations script was not loaded, as the API Key and Secret are invalid.
+		// Confirm the recommendations script was not loaded, as the credentials are invalid.
 		$I->dontSeeCreatorNetworkRecommendationsScript($I, $pageID);
 	}
 
 	/**
 	 * Tests that the 'Enable Creator Network Recommendations' option on a Form's settings
-	 * is displayed and saves correctly when valid API Key and Secret are specified at WPForms > Settings > Integrations > ConvertKit,
+	 * is displayed and saves correctly when valid credentials are specified at WPForms > Settings > Integrations > ConvertKit,
 	 * and the ConvertKit account has the Creator Network enabled.  Viewing and submitting the Form then correctly
 	 * displays the Creator Network Recommendations modal.
 	 *

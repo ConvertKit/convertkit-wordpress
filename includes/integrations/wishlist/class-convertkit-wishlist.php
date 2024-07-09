@@ -118,12 +118,19 @@ class ConvertKit_Wishlist {
 
 		// Bail if the API hasn't been configured.
 		$settings = new ConvertKit_Settings();
-		if ( ! $settings->has_api_key_and_secret() ) {
+		if ( ! $settings->has_access_and_refresh_token() ) {
 			return false;
 		}
 
 		// Initialize the API.
-		$api = new ConvertKit_API( $settings->get_api_key(), $settings->get_api_secret(), $settings->debug_enabled(), 'wishlist_member' );
+		$api = new ConvertKit_API_V4(
+			CONVERTKIT_OAUTH_CLIENT_ID,
+			CONVERTKIT_OAUTH_CLIENT_REDIRECT_URI,
+			$settings->get_access_token(),
+			$settings->get_refresh_token(),
+			$settings->debug_enabled(),
+			'wishlist_member'
+		);
 
 		// Check for temp email.
 		if ( preg_match( '/temp_[a-f0-9]{32}/', $member['user_email'] ) ) {
@@ -140,6 +147,16 @@ class ConvertKit_Wishlist {
 		}
 
 		// Note Wishlist Member combines first and last name into 'display_name'.
+		// For Legacy Forms, a different endpoint is used.
+		$forms = new ConvertKit_Resource_Forms();
+		if ( $forms->is_legacy( $form_id ) ) {
+			return $api->legacy_form_subscribe(
+				$form_id,
+				$email,
+				$first_name
+			);
+		}
+
 		return $api->form_subscribe(
 			$form_id,
 			$email,
@@ -157,12 +174,19 @@ class ConvertKit_Wishlist {
 
 		// Bail if the API hasn't been configured.
 		$settings = new ConvertKit_Settings();
-		if ( ! $settings->has_api_key_and_secret() ) {
+		if ( ! $settings->has_access_and_refresh_token() ) {
 			return false;
 		}
 
 		// Initialize the API.
-		$api = new ConvertKit_API( $settings->get_api_key(), $settings->get_api_secret(), $settings->debug_enabled(), 'wishlist_member' );
+		$api = new ConvertKit_API_V4(
+			CONVERTKIT_OAUTH_CLIENT_ID,
+			CONVERTKIT_OAUTH_CLIENT_REDIRECT_URI,
+			$settings->get_access_token(),
+			$settings->get_refresh_token(),
+			$settings->debug_enabled(),
+			'wishlist_member'
+		);
 
 		// Check for temp email.
 		if ( preg_match( '/temp_[a-f0-9]{32}/', $member['user_email'] ) ) {
@@ -187,12 +211,19 @@ class ConvertKit_Wishlist {
 
 		// Bail if the API hasn't been configured.
 		$settings = new ConvertKit_Settings();
-		if ( ! $settings->has_api_key_and_secret() ) {
+		if ( ! $settings->has_access_and_refresh_token() ) {
 			return false;
 		}
 
 		// Initialize the API.
-		$api = new ConvertKit_API( $settings->get_api_key(), $settings->get_api_secret(), $settings->debug_enabled(), 'wishlist_member' );
+		$api = new ConvertKit_API_V4(
+			CONVERTKIT_OAUTH_CLIENT_ID,
+			CONVERTKIT_OAUTH_CLIENT_REDIRECT_URI,
+			$settings->get_access_token(),
+			$settings->get_refresh_token(),
+			$settings->debug_enabled(),
+			'wishlist_member'
+		);
 
 		return $api->tag_subscribe( $tag_id, $member['user_email'] );
 

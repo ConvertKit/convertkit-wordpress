@@ -131,10 +131,10 @@ class ConvertKit_Block_Form extends ConvertKit_Block {
 			'gutenberg_example_image'           => CONVERTKIT_PLUGIN_URL . 'resources/backend/images/block-example-form.png',
 
 			// Help descriptions, displayed when no API key / resources exist and this block/shortcode is added.
-			'no_api_key'                        => array(
-				'notice'    => __( 'No API Key specified.', 'convertkit' ),
+			'no_access_token'                   => array(
+				'notice'    => __( 'Not connected to ConvertKit.', 'convertkit' ),
 				'link'      => convertkit_get_setup_wizard_plugin_link(),
-				'link_text' => __( 'Click here to add your API Key.', 'convertkit' ),
+				'link_text' => __( 'Click here to connect your ConvertKit account.', 'convertkit' ),
 			),
 			'no_resources'                      => array(
 				'notice'    => __( 'No forms exist in ConvertKit.', 'convertkit' ),
@@ -163,7 +163,7 @@ class ConvertKit_Block_Form extends ConvertKit_Block {
 
 			// Whether an API Key exists in the Plugin, and are the required resources (forms) available.
 			// If no API Key is specified in the Plugin's settings, render the "No API Key" output.
-			'has_api_key'                       => $settings->has_api_key_and_secret(),
+			'has_access_token'                  => $settings->has_access_and_refresh_token(),
 			'has_resources'                     => $convertkit_forms->exist(),
 		);
 
@@ -337,10 +337,17 @@ class ConvertKit_Block_Form extends ConvertKit_Block {
 		// In this instance, fetch the Form HTML without checking that the Form ID exists in the Form Resources.
 		if ( is_wp_error( $form ) ) {
 			// Initialize the API.
-			$api = new ConvertKit_API( $settings->get_api_key(), $settings->get_api_secret(), $settings->debug_enabled(), 'output_form' );
+			$api = new ConvertKit_API_V4(
+				CONVERTKIT_OAUTH_CLIENT_ID,
+				CONVERTKIT_OAUTH_CLIENT_REDIRECT_URI,
+				$settings->get_access_token(),
+				$settings->get_refresh_token(),
+				$settings->debug_enabled(),
+				'output_form'
+			);
 
 			// Return Legacy Form HTML from the API, which bypasses any internal Plugin check to see if the Form ID exists.
-			$form = $api->get_form_html( $form_id );
+			$form = $api->get_form_html( $form_id, $settings->get_api_key() );
 		}
 
 		// Finally, if we still get an error, there's nothing more we can do. The Form ID isn't valid.

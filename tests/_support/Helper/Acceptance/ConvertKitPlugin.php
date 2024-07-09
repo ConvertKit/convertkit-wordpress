@@ -45,8 +45,8 @@ class ConvertKitPlugin extends \Codeception\Module
 	 * @param   bool|array       $options {
 	 *           Optional. An array of settings.
 	 *
-	 *     @type string $api_key            API Key (if specified, used instead of CONVERTKIT_API_KEY).
-	 *     @type string $api_secret         API Secret (if specified, used instead of CONVERTKIT_API_SECRET).
+	 *     @type string $access_token       Access Token (if specified, used instead of CONVERTKIT_OAUTH_ACCESS_TOKEN).
+	 *     @type string $refresh_token      Refresh Token (if specified, used instead of CONVERTKIT_OAUTH_REFRESH_TOKEN).
 	 *     @type string $debug              Enable debugging (default: on).
 	 *     @type string $no_scripts         Disable JS (default: off).
 	 *     @type string $no_css             Disable CSS (default: off).
@@ -60,8 +60,11 @@ class ConvertKitPlugin extends \Codeception\Module
 	{
 		// Define default options.
 		$defaults = [
+			// API Key and Secret retained for testing Legacy Forms and Landing Pages.
 			'api_key'         => $_ENV['CONVERTKIT_API_KEY'],
 			'api_secret'      => $_ENV['CONVERTKIT_API_SECRET'],
+			'access_token'    => $_ENV['CONVERTKIT_OAUTH_ACCESS_TOKEN'],
+			'refresh_token'   => $_ENV['CONVERTKIT_OAUTH_REFRESH_TOKEN'],
 			'debug'           => 'on',
 			'no_scripts'      => '',
 			'no_css'          => '',
@@ -85,23 +88,24 @@ class ConvertKitPlugin extends \Codeception\Module
 	/**
 	 * Helper method to programmatically setup the Plugin's settings, as if the
 	 * user configured the Plugin at `Settings > ConvertKit` with a ConvertKit
-	 * API Key and Secret for a ConvertKit account that has no data (no forms,
-	 * products, tags etc).
+	 * account that has no data (no forms, products, tags etc).
 	 *
 	 * @since   2.4.0
 	 *
 	 * @param   AcceptanceTester $I         AcceptanceTester.
 	 */
-	public function setupConvertKitPluginAPIKeyNoData($I)
+	public function setupConvertKitPluginCredentialsNoData($I)
 	{
 		$I->setupConvertKitPlugin(
 			$I,
 			[
-				'api_key'      => $_ENV['CONVERTKIT_API_KEY_NO_DATA'],
-				'api_secret'   => $_ENV['CONVERTKIT_API_SECRET_NO_DATA'],
-				'post_form'    => '',
-				'page_form'    => '',
-				'product_form' => '',
+				'api_key'       => $_ENV['CONVERTKIT_API_KEY_NO_DATA'],
+				'api_secret'    => $_ENV['CONVERTKIT_API_SECRET_NO_DATA'],
+				'access_token'  => $_ENV['CONVERTKIT_OAUTH_ACCESS_TOKEN_NO_DATA'],
+				'refresh_token' => $_ENV['CONVERTKIT_OAUTH_REFRESH_TOKEN_NO_DATA'],
+				'post_form'     => '',
+				'page_form'     => '',
+				'product_form'  => '',
 			]
 		);
 	}
@@ -120,11 +124,11 @@ class ConvertKitPlugin extends \Codeception\Module
 		$I->setupConvertKitPlugin(
 			$I,
 			[
-				'api_key'      => 'fakeApiKey',
-				'api_secret'   => 'fakeApiSecret',
-				'post_form'    => '',
-				'page_form'    => '',
-				'product_form' => '',
+				'access_token'  => 'fakeAccessToken',
+				'refresh_token' => 'fakeRefreshToken',
+				'post_form'     => '',
+				'page_form'     => '',
+				'product_form'  => '',
 			]
 		);
 	}
@@ -707,7 +711,7 @@ class ConvertKitPlugin extends \Codeception\Module
 	}
 
 	/**
-	 * Test that the 'Click here to add your API Key' link displays a popup window,
+	 * Test that the 'Click here to connect your ConvertKit account' link displays a popup window,
 	 * when using a block with no API Keys specified.
 	 *
 	 * @since   2.2.6
@@ -720,7 +724,7 @@ class ConvertKitPlugin extends \Codeception\Module
 	{
 		// Confirm that the Form block displays instructions to the user on how to enter their API Key.
 		$I->see(
-			'No API Key specified.',
+			'Not connected to ConvertKit.',
 			[
 				'css' => '.convertkit-no-content',
 			]
@@ -728,7 +732,7 @@ class ConvertKitPlugin extends \Codeception\Module
 
 		// Click the link to confirm it loads the Plugin's setup wizard.
 		$I->click(
-			'Click here to add your API Key.',
+			'Click here to connect your ConvertKit account.',
 			[
 				'css' => '.convertkit-no-content',
 			]

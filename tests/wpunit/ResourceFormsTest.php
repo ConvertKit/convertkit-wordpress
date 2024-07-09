@@ -43,13 +43,13 @@ class ResourceFormsTest extends \Codeception\TestCase\WPTestCase
 		// Activate Plugin.
 		activate_plugins('convertkit/wp-convertkit.php');
 
-		// Store API Key and Secret in Plugin's settings.
+		// Store Credentials in Plugin's settings.
 		$this->settings = new ConvertKit_Settings();
 		update_option(
 			$this->settings::SETTINGS_NAME,
 			[
-				'api_key'    => $_ENV['CONVERTKIT_API_KEY'],
-				'api_secret' => $_ENV['CONVERTKIT_API_SECRET'],
+				'access_token'  => $_ENV['CONVERTKIT_OAUTH_ACCESS_TOKEN_NO_DATA'],
+				'refresh_token' => $_ENV['CONVERTKIT_OAUTH_REFRESH_TOKEN_NO_DATA'],
 			]
 		);
 
@@ -67,7 +67,7 @@ class ResourceFormsTest extends \Codeception\TestCase\WPTestCase
 	 */
 	public function tearDown(): void
 	{
-		// Delete API Key, API Secret and Resources from Plugin's settings.
+		// Delete Credentials and Resources from Plugin's settings.
 		delete_option($this->settings::SETTINGS_NAME);
 		delete_option($this->resource->settings_name);
 		delete_option($this->resource->settings_name . '_last_queried');
@@ -345,5 +345,38 @@ class ResourceFormsTest extends \Codeception\TestCase\WPTestCase
 		$result = $this->resource->get_html($_ENV['CONVERTKIT_API_LEGACY_FORM_ID']);
 		$this->assertNotInstanceOf(WP_Error::class, $result);
 		$this->assertStringContainsString('<form id="ck_subscribe_form" class="ck_subscribe_form" action="https://api.convertkit.com/landing_pages/' . $_ENV['CONVERTKIT_API_LEGACY_FORM_ID'] . '/subscribe" data-remote="true">', $result);
+	}
+
+	/**
+	 * Test that the is_legacy() function returns true for a Legacy Form ID.
+	 *
+	 * @since   2.5.0
+	 */
+	public function testIsLegacyFormWithLegacyFormID()
+	{
+		$this->resource->refresh();
+		$this->assertTrue($this->resource->is_legacy($_ENV['CONVERTKIT_API_LEGACY_FORM_ID']));
+	}
+
+	/**
+	 * Test that the is_legacy() function returns false for a non-Legacy Form ID.
+	 *
+	 * @since   2.5.0
+	 */
+	public function testIsLegacyFormWithFormID()
+	{
+		$this->resource->refresh();
+		$this->assertFalse($this->resource->is_legacy($_ENV['CONVERTKIT_API_FORM_ID']));
+	}
+
+	/**
+	 * Test that the is_legacy() function returns false for an invalid Form ID.
+	 *
+	 * @since   2.5.0
+	 */
+	public function testIsLegacyFormWithInvalidFormID()
+	{
+		$this->resource->refresh();
+		$this->assertFalse($this->resource->is_legacy(12345));
 	}
 }

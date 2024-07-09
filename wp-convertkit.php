@@ -9,7 +9,7 @@
  * Plugin Name: ConvertKit
  * Plugin URI: https://convertkit.com/
  * Description: Display ConvertKit email subscription forms, landing pages, products, broadcasts and more.
- * Version: 2.4.9.1
+ * Version: 2.5.0
  * Author: ConvertKit
  * Author URI: https://convertkit.com/
  * Text Domain: convertkit
@@ -25,17 +25,22 @@ define( 'CONVERTKIT_PLUGIN_NAME', 'ConvertKit' ); // Used for user-agent in API 
 define( 'CONVERTKIT_PLUGIN_FILE', plugin_basename( __FILE__ ) );
 define( 'CONVERTKIT_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'CONVERTKIT_PLUGIN_PATH', __DIR__ );
-define( 'CONVERTKIT_PLUGIN_VERSION', '2.4.9.1' );
+define( 'CONVERTKIT_PLUGIN_VERSION', '2.5.0' );
+define( 'CONVERTKIT_OAUTH_CLIENT_ID', 'HXZlOCj-K5r0ufuWCtyoyo3f688VmMAYSsKg1eGvw0Y' );
+define( 'CONVERTKIT_OAUTH_CLIENT_REDIRECT_URI', 'https://app.convertkit.com/wordpress/redirect' );
 
 // Load shared classes, if they have not been included by another ConvertKit Plugin.
-if ( ! class_exists( 'ConvertKit_API' ) ) {
-	require_once CONVERTKIT_PLUGIN_PATH . '/vendor/convertkit/convertkit-wordpress-libraries/src/class-convertkit-api.php';
+if ( ! trait_exists( 'ConvertKit_API_Traits' ) ) {
+	require_once CONVERTKIT_PLUGIN_PATH . '/vendor/convertkit/convertkit-wordpress-libraries/src/class-convertkit-api-traits.php';
+}
+if ( ! class_exists( 'ConvertKit_API_V4' ) ) {
+	require_once CONVERTKIT_PLUGIN_PATH . '/vendor/convertkit/convertkit-wordpress-libraries/src/class-convertkit-api-v4.php';
 }
 if ( ! class_exists( 'ConvertKit_Log' ) ) {
 	require_once CONVERTKIT_PLUGIN_PATH . '/vendor/convertkit/convertkit-wordpress-libraries/src/class-convertkit-log.php';
 }
-if ( ! class_exists( 'ConvertKit_Resource' ) ) {
-	require_once CONVERTKIT_PLUGIN_PATH . '/vendor/convertkit/convertkit-wordpress-libraries/src/class-convertkit-resource.php';
+if ( ! class_exists( 'ConvertKit_Resource_V4' ) ) {
+	require_once CONVERTKIT_PLUGIN_PATH . '/vendor/convertkit/convertkit-wordpress-libraries/src/class-convertkit-resource-v4.php';
 }
 if ( ! class_exists( 'ConvertKit_Review_Request' ) ) {
 	require_once CONVERTKIT_PLUGIN_PATH . '/vendor/convertkit/convertkit-wordpress-libraries/src/class-convertkit-review-request.php';
@@ -118,6 +123,7 @@ if ( is_admin() ) {
 	require_once CONVERTKIT_PLUGIN_PATH . '/admin/class-multi-value-field-table.php';
 	require_once CONVERTKIT_PLUGIN_PATH . '/admin/section/class-convertkit-settings-base.php';
 	require_once CONVERTKIT_PLUGIN_PATH . '/admin/section/class-convertkit-settings-general.php';
+	require_once CONVERTKIT_PLUGIN_PATH . '/admin/section/class-convertkit-settings-oauth.php';
 	require_once CONVERTKIT_PLUGIN_PATH . '/admin/section/class-convertkit-settings-tools.php';
 	require_once CONVERTKIT_PLUGIN_PATH . '/admin/setup-wizard/class-convertkit-admin-setup-wizard-plugin.php';
 

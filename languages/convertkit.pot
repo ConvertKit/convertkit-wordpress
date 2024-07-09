@@ -714,14 +714,14 @@ msgstr ""
 #: includes/blocks/class-convertkit-block-form-trigger.php:116
 #: includes/blocks/class-convertkit-block-form.php:135
 #: includes/blocks/class-convertkit-block-product.php:138
-msgid "No API Key specified."
+msgid "Not connected to ConvertKit."
 msgstr ""
 
 #: includes/blocks/class-convertkit-block-broadcasts.php:152
 #: includes/blocks/class-convertkit-block-form-trigger.php:118
 #: includes/blocks/class-convertkit-block-form.php:137
 #: includes/blocks/class-convertkit-block-product.php:140
-msgid "Click here to add your API Key."
+msgid "Click here to connect your ConvertKit account."
 msgstr ""
 
 #: includes/blocks/class-convertkit-block-broadcasts.php:155

@@ -325,7 +325,7 @@ function convertKitGutenbergRegisterBlock( block ) {
 
 			// If no API Key has been defined in the Plugin, or no resources exist in ConvertKit
 			// for this block, show a message in the block to tell the user what to do.
-			if ( ! block.has_api_key || ! block.has_resources ) {
+			if ( ! block.has_access_token || ! block.has_resources ) {
 				return displayNoticeWithLink( props );
 			}
 
@@ -382,7 +382,7 @@ function convertKitGutenbergRegisterBlock( block ) {
 			} else {
 				// Refresh button enabled; display the notice, link and button.
 				elements = [
-					( ! block.has_api_key ? block.no_api_key.notice : block.no_resources.notice ),
+					( ! block.has_access_token ? block.no_access_token.notice : block.no_resources.notice ),
 					noticeLink( props, setButtonDisabled ),
 					refreshButton( props, buttonDisabled, setButtonDisabled )
 				];
@@ -455,13 +455,13 @@ function convertKitGutenbergRegisterBlock( block ) {
 				'a',
 				{
 					key: props.clientId + '-notice-link',
-					href: ( ! block.has_api_key ? block.no_api_key.link : block.no_resources.link ),
-					className: ( ! block.has_api_key ? 'convertkit-block-modal' : '' ),
+					href: ( ! block.has_access_token ? block.no_access_token.link : block.no_resources.link ),
+					className: ( ! block.has_access_token ? 'convertkit-block-modal' : '' ),
 					target: '_blank',
 					onClick: function ( e ) {
 
 						// Show popup window with setup wizard if we need to define an API Key.
-						if ( ! block.has_api_key ) {
+						if ( ! block.has_access_token ) {
 							e.preventDefault();
 							showConvertKitPopupWindow( props, e.target, setButtonDisabled );
 						}
@@ -469,7 +469,7 @@ function convertKitGutenbergRegisterBlock( block ) {
 						// Allow the link to load, as it's likely a link to the ConvertKit site.
 					}
 				},
-				( ! block.has_api_key ? block.no_api_key.link_text : block.no_resources.link_text )
+				( ! block.has_access_token ? block.no_access_token.link_text : block.no_resources.link_text )
 			);
 
 		}
@@ -510,9 +510,9 @@ function convertKitGutenbergRegisterBlock( block ) {
 		 * Displays a new window with a given width and height to display the given URL.
 		 *
 		 * Typically used for displaying a modal version of the Setup Wizard, where the
-		 * user clicks the 'click here to add your API Key' link in a block, and then
+		 * user clicks the 'Click here to connect your ConvertKit account' link in a block, and then
 		 * enters their API Key and Secret.  Will be used to show the ConvertKit
-		 * oAuth window in the future.
+		 * OAuth window in the future.
 		 *
 		 * @since 	2.2.6
 		 *
@@ -524,7 +524,7 @@ function convertKitGutenbergRegisterBlock( block ) {
 
 			// Define popup width, height and positioning.
 			const 	width  = 640,
-					height = 520,
+					height = 750,
 					top    = ( window.screen.height - height ) / 2,
 					left   = ( window.screen.width - width ) / 2;
 
@@ -606,7 +606,7 @@ function convertKitGutenbergRegisterBlock( block ) {
 					// are reflected when adding new ConvertKit Blocks.
 					convertkit_blocks = response.data;
 
-					// Update this block's properties, so that has_api_key, has_resources
+					// Update this block's properties, so that has_access_token, has_resources
 					// and the resources properties are updated.
 					block = convertkit_blocks[ block.name ];
 
