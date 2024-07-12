@@ -203,10 +203,11 @@ class WPGutenberg extends \Codeception\Module
 		// Click the Post tab.
 		$I->click('button[data-tab-id="edit-post/document"]');
 
-		// Click the Excerpt tab.
-		$I->click('Excerpt');
+		// Click the 'Add an excerpt' link.
+		$I->click('button.editor-post-excerpt__dropdown__trigger');
 
 		// Insert the excerpt into the field.
+		$I->waitForElementVisible('.editor-post-excerpt');
 		$I->fillField('.editor-post-excerpt textarea', $excerpt);
 	}
 
