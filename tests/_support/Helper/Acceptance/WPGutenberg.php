@@ -119,6 +119,10 @@ class WPGutenberg extends \Codeception\Module
 				}
 			}
 		}
+
+		// Ensure that the block inserter is fully closed before continuing;
+		// this ensures multiple calls to addGutenbergBlock work.
+		$I->waitForElementNotVisible('.interface-interface-skeleton__secondary-sidebar[aria-label="Block Library"]');
 	}
 
 	/**
