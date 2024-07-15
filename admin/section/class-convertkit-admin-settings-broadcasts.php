@@ -35,6 +35,9 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 		// Identify that this is beta functionality.
 		$this->is_beta = true;
 
+		// Register notices for this settings screen.
+		add_action( 'convertkit_settings_base_register_notices', array( $this, 'register_notices' ) );
+
 		// Output notices.
 		add_action( 'convertkit_settings_base_render_before', array( $this, 'maybe_output_notices' ) );
 
@@ -45,6 +48,29 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 		parent::__construct();
 
 		$this->maybe_import_now();
+
+	}
+
+	/**
+	 * Registers success and error notices for the Tools screen, to be displayed
+	 * depending on the action.
+	 * 
+	 * @since 	2.5.1
+	 * 
+	 * @param 	array 	$notices 	Regsitered success and error notices.
+	 * @return 	array
+	 */
+	public function register_notices( $notices ) {
+
+		return array_merge(
+			$notices,
+			array(
+				'import_configuration_upload_error'      => __( 'An error occured uploading the configuration file.', 'convertkit' ),
+				'import_configuration_invalid_file_type' => __( 'The uploaded configuration file isn\'t valid.', 'convertkit' ),
+				'import_configuration_empty'             => __( 'The uploaded configuration file contains no settings.', 'convertkit' ),
+				'import_configuration_success'           => __( 'Configuration imported successfully.', 'convertkit' ),
+			)
+		);
 
 	}
 
@@ -68,6 +94,7 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 		$result = $cron->run( 'convertkit_resource_refresh_posts' );
 
 		// If an error occured, show it now.
+		$result = new WP_Error( 'foo', 'something went wrong oops!' ); // @TODO Remove.
 		if ( is_wp_error( $result ) ) {
 			// Redirect to Broadcasts screen with error.
 			$this->redirect_with_error_description( $result->get_error_message() );
@@ -118,31 +145,6 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 
 		// Enqueue Select2 CSS.
 		convertkit_select2_enqueue_styles();
-
-	}
-
-	/**
-	 * Outputs success and/or error notices if required.
-	 *
-	 * @since   2.2.9
-	 */
-	public function maybe_output_notices() {
-
-		// Define messages that might be displayed as a notification.
-		$messages = array(
-			'broadcast_import_error'   => __( 'Broadcasts import failed. Please try again.', 'convertkit' ),
-			'broadcast_import_success' => __( 'Broadcasts import started. Check the Posts screen shortly to confirm Broadcasts imported successfully.', 'convertkit' ),
-		);
-
-		// Output error notification if defined.
-		if ( isset( $_REQUEST['error'] ) && array_key_exists( sanitize_text_field( $_REQUEST['error'] ), $messages ) ) { // phpcs:ignore WordPress.Security.NonceVerification
-			$this->output_error( $messages[ sanitize_text_field( $_REQUEST['error'] ) ] ); // phpcs:ignore WordPress.Security.NonceVerification
-		}
-
-		// Output success notification if defined.
-		if ( isset( $_REQUEST['success'] ) && array_key_exists( sanitize_text_field( $_REQUEST['success'] ), $messages ) ) { // phpcs:ignore WordPress.Security.NonceVerification
-			$this->output_success( $messages[ sanitize_text_field( $_REQUEST['success'] ) ] ); // phpcs:ignore WordPress.Security.NonceVerification
-		}
 
 	}
 

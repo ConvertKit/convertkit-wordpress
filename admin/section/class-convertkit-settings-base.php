@@ -83,9 +83,6 @@ abstract class ConvertKit_Settings_Base {
 		// Register the settings section.
 		$this->register_section();
 
-		// Output notices.
-		add_action( 'convertkit_settings_base_render_before', array( $this, 'maybe_output_notices' ) );
-
 	}
 
 	/**
@@ -155,10 +152,7 @@ abstract class ConvertKit_Settings_Base {
 	public function maybe_output_notices() {
 
 		// Define notices that might be displayed as a notification.
-		$notices = array(
-			// OAuth.
-			'oauth2_success' => __( 'Successfully authorized with ConvertKit.', 'convertkit' ),
-		);
+		$notices = array();
 
 		/**
 		 * Register success and error notices for settings screens.
@@ -260,7 +254,7 @@ abstract class ConvertKit_Settings_Base {
 		wp_safe_redirect( add_query_arg( array(
 			'page' => '_wp_convertkit_settings',
 			'tab'  => $this->name,
-		) 'options-general.php' ) );
+		), 'options-general.php' ) );
 		exit();
 
 	}
@@ -281,7 +275,7 @@ abstract class ConvertKit_Settings_Base {
 			'page' => '_wp_convertkit_settings',
 			'tab'  => $this->name,
 			'error' => $error,
-		) 'options-general.php' ) );
+		), 'options-general.php' ) );
 		exit();
 
 	}
@@ -299,7 +293,7 @@ abstract class ConvertKit_Settings_Base {
 			'page' => '_wp_convertkit_settings',
 			'tab'  => $this->name,
 			'error_description' => $error_description,
-		) 'options-general.php' ) );
+		), 'options-general.php' ) );
 		exit();
 
 	}
@@ -320,7 +314,7 @@ abstract class ConvertKit_Settings_Base {
 			'page' => '_wp_convertkit_settings',
 			'tab'  => $this->name,
 			'success' => $success,
-		) 'options-general.php' ) );
+		), 'options-general.php' ) );
 		exit();
 
 	}

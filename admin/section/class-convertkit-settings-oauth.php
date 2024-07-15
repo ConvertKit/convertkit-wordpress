@@ -32,9 +32,6 @@ class ConvertKit_Settings_OAuth extends ConvertKit_Settings_Base {
 		$this->title    = __( 'OAuth', 'convertkit' );
 		$this->tab_text = __( 'OAuth', 'convertkit' );
 
-		// Output notices.
-		add_action( 'convertkit_settings_base_render_before', array( $this, 'maybe_output_notices' ) );
-
 		parent::__construct();
 
 		$this->maybe_get_and_store_access_token();
