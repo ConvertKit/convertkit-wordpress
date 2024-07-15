@@ -77,11 +77,11 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 	/**
 	 * Registers success and error notices for the General screen, to be displayed
 	 * depending on the action.
-	 * 
-	 * @since 	2.5.1
-	 * 
-	 * @param 	array 	$notices 	Regsitered success and error notices.
-	 * @return 	array
+	 *
+	 * @since   2.5.1
+	 *
+	 * @param   array $notices    Regsitered success and error notices.
+	 * @return  array
 	 */
 	public function register_notices( $notices ) {
 

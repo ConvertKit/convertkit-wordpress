@@ -63,17 +63,7 @@ class ConvertKit_Settings_OAuth extends ConvertKit_Settings_Base {
 
 		// Redirect with an error if we could not fetch the access token.
 		if ( is_wp_error( $result ) ) {
-			// @TODO Use helpers.
-			wp_safe_redirect(
-				add_query_arg(
-					array(
-						'page'              => '_wp_convertkit_settings',
-						'error_description' => $result->get_error_message(),
-					),
-					'options-general.php'
-				)
-			);
-			exit();
+			$this->redirect_with_error_description( $result->get_error_message() );
 		}
 
 		// Store Access Token, Refresh Token and expiry.
@@ -87,16 +77,7 @@ class ConvertKit_Settings_OAuth extends ConvertKit_Settings_Base {
 
 		// Redirect to General screen, which will now show the Plugin's settings, because the Plugin
 		// is now authenticated.
-		wp_safe_redirect(
-			add_query_arg(
-				array(
-					'page'    => '_wp_convertkit_settings',
-					'success' => 'oauth2_success',
-				),
-				'options-general.php'
-			)
-		);
-		exit();
+		$this->redirect_with_success_notice( 'oauth2_success' );
 
 	}
 

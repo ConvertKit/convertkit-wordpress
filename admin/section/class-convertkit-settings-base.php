@@ -90,6 +90,7 @@ abstract class ConvertKit_Settings_Base {
 	 *
 	 * @since   2.5.0
 	 *
+	 * @param   string $tab    Current settings tab (general|tools|restrict-content|broadcasts).
 	 * @return  bool
 	 */
 	public function on_settings_screen( $tab ) {
@@ -164,11 +165,11 @@ abstract class ConvertKit_Settings_Base {
 
 		/**
 		 * Register success and error notices for settings screens.
-		 * 
-		 * @since 	2.5.1
-		 * 
-		 * @param 	array 	$notices 	Regsitered success and error notices.
-		 * @return 	array
+		 *
+		 * @since   2.5.1
+		 *
+		 * @param   array   $notices    Regsitered success and error notices.
+		 * @return  array
 		 */
 		$notices = apply_filters( 'convertkit_settings_base_register_notices', $notices );
 
@@ -257,20 +258,25 @@ abstract class ConvertKit_Settings_Base {
 	 *
 	 * @since   2.2.9
 	 */
-	public function redirect( $error = false, $success = false ) {
+	public function redirect() {
 
-		wp_safe_redirect( add_query_arg( array(
-			'page' => '_wp_convertkit_settings',
-			'tab'  => $this->name,
-		), 'options-general.php' ) );
+		wp_safe_redirect(
+			add_query_arg(
+				array(
+					'page' => '_wp_convertkit_settings',
+					'tab'  => $this->name,
+				),
+				'options-general.php'
+			)
+		);
 		exit();
 
 	}
 
 	/**
 	 * Redirects to the settings screen with an error notice key.
-	 * 
-	 * maybe_output_notices() will then output the translated error notice
+	 *
+	 * The function maybe_output_notices() will then output the translated error notice
 	 * based on the supplied key.
 	 *
 	 * @since   2.5.1
@@ -279,11 +285,16 @@ abstract class ConvertKit_Settings_Base {
 	 */
 	public function redirect_with_error_notice( $error ) {
 
-		wp_safe_redirect( add_query_arg( array(
-			'page' => '_wp_convertkit_settings',
-			'tab'  => $this->name,
-			'error' => $error,
-		), 'options-general.php' ) );
+		wp_safe_redirect(
+			add_query_arg(
+				array(
+					'page'  => '_wp_convertkit_settings',
+					'tab'   => $this->name,
+					'error' => $error,
+				),
+				'options-general.php'
+			)
+		);
 		exit();
 
 	}
@@ -293,23 +304,28 @@ abstract class ConvertKit_Settings_Base {
 	 *
 	 * @since   2.5.1
 	 *
-	 * @param   string $error      The error description.
+	 * @param   string $error_description      The error description.
 	 */
 	public function redirect_with_error_description( $error_description ) {
 
-		wp_safe_redirect( add_query_arg( array(
-			'page' => '_wp_convertkit_settings',
-			'tab'  => $this->name,
-			'error_description' => $error_description,
-		), 'options-general.php' ) );
+		wp_safe_redirect(
+			add_query_arg(
+				array(
+					'page'              => '_wp_convertkit_settings',
+					'tab'               => $this->name,
+					'error_description' => $error_description,
+				),
+				'options-general.php'
+			)
+		);
 		exit();
 
 	}
 
 	/**
 	 * Redirects to the settings screen with a success notice key.
-	 * 
-	 * maybe_output_notices() will then output the translated success notice
+	 *
+	 * The function maybe_output_notices() will then output the translated success notice
 	 * based on the supplied key.
 	 *
 	 * @since   2.5.1
@@ -318,11 +334,16 @@ abstract class ConvertKit_Settings_Base {
 	 */
 	public function redirect_with_success_notice( $success ) {
 
-		wp_safe_redirect( add_query_arg( array(
-			'page' => '_wp_convertkit_settings',
-			'tab'  => $this->name,
-			'success' => $success,
-		), 'options-general.php' ) );
+		wp_safe_redirect(
+			add_query_arg(
+				array(
+					'page'    => '_wp_convertkit_settings',
+					'tab'     => $this->name,
+					'success' => $success,
+				),
+				'options-general.php'
+			)
+		);
 		exit();
 
 	}
