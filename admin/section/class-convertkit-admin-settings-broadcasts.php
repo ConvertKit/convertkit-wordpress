@@ -36,7 +36,7 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 		$this->is_beta = true;
 
 		// Register and maybe output notices for this settings screen.
-		if ( $this->on_settings_screen() ) {
+		if ( $this->on_settings_screen( $this->name ) ) {
 			add_action( 'convertkit_settings_base_register_notices', array( $this, 'register_notices' ) );
 			add_action( 'convertkit_settings_base_render_before', array( $this, 'maybe_output_notices' ) );
 		}
@@ -92,7 +92,6 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 		$result = $cron->run( 'convertkit_resource_refresh_posts' );
 
 		// If an error occured, show it now.
-		$result = new WP_Error( 'foo', 'something went wrong oops!' ); // @TODO Remove.
 		if ( is_wp_error( $result ) ) {
 			// Redirect to Broadcasts screen with error.
 			$this->redirect_with_error_description( $result->get_error_message() );
@@ -162,7 +161,7 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 			$this->save_disabled = true;
 
 			// Return if we're not on the Plugin settings screen.
-			if ( ! $this->on_settings_screen() ) {
+			if ( ! $this->on_settings_screen( 'broadcasts' ) ) {
 				return;
 			}
 

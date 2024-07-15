@@ -92,18 +92,26 @@ abstract class ConvertKit_Settings_Base {
 	 *
 	 * @return  bool
 	 */
-	public function on_settings_screen() {
+	public function on_settings_screen( $tab ) {
+
+		// phpcs:disable WordPress.Security.NonceVerification
 
 		// Bail if we're not on the settings screen.
-		if ( ! array_key_exists( 'page', $_REQUEST ) ) { // phpcs:ignore WordPress.Security.NonceVerification
+		if ( ! array_key_exists( 'page', $_REQUEST ) ) {
 			return false;
 		}
-		$page = sanitize_text_field( $_REQUEST['page'] );  // phpcs:ignore WordPress.Security.NonceVerification
-		if ( $page !== $this->settings_key ) {
+		if ( sanitize_text_field( $_REQUEST['page'] ) !== '_wp_convertkit_settings' ) {
 			return false;
 		}
 
-		return true;
+		// Define current settings tab.
+		// General screen won't always be loaded with a `tab` parameter.
+		$current_tab = ( array_key_exists( 'tab', $_REQUEST ) ? sanitize_text_field( $_REQUEST['tab'] ) : 'general' );
+
+		// Return whether the request is for the current settings tab.
+		return ( $current_tab === $tab );
+
+		// phpcs:enable
 
 	}
 

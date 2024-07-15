@@ -45,7 +45,7 @@ class ConvertKit_Settings_OAuth extends ConvertKit_Settings_Base {
 	private function maybe_get_and_store_access_token() {
 
 		// Bail if we're not on the settings screen.
-		if ( ! $this->on_settings_screen() ) {
+		if ( ! $this->on_settings_screen( 'general' ) ) {
 			return;
 		}
 
@@ -63,6 +63,7 @@ class ConvertKit_Settings_OAuth extends ConvertKit_Settings_Base {
 
 		// Redirect with an error if we could not fetch the access token.
 		if ( is_wp_error( $result ) ) {
+			// @TODO Use helpers.
 			wp_safe_redirect(
 				add_query_arg(
 					array(
