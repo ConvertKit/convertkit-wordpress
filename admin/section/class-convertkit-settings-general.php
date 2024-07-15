@@ -57,11 +57,11 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 		$this->title    = __( 'General Settings', 'convertkit' );
 		$this->tab_text = __( 'General', 'convertkit' );
 
-		// Register notices for this settings screen.
-		add_action( 'convertkit_settings_base_register_notices', array( $this, 'register_notices' ) );
-
-		// Output notices.
-		add_action( 'convertkit_settings_base_render_before', array( $this, 'maybe_output_notices' ) );
+		// Register and maybe output notices for this settings screen.
+		if ( $this->on_settings_screen() ) {
+			add_action( 'convertkit_settings_base_register_notices', array( $this, 'register_notices' ) );
+			add_action( 'convertkit_settings_base_render_before', array( $this, 'maybe_output_notices' ) );
+		}
 
 		// Enqueue scripts and CSS.
 		add_action( 'convertkit_admin_settings_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
