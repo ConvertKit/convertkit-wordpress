@@ -69,13 +69,14 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 
 		// If an error occured, show it now.
 		if ( is_wp_error( $result ) ) {
-			// Redirect to Broadcasts screen.
-			$this->redirect( 'broadcast_import_error' );
+			// Redirect to Broadcasts screen with error.
+			$this->redirect_with_error_description( $result->get_error_message() );
 			return;
 		}
 
 		// If here, the task scheduled.
-		$this->redirect( false, 'broadcast_import_success' );
+		// Redirect with success notice.
+		$this->redirect_with_success_notice( 'broadcast_import_success' );
 
 	}
 
