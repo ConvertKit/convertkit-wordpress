@@ -83,6 +83,9 @@ abstract class ConvertKit_Settings_Base {
 		// Register the settings section.
 		$this->register_section();
 
+		// Output notices.
+		add_action( 'convertkit_settings_base_render_before', array( $this, 'maybe_output_notices' ) );
+
 	}
 
 	/**
@@ -151,30 +154,35 @@ abstract class ConvertKit_Settings_Base {
 	 */
 	public function maybe_output_notices() {
 
-		// Define messages that might be displayed as a notification.
-		$messages = array(
+		// Define notices that might be displayed as a notification.
+		$notices = array(
 			// OAuth.
-			'oauth2_success'                         => __( 'Successfully authorized with ConvertKit.', 'convertkit' ),
-			// Tools.
-			'import_configuration_upload_error'      => __( 'An error occured uploading the configuration file.', 'convertkit' ),
-			'import_configuration_invalid_file_type' => __( 'The uploaded configuration file isn\'t valid.', 'convertkit' ),
-			'import_configuration_empty'             => __( 'The uploaded configuration file contains no settings.', 'convertkit' ),
-			'import_configuration_success'           => __( 'Configuration imported successfully.', 'convertkit' ),
+			'oauth2_success' => __( 'Successfully authorized with ConvertKit.', 'convertkit' ),
 		);
 
-		// Output OAuth error notification if defined.
+		/**
+		 * Register success and error notices for settings screens.
+		 * 
+		 * @since 	2.5.1
+		 * 
+		 * @param 	array 	$notices 	Regsitered success and error notices.
+		 * @return 	array
+		 */
+		$notices = apply_filters( 'convertkit_settings_base_register_notices', $notices );
+
+		// Output the verbose error description if supplied (e.g. OAuth).
 		if ( isset( $_REQUEST['error_description'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification
 			$this->output_error( sanitize_text_field( $_REQUEST['error_description'] ) ); // phpcs:ignore WordPress.Security.NonceVerification
 		}
 
-		// Output plugin error notification if defined.
-		if ( isset( $_REQUEST['error'] ) && array_key_exists( sanitize_text_field( $_REQUEST['error'] ), $messages ) ) { // phpcs:ignore WordPress.Security.NonceVerification
-			$this->output_error( $messages[ sanitize_text_field( $_REQUEST['error'] ) ] ); // phpcs:ignore WordPress.Security.NonceVerification
+		// Output error notification if defined.
+		if ( isset( $_REQUEST['error'] ) && array_key_exists( sanitize_text_field( $_REQUEST['error'] ), $notices ) ) { // phpcs:ignore WordPress.Security.NonceVerification
+			$this->output_error( $notices[ sanitize_text_field( $_REQUEST['error'] ) ] ); // phpcs:ignore WordPress.Security.NonceVerification
 		}
 
 		// Output success notification if defined.
-		if ( isset( $_REQUEST['success'] ) && array_key_exists( sanitize_text_field( $_REQUEST['success'] ), $messages ) ) { // phpcs:ignore WordPress.Security.NonceVerification
-			$this->output_success( $messages[ sanitize_text_field( $_REQUEST['success'] ) ] ); // phpcs:ignore WordPress.Security.NonceVerification
+		if ( isset( $_REQUEST['success'] ) && array_key_exists( sanitize_text_field( $_REQUEST['success'] ), $notices ) ) { // phpcs:ignore WordPress.Security.NonceVerification
+			$this->output_success( $notices[ sanitize_text_field( $_REQUEST['success'] ) ] ); // phpcs:ignore WordPress.Security.NonceVerification
 		}
 
 	}
@@ -243,29 +251,76 @@ abstract class ConvertKit_Settings_Base {
 	}
 
 	/**
-	 * Redirects to the settings screen, with an option success or error message.
+	 * Redirects to the settings screen.
 	 *
 	 * @since   2.2.9
-	 *
-	 * @param   false|string $error      The error message key.
-	 * @param   false|string $success    The success message key.
 	 */
 	public function redirect( $error = false, $success = false ) {
 
-		// Build URL to redirect to, depending on whether a message is included.
-		$args = array(
+		wp_safe_redirect( add_query_arg( array(
 			'page' => '_wp_convertkit_settings',
 			'tab'  => $this->name,
-		);
-		if ( $error !== false ) {
-			$args['error'] = $error;
-		}
-		if ( $success !== false ) {
-			$args['success'] = $success;
-		}
+		) 'options-general.php' ) );
+		exit();
 
-		// Redirect.
-		wp_safe_redirect( add_query_arg( $args, 'options-general.php' ) );
+	}
+
+	/**
+	 * Redirects to the settings screen with an error notice key.
+	 * 
+	 * maybe_output_notices() will then output the translated error notice
+	 * based on the supplied key.
+	 *
+	 * @since   2.5.1
+	 *
+	 * @param   string $error      The error notice key, registered using `convertkit_settings_base_register_notices`.
+	 */
+	public function redirect_with_error_notice( $error ) {
+
+		wp_safe_redirect( add_query_arg( array(
+			'page' => '_wp_convertkit_settings',
+			'tab'  => $this->name,
+			'error' => $error,
+		) 'options-general.php' ) );
+		exit();
+
+	}
+
+	/**
+	 * Redirects to the settings screen with the verbose error description.
+	 *
+	 * @since   2.5.1
+	 *
+	 * @param   string $error      The error description.
+	 */
+	public function redirect_with_error_description( $error_description ) {
+
+		wp_safe_redirect( add_query_arg( array(
+			'page' => '_wp_convertkit_settings',
+			'tab'  => $this->name,
+			'error_description' => $error_description,
+		) 'options-general.php' ) );
+		exit();
+
+	}
+
+	/**
+	 * Redirects to the settings screen with a success notice key.
+	 * 
+	 * maybe_output_notices() will then output the translated success notice
+	 * based on the supplied key.
+	 *
+	 * @since   2.5.1
+	 *
+	 * @param   string $success      The success notice key, registered using `convertkit_settings_base_register_notices`.
+	 */
+	public function redirect_with_success_notice( $success ) {
+
+		wp_safe_redirect( add_query_arg( array(
+			'page' => '_wp_convertkit_settings',
+			'tab'  => $this->name,
+			'success' => $success,
+		) 'options-general.php' ) );
 		exit();
 
 	}
