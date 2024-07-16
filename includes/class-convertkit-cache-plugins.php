@@ -61,6 +61,7 @@ class ConvertKit_Cache_Plugins {
 		// Perfmatters: Exclude Forms from Delay JavaScript.
 		add_filter( 'convertkit_output_script_footer', array( $this, 'perfmatters_exclude_delay_js' ) );
 		add_filter( 'convertkit_resource_forms_output_script', array( $this, 'perfmatters_exclude_delay_js' ) );
+		add_filter( 'perfmatters_lazyload', array( $this, 'perfmatters_disable_lazy_loading_on_landing_pages' ) );
 
 		// Siteground Speed Optimizer: Exclude Forms from JS combine.
 		add_filter( 'convertkit_output_script_footer', array( $this, 'siteground_speed_optimizer_exclude_js_combine' ) );
@@ -162,6 +163,34 @@ class ConvertKit_Cache_Plugins {
 
 		// Return original script.
 		return $script;
+
+	}
+
+	/**
+	 * Disable lazy loading in Perfmatters when a WordPress Page configured to display a
+	 * ConvertKit Landing Page is viewed.
+	 *
+	 * @since   2.5.1
+	 *
+	 * @param   bool $enabled    Lazy loading enabled.
+	 * @return  bool
+	 */
+	public function perfmatters_disable_lazy_loading_on_landing_pages( $enabled ) {
+
+		// If the request isn't for a Page, don't change lazy loading settings.
+		if ( ! is_page( get_the_ID() ) ) {
+			return $enabled;
+		}
+
+		// If no landing page is specified for the Post, don't change lazy loading settings.
+		$post_settings = new ConvertKit_Post( get_the_ID() );
+		if ( ! $post_settings->has_landing_page() ) {
+			return $enabled;
+		}
+
+		// ConvertKit Landing Page is going to be displayed.
+		// Disable Perfmatters Lazy Loading so that the Landing Page images display.
+		return false;
 
 	}
 
