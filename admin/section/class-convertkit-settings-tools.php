@@ -28,12 +28,38 @@ class ConvertKit_Settings_Tools extends ConvertKit_Settings_Base {
 		$this->title        = __( 'Tools', 'convertkit' );
 		$this->tab_text     = __( 'Tools', 'convertkit' );
 
-		// Output notices.
-		add_action( 'convertkit_settings_base_render_before', array( $this, 'maybe_output_notices' ) );
+		// Register and maybe output notices for this settings screen.
+		if ( $this->on_settings_screen( $this->name ) ) {
+			add_filter( 'convertkit_settings_base_register_notices', array( $this, 'register_notices' ) );
+			add_action( 'convertkit_settings_base_render_before', array( $this, 'maybe_output_notices' ) );
+		}
 
 		parent::__construct();
 
 		$this->maybe_perform_actions();
+	}
+
+	/**
+	 * Registers success and error notices for the Tools screen, to be displayed
+	 * depending on the action.
+	 *
+	 * @since   2.5.1
+	 *
+	 * @param   array $notices    Regsitered success and error notices.
+	 * @return  array
+	 */
+	public function register_notices( $notices ) {
+
+		return array_merge(
+			$notices,
+			array(
+				'import_configuration_upload_error'      => __( 'An error occured uploading the configuration file.', 'convertkit' ),
+				'import_configuration_invalid_file_type' => __( 'The uploaded configuration file isn\'t valid.', 'convertkit' ),
+				'import_configuration_empty'             => __( 'The uploaded configuration file contains no settings.', 'convertkit' ),
+				'import_configuration_success'           => __( 'Configuration imported successfully.', 'convertkit' ),
+			)
+		);
+
 	}
 
 	/**
@@ -206,7 +232,7 @@ class ConvertKit_Settings_Tools extends ConvertKit_Settings_Base {
 			$this->redirect();
 		}
 		if ( $_FILES['import']['error'] !== 0 ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
-			$this->redirect( 'import_configuration_upload_error' );
+			$this->redirect_with_error_notice( 'import_configuration_upload_error' );
 		}
 
 		// Read file.
@@ -217,12 +243,12 @@ class ConvertKit_Settings_Tools extends ConvertKit_Settings_Base {
 
 		// Bail if the data isn't JSON.
 		if ( is_null( $import ) ) {
-			$this->redirect( 'import_configuration_invalid_file_type' );
+			$this->redirect_with_error_notice( 'import_configuration_invalid_file_type' );
 		}
 
 		// Bail if no settings exist.
 		if ( ! array_key_exists( 'settings', $import ) ) {
-			$this->redirect( 'import_configuration_empty' );
+			$this->redirect_with_error_notice( 'import_configuration_empty' );
 		}
 
 		// Import: Settings.
@@ -238,7 +264,7 @@ class ConvertKit_Settings_Tools extends ConvertKit_Settings_Base {
 		}
 
 		// Redirect to Tools screen.
-		$this->redirect( false, 'import_configuration_success' );
+		$this->redirect_with_success_notice( 'import_configuration_success' );
 
 	}
 

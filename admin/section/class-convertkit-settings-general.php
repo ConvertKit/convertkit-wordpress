@@ -57,6 +57,12 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 		$this->title    = __( 'General Settings', 'convertkit' );
 		$this->tab_text = __( 'General', 'convertkit' );
 
+		// Register and maybe output notices for this settings screen.
+		if ( $this->on_settings_screen( $this->name ) ) {
+			add_filter( 'convertkit_settings_base_register_notices', array( $this, 'register_notices' ) );
+			add_action( 'convertkit_settings_base_render_before', array( $this, 'maybe_output_notices' ) );
+		}
+
 		// Enqueue scripts and CSS.
 		add_action( 'convertkit_admin_settings_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		add_action( 'convertkit_admin_settings_enqueue_styles', array( $this, 'enqueue_styles' ) );
@@ -69,6 +75,26 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 	}
 
 	/**
+	 * Registers success and error notices for the General screen, to be displayed
+	 * depending on the action.
+	 *
+	 * @since   2.5.1
+	 *
+	 * @param   array $notices    Regsitered success and error notices.
+	 * @return  array
+	 */
+	public function register_notices( $notices ) {
+
+		return array_merge(
+			$notices,
+			array(
+				'oauth2_success' => __( 'Successfully authorized with ConvertKit.', 'convertkit' ),
+			)
+		);
+
+	}
+
+	/**
 	 * Test the access token, if it exists.
 	 * If the access token has been revoked or is invalid, remove it from the settings now.
 	 *
@@ -77,7 +103,7 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 	private function check_credentials() {
 
 		// Bail if we're not on the settings screen.
-		if ( ! $this->on_settings_screen() ) {
+		if ( ! $this->on_settings_screen( $this->name ) ) {
 			return;
 		}
 
@@ -146,7 +172,7 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 	private function maybe_disconnect() {
 
 		// Bail if we're not on the settings screen.
-		if ( ! $this->on_settings_screen() ) {
+		if ( ! $this->on_settings_screen( $this->name ) ) {
 			return;
 		}
 

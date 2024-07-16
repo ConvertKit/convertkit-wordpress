@@ -35,8 +35,11 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 		// Identify that this is beta functionality.
 		$this->is_beta = true;
 
-		// Output notices.
-		add_action( 'convertkit_settings_base_render_before', array( $this, 'maybe_output_notices' ) );
+		// Register and maybe output notices for this settings screen.
+		if ( $this->on_settings_screen( $this->name ) ) {
+			add_filter( 'convertkit_settings_base_register_notices', array( $this, 'register_notices' ) );
+			add_action( 'convertkit_settings_base_render_before', array( $this, 'maybe_output_notices' ) );
+		}
 
 		// Enqueue scripts and CSS.
 		add_action( 'convertkit_admin_settings_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
@@ -45,6 +48,27 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 		parent::__construct();
 
 		$this->maybe_import_now();
+
+	}
+
+	/**
+	 * Registers success and error notices for the Tools screen, to be displayed
+	 * depending on the action.
+	 *
+	 * @since   2.5.1
+	 *
+	 * @param   array $notices    Regsitered success and error notices.
+	 * @return  array
+	 */
+	public function register_notices( $notices ) {
+
+		return array_merge(
+			$notices,
+			array(
+				'broadcast_import_error'   => __( 'Broadcasts import failed. Please try again.', 'convertkit' ),
+				'broadcast_import_success' => __( 'Broadcasts import started. Check the Posts screen shortly to confirm Broadcasts imported successfully.', 'convertkit' ),
+			)
+		);
 
 	}
 
@@ -69,13 +93,14 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 
 		// If an error occured, show it now.
 		if ( is_wp_error( $result ) ) {
-			// Redirect to Broadcasts screen.
-			$this->redirect( 'broadcast_import_error' );
+			// Redirect to Broadcasts screen with error.
+			$this->redirect_with_error_description( $result->get_error_message() );
 			return;
 		}
 
 		// If here, the task scheduled.
-		$this->redirect( false, 'broadcast_import_success' );
+		// Redirect with success notice.
+		$this->redirect_with_success_notice( 'broadcast_import_success' );
 
 	}
 
@@ -121,31 +146,6 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 	}
 
 	/**
-	 * Outputs success and/or error notices if required.
-	 *
-	 * @since   2.2.9
-	 */
-	public function maybe_output_notices() {
-
-		// Define messages that might be displayed as a notification.
-		$messages = array(
-			'broadcast_import_error'   => __( 'Broadcasts import failed. Please try again.', 'convertkit' ),
-			'broadcast_import_success' => __( 'Broadcasts import started. Check the Posts screen shortly to confirm Broadcasts imported successfully.', 'convertkit' ),
-		);
-
-		// Output error notification if defined.
-		if ( isset( $_REQUEST['error'] ) && array_key_exists( sanitize_text_field( $_REQUEST['error'] ), $messages ) ) { // phpcs:ignore WordPress.Security.NonceVerification
-			$this->output_error( $messages[ sanitize_text_field( $_REQUEST['error'] ) ] ); // phpcs:ignore WordPress.Security.NonceVerification
-		}
-
-		// Output success notification if defined.
-		if ( isset( $_REQUEST['success'] ) && array_key_exists( sanitize_text_field( $_REQUEST['success'] ), $messages ) ) { // phpcs:ignore WordPress.Security.NonceVerification
-			$this->output_success( $messages[ sanitize_text_field( $_REQUEST['success'] ) ] ); // phpcs:ignore WordPress.Security.NonceVerification
-		}
-
-	}
-
-	/**
 	 * Registers settings fields for this section.
 	 *
 	 * @since   2.2.9
@@ -161,7 +161,7 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 			$this->save_disabled = true;
 
 			// Return if we're not on the Plugin settings screen.
-			if ( ! $this->on_settings_screen() ) {
+			if ( ! $this->on_settings_screen( 'broadcasts' ) ) {
 				return;
 			}
 

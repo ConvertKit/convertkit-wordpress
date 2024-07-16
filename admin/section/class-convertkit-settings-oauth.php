@@ -32,8 +32,10 @@ class ConvertKit_Settings_OAuth extends ConvertKit_Settings_Base {
 		$this->title    = __( 'OAuth', 'convertkit' );
 		$this->tab_text = __( 'OAuth', 'convertkit' );
 
-		// Output notices.
-		add_action( 'convertkit_settings_base_render_before', array( $this, 'maybe_output_notices' ) );
+		// Output notices for this settings screen.
+		if ( $this->on_settings_screen( 'general' ) ) {
+			add_action( 'convertkit_settings_base_render_before', array( $this, 'maybe_output_notices' ) );
+		}
 
 		parent::__construct();
 
@@ -48,7 +50,7 @@ class ConvertKit_Settings_OAuth extends ConvertKit_Settings_Base {
 	private function maybe_get_and_store_access_token() {
 
 		// Bail if we're not on the settings screen.
-		if ( ! $this->on_settings_screen() ) {
+		if ( ! $this->on_settings_screen( 'general' ) ) {
 			return;
 		}
 
