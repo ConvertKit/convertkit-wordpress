@@ -13,6 +13,12 @@
 						<td><a href="#convertkit_admin_notices_output_  notice"><code>convertkit_admin_notices_output_  notice</code></a></td>
 						<td>Define the text to output in an admin error notice.</td>
 					</tr><tr>
+						<td colspan="3">../admin/section/class-convertkit-settings-base.php</td>
+					</tr><tr>
+						<td>&nbsp;</td>
+						<td><a href="#convertkit_settings_base_register_notices"><code>convertkit_settings_base_register_notices</code></a></td>
+						<td>Register success and error notices for settings screens.</td>
+					</tr><tr>
 						<td colspan="3">../admin/class-convertkit-admin-settings.php</td>
 					</tr><tr>
 						<td>&nbsp;</td>
@@ -243,6 +249,33 @@ add_filter( 'convertkit_admin_notices_output_  notice', function( $output ) {
 	// ... your code here
 	// Return value
 	return $output;
+}, 10, 1 );
+</pre>
+<h3 id="convertkit_settings_base_register_notices">
+						convertkit_settings_base_register_notices
+						<code>admin/section/class-convertkit-settings-base.php::173</code>
+					</h3><h4>Overview</h4>
+						<p>Register success and error notices for settings screens.</p><h4>Parameters</h4>
+					<table>
+						<thead>
+							<tr>
+								<th>Parameter</th>
+								<th>Type</th>
+								<th>Description</th>
+							</tr>
+						</thead>
+						<tbody><tr>
+							<td>$notices</td>
+							<td>array</td>
+							<td>Regsitered success and error notices.</td>
+						</tr>
+						</tbody>
+					</table><h4>Usage</h4>
+<pre>
+add_filter( 'convertkit_settings_base_register_notices', function( $notices ) {
+	// ... your code here
+	// Return value
+	return $notices;
 }, 10, 1 );
 </pre>
 <h3 id="convertkit_plugin_screen_action_links">
@@ -1571,7 +1604,7 @@ add_filter( 'convertkit_broadcasts_parse_broadcast_content_permitted_html_tags',
 					</tbody>
 				</table><h3 id="convertkit_settings_base_render_before">
 						convertkit_settings_base_render_before
-						<code>admin/section/class-convertkit-settings-base.php::191</code>
+						<code>admin/section/class-convertkit-settings-base.php::202</code>
 					</h3><h4>Parameters</h4>
 					<table>
 						<thead>
@@ -1591,7 +1624,7 @@ do_action( 'convertkit_settings_base_render_before', function(  ) {
 </pre>
 <h3 id="convertkit_settings_base_render_after">
 						convertkit_settings_base_render_after
-						<code>admin/section/class-convertkit-settings-base.php::210</code>
+						<code>admin/section/class-convertkit-settings-base.php::221</code>
 					</h3><h4>Parameters</h4>
 					<table>
 						<thead>
@@ -1611,7 +1644,7 @@ do_action( 'convertkit_settings_base_render_after', function(  ) {
 </pre>
 <h3 id="convertkit_settings_base_sanitize_settings">
 						convertkit_settings_base_sanitize_settings
-						<code>admin/section/class-convertkit-settings-base.php::573</code>
+						<code>admin/section/class-convertkit-settings-base.php::651</code>
 					</h3><h4>Parameters</h4>
 					<table>
 						<thead>
@@ -1639,7 +1672,7 @@ do_action( 'convertkit_settings_base_sanitize_settings', function( $name, $updat
 </pre>
 <h3 id="convertkit_settings_base_render_before">
 						convertkit_settings_base_render_before
-						<code>admin/section/class-convertkit-settings-tools.php::284</code>
+						<code>admin/section/class-convertkit-settings-tools.php::310</code>
 					</h3><h4>Parameters</h4>
 					<table>
 						<thead>
@@ -1659,7 +1692,7 @@ do_action( 'convertkit_settings_base_render_before', function(  ) {
 </pre>
 <h3 id="convertkit_settings_base_render_after">
 						convertkit_settings_base_render_after
-						<code>admin/section/class-convertkit-settings-tools.php::298</code>
+						<code>admin/section/class-convertkit-settings-tools.php::324</code>
 					</h3><h4>Parameters</h4>
 					<table>
 						<thead>
@@ -1679,7 +1712,7 @@ do_action( 'convertkit_settings_base_render_after', function(  ) {
 </pre>
 <h3 id="convertkit_settings_base_render_before">
 						convertkit_settings_base_render_before
-						<code>admin/section/class-convertkit-settings-oauth.php::131</code>
+						<code>admin/section/class-convertkit-settings-oauth.php::133</code>
 					</h3><h4>Parameters</h4>
 					<table>
 						<thead>
@@ -1699,7 +1732,7 @@ do_action( 'convertkit_settings_base_render_before', function(  ) {
 </pre>
 <h3 id="convertkit_settings_base_render_after">
 						convertkit_settings_base_render_after
-						<code>admin/section/class-convertkit-settings-oauth.php::141</code>
+						<code>admin/section/class-convertkit-settings-oauth.php::143</code>
 					</h3><h4>Parameters</h4>
 					<table>
 						<thead>
