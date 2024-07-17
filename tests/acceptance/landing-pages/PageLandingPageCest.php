@@ -310,6 +310,68 @@ class PageLandingPageCest
 
 	/**
 	 * Test that the Landing Page specified in the Page Settings works when
+	 * creating and viewing a new WordPress Page, with Perfmatters active.
+	 *
+	 * @since   2.5.1
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testAddNewPageUsingDefinedLandingPageWithPerfmattersPlugin(AcceptanceTester $I)
+	{
+		// Setup Plugin and Resources.
+		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPluginResources($I);
+
+		// Activate Perfmatters Plugin.
+		$I->activateThirdPartyPlugin($I, 'perfmatters');
+
+		// Enable Lazy Loading.
+		$I->haveOptionInDatabase(
+			'perfmatters_options',
+			[
+				'lazyload' => [
+					'lazy_loading' => 1,
+				],
+			]
+		);
+
+		// Add a Page using the Gutenberg editor.
+		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Landing Page: Perfmatters: ' . $_ENV['CONVERTKIT_API_LANDING_PAGE_NAME']);
+
+		// Configure metabox's Landing Page setting to value specified in the .env file.
+		$I->configureMetaboxSettings(
+			$I,
+			'wp-convertkit-meta-box',
+			[
+				'landing_page' => [ 'select2', $_ENV['CONVERTKIT_API_LANDING_PAGE_NAME'] ],
+			]
+		);
+
+		// Get Landing Page ID.
+		$landingPageID = $I->grabValueFrom('#wp-convertkit-landing_page');
+
+		// Publish and view the Page on the frontend site.
+		$I->publishAndViewGutenbergPage($I);
+
+		// Confirm that the basic HTML structure is correct.
+		$this->_seeBasicHTMLStructure($I);
+
+		// Confirm the ConvertKit Site Icon displays.
+		$I->seeInSource('<link rel="shortcut icon" type="image/x-icon" href="https://pages.convertkit.com/templates/favicon.ico">');
+
+		// Confirm that the ConvertKit Landing Page displays.
+		$I->dontSeeElementInDOM('body.page'); // WordPress didn't load its template, which is correct.
+		$I->seeElementInDOM('form[data-sv-form="' . $landingPageID . '"]'); // ConvertKit injected its Landing Page Form, which is correct.
+
+		// Confirm that Perfmatters has not lazy loaded assets.
+		$I->dontSeeElementInDOM('.perfmatters-lazy');
+
+		// Deactivate Perfmatters Plugin.
+		$I->deactivateThirdPartyPlugin($I, 'perfmatters');
+	}
+
+	/**
+	 * Test that the Landing Page specified in the Page Settings works when
 	 * creating and viewing a new WordPress Page, with the WP-Rocket caching
 	 * and minification Plugin active.
 	 *
