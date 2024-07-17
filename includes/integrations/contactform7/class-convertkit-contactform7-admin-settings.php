@@ -137,7 +137,7 @@ class ConvertKit_ContactForm7_Admin_Settings extends ConvertKit_Settings_Base {
 					'_wp_convertkit_integration_contactform7_settings[' . $cf7_form['id'] . ']',
 					(string) $this->settings->get_convertkit_subscribe_setting_by_cf7_form_id( $cf7_form['id'] ),
 					'_wp_convertkit_integration_contactform7_settings_' . $cf7_form['id'],
-					'widefat',
+					'widefat'
 				),
 				'email' => 'your-email',
 				'name'  => 'your-name',
