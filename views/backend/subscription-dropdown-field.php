@@ -11,15 +11,6 @@
 
 ?>
 <select class="<?php echo esc_attr( $class ); ?>" id="<?php echo esc_attr( $id ); ?>" name="<?php echo esc_attr( $name ); ?>">
-	<?php
-	// If Bulk Edit is true, add a No Change option and select it.
-	if ( $is_bulk_edit === true ) {
-		?>
-		<option value="-1" data-preserve-on-refresh="1"<?php selected( '', $value ); ?>><?php esc_html_e( '— No Change —', 'convertkit' ); ?></option>
-		<?php
-	}
-	?>
-
 	<option <?php selected( '', $value ); ?> value="" data-preserve-on-refresh="1">
 		<?php esc_html_e( '(Do not subscribe)', 'convertkit' ); ?>
 	</option>
@@ -32,9 +23,13 @@
 		<?php
 		if ( $forms->exist() ) {
 			foreach ( $forms->get() as $form ) {
-				?>
-				<option value="<?php echo esc_attr( $form['id'] ); ?>"<?php selected( esc_attr( $form['id'] ), $value ); ?>><?php echo esc_html( $form['name'] ); ?></option>
-				<?php
+				echo sprintf(
+					'<option value="%s"%s>%s [%s]</option>',
+					esc_attr( $form['id'] ),
+					selected( $form['id'], $value, false ),
+					esc_attr( $form['name'] ),
+					( ! empty( $form['format'] ) ? esc_attr( $form['format'] ) : 'inline' )
+				);
 			}
 		}
 		?>

@@ -117,7 +117,7 @@ class ConvertKit_ContactForm7_Admin_Settings extends ConvertKit_Settings_Base {
 		}
 
 		// Get Creator Network Recommendations script.
-		$creator_network_recommendations = new ConvertKit_Resource_Creator_Network_Recommendations( 'contact_form_7' );
+		$creator_network_recommendations         = new ConvertKit_Resource_Creator_Network_Recommendations( 'contact_form_7' );
 		$creator_network_recommendations_enabled = $creator_network_recommendations->enabled();
 
 		// Setup WP_List_Table.

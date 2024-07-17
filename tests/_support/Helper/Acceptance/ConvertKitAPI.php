@@ -114,11 +114,12 @@ class ConvertKitAPI extends \Codeception\Module
 			'GET',
 			[
 				'email_address' => $emailAddress,
+				'include_total_count' => true,
 			]
 		);
 
 		// Check no subscribers are returned by this request.
-		$I->assertEquals(0, $results['total_subscribers']);
+		$I->assertEquals(0, $results['pagination']['total_count']);
 	}
 
 	/**

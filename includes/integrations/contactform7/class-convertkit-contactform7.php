@@ -88,7 +88,7 @@ class ConvertKit_ContactForm7 {
 		}
 
 		// Get ConvertKit Form ID mapped to this Contact Form 7 Form.
-		$contact_form_7_settings = new ConvertKit_ContactForm7_Settings();
+		$contact_form_7_settings      = new ConvertKit_ContactForm7_Settings();
 		$convertkit_subscribe_setting = $contact_form_7_settings->get_convertkit_subscribe_setting_by_cf7_form_id( $contact_form->id() );
 
 		// If no ConvertKit subscribe setting is defined, bail.
@@ -129,10 +129,10 @@ class ConvertKit_ContactForm7 {
 			'contact_form_7'
 		);
 
-		// If the 'Subscribe' option is set, just create the subscriber without assigning to a resource.
+		// If the setting is 'Subscribe', just create the subscriber without assigning to a resource.
 		if ( $convertkit_subscribe_setting === 'subscribe' ) {
 			return $api->create_subscriber(
-			    $email,
+				$email,
 				$first_name
 			);
 		}

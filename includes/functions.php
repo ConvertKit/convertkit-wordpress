@@ -541,13 +541,18 @@ function convertkit_get_file_contents( $local_file ) {
  * - Do not subscribe
  * - Subscribe
  * - Subscribe to Form
- * 
- * @since 	2.5.2
+ *
+ * @since   2.5.2
+ *
+ * @param   string $name   Field name.
+ * @param   string $value  Field value.
+ * @param   string $id     Field ID attribute.
+ * @param   string $class  Field CSS class(es).
  */
-function convertkit_get_subscription_dropdown_field( $name, $value, $id, $class, $is_bulk_edit = false ) {
+function convertkit_get_subscription_dropdown_field( $name, $value, $id, $class = '' ) {
 
 	// Load resource classes.
-	$forms  = new ConvertKit_Resource_Forms( 'contact_form_7' );
+	$forms = new ConvertKit_Resource_Forms( 'contact_form_7' );
 
 	ob_start();
 	include CONVERTKIT_PLUGIN_PATH . '/views/backend/subscription-dropdown-field.php';
