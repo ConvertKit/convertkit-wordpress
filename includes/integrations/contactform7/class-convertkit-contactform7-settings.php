@@ -83,7 +83,7 @@ class ConvertKit_ContactForm7_Settings {
 	 * @since   1.9.6
 	 *
 	 * @param   int $cf7_form_id    Contact Form 7 Form ID.
-	 * @return  bool|int
+	 * @return  bool|string|int
 	 */
 	public function get_convertkit_subscribe_setting_by_cf7_form_id( $cf7_form_id ) {
 
