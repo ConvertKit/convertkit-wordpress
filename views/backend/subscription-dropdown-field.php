@@ -10,7 +10,7 @@
  */
 
 ?>
-<select class="<?php echo esc_attr( $class ); ?>" id="<?php echo esc_attr( $id ); ?>" name="<?php echo esc_attr( $name ); ?>">
+<select class="<?php echo esc_attr( $css_class ); ?>" id="<?php echo esc_attr( $id ); ?>" name="<?php echo esc_attr( $name ); ?>">
 	<option <?php selected( '', $value ); ?> value="" data-preserve-on-refresh="1">
 		<?php esc_html_e( '(Do not subscribe)', 'convertkit' ); ?>
 	</option>
@@ -23,7 +23,7 @@
 		<?php
 		if ( $forms->exist() ) {
 			foreach ( $forms->get() as $form ) {
-				echo sprintf(
+				printf(
 					'<option value="%s"%s>%s [%s]</option>',
 					esc_attr( $form['id'] ),
 					selected( $form['id'], $value, false ),

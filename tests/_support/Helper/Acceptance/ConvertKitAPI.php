@@ -113,7 +113,7 @@ class ConvertKitAPI extends \Codeception\Module
 			'subscribers',
 			'GET',
 			[
-				'email_address' => $emailAddress,
+				'email_address'       => $emailAddress,
 				'include_total_count' => true,
 			]
 		);
