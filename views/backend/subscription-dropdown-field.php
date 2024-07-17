@@ -4,7 +4,6 @@
  * - Do not subscribe
  * - Subscribe
  * - Forms
- * - Tags
  *
  * @package ConvertKit
  * @author ConvertKit
@@ -16,16 +15,16 @@
 	// If Bulk Edit is true, add a No Change option and select it.
 	if ( $is_bulk_edit === true ) {
 		?>
-		<option value="-1" data-preserve-on-refresh="1"<?php selected( '', $name ); ?>><?php esc_html_e( '— No Change —', 'convertkit' ); ?></option>
+		<option value="-1" data-preserve-on-refresh="1"<?php selected( '', $value ); ?>><?php esc_html_e( '— No Change —', 'convertkit' ); ?></option>
 		<?php
 	}
 	?>
 
-	<option <?php selected( '', $name ); ?> value="" data-preserve-on-refresh="1">
+	<option <?php selected( '', $value ); ?> value="" data-preserve-on-refresh="1">
 		<?php esc_html_e( '(Do not subscribe)', 'convertkit' ); ?>
 	</option>
 
-	<option <?php selected( '', $name ); ?> value="" data-preserve-on-refresh="1">
+	<option <?php selected( 'subscribe', $value ); ?> value="subscribe" data-preserve-on-refresh="1">
 		<?php esc_html_e( 'Subscribe', 'convertkit' ); ?>
 	</option>
 
@@ -34,19 +33,7 @@
 		if ( $forms->exist() ) {
 			foreach ( $forms->get() as $form ) {
 				?>
-				<option value="form_<?php echo esc_attr( $form['id'] ); ?>"<?php selected( 'form_' . esc_attr( $form['id'] ), $name ); ?>><?php echo esc_html( $form['name'] ); ?></option>
-				<?php
-			}
-		}
-		?>
-	</optgroup>
-
-	<optgroup label="<?php esc_attr_e( 'Tags', 'convertkit' ); ?>" id="ckwc-tags" data-option-value-prefix="tag_">
-		<?php
-		if ( $tags->exist() ) {
-			foreach ( $tags->get() as $convertkit_tag ) {
-				?>
-				<option value="tag_<?php echo esc_attr( $convertkit_tag['id'] ); ?>"<?php selected( 'tag_' . esc_attr( $convertkit_tag['id'] ), $name ); ?>><?php echo esc_html( $convertkit_tag['name'] ); ?></option>
+				<option value="<?php echo esc_attr( $form['id'] ); ?>"<?php selected( esc_attr( $form['id'] ), $value ); ?>><?php echo esc_html( $form['name'] ); ?></option>
 				<?php
 			}
 		}

@@ -135,7 +135,7 @@ class ConvertKit_ContactForm7_Admin_Settings extends ConvertKit_Settings_Base {
 				'title' => $cf7_form['name'],
 				'form'  => convertkit_get_subscription_dropdown_field(
 					'_wp_convertkit_integration_contactform7_settings[' . $cf7_form['id'] . ']',
-					(string) $this->settings->get_convertkit_form_id_by_cf7_form_id( $cf7_form['id'] ),
+					(string) $this->settings->get_convertkit_subscribe_setting_by_cf7_form_id( $cf7_form['id'] ),
 					'_wp_convertkit_integration_contactform7_settings_' . $cf7_form['id'],
 					'ckwc-select2 widefat',
 				),
