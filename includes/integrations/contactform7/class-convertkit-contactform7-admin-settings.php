@@ -67,6 +67,15 @@ class ConvertKit_ContactForm7_Admin_Settings extends ConvertKit_Settings_Base {
 			);
 			?>
 		</p>
+		<p>
+			<?php echo esc_html_e( 'Each Contact Form 7 Form has the following ConvertKit options:', 'convertkit' ); ?>
+			<br />
+			<code><?php echo esc_html_e( 'Do not subscribe', 'convertkit' ); ?></code>: <?php esc_html_e( 'Do not subscribe the email address to ConvertKit', 'convertkit' ); ?>
+			<br />
+			<code><?php echo esc_html_e( 'Subscribe', 'convertkit' ); ?></code>: <?php esc_html_e( 'Subscribes the email address to ConvertKit', 'convertkit' ); ?>
+			<br />
+			<code><?php echo esc_html_e( 'Form', 'convertkit' ); ?></code>: <?php esc_html_e( 'Susbcribes the email address to ConvertKit, and adds the subscriber to the ConvertKit Form', 'convertkit' ); ?>
+		</p>
 		<?php
 
 	}
@@ -97,20 +106,6 @@ class ConvertKit_ContactForm7_Admin_Settings extends ConvertKit_Settings_Base {
 
 		do_settings_sections( $this->settings_key );
 
-		// Get Forms.
-		$forms                           = new ConvertKit_Resource_Forms( 'contact_form_7' );
-		$creator_network_recommendations = new ConvertKit_Resource_Creator_Network_Recommendations( 'contact_form_7' );
-
-		// Bail with an error if no ConvertKit Forms exist.
-		if ( ! $forms->exist() ) {
-			$this->output_error( __( 'No Forms exist on ConvertKit.', 'convertkit' ) );
-			$this->render_container_end();
-			return;
-		}
-
-		// Get Creator Network Recommendations script.
-		$creator_network_recommendations_enabled = $creator_network_recommendations->enabled();
-
 		// Get Contact Form 7 Forms.
 		$cf7_forms = $this->get_cf7_forms();
 
@@ -121,10 +116,14 @@ class ConvertKit_ContactForm7_Admin_Settings extends ConvertKit_Settings_Base {
 			return;
 		}
 
+		// Get Creator Network Recommendations script.
+		$creator_network_recommendations = new ConvertKit_Resource_Creator_Network_Recommendations( 'contact_form_7' );
+		$creator_network_recommendations_enabled = $creator_network_recommendations->enabled();
+
 		// Setup WP_List_Table.
 		$table = new Multi_Value_Field_Table();
 		$table->add_column( 'title', __( 'Contact Form 7 Form', 'convertkit' ), true );
-		$table->add_column( 'form', __( 'ConvertKit Form', 'convertkit' ), false );
+		$table->add_column( 'form', __( 'ConvertKit', 'convertkit' ), false );
 		$table->add_column( 'email', __( 'Contact Form 7 Email Field', 'convertkit' ), false );
 		$table->add_column( 'name', __( 'Contact Form 7 Name Field', 'convertkit' ), false );
 		$table->add_column( 'creator_network_recommendations', __( 'Enable Creator Network Recommendations', 'convertkit' ), false );
@@ -134,14 +133,11 @@ class ConvertKit_ContactForm7_Admin_Settings extends ConvertKit_Settings_Base {
 			// Build row.
 			$table_row = array(
 				'title' => $cf7_form['name'],
-				'form'  => $forms->get_select_field_all(
+				'form'  => convertkit_get_subscription_dropdown_field(
 					'_wp_convertkit_integration_contactform7_settings[' . $cf7_form['id'] . ']',
-					'_wp_convertkit_integration_contactform7_settings_' . $cf7_form['id'],
-					false,
 					(string) $this->settings->get_convertkit_form_id_by_cf7_form_id( $cf7_form['id'] ),
-					array(
-						'' => __( 'None', 'convertkit' ),
-					)
+					'_wp_convertkit_integration_contactform7_settings_' . $cf7_form['id'],
+					'ckwc-select2 widefat',
 				),
 				'email' => 'your-email',
 				'name'  => 'your-name',
