@@ -31,9 +31,6 @@ class PostCest
 		// Navigate to Posts > Add New.
 		$I->amOnAdminPage('post-new.php');
 
-		// Close the Gutenberg "Welcome to the block editor" dialog if it's displayed.
-		$I->maybeCloseGutenbergWelcomeModal($I);
-
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
 

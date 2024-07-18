@@ -10,30 +10,6 @@ namespace Helper\Acceptance;
 class WPGutenberg extends \Codeception\Module
 {
 	/**
-	 * Helper method to close the Gutenberg "Welcome to the block editor" dialog, which
-	 * might show for each Page/Post test performed due to there being no persistence
-	 * remembering that the user dismissed the dialog.
-	 *
-	 * @since   1.9.6
-	 *
-	 * @param   AcceptanceTester $I Acceptance Tester.
-	 */
-	public function maybeCloseGutenbergWelcomeModal($I)
-	{
-		try {
-			$I->performOn(
-				'.components-modal__screen-overlay',
-				[
-					'click' => '.components-modal__screen-overlay .components-modal__header button.components-button',
-				],
-				3
-			);
-		} catch ( \Facebook\WebDriver\Exception\TimeoutException $e ) { // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedCatch
-			// No modal exists, so nothing to dismiss.
-		}
-	}
-
-	/**
 	 * Add a Page, Post or Custom Post Type using Gutenberg in WordPress.
 	 *
 	 * @since   1.9.7.5
@@ -46,9 +22,6 @@ class WPGutenberg extends \Codeception\Module
 	{
 		// Navigate to Post Type (e.g. Pages / Posts) > Add New.
 		$I->amOnAdminPage('post-new.php?post_type=' . $postType);
-
-		// Close the Gutenberg "Welcome to the block editor" dialog if it's displayed.
-		$I->maybeCloseGutenbergWelcomeModal($I);
 
 		// Define the Title.
 		$I->fillField('.editor-post-title__input', $title);

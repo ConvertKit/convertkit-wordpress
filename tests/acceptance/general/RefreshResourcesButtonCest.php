@@ -36,9 +36,6 @@ class RefreshResourcesButtonCest
 		// Navigate to Pages > Add New.
 		$I->amOnAdminPage('post-new.php?post_type=page');
 
-		// Close the Gutenberg "Welcome to the block editor" dialog if it's displayed.
-		$I->maybeCloseGutenbergWelcomeModal($I);
-
 		// Click the Forms refresh button.
 		$I->click('button.wp-convertkit-refresh-resources[data-resource="forms"]');
 
@@ -365,9 +362,6 @@ class RefreshResourcesButtonCest
 
 		// Navigate to Pages > Add New.
 		$I->amOnAdminPage('post-new.php?post_type=page');
-
-		// Close the Gutenberg "Welcome to the block editor" dialog if it's displayed.
-		$I->maybeCloseGutenbergWelcomeModal($I);
 
 		// Click the Forms refresh button.
 		$I->click('button.wp-convertkit-refresh-resources[data-resource="forms"]');
