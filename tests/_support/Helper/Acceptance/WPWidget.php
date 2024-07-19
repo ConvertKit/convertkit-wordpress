@@ -24,9 +24,6 @@ class WPWidget extends \Codeception\Module
 		// Navigate to Appearance > Widgets.
 		$I->amOnAdminPage('widgets.php');
 
-		// Dismiss welcome message.
-		$I->maybeCloseGutenbergWelcomeModal($I);
-
 		// Click Add Block Button.
 		$I->click('button.edit-widgets-header-toolbar__inserter-toggle');
 
@@ -110,9 +107,6 @@ class WPWidget extends \Codeception\Module
 	{
 		// Navigate to Appearance > Widgets.
 		$I->amOnAdminPage('widgets.php');
-
-		// Dismiss welcome message.
-		$I->maybeCloseGutenbergWelcomeModal($I);
 
 		// Click Add Block Button.
 		$I->click('button.edit-widgets-header-toolbar__inserter-toggle');

@@ -549,9 +549,6 @@ class BroadcastsToPostsCest
 		// Confirm the HTML Template Test's Restrict Content setting is correct.
 		$I->click($_ENV['CONVERTKIT_API_BROADCAST_FIRST_TITLE']);
 
-		// Close the Gutenberg "Welcome to the block editor" dialog if it's displayed.
-		$I->maybeCloseGutenbergWelcomeModal($I);
-
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
 

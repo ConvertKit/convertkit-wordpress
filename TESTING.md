@@ -293,7 +293,6 @@ Our Acceptance Tests can now call `$I->checkNoWarningsAndNoticesOnScreen($I)`, i
 error check for every test.
 
 Further Acceptance Test Helpers that are provided include:
-- `maybeCloseGutenbergWelcomeModal($I)`: Closes the Gutenberg welcome modal when adding a Page or Post.
 - `activateConvertKitPlugin($I)`: Logs in to WordPress as the `admin` user, and activates the ConvertKit Plugin.
 - `deactivateConvertKitPlugin($I)`: Logs in to WordPress as the `admin` user, and deactivates the ConvertKit Plugin.
 - `activateThirdPartyPlugin($I, $name)`: Logs in to WordPress as the `admin` user, and activates the given third party Plugin by its slug.
