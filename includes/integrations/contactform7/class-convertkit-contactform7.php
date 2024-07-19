@@ -130,19 +130,16 @@ class ConvertKit_ContactForm7 {
 		);
 
 		// Subscribe the email address.
-		$subscriber = $api->create_subscriber(
-			$email,
-			$first_name
-		);
-
-		// @TODO Handle an error.
-
+		$subscriber = $api->create_subscriber( $email, $first_name );
+		if ( is_wp_error( $subscriber ) ) {
+			return;
+		}
 
 		// If the setting is 'Subscribe', no Form needs to be assigned to the subscriber.
 		if ( $convertkit_subscribe_setting === 'subscribe' ) {
 			return;
 		}
-		
+
 		// Determine the resource type and ID to assign to the subscriber.
 		list( $resource_type, $resource_id ) = explode( ':', $convertkit_subscribe_setting );
 		switch ( $resource_type ) {
@@ -156,11 +153,11 @@ class ConvertKit_ContactForm7 {
 				// For Legacy Forms, a different endpoint is used.
 				$forms = new ConvertKit_Resource_Forms();
 				if ( $forms->is_legacy( $resource_id ) ) {
-					return $this->add_subscriber_to_legacy_form( $resource_id, $subscriber['subscriber']['id'] );
+					return $api->add_subscriber_to_legacy_form( $resource_id, $subscriber['subscriber']['id'] );
 				}
 
 				// Add subscriber to form.
-				return $this->add_subscriber_to_form( $resource_id, $subscriber['subscriber']['id'] );
+				return $api->add_subscriber_to_form( $resource_id, $subscriber['subscriber']['id'] );
 
 		}
 

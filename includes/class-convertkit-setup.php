@@ -117,7 +117,7 @@ class ConvertKit_Setup {
 
 		// Iterate through settings.
 		foreach ( $settings as $contact_form_7_form_id => $convertkit_form_id ) {
-			// Skip keys that are non-numeric e.g. `creator_network_recommendations_*`
+			// Skip keys that are non-numeric e.g. `creator_network_recommendations_*`.
 			if ( ! is_numeric( $contact_form_7_form_id ) ) {
 				continue;
 			}
@@ -134,7 +134,7 @@ class ConvertKit_Setup {
 			}
 
 			// Prefix the ConvertKit Form ID with `form_`.
-			$settings[ $contact_form_7_form_id ] = $convertkit_form_id = 'form:' . $convertkit_form_id;
+			$settings[ $contact_form_7_form_id ] = 'form:' . $convertkit_form_id;
 		}
 
 		// Update settings.

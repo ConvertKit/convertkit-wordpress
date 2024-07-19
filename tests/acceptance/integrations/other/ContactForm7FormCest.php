@@ -472,6 +472,43 @@ class ContactForm7FormCest
 	}
 
 	/**
+	 * Tests that existing settings are automatically migrated when updating
+	 * the Plugin to 2.5.2 or higher.
+	 *
+	 * @since   2.5.2
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testSettingsMigratedOnUpgrade(AcceptanceTester $I)
+	{
+		// Create settings as if they were created / edited when the ConvertKit Plugin < 2.5.2
+		// was active.
+		$I->haveOptionInDatabase(
+			'_wp_convertkit_integration_contactform7_settings',
+			[
+				'1'                                 => $_ENV['CONVERTKIT_API_FORM_ID'],
+				'creator_network_recommendations_1' => '1',
+				'2'                                 => '',
+			]
+		);
+
+		// Downgrade the Plugin version to simulate an upgrade.
+		$I->haveOptionInDatabase('convertkit_version', '2.4.9');
+
+		// Load admin screen.
+		$I->amOnAdminPage('index.php');
+
+		// Check settings structure has been updated.
+		$settings = $I->grabOptionFromDatabase('_wp_convertkit_integration_contactform7_settings');
+		$I->assertArrayHasKey('1', $settings);
+		$I->assertArrayHasKey('creator_network_recommendations_1', $settings);
+		$I->assertArrayHasKey('2', $settings);
+		$I->assertEquals($settings['1'], 'form:' . $_ENV['CONVERTKIT_API_FORM_ID']);
+		$I->assertEquals($settings['creator_network_recommendations_1'], '1');
+		$I->assertEquals($settings['2'], '');
+	}
+
+	/**
 	 * Deactivate and reset Plugin(s) after each test, if the test passes.
 	 * We don't use _after, as this would provide a screenshot of the Plugin
 	 * deactivation and not the true test error.
