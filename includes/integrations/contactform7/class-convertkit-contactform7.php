@@ -129,29 +129,40 @@ class ConvertKit_ContactForm7 {
 			'contact_form_7'
 		);
 
-		// If the setting is 'Subscribe', just create the subscriber without assigning to a resource.
-		if ( $convertkit_subscribe_setting === 'subscribe' ) {
-			return $api->create_subscriber(
-				$email,
-				$first_name
-			);
-		}
-
-		// For Legacy Forms, a different endpoint is used.
-		$forms = new ConvertKit_Resource_Forms();
-		if ( $forms->is_legacy( $convertkit_subscribe_setting ) ) {
-			return $api->legacy_form_subscribe(
-				(int) $convertkit_subscribe_setting,
-				$email,
-				$first_name
-			);
-		}
-
-		return $api->form_subscribe(
-			(int) $convertkit_subscribe_setting,
+		// Subscribe the email address.
+		$subscriber = $api->create_subscriber(
 			$email,
 			$first_name
 		);
+
+		// @TODO Handle an error.
+
+
+		// If the setting is 'Subscribe', no Form needs to be assigned to the subscriber.
+		if ( $convertkit_subscribe_setting === 'subscribe' ) {
+			return;
+		}
+		
+		// Determine the resource type and ID to assign to the subscriber.
+		list( $resource_type, $resource_id ) = explode( ':', $convertkit_subscribe_setting );
+		switch ( $resource_type ) {
+			/**
+			 * Form
+			 */
+			case 'form':
+				// Cast ID.
+				$resource_id = absint( $resource_id );
+
+				// For Legacy Forms, a different endpoint is used.
+				$forms = new ConvertKit_Resource_Forms();
+				if ( $forms->is_legacy( $resource_id ) ) {
+					return $this->add_subscriber_to_legacy_form( $resource_id, $subscriber['subscriber']['id'] );
+				}
+
+				// Add subscriber to form.
+				return $this->add_subscriber_to_form( $resource_id, $subscriber['subscriber']['id'] );
+
+		}
 
 	}
 
