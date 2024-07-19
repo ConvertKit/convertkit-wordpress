@@ -19,14 +19,14 @@
 		<?php esc_html_e( 'Subscribe', 'convertkit' ); ?>
 	</option>
 
-	<optgroup label="<?php esc_attr_e( 'Forms', 'convertkit' ); ?>" id="ckwc-forms" data-option-value-prefix="form_">
+	<optgroup label="<?php esc_attr_e( 'Forms', 'convertkit' ); ?>" id="ckwc-forms" data-option-value-prefix="form:">
 		<?php
 		if ( $forms->exist() ) {
 			foreach ( $forms->get() as $form ) {
 				printf(
 					'<option value="%s"%s>%s [%s]</option>',
-					esc_attr( $form['id'] ),
-					selected( $form['id'], $value, false ),
+					esc_attr( 'form:' . $form['id'] ),
+					selected( 'form:' . $form['id'], $value, false ),
 					esc_attr( $form['name'] ),
 					( ! empty( $form['format'] ) ? esc_attr( $form['format'] ) : 'inline' )
 				);
