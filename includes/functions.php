@@ -553,8 +553,9 @@ function convertkit_get_file_contents( $local_file ) {
 function convertkit_get_subscription_dropdown_field( $name, $value, $id, $css_class = '', $context = '' ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter
 
 	// Load resource classes.
-	$forms = new ConvertKit_Resource_Forms( $context );
-	$tags  = new ConvertKit_Resource_Tags( $context );
+	$forms     = new ConvertKit_Resource_Forms( $context );
+	$tags      = new ConvertKit_Resource_Tags( $context );
+	$sequences = new ConvertKit_Resource_Sequences( $context );
 
 	ob_start();
 	include CONVERTKIT_PLUGIN_PATH . '/views/backend/subscription-dropdown-field.php';

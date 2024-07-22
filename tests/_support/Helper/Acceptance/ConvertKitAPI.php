@@ -66,6 +66,36 @@ class ConvertKitAPI extends \Codeception\Module
 	}
 
 	/**
+	 * Check the given subscriber ID has been assigned to the given sequence ID.
+	 *
+	 * @since   2.5.2
+	 *
+	 * @param   AcceptanceTester $I             AcceptanceTester.
+	 * @param   int              $subscriberID  Subscriber ID.
+	 * @param   int              $sequenceID         Sequence ID.
+	 */
+	public function apiCheckSubscriberHasSequence($I, $subscriberID, $sequenceID)
+	{
+		// Run request.
+		$results = $this->apiRequest(
+			'sequences/' . $sequenceID . '/subscribers',
+			'GET'
+		);
+
+		// Iterate through subscribers.
+		$subscriberHasSequence = false;
+		foreach ($results['subscribers'] as $subscriber) {
+			if ($subscriber['id'] === $subscriberID) {
+				$subscriberHasSequence = true;
+				break;
+			}
+		}
+
+		// Assert if the subscriber has the sequence.
+		$this->assertTrue($subscriberHasSequence);
+	}
+
+	/**
 	 * Check the given subscriber ID has been assigned to the given tag ID.
 	 *
 	 * @param   AcceptanceTester $I             AcceptanceTester.
