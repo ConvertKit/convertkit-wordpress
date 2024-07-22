@@ -60,7 +60,11 @@ class ConvertKitAPI extends \Codeception\Module
 		// Check at least one subscriber was returned and it matches the email address.
 		$I->assertGreaterThan(0, $results['pagination']['total_count']);
 		$I->assertEquals($emailAddress, $results['subscribers'][0]['email_address']);
+
+		// Return subscriber ID.
+		return $results['subscribers'][0]['id'];
 	}
+
 	/**
 	 * Check the given subscriber ID has been assigned to the given tag ID.
 	 *
