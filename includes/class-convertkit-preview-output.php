@@ -267,7 +267,7 @@ class ConvertKit_Preview_Output {
 					'utm_content' => 'convertkit',
 				),
 				sprintf(
-					'https://app.convertkit.com/landing_pages/%s/edit/',
+					'https://app.kit.com/landing_pages/%s/edit/',
 					esc_attr( (string) $form_id )
 				)
 			);
@@ -279,7 +279,7 @@ class ConvertKit_Preview_Output {
 					'utm_content' => 'convertkit',
 				),
 				sprintf(
-					'https://app.convertkit.com/forms/designers/%s/edit/',
+					'https://app.kit.com/forms/designers/%s/edit/',
 					esc_attr( (string) $form_id )
 				)
 			);

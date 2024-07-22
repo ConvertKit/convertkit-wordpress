@@ -1,6 +1,6 @@
 === ConvertKit - Email Newsletter, Email Marketing, Subscribers and Landing Pages ===
 Contributors: nathanbarry, growdev, travisnorthcutt, ggwicz
-Donate link: https://convertkit.com
+Donate link: https://kit.com
 Tags: email marketing, email newsletter, newsletter, subscribers, membership
 Requires at least: 5.0
 Tested up to: 6.6
@@ -13,19 +13,19 @@ Build your email subscriber lists, send email marketing newsletters, sell more p
 
 == Description ==
 
-[ConvertKit](https://convertkit.com?utm_source=wordpress&utm_term=en_US&utm_content=readme) makes it easy to create, send and manage your email marketing campaigns; grow your email subscribers lists; send targeted email newsletters; sell more products and build your membership site - all by easily embedding email marketing / email subscriber forms anywhere on your WordPress web site.
+[ConvertKit](https://kit.com?utm_source=wordpress&utm_term=en_US&utm_content=readme) makes it easy to create, send and manage your email marketing campaigns; grow your email subscribers lists; send targeted email newsletters; sell more products and build your membership site - all by easily embedding email marketing / email subscriber forms anywhere on your WordPress web site.
 
-**New to ConvertKit? [Creating an account](https://app.convertkit.com/users/signup?plan=newsletter-free&utm_source=wordpress&utm_term=en_US&utm_content=readme) is 100% free for your first 10,000 subscribers, making ConvertKit an email marketing solution for everyone - whether you're new to email marketing or a seasoned professional email marketer.**
+**New to ConvertKit? [Creating an account](https://app.kit.com/users/signup?plan=newsletter-free&utm_source=wordpress&utm_term=en_US&utm_content=readme) is 100% free for your first 10,000 subscribers, making ConvertKit an email marketing solution for everyone - whether you're new to email marketing or a seasoned professional email marketer.**
 
 ### Email Newsletter and Email Marketing Features
 
-- Design [email newsletter subscription forms](https://convertkit.com/features/forms?utm_source=wordpress&utm_term=en_US&utm_content=readme) in ConvertKit, automatically appending them to any WordPress post or page, or displaying forms within your WordPress content using the supplied Gutenberg block and shortcode options. Perfect for building your email subscriber lists.
-- Build [landing pages](https://convertkit.com/features/landing-pages?utm_source=wordpress&utm_term=en_US&utm_content=readme) in ConvertKit, and display them on a WordPress page to capture email subscribers
-- List past [email newsletters](https://convertkit.com/features/email-marketing?utm_source=wordpress&utm_term=en_US&utm_content=readme) on your WordPress site
+- Design [email newsletter subscription forms](https://kit.com/features/forms?utm_source=wordpress&utm_term=en_US&utm_content=readme) in ConvertKit, automatically appending them to any WordPress post or page, or displaying forms within your WordPress content using the supplied Gutenberg block and shortcode options. Perfect for building your email subscriber lists.
+- Build [landing pages](https://kit.com/features/landing-pages?utm_source=wordpress&utm_term=en_US&utm_content=readme) in ConvertKit, and display them on a WordPress page to capture email subscribers
+- List past [email newsletters](https://kit.com/features/email-marketing?utm_source=wordpress&utm_term=en_US&utm_content=readme) on your WordPress site
 
 = Forms =
 
-Design [forms](https://convertkit.com/features/forms?utm_source=wordpress&utm_term=en_US&utm_content=readme) in ConvertKit, choosing from a variety of designs, customisable to your branding.
+Design [forms](https://kit.com/features/forms?utm_source=wordpress&utm_term=en_US&utm_content=readme) in ConvertKit, choosing from a variety of designs, customisable to your branding.
 
 Sign up forms can be configured to:
 
@@ -48,7 +48,7 @@ Start collecting email subscribers today!
 
 ### Send Email Newsletters
 
-Use ConvertKit's [email marketing](https://convertkit.com/features/email-marketing?utm_source=wordpress&utm_term=en_US&utm_content=readme) feature to build and send email newsletters to your subscribers and leads, with options to send email newsletters to segments of your subscriber list.
+Use ConvertKit's [email marketing](https://kit.com/features/email-marketing?utm_source=wordpress&utm_term=en_US&utm_content=readme) feature to build and send email newsletters to your subscribers and leads, with options to send email newsletters to segments of your subscriber list.
 
 Embed existing email newsletters on your WordPress web site, ensuring visitors never miss your email newsletter content, by:
 
@@ -57,7 +57,7 @@ Embed existing email newsletters on your WordPress web site, ensuring visitors n
 
 = Landing Pages =
 
-Design [landing pages](https://convertkit.com/features/landing-pages?utm_source=wordpress&utm_term=en_US&utm_content=readme) in ConvertKit's intuitive editor, choosing from a variety of designs, customisable to your branding and ideal for building your email marketing list or selling a product.
+Design [landing pages](https://kit.com/features/landing-pages?utm_source=wordpress&utm_term=en_US&utm_content=readme) in ConvertKit's intuitive editor, choosing from a variety of designs, customisable to your branding and ideal for building your email marketing list or selling a product.
 
 Landing pages can then be embedded on your WordPress web site. Simply create or edit a WordPress Page, choose the ConvertKit landing page from the ConvertKit meta box settings to display, and you're all set to begin growing your email subscribers list.
 
@@ -73,7 +73,7 @@ Prefer to just list existing broadcasts, each linked to your ConvertKit profile?
 
 ### Paid (and free) Membership Sites
 
-Require email subscribers to either purchase a [ConvertKit Product](https://convertkit.com/features/commerce), or subscribe for free, to access your content with ConvertKit's Member Content feature - whether that's a course, ebook, digital download, album, presets, coaching and more. 
+Require email subscribers to either purchase a [ConvertKit Product](https://kit.com/features/commerce), or subscribe for free, to access your content with ConvertKit's Member Content feature - whether that's a course, ebook, digital download, album, presets, coaching and more. 
 
 Subscribers access their membership by entering their email address, receiving a one time passcode by email and clicking the link in the email. That's it - no complex paid membership plugins or payment gateways to configure.
 
@@ -104,7 +104,7 @@ ConvertKit is the go-to email marketing hub for creators that helps you grow and
 
 = Documentation =
 
-Full Plugin documentation can be found [here](https://help.convertkit.com/en/articles/2502591-the-convertkit-wordpress-plugin?utm_source=wordpress&utm_term=en_US&utm_content=readme).
+Full Plugin documentation can be found [here](https://help.kit.com/en/articles/2502591-the-convertkit-wordpress-plugin?utm_source=wordpress&utm_term=en_US&utm_content=readme).
 
 == Installation ==
 
@@ -113,7 +113,7 @@ Full Plugin documentation can be found [here](https://help.convertkit.com/en/art
 
 == Configuration ==
 
-1. Configure the plugin by navigating to `Settings > ConvertKit` in the WordPress Administration Menu, entering your [API Key](https://app.convertkit.com/account_settings/advanced_settings?utm_source=wordpress&utm_term=en_US&utm_content=readme) and defining the default forms to display on Pages, Posts and/or Custom Post Types
+1. Configure the plugin by navigating to `Settings > ConvertKit` in the WordPress Administration Menu, entering your [API Key](https://app.kit.com/account_settings/advanced_settings?utm_source=wordpress&utm_term=en_US&utm_content=readme) and defining the default forms to display on Pages, Posts and/or Custom Post Types
 2. (Optional) choose a specific Form to display when editing a Page, Post or Custom Post Type in the Page/Post/Custom Post Type's ConvertKit settings
 3. (Optional) use the ConvertKit Form Shortcode or Block to insert Forms into your Page, Post or Custom Post Type content
 
@@ -121,7 +121,7 @@ Full Plugin documentation can be found [here](https://help.convertkit.com/en/art
 
 = Does this plugin require a paid service? =
 
-No. You must first have an account on [convertkit.com](https://convertkit.com?utm_source=wordpress&utm_term=en_US&utm_content=readme), but you do not have to use a paid plan!
+No. You must first have an account on [kit.com](https://kit.com?utm_source=wordpress&utm_term=en_US&utm_content=readme), but you do not have to use a paid plan!
 
 = How do I refresh my available Forms, Landing Pages and Tags? =
 
@@ -141,7 +141,7 @@ To import your past (and future) email newsletters from ConvertKit to WordPress:
 
 = Where can I find the Plugin's Documentation? =
 
-Full Plugin documentation can be found [here](https://help.convertkit.com/en/articles/2502591-the-convertkit-wordpress-plugin?utm_source=wordpress&utm_content=readme).
+Full Plugin documentation can be found [here](https://help.kit.com/en/articles/2502591-the-convertkit-wordpress-plugin?utm_source=wordpress&utm_content=readme).
 
 == Screenshots ==
 
@@ -514,7 +514,7 @@ Full Plugin documentation can be found [here](https://help.convertkit.com/en/art
 * Fix: Legacy Forms: Removed erronous <html>, <head> and <body> tags from markup 
 
 ### 1.9.6.4 2022-01-11
-* Fix: Render Legacy Form when shortcode is copied from app.convertkit.com for a Legacy Form
+* Fix: Render Legacy Form when shortcode is copied from app.kit.com for a Legacy Form
 * Fix: Don't check for Landing Page when viewing any non-Page public Post Type which doesn't support Landing Pages
 * Fix: PHP Notice: Undefined index landing_page when upgrading from 1.4.6 or earlier
 * Fix: PHP Notice: Undefined index tag when upgrading from 1.4.6 or earlier

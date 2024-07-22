@@ -23,8 +23,8 @@ class ConvertKit_Cache_Plugins {
 	 */
 	public $exclude_hosts = array(
 		'cdnjs.cloudflare.com',
-		'pages.convertkit.com',
-		'convertkit.com',
+		'pages.kit.com',
+		'kit.com',
 	);
 
 	/**

@@ -315,7 +315,7 @@ function convertkit_get_registration_url() {
 			'utm_term'    => get_locale(),
 			'utm_content' => 'convertkit',
 		),
-		'https://app.convertkit.com/users/signup'
+		'https://app.kit.com/users/signup'
 	);
 
 }
@@ -335,7 +335,7 @@ function convertkit_get_sign_in_url() {
 			'utm_term'    => get_locale(),
 			'utm_content' => 'convertkit',
 		),
-		'https://app.convertkit.com/'
+		'https://app.kit.com/'
 	);
 
 }
@@ -355,7 +355,7 @@ function convertkit_get_billing_url() {
 			'utm_term'    => get_locale(),
 			'utm_content' => 'convertkit',
 		),
-		'https://app.convertkit.com/account_settings/billing/'
+		'https://app.kit.com/account_settings/billing/'
 	);
 
 }
@@ -375,7 +375,7 @@ function convertkit_get_new_form_url() {
 			'utm_term'    => get_locale(),
 			'utm_content' => 'convertkit',
 		),
-		'https://app.convertkit.com/forms/new/'
+		'https://app.kit.com/forms/new/'
 	);
 
 }
@@ -395,7 +395,7 @@ function convertkit_get_form_editor_url() {
 			'utm_term'    => get_locale(),
 			'utm_content' => 'convertkit',
 		),
-		'https://app.convertkit.com/forms'
+		'https://app.kit.com/forms'
 	);
 
 }
@@ -415,7 +415,7 @@ function convertkit_get_new_tag_url() {
 			'utm_term'    => get_locale(),
 			'utm_content' => 'convertkit',
 		),
-		'https://app.convertkit.com/subscribers/'
+		'https://app.kit.com/subscribers/'
 	);
 
 }
@@ -435,7 +435,7 @@ function convertkit_get_new_broadcast_url() {
 			'utm_term'    => get_locale(),
 			'utm_content' => 'convertkit',
 		),
-		'https://app.convertkit.com/campaigns/'
+		'https://app.kit.com/campaigns/'
 	);
 
 }
@@ -457,7 +457,7 @@ function convertkit_get_edit_broadcast_url( $broadcast_id ) {
 			'utm_content' => 'convertkit',
 		),
 		sprintf(
-			'https://app.convertkit.com/campaigns/%s/draft',
+			'https://app.kit.com/campaigns/%s/draft',
 			$broadcast_id
 		)
 	);
@@ -479,7 +479,7 @@ function convertkit_get_new_product_url() {
 			'utm_term'    => get_locale(),
 			'utm_content' => 'convertkit',
 		),
-		'https://app.convertkit.com/products/new/'
+		'https://app.kit.com/products/new/'
 	);
 
 }
