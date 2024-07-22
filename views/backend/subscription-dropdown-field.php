@@ -19,7 +19,7 @@
 		<?php esc_html_e( 'Subscribe', 'convertkit' ); ?>
 	</option>
 
-	<optgroup label="<?php esc_attr_e( 'Forms', 'convertkit' ); ?>" id="ckwc-forms" data-option-value-prefix="form:">
+	<optgroup label="<?php esc_attr_e( 'Forms', 'convertkit' ); ?>" id="convertkit-forms" data-option-value-prefix="form:">
 		<?php
 		if ( $forms->exist() ) {
 			foreach ( $forms->get() as $form ) {
@@ -29,6 +29,21 @@
 					selected( 'form:' . $form['id'], $value, false ),
 					esc_attr( $form['name'] ),
 					( ! empty( $form['format'] ) ? esc_attr( $form['format'] ) : 'inline' )
+				);
+			}
+		}
+		?>
+	</optgroup>
+
+	<optgroup label="<?php esc_attr_e( 'Tags', 'convertkit' ); ?>" id="convertkit-tags" data-option-value-prefix="tag:">
+		<?php
+		if ( $tags->exist() ) {
+			foreach ( $tags->get() as $convertkit_tag ) {
+				printf(
+					'<option value="%s"%s>%s</option>',
+					esc_attr( 'tag:' . $convertkit_tag['id'] ),
+					selected( 'tag:' . $convertkit_tag['id'], $value, false ),
+					esc_attr( $convertkit_tag['name'] )
 				);
 			}
 		}
