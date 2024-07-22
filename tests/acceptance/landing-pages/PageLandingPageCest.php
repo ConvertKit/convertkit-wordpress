@@ -93,7 +93,7 @@ class PageLandingPageCest
 		$this->_seeBasicHTMLStructure($I);
 
 		// Confirm the ConvertKit Site Icon displays.
-		$I->seeInSource('<link rel="shortcut icon" type="image/x-icon" href="https://pages.kit.com/templates/favicon.ico">');
+		$I->seeInSource('<link rel="shortcut icon" type="image/x-icon" href="https://pages.convertkit.com/templates/favicon.ico">');
 
 		// Confirm that the ConvertKit Landing Page displays.
 		$I->dontSeeElementInDOM('body.page'); // WordPress didn't load its template, which is correct.
@@ -140,7 +140,7 @@ class PageLandingPageCest
 		$I->seeInSource('<link rel="icon" href="' . $_ENV['TEST_SITE_WP_URL'] . '/wp-content/uploads/' . date( 'Y' ) . '/' . date( 'm' ) . '/icon-300x300.png" sizes="192x192">');
 		$I->seeInSource('<link rel="apple-touch-icon" href="' . $_ENV['TEST_SITE_WP_URL'] . '/wp-content/uploads/' . date( 'Y' ) . '/' . date( 'm' ) . '/icon-300x300.png">');
 		$I->seeInSource('<meta name="msapplication-TileImage" content="' . $_ENV['TEST_SITE_WP_URL'] . '/wp-content/uploads/' . date( 'Y' ) . '/' . date( 'm' ) . '/icon-300x300.png">');
-		$I->dontSeeInSource('<link rel="shortcut icon" type="image/x-icon" href="https://pages.kit.com/templates/favicon.ico">');
+		$I->dontSeeInSource('<link rel="shortcut icon" type="image/x-icon" href="https://pages.convertkit.com/templates/favicon.ico">');
 
 		// Confirm that the ConvertKit Landing Page displays.
 		$I->dontSeeElementInDOM('body.page'); // WordPress didn't load its template, which is correct.
@@ -357,7 +357,7 @@ class PageLandingPageCest
 		$this->_seeBasicHTMLStructure($I);
 
 		// Confirm the ConvertKit Site Icon displays.
-		$I->seeInSource('<link rel="shortcut icon" type="image/x-icon" href="https://pages.kit.com/templates/favicon.ico">');
+		$I->seeInSource('<link rel="shortcut icon" type="image/x-icon" href="https://pages.convertkit.com/templates/favicon.ico">');
 
 		// Confirm that the ConvertKit Landing Page displays.
 		$I->dontSeeElementInDOM('body.page'); // WordPress didn't load its template, which is correct.
@@ -436,7 +436,7 @@ class PageLandingPageCest
 		$this->_seeBasicHTMLStructure($I);
 
 		// Confirm the ConvertKit Site Icon displays.
-		$I->seeInSource('<link rel="shortcut icon" type="image/x-icon" href="https://pages.kit.com/templates/favicon.ico">');
+		$I->seeInSource('<link rel="shortcut icon" type="image/x-icon" href="https://pages.convertkit.com/templates/favicon.ico">');
 
 		// Confirm that the ConvertKit Landing Page displays.
 		$I->dontSeeElementInDOM('body.page'); // WordPress didn't load its template, which is correct.
