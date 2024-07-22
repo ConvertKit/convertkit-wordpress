@@ -25,6 +25,8 @@ class ConvertKit_Cache_Plugins {
 		'cdnjs.cloudflare.com',
 		'pages.kit.com',
 		'kit.com',
+		'pages.convertkit.com',
+		'convertkit.com',
 	);
 
 	/**
