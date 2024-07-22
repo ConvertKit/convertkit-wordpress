@@ -265,7 +265,7 @@ class ContactForm7FormCest
 	}
 
 	/**
-	 * Test that saving a Contact Form 7 to ConvertKit Tag Mapping works.
+	 * Test that saving a Contact Form 7 to ConvertKit Sequence Mapping works.
 	 *
 	 * @since   2.5.2
 	 *
