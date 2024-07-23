@@ -163,6 +163,13 @@ class ConvertKit_ContactForm7 {
 				return $api->add_subscriber_to_form( $resource_id, $subscriber['subscriber']['id'] );
 
 			/**
+			 * Sequence
+			 */
+			case 'sequence':
+				// Add subscriber to sequence.
+				return $api->add_subscriber_to_sequence( $resource_id, $subscriber['subscriber']['id'] );
+
+			/**
 			 * Tag
 			 */
 			case 'tag':

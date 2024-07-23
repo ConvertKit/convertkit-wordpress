@@ -436,6 +436,9 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 			$products = new ConvertKit_Resource_Products( 'settings' );
 			$products->refresh();
 
+			$sequences = new ConvertKit_Resource_Sequences( 'settings' );
+			$sequences->refresh();
+
 			$tags = new ConvertKit_Resource_Tags( 'settings' );
 			$tags->refresh();
 		}
