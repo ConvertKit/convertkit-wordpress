@@ -92,9 +92,6 @@ class ConvertKit_Resource_Landing_Pages extends ConvertKit_Resource_V4 {
 			return $this->resources;
 		}
 
-		var_dump( $this->resources );
-		die();
-
 		// Bail if the resource doesn't exist.
 		if ( ! isset( $this->resources[ $id ] ) ) {
 			return new WP_Error(
