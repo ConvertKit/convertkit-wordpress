@@ -142,14 +142,17 @@ class ConvertKit_ContactForm7 {
 
 		// Determine the resource type and ID to assign to the subscriber.
 		list( $resource_type, $resource_id ) = explode( ':', $convertkit_subscribe_setting );
+
+		// Cast ID.
+		$resource_id = absint( $resource_id );
+
+		// Add the subscriber to the resource type (form, tag etc).
 		switch ( $resource_type ) {
+
 			/**
 			 * Form
 			 */
 			case 'form':
-				// Cast ID.
-				$resource_id = absint( $resource_id );
-
 				// For Legacy Forms, a different endpoint is used.
 				$forms = new ConvertKit_Resource_Forms();
 				if ( $forms->is_legacy( $resource_id ) ) {
@@ -158,6 +161,20 @@ class ConvertKit_ContactForm7 {
 
 				// Add subscriber to form.
 				return $api->add_subscriber_to_form( $resource_id, $subscriber['subscriber']['id'] );
+
+			/**
+			 * Sequence
+			 */
+			case 'sequence':
+				// Add subscriber to sequence.
+				return $api->add_subscriber_to_sequence( $resource_id, $subscriber['subscriber']['id'] );
+
+			/**
+			 * Tag
+			 */
+			case 'tag':
+				// Add subscriber to tag.
+				return $api->tag_subscriber( $resource_id, $subscriber['subscriber']['id'] );
 
 		}
 
