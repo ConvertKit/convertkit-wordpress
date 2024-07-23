@@ -129,29 +129,54 @@ class ConvertKit_ContactForm7 {
 			'contact_form_7'
 		);
 
-		// If the setting is 'Subscribe', just create the subscriber without assigning to a resource.
+		// Subscribe the email address.
+		$subscriber = $api->create_subscriber( $email, $first_name );
+		if ( is_wp_error( $subscriber ) ) {
+			return;
+		}
+
+		// If the setting is 'Subscribe', no Form needs to be assigned to the subscriber.
 		if ( $convertkit_subscribe_setting === 'subscribe' ) {
-			return $api->create_subscriber(
-				$email,
-				$first_name
-			);
+			return;
 		}
 
-		// For Legacy Forms, a different endpoint is used.
-		$forms = new ConvertKit_Resource_Forms();
-		if ( $forms->is_legacy( $convertkit_subscribe_setting ) ) {
-			return $api->legacy_form_subscribe(
-				(int) $convertkit_subscribe_setting,
-				$email,
-				$first_name
-			);
-		}
+		// Determine the resource type and ID to assign to the subscriber.
+		list( $resource_type, $resource_id ) = explode( ':', $convertkit_subscribe_setting );
 
-		return $api->form_subscribe(
-			(int) $convertkit_subscribe_setting,
-			$email,
-			$first_name
-		);
+		// Cast ID.
+		$resource_id = absint( $resource_id );
+
+		// Add the subscriber to the resource type (form, tag etc).
+		switch ( $resource_type ) {
+
+			/**
+			 * Form
+			 */
+			case 'form':
+				// For Legacy Forms, a different endpoint is used.
+				$forms = new ConvertKit_Resource_Forms();
+				if ( $forms->is_legacy( $resource_id ) ) {
+					return $api->add_subscriber_to_legacy_form( $resource_id, $subscriber['subscriber']['id'] );
+				}
+
+				// Add subscriber to form.
+				return $api->add_subscriber_to_form( $resource_id, $subscriber['subscriber']['id'] );
+
+			/**
+			 * Sequence
+			 */
+			case 'sequence':
+				// Add subscriber to sequence.
+				return $api->add_subscriber_to_sequence( $resource_id, $subscriber['subscriber']['id'] );
+
+			/**
+			 * Tag
+			 */
+			case 'tag':
+				// Add subscriber to tag.
+				return $api->tag_subscriber( $resource_id, $subscriber['subscriber']['id'] );
+
+		}
 
 	}
 
