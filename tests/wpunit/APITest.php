@@ -37,7 +37,7 @@ class APITest extends \Codeception\TestCase\WPTestCase
 		// Initialize the classes we want to test.
 		$this->api = new ConvertKit_API_V4(
 			$_ENV['CONVERTKIT_OAUTH_CLIENT_ID'],
-			$_ENV['CONVERTKIT_OAUTH_REDIRECT_URI'],
+			$_ENV['KIT_OAUTH_REDIRECT_URI'],
 			$_ENV['CONVERTKIT_OAUTH_ACCESS_TOKEN'],
 			$_ENV['CONVERTKIT_OAUTH_REFRESH_TOKEN']
 		);
