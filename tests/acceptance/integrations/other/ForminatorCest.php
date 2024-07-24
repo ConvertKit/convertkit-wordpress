@@ -351,7 +351,7 @@ class ForminatorCest
 	}
 
 	/**
-	 * Test that setting a Forminator Form Form to the '(Do not subscribe)' option works.
+	 * Test that setting a Forminator Form to the '(Do not subscribe)' option works.
 	 *
 	 * @since   2.5.2
 	 *
