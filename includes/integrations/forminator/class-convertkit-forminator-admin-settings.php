@@ -122,9 +122,9 @@ class ConvertKit_Forminator_Admin_Settings extends ConvertKit_Settings_Base {
 			$table_row = array(
 				'title' => $forminator_form['name'],
 				'form'  => convertkit_get_subscription_dropdown_field(
-					'_wp_convertkit_integration_contactform7_settings[' . $forminator_form['id'] . ']',
-					(string) $this->settings->get_convertkit_form_id_by_forminator_form_id( $forminator_form['id'] ),
-					'_wp_convertkit_integration_contactform7_settings_' . $forminator_form['id'],
+					'_wp_convertkit_integration_forminator_settings[' . $forminator_form['id'] . ']',
+					(string) $this->settings->get_convertkit_subscribe_setting_by_forminator_form_id( $forminator_form['id'] ),
+					'_wp_convertkit_integration_forminator_settings' . $forminator_form['id'],
 					'widefat',
 					'forminator'
 				),
