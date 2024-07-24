@@ -80,8 +80,8 @@ class ConvertKit_Forminator {
 		// Get ConvertKit Form ID mapped to this Forminator Form.
 		// We deliberately use the entry's form ID, as $form_id for a Quiz will point to a lead generation form, which
 		// has a different Form ID.
-		$forminator_settings = new ConvertKit_Forminator_Settings();
-		$convertkit_subscribe_setting  = $forminator_settings->get_convertkit_subscribe_setting_by_forminator_form_id( $entry->form_id );
+		$forminator_settings          = new ConvertKit_Forminator_Settings();
+		$convertkit_subscribe_setting = $forminator_settings->get_convertkit_subscribe_setting_by_forminator_form_id( $entry->form_id );
 
 		// If no ConvertKit subscribe setting is defined, bail.
 		if ( ! $convertkit_subscribe_setting ) {

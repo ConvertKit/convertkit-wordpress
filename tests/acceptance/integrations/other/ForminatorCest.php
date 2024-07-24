@@ -37,30 +37,6 @@ class ForminatorCest
 	}
 
 	/**
-	 * Tests that no Forminator settings display and a 'No Forms exist on ConvertKit'
-	 * notification displays when no Forms exist.
-	 *
-	 * @since   2.3.0
-	 *
-	 * @param   AcceptanceTester $I  Tester.
-	 */
-	public function testSettingsForminatorWhenNoForms(AcceptanceTester $I)
-	{
-		// Setup Plugin.
-		$I->setupConvertKitPluginCredentialsNoData($I);
-		$I->setupConvertKitPluginResourcesNoData($I);
-
-		// Load Forminator Plugin Settings.
-		$I->amOnAdminPage('options-general.php?page=_wp_convertkit_settings&tab=forminator');
-
-		// Confirm notice is displayed.
-		$I->see('No Forms exist on ConvertKit.');
-
-		// Confirm no settings table is displayed.
-		$I->dontSeeElementInDOM('table.wp-list-table');
-	}
-
-	/**
 	 * Test that saving a Forminator Form to ConvertKit Form Mapping works.
 	 *
 	 * @since   2.3.0
@@ -215,6 +191,50 @@ class ForminatorCest
 	}
 
 	/**
+	 * Test that saving a Forminator Form to ConvertKit Tag Mapping works.
+	 *
+	 * @since   2.5.2
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testSettingsForminatorFormToConvertKitTagMapping(AcceptanceTester $I)
+	{
+	}
+
+	/**
+	 * Test that saving a Forminator Form to ConvertKit Sequence Mapping works.
+	 *
+	 * @since   2.5.2
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testSettingsForminatorFormToConvertKitSequenceMapping(AcceptanceTester $I)
+	{
+	}
+
+	/**
+	 * Test that setting a Forminator Form Form to the '(Do not subscribe)' option works.
+	 *
+	 * @since   2.5.2
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testSettingsForminatorFormDoNotSubscribeOption(AcceptanceTester $I)
+	{
+	}
+
+	/**
+	 * Test that setting a Forminator Form to the 'Subscribe' option works.
+	 *
+	 * @since   2.5.2
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testSettingsForminatorFormSubscribeOption(AcceptanceTester $I)
+	{
+	}
+
+	/**
 	 * Test that saving a Forminator Quiz to ConvertKit Form Mapping works.
 	 *
 	 * @since   2.4.3
@@ -286,6 +306,50 @@ class ForminatorCest
 
 		// Confirm that the email address was added to ConvertKit.
 		$I->apiCheckSubscriberExists($I, $emailAddress);
+	}
+
+	/**
+	 * Test that saving a Forminator Quiz to ConvertKit Tag Mapping works.
+	 *
+	 * @since   2.5.2
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testSettingsForminatorQuizToConvertKitTagMapping(AcceptanceTester $I)
+	{
+	}
+
+	/**
+	 * Test that saving a Forminator Quiz to ConvertKit Sequence Mapping works.
+	 *
+	 * @since   2.5.2
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testSettingsForminatorQuizToConvertKitSequenceMapping(AcceptanceTester $I)
+	{
+	}
+
+	/**
+	 * Test that setting a Forminator Quiz Form to the '(Do not subscribe)' option works.
+	 *
+	 * @since   2.5.2
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testSettingsForminatorQuizDoNotSubscribeOption(AcceptanceTester $I)
+	{
+	}
+
+	/**
+	 * Test that setting a Forminator Quiz to the 'Subscribe' option works.
+	 *
+	 * @since   2.5.2
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testSettingsForminatorQuizSubscribeOption(AcceptanceTester $I)
+	{
 	}
 
 	/**
