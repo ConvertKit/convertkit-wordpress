@@ -83,8 +83,8 @@ class ConvertKit_Forminator {
 		$forminator_settings = new ConvertKit_Forminator_Settings();
 		$convertkit_subscribe_setting  = $forminator_settings->get_convertkit_subscribe_setting_by_forminator_form_id( $entry->form_id );
 
-		// If no ConvertKit Form is mapped to this Forminator Form, bail.
-		if ( ! $convertkit_form_id ) {
+		// If no ConvertKit subscribe setting is defined, bail.
+		if ( ! $convertkit_subscribe_setting ) {
 			return;
 		}
 
