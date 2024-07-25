@@ -54,7 +54,7 @@ class ContactForm7FormCest
 		// Define email address for this test.
 		$emailAddress = $I->generateEmailAddress();
 
-		// Complete and submit Forminator Form.
+		// Complete and submit Contact Form 7 Form.
 		$this->_contactForm7CompleteAndSubmitForm(
 			$I,
 			$pageID,
@@ -83,7 +83,7 @@ class ContactForm7FormCest
 		// Define email address for this test.
 		$emailAddress = $I->generateEmailAddress();
 
-		// Complete and submit Forminator Form.
+		// Complete and submit Contact Form 7 Form.
 		$this->_contactForm7CompleteAndSubmitForm(
 			$I,
 			$pageID,
@@ -112,7 +112,7 @@ class ContactForm7FormCest
 		// Define email address for this test.
 		$emailAddress = $I->generateEmailAddress();
 
-		// Complete and submit Forminator Form.
+		// Complete and submit Contact Form 7 Form.
 		$this->_contactForm7CompleteAndSubmitForm(
 			$I,
 			$pageID,
@@ -144,7 +144,7 @@ class ContactForm7FormCest
 		// Define email address for this test.
 		$emailAddress = $I->generateEmailAddress();
 
-		// Complete and submit Forminator Form.
+		// Complete and submit Contact Form 7 Form.
 		$this->_contactForm7CompleteAndSubmitForm(
 			$I,
 			$pageID,
@@ -176,7 +176,7 @@ class ContactForm7FormCest
 		// Define email address for this test.
 		$emailAddress = $I->generateEmailAddress();
 
-		// Complete and submit Forminator Form.
+		// Complete and submit Contact Form 7 Form.
 		$this->_contactForm7CompleteAndSubmitForm(
 			$I,
 			$pageID,
@@ -205,7 +205,7 @@ class ContactForm7FormCest
 		// Define email address for this test.
 		$emailAddress = $I->generateEmailAddress();
 
-		// Complete and submit Forminator Form.
+		// Complete and submit Contact Form 7 Form.
 		$this->_contactForm7CompleteAndSubmitForm(
 			$I,
 			$pageID,
