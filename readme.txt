@@ -3,9 +3,9 @@ Contributors: nathanbarry, growdev, travisnorthcutt, ggwicz
 Donate link: https://convertkit.com
 Tags: email marketing, email newsletter, newsletter, subscribers, membership
 Requires at least: 5.0
-Tested up to: 6.6
+Tested up to: 6.6.1
 Requires PHP: 5.6.20
-Stable tag: 2.5.1
+Stable tag: 2.5.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -157,6 +157,10 @@ Full Plugin documentation can be found [here](https://help.convertkit.com/en/art
 10. Track subscriber growth
 
 == Changelog ==
+
+### 2.5.2 2024-07-25
+* Added: Contact Form 7: Option to just subscribe email, or subscribe to a Form, Tag or Sequence
+* Added: Forminator: Option to just subscribe email, or subscribe to a Form, Tag or Sequence
 
 ### 2.5.1 2024-07-17
 * Fix: Landing Pages: Prevent Perfmatters lazy loading images on Landing Pages, which would result in missing images
