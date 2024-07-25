@@ -45,6 +45,13 @@ class ConvertKit_Setup {
 		}
 
 		/**
+		 * 2.5.2: Migrate Forminator to ConvertKit Form Mappings
+		 */
+		if ( ! $current_version || version_compare( $current_version, '2.5.2', '<' ) ) {
+			$this->migrate_forminator_form_mapping_settings();
+		}
+
+		/**
 		 * 2.5.2: Migrate Contact Form 7 to ConvertKit Form Mappings
 		 */
 		if ( ! $current_version || version_compare( $current_version, '2.5.2', '<' ) ) {
@@ -98,7 +105,52 @@ class ConvertKit_Setup {
 	}
 
 	/**
-	 * 2.5.2: Prefix any Contact Form 7 to ConvertKit Form ID mappings with `form_`, now that
+	 * 2.5.2: Prefix any Forminator to ConvertKit Form ID mappings with `form:`, now that
+	 * the Plugin supports adding a subscriber to a Form, Tag or Sequence.
+	 *
+	 * @since   2.5.2
+	 */
+	private function migrate_forminator_form_mapping_settings() {
+
+		$convertkit_forminator_settings = new ConvertKit_Forminator_Settings();
+
+		// Bail if no settings exist.
+		if ( ! $convertkit_forminator_settings->has_settings() ) {
+			return;
+		}
+
+		// Get settings.
+		$settings = $convertkit_forminator_settings->get();
+
+		// Iterate through settings.
+		foreach ( $settings as $forminator_form_id => $convertkit_form_id ) {
+			// Skip keys that are non-numeric e.g. `creator_network_recommendations_*`.
+			if ( ! is_numeric( $forminator_form_id ) ) {
+				continue;
+			}
+
+			// Skip values that are blank i.e. no ConvertKit Form ID specified.
+			if ( empty( $convertkit_form_id ) ) {
+				continue;
+			}
+
+			// Skip values that are non-numeric i.e. the `form_` prefix was already added.
+			// This should never happen as this routine runs once, but this is a sanity check.
+			if ( ! is_numeric( $convertkit_form_id ) ) {
+				continue;
+			}
+
+			// Prefix the ConvertKit Form ID with `form_`.
+			$settings[ $forminator_form_id ] = 'form:' . $convertkit_form_id;
+		}
+
+		// Update settings.
+		update_option( $convertkit_forminator_settings::SETTINGS_NAME, $settings );
+
+	}
+
+	/**
+	 * 2.5.2: Prefix any Contact Form 7 to ConvertKit Form ID mappings with `form:`, now that
 	 * the Plugin supports adding a subscriber to a Form, Tag or Sequence.
 	 *
 	 * @since   2.5.2

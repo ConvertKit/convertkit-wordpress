@@ -37,30 +37,6 @@ class ForminatorCest
 	}
 
 	/**
-	 * Tests that no Forminator settings display and a 'No Forms exist on ConvertKit'
-	 * notification displays when no Forms exist.
-	 *
-	 * @since   2.3.0
-	 *
-	 * @param   AcceptanceTester $I  Tester.
-	 */
-	public function testSettingsForminatorWhenNoForms(AcceptanceTester $I)
-	{
-		// Setup Plugin.
-		$I->setupConvertKitPluginCredentialsNoData($I);
-		$I->setupConvertKitPluginResourcesNoData($I);
-
-		// Load Forminator Plugin Settings.
-		$I->amOnAdminPage('options-general.php?page=_wp_convertkit_settings&tab=forminator');
-
-		// Confirm notice is displayed.
-		$I->see('No Forms exist on ConvertKit.');
-
-		// Confirm no settings table is displayed.
-		$I->dontSeeElementInDOM('table.wp-list-table');
-	}
-
-	/**
 	 * Test that saving a Forminator Form to ConvertKit Form Mapping works.
 	 *
 	 * @since   2.3.0
@@ -215,6 +191,320 @@ class ForminatorCest
 	}
 
 	/**
+	 * Test that saving a Forminator Form to ConvertKit Tag Mapping works.
+	 *
+	 * @since   2.5.2
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testSettingsForminatorFormToConvertKitTagMapping(AcceptanceTester $I)
+	{
+		// Setup ConvertKit Plugin.
+		$I->setupConvertKitPluginNoDefaultForms($I);
+		$I->setupConvertKitPluginResources($I);
+
+		// Create Forminator Form.
+		$forminatorFormID = $this->_createForminatorForm($I);
+
+		// Load Forminator Plugin Settings.
+		$I->amOnAdminPage('options-general.php?page=_wp_convertkit_settings&tab=forminator');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Check that a Form Mapping option is displayed.
+		$I->seeElementInDOM('#_wp_convertkit_integration_forminator_settings_' . $forminatorFormID);
+
+		// Change Form to value specified in the .env file.
+		$I->selectOption('#_wp_convertkit_integration_forminator_settings_' . $forminatorFormID, $_ENV['CONVERTKIT_API_TAG_NAME']);
+
+		$I->click('Save Changes');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Check the value of the Form field matches the input provided.
+		$I->seeOptionIsSelected('#_wp_convertkit_integration_forminator_settings_' . $forminatorFormID, $_ENV['CONVERTKIT_API_TAG_NAME']);
+
+		// Create Page with Forminator Shortcode.
+		$I->havePageInDatabase(
+			[
+				'post_title'   => 'ConvertKit: Forminator Shortcode: Tag',
+				'post_name'    => 'convertkit-forminator-form-shortcode-tag',
+				'post_content' => 'Form:
+[forminator_form id="' . $forminatorFormID . '"]',
+			]
+		);
+
+		// Load the Page on the frontend site.
+		$I->amOnPage('/convertkit-forminator-form-shortcode-tag');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Define email address for this test.
+		$emailAddress = $I->generateEmailAddress();
+
+		// Complete Name and Email.
+		$I->fillField('input[name=name-1]', 'ConvertKit Name');
+		$I->fillField('input[name=email-1]', $emailAddress);
+
+		// Submit Form.
+		$I->click('button.forminator-button-submit');
+
+		// Wait for response message.
+		$I->waitForElementVisible('.forminator-response-message');
+
+		// Confirm the form submitted without errors.
+		$I->performOn(
+			'.forminator-response-message',
+			function($I) {
+				$I->see('Form entry saved');
+			}
+		);
+
+		// Confirm that the email address was added to ConvertKit.
+		$subscriberID = $I->apiCheckSubscriberExists($I, $emailAddress);
+
+		// Check that the subscriber has been assigned to the tag.
+		$I->apiCheckSubscriberHasTag($I, $subscriberID, $_ENV['CONVERTKIT_API_TAG_ID']);
+	}
+
+	/**
+	 * Test that saving a Forminator Form to ConvertKit Sequence Mapping works.
+	 *
+	 * @since   2.5.2
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testSettingsForminatorFormToConvertKitSequenceMapping(AcceptanceTester $I)
+	{
+		// Setup ConvertKit Plugin.
+		$I->setupConvertKitPluginNoDefaultForms($I);
+		$I->setupConvertKitPluginResources($I);
+
+		// Create Forminator Form.
+		$forminatorFormID = $this->_createForminatorForm($I);
+
+		// Load Forminator Plugin Settings.
+		$I->amOnAdminPage('options-general.php?page=_wp_convertkit_settings&tab=forminator');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Check that a Form Mapping option is displayed.
+		$I->seeElementInDOM('#_wp_convertkit_integration_forminator_settings_' . $forminatorFormID);
+
+		// Change Form to value specified in the .env file.
+		$I->selectOption('#_wp_convertkit_integration_forminator_settings_' . $forminatorFormID, $_ENV['CONVERTKIT_API_SEQUENCE_NAME']);
+
+		$I->click('Save Changes');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Check the value of the Form field matches the input provided.
+		$I->seeOptionIsSelected('#_wp_convertkit_integration_forminator_settings_' . $forminatorFormID, $_ENV['CONVERTKIT_API_SEQUENCE_NAME']);
+
+		// Create Page with Forminator Shortcode.
+		$I->havePageInDatabase(
+			[
+				'post_title'   => 'ConvertKit: Forminator Shortcode: Sequence',
+				'post_name'    => 'convertkit-forminator-form-shortcode-sequence',
+				'post_content' => 'Form:
+[forminator_form id="' . $forminatorFormID . '"]',
+			]
+		);
+
+		// Load the Page on the frontend site.
+		$I->amOnPage('/convertkit-forminator-form-shortcode-sequence');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Define email address for this test.
+		$emailAddress = $I->generateEmailAddress();
+
+		// Complete Name and Email.
+		$I->fillField('input[name=name-1]', 'ConvertKit Name');
+		$I->fillField('input[name=email-1]', $emailAddress);
+
+		// Submit Form.
+		$I->click('button.forminator-button-submit');
+
+		// Wait for response message.
+		$I->waitForElementVisible('.forminator-response-message');
+
+		// Confirm the form submitted without errors.
+		$I->performOn(
+			'.forminator-response-message',
+			function($I) {
+				$I->see('Form entry saved');
+			}
+		);
+
+		// Confirm that the email address was added to ConvertKit.
+		$subscriberID = $I->apiCheckSubscriberExists($I, $emailAddress);
+
+		// Check that the subscriber has been assigned to the sequence.
+		$I->apiCheckSubscriberHasSequence($I, $subscriberID, $_ENV['CONVERTKIT_API_SEQUENCE_ID']);
+	}
+
+	/**
+	 * Test that setting a Forminator Form to the '(Do not subscribe)' option works.
+	 *
+	 * @since   2.5.2
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testSettingsForminatorFormDoNotSubscribeOption(AcceptanceTester $I)
+	{
+		// Setup ConvertKit Plugin.
+		$I->setupConvertKitPluginNoDefaultForms($I);
+		$I->setupConvertKitPluginResources($I);
+
+		// Create Forminator Form.
+		$forminatorFormID = $this->_createForminatorForm($I);
+
+		// Load Forminator Plugin Settings.
+		$I->amOnAdminPage('options-general.php?page=_wp_convertkit_settings&tab=forminator');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Check that a Form Mapping option is displayed.
+		$I->seeElementInDOM('#_wp_convertkit_integration_forminator_settings_' . $forminatorFormID);
+
+		// Change Form to value specified in the .env file.
+		$I->selectOption('#_wp_convertkit_integration_forminator_settings_' . $forminatorFormID, '(Do not subscribe)');
+
+		$I->click('Save Changes');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Check the value of the Form field matches the input provided.
+		$I->seeOptionIsSelected('#_wp_convertkit_integration_forminator_settings_' . $forminatorFormID, '(Do not subscribe)');
+
+		// Create Page with Forminator Shortcode.
+		$I->havePageInDatabase(
+			[
+				'post_title'   => 'ConvertKit: Forminator Shortcode: Do not subscribe',
+				'post_name'    => 'convertkit-forminator-form-shortcode-do-not-subscribe',
+				'post_content' => 'Form:
+[forminator_form id="' . $forminatorFormID . '"]',
+			]
+		);
+
+		// Load the Page on the frontend site.
+		$I->amOnPage('/convertkit-forminator-form-shortcode-do-not-subscribe');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Define email address for this test.
+		$emailAddress = $I->generateEmailAddress();
+
+		// Complete Name and Email.
+		$I->fillField('input[name=name-1]', 'ConvertKit Name');
+		$I->fillField('input[name=email-1]', $emailAddress);
+
+		// Submit Form.
+		$I->click('button.forminator-button-submit');
+
+		// Wait for response message.
+		$I->waitForElementVisible('.forminator-response-message');
+
+		// Confirm the form submitted without errors.
+		$I->performOn(
+			'.forminator-response-message',
+			function($I) {
+				$I->see('Form entry saved');
+			}
+		);
+
+		// Confirm that the email address was not added to ConvertKit.
+		$I->apiCheckSubscriberDoesNotExist($I, $emailAddress);
+	}
+
+	/**
+	 * Test that setting a Forminator Form to the 'Subscribe' option works.
+	 *
+	 * @since   2.5.2
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testSettingsForminatorFormSubscribeOption(AcceptanceTester $I)
+	{
+		// Setup ConvertKit Plugin.
+		$I->setupConvertKitPluginNoDefaultForms($I);
+		$I->setupConvertKitPluginResources($I);
+
+		// Create Forminator Form.
+		$forminatorFormID = $this->_createForminatorForm($I);
+
+		// Load Forminator Plugin Settings.
+		$I->amOnAdminPage('options-general.php?page=_wp_convertkit_settings&tab=forminator');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Check that a Form Mapping option is displayed.
+		$I->seeElementInDOM('#_wp_convertkit_integration_forminator_settings_' . $forminatorFormID);
+
+		// Change Form to value specified in the .env file.
+		$I->selectOption('#_wp_convertkit_integration_forminator_settings_' . $forminatorFormID, 'Subscribe');
+
+		$I->click('Save Changes');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Check the value of the Form field matches the input provided.
+		$I->seeOptionIsSelected('#_wp_convertkit_integration_forminator_settings_' . $forminatorFormID, 'Subscribe');
+
+		// Create Page with Forminator Shortcode.
+		$I->havePageInDatabase(
+			[
+				'post_title'   => 'ConvertKit: Forminator Shortcode: Subscribe',
+				'post_name'    => 'convertkit-forminator-form-shortcode-subscribe',
+				'post_content' => 'Form:
+[forminator_form id="' . $forminatorFormID . '"]',
+			]
+		);
+
+		// Load the Page on the frontend site.
+		$I->amOnPage('/convertkit-forminator-form-shortcode-subscribe');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Define email address for this test.
+		$emailAddress = $I->generateEmailAddress();
+
+		// Complete Name and Email.
+		$I->fillField('input[name=name-1]', 'ConvertKit Name');
+		$I->fillField('input[name=email-1]', $emailAddress);
+
+		// Submit Form.
+		$I->click('button.forminator-button-submit');
+
+		// Wait for response message.
+		$I->waitForElementVisible('.forminator-response-message');
+
+		// Confirm the form submitted without errors.
+		$I->performOn(
+			'.forminator-response-message',
+			function($I) {
+				$I->see('Form entry saved');
+			}
+		);
+
+		// Confirm that the email address was added to ConvertKit.
+		$I->apiCheckSubscriberExists($I, $emailAddress);
+	}
+
+	/**
 	 * Test that saving a Forminator Quiz to ConvertKit Form Mapping works.
 	 *
 	 * @since   2.4.3
@@ -286,6 +576,308 @@ class ForminatorCest
 
 		// Confirm that the email address was added to ConvertKit.
 		$I->apiCheckSubscriberExists($I, $emailAddress);
+	}
+
+	/**
+	 * Test that saving a Forminator Quiz to ConvertKit Tag Mapping works.
+	 *
+	 * @since   2.5.2
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testSettingsForminatorQuizToConvertKitTagMapping(AcceptanceTester $I)
+	{
+		// Setup ConvertKit Plugin.
+		$I->setupConvertKitPluginNoDefaultForms($I);
+		$I->setupConvertKitPluginResources($I);
+
+		// Create Forminator Quiz.
+		$forminatorFormID = $this->_createForminatorQuiz($I);
+
+		// Load Forminator Plugin Settings.
+		$I->amOnAdminPage('options-general.php?page=_wp_convertkit_settings&tab=forminator');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Check that a Form Mapping option is displayed.
+		$I->seeElementInDOM('#_wp_convertkit_integration_forminator_settings_' . $forminatorFormID);
+
+		// Change Form to value specified in the .env file.
+		$I->selectOption('#_wp_convertkit_integration_forminator_settings_' . $forminatorFormID, $_ENV['CONVERTKIT_API_TAG_NAME']);
+
+		$I->click('Save Changes');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Check the value of the Form field matches the input provided.
+		$I->seeOptionIsSelected('#_wp_convertkit_integration_forminator_settings_' . $forminatorFormID, $_ENV['CONVERTKIT_API_TAG_NAME']);
+
+		// Create Page with Forminator Shortcode.
+		$I->havePageInDatabase(
+			[
+				'post_title'   => 'ConvertKit: Forminator Quiz Shortcode: Tag',
+				'post_name'    => 'convertkit-forminator-quiz-shortcode-tag',
+				'post_content' => 'Form:
+[forminator_quiz id="' . $forminatorFormID . '"]',
+			]
+		);
+
+		// Load the Page on the frontend site.
+		$I->amOnPage('/convertkit-forminator-quiz-shortcode-tag');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Define email address for this test.
+		$emailAddress = $I->generateEmailAddress();
+
+		// Complete quiz.
+		$I->checkOption('answers[question-1-0]', '0');
+		$I->click('View Results');
+
+		// Complete Name and Email.
+		$I->waitForElementVisible('input[name=name-1]');
+		$I->fillField('input[name=name-1]', 'ConvertKit Name');
+		$I->fillField('input[name=email-1]', $emailAddress);
+
+		// Submit Form.
+		$I->click('Submit');
+
+		// Wait for submission to complete.
+		$I->waitForElementVisible('.forminator-icon-check');
+
+		// Confirm that the email address was added to ConvertKit.
+		$subscriberID = $I->apiCheckSubscriberExists($I, $emailAddress);
+
+		// Check that the subscriber has been assigned to the tag.
+		$I->apiCheckSubscriberHasTag($I, $subscriberID, $_ENV['CONVERTKIT_API_TAG_ID']);
+	}
+
+	/**
+	 * Test that saving a Forminator Quiz to ConvertKit Sequence Mapping works.
+	 *
+	 * @since   2.5.2
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testSettingsForminatorQuizToConvertKitSequenceMapping(AcceptanceTester $I)
+	{
+		// Setup ConvertKit Plugin.
+		$I->setupConvertKitPluginNoDefaultForms($I);
+		$I->setupConvertKitPluginResources($I);
+
+		// Create Forminator Quiz.
+		$forminatorFormID = $this->_createForminatorQuiz($I);
+
+		// Load Forminator Plugin Settings.
+		$I->amOnAdminPage('options-general.php?page=_wp_convertkit_settings&tab=forminator');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Check that a Form Mapping option is displayed.
+		$I->seeElementInDOM('#_wp_convertkit_integration_forminator_settings_' . $forminatorFormID);
+
+		// Change Form to value specified in the .env file.
+		$I->selectOption('#_wp_convertkit_integration_forminator_settings_' . $forminatorFormID, $_ENV['CONVERTKIT_API_SEQUENCE_NAME']);
+
+		$I->click('Save Changes');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Check the value of the Form field matches the input provided.
+		$I->seeOptionIsSelected('#_wp_convertkit_integration_forminator_settings_' . $forminatorFormID, $_ENV['CONVERTKIT_API_SEQUENCE_NAME']);
+
+		// Create Page with Forminator Shortcode.
+		$I->havePageInDatabase(
+			[
+				'post_title'   => 'ConvertKit: Forminator Quiz Shortcode: Sequence',
+				'post_name'    => 'convertkit-forminator-quiz-shortcode-sequence',
+				'post_content' => 'Form:
+[forminator_quiz id="' . $forminatorFormID . '"]',
+			]
+		);
+
+		// Load the Page on the frontend site.
+		$I->amOnPage('/convertkit-forminator-quiz-shortcode-sequence');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Define email address for this test.
+		$emailAddress = $I->generateEmailAddress();
+
+		// Complete quiz.
+		$I->checkOption('answers[question-1-0]', '0');
+		$I->click('View Results');
+
+		// Complete Name and Email.
+		$I->waitForElementVisible('input[name=name-1]');
+		$I->fillField('input[name=name-1]', 'ConvertKit Name');
+		$I->fillField('input[name=email-1]', $emailAddress);
+
+		// Submit Form.
+		$I->click('Submit');
+
+		// Wait for submission to complete.
+		$I->waitForElementVisible('.forminator-icon-check');
+
+		// Confirm that the email address was added to ConvertKit.
+		$subscriberID = $I->apiCheckSubscriberExists($I, $emailAddress);
+
+		// Check that the subscriber has been assigned to the sequence.
+		$I->apiCheckSubscriberHasSequence($I, $subscriberID, $_ENV['CONVERTKIT_API_SEQUENCE_ID']);
+	}
+
+	/**
+	 * Test that setting a Forminator Quiz Form to the '(Do not subscribe)' option works.
+	 *
+	 * @since   2.5.2
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testSettingsForminatorQuizDoNotSubscribeOption(AcceptanceTester $I)
+	{
+		// Setup ConvertKit Plugin.
+		$I->setupConvertKitPluginNoDefaultForms($I);
+		$I->setupConvertKitPluginResources($I);
+
+		// Create Forminator Quiz.
+		$forminatorFormID = $this->_createForminatorQuiz($I);
+
+		// Load Forminator Plugin Settings.
+		$I->amOnAdminPage('options-general.php?page=_wp_convertkit_settings&tab=forminator');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Check that a Form Mapping option is displayed.
+		$I->seeElementInDOM('#_wp_convertkit_integration_forminator_settings_' . $forminatorFormID);
+
+		// Change Form to value specified in the .env file.
+		$I->selectOption('#_wp_convertkit_integration_forminator_settings_' . $forminatorFormID, '(Do not subscribe)');
+
+		$I->click('Save Changes');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Check the value of the Form field matches the input provided.
+		$I->seeOptionIsSelected('#_wp_convertkit_integration_forminator_settings_' . $forminatorFormID, '(Do not subscribe)');
+
+		// Create Page with Forminator Shortcode.
+		$I->havePageInDatabase(
+			[
+				'post_title'   => 'ConvertKit: Forminator Quiz Shortcode: Do not subscribe',
+				'post_name'    => 'convertkit-forminator-quiz-shortcode-do-not-subscribe',
+				'post_content' => 'Form:
+[forminator_quiz id="' . $forminatorFormID . '"]',
+			]
+		);
+
+		// Load the Page on the frontend site.
+		$I->amOnPage('/convertkit-forminator-quiz-shortcode-do-not-subscribe');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Define email address for this test.
+		$emailAddress = $I->generateEmailAddress();
+
+		// Complete quiz.
+		$I->checkOption('answers[question-1-0]', '0');
+		$I->click('View Results');
+
+		// Complete Name and Email.
+		$I->waitForElementVisible('input[name=name-1]');
+		$I->fillField('input[name=name-1]', 'ConvertKit Name');
+		$I->fillField('input[name=email-1]', $emailAddress);
+
+		// Submit Form.
+		$I->click('Submit');
+
+		// Wait for submission to complete.
+		$I->waitForElementVisible('.forminator-icon-check');
+
+		// Confirm that the email address was not added to ConvertKit.
+		$I->apiCheckSubscriberDoesNotExist($I, $emailAddress);
+	}
+
+	/**
+	 * Test that setting a Forminator Quiz to the 'Subscribe' option works.
+	 *
+	 * @since   2.5.2
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testSettingsForminatorQuizSubscribeOption(AcceptanceTester $I)
+	{
+		// Setup ConvertKit Plugin.
+		$I->setupConvertKitPluginNoDefaultForms($I);
+		$I->setupConvertKitPluginResources($I);
+
+		// Create Forminator Quiz.
+		$forminatorFormID = $this->_createForminatorQuiz($I);
+
+		// Load Forminator Plugin Settings.
+		$I->amOnAdminPage('options-general.php?page=_wp_convertkit_settings&tab=forminator');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Check that a Form Mapping option is displayed.
+		$I->seeElementInDOM('#_wp_convertkit_integration_forminator_settings_' . $forminatorFormID);
+
+		// Change Form to value specified in the .env file.
+		$I->selectOption('#_wp_convertkit_integration_forminator_settings_' . $forminatorFormID, '(Do not subscribe)');
+
+		$I->click('Save Changes');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Check the value of the Form field matches the input provided.
+		$I->seeOptionIsSelected('#_wp_convertkit_integration_forminator_settings_' . $forminatorFormID, '(Do not subscribe)');
+
+		// Create Page with Forminator Shortcode.
+		$I->havePageInDatabase(
+			[
+				'post_title'   => 'ConvertKit: Forminator Quiz Shortcode: Subscribe',
+				'post_name'    => 'convertkit-forminator-quiz-shortcode-subscribe',
+				'post_content' => 'Form:
+[forminator_quiz id="' . $forminatorFormID . '"]',
+			]
+		);
+
+		// Load the Page on the frontend site.
+		$I->amOnPage('/convertkit-forminator-quiz-shortcode-subscribe');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Define email address for this test.
+		$emailAddress = $I->generateEmailAddress();
+
+		// Complete quiz.
+		$I->checkOption('answers[question-1-0]', '0');
+		$I->click('View Results');
+
+		// Complete Name and Email.
+		$I->waitForElementVisible('input[name=name-1]');
+		$I->fillField('input[name=name-1]', 'ConvertKit Name');
+		$I->fillField('input[name=email-1]', $emailAddress);
+
+		// Submit Form.
+		$I->click('Submit');
+
+		// Wait for submission to complete.
+		$I->waitForElementVisible('.forminator-icon-check');
+
+		// Confirm that the email address was not added to ConvertKit.
+		$I->apiCheckSubscriberDoesNotExist($I, $emailAddress);
 	}
 
 	/**
@@ -396,6 +988,43 @@ class ForminatorCest
 		$I->waitForElementVisible('.formkit-modal');
 		$I->switchToIFrame('.formkit-modal iframe');
 		$I->waitForElementVisible('div[data-component="Page"]');
+	}
+
+	/**
+	 * Tests that existing settings are automatically migrated when updating
+	 * the Plugin to 2.5.2 or higher.
+	 *
+	 * @since   2.5.2
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testSettingsMigratedOnUpgrade(AcceptanceTester $I)
+	{
+		// Create settings as if they were created / edited when the ConvertKit Plugin < 2.5.2
+		// was active.
+		$I->haveOptionInDatabase(
+			'_wp_convertkit_integration_forminator_settings',
+			[
+				'1'                                 => $_ENV['CONVERTKIT_API_FORM_ID'],
+				'creator_network_recommendations_1' => '1',
+				'2'                                 => '',
+			]
+		);
+
+		// Downgrade the Plugin version to simulate an upgrade.
+		$I->haveOptionInDatabase('convertkit_version', '2.4.9');
+
+		// Load admin screen.
+		$I->amOnAdminPage('index.php');
+
+		// Check settings structure has been updated.
+		$settings = $I->grabOptionFromDatabase('_wp_convertkit_integration_forminator_settings');
+		$I->assertArrayHasKey('1', $settings);
+		$I->assertArrayHasKey('creator_network_recommendations_1', $settings);
+		$I->assertArrayHasKey('2', $settings);
+		$I->assertEquals($settings['1'], 'form:' . $_ENV['CONVERTKIT_API_FORM_ID']);
+		$I->assertEquals($settings['creator_network_recommendations_1'], '1');
+		$I->assertEquals($settings['2'], '');
 	}
 
 	/**
