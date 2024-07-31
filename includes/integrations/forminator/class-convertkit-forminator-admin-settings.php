@@ -66,6 +66,19 @@ class ConvertKit_Forminator_Admin_Settings extends ConvertKit_Settings_Base {
 			esc_html_e( 'The Forminator form must have Name and Email fields. These fields will be sent to ConvertKit for the subscription', 'convertkit' );
 			?>
 		</p>
+		<p>
+			<?php esc_html_e( 'Each Forminator form and quiz has the following ConvertKit options:', 'convertkit' ); ?>
+			<br />
+			<code><?php esc_html_e( 'Do not subscribe', 'convertkit' ); ?></code>: <?php esc_html_e( 'Do not subscribe the email address to ConvertKit', 'convertkit' ); ?>
+			<br />
+			<code><?php esc_html_e( 'Subscribe', 'convertkit' ); ?></code>: <?php esc_html_e( 'Subscribes the email address to ConvertKit', 'convertkit' ); ?>
+			<br />
+			<code><?php esc_html_e( 'Form', 'convertkit' ); ?></code>: <?php esc_html_e( 'Susbcribes the email address to ConvertKit, and adds the subscriber to the ConvertKit form', 'convertkit' ); ?>
+			<br />
+			<code><?php esc_html_e( 'Tag', 'convertkit' ); ?></code>: <?php esc_html_e( 'Susbcribes the email address to ConvertKit, tagging the subscriber', 'convertkit' ); ?>
+			<br />
+			<code><?php esc_html_e( 'Sequence', 'convertkit' ); ?></code>: <?php esc_html_e( 'Susbcribes the email address to ConvertKit, and adds the subscriber to the ConvertKit sequence', 'convertkit' ); ?>
+		</p>
 		<?php
 
 	}
