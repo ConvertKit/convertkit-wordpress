@@ -45,6 +45,15 @@ class ConvertKit_Setup {
 		}
 
 		/**
+		 * 2.5.3: Migrate Third Party Form integrations' 'None' option values from `default` to blank.
+		 */
+		if ( ! $current_version || version_compare( $current_version, '2.5.3', '<' ) ) {
+			$this->migrate_contact_form_7_none_setting();
+			$this->migrate_forminator_none_setting();
+			$this->migrate_wlm_none_setting();
+		}
+
+		/**
 		 * 2.5.2: Migrate Forminator to ConvertKit Form Mappings
 		 */
 		if ( ! $current_version || version_compare( $current_version, '2.5.2', '<' ) ) {
@@ -101,6 +110,133 @@ class ConvertKit_Setup {
 
 		// Update the installed version number in the options table.
 		update_option( 'convertkit_version', CONVERTKIT_PLUGIN_VERSION );
+
+	}
+
+	/**
+	 * 2.5.3: Migrate Third Party Form integrations' 'None' option values from `default` to blank.
+	 *
+	 * 2.4.9 changed the 'None' label's value from `default` to a blank string, as the v4 API's
+	 * `add_subscriber_to_form()` method introduces type declarations, which would result in
+	 * an uncaught TypeError when passing a non integer value.
+	 *
+	 * The PR for that (https://github.com/ConvertKit/convertkit-wordpress/pull/655) didn't include
+	 * any tests or upgrade/migration routines to change any existing saved settings where the 'None'
+	 * label's value was stored as `default`.
+	 */
+	private function migrate_contact_form_7_none_setting() {
+
+		$convertkit_contact_form_7_settings = new ConvertKit_ContactForm7_Settings();
+
+		// Bail if no settings exist.
+		if ( ! $convertkit_contact_form_7_settings->has_settings() ) {
+			return;
+		}
+
+		// Get settings.
+		$settings = $convertkit_contact_form_7_settings->get();
+
+		// Iterate through settings.
+		foreach ( $settings as $contact_form_7_form_id => $convertkit_form_id ) {
+			// Skip keys that are non-numeric e.g. `creator_network_recommendations_*`.
+			if ( ! is_numeric( $contact_form_7_form_id ) ) {
+				continue;
+			}
+
+			// Skip values that are not 'default'.
+			if ( $convertkit_form_id !== 'default' ) {
+				continue;
+			}
+
+			// Change 'default' to a blank string.
+			$settings[ $contact_form_7_form_id ] = '';
+		}
+
+		// Update settings.
+		update_option( $convertkit_contact_form_7_settings::SETTINGS_NAME, $settings );
+
+	}
+
+	/**
+	 * 2.5.3: Migrate Third Party Form integrations' 'None' option values from `default` to blank.
+	 *
+	 * 2.4.9 changed the 'None' label's value from `default` to a blank string, as the v4 API's
+	 * `add_subscriber_to_form()` method introduces type declarations, which would result in
+	 * an uncaught TypeError when passing a non integer value.
+	 *
+	 * The PR for that (https://github.com/ConvertKit/convertkit-wordpress/pull/655) didn't include
+	 * any tests or upgrade/migration routines to change any existing saved settings where the 'None'
+	 * label's value was stored as `default`.
+	 */
+	private function migrate_forminator_none_setting() {
+
+		$convertkit_forminator_settings = new ConvertKit_Forminator_Settings();
+
+		// Bail if no settings exist.
+		if ( ! $convertkit_forminator_settings->has_settings() ) {
+			return;
+		}
+
+		// Get settings.
+		$settings = $convertkit_forminator_settings->get();
+
+		// Iterate through settings.
+		foreach ( $settings as $forminator_form_id => $convertkit_form_id ) {
+			// Skip keys that are non-numeric e.g. `creator_network_recommendations_*`.
+			if ( ! is_numeric( $forminator_form_id ) ) {
+				continue;
+			}
+
+			// Skip values that are not 'default'.
+			if ( $convertkit_form_id !== 'default' ) {
+				continue;
+			}
+
+			// Change 'default' to a blank string.
+			$settings[ $forminator_form_id ] = '';
+		}
+
+		// Update settings.
+		update_option( $convertkit_forminator_settings::SETTINGS_NAME, $settings );
+
+	}
+
+	/**
+	 * 2.5.3: Migrate Third Party Form integrations' 'None' option values from `default` to blank.
+	 *
+	 * 2.4.9 changed the 'None' label's value from `default` to a blank string, as the v4 API's
+	 * `add_subscriber_to_form()` method introduces type declarations, which would result in
+	 * an uncaught TypeError when passing a non integer value.
+	 *
+	 * The PR for that (https://github.com/ConvertKit/convertkit-wordpress/pull/655) didn't include
+	 * any tests or upgrade/migration routines to change any existing saved settings where the 'None'
+	 * label's value was stored as `default`.
+	 */
+	private function migrate_wlm_none_setting() {
+
+		$convertkit_wlm_settings = new ConvertKit_Wishlist_Settings();
+
+		// Bail if no settings exist.
+		if ( ! $convertkit_wlm_settings->has_settings() ) {
+			return;
+		}
+
+		// Get settings.
+		$settings = $convertkit_wlm_settings->get();
+
+		// Iterate through settings.
+		foreach ( $settings as $wlm_level_id => $value ) {
+			// Skip values that are not 'default'.
+			if ( $value !== 'default' ) {
+				continue;
+			}
+
+			// Change 'default' to a blank string.
+			$settings[ $wlm_level_id ] = '';
+		}
+
+		// Update settings.
+		update_option( $convertkit_wlm_settings::SETTINGS_NAME, $settings );
 
 	}
 
