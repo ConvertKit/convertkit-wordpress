@@ -479,7 +479,9 @@ class ForminatorCest
 
 	/**
 	 * Tests that existing settings are automatically migrated when updating
-	 * the Plugin to 2.5.2 or higher.
+	 * the Plugin to 2.5.2 or higher, with:
+	 * - Form IDs prefixed with 'form:',
+	 * - Form IDs with value `default` are changed to a blank string
 	 *
 	 * @since   2.5.2
 	 *
@@ -495,6 +497,7 @@ class ForminatorCest
 				'1'                                 => $_ENV['CONVERTKIT_API_FORM_ID'],
 				'creator_network_recommendations_1' => '1',
 				'2'                                 => '',
+				'3'                                 => 'default',
 			]
 		);
 
@@ -512,6 +515,7 @@ class ForminatorCest
 		$I->assertEquals($settings['1'], 'form:' . $_ENV['CONVERTKIT_API_FORM_ID']);
 		$I->assertEquals($settings['creator_network_recommendations_1'], '1');
 		$I->assertEquals($settings['2'], '');
+		$I->assertEquals($settings['3'], '');
 	}
 
 	/**
