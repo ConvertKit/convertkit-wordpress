@@ -73,9 +73,6 @@ class WishListMemberCest
 		// Save Changes.
 		$I->click('Update Member Profile');
 
-		// WordPress 6.6 introduces a 'navigate away from this page' warning when using WLM.
-		$I->acceptPopup();
-
 		// Confirm that the User is still assigned to the Bronze WLM Level.
 		$I->seeCheckboxIsChecked('#WishListMemberUserProfile input[value="' . $wlmLevelID . '"]');
 
@@ -134,9 +131,6 @@ class WishListMemberCest
 
 		// Save Changes.
 		$I->click('Update Member Profile');
-
-		// WordPress 6.6 introduces a 'navigate away from this page' warning when using WLM.
-		$I->acceptPopup();
 
 		// Confirm that the User is still assigned to the Bronze WLM Level.
 		$I->seeCheckboxIsChecked('#WishListMemberUserProfile input[value="' . $wlmLevelID . '"]');
