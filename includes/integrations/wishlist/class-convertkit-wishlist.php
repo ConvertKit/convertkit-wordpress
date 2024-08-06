@@ -22,10 +22,42 @@ class ConvertKit_Wishlist {
 	public function __construct() {
 
 		// When a user has levels added or registers, perform actions on ConvertKit.
-		add_action( 'wishlistmember_add_user_levels', array( $this, 'manage_member' ), 10, 2 );
+		add_action( 'wishlistmember_add_user_levels', array( $this, 'add_user_levels' ), 10, 2 );
 
 		// When a user has levels removed check, perform actions on ConvertKit.
-		add_action( 'wishlistmember_remove_user_levels', array( $this, 'manage_member' ), 10, 2 );
+		add_action( 'wishlistmember_remove_user_levels', array( $this, 'remove_user_levels' ), 10, 2 );
+
+	}
+
+	/**
+	 * When a user has levels added or registers, subscribe them to ConvertKit
+	 * and optionally assign a Form, Tag or Sequence, based on the WishList Member Level
+	 * setting.
+	 *
+	 * @since   1.9.6
+	 *
+	 * @param   string $member_id  ID for member that has just had levels added.
+	 * @param   array  $levels     Levels to which member was added.
+	 */
+	public function add_user_levels( $member_id, $levels ) {
+
+		$this->manage_member( $member_id, $levels, 'subscribe' );
+
+	}
+
+	/**
+	 * When a user has levels removed, unsubscribe or subscribe them to ConvertKit
+	 * and optionally assign a Form, Tag or Sequence, based on the WishList Member Level
+	 * setting.
+	 *
+	 * @since   1.9.6
+	 *
+	 * @param   string $member_id  ID for member that has just had levels added.
+	 * @param   array  $levels     Levels to which member was added.
+	 */
+	public function remove_user_levels( $member_id, $levels ) {
+
+		$this->manage_member( $member_id, $levels, 'unsubscribe' );
 
 	}
 
@@ -37,8 +69,13 @@ class ConvertKit_Wishlist {
 	 *
 	 * @param   string $member_id  ID for member that has just had levels added.
 	 * @param   array  $levels     Levels to which member was added.
+	 * @param 	string $wlm_action 	WishList Member action (subscribe,unsubscribe).
 	 */
-	public function manage_member( $member_id, $levels ) {
+	private function manage_member( $member_id, $levels, $wlm_action = 'subscribe' ) {
+
+		error_log( $member_id );
+		error_log( print_r( $levels, true ) );
+		error_log( $wlm_action );
 
 		// Get WishList Member.
 		$member = $this->get_member( $member_id );
@@ -83,16 +120,41 @@ class ConvertKit_Wishlist {
 
 		// Iterate through the member's levels.
 		foreach ( $levels as $wlm_level_id ) {
-			// If no ConvertKit resource is mapped to this level, skip it.
-			$resource_type_id = $wlm_settings->get_convertkit_subscribe_setting_by_wishlist_member_level_id( $wlm_level_id );
-			if ( ! $resource_type_id ) {
+			// Fetch action setting.
+			switch ( $wlm_action ) {
+				case 'subscribe':
+					$setting = $wlm_settings->get_convertkit_subscribe_setting_by_wishlist_member_level_id( $wlm_level_id );
+					break;
+
+				case 'unsubscribe':
+					$setting = $wlm_settings->get_convertkit_unsubscribe_setting_by_wishlist_member_level_id( $wlm_level_id );
+					break;
+
+				default:
+					continue;
+			}
+
+			error_log( $setting );
+
+			// If no setting / action exists, skip this level.
+			if ( ! $setting ) {
 				continue;
 			}
 
 			// If the resource setting is 'unsubscribe', just unsubscribe the member.
-			if ( $resource_type_id === 'unsubscribe' ) {
+			if ( $setting === 'unsubscribe' ) {
 				error_log( 'unsubscribe only' );
-				error_log( print_r( $api->unsubscribe( $email ), true ) );
+
+				// Get subscriber ID.
+				$subscriber_id = $api->get_subscriber_id( $email );
+
+				// Bail if an error occured e.g. no subscriber exists.
+				if ( is_wp_error( $subscriber_id ) ) {
+					return $subscriber_id;
+				}
+
+				// Unsubscribe.
+				error_log( print_r( $api->unsubscribe( $subscriber_id ), true ) );
 				continue;
 			}
 
@@ -100,13 +162,13 @@ class ConvertKit_Wishlist {
 			$subscriber = $api->create_subscriber( $email, $first_name );
 
 			// If the resource setting is 'subscribe', don't assign to a resource.
-			if ( $resource_type_id === 'subscribe' ) {
+			if ( $setting === 'subscribe' ) {
 				error_log( 'subscribe only' );
 				continue;
 			}
 
 			// Extract resource type and ID from the setting.
-			list( $resource_type, $resource_id ) = explode( ':', $resource_type_id );
+			list( $resource_type, $resource_id ) = explode( ':', $setting );
 
 			// Cast ID.
 			$resource_id = absint( $resource_id );
