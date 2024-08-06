@@ -93,11 +93,11 @@ class ConvertKit_Wishlist_Settings {
 		}
 
 		// Bail if no mapping exists.
-		if ( ! array_key_exists( $wlm_level_id . '_form', $this->get() ) ) {
+		if ( ! array_key_exists( $wlm_level_id . '_subscribe', $this->get() ) ) {
 			return false;
 		}
 
-		return $this->get()[ $wlm_level_id . '_form' ];
+		return $this->get()[ $wlm_level_id . '_subscribe' ];
 
 	}
 

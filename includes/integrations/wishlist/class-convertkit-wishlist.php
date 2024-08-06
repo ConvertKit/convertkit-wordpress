@@ -55,15 +55,21 @@ class ConvertKit_Wishlist {
 		// Iterate through the member's levels.
 		foreach ( $levels as $wlm_level_id ) {
 			// If no ConvertKit resource is mapped to this level, skip it.
-			$resource_type_id = $wlm_settings->get_convertkit_form_id_by_wishlist_member_level_id( $resource_type_and_id );
+			$resource_type_id = $wlm_settings->get_convertkit_subscribe_setting_by_wishlist_member_level_id( $resource_type_and_id );
 			if ( ! $resource_type_and_id ) {
+				continue;
+			}
+
+			// If the resource setting is 'subscribe', just subscribe the member.
+			if ( $resource_type_id === 'subscribe' ) {
+				$this->member_resource_subscribe( $member );
 				continue;
 			}
 
 			// Extract resource type and ID from the setting.
 			list( $resource_type, $resource_id ) = explode( ':', $resource_type_and_id  );
 
-			// Subscribe the user to ConvertKit for this level.
+			// Subscribe the member to ConvertKit, and assign them to the resource (Form, Tag, Sequence).
 			$this->member_resource_subscribe( $member, $resource_id, $resource_type );
 		}
 
@@ -92,32 +98,36 @@ class ConvertKit_Wishlist {
 
 		// Iterate through the member's levels.
 		foreach ( $levels as $wlm_level_id ) {
-			// If no ConvertKit Tag is mapped to this level, skip it.
-			$convertkit_tag_id = $wlm_settings->get_convertkit_tag_id_by_wishlist_member_level_id( $wlm_level_id );
-			if ( ! $convertkit_tag_id ) {
+			// If no ConvertKit resource is mapped to this level, skip it.
+			$resource_type_id = $wlm_settings->get_convertkit_unsubscribe_setting_by_wishlist_member_level_id( $wlm_level_id );
+			if ( ! $resource_type_id ) {
 				continue;
 			}
 
-			// If the Tag ID is 'unsubscribe', unsubscribe the member from tags.
-			if ( $convertkit_tag_id === 'unsubscribe' ) {
+			// If the resource setting is 'unsubscribe', unsubscribe the member.
+			if ( $resource_type_id === 'unsubscribe' ) {
 				$this->member_resource_unsubscribe( $member );
 				continue;
 			}
 
-			// Tag the member.
-			$this->member_tag( $member, $convertkit_tag_id );
+			// Extract resource type and ID from the setting.
+			list( $resource_type, $resource_id ) = explode( ':', $resource_type_and_id  );
+
+			// Subscribe the member to ConvertKit, and assign them to the resource (Form, Tag, Sequence).
+			$this->member_resource_subscribe( $member, $resource_id, $resource_type );
 		}
 
 	}
 
 	/**
-	 * Subscribes a member to ConvertKit.
+	 * Subscribes a member to ConvertKit, and optionally assigns them to the given resource
+	 * (Form, Tag or Sequence).
 	 *
 	 * @param   array $member  UserInfo from WishList Member.
 	 * @param   int   $form_id ConvertKit Form ID.
 	 * @return  bool|WP_Error|array
 	 */
-	public function member_resource_subscribe( $member, $form_id ) {
+	public function member_resource_subscribe( $member, $resource_id = false, $resource_type = false ) {
 
 		// Bail if the API hasn't been configured.
 		$settings = new ConvertKit_Settings();
@@ -149,24 +159,52 @@ class ConvertKit_Wishlist {
 			$first_name = $name[0];
 		}
 
-
-
-		// Note Wishlist Member combines first and last name into 'display_name'.
-		// For Legacy Forms, a different endpoint is used.
-		$forms = new ConvertKit_Resource_Forms();
-		if ( $forms->is_legacy( $form_id ) ) {
-			return $api->legacy_form_subscribe(
-				$form_id,
-				$email,
-				$first_name
-			);
+		// Subscribe the email address.
+		$subscriber = $api->create_subscriber( $email, $first_name );
+		if ( is_wp_error( $subscriber ) ) {
+			return;
 		}
 
-		return $api->form_subscribe(
-			$form_id,
-			$email,
-			$first_name
-		);
+		// If no resource type or ID, no need to do anything else.
+		if ( ! $resource_type || ! $resource_id ) {
+			return;
+		}
+
+		// Cast ID.
+		$resource_id = absint( $resource_id );
+
+		// Add the subscriber to the resource type (form, tag etc).
+		switch ( $resource_type ) {
+
+			/**
+			 * Form
+			 */
+			case 'form':
+				// For Legacy Forms, a different endpoint is used.
+				$forms = new ConvertKit_Resource_Forms();
+				if ( $forms->is_legacy( $resource_id ) ) {
+					return $api->add_subscriber_to_legacy_form( $resource_id, $subscriber['subscriber']['id'] );
+				}
+
+				// Add subscriber to form.
+				return $api->add_subscriber_to_form( $resource_id, $subscriber['subscriber']['id'] );
+
+			/**
+			 * Sequence
+			 */
+			case 'sequence':
+				// Add subscriber to sequence.
+				return $api->add_subscriber_to_sequence( $resource_id, $subscriber['subscriber']['id'] );
+
+			/**
+			 * Tag
+			 */
+			case 'tag':
+				// Add subscriber to tag.
+				return $api->tag_subscriber( $resource_id, $subscriber['subscriber']['id'] );
+
+		}
+
 	}
 
 	/**
@@ -202,35 +240,6 @@ class ConvertKit_Wishlist {
 
 		// Unsubscribe the email.
 		return $api->unsubscribe( $email );
-
-	}
-
-	/**
-	 * Tag a ConvertKit User with the given Tag ID.
-	 *
-	 * @param   array $member  UserInfo from WishList Member.
-	 * @param   int   $tag_id  ConvertKit Tag ID.
-	 * @return  bool|WP_Error|array
-	 */
-	public function member_tag( $member, $tag_id ) {
-
-		// Bail if the API hasn't been configured.
-		$settings = new ConvertKit_Settings();
-		if ( ! $settings->has_access_and_refresh_token() ) {
-			return false;
-		}
-
-		// Initialize the API.
-		$api = new ConvertKit_API_V4(
-			CONVERTKIT_OAUTH_CLIENT_ID,
-			CONVERTKIT_OAUTH_CLIENT_REDIRECT_URI,
-			$settings->get_access_token(),
-			$settings->get_refresh_token(),
-			$settings->debug_enabled(),
-			'wishlist_member'
-		);
-
-		return $api->tag_subscribe( $tag_id, $member['user_email'] );
 
 	}
 
