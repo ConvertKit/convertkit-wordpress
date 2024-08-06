@@ -54,14 +54,17 @@ class ConvertKit_Wishlist {
 
 		// Iterate through the member's levels.
 		foreach ( $levels as $wlm_level_id ) {
-			// If no ConvertKit Form is mapped to this level, skip it.
-			$convertkit_form_id = $wlm_settings->get_convertkit_form_id_by_wishlist_member_level_id( $wlm_level_id );
-			if ( ! $convertkit_form_id ) {
+			// If no ConvertKit resource is mapped to this level, skip it.
+			$resource_type_id = $wlm_settings->get_convertkit_form_id_by_wishlist_member_level_id( $resource_type_and_id );
+			if ( ! $resource_type_and_id ) {
 				continue;
 			}
 
-			// Subscribe the user to the ConvertKit Form for this level.
-			$this->member_resource_subscribe( $member, $convertkit_form_id );
+			// Extract resource type and ID from the setting.
+			list( $resource_type, $resource_id ) = explode( ':', $resource_type_and_id  );
+
+			// Subscribe the user to ConvertKit for this level.
+			$this->member_resource_subscribe( $member, $resource_id, $resource_type );
 		}
 
 	}
@@ -108,7 +111,7 @@ class ConvertKit_Wishlist {
 	}
 
 	/**
-	 * Subscribes a member to a ConvertKit Form.
+	 * Subscribes a member to ConvertKit.
 	 *
 	 * @param   array $member  UserInfo from WishList Member.
 	 * @param   int   $form_id ConvertKit Form ID.
@@ -145,6 +148,8 @@ class ConvertKit_Wishlist {
 			$name       = explode( ' ', $member['display_name'] );
 			$first_name = $name[0];
 		}
+
+
 
 		// Note Wishlist Member combines first and last name into 'display_name'.
 		// For Legacy Forms, a different endpoint is used.

@@ -140,6 +140,130 @@ class WishListMemberCest
 	}
 
 	/**
+	 * Test that saving a WishList Member Level to ConvertKit Tag Mapping works.
+	 *
+	 * @since   2.5.4
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testSettingsWishListMemberLevelToConvertKitTagMapping(AcceptanceTester $I)
+	{
+		// Get WishList Member Level ID defined.
+		$wlmLevelID = $this->_getWishListMemberLevelID($I);
+
+		// Define email address for this test.
+		$emailAddress = $I->generateEmailAddress();
+
+		// Create a test WordPress User.
+		$userID = $this->_createUser($I, $emailAddress);
+
+		// Load WishList Member Plugin Settings.
+		$I->amOnAdminPage('options-general.php?page=_wp_convertkit_settings&tab=wishlist-member');
+
+		// Check that no PHP warnings or notices were output, if we're on PHP < 8.1 (WLM will throw errors in 8.1+, outside of our control).
+		if (version_compare( phpversion(), '8.1', '<' )) {
+			$I->checkNoWarningsAndNoticesOnScreen($I);
+		}
+
+		// Check that the mapping option is displayed.
+		$I->seeElementInDOM('#_wp_convertkit_integration_wishlistmember_settings_' . $wlmLevelID . '_form');
+
+		// Change Tag to value specified in the .env file.
+		$I->selectOption('#_wp_convertkit_integration_wishlistmember_settings_' . $wlmLevelID . '_form', $_ENV['CONVERTKIT_API_TAG_NAME']);
+
+		// Save Changes.
+		$I->click('Save Changes');
+
+		// Check that no PHP warnings or notices were output, if we're on PHP < 8.1 (WLM will throw errors in 8.1+, outside of our control).
+		if (version_compare( phpversion(), '8.1', '<' )) {
+			$I->checkNoWarningsAndNoticesOnScreen($I);
+		}
+
+		// Check the value of the Tag field matches the input provided.
+		$I->seeOptionIsSelected('#_wp_convertkit_integration_wishlistmember_settings_' . $wlmLevelID . '_form', $_ENV['CONVERTKIT_API_TAG_NAME']);
+
+		// Edit the Test User.
+		$I->amOnAdminPage('user-edit.php?user_id=' . $userID . '&wp_http_referer=%2Fwp-admin%2Fusers.php');
+
+		// Map the User to the Bronze WLM Level.
+		$I->checkOption('#WishListMemberUserProfile input[value="' . $wlmLevelID . '"]');
+
+		// Save Changes.
+		$I->click('Update Member Profile');
+
+		// Confirm that the User is still assigned to the Bronze WLM Level.
+		$I->seeCheckboxIsChecked('#WishListMemberUserProfile input[value="' . $wlmLevelID . '"]');
+
+		// Confirm that the email address was added to ConvertKit.
+		$subscriberID = $I->apiCheckSubscriberExists($I, $emailAddress);
+
+		// Check subscriber assigned to tag.
+		$I->apiCheckSubscriberHasTag($I, $subscriberID, $_ENV['CONVERTKIT_API_TAG_ID']);
+	}
+
+	/**
+	 * Test that saving a WishList Member Level to ConvertKit Sequence Mapping works.
+	 *
+	 * @since   2.5.4
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testSettingsWishListMemberLevelToConvertKitSequenceMapping(AcceptanceTester $I)
+	{
+		// Get WishList Member Level ID defined.
+		$wlmLevelID = $this->_getWishListMemberLevelID($I);
+
+		// Define email address for this test.
+		$emailAddress = $I->generateEmailAddress();
+
+		// Create a test WordPress User.
+		$userID = $this->_createUser($I, $emailAddress);
+
+		// Load WishList Member Plugin Settings.
+		$I->amOnAdminPage('options-general.php?page=_wp_convertkit_settings&tab=wishlist-member');
+
+		// Check that no PHP warnings or notices were output, if we're on PHP < 8.1 (WLM will throw errors in 8.1+, outside of our control).
+		if (version_compare( phpversion(), '8.1', '<' )) {
+			$I->checkNoWarningsAndNoticesOnScreen($I);
+		}
+
+		// Check that the mapping option is displayed.
+		$I->seeElementInDOM('#_wp_convertkit_integration_wishlistmember_settings_' . $wlmLevelID . '_form');
+
+		// Change Tag to value specified in the .env file.
+		$I->selectOption('#_wp_convertkit_integration_wishlistmember_settings_' . $wlmLevelID . '_form', $_ENV['CONVERTKIT_API_SEQUENCE_NAME']);
+
+		// Save Changes.
+		$I->click('Save Changes');
+
+		// Check that no PHP warnings or notices were output, if we're on PHP < 8.1 (WLM will throw errors in 8.1+, outside of our control).
+		if (version_compare( phpversion(), '8.1', '<' )) {
+			$I->checkNoWarningsAndNoticesOnScreen($I);
+		}
+
+		// Check the value of the Tag field matches the input provided.
+		$I->seeOptionIsSelected('#_wp_convertkit_integration_wishlistmember_settings_' . $wlmLevelID . '_form', $_ENV['CONVERTKIT_API_SEQUENCE_NAME']);
+
+		// Edit the Test User.
+		$I->amOnAdminPage('user-edit.php?user_id=' . $userID . '&wp_http_referer=%2Fwp-admin%2Fusers.php');
+
+		// Map the User to the Bronze WLM Level.
+		$I->checkOption('#WishListMemberUserProfile input[value="' . $wlmLevelID . '"]');
+
+		// Save Changes.
+		$I->click('Update Member Profile');
+
+		// Confirm that the User is still assigned to the Bronze WLM Level.
+		$I->seeCheckboxIsChecked('#WishListMemberUserProfile input[value="' . $wlmLevelID . '"]');
+
+		// Confirm that the email address was added to ConvertKit.
+		$subscriberID = $I->apiCheckSubscriberExists($I, $emailAddress);
+
+		// Check subscriber assigned to sequence.
+		$I->apiCheckSubscriberHasSequence($I, $subscriberID, $_ENV['CONVERTKIT_API_SEQUENCE_ID']);
+	}
+
+	/**
 	 * Tests that existing settings are automatically migrated when updating
 	 * the Plugin to 2.5.3 or higher, with:
 	 * - Form IDs with value `default` are changed to a blank string
@@ -155,9 +279,10 @@ class WishListMemberCest
 		$I->haveOptionInDatabase(
 			'_wp_convertkit_integration_wishlistmember_settings',
 			[
-				'1' => $_ENV['CONVERTKIT_API_FORM_ID'],
-				'2' => '',
-				'3' => 'default',
+				'1_form' 		=> $_ENV['CONVERTKIT_API_FORM_ID'],
+				'2_form' 		=> '',
+				'3_form' 		=> 'default',
+				'4_unsubscribe' => $_ENV['CONVERTKIT_APIT_TAG_ID'],
 			]
 		);
 
@@ -172,9 +297,10 @@ class WishListMemberCest
 		$I->assertArrayHasKey('1', $settings);
 		$I->assertArrayHasKey('2', $settings);
 		$I->assertArrayHasKey('3', $settings);
-		$I->assertEquals($settings['1'], $_ENV['CONVERTKIT_API_FORM_ID']);
-		$I->assertEquals($settings['2'], '');
-		$I->assertEquals($settings['3'], '');
+		$I->assertEquals($settings['1_form'], 'form:' . $_ENV['CONVERTKIT_API_FORM_ID']);
+		$I->assertEquals($settings['2_form'], '');
+		$I->assertEquals($settings['3_form'], '');
+		$I->assertEquals($settings['4_unsubscribe'], 'tag:' . $_ENV['CONVERTKIT_API_TAG_ID']);
 	}
 
 	/**

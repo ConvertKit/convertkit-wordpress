@@ -45,6 +45,13 @@ class ConvertKit_Setup {
 		}
 
 		/**
+		 * 2.5.4: Migrate WishList Member to ConvertKit Form Mappings
+		 */
+		if ( ! $current_version || version_compare( $current_version, '2.5.4', '<' ) ) {
+			$this->migrate_wlm_form_tag_mapping_settings();
+		}
+
+		/**
 		 * 2.5.3: Migrate Third Party Form integrations' 'None' option values from `default` to blank.
 		 */
 		if ( ! $current_version || version_compare( $current_version, '2.5.3', '<' ) ) {
@@ -110,6 +117,67 @@ class ConvertKit_Setup {
 
 		// Update the installed version number in the options table.
 		update_option( 'convertkit_version', CONVERTKIT_PLUGIN_VERSION );
+
+	}
+
+	/**
+	 * 2.5.4: Migrate WLM settings:
+	 * - Prefix any WishList Member to ConvertKit Form ID mappings with `form:`,
+	 * - Prefix any WishList Member to ConvertKit Tag ID mappings with `tag:`,
+	 * - Standardise the settings keys to the format {wlm_level_id}_subscribe
+	 * and {wlm_level_id}_unsubscribe.
+	 *
+	 * @since   2.5.4
+	 */
+	private function migrate_wlm_form_tag_mapping_settings() {
+
+		$convertkit_wlm_settings = new ConvertKit_Wishlist_Settings();
+
+		// Bail if no settings exist.
+		if ( ! $convertkit_wlm_settings->has_settings() ) {
+			return;
+		}
+
+		// Define new array for settings.
+		$settings = array();
+
+		// Iterate through settings.
+		foreach ( $convertkit_wlm_settings->get() as $key => $convertkit_form_or_tag_id ) {
+			// Skip values that are blank i.e. no ConvertKit Form or Tag ID specified.
+			if ( empty( $convertkit_form_or_tag_id ) ) {
+				continue;
+			}
+
+			// Skip values that are non-numeric i.e. the `form:` / `tag:` prefix was already added.
+			// This should never happen as this routine runs once, but this is a sanity check.
+			if ( ! is_numeric( $convertkit_form_or_tag_id ) ) {
+				continue;
+			}
+
+			// Split the settings key.
+			list( $wlm_level_id, $type ) = explode( '_', $key );
+
+			switch ( $type ) {
+				case 'form':
+					// This is the action to perform when the user is added to the WLM Level.
+					// Use a new name for the setting key to reflect this.
+					// < 2.5.4, forms were the only option here, so prefix the resource ID with `form:`.
+					$settings[ $wlm_level_id . '_subscribe' ] = 'form:' . $convertkit_form_or_tag_id;
+					break;
+
+				case 'unsubscribe':
+					// This is the action to perform when the user is removed from the WLM Level.
+					// < 2.5.4, tags were the only option here, so prefix the resource ID with `tag:`.
+					$settings[ $wlm_level_id . '_subscribe' ] = 'form:' . $convertkit_form_or_tag_id;
+					break;
+			}
+		}
+
+		var_dump( $settings );
+		die();
+
+		// Update settings.
+		update_option( $convertkit_wlm_settings::SETTINGS_NAME, $settings );
 
 	}
 

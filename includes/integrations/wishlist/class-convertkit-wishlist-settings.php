@@ -78,14 +78,14 @@ class ConvertKit_Wishlist_Settings {
 	}
 
 	/**
-	 * Returns the ConvertKit Form ID that is mapped against the given WishList Member Level ID.
+	 * Returns the ConvertKit subscribe setting that is mapped against the given WishList Member Level ID.
 	 *
-	 * @since   1.9.6
+	 * @since   2.5.4
 	 *
 	 * @param   int $wlm_level_id   WishList Member Level ID.
 	 * @return  bool|int
 	 */
-	public function get_convertkit_form_id_by_wishlist_member_level_id( $wlm_level_id ) {
+	public function get_convertkit_subscribe_setting_by_wishlist_member_level_id( $wlm_level_id ) {
 
 		// Bail if no settings exist.
 		if ( ! $this->has_settings() ) {
@@ -102,14 +102,14 @@ class ConvertKit_Wishlist_Settings {
 	}
 
 	/**
-	 * Returns the ConvertKit Tag ID that is mapped against the given WishList Member Level ID.
+	 * Returns the ConvertKit unsubscribe setting that is mapped against the given WishList Member Level ID.
 	 *
 	 * @since   1.9.6
 	 *
 	 * @param   int $wlm_level_id   WishList Member Level ID.
 	 * @return  bool|string|int     false|'unsubscribe'|Tag ID
 	 */
-	public function get_convertkit_tag_id_by_wishlist_member_level_id( $wlm_level_id ) {
+	public function get_convertkit_unsubscribe_setting_wishlist_member_level_id( $wlm_level_id ) {
 
 		// Bail if no settings exist.
 		if ( ! $this->has_settings() ) {
