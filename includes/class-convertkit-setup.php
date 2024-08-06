@@ -144,12 +144,6 @@ class ConvertKit_Setup {
 
 		// Iterate through settings.
 		foreach ( $convertkit_wlm_settings->get() as $key => $convertkit_form_or_tag_id ) {
-			// Skip values that are non-numeric i.e. the `form:` / `tag:` prefix was already added.
-			// This should never happen as this routine runs once, but this is a sanity check.
-			if ( ! is_numeric( $convertkit_form_or_tag_id ) ) {
-				continue;
-			}
-
 			// Split the settings key.
 			list( $wlm_level_id, $type ) = explode( '_', $key );
 
@@ -158,14 +152,14 @@ class ConvertKit_Setup {
 					// This is the action to perform when the user is added to the WLM Level.
 					// Use a new name for the setting key to reflect this.
 					// < 2.5.4, forms were the only option here, so prefix the resource ID with `form:`.
-					$settings[ $wlm_level_id . '_add' ] = 'form:' . $convertkit_form_or_tag_id;
+					$settings[ $wlm_level_id . '_add' ] = ( empty( $convertkit_form_or_tag_id ) ? '' : 'form:' . $convertkit_form_or_tag_id );
 					break;
 
 				case 'unsubscribe':
 					// This is the action to perform when the user is removed from the WLM Level.
 					// Use a new name for the setting key to reflect this.
 					// < 2.5.4, tags were the only option here, so prefix the resource ID with `tag:`.
-					$settings[ $wlm_level_id . '_remove' ] = 'tag:' . $convertkit_form_or_tag_id;
+					$settings[ $wlm_level_id . '_remove' ] = ( empty( $convertkit_form_or_tag_id ) ? '' : 'tag:' . $convertkit_form_or_tag_id );
 					break;
 			}
 		}

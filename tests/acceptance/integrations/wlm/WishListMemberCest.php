@@ -202,9 +202,6 @@ class WishListMemberCest
 
 		// Check settings structure has been updated.
 		$settings = $I->grabOptionFromDatabase('_wp_convertkit_integration_wishlistmember_settings');
-		var_dump( $settings );
-		die();
-
 		$I->assertEquals($settings['1_add'], 'form:' . $_ENV['CONVERTKIT_API_FORM_ID']);
 		$I->assertEquals($settings['2_add'], '');
 		$I->assertEquals($settings['3_add'], '');

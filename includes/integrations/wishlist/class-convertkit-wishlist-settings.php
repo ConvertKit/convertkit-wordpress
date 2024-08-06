@@ -83,7 +83,7 @@ class ConvertKit_Wishlist_Settings {
 	 * @since   2.5.4
 	 *
 	 * @param   int $wlm_level_id   WishList Member Level ID.
-	 * @return  bool|string     	false|subscribe|form:id|tag:id|sequence:id.
+	 * @return  bool|string         false|subscribe|form:id|tag:id|sequence:id.
 	 */
 	public function get_convertkit_add_setting_by_wishlist_member_level_id( $wlm_level_id ) {
 
@@ -107,7 +107,7 @@ class ConvertKit_Wishlist_Settings {
 	 * @since   1.9.6
 	 *
 	 * @param   int $wlm_level_id   WishList Member Level ID.
-	 * @return  bool|string     	false|subscribe|unsubscribe|form:id|tag:id|sequence:id.
+	 * @return  bool|string         false|subscribe|unsubscribe|form:id|tag:id|sequence:id.
 	 */
 	public function get_convertkit_remove_setting_by_wishlist_member_level_id( $wlm_level_id ) {
 
