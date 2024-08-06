@@ -73,9 +73,6 @@ class WishListMemberCest
 		// Save Changes.
 		$I->click('Update Member Profile');
 
-		// WordPress 6.6 introduces a 'navigate away from this page' warning when using WLM.
-		$I->acceptPopup();
-
 		// Confirm that the User is still assigned to the Bronze WLM Level.
 		$I->seeCheckboxIsChecked('#WishListMemberUserProfile input[value="' . $wlmLevelID . '"]');
 
@@ -135,14 +132,49 @@ class WishListMemberCest
 		// Save Changes.
 		$I->click('Update Member Profile');
 
-		// WordPress 6.6 introduces a 'navigate away from this page' warning when using WLM.
-		$I->acceptPopup();
-
 		// Confirm that the User is still assigned to the Bronze WLM Level.
 		$I->seeCheckboxIsChecked('#WishListMemberUserProfile input[value="' . $wlmLevelID . '"]');
 
 		// Confirm that the email address was added to ConvertKit.
 		$I->apiCheckSubscriberExists($I, $emailAddress);
+	}
+
+	/**
+	 * Tests that existing settings are automatically migrated when updating
+	 * the Plugin to 2.5.3 or higher, with:
+	 * - Form IDs with value `default` are changed to a blank string
+	 *
+	 * @since   2.5.3
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testSettingsMigratedOnUpgrade(AcceptanceTester $I)
+	{
+		// Create settings as if they were created / edited when the ConvertKit Plugin < 2.5.3
+		// was active.
+		$I->haveOptionInDatabase(
+			'_wp_convertkit_integration_wishlistmember_settings',
+			[
+				'1' => $_ENV['CONVERTKIT_API_FORM_ID'],
+				'2' => '',
+				'3' => 'default',
+			]
+		);
+
+		// Downgrade the Plugin version to simulate an upgrade.
+		$I->haveOptionInDatabase('convertkit_version', '2.4.9');
+
+		// Load admin screen.
+		$I->amOnAdminPage('index.php');
+
+		// Check settings structure has been updated.
+		$settings = $I->grabOptionFromDatabase('_wp_convertkit_integration_wishlistmember_settings');
+		$I->assertArrayHasKey('1', $settings);
+		$I->assertArrayHasKey('2', $settings);
+		$I->assertArrayHasKey('3', $settings);
+		$I->assertEquals($settings['1'], $_ENV['CONVERTKIT_API_FORM_ID']);
+		$I->assertEquals($settings['2'], '');
+		$I->assertEquals($settings['3'], '');
 	}
 
 	/**
