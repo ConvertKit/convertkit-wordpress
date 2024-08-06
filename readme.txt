@@ -5,7 +5,7 @@ Tags: email marketing, email newsletter, newsletter, subscribers, membership
 Requires at least: 5.0
 Tested up to: 6.6.1
 Requires PHP: 5.6.20
-Stable tag: 2.5.2
+Stable tag: 2.5.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -157,6 +157,11 @@ Full Plugin documentation can be found [here](https://help.convertkit.com/en/art
 10. Track subscriber growth
 
 == Changelog ==
+
+### 2.5.3 2024-08-06
+* Fix: Contact Form 7: Update description on settings screen to reflect new settings
+* Fix: Forminator: Update description on settings screen to reflect new settings
+* Fix: WishList Member: Fatal error `Uncaught TypeError: ConvertKit_API_V4::add_subscriber_to_form(): Argument #1 ($form_id) must be of type int, string given`
 
 ### 2.5.2 2024-07-25
 * Added: Contact Form 7: Option to just subscribe email, or subscribe to a Form, Tag or Sequence
