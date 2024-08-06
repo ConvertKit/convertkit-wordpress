@@ -128,16 +128,16 @@ class ConvertKit_Wishlist_Admin_Settings extends ConvertKit_Settings_Base {
 				array(
 					'title'       => $wlm_level['name'],
 					'subscribe'   => convertkit_get_subscription_dropdown_field(
-						'_wp_convertkit_integration_wishlistmember_settings[' . $wlm_level['id'] . '_subscribe]',
-						(string) $this->settings->get_convertkit_subscribe_setting_by_wishlist_member_level_id( $wlm_level['id'] ),
-						'_wp_convertkit_integration_wishlistmember_settings_' . $wlm_level['id'] . '_subscribe',
+						'_wp_convertkit_integration_wishlistmember_settings[' . $wlm_level['id'] . '_add]',
+						(string) $this->settings->get_convertkit_add_setting_by_wishlist_member_level_id( $wlm_level['id'] ),
+						'_wp_convertkit_integration_wishlistmember_settings_' . $wlm_level['id'] . '_add',
 						'widefat',
 						'wlm'
 					),
 					'unsubscribe' => convertkit_get_subscription_dropdown_field(
-						'_wp_convertkit_integration_wishlistmember_settings[' . $wlm_level['id'] . '_unsubscribe]',
-						(string) $this->settings->get_convertkit_unsubscribe_setting_by_wishlist_member_level_id( $wlm_level['id'] ),
-						'_wp_convertkit_integration_wishlistmember_settings_' . $wlm_level['id'] . '_unsubscribe',
+						'_wp_convertkit_integration_wishlistmember_settings[' . $wlm_level['id'] . '_remove]',
+						(string) $this->settings->get_convertkit_remove_setting_by_wishlist_member_level_id( $wlm_level['id'] ),
+						'_wp_convertkit_integration_wishlistmember_settings_' . $wlm_level['id'] . '_remove',
 						'widefat',
 						'wlm',
 						array(

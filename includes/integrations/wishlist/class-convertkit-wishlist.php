@@ -69,13 +69,9 @@ class ConvertKit_Wishlist {
 	 *
 	 * @param   string $member_id  ID for member that has just had levels added.
 	 * @param   array  $levels     Levels to which member was added.
-	 * @param 	string $wlm_action 	WishList Member action (subscribe,unsubscribe).
+	 * @param   string $wlm_action  WishList Member action (subscribe,unsubscribe).
 	 */
 	private function manage_member( $member_id, $levels, $wlm_action = 'subscribe' ) {
-
-		error_log( $member_id );
-		error_log( print_r( $levels, true ) );
-		error_log( $wlm_action );
 
 		// Get WishList Member.
 		$member = $this->get_member( $member_id );
@@ -123,18 +119,16 @@ class ConvertKit_Wishlist {
 			// Fetch action setting.
 			switch ( $wlm_action ) {
 				case 'subscribe':
-					$setting = $wlm_settings->get_convertkit_subscribe_setting_by_wishlist_member_level_id( $wlm_level_id );
+					$setting = $wlm_settings->get_convertkit_add_setting_by_wishlist_member_level_id( $wlm_level_id );
 					break;
 
 				case 'unsubscribe':
-					$setting = $wlm_settings->get_convertkit_unsubscribe_setting_by_wishlist_member_level_id( $wlm_level_id );
+					$setting = $wlm_settings->get_convertkit_remove_setting_by_wishlist_member_level_id( $wlm_level_id );
 					break;
 
 				default:
 					continue;
 			}
-
-			error_log( $setting );
 
 			// If no setting / action exists, skip this level.
 			if ( ! $setting ) {
@@ -143,8 +137,6 @@ class ConvertKit_Wishlist {
 
 			// If the resource setting is 'unsubscribe', just unsubscribe the member.
 			if ( $setting === 'unsubscribe' ) {
-				error_log( 'unsubscribe only' );
-
 				// Get subscriber ID.
 				$subscriber_id = $api->get_subscriber_id( $email );
 
@@ -154,7 +146,6 @@ class ConvertKit_Wishlist {
 				}
 
 				// Unsubscribe.
-				error_log( print_r( $api->unsubscribe( $subscriber_id ), true ) );
 				continue;
 			}
 
@@ -163,7 +154,6 @@ class ConvertKit_Wishlist {
 
 			// If the resource setting is 'subscribe', don't assign to a resource.
 			if ( $setting === 'subscribe' ) {
-				error_log( 'subscribe only' );
 				continue;
 			}
 
