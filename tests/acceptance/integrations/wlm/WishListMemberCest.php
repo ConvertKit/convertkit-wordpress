@@ -338,7 +338,7 @@ class WishListMemberCest
 		// Configure mapping.
 		$this->_configureMapping($I, $wlmLevelID, 'add', 'Subscribe');
 		$this->_configureMapping($I, $wlmLevelID, 'remove', 'Unsubscribe');
-		
+
 		// Assign level to user.
 		$this->_assignLevelToUser($I, $wlmLevelID, $userID);
 
@@ -476,8 +476,6 @@ class WishListMemberCest
 		// Save Changes.
 		$I->click('Update Member Profile');
 
-		$I->acceptPopup(); // @TODO REMOVE
-
 		// Confirm that the User is still assigned to the WLM Level.
 		$I->seeCheckboxIsChecked('#WishListMemberUserProfile input[value="' . $wlmLevelID . '"]');
 	}
@@ -501,8 +499,6 @@ class WishListMemberCest
 
 		// Save Changes.
 		$I->click('Update Member Profile');
-
-		$I->acceptPopup(); // @TODO REMOVE
 
 		// Confirm that the User is no longer assigned to the WLM Level.
 		$I->dontSeeCheckboxIsChecked('#WishListMemberUserProfile input[value="' . $wlmLevelID . '"]');

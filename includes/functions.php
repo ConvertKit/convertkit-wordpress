@@ -544,12 +544,12 @@ function convertkit_get_file_contents( $local_file ) {
  *
  * @since   2.5.2
  *
- * @param   string $name                Field name.
- * @param   string $value               Field value.
- * @param   string $id                  Field ID attribute.
- * @param   string $css_class           Field CSS class(es).
- * @param   string $context             Resource context.
- * @param   bool   $additional_options  Additional <option> key/value pairs.
+ * @param   string     $name                Field name.
+ * @param   string     $value               Field value.
+ * @param   string     $id                  Field ID attribute.
+ * @param   string     $css_class           Field CSS class(es).
+ * @param   string     $context             Resource context.
+ * @param   bool|array $additional_options  Additional <option> key/value pairs.
  */
 function convertkit_get_subscription_dropdown_field( $name, $value, $id, $css_class = '', $context = '', $additional_options = false ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter
 

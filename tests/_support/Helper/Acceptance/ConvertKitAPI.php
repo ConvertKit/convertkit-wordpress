@@ -152,9 +152,6 @@ class ConvertKitAPI extends \Codeception\Module
 			]
 		);
 
-		var_dump($results);
-		die();
-
 		// Check no subscribers are returned by this request.
 		$I->assertEquals(0, $results['pagination']['total_count']);
 	}

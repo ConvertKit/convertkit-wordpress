@@ -41,7 +41,7 @@ class ConvertKit_Wishlist {
 	 */
 	public function add_user_levels( $member_id, $levels ) {
 
-		$this->manage_member( $member_id, $levels, 'subscribe' );
+		$this->manage_member( $member_id, $levels, 'add' );
 
 	}
 
@@ -57,7 +57,7 @@ class ConvertKit_Wishlist {
 	 */
 	public function remove_user_levels( $member_id, $levels ) {
 
-		$this->manage_member( $member_id, $levels, 'unsubscribe' );
+		$this->manage_member( $member_id, $levels, 'remove' );
 
 	}
 
@@ -69,9 +69,9 @@ class ConvertKit_Wishlist {
 	 *
 	 * @param   string $member_id  ID for member that has just had levels added.
 	 * @param   array  $levels     Levels to which member was added.
-	 * @param   string $wlm_action  WishList Member action (subscribe,unsubscribe).
+	 * @param   string $wlm_action  WishList Member action (add,remove).
 	 */
-	private function manage_member( $member_id, $levels, $wlm_action = 'subscribe' ) {
+	private function manage_member( $member_id, $levels, $wlm_action = 'add' ) {
 
 		// Get WishList Member.
 		$member = $this->get_member( $member_id );
@@ -118,16 +118,17 @@ class ConvertKit_Wishlist {
 		foreach ( $levels as $wlm_level_id ) {
 			// Fetch action setting.
 			switch ( $wlm_action ) {
-				case 'subscribe':
+				case 'add':
 					$setting = $wlm_settings->get_convertkit_add_setting_by_wishlist_member_level_id( $wlm_level_id );
 					break;
 
-				case 'unsubscribe':
+				case 'remove':
 					$setting = $wlm_settings->get_convertkit_remove_setting_by_wishlist_member_level_id( $wlm_level_id );
 					break;
 
 				default:
-					continue;
+					$setting = false;
+					break;
 			}
 
 			// If no setting / action exists, skip this level.
@@ -146,6 +147,7 @@ class ConvertKit_Wishlist {
 				}
 
 				// Unsubscribe.
+				$api->unsubscribe( $subscriber_id );
 				continue;
 			}
 
