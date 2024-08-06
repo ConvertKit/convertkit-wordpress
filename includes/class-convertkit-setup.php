@@ -168,13 +168,10 @@ class ConvertKit_Setup {
 				case 'unsubscribe':
 					// This is the action to perform when the user is removed from the WLM Level.
 					// < 2.5.4, tags were the only option here, so prefix the resource ID with `tag:`.
-					$settings[ $wlm_level_id . '_subscribe' ] = 'form:' . $convertkit_form_or_tag_id;
+					$settings[ $wlm_level_id . '_unsubscribe' ] = 'tag:' . $convertkit_form_or_tag_id;
 					break;
 			}
 		}
-
-		var_dump( $settings );
-		die();
 
 		// Update settings.
 		update_option( $convertkit_wlm_settings::SETTINGS_NAME, $settings );
