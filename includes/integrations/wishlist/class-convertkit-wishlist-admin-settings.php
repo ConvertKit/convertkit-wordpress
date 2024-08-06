@@ -68,6 +68,8 @@ class ConvertKit_Wishlist_Admin_Settings extends ConvertKit_Settings_Base {
 			<br />
 			<code><?php esc_html_e( 'Subscribe', 'convertkit' ); ?></code>: <?php esc_html_e( 'Subscribes the email address to ConvertKit', 'convertkit' ); ?>
 			<br />
+			<code><?php esc_html_e( 'Unsubscribe', 'convertkit' ); ?></code>: <?php esc_html_e( 'Unsubscribes the email address from ConvertKit', 'convertkit' ); ?>
+			<br />
 			<code><?php esc_html_e( 'Form', 'convertkit' ); ?></code>: <?php esc_html_e( 'Subscribes the email address to ConvertKit, and adds the subscriber to the ConvertKit form', 'convertkit' ); ?>
 			<br />
 			<code><?php esc_html_e( 'Tag', 'convertkit' ); ?></code>: <?php esc_html_e( 'Subscribes the email address to ConvertKit, tagging the subscriber', 'convertkit' ); ?>
@@ -114,37 +116,10 @@ class ConvertKit_Wishlist_Admin_Settings extends ConvertKit_Settings_Base {
 			return;
 		}
 
-		// Get Forms and Tags.
-		$forms = new ConvertKit_Resource_Forms( 'wishlist_member' );
-		$tags  = new ConvertKit_Resource_Tags( 'wishlist_member' );
-
-		// Bail with an error if no ConvertKit Forms exist.
-		if ( ! $forms->exist() ) {
-			$this->output_error( __( 'No Forms exist on ConvertKit.', 'convertkit' ) );
-			$this->render_container_end();
-			return;
-		}
-
-		// Bail with an error if no ConvertKit Tags exist.
-		if ( ! $tags->exist() ) {
-			$this->output_error( __( 'No Tags exist on ConvertKit.', 'convertkit' ) );
-			$this->render_container_end();
-			return;
-		}
-
-		// Build array of select options for Tags.
-		$tag_options = array(
-			'0' => __( 'None', 'convertkit' ),
-		);
-		foreach ( $tags->get() as $tag ) {
-			$tag_options[ esc_attr( $tag['id'] ) ] = esc_html( $tag['name'] );
-		}
-		$tag_options['unsubscribe'] = __( 'Unsubscribe from all', 'convertkit' );
-
 		// Setup WP_List_Table.
 		$table = new Multi_Value_Field_Table();
 		$table->add_column( 'title', __( 'WishList Membership Level', 'convertkit' ), true );
-		$table->add_column( 'form', __( 'Subscribe Action', 'convertkit' ), false );
+		$table->add_column( 'subscribe', __( 'Subscribe Action', 'convertkit' ), false );
 		$table->add_column( 'unsubscribe', __( 'Unsubscribe Action', 'convertkit' ), false );
 
 		// Iterate through WishList Member Levels, adding a table row for each Level.
@@ -152,19 +127,22 @@ class ConvertKit_Wishlist_Admin_Settings extends ConvertKit_Settings_Base {
 			$table->add_item(
 				array(
 					'title'       => $wlm_level['name'],
-					'form'  => convertkit_get_subscription_dropdown_field(
-						'_wp_convertkit_integration_wishlistmember_settings[' . $wlm_level['id'] . '_form]',
-						(string) $this->settings->get_convertkit_form_id_by_wishlist_member_level_id( $wlm_level['id'] ),
-						'_wp_convertkit_integration_wishlistmember_settings_' . $wlm_level['id'] . '_form',
+					'subscribe'  => convertkit_get_subscription_dropdown_field(
+						'_wp_convertkit_integration_wishlistmember_settings[' . $wlm_level['id'] . '_subscribe]',
+						(string) $this->settings->get_convertkit_subscribe_setting_by_wishlist_member_level_id( $wlm_level['id'] ),
+						'_wp_convertkit_integration_wishlistmember_settings_' . $wlm_level['id'] . '_subscribe',
 						'widefat',
 						'wlm'
 					),
 					'unsubscribe'  => convertkit_get_subscription_dropdown_field(
 						'_wp_convertkit_integration_wishlistmember_settings[' . $wlm_level['id'] . '_unsubscribe]',
-						(string) $this->settings->get_convertkit_tag_id_by_wishlist_member_level_id( $wlm_level['id'] ),
+						(string) $this->settings->get_convertkit_unsubscribe_setting_by_wishlist_member_level_id( $wlm_level['id'] ),
 						'_wp_convertkit_integration_wishlistmember_settings_' . $wlm_level['id'] . '_unsubscribe',
 						'widefat',
-						'wlm'
+						'wlm',
+						array(
+							'unsubscribe' => __( 'Unsubscribe', 'convertkit' ),
+						)
 					),
 				)
 			);

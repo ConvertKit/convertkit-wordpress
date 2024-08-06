@@ -109,7 +109,7 @@ class ConvertKit_Wishlist_Settings {
 	 * @param   int $wlm_level_id   WishList Member Level ID.
 	 * @return  bool|string|int     false|'unsubscribe'|Tag ID
 	 */
-	public function get_convertkit_unsubscribe_setting_wishlist_member_level_id( $wlm_level_id ) {
+	public function get_convertkit_unsubscribe_setting_by_wishlist_member_level_id( $wlm_level_id ) {
 
 		// Bail if no settings exist.
 		if ( ! $this->has_settings() ) {
