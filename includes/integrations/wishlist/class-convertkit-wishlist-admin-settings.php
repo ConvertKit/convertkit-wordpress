@@ -119,22 +119,22 @@ class ConvertKit_Wishlist_Admin_Settings extends ConvertKit_Settings_Base {
 		// Setup WP_List_Table.
 		$table = new Multi_Value_Field_Table();
 		$table->add_column( 'title', __( 'WishList Membership Level', 'convertkit' ), true );
-		$table->add_column( 'subscribe', __( 'Subscribe Action', 'convertkit' ), false );
-		$table->add_column( 'unsubscribe', __( 'Unsubscribe Action', 'convertkit' ), false );
+		$table->add_column( 'add', __( 'Assign to member', 'convertkit' ), false );
+		$table->add_column( 'remove', __( 'Remove from member', 'convertkit' ), false );
 
 		// Iterate through WishList Member Levels, adding a table row for each Level.
 		foreach ( $wlm_levels as $wlm_level ) {
 			$table->add_item(
 				array(
-					'title'       => $wlm_level['name'],
-					'subscribe'   => convertkit_get_subscription_dropdown_field(
+					'title'  => $wlm_level['name'],
+					'add'    => convertkit_get_subscription_dropdown_field(
 						'_wp_convertkit_integration_wishlistmember_settings[' . $wlm_level['id'] . '_add]',
 						(string) $this->settings->get_convertkit_add_setting_by_wishlist_member_level_id( $wlm_level['id'] ),
 						'_wp_convertkit_integration_wishlistmember_settings_' . $wlm_level['id'] . '_add',
 						'widefat',
 						'wlm'
 					),
-					'unsubscribe' => convertkit_get_subscription_dropdown_field(
+					'remove' => convertkit_get_subscription_dropdown_field(
 						'_wp_convertkit_integration_wishlistmember_settings[' . $wlm_level['id'] . '_remove]',
 						(string) $this->settings->get_convertkit_remove_setting_by_wishlist_member_level_id( $wlm_level['id'] ),
 						'_wp_convertkit_integration_wishlistmember_settings_' . $wlm_level['id'] . '_remove',
