@@ -127,14 +127,14 @@ class ConvertKit_Wishlist_Admin_Settings extends ConvertKit_Settings_Base {
 			$table->add_item(
 				array(
 					'title'       => $wlm_level['name'],
-					'subscribe'  => convertkit_get_subscription_dropdown_field(
+					'subscribe'   => convertkit_get_subscription_dropdown_field(
 						'_wp_convertkit_integration_wishlistmember_settings[' . $wlm_level['id'] . '_subscribe]',
 						(string) $this->settings->get_convertkit_subscribe_setting_by_wishlist_member_level_id( $wlm_level['id'] ),
 						'_wp_convertkit_integration_wishlistmember_settings_' . $wlm_level['id'] . '_subscribe',
 						'widefat',
 						'wlm'
 					),
-					'unsubscribe'  => convertkit_get_subscription_dropdown_field(
+					'unsubscribe' => convertkit_get_subscription_dropdown_field(
 						'_wp_convertkit_integration_wishlistmember_settings[' . $wlm_level['id'] . '_unsubscribe]',
 						(string) $this->settings->get_convertkit_unsubscribe_setting_by_wishlist_member_level_id( $wlm_level['id'] ),
 						'_wp_convertkit_integration_wishlistmember_settings_' . $wlm_level['id'] . '_unsubscribe',

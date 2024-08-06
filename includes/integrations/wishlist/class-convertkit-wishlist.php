@@ -84,25 +84,29 @@ class ConvertKit_Wishlist {
 		// Iterate through the member's levels.
 		foreach ( $levels as $wlm_level_id ) {
 			// If no ConvertKit resource is mapped to this level, skip it.
-			$resource_type_id = $wlm_settings->get_convertkit_subscribe_setting_by_wishlist_member_level_id( $resource_type_and_id );
-			if ( ! $resource_type_and_id ) {
+			$resource_type_id = $wlm_settings->get_convertkit_subscribe_setting_by_wishlist_member_level_id( $wlm_level_id );
+			if ( ! $resource_type_id ) {
 				continue;
 			}
 
 			// If the resource setting is 'unsubscribe', just unsubscribe the member.
 			if ( $resource_type_id === 'unsubscribe' ) {
-				$api->unsubscribe( $email );
+				error_log( 'unsubscribe only' );
+				error_log( print_r( $api->unsubscribe( $email ), true ) );
 				continue;
 			}
 
-			// If the resource setting is 'subscribe', just subscribe the member.
+			// Subscribe.
+			$subscriber = $api->create_subscriber( $email, $first_name );
+
+			// If the resource setting is 'subscribe', don't assign to a resource.
 			if ( $resource_type_id === 'subscribe' ) {
-				$api->create_subscriber( $email, $first_name );
+				error_log( 'subscribe only' );
 				continue;
 			}
 
 			// Extract resource type and ID from the setting.
-			list( $resource_type, $resource_id ) = explode( ':', $resource_type_and_id  );
+			list( $resource_type, $resource_id ) = explode( ':', $resource_type_id );
 
 			// Cast ID.
 			$resource_id = absint( $resource_id );
