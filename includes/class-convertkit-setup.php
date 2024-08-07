@@ -143,13 +143,10 @@ class ConvertKit_Setup {
 				continue;
 			}
 
-			// Skip values that are not 'default'.
-			if ( $convertkit_form_id !== 'default' ) {
-				continue;
-			}
-
 			// Change 'default' to a blank string.
-			$settings[ $contact_form_7_form_id ] = '';
+			if ( $convertkit_form_id === 'default' ) {
+				$settings[ $contact_form_7_form_id ] = '';
+			}
 		}
 
 		// Update settings.
@@ -187,13 +184,10 @@ class ConvertKit_Setup {
 				continue;
 			}
 
-			// Skip values that are not 'default'.
-			if ( $convertkit_form_id !== 'default' ) {
-				continue;
-			}
-
 			// Change 'default' to a blank string.
-			$settings[ $forminator_form_id ] = '';
+			if ( $convertkit_form_id === 'default' ) {
+				$settings[ $forminator_form_id ] = '';
+			}
 		}
 
 		// Update settings.
@@ -226,13 +220,10 @@ class ConvertKit_Setup {
 
 		// Iterate through settings.
 		foreach ( $settings as $wlm_level_id => $value ) {
-			// Skip values that are not 'default'.
-			if ( $value !== 'default' ) {
-				continue;
-			}
-
 			// Change 'default' to a blank string.
-			$settings[ $wlm_level_id ] = '';
+			if ( $value === 'default' ) {
+				$settings[ $wlm_level_id ] = '';
+			}
 		}
 
 		// Update settings.
