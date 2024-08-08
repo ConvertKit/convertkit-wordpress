@@ -200,7 +200,7 @@ class ConvertKitRestrictContent extends \Codeception\Module
 
 		// Login as a ConvertKit subscriber who does not exist in ConvertKit.
 		$I->waitForElementVisible('input#convertkit_email');
-		$I->fillField('convertkit_email', 'fail@convertkit.com');
+		$I->fillField('convertkit_email', 'fail@kit.com');
 		$I->click('input.wp-block-button__link');
 
 		// Confirm an inline error message is displayed.
@@ -296,7 +296,7 @@ class ConvertKitRestrictContent extends \Codeception\Module
 		$I->click('a.convertkit-restrict-content-modal-open');
 		$I->waitForElementVisible('#convertkit-restrict-content-modal');
 		$I->waitForElementVisible('input#convertkit_email');
-		$I->fillField('convertkit_email', 'fail@convertkit.com');
+		$I->fillField('convertkit_email', 'fail@kit.com');
 		$I->click('#convertkit-restrict-content-modal input.wp-block-button__link');
 
 		// Confirm an inline error message is displayed.

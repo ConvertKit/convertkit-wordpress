@@ -287,7 +287,7 @@ class ConvertKit_Admin_Setup_Wizard_Plugin extends ConvertKit_Admin_Setup_Wizard
 					// Setup API.
 					$api = new ConvertKit_API_V4( CONVERTKIT_OAUTH_CLIENT_ID, CONVERTKIT_OAUTH_CLIENT_REDIRECT_URI );
 
-					// Permit wp_safe_redirect to redirect to app.convertkit.com.
+					// Permit wp_safe_redirect to redirect to app.kit.com.
 					add_filter(
 						'allowed_redirect_hosts',
 						function ( $hosts ) {
@@ -295,7 +295,7 @@ class ConvertKit_Admin_Setup_Wizard_Plugin extends ConvertKit_Admin_Setup_Wizard
 							return array_merge(
 								$hosts,
 								array(
-									'app.convertkit.com',
+									'app.kit.com',
 								)
 							);
 

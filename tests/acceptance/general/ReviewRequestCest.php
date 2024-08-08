@@ -180,7 +180,7 @@ class ReviewRequestCest
 
 		// Confirm links are correct.
 		$I->seeInSource('<a href="https://wordpress.org/support/plugin/convertkit/reviews/?filter=5#new-post" class="button button-primary" rel="noopener" target="_blank">');
-		$I->seeInSource('<a href="https://convertkit.com/support" class="button" rel="noopener" target="_blank">');
+		$I->seeInSource('<a href="https://kit.com/support" class="button" rel="noopener" target="_blank">');
 	}
 
 	/**

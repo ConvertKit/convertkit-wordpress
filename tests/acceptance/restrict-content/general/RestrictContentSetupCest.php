@@ -110,8 +110,8 @@ class RestrictContentSetupCest
 		// Check that the expected buttons display linking to ConvertKit.
 		$I->see('Create product');
 		$I->see('Create tag');
-		$I->seeInSource('<a href="https://app.convertkit.com/products/new/?utm_source=wordpress&amp;utm_term=en_US&amp;utm_content=convertkit"');
-		$I->seeInSource('<a href="https://app.convertkit.com/subscribers/?utm_source=wordpress&amp;utm_term=en_US&amp;utm_content=convertkit"');
+		$I->seeInSource('<a href="https://app.kit.com/products/new/?utm_source=wordpress&amp;utm_term=en_US&amp;utm_content=convertkit"');
+		$I->seeInSource('<a href="https://app.kit.com/subscribers/?utm_source=wordpress&amp;utm_term=en_US&amp;utm_content=convertkit"');
 
 		// Update the Plugin to use credentials that have resources.
 		$I->setupConvertKitPlugin($I);
