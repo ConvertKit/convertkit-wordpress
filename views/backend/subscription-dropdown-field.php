@@ -19,6 +19,20 @@
 		<?php esc_html_e( 'Subscribe', 'convertkit' ); ?>
 	</option>
 
+	<?php
+	// Output additional options, if defined.
+	if ( is_array( $additional_options ) ) {
+		foreach ( $additional_options as $additional_option_key => $additional_option_value ) {
+			printf(
+				'<option value="%s"%s>%s</option>',
+				esc_attr( $additional_option_key ),
+				selected( $additional_option_key, $value, false ),
+				esc_attr( $additional_option_value )
+			);
+		}
+	}
+	?>
+
 	<optgroup label="<?php esc_attr_e( 'Forms', 'convertkit' ); ?>" id="convertkit-forms" data-option-value-prefix="form:">
 		<?php
 		if ( $forms->exist() ) {

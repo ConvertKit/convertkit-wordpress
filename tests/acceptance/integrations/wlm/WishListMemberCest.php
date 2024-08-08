@@ -22,13 +22,14 @@ class WishListMemberCest
 	}
 
 	/**
-	 * Test that saving a WishList Member Level to ConvertKit Form Mapping works.
+	 * Test that WishList Member Level to ConvertKit Form Mapping works,
+	 * and the email address is added to ConvertKit when assigned the WishList Member Level
 	 *
 	 * @since   1.9.6
 	 *
 	 * @param   AcceptanceTester $I  Tester.
 	 */
-	public function testSettingsWishListMemberLevelToConvertKitFormMapping(AcceptanceTester $I)
+	public function testWLMToConvertKitFormMappingOnLevelAdded(AcceptanceTester $I)
 	{
 		// Get WishList Member Level ID defined.
 		$wlmLevelID = $this->_getWishListMemberLevelID($I);
@@ -39,55 +40,25 @@ class WishListMemberCest
 		// Create a test WordPress User.
 		$userID = $this->_createUser($I, $emailAddress);
 
-		// Load WishList Member Plugin Settings.
-		$I->amOnAdminPage('options-general.php?page=_wp_convertkit_settings&tab=wishlist-member');
+		// Configure mapping.
+		$this->_configureMapping($I, $wlmLevelID, 'add', $_ENV['CONVERTKIT_API_THIRD_PARTY_INTEGRATIONS_FORM_NAME']);
 
-		// Check that no PHP warnings or notices were output, if we're on PHP < 8.1 (WLM will throw errors in 8.1+, outside of our control).
-		if (version_compare( phpversion(), '8.1', '<' )) {
-			$I->checkNoWarningsAndNoticesOnScreen($I);
-		}
-
-		// Check that a Form Mapping option is displayed.
-		$I->seeElementInDOM('#_wp_convertkit_integration_wishlistmember_settings_' . $wlmLevelID . '_form');
-
-		// Change Form to value specified in the .env file.
-		$I->selectOption('#_wp_convertkit_integration_wishlistmember_settings_' . $wlmLevelID . '_form', $_ENV['CONVERTKIT_API_THIRD_PARTY_INTEGRATIONS_FORM_NAME']);
-
-		// Save Changes.
-		$I->click('Save Changes');
-
-		// Check that no PHP warnings or notices were output, if we're on PHP < 8.1 (WLM will throw errors in 8.1+, outside of our control).
-		if (version_compare( phpversion(), '8.1', '<' )) {
-			$I->checkNoWarningsAndNoticesOnScreen($I);
-		}
-
-		// Check the value of the Form field matches the input provided.
-		$I->seeOptionIsSelected('#_wp_convertkit_integration_wishlistmember_settings_' . $wlmLevelID . '_form', $_ENV['CONVERTKIT_API_THIRD_PARTY_INTEGRATIONS_FORM_NAME']);
-
-		// Edit the Test User.
-		$I->amOnAdminPage('user-edit.php?user_id=' . $userID . '&wp_http_referer=%2Fwp-admin%2Fusers.php');
-
-		// Map the User to the Bronze WLM Level.
-		$I->checkOption('#WishListMemberUserProfile input[value="' . $wlmLevelID . '"]');
-
-		// Save Changes.
-		$I->click('Update Member Profile');
-
-		// Confirm that the User is still assigned to the Bronze WLM Level.
-		$I->seeCheckboxIsChecked('#WishListMemberUserProfile input[value="' . $wlmLevelID . '"]');
+		// Assign level to user.
+		$this->_assignLevelToUser($I, $wlmLevelID, $userID);
 
 		// Confirm that the email address was added to ConvertKit.
 		$I->apiCheckSubscriberExists($I, $emailAddress);
 	}
 
 	/**
-	 * Test that saving a WishList Member Level to ConvertKit Legacy Form Mapping works.
+	 * Test that WishList Member Level to ConvertKit Legacy Form Mapping works,
+	 * and the email address is added to ConvertKit when assigned the WishList Member Level
 	 *
-	 * @since   2.5.0
+	 * @since   2.5.4
 	 *
 	 * @param   AcceptanceTester $I  Tester.
 	 */
-	public function testSettingsWishListMemberLevelToConvertKitLegacyFormMapping(AcceptanceTester $I)
+	public function testWLMToConvertKitLegacyFormMappingOnLevelAdded(AcceptanceTester $I)
 	{
 		// Get WishList Member Level ID defined.
 		$wlmLevelID = $this->_getWishListMemberLevelID($I);
@@ -98,45 +69,287 @@ class WishListMemberCest
 		// Create a test WordPress User.
 		$userID = $this->_createUser($I, $emailAddress);
 
-		// Load WishList Member Plugin Settings.
-		$I->amOnAdminPage('options-general.php?page=_wp_convertkit_settings&tab=wishlist-member');
+		// Configure mapping.
+		$this->_configureMapping($I, $wlmLevelID, 'add', $_ENV['CONVERTKIT_API_LEGACY_FORM_NAME']);
 
-		// Check that no PHP warnings or notices were output, if we're on PHP < 8.1 (WLM will throw errors in 8.1+, outside of our control).
-		if (version_compare( phpversion(), '8.1', '<' )) {
-			$I->checkNoWarningsAndNoticesOnScreen($I);
-		}
-
-		// Check that a Form Mapping option is displayed.
-		$I->seeElementInDOM('#_wp_convertkit_integration_wishlistmember_settings_' . $wlmLevelID . '_form');
-
-		// Change Form to value specified in the .env file.
-		$I->selectOption('#_wp_convertkit_integration_wishlistmember_settings_' . $wlmLevelID . '_form', $_ENV['CONVERTKIT_API_LEGACY_FORM_NAME']);
-
-		// Save Changes.
-		$I->click('Save Changes');
-
-		// Check that no PHP warnings or notices were output, if we're on PHP < 8.1 (WLM will throw errors in 8.1+, outside of our control).
-		if (version_compare( phpversion(), '8.1', '<' )) {
-			$I->checkNoWarningsAndNoticesOnScreen($I);
-		}
-
-		// Check the value of the Form field matches the input provided.
-		$I->seeOptionIsSelected('#_wp_convertkit_integration_wishlistmember_settings_' . $wlmLevelID . '_form', $_ENV['CONVERTKIT_API_LEGACY_FORM_NAME']);
-
-		// Edit the Test User.
-		$I->amOnAdminPage('user-edit.php?user_id=' . $userID . '&wp_http_referer=%2Fwp-admin%2Fusers.php');
-
-		// Map the User to the Bronze WLM Level.
-		$I->checkOption('#WishListMemberUserProfile input[value="' . $wlmLevelID . '"]');
-
-		// Save Changes.
-		$I->click('Update Member Profile');
-
-		// Confirm that the User is still assigned to the Bronze WLM Level.
-		$I->seeCheckboxIsChecked('#WishListMemberUserProfile input[value="' . $wlmLevelID . '"]');
+		// Assign level to user.
+		$this->_assignLevelToUser($I, $wlmLevelID, $userID);
 
 		// Confirm that the email address was added to ConvertKit.
 		$I->apiCheckSubscriberExists($I, $emailAddress);
+	}
+
+	/**
+	 * Test that WishList Member Level to ConvertKit Tag Mapping works,
+	 * and the email address is added to ConvertKit when assigned the WishList Member Level
+	 *
+	 * @since   2.5.4
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testWLMToConvertKitTagMappingOnLevelAdded(AcceptanceTester $I)
+	{
+		// Get WishList Member Level ID defined.
+		$wlmLevelID = $this->_getWishListMemberLevelID($I);
+
+		// Define email address for this test.
+		$emailAddress = $I->generateEmailAddress();
+
+		// Create a test WordPress User.
+		$userID = $this->_createUser($I, $emailAddress);
+
+		// Configure mapping.
+		$this->_configureMapping($I, $wlmLevelID, 'add', $_ENV['CONVERTKIT_API_TAG_NAME']);
+
+		// Assign level to user.
+		$this->_assignLevelToUser($I, $wlmLevelID, $userID);
+
+		// Confirm that the email address was added to ConvertKit.
+		$subscriberID = $I->apiCheckSubscriberExists($I, $emailAddress);
+
+		// Check subscriber assigned to tag.
+		$I->apiCheckSubscriberHasTag($I, $subscriberID, $_ENV['CONVERTKIT_API_TAG_ID']);
+	}
+
+	/**
+	 * Test that WishList Member Level to ConvertKit Sequence Mapping works,
+	 * and the email address is added to ConvertKit when assigned the WishList Member Level
+	 *
+	 * @since   2.5.4
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testWLMToConvertKitSequenceMappingOnLevelAdded(AcceptanceTester $I)
+	{
+		// Get WishList Member Level ID defined.
+		$wlmLevelID = $this->_getWishListMemberLevelID($I);
+
+		// Define email address for this test.
+		$emailAddress = $I->generateEmailAddress();
+
+		// Create a test WordPress User.
+		$userID = $this->_createUser($I, $emailAddress);
+
+		// Configure mapping.
+		$this->_configureMapping($I, $wlmLevelID, 'add', $_ENV['CONVERTKIT_API_SEQUENCE_NAME']);
+
+		// Assign level to user.
+		$this->_assignLevelToUser($I, $wlmLevelID, $userID);
+
+		// Confirm that the email address was added to ConvertKit.
+		$subscriberID = $I->apiCheckSubscriberExists($I, $emailAddress);
+
+		// Check that the subscriber has been assigned to the sequence.
+		$I->apiCheckSubscriberHasSequence($I, $subscriberID, $_ENV['CONVERTKIT_API_SEQUENCE_ID']);
+	}
+
+	/**
+	 * Test that the email address is added to ConvertKit when assigned the WishList Member Level.
+	 *
+	 * @since   2.5.4
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testWLMToConvertKitSubscribeMappingOnLevelAdded(AcceptanceTester $I)
+	{
+		// Get WishList Member Level ID defined.
+		$wlmLevelID = $this->_getWishListMemberLevelID($I);
+
+		// Define email address for this test.
+		$emailAddress = $I->generateEmailAddress();
+
+		// Create a test WordPress User.
+		$userID = $this->_createUser($I, $emailAddress);
+
+		// Configure mapping.
+		$this->_configureMapping($I, $wlmLevelID, 'add', 'Subscribe');
+
+		// Assign level to user.
+		$this->_assignLevelToUser($I, $wlmLevelID, $userID);
+
+		// Confirm that the email address was added to ConvertKit.
+		$subscriberID = $I->apiCheckSubscriberExists($I, $emailAddress);
+	}
+
+	/**
+	 * Test that WishList Member Level to ConvertKit Form Mapping works,
+	 * and the email address is added to ConvertKit when removed from the WishList Member Level
+	 *
+	 * @since   1.9.6
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testWLMToConvertKitFormMappingOnLevelRemoved(AcceptanceTester $I)
+	{
+		// Get WishList Member Level ID defined.
+		$wlmLevelID = $this->_getWishListMemberLevelID($I);
+
+		// Define email address for this test.
+		$emailAddress = $I->generateEmailAddress();
+
+		// Create a test WordPress User.
+		$userID = $this->_createUser($I, $emailAddress);
+
+		// Configure mapping.
+		$this->_configureMapping($I, $wlmLevelID, 'remove', $_ENV['CONVERTKIT_API_THIRD_PARTY_INTEGRATIONS_FORM_NAME']);
+
+		// Assign level to user.
+		$this->_assignLevelToUser($I, $wlmLevelID, $userID);
+
+		// Confirm that the email address was not added to ConvertKit.
+		$I->apiCheckSubscriberDoesNotExist($I, $emailAddress);
+
+		// Remove level from user.
+		$this->_removeLevelFromUser($I, $wlmLevelID, $userID);
+
+		// Confirm that the email address was added to ConvertKit.
+		$I->apiCheckSubscriberExists($I, $emailAddress);
+	}
+
+	/**
+	 * Test that WishList Member Level to ConvertKit Legacy Form Mapping works,
+	 * and the email address is added to ConvertKit when removed from the WishList Member Level
+	 *
+	 * @since   2.5.4
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testWLMToConvertKitLegacyFormMappingOnLevelRemoved(AcceptanceTester $I)
+	{
+		// Get WishList Member Level ID defined.
+		$wlmLevelID = $this->_getWishListMemberLevelID($I);
+
+		// Define email address for this test.
+		$emailAddress = $I->generateEmailAddress();
+
+		// Create a test WordPress User.
+		$userID = $this->_createUser($I, $emailAddress);
+
+		// Configure mapping.
+		$this->_configureMapping($I, $wlmLevelID, 'remove', $_ENV['CONVERTKIT_API_LEGACY_FORM_NAME']);
+
+		// Assign level to user.
+		$this->_assignLevelToUser($I, $wlmLevelID, $userID);
+
+		// Confirm that the email address was not added to ConvertKit.
+		$I->apiCheckSubscriberDoesNotExist($I, $emailAddress);
+
+		// Remove level from user.
+		$this->_removeLevelFromUser($I, $wlmLevelID, $userID);
+
+		// Confirm that the email address was added to ConvertKit.
+		$I->apiCheckSubscriberExists($I, $emailAddress);
+	}
+
+	/**
+	 * Test that WishList Member Level to ConvertKit Tag Mapping works,
+	 * and the email address is added to ConvertKit when removed from the WishList Member Level
+	 *
+	 * @since   2.5.4
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testWLMToConvertKitTagMappingOnLevelRemoved(AcceptanceTester $I)
+	{
+		// Get WishList Member Level ID defined.
+		$wlmLevelID = $this->_getWishListMemberLevelID($I);
+
+		// Define email address for this test.
+		$emailAddress = $I->generateEmailAddress();
+
+		// Create a test WordPress User.
+		$userID = $this->_createUser($I, $emailAddress);
+
+		// Configure mapping.
+		$this->_configureMapping($I, $wlmLevelID, 'remove', $_ENV['CONVERTKIT_API_TAG_NAME']);
+
+		// Assign level to user.
+		$this->_assignLevelToUser($I, $wlmLevelID, $userID);
+
+		// Confirm that the email address was not added to ConvertKit.
+		$I->apiCheckSubscriberDoesNotExist($I, $emailAddress);
+
+		// Remove level from user.
+		$this->_removeLevelFromUser($I, $wlmLevelID, $userID);
+
+		// Confirm that the email address was added to ConvertKit.
+		$subscriberID = $I->apiCheckSubscriberExists($I, $emailAddress);
+
+		// Check subscriber assigned to tag.
+		$I->apiCheckSubscriberHasTag($I, $subscriberID, $_ENV['CONVERTKIT_API_TAG_ID']);
+	}
+
+	/**
+	 * Test that WishList Member Level to ConvertKit Sequence Mapping works,
+	 * and the email address is added to ConvertKit when removed from the WishList Member Level
+	 *
+	 * @since   2.5.4
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testWLMToConvertKitSequenceMappingOnLevelRemoved(AcceptanceTester $I)
+	{
+		// Get WishList Member Level ID defined.
+		$wlmLevelID = $this->_getWishListMemberLevelID($I);
+
+		// Define email address for this test.
+		$emailAddress = $I->generateEmailAddress();
+
+		// Create a test WordPress User.
+		$userID = $this->_createUser($I, $emailAddress);
+
+		// Configure mapping.
+		$this->_configureMapping($I, $wlmLevelID, 'remove', $_ENV['CONVERTKIT_API_SEQUENCE_NAME']);
+
+		// Assign level to user.
+		$this->_assignLevelToUser($I, $wlmLevelID, $userID);
+
+		// Confirm that the email address was not added to ConvertKit.
+		$I->apiCheckSubscriberDoesNotExist($I, $emailAddress);
+
+		// Remove level from user.
+		$this->_removeLevelFromUser($I, $wlmLevelID, $userID);
+
+		// Confirm that the email address was added to ConvertKit.
+		$subscriberID = $I->apiCheckSubscriberExists($I, $emailAddress);
+
+		// Check that the subscriber has been assigned to the sequence.
+		$I->apiCheckSubscriberHasSequence($I, $subscriberID, $_ENV['CONVERTKIT_API_SEQUENCE_ID']);
+	}
+
+	/**
+	 * Test that the email address is removed from to ConvertKit when removed from the WishList Member Level.
+	 *
+	 * @since   2.5.4
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testWLMToConvertKitUnsubscribeMappingOnLevelRemoved(AcceptanceTester $I)
+	{
+		// Get WishList Member Level ID defined.
+		$wlmLevelID = $this->_getWishListMemberLevelID($I);
+
+		// Define email address for this test.
+		$emailAddress = $I->generateEmailAddress();
+
+		// Create a test WordPress User.
+		$userID = $this->_createUser($I, $emailAddress);
+
+		// Configure mapping.
+		$this->_configureMapping($I, $wlmLevelID, 'add', 'Subscribe');
+		$this->_configureMapping($I, $wlmLevelID, 'remove', 'Unsubscribe');
+
+		// Assign level to user.
+		$this->_assignLevelToUser($I, $wlmLevelID, $userID);
+
+		// Confirm that the email address was added to ConvertKit.
+		$subscriberID = $I->apiCheckSubscriberExists($I, $emailAddress);
+
+		// Remove level from user.
+		$this->_removeLevelFromUser($I, $wlmLevelID, $userID);
+
+		// Confirm that the email address was not added to ConvertKit.
+		$I->apiCheckSubscriberDoesNotExist($I, $emailAddress);
 	}
 
 	/**
@@ -155,9 +368,10 @@ class WishListMemberCest
 		$I->haveOptionInDatabase(
 			'_wp_convertkit_integration_wishlistmember_settings',
 			[
-				'1' => $_ENV['CONVERTKIT_API_FORM_ID'],
-				'2' => '',
-				'3' => 'default',
+				'1_form'        => $_ENV['CONVERTKIT_API_FORM_ID'],
+				'2_form'        => '',
+				'3_form'        => 'default',
+				'4_unsubscribe' => $_ENV['CONVERTKIT_API_TAG_ID'],
 			]
 		);
 
@@ -169,12 +383,10 @@ class WishListMemberCest
 
 		// Check settings structure has been updated.
 		$settings = $I->grabOptionFromDatabase('_wp_convertkit_integration_wishlistmember_settings');
-		$I->assertArrayHasKey('1', $settings);
-		$I->assertArrayHasKey('2', $settings);
-		$I->assertArrayHasKey('3', $settings);
-		$I->assertEquals($settings['1'], $_ENV['CONVERTKIT_API_FORM_ID']);
-		$I->assertEquals($settings['2'], '');
-		$I->assertEquals($settings['3'], '');
+		$I->assertEquals($settings['1_add'], 'form:' . $_ENV['CONVERTKIT_API_FORM_ID']);
+		$I->assertEquals($settings['2_add'], '');
+		$I->assertEquals($settings['3_add'], '');
+		$I->assertEquals($settings['4_remove'], 'tag:' . $_ENV['CONVERTKIT_API_TAG_ID']);
 	}
 
 	/**
@@ -214,6 +426,82 @@ class WishListMemberCest
 				'display_name' => 'Test User',
 			]
 		);
+	}
+
+	/**
+	 * Configure WishList Member Levels to ConvertKit settings mapping.
+	 *
+	 * @since   2.5.4
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 * @param   int              $wlmLevelID    WishList Member Level ID.
+	 * @param   string           $action        Action (subscribe,unsubscribe).
+	 * @param   string           $resourceName  Resource option to select (subscribe, form, tag, sequence etc).
+	 */
+	private function _configureMapping(AcceptanceTester $I, $wlmLevelID, $action, $resourceName)
+	{
+		// Load WishList Member Plugin Settings.
+		$I->amOnAdminPage('options-general.php?page=_wp_convertkit_settings&tab=wishlist-member');
+
+		// Check that a Form Mapping option is displayed.
+		$I->seeElementInDOM('#_wp_convertkit_integration_wishlistmember_settings_' . $wlmLevelID . '_' . $action);
+
+		// Change Form to value specified in the .env file.
+		$I->selectOption('#_wp_convertkit_integration_wishlistmember_settings_' . $wlmLevelID . '_' . $action, $resourceName);
+
+		// Save Changes.
+		$I->click('Save Changes');
+
+		// Check the value of the Form field matches the input provided.
+		$I->seeOptionIsSelected('#_wp_convertkit_integration_wishlistmember_settings_' . $wlmLevelID . '_' . $action, $resourceName);
+	}
+
+	/**
+	 * Assigns the given WLM Level to the given WordPress User.
+	 *
+	 * @since   2.5.4
+	 *
+	 * @param   AcceptanceTester $I              Tester.
+	 * @param   int              $wlmLevelID     WishList Member Level ID.
+	 * @param   int              $userID         WordPress User ID.
+	 */
+	private function _assignLevelToUser(AcceptanceTester $I, $wlmLevelID, $userID)
+	{
+		// Edit the Test User.
+		$I->amOnAdminPage('user-edit.php?user_id=' . $userID . '&wp_http_referer=%2Fwp-admin%2Fusers.php');
+
+		// Map the User to the WLM Level.
+		$I->checkOption('#WishListMemberUserProfile input[value="' . $wlmLevelID . '"]');
+
+		// Save Changes.
+		$I->click('Update Member Profile');
+
+		// Confirm that the User is still assigned to the WLM Level.
+		$I->seeCheckboxIsChecked('#WishListMemberUserProfile input[value="' . $wlmLevelID . '"]');
+	}
+
+	/**
+	 * Removes the given WLM Level from the given WordPress User.
+	 *
+	 * @since   2.5.4
+	 *
+	 * @param   AcceptanceTester $I              Tester.
+	 * @param   int              $wlmLevelID     WishList Member Level ID.
+	 * @param   int              $userID         WordPress User ID.
+	 */
+	private function _removeLevelFromUser(AcceptanceTester $I, $wlmLevelID, $userID)
+	{
+		// Edit the Test User.
+		$I->amOnAdminPage('user-edit.php?user_id=' . $userID . '&wp_http_referer=%2Fwp-admin%2Fusers.php');
+
+		// Unmap the User to the WLM Level.
+		$I->uncheckOption('#WishListMemberUserProfile input[value="' . $wlmLevelID . '"]');
+
+		// Save Changes.
+		$I->click('Update Member Profile');
+
+		// Confirm that the User is no longer assigned to the WLM Level.
+		$I->dontSeeCheckboxIsChecked('#WishListMemberUserProfile input[value="' . $wlmLevelID . '"]');
 	}
 
 	/**
