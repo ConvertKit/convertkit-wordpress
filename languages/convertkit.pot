@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the ConvertKit plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: ConvertKit 2.5.3\n"
+"Project-Id-Version: ConvertKit 2.5.4\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/convertkit\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-08-06T02:12:00+00:00\n"
+"POT-Creation-Date: 2024-08-08T03:16:28+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.9.0\n"
 "X-Domain: convertkit\n"
@@ -345,8 +345,6 @@ msgstr ""
 #: admin/section/class-convertkit-admin-settings-broadcasts.php:450
 #: admin/section/class-convertkit-settings-general.php:487
 #: admin/section/class-convertkit-settings-general.php:537
-#: includes/integrations/wishlist/class-convertkit-wishlist-admin-settings.php:124
-#: includes/integrations/wishlist/class-convertkit-wishlist-admin-settings.php:148
 #: views/backend/post/bulk-edit.php:30
 #: views/backend/post/bulk-edit.php:53
 #: views/backend/post/meta-box.php:30
@@ -634,6 +632,7 @@ msgstr ""
 #: includes/integrations/contactform7/class-convertkit-contactform7-admin-settings.php:77
 #: includes/integrations/forminator/class-convertkit-forminator-admin-settings.php:76
 #: includes/integrations/forminator/class-convertkit-forminator-admin-settings.php:200
+#: includes/integrations/wishlist/class-convertkit-wishlist-admin-settings.php:73
 #: includes/widgets/class-ck-widget-form.php:79
 #: views/backend/post/bulk-edit.php:14
 #: views/backend/post/meta-box.php:15
@@ -812,6 +811,7 @@ msgstr ""
 #: includes/blocks/class-convertkit-block-content.php:122
 #: includes/integrations/contactform7/class-convertkit-contactform7-admin-settings.php:79
 #: includes/integrations/forminator/class-convertkit-forminator-admin-settings.php:78
+#: includes/integrations/wishlist/class-convertkit-wishlist-admin-settings.php:75
 #: views/backend/post/bulk-edit.php:43
 #: views/backend/post/quick-edit.php:37
 msgid "Tag"
@@ -852,6 +852,7 @@ msgstr ""
 #: includes/class-convertkit-settings-restrict-content.php:128
 #: includes/integrations/contactform7/class-convertkit-contactform7-admin-settings.php:75
 #: includes/integrations/forminator/class-convertkit-forminator-admin-settings.php:74
+#: includes/integrations/wishlist/class-convertkit-wishlist-admin-settings.php:69
 #: views/backend/subscription-dropdown-field.php:19
 msgid "Subscribe"
 msgstr ""
@@ -873,7 +874,6 @@ msgid "ConvertKit Form ID %s has no embed_js property."
 msgstr ""
 
 #: includes/blocks/class-convertkit-block-form.php:106
-#: includes/integrations/wishlist/class-convertkit-wishlist-admin-settings.php:134
 #: views/backend/term/fields-add.php:11
 #: views/backend/term/fields-edit.php:12
 msgid "ConvertKit Form"
@@ -1118,37 +1118,44 @@ msgstr ""
 
 #: includes/integrations/contactform7/class-convertkit-contactform7-admin-settings.php:73
 #: includes/integrations/forminator/class-convertkit-forminator-admin-settings.php:72
+#: includes/integrations/wishlist/class-convertkit-wishlist-admin-settings.php:67
 msgid "Do not subscribe"
 msgstr ""
 
 #: includes/integrations/contactform7/class-convertkit-contactform7-admin-settings.php:73
 #: includes/integrations/forminator/class-convertkit-forminator-admin-settings.php:72
+#: includes/integrations/wishlist/class-convertkit-wishlist-admin-settings.php:67
 msgid "Do not subscribe the email address to ConvertKit"
 msgstr ""
 
 #: includes/integrations/contactform7/class-convertkit-contactform7-admin-settings.php:75
 #: includes/integrations/forminator/class-convertkit-forminator-admin-settings.php:74
+#: includes/integrations/wishlist/class-convertkit-wishlist-admin-settings.php:69
 msgid "Subscribes the email address to ConvertKit"
 msgstr ""
 
 #: includes/integrations/contactform7/class-convertkit-contactform7-admin-settings.php:77
 #: includes/integrations/forminator/class-convertkit-forminator-admin-settings.php:76
-msgid "Susbcribes the email address to ConvertKit, and adds the subscriber to the ConvertKit form"
+#: includes/integrations/wishlist/class-convertkit-wishlist-admin-settings.php:73
+msgid "Subscribes the email address to ConvertKit, and adds the subscriber to the ConvertKit form"
 msgstr ""
 
 #: includes/integrations/contactform7/class-convertkit-contactform7-admin-settings.php:79
 #: includes/integrations/forminator/class-convertkit-forminator-admin-settings.php:78
-msgid "Susbcribes the email address to ConvertKit, tagging the subscriber"
+#: includes/integrations/wishlist/class-convertkit-wishlist-admin-settings.php:75
+msgid "Subscribes the email address to ConvertKit, tagging the subscriber"
 msgstr ""
 
 #: includes/integrations/contactform7/class-convertkit-contactform7-admin-settings.php:81
 #: includes/integrations/forminator/class-convertkit-forminator-admin-settings.php:80
+#: includes/integrations/wishlist/class-convertkit-wishlist-admin-settings.php:77
 msgid "Sequence"
 msgstr ""
 
 #: includes/integrations/contactform7/class-convertkit-contactform7-admin-settings.php:81
 #: includes/integrations/forminator/class-convertkit-forminator-admin-settings.php:80
-msgid "Susbcribes the email address to ConvertKit, and adds the subscriber to the ConvertKit sequence"
+#: includes/integrations/wishlist/class-convertkit-wishlist-admin-settings.php:77
+msgid "Subscribes the email address to ConvertKit, and adds the subscriber to the ConvertKit sequence"
 msgstr ""
 
 #: includes/integrations/contactform7/class-convertkit-contactform7-admin-settings.php:118
@@ -1235,28 +1242,33 @@ msgstr ""
 msgid "ConvertKit seamlessly integrates with WishList Member to let you capture all of your WishList Membership registrations within your ConvertKit forms."
 msgstr ""
 
-#: includes/integrations/wishlist/class-convertkit-wishlist-admin-settings.php:99
+#: includes/integrations/wishlist/class-convertkit-wishlist-admin-settings.php:65
+msgid "Each membership level has the following ConvertKit options:"
+msgstr ""
+
+#: includes/integrations/wishlist/class-convertkit-wishlist-admin-settings.php:71
+#: includes/integrations/wishlist/class-convertkit-wishlist-admin-settings.php:144
+msgid "Unsubscribe"
+msgstr ""
+
+#: includes/integrations/wishlist/class-convertkit-wishlist-admin-settings.php:71
+msgid "Unsubscribes the email address from ConvertKit"
+msgstr ""
+
+#: includes/integrations/wishlist/class-convertkit-wishlist-admin-settings.php:114
 msgid "No WishList Member Levels exist in the WishList Member Plugin."
 msgstr ""
 
-#: includes/integrations/wishlist/class-convertkit-wishlist-admin-settings.php:110
-msgid "No Forms exist on ConvertKit."
-msgstr ""
-
-#: includes/integrations/wishlist/class-convertkit-wishlist-admin-settings.php:117
-msgid "No Tags exist on ConvertKit."
-msgstr ""
-
-#: includes/integrations/wishlist/class-convertkit-wishlist-admin-settings.php:129
-msgid "Unsubscribe from all"
-msgstr ""
-
-#: includes/integrations/wishlist/class-convertkit-wishlist-admin-settings.php:133
+#: includes/integrations/wishlist/class-convertkit-wishlist-admin-settings.php:121
 msgid "WishList Membership Level"
 msgstr ""
 
-#: includes/integrations/wishlist/class-convertkit-wishlist-admin-settings.php:135
-msgid "Unsubscribe Action"
+#: includes/integrations/wishlist/class-convertkit-wishlist-admin-settings.php:122
+msgid "Assign to member"
+msgstr ""
+
+#: includes/integrations/wishlist/class-convertkit-wishlist-admin-settings.php:123
+msgid "Remove from member"
 msgstr ""
 
 #: includes/pre-publish-actions/class-convertkit-pre-publish-action-broadcast-export.php:82
@@ -1330,7 +1342,7 @@ msgstr ""
 #: views/backend/post/quick-edit.php:63
 #: views/backend/post/wp-list-table-filter.php:17
 #: views/backend/setup-wizard/convertkit-restrict-content-setup/content-2.php:65
-#: views/backend/subscription-dropdown-field.php:53
+#: views/backend/subscription-dropdown-field.php:67
 msgid "Tags"
 msgstr ""
 
@@ -1694,11 +1706,11 @@ msgstr ""
 msgid "(Do not subscribe)"
 msgstr ""
 
-#: views/backend/subscription-dropdown-field.php:22
+#: views/backend/subscription-dropdown-field.php:36
 msgid "Forms"
 msgstr ""
 
-#: views/backend/subscription-dropdown-field.php:38
+#: views/backend/subscription-dropdown-field.php:52
 msgid "Sequences"
 msgstr ""
 
