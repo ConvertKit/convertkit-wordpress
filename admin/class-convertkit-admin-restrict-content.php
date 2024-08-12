@@ -151,6 +151,11 @@ class ConvertKit_Admin_Restrict_Content {
 			return $buttons;
 		}
 
+		// Bail if the Post Type isn't supported.
+		if ( ! in_array( $post_type, convertkit_get_supported_post_types(), true ) ) {
+			return $buttons;
+		}
+
 		// Register button.
 		$buttons['convertkit_restrict_content_setup'] = array(
 			'url'   => add_query_arg(

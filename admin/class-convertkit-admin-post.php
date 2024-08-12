@@ -33,7 +33,8 @@ class ConvertKit_Admin_Post {
 	}
 
 	/**
-	 * Registers dropdown options for the ConvertKit 'Add New' button.
+	 * Registers 'Add New' buttons for the given Post Type's admin screen.
+	 *
 	 * If no options are registered, no button is displayed.
 	 *
 	 * JS will move this button to be displayed next to the "Add New" button when viewing the table of Pages or Posts,
@@ -58,7 +59,7 @@ class ConvertKit_Admin_Post {
 		$buttons = array();
 
 		/**
-		 * Registers dropdown options for the ConvertKit 'Add New' button.
+		 * Registers 'Add New' buttons for the given Post Type's admin screen.
 		 *
 		 * @since   2.5.5
 		 *
