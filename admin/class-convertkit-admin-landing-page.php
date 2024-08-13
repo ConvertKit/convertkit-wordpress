@@ -9,30 +9,11 @@
 /**
  * Modifies the Pages WP_List_Table to provide:
  * - an 'Add New Landing Page' button next to the 'Add New' button
- * - a 'ConvertKit Landing Page' label appended to the Page's title when a Landing Page is selected
  *
  * @package ConvertKit
  * @author ConvertKit
  */
 class ConvertKit_Admin_Landing_Page {
-
-	/**
-	 * Holds the ConvertKit Tags resource class.
-	 *
-	 * @since   2.5.5
-	 *
-	 * @var     bool|ConvertKit_Resource_Tags
-	 */
-	public $tags = false;
-
-	/**
-	 * Holds the ConvertKit Products resource class.
-	 *
-	 * @since   2.5.5
-	 *
-	 * @var     bool|ConvertKit_Resource_Products
-	 */
-	public $products = false;
 
 	/**
 	 * Registers action and filter hooks.

@@ -11,7 +11,7 @@
 <h1><?php esc_html_e( 'Landing Page', 'convertkit' ); ?></h1>
 <p>
 	<?php
-	esc_html_e( 'This will display a ConvertKit Landing Page on the URL you specify on this WordPress web site.', 'convertkit' );
+	esc_html_e( 'This will display a ConvertKit landing page on the URL you specify on this WordPress web site.', 'convertkit' );
 	?>
 </p>
 
