@@ -63,7 +63,7 @@ if ( ! $this->landing_pages->exist() ) {
 	</div>
 	<div>
 		<label for="post_name"><?php esc_html_e( 'Which permalink / slug should be assigned to this landing page?', 'convertkit' ); ?></label>
-		<input type="text" name="post_name" placeholder="<?php esc_attr_e( 'my-landing-page', 'convertkit' ); ?>" class="widefat" required />
+		<input type="text" name="post_name" id="post_name" placeholder="<?php esc_attr_e( 'my-landing-page', 'convertkit' ); ?>" class="widefat" required />
 	</div>
 	
 	<?php
