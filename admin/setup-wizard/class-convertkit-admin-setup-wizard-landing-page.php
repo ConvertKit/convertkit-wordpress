@@ -24,15 +24,6 @@ class ConvertKit_Admin_Setup_Wizard_Landing_Page extends ConvertKit_Admin_Setup_
 	public $post_type = 'page';
 
 	/**
-	 * Holds the type of Member's Content to generate (course|download).
-	 *
-	 * @since   2.5.5
-	 *
-	 * @var     string
-	 */
-	public $type = 'download';
-
-	/**
 	 * Holds the ConvertKit Products resource class.
 	 *
 	 * @since   2.5.5
@@ -42,22 +33,13 @@ class ConvertKit_Admin_Setup_Wizard_Landing_Page extends ConvertKit_Admin_Setup_
 	public $landing_pages = false;
 
 	/**
-	 * Holds the Pages created by this setup wizard.
-	 *
-	 * @since   2.5.5
-	 *
-	 * @var     bool|array
+	 * Holds the result of creating a WordPress Page.
+	 * 
+	 * @since 	2.5.5
+	 * 
+	 * @var 	int|WP_Error
 	 */
-	public $pages = false;
-
-	/**
-	 * Holds the URL to the current setup wizard screen.
-	 *
-	 * @since   2.5.5
-	 *
-	 * @var     bool|string
-	 */
-	public $current_url = false;
+	public $result;
 
 	/**
 	 * The required user capability to access the setup wizard.
@@ -97,14 +79,11 @@ class ConvertKit_Admin_Setup_Wizard_Landing_Page extends ConvertKit_Admin_Setup_
 		$this->steps = array(
 			1 => array(
 				'name' => __( 'Setup', 'convertkit' ),
-			),
-			2 => array(
-				'name'        => __( 'Configure', 'convertkit' ),
 				'next_button' => array(
-					'label' => __( 'Submit', 'convertkit' ),
+					'label' => __( 'Create', 'convertkit' ),
 				),
 			),
-			3 => array(
+			2 => array(
 				'name' => __( 'Done', 'convertkit' ),
 			),
 		);
@@ -137,42 +116,27 @@ class ConvertKit_Admin_Setup_Wizard_Landing_Page extends ConvertKit_Admin_Setup_
 
 		// Depending on the step, process the form data.
 		switch ( $step ) {
-			case 3:
+			case 2:
 				// Sanitize configuration.
 				$configuration = array(
-					'type'             => sanitize_text_field( stripslashes( $_POST['type'] ) ),
-					'title'            => sanitize_text_field( stripslashes( $_POST['title'] ) ),
-					'description'      => sanitize_textarea_field( stripslashes( $_POST['description'] ) ),
-					'number_of_pages'  => ( isset( $_POST['number_of_pages'] ) ? absint( $_POST['number_of_pages'] ) : 0 ),
-					'restrict_content' => sanitize_text_field( stripslashes( $_POST['restrict_content'] ) ),
+					'landing_page'             => sanitize_text_field( stripslashes( $_POST['landing_page'] ) ),
+					'post_name'            => sanitize_text_field( stripslashes( $_POST['post_name'] ) ),
 					'post_type'        => $this->post_type,
 				);
 
-				// Depending on the type of content selected, create WordPress Page(s) now.
-				switch ( $configuration['type'] ) {
-					/**
-					 * Download
-					 * - Single page with a link to a downloadable product.
-					 */
-					case 'download':
-						$result = $this->create_download( $configuration );
-						break;
+				// Create Page.
+				$this->result = $this->create_landing_page(
+					$configuration['post_name'],
+					$configuration['landing_page'],
+					$configuration['post_type']
+				);
 
-					/**
-					 * Course
-					 */
-					case 'course':
-					default:
-						$result = $this->create_course( $configuration );
-						break;
+				// If an error occured creating the Page, go back a step to show the error.
+				if ( is_wp_error( $this->result ) ) {
+					$this->step  = ( $this->step - 1 );
+					$this->error = $this->result->get_error_message();
 				}
-
-				// If here, an error occured as create_download() and create_course() perform a redirect on success.
-				// Show an error message if Account Details could not be fetched e.g. API credentials supplied are invalid.
-				// Decrement the step.
-				$this->step  = ( $this->step - 1 );
-				$this->error = $result->get_error_message();
-				return;
+				break;
 
 		}
 
@@ -225,7 +189,7 @@ class ConvertKit_Admin_Setup_Wizard_Landing_Page extends ConvertKit_Admin_Setup_
 		switch ( $step ) {
 			case 1:
 				// Fetch Landing Pages.
-				$this->landing_pages = new ConvertKit_Resource_Products( 'landing_page_wizard' );
+				$this->landing_pages = new ConvertKit_Resource_Landing_Pages( 'landing_page_wizard' );
 
 				// Refresh Landing Page resources, in case the user just created their first Product or Tag
 				// in ConvertKit.
@@ -247,72 +211,44 @@ class ConvertKit_Admin_Setup_Wizard_Landing_Page extends ConvertKit_Admin_Setup_
 				break;
 
 			case 2:
-				// Fetch Landing Pages.
-				$this->landing_pages = new ConvertKit_Resource_Products( 'landing_page_wizard' );
+				
 				break;
 		}
 
 	}
 
 	/**
-	 * Creates a WordPress Page for the given title, restricted to the given restrict content setting.
+	 * Creates a WordPress Page for the given title, set to display the given landing page.
 	 *
 	 * @since   2.5.5
 	 *
-	 * @param   string      $title                      Page Title.
-	 * @param   string      $content                    Non-restricted Content.
-	 * @param   string      $post_type                  Post Type.
-	 * @param   bool|string $restricted_content         Restricted Content.
-	 * @param   bool|string $restrict_content_setting   ConvertKit Form, Tag or Product to restrict content to.
-	 * @param   int         $page_number                Page Number.
-	 * @param   int         $total_pages                Total Pages that will be created.
-	 * @param   bool|int    $parent_page_id             Parent Page ID (false if none).
+	 * @param   string      $post_name                  Post Name / Permalink.
+	 * @param 	string 		$landing_page 				Landing Page ID or URL.
+	 * @param 	string 		$post_type 					Post Type.
 	 * @return  WP_Error|int                            Error or Page ID
 	 */
-	private function create_page( $title, $content, $post_type = 'page', $restricted_content = false, $restrict_content_setting = false, $page_number = 0, $total_pages = 0, $parent_page_id = false ) {
-
-		// Build content.
-		$content = $this->element_paragraph( $content );
-
-		// If restricted content is defined, append it to the post content using a more block.
-		if ( $restricted_content && $restrict_content_setting ) {
-			$content .= $this->element_more_tag();
-			$content .= $this->element_paragraph( $restricted_content );
-		}
-
-		// Define previous / next links, depending on the page number and total pages.
-		$content .= $this->element_navigation( $page_number, $total_pages );
-
-		// Build arguments to create Page.
-		$args = array(
-			'post_type'    => $post_type,
-			'post_status'  => 'publish',
-			'post_author'  => get_current_user_id(),
-			'post_title'   => $title,
-			'post_content' => $content,
-			'menu_order'   => $page_number,
-		);
-
-		// If a parent page is specified, apply it to the arguments.
-		if ( $parent_page_id !== false ) {
-			$args['post_parent'] = $parent_page_id;
-		}
+	private function create_landing_page( $post_name, $landing_page, $post_type ) {
 
 		// Create Page.
-		$page_id = wp_insert_post( $args, true );
+		$page_id = wp_insert_post( array(
+			'post_type'   => $post_type,
+			'post_name'	  => sanitize_title_with_dashes( $post_name ),
+			'post_title'  => $post_name,
+			'post_status' => 'publish',
+			'post_author' => get_current_user_id(),
+		), true );
 
 		// Bail if an error occured.
 		if ( is_wp_error( $page_id ) ) {
 			return $page_id;
 		}
 
-		// Define Page's settings, ensuring no default Form displays.
-		// If a restrict content setting was supplied, it's set to the Page now.
+		// Define Page's settings.
 		WP_ConvertKit()->get_class( 'admin_post' )->save_post_settings(
 			$page_id,
 			array(
-				'form'             => '0', // Don't display a Form.
-				'restrict_content' => ( $restrict_content_setting !== false ? $restrict_content_setting : '0' ),
+				'form'         => '0', // Don't display a Form.
+				'landing_page' => $landing_page,
 			)
 		);
 
