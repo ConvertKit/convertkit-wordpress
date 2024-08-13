@@ -44,9 +44,6 @@ class ConvertKit_Admin_Landing_Page {
 		// Add New Landing Page Wizard button to Pages.
 		add_filter( 'convertkit_admin_post_register_add_new_buttons', array( $this, 'register_add_new_button' ), 10, 2 );
 
-		// Filter Page's post state to maybe include a label denoting that a Landing Page is enabled.
-		add_filter( 'display_post_states', array( $this, 'maybe_display_landing_page_post_state' ), 10, 2 );
-
 	}
 
 	/**
@@ -84,65 +81,6 @@ class ConvertKit_Admin_Landing_Page {
 		);
 
 		return $buttons;
-
-	}
-
-	/**
-	 * Appends the 'ConvertKit Member Content' text to a Page's Title in the WP_List_Table,
-	 * if the given Page has a Landing Page setting.
-	 *
-	 * @param   string[] $post_states    An array of post display states.
-	 * @param   WP_Post  $post           The current post object.
-	 * @return  string[]                    An array of post display states
-	 */
-	public function maybe_display_landing_page_post_state( $post_states, $post ) {
-
-		// Bail if we're not on a WP_List_Table screen for a supported Post Type.
-		if ( ! $this->is_wp_list_table_request_for_supported_post_type() ) {
-			return $post_states;
-		}
-
-		// Fetch Post's settings.
-		$convertkit_post = new ConvertKit_Post( $post->ID );
-
-		// Return post states, unedited, if a Landing Page isn't enabled on this Page.
-		if ( ! $convertkit_post->has_landing_page() ) {
-			return $post_states;
-		}
-
-		// Add Post State.
-		$post_states['convertkit_landing_page'] = esc_html__( 'ConvertKit Landing Page', 'convertkit' );
-
-		// Return.
-		return $post_states;
-
-	}
-
-	/**
-	 * Determines if the current request is for a WP_List_Table, and if so that
-	 * the Post Type we're viewing supports Landing Page functionality.
-	 *
-	 * @since   2.5.5
-	 *
-	 * @return  bool    Is WP_List_Table request for a supported Post Type.
-	 */
-	private function is_wp_list_table_request_for_supported_post_type() {
-
-		// Bail if we cannot determine the screen.
-		if ( ! function_exists( 'get_current_screen' ) ) {
-			return false;
-		}
-
-		// Get screen.
-		$screen = get_current_screen();
-
-		// Bail if we're not on an edit.php screen.
-		if ( $screen->base !== 'edit' ) {
-			return false;
-		}
-
-		// Return whether Post Type is supported for Landing Page functionality.
-		return ( $screen->post_type === 'page' );
 
 	}
 

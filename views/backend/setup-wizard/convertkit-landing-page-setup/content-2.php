@@ -10,10 +10,10 @@
 
 <h1><?php esc_html_e( 'Setup complete', 'convertkit' ); ?></h1>
 <p>
-	<?php 
+	<?php
 	printf(
 		'%s <code>%s</code>',
-		esc_html__( 'You can access the landing page at' ),
+		esc_html__( 'You can access the landing page at', 'convertkit' ),
 		esc_url( get_permalink( $this->result ) )
 	);
 	?>

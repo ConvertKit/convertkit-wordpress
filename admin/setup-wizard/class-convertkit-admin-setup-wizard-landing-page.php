@@ -34,12 +34,21 @@ class ConvertKit_Admin_Setup_Wizard_Landing_Page extends ConvertKit_Admin_Setup_
 
 	/**
 	 * Holds the result of creating a WordPress Page.
-	 * 
-	 * @since 	2.5.5
-	 * 
-	 * @var 	int|WP_Error
+	 *
+	 * @since   2.5.5
+	 *
+	 * @var     int|WP_Error
 	 */
 	public $result;
+
+	/**
+	 * Holds the URL to the current setup wizard screen.
+	 *
+	 * @since   2.5.5
+	 *
+	 * @var     bool|string
+	 */
+	public $current_url = false;
 
 	/**
 	 * The required user capability to access the setup wizard.
@@ -78,7 +87,7 @@ class ConvertKit_Admin_Setup_Wizard_Landing_Page extends ConvertKit_Admin_Setup_
 		// Define details for each step in the setup process.
 		$this->steps = array(
 			1 => array(
-				'name' => __( 'Setup', 'convertkit' ),
+				'name'        => __( 'Setup', 'convertkit' ),
 				'next_button' => array(
 					'label' => __( 'Create', 'convertkit' ),
 				),
@@ -119,9 +128,9 @@ class ConvertKit_Admin_Setup_Wizard_Landing_Page extends ConvertKit_Admin_Setup_
 			case 2:
 				// Sanitize configuration.
 				$configuration = array(
-					'landing_page'             => sanitize_text_field( stripslashes( $_POST['landing_page'] ) ),
-					'post_name'            => sanitize_text_field( stripslashes( $_POST['post_name'] ) ),
-					'post_type'        => $this->post_type,
+					'landing_page' => sanitize_text_field( stripslashes( $_POST['landing_page'] ) ),
+					'post_name'    => sanitize_text_field( stripslashes( $_POST['post_name'] ) ),
+					'post_type'    => $this->post_type,
 				);
 
 				// Create Page.
@@ -211,7 +220,6 @@ class ConvertKit_Admin_Setup_Wizard_Landing_Page extends ConvertKit_Admin_Setup_
 				break;
 
 			case 2:
-				
 				break;
 		}
 
@@ -222,21 +230,24 @@ class ConvertKit_Admin_Setup_Wizard_Landing_Page extends ConvertKit_Admin_Setup_
 	 *
 	 * @since   2.5.5
 	 *
-	 * @param   string      $post_name                  Post Name / Permalink.
-	 * @param 	string 		$landing_page 				Landing Page ID or URL.
-	 * @param 	string 		$post_type 					Post Type.
+	 * @param   string $post_name                  Post Name / Permalink.
+	 * @param   string $landing_page               Landing Page ID or URL.
+	 * @param   string $post_type                  Post Type.
 	 * @return  WP_Error|int                            Error or Page ID
 	 */
 	private function create_landing_page( $post_name, $landing_page, $post_type ) {
 
 		// Create Page.
-		$page_id = wp_insert_post( array(
-			'post_type'   => $post_type,
-			'post_name'	  => sanitize_title_with_dashes( $post_name ),
-			'post_title'  => $post_name,
-			'post_status' => 'publish',
-			'post_author' => get_current_user_id(),
-		), true );
+		$page_id = wp_insert_post(
+			array(
+				'post_type'   => $post_type,
+				'post_name'   => sanitize_title_with_dashes( $post_name ),
+				'post_title'  => $post_name,
+				'post_status' => 'publish',
+				'post_author' => get_current_user_id(),
+			),
+			true
+		);
 
 		// Bail if an error occured.
 		if ( is_wp_error( $page_id ) ) {

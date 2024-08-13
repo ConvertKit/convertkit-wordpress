@@ -67,7 +67,7 @@ class WP_ConvertKit {
 		$this->classes['admin_bulk_edit']                     = new ConvertKit_Admin_Bulk_Edit();
 		$this->classes['admin_cache_plugins']                 = new ConvertKit_Admin_Cache_Plugins();
 		$this->classes['admin_category']                      = new ConvertKit_Admin_Category();
-		$this->classes['admin_landing_page']              	  = new ConvertKit_Admin_Landing_Page();
+		$this->classes['admin_landing_page']                  = new ConvertKit_Admin_Landing_Page();
 		$this->classes['admin_notices']                       = new ConvertKit_Admin_Notices();
 		$this->classes['admin_post']                          = new ConvertKit_Admin_Post();
 		$this->classes['admin_quick_edit']                    = new ConvertKit_Admin_Quick_Edit();
