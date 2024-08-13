@@ -64,6 +64,7 @@ class ConvertKit_Admin_Post {
 		 * @since   2.5.5
 		 *
 		 * @param   array   $buttons    Buttons.
+		 * @param   string  $post_type  Post Type.
 		 */
 		$buttons = apply_filters( 'convertkit_admin_post_register_add_new_buttons', $buttons, $post_type );
 
