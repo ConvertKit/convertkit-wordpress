@@ -18,7 +18,7 @@
 <?php
 // If no Landing Pages exist on the ConvertKit account, show the user how to add a Landing Page to ConvertKit,
 // with an option to refresh this page so that they can then select the Landing Page.
-if ( ! $this->landing_pages->exist() && ! $this->tags->exist() ) {
+if ( ! $this->landing_pages->exist() ) {
 	?>
 	<p>
 		<?php
@@ -28,17 +28,17 @@ if ( ! $this->landing_pages->exist() && ! $this->tags->exist() ) {
 
 	<div class="convertkit-setup-wizard-grid">
 		<div>
-			<a href="<?php echo esc_url( convertkit_get_new_product_url() ); ?>" target="_blank" class="button button-primary button-hero">
+			<a href="<?php echo esc_url( convertkit_get_new_landing_page_url() ); ?>" target="_blank" class="button button-primary button-hero">
 				<?php esc_html_e( 'Create landing page', 'convertkit' ); ?>
 			</a>
 		</div>
-	</div>
 
-	<center>
-		<a href="<?php echo esc_url( $this->current_url ); ?>" class="button button-primary button-hero">
-			<?php esc_html_e( 'I\'ve created a landing page in ConvertKit', 'convertkit' ); ?>
-		</a>
-	</center>			
+		<div>
+			<a href="<?php echo esc_url( $this->current_url ); ?>" class="button button-primary button-hero">
+				<?php esc_html_e( 'I\'ve created a landing page in ConvertKit', 'convertkit' ); ?>
+			</a>
+		</div>
+	</div>		
 	<?php
 } else {
 	?>
