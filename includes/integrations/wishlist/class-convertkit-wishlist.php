@@ -182,6 +182,7 @@ class ConvertKit_Wishlist {
 					$forms = new ConvertKit_Resource_Forms();
 					if ( $forms->is_legacy( $resource_id ) ) {
 						$api->add_subscriber_to_legacy_form( $resource_id, $subscriber['subscriber']['id'] );
+						break;
 					}
 
 					// Add subscriber to form.

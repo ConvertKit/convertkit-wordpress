@@ -151,6 +151,9 @@ class ConvertKit_Forminator {
 			 * Form
 			 */
 			case 'form':
+				// Subscribe with inactive state.
+				$subscriber = $api->create_subscriber( $email, $first_name, 'inactive' );
+
 				// For Legacy Forms, a different endpoint is used.
 				$forms = new ConvertKit_Resource_Forms();
 				if ( $forms->is_legacy( $resource_id ) ) {
