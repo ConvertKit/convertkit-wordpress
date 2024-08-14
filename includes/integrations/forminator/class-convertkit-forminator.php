@@ -132,14 +132,9 @@ class ConvertKit_Forminator {
 			'forminator'
 		);
 
-		// Subscribe the email address.
-		$subscriber = $api->create_subscriber( $email, $first_name );
-		if ( is_wp_error( $subscriber ) ) {
-			return;
-		}
-
-		// If the setting is 'Subscribe', no Form needs to be assigned to the subscriber.
+		// If the resource setting is 'subscribe', create the subscriber in an active state and don't assign to a resource.
 		if ( $convertkit_subscribe_setting === 'subscribe' ) {
+			$api->create_subscriber( $email, $first_name );
 			return;
 		}
 
@@ -169,6 +164,14 @@ class ConvertKit_Forminator {
 			 * Sequence
 			 */
 			case 'sequence':
+				// Subscribe.
+				$subscriber = $api->create_subscriber( $email, $first_name );
+
+				// If an error occured, don't attempt to add the subscriber to the Form, as it won't work.
+				if ( is_wp_error( $subscriber ) ) {
+					return;
+				}
+
 				// Add subscriber to sequence.
 				return $api->add_subscriber_to_sequence( $resource_id, $subscriber['subscriber']['id'] );
 
@@ -176,6 +179,14 @@ class ConvertKit_Forminator {
 			 * Tag
 			 */
 			case 'tag':
+				// Subscribe.
+				$subscriber = $api->create_subscriber( $email, $first_name );
+
+				// If an error occured, don't attempt to add the subscriber to the Form, as it won't work.
+				if ( is_wp_error( $subscriber ) ) {
+					return;
+				}
+
 				// Add subscriber to tag.
 				return $api->tag_subscriber( $resource_id, $subscriber['subscriber']['id'] );
 
