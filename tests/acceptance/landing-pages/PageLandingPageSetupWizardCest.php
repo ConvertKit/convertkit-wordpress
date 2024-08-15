@@ -33,7 +33,7 @@ class PageLandingPageSetupWizardCest
 		$I->amOnAdminPage('edit.php?post_type=page');
 
 		// Check the button isn't displayed.
-		$I->dontSeeElementInDOM('a.convertkit-action page-title-action');
+		$I->dontSeeElementInDOM('a.convertkit-action.page-title-action');
 	}
 
 	/**

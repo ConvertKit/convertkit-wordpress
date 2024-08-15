@@ -15,7 +15,7 @@
 class ConvertKit_Admin_Setup_Wizard_Landing_Page extends ConvertKit_Admin_Setup_Wizard {
 
 	/**
-	 * Holds the Post Type to generate Members Content for.
+	 * Holds the Post Type to generate.
 	 *
 	 * @since   2.5.5
 	 *
@@ -123,33 +123,30 @@ class ConvertKit_Admin_Setup_Wizard_Landing_Page extends ConvertKit_Admin_Setup_
 			return;
 		}
 
-		// Depending on the step, process the form data.
-		switch ( $step ) {
-			case 2:
-				// Sanitize configuration.
-				$configuration = array(
-					'landing_page' => sanitize_text_field( stripslashes( $_POST['landing_page'] ) ),
-					'post_name'    => sanitize_text_field( stripslashes( $_POST['post_name'] ) ),
-					'post_type'    => $this->post_type,
-				);
-
-				// Create Page.
-				$this->result = $this->create_landing_page(
-					$configuration['post_name'],
-					$configuration['landing_page'],
-					$configuration['post_type']
-				);
-
-				// If an error occured creating the Page, go back a step to show the error.
-				if ( is_wp_error( $this->result ) ) {
-					$this->step  = ( $this->step - 1 );
-					$this->error = $this->result->get_error_message();
-				}
-				break;
-
+		// Don't process form data if we're not on the second step.
+		if ( $step !== 2 ) {
+			return;
 		}
 
-		// phpcs:enable
+		// Sanitize configuration.
+		$configuration = array(
+			'landing_page' => sanitize_text_field( stripslashes( $_POST['landing_page'] ) ),
+			'post_name'    => sanitize_text_field( stripslashes( $_POST['post_name'] ) ),
+			'post_type'    => $this->post_type,
+		);
+
+		// Create Page.
+		$this->result = $this->create_page_displaying_landing_page(
+			$configuration['post_name'],
+			$configuration['landing_page'],
+			$configuration['post_type']
+		);
+
+		// If an error occured creating the Page, go back a step to show the error.
+		if ( is_wp_error( $this->result ) ) {
+			$this->step  = ( $this->step - 1 );
+			$this->error = $this->result->get_error_message();
+		}
 
 	}
 
@@ -194,33 +191,30 @@ class ConvertKit_Admin_Setup_Wizard_Landing_Page extends ConvertKit_Admin_Setup_
 			admin_url( 'edit.php' )
 		);
 
-		// Load data depending on the current step.
-		switch ( $step ) {
-			case 1:
-				// Fetch Landing Pages.
-				$this->landing_pages = new ConvertKit_Resource_Landing_Pages( 'landing_page_wizard' );
+		// Don't load data if not on the first step.
+		if ( $step !== 1 ) {
+			return;
+		}
 
-				// Refresh Landing Page resources, in case the user just created their first Product or Tag
-				// in ConvertKit.
-				$this->landing_pages->refresh();
+		// Fetch Landing Pages.
+		$this->landing_pages = new ConvertKit_Resource_Landing_Pages( 'landing_page_wizard' );
 
-				// If no Landing Pages exist in ConvertKit, change the next button label and make it a link to reload
-				// the screen.
-				if ( ! $this->landing_pages->exist() ) {
-					unset( $this->steps[1]['next_button'] );
-					$this->current_url = add_query_arg(
-						array(
-							'page'         => $this->page_name,
-							'ck_post_type' => $this->post_type,
-							'step'         => 1,
-						),
-						admin_url( 'options.php' )
-					);
-				}
-				break;
+		// Refresh Landing Page resources, in case the user just created their first Product or Tag
+		// in ConvertKit.
+		$this->landing_pages->refresh();
 
-			case 2:
-				break;
+		// If no Landing Pages exist in ConvertKit, change the next button label and make it a link to reload
+		// the screen.
+		if ( ! $this->landing_pages->exist() ) {
+			unset( $this->steps[1]['next_button'] );
+			$this->current_url = add_query_arg(
+				array(
+					'page'         => $this->page_name,
+					'ck_post_type' => $this->post_type,
+					'step'         => 1,
+				),
+				admin_url( 'options.php' )
+			);
 		}
 
 	}
@@ -235,7 +229,7 @@ class ConvertKit_Admin_Setup_Wizard_Landing_Page extends ConvertKit_Admin_Setup_
 	 * @param   string $post_type                  Post Type.
 	 * @return  WP_Error|int                            Error or Page ID
 	 */
-	private function create_landing_page( $post_name, $landing_page, $post_type ) {
+	private function create_page_displaying_landing_page( $post_name, $landing_page, $post_type ) {
 
 		// Create Page.
 		$page_id = wp_insert_post(
