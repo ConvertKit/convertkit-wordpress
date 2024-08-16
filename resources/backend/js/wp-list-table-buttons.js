@@ -19,7 +19,7 @@ jQuery( document ).ready(
 				}
 
 				// Move.
-				$( this ).clone().removeClass( 'hidden' ).insertAfter( 'a.page-title-action' );
+				$( this ).clone().removeClass( 'hidden' ).insertAfter( $( 'a.page-title-action' ).first() );
 
 				// Remove original.
 				$( this ).parent().remove();
