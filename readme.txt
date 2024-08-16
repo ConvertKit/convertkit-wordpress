@@ -5,7 +5,7 @@ Tags: email marketing, email newsletter, newsletter, subscribers, membership
 Requires at least: 5.0
 Tested up to: 6.6.1
 Requires PHP: 5.6.20
-Stable tag: 2.5.4
+Stable tag: 2.5.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -158,11 +158,15 @@ Full Plugin documentation can be found [here](https://help.convertkit.com/en/art
 
 == Changelog ==
 
+### 2.5.5 2024-08-15
+* Fix: Contact Form 7: Set subscriber to `inactive` when a ConvertKit Form is specified, honoring the Form's opt in setting.
+* Fix: Forminator: Set subscriber to `inactive` when a ConvertKit Form is specified, honoring the Form's opt in setting.
+* Fix: WishList Member: Set subscriber to `inactive` when a ConvertKit Form is specified, honoring the Form's opt in setting.
+
 ### 2.5.4 2024-08-08
 * Added: WishList Member: Option to just subscribe email, subscribe to a Form, Tag or Sequence or unsubscribe
 * Fix: Contact Form 7: Typo on description text
 * Fix: Forminator: Typo on description text
-
 
 ### 2.5.3 2024-08-06
 * Fix: Contact Form 7: Update description on settings screen to reflect new settings
