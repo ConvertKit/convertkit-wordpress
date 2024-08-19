@@ -10,7 +10,7 @@ jQuery( document ).ready(
 	function ( $ ) {
 
 		// Move any buttons from the filter list to display next to the Add New button.
-		$( 'ul.subsubsub a' ).each(
+		$( 'ul.subsubsub span' ).each(
 			function () {
 
 				// Ignore if not a ConvertKit Group Action.

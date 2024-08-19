@@ -77,15 +77,22 @@ class ConvertKit_Admin_Post {
 		wp_enqueue_script( 'convertkit-admin-wp-list-table-buttons', CONVERTKIT_PLUGIN_URL . 'resources/backend/js/wp-list-table-buttons.js', array( 'jquery' ), CONVERTKIT_PLUGIN_VERSION, true );
 		wp_enqueue_style( 'convertkit-admin-wp-list-table-buttons', CONVERTKIT_PLUGIN_URL . 'resources/backend/css/wp-list-table-buttons.css', array(), CONVERTKIT_PLUGIN_VERSION );
 
-		// Register buttons.
+		// Build buttons HTML.
+		$html = '';
 		foreach ( $buttons as $button_name => $button ) {
-			$views[ $button_name ] = sprintf(
-				'<a href="%s" class="convertkit-action page-title-action hidden">%s</a>',
+			$html .= sprintf(
+				'<a href="%s">%s</a>',
 				esc_attr( $button['url'] ),
 				esc_html( $button['label'] )
 			);
-
 		}
+
+		// Register an 'Add New' dropdown button, with buttons HTML.
+		$views['convertkit'] = sprintf(
+			'<span class="convertkit-action page-title-action hidden">%s<span class="convertkit-actions hidden">%s</span></span>',
+			__( 'Add New', 'convertkit' ),
+			$html
+		);
 
 		return $views;
 
