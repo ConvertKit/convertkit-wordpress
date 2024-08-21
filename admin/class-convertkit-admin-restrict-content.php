@@ -165,7 +165,7 @@ class ConvertKit_Admin_Restrict_Content {
 				),
 				admin_url( 'options.php' )
 			),
-			'label' => __( 'Add New Member Content', 'convertkit' ),
+			'label' => __( 'Member Content', 'convertkit' ),
 		);
 
 		return $buttons;

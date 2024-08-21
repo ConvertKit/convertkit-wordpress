@@ -58,7 +58,7 @@ class ConvertKit_Admin_Landing_Page {
 				),
 				admin_url( 'options.php' )
 			),
-			'label' => __( 'Add New Landing Page', 'convertkit' ),
+			'label' => __( 'Landing Page', 'convertkit' ),
 		);
 
 		return $buttons;

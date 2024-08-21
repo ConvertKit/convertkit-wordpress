@@ -32,8 +32,8 @@ class PageLandingPageSetupWizardCest
 		// Navigate to Pages.
 		$I->amOnAdminPage('edit.php?post_type=page');
 
-		// Check the button isn't displayed.
-		$I->dontSeeElementInDOM('a.convertkit-action.page-title-action');
+		// Check the buttons are not displayed.
+		$I->dontSeeElementInDOM('span.convertkit-action.page-title-action');
 	}
 
 	/**
@@ -51,8 +51,8 @@ class PageLandingPageSetupWizardCest
 		// Navigate to Posts.
 		$I->amOnAdminPage('edit.php?post_type=post');
 
-		// Check the button isn't displayed.
-		$I->dontSeeElementInDOM('a.convertkit-action');
+		// Check the buttons are not displayed.
+		$I->dontSeeElementInDOM('span.convertkit-action.page-title-action');
 	}
 
 	/**
@@ -102,7 +102,9 @@ class PageLandingPageSetupWizardCest
 		$I->amOnAdminPage('edit.php?post_type=page');
 
 		// Click Add New Landing Page button.
-		$I->click('Add New Landing Page');
+		$I->moveMouseOver('span.convertkit-action');
+		$I->waitForElementVisible('span.convertkit-action span.convertkit-actions a');
+		$I->click('Landing Page');
 
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
@@ -152,7 +154,9 @@ class PageLandingPageSetupWizardCest
 
 		// Confirm the Pages screen is displayed.
 		$I->see('Pages');
-		$I->see('Add New Landing Page');
+		$I->moveMouseOver('span.convertkit-action');
+		$I->waitForElementVisible('span.convertkit-action span.convertkit-actions a');
+		$I->see('Landing Page');
 	}
 
 	/**
@@ -242,7 +246,9 @@ class PageLandingPageSetupWizardCest
 		$I->amOnAdminPage('edit.php?post_type=page');
 
 		// Click Add New Landing Page button.
-		$I->click('Add New Landing Page');
+		$I->moveMouseOver('span.convertkit-action');
+		$I->waitForElementVisible('span.convertkit-action span.convertkit-actions a');
+		$I->click('Landing Page');
 
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
