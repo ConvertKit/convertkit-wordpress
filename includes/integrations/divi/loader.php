@@ -1,7 +1,7 @@
 <?php
 /**
  * Divi module loader.
- * 
+ *
  * Divi automagically loads this file based on the `plugin_dir` defined
  * in the ConvertKit_Divi_Extension class.
  *

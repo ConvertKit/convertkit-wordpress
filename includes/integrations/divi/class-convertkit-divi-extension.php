@@ -17,46 +17,46 @@ class ConvertKit_Divi_Extension extends DiviExtension {
 	/**
 	 * The gettext domain for the extension's translations.
 	 *
-	 * @since 	2.5.6
+	 * @since   2.5.6
 	 *
-	 * @var 	string
+	 * @var     string
 	 */
 	public $gettext_domain = 'convertkit';
 
 	/**
 	 * The extension's WP Plugin name.
 	 *
-	 * @since 	2.5.6
+	 * @since   2.5.6
 	 *
-	 * @var 	string
+	 * @var     string
 	 */
 	public $name = 'convertkit-divi';
 
 	/**
 	 * The extension's version.
 	 *
-	 * @since 	2.5.6
+	 * @since   2.5.6
 	 *
-	 * @var 	string
+	 * @var     string
 	 */
 	public $version = '2.5.6';
 
 	/**
 	 * Constructor.
 	 *
-	 * @since 	2.5.6
-	 * 
-	 * @param 	string 	$name Extension name.
-	 * @param 	array  	$args Arguments.
+	 * @since   2.5.6
+	 *
+	 * @param   string $name Extension name.
+	 * @param   array  $args Arguments.
 	 */
 	public function __construct( $name = 'convertkit-divi', $args = array() ) {
 
-		$this->plugin_dir              = CONVERTKIT_PLUGIN_PATH . '/includes/integrations/divi/';
-		$this->plugin_dir_url          = CONVERTKIT_PLUGIN_URL . 'includes/integrations/divi/';
+		$this->plugin_dir     = CONVERTKIT_PLUGIN_PATH . '/includes/integrations/divi/';
+		$this->plugin_dir_url = CONVERTKIT_PLUGIN_URL . 'includes/integrations/divi/';
 
 		parent::__construct( $name, $args );
 
 	}
 }
 
-new ConvertKit_Divi_Extension;
+new ConvertKit_Divi_Extension();

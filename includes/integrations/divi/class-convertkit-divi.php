@@ -27,8 +27,8 @@ class ConvertKit_Divi {
 
 	/**
 	 * Loads the ConvertKi Divi extension, which registers ConvertKit-specific Divi modules.
-	 * 
-	 * @since 	2.5.6
+	 *
+	 * @since   2.5.6
 	 */
 	public function divi_extensions_init() {
 

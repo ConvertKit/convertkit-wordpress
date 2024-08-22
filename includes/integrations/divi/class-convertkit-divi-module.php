@@ -25,10 +25,10 @@ class ConvertKit_Divi_Module extends ET_Builder_Module {
 
 	/**
 	 * Holds the block definition, properties and fields.
-	 * 
-	 * @since 	2.5.6
-	 * 
-	 * @var 	bool|array
+	 *
+	 * @since   2.5.6
+	 *
+	 * @var     bool|array
 	 */
 	public $block = false;
 
@@ -54,7 +54,7 @@ class ConvertKit_Divi_Module extends ET_Builder_Module {
 
 		// Define the block and its name.
 		$this->block = $blocks[ $this->block_name ];
-		$this->name = esc_html( $this->block['title'] );
+		$this->name  = esc_html( $this->block['title'] );
 
 	}
 
@@ -80,12 +80,12 @@ class ConvertKit_Divi_Module extends ET_Builder_Module {
 		foreach ( $this->block['fields'] as $field_name => $field ) {
 			// Start building field definition.
 			$fields[ $field_name ] = array(
-				'label'       => $field['label'],
-				'type'        => 'text', // $field['type'],
+				'label'           => $field['label'],
+				'type'            => $field['type'],
 				'option_category' => 'basic_option',
-				'description' => ( isset( $field['description'] ) ? $field['description'] : '' ),
-				'toggle_slug' => 'main_content',
-				//'default'     => $this->get_default_value( $field ),
+				'description'     => ( isset( $field['description'] ) ? $field['description'] : '' ),
+				'toggle_slug'     => 'main_content',
+				'default'         => $this->get_default_value( $field ),
 			);
 		}
 
@@ -105,7 +105,6 @@ class ConvertKit_Divi_Module extends ET_Builder_Module {
 	 */
 	public function render( $unprocessed_props, $content, $render_slug ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter
 
-		// @TODO.
 		return 'test';
 
 	}
