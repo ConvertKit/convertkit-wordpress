@@ -12,22 +12,22 @@
  * @package ConvertKit
  * @author  ConvertKit
  */
-class ConvertKit_Divi_Module_Form extends ET_Builder_Module {
+class ConvertKit_Divi_Module_Form extends ConvertKit_Divi_Module {
 
-	public function init() {
-		$this->name       = et_builder_i18n( 'ConvertKit Form' );
-		$this->plural     = esc_html__( 'ConvertKit Forms', 'et_builder' );
-		$this->slug       = 'convertkit_form';
-		$this->vb_support = 'partial';
-	}
+	/**
+	 * The ConvertKit block name.
+	 * 
+	 * @since 	2.5.6
+	 */
+	public $block_name = 'form';
 
-	public function get_fields() {
-		return array();
-	}
-
-	public function render( $unprocessed_props, $content, $render_slug ) {
-		return 'convertkitform';
-	}
+	/**
+	 * The ConvertKit Divi module name.
+	 * 
+	 * @since 	2.5.6
+	 */
+	public $slug       = 'convertkit_form';
+	
 }
 
 new ConvertKit_Divi_Module_Form;

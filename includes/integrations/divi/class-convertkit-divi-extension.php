@@ -30,7 +30,7 @@ class ConvertKit_Divi_Extension extends DiviExtension {
 	 *
 	 * @var 	string
 	 */
-	public $name = 'divi-custom-modules';
+	public $name = 'convertkit-divi';
 
 	/**
 	 * The extension's version.
@@ -49,7 +49,7 @@ class ConvertKit_Divi_Extension extends DiviExtension {
 	 * @param 	string 	$name Extension name.
 	 * @param 	array  	$args Arguments.
 	 */
-	public function __construct( $name = 'divi-custom-modules', $args = array() ) {
+	public function __construct( $name = 'convertkit-divi', $args = array() ) {
 
 		$this->plugin_dir              = CONVERTKIT_PLUGIN_PATH . '/includes/integrations/divi/';
 		$this->plugin_dir_url          = CONVERTKIT_PLUGIN_URL . 'includes/integrations/divi/';

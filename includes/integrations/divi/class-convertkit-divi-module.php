@@ -21,7 +21,7 @@ class ConvertKit_Divi_Module extends ET_Builder_Module {
 	 *
 	 * @var     string
 	 */
-	public $vb_support = 'off';
+	public $vb_support = 'on';
 
 	/**
 	 * Holds the block definition, properties and fields.
@@ -48,12 +48,12 @@ class ConvertKit_Divi_Module extends ET_Builder_Module {
 		}
 
 		// Bail if the block doesn't exist.
-		if ( ! array_key_exists( str_replace( 'convertkit-divi-', '', $this->slug ), $blocks ) ) {
+		if ( ! array_key_exists( $this->block_name, $blocks ) ) {
 			return;
 		}
 
-		// Define name and block.
-		$this->block = $blocks[ str_replace( 'convertkit-divi-', '', $this->slug ) ];
+		// Define the block and its name.
+		$this->block = $blocks[ $this->block_name ];
 		$this->name = esc_html( $this->block['title'] );
 
 	}
