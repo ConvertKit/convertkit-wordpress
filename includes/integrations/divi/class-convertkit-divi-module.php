@@ -124,8 +124,8 @@ class ConvertKit_Divi_Module extends ET_Builder_Module {
 							'type'    => 'yes_no_button',
 							'default' => ( $fields[ $field_name ]['default'] ? 'on' : 'off' ),
 							'options' => array(
-								'off' => __( 'No', 'page-generator-pro' ),
-								'on'  => __( 'Yes', 'page-generator-pro' ),
+								'off' => __( 'No', 'convertkit' ),
+								'on'  => __( 'Yes', 'convertkit' ),
 							),
 						)
 					);
@@ -147,7 +147,7 @@ class ConvertKit_Divi_Module extends ET_Builder_Module {
 	 * @param   array|string $unprocessed_props  Unprocessed properties.
 	 * @param   array|string $content            Content.
 	 * @param   string       $render_slug        Slug.
-	 * @return 	string 							 Block's output.
+	 * @return  string                           Block's output.
 	 */
 	public function render( $unprocessed_props, $content, $render_slug ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter
 
