@@ -24,11 +24,29 @@ class ConvertKit_Divi_Module extends ET_Builder_Module {
 	public $vb_support = 'on';
 
 	/**
+	 * The ConvertKit block name.
+	 *
+	 * @since   2.5.6
+	 *
+	 * @var     string
+	 */
+	public $block_name = '';
+
+	/**
+	 * The ConvertKit Divi module name.
+	 *
+	 * @since   2.5.6
+	 *
+	 * @var     string
+	 */
+	public $slug = '';
+
+	/**
 	 * Holds the block definition, properties and fields.
 	 *
 	 * @since   2.5.6
 	 *
-	 * @var     bool|array
+	 * @var     bool|WP_Error|array
 	 */
 	public $block = false;
 
