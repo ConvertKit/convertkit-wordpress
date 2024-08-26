@@ -247,7 +247,7 @@ class WPClassicEditor extends \Codeception\Module
 	 *
 	 * @since   2.5.6
 	 *
-	 * @param   AcceptanceTester $I 	Acceptance Tester.
+	 * @param   AcceptanceTester $I     Acceptance Tester.
 	 */
 	public function publishClassicEditorPage($I)
 	{
@@ -270,7 +270,7 @@ class WPClassicEditor extends \Codeception\Module
 	 *
 	 * @since   1.9.7.5
 	 *
-	 * @param   AcceptanceTester $I 	Acceptance Tester.
+	 * @param   AcceptanceTester $I     Acceptance Tester.
 	 */
 	public function publishAndViewClassicEditorPage($I)
 	{

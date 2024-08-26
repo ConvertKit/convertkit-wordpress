@@ -4,7 +4,7 @@
  *
  * @since   2.5.6
  */
-class ElementorFormCest
+class DiviFormCest
 {
 	/**
 	 * Run common actions before running the test functions in this class.
@@ -24,7 +24,12 @@ class ElementorFormCest
 	}
 
 	/**
-	 * 
+	 * Test the Form widget works when a valid Form is selected
+	 * using Divi's backend editor.
+	 *
+	 * @since   2.5.6
+	 *
+	 * @param   AcceptanceTester $I  Tester.
 	 */
 	public function testFormModuleInBackendEditor(AcceptanceTester $I)
 	{
@@ -34,19 +39,42 @@ class ElementorFormCest
 		// Add a Page using the Classic Editor.
 		$I->addClassicEditorPage($I, 'page', 'ConvertKit: Page: Form: Divi: Backend Editor');
 
-		// Publish.
-		$I->publishClassicEditorPage($I);
+		// Configure metabox's Form setting = None, ensuring we only test the block in Gutenberg.
+		$I->configureMetaboxSettings(
+			$I,
+			'wp-convertkit-meta-box',
+			[
+				'form' => [ 'select2', 'None' ],
+			]
+		);
+
+		// Scroll to Publish meta box, so its buttons are not hidden.
+		$I->scrollTo('#submitdiv');
+
+		// Wait for the Publish button to change its state from disabled (WordPress disables it for a moment when auto-saving).
+		$I->waitForElementVisible('input#publish:not(:disabled)');
+
+		// Click the Publish button twice, because Divi is flaky at best.
+		$I->click('input#publish');
+		$I->wait(2);
+		$I->click('input#publish');
+
+		// Wait for notice to display.
+		$I->waitForElementVisible('.notice-success');
+
+		// Remove transient set by Divi that would show the welcome modal.
+		$I->dontHaveTransientInDatabase('et_builder_show_bfb_welcome_modal');
 
 		// Click Divi Builder button.
 		$I->click('#et_pb_toggle_builder');
 
-		// Close tutorial modal.
-		$I->waitForElementVisible('.et-fb-tooltip-modal');
-		$I->click('Start Building');
+		// Dismiss modal.
+		$I->waitForElementVisible('.et-core-modal-action-dont-restore');
+		$I->click('.et-core-modal-action-dont-restore');
 
-		// Click 'Build from scratch'.
-		$I->waitForElementVisible('.et-fb-page-creation-card-content');
-		$I->click('Start Building', '.et-fb-page-creation-card-content');
+		// Click Build from scratch button.
+		$I->waitForElementVisible('.et-fb-page-creation-card-build_from_scratch');
+		$I->click('Start Building', '.et-fb-page-creation-card-build_from_scratch');
 
 		// Insert row.
 		$I->waitForElementVisible('li[data-layout="4_4"]');
@@ -72,6 +100,7 @@ class ElementorFormCest
 		$I->click('Update');
 
 		// Load the Page on the frontend site.
+		$I->waitForElementVisible('.notice-success');
 		$I->click('.notice-success a');
 
 		// Wait for frontend web site to load.
@@ -83,11 +112,85 @@ class ElementorFormCest
 		// Confirm that one ConvertKit Form is output in the DOM.
 		// This confirms that there is only one script on the page for this form, which renders the form.
 		$I->seeNumberOfElementsInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]', 1);
+
+		// Deactivate Classic Editor.
+		$I->deactivateThirdPartyPlugin($I, 'classic-editor');
 	}
 
+	/**
+	 * Test the Form widget works when a valid Form is selected
+	 * using Divi's backend editor.
+	 *
+	 * @since   2.5.6
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
 	public function testFormModuleInFrontendEditor(AcceptanceTester $I)
 	{
+		// Add a Page using the Gutenberg editor.
+		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Divi: Frontend');
 
+		// Configure metabox's Form setting = None, ensuring we only test the block in Gutenberg.
+		$I->configureMetaboxSettings(
+			$I,
+			'wp-convertkit-meta-box',
+			[
+				'form' => [ 'select2', 'None' ],
+			]
+		);
+
+		// Publish Page.
+		$url = $I->publishGutenbergPage($I);
+
+		// Remove transient set by Divi that would show the welcome modal.
+		$I->dontHaveTransientInDatabase('et_builder_show_bfb_welcome_modal');
+
+		// Click Divi Builder button.
+		$I->click('Use Divi Builder');
+
+		// Reload page to dismiss modal.
+		$I->waitForElementVisible('.et-core-modal-action-dont-restore', 30);
+		$I->amOnUrl($url . '?et_fb=1&PageSpeed=off');
+
+		// Click Build from scratch button.
+		$I->waitForElementVisible('.et-fb-page-creation-card-build_from_scratch', 30);
+		$I->click('Start Building', '.et-fb-page-creation-card-build_from_scratch');
+
+		// Insert row.
+		$I->waitForElementVisible('li[data-layout="4_4"]');
+		$I->click('li[data-layout="4_4"]');
+
+		// Search for module.
+		$I->waitForElementVisible('input[name="filterByTitle"]');
+		$I->fillField('filterByTitle', 'ConvertKit Form');
+
+		// Insert module.
+		$I->waitForElementVisible('li.convertkit_form');
+		$I->click('li.convertkit_form');
+
+		// Select Form.
+		$I->waitForElementVisible('#et-fb-form');
+		$I->click('#et-fb-form');
+		$I->click('li[data-value="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]', '#et-fb-form');
+
+		// Save module.
+		$I->click('button[data-tip="Save Changes"]');
+
+		// Save page.
+		$I->click('.et-fb-page-settings-bar__toggle-button');
+		$I->waitForElementVisible('button.et-fb-button--publish');
+		$I->click('button.et-fb-button--publish');
+		$I->wait(3);
+
+		// Load page without Divi frontend builder.
+		$I->amOnUrl($url);
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Confirm that one ConvertKit Form is output in the DOM.
+		// This confirms that there is only one script on the page for this form, which renders the form.
+		$I->seeNumberOfElementsInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]', 1);
 	}
 
 	/**

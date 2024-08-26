@@ -363,7 +363,7 @@ class WPGutenberg extends \Codeception\Module
 		);
 
 		// Wait for confirmation that the Page published.
-		$I->waitForElementVisible('.post-publish-panel__postpublish-buttons a.components-button');
+		$I->waitForElementVisible('.post-publish-panel__postpublish-buttons a.components-button', 30);
 
 		// Return URL from 'View page' button.
 		return $I->grabAttributeFrom('.post-publish-panel__postpublish-buttons a.components-button', 'href');
