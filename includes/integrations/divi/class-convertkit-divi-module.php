@@ -66,7 +66,7 @@ class ConvertKit_Divi_Module extends ET_Builder_Module {
 	public function get_fields() {
 
 		// Bail if no block.
-		if ( ! $this->block ) {
+		if ( is_wp_error( $this->block ) ) {
 			return array();
 		}
 
@@ -80,13 +80,58 @@ class ConvertKit_Divi_Module extends ET_Builder_Module {
 		foreach ( $this->block['fields'] as $field_name => $field ) {
 			// Start building field definition.
 			$fields[ $field_name ] = array(
-				'label'           => $field['label'],
-				'type'            => $field['type'],
-				'option_category' => 'basic_option',
-				'description'     => ( isset( $field['description'] ) ? $field['description'] : '' ),
-				'toggle_slug'     => 'main_content',
-				'default'         => $this->get_default_value( $field ),
+				'type'        => $field['type'],
+				'default'     => $this->get_default_value( $field ),
+				'description' => ( isset( $field['description'] ) ? $field['description'] : '' ),
+				'label'       => $field['label'],
+				'toggle_slug' => 'main_content',
 			);
+
+			// Add/change field parameters depending on the field's type.
+			switch ( $field['type'] ) {
+				/**
+				 * Number
+				 */
+				case 'number':
+					$fields[ $field_name ] = array_merge(
+						$fields[ $field_name ],
+						array(
+							'type'           => 'range',
+							'range_settings' => array(
+								'min'  => $field['min'],
+								'max'  => $field['max'],
+								'step' => $field['step'],
+							),
+							'unitless'       => true,
+						)
+					);
+					break;
+
+				/**
+				 * Select
+				 */
+				case 'select':
+					$fields[ $field_name ]['options'] = $field['values'];
+					break;
+
+				/**
+				 * Toggle
+				 */
+				case 'toggle':
+					$fields[ $field_name ] = array_merge(
+						$fields[ $field_name ],
+						array(
+							'type'    => 'yes_no_button',
+							'default' => ( $fields[ $field_name ]['default'] ? 'on' : 'off' ),
+							'options' => array(
+								'off' => __( 'No', 'page-generator-pro' ),
+								'on'  => __( 'Yes', 'page-generator-pro' ),
+							),
+						)
+					);
+					break;
+
+			}
 		}
 
 		// Return.
@@ -95,17 +140,20 @@ class ConvertKit_Divi_Module extends ET_Builder_Module {
 	}
 
 	/**
-	 * Renders the shortcode syntax, converted from the module's properties array
+	 * Render the module.
 	 *
 	 * @since   2.5.6
 	 *
 	 * @param   array|string $unprocessed_props  Unprocessed properties.
 	 * @param   array|string $content            Content.
 	 * @param   string       $render_slug        Slug.
+	 * @return 	string 							 Block's output.
 	 */
 	public function render( $unprocessed_props, $content, $render_slug ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter
 
-		return 'test';
+		// Render using Block class' render() function.
+		// Output is already escaped in render() function.
+		return WP_ConvertKit()->get_class( 'blocks_convertkit_' . $this->block_name )->render( $unprocessed_props ); // phpcs:ignore WordPress.Security.EscapeOutput
 
 	}
 
