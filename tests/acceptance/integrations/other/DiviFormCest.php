@@ -252,45 +252,24 @@ class DiviFormCest
 	{
 		return $I->havePostInDatabase(
 			[
-				'post_title'  => $title,
-				'post_type'   => 'page',
-				'post_status' => 'publish',
-				'meta_input'  => [
-					// Elementor.
-					'_elementor_data'          => [
-						0 => [
-							'id'       => '39bb59d',
-							'elType'   => 'section',
-							'settings' => [],
-							'elements' => [
-								[
-									'id'       => 'b7e0e57',
-									'elType'   => 'column',
-									'settings' => [
-										'_column_size' => 100,
-										'_inline_size' => null,
-									],
-									'elements' => [
-										[
-											'id'         => 'a73a905',
-											'elType'     => 'widget',
-											'settings'   => [
-												'form' => (string) $formID,
-											],
-											'widgetType' => 'convertkit-elementor-form',
-										],
-									],
-								],
-							],
-						],
-					],
-					'_elementor_version'       => '3.6.1',
-					'_elementor_edit_mode'     => 'builder',
-					'_elementor_template_type' => 'wp-page',
+				'post_title'   => $title,
+				'post_type'    => 'page',
+				'post_status'  => 'publish',
+				'post_content' => '[et_pb_section fb_built="1" _builder_version="4.27.0" _module_preset="default" global_colors_info="{}"]
+					[et_pb_row _builder_version="4.27.0" _module_preset="default"]
+						[et_pb_column _builder_version="4.27.0" _module_preset="default" type="4_4"]
+							[convertkit_form _builder_version="4.27.0" _module_preset="default" form="' . $formID . '" hover_enabled="0" sticky_enabled="0"][/convertkit_form]
+						[/et_pb_column]
+					[/et_pb_row]
+				[/et_pb_section]',
+				'meta_input'   => [
+					// Enable Divi Builder.
+					'_et_pb_use_builder'         => 'on',
+					'_et_pb_built_for_post_type' => 'page',
 
 					// Configure ConvertKit Plugin to not display a default Form,
 					// as we are testing for the Form in Elementor.
-					'_wp_convertkit_post_meta' => [
+					'_wp_convertkit_post_meta'   => [
 						'form'         => '0',
 						'landing_page' => '',
 						'tag'          => '',
