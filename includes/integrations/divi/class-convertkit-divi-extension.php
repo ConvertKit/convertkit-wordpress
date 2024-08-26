@@ -58,17 +58,6 @@ class ConvertKit_Divi_Extension extends DiviExtension {
 		$builder_js             = array();
 		$this->_builder_js_data = apply_filters( 'convertkit_divi_extension_builder_js', $builder_js );
 
-		add_action(
-			'wp_ajax_convertkit_divi_module_render',
-			function () {
-
-				$html = WP_ConvertKit()->get_class( 'blocks_convertkit_form' )->render( array( 'form' => '2765139' ) ); // phpcs:ignore WordPress.Security.EscapeOutput
-
-				wp_send_json_success( $html );
-
-			}
-		);
-
 		// Call parent construct.
 		parent::__construct( $name, $args );
 

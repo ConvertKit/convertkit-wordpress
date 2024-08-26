@@ -7,7 +7,8 @@
  */
 
 /**
- * Registers blocks as Divi Modules.
+ * Registers this Plugin as a Divi extension, so that
+ * Divi modules can then be registered.
  *
  * @package ConvertKit
  * @author  ConvertKit
