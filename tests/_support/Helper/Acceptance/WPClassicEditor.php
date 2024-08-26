@@ -243,14 +243,13 @@ class WPClassicEditor extends \Codeception\Module
 	}
 
 	/**
-	 * Publish a Page, Post or Custom Post Type initiated by the addClassicEditorPage() function,
-	 * loading it on the frontend web site.
+	 * Publish a Page, Post or Custom Post Type initiated by the addClassicEditorPage() function.
 	 *
-	 * @since   1.9.7.5
+	 * @since   2.5.6
 	 *
-	 * @param   AcceptanceTester $I                      Acceptance Tester.
+	 * @param   AcceptanceTester $I 	Acceptance Tester.
 	 */
-	public function publishAndViewClassicEditorPage($I)
+	public function publishClassicEditorPage($I)
 	{
 		// Scroll to Publish meta box, so its buttons are not hidden.
 		$I->scrollTo('#submitdiv');
@@ -263,6 +262,20 @@ class WPClassicEditor extends \Codeception\Module
 
 		// Wait for notice to display.
 		$I->waitForElementVisible('.notice-success');
+	}
+
+	/**
+	 * Publish a Page, Post or Custom Post Type initiated by the addClassicEditorPage() function,
+	 * loading it on the frontend web site.
+	 *
+	 * @since   1.9.7.5
+	 *
+	 * @param   AcceptanceTester $I 	Acceptance Tester.
+	 */
+	public function publishAndViewClassicEditorPage($I)
+	{
+		// Publish Page.
+		$I->publishClassicEditorPage($I);
 
 		// Load the Page on the frontend site.
 		$I->click('.notice-success a');

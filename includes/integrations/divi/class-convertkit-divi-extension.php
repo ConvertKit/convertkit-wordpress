@@ -55,8 +55,7 @@ class ConvertKit_Divi_Extension extends DiviExtension {
 		$this->plugin_dir_url = CONVERTKIT_PLUGIN_URL . 'includes/integrations/divi/';
 
 		// Store any JS data that can be accessed by builder-bundle.min.js using window.ConvertkitDiviBuilderData.
-		$builder_js             = array();
-		$this->_builder_js_data = apply_filters( 'convertkit_divi_extension_builder_js', $builder_js );
+		$this->_builder_js_data = convertkit_get_blocks();
 
 		// Call parent construct.
 		parent::__construct( $name, $args );
