@@ -142,14 +142,11 @@ class DiviFormCest
 		// Publish Page.
 		$url = $I->publishGutenbergPage($I);
 
-		// Remove transient set by Divi that would show the welcome modal.
-		$I->dontHaveTransientInDatabase('et_builder_show_bfb_welcome_modal');
-
 		// Click Divi Builder button.
 		$I->click('Use Divi Builder');
 
 		// Reload page to dismiss modal.
-		$I->waitForElementVisible('.et-core-modal-action-dont-restore', 30);
+		$I->wait(5);
 		$I->amOnUrl($url . '?et_fb=1&PageSpeed=off');
 
 		// Click Build from scratch button.
