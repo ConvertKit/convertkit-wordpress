@@ -5,7 +5,7 @@ Tags: email marketing, email newsletter, newsletter, subscribers, membership
 Requires at least: 5.0
 Tested up to: 6.6.1
 Requires PHP: 5.6.20
-Stable tag: 2.5.5
+Stable tag: 2.5.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -157,6 +157,11 @@ Full Plugin documentation can be found [here](https://help.convertkit.com/en/art
 10. Track subscriber growth
 
 == Changelog ==
+
+### 2.5.6 2024-08-15
+* Added: Pages: Add New Landing Page Setup Wizard, to easily create a WordPress Page that displays a ConvertKit Landing Page
+* Added: Divi: ConvertKit Form Module
+* Updated: Pages: Landing Page + Member Content Wizards now display in a dropdown button
 
 ### 2.5.5 2024-08-15
 * Fix: Contact Form 7: Set subscriber to `inactive` when a ConvertKit Form is specified, honoring the Form's opt in setting.
