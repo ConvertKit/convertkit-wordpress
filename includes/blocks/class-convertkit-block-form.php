@@ -135,13 +135,13 @@ class ConvertKit_Block_Form extends ConvertKit_Block {
 				'notice'           => __( 'Not connected to ConvertKit.', 'convertkit' ),
 				'link'             => convertkit_get_setup_wizard_plugin_link(),
 				'link_text'        => __( 'Click here to connect your ConvertKit account.', 'convertkit' ),
-				'instruction_text' => __( 'Connect your ConvertKit account at Settings > ConvertKit, and then refresh this page to select a Form.', 'convertkit' ),
+				'instruction_text' => __( 'Connect your ConvertKit account at Settings > ConvertKit, and then refresh this page to select a form.', 'convertkit' ),
 			),
 			'no_resources'                      => array(
 				'notice'           => __( 'No forms exist in ConvertKit.', 'convertkit' ),
 				'link'             => convertkit_get_new_form_url(),
 				'link_text'        => __( 'Click here to create your first form.', 'convertkit' ),
-				'instruction_text' => __( 'Add a Form to your ConvertKit account, and then refresh this page to select a Form.', 'convertkit' ),
+				'instruction_text' => __( 'Add a form to your ConvertKit account, and then refresh this page to select a form.', 'convertkit' ),
 			),
 
 			// Gutenberg: Help descriptions, displayed when no settings defined for a newly added Block.

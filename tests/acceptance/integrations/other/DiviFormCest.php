@@ -17,10 +17,6 @@ class DiviFormCest
 	{
 		$I->activateConvertKitPlugin($I);
 		$I->activateThirdPartyPlugin($I, 'divi-builder');
-
-		// Setup Plugin, without defining default Forms.
-		$I->setupConvertKitPluginNoDefaultForms($I);
-		$I->setupConvertKitPluginResources($I);
 	}
 
 	/**
@@ -33,6 +29,10 @@ class DiviFormCest
 	 */
 	public function testFormModuleInBackendEditor(AcceptanceTester $I)
 	{
+		// Setup Plugin, without defining default Forms.
+		$I->setupConvertKitPluginNoDefaultForms($I);
+		$I->setupConvertKitPluginResources($I);
+
 		// Activate Classic Editor Plugin.
 		$I->activateThirdPartyPlugin($I, 'classic-editor');
 
@@ -127,6 +127,10 @@ class DiviFormCest
 	 */
 	public function testFormModuleInFrontendEditor(AcceptanceTester $I)
 	{
+		// Setup Plugin, without defining default Forms.
+		$I->setupConvertKitPluginNoDefaultForms($I);
+		$I->setupConvertKitPluginResources($I);
+
 		// Add a Page using the Gutenberg editor.
 		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Divi: Frontend');
 
@@ -191,6 +195,97 @@ class DiviFormCest
 	}
 
 	/**
+	 * Test the Form widget displays the expected message when the Plugin has no credentials
+	 *
+	 * @since   2.5.7
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testFormModuleInFrontendEditorWhenNoCredentials(AcceptanceTester $I)
+	{
+		// Add a Page using the Gutenberg editor.
+		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Divi: Frontend: No Credentials');
+
+		// Publish Page.
+		$url = $I->publishGutenbergPage($I);
+
+		// Click Divi Builder button.
+		$I->click('Use Divi Builder');
+
+		// Reload page to dismiss modal.
+		$I->wait(5);
+		$I->amOnUrl($url . '?et_fb=1&PageSpeed=off');
+
+		// Click Build from scratch button.
+		$I->waitForElementVisible('.et-fb-page-creation-card-build_from_scratch', 30);
+		$I->click('Start Building', '.et-fb-page-creation-card-build_from_scratch');
+
+		// Insert row.
+		$I->waitForElementVisible('li[data-layout="4_4"]');
+		$I->click('li[data-layout="4_4"]');
+
+		// Search for module.
+		$I->waitForElementVisible('input[name="filterByTitle"]');
+		$I->fillField('filterByTitle', 'ConvertKit Form');
+
+		// Insert module.
+		$I->waitForElementVisible('li.convertkit_form');
+		$I->click('li.convertkit_form');
+
+		// Confirm the on screen message displays.
+		$I->seeInSource('Not connected to ConvertKit');
+		$I->seeInSource('Connect your ConvertKit account at Settings > ConvertKit, and then refresh this page to select a form.');
+	}
+
+	/**
+	 * Test the Form widget displays the expected message when the ConvertKit account
+	 * has no forms.
+	 *
+	 * @since   2.5.7
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testFormModuleInFrontendEditorWhenNoForms(AcceptanceTester $I)
+	{
+		// Setup Plugin.
+		$I->setupConvertKitPluginCredentialsNoData($I);
+		$I->setupConvertKitPluginResourcesNoData($I);
+
+		// Add a Page using the Gutenberg editor.
+		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Divi: Frontend: No Forms');
+
+		// Publish Page.
+		$url = $I->publishGutenbergPage($I);
+
+		// Click Divi Builder button.
+		$I->click('Use Divi Builder');
+
+		// Reload page to dismiss modal.
+		$I->wait(5);
+		$I->amOnUrl($url . '?et_fb=1&PageSpeed=off');
+
+		// Click Build from scratch button.
+		$I->waitForElementVisible('.et-fb-page-creation-card-build_from_scratch', 30);
+		$I->click('Start Building', '.et-fb-page-creation-card-build_from_scratch');
+
+		// Insert row.
+		$I->waitForElementVisible('li[data-layout="4_4"]');
+		$I->click('li[data-layout="4_4"]');
+
+		// Search for module.
+		$I->waitForElementVisible('input[name="filterByTitle"]');
+		$I->fillField('filterByTitle', 'ConvertKit Form');
+
+		// Insert module.
+		$I->waitForElementVisible('li.convertkit_form');
+		$I->click('li.convertkit_form');
+
+		// Confirm the on screen message displays.
+		$I->seeInSource('No forms exist in ConvertKit');
+		$I->seeInSource('Add a form to your ConvertKit account, and then refresh this page to select a form.');
+	}
+
+	/**
 	 * Test the Form module works when a valid Legacy Form is selected.
 	 *
 	 * @since   2.5.6
@@ -199,6 +294,10 @@ class DiviFormCest
 	 */
 	public function testFormModuleWithValidLegacyFormParameter(AcceptanceTester $I)
 	{
+		// Setup Plugin, without defining default Forms.
+		$I->setupConvertKitPluginNoDefaultForms($I);
+		$I->setupConvertKitPluginResources($I);
+
 		// Create Page with Form module in Divi.
 		$pageID = $this->_createPageWithFormModule($I, 'ConvertKit: Legacy Form: Divi Module: Valid Form Param', $_ENV['CONVERTKIT_API_LEGACY_FORM_ID']);
 
@@ -221,6 +320,10 @@ class DiviFormCest
 	 */
 	public function testFormModuleWithNoFormParameter(AcceptanceTester $I)
 	{
+		// Setup Plugin, without defining default Forms.
+		$I->setupConvertKitPluginNoDefaultForms($I);
+		$I->setupConvertKitPluginResources($I);
+
 		// Create Page with Form module in Divi.
 		$pageID = $this->_createPageWithFormModule($I, 'ConvertKit: Page: Form: Divi Module: No Form Param', '');
 
