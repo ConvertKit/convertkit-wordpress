@@ -401,6 +401,26 @@ function convertkit_get_form_editor_url() {
 }
 
 /**
+ * Helper method to return the URL the user needs to visit on the ConvertKit app to create a new Landing Page.
+ *
+ * @since   2.5.5
+ *
+ * @return  string              ConvertKit App URL
+ */
+function convertkit_get_new_landing_page_url() {
+
+	return add_query_arg(
+		array(
+			'utm_source'  => 'wordpress',
+			'utm_term'    => get_locale(),
+			'utm_content' => 'convertkit',
+		),
+		'https://app.convertkit.com/pages/new/'
+	);
+
+}
+
+/**
  * Helper method to return the URL the user needs to visit on the ConvertKit app to create a new Tag.
  *
  * @since   2.3.3
@@ -544,13 +564,14 @@ function convertkit_get_file_contents( $local_file ) {
  *
  * @since   2.5.2
  *
- * @param   string $name        Field name.
- * @param   string $value       Field value.
- * @param   string $id          Field ID attribute.
- * @param   string $css_class   Field CSS class(es).
- * @param   string $context     Resource context.
+ * @param   string     $name                Field name.
+ * @param   string     $value               Field value.
+ * @param   string     $id                  Field ID attribute.
+ * @param   string     $css_class           Field CSS class(es).
+ * @param   string     $context             Resource context.
+ * @param   bool|array $additional_options  Additional <option> key/value pairs.
  */
-function convertkit_get_subscription_dropdown_field( $name, $value, $id, $css_class = '', $context = '' ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter
+function convertkit_get_subscription_dropdown_field( $name, $value, $id, $css_class = '', $context = '', $additional_options = false ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter
 
 	// Load resource classes.
 	$forms     = new ConvertKit_Resource_Forms( $context );

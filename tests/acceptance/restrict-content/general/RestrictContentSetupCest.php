@@ -32,8 +32,8 @@ class RestrictContentSetupCest
 		// Navigate to Pages.
 		$I->amOnAdminPage('edit.php?post_type=page');
 
-		// Check the button isn't displayed.
-		$I->dontSeeElementInDOM('a.convertkit-action page-title-action');
+		// Check the buttons are not displayed.
+		$I->dontSeeElementInDOM('span.convertkit-action.page-title-action');
 	}
 
 	/**
@@ -51,8 +51,8 @@ class RestrictContentSetupCest
 		// Navigate to Posts.
 		$I->amOnAdminPage('edit.php?post_type=post');
 
-		// Check the button isn't displayed.
-		$I->dontSeeElementInDOM('a.convertkit-action');
+		// Check the buttons are not displayed.
+		$I->dontSeeElementInDOM('span.convertkit-action.page-title-action');
 	}
 
 	/**
@@ -102,7 +102,9 @@ class RestrictContentSetupCest
 		$I->amOnAdminPage('edit.php?post_type=page');
 
 		// Click Add New Member Content button.
-		$I->click('Add New Member Content');
+		$I->moveMouseOver('span.convertkit-action');
+		$I->waitForElementVisible('span.convertkit-action span.convertkit-actions a');
+		$I->click('Member Content');
 
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
@@ -154,7 +156,9 @@ class RestrictContentSetupCest
 
 		// Confirm the Pages screen is displayed.
 		$I->see('Pages');
-		$I->see('Add New Member Content');
+		$I->moveMouseOver('span.convertkit-action');
+		$I->waitForElementVisible('span.convertkit-action span.convertkit-actions a');
+		$I->see('Member Content');
 	}
 
 	/**
@@ -473,7 +477,9 @@ class RestrictContentSetupCest
 		$I->amOnAdminPage('edit.php?post_type=page');
 
 		// Click Add New Member Content button.
-		$I->click('Add New Member Content');
+		$I->moveMouseOver('span.convertkit-action');
+		$I->waitForElementVisible('span.convertkit-action span.convertkit-actions a');
+		$I->click('Member Content');
 
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);

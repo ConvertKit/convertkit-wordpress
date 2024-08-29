@@ -23,9 +23,78 @@ class ConvertKit_Admin_Post {
 	 */
 	public function __construct() {
 
+		// Register "Add New" ConvertKit button on Pages.
+		add_filter( 'views_edit-page', array( $this, 'output_wp_list_table_buttons' ) );
+
 		add_action( 'post_submitbox_misc_actions', array( $this, 'output_pre_publish_actions' ) );
 		add_action( 'add_meta_boxes', array( $this, 'add_meta_boxes' ) );
 		add_action( 'save_post', array( $this, 'save_post_meta' ) );
+
+	}
+
+	/**
+	 * Registers 'Add New' buttons for the given Post Type's admin screen.
+	 *
+	 * If no options are registered, no button is displayed.
+	 *
+	 * JS will move this button to be displayed next to the "Add New" button when viewing the table of Pages or Posts,
+	 * as there is not a native WordPress action/filter for registering buttons next to the "Add New" button.
+	 *
+	 * @since   2.5.5
+	 *
+	 * @param   array $views  Views.
+	 * @return  array           Views
+	 */
+	public function output_wp_list_table_buttons( $views ) {
+
+		// Get current post type that we're viewing.
+		$post_type = $this->get_current_post_type();
+
+		// Don't output any buttons if we couldn't determine the current post type.
+		if ( ! $post_type ) {
+			return $views;
+		}
+
+		// Define a blank array of buttons to be filtered.
+		$buttons = array();
+
+		/**
+		 * Registers 'Add New' buttons for the given Post Type's admin screen.
+		 *
+		 * @since   2.5.5
+		 *
+		 * @param   array   $buttons    Buttons.
+		 * @param   string  $post_type  Post Type.
+		 */
+		$buttons = apply_filters( 'convertkit_admin_post_register_add_new_buttons', $buttons, $post_type );
+
+		// Bail if no buttons are registered for display.
+		if ( ! count( $buttons ) ) {
+			return $views;
+		}
+
+		// Enqueue JS and CSS.
+		wp_enqueue_script( 'convertkit-admin-wp-list-table-buttons', CONVERTKIT_PLUGIN_URL . 'resources/backend/js/wp-list-table-buttons.js', array( 'jquery' ), CONVERTKIT_PLUGIN_VERSION, true );
+		wp_enqueue_style( 'convertkit-admin-wp-list-table-buttons', CONVERTKIT_PLUGIN_URL . 'resources/backend/css/wp-list-table-buttons.css', array(), CONVERTKIT_PLUGIN_VERSION );
+
+		// Build buttons HTML.
+		$html = '';
+		foreach ( $buttons as $button_name => $button ) {
+			$html .= sprintf(
+				'<a href="%s">%s</a>',
+				esc_attr( $button['url'] ),
+				esc_html( $button['label'] )
+			);
+		}
+
+		// Register an 'Add New' dropdown button, with buttons HTML.
+		$views['convertkit'] = sprintf(
+			'<span class="convertkit-action page-title-action hidden">%s<span class="convertkit-actions hidden">%s</span></span>',
+			__( 'Add New', 'convertkit' ),
+			$html
+		);
+
+		return $views;
 
 	}
 
@@ -256,6 +325,28 @@ class ConvertKit_Admin_Post {
 		if ( $meta['form'] || $meta['landing_page'] ) {
 			WP_ConvertKit()->get_class( 'review_request' )->request_review();
 		}
+
+	}
+
+	/**
+	 * Get the current post type based on the screen that is viewed.
+	 *
+	 * @since   2.5.5
+	 *
+	 * @return  bool|string
+	 */
+	private function get_current_post_type() {
+
+		// Bail if we cannot determine the screen.
+		if ( ! function_exists( 'get_current_screen' ) ) {
+			return false;
+		}
+
+		// Get screen.
+		$screen = get_current_screen();
+
+		// Return post type.
+		return $screen->post_type;
 
 	}
 

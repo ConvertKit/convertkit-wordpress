@@ -67,12 +67,14 @@ class WP_ConvertKit {
 		$this->classes['admin_bulk_edit']                     = new ConvertKit_Admin_Bulk_Edit();
 		$this->classes['admin_cache_plugins']                 = new ConvertKit_Admin_Cache_Plugins();
 		$this->classes['admin_category']                      = new ConvertKit_Admin_Category();
+		$this->classes['admin_landing_page']                  = new ConvertKit_Admin_Landing_Page();
 		$this->classes['admin_notices']                       = new ConvertKit_Admin_Notices();
 		$this->classes['admin_post']                          = new ConvertKit_Admin_Post();
 		$this->classes['admin_quick_edit']                    = new ConvertKit_Admin_Quick_Edit();
 		$this->classes['admin_refresh_resources']             = new ConvertKit_Admin_Refresh_Resources();
 		$this->classes['admin_restrict_content']              = new ConvertKit_Admin_Restrict_Content();
 		$this->classes['admin_settings']                      = new ConvertKit_Admin_Settings();
+		$this->classes['admin_setup_wizard_landing_page']     = new ConvertKit_Admin_Setup_Wizard_Landing_Page();
 		$this->classes['admin_setup_wizard_plugin']           = new ConvertKit_Admin_Setup_Wizard_Plugin();
 		$this->classes['admin_setup_wizard_restrict_content'] = new ConvertKit_Admin_Setup_Wizard_Restrict_Content();
 		$this->classes['admin_tinymce']                       = new ConvertKit_Admin_TinyMCE();
@@ -172,6 +174,7 @@ class WP_ConvertKit {
 		$this->classes['pre_publish_action_broadcast_export'] = new ConvertKit_Pre_Publish_Action_Broadcast_Export();
 		$this->classes['broadcasts_exporter']                 = new ConvertKit_Broadcasts_Exporter();
 		$this->classes['broadcasts_importer']                 = new ConvertKit_Broadcasts_Importer();
+		$this->classes['divi']                                = new ConvertKit_Divi();
 		$this->classes['elementor']                           = new ConvertKit_Elementor();
 		$this->classes['gutenberg']                           = new ConvertKit_Gutenberg();
 		$this->classes['media_library']                       = new ConvertKit_Media_Library();

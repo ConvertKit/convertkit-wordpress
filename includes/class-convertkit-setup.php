@@ -45,6 +45,30 @@ class ConvertKit_Setup {
 		}
 
 		/**
+		 * 2.5.4: Migrate WishList Member to ConvertKit Form Mappings
+		 */
+		if ( ! $current_version || version_compare( $current_version, '2.5.4', '<' ) ) {
+			$this->migrate_wlm_none_setting();
+			$this->migrate_wlm_form_tag_mapping_settings();
+		}
+
+		/**
+		 * 2.5.3: Migrate Third Party Form integrations' 'None' option values from `default` to blank.
+		 */
+		if ( ! $current_version || version_compare( $current_version, '2.5.3', '<' ) ) {
+			$this->migrate_contact_form_7_none_setting();
+			$this->migrate_forminator_none_setting();
+			$this->migrate_wlm_none_setting();
+		}
+
+		/**
+		 * 2.5.2: Migrate Forminator to ConvertKit Form Mappings
+		 */
+		if ( ! $current_version || version_compare( $current_version, '2.5.2', '<' ) ) {
+			$this->migrate_forminator_form_mapping_settings();
+		}
+
+		/**
 		 * 2.5.2: Migrate Contact Form 7 to ConvertKit Form Mappings
 		 */
 		if ( ! $current_version || version_compare( $current_version, '2.5.2', '<' ) ) {
@@ -98,7 +122,218 @@ class ConvertKit_Setup {
 	}
 
 	/**
-	 * 2.5.2: Prefix any Contact Form 7 to ConvertKit Form ID mappings with `form_`, now that
+	 * 2.5.4: Migrate WLM settings:
+	 * - Prefix any WishList Member to ConvertKit Form ID mappings with `form:`,
+	 * - Prefix any WishList Member to ConvertKit Tag ID mappings with `tag:`,
+	 * - Standardise the settings keys to the format {wlm_level_id}_subscribe
+	 * and {wlm_level_id}_unsubscribe.
+	 *
+	 * @since   2.5.4
+	 */
+	private function migrate_wlm_form_tag_mapping_settings() {
+
+		$convertkit_wlm_settings = new ConvertKit_Wishlist_Settings();
+
+		// Bail if no settings exist.
+		if ( ! $convertkit_wlm_settings->has_settings() ) {
+			return;
+		}
+
+		// Define new array for settings.
+		$settings = array();
+
+		// Iterate through settings.
+		foreach ( $convertkit_wlm_settings->get() as $key => $convertkit_form_or_tag_id ) {
+			// Split the settings key.
+			list( $wlm_level_id, $type ) = explode( '_', $key );
+
+			switch ( $type ) {
+				case 'form':
+					// This is the action to perform when the user is added to the WLM Level.
+					// Use a new name for the setting key to reflect this.
+					// < 2.5.4, forms were the only option here, so prefix the resource ID with `form:`.
+					$settings[ $wlm_level_id . '_add' ] = ( empty( $convertkit_form_or_tag_id ) ? '' : 'form:' . $convertkit_form_or_tag_id );
+					break;
+
+				case 'unsubscribe':
+					// This is the action to perform when the user is removed from the WLM Level.
+					// Use a new name for the setting key to reflect this.
+					// < 2.5.4, tags were the only option here, so prefix the resource ID with `tag:`.
+					$settings[ $wlm_level_id . '_remove' ] = ( empty( $convertkit_form_or_tag_id ) ? '' : 'tag:' . $convertkit_form_or_tag_id );
+					break;
+			}
+		}
+
+		// Update settings.
+		update_option( $convertkit_wlm_settings::SETTINGS_NAME, $settings );
+
+	}
+
+	/**
+	 * 2.5.3: Migrate Third Party Form integrations' 'None' option values from `default` to blank.
+	 *
+	 * 2.4.9 changed the 'None' label's value from `default` to a blank string, as the v4 API's
+	 * `add_subscriber_to_form()` method introduces type declarations, which would result in
+	 * an uncaught TypeError when passing a non integer value.
+	 *
+	 * The PR for that (https://github.com/ConvertKit/convertkit-wordpress/pull/655) didn't include
+	 * any tests or upgrade/migration routines to change any existing saved settings where the 'None'
+	 * label's value was stored as `default`.
+	 */
+	private function migrate_contact_form_7_none_setting() {
+
+		$convertkit_contact_form_7_settings = new ConvertKit_ContactForm7_Settings();
+
+		// Bail if no settings exist.
+		if ( ! $convertkit_contact_form_7_settings->has_settings() ) {
+			return;
+		}
+
+		// Get settings.
+		$settings = $convertkit_contact_form_7_settings->get();
+
+		// Iterate through settings.
+		foreach ( $settings as $contact_form_7_form_id => $convertkit_form_id ) {
+			// Skip keys that are non-numeric e.g. `creator_network_recommendations_*`.
+			if ( ! is_numeric( $contact_form_7_form_id ) ) {
+				continue;
+			}
+
+			// Change 'default' to a blank string.
+			if ( $convertkit_form_id === 'default' ) {
+				$settings[ $contact_form_7_form_id ] = '';
+			}
+		}
+
+		// Update settings.
+		update_option( $convertkit_contact_form_7_settings::SETTINGS_NAME, $settings );
+
+	}
+
+	/**
+	 * 2.5.3: Migrate Third Party Form integrations' 'None' option values from `default` to blank.
+	 *
+	 * 2.4.9 changed the 'None' label's value from `default` to a blank string, as the v4 API's
+	 * `add_subscriber_to_form()` method introduces type declarations, which would result in
+	 * an uncaught TypeError when passing a non integer value.
+	 *
+	 * The PR for that (https://github.com/ConvertKit/convertkit-wordpress/pull/655) didn't include
+	 * any tests or upgrade/migration routines to change any existing saved settings where the 'None'
+	 * label's value was stored as `default`.
+	 */
+	private function migrate_forminator_none_setting() {
+
+		$convertkit_forminator_settings = new ConvertKit_Forminator_Settings();
+
+		// Bail if no settings exist.
+		if ( ! $convertkit_forminator_settings->has_settings() ) {
+			return;
+		}
+
+		// Get settings.
+		$settings = $convertkit_forminator_settings->get();
+
+		// Iterate through settings.
+		foreach ( $settings as $forminator_form_id => $convertkit_form_id ) {
+			// Skip keys that are non-numeric e.g. `creator_network_recommendations_*`.
+			if ( ! is_numeric( $forminator_form_id ) ) {
+				continue;
+			}
+
+			// Change 'default' to a blank string.
+			if ( $convertkit_form_id === 'default' ) {
+				$settings[ $forminator_form_id ] = '';
+			}
+		}
+
+		// Update settings.
+		update_option( $convertkit_forminator_settings::SETTINGS_NAME, $settings );
+
+	}
+
+	/**
+	 * 2.5.3: Migrate Third Party Form integrations' 'None' option values from `default` to blank.
+	 *
+	 * 2.4.9 changed the 'None' label's value from `default` to a blank string, as the v4 API's
+	 * `add_subscriber_to_form()` method introduces type declarations, which would result in
+	 * an uncaught TypeError when passing a non integer value.
+	 *
+	 * The PR for that (https://github.com/ConvertKit/convertkit-wordpress/pull/655) didn't include
+	 * any tests or upgrade/migration routines to change any existing saved settings where the 'None'
+	 * label's value was stored as `default`.
+	 */
+	private function migrate_wlm_none_setting() {
+
+		$convertkit_wlm_settings = new ConvertKit_Wishlist_Settings();
+
+		// Bail if no settings exist.
+		if ( ! $convertkit_wlm_settings->has_settings() ) {
+			return;
+		}
+
+		// Get settings.
+		$settings = $convertkit_wlm_settings->get();
+
+		// Iterate through settings.
+		foreach ( $settings as $wlm_level_id => $value ) {
+			// Change 'default' to a blank string.
+			if ( $value === 'default' ) {
+				$settings[ $wlm_level_id ] = '';
+			}
+		}
+
+		// Update settings.
+		update_option( $convertkit_wlm_settings::SETTINGS_NAME, $settings );
+
+	}
+
+	/**
+	 * 2.5.2: Prefix any Forminator to ConvertKit Form ID mappings with `form:`, now that
+	 * the Plugin supports adding a subscriber to a Form, Tag or Sequence.
+	 *
+	 * @since   2.5.2
+	 */
+	private function migrate_forminator_form_mapping_settings() {
+
+		$convertkit_forminator_settings = new ConvertKit_Forminator_Settings();
+
+		// Bail if no settings exist.
+		if ( ! $convertkit_forminator_settings->has_settings() ) {
+			return;
+		}
+
+		// Get settings.
+		$settings = $convertkit_forminator_settings->get();
+
+		// Iterate through settings.
+		foreach ( $settings as $forminator_form_id => $convertkit_form_id ) {
+			// Skip keys that are non-numeric e.g. `creator_network_recommendations_*`.
+			if ( ! is_numeric( $forminator_form_id ) ) {
+				continue;
+			}
+
+			// Skip values that are blank i.e. no ConvertKit Form ID specified.
+			if ( empty( $convertkit_form_id ) ) {
+				continue;
+			}
+
+			// Skip values that are non-numeric i.e. the `form_` prefix was already added.
+			// This should never happen as this routine runs once, but this is a sanity check.
+			if ( ! is_numeric( $convertkit_form_id ) ) {
+				continue;
+			}
+
+			// Prefix the ConvertKit Form ID with `form_`.
+			$settings[ $forminator_form_id ] = 'form:' . $convertkit_form_id;
+		}
+
+		// Update settings.
+		update_option( $convertkit_forminator_settings::SETTINGS_NAME, $settings );
+
+	}
+
+	/**
+	 * 2.5.2: Prefix any Contact Form 7 to ConvertKit Form ID mappings with `form:`, now that
 	 * the Plugin supports adding a subscriber to a Form, Tag or Sequence.
 	 *
 	 * @since   2.5.2

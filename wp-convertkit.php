@@ -9,7 +9,7 @@
  * Plugin Name: ConvertKit
  * Plugin URI: https://kit.com/
  * Description: Display ConvertKit email subscription forms, landing pages, products, broadcasts and more.
- * Version: 2.5.1
+ * Version: 2.5.6
  * Author: ConvertKit
  * Author URI: https://kit.com/
  * Text Domain: convertkit
@@ -25,7 +25,7 @@ define( 'CONVERTKIT_PLUGIN_NAME', 'ConvertKit' ); // Used for user-agent in API 
 define( 'CONVERTKIT_PLUGIN_FILE', plugin_basename( __FILE__ ) );
 define( 'CONVERTKIT_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'CONVERTKIT_PLUGIN_PATH', __DIR__ );
-define( 'CONVERTKIT_PLUGIN_VERSION', '2.5.1' );
+define( 'CONVERTKIT_PLUGIN_VERSION', '2.5.6' );
 define( 'CONVERTKIT_OAUTH_CLIENT_ID', 'HXZlOCj-K5r0ufuWCtyoyo3f688VmMAYSsKg1eGvw0Y' );
 define( 'CONVERTKIT_OAUTH_CLIENT_REDIRECT_URI', 'https://app.kit.com/wordpress/redirect' );
 
@@ -94,6 +94,9 @@ require_once CONVERTKIT_PLUGIN_PATH . '/includes/widgets/class-ck-widget-form.ph
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/integrations/contactform7/class-convertkit-contactform7.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/integrations/contactform7/class-convertkit-contactform7-settings.php';
 
+// Divi Integration.
+require_once CONVERTKIT_PLUGIN_PATH . '/includes/integrations/divi/class-convertkit-divi.php';
+
 // Elementor Integration.
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/integrations/elementor/class-convertkit-elementor.php';
 
@@ -141,6 +144,10 @@ if ( is_admin() ) {
 	require_once CONVERTKIT_PLUGIN_PATH . '/admin/class-convertkit-admin-restrict-content.php';
 	require_once CONVERTKIT_PLUGIN_PATH . '/admin/class-convertkit-admin-settings-restrict-content.php';
 	require_once CONVERTKIT_PLUGIN_PATH . '/admin/setup-wizard/class-convertkit-admin-setup-wizard-restrict-content.php';
+
+	// Landing Page Integration.
+	require_once CONVERTKIT_PLUGIN_PATH . '/admin/class-convertkit-admin-landing-page.php';
+	require_once CONVERTKIT_PLUGIN_PATH . '/admin/setup-wizard/class-convertkit-admin-setup-wizard-landing-page.php';
 
 	// Broadcasts Integration.
 	require_once CONVERTKIT_PLUGIN_PATH . '/admin/section/class-convertkit-admin-settings-broadcasts.php';

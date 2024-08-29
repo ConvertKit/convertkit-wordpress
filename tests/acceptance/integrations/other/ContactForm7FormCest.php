@@ -45,66 +45,20 @@ class ContactForm7FormCest
 	 */
 	public function testSettingsContactForm7ToConvertKitFormMapping(AcceptanceTester $I)
 	{
-		// Setup ConvertKit Plugin.
-		$I->setupConvertKitPlugin($I);
-		$I->setupConvertKitPluginResources($I);
-
-		// Create Contact Form 7 Form.
-		$contactForm7ID = $this->_createContactForm7Form($I);
-
-		// Load Contact Form 7 Plugin Settings.
-		$I->amOnAdminPage('options-general.php?page=_wp_convertkit_settings&tab=contactform7');
-
-		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen($I);
-
-		// Check that a Form Mapping option is displayed.
-		$I->seeElementInDOM('#_wp_convertkit_integration_contactform7_settings_' . $contactForm7ID);
-
-		// Change Form to value specified in the .env file.
-		$I->selectOption('#_wp_convertkit_integration_contactform7_settings_' . $contactForm7ID, $_ENV['CONVERTKIT_API_THIRD_PARTY_INTEGRATIONS_FORM_NAME']);
-
-		$I->click('Save Changes');
-
-		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen($I);
-
-		// Check the value of the Form field matches the input provided.
-		$I->seeOptionIsSelected('#_wp_convertkit_integration_contactform7_settings_' . $contactForm7ID, $_ENV['CONVERTKIT_API_THIRD_PARTY_INTEGRATIONS_FORM_NAME']);
-
-		// Create Page with Contact Form 7 Shortcode.
-		$I->havePageInDatabase(
-			[
-				'post_title'   => 'ConvertKit: Contact Form 7 Shortcode',
-				'post_name'    => 'convertkit-contact-form-7-shortcode',
-				'post_content' => 'Form:
-[contact-form-7 id="' . $contactForm7ID . '"]',
-			]
+		// Setup Contact form 7 Form and configuration for this test.
+		$pageID = $this->_contactForm7SetupForm(
+			$I,
+			$_ENV['CONVERTKIT_API_THIRD_PARTY_INTEGRATIONS_FORM_NAME']
 		);
-
-		// Load the Page on the frontend site.
-		$I->amOnPage('/convertkit-contact-form-7-shortcode');
-
-		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen($I);
 
 		// Define email address for this test.
 		$emailAddress = $I->generateEmailAddress();
 
-		// Complete Name and Email.
-		$I->fillField('input[name=your-name]', 'ConvertKit Name');
-		$I->fillField('input[name=your-email]', $emailAddress);
-		$I->fillField('input[name=your-subject]', 'ConvertKit Subject');
-
-		// Submit Form.
-		$I->click('Submit');
-
-		// Confirm the form submitted without errors.
-		$I->performOn(
-			'form.sent',
-			function($I) {
-				$I->see('Thank you for your message. It has been sent.');
-			}
+		// Complete and submit Contact Form 7 Form.
+		$this->_contactForm7CompleteAndSubmitForm(
+			$I,
+			$pageID,
+			$emailAddress
 		);
 
 		// Confirm that the email address was added to ConvertKit.
@@ -120,66 +74,20 @@ class ContactForm7FormCest
 	 */
 	public function testSettingsContactForm7ToConvertKitLegacyFormMapping(AcceptanceTester $I)
 	{
-		// Setup ConvertKit Plugin.
-		$I->setupConvertKitPlugin($I);
-		$I->setupConvertKitPluginResources($I);
-
-		// Create Contact Form 7 Form.
-		$contactForm7ID = $this->_createContactForm7Form($I);
-
-		// Load Contact Form 7 Plugin Settings.
-		$I->amOnAdminPage('options-general.php?page=_wp_convertkit_settings&tab=contactform7');
-
-		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen($I);
-
-		// Check that a Form Mapping option is displayed.
-		$I->seeElementInDOM('#_wp_convertkit_integration_contactform7_settings_' . $contactForm7ID);
-
-		// Change Form to value specified in the .env file.
-		$I->selectOption('#_wp_convertkit_integration_contactform7_settings_' . $contactForm7ID, $_ENV['CONVERTKIT_API_LEGACY_FORM_NAME']);
-
-		$I->click('Save Changes');
-
-		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen($I);
-
-		// Check the value of the Form field matches the input provided.
-		$I->seeOptionIsSelected('#_wp_convertkit_integration_contactform7_settings_' . $contactForm7ID, $_ENV['CONVERTKIT_API_LEGACY_FORM_NAME']);
-
-		// Create Page with Contact Form 7 Shortcode.
-		$I->havePageInDatabase(
-			[
-				'post_title'   => 'ConvertKit: Contact Form 7 Shortcode: Legacy Form',
-				'post_name'    => 'convertkit-contact-form-7-shortcode-legacy-form',
-				'post_content' => 'Form:
-[contact-form-7 id="' . $contactForm7ID . '"]',
-			]
+		// Setup Contact form 7 Form and configuration for this test.
+		$pageID = $this->_contactForm7SetupForm(
+			$I,
+			$_ENV['CONVERTKIT_API_LEGACY_FORM_NAME']
 		);
-
-		// Load the Page on the frontend site.
-		$I->amOnPage('/convertkit-contact-form-7-shortcode-legacy-form');
-
-		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen($I);
 
 		// Define email address for this test.
 		$emailAddress = $I->generateEmailAddress();
 
-		// Complete Name and Email.
-		$I->fillField('input[name=your-name]', 'ConvertKit Name');
-		$I->fillField('input[name=your-email]', $emailAddress);
-		$I->fillField('input[name=your-subject]', 'ConvertKit Subject');
-
-		// Submit Form.
-		$I->click('Submit');
-
-		// Confirm the form submitted without errors.
-		$I->performOn(
-			'form.sent',
-			function($I) {
-				$I->see('Thank you for your message. It has been sent.');
-			}
+		// Complete and submit Contact Form 7 Form.
+		$this->_contactForm7CompleteAndSubmitForm(
+			$I,
+			$pageID,
+			$emailAddress
 		);
 
 		// Confirm that the email address was added to ConvertKit.
@@ -195,66 +103,20 @@ class ContactForm7FormCest
 	 */
 	public function testSettingsContactForm7ToConvertKitTagMapping(AcceptanceTester $I)
 	{
-		// Setup ConvertKit Plugin.
-		$I->setupConvertKitPlugin($I);
-		$I->setupConvertKitPluginResources($I);
-
-		// Create Contact Form 7 Form.
-		$contactForm7ID = $this->_createContactForm7Form($I);
-
-		// Load Contact Form 7 Plugin Settings.
-		$I->amOnAdminPage('options-general.php?page=_wp_convertkit_settings&tab=contactform7');
-
-		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen($I);
-
-		// Check that a Form Mapping option is displayed.
-		$I->seeElementInDOM('#_wp_convertkit_integration_contactform7_settings_' . $contactForm7ID);
-
-		// Change Form to value specified in the .env file.
-		$I->selectOption('#_wp_convertkit_integration_contactform7_settings_' . $contactForm7ID, $_ENV['CONVERTKIT_API_TAG_NAME']);
-
-		$I->click('Save Changes');
-
-		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen($I);
-
-		// Check the value of the Form field matches the input provided.
-		$I->seeOptionIsSelected('#_wp_convertkit_integration_contactform7_settings_' . $contactForm7ID, $_ENV['CONVERTKIT_API_TAG_NAME']);
-
-		// Create Page with Contact Form 7 Shortcode.
-		$I->havePageInDatabase(
-			[
-				'post_title'   => 'ConvertKit: Contact Form 7 Shortcode: Tag',
-				'post_name'    => 'convertkit-contact-form-7-shortcode-tag',
-				'post_content' => 'Form:
-[contact-form-7 id="' . $contactForm7ID . '"]',
-			]
+		// Setup Contact form 7 Form and configuration for this test.
+		$pageID = $this->_contactForm7SetupForm(
+			$I,
+			$_ENV['CONVERTKIT_API_TAG_NAME']
 		);
-
-		// Load the Page on the frontend site.
-		$I->amOnPage('/convertkit-contact-form-7-shortcode-tag');
-
-		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen($I);
 
 		// Define email address for this test.
 		$emailAddress = $I->generateEmailAddress();
 
-		// Complete Name and Email.
-		$I->fillField('input[name=your-name]', 'ConvertKit Name');
-		$I->fillField('input[name=your-email]', $emailAddress);
-		$I->fillField('input[name=your-subject]', 'ConvertKit Subject');
-
-		// Submit Form.
-		$I->click('Submit');
-
-		// Confirm the form submitted without errors.
-		$I->performOn(
-			'form.sent',
-			function($I) {
-				$I->see('Thank you for your message. It has been sent.');
-			}
+		// Complete and submit Contact Form 7 Form.
+		$this->_contactForm7CompleteAndSubmitForm(
+			$I,
+			$pageID,
+			$emailAddress
 		);
 
 		// Confirm that the email address was added to ConvertKit.
@@ -273,66 +135,20 @@ class ContactForm7FormCest
 	 */
 	public function testSettingsContactForm7ToConvertKitSequenceMapping(AcceptanceTester $I)
 	{
-		// Setup ConvertKit Plugin.
-		$I->setupConvertKitPlugin($I);
-		$I->setupConvertKitPluginResources($I);
-
-		// Create Contact Form 7 Form.
-		$contactForm7ID = $this->_createContactForm7Form($I);
-
-		// Load Contact Form 7 Plugin Settings.
-		$I->amOnAdminPage('options-general.php?page=_wp_convertkit_settings&tab=contactform7');
-
-		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen($I);
-
-		// Check that a Form Mapping option is displayed.
-		$I->seeElementInDOM('#_wp_convertkit_integration_contactform7_settings_' . $contactForm7ID);
-
-		// Change Form to value specified in the .env file.
-		$I->selectOption('#_wp_convertkit_integration_contactform7_settings_' . $contactForm7ID, $_ENV['CONVERTKIT_API_SEQUENCE_NAME']);
-
-		$I->click('Save Changes');
-
-		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen($I);
-
-		// Check the value of the Form field matches the input provided.
-		$I->seeOptionIsSelected('#_wp_convertkit_integration_contactform7_settings_' . $contactForm7ID, $_ENV['CONVERTKIT_API_SEQUENCE_NAME']);
-
-		// Create Page with Contact Form 7 Shortcode.
-		$I->havePageInDatabase(
-			[
-				'post_title'   => 'ConvertKit: Contact Form 7 Shortcode: Sequence',
-				'post_name'    => 'convertkit-contact-form-7-shortcode-sequence',
-				'post_content' => 'Form:
-[contact-form-7 id="' . $contactForm7ID . '"]',
-			]
+		// Setup Contact form 7 Form and configuration for this test.
+		$pageID = $this->_contactForm7SetupForm(
+			$I,
+			$_ENV['CONVERTKIT_API_SEQUENCE_NAME']
 		);
-
-		// Load the Page on the frontend site.
-		$I->amOnPage('/convertkit-contact-form-7-shortcode-sequence');
-
-		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen($I);
 
 		// Define email address for this test.
 		$emailAddress = $I->generateEmailAddress();
 
-		// Complete Name and Email.
-		$I->fillField('input[name=your-name]', 'ConvertKit Name');
-		$I->fillField('input[name=your-email]', $emailAddress);
-		$I->fillField('input[name=your-subject]', 'ConvertKit Subject');
-
-		// Submit Form.
-		$I->click('Submit');
-
-		// Confirm the form submitted without errors.
-		$I->performOn(
-			'form.sent',
-			function($I) {
-				$I->see('Thank you for your message. It has been sent.');
-			}
+		// Complete and submit Contact Form 7 Form.
+		$this->_contactForm7CompleteAndSubmitForm(
+			$I,
+			$pageID,
+			$emailAddress
 		);
 
 		// Confirm that the email address was added to ConvertKit.
@@ -351,66 +167,20 @@ class ContactForm7FormCest
 	 */
 	public function testSettingsContactForm7DoNotSubscribeOption(AcceptanceTester $I)
 	{
-		// Setup ConvertKit Plugin.
-		$I->setupConvertKitPlugin($I);
-		$I->setupConvertKitPluginResources($I);
-
-		// Create Contact Form 7 Form.
-		$contactForm7ID = $this->_createContactForm7Form($I);
-
-		// Load Contact Form 7 Plugin Settings.
-		$I->amOnAdminPage('options-general.php?page=_wp_convertkit_settings&tab=contactform7');
-
-		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen($I);
-
-		// Check that a Form Mapping option is displayed.
-		$I->seeElementInDOM('#_wp_convertkit_integration_contactform7_settings_' . $contactForm7ID);
-
-		// Set Contact Form 7 setting to subscribe.
-		$I->selectOption('#_wp_convertkit_integration_contactform7_settings_' . $contactForm7ID, '(Do not subscribe)');
-
-		$I->click('Save Changes');
-
-		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen($I);
-
-		// Check the value of the Form field matches the input provided.
-		$I->seeOptionIsSelected('#_wp_convertkit_integration_contactform7_settings_' . $contactForm7ID, '(Do not subscribe)');
-
-		// Create Page with Contact Form 7 Shortcode.
-		$I->havePageInDatabase(
-			[
-				'post_title'   => 'ConvertKit: Contact Form 7: Do Not Subscribe',
-				'post_name'    => 'convertkit-contact-form-7-do-not-subscribe',
-				'post_content' => 'Form:
-[contact-form-7 id="' . $contactForm7ID . '"]',
-			]
+		// Setup Contact form 7 Form and configuration for this test.
+		$pageID = $this->_contactForm7SetupForm(
+			$I,
+			'(Do not subscribe)'
 		);
-
-		// Load the Page on the frontend site.
-		$I->amOnPage('/convertkit-contact-form-7-do-not-subscribe');
-
-		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen($I);
 
 		// Define email address for this test.
 		$emailAddress = $I->generateEmailAddress();
 
-		// Complete Name and Email.
-		$I->fillField('input[name=your-name]', 'ConvertKit Name');
-		$I->fillField('input[name=your-email]', $emailAddress);
-		$I->fillField('input[name=your-subject]', 'ConvertKit Subject');
-
-		// Submit Form.
-		$I->click('Submit');
-
-		// Confirm the form submitted without errors.
-		$I->performOn(
-			'form.sent',
-			function($I) {
-				$I->see('Thank you for your message. It has been sent.');
-			}
+		// Complete and submit Contact Form 7 Form.
+		$this->_contactForm7CompleteAndSubmitForm(
+			$I,
+			$pageID,
+			$emailAddress
 		);
 
 		// Confirm that the email address was not added to ConvertKit.
@@ -426,66 +196,20 @@ class ContactForm7FormCest
 	 */
 	public function testSettingsContactForm7SubscribeOption(AcceptanceTester $I)
 	{
-		// Setup ConvertKit Plugin.
-		$I->setupConvertKitPlugin($I);
-		$I->setupConvertKitPluginResources($I);
-
-		// Create Contact Form 7 Form.
-		$contactForm7ID = $this->_createContactForm7Form($I);
-
-		// Load Contact Form 7 Plugin Settings.
-		$I->amOnAdminPage('options-general.php?page=_wp_convertkit_settings&tab=contactform7');
-
-		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen($I);
-
-		// Check that a Form Mapping option is displayed.
-		$I->seeElementInDOM('#_wp_convertkit_integration_contactform7_settings_' . $contactForm7ID);
-
-		// Set Contact Form 7 setting to subscribe.
-		$I->selectOption('#_wp_convertkit_integration_contactform7_settings_' . $contactForm7ID, 'Subscribe');
-
-		$I->click('Save Changes');
-
-		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen($I);
-
-		// Check the value of the Form field matches the input provided.
-		$I->seeOptionIsSelected('#_wp_convertkit_integration_contactform7_settings_' . $contactForm7ID, 'Subscribe');
-
-		// Create Page with Contact Form 7 Shortcode.
-		$I->havePageInDatabase(
-			[
-				'post_title'   => 'ConvertKit: Contact Form 7: Subscribe',
-				'post_name'    => 'convertkit-contact-form-7-subscribe',
-				'post_content' => 'Form:
-[contact-form-7 id="' . $contactForm7ID . '"]',
-			]
+		// Setup Contact form 7 Form and configuration for this test.
+		$pageID = $this->_contactForm7SetupForm(
+			$I,
+			'Subscribe'
 		);
-
-		// Load the Page on the frontend site.
-		$I->amOnPage('/convertkit-contact-form-7-subscribe');
-
-		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen($I);
 
 		// Define email address for this test.
 		$emailAddress = $I->generateEmailAddress();
 
-		// Complete Name and Email.
-		$I->fillField('input[name=your-name]', 'ConvertKit Name');
-		$I->fillField('input[name=your-email]', $emailAddress);
-		$I->fillField('input[name=your-subject]', 'ConvertKit Subject');
-
-		// Submit Form.
-		$I->click('Submit');
-
-		// Confirm the form submitted without errors.
-		$I->performOn(
-			'form.sent',
-			function($I) {
-				$I->see('Thank you for your message. It has been sent.');
-			}
+		// Complete and submit Contact Form 7 Form.
+		$this->_contactForm7CompleteAndSubmitForm(
+			$I,
+			$pageID,
+			$emailAddress
 		);
 
 		// Confirm that the email address was added to ConvertKit.
@@ -629,7 +353,9 @@ class ContactForm7FormCest
 
 	/**
 	 * Tests that existing settings are automatically migrated when updating
-	 * the Plugin to 2.5.2 or higher.
+	 * the Plugin to 2.5.2 or higher, with:
+	 * - Form IDs prefixed with 'form:',
+	 * - Form IDs with value `default` are changed to a blank string
 	 *
 	 * @since   2.5.2
 	 *
@@ -645,6 +371,7 @@ class ContactForm7FormCest
 				'1'                                 => $_ENV['CONVERTKIT_API_FORM_ID'],
 				'creator_network_recommendations_1' => '1',
 				'2'                                 => '',
+				'3'                                 => 'default',
 			]
 		);
 
@@ -662,6 +389,91 @@ class ContactForm7FormCest
 		$I->assertEquals($settings['1'], 'form:' . $_ENV['CONVERTKIT_API_FORM_ID']);
 		$I->assertEquals($settings['creator_network_recommendations_1'], '1');
 		$I->assertEquals($settings['2'], '');
+		$I->assertEquals($settings['3'], '');
+	}
+
+	/**
+	 * Maps the given resource name to the created Contact Form 7 Form,
+	 * embeds the shortcode on a new Page, returning the Page ID.
+	 *
+	 * @since   2.5.3
+	 *
+	 * @param   AcceptanceTester $I             Tester.
+	 * @param   string           $optionName    <select> option name.
+	 * @return  int                             Page ID
+	 */
+	private function _contactForm7SetupForm(AcceptanceTester $I, string $optionName)
+	{
+		// Setup ConvertKit Plugin.
+		$I->setupConvertKitPluginNoDefaultForms($I);
+		$I->setupConvertKitPluginResources($I);
+
+		// Create Contact Form 7 Form.
+		$contactForm7ID = $this->_createContactForm7Form($I);
+
+		// Load Contact Form 7 Plugin Settings.
+		$I->amOnAdminPage('options-general.php?page=_wp_convertkit_settings&tab=contactform7');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Check that a Form Mapping option is displayed.
+		$I->seeElementInDOM('#_wp_convertkit_integration_contactform7_settings_' . $contactForm7ID);
+
+		// Change Form to value specified in the .env file.
+		$I->selectOption('#_wp_convertkit_integration_contactform7_settings_' . $contactForm7ID, $optionName);
+
+		$I->click('Save Changes');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Check the value of the Form field matches the input provided.
+		$I->seeOptionIsSelected('#_wp_convertkit_integration_contactform7_settings_' . $contactForm7ID, $optionName);
+
+		// Create Page with Contact Form 7 Shortcode.
+		return $I->havePageInDatabase(
+			[
+				'post_title'   => 'ConvertKit: Contact Form 7 Shortcode: Form: ' . $optionName,
+				'post_content' => 'Form:
+[contact-form-7 id="' . $contactForm7ID . '"]',
+			]
+		);
+	}
+
+	/**
+	 * Fills out the Contact Form 7 Form on the given WordPress Page ID,
+	 * and submits it, confirming them form submitted without errors.
+	 *
+	 * @since   2.5.3
+	 *
+	 * @param   AcceptanceTester $I             Tester.
+	 * @param   int              $pageID        Page ID.
+	 * @param   string           $emailAddress  Email Address.
+	 */
+	private function _contactForm7CompleteAndSubmitForm(AcceptanceTester $I, int $pageID, string $emailAddress)
+	{
+		// Load Page.
+		$I->amOnPage('?p=' . $pageID);
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Complete Name and Email.
+		$I->fillField('input[name=your-name]', 'ConvertKit Name');
+		$I->fillField('input[name=your-email]', $emailAddress);
+		$I->fillField('input[name=your-subject]', 'ConvertKit Subject');
+
+		// Submit Form.
+		$I->click('Submit');
+
+		// Confirm the form submitted without errors.
+		$I->performOn(
+			'form.sent',
+			function($I) {
+				$I->see('Thank you for your message. It has been sent.');
+			}
+		);
 	}
 
 	/**

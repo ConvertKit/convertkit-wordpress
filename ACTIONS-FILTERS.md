@@ -29,6 +29,12 @@
 						<td><a href="#convertkit_admin_settings_register_sections"><code>convertkit_admin_settings_register_sections</code></a></td>
 						<td>Registers settings sections at Settings > ConvertKit.</td>
 					</tr><tr>
+						<td colspan="3">../admin/class-convertkit-admin-post.php</td>
+					</tr><tr>
+						<td>&nbsp;</td>
+						<td><a href="#convertkit_admin_post_register_add_new_buttons"><code>convertkit_admin_post_register_add_new_buttons</code></a></td>
+						<td>Registers 'Add New' buttons for the given Post Type's admin screen.</td>
+					</tr><tr>
 						<td colspan="3">../includes/functions.php</td>
 					</tr><tr>
 						<td>&nbsp;</td>
@@ -331,6 +337,37 @@ add_filter( 'convertkit_admin_settings_register_sections', function( $sections )
 	// Return value
 	return $sections;
 }, 10, 1 );
+</pre>
+<h3 id="convertkit_admin_post_register_add_new_buttons">
+						convertkit_admin_post_register_add_new_buttons
+						<code>admin/class-convertkit-admin-post.php::68</code>
+					</h3><h4>Overview</h4>
+						<p>Registers 'Add New' buttons for the given Post Type's admin screen.</p><h4>Parameters</h4>
+					<table>
+						<thead>
+							<tr>
+								<th>Parameter</th>
+								<th>Type</th>
+								<th>Description</th>
+							</tr>
+						</thead>
+						<tbody><tr>
+							<td>$buttons</td>
+							<td>array</td>
+							<td>Buttons.</td>
+						</tr><tr>
+							<td>$post_type</td>
+							<td>string</td>
+							<td>Post Type.</td>
+						</tr>
+						</tbody>
+					</table><h4>Usage</h4>
+<pre>
+add_filter( 'convertkit_admin_post_register_add_new_buttons', function( $buttons, $post_type ) {
+	// ... your code here
+	// Return value
+	return $buttons;
+}, 10, 2 );
 </pre>
 <h3 id="convertkit_get_supported_post_types">
 						convertkit_get_supported_post_types
@@ -1321,7 +1358,7 @@ add_filter( 'convertkit_settings_get_defaults', function( $defaults ) {
 </pre>
 <h3 id="convertkit_is_admin_or_frontend_editor">
 						convertkit_is_admin_or_frontend_editor
-						<code>includes/class-wp-convertkit.php::314</code>
+						<code>includes/class-wp-convertkit.php::317</code>
 					</h3><h4>Overview</h4>
 						<p>Filters whether the current request is a WordPress Administration / Frontend Editor request or not. Page Builders can set this to true to allow ConvertKit to load its administration functionality.</p><h4>Parameters</h4>
 					<table>
@@ -1842,7 +1879,7 @@ do_action( 'convertkit_admin_category_enqueue_styles', function(  ) {
 </pre>
 <h3 id="convertkit_admin_post_enqueue_scripts">
 						convertkit_admin_post_enqueue_scripts
-						<code>admin/class-convertkit-admin-post.php::48</code>
+						<code>admin/class-convertkit-admin-post.php::117</code>
 					</h3><h4>Parameters</h4>
 					<table>
 						<thead>
@@ -1862,7 +1899,7 @@ do_action( 'convertkit_admin_post_enqueue_scripts', function(  ) {
 </pre>
 <h3 id="convertkit_admin_post_enqueue_styles">
 						convertkit_admin_post_enqueue_styles
-						<code>admin/class-convertkit-admin-post.php::71</code>
+						<code>admin/class-convertkit-admin-post.php::140</code>
 					</h3><h4>Parameters</h4>
 					<table>
 						<thead>
@@ -2099,7 +2136,7 @@ do_action( 'convertkit_output_landing_page_before', function( $landing_page, $la
 </pre>
 <h3 id="convertkit_initialize_admin">
 						convertkit_initialize_admin
-						<code>includes/class-wp-convertkit.php::85</code>
+						<code>includes/class-wp-convertkit.php::87</code>
 					</h3><h4>Parameters</h4>
 					<table>
 						<thead>
@@ -2119,7 +2156,7 @@ do_action( 'convertkit_initialize_admin', function(  ) {
 </pre>
 <h3 id="convertkit_initialize_admin_or_frontend_editor">
 						convertkit_initialize_admin_or_frontend_editor
-						<code>includes/class-wp-convertkit.php::106</code>
+						<code>includes/class-wp-convertkit.php::108</code>
 					</h3><h4>Parameters</h4>
 					<table>
 						<thead>
@@ -2139,7 +2176,7 @@ do_action( 'convertkit_initialize_admin_or_frontend_editor', function(  ) {
 </pre>
 <h3 id="convertkit_initialize_cli_cron">
 						convertkit_initialize_cli_cron
-						<code>includes/class-wp-convertkit.php::127</code>
+						<code>includes/class-wp-convertkit.php::129</code>
 					</h3><h4>Parameters</h4>
 					<table>
 						<thead>
@@ -2159,7 +2196,7 @@ do_action( 'convertkit_initialize_cli_cron', function(  ) {
 </pre>
 <h3 id="convertkit_initialize_frontend">
 						convertkit_initialize_frontend
-						<code>includes/class-wp-convertkit.php::151</code>
+						<code>includes/class-wp-convertkit.php::153</code>
 					</h3><h4>Parameters</h4>
 					<table>
 						<thead>
@@ -2179,7 +2216,7 @@ do_action( 'convertkit_initialize_frontend', function(  ) {
 </pre>
 <h3 id="convertkit_initialize_global">
 						convertkit_initialize_global
-						<code>includes/class-wp-convertkit.php::194</code>
+						<code>includes/class-wp-convertkit.php::197</code>
 					</h3><h4>Parameters</h4>
 					<table>
 						<thead>

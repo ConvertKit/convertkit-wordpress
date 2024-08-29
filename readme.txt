@@ -3,9 +3,9 @@ Contributors: nathanbarry, growdev, travisnorthcutt, ggwicz
 Donate link: https://kit.com
 Tags: email marketing, email newsletter, newsletter, subscribers, membership
 Requires at least: 5.0
-Tested up to: 6.6
+Tested up to: 6.6.1
 Requires PHP: 5.6.20
-Stable tag: 2.5.1
+Stable tag: 2.5.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -157,6 +157,30 @@ Full Plugin documentation can be found [here](https://help.kit.com/en/articles/2
 10. Track subscriber growth
 
 == Changelog ==
+
+### 2.5.6 2024-08-15
+* Added: Pages: Add New Landing Page Setup Wizard, to easily create a WordPress Page that displays a ConvertKit Landing Page
+* Added: Divi: ConvertKit Form Module
+* Updated: Pages: Landing Page + Member Content Wizards now display in a dropdown button
+
+### 2.5.5 2024-08-15
+* Fix: Contact Form 7: Set subscriber to `inactive` when a ConvertKit Form is specified, honoring the Form's opt in setting.
+* Fix: Forminator: Set subscriber to `inactive` when a ConvertKit Form is specified, honoring the Form's opt in setting.
+* Fix: WishList Member: Set subscriber to `inactive` when a ConvertKit Form is specified, honoring the Form's opt in setting.
+
+### 2.5.4 2024-08-08
+* Added: WishList Member: Option to just subscribe email, subscribe to a Form, Tag or Sequence or unsubscribe
+* Fix: Contact Form 7: Typo on description text
+* Fix: Forminator: Typo on description text
+
+### 2.5.3 2024-08-06
+* Fix: Contact Form 7: Update description on settings screen to reflect new settings
+* Fix: Forminator: Update description on settings screen to reflect new settings
+* Fix: WishList Member: Fatal error `Uncaught TypeError: ConvertKit_API_V4::add_subscriber_to_form(): Argument #1 ($form_id) must be of type int, string given`
+
+### 2.5.2 2024-07-25
+* Added: Contact Form 7: Option to just subscribe email, or subscribe to a Form, Tag or Sequence
+* Added: Forminator: Option to just subscribe email, or subscribe to a Form, Tag or Sequence
 
 ### 2.5.1 2024-07-17
 * Fix: Landing Pages: Prevent Perfmatters lazy loading images on Landing Pages, which would result in missing images

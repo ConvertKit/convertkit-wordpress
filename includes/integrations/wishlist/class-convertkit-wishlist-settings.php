@@ -78,14 +78,14 @@ class ConvertKit_Wishlist_Settings {
 	}
 
 	/**
-	 * Returns the ConvertKit Form ID that is mapped against the given WishList Member Level ID.
+	 * Returns the ConvertKit subscribe setting that is mapped against the given WishList Member Level ID.
 	 *
-	 * @since   1.9.6
+	 * @since   2.5.4
 	 *
 	 * @param   int $wlm_level_id   WishList Member Level ID.
-	 * @return  bool|int
+	 * @return  bool|string         false|subscribe|form:id|tag:id|sequence:id.
 	 */
-	public function get_convertkit_form_id_by_wishlist_member_level_id( $wlm_level_id ) {
+	public function get_convertkit_add_setting_by_wishlist_member_level_id( $wlm_level_id ) {
 
 		// Bail if no settings exist.
 		if ( ! $this->has_settings() ) {
@@ -93,23 +93,23 @@ class ConvertKit_Wishlist_Settings {
 		}
 
 		// Bail if no mapping exists.
-		if ( ! array_key_exists( $wlm_level_id . '_form', $this->get() ) ) {
+		if ( ! array_key_exists( $wlm_level_id . '_add', $this->get() ) ) {
 			return false;
 		}
 
-		return $this->get()[ $wlm_level_id . '_form' ];
+		return $this->get()[ $wlm_level_id . '_add' ];
 
 	}
 
 	/**
-	 * Returns the ConvertKit Tag ID that is mapped against the given WishList Member Level ID.
+	 * Returns the ConvertKit remove setting that is mapped against the given WishList Member Level ID.
 	 *
 	 * @since   1.9.6
 	 *
 	 * @param   int $wlm_level_id   WishList Member Level ID.
-	 * @return  bool|string|int     false|'unsubscribe'|Tag ID
+	 * @return  bool|string         false|subscribe|unsubscribe|form:id|tag:id|sequence:id.
 	 */
-	public function get_convertkit_tag_id_by_wishlist_member_level_id( $wlm_level_id ) {
+	public function get_convertkit_remove_setting_by_wishlist_member_level_id( $wlm_level_id ) {
 
 		// Bail if no settings exist.
 		if ( ! $this->has_settings() ) {
@@ -117,11 +117,11 @@ class ConvertKit_Wishlist_Settings {
 		}
 
 		// Bail if no mapping exists.
-		if ( ! array_key_exists( $wlm_level_id . '_unsubscribe', $this->get() ) ) {
+		if ( ! array_key_exists( $wlm_level_id . '_remove', $this->get() ) ) {
 			return false;
 		}
 
-		return $this->get()[ $wlm_level_id . '_unsubscribe' ];
+		return $this->get()[ $wlm_level_id . '_remove' ];
 
 	}
 
