@@ -42,6 +42,15 @@ class ConvertKit_Divi_Module extends ET_Builder_Module {
 	public $slug = '';
 
 	/**
+	 * The full path to the SVG icon for this Divi module.
+	 *
+	 * @since   2.5.7
+	 *
+	 * @var     string
+	 */
+	public $icon_path = '';
+
+	/**
 	 * Holds the block definition, properties and fields.
 	 *
 	 * @since   2.5.6
@@ -70,9 +79,10 @@ class ConvertKit_Divi_Module extends ET_Builder_Module {
 			return;
 		}
 
-		// Define the block and its name.
-		$this->block = $blocks[ $this->block_name ];
-		$this->name  = esc_html( $this->block['title'] );
+		// Define the block, name and icon.
+		$this->block     = $blocks[ $this->block_name ];
+		$this->name      = esc_html( $this->block['title'] );
+		$this->icon_path = CONVERTKIT_PLUGIN_PATH . '/' . $this->block['icon'];
 
 	}
 
