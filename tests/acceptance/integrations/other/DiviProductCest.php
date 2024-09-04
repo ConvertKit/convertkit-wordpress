@@ -105,6 +105,7 @@ class DiviProductCest
 		$I->click('Update');
 
 		// Load the Page on the frontend site.
+		$I->waitForElementNotVisible('.et-fb-preloader');
 		$I->waitForElementVisible('.notice-success');
 		$I->click('.notice-success a');
 
