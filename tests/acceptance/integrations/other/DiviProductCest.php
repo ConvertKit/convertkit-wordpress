@@ -297,7 +297,7 @@ class DiviProductCest
 		$I->setupConvertKitPluginResources($I);
 
 		// Create Page with Product module in Divi.
-		$pageID = $this->_createPageWithFormModule($I, 'ConvertKit: Page: Product: Divi Module: No Product Param', '');
+		$pageID = $this->_createPageWithProductModule($I, 'ConvertKit: Page: Product: Divi Module: No Product Param', '');
 
 		// Load Page.
 		$I->amOnPage('?p=' . $pageID);
