@@ -68,9 +68,14 @@ class DiviProductCest
 		// Click Divi Builder button.
 		$I->click('#et_pb_toggle_builder');
 
-		// Dismiss modal.
-		$I->waitForElementVisible('.et-core-modal-action-dont-restore');
-		$I->click('.et-core-modal-action-dont-restore');
+		// Dismiss modal if displayed.
+		// May have been dismissed by other tests in the suite e.g. DiviFormCest.
+		try {
+			$I->waitForElementVisible('.et-core-modal-action-dont-restore');
+			$I->click('.et-core-modal-action-dont-restore');
+		} catch ( \Facebook\WebDriver\Exception\NoSuchElementException $e ) { // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedCatch
+			// No modal exists, so nothing to dismiss.
+		}
 
 		// Click Build from scratch button.
 		$I->waitForElementVisible('.et-fb-page-creation-card-build_from_scratch');
@@ -306,7 +311,7 @@ class DiviProductCest
 		$I->checkNoWarningsAndNoticesOnScreen($I);
 
 		// Confirm that no ConvertKit Product is displayed.
-		$I->dontSeeProductOutput();
+		$I->dontSeeProductOutput($I);
 	}
 
 	/**
