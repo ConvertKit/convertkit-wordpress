@@ -99,19 +99,8 @@ class DiviProductCest
 		$I->click('#et-fb-product');
 		$I->click('li[data-value="' . $_ENV['CONVERTKIT_API_PRODUCT_ID'] . '"]', '#et-fb-product');
 
-		// Save module.
-		$I->click('button[data-tip="Save Changes"]');
-
-		// Update page.
-		$I->click('Update');
-
-		// Load the Page on the frontend site.
-		$I->waitForElementNotVisible('.et-fb-preloader');
-		$I->waitForElementVisible('.notice-success');
-		$I->click('.notice-success a');
-
-		// Wait for frontend web site to load.
-		$I->waitForElementVisible('body');
+		// Save Divi module and view the page on the frontend site.
+		$I->saveDiviModuleInBackendEditorAndViewPage($I);
 
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);

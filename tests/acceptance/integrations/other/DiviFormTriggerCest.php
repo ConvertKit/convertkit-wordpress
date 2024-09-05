@@ -99,22 +99,8 @@ class DiviFormTriggerCest
 		$I->click('#et-fb-form');
 		$I->click('li[data-value="' . $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_ID'] . '"]', '#et-fb-form');
 
-		// Save module.
-		$I->click('button[data-tip="Save Changes"]');
-
-		// Update page.
-		$I->click('Update');
-
-		// Load the Page on the frontend site.
-		$I->waitForElementNotVisible('.et-fb-preloader');
-		$I->waitForElementVisible('.notice-success');
-		$I->click('.notice-success a');
-
-		// Wait for frontend web site to load.
-		$I->waitForElementVisible('body');
-
-		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen($I);
+		// Save Divi module and view the page on the frontend site.
+		$I->saveDiviModuleInBackendEditorAndViewPage($I);
 
 		// Confirm that the block displays.
 		$I->seeFormTriggerOutput($I, $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_URL'], 'Subscribe');
