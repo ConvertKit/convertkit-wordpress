@@ -60,6 +60,7 @@ class DiviBroadcastsCest
 		$I->click('input#publish');
 
 		// Wait for notice to display.
+		$I->waitForElementNotVisible('.et-fb-preloader');
 		$I->waitForElementVisible('.notice-success');
 
 		// Remove transient set by Divi that would show the welcome modal.
