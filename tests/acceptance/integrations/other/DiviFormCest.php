@@ -60,6 +60,7 @@ class DiviFormCest
 		$I->click('input#publish');
 
 		// Wait for notice to display.
+		$I->waitForElementNotVisible('.et-fb-preloader');
 		$I->waitForElementVisible('.notice-success');
 
 		// Remove transient set by Divi that would show the welcome modal.
@@ -105,6 +106,7 @@ class DiviFormCest
 		$I->click('Update');
 
 		// Load the Page on the frontend site.
+		$I->waitForElementNotVisible('.et-fb-preloader');
 		$I->waitForElementVisible('.notice-success');
 		$I->click('.notice-success a');
 
