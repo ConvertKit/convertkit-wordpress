@@ -135,14 +135,16 @@ class ConvertKit_Block_Product extends ConvertKit_Block {
 
 			// Help descriptions, displayed when no Access Token / resources exist and this block/shortcode is added.
 			'no_access_token'                   => array(
-				'notice'    => __( 'Not connected to ConvertKit.', 'convertkit' ),
-				'link'      => convertkit_get_setup_wizard_plugin_link(),
-				'link_text' => __( 'Click here to connect your ConvertKit account.', 'convertkit' ),
+				'notice'           => __( 'Not connected to ConvertKit.', 'convertkit' ),
+				'link'             => convertkit_get_setup_wizard_plugin_link(),
+				'link_text'        => __( 'Click here to connect your ConvertKit account.', 'convertkit' ),
+				'instruction_text' => __( 'Connect your ConvertKit account at Settings > ConvertKit, and then refresh this page to select a product.', 'convertkit' ),
 			),
 			'no_resources'                      => array(
-				'notice'    => __( 'No products exist in ConvertKit.', 'convertkit' ),
-				'link'      => convertkit_get_new_product_url(),
-				'link_text' => __( 'Click here to create your first product.', 'convertkit' ),
+				'notice'           => __( 'No products exist in ConvertKit.', 'convertkit' ),
+				'link'             => convertkit_get_new_product_url(),
+				'link_text'        => __( 'Click here to create your first product.', 'convertkit' ),
+				'instruction_text' => __( 'Add a product to your ConvertKit account, and then refresh this page to select a product.', 'convertkit' ),
 			),
 
 			// Gutenberg: Help descriptions, displayed when no settings defined for a newly added Block.

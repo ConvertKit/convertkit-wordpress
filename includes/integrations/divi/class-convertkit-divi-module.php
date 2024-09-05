@@ -140,6 +140,13 @@ class ConvertKit_Divi_Module extends ET_Builder_Module {
 				 */
 				case 'select':
 					$fields[ $field_name ]['options'] = $field['values'];
+
+					// For select dropdowns, if no default value exists, we have to force the first
+					// value as the default, otherwise Divi will show that the first value is selected,
+					// but its underlying value won't be saved unless the user changes the chosen selection.
+					if ( ! $this->get_default_value( $field ) ) {
+						$fields[ $field_name ]['default'] = array_key_first( $field['values'] );
+					}
 					break;
 
 				/**
