@@ -33,66 +33,15 @@ class DiviBroadcastsCest
 		$I->setupConvertKitPluginNoDefaultForms($I);
 		$I->setupConvertKitPluginResources($I);
 
-		// Activate Classic Editor Plugin.
-		$I->activateThirdPartyPlugin($I, 'classic-editor');
+		// Create a Divi Page in the backend editor.
+		$I->createDiviPageInBackendEditor($I, 'ConvertKit: Page: Broadcasts: Divi: Backend Editor');
 
-		// Add a Page using the Classic Editor.
-		$I->addClassicEditorPage($I, 'page', 'ConvertKit: Page: Broadcasts: Divi: Backend Editor');
-
-		// Configure metabox's Form setting = None, ensuring we only test the block in Gutenberg.
-		$I->configureMetaboxSettings(
+		// Insert the Broadcasts module.
+		$I->insertDiviRowWithModule(
 			$I,
-			'wp-convertkit-meta-box',
-			[
-				'form' => [ 'select2', 'None' ],
-			]
+			'ConvertKit Broadcasts',
+			'convertkit_broadcasts'
 		);
-
-		// Scroll to Publish meta box, so its buttons are not hidden.
-		$I->scrollTo('#submitdiv');
-
-		// Wait for the Publish button to change its state from disabled (WordPress disables it for a moment when auto-saving).
-		$I->waitForElementVisible('input#publish:not(:disabled)');
-
-		// Click the Publish button twice, because Divi is flaky at best.
-		$I->click('input#publish');
-		$I->wait(2);
-		$I->click('input#publish');
-
-		// Wait for notice to display.
-		$I->waitForElementNotVisible('.et-fb-preloader');
-		$I->waitForElementVisible('.notice-success');
-
-		// Remove transient set by Divi that would show the welcome modal.
-		$I->dontHaveTransientInDatabase('et_builder_show_bfb_welcome_modal');
-
-		// Click Divi Builder button.
-		$I->click('#et_pb_toggle_builder');
-
-		// Dismiss modal if displayed.
-		// May have been dismissed by other tests in the suite e.g. DiviFormCest.
-		try {
-			$I->waitForElementVisible('.et-core-modal-action-dont-restore');
-			$I->click('.et-core-modal-action-dont-restore');
-		} catch ( \Facebook\WebDriver\Exception\NoSuchElementException $e ) { // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedCatch
-			// No modal exists, so nothing to dismiss.
-		}
-
-		// Click Build from scratch button.
-		$I->waitForElementVisible('.et-fb-page-creation-card-build_from_scratch');
-		$I->click('Start Building', '.et-fb-page-creation-card-build_from_scratch');
-
-		// Insert row.
-		$I->waitForElementVisible('li[data-layout="4_4"]');
-		$I->click('li[data-layout="4_4"]');
-
-		// Search for module.
-		$I->waitForElementVisible('input[name="filterByTitle"]');
-		$I->fillField('filterByTitle', 'ConvertKit Broadcasts');
-
-		// Insert module.
-		$I->waitForElementVisible('li.convertkit_broadcasts');
-		$I->click('li.convertkit_broadcasts');
 
 		// Save Divi module and view the page on the frontend site.
 		$I->saveDiviModuleInBackendEditorAndViewPage($I);
@@ -130,58 +79,18 @@ class DiviBroadcastsCest
 		$I->setupConvertKitPluginNoDefaultForms($I);
 		$I->setupConvertKitPluginResources($I);
 
-		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Divi: Frontend');
+		// Create a Divi Page in the frontend editor.
+		$url = $I->createDiviPageInFrontendEditor($I, 'ConvertKit: Page: Broadcasts: Divi: Frontend Editor');
 
-		// Configure metabox's Form setting = None, ensuring we only test the block in Gutenberg.
-		$I->configureMetaboxSettings(
+		// Insert the Broadcasts module.
+		$I->insertDiviRowWithModule(
 			$I,
-			'wp-convertkit-meta-box',
-			[
-				'form' => [ 'select2', 'None' ],
-			]
+			'ConvertKit Broadcasts',
+			'convertkit_broadcasts'
 		);
 
-		// Publish Page.
-		$url = $I->publishGutenbergPage($I);
-
-		// Click Divi Builder button.
-		$I->click('Use Divi Builder');
-
-		// Reload page to dismiss modal.
-		$I->wait(5);
-		$I->amOnUrl($url . '?et_fb=1&PageSpeed=off');
-
-		// Click Build from scratch button.
-		$I->waitForElementVisible('.et-fb-page-creation-card-build_from_scratch', 30);
-		$I->click('Start Building', '.et-fb-page-creation-card-build_from_scratch');
-
-		// Insert row.
-		$I->waitForElementVisible('li[data-layout="4_4"]');
-		$I->click('li[data-layout="4_4"]');
-
-		// Search for module.
-		$I->waitForElementVisible('input[name="filterByTitle"]');
-		$I->fillField('filterByTitle', 'ConvertKit Broadcasts');
-
-		// Insert module.
-		$I->waitForElementVisible('li.convertkit_broadcasts');
-		$I->click('li.convertkit_broadcasts');
-
-		// Save module.
-		$I->click('button[data-tip="Save Changes"]');
-
-		// Save page.
-		$I->click('.et-fb-page-settings-bar__toggle-button');
-		$I->waitForElementVisible('button.et-fb-button--publish');
-		$I->click('button.et-fb-button--publish');
-		$I->wait(3);
-
-		// Load page without Divi frontend builder.
-		$I->amOnUrl($url);
-
-		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen($I);
+		// Save Divi module and view the page on the frontend site.
+		$I->saveDiviModuleInFrontendEditorAndViewPage($I, $url);
 
 		// Confirm that the block displays.
 		$I->seeBroadcastsOutput($I);
@@ -208,34 +117,15 @@ class DiviBroadcastsCest
 	 */
 	public function testBroadcastsModuleInFrontendEditorWhenNoCredentials(AcceptanceTester $I)
 	{
-		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Divi: Broadcasts: Frontend: No Credentials');
+		// Create a Divi Page in the frontend editor.
+		$I->createDiviPageInFrontendEditor($I, 'ConvertKit: Page: Broadcasts: Divi: Frontend: No Credentials', false);
 
-		// Publish Page.
-		$url = $I->publishGutenbergPage($I);
-
-		// Click Divi Builder button.
-		$I->click('Use Divi Builder');
-
-		// Reload page to dismiss modal.
-		$I->wait(5);
-		$I->amOnUrl($url . '?et_fb=1&PageSpeed=off');
-
-		// Click Build from scratch button.
-		$I->waitForElementVisible('.et-fb-page-creation-card-build_from_scratch', 30);
-		$I->click('Start Building', '.et-fb-page-creation-card-build_from_scratch');
-
-		// Insert row.
-		$I->waitForElementVisible('li[data-layout="4_4"]');
-		$I->click('li[data-layout="4_4"]');
-
-		// Search for module.
-		$I->waitForElementVisible('input[name="filterByTitle"]');
-		$I->fillField('filterByTitle', 'ConvertKit Broadcasts');
-
-		// Insert module.
-		$I->waitForElementVisible('li.convertkit_broadcasts');
-		$I->click('li.convertkit_broadcasts');
+		// Insert the Broadcasts module.
+		$I->insertDiviRowWithModule(
+			$I,
+			'ConvertKit Broadcasts',
+			'convertkit_broadcasts'
+		);
 
 		// Confirm the on screen message displays.
 		$I->seeInSource('Not connected to ConvertKit');
@@ -256,34 +146,15 @@ class DiviBroadcastsCest
 		$I->setupConvertKitPluginCredentialsNoData($I);
 		$I->setupConvertKitPluginResourcesNoData($I);
 
-		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Divi: Frontend: No Broadcasts');
+		// Create a Divi Page in the frontend editor.
+		$I->createDiviPageInFrontendEditor($I, 'ConvertKit: Page: Broadcasts: Divi: Frontend: No Broadcasts');
 
-		// Publish Page.
-		$url = $I->publishGutenbergPage($I);
-
-		// Click Divi Builder button.
-		$I->click('Use Divi Builder');
-
-		// Reload page to dismiss modal.
-		$I->wait(5);
-		$I->amOnUrl($url . '?et_fb=1&PageSpeed=off');
-
-		// Click Build from scratch button.
-		$I->waitForElementVisible('.et-fb-page-creation-card-build_from_scratch', 30);
-		$I->click('Start Building', '.et-fb-page-creation-card-build_from_scratch');
-
-		// Insert row.
-		$I->waitForElementVisible('li[data-layout="4_4"]');
-		$I->click('li[data-layout="4_4"]');
-
-		// Search for module.
-		$I->waitForElementVisible('input[name="filterByTitle"]');
-		$I->fillField('filterByTitle', 'ConvertKit Broadcasts');
-
-		// Insert module.
-		$I->waitForElementVisible('li.convertkit_broadcasts');
-		$I->click('li.convertkit_broadcasts');
+		// Insert the Broadcasts module.
+		$I->insertDiviRowWithModule(
+			$I,
+			'ConvertKit Broadcasts',
+			'convertkit_broadcasts'
+		);
 
 		// Confirm the on screen message displays.
 		$I->seeInSource('No broadcasts exist in ConvertKit');

@@ -15,7 +15,7 @@ class DiviBuilder extends \Codeception\Module
 	 * @since   2.5.7
 	 *
 	 * @param   AcceptanceTester $I      Acceptance Tester.
-	 * @param 	string 			 $title  Page Title.
+	 * @param   string           $title  Page Title.
 	 */
 	public function createDiviPageInBackendEditor($I, $title)
 	{
@@ -74,10 +74,10 @@ class DiviBuilder extends \Codeception\Module
 	 *
 	 * @since   2.5.7
 	 *
-	 * @param   AcceptanceTester $I      			Acceptance Tester.
-	 * @param 	string 			 $title  			Page Title.
-	 * @param 	bool 			 $configureMetaBox 	Configure Plugin's Meta Box to set Form = None (set to false if running a test with no credentials).
-	 * @return 	string 					 			Page URL.
+	 * @param   AcceptanceTester $I                 Acceptance Tester.
+	 * @param   string           $title             Page Title.
+	 * @param   bool             $configureMetaBox  Configure Plugin's Meta Box to set Form = None (set to false if running a test with no credentials).
+	 * @return  string                              Page URL.
 	 */
 	public function createDiviPageInFrontendEditor($I, $title, $configureMetaBox = true)
 	{
@@ -118,11 +118,11 @@ class DiviBuilder extends \Codeception\Module
 	 *
 	 * @since   2.5.7
 	 *
-	 * @param   AcceptanceTester $I      			Acceptance Tester.
-	 * @param 	string 			 $name 	 			Module Name.
-	 * @param 	string 			 $programmaticName 	Programmatic Module Name.
-	 * @param 	bool|string 	 $fieldName 		Field Name.
-	 * @param 	bool|string 	 $fieldValue 		Field Value.
+	 * @param   AcceptanceTester $I                 Acceptance Tester.
+	 * @param   string           $name              Module Name.
+	 * @param   string           $programmaticName  Programmatic Module Name.
+	 * @param   bool|string      $fieldName         Field Name.
+	 * @param   bool|string      $fieldValue        Field Value.
 	 */
 	public function insertDiviRowWithModule($I, $name, $programmaticName, $fieldName = false, $fieldValue = false)
 	{
@@ -181,7 +181,7 @@ class DiviBuilder extends \Codeception\Module
 	 * @since   2.5.7
 	 *
 	 * @param   AcceptanceTester $I      Acceptance Tester.
-	 * @param 	string 			 $url 	 Page URL.
+	 * @param   string           $url    Page URL.
 	 */
 	public function saveDiviModuleInFrontendEditorAndViewPage($I, $url)
 	{
@@ -210,12 +210,12 @@ class DiviBuilder extends \Codeception\Module
 	 *
 	 * @since   2.5.7
 	 *
-	 * @param   AcceptanceTester $I      			Tester.
-	 * @param   string           $title  			Page Title.
-	 * @param 	string 			 $programmaticName 	Programmatic Module Name.
-	 * @param 	string 	 		 $fieldName 		Field Name.
-	 * @param 	string 	 		 $fieldValue 		Field Value.
-	 * @return  int                         		Page ID
+	 * @param   AcceptanceTester $I                 Tester.
+	 * @param   string           $title             Page Title.
+	 * @param   string           $programmaticName  Programmatic Module Name.
+	 * @param   string           $fieldName         Field Name.
+	 * @param   string           $fieldValue        Field Value.
+	 * @return  int                                 Page ID
 	 */
 	public function createPageWithDiviModuleProgrammatically($I, $title, $programmaticName, $fieldName, $fieldValue)
 	{
