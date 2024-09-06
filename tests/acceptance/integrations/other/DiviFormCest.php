@@ -83,7 +83,7 @@ class DiviFormCest
 		);
 
 		// Save Divi module and view the page on the frontend site.
-		$I->saveDiviModuleInFrontendEditorAndViewPage($I);
+		$I->saveDiviModuleInFrontendEditorAndViewPage($I, $url);
 
 		// Confirm that one ConvertKit Form is output in the DOM.
 		// This confirms that there is only one script on the page for this form, which renders the form.
@@ -99,34 +99,15 @@ class DiviFormCest
 	 */
 	public function testFormModuleInFrontendEditorWhenNoCredentials(AcceptanceTester $I)
 	{
-		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Divi: Frontend: No Credentials');
+		// Create a Divi Page in the frontend editor.
+		$I->createDiviPageInFrontendEditor($I, 'ConvertKit: Page: Form: Divi: Frontend: No Credentials', false);
 
-		// Publish Page.
-		$url = $I->publishGutenbergPage($I);
-
-		// Click Divi Builder button.
-		$I->click('Use Divi Builder');
-
-		// Reload page to dismiss modal.
-		$I->wait(5);
-		$I->amOnUrl($url . '?et_fb=1&PageSpeed=off');
-
-		// Click Build from scratch button.
-		$I->waitForElementVisible('.et-fb-page-creation-card-build_from_scratch', 30);
-		$I->click('Start Building', '.et-fb-page-creation-card-build_from_scratch');
-
-		// Insert row.
-		$I->waitForElementVisible('li[data-layout="4_4"]');
-		$I->click('li[data-layout="4_4"]');
-
-		// Search for module.
-		$I->waitForElementVisible('input[name="filterByTitle"]');
-		$I->fillField('filterByTitle', 'ConvertKit Form');
-
-		// Insert module.
-		$I->waitForElementVisible('li.convertkit_form');
-		$I->click('li.convertkit_form');
+		// Insert the Form module.
+		$I->insertDiviRowWithModule(
+			$I,
+			'ConvertKit Form',
+			'convertkit_form'
+		);
 
 		// Confirm the on screen message displays.
 		$I->seeInSource('Not connected to ConvertKit');
@@ -147,34 +128,15 @@ class DiviFormCest
 		$I->setupConvertKitPluginCredentialsNoData($I);
 		$I->setupConvertKitPluginResourcesNoData($I);
 
-		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Divi: Frontend: No Forms');
+		// Create a Divi Page in the frontend editor.
+		$I->createDiviPageInFrontendEditor($I, 'ConvertKit: Page: Form: Divi: Frontend: No Forms');
 
-		// Publish Page.
-		$url = $I->publishGutenbergPage($I);
-
-		// Click Divi Builder button.
-		$I->click('Use Divi Builder');
-
-		// Reload page to dismiss modal.
-		$I->wait(5);
-		$I->amOnUrl($url . '?et_fb=1&PageSpeed=off');
-
-		// Click Build from scratch button.
-		$I->waitForElementVisible('.et-fb-page-creation-card-build_from_scratch', 30);
-		$I->click('Start Building', '.et-fb-page-creation-card-build_from_scratch');
-
-		// Insert row.
-		$I->waitForElementVisible('li[data-layout="4_4"]');
-		$I->click('li[data-layout="4_4"]');
-
-		// Search for module.
-		$I->waitForElementVisible('input[name="filterByTitle"]');
-		$I->fillField('filterByTitle', 'ConvertKit Form');
-
-		// Insert module.
-		$I->waitForElementVisible('li.convertkit_form');
-		$I->click('li.convertkit_form');
+		// Insert the Form module.
+		$I->insertDiviRowWithModule(
+			$I,
+			'ConvertKit Form',
+			'convertkit_form'
+		);
 
 		// Confirm the on screen message displays.
 		$I->seeInSource('No forms exist in ConvertKit');
@@ -195,7 +157,13 @@ class DiviFormCest
 		$I->setupConvertKitPluginResources($I);
 
 		// Create Page with Form module in Divi.
-		$pageID = $this->_createPageWithFormModule($I, 'ConvertKit: Legacy Form: Divi Module: Valid Form Param', $_ENV['CONVERTKIT_API_LEGACY_FORM_ID']);
+		$pageID = $I->createPageWithDiviModuleProgrammatically(
+			$I,
+			'ConvertKit: Legacy Form: Divi Module: Valid Form Param',
+			'convertkit_form',
+			'form',
+			$_ENV['CONVERTKIT_API_LEGACY_FORM_ID']
+		);
 
 		// Load Page.
 		$I->amOnPage('?p=' . $pageID);
@@ -221,7 +189,13 @@ class DiviFormCest
 		$I->setupConvertKitPluginResources($I);
 
 		// Create Page with Form module in Divi.
-		$pageID = $this->_createPageWithFormModule($I, 'ConvertKit: Page: Form: Divi Module: No Form Param', '');
+		$pageID = $I->createPageWithDiviModuleProgrammatically(
+			$I,
+			'ConvertKit: Legacy Form: Divi Module: No Form Param',
+			'convertkit_form',
+			'form',
+			''
+		);
 
 		// Load Page.
 		$I->amOnPage('?p=' . $pageID);
@@ -231,48 +205,6 @@ class DiviFormCest
 
 		// Confirm that no ConvertKit Form is displayed.
 		$I->dontSeeElementInDOM('form[data-sv-form]');
-	}
-
-	/**
-	 * Create a Page in the database comprising of Divi Page Builder data
-	 * containing a ConvertKit Form module.
-	 *
-	 * @since   2.5.6
-	 *
-	 * @param   AcceptanceTester $I      Tester.
-	 * @param   string           $title  Page Title.
-	 * @param   int              $formID ConvertKit Form ID.
-	 * @return  int                         Page ID
-	 */
-	private function _createPageWithFormModule(AcceptanceTester $I, $title, $formID)
-	{
-		return $I->havePostInDatabase(
-			[
-				'post_title'   => $title,
-				'post_type'    => 'page',
-				'post_status'  => 'publish',
-				'post_content' => '[et_pb_section fb_built="1" _builder_version="4.27.0" _module_preset="default" global_colors_info="{}"]
-					[et_pb_row _builder_version="4.27.0" _module_preset="default"]
-						[et_pb_column _builder_version="4.27.0" _module_preset="default" type="4_4"]
-							[convertkit_form _builder_version="4.27.0" _module_preset="default" form="' . $formID . '" hover_enabled="0" sticky_enabled="0"][/convertkit_form]
-						[/et_pb_column]
-					[/et_pb_row]
-				[/et_pb_section]',
-				'meta_input'   => [
-					// Enable Divi Builder.
-					'_et_pb_use_builder'         => 'on',
-					'_et_pb_built_for_post_type' => 'page',
-
-					// Configure ConvertKit Plugin to not display a default Form,
-					// as we are testing for the Form in Elementor.
-					'_wp_convertkit_post_meta'   => [
-						'form'         => '0',
-						'landing_page' => '',
-						'tag'          => '',
-					],
-				],
-			]
-		);
 	}
 
 	/**

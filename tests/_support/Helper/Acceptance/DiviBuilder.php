@@ -7,7 +7,7 @@ namespace Helper\Acceptance;
  *
  * @since   2.5.7
  */
-class DiviHelper extends \Codeception\Module
+class DiviBuilder extends \Codeception\Module
 {
 	/**
 	 * Helper method to create a Divi Page in the WordPress Administration interface.
@@ -74,24 +74,26 @@ class DiviHelper extends \Codeception\Module
 	 *
 	 * @since   2.5.7
 	 *
-	 * @param   AcceptanceTester $I      Acceptance Tester.
-	 * @param 	string 			 $title  Page Title.
-	 * 
-	 * @return 	string 					 Page URL.
+	 * @param   AcceptanceTester $I      			Acceptance Tester.
+	 * @param 	string 			 $title  			Page Title.
+	 * @param 	bool 			 $configureMetaBox 	Configure Plugin's Meta Box to set Form = None (set to false if running a test with no credentials).
+	 * @return 	string 					 			Page URL.
 	 */
-	public function createDiviPageInFrontendEditor($I, $title)
+	public function createDiviPageInFrontendEditor($I, $title, $configureMetaBox = true)
 	{
 		// Add a Page using the Gutenberg editor.
 		$I->addGutenbergPage($I, 'page', $title);
 
 		// Configure metabox's Form setting = None, ensuring we only test the block in Gutenberg.
-		$I->configureMetaboxSettings(
-			$I,
-			'wp-convertkit-meta-box',
-			[
-				'form' => [ 'select2', 'None' ],
-			]
-		);
+		if ($configureMetaBox) {
+			$I->configureMetaboxSettings(
+				$I,
+				'wp-convertkit-meta-box',
+				[
+					'form' => [ 'select2', 'None' ],
+				]
+			);
+		}
 
 		// Publish Page.
 		$url = $I->publishGutenbergPage($I);
@@ -119,10 +121,10 @@ class DiviHelper extends \Codeception\Module
 	 * @param   AcceptanceTester $I      			Acceptance Tester.
 	 * @param 	string 			 $name 	 			Module Name.
 	 * @param 	string 			 $programmaticName 	Programmatic Module Name.
-	 * @param 	string 			 $fieldName 		Field Name.
-	 * @param 	string 			 $fieldValue 		Field Value.
+	 * @param 	bool|string 	 $fieldName 		Field Name.
+	 * @param 	bool|string 	 $fieldValue 		Field Value.
 	 */
-	public function insertDiviRowWithModule($I, $name, $programmaticName, $fieldName, $fieldValue)
+	public function insertDiviRowWithModule($I, $name, $programmaticName, $fieldName = false, $fieldValue = false)
 	{
 		// Insert row.
 		$I->waitForElementVisible('li[data-layout="4_4"]');
@@ -136,10 +138,12 @@ class DiviHelper extends \Codeception\Module
 		$I->waitForElementVisible('li.' . $programmaticName);
 		$I->click('li.' . $programmaticName);
 
-		// Select Form.
-		$I->waitForElementVisible('#et-fb-' . $fieldName);
-		$I->click('#et-fb-' . $fieldName);
-		$I->click('li[data-value="' . $fieldValue . '"]', '#et-fb-' . $fieldName);
+		// Select field value.
+		if ($fieldName && $fieldValue) {
+			$I->waitForElementVisible('#et-fb-' . $fieldName);
+			$I->click('#et-fb-' . $fieldName);
+			$I->click('li[data-value="' . $fieldValue . '"]', '#et-fb-' . $fieldName);
+		}
 	}
 
 	/**
@@ -198,5 +202,49 @@ class DiviHelper extends \Codeception\Module
 
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
+	}
+
+	/**
+	 * Create a Page in the database comprising of Divi Page Builder data
+	 * containing a ConvertKit module.
+	 *
+	 * @since   2.5.7
+	 *
+	 * @param   AcceptanceTester $I      			Tester.
+	 * @param   string           $title  			Page Title.
+	 * @param 	string 			 $programmaticName 	Programmatic Module Name.
+	 * @param 	string 	 		 $fieldName 		Field Name.
+	 * @param 	string 	 		 $fieldValue 		Field Value.
+	 * @return  int                         		Page ID
+	 */
+	public function createPageWithDiviModuleProgrammatically($I, $title, $programmaticName, $fieldName, $fieldValue)
+	{
+		return $I->havePostInDatabase(
+			[
+				'post_title'   => $title,
+				'post_type'    => 'page',
+				'post_status'  => 'publish',
+				'post_content' => '[et_pb_section fb_built="1" _builder_version="4.27.0" _module_preset="default" global_colors_info="{}"]
+					[et_pb_row _builder_version="4.27.0" _module_preset="default"]
+						[et_pb_column _builder_version="4.27.0" _module_preset="default" type="4_4"]
+							[' . $programmaticName . ' _builder_version="4.27.0" _module_preset="default" ' . $fieldName . '="' . $fieldValue . '" hover_enabled="0" sticky_enabled="0"][/' . $programmaticName . ']
+						[/et_pb_column]
+					[/et_pb_row]
+				[/et_pb_section]',
+				'meta_input'   => [
+					// Enable Divi Builder.
+					'_et_pb_use_builder'         => 'on',
+					'_et_pb_built_for_post_type' => 'page',
+
+					// Configure ConvertKit Plugin to not display a default Form,
+					// as we are testing for the Form in Elementor.
+					'_wp_convertkit_post_meta'   => [
+						'form'         => '0',
+						'landing_page' => '',
+						'tag'          => '',
+					],
+				],
+			]
+		);
 	}
 }
