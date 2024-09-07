@@ -147,14 +147,16 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 
 			// Help descriptions, displayed when no Access Token / resources exist and this block/shortcode is added.
 			'no_access_token'                   => array(
-				'notice'    => __( 'Not connected to ConvertKit.', 'convertkit' ),
-				'link'      => convertkit_get_setup_wizard_plugin_link(),
-				'link_text' => __( 'Click here to connect your ConvertKit account.', 'convertkit' ),
+				'notice'           => __( 'Not connected to ConvertKit.', 'convertkit' ),
+				'link'             => convertkit_get_setup_wizard_plugin_link(),
+				'link_text'        => __( 'Click here to connect your ConvertKit account.', 'convertkit' ),
+				'instruction_text' => __( 'Connect your ConvertKit account at Settings > ConvertKit, and then refresh this page to configure broadcasts to display.', 'convertkit' ),
 			),
 			'no_resources'                      => array(
-				'notice'    => __( 'No broadcasts exist in ConvertKit.', 'convertkit' ),
-				'link'      => convertkit_get_new_broadcast_url(),
-				'link_text' => __( 'Click here to send your first broadcast.', 'convertkit' ),
+				'notice'           => __( 'No broadcasts exist in ConvertKit.', 'convertkit' ),
+				'link'             => convertkit_get_new_broadcast_url(),
+				'link_text'        => __( 'Click here to send your first broadcast.', 'convertkit' ),
+				'instruction_text' => __( 'Add a broadcast to your ConvertKit account, and then refresh this page to configure broadcasts to display.', 'convertkit' ),
 			),
 
 			// Gutenberg: JS function to call when rendering the block preview in the Gutenberg editor.
