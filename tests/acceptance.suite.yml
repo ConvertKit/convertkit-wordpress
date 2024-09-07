@@ -28,6 +28,7 @@ modules:
         - \Helper\Acceptance\ConvertKitProducts
         - \Helper\Acceptance\ConvertKitRestrictContent
         - \Helper\Acceptance\CustomPostType
+        - \Helper\Acceptance\DiviBuilder
         - \Helper\Acceptance\Email
         - \Helper\Acceptance\Select2
         - \Helper\Acceptance\ThirdPartyPlugin
