@@ -145,11 +145,21 @@ function convertStoreSubscriberEmailAsIDInCookie( emailAddress ) {
  */
 function convertKitRemoveSubscriberIDFromURL( url ) {
 
-	var clean_url = url.substring( 0, url.indexOf( "?ck_subscriber_id" ) );
-	var title     = document.getElementsByTagName( "title" )[0].innerHTML;
-	if ( clean_url ) {
-		window.history.pushState( null, title, clean_url );
+	// Remove ck_subscriber_id, retaining other params.
+	const url_object = new URL( url );
+	url_object.searchParams.delete( 'ck_subscriber_id' );
+
+	// Get title and string of parameters.
+	const title   = document.getElementsByTagName( 'title' )[0].innerHTML;
+	let clean_url = url_object.searchParams.toString();
+
+	// If leading question mark missing, prepend it.
+	if ( clean_url.charAt( 0 ) !== '?' ) {
+		clean_url = '?' + clean_url;
 	}
+
+	// Update history.
+	window.history.pushState( null, title, clean_url );
 
 }
 
