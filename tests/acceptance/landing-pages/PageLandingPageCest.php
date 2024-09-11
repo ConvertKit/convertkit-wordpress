@@ -63,7 +63,8 @@ class PageLandingPageCest
 
 	/**
 	 * Test that the Landing Page specified in the Page Settings works when
-	 * creating and viewing a new WordPress Page.
+	 * creating and viewing a new WordPress Page, and that the Landing Page's
+	 * "Redirect to an external page" setting in ConvertKit is honored.
 	 *
 	 * @since   1.9.6
 	 *
@@ -98,6 +99,14 @@ class PageLandingPageCest
 		// Confirm that the ConvertKit Landing Page displays.
 		$I->dontSeeElementInDOM('body.page'); // WordPress didn't load its template, which is correct.
 		$I->seeElementInDOM('form[data-sv-form="' . $landingPageID . '"]'); // ConvertKit injected its Landing Page Form, which is correct.
+
+		// Subscribe.
+		$I->fillField('email_address', $I->generateEmailAddress());
+		$I->click('button.formkit-submit');
+
+		// Confirm the Landing Page's redirect worked i.e. rocket-loader.min.js was not included and blocking, and the Landing Page
+		// redirected to its external URL, https://cheerful-architect-3237.ck.page/.
+		$I->waitForElementVisible('.creator-avatar');
 	}
 
 	/**
