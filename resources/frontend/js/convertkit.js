@@ -57,8 +57,6 @@ function convertStoreSubscriberIDInCookie( subscriber_id ) {
 			if ( convertkit.debug ) {
 				console.log( result );
 			}
-
-			convertKitRemoveSubscriberIDFromURL( window.location.href );
 		}
 	)
 	.catch(
@@ -66,8 +64,6 @@ function convertStoreSubscriberIDInCookie( subscriber_id ) {
 			if ( convertkit.debug ) {
 				console.error( error );
 			}
-
-			convertKitRemoveSubscriberIDFromURL( window.location.href );
 		}
 	);
 
@@ -130,26 +126,6 @@ function convertStoreSubscriberEmailAsIDInCookie( emailAddress ) {
 			}
 		}
 	);
-
-}
-
-/**
- * Remove the url subscriber_id url param
- *
- * The 'ck_subscriber_id' should only be set on URLs included on
- * links from a ConvertKit email with no other URL parameters.
- * This function removes the parameters so a customer won't share
- * a URL with their subscriber ID in it.
- *
- * @param url
- */
-function convertKitRemoveSubscriberIDFromURL( url ) {
-
-	var clean_url = url.substring( 0, url.indexOf( "?ck_subscriber_id" ) );
-	var title     = document.getElementsByTagName( "title" )[0].innerHTML;
-	if ( clean_url ) {
-		window.history.pushState( null, title, clean_url );
-	}
 
 }
 
