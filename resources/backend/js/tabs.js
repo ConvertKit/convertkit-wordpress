@@ -18,25 +18,30 @@ function convertKitTabsInit() {
 	convertKitTabsDestroy();
 
 	// Iterate through all JS tab instances, initializing each one.
-	document.querySelectorAll( '.convertkit-js-tabs' ).forEach( function( navTabContainer ) {
-		const navTabPanelsContainer = navTabContainer.dataset.panelsContainer;
-		const navTabPanel = navTabContainer.dataset.panel;
-		const navTabActive = navTabContainer.dataset.active;
+	document.querySelectorAll( '.convertkit-js-tabs' ).forEach(
+		function ( navTabContainer ) {
+			const navTabPanelsContainer = navTabContainer.dataset.panelsContainer;
+			const navTabPanel           = navTabContainer.dataset.panel;
+			const navTabActive          = navTabContainer.dataset.active;
 
-		// Call update.
-		const activeTabElement = navTabContainer.querySelector( 'a.' + navTabActive );
-		convertKitTabsUpdate( navTabContainer, navTabPanelsContainer, navTabPanel, navTabActive, activeTabElement ? activeTabElement.getAttribute( 'href' ) : null );
+			// Call update.
+			const activeTabElement = navTabContainer.querySelector( 'a.' + navTabActive );
+			convertKitTabsUpdate( navTabContainer, navTabPanelsContainer, navTabPanel, navTabActive, activeTabElement ? activeTabElement.getAttribute( 'href' ) : null );
 
-		// Register a listener when a tab is clicked.
-		navTabContainer.addEventListener( 'click', function( e ) {
-			if ( e.target.tagName === 'A' ) {
-				e.preventDefault();
+			// Register a listener when a tab is clicked.
+			navTabContainer.addEventListener(
+				'click',
+				function ( e ) {
+					if ( e.target.tagName === 'A' ) {
+						e.preventDefault();
 
-				// Update the UI to show the active tab and content associated with it.
-				convertKitTabsUpdate( navTabContainer, navTabPanelsContainer, navTabPanel, navTabActive, e.target.getAttribute( 'href' ) );
-			}
-		} );
-	} );
+						// Update the UI to show the active tab and content associated with it.
+						convertKitTabsUpdate( navTabContainer, navTabPanelsContainer, navTabPanel, navTabActive, e.target.getAttribute( 'href' ) );
+					}
+				}
+			);
+		}
+	);
 
 }
 
@@ -82,10 +87,12 @@ function convertKitTabsUpdate( navTabContainer, navTabPanelsContainer, navTabPan
  */
 function convertKitTabsDestroy() {
 	// Iterate through all JS tab instances, destroying each one.
-	document.querySelectorAll( '.convertkit-js-tabs' ).forEach( function( tabInstance ) {
-		// Remove the click event listener.
-		tabInstance.removeEventListener( 'click', tabInstance.clickHandler );
-		// Remove the clickHandler property.
-		delete tabInstance.clickHandler;
-	} );
+	document.querySelectorAll( '.convertkit-js-tabs' ).forEach(
+		function ( tabInstance ) {
+			// Remove the click event listener.
+			tabInstance.removeEventListener( 'click', tabInstance.clickHandler );
+			// Remove the clickHandler property.
+			delete tabInstance.clickHandler;
+		}
+	);
 }
