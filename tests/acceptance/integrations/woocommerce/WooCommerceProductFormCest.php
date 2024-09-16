@@ -72,7 +72,7 @@ class WooCommerceProductFormCest
 
 		// Confirm that one ConvertKit Form is output in the DOM.
 		// This confirms that there is only one script on the page for this form, which renders the form.
-		$I->seeFormOutput($I, $_ENV['CONVERTKIT_API_FORM_ID']);
+		$I->seeFormOutput($I, $_ENV['CONVERTKIT_API_FORM_ID'], false);
 	}
 
 	/**
@@ -139,7 +139,7 @@ class WooCommerceProductFormCest
 
 		// Confirm that one ConvertKit Form is output in the DOM.
 		// This confirms that there is only one script on the page for this form, which renders the form.
-		$I->seeFormOutput($I, $_ENV['CONVERTKIT_API_FORM_ID']);
+		$I->seeFormOutput($I, $_ENV['CONVERTKIT_API_FORM_ID'], false);
 	}
 
 	/**
@@ -182,7 +182,7 @@ class WooCommerceProductFormCest
 
 		// Confirm that one ConvertKit Form is output in the DOM.
 		// This confirms that there is only one script on the page for this form, which renders the form.
-		$I->seeFormOutput($I, $_ENV['CONVERTKIT_API_FORM_ID']);
+		$I->seeFormOutput($I, $_ENV['CONVERTKIT_API_FORM_ID'], false);
 	}
 
 	/**
@@ -225,7 +225,7 @@ class WooCommerceProductFormCest
 
 		// Confirm that one ConvertKit Form is output in the DOM.
 		// This confirms that there is only one script on the page for this form, which renders the form.
-		$I->seeFormOutput($I, $_ENV['CONVERTKIT_API_FORM_ID']);
+		$I->seeFormOutput($I, $_ENV['CONVERTKIT_API_FORM_ID'], false);
 	}
 
 	/**
@@ -268,7 +268,7 @@ class WooCommerceProductFormCest
 
 		// Confirm that one ConvertKit Form is output in the DOM.
 		// This confirms that there is only one script on the page for this form, which renders the form.
-		$I->seeFormOutput($I, $_ENV['CONVERTKIT_API_FORM_ID']);
+		$I->seeFormOutput($I, $_ENV['CONVERTKIT_API_FORM_ID'], false);
 	}
 
 	/**
@@ -311,7 +311,7 @@ class WooCommerceProductFormCest
 
 		// Confirm that one ConvertKit Form is output in the DOM.
 		// This confirms that there is only one script on the page for this form, which renders the form.
-		$I->seeFormOutput($I, $_ENV['CONVERTKIT_API_FORM_ID']);
+		$I->seeFormOutput($I, $_ENV['CONVERTKIT_API_FORM_ID'], false);
 	}
 
 	/**
@@ -364,7 +364,7 @@ class WooCommerceProductFormCest
 
 			// Confirm that one ConvertKit Form is output in the DOM.
 			// This confirms that there is only one script on the page for this form, which renders the form.
-			$I->seeFormOutput($I, $_ENV['CONVERTKIT_API_FORM_ID']);
+			$I->seeFormOutput($I, $_ENV['CONVERTKIT_API_FORM_ID'], false);
 		}
 	}
 
@@ -418,7 +418,7 @@ class WooCommerceProductFormCest
 
 			// Confirm that one ConvertKit Form is output in the DOM.
 			// This confirms that there is only one script on the page for this form, which renders the form.
-			$I->seeFormOutput($I, $_ENV['CONVERTKIT_API_FORM_ID']);
+			$I->seeFormOutput($I, $_ENV['CONVERTKIT_API_FORM_ID'], false);
 		}
 	}
 
@@ -486,7 +486,7 @@ class WooCommerceProductFormCest
 
 			// Confirm that one ConvertKit Form is output in the DOM.
 			// This confirms that there is only one script on the page for this form, which renders the form.
-			$I->seeFormOutput($I, $_ENV['CONVERTKIT_API_FORM_ID']);
+			$I->seeFormOutput($I, $_ENV['CONVERTKIT_API_FORM_ID'], false);
 		}
 	}
 
