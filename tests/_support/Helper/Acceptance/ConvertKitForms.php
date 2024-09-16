@@ -11,6 +11,21 @@ class ConvertKitForms extends \Codeception\Module
 {
 	/**
 	 * Check that expected HTML exists in the DOM of the page we're viewing for
+	 * a Form block or shortcode.
+	 *
+	 * @since   2.5.8
+	 *
+	 * @param   AcceptanceTester $I              Tester.
+	 * @param   int              $formID         Form ID.
+	 */
+	public function seeFormOutput($I, $formID)
+	{
+		// Confirm the Form is in the DOM once.
+		$I->seeNumberOfElementsInDOM('form[data-sv-form="' . $formID . '"]', 1);
+	}
+
+	/**
+	 * Check that expected HTML exists in the DOM of the page we're viewing for
 	 * a Form Trigger block or shortcode, and that the button loads the expected
 	 * ConvertKit Form.
 	 *
