@@ -25,7 +25,7 @@ class ConvertKitForms extends \Codeception\Module
 		$I->seeNumberOfElementsInDOM('form[data-sv-form="' . $formID . '"]', 1);
 
 		// Assert position of form, if required.
-		if (! $position) {
+		if ( ! $position) {
 			return;
 		}
 
