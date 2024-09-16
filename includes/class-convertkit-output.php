@@ -249,7 +249,7 @@ class ConvertKit_Output {
 	}
 
 	/**
-	 * Appends a form to the singular Page, Post or Custom Post Type's Content.
+	 * Inserts a form to the singular Page, Post or Custom Post Type's Content.
 	 *
 	 * @param   string $content    Post Content.
 	 * @return  string              Post Content with Form Appended, if applicable
@@ -327,20 +327,32 @@ class ConvertKit_Output {
 		}
 
 		// If here, we have a ConvertKit Form.
-		// Append form to Post's Content.
-		$content = $content .= $form;
+		// Append form to Post's Content, based on the position setting.
+		$form_position = $this->settings->get_default_form_position( get_post_type( $post_id ) );
+		switch ( $form_position ) {
+			case 'before_content':
+				$content = $form . $content;
+				break;
 
+			case 'after_content':
+			default:
+				// Default behaviour < 2.5.8 was to append the Form after the content.
+				$content .= $form;
+				break;
+		}
+		
 		/**
 		 * Filter the Post's Content, which includes a ConvertKit Form, immediately before it is output.
 		 *
 		 * @since   1.9.6
 		 *
-		 * @param   string  $content    Post Content
-		 * @param   string  $form       ConvertKit Form HTML
-		 * @param   int     $post_id    Post ID
-		 * @param   int     $form_id    ConvertKit Form ID
+		 * @param   string  $content    	Post Content
+		 * @param   string  $form       	ConvertKit Form HTML
+		 * @param   int     $post_id    	Post ID
+		 * @param   int     $form_id    	ConvertKit Form ID
+		 * @param   string  $form_position 	Form Position setting for the Post's Type.
 		 */
-		$content = apply_filters( 'convertkit_frontend_append_form', $content, $form, $post_id, $form_id );
+		$content = apply_filters( 'convertkit_frontend_append_form', $content, $form, $post_id, $form_id, $form_position );
 
 		return $content;
 

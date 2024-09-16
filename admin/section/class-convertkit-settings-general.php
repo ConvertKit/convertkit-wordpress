@@ -279,15 +279,31 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 				continue;
 			}
 
-			// Add Settings Field.
+			// Add Settings Fields.
 			add_settings_field(
 				$supported_post_type . '_form',
 				sprintf(
-					/* translators: Post Type Name */
+					/* translators: Post Type Name, plural */
 					__( 'Default Form (%s)', 'convertkit' ),
 					$post_type->label
 				),
-				array( $this, 'custom_post_types_callback' ),
+				array( $this, 'default_form_callback' ),
+				$this->settings_key,
+				$this->name,
+				array(
+					'label_for'        => '_wp_convertkit_settings_' . $supported_post_type . '_form',
+					'post_type'        => $supported_post_type,
+					'post_type_object' => $post_type,
+				)
+			);
+			add_settings_field(
+				$supported_post_type . '_form_position',
+				sprintf(
+					/* translators: Post Type Name, plural */
+					__( 'Form Position (%s)', 'convertkit' ),
+					$post_type->label
+				),
+				array( $this, 'default_form_position_callback' ),
 				$this->settings_key,
 				$this->name,
 				array(
@@ -417,7 +433,7 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 	 *
 	 * @param   array $args  Field arguments.
 	 */
-	public function custom_post_types_callback( $args ) {
+	public function default_form_callback( $args ) {
 
 		// Refresh Forms.
 		if ( ! $this->forms ) {
@@ -498,6 +514,30 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 
 	}
 
+	/**
+	 * Renders the input for the Default Form Position setting for the given Post Type.
+	 *
+	 * @since  2.5.8
+	 *
+	 * @param   array $args  Field arguments.
+	 */
+	public function default_form_position_callback( $args ) {
+
+		echo $this->get_select_field(
+			$args['post_type'] . '_form_position',
+			$this->settings->get_default_form_position( $args['post_type'] ),
+			array(
+				'before_content' => esc_html__( 'Before Content', 'convertkit' ),
+				'after_content' => esc_html__( 'After Content', 'convertkit' ),
+			),
+			sprintf(
+				/* translators: Post Type name, plural */
+				esc_html__( 'Whether Forms should display before or after the %s content', 'convertkit' ),
+				$args['post_type_object']->label
+			)
+		);
+
+	}
 
 	/**
 	 * Renders the input for the Non-inline Form setting.
