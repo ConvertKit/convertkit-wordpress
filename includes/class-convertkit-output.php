@@ -340,17 +340,17 @@ class ConvertKit_Output {
 				$content .= $form;
 				break;
 		}
-		
+
 		/**
 		 * Filter the Post's Content, which includes a ConvertKit Form, immediately before it is output.
 		 *
 		 * @since   1.9.6
 		 *
-		 * @param   string  $content    	Post Content
-		 * @param   string  $form       	ConvertKit Form HTML
-		 * @param   int     $post_id    	Post ID
-		 * @param   int     $form_id    	ConvertKit Form ID
-		 * @param   string  $form_position 	Form Position setting for the Post's Type.
+		 * @param   string  $content        Post Content
+		 * @param   string  $form           ConvertKit Form HTML
+		 * @param   int     $post_id        Post ID
+		 * @param   int     $form_id        ConvertKit Form ID
+		 * @param   string  $form_position  Form Position setting for the Post's Type.
 		 */
 		$content = apply_filters( 'convertkit_frontend_append_form', $content, $form, $post_id, $form_id, $form_position );
 

@@ -406,7 +406,7 @@ class ConvertKit_Settings {
 
 		// Add Post Type Default Forms.
 		foreach ( convertkit_get_supported_post_types() as $post_type ) {
-			$defaults[ $post_type . '_form' ] = 0; // -1, 0 or Form ID.
+			$defaults[ $post_type . '_form' ]          = 0; // -1, 0 or Form ID.
 			$defaults[ $post_type . '_form_position' ] = 'after_content'; // before_content,after_content.
 		}
 

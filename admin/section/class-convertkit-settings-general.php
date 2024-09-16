@@ -523,17 +523,17 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 	 */
 	public function default_form_position_callback( $args ) {
 
-		echo $this->get_select_field(
+		echo $this->get_select_field( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			$args['post_type'] . '_form_position',
-			$this->settings->get_default_form_position( $args['post_type'] ),
+			esc_attr( $this->settings->get_default_form_position( $args['post_type'] ) ),
 			array(
 				'before_content' => esc_html__( 'Before Content', 'convertkit' ),
-				'after_content' => esc_html__( 'After Content', 'convertkit' ),
+				'after_content'  => esc_html__( 'After Content', 'convertkit' ),
 			),
 			sprintf(
 				/* translators: Post Type name, plural */
 				esc_html__( 'Whether Forms should display before or after the %s content', 'convertkit' ),
-				$args['post_type_object']->label
+				esc_html( $args['post_type_object']->label )
 			)
 		);
 
