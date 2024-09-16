@@ -10,18 +10,21 @@
  *
  * @since 	1.9.8.5
  */
-document.addEventListener( 'DOMContentLoaded', function() {
-    // Appends a <select> field value to a link. Used for previews.
-    document.querySelectorAll( 'select.convertkit-preview-output-link' ).forEach( function( select ) {
-        select.addEventListener( 'change', function() {
-            var target = this.dataset.target;
-            var link = this.dataset.link + this.value;
+jQuery( document ).ready(
+	function ( $ ) {
 
-            document.querySelector( target ).setAttribute( 'href', link );
-        } );
+		// Appends a <select> field value to a link. Used for previews.
+		$( 'select.convertkit-preview-output-link' ).on(
+			'change',
+			function () {
 
-        // Trigger change event on load.
-        var event = new Event( 'change' );
-        select.dispatchEvent( event );
-    } );
-} );
+				var target = $( this ).data( 'target' ),
+				link       = $( this ).data( 'link' ) + $( this ).val();
+
+				$( target ).attr( 'href', link );
+
+			}
+		).trigger( 'change' );
+
+	}
+);
