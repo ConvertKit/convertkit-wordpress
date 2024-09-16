@@ -17,7 +17,7 @@ class ConvertKitForms extends \Codeception\Module
 	 *
 	 * @param   AcceptanceTester $I              Tester.
 	 * @param   int              $formID         Form ID.
-	 * @param   string           $position       Position of the form in the DOM relative to the content.
+	 * @param   bool|string      $position       Position of the form in the DOM relative to the content.
 	 */
 	public function seeFormOutput($I, $formID, $position = 'after_content')
 	{
@@ -31,7 +31,6 @@ class ConvertKitForms extends \Codeception\Module
 				break;
 
 			case 'after_content':
-			default:
 				$I->assertEquals($formID, $I->grabAttributeFrom('div.entry-content > *:last-child', 'data-sv-form'));
 				break;
 		}
