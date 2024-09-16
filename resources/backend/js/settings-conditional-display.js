@@ -12,23 +12,17 @@
  *
  * @since 	2.2.4
  */
-jQuery( document ).ready(
-	function ( $ ) {
+document.addEventListener( 'DOMContentLoaded', function() {
 
-		// Update settings and refresh UI when a setting is changed.
-		$( 'input#enabled' ).on(
-			'change',
-			function () {
+    // Update settings and refresh UI when a setting is changed.
+    const enabledInput = document.querySelector( 'input#enabled' );
+    enabledInput.addEventListener( 'change', function() {
+        convertKitConditionallyDisplaySettings( this.id, this.checked );
+    } );
 
-				convertKitConditionallyDisplaySettings( $( this ).attr( 'id' ), $( this ).prop( 'checked' ) );
+    convertKitConditionallyDisplaySettings( 'enabled', enabledInput.checked );
 
-			}
-		);
-
-		convertKitConditionallyDisplaySettings( 'enabled', $( 'input#enabled' ).prop( 'checked' ) );
-
-	}
-);
+} );
 
 /**
  * Shows all table rows on a ConvertKit settings screen, and then hides
@@ -38,33 +32,26 @@ jQuery( document ).ready(
  */
 function convertKitConditionallyDisplaySettings( name, display ) {
 
-	( function ( $ ) {
+    // Show all rows.
+    const rows = document.querySelectorAll( 'table.form-table tr');
+    rows.forEach( row => row.style.display = '' );
 
-		// Show all rows.
-		$( 'table.form-table tr' ).show();
+    // Don't do anything else if display is true.
+    if ( display ) {
+        return;
+    }
 
-		// Don't do anything else if display is true.
-		if ( display ) {
-			return;
-		}
+    // Iterate through the table rows, hiding any settings.
+    rows.forEach( function( row ) {
+        // Skip if this table row is for the setting we've just checked/unchecked.
+        if ( row.querySelector( `[id="${name}"]` ) ) {
+            return;
+        }
 
-		// Iterate through the table rows, hiding any settings.
-		$( 'table.form-table tr' ).each(
-			function () {
-
-				// Skip if this table row is for the setting we've just checked/unchecked.
-				if ( $( '[id="' + name + '"]', $( this ) ).length > 0 ) {
-					return;
-				}
-
-				// Hide this row if the input, select, link or span element within the row has the CSS class of the setting name.
-				if ( $( 'input, select, a, span', $( this ) ).hasClass( name ) ) {
-					$( this ).hide();
-				}
-
-			}
-		);
-
-	} )( jQuery );
+        // Hide this row if the input, select, link or span element within the row has the CSS class of the setting name.
+        if ( row.querySelector( `input.${name}, select.${name}, a.${name}, span.${name}` ) ) {
+            row.style.display = 'none';
+        }
+    } );
 
 }

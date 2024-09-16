@@ -6,26 +6,23 @@
  * @author ConvertKit
  */
 
-jQuery( document ).ready(
-	function ( $ ) {
+document.addEventListener( 'DOMContentLoaded', function() {
+	
+    // Move any buttons from the filter list to display next to the Add New button.
+    document.querySelectorAll( 'ul.subsubsub span' ).forEach( function( span ) {
+        // Ignore if not a ConvertKit Group Action.
+        if ( ! span.classList.contains( 'convertkit-action' ) ) {
+            return;
+        }
 
-		// Move any buttons from the filter list to display next to the Add New button.
-		$( 'ul.subsubsub span' ).each(
-			function () {
+        // Clone and move.
+        let clone = span.cloneNode( true );
+        clone.classList.remove( 'hidden' );
+        document.querySelector( 'a.page-title-action' ).insertAdjacentElement( 'afterend', clone );
 
-				// Ignore if not a ConvertKit Group Action.
-				if ( ! $( this ).hasClass( 'convertkit-action' ) ) {
-					return;
-				}
+        // Remove original.
+        span.parentElement.remove();
 
-				// Move.
-				$( this ).clone().removeClass( 'hidden' ).insertAfter( $( 'a.page-title-action' ).first() );
+    } );
 
-				// Remove original.
-				$( this ).parent().remove();
-
-			}
-		);
-
-	}
-);
+} );

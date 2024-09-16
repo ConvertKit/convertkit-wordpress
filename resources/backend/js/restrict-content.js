@@ -11,25 +11,30 @@
  *
  * @since 	2.1.0
  */
-jQuery( document ).ready(
-	function ( $ ) {
+document.addEventListener( 'DOMContentLoaded', function() {
+	const typeInputs = document.querySelectorAll( 'input[name=type]' );
 
-		$( 'input[name=type]' ).on(
-			'change',
-			function ( e ) {
+	function convertKitRestrictContentUpdateDisplayedFields() {
+		// For all type radio buttons, hide elements with a class matching the value.
+		typeInputs.forEach( function( input ) {
+			document.querySelectorAll( 'div.' + input.value ).forEach( function( div ) {
+				div.style.display = 'none';
+			} );
+		} );
 
-				// For all type radio buttons, hide elements with a class matching the value.
-				$( 'input[name=type]' ).each(
-					function () {
-						$( 'div.' + $( this ).val() ).hide();
-					}
-				);
-
-				// For the selected radio button, show elements with a class matching the value.
-				$( 'div.' + $( 'input[name=type]:checked' ).val() ).show();
-
-			}
-		).trigger( 'change' );
-
+		// For the selected radio button, show elements with a class matching the value.
+		const checkedInput = document.querySelector( 'input[name=type]:checked' );
+		if ( checkedInput ) {
+			document.querySelectorAll( 'div.' + checkedInput.value ).forEach( function( div ) {
+				div.style.display = 'block';
+			} );
+		}
 	}
-);
+
+	typeInputs.forEach( function( input ) {
+		input.addEventListener( 'change', updateVisibility );
+	} );
+
+	// Trigger the change event on load.
+	convertKitRestrictContentUpdateDisplayedFields();
+} );
