@@ -19,10 +19,15 @@ class ConvertKitForms extends \Codeception\Module
 	 * @param   int              $formID         Form ID.
 	 * @param   bool|string      $position       Position of the form in the DOM relative to the content.
 	 */
-	public function seeFormOutput($I, $formID, $position = 'after_content')
+	public function seeFormOutput($I, $formID, $position = false)
 	{
 		// Confirm the Form is in the DOM once.
 		$I->seeNumberOfElementsInDOM('form[data-sv-form="' . $formID . '"]', 1);
+
+		// Assert position of form, if required.
+		if (! $position) {
+			return;
+		}
 
 		// Assert that the first or last child element is the Form ID, depending on the position.
 		switch ($position) {

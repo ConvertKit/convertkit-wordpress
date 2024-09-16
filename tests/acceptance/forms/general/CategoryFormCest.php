@@ -79,7 +79,7 @@ class CategoryFormCest
 
 		// Confirm that one ConvertKit Form is output in the DOM.
 		// This confirms that there is only one script on the page for this form, which renders the form.
-		$I->seeFormOutput($I, $_ENV['CONVERTKIT_API_FORM_ID'], false);
+		$I->seeFormOutput($I, $_ENV['CONVERTKIT_API_FORM_ID']);
 	}
 
 	/**
@@ -149,7 +149,7 @@ class CategoryFormCest
 
 		// Confirm that one ConvertKit Form is output in the DOM.
 		// This confirms that there is only one script on the page for this form, which renders the form.
-		$I->seeFormOutput($I, $_ENV['CONVERTKIT_API_FORM_ID'], false);
+		$I->seeFormOutput($I, $_ENV['CONVERTKIT_API_FORM_ID']);
 	}
 
 	/**
@@ -207,7 +207,7 @@ class CategoryFormCest
 
 		// Confirm that one ConvertKit Form is output in the DOM.
 		// This confirms that there is only one script on the page for this form, which renders the form.
-		$I->seeFormOutput($I, $_ENV['CONVERTKIT_API_FORM_ID'], false);
+		$I->seeFormOutput($I, $_ENV['CONVERTKIT_API_FORM_ID']);
 	}
 
 	/**
@@ -264,7 +264,7 @@ class CategoryFormCest
 
 		// Confirm that one ConvertKit Form is output in the DOM.
 		// This confirms that there is only one script on the page for this form, which renders the form.
-		$I->seeFormOutput($I, $_ENV['CONVERTKIT_API_FORM_ID'], false);
+		$I->seeFormOutput($I, $_ENV['CONVERTKIT_API_FORM_ID']);
 	}
 
 	/**
@@ -343,7 +343,7 @@ class CategoryFormCest
 
 		// Confirm that one ConvertKit Form is output in the DOM.
 		// This confirms that there is only one script on the page for this form, which renders the form.
-		$I->seeFormOutput($I, $_ENV['CONVERTKIT_API_FORM_ID'], false);
+		$I->seeFormOutput($I, $_ENV['CONVERTKIT_API_FORM_ID']);
 	}
 
 	/**
@@ -421,7 +421,7 @@ class CategoryFormCest
 
 		// Confirm that one ConvertKit Form is output in the DOM.
 		// This confirms that there is only one script on the page for this form, which renders the form.
-		$I->seeFormOutput($I, $_ENV['CONVERTKIT_API_FORM_ID'], false);
+		$I->seeFormOutput($I, $_ENV['CONVERTKIT_API_FORM_ID']);
 	}
 
 	/**
@@ -480,7 +480,7 @@ class CategoryFormCest
 
 		// Confirm that one ConvertKit Form is output in the DOM.
 		// This confirms that there is only one script on the page for this form, which renders the form.
-		$I->seeFormOutput($I, $_ENV['CONVERTKIT_API_FORM_ID'], false);
+		$I->seeFormOutput($I, $_ENV['CONVERTKIT_API_FORM_ID']);
 	}
 
 	/**
@@ -550,7 +550,7 @@ class CategoryFormCest
 		// Confirm that one ConvertKit Form is output in the DOM.
 		// This confirms that there is only one script on the page for this form, which renders the form,
 		// and that the Category settings were correctly mapped.
-		$I->seeFormOutput($I, $_ENV['CONVERTKIT_API_FORM_ID'], false);
+		$I->seeFormOutput($I, $_ENV['CONVERTKIT_API_FORM_ID']);
 	}
 
 	/**
