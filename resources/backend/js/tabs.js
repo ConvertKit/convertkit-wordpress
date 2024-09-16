@@ -22,17 +22,10 @@ function convertKitTabsInit() {
 		const navTabPanelsContainer = navTabContainer.dataset.panelsContainer;
 		const navTabPanel = navTabContainer.dataset.panel;
 		const navTabActive = navTabContainer.dataset.active;
-		const matchHeight = navTabContainer.dataset.matchHeight;
 
 		// Call update.
 		const activeTabElement = navTabContainer.querySelector( 'a.' + navTabActive );
 		convertKitTabsUpdate( navTabContainer, navTabPanelsContainer, navTabPanel, navTabActive, activeTabElement ? activeTabElement.getAttribute( 'href' ) : null );
-
-		// If fix height is set, define the height of the content areas to match the parent of the nav tab container.
-		if ( typeof matchHeight !== 'undefined' ) {
-			console.log( matchHeight );
-			document.querySelector( navTabPanelsContainer ).style.height = document.querySelector( matchHeight ).clientHeight + 'px';
-		}
 
 		// Register a listener when a tab is clicked.
 		navTabContainer.addEventListener( 'click', function( e ) {

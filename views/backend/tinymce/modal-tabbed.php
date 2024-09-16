@@ -20,11 +20,9 @@
 		<ul class="convertkit-nav-tabs convertkit-js-tabs" 
 			data-panels-container="#<?php echo esc_attr( $shortcode['name'] ); ?>-container"
 			data-panel=".<?php echo esc_attr( $shortcode['name'] ); ?>"
-			data-active="convertkit-nav-tab-vertical-active"
-			data-match-height="#convertkit-tinymce-modal-body">
+			data-active="convertkit-nav-tab-vertical-active">
 
 			<?php
-			// data-match-height="#convertkit-tinymce-modal-body" removed from above.
 			// Output each Tab.
 			$first_tab = true;
 			foreach ( $shortcode['panels'] as $modal_tab_name => $modal_tab ) {
