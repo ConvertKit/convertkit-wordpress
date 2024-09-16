@@ -50,7 +50,7 @@ class DiviFormCest
 
 		// Confirm that one ConvertKit Form is output in the DOM.
 		// This confirms that there is only one script on the page for this form, which renders the form.
-		$I->seeFormOutput($_ENV['CONVERTKIT_API_FORM_ID']);
+		$I->seeFormOutput($I, $_ENV['CONVERTKIT_API_FORM_ID']);
 
 		// Deactivate Classic Editor.
 		$I->deactivateThirdPartyPlugin($I, 'classic-editor');
@@ -87,7 +87,7 @@ class DiviFormCest
 
 		// Confirm that one ConvertKit Form is output in the DOM.
 		// This confirms that there is only one script on the page for this form, which renders the form.
-		$I->seeFormOutput($_ENV['CONVERTKIT_API_FORM_ID']);
+		$I->seeFormOutput($I, $_ENV['CONVERTKIT_API_FORM_ID']);
 	}
 
 	/**
