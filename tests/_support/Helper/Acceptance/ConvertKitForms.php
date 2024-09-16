@@ -17,11 +17,24 @@ class ConvertKitForms extends \Codeception\Module
 	 *
 	 * @param   AcceptanceTester $I              Tester.
 	 * @param   int              $formID         Form ID.
+	 * @param   string           $position       Position of the form in the DOM relative to the content.
 	 */
-	public function seeFormOutput($I, $formID)
+	public function seeFormOutput($I, $formID, $position = 'after_content')
 	{
 		// Confirm the Form is in the DOM once.
 		$I->seeNumberOfElementsInDOM('form[data-sv-form="' . $formID . '"]', 1);
+
+		// Assert that the first or last child element is the Form ID, depending on the position.
+		switch ($position) {
+			case 'before_content':
+				$I->assertEquals($formID, $I->grabAttributeFrom('div.entry-content > *:first-child', 'data-sv-form'));
+				break;
+
+			case 'after_content':
+			default:
+				$I->assertEquals($formID, $I->grabAttributeFrom('div.entry-content > *:last-child', 'data-sv-form'));
+				break;
+		}
 	}
 
 	/**
