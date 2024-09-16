@@ -139,7 +139,7 @@ class PostFormCest
 		$I->setupConvertKitPluginResources($I);
 
 		// Add a Post using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'post', 'ConvertKit: Page: Form: Default: Before Content');
+		$I->addGutenbergPage($I, 'post', 'ConvertKit: Post: Form: Default: Before Content');
 
 		// Add paragraph to Post.
 		$I->addGutenbergParagraphBlock($I, 'Post content');
