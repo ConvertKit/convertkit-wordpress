@@ -34,14 +34,14 @@ class ConvertKit_Subscriber {
 	public function get_subscriber_id() {
 
 		// If the subscriber ID is in the request URI, use it.
-		if ( isset( $_REQUEST[ $this->key ] ) ) { // phpcs:ignore WordPress.Security.NonceVerification
+		if ( isset( $_REQUEST[ $this->key ] ) && is_numeric( $_REQUEST[ $this->key ] ) ) { // phpcs:ignore WordPress.Security.NonceVerification
 			return $this->validate_and_store_subscriber_id( sanitize_text_field( $_REQUEST[ $this->key ] ) ); // phpcs:ignore WordPress.Security.NonceVerification
 		}
 
 		// If the subscriber ID is in a cookie, return it.
 		// For performance, we don't check that the subscriber ID exists every time, otherwise this would
 		// call the API on every page load.
-		if ( isset( $_COOKIE[ $this->key ] ) ) {
+		if ( isset( $_COOKIE[ $this->key ] ) && ! empty( $_COOKIE[ $this->key ] ) ) {
 			return $this->get_subscriber_id_from_cookie();
 		}
 
@@ -81,7 +81,7 @@ class ConvertKit_Subscriber {
 		);
 
 		// Get subscriber by ID, to ensure they exist.
-		$subscriber = $api->get_subscriber( $subscriber_id );
+		$subscriber = $api->get_subscriber( absint( $subscriber_id ) );
 
 		// Bail if no subscriber exists with the given subscriber ID, or an error occured.
 		if ( is_wp_error( $subscriber ) ) {

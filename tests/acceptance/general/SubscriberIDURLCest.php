@@ -37,6 +37,14 @@ class SubscriberIDURLCest
 			]
 		);
 
+		// Confirm that a blank ck_subscriber_id does not cause a fatal error.
+		$I->amOnPage('/convertkit-subscriber-id-url?ck_subscriber_id=');
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Confirm that a non-numeric ck_subscriber_id does not cause a fatal error.
+		$I->amOnPage('/convertkit-subscriber-id-url?ck_subscriber_id=abcde');
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
 		// Confirm that the ck_subscriber_id was removed.
 		$I->amOnPage('/convertkit-subscriber-id-url?ck_subscriber_id=' . $_ENV['CONVERTKIT_API_SUBSCRIBER_ID']);
 		$I->checkNoWarningsAndNoticesOnScreen($I);
