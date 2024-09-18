@@ -11,6 +11,38 @@ class ConvertKitForms extends \Codeception\Module
 {
 	/**
 	 * Check that expected HTML exists in the DOM of the page we're viewing for
+	 * a Form block or shortcode.
+	 *
+	 * @since   2.5.8
+	 *
+	 * @param   AcceptanceTester $I              Tester.
+	 * @param   int              $formID         Form ID.
+	 * @param   bool|string      $position       Position of the form in the DOM relative to the content.
+	 */
+	public function seeFormOutput($I, $formID, $position = false)
+	{
+		// Confirm the Form is in the DOM once.
+		$I->seeNumberOfElementsInDOM('form[data-sv-form="' . $formID . '"]', 1);
+
+		// Assert position of form, if required.
+		if ( ! $position) {
+			return;
+		}
+
+		// Assert that the first or last child element is the Form ID, depending on the position.
+		switch ($position) {
+			case 'before_content':
+				$I->assertEquals($formID, $I->grabAttributeFrom('div.entry-content > *:first-child', 'data-sv-form'));
+				break;
+
+			case 'after_content':
+				$I->assertEquals($formID, $I->grabAttributeFrom('div.entry-content > *:last-child', 'data-sv-form'));
+				break;
+		}
+	}
+
+	/**
+	 * Check that expected HTML exists in the DOM of the page we're viewing for
 	 * a Form Trigger block or shortcode, and that the button loads the expected
 	 * ConvertKit Form.
 	 *
