@@ -3,9 +3,9 @@ Contributors: nathanbarry, growdev, travisnorthcutt, ggwicz
 Donate link: https://kit.com
 Tags: email marketing, email newsletter, newsletter, subscribers, membership
 Requires at least: 5.0
-Tested up to: 6.6.1
+Tested up to: 6.6.2
 Requires PHP: 5.6.20
-Stable tag: 2.5.6
+Stable tag: 2.5.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -157,6 +157,17 @@ Full Plugin documentation can be found [here](https://help.kit.com/en/articles/2
 10. Track subscriber growth
 
 == Changelog ==
+
+### 2.5.8 2024-09-18
+* Added: Remove jQuery as a dependency from some backend JS
+* Fix: Fatal error `Uncaught TypeError: ConvertKit_API_V4::get_subscriber(): Argument #1 ($form_id) must be of type int, string given` when a blank or non-numeric `ck_subscriber_id` supplied in the URL
+
+### 2.5.7 2024-09-16
+* Added: Divi: ConvertKit Broadcasts Module
+* Added: Divi: ConvertKit Form Trigger Module
+* Added: Divi: ConvertKit Product Module
+* Fix: Landing Pages: Honor redirect if "Redirect to an external page" defined on Landing Page in ConvertKit
+* Fix: Preserve other URL query parameters when removing `ck_subscriber_id`
 
 ### 2.5.6 2024-08-15
 * Added: Pages: Add New Landing Page Setup Wizard, to easily create a WordPress Page that displays a ConvertKit Landing Page

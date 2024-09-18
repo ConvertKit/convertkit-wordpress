@@ -113,14 +113,16 @@ class ConvertKit_Block_Form_Trigger extends ConvertKit_Block {
 
 			// Help descriptions, displayed when no API key / resources exist and this block/shortcode is added.
 			'no_access_token'                   => array(
-				'notice'    => __( 'Not connected to ConvertKit.', 'convertkit' ),
-				'link'      => convertkit_get_setup_wizard_plugin_link(),
-				'link_text' => __( 'Click here to connect your ConvertKit account.', 'convertkit' ),
+				'notice'           => __( 'Not connected to ConvertKit.', 'convertkit' ),
+				'link'             => convertkit_get_setup_wizard_plugin_link(),
+				'link_text'        => __( 'Click here to connect your ConvertKit account.', 'convertkit' ),
+				'instruction_text' => __( 'Connect your ConvertKit account at Settings > ConvertKit, and then refresh this page to select a form.', 'convertkit' ),
 			),
 			'no_resources'                      => array(
-				'notice'    => __( 'No modal, sticky bar or slide in forms exist in ConvertKit.', 'convertkit' ),
-				'link'      => convertkit_get_new_form_url(),
-				'link_text' => __( 'Click here to create a form.', 'convertkit' ),
+				'notice'           => __( 'No modal, sticky bar or slide in forms exist in ConvertKit.', 'convertkit' ),
+				'link'             => convertkit_get_new_form_url(),
+				'link_text'        => __( 'Click here to create a form.', 'convertkit' ),
+				'instruction_text' => __( 'Add a non-inline form to your ConvertKit account, and then refresh this page to select a form.', 'convertkit' ),
 			),
 			'gutenberg_help_description'        => __( 'Select a Form using the Form option in the Gutenberg sidebar.', 'convertkit' ),
 

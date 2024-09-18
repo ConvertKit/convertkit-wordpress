@@ -549,7 +549,7 @@ add_filter( 'convertkit_block_content_render', function( $content, $atts, $subsc
 </pre>
 <h3 id="convertkit_block_product_render">
 						convertkit_block_product_render
-						<code>includes/blocks/class-convertkit-block-product.php::458</code>
+						<code>includes/blocks/class-convertkit-block-product.php::460</code>
 					</h3><h4>Overview</h4>
 						<p>Filter the block's content immediately before it is output.</p><h4>Parameters</h4>
 					<table>
@@ -580,7 +580,7 @@ add_filter( 'convertkit_block_product_render', function( $html, $atts ) {
 </pre>
 <h3 id="convertkit_block_broadcasts_render">
 						convertkit_block_broadcasts_render
-						<code>includes/blocks/class-convertkit-block-broadcasts.php::618</code>
+						<code>includes/blocks/class-convertkit-block-broadcasts.php::620</code>
 					</h3><h4>Overview</h4>
 						<p>Filter the block's content immediately before it is output.</p><h4>Parameters</h4>
 					<table>
@@ -611,7 +611,7 @@ add_filter( 'convertkit_block_broadcasts_render', function( $html, $atts ) {
 </pre>
 <h3 id="convertkit_block_broadcasts_render_ajax">
 						convertkit_block_broadcasts_render_ajax
-						<code>includes/blocks/class-convertkit-block-broadcasts.php::533</code>
+						<code>includes/blocks/class-convertkit-block-broadcasts.php::535</code>
 					</h3><h4>Overview</h4>
 						<p>Filter the block's inner content immediately before it is output by AJAX, which occurs when pagination was clicked.</p><h4>Parameters</h4>
 					<table>
@@ -642,7 +642,7 @@ add_filter( 'convertkit_block_broadcasts_render_ajax', function( $html, $atts ) 
 </pre>
 <h3 id="convertkit_block_broadcasts_build_html_list_item">
 						convertkit_block_broadcasts_build_html_list_item
-						<code>includes/blocks/class-convertkit-block-broadcasts.php::699</code>
+						<code>includes/blocks/class-convertkit-block-broadcasts.php::701</code>
 					</h3><h4>Overview</h4>
 						<p>Defines the HTML for an individual broadcast item in the Broadcasts block.</p><h4>Parameters</h4>
 					<table>
@@ -677,7 +677,7 @@ add_filter( 'convertkit_block_broadcasts_build_html_list_item', function( $html,
 </pre>
 <h3 id="convertkit_block_form_render">
 						convertkit_block_form_render
-						<code>includes/blocks/class-convertkit-block-form.php::370</code>
+						<code>includes/blocks/class-convertkit-block-form.php::372</code>
 					</h3><h4>Overview</h4>
 						<p>Filter the block's content immediately before it is output.</p><h4>Parameters</h4>
 					<table>
@@ -712,7 +712,7 @@ add_filter( 'convertkit_block_form_render', function( $form, $atts, $form_id ) {
 </pre>
 <h3 id="convertkit_block_form_trigger_render">
 						convertkit_block_form_trigger_render
-						<code>includes/blocks/class-convertkit-block-form-trigger.php::393</code>
+						<code>includes/blocks/class-convertkit-block-form-trigger.php::395</code>
 					</h3><h4>Overview</h4>
 						<p>Filter the block's content immediately before it is output.</p><h4>Parameters</h4>
 					<table>

@@ -396,6 +396,12 @@ class ConvertKitPlugin extends \Codeception\Module
 		$I->haveOptionInDatabase(
 			'convertkit_products',
 			[
+				42847 => [
+					'id'        => 42847,
+					'name'      => 'Example Tip Jar',
+					'url'       => 'https://cheerful-architect-3237.ck.page/products/example-tip-jar',
+					'published' => true,
+				],
 				36377 => [
 					'id'        => 36377,
 					'name'      => 'Newsletter Subscription',
