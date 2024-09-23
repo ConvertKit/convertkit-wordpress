@@ -199,7 +199,7 @@ document.addEventListener(
 			'click',
 			function (e) {
 				// Check if the form submit button was clicked, or the span element was clicked and its parent is the form submit button.
-				if ( e.target !== null && ! e.target.matches( '.formkit-submit' ) && ! e.target.parentElement !== null && e.target.parentElement.matches( '.formkit-submit' ) ) {
+				if ( ! e.target.matches( '.formkit-submit' ) && ( ! e.target.parentElement || ! e.target.parentElement.matches( '.formkit-submit' ) ) ) {
 					if ( convertkit.debug ) {
 						console.log( 'not a ck form' );
 					}
