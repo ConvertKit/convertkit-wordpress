@@ -256,6 +256,11 @@ class ConvertKit_Admin_Restrict_Content {
 		// Get screen.
 		$screen = get_current_screen();
 
+		// Bail if the screen couldn't be determined.
+		if ( is_null( $screen ) ) {
+			return false;
+		}
+
 		// Bail if we're not on an edit.php screen.
 		if ( $screen->base !== 'edit' ) {
 			return false;
