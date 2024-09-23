@@ -35,7 +35,9 @@ class ConvertKit_Admin_Bulk_Edit {
 	public function enqueue_assets() {
 
 		// Bail if we're not on a Post Type Edit screen.
-		convertkit_get_current_screen( 'base' )
+		if ( convertkit_get_current_screen( 'base' ) !== 'edit' ) {
+			return;
+		}
 
 		// Bail if the Post isn't a supported Post Type.
 		if ( ! in_array( convertkit_get_current_screen( 'post_type' ), convertkit_get_supported_post_types(), true ) ) {

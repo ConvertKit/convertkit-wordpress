@@ -614,6 +614,6 @@ function convertkit_get_current_screen( $property ) {
 	}
 
 	// Return property.
-	return $screen{ $property };
+	return $screen->$property;
 
 }

@@ -40,7 +40,7 @@ class ConvertKit_Admin_Quick_Edit {
 		}
 
 		// Bail if the Post isn't a supported Post Type.
-		if ( ! in_array( $screen->post_type, convertkit_get_supported_post_types(), true ) ) {
+		if ( ! in_array( convertkit_get_current_screen( 'post_type' ), convertkit_get_supported_post_types(), true ) ) {
 			return;
 		}
 
