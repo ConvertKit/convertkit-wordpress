@@ -34,14 +34,8 @@ class ConvertKit_Admin_Quick_Edit {
 	 */
 	public function enqueue_assets() {
 
-		// Bail if we cannot determine the screen.
-		if ( ! function_exists( 'get_current_screen' ) ) {
-			return;
-		}
-
 		// Bail if we're not on a Post Type Edit screen.
-		$screen = get_current_screen();
-		if ( $screen->base !== 'edit' ) {
+		if ( convertkit_get_current_screen( 'base' ) !== 'edit' ) {
 			return;
 		}
 

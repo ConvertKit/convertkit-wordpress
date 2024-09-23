@@ -337,16 +337,7 @@ class ConvertKit_Admin_Post {
 	 */
 	private function get_current_post_type() {
 
-		// Bail if we cannot determine the screen.
-		if ( ! function_exists( 'get_current_screen' ) ) {
-			return false;
-		}
-
-		// Get screen.
-		$screen = get_current_screen();
-
-		// Return post type.
-		return $screen->post_type;
+		return convertkit_get_current_screen( 'post_type' );
 
 	}
 

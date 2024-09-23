@@ -248,26 +248,13 @@ class ConvertKit_Admin_Restrict_Content {
 	 */
 	private function is_wp_list_table_request_for_supported_post_type() {
 
-		// Bail if we cannot determine the screen.
-		if ( ! function_exists( 'get_current_screen' ) ) {
-			return false;
-		}
-
-		// Get screen.
-		$screen = get_current_screen();
-
-		// Bail if the screen couldn't be determined.
-		if ( is_null( $screen ) ) {
-			return false;
-		}
-
 		// Bail if we're not on an edit.php screen.
-		if ( $screen->base !== 'edit' ) {
+		if ( convertkit_get_current_screen( 'base' ) !== 'edit' ) {
 			return false;
 		}
 
 		// Return whether Post Type is supported for Restrict Content functionality.
-		return in_array( $screen->post_type, convertkit_get_supported_post_types(), true );
+		return in_array( convertkit_get_current_screen( 'post_type' ), convertkit_get_supported_post_types(), true );
 
 	}
 

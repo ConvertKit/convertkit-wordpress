@@ -34,19 +34,11 @@ class ConvertKit_Admin_Bulk_Edit {
 	 */
 	public function enqueue_assets() {
 
-		// Bail if we cannot determine the screen.
-		if ( ! function_exists( 'get_current_screen' ) ) {
-			return;
-		}
-
 		// Bail if we're not on a Post Type Edit screen.
-		$screen = get_current_screen();
-		if ( $screen->base !== 'edit' ) {
-			return;
-		}
+		convertkit_get_current_screen( 'base' )
 
 		// Bail if the Post isn't a supported Post Type.
-		if ( ! in_array( $screen->post_type, convertkit_get_supported_post_types(), true ) ) {
+		if ( ! in_array( convertkit_get_current_screen( 'post_type' ), convertkit_get_supported_post_types(), true ) ) {
 			return;
 		}
 
