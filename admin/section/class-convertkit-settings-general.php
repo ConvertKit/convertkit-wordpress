@@ -527,12 +527,13 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 			$args['post_type'] . '_form_position',
 			esc_attr( $this->settings->get_default_form_position( $args['post_type'] ) ),
 			array(
-				'before_content' => esc_html__( 'Before Content', 'convertkit' ),
-				'after_content'  => esc_html__( 'After Content', 'convertkit' ),
+				'before_content'       => esc_html__( 'Before content', 'convertkit' ),
+				'after_content'        => esc_html__( 'After content', 'convertkit' ),
+				'before_after_content' => esc_html__( 'Before and after content', 'convertkit' ),
 			),
 			sprintf(
 				/* translators: Post Type name, plural */
-				esc_html__( 'Whether Forms should display before or after the %s content', 'convertkit' ),
+				esc_html__( 'Where forms should display relative to the %s content', 'convertkit' ),
 				esc_html( $args['post_type_object']->label )
 			)
 		);
