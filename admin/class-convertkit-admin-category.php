@@ -111,12 +111,7 @@ class ConvertKit_Admin_Category {
 		}
 
 		// Bail if we are not editing a Category.
-		if ( ! function_exists( 'get_current_screen' ) ) {
-			return false;
-		}
-		$screen = get_current_screen();
-
-		if ( $screen->id !== 'edit-category' ) {
+		if ( convertkit_get_current_screen( 'id' ) !== 'edit-category' ) {
 			return false;
 		}
 
