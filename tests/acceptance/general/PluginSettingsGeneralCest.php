@@ -242,7 +242,7 @@ class PluginSettingsGeneralCest
 
 		// Select Default Form for Pages, and change the Position.
 		$I->fillSelect2Field($I, '#select2-_wp_convertkit_settings_page_form-container', $_ENV['CONVERTKIT_API_FORM_NAME']);
-		$I->selectOption('_wp_convertkit_settings[page_form_position]', 'Before Content');
+		$I->selectOption('_wp_convertkit_settings[page_form_position]', 'Before content');
 
 		// Open preview.
 		$I->click('a#convertkit-preview-form-page');
@@ -306,9 +306,9 @@ class PluginSettingsGeneralCest
 
 		// Check the value of the fields match the inputs provided.
 		$I->seeInField('_wp_convertkit_settings[page_form]', $_ENV['CONVERTKIT_API_FORM_NAME']);
-		$I->seeInField('_wp_convertkit_settings[page_form_position]', 'Before Content');
+		$I->seeInField('_wp_convertkit_settings[page_form_position]', 'Before content');
 		$I->seeInField('_wp_convertkit_settings[post_form]', $_ENV['CONVERTKIT_API_FORM_NAME']);
-		$I->seeInField('_wp_convertkit_settings[post_form_position]', 'After Content');
+		$I->seeInField('_wp_convertkit_settings[post_form_position]', 'After content');
 		$I->seeInField('_wp_convertkit_settings[non_inline_form]', $_ENV['CONVERTKIT_API_FORM_FORMAT_STICKY_BAR_NAME']);
 	}
 

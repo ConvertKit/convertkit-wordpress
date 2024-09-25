@@ -330,6 +330,10 @@ class ConvertKit_Output {
 		// Append form to Post's Content, based on the position setting.
 		$form_position = $this->settings->get_default_form_position( get_post_type( $post_id ) );
 		switch ( $form_position ) {
+			case 'before_after_content':
+				$content = $form . $content . $form;
+				break;
+
 			case 'before_content':
 				$content = $form . $content;
 				break;

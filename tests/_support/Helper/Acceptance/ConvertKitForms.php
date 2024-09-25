@@ -21,16 +21,24 @@ class ConvertKitForms extends \Codeception\Module
 	 */
 	public function seeFormOutput($I, $formID, $position = false)
 	{
-		// Confirm the Form is in the DOM once.
-		$I->seeNumberOfElementsInDOM('form[data-sv-form="' . $formID . '"]', 1);
+		// Calculate how many times the Form should be in the DOM.
+		$count = ( ( $position === 'before_after_content' ) ? 2 : 1 );
+
+		// Confirm the Form is in the DOM the expected number of times.
+		$I->seeNumberOfElementsInDOM('form[data-sv-form="' . $formID . '"]', $count);
 
 		// Assert position of form, if required.
 		if ( ! $position) {
 			return;
 		}
 
-		// Assert that the first or last child element is the Form ID, depending on the position.
+		// Assert that the first and/or last child element is the Form ID, depending on the position.
 		switch ($position) {
+			case 'before_after_content':
+				$I->assertEquals($formID, $I->grabAttributeFrom('div.entry-content > *:first-child', 'data-sv-form'));
+				$I->assertEquals($formID, $I->grabAttributeFrom('div.entry-content > *:last-child', 'data-sv-form'));
+				break;
+
 			case 'before_content':
 				$I->assertEquals($formID, $I->grabAttributeFrom('div.entry-content > *:first-child', 'data-sv-form'));
 				break;
