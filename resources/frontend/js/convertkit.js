@@ -150,16 +150,16 @@ function convertKitRemoveSubscriberIDFromURL( url ) {
 	url_object.searchParams.delete( 'ck_subscriber_id' );
 
 	// Get title and string of parameters.
-	const title   = document.getElementsByTagName( 'title' )[0].innerHTML;
-	let clean_url = url_object.searchParams.toString();
+	const title = document.getElementsByTagName( 'title' )[0].innerHTML;
+	let params  = url_object.searchParams.toString();
 
-	// If leading question mark missing, prepend it.
-	if ( clean_url.charAt( 0 ) !== '?' ) {
-		clean_url = '?' + clean_url;
+	// Only add '?' if there are parameters.
+	if ( params.length > 0 ) {
+		params = '?' + params;
 	}
 
 	// Update history.
-	window.history.pushState( null, title, clean_url );
+	window.history.pushState( null, title, url_object.pathname + params );
 
 }
 
