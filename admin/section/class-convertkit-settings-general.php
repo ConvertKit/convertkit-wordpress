@@ -427,6 +427,44 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 	}
 
 	/**
+	 * Initialize resource classes and perform a and refresh of resources,
+	 * if initialization has not yet taken place.
+	 *
+	 * @since   2.5.9
+	 */
+	public function maybe_initialize_and_refresh_resources() {
+
+		// If the Forms resource class is initialized, this has already been done.
+		if ( $this->forms !== false ) {
+			return;
+		}
+
+		// Initialize and refresh resource classes, to ensure up to date resources are stored
+		// for when editing e.g. Pages.
+		$this->forms = new ConvertKit_Resource_Forms( 'settings' );
+		$this->forms->refresh();
+
+		// Also refresh Landing Pages, Tags and Posts. Whilst not displayed in the Plugin Settings, this ensures up to date
+		// lists are stored for when editing e.g. Pages.
+		$landing_pages = new ConvertKit_Resource_Landing_Pages( 'settings' );
+		$landing_pages->refresh();
+
+		remove_all_actions( 'convertkit_resource_refreshed_posts' );
+		$posts = new ConvertKit_Resource_Posts( 'settings' );
+		$posts->refresh();
+
+		$products = new ConvertKit_Resource_Products( 'settings' );
+		$products->refresh();
+
+		$sequences = new ConvertKit_Resource_Sequences( 'settings' );
+		$sequences->refresh();
+
+		$tags = new ConvertKit_Resource_Tags( 'settings' );
+		$tags->refresh();
+
+	}
+
+	/**
 	 * Renders the input for the Default Form setting for the given Post Type.
 	 *
 	 * @since  1.9.6
@@ -435,29 +473,8 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 	 */
 	public function default_form_callback( $args ) {
 
-		// Refresh Forms.
-		if ( ! $this->forms ) {
-			$this->forms = new ConvertKit_Resource_Forms( 'settings' );
-			$this->forms->refresh();
-
-			// Also refresh Landing Pages, Tags and Posts. Whilst not displayed in the Plugin Settings, this ensures up to date
-			// lists are stored for when editing e.g. Pages.
-			$landing_pages = new ConvertKit_Resource_Landing_Pages( 'settings' );
-			$landing_pages->refresh();
-
-			remove_all_actions( 'convertkit_resource_refreshed_posts' );
-			$posts = new ConvertKit_Resource_Posts( 'settings' );
-			$posts->refresh();
-
-			$products = new ConvertKit_Resource_Products( 'settings' );
-			$products->refresh();
-
-			$sequences = new ConvertKit_Resource_Sequences( 'settings' );
-			$sequences->refresh();
-
-			$tags = new ConvertKit_Resource_Tags( 'settings' );
-			$tags->refresh();
-		}
+		// Initialize resource classes and perform a refresh if this hasn't yet been done.
+		$this->maybe_initialize_and_refresh_resources();
 
 		// Bail if no Forms exist.
 		if ( ! $this->forms->exist() ) {
@@ -548,6 +565,9 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 	 * @param   array $args  Field arguments.
 	 */
 	public function non_inline_form_callback( $args ) {
+
+		// Initialize resource classes and perform a refresh if this hasn't yet been done.
+		$this->maybe_initialize_and_refresh_resources();
 
 		// Bail if no non-inline Forms exist.
 		if ( ! $this->forms->non_inline_exist() ) {
