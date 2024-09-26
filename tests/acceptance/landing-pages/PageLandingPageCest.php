@@ -91,7 +91,7 @@ class PageLandingPageCest
 		$I->publishAndViewGutenbergPage($I);
 
 		// Confirm that the basic HTML structure is correct.
-		$this->_seeBasicHTMLStructure($I);
+		$this->_seeBasicHTMLStructure($I, true);
 
 		// Confirm the ConvertKit Site Icon displays.
 		$I->seeInSource('<link rel="shortcut icon" type="image/x-icon" href="https://pages.convertkit.com/templates/favicon.ico">');
@@ -142,7 +142,7 @@ class PageLandingPageCest
 		$I->publishAndViewGutenbergPage($I);
 
 		// Confirm that the basic HTML structure is correct.
-		$this->_seeBasicHTMLStructure($I);
+		$this->_seeBasicHTMLStructure($I, true);
 
 		// Confirm the WordPress Site Icon displays.
 		$I->seeInSource('<link rel="icon" href="' . $_ENV['TEST_SITE_WP_URL'] . '/wp-content/uploads/' . date( 'Y' ) . '/' . date( 'm' ) . '/icon-150x150.png" sizes="32x32">');
@@ -184,7 +184,7 @@ class PageLandingPageCest
 		$I->publishAndViewGutenbergPage($I);
 
 		// Confirm that the basic HTML structure is correct.
-		$this->_seeBasicHTMLStructure($I);
+		$this->_seeBasicHTMLStructure($I, false);
 
 		// Confirm that the Landing Page title is the same as defined on ConvertKit i.e. that character encoding is correct.
 		$I->seeInSource('Vantar þinn ungling sjálfstraust í stærðfræði?');
@@ -363,7 +363,7 @@ class PageLandingPageCest
 		$I->publishAndViewGutenbergPage($I);
 
 		// Confirm that the basic HTML structure is correct.
-		$this->_seeBasicHTMLStructure($I);
+		$this->_seeBasicHTMLStructure($I, true);
 
 		// Confirm the ConvertKit Site Icon displays.
 		$I->seeInSource('<link rel="shortcut icon" type="image/x-icon" href="https://pages.convertkit.com/templates/favicon.ico">');
@@ -442,7 +442,7 @@ class PageLandingPageCest
 		$I->amOnUrl($url);
 
 		// Confirm that the basic HTML structure is correct.
-		$this->_seeBasicHTMLStructure($I);
+		$this->_seeBasicHTMLStructure($I, true);
 
 		// Confirm the ConvertKit Site Icon displays.
 		$I->seeInSource('<link rel="shortcut icon" type="image/x-icon" href="https://pages.convertkit.com/templates/favicon.ico">');
@@ -467,10 +467,16 @@ class PageLandingPageCest
 	 * @since   1.9.7.5
 	 *
 	 * @param   AcceptanceTester $I  Tester.
+	 * @param 	bool 			 $langTag 	Assert if HTML tag includes lang attribute.
 	 */
-	private function _seeBasicHTMLStructure($I)
+	private function _seeBasicHTMLStructure($I, $langTag = false)
 	{
-		$I->seeInSource('<html>');
+		if($langTag) {
+			$I->seeInSource('<html lang="en">');
+		} else {
+			$I->seeInSource('<html>');
+		}
+
 		$I->seeInSource('<head>');
 		$I->seeInSource('</head>');
 		$I->seeInSource('<body');
