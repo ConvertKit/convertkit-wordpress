@@ -157,4 +157,27 @@ class ConvertKitForms extends \Codeception\Module
 		// Confirm that the link does not display.
 		$I->dontSeeElementInDOM('a.convertkit-form-link');
 	}
+
+	/**
+	 * Helper method to assert that the expected landing page HTML is output.
+	 *
+	 * @since   2.5.9
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 * @param   bool             $langTag   Assert if HTML tag includes lang attribute.
+	 */
+	public function seeLandingPageOutput($I, $langTag = false)
+	{
+		if ($langTag) {
+			$I->seeInSource('<html lang="en">');
+		} else {
+			$I->seeInSource('<html>');
+		}
+
+		$I->seeInSource('<head>');
+		$I->seeInSource('</head>');
+		$I->seeInSource('<body');
+		$I->seeInSource('</body>');
+		$I->seeInSource('</html>');
+	}
 }

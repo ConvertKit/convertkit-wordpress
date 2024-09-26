@@ -186,7 +186,7 @@ class PageLandingPageSetupWizardCest
 		$I->click('View landing page');
 
 		// Confirm that the basic HTML structure is correct.
-		$this->_seeBasicHTMLStructure($I);
+		$I->seeLandingPageOutput($I, true);
 
 		// Confirm the ConvertKit Site Icon displays.
 		$I->seeInSource('<link rel="shortcut icon" type="image/x-icon" href="https://pages.convertkit.com/templates/favicon.ico">');
@@ -223,7 +223,7 @@ class PageLandingPageSetupWizardCest
 		$I->click('View landing page');
 
 		// Confirm that the basic HTML structure is correct.
-		$this->_seeBasicHTMLStructure($I);
+		$I->seeLandingPageOutput($I);
 
 		// Confirm that the ConvertKit Landing Page displays.
 		$I->dontSeeElementInDOM('body.page'); // WordPress didn't load its template, which is correct.
@@ -252,23 +252,6 @@ class PageLandingPageSetupWizardCest
 
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
-	}
-
-	/**
-	 * Helper method to assert that the expected landing page HTML is output.
-	 *
-	 * @since   2.5.5
-	 *
-	 * @param   AcceptanceTester $I  Tester.
-	 */
-	private function _seeBasicHTMLStructure($I)
-	{
-		$I->seeInSource('<html>');
-		$I->seeInSource('<head>');
-		$I->seeInSource('</head>');
-		$I->seeInSource('<body');
-		$I->seeInSource('</body>');
-		$I->seeInSource('</html>');
 	}
 
 	/**
