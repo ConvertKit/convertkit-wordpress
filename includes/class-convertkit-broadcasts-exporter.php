@@ -141,10 +141,10 @@ class ConvertKit_Broadcasts_Exporter {
 				<?php
 				printf(
 					'%s <a href="%s" target="_blank">%s</a> %s',
-					esc_html__( 'Successfully created ConvertKit Broadcast from Post.', 'convertkit' ),
+					esc_html__( 'Successfully created Kit Broadcast from Post.', 'convertkit' ),
 					esc_url( convertkit_get_edit_broadcast_url( $this->broadcast_id ) ),
 					esc_html__( 'Click here', 'convertkit' ),
-					esc_html__( 'to edit and send the broadcast in ConvertKit.', 'convertkit' )
+					esc_html__( 'to edit and send the broadcast in Kit.', 'convertkit' )
 				);
 				?>
 			</p>
@@ -175,7 +175,7 @@ class ConvertKit_Broadcasts_Exporter {
 		);
 
 		// Add action.
-		$actions['convertkit_broadcast_export'] = '<a href="' . esc_url( $url ) . '">' . esc_html__( 'Create as ConvertKit Broadcast', 'convertkit' ) . '</a>';
+		$actions['convertkit_broadcast_export'] = '<a href="' . esc_url( $url ) . '">' . esc_html__( 'Create as Kit Broadcast', 'convertkit' ) . '</a>';
 
 		// Return.
 		return $actions;

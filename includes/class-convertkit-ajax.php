@@ -81,13 +81,13 @@ class ConvertKit_AJAX {
 
 		// Bail if required request parameters not submitted.
 		if ( ! isset( $_REQUEST['subscriber_id'] ) ) {
-			wp_send_json_error( __( 'ConvertKit: Required parameter `subscriber_id` not included in AJAX request.', 'convertkit' ) );
+			wp_send_json_error( __( 'Kit: Required parameter `subscriber_id` not included in AJAX request.', 'convertkit' ) );
 		}
 
 		// Bail if no subscriber ID provided.
 		$id = absint( sanitize_text_field( $_REQUEST['subscriber_id'] ) );
 		if ( empty( $id ) ) {
-			wp_send_json_error( __( 'ConvertKit: Required parameter `subscriber_id` empty in AJAX request.', 'convertkit' ) );
+			wp_send_json_error( __( 'Kit: Required parameter `subscriber_id` empty in AJAX request.', 'convertkit' ) );
 		}
 
 		// Get subscriber ID.
@@ -123,18 +123,18 @@ class ConvertKit_AJAX {
 
 		// Bail if required request parameters not submitted.
 		if ( ! isset( $_REQUEST['email'] ) ) {
-			wp_send_json_error( __( 'ConvertKit: Required parameter `email` not included in AJAX request.', 'convertkit' ) );
+			wp_send_json_error( __( 'Kit: Required parameter `email` not included in AJAX request.', 'convertkit' ) );
 		}
 		$email = sanitize_text_field( $_REQUEST['email'] );
 
 		// Bail if the email address is empty.
 		if ( empty( $email ) ) {
-			wp_send_json_error( __( 'ConvertKit: Required parameter `email` is empty.', 'convertkit' ) );
+			wp_send_json_error( __( 'Kit: Required parameter `email` is empty.', 'convertkit' ) );
 		}
 
 		// Bail if the email address isn't a valid email address.
 		if ( ! filter_var( $email, FILTER_VALIDATE_EMAIL ) ) {
-			wp_send_json_error( __( 'ConvertKit: Required parameter `email` is not an email address.', 'convertkit' ) );
+			wp_send_json_error( __( 'Kit: Required parameter `email` is not an email address.', 'convertkit' ) );
 		}
 
 		// Get subscriber ID.

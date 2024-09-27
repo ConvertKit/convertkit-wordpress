@@ -103,12 +103,13 @@ class ConvertKit_Block_Form extends ConvertKit_Block {
 		$settings         = new ConvertKit_Settings();
 
 		return array(
-			'title'                             => __( 'ConvertKit Form', 'convertkit' ),
-			'description'                       => __( 'Displays a ConvertKit Form.', 'convertkit' ),
+			'title'                             => __( 'Kit Form', 'convertkit' ),
+			'description'                       => __( 'Displays a Kit Form.', 'convertkit' ),
 			'icon'                              => 'resources/backend/images/block-icon-form.svg',
 			'category'                          => 'convertkit',
 			'keywords'                          => array(
 				__( 'ConvertKit', 'convertkit' ),
+				__( 'Kit', 'convertkit' ),
 				__( 'Form', 'convertkit' ),
 			),
 
@@ -132,16 +133,16 @@ class ConvertKit_Block_Form extends ConvertKit_Block {
 
 			// Help descriptions, displayed when no API key / resources exist and this block/shortcode is added.
 			'no_access_token'                   => array(
-				'notice'           => __( 'Not connected to ConvertKit.', 'convertkit' ),
+				'notice'           => __( 'Not connected to Kit.', 'convertkit' ),
 				'link'             => convertkit_get_setup_wizard_plugin_link(),
-				'link_text'        => __( 'Click here to connect your ConvertKit account.', 'convertkit' ),
-				'instruction_text' => __( 'Connect your ConvertKit account at Settings > ConvertKit, and then refresh this page to select a form.', 'convertkit' ),
+				'link_text'        => __( 'Click here to connect your Kit account.', 'convertkit' ),
+				'instruction_text' => __( 'Connect your Kit account at Settings > Kit, and then refresh this page to select a form.', 'convertkit' ),
 			),
 			'no_resources'                      => array(
-				'notice'           => __( 'No forms exist in ConvertKit.', 'convertkit' ),
+				'notice'           => __( 'No forms exist in Kit.', 'convertkit' ),
 				'link'             => convertkit_get_new_form_url(),
 				'link_text'        => __( 'Click here to create your first form.', 'convertkit' ),
-				'instruction_text' => __( 'Add a form to your ConvertKit account, and then refresh this page to select a form.', 'convertkit' ),
+				'instruction_text' => __( 'Add a form to your Kit account, and then refresh this page to select a form.', 'convertkit' ),
 			),
 
 			// Gutenberg: Help descriptions, displayed when no settings defined for a newly added Block.

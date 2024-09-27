@@ -71,7 +71,7 @@ class ConvertKit_Block_Formatter_Product_Link extends ConvertKit_Block_Formatter
 	public function get_overview() {
 
 		return array(
-			'title'          => __( 'ConvertKit Product Trigger', 'convertkit' ),
+			'title'          => __( 'Kit Product Trigger', 'convertkit' ),
 			'description'    => __( 'Displays the Product modal when the link is pressed.', 'convertkit' ),
 			'icon'           => 'resources/backend/images/block-icon-product.svg',
 

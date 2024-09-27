@@ -52,7 +52,7 @@ class ConvertKit_ContactForm7_Admin_Settings extends ConvertKit_Settings_Base {
 		?>
 		<p>
 			<?php
-			esc_html_e( 'ConvertKit seamlessly integrates with Contact Form 7 to let you add subscribers using Contact Form 7 forms.', 'convertkit' );
+			esc_html_e( 'Kit seamlessly integrates with Contact Form 7 to let you add subscribers using Contact Form 7 forms.', 'convertkit' );
 			?>
 		</p>
 		<p>
@@ -63,22 +63,22 @@ class ConvertKit_ContactForm7_Admin_Settings extends ConvertKit_Settings_Base {
 				esc_html__( 'field named', 'convertkit' ),
 				esc_html__( 'and an', 'convertkit' ),
 				esc_html__( 'field named', 'convertkit' ),
-				esc_html__( '. These fields will be sent to ConvertKit for the subscription.', 'convertkit' )
+				esc_html__( '. These fields will be sent to Kit for the subscription.', 'convertkit' )
 			);
 			?>
 		</p>
 		<p>
-			<?php esc_html_e( 'Each Contact Form 7 Form has the following ConvertKit options:', 'convertkit' ); ?>
+			<?php esc_html_e( 'Each Contact Form 7 Form has the following Kit options:', 'convertkit' ); ?>
 			<br />
-			<code><?php esc_html_e( 'Do not subscribe', 'convertkit' ); ?></code>: <?php esc_html_e( 'Do not subscribe the email address to ConvertKit', 'convertkit' ); ?>
+			<code><?php esc_html_e( 'Do not subscribe', 'convertkit' ); ?></code>: <?php esc_html_e( 'Do not subscribe the email address to Kit', 'convertkit' ); ?>
 			<br />
-			<code><?php esc_html_e( 'Subscribe', 'convertkit' ); ?></code>: <?php esc_html_e( 'Subscribes the email address to ConvertKit', 'convertkit' ); ?>
+			<code><?php esc_html_e( 'Subscribe', 'convertkit' ); ?></code>: <?php esc_html_e( 'Subscribes the email address to Kit', 'convertkit' ); ?>
 			<br />
-			<code><?php esc_html_e( 'Form', 'convertkit' ); ?></code>: <?php esc_html_e( 'Subscribes the email address to ConvertKit, and adds the subscriber to the ConvertKit form', 'convertkit' ); ?>
+			<code><?php esc_html_e( 'Form', 'convertkit' ); ?></code>: <?php esc_html_e( 'Subscribes the email address to Kit, and adds the subscriber to the Kit form', 'convertkit' ); ?>
 			<br />
-			<code><?php esc_html_e( 'Tag', 'convertkit' ); ?></code>: <?php esc_html_e( 'Subscribes the email address to ConvertKit, tagging the subscriber', 'convertkit' ); ?>
+			<code><?php esc_html_e( 'Tag', 'convertkit' ); ?></code>: <?php esc_html_e( 'Subscribes the email address to Kit, tagging the subscriber', 'convertkit' ); ?>
 			<br />
-			<code><?php esc_html_e( 'Sequence', 'convertkit' ); ?></code>: <?php esc_html_e( 'Subscribes the email address to ConvertKit, and adds the subscriber to the ConvertKit sequence', 'convertkit' ); ?>
+			<code><?php esc_html_e( 'Sequence', 'convertkit' ); ?></code>: <?php esc_html_e( 'Subscribes the email address to Kit, and adds the subscriber to the Kit sequence', 'convertkit' ); ?>
 		</p>
 		<?php
 
@@ -127,7 +127,7 @@ class ConvertKit_ContactForm7_Admin_Settings extends ConvertKit_Settings_Base {
 		// Setup WP_List_Table.
 		$table = new Multi_Value_Field_Table();
 		$table->add_column( 'title', __( 'Contact Form 7 Form', 'convertkit' ), true );
-		$table->add_column( 'form', __( 'ConvertKit', 'convertkit' ), false );
+		$table->add_column( 'form', __( 'Kit', 'convertkit' ), false );
 		$table->add_column( 'email', __( 'Contact Form 7 Email Field', 'convertkit' ), false );
 		$table->add_column( 'name', __( 'Contact Form 7 Name Field', 'convertkit' ), false );
 		$table->add_column( 'creator_network_recommendations', __( 'Enable Creator Network Recommendations', 'convertkit' ), false );
@@ -162,7 +162,7 @@ class ConvertKit_ContactForm7_Admin_Settings extends ConvertKit_Settings_Base {
 					'%s <a href="%s" target="_blank">%s</a>',
 					esc_html__( 'Creator Network Recommendations requires a', 'convertkit' ),
 					convertkit_get_billing_url(),
-					esc_html__( 'paid ConvertKit Plan', 'convertkit' )
+					esc_html__( 'paid Kit Plan', 'convertkit' )
 				);
 			}
 

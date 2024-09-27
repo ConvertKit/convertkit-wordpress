@@ -396,7 +396,7 @@ class WP_ConvertKit {
 				'convertkit_get_class',
 				sprintf(
 					/* translators: %1$s: PHP class name */
-					__( 'ConvertKit Error: Could not load Plugin class <strong>%1$s</strong>', 'convertkit' ),
+					__( 'Kit Error: Could not load Plugin class <strong>%1$s</strong>', 'convertkit' ),
 					$name
 				)
 			);
@@ -406,7 +406,7 @@ class WP_ConvertKit {
 			if ( is_admin() ) {
 				wp_die(
 					esc_attr( $error->get_error_message() ),
-					esc_html__( 'ConvertKit Error', 'convertkit' ),
+					esc_html__( 'Kit Error', 'convertkit' ),
 					array(
 						'back_link' => true,
 					)

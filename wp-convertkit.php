@@ -1,27 +1,27 @@
 <?php
 /**
- * ConvertKit WordPress Plugin.
+ * Kit (formerly ConvertKit) WordPress Plugin.
  *
  * @package ConvertKit
  * @author ConvertKit
  *
  * @wordpress-plugin
- * Plugin Name: ConvertKit
+ * Plugin Name: Kit (formerly ConvertKit)
  * Plugin URI: https://convertkit.com/
- * Description: Display ConvertKit email subscription forms, landing pages, products, broadcasts and more.
+ * Description: Display Kit (formerly ConvertKit) email subscription forms, landing pages, products, broadcasts and more.
  * Version: 2.5.9
- * Author: ConvertKit
+ * Author: Kit
  * Author URI: https://convertkit.com/
  * Text Domain: convertkit
  */
 
-// Bail if ConvertKit is alread loaded.
+// Bail if Kit is alread loaded.
 if ( class_exists( 'WP_ConvertKit' ) ) {
 	return;
 }
 
-// Define ConverKit Plugin paths and version number.
-define( 'CONVERTKIT_PLUGIN_NAME', 'ConvertKit' ); // Used for user-agent in API class.
+// Define Kit Plugin paths and version number.
+define( 'CONVERTKIT_PLUGIN_NAME', 'Kit' ); // Used for user-agent in API class.
 define( 'CONVERTKIT_PLUGIN_FILE', plugin_basename( __FILE__ ) );
 define( 'CONVERTKIT_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'CONVERTKIT_PLUGIN_PATH', __DIR__ );
@@ -29,7 +29,7 @@ define( 'CONVERTKIT_PLUGIN_VERSION', '2.5.9' );
 define( 'CONVERTKIT_OAUTH_CLIENT_ID', 'HXZlOCj-K5r0ufuWCtyoyo3f688VmMAYSsKg1eGvw0Y' );
 define( 'CONVERTKIT_OAUTH_CLIENT_REDIRECT_URI', 'https://app.convertkit.com/wordpress/redirect' );
 
-// Load shared classes, if they have not been included by another ConvertKit Plugin.
+// Load shared classes, if they have not been included by another Kit Plugin.
 if ( ! trait_exists( 'ConvertKit_API_Traits' ) ) {
 	require_once CONVERTKIT_PLUGIN_PATH . '/vendor/convertkit/convertkit-wordpress-libraries/src/class-convertkit-api-traits.php';
 }
