@@ -115,7 +115,92 @@ class PostFormCest
 
 		// Confirm that one ConvertKit Form is output in the DOM.
 		// This confirms that there is only one script on the page for this form, which renders the form.
-		$I->seeNumberOfElementsInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]', 1);
+		$I->seeFormOutput($I, $_ENV['CONVERTKIT_API_FORM_ID']);
+	}
+
+	/**
+	 * Test that the Default Form specified in the Plugin Settings works when
+	 * creating and viewing a new WordPress Post, and its position is set
+	 * to after the Post content.
+	 *
+	 * @since   2.5.8
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testAddNewPostUsingDefaultFormBeforeContent(AcceptanceTester $I)
+	{
+		// Setup ConvertKit plugin with Default Form for Posts set to be output before the Post content.
+		$I->setupConvertKitPlugin(
+			$I,
+			[
+				'post_form_position' => 'before_content',
+			]
+		);
+		$I->setupConvertKitPluginResources($I);
+
+		// Add a Post using the Gutenberg editor.
+		$I->addGutenbergPage($I, 'post', 'ConvertKit: Post: Form: Default: Before Content');
+
+		// Add paragraph to Post.
+		$I->addGutenbergParagraphBlock($I, 'Post content');
+
+		// Configure metabox's Form setting = Default.
+		$I->configureMetaboxSettings(
+			$I,
+			'wp-convertkit-meta-box',
+			[
+				'form' => [ 'select2', 'Default' ],
+			]
+		);
+
+		// Publish and view the Post on the frontend site.
+		$I->publishAndViewGutenbergPage($I);
+
+		// Confirm that one ConvertKit Form is output in the DOM after the Post content.
+		// This confirms that there is only one script on the post for this form, which renders the form.
+		$I->seeFormOutput($I, $_ENV['CONVERTKIT_API_FORM_ID'], 'before_content');
+	}
+
+	/**
+	 * Test that the Default Form specified in the Plugin Settings works when
+	 * creating and viewing a new WordPress Post, and its position is set
+	 * to before and after the Post content.
+	 *
+	 * @since   2.5.9
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testAddNewPostUsingDefaultFormBeforeAndAfterContent(AcceptanceTester $I)
+	{
+		// Setup ConvertKit plugin with Default Form for Pages set to be output before and after the Post content.
+		$I->setupConvertKitPlugin(
+			$I,
+			[
+				'post_form_position' => 'before_after_content',
+			]
+		);
+		$I->setupConvertKitPluginResources($I);
+
+		// Add a Post using the Gutenberg editor.
+		$I->addGutenbergPage($I, 'post', 'ConvertKit: Post: Form: Default: Before and After Content');
+
+		// Add paragraph to Post.
+		$I->addGutenbergParagraphBlock($I, 'Post content');
+
+		// Configure metabox's Form setting = Default.
+		$I->configureMetaboxSettings(
+			$I,
+			'wp-convertkit-meta-box',
+			[
+				'form' => [ 'select2', 'Default' ],
+			]
+		);
+
+		// Publish and view the Post on the frontend site.
+		$I->publishAndViewGutenbergPage($I);
+
+		// Confirm that two ConvertKit Forms are output in the DOM before and after the Post content.
+		$I->seeFormOutput($I, $_ENV['CONVERTKIT_API_FORM_ID'], 'before_after_content');
 	}
 
 	/**
@@ -222,7 +307,7 @@ class PostFormCest
 
 		// Confirm that one ConvertKit Form is output in the DOM.
 		// This confirms that there is only one script on the page for this form, which renders the form.
-		$I->seeNumberOfElementsInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]', 1);
+		$I->seeFormOutput($I, $_ENV['CONVERTKIT_API_FORM_ID']);
 	}
 
 	/**
@@ -304,7 +389,7 @@ class PostFormCest
 
 		// Confirm that one ConvertKit Form is output in the DOM.
 		// This confirms that there is only one script on the page for this form, which renders the form.
-		$I->seeNumberOfElementsInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]', 1);
+		$I->seeFormOutput($I, $_ENV['CONVERTKIT_API_FORM_ID']);
 	}
 
 	/**
@@ -347,7 +432,7 @@ class PostFormCest
 
 		// Confirm that one ConvertKit Form is output in the DOM.
 		// This confirms that there is only one script on the page for this form, which renders the form.
-		$I->seeNumberOfElementsInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]', 1);
+		$I->seeFormOutput($I, $_ENV['CONVERTKIT_API_FORM_ID']);
 	}
 
 	/**
@@ -390,7 +475,7 @@ class PostFormCest
 
 		// Confirm that one ConvertKit Form is output in the DOM.
 		// This confirms that there is only one script on the page for this form, which renders the form.
-		$I->seeNumberOfElementsInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]', 1);
+		$I->seeFormOutput($I, $_ENV['CONVERTKIT_API_FORM_ID']);
 	}
 
 	/**
@@ -443,7 +528,7 @@ class PostFormCest
 
 			// Confirm that one ConvertKit Form is output in the DOM.
 			// This confirms that there is only one script on the page for this form, which renders the form.
-			$I->seeNumberOfElementsInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]', 1);
+			$I->seeFormOutput($I, $_ENV['CONVERTKIT_API_FORM_ID']);
 		}
 	}
 
@@ -497,7 +582,7 @@ class PostFormCest
 
 			// Confirm that one ConvertKit Form is output in the DOM.
 			// This confirms that there is only one script on the page for this form, which renders the form.
-			$I->seeNumberOfElementsInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]', 1);
+			$I->seeFormOutput($I, $_ENV['CONVERTKIT_API_FORM_ID']);
 		}
 	}
 
@@ -565,7 +650,7 @@ class PostFormCest
 
 			// Confirm that one ConvertKit Form is output in the DOM.
 			// This confirms that there is only one script on the page for this form, which renders the form.
-			$I->seeNumberOfElementsInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]', 1);
+			$I->seeFormOutput($I, $_ENV['CONVERTKIT_API_FORM_ID']);
 		}
 	}
 

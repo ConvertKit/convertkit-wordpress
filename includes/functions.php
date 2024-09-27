@@ -586,3 +586,34 @@ function convertkit_get_subscription_dropdown_field( $name, $value, $id, $css_cl
 	return $output;
 
 }
+
+/**
+ * Helper method to safely call get_current_screen(), returning false
+ * if the function is not available or returns null.
+ *
+ * Otherwise returns the given WP_Screen property.
+ *
+ * @since   2.5.9
+ *
+ * @param   string $property   WP_Screen property to return.
+ * @return  bool|string
+ */
+function convertkit_get_current_screen( $property ) {
+
+	// Bail if we cannot determine the screen.
+	if ( ! function_exists( 'get_current_screen' ) ) {
+		return false;
+	}
+
+	// Get screen.
+	$screen = get_current_screen();
+
+	// Bail if the screen couldn't be determined.
+	if ( is_null( $screen ) ) {
+		return false;
+	}
+
+	// Return property.
+	return $screen->$property;
+
+}

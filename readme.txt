@@ -5,7 +5,7 @@ Tags: email marketing, email newsletter, newsletter, subscribers, membership
 Requires at least: 5.0
 Tested up to: 6.6.2
 Requires PHP: 5.6.20
-Stable tag: 2.5.8
+Stable tag: 2.5.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -157,6 +157,15 @@ Full Plugin documentation can be found [here](https://help.kit.com/en/articles/2
 10. Track subscriber growth
 
 == Changelog ==
+
+### 2.5.9 2024-09-27
+* Added: Settings: Option to output Default Forms above, below or above and below content
+* Fix: Settings: Initialize Forms Resource class when no public Post Types (resolves PHP Uncaught Error: `Call to a member function non_inline_exist() on bool`)
+* Fix: Landing Pages: Correctly parse HTML, honoring redirect if "Redirect to an external page" defined on Landing Page in ConvertKit
+* Fix: Query separator / question mark incorrectly appended to URLs when `ck_subscriber_id` cookie set
+* Fix: JS Uncaught TypeError: `Cannot read properties of null (reading ‘matches’)`
+* Fix: PHP Warning: `Attempt to read property “base” on null`
+* Updated: ConvertKit WordPress Libraries to 2.0.3
 
 ### 2.5.8 2024-09-18
 * Added: Remove jQuery as a dependency from some backend JS

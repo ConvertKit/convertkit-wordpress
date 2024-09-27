@@ -232,7 +232,7 @@
 					</tbody>
 				</table><h3 id="convertkit_admin_notices_output_  notice">
 						convertkit_admin_notices_output_  notice
-						<code>admin/class-convertkit-admin-notices.php::88</code>
+						<code>admin/class-convertkit-admin-notices.php::87</code>
 					</h3><h4>Overview</h4>
 						<p>Define the text to output in an admin error notice.</p><h4>Parameters</h4>
 					<table>
@@ -1238,7 +1238,7 @@ add_filter( 'convertkit_output_append_form_to_content_form_id', function( $form_
 </pre>
 <h3 id="convertkit_frontend_append_form">
 						convertkit_frontend_append_form
-						<code>includes/class-convertkit-output.php::342</code>
+						<code>includes/class-convertkit-output.php::358</code>
 					</h3><h4>Overview</h4>
 						<p>Filter the Post's Content, which includes a ConvertKit Form, immediately before it is output.</p><h4>Parameters</h4>
 					<table>
@@ -1265,19 +1265,23 @@ add_filter( 'convertkit_output_append_form_to_content_form_id', function( $form_
 							<td>$form_id</td>
 							<td>int</td>
 							<td>ConvertKit Form ID</td>
+						</tr><tr>
+							<td>$form_position</td>
+							<td>string</td>
+							<td>Form Position setting for the Post's Type.</td>
 						</tr>
 						</tbody>
 					</table><h4>Usage</h4>
 <pre>
-add_filter( 'convertkit_frontend_append_form', function( $content, $form, $post_id, $form_id ) {
+add_filter( 'convertkit_frontend_append_form', function( $content, $form, $post_id, $form_id, $form_position ) {
 	// ... your code here
 	// Return value
 	return $content;
-}, 10, 4 );
+}, 10, 5 );
 </pre>
 <h3 id="convertkit_output_scripts_footer">
 						convertkit_output_scripts_footer
-						<code>includes/class-convertkit-output.php::685</code>
+						<code>includes/class-convertkit-output.php::701</code>
 					</h3><h4>Overview</h4>
 						<p>Define an array of scripts to output in the footer of the WordPress site.</p><h4>Parameters</h4>
 					<table>
@@ -1304,7 +1308,7 @@ add_filter( 'convertkit_output_scripts_footer', function( $scripts ) {
 </pre>
 <h3 id="convertkit_output_script_footer">
 						convertkit_output_script_footer
-						<code>includes/class-convertkit-output.php::704</code>
+						<code>includes/class-convertkit-output.php::720</code>
 					</h3><h4>Overview</h4>
 						<p>Filter the form <script> key/value pairs immediately before the script is output.</p><h4>Parameters</h4>
 					<table>
@@ -1331,7 +1335,7 @@ add_filter( 'convertkit_output_script_footer', function( $script ) {
 </pre>
 <h3 id="convertkit_settings_get_defaults">
 						convertkit_settings_get_defaults
-						<code>includes/class-convertkit-settings.php::400</code>
+						<code>includes/class-convertkit-settings.php::420</code>
 					</h3><h4>Overview</h4>
 						<p>The default settings, used when the ConvertKit Plugin Settings haven't been saved e.g. on a new installation.</p><h4>Parameters</h4>
 					<table>

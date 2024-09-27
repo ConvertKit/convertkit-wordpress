@@ -67,6 +67,33 @@ class SubscriberIDURLCest
 	}
 
 	/**
+	 * Test that no query separator is appended to the URL when a valid ck_subscriber_id exists.
+	 *
+	 * @since   2.5.9
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testQuerySeparatorNotAppendedToURLWhenCookieExists(AcceptanceTester $I)
+	{
+		// Create Page.
+		$I->havePageInDatabase(
+			[
+				'post_name'    => 'convertkit-subscriber-id-cookie',
+				'post_content' => 'Test',
+			]
+		);
+
+		// Set the ck_subscriber_id cookie.
+		$I->setCookie('ck_subscriber_id', $_ENV['CONVERTKIT_API_SUBSCRIBER_ID']);
+
+		// Confirm that no query parameters does not append a separator/question mark.
+		$I->amOnPage('/convertkit-subscriber-id-url');
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+		$I->wait(2);
+		$I->assertStringNotContainsString('?', $I->grabFromCurrentUrl());
+	}
+
+	/**
 	 * Deactivate and reset Plugin(s) after each test, if the test passes.
 	 * We don't use _after, as this would provide a screenshot of the Plugin
 	 * deactivation and not the true test error.
@@ -77,6 +104,7 @@ class SubscriberIDURLCest
 	 */
 	public function _passed(AcceptanceTester $I)
 	{
+		$I->resetCookie('ck_subscriber_id');
 		$I->deactivateConvertKitPlugin($I);
 		$I->resetConvertKitPlugin($I);
 	}

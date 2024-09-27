@@ -11,6 +11,46 @@ class ConvertKitForms extends \Codeception\Module
 {
 	/**
 	 * Check that expected HTML exists in the DOM of the page we're viewing for
+	 * a Form block or shortcode.
+	 *
+	 * @since   2.5.8
+	 *
+	 * @param   AcceptanceTester $I              Tester.
+	 * @param   int              $formID         Form ID.
+	 * @param   bool|string      $position       Position of the form in the DOM relative to the content.
+	 */
+	public function seeFormOutput($I, $formID, $position = false)
+	{
+		// Calculate how many times the Form should be in the DOM.
+		$count = ( ( $position === 'before_after_content' ) ? 2 : 1 );
+
+		// Confirm the Form is in the DOM the expected number of times.
+		$I->seeNumberOfElementsInDOM('form[data-sv-form="' . $formID . '"]', $count);
+
+		// Assert position of form, if required.
+		if ( ! $position) {
+			return;
+		}
+
+		// Assert that the first and/or last child element is the Form ID, depending on the position.
+		switch ($position) {
+			case 'before_after_content':
+				$I->assertEquals($formID, $I->grabAttributeFrom('div.entry-content > *:first-child', 'data-sv-form'));
+				$I->assertEquals($formID, $I->grabAttributeFrom('div.entry-content > *:last-child', 'data-sv-form'));
+				break;
+
+			case 'before_content':
+				$I->assertEquals($formID, $I->grabAttributeFrom('div.entry-content > *:first-child', 'data-sv-form'));
+				break;
+
+			case 'after_content':
+				$I->assertEquals($formID, $I->grabAttributeFrom('div.entry-content > *:last-child', 'data-sv-form'));
+				break;
+		}
+	}
+
+	/**
+	 * Check that expected HTML exists in the DOM of the page we're viewing for
 	 * a Form Trigger block or shortcode, and that the button loads the expected
 	 * ConvertKit Form.
 	 *
@@ -116,5 +156,28 @@ class ConvertKitForms extends \Codeception\Module
 	{
 		// Confirm that the link does not display.
 		$I->dontSeeElementInDOM('a.convertkit-form-link');
+	}
+
+	/**
+	 * Helper method to assert that the expected landing page HTML is output.
+	 *
+	 * @since   2.5.9
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 * @param   bool             $langTag   Assert if HTML tag includes lang attribute.
+	 */
+	public function seeLandingPageOutput($I, $langTag = false)
+	{
+		if ($langTag) {
+			$I->seeInSource('<html lang="en">');
+		} else {
+			$I->seeInSource('<html>');
+		}
+
+		$I->seeInSource('<head>');
+		$I->seeInSource('</head>');
+		$I->seeInSource('<body');
+		$I->seeInSource('</body>');
+		$I->seeInSource('</html>');
 	}
 }

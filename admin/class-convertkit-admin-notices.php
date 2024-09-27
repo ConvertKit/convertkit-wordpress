@@ -44,8 +44,7 @@ class ConvertKit_Admin_Notices {
 	public function output() {
 
 		// Don't output if we're on a settings screen.
-		$screen = get_current_screen();
-		if ( $screen->base === 'settings_page__wp_convertkit_settings' ) {
+		if ( convertkit_get_current_screen( 'base' ) === 'settings_page__wp_convertkit_settings' ) {
 			return;
 		}
 
