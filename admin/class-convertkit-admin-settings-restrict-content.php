@@ -91,7 +91,7 @@ class ConvertKit_Admin_Settings_Restrict_Content extends ConvertKit_Settings_Bas
 				'name'        => 'subscribe_heading',
 				'label_for'   => 'subscribe_heading',
 				'description' => array(
-					__( 'When a Page, Post or Custom Post\'s Member Content setting is set to a ConvertKit Product, displays text in a heading explaining why the content is only available to subscribers.', 'convertkit' ),
+					__( 'When a Page, Post or Custom Post\'s Member Content setting is set to a Kit Product, displays text in a heading explaining why the content is only available to subscribers.', 'convertkit' ),
 				),
 			)
 		);
@@ -106,7 +106,7 @@ class ConvertKit_Admin_Settings_Restrict_Content extends ConvertKit_Settings_Bas
 				'name'        => 'subscribe_text',
 				'label_for'   => 'subscribe_text',
 				'description' => array(
-					__( 'When a Page, Post or Custom Post\'s Member Content setting is set to a ConvertKit Product, displays text explaining why the content is only available to subscribers.', 'convertkit' ),
+					__( 'When a Page, Post or Custom Post\'s Member Content setting is set to a Kit Product, displays text explaining why the content is only available to subscribers.', 'convertkit' ),
 				),
 			)
 		);
@@ -122,7 +122,7 @@ class ConvertKit_Admin_Settings_Restrict_Content extends ConvertKit_Settings_Bas
 				'name'        => 'subscribe_heading_tag',
 				'label_for'   => 'subscribe_heading_tag',
 				'description' => array(
-					__( 'When a Page, Post or Custom Post\'s Member Content setting is set to a ConvertKit Tag, displays text in a heading explaining why the content is only available to subscribers.', 'convertkit' ),
+					__( 'When a Page, Post or Custom Post\'s Member Content setting is set to a Kit Tag, displays text in a heading explaining why the content is only available to subscribers.', 'convertkit' ),
 				),
 			)
 		);
@@ -137,7 +137,7 @@ class ConvertKit_Admin_Settings_Restrict_Content extends ConvertKit_Settings_Bas
 				'name'        => 'subscribe_text_tag',
 				'label_for'   => 'subscribe_text_tag',
 				'description' => array(
-					__( 'When a Page, Post or Custom Post\'s Member Content setting is set to a ConvertKit Tag, displays text explaining why the content is only available to subscribers.', 'convertkit' ),
+					__( 'When a Page, Post or Custom Post\'s Member Content setting is set to a Kit Tag, displays text explaining why the content is only available to subscribers.', 'convertkit' ),
 				),
 			)
 		);

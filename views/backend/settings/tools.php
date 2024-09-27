@@ -11,7 +11,7 @@
 	<div id="debug-log" class="postbox">
 		<h2><?php esc_html_e( 'Debug Log', 'convertkit' ); ?></h2>
 		<p class="description">
-			<?php esc_html_e( 'Use this tool to help debug ConvertKit plugin functionality.', 'convertkit' ); ?><br />
+			<?php esc_html_e( 'Use this tool to help debug Kit plugin functionality.', 'convertkit' ); ?><br />
 			<?php esc_html_e( 'For performance, the last 500 lines of the log are displayed. Use the Download Log option to review the full log.', 'convertkit' ); ?><br />
 		</p>
 

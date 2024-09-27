@@ -35,7 +35,7 @@ if ( ! $this->landing_pages->exist() ) {
 
 		<div>
 			<a href="<?php echo esc_url( $this->current_url ); ?>" class="button button-primary button-hero">
-				<?php esc_html_e( 'I\'ve created a landing page in ConvertKit', 'convertkit' ); ?>
+				<?php esc_html_e( 'I\'ve created a landing page in Kit', 'convertkit' ); ?>
 			</a>
 		</div>
 	</div>		

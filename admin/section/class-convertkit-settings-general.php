@@ -88,7 +88,7 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 		return array_merge(
 			$notices,
 			array(
-				'oauth2_success' => __( 'Successfully authorized with ConvertKit.', 'convertkit' ),
+				'oauth2_success' => __( 'Successfully authorized with Kit.', 'convertkit' ),
 			)
 		);
 
@@ -367,7 +367,7 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 
 		?>
 		<p><?php esc_html_e( 'Choosing a default form will embed it at the bottom of every post or page (in single view only) across your site.', 'convertkit' ); ?></p>
-		<p><?php esc_html_e( 'If you wish to turn off form embedding or select a different form for an individual post or page, you can do so using the ConvertKit meta box on the edit page.', 'convertkit' ); ?></p>
+		<p><?php esc_html_e( 'If you wish to turn off form embedding or select a different form for an individual post or page, you can do so using the Kit meta box on the edit page.', 'convertkit' ); ?></p>
 		<p>
 			<?php
 			printf(
@@ -478,7 +478,7 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 
 		// Bail if no Forms exist.
 		if ( ! $this->forms->exist() ) {
-			esc_html_e( 'No Forms exist in ConvertKit.', 'convertkit' );
+			esc_html_e( 'No Forms exist in Kit.', 'convertkit' );
 			echo '<br /><a href="' . esc_url( convertkit_get_new_form_url() ) . '" target="_blank">' . esc_html__( 'Click here to create your first form', 'convertkit' ) . '</a>';
 			return;
 		}
@@ -571,7 +571,7 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 
 		// Bail if no non-inline Forms exist.
 		if ( ! $this->forms->non_inline_exist() ) {
-			esc_html_e( 'No non-inline Forms exist in ConvertKit.', 'convertkit' );
+			esc_html_e( 'No non-inline Forms exist in Kit.', 'convertkit' );
 			echo '<br /><a href="' . esc_url( convertkit_get_new_form_url() ) . '" target="_blank">' . esc_html__( 'Click here to create your first modal, slide in or sticky bar form', 'convertkit' ) . '</a>';
 			return;
 		}
@@ -662,7 +662,7 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 					'%s <a href="%s" target="_blank">%s</a>',
 					esc_html__( 'To customize forms and their styling, use the', 'convertkit' ),
 					esc_url( convertkit_get_form_editor_url() ),
-					esc_html__( 'ConvertKit form editor', 'convertkit' )
+					esc_html__( 'Kit form editor', 'convertkit' )
 				),
 				sprintf(
 					'%s <a href="https://wordpress.org/plugins/contact-form-7/" target="_blank">Contact Form 7</a>, <a href="https://wordpress.org/plugins/convertkit-gravity-forms/" target="_blank">Gravity Forms</a> %s <a href="https://wordpress.org/plugins/integrate-convertkit-wpforms/" target="_blank">WPForms</a> %s',

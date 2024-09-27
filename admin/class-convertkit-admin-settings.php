@@ -109,8 +109,8 @@ class ConvertKit_Admin_Settings {
 	public function add_settings_page() {
 
 		add_options_page(
-			__( 'ConvertKit', 'convertkit' ),
-			__( 'ConvertKit', 'convertkit' ),
+			__( 'Kit', 'convertkit' ),
+			__( 'Kit', 'convertkit' ),
 			'manage_options',
 			self::SETTINGS_PAGE_SLUG,
 			array( $this, 'display_settings_page' )
@@ -129,7 +129,7 @@ class ConvertKit_Admin_Settings {
 		?>
 
 		<header>
-			<h1><?php esc_html_e( 'ConvertKit', 'convertkit' ); ?></h1>
+			<h1><?php esc_html_e( 'Kit', 'convertkit' ); ?></h1>
 
 			<?php
 			// Output Help link tab, if it exists.

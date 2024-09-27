@@ -8,7 +8,7 @@
 
 ?>
 <div class="form-field term-description-wrap">
-	<label for="wp-convertkit-form"><?php esc_html_e( 'ConvertKit Form', 'convertkit' ); ?></label>
+	<label for="wp-convertkit-form"><?php esc_html_e( 'Kit Form', 'convertkit' ); ?></label>
 
 	<div class="convertkit-select2-container convertkit-select2-container-grid">
 		<?php
@@ -25,7 +25,7 @@
 		);
 		?>
 
-		<button class="wp-convertkit-refresh-resources" class="button button-secondary" title="<?php esc_attr_e( 'Refresh Forms from ConvertKit account', 'convertkit' ); ?>" data-resource="forms" data-field="#wp-convertkit-form">
+		<button class="wp-convertkit-refresh-resources" class="button button-secondary" title="<?php esc_attr_e( 'Refresh Forms from Kit account', 'convertkit' ); ?>" data-resource="forms" data-field="#wp-convertkit-form">
 			<span class="dashicons dashicons-update"></span>
 		</button>
 		<p class="description">
@@ -44,7 +44,7 @@
 </div>
 
 <div class="form-field term-description-wrap">
-	<label for="wp-convertkit-form-position"><?php esc_html_e( 'Display CovertKit Form on Archive?', 'convertkit' ); ?></label>
+	<label for="wp-convertkit-form-position"><?php esc_html_e( 'Display Kit Form on Archive?', 'convertkit' ); ?></label>
 
 	<select name="wp-convertkit[form_position]" id="wp-convertkit-form-position" size="1">
 		<option value="" selected><?php esc_attr_e( 'No', 'convertkit' ); ?></option>

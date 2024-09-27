@@ -339,7 +339,7 @@ class ConvertKit_Admin_Setup_Wizard_Restrict_Content extends ConvertKit_Admin_Se
 			$configuration['title'],
 			$configuration['description'],
 			$configuration['post_type'],
-			__( 'The downloadable content (that is available when the visitor has paid for the ConvertKit product) goes here.', 'convertkit' ),
+			__( 'The downloadable content (that is available when the visitor has paid for the Kit product) goes here.', 'convertkit' ),
 			$configuration['restrict_content']
 		);
 
@@ -406,7 +406,7 @@ class ConvertKit_Admin_Setup_Wizard_Restrict_Content extends ConvertKit_Admin_Se
 					'%s %s %s',
 					esc_html__( 'Lesson', 'convertkit' ),
 					$i,
-					esc_html__( 'content (that is available when the visitor has paid for the ConvertKit product) goes here.', 'convertkit' )
+					esc_html__( 'content (that is available when the visitor has paid for the Kit product) goes here.', 'convertkit' )
 				),
 				$configuration['restrict_content'],
 				$i,
