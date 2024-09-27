@@ -11,7 +11,7 @@
 <h1><?php esc_html_e( 'Landing Page', 'convertkit' ); ?></h1>
 <p>
 	<?php
-	esc_html_e( 'This will display a ConvertKit landing page on the URL you specify on this WordPress web site.', 'convertkit' );
+	esc_html_e( 'This will display a Kit landing page on the URL you specify on this WordPress web site.', 'convertkit' );
 	?>
 </p>
 
@@ -22,7 +22,7 @@ if ( ! $this->landing_pages->exist() ) {
 	?>
 	<p>
 		<?php
-		esc_html_e( 'To get started, you first need to create a landing page in ConvertKit. Click the button below to get started.', 'convertkit' );
+		esc_html_e( 'To get started, you first need to create a landing page in Kit. Click the button below to get started.', 'convertkit' );
 		?>
 	</p>
 

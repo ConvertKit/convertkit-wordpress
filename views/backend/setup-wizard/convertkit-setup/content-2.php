@@ -39,7 +39,7 @@ if ( ! $this->forms->exist() ) {
 	<h1><?php esc_html_e( 'Display an email capture form', 'convertkit' ); ?></h1>
 	<p>
 		<?php
-		esc_html_e( 'To get email subscribers, you need to display a ConvertKit form on your site, using the options below.', 'convertkit' );
+		esc_html_e( 'To get email subscribers, you need to display a Kit form on your site, using the options below.', 'convertkit' );
 		?>
 	</p>
 
