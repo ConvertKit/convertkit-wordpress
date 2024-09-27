@@ -125,7 +125,7 @@ class RefreshResourcesButtonCest
 		$pageID = $I->havePostInDatabase(
 			[
 				'post_type'  => 'page',
-				'post_title' => 'ConvertKit: Page: Refresh Resources: Quick Edit',
+				'post_title' => 'Kit: Page: Refresh Resources: Quick Edit',
 			]
 		);
 
@@ -203,13 +203,13 @@ class RefreshResourcesButtonCest
 			$I->havePostInDatabase(
 				[
 					'post_type'  => 'page',
-					'post_title' => 'ConvertKit: Page: Refresh Resources: Bulk Edit #1',
+					'post_title' => 'Kit: Page: Refresh Resources: Bulk Edit #1',
 				]
 			),
 			$I->havePostInDatabase(
 				[
 					'post_type'  => 'page',
-					'post_title' => 'ConvertKit: Page: Refresh Resources: Bulk Edit #2',
+					'post_title' => 'Kit: Page: Refresh Resources: Bulk Edit #2',
 				]
 			),
 		);
@@ -321,7 +321,7 @@ class RefreshResourcesButtonCest
 		$I->setupConvertKitPlugin($I);
 
 		// Create Category.
-		$termID = $I->haveTermInDatabase( 'ConvertKit Refresh Resources', 'category' );
+		$termID = $I->haveTermInDatabase( 'Kit Refresh Resources', 'category' );
 		$termID = $termID[0];
 
 		// Edit the Term.
@@ -371,7 +371,7 @@ class RefreshResourcesButtonCest
 
 		// Confirm that an error notification is displayed on screen, with the expected error message.
 		$I->seeElementInDOM('div.components-notice-list div.is-error');
-		$I->see('ConvertKit: The access token is invalid');
+		$I->see('Kit: The access token is invalid');
 
 		// Confirm that the notice is dismissible.
 		$I->click('div.components-notice-list div.is-error button.components-notice__dismiss');
@@ -393,7 +393,7 @@ class RefreshResourcesButtonCest
 		$I->setupConvertKitPluginFakeAPIKey($I);
 
 		// Add a Page using the Classic Editor.
-		$I->addClassicEditorPage($I, 'page', 'ConvertKit: Page: Refresh Resources: Classic Editor' );
+		$I->addClassicEditorPage($I, 'page', 'Kit: Page: Refresh Resources: Classic Editor' );
 
 		// Click the Forms refresh button.
 		$I->click('button.wp-convertkit-refresh-resources[data-resource="forms"]');
@@ -403,7 +403,7 @@ class RefreshResourcesButtonCest
 
 		// Confirm that an error notification is displayed on screen, with the expected error message.
 		$I->seeElementInDOM('div.convertkit-error');
-		$I->see('ConvertKit: The access token is invalid');
+		$I->see('Kit: The access token is invalid');
 
 		// Confirm that the notice is dismissible.
 		$I->click('div.convertkit-error button.notice-dismiss');
@@ -428,7 +428,7 @@ class RefreshResourcesButtonCest
 		$pageID = $I->havePostInDatabase(
 			[
 				'post_type'  => 'page',
-				'post_title' => 'ConvertKit: Page: Refresh Resources: Quick Edit',
+				'post_title' => 'Kit: Page: Refresh Resources: Quick Edit',
 			]
 		);
 
@@ -443,7 +443,7 @@ class RefreshResourcesButtonCest
 
 		// Confirm that an error notification is displayed on screen, with the expected error message.
 		$I->seeElementInDOM('div.convertkit-error');
-		$I->see('ConvertKit: The access token is invalid');
+		$I->see('Kit: The access token is invalid');
 
 		// Confirm that the notice is dismissible.
 		$I->click('div.convertkit-error button.notice-dismiss');
@@ -469,13 +469,13 @@ class RefreshResourcesButtonCest
 			$I->havePostInDatabase(
 				[
 					'post_type'  => 'page',
-					'post_title' => 'ConvertKit: Page: Refresh Resources: Bulk Edit #1',
+					'post_title' => 'Kit: Page: Refresh Resources: Bulk Edit #1',
 				]
 			),
 			$I->havePostInDatabase(
 				[
 					'post_type'  => 'page',
-					'post_title' => 'ConvertKit: Page: Refresh Resources: Bulk Edit #2',
+					'post_title' => 'Kit: Page: Refresh Resources: Bulk Edit #2',
 				]
 			),
 		);
@@ -491,7 +491,7 @@ class RefreshResourcesButtonCest
 
 		// Confirm that an error notification is displayed on screen, with the expected error message.
 		$I->seeElementInDOM('div.convertkit-error');
-		$I->see('ConvertKit: The access token is invalid');
+		$I->see('Kit: The access token is invalid');
 
 		// Confirm that the notice is dismissible.
 		$I->click('div.convertkit-error button.notice-dismiss');
@@ -523,7 +523,7 @@ class RefreshResourcesButtonCest
 
 		// Confirm that an error notification is displayed on screen, with the expected error message.
 		$I->seeElementInDOM('div.convertkit-error');
-		$I->see('ConvertKit: The access token is invalid');
+		$I->see('Kit: The access token is invalid');
 
 		// Confirm that the notice is dismissible.
 		$I->click('div.convertkit-error button.notice-dismiss');
@@ -545,7 +545,7 @@ class RefreshResourcesButtonCest
 		$I->setupConvertKitPluginFakeAPIKey($I);
 
 		// Create Category.
-		$termID = $I->haveTermInDatabase( 'ConvertKit Refresh Resources', 'category' );
+		$termID = $I->haveTermInDatabase( 'Kit Refresh Resources', 'category' );
 		$termID = $termID[0];
 
 		// Edit the Term.
@@ -559,7 +559,7 @@ class RefreshResourcesButtonCest
 
 		// Confirm that an error notification is displayed on screen, with the expected error message.
 		$I->seeElementInDOM('div.convertkit-error');
-		$I->see('ConvertKit: The access token is invalid');
+		$I->see('Kit: The access token is invalid');
 
 		// Confirm that the notice is dismissible.
 		$I->click('div.convertkit-error button.notice-dismiss');

@@ -60,7 +60,7 @@ class RestrictContentSettingsCest
 		$pageID = $I->createRestrictedContentPage(
 			$I,
 			[
-				'post_title'               => 'ConvertKit: Restrict Content: Settings',
+				'post_title'               => 'Kit: Restrict Content: Settings',
 				'restrict_content_setting' => 'product_' . $_ENV['CONVERTKIT_API_PRODUCT_ID'],
 			]
 		);
@@ -113,7 +113,7 @@ class RestrictContentSettingsCest
 		$pageID = $I->createRestrictedContentPage(
 			$I,
 			[
-				'post_title'               => 'ConvertKit: Restrict Content: Settings: Blank',
+				'post_title'               => 'Kit: Restrict Content: Settings: Blank',
 				'restrict_content_setting' => 'product_' . $_ENV['CONVERTKIT_API_PRODUCT_ID'],
 			]
 		);
@@ -166,7 +166,7 @@ class RestrictContentSettingsCest
 		$pageID = $I->createRestrictedContentPage(
 			$I,
 			[
-				'post_title'               => 'ConvertKit: Restrict Content: Settings: Custom',
+				'post_title'               => 'Kit: Restrict Content: Settings: Custom',
 				'restrict_content_setting' => 'product_' . $_ENV['CONVERTKIT_API_PRODUCT_ID'],
 			]
 		);
@@ -199,7 +199,7 @@ class RestrictContentSettingsCest
 		$pageID = $I->createRestrictedContentPage(
 			$I,
 			[
-				'post_title'               => 'ConvertKit: Restrict Content: Settings: Custom',
+				'post_title'               => 'Kit: Restrict Content: Settings: Custom',
 				'restrict_content_setting' => 'product_' . $_ENV['CONVERTKIT_API_PRODUCT_ID'],
 			]
 		);

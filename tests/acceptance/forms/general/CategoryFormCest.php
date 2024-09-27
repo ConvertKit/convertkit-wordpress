@@ -39,7 +39,7 @@ class CategoryFormCest
 		$I->seeInSource('<label for="wp-convertkit-form">');
 
 		// Create Category.
-		$I->fillField('tag-name', 'ConvertKit: Create Category');
+		$I->fillField('tag-name', 'Kit: Create Category');
 		$I->fillSelect2Field($I, '#select2-wp-convertkit-form-container', $_ENV['CONVERTKIT_API_FORM_NAME']);
 
 		// Check the order of the Form resources are alphabetical, with the Default option prepending the Forms.
@@ -64,7 +64,7 @@ class CategoryFormCest
 		$postID = $I->havePostInDatabase(
 			[
 				'post_type'  => 'post',
-				'post_title' => 'ConvertKit: Inherit Form from Add Category',
+				'post_title' => 'Kit: Inherit Form from Add Category',
 				'tax_input'  => [
 					[ 'category' => (int) $termID ],
 				],
@@ -94,14 +94,14 @@ class CategoryFormCest
 	public function testEditCategoryWithValidFormSetting(AcceptanceTester $I)
 	{
 		// Create Category.
-		$termID = $I->haveTermInDatabase( 'ConvertKit: Edit Category', 'category' );
+		$termID = $I->haveTermInDatabase( 'Kit: Edit Category', 'category' );
 		$termID = $termID[0];
 
 		// Create Post, assigned to ConvertKit Category.
 		$postID = $I->havePostInDatabase(
 			[
 				'post_type'  => 'post',
-				'post_title' => 'ConvertKit: Inherit Form from Edit Category',
+				'post_title' => 'Kit: Inherit Form from Edit Category',
 				'tax_input'  => [
 					[ 'category' => (int) $termID ],
 				],
@@ -168,7 +168,7 @@ class CategoryFormCest
 		$I->amOnAdminPage('edit-tags.php?taxonomy=category');
 
 		// Create Category.
-		$I->fillField('tag-name', 'ConvertKit: Position: Before');
+		$I->fillField('tag-name', 'Kit: Position: Before');
 		$I->fillSelect2Field($I, '#select2-wp-convertkit-form-container', $_ENV['CONVERTKIT_API_FORM_NAME']);
 		$I->selectOption('wp-convertkit[form_position]', 'before');
 
@@ -185,7 +185,7 @@ class CategoryFormCest
 		$postID = $I->havePostInDatabase(
 			[
 				'post_type'  => 'post',
-				'post_title' => 'ConvertKit: Post for Position: Before',
+				'post_title' => 'Kit: Post for Position: Before',
 				'tax_input'  => [
 					[ 'category' => (int) $termID ],
 				],
@@ -226,7 +226,7 @@ class CategoryFormCest
 		$I->amOnAdminPage('edit-tags.php?taxonomy=category');
 
 		// Create Category.
-		$I->fillField('tag-name', 'ConvertKit: Position: After');
+		$I->fillField('tag-name', 'Kit: Position: After');
 		$I->fillSelect2Field($I, '#select2-wp-convertkit-form-container', $_ENV['CONVERTKIT_API_FORM_NAME']);
 		$I->selectOption('wp-convertkit[form_position]', 'after');
 
@@ -243,7 +243,7 @@ class CategoryFormCest
 		$postID = $I->havePostInDatabase(
 			[
 				'post_type'  => 'post',
-				'post_title' => 'ConvertKit: Post for Position: After',
+				'post_title' => 'Kit: Post for Position: After',
 				'tax_input'  => [
 					[ 'category' => (int) $termID ],
 				],
@@ -280,14 +280,14 @@ class CategoryFormCest
 	public function testEditCategoryWithFormPositionBefore(AcceptanceTester $I)
 	{
 		// Create Category.
-		$termID = $I->haveTermInDatabase( 'ConvertKit: Edit: Position: Before', 'category' );
+		$termID = $I->haveTermInDatabase( 'Kit: Edit: Position: Before', 'category' );
 		$termID = $termID[0];
 
 		// Create Post, assigned to ConvertKit Category.
 		$postID = $I->havePostInDatabase(
 			[
 				'post_type'  => 'post',
-				'post_title' => 'ConvertKit: Post: Edit: Position: Before',
+				'post_title' => 'Kit: Post: Edit: Position: Before',
 				'tax_input'  => [
 					[ 'category' => (int) $termID ],
 				],
@@ -359,14 +359,14 @@ class CategoryFormCest
 	public function testEditCategoryWithFormPositionAfter(AcceptanceTester $I)
 	{
 		// Create Category.
-		$termID = $I->haveTermInDatabase( 'ConvertKit: Edit: Position: After', 'category' );
+		$termID = $I->haveTermInDatabase( 'Kit: Edit: Position: After', 'category' );
 		$termID = $termID[0];
 
 		// Create Post, assigned to ConvertKit Category.
 		$postID = $I->havePostInDatabase(
 			[
 				'post_type'  => 'post',
-				'post_title' => 'ConvertKit: Post: Edit: Position: After',
+				'post_title' => 'Kit: Post: Edit: Position: After',
 				'tax_input'  => [
 					[ 'category' => (int) $termID ],
 				],
@@ -445,7 +445,7 @@ class CategoryFormCest
 		// Create Category as if it were created / edited when the ConvertKit Plugin < 1.9.6.0
 		// was active.
 		$termID = $I->haveTermInDatabase(
-			'ConvertKit 1.9.5.2 and earlier',
+			'Kit 1.9.5.2 and earlier',
 			'category',
 			[
 				'meta' => [
@@ -459,7 +459,7 @@ class CategoryFormCest
 		$postID = $I->havePostInDatabase(
 			[
 				'post_type'  => 'post',
-				'post_title' => 'ConvertKit: Default Form: Category Created before 1.9.6.0',
+				'post_title' => 'Kit: Default Form: Category Created before 1.9.6.0',
 				'tax_input'  => [
 					[ 'category' => $termID ],
 				],
@@ -496,7 +496,7 @@ class CategoryFormCest
 		// Create Category as if it were created / edited when the ConvertKit Plugin < 2.4.9.1
 		// was active.
 		$termID = $I->haveTermInDatabase(
-			'ConvertKit 2.4.9.1 and earlier',
+			'Kit 2.4.9.1 and earlier',
 			'category',
 			[
 				'meta' => [
@@ -510,7 +510,7 @@ class CategoryFormCest
 		$postID = $I->havePostInDatabase(
 			[
 				'post_type'  => 'post',
-				'post_title' => 'ConvertKit: Default Form: Category Created before 1.9.6.0',
+				'post_title' => 'Kit: Default Form: Category Created before 1.9.6.0',
 				'tax_input'  => [
 					[ 'category' => $termID ],
 				],

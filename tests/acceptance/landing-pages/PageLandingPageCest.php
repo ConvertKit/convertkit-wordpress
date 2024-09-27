@@ -34,7 +34,7 @@ class PageLandingPageCest
 	public function testAddNewPageUsingNoLandingPage(AcceptanceTester $I)
 	{
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Landing Page: None');
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Landing Page: None');
 
 		// Check the order of the Landing Page resources are alphabetical, with the None option prepending the Landing Pages.
 		$I->checkSelectLandingPageOptionOrder(
@@ -73,7 +73,7 @@ class PageLandingPageCest
 	public function testAddNewPageUsingDefinedLandingPage(AcceptanceTester $I)
 	{
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Landing Page: ' . $_ENV['CONVERTKIT_API_LANDING_PAGE_NAME']);
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Landing Page: ' . $_ENV['CONVERTKIT_API_LANDING_PAGE_NAME']);
 
 		// Configure metabox's Landing Page setting to value specified in the .env file.
 		$I->configureMetaboxSettings(
@@ -124,7 +124,7 @@ class PageLandingPageCest
 		$I->haveOptionInDatabase('site_icon', $imageID);
 
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Landing Page: Site Icon: ' . $_ENV['CONVERTKIT_API_LANDING_PAGE_NAME']);
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Landing Page: Site Icon: ' . $_ENV['CONVERTKIT_API_LANDING_PAGE_NAME']);
 
 		// Configure metabox's Landing Page setting to value specified in the .env file.
 		$I->configureMetaboxSettings(
@@ -166,7 +166,7 @@ class PageLandingPageCest
 	public function testLandingPageCharacterEncoding(AcceptanceTester $I)
 	{
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Landing Page: ' . $_ENV['CONVERTKIT_API_LANDING_PAGE_CHARACTER_ENCODING_NAME']);
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Landing Page: ' . $_ENV['CONVERTKIT_API_LANDING_PAGE_CHARACTER_ENCODING_NAME']);
 
 		// Configure metabox's Landing Page setting to value specified in the .env file.
 		$I->configureMetaboxSettings(
@@ -201,7 +201,7 @@ class PageLandingPageCest
 	public function testAddNewPageUsingDefinedLegacyLandingPage(AcceptanceTester $I)
 	{
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Landing Page: ' . $_ENV['CONVERTKIT_API_LEGACY_LANDING_PAGE_NAME']);
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Landing Page: ' . $_ENV['CONVERTKIT_API_LEGACY_LANDING_PAGE_NAME']);
 
 		// Configure metabox's Landing Page setting to value specified in the .env file.
 		$I->configureMetaboxSettings(
@@ -241,7 +241,7 @@ class PageLandingPageCest
 		$I->haveOptionInDatabase('site_icon', $imageID);
 
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Legacy Landing Page: Site Icon: ' . $_ENV['CONVERTKIT_API_LEGACY_LANDING_PAGE_NAME']);
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Legacy Landing Page: Site Icon: ' . $_ENV['CONVERTKIT_API_LEGACY_LANDING_PAGE_NAME']);
 
 		// Configure metabox's Landing Page setting to value specified in the .env file.
 		$I->configureMetaboxSettings(
@@ -290,7 +290,7 @@ class PageLandingPageCest
 			[
 				'post_type'   => 'page',
 				'post_status' => 'publish',
-				'post_title'  => 'ConvertKit: Landing Page: Legacy URL',
+				'post_title'  => 'Kit: Landing Page: Legacy URL',
 				'post_name'   => 'convertkit-landing-page-legacy-url',
 				'meta_input'  => [
 					'_wp_convertkit_post_meta' => [
@@ -345,7 +345,7 @@ class PageLandingPageCest
 		);
 
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Landing Page: Perfmatters: ' . $_ENV['CONVERTKIT_API_LANDING_PAGE_NAME']);
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Landing Page: Perfmatters: ' . $_ENV['CONVERTKIT_API_LANDING_PAGE_NAME']);
 
 		// Configure metabox's Landing Page setting to value specified in the .env file.
 		$I->configureMetaboxSettings(
@@ -418,7 +418,7 @@ class PageLandingPageCest
 		$I->waitForElementVisible('#setting-error-settings_updated');
 
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Landing Page: WP Rocket: ' . $_ENV['CONVERTKIT_API_LANDING_PAGE_NAME']);
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Landing Page: WP Rocket: ' . $_ENV['CONVERTKIT_API_LANDING_PAGE_NAME']);
 
 		// Configure metabox's Landing Page setting to value specified in the .env file.
 		$I->configureMetaboxSettings(

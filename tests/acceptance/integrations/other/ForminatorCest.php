@@ -393,7 +393,7 @@ class ForminatorCest
 		// Create Page with Forminator Shortcode.
 		$pageID = $I->havePageInDatabase(
 			[
-				'post_title'   => 'ConvertKit: Forminator: Creator Network Recommendations Disabled on ConvertKit',
+				'post_title'   => 'Kit: Forminator: Creator Network Recommendations Disabled on ConvertKit',
 				'post_name'    => 'convertkit-forminator-creator-network-recommendations-disabled-convertkit',
 				'post_content' => 'Form:
 [forminator_form id="' . $forminatorFormID . '"]',
@@ -440,7 +440,7 @@ class ForminatorCest
 		// Create Page with Forminator Shortcode.
 		$pageID = $I->havePageInDatabase(
 			[
-				'post_title'   => 'ConvertKit: Forminator: Creator Network Recommendations',
+				'post_title'   => 'Kit: Forminator: Creator Network Recommendations',
 				'post_name'    => 'convertkit-forminator-creator-network-recommendations',
 				'post_content' => 'Form:
 [forminator_form id="' . $forminatorFormID . '"]',
@@ -454,7 +454,7 @@ class ForminatorCest
 		$emailAddress = $I->generateEmailAddress();
 
 		// Complete Name and Email.
-		$I->fillField('input[name=name-1]', 'ConvertKit Name');
+		$I->fillField('input[name=name-1]', 'Kit Name');
 		$I->fillField('input[name=email-1]', $emailAddress);
 
 		// Submit Form.
@@ -733,7 +733,7 @@ class ForminatorCest
 		// Create Page with Forminator Shortcode.
 		return $I->havePageInDatabase(
 			[
-				'post_title'   => 'ConvertKit: Forminator Shortcode: Form: ' . $optionName,
+				'post_title'   => 'Kit: Forminator Shortcode: Form: ' . $optionName,
 				'post_content' => 'Form:
 [forminator_form id="' . $forminatorFormID . '"]',
 			]
@@ -782,7 +782,7 @@ class ForminatorCest
 		// Create Page with Forminator Shortcode.
 		return $I->havePageInDatabase(
 			[
-				'post_title'   => 'ConvertKit: Forminator Shortcode: Quiz: ' . $optionName,
+				'post_title'   => 'Kit: Forminator Shortcode: Quiz: ' . $optionName,
 				'post_content' => 'Quiz:
 [forminator_quiz id="' . $forminatorQuizID . '"]',
 			]
@@ -808,7 +808,7 @@ class ForminatorCest
 		$I->checkNoWarningsAndNoticesOnScreen($I);
 
 		// Complete Name and Email.
-		$I->fillField('input[name=name-1]', 'ConvertKit Name');
+		$I->fillField('input[name=name-1]', 'Kit Name');
 		$I->fillField('input[name=email-1]', $emailAddress);
 
 		// Submit Form.
@@ -850,7 +850,7 @@ class ForminatorCest
 
 		// Complete Name and Email.
 		$I->waitForElementVisible('input[name=name-1]');
-		$I->fillField('input[name=name-1]', 'ConvertKit Name');
+		$I->fillField('input[name=name-1]', 'Kit Name');
 		$I->fillField('input[name=email-1]', $emailAddress);
 
 		// Submit Form.

@@ -26,7 +26,7 @@ class UpgradePathsCest
 			[
 				'post_type'   => 'post',
 				'post_status' => 'publish',
-				'post_title'  => 'ConvertKit: Post: 1.4.6',
+				'post_title'  => 'Kit: Post: 1.4.6',
 				'post_name'   => 'convertkit-post-1-4-6',
 				'meta_input'  => [
 					// 1.4.6 and earlier wouldn't set a landing_page or tag meta keys if no values were specified
@@ -65,7 +65,7 @@ class UpgradePathsCest
 			[
 				'post_type'   => 'post',
 				'post_status' => 'publish',
-				'post_title'  => 'ConvertKit: Page: 1.4.6',
+				'post_title'  => 'Kit: Page: 1.4.6',
 				'post_name'   => 'convertkit-page-1-4-6',
 				'meta_input'  => [
 					// 1.4.6 and earlier wouldn't set a landing_page or tag meta keys if no values were specified
@@ -132,7 +132,7 @@ class UpgradePathsCest
 		$I->loadConvertKitSettingsGeneralScreen($I);
 
 		// Confirm the Plugin authorized by checking for a Disconnect button.
-		$I->see('ConvertKit WordPress');
+		$I->see('Kit WordPress');
 		$I->see('Disconnect');
 
 		// Check the order of the Form resources are alphabetical, with 'None' as the first choice.

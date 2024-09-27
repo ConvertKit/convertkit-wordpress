@@ -34,12 +34,12 @@ class DiviFormTriggerCest
 		$I->setupConvertKitPluginResources($I);
 
 		// Create a Divi Page in the backend editor.
-		$I->createDiviPageInBackendEditor($I, 'ConvertKit: Page: Form Trigger: Divi: Backend Editor');
+		$I->createDiviPageInBackendEditor($I, 'Kit: Page: Form Trigger: Divi: Backend Editor');
 
 		// Insert the Form module.
 		$I->insertDiviRowWithModule(
 			$I,
-			'ConvertKit Form Trigger',
+			'Kit Form Trigger',
 			'convertkit_formtrigger',
 			'form',
 			$_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_ID']
@@ -74,12 +74,12 @@ class DiviFormTriggerCest
 		$I->setupConvertKitPluginResources($I);
 
 		// Create a Divi Page in the frontend editor.
-		$url = $I->createDiviPageInFrontendEditor($I, 'ConvertKit: Page: Form Trigger: Divi: Frontend Editor');
+		$url = $I->createDiviPageInFrontendEditor($I, 'Kit: Page: Form Trigger: Divi: Frontend Editor');
 
 		// Insert the Form module.
 		$I->insertDiviRowWithModule(
 			$I,
-			'ConvertKit Form Trigger',
+			'Kit Form Trigger',
 			'convertkit_formtrigger',
 			'form',
 			$_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_ID']
@@ -106,12 +106,12 @@ class DiviFormTriggerCest
 	public function testFormTriggerModuleInFrontendEditorWhenNoCredentials(AcceptanceTester $I)
 	{
 		// Create a Divi Page in the frontend editor.
-		$I->createDiviPageInFrontendEditor($I, 'ConvertKit: Page: Form Trigger: Divi: Frontend: No Credentials', false);
+		$I->createDiviPageInFrontendEditor($I, 'Kit: Page: Form Trigger: Divi: Frontend: No Credentials', false);
 
 		// Insert the Form module.
 		$I->insertDiviRowWithModule(
 			$I,
-			'ConvertKit Form Trigger',
+			'Kit Form Trigger',
 			'convertkit_formtrigger'
 		);
 
@@ -135,12 +135,12 @@ class DiviFormTriggerCest
 		$I->setupConvertKitPluginResourcesNoData($I);
 
 		// Create a Divi Page in the frontend editor.
-		$I->createDiviPageInFrontendEditor($I, 'ConvertKit: Page: Form Trigger: Divi: Frontend: No Forms');
+		$I->createDiviPageInFrontendEditor($I, 'Kit: Page: Form Trigger: Divi: Frontend: No Forms');
 
 		// Insert the Form module.
 		$I->insertDiviRowWithModule(
 			$I,
-			'ConvertKit Form Trigger',
+			'Kit Form Trigger',
 			'convertkit_formtrigger'
 		);
 
@@ -165,7 +165,7 @@ class DiviFormTriggerCest
 		// Create Page with Form module in Divi.
 		$pageID = $I->createPageWithDiviModuleProgrammatically(
 			$I,
-			'ConvertKit: Legacy Form Trigger: Divi Module: No Form Param',
+			'Kit: Legacy Form Trigger: Divi Module: No Form Param',
 			'convertkit_formtrigger',
 			'form',
 			''

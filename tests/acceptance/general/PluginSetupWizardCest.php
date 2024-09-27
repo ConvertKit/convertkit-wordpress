@@ -198,14 +198,14 @@ class PluginSetupWizardCest
 		// Create a Page and a Post, so that preview links display.
 		$I->havePostInDatabase(
 			[
-				'post_title'  => 'ConvertKit: Setup Wizard: Page',
+				'post_title'  => 'Kit: Setup Wizard: Page',
 				'post_type'   => 'page',
 				'post_status' => 'publish',
 			]
 		);
 		$I->havePostInDatabase(
 			[
-				'post_title'  => 'ConvertKit: Setup Wizard: Post',
+				'post_title'  => 'Kit: Setup Wizard: Post',
 				'post_type'   => 'post',
 				'post_status' => 'publish',
 			]

@@ -31,14 +31,14 @@ class ElementorBroadcastsCest
 	public function testBroadcastsWidgetIsRegistered(AcceptanceTester $I)
 	{
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Broadcasts: Elementor: Registered');
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Broadcasts: Elementor: Registered');
 
 		// Click Edit with Elementor button.
 		$I->click('#elementor-switch-mode-button');
 
 		// When Elementor loads, search for the ConvertKit Broadcasts block.
 		$I->waitForElementVisible('#elementor-panel-elements-search-input');
-		$I->fillField('#elementor-panel-elements-search-input', 'ConvertKit Broadcasts');
+		$I->fillField('#elementor-panel-elements-search-input', 'Kit Broadcasts');
 
 		// Confirm that the Broadcasts widget is displayed as an option.
 		$I->seeElementInDOM('#elementor-panel-elements .elementor-element');
@@ -56,7 +56,7 @@ class ElementorBroadcastsCest
 		// Create Page with Broadcasts widget in Elementor.
 		$pageID = $this->_createPageWithBroadcastsWidget(
 			$I,
-			'ConvertKit: Page: Broadcasts: Elementor Widget: Valid Params',
+			'Kit: Page: Broadcasts: Elementor Widget: Valid Params',
 			[
 				'date_format' => 'F j, Y',
 				'limit'       => 10,
@@ -97,7 +97,7 @@ class ElementorBroadcastsCest
 		// Create Page with Broadcasts widget in Elementor.
 		$pageID = $this->_createPageWithBroadcastsWidget(
 			$I,
-			'ConvertKit: Page: Broadcasts: Elementor Widget: Date Format',
+			'Kit: Page: Broadcasts: Elementor Widget: Date Format',
 			[
 				'date_format' => 'Y-m-d',
 				'limit'       => 10,
@@ -138,7 +138,7 @@ class ElementorBroadcastsCest
 		// Create Page with Broadcasts widget in Elementor.
 		$pageID = $this->_createPageWithBroadcastsWidget(
 			$I,
-			'ConvertKit: Page: Broadcasts: Elementor Widget: Limit',
+			'Kit: Page: Broadcasts: Elementor Widget: Limit',
 			[
 				'date_format' => 'F j, Y',
 				'limit'       => 2,
@@ -176,7 +176,7 @@ class ElementorBroadcastsCest
 		// Create Page with Broadcasts widget in Elementor.
 		$pageID = $this->_createPageWithBroadcastsWidget(
 			$I,
-			'ConvertKit: Page: Broadcasts: Elementor Widget: Pagination',
+			'Kit: Page: Broadcasts: Elementor Widget: Pagination',
 			[
 				'date_format' => 'F j, Y',
 				'limit'       => 2,
@@ -206,7 +206,7 @@ class ElementorBroadcastsCest
 		// Create Page with Broadcasts widget in Elementor.
 		$pageID = $this->_createPageWithBroadcastsWidget(
 			$I,
-			'ConvertKit: Page: Broadcasts: Elementor Widget: Valid Params',
+			'Kit: Page: Broadcasts: Elementor Widget: Valid Params',
 			[
 				'date_format'         => 'F j, Y',
 				'limit'               => 2,
@@ -243,7 +243,7 @@ class ElementorBroadcastsCest
 		// Create Page with Broadcasts widget in Elementor.
 		$pageID = $this->_createPageWithBroadcastsWidget(
 			$I,
-			'ConvertKit: Page: Broadcasts: Elementor Widget: Hex Colors',
+			'Kit: Page: Broadcasts: Elementor Widget: Hex Colors',
 			[
 				'date_format'         => 'F j, Y',
 				'limit'               => 2,

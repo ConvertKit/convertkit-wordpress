@@ -47,7 +47,7 @@ class WidgetBroadcastsCest
 	public function testBroadcastsBlockWidgetWithDefaultParameters(AcceptanceTester $I)
 	{
 		// Add block widget.
-		$I->addBlockWidget($I, 'ConvertKit Broadcasts', 'convertkit-broadcasts');
+		$I->addBlockWidget($I, 'Kit Broadcasts', 'convertkit-broadcasts');
 
 		// View the home page.
 		$I->amOnPage('/');
@@ -74,7 +74,7 @@ class WidgetBroadcastsCest
 		// Add block widget.
 		$I->addBlockWidget(
 			$I,
-			'ConvertKit Broadcasts',
+			'Kit Broadcasts',
 			'convertkit-broadcasts',
 			[
 				'date_format' => [ 'select', 'Y-m-d' ],
@@ -106,7 +106,7 @@ class WidgetBroadcastsCest
 		// Add block widget.
 		$I->addBlockWidget(
 			$I,
-			'ConvertKit Broadcasts',
+			'Kit Broadcasts',
 			'convertkit-broadcasts',
 			[
 				'limit' => [ 'input', '2', 'Pagination' ], // Click the Pagination tab first before starting to complete fields.
@@ -135,7 +135,7 @@ class WidgetBroadcastsCest
 		// Add block widget.
 		$I->addBlockWidget(
 			$I,
-			'ConvertKit Broadcasts',
+			'Kit Broadcasts',
 			'convertkit-broadcasts',
 			[
 				'#inspector-toggle-control-4' => [ 'toggle', true, 'Pagination' ], // Click the Pagination tab first before starting to complete fields.
@@ -162,7 +162,7 @@ class WidgetBroadcastsCest
 		// Add block widget.
 		$I->addBlockWidget(
 			$I,
-			'ConvertKit Broadcasts',
+			'Kit Broadcasts',
 			'convertkit-broadcasts',
 			[
 				'#inspector-toggle-control-4' => [ 'toggle', true, 'Pagination' ], // Click the Pagination tab first before starting to complete fields.
@@ -191,7 +191,7 @@ class WidgetBroadcastsCest
 		// Add block widget.
 		$I->addBlockWidget(
 			$I,
-			'ConvertKit Broadcasts',
+			'Kit Broadcasts',
 			'convertkit-broadcasts',
 			[
 				'#inspector-toggle-control-4' => [ 'toggle', true, 'Pagination' ], // Click the Pagination tab first before starting to complete fields.

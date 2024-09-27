@@ -94,7 +94,7 @@ class ReviewRequestCest
 		$I->setupConvertKitPluginResources($I);
 
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Test Review Request on Save with Form Specified');
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Test Review Request on Save with Form Specified');
 
 		// Configure metabox's Form setting = Default.
 		$I->configureMetaboxSettings(
@@ -134,7 +134,7 @@ class ReviewRequestCest
 		$I->setupConvertKitPluginResources($I);
 
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Test Review Request on Save with Form Specified');
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Test Review Request on Save with Form Specified');
 
 		// Configure metabox's Form setting = Default.
 		$I->configureMetaboxSettings(

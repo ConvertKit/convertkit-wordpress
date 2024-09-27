@@ -33,14 +33,14 @@ class ElementorFormCest
 	public function testFormWidgetIsRegistered(AcceptanceTester $I)
 	{
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form: Elementor: Valid Form Param');
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Form: Elementor: Valid Form Param');
 
 		// Click Edit with Elementor button.
 		$I->click('#elementor-switch-mode-button');
 
 		// When Elementor loads, search for the ConvertKit Form block.
 		$I->waitForElementVisible('#elementor-panel-elements-search-input');
-		$I->fillField('#elementor-panel-elements-search-input', 'ConvertKit Form');
+		$I->fillField('#elementor-panel-elements-search-input', 'Kit Form');
 
 		// Confirm that the Form widget is displayed as an option.
 		$I->seeElementInDOM('#elementor-panel-elements .elementor-element');
@@ -56,7 +56,7 @@ class ElementorFormCest
 	public function testFormWidgetWithValidFormParameter(AcceptanceTester $I)
 	{
 		// Create Page with Form widget in Elementor.
-		$pageID = $this->_createPageWithFormWidget($I, 'ConvertKit: Page: Form: Elementor Widget: Valid Form Param', $_ENV['CONVERTKIT_API_FORM_ID']);
+		$pageID = $this->_createPageWithFormWidget($I, 'Kit: Page: Form: Elementor Widget: Valid Form Param', $_ENV['CONVERTKIT_API_FORM_ID']);
 
 		// Load Page.
 		$I->amOnPage('?p=' . $pageID);
@@ -79,7 +79,7 @@ class ElementorFormCest
 	public function testFormWidgetWithValidLegacyFormParameter(AcceptanceTester $I)
 	{
 		// Create Page with Form widget in Elementor.
-		$pageID = $this->_createPageWithFormWidget($I, 'ConvertKit: Legacy Form: Elementor Widget: Valid Form Param', $_ENV['CONVERTKIT_API_LEGACY_FORM_ID']);
+		$pageID = $this->_createPageWithFormWidget($I, 'Kit: Legacy Form: Elementor Widget: Valid Form Param', $_ENV['CONVERTKIT_API_LEGACY_FORM_ID']);
 
 		// Load Page.
 		$I->amOnPage('?p=' . $pageID);
@@ -101,7 +101,7 @@ class ElementorFormCest
 	public function testFormWidgetWithNoFormParameter(AcceptanceTester $I)
 	{
 		// Create Page with Form widget in Elementor.
-		$pageID = $this->_createPageWithFormWidget($I, 'ConvertKit: Page: Form: Elementor Widget: No Form Param', '');
+		$pageID = $this->_createPageWithFormWidget($I, 'Kit: Page: Form: Elementor Widget: No Form Param', '');
 
 		// Load Page.
 		$I->amOnPage('?p=' . $pageID);

@@ -35,9 +35,9 @@ class BroadcastsExportPostRowActionCest
 		$postID = $I->havePostInDatabase(
 			[
 				'post_type'    => 'post',
-				'post_title'   => 'ConvertKit: Export Post to Broadcast',
-				'post_content' => 'ConvertKit: Export Post to Broadcast: Content',
-				'post_excerpt' => 'ConvertKit: Export Post to Broadcast: Excerpt',
+				'post_title'   => 'Kit: Export Post to Broadcast',
+				'post_content' => 'Kit: Export Post to Broadcast: Content',
+				'post_excerpt' => 'Kit: Export Post to Broadcast: Excerpt',
 			]
 		);
 
@@ -70,9 +70,9 @@ class BroadcastsExportPostRowActionCest
 		$postID = $I->havePostInDatabase(
 			[
 				'post_type'    => 'post',
-				'post_title'   => 'ConvertKit: Export Post to Broadcast',
+				'post_title'   => 'Kit: Export Post to Broadcast',
 				'post_content' => '<p class="style-test">ConvertKit: Export Post to Broadcast: Content</p>',
-				'post_excerpt' => 'ConvertKit: Export Post to Broadcast: Excerpt',
+				'post_excerpt' => 'Kit: Export Post to Broadcast: Excerpt',
 			]
 		);
 
@@ -128,9 +128,9 @@ class BroadcastsExportPostRowActionCest
 		$postID = $I->havePostInDatabase(
 			[
 				'post_type'    => 'post',
-				'post_title'   => 'ConvertKit: Export Post to Broadcast: Disable Styles',
+				'post_title'   => 'Kit: Export Post to Broadcast: Disable Styles',
 				'post_content' => '<p class="style-test">ConvertKit: Export Post to Broadcast: Disable Styles: Content</p>',
-				'post_excerpt' => 'ConvertKit: Export Post to Broadcast: Disable Styles: Excerpt',
+				'post_excerpt' => 'Kit: Export Post to Broadcast: Disable Styles: Excerpt',
 			]
 		);
 

@@ -77,7 +77,7 @@ class RestrictContentFilterPageCest
 		$I->createRestrictedContentPage(
 			$I,
 			[
-				'post_title'               => 'ConvertKit: Page: Restricted Content: Product: Filter Test',
+				'post_title'               => 'Kit: Page: Restricted Content: Product: Filter Test',
 				'restrict_content_setting' => 'product_' . $_ENV['CONVERTKIT_API_PRODUCT_ID'],
 			]
 		);
@@ -91,9 +91,9 @@ class RestrictContentFilterPageCest
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
 
-		// Confirm that the Page is listed, and has the 'ConvertKit Member Content' label.
-		$I->see('ConvertKit: Page: Restricted Content: Product: Filter Test');
-		$I->see('ConvertKit Member Content');
+		// Confirm that the Page is listed, and has the 'Kit Member Content' label.
+		$I->see('Kit: Page: Restricted Content: Product: Filter Test');
+		$I->see('Kit Member Content');
 
 		// Filter by Product.
 		$I->selectOption('#wp-convertkit-restrict-content-filter', $_ENV['CONVERTKIT_API_PRODUCT_NAME']);
@@ -105,9 +105,9 @@ class RestrictContentFilterPageCest
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
 
-		// Confirm that the Page is still listed, and has the 'ConvertKit Member Content' label.
-		$I->see('ConvertKit: Page: Restricted Content: Product: Filter Test');
-		$I->see('ConvertKit Member Content');
+		// Confirm that the Page is still listed, and has the 'Kit Member Content' label.
+		$I->see('Kit: Page: Restricted Content: Product: Filter Test');
+		$I->see('Kit Member Content');
 	}
 
 	/**

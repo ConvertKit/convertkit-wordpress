@@ -81,7 +81,7 @@ class PostCest
 		$postID = $I->havePostInDatabase(
 			[
 				'post_type'  => 'post',
-				'post_title' => 'ConvertKit: Post: Invalid Settings',
+				'post_title' => 'Kit: Post: Invalid Settings',
 				'meta_input' => [
 					'_wp_convertkit_post_meta' => 'an invalid string setting',
 				],
