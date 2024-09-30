@@ -137,7 +137,7 @@ class ConvertKit_Resource_Landing_Pages extends ConvertKit_Resource_V4 {
 		}
 
 		// Define the ConvertKit favicon tag that exists in Landing Pages.
-		$convertkit_favicon_tag = '<link rel="shortcut icon" type="image/x-icon" href="https://pages.convertkit.com/templates/favicon.ico">';
+		$convertkit_favicon_tag = '<link rel="shortcut icon" type="image/x-icon" href="https://pages.kit.com/templates/favicon.ico">';
 
 		// If the ConvertKit favicon tag does not exist in the HTML, this is a legacy landing page, which doesn't specify a link rel="shortcut icon".
 		if ( strpos( $html, $convertkit_favicon_tag ) === false ) {

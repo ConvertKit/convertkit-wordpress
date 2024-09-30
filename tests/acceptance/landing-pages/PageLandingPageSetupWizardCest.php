@@ -111,7 +111,7 @@ class PageLandingPageSetupWizardCest
 
 		// Check that the expected buttons display linking to ConvertKit.
 		$I->see('Create landing page');
-		$I->seeInSource('<a href="https://app.convertkit.com/pages/new/?utm_source=wordpress&amp;utm_term=en_US&amp;utm_content=convertkit"');
+		$I->seeInSource('<a href="https://app.kit.com/pages/new/?utm_source=wordpress&amp;utm_term=en_US&amp;utm_content=convertkit"');
 
 		// Update the Plugin to use credentials that have resources.
 		$I->setupConvertKitPlugin($I);
@@ -227,7 +227,7 @@ class PageLandingPageSetupWizardCest
 
 		// Confirm that the ConvertKit Landing Page displays.
 		$I->dontSeeElementInDOM('body.page'); // WordPress didn't load its template, which is correct.
-		$I->seeInSource('<form id="ck_subscribe_form" class="ck_subscribe_form" action="https://app.convertkit.com/landing_pages/' . $_ENV['CONVERTKIT_API_LEGACY_LANDING_PAGE_ID'] . '/subscribe" data-remote="true">'); // ConvertKit injected its Landing Page Form, which is correct.
+		$I->seeInSource('<form id="ck_subscribe_form" class="ck_subscribe_form" action="https://app.kit.com/landing_pages/' . $_ENV['CONVERTKIT_API_LEGACY_LANDING_PAGE_ID'] . '/subscribe" data-remote="true">'); // ConvertKit injected its Landing Page Form, which is correct.
 	}
 
 	/**

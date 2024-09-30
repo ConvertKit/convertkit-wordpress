@@ -346,7 +346,7 @@ class ConvertKit_Settings_Tools extends ConvertKit_Settings_Base {
 	 */
 	public function documentation_url() {
 
-		return 'https://help.convertkit.com/en/articles/2502591-the-convertkit-wordpress-plugin';
+		return 'https://help.kit.com/en/articles/2502591-the-convertkit-wordpress-plugin';
 
 	}
 
