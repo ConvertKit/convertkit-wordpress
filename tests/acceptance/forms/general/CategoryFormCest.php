@@ -193,7 +193,7 @@ class CategoryFormCest
 		);
 
 		// Load the Category archive on the frontend site.
-		$I->amOnPage('/category/convertkit-position-before');
+		$I->amOnPage('/category/kit-position-before');
 
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
@@ -251,7 +251,7 @@ class CategoryFormCest
 		);
 
 		// Load the Category archive on the frontend site.
-		$I->amOnPage('/category/convertkit-position-after');
+		$I->amOnPage('/category/kit-position-after');
 
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
