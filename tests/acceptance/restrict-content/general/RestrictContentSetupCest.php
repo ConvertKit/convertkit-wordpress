@@ -198,7 +198,7 @@ class RestrictContentSetupCest
 
 		// Confirm that one Page is listed in the WP_List_Table.
 		$I->see('Kit: Member Content: Download');
-		$I->seeInSource('<span class="post-state">ConvertKit Member Content</span>');
+		$I->seeInSource('<span class="post-state">Kit Member Content</span>');
 
 		// Hover mouse over Post's table row.
 		$I->moveMouseOver('tr.iedit');
@@ -211,7 +211,7 @@ class RestrictContentSetupCest
 			$I,
 			$url,
 			[
-				'member_content' => 'The downloadable content (that is available when the visitor has paid for the ConvertKit product) goes here.',
+				'member_content' => 'The downloadable content (that is available when the visitor has paid for the Kit product) goes here.',
 			]
 		);
 	}
@@ -280,7 +280,7 @@ class RestrictContentSetupCest
 			$url,
 			[
 				'visible_content' => 'Some introductory text about lesson 1',
-				'member_content'  => 'Lesson 1 content (that is available when the visitor has paid for the ConvertKit product) goes here.',
+				'member_content'  => 'Lesson 1 content (that is available when the visitor has paid for the Kit product) goes here.',
 			]
 		);
 
@@ -289,25 +289,25 @@ class RestrictContentSetupCest
 		$I->waitForElementVisible('body.page-template-default');
 		$I->see('Kit: Member Content: Course: 2/3');
 		$I->see('Some introductory text about lesson 2');
-		$I->see('Lesson 2 content (that is available when the visitor has paid for the ConvertKit product) goes here');
+		$I->see('Lesson 2 content (that is available when the visitor has paid for the Kit product) goes here');
 
 		$I->click('Next Lesson');
 		$I->waitForElementVisible('body.page-template-default');
 		$I->see('Kit: Member Content: Course: 3/3');
 		$I->see('Some introductory text about lesson 3');
-		$I->see('Lesson 3 content (that is available when the visitor has paid for the ConvertKit product) goes here');
+		$I->see('Lesson 3 content (that is available when the visitor has paid for the Kit product) goes here');
 
 		$I->click('Previous Lesson');
 		$I->waitForElementVisible('body.page-template-default');
 		$I->see('Kit: Member Content: Course: 2/3');
 		$I->see('Some introductory text about lesson 2');
-		$I->see('Lesson 2 content (that is available when the visitor has paid for the ConvertKit product) goes here');
+		$I->see('Lesson 2 content (that is available when the visitor has paid for the Kit product) goes here');
 
 		$I->click('Previous Lesson');
 		$I->waitForElementVisible('body.page-template-default');
 		$I->see('Kit: Member Content: Course: 1/3');
 		$I->see('Some introductory text about lesson 1');
-		$I->see('Lesson 1 content (that is available when the visitor has paid for the ConvertKit product) goes here');
+		$I->see('Lesson 1 content (that is available when the visitor has paid for the Kit product) goes here');
 	}
 
 	/**
@@ -361,7 +361,7 @@ class RestrictContentSetupCest
 			$url,
 			$I->generateEmailAddress(),
 			[
-				'member_content' => 'The downloadable content (that is available when the visitor has paid for the ConvertKit product) goes here.',
+				'member_content' => 'The downloadable content (that is available when the visitor has paid for the Kit product) goes here.',
 			]
 		);
 	}
@@ -431,7 +431,7 @@ class RestrictContentSetupCest
 			$I->generateEmailAddress(),
 			[
 				'visible_content' => 'Some introductory text about lesson 1',
-				'member_content'  => 'Lesson 1 content (that is available when the visitor has paid for the ConvertKit product) goes here.',
+				'member_content'  => 'Lesson 1 content (that is available when the visitor has paid for the Kit product) goes here.',
 			]
 		);
 
@@ -440,25 +440,25 @@ class RestrictContentSetupCest
 		$I->waitForElementVisible('body.page-template-default');
 		$I->see('Kit: Member Content: Course: Tag: 2/3');
 		$I->see('Some introductory text about lesson 2');
-		$I->see('Lesson 2 content (that is available when the visitor has paid for the ConvertKit product) goes here');
+		$I->see('Lesson 2 content (that is available when the visitor has paid for the Kit product) goes here');
 
 		$I->click('Next Lesson');
 		$I->waitForElementVisible('body.page-template-default');
 		$I->see('Kit: Member Content: Course: Tag: 3/3');
 		$I->see('Some introductory text about lesson 3');
-		$I->see('Lesson 3 content (that is available when the visitor has paid for the ConvertKit product) goes here');
+		$I->see('Lesson 3 content (that is available when the visitor has paid for the Kit product) goes here');
 
 		$I->click('Previous Lesson');
 		$I->waitForElementVisible('body.page-template-default');
 		$I->see('Kit: Member Content: Course: Tag: 2/3');
 		$I->see('Some introductory text about lesson 2');
-		$I->see('Lesson 2 content (that is available when the visitor has paid for the ConvertKit product) goes here');
+		$I->see('Lesson 2 content (that is available when the visitor has paid for the Kit product) goes here');
 
 		$I->click('Previous Lesson');
 		$I->waitForElementVisible('body.page-template-default');
 		$I->see('Kit: Member Content: Course: Tag: 1/3');
 		$I->see('Some introductory text about lesson 1');
-		$I->see('Lesson 1 content (that is available when the visitor has paid for the ConvertKit product) goes here');
+		$I->see('Lesson 1 content (that is available when the visitor has paid for the Kit product) goes here');
 	}
 
 	/**

@@ -128,8 +128,8 @@ class DiviBroadcastsCest
 		);
 
 		// Confirm the on screen message displays.
-		$I->seeInSource('Not connected to ConvertKit');
-		$I->seeInSource('Connect your ConvertKit account at Settings > Kit, and then refresh this page to configure broadcasts to display.');
+		$I->seeInSource('Not connected to Kit');
+		$I->seeInSource('Connect your Kit account at Settings > Kit, and then refresh this page to configure broadcasts to display.');
 	}
 
 	/**
@@ -157,8 +157,8 @@ class DiviBroadcastsCest
 		);
 
 		// Confirm the on screen message displays.
-		$I->seeInSource('No broadcasts exist in ConvertKit');
-		$I->seeInSource('Add a broadcast to your ConvertKit account, and then refresh this page to configure broadcasts to display.');
+		$I->seeInSource('No broadcasts exist in Kit');
+		$I->seeInSource('Add a broadcast to your Kit account, and then refresh this page to configure broadcasts to display.');
 	}
 
 	/**

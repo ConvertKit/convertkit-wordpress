@@ -43,7 +43,7 @@ class PageNoFormCest
 		// Check that the metabox is displayed.
 		$I->seeElementInDOM('#wp-convertkit-meta-box');
 
-		// Confirm that UTM parameters exist for the 'sign in to ConvertKit' link.
+		// Confirm that UTM parameters exist for the 'sign in to Kit' link.
 		$I->seeInSource('<a href="https://app.kit.com/?utm_source=wordpress&amp;utm_term=en_US&amp;utm_content=convertkit" target="_blank">sign in to ConvertKit</a>');
 	}
 

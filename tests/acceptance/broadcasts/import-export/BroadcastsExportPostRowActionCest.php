@@ -90,7 +90,7 @@ class BroadcastsExportPostRowActionCest
 
 		// Confirm that a success message displays.
 		$I->waitForElementVisible('.notice-success');
-		$I->see('Successfully created ConvertKit Broadcast from Post');
+		$I->see('Successfully created Kit Broadcast from Post');
 
 		// Get Broadcast ID from 'Click here' link.
 		$broadcastID = (int) filter_var($I->grabAttributeFrom('.notice-success p a', 'href'), FILTER_SANITIZE_NUMBER_INT);
@@ -129,7 +129,7 @@ class BroadcastsExportPostRowActionCest
 			[
 				'post_type'    => 'post',
 				'post_title'   => 'Kit: Export Post to Broadcast: Disable Styles',
-				'post_content' => '<p class="style-test">ConvertKit: Export Post to Broadcast: Disable Styles: Content</p>',
+				'post_content' => '<p class="style-test">Kit: Export Post to Broadcast: Disable Styles: Content</p>',
 				'post_excerpt' => 'Kit: Export Post to Broadcast: Disable Styles: Excerpt',
 			]
 		);
@@ -148,7 +148,7 @@ class BroadcastsExportPostRowActionCest
 
 		// Confirm that a success message displays.
 		$I->waitForElementVisible('.notice-success');
-		$I->see('Successfully created ConvertKit Broadcast from Post');
+		$I->see('Successfully created Kit Broadcast from Post');
 
 		// Get Broadcast ID from 'Click here' link.
 		$broadcastID = (int) filter_var($I->grabAttributeFrom('.notice-success p a', 'href'), FILTER_SANITIZE_NUMBER_INT);

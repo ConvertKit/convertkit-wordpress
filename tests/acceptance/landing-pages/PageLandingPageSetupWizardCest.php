@@ -117,7 +117,7 @@ class PageLandingPageSetupWizardCest
 		$I->setupConvertKitPlugin($I);
 
 		// Click the button to reload the wizard.
-		$I->click('I\'ve created a landing page in ConvertKit');
+		$I->click('I\'ve created a landing page in Kit');
 
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);

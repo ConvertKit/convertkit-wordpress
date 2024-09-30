@@ -757,7 +757,7 @@ class ConvertKitPlugin extends \Codeception\Module
 		$I->dontSeeElementInDOM('#convertkit-setup-wizard-exit-link');
 
 		// Confirm expected title is displayed.
-		$I->see('Welcome to the ConvertKit Setup Wizard');
+		$I->see('Welcome to the Kit Setup Wizard');
 
 		// Confirm Step text is correct.
 		$I->see('Step 1 of 2');
@@ -775,7 +775,7 @@ class ConvertKitPlugin extends \Codeception\Module
 		$I->dontSeeElementInDOM('#convertkit-setup-wizard-exit-link');
 
 		// Confirm expected title is displayed.
-		$I->see('Connect your ConvertKit account');
+		$I->see('Connect your Kit account');
 
 		// Confirm Step text is correct.
 		$I->see('Step 2 of 2');

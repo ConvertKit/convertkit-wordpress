@@ -19,7 +19,7 @@ class PluginSetupWizardCest
 		$this->_activatePlugin($I);
 
 		// Confirm expected setup wizard screen is displayed.
-		$this->_seeExpectedSetupWizardScreen($I, 1, 'Welcome to the ConvertKit Setup Wizard');
+		$this->_seeExpectedSetupWizardScreen($I, 1, 'Welcome to the Kit Setup Wizard');
 	}
 
 	/**
@@ -40,7 +40,7 @@ class PluginSetupWizardCest
 		$this->_activatePlugin($I);
 
 		// Confirm setup wizard does not display.
-		$I->dontSee('Welcome to the ConvertKit Setup Wizard');
+		$I->dontSee('Welcome to the Kit Setup Wizard');
 	}
 
 	/**
@@ -90,7 +90,7 @@ class PluginSetupWizardCest
 		$this->_activatePlugin($I);
 
 		// Confirm expected setup wizard screen is displayed.
-		$this->_seeExpectedSetupWizardScreen($I, 1, 'Welcome to the ConvertKit Setup Wizard');
+		$this->_seeExpectedSetupWizardScreen($I, 1, 'Welcome to the Kit Setup Wizard');
 
 		// Click Exit wizard link.
 		$I->click('Exit wizard');
@@ -118,7 +118,7 @@ class PluginSetupWizardCest
 		$this->_activatePlugin($I);
 
 		// Confirm expected setup wizard screen is displayed.
-		$this->_seeExpectedSetupWizardScreen($I, 1, 'Welcome to the ConvertKit Setup Wizard');
+		$this->_seeExpectedSetupWizardScreen($I, 1, 'Welcome to the Kit Setup Wizard');
 
 		// Test Connect button.
 		$I->click('Connect');
@@ -153,7 +153,7 @@ class PluginSetupWizardCest
 		$this->_activatePlugin($I);
 
 		// Confirm expected setup wizard screen is displayed.
-		$this->_seeExpectedSetupWizardScreen($I, 1, 'Welcome to the ConvertKit Setup Wizard');
+		$this->_seeExpectedSetupWizardScreen($I, 1, 'Welcome to the Kit Setup Wizard');
 
 		// Test Connect button.
 		$I->click('Connect');
@@ -166,7 +166,7 @@ class PluginSetupWizardCest
 		$I->amOnAdminPage('options.php?page=convertkit-setup&step=2&error=' . $error . '&error_description=' . urlencode($errorDescription));
 
 		// Confirm expected setup wizard screen is still displayed.
-		$this->_seeExpectedSetupWizardScreen($I, 1, 'Welcome to the ConvertKit Setup Wizard');
+		$this->_seeExpectedSetupWizardScreen($I, 1, 'Welcome to the Kit Setup Wizard');
 
 		// Confirm error notification is displayed.
 		$I->seeElement('div.notice.notice-error.is-dismissible');
@@ -291,7 +291,7 @@ class PluginSetupWizardCest
 		$I->amOnAdminPage('options.php?page=convertkit-setup&step=2');
 
 		// Confirm expected setup wizard screen is displayed.
-		$this->_seeExpectedSetupWizardScreen($I, 2, 'Create your first ConvertKit Form', true);
+		$this->_seeExpectedSetupWizardScreen($I, 2, 'Create your first Kit Form', true);
 
 		// Confirm button link to create a form on ConvertKit is correct.
 		$I->seeInSource('<a href="https://app.kit.com/forms/new/?utm_source=wordpress&amp;utm_term=en_US&amp;utm_content=convertkit"');
@@ -301,7 +301,7 @@ class PluginSetupWizardCest
 		$I->setupConvertKitPluginNoDefaultForms($I);
 
 		// Click "I've created a form in ConvertKit" button.
-		$I->click('I\'ve created a form in ConvertKit');
+		$I->click('I\'ve created a form in Kit');
 
 		// Confirm expected setup wizard screen is displayed.
 		$this->_seeExpectedSetupWizardScreen($I, 2, 'Display an email capture form');
@@ -358,7 +358,7 @@ class PluginSetupWizardCest
 		$I->click('tr[data-slug="convertkit"] td div.row-actions span.setup_wizard a');
 
 		// Confirm expected setup wizard screen is displayed.
-		$this->_seeExpectedSetupWizardScreen($I, 1, 'Welcome to the ConvertKit Setup Wizard');
+		$this->_seeExpectedSetupWizardScreen($I, 1, 'Welcome to the Kit Setup Wizard');
 	}
 
 	/**

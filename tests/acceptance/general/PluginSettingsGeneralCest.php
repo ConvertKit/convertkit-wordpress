@@ -115,7 +115,7 @@ class PluginSettingsGeneralCest
 		$I->amOnAdminPage('index.php');
 
 		// Check that a notice is displayed that the API credentials are invalid.
-		$I->seeErrorNotice($I, 'Kit: Authorization failed. Please connect your ConvertKit account.');
+		$I->seeErrorNotice($I, 'Kit: Authorization failed. Please connect your Kit account.');
 	}
 
 	/**
@@ -162,7 +162,7 @@ class PluginSettingsGeneralCest
 		$I->amOnAdminPage('index.php');
 
 		// Check that no notice is displayed that the API credentials are invalid.
-		$I->dontSeeErrorNotice($I, 'Kit: Authorization failed. Please connect your ConvertKit account.');
+		$I->dontSeeErrorNotice($I, 'Kit: Authorization failed. Please connect your Kit account.');
 
 		// Go to the Plugin's Settings Screen.
 		$I->loadConvertKitSettingsGeneralScreen($I);

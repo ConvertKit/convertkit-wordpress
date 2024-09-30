@@ -1,6 +1,6 @@
 <?php
 /**
- * Tests for the 'Edit form in ConvertKit' link when a Form is previewed.
+ * Tests for the 'Edit form in Kit' link when a Form is previewed.
  *
  * @since   2.0.8
  */
@@ -24,7 +24,7 @@ class EditFormLinkCest
 	}
 
 	/**
-	 * Test that the 'Edit form on ConvertKit' link displays when a Form is specified
+	 * Test that the 'Edit form on Kit' link displays when a Form is specified
 	 * in the Page Settings, and the user previews the WordPress Page.
 	 *
 	 * @since   2.0.8
@@ -49,7 +49,7 @@ class EditFormLinkCest
 		$I->publishAndViewGutenbergPage($I);
 
 		// Confirm that no Edit Form link is displayed, because we did not preview the Page.
-		$I->dontSee('Edit form in ConvertKit');
+		$I->dontSee('Edit form in Kit');
 
 		// View the Page as if we clicked Preview from the editor.
 		$I->amOnUrl($_ENV['TEST_SITE_WP_URL'] . $I->grabFromCurrentUrl() . '?preview=true');
@@ -62,7 +62,7 @@ class EditFormLinkCest
 	}
 
 	/**
-	 * Test that the 'Edit form on ConvertKit' link does not display when no
+	 * Test that the 'Edit form on Kit' link does not display when no
 	 * Form is specified in the Page Settings, and the user previews the WordPress Page.
 	 *
 	 * @since   2.0.8
@@ -87,7 +87,7 @@ class EditFormLinkCest
 		$I->publishAndViewGutenbergPage($I);
 
 		// Confirm that no Edit Form link is displayed, because we did not preview the Page.
-		$I->dontSee('Edit form in ConvertKit');
+		$I->dontSee('Edit form in Kit');
 
 		// View the Page as if we clicked Preview from the editor.
 		$I->amOnUrl($_ENV['TEST_SITE_WP_URL'] . $I->grabFromCurrentUrl() . '?preview=true');
@@ -96,11 +96,11 @@ class EditFormLinkCest
 		$I->checkNoWarningsAndNoticesOnScreen($I);
 
 		// Confirm that no Edit Form link is displayed, because there is no Form specified on this Page.
-		$I->dontSee('Edit form in ConvertKit');
+		$I->dontSee('Edit form in Kit');
 	}
 
 	/**
-	 * Test that the 'Edit form on ConvertKit' link does not display when an invalid
+	 * Test that the 'Edit form on Kit' link does not display when an invalid
 	 * Form is specified in the Page Settings, and the user previews the WordPress Page.
 	 *
 	 * Whilst the on screen options won't permit selecting an invalid Form ID, a Page might
@@ -137,7 +137,7 @@ class EditFormLinkCest
 		$I->checkNoWarningsAndNoticesOnScreen($I);
 
 		// Confirm that no Edit Form link is displayed, because we did not preview the Page.
-		$I->dontSee('Edit form in ConvertKit');
+		$I->dontSee('Edit form in Kit');
 
 		// View the Page as if we clicked Preview from the editor.
 		$I->amOnPage('/?p=' . $pageID . '&preview=true');
@@ -146,11 +146,11 @@ class EditFormLinkCest
 		$I->checkNoWarningsAndNoticesOnScreen($I);
 
 		// Confirm that no Edit Form link is displayed, because the form Form specified on this Page is invalid.
-		$I->dontSee('Edit form in ConvertKit');
+		$I->dontSee('Edit form in Kit');
 	}
 
 	/**
-	 * Test that the 'Edit form on ConvertKit' link displays when a Legacy Form is specified
+	 * Test that the 'Edit form on Kit' link displays when a Legacy Form is specified
 	 * in the Page Settings, and the user previews the WordPress Page.
 	 *
 	 * @since   2.0.8
@@ -175,7 +175,7 @@ class EditFormLinkCest
 		$I->publishAndViewGutenbergPage($I);
 
 		// Confirm that no Edit Form link is displayed, because we did not preview the Page.
-		$I->dontSee('Edit form in ConvertKit');
+		$I->dontSee('Edit form in Kit');
 
 		// View the Page as if we clicked Preview from the editor.
 		$I->amOnUrl($_ENV['TEST_SITE_WP_URL'] . $I->grabFromCurrentUrl() . '?preview=true');
@@ -188,7 +188,7 @@ class EditFormLinkCest
 	}
 
 	/**
-	 * Test that the 'Edit form on ConvertKit' link displays when the ConvertKit Form
+	 * Test that the 'Edit form on Kit' link displays when the ConvertKit Form
 	 * block exists in the Page, and the user previews the WordPress Page.
 	 *
 	 * @since   2.0.8
@@ -223,7 +223,7 @@ class EditFormLinkCest
 		$I->publishAndViewGutenbergPage($I);
 
 		// Confirm that no Edit Form link is displayed, because we did not preview the Page.
-		$I->dontSee('Edit form in ConvertKit');
+		$I->dontSee('Edit form in Kit');
 
 		// View the Page as if we clicked Preview from the editor.
 		$I->amOnUrl($_ENV['TEST_SITE_WP_URL'] . $I->grabFromCurrentUrl() . '?preview=true');
@@ -236,7 +236,7 @@ class EditFormLinkCest
 	}
 
 	/**
-	 * Test that the 'Edit form on ConvertKit' link does not display when the ConvertKit Form
+	 * Test that the 'Edit form on Kit' link does not display when the ConvertKit Form
 	 * block exists in the Page and is configured to display a form format that is not inline
 	 * (i.e. Modal, Sticky Bar or Slide In).
 	 *
@@ -272,7 +272,7 @@ class EditFormLinkCest
 		$I->publishAndViewGutenbergPage($I);
 
 		// Confirm that no Edit Form link is displayed, because we did not preview the Page.
-		$I->dontSee('Edit form in ConvertKit');
+		$I->dontSee('Edit form in Kit');
 
 		// View the Page as if we clicked Preview from the editor.
 		$I->amOnUrl($_ENV['TEST_SITE_WP_URL'] . $I->grabFromCurrentUrl() . '?preview=true');
@@ -281,11 +281,11 @@ class EditFormLinkCest
 		$I->checkNoWarningsAndNoticesOnScreen($I);
 
 		// Confirm that no Edit Form link is displayed, because the form isn't an inline format.
-		$I->dontSee('Edit form in ConvertKit');
+		$I->dontSee('Edit form in Kit');
 	}
 
 	/**
-	 * Test that the 'Edit form on ConvertKit' link displays when the ConvertKit Form
+	 * Test that the 'Edit form on Kit' link displays when the ConvertKit Form
 	 * shortcode exists in the Page, and the user previews the WordPress Page.
 	 *
 	 * @since   2.0.8
@@ -313,7 +313,7 @@ class EditFormLinkCest
 		$I->amOnPage('/convertkit-form-shortcode-edit-link');
 
 		// Confirm that no Edit Form link is displayed, because we did not preview the Page.
-		$I->dontSee('Edit form in ConvertKit');
+		$I->dontSee('Edit form in Kit');
 
 		// View the Page as if we clicked Preview from the editor.
 		$I->amOnUrl($_ENV['TEST_SITE_WP_URL'] . $I->grabFromCurrentUrl() . '?preview=true');
@@ -326,7 +326,7 @@ class EditFormLinkCest
 	}
 
 	/**
-	 * Test that the 'Edit form on ConvertKit' link does not display when the ConvertKit Form
+	 * Test that the 'Edit form on Kit' link does not display when the ConvertKit Form
 	 * shortcode exists in the Page and is configured to display a form format that is not inline
 	 * (i.e. Modal, Sticky Bar or Slide In).
 	 *
@@ -355,7 +355,7 @@ class EditFormLinkCest
 		$I->amOnPage('/convertkit-form-shortcode-non-inline-form-edit-link');
 
 		// Confirm that no Edit Form link is displayed, because we did not preview the Page.
-		$I->dontSee('Edit form in ConvertKit');
+		$I->dontSee('Edit form in Kit');
 
 		// View the Page as if we clicked Preview from the editor.
 		$I->amOnUrl($_ENV['TEST_SITE_WP_URL'] . $I->grabFromCurrentUrl() . '?preview=true');
@@ -364,7 +364,7 @@ class EditFormLinkCest
 		$I->checkNoWarningsAndNoticesOnScreen($I);
 
 		// Confirm that no Edit Form link is displayed, because the form isn't an inline format.
-		$I->dontSee('Edit form in ConvertKit');
+		$I->dontSee('Edit form in Kit');
 	}
 
 	/**

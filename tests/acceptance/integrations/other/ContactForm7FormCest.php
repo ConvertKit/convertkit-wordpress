@@ -20,7 +20,7 @@ class ContactForm7FormCest
 	}
 
 	/**
-	 * Tests that no Contact Form 7 settings display and a 'No Forms exist on ConvertKit'
+	 * Tests that no Contact Form 7 settings display and a 'No Forms exist on Kit'
 	 * notification displays when no credentials are defined in the Plugin's settings.
 	 *
 	 * @since   2.2.7
@@ -242,7 +242,7 @@ class ContactForm7FormCest
 		// Create Page with Contact Form 7 Shortcode.
 		$pageID = $I->havePageInDatabase(
 			[
-				'post_title'   => 'Kit: Contact Form 7: Creator Network Recommendations Disabled on ConvertKit',
+				'post_title'   => 'Kit: Contact Form 7: Creator Network Recommendations Disabled on Kit',
 				'post_name'    => 'convertkit-contact-form-7-creator-network-recommendations-disabled-convertkit',
 				'post_content' => 'Form:
 [contact-form-7 id="' . $contactForm7ID . '"]',

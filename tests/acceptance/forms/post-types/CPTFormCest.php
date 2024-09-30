@@ -74,7 +74,7 @@ class CPTFormCest
 		$I->dontSeeElementInDOM('form[data-sv-form]');
 
 		// Confirm that no debug data is output, as this isn't a supported Post Type.
-		$I->dontSeeInSource('<!-- ConvertKit append_form_to_content()');
+		$I->dontSeeInSource('<!-- Kit append_form_to_content()');
 	}
 
 	/**

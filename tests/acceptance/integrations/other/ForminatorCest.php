@@ -20,7 +20,7 @@ class ForminatorCest
 	}
 
 	/**
-	 * Tests that no Forminator settings display and a 'No Forms exist on ConvertKit'
+	 * Tests that no Forminator settings display and a 'No Forms exist on Kit'
 	 * notification displays when no credentials are defined in the Plugin's settings.
 	 *
 	 * @since   2.3.0
@@ -393,7 +393,7 @@ class ForminatorCest
 		// Create Page with Forminator Shortcode.
 		$pageID = $I->havePageInDatabase(
 			[
-				'post_title'   => 'Kit: Forminator: Creator Network Recommendations Disabled on ConvertKit',
+				'post_title'   => 'Kit: Forminator: Creator Network Recommendations Disabled on Kit',
 				'post_name'    => 'convertkit-forminator-creator-network-recommendations-disabled-convertkit',
 				'post_content' => 'Form:
 [forminator_form id="' . $forminatorFormID . '"]',
