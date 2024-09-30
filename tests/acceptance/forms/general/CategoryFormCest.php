@@ -288,6 +288,7 @@ class CategoryFormCest
 			[
 				'post_type'  => 'post',
 				'post_title' => 'Kit: Post: Edit: Position: Before',
+				'post_name'  => 'kit-edit-position-before',
 				'tax_input'  => [
 					[ 'category' => (int) $termID ],
 				],
@@ -329,7 +330,7 @@ class CategoryFormCest
 		$I->checkNoWarningsAndNoticesOnScreen($I);
 
 		// Load the Category archive on the frontend site.
-		$I->amOnPage('/category/convert-kit-edit-position-before');
+		$I->amOnPage('/category/kit-edit-position-before');
 
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
@@ -367,6 +368,7 @@ class CategoryFormCest
 			[
 				'post_type'  => 'post',
 				'post_title' => 'Kit: Post: Edit: Position: After',
+				'post_name'  => 'kit-edit-position-after',
 				'tax_input'  => [
 					[ 'category' => (int) $termID ],
 				],
@@ -408,7 +410,7 @@ class CategoryFormCest
 		$I->checkNoWarningsAndNoticesOnScreen($I);
 
 		// Load the Category archive on the frontend site.
-		$I->amOnPage('/category/convert-kit-edit-position-after');
+		$I->amOnPage('/category/kit-edit-position-after');
 
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);

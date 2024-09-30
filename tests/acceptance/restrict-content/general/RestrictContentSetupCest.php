@@ -347,7 +347,7 @@ class RestrictContentSetupCest
 
 		// Confirm that one Page is listed in the WP_List_Table.
 		$I->see('Kit: Member Content: Download: Tag');
-		$I->seeInSource('<span class="post-state">ConvertKit Member Content</span>');
+		$I->seeInSource('<span class="post-state">Kit Member Content</span>');
 
 		// Hover mouse over Post's table row.
 		$I->moveMouseOver('tr.iedit');
