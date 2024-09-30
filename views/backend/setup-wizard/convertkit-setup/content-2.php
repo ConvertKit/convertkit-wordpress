@@ -10,7 +10,7 @@
 // with an option to refresh this page so that they can then select the Form to be displayed on e.g. Posts.
 if ( ! $this->forms->exist() ) {
 	?>
-	<h1><?php esc_html_e( 'Create your first ConvertKit Form', 'convertkit' ); ?></h1>
+	<h1><?php esc_html_e( 'Create your first Kit Form', 'convertkit' ); ?></h1>
 	<p>
 		<?php
 		esc_html_e( 'To get email subscribers, you first need to create a form in Kit. Click the button below to get started.', 'convertkit' );
