@@ -1,6 +1,6 @@
 <?php
 /**
- * Tests Restrict Content's Settings functionality at Settings > ConvertKit > Member Content.
+ * Tests Restrict Content's Settings functionality at Settings > Kit > Member Content.
  *
  * @since   2.1.0
  */
@@ -23,7 +23,7 @@ class RestrictContentSettingsCest
 	}
 
 	/**
-	 * Test that the Settings > ConvertKit > Member Content screen has expected a11y output, such as label[for].
+	 * Test that the Settings > Kit > Member Content screen has expected a11y output, such as label[for].
 	 *
 	 * @since   2.3.1
 	 *

@@ -7,7 +7,7 @@
  */
 
 /**
- * Registers Wishlist Settings that can be edited at Settings > ConvertKit > Wishlist.
+ * Registers Wishlist Settings that can be edited at Settings > Kit > Wishlist.
  *
  * @package ConvertKit
  * @author ConvertKit
@@ -188,7 +188,7 @@ class ConvertKit_Wishlist_Admin_Settings extends ConvertKit_Settings_Base {
 add_filter(
 	'convertkit_admin_settings_register_sections',
 	/**
-	 * Register WishList Member as a section at Settings > ConvertKit.
+	 * Register WishList Member as a section at Settings > Kit.
 	 *
 	 * @param   array   $sections   Settings Sections.
 	 * @return  array
@@ -200,7 +200,7 @@ add_filter(
 			return $sections;
 		}
 
-		// Register this class as a section at Settings > ConvertKit.
+		// Register this class as a section at Settings > Kit.
 		$sections['wishlist-member'] = new ConvertKit_Wishlist_Admin_Settings();
 		return $sections;
 

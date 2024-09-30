@@ -7,7 +7,7 @@
  */
 
 /**
- * Registers Broadcasts Settings that can be edited at Settings > ConvertKit > Broadcasts.
+ * Registers Broadcasts Settings that can be edited at Settings > Kit > Broadcasts.
  *
  * @package ConvertKit
  * @author ConvertKit

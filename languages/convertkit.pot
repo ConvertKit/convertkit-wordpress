@@ -731,7 +731,7 @@ msgid "Click here to connect your ConvertKit account."
 msgstr ""
 
 #: includes/blocks/class-convertkit-block-broadcasts.php:153
-msgid "Connect your ConvertKit account at Settings > ConvertKit, and then refresh this page to configure broadcasts to display."
+msgid "Connect your ConvertKit account at Settings > Kit, and then refresh this page to configure broadcasts to display."
 msgstr ""
 
 #: includes/blocks/class-convertkit-block-broadcasts.php:156
@@ -873,7 +873,7 @@ msgstr ""
 
 #: includes/blocks/class-convertkit-block-form-trigger.php:119
 #: includes/blocks/class-convertkit-block-form.php:138
-msgid "Connect your ConvertKit account at Settings > ConvertKit, and then refresh this page to select a form."
+msgid "Connect your ConvertKit account at Settings > Kit, and then refresh this page to select a form."
 msgstr ""
 
 #: includes/blocks/class-convertkit-block-form-trigger.php:122
@@ -978,7 +978,7 @@ msgid "Displays a button to purchase a ConvertKit product."
 msgstr ""
 
 #: includes/blocks/class-convertkit-block-product.php:141
-msgid "Connect your ConvertKit account at Settings > ConvertKit, and then refresh this page to select a product."
+msgid "Connect your ConvertKit account at Settings > Kit, and then refresh this page to select a product."
 msgstr ""
 
 #: includes/blocks/class-convertkit-block-product.php:144

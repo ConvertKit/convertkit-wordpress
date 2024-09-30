@@ -134,7 +134,7 @@ class ConvertKit_Admin_Post {
 		wp_enqueue_style( 'convertkit-post', CONVERTKIT_PLUGIN_URL . 'resources/backend/css/post.css', array(), CONVERTKIT_PLUGIN_VERSION );
 
 		/**
-		 * Enqueue CSS for the Settings Screen at Settings > ConvertKit
+		 * Enqueue CSS for the Settings Screen at Settings > Kit
 		 *
 		 * @since   1.9.6.4
 		 */

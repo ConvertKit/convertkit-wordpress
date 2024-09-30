@@ -7,7 +7,7 @@
  */
 
 /**
- * Registers General Settings that can be edited at Settings > ConvertKit > General.
+ * Registers General Settings that can be edited at Settings > Kit > General.
  *
  * @package ConvertKit
  * @author ConvertKit

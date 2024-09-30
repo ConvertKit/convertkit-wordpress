@@ -208,7 +208,7 @@ class PageShortcodeFormCest
 	 * - added a new ConvertKit Form to their account at https://app.kit.com/
 	 * - copied the ConvertKit Form Shortcode at https://app.kit.com/
 	 * - pasted the ConvertKit Form Shortcode into a new WordPress Page
-	 * - not navigated to Settings > ConvertKit to refresh the Plugin's Form Resources.
+	 * - not navigated to Settings > Kit to refresh the Plugin's Form Resources.
 	 *
 	 * @since   1.9.6.2
 	 *

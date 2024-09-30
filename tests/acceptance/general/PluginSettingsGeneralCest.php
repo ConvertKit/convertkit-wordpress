@@ -1,6 +1,6 @@
 <?php
 /**
- * Tests for the Settings > ConvertKit > General screens.
+ * Tests for the Settings > Kit > General screens.
  *
  * @since   1.9.6
  */
@@ -19,7 +19,7 @@ class PluginSettingsGeneralCest
 	}
 
 	/**
-	 * Test that the Settings > ConvertKit > General screen has expected a11y output, such as label[for], and
+	 * Test that the Settings > Kit > General screen has expected a11y output, such as label[for], and
 	 * UTM parameters are included in links displayed on the Plugins' Setting screen.
 	 *
 	 * @since   1.9.7.6

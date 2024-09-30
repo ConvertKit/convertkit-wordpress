@@ -16,7 +16,7 @@
 		esc_html__( 'This will generate content that visitors can access once they purchase a %1$s or subscribe to a %2$s.', 'convertkit' ),
 		sprintf(
 			'<a href="%1$s" target="_blank">%2$s</a>',
-			esc_attr( 'https://app.convertkit.com/products' ),
+			esc_attr( 'https://app.kit.com/products' ),
 			esc_html__( 'Kit product', 'convertkit' )
 		),
 		esc_html__( 'Kit tag', 'convertkit' )

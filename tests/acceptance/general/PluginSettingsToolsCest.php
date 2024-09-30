@@ -1,6 +1,6 @@
 <?php
 /**
- * Tests for the Settings > ConvertKit > Tools screens.
+ * Tests for the Settings > Kit > Tools screens.
  *
  * @since   1.9.6
  */

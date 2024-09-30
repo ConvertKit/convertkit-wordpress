@@ -7,7 +7,7 @@
  */
 
 /**
- * Registers Contact Form 7 Settings that can be edited at Settings > ConvertKit > Contact Form 7.
+ * Registers Contact Form 7 Settings that can be edited at Settings > Kit > Contact Form 7.
  *
  * @package ConvertKit
  * @author ConvertKit
@@ -225,7 +225,7 @@ class ConvertKit_ContactForm7_Admin_Settings extends ConvertKit_Settings_Base {
 add_filter(
 	'convertkit_admin_settings_register_sections',
 	/**
-	 * Register WishList Member as a section at Settings > ConvertKit.
+	 * Register WishList Member as a section at Settings > Kit.
 	 *
 	 * @param   array   $sections   Settings Sections.
 	 * @return  array
@@ -237,7 +237,7 @@ add_filter(
 			return $sections;
 		}
 
-		// Register this class as a section at Settings > ConvertKit.
+		// Register this class as a section at Settings > Kit.
 		$sections['contactform7'] = new ConvertKit_ContactForm7_Admin_Settings();
 		return $sections;
 

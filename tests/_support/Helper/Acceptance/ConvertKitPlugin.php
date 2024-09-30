@@ -37,7 +37,7 @@ class ConvertKitPlugin extends \Codeception\Module
 
 	/**
 	 * Helper method to programmatically setup the Plugin's settings, as if the
-	 * user configured the Plugin at `Settings > ConvertKit`.
+	 * user configured the Plugin at `Settings > Kit`.
 	 *
 	 * @since   1.9.6
 	 *
@@ -87,7 +87,7 @@ class ConvertKitPlugin extends \Codeception\Module
 
 	/**
 	 * Helper method to programmatically setup the Plugin's settings, as if the
-	 * user configured the Plugin at `Settings > ConvertKit` with a ConvertKit
+	 * user configured the Plugin at `Settings > Kit` with a ConvertKit
 	 * account that has no data (no forms, products, tags etc).
 	 *
 	 * @since   2.4.0
@@ -112,7 +112,7 @@ class ConvertKitPlugin extends \Codeception\Module
 
 	/**
 	 * Helper method to programmatically setup the Plugin's settings, as if the
-	 * user configured the Plugin at `Settings > ConvertKit` with an invalid
+	 * user configured the Plugin at `Settings > Kit` with an invalid
 	 * ConvertKit API Key and Secret.
 	 *
 	 * @since   2.4.0
@@ -135,7 +135,7 @@ class ConvertKitPlugin extends \Codeception\Module
 
 	/**
 	 * Helper method to programmatically setup the Plugin's settings, as if the
-	 * user configured the Plugin at `Settings > ConvertKit` with a ConvertKit
+	 * user configured the Plugin at `Settings > Kit` with a ConvertKit
 	 * API Key and Secret, and defined no default Forms for Posts, Pages and
 	 * WooCommerce Products.
 	 *
@@ -157,7 +157,7 @@ class ConvertKitPlugin extends \Codeception\Module
 
 	/**
 	 * Helper method to programmatically setup the Plugin's settings, as if the
-	 * user configured the Plugin at `Settings > ConvertKit` with a ConvertKit
+	 * user configured the Plugin at `Settings > Kit` with a ConvertKit
 	 * API Key and Secret, and disabled JS.
 	 *
 	 * @since   2.4.0

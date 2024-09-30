@@ -27,7 +27,7 @@
 					</tr><tr>
 						<td>&nbsp;</td>
 						<td><a href="#convertkit_admin_settings_register_sections"><code>convertkit_admin_settings_register_sections</code></a></td>
-						<td>Registers settings sections at Settings > ConvertKit.</td>
+						<td>Registers settings sections at Settings > Kit.</td>
 					</tr><tr>
 						<td colspan="3">../admin/class-convertkit-admin-post.php</td>
 					</tr><tr>
@@ -315,7 +315,7 @@ add_filter( 'convertkit_plugin_screen_action_links', function( $links ) {
 						convertkit_admin_settings_register_sections
 						<code>admin/class-convertkit-admin-settings.php::326</code>
 					</h3><h4>Overview</h4>
-						<p>Registers settings sections at Settings > ConvertKit.</p><h4>Parameters</h4>
+						<p>Registers settings sections at Settings > Kit.</p><h4>Parameters</h4>
 					<table>
 						<thead>
 							<tr>
@@ -1550,11 +1550,11 @@ add_filter( 'convertkit_broadcasts_parse_broadcast_content_permitted_html_tags',
 					</tr><tr>
 						<td>&nbsp;</td>
 						<td><a href="#convertkit_admin_settings_enqueue_scripts"><code>convertkit_admin_settings_enqueue_scripts</code></a></td>
-						<td>Enqueue JavaScript for the Settings Screen at Settings > ConvertKit</td>
+						<td>Enqueue JavaScript for the Settings Screen at Settings > Kit</td>
 					</tr><tr>
 						<td>&nbsp;</td>
 						<td><a href="#convertkit_admin_settings_enqueue_styles"><code>convertkit_admin_settings_enqueue_styles</code></a></td>
-						<td>Enqueue CSS for the Settings Screen at Settings > ConvertKit</td>
+						<td>Enqueue CSS for the Settings Screen at Settings > Kit</td>
 					</tr><tr>
 						<td colspan="3">../admin/class-convertkit-admin-category.php</td>
 					</tr><tr>
@@ -1795,7 +1795,7 @@ do_action( 'convertkit_settings_base_render_after', function(  ) {
 						convertkit_admin_settings_enqueue_scripts
 						<code>admin/class-convertkit-admin-settings.php::68</code>
 					</h3><h4>Overview</h4>
-						<p>Enqueue JavaScript for the Settings Screen at Settings > ConvertKit</p><h4>Parameters</h4>
+						<p>Enqueue JavaScript for the Settings Screen at Settings > Kit</p><h4>Parameters</h4>
 					<table>
 						<thead>
 							<tr>
@@ -1820,7 +1820,7 @@ do_action( 'convertkit_admin_settings_enqueue_scripts', function( $section ) {
 						convertkit_admin_settings_enqueue_styles
 						<code>admin/class-convertkit-admin-settings.php::99</code>
 					</h3><h4>Overview</h4>
-						<p>Enqueue CSS for the Settings Screen at Settings > ConvertKit</p><h4>Parameters</h4>
+						<p>Enqueue CSS for the Settings Screen at Settings > Kit</p><h4>Parameters</h4>
 					<table>
 						<thead>
 							<tr>

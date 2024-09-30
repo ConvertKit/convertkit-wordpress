@@ -7,7 +7,7 @@
  */
 
 /**
- * Registers Restrict Content Settings that can be edited at Settings > ConvertKit > Member's Content.
+ * Registers Restrict Content Settings that can be edited at Settings > Kit > Member's Content.
  *
  * @package ConvertKit
  * @author ConvertKit

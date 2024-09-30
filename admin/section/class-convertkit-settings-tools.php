@@ -7,7 +7,7 @@
  */
 
 /**
- * Registers Tools for debugging and system information that can be accessed at Settings > ConvertKit > Tools.
+ * Registers Tools for debugging and system information that can be accessed at Settings > Kit > Tools.
  *
  * @package ConvertKit
  * @author ConvertKit

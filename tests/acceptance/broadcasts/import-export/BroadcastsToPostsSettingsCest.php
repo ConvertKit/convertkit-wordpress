@@ -1,6 +1,6 @@
 <?php
 /**
- * Tests Broadcast Settings functionality at Settings > ConvertKit > Broadcasts.
+ * Tests Broadcast Settings functionality at Settings > Kit > Broadcasts.
  *
  * @since   2.2.8
  */
@@ -24,7 +24,7 @@ class BroadcastsToPostsSettingsCest
 	}
 
 	/**
-	 * Test that the Settings > ConvertKit > Broadcasts screen has expected a11y output, such as label[for].
+	 * Test that the Settings > Kit > Broadcasts screen has expected a11y output, such as label[for].
 	 *
 	 * @since   2.3.1
 	 *

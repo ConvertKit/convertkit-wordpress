@@ -109,7 +109,7 @@ class DiviProductCest
 
 		// Confirm the on screen message displays.
 		$I->seeInSource('Not connected to ConvertKit');
-		$I->seeInSource('Connect your ConvertKit account at Settings > ConvertKit, and then refresh this page to select a product.');
+		$I->seeInSource('Connect your ConvertKit account at Settings > Kit, and then refresh this page to select a product.');
 	}
 
 	/**
