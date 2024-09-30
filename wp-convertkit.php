@@ -7,11 +7,11 @@
  *
  * @wordpress-plugin
  * Plugin Name: Kit (formerly ConvertKit)
- * Plugin URI: https://convertkit.com/
+ * Plugin URI: https://kit.com/
  * Description: Display Kit (formerly ConvertKit) email subscription forms, landing pages, products, broadcasts and more.
  * Version: 2.5.9
  * Author: Kit
- * Author URI: https://convertkit.com/
+ * Author URI: https://kit.com/
  * Text Domain: convertkit
  */
 
