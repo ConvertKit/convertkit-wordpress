@@ -98,7 +98,7 @@ class ConvertKit_Resource_Landing_Pages extends ConvertKit_Resource_V4 {
 				'convertkit_resource_landing_pages_get_html',
 				sprintf(
 					/* translators: ConvertKit Landing Page ID */
-					__( 'ConvertKit Landing Page ID %s does not exist on ConvertKit.', 'convertkit' ),
+					__( 'ConvertKit Landing Page ID %s does not exist on Kit.', 'convertkit' ),
 					$id
 				)
 			);

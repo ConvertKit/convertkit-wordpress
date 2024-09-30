@@ -21,7 +21,7 @@ if ( class_exists( 'WP_ConvertKit' ) ) {
 }
 
 // Define Kit Plugin paths and version number.
-define( 'CONVERTKIT_PLUGIN_NAME', 'Kit' ); // Used for user-agent in API class.
+define( 'CONVERTKIT_PLUGIN_NAME', 'ConvertKit' ); // Used for user-agent in API class.
 define( 'CONVERTKIT_PLUGIN_FILE', plugin_basename( __FILE__ ) );
 define( 'CONVERTKIT_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'CONVERTKIT_PLUGIN_PATH', __DIR__ );
