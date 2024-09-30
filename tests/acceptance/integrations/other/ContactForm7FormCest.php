@@ -237,7 +237,7 @@ class ContactForm7FormCest
 		$I->amOnAdminPage('options-general.php?page=_wp_convertkit_settings&tab=contactform7');
 
 		// Confirm a message is displayed telling the user a paid plan is required.
-		$I->seeInSource('Creator Network Recommendations requires a <a href="https://app.kit.com/account_settings/billing/?utm_source=wordpress&amp;utm_term=en_US&amp;utm_content=convertkit" target="_blank">paid ConvertKit Plan</a>');
+		$I->seeInSource('Creator Network Recommendations requires a <a href="https://app.kit.com/account_settings/billing/?utm_source=wordpress&amp;utm_term=en_US&amp;utm_content=convertkit" target="_blank">paid Kit Plan</a>');
 
 		// Create Page with Contact Form 7 Shortcode.
 		$pageID = $I->havePageInDatabase(

@@ -138,7 +138,7 @@ class DiviProductCest
 
 		// Confirm the on screen message displays.
 		$I->seeInSource('No products exist in Kit');
-		$I->seeInSource('Add a product to your ConvertKit account, and then refresh this page to select a product.');
+		$I->seeInSource('Add a product to your Kit account, and then refresh this page to select a product.');
 	}
 
 	/**

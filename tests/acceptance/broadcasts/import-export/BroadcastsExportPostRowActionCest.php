@@ -71,7 +71,7 @@ class BroadcastsExportPostRowActionCest
 			[
 				'post_type'    => 'post',
 				'post_title'   => 'Kit: Export Post to Broadcast',
-				'post_content' => '<p class="style-test">ConvertKit: Export Post to Broadcast: Content</p>',
+				'post_content' => '<p class="style-test">Kit: Export Post to Broadcast: Content</p>',
 				'post_excerpt' => 'Kit: Export Post to Broadcast: Excerpt',
 			]
 		);

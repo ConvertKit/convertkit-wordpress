@@ -251,10 +251,10 @@ class RestrictContentSetupCest
 
 		// Confirm that four Pages are listed in the WP_List_Table.
 		$I->see('Kit: Member Content: Course');
-		$I->see('— ConvertKit: Member Content: Course: 1/3');
-		$I->see('— ConvertKit: Member Content: Course: 2/3');
-		$I->see('— ConvertKit: Member Content: Course: 3/3');
-		$I->see('Kit Member Content | Parent Page: ConvertKit: Member Content: Course');
+		$I->see('— Kit: Member Content: Course: 1/3');
+		$I->see('— Kit: Member Content: Course: 2/3');
+		$I->see('— Kit: Member Content: Course: 3/3');
+		$I->see('Kit Member Content | Parent Page: Kit: Member Content: Course');
 
 		// Hover mouse over Post's table row.
 		$I->moveMouseOver('tr.iedit:first-child');
@@ -401,10 +401,10 @@ class RestrictContentSetupCest
 
 		// Confirm that four Pages are listed in the WP_List_Table.
 		$I->see('Kit: Member Content: Course: Tag');
-		$I->see('— ConvertKit: Member Content: Course: Tag: 1/3');
-		$I->see('— ConvertKit: Member Content: Course: Tag: 2/3');
-		$I->see('— ConvertKit: Member Content: Course: Tag: 3/3');
-		$I->see('Kit Member Content | Parent Page: ConvertKit: Member Content: Course: Tag');
+		$I->see('— Kit: Member Content: Course: Tag: 1/3');
+		$I->see('— Kit: Member Content: Course: Tag: 2/3');
+		$I->see('— Kit: Member Content: Course: Tag: 3/3');
+		$I->see('Kit Member Content | Parent Page: Kit: Member Content: Course: Tag');
 
 		// Hover mouse over Post's table row.
 		$I->moveMouseOver('tr.iedit:first-child');

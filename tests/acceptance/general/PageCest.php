@@ -53,7 +53,7 @@ class PageCest
 		);
 
 		// Click the link.
-		$I->click('connect your ConvertKit account.');
+		$I->click('connect your Kit account.');
 
 		// Confirm the ConvertKit hosted OAuth login screen is displayed.
 		$I->waitForElementVisible('body.sessions');

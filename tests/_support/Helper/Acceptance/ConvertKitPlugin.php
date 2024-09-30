@@ -717,7 +717,7 @@ class ConvertKitPlugin extends \Codeception\Module
 	}
 
 	/**
-	 * Test that the 'Click here to connect your ConvertKit account' link displays a popup window,
+	 * Test that the 'Click here to connect your Kit account' link displays a popup window,
 	 * when using a block with no API Keys specified.
 	 *
 	 * @since   2.2.6
