@@ -461,7 +461,7 @@ class PageBlockProductCest
 
 	/**
 	 * Test the Product block displays a message with a link to the Plugin's
-	 * settings screen, when the Plugin has Not connected to ConvertKit.
+	 * settings screen, when the Plugin has Not connected to Kit.
 	 *
 	 * @since   2.2.3
 	 *
@@ -510,7 +510,7 @@ class PageBlockProductCest
 
 		// Confirm that the Product block displays instructions to the user on how to add a Product in ConvertKit.
 		$I->see(
-			'No products exist in ConvertKit.',
+			'No products exist in Kit.',
 			[
 				'css' => '.convertkit-no-content',
 			]

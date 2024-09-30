@@ -402,7 +402,7 @@ class PageBlockFormTriggerCest
 
 		// Confirm that the Form block displays instructions to the user on how to add a Form in ConvertKit.
 		$I->see(
-			'No modal, sticky bar or slide in forms exist in ConvertKit.',
+			'No modal, sticky bar or slide in forms exist in Kit.',
 			[
 				'css' => '.convertkit-no-content',
 			]

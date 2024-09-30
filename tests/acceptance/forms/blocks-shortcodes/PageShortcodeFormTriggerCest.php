@@ -291,7 +291,7 @@ class PageShortcodeFormTriggerCest
 
 		// Confirm that the modal displays instructions to the user on how to enter their credentials.
 		$I->see(
-			'Not connected to ConvertKit.',
+			'Not connected to Kit.',
 			[
 				'css' => '#convertkit-modal-body-body',
 			]
@@ -299,7 +299,7 @@ class PageShortcodeFormTriggerCest
 
 		// Click the link to confirm it loads the Plugin's settings screen.
 		$I->click(
-			'Click here to connect your ConvertKit account.',
+			'Click here to connect your Kit account.',
 			[
 				'css' => '#convertkit-modal-body-body',
 			]
@@ -349,7 +349,7 @@ class PageShortcodeFormTriggerCest
 
 		// Confirm that the Form block displays instructions to the user on how to add a Form in ConvertKit.
 		$I->see(
-			'No modal, sticky bar or slide in forms exist in ConvertKit.',
+			'No modal, sticky bar or slide in forms exist in Kit.',
 			[
 				'css' => '#convertkit-modal-body-body',
 			]

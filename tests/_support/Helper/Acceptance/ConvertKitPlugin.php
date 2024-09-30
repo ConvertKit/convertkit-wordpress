@@ -730,7 +730,7 @@ class ConvertKitPlugin extends \Codeception\Module
 	{
 		// Confirm that the Form block displays instructions to the user on how to enter their API Key.
 		$I->see(
-			'Not connected to ConvertKit.',
+			'Not connected to Kit.',
 			[
 				'css' => '.convertkit-no-content',
 			]
@@ -738,7 +738,7 @@ class ConvertKitPlugin extends \Codeception\Module
 
 		// Click the link to confirm it loads the Plugin's setup wizard.
 		$I->click(
-			'Click here to connect your ConvertKit account.',
+			'Click here to connect your Kit account.',
 			[
 				'css' => '.convertkit-no-content',
 			]

@@ -437,7 +437,7 @@ class PageShortcodeProductCest
 
 	/**
 	 * Test the Product shortcode displays a message with a link to the Plugin's
-	 * setup wizard, when the Plugin has Not connected to ConvertKit.
+	 * setup wizard, when the Plugin has Not connected to Kit.
 	 *
 	 * @since   2.2.4
 	 *
@@ -461,7 +461,7 @@ class PageShortcodeProductCest
 
 		// Confirm that the modal displays instructions to the user on how to enter their API Key.
 		$I->see(
-			'Not connected to ConvertKit.',
+			'Not connected to Kit.',
 			[
 				'css' => '#convertkit-modal-body-body',
 			]
@@ -469,7 +469,7 @@ class PageShortcodeProductCest
 
 		// Click the link to confirm it loads the Plugin's settings screen.
 		$I->click(
-			'Click here to connect your ConvertKit account.',
+			'Click here to connect your Kit account.',
 			[
 				'css' => '#convertkit-modal-body-body',
 			]
@@ -519,7 +519,7 @@ class PageShortcodeProductCest
 
 		// Confirm that the Product shortcode displays instructions to the user on how to add a Form in ConvertKit.
 		$I->see(
-			'No products exist in ConvertKit.',
+			'No products exist in Kit.',
 			[
 				'css' => '#convertkit-modal-body-body',
 			]

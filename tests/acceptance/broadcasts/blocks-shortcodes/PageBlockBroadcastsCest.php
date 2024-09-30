@@ -21,7 +21,7 @@ class PageBlockBroadcastsCest
 	/**
 	 * Test the Broadcasts block displays a message with a link that opens
 	 * a popup window with the Plugin's Setup Wizard, when the Plugin has
-	 * Not connected to ConvertKit.
+	 * Not connected to Kit.
 	 *
 	 * @since   2.2.6
 	 *
@@ -76,7 +76,7 @@ class PageBlockBroadcastsCest
 
 		// Confirm that the Broadcasts block displays instructions to the user on how to add a Broadcast in ConvertKit.
 		$I->see(
-			'No broadcasts exist in ConvertKit.',
+			'No broadcasts exist in Kit.',
 			[
 				'css' => '.convertkit-no-content',
 			]

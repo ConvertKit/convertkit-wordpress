@@ -503,7 +503,7 @@ class PageBlockFormCest
 	/**
 	 * Test the Forms block displays a message with a link that opens
 	 * a popup window with the Plugin's Setup Wizard, when the Plugin has
-	 * Not connected to ConvertKit.
+	 * Not connected to Kit.
 	 *
 	 * @since   2.2.3
 	 *
@@ -552,7 +552,7 @@ class PageBlockFormCest
 
 		// Confirm that the Form block displays instructions to the user on how to add a Form in ConvertKit.
 		$I->see(
-			'No forms exist in ConvertKit.',
+			'No forms exist in Kit.',
 			[
 				'css' => '.convertkit-no-content',
 			]
