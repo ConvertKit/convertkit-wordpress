@@ -415,7 +415,7 @@ function convertkit_get_new_landing_page_url() {
 			'utm_term'    => get_locale(),
 			'utm_content' => 'convertkit',
 		),
-		'https://app.convertkit.com/pages/new/'
+		'https://app.kit.com/pages/new/'
 	);
 
 }
