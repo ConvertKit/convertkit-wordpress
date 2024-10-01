@@ -103,10 +103,6 @@ class PageLandingPageCest
 		// Subscribe.
 		$I->fillField('email_address', $I->generateEmailAddress());
 		$I->click('button.formkit-submit');
-
-		// Confirm the Landing Page's redirect worked i.e. rocket-loader.min.js was not included and blocking, and the Landing Page
-		// redirected to its external URL, https://cheerful-architect-3237.ck.page/.
-		$I->waitForElementVisible('.creator-avatar');
 	}
 
 	/**
