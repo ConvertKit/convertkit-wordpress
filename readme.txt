@@ -584,7 +584,7 @@ Full Plugin documentation can be found [here](https://help.kit.com/en/articles/2
 * Added: Settings: Kit: Tools: Option to Download Log to text file
 * Added: Settings: Kit: Tools: Option to Download System Info to text file
 * Added: PHP 8.x compatibility
-* Added: Developers: Action and filter hooks.  See https://github.com/Kit/convertkit-wordpress/blob/1.9.6/ACTIONS-FILTERS.md
+* Added: Developers: Action and filter hooks.  See https://github.com/convertkit/convertkit-wordpress/blob/1.9.6/ACTIONS-FILTERS.md
 * Fix: PHP warnings on new installations when adding/editing Pages or Posts where the plugin was not yet configured
 * Fix: PHP 8.x: PHP Deprecated warnings where required parameters wrongly followed optional parameters
 * Fix: gzinflate() data error
@@ -593,7 +593,7 @@ Full Plugin documentation can be found [here](https://help.kit.com/en/articles/2
 * Fix: Ensure code meets WordPress Coding Standards
 * Fix: Use WP_Filesystem instead of PHP functions to read/write log file, per WordPress Coding Standards
 
-[See changelog for all versions](https://github.com/Kit/convertkit-wordpress/CHANGELOG.md).
+[See changelog for all versions](https://github.com/convertkit/convertkit-wordpress/CHANGELOG.md).
 
 == Upgrade notice ==
 
