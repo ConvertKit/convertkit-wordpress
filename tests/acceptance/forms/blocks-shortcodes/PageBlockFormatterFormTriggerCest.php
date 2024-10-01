@@ -32,7 +32,7 @@ class PageBlockFormatterFormTriggerCest
 		$I->setupConvertKitPluginResources($I);
 
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form Trigger Formatter: Modal Form');
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Form Trigger Formatter: Modal Form');
 
 		// Configure metabox's Form setting = None, ensuring we only test the block in Gutenberg.
 		$I->configureMetaboxSettings(
@@ -52,7 +52,7 @@ class PageBlockFormatterFormTriggerCest
 		// Apply formatter to link the selected text.
 		$I->applyGutenbergFormatter(
 			$I,
-			'ConvertKit Form Trigger',
+			'Kit Form Trigger',
 			'convertkit-form-link',
 			[
 				// Form.
@@ -86,7 +86,7 @@ class PageBlockFormatterFormTriggerCest
 		$I->setupConvertKitPluginResources($I);
 
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form Trigger Formatter: Modal Form Toggle');
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Form Trigger Formatter: Modal Form Toggle');
 
 		// Configure metabox's Form setting = None, ensuring we only test the block in Gutenberg.
 		$I->configureMetaboxSettings(
@@ -106,7 +106,7 @@ class PageBlockFormatterFormTriggerCest
 		// Apply formatter to link the selected text.
 		$I->applyGutenbergFormatter(
 			$I,
-			'ConvertKit Form Trigger',
+			'Kit Form Trigger',
 			'convertkit-form-link',
 			[
 				// Form.
@@ -117,7 +117,7 @@ class PageBlockFormatterFormTriggerCest
 		// Apply the formatter again, this time selecting the 'None' option.
 		$I->applyGutenbergFormatter(
 			$I,
-			'ConvertKit Form Trigger',
+			'Kit Form Trigger',
 			'convertkit-form-link',
 			[
 				// Form.
@@ -146,7 +146,7 @@ class PageBlockFormatterFormTriggerCest
 		$I->setupConvertKitPluginResources($I);
 
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form Trigger Formatter: No Form');
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Form Trigger Formatter: No Form');
 
 		// Configure metabox's Form setting = None, ensuring we only test the block in Gutenberg.
 		$I->configureMetaboxSettings(
@@ -166,7 +166,7 @@ class PageBlockFormatterFormTriggerCest
 		// Apply formatter to link the selected text.
 		$I->applyGutenbergFormatter(
 			$I,
-			'ConvertKit Form Trigger',
+			'Kit Form Trigger',
 			'convertkit-form-link',
 			[
 				// Form.
@@ -191,7 +191,7 @@ class PageBlockFormatterFormTriggerCest
 	public function testFormTriggerFormatterNotRegisteredWhenNoFormsExist(AcceptanceTester $I)
 	{
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form Trigger Formatter: No Forms Exist');
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Form Trigger Formatter: No Forms Exist');
 
 		// Add paragraph to Page.
 		$I->addGutenbergParagraphBlock($I, 'Subscribe');
@@ -200,7 +200,7 @@ class PageBlockFormatterFormTriggerCest
 		$I->selectAllText($I, '.wp-block-post-content p[data-empty="false"]');
 
 		// Confirm the formatter is not registered.
-		$I->dontSeeGutenbergFormatter($I, 'ConvertKit Form Trigger');
+		$I->dontSeeGutenbergFormatter($I, 'Kit Form Trigger');
 
 		// Publish the page, to avoid an alert when navigating away.
 		$I->publishGutenbergPage($I);

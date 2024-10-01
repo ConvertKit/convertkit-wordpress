@@ -38,7 +38,7 @@ class WooCommerceProductFormCest
 		$I->amOnAdminPage('post-new.php?post_type=product');
 
 		// Define a Product Title.
-		$I->fillField('#title', 'ConvertKit: Product: Form: Default: None');
+		$I->fillField('#title', 'Kit: Product: Form: Default: None');
 
 		// Publish and view the Page on the frontend site.
 		$I->publishAndViewClassicEditorPage($I);
@@ -65,7 +65,7 @@ class WooCommerceProductFormCest
 		$I->amOnAdminPage('post-new.php?post_type=product');
 
 		// Define a Product Title.
-		$I->fillField('#title', 'ConvertKit: Product: Form: Default');
+		$I->fillField('#title', 'Kit: Product: Form: Default');
 
 		// Publish and view the Page on the frontend site.
 		$I->publishAndViewClassicEditorPage($I);
@@ -99,7 +99,7 @@ class WooCommerceProductFormCest
 		$I->fillSelect2Field($I, '#select2-wp-convertkit-form-container', 'None', 'aria-owns');
 
 		// Define a Product Title.
-		$I->fillField('#title', 'ConvertKit: Product: Form: None');
+		$I->fillField('#title', 'Kit: Product: Form: None');
 
 		// Publish and view the Product.
 		$I->publishAndViewClassicEditorPage($I);
@@ -132,7 +132,7 @@ class WooCommerceProductFormCest
 		$I->fillSelect2Field($I, '#select2-wp-convertkit-form-container', $_ENV['CONVERTKIT_API_FORM_NAME'], 'aria-owns');
 
 		// Define a Product Title.
-		$I->fillField('#title', 'ConvertKit: Product: Form: Defined');
+		$I->fillField('#title', 'Kit: Product: Form: Defined');
 
 		// Publish and view the Product.
 		$I->publishAndViewClassicEditorPage($I);
@@ -157,7 +157,7 @@ class WooCommerceProductFormCest
 		$I->setupConvertKitPluginResources($I);
 
 		// Add a Product using the Classic Editor.
-		$I->addClassicEditorPage($I, 'product', 'ConvertKit: Product: Form: Shortcode: Visual Editor');
+		$I->addClassicEditorPage($I, 'product', 'Kit: Product: Form: Shortcode: Visual Editor');
 
 		// Scroll to ConvertKit meta box.
 		$I->scrollTo('#wp-convertkit-meta-box');
@@ -169,7 +169,7 @@ class WooCommerceProductFormCest
 		// and confirming that the expected shortcode is displayed in the Content field.
 		$I->addVisualEditorShortcode(
 			$I,
-			'ConvertKit Form',
+			'Kit Form',
 			[
 				'form' => [ 'select', $_ENV['CONVERTKIT_API_FORM_NAME'] ],
 			],
@@ -200,7 +200,7 @@ class WooCommerceProductFormCest
 		$I->setupConvertKitPluginResources($I);
 
 		// Add a Product using the Classic Editor.
-		$I->addClassicEditorPage($I, 'product', 'ConvertKit: Product: Form: Shortcode: Text Editor');
+		$I->addClassicEditorPage($I, 'product', 'Kit: Product: Form: Shortcode: Text Editor');
 
 		// Scroll to ConvertKit meta box.
 		$I->scrollTo('#wp-convertkit-meta-box');
@@ -246,7 +246,7 @@ class WooCommerceProductFormCest
 		$productID = $I->havePostInDatabase(
 			[
 				'post_type'  => 'product',
-				'post_title' => 'ConvertKit: Product: Form: Default: Quick Edit',
+				'post_title' => 'Kit: Product: Form: Default: Quick Edit',
 			]
 		);
 
@@ -289,7 +289,7 @@ class WooCommerceProductFormCest
 		$productID = $I->havePostInDatabase(
 			[
 				'post_type'  => 'product',
-				'post_title' => 'ConvertKit: Product: Form: ' . $_ENV['CONVERTKIT_API_FORM_NAME'] . ': Quick Edit',
+				'post_title' => 'Kit: Product: Form: ' . $_ENV['CONVERTKIT_API_FORM_NAME'] . ': Quick Edit',
 			]
 		);
 
@@ -333,13 +333,13 @@ class WooCommerceProductFormCest
 			$I->havePostInDatabase(
 				[
 					'post_type'  => 'product',
-					'post_title' => 'ConvertKit: Product: Form: Default: Bulk Edit #1',
+					'post_title' => 'Kit: Product: Form: Default: Bulk Edit #1',
 				]
 			),
 			$I->havePostInDatabase(
 				[
 					'post_type'  => 'product',
-					'post_title' => 'ConvertKit: Product: Form: Default: Bulk Edit #2',
+					'post_title' => 'Kit: Product: Form: Default: Bulk Edit #2',
 				]
 			),
 		);
@@ -387,13 +387,13 @@ class WooCommerceProductFormCest
 			$I->havePostInDatabase(
 				[
 					'post_type'  => 'product',
-					'post_title' => 'ConvertKit: Product: Form: ' . $_ENV['CONVERTKIT_API_FORM_NAME'] . ': Bulk Edit #1',
+					'post_title' => 'Kit: Product: Form: ' . $_ENV['CONVERTKIT_API_FORM_NAME'] . ': Bulk Edit #1',
 				]
 			),
 			$I->havePostInDatabase(
 				[
 					'post_type'  => 'product',
-					'post_title' => 'ConvertKit: Product: Form: ' . $_ENV['CONVERTKIT_API_FORM_NAME'] . ': Bulk Edit #2',
+					'post_title' => 'Kit: Product: Form: ' . $_ENV['CONVERTKIT_API_FORM_NAME'] . ': Bulk Edit #2',
 				]
 			),
 		);
@@ -441,7 +441,7 @@ class WooCommerceProductFormCest
 			$I->havePostInDatabase(
 				[
 					'post_type'  => 'product',
-					'post_title' => 'ConvertKit: Product: Form: ' . $_ENV['CONVERTKIT_API_FORM_NAME'] . ': Bulk Edit with No Change #1',
+					'post_title' => 'Kit: Product: Form: ' . $_ENV['CONVERTKIT_API_FORM_NAME'] . ': Bulk Edit with No Change #1',
 					'meta_input' => [
 						'_wp_convertkit_post_meta' => [
 							'form'         => $_ENV['CONVERTKIT_API_FORM_ID'],
@@ -454,7 +454,7 @@ class WooCommerceProductFormCest
 			$I->havePostInDatabase(
 				[
 					'post_type'  => 'product',
-					'post_title' => 'ConvertKit: Product: Form: ' . $_ENV['CONVERTKIT_API_FORM_NAME'] . ': Bulk Edit with No Change #2',
+					'post_title' => 'Kit: Product: Form: ' . $_ENV['CONVERTKIT_API_FORM_NAME'] . ': Bulk Edit with No Change #2',
 					'meta_input' => [
 						'_wp_convertkit_post_meta' => [
 							'form'         => $_ENV['CONVERTKIT_API_FORM_ID'],

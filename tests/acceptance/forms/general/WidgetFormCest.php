@@ -45,7 +45,7 @@ class WidgetFormCest
 		// Add legacy widget, setting the Form setting to the value specified in the .env file.
 		$I->addLegacyWidget(
 			$I,
-			'ConvertKit Form (Legacy Widget)',
+			'Kit Form (Legacy Widget)',
 			'convertkit-form',
 			[
 				'form' => [ 'select', $_ENV['CONVERTKIT_API_FORM_NAME'] ],
@@ -72,7 +72,7 @@ class WidgetFormCest
 		// Add legacy widget, setting the Form setting to the value specified in the .env file.
 		$I->addLegacyWidget(
 			$I,
-			'ConvertKit Form (Legacy Widget)',
+			'Kit Form (Legacy Widget)',
 			'convertkit-form',
 			[
 				'form' => [ 'select', $_ENV['CONVERTKIT_API_LEGACY_FORM_NAME'] ],
@@ -98,7 +98,7 @@ class WidgetFormCest
 		// Add block widget, setting the Form setting to the value specified in the .env file.
 		$I->addBlockWidget(
 			$I,
-			'ConvertKit Form',
+			'Kit Form',
 			'convertkit-form',
 			[
 				'form' => [ 'select', $_ENV['CONVERTKIT_API_FORM_NAME'] ],
@@ -121,7 +121,7 @@ class WidgetFormCest
 		// Add block widget, setting the Form setting to the value specified in the .env file.
 		$I->addBlockWidget(
 			$I,
-			'ConvertKit Form',
+			'Kit Form',
 			'convertkit-form',
 			[
 				'form' => [ 'select', $_ENV['CONVERTKIT_API_LEGACY_FORM_NAME'] ],
@@ -148,7 +148,7 @@ class WidgetFormCest
 		// Add block widget, setting the Form setting to the value specified in the .env file.
 		$I->addBlockWidget(
 			$I,
-			'ConvertKit Form',
+			'Kit Form',
 			'convertkit-form',
 			[
 				'form' => [ 'select', $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_NAME'] ],
@@ -182,7 +182,7 @@ class WidgetFormCest
 		// Add block widget, setting the Form setting to the value specified in the .env file.
 		$I->addBlockWidget(
 			$I,
-			'ConvertKit Form',
+			'Kit Form',
 			'convertkit-form',
 			[
 				'form' => [ 'select', $_ENV['CONVERTKIT_API_FORM_FORMAT_SLIDE_IN_NAME'] ],
@@ -216,7 +216,7 @@ class WidgetFormCest
 		// Add block widget, setting the Form setting to the value specified in the .env file.
 		$I->addBlockWidget(
 			$I,
-			'ConvertKit Form',
+			'Kit Form',
 			'convertkit-form',
 			[
 				'form' => [ 'select', $_ENV['CONVERTKIT_API_FORM_FORMAT_STICKY_BAR_NAME'] ],

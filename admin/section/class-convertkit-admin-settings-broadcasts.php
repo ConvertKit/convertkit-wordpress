@@ -7,7 +7,7 @@
  */
 
 /**
- * Registers Broadcasts Settings that can be edited at Settings > ConvertKit > Broadcasts.
+ * Registers Broadcasts Settings that can be edited at Settings > Kit > Broadcasts.
  *
  * @package ConvertKit
  * @author ConvertKit
@@ -167,7 +167,7 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 
 			// Output a notice if we're on the Broadcasts settings screen.
 			$this->output_error(
-				__( 'Importing public broadcasts from ConvertKit requires the PHP extensions `php-dom` and `php-xml` to be installed. Work with your web host to do this, and reload the page when done.', 'convertkit' )
+				__( 'Importing public broadcasts from Kit requires the PHP extensions `php-dom` and `php-xml` to be installed. Work with your web host to do this, and reload the page when done.', 'convertkit' )
 			);
 			return;
 		}
@@ -191,7 +191,7 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 				),
 				esc_html__( 'Broadcasts', 'convertkit' ),
 				esc_html__( 'must', 'convertkit' ),
-				esc_html__( 'have their "Enabled on public feeds" setting enabled in ConvertKit, to be eligible for import.', 'convertkit' )
+				esc_html__( 'have their "Enabled on public feeds" setting enabled in Kit, to be eligible for import.', 'convertkit' )
 			);
 		}
 
@@ -204,7 +204,7 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 			array(
 				'name'        => 'enabled',
 				'label_for'   => 'enabled',
-				'label'       => __( 'Enables automatic publication of public ConvertKit Broadcasts as WordPress Posts.', 'convertkit' ),
+				'label'       => __( 'Enables automatic publication of public Kit Broadcasts as WordPress Posts.', 'convertkit' ),
 				'description' => $enabled_description,
 			)
 		);
@@ -323,7 +323,7 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 
 		?>
 		<span class="convertkit-beta-label"><?php esc_html_e( 'Beta', 'convertkit' ); ?></span>
-		<p class="description"><?php esc_html_e( 'Defines whether public broadcasts ("Enabled on public feeds") in ConvertKit should automatically be published on this site as WordPress Posts, and whether to enable options to create draft ConvertKit Broadcasts from WordPress Posts.', 'convertkit' ); ?></p>
+		<p class="description"><?php esc_html_e( 'Defines whether public broadcasts ("Enabled on public feeds") in Kit should automatically be published on this site as WordPress Posts, and whether to enable options to create draft Kit Broadcasts from WordPress Posts.', 'convertkit' ); ?></p>
 		<?php
 
 	}

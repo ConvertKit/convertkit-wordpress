@@ -1,6 +1,6 @@
 <?php
 /**
- * Tests Broadcast Settings functionality at Settings > ConvertKit > Broadcasts.
+ * Tests Broadcast Settings functionality at Settings > Kit > Broadcasts.
  *
  * @since   2.2.8
  */
@@ -19,12 +19,12 @@ class BroadcastsToPostsSettingsCest
 		$I->activateConvertKitPlugin($I);
 		$I->setupConvertKitPlugin($I);
 
-		// Create a Category named 'ConvertKit Broadcasts to Posts'.
-		$I->haveTermInDatabase('ConvertKit Broadcasts to Posts', 'category');
+		// Create a Category named 'Kit Broadcasts to Posts'.
+		$I->haveTermInDatabase('Kit Broadcasts to Posts', 'category');
 	}
 
 	/**
-	 * Test that the Settings > ConvertKit > Broadcasts screen has expected a11y output, such as label[for].
+	 * Test that the Settings > Kit > Broadcasts screen has expected a11y output, such as label[for].
 	 *
 	 * @since   2.3.1
 	 *
@@ -127,7 +127,7 @@ class BroadcastsToPostsSettingsCest
 		$I->checkOption('#enabled');
 		$I->fillSelect2Field($I, '#select2-_wp_convertkit_settings_broadcasts_post_status-container', 'Draft');
 		$I->fillSelect2Field($I, '#select2-_wp_convertkit_settings_broadcasts_author_id-container', 'admin');
-		$I->fillSelect2Field($I, '#select2-_wp_convertkit_settings_broadcasts_category_id-container', 'ConvertKit Broadcasts to Posts');
+		$I->fillSelect2Field($I, '#select2-_wp_convertkit_settings_broadcasts_category_id-container', 'Kit Broadcasts to Posts');
 		$I->checkOption('#import_thumbnail');
 		$I->fillField('_wp_convertkit_settings_broadcasts[published_at_min_date]', '01/01/2023');
 		$I->checkOption('#enabled_export');
@@ -143,7 +143,7 @@ class BroadcastsToPostsSettingsCest
 		$I->seeCheckboxIsChecked('#enabled');
 		$I->seeInField('_wp_convertkit_settings_broadcasts[post_status]', 'Draft');
 		$I->seeInField('_wp_convertkit_settings_broadcasts[author_id]', 'admin');
-		$I->seeInField('_wp_convertkit_settings_broadcasts[category_id]', 'ConvertKit Broadcasts to Posts');
+		$I->seeInField('_wp_convertkit_settings_broadcasts[category_id]', 'Kit Broadcasts to Posts');
 		$I->seeCheckboxIsChecked('#import_thumbnail');
 		$I->seeInField('_wp_convertkit_settings_broadcasts[published_at_min_date]', '2023-01-01');
 		$I->seeCheckboxIsChecked('#enabled_export');
@@ -164,10 +164,10 @@ class BroadcastsToPostsSettingsCest
 		$I->deactivateConvertKitPlugin($I);
 		$I->resetConvertKitPlugin($I);
 
-		// Remove Category named 'ConvertKit Broadcasts to Posts'.
+		// Remove Category named 'Kit Broadcasts to Posts'.
 		$I->dontHaveTermInDatabase(
 			array(
-				'name' => 'ConvertKit Broadcasts to Posts',
+				'name' => 'Kit Broadcasts to Posts',
 			)
 		);
 	}

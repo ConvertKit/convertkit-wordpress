@@ -54,12 +54,13 @@ class ConvertKit_Block_Content extends ConvertKit_Block {
 	public function get_overview() {
 
 		return array(
-			'title'                         => __( 'ConvertKit Custom Content', 'convertkit' ),
-			'description'                   => __( 'Displays ConvertKit Custom Content for a subscriber if their tag matches the Page\'s tag.', 'convertkit' ),
+			'title'                         => __( 'Kit Custom Content', 'convertkit' ),
+			'description'                   => __( 'Displays Kit Custom Content for a subscriber if their tag matches the Page\'s tag.', 'convertkit' ),
 			'icon'                          => 'resources/backend/images/block-icon-content.svg',
 			'category'                      => 'convertkit',
 			'keywords'                      => array(
 				__( 'ConvertKit', 'convertkit' ),
+				__( 'Kit', 'convertkit' ),
 				__( 'Content', 'convertkit' ),
 			),
 
@@ -196,7 +197,7 @@ class ConvertKit_Block_Content extends ConvertKit_Block {
 		// Bail if the tag isn't specified.
 		if ( ! $atts['tag'] ) {
 			if ( $settings->debug_enabled() ) {
-				return '<!-- ConvertKit Custom Content: No Tag Specified -->';
+				return '<!-- Kit Custom Content: No Tag Specified -->';
 			}
 
 			return '';
@@ -207,14 +208,14 @@ class ConvertKit_Block_Content extends ConvertKit_Block {
 		$subscriber_id = $subscriber->get_subscriber_id();
 		if ( is_wp_error( $subscriber_id ) ) {
 			if ( $settings->debug_enabled() ) {
-				return '<!-- ConvertKit Custom Content: Subscriber ID Error: ' . $subscriber_id->get_error_message() . ' -->';
+				return '<!-- Kit Custom Content: Subscriber ID Error: ' . $subscriber_id->get_error_message() . ' -->';
 			}
 
 			return '';
 		}
 		if ( ! $subscriber_id ) {
 			if ( $settings->debug_enabled() ) {
-				return '<!-- ConvertKit Custom Content: Subscriber ID does not exist -->';
+				return '<!-- Kit Custom Content: Subscriber ID does not exist -->';
 			}
 
 			return '';
@@ -224,7 +225,7 @@ class ConvertKit_Block_Content extends ConvertKit_Block {
 		$settings = new ConvertKit_Settings();
 		if ( ! $settings->has_access_and_refresh_token() ) {
 			if ( $settings->debug_enabled() ) {
-				return '<!-- ConvertKit Custom Content: No Access Token -->';
+				return '<!-- Kit Custom Content: No Access Token -->';
 			}
 
 			return '';
@@ -246,7 +247,7 @@ class ConvertKit_Block_Content extends ConvertKit_Block {
 		// Bail if an error occured.
 		if ( is_wp_error( $tags ) ) {
 			if ( $settings->debug_enabled() ) {
-				return '<!-- ConvertKit Custom Content: ' . $tags->get_error_message() . ' -->';
+				return '<!-- Kit Custom Content: ' . $tags->get_error_message() . ' -->';
 			}
 
 			return '';
@@ -255,7 +256,7 @@ class ConvertKit_Block_Content extends ConvertKit_Block {
 		// Bail if the subscriber has no tags.
 		if ( ! count( $tags ) ) {
 			if ( $settings->debug_enabled() ) {
-				return '<!-- ConvertKit Custom Content: Subscriber has no tags -->';
+				return '<!-- Kit Custom Content: Subscriber has no tags -->';
 			}
 
 			return '';
@@ -298,7 +299,7 @@ class ConvertKit_Block_Content extends ConvertKit_Block {
 
 		// If here, the subscriber does not have the block's tag.
 		if ( $settings->debug_enabled() ) {
-			return '<!-- ConvertKit Custom Content: Subscriber does not have tag -->';
+			return '<!-- Kit Custom Content: Subscriber does not have tag -->';
 		}
 
 		return '';

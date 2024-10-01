@@ -117,12 +117,13 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 		$settings = new ConvertKit_Settings();
 
 		return array(
-			'title'                             => __( 'ConvertKit Broadcasts', 'convertkit' ),
-			'description'                       => __( 'Displays a list of your ConvertKit broadcasts.', 'convertkit' ),
+			'title'                             => __( 'Kit Broadcasts', 'convertkit' ),
+			'description'                       => __( 'Displays a list of your Kit broadcasts.', 'convertkit' ),
 			'icon'                              => 'resources/backend/images/block-icon-broadcasts.svg',
 			'category'                          => 'convertkit',
 			'keywords'                          => array(
 				__( 'ConvertKit', 'convertkit' ),
+				__( 'Kit', 'convertkit' ),
 				__( 'Broadcasts', 'convertkit' ),
 				__( 'Posts', 'convertkit' ),
 			),
@@ -147,16 +148,16 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 
 			// Help descriptions, displayed when no Access Token / resources exist and this block/shortcode is added.
 			'no_access_token'                   => array(
-				'notice'           => __( 'Not connected to ConvertKit.', 'convertkit' ),
+				'notice'           => __( 'Not connected to Kit.', 'convertkit' ),
 				'link'             => convertkit_get_setup_wizard_plugin_link(),
-				'link_text'        => __( 'Click here to connect your ConvertKit account.', 'convertkit' ),
-				'instruction_text' => __( 'Connect your ConvertKit account at Settings > ConvertKit, and then refresh this page to configure broadcasts to display.', 'convertkit' ),
+				'link_text'        => __( 'Click here to connect your Kit account.', 'convertkit' ),
+				'instruction_text' => __( 'Connect your Kit account at Settings > Kit, and then refresh this page to configure broadcasts to display.', 'convertkit' ),
 			),
 			'no_resources'                      => array(
-				'notice'           => __( 'No broadcasts exist in ConvertKit.', 'convertkit' ),
+				'notice'           => __( 'No broadcasts exist in Kit.', 'convertkit' ),
 				'link'             => convertkit_get_new_broadcast_url(),
 				'link_text'        => __( 'Click here to send your first broadcast.', 'convertkit' ),
-				'instruction_text' => __( 'Add a broadcast to your ConvertKit account, and then refresh this page to configure broadcasts to display.', 'convertkit' ),
+				'instruction_text' => __( 'Add a broadcast to your Kit account, and then refresh this page to configure broadcasts to display.', 'convertkit' ),
 			),
 
 			// Gutenberg: JS function to call when rendering the block preview in the Gutenberg editor.
@@ -465,7 +466,7 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 		// If no Posts exist, bail.
 		if ( ! $posts->exist() ) {
 			if ( $settings->debug_enabled() ) {
-				return '<!-- ' . __( 'No Broadcasts exist in ConvertKit.', 'convertkit' ) . ' -->';
+				return '<!-- ' . __( 'No Broadcasts exist in Kit.', 'convertkit' ) . ' -->';
 			}
 
 			return '';

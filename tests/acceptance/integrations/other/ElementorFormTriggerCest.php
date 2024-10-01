@@ -31,14 +31,14 @@ class ElementorFormTriggerCest
 	public function testFormTriggerWidgetIsRegistered(AcceptanceTester $I)
 	{
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form Trigger: Elementor: Registered');
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Form Trigger: Elementor: Registered');
 
 		// Click Edit with Elementor button.
 		$I->click('#elementor-switch-mode-button');
 
 		// When Elementor loads, search for the ConvertKit Form Trigger block.
 		$I->waitForElementVisible('#elementor-panel-elements-search-input');
-		$I->fillField('#elementor-panel-elements-search-input', 'ConvertKit Form Trigger');
+		$I->fillField('#elementor-panel-elements-search-input', 'Kit Form Trigger');
 
 		// Confirm that the Form Trigger widget is displayed as an option.
 		$I->seeElementInDOM('#elementor-panel-elements .elementor-element');
@@ -56,7 +56,7 @@ class ElementorFormTriggerCest
 		// Create Page with Form Trigger widget in Elementor.
 		$pageID = $this->_createPageWithFormTriggerWidget(
 			$I,
-			'ConvertKit: Page: Form Trigger: Elementor Widget: Valid Params',
+			'Kit: Page: Form Trigger: Elementor Widget: Valid Params',
 			[
 				'form' => $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_ID'],
 				'text' => 'Subscribe',
@@ -89,7 +89,7 @@ class ElementorFormTriggerCest
 		// Create Page with Form Trigger widget in Elementor.
 		$pageID = $this->_createPageWithFormTriggerWidget(
 			$I,
-			'ConvertKit: Page: Form Trigger: Elementor Widget: Hex Colors',
+			'Kit: Page: Form Trigger: Elementor Widget: Hex Colors',
 			[
 				'form'             => $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_ID'],
 				'text'             => 'Subscribe',

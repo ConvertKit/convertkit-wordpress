@@ -31,12 +31,12 @@ class PageShortcodeBroadcastsCest
 	public function testBroadcastsShortcodeInVisualEditorWithDefaultParameters(AcceptanceTester $I)
 	{
 		// Add a Page using the Classic Editor.
-		$I->addClassicEditorPage($I, 'page', 'ConvertKit: Page: Broadcasts: Shortcode: Visual Editor');
+		$I->addClassicEditorPage($I, 'page', 'Kit: Page: Broadcasts: Shortcode: Visual Editor');
 
 		// Add shortcode to Page.
 		$I->addVisualEditorShortcode(
 			$I,
-			'ConvertKit Broadcasts',
+			'Kit Broadcasts',
 			false,
 			'[convertkit_broadcasts display_grid="0" date_format="F j, Y" display_image="0" display_description="0" display_read_more="0" read_more_label="Read more" limit="10" paginate="0" paginate_label_prev="Previous" paginate_label_next="Next"]'
 		);
@@ -72,12 +72,12 @@ class PageShortcodeBroadcastsCest
 	public function testBroadcastsShortcodeInVisualEditorWithDisplayGridParameter(AcceptanceTester $I)
 	{
 		// Add a Page using the Classic Editor.
-		$I->addClassicEditorPage($I, 'page', 'ConvertKit: Page: Broadcasts: Shortcode: Visual Editor: Display as Grid');
+		$I->addClassicEditorPage($I, 'page', 'Kit: Page: Broadcasts: Shortcode: Visual Editor: Display as Grid');
 
 		// Add shortcode to Page.
 		$I->addVisualEditorShortcode(
 			$I,
-			'ConvertKit Broadcasts',
+			'Kit Broadcasts',
 			[
 				'display_grid' => [ 'toggle', 'Yes' ],
 			],
@@ -108,12 +108,12 @@ class PageShortcodeBroadcastsCest
 	public function testBroadcastsShortcodeInVisualEditorWithDateFormatParameter(AcceptanceTester $I)
 	{
 		// Add a Page using the Classic Editor.
-		$I->addClassicEditorPage($I, 'page', 'ConvertKit: Page: Broadcasts: Shortcode: Visual Editor: Date Format');
+		$I->addClassicEditorPage($I, 'page', 'Kit: Page: Broadcasts: Shortcode: Visual Editor: Date Format');
 
 		// Add shortcode to Page.
 		$I->addVisualEditorShortcode(
 			$I,
-			'ConvertKit Broadcasts',
+			'Kit Broadcasts',
 			[
 				'date_format' => [ 'select', date('Y-m-d') ],
 			],
@@ -151,12 +151,12 @@ class PageShortcodeBroadcastsCest
 	public function testBroadcastsShortcodeInVisualEditorWithDisplayImageParameter(AcceptanceTester $I)
 	{
 		// Add a Page using the Classic Editor.
-		$I->addClassicEditorPage($I, 'page', 'ConvertKit: Page: Broadcasts: Shortcode: Visual Editor: Display image');
+		$I->addClassicEditorPage($I, 'page', 'Kit: Page: Broadcasts: Shortcode: Visual Editor: Display image');
 
 		// Add shortcode to Page.
 		$I->addVisualEditorShortcode(
 			$I,
-			'ConvertKit Broadcasts',
+			'Kit Broadcasts',
 			[
 				'display_image' => [ 'toggle', 'Yes' ],
 			],
@@ -186,12 +186,12 @@ class PageShortcodeBroadcastsCest
 	public function testBroadcastsShortcodeInVisualEditorWithDisplayDescriptionParameter(AcceptanceTester $I)
 	{
 		// Add a Page using the Classic Editor.
-		$I->addClassicEditorPage($I, 'page', 'ConvertKit: Page: Broadcasts: Shortcode: Visual Editor: Display description');
+		$I->addClassicEditorPage($I, 'page', 'Kit: Page: Broadcasts: Shortcode: Visual Editor: Display description');
 
 		// Add shortcode to Page.
 		$I->addVisualEditorShortcode(
 			$I,
-			'ConvertKit Broadcasts',
+			'Kit Broadcasts',
 			[
 				'display_description' => [ 'toggle', 'Yes' ],
 			],
@@ -221,12 +221,12 @@ class PageShortcodeBroadcastsCest
 	public function testBroadcastsShortcodeInVisualEditorWithDisplayReadMoreLinkParameter(AcceptanceTester $I)
 	{
 		// Add a Page using the Classic Editor.
-		$I->addClassicEditorPage($I, 'page', 'ConvertKit: Page: Broadcasts: Shortcode: Visual Editor: Display read more link');
+		$I->addClassicEditorPage($I, 'page', 'Kit: Page: Broadcasts: Shortcode: Visual Editor: Display read more link');
 
 		// Add shortcode to Page.
 		$I->addVisualEditorShortcode(
 			$I,
-			'ConvertKit Broadcasts',
+			'Kit Broadcasts',
 			[
 				'display_read_more' => [ 'toggle', 'Yes' ],
 				'read_more_label'   => [ 'input', 'Continue reading' ],
@@ -258,12 +258,12 @@ class PageShortcodeBroadcastsCest
 	public function testBroadcastsShortcodeInVisualEditorWithLimitParameter(AcceptanceTester $I)
 	{
 		// Add a Page using the Classic Editor.
-		$I->addClassicEditorPage($I, 'page', 'ConvertKit: Page: Broadcasts: Shortcode: Visual Editor: Limit');
+		$I->addClassicEditorPage($I, 'page', 'Kit: Page: Broadcasts: Shortcode: Visual Editor: Limit');
 
 		// Add shortcode to Page.
 		$I->addVisualEditorShortcode(
 			$I,
-			'ConvertKit Broadcasts',
+			'Kit Broadcasts',
 			[
 				'limit' => [ 'input', '2', 'Pagination' ], // Click the Pagination tab first before starting to complete fields.
 			],
@@ -299,12 +299,12 @@ class PageShortcodeBroadcastsCest
 	public function testBroadcastsShortcodeInVisualEditorWithPaginationEnabled(AcceptanceTester $I)
 	{
 		// Add a Page using the Classic Editor.
-		$I->addClassicEditorPage($I, 'page', 'ConvertKit: Page: Broadcasts: Shortcode: Visual Editor: Pagination');
+		$I->addClassicEditorPage($I, 'page', 'Kit: Page: Broadcasts: Shortcode: Visual Editor: Pagination');
 
 		// Add shortcode to Page.
 		$I->addVisualEditorShortcode(
 			$I,
-			'ConvertKit Broadcasts',
+			'Kit Broadcasts',
 			[
 				'limit'    => [ 'input', '2', 'Pagination' ], // Click the Pagination tab first before starting to complete fields.
 				'paginate' => [ 'toggle', 'Yes' ],
@@ -330,12 +330,12 @@ class PageShortcodeBroadcastsCest
 	public function testBroadcastsShortcodeInVisualEditorWithPaginationLabelParameters(AcceptanceTester $I)
 	{
 		// Add a Page using the Classic Editor.
-		$I->addClassicEditorPage($I, 'page', 'ConvertKit: Page: Broadcasts: Shortcode: Visual Editor: Pagination Labels');
+		$I->addClassicEditorPage($I, 'page', 'Kit: Page: Broadcasts: Shortcode: Visual Editor: Pagination Labels');
 
 		// Add shortcode to Page.
 		$I->addVisualEditorShortcode(
 			$I,
-			'ConvertKit Broadcasts',
+			'Kit Broadcasts',
 			[
 				'limit'               => [ 'input', '2', 'Pagination' ], // Click the Pagination tab first before starting to complete fields.
 				'paginate'            => [ 'toggle', 'Yes' ],
@@ -363,12 +363,12 @@ class PageShortcodeBroadcastsCest
 	public function testBroadcastsShortcodeInVisualEditorWithBlankPaginationLabelParameters(AcceptanceTester $I)
 	{
 		// Add a Page using the Classic Editor.
-		$I->addClassicEditorPage($I, 'page', 'ConvertKit: Page: Broadcasts: Shortcode: Visual Editor: Blank Pagination Labels');
+		$I->addClassicEditorPage($I, 'page', 'Kit: Page: Broadcasts: Shortcode: Visual Editor: Blank Pagination Labels');
 
 		// Add shortcode to Page.
 		$I->addVisualEditorShortcode(
 			$I,
-			'ConvertKit Broadcasts',
+			'Kit Broadcasts',
 			[
 				'limit'               => [ 'input', '2', 'Pagination' ], // Click the Pagination tab first before starting to complete fields.
 				'paginate'            => [ 'toggle', 'Yes' ],
@@ -453,7 +453,7 @@ class PageShortcodeBroadcastsCest
 	public function testBroadcastsShortcodeInTextEditorWithDefaultParameters(AcceptanceTester $I)
 	{
 		// Add a Page using the Classic Editor.
-		$I->addClassicEditorPage($I, 'page', 'ConvertKit: Page: Broadcasts: Shortcode: Text Editor');
+		$I->addClassicEditorPage($I, 'page', 'Kit: Page: Broadcasts: Shortcode: Text Editor');
 
 		// Add shortcode to Page.
 		$I->addTextEditorShortcode(
@@ -492,7 +492,7 @@ class PageShortcodeBroadcastsCest
 	public function testBroadcastsShortcodeInTextEditorWithDisplayGridParameter(AcceptanceTester $I)
 	{
 		// Add a Page using the Classic Editor.
-		$I->addClassicEditorPage($I, 'page', 'ConvertKit: Page: Broadcasts: Shortcode: Text Editor: Display as Grid');
+		$I->addClassicEditorPage($I, 'page', 'Kit: Page: Broadcasts: Shortcode: Text Editor: Display as Grid');
 
 		// Add shortcode to Page.
 		$I->addTextEditorShortcode(
@@ -528,7 +528,7 @@ class PageShortcodeBroadcastsCest
 	public function testBroadcastsShortcodeInTextEditorWithDateFormatParameter(AcceptanceTester $I)
 	{
 		// Add a Page using the Classic Editor.
-		$I->addClassicEditorPage($I, 'page', 'ConvertKit: Page: Broadcasts: Shortcode: Text Editor: Date Format');
+		$I->addClassicEditorPage($I, 'page', 'Kit: Page: Broadcasts: Shortcode: Text Editor: Date Format');
 
 		// Add shortcode to Page, setting the Form setting to the value specified in the .env file.
 		$I->addTextEditorShortcode(
@@ -566,7 +566,7 @@ class PageShortcodeBroadcastsCest
 	public function testBroadcastsShortcodeInTextEditorWithDisplayImageParameter(AcceptanceTester $I)
 	{
 		// Add a Page using the Classic Editor.
-		$I->addClassicEditorPage($I, 'page', 'ConvertKit: Page: Broadcasts: Shortcode: Text Editor: Display image');
+		$I->addClassicEditorPage($I, 'page', 'Kit: Page: Broadcasts: Shortcode: Text Editor: Display image');
 
 		// Add shortcode to Page.
 		$I->addTextEditorShortcode(
@@ -602,7 +602,7 @@ class PageShortcodeBroadcastsCest
 	public function testBroadcastsShortcodeInTextEditorWithDisplayDescriptionParameter(AcceptanceTester $I)
 	{
 		// Add a Page using the Classic Editor.
-		$I->addClassicEditorPage($I, 'page', 'ConvertKit: Page: Broadcasts: Shortcode: Text Editor: Display description');
+		$I->addClassicEditorPage($I, 'page', 'Kit: Page: Broadcasts: Shortcode: Text Editor: Display description');
 
 		// Add shortcode to Page.
 		$I->addTextEditorShortcode(
@@ -638,7 +638,7 @@ class PageShortcodeBroadcastsCest
 	public function testBroadcastsShortcodeInTextEditorWithDisplayReadMoreLinkParameter(AcceptanceTester $I)
 	{
 		// Add a Page using the Classic Editor.
-		$I->addClassicEditorPage($I, 'page', 'ConvertKit: Page: Broadcasts: Shortcode: Text Editor: Display read more link');
+		$I->addClassicEditorPage($I, 'page', 'Kit: Page: Broadcasts: Shortcode: Text Editor: Display read more link');
 
 		// Add shortcode to Page.
 		$I->addTextEditorShortcode(
@@ -675,7 +675,7 @@ class PageShortcodeBroadcastsCest
 	public function testBroadcastsShortcodeInTextEditorWithLimitParameter(AcceptanceTester $I)
 	{
 		// Add a Page using the Classic Editor.
-		$I->addClassicEditorPage($I, 'page', 'ConvertKit: Page: Broadcasts: Shortcode: Text Editor: Limit');
+		$I->addClassicEditorPage($I, 'page', 'Kit: Page: Broadcasts: Shortcode: Text Editor: Limit');
 
 		// Add shortcode to Page, setting the Form setting to the value specified in the .env file.
 		$I->addTextEditorShortcode(
@@ -713,7 +713,7 @@ class PageShortcodeBroadcastsCest
 	public function testBroadcastsShortcodeInTextEditorWithPaginationEnabled(AcceptanceTester $I)
 	{
 		// Add a Page using the Classic Editor.
-		$I->addClassicEditorPage($I, 'page', 'ConvertKit: Page: Broadcasts: Shortcode: Text Editor: Pagination');
+		$I->addClassicEditorPage($I, 'page', 'Kit: Page: Broadcasts: Shortcode: Text Editor: Pagination');
 
 		// Add shortcode to Page, setting the Form setting to the value specified in the .env file.
 		$I->addTextEditorShortcode(
@@ -744,7 +744,7 @@ class PageShortcodeBroadcastsCest
 	public function testBroadcastsShortcodeInTextEditorWithPaginationLabelParameters(AcceptanceTester $I)
 	{
 		// Add a Page using the Classic Editor.
-		$I->addClassicEditorPage($I, 'page', 'ConvertKit: Page: Broadcasts: Shortcode: Text Editor: Pagination Labels');
+		$I->addClassicEditorPage($I, 'page', 'Kit: Page: Broadcasts: Shortcode: Text Editor: Pagination Labels');
 
 		// Add shortcode to Page, setting the Form setting to the value specified in the .env file.
 		$I->addTextEditorShortcode(
@@ -777,7 +777,7 @@ class PageShortcodeBroadcastsCest
 	public function testBroadcastsShortcodeWhenSwitchingEditors(AcceptanceTester $I)
 	{
 		// Add a Page using the Classic Editor.
-		$I->addClassicEditorPage($I, 'page', 'ConvertKit: Page: Broadcasts: Shortcode: Editor Switching');
+		$I->addClassicEditorPage($I, 'page', 'Kit: Page: Broadcasts: Shortcode: Editor Switching');
 
 		// Open Text Editor modal.
 		$I->openTextEditorShortcodeModal($I, 'convertkit-broadcasts', 'content');
@@ -789,7 +789,7 @@ class PageShortcodeBroadcastsCest
 		// still works, inserting the shortcode into the Visual Editor.
 		$I->addVisualEditorShortcode(
 			$I,
-			'ConvertKit Broadcasts',
+			'Kit Broadcasts',
 			[
 				'limit'    => [ 'input', '2', 'Pagination' ], // Click the Pagination tab first before starting to complete fields.
 				'paginate' => [ 'toggle', 'Yes' ],

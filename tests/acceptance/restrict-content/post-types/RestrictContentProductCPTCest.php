@@ -38,7 +38,7 @@ class RestrictContentProductCPTCest
 		$I->setupConvertKitPluginDisableJS($I);
 
 		// Add the CPT using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'article', 'ConvertKit: Article: Restrict Content: Product');
+		$I->addGutenbergPage($I, 'article', 'Kit: Article: Restrict Content: Product');
 
 		// Add blocks.
 		$I->addGutenbergParagraphBlock($I, 'Visible content.');
@@ -68,7 +68,7 @@ class RestrictContentProductCPTCest
 		$I->setupConvertKitPluginDisableJS($I);
 
 		// Add the CPT using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'private', 'ConvertKit: Private: Restrict Content');
+		$I->addGutenbergPage($I, 'private', 'Kit: Private: Restrict Content');
 
 		// Check that the metabox is not displayed.
 		$I->dontSeeElementInDOM('#wp-convertkit-meta-box');
@@ -91,7 +91,7 @@ class RestrictContentProductCPTCest
 		$I->setupConvertKitPluginDisableJS($I);
 
 		// Add the CPT using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'article', 'ConvertKit: Article: Restrict Content: Product');
+		$I->addGutenbergPage($I, 'article', 'Kit: Article: Restrict Content: Product');
 
 		// Configure metabox's Restrict Content setting = Product name.
 		$I->configureMetaboxSettings(
@@ -134,7 +134,7 @@ class RestrictContentProductCPTCest
 		$memberOnlyContent = 'Member-only content';
 
 		// Add the CPT using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'article', 'ConvertKit: Article: Restrict Content: Product: Generated Excerpt');
+		$I->addGutenbergPage($I, 'article', 'Kit: Article: Restrict Content: Product: Generated Excerpt');
 
 		// Configure metabox's Restrict Content setting = Product name.
 		$I->configureMetaboxSettings(
@@ -179,7 +179,7 @@ class RestrictContentProductCPTCest
 		$I->setupConvertKitPlugin($I);
 
 		// Add the CPT using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'article', 'ConvertKit: Article: Restrict Content: Product: Modal');
+		$I->addGutenbergPage($I, 'article', 'Kit: Article: Restrict Content: Product: Modal');
 
 		// Configure metabox's Restrict Content setting = Product name.
 		$I->configureMetaboxSettings(
@@ -224,7 +224,7 @@ class RestrictContentProductCPTCest
 			$I,
 			[
 				'post_type'                => 'article',
-				'post_title'               => 'ConvertKit: Article: Restrict Content: Invalid Product',
+				'post_title'               => 'Kit: Article: Restrict Content: Invalid Product',
 				'restrict_content_setting' => 'product_12345', // A fake Product that does not exist in ConvertKit.
 			]
 		);
@@ -254,7 +254,7 @@ class RestrictContentProductCPTCest
 			$I,
 			[
 				'post_type'  => 'article',
-				'post_title' => 'ConvertKit: Article: Restrict Content: Product: ' . $_ENV['CONVERTKIT_API_PRODUCT_NAME'] . ': Quick Edit',
+				'post_title' => 'Kit: Article: Restrict Content: Product: ' . $_ENV['CONVERTKIT_API_PRODUCT_NAME'] . ': Quick Edit',
 			]
 		);
 
@@ -291,14 +291,14 @@ class RestrictContentProductCPTCest
 				$I,
 				[
 					'post_type'  => 'article',
-					'post_title' => 'ConvertKit: Article: Restrict Content: Product: ' . $_ENV['CONVERTKIT_API_PRODUCT_NAME'] . ': Bulk Edit #1',
+					'post_title' => 'Kit: Article: Restrict Content: Product: ' . $_ENV['CONVERTKIT_API_PRODUCT_NAME'] . ': Bulk Edit #1',
 				]
 			),
 			$I->createRestrictedContentPage(
 				$I,
 				[
 					'post_type'  => 'article',
-					'post_title' => 'ConvertKit: Article: Restrict Content: Product: ' . $_ENV['CONVERTKIT_API_PRODUCT_NAME'] . ': Bulk Edit #2',
+					'post_title' => 'Kit: Article: Restrict Content: Product: ' . $_ENV['CONVERTKIT_API_PRODUCT_NAME'] . ': Bulk Edit #2',
 				]
 			),
 		);

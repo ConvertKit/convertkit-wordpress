@@ -23,7 +23,7 @@ class BroadcastsToPostsCest
 	 *
 	 * @var     string
 	 */
-	private $categoryName = 'ConvertKit Broadcasts to Posts';
+	private $categoryName = 'Kit Broadcasts to Posts';
 
 	/**
 	 * The WordPress Category created before each test was run.
@@ -51,7 +51,7 @@ class BroadcastsToPostsCest
 		// Activate WP Crontrol, to manually run scheduled events.
 		$I->activateThirdPartyPlugin($I, 'wp-crontrol');
 
-		// Create a Category named 'ConvertKit Broadcasts to Posts'.
+		// Create a Category named 'Kit Broadcasts to Posts'.
 		$result           = $I->haveTermInDatabase($this->categoryName, 'category');
 		$this->categoryID = $result[0]; // term_id.
 	}
@@ -632,10 +632,10 @@ class BroadcastsToPostsCest
 		$I->deactivateThirdPartyPlugin($I, 'wp-crontrol');
 		$I->resetConvertKitPlugin($I);
 
-		// Remove Category named 'ConvertKit Broadcasts to Posts'.
+		// Remove Category named 'Kit Broadcasts to Posts'.
 		$I->dontHaveTermInDatabase(
 			array(
-				'name' => 'ConvertKit Broadcasts to Posts',
+				'name' => 'Kit Broadcasts to Posts',
 			)
 		);
 

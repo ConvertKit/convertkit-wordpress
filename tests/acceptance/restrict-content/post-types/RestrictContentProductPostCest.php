@@ -32,7 +32,7 @@ class RestrictContentProductPostCest
 		$I->setupConvertKitPluginDisableJS($I);
 
 		// Add a Post using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'post', 'ConvertKit: Post: Restrict Content: Product');
+		$I->addGutenbergPage($I, 'post', 'Kit: Post: Restrict Content: Product');
 
 		// Add blocks.
 		$I->addGutenbergParagraphBlock($I, 'Visible content.');
@@ -62,7 +62,7 @@ class RestrictContentProductPostCest
 		$I->setupConvertKitPluginDisableJS($I);
 
 		// Add a Post using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'post', 'ConvertKit: Post: Restrict Content: Product');
+		$I->addGutenbergPage($I, 'post', 'Kit: Post: Restrict Content: Product');
 
 		// Configure metabox's Restrict Content setting = Product name.
 		$I->configureMetaboxSettings(
@@ -105,7 +105,7 @@ class RestrictContentProductPostCest
 		$memberOnlyContent = 'Member-only content';
 
 		// Add a Post using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'post', 'ConvertKit: Post: Restrict Content: Product: Generated Excerpt');
+		$I->addGutenbergPage($I, 'post', 'Kit: Post: Restrict Content: Product: Generated Excerpt');
 
 		// Configure metabox's Restrict Content setting = Product name.
 		$I->configureMetaboxSettings(
@@ -154,7 +154,7 @@ class RestrictContentProductPostCest
 		$memberOnlyContent = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec at velit purus. Nam gravida tempor tellus, sit amet euismod arcu. Mauris sed mattis leo. Mauris viverra eget tellus sit amet vehicula. Nulla eget sapien quis felis euismod pellentesque. Quisque elementum et diam nec eleifend. Sed ornare quam eget augue consequat, in maximus quam fringilla. Morbi';
 
 		// Add a Post using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'post', 'ConvertKit: Post: Restrict Content: Product: Defined Excerpt');
+		$I->addGutenbergPage($I, 'post', 'Kit: Post: Restrict Content: Product: Defined Excerpt');
 
 		// Configure metabox's Restrict Content setting = Product name.
 		$I->configureMetaboxSettings(
@@ -220,7 +220,7 @@ class RestrictContentProductPostCest
 		$I->setupConvertKitPlugin($I);
 
 		// Add a Post using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'post', 'ConvertKit: Post: Restrict Content: Product: Modal');
+		$I->addGutenbergPage($I, 'post', 'Kit: Post: Restrict Content: Product: Modal');
 
 		// Configure metabox's Restrict Content setting = Product name.
 		$I->configureMetaboxSettings(
@@ -265,7 +265,7 @@ class RestrictContentProductPostCest
 			$I,
 			[
 				'post_type'                => 'post',
-				'post_title'               => 'ConvertKit: Post: Restrict Content: Invalid Product',
+				'post_title'               => 'Kit: Post: Restrict Content: Invalid Product',
 				'restrict_content_setting' => 'product_12345', // A fake Product that does not exist in ConvertKit.
 			]
 		);
@@ -295,7 +295,7 @@ class RestrictContentProductPostCest
 			$I,
 			[
 				'post_type'  => 'post',
-				'post_title' => 'ConvertKit: Post: Restrict Content: Product: ' . $_ENV['CONVERTKIT_API_PRODUCT_NAME'] . ': Quick Edit',
+				'post_title' => 'Kit: Post: Restrict Content: Product: ' . $_ENV['CONVERTKIT_API_PRODUCT_NAME'] . ': Quick Edit',
 			]
 		);
 
@@ -332,14 +332,14 @@ class RestrictContentProductPostCest
 				$I,
 				[
 					'post_type'  => 'post',
-					'post_title' => 'ConvertKit: Post: Restrict Content: Product: ' . $_ENV['CONVERTKIT_API_PRODUCT_NAME'] . ': Bulk Edit #1',
+					'post_title' => 'Kit: Post: Restrict Content: Product: ' . $_ENV['CONVERTKIT_API_PRODUCT_NAME'] . ': Bulk Edit #1',
 				]
 			),
 			$I->createRestrictedContentPage(
 				$I,
 				[
 					'post_type'  => 'post',
-					'post_title' => 'ConvertKit: Post: Restrict Content: Product: ' . $_ENV['CONVERTKIT_API_PRODUCT_NAME'] . ': Bulk Edit #2',
+					'post_title' => 'Kit: Post: Restrict Content: Product: ' . $_ENV['CONVERTKIT_API_PRODUCT_NAME'] . ': Bulk Edit #2',
 				]
 			),
 		);

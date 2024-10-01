@@ -2,9 +2,9 @@
     "$schema": "https://schemas.wp.org/trunk/block.json",
     "apiVersion": 1,
     "name": "convertkit/form",
-    "title": "ConvertKit Form",
-    "category": "convertkit",
-    "description": "Displays a ConvertKit Form.",
+    "title": "Kit Form",
+    "category": "kit",
+    "description": "Displays a Kit Form.",
     "keywords": [
         "form",
         "embed",

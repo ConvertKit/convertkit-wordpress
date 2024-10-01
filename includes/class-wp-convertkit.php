@@ -179,7 +179,7 @@ class WP_ConvertKit {
 		$this->classes['gutenberg']                           = new ConvertKit_Gutenberg();
 		$this->classes['media_library']                       = new ConvertKit_Media_Library();
 		$this->classes['output_restrict_content']             = new ConvertKit_Output_Restrict_Content();
-		$this->classes['review_request']                      = new ConvertKit_Review_Request( 'ConvertKit', 'convertkit', CONVERTKIT_PLUGIN_PATH );
+		$this->classes['review_request']                      = new ConvertKit_Review_Request( 'Kit', 'convertkit', CONVERTKIT_PLUGIN_PATH );
 		$this->classes['preview_output']                      = new ConvertKit_Preview_Output();
 		$this->classes['setup']                               = new ConvertKit_Setup();
 		$this->classes['shortcodes']                          = new ConvertKit_Shortcodes();
@@ -396,7 +396,7 @@ class WP_ConvertKit {
 				'convertkit_get_class',
 				sprintf(
 					/* translators: %1$s: PHP class name */
-					__( 'ConvertKit Error: Could not load Plugin class <strong>%1$s</strong>', 'convertkit' ),
+					__( 'Kit Error: Could not load Plugin class <strong>%1$s</strong>', 'convertkit' ),
 					$name
 				)
 			);
@@ -406,7 +406,7 @@ class WP_ConvertKit {
 			if ( is_admin() ) {
 				wp_die(
 					esc_attr( $error->get_error_message() ),
-					esc_html__( 'ConvertKit Error', 'convertkit' ),
+					esc_html__( 'Kit Error', 'convertkit' ),
 					array(
 						'back_link' => true,
 					)

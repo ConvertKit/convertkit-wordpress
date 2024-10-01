@@ -164,7 +164,7 @@ class ConvertKit_Admin_Setup_Wizard_Landing_Page extends ConvertKit_Admin_Setup_
 		// if valid credentials have been specified.
 		$settings = new ConvertKit_Settings();
 		if ( ! $settings->has_access_and_refresh_token() ) {
-			wp_die( esc_html__( 'Connect your ConvertKit account in the ConvertKit Plugin\'s settings to get started', 'convertkit' ) );
+			wp_die( esc_html__( 'Connect your Kit account in the Kit Plugin\'s settings to get started', 'convertkit' ) );
 		}
 
 		// Bail if the Post Type isn't supported.

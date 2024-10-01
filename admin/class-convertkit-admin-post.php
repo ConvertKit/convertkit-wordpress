@@ -23,7 +23,7 @@ class ConvertKit_Admin_Post {
 	 */
 	public function __construct() {
 
-		// Register "Add New" ConvertKit button on Pages.
+		// Register "Add New" Kit button on Pages.
 		add_filter( 'views_edit-page', array( $this, 'output_wp_list_table_buttons' ) );
 
 		add_action( 'post_submitbox_misc_actions', array( $this, 'output_pre_publish_actions' ) );
@@ -134,7 +134,7 @@ class ConvertKit_Admin_Post {
 		wp_enqueue_style( 'convertkit-post', CONVERTKIT_PLUGIN_URL . 'resources/backend/css/post.css', array(), CONVERTKIT_PLUGIN_VERSION );
 
 		/**
-		 * Enqueue CSS for the Settings Screen at Settings > ConvertKit
+		 * Enqueue CSS for the Settings Screen at Settings > Kit
 		 *
 		 * @since   1.9.6.4
 		 */
@@ -189,7 +189,7 @@ class ConvertKit_Admin_Post {
 		}
 
 		// Register Meta Box.
-		add_meta_box( 'wp-convertkit-meta-box', __( 'ConvertKit', 'convertkit' ), array( $this, 'display_meta_box' ), $post_type, 'normal' );
+		add_meta_box( 'wp-convertkit-meta-box', __( 'Kit', 'convertkit' ), array( $this, 'display_meta_box' ), $post_type, 'normal' );
 
 		// Enqueue JS and CSS.
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );

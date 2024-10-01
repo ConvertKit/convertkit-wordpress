@@ -33,12 +33,12 @@ class PageShortcodeFormTriggerCest
 		$I->setupConvertKitPluginResources($I);
 
 		// Add a Page using the Classic Editor.
-		$I->addClassicEditorPage($I, 'page', 'ConvertKit: Page: Form Trigger: Shortcode: Visual Editor');
+		$I->addClassicEditorPage($I, 'page', 'Kit: Page: Form Trigger: Shortcode: Visual Editor');
 
 		// Add shortcode to Page, setting the Form setting to the value specified in the .env file.
 		$I->addVisualEditorShortcode(
 			$I,
-			'ConvertKit Form Trigger',
+			'Kit Form Trigger',
 			[
 				'form' => [ 'select', $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_NAME'] ],
 			],
@@ -67,7 +67,7 @@ class PageShortcodeFormTriggerCest
 		$I->setupConvertKitPluginResources($I);
 
 		// Add a Page using the Classic Editor.
-		$I->addClassicEditorPage($I, 'page', 'ConvertKit: Page: Form Trigger: Shortcode: Text Editor');
+		$I->addClassicEditorPage($I, 'page', 'Kit: Page: Form Trigger: Shortcode: Text Editor');
 
 		// Add shortcode to Page, setting the Form setting to the value specified in the .env file.
 		$I->addTextEditorShortcode(
@@ -131,12 +131,12 @@ class PageShortcodeFormTriggerCest
 		$I->setupConvertKitPluginResources($I);
 
 		// Add a Page using the Classic Editor.
-		$I->addClassicEditorPage($I, 'page', 'ConvertKit: Page: Form Trigger: Shortcode: Text Param');
+		$I->addClassicEditorPage($I, 'page', 'Kit: Page: Form Trigger: Shortcode: Text Param');
 
 		// Add shortcode to Page, setting the Form setting to the value specified in the .env file.
 		$I->addVisualEditorShortcode(
 			$I,
-			'ConvertKit Form Trigger',
+			'Kit Form Trigger',
 			[
 				'form' => [ 'select', $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_NAME'] ],
 				'text' => [ 'input', 'Sign up' ],
@@ -165,12 +165,12 @@ class PageShortcodeFormTriggerCest
 		$I->setupConvertKitPluginResources($I);
 
 		// Add a Page using the Classic Editor.
-		$I->addClassicEditorPage($I, 'page', 'ConvertKit: Page: Form Trigger: Shortcode: Blank Text Param');
+		$I->addClassicEditorPage($I, 'page', 'Kit: Page: Form Trigger: Shortcode: Blank Text Param');
 
 		// Add shortcode to Page, setting the Form setting to the value specified in the .env file.
 		$I->addVisualEditorShortcode(
 			$I,
-			'ConvertKit Form Trigger',
+			'Kit Form Trigger',
 			[
 				'form' => [ 'select', $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_NAME'] ],
 				'text' => [ 'input', '' ],
@@ -278,12 +278,12 @@ class PageShortcodeFormTriggerCest
 		$I->markTestIncomplete();
 
 		// Add a Page using the Classic Editor.
-		$I->addClassicEditorPage($I, 'page', 'ConvertKit: Page: Form Trigger: Shortcode: No Credentials');
+		$I->addClassicEditorPage($I, 'page', 'Kit: Page: Form Trigger: Shortcode: No Credentials');
 
 		// Open Visual Editor modal for the shortcode.
 		$I->openVisualEditorShortcodeModal(
 			$I,
-			'ConvertKit Form Trigger'
+			'Kit Form Trigger'
 		);
 
 		// Confirm an error notice displays.
@@ -291,7 +291,7 @@ class PageShortcodeFormTriggerCest
 
 		// Confirm that the modal displays instructions to the user on how to enter their credentials.
 		$I->see(
-			'Not connected to ConvertKit.',
+			'Not connected to Kit.',
 			[
 				'css' => '#convertkit-modal-body-body',
 			]
@@ -299,7 +299,7 @@ class PageShortcodeFormTriggerCest
 
 		// Click the link to confirm it loads the Plugin's settings screen.
 		$I->click(
-			'Click here to connect your ConvertKit account.',
+			'Click here to connect your Kit account.',
 			[
 				'css' => '#convertkit-modal-body-body',
 			]
@@ -336,12 +336,12 @@ class PageShortcodeFormTriggerCest
 		$I->setupConvertKitPluginResourcesNoData($I);
 
 		// Add a Page using the Classic Editor.
-		$I->addClassicEditorPage($I, 'page', 'ConvertKit: Page: Form Trigger: Shortcode: No Forms');
+		$I->addClassicEditorPage($I, 'page', 'Kit: Page: Form Trigger: Shortcode: No Forms');
 
 		// Open Visual Editor modal for the shortcode.
 		$I->openVisualEditorShortcodeModal(
 			$I,
-			'ConvertKit Form Trigger'
+			'Kit Form Trigger'
 		);
 
 		// Confirm an error notice displays.
@@ -349,7 +349,7 @@ class PageShortcodeFormTriggerCest
 
 		// Confirm that the Form block displays instructions to the user on how to add a Form in ConvertKit.
 		$I->see(
-			'No modal, sticky bar or slide in forms exist in ConvertKit.',
+			'No modal, sticky bar or slide in forms exist in Kit.',
 			[
 				'css' => '#convertkit-modal-body-body',
 			]

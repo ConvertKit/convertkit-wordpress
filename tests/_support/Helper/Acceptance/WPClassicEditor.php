@@ -39,7 +39,7 @@ class WPClassicEditor extends \Codeception\Module
 	 * @since   1.9.7.5
 	 *
 	 * @param   AcceptanceTester $I                          Acceptance Tester.
-	 * @param   string           $shortcodeName              Shortcode Name (e.g. 'ConvertKit Form').
+	 * @param   string           $shortcodeName              Shortcode Name (e.g. 'Kit Form').
 	 * @param   bool|array       $shortcodeConfiguration     Shortcode Configuration (field => value key/value array).
 	 * @param   bool|string      $expectedShortcodeOutput    Expected Shortcode Output (e.g. [convertkit_form form="12345"]).
 	 * @param   string           $targetEditor               Target TinyMCE editor instance.
@@ -99,7 +99,7 @@ class WPClassicEditor extends \Codeception\Module
 	 * @since   2.2.4
 	 *
 	 * @param   AcceptanceTester $I                          Acceptance Tester.
-	 * @param   string           $shortcodeName              Shortcode Name (e.g. 'ConvertKit Form').
+	 * @param   string           $shortcodeName              Shortcode Name (e.g. 'Kit Form').
 	 * @param   string           $targetEditor               Target TinyMCE editor instance.
 	 */
 	public function openVisualEditorShortcodeModal($I, $shortcodeName, $targetEditor = 'content')

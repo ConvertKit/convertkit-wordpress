@@ -62,7 +62,7 @@ class CPTFormCest
 	public function testNoOptionsOrOutputOnPrivateCustomPostType(AcceptanceTester $I)
 	{
 		// Add a Private CPT using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'private', 'ConvertKit: Private: Form: None');
+		$I->addGutenbergPage($I, 'private', 'Kit: Private: Form: None');
 
 		// Check that the metabox is not displayed.
 		$I->dontSeeElementInDOM('#wp-convertkit-meta-box');
@@ -74,7 +74,7 @@ class CPTFormCest
 		$I->dontSeeElementInDOM('form[data-sv-form]');
 
 		// Confirm that no debug data is output, as this isn't a supported Post Type.
-		$I->dontSeeInSource('<!-- ConvertKit append_form_to_content()');
+		$I->dontSeeInSource('<!-- Kit append_form_to_content()');
 	}
 
 	/**
@@ -91,13 +91,13 @@ class CPTFormCest
 			$I->havePostInDatabase(
 				[
 					'post_type'  => 'private',
-					'post_title' => 'ConvertKit: Private: #1',
+					'post_title' => 'Kit: Private: #1',
 				]
 			),
 			$I->havePostInDatabase(
 				[
 					'post_type'  => 'private',
-					'post_title' => 'ConvertKit: Private: #2',
+					'post_title' => 'Kit: Private: #2',
 				]
 			),
 		);
@@ -126,7 +126,7 @@ class CPTFormCest
 		$I->setupConvertKitPluginResources($I);
 
 		// Add a CPT using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'article', 'ConvertKit: CPT: Form: Default: None');
+		$I->addGutenbergPage($I, 'article', 'Kit: CPT: Form: Default: None');
 
 		// Check the order of the Form resources are alphabetical, with the Default and None options prepending the Forms.
 		$I->checkSelectFormOptionOrder(
@@ -174,7 +174,7 @@ class CPTFormCest
 		$I->setupConvertKitPluginResources($I);
 
 		// Add a CPT using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'article', 'ConvertKit: CPT: Form: Default');
+		$I->addGutenbergPage($I, 'article', 'Kit: CPT: Form: Default');
 
 		// Configure metabox's Form setting = Default.
 		$I->configureMetaboxSettings(
@@ -215,7 +215,7 @@ class CPTFormCest
 		$I->setupConvertKitPluginResources($I);
 
 		// Add a CPT using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'article', 'ConvertKit: CPT: Form: Default: Before Content');
+		$I->addGutenbergPage($I, 'article', 'Kit: CPT: Form: Default: Before Content');
 
 		// Add paragraph to CPT.
 		$I->addGutenbergParagraphBlock($I, 'CPT content');
@@ -259,7 +259,7 @@ class CPTFormCest
 		$I->setupConvertKitPluginResources($I);
 
 		// Add a CPT using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'article', 'ConvertKit: CPT: Form: Default: Before and After Content');
+		$I->addGutenbergPage($I, 'article', 'Kit: CPT: Form: Default: Before and After Content');
 
 		// Add paragraph to CPT.
 		$I->addGutenbergParagraphBlock($I, 'CPT content');
@@ -300,7 +300,7 @@ class CPTFormCest
 		$I->setupConvertKitPluginResources($I);
 
 		// Add a CPT using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'article', 'ConvertKit: CPT: Form: Legacy: Default');
+		$I->addGutenbergPage($I, 'article', 'Kit: CPT: Form: Legacy: Default');
 
 		// Configure metabox's Form setting = Default.
 		$I->configureMetaboxSettings(
@@ -338,7 +338,7 @@ class CPTFormCest
 		$I->setupConvertKitPluginResources($I);
 
 		// Add a CPT using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'article', 'ConvertKit: CPT: Form: None');
+		$I->addGutenbergPage($I, 'article', 'Kit: CPT: Form: None');
 
 		// Configure metabox's Form setting = None.
 		$I->configureMetaboxSettings(
@@ -376,7 +376,7 @@ class CPTFormCest
 		$I->setupConvertKitPluginResources($I);
 
 		// Add a CPT using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'article', 'ConvertKit: CPT: Form: ' . $_ENV['CONVERTKIT_API_FORM_NAME']);
+		$I->addGutenbergPage($I, 'article', 'Kit: CPT: Form: ' . $_ENV['CONVERTKIT_API_FORM_NAME']);
 
 		// Configure metabox's Form setting = None.
 		$I->configureMetaboxSettings(
@@ -415,7 +415,7 @@ class CPTFormCest
 		$I->setupConvertKitPluginResources($I);
 
 		// Add a CPT using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'article', 'ConvertKit: CPT: Form: ' . $_ENV['CONVERTKIT_API_LEGACY_FORM_NAME']);
+		$I->addGutenbergPage($I, 'article', 'Kit: CPT: Form: ' . $_ENV['CONVERTKIT_API_LEGACY_FORM_NAME']);
 
 		// Configure metabox's Form setting = None.
 		$I->configureMetaboxSettings(
@@ -462,7 +462,7 @@ class CPTFormCest
 		$postID = $I->havePostInDatabase(
 			[
 				'post_type'  => 'article',
-				'post_title' => 'ConvertKit: CPT: Form: Specific: Invalid',
+				'post_title' => 'Kit: CPT: Form: Specific: Invalid',
 				'meta_input' => [
 					'_wp_convertkit_post_meta' => [
 						'form'         => '11111',
@@ -510,7 +510,7 @@ class CPTFormCest
 		$postID = $I->havePostInDatabase(
 			[
 				'post_type'  => 'article',
-				'post_title' => 'ConvertKit: CPT: Form: Default: Quick Edit',
+				'post_title' => 'Kit: CPT: Form: Default: Quick Edit',
 			]
 		);
 
@@ -558,7 +558,7 @@ class CPTFormCest
 		$postID = $I->havePostInDatabase(
 			[
 				'post_type'  => 'article',
-				'post_title' => 'ConvertKit: CPT: Form: ' . $_ENV['CONVERTKIT_API_FORM_NAME'] . ': Quick Edit',
+				'post_title' => 'Kit: CPT: Form: ' . $_ENV['CONVERTKIT_API_FORM_NAME'] . ': Quick Edit',
 			]
 		);
 
@@ -607,13 +607,13 @@ class CPTFormCest
 			$I->havePostInDatabase(
 				[
 					'post_type'  => 'article',
-					'post_title' => 'ConvertKit: CPT: Form: Default: Bulk Edit #1',
+					'post_title' => 'Kit: CPT: Form: Default: Bulk Edit #1',
 				]
 			),
 			$I->havePostInDatabase(
 				[
 					'post_type'  => 'article',
-					'post_title' => 'ConvertKit: CPT: Form: Default: Bulk Edit #2',
+					'post_title' => 'Kit: CPT: Form: Default: Bulk Edit #2',
 				]
 			),
 		);
@@ -666,13 +666,13 @@ class CPTFormCest
 			$I->havePostInDatabase(
 				[
 					'post_type'  => 'article',
-					'post_title' => 'ConvertKit: CPT: Form: ' . $_ENV['CONVERTKIT_API_FORM_NAME'] . ': Bulk Edit #1',
+					'post_title' => 'Kit: CPT: Form: ' . $_ENV['CONVERTKIT_API_FORM_NAME'] . ': Bulk Edit #1',
 				]
 			),
 			$I->havePostInDatabase(
 				[
 					'post_type'  => 'article',
-					'post_title' => 'ConvertKit: CPT: Form: ' . $_ENV['CONVERTKIT_API_FORM_NAME'] . ': Bulk Edit #2',
+					'post_title' => 'Kit: CPT: Form: ' . $_ENV['CONVERTKIT_API_FORM_NAME'] . ': Bulk Edit #2',
 				]
 			),
 		);
@@ -725,7 +725,7 @@ class CPTFormCest
 			$I->havePostInDatabase(
 				[
 					'post_type'  => 'article',
-					'post_title' => 'ConvertKit: CPT: Form: ' . $_ENV['CONVERTKIT_API_FORM_NAME'] . ': Bulk Edit with No Change #1',
+					'post_title' => 'Kit: CPT: Form: ' . $_ENV['CONVERTKIT_API_FORM_NAME'] . ': Bulk Edit with No Change #1',
 					'meta_input' => [
 						'_wp_convertkit_post_meta' => [
 							'form'         => $_ENV['CONVERTKIT_API_FORM_ID'],
@@ -738,7 +738,7 @@ class CPTFormCest
 			$I->havePostInDatabase(
 				[
 					'post_type'  => 'article',
-					'post_title' => 'ConvertKit: CPT: Form: ' . $_ENV['CONVERTKIT_API_FORM_NAME'] . ': Bulk Edit with No Change #2',
+					'post_title' => 'Kit: CPT: Form: ' . $_ENV['CONVERTKIT_API_FORM_NAME'] . ': Bulk Edit with No Change #2',
 					'meta_input' => [
 						'_wp_convertkit_post_meta' => [
 							'form'         => $_ENV['CONVERTKIT_API_FORM_ID'],

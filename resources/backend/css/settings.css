@@ -1,8 +1,8 @@
 /**
- * Settings > ConvertKit
+ * Settings > Kit
  */
 body.settings_page__wp_convertkit_settings {
-	background: #f6f8fa;
+	background: #f9f7f4;
 }
 body.settings_page__wp_convertkit_settings #wpcontent {
 	padding-left: 0;
@@ -14,9 +14,9 @@ body.settings_page__wp_convertkit_settings #wpcontent {
 body.settings_page__wp_convertkit_settings header {
 	height: 98px;
 	padding: 0 20px;
-	background: url(../images/convertkit-long-inverted.svg) 20px 50% no-repeat;
-	background-size: 200px auto;
-	background-color: #212f4f;
+	background: url(../images/kit-logo.svg) 30px 50% no-repeat;
+	background-size: 75px auto;
+	background-color: #ffffff;
 }
 body.settings_page__wp_convertkit_settings h1 {
 	margin: 0;
@@ -30,13 +30,10 @@ body.settings_page__wp_convertkit_settings header a.convertkit-docs {
 	margin: 20px 20px 0 0;
 	padding: 0 0 0 30px;
 	font-weight: 400;
-	color: #cfd4d9;
+	color: #144264;
 	text-decoration: none;
 	background: url(../images/help.svg) 0 0% no-repeat;
 	background-size: 20px 20px;
-}
-body.settings_page__wp_convertkit_settings header a.convertkit-docs:hover {
-	color: #fff;
 }
 body.settings_page__wp_convertkit_settings .wrap {
 	margin-left: 20px;
@@ -56,7 +53,7 @@ ul.convertkit-tabs {
 	margin: 0 0 25px 0;
 	padding: 0;
 	list-style-type: none;
-	border-bottom: 1px solid #cfd4d9;
+	border-bottom: 1px solid #d0d0cf;
 }
 ul.convertkit-tabs li {
 	display: inline-block;
@@ -73,20 +70,16 @@ ul.convertkit-tabs li a {
 	line-height: 64px;
 	text-decoration: none;
 	font-size: 14px;
-	font-weight: bold;
-	color: #6a6e72;
+	font-weight: 600;
+	color: #565656;
 }
 ul.convertkit-tabs li a:hover {
-	color: #373f45;
+	color: #144264;
 	background: #e7e7e7;
 }
 ul.convertkit-tabs li a.convertkit-tab-active {
-	color: #fb6068;
-	border-bottom: 1px solid #fb6068;
-}
-ul.convertkit-tabs li a.convertkit-tab-active:hover {
-	color: #d3434a;
-	border-bottom: 1px solid #d3434a;
+	color: #144264;
+	border-bottom: 1px solid #4c596d;
 }
 
 /**
@@ -125,13 +118,13 @@ body.settings_page__wp_convertkit_settings .wrap .postbox .button {
 	box-shadow: none;
 }
 body.settings_page__wp_convertkit_settings .wrap .postbox .button-primary {
-	background: #fb6970;
-	border-color: #fb6970;
+	background: #1e1e1e;
+	border-color: #1e1e1e;
 	color: #fff;
 }
 body.settings_page__wp_convertkit_settings .wrap .postbox .button-primary:hover {
-	background: #fb5058;
-	border-color: #fb5058;
+	background: #1e1e1e;
+	border-color: #1e1e1e;
 }
 body.settings_page__wp_convertkit_settings .wrap .postbox textarea.convertkit-monospace {
 	font-family: monospace;
@@ -152,7 +145,7 @@ body.settings_page__wp_convertkit_settings ul.convertkit-tabs li a span.convertk
 }
 body.settings_page__wp_convertkit_settings .wrap .postbox.convertkit-beta span.convertkit-beta-label {
 	display: inline-block;
-	background-color: #f6f8fa;
+	background-color: #F9F7F4;
 	border-radius: 9999px;
 	border-width: 1px;
 	margin: 0 0 0 12px;

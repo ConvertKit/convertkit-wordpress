@@ -57,7 +57,7 @@ class PageFormCest
 		$I->setupConvertKitPluginResources($I);
 
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form: Default: None');
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Form: Default: None');
 
 		// Check the order of the Form resources are alphabetical, with the Default and None options prepending the Forms.
 		$I->checkSelectFormOptionOrder(
@@ -100,7 +100,7 @@ class PageFormCest
 		$I->setupConvertKitPluginResources($I);
 
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form: Default');
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Form: Default');
 
 		// Configure metabox's Form setting = Default.
 		$I->configureMetaboxSettings(
@@ -140,7 +140,7 @@ class PageFormCest
 		$I->setupConvertKitPluginResources($I);
 
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form: Default: Before Content');
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Form: Default: Before Content');
 
 		// Add paragraph to Page.
 		$I->addGutenbergParagraphBlock($I, 'Page content');
@@ -183,7 +183,7 @@ class PageFormCest
 		$I->setupConvertKitPluginResources($I);
 
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form: Default: Before and After Content');
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Form: Default: Before and After Content');
 
 		// Add paragraph to Page.
 		$I->addGutenbergParagraphBlock($I, 'Page content');
@@ -226,7 +226,7 @@ class PageFormCest
 		$I->setupConvertKitPluginResources($I);
 
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form: Legacy: Default');
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Form: Legacy: Default');
 
 		// Configure metabox's Form setting = Default.
 		$I->configureMetaboxSettings(
@@ -262,7 +262,7 @@ class PageFormCest
 		$I->setupConvertKitPluginResources($I);
 
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form: None');
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Form: None');
 
 		// Configure metabox's Form setting = None.
 		$I->configureMetaboxSettings(
@@ -295,7 +295,7 @@ class PageFormCest
 		$I->setupConvertKitPluginResources($I);
 
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form: ' . $_ENV['CONVERTKIT_API_FORM_NAME']);
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Form: ' . $_ENV['CONVERTKIT_API_FORM_NAME']);
 
 		// Configure metabox's Form setting = None.
 		$I->configureMetaboxSettings(
@@ -332,7 +332,7 @@ class PageFormCest
 		$I->activateThirdPartyPlugin($I, 'autoptimize');
 
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form: ' . $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_NAME'] . ': Autoptimize');
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Form: ' . $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_NAME'] . ': Autoptimize');
 
 		// Configure metabox's Form setting = None.
 		$I->configureMetaboxSettings(
@@ -377,7 +377,7 @@ class PageFormCest
 		$I->click('#inspector-toggle-control-1');
 
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form: ' . $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_NAME'] . ': Jetpack Boost');
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Form: ' . $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_NAME'] . ': Jetpack Boost');
 
 		// Configure metabox's Form setting = None.
 		$I->configureMetaboxSettings(
@@ -424,7 +424,7 @@ class PageFormCest
 		$I->click('Save Changes');
 
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form: ' . $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_NAME'] . ': LiteSpeed Cache');
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Form: ' . $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_NAME'] . ': LiteSpeed Cache');
 
 		// Configure metabox's Form setting = None.
 		$I->configureMetaboxSettings(
@@ -468,7 +468,7 @@ class PageFormCest
 		$I->haveOptionInDatabase('siteground_optimizer_combine_javascript', '1');
 
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form: ' . $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_NAME'] . ': Siteground Speed Optimizer');
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Form: ' . $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_NAME'] . ': Siteground Speed Optimizer');
 
 		// Configure metabox's Form setting = None.
 		$I->configureMetaboxSettings(
@@ -519,7 +519,7 @@ class PageFormCest
 		);
 
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form: ' . $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_NAME'] . ': WP Rocket');
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Form: ' . $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_NAME'] . ': WP Rocket');
 
 		// Configure metabox's Form setting = None.
 		$I->configureMetaboxSettings(
@@ -572,7 +572,7 @@ class PageFormCest
 		$I->waitForElementVisible('#setting-error-settings_updated');
 
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form: ' . $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_NAME'] . ': WP Rocket');
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Form: ' . $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_NAME'] . ': WP Rocket');
 
 		// Configure metabox's Form setting = None.
 		$I->configureMetaboxSettings(
@@ -609,7 +609,7 @@ class PageFormCest
 		$I->setupConvertKitPluginResources($I);
 
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form: ' . $_ENV['CONVERTKIT_API_LEGACY_FORM_NAME']);
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Form: ' . $_ENV['CONVERTKIT_API_LEGACY_FORM_NAME']);
 
 		// Configure metabox's Form setting = None.
 		$I->configureMetaboxSettings(
@@ -654,7 +654,7 @@ class PageFormCest
 		$pageID = $I->havePostInDatabase(
 			[
 				'post_type'  => 'page',
-				'post_title' => 'ConvertKit: Page: Form: Specific: Invalid',
+				'post_title' => 'Kit: Page: Form: Specific: Invalid',
 				'meta_input' => [
 					'_wp_convertkit_post_meta' => [
 						'form'         => '11111',
@@ -697,7 +697,7 @@ class PageFormCest
 		$pageID = $I->havePostInDatabase(
 			[
 				'post_type'  => 'page',
-				'post_title' => 'ConvertKit: Page: Form: Default: Quick Edit',
+				'post_title' => 'Kit: Page: Form: Default: Quick Edit',
 			]
 		);
 
@@ -740,7 +740,7 @@ class PageFormCest
 		$pageID = $I->havePostInDatabase(
 			[
 				'post_type'  => 'page',
-				'post_title' => 'ConvertKit: Page: Form: ' . $_ENV['CONVERTKIT_API_FORM_NAME'] . ': Quick Edit',
+				'post_title' => 'Kit: Page: Form: ' . $_ENV['CONVERTKIT_API_FORM_NAME'] . ': Quick Edit',
 			]
 		);
 
@@ -784,13 +784,13 @@ class PageFormCest
 			$I->havePostInDatabase(
 				[
 					'post_type'  => 'page',
-					'post_title' => 'ConvertKit: Page: Form: Default: Bulk Edit #1',
+					'post_title' => 'Kit: Page: Form: Default: Bulk Edit #1',
 				]
 			),
 			$I->havePostInDatabase(
 				[
 					'post_type'  => 'page',
-					'post_title' => 'ConvertKit: Page: Form: Default: Bulk Edit #2',
+					'post_title' => 'Kit: Page: Form: Default: Bulk Edit #2',
 				]
 			),
 		);
@@ -838,13 +838,13 @@ class PageFormCest
 			$I->havePostInDatabase(
 				[
 					'post_type'  => 'page',
-					'post_title' => 'ConvertKit: Page: Form: ' . $_ENV['CONVERTKIT_API_FORM_NAME'] . ': Bulk Edit #1',
+					'post_title' => 'Kit: Page: Form: ' . $_ENV['CONVERTKIT_API_FORM_NAME'] . ': Bulk Edit #1',
 				]
 			),
 			$I->havePostInDatabase(
 				[
 					'post_type'  => 'page',
-					'post_title' => 'ConvertKit: Page: Form: ' . $_ENV['CONVERTKIT_API_FORM_NAME'] . ': Bulk Edit #2',
+					'post_title' => 'Kit: Page: Form: ' . $_ENV['CONVERTKIT_API_FORM_NAME'] . ': Bulk Edit #2',
 				]
 			),
 		);
@@ -892,7 +892,7 @@ class PageFormCest
 			$I->havePostInDatabase(
 				[
 					'post_type'  => 'page',
-					'post_title' => 'ConvertKit: Page: Form: ' . $_ENV['CONVERTKIT_API_FORM_NAME'] . ': Bulk Edit with No Change #1',
+					'post_title' => 'Kit: Page: Form: ' . $_ENV['CONVERTKIT_API_FORM_NAME'] . ': Bulk Edit with No Change #1',
 					'meta_input' => [
 						'_wp_convertkit_post_meta' => [
 							'form'         => $_ENV['CONVERTKIT_API_FORM_ID'],
@@ -905,7 +905,7 @@ class PageFormCest
 			$I->havePostInDatabase(
 				[
 					'post_type'  => 'page',
-					'post_title' => 'ConvertKit: Page: Form: ' . $_ENV['CONVERTKIT_API_FORM_NAME'] . ': Bulk Edit with No Change #2',
+					'post_title' => 'Kit: Page: Form: ' . $_ENV['CONVERTKIT_API_FORM_NAME'] . ': Bulk Edit with No Change #2',
 					'meta_input' => [
 						'_wp_convertkit_post_meta' => [
 							'form'         => $_ENV['CONVERTKIT_API_FORM_ID'],

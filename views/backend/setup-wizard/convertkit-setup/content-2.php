@@ -10,10 +10,10 @@
 // with an option to refresh this page so that they can then select the Form to be displayed on e.g. Posts.
 if ( ! $this->forms->exist() ) {
 	?>
-	<h1><?php esc_html_e( 'Create your first ConvertKit Form', 'convertkit' ); ?></h1>
+	<h1><?php esc_html_e( 'Create your first Kit Form', 'convertkit' ); ?></h1>
 	<p>
 		<?php
-		esc_html_e( 'To get email subscribers, you first need to create a form in ConvertKit. Click the button below to get started.', 'convertkit' );
+		esc_html_e( 'To get email subscribers, you first need to create a form in Kit. Click the button below to get started.', 'convertkit' );
 		?>
 	</p>
 
@@ -27,7 +27,7 @@ if ( ! $this->forms->exist() ) {
 		<?php
 		printf(
 			'%1$s <a href="https://help.kit.com/en/articles/3860348-how-to-create-your-first-form-in-convertkit" target="_blank">%2$s</a>',
-			esc_html__( 'Not sure how to do this in ConvertKit?', 'convertkit' ),
+			esc_html__( 'Not sure how to do this in Kit?', 'convertkit' ),
 			esc_html__( 'Follow our step by step documentation', 'convertkit' )
 		);
 		?>
@@ -39,7 +39,7 @@ if ( ! $this->forms->exist() ) {
 	<h1><?php esc_html_e( 'Display an email capture form', 'convertkit' ); ?></h1>
 	<p>
 		<?php
-		esc_html_e( 'To get email subscribers, you need to display a ConvertKit form on your site, using the options below.', 'convertkit' );
+		esc_html_e( 'To get email subscribers, you need to display a Kit form on your site, using the options below.', 'convertkit' );
 		?>
 	</p>
 
@@ -130,7 +130,7 @@ if ( ! $this->forms->exist() ) {
 	<div class="notice notice-info">
 		<p class="description">
 			<?php
-			esc_html_e( 'To embed email subscriber forms in particular sections of your content on specific Pages or Posts, use the ConvertKit Form block or shortcode when editing a Page or Post.', 'convertkit' );
+			esc_html_e( 'To embed email subscriber forms in particular sections of your content on specific Pages or Posts, use the Kit Form block or shortcode when editing a Page or Post.', 'convertkit' );
 			?>
 		</p>
 	</div>

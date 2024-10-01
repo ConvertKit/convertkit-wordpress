@@ -297,7 +297,7 @@ class ConvertKit_Output {
 		// Attempt to fallback to the default form for this Post Type.
 		if ( is_wp_error( $form ) ) {
 			if ( $this->settings->debug_enabled() ) {
-				$content .= '<!-- ConvertKit append_form_to_content(): ' . $form->get_error_message() . ' Attempting fallback to Default Form. -->';
+				$content .= '<!-- Kit append_form_to_content(): ' . $form->get_error_message() . ' Attempting fallback to Default Form. -->';
 			}
 
 			// Get Default Form ID for this Post's Type.
@@ -306,7 +306,7 @@ class ConvertKit_Output {
 			// If no Default Form is specified, just return the Post Content, unedited.
 			if ( ! $form_id ) {
 				if ( $this->settings->debug_enabled() ) {
-					$content .= '<!-- ConvertKit append_form_to_content(): No Default Form exists as a fallback. -->';
+					$content .= '<!-- Kit append_form_to_content(): No Default Form exists as a fallback. -->';
 				}
 
 				return $content;
@@ -319,7 +319,7 @@ class ConvertKit_Output {
 			// Just return the Post Content, unedited.
 			if ( is_wp_error( $form ) ) {
 				if ( $this->settings->debug_enabled() ) {
-					$content .= '<!-- ConvertKit append_form_to_content(): Default Form: ' . $form->get_error_message() . ' -->';
+					$content .= '<!-- Kit append_form_to_content(): Default Form: ' . $form->get_error_message() . ' -->';
 				}
 
 				return $content;

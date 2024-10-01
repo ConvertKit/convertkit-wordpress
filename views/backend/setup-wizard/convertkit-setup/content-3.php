@@ -10,7 +10,7 @@
 
 <h1><?php esc_html_e( 'Setup complete', 'convertkit' ); ?></h1>
 <p>
-	<?php esc_html_e( 'The ConvertKit for WordPress Plugin setup is complete.', 'convertkit' ); ?>
+	<?php esc_html_e( 'The Kit for WordPress Plugin setup is complete.', 'convertkit' ); ?>
 </p>
 
 <div class="convertkit-setup-wizard-grid">

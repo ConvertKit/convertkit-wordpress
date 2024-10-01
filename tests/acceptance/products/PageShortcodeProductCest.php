@@ -33,12 +33,12 @@ class PageShortcodeProductCest
 		$I->setupConvertKitPluginResources($I);
 
 		// Add a Page using the Classic Editor.
-		$I->addClassicEditorPage($I, 'page', 'ConvertKit: Page: Product: Shortcode: Visual Editor');
+		$I->addClassicEditorPage($I, 'page', 'Kit: Page: Product: Shortcode: Visual Editor');
 
 		// Add shortcode to Page, setting the Product setting to the value specified in the .env file.
 		$I->addVisualEditorShortcode(
 			$I,
-			'ConvertKit Product',
+			'Kit Product',
 			[
 				'product' => [ 'select', $_ENV['CONVERTKIT_API_PRODUCT_NAME'] ],
 			],
@@ -67,7 +67,7 @@ class PageShortcodeProductCest
 		$I->setupConvertKitPluginResources($I);
 
 		// Add a Page using the Classic Editor.
-		$I->addClassicEditorPage($I, 'page', 'ConvertKit: Page: Product: Shortcode: Text Editor');
+		$I->addClassicEditorPage($I, 'page', 'Kit: Page: Product: Shortcode: Text Editor');
 
 		// Add shortcode to Page, setting the Product setting to the value specified in the .env file.
 		$I->addTextEditorShortcode(
@@ -131,12 +131,12 @@ class PageShortcodeProductCest
 		$I->setupConvertKitPluginResources($I);
 
 		// Add a Page using the Classic Editor.
-		$I->addClassicEditorPage($I, 'page', 'ConvertKit: Page: Product: Shortcode: Text Param');
+		$I->addClassicEditorPage($I, 'page', 'Kit: Page: Product: Shortcode: Text Param');
 
 		// Add shortcode to Page, setting the Product setting to the value specified in the .env file.
 		$I->addVisualEditorShortcode(
 			$I,
-			'ConvertKit Product',
+			'Kit Product',
 			[
 				'product' => [ 'select', $_ENV['CONVERTKIT_API_PRODUCT_NAME'] ],
 				'text'    => [ 'input', 'Buy now' ],
@@ -165,12 +165,12 @@ class PageShortcodeProductCest
 		$I->setupConvertKitPluginResources($I);
 
 		// Add a Page using the Classic Editor.
-		$I->addClassicEditorPage($I, 'page', 'ConvertKit: Page: Product: Shortcode: Blank Text Param');
+		$I->addClassicEditorPage($I, 'page', 'Kit: Page: Product: Shortcode: Blank Text Param');
 
 		// Add shortcode to Page, setting the Product setting to the value specified in the .env file.
 		$I->addVisualEditorShortcode(
 			$I,
-			'ConvertKit Product',
+			'Kit Product',
 			[
 				'product' => [ 'select', $_ENV['CONVERTKIT_API_PRODUCT_NAME'] ],
 				'text'    => [ 'input', '' ],
@@ -199,12 +199,12 @@ class PageShortcodeProductCest
 		$I->setupConvertKitPluginResources($I);
 
 		// Add a Page using the Classic Editor.
-		$I->addClassicEditorPage($I, 'page', 'ConvertKit: Page: Product: Shortcode: Valid Discount Code Param');
+		$I->addClassicEditorPage($I, 'page', 'Kit: Page: Product: Shortcode: Valid Discount Code Param');
 
 		// Add shortcode to Page, setting the Product setting to the value specified in the .env file.
 		$I->addVisualEditorShortcode(
 			$I,
-			'ConvertKit Product',
+			'Kit Product',
 			[
 				'product'       => [ 'select', $_ENV['CONVERTKIT_API_PRODUCT_NAME'] ],
 				'discount_code' => [ 'input', $_ENV['CONVERTKIT_API_PRODUCT_DISCOUNT_CODE'] ],
@@ -238,12 +238,12 @@ class PageShortcodeProductCest
 		$I->setupConvertKitPluginResources($I);
 
 		// Add a Page using the Classic Editor.
-		$I->addClassicEditorPage($I, 'page', 'ConvertKit: Page: Product: Shortcode: Valid Discount Code Param');
+		$I->addClassicEditorPage($I, 'page', 'Kit: Page: Product: Shortcode: Valid Discount Code Param');
 
 		// Add shortcode to Page, setting the Product setting to the value specified in the .env file.
 		$I->addVisualEditorShortcode(
 			$I,
-			'ConvertKit Product',
+			'Kit Product',
 			[
 				'product'       => [ 'select', $_ENV['CONVERTKIT_API_PRODUCT_NAME'] ],
 				'discount_code' => [ 'input', 'fake' ],
@@ -278,12 +278,12 @@ class PageShortcodeProductCest
 		$I->setupConvertKitPluginResources($I);
 
 		// Add a Page using the Classic Editor.
-		$I->addClassicEditorPage($I, 'page', 'ConvertKit: Page: Product: Shortcode: Checkout Step');
+		$I->addClassicEditorPage($I, 'page', 'Kit: Page: Product: Shortcode: Checkout Step');
 
 		// Add shortcode to Page, setting the Product setting to the value specified in the .env file.
 		$I->addVisualEditorShortcode(
 			$I,
-			'ConvertKit Product',
+			'Kit Product',
 			[
 				'product'  => [ 'select', $_ENV['CONVERTKIT_API_PRODUCT_NAME'] ],
 				'checkout' => [ 'toggle', 'Yes' ],
@@ -318,12 +318,12 @@ class PageShortcodeProductCest
 		$I->setupConvertKitPluginResources($I);
 
 		// Add a Page using the Classic Editor.
-		$I->addClassicEditorPage($I, 'page', 'ConvertKit: Page: Product: Shortcode: Disable Modal on Mobile');
+		$I->addClassicEditorPage($I, 'page', 'Kit: Page: Product: Shortcode: Disable Modal on Mobile');
 
 		// Add shortcode to Page, setting the Product setting to the value specified in the .env file.
 		$I->addVisualEditorShortcode(
 			$I,
-			'ConvertKit Product',
+			'Kit Product',
 			[
 				'product'                 => [ 'select', $_ENV['CONVERTKIT_API_PRODUCT_NAME'] ],
 				'disable_modal_on_mobile' => [ 'toggle', 'Yes' ],
@@ -437,7 +437,7 @@ class PageShortcodeProductCest
 
 	/**
 	 * Test the Product shortcode displays a message with a link to the Plugin's
-	 * setup wizard, when the Plugin has Not connected to ConvertKit.
+	 * setup wizard, when the Plugin has Not connected to Kit.
 	 *
 	 * @since   2.2.4
 	 *
@@ -448,12 +448,12 @@ class PageShortcodeProductCest
 		$I->markTestIncomplete();
 
 		// Add a Page using the Classic Editor.
-		$I->addClassicEditorPage($I, 'page', 'ConvertKit: Page: Product: Shortcode: No API Key');
+		$I->addClassicEditorPage($I, 'page', 'Kit: Page: Product: Shortcode: No API Key');
 
 		// Open Visual Editor modal for the shortcode.
 		$I->openVisualEditorShortcodeModal(
 			$I,
-			'ConvertKit Product'
+			'Kit Product'
 		);
 
 		// Confirm an error notice displays.
@@ -461,7 +461,7 @@ class PageShortcodeProductCest
 
 		// Confirm that the modal displays instructions to the user on how to enter their API Key.
 		$I->see(
-			'Not connected to ConvertKit.',
+			'Not connected to Kit.',
 			[
 				'css' => '#convertkit-modal-body-body',
 			]
@@ -469,7 +469,7 @@ class PageShortcodeProductCest
 
 		// Click the link to confirm it loads the Plugin's settings screen.
 		$I->click(
-			'Click here to connect your ConvertKit account.',
+			'Click here to connect your Kit account.',
 			[
 				'css' => '#convertkit-modal-body-body',
 			]
@@ -506,12 +506,12 @@ class PageShortcodeProductCest
 		$I->setupConvertKitPluginResourcesNoData($I);
 
 		// Add a Page using the Classic Editor.
-		$I->addClassicEditorPage($I, 'page', 'ConvertKit: Page: Product: Shortcode: No Products');
+		$I->addClassicEditorPage($I, 'page', 'Kit: Page: Product: Shortcode: No Products');
 
 		// Open Visual Editor modal for the shortcode.
 		$I->openVisualEditorShortcodeModal(
 			$I,
-			'ConvertKit Product'
+			'Kit Product'
 		);
 
 		// Confirm an error notice displays.
@@ -519,7 +519,7 @@ class PageShortcodeProductCest
 
 		// Confirm that the Product shortcode displays instructions to the user on how to add a Form in ConvertKit.
 		$I->see(
-			'No products exist in ConvertKit.',
+			'No products exist in Kit.',
 			[
 				'css' => '#convertkit-modal-body-body',
 			]

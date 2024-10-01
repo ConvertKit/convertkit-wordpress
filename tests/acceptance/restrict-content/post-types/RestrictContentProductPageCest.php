@@ -32,7 +32,7 @@ class RestrictContentProductPageCest
 		$I->setupConvertKitPluginDisableJS($I);
 
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Restrict Content: Product');
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Restrict Content: Product');
 
 		// Add blocks.
 		$I->addGutenbergParagraphBlock($I, 'Visible content.');
@@ -62,7 +62,7 @@ class RestrictContentProductPageCest
 		$I->setupConvertKitPluginDisableJS($I);
 
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Restrict Content: Product');
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Restrict Content: Product');
 
 		// Configure metabox's Restrict Content setting = Product name.
 		$I->configureMetaboxSettings(
@@ -105,7 +105,7 @@ class RestrictContentProductPageCest
 		$memberOnlyContent = 'Member-only content';
 
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Restrict Content: Product: Generated Excerpt');
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Restrict Content: Product: Generated Excerpt');
 
 		// Configure metabox's Restrict Content setting = Product name.
 		$I->configureMetaboxSettings(
@@ -150,7 +150,7 @@ class RestrictContentProductPageCest
 		$I->setupConvertKitPlugin($I);
 
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Restrict Content: Product: Modal');
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Restrict Content: Product: Modal');
 
 		// Configure metabox's Restrict Content setting = Product name.
 		$I->configureMetaboxSettings(
@@ -194,7 +194,7 @@ class RestrictContentProductPageCest
 		$pageID = $I->createRestrictedContentPage(
 			$I,
 			[
-				'post_title'               => 'ConvertKit: Page: Restrict Content: Invalid Product',
+				'post_title'               => 'Kit: Page: Restrict Content: Invalid Product',
 				'restrict_content_setting' => 'product_12345', // A fake Product that does not exist in ConvertKit.
 			]
 		);
@@ -224,7 +224,7 @@ class RestrictContentProductPageCest
 		$I->activateThirdPartyPlugin($I, 'beaver-builder-lite-version');
 
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Restrict Content: Beaver Builder');
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Restrict Content: Beaver Builder');
 
 		// Configure metabox's Restrict Content setting = Product name.
 		$I->configureMetaboxSettings(
@@ -286,7 +286,7 @@ class RestrictContentProductPageCest
 		);
 
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Restrict Content: Product: Search Engines');
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Restrict Content: Product: Search Engines');
 
 		// Configure metabox's Restrict Content setting = Product name.
 		$I->configureMetaboxSettings(
@@ -330,7 +330,7 @@ class RestrictContentProductPageCest
 		$pageID = $I->createRestrictedContentPage(
 			$I,
 			[
-				'post_title' => 'ConvertKit: Page: Restrict Content: Product: ' . $_ENV['CONVERTKIT_API_PRODUCT_NAME'] . ': Quick Edit',
+				'post_title' => 'Kit: Page: Restrict Content: Product: ' . $_ENV['CONVERTKIT_API_PRODUCT_NAME'] . ': Quick Edit',
 			]
 		);
 
@@ -366,13 +366,13 @@ class RestrictContentProductPageCest
 			$I->createRestrictedContentPage(
 				$I,
 				[
-					'post_title' => 'ConvertKit: Page: Restrict Content: Product: ' . $_ENV['CONVERTKIT_API_PRODUCT_NAME'] . ': Bulk Edit #1',
+					'post_title' => 'Kit: Page: Restrict Content: Product: ' . $_ENV['CONVERTKIT_API_PRODUCT_NAME'] . ': Bulk Edit #1',
 				]
 			),
 			$I->createRestrictedContentPage(
 				$I,
 				[
-					'post_title' => 'ConvertKit: Page: Restrict Content: Product: ' . $_ENV['CONVERTKIT_API_PRODUCT_NAME'] . ': Bulk Edit #2',
+					'post_title' => 'Kit: Page: Restrict Content: Product: ' . $_ENV['CONVERTKIT_API_PRODUCT_NAME'] . ': Bulk Edit #2',
 				]
 			),
 		);

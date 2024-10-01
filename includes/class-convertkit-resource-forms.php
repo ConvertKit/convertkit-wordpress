@@ -287,7 +287,7 @@ class ConvertKit_Resource_Forms extends ConvertKit_Resource_V4 {
 				'convertkit_resource_forms_get_html',
 				sprintf(
 					/* translators: ConvertKit Form ID */
-					__( 'ConvertKit Form ID %s does not exist on ConvertKit.', 'convertkit' ),
+					__( 'Kit Form ID %s does not exist on Kit.', 'convertkit' ),
 					$id
 				)
 			);
@@ -303,7 +303,7 @@ class ConvertKit_Resource_Forms extends ConvertKit_Resource_V4 {
 			if ( ! $settings->has_access_token() ) {
 				return new WP_Error(
 					'convertkit_resource_forms_get_html',
-					__( 'ConvertKit Legacy Form could not be fetched as no Access Token specified in Plugin Settings', 'convertkit' )
+					__( 'Kit Legacy Form could not be fetched as no Access Token specified in Plugin Settings', 'convertkit' )
 				);
 			}
 

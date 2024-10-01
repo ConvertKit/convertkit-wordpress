@@ -31,7 +31,7 @@ class RestrictContentTagCest
 	public function testRestrictContentByTag(AcceptanceTester $I)
 	{
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Restrict Content: Tag');
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Restrict Content: Tag');
 
 		// Configure metabox's Restrict Content setting = Tag name.
 		$I->configureMetaboxSettings(
@@ -72,7 +72,7 @@ class RestrictContentTagCest
 		$pageID = $I->createRestrictedContentPage(
 			$I,
 			[
-				'post_title'               => 'ConvertKit: Page: Restrict Content: Invalid Tag',
+				'post_title'               => 'Kit: Page: Restrict Content: Invalid Tag',
 				'restrict_content_setting' => 'tag_12345', // A fake Tag that does not exist in ConvertKit.
 			]
 		);
@@ -98,7 +98,7 @@ class RestrictContentTagCest
 		$pageID = $I->createRestrictedContentPage(
 			$I,
 			[
-				'post_title' => 'ConvertKit: Page: Restrict Content: Tag: ' . $_ENV['CONVERTKIT_API_TAG_NAME'] . ': Quick Edit',
+				'post_title' => 'Kit: Page: Restrict Content: Tag: ' . $_ENV['CONVERTKIT_API_TAG_NAME'] . ': Quick Edit',
 			]
 		);
 
@@ -131,13 +131,13 @@ class RestrictContentTagCest
 			$I->createRestrictedContentPage(
 				$I,
 				[
-					'post_title' => 'ConvertKit: Page: Restrict Content: Tag: ' . $_ENV['CONVERTKIT_API_TAG_NAME'] . ': Bulk Edit #1',
+					'post_title' => 'Kit: Page: Restrict Content: Tag: ' . $_ENV['CONVERTKIT_API_TAG_NAME'] . ': Bulk Edit #1',
 				]
 			),
 			$I->createRestrictedContentPage(
 				$I,
 				[
-					'post_title' => 'ConvertKit: Page: Restrict Content: Tag: ' . $_ENV['CONVERTKIT_API_TAG_NAME'] . ': Bulk Edit #2',
+					'post_title' => 'Kit: Page: Restrict Content: Tag: ' . $_ENV['CONVERTKIT_API_TAG_NAME'] . ': Bulk Edit #2',
 				]
 			),
 		);

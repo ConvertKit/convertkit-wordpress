@@ -42,7 +42,7 @@ class PageTagCest
 		$subscriberID = $I->apiSubscribe($emailAddress, $_ENV['CONVERTKIT_API_FORM_ID']);
 
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Tag: None');
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Tag: None');
 
 		// Check the order of the Tag resources are alphabetical, with the None option prepending the Tags.
 		$I->checkSelectTagOptionOrder(
@@ -94,7 +94,7 @@ class PageTagCest
 		$subscriberID = $I->apiSubscribe($emailAddress, $_ENV['CONVERTKIT_API_FORM_ID']);
 
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Tag: ' . $_ENV['CONVERTKIT_API_TAG_NAME'] );
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Tag: ' . $_ENV['CONVERTKIT_API_TAG_NAME'] );
 
 		// Configure metabox's Tag setting to the value specified in the .env file.
 		$I->configureMetaboxSettings(
@@ -130,7 +130,7 @@ class PageTagCest
 	public function testAddNewPageUsingDefinedTagWithInvalidSubscriberID(AcceptanceTester $I)
 	{
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Tag: ' . $_ENV['CONVERTKIT_API_TAG_NAME'] . ': Invalid Subscriber ID' );
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Tag: ' . $_ENV['CONVERTKIT_API_TAG_NAME'] . ': Invalid Subscriber ID' );
 
 		// Configure metabox's Tag setting to the value specified in the .env file.
 		$I->configureMetaboxSettings(
@@ -172,7 +172,7 @@ class PageTagCest
 		$pageID = $I->havePostInDatabase(
 			[
 				'post_type'  => 'page',
-				'post_title' => 'ConvertKit: Page: Tag: ' . $_ENV['CONVERTKIT_API_TAG_NAME'] . ': Quick Edit',
+				'post_title' => 'Kit: Page: Tag: ' . $_ENV['CONVERTKIT_API_TAG_NAME'] . ': Quick Edit',
 			]
 		);
 
@@ -211,13 +211,13 @@ class PageTagCest
 			$I->havePostInDatabase(
 				[
 					'post_type'  => 'page',
-					'post_title' => 'ConvertKit: Page: Tag: ' . $_ENV['CONVERTKIT_API_TAG_NAME'] . ': Bulk Edit #1',
+					'post_title' => 'Kit: Page: Tag: ' . $_ENV['CONVERTKIT_API_TAG_NAME'] . ': Bulk Edit #1',
 				]
 			),
 			$I->havePostInDatabase(
 				[
 					'post_type'  => 'page',
-					'post_title' => 'ConvertKit: Page: Tag: ' . $_ENV['CONVERTKIT_API_TAG_NAME'] . ': Bulk Edit #2',
+					'post_title' => 'Kit: Page: Tag: ' . $_ENV['CONVERTKIT_API_TAG_NAME'] . ': Bulk Edit #2',
 				]
 			),
 		);
@@ -267,7 +267,7 @@ class PageTagCest
 			$I->havePostInDatabase(
 				[
 					'post_type'  => 'page',
-					'post_title' => 'ConvertKit: Page: Tag: ' . $_ENV['CONVERTKIT_API_TAG_NAME'] . ': Bulk Edit with No Change #1',
+					'post_title' => 'Kit: Page: Tag: ' . $_ENV['CONVERTKIT_API_TAG_NAME'] . ': Bulk Edit with No Change #1',
 					'meta_input' => [
 						'_wp_convertkit_post_meta' => [
 							'form'         => '',
@@ -280,7 +280,7 @@ class PageTagCest
 			$I->havePostInDatabase(
 				[
 					'post_type'  => 'page',
-					'post_title' => 'ConvertKit: Page: Form: ' . $_ENV['CONVERTKIT_API_FORM_NAME'] . ': Bulk Edit with No Change #2',
+					'post_title' => 'Kit: Page: Form: ' . $_ENV['CONVERTKIT_API_FORM_NAME'] . ': Bulk Edit with No Change #2',
 					'meta_input' => [
 						'_wp_convertkit_post_meta' => [
 							'form'         => '',

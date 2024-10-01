@@ -36,7 +36,7 @@ class WPGutenberg extends \Codeception\Module
 	 * @since   1.9.7.4
 	 *
 	 * @param   AcceptanceTester $I                      Acceptance Tester.
-	 * @param   string           $blockName              Block Name (e.g. 'ConvertKit Form').
+	 * @param   string           $blockName              Block Name (e.g. 'Kit Form').
 	 * @param   string           $blockProgrammaticName  Programmatic Block Name (e.g. 'convertkit-form').
 	 * @param   bool|array       $blockConfiguration     Block Configuration (field => value key/value array).
 	 */
@@ -219,7 +219,7 @@ class WPGutenberg extends \Codeception\Module
 	 * @since   2.2.0
 	 *
 	 * @param   AcceptanceTester $I                      Acceptance Tester.
-	 * @param   string           $formatterName          Formatter Name (e.g. 'ConvertKit Form Trigger').
+	 * @param   string           $formatterName          Formatter Name (e.g. 'Kit Form Trigger').
 	 * @param   string           $formatterProgrammaticName  Programmatic Formatter Name (e.g. 'convertkit-form-link').
 	 * @param   bool|array       $formatterConfiguration Block formatter's configuration (field => value key/value array).
 	 */
@@ -268,7 +268,7 @@ class WPGutenberg extends \Codeception\Module
 	 * @since   2.2.2
 	 *
 	 * @param   AcceptanceTester $I                      Acceptance Tester.
-	 * @param   string           $formatterName          Formatter Name (e.g. 'ConvertKit Form Trigger').
+	 * @param   string           $formatterName          Formatter Name (e.g. 'Kit Form Trigger').
 	 */
 	public function dontSeeGutenbergFormatter($I, $formatterName)
 	{
@@ -290,7 +290,7 @@ class WPGutenberg extends \Codeception\Module
 	 * @since   1.9.7.4
 	 *
 	 * @param   AcceptanceTester $I                      Acceptance Tester.
-	 * @param   string           $blockName              Block Name (e.g. 'ConvertKit Form').
+	 * @param   string           $blockName              Block Name (e.g. 'Kit Form').
 	 */
 	public function checkGutenbergBlockHasNoErrors($I, $blockName)
 	{

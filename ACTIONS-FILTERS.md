@@ -27,7 +27,7 @@
 					</tr><tr>
 						<td>&nbsp;</td>
 						<td><a href="#convertkit_admin_settings_register_sections"><code>convertkit_admin_settings_register_sections</code></a></td>
-						<td>Registers settings sections at Settings > ConvertKit.</td>
+						<td>Registers settings sections at Settings > Kit.</td>
 					</tr><tr>
 						<td colspan="3">../admin/class-convertkit-admin-post.php</td>
 					</tr><tr>
@@ -315,7 +315,7 @@ add_filter( 'convertkit_plugin_screen_action_links', function( $links ) {
 						convertkit_admin_settings_register_sections
 						<code>admin/class-convertkit-admin-settings.php::326</code>
 					</h3><h4>Overview</h4>
-						<p>Registers settings sections at Settings > ConvertKit.</p><h4>Parameters</h4>
+						<p>Registers settings sections at Settings > Kit.</p><h4>Parameters</h4>
 					<table>
 						<thead>
 							<tr>
@@ -506,7 +506,7 @@ add_filter( 'convertkit_get_pre_publish_actions', function( $pre_publish_actions
 </pre>
 <h3 id="convertkit_block_content_render">
 						convertkit_block_content_render
-						<code>includes/blocks/class-convertkit-block-content.php::282</code>
+						<code>includes/blocks/class-convertkit-block-content.php::283</code>
 					</h3><h4>Overview</h4>
 						<p>Filters the content in the ConvertKit Custom Content block/shortcode immediately before it is output.</p><h4>Parameters</h4>
 					<table>
@@ -549,7 +549,7 @@ add_filter( 'convertkit_block_content_render', function( $content, $atts, $subsc
 </pre>
 <h3 id="convertkit_block_product_render">
 						convertkit_block_product_render
-						<code>includes/blocks/class-convertkit-block-product.php::460</code>
+						<code>includes/blocks/class-convertkit-block-product.php::461</code>
 					</h3><h4>Overview</h4>
 						<p>Filter the block's content immediately before it is output.</p><h4>Parameters</h4>
 					<table>
@@ -580,7 +580,7 @@ add_filter( 'convertkit_block_product_render', function( $html, $atts ) {
 </pre>
 <h3 id="convertkit_block_broadcasts_render">
 						convertkit_block_broadcasts_render
-						<code>includes/blocks/class-convertkit-block-broadcasts.php::620</code>
+						<code>includes/blocks/class-convertkit-block-broadcasts.php::621</code>
 					</h3><h4>Overview</h4>
 						<p>Filter the block's content immediately before it is output.</p><h4>Parameters</h4>
 					<table>
@@ -611,7 +611,7 @@ add_filter( 'convertkit_block_broadcasts_render', function( $html, $atts ) {
 </pre>
 <h3 id="convertkit_block_broadcasts_render_ajax">
 						convertkit_block_broadcasts_render_ajax
-						<code>includes/blocks/class-convertkit-block-broadcasts.php::535</code>
+						<code>includes/blocks/class-convertkit-block-broadcasts.php::536</code>
 					</h3><h4>Overview</h4>
 						<p>Filter the block's inner content immediately before it is output by AJAX, which occurs when pagination was clicked.</p><h4>Parameters</h4>
 					<table>
@@ -642,7 +642,7 @@ add_filter( 'convertkit_block_broadcasts_render_ajax', function( $html, $atts ) 
 </pre>
 <h3 id="convertkit_block_broadcasts_build_html_list_item">
 						convertkit_block_broadcasts_build_html_list_item
-						<code>includes/blocks/class-convertkit-block-broadcasts.php::701</code>
+						<code>includes/blocks/class-convertkit-block-broadcasts.php::702</code>
 					</h3><h4>Overview</h4>
 						<p>Defines the HTML for an individual broadcast item in the Broadcasts block.</p><h4>Parameters</h4>
 					<table>
@@ -677,7 +677,7 @@ add_filter( 'convertkit_block_broadcasts_build_html_list_item', function( $html,
 </pre>
 <h3 id="convertkit_block_form_render">
 						convertkit_block_form_render
-						<code>includes/blocks/class-convertkit-block-form.php::372</code>
+						<code>includes/blocks/class-convertkit-block-form.php::373</code>
 					</h3><h4>Overview</h4>
 						<p>Filter the block's content immediately before it is output.</p><h4>Parameters</h4>
 					<table>
@@ -712,7 +712,7 @@ add_filter( 'convertkit_block_form_render', function( $form, $atts, $form_id ) {
 </pre>
 <h3 id="convertkit_block_form_trigger_render">
 						convertkit_block_form_trigger_render
-						<code>includes/blocks/class-convertkit-block-form-trigger.php::395</code>
+						<code>includes/blocks/class-convertkit-block-form-trigger.php::396</code>
 					</h3><h4>Overview</h4>
 						<p>Filter the block's content immediately before it is output.</p><h4>Parameters</h4>
 					<table>
@@ -1550,11 +1550,11 @@ add_filter( 'convertkit_broadcasts_parse_broadcast_content_permitted_html_tags',
 					</tr><tr>
 						<td>&nbsp;</td>
 						<td><a href="#convertkit_admin_settings_enqueue_scripts"><code>convertkit_admin_settings_enqueue_scripts</code></a></td>
-						<td>Enqueue JavaScript for the Settings Screen at Settings > ConvertKit</td>
+						<td>Enqueue JavaScript for the Settings Screen at Settings > Kit</td>
 					</tr><tr>
 						<td>&nbsp;</td>
 						<td><a href="#convertkit_admin_settings_enqueue_styles"><code>convertkit_admin_settings_enqueue_styles</code></a></td>
-						<td>Enqueue CSS for the Settings Screen at Settings > ConvertKit</td>
+						<td>Enqueue CSS for the Settings Screen at Settings > Kit</td>
 					</tr><tr>
 						<td colspan="3">../admin/class-convertkit-admin-category.php</td>
 					</tr><tr>
@@ -1795,7 +1795,7 @@ do_action( 'convertkit_settings_base_render_after', function(  ) {
 						convertkit_admin_settings_enqueue_scripts
 						<code>admin/class-convertkit-admin-settings.php::68</code>
 					</h3><h4>Overview</h4>
-						<p>Enqueue JavaScript for the Settings Screen at Settings > ConvertKit</p><h4>Parameters</h4>
+						<p>Enqueue JavaScript for the Settings Screen at Settings > Kit</p><h4>Parameters</h4>
 					<table>
 						<thead>
 							<tr>
@@ -1820,7 +1820,7 @@ do_action( 'convertkit_admin_settings_enqueue_scripts', function( $section ) {
 						convertkit_admin_settings_enqueue_styles
 						<code>admin/class-convertkit-admin-settings.php::99</code>
 					</h3><h4>Overview</h4>
-						<p>Enqueue CSS for the Settings Screen at Settings > ConvertKit</p><h4>Parameters</h4>
+						<p>Enqueue CSS for the Settings Screen at Settings > Kit</p><h4>Parameters</h4>
 					<table>
 						<thead>
 							<tr>

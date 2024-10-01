@@ -137,8 +137,8 @@ class ConvertKit_Resource_Products extends ConvertKit_Resource_V4 {
 			return new WP_Error(
 				'convertkit_resource_products_get_html',
 				sprintf(
-					/* translators: ConvertKit Product ID */
-					__( 'ConvertKit Product ID %s does not exist on ConvertKit.', 'convertkit' ),
+					/* translators: Kit Product ID */
+					__( 'Kit Product ID %s does not exist on Kit.', 'convertkit' ),
 					$id
 				)
 			);

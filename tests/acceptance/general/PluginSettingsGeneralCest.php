@@ -1,6 +1,6 @@
 <?php
 /**
- * Tests for the Settings > ConvertKit > General screens.
+ * Tests for the Settings > Kit > General screens.
  *
  * @since   1.9.6
  */
@@ -19,7 +19,7 @@ class PluginSettingsGeneralCest
 	}
 
 	/**
-	 * Test that the Settings > ConvertKit > General screen has expected a11y output, such as label[for], and
+	 * Test that the Settings > Kit > General screen has expected a11y output, such as label[for], and
 	 * UTM parameters are included in links displayed on the Plugins' Setting screen.
 	 *
 	 * @since   1.9.7.6
@@ -115,7 +115,7 @@ class PluginSettingsGeneralCest
 		$I->amOnAdminPage('index.php');
 
 		// Check that a notice is displayed that the API credentials are invalid.
-		$I->seeErrorNotice($I, 'ConvertKit: Authorization failed. Please connect your ConvertKit account.');
+		$I->seeErrorNotice($I, 'Kit: Authorization failed. Please connect your Kit account.');
 	}
 
 	/**
@@ -162,7 +162,7 @@ class PluginSettingsGeneralCest
 		$I->amOnAdminPage('index.php');
 
 		// Check that no notice is displayed that the API credentials are invalid.
-		$I->dontSeeErrorNotice($I, 'ConvertKit: Authorization failed. Please connect your ConvertKit account.');
+		$I->dontSeeErrorNotice($I, 'Kit: Authorization failed. Please connect your Kit account.');
 
 		// Go to the Plugin's Settings Screen.
 		$I->loadConvertKitSettingsGeneralScreen($I);
@@ -221,14 +221,14 @@ class PluginSettingsGeneralCest
 		// Create a Page and a Post, so that preview links display.
 		$I->havePostInDatabase(
 			[
-				'post_title'  => 'ConvertKit: Preview Form Links: Page',
+				'post_title'  => 'Kit: Preview Form Links: Page',
 				'post_type'   => 'page',
 				'post_status' => 'publish',
 			]
 		);
 		$I->havePostInDatabase(
 			[
-				'post_title'  => 'ConvertKit: Preview Form Links: Post',
+				'post_title'  => 'Kit: Preview Form Links: Post',
 				'post_type'   => 'post',
 				'post_status' => 'publish',
 			]

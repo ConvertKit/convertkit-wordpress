@@ -34,12 +34,12 @@ class DiviBroadcastsCest
 		$I->setupConvertKitPluginResources($I);
 
 		// Create a Divi Page in the backend editor.
-		$I->createDiviPageInBackendEditor($I, 'ConvertKit: Page: Broadcasts: Divi: Backend Editor');
+		$I->createDiviPageInBackendEditor($I, 'Kit: Page: Broadcasts: Divi: Backend Editor');
 
 		// Insert the Broadcasts module.
 		$I->insertDiviRowWithModule(
 			$I,
-			'ConvertKit Broadcasts',
+			'Kit Broadcasts',
 			'convertkit_broadcasts'
 		);
 
@@ -80,12 +80,12 @@ class DiviBroadcastsCest
 		$I->setupConvertKitPluginResources($I);
 
 		// Create a Divi Page in the frontend editor.
-		$url = $I->createDiviPageInFrontendEditor($I, 'ConvertKit: Page: Broadcasts: Divi: Frontend Editor');
+		$url = $I->createDiviPageInFrontendEditor($I, 'Kit: Page: Broadcasts: Divi: Frontend Editor');
 
 		// Insert the Broadcasts module.
 		$I->insertDiviRowWithModule(
 			$I,
-			'ConvertKit Broadcasts',
+			'Kit Broadcasts',
 			'convertkit_broadcasts'
 		);
 
@@ -118,18 +118,18 @@ class DiviBroadcastsCest
 	public function testBroadcastsModuleInFrontendEditorWhenNoCredentials(AcceptanceTester $I)
 	{
 		// Create a Divi Page in the frontend editor.
-		$I->createDiviPageInFrontendEditor($I, 'ConvertKit: Page: Broadcasts: Divi: Frontend: No Credentials', false);
+		$I->createDiviPageInFrontendEditor($I, 'Kit: Page: Broadcasts: Divi: Frontend: No Credentials', false);
 
 		// Insert the Broadcasts module.
 		$I->insertDiviRowWithModule(
 			$I,
-			'ConvertKit Broadcasts',
+			'Kit Broadcasts',
 			'convertkit_broadcasts'
 		);
 
 		// Confirm the on screen message displays.
-		$I->seeInSource('Not connected to ConvertKit');
-		$I->seeInSource('Connect your ConvertKit account at Settings > ConvertKit, and then refresh this page to configure broadcasts to display.');
+		$I->seeInSource('Not connected to Kit');
+		$I->seeInSource('Connect your Kit account at Settings > Kit, and then refresh this page to configure broadcasts to display.');
 	}
 
 	/**
@@ -147,18 +147,18 @@ class DiviBroadcastsCest
 		$I->setupConvertKitPluginResourcesNoData($I);
 
 		// Create a Divi Page in the frontend editor.
-		$I->createDiviPageInFrontendEditor($I, 'ConvertKit: Page: Broadcasts: Divi: Frontend: No Broadcasts');
+		$I->createDiviPageInFrontendEditor($I, 'Kit: Page: Broadcasts: Divi: Frontend: No Broadcasts');
 
 		// Insert the Broadcasts module.
 		$I->insertDiviRowWithModule(
 			$I,
-			'ConvertKit Broadcasts',
+			'Kit Broadcasts',
 			'convertkit_broadcasts'
 		);
 
 		// Confirm the on screen message displays.
-		$I->seeInSource('No broadcasts exist in ConvertKit');
-		$I->seeInSource('Add a broadcast to your ConvertKit account, and then refresh this page to configure broadcasts to display.');
+		$I->seeInSource('No broadcasts exist in Kit');
+		$I->seeInSource('Add a broadcast to your Kit account, and then refresh this page to configure broadcasts to display.');
 	}
 
 	/**

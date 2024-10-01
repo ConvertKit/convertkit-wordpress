@@ -34,12 +34,12 @@ class DiviProductCest
 		$I->setupConvertKitPluginResources($I);
 
 		// Create a Divi Page in the backend editor.
-		$I->createDiviPageInBackendEditor($I, 'ConvertKit: Page: Product: Divi: Backend Editor');
+		$I->createDiviPageInBackendEditor($I, 'Kit: Page: Product: Divi: Backend Editor');
 
 		// Insert the Product module.
 		$I->insertDiviRowWithModule(
 			$I,
-			'ConvertKit Product',
+			'Kit Product',
 			'convertkit_product',
 			'product',
 			$_ENV['CONVERTKIT_API_PRODUCT_ID']
@@ -70,12 +70,12 @@ class DiviProductCest
 		$I->setupConvertKitPluginResources($I);
 
 		// Create a Divi Page in the frontend editor.
-		$url = $I->createDiviPageInFrontendEditor($I, 'ConvertKit: Page: Product: Divi: Frontend Editor');
+		$url = $I->createDiviPageInFrontendEditor($I, 'Kit: Page: Product: Divi: Frontend Editor');
 
 		// Insert the Product module.
 		$I->insertDiviRowWithModule(
 			$I,
-			'ConvertKit Product',
+			'Kit Product',
 			'convertkit_product',
 			'product',
 			$_ENV['CONVERTKIT_API_PRODUCT_ID']
@@ -98,18 +98,18 @@ class DiviProductCest
 	public function testProductModuleInFrontendEditorWhenNoCredentials(AcceptanceTester $I)
 	{
 		// Create a Divi Page in the frontend editor.
-		$I->createDiviPageInFrontendEditor($I, 'ConvertKit: Page: Product: Divi: Frontend: No Credentials', false);
+		$I->createDiviPageInFrontendEditor($I, 'Kit: Page: Product: Divi: Frontend: No Credentials', false);
 
 		// Insert the Product module.
 		$I->insertDiviRowWithModule(
 			$I,
-			'ConvertKit Product',
+			'Kit Product',
 			'convertkit_product'
 		);
 
 		// Confirm the on screen message displays.
-		$I->seeInSource('Not connected to ConvertKit');
-		$I->seeInSource('Connect your ConvertKit account at Settings > ConvertKit, and then refresh this page to select a product.');
+		$I->seeInSource('Not connected to Kit');
+		$I->seeInSource('Connect your Kit account at Settings > Kit, and then refresh this page to select a product.');
 	}
 
 	/**
@@ -127,18 +127,18 @@ class DiviProductCest
 		$I->setupConvertKitPluginResourcesNoData($I);
 
 		// Create a Divi Page in the frontend editor.
-		$I->createDiviPageInFrontendEditor($I, 'ConvertKit: Page: Product: Divi: Product: No Products');
+		$I->createDiviPageInFrontendEditor($I, 'Kit: Page: Product: Divi: Product: No Products');
 
 		// Insert the Product module.
 		$I->insertDiviRowWithModule(
 			$I,
-			'ConvertKit Product',
+			'Kit Product',
 			'convertkit_product'
 		);
 
 		// Confirm the on screen message displays.
-		$I->seeInSource('No products exist in ConvertKit');
-		$I->seeInSource('Add a product to your ConvertKit account, and then refresh this page to select a product.');
+		$I->seeInSource('No products exist in Kit');
+		$I->seeInSource('Add a product to your Kit account, and then refresh this page to select a product.');
 	}
 
 	/**
@@ -157,7 +157,7 @@ class DiviProductCest
 		// Create Page with Product module in Divi.
 		$pageID = $I->createPageWithDiviModuleProgrammatically(
 			$I,
-			'ConvertKit: Product: Divi Module: No Product Param',
+			'Kit: Product: Divi Module: No Product Param',
 			'convertkit_product',
 			'product',
 			''

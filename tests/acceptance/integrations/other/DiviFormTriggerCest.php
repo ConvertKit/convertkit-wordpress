@@ -34,12 +34,12 @@ class DiviFormTriggerCest
 		$I->setupConvertKitPluginResources($I);
 
 		// Create a Divi Page in the backend editor.
-		$I->createDiviPageInBackendEditor($I, 'ConvertKit: Page: Form Trigger: Divi: Backend Editor');
+		$I->createDiviPageInBackendEditor($I, 'Kit: Page: Form Trigger: Divi: Backend Editor');
 
 		// Insert the Form module.
 		$I->insertDiviRowWithModule(
 			$I,
-			'ConvertKit Form Trigger',
+			'Kit Form Trigger',
 			'convertkit_formtrigger',
 			'form',
 			$_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_ID']
@@ -74,12 +74,12 @@ class DiviFormTriggerCest
 		$I->setupConvertKitPluginResources($I);
 
 		// Create a Divi Page in the frontend editor.
-		$url = $I->createDiviPageInFrontendEditor($I, 'ConvertKit: Page: Form Trigger: Divi: Frontend Editor');
+		$url = $I->createDiviPageInFrontendEditor($I, 'Kit: Page: Form Trigger: Divi: Frontend Editor');
 
 		// Insert the Form module.
 		$I->insertDiviRowWithModule(
 			$I,
-			'ConvertKit Form Trigger',
+			'Kit Form Trigger',
 			'convertkit_formtrigger',
 			'form',
 			$_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_ID']
@@ -106,18 +106,18 @@ class DiviFormTriggerCest
 	public function testFormTriggerModuleInFrontendEditorWhenNoCredentials(AcceptanceTester $I)
 	{
 		// Create a Divi Page in the frontend editor.
-		$I->createDiviPageInFrontendEditor($I, 'ConvertKit: Page: Form Trigger: Divi: Frontend: No Credentials', false);
+		$I->createDiviPageInFrontendEditor($I, 'Kit: Page: Form Trigger: Divi: Frontend: No Credentials', false);
 
 		// Insert the Form module.
 		$I->insertDiviRowWithModule(
 			$I,
-			'ConvertKit Form Trigger',
+			'Kit Form Trigger',
 			'convertkit_formtrigger'
 		);
 
 		// Confirm the on screen message displays.
-		$I->seeInSource('Not connected to ConvertKit');
-		$I->seeInSource('Connect your ConvertKit account at Settings > ConvertKit, and then refresh this page to select a form.');
+		$I->seeInSource('Not connected to Kit');
+		$I->seeInSource('Connect your Kit account at Settings > Kit, and then refresh this page to select a form.');
 	}
 
 	/**
@@ -135,18 +135,18 @@ class DiviFormTriggerCest
 		$I->setupConvertKitPluginResourcesNoData($I);
 
 		// Create a Divi Page in the frontend editor.
-		$I->createDiviPageInFrontendEditor($I, 'ConvertKit: Page: Form Trigger: Divi: Frontend: No Forms');
+		$I->createDiviPageInFrontendEditor($I, 'Kit: Page: Form Trigger: Divi: Frontend: No Forms');
 
 		// Insert the Form module.
 		$I->insertDiviRowWithModule(
 			$I,
-			'ConvertKit Form Trigger',
+			'Kit Form Trigger',
 			'convertkit_formtrigger'
 		);
 
 		// Confirm the on screen message displays.
-		$I->seeInSource('No modal, sticky bar or slide in forms exist in ConvertKit');
-		$I->seeInSource('Add a non-inline form to your ConvertKit account, and then refresh this page to select a form.');
+		$I->seeInSource('No modal, sticky bar or slide in forms exist in Kit');
+		$I->seeInSource('Add a non-inline form to your Kit account, and then refresh this page to select a form.');
 	}
 
 	/**
@@ -165,7 +165,7 @@ class DiviFormTriggerCest
 		// Create Page with Form module in Divi.
 		$pageID = $I->createPageWithDiviModuleProgrammatically(
 			$I,
-			'ConvertKit: Legacy Form Trigger: Divi Module: No Form Param',
+			'Kit: Legacy Form Trigger: Divi Module: No Form Param',
 			'convertkit_formtrigger',
 			'form',
 			''

@@ -101,7 +101,7 @@ class ConvertKit_Setup {
 		/**
 		 * 1.9.6+: Migrate _wp_convertkit_settings[default_form] to _wp_convertkit_settings[page_form] and
 		 * _wp_convertkit_settings[post_form], now that each Post Type has its own Default Form setting
-		 * in Settings > ConvertKit > General.
+		 * in Settings > Kit > General.
 		 */
 		if ( version_compare( $current_version, '1.9.6', '<' ) ) {
 			$this->migrate_default_form_settings();
@@ -472,7 +472,7 @@ class ConvertKit_Setup {
 	/**
 	 * 1.9.6+: Migrate _wp_convertkit_settings[default_form] to _wp_convertkit_settings[page_form] and
 	 * _wp_convertkit_settings[post_form], now that each Post Type has its own Default Form setting
-	 * in Settings > ConvertKit > General.
+	 * in Settings > Kit > General.
 	 */
 	private function migrate_default_form_settings() {
 

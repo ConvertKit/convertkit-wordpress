@@ -20,7 +20,7 @@ class ContactForm7FormCest
 	}
 
 	/**
-	 * Tests that no Contact Form 7 settings display and a 'No Forms exist on ConvertKit'
+	 * Tests that no Contact Form 7 settings display and a 'No Forms exist on Kit'
 	 * notification displays when no credentials are defined in the Plugin's settings.
 	 *
 	 * @since   2.2.7
@@ -237,12 +237,12 @@ class ContactForm7FormCest
 		$I->amOnAdminPage('options-general.php?page=_wp_convertkit_settings&tab=contactform7');
 
 		// Confirm a message is displayed telling the user a paid plan is required.
-		$I->seeInSource('Creator Network Recommendations requires a <a href="https://app.kit.com/account_settings/billing/?utm_source=wordpress&amp;utm_term=en_US&amp;utm_content=convertkit" target="_blank">paid ConvertKit Plan</a>');
+		$I->seeInSource('Creator Network Recommendations requires a <a href="https://app.kit.com/account_settings/billing/?utm_source=wordpress&amp;utm_term=en_US&amp;utm_content=convertkit" target="_blank">paid Kit Plan</a>');
 
 		// Create Page with Contact Form 7 Shortcode.
 		$pageID = $I->havePageInDatabase(
 			[
-				'post_title'   => 'ConvertKit: Contact Form 7: Creator Network Recommendations Disabled on ConvertKit',
+				'post_title'   => 'Kit: Contact Form 7: Creator Network Recommendations Disabled on Kit',
 				'post_name'    => 'convertkit-contact-form-7-creator-network-recommendations-disabled-convertkit',
 				'post_content' => 'Form:
 [contact-form-7 id="' . $contactForm7ID . '"]',
@@ -290,7 +290,7 @@ class ContactForm7FormCest
 		// Create Page with Contact Form 7 Shortcode.
 		$pageID = $I->havePageInDatabase(
 			[
-				'post_title'   => 'ConvertKit: Contact Form 7: Creator Network Recommendations',
+				'post_title'   => 'Kit: Contact Form 7: Creator Network Recommendations',
 				'post_name'    => 'convertkit-contact-form-7-creator-network-recommendations',
 				'post_content' => 'Form:
 [contact-form-7 id="' . $contactForm7ID . '"]',
@@ -304,9 +304,9 @@ class ContactForm7FormCest
 		$emailAddress = $I->generateEmailAddress();
 
 		// Complete Name and Email.
-		$I->fillField('input[name=your-name]', 'ConvertKit Name');
+		$I->fillField('input[name=your-name]', 'Kit Name');
 		$I->fillField('input[name=your-email]', $emailAddress);
-		$I->fillField('input[name=your-subject]', 'ConvertKit Subject');
+		$I->fillField('input[name=your-subject]', 'Kit Subject');
 
 		// Submit Form.
 		$I->click('Submit');
@@ -434,7 +434,7 @@ class ContactForm7FormCest
 		// Create Page with Contact Form 7 Shortcode.
 		return $I->havePageInDatabase(
 			[
-				'post_title'   => 'ConvertKit: Contact Form 7 Shortcode: Form: ' . $optionName,
+				'post_title'   => 'Kit: Contact Form 7 Shortcode: Form: ' . $optionName,
 				'post_content' => 'Form:
 [contact-form-7 id="' . $contactForm7ID . '"]',
 			]
@@ -460,9 +460,9 @@ class ContactForm7FormCest
 		$I->checkNoWarningsAndNoticesOnScreen($I);
 
 		// Complete Name and Email.
-		$I->fillField('input[name=your-name]', 'ConvertKit Name');
+		$I->fillField('input[name=your-name]', 'Kit Name');
 		$I->fillField('input[name=your-email]', $emailAddress);
-		$I->fillField('input[name=your-subject]', 'ConvertKit Subject');
+		$I->fillField('input[name=your-subject]', 'Kit Subject');
 
 		// Submit Form.
 		$I->click('Submit');

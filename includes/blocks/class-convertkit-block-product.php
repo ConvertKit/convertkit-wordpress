@@ -106,12 +106,13 @@ class ConvertKit_Block_Product extends ConvertKit_Block {
 		$settings            = new ConvertKit_Settings();
 
 		return array(
-			'title'                             => __( 'ConvertKit Product', 'convertkit' ),
-			'description'                       => __( 'Displays a button to purchase a ConvertKit product.', 'convertkit' ),
+			'title'                             => __( 'Kit Product', 'convertkit' ),
+			'description'                       => __( 'Displays a button to purchase a Kit product.', 'convertkit' ),
 			'icon'                              => 'resources/backend/images/block-icon-product.svg',
 			'category'                          => 'convertkit',
 			'keywords'                          => array(
 				__( 'ConvertKit', 'convertkit' ),
+				__( 'Kit', 'convertkit' ),
 				__( 'Product', 'convertkit' ),
 			),
 
@@ -135,16 +136,16 @@ class ConvertKit_Block_Product extends ConvertKit_Block {
 
 			// Help descriptions, displayed when no Access Token / resources exist and this block/shortcode is added.
 			'no_access_token'                   => array(
-				'notice'           => __( 'Not connected to ConvertKit.', 'convertkit' ),
+				'notice'           => __( 'Not connected to Kit.', 'convertkit' ),
 				'link'             => convertkit_get_setup_wizard_plugin_link(),
-				'link_text'        => __( 'Click here to connect your ConvertKit account.', 'convertkit' ),
-				'instruction_text' => __( 'Connect your ConvertKit account at Settings > ConvertKit, and then refresh this page to select a product.', 'convertkit' ),
+				'link_text'        => __( 'Click here to connect your Kit account.', 'convertkit' ),
+				'instruction_text' => __( 'Connect your Kit account at Settings > Kit, and then refresh this page to select a product.', 'convertkit' ),
 			),
 			'no_resources'                      => array(
-				'notice'           => __( 'No products exist in ConvertKit.', 'convertkit' ),
+				'notice'           => __( 'No products exist in Kit.', 'convertkit' ),
 				'link'             => convertkit_get_new_product_url(),
 				'link_text'        => __( 'Click here to create your first product.', 'convertkit' ),
-				'instruction_text' => __( 'Add a product to your ConvertKit account, and then refresh this page to select a product.', 'convertkit' ),
+				'instruction_text' => __( 'Add a product to your Kit account, and then refresh this page to select a product.', 'convertkit' ),
 			),
 
 			// Gutenberg: Help descriptions, displayed when no settings defined for a newly added Block.
@@ -311,17 +312,17 @@ class ConvertKit_Block_Product extends ConvertKit_Block {
 			'discount_code'           => array(
 				'label'       => __( 'Discount Code', 'convertkit' ),
 				'type'        => 'text',
-				'description' => __( 'Optional: A discount code to include. Must be defined in the ConvertKit Product.', 'convertkit' ),
+				'description' => __( 'Optional: A discount code to include. Must be defined in the Kit Product.', 'convertkit' ),
 			),
 			'checkout'                => array(
 				'label'       => __( 'Load checkout step', 'convertkit' ),
 				'type'        => 'toggle',
-				'description' => __( 'If enabled, immediately loads the checkout screen, instead of the ConvertKit Product description.', 'convertkit' ),
+				'description' => __( 'If enabled, immediately loads the checkout screen, instead of the Kit Product description.', 'convertkit' ),
 			),
 			'disable_modal_on_mobile' => array(
 				'label'       => __( 'Disable modal on mobile', 'convertkit' ),
 				'type'        => 'toggle',
-				'description' => __( 'Recommended if the ConvertKit Product is a digital download being purchased on mobile, to ensure the subscriber can immediately download the PDF once purchased.', 'convertkit' ),
+				'description' => __( 'Recommended if the Kit Product is a digital download being purchased on mobile, to ensure the subscriber can immediately download the PDF once purchased.', 'convertkit' ),
 			),
 
 			// These fields will only display on the shortcode, and are deliberately not registered in get_attributes(),

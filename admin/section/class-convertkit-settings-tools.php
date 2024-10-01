@@ -7,7 +7,7 @@
  */
 
 /**
- * Registers Tools for debugging and system information that can be accessed at Settings > ConvertKit > Tools.
+ * Registers Tools for debugging and system information that can be accessed at Settings > Kit > Tools.
  *
  * @package ConvertKit
  * @author ConvertKit
@@ -332,7 +332,7 @@ class ConvertKit_Settings_Tools extends ConvertKit_Settings_Base {
 	public function print_section_info() {
 
 		?>
-		<p><?php esc_html_e( 'Tools to help you manage ConvertKit on your site.', 'convertkit' ); ?></p>
+		<p><?php esc_html_e( 'Tools to help you manage Kit on your site.', 'convertkit' ); ?></p>
 		<?php
 
 	}

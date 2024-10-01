@@ -41,7 +41,7 @@ class PageCest
 		$I->dontSeeElementInDOM('#wp-convertkit-form');
 
 		// Check that an expected message is displayed.
-		$I->see('For the ConvertKit Plugin to function, please connect your ConvertKit account.');
+		$I->see('For the Kit Plugin to function, please connect your Kit account.');
 
 		// Check that a link to the OAuth auth screen exists and includes the state parameter.
 		$I->seeInSource('<a href="https://app.kit.com/oauth/authorize?client_id=' . $_ENV['CONVERTKIT_OAUTH_CLIENT_ID'] . '&amp;response_type=code&amp;redirect_uri=' . urlencode( $_ENV['KIT_OAUTH_REDIRECT_URI'] ) );
@@ -53,7 +53,7 @@ class PageCest
 		);
 
 		// Click the link.
-		$I->click('connect your ConvertKit account.');
+		$I->click('connect your Kit account.');
 
 		// Confirm the ConvertKit hosted OAuth login screen is displayed.
 		$I->waitForElementVisible('body.sessions');

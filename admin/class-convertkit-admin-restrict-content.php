@@ -208,7 +208,7 @@ class ConvertKit_Admin_Restrict_Content {
 	}
 
 	/**
-	 * Appends the 'ConvertKit Member Content' text to a Page's Title in the WP_List_Table,
+	 * Appends the 'Kit Member Content' text to a Page's Title in the WP_List_Table,
 	 * if the given Page has a Restrict Content setting.
 	 *
 	 * @param   string[] $post_states    An array of post display states.
@@ -231,7 +231,7 @@ class ConvertKit_Admin_Restrict_Content {
 		}
 
 		// Add Post State.
-		$post_states['convertkit_restrict_content'] = esc_html__( 'ConvertKit Member Content', 'convertkit' );
+		$post_states['convertkit_restrict_content'] = esc_html__( 'Kit Member Content', 'convertkit' );
 
 		// Return.
 		return $post_states;

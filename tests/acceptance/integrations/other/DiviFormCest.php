@@ -34,12 +34,12 @@ class DiviFormCest
 		$I->setupConvertKitPluginResources($I);
 
 		// Create a Divi Page in the backend editor.
-		$I->createDiviPageInBackendEditor($I, 'ConvertKit: Page: Form: Divi: Backend Editor');
+		$I->createDiviPageInBackendEditor($I, 'Kit: Page: Form: Divi: Backend Editor');
 
 		// Insert the Form module.
 		$I->insertDiviRowWithModule(
 			$I,
-			'ConvertKit Form',
+			'Kit Form',
 			'convertkit_form',
 			'form',
 			$_ENV['CONVERTKIT_API_FORM_ID']
@@ -71,12 +71,12 @@ class DiviFormCest
 		$I->setupConvertKitPluginResources($I);
 
 		// Create a Divi Page in the frontend editor.
-		$url = $I->createDiviPageInFrontendEditor($I, 'ConvertKit: Page: Form: Divi: Frontend Editor');
+		$url = $I->createDiviPageInFrontendEditor($I, 'Kit: Page: Form: Divi: Frontend Editor');
 
 		// Insert the Form module.
 		$I->insertDiviRowWithModule(
 			$I,
-			'ConvertKit Form',
+			'Kit Form',
 			'convertkit_form',
 			'form',
 			$_ENV['CONVERTKIT_API_FORM_ID']
@@ -100,18 +100,18 @@ class DiviFormCest
 	public function testFormModuleInFrontendEditorWhenNoCredentials(AcceptanceTester $I)
 	{
 		// Create a Divi Page in the frontend editor.
-		$I->createDiviPageInFrontendEditor($I, 'ConvertKit: Page: Form: Divi: Frontend: No Credentials', false);
+		$I->createDiviPageInFrontendEditor($I, 'Kit: Page: Form: Divi: Frontend: No Credentials', false);
 
 		// Insert the Form module.
 		$I->insertDiviRowWithModule(
 			$I,
-			'ConvertKit Form',
+			'Kit Form',
 			'convertkit_form'
 		);
 
 		// Confirm the on screen message displays.
-		$I->seeInSource('Not connected to ConvertKit');
-		$I->seeInSource('Connect your ConvertKit account at Settings > ConvertKit, and then refresh this page to select a form.');
+		$I->seeInSource('Not connected to Kit');
+		$I->seeInSource('Connect your Kit account at Settings > Kit, and then refresh this page to select a form.');
 	}
 
 	/**
@@ -129,18 +129,18 @@ class DiviFormCest
 		$I->setupConvertKitPluginResourcesNoData($I);
 
 		// Create a Divi Page in the frontend editor.
-		$I->createDiviPageInFrontendEditor($I, 'ConvertKit: Page: Form: Divi: Frontend: No Forms');
+		$I->createDiviPageInFrontendEditor($I, 'Kit: Page: Form: Divi: Frontend: No Forms');
 
 		// Insert the Form module.
 		$I->insertDiviRowWithModule(
 			$I,
-			'ConvertKit Form',
+			'Kit Form',
 			'convertkit_form'
 		);
 
 		// Confirm the on screen message displays.
-		$I->seeInSource('No forms exist in ConvertKit');
-		$I->seeInSource('Add a form to your ConvertKit account, and then refresh this page to select a form.');
+		$I->seeInSource('No forms exist in Kit');
+		$I->seeInSource('Add a form to your Kit account, and then refresh this page to select a form.');
 	}
 
 	/**
@@ -159,7 +159,7 @@ class DiviFormCest
 		// Create Page with Form module in Divi.
 		$pageID = $I->createPageWithDiviModuleProgrammatically(
 			$I,
-			'ConvertKit: Legacy Form: Divi Module: Valid Form Param',
+			'Kit: Legacy Form: Divi Module: Valid Form Param',
 			'convertkit_form',
 			'form',
 			$_ENV['CONVERTKIT_API_LEGACY_FORM_ID']
@@ -191,7 +191,7 @@ class DiviFormCest
 		// Create Page with Form module in Divi.
 		$pageID = $I->createPageWithDiviModuleProgrammatically(
 			$I,
-			'ConvertKit: Legacy Form: Divi Module: No Form Param',
+			'Kit: Legacy Form: Divi Module: No Form Param',
 			'convertkit_form',
 			'form',
 			''

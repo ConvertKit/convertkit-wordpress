@@ -37,7 +37,7 @@ class ConvertKitPlugin extends \Codeception\Module
 
 	/**
 	 * Helper method to programmatically setup the Plugin's settings, as if the
-	 * user configured the Plugin at `Settings > ConvertKit`.
+	 * user configured the Plugin at `Settings > Kit`.
 	 *
 	 * @since   1.9.6
 	 *
@@ -87,7 +87,7 @@ class ConvertKitPlugin extends \Codeception\Module
 
 	/**
 	 * Helper method to programmatically setup the Plugin's settings, as if the
-	 * user configured the Plugin at `Settings > ConvertKit` with a ConvertKit
+	 * user configured the Plugin at `Settings > Kit` with a ConvertKit
 	 * account that has no data (no forms, products, tags etc).
 	 *
 	 * @since   2.4.0
@@ -112,7 +112,7 @@ class ConvertKitPlugin extends \Codeception\Module
 
 	/**
 	 * Helper method to programmatically setup the Plugin's settings, as if the
-	 * user configured the Plugin at `Settings > ConvertKit` with an invalid
+	 * user configured the Plugin at `Settings > Kit` with an invalid
 	 * ConvertKit API Key and Secret.
 	 *
 	 * @since   2.4.0
@@ -135,7 +135,7 @@ class ConvertKitPlugin extends \Codeception\Module
 
 	/**
 	 * Helper method to programmatically setup the Plugin's settings, as if the
-	 * user configured the Plugin at `Settings > ConvertKit` with a ConvertKit
+	 * user configured the Plugin at `Settings > Kit` with a ConvertKit
 	 * API Key and Secret, and defined no default Forms for Posts, Pages and
 	 * WooCommerce Products.
 	 *
@@ -157,7 +157,7 @@ class ConvertKitPlugin extends \Codeception\Module
 
 	/**
 	 * Helper method to programmatically setup the Plugin's settings, as if the
-	 * user configured the Plugin at `Settings > ConvertKit` with a ConvertKit
+	 * user configured the Plugin at `Settings > Kit` with a ConvertKit
 	 * API Key and Secret, and disabled JS.
 	 *
 	 * @since   2.4.0
@@ -717,7 +717,7 @@ class ConvertKitPlugin extends \Codeception\Module
 	}
 
 	/**
-	 * Test that the 'Click here to connect your ConvertKit account' link displays a popup window,
+	 * Test that the 'Click here to connect your Kit account' link displays a popup window,
 	 * when using a block with no API Keys specified.
 	 *
 	 * @since   2.2.6
@@ -730,7 +730,7 @@ class ConvertKitPlugin extends \Codeception\Module
 	{
 		// Confirm that the Form block displays instructions to the user on how to enter their API Key.
 		$I->see(
-			'Not connected to ConvertKit.',
+			'Not connected to Kit.',
 			[
 				'css' => '.convertkit-no-content',
 			]
@@ -738,7 +738,7 @@ class ConvertKitPlugin extends \Codeception\Module
 
 		// Click the link to confirm it loads the Plugin's setup wizard.
 		$I->click(
-			'Click here to connect your ConvertKit account.',
+			'Click here to connect your Kit account.',
 			[
 				'css' => '.convertkit-no-content',
 			]
@@ -757,7 +757,7 @@ class ConvertKitPlugin extends \Codeception\Module
 		$I->dontSeeElementInDOM('#convertkit-setup-wizard-exit-link');
 
 		// Confirm expected title is displayed.
-		$I->see('Welcome to the ConvertKit Setup Wizard');
+		$I->see('Welcome to the Kit Setup Wizard');
 
 		// Confirm Step text is correct.
 		$I->see('Step 1 of 2');
@@ -775,7 +775,7 @@ class ConvertKitPlugin extends \Codeception\Module
 		$I->dontSeeElementInDOM('#convertkit-setup-wizard-exit-link');
 
 		// Confirm expected title is displayed.
-		$I->see('Connect your ConvertKit account');
+		$I->see('Connect your Kit account');
 
 		// Confirm Step text is correct.
 		$I->see('Step 2 of 2');

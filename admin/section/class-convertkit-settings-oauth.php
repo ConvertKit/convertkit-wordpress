@@ -7,7 +7,7 @@
  */
 
 /**
- * Registers OAuth integration that is be accessed at Settings > ConvertKit, when the Plugin
+ * Registers OAuth integration that is be accessed at Settings > Kit, when the Plugin
  * has no Access Token specified.
  *
  * @package ConvertKit
