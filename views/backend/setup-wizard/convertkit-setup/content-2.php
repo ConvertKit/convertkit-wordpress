@@ -26,7 +26,7 @@ if ( ! $this->forms->exist() ) {
 	<p>
 		<?php
 		printf(
-			'%1$s <a href="https://help.convertkit.com/en/articles/3860348-how-to-create-your-first-form-in-convertkit" target="_blank">%2$s</a>',
+			'%1$s <a href="https://help.kit.com/en/articles/3860348-how-to-create-your-first-form-in-convertkit" target="_blank">%2$s</a>',
 			esc_html__( 'Not sure how to do this in Kit?', 'convertkit' ),
 			esc_html__( 'Follow our step by step documentation', 'convertkit' )
 		);
