@@ -294,7 +294,7 @@ class ConvertKit_Resource_Forms extends ConvertKit_Resource_V4 {
 		}
 
 		// If no uid is present in the Form API data, this is a legacy form that's served by directly fetching the HTML
-		// from forms.convertkit.com.
+		// from forms.kit.com.
 		if ( ! isset( $this->resources[ $id ]['uid'] ) ) {
 			// Initialize Settings.
 			$settings = new ConvertKit_Settings();

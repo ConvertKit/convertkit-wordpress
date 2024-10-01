@@ -94,7 +94,7 @@ CONVERTKIT_API_LEGACY_FORM_ID="470099"
 CONVERTKIT_API_LEGACY_FORM_SHORTCODE="[convertkit form=5281783]"
 CONVERTKIT_API_LEGACY_LANDING_PAGE_NAME="Legacy Landing Page"
 CONVERTKIT_API_LEGACY_LANDING_PAGE_ID="470103"
-CONVERTKIT_API_LEGACY_LANDING_PAGE_URL="https://app.convertkit.com/landing_pages/470103"
+CONVERTKIT_API_LEGACY_LANDING_PAGE_URL="https://app.kit.com/landing_pages/470103"
 CONVERTKIT_API_SEQUENCE_ID="1030824"
 CONVERTKIT_API_TAG_NAME="wordpress"
 CONVERTKIT_API_TAG_ID="2744672"
@@ -262,7 +262,7 @@ is setup successfully.
 
 ### Add your API Key to the Plugin
 
-Refer to the [ConvertKit Help Article](https://help.convertkit.com/en/articles/2502591-getting-started-the-wordpress-plugin) to get started with
+Refer to the [ConvertKit Help Article](https://help.kit.com/en/articles/2502591-getting-started-the-wordpress-plugin) to get started with
 using the WordPress Plugin.
 
 ### Next Steps

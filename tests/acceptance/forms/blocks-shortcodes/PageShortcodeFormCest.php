@@ -205,8 +205,8 @@ class PageShortcodeFormCest
 	 * but the Form ID does not exist in the options table.
 	 *
 	 * This emulates when a ConvertKit User has:
-	 * - added a new ConvertKit Form to their account at https://app.convertkit.com/
-	 * - copied the ConvertKit Form Shortcode at https://app.convertkit.com/
+	 * - added a new ConvertKit Form to their account at https://app.kit.com/
+	 * - copied the ConvertKit Form Shortcode at https://app.kit.com/
 	 * - pasted the ConvertKit Form Shortcode into a new WordPress Page
 	 * - not navigated to Settings > ConvertKit to refresh the Plugin's Form Resources.
 	 *
@@ -280,7 +280,7 @@ class PageShortcodeFormCest
 		$I->checkNoWarningsAndNoticesOnScreen($I);
 
 		// Confirm that the ConvertKit Default Legacy Form displays.
-		$I->seeInSource('<form id="ck_subscribe_form" class="ck_subscribe_form" action="https://api.convertkit.com/landing_pages/' . $_ENV['CONVERTKIT_API_LEGACY_FORM_ID'] . '/subscribe" data-remote="true">');
+		$I->seeInSource('<form id="ck_subscribe_form" class="ck_subscribe_form" action="https://api.kit.com/landing_pages/' . $_ENV['CONVERTKIT_API_LEGACY_FORM_ID'] . '/subscribe" data-remote="true">');
 	}
 
 	/**
@@ -311,11 +311,11 @@ class PageShortcodeFormCest
 		$I->checkNoWarningsAndNoticesOnScreen($I);
 
 		// Confirm that the ConvertKit Default Legacy Form displays.
-		$I->seeInSource('<form id="ck_subscribe_form" class="ck_subscribe_form" action="https://api.convertkit.com/landing_pages/' . $_ENV['CONVERTKIT_API_LEGACY_FORM_ID'] . '/subscribe" data-remote="true">');
+		$I->seeInSource('<form id="ck_subscribe_form" class="ck_subscribe_form" action="https://api.kit.com/landing_pages/' . $_ENV['CONVERTKIT_API_LEGACY_FORM_ID'] . '/subscribe" data-remote="true">');
 	}
 
 	/**
-	 * Test the [convertkit form] shortcode, as supplied by app.convertkit.com, works when a valid Legacy Form ID is specified.
+	 * Test the [convertkit form] shortcode, as supplied by app.kit.com, works when a valid Legacy Form ID is specified.
 	 * The shortcode form's number / ID differs from the ID given to us in the API.
 	 * For example, a Legacy Form ID might be 470099, but the ConvertKit app says to use the shortcode [convertkit form=5281783]).
 	 *

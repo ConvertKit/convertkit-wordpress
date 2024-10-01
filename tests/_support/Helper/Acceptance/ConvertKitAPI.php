@@ -247,7 +247,7 @@ class ConvertKitAPI extends \Codeception\Module
 			case 'GET':
 				$result = $client->request(
 					$method,
-					'https://api.convertkit.com/v4/' . $endpoint . '?' . http_build_query($params),
+					'https://api.kit.com/v4/' . $endpoint . '?' . http_build_query($params),
 					[
 						'headers' => [
 							'Authorization' => 'Bearer ' . $_ENV['CONVERTKIT_OAUTH_ACCESS_TOKEN'],
@@ -260,7 +260,7 @@ class ConvertKitAPI extends \Codeception\Module
 			default:
 				$result = $client->request(
 					$method,
-					'https://api.convertkit.com/v4/' . $endpoint,
+					'https://api.kit.com/v4/' . $endpoint,
 					[
 						'headers' => [
 							'Accept'        => 'application/json',

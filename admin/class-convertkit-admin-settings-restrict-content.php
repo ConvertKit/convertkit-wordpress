@@ -300,7 +300,7 @@ class ConvertKit_Admin_Settings_Restrict_Content extends ConvertKit_Settings_Bas
 	 */
 	public function documentation_url() {
 
-		return 'https://help.convertkit.com/en/articles/2502591-the-convertkit-wordpress-plugin';
+		return 'https://help.kit.com/en/articles/2502591-the-convertkit-wordpress-plugin';
 
 	}
 

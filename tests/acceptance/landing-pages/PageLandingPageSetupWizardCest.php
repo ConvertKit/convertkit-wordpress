@@ -111,7 +111,7 @@ class PageLandingPageSetupWizardCest
 
 		// Check that the expected buttons display linking to ConvertKit.
 		$I->see('Create landing page');
-		$I->seeInSource('<a href="https://app.convertkit.com/pages/new/?utm_source=wordpress&amp;utm_term=en_US&amp;utm_content=convertkit"');
+		$I->seeInSource('<a href="https://app.kit.com/pages/new/?utm_source=wordpress&amp;utm_term=en_US&amp;utm_content=convertkit"');
 
 		// Update the Plugin to use credentials that have resources.
 		$I->setupConvertKitPlugin($I);
