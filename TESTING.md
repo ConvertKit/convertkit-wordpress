@@ -12,7 +12,7 @@ and [Codeception](https://codeception.com/docs/01-Introduction).
 
 ## Prerequisites
 
-If you haven't yet set up your local development environment with the Kit (formerly ConvertKit) Plugin repository installed, refer to the [Setup Guide](SETUP.md).
+If you haven't yet set up your local development environment with the ConvertKit Plugin repository installed, refer to the [Setup Guide](SETUP.md).
 
 If you haven't yet created a branch and made any code changes to the Plugin, refer to the [Development Guide](DEVELOPMENT.md)
 
@@ -242,9 +242,9 @@ class ExampleCest
      */
     public function _before(AcceptanceTester $I)
     {
-        $I->activateKit (formerly ConvertKit)Plugin($I);
+        $I->activateConvertKitPlugin($I);
         $I->activateThirdPartyPlugin($I, 'third-party-plugin-slug');
-        $I->setupKit (formerly ConvertKit)Plugin($I);
+        $I->setupConvertKitPlugin($I);
         $I->enableDebugLog($I);
     }
 
@@ -271,9 +271,9 @@ class ExampleCest
      */
     public function _passed(AcceptanceTester $I)
     {
-        $I->deactivateKit (formerly ConvertKit)Plugin($I);
+        $I->deactivateConvertKitPlugin($I);
         $I->deactivateThirdPartyPlugin($I, 'third-party-plugin-slug');
-        $I->resetKit (formerly ConvertKit)Plugin($I);
+        $I->resetConvertKitPlugin($I);
     }
 }
 ```
@@ -293,13 +293,13 @@ Our Acceptance Tests can now call `$I->checkNoWarningsAndNoticesOnScreen($I)`, i
 error check for every test.
 
 Further Acceptance Test Helpers that are provided include:
-- `activateKit (formerly ConvertKit)Plugin($I)`: Logs in to WordPress as the `admin` user, and activates the Kit (formerly ConvertKit) Plugin.
-- `deactivateKit (formerly ConvertKit)Plugin($I)`: Logs in to WordPress as the `admin` user, and deactivates the Kit (formerly ConvertKit) Plugin.
+- `activateConvertKitPlugin($I)`: Logs in to WordPress as the `admin` user, and activates the ConvertKit Plugin.
+- `deactivateConvertKitPlugin($I)`: Logs in to WordPress as the `admin` user, and deactivates the ConvertKit Plugin.
 - `activateThirdPartyPlugin($I, $name)`: Logs in to WordPress as the `admin` user, and activates the given third party Plugin by its slug.
 - `deactivateThirdPartyPlugin($I, $name)`: Logs in to WordPress as the `admin` user, and deactivates the given third party Plugin by its slug.
-- `setupKit (formerly ConvertKit)Plugin($I)`: Enters the Kit (formerly ConvertKit) API Key and Secret in the Plugin's Settings screen, saving it.
+- `setupConvertKitPlugin($I)`: Enters the ConvertKit API Key and Secret in the Plugin's Settings screen, saving it.
 
-Other helpers most likely exist; refer to the [Acceptance.php](https://github.com/Kit (formerly ConvertKit)/convertkit-wordpress/blob/main/tests/_support/Helper/Acceptance/)
+Other helpers most likely exist; refer to the [Acceptance.php](https://github.com/ConvertKit/convertkit-wordpress/blob/main/tests/_support/Helper/Acceptance/)
 folder of helper files for all available functions.
 
 ## Writing Helpers
@@ -324,7 +324,7 @@ public function yourCustomFunctionNameInHelper($I)
 
 If the function doesn't fit into any existing helper file:
 - create a new file in the `tests/_support/Helper/Acceptance` directory
-- edit the [acceptance.suite.yml](https://github.com/Kit (formerly ConvertKit)/convertkit-wordpress/blob/main/tests/acceptance.suite.yml) file, adding
+- edit the [acceptance.suite.yml](https://github.com/ConvertKit/convertkit-wordpress/blob/main/tests/acceptance.suite.yml) file, adding
 the Helper's namespace and class under the `enabled` section.
 
 Need to change how Codeception runs?  Edit the [codeception.dist.xml](codeception.dist.xml) file.
@@ -482,7 +482,7 @@ Need to change the PHP or WordPress coding standard rules applied?  Either:
 
 ## Next Steps
 
-Once your test(s) are written and successfully run locally, submit your branch via a new [Pull Request](https://github.com/Kit (formerly ConvertKit)/convertkit-wordpress/compare).
+Once your test(s) are written and successfully run locally, submit your branch via a new [Pull Request](https://github.com/ConvertKit/convertkit-wordpress/compare).
 
 It's best to create a Pull Request in draft mode, as this will trigger all tests to run as a GitHub Action, allowing you to
 double check all tests pass.
