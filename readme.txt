@@ -5,7 +5,7 @@ Tags: email marketing, email newsletter, newsletter, subscribers, membership
 Requires at least: 5.0
 Tested up to: 6.6.2
 Requires PHP: 5.6.20
-Stable tag: 2.5.9
+Stable tag: 2.6.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -158,6 +158,11 @@ Full Plugin documentation can be found [here](https://help.kit.com/en/articles/2
 10. Track subscriber growth
 
 == Changelog ==
+
+### 2.6.0 2024-10-01
+* Fix: Landing Pages: Replace Cloudflare JS `type` prefixes, to ensure JS runs
+* Updated: Changed branding to Kit
+* Updated: Kit WordPress Libraries to 2.0.4
 
 ### 2.5.9 2024-09-27
 * Added: Settings: Option to output Default Forms above, below or above and below content
