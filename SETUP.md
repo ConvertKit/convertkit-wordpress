@@ -1,6 +1,6 @@
 # Setup Guide
 
-This document describes how to setup your development environment, so that it is ready to run, develop and test the Kit (formerly ConvertKit) WordPress Plugin.
+This document describes how to setup your development environment, so that it is ready to run, develop and test the Kit WordPress Plugin.
 
 Suggestions are provided for the LAMP/LEMP stack and Git client are for those who prefer the UI over a command line and/or are less familiar with 
 WordPress, PHP, MySQL and Git - but you're free to use your preferred software.
