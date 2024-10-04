@@ -12,7 +12,7 @@ and [Codeception](https://codeception.com/docs/01-Introduction).
 
 ## Prerequisites
 
-If you haven't yet set up your local development environment with the ConvertKit Plugin repository installed, refer to the [Setup Guide](SETUP.md).
+If you haven't yet set up your local development environment with the Kit Plugin repository installed, refer to the [Setup Guide](SETUP.md).
 
 If you haven't yet created a branch and made any code changes to the Plugin, refer to the [Development Guide](DEVELOPMENT.md)
 

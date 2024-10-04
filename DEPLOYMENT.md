@@ -30,8 +30,8 @@ Provide meaningful, verbose updates to the Changelog, in the following format:
 
 ```
 ### x.x.x yyyy-mm-dd
-* Added: Text Editor: Quicktag Buttons for inserting ConvertKit Forms and Custom Content
-* Fix: Integration: Contact Form 7: If Contact Form 7 Form is mapped to a ConvertKit Form, send the data to ConvertKit if form validation passes but Contact Form 7 could or could not send an email
+* Added: Text Editor: Quicktag Buttons for inserting Kit Forms and Custom Content
+* Fix: Integration: Contact Form 7: If Contact Form 7 Form is mapped to a Kit Form, send the data to Kit if form validation passes but Contact Form 7 could or could not send an email
 ```
 
 Generic changelog items such as `Fix: Various bugfixes` or `Several edge-case bug fixes` should be avoided.  They don't tell users (or us, as developers)
