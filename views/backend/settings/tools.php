@@ -28,14 +28,8 @@
 					'convertkit-download-debug-log',
 					false
 				);
-
-				submit_button(
-					__( 'Clear log', 'convertkit' ),
-					'secondary',
-					'convertkit-clear-debug-log',
-					false
-				);
 				?>
+				<input type="submit" name="convertkit-clear-debug-log" id="convertkit-clear-debug-log" class="button button-secondary" value="<?php esc_attr_e( 'Clear log', 'convertkit' ); ?>" />
 			</p>
 			<p><?php esc_html_e( 'Log file', 'convertkit' ); ?>: <code><?php echo esc_attr( $log->get_filename() ); ?></code></p>
 			<?php
