@@ -72,7 +72,7 @@ function convertKitConditionallyDisplaySettings( input ) {
 			);
 			break;
 
-		case 'select-one':
+		default:
 			// Iterate through the table rows, hiding any settings.
 			rows.forEach(
 				function ( row ) {
