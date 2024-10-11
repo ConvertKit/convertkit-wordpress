@@ -338,6 +338,35 @@ class ConvertKit_Output {
 				$content = $form . $content;
 				break;
 
+			case 'after_element':
+				$form_position_element            = $this->settings->get_default_form_position_element( get_post_type( $post_id ) );
+				$form_position_element_index      = $this->settings->get_default_form_position_element_index( get_post_type( $post_id ) );
+				$form_position_element_tag_length = ( strlen( $form_position_element ) + 3 );
+
+				// Find all closing elements.
+				preg_match_all( '/<\/' . $form_position_element . '>/', $content, $matches );
+
+				// If the number of elements is less than the index, we don't have enough elements to add the form to.
+				// Just add the form after the content.
+				if ( count( $matches[0] ) <= $form_position_element_index ) {
+					$content = $content . $form;
+					break;
+				}
+
+				// Iterate through the content to find the element at the configured index e.g. find the 4th closing paragraph.
+				$offset = 0;
+				foreach ( $matches[0] as $element_index => $element ) {
+					$position = strpos( $content, $element, $offset );
+					if ( $element_index === $form_position_element_index ) {
+						$content = substr( $content, 0, $position + 4 ) . $form . substr( $content, $position + 4 );
+						break;
+					}
+
+					// Increment offset.
+					$offset = $position + 1;
+				}
+				break;
+
 			case 'after_content':
 			default:
 				// Default behaviour < 2.5.8 was to append the Form after the content.
