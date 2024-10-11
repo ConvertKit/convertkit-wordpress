@@ -308,21 +308,40 @@ class ConvertKit_Settings {
 	}
 
 	/**
+	 * Returns the Default Form Position Element Plugin setting.
+	 *
+	 * @since   2.6.1
+	 *
+	 * @param   string $post_type  Post Type.
+	 * @return  string             Element to insert form after
+	 */
+	public function get_default_form_position_element( $post_type ) {
+
+		// Return after_content if this Post Type's position doesn't exist as a setting.
+		if ( ! array_key_exists( $post_type . '_form_position_element', $this->settings ) ) {
+			return 'p';
+		}
+
+		return $this->settings[ $post_type . '_form_position_element' ];
+
+	}
+
+	/**
 	 * Returns the Default Form Position Index Plugin setting.
 	 *
 	 * @since   2.6.1
 	 *
 	 * @param   string $post_type  Post Type.
-	 * @return  int 			   Position Index
+	 * @return  int                Number of elements before inserting form
 	 */
-	public function get_default_form_position_index( $post_type ) {
+	public function get_default_form_position_element_index( $post_type ) {
 
 		// Return 1 if this Post Type's position index doesn't exist as a setting.
-		if ( ! array_key_exists( $post_type . '_form_position_index', $this->settings ) ) {
+		if ( ! array_key_exists( $post_type . '_form_position_element_index', $this->settings ) ) {
 			return 1;
 		}
 
-		return (int) $this->settings[ $post_type . '_form_position_index' ];
+		return (int) $this->settings[ $post_type . '_form_position_element_index' ];
 
 	}
 
@@ -425,9 +444,10 @@ class ConvertKit_Settings {
 
 		// Add Post Type Default Forms.
 		foreach ( convertkit_get_supported_post_types() as $post_type ) {
-			$defaults[ $post_type . '_form' ]          		 = 0; // -1, 0 or Form ID.
-			$defaults[ $post_type . '_form_position' ] 		 = 'after_content'; // before_content,after_content.
-			$defaults[ $post_type . '_form_position_index' ] = 1;
+			$defaults[ $post_type . '_form' ]                        = 0; // -1, 0 or Form ID.
+			$defaults[ $post_type . '_form_position' ]               = 'after_content'; // before_content,after_content,before_after_content,element.
+			$defaults[ $post_type . '_form_position_element' ]       = 'p';
+			$defaults[ $post_type . '_form_position_element_index' ] = 1;
 		}
 
 		/**

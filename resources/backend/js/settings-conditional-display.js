@@ -18,17 +18,18 @@ document.addEventListener(
 
 		// Update settings and refresh UI when a setting is changed.
 		const sourceInputs = document.querySelectorAll( '.convertkit-conditional-display' );
-		console.log( sourceInputs );
-		sourceInputs.forEach( function( input ) {
-			input.addEventListener(
-				'change',
-				function () {
-					convertKitConditionallyDisplaySettings( this );
-				}
-			);
+		sourceInputs.forEach(
+			function ( input ) {
+				input.addEventListener(
+					'change',
+					function () {
+						convertKitConditionallyDisplaySettings( this );
+					}
+				);
 
-			convertKitConditionallyDisplaySettings( input );
-		} );
+				convertKitConditionallyDisplaySettings( input );
+			}
+		);
 
 	}
 );
@@ -38,17 +39,18 @@ document.addEventListener(
  * table rows related to a setting, if that setting is disabled.
  *
  * @since 	2.2.4
- * 
+ *
  * @param 	object  input 	Element interacted with
  */
 function convertKitConditionallyDisplaySettings( input ) {
 
-	// Show all rows.
 	const rows = document.querySelectorAll( 'table.form-table tr' );
-	rows.forEach( row => row.style.display = '' );
 
 	switch ( input.type ) {
 		case 'checkbox':
+			// Show all rows.
+			rows.forEach( row => row.style.display = '' );
+
 			// Don't do anything else if the checkbox is checked.
 			if ( input.checked ) {
 				return;
@@ -70,7 +72,24 @@ function convertKitConditionallyDisplaySettings( input ) {
 			);
 			break;
 
-		case 'select':
+		case 'select-one':
+			// Iterate through the table rows, hiding any settings.
+			rows.forEach(
+				function ( row ) {
+					// Skip if this table row is for the setting we've just changed.
+					if ( row.querySelector( `[id = "${input.id}"]` ) ) {
+						return;
+					}
+
+					if ( row.querySelector( `input#${input.dataset.conditionalElement}` ) ) {
+						if ( input.value !== input.dataset.conditionalValue ) {
+							row.style.display = 'none';
+						} else {
+							row.style.display = '';
+						}
+					}
+				}
+			);
 			break;
 	}
 

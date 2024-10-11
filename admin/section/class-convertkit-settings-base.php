@@ -443,15 +443,18 @@ abstract class ConvertKit_Settings_Base {
 	 *
 	 * @param   string            $name           Name.
 	 * @param   string            $value          Value.
+	 * @param   int               $min            `min` attribute value.
+	 * @param   int               $max            `max` attribute value.
+	 * @param   int               $step           `step` attribute value.
 	 * @param   bool|string|array $description    Description (false|string|array).
 	 * @param   bool|array        $css_classes    CSS Classes (false|array).
-	 * @return  string                              HTML Field
+	 * @return  string                            HTML Field
 	 */
 	public function get_number_field( $name, $value = '', $min = 0, $max = 9999, $step = 1, $description = false, $css_classes = false ) {
 
 		$html = sprintf(
 			'<input type="number" class="%s" id="%s" name="%s[%s]" value="%s" min="%s" max="%s" step="%s" />',
-			( is_array( $css_classes ) ? implode( ' ', $css_classes ) : 'regular-text' ),
+			( is_array( $css_classes ) ? implode( ' ', $css_classes ) : 'small-text' ),
 			$name,
 			$this->settings_key,
 			$name,
