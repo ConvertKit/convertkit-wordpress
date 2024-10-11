@@ -598,7 +598,7 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 
 		echo $this->get_number_field( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			$args['post_type'] . '_form_position_element_index',
-			esc_attr( $this->settings->get_default_form_position_element_index( $args['post_type'] ) ),
+			esc_attr( (string) $this->settings->get_default_form_position_element_index( $args['post_type'] ) ),
 			1,
 			999,
 			1,

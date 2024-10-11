@@ -331,7 +331,7 @@ class PluginSettingsGeneralCest
 		// Confirm the conditional fields do not display for Pages, as the 'After element' is not selected.
 		$I->dontSeeElement('_wp_convertkit_settings[page_form_position_element_index]');
 		$I->dontSeeElement('_wp_convertkit_settings[page_form_position_element]');
-		
+
 		// Select Default Form for Pages, and change the Position.
 		$I->fillSelect2Field($I, '#select2-_wp_convertkit_settings_page_form-container', $_ENV['CONVERTKIT_API_FORM_NAME']);
 		$I->selectOption('_wp_convertkit_settings[page_form_position]', 'After element');
@@ -346,7 +346,7 @@ class PluginSettingsGeneralCest
 		// Confirm the conditional fields do not display for Posts, as the 'After element' is not selected.
 		$I->dontSeeElement('input[name="_wp_convertkit_settings[post_form_position_element_index]"]');
 		$I->dontSeeElement('select[name="_wp_convertkit_settings[post_form_position_element]"]');
-		
+
 		// Select Default Form for Posts, and change the Position.
 		$I->fillSelect2Field($I, '#select2-_wp_convertkit_settings_post_form-container', $_ENV['CONVERTKIT_API_FORM_NAME']);
 		$I->selectOption('_wp_convertkit_settings[post_form_position]', 'After element');
