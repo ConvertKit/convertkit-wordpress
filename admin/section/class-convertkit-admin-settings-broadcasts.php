@@ -206,7 +206,7 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 				'label_for'   => 'enabled',
 				'label'       => __( 'Enables automatic publication of public Kit Broadcasts as WordPress Posts.', 'convertkit' ),
 				'description' => $enabled_description,
-			)
+			),
 		);
 
 		// Render import button if the feature is enabled.
@@ -357,7 +357,8 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 			'on',
 			$this->settings->enabled(), // phpcs:ignore WordPress.Security.EscapeOutput
 			$args['label'],  // phpcs:ignore WordPress.Security.EscapeOutput
-			$args['description'] // phpcs:ignore WordPress.Security.EscapeOutput
+			$args['description'], // phpcs:ignore WordPress.Security.EscapeOutput
+			array( 'convertkit-conditional-display' )
 		);
 
 	}
