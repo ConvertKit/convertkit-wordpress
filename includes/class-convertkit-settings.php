@@ -308,6 +308,25 @@ class ConvertKit_Settings {
 	}
 
 	/**
+	 * Returns the Default Form Position Index Plugin setting.
+	 *
+	 * @since   2.6.1
+	 *
+	 * @param   string $post_type  Post Type.
+	 * @return  int 			   Position Index
+	 */
+	public function get_default_form_position_index( $post_type ) {
+
+		// Return 1 if this Post Type's position index doesn't exist as a setting.
+		if ( ! array_key_exists( $post_type . '_form_position_index', $this->settings ) ) {
+			return 1;
+		}
+
+		return (int) $this->settings[ $post_type . '_form_position_index' ];
+
+	}
+
+	/**
 	 * Returns the Global non-inline Form Plugin setting.
 	 *
 	 * @since   2.3.3
@@ -406,8 +425,9 @@ class ConvertKit_Settings {
 
 		// Add Post Type Default Forms.
 		foreach ( convertkit_get_supported_post_types() as $post_type ) {
-			$defaults[ $post_type . '_form' ]          = 0; // -1, 0 or Form ID.
-			$defaults[ $post_type . '_form_position' ] = 'after_content'; // before_content,after_content.
+			$defaults[ $post_type . '_form' ]          		 = 0; // -1, 0 or Form ID.
+			$defaults[ $post_type . '_form_position' ] 		 = 'after_content'; // before_content,after_content.
+			$defaults[ $post_type . '_form_position_index' ] = 1;
 		}
 
 		/**

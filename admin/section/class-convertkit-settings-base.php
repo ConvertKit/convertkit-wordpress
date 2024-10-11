@@ -437,6 +437,35 @@ abstract class ConvertKit_Settings_Base {
 	}
 
 	/**
+	 * Returns a number field.
+	 *
+	 * @since   2.6.1
+	 *
+	 * @param   string            $name           Name.
+	 * @param   string            $value          Value.
+	 * @param   bool|string|array $description    Description (false|string|array).
+	 * @param   bool|array        $css_classes    CSS Classes (false|array).
+	 * @return  string                              HTML Field
+	 */
+	public function get_number_field( $name, $value = '', $min = 0, $max = 9999, $step = 1, $description = false, $css_classes = false ) {
+
+		$html = sprintf(
+			'<input type="number" class="%s" id="%s" name="%s[%s]" value="%s" min="%s" max="%s" step="%s" />',
+			( is_array( $css_classes ) ? implode( ' ', $css_classes ) : 'regular-text' ),
+			$name,
+			$this->settings_key,
+			$name,
+			$value,
+			$min,
+			$max,
+			$step
+		);
+
+		return $html . $this->get_description( $description );
+
+	}
+
+	/**
 	 * Returns a textarea field.
 	 *
 	 * @since   2.3.5

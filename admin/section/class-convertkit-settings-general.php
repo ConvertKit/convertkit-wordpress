@@ -307,7 +307,19 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 				$this->settings_key,
 				$this->name,
 				array(
-					'label_for'        => '_wp_convertkit_settings_' . $supported_post_type . '_form',
+					'label_for'        => '_wp_convertkit_settings_' . $supported_post_type . '_form_position',
+					'post_type'        => $supported_post_type,
+					'post_type_object' => $post_type,
+				)
+			);
+			add_settings_field(
+				$supported_post_type . '_form_position_index',
+				'',
+				array( $this, 'default_form_position_index_callback' ),
+				$this->settings_key,
+				$this->name,
+				array(
+					'label_for'        => '_wp_convertkit_settings_' . $supported_post_type . '_form_position_index',
 					'post_type'        => $supported_post_type,
 					'post_type_object' => $post_type,
 				)
@@ -544,15 +556,43 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 			$args['post_type'] . '_form_position',
 			esc_attr( $this->settings->get_default_form_position( $args['post_type'] ) ),
 			array(
-				'before_content'       => esc_html__( 'Before content', 'convertkit' ),
-				'after_content'        => esc_html__( 'After content', 'convertkit' ),
-				'before_after_content' => esc_html__( 'Before and after content', 'convertkit' ),
+				'before_content'       => sprintf(
+					esc_html__( 'Before %s content', 'convertkit' ),
+					$args['post_type_object']->labels->singular_name
+				),
+				'after_content'        => sprintf(
+					esc_html__( 'After %s content', 'convertkit' ),
+					$args['post_type_object']->labels->singular_name
+				),
+				'before_after_content' => sprintf(
+					esc_html__( 'Before and after %s content', 'convertkit' ),
+					$args['post_type_object']->labels->singular_name
+				),
+				'before_paragraph'     => esc_html__( 'Before paragraph', 'convertkit' ),
+				'after_paragraph'      => esc_html__( 'After paragraph', 'convertkit' ),
 			),
 			sprintf(
 				/* translators: Post Type name, plural */
 				esc_html__( 'Where forms should display relative to the %s content', 'convertkit' ),
-				esc_html( $args['post_type_object']->label )
+				esc_html( $args['post_type_object']->labels->singular_name )
 			)
+		);
+
+	}
+
+	/**
+	 * Renders the input for the Default Form Position Index setting for the given Post Type.
+	 *
+	 * @since  2.6.1
+	 *
+	 * @param   array $args  Field arguments.
+	 */
+	public function default_form_position_index_callback( $args ) {
+
+		echo $this->get_text_field( // phpcs:ignore WordPress.Security.EscapeOutput
+			$args['post_type'] . '_form_position',
+			esc_attr( $this->settings->get_default_form_position_index( $args['post_type'] ) ),
+			esc_html__( 'The number of paragraphs before or after to display the form.', 'convertkit' )
 		);
 
 	}
