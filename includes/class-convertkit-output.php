@@ -357,7 +357,7 @@ class ConvertKit_Output {
 				$offset = 0;
 				foreach ( $matches[0] as $element_index => $element ) {
 					$position = strpos( $content, $element, $offset );
-					if ( $element_index === $form_position_element_index ) {
+					if ( ( $element_index + 1 ) === $form_position_element_index ) {
 						$content = substr( $content, 0, $position + 4 ) . $form . substr( $content, $position + 4 );
 						break;
 					}

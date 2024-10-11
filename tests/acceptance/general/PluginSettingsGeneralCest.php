@@ -313,6 +313,73 @@ class PluginSettingsGeneralCest
 	}
 
 	/**
+	 * Test that no PHP errors or notices are displayed on the Plugin's Setting screen,
+	 * when the Default Form Position setting for Pages and Posts are changed.
+	 *
+	 * @since   2.6.2
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testChangeDefaultFormPositionAfterElementSetting(AcceptanceTester $I)
+	{
+		// Setup Plugin, without defining default Forms.
+		$I->setupConvertKitPluginNoDefaultForms($I);
+
+		// Go to the Plugin's Settings Screen.
+		$I->loadConvertKitSettingsGeneralScreen($I);
+
+		// Confirm the conditional fields do not display for Pages, as the 'After element' is not selected.
+		$I->dontSeeElement('_wp_convertkit_settings[page_form_position_element_index]');
+		$I->dontSeeElement('_wp_convertkit_settings[page_form_position_element]');
+		
+		// Select Default Form for Pages, and change the Position.
+		$I->fillSelect2Field($I, '#select2-_wp_convertkit_settings_page_form-container', $_ENV['CONVERTKIT_API_FORM_NAME']);
+		$I->selectOption('_wp_convertkit_settings[page_form_position]', 'After element');
+
+		// Confirm the conditional fields display for Pages, now that 'After element' is selected.
+		$I->waitForElementVisible('input[name="_wp_convertkit_settings[page_form_position_element_index]"]');
+		$I->waitForElementVisible('select[name="_wp_convertkit_settings[page_form_position_element]"]');
+
+		// Change a setting.
+		$I->fillField('_wp_convertkit_settings[page_form_position_element_index]', '3');
+
+		// Confirm the conditional fields do not display for Posts, as the 'After element' is not selected.
+		$I->dontSeeElement('input[name="_wp_convertkit_settings[post_form_position_element_index]"]');
+		$I->dontSeeElement('select[name="_wp_convertkit_settings[post_form_position_element]"]');
+		
+		// Select Default Form for Posts, and change the Position.
+		$I->fillSelect2Field($I, '#select2-_wp_convertkit_settings_post_form-container', $_ENV['CONVERTKIT_API_FORM_NAME']);
+		$I->selectOption('_wp_convertkit_settings[post_form_position]', 'After element');
+
+		// Confirm the conditional fields display for Posts, now that 'After element' is selected.
+		$I->waitForElementVisible('input[name="_wp_convertkit_settings[post_form_position_element_index]"]');
+		$I->waitForElementVisible('select[name="_wp_convertkit_settings[post_form_position_element]"]');
+
+		// Change a setting.
+		$I->fillField('_wp_convertkit_settings[post_form_position_element_index]', '2');
+
+		// Click the Save Changes button.
+		$I->click('Save Changes');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Check the value of the fields match the inputs provided.
+		$I->seeInField('_wp_convertkit_settings[page_form_position]', 'After element');
+		$I->seeInField('_wp_convertkit_settings[page_form_position_element]', 'Paragraphs');
+		$I->seeInField('_wp_convertkit_settings[page_form_position_element_index]', '3');
+		$I->seeInField('_wp_convertkit_settings[post_form_position]', 'After element');
+		$I->seeInField('_wp_convertkit_settings[post_form_position_element]', 'Paragraphs');
+		$I->seeInField('_wp_convertkit_settings[post_form_position_element_index]', '2');
+
+		// Check that the conditional fields display, as 'After element' is selected for Pages and Posts.
+		$I->seeElement('input[name="_wp_convertkit_settings[page_form_position_element_index]"]');
+		$I->seeElement('select[name="_wp_convertkit_settings[page_form_position_element]"]');
+		$I->seeElement('input[name="_wp_convertkit_settings[post_form_position_element_index]"]');
+		$I->seeElement('select[name="_wp_convertkit_settings[post_form_position_element]"]');
+	}
+
+	/**
 	 * Test that the settings screen does not display preview links
 	 * when no Pages and Posts exist in WordPress.
 	 *
