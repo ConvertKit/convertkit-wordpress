@@ -326,6 +326,27 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 		<p class="description"><?php esc_html_e( 'Defines whether public broadcasts ("Enabled on public feeds") in Kit should automatically be published on this site as WordPress Posts, and whether to enable options to create draft Kit Broadcasts from WordPress Posts.', 'convertkit' ); ?></p>
 		<?php
 
+		// If the DISABLE_WP_CRON constant exists and is true, display a warning that this functionality
+		// may not work.
+		if ( defined( 'DISABLE_WP_CRON' ) && DISABLE_WP_CRON === true ) {
+			?>
+			<div class="notice notice-warning">
+				<p>
+					<?php
+					printf(
+						'%s %s %s %s %s',
+						esc_html__( 'We\'ve detected that the', 'convertkit' ),
+						'<code>DISABLE_WP_CRON</code>',
+						esc_html__( 'constant is enabled. If broadcasts do not import automatically or when using the import button below, either remove this constant from your', 'convertkit' ),
+						'<code>wp-config.php</code>',
+						esc_html__( 'file, or check with your web host if they have disabled your WordPress Cron. If importing broadcasts work, no changes to your WordPress configuration file are required.', 'convertkit' )
+					);
+					?>
+				</p>
+			</div>
+			<?php
+		}
+
 	}
 
 
