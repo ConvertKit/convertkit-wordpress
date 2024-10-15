@@ -233,8 +233,9 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 		// Enqueue Select2 JS.
 		convertkit_select2_enqueue_scripts();
 
-		// Enqueue Preview Output JS.
+		// Enqueue JS.
 		wp_enqueue_script( 'convertkit-admin-preview-output', CONVERTKIT_PLUGIN_URL . 'resources/backend/js/preview-output.js', array( 'jquery' ), CONVERTKIT_PLUGIN_VERSION, true );
+		wp_enqueue_script( 'convertkit-admin-settings-conditional-display', CONVERTKIT_PLUGIN_URL . 'resources/backend/js/settings-conditional-display.js', array( 'jquery' ), CONVERTKIT_PLUGIN_VERSION, true );
 
 	}
 
@@ -307,7 +308,19 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 				$this->settings_key,
 				$this->name,
 				array(
-					'label_for'        => '_wp_convertkit_settings_' . $supported_post_type . '_form',
+					'label_for'        => '_wp_convertkit_settings_' . $supported_post_type . '_form_position',
+					'post_type'        => $supported_post_type,
+					'post_type_object' => $post_type,
+				)
+			);
+			add_settings_field(
+				$supported_post_type . '_form_position_element',
+				'',
+				array( $this, 'default_form_position_element_callback' ),
+				$this->settings_key,
+				$this->name,
+				array(
+					'label_for'        => '_wp_convertkit_settings_' . $supported_post_type . '_form_position_element',
 					'post_type'        => $supported_post_type,
 					'post_type_object' => $post_type,
 				)
@@ -461,7 +474,6 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 
 		$tags = new ConvertKit_Resource_Tags( 'settings' );
 		$tags->refresh();
-
 	}
 
 	/**
@@ -544,15 +556,64 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 			$args['post_type'] . '_form_position',
 			esc_attr( $this->settings->get_default_form_position( $args['post_type'] ) ),
 			array(
-				'before_content'       => esc_html__( 'Before content', 'convertkit' ),
-				'after_content'        => esc_html__( 'After content', 'convertkit' ),
-				'before_after_content' => esc_html__( 'Before and after content', 'convertkit' ),
+				'before_content'       => sprintf(
+					/* translators: Post type singular name */
+					esc_attr__( 'Before %s content', 'convertkit' ),
+					esc_attr( $args['post_type_object']->labels->singular_name )
+				),
+				'after_content'        => sprintf(
+					/* translators: Post type singular name */
+					esc_attr__( 'After %s content', 'convertkit' ),
+					esc_attr( $args['post_type_object']->labels->singular_name )
+				),
+				'before_after_content' => sprintf(
+					/* translators: Post type singular name */
+					esc_attr__( 'Before and after %s content', 'convertkit' ),
+					esc_attr( $args['post_type_object']->labels->singular_name )
+				),
+				'after_element'        => esc_html__( 'After element', 'convertkit' ),
 			),
 			sprintf(
 				/* translators: Post Type name, plural */
 				esc_html__( 'Where forms should display relative to the %s content', 'convertkit' ),
-				esc_html( $args['post_type_object']->label )
+				esc_html( $args['post_type_object']->labels->singular_name )
+			),
+			array( 'convertkit-conditional-display' ),
+			array(
+				'data-conditional-value'   => 'after_element',
+				'data-conditional-element' => esc_attr( $args['post_type'] ) . '_form_position_element_index',
 			)
+		);
+
+	}
+
+	/**
+	 * Renders the input for the Default Form Position Index setting for the given Post Type.
+	 *
+	 * @since  2.6.1
+	 *
+	 * @param   array $args  Field arguments.
+	 */
+	public function default_form_position_element_callback( $args ) {
+
+		echo $this->get_number_field( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			$args['post_type'] . '_form_position_element_index',
+			esc_attr( (string) $this->settings->get_default_form_position_element_index( $args['post_type'] ) ),
+			1,
+			999,
+			1,
+			false,
+			array( 'after_element' )
+		);
+
+		echo $this->get_select_field( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			$args['post_type'] . '_form_position_element',
+			esc_attr( $this->settings->get_default_form_position_element( $args['post_type'] ) ),
+			array(
+				'p' => esc_html__( 'Paragraphs', 'convertkit' ),
+			),
+			esc_html__( 'The number of elements before outputting the form.', 'convertkit' ),
+			array( 'after_element' )
 		);
 
 	}

@@ -18,8 +18,10 @@ class ConvertKitForms extends \Codeception\Module
 	 * @param   AcceptanceTester $I              Tester.
 	 * @param   int              $formID         Form ID.
 	 * @param   bool|string      $position       Position of the form in the DOM relative to the content.
+	 * @param   bool|string      $element        Element the form should display after.
+	 * @param   bool|string      $element_index  Number of elements before the form should display.
 	 */
-	public function seeFormOutput($I, $formID, $position = false)
+	public function seeFormOutput($I, $formID, $position = false, $element = false, $element_index = 0)
 	{
 		// Calculate how many times the Form should be in the DOM.
 		$count = ( ( $position === 'before_after_content' ) ? 2 : 1 );
@@ -45,6 +47,10 @@ class ConvertKitForms extends \Codeception\Module
 
 			case 'after_content':
 				$I->assertEquals($formID, $I->grabAttributeFrom('div.entry-content > *:last-child', 'data-sv-form'));
+				break;
+
+			case 'after_element':
+				$I->seeInSource('<' . $element . '>Item #' . $element_index . '</' . $element . '><form action="https://app.convertkit.com/forms/' . $formID . '/subscriptions" ');
 				break;
 		}
 	}

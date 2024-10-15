@@ -205,6 +205,103 @@ class PageFormCest
 	}
 
 	/**
+	 * Test that the Default Form specified in the Plugin Settings works when
+	 * creating and viewing a new WordPress Page, and its position is set
+	 * to after the 3rd paragraph.
+	 *
+	 * @since   2.6.2
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testAddNewPageUsingDefaultFormAfterElement(AcceptanceTester $I)
+	{
+		// Setup ConvertKit plugin with Default Form for Pages set to be output after the 3rd paragraph of content.
+		$I->setupConvertKitPlugin(
+			$I,
+			[
+				'page_form'                        => $_ENV['CONVERTKIT_API_FORM_ID'],
+				'page_form_position'               => 'after_element',
+				'page_form_position_element'       => 'p',
+				'page_form_position_element_index' => 3,
+			]
+		);
+		$I->setupConvertKitPluginResources($I);
+
+		// Add a Page using the Gutenberg editor.
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Form: Default: After 3rd Paragraph Element');
+
+		// Add 5 paragraphs to Page.
+		$I->addGutenbergParagraphBlock($I, 'Item #1');
+		$I->addGutenbergParagraphBlock($I, 'Item #2');
+		$I->addGutenbergParagraphBlock($I, 'Item #3');
+		$I->addGutenbergParagraphBlock($I, 'Item #4');
+		$I->addGutenbergParagraphBlock($I, 'Item #5');
+
+		// Configure metabox's Form setting = Default.
+		$I->configureMetaboxSettings(
+			$I,
+			'wp-convertkit-meta-box',
+			[
+				'form' => [ 'select2', 'Default' ],
+			]
+		);
+
+		// Publish and view the Page on the frontend site.
+		$I->publishAndViewGutenbergPage($I);
+
+		// Confirm that one ConvertKit Form is output in the DOM after the third paragraph.
+		$I->seeFormOutput($I, $_ENV['CONVERTKIT_API_FORM_ID'], 'after_element', 'p', 3);
+	}
+
+	/**
+	 * Test that the Default Form specified in the Plugin Settings works when
+	 * creating and viewing a new WordPress Page, and its position is set
+	 * to a number greater than the number of elements in the content.
+	 *
+	 * @since   2.6.2
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testAddNewPageUsingDefaultFormAfterOutOfBoundsElement(AcceptanceTester $I)
+	{
+		// Setup ConvertKit plugin with Default Form for Pages set to be output after the 7rd paragraph of content.
+		$I->setupConvertKitPlugin(
+			$I,
+			[
+				'page_form'                        => $_ENV['CONVERTKIT_API_FORM_ID'],
+				'page_form_position'               => 'after_element',
+				'page_form_position_element'       => 'p',
+				'page_form_position_element_index' => 7,
+			]
+		);
+		$I->setupConvertKitPluginResources($I);
+
+		// Add a Page using the Gutenberg editor.
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Form: Default: After 7th Paragraph Element');
+
+		// Add 5 paragraphs to Page.
+		$I->addGutenbergParagraphBlock($I, 'Item #1');
+		$I->addGutenbergParagraphBlock($I, 'Item #2');
+		$I->addGutenbergParagraphBlock($I, 'Item #3');
+
+		// Configure metabox's Form setting = Default.
+		$I->configureMetaboxSettings(
+			$I,
+			'wp-convertkit-meta-box',
+			[
+				'form' => [ 'select2', 'Default' ],
+			]
+		);
+
+		// Publish and view the Page on the frontend site.
+		$I->publishAndViewGutenbergPage($I);
+
+		// Confirm that one ConvertKit Form is output in the DOM after the content, as
+		// the number of paragraphs is less than the position.
+		$I->seeFormOutput($I, $_ENV['CONVERTKIT_API_FORM_ID'], 'after_content');
+	}
+
+	/**
 	 * Test that the Default Legacy Form specified in the Plugin Settings works when
 	 * creating and viewing a new WordPress Page.
 	 *
