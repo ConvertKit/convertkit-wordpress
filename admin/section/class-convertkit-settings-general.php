@@ -610,7 +610,7 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 			$args['post_type'] . '_form_position_element',
 			esc_attr( $this->settings->get_default_form_position_element( $args['post_type'] ) ),
 			array(
-				'p' => esc_html__( 'Paragraphs', 'convertkit' ),
+				'p'  => esc_html__( 'Paragraphs', 'convertkit' ),
 				'h2' => esc_html__( 'Headings <h2>', 'convertkit' ),
 				'h3' => esc_html__( 'Headings <h3>', 'convertkit' ),
 				'h4' => esc_html__( 'Headings <h4>', 'convertkit' ),
