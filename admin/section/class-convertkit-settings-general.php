@@ -611,6 +611,11 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 			esc_attr( $this->settings->get_default_form_position_element( $args['post_type'] ) ),
 			array(
 				'p' => esc_html__( 'Paragraphs', 'convertkit' ),
+				'h2' => esc_html__( 'Headings <h2>', 'convertkit' ),
+				'h3' => esc_html__( 'Headings <h3>', 'convertkit' ),
+				'h4' => esc_html__( 'Headings <h4>', 'convertkit' ),
+				'h5' => esc_html__( 'Headings <h5>', 'convertkit' ),
+				'h6' => esc_html__( 'Headings <h6>', 'convertkit' ),
 			),
 			esc_html__( 'The number of elements before outputting the form.', 'convertkit' ),
 			array( 'after_element' )
