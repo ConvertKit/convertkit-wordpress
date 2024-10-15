@@ -400,13 +400,18 @@ class ConvertKit_Output {
 		// item() is a zero based index.
 		$element_node = $html->getElementsByTagName( $tag )->item( $index - 1 );
 
+		// If the element could not be found, either the number of elements by tag name is less
+		// than the requested position the form be inserted in, or no element exists.
+		// Append the form to the content and return.
+		if ( is_null( $element_node ) ) {
+			return $content . $form;
+		}
+
 		// Create new element for the Form.
 		$form_node = new DOMDocument();
 		$form_node->loadHTML( $form, LIBXML_HTML_NODEFDTD );
 
 		// Append the form to the specific element.
-		// If the index is greater than the number of elements that exist in the content, this will append the form
-		// to the end of the content.
 		$element_node->parentNode->insertBefore( $html->importNode( $form_node->documentElement, true ), $element_node->nextSibling ); // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 
 		// Fetch HTML string.
