@@ -385,7 +385,7 @@ class ConvertKit_Output {
 	 *
 	 * @param   string $content        Page / Post Content.
 	 * @param   string $tag            HTML tag to insert form after.
-	 * @param   string $index          Number of $tag elements to find before inserting form.
+	 * @param   int    $index          Number of $tag elements to find before inserting form.
 	 * @param   string $form           Form HTML to inject.
 	 * @return  string
 	 */
@@ -440,7 +440,7 @@ class ConvertKit_Output {
 	 *
 	 * @param   string $content        Page / Post Content.
 	 * @param   string $tag            HTML tag to insert form after.
-	 * @param   string $index          Number of $tag elements to find before inserting form.
+	 * @param   int   $index           Number of $tag elements to find before inserting form.
 	 * @param   string $form           Form HTML to inject.
 	 * @return  string
 	 */
