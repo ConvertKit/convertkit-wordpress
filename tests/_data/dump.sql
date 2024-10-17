@@ -155,7 +155,7 @@ INSERT INTO `wp_options` (`option_id`, `option_name`, `option_value`, `autoload`
 (43,  'html_type',  'text/html',  'on'),
 (44,  'use_trackback',  '0',  'on'),
 (45,  'default_role', 'subscriber', 'on'),
-(46,  'db_version', '57155',  'on'),
+(46,  'db_version', '58975',  'on'),
 (47,  'uploads_use_yearmonth_folders',  '1',  'on'),
 (48,  'upload_path',  '', 'on'),
 (49,  'blog_public',  '1',  'on'),
@@ -233,14 +233,13 @@ INSERT INTO `wp_options` (`option_id`, `option_name`, `option_value`, `autoload`
 (121, 'nonce_salt', '/?#2ig*c_e_}-[mel-$?%U;;@}oC9TF%|l /Df%)V@kV~|$Lo[bKcL,W{y-]4%S>', 'off'),
 (122, 'recovery_keys',  'a:0:{}', 'on'),
 (123, 'theme_mods_twentytwentythree', 'a:1:{s:18:\"custom_css_post_id\";i:-1;}',  'on'),
-(124, 'db_upgraded',  '', 'on'),
-(125, 'can_compress_scripts', '1',  'on'),
-(126, 'WishListMemberOptions_Migrated', '1',  'on'),
-(127, 'widget_wishlistwidget',  'a:1:{s:12:\"_multiwidget\";i:1;}', 'on'),
-(128, 'WishListMemberOptions_MigrateLevelData', '1',  'on'),
-(129, 'WishListMemberOptions_MigrateContentLevelData',  '1',  'on'),
-(130, 'et_support_center_setup_done',  'processed',  'on'),
-(131, 'et_support_center_installed',  'true',  'on');
+(124, 'can_compress_scripts', '1',  'on'),
+(125, 'WishListMemberOptions_Migrated', '1',  'on'),
+(126, 'widget_wishlistwidget',  'a:1:{s:12:\"_multiwidget\";i:1;}', 'on'),
+(127, 'WishListMemberOptions_MigrateLevelData', '1',  'on'),
+(128, 'WishListMemberOptions_MigrateContentLevelData',  '1',  'on'),
+(129, 'et_support_center_setup_done',  'processed',  'on'),
+(130, 'et_support_center_installed',  'true',  'on');
 
 DROP TABLE IF EXISTS `wp_postmeta`;
 CREATE TABLE `wp_postmeta` (
