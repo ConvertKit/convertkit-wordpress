@@ -212,7 +212,7 @@ class PostFormCest
 	 *
 	 * @param   AcceptanceTester $I  Tester.
 	 */
-	public function testAddNewPostUsingDefaultFormAfterElement(AcceptanceTester $I)
+	public function testAddNewPostUsingDefaultFormAfterParagraphElement(AcceptanceTester $I)
 	{
 		// Setup ConvertKit plugin with Default Form for Posts set to be output after the 3rd paragraph of content.
 		$I->setupConvertKitPlugin(
@@ -226,30 +226,53 @@ class PostFormCest
 		);
 		$I->setupConvertKitPluginResources($I);
 
-		// Add a Post using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'post', 'Kit: Post: Form: Default: After 3rd Paragraph Element');
+		// Setup Post with placeholder content.
+		$pageID = $I->addGutenbergPageToDatabase($I, 'post', 'Kit: Post: Form: Default: After 3rd Paragraph Element');
 
-		// Add 5 paragraphs to Post.
-		$I->addGutenbergParagraphBlock($I, 'Item #1');
-		$I->addGutenbergParagraphBlock($I, 'Item #2');
-		$I->addGutenbergParagraphBlock($I, 'Item #3');
-		$I->addGutenbergParagraphBlock($I, 'Item #4');
-		$I->addGutenbergParagraphBlock($I, 'Item #5');
+		// View the Post on the frontend site.
+		$I->amOnPage('?p=' . $pageID);
 
-		// Configure metabox's Form setting = Default.
-		$I->configureMetaboxSettings(
-			$I,
-			'wp-convertkit-meta-box',
-			[
-				'form' => [ 'select2', 'Default' ],
-			]
-		);
-
-		// Publish and view the Post on the frontend site.
-		$I->publishAndViewGutenbergPage($I);
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
 
 		// Confirm that one ConvertKit Form is output in the DOM after the third paragraph.
 		$I->seeFormOutput($I, $_ENV['CONVERTKIT_API_FORM_ID'], 'after_element', 'p', 3);
+	}
+
+	/**
+	 * Test that the Default Form specified in the Plugin Settings works when
+	 * creating and viewing a new WordPress Post, and its position is set
+	 * to after the 2nd <h2> element.
+	 *
+	 * @since   2.6.2
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testAddNewPostUsingDefaultFormAfterHeadingElement(AcceptanceTester $I)
+	{
+		// Setup ConvertKit plugin with Default Form for Posts set to be output after the 2nd <h2> of content.
+		$I->setupConvertKitPlugin(
+			$I,
+			[
+				'post_form'                        => $_ENV['CONVERTKIT_API_FORM_ID'],
+				'post_form_position'               => 'after_element',
+				'post_form_position_element'       => 'h2',
+				'post_form_position_element_index' => 2,
+			]
+		);
+		$I->setupConvertKitPluginResources($I);
+
+		// Setup Post with placeholder content.
+		$pageID = $I->addGutenbergPageToDatabase($I, 'post', 'Kit: Post: Form: Default: After 2nd H2 Element');
+
+		// View the Post on the frontend site.
+		$I->amOnPage('?p=' . $pageID);
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Confirm that one ConvertKit Form is output in the DOM after the second <h2> element.
+		$I->seeFormOutput($I, $_ENV['CONVERTKIT_API_FORM_ID'], 'after_element', 'h2', 2);
 	}
 
 	/**
@@ -270,30 +293,19 @@ class PostFormCest
 				'post_form'                        => $_ENV['CONVERTKIT_API_FORM_ID'],
 				'post_form_position'               => 'after_element',
 				'post_form_position_element'       => 'p',
-				'post_form_position_element_index' => 7,
+				'post_form_position_element_index' => 9,
 			]
 		);
 		$I->setupConvertKitPluginResources($I);
 
-		// Add a Post using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'post', 'Kit: Post: Form: Default: After 7th Paragraph Element');
+		// Setup Post with placeholder content.
+		$pageID = $I->addGutenbergPageToDatabase($I, 'post', 'Kit: Post: Form: Default: After 9th Paragraph Element');
 
-		// Add 5 paragraphs to Post.
-		$I->addGutenbergParagraphBlock($I, 'Item #1');
-		$I->addGutenbergParagraphBlock($I, 'Item #2');
-		$I->addGutenbergParagraphBlock($I, 'Item #3');
+		// View the Post on the frontend site.
+		$I->amOnPage('?p=' . $pageID);
 
-		// Configure metabox's Form setting = Default.
-		$I->configureMetaboxSettings(
-			$I,
-			'wp-convertkit-meta-box',
-			[
-				'form' => [ 'select2', 'Default' ],
-			]
-		);
-
-		// Publish and view the Post on the frontend site.
-		$I->publishAndViewGutenbergPage($I);
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
 
 		// Confirm that one ConvertKit Form is output in the DOM after the content, as
 		// the number of paragraphs is less than the position.

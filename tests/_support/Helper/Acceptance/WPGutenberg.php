@@ -368,4 +368,120 @@ class WPGutenberg extends \Codeception\Module
 		// Return URL from 'View page' button.
 		return $I->grabAttributeFrom('.post-publish-panel__postpublish-buttons a.components-button', 'href');
 	}
+
+	/**
+	 * Add a Page, Post or Custom Post Type directly to the WordPress database,
+	 * with dummy content used for testing.
+	 *
+	 * @since   2.6.2
+	 *
+	 * @param   AcceptanceTester $I                     Acceptance Tester.
+	 * @param   string           $postType              Post Type.
+	 * @param   string           $title                 Post Title.
+	 * @param   string           $formID                Meta Box `Form` value (-1: Default).
+	 */
+	public function addGutenbergPageToDatabase($I, $postType = 'page', $title = 'Gutenberg Title', $formID = '-1')
+	{
+		return $I->havePostInDatabase(
+			[
+				'post_title'   => $title,
+				'post_type'    => $postType,
+				'post_status'  => 'publish',
+				'meta_input'   => [
+					'_wp_convertkit_post_meta' => [
+						'form'         => $formID,
+						'landing_page' => '',
+						'tag'          => '',
+					],
+				],
+				'post_content' => '<!-- wp:columns -->
+<div class="wp-block-columns"><!-- wp:column -->
+<div class="wp-block-column"><!-- wp:paragraph -->
+<p>Item #1</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">Item #1</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Item #2</p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:column -->
+
+<!-- wp:column -->
+<div class="wp-block-column"><!-- wp:image {"id":4237,"sizeSlug":"large","linkDestination":"none"} -->
+<figure class="wp-block-image size-large"><img src="http://kit.local/wp-content/uploads/2022/05/iLRneK6yxY4WwQUdkkUMaq-122-683x1024.jpg" alt="Flowers" class="wp-image-4237"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:column --></div>
+<!-- /wp:columns -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">Item #2</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Item #3</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:image {"id":4240,"aspectRatio":"1","scale":"cover","sizeSlug":"full","linkDestination":"none"} -->
+<figure class="wp-block-image size-full"><img src="http://kit.local/wp-content/uploads/2022/04/qM63x7vF3qN1whboGdEpuL-122.jpg" alt="MacBook Pro beside plant in vase" class="wp-image-4240" style="aspect-ratio:1;object-fit:cover"/></figure>
+<!-- /wp:image -->
+
+<!-- wp:columns -->
+<div class="wp-block-columns"><!-- wp:column -->
+<div class="wp-block-column"><!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Item #1</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Item #4</p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:column -->
+
+<!-- wp:column -->
+<div class="wp-block-column"><!-- wp:heading {"level":4} -->
+<h4 class="wp-block-heading">Item #1</h4>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Item #5</p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:column --></div>
+<!-- /wp:columns -->
+
+<!-- wp:heading {"level":5} -->
+<h5 class="wp-block-heading">Item #1</h5>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Item #6</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":6} -->
+<h6 class="wp-block-heading">Item #1</h6>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Item #7</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Item #2</h3>
+<!-- /wp:heading -->
+
+<!-- wp:heading {"level":4} -->
+<h4 class="wp-block-heading">Item #2</h4>
+<!-- /wp:heading -->
+
+<!-- wp:heading {"level":5} -->
+<h5 class="wp-block-heading">Item #2</h5>
+<!-- /wp:heading -->
+
+<!-- wp:heading {"level":6} -->
+<h6 class="wp-block-heading">Item #2</h6>
+<!-- /wp:heading -->',
+			]
+		);
+	}
 }
