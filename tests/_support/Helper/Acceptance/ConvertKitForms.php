@@ -56,6 +56,10 @@ class ConvertKitForms extends \Codeception\Module
 						$I->seeInSource('<' . $element . '>Item #' . $element_index . '</' . $element . '><form action="https://app.convertkit.com/forms/' . $formID . '/subscriptions" ');
 						break;
 
+					case 'img':
+						$I->seeInSource('<' . $element . ' decoding="async" src="https://placehold.co/600x400" alt="Image #' . $element_index . '"><form action="https://app.convertkit.com/forms/' . $formID . '/subscriptions" ');
+						break;
+
 					// Headings.
 					default:
 						$I->seeInSource('<' . $element . ' class="wp-block-heading">Item #' . $element_index . '</' . $element . '><form action="https://app.convertkit.com/forms/' . $formID . '/subscriptions" ');
