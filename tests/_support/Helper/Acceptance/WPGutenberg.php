@@ -411,7 +411,7 @@ class WPGutenberg extends \Codeception\Module
 
 <!-- wp:column -->
 <div class="wp-block-column"><!-- wp:image {"id":4237,"sizeSlug":"large","linkDestination":"none"} -->
-<figure class="wp-block-image size-large"><img src="http://kit.local/wp-content/uploads/2022/05/iLRneK6yxY4WwQUdkkUMaq-122-683x1024.jpg" alt="Flowers" class="wp-image-4237"/></figure>
+<figure class="wp-block-image size-large"><img src="https://placehold.co/600x400" alt="Image #1" /></figure>
 <!-- /wp:image --></div>
 <!-- /wp:column --></div>
 <!-- /wp:columns -->
@@ -425,7 +425,7 @@ class WPGutenberg extends \Codeception\Module
 <!-- /wp:paragraph -->
 
 <!-- wp:image {"id":4240,"aspectRatio":"1","scale":"cover","sizeSlug":"full","linkDestination":"none"} -->
-<figure class="wp-block-image size-full"><img src="http://kit.local/wp-content/uploads/2022/04/qM63x7vF3qN1whboGdEpuL-122.jpg" alt="MacBook Pro beside plant in vase" class="wp-image-4240" style="aspect-ratio:1;object-fit:cover"/></figure>
+<figure class="wp-block-image size-full"><img src="https://placehold.co/600x400" alt="Image #2" /></figure>
 <!-- /wp:image -->
 
 <!-- wp:columns -->
