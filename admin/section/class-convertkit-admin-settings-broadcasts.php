@@ -330,7 +330,7 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 		// may not work.
 		if ( defined( 'DISABLE_WP_CRON' ) && DISABLE_WP_CRON === true ) {
 			?>
-			<div class="notice notice-warning">
+			<div class="notice notice-info">
 				<p>
 					<?php
 					printf(
@@ -339,7 +339,7 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 						'<code>DISABLE_WP_CRON</code>',
 						esc_html__( 'constant is enabled. If broadcasts do not import automatically or when using the import button below, either remove this constant from your', 'convertkit' ),
 						'<code>wp-config.php</code>',
-						esc_html__( 'file, or check with your web host if they have disabled your WordPress Cron. If importing broadcasts work, no changes to your WordPress configuration file are required.', 'convertkit' )
+						esc_html__( 'file, or check that your web host is triggering the WordPress Cron via an alternate method. If importing broadcasts work, no changes to your WordPress configuration file are required.', 'convertkit' )
 					);
 					?>
 				</p>
