@@ -338,6 +338,22 @@ class ConvertKit_Output {
 				$content = $form . $content;
 				break;
 
+			case 'after_element':
+				$element = $this->settings->get_default_form_position_element( get_post_type( $post_id ) );
+				$index   = $this->settings->get_default_form_position_element_index( get_post_type( $post_id ) );
+
+				// Check if DOMDocument is installed.
+				// It should be installed as mosts hosts include php-dom and php-xml modules.
+				// If not, fallback to using preg_match_all(), which is less reliable.
+				if ( ! class_exists( 'DOMDocument' ) ) {
+					$content = $this->inject_form_after_element_fallback( $content, $element, $index, $form );
+					break;
+				}
+
+				// Use DOMDocument.
+				$content = $this->inject_form_after_element( $content, $element, $index, $form );
+				break;
+
 			case 'after_content':
 			default:
 				// Default behaviour < 2.5.8 was to append the Form after the content.
@@ -358,6 +374,112 @@ class ConvertKit_Output {
 		 */
 		$content = apply_filters( 'convertkit_frontend_append_form', $content, $form, $post_id, $form_id, $form_position );
 
+		return $content;
+
+	}
+
+	/**
+	 * Injects the form after the given element and index, using DOMDocument.
+	 *
+	 * @since   2.6.2
+	 *
+	 * @param   string $content        Page / Post Content.
+	 * @param   string $tag            HTML tag to insert form after.
+	 * @param   int    $index          Number of $tag elements to find before inserting form.
+	 * @param   string $form           Form HTML to inject.
+	 * @return  string
+	 */
+	private function inject_form_after_element( $content, $tag, $index, $form ) {
+
+		// Load Page / Post content into DOMDocument.
+		libxml_use_internal_errors( true );
+		$html = new DOMDocument();
+		$html->loadHTML( $content, LIBXML_HTML_NODEFDTD );
+
+		// Find the element to append the form to.
+		// item() is a zero based index.
+		$element_node = $html->getElementsByTagName( $tag )->item( $index - 1 );
+
+		// If the element could not be found, either the number of elements by tag name is less
+		// than the requested position the form be inserted in, or no element exists.
+		// Append the form to the content and return.
+		if ( is_null( $element_node ) ) {
+			return $content . $form;
+		}
+
+		// Create new element for the Form.
+		$form_node = new DOMDocument();
+		$form_node->loadHTML( $form, LIBXML_HTML_NODEFDTD );
+
+		// Append the form to the specific element.
+		$element_node->parentNode->insertBefore( $html->importNode( $form_node->documentElement, true ), $element_node->nextSibling ); // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+
+		// Fetch HTML string.
+		$content = $html->saveHTML();
+
+		// Remove some HTML tags that DOMDocument adds, returning the output.
+		// We do this instead of using LIBXML_HTML_NOIMPLIED in loadHTML(), because Legacy Forms are not always contained in
+		// a single root / outer element, which is required for LIBXML_HTML_NOIMPLIED to correctly work.
+		$content = str_replace( '<html>', '', $content );
+		$content = str_replace( '</html>', '', $content );
+		$content = str_replace( '<head>', '', $content );
+		$content = str_replace( '</head>', '', $content );
+		$content = str_replace( '<body>', '', $content );
+		$content = str_replace( '</body>', '', $content );
+
+		return $content;
+
+	}
+
+	/**
+	 * Injects the form after the given element and index, using preg_match_all().
+	 * This is less reliable than DOMDocument, and is called if DOMDocument is
+	 * not installed on the server.
+	 *
+	 * @since   2.6.2
+	 *
+	 * @param   string $content        Page / Post Content.
+	 * @param   string $tag            HTML tag to insert form after.
+	 * @param   int    $index           Number of $tag elements to find before inserting form.
+	 * @param   string $form           Form HTML to inject.
+	 * @return  string
+	 */
+	private function inject_form_after_element_fallback( $content, $tag, $index, $form ) {
+
+		// Calculate tag length.
+		$tag_length = ( strlen( $tag ) + 3 );
+
+		// Find all closing elements.
+		preg_match_all( '/<\/' . $tag . '>/', $content, $matches );
+
+		// If no elements exist, just append the form.
+		if ( count( $matches[0] ) === 0 ) {
+			$content = $content . $form;
+			return $content;
+		}
+
+		// If the number of elements is less than the index, we don't have enough elements to add the form to.
+		// Just add the form after the content.
+		if ( count( $matches[0] ) <= $index ) {
+			$content = $content . $form;
+			return $content;
+		}
+
+		// Iterate through the content to find the element at the configured index e.g. find the 4th closing paragraph.
+		$offset = 0;
+		foreach ( $matches[0] as $element_index => $element ) {
+			$position = strpos( $content, $element, $offset );
+			if ( ( $element_index + 1 ) === $index ) {
+				return substr( $content, 0, $position + 4 ) . $form . substr( $content, $position + 4 );
+			}
+
+			// Increment offset.
+			$offset = $position + 1;
+		}
+
+		// If here, something went wrong.
+		// Just add the form after the content.
+		$content = $content . $form;
 		return $content;
 
 	}

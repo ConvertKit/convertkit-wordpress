@@ -281,6 +281,115 @@ class CPTFormCest
 	}
 
 	/**
+	 * Test that the Default Form specified in the Plugin Settings works when
+	 * creating and viewing a new WordPress CPT, and its position is set
+	 * to after the 3rd paragraph.
+	 *
+	 * @since   2.6.2
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testAddNewCPTUsingDefaultFormAfterParagraphElement(AcceptanceTester $I)
+	{
+		// Setup ConvertKit plugin with Default Form for CPTs set to be output after the 3rd paragraph of content.
+		$I->setupConvertKitPlugin(
+			$I,
+			[
+				'article_form'                        => $_ENV['CONVERTKIT_API_FORM_ID'],
+				'article_form_position'               => 'after_element',
+				'article_form_position_element'       => 'p',
+				'article_form_position_element_index' => 3,
+			]
+		);
+		$I->setupConvertKitPluginResources($I);
+
+		// Setup Article with placeholder content.
+		$pageID = $I->addGutenbergPageToDatabase($I, 'article', 'Kit: CPT: Form: Default: After 3rd Paragraph Element');
+
+		// View the CPT on the frontend site.
+		$I->amOnPage('?p=' . $pageID);
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Confirm that one ConvertKit Form is output in the DOM after the third paragraph.
+		$I->seeFormOutput($I, $_ENV['CONVERTKIT_API_FORM_ID'], 'after_element', 'p', 3);
+	}
+
+	/**
+	 * Test that the Default Form specified in the Plugin Settings works when
+	 * creating and viewing a new WordPress CPT, and its position is set
+	 * to after the 2nd <h2> element.
+	 *
+	 * @since   2.6.2
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testAddNewCPTUsingDefaultFormAfterHeadingElement(AcceptanceTester $I)
+	{
+		// Setup ConvertKit plugin with Default Form for CPTs set to be output after the 2nd <h2> of content.
+		$I->setupConvertKitPlugin(
+			$I,
+			[
+				'article_form'                        => $_ENV['CONVERTKIT_API_FORM_ID'],
+				'article_form_position'               => 'after_element',
+				'article_form_position_element'       => 'h2',
+				'article_form_position_element_index' => 2,
+			]
+		);
+		$I->setupConvertKitPluginResources($I);
+
+		// Setup Article with placeholder content.
+		$pageID = $I->addGutenbergPageToDatabase($I, 'article', 'Kit: CPT: Form: Default: After 2nd H2 Element');
+
+		// View the CPT on the frontend site.
+		$I->amOnPage('?p=' . $pageID);
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Confirm that one ConvertKit Form is output in the DOM after the second <h2> element.
+		$I->seeFormOutput($I, $_ENV['CONVERTKIT_API_FORM_ID'], 'after_element', 'h2', 2);
+	}
+
+	/**
+	 * Test that the Default Form specified in the Plugin Settings works when
+	 * creating and viewing a new WordPress CPT, and its position is set
+	 * to a number greater than the number of elements in the content.
+	 *
+	 * @since   2.6.2
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testAddNewCPTUsingDefaultFormAfterOutOfBoundsElement(AcceptanceTester $I)
+	{
+		// Setup ConvertKit plugin with Default Form for CPTs set to be output after the 7th paragraph of content.
+		$I->setupConvertKitPlugin(
+			$I,
+			[
+				'article_form'                        => $_ENV['CONVERTKIT_API_FORM_ID'],
+				'article_form_position'               => 'after_element',
+				'article_form_position_element'       => 'p',
+				'article_form_position_element_index' => 9,
+			]
+		);
+		$I->setupConvertKitPluginResources($I);
+
+		// Setup Article with placeholder content.
+		$pageID = $I->addGutenbergPageToDatabase($I, 'article', 'Kit: CPT: Form: Default: After 9th Paragraph Element');
+
+		// View the CPT on the frontend site.
+		$I->amOnPage('?p=' . $pageID);
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Confirm that one ConvertKit Form is output in the DOM after the content, as
+		// the number of paragraphs is less than the position.
+		$I->seeFormOutput($I, $_ENV['CONVERTKIT_API_FORM_ID'], 'after_content');
+	}
+
+	/**
 	 * Test that the Default Legacy Form specified in the Plugin Settings works when
 	 * creating and viewing a new WordPress CPT.
 	 *

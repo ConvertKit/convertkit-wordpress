@@ -17,15 +17,19 @@ document.addEventListener(
 	function () {
 
 		// Update settings and refresh UI when a setting is changed.
-		const enabledInput = document.querySelector( 'input#enabled' );
-		enabledInput.addEventListener(
-			'change',
-			function () {
-				convertKitConditionallyDisplaySettings( this.id, this.checked );
+		const sourceInputs = document.querySelectorAll( '.convertkit-conditional-display' );
+		sourceInputs.forEach(
+			function ( input ) {
+				input.addEventListener(
+					'change',
+					function () {
+						convertKitConditionallyDisplaySettings( this );
+					}
+				);
+
+				convertKitConditionallyDisplaySettings( input );
 			}
 		);
-
-		convertKitConditionallyDisplaySettings( 'enabled', enabledInput.checked );
 
 	}
 );
@@ -35,31 +39,58 @@ document.addEventListener(
  * table rows related to a setting, if that setting is disabled.
  *
  * @since 	2.2.4
+ *
+ * @param 	object  input 	Element interacted with
  */
-function convertKitConditionallyDisplaySettings( name, display ) {
+function convertKitConditionallyDisplaySettings( input ) {
 
-	// Show all rows.
 	const rows = document.querySelectorAll( 'table.form-table tr' );
-	rows.forEach( row => row.style.display = '' );
 
-	// Don't do anything else if display is true.
-	if ( display ) {
-		return;
+	switch ( input.type ) {
+		case 'checkbox':
+			// Show all rows.
+			rows.forEach( row => row.style.display = '' );
+
+			// Don't do anything else if the checkbox is checked.
+			if ( input.checked ) {
+				return;
+			}
+
+			// Iterate through the table rows, hiding any settings.
+			rows.forEach(
+				function ( row ) {
+					// Skip if this table row is for the setting we've just checked/unchecked.
+					if ( row.querySelector( `[id = "${input.id}"]` ) ) {
+						return;
+					}
+
+					// Hide this row if the input, select, link or span element within the row has the CSS class of the setting ID.
+					if ( row.querySelector( `input.${input.id}, select.${input.id}, a.${input.id}, span.${input.id}` ) ) {
+						row.style.display = 'none';
+					}
+				}
+			);
+			break;
+
+		default:
+			// Iterate through the table rows, hiding any settings.
+			rows.forEach(
+				function ( row ) {
+					// Skip if this table row is for the setting we've just changed.
+					if ( row.querySelector( `[id = "${input.id}"]` ) ) {
+						return;
+					}
+
+					if ( row.querySelector( `input#${input.dataset.conditionalElement}` ) ) {
+						if ( input.value !== input.dataset.conditionalValue ) {
+							row.style.display = 'none';
+						} else {
+							row.style.display = '';
+						}
+					}
+				}
+			);
+			break;
 	}
-
-	// Iterate through the table rows, hiding any settings.
-	rows.forEach(
-		function ( row ) {
-			// Skip if this table row is for the setting we've just checked/unchecked.
-			if ( row.querySelector( `[id = "${name}"]` ) ) {
-					return;
-			}
-
-			// Hide this row if the input, select, link or span element within the row has the CSS class of the setting name.
-			if ( row.querySelector( `input.${name}, select.${name}, a.${name}, span.${name}` ) ) {
-				row.style.display = 'none';
-			}
-		}
-	);
 
 }
