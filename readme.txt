@@ -5,7 +5,7 @@ Tags: email marketing, email newsletter, newsletter, subscribers, membership
 Requires at least: 5.0
 Tested up to: 6.6.2
 Requires PHP: 5.6.20
-Stable tag: 2.6.1
+Stable tag: 2.6.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -158,6 +158,9 @@ Full Plugin documentation can be found [here](https://help.kit.com/en/articles/2
 10. Track subscriber growth
 
 == Changelog ==
+
+### 2.6.2 2024-10-18
+* Added: Settings: Option to output Default Forms after a given number of elements (paragraphs, headings, images)
 
 ### 2.6.1 2024-10-08
 * Fix: Kit branding tweaks and secondary button colors

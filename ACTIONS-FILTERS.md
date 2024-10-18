@@ -1238,7 +1238,7 @@ add_filter( 'convertkit_output_append_form_to_content_form_id', function( $form_
 </pre>
 <h3 id="convertkit_frontend_append_form">
 						convertkit_frontend_append_form
-						<code>includes/class-convertkit-output.php::358</code>
+						<code>includes/class-convertkit-output.php::374</code>
 					</h3><h4>Overview</h4>
 						<p>Filter the Post's Content, which includes a ConvertKit Form, immediately before it is output.</p><h4>Parameters</h4>
 					<table>
@@ -1281,7 +1281,7 @@ add_filter( 'convertkit_frontend_append_form', function( $content, $form, $post_
 </pre>
 <h3 id="convertkit_output_scripts_footer">
 						convertkit_output_scripts_footer
-						<code>includes/class-convertkit-output.php::701</code>
+						<code>includes/class-convertkit-output.php::823</code>
 					</h3><h4>Overview</h4>
 						<p>Define an array of scripts to output in the footer of the WordPress site.</p><h4>Parameters</h4>
 					<table>
@@ -1308,7 +1308,7 @@ add_filter( 'convertkit_output_scripts_footer', function( $scripts ) {
 </pre>
 <h3 id="convertkit_output_script_footer">
 						convertkit_output_script_footer
-						<code>includes/class-convertkit-output.php::720</code>
+						<code>includes/class-convertkit-output.php::842</code>
 					</h3><h4>Overview</h4>
 						<p>Filter the form <script> key/value pairs immediately before the script is output.</p><h4>Parameters</h4>
 					<table>
@@ -1335,7 +1335,7 @@ add_filter( 'convertkit_output_script_footer', function( $script ) {
 </pre>
 <h3 id="convertkit_settings_get_defaults">
 						convertkit_settings_get_defaults
-						<code>includes/class-convertkit-settings.php::420</code>
+						<code>includes/class-convertkit-settings.php::460</code>
 					</h3><h4>Overview</h4>
 						<p>The default settings, used when the ConvertKit Plugin Settings haven't been saved e.g. on a new installation.</p><h4>Parameters</h4>
 					<table>
@@ -1685,7 +1685,7 @@ do_action( 'convertkit_settings_base_render_after', function(  ) {
 </pre>
 <h3 id="convertkit_settings_base_sanitize_settings">
 						convertkit_settings_base_sanitize_settings
-						<code>admin/section/class-convertkit-settings-base.php::651</code>
+						<code>admin/section/class-convertkit-settings-base.php::683</code>
 					</h3><h4>Parameters</h4>
 					<table>
 						<thead>
