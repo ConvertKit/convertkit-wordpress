@@ -147,7 +147,7 @@ class BroadcastsExportPostCest
 		$I->waitForElementVisible('.editor-post-publish-panel__header-publish-button');
 
 		// Enable the Create Broadcast option.
-		$I->click('.convertkit-pre-publish-actions #inspector-toggle-control-1');
+		$I->click('.convertkit-pre-publish-actions #inspector-toggle-control-0');
 
 		// Publish the Post.
 		$I->clickPublishOnPrePublishChecksForGutenbergPage($I);
