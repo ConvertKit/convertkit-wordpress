@@ -55,7 +55,7 @@ jobs:
       fail-fast: false
       matrix:
         wp-versions: [ 'latest' ] #[ '6.1.1', 'latest' ]
-        php-versions: [ '8.0', '8.1', '8.2', '8.3' ] #[ '7.4', '8.0', '8.1' ]
+        php-versions: [ '7.4', '8.0', '8.1', '8.2', '8.3' ] #[ '7.4', '8.0', '8.1' ]
 
         # Folder names within the 'tests' folder to run tests in parallel.
         test-groups: [
@@ -256,10 +256,10 @@ jobs:
         working-directory: ${{ env.PLUGIN_DIR }}
         run: php vendor/bin/codecept build
 
-      # Run Codeception WPUnit Tests on the PHP 8.0 instance before the acceptance/broadcasts acceptance tests.
+      # Run Codeception WPUnit Tests on the PHP 8.3 instance before the acceptance/tags acceptance tests.
       # We run these once to avoid hitting API rate limits.
       - name: Run tests/wpunit
-        if: ${{ matrix.php-versions == '8.0' && matrix.test-groups == 'acceptance/broadcasts' }}
+        if: ${{ matrix.php-versions == '8.3' && matrix.test-groups == 'acceptance/tags' }}
         working-directory: ${{ env.PLUGIN_DIR }}
         run: php vendor/bin/codecept run tests/wpunit --fail-fast
 
