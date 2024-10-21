@@ -180,7 +180,7 @@ class PageLandingPageCest
 		$I->publishAndViewGutenbergPage($I);
 
 		// Confirm that the basic HTML structure is correct.
-		$I->seeLandingPageOutput($I);
+		$I->seeLandingPageOutput($I, true);
 
 		// Confirm that the Landing Page title is the same as defined on ConvertKit i.e. that character encoding is correct.
 		$I->seeInSource('Vantar þinn ungling sjálfstraust í stærðfræði?');

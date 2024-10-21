@@ -53,12 +53,16 @@ class ConvertKitForms extends \Codeception\Module
 				// The block editor automatically adds CSS classes to some elements.
 				switch ( $element ) {
 					case 'p':
-						$I->seeInSource('<' . $element . '>Item #' . $element_index . '</' . $element . '><form action="https://app.convertkit.com/forms/' . $formID . '/subscriptions" ');
+						$I->seeInSource('<' . $element . '>Item #' . $element_index . '</' . $element . '><form action="https://app.kit.com/forms/' . $formID . '/subscriptions" ');
+						break;
+
+					case 'img':
+						$I->seeInSource('<' . $element . ' decoding="async" src="https://placehold.co/600x400" alt="Image #' . $element_index . '"><form action="https://app.kit.com/forms/' . $formID . '/subscriptions" ');
 						break;
 
 					// Headings.
 					default:
-						$I->seeInSource('<' . $element . ' class="wp-block-heading">Item #' . $element_index . '</' . $element . '><form action="https://app.convertkit.com/forms/' . $formID . '/subscriptions" ');
+						$I->seeInSource('<' . $element . ' class="wp-block-heading">Item #' . $element_index . '</' . $element . '><form action="https://app.kit.com/forms/' . $formID . '/subscriptions" ');
 						break;
 				}
 				break;

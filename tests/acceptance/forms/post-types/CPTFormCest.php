@@ -355,6 +355,42 @@ class CPTFormCest
 	/**
 	 * Test that the Default Form specified in the Plugin Settings works when
 	 * creating and viewing a new WordPress CPT, and its position is set
+	 * to after the 2nd <img> element.
+	 *
+	 * @since   2.6.2
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testAddNewCPTUsingDefaultFormAfterImageElement(AcceptanceTester $I)
+	{
+		// Setup ConvertKit plugin with Default Form for CPTs set to be output after the 2nd <img> of content.
+		$I->setupConvertKitPlugin(
+			$I,
+			[
+				'article_form'                        => $_ENV['CONVERTKIT_API_FORM_ID'],
+				'article_form_position'               => 'after_element',
+				'article_form_position_element'       => 'img',
+				'article_form_position_element_index' => 2,
+			]
+		);
+		$I->setupConvertKitPluginResources($I);
+
+		// Setup Article with placeholder content.
+		$pageID = $I->addGutenbergPageToDatabase($I, 'article', 'Kit: CPT: Form: Default: After 2nd Image Element');
+
+		// View the CPT on the frontend site.
+		$I->amOnPage('?p=' . $pageID);
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Confirm that one ConvertKit Form is output in the DOM after the second <img> element.
+		$I->seeFormOutput($I, $_ENV['CONVERTKIT_API_FORM_ID'], 'after_element', 'img', 2);
+	}
+
+	/**
+	 * Test that the Default Form specified in the Plugin Settings works when
+	 * creating and viewing a new WordPress CPT, and its position is set
 	 * to a number greater than the number of elements in the content.
 	 *
 	 * @since   2.6.2
