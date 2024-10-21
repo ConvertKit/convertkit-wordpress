@@ -17,9 +17,6 @@ class RestrictContentProductPageCest
 	{
 		// Activate ConvertKit plugin.
 		$I->activateConvertKitPlugin($I);
-
-		// Pause to prevent API rate limits.
-		$I->wait(1);
 	}
 
 	/**

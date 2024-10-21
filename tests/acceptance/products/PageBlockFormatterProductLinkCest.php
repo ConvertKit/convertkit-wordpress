@@ -16,9 +16,6 @@ class PageBlockFormatterProductLinkCest
 	public function _before(AcceptanceTester $I)
 	{
 		$I->activateConvertKitPlugin($I);
-
-		// Pause to prevent API rate limits.
-		$I->wait(1);
 	}
 
 	/**

@@ -23,9 +23,6 @@ class RestrictContentProductCPTCest
 
 		// Create a non-public Custom Post Type called Private, using the Custom Post Type UI Plugin.
 		$I->registerCustomPostType($I, 'private', 'Private', 'Private', false);
-
-		// Pause to prevent API rate limits.
-		$I->wait(1);
 	}
 
 	/**
