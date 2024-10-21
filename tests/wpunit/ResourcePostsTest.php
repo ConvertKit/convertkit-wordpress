@@ -48,8 +48,8 @@ class ResourcePostsTest extends \Codeception\TestCase\WPTestCase
 		update_option(
 			$this->settings::SETTINGS_NAME,
 			[
-				'access_token'  => $_ENV['CONVERTKIT_OAUTH_ACCESS_TOKEN_NO_DATA'],
-				'refresh_token' => $_ENV['CONVERTKIT_OAUTH_REFRESH_TOKEN_NO_DATA'],
+				'access_token'  => $_ENV['CONVERTKIT_OAUTH_ACCESS_TOKEN'],
+				'refresh_token' => $_ENV['CONVERTKIT_OAUTH_REFRESH_TOKEN'],
 			]
 		);
 
