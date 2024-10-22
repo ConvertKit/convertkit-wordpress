@@ -48,8 +48,8 @@ class ResourceFormsTest extends \Codeception\TestCase\WPTestCase
 		update_option(
 			$this->settings::SETTINGS_NAME,
 			[
-				'access_token'  => $_ENV['CONVERTKIT_OAUTH_ACCESS_TOKEN_NO_DATA'],
-				'refresh_token' => $_ENV['CONVERTKIT_OAUTH_REFRESH_TOKEN_NO_DATA'],
+				'access_token'  => $_ENV['CONVERTKIT_OAUTH_ACCESS_TOKEN'],
+				'refresh_token' => $_ENV['CONVERTKIT_OAUTH_REFRESH_TOKEN'],
 			]
 		);
 
@@ -196,8 +196,8 @@ class ResourceFormsTest extends \Codeception\TestCase\WPTestCase
 		$this->assertArrayHasKey('name', reset($result));
 
 		// Assert order of data has not changed.
-		$this->assertEquals('AAA Test', reset($result)['name']);
-		$this->assertEquals('WooCommerce Product Form', end($result)['name']);
+		$this->assertEquals('WPForms Form', reset($result)['name']);
+		$this->assertEquals('Legacy Form', end($result)['name']);
 	}
 
 	/**
@@ -223,8 +223,8 @@ class ResourceFormsTest extends \Codeception\TestCase\WPTestCase
 		$this->assertArrayHasKey('name', reset($result));
 
 		// Assert order of data is in ascending alphabetical order.
-		$this->assertEquals($_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_NAME'], reset($result)[ $this->resource->order_by ]);
-		$this->assertEquals($_ENV['CONVERTKIT_API_FORM_FORMAT_STICKY_BAR_NAME'], end($result)[ $this->resource->order_by ]);
+		$this->assertEquals($_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_NAME_ONLY'], reset($result)[ $this->resource->order_by ]);
+		$this->assertEquals($_ENV['CONVERTKIT_API_FORM_FORMAT_STICKY_BAR_NAME_ONLY'], end($result)[ $this->resource->order_by ]);
 	}
 
 	/**
@@ -254,8 +254,8 @@ class ResourceFormsTest extends \Codeception\TestCase\WPTestCase
 		$this->assertArrayHasKey('name', reset($result));
 
 		// Assert order of data is in ascending alphabetical order.
-		$this->assertEquals($_ENV['CONVERTKIT_API_FORM_FORMAT_STICKY_BAR_NAME'], reset($result)[ $this->resource->order_by ]);
-		$this->assertEquals($_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_NAME'], end($result)[ $this->resource->order_by ]);
+		$this->assertEquals($_ENV['CONVERTKIT_API_FORM_FORMAT_STICKY_BAR_NAME_ONLY'], reset($result)[ $this->resource->order_by ]);
+		$this->assertEquals($_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_NAME_ONLY'], end($result)[ $this->resource->order_by ]);
 	}
 
 	/**
@@ -284,8 +284,8 @@ class ResourceFormsTest extends \Codeception\TestCase\WPTestCase
 		$this->assertArrayHasKey('name', reset($result));
 
 		// Assert order of data has not changed.
-		$this->assertEquals($_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_NAME'], reset($result)['name']);
-		$this->assertEquals($_ENV['CONVERTKIT_API_FORM_FORMAT_STICKY_BAR_NAME'], end($result)['name']);
+		$this->assertEquals($_ENV['CONVERTKIT_API_FORM_FORMAT_STICKY_BAR_NAME_ONLY'], reset($result)['name']);
+		$this->assertEquals($_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_NAME_ONLY'], end($result)['name']);
 	}
 
 	/**
@@ -332,7 +332,7 @@ class ResourceFormsTest extends \Codeception\TestCase\WPTestCase
 	{
 		$result = $this->resource->get_html($_ENV['CONVERTKIT_API_FORM_ID']);
 		$this->assertNotInstanceOf(WP_Error::class, $result);
-		$this->assertSame($result, '<script async data-uid="85629c512d" src="https://cheerful-architect-3237.ck.page/85629c512d/index.js"></script>');
+		$this->assertSame($result, '<script async data-uid="85629c512d" src="https://cheerful-architect-3237.ck.page/85629c512d/index.js" data-jetpack-boost="ignore" data-no-defer="1" nowprocket></script>');
 	}
 
 	/**
