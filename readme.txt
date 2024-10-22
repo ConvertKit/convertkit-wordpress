@@ -1,7 +1,7 @@
 === Kit (formerly ConvertKit) - Email Newsletter, Email Marketing, Subscribers and Landing Pages ===
 Contributors: nathanbarry, growdev, travisnorthcutt, ggwicz
 Donate link: https://kit.com
-Tags: email marketing, email newsletter, newsletter, subscribers, membership
+Tags: email marketing, email newsletter, subscribers, block, form
 Requires at least: 5.0
 Tested up to: 6.6.2
 Requires PHP: 5.6.20
