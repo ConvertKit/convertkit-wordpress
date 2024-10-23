@@ -48,8 +48,8 @@ class ResourceProductsTest extends \Codeception\TestCase\WPTestCase
 		update_option(
 			$this->settings::SETTINGS_NAME,
 			[
-				'access_token'  => $_ENV['CONVERTKIT_OAUTH_ACCESS_TOKEN_NO_DATA'],
-				'refresh_token' => $_ENV['CONVERTKIT_OAUTH_REFRESH_TOKEN_NO_DATA'],
+				'access_token'  => $_ENV['CONVERTKIT_OAUTH_ACCESS_TOKEN'],
+				'refresh_token' => $_ENV['CONVERTKIT_OAUTH_REFRESH_TOKEN'],
 			]
 		);
 
@@ -136,7 +136,7 @@ class ResourceProductsTest extends \Codeception\TestCase\WPTestCase
 
 		// Assert order of data is in ascending alphabetical order.
 		$this->assertEquals('Example Tip Jar', reset($result)[ $this->resource->order_by ]);
-		$this->assertEquals('Newsletter Subscription', end($result)[ $this->resource->order_by ]);
+		$this->assertEquals('PDF Guide', end($result)[ $this->resource->order_by ]);
 	}
 
 	/**
@@ -166,7 +166,7 @@ class ResourceProductsTest extends \Codeception\TestCase\WPTestCase
 		$this->assertArrayHasKey('name', reset($result));
 
 		// Assert order of data is in ascending alphabetical order.
-		$this->assertEquals('Newsletter Subscription', reset($result)[ $this->resource->order_by ]);
+		$this->assertEquals('PDF Guide', reset($result)[ $this->resource->order_by ]);
 		$this->assertEquals('Example Tip Jar', end($result)[ $this->resource->order_by ]);
 	}
 
@@ -196,7 +196,7 @@ class ResourceProductsTest extends \Codeception\TestCase\WPTestCase
 		$this->assertArrayHasKey('name', reset($result));
 
 		// Assert order of data has not changed.
-		$this->assertEquals('Example Tip Jar', reset($result)['name']);
+		$this->assertEquals('PDF Guide', reset($result)['name']);
 		$this->assertEquals('Newsletter Subscription', end($result)['name']);
 	}
 
