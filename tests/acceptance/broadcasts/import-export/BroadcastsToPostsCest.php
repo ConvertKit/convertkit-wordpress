@@ -155,6 +155,9 @@ class BroadcastsToPostsCest
 		// Confirm unsubscribe link section has been removed.
 		$I->dontSee('<div class="ck-section ck-hide-in-public-posts"');
 
+		// Confirm poll block has been removed.
+		$I->dontSee('<table roll="presentation" class="ck-poll');
+
 		// Confirm published date matches the Broadcast.
 		$date = date('Y-m-d', strtotime($_ENV['CONVERTKIT_API_BROADCAST_FIRST_DATE'])) . 'T' . date('H:i:s', strtotime($_ENV['CONVERTKIT_API_BROADCAST_FIRST_DATE']));
 		$I->seeInSource('<time datetime="' . $date);
