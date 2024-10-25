@@ -59,7 +59,7 @@ class ConvertKit_Broadcasts_Importer {
 
 		// Initialize required classes.
 		$this->broadcasts_settings = new ConvertKit_Settings_Broadcasts();
-		$this->media_library 	   = new ConvertKit_Media_Library();
+		$this->media_library       = new ConvertKit_Media_Library();
 		$settings                  = new ConvertKit_Settings();
 		$log                       = new ConvertKit_Log( CONVERTKIT_PLUGIN_PATH );
 
@@ -299,7 +299,7 @@ class ConvertKit_Broadcasts_Importer {
 
 	/**
 	 * Parses the given Broadcast's content, removing unnecessary HTML tags and styles.
-	 * 
+	 *
 	 * If 'Import Images' is enabled in the Plugin settings, imports images to the
 	 * Media Library, replacing the <img> `src` with the WordPress Media Library
 	 * Image URL.
@@ -307,7 +307,7 @@ class ConvertKit_Broadcasts_Importer {
 	 * @since   2.2.9
 	 *
 	 * @param   string $broadcast_content  Broadcast Content.
-	 * @param   int    $post_id 		   WordPress Post ID.
+	 * @param   int    $post_id            WordPress Post ID.
 	 * @return  string                     Parsed Content.
 	 */
 	private function parse_broadcast_content( $broadcast_content, $post_id ) {
@@ -355,7 +355,6 @@ class ConvertKit_Broadcasts_Importer {
 		// If the Import Images setting is enabled, iterate through all images within the Broadcast, importing them and changing their
 		// URLs to the WordPress Media Library hosted versions.
 		if ( $this->broadcasts_settings->import_images() ) {
-			
 
 			foreach ( $xpath->query( '//img' ) as $node ) {
 				$image = array(
@@ -382,9 +381,14 @@ class ConvertKit_Broadcasts_Importer {
 				}
 
 				// Get image URL from Media Library.
-				$image_url = wp_get_attachment_image( $image_id, 'full', false, array(
-					'alt' => $image['alt'],
-				) );
+				$image_url = wp_get_attachment_image(
+					$image_id,
+					'full',
+					false,
+					array(
+						'alt' => $image['alt'],
+					)
+				);
 
 				// Replace this image's `src` attribute with the Media Library Image URL.
 				$node->setAttribute( 'src', $image_url );
