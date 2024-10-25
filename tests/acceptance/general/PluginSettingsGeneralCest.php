@@ -584,6 +584,42 @@ class PluginSettingsGeneralCest
 	}
 
 	/**
+	 * Test that no PHP errors or notices are displayed on the Plugin's Setting screen
+	 * when using a Kit account with no resources, and that the applicable Form settings
+	 * fields do not display.
+	 *
+	 * @since   2.6.
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testSettingsScreenWhenNoResources(AcceptanceTester $I)
+	{
+		// Setup Plugin using account that has no resources or data.
+		$I->setupConvertKitPluginCredentialsNoData($I);
+
+		// Go to the Plugin's Settings Screen.
+		$I->loadConvertKitSettingsGeneralScreen($I);
+
+		// Confirm 'No Forms exist in Kit' message displays.
+		$I->see('No Forms exist in Kit.');
+		$I->see('Click here to create your first form');
+		$I->seeInSource('<a href="https://app.kit.com/forms/new/?utm_source=wordpress&amp;utm_term=en_US&amp;utm_content=convertkit" target="_blank">');
+
+		// Confirm no Form settings are displayed for Pages or Posts.
+		$I->dontSeeElementInDOM('#_wp_convertkit_settings_page_form');
+		$I->dontSeeElementInDOM('#_wp_convertkit_settings_page_form_position');
+		$I->dontSeeElementInDOM('#_wp_convertkit_settings_page_form_position_element');
+		$I->dontSeeElementInDOM('#_wp_convertkit_settings_page_form_position_element_index');
+		$I->dontSeeElementInDOM('#_wp_convertkit_settings_post_form');
+		$I->dontSeeElementInDOM('#_wp_convertkit_settings_post_form_position');
+		$I->dontSeeElementInDOM('#_wp_convertkit_settings_post_form_position_element');
+		$I->dontSeeElementInDOM('#_wp_convertkit_settings_post_form_position_element_index');
+
+		// Confirm no Form settings are displayed for non-inline Forms.
+		$I->dontSeeElementInDOM('#_wp_convertkit_settings_non_inline_form');
+	}
+
+	/**
 	 * Deactivate and reset Plugin(s) after each test, if the test passes.
 	 * We don't use _after, as this would provide a screenshot of the Plugin
 	 * deactivation and not the true test error.
