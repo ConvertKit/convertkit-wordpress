@@ -271,6 +271,9 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 			$this->name
 		);
 
+		// Initialize resource classes and perform a refresh if this hasn't yet been done.
+		$this->maybe_initialize_and_refresh_resources();
+
 		foreach ( convertkit_get_supported_post_types() as $supported_post_type ) {
 			// Get Post Type's Label.
 			$post_type = get_post_type_object( $supported_post_type );
@@ -297,34 +300,39 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 					'post_type_object' => $post_type,
 				)
 			);
-			add_settings_field(
-				$supported_post_type . '_form_position',
-				sprintf(
-					/* translators: Post Type Name, plural */
-					__( 'Form Position (%s)', 'convertkit' ),
-					$post_type->label
-				),
-				array( $this, 'default_form_position_callback' ),
-				$this->settings_key,
-				$this->name,
-				array(
-					'label_for'        => '_wp_convertkit_settings_' . $supported_post_type . '_form_position',
-					'post_type'        => $supported_post_type,
-					'post_type_object' => $post_type,
-				)
-			);
-			add_settings_field(
-				$supported_post_type . '_form_position_element',
-				'',
-				array( $this, 'default_form_position_element_callback' ),
-				$this->settings_key,
-				$this->name,
-				array(
-					'label_for'        => '_wp_convertkit_settings_' . $supported_post_type . '_form_position_element',
-					'post_type'        => $supported_post_type,
-					'post_type_object' => $post_type,
-				)
-			);
+			
+			// Show Form settings only if Forms exist.
+			if ( $this->forms->exist() ) {
+				add_settings_field(
+					$supported_post_type . '_form_position',
+					sprintf(
+						/* translators: Post Type Name, plural */
+						__( 'Form Position (%s)', 'convertkit' ),
+						$post_type->label
+					),
+					array( $this, 'default_form_position_callback' ),
+					$this->settings_key,
+					$this->name,
+					array(
+						'label_for'        => '_wp_convertkit_settings_' . $supported_post_type . '_form_position',
+						'post_type'        => $supported_post_type,
+						'post_type_object' => $post_type,
+					)
+				);
+
+				add_settings_field(
+					$supported_post_type . '_form_position_element',
+					'',
+					array( $this, 'default_form_position_element_callback' ),
+					$this->settings_key,
+					$this->name,
+					array(
+						'label_for'        => '_wp_convertkit_settings_' . $supported_post_type . '_form_position_element',
+						'post_type'        => $supported_post_type,
+						'post_type_object' => $post_type,
+					)
+				);
+			}
 		}
 
 		add_settings_field(
@@ -485,9 +493,6 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 	 */
 	public function default_form_callback( $args ) {
 
-		// Initialize resource classes and perform a refresh if this hasn't yet been done.
-		$this->maybe_initialize_and_refresh_resources();
-
 		// Bail if no Forms exist.
 		if ( ! $this->forms->exist() ) {
 			esc_html_e( 'No Forms exist in Kit.', 'convertkit' );
@@ -632,9 +637,6 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 	 * @param   array $args  Field arguments.
 	 */
 	public function non_inline_form_callback( $args ) {
-
-		// Initialize resource classes and perform a refresh if this hasn't yet been done.
-		$this->maybe_initialize_and_refresh_resources();
 
 		// Bail if no non-inline Forms exist.
 		if ( ! $this->forms->non_inline_exist() ) {
