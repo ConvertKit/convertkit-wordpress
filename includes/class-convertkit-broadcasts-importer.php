@@ -24,6 +24,15 @@ class ConvertKit_Broadcasts_Importer {
 	private $broadcasts_settings = false;
 
 	/**
+	 * Holds the Media Library class.
+	 *
+	 * @since   2.6.3
+	 *
+	 * @var     bool|ConvertKit_Media_Library
+	 */
+	private $media_library = false;
+
+	/**
 	 * Constructor. Registers actions and filters to output ConvertKit Forms and Landing Pages
 	 * on the frontend web site.
 	 *
@@ -50,6 +59,7 @@ class ConvertKit_Broadcasts_Importer {
 
 		// Initialize required classes.
 		$this->broadcasts_settings = new ConvertKit_Settings_Broadcasts();
+		$this->media_library 	   = new ConvertKit_Media_Library();
 		$settings                  = new ConvertKit_Settings();
 		$log                       = new ConvertKit_Log( CONVERTKIT_PLUGIN_PATH );
 
@@ -85,7 +95,6 @@ class ConvertKit_Broadcasts_Importer {
 			return;
 		}
 
-		// Iterate through each Broadcast.
 		foreach ( $broadcasts as $broadcast_id => $broadcast ) {
 			// If a WordPress Post exists for this Broadcast ID, we previously imported it - skip it.
 			if ( $this->broadcast_exists_as_post( $broadcast_id ) ) {
@@ -115,7 +124,10 @@ class ConvertKit_Broadcasts_Importer {
 				continue;
 			}
 
-			// Create Post as a draft.
+			// Create Post as a draft, without content or a Featured Image.
+			// This gives us a Post ID we can then use if we need to import
+			// the Featured Image and/or Broadcast images to the Media Library,
+			// storing them against the Post ID just created.
 			$post_id = wp_insert_post(
 				$this->build_post_args(
 					$broadcast,
@@ -129,6 +141,23 @@ class ConvertKit_Broadcasts_Importer {
 			if ( is_wp_error( $post_id ) ) {
 				if ( $settings->debug_enabled() ) {
 					$log->add( 'ConvertKit_Broadcasts_Importer::refresh(): Broadcast #' . $broadcast_id . '. Error on wp_insert_post(): ' . $post_id->get_error_message() );
+				}
+				continue;
+			}
+
+			// Parse the Broadcast's content, storing it in the Post.
+			$post_id = wp_update_post(
+				array(
+					'ID'           => $post_id,
+					'post_content' => $this->parse_broadcast_content( $broadcast['content'], $post_id ),
+				),
+				true
+			);
+
+			// Skip if an error occured.
+			if ( is_wp_error( $post_id ) ) {
+				if ( $settings->debug_enabled() ) {
+					$log->add( 'ConvertKit_Broadcasts_Importer::refresh(): Broadcast #' . $broadcast_id . '. Error on wp_update_post() when adding Broadcast content: ' . $post_id->get_error_message() );
 				}
 				continue;
 			}
@@ -173,7 +202,7 @@ class ConvertKit_Broadcasts_Importer {
 			// Maybe log if an error occured updating the Post to the publish status.
 			if ( is_wp_error( $post_id ) ) {
 				if ( $settings->debug_enabled() ) {
-					$log->add( 'ConvertKit_Broadcasts_Importer::refresh(): Broadcast #' . $broadcast_id . '. Error on wp_update_post(): ' . $post_id->get_error_message() );
+					$log->add( 'ConvertKit_Broadcasts_Importer::refresh(): Broadcast #' . $broadcast_id . '. Error on wp_update_post() when transitioning post status from draft to publish: ' . $post_id->get_error_message() );
 				}
 			}
 			if ( $settings->debug_enabled() ) {
@@ -235,7 +264,6 @@ class ConvertKit_Broadcasts_Importer {
 			'post_type'     => 'post',
 			'post_title'    => $broadcast['title'],
 			'post_excerpt'  => ( ! is_null( $broadcast['description'] ) ? $broadcast['description'] : '' ),
-			'post_content'  => $this->parse_broadcast_content( $broadcast['content'] ),
 			'post_date_gmt' => gmdate( 'Y-m-d H:i:s', strtotime( $broadcast['published_at'] ) ),
 			'post_author'   => $author_id,
 		);
@@ -271,13 +299,18 @@ class ConvertKit_Broadcasts_Importer {
 
 	/**
 	 * Parses the given Broadcast's content, removing unnecessary HTML tags and styles.
+	 * 
+	 * If 'Import Images' is enabled in the Plugin settings, imports images to the
+	 * Media Library, replacing the <img> `src` with the WordPress Media Library
+	 * Image URL.
 	 *
 	 * @since   2.2.9
 	 *
 	 * @param   string $broadcast_content  Broadcast Content.
-	 * @return  string                      Parsed Content.
+	 * @param   int    $post_id 		   WordPress Post ID.
+	 * @return  string                     Parsed Content.
 	 */
-	private function parse_broadcast_content( $broadcast_content ) {
+	private function parse_broadcast_content( $broadcast_content, $post_id ) {
 
 		$content = $broadcast_content;
 
@@ -317,6 +350,45 @@ class ConvertKit_Broadcasts_Importer {
 		// This includesthe unsubscribe section.
 		foreach ( $xpath->query( '//div[contains(@class, "ck-hide-in-public-posts")]' ) as $node ) {
 			$node->parentNode->removeChild( $node ); // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+		}
+
+		// If the Import Images setting is enabled, iterate through all images within the Broadcast, importing them and changing their
+		// URLs to the WordPress Media Library hosted versions.
+		if ( $this->broadcasts_settings->import_images() ) {
+			
+
+			foreach ( $xpath->query( '//img' ) as $node ) {
+				$image = array(
+					'src' => $node->getAttribute( 'src' ),
+					'alt' => $node->getAttribute( 'alt' ),
+				);
+
+				// Skip if this image isn't served from https://embed.filekitcdn.com, as it isn't
+				// a user uploaded image to the Broadcast.
+				if ( strpos( $image['src'], 'https://embed.filekitcdn.com' ) === false ) {
+					continue;
+				}
+
+				// Import Image into the Media Library.
+				$image_id = $this->media_library->import_remote_image(
+					$image['src'],
+					$post_id,
+					$image['alt']
+				);
+
+				// If the image could not be imported, serve the original CDN version.
+				if ( is_wp_error( $image_id ) ) {
+					continue;
+				}
+
+				// Get image URL from Media Library.
+				$image_url = wp_get_attachment_image( $image_id, 'full', false, array(
+					'alt' => $image['alt'],
+				) );
+
+				// Replace this image's `src` attribute with the Media Library Image URL.
+				$node->setAttribute( 'src', $image_url );
+			}
 		}
 
 		// Save HTML to a string.
@@ -455,18 +527,12 @@ class ConvertKit_Broadcasts_Importer {
 			return false;
 		}
 
-		// Initialize class.
-		$media_library = new ConvertKit_Media_Library();
-
 		// Import Image into the Media Library.
-		$image_id = $media_library->import_remote_image(
+		$image_id = $this->media_library->import_remote_image(
 			$broadcast['thumbnail_url'],
 			$post_id,
 			$broadcast['thumbnail_alt']
 		);
-
-		// Destroy class.
-		unset( $media_library );
 
 		// Bail if an error occured.
 		if ( is_wp_error( $image_id ) ) {
