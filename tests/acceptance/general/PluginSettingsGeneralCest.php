@@ -588,7 +588,7 @@ class PluginSettingsGeneralCest
 	 * when using a Kit account with no resources, and that the applicable Form settings
 	 * fields do not display.
 	 *
-	 * @since   2.6.
+	 * @since   2.6.3
 	 *
 	 * @param   AcceptanceTester $I  Tester.
 	 */
