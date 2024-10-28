@@ -323,13 +323,13 @@ class PageFormCest
 	 */
 	public function testAddNewPageUsingDefaultLegacyForm(AcceptanceTester $I)
 	{
-		// Setup ConvertKit plugin to use legacy Form as default for Pages.
+		// Setup Plugin with API Key and Secret, which is required for Legacy Forms to work.
 		$I->setupConvertKitPlugin(
 			$I,
 			[
-				'page_form'    => $_ENV['CONVERTKIT_API_LEGACY_FORM_ID'],
-				'post_form'    => '',
-				'product_form' => '',
+				'api_key'    => $_ENV['CONVERTKIT_API_KEY'],
+				'api_secret' => $_ENV['CONVERTKIT_API_SECRET'],
+				'page_form'  => $_ENV['CONVERTKIT_API_LEGACY_FORM_ID'],
 			]
 		);
 		$I->setupConvertKitPluginResources($I);
@@ -713,8 +713,15 @@ class PageFormCest
 	 */
 	public function testAddNewPageUsingDefinedLegacyForm(AcceptanceTester $I)
 	{
-		// Setup ConvertKit plugin.
-		$I->setupConvertKitPlugin($I);
+		// Setup Plugin with API Key and Secret, which is required for Legacy Forms to work.
+		$I->setupConvertKitPlugin(
+			$I,
+			[
+				'api_key'    => $_ENV['CONVERTKIT_API_KEY'],
+				'api_secret' => $_ENV['CONVERTKIT_API_SECRET'],
+				'page_form'  => '',
+			]
+		);
 		$I->setupConvertKitPluginResources($I);
 
 		// Add a Page using the Gutenberg editor.

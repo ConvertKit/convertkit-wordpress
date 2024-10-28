@@ -112,8 +112,8 @@ class ConvertKit_Output {
 			$this->settings = new ConvertKit_Settings();
 		}
 
-		// Bail if the API if an API Key and Secret is not defined.
-		if ( ! $this->settings->has_api_key_and_secret() ) {
+		// Bail if the API hasn't been configured.
+		if ( ! $this->settings->has_access_and_refresh_token() ) {
 			return;
 		}
 
