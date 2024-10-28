@@ -358,7 +358,7 @@ class PostFormCest
 	 */
 	public function testAddNewPostUsingDefaultLegacyForm(AcceptanceTester $I)
 	{
-		// Setup Plugin, without defining default Forms.
+		// Setup Plugin with API Key and Secret, which is required for Legacy Forms to work.
 		$I->setupConvertKitPlugin(
 			$I,
 			[
@@ -465,7 +465,7 @@ class PostFormCest
 	 */
 	public function testAddNewPostUsingDefinedLegacyForm(AcceptanceTester $I)
 	{
-		// Setup ConvertKit Plugin.
+		// Setup Plugin with API Key and Secret, which is required for Legacy Forms to work.
 		$I->setupConvertKitPlugin(
 			$I,
 			[

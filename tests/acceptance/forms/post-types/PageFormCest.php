@@ -323,7 +323,7 @@ class PageFormCest
 	 */
 	public function testAddNewPageUsingDefaultLegacyForm(AcceptanceTester $I)
 	{
-		// Setup ConvertKit plugin to use legacy Form as default for Pages.
+		// Setup Plugin with API Key and Secret, which is required for Legacy Forms to work.
 		$I->setupConvertKitPlugin(
 			$I,
 			[
@@ -713,7 +713,7 @@ class PageFormCest
 	 */
 	public function testAddNewPageUsingDefinedLegacyForm(AcceptanceTester $I)
 	{
-		// Setup ConvertKit plugin.
+		// Setup Plugin with API Key and Secret, which is required for Legacy Forms to work.
 		$I->setupConvertKitPlugin(
 			$I,
 			[
