@@ -60,9 +60,6 @@ class ConvertKitPlugin extends \Codeception\Module
 	{
 		// Define default options.
 		$defaults = [
-			// API Key and Secret retained for testing Legacy Forms and Landing Pages.
-			'api_key'         => $_ENV['CONVERTKIT_API_KEY'],
-			'api_secret'      => $_ENV['CONVERTKIT_API_SECRET'],
 			'access_token'    => $_ENV['CONVERTKIT_OAUTH_ACCESS_TOKEN'],
 			'refresh_token'   => $_ENV['CONVERTKIT_OAUTH_REFRESH_TOKEN'],
 			'debug'           => 'on',
@@ -99,8 +96,6 @@ class ConvertKitPlugin extends \Codeception\Module
 		$I->setupConvertKitPlugin(
 			$I,
 			[
-				'api_key'       => $_ENV['CONVERTKIT_API_KEY_NO_DATA'],
-				'api_secret'    => $_ENV['CONVERTKIT_API_SECRET_NO_DATA'],
 				'access_token'  => $_ENV['CONVERTKIT_OAUTH_ACCESS_TOKEN_NO_DATA'],
 				'refresh_token' => $_ENV['CONVERTKIT_OAUTH_REFRESH_TOKEN_NO_DATA'],
 				'post_form'     => '',
