@@ -108,13 +108,6 @@ class ConvertKit_Admin_Settings {
 	 */
 	public function add_settings_page() {
 
-		// Refresh Posts Resource.
-		/*
-		$posts  = new ConvertKit_Resource_Posts( 'cron' );
-		$result = $posts->refresh();
-		die('Finished');
-		*/
-
 		add_options_page(
 			__( 'Kit', 'convertkit' ),
 			__( 'Kit', 'convertkit' ),
