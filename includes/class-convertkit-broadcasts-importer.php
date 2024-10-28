@@ -363,8 +363,8 @@ class ConvertKit_Broadcasts_Importer {
 
 			foreach ( $xpath->query( '//img' ) as $node ) {
 				$image = array(
-					'src' => $node->getAttribute( 'src' ),
-					'alt' => $node->getAttribute( 'alt' ),
+					'src' => $node->getAttribute( 'src' ), // @phpstan-ignore-line
+					'alt' => $node->getAttribute( 'alt' ), // @phpstan-ignore-line
 				);
 
 				// Skip if this image isn't served from https://embed.filekitcdn.com, as it isn't
@@ -392,7 +392,7 @@ class ConvertKit_Broadcasts_Importer {
 				);
 
 				// Replace this image's `src` attribute with the Media Library Image URL.
-				$node->setAttribute( 'src', $image_url[0] );
+				$node->setAttribute( 'src', $image_url[0] ); // @phpstan-ignore-line
 			}
 		}
 
