@@ -42,6 +42,17 @@ class WidgetFormCest
 	 */
 	public function testLegacyFormWidgetWithValidFormParameter(AcceptanceTester $I)
 	{
+		// Setup Plugin with API Key and Secret, which is required for Legacy Forms to work.
+		$I->setupConvertKitPlugin(
+			$I,
+			[
+				'api_key'    => $_ENV['CONVERTKIT_API_KEY'],
+				'api_secret' => $_ENV['CONVERTKIT_API_SECRET'],
+				'page_form'  => '',
+				'post_form'  => '',
+			]
+		);
+
 		// Add legacy widget, setting the Form setting to the value specified in the .env file.
 		$I->addLegacyWidget(
 			$I,
@@ -69,6 +80,17 @@ class WidgetFormCest
 	 */
 	public function testLegacyFormWidgetWithValidLegacyFormParameter(AcceptanceTester $I)
 	{
+		// Setup Plugin with API Key and Secret, which is required for Legacy Forms to work.
+		$I->setupConvertKitPlugin(
+			$I,
+			[
+				'api_key'    => $_ENV['CONVERTKIT_API_KEY'],
+				'api_secret' => $_ENV['CONVERTKIT_API_SECRET'],
+				'page_form'  => '',
+				'post_form'  => '',
+			]
+		);
+
 		// Add legacy widget, setting the Form setting to the value specified in the .env file.
 		$I->addLegacyWidget(
 			$I,
@@ -118,6 +140,17 @@ class WidgetFormCest
 	 */
 	public function testBlockFormBlockWithValidLegacyFormParameter(AcceptanceTester $I)
 	{
+		// Setup Plugin with API Key and Secret, which is required for Legacy Forms to work.
+		$I->setupConvertKitPlugin(
+			$I,
+			[
+				'api_key'    => $_ENV['CONVERTKIT_API_KEY'],
+				'api_secret' => $_ENV['CONVERTKIT_API_SECRET'],
+				'page_form'  => '',
+				'post_form'  => '',
+			]
+		);
+
 		// Add block widget, setting the Form setting to the value specified in the .env file.
 		$I->addBlockWidget(
 			$I,

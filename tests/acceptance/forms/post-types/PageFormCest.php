@@ -327,9 +327,9 @@ class PageFormCest
 		$I->setupConvertKitPlugin(
 			$I,
 			[
-				'page_form'    => $_ENV['CONVERTKIT_API_LEGACY_FORM_ID'],
-				'post_form'    => '',
-				'product_form' => '',
+				'api_key'    => $_ENV['CONVERTKIT_API_KEY'],
+				'api_secret' => $_ENV['CONVERTKIT_API_SECRET'],
+				'page_form'  => $_ENV['CONVERTKIT_API_LEGACY_FORM_ID'],
 			]
 		);
 		$I->setupConvertKitPluginResources($I);
@@ -714,7 +714,14 @@ class PageFormCest
 	public function testAddNewPageUsingDefinedLegacyForm(AcceptanceTester $I)
 	{
 		// Setup ConvertKit plugin.
-		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPlugin(
+			$I,
+			[
+				'api_key'    => $_ENV['CONVERTKIT_API_KEY'],
+				'api_secret' => $_ENV['CONVERTKIT_API_SECRET'],
+				'page_form'  => '',
+			]
+		);
 		$I->setupConvertKitPluginResources($I);
 
 		// Add a Page using the Gutenberg editor.

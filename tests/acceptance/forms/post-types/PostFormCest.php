@@ -362,9 +362,9 @@ class PostFormCest
 		$I->setupConvertKitPlugin(
 			$I,
 			[
-				'page_form'    => '',
-				'post_form'    => $_ENV['CONVERTKIT_API_LEGACY_FORM_ID'],
-				'product_form' => '',
+				'api_key'    => $_ENV['CONVERTKIT_API_KEY'],
+				'api_secret' => $_ENV['CONVERTKIT_API_SECRET'],
+				'post_form'  => $_ENV['CONVERTKIT_API_LEGACY_FORM_ID'],
 			]
 		);
 		$I->setupConvertKitPluginResources($I);
@@ -466,7 +466,14 @@ class PostFormCest
 	public function testAddNewPostUsingDefinedLegacyForm(AcceptanceTester $I)
 	{
 		// Setup ConvertKit Plugin.
-		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPlugin(
+			$I,
+			[
+				'api_key'    => $_ENV['CONVERTKIT_API_KEY'],
+				'api_secret' => $_ENV['CONVERTKIT_API_SECRET'],
+				'post_form'  => '',
+			]
+		);
 		$I->setupConvertKitPluginResources($I);
 
 		// Add a Post using the Gutenberg editor.
