@@ -263,6 +263,9 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 	 */
 	public function register_fields() {
 
+		// Initialize resource classes.
+		$this->maybe_initialize_and_refresh_resources();
+
 		add_settings_field(
 			'account_name',
 			__( 'Account Name', 'convertkit' ),
@@ -271,6 +274,7 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 			$this->name
 		);
 
+		// Initialize resource classes and perform a refresh if this hasn't yet been done.
 		foreach ( convertkit_get_supported_post_types() as $supported_post_type ) {
 			// Get Post Type's Label.
 			$post_type = get_post_type_object( $supported_post_type );
@@ -297,34 +301,38 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 					'post_type_object' => $post_type,
 				)
 			);
-			add_settings_field(
-				$supported_post_type . '_form_position',
-				sprintf(
-					/* translators: Post Type Name, plural */
-					__( 'Form Position (%s)', 'convertkit' ),
-					$post_type->label
-				),
-				array( $this, 'default_form_position_callback' ),
-				$this->settings_key,
-				$this->name,
-				array(
-					'label_for'        => '_wp_convertkit_settings_' . $supported_post_type . '_form_position',
-					'post_type'        => $supported_post_type,
-					'post_type_object' => $post_type,
-				)
-			);
-			add_settings_field(
-				$supported_post_type . '_form_position_element',
-				'',
-				array( $this, 'default_form_position_element_callback' ),
-				$this->settings_key,
-				$this->name,
-				array(
-					'label_for'        => '_wp_convertkit_settings_' . $supported_post_type . '_form_position_element',
-					'post_type'        => $supported_post_type,
-					'post_type_object' => $post_type,
-				)
-			);
+
+			if ( $this->forms->exist() ) {
+				add_settings_field(
+					$supported_post_type . '_form_position',
+					sprintf(
+						/* translators: Post Type Name, plural */
+						__( 'Form Position (%s)', 'convertkit' ),
+						$post_type->label
+					),
+					array( $this, 'default_form_position_callback' ),
+					$this->settings_key,
+					$this->name,
+					array(
+						'label_for'        => '_wp_convertkit_settings_' . $supported_post_type . '_form_position',
+						'post_type'        => $supported_post_type,
+						'post_type_object' => $post_type,
+					)
+				);
+
+				add_settings_field(
+					$supported_post_type . '_form_position_element',
+					'',
+					array( $this, 'default_form_position_element_callback' ),
+					$this->settings_key,
+					$this->name,
+					array(
+						'label_for'        => '_wp_convertkit_settings_' . $supported_post_type . '_form_position_element',
+						'post_type'        => $supported_post_type,
+						'post_type_object' => $post_type,
+					)
+				);
+			}
 		}
 
 		add_settings_field(
@@ -452,9 +460,17 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 			return;
 		}
 
-		// Initialize and refresh resource classes, to ensure up to date resources are stored
-		// for when editing e.g. Pages.
+		// Initialize forms resource class.
 		$this->forms = new ConvertKit_Resource_Forms( 'settings' );
+
+		// Don't refresh resources if we're not on the settings screen, as
+		// it's a resource intense process that can take several seconds.
+		// We don't want to block other parts of the admin UI.
+		if ( ! $this->on_settings_screen( $this->name ) ) {
+			return;
+		}
+
+		// Refresh Forms.
 		$this->forms->refresh();
 
 		// Also refresh Landing Pages, Tags and Posts. Whilst not displayed in the Plugin Settings, this ensures up to date
@@ -484,9 +500,6 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 	 * @param   array $args  Field arguments.
 	 */
 	public function default_form_callback( $args ) {
-
-		// Initialize resource classes and perform a refresh if this hasn't yet been done.
-		$this->maybe_initialize_and_refresh_resources();
 
 		// Bail if no Forms exist.
 		if ( ! $this->forms->exist() ) {
@@ -632,9 +645,6 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 	 * @param   array $args  Field arguments.
 	 */
 	public function non_inline_form_callback( $args ) {
-
-		// Initialize resource classes and perform a refresh if this hasn't yet been done.
-		$this->maybe_initialize_and_refresh_resources();
 
 		// Bail if no non-inline Forms exist.
 		if ( ! $this->forms->non_inline_exist() ) {

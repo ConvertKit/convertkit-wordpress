@@ -352,6 +352,11 @@ class ConvertKit_Broadcasts_Importer {
 			$node->parentNode->removeChild( $node ); // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 		}
 
+		// Remove ck-poll, as interacting with these results in an error.
+		foreach ( $xpath->query( '//table[contains(@class, "ck-poll")]' ) as $node ) {
+			$node->parentNode->removeChild( $node ); // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+		}
+
 		// If the Import Images setting is enabled, iterate through all images within the Broadcast, importing them and changing their
 		// URLs to the WordPress Media Library hosted versions.
 		if ( $this->broadcasts_settings->import_images() ) {
