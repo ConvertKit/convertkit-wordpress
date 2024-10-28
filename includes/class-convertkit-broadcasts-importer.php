@@ -347,7 +347,7 @@ class ConvertKit_Broadcasts_Importer {
 		}
 
 		// Remove ck-hide-in-public-posts and their contents.
-		// This includesthe unsubscribe section.
+		// This includes the unsubscribe section.
 		foreach ( $xpath->query( '//div[contains(@class, "ck-hide-in-public-posts")]' ) as $node ) {
 			$node->parentNode->removeChild( $node ); // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 		}
