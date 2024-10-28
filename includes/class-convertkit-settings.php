@@ -162,7 +162,8 @@ class ConvertKit_Settings {
 	 */
 	public function has_api_key_and_secret() {
 
-		return $this->has_api_key() && $this->has_api_secret();
+		// Use check for access and refresh token.
+		return $this->has_access_and_refresh_token();
 
 	}
 
