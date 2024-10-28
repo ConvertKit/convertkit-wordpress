@@ -381,17 +381,13 @@ class ConvertKit_Broadcasts_Importer {
 				}
 
 				// Get image URL from Media Library.
-				$image_url = wp_get_attachment_image(
+				$image_url = wp_get_attachment_image_src(
 					$image_id,
-					'full',
-					false,
-					array(
-						'alt' => $image['alt'],
-					)
+					'full'
 				);
 
 				// Replace this image's `src` attribute with the Media Library Image URL.
-				$node->setAttribute( 'src', $image_url );
+				$node->setAttribute( 'src', $image_url[0] );
 			}
 		}
 
