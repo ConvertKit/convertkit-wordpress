@@ -27,10 +27,12 @@ class BroadcastsImportTest extends \Codeception\TestCase\WPTestCase
 
 		// Configure access and refresh token in Plugin settings.
 		$this->settings = new ConvertKit_Settings();
-		$this->settings->save( [
-			'access_token' => $_ENV['CONVERTKIT_OAUTH_ACCESS_TOKEN'],
-			'refresh_token' => $_ENV['CONVERTKIT_OAUTH_REFRESH_TOKEN'],
-		] );
+		$this->settings->save(
+			[
+				'access_token'  => $_ENV['CONVERTKIT_OAUTH_ACCESS_TOKEN'],
+				'refresh_token' => $_ENV['CONVERTKIT_OAUTH_REFRESH_TOKEN'],
+			]
+		);
 
 		// Initialize the class we want to test.
 		$this->importer = new ConvertKit_Broadcasts_Importer();
@@ -82,7 +84,7 @@ class BroadcastsImportTest extends \Codeception\TestCase\WPTestCase
 	{
 		// Import broadcast.
 		$result = $this->importer->import_broadcast($_ENV['CONVERTKIT_API_BROADCAST_ID']);
-		
+
 		// Assert a Post ID was returned.
 		$this->assertNotInstanceOf(WP_Error::class, $result);
 		$this->assertIsInt($result);
@@ -112,7 +114,7 @@ class BroadcastsImportTest extends \Codeception\TestCase\WPTestCase
 			$_ENV['CONVERTKIT_API_BROADCAST_ID'],
 			'draft'
 		);
-		
+
 		// Assert a Post ID was returned.
 		$this->assertNotInstanceOf(WP_Error::class, $result);
 		$this->assertIsInt($result);
@@ -143,7 +145,7 @@ class BroadcastsImportTest extends \Codeception\TestCase\WPTestCase
 			'publish',
 			10
 		);
-		
+
 		// Assert a Post ID was returned.
 		$this->assertNotInstanceOf(WP_Error::class, $result);
 		$this->assertIsInt($result);
@@ -178,7 +180,7 @@ class BroadcastsImportTest extends \Codeception\TestCase\WPTestCase
 			1,
 			$termID
 		);
-		
+
 		// Assert a Post ID was returned.
 		$this->assertNotInstanceOf(WP_Error::class, $result);
 		$this->assertIsInt($result);
@@ -213,7 +215,7 @@ class BroadcastsImportTest extends \Codeception\TestCase\WPTestCase
 			false,
 			true
 		);
-		
+
 		// Assert a Post ID was returned.
 		$this->assertNotInstanceOf(WP_Error::class, $result);
 		$this->assertIsInt($result);
@@ -247,7 +249,7 @@ class BroadcastsImportTest extends \Codeception\TestCase\WPTestCase
 			false,
 			true
 		);
-		
+
 		// Assert a Post ID was returned.
 		$this->assertNotInstanceOf(WP_Error::class, $result);
 		$this->assertIsInt($result);
@@ -279,9 +281,10 @@ class BroadcastsImportTest extends \Codeception\TestCase\WPTestCase
 			1,
 			false,
 			false,
+			false,
 			true
 		);
-		
+
 		// Assert a Post ID was returned.
 		$this->assertNotInstanceOf(WP_Error::class, $result);
 		$this->assertIsInt($result);
@@ -298,6 +301,13 @@ class BroadcastsImportTest extends \Codeception\TestCase\WPTestCase
 		$this->assertPostAuthorIDEquals(1, $post);
 	}
 
+	/**
+	 * Assert that the created Post's content is valid.
+	 *
+	 * @since   2.6.4
+	 *
+	 * @param   WP_Post $post   WordPress Post.
+	 */
 	private function assertImportValid($post)
 	{
 		// Confirm title correct.
@@ -317,47 +327,119 @@ class BroadcastsImportTest extends \Codeception\TestCase\WPTestCase
 		$this->assertEquals($date, $post->post_date_gmt);
 	}
 
+	/**
+	 * Assert that the created Post's post status matches the expected status.
+	 *
+	 * @since   2.6.4
+	 *
+	 * @param   string  $status Expected Post Status.
+	 * @param   WP_Post $post   WordPress Post.
+	 */
 	private function assertPostStatusEquals($status, $post)
 	{
 		$this->assertEquals($status, $post->post_status);
 	}
 
+	/**
+	 * Assert that the created Post's inline styles exist.
+	 *
+	 * @since   2.6.4
+	 *
+	 * @param   WP_Post $post   WordPress Post.
+	 */
 	private function assertInlineStylesExist($post)
 	{
 		$this->assertStringContainsString('<div class="ck-inner-section', $post->post_content);
 	}
 
+	/**
+	 * Assert that the created Post's inline styles do not exist.
+	 *
+	 * @since   2.6.4
+	 *
+	 * @param   WP_Post $post   WordPress Post.
+	 */
 	private function assertInlineStylesDoNotExist($post)
 	{
 		$this->assertStringNotContainsString('<div class="ck-inner-section', $post->post_content);
 		$this->assertStringNotContainsString('style="', $post->post_content);
 	}
 
+	/**
+	 * Assert that the created Post has a Featured Image.
+	 *
+	 * @since   2.6.4
+	 *
+	 * @param   WP_Post $post   WordPress Post.
+	 */
 	private function assertFeaturedImageExists($post)
 	{
 		$this->assertGreaterThan(0, (int) get_post_meta($post->ID, '_thumbnail_id', true));
 	}
 
+	/**
+	 * Assert that the created Post does not have a Featured Image.
+	 *
+	 * @since   2.6.4
+	 *
+	 * @param   WP_Post $post   WordPress Post.
+	 */
 	private function assertFeaturedImageDoesNotExist($post)
 	{
-		$this->assertNull(get_post_meta($post->ID, '_thumbnail_id', true));
+		$this->assertEmpty(get_post_meta($post->ID, '_thumbnail_id', true));
 	}
 
+	/**
+	 * Assert that the created Post's images were imported from Kit
+	 * and saved in the Media Library.
+	 *
+	 * @since   2.6.4
+	 *
+	 * @param   WP_Post $post   WordPress Post.
+	 */
 	private function assertImagesImported($post)
 	{
-		
+		$this->assertStringNotContainsString('embed.filekitcdn.com', $post->post_content);
+		$this->assertStringContainsString($_ENV['TEST_SITE_WP_URL'] . '/wp-content/uploads/2023/08', $post->post_content);
 	}
 
+	/**
+	 * Assert that the created Post's images were not imported from Kit
+	 * and saved in the Media Library.
+	 *
+	 * @since   2.6.4
+	 *
+	 * @param   WP_Post $post   WordPress Post.
+	 */
 	private function assertImagesNotImported($post)
 	{
-		
+		$this->assertStringContainsString('embed.filekitcdn.com', $post->post_content);
+		$this->assertStringNotContainsString($_ENV['TEST_SITE_WP_URL'] . '/wp-content/uploads/2023/08', $post->post_content);
 	}
 
+	/**
+	 * Assert that the created Post's author matches the expected
+	 * WordPress User ID.
+	 *
+	 * @since   2.6.4
+	 *
+	 * @param   int     $id     WordPress User ID.
+	 * @param   WP_Post $post   WordPress Post.
+	 */
 	private function assertPostAuthorIDEquals($id, $post)
 	{
 		$this->assertEquals($id, (int) $post->post_author);
 	}
 
+	/**
+	 * Assert that the created Post has the expected
+	 * WordPress Category assigned to it.
+	 *
+	 * @since   2.6.4
+	 *
+	 * @param   int     $id     WordPress Category ID.
+	 * @param   WP_Post $post   WordPress Post.
+	 */
 	private function assertPostHasCategory($id, $post)
 	{
 		$this->assertTrue(has_category($id, $post));
