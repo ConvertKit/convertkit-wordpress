@@ -261,8 +261,17 @@ class PageShortcodeFormCest
 	 */
 	public function testFormShortcodeWithValidLegacyFormParameter(AcceptanceTester $I)
 	{
-		// Setup Plugin.
-		$I->setupConvertKitPluginNoDefaultForms($I); // Don't specify default forms.
+		// Setup Plugin with API Key and Secret, which is required for Legacy Forms to work.
+		$I->setupConvertKitPlugin(
+			$I,
+			[
+				'api_key'      => $_ENV['CONVERTKIT_API_KEY'],
+				'api_secret'   => $_ENV['CONVERTKIT_API_SECRET'],
+				'post_form'    => '',
+				'page_form'    => '',
+				'product_form' => '',
+			]
+		);
 		$I->setupConvertKitPluginResources($I);
 
 		// Create Page with Shortcode.
@@ -325,8 +334,17 @@ class PageShortcodeFormCest
 	 */
 	public function testFormShortcodeWithValidLegacyFormShortcodeFromConvertKitApp(AcceptanceTester $I)
 	{
-		// Setup Plugin.
-		$I->setupConvertKitPluginNoDefaultForms($I); // Don't specify default forms.
+		// Setup Plugin with API Key and Secret, which is required for Legacy Forms to work.
+		$I->setupConvertKitPlugin(
+			$I,
+			[
+				'api_key'      => $_ENV['CONVERTKIT_API_KEY'],
+				'api_secret'   => $_ENV['CONVERTKIT_API_SECRET'],
+				'post_form'    => '',
+				'page_form'    => '',
+				'product_form' => '',
+			]
+		);
 		$I->setupConvertKitPluginResources($I);
 
 		// Create Page with Shortcode.

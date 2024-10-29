@@ -159,6 +159,15 @@ class EditFormLinkCest
 	 */
 	public function testEditFormLinkOnPageWithLegacyForm(AcceptanceTester $I)
 	{
+		// Setup Plugin with API Key and Secret, which is required for Legacy Forms to work.
+		$I->setupConvertKitPlugin(
+			$I,
+			[
+				'api_key'    => $_ENV['CONVERTKIT_API_KEY'],
+				'api_secret' => $_ENV['CONVERTKIT_API_SECRET'],
+			]
+		);
+
 		// Add a Page using the Gutenberg editor.
 		$I->addGutenbergPage($I, 'page', 'Kit: Page: Form: Legacy: Edit Link');
 

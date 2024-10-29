@@ -70,8 +70,17 @@ class PageBlockFormCest
 	 */
 	public function testFormBlockWithValidLegacyFormParameter(AcceptanceTester $I)
 	{
-		// Setup Plugin and Resources.
-		$I->setupConvertKitPlugin($I);
+		// Setup Plugin with API Key and Secret, which is required for Legacy Forms to work.
+		$I->setupConvertKitPlugin(
+			$I,
+			[
+				'api_key'      => $_ENV['CONVERTKIT_API_KEY'],
+				'api_secret'   => $_ENV['CONVERTKIT_API_SECRET'],
+				'post_form'    => '',
+				'page_form'    => '',
+				'product_form' => '',
+			]
+		);
 		$I->setupConvertKitPluginResources($I);
 
 		// Add a Page using the Gutenberg editor.

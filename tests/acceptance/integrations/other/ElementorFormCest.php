@@ -78,6 +78,18 @@ class ElementorFormCest
 	 */
 	public function testFormWidgetWithValidLegacyFormParameter(AcceptanceTester $I)
 	{
+		// Setup Plugin with API Key and Secret, which is required for Legacy Forms to work.
+		$I->setupConvertKitPlugin(
+			$I,
+			[
+				'api_key'      => $_ENV['CONVERTKIT_API_KEY'],
+				'api_secret'   => $_ENV['CONVERTKIT_API_SECRET'],
+				'post_form'    => '',
+				'page_form'    => '',
+				'product_form' => '',
+			]
+		);
+
 		// Create Page with Form widget in Elementor.
 		$pageID = $this->_createPageWithFormWidget($I, 'Kit: Legacy Form: Elementor Widget: Valid Form Param', $_ENV['CONVERTKIT_API_LEGACY_FORM_ID']);
 
