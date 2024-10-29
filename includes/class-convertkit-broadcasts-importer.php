@@ -15,6 +15,15 @@
 class ConvertKit_Broadcasts_Importer {
 
 	/**
+	 * Holds the API class.
+	 *
+	 * @since   2.6.4
+	 *
+	 * @var     bool|ConvertKit_API_V4
+	 */
+	private $api = false;
+
+	/**
 	 * Holds the Broadcasts Settings class.
 	 *
 	 * @since   2.2.9
@@ -33,12 +42,36 @@ class ConvertKit_Broadcasts_Importer {
 	private $media_library = false;
 
 	/**
+	 * Holds the Settings class.
+	 *
+	 * @since   2.6.4
+	 *
+	 * @var     bool|ConvertKit_Settings
+	 */
+	private $settings = false;
+
+	/**
+	 * Holds the Logging class.
+	 *
+	 * @since   2.6.4
+	 *
+	 * @var     bool|ConvertKit_Log
+	 */
+	private $log = false;
+
+	/**
 	 * Constructor. Registers actions and filters to output ConvertKit Forms and Landing Pages
 	 * on the frontend web site.
 	 *
 	 * @since   2.2.9
 	 */
 	public function __construct() {
+
+		// Initialize required classes.
+		$this->broadcasts_settings = new ConvertKit_Settings_Broadcasts();
+		$this->media_library       = new ConvertKit_Media_Library();
+		$this->settings            = new ConvertKit_Settings();
+		$this->log                 = new ConvertKit_Log( CONVERTKIT_PLUGIN_PATH );
 
 		// Create WordPress Posts when the ConvertKit Posts Resource is refreshed.
 		add_action( 'convertkit_resource_refreshed_posts', array( $this, 'refresh' ) );
@@ -57,12 +90,6 @@ class ConvertKit_Broadcasts_Importer {
 	 */
 	public function refresh( $broadcasts ) {
 
-		// Initialize required classes.
-		$this->broadcasts_settings = new ConvertKit_Settings_Broadcasts();
-		$this->media_library       = new ConvertKit_Media_Library();
-		$settings                  = new ConvertKit_Settings();
-		$log                       = new ConvertKit_Log( CONVERTKIT_PLUGIN_PATH );
-
 		// Bail if Broadcasts to Posts are disabled.
 		if ( ! $this->broadcasts_settings->enabled() ) {
 			return;
@@ -74,141 +101,187 @@ class ConvertKit_Broadcasts_Importer {
 		}
 
 		// Bail if the Plugin Access Token has not been configured.
-		if ( ! $settings->has_access_and_refresh_token() ) {
+		if ( ! $this->settings->has_access_and_refresh_token() ) {
 			return;
 		}
 
 		// Initialize the API.
-		$api = new ConvertKit_API_V4(
+		$this->api = new ConvertKit_API_V4(
 			CONVERTKIT_OAUTH_CLIENT_ID,
 			CONVERTKIT_OAUTH_CLIENT_REDIRECT_URI,
-			$settings->get_access_token(),
-			$settings->get_refresh_token(),
-			$settings->debug_enabled(),
+			$this->settings->get_access_token(),
+			$this->settings->get_refresh_token(),
+			$this->settings->debug_enabled(),
 			'broadcasts_importer'
 		);
 
 		// Check that we're using the ConvertKit WordPress Libraries 1.3.8 or higher.
 		// If another ConvertKit Plugin is active and out of date, its libraries might
 		// be loaded that don't have this method.
-		if ( ! method_exists( $api, 'get_post' ) ) {
+		if ( ! method_exists( $this->api, 'get_post' ) ) {
 			return;
 		}
 
 		foreach ( $broadcasts as $broadcast_id => $broadcast ) {
 			// If a WordPress Post exists for this Broadcast ID, we previously imported it - skip it.
 			if ( $this->broadcast_exists_as_post( $broadcast_id ) ) {
-				if ( $settings->debug_enabled() ) {
-					$log->add( 'ConvertKit_Broadcasts_Importer::refresh(): Broadcast #' . $broadcast_id . ' already exists as a WordPress Post. Skipping...' );
-				}
-				continue;
-			}
-
-			// Fetch Broadcast's content.
-			// We need to query wordpress/posts/{id} to fetch the full Broadcast information and content.
-			$broadcast = $api->get_post( $broadcast_id );
-
-			// Skip if an error occured fetching the Broadcast.
-			if ( is_wp_error( $broadcast ) ) {
-				if ( $settings->debug_enabled() ) {
-					$log->add( 'ConvertKit_Broadcasts_Importer::refresh(): Broadcast #' . $broadcast_id . '. Error fetching from API: ' . $broadcast->get_error_message() );
+				if ( $this->settings->debug_enabled() ) {
+					$this->log->add( 'ConvertKit_Broadcasts_Importer::refresh(): Broadcast #' . $broadcast_id . ' already exists as a WordPress Post. Skipping...' );
 				}
 				continue;
 			}
 
 			// Skip if the published_at date is older than the 'Earliest Date' setting.
 			if ( strtotime( $broadcast['published_at'] ) < strtotime( $this->broadcasts_settings->published_at_min_date() ) ) {
-				if ( $settings->debug_enabled() ) {
-					$log->add( 'ConvertKit_Broadcasts_Importer::refresh(): Broadcast #' . $broadcast_id . ' published_at date is before ' . $this->broadcasts_settings->published_at_min_date() . '. Skipping...' );
+				if ( $this->settings->debug_enabled() ) {
+					$this->log->add( 'ConvertKit_Broadcasts_Importer::refresh(): Broadcast #' . $broadcast_id . ' published_at date is before ' . $this->broadcasts_settings->published_at_min_date() . '. Skipping...' );
 				}
 				continue;
 			}
 
-			// Create Post as a draft, without content or a Featured Image.
-			// This gives us a Post ID we can then use if we need to import
-			// the Featured Image and/or Broadcast images to the Media Library,
-			// storing them against the Post ID just created.
-			$post_id = wp_insert_post(
-				$this->build_post_args(
-					$broadcast,
-					$this->broadcasts_settings->author_id(),
-					$this->broadcasts_settings->category_id()
-				),
-				true
+			// Import the broadcast.
+			$this->import_broadcast(
+				$broadcast_id,
+				$this->broadcasts_settings->post_status(),
+				$this->broadcasts_settings->author_id(),
+				$this->broadcasts_settings->category_id(),
+				$this->broadcasts_settings->import_thumbnail(),
+				$this->broadcasts_settings->import_images(),
+				$this->broadcasts_settings->no_styles()
 			);
+		}
 
-			// Skip if an error occured.
-			if ( is_wp_error( $post_id ) ) {
-				if ( $settings->debug_enabled() ) {
-					$log->add( 'ConvertKit_Broadcasts_Importer::refresh(): Broadcast #' . $broadcast_id . '. Error on wp_insert_post(): ' . $post_id->get_error_message() );
-				}
-				continue;
+	}
+
+	/**
+	 * Imports the given Kit Broadcast ID to a new WordPress Post.
+	 *
+	 * @since   2.6.4
+	 *
+	 * @param   int      $broadcast_id   Broadcast ID.
+	 * @param   string   $post_status    WordPress Post Status to save Post as (publish,draft etc).
+	 * @param   int      $author_id      WordPress User ID to assign as the author of the Post.
+	 * @param   bool|int $category_id    WordPress Category to assign to the Post.
+	 * @param   bool     $import_thumbnail   Store Broadcast's thumbnail as the WordPress Post's Featured Image.
+	 * @param   bool     $import_images      Store Broadcast's inline images in the Media Library.
+	 * @param   bool     $disable_styles   Remove CSS styles and layout elements from the Broadcast content.
+	 *
+	 * @return  WP_Error|int
+	 */
+	public function import_broadcast( $broadcast_id, $post_status = 'publish', $author_id = 1, $category_id = false, $import_thumbnail = false, $import_images = false, $disable_styles = false ) {
+
+		// Fetch Broadcast's content.
+		// We need to query wordpress/posts/{id} to fetch the full Broadcast information and content.
+		$broadcast = $this->api->get_post( $broadcast_id );
+
+		// Bail if an error occured fetching the Broadcast.
+		if ( is_wp_error( $broadcast ) ) {
+			if ( $this->settings->debug_enabled() ) {
+				$this->log->add( 'ConvertKit_Broadcasts_Importer::refresh(): Broadcast #' . $broadcast_id . '. Error fetching from API: ' . $broadcast->get_error_message() );
 			}
 
-			// Parse the Broadcast's content, storing it in the Post.
-			$post_id = wp_update_post(
-				array(
-					'ID'           => $post_id,
-					'post_content' => $this->parse_broadcast_content( $broadcast['content'], $post_id ),
+			return $broadcast;
+		}
+
+		// Create Post as a draft, without content or a Featured Image.
+		// This gives us a Post ID we can then use if we need to import
+		// the Featured Image and/or Broadcast images to the Media Library,
+		// storing them against the Post ID just created.
+		$post_id = wp_insert_post(
+			$this->build_post_args(
+				$broadcast,
+				$author_id,
+				$category_id
+			),
+			true
+		);
+
+		// Bail if an error occured.
+		if ( is_wp_error( $post_id ) ) {
+			if ( $this->settings->debug_enabled() ) {
+				$this->log->add( 'ConvertKit_Broadcasts_Importer::refresh(): Broadcast #' . $broadcast_id . '. Error on wp_insert_post(): ' . $post_id->get_error_message() );
+			}
+
+			return $post_id;
+		}
+
+		// Parse the Broadcast's content, storing it in the Post.
+		$post_id = wp_update_post(
+			array(
+				'ID'           => $post_id,
+				'post_content' => $this->parse_broadcast_content(
+					$post_id,
+					$broadcast['content'],
+					$broadcast['title'],
+					$import_images,
+					$disable_styles
 				),
-				true
-			);
+			),
+			true
+		);
 
-			// Skip if an error occured.
-			if ( is_wp_error( $post_id ) ) {
-				if ( $settings->debug_enabled() ) {
-					$log->add( 'ConvertKit_Broadcasts_Importer::refresh(): Broadcast #' . $broadcast_id . '. Error on wp_update_post() when adding Broadcast content: ' . $post_id->get_error_message() );
-				}
-				continue;
+		// Bail if an error occured updating the Post.
+		if ( is_wp_error( $post_id ) ) {
+			if ( $this->settings->debug_enabled() ) {
+				$this->log->add( 'ConvertKit_Broadcasts_Importer::refresh(): Broadcast #' . $broadcast_id . '. Error on wp_update_post() when adding Broadcast content: ' . $post_id->get_error_message() );
 			}
 
-			// If a Product is specified, apply it as the Restrict Content setting.
-			if ( $broadcast['is_paid'] && $broadcast['product_id'] ) {
-				// Fetch Post's settings.
-				$convertkit_post = new ConvertKit_Post( $post_id );
-				$meta            = $convertkit_post->get();
+			return $post_id;
+		}
 
-				// Define Restrict Content setting.
-				$meta['restrict_content'] = 'product_' . $broadcast['product_id'];
+		// If a Product is specified, apply it as the Restrict Content setting.
+		if ( $broadcast['is_paid'] && $broadcast['product_id'] ) {
+			// Fetch Post's settings.
+			$convertkit_post = new ConvertKit_Post( $post_id );
+			$meta            = $convertkit_post->get();
 
-				// Save Post's settings.
-				$convertkit_post->save( $meta );
+			// Define Restrict Content setting.
+			$meta['restrict_content'] = 'product_' . $broadcast['product_id'];
 
-				if ( $settings->debug_enabled() ) {
-					$log->add( 'ConvertKit_Broadcasts_Importer::refresh(): Broadcast #' . $broadcast_id . '. Set Restrict Content = ' . $broadcast['product_id'] );
-				}
-			}
+			// Save Post's settings.
+			$convertkit_post->save( $meta );
 
-			// If the Import Thumbnail setting is enabled, and the Broadcast has an image, save it to the Media Library and link it to the Post.
-			if ( $this->broadcasts_settings->import_thumbnail() ) {
-				$result = $this->add_broadcast_image_to_post( $broadcast, $post_id );
-
-				if ( is_wp_error( $result ) && $settings->debug_enabled() ) {
-					$log->add( 'ConvertKit_Broadcasts_Importer::refresh(): Broadcast #' . $broadcast_id . '. Error on add_broadcast_image_to_post(): ' . $result->get_error_message() );
-				}
-			} elseif ( $settings->debug_enabled() ) {
-				$log->add( 'ConvertKit_Broadcasts_Importer::refresh(): Broadcast #' . $broadcast_id . '. Skipping thumbnail.' );
-			}
-
-			// Transition the Post to the defined Post Status in the settings, now that the image has been added to it.
-			$post_id = wp_update_post(
-				array(
-					'ID'          => $post_id,
-					'post_status' => $this->broadcasts_settings->post_status(),
-				),
-				true
-			);
-
-			// Maybe log if an error occured updating the Post to the publish status.
-			if ( is_wp_error( $post_id ) ) {
-				if ( $settings->debug_enabled() ) {
-					$log->add( 'ConvertKit_Broadcasts_Importer::refresh(): Broadcast #' . $broadcast_id . '. Error on wp_update_post() when transitioning post status from draft to publish: ' . $post_id->get_error_message() );
-				}
-			}
-			if ( $settings->debug_enabled() ) {
-				$log->add( 'ConvertKit_Broadcasts_Importer::refresh(): Broadcast #' . $broadcast_id . '. Added as Post ID #' . $post_id );
+			if ( $this->settings->debug_enabled() ) {
+				$this->log->add( 'ConvertKit_Broadcasts_Importer::refresh(): Broadcast #' . $broadcast_id . '. Set Restrict Content = ' . $broadcast['product_id'] );
 			}
 		}
+
+		// If the Import Thumbnail setting is enabled, and the Broadcast has an image, save it to the Media Library and link it to the Post.
+		if ( $import_thumbnail ) {
+			$result = $this->add_broadcast_image_to_post( $broadcast, $post_id );
+
+			if ( is_wp_error( $result ) && $this->settings->debug_enabled() ) {
+				$this->log->add( 'ConvertKit_Broadcasts_Importer::refresh(): Broadcast #' . $broadcast_id . '. Error on add_broadcast_image_to_post(): ' . $result->get_error_message() );
+			}
+		} elseif ( $this->settings->debug_enabled() ) {
+			$this->log->add( 'ConvertKit_Broadcasts_Importer::refresh(): Broadcast #' . $broadcast_id . '. Skipping thumbnail.' );
+		}
+
+		// Transition the Post to the defined Post Status in the settings, now that the image has been added to it.
+		$post_id = wp_update_post(
+			array(
+				'ID'          => $post_id,
+				'post_status' => $post_status,
+			),
+			true
+		);
+
+		// Maybe log if an error occured updating the Post to the publish status.
+		if ( is_wp_error( $post_id ) ) {
+			if ( $this->settings->debug_enabled() ) {
+				$this->log->add( 'ConvertKit_Broadcasts_Importer::refresh(): Broadcast #' . $broadcast_id . '. Error on wp_update_post() when transitioning post status from draft to publish: ' . $post_id->get_error_message() );
+			}
+
+			return $post_id;
+		}
+
+		// Import successful.
+		// Maybe log success.
+		if ( $this->settings->debug_enabled() ) {
+			$this->log->add( 'ConvertKit_Broadcasts_Importer::refresh(): Broadcast #' . $broadcast_id . '. Added as Post ID #' . $post_id );
+		}
+
+		return $post_id;
 
 	}
 
@@ -269,7 +342,9 @@ class ConvertKit_Broadcasts_Importer {
 		);
 
 		// If a Category was supplied, assign the Post to the given Category ID when created.
-		$post_args['post_category'] = array( $category_id );
+		if ( $category_id ) {
+			$post_args['post_category'] = array( $category_id );
+		}
 
 		/**
 		 * Define the wp_insert_post() compatible arguments for importing a ConvertKit Broadcast
@@ -306,11 +381,14 @@ class ConvertKit_Broadcasts_Importer {
 	 *
 	 * @since   2.2.9
 	 *
-	 * @param   string $broadcast_content  Broadcast Content.
 	 * @param   int    $post_id            WordPress Post ID.
+	 * @param   string $broadcast_content  Broadcast Content.
+	 * @param   string $broadcast_title    Broadcast Title.
+	 * @param   bool   $import_images      Import images to Media Library.
+	 * @param   bool   $disable_styles     Disable CSS styles in content.
 	 * @return  string                     Parsed Content.
 	 */
-	private function parse_broadcast_content( $broadcast_content, $post_id ) {
+	private function parse_broadcast_content( $post_id, $broadcast_content, $broadcast_title = '', $import_images = false, $disable_styles = false ) {
 
 		$content = $broadcast_content;
 
@@ -359,7 +437,7 @@ class ConvertKit_Broadcasts_Importer {
 
 		// If the Import Images setting is enabled, iterate through all images within the Broadcast, importing them and changing their
 		// URLs to the WordPress Media Library hosted versions.
-		if ( $this->broadcasts_settings->import_images() ) {
+		if ( $import_images ) {
 
 			foreach ( $xpath->query( '//img' ) as $node ) {
 				$image = array(
@@ -400,17 +478,21 @@ class ConvertKit_Broadcasts_Importer {
 		$content = $html->saveHTML();
 
 		// Return content with permitted HTML tags and inline styles included/excluded, depending on the setting.
-		$content = $this->get_permitted_html( $content, $this->broadcasts_settings->no_styles() );
+		$content = $this->get_permitted_html( $content, $disable_styles );
 
 		/**
 		 * Parses the given Broadcast's content, removing unnecessary HTML tags and styles.
 		 *
 		 * @since   2.2.9
 		 *
-		 * @param   string  $content            Parsed Content.
-		 * @param   string  $broadcast_content  Original Broadcast's Content.
+		 * @param   string $content            Parsed Content.
+		 * @param   int    $post_id            WordPress Post ID.
+		 * @param   string $broadcast_content  Broadcast Content.
+		 * @param   string $broadcast_title    Broadcast Title.
+		 * @param   bool   $import_images      Import images to Media Library.
+		 * @param   bool   $disable_styles     Disable CSS styles in content.
 		 */
-		$content = apply_filters( 'convertkit_broadcasts_parse_broadcast_content', $content, $broadcast_content );
+		$content = apply_filters( 'convertkit_broadcasts_parse_broadcast_content', $content, $post_id, $broadcast_content, $broadcast_title, $import_images, $disable_styles );
 
 		return $content;
 
