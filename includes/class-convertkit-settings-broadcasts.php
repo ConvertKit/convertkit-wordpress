@@ -138,6 +138,19 @@ class ConvertKit_Settings_Broadcasts {
 	}
 
 	/**
+	 * Returns whether to import the thumbnail to the Featured Image.
+	 *
+	 * @since   2.6.3
+	 *
+	 * @return  bool
+	 */
+	public function import_images() {
+
+		return ( $this->settings['import_images'] === 'on' ? true : false );
+
+	}
+
+	/**
 	 * Returns the earliest date that Broadcasts should be imported,
 	 * based on their published_at date.
 	 *
@@ -220,6 +233,7 @@ class ConvertKit_Settings_Broadcasts {
 			'post_status'           => 'publish',
 			'category_id'           => '',
 			'import_thumbnail'      => 'on',
+			'import_images'         => '',
 
 			// By default, only import Broadcasts as Posts for the last 30 days.
 			'published_at_min_date' => gmdate( 'Y-m-d', strtotime( '-30 days' ) ),

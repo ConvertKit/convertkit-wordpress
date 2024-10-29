@@ -41,6 +41,7 @@ class BroadcastsToPostsSettingsCest
 		$I->seeInSource('<label for="author_id">');
 		$I->seeInSource('<label for="category_id">');
 		$I->seeInSource('<label for="import_thumbnail">');
+		$I->seeInSource('<label for="import_images">');
 		$I->seeInSource('<label for="published_at_min_date">');
 		$I->seeInSource('<label for="no_styles">');
 	}
@@ -80,6 +81,7 @@ class BroadcastsToPostsSettingsCest
 		$I->seeElement('span[aria-labelledby="select2-_wp_convertkit_settings_broadcasts_author_id-container"]');
 		$I->seeElement('span[aria-labelledby="select2-_wp_convertkit_settings_broadcasts_category_id-container"]');
 		$I->seeElement('input#import_thumbnail');
+		$I->seeElement('input#import_images');
 		$I->seeElement('div.convertkit-select2-container');
 		$I->seeElement('input#published_at_min_date');
 
@@ -105,6 +107,7 @@ class BroadcastsToPostsSettingsCest
 		$I->dontSeeElement('span[aria-labelledby="select2-_wp_convertkit_settings_broadcasts_author_id-container"]');
 		$I->dontSeeElement('span[aria-labelledby="select2-_wp_convertkit_settings_broadcasts_category_id-container"]');
 		$I->dontSeeElement('input#import_thumbnail');
+		$I->dontSeeElement('input#import_images');
 		$I->dontSeeElement('input#published_at_min_date');
 
 		// Check the next import date and time is not displayed.
@@ -129,6 +132,7 @@ class BroadcastsToPostsSettingsCest
 		$I->fillSelect2Field($I, '#select2-_wp_convertkit_settings_broadcasts_author_id-container', 'admin');
 		$I->fillSelect2Field($I, '#select2-_wp_convertkit_settings_broadcasts_category_id-container', 'Kit Broadcasts to Posts');
 		$I->checkOption('#import_thumbnail');
+		$I->checkOption('#import_images');
 		$I->fillField('_wp_convertkit_settings_broadcasts[published_at_min_date]', '01/01/2023');
 		$I->checkOption('#enabled_export');
 		$I->checkOption('#no_styles');
@@ -145,6 +149,7 @@ class BroadcastsToPostsSettingsCest
 		$I->seeInField('_wp_convertkit_settings_broadcasts[author_id]', 'admin');
 		$I->seeInField('_wp_convertkit_settings_broadcasts[category_id]', 'Kit Broadcasts to Posts');
 		$I->seeCheckboxIsChecked('#import_thumbnail');
+		$I->seeCheckboxIsChecked('#import_images');
 		$I->seeInField('_wp_convertkit_settings_broadcasts[published_at_min_date]', '2023-01-01');
 		$I->seeCheckboxIsChecked('#enabled_export');
 		$I->seeCheckboxIsChecked('#no_styles');

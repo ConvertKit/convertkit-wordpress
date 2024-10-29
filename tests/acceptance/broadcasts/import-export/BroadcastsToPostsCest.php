@@ -475,6 +475,66 @@ class BroadcastsToPostsCest
 	}
 
 	/**
+	 * Tests that Broadcasts import with inline images copied to WordPress when the Import Images
+	 * option is enabled.
+	 *
+	 * @since   2.6.3
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testBroadcastsImportWithImportImagesEnabled(AcceptanceTester $I)
+	{
+		// Enable Broadcasts to Posts.
+		$I->setupConvertKitPluginBroadcasts(
+			$I,
+			[
+				'enabled'               => true,
+				'import_thumbnail'      => false,
+				'import_images'         => true,
+				'published_at_min_date' => '01/01/2020',
+			]
+		);
+
+		// Run the WordPress Cron event to import Broadcasts to WordPress Posts.
+		$I->runCronEvent($I, $this->cronEventName);
+
+		// Wait a few seconds for the Cron event to complete importing Broadcasts.
+		$I->wait(7);
+
+		// Load the Posts screen.
+		$I->amOnAdminPage('edit.php');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Confirm expected Broadcasts exist as Posts.
+		$I->see($_ENV['CONVERTKIT_API_BROADCAST_FIRST_TITLE']);
+		$I->see($_ENV['CONVERTKIT_API_BROADCAST_SECOND_TITLE']);
+		$I->see($_ENV['CONVERTKIT_API_BROADCAST_THIRD_TITLE']);
+
+		// Get created Post IDs.
+		$postIDs = [
+			(int) str_replace('post-', '', $I->grabAttributeFrom('tbody#the-list > tr:nth-child(2)', 'id')),
+			(int) str_replace('post-', '', $I->grabAttributeFrom('tbody#the-list > tr:nth-child(3)', 'id')),
+			(int) str_replace('post-', '', $I->grabAttributeFrom('tbody#the-list > tr:nth-child(4)', 'id')),
+		];
+
+		// Set cookie with signed subscriber ID, so Member Content broadcasts can be viewed.
+		$I->setCookie('ck_subscriber_id', $_ENV['CONVERTKIT_API_SIGNED_SUBSCRIBER_ID']);
+
+		// View the first post.
+		$I->amOnPage('?p=' . $postIDs[0]);
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Confirm no images are served from Kit's CDN, and they are served from the WordPress Media Library
+		// (uploads folder).
+		$I->dontSeeInSource('embed.filekitcdn.com');
+		$I->seeInSource($_ENV['TEST_SITE_WP_URL'] . '/wp-content/uploads/2023/08');
+	}
+
+	/**
 	 * Tests that Broadcasts do not import when enabled in the Plugin's settings
 	 * and an Earliest Date is specified that is newer than any Broadcasts sent
 	 * on the ConvertKit account.
