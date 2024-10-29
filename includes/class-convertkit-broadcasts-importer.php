@@ -15,15 +15,6 @@
 class ConvertKit_Broadcasts_Importer {
 
 	/**
-	 * Holds the API class.
-	 *
-	 * @since   2.6.4
-	 *
-	 * @var     bool|ConvertKit_API_V4
-	 */
-	private $api = false;
-
-	/**
 	 * Holds the Broadcasts Settings class.
 	 *
 	 * @since   2.2.9
@@ -69,10 +60,10 @@ class ConvertKit_Broadcasts_Importer {
 
 		// Initialize required classes.
 		$this->broadcasts_settings = new ConvertKit_Settings_Broadcasts();
+		$this->log                 = new ConvertKit_Log( CONVERTKIT_PLUGIN_PATH );
 		$this->media_library       = new ConvertKit_Media_Library();
 		$this->settings            = new ConvertKit_Settings();
-		$this->log                 = new ConvertKit_Log( CONVERTKIT_PLUGIN_PATH );
-
+		
 		// Create WordPress Posts when the ConvertKit Posts Resource is refreshed.
 		add_action( 'convertkit_resource_refreshed_posts', array( $this, 'refresh' ) );
 
@@ -100,42 +91,16 @@ class ConvertKit_Broadcasts_Importer {
 			return;
 		}
 
-		// Bail if the Plugin Access Token has not been configured.
-		if ( ! $this->settings->has_access_and_refresh_token() ) {
-			return;
-		}
-
-		// Initialize the API.
-		$this->api = new ConvertKit_API_V4(
-			CONVERTKIT_OAUTH_CLIENT_ID,
-			CONVERTKIT_OAUTH_CLIENT_REDIRECT_URI,
-			$this->settings->get_access_token(),
-			$this->settings->get_refresh_token(),
-			$this->settings->debug_enabled(),
-			'broadcasts_importer'
-		);
-
-		// Check that we're using the ConvertKit WordPress Libraries 1.3.8 or higher.
-		// If another ConvertKit Plugin is active and out of date, its libraries might
-		// be loaded that don't have this method.
-		if ( ! method_exists( $this->api, 'get_post' ) ) {
-			return;
-		}
-
 		foreach ( $broadcasts as $broadcast_id => $broadcast ) {
 			// If a WordPress Post exists for this Broadcast ID, we previously imported it - skip it.
 			if ( $this->broadcast_exists_as_post( $broadcast_id ) ) {
-				if ( $this->settings->debug_enabled() ) {
-					$this->log->add( 'ConvertKit_Broadcasts_Importer::refresh(): Broadcast #' . $broadcast_id . ' already exists as a WordPress Post. Skipping...' );
-				}
+				$this->maybe_log( 'ConvertKit_Broadcasts_Importer::refresh(): Broadcast #' . $broadcast_id . ' already exists as a WordPress Post. Skipping...' );
 				continue;
 			}
 
 			// Skip if the published_at date is older than the 'Earliest Date' setting.
 			if ( strtotime( $broadcast['published_at'] ) < strtotime( $this->broadcasts_settings->published_at_min_date() ) ) {
-				if ( $this->settings->debug_enabled() ) {
-					$this->log->add( 'ConvertKit_Broadcasts_Importer::refresh(): Broadcast #' . $broadcast_id . ' published_at date is before ' . $this->broadcasts_settings->published_at_min_date() . '. Skipping...' );
-				}
+				$this->maybe_log( 'ConvertKit_Broadcasts_Importer::refresh(): Broadcast #' . $broadcast_id . ' published_at date is before ' . $this->broadcasts_settings->published_at_min_date() . '. Skipping...' );
 				continue;
 			}
 
@@ -152,6 +117,8 @@ class ConvertKit_Broadcasts_Importer {
 		}
 
 	}
+
+
 
 	/**
 	 * Imports the given Kit Broadcast ID to a new WordPress Post.
@@ -170,16 +137,41 @@ class ConvertKit_Broadcasts_Importer {
 	 */
 	public function import_broadcast( $broadcast_id, $post_status = 'publish', $author_id = 1, $category_id = false, $import_thumbnail = false, $import_images = false, $disable_styles = false ) {
 
+		// Bail if the Plugin Access Token has not been configured.
+		if ( ! $this->settings->has_access_and_refresh_token() ) {
+			return new WP_Error(
+				'convertkit_broadcasts_importer_error',
+				__( 'No Access Token specified in Plugin Settings', 'convertkit' )
+			);
+		}
+
+		// Initialize the API.
+		$api = new ConvertKit_API_V4(
+			CONVERTKIT_OAUTH_CLIENT_ID,
+			CONVERTKIT_OAUTH_CLIENT_REDIRECT_URI,
+			$this->settings->get_access_token(),
+			$this->settings->get_refresh_token(),
+			$this->settings->debug_enabled(),
+			'broadcasts_importer'
+		);
+
+		// Check that we're using the ConvertKit WordPress Libraries 1.3.8 or higher.
+		// If another ConvertKit Plugin is active and out of date, its libraries might
+		// be loaded that don't have this method.
+		if ( ! method_exists( $api, 'get_post' ) ) {
+			return;
+		}
+
 		// Fetch Broadcast's content.
 		// We need to query wordpress/posts/{id} to fetch the full Broadcast information and content.
-		$broadcast = $this->api->get_post( $broadcast_id );
+		$broadcast = $api->get_post( $broadcast_id );
+
+		// Unset API class.
+		unset( $api );
 
 		// Bail if an error occured fetching the Broadcast.
 		if ( is_wp_error( $broadcast ) ) {
-			if ( $this->settings->debug_enabled() ) {
-				$this->log->add( 'ConvertKit_Broadcasts_Importer::refresh(): Broadcast #' . $broadcast_id . '. Error fetching from API: ' . $broadcast->get_error_message() );
-			}
-
+			$this->maybe_log( 'ConvertKit_Broadcasts_Importer::refresh(): Broadcast #' . $broadcast_id . '. Error fetching from API: ' . $broadcast->get_error_message() );
 			return $broadcast;
 		}
 
@@ -198,10 +190,7 @@ class ConvertKit_Broadcasts_Importer {
 
 		// Bail if an error occured.
 		if ( is_wp_error( $post_id ) ) {
-			if ( $this->settings->debug_enabled() ) {
-				$this->log->add( 'ConvertKit_Broadcasts_Importer::refresh(): Broadcast #' . $broadcast_id . '. Error on wp_insert_post(): ' . $post_id->get_error_message() );
-			}
-
+			$this->maybe_log( 'ConvertKit_Broadcasts_Importer::refresh(): Broadcast #' . $broadcast_id . '. Error on wp_insert_post(): ' . $post_id->get_error_message() );
 			return $post_id;
 		}
 
@@ -222,10 +211,7 @@ class ConvertKit_Broadcasts_Importer {
 
 		// Bail if an error occured updating the Post.
 		if ( is_wp_error( $post_id ) ) {
-			if ( $this->settings->debug_enabled() ) {
-				$this->log->add( 'ConvertKit_Broadcasts_Importer::refresh(): Broadcast #' . $broadcast_id . '. Error on wp_update_post() when adding Broadcast content: ' . $post_id->get_error_message() );
-			}
-
+			$this->maybe_log( 'ConvertKit_Broadcasts_Importer::refresh(): Broadcast #' . $broadcast_id . '. Error on wp_update_post() when adding Broadcast content: ' . $post_id->get_error_message() );
 			return $post_id;
 		}
 
@@ -240,21 +226,18 @@ class ConvertKit_Broadcasts_Importer {
 
 			// Save Post's settings.
 			$convertkit_post->save( $meta );
-
-			if ( $this->settings->debug_enabled() ) {
-				$this->log->add( 'ConvertKit_Broadcasts_Importer::refresh(): Broadcast #' . $broadcast_id . '. Set Restrict Content = ' . $broadcast['product_id'] );
-			}
+			$this->maybe_log( 'ConvertKit_Broadcasts_Importer::refresh(): Broadcast #' . $broadcast_id . '. Set Restrict Content = ' . $broadcast['product_id'] );
 		}
 
 		// If the Import Thumbnail setting is enabled, and the Broadcast has an image, save it to the Media Library and link it to the Post.
 		if ( $import_thumbnail ) {
 			$result = $this->add_broadcast_image_to_post( $broadcast, $post_id );
 
-			if ( is_wp_error( $result ) && $this->settings->debug_enabled() ) {
-				$this->log->add( 'ConvertKit_Broadcasts_Importer::refresh(): Broadcast #' . $broadcast_id . '. Error on add_broadcast_image_to_post(): ' . $result->get_error_message() );
+			if ( is_wp_error( $result ) ) {
+				$this->maybe_log( 'ConvertKit_Broadcasts_Importer::refresh(): Broadcast #' . $broadcast_id . '. Error on add_broadcast_image_to_post(): ' . $result->get_error_message() );
 			}
-		} elseif ( $this->settings->debug_enabled() ) {
-			$this->log->add( 'ConvertKit_Broadcasts_Importer::refresh(): Broadcast #' . $broadcast_id . '. Skipping thumbnail.' );
+		} else {
+			$this->maybe_log( 'ConvertKit_Broadcasts_Importer::refresh(): Broadcast #' . $broadcast_id . '. Skipping thumbnail.' );
 		}
 
 		// Transition the Post to the defined Post Status in the settings, now that the image has been added to it.
@@ -268,20 +251,32 @@ class ConvertKit_Broadcasts_Importer {
 
 		// Maybe log if an error occured updating the Post to the publish status.
 		if ( is_wp_error( $post_id ) ) {
-			if ( $this->settings->debug_enabled() ) {
-				$this->log->add( 'ConvertKit_Broadcasts_Importer::refresh(): Broadcast #' . $broadcast_id . '. Error on wp_update_post() when transitioning post status from draft to publish: ' . $post_id->get_error_message() );
-			}
-
+			$this->maybe_log( 'ConvertKit_Broadcasts_Importer::refresh(): Broadcast #' . $broadcast_id . '. Error on wp_update_post() when transitioning post status from draft to publish: ' . $post_id->get_error_message() );
 			return $post_id;
 		}
 
 		// Import successful.
-		// Maybe log success.
-		if ( $this->settings->debug_enabled() ) {
-			$this->log->add( 'ConvertKit_Broadcasts_Importer::refresh(): Broadcast #' . $broadcast_id . '. Added as Post ID #' . $post_id );
+		$this->maybe_log( 'ConvertKit_Broadcasts_Importer::refresh(): Broadcast #' . $broadcast_id . '. Added as Post ID #' . $post_id );
+		return $post_id;
+
+	}
+
+	/**
+	 * Logs the given message if debug logging is enabled
+	 * in the Plugin's settings.
+	 * 
+	 * @since 	2.6.4
+	 * 
+	 * @param 	string 	$message 	Log message.
+	 */
+	private function maybe_log( $message ) {
+
+		// Don't log if debugging is not enabled.
+		if ( ! $this->settings->debug_enabled() ) {
+			return;
 		}
 
-		return $post_id;
+		$this->log->add( $message );
 
 	}
 
