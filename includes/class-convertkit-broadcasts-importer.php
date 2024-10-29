@@ -63,7 +63,7 @@ class ConvertKit_Broadcasts_Importer {
 		$this->log                 = new ConvertKit_Log( CONVERTKIT_PLUGIN_PATH );
 		$this->media_library       = new ConvertKit_Media_Library();
 		$this->settings            = new ConvertKit_Settings();
-		
+
 		// Create WordPress Posts when the ConvertKit Posts Resource is refreshed.
 		add_action( 'convertkit_resource_refreshed_posts', array( $this, 'refresh' ) );
 
@@ -264,10 +264,10 @@ class ConvertKit_Broadcasts_Importer {
 	/**
 	 * Logs the given message if debug logging is enabled
 	 * in the Plugin's settings.
-	 * 
-	 * @since 	2.6.4
-	 * 
-	 * @param 	string 	$message 	Log message.
+	 *
+	 * @since   2.6.4
+	 *
+	 * @param   string $message    Log message.
 	 */
 	private function maybe_log( $message ) {
 
