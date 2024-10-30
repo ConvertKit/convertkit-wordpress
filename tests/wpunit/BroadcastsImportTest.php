@@ -316,6 +316,12 @@ class BroadcastsImportTest extends \Codeception\TestCase\WPTestCase
 		// Confirm tracking image has been removed.
 		$this->assertStringNotContainsString('<img src="https://preview.convertkit-mail2.com/open" alt="">', $post->post_content);
 
+		// Confirm images included retain their <figure> and <figcaption> elements.
+		$this->assertStringContainsString('<figure', $post->post_content);
+		$this->assertStringContainsString('<figcaption', $post->post_content);
+		$this->assertStringContainsString('A Sample Caption</figcaption>', $post->post_content);
+		$this->assertStringContainsString('</figure>', $post->post_content);
+		
 		// Confirm unsubscribe link section has been removed.
 		$this->assertStringNotContainsString('<div class="ck-section ck-hide-in-public-posts"', $post->post_content);
 
