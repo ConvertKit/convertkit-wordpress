@@ -410,37 +410,48 @@ class ConvertKit_Broadcasts_Importer {
 		$xpath = new DOMXPath( $html );
 
 		// Remove certain elements and their contents, as we never want these to be included in the WordPress Post.
+		// phpcs:disable WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 
 		// Remove open tracking.
 		foreach ( $xpath->query( '//img[@src="https://preview.convertkit-mail2.com/open"]' ) as $node ) {
-			$node->parentNode->removeChild( $node ); // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+			$node->parentNode->removeChild( $node );
 		}
 
 		// Remove blank contenteditable table cells.
 		foreach ( $xpath->query( '//td[@contenteditable="false"]' ) as $node ) {
-			$node->parentNode->removeChild( $node ); // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+			$node->parentNode->removeChild( $node );
 		}
 
 		// Remove <style> elements and their contents.
 		foreach ( $xpath->query( '//style' ) as $node ) {
-			$node->parentNode->removeChild( $node ); // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+			$node->parentNode->removeChild( $node );
 		}
 
 		// Remove ck-hide-in-public-posts and their contents.
 		// This includes the unsubscribe section.
 		foreach ( $xpath->query( '//div[contains(@class, "ck-hide-in-public-posts")]' ) as $node ) {
-			$node->parentNode->removeChild( $node ); // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+			$node->parentNode->removeChild( $node );
 		}
 
 		// Remove ck-poll, as interacting with these results in an error.
 		foreach ( $xpath->query( '//table[contains(@class, "ck-poll")]' ) as $node ) {
-			$node->parentNode->removeChild( $node ); // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+			$node->parentNode->removeChild( $node );
 		}
+
+		// If a H1 through H6 heading matches the Broadcast's title, remove it from the content.
+		// The Broadcast's title will always display as the WordPress Post title.
+		for ( $i = 1; $i <= 6; $i++ ) {
+			foreach ( $xpath->query( '//h' . $i ) as $node ) {
+				if ( $node->textContent === $broadcast_title ) {
+					$node->parentNode->removeChild( $node );
+				}
+			}
+		}
+		// phpcs:enable
 
 		// If the Import Images setting is enabled, iterate through all images within the Broadcast, importing them and changing their
 		// URLs to the WordPress Media Library hosted versions.
 		if ( $import_images ) {
-
 			foreach ( $xpath->query( '//img' ) as $node ) {
 				$image = array(
 					'src' => $node->getAttribute( 'src' ), // @phpstan-ignore-line
