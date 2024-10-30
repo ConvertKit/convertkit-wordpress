@@ -321,7 +321,7 @@ class BroadcastsImportTest extends \Codeception\TestCase\WPTestCase
 		$this->assertStringContainsString('<figcaption', $post->post_content);
 		$this->assertStringContainsString('A Sample Caption</figcaption>', $post->post_content);
 		$this->assertStringContainsString('</figure>', $post->post_content);
-		
+
 		// Confirm unsubscribe link section has been removed.
 		$this->assertStringNotContainsString('<div class="ck-section ck-hide-in-public-posts"', $post->post_content);
 
