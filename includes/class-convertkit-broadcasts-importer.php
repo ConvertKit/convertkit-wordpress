@@ -60,7 +60,6 @@ class ConvertKit_Broadcasts_Importer {
 
 		// Initialize required classes.
 		$this->broadcasts_settings = new ConvertKit_Settings_Broadcasts();
-		$this->log                 = new ConvertKit_Log( CONVERTKIT_PLUGIN_PATH );
 		$this->media_library       = new ConvertKit_Media_Library();
 		$this->settings            = new ConvertKit_Settings();
 
@@ -159,7 +158,10 @@ class ConvertKit_Broadcasts_Importer {
 		// If another ConvertKit Plugin is active and out of date, its libraries might
 		// be loaded that don't have this method.
 		if ( ! method_exists( $api, 'get_post' ) ) {
-			return;
+			return new WP_Error(
+				'convertkit_broadcasts_importer_error',
+				__( 'Kit WordPress Libraries 1.3.7 or older detected, missing the `get_post` method.', 'convertkit' )
+			);
 		}
 
 		// Fetch Broadcast's content.
@@ -274,6 +276,11 @@ class ConvertKit_Broadcasts_Importer {
 		// Don't log if debugging is not enabled.
 		if ( ! $this->settings->debug_enabled() ) {
 			return;
+		}
+
+		// Initialize logging class, if not yet initialized.
+		if ( ! $this->log ) {
+			$this->log = new ConvertKit_Log( CONVERTKIT_PLUGIN_PATH );
 		}
 
 		$this->log->add( $message );
