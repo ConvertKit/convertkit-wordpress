@@ -566,6 +566,8 @@ class ConvertKit_Broadcasts_Importer {
 			's',
 			'a',
 			'img',
+			'figure',
+			'figcaption',
 			'br',
 			'style', // Deliberate; we'll use DOMDocument to remove inline styles and their contents.
 		);
