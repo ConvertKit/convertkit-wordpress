@@ -147,7 +147,7 @@ class BroadcastsToPostsCest
 
 		// Confirm inline styles exist in the imported Broadcast.
 		$I->seeElementInDOM('div.ck-inner-section');
-		$I->assertNotNull($I->grabAttributeFrom('div.wp-block-post-content h1', 'style'));
+		$I->assertNotNull($I->grabAttributeFrom('div.ck-section', 'style'));
 
 		// Confirm tracking image has been removed.
 		$I->dontSee('<img src="https://preview.convertkit-mail2.com/open" alt="">');
@@ -226,7 +226,7 @@ class BroadcastsToPostsCest
 
 		// Confirm inline styles exist in the imported Broadcast.
 		$I->seeElementInDOM('div.ck-inner-section');
-		$I->assertNotNull($I->grabAttributeFrom('div.wp-block-post-content h1', 'style'));
+		$I->assertNotNull($I->grabAttributeFrom('div.ck-section', 'style'));
 
 		// Confirm published date matches the Broadcast.
 		$date = date('Y-m-d', strtotime($_ENV['CONVERTKIT_API_BROADCAST_FIRST_DATE'])) . 'T' . date('H:i:s', strtotime($_ENV['CONVERTKIT_API_BROADCAST_FIRST_DATE']));
@@ -677,7 +677,7 @@ class BroadcastsToPostsCest
 
 		// Confirm no inline styles exist in the imported Broadcast.
 		$I->dontSeeElementInDOM('div.ck-inner-section');
-		$I->assertNull($I->grabAttributeFrom('div.wp-block-post-content h1', 'style'));
+		$I->assertNull($I->grabAttributeFrom('div.ck-section', 'style'));
 	}
 
 	/**
