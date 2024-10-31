@@ -677,7 +677,7 @@ class BroadcastsToPostsCest
 
 		// Confirm no inline styles exist in the imported Broadcast.
 		$I->dontSeeElementInDOM('div.ck-inner-section');
-		$I->assertNull($I->grabAttributeFrom('div.ck-section', 'style'));
+		$I->dontSeeInSource('<h2 style="');
 	}
 
 	/**
