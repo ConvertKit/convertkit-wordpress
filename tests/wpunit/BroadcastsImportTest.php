@@ -313,6 +313,9 @@ class BroadcastsImportTest extends \Codeception\TestCase\WPTestCase
 		// Confirm title correct.
 		$this->assertEquals($_ENV['CONVERTKIT_API_BROADCAST_FIRST_TITLE'], $post->post_title);
 
+		// Confirm the title is not included in the content as a heading.
+		$this->assertStringNotContainsString($_ENV['CONVERTKIT_API_BROADCAST_FIRST_TITLE'] . '</h1>', $post->post_content);
+
 		// Confirm tracking image has been removed.
 		$this->assertStringNotContainsString('<img src="https://preview.convertkit-mail2.com/open" alt="">', $post->post_content);
 
