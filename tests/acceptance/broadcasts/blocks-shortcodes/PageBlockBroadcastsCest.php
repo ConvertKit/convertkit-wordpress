@@ -480,7 +480,7 @@ class PageBlockBroadcastsCest
 		// Confirm that the expected Broadcast name is displayed first links to the expected URL, with UTM parameters.
 		$I->assertEquals(
 			$I->grabAttributeFrom('div.convertkit-broadcasts ul.convertkit-broadcasts-list li.convertkit-broadcast:first-child a', 'href'),
-			'https://cheerful-architect-3237.ck.page/posts/?utm_source=wordpress&utm_term=en_US&utm_content=convertkit'
+			'https://cheerful-architect-3237.kit.com/posts/?utm_source=wordpress&utm_term=en_US&utm_content=convertkit'
 		);
 	}
 
