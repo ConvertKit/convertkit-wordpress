@@ -334,6 +334,9 @@ class BroadcastsImportTest extends \Codeception\TestCase\WPTestCase
 		// Confirm published date matches the Broadcast.
 		$date = date('Y-m-d', strtotime($_ENV['CONVERTKIT_API_BROADCAST_FIRST_DATE'])) . ' ' . date('H:i:s', strtotime($_ENV['CONVERTKIT_API_BROADCAST_FIRST_DATE']));
 		$this->assertEquals($date, $post->post_date_gmt);
+
+		// Confirm SEO description is stored as the Post's excerpt.
+		$this->assertEquals($_ENV['CONVERTKIT_API_BROADCAST_FIRST_DESCRIPTION'], $post->post_excerpt);
 	}
 
 	/**
