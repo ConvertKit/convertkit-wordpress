@@ -332,7 +332,7 @@ class ResourceFormsTest extends \Codeception\TestCase\WPTestCase
 	{
 		$result = $this->resource->get_html($_ENV['CONVERTKIT_API_FORM_ID']);
 		$this->assertNotInstanceOf(WP_Error::class, $result);
-		$this->assertSame($result, '<script async data-uid="85629c512d" src="https://cheerful-architect-3237.ck.page/85629c512d/index.js" data-jetpack-boost="ignore" data-no-defer="1" nowprocket></script>');
+		$this->assertSame($result, '<script async data-uid="85629c512d" src="https://cheerful-architect-3237.kit.com/85629c512d/index.js" data-jetpack-boost="ignore" data-no-defer="1" nowprocket></script>');
 	}
 
 	/**
