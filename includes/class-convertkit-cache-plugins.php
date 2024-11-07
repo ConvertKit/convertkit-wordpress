@@ -72,6 +72,9 @@ class ConvertKit_Cache_Plugins {
 		// WP Rocket: Disable Caching and Minification on Landing Pages.
 		add_action( 'convertkit_output_landing_page_before', array( $this, 'wp_rocket_disable_caching_and_minification_on_landing_pages' ) );
 
+		// WP Rocket: Exclude Forms from Minification.
+		add_filter( 'rocket_exclude_js', array( $this, 'exclude_hosts' ) );
+
 		// WP Rocket: Exclude Forms from Delay JavaScript execution.
 		add_filter( 'convertkit_output_script_footer', array( $this, 'wp_rocket_exclude_delay_js_execution' ) );
 		add_filter( 'convertkit_resource_forms_output_script', array( $this, 'wp_rocket_exclude_delay_js_execution' ) );
@@ -230,9 +233,9 @@ class ConvertKit_Cache_Plugins {
 	 */
 	public function wp_rocket_disable_caching_and_minification_on_landing_pages() {
 
-		add_filter( 'rocket_minify_excluded_external_js', array( $this, 'exclude_hosts_from_minification' ) );
-		add_filter( 'rocket_exclude_css', array( $this, 'exclude_hosts_from_minification' ) );
-		add_filter( 'rocket_exclude_js', array( $this, 'exclude_local_js_from_minification' ) );
+		add_filter( 'rocket_minify_excluded_external_js', array( $this, 'exclude_hosts' ) );
+		add_filter( 'rocket_exclude_css', array( $this, 'exclude_hosts' ) );
+		add_filter( 'rocket_exclude_js', array( $this, 'exclude_local_js' ) );
 		add_filter( 'do_rocket_lazyload', '__return_false' );
 
 	}
@@ -267,7 +270,7 @@ class ConvertKit_Cache_Plugins {
 	 * @param   array $hosts  External hosts to ignore.
 	 * @return  array
 	 */
-	public function exclude_hosts_from_minification( $hosts ) {
+	public function exclude_hosts( $hosts ) {
 
 		return array_merge( $hosts, $this->exclude_hosts );
 
@@ -282,7 +285,7 @@ class ConvertKit_Cache_Plugins {
 	 * @param   array $scripts  Internal JS scripts to ignore.
 	 * @return  array
 	 */
-	public function exclude_local_js_from_minification( $scripts ) {
+	public function exclude_local_js( $scripts ) {
 
 		return array_merge( $scripts, $this->exclude_plugin_js );
 
