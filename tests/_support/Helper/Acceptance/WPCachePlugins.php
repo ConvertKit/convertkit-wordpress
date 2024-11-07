@@ -193,13 +193,13 @@ class WPCachePlugins extends \Codeception\Module
 	 *
 	 * @param   AcceptanceTester $I             Acceptance Tester.
 	 */
-	public function enableWPRocketMinifyConcatenateJSAndCSS($I, $delay = false)
+	public function enableWPRocketMinifyConcatenateJSAndCSS($I)
 	{
 		// Get WP Rocket settings.
 		$settings = $I->grabOptionFromDatabase('wp_rocket_settings');
 
-		$settings['minify_css'] = 1;
-		$settings['minify_js'] = 1;
+		$settings['minify_css']            = 1;
+		$settings['minify_js']             = 1;
 		$settings['minify_concatenate_js'] = 1;
 
 		// Save settings.
@@ -214,13 +214,13 @@ class WPCachePlugins extends \Codeception\Module
 	 *
 	 * @param   AcceptanceTester $I             Acceptance Tester.
 	 */
-	public function enableWPRocketDelayJS($I, $delay = false)
+	public function enableWPRocketDelayJS($I)
 	{
 		// Get WP Rocket settings.
 		$settings = $I->grabOptionFromDatabase('wp_rocket_settings');
 
 		$settings['delay_js'] = 1;
-		
+
 		// Save settings.
 		$I->haveOptionInDatabase('wp_rocket_settings', $settings);
 	}
@@ -233,14 +233,14 @@ class WPCachePlugins extends \Codeception\Module
 	 *
 	 * @param   AcceptanceTester $I             Acceptance Tester.
 	 */
-	public function enableWPRocketLazyLoad($I, $delay = false)
+	public function enableWPRocketLazyLoad($I)
 	{
 		// Get WP Rocket settings.
 		$settings = $I->grabOptionFromDatabase('wp_rocket_settings');
 
-		$settings['lazyload'] = 1;
+		$settings['lazyload']            = 1;
 		$settings['lazyload_css_bg_img'] = 1;
-		
+
 		// Save settings.
 		$I->haveOptionInDatabase('wp_rocket_settings', $settings);
 	}
