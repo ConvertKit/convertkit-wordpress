@@ -274,6 +274,20 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 		);
 
 		add_settings_field(
+			'import_images',
+			__( 'Import Images', 'convertkit' ),
+			array( $this, 'import_images_callback' ),
+			$this->settings_key,
+			$this->name,
+			array(
+				'name'        => 'import_images',
+				'label_for'   => 'import_images',
+				'label'       => __( 'If enabled, the imported Broadcast\'s inline images will be stored in the Media Library, instead of served by Kit.', 'convertkit' ),
+				'description' => '',
+			)
+		);
+
+		add_settings_field(
 			'published_at_min_date',
 			__( 'Earliest Date', 'convertkit' ),
 			array( $this, 'date_callback' ),
@@ -325,6 +339,27 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 		<span class="convertkit-beta-label"><?php esc_html_e( 'Beta', 'convertkit' ); ?></span>
 		<p class="description"><?php esc_html_e( 'Defines whether public broadcasts ("Enabled on public feeds") in Kit should automatically be published on this site as WordPress Posts, and whether to enable options to create draft Kit Broadcasts from WordPress Posts.', 'convertkit' ); ?></p>
 		<?php
+
+		// If the DISABLE_WP_CRON constant exists and is true, display a warning that this functionality
+		// may not work.
+		if ( defined( 'DISABLE_WP_CRON' ) && DISABLE_WP_CRON === true ) {
+			?>
+			<div class="notice notice-info">
+				<p>
+					<?php
+					printf(
+						'%s %s %s %s %s',
+						esc_html__( 'We\'ve detected that the', 'convertkit' ),
+						'<code>DISABLE_WP_CRON</code>',
+						esc_html__( 'constant is enabled. If broadcasts do not import automatically or when using the import button below, either remove this constant from your', 'convertkit' ),
+						'<code>wp-config.php</code>',
+						esc_html__( 'file, or check that your web host is triggering the WordPress Cron via an alternate method. If importing broadcasts work, no changes to your WordPress configuration file are required.', 'convertkit' )
+					);
+					?>
+				</p>
+			</div>
+			<?php
+		}
 
 	}
 
@@ -489,6 +524,29 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 	}
 
 	/**
+	 * Renders the input for the Import Images setting.
+	 *
+	 * @since   2.6.3
+	 *
+	 * @param   array $args   Setting field arguments (name,description).
+	 */
+	public function import_images_callback( $args ) {
+
+		// Output field.
+		echo $this->get_checkbox_field( // phpcs:ignore WordPress.Security.EscapeOutput
+			$args['name'],
+			'on',
+			$this->settings->import_images(), // phpcs:ignore WordPress.Security.EscapeOutput
+			$args['label'],  // phpcs:ignore WordPress.Security.EscapeOutput
+			$args['description'], // phpcs:ignore WordPress.Security.EscapeOutput
+			array(
+				'enabled',
+			)
+		);
+
+	}
+
+	/**
 	 * Renders the input for the date setting.
 	 *
 	 * @since   2.2.9
@@ -562,6 +620,13 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 		// Therefore, if the setting doesn't exist, set it to blank.
 		if ( ! array_key_exists( 'import_thumbnail', $settings ) ) {
 			$settings['import_thumbnail'] = '';
+		}
+
+		// If the 'Include Images' setting isn't checked, it won't be included
+		// in the array of settings, and the defaults will enable this.
+		// Therefore, if the setting doesn't exist, set it to blank.
+		if ( ! array_key_exists( 'import_images', $settings ) ) {
+			$settings['import_images'] = '';
 		}
 
 		// Merge settings with defaults.

@@ -435,10 +435,12 @@ class CPTFormCest
 	 */
 	public function testAddNewCPTUsingDefaultLegacyForm(AcceptanceTester $I)
 	{
-		// Setup Plugin, without defining default Forms.
+		// Setup Plugin with API Key and Secret, which is required for Legacy Forms to work.
 		$I->setupConvertKitPlugin(
 			$I,
 			[
+				'api_key'      => $_ENV['CONVERTKIT_API_KEY'],
+				'api_secret'   => $_ENV['CONVERTKIT_API_SECRET'],
 				'article_form' => $_ENV['CONVERTKIT_API_LEGACY_FORM_ID'],
 			]
 		);
@@ -550,11 +552,13 @@ class CPTFormCest
 	 */
 	public function testAddNewCPTUsingDefinedLegacyForm(AcceptanceTester $I)
 	{
-		// Setup ConvertKit Plugin.
+		// Setup Plugin with API Key and Secret, which is required for Legacy Forms to work.
 		$I->setupConvertKitPlugin(
 			$I,
 			[
-				'article_form' => $_ENV['CONVERTKIT_API_FORM_ID'],
+				'api_key'      => $_ENV['CONVERTKIT_API_KEY'],
+				'api_secret'   => $_ENV['CONVERTKIT_API_SECRET'],
+				'article_form' => '',
 			]
 		);
 		$I->setupConvertKitPluginResources($I);

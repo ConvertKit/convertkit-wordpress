@@ -832,7 +832,7 @@ add_filter( 'convertkit_term_get_default_settings', function( $defaults ) {
 </pre>
 <h3 id="convertkit_settings_broadcasts_get_defaults">
 						convertkit_settings_broadcasts_get_defaults
-						<code>includes/class-convertkit-settings-broadcasts.php::238</code>
+						<code>includes/class-convertkit-settings-broadcasts.php::252</code>
 					</h3><h4>Overview</h4>
 						<p>The default settings, used when the ConvertKit Broadcasts Settings haven't been saved e.g. on a new installation.</p><h4>Parameters</h4>
 					<table>
@@ -1335,7 +1335,7 @@ add_filter( 'convertkit_output_script_footer', function( $script ) {
 </pre>
 <h3 id="convertkit_settings_get_defaults">
 						convertkit_settings_get_defaults
-						<code>includes/class-convertkit-settings.php::460</code>
+						<code>includes/class-convertkit-settings.php::463</code>
 					</h3><h4>Overview</h4>
 						<p>The default settings, used when the ConvertKit Plugin Settings haven't been saved e.g. on a new installation.</p><h4>Parameters</h4>
 					<table>
@@ -1416,7 +1416,7 @@ add_filter( 'convertkit_resource_forms_output_script', function( $script ) {
 </pre>
 <h3 id="convertkit_broadcasts_build_post_args">
 						convertkit_broadcasts_build_post_args
-						<code>includes/class-convertkit-broadcasts-importer.php::254</code>
+						<code>includes/class-convertkit-broadcasts-importer.php::359</code>
 					</h3><h4>Overview</h4>
 						<p>Define the wp_insert_post() compatible arguments for importing a ConvertKit Broadcast to a new WordPress Post.</p><h4>Parameters</h4>
 					<table>
@@ -1447,7 +1447,7 @@ add_filter( 'convertkit_broadcasts_build_post_args', function( $post_args, $broa
 </pre>
 <h3 id="convertkit_broadcasts_parse_broadcast_content">
 						convertkit_broadcasts_parse_broadcast_content
-						<code>includes/class-convertkit-broadcasts-importer.php::335</code>
+						<code>includes/class-convertkit-broadcasts-importer.php::507</code>
 					</h3><h4>Overview</h4>
 						<p>Parses the given Broadcast's content, removing unnecessary HTML tags and styles.</p><h4>Parameters</h4>
 					<table>
@@ -1459,26 +1459,38 @@ add_filter( 'convertkit_broadcasts_build_post_args', function( $post_args, $broa
 							</tr>
 						</thead>
 						<tbody><tr>
-							<td>$content</td>
-							<td>string</td>
-							<td>Parsed Content.</td>
+							<td>Parsed</td>
+							<td>string $content</td>
+							<td>Content.</td>
 						</tr><tr>
-							<td>$broadcast_content</td>
-							<td>string</td>
-							<td>Original Broadcast's Content.</td>
+							<td>$post_id</td>
+							<td>int</td>
+							<td>WordPress Post ID.</td>
+						</tr><tr>
+							<td>Broadcast</td>
+							<td>string $broadcast_title</td>
+							<td>Title.</td>
+						</tr><tr>
+							<td>$import_images</td>
+							<td>bool</td>
+							<td>Import images to Media Library.</td>
+						</tr><tr>
+							<td>$disable_styles</td>
+							<td>bool</td>
+							<td>Disable CSS styles in content.</td>
 						</tr>
 						</tbody>
 					</table><h4>Usage</h4>
 <pre>
-add_filter( 'convertkit_broadcasts_parse_broadcast_content', function( $content, $broadcast_content ) {
+add_filter( 'convertkit_broadcasts_parse_broadcast_content', function( $content, $post_id, $broadcast_content, $broadcast_title, $import_images, $disable_styles ) {
 	// ... your code here
 	// Return value
 	return $content;
-}, 10, 2 );
+}, 10, 6 );
 </pre>
 <h3 id="convertkit_broadcasts_parse_broadcast_content_permitted_html_tags">
 						convertkit_broadcasts_parse_broadcast_content_permitted_html_tags
-						<code>includes/class-convertkit-broadcasts-importer.php::433</code>
+						<code>includes/class-convertkit-broadcasts-importer.php::607</code>
 					</h3><h4>Overview</h4>
 						<p>Define the HTML tags to retain in the Broadcast Content.</p><h4>Parameters</h4>
 					<table>

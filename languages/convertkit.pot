@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the Kit (formerly ConvertKit) plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: Kit (formerly ConvertKit) 2.6.2\n"
+"Project-Id-Version: Kit (formerly ConvertKit) 2.6.4\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/convertkit\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-10-18T02:25:15+00:00\n"
+"POT-Creation-Date: 2024-11-05T03:11:09+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.10.0\n"
 "X-Domain: convertkit\n"
@@ -240,7 +240,7 @@ msgid "Settings"
 msgstr ""
 
 #: admin/class-convertkit-admin-settings.php:280
-#: admin/section/class-convertkit-admin-settings-broadcasts.php:325
+#: admin/section/class-convertkit-admin-settings-broadcasts.php:339
 msgid "Beta"
 msgstr ""
 
@@ -325,40 +325,60 @@ msgid "If enabled, the Broadcast's thumbnail will be used as the WordPress Post'
 msgstr ""
 
 #: admin/section/class-convertkit-admin-settings-broadcasts.php:278
-msgid "Earliest Date"
+msgid "Import Images"
 msgstr ""
 
 #: admin/section/class-convertkit-admin-settings-broadcasts.php:285
+msgid "If enabled, the imported Broadcast's inline images will be stored in the Media Library, instead of served by Kit."
+msgstr ""
+
+#: admin/section/class-convertkit-admin-settings-broadcasts.php:292
+msgid "Earliest Date"
+msgstr ""
+
+#: admin/section/class-convertkit-admin-settings-broadcasts.php:299
 msgid "The earliest date to import public broadcasts from, based on the broadcast's published date and time."
 msgstr ""
 
-#: admin/section/class-convertkit-admin-settings-broadcasts.php:291
+#: admin/section/class-convertkit-admin-settings-broadcasts.php:305
 msgid "Enable Export Actions"
 msgstr ""
 
-#: admin/section/class-convertkit-admin-settings-broadcasts.php:298
+#: admin/section/class-convertkit-admin-settings-broadcasts.php:312
 msgid "Displays actions in WordPress to create draft broadcasts from existing WordPress posts."
 msgstr ""
 
-#: admin/section/class-convertkit-admin-settings-broadcasts.php:304
+#: admin/section/class-convertkit-admin-settings-broadcasts.php:318
 msgid "Disable Styles"
 msgstr ""
 
-#: admin/section/class-convertkit-admin-settings-broadcasts.php:311
+#: admin/section/class-convertkit-admin-settings-broadcasts.php:325
 msgid "Removes inline styles and layout when importing broadcasts and exporting posts."
 msgstr ""
 
-#: admin/section/class-convertkit-admin-settings-broadcasts.php:326
+#: admin/section/class-convertkit-admin-settings-broadcasts.php:340
 msgid "Defines whether public broadcasts (\"Enabled on public feeds\") in Kit should automatically be published on this site as WordPress Posts, and whether to enable options to create draft Kit Broadcasts from WordPress Posts."
 msgstr ""
 
-#: admin/section/class-convertkit-admin-settings-broadcasts.php:383
+#: admin/section/class-convertkit-admin-settings-broadcasts.php:352
+msgid "We've detected that the"
+msgstr ""
+
+#: admin/section/class-convertkit-admin-settings-broadcasts.php:354
+msgid "constant is enabled. If broadcasts do not import automatically or when using the import button below, either remove this constant from your"
+msgstr ""
+
+#: admin/section/class-convertkit-admin-settings-broadcasts.php:356
+msgid "file, or check that your web host is triggering the WordPress Cron via an alternate method. If importing broadcasts work, no changes to your WordPress configuration file are required."
+msgstr ""
+
+#: admin/section/class-convertkit-admin-settings-broadcasts.php:418
 msgid "Import now"
 msgstr ""
 
-#: admin/section/class-convertkit-admin-settings-broadcasts.php:451
-#: admin/section/class-convertkit-settings-general.php:532
-#: admin/section/class-convertkit-settings-general.php:665
+#: admin/section/class-convertkit-admin-settings-broadcasts.php:486
+#: admin/section/class-convertkit-settings-general.php:545
+#: admin/section/class-convertkit-settings-general.php:675
 #: views/backend/post/bulk-edit.php:30
 #: views/backend/post/bulk-edit.php:53
 #: views/backend/post/meta-box.php:30
@@ -387,185 +407,185 @@ msgstr ""
 msgid "Successfully authorized with Kit."
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:268
+#: admin/section/class-convertkit-settings-general.php:271
 msgid "Account Name"
 msgstr ""
 
 #. translators: Post Type Name, plural
-#: admin/section/class-convertkit-settings-general.php:288
+#: admin/section/class-convertkit-settings-general.php:292
 msgid "Default Form (%s)"
 msgstr ""
 
 #. translators: Post Type Name, plural
-#: admin/section/class-convertkit-settings-general.php:304
+#: admin/section/class-convertkit-settings-general.php:310
 msgid "Form Position (%s)"
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:332
+#: admin/section/class-convertkit-settings-general.php:340
 msgid "Default Form (Site Wide)"
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:343
+#: admin/section/class-convertkit-settings-general.php:351
 msgid "Debug"
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:354
+#: admin/section/class-convertkit-settings-general.php:362
 msgid "Disable JavaScript"
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:365
+#: admin/section/class-convertkit-settings-general.php:373
 msgid "Disable CSS"
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:382
+#: admin/section/class-convertkit-settings-general.php:390
 msgid "Choosing a default form will embed it at the bottom of every post or page (in single view only) across your site."
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:383
+#: admin/section/class-convertkit-settings-general.php:391
 msgid "If you wish to turn off form embedding or select a different form for an individual post or page, you can do so using the Kit meta box on the edit page."
 msgstr ""
 
 #. translators: [convertkit] shortcode, wrapped in <code> tags
-#: admin/section/class-convertkit-settings-general.php:388
+#: admin/section/class-convertkit-settings-general.php:396
 msgid "The default form can be inserted into the middle of post or page content by using the %s shortcode."
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:420
+#: admin/section/class-convertkit-settings-general.php:428
 msgid "(Not specified)"
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:435
+#: admin/section/class-convertkit-settings-general.php:443
 msgid "Disconnect"
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:493
+#: admin/section/class-convertkit-settings-general.php:506
 msgid "No Forms exist in Kit."
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:494
+#: admin/section/class-convertkit-settings-general.php:507
 msgid "Click here to create your first form"
 msgstr ""
 
 #. translators: Post Type name, plural
-#: admin/section/class-convertkit-settings-general.php:507
-#: admin/section/class-convertkit-settings-general.php:517
+#: admin/section/class-convertkit-settings-general.php:520
+#: admin/section/class-convertkit-settings-general.php:530
 msgid "Select a form above to automatically output below all %s."
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:510
-#: admin/section/class-convertkit-settings-general.php:651
+#: admin/section/class-convertkit-settings-general.php:523
+#: admin/section/class-convertkit-settings-general.php:661
 #: includes/class-convertkit-broadcasts-exporter.php:146
 #: views/backend/setup-wizard/convertkit-setup/content-2.php:79
 #: views/backend/setup-wizard/convertkit-setup/content-2.php:120
 msgid "Click here"
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:511
-#: admin/section/class-convertkit-settings-general.php:652
+#: admin/section/class-convertkit-settings-general.php:524
+#: admin/section/class-convertkit-settings-general.php:662
 msgid "to preview how this will display."
 msgstr ""
 
 #. translators: Post type singular name
-#: admin/section/class-convertkit-settings-general.php:561
+#: admin/section/class-convertkit-settings-general.php:574
 msgid "Before %s content"
 msgstr ""
 
 #. translators: Post type singular name
-#: admin/section/class-convertkit-settings-general.php:566
+#: admin/section/class-convertkit-settings-general.php:579
 msgid "After %s content"
 msgstr ""
 
 #. translators: Post type singular name
-#: admin/section/class-convertkit-settings-general.php:571
+#: admin/section/class-convertkit-settings-general.php:584
 msgid "Before and after %s content"
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:574
+#: admin/section/class-convertkit-settings-general.php:587
 msgid "After element"
 msgstr ""
 
 #. translators: Post Type name, plural
-#: admin/section/class-convertkit-settings-general.php:578
+#: admin/section/class-convertkit-settings-general.php:591
 msgid "Where forms should display relative to the %s content"
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:613
+#: admin/section/class-convertkit-settings-general.php:626
 msgid "Paragraphs"
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:614
+#: admin/section/class-convertkit-settings-general.php:627
 msgid "Headings <h2>"
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:615
+#: admin/section/class-convertkit-settings-general.php:628
 msgid "Headings <h3>"
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:616
+#: admin/section/class-convertkit-settings-general.php:629
 msgid "Headings <h4>"
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:617
+#: admin/section/class-convertkit-settings-general.php:630
 msgid "Headings <h5>"
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:618
+#: admin/section/class-convertkit-settings-general.php:631
 msgid "Headings <h6>"
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:619
+#: admin/section/class-convertkit-settings-general.php:632
 msgid "Images"
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:621
+#: admin/section/class-convertkit-settings-general.php:634
 msgid "The number of elements before outputting the form."
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:641
+#: admin/section/class-convertkit-settings-general.php:651
 msgid "No non-inline Forms exist in Kit."
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:642
+#: admin/section/class-convertkit-settings-general.php:652
 msgid "Click here to create your first modal, slide in or sticky bar form"
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:650
+#: admin/section/class-convertkit-settings-general.php:660
 msgid "Select a non-inline modal, slide in or sticky bar form to automatically display site wide. Ignored if a non-inline form is specified in Default Form settings above, individual Post / Page settings, or any block / shortcode."
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:691
+#: admin/section/class-convertkit-settings-general.php:701
 msgid "Log requests to file and output browser console messages."
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:692
+#: admin/section/class-convertkit-settings-general.php:702
 msgid "You can ignore this unless you're working with our support team to resolve an issue. Decheck this option to improve performance."
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:709
+#: admin/section/class-convertkit-settings-general.php:719
 msgid "Prevent plugin from loading JavaScript files. This will disable the custom content and tagging features of the plugin. Does not apply to landing pages. Use with caution!"
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:726
+#: admin/section/class-convertkit-settings-general.php:736
 msgid "Prevents loading plugin CSS files. This will disable styling on broadcasts, form trigger buttons, product buttons and member's content. Use with caution!"
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:730
+#: admin/section/class-convertkit-settings-general.php:740
 msgid "To customize forms and their styling, use the"
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:732
+#: admin/section/class-convertkit-settings-general.php:742
 msgid "Kit form editor"
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:736
+#: admin/section/class-convertkit-settings-general.php:746
 msgid "For developers who require custom form designs through use of CSS, consider using the"
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:737
+#: admin/section/class-convertkit-settings-general.php:747
 msgid "or"
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:738
+#: admin/section/class-convertkit-settings-general.php:748
 msgid "integrations."
 msgstr ""
 
@@ -1114,6 +1134,14 @@ msgstr ""
 #. translators: WordPress Post ID
 #: includes/class-convertkit-broadcasts-exporter.php:205
 msgid "Could not fetch Post ID %s."
+msgstr ""
+
+#: includes/class-convertkit-broadcasts-importer.php:143
+msgid "No Access Token specified in Plugin Settings"
+msgstr ""
+
+#: includes/class-convertkit-broadcasts-importer.php:163
+msgid "Kit WordPress Libraries 1.3.7 or older detected, missing the `get_post` method."
 msgstr ""
 
 #: includes/class-convertkit-cron.php:33

@@ -28,6 +28,7 @@ class ConvertKitBroadcasts extends \Codeception\Module
 				switch ( $key ) {
 					case 'enabled':
 					case 'import_thumbnail':
+					case 'import_images':
 					case 'enabled_export':
 					case 'no_styles':
 						if ( $value ) {

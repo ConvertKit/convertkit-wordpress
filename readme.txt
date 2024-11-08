@@ -1,11 +1,11 @@
 === Kit (formerly ConvertKit) - Email Newsletter, Email Marketing, Subscribers and Landing Pages ===
 Contributors: nathanbarry, growdev, travisnorthcutt, ggwicz
 Donate link: https://kit.com
-Tags: email marketing, email newsletter, newsletter, subscribers, membership
+Tags: email marketing, email newsletter, subscribers, block, form
 Requires at least: 5.0
-Tested up to: 6.6.2
+Tested up to: 6.7
 Requires PHP: 5.6.20
-Stable tag: 2.6.2
+Stable tag: 2.6.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -158,6 +158,16 @@ Full Plugin documentation can be found [here](https://help.kit.com/en/articles/2
 10. Track subscriber growth
 
 == Changelog ==
+
+### 2.6.4 2024-11-05
+* Added: Settings: Broadcasts: Option to import images to the WordPress Media Library when importing Broadcasts to WordPress Posts
+* Added: Broadcasts: Remove heading title from content when it matches the Broadcast's title
+* Fix: Broadcasts: Retain `figure` and `figcaption` elements when importing Broadcasts to WordPress Posts
+
+### 2.6.3 2024-10-28
+* Added: Broadcasts: Exclude Polls when importing Broadcasts to WordPress Posts
+* Added: Settings: Forms: Only display Form settings if Forms exist in Kit
+* Fix: Add a Tag: Honor setting when defined on individual WordPress Pages and Posts, using the v4 API Access Token
 
 ### 2.6.2 2024-10-18
 * Added: Settings: Option to output Default Forms after a given number of elements (paragraphs, headings, images)
