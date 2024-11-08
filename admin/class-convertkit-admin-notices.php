@@ -69,7 +69,7 @@ class ConvertKit_Admin_Notices {
 						esc_html__( 'Kit: Authorization failed. Please', 'convertkit' ),
 						sprintf(
 							'<a href="%s">%s</a>',
-							esc_url( $api->get_oauth_url( admin_url( 'options-general.php?page=_wp_convertkit_settings' ) ) ),
+							esc_url( $api->get_oauth_url( admin_url( 'options-general.php?page=_wp_convertkit_settings' ), get_site_url() ) ),
 							esc_html__( 'connect your Kit account.', 'convertkit' )
 						)
 					);

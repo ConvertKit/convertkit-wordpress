@@ -109,7 +109,7 @@ class ConvertKit_Admin_Setup_Wizard_Plugin extends ConvertKit_Admin_Setup_Wizard
 				'name'        => __( 'Connect', 'convertkit' ),
 				'next_button' => array(
 					'label' => __( 'Connect', 'convertkit' ),
-					'link'  => $this->api->get_oauth_url( admin_url( 'options.php?page=convertkit-setup&step=2' ) ),
+					'link'  => $this->api->get_oauth_url( admin_url( 'options.php?page=convertkit-setup&step=2' ), get_site_url() ),
 				),
 			),
 			2 => array(
@@ -303,7 +303,7 @@ class ConvertKit_Admin_Setup_Wizard_Plugin extends ConvertKit_Admin_Setup_Wizard
 					);
 
 					// Redirect to OAuth.
-					wp_safe_redirect( $api->get_oauth_url( admin_url( 'options.php?page=convertkit-setup&step=2&convertkit-modal=1' ) ) );
+					wp_safe_redirect( $api->get_oauth_url( admin_url( 'options.php?page=convertkit-setup&step=2&convertkit-modal=1' ), get_site_url() ) );
 					die();
 
 				case 2:
