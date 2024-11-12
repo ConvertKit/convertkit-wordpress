@@ -628,7 +628,7 @@ class PageFormCest
 		);
 
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'Kit: Page: Form: ' . $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_NAME'] . ': WP Rocket');
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Form: ' . $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_NAME'] . ': Perfmatters');
 
 		// Configure metabox's Form setting = None.
 		$I->configureMetaboxSettings(
@@ -667,18 +667,8 @@ class PageFormCest
 		// Activate WP Rocket Plugin.
 		$I->activateThirdPartyPlugin($I, 'wp-rocket');
 
-		// Load WP Rocket settings screen.
-		$I->amOnAdminPage('options-general.php?page=wprocket#file_optimization');
-
-		// Enable Delay JavaScript execution.
-		$I->click('label[for=delay_js]');
-		$I->waitForElementVisible('.wpr-isOpen');
-
-		// Click Save Changes button.
-		$I->click('Save Changes');
-
-		// Confirm changes saved successfully.
-		$I->waitForElementVisible('#setting-error-settings_updated');
+		// Configure WP Rocket.
+		$I->enableWPRocketDelayJS($I);
 
 		// Add a Page using the Gutenberg editor.
 		$I->addGutenbergPage($I, 'page', 'Kit: Page: Form: ' . $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_NAME'] . ': WP Rocket');

@@ -772,17 +772,8 @@ class PageShortcodeFormCest
 		// Activate WP Rocket Plugin.
 		$I->activateThirdPartyPlugin($I, 'wp-rocket');
 
-		// Load WP Rocket settings screen.
-		$I->amOnAdminPage('options-general.php?page=wprocket#file_optimization');
-
-		// Enable Delay JavaScript execution.
-		$I->click('label[for=delay_js]');
-
-		// Click Save Changes button.
-		$I->click('Save Changes');
-
-		// Confirm changes saved successfully.
-		$I->waitForElementVisible('#setting-error-settings_updated');
+		// Configure WP Rocket.
+		$I->enableWPRocketDelayJS($I);
 
 		// Add a Page using the Classic Editor.
 		$I->addClassicEditorPage($I, 'page', 'Kit: Page: Form: Shortcode: WP Rocket');
