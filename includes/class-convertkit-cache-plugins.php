@@ -72,6 +72,9 @@ class ConvertKit_Cache_Plugins {
 		// WP Rocket: Disable Caching and Minification on Landing Pages.
 		add_action( 'convertkit_output_landing_page_before', array( $this, 'wp_rocket_disable_caching_and_minification_on_landing_pages' ) );
 
+		// WP Rocket: Exclude Forms from JS minification and combine.
+		add_filter( 'rocket_minify_excluded_external_js', array( $this, 'exclude_hosts_from_minification' ) );
+
 		// WP Rocket: Exclude Forms from Delay JavaScript execution.
 		add_filter( 'convertkit_output_script_footer', array( $this, 'wp_rocket_exclude_delay_js_execution' ) );
 		add_filter( 'convertkit_resource_forms_output_script', array( $this, 'wp_rocket_exclude_delay_js_execution' ) );
