@@ -389,29 +389,9 @@ class PageLandingPageCest
 		// Activate WP Rocket Plugin.
 		$I->activateThirdPartyPlugin($I, 'wp-rocket');
 
-		// Load WP Rocket settings screen.
-		$I->amOnAdminPage('options-general.php?page=wprocket#file_optimization');
-
-		// Enable CSS minification.
-		$I->click('label[for=minify_css]');
-		$I->waitForElementVisible('.wpr-isOpen');
-		$I->click('Activate minify CSS');
-
-		// Enable JS minification.
-		$I->click('label[for=minify_js]');
-		$I->waitForElementVisible('.wpr-isOpen');
-		$I->click('Activate minify JavaScript');
-
-		// Enable image lazy loading.
-		$I->click('#wpr-nav-media');
-		$I->click('label[for=lazyload]');
-		$I->click('label[for=lazyload_css_bg_img]');
-
-		// Click Save Changes button.
-		$I->click('Save Changes');
-
-		// Confirm changes saved successfully.
-		$I->waitForElementVisible('#setting-error-settings_updated');
+		// Configure WP Rocket.
+		$I->enableWPRocketMinifyConcatenateJSAndCSS($I);
+		$I->enableWPRocketLazyLoad($I);
 
 		// Add a Page using the Gutenberg editor.
 		$I->addGutenbergPage($I, 'page', 'Kit: Page: Landing Page: WP Rocket: ' . $_ENV['CONVERTKIT_API_LANDING_PAGE_NAME']);
