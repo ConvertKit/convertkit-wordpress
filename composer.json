@@ -4,7 +4,7 @@
     "type": "project",
     "license": "GPLv3",
     "require": {
-        "convertkit/convertkit-wordpress-libraries": "2.0.4"
+        "convertkit/convertkit-wordpress-libraries": "2.0.5"
     },
     "require-dev": {
         "lucatume/wp-browser": "<3.5",
