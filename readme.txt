@@ -5,7 +5,7 @@ Tags: email marketing, email newsletter, subscribers, block, form
 Requires at least: 5.0
 Tested up to: 6.7
 Requires PHP: 5.6.20
-Stable tag: 2.6.4
+Stable tag: 2.6.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -158,6 +158,11 @@ Full Plugin documentation can be found [here](https://help.kit.com/en/articles/2
 10. Track subscriber growth
 
 == Changelog ==
+
+### 2.6.5 2024-11-13
+* Added: OAuth: Issue site-specific Access and Refresh Token when using the same Kit account on multiple WordPress sites
+* Fix: Exclude Forms from WP Rocket Minification and Combine
+* Updated: ConvertKit WordPress Libraries to 2.0.5
 
 ### 2.6.4 2024-11-05
 * Added: Settings: Broadcasts: Option to import images to the WordPress Media Library when importing Broadcasts to WordPress Posts
