@@ -61,6 +61,16 @@ abstract class ConvertKit_Settings_Base {
 	public $is_beta = false;
 
 	/**
+	 * Holds whether the save button should be disabled e.g. there are no
+	 * settings on screen to save.
+	 *
+	 * @since   2.4.9
+	 *
+	 * @var     bool
+	 */
+	public $save_disabled = false;
+
+	/**
 	 * Constructor
 	 */
 	public function __construct() {
@@ -72,6 +82,37 @@ abstract class ConvertKit_Settings_Base {
 
 		// Register the settings section.
 		$this->register_section();
+
+	}
+
+	/**
+	 * Helper method to determine if we're viewing the current settings screen.
+	 *
+	 * @since   2.5.0
+	 *
+	 * @param   string $tab    Current settings tab (general|tools|restrict-content|broadcasts).
+	 * @return  bool
+	 */
+	public function on_settings_screen( $tab ) {
+
+		// phpcs:disable WordPress.Security.NonceVerification
+
+		// Bail if we're not on the settings screen.
+		if ( ! array_key_exists( 'page', $_REQUEST ) ) {
+			return false;
+		}
+		if ( sanitize_text_field( $_REQUEST['page'] ) !== '_wp_convertkit_settings' ) {
+			return false;
+		}
+
+		// Define current settings tab.
+		// General screen won't always be loaded with a `tab` parameter.
+		$current_tab = ( array_key_exists( 'tab', $_REQUEST ) ? sanitize_text_field( $_REQUEST['tab'] ) : 'general' );
+
+		// Return whether the request is for the current settings tab.
+		return ( $current_tab === $tab );
+
+		// phpcs:enable
 
 	}
 
@@ -113,6 +154,43 @@ abstract class ConvertKit_Settings_Base {
 	abstract public function documentation_url();
 
 	/**
+	 * Outputs success and/or error notices if required.
+	 *
+	 * @since   2.0.0
+	 */
+	public function maybe_output_notices() {
+
+		// Define notices that might be displayed as a notification.
+		$notices = array();
+
+		/**
+		 * Register success and error notices for settings screens.
+		 *
+		 * @since   2.5.1
+		 *
+		 * @param   array   $notices    Regsitered success and error notices.
+		 * @return  array
+		 */
+		$notices = apply_filters( 'convertkit_settings_base_register_notices', $notices );
+
+		// Output the verbose error description if supplied (e.g. OAuth).
+		if ( isset( $_REQUEST['error_description'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification
+			$this->output_error( sanitize_text_field( $_REQUEST['error_description'] ) ); // phpcs:ignore WordPress.Security.NonceVerification
+		}
+
+		// Output error notification if defined.
+		if ( isset( $_REQUEST['error'] ) && array_key_exists( sanitize_text_field( $_REQUEST['error'] ), $notices ) ) { // phpcs:ignore WordPress.Security.NonceVerification
+			$this->output_error( $notices[ sanitize_text_field( $_REQUEST['error'] ) ] ); // phpcs:ignore WordPress.Security.NonceVerification
+		}
+
+		// Output success notification if defined.
+		if ( isset( $_REQUEST['success'] ) && array_key_exists( sanitize_text_field( $_REQUEST['success'] ), $notices ) ) { // phpcs:ignore WordPress.Security.NonceVerification
+			$this->output_success( $notices[ sanitize_text_field( $_REQUEST['success'] ) ] ); // phpcs:ignore WordPress.Security.NonceVerification
+		}
+
+	}
+
+	/**
 	 * Renders the section
 	 */
 	public function render() {
@@ -130,7 +208,9 @@ abstract class ConvertKit_Settings_Base {
 
 		settings_fields( $this->settings_key );
 
-		submit_button();
+		if ( ! $this->save_disabled ) {
+			submit_button();
+		}
 
 		$this->render_container_end();
 
@@ -174,29 +254,96 @@ abstract class ConvertKit_Settings_Base {
 	}
 
 	/**
-	 * Redirects to the settings screen, with an option success or error message.
+	 * Redirects to the settings screen.
 	 *
 	 * @since   2.2.9
-	 *
-	 * @param   false|string $error      The error message key.
-	 * @param   false|string $success    The success message key.
 	 */
-	public function redirect( $error = false, $success = false ) {
+	public function redirect() {
 
-		// Build URL to redirect to, depending on whether a message is included.
-		$args = array(
-			'page' => '_wp_convertkit_settings',
-			'tab'  => $this->name,
+		wp_safe_redirect(
+			add_query_arg(
+				array(
+					'page' => '_wp_convertkit_settings',
+					'tab'  => $this->name,
+				),
+				'options-general.php'
+			)
 		);
-		if ( $error !== false ) {
-			$args['error'] = $error;
-		}
-		if ( $success !== false ) {
-			$args['success'] = $success;
-		}
+		exit();
 
-		// Redirect.
-		wp_safe_redirect( add_query_arg( $args, 'options-general.php' ) );
+	}
+
+	/**
+	 * Redirects to the settings screen with an error notice key.
+	 *
+	 * The function maybe_output_notices() will then output the translated error notice
+	 * based on the supplied key.
+	 *
+	 * @since   2.5.1
+	 *
+	 * @param   string $error      The error notice key, registered using `convertkit_settings_base_register_notices`.
+	 */
+	public function redirect_with_error_notice( $error ) {
+
+		wp_safe_redirect(
+			add_query_arg(
+				array(
+					'page'  => '_wp_convertkit_settings',
+					'tab'   => $this->name,
+					'error' => $error,
+				),
+				'options-general.php'
+			)
+		);
+		exit();
+
+	}
+
+	/**
+	 * Redirects to the settings screen with the verbose error description.
+	 *
+	 * @since   2.5.1
+	 *
+	 * @param   string $error_description      The error description.
+	 */
+	public function redirect_with_error_description( $error_description ) {
+
+		wp_safe_redirect(
+			add_query_arg(
+				array(
+					'page'              => '_wp_convertkit_settings',
+					'tab'               => $this->name,
+					'error_description' => $error_description,
+				),
+				'options-general.php'
+			)
+		);
+		exit();
+
+	}
+
+	/**
+	 * Redirects to the settings screen with a success notice key.
+	 *
+	 * The function maybe_output_notices() will then output the translated success notice
+	 * based on the supplied key.
+	 *
+	 * @since   2.5.1
+	 *
+	 * @param   string $success      The success notice key, registered using `convertkit_settings_base_register_notices`.
+	 */
+	public function redirect_with_success_notice( $success ) {
+
+		wp_safe_redirect(
+			add_query_arg(
+				array(
+					'page'    => '_wp_convertkit_settings',
+					'tab'     => $this->name,
+					'success' => $success,
+				),
+				'options-general.php'
+			)
+		);
 		exit();
 
 	}
@@ -283,6 +430,38 @@ abstract class ConvertKit_Settings_Base {
 			$this->settings_key,
 			$name,
 			$value
+		);
+
+		return $html . $this->get_description( $description );
+
+	}
+
+	/**
+	 * Returns a number field.
+	 *
+	 * @since   2.6.1
+	 *
+	 * @param   string            $name           Name.
+	 * @param   string            $value          Value.
+	 * @param   int               $min            `min` attribute value.
+	 * @param   int               $max            `max` attribute value.
+	 * @param   int               $step           `step` attribute value.
+	 * @param   bool|string|array $description    Description (false|string|array).
+	 * @param   bool|array        $css_classes    CSS Classes (false|array).
+	 * @return  string                            HTML Field
+	 */
+	public function get_number_field( $name, $value = '', $min = 0, $max = 9999, $step = 1, $description = false, $css_classes = false ) {
+
+		$html = sprintf(
+			'<input type="number" class="%s" id="%s" name="%s[%s]" value="%s" min="%s" max="%s" step="%s" />',
+			( is_array( $css_classes ) ? implode( ' ', $css_classes ) : 'small-text' ),
+			$name,
+			$this->settings_key,
+			$name,
+			$value,
+			$min,
+			$max,
+			$step
 		);
 
 		return $html . $this->get_description( $description );
@@ -495,17 +674,17 @@ abstract class ConvertKit_Settings_Base {
 	public function sanitize_settings( $settings ) {
 
 		// Merge settings with defaults.
-		$settings = wp_parse_args( $settings, $this->settings->get_defaults() );
+		$updated_settings = wp_parse_args( $settings, $this->settings->get_defaults() );
 
 		/**
 		 * Performs actions prior to settings being saved.
 		 *
 		 * @since   2.2.8
 		 */
-		do_action( 'convertkit_settings_base_sanitize_settings', $this->name, $settings );
+		do_action( 'convertkit_settings_base_sanitize_settings', $this->name, $updated_settings );
 
 		// Return settings to be saved.
-		return $settings;
+		return $updated_settings;
 
 	}
 

@@ -44,8 +44,7 @@ class ConvertKit_Admin_Persistent_Notices {
 	public function output() {
 
 		// Don't output if we're on a settings screen.
-		$screen = get_current_screen();
-		if ( $screen->base === 'settings_page__wp_convertkit_settings' ) {
+		if ( convertkit_get_current_screen( 'base' ) === 'settings_page__wp_convertkit_settings' ) {
 			return;
 		}
 
@@ -64,13 +63,14 @@ class ConvertKit_Admin_Persistent_Notices {
 		foreach ( $notices as $notice ) {
 			switch ( $notice ) {
 				case 'authorization_failed':
+					$api    = new ConvertKit_API_V4( CONVERTKIT_OAUTH_CLIENT_ID, CONVERTKIT_OAUTH_CLIENT_REDIRECT_URI );
 					$output = sprintf(
 						'%s %s',
-						esc_html__( 'ConvertKit: Authorization failed. Please enter valid API credentials on the', 'convertkit' ),
+						esc_html__( 'Kit: Authorization failed. Please', 'convertkit' ),
 						sprintf(
 							'<a href="%s">%s</a>',
-							esc_url( convertkit_get_settings_link() ),
-							esc_html__( 'settings screen.', 'convertkit' )
+							esc_url( $api->get_oauth_url( admin_url( 'options-general.php?page=_wp_convertkit_settings' ), get_site_url() ) ),
+							esc_html__( 'connect your Kit account.', 'convertkit' )
 						)
 					);
 					break;

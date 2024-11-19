@@ -25,7 +25,8 @@ class PageTagCest
 
 	/**
 	 * Test that 'None' Tag specified in the Page Settings works when
-	 * creating and viewing a new WordPress Page.
+	 * creating and viewing a new WordPress Page, with a valid subscriber ID
+	 * in the  ?ck_subscriber_id request parameter.
 	 *
 	 * @since   1.9.6
 	 *
@@ -33,8 +34,15 @@ class PageTagCest
 	 */
 	public function testAddNewPageUsingNoTag(AcceptanceTester $I)
 	{
+		// Programmatically create a subscriber in ConvertKit.
+		// Must be a domain email doesn't bounce on, otherwise subscriber won't be confirmed even if the Form's
+		// "Auto-confirm new subscribers" setting is enabled.
+		// We need the subscriber to be confirmed so they can then be tagged.
+		$emailAddress = $I->generateEmailAddress('n7studios.com');
+		$subscriberID = $I->apiSubscribe($emailAddress, $_ENV['CONVERTKIT_API_FORM_ID']);
+
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Tag: None');
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Tag: None');
 
 		// Check the order of the Tag resources are alphabetical, with the None option prepending the Tags.
 		$I->checkSelectTagOptionOrder(
@@ -54,16 +62,23 @@ class PageTagCest
 			]
 		);
 
-		// Publish and view the Page on the frontend site.
-		$I->publishAndViewGutenbergPage($I);
+		// Publish Page.
+		$url = $I->publishGutenbergPage($I);
 
-		// Confirm that the tag parameter is not set to the Tag ID.
-		$I->dontSeeInSource('"tag":"' . $_ENV['CONVERTKIT_API_TAG_ID'] . '"');
+		// Load the page with the ?ck_subscriber_id parameter, as if the subscriber clicked a link in a ConvertKit broadcast.
+		$I->amOnPage($url . '?ck_subscriber_id=' . $subscriberID);
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Check that the subscriber has not been assigned to the tag.
+		$I->apiCheckSubscriberHasNoTags($I, $subscriberID, $_ENV['CONVERTKIT_API_TAG_ID']);
 	}
 
 	/**
 	 * Test that the Tag specified in the Page Settings works when
-	 * creating and viewing a new WordPress Page.
+	 * creating and viewing a new WordPress Page, with a valid subscriber ID
+	 * in the  ?ck_subscriber_id request parameter.
 	 *
 	 * @since   1.9.6
 	 *
@@ -71,8 +86,15 @@ class PageTagCest
 	 */
 	public function testAddNewPageUsingDefinedTag(AcceptanceTester $I)
 	{
+		// Programmatically create a subscriber in ConvertKit.
+		// Must be a domain email doesn't bounce on, otherwise subscriber won't be confirmed even if the Form's
+		// "Auto-confirm new subscribers" setting is enabled.
+		// We need the subscriber to be confirmed so they can then be tagged.
+		$emailAddress = $I->generateEmailAddress('n7studios.com');
+		$subscriberID = $I->apiSubscribe($emailAddress, $_ENV['CONVERTKIT_API_FORM_ID']);
+
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Tag: ' . $_ENV['CONVERTKIT_API_TAG_NAME'] );
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Tag: ' . $_ENV['CONVERTKIT_API_TAG_NAME'] );
 
 		// Configure metabox's Tag setting to the value specified in the .env file.
 		$I->configureMetaboxSettings(
@@ -83,65 +105,50 @@ class PageTagCest
 			]
 		);
 
-		// Get Tag ID.
-		$tagID = $I->grabValueFrom('#wp-convertkit-tag');
-
-		// Confirm it matches the Tag ID in the .env file.
-		$I->assertEquals($tagID, $_ENV['CONVERTKIT_API_TAG_ID']);
-
-		// Publish and view the Page on the frontend site.
-		$I->publishAndViewGutenbergPage($I);
-
-		// Confirm that the post_has_tag parameter is set to true in the source code.
-		$I->seeInSource('"tag":"' . $tagID . '"');
-	}
-
-	/**
-	 * Test that a page set to tag subscribers with a specified tag works when accessed
-	 * with a valid subscriber ID in the ?ck_subscriber_id request parameter.
-	 *
-	 * @since   2.0.6
-	 *
-	 * @param   AcceptanceTester $I  Tester.
-	 */
-	public function testDefinedTagAppliesToValidSubscriberID(AcceptanceTester $I)
-	{
-		// Add Page, configured to tag subscribers to visit it with the given tag ID.
-		$pageID = $I->havePageInDatabase(
-			[
-				'post_title' => 'ConvertKit: Tag: Valid Subscriber ID',
-				'post_name'  => 'convertkit-tag-valid-subscriber-id',
-				'meta_input' => [
-					'_wp_convertkit_post_meta' => [
-						'form'         => '0',
-						'landing_page' => '',
-						'tag'          => $_ENV['CONVERTKIT_API_TAG_ID'],
-					],
-				],
-			]
-		);
-
-		// Programmatically create a subscriber in ConvertKit.
-		// Must be a domain email doesn't bounce on, otherwise subscriber won't be confirmed even if the Form's
-		// "Auto-confirm new subscribers" setting is enabled.
-		// We need the subscriber to be confirmed so they can then be tagged.
-		$emailAddress = $I->generateEmailAddress('n7studios.com');
-		$subscriberID = $I->apiSubscribe($emailAddress, $_ENV['CONVERTKIT_API_FORM_ID']);
+		// Publish Page.
+		$url = $I->publishGutenbergPage($I);
 
 		// Load the page with the ?ck_subscriber_id parameter, as if the subscriber clicked a link in a ConvertKit broadcast.
-		$I->amOnPage('?p=' . $pageID . '&ck_subscriber_id=' . $subscriberID);
+		$I->amOnUrl($url . '?ck_subscriber_id=' . $subscriberID);
 
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
 
-		// Confirm that the post_has_tag parameter is set to true in the source code.
-		$I->seeInSource('"tag":"' . $_ENV['CONVERTKIT_API_TAG_ID'] . '"');
-
-		// Wait a moment for the AJAX request to complete the API request to tag the subscriber.
-		$I->wait(2);
-
 		// Check that the subscriber has been assigned to the tag.
 		$I->apiCheckSubscriberHasTag($I, $subscriberID, $_ENV['CONVERTKIT_API_TAG_ID']);
+	}
+
+	/**
+	 * Test that the Tag specified in the Page Settings works when
+	 * creating and viewing a new WordPress Page, with a valid subscriber ID
+	 * in the  ?ck_subscriber_id request parameter.
+	 *
+	 * @since   1.9.6
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testAddNewPageUsingDefinedTagWithInvalidSubscriberID(AcceptanceTester $I)
+	{
+		// Add a Page using the Gutenberg editor.
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Tag: ' . $_ENV['CONVERTKIT_API_TAG_NAME'] . ': Invalid Subscriber ID' );
+
+		// Configure metabox's Tag setting to the value specified in the .env file.
+		$I->configureMetaboxSettings(
+			$I,
+			'wp-convertkit-meta-box',
+			[
+				'tag' => [ 'select2', $_ENV['CONVERTKIT_API_TAG_NAME'] ],
+			]
+		);
+
+		// Publish Page.
+		$url = $I->publishGutenbergPage($I);
+
+		// Load the page with an invalid ?ck_subscriber_id parameter.
+		$I->amOnUrl($url . '?ck_subscriber_id=1');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
 	}
 
 	/**
@@ -154,11 +161,18 @@ class PageTagCest
 	 */
 	public function testQuickEditUsingDefinedTag(AcceptanceTester $I)
 	{
+		// Programmatically create a subscriber in ConvertKit.
+		// Must be a domain email doesn't bounce on, otherwise subscriber won't be confirmed even if the Form's
+		// "Auto-confirm new subscribers" setting is enabled.
+		// We need the subscriber to be confirmed so they can then be tagged.
+		$emailAddress = $I->generateEmailAddress('n7studios.com');
+		$subscriberID = $I->apiSubscribe($emailAddress, $_ENV['CONVERTKIT_API_FORM_ID']);
+
 		// Programmatically create a Page.
 		$pageID = $I->havePostInDatabase(
 			[
 				'post_type'  => 'page',
-				'post_title' => 'ConvertKit: Page: Tag: ' . $_ENV['CONVERTKIT_API_TAG_NAME'] . ': Quick Edit',
+				'post_title' => 'Kit: Page: Tag: ' . $_ENV['CONVERTKIT_API_TAG_NAME'] . ': Quick Edit',
 			]
 		);
 
@@ -173,13 +187,13 @@ class PageTagCest
 		);
 
 		// Load the Page on the frontend site.
-		$I->amOnPage('/?p=' . $pageID);
+		$I->amOnPage('/?p=' . $pageID . '&ck_subscriber_id=' . $subscriberID);
 
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
 
-		// Confirm that the post_has_tag parameter is set to true in the source code.
-		$I->seeInSource('"tag":"' . $_ENV['CONVERTKIT_API_TAG_ID'] . '"');
+		// Check that the subscriber has been assigned to the tag.
+		$I->apiCheckSubscriberHasTag($I, $subscriberID, $_ENV['CONVERTKIT_API_TAG_ID']);
 	}
 
 	/**
@@ -197,13 +211,13 @@ class PageTagCest
 			$I->havePostInDatabase(
 				[
 					'post_type'  => 'page',
-					'post_title' => 'ConvertKit: Page: Tag: ' . $_ENV['CONVERTKIT_API_TAG_NAME'] . ': Bulk Edit #1',
+					'post_title' => 'Kit: Page: Tag: ' . $_ENV['CONVERTKIT_API_TAG_NAME'] . ': Bulk Edit #1',
 				]
 			),
 			$I->havePostInDatabase(
 				[
 					'post_type'  => 'page',
-					'post_title' => 'ConvertKit: Page: Tag: ' . $_ENV['CONVERTKIT_API_TAG_NAME'] . ': Bulk Edit #2',
+					'post_title' => 'Kit: Page: Tag: ' . $_ENV['CONVERTKIT_API_TAG_NAME'] . ': Bulk Edit #2',
 				]
 			),
 		);
@@ -220,14 +234,21 @@ class PageTagCest
 
 		// Iterate through Pages to run frontend tests.
 		foreach ($pageIDs as $pageID) {
+			// Programmatically create a subscriber in ConvertKit.
+			// Must be a domain email doesn't bounce on, otherwise subscriber won't be confirmed even if the Form's
+			// "Auto-confirm new subscribers" setting is enabled.
+			// We need the subscriber to be confirmed so they can then be tagged.
+			$emailAddress = $I->generateEmailAddress('n7studios.com');
+			$subscriberID = $I->apiSubscribe($emailAddress, $_ENV['CONVERTKIT_API_FORM_ID']);
+
 			// Load the Page on the frontend site.
-			$I->amOnPage('/?p=' . $pageID);
+			$I->amOnPage('/?p=' . $pageID . '&ck_subscriber_id=' . $subscriberID);
 
 			// Check that no PHP warnings or notices were output.
 			$I->checkNoWarningsAndNoticesOnScreen($I);
 
-			// Confirm that the post_has_tag parameter is set to true in the source code.
-			$I->seeInSource('"tag":"' . $_ENV['CONVERTKIT_API_TAG_ID'] . '"');
+			// Check that the subscriber has been assigned to the tag.
+			$I->apiCheckSubscriberHasTag($I, $subscriberID, $_ENV['CONVERTKIT_API_TAG_ID']);
 		}
 	}
 
@@ -246,7 +267,7 @@ class PageTagCest
 			$I->havePostInDatabase(
 				[
 					'post_type'  => 'page',
-					'post_title' => 'ConvertKit: Page: Tag: ' . $_ENV['CONVERTKIT_API_TAG_NAME'] . ': Bulk Edit with No Change #1',
+					'post_title' => 'Kit: Page: Tag: ' . $_ENV['CONVERTKIT_API_TAG_NAME'] . ': Bulk Edit with No Change #1',
 					'meta_input' => [
 						'_wp_convertkit_post_meta' => [
 							'form'         => '',
@@ -259,7 +280,7 @@ class PageTagCest
 			$I->havePostInDatabase(
 				[
 					'post_type'  => 'page',
-					'post_title' => 'ConvertKit: Page: Form: ' . $_ENV['CONVERTKIT_API_FORM_NAME'] . ': Bulk Edit with No Change #2',
+					'post_title' => 'Kit: Page: Form: ' . $_ENV['CONVERTKIT_API_FORM_NAME'] . ': Bulk Edit with No Change #2',
 					'meta_input' => [
 						'_wp_convertkit_post_meta' => [
 							'form'         => '',
@@ -283,14 +304,21 @@ class PageTagCest
 
 		// Iterate through Pages to run frontend tests.
 		foreach ($pageIDs as $pageID) {
+			// Programmatically create a subscriber in ConvertKit.
+			// Must be a domain email doesn't bounce on, otherwise subscriber won't be confirmed even if the Form's
+			// "Auto-confirm new subscribers" setting is enabled.
+			// We need the subscriber to be confirmed so they can then be tagged.
+			$emailAddress = $I->generateEmailAddress('n7studios.com');
+			$subscriberID = $I->apiSubscribe($emailAddress, $_ENV['CONVERTKIT_API_FORM_ID']);
+
 			// Load the Page on the frontend site.
-			$I->amOnPage('/?p=' . $pageID);
+			$I->amOnPage('/?p=' . $pageID . '&ck_subscriber_id=' . $subscriberID);
 
 			// Check that no PHP warnings or notices were output.
 			$I->checkNoWarningsAndNoticesOnScreen($I);
 
-			// Confirm that the post_has_tag parameter is set to true in the source code.
-			$I->seeInSource('"tag":"' . $_ENV['CONVERTKIT_API_TAG_ID'] . '"');
+			// Check that the subscriber has been assigned to the tag.
+			$I->apiCheckSubscriberHasTag($I, $subscriberID, $_ENV['CONVERTKIT_API_TAG_ID']);
 		}
 	}
 

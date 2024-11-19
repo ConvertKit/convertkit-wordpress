@@ -80,17 +80,17 @@ class ConvertKit_Forminator {
 		// Get ConvertKit Form ID mapped to this Forminator Form.
 		// We deliberately use the entry's form ID, as $form_id for a Quiz will point to a lead generation form, which
 		// has a different Form ID.
-		$forminator_settings = new ConvertKit_Forminator_Settings();
-		$convertkit_form_id  = $forminator_settings->get_convertkit_form_id_by_forminator_form_id( $entry->form_id );
+		$forminator_settings          = new ConvertKit_Forminator_Settings();
+		$convertkit_subscribe_setting = $forminator_settings->get_convertkit_subscribe_setting_by_forminator_form_id( $entry->form_id );
 
-		// If no ConvertKit Form is mapped to this Forminator Form, bail.
-		if ( ! $convertkit_form_id ) {
+		// If no ConvertKit subscribe setting is defined, bail.
+		if ( ! $convertkit_subscribe_setting ) {
 			return;
 		}
 
 		// Bail if the API hasn't been configured.
 		$settings = new ConvertKit_Settings();
-		if ( ! $settings->has_api_key_and_secret() ) {
+		if ( ! $settings->has_access_and_refresh_token() ) {
 			return;
 		}
 
@@ -123,10 +123,77 @@ class ConvertKit_Forminator {
 
 		// If here, subscribe the user to the ConvertKit Form.
 		// Initialize the API.
-		$api = new ConvertKit_API( $settings->get_api_key(), $settings->get_api_secret(), $settings->debug_enabled(), 'forminator' );
+		$api = new ConvertKit_API_V4(
+			CONVERTKIT_OAUTH_CLIENT_ID,
+			CONVERTKIT_OAUTH_CLIENT_REDIRECT_URI,
+			$settings->get_access_token(),
+			$settings->get_refresh_token(),
+			$settings->debug_enabled(),
+			'forminator'
+		);
 
-		// Send request.
-		$api->form_subscribe( $convertkit_form_id, $email, $first_name );
+		// If the resource setting is 'subscribe', create the subscriber in an active state and don't assign to a resource.
+		if ( $convertkit_subscribe_setting === 'subscribe' ) {
+			$api->create_subscriber( $email, $first_name );
+			return;
+		}
+
+		// Determine the resource type and ID to assign to the subscriber.
+		list( $resource_type, $resource_id ) = explode( ':', $convertkit_subscribe_setting );
+
+		// Cast ID.
+		$resource_id = absint( $resource_id );
+
+		// Add the subscriber to the resource type (form, tag etc).
+		switch ( $resource_type ) {
+
+			/**
+			 * Form
+			 */
+			case 'form':
+				// Subscribe with inactive state.
+				$subscriber = $api->create_subscriber( $email, $first_name, 'inactive' );
+
+				// For Legacy Forms, a different endpoint is used.
+				$forms = new ConvertKit_Resource_Forms();
+				if ( $forms->is_legacy( $resource_id ) ) {
+					return $api->add_subscriber_to_legacy_form( $resource_id, $subscriber['subscriber']['id'] );
+				}
+
+				// Add subscriber to form.
+				return $api->add_subscriber_to_form( $resource_id, $subscriber['subscriber']['id'] );
+
+			/**
+			 * Sequence
+			 */
+			case 'sequence':
+				// Subscribe.
+				$subscriber = $api->create_subscriber( $email, $first_name );
+
+				// If an error occured, don't attempt to add the subscriber to the Form, as it won't work.
+				if ( is_wp_error( $subscriber ) ) {
+					return;
+				}
+
+				// Add subscriber to sequence.
+				return $api->add_subscriber_to_sequence( $resource_id, $subscriber['subscriber']['id'] );
+
+			/**
+			 * Tag
+			 */
+			case 'tag':
+				// Subscribe.
+				$subscriber = $api->create_subscriber( $email, $first_name );
+
+				// If an error occured, don't attempt to add the subscriber to the Form, as it won't work.
+				if ( is_wp_error( $subscriber ) ) {
+					return;
+				}
+
+				// Add subscriber to tag.
+				return $api->tag_subscriber( $resource_id, $subscriber['subscriber']['id'] );
+
+		}
 
 	}
 

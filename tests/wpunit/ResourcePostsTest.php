@@ -43,13 +43,13 @@ class ResourcePostsTest extends \Codeception\TestCase\WPTestCase
 		// Activate Plugin.
 		activate_plugins('convertkit/wp-convertkit.php');
 
-		// Store API Key and Secret in Plugin's settings.
+		// Store Credentials in Plugin's settings.
 		$this->settings = new ConvertKit_Settings();
 		update_option(
 			$this->settings::SETTINGS_NAME,
 			[
-				'api_key'    => $_ENV['CONVERTKIT_API_KEY'],
-				'api_secret' => $_ENV['CONVERTKIT_API_SECRET'],
+				'access_token'  => $_ENV['CONVERTKIT_OAUTH_ACCESS_TOKEN'],
+				'refresh_token' => $_ENV['CONVERTKIT_OAUTH_REFRESH_TOKEN'],
 			]
 		);
 
@@ -67,7 +67,7 @@ class ResourcePostsTest extends \Codeception\TestCase\WPTestCase
 	 */
 	public function tearDown(): void
 	{
-		// Delete API Key, API Secret and Resources from Plugin's settings.
+		// Delete Credentials and Resources from Plugin's settings.
 		delete_option($this->settings::SETTINGS_NAME);
 		delete_option($this->resource->settings_name);
 		delete_option($this->resource->settings_name . '_last_queried');
@@ -248,7 +248,7 @@ class ResourcePostsTest extends \Codeception\TestCase\WPTestCase
 		$this->assertArrayHasKey('title', reset($result));
 
 		// Assert order of data is in descending published_at order.
-		$this->assertEquals($_ENV['CONVERTKIT_API_BROADCAST_FIRST_DATE'], reset($result)[ $this->resource->order_by ]);
+		$this->assertEquals('2024-04-30T08:00:36.000Z', reset($result)[ $this->resource->order_by ]);
 		$this->assertEquals('2022-01-24T00:00:00.000Z', end($result)[ $this->resource->order_by ]);
 	}
 
@@ -309,7 +309,7 @@ class ResourcePostsTest extends \Codeception\TestCase\WPTestCase
 		$this->assertArrayHasKey('title', reset($result));
 
 		// Assert order of data has not changed.
-		$this->assertEquals($_ENV['CONVERTKIT_API_BROADCAST_FIRST_DATE'], reset($result)['published_at']);
+		$this->assertEquals('2024-04-30T08:00:36.000Z', reset($result)['published_at']);
 		$this->assertEquals('2022-01-24T00:00:00.000Z', end($result)['published_at']);
 	}
 

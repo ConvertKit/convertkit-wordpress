@@ -16,7 +16,7 @@
 							?>
 							<div class="left">
 								<a href="<?php echo esc_url( $this->previous_step_url ); ?>" class="button button-hero">
-									<?php echo esc_html_e( 'Back', 'convertkit' ); ?>
+									<?php esc_html_e( 'Back', 'convertkit' ); ?>
 								</a>
 							</div>
 							<?php

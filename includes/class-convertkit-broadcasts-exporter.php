@@ -58,7 +58,7 @@ class ConvertKit_Broadcasts_Exporter {
 
 		// Bail if no API credentials have been set.
 		$this->settings = new ConvertKit_Settings();
-		if ( ! $this->settings->has_api_key_and_secret() ) {
+		if ( ! $this->settings->has_access_and_refresh_token() ) {
 			return;
 		}
 
@@ -141,10 +141,10 @@ class ConvertKit_Broadcasts_Exporter {
 				<?php
 				printf(
 					'%s <a href="%s" target="_blank">%s</a> %s',
-					esc_html__( 'Successfully created ConvertKit Broadcast from Post.', 'convertkit' ),
+					esc_html__( 'Successfully created Kit Broadcast from Post.', 'convertkit' ),
 					esc_url( convertkit_get_edit_broadcast_url( $this->broadcast_id ) ),
 					esc_html__( 'Click here', 'convertkit' ),
-					esc_html__( 'to edit and send the broadcast in ConvertKit.', 'convertkit' )
+					esc_html__( 'to edit and send the broadcast in Kit.', 'convertkit' )
 				);
 				?>
 			</p>
@@ -175,7 +175,7 @@ class ConvertKit_Broadcasts_Exporter {
 		);
 
 		// Add action.
-		$actions['convertkit_broadcast_export'] = '<a href="' . esc_url( $url ) . '">' . esc_html__( 'Create as ConvertKit Broadcast', 'convertkit' ) . '</a>';
+		$actions['convertkit_broadcast_export'] = '<a href="' . esc_url( $url ) . '">' . esc_html__( 'Create as Kit Broadcast', 'convertkit' ) . '</a>';
 
 		// Return.
 		return $actions;
@@ -216,10 +216,17 @@ class ConvertKit_Broadcasts_Exporter {
 		$content = WP_ConvertKit()->get_class( 'broadcasts_importer' )->get_permitted_html( $content, $this->broadcasts_settings->no_styles() );
 
 		// Initialize the API.
-		$api = new ConvertKit_API( $this->settings->get_api_key(), $this->settings->get_api_secret(), $this->settings->debug_enabled() );
+		$api = new ConvertKit_API_V4(
+			CONVERTKIT_OAUTH_CLIENT_ID,
+			CONVERTKIT_OAUTH_CLIENT_REDIRECT_URI,
+			$this->settings->get_access_token(),
+			$this->settings->get_refresh_token(),
+			$this->settings->debug_enabled(),
+			'settings'
+		);
 
 		// Create draft Broadcast in ConvertKit.
-		$result = $api->broadcast_create(
+		$result = $api->create_broadcast(
 			$post->post_title,
 			$content,
 			$post->post_excerpt
@@ -231,10 +238,10 @@ class ConvertKit_Broadcasts_Exporter {
 		}
 
 		// Store the Broadcast ID against the WordPress Post.
-		update_post_meta( $post->ID, '_convertkit_broadcast_export_id', $result['id'] );
+		update_post_meta( $post->ID, '_convertkit_broadcast_export_id', $result['broadcast']['id'] );
 
 		// Return result.
-		return $result;
+		return $result['broadcast'];
 
 	}
 

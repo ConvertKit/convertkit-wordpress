@@ -1,6 +1,6 @@
 <?php
 /**
- * Tests for the Settings > ConvertKit > Tools screens.
+ * Tests for the Settings > Kit > Tools screens.
  *
  * @since   1.9.6
  */
@@ -49,6 +49,11 @@ class PluginSettingsToolsCest
 	{
 		$I->setupConvertKitPlugin($I);
 		$I->setupConvertKitPluginResources($I);
+
+		// Load settings screen to trigger some API requests.
+		$I->loadConvertKitSettingsGeneralScreen($I);
+
+		// Load tools screen.
 		$I->loadConvertKitSettingsToolsScreen($I);
 
 		// Click the Export button.
@@ -60,7 +65,7 @@ class PluginSettingsToolsCest
 
 		// Check downloaded file exists and contains some expected information.
 		$I->openFile($_ENV['WP_ROOT_FOLDER'] . '/convertkit-log.txt');
-		$I->seeInThisFile('API: account()');
+		$I->seeInThisFile('API: GET account');
 
 		// Delete the file.
 		$I->deleteFile($_ENV['WP_ROOT_FOLDER'] . '/convertkit-log.txt');
@@ -136,7 +141,7 @@ class PluginSettingsToolsCest
 	 *
 	 * @param   AcceptanceTester $I  Tester.
 	 */
-	public function testExportConfiguration(AcceptanceTester $I)
+	public function testExportAndImportValidConfiguration(AcceptanceTester $I)
 	{
 		$I->setupConvertKitPlugin($I);
 		$I->setupConvertKitPluginResources($I);
@@ -154,29 +159,18 @@ class PluginSettingsToolsCest
 		$I->openFile($_ENV['WP_ROOT_FOLDER'] . '/convertkit-export.json');
 
 		// Confirm some expected general settings data is included.
-		$I->seeInThisFile('{"settings":{"api_key":"' . $_ENV['CONVERTKIT_API_KEY'] . '","api_secret":"' . $_ENV['CONVERTKIT_API_SECRET'] . '"');
+		$I->seeInThisFile('{"settings":{"access_token":"' . $_ENV['CONVERTKIT_OAUTH_ACCESS_TOKEN'] . '","refresh_token":"' . $_ENV['CONVERTKIT_OAUTH_REFRESH_TOKEN'] . '"');
 
 		// Confirm some expected Restrict Content settings data is included.
 		$I->seeInThisFile('"restrict_content":{"permit_crawlers":');
 
-		// Delete the file.
-		$I->deleteFile($_ENV['WP_ROOT_FOLDER'] . '/convertkit-export.json');
-	}
+		// Copy the exported configuration file to the tests/_data folder.
+		// This is so we have a valid configuration file to test when testing the import next.
+		$I->writeToFile('tests/_data/convertkit-export.json', file_get_contents($_ENV['WP_ROOT_FOLDER'] . '/convertkit-export.json')); // phpcs:ignore WordPress.WP.AlternativeFunctions
 
-	/**
-	 * Test that the Import Configuration option works.
-	 *
-	 * @since   1.9.7.4
-	 *
-	 * @param   AcceptanceTester $I  Tester.
-	 */
-	public function testImportConfiguration(AcceptanceTester $I)
-	{
+		// Import the created configuration file.
 		// Load Tools screen.
 		$I->loadConvertKitSettingsToolsScreen($I);
-
-		// Scroll to Import section.
-		$I->scrollTo('#import');
 
 		// Select the configuration file at tests/_data/convertkit-export.json to import.
 		$I->attachFile('input[name=import]', 'convertkit-export.json');
@@ -190,10 +184,6 @@ class PluginSettingsToolsCest
 		// Go to the Plugin's Settings Screen.
 		$I->loadConvertKitSettingsGeneralScreen($I);
 
-		// Confirm that the fake API Key and Secret are populated.
-		$I->seeInField('_wp_convertkit_settings[api_key]', 'fakeApiKey');
-		$I->seeInField('_wp_convertkit_settings[api_secret]', 'fakeApiSecret');
-
 		// Check the fields are ticked.
 		$I->seeCheckboxIsChecked('#debug');
 
@@ -202,6 +192,10 @@ class PluginSettingsToolsCest
 
 		// Confirm that the text fields contain the expected data.
 		$I->checkRestrictContentSettings($I, $I->getRestrictedContentDefaultSettings());
+
+		// Delete export files.
+		$I->deleteFile($_ENV['WP_ROOT_FOLDER'] . '/convertkit-export.json');
+		$I->deleteFile('tests/_data/convertkit-export.json');
 	}
 
 	/**
@@ -214,7 +208,8 @@ class PluginSettingsToolsCest
 	 */
 	public function testImportConfigurationWithNoFile(AcceptanceTester $I)
 	{
-		// Load Tools screen.
+		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPluginResources($I);
 		$I->loadConvertKitSettingsToolsScreen($I);
 
 		// Scroll to Import section.
@@ -237,7 +232,8 @@ class PluginSettingsToolsCest
 	 */
 	public function testImportConfigurationWithInvalidFile(AcceptanceTester $I)
 	{
-		// Load Tools screen.
+		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPluginResources($I);
 		$I->loadConvertKitSettingsToolsScreen($I);
 
 		// Scroll to Import section.
@@ -266,7 +262,8 @@ class PluginSettingsToolsCest
 	 */
 	public function testImportConfigurationWithFakeJSONFile(AcceptanceTester $I)
 	{
-		// Load Tools screen.
+		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPluginResources($I);
 		$I->loadConvertKitSettingsToolsScreen($I);
 
 		// Scroll to Import section.

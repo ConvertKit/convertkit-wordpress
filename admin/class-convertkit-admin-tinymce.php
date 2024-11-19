@@ -60,9 +60,9 @@ class ConvertKit_Admin_TinyMCE {
 		// Define shortcode.
 		$shortcode = $shortcodes[ $shortcode_name ];
 
-		// Show a message in the modal if no API Key is specified.
-		if ( array_key_exists( 'has_api_key', $shortcode ) && ! $shortcode['has_api_key'] ) {
-			$notice = $shortcode['no_api_key'];
+		// Show a message in the modal if no Access Token is specified.
+		if ( array_key_exists( 'has_access_token', $shortcode ) && ! $shortcode['has_access_token'] ) {
+			$notice = $shortcode['no_access_token'];
 			require_once CONVERTKIT_PLUGIN_PATH . '/views/backend/tinymce/modal-notice.php';
 			die();
 		}
@@ -146,7 +146,7 @@ class ConvertKit_Admin_TinyMCE {
 		// Enqueue TinyMCE CSS and JS.
 		wp_enqueue_script( 'convertkit-admin-tabs', CONVERTKIT_PLUGIN_URL . 'resources/backend/js/tabs.js', array( 'jquery' ), CONVERTKIT_PLUGIN_VERSION, true );
 		wp_enqueue_script( 'convertkit-admin-tinymce', CONVERTKIT_PLUGIN_URL . 'resources/backend/js/tinymce.js', array(), CONVERTKIT_PLUGIN_VERSION, true );
-		wp_enqueue_script( 'convertkit-admin-modal', CONVERTKIT_PLUGIN_URL . 'resources/backend/js/modal.js', array( 'jquery' ), CONVERTKIT_PLUGIN_VERSION, true );
+		wp_enqueue_script( 'convertkit-admin-modal', CONVERTKIT_PLUGIN_URL . 'resources/backend/js/modal.js', array(), CONVERTKIT_PLUGIN_VERSION, true );
 		wp_enqueue_style( 'convertkit-admin-tinymce', CONVERTKIT_PLUGIN_URL . 'resources/backend/css/tinymce.css', array(), CONVERTKIT_PLUGIN_VERSION );
 
 		// Register JS variable convertkit_admin_tinymce.nonce for AJAX calls.

@@ -31,9 +31,6 @@ class PostCest
 		// Navigate to Posts > Add New.
 		$I->amOnAdminPage('post-new.php');
 
-		// Close the Gutenberg "Welcome to the block editor" dialog if it's displayed.
-		$I->maybeCloseGutenbergWelcomeModal($I);
-
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
 
@@ -44,10 +41,23 @@ class PostCest
 		$I->dontSeeElementInDOM('#wp-convertkit-form');
 
 		// Check that an expected message is displayed.
-		$I->see('To configure the ConvertKit Form / Landing Page to display on this Post, enter your ConvertKit API credentials');
+		$I->see('For the Kit Plugin to function, please connect your Kit account.');
 
-		// Check that a link to the Plugin Settings exists.
-		$I->seeInSource('<a href="' . $_ENV['TEST_SITE_WP_URL'] . '/wp-admin/options-general.php?page=_wp_convertkit_settings">Plugin Settings</a>');
+		// Check that a link to the OAuth auth screen exists and includes the state parameter.
+		$I->seeInSource('<a href="https://app.kit.com/oauth/authorize?client_id=' . $_ENV['CONVERTKIT_OAUTH_CLIENT_ID'] . '&amp;response_type=code&amp;redirect_uri=' . urlencode( $_ENV['KIT_OAUTH_REDIRECT_URI'] ) );
+		$I->seeInSource(
+			'&amp;state=' . $I->apiEncodeState(
+				$_ENV['TEST_SITE_WP_URL'] . '/wp-admin/options-general.php?page=_wp_convertkit_settings',
+				$_ENV['CONVERTKIT_OAUTH_CLIENT_ID']
+			)
+		);
+
+		// Click the link.
+		$I->click('connect your Kit account.');
+
+		// Confirm the ConvertKit hosted OAuth login screen is displayed.
+		$I->waitForElementVisible('body.sessions');
+		$I->seeInSource('oauth/authorize?client_id=' . $_ENV['CONVERTKIT_OAUTH_CLIENT_ID']);
 	}
 
 	/**
@@ -71,7 +81,7 @@ class PostCest
 		$postID = $I->havePostInDatabase(
 			[
 				'post_type'  => 'post',
-				'post_title' => 'ConvertKit: Post: Invalid Settings',
+				'post_title' => 'Kit: Post: Invalid Settings',
 				'meta_input' => [
 					'_wp_convertkit_post_meta' => 'an invalid string setting',
 				],
@@ -92,7 +102,7 @@ class PostCest
 
 		// Confirm that one ConvertKit Form is output in the DOM.
 		// This confirms that there is only one script on the page for this form, which renders the form.
-		$I->seeNumberOfElementsInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]', 1);
+		$I->seeFormOutput($I, $_ENV['CONVERTKIT_API_FORM_ID']);
 	}
 
 	/**

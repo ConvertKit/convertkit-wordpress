@@ -36,9 +36,6 @@ class RefreshResourcesButtonCest
 		// Navigate to Pages > Add New.
 		$I->amOnAdminPage('post-new.php?post_type=page');
 
-		// Close the Gutenberg "Welcome to the block editor" dialog if it's displayed.
-		$I->maybeCloseGutenbergWelcomeModal($I);
-
 		// Click the Forms refresh button.
 		$I->click('button.wp-convertkit-refresh-resources[data-resource="forms"]');
 
@@ -98,13 +95,17 @@ class RefreshResourcesButtonCest
 		$I->fillSelect2Field($I, '#select2-wp-convertkit-tag-container', $_ENV['CONVERTKIT_API_TAG_NAME']);
 
 		// Click the Restrict Content refresh button.
-		$I->click('button.wp-convertkit-refresh-resources[data-resource="products"]');
+		$I->click('button.wp-convertkit-refresh-resources[data-resource="restrict_content"]');
 
 		// Wait for button to change its state from disabled.
-		$I->waitForElementVisible('button.wp-convertkit-refresh-resources[data-resource="products"]:not(:disabled)');
+		$I->waitForElementVisible('button.wp-convertkit-refresh-resources[data-resource="restrict_content"]:not(:disabled)');
 
-		// Change resource to value specified in the .env file, which should now be available.
-		// If the expected dropdown value does not exist in the Select2 field, this will fail the test.
+		// Confirm that the expected Tag is within the Tags option group and selectable.
+		$I->seeElementInDOM('select#wp-convertkit-restrict_content optgroup[data-resource="tags"] option[value="tag_' . $_ENV['CONVERTKIT_API_TAG_ID'] . '"]');
+		$I->fillSelect2Field($I, '#select2-wp-convertkit-restrict_content-container', $_ENV['CONVERTKIT_API_TAG_NAME']);
+
+		// Confirm that the expected Product is within the Products option group and selectable.
+		$I->seeElementInDOM('select#wp-convertkit-restrict_content optgroup[data-resource="products"] option[value="product_' . $_ENV['CONVERTKIT_API_PRODUCT_ID'] . '"]');
 		$I->fillSelect2Field($I, '#select2-wp-convertkit-restrict_content-container', $_ENV['CONVERTKIT_API_PRODUCT_NAME']);
 	}
 
@@ -124,7 +125,7 @@ class RefreshResourcesButtonCest
 		$pageID = $I->havePostInDatabase(
 			[
 				'post_type'  => 'page',
-				'post_title' => 'ConvertKit: Page: Refresh Resources: Quick Edit',
+				'post_title' => 'Kit: Page: Refresh Resources: Quick Edit',
 			]
 		);
 
@@ -170,14 +171,18 @@ class RefreshResourcesButtonCest
 		// If the expected dropdown value does not exist, this will fail the test.
 		$I->selectOption('#wp-convertkit-quick-edit-tag', $_ENV['CONVERTKIT_API_TAG_NAME']);
 
-		// Click the Products refresh button.
-		$I->click('button.wp-convertkit-refresh-resources[data-resource="products"]');
+		// Click the Restrict Content refresh button.
+		$I->click('button.wp-convertkit-refresh-resources[data-resource="restrict_content"]');
 
 		// Wait for button to change its state from disabled.
-		$I->waitForElementVisible('button.wp-convertkit-refresh-resources[data-resource="products"]:not(:disabled)');
+		$I->waitForElementVisible('button.wp-convertkit-refresh-resources[data-resource="restrict_content"]:not(:disabled)');
 
-		// Change resource to value specified in the .env file, which should now be available.
-		// If the expected dropdown value does not exist, this will fail the test.
+		// Confirm that the expected Tag is within the Tags option group and selectable.
+		$I->seeElementInDOM('#wp-convertkit-quick-edit-restrict_content optgroup[data-resource="tags"] option[value="tag_' . $_ENV['CONVERTKIT_API_TAG_ID'] . '"]');
+		$I->selectOption('#wp-convertkit-quick-edit-restrict_content', $_ENV['CONVERTKIT_API_TAG_NAME']);
+
+		// Confirm that the expected Product is within the Products option group and selectable.
+		$I->seeElementInDOM('#wp-convertkit-quick-edit-restrict_content optgroup[data-resource="products"] option[value="product_' . $_ENV['CONVERTKIT_API_PRODUCT_ID'] . '"]');
 		$I->selectOption('#wp-convertkit-quick-edit-restrict_content', $_ENV['CONVERTKIT_API_PRODUCT_NAME']);
 	}
 
@@ -198,13 +203,13 @@ class RefreshResourcesButtonCest
 			$I->havePostInDatabase(
 				[
 					'post_type'  => 'page',
-					'post_title' => 'ConvertKit: Page: Refresh Resources: Bulk Edit #1',
+					'post_title' => 'Kit: Page: Refresh Resources: Bulk Edit #1',
 				]
 			),
 			$I->havePostInDatabase(
 				[
 					'post_type'  => 'page',
-					'post_title' => 'ConvertKit: Page: Refresh Resources: Bulk Edit #2',
+					'post_title' => 'Kit: Page: Refresh Resources: Bulk Edit #2',
 				]
 			),
 		);
@@ -253,14 +258,18 @@ class RefreshResourcesButtonCest
 		// If the expected dropdown value does not exist, this will fail the test.
 		$I->selectOption('#wp-convertkit-bulk-edit-tag', $_ENV['CONVERTKIT_API_TAG_NAME']);
 
-		// Click the Products refresh button.
-		$I->click('button.wp-convertkit-refresh-resources[data-resource="products"]');
+		// Click the Restrict Content refresh button.
+		$I->click('button.wp-convertkit-refresh-resources[data-resource="restrict_content"]');
 
 		// Wait for button to change its state from disabled.
-		$I->waitForElementVisible('button.wp-convertkit-refresh-resources[data-resource="products"]:not(:disabled)');
+		$I->waitForElementVisible('button.wp-convertkit-refresh-resources[data-resource="restrict_content"]:not(:disabled)');
 
-		// Change resource to value specified in the .env file, which should now be available.
-		// If the expected dropdown value does not exist, this will fail the test.
+		// Confirm that the expected Tag is within the Tags option group and selectable.
+		$I->seeElementInDOM('#wp-convertkit-bulk-edit-restrict_content optgroup[data-resource="tags"] option[value="tag_' . $_ENV['CONVERTKIT_API_TAG_ID'] . '"]');
+		$I->selectOption('#wp-convertkit-bulk-edit-restrict_content', $_ENV['CONVERTKIT_API_TAG_NAME']);
+
+		// Confirm that the expected Product is within the Products option group and selectable.
+		$I->seeElementInDOM('#wp-convertkit-bulk-edit-restrict_content optgroup[data-resource="products"] option[value="product_' . $_ENV['CONVERTKIT_API_PRODUCT_ID'] . '"]');
 		$I->selectOption('#wp-convertkit-bulk-edit-restrict_content', $_ENV['CONVERTKIT_API_PRODUCT_NAME']);
 	}
 
@@ -312,7 +321,7 @@ class RefreshResourcesButtonCest
 		$I->setupConvertKitPlugin($I);
 
 		// Create Category.
-		$termID = $I->haveTermInDatabase( 'ConvertKit Refresh Resources', 'category' );
+		$termID = $I->haveTermInDatabase( 'Kit Refresh Resources', 'category' );
 		$termID = $termID[0];
 
 		// Edit the Term.
@@ -354,9 +363,6 @@ class RefreshResourcesButtonCest
 		// Navigate to Pages > Add New.
 		$I->amOnAdminPage('post-new.php?post_type=page');
 
-		// Close the Gutenberg "Welcome to the block editor" dialog if it's displayed.
-		$I->maybeCloseGutenbergWelcomeModal($I);
-
 		// Click the Forms refresh button.
 		$I->click('button.wp-convertkit-refresh-resources[data-resource="forms"]');
 
@@ -365,7 +371,7 @@ class RefreshResourcesButtonCest
 
 		// Confirm that an error notification is displayed on screen, with the expected error message.
 		$I->seeElementInDOM('div.components-notice-list div.is-error');
-		$I->see('API Key not valid');
+		$I->see('Kit: The access token is invalid');
 
 		// Confirm that the notice is dismissible.
 		$I->click('div.components-notice-list div.is-error button.components-notice__dismiss');
@@ -387,7 +393,7 @@ class RefreshResourcesButtonCest
 		$I->setupConvertKitPluginFakeAPIKey($I);
 
 		// Add a Page using the Classic Editor.
-		$I->addClassicEditorPage($I, 'page', 'ConvertKit: Page: Refresh Resources: Classic Editor' );
+		$I->addClassicEditorPage($I, 'page', 'Kit: Page: Refresh Resources: Classic Editor' );
 
 		// Click the Forms refresh button.
 		$I->click('button.wp-convertkit-refresh-resources[data-resource="forms"]');
@@ -397,7 +403,7 @@ class RefreshResourcesButtonCest
 
 		// Confirm that an error notification is displayed on screen, with the expected error message.
 		$I->seeElementInDOM('div.convertkit-error');
-		$I->see('API Key not valid');
+		$I->see('Kit: The access token is invalid');
 
 		// Confirm that the notice is dismissible.
 		$I->click('div.convertkit-error button.notice-dismiss');
@@ -422,7 +428,7 @@ class RefreshResourcesButtonCest
 		$pageID = $I->havePostInDatabase(
 			[
 				'post_type'  => 'page',
-				'post_title' => 'ConvertKit: Page: Refresh Resources: Quick Edit',
+				'post_title' => 'Kit: Page: Refresh Resources: Quick Edit',
 			]
 		);
 
@@ -437,7 +443,7 @@ class RefreshResourcesButtonCest
 
 		// Confirm that an error notification is displayed on screen, with the expected error message.
 		$I->seeElementInDOM('div.convertkit-error');
-		$I->see('API Key not valid');
+		$I->see('Kit: The access token is invalid');
 
 		// Confirm that the notice is dismissible.
 		$I->click('div.convertkit-error button.notice-dismiss');
@@ -463,13 +469,13 @@ class RefreshResourcesButtonCest
 			$I->havePostInDatabase(
 				[
 					'post_type'  => 'page',
-					'post_title' => 'ConvertKit: Page: Refresh Resources: Bulk Edit #1',
+					'post_title' => 'Kit: Page: Refresh Resources: Bulk Edit #1',
 				]
 			),
 			$I->havePostInDatabase(
 				[
 					'post_type'  => 'page',
-					'post_title' => 'ConvertKit: Page: Refresh Resources: Bulk Edit #2',
+					'post_title' => 'Kit: Page: Refresh Resources: Bulk Edit #2',
 				]
 			),
 		);
@@ -485,7 +491,7 @@ class RefreshResourcesButtonCest
 
 		// Confirm that an error notification is displayed on screen, with the expected error message.
 		$I->seeElementInDOM('div.convertkit-error');
-		$I->see('API Key not valid');
+		$I->see('Kit: The access token is invalid');
 
 		// Confirm that the notice is dismissible.
 		$I->click('div.convertkit-error button.notice-dismiss');
@@ -517,7 +523,7 @@ class RefreshResourcesButtonCest
 
 		// Confirm that an error notification is displayed on screen, with the expected error message.
 		$I->seeElementInDOM('div.convertkit-error');
-		$I->see('API Key not valid');
+		$I->see('Kit: The access token is invalid');
 
 		// Confirm that the notice is dismissible.
 		$I->click('div.convertkit-error button.notice-dismiss');
@@ -539,7 +545,7 @@ class RefreshResourcesButtonCest
 		$I->setupConvertKitPluginFakeAPIKey($I);
 
 		// Create Category.
-		$termID = $I->haveTermInDatabase( 'ConvertKit Refresh Resources', 'category' );
+		$termID = $I->haveTermInDatabase( 'Kit Refresh Resources', 'category' );
 		$termID = $termID[0];
 
 		// Edit the Term.
@@ -553,7 +559,7 @@ class RefreshResourcesButtonCest
 
 		// Confirm that an error notification is displayed on screen, with the expected error message.
 		$I->seeElementInDOM('div.convertkit-error');
-		$I->see('API Key not valid');
+		$I->see('Kit: The access token is invalid');
 
 		// Confirm that the notice is dismissible.
 		$I->click('div.convertkit-error button.notice-dismiss');

@@ -132,9 +132,9 @@ class SubscriberEmailToIDOnFormSubmitCest
 		// Wait for JS and AJAX request to complete.
 		$I->wait(5);
 
-		// Check log does not contain get_subscriber_by_email() call with no email value.
+		// Check log contains get_subscriber_by_email() call with masked email value.
 		$I->loadConvertKitSettingsToolsScreen($I);
-		$I->seeInSource('API: get_subscriber_by_email(): [ email: ' . $emailAddress . ']');
+		$I->seeInSource('API: GET subscribers: {"email_address":"w********-2***');
 	}
 
 	/**

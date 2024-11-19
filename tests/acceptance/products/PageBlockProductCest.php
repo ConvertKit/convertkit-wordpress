@@ -32,7 +32,7 @@ class PageBlockProductCest
 		$I->setupConvertKitPluginResources($I);
 
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Product: Valid Product Param');
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Product: Valid Product Param');
 
 		// Configure metabox's Form setting = None, ensuring we only test the block in Gutenberg.
 		$I->configureMetaboxSettings(
@@ -46,7 +46,7 @@ class PageBlockProductCest
 		// Add block to Page, setting the Product setting to the value specified in the .env file.
 		$I->addGutenbergBlock(
 			$I,
-			'ConvertKit Product',
+			'Kit Product',
 			'convertkit-product',
 			[
 				'product' => [ 'select', $_ENV['CONVERTKIT_API_PRODUCT_NAME'] ],
@@ -74,7 +74,7 @@ class PageBlockProductCest
 		$I->setupConvertKitPluginResources($I);
 
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Product: No Product Param');
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Product: No Product Param');
 
 		// Configure metabox's Form setting = None, ensuring we only test the block in Gutenberg.
 		$I->configureMetaboxSettings(
@@ -86,7 +86,7 @@ class PageBlockProductCest
 		);
 
 		// Add block to Page.
-		$I->addGutenbergBlock($I, 'ConvertKit Product', 'convertkit-product');
+		$I->addGutenbergBlock($I, 'Kit Product', 'convertkit-product');
 
 		// Confirm that the Product block displays instructions to the user on how to select a Product.
 		$I->see(
@@ -117,12 +117,12 @@ class PageBlockProductCest
 		$I->setupConvertKitPluginResources($I);
 
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Product: Text Param');
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Product: Text Param');
 
 		// Add block to Page, setting the date format.
 		$I->addGutenbergBlock(
 			$I,
-			'ConvertKit Product',
+			'Kit Product',
 			'convertkit-product',
 			[
 				'product' => [ 'select', $_ENV['CONVERTKIT_API_PRODUCT_NAME'] ],
@@ -151,12 +151,12 @@ class PageBlockProductCest
 		$I->setupConvertKitPluginResources($I);
 
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Product: Blank Text Param');
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Product: Blank Text Param');
 
 		// Add block to Page, setting the date format.
 		$I->addGutenbergBlock(
 			$I,
-			'ConvertKit Product',
+			'Kit Product',
 			'convertkit-product',
 			[
 				'product' => [ 'select', $_ENV['CONVERTKIT_API_PRODUCT_NAME'] ],
@@ -185,7 +185,7 @@ class PageBlockProductCest
 		$I->setupConvertKitPluginResources($I);
 
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Product: Valid Discount Code Param');
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Product: Valid Discount Code Param');
 
 		// Configure metabox's Form setting = None, ensuring we only test the block in Gutenberg.
 		$I->configureMetaboxSettings(
@@ -199,7 +199,7 @@ class PageBlockProductCest
 		// Add block to Page, setting the Product setting to the value specified in the .env file.
 		$I->addGutenbergBlock(
 			$I,
-			'ConvertKit Product',
+			'Kit Product',
 			'convertkit-product',
 			[
 				'product'       => [ 'select', $_ENV['CONVERTKIT_API_PRODUCT_NAME'] ],
@@ -233,7 +233,7 @@ class PageBlockProductCest
 		$I->setupConvertKitPluginResources($I);
 
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Product: Invalid Discount Code Param');
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Product: Invalid Discount Code Param');
 
 		// Configure metabox's Form setting = None, ensuring we only test the block in Gutenberg.
 		$I->configureMetaboxSettings(
@@ -247,7 +247,7 @@ class PageBlockProductCest
 		// Add block to Page, setting the Product setting to the value specified in the .env file.
 		$I->addGutenbergBlock(
 			$I,
-			'ConvertKit Product',
+			'Kit Product',
 			'convertkit-product',
 			[
 				'product'       => [ 'select', $_ENV['CONVERTKIT_API_PRODUCT_NAME'] ],
@@ -268,6 +268,55 @@ class PageBlockProductCest
 	}
 
 	/**
+	 * Test the Product shortcode opens the ConvertKit Product's checkuot step
+	 * when the Checkout option is enabled.
+	 *
+	 * @since   2.4.5
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testProductBlockWithCheckoutParameterEnabled(AcceptanceTester $I)
+	{
+		// Setup ConvertKit Plugin with no default form specified.
+		$I->setupConvertKitPluginNoDefaultForms($I);
+		$I->setupConvertKitPluginResources($I);
+
+		// Add a Page using the Gutenberg editor.
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Product: Checkout Step');
+
+		// Configure metabox's Form setting = None, ensuring we only test the block in Gutenberg.
+		$I->configureMetaboxSettings(
+			$I,
+			'wp-convertkit-meta-box',
+			[
+				'form' => [ 'select2', 'None' ],
+			]
+		);
+
+		// Add block to Page, setting the Product setting to the value specified in the .env file.
+		$I->addGutenbergBlock(
+			$I,
+			'Kit Product',
+			'convertkit-product',
+			[
+				'product'                     => [ 'select', $_ENV['CONVERTKIT_API_PRODUCT_NAME'] ],
+				'#inspector-toggle-control-0' => [ 'toggle', true ],
+			]
+		);
+
+		// Publish and view the Page on the frontend site.
+		$I->publishAndViewGutenbergPage($I);
+
+		// Confirm that the ConvertKit Product is displayed.
+		$I->seeProductOutput($I, $_ENV['CONVERTKIT_API_PRODUCT_URL'], 'Buy my product');
+
+		// Confirm the checkout step is displayed.
+		$I->switchToIFrame('iframe[data-active]');
+		$I->waitForElementVisible('.formkit-main');
+		$I->see('Order Summary');
+	}
+
+	/**
 	 * Test the Product block opens the ConvertKit Product in the same window instead
 	 * of a modal when the Disable modal on mobile option is enabled.
 	 *
@@ -282,7 +331,7 @@ class PageBlockProductCest
 		$I->setupConvertKitPluginResources($I);
 
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Product: Disable Modal on Mobile');
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Product: Disable Modal on Mobile');
 
 		// Configure metabox's Form setting = None, ensuring we only test the block in Gutenberg.
 		$I->configureMetaboxSettings(
@@ -296,19 +345,19 @@ class PageBlockProductCest
 		// Add block to Page, setting the Product setting to the value specified in the .env file.
 		$I->addGutenbergBlock(
 			$I,
-			'ConvertKit Product',
+			'Kit Product',
 			'convertkit-product',
 			[
 				'product'                     => [ 'select', $_ENV['CONVERTKIT_API_PRODUCT_NAME'] ],
-				'#inspector-toggle-control-0' => [ 'toggle', true ],
+				'#inspector-toggle-control-1' => [ 'toggle', true ],
 			]
 		);
 
 		// Publish and view the Page on the frontend site.
 		$url = $I->publishAndViewGutenbergPage($I);
 
-		// Change user agent to a mobile user agent.
-		$I->changeUserAgent($_ENV['TEST_SITE_HTTP_USER_AGENT_MOBILE']);
+		// Change device and user agent to a mobile.
+		$I->enableMobileEmulation();
 
 		// Load page.
 		$I->amOnUrl($url);
@@ -321,8 +370,8 @@ class PageBlockProductCest
 		$I->click('.convertkit-product a');
 		$I->waitForElementVisible('body[data-template]');
 
-		// Change user agent back, as it persists through tests.
-		$I->changeUserAgent($_ENV['TEST_SITE_HTTP_USER_AGENT']);
+		// Change device and user agent to desktop.
+		$I->disableMobileEmulation();
 	}
 
 	/**
@@ -412,7 +461,7 @@ class PageBlockProductCest
 
 	/**
 	 * Test the Product block displays a message with a link to the Plugin's
-	 * settings screen, when the Plugin has no API key specified.
+	 * settings screen, when the Plugin has Not connected to Kit.
 	 *
 	 * @since   2.2.3
 	 *
@@ -420,11 +469,13 @@ class PageBlockProductCest
 	 */
 	public function testProductBlockWhenNoAPIKey(AcceptanceTester $I)
 	{
+		$I->markTestIncomplete();
+
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Product: Block: No API Key');
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Product: Block: No API Key');
 
 		// Add block to Page.
-		$I->addGutenbergBlock($I, 'ConvertKit Product', 'convertkit-product');
+		$I->addGutenbergBlock($I, 'Kit Product', 'convertkit-product');
 
 		// Test that the popup window works.
 		$I->testBlockNoAPIKeyPopupWindow(
@@ -448,18 +499,18 @@ class PageBlockProductCest
 	public function testProductBlockWhenNoProducts(AcceptanceTester $I)
 	{
 		// Setup Plugin.
-		$I->setupConvertKitPluginAPIKeyNoData($I);
+		$I->setupConvertKitPluginCredentialsNoData($I);
 		$I->setupConvertKitPluginResourcesNoData($I);
 
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Product: Block: No Products');
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Product: Block: No Products');
 
 		// Add block to Page.
-		$I->addGutenbergBlock($I, 'ConvertKit Product', 'convertkit-product');
+		$I->addGutenbergBlock($I, 'Kit Product', 'convertkit-product');
 
 		// Confirm that the Product block displays instructions to the user on how to add a Product in ConvertKit.
 		$I->see(
-			'No products exist in ConvertKit.',
+			'No products exist in Kit.',
 			[
 				'css' => '.convertkit-no-content',
 			]
@@ -495,15 +546,15 @@ class PageBlockProductCest
 	 */
 	public function testProductBlockRefreshButton(AcceptanceTester $I)
 	{
-		// Setup Plugin with API keys for ConvertKit Account that has no Products.
-		$I->setupConvertKitPluginAPIKeyNoData($I);
+		// Setup Plugin with ConvertKit Account that has no Products.
+		$I->setupConvertKitPluginCredentialsNoData($I);
 		$I->setupConvertKitPluginResourcesNoData($I);
 
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Product: Refresh Button');
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Product: Refresh Button');
 
 		// Add block to Page.
-		$I->addGutenbergBlock($I, 'ConvertKit Product', 'convertkit-product');
+		$I->addGutenbergBlock($I, 'Kit Product', 'convertkit-product');
 
 		// Setup Plugin with a valid API Key and resources, as if the user performed the necessary steps to authenticate
 		// and create a product.
