@@ -67,13 +67,19 @@
 			<div id="convertkit-setup-wizard-body">
 				<form action="<?php echo esc_attr( $this->next_step_url ); ?>" method="POST">
 					<div id="convertkit-setup-wizard-content">
-						<div id="convertkit-setup-wizard-step">
-							<?php
-							printf(
-								/* translators: %1$s: Current Step, %2$s: Total Steps */
-								esc_html__( 'Step %1$s of %2$s', 'convertkit' ),
-								esc_html( $this->step ),
-								esc_html( count( $this->steps ) )
-							);
+						<?php
+						if ( ! $this->is_modal() ) {
 							?>
-						</div>
+								<div id="convertkit-setup-wizard-step">
+								<?php
+								printf(
+									/* translators: %1$s: Current Step, %2$s: Total Steps */
+									esc_html__( 'Step %1$s of %2$s', 'convertkit' ),
+									esc_html( $this->step ),
+									esc_html( count( $this->steps ) )
+								);
+								?>
+							</div>
+							<?php
+						}
+						?>

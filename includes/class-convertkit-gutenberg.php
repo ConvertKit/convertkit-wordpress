@@ -51,7 +51,7 @@ class ConvertKit_Gutenberg {
 			array(
 				array(
 					'slug'  => 'convertkit',
-					'title' => 'ConvertKit',
+					'title' => 'Kit',
 				),
 			)
 		);

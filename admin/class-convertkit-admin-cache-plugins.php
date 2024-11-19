@@ -112,7 +112,7 @@ class ConvertKit_Admin_Cache_Plugins {
 
 		return sprintf(
 			'%s %s %s %s',
-			esc_html__( 'ConvertKit: Member Content: Please add', 'convertkit' ),
+			esc_html__( 'Kit: Member Content: Please add', 'convertkit' ),
 			'<code>ck_subscriber_id</code>',
 			sprintf(
 				'<a href="%s">%s</a>',
@@ -183,7 +183,7 @@ class ConvertKit_Admin_Cache_Plugins {
 
 		return sprintf(
 			'%s %s %s %s',
-			esc_html__( 'ConvertKit: Member Content: Please add', 'convertkit' ),
+			esc_html__( 'Kit: Member Content: Please add', 'convertkit' ),
 			'<code>ck_subscriber_id</code>',
 			sprintf(
 				'<a href="%s">%s</a>',
@@ -340,7 +340,7 @@ class ConvertKit_Admin_Cache_Plugins {
 
 		return sprintf(
 			'%s %s %s %s',
-			esc_html__( 'ConvertKit: Member Content: Please add', 'convertkit' ),
+			esc_html__( 'Kit: Member Content: Please add', 'convertkit' ),
 			'<code>ck_subscriber_id</code>',
 			sprintf(
 				'<a href="%s">%s</a>',

@@ -19,7 +19,7 @@ class PluginSetupWizardCest
 		$this->_activatePlugin($I);
 
 		// Confirm expected setup wizard screen is displayed.
-		$this->_seeExpectedSetupWizardScreen($I, 1, 'Welcome to the ConvertKit Setup Wizard');
+		$this->_seeExpectedSetupWizardScreen($I, 1, 'Welcome to the Kit Setup Wizard');
 	}
 
 	/**
@@ -40,7 +40,7 @@ class PluginSetupWizardCest
 		$this->_activatePlugin($I);
 
 		// Confirm setup wizard does not display.
-		$I->dontSee('Welcome to the ConvertKit Setup Wizard');
+		$I->dontSee('Welcome to the Kit Setup Wizard');
 	}
 
 	/**
@@ -57,7 +57,7 @@ class PluginSetupWizardCest
 		$I->activateThirdPartyPlugin($I, 'admin-menu-editor');
 
 		// Setup ConvertKit Plugin.
-		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPluginNoDefaultForms($I);
 		$I->setupConvertKitPluginResources($I);
 
 		// Activate Plugin.
@@ -90,7 +90,7 @@ class PluginSetupWizardCest
 		$this->_activatePlugin($I);
 
 		// Confirm expected setup wizard screen is displayed.
-		$this->_seeExpectedSetupWizardScreen($I, 1, 'Welcome to the ConvertKit Setup Wizard');
+		$this->_seeExpectedSetupWizardScreen($I, 1, 'Welcome to the Kit Setup Wizard');
 
 		// Click Exit wizard link.
 		$I->click('Exit wizard');
@@ -106,34 +106,6 @@ class PluginSetupWizardCest
 	}
 
 	/**
-	 * Test that the Setup Wizard > Setup > Register button works.
-	 *
-	 * @since   1.9.8.4
-	 *
-	 * @param   AcceptanceTester $I  Tester.
-	 */
-	public function testSetupWizardSetupScreenRegisterButton(AcceptanceTester $I)
-	{
-		// Activate Plugin.
-		$this->_activatePlugin($I);
-
-		// Confirm expected setup wizard screen is displayed.
-		$this->_seeExpectedSetupWizardScreen($I, 1, 'Welcome to the ConvertKit Setup Wizard');
-
-		// Test Register button opens a new tab.
-		$I->click('Register');
-		$I->wait(2); // Required, otherwise switchToNextTab fails.
-		$I->switchToNextTab();
-		$I->seeInCurrentUrl('users/signup?utm_source=wordpress&utm_term=en_US&utm_content=convertkit');
-
-		// Close newly opened tab from above button.
-		$I->closeTab();
-
-		// Confirm that the original tab is now displaying the Connect Account screen.
-		$this->_seeExpectedSetupWizardScreen($I, 2, 'Connect your ConvertKit account');
-	}
-
-	/**
 	 * Test that the Setup Wizard > Setup > Connect button works.
 	 *
 	 * @since   1.9.8.4
@@ -146,49 +118,21 @@ class PluginSetupWizardCest
 		$this->_activatePlugin($I);
 
 		// Confirm expected setup wizard screen is displayed.
-		$this->_seeExpectedSetupWizardScreen($I, 1, 'Welcome to the ConvertKit Setup Wizard');
+		$this->_seeExpectedSetupWizardScreen($I, 1, 'Welcome to the Kit Setup Wizard');
 
 		// Test Connect button.
 		$I->click('Connect');
 
-		// Confirm expected setup wizard screen is displayed.
-		$this->_seeExpectedSetupWizardScreen($I, 2, 'Connect your ConvertKit account');
-	}
+		// Confirm the ConvertKit hosted OAuth login screen is displayed.
+		$I->waitForElementVisible('body.sessions');
+		$I->seeInSource('oauth/authorize?client_id=' . $_ENV['CONVERTKIT_OAUTH_CLIENT_ID']);
 
-	/**
-	 * Test that the Setup Wizard > Connect Account screen works as expected when valid API credentials
-	 * are specified.
-	 *
-	 * @since   1.9.8.4
-	 *
-	 * @param   AcceptanceTester $I  Tester.
-	 */
-	public function testSetupWizardConnectAccountScreen(AcceptanceTester $I)
-	{
-		// Activate Plugin.
-		$this->_activatePlugin($I);
+		// Act as if we completed OAuth.
+		$I->setupConvertKitPluginNoDefaultForms($I);
+		$I->amOnAdminPage('options.php?page=convertkit-setup&step=2');
 
 		// Confirm expected setup wizard screen is displayed.
-		$this->_seeExpectedSetupWizardScreen($I, 1, 'Welcome to the ConvertKit Setup Wizard');
-
-		// Test Connect button.
-		$I->click('Connect');
-
-		// Confirm expected setup wizard screen is displayed.
-		$this->_seeExpectedSetupWizardScreen($I, 2, 'Connect your ConvertKit account');
-
-		// Wait to prevent API rate limit hit due to parallel tests.
-		$I->wait(2);
-
-		// Fill fields with invalid API Keys.
-		$I->fillField('api_key', $_ENV['CONVERTKIT_API_KEY']);
-		$I->fillField('api_secret', $_ENV['CONVERTKIT_API_SECRET']);
-
-		// Click Connect button.
-		$I->click('Connect');
-
-		// Confirm expected setup wizard screen is displayed.
-		$this->_seeExpectedSetupWizardScreen($I, 3, 'Display an email capture form');
+		$this->_seeExpectedSetupWizardScreen($I, 2, 'Display an email capture form');
 	}
 
 	/**
@@ -199,32 +143,34 @@ class PluginSetupWizardCest
 	 *
 	 * @param   AcceptanceTester $I  Tester.
 	 */
-	public function testSetupWizardConnectAccountScreenWithInvalidAPICredentials(AcceptanceTester $I)
+	public function testSetupWizardConnectAccountScreenWithInvalidCredentials(AcceptanceTester $I)
 	{
+		// Define OAuth error code and description.
+		$error            = 'access_denied';
+		$errorDescription = 'The resource owner or authorization server denied the request.';
+
 		// Activate Plugin.
 		$this->_activatePlugin($I);
 
 		// Confirm expected setup wizard screen is displayed.
-		$this->_seeExpectedSetupWizardScreen($I, 1, 'Welcome to the ConvertKit Setup Wizard');
+		$this->_seeExpectedSetupWizardScreen($I, 1, 'Welcome to the Kit Setup Wizard');
 
 		// Test Connect button.
 		$I->click('Connect');
 
-		// Confirm expected setup wizard screen is displayed.
-		$this->_seeExpectedSetupWizardScreen($I, 2, 'Connect your ConvertKit account');
+		// Confirm the ConvertKit hosted OAuth login screen is displayed.
+		$I->waitForElementVisible('body.sessions');
+		$I->seeInSource('oauth/authorize?client_id=' . $_ENV['CONVERTKIT_OAUTH_CLIENT_ID']);
 
-		// Fill fields with invalid API Keys.
-		$I->fillField('api_key', 'fakeApiKey');
-		$I->fillField('api_secret', 'fakeApiSecret');
-
-		// Click Connect button.
-		$I->click('Connect');
+		// Act as if OAuth failed i.e. the user didn't authenticate.
+		$I->amOnAdminPage('options.php?page=convertkit-setup&step=2&error=' . $error . '&error_description=' . urlencode($errorDescription));
 
 		// Confirm expected setup wizard screen is still displayed.
-		$this->_seeExpectedSetupWizardScreen($I, 2, 'Connect your ConvertKit account');
+		$this->_seeExpectedSetupWizardScreen($I, 1, 'Welcome to the Kit Setup Wizard');
 
 		// Confirm error notification is displayed.
 		$I->seeElement('div.notice.notice-error.is-dismissible');
+		$I->see($errorDescription);
 
 		// Dismiss notification.
 		$I->click('div.notice-error button.notice-dismiss');
@@ -247,35 +193,29 @@ class PluginSetupWizardCest
 		$this->_activatePlugin($I);
 
 		// Define Plugin settings.
-		$I->haveOptionInDatabase(
-			'_wp_convertkit_settings',
-			[
-				'api_key'    => $_ENV['CONVERTKIT_API_KEY'],
-				'api_secret' => $_ENV['CONVERTKIT_API_SECRET'],
-			]
-		);
+		$I->setupConvertKitPluginNoDefaultForms($I);
 
 		// Create a Page and a Post, so that preview links display.
 		$I->havePostInDatabase(
 			[
-				'post_title'  => 'ConvertKit: Setup Wizard: Page',
+				'post_title'  => 'Kit: Setup Wizard: Page',
 				'post_type'   => 'page',
 				'post_status' => 'publish',
 			]
 		);
 		$I->havePostInDatabase(
 			[
-				'post_title'  => 'ConvertKit: Setup Wizard: Post',
+				'post_title'  => 'Kit: Setup Wizard: Post',
 				'post_type'   => 'post',
 				'post_status' => 'publish',
 			]
 		);
 
-		// Load Step 3/4.
-		$I->amOnAdminPage('options.php?page=convertkit-setup&step=3');
+		// Load Step 2/3.
+		$I->amOnAdminPage('options.php?page=convertkit-setup&step=2');
 
 		// Confirm expected setup wizard screen is displayed.
-		$this->_seeExpectedSetupWizardScreen($I, 3, 'Display an email capture form');
+		$this->_seeExpectedSetupWizardScreen($I, 2, 'Display an email capture form');
 
 		// Select a Post Form.
 		$I->fillSelect2Field($I, '#select2-wp-convertkit-form-posts-container', $_ENV['CONVERTKIT_API_FORM_NAME']);
@@ -287,9 +227,12 @@ class PluginSetupWizardCest
 		// Switch to newly opened tab.
 		$I->switchToNextTab();
 
+		// Confirm that the preview is a WordPress Post.
+		$I->seeElementInDOM('body.single-post');
+
 		// Confirm that one ConvertKit Form is output in the DOM.
 		// This confirms that there is only one script on the page for this form, which renders the form.
-		$I->seeNumberOfElementsInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]', 1);
+		$I->seeFormOutput($I, $_ENV['CONVERTKIT_API_FORM_ID']);
 
 		// Close newly opened tab.
 		$I->closeTab();
@@ -304,9 +247,12 @@ class PluginSetupWizardCest
 		// Switch to newly opened tab.
 		$I->switchToNextTab();
 
+		// Confirm that the preview is a WordPress Page.
+		$I->seeElementInDOM('body.page');
+
 		// Confirm that one ConvertKit Form is output in the DOM.
 		// This confirms that there is only one script on the page for this form, which renders the form.
-		$I->seeNumberOfElementsInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]', 1);
+		$I->seeFormOutput($I, $_ENV['CONVERTKIT_API_FORM_ID']);
 
 		// Close newly opened tab.
 		$I->closeTab();
@@ -315,17 +261,13 @@ class PluginSetupWizardCest
 		$I->click('Finish Setup');
 
 		// Confirm expected setup wizard screen is displayed.
-		$this->_seeExpectedSetupWizardScreen($I, 4, 'Setup complete');
+		$this->_seeExpectedSetupWizardScreen($I, 3, 'Setup complete');
 
 		// Click Plugin Settings.
 		$I->click('Plugin Settings');
 
-		// Confirm that Plugin Settings screen contains expected values for API Key, Secret and Default Forms.
+		// Confirm that Plugin Settings screen contains no errors.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
-		$I->seeInField('_wp_convertkit_settings[api_key]', $_ENV['CONVERTKIT_API_KEY']);
-		$I->seeInField('_wp_convertkit_settings[api_secret]', $_ENV['CONVERTKIT_API_SECRET']);
-		$I->seeInField('_wp_convertkit_settings[page_form]', $_ENV['CONVERTKIT_API_FORM_NAME']);
-		$I->seeInField('_wp_convertkit_settings[post_form]', $_ENV['CONVERTKIT_API_FORM_NAME']);
 	}
 
 	/**
@@ -343,38 +285,26 @@ class PluginSetupWizardCest
 		$this->_activatePlugin($I);
 
 		// Define Plugin settings with a ConvertKit account containing no forms.
-		$I->haveOptionInDatabase(
-			'_wp_convertkit_settings',
-			[
-				'api_key'    => $_ENV['CONVERTKIT_API_KEY_NO_DATA'],
-				'api_secret' => $_ENV['CONVERTKIT_API_SECRET_NO_DATA'],
-			]
-		);
+		$I->setupConvertKitPluginCredentialsNoData($I);
 
-		// Load Step 3/4.
-		$I->amOnAdminPage('options.php?page=convertkit-setup&step=3');
+		// Load Step 2/3.
+		$I->amOnAdminPage('options.php?page=convertkit-setup&step=2');
 
 		// Confirm expected setup wizard screen is displayed.
-		$this->_seeExpectedSetupWizardScreen($I, 3, 'Create your first ConvertKit Form', true);
+		$this->_seeExpectedSetupWizardScreen($I, 2, 'Create your first Kit Form', true);
 
 		// Confirm button link to create a form on ConvertKit is correct.
-		$I->seeInSource('<a href="https://app.convertkit.com/forms/new/?utm_source=wordpress&amp;utm_term=en_US&amp;utm_content=convertkit"');
+		$I->seeInSource('<a href="https://app.kit.com/forms/new/?utm_source=wordpress&amp;utm_term=en_US&amp;utm_content=convertkit"');
 
 		// Define Plugin settings with a ConvertKit account containing forms,
 		// as if we created a form in ConvertKit.
-		$I->haveOptionInDatabase(
-			'_wp_convertkit_settings',
-			[
-				'api_key'    => $_ENV['CONVERTKIT_API_KEY'],
-				'api_secret' => $_ENV['CONVERTKIT_API_SECRET'],
-			]
-		);
+		$I->setupConvertKitPluginNoDefaultForms($I);
 
 		// Click "I've created a form in ConvertKit" button.
-		$I->click('I\'ve created a form in ConvertKit');
+		$I->click('I\'ve created a form in Kit');
 
 		// Confirm expected setup wizard screen is displayed.
-		$this->_seeExpectedSetupWizardScreen($I, 3, 'Display an email capture form');
+		$this->_seeExpectedSetupWizardScreen($I, 2, 'Display an email capture form');
 
 		// Confirm we can select a Post Form.
 		$I->fillSelect2Field($I, '#select2-wp-convertkit-form-posts-container', $_ENV['CONVERTKIT_API_FORM_NAME']);
@@ -394,19 +324,13 @@ class PluginSetupWizardCest
 		$this->_activatePlugin($I);
 
 		// Define Plugin settings.
-		$I->haveOptionInDatabase(
-			'_wp_convertkit_settings',
-			[
-				'api_key'    => $_ENV['CONVERTKIT_API_KEY'],
-				'api_secret' => $_ENV['CONVERTKIT_API_SECRET'],
-			]
-		);
+		$I->setupConvertKitPluginNoDefaultForms($I);
 
-		// Load Step 3/4.
-		$I->amOnAdminPage('options.php?page=convertkit-setup&step=3');
+		// Load Step 2/3.
+		$I->amOnAdminPage('options.php?page=convertkit-setup&step=2');
 
 		// Confirm expected setup wizard screen is displayed.
-		$this->_seeExpectedSetupWizardScreen($I, 3, 'Display an email capture form');
+		$this->_seeExpectedSetupWizardScreen($I, 2, 'Display an email capture form');
 
 		// Confirm no Page or Post preview links exist, because there are no Pages or Posts in WordPress.
 		$I->dontSeeElementInDOM('a#convertkit-preview-form-post');
@@ -434,72 +358,7 @@ class PluginSetupWizardCest
 		$I->click('tr[data-slug="convertkit"] td div.row-actions span.setup_wizard a');
 
 		// Confirm expected setup wizard screen is displayed.
-		$this->_seeExpectedSetupWizardScreen($I, 1, 'Welcome to the ConvertKit Setup Wizard');
-	}
-
-	/**
-	 * Tests that a slimline modal version of the Plugin Setup Wizard is displayed
-	 * when the `convertkit-modal` request parameter is included.
-	 *
-	 * @since   2.2.6
-	 *
-	 * @param   AcceptanceTester $I  Tester.
-	 */
-	public function testSetupWizardModal(AcceptanceTester $I)
-	{
-		// Activate ConvertKit Plugin.
-		$I->activateConvertKitPlugin($I);
-
-		// Manually navigate to the Plugin Setup Wizard; this will be performed via a block
-		// in a future PR, so this test can be moved to e.g. PageBlockFormCest.
-		$I->amOnAdminPage('options.php?page=convertkit-setup&convertkit-modal=1');
-
-		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen($I);
-
-		// Confirm no logo or progress bar is displayed.
-		$I->dontSeeElementInDOM('#convertkit-setup-wizard-header');
-
-		// Confirm no exit wizard link is displayed.
-		$I->dontSeeElementInDOM('#convertkit-setup-wizard-exit-link');
-
-		// Confirm expected title is displayed.
-		$I->see('Welcome to the ConvertKit Setup Wizard');
-
-		// Confirm Step text is correct.
-		$I->see('Step 1 of 2');
-
-		// Test Connect button.
-		$I->click('Connect');
-
-		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen($I);
-
-		// Confirm no logo or progress bar is displayed.
-		$I->dontSeeElementInDOM('#convertkit-setup-wizard-header');
-
-		// Confirm no exit wizard link is displayed.
-		$I->dontSeeElementInDOM('#convertkit-setup-wizard-exit-link');
-
-		// Confirm expected title is displayed.
-		$I->see('Connect your ConvertKit account');
-
-		// Confirm Step text is correct.
-		$I->see('Step 2 of 2');
-
-		// Confirm Back and Connect buttons display.
-		$I->seeElementInDOM('#convertkit-setup-wizard-footer div.left a.button');
-		$I->seeElementInDOM('#convertkit-setup-wizard-footer div.right button');
-
-		// Fill fields with valid API Keys.
-		$I->fillField('api_key', $_ENV['CONVERTKIT_API_KEY']);
-		$I->fillField('api_secret', $_ENV['CONVERTKIT_API_SECRET']);
-
-		// Click Connect button.
-		$I->click('Connect');
-
-		// Confirm the close modal view was loaded, which includes some JS.
-		$I->seeInSource('self.close();');
+		$this->_seeExpectedSetupWizardScreen($I, 1, 'Welcome to the Kit Setup Wizard');
 	}
 
 	/**
@@ -551,25 +410,23 @@ class PluginSetupWizardCest
 		}
 
 		// Confirm Step text is correct.
-		$I->see('Step ' . $step . ' of 4');
+		$I->see('Step ' . $step . ' of 3');
 
 		// Depending on the step, confirm previous/next buttons exist / do not exist.
 		switch ($step) {
 			/**
-			 * First and last step should not display any footer buttons.
+			 * First step should only display Connect button.
 			 */
 			case 1:
-			case 4:
 				$I->dontSeeElementInDOM('#convertkit-setup-wizard-footer div.left a.button');
 				$I->dontSeeElementInDOM('#convertkit-setup-wizard-footer div.right button');
-				$I->dontSeeElementInDOM('#convertkit-setup-wizard-footer div.right a.button');
+				$I->seeElementInDOM('#convertkit-setup-wizard-footer div.right a.button');
 				break;
 
 			/**
-			 * Middle steps should always display footer buttons.
+			 * Middle step should always display footer buttons.
 			 */
 			case 2:
-			case 3:
 				$I->seeElementInDOM('#convertkit-setup-wizard-footer div.left a.button');
 
 				if ($nextButtonIsLink) {
@@ -581,7 +438,44 @@ class PluginSetupWizardCest
 				}
 				break;
 
+			/**
+			 * Last step should not display any footer buttons.
+			 */
+			case 3:
+				$I->dontSeeElementInDOM('#convertkit-setup-wizard-footer div.left a.button');
+				$I->dontSeeElementInDOM('#convertkit-setup-wizard-footer div.right button');
+				$I->dontSeeElementInDOM('#convertkit-setup-wizard-footer div.right a.button');
+				break;
 		}
+	}
+
+	/**
+	 * Tests that a slimline modal version of the Plugin Setup Wizard is displayed
+	 * when the `convertkit-modal` request parameter is included.
+	 *
+	 * @since   2.2.6
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testSetupWizardModal(AcceptanceTester $I)
+	{
+		// Activate ConvertKit Plugin.
+		$I->activateConvertKitPlugin($I);
+
+		// Manually navigate to the Plugin Setup Wizard; this will be performed via a block
+		// in a future PR, so this test can be moved to e.g. PageBlockFormCest.
+		$I->amOnAdminPage('options.php?page=convertkit-setup&convertkit-modal=1');
+
+		// Confirm the ConvertKit hosted OAuth login screen is displayed.
+		$I->waitForElementVisible('body.sessions');
+		$I->seeInSource('oauth/authorize?client_id=' . $_ENV['CONVERTKIT_OAUTH_CLIENT_ID']);
+
+		// Act as if we completed OAuth.
+		$I->setupConvertKitPluginNoDefaultForms($I);
+		$I->amOnAdminPage('options.php?page=convertkit-setup&step=2&convertkit-modal=1');
+
+		// Confirm the close modal view was loaded, which includes some JS.
+		$I->seeInSource('self.close();');
 	}
 
 	/**

@@ -23,9 +23,78 @@ class ConvertKit_Admin_Post {
 	 */
 	public function __construct() {
 
+		// Register "Add New" Kit button on Pages.
+		add_filter( 'views_edit-page', array( $this, 'output_wp_list_table_buttons' ) );
+
 		add_action( 'post_submitbox_misc_actions', array( $this, 'output_pre_publish_actions' ) );
 		add_action( 'add_meta_boxes', array( $this, 'add_meta_boxes' ) );
 		add_action( 'save_post', array( $this, 'save_post_meta' ) );
+
+	}
+
+	/**
+	 * Registers 'Add New' buttons for the given Post Type's admin screen.
+	 *
+	 * If no options are registered, no button is displayed.
+	 *
+	 * JS will move this button to be displayed next to the "Add New" button when viewing the table of Pages or Posts,
+	 * as there is not a native WordPress action/filter for registering buttons next to the "Add New" button.
+	 *
+	 * @since   2.5.5
+	 *
+	 * @param   array $views  Views.
+	 * @return  array           Views
+	 */
+	public function output_wp_list_table_buttons( $views ) {
+
+		// Get current post type that we're viewing.
+		$post_type = $this->get_current_post_type();
+
+		// Don't output any buttons if we couldn't determine the current post type.
+		if ( ! $post_type ) {
+			return $views;
+		}
+
+		// Define a blank array of buttons to be filtered.
+		$buttons = array();
+
+		/**
+		 * Registers 'Add New' buttons for the given Post Type's admin screen.
+		 *
+		 * @since   2.5.5
+		 *
+		 * @param   array   $buttons    Buttons.
+		 * @param   string  $post_type  Post Type.
+		 */
+		$buttons = apply_filters( 'convertkit_admin_post_register_add_new_buttons', $buttons, $post_type );
+
+		// Bail if no buttons are registered for display.
+		if ( ! count( $buttons ) ) {
+			return $views;
+		}
+
+		// Enqueue JS and CSS.
+		wp_enqueue_script( 'convertkit-admin-wp-list-table-buttons', CONVERTKIT_PLUGIN_URL . 'resources/backend/js/wp-list-table-buttons.js', array( 'jquery' ), CONVERTKIT_PLUGIN_VERSION, true );
+		wp_enqueue_style( 'convertkit-admin-wp-list-table-buttons', CONVERTKIT_PLUGIN_URL . 'resources/backend/css/wp-list-table-buttons.css', array(), CONVERTKIT_PLUGIN_VERSION );
+
+		// Build buttons HTML.
+		$html = '';
+		foreach ( $buttons as $button_name => $button ) {
+			$html .= sprintf(
+				'<a href="%s">%s</a>',
+				esc_attr( $button['url'] ),
+				esc_html( $button['label'] )
+			);
+		}
+
+		// Register an 'Add New' dropdown button, with buttons HTML.
+		$views['convertkit'] = sprintf(
+			'<span class="convertkit-action page-title-action hidden">%s<span class="convertkit-actions hidden">%s</span></span>',
+			__( 'Add New', 'convertkit' ),
+			$html
+		);
+
+		return $views;
 
 	}
 
@@ -65,7 +134,7 @@ class ConvertKit_Admin_Post {
 		wp_enqueue_style( 'convertkit-post', CONVERTKIT_PLUGIN_URL . 'resources/backend/css/post.css', array(), CONVERTKIT_PLUGIN_VERSION );
 
 		/**
-		 * Enqueue CSS for the Settings Screen at Settings > ConvertKit
+		 * Enqueue CSS for the Settings Screen at Settings > Kit
 		 *
 		 * @since   1.9.6.4
 		 */
@@ -120,7 +189,7 @@ class ConvertKit_Admin_Post {
 		}
 
 		// Register Meta Box.
-		add_meta_box( 'wp-convertkit-meta-box', __( 'ConvertKit', 'convertkit' ), array( $this, 'display_meta_box' ), $post_type, 'normal' );
+		add_meta_box( 'wp-convertkit-meta-box', __( 'Kit', 'convertkit' ), array( $this, 'display_meta_box' ), $post_type, 'normal' );
 
 		// Enqueue JS and CSS.
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
@@ -144,8 +213,9 @@ class ConvertKit_Admin_Post {
 
 		// Show a warning if the API credentials haven't been set.
 		$settings = new ConvertKit_Settings();
-		if ( ! $settings->has_api_key_and_secret() ) {
+		if ( ! $settings->has_access_and_refresh_token() ) {
 			$post_type = get_post_type_object( $post->post_type );
+			$api       = new ConvertKit_API_V4( CONVERTKIT_OAUTH_CLIENT_ID, CONVERTKIT_OAUTH_CLIENT_REDIRECT_URI );
 			include CONVERTKIT_PLUGIN_PATH . '/views/backend/post/no-api-key.php';
 			return;
 		}
@@ -255,6 +325,19 @@ class ConvertKit_Admin_Post {
 		if ( $meta['form'] || $meta['landing_page'] ) {
 			WP_ConvertKit()->get_class( 'review_request' )->request_review();
 		}
+
+	}
+
+	/**
+	 * Get the current post type based on the screen that is viewed.
+	 *
+	 * @since   2.5.5
+	 *
+	 * @return  bool|string
+	 */
+	private function get_current_post_type() {
+
+		return convertkit_get_current_screen( 'post_type' );
 
 	}
 

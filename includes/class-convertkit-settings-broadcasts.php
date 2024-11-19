@@ -73,6 +73,14 @@ class ConvertKit_Settings_Broadcasts {
 	 */
 	public function enabled() {
 
+		// Check if DOMDocument is installed.
+		// It should be installed as mosts hosts include php-dom and php-xml modules.
+		// If not, disable Broadcast to Posts import functionality as we can't parse
+		// imported Broadcasts.
+		if ( ! class_exists( 'DOMDocument' ) ) {
+			return false;
+		}
+
 		return ( $this->settings['enabled'] === 'on' ? true : false );
 
 	}
@@ -126,6 +134,19 @@ class ConvertKit_Settings_Broadcasts {
 	public function import_thumbnail() {
 
 		return ( $this->settings['import_thumbnail'] === 'on' ? true : false );
+
+	}
+
+	/**
+	 * Returns whether to import the thumbnail to the Featured Image.
+	 *
+	 * @since   2.6.3
+	 *
+	 * @return  bool
+	 */
+	public function import_images() {
+
+		return ( $this->settings['import_images'] === 'on' ? true : false );
 
 	}
 
@@ -212,6 +233,7 @@ class ConvertKit_Settings_Broadcasts {
 			'post_status'           => 'publish',
 			'category_id'           => '',
 			'import_thumbnail'      => 'on',
+			'import_images'         => '',
 
 			// By default, only import Broadcasts as Posts for the last 30 days.
 			'published_at_min_date' => gmdate( 'Y-m-d', strtotime( '-30 days' ) ),

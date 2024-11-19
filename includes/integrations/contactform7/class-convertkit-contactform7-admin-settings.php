@@ -7,7 +7,7 @@
  */
 
 /**
- * Registers Contact Form 7 Settings that can be edited at Settings > ConvertKit > Contact Form 7.
+ * Registers Contact Form 7 Settings that can be edited at Settings > Kit > Contact Form 7.
  *
  * @package ConvertKit
  * @author ConvertKit
@@ -52,7 +52,7 @@ class ConvertKit_ContactForm7_Admin_Settings extends ConvertKit_Settings_Base {
 		?>
 		<p>
 			<?php
-			esc_html_e( 'ConvertKit seamlessly integrates with Contact Form 7 to let you add subscribers using Contact Form 7 forms.', 'convertkit' );
+			esc_html_e( 'Kit seamlessly integrates with Contact Form 7 to let you add subscribers using Contact Form 7 forms.', 'convertkit' );
 			?>
 		</p>
 		<p>
@@ -63,9 +63,22 @@ class ConvertKit_ContactForm7_Admin_Settings extends ConvertKit_Settings_Base {
 				esc_html__( 'field named', 'convertkit' ),
 				esc_html__( 'and an', 'convertkit' ),
 				esc_html__( 'field named', 'convertkit' ),
-				esc_html__( '. These fields will be sent to ConvertKit for the subscription.', 'convertkit' )
+				esc_html__( '. These fields will be sent to Kit for the subscription.', 'convertkit' )
 			);
 			?>
+		</p>
+		<p>
+			<?php esc_html_e( 'Each Contact Form 7 Form has the following Kit options:', 'convertkit' ); ?>
+			<br />
+			<code><?php esc_html_e( 'Do not subscribe', 'convertkit' ); ?></code>: <?php esc_html_e( 'Do not subscribe the email address to Kit', 'convertkit' ); ?>
+			<br />
+			<code><?php esc_html_e( 'Subscribe', 'convertkit' ); ?></code>: <?php esc_html_e( 'Subscribes the email address to Kit', 'convertkit' ); ?>
+			<br />
+			<code><?php esc_html_e( 'Form', 'convertkit' ); ?></code>: <?php esc_html_e( 'Subscribes the email address to Kit, and adds the subscriber to the Kit form', 'convertkit' ); ?>
+			<br />
+			<code><?php esc_html_e( 'Tag', 'convertkit' ); ?></code>: <?php esc_html_e( 'Subscribes the email address to Kit, tagging the subscriber', 'convertkit' ); ?>
+			<br />
+			<code><?php esc_html_e( 'Sequence', 'convertkit' ); ?></code>: <?php esc_html_e( 'Subscribes the email address to Kit, and adds the subscriber to the Kit sequence', 'convertkit' ); ?>
 		</p>
 		<?php
 
@@ -80,7 +93,7 @@ class ConvertKit_ContactForm7_Admin_Settings extends ConvertKit_Settings_Base {
 	 */
 	public function documentation_url() {
 
-		return 'https://help.convertkit.com/en/articles/2502591-the-convertkit-wordpress-plugin';
+		return 'https://help.kit.com/en/articles/2502591-the-convertkit-wordpress-plugin';
 
 	}
 
@@ -97,20 +110,6 @@ class ConvertKit_ContactForm7_Admin_Settings extends ConvertKit_Settings_Base {
 
 		do_settings_sections( $this->settings_key );
 
-		// Get Forms.
-		$forms                           = new ConvertKit_Resource_Forms( 'contact_form_7' );
-		$creator_network_recommendations = new ConvertKit_Resource_Creator_Network_Recommendations( 'contact_form_7' );
-
-		// Bail with an error if no ConvertKit Forms exist.
-		if ( ! $forms->exist() ) {
-			$this->output_error( __( 'No Forms exist on ConvertKit.', 'convertkit' ) );
-			$this->render_container_end();
-			return;
-		}
-
-		// Get Creator Network Recommendations script.
-		$creator_network_recommendations_enabled = $creator_network_recommendations->enabled();
-
 		// Get Contact Form 7 Forms.
 		$cf7_forms = $this->get_cf7_forms();
 
@@ -121,10 +120,14 @@ class ConvertKit_ContactForm7_Admin_Settings extends ConvertKit_Settings_Base {
 			return;
 		}
 
+		// Get Creator Network Recommendations script.
+		$creator_network_recommendations         = new ConvertKit_Resource_Creator_Network_Recommendations( 'contact_form_7' );
+		$creator_network_recommendations_enabled = $creator_network_recommendations->enabled();
+
 		// Setup WP_List_Table.
 		$table = new Multi_Value_Field_Table();
 		$table->add_column( 'title', __( 'Contact Form 7 Form', 'convertkit' ), true );
-		$table->add_column( 'form', __( 'ConvertKit Form', 'convertkit' ), false );
+		$table->add_column( 'form', __( 'Kit', 'convertkit' ), false );
 		$table->add_column( 'email', __( 'Contact Form 7 Email Field', 'convertkit' ), false );
 		$table->add_column( 'name', __( 'Contact Form 7 Name Field', 'convertkit' ), false );
 		$table->add_column( 'creator_network_recommendations', __( 'Enable Creator Network Recommendations', 'convertkit' ), false );
@@ -134,14 +137,12 @@ class ConvertKit_ContactForm7_Admin_Settings extends ConvertKit_Settings_Base {
 			// Build row.
 			$table_row = array(
 				'title' => $cf7_form['name'],
-				'form'  => $forms->get_select_field_all(
+				'form'  => convertkit_get_subscription_dropdown_field(
 					'_wp_convertkit_integration_contactform7_settings[' . $cf7_form['id'] . ']',
+					(string) $this->settings->get_convertkit_subscribe_setting_by_cf7_form_id( $cf7_form['id'] ),
 					'_wp_convertkit_integration_contactform7_settings_' . $cf7_form['id'],
-					false,
-					(string) $this->settings->get_convertkit_form_id_by_cf7_form_id( $cf7_form['id'] ),
-					array(
-						'default' => __( 'None', 'convertkit' ),
-					)
+					'widefat',
+					'contact_form_7'
 				),
 				'email' => 'your-email',
 				'name'  => 'your-name',
@@ -161,7 +162,7 @@ class ConvertKit_ContactForm7_Admin_Settings extends ConvertKit_Settings_Base {
 					'%s <a href="%s" target="_blank">%s</a>',
 					esc_html__( 'Creator Network Recommendations requires a', 'convertkit' ),
 					convertkit_get_billing_url(),
-					esc_html__( 'paid ConvertKit Plan', 'convertkit' )
+					esc_html__( 'paid Kit Plan', 'convertkit' )
 				);
 			}
 
@@ -224,7 +225,7 @@ class ConvertKit_ContactForm7_Admin_Settings extends ConvertKit_Settings_Base {
 add_filter(
 	'convertkit_admin_settings_register_sections',
 	/**
-	 * Register WishList Member as a section at Settings > ConvertKit.
+	 * Register WishList Member as a section at Settings > Kit.
 	 *
 	 * @param   array   $sections   Settings Sections.
 	 * @return  array
@@ -236,7 +237,7 @@ add_filter(
 			return $sections;
 		}
 
-		// Register this class as a section at Settings > ConvertKit.
+		// Register this class as a section at Settings > Kit.
 		$sections['contactform7'] = new ConvertKit_ContactForm7_Admin_Settings();
 		return $sections;
 

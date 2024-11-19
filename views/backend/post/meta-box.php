@@ -31,7 +31,7 @@
 						)
 					);
 					?>
-					<button class="wp-convertkit-refresh-resources" class="button button-secondary hide-if-no-js" title="<?php esc_attr_e( 'Refresh Forms from ConvertKit account', 'convertkit' ); ?>" data-resource="forms" data-field="#wp-convertkit-form">
+					<button class="wp-convertkit-refresh-resources" class="button button-secondary hide-if-no-js" title="<?php esc_attr_e( 'Refresh Forms from Kit account', 'convertkit' ); ?>" data-resource="forms" data-field="#wp-convertkit-form">
 						<span class="dashicons dashicons-update"></span>
 					</button>
 					<p class="description">
@@ -48,7 +48,7 @@
 						printf(
 							/* translators: Link to sign in to ConvertKit */
 							esc_html__( 'To make changes to your forms, %s', 'convertkit' ),
-							'<a href="' . esc_url( convertkit_get_sign_in_url() ) . '" target="_blank">' . esc_html__( 'sign in to ConvertKit', 'convertkit' ) . '</a>'
+							'<a href="' . esc_url( convertkit_get_sign_in_url() ) . '" target="_blank">' . esc_html__( 'sign in to Kit', 'convertkit' ) . '</a>'
 						);
 						?>
 					</p>
@@ -84,7 +84,7 @@
 							}
 							?>
 						</select>
-						<button class="wp-convertkit-refresh-resources" class="button button-secondary hide-if-no-js" title="<?php esc_attr_e( 'Refresh Landing Pages from ConvertKit account', 'convertkit' ); ?>" data-resource="landing_pages" data-field="#wp-convertkit-landing_page">
+						<button class="wp-convertkit-refresh-resources" class="button button-secondary hide-if-no-js" title="<?php esc_attr_e( 'Refresh Landing Pages from Kit account', 'convertkit' ); ?>" data-resource="landing_pages" data-field="#wp-convertkit-landing_page">
 							<span class="dashicons dashicons-update"></span>
 						</button>
 						<p class="description">
@@ -94,7 +94,7 @@
 							printf(
 								/* translators: Link to sign in to ConvertKit */
 								esc_html__( 'To make changes to your landing pages, %s', 'convertkit' ),
-								'<a href="' . esc_url( convertkit_get_sign_in_url() ) . '" target="_blank">' . esc_html__( 'sign in to ConvertKit', 'convertkit' ) . '</a>'
+								'<a href="' . esc_url( convertkit_get_sign_in_url() ) . '" target="_blank">' . esc_html__( 'sign in to Kit', 'convertkit' ) . '</a>'
 							);
 							?>
 						</p>
@@ -124,13 +124,13 @@
 						}
 						?>
 					</select>
-					<button class="wp-convertkit-refresh-resources" class="button button-secondary hide-if-no-js" title="<?php esc_attr_e( 'Refresh Tags from ConvertKit account', 'convertkit' ); ?>" data-resource="tags" data-field="#wp-convertkit-tag">
+					<button class="wp-convertkit-refresh-resources" class="button button-secondary hide-if-no-js" title="<?php esc_attr_e( 'Refresh Tags from Kit account', 'convertkit' ); ?>" data-resource="tags" data-field="#wp-convertkit-tag">
 						<span class="dashicons dashicons-update"></span>
 					</button>
 					<p class="description">
 						<?php esc_html_e( 'Select a tag to apply to visitors of this page who are subscribed.', 'convertkit' ); ?>
 						<br />
-						<?php esc_html_e( 'A visitor is deemed to be subscribed if they have clicked a link in an email to this site which includes their subscriber ID, or have entered their email address in a ConvertKit Form on this site.', 'convertkit' ); ?>
+						<?php esc_html_e( 'A visitor is deemed to be subscribed if they have clicked a link in an email to this site which includes their subscriber ID, or have entered their email address in a Kit Form on this site.', 'convertkit' ); ?>
 					</p>
 				</div>
 			</td>
@@ -145,41 +145,37 @@
 					<select name="wp-convertkit[restrict_content]" id="wp-convertkit-restrict_content" class="convertkit-select2">
 						<option value="0"<?php selected( '', $convertkit_post->get_restrict_content() ); ?> data-preserve-on-refresh="1"><?php esc_html_e( 'Don\'t restrict content to members only.', 'convertkit' ); ?></option>
 
-						<?php
-						if ( $convertkit_tags->exist() ) {
-							?>
-							<optgroup label="<?php esc_attr_e( 'Tags', 'convertkit' ); ?>">
-								<?php
+						<optgroup label="<?php esc_attr_e( 'Tags', 'convertkit' ); ?>" data-resource="tags">
+							<?php
+							// Tags.
+							if ( $convertkit_tags->exist() ) {
 								foreach ( $convertkit_tags->get() as $convertkit_tag ) {
 									?>
 									<option value="tag_<?php echo esc_attr( $convertkit_tag['id'] ); ?>"<?php selected( 'tag_' . $convertkit_tag['id'], $convertkit_post->get_restrict_content() ); ?>><?php echo esc_attr( $convertkit_tag['name'] ); ?></option>
 									<?php
 								}
-								?>
-							</optgroup>
-							<?php
-						}
-
-						if ( $convertkit_products->exist() ) {
+							}
 							?>
-							<optgroup label="<?php esc_attr_e( 'Products', 'convertkit' ); ?>">
-								<?php
+						</optgroup>
+
+						<optgroup label="<?php esc_attr_e( 'Products', 'convertkit' ); ?>" data-resource="products">
+							<?php
+							// Products.
+							if ( $convertkit_products->exist() ) {
 								foreach ( $convertkit_products->get() as $product ) {
 									?>
 									<option value="product_<?php echo esc_attr( $product['id'] ); ?>"<?php selected( 'product_' . $product['id'], $convertkit_post->get_restrict_content() ); ?>><?php echo esc_attr( $product['name'] ); ?></option>
 									<?php
 								}
-								?>
-							</optgroup>
-							<?php
-						}
-						?>
+							}
+							?>
+						</optgroup>
 					</select>
-					<button class="wp-convertkit-refresh-resources" class="button button-secondary hide-if-no-js" title="<?php esc_attr_e( 'Refresh Products Pages from ConvertKit account', 'convertkit' ); ?>" data-resource="products" data-field="#wp-convertkit-restrict_content">
+					<button class="wp-convertkit-refresh-resources" class="button button-secondary hide-if-no-js" title="<?php esc_attr_e( 'Refresh Products and Tags from Kit account', 'convertkit' ); ?>" data-resource="restrict_content" data-field="#wp-convertkit-restrict_content">
 						<span class="dashicons dashicons-update"></span>
 					</button>
 					<p class="description">
-						<?php esc_html_e( 'Select the ConvertKit tag or product that the visitor must be subscribed to, permitting them access to view this members only content.', 'convertkit' ); ?>
+						<?php esc_html_e( 'Select the Kit tag or product that the visitor must be subscribed to, permitting them access to view this members only content.', 'convertkit' ); ?>
 						<br />
 						<?php esc_html_e( 'If a tag is selected, a subscription form will be displayed. On submission, the email address will be subscribed to the selected tag, granting access to the members only content.', 'convertkit' ); ?>
 					</p>

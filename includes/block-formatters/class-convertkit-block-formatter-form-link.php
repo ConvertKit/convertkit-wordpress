@@ -74,7 +74,7 @@ class ConvertKit_Block_Formatter_Form_Link extends ConvertKit_Block_Formatter {
 	public function get_overview() {
 
 		return array(
-			'title'          => __( 'ConvertKit Form Trigger', 'convertkit' ),
+			'title'          => __( 'Kit Form Trigger', 'convertkit' ),
 			'description'    => __( 'Displays a modal, sticky bar or slide in form to display when the link is pressed.', 'convertkit' ),
 			'icon'           => 'resources/backend/images/block-icon-formtrigger.svg',
 

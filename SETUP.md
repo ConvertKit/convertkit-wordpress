@@ -1,6 +1,6 @@
 # Setup Guide
 
-This document describes how to setup your development environment, so that it is ready to run, develop and test the ConvertKit WordPress Plugin.
+This document describes how to setup your development environment, so that it is ready to run, develop and test the Kit WordPress Plugin.
 
 Suggestions are provided for the LAMP/LEMP stack and Git client are for those who prefer the UI over a command line and/or are less familiar with 
 WordPress, PHP, MySQL and Git - but you're free to use your preferred software.
@@ -40,7 +40,7 @@ If you're new to this, use [GitHub Desktop](https://desktop.github.com/) or [Tow
 
 ### Install Third Party Plugins
 
-The ConvertKit Plugin (and/or its Addons) provides integrations with the following, and therefore it's recommended to install and activate these
+The Kit Plugin (and/or its Addons) provides integrations with the following, and therefore it's recommended to install and activate these
 Plugins on your local development environment:
 
 - [Contact Form 7](https://wordpress.org/plugins/contact-form-7/) (Free)
@@ -48,7 +48,7 @@ Plugins on your local development environment:
 - [WishList Member](https://wishlistmember.com/) (Paid)
 - [WooCommerce](https://wordpress.org/plugins/woocommerce/) (Free)
 
-For ConvertKit employees or contractors, licensed versions of paid Third Party Plugins can be made available to you on request.
+For Kit employees or contractors, licensed versions of paid Third Party Plugins can be made available to you on request.
 
 ### Create Test Database
 
@@ -94,7 +94,7 @@ CONVERTKIT_API_LEGACY_FORM_ID="470099"
 CONVERTKIT_API_LEGACY_FORM_SHORTCODE="[convertkit form=5281783]"
 CONVERTKIT_API_LEGACY_LANDING_PAGE_NAME="Legacy Landing Page"
 CONVERTKIT_API_LEGACY_LANDING_PAGE_ID="470103"
-CONVERTKIT_API_LEGACY_LANDING_PAGE_URL="https://app.convertkit.com/landing_pages/470103"
+CONVERTKIT_API_LEGACY_LANDING_PAGE_URL="https://app.kit.com/landing_pages/470103"
 CONVERTKIT_API_SEQUENCE_ID="1030824"
 CONVERTKIT_API_TAG_NAME="wordpress"
 CONVERTKIT_API_TAG_ID="2744672"
@@ -159,7 +159,7 @@ parameters:
 In the Plugin's directory, at the command line, run `composer install`.
 
 This will install two types of packages:
-- Packages used by the Plugin (i.e. shared libraries used across multiple ConvertKit Plugins)
+- Packages used by the Plugin (i.e. shared libraries used across multiple Kit Plugins)
 - Packages used in the process of development (i.e. testing, coding standards):
 -- wp-browser
 -- Codeception
@@ -202,7 +202,7 @@ Our change above tells WordPress to use the test database for our test requests,
 
 ### Install ChromeDriver
 
-ChromeDriver is a headless (i.e. non-GUI) browser that our test suite uses to run Acceptance tests, interacting with the ConvertKit
+ChromeDriver is a headless (i.e. non-GUI) browser that our test suite uses to run Acceptance tests, interacting with the Kit
 Plugin just as a user would - including full JavaScript execution, user inputs etc.
 
 Download ChromeDriver for your Google Chrome version and OS from https://sites.google.com/chromium.org/driver/downloads?authuser=0
@@ -262,7 +262,7 @@ is setup successfully.
 
 ### Add your API Key to the Plugin
 
-Refer to the [ConvertKit Help Article](https://help.convertkit.com/en/articles/2502591-getting-started-the-wordpress-plugin) to get started with
+Refer to the [Kit Help Article](https://help.kit.com/en/articles/2502591-getting-started-the-wordpress-plugin) to get started with
 using the WordPress Plugin.
 
 ### Next Steps

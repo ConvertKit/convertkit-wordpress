@@ -200,15 +200,6 @@ class ConvertKit_Admin_Setup_Wizard {
 	 */
 	private function process_form() {
 
-		// Run security checks.
-		if ( ! isset( $_POST['_wpnonce'] ) ) {
-			return;
-		}
-		if ( ! wp_verify_nonce( sanitize_key( $_POST['_wpnonce'] ), $this->page_name ) ) {
-			$this->error = __( 'Invalid nonce specified.', 'convertkit' );
-			return;
-		}
-
 		/**
 		 * Process submitted form data for the given setup wizard name and current step.
 		 *
@@ -295,7 +286,7 @@ class ConvertKit_Admin_Setup_Wizard {
 
 		// Enqueue JS.
 		wp_enqueue_script( 'convertkit-admin-preview-output', CONVERTKIT_PLUGIN_URL . 'resources/backend/js/preview-output.js', array( 'jquery' ), CONVERTKIT_PLUGIN_VERSION, true );
-		wp_enqueue_script( 'convertkit-admin-setup-wizard', CONVERTKIT_PLUGIN_URL . 'resources/backend/js/setup-wizard.js', array( 'jquery' ), CONVERTKIT_PLUGIN_VERSION, true );
+		wp_enqueue_script( 'convertkit-admin-setup-wizard', CONVERTKIT_PLUGIN_URL . 'resources/backend/js/setup-wizard.js', array(), CONVERTKIT_PLUGIN_VERSION, true );
 
 	}
 

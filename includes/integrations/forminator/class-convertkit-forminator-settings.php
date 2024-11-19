@@ -87,9 +87,9 @@ class ConvertKit_Forminator_Settings {
 	 * @since   2.3.0
 	 *
 	 * @param   int $forminator_form_id    Forminator Form ID.
-	 * @return  bool|int
+	 * @return  bool|string|int
 	 */
-	public function get_convertkit_form_id_by_forminator_form_id( $forminator_form_id ) {
+	public function get_convertkit_subscribe_setting_by_forminator_form_id( $forminator_form_id ) {
 
 		// Bail if no settings exist.
 		if ( ! $this->has_settings() ) {

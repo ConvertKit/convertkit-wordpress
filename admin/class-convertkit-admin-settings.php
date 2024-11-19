@@ -7,7 +7,7 @@
  */
 
 /**
- * Registers a screen at Settings > ConvertKit in the WordPress Administration
+ * Registers a screen at Settings > Kit in the WordPress Administration
  * interface, and handles saving its data.
  *
  * @package ConvertKit
@@ -60,7 +60,7 @@ class ConvertKit_Admin_Settings {
 		$section = $this->get_active_section();
 
 		/**
-		 * Enqueue JavaScript for the Settings Screen at Settings > ConvertKit
+		 * Enqueue JavaScript for the Settings Screen at Settings > Kit
 		 *
 		 * @since   1.9.6
 		 *
@@ -71,7 +71,7 @@ class ConvertKit_Admin_Settings {
 	}
 
 	/**
-	 * Enqueue CSS for the Settings Screens at Settings > ConvertKit
+	 * Enqueue CSS for the Settings Screens at Settings > Kit
 	 *
 	 * @since   1.9.6
 	 *
@@ -91,7 +91,7 @@ class ConvertKit_Admin_Settings {
 		wp_enqueue_style( 'convertkit-admin-settings', CONVERTKIT_PLUGIN_URL . 'resources/backend/css/settings.css', array(), CONVERTKIT_PLUGIN_VERSION );
 
 		/**
-		 * Enqueue CSS for the Settings Screen at Settings > ConvertKit
+		 * Enqueue CSS for the Settings Screen at Settings > Kit
 		 *
 		 * @since   1.9.6
 		 *
@@ -109,8 +109,8 @@ class ConvertKit_Admin_Settings {
 	public function add_settings_page() {
 
 		add_options_page(
-			__( 'ConvertKit', 'convertkit' ),
-			__( 'ConvertKit', 'convertkit' ),
+			__( 'Kit', 'convertkit' ),
+			__( 'Kit', 'convertkit' ),
 			'manage_options',
 			self::SETTINGS_PAGE_SLUG,
 			array( $this, 'display_settings_page' )
@@ -129,7 +129,7 @@ class ConvertKit_Admin_Settings {
 		?>
 
 		<header>
-			<h1><?php esc_html_e( 'ConvertKit', 'convertkit' ); ?></h1>
+			<h1><?php esc_html_e( 'Kit', 'convertkit' ); ?></h1>
 
 			<?php
 			// Output Help link tab, if it exists.
@@ -288,13 +288,28 @@ class ConvertKit_Admin_Settings {
 	}
 
 	/**
-	 * Registers settings sections at Settings > ConvertKit.
+	 * Registers settings sections at Settings > Kit.
 	 *
 	 * Each section has its own tab.
 	 *
 	 * @since   1.9.6
 	 */
 	public function register_sections() {
+
+		// If no Access Token exists, register a settings section that shows a button
+		// to start the OAuth authentication flow.
+		$settings = new ConvertKit_Settings();
+		if ( ! $settings->has_access_and_refresh_token() ) {
+			// Just register the OAuth screen.
+			$sections = array(
+				'oauth' => new ConvertKit_Settings_OAuth(),
+			);
+
+			// Assign them to this class.
+			$this->sections = $sections;
+
+			return;
+		}
 
 		// Register the General and Tools settings sections.
 		$sections = array(
@@ -303,7 +318,7 @@ class ConvertKit_Admin_Settings {
 		);
 
 		/**
-		 * Registers settings sections at Settings > ConvertKit.
+		 * Registers settings sections at Settings > Kit.
 		 *
 		 * @since   1.9.6
 		 *
