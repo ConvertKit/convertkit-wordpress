@@ -20,13 +20,13 @@ class RestrictContentFilterPostCest
 	}
 
 	/**
-	 * Test that no dropdown filter on the Posts screen is displayed when no API keys are configured.
+	 * Test that no dropdown filter on the Posts screen is displayed when no credentials are configured.
 	 *
 	 * @since   2.3.2
 	 *
 	 * @param   AcceptanceTester $I  Tester.
 	 */
-	public function testNoFilterDisplayedWhenNoAPIKeys(AcceptanceTester $I)
+	public function testNoFilterDisplayedWhenNoCredentials(AcceptanceTester $I)
 	{
 		// Navigate to Posts.
 		$I->amOnAdminPage('edit.php?post_type=post');
@@ -48,8 +48,8 @@ class RestrictContentFilterPostCest
 	 */
 	public function testNoFilterDisplayedWhenNoResources(AcceptanceTester $I)
 	{
-		// Setup Plugin using API keys that have no resources.
-		$I->setupConvertKitPluginAPIKeyNoData($I);
+		// Setup Plugin using credentials that have no resources.
+		$I->setupConvertKitPluginCredentialsNoData($I);
 
 		// Navigate to Posts.
 		$I->amOnAdminPage('edit.php?post_type=post');
@@ -78,7 +78,7 @@ class RestrictContentFilterPostCest
 			$I,
 			[
 				'post_type'                => 'post',
-				'post_title'               => 'ConvertKit: Post: Restricted Content: Product: Filter Test',
+				'post_title'               => 'Kit: Post: Restricted Content: Product: Filter Test',
 				'restrict_content_setting' => 'product_' . $_ENV['CONVERTKIT_API_PRODUCT_ID'],
 			]
 		);
@@ -92,9 +92,9 @@ class RestrictContentFilterPostCest
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
 
-		// Confirm that the Post is listed, and has the 'ConvertKit Member Content' label.
-		$I->see('ConvertKit: Post: Restricted Content: Product: Filter Test');
-		$I->see('ConvertKit Member Content');
+		// Confirm that the Post is listed, and has the 'Kit Member Content' label.
+		$I->see('Kit: Post: Restricted Content: Product: Filter Test');
+		$I->see('Kit Member Content');
 
 		// Filter by Product.
 		$I->selectOption('#wp-convertkit-restrict-content-filter', $_ENV['CONVERTKIT_API_PRODUCT_NAME']);
@@ -106,9 +106,9 @@ class RestrictContentFilterPostCest
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
 
-		// Confirm that the Post is still listed, and has the 'ConvertKit Member Content' label.
-		$I->see('ConvertKit: Post: Restricted Content: Product: Filter Test');
-		$I->see('ConvertKit Member Content');
+		// Confirm that the Post is still listed, and has the 'Kit Member Content' label.
+		$I->see('Kit: Post: Restricted Content: Product: Filter Test');
+		$I->see('Kit Member Content');
 	}
 
 	/**

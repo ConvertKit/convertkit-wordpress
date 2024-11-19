@@ -31,14 +31,14 @@ class ElementorProductCest
 	public function testProductWidgetIsRegistered(AcceptanceTester $I)
 	{
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Product: Elementor: Registered');
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Product: Elementor: Registered');
 
 		// Click Edit with Elementor button.
 		$I->click('#elementor-switch-mode-button');
 
 		// When Elementor loads, search for the ConvertKit Product block.
 		$I->waitForElementVisible('#elementor-panel-elements-search-input');
-		$I->fillField('#elementor-panel-elements-search-input', 'ConvertKit Product');
+		$I->fillField('#elementor-panel-elements-search-input', 'Kit Product');
 
 		// Confirm that the Product widget is displayed as an option.
 		$I->seeElementInDOM('#elementor-panel-elements .elementor-element');
@@ -56,7 +56,7 @@ class ElementorProductCest
 		// Create Page with Product widget in Elementor.
 		$pageID = $this->_createPageWithProductWidget(
 			$I,
-			'ConvertKit: Page: Product: Elementor Widget: Valid Params',
+			'Kit: Page: Product: Elementor Widget: Valid Params',
 			[
 				'product' => $_ENV['CONVERTKIT_API_PRODUCT_ID'],
 				'text'    => 'Buy my product',
@@ -89,7 +89,7 @@ class ElementorProductCest
 		// Create Page with Product widget in Elementor.
 		$pageID = $this->_createPageWithProductWidget(
 			$I,
-			'ConvertKit: Page: Product: Elementor Widget: Hex Colors',
+			'Kit: Page: Product: Elementor Widget: Hex Colors',
 			[
 				'product'          => $_ENV['CONVERTKIT_API_PRODUCT_ID'],
 				'text'             => 'Buy my product',

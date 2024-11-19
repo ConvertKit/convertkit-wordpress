@@ -26,7 +26,7 @@
 			);
 			?>
 		</label>
-		<button class="wp-convertkit-refresh-resources" class="button button-secondary" title="<?php esc_attr_e( 'Refresh Forms from ConvertKit account', 'convertkit' ); ?>" data-resource="forms" data-field="#wp-convertkit-quick-edit-form">
+		<button class="wp-convertkit-refresh-resources" class="button button-secondary" title="<?php esc_attr_e( 'Refresh Forms from Kit account', 'convertkit' ); ?>" data-resource="forms" data-field="#wp-convertkit-quick-edit-form">
 			<span class="dashicons dashicons-update"></span>
 		</button>
 	</div>
@@ -48,7 +48,7 @@
 				?>
 			</select>
 		</label>
-		<button class="wp-convertkit-refresh-resources" class="button button-secondary" title="<?php esc_attr_e( 'Refresh Tags from ConvertKit account', 'convertkit' ); ?>" data-resource="tags" data-field="#wp-convertkit-quick-edit-tag">
+		<button class="wp-convertkit-refresh-resources" class="button button-secondary" title="<?php esc_attr_e( 'Refresh Tags from Kit account', 'convertkit' ); ?>" data-resource="tags" data-field="#wp-convertkit-quick-edit-tag">
 			<span class="dashicons dashicons-update"></span>
 		</button>
 	</div>
@@ -87,7 +87,7 @@
 				</optgroup>
 			</select>
 		</label>
-		<button class="wp-convertkit-refresh-resources" class="button button-secondary" title="<?php esc_attr_e( 'Refresh Products and Tags from ConvertKit account', 'convertkit' ); ?>" data-resource="restrict_content" data-field="#wp-convertkit-quick-edit-restrict_content">
+		<button class="wp-convertkit-refresh-resources" class="button button-secondary" title="<?php esc_attr_e( 'Refresh Products and Tags from Kit account', 'convertkit' ); ?>" data-resource="restrict_content" data-field="#wp-convertkit-quick-edit-restrict_content">
 			<span class="dashicons dashicons-update"></span>
 		</button>
 	</div>

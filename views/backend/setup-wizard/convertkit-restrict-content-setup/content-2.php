@@ -53,7 +53,7 @@ if ( $this->type === 'course' ) {
 
 <div>
 	<label for="wp-convertkit-restrict_content">
-		<?php esc_html_e( 'The ConvertKit Product or Tag the visitor must subscribe to, in order to see the content', 'convertkit' ); ?>
+		<?php esc_html_e( 'The Kit Product or Tag the visitor must subscribe to, in order to see the content', 'convertkit' ); ?>
 	</label>
 
 	<div class="convertkit-select2-container">

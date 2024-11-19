@@ -61,6 +61,9 @@ class ReviewRequestCest
 	 */
 	public function testReviewRequestOnSaveBlankSettings(AcceptanceTester $I)
 	{
+		// Setup Plugin, without defining default Forms.
+		$I->setupConvertKitPluginNoDefaultForms($I);
+
 		// Go to the Plugin's Settings Screen.
 		$I->loadConvertKitSettingsGeneralScreen($I);
 
@@ -91,7 +94,7 @@ class ReviewRequestCest
 		$I->setupConvertKitPluginResources($I);
 
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Test Review Request on Save with Form Specified');
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Test Review Request on Save with Form Specified');
 
 		// Configure metabox's Form setting = Default.
 		$I->configureMetaboxSettings(
@@ -131,7 +134,7 @@ class ReviewRequestCest
 		$I->setupConvertKitPluginResources($I);
 
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Test Review Request on Save with Form Specified');
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Test Review Request on Save with Form Specified');
 
 		// Configure metabox's Form setting = Default.
 		$I->configureMetaboxSettings(
@@ -177,7 +180,7 @@ class ReviewRequestCest
 
 		// Confirm links are correct.
 		$I->seeInSource('<a href="https://wordpress.org/support/plugin/convertkit/reviews/?filter=5#new-post" class="button button-primary" rel="noopener" target="_blank">');
-		$I->seeInSource('<a href="https://convertkit.com/support" class="button" rel="noopener" target="_blank">');
+		$I->seeInSource('<a href="https://kit.com/support" class="button" rel="noopener" target="_blank">');
 	}
 
 	/**

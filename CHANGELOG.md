@@ -96,13 +96,13 @@
 * Fix: Blocks: Include `editorScript` in `block.json`
 
 ### 2.3.0 2023-09-12
-* Added: Forminator: Option to map Forminator Forms to ConvertKit Forms, to subscribe email addresses at Settings > ConvertKit > Forminator
-* Added: Forminator: Option to Enable Creator Network Recommendations modal on individual Forms at Settings > ConvertKit > Forminator
+* Added: Forminator: Option to map Forminator Forms to ConvertKit Forms, to subscribe email addresses at Settings > Kit > Forminator
+* Added: Forminator: Option to Enable Creator Network Recommendations modal on individual Forms at Settings > Kit > Forminator
 * Added: Blocks: Register blocks using block.json
 * Fix: Landing Pages: Use WordPress Site Icon as favicon, if defined
 
 ### 2.2.9 2023-09-06
-* Added: Broadcasts (Beta): Automatically publish public ConvertKit Broadcasts as WordPress Posts. Head over to `Settings > ConvertKit > Broadcasts` to get started.
+* Added: Broadcasts (Beta): Automatically publish public ConvertKit Broadcasts as WordPress Posts. Head over to `Settings > Kit > Broadcasts` to get started.
 * Updated: WordPress Coding Standards
 * Updated: ConvertKit WordPress Libraries to 1.3.8
 
@@ -111,7 +111,7 @@
 * Fix: Block Editor: Prevent block error in WordPress 6.0 and lower by checking if `useAnchor` is available
 
 ### 2.2.7 2023-07-24
-* Added: Contact Form 7: Option to Enable Creator Network Recommendations modal on individual Forms at Settings > ConvertKit > Contact Form 7
+* Added: Contact Form 7: Option to Enable Creator Network Recommendations modal on individual Forms at Settings > Kit > Contact Form 7
 
 ### 2.2.6 2023-07-18
 * Added: Form Trigger: Block: When no API Key specified, link to Setup Wizard in a popup window to complete setup
@@ -179,7 +179,7 @@
 * Fix: Landing Pages and Legacy Forms: Deprecated `mb_convert_encoding()` message in PHP 8.2
 
 ### 2.1.0 2023-02-15
-* Added: Member Content (Beta): Require subscribers to purchase a ConvertKit Product to access specific Pages on your WordPress site. Head over to `Settings > ConvertKit > Member Content` to get started.
+* Added: Member Content (Beta): Require subscribers to purchase a ConvertKit Product to access specific Pages on your WordPress site. Head over to `Settings > Kit > Member Content` to get started.
 * Fix: Product: Block and Shortcode: Set stylesheet ID to `convertkit-product-css`, to match other blocks
 * Fix: Blocks: Use wp.serverSideRender instead of soon to be deprecated wp.components.ServerSideRender
 * Fix: Forms: Preview: Support for previewing and editing Legacy Forms

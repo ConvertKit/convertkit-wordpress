@@ -315,7 +315,7 @@ function convertkit_get_registration_url() {
 			'utm_term'    => get_locale(),
 			'utm_content' => 'convertkit',
 		),
-		'https://app.convertkit.com/users/signup'
+		'https://app.kit.com/users/signup'
 	);
 
 }
@@ -335,7 +335,7 @@ function convertkit_get_sign_in_url() {
 			'utm_term'    => get_locale(),
 			'utm_content' => 'convertkit',
 		),
-		'https://app.convertkit.com/'
+		'https://app.kit.com/'
 	);
 
 }
@@ -355,27 +355,7 @@ function convertkit_get_billing_url() {
 			'utm_term'    => get_locale(),
 			'utm_content' => 'convertkit',
 		),
-		'https://app.convertkit.com/account_settings/billing/'
-	);
-
-}
-
-/**
- * Helper method to return the URL the user needs to visit on the ConvertKit app to obtain their API Key and Secret.
- *
- * @since   1.9.6.1
- *
- * @return  string  ConvertKit App URL.
- */
-function convertkit_get_api_key_url() {
-
-	return add_query_arg(
-		array(
-			'utm_source'  => 'wordpress',
-			'utm_term'    => get_locale(),
-			'utm_content' => 'convertkit',
-		),
-		'https://app.convertkit.com/account_settings/advanced_settings/'
+		'https://app.kit.com/account_settings/billing/'
 	);
 
 }
@@ -395,7 +375,7 @@ function convertkit_get_new_form_url() {
 			'utm_term'    => get_locale(),
 			'utm_content' => 'convertkit',
 		),
-		'https://app.convertkit.com/forms/new/'
+		'https://app.kit.com/forms/new/'
 	);
 
 }
@@ -415,7 +395,27 @@ function convertkit_get_form_editor_url() {
 			'utm_term'    => get_locale(),
 			'utm_content' => 'convertkit',
 		),
-		'https://app.convertkit.com/forms'
+		'https://app.kit.com/forms'
+	);
+
+}
+
+/**
+ * Helper method to return the URL the user needs to visit on the ConvertKit app to create a new Landing Page.
+ *
+ * @since   2.5.5
+ *
+ * @return  string              ConvertKit App URL
+ */
+function convertkit_get_new_landing_page_url() {
+
+	return add_query_arg(
+		array(
+			'utm_source'  => 'wordpress',
+			'utm_term'    => get_locale(),
+			'utm_content' => 'convertkit',
+		),
+		'https://app.kit.com/pages/new/'
 	);
 
 }
@@ -435,7 +435,7 @@ function convertkit_get_new_tag_url() {
 			'utm_term'    => get_locale(),
 			'utm_content' => 'convertkit',
 		),
-		'https://app.convertkit.com/subscribers/'
+		'https://app.kit.com/subscribers/'
 	);
 
 }
@@ -455,7 +455,7 @@ function convertkit_get_new_broadcast_url() {
 			'utm_term'    => get_locale(),
 			'utm_content' => 'convertkit',
 		),
-		'https://app.convertkit.com/campaigns/'
+		'https://app.kit.com/campaigns/'
 	);
 
 }
@@ -477,7 +477,7 @@ function convertkit_get_edit_broadcast_url( $broadcast_id ) {
 			'utm_content' => 'convertkit',
 		),
 		sprintf(
-			'https://app.convertkit.com/campaigns/%s/draft',
+			'https://app.kit.com/campaigns/%s/draft',
 			$broadcast_id
 		)
 	);
@@ -499,7 +499,7 @@ function convertkit_get_new_product_url() {
 			'utm_term'    => get_locale(),
 			'utm_content' => 'convertkit',
 		),
-		'https://app.convertkit.com/products/new/'
+		'https://app.kit.com/products/new/'
 	);
 
 }
@@ -553,5 +553,67 @@ function convertkit_get_file_contents( $local_file ) {
 
 	// Return file's contents.
 	return $contents;
+
+}
+
+/**
+ * Returns a dropdown field commonly used for settings, comprising of:
+ * - Do not subscribe
+ * - Subscribe
+ * - Subscribe to Form
+ *
+ * @since   2.5.2
+ *
+ * @param   string     $name                Field name.
+ * @param   string     $value               Field value.
+ * @param   string     $id                  Field ID attribute.
+ * @param   string     $css_class           Field CSS class(es).
+ * @param   string     $context             Resource context.
+ * @param   bool|array $additional_options  Additional <option> key/value pairs.
+ */
+function convertkit_get_subscription_dropdown_field( $name, $value, $id, $css_class = '', $context = '', $additional_options = false ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter
+
+	// Load resource classes.
+	$forms     = new ConvertKit_Resource_Forms( $context );
+	$tags      = new ConvertKit_Resource_Tags( $context );
+	$sequences = new ConvertKit_Resource_Sequences( $context );
+
+	ob_start();
+	include CONVERTKIT_PLUGIN_PATH . '/views/backend/subscription-dropdown-field.php';
+	$output = trim( ob_get_clean() );
+
+	// Return output.
+	return $output;
+
+}
+
+/**
+ * Helper method to safely call get_current_screen(), returning false
+ * if the function is not available or returns null.
+ *
+ * Otherwise returns the given WP_Screen property.
+ *
+ * @since   2.5.9
+ *
+ * @param   string $property   WP_Screen property to return.
+ * @return  bool|string
+ */
+function convertkit_get_current_screen( $property ) {
+
+	// Bail if we cannot determine the screen.
+	if ( ! function_exists( 'get_current_screen' ) ) {
+		return false;
+	}
+
+	// Get screen.
+	$screen = get_current_screen();
+
+	// Bail if the screen couldn't be determined.
+	if ( is_null( $screen ) ) {
+		return false;
+	}
+
+	// Return property.
+	return $screen->$property;
 
 }

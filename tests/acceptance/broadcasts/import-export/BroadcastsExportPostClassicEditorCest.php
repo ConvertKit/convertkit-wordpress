@@ -87,7 +87,7 @@ class BroadcastsExportPostClassicEditorCest
 		);
 
 		// Create a Post.
-		$I->addClassicEditorPage($I, 'post', 'ConvertKit: Broadcasts: Export: Previously published');
+		$I->addClassicEditorPage($I, 'post', 'Kit: Broadcasts: Export: Previously published');
 
 		// Scroll to Publish meta box, so its buttons are not hidden.
 		$I->scrollTo('#submitdiv');
@@ -122,7 +122,7 @@ class BroadcastsExportPostClassicEditorCest
 		);
 
 		// Create a Post.
-		$I->addClassicEditorPage($I, 'post', 'ConvertKit: Broadcasts: Export: Disabled in Post');
+		$I->addClassicEditorPage($I, 'post', 'Kit: Broadcasts: Export: Disabled in Post');
 
 		// Scroll to Publish meta box, so its buttons are not hidden.
 		$I->scrollTo('#submitdiv');
@@ -165,7 +165,7 @@ class BroadcastsExportPostClassicEditorCest
 		);
 
 		// Create a Post.
-		$I->addClassicEditorPage($I, 'post', 'ConvertKit: Broadcasts: Export: Enabled in Post');
+		$I->addClassicEditorPage($I, 'post', 'Kit: Broadcasts: Export: Enabled in Post');
 
 		// Enable the Create Broadcast option.
 		$I->checkOption('#convertkit_action_broadcast_export');

@@ -78,14 +78,14 @@ class ConvertKit_ContactForm7_Settings {
 	}
 
 	/**
-	 * Returns the ConvertKit Form ID that is mapped against the given Contact Form 7 Form ID.
+	 * Returns the ConvertKit subscription setting for the given Contact Form 7 Form ID.
 	 *
 	 * @since   1.9.6
 	 *
 	 * @param   int $cf7_form_id    Contact Form 7 Form ID.
-	 * @return  bool|int
+	 * @return  bool|string|int
 	 */
-	public function get_convertkit_form_id_by_cf7_form_id( $cf7_form_id ) {
+	public function get_convertkit_subscribe_setting_by_cf7_form_id( $cf7_form_id ) {
 
 		// Bail if no settings exist.
 		if ( ! $this->has_settings() ) {

@@ -117,12 +117,13 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 		$settings = new ConvertKit_Settings();
 
 		return array(
-			'title'                             => __( 'ConvertKit Broadcasts', 'convertkit' ),
-			'description'                       => __( 'Displays a list of your ConvertKit broadcasts.', 'convertkit' ),
+			'title'                             => __( 'Kit Broadcasts', 'convertkit' ),
+			'description'                       => __( 'Displays a list of your Kit broadcasts.', 'convertkit' ),
 			'icon'                              => 'resources/backend/images/block-icon-broadcasts.svg',
 			'category'                          => 'convertkit',
 			'keywords'                          => array(
 				__( 'ConvertKit', 'convertkit' ),
+				__( 'Kit', 'convertkit' ),
 				__( 'Broadcasts', 'convertkit' ),
 				__( 'Posts', 'convertkit' ),
 			),
@@ -133,7 +134,7 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 			// Shortcode: TinyMCE / QuickTags Modal Width and Height.
 			'modal'                             => array(
 				'width'  => 650,
-				'height' => 385,
+				'height' => 405,
 			),
 
 			// Shortcode: Include a closing [/shortcode] tag when using TinyMCE or QuickTag Modals.
@@ -145,16 +146,18 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 			// Gutenberg: Example image showing how this block looks when choosing it in Gutenberg.
 			'gutenberg_example_image'           => CONVERTKIT_PLUGIN_URL . 'resources/backend/images/block-example-broadcasts.png',
 
-			// Help descriptions, displayed when no API key / resources exist and this block/shortcode is added.
-			'no_api_key'                        => array(
-				'notice'    => __( 'No API Key specified.', 'convertkit' ),
-				'link'      => convertkit_get_setup_wizard_plugin_link(),
-				'link_text' => __( 'Click here to add your API Key.', 'convertkit' ),
+			// Help descriptions, displayed when no Access Token / resources exist and this block/shortcode is added.
+			'no_access_token'                   => array(
+				'notice'           => __( 'Not connected to Kit.', 'convertkit' ),
+				'link'             => convertkit_get_setup_wizard_plugin_link(),
+				'link_text'        => __( 'Click here to connect your Kit account.', 'convertkit' ),
+				'instruction_text' => __( 'Connect your Kit account at Settings > Kit, and then refresh this page to configure broadcasts to display.', 'convertkit' ),
 			),
 			'no_resources'                      => array(
-				'notice'    => __( 'No broadcasts exist in ConvertKit.', 'convertkit' ),
-				'link'      => convertkit_get_new_broadcast_url(),
-				'link_text' => __( 'Click here to send your first broadcast.', 'convertkit' ),
+				'notice'           => __( 'No broadcasts exist in Kit.', 'convertkit' ),
+				'link'             => convertkit_get_new_broadcast_url(),
+				'link_text'        => __( 'Click here to send your first broadcast.', 'convertkit' ),
+				'instruction_text' => __( 'Add a broadcast to your Kit account, and then refresh this page to configure broadcasts to display.', 'convertkit' ),
 			),
 
 			// Gutenberg: JS function to call when rendering the block preview in the Gutenberg editor.
@@ -163,7 +166,7 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 
 			// Whether an API Key exists in the Plugin, and are the required resources (broadcasts) available.
 			// If no API Key is specified in the Plugin's settings, render the "No API Key" output.
-			'has_api_key'                       => $settings->has_api_key_and_secret(),
+			'has_access_token'                  => $settings->has_access_and_refresh_token(),
 			'has_resources'                     => $posts->exist(),
 		);
 
@@ -463,7 +466,7 @@ class ConvertKit_Block_Broadcasts extends ConvertKit_Block {
 		// If no Posts exist, bail.
 		if ( ! $posts->exist() ) {
 			if ( $settings->debug_enabled() ) {
-				return '<!-- ' . __( 'No Broadcasts exist in ConvertKit.', 'convertkit' ) . ' -->';
+				return '<!-- ' . __( 'No Broadcasts exist in Kit.', 'convertkit' ) . ' -->';
 			}
 
 			return '';

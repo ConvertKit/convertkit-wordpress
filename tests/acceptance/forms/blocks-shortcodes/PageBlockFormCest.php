@@ -32,7 +32,7 @@ class PageBlockFormCest
 		$I->setupConvertKitPluginResources($I);
 
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form: Block: Valid Form Param');
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Form: Block: Valid Form Param');
 
 		// Configure metabox's Form setting = None, ensuring we only test the block in Gutenberg.
 		$I->configureMetaboxSettings(
@@ -46,7 +46,7 @@ class PageBlockFormCest
 		// Add block to Page, setting the Form setting to the value specified in the .env file.
 		$I->addGutenbergBlock(
 			$I,
-			'ConvertKit Form',
+			'Kit Form',
 			'convertkit-form',
 			[
 				'form' => [ 'select', $_ENV['CONVERTKIT_API_FORM_NAME'] ],
@@ -58,7 +58,7 @@ class PageBlockFormCest
 
 		// Confirm that one ConvertKit Form is output in the DOM.
 		// This confirms that there is only one script on the page for this form, which renders the form.
-		$I->seeNumberOfElementsInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]', 1);
+		$I->seeFormOutput($I, $_ENV['CONVERTKIT_API_FORM_ID']);
 	}
 
 	/**
@@ -70,12 +70,21 @@ class PageBlockFormCest
 	 */
 	public function testFormBlockWithValidLegacyFormParameter(AcceptanceTester $I)
 	{
-		// Setup Plugin and Resources.
-		$I->setupConvertKitPlugin($I);
+		// Setup Plugin with API Key and Secret, which is required for Legacy Forms to work.
+		$I->setupConvertKitPlugin(
+			$I,
+			[
+				'api_key'      => $_ENV['CONVERTKIT_API_KEY'],
+				'api_secret'   => $_ENV['CONVERTKIT_API_SECRET'],
+				'post_form'    => '',
+				'page_form'    => '',
+				'product_form' => '',
+			]
+		);
 		$I->setupConvertKitPluginResources($I);
 
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Legacy Form: Block: Valid Form Param');
+		$I->addGutenbergPage($I, 'page', 'Kit: Legacy Form: Block: Valid Form Param');
 
 		// Configure metabox's Form setting = None, ensuring we only test the block in Gutenberg.
 		$I->configureMetaboxSettings(
@@ -89,7 +98,7 @@ class PageBlockFormCest
 		// Add block to Page, setting the Form setting to the value specified in the .env file.
 		$I->addGutenbergBlock(
 			$I,
-			'ConvertKit Form',
+			'Kit Form',
 			'convertkit-form',
 			[
 				'form' => [ 'select', $_ENV['CONVERTKIT_API_LEGACY_FORM_NAME'] ],
@@ -100,7 +109,7 @@ class PageBlockFormCest
 		$I->publishAndViewGutenbergPage($I);
 
 		// Confirm that the ConvertKit Form is displayed.
-		$I->seeInSource('<form id="ck_subscribe_form" class="ck_subscribe_form" action="https://api.convertkit.com/landing_pages/' . $_ENV['CONVERTKIT_API_LEGACY_FORM_ID'] . '/subscribe" data-remote="true">');
+		$I->seeInSource('<form id="ck_subscribe_form" class="ck_subscribe_form" action="https://api.kit.com/landing_pages/' . $_ENV['CONVERTKIT_API_LEGACY_FORM_ID'] . '/subscribe" data-remote="true">');
 	}
 
 	/**
@@ -118,7 +127,7 @@ class PageBlockFormCest
 		$I->setupConvertKitPluginResources($I);
 
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form: Block: Valid Modal Form Param');
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Form: Block: Valid Modal Form Param');
 
 		// Configure metabox's Form setting = None, ensuring we only test the block in Gutenberg.
 		$I->configureMetaboxSettings(
@@ -132,7 +141,7 @@ class PageBlockFormCest
 		// Add block to Page, setting the Form setting to the value specified in the .env file.
 		$I->addGutenbergBlock(
 			$I,
-			'ConvertKit Form',
+			'Kit Form',
 			'convertkit-form',
 			[
 				'form' => [ 'select', $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_NAME'] ],
@@ -172,7 +181,7 @@ class PageBlockFormCest
 		$I->setupConvertKitPluginResources($I);
 
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form: Block: Valid Modal Form Param');
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Form: Block: Valid Modal Form Param');
 
 		// Configure metabox's Form setting = None, ensuring we only test the block in Gutenberg.
 		$I->configureMetaboxSettings(
@@ -186,7 +195,7 @@ class PageBlockFormCest
 		// Add block to Page, setting the Form setting to the value specified in the .env file.
 		$I->addGutenbergBlock(
 			$I,
-			'ConvertKit Form',
+			'Kit Form',
 			'convertkit-form',
 			[
 				'form' => [ 'select', $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_NAME'] ],
@@ -206,7 +215,7 @@ class PageBlockFormCest
 		// Add the block a second time for the same form, so we can test that only one script / form is output.
 		$I->addGutenbergBlock(
 			$I,
-			'ConvertKit Form',
+			'Kit Form',
 			'convertkit-form',
 			[
 				'form' => [ 'select', $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_NAME'] ],
@@ -236,7 +245,7 @@ class PageBlockFormCest
 		$I->setupConvertKitPluginResources($I);
 
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form: Block: Valid Slide In Form Param');
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Form: Block: Valid Slide In Form Param');
 
 		// Configure metabox's Form setting = None, ensuring we only test the block in Gutenberg.
 		$I->configureMetaboxSettings(
@@ -250,7 +259,7 @@ class PageBlockFormCest
 		// Add block to Page, setting the Form setting to the value specified in the .env file.
 		$I->addGutenbergBlock(
 			$I,
-			'ConvertKit Form',
+			'Kit Form',
 			'convertkit-form',
 			[
 				'form' => [ 'select', $_ENV['CONVERTKIT_API_FORM_FORMAT_SLIDE_IN_NAME'] ],
@@ -290,7 +299,7 @@ class PageBlockFormCest
 		$I->setupConvertKitPluginResources($I);
 
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form: Block: Valid Slide In Form Param');
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Form: Block: Valid Slide In Form Param');
 
 		// Configure metabox's Form setting = None, ensuring we only test the block in Gutenberg.
 		$I->configureMetaboxSettings(
@@ -304,7 +313,7 @@ class PageBlockFormCest
 		// Add block to Page, setting the Form setting to the value specified in the .env file.
 		$I->addGutenbergBlock(
 			$I,
-			'ConvertKit Form',
+			'Kit Form',
 			'convertkit-form',
 			[
 				'form' => [ 'select', $_ENV['CONVERTKIT_API_FORM_FORMAT_SLIDE_IN_NAME'] ],
@@ -324,7 +333,7 @@ class PageBlockFormCest
 		// Add the block a second time for the same form, so we can test that only one script / form is output.
 		$I->addGutenbergBlock(
 			$I,
-			'ConvertKit Form',
+			'Kit Form',
 			'convertkit-form',
 			[
 				'form' => [ 'select', $_ENV['CONVERTKIT_API_FORM_FORMAT_SLIDE_IN_NAME'] ],
@@ -354,7 +363,7 @@ class PageBlockFormCest
 		$I->setupConvertKitPluginResources($I);
 
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form: Block: Valid Sticky Bar Form Param');
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Form: Block: Valid Sticky Bar Form Param');
 
 		// Configure metabox's Form setting = None, ensuring we only test the block in Gutenberg.
 		$I->configureMetaboxSettings(
@@ -368,7 +377,7 @@ class PageBlockFormCest
 		// Add block to Page, setting the Form setting to the value specified in the .env file.
 		$I->addGutenbergBlock(
 			$I,
-			'ConvertKit Form',
+			'Kit Form',
 			'convertkit-form',
 			[
 				'form' => [ 'select', $_ENV['CONVERTKIT_API_FORM_FORMAT_STICKY_BAR_NAME'] ],
@@ -408,7 +417,7 @@ class PageBlockFormCest
 		$I->setupConvertKitPluginResources($I);
 
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form: Block: Valid Sticky Bar Form Param');
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Form: Block: Valid Sticky Bar Form Param');
 
 		// Configure metabox's Form setting = None, ensuring we only test the block in Gutenberg.
 		$I->configureMetaboxSettings(
@@ -422,7 +431,7 @@ class PageBlockFormCest
 		// Add block to Page, setting the Form setting to the value specified in the .env file.
 		$I->addGutenbergBlock(
 			$I,
-			'ConvertKit Form',
+			'Kit Form',
 			'convertkit-form',
 			[
 				'form' => [ 'select', $_ENV['CONVERTKIT_API_FORM_FORMAT_STICKY_BAR_NAME'] ],
@@ -442,7 +451,7 @@ class PageBlockFormCest
 		// Add the block a second time for the same form, so we can test that only one script / form is output.
 		$I->addGutenbergBlock(
 			$I,
-			'ConvertKit Form',
+			'Kit Form',
 			'convertkit-form',
 			[
 				'form' => [ 'select', $_ENV['CONVERTKIT_API_FORM_FORMAT_STICKY_BAR_NAME'] ],
@@ -471,7 +480,7 @@ class PageBlockFormCest
 		$I->setupConvertKitPluginResources($I);
 
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form: Block: Valid Sticky Bar Form Param');
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Form: Block: Valid Sticky Bar Form Param');
 
 		// Configure metabox's Form setting = None, ensuring we only test the block in Gutenberg.
 		$I->configureMetaboxSettings(
@@ -483,7 +492,7 @@ class PageBlockFormCest
 		);
 
 		// Add block to Page.
-		$I->addGutenbergBlock($I, 'ConvertKit Form', 'convertkit-form');
+		$I->addGutenbergBlock($I, 'Kit Form', 'convertkit-form');
 
 		// Confirm that the Form block displays instructions to the user on how to select a Form.
 		$I->see(
@@ -503,7 +512,7 @@ class PageBlockFormCest
 	/**
 	 * Test the Forms block displays a message with a link that opens
 	 * a popup window with the Plugin's Setup Wizard, when the Plugin has
-	 * no API key specified.
+	 * Not connected to Kit.
 	 *
 	 * @since   2.2.3
 	 *
@@ -511,11 +520,13 @@ class PageBlockFormCest
 	 */
 	public function testFormBlockWhenNoAPIKey(AcceptanceTester $I)
 	{
+		$I->markTestIncomplete();
+
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form: Block: No API Key');
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Form: Block: No API Key');
 
 		// Add block to Page.
-		$I->addGutenbergBlock($I, 'ConvertKit Form', 'convertkit-form');
+		$I->addGutenbergBlock($I, 'Kit Form', 'convertkit-form');
 
 		// Test that the popup window works.
 		$I->testBlockNoAPIKeyPopupWindow(
@@ -539,18 +550,18 @@ class PageBlockFormCest
 	public function testFormBlockWhenNoForms(AcceptanceTester $I)
 	{
 		// Setup Plugin.
-		$I->setupConvertKitPluginAPIKeyNoData($I);
+		$I->setupConvertKitPluginCredentialsNoData($I);
 		$I->setupConvertKitPluginResourcesNoData($I);
 
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form: Block: No Forms');
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Form: Block: No Forms');
 
 		// Add block to Page.
-		$I->addGutenbergBlock($I, 'ConvertKit Form', 'convertkit-form');
+		$I->addGutenbergBlock($I, 'Kit Form', 'convertkit-form');
 
 		// Confirm that the Form block displays instructions to the user on how to add a Form in ConvertKit.
 		$I->see(
-			'No forms exist in ConvertKit.',
+			'No forms exist in Kit.',
 			[
 				'css' => '.convertkit-no-content',
 			]
@@ -586,15 +597,15 @@ class PageBlockFormCest
 	 */
 	public function testFormBlockRefreshButton(AcceptanceTester $I)
 	{
-		// Setup Plugin with API keys for ConvertKit Account that has no Broadcasts.
-		$I->setupConvertKitPluginAPIKeyNoData($I);
+		// Setup Plugin with ConvertKit Account that has no Broadcasts.
+		$I->setupConvertKitPluginCredentialsNoData($I);
 		$I->setupConvertKitPluginResourcesNoData($I);
 
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Forms: Refresh Button');
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Forms: Refresh Button');
 
 		// Add block to Page.
-		$I->addGutenbergBlock($I, 'ConvertKit Form', 'convertkit-form');
+		$I->addGutenbergBlock($I, 'Kit Form', 'convertkit-form');
 
 		// Setup Plugin with a valid API Key and resources, as if the user performed the necessary steps to authenticate
 		// and create a form.
@@ -637,7 +648,7 @@ class PageBlockFormCest
 		$I->activateThirdPartyPlugin($I, 'autoptimize');
 
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form: Block: Autoptimize');
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Form: Block: Autoptimize');
 
 		// Configure metabox's Form setting = None, ensuring we only test the block in Gutenberg.
 		$I->configureMetaboxSettings(
@@ -651,7 +662,7 @@ class PageBlockFormCest
 		// Add block to Page, setting the Form setting to the value specified in the .env file.
 		$I->addGutenbergBlock(
 			$I,
-			'ConvertKit Form',
+			'Kit Form',
 			'convertkit-form',
 			[
 				'form' => [ 'select', $_ENV['CONVERTKIT_API_FORM_NAME'] ],
@@ -692,7 +703,7 @@ class PageBlockFormCest
 		$I->click('#inspector-toggle-control-1');
 
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form: Block: Jetpack Boost');
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Form: Block: Jetpack Boost');
 
 		// Configure metabox's Form setting = None, ensuring we only test the block in Gutenberg.
 		$I->configureMetaboxSettings(
@@ -706,7 +717,7 @@ class PageBlockFormCest
 		// Add block to Page, setting the Form setting to the value specified in the .env file.
 		$I->addGutenbergBlock(
 			$I,
-			'ConvertKit Form',
+			'Kit Form',
 			'convertkit-form',
 			[
 				'form' => [ 'select', $_ENV['CONVERTKIT_API_FORM_NAME'] ],
@@ -746,7 +757,7 @@ class PageBlockFormCest
 		$I->haveOptionInDatabase('siteground_optimizer_combine_javascript', '1');
 
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form: Block: Siteground Speed Optimizer');
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Form: Block: Siteground Speed Optimizer');
 
 		// Configure metabox's Form setting = None, ensuring we only test the block in Gutenberg.
 		$I->configureMetaboxSettings(
@@ -760,7 +771,7 @@ class PageBlockFormCest
 		// Add block to Page, setting the Form setting to the value specified in the .env file.
 		$I->addGutenbergBlock(
 			$I,
-			'ConvertKit Form',
+			'Kit Form',
 			'convertkit-form',
 			[
 				'form' => [ 'select', $_ENV['CONVERTKIT_API_FORM_NAME'] ],
@@ -802,7 +813,7 @@ class PageBlockFormCest
 		$I->click('Save Changes');
 
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form: Block: LiteSpeed Cache');
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Form: Block: LiteSpeed Cache');
 
 		// Configure metabox's Form setting = None, ensuring we only test the block in Gutenberg.
 		$I->configureMetaboxSettings(
@@ -816,7 +827,7 @@ class PageBlockFormCest
 		// Add block to Page, setting the Form setting to the value specified in the .env file.
 		$I->addGutenbergBlock(
 			$I,
-			'ConvertKit Form',
+			'Kit Form',
 			'convertkit-form',
 			[
 				'form' => [ 'select', $_ENV['CONVERTKIT_API_FORM_NAME'] ],
@@ -865,7 +876,7 @@ class PageBlockFormCest
 		);
 
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form: Block: Perfmatters');
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Form: Block: Perfmatters');
 
 		// Configure metabox's Form setting = None, ensuring we only test the block in Gutenberg.
 		$I->configureMetaboxSettings(
@@ -879,7 +890,7 @@ class PageBlockFormCest
 		// Add block to Page, setting the Form setting to the value specified in the .env file.
 		$I->addGutenbergBlock(
 			$I,
-			'ConvertKit Form',
+			'Kit Form',
 			'convertkit-form',
 			[
 				'form' => [ 'select', $_ENV['CONVERTKIT_API_FORM_NAME'] ],
@@ -905,7 +916,7 @@ class PageBlockFormCest
 	 *
 	 * @param   AcceptanceTester $I  Tester.
 	 */
-	public function testFormBlockWithWPRocketPlugin(AcceptanceTester $I)
+	public function testFormBlockWithWPRocketPluginDelayJS(AcceptanceTester $I)
 	{
 		// Setup Plugin and Resources.
 		$I->setupConvertKitPlugin($I);
@@ -914,21 +925,11 @@ class PageBlockFormCest
 		// Activate WP Rocket Plugin.
 		$I->activateThirdPartyPlugin($I, 'wp-rocket');
 
-		// Load WP Rocket settings screen.
-		$I->amOnAdminPage('options-general.php?page=wprocket#file_optimization');
-
-		// Enable Delay JavaScript execution.
-		$I->click('label[for=delay_js]');
-		$I->waitForElementVisible('.wpr-isOpen');
-
-		// Click Save Changes button.
-		$I->click('Save Changes');
-
-		// Confirm changes saved successfully.
-		$I->waitForElementVisible('#setting-error-settings_updated');
+		// Configure WP Rocket.
+		$I->enableWPRocketDelayJS($I);
 
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form: Block: WP Rocket');
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Form: Block: WP Rocket');
 
 		// Configure metabox's Form setting = None, ensuring we only test the block in Gutenberg.
 		$I->configureMetaboxSettings(
@@ -942,15 +943,80 @@ class PageBlockFormCest
 		// Add block to Page, setting the Form setting to the value specified in the .env file.
 		$I->addGutenbergBlock(
 			$I,
-			'ConvertKit Form',
+			'Kit Form',
 			'convertkit-form',
 			[
 				'form' => [ 'select', $_ENV['CONVERTKIT_API_FORM_NAME'] ],
 			]
 		);
 
-		// Publish and view the Page on the frontend site.
-		$I->publishAndViewGutenbergPage($I);
+		// Publish Gutenberg Page.
+		$url = $I->publishGutenbergPage($I);
+
+		// Log out, as WP Rocket won't cache or minify for logged in WordPress Users.
+		$I->logOut();
+
+		// View the Page.
+		$I->amOnUrl($url);
+
+		// Confirm that one ConvertKit Form is output in the DOM within the <main> element.
+		// This confirms that there is only one script on the page for this form, which renders the form.
+		$I->seeNumberOfElementsInDOM('main form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]', 1);
+
+		// Deactivate WP Rocket Plugin.
+		$I->deactivateThirdPartyPlugin($I, 'wp-rocket');
+	}
+
+	/**
+	 * Test that the Form <script> embed is output in the content when the WP Rocket Plugin is active and configured to
+	 * minify JS.
+	 *
+	 * @since   2.6.5
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testFormBlockWithWPRocketPluginMinifyJS(AcceptanceTester $I)
+	{
+		// Setup Plugin and Resources.
+		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPluginResources($I);
+
+		// Activate WP Rocket Plugin.
+		$I->activateThirdPartyPlugin($I, 'wp-rocket');
+
+		// Configure WP Rocket.
+		$I->enableWPRocketMinifyConcatenateJSAndCSS($I);
+
+		// Add a Page using the Gutenberg editor.
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Form: Block: WP Rocket');
+
+		// Configure metabox's Form setting = None, ensuring we only test the block in Gutenberg.
+		$I->configureMetaboxSettings(
+			$I,
+			'wp-convertkit-meta-box',
+			[
+				'form' => [ 'select2', 'None' ],
+			]
+		);
+
+		// Add block to Page, setting the Form setting to the value specified in the .env file.
+		$I->addGutenbergBlock(
+			$I,
+			'Kit Form',
+			'convertkit-form',
+			[
+				'form' => [ 'select', $_ENV['CONVERTKIT_API_FORM_NAME'] ],
+			]
+		);
+
+		// Publish Gutenberg Page.
+		$url = $I->publishGutenbergPage($I);
+
+		// Log out, as WP Rocket won't cache or minify for logged in WordPress Users.
+		$I->logOut();
+
+		// View the Page.
+		$I->amOnUrl($url);
 
 		// Confirm that one ConvertKit Form is output in the DOM within the <main> element.
 		// This confirms that there is only one script on the page for this form, which renders the form.

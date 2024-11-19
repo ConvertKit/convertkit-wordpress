@@ -35,9 +35,9 @@ class BroadcastsExportPostRowActionCest
 		$postID = $I->havePostInDatabase(
 			[
 				'post_type'    => 'post',
-				'post_title'   => 'ConvertKit: Export Post to Broadcast',
-				'post_content' => 'ConvertKit: Export Post to Broadcast: Content',
-				'post_excerpt' => 'ConvertKit: Export Post to Broadcast: Excerpt',
+				'post_title'   => 'Kit: Export Post to Broadcast',
+				'post_content' => 'Kit: Export Post to Broadcast: Content',
+				'post_excerpt' => 'Kit: Export Post to Broadcast: Excerpt',
 			]
 		);
 
@@ -70,9 +70,9 @@ class BroadcastsExportPostRowActionCest
 		$postID = $I->havePostInDatabase(
 			[
 				'post_type'    => 'post',
-				'post_title'   => 'ConvertKit: Export Post to Broadcast',
-				'post_content' => '<p class="style-test">ConvertKit: Export Post to Broadcast: Content</p>',
-				'post_excerpt' => 'ConvertKit: Export Post to Broadcast: Excerpt',
+				'post_title'   => 'Kit: Export Post to Broadcast',
+				'post_content' => '<p class="style-test">Kit: Export Post to Broadcast: Content</p>',
+				'post_excerpt' => 'Kit: Export Post to Broadcast: Excerpt',
 			]
 		);
 
@@ -90,7 +90,7 @@ class BroadcastsExportPostRowActionCest
 
 		// Confirm that a success message displays.
 		$I->waitForElementVisible('.notice-success');
-		$I->see('Successfully created ConvertKit Broadcast from Post');
+		$I->see('Successfully created Kit Broadcast from Post');
 
 		// Get Broadcast ID from 'Click here' link.
 		$broadcastID = (int) filter_var($I->grabAttributeFrom('.notice-success p a', 'href'), FILTER_SANITIZE_NUMBER_INT);
@@ -128,9 +128,9 @@ class BroadcastsExportPostRowActionCest
 		$postID = $I->havePostInDatabase(
 			[
 				'post_type'    => 'post',
-				'post_title'   => 'ConvertKit: Export Post to Broadcast: Disable Styles',
-				'post_content' => '<p class="style-test">ConvertKit: Export Post to Broadcast: Disable Styles: Content</p>',
-				'post_excerpt' => 'ConvertKit: Export Post to Broadcast: Disable Styles: Excerpt',
+				'post_title'   => 'Kit: Export Post to Broadcast: Disable Styles',
+				'post_content' => '<p class="style-test">Kit: Export Post to Broadcast: Disable Styles: Content</p>',
+				'post_excerpt' => 'Kit: Export Post to Broadcast: Disable Styles: Excerpt',
 			]
 		);
 
@@ -148,7 +148,7 @@ class BroadcastsExportPostRowActionCest
 
 		// Confirm that a success message displays.
 		$I->waitForElementVisible('.notice-success');
-		$I->see('Successfully created ConvertKit Broadcast from Post');
+		$I->see('Successfully created Kit Broadcast from Post');
 
 		// Get Broadcast ID from 'Click here' link.
 		$broadcastID = (int) filter_var($I->grabAttributeFrom('.notice-success p a', 'href'), FILTER_SANITIZE_NUMBER_INT);

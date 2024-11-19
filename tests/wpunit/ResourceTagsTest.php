@@ -43,13 +43,13 @@ class ResourceTagsTest extends \Codeception\TestCase\WPTestCase
 		// Activate Plugin.
 		activate_plugins('convertkit/wp-convertkit.php');
 
-		// Store API Key and Secret in Plugin's settings.
+		// Store Credentials in Plugin's settings.
 		$this->settings = new ConvertKit_Settings();
 		update_option(
 			$this->settings::SETTINGS_NAME,
 			[
-				'api_key'    => $_ENV['CONVERTKIT_API_KEY'],
-				'api_secret' => $_ENV['CONVERTKIT_API_SECRET'],
+				'access_token'  => $_ENV['CONVERTKIT_OAUTH_ACCESS_TOKEN'],
+				'refresh_token' => $_ENV['CONVERTKIT_OAUTH_REFRESH_TOKEN'],
 			]
 		);
 
@@ -67,7 +67,7 @@ class ResourceTagsTest extends \Codeception\TestCase\WPTestCase
 	 */
 	public function tearDown(): void
 	{
-		// Delete API Key, API Secret and Resources from Plugin's settings.
+		// Delete Credentials and Resources from Plugin's settings.
 		delete_option($this->settings::SETTINGS_NAME);
 		delete_option($this->resource->settings_name);
 		delete_option($this->resource->settings_name . '_last_queried');
@@ -196,8 +196,8 @@ class ResourceTagsTest extends \Codeception\TestCase\WPTestCase
 		$this->assertArrayHasKey('name', reset($result));
 
 		// Assert order of data has not changed.
-		$this->assertEquals('wordpress', reset($result)['name']);
-		$this->assertEquals('wpforms', end($result)['name']);
+		$this->assertEquals('wpforms', reset($result)['name']);
+		$this->assertEquals('wordpress', end($result)['name']);
 	}
 
 	/**

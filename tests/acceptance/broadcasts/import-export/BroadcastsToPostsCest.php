@@ -23,7 +23,7 @@ class BroadcastsToPostsCest
 	 *
 	 * @var     string
 	 */
-	private $categoryName = 'ConvertKit Broadcasts to Posts';
+	private $categoryName = 'Kit Broadcasts to Posts';
 
 	/**
 	 * The WordPress Category created before each test was run.
@@ -51,7 +51,7 @@ class BroadcastsToPostsCest
 		// Activate WP Crontrol, to manually run scheduled events.
 		$I->activateThirdPartyPlugin($I, 'wp-crontrol');
 
-		// Create a Category named 'ConvertKit Broadcasts to Posts'.
+		// Create a Category named 'Kit Broadcasts to Posts'.
 		$result           = $I->haveTermInDatabase($this->categoryName, 'category');
 		$this->categoryID = $result[0]; // term_id.
 	}
@@ -147,13 +147,16 @@ class BroadcastsToPostsCest
 
 		// Confirm inline styles exist in the imported Broadcast.
 		$I->seeElementInDOM('div.ck-inner-section');
-		$I->assertNotNull($I->grabAttributeFrom('div.wp-block-post-content h1', 'style'));
+		$I->assertNotNull($I->grabAttributeFrom('div.ck-section', 'style'));
 
 		// Confirm tracking image has been removed.
 		$I->dontSee('<img src="https://preview.convertkit-mail2.com/open" alt="">');
 
 		// Confirm unsubscribe link section has been removed.
 		$I->dontSee('<div class="ck-section ck-hide-in-public-posts"');
+
+		// Confirm poll block has been removed.
+		$I->dontSee('<table roll="presentation" class="ck-poll');
 
 		// Confirm published date matches the Broadcast.
 		$date = date('Y-m-d', strtotime($_ENV['CONVERTKIT_API_BROADCAST_FIRST_DATE'])) . 'T' . date('H:i:s', strtotime($_ENV['CONVERTKIT_API_BROADCAST_FIRST_DATE']));
@@ -223,7 +226,7 @@ class BroadcastsToPostsCest
 
 		// Confirm inline styles exist in the imported Broadcast.
 		$I->seeElementInDOM('div.ck-inner-section');
-		$I->assertNotNull($I->grabAttributeFrom('div.wp-block-post-content h1', 'style'));
+		$I->assertNotNull($I->grabAttributeFrom('div.ck-section', 'style'));
 
 		// Confirm published date matches the Broadcast.
 		$date = date('Y-m-d', strtotime($_ENV['CONVERTKIT_API_BROADCAST_FIRST_DATE'])) . 'T' . date('H:i:s', strtotime($_ENV['CONVERTKIT_API_BROADCAST_FIRST_DATE']));
@@ -472,6 +475,66 @@ class BroadcastsToPostsCest
 	}
 
 	/**
+	 * Tests that Broadcasts import with inline images copied to WordPress when the Import Images
+	 * option is enabled.
+	 *
+	 * @since   2.6.3
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testBroadcastsImportWithImportImagesEnabled(AcceptanceTester $I)
+	{
+		// Enable Broadcasts to Posts.
+		$I->setupConvertKitPluginBroadcasts(
+			$I,
+			[
+				'enabled'               => true,
+				'import_thumbnail'      => false,
+				'import_images'         => true,
+				'published_at_min_date' => '01/01/2020',
+			]
+		);
+
+		// Run the WordPress Cron event to import Broadcasts to WordPress Posts.
+		$I->runCronEvent($I, $this->cronEventName);
+
+		// Wait a few seconds for the Cron event to complete importing Broadcasts.
+		$I->wait(7);
+
+		// Load the Posts screen.
+		$I->amOnAdminPage('edit.php');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Confirm expected Broadcasts exist as Posts.
+		$I->see($_ENV['CONVERTKIT_API_BROADCAST_FIRST_TITLE']);
+		$I->see($_ENV['CONVERTKIT_API_BROADCAST_SECOND_TITLE']);
+		$I->see($_ENV['CONVERTKIT_API_BROADCAST_THIRD_TITLE']);
+
+		// Get created Post IDs.
+		$postIDs = [
+			(int) str_replace('post-', '', $I->grabAttributeFrom('tbody#the-list > tr:nth-child(2)', 'id')),
+			(int) str_replace('post-', '', $I->grabAttributeFrom('tbody#the-list > tr:nth-child(3)', 'id')),
+			(int) str_replace('post-', '', $I->grabAttributeFrom('tbody#the-list > tr:nth-child(4)', 'id')),
+		];
+
+		// Set cookie with signed subscriber ID, so Member Content broadcasts can be viewed.
+		$I->setCookie('ck_subscriber_id', $_ENV['CONVERTKIT_API_SIGNED_SUBSCRIBER_ID']);
+
+		// View the first post.
+		$I->amOnPage('?p=' . $postIDs[0]);
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Confirm no images are served from Kit's CDN, and they are served from the WordPress Media Library
+		// (uploads folder).
+		$I->dontSeeInSource('embed.filekitcdn.com');
+		$I->seeInSource($_ENV['TEST_SITE_WP_URL'] . '/wp-content/uploads/2023/08');
+	}
+
+	/**
 	 * Tests that Broadcasts do not import when enabled in the Plugin's settings
 	 * and an Earliest Date is specified that is newer than any Broadcasts sent
 	 * on the ConvertKit account.
@@ -549,9 +612,6 @@ class BroadcastsToPostsCest
 		// Confirm the HTML Template Test's Restrict Content setting is correct.
 		$I->click($_ENV['CONVERTKIT_API_BROADCAST_FIRST_TITLE']);
 
-		// Close the Gutenberg "Welcome to the block editor" dialog if it's displayed.
-		$I->maybeCloseGutenbergWelcomeModal($I);
-
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
 
@@ -617,7 +677,7 @@ class BroadcastsToPostsCest
 
 		// Confirm no inline styles exist in the imported Broadcast.
 		$I->dontSeeElementInDOM('div.ck-inner-section');
-		$I->assertNull($I->grabAttributeFrom('div.wp-block-post-content h1', 'style'));
+		$I->dontSeeInSource('<h2 style="');
 	}
 
 	/**
@@ -635,10 +695,10 @@ class BroadcastsToPostsCest
 		$I->deactivateThirdPartyPlugin($I, 'wp-crontrol');
 		$I->resetConvertKitPlugin($I);
 
-		// Remove Category named 'ConvertKit Broadcasts to Posts'.
+		// Remove Category named 'Kit Broadcasts to Posts'.
 		$I->dontHaveTermInDatabase(
 			array(
-				'name' => 'ConvertKit Broadcasts to Posts',
+				'name' => 'Kit Broadcasts to Posts',
 			)
 		);
 

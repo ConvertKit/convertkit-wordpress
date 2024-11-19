@@ -20,19 +20,20 @@ class RestrictContentSetupCest
 	}
 
 	/**
-	 * Test that the Add New Member Content button does not display on the Pages screen when no API keys are configured.
+	 * Test that the Add New Member Content button does not display on the Pages screen when no ConvertKit
+	 * account is connected.
 	 *
 	 * @since   2.1.0
 	 *
 	 * @param   AcceptanceTester $I  Tester.
 	 */
-	public function testAddNewMemberContentButtonNotDisplayedWhenNoAPIKeys(AcceptanceTester $I)
+	public function testAddNewMemberContentButtonNotDisplayedWhenNoCredentials(AcceptanceTester $I)
 	{
 		// Navigate to Pages.
 		$I->amOnAdminPage('edit.php?post_type=page');
 
-		// Check the button isn't displayed.
-		$I->dontSeeElementInDOM('a.convertkit-action page-title-action');
+		// Check the buttons are not displayed.
+		$I->dontSeeElementInDOM('span.convertkit-action.page-title-action');
 	}
 
 	/**
@@ -50,8 +51,8 @@ class RestrictContentSetupCest
 		// Navigate to Posts.
 		$I->amOnAdminPage('edit.php?post_type=post');
 
-		// Check the button isn't displayed.
-		$I->dontSeeElementInDOM('a.convertkit-action');
+		// Check the buttons are not displayed.
+		$I->dontSeeElementInDOM('span.convertkit-action.page-title-action');
 	}
 
 	/**
@@ -94,14 +95,16 @@ class RestrictContentSetupCest
 	 */
 	public function testAddNewMemberContentDisplaysCTAWhenNoResources(AcceptanceTester $I)
 	{
-		// Setup Plugin using API keys that have no resources.
-		$I->setupConvertKitPluginAPIKeyNoData($I);
+		// Setup Plugin using ConvertKit account that has no resources.
+		$I->setupConvertKitPluginCredentialsNoData($I);
 
 		// Navigate to Pages.
 		$I->amOnAdminPage('edit.php?post_type=page');
 
 		// Click Add New Member Content button.
-		$I->click('Add New Member Content');
+		$I->moveMouseOver('span.convertkit-action');
+		$I->waitForElementVisible('span.convertkit-action span.convertkit-actions a');
+		$I->click('Member Content');
 
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
@@ -109,10 +112,10 @@ class RestrictContentSetupCest
 		// Check that the expected buttons display linking to ConvertKit.
 		$I->see('Create product');
 		$I->see('Create tag');
-		$I->seeInSource('<a href="https://app.convertkit.com/products/new/?utm_source=wordpress&amp;utm_term=en_US&amp;utm_content=convertkit"');
-		$I->seeInSource('<a href="https://app.convertkit.com/subscribers/?utm_source=wordpress&amp;utm_term=en_US&amp;utm_content=convertkit"');
+		$I->seeInSource('<a href="https://app.kit.com/products/new/?utm_source=wordpress&amp;utm_term=en_US&amp;utm_content=convertkit"');
+		$I->seeInSource('<a href="https://app.kit.com/subscribers/?utm_source=wordpress&amp;utm_term=en_US&amp;utm_content=convertkit"');
 
-		// Update the Plugin to use API keys that have resources.
+		// Update the Plugin to use credentials that have resources.
 		$I->setupConvertKitPlugin($I);
 
 		// Click the button to reload the wizard.
@@ -153,7 +156,9 @@ class RestrictContentSetupCest
 
 		// Confirm the Pages screen is displayed.
 		$I->see('Pages');
-		$I->see('Add New Member Content');
+		$I->moveMouseOver('span.convertkit-action');
+		$I->waitForElementVisible('span.convertkit-action span.convertkit-actions a');
+		$I->see('Member Content');
 	}
 
 	/**
@@ -176,7 +181,7 @@ class RestrictContentSetupCest
 		$I->see('Configure Download');
 
 		// Enter a title and description.
-		$I->fillField('title', 'ConvertKit: Member Content: Download');
+		$I->fillField('title', 'Kit: Member Content: Download');
 		$I->fillField('description', 'Visible content.');
 
 		// Confirm that the limit option is not visible, as this is only for courses.
@@ -192,8 +197,8 @@ class RestrictContentSetupCest
 		$I->waitForElementVisible('tbody#the-list');
 
 		// Confirm that one Page is listed in the WP_List_Table.
-		$I->see('ConvertKit: Member Content: Download');
-		$I->seeInSource('<span class="post-state">ConvertKit Member Content</span>');
+		$I->see('Kit: Member Content: Download');
+		$I->seeInSource('<span class="post-state">Kit Member Content</span>');
 
 		// Hover mouse over Post's table row.
 		$I->moveMouseOver('tr.iedit');
@@ -206,7 +211,7 @@ class RestrictContentSetupCest
 			$I,
 			$url,
 			[
-				'member_content' => 'The downloadable content (that is available when the visitor has paid for the ConvertKit product) goes here.',
+				'member_content' => 'The downloadable content (that is available when the visitor has paid for the Kit product) goes here.',
 			]
 		);
 	}
@@ -231,7 +236,7 @@ class RestrictContentSetupCest
 		$I->see('Configure Course');
 
 		// Enter a title, description and lesson count.
-		$I->fillField('title', 'ConvertKit: Member Content: Course');
+		$I->fillField('title', 'Kit: Member Content: Course');
 		$I->fillField('description', 'Visible content.');
 		$I->fillField('number_of_pages', '3');
 
@@ -245,11 +250,11 @@ class RestrictContentSetupCest
 		$I->waitForElementVisible('tbody#the-list');
 
 		// Confirm that four Pages are listed in the WP_List_Table.
-		$I->see('ConvertKit: Member Content: Course');
-		$I->see('— ConvertKit: Member Content: Course: 1/3');
-		$I->see('— ConvertKit: Member Content: Course: 2/3');
-		$I->see('— ConvertKit: Member Content: Course: 3/3');
-		$I->see('ConvertKit Member Content | Parent Page: ConvertKit: Member Content: Course');
+		$I->see('Kit: Member Content: Course');
+		$I->see('— Kit: Member Content: Course: 1/3');
+		$I->see('— Kit: Member Content: Course: 2/3');
+		$I->see('— Kit: Member Content: Course: 3/3');
+		$I->see('Kit Member Content | Parent Page: Kit: Member Content: Course');
 
 		// Hover mouse over Post's table row.
 		$I->moveMouseOver('tr.iedit:first-child');
@@ -275,34 +280,34 @@ class RestrictContentSetupCest
 			$url,
 			[
 				'visible_content' => 'Some introductory text about lesson 1',
-				'member_content'  => 'Lesson 1 content (that is available when the visitor has paid for the ConvertKit product) goes here.',
+				'member_content'  => 'Lesson 1 content (that is available when the visitor has paid for the Kit product) goes here.',
 			]
 		);
 
 		// Test Next / Previous links.
 		$I->click('Next Lesson');
 		$I->waitForElementVisible('body.page-template-default');
-		$I->see('ConvertKit: Member Content: Course: 2/3');
+		$I->see('Kit: Member Content: Course: 2/3');
 		$I->see('Some introductory text about lesson 2');
-		$I->see('Lesson 2 content (that is available when the visitor has paid for the ConvertKit product) goes here');
+		$I->see('Lesson 2 content (that is available when the visitor has paid for the Kit product) goes here');
 
 		$I->click('Next Lesson');
 		$I->waitForElementVisible('body.page-template-default');
-		$I->see('ConvertKit: Member Content: Course: 3/3');
+		$I->see('Kit: Member Content: Course: 3/3');
 		$I->see('Some introductory text about lesson 3');
-		$I->see('Lesson 3 content (that is available when the visitor has paid for the ConvertKit product) goes here');
+		$I->see('Lesson 3 content (that is available when the visitor has paid for the Kit product) goes here');
 
 		$I->click('Previous Lesson');
 		$I->waitForElementVisible('body.page-template-default');
-		$I->see('ConvertKit: Member Content: Course: 2/3');
+		$I->see('Kit: Member Content: Course: 2/3');
 		$I->see('Some introductory text about lesson 2');
-		$I->see('Lesson 2 content (that is available when the visitor has paid for the ConvertKit product) goes here');
+		$I->see('Lesson 2 content (that is available when the visitor has paid for the Kit product) goes here');
 
 		$I->click('Previous Lesson');
 		$I->waitForElementVisible('body.page-template-default');
-		$I->see('ConvertKit: Member Content: Course: 1/3');
+		$I->see('Kit: Member Content: Course: 1/3');
 		$I->see('Some introductory text about lesson 1');
-		$I->see('Lesson 1 content (that is available when the visitor has paid for the ConvertKit product) goes here');
+		$I->see('Lesson 1 content (that is available when the visitor has paid for the Kit product) goes here');
 	}
 
 	/**
@@ -325,7 +330,7 @@ class RestrictContentSetupCest
 		$I->see('Configure Download');
 
 		// Enter a title and description.
-		$I->fillField('title', 'ConvertKit: Member Content: Download: Tag');
+		$I->fillField('title', 'Kit: Member Content: Download: Tag');
 		$I->fillField('description', 'Visible content.');
 
 		// Confirm that the limit option is not visible, as this is only for courses.
@@ -341,8 +346,8 @@ class RestrictContentSetupCest
 		$I->waitForElementVisible('tbody#the-list');
 
 		// Confirm that one Page is listed in the WP_List_Table.
-		$I->see('ConvertKit: Member Content: Download: Tag');
-		$I->seeInSource('<span class="post-state">ConvertKit Member Content</span>');
+		$I->see('Kit: Member Content: Download: Tag');
+		$I->seeInSource('<span class="post-state">Kit Member Content</span>');
 
 		// Hover mouse over Post's table row.
 		$I->moveMouseOver('tr.iedit');
@@ -356,7 +361,7 @@ class RestrictContentSetupCest
 			$url,
 			$I->generateEmailAddress(),
 			[
-				'member_content' => 'The downloadable content (that is available when the visitor has paid for the ConvertKit product) goes here.',
+				'member_content' => 'The downloadable content (that is available when the visitor has paid for the Kit product) goes here.',
 			]
 		);
 	}
@@ -381,7 +386,7 @@ class RestrictContentSetupCest
 		$I->see('Configure Course');
 
 		// Enter a title, description and lesson count.
-		$I->fillField('title', 'ConvertKit: Member Content: Course: Tag');
+		$I->fillField('title', 'Kit: Member Content: Course: Tag');
 		$I->fillField('description', 'Visible content.');
 		$I->fillField('number_of_pages', '3');
 
@@ -395,11 +400,11 @@ class RestrictContentSetupCest
 		$I->waitForElementVisible('tbody#the-list');
 
 		// Confirm that four Pages are listed in the WP_List_Table.
-		$I->see('ConvertKit: Member Content: Course: Tag');
-		$I->see('— ConvertKit: Member Content: Course: Tag: 1/3');
-		$I->see('— ConvertKit: Member Content: Course: Tag: 2/3');
-		$I->see('— ConvertKit: Member Content: Course: Tag: 3/3');
-		$I->see('ConvertKit Member Content | Parent Page: ConvertKit: Member Content: Course: Tag');
+		$I->see('Kit: Member Content: Course: Tag');
+		$I->see('— Kit: Member Content: Course: Tag: 1/3');
+		$I->see('— Kit: Member Content: Course: Tag: 2/3');
+		$I->see('— Kit: Member Content: Course: Tag: 3/3');
+		$I->see('Kit Member Content | Parent Page: Kit: Member Content: Course: Tag');
 
 		// Hover mouse over Post's table row.
 		$I->moveMouseOver('tr.iedit:first-child');
@@ -426,34 +431,34 @@ class RestrictContentSetupCest
 			$I->generateEmailAddress(),
 			[
 				'visible_content' => 'Some introductory text about lesson 1',
-				'member_content'  => 'Lesson 1 content (that is available when the visitor has paid for the ConvertKit product) goes here.',
+				'member_content'  => 'Lesson 1 content (that is available when the visitor has paid for the Kit product) goes here.',
 			]
 		);
 
 		// Test Next / Previous links.
 		$I->click('Next Lesson');
 		$I->waitForElementVisible('body.page-template-default');
-		$I->see('ConvertKit: Member Content: Course: Tag: 2/3');
+		$I->see('Kit: Member Content: Course: Tag: 2/3');
 		$I->see('Some introductory text about lesson 2');
-		$I->see('Lesson 2 content (that is available when the visitor has paid for the ConvertKit product) goes here');
+		$I->see('Lesson 2 content (that is available when the visitor has paid for the Kit product) goes here');
 
 		$I->click('Next Lesson');
 		$I->waitForElementVisible('body.page-template-default');
-		$I->see('ConvertKit: Member Content: Course: Tag: 3/3');
+		$I->see('Kit: Member Content: Course: Tag: 3/3');
 		$I->see('Some introductory text about lesson 3');
-		$I->see('Lesson 3 content (that is available when the visitor has paid for the ConvertKit product) goes here');
+		$I->see('Lesson 3 content (that is available when the visitor has paid for the Kit product) goes here');
 
 		$I->click('Previous Lesson');
 		$I->waitForElementVisible('body.page-template-default');
-		$I->see('ConvertKit: Member Content: Course: Tag: 2/3');
+		$I->see('Kit: Member Content: Course: Tag: 2/3');
 		$I->see('Some introductory text about lesson 2');
-		$I->see('Lesson 2 content (that is available when the visitor has paid for the ConvertKit product) goes here');
+		$I->see('Lesson 2 content (that is available when the visitor has paid for the Kit product) goes here');
 
 		$I->click('Previous Lesson');
 		$I->waitForElementVisible('body.page-template-default');
-		$I->see('ConvertKit: Member Content: Course: Tag: 1/3');
+		$I->see('Kit: Member Content: Course: Tag: 1/3');
 		$I->see('Some introductory text about lesson 1');
-		$I->see('Lesson 1 content (that is available when the visitor has paid for the ConvertKit product) goes here');
+		$I->see('Lesson 1 content (that is available when the visitor has paid for the Kit product) goes here');
 	}
 
 	/**
@@ -472,7 +477,9 @@ class RestrictContentSetupCest
 		$I->amOnAdminPage('edit.php?post_type=page');
 
 		// Click Add New Member Content button.
-		$I->click('Add New Member Content');
+		$I->moveMouseOver('span.convertkit-action');
+		$I->waitForElementVisible('span.convertkit-action span.convertkit-actions a');
+		$I->click('Member Content');
 
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);

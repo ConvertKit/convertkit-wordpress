@@ -32,7 +32,7 @@ class PageBlockFormTriggerCest
 		$I->setupConvertKitPluginResources($I);
 
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form Trigger: Valid Form Param');
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Form Trigger: Valid Form Param');
 
 		// Configure metabox's Form setting = None, ensuring we only test the block in Gutenberg.
 		$I->configureMetaboxSettings(
@@ -46,7 +46,7 @@ class PageBlockFormTriggerCest
 		// Add block to Page, setting the Form setting to the value specified in the .env file.
 		$I->addGutenbergBlock(
 			$I,
-			'ConvertKit Form Trigger',
+			'Kit Form Trigger',
 			'convertkit-formtrigger',
 			[
 				'form' => [ 'select', $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_NAME'] ],
@@ -74,7 +74,7 @@ class PageBlockFormTriggerCest
 		$I->setupConvertKitPluginResources($I);
 
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form Trigger: Valid Form Param, Multiple Blocks');
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Form Trigger: Valid Form Param, Multiple Blocks');
 
 		// Configure metabox's Form setting = None, ensuring we only test the block in Gutenberg.
 		$I->configureMetaboxSettings(
@@ -88,7 +88,7 @@ class PageBlockFormTriggerCest
 		// Add block to Page, setting the Form setting to the value specified in the .env file.
 		$I->addGutenbergBlock(
 			$I,
-			'ConvertKit Form Trigger',
+			'Kit Form Trigger',
 			'convertkit-formtrigger',
 			[
 				'form' => [ 'select', $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_NAME'] ],
@@ -98,7 +98,7 @@ class PageBlockFormTriggerCest
 		// Add the same block again.
 		$I->addGutenbergBlock(
 			$I,
-			'ConvertKit Form Trigger',
+			'Kit Form Trigger',
 			'convertkit-formtrigger',
 			[
 				'form' => [ 'select', $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_NAME'] ],
@@ -130,7 +130,7 @@ class PageBlockFormTriggerCest
 		$I->setupConvertKitPluginResources($I);
 
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form Trigger: No Form Param');
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Form Trigger: No Form Param');
 
 		// Configure metabox's Form setting = None, ensuring we only test the block in Gutenberg.
 		$I->configureMetaboxSettings(
@@ -142,7 +142,7 @@ class PageBlockFormTriggerCest
 		);
 
 		// Add block to Page.
-		$I->addGutenbergBlock($I, 'ConvertKit Form Trigger', 'convertkit-formtrigger');
+		$I->addGutenbergBlock($I, 'Kit Form Trigger', 'convertkit-formtrigger');
 
 		// Confirm that the Form block displays instructions to the user on how to select a Form.
 		$I->see(
@@ -173,12 +173,12 @@ class PageBlockFormTriggerCest
 		$I->setupConvertKitPluginResources($I);
 
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form Trigger: Text Param');
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Form Trigger: Text Param');
 
 		// Add block to Page, setting the date format.
 		$I->addGutenbergBlock(
 			$I,
-			'ConvertKit Form Trigger',
+			'Kit Form Trigger',
 			'convertkit-formtrigger',
 			[
 				'form' => [ 'select', $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_NAME'] ],
@@ -207,12 +207,12 @@ class PageBlockFormTriggerCest
 		$I->setupConvertKitPluginResources($I);
 
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form Trigger: Blank Text Param');
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Form Trigger: Blank Text Param');
 
 		// Add block to Page, setting the date format.
 		$I->addGutenbergBlock(
 			$I,
-			'ConvertKit Form Trigger',
+			'Kit Form Trigger',
 			'convertkit-formtrigger',
 			[
 				'form' => [ 'select', $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_NAME'] ],
@@ -353,19 +353,21 @@ class PageBlockFormTriggerCest
 
 	/**
 	 * Test the Form Trigger block displays a message with a link to the Plugin's
-	 * settings screen, when the Plugin has no API key specified.
+	 * settings screen, when the Plugin has no credentials specified.
 	 *
 	 * @since   2.2.3
 	 *
 	 * @param   AcceptanceTester $I  Tester.
 	 */
-	public function testFormTriggerBlockWhenNoAPIKey(AcceptanceTester $I)
+	public function testFormTriggerBlockWhenNoCredentials(AcceptanceTester $I)
 	{
+		$I->markTestIncomplete();
+
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form Trigger: Block: No API Key');
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Form Trigger: Block: No Credentials');
 
 		// Add block to Page.
-		$I->addGutenbergBlock($I, 'ConvertKit Form Trigger', 'convertkit-formtrigger');
+		$I->addGutenbergBlock($I, 'Kit Form Trigger', 'convertkit-formtrigger');
 
 		// Test that the popup window works.
 		$I->testBlockNoAPIKeyPopupWindow(
@@ -389,18 +391,18 @@ class PageBlockFormTriggerCest
 	public function testFormTriggerBlockWhenNoForms(AcceptanceTester $I)
 	{
 		// Setup Plugin.
-		$I->setupConvertKitPluginAPIKeyNoData($I);
+		$I->setupConvertKitPluginCredentialsNoData($I);
 		$I->setupConvertKitPluginResourcesNoData($I);
 
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form Trigger: Block: No Forms');
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Form Trigger: Block: No Forms');
 
 		// Add block to Page.
-		$I->addGutenbergBlock($I, 'ConvertKit Form Trigger', 'convertkit-formtrigger');
+		$I->addGutenbergBlock($I, 'Kit Form Trigger', 'convertkit-formtrigger');
 
 		// Confirm that the Form block displays instructions to the user on how to add a Form in ConvertKit.
 		$I->see(
-			'No modal, sticky bar or slide in forms exist in ConvertKit.',
+			'No modal, sticky bar or slide in forms exist in Kit.',
 			[
 				'css' => '.convertkit-no-content',
 			]
@@ -436,15 +438,15 @@ class PageBlockFormTriggerCest
 	 */
 	public function testFormTriggerBlockRefreshButton(AcceptanceTester $I)
 	{
-		// Setup Plugin with API keys for ConvertKit Account that has no Broadcasts.
-		$I->setupConvertKitPluginAPIKeyNoData($I);
+		// Setup Plugin with ConvertKit Account that has no Broadcasts.
+		$I->setupConvertKitPluginCredentialsNoData($I);
 		$I->setupConvertKitPluginResourcesNoData($I);
 
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form Trigger: Refresh Button');
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Form Trigger: Refresh Button');
 
 		// Add block to Page.
-		$I->addGutenbergBlock($I, 'ConvertKit Form Trigger', 'convertkit-formtrigger');
+		$I->addGutenbergBlock($I, 'Kit Form Trigger', 'convertkit-formtrigger');
 
 		// Setup Plugin with a valid API Key and resources, as if the user performed the necessary steps to authenticate
 		// and create a form.

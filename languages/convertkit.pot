@@ -1,52 +1,61 @@
-# Copyright (C) 2024 ConvertKit
-# This file is distributed under the same license as the ConvertKit plugin.
+# Copyright (C) 2024 Kit
+# This file is distributed under the same license as the Kit (formerly ConvertKit) plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: ConvertKit 2.4.9\n"
+"Project-Id-Version: Kit (formerly ConvertKit) 2.6.5\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/convertkit\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-05-13T15:32:16+00:00\n"
+"POT-Creation-Date: 2024-11-13T02:19:55+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.9.0\n"
+"X-Generator: WP-CLI 2.10.0\n"
 "X-Domain: convertkit\n"
 
 #. Plugin Name of the plugin
-#. Author of the plugin
-#: admin/class-convertkit-admin-post.php:123
-#: admin/class-convertkit-admin-settings.php:112
-#: admin/class-convertkit-admin-settings.php:113
-#: admin/class-convertkit-admin-settings.php:132
-#: includes/blocks/class-convertkit-block-broadcasts.php:125
-#: includes/blocks/class-convertkit-block-content.php:62
-#: includes/blocks/class-convertkit-block-form-trigger.php:92
-#: includes/blocks/class-convertkit-block-form.php:111
-#: includes/blocks/class-convertkit-block-product.php:114
-#: includes/integrations/elementor/class-convertkit-elementor.php:70
-msgid "ConvertKit"
+#: wp-convertkit.php
+msgid "Kit (formerly ConvertKit)"
 msgstr ""
 
 #. Plugin URI of the plugin
 #. Author URI of the plugin
-msgid "https://convertkit.com/"
+#: wp-convertkit.php
+msgid "https://kit.com/"
 msgstr ""
 
 #. Description of the plugin
-msgid "Display ConvertKit email subscription forms, landing pages, products, broadcasts and more."
+#: wp-convertkit.php
+msgid "Display Kit (formerly ConvertKit) email subscription forms, landing pages, products, broadcasts and more."
+msgstr ""
+
+#. Author of the plugin
+#: wp-convertkit.php
+#: admin/class-convertkit-admin-post.php:192
+#: admin/class-convertkit-admin-settings.php:112
+#: admin/class-convertkit-admin-settings.php:113
+#: admin/class-convertkit-admin-settings.php:132
+#: includes/blocks/class-convertkit-block-broadcasts.php:126
+#: includes/blocks/class-convertkit-block-content.php:63
+#: includes/blocks/class-convertkit-block-form-trigger.php:93
+#: includes/blocks/class-convertkit-block-form.php:112
+#: includes/blocks/class-convertkit-block-product.php:115
+#: includes/integrations/contactform7/class-convertkit-contactform7-admin-settings.php:130
+#: includes/integrations/elementor/class-convertkit-elementor.php:70
+#: includes/integrations/forminator/class-convertkit-forminator-admin-settings.php:129
+msgid "Kit"
 msgstr ""
 
 #. translators: Post Type name
-#: admin/class-convertkit-admin-bulk-edit.php:103
+#: admin/class-convertkit-admin-bulk-edit.php:97
 msgid "Sorry, you are not allowed to edit %s."
 msgstr ""
 
 #: admin/class-convertkit-admin-cache-plugins.php:115
 #: admin/class-convertkit-admin-cache-plugins.php:186
 #: admin/class-convertkit-admin-cache-plugins.php:343
-msgid "ConvertKit: Member Content: Please add"
+msgid "Kit: Member Content: Please add"
 msgstr ""
 
 #: admin/class-convertkit-admin-cache-plugins.php:129
@@ -67,27 +76,35 @@ msgstr ""
 msgid "to WP Super Cache's \"Rejected Cookies\" setting by clicking here."
 msgstr ""
 
+#: admin/class-convertkit-admin-landing-page.php:61
+#: views/backend/post/meta-box.php:65
+#: views/backend/setup-wizard/convertkit-landing-page-setup/content-1.php:11
+msgid "Landing Page"
+msgstr ""
+
 #: admin/class-convertkit-admin-notices.php:69
-msgid "ConvertKit: Authorization failed. Please enter valid API credentials on the"
+msgid "Kit: Authorization failed. Please"
 msgstr ""
 
 #: admin/class-convertkit-admin-notices.php:73
-msgid "settings screen."
+#: views/backend/post/no-api-key.php:19
+msgid "connect your Kit account."
 msgstr ""
 
-#: admin/class-convertkit-admin-restrict-content.php:193
-msgid "Add New Member Content"
+#: admin/class-convertkit-admin-post.php:93
+msgid "Add New"
 msgstr ""
 
-#: admin/class-convertkit-admin-restrict-content.php:252
-msgid "ConvertKit Member Content"
-msgstr ""
-
+#: admin/class-convertkit-admin-restrict-content.php:168
 #: admin/class-convertkit-admin-settings-restrict-content.php:32
 #: admin/class-convertkit-admin-settings-restrict-content.php:33
 #: views/backend/post/meta-box.php:141
 #: views/backend/setup-wizard/convertkit-restrict-content-setup/content-1.php:11
 msgid "Member Content"
+msgstr ""
+
+#: admin/class-convertkit-admin-restrict-content.php:234
+msgid "Kit Member Content"
 msgstr ""
 
 #: admin/class-convertkit-admin-settings-restrict-content.php:71
@@ -103,7 +120,7 @@ msgid "Product: Subscribe Heading"
 msgstr ""
 
 #: admin/class-convertkit-admin-settings-restrict-content.php:94
-msgid "When a Page, Post or Custom Post's Member Content setting is set to a ConvertKit Product, displays text in a heading explaining why the content is only available to subscribers."
+msgid "When a Page, Post or Custom Post's Member Content setting is set to a Kit Product, displays text in a heading explaining why the content is only available to subscribers."
 msgstr ""
 
 #: admin/class-convertkit-admin-settings-restrict-content.php:101
@@ -111,7 +128,7 @@ msgid "Product: Subscribe Text"
 msgstr ""
 
 #: admin/class-convertkit-admin-settings-restrict-content.php:109
-msgid "When a Page, Post or Custom Post's Member Content setting is set to a ConvertKit Product, displays text explaining why the content is only available to subscribers."
+msgid "When a Page, Post or Custom Post's Member Content setting is set to a Kit Product, displays text explaining why the content is only available to subscribers."
 msgstr ""
 
 #: admin/class-convertkit-admin-settings-restrict-content.php:117
@@ -119,7 +136,7 @@ msgid "Tag: Subscribe Heading"
 msgstr ""
 
 #: admin/class-convertkit-admin-settings-restrict-content.php:125
-msgid "When a Page, Post or Custom Post's Member Content setting is set to a ConvertKit Tag, displays text in a heading explaining why the content is only available to subscribers."
+msgid "When a Page, Post or Custom Post's Member Content setting is set to a Kit Tag, displays text in a heading explaining why the content is only available to subscribers."
 msgstr ""
 
 #: admin/class-convertkit-admin-settings-restrict-content.php:132
@@ -127,7 +144,7 @@ msgid "Tag: Subscribe Text"
 msgstr ""
 
 #: admin/class-convertkit-admin-settings-restrict-content.php:140
-msgid "When a Page, Post or Custom Post's Member Content setting is set to a ConvertKit Tag, displays text explaining why the content is only available to subscribers."
+msgid "When a Page, Post or Custom Post's Member Content setting is set to a Kit Tag, displays text explaining why the content is only available to subscribers."
 msgstr ""
 
 #: admin/class-convertkit-admin-settings-restrict-content.php:148
@@ -223,12 +240,8 @@ msgid "Settings"
 msgstr ""
 
 #: admin/class-convertkit-admin-settings.php:280
-#: admin/section/class-convertkit-admin-settings-broadcasts.php:325
+#: admin/section/class-convertkit-admin-settings-broadcasts.php:339
 msgid "Beta"
-msgstr ""
-
-#: admin/class-convertkit-admin-setup-wizard.php:208
-msgid "Invalid nonce specified."
 msgstr ""
 
 #: admin/class-convertkit-admin-tinymce.php:216
@@ -243,20 +256,20 @@ msgstr ""
 #: admin/section/class-convertkit-admin-settings-broadcasts.php:32
 #: admin/section/class-convertkit-admin-settings-broadcasts.php:33
 #: admin/section/class-convertkit-admin-settings-broadcasts.php:192
-#: includes/blocks/class-convertkit-block-broadcasts.php:126
+#: includes/blocks/class-convertkit-block-broadcasts.php:127
 msgid "Broadcasts"
 msgstr ""
 
-#: admin/section/class-convertkit-admin-settings-broadcasts.php:132
+#: admin/section/class-convertkit-admin-settings-broadcasts.php:68
 msgid "Broadcasts import failed. Please try again."
 msgstr ""
 
-#: admin/section/class-convertkit-admin-settings-broadcasts.php:133
+#: admin/section/class-convertkit-admin-settings-broadcasts.php:69
 msgid "Broadcasts import started. Check the Posts screen shortly to confirm Broadcasts imported successfully."
 msgstr ""
 
 #: admin/section/class-convertkit-admin-settings-broadcasts.php:170
-msgid "Importing public broadcasts from ConvertKit requires the PHP extensions `php-dom` and `php-xml` to be installed. Work with your web host to do this, and reload the page when done."
+msgid "Importing public broadcasts from Kit requires the PHP extensions `php-dom` and `php-xml` to be installed. Work with your web host to do this, and reload the page when done."
 msgstr ""
 
 #: admin/section/class-convertkit-admin-settings-broadcasts.php:185
@@ -268,7 +281,7 @@ msgid "must"
 msgstr ""
 
 #: admin/section/class-convertkit-admin-settings-broadcasts.php:194
-msgid "have their \"Enabled on public feeds\" setting enabled in ConvertKit, to be eligible for import."
+msgid "have their \"Enabled on public feeds\" setting enabled in Kit, to be eligible for import."
 msgstr ""
 
 #: admin/section/class-convertkit-admin-settings-broadcasts.php:200
@@ -276,7 +289,7 @@ msgid "Enable Automatic Import"
 msgstr ""
 
 #: admin/section/class-convertkit-admin-settings-broadcasts.php:207
-msgid "Enables automatic publication of public ConvertKit Broadcasts as WordPress Posts."
+msgid "Enables automatic publication of public Kit Broadcasts as WordPress Posts."
 msgstr ""
 
 #: admin/section/class-convertkit-admin-settings-broadcasts.php:225
@@ -312,44 +325,60 @@ msgid "If enabled, the Broadcast's thumbnail will be used as the WordPress Post'
 msgstr ""
 
 #: admin/section/class-convertkit-admin-settings-broadcasts.php:278
-msgid "Earliest Date"
+msgid "Import Images"
 msgstr ""
 
 #: admin/section/class-convertkit-admin-settings-broadcasts.php:285
+msgid "If enabled, the imported Broadcast's inline images will be stored in the Media Library, instead of served by Kit."
+msgstr ""
+
+#: admin/section/class-convertkit-admin-settings-broadcasts.php:292
+msgid "Earliest Date"
+msgstr ""
+
+#: admin/section/class-convertkit-admin-settings-broadcasts.php:299
 msgid "The earliest date to import public broadcasts from, based on the broadcast's published date and time."
 msgstr ""
 
-#: admin/section/class-convertkit-admin-settings-broadcasts.php:291
+#: admin/section/class-convertkit-admin-settings-broadcasts.php:305
 msgid "Enable Export Actions"
 msgstr ""
 
-#: admin/section/class-convertkit-admin-settings-broadcasts.php:298
+#: admin/section/class-convertkit-admin-settings-broadcasts.php:312
 msgid "Displays actions in WordPress to create draft broadcasts from existing WordPress posts."
 msgstr ""
 
-#: admin/section/class-convertkit-admin-settings-broadcasts.php:304
+#: admin/section/class-convertkit-admin-settings-broadcasts.php:318
 msgid "Disable Styles"
 msgstr ""
 
-#: admin/section/class-convertkit-admin-settings-broadcasts.php:311
+#: admin/section/class-convertkit-admin-settings-broadcasts.php:325
 msgid "Removes inline styles and layout when importing broadcasts and exporting posts."
 msgstr ""
 
-#: admin/section/class-convertkit-admin-settings-broadcasts.php:326
-msgid "Defines whether public broadcasts (\"Enabled on public feeds\") in ConvertKit should automatically be published on this site as WordPress Posts, and whether to enable options to create draft ConvertKit Broadcasts from WordPress Posts."
+#: admin/section/class-convertkit-admin-settings-broadcasts.php:340
+msgid "Defines whether public broadcasts (\"Enabled on public feeds\") in Kit should automatically be published on this site as WordPress Posts, and whether to enable options to create draft Kit Broadcasts from WordPress Posts."
 msgstr ""
 
-#: admin/section/class-convertkit-admin-settings-broadcasts.php:382
+#: admin/section/class-convertkit-admin-settings-broadcasts.php:352
+msgid "We've detected that the"
+msgstr ""
+
+#: admin/section/class-convertkit-admin-settings-broadcasts.php:354
+msgid "constant is enabled. If broadcasts do not import automatically or when using the import button below, either remove this constant from your"
+msgstr ""
+
+#: admin/section/class-convertkit-admin-settings-broadcasts.php:356
+msgid "file, or check that your web host is triggering the WordPress Cron via an alternate method. If importing broadcasts work, no changes to your WordPress configuration file are required."
+msgstr ""
+
+#: admin/section/class-convertkit-admin-settings-broadcasts.php:418
 msgid "Import now"
 msgstr ""
 
-#: admin/section/class-convertkit-admin-settings-broadcasts.php:450
-#: admin/section/class-convertkit-settings-general.php:469
-#: admin/section/class-convertkit-settings-general.php:519
-#: includes/integrations/contactform7/class-convertkit-contactform7-admin-settings.php:143
-#: includes/integrations/forminator/class-convertkit-forminator-admin-settings.php:140
-#: includes/integrations/wishlist/class-convertkit-wishlist-admin-settings.php:124
-#: includes/integrations/wishlist/class-convertkit-wishlist-admin-settings.php:148
+#: admin/section/class-convertkit-admin-settings-broadcasts.php:486
+#: admin/section/class-convertkit-settings-general.php:545
+#: admin/section/class-convertkit-settings-general.php:675
 #: views/backend/post/bulk-edit.php:30
 #: views/backend/post/bulk-edit.php:53
 #: views/backend/post/meta-box.php:30
@@ -366,177 +395,203 @@ msgid "General Settings"
 msgstr ""
 
 #: admin/section/class-convertkit-settings-general.php:58
-#: includes/blocks/class-convertkit-block-broadcasts.php:370
-#: includes/blocks/class-convertkit-block-content.php:146
-#: includes/blocks/class-convertkit-block-form-trigger.php:312
-#: includes/blocks/class-convertkit-block-form.php:255
-#: includes/blocks/class-convertkit-block-product.php:357
+#: includes/blocks/class-convertkit-block-broadcasts.php:373
+#: includes/blocks/class-convertkit-block-content.php:147
+#: includes/blocks/class-convertkit-block-form-trigger.php:315
+#: includes/blocks/class-convertkit-block-form.php:258
+#: includes/blocks/class-convertkit-block-product.php:360
 msgid "General"
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:119
+#: admin/section/class-convertkit-settings-general.php:91
+msgid "Successfully authorized with Kit."
+msgstr ""
+
+#: admin/section/class-convertkit-settings-general.php:271
 msgid "Account Name"
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:127
-msgid "API Key"
-msgstr ""
-
-#: admin/section/class-convertkit-settings-general.php:138
-msgid "API Secret"
-msgstr ""
-
-#. translators: Post Type Name
-#: admin/section/class-convertkit-settings-general.php:161
+#. translators: Post Type Name, plural
+#: admin/section/class-convertkit-settings-general.php:292
 msgid "Default Form (%s)"
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:177
+#. translators: Post Type Name, plural
+#: admin/section/class-convertkit-settings-general.php:310
+msgid "Form Position (%s)"
+msgstr ""
+
+#: admin/section/class-convertkit-settings-general.php:340
 msgid "Default Form (Site Wide)"
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:188
+#: admin/section/class-convertkit-settings-general.php:351
 msgid "Debug"
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:199
+#: admin/section/class-convertkit-settings-general.php:362
 msgid "Disable JavaScript"
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:210
+#: admin/section/class-convertkit-settings-general.php:373
 msgid "Disable CSS"
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:227
+#: admin/section/class-convertkit-settings-general.php:390
 msgid "Choosing a default form will embed it at the bottom of every post or page (in single view only) across your site."
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:228
-msgid "If you wish to turn off form embedding or select a different form for an individual post or page, you can do so using the ConvertKit meta box on the edit page."
+#: admin/section/class-convertkit-settings-general.php:391
+msgid "If you wish to turn off form embedding or select a different form for an individual post or page, you can do so using the Kit meta box on the edit page."
 msgstr ""
 
 #. translators: [convertkit] shortcode, wrapped in <code> tags
-#: admin/section/class-convertkit-settings-general.php:233
+#: admin/section/class-convertkit-settings-general.php:396
 msgid "The default form can be inserted into the middle of post or page content by using the %s shortcode."
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:307
-msgid "Add a valid API Key and Secret to get started"
-msgstr ""
-
-#: admin/section/class-convertkit-settings-general.php:314
+#: admin/section/class-convertkit-settings-general.php:428
 msgid "(Not specified)"
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:316
-msgid "The name of your connected ConvertKit account."
+#: admin/section/class-convertkit-settings-general.php:443
+msgid "Disconnect"
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:333
-msgid "Your API Key has been defined in your wp-config.php file. For security, it is not displayed here."
+#: admin/section/class-convertkit-settings-general.php:506
+msgid "No Forms exist in Kit."
 msgstr ""
 
-#. translators: %1$s: Link to ConvertKit Account
-#: admin/section/class-convertkit-settings-general.php:345
-#: admin/section/class-convertkit-settings-general.php:383
-msgid "%1$s Required for proper plugin function."
-msgstr ""
-
-#: admin/section/class-convertkit-settings-general.php:346
-msgid "Get your ConvertKit API Key."
-msgstr ""
-
-#. translators: Account, %1$s: wp-config.php, %2$s: <code> block for API Key definition
-#: admin/section/class-convertkit-settings-general.php:350
-msgid "Alternatively specify your API Key in the %1$s file using %2$s"
-msgstr ""
-
-#: admin/section/class-convertkit-settings-general.php:371
-msgid "Your API Secret has been defined in your wp-config.php file. For security, it is not displayed here."
-msgstr ""
-
-#: admin/section/class-convertkit-settings-general.php:384
-msgid "Get your ConvertKit API Secret."
-msgstr ""
-
-#. translators: Account, %1$s: wp-config.php, %2$s: <code> block for API Secret definition
-#: admin/section/class-convertkit-settings-general.php:388
-msgid "Alternatively specify your API Secret in the %1$s file using %2$s"
-msgstr ""
-
-#: admin/section/class-convertkit-settings-general.php:430
-msgid "No Forms exist in ConvertKit."
-msgstr ""
-
-#: admin/section/class-convertkit-settings-general.php:431
+#: admin/section/class-convertkit-settings-general.php:507
 msgid "Click here to create your first form"
 msgstr ""
 
 #. translators: Post Type name, plural
-#: admin/section/class-convertkit-settings-general.php:444
-#: admin/section/class-convertkit-settings-general.php:454
+#: admin/section/class-convertkit-settings-general.php:520
+#: admin/section/class-convertkit-settings-general.php:530
 msgid "Select a form above to automatically output below all %s."
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:447
-#: admin/section/class-convertkit-settings-general.php:505
+#: admin/section/class-convertkit-settings-general.php:523
+#: admin/section/class-convertkit-settings-general.php:661
 #: includes/class-convertkit-broadcasts-exporter.php:146
-#: views/backend/setup-wizard/convertkit-setup/content-3.php:79
-#: views/backend/setup-wizard/convertkit-setup/content-3.php:120
+#: views/backend/setup-wizard/convertkit-setup/content-2.php:79
+#: views/backend/setup-wizard/convertkit-setup/content-2.php:120
 msgid "Click here"
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:448
-#: admin/section/class-convertkit-settings-general.php:506
+#: admin/section/class-convertkit-settings-general.php:524
+#: admin/section/class-convertkit-settings-general.php:662
 msgid "to preview how this will display."
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:495
-msgid "No non-inline Forms exist in ConvertKit."
+#. translators: Post type singular name
+#: admin/section/class-convertkit-settings-general.php:574
+msgid "Before %s content"
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:496
+#. translators: Post type singular name
+#: admin/section/class-convertkit-settings-general.php:579
+msgid "After %s content"
+msgstr ""
+
+#. translators: Post type singular name
+#: admin/section/class-convertkit-settings-general.php:584
+msgid "Before and after %s content"
+msgstr ""
+
+#: admin/section/class-convertkit-settings-general.php:587
+msgid "After element"
+msgstr ""
+
+#. translators: Post Type name, plural
+#: admin/section/class-convertkit-settings-general.php:591
+msgid "Where forms should display relative to the %s content"
+msgstr ""
+
+#: admin/section/class-convertkit-settings-general.php:626
+msgid "Paragraphs"
+msgstr ""
+
+#: admin/section/class-convertkit-settings-general.php:627
+msgid "Headings <h2>"
+msgstr ""
+
+#: admin/section/class-convertkit-settings-general.php:628
+msgid "Headings <h3>"
+msgstr ""
+
+#: admin/section/class-convertkit-settings-general.php:629
+msgid "Headings <h4>"
+msgstr ""
+
+#: admin/section/class-convertkit-settings-general.php:630
+msgid "Headings <h5>"
+msgstr ""
+
+#: admin/section/class-convertkit-settings-general.php:631
+msgid "Headings <h6>"
+msgstr ""
+
+#: admin/section/class-convertkit-settings-general.php:632
+msgid "Images"
+msgstr ""
+
+#: admin/section/class-convertkit-settings-general.php:634
+msgid "The number of elements before outputting the form."
+msgstr ""
+
+#: admin/section/class-convertkit-settings-general.php:651
+msgid "No non-inline Forms exist in Kit."
+msgstr ""
+
+#: admin/section/class-convertkit-settings-general.php:652
 msgid "Click here to create your first modal, slide in or sticky bar form"
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:504
+#: admin/section/class-convertkit-settings-general.php:660
 msgid "Select a non-inline modal, slide in or sticky bar form to automatically display site wide. Ignored if a non-inline form is specified in Default Form settings above, individual Post / Page settings, or any block / shortcode."
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:545
+#: admin/section/class-convertkit-settings-general.php:701
 msgid "Log requests to file and output browser console messages."
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:546
+#: admin/section/class-convertkit-settings-general.php:702
 msgid "You can ignore this unless you're working with our support team to resolve an issue. Decheck this option to improve performance."
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:563
+#: admin/section/class-convertkit-settings-general.php:719
 msgid "Prevent plugin from loading JavaScript files. This will disable the custom content and tagging features of the plugin. Does not apply to landing pages. Use with caution!"
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:580
+#: admin/section/class-convertkit-settings-general.php:736
 msgid "Prevents loading plugin CSS files. This will disable styling on broadcasts, form trigger buttons, product buttons and member's content. Use with caution!"
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:584
+#: admin/section/class-convertkit-settings-general.php:740
 msgid "To customize forms and their styling, use the"
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:586
-msgid "ConvertKit form editor"
+#: admin/section/class-convertkit-settings-general.php:742
+msgid "Kit form editor"
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:590
+#: admin/section/class-convertkit-settings-general.php:746
 msgid "For developers who require custom form designs through use of CSS, consider using the"
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:591
+#: admin/section/class-convertkit-settings-general.php:747
 msgid "or"
 msgstr ""
 
-#: admin/section/class-convertkit-settings-general.php:592
+#: admin/section/class-convertkit-settings-general.php:748
 msgid "integrations."
+msgstr ""
+
+#: admin/section/class-convertkit-settings-oauth.php:32
+#: admin/section/class-convertkit-settings-oauth.php:33
+msgid "OAuth"
 msgstr ""
 
 #: admin/section/class-convertkit-settings-tools.php:28
@@ -544,63 +599,86 @@ msgstr ""
 msgid "Tools"
 msgstr ""
 
-#: admin/section/class-convertkit-settings-tools.php:282
+#: admin/section/class-convertkit-settings-tools.php:56
 msgid "An error occured uploading the configuration file."
 msgstr ""
 
-#: admin/section/class-convertkit-settings-tools.php:283
+#: admin/section/class-convertkit-settings-tools.php:57
 msgid "The uploaded configuration file isn't valid."
 msgstr ""
 
-#: admin/section/class-convertkit-settings-tools.php:284
+#: admin/section/class-convertkit-settings-tools.php:58
 msgid "The uploaded configuration file contains no settings."
 msgstr ""
 
-#: admin/section/class-convertkit-settings-tools.php:285
+#: admin/section/class-convertkit-settings-tools.php:59
 msgid "Configuration imported successfully."
 msgstr ""
 
-#: admin/section/class-convertkit-settings-tools.php:336
-msgid "Tools to help you manage ConvertKit on your site."
+#: admin/section/class-convertkit-settings-tools.php:335
+msgid "Tools to help you manage Kit on your site."
 msgstr ""
 
-#: admin/section/class-convertkit-settings-tools.php:364
+#: admin/section/class-convertkit-settings-tools.php:363
 msgid "WordPress 5.2 or higher is required for system information report."
 msgstr ""
 
-#: admin/setup-wizard/class-convertkit-admin-setup-wizard-plugin.php:96
+#: admin/setup-wizard/class-convertkit-admin-setup-wizard-landing-page.php:90
 #: admin/setup-wizard/class-convertkit-admin-setup-wizard-restrict-content.php:135
 msgid "Setup"
 msgstr ""
 
-#: admin/setup-wizard/class-convertkit-admin-setup-wizard-plugin.php:99
-msgid "Connect Account"
+#: admin/setup-wizard/class-convertkit-admin-setup-wizard-landing-page.php:92
+msgid "Create"
 msgstr ""
 
-#: admin/setup-wizard/class-convertkit-admin-setup-wizard-plugin.php:101
-#: views/backend/setup-wizard/convertkit-setup/content-1.php:28
-msgid "Connect"
-msgstr ""
-
-#: admin/setup-wizard/class-convertkit-admin-setup-wizard-plugin.php:105
-msgid "Form Configuration"
-msgstr ""
-
-#: admin/setup-wizard/class-convertkit-admin-setup-wizard-plugin.php:107
-msgid "Finish Setup"
-msgstr ""
-
-#: admin/setup-wizard/class-convertkit-admin-setup-wizard-plugin.php:111
+#: admin/setup-wizard/class-convertkit-admin-setup-wizard-landing-page.php:96
+#: admin/setup-wizard/class-convertkit-admin-setup-wizard-plugin.php:122
 #: admin/setup-wizard/class-convertkit-admin-setup-wizard-restrict-content.php:144
 msgid "Done"
 msgstr ""
 
-#: admin/setup-wizard/class-convertkit-admin-setup-wizard-plugin.php:148
+#: admin/setup-wizard/class-convertkit-admin-setup-wizard-landing-page.php:122
+#: admin/setup-wizard/class-convertkit-admin-setup-wizard-plugin.php:257
+#: admin/setup-wizard/class-convertkit-admin-setup-wizard-restrict-content.php:170
+msgid "Invalid nonce specified."
+msgstr ""
+
+#: admin/setup-wizard/class-convertkit-admin-setup-wizard-landing-page.php:167
+msgid "Connect your Kit account in the Kit Plugin's settings to get started"
+msgstr ""
+
+#. translators: Post Type
+#: admin/setup-wizard/class-convertkit-admin-setup-wizard-landing-page.php:176
+#: admin/setup-wizard/class-convertkit-admin-setup-wizard-restrict-content.php:242
+msgid "The post type `%s` is not supported for Member Content."
+msgstr ""
+
+#: admin/setup-wizard/class-convertkit-admin-setup-wizard-landing-page.php:179
+#: admin/setup-wizard/class-convertkit-admin-setup-wizard-restrict-content.php:245
+msgid "WordPress Error"
+msgstr ""
+
+#: admin/setup-wizard/class-convertkit-admin-setup-wizard-plugin.php:109
+#: admin/setup-wizard/class-convertkit-admin-setup-wizard-plugin.php:111
+#: views/backend/settings/oauth.php:19
+msgid "Connect"
+msgstr ""
+
+#: admin/setup-wizard/class-convertkit-admin-setup-wizard-plugin.php:116
+msgid "Configuration"
+msgstr ""
+
+#: admin/setup-wizard/class-convertkit-admin-setup-wizard-plugin.php:118
+msgid "Finish Setup"
+msgstr ""
+
+#: admin/setup-wizard/class-convertkit-admin-setup-wizard-plugin.php:159
 msgid "Setup Wizard"
 msgstr ""
 
-#: admin/setup-wizard/class-convertkit-admin-setup-wizard-plugin.php:281
-msgid "I've created a form in ConvertKit"
+#: admin/setup-wizard/class-convertkit-admin-setup-wizard-plugin.php:328
+msgid "I've created a form in Kit"
 msgstr ""
 
 #: admin/setup-wizard/class-convertkit-admin-setup-wizard-restrict-content.php:138
@@ -611,52 +689,43 @@ msgstr ""
 msgid "Submit"
 msgstr ""
 
-#: admin/setup-wizard/class-convertkit-admin-setup-wizard-restrict-content.php:227
-msgid "Add a valid API Key and Secret in the ConvertKit Plugin's settings to get started"
+#: admin/setup-wizard/class-convertkit-admin-setup-wizard-restrict-content.php:233
+msgid "Connect your ConvertKit account in the ConvertKit Plugin's settings to get started"
 msgstr ""
 
-#. translators: Post Type
-#: admin/setup-wizard/class-convertkit-admin-setup-wizard-restrict-content.php:236
-msgid "The post type `%s` is not supported for Member Content."
-msgstr ""
-
-#: admin/setup-wizard/class-convertkit-admin-setup-wizard-restrict-content.php:239
-msgid "WordPress Error"
-msgstr ""
-
-#: admin/setup-wizard/class-convertkit-admin-setup-wizard-restrict-content.php:305
+#: admin/setup-wizard/class-convertkit-admin-setup-wizard-restrict-content.php:311
 #: views/backend/setup-wizard/convertkit-restrict-content-setup/content-1.php:71
 msgid "Download"
 msgstr ""
 
-#: admin/setup-wizard/class-convertkit-admin-setup-wizard-restrict-content.php:308
+#: admin/setup-wizard/class-convertkit-admin-setup-wizard-restrict-content.php:314
 #: views/backend/setup-wizard/convertkit-restrict-content-setup/content-1.php:80
 msgid "Course"
 msgstr ""
 
-#: admin/setup-wizard/class-convertkit-admin-setup-wizard-restrict-content.php:336
-msgid "The downloadable content (that is available when the visitor has paid for the ConvertKit product) goes here."
-msgstr ""
-
-#: admin/setup-wizard/class-convertkit-admin-setup-wizard-restrict-content.php:395
-msgid "Some introductory text about lesson"
+#: admin/setup-wizard/class-convertkit-admin-setup-wizard-restrict-content.php:342
+msgid "The downloadable content (that is available when the visitor has paid for the Kit product) goes here."
 msgstr ""
 
 #: admin/setup-wizard/class-convertkit-admin-setup-wizard-restrict-content.php:401
+msgid "Some introductory text about lesson"
+msgstr ""
+
+#: admin/setup-wizard/class-convertkit-admin-setup-wizard-restrict-content.php:407
 msgid "Lesson"
 msgstr ""
 
-#: admin/setup-wizard/class-convertkit-admin-setup-wizard-restrict-content.php:403
-msgid "content (that is available when the visitor has paid for the ConvertKit product) goes here."
+#: admin/setup-wizard/class-convertkit-admin-setup-wizard-restrict-content.php:409
+msgid "content (that is available when the visitor has paid for the Kit product) goes here."
 msgstr ""
 
-#: admin/setup-wizard/class-convertkit-admin-setup-wizard-restrict-content.php:589
+#: admin/setup-wizard/class-convertkit-admin-setup-wizard-restrict-content.php:595
 msgid "Start Course"
 msgstr ""
 
 #: includes/block-formatters/class-convertkit-block-formatter-form-link.php:77
 #: includes/blocks/class-convertkit-block-form-trigger.php:87
-msgid "ConvertKit Form Trigger"
+msgid "Kit Form Trigger"
 msgstr ""
 
 #: includes/block-formatters/class-convertkit-block-formatter-form-link.php:78
@@ -664,11 +733,14 @@ msgid "Displays a modal, sticky bar or slide in form to display when the link is
 msgstr ""
 
 #: includes/block-formatters/class-convertkit-block-formatter-form-link.php:143
-#: includes/blocks/class-convertkit-block-form-trigger.php:93
-#: includes/blocks/class-convertkit-block-form-trigger.php:269
-#: includes/blocks/class-convertkit-block-form.php:112
-#: includes/blocks/class-convertkit-block-form.php:225
-#: includes/integrations/forminator/class-convertkit-forminator-admin-settings.php:199
+#: includes/blocks/class-convertkit-block-form-trigger.php:94
+#: includes/blocks/class-convertkit-block-form-trigger.php:272
+#: includes/blocks/class-convertkit-block-form.php:113
+#: includes/blocks/class-convertkit-block-form.php:228
+#: includes/integrations/contactform7/class-convertkit-contactform7-admin-settings.php:77
+#: includes/integrations/forminator/class-convertkit-forminator-admin-settings.php:76
+#: includes/integrations/forminator/class-convertkit-forminator-admin-settings.php:200
+#: includes/integrations/wishlist/class-convertkit-wishlist-admin-settings.php:73
 #: includes/widgets/class-ck-widget-form.php:79
 #: views/backend/post/bulk-edit.php:14
 #: views/backend/post/meta-box.php:15
@@ -681,7 +753,7 @@ msgid "The modal, sticky bar or slide in form to display when the text is clicke
 msgstr ""
 
 #: includes/block-formatters/class-convertkit-block-formatter-product-link.php:74
-msgid "ConvertKit Product Trigger"
+msgid "Kit Product Trigger"
 msgstr ""
 
 #: includes/block-formatters/class-convertkit-block-formatter-product-link.php:75
@@ -689,8 +761,8 @@ msgid "Displays the Product modal when the link is pressed."
 msgstr ""
 
 #: includes/block-formatters/class-convertkit-block-formatter-product-link.php:134
-#: includes/blocks/class-convertkit-block-product.php:115
-#: includes/blocks/class-convertkit-block-product.php:300
+#: includes/blocks/class-convertkit-block-product.php:116
+#: includes/blocks/class-convertkit-block-product.php:303
 msgid "Product"
 msgstr ""
 
@@ -699,152 +771,171 @@ msgid "The product modal to display when the text is clicked."
 msgstr ""
 
 #: includes/blocks/class-convertkit-block-broadcasts.php:120
-msgid "ConvertKit Broadcasts"
+msgid "Kit Broadcasts"
 msgstr ""
 
 #: includes/blocks/class-convertkit-block-broadcasts.php:121
-msgid "Displays a list of your ConvertKit broadcasts."
+msgid "Displays a list of your Kit broadcasts."
 msgstr ""
 
-#: includes/blocks/class-convertkit-block-broadcasts.php:127
+#: includes/blocks/class-convertkit-block-broadcasts.php:125
+#: includes/blocks/class-convertkit-block-content.php:62
+#: includes/blocks/class-convertkit-block-form-trigger.php:92
+#: includes/blocks/class-convertkit-block-form.php:111
+#: includes/blocks/class-convertkit-block-product.php:114
+msgid "ConvertKit"
+msgstr ""
+
+#: includes/blocks/class-convertkit-block-broadcasts.php:128
 msgid "Posts"
 msgstr ""
 
-#: includes/blocks/class-convertkit-block-broadcasts.php:150
-#: includes/blocks/class-convertkit-block-form-trigger.php:116
-#: includes/blocks/class-convertkit-block-form.php:135
-#: includes/blocks/class-convertkit-block-product.php:138
-msgid "No API Key specified."
+#: includes/blocks/class-convertkit-block-broadcasts.php:151
+#: includes/blocks/class-convertkit-block-form-trigger.php:117
+#: includes/blocks/class-convertkit-block-form.php:136
+#: includes/blocks/class-convertkit-block-product.php:139
+msgid "Not connected to Kit."
 msgstr ""
 
-#: includes/blocks/class-convertkit-block-broadcasts.php:152
-#: includes/blocks/class-convertkit-block-form-trigger.php:118
-#: includes/blocks/class-convertkit-block-form.php:137
-#: includes/blocks/class-convertkit-block-product.php:140
-msgid "Click here to add your API Key."
+#: includes/blocks/class-convertkit-block-broadcasts.php:153
+#: includes/blocks/class-convertkit-block-form-trigger.php:119
+#: includes/blocks/class-convertkit-block-form.php:138
+#: includes/blocks/class-convertkit-block-product.php:141
+msgid "Click here to connect your Kit account."
 msgstr ""
 
-#: includes/blocks/class-convertkit-block-broadcasts.php:155
-msgid "No broadcasts exist in ConvertKit."
+#: includes/blocks/class-convertkit-block-broadcasts.php:154
+msgid "Connect your Kit account at Settings > Kit, and then refresh this page to configure broadcasts to display."
 msgstr ""
 
 #: includes/blocks/class-convertkit-block-broadcasts.php:157
+msgid "No broadcasts exist in Kit."
+msgstr ""
+
+#: includes/blocks/class-convertkit-block-broadcasts.php:159
 msgid "Click here to send your first broadcast."
 msgstr ""
 
-#: includes/blocks/class-convertkit-block-broadcasts.php:282
+#: includes/blocks/class-convertkit-block-broadcasts.php:160
+msgid "Add a broadcast to your Kit account, and then refresh this page to configure broadcasts to display."
+msgstr ""
+
+#: includes/blocks/class-convertkit-block-broadcasts.php:285
 msgid "Display as grid"
 msgstr ""
 
-#: includes/blocks/class-convertkit-block-broadcasts.php:284
+#: includes/blocks/class-convertkit-block-broadcasts.php:287
 msgid "If enabled, displays broadcasts in a grid, instead of a list."
 msgstr ""
 
-#: includes/blocks/class-convertkit-block-broadcasts.php:287
+#: includes/blocks/class-convertkit-block-broadcasts.php:290
 msgid "Date format"
 msgstr ""
 
-#: includes/blocks/class-convertkit-block-broadcasts.php:297
+#: includes/blocks/class-convertkit-block-broadcasts.php:300
 msgid "Display images"
 msgstr ""
 
-#: includes/blocks/class-convertkit-block-broadcasts.php:301
+#: includes/blocks/class-convertkit-block-broadcasts.php:304
 msgid "Display descriptions"
 msgstr ""
 
-#: includes/blocks/class-convertkit-block-broadcasts.php:305
+#: includes/blocks/class-convertkit-block-broadcasts.php:308
 msgid "Display read more links"
 msgstr ""
 
-#: includes/blocks/class-convertkit-block-broadcasts.php:309
+#: includes/blocks/class-convertkit-block-broadcasts.php:312
 msgid "Read more label"
 msgstr ""
 
-#: includes/blocks/class-convertkit-block-broadcasts.php:311
+#: includes/blocks/class-convertkit-block-broadcasts.php:314
 msgid "The label to display for the \"read more\" link below each broadcast."
 msgstr ""
 
-#: includes/blocks/class-convertkit-block-broadcasts.php:314
+#: includes/blocks/class-convertkit-block-broadcasts.php:317
 msgid "Number of posts"
 msgstr ""
 
-#: includes/blocks/class-convertkit-block-broadcasts.php:321
+#: includes/blocks/class-convertkit-block-broadcasts.php:324
 msgid "Display pagination"
 msgstr ""
 
-#: includes/blocks/class-convertkit-block-broadcasts.php:323
+#: includes/blocks/class-convertkit-block-broadcasts.php:326
 msgid "If the number of broadcasts exceeds the \"Number of posts\" settings above, previous/next pagination links will be displayed."
 msgstr ""
 
-#: includes/blocks/class-convertkit-block-broadcasts.php:326
+#: includes/blocks/class-convertkit-block-broadcasts.php:329
 msgid "Newer posts label"
 msgstr ""
 
-#: includes/blocks/class-convertkit-block-broadcasts.php:328
+#: includes/blocks/class-convertkit-block-broadcasts.php:331
 msgid "The label to display for the link to newer broadcasts."
 msgstr ""
 
-#: includes/blocks/class-convertkit-block-broadcasts.php:331
+#: includes/blocks/class-convertkit-block-broadcasts.php:334
 msgid "Older posts label"
 msgstr ""
 
-#: includes/blocks/class-convertkit-block-broadcasts.php:333
+#: includes/blocks/class-convertkit-block-broadcasts.php:336
 msgid "The label to display for the link to older broadcasts."
 msgstr ""
 
-#: includes/blocks/class-convertkit-block-broadcasts.php:339
+#: includes/blocks/class-convertkit-block-broadcasts.php:342
 msgid "Link color"
 msgstr ""
 
-#: includes/blocks/class-convertkit-block-broadcasts.php:343
-#: includes/blocks/class-convertkit-block-form-trigger.php:283
-#: includes/blocks/class-convertkit-block-product.php:328
+#: includes/blocks/class-convertkit-block-broadcasts.php:346
+#: includes/blocks/class-convertkit-block-form-trigger.php:286
+#: includes/blocks/class-convertkit-block-product.php:331
 msgid "Background color"
 msgstr ""
 
-#: includes/blocks/class-convertkit-block-broadcasts.php:347
-#: includes/blocks/class-convertkit-block-form-trigger.php:287
-#: includes/blocks/class-convertkit-block-product.php:332
+#: includes/blocks/class-convertkit-block-broadcasts.php:350
+#: includes/blocks/class-convertkit-block-form-trigger.php:290
+#: includes/blocks/class-convertkit-block-product.php:335
 msgid "Text color"
 msgstr ""
 
-#: includes/blocks/class-convertkit-block-broadcasts.php:381
+#: includes/blocks/class-convertkit-block-broadcasts.php:384
 msgid "Pagination"
 msgstr ""
 
-#: includes/blocks/class-convertkit-block-broadcasts.php:390
+#: includes/blocks/class-convertkit-block-broadcasts.php:393
 msgid "Styles"
 msgstr ""
 
-#: includes/blocks/class-convertkit-block-broadcasts.php:416
+#: includes/blocks/class-convertkit-block-broadcasts.php:419
 msgid "Read more"
 msgstr ""
 
-#: includes/blocks/class-convertkit-block-broadcasts.php:419
+#: includes/blocks/class-convertkit-block-broadcasts.php:422
 msgid "Previous"
 msgstr ""
 
-#: includes/blocks/class-convertkit-block-broadcasts.php:420
+#: includes/blocks/class-convertkit-block-broadcasts.php:423
 msgid "Next"
 msgstr ""
 
-#: includes/blocks/class-convertkit-block-broadcasts.php:466
-msgid "No Broadcasts exist in ConvertKit."
+#: includes/blocks/class-convertkit-block-broadcasts.php:469
+msgid "No Broadcasts exist in Kit."
 msgstr ""
 
 #: includes/blocks/class-convertkit-block-content.php:57
-msgid "ConvertKit Custom Content"
+msgid "Kit Custom Content"
 msgstr ""
 
 #: includes/blocks/class-convertkit-block-content.php:58
-msgid "Displays ConvertKit Custom Content for a subscriber if their tag matches the Page's tag."
+msgid "Displays Kit Custom Content for a subscriber if their tag matches the Page's tag."
 msgstr ""
 
-#: includes/blocks/class-convertkit-block-content.php:63
+#: includes/blocks/class-convertkit-block-content.php:64
 msgid "Content"
 msgstr ""
 
-#: includes/blocks/class-convertkit-block-content.php:122
+#: includes/blocks/class-convertkit-block-content.php:123
+#: includes/integrations/contactform7/class-convertkit-contactform7-admin-settings.php:79
+#: includes/integrations/forminator/class-convertkit-forminator-admin-settings.php:78
+#: includes/integrations/wishlist/class-convertkit-wishlist-admin-settings.php:75
 #: views/backend/post/bulk-edit.php:43
 #: views/backend/post/quick-edit.php:37
 msgid "Tag"
@@ -854,187 +945,203 @@ msgstr ""
 msgid "Displays a modal, sticky bar or slide in form to display when the button is pressed."
 msgstr ""
 
-#: includes/blocks/class-convertkit-block-form-trigger.php:121
-msgid "No modal, sticky bar or slide in forms exist in ConvertKit."
+#: includes/blocks/class-convertkit-block-form-trigger.php:120
+#: includes/blocks/class-convertkit-block-form.php:139
+msgid "Connect your Kit account at Settings > Kit, and then refresh this page to select a form."
 msgstr ""
 
 #: includes/blocks/class-convertkit-block-form-trigger.php:123
-msgid "Click here to create a form."
+msgid "No modal, sticky bar or slide in forms exist in Kit."
 msgstr ""
 
 #: includes/blocks/class-convertkit-block-form-trigger.php:125
-#: includes/blocks/class-convertkit-block-form.php:146
+msgid "Click here to create a form."
+msgstr ""
+
+#: includes/blocks/class-convertkit-block-form-trigger.php:126
+msgid "Add a non-inline form to your Kit account, and then refresh this page to select a form."
+msgstr ""
+
+#: includes/blocks/class-convertkit-block-form-trigger.php:128
+#: includes/blocks/class-convertkit-block-form.php:149
 msgid "Select a Form using the Form option in the Gutenberg sidebar."
 msgstr ""
 
-#: includes/blocks/class-convertkit-block-form-trigger.php:272
-msgid "The modal, sticky bar or slide in form to display when the button is pressed. To embed a form, use the ConvertKit Form block instead."
+#: includes/blocks/class-convertkit-block-form-trigger.php:275
+msgid "The modal, sticky bar or slide in form to display when the button is pressed. To embed a form, use the Kit Form block instead."
 msgstr ""
 
-#: includes/blocks/class-convertkit-block-form-trigger.php:275
-#: includes/blocks/class-convertkit-block-product.php:305
+#: includes/blocks/class-convertkit-block-form-trigger.php:278
+#: includes/blocks/class-convertkit-block-product.php:308
 msgid "Button Text"
 msgstr ""
 
-#: includes/blocks/class-convertkit-block-form-trigger.php:277
-#: includes/blocks/class-convertkit-block-product.php:307
+#: includes/blocks/class-convertkit-block-form-trigger.php:280
+#: includes/blocks/class-convertkit-block-product.php:310
 msgid "The text to display for the button."
 msgstr ""
 
-#: includes/blocks/class-convertkit-block-form-trigger.php:335
+#: includes/blocks/class-convertkit-block-form-trigger.php:338
 #: includes/class-convertkit-settings-restrict-content.php:128
+#: includes/integrations/contactform7/class-convertkit-contactform7-admin-settings.php:75
+#: includes/integrations/forminator/class-convertkit-forminator-admin-settings.php:74
+#: includes/integrations/wishlist/class-convertkit-wishlist-admin-settings.php:69
+#: views/backend/subscription-dropdown-field.php:19
 msgid "Subscribe"
 msgstr ""
 
 #. translators: ConvertKit Form ID
-#: includes/blocks/class-convertkit-block-form-trigger.php:429
-#: includes/class-convertkit-resource-forms.php:262
-msgid "ConvertKit Form ID %s does not exist on ConvertKit."
+#: includes/blocks/class-convertkit-block-form-trigger.php:432
+#: includes/class-convertkit-resource-forms.php:290
+msgid "Kit Form ID %s does not exist on Kit."
 msgstr ""
 
 #. translators: ConvertKit Form ID
-#: includes/blocks/class-convertkit-block-form-trigger.php:441
-msgid "ConvertKit Form ID %s has no uid property."
+#: includes/blocks/class-convertkit-block-form-trigger.php:444
+msgid "Kit Form ID %s has no uid property."
 msgstr ""
 
 #. translators: ConvertKit Form ID
-#: includes/blocks/class-convertkit-block-form-trigger.php:451
-msgid "ConvertKit Form ID %s has no embed_js property."
+#: includes/blocks/class-convertkit-block-form-trigger.php:454
+msgid "Kit Form ID %s has no embed_js property."
 msgstr ""
 
 #: includes/blocks/class-convertkit-block-form.php:106
-#: includes/integrations/contactform7/class-convertkit-contactform7-admin-settings.php:127
-#: includes/integrations/forminator/class-convertkit-forminator-admin-settings.php:126
-#: includes/integrations/wishlist/class-convertkit-wishlist-admin-settings.php:134
 #: views/backend/term/fields-add.php:11
 #: views/backend/term/fields-edit.php:12
-msgid "ConvertKit Form"
+msgid "Kit Form"
 msgstr ""
 
 #: includes/blocks/class-convertkit-block-form.php:107
-msgid "Displays a ConvertKit Form."
-msgstr ""
-
-#: includes/blocks/class-convertkit-block-form.php:140
-msgid "No forms exist in ConvertKit."
+msgid "Displays a Kit Form."
 msgstr ""
 
 #: includes/blocks/class-convertkit-block-form.php:142
+msgid "No forms exist in Kit."
+msgstr ""
+
+#: includes/blocks/class-convertkit-block-form.php:144
 msgid "Click here to create your first form."
 msgstr ""
 
-#. translators: Form name in ConvertKit
-#: includes/blocks/class-convertkit-block-form.php:155
-msgid "Modal form \"%s\" selected. View on the frontend site to see the modal form."
+#: includes/blocks/class-convertkit-block-form.php:145
+msgid "Add a form to your Kit account, and then refresh this page to select a form."
 msgstr ""
 
 #. translators: Form name in ConvertKit
 #: includes/blocks/class-convertkit-block-form.php:158
-msgid "Slide in form \"%s\" selected. View on the frontend site to see the slide in form."
+msgid "Modal form \"%s\" selected. View on the frontend site to see the modal form."
 msgstr ""
 
 #. translators: Form name in ConvertKit
 #: includes/blocks/class-convertkit-block-form.php:161
+msgid "Slide in form \"%s\" selected. View on the frontend site to see the slide in form."
+msgstr ""
+
+#. translators: Form name in ConvertKit
+#: includes/blocks/class-convertkit-block-form.php:164
 msgid "Sticky bar form \"%s\" selected. View on the frontend site to see the sticky bar form."
 msgstr ""
 
 #: includes/blocks/class-convertkit-block-product.php:109
-msgid "ConvertKit Product"
+msgid "Kit Product"
 msgstr ""
 
 #: includes/blocks/class-convertkit-block-product.php:110
-msgid "Displays a button to purchase a ConvertKit product."
+msgid "Displays a button to purchase a Kit product."
 msgstr ""
 
-#: includes/blocks/class-convertkit-block-product.php:143
-msgid "No products exist in ConvertKit."
+#: includes/blocks/class-convertkit-block-product.php:142
+msgid "Connect your Kit account at Settings > Kit, and then refresh this page to select a product."
 msgstr ""
 
 #: includes/blocks/class-convertkit-block-product.php:145
+msgid "No products exist in Kit."
+msgstr ""
+
+#: includes/blocks/class-convertkit-block-product.php:147
 msgid "Click here to create your first product."
 msgstr ""
 
-#: includes/blocks/class-convertkit-block-product.php:149
+#: includes/blocks/class-convertkit-block-product.php:148
+msgid "Add a product to your Kit account, and then refresh this page to select a product."
+msgstr ""
+
+#: includes/blocks/class-convertkit-block-product.php:152
 msgid "Select a Product using the Product option in the Gutenberg sidebar."
 msgstr ""
 
-#: includes/blocks/class-convertkit-block-product.php:310
+#: includes/blocks/class-convertkit-block-product.php:313
 msgid "Discount Code"
 msgstr ""
 
-#: includes/blocks/class-convertkit-block-product.php:312
-msgid "Optional: A discount code to include. Must be defined in the ConvertKit Product."
+#: includes/blocks/class-convertkit-block-product.php:315
+msgid "Optional: A discount code to include. Must be defined in the Kit Product."
 msgstr ""
 
-#: includes/blocks/class-convertkit-block-product.php:315
+#: includes/blocks/class-convertkit-block-product.php:318
 msgid "Load checkout step"
 msgstr ""
 
-#: includes/blocks/class-convertkit-block-product.php:317
-msgid "If enabled, immediately loads the checkout screen, instead of the ConvertKit Product description."
+#: includes/blocks/class-convertkit-block-product.php:320
+msgid "If enabled, immediately loads the checkout screen, instead of the Kit Product description."
 msgstr ""
 
-#: includes/blocks/class-convertkit-block-product.php:320
+#: includes/blocks/class-convertkit-block-product.php:323
 msgid "Disable modal on mobile"
 msgstr ""
 
-#: includes/blocks/class-convertkit-block-product.php:322
-msgid "Recommended if the ConvertKit Product is a digital download being purchased on mobile, to ensure the subscriber can immediately download the PDF once purchased."
+#: includes/blocks/class-convertkit-block-product.php:325
+msgid "Recommended if the Kit Product is a digital download being purchased on mobile, to ensure the subscriber can immediately download the PDF once purchased."
 msgstr ""
 
-#: includes/blocks/class-convertkit-block-product.php:383
+#: includes/blocks/class-convertkit-block-product.php:386
 msgid "Buy my product"
 msgstr ""
 
-#: includes/class-convertkit-ajax.php:87
-#: includes/class-convertkit-ajax.php:174
-msgid "ConvertKit: Required parameter `subscriber_id` not included in AJAX request."
+#: includes/class-convertkit-ajax.php:84
+msgid "Kit: Required parameter `subscriber_id` not included in AJAX request."
 msgstr ""
 
-#: includes/class-convertkit-ajax.php:93
-#: includes/class-convertkit-ajax.php:184
-msgid "ConvertKit: Required parameter `subscriber_id` empty in AJAX request."
+#: includes/class-convertkit-ajax.php:90
+msgid "Kit: Required parameter `subscriber_id` empty in AJAX request."
 msgstr ""
 
-#: includes/class-convertkit-ajax.php:129
-msgid "ConvertKit: Required parameter `email` not included in AJAX request."
+#: includes/class-convertkit-ajax.php:126
+msgid "Kit: Required parameter `email` not included in AJAX request."
 msgstr ""
 
-#: includes/class-convertkit-ajax.php:135
-msgid "ConvertKit: Required parameter `email` is empty."
+#: includes/class-convertkit-ajax.php:132
+msgid "Kit: Required parameter `email` is empty."
 msgstr ""
 
-#: includes/class-convertkit-ajax.php:140
-msgid "ConvertKit: Required parameter `email` is not an email address."
-msgstr ""
-
-#: includes/class-convertkit-ajax.php:177
-msgid "ConvertKit: Required parameter `tag` not included in AJAX request."
-msgstr ""
-
-#: includes/class-convertkit-ajax.php:187
-msgid "ConvertKit: Required parameter `tag` empty in AJAX request."
-msgstr ""
-
-#: includes/class-convertkit-ajax.php:193
-msgid "ConvertKit: API Keys not defined in Plugin Settings."
+#: includes/class-convertkit-ajax.php:137
+msgid "Kit: Required parameter `email` is not an email address."
 msgstr ""
 
 #: includes/class-convertkit-broadcasts-exporter.php:144
-msgid "Successfully created ConvertKit Broadcast from Post."
+msgid "Successfully created Kit Broadcast from Post."
 msgstr ""
 
 #: includes/class-convertkit-broadcasts-exporter.php:147
-msgid "to edit and send the broadcast in ConvertKit."
+msgid "to edit and send the broadcast in Kit."
 msgstr ""
 
 #: includes/class-convertkit-broadcasts-exporter.php:178
-msgid "Create as ConvertKit Broadcast"
+msgid "Create as Kit Broadcast"
 msgstr ""
 
 #. translators: WordPress Post ID
 #: includes/class-convertkit-broadcasts-exporter.php:205
 msgid "Could not fetch Post ID %s."
+msgstr ""
+
+#: includes/class-convertkit-broadcasts-importer.php:143
+msgid "No Access Token specified in Plugin Settings"
+msgstr ""
+
+#: includes/class-convertkit-broadcasts-importer.php:163
+msgid "Kit WordPress Libraries 1.3.7 or older detected, missing the `get_post` method."
 msgstr ""
 
 #: includes/class-convertkit-cron.php:33
@@ -1054,21 +1161,21 @@ msgid "Could not identify MIME type of imported image."
 msgstr ""
 
 #: includes/class-convertkit-preview-output.php:292
-msgid "Edit form in ConvertKit"
+msgid "Edit form in Kit"
 msgstr ""
 
-#: includes/class-convertkit-resource-forms.php:278
-msgid "ConvertKit Legacy Form could not be fetched as no API Key specified in Plugin Settings"
+#: includes/class-convertkit-resource-forms.php:306
+msgid "Kit Legacy Form could not be fetched as no Access Token specified in Plugin Settings"
 msgstr ""
 
 #. translators: ConvertKit Landing Page ID
-#: includes/class-convertkit-resource-landing-pages.php:92
-msgid "ConvertKit Landing Page ID %s does not exist on ConvertKit."
+#: includes/class-convertkit-resource-landing-pages.php:101
+msgid "ConvertKit Landing Page ID %s does not exist on Kit."
 msgstr ""
 
-#. translators: ConvertKit Product ID
-#: includes/class-convertkit-resource-products.php:139
-msgid "ConvertKit Product ID %s does not exist on ConvertKit."
+#. translators: Kit Product ID
+#: includes/class-convertkit-resource-products.php:141
+msgid "Kit Product ID %s does not exist on Kit."
 msgstr ""
 
 #: includes/class-convertkit-settings-restrict-content.php:120
@@ -1116,17 +1223,17 @@ msgid "Your account does not have access to this content. Please use the button 
 msgstr ""
 
 #: includes/class-convertkit-subscriber.php:69
-#: includes/class-convertkit-subscriber.php:112
-msgid "API Key and Secret not configured in Plugin Settings."
+#: includes/class-convertkit-subscriber.php:119
+msgid "Access Token not configured in Plugin Settings."
 msgstr ""
 
 #. translators: %1$s: PHP class name
-#: includes/class-wp-convertkit.php:396
-msgid "ConvertKit Error: Could not load Plugin class <strong>%1$s</strong>"
+#: includes/class-wp-convertkit.php:399
+msgid "Kit Error: Could not load Plugin class <strong>%1$s</strong>"
 msgstr ""
 
-#: includes/class-wp-convertkit.php:406
-msgid "ConvertKit Error"
+#: includes/class-wp-convertkit.php:409
+msgid "Kit Error"
 msgstr ""
 
 #: includes/integrations/contactform7/class-convertkit-contactform7-admin-settings.php:30
@@ -1138,7 +1245,7 @@ msgid "Contact Form 7"
 msgstr ""
 
 #: includes/integrations/contactform7/class-convertkit-contactform7-admin-settings.php:55
-msgid "ConvertKit seamlessly integrates with Contact Form 7 to let you add subscribers using Contact Form 7 forms."
+msgid "Kit seamlessly integrates with Contact Form 7 to let you add subscribers using Contact Form 7 forms."
 msgstr ""
 
 #: includes/integrations/contactform7/class-convertkit-contactform7-admin-settings.php:62
@@ -1155,44 +1262,100 @@ msgid "and an"
 msgstr ""
 
 #: includes/integrations/contactform7/class-convertkit-contactform7-admin-settings.php:66
-msgid ". These fields will be sent to ConvertKit for the subscription."
+msgid ". These fields will be sent to Kit for the subscription."
 msgstr ""
 
-#: includes/integrations/contactform7/class-convertkit-contactform7-admin-settings.php:106
-#: includes/integrations/forminator/class-convertkit-forminator-admin-settings.php:105
-#: includes/integrations/wishlist/class-convertkit-wishlist-admin-settings.php:110
-msgid "No Forms exist on ConvertKit."
+#: includes/integrations/contactform7/class-convertkit-contactform7-admin-settings.php:71
+msgid "Each Contact Form 7 Form has the following Kit options:"
 msgstr ""
 
-#: includes/integrations/contactform7/class-convertkit-contactform7-admin-settings.php:119
+#: includes/integrations/contactform7/class-convertkit-contactform7-admin-settings.php:73
+#: includes/integrations/forminator/class-convertkit-forminator-admin-settings.php:72
+#: includes/integrations/wishlist/class-convertkit-wishlist-admin-settings.php:67
+msgid "Do not subscribe"
+msgstr ""
+
+#: includes/integrations/contactform7/class-convertkit-contactform7-admin-settings.php:73
+#: includes/integrations/forminator/class-convertkit-forminator-admin-settings.php:72
+#: includes/integrations/wishlist/class-convertkit-wishlist-admin-settings.php:67
+msgid "Do not subscribe the email address to Kit"
+msgstr ""
+
+#: includes/integrations/contactform7/class-convertkit-contactform7-admin-settings.php:75
+#: includes/integrations/forminator/class-convertkit-forminator-admin-settings.php:74
+#: includes/integrations/wishlist/class-convertkit-wishlist-admin-settings.php:69
+msgid "Subscribes the email address to Kit"
+msgstr ""
+
+#: includes/integrations/contactform7/class-convertkit-contactform7-admin-settings.php:77
+#: includes/integrations/forminator/class-convertkit-forminator-admin-settings.php:76
+#: includes/integrations/wishlist/class-convertkit-wishlist-admin-settings.php:73
+msgid "Subscribes the email address to Kit, and adds the subscriber to the Kit form"
+msgstr ""
+
+#: includes/integrations/contactform7/class-convertkit-contactform7-admin-settings.php:79
+#: includes/integrations/forminator/class-convertkit-forminator-admin-settings.php:78
+#: includes/integrations/wishlist/class-convertkit-wishlist-admin-settings.php:75
+msgid "Subscribes the email address to Kit, tagging the subscriber"
+msgstr ""
+
+#: includes/integrations/contactform7/class-convertkit-contactform7-admin-settings.php:81
+#: includes/integrations/forminator/class-convertkit-forminator-admin-settings.php:80
+#: includes/integrations/wishlist/class-convertkit-wishlist-admin-settings.php:77
+msgid "Sequence"
+msgstr ""
+
+#: includes/integrations/contactform7/class-convertkit-contactform7-admin-settings.php:81
+#: includes/integrations/forminator/class-convertkit-forminator-admin-settings.php:80
+#: includes/integrations/wishlist/class-convertkit-wishlist-admin-settings.php:77
+msgid "Subscribes the email address to Kit, and adds the subscriber to the Kit sequence"
+msgstr ""
+
+#: includes/integrations/contactform7/class-convertkit-contactform7-admin-settings.php:118
 msgid "No Contact Form 7 Forms exist in the Contact Form 7 Plugin."
 msgstr ""
 
-#: includes/integrations/contactform7/class-convertkit-contactform7-admin-settings.php:126
+#: includes/integrations/contactform7/class-convertkit-contactform7-admin-settings.php:129
 msgid "Contact Form 7 Form"
 msgstr ""
 
-#: includes/integrations/contactform7/class-convertkit-contactform7-admin-settings.php:128
+#: includes/integrations/contactform7/class-convertkit-contactform7-admin-settings.php:131
 msgid "Contact Form 7 Email Field"
 msgstr ""
 
-#: includes/integrations/contactform7/class-convertkit-contactform7-admin-settings.php:129
+#: includes/integrations/contactform7/class-convertkit-contactform7-admin-settings.php:132
 msgid "Contact Form 7 Name Field"
 msgstr ""
 
-#: includes/integrations/contactform7/class-convertkit-contactform7-admin-settings.php:130
-#: includes/integrations/forminator/class-convertkit-forminator-admin-settings.php:127
+#: includes/integrations/contactform7/class-convertkit-contactform7-admin-settings.php:133
+#: includes/integrations/forminator/class-convertkit-forminator-admin-settings.php:130
 msgid "Enable Creator Network Recommendations"
 msgstr ""
 
-#: includes/integrations/contactform7/class-convertkit-contactform7-admin-settings.php:162
-#: includes/integrations/forminator/class-convertkit-forminator-admin-settings.php:157
+#: includes/integrations/contactform7/class-convertkit-contactform7-admin-settings.php:163
+#: includes/integrations/forminator/class-convertkit-forminator-admin-settings.php:158
 msgid "Creator Network Recommendations requires a"
 msgstr ""
 
-#: includes/integrations/contactform7/class-convertkit-contactform7-admin-settings.php:164
-#: includes/integrations/forminator/class-convertkit-forminator-admin-settings.php:159
-msgid "paid ConvertKit Plan"
+#: includes/integrations/contactform7/class-convertkit-contactform7-admin-settings.php:165
+#: includes/integrations/forminator/class-convertkit-forminator-admin-settings.php:160
+msgid "paid Kit Plan"
+msgstr ""
+
+#: includes/integrations/divi/class-convertkit-divi-module.php:146
+msgid "(None)"
+msgstr ""
+
+#: includes/integrations/divi/class-convertkit-divi-module.php:159
+#: views/backend/term/fields-add.php:50
+#: views/backend/term/fields-edit.php:54
+#: views/backend/tinymce/modal-field.php:80
+msgid "No"
+msgstr ""
+
+#: includes/integrations/divi/class-convertkit-divi-module.php:160
+#: views/backend/tinymce/modal-field.php:81
+msgid "Yes"
 msgstr ""
 
 #: includes/integrations/elementor/class-convertkit-elementor-widget.php:282
@@ -1213,22 +1376,26 @@ msgid "Forminator"
 msgstr ""
 
 #: includes/integrations/forminator/class-convertkit-forminator-admin-settings.php:61
-msgid "ConvertKit seamlessly integrates with Forminator to let you add subscribers using Forminator forms."
+msgid "Kit seamlessly integrates with Forminator to let you add subscribers using Forminator forms."
 msgstr ""
 
 #: includes/integrations/forminator/class-convertkit-forminator-admin-settings.php:66
-msgid "The Forminator form must have Name and Email fields. These fields will be sent to ConvertKit for the subscription"
+msgid "The Forminator form must have Name and Email fields. These fields will be sent to Kit for the subscription"
 msgstr ""
 
-#: includes/integrations/forminator/class-convertkit-forminator-admin-settings.php:118
+#: includes/integrations/forminator/class-convertkit-forminator-admin-settings.php:70
+msgid "Each Forminator form and quiz has the following Kit options:"
+msgstr ""
+
+#: includes/integrations/forminator/class-convertkit-forminator-admin-settings.php:117
 msgid "No Forminator Forms or Quizzes exist in the Forminator Plugin."
 msgstr ""
 
-#: includes/integrations/forminator/class-convertkit-forminator-admin-settings.php:125
+#: includes/integrations/forminator/class-convertkit-forminator-admin-settings.php:128
 msgid "Forminator Form"
 msgstr ""
 
-#: includes/integrations/forminator/class-convertkit-forminator-admin-settings.php:210
+#: includes/integrations/forminator/class-convertkit-forminator-admin-settings.php:211
 msgid "Quiz"
 msgstr ""
 
@@ -1241,27 +1408,36 @@ msgid "WishList Member"
 msgstr ""
 
 #: includes/integrations/wishlist/class-convertkit-wishlist-admin-settings.php:61
-msgid "ConvertKit seamlessly integrates with WishList Member to let you capture all of your WishList Membership registrations within your ConvertKit forms."
+msgid "Kit seamlessly integrates with WishList Member to let you capture all of your WishList Membership registrations within your Kit forms."
 msgstr ""
 
-#: includes/integrations/wishlist/class-convertkit-wishlist-admin-settings.php:99
+#: includes/integrations/wishlist/class-convertkit-wishlist-admin-settings.php:65
+msgid "Each membership level has the following Kit options:"
+msgstr ""
+
+#: includes/integrations/wishlist/class-convertkit-wishlist-admin-settings.php:71
+#: includes/integrations/wishlist/class-convertkit-wishlist-admin-settings.php:144
+msgid "Unsubscribe"
+msgstr ""
+
+#: includes/integrations/wishlist/class-convertkit-wishlist-admin-settings.php:71
+msgid "Unsubscribes the email address from Kit"
+msgstr ""
+
+#: includes/integrations/wishlist/class-convertkit-wishlist-admin-settings.php:114
 msgid "No WishList Member Levels exist in the WishList Member Plugin."
 msgstr ""
 
-#: includes/integrations/wishlist/class-convertkit-wishlist-admin-settings.php:117
-msgid "No Tags exist on ConvertKit."
-msgstr ""
-
-#: includes/integrations/wishlist/class-convertkit-wishlist-admin-settings.php:129
-msgid "Unsubscribe from all"
-msgstr ""
-
-#: includes/integrations/wishlist/class-convertkit-wishlist-admin-settings.php:133
+#: includes/integrations/wishlist/class-convertkit-wishlist-admin-settings.php:121
 msgid "WishList Membership Level"
 msgstr ""
 
-#: includes/integrations/wishlist/class-convertkit-wishlist-admin-settings.php:135
-msgid "Unsubscribe Action"
+#: includes/integrations/wishlist/class-convertkit-wishlist-admin-settings.php:122
+msgid "Assign to member"
+msgstr ""
+
+#: includes/integrations/wishlist/class-convertkit-wishlist-admin-settings.php:123
+msgid "Remove from member"
 msgstr ""
 
 #: includes/pre-publish-actions/class-convertkit-pre-publish-action-broadcast-export.php:82
@@ -1269,19 +1445,19 @@ msgid "Create Broadcast"
 msgstr ""
 
 #: includes/pre-publish-actions/class-convertkit-pre-publish-action-broadcast-export.php:95
-msgid "If enabled, creates a draft ConvertKit Broadcast using this Post's title, content and excerpt."
+msgid "If enabled, creates a draft Kit Broadcast using this Post's title, content and excerpt."
 msgstr ""
 
 #: includes/widgets/class-ck-widget-form.php:35
-msgid "ConvertKit Form (Legacy Widget)"
+msgid "Kit Form (Legacy Widget)"
 msgstr ""
 
 #: includes/widgets/class-ck-widget-form.php:38
-msgid "Display a ConvertKit form."
+msgid "Display a Kit form."
 msgstr ""
 
 #: includes/widgets/class-ck-widget-form.php:61
-msgid "To display a ConvertKit Form, at least one form must be defined in your ConvertKit Account."
+msgid "To display a Kit Form, at least one form must be defined in your Kit Account."
 msgstr ""
 
 #: includes/widgets/class-ck-widget-form.php:75
@@ -1310,13 +1486,13 @@ msgstr ""
 #: views/backend/post/quick-edit.php:29
 #: views/backend/term/fields-add.php:28
 #: views/backend/term/fields-edit.php:30
-msgid "Refresh Forms from ConvertKit account"
+msgid "Refresh Forms from Kit account"
 msgstr ""
 
 #: views/backend/post/bulk-edit.php:65
 #: views/backend/post/meta-box.php:127
 #: views/backend/post/quick-edit.php:51
-msgid "Refresh Tags from ConvertKit account"
+msgid "Refresh Tags from Kit account"
 msgstr ""
 
 #: views/backend/post/bulk-edit.php:73
@@ -1335,6 +1511,7 @@ msgstr ""
 #: views/backend/post/quick-edit.php:63
 #: views/backend/post/wp-list-table-filter.php:17
 #: views/backend/setup-wizard/convertkit-restrict-content-setup/content-2.php:65
+#: views/backend/subscription-dropdown-field.php:67
 msgid "Tags"
 msgstr ""
 
@@ -1349,7 +1526,7 @@ msgstr ""
 #: views/backend/post/bulk-edit.php:112
 #: views/backend/post/meta-box.php:174
 #: views/backend/post/quick-edit.php:90
-msgid "Refresh Products and Tags from ConvertKit account"
+msgid "Refresh Products and Tags from Kit account"
 msgstr ""
 
 #: views/backend/post/meta-box.php:39
@@ -1375,15 +1552,11 @@ msgstr ""
 
 #: views/backend/post/meta-box.php:51
 #: views/backend/post/meta-box.php:97
-msgid "sign in to ConvertKit"
-msgstr ""
-
-#: views/backend/post/meta-box.php:65
-msgid "Landing Page"
+msgid "sign in to Kit"
 msgstr ""
 
 #: views/backend/post/meta-box.php:87
-msgid "Refresh Landing Pages from ConvertKit account"
+msgid "Refresh Landing Pages from Kit account"
 msgstr ""
 
 #: views/backend/post/meta-box.php:91
@@ -1404,29 +1577,31 @@ msgid "Select a tag to apply to visitors of this page who are subscribed."
 msgstr ""
 
 #: views/backend/post/meta-box.php:133
-msgid "A visitor is deemed to be subscribed if they have clicked a link in an email to this site which includes their subscriber ID, or have entered their email address in a ConvertKit Form on this site."
+msgid "A visitor is deemed to be subscribed if they have clicked a link in an email to this site which includes their subscriber ID, or have entered their email address in a Kit Form on this site."
 msgstr ""
 
 #: views/backend/post/meta-box.php:178
-msgid "Select the ConvertKit tag or product that the visitor must be subscribed to, permitting them access to view this members only content."
+msgid "Select the Kit tag or product that the visitor must be subscribed to, permitting them access to view this members only content."
 msgstr ""
 
 #: views/backend/post/meta-box.php:180
 msgid "If a tag is selected, a subscription form will be displayed. On submission, the email address will be subscribed to the selected tag, granting access to the members only content."
 msgstr ""
 
-#. translators: %1$s: Post Type Singular Name, %2$s: Link to Plugin Settings
 #: views/backend/post/no-api-key.php:15
-msgid "To configure the ConvertKit Form / Landing Page to display on this %1$s, enter your ConvertKit API credentials in the %2$s"
-msgstr ""
-
-#: views/backend/post/no-api-key.php:17
-#: views/backend/setup-wizard/convertkit-setup/content-4.php:26
-msgid "Plugin Settings"
+msgid "For the Kit Plugin to function, please"
 msgstr ""
 
 #: views/backend/post/wp-list-table-filter.php:11
 msgid "All content"
+msgstr ""
+
+#: views/backend/settings/oauth.php:12
+msgid "Connect to Kit"
+msgstr ""
+
+#: views/backend/settings/oauth.php:15
+msgid "For the Kit Plugin to function, please connect your Kit account using the button below."
 msgstr ""
 
 #: views/backend/settings/tools.php:12
@@ -1434,7 +1609,7 @@ msgid "Debug Log"
 msgstr ""
 
 #: views/backend/settings/tools.php:14
-msgid "Use this tool to help debug ConvertKit plugin functionality."
+msgid "Use this tool to help debug Kit plugin functionality."
 msgstr ""
 
 #: views/backend/settings/tools.php:15
@@ -1445,56 +1620,109 @@ msgstr ""
 msgid "Download log"
 msgstr ""
 
-#: views/backend/settings/tools.php:33
+#: views/backend/settings/tools.php:32
 msgid "Clear log"
 msgstr ""
 
-#: views/backend/settings/tools.php:40
+#: views/backend/settings/tools.php:34
 msgid "Log file"
 msgstr ""
 
-#: views/backend/settings/tools.php:47
+#: views/backend/settings/tools.php:41
 msgid "System Info"
 msgstr ""
 
-#: views/backend/settings/tools.php:48
+#: views/backend/settings/tools.php:42
 msgid "Use this tool to send system info to support when necessary."
 msgstr ""
 
-#: views/backend/settings/tools.php:55
+#: views/backend/settings/tools.php:49
 msgid "Download system info"
 msgstr ""
 
-#: views/backend/settings/tools.php:65
+#: views/backend/settings/tools.php:59
 msgid "Export Configuration"
 msgstr ""
 
-#: views/backend/settings/tools.php:68
+#: views/backend/settings/tools.php:62
 msgid "Downloads this plugin's configuration as a JSON file."
 msgstr ""
 
-#: views/backend/settings/tools.php:70
+#: views/backend/settings/tools.php:64
 msgid "This file includes sensitive API credentials. Use with caution."
 msgstr ""
 
-#: views/backend/settings/tools.php:77
+#: views/backend/settings/tools.php:71
 msgid "Export"
 msgstr ""
 
-#: views/backend/settings/tools.php:87
+#: views/backend/settings/tools.php:81
 msgid "Import Configuration"
 msgstr ""
 
-#: views/backend/settings/tools.php:90
+#: views/backend/settings/tools.php:84
 msgid "Imports a configuration file generated by this plugin."
 msgstr ""
 
-#: views/backend/settings/tools.php:92
+#: views/backend/settings/tools.php:86
 msgid "This will overwrite any existing settings stored on this installation."
 msgstr ""
 
-#: views/backend/settings/tools.php:101
+#: views/backend/settings/tools.php:95
 msgid "Import"
+msgstr ""
+
+#: views/backend/setup-wizard/convertkit-landing-page-setup/content-1.php:14
+msgid "This will display a Kit landing page on the URL you specify on this WordPress web site."
+msgstr ""
+
+#: views/backend/setup-wizard/convertkit-landing-page-setup/content-1.php:25
+msgid "To get started, you first need to create a landing page in Kit. Click the button below to get started."
+msgstr ""
+
+#: views/backend/setup-wizard/convertkit-landing-page-setup/content-1.php:32
+msgid "Create landing page"
+msgstr ""
+
+#: views/backend/setup-wizard/convertkit-landing-page-setup/content-1.php:38
+msgid "I've created a landing page in Kit"
+msgstr ""
+
+#: views/backend/setup-wizard/convertkit-landing-page-setup/content-1.php:47
+msgid "Which landing page would you like to display?"
+msgstr ""
+
+#: views/backend/setup-wizard/convertkit-landing-page-setup/content-1.php:65
+msgid "Which permalink / slug should be assigned to this landing page?"
+msgstr ""
+
+#: views/backend/setup-wizard/convertkit-landing-page-setup/content-1.php:66
+msgid "my-landing-page"
+msgstr ""
+
+#: views/backend/setup-wizard/convertkit-landing-page-setup/content-2.php:11
+#: views/backend/setup-wizard/convertkit-setup/content-3.php:11
+msgid "Setup complete"
+msgstr ""
+
+#: views/backend/setup-wizard/convertkit-landing-page-setup/content-2.php:16
+msgid "You can access the landing page at"
+msgstr ""
+
+#: views/backend/setup-wizard/convertkit-landing-page-setup/content-2.php:25
+msgid "View landing page"
+msgstr ""
+
+#: views/backend/setup-wizard/convertkit-landing-page-setup/content-2.php:27
+msgid "Exit the wizard and view the landing page."
+msgstr ""
+
+#: views/backend/setup-wizard/convertkit-landing-page-setup/content-2.php:32
+msgid "Exit"
+msgstr ""
+
+#: views/backend/setup-wizard/convertkit-landing-page-setup/content-2.php:34
+msgid "Exit the wizard and load the WordPress Pages screen."
 msgstr ""
 
 #. translators: %1$s: Link to ConvertKit Products, %2$s: ConvertKit Tag
@@ -1503,15 +1731,15 @@ msgid "This will generate content that visitors can access once they purchase a 
 msgstr ""
 
 #: views/backend/setup-wizard/convertkit-restrict-content-setup/content-1.php:20
-msgid "ConvertKit product"
+msgid "Kit product"
 msgstr ""
 
 #: views/backend/setup-wizard/convertkit-restrict-content-setup/content-1.php:22
-msgid "ConvertKit tag"
+msgid "Kit tag"
 msgstr ""
 
 #: views/backend/setup-wizard/convertkit-restrict-content-setup/content-1.php:34
-msgid "To get started, you first need to create a Product or Tag in ConvertKit. Click the button below to get started."
+msgid "To get started, you first need to create a Product or Tag in Kit. Click the button below to get started."
 msgstr ""
 
 #: views/backend/setup-wizard/convertkit-restrict-content-setup/content-1.php:41
@@ -1519,7 +1747,7 @@ msgid "Create product"
 msgstr ""
 
 #: views/backend/setup-wizard/convertkit-restrict-content-setup/content-1.php:44
-msgid "Require visitors to purchase a ConvertKit product to access your content."
+msgid "Require visitors to purchase a Kit product to access your content."
 msgstr ""
 
 #: views/backend/setup-wizard/convertkit-restrict-content-setup/content-1.php:50
@@ -1527,11 +1755,11 @@ msgid "Create tag"
 msgstr ""
 
 #: views/backend/setup-wizard/convertkit-restrict-content-setup/content-1.php:53
-msgid "Require visitors to enter their email address, subscribing them to a ConvertKit tag to access your content."
+msgid "Require visitors to enter their email address, subscribing them to a Kit tag to access your content."
 msgstr ""
 
 #: views/backend/setup-wizard/convertkit-restrict-content-setup/content-1.php:60
-msgid "I've created a Product or Tag in ConvertKit"
+msgid "I've created a Product or Tag in Kit"
 msgstr ""
 
 #: views/backend/setup-wizard/convertkit-restrict-content-setup/content-1.php:66
@@ -1539,11 +1767,11 @@ msgid "What type of content are you offering?"
 msgstr ""
 
 #: views/backend/setup-wizard/convertkit-restrict-content-setup/content-1.php:74
-msgid "Require visitors to purchase a ConvertKit product, or subscribe to a ConvertKit tag, granting access to a single Page's content, which includes downloadable assets."
+msgid "Require visitors to purchase a Kit product, or subscribe to a Kit tag, granting access to a single Page's content, which includes downloadable assets."
 msgstr ""
 
 #: views/backend/setup-wizard/convertkit-restrict-content-setup/content-1.php:83
-msgid "Require visitors to purchase a ConvertKit product, or subscribe to a ConvertKit tag, granting access to a sequential series of Pages, such as a course, lessons or tutorials."
+msgid "Require visitors to purchase a Kit product, or subscribe to a Kit tag, granting access to a sequential series of Pages, such as a course, lessons or tutorials."
 msgstr ""
 
 #. translators: Type of content (download, course)
@@ -1572,155 +1800,101 @@ msgid "How many lessons does this course consist of?"
 msgstr ""
 
 #: views/backend/setup-wizard/convertkit-restrict-content-setup/content-2.php:56
-msgid "The ConvertKit Product or Tag the visitor must subscribe to, in order to see the content"
+msgid "The Kit Product or Tag the visitor must subscribe to, in order to see the content"
 msgstr ""
 
 #: views/backend/setup-wizard/convertkit-setup/content-1.php:11
-msgid "Welcome to the ConvertKit Setup Wizard"
+msgid "Welcome to the Kit Setup Wizard"
 msgstr ""
 
 #: views/backend/setup-wizard/convertkit-setup/content-1.php:13
-msgid "This setup wizard will guide you through adding your first ConvertKit email marketing capture form to your site and begin capturing leads and subscribers."
+msgid "This setup wizard will guide you through adding your first Kit email marketing capture form to your site and begin capturing leads and subscribers."
 msgstr ""
 
-#: views/backend/setup-wizard/convertkit-setup/content-1.php:18
-msgid "I don't have a ConvertKit account."
+#: views/backend/setup-wizard/convertkit-setup/content-1.php:16
+msgid "Click the Connect button to connect your WordPress site to Kit. If you don't have a Kit account, you'll be able to register one."
 msgstr ""
 
-#: views/backend/setup-wizard/convertkit-setup/content-1.php:20
-msgid "Register"
+#: views/backend/setup-wizard/convertkit-setup/content-2.php:13
+msgid "Create your first Kit Form"
 msgstr ""
 
-#: views/backend/setup-wizard/convertkit-setup/content-1.php:22
-msgid "Sign up to ConvertKit and register your account. It's free."
+#: views/backend/setup-wizard/convertkit-setup/content-2.php:16
+msgid "To get email subscribers, you first need to create a form in Kit. Click the button below to get started."
 msgstr ""
 
-#: views/backend/setup-wizard/convertkit-setup/content-1.php:26
-msgid "I have a ConvertKit account."
-msgstr ""
-
-#: views/backend/setup-wizard/convertkit-setup/content-1.php:30
-msgid "Great! Click the Connect button to get started."
-msgstr ""
-
-#: views/backend/setup-wizard/convertkit-setup/content-2.php:11
-msgid "Connect your ConvertKit account"
-msgstr ""
-
-#: views/backend/setup-wizard/convertkit-setup/content-2.php:18
-msgid "To connect this Plugin to your ConvertKit account, we need your API Key and Secret."
-msgstr ""
-
-#: views/backend/setup-wizard/convertkit-setup/content-2.php:29
-msgid "Enter your ConvertKit API Key"
-msgstr ""
-
-#: views/backend/setup-wizard/convertkit-setup/content-2.php:31
-msgid "Click the link below, copy the API Key, and paste it here."
-msgstr ""
-
-#. translators: %1$s: Link to ConvertKit Account
-#: views/backend/setup-wizard/convertkit-setup/content-2.php:36
-#: views/backend/setup-wizard/convertkit-setup/content-2.php:52
-msgid "%1$s, and enter it in the above field."
-msgstr ""
-
-#: views/backend/setup-wizard/convertkit-setup/content-2.php:37
-msgid "Click here to get your ConvertKit API Key"
-msgstr ""
-
-#: views/backend/setup-wizard/convertkit-setup/content-2.php:45
-msgid "Enter your ConvertKit API Secret"
-msgstr ""
-
-#: views/backend/setup-wizard/convertkit-setup/content-2.php:47
-msgid "Click the link below, copy the API Secret, and paste it here."
-msgstr ""
-
-#: views/backend/setup-wizard/convertkit-setup/content-2.php:53
-msgid "Click here to get your ConvertKit API Secret"
-msgstr ""
-
-#: views/backend/setup-wizard/convertkit-setup/content-3.php:13
-msgid "Create your first ConvertKit Form"
-msgstr ""
-
-#: views/backend/setup-wizard/convertkit-setup/content-3.php:16
-msgid "To get email subscribers, you first need to create a form in ConvertKit. Click the button below to get started."
-msgstr ""
-
-#: views/backend/setup-wizard/convertkit-setup/content-3.php:23
+#: views/backend/setup-wizard/convertkit-setup/content-2.php:23
 msgid "Create form"
 msgstr ""
 
-#: views/backend/setup-wizard/convertkit-setup/content-3.php:30
-msgid "Not sure how to do this in ConvertKit?"
+#: views/backend/setup-wizard/convertkit-setup/content-2.php:30
+msgid "Not sure how to do this in Kit?"
 msgstr ""
 
-#: views/backend/setup-wizard/convertkit-setup/content-3.php:31
+#: views/backend/setup-wizard/convertkit-setup/content-2.php:31
 msgid "Follow our step by step documentation"
 msgstr ""
 
-#: views/backend/setup-wizard/convertkit-setup/content-3.php:39
+#: views/backend/setup-wizard/convertkit-setup/content-2.php:39
 msgid "Display an email capture form"
 msgstr ""
 
-#: views/backend/setup-wizard/convertkit-setup/content-3.php:42
-msgid "To get email subscribers, you need to display a ConvertKit form on your site, using the options below."
+#: views/backend/setup-wizard/convertkit-setup/content-2.php:42
+msgid "To get email subscribers, you need to display a Kit form on your site, using the options below."
 msgstr ""
 
-#: views/backend/setup-wizard/convertkit-setup/content-3.php:50
+#: views/backend/setup-wizard/convertkit-setup/content-2.php:50
 msgid "Which form would you like to display below all blog posts?"
 msgstr ""
 
-#: views/backend/setup-wizard/convertkit-setup/content-3.php:64
+#: views/backend/setup-wizard/convertkit-setup/content-2.php:64
 msgid "Don't display an email subscription form on posts."
 msgstr ""
 
-#: views/backend/setup-wizard/convertkit-setup/content-3.php:78
-#: views/backend/setup-wizard/convertkit-setup/content-3.php:83
-#: views/backend/setup-wizard/convertkit-setup/content-3.php:119
-#: views/backend/setup-wizard/convertkit-setup/content-3.php:124
+#: views/backend/setup-wizard/convertkit-setup/content-2.php:78
+#: views/backend/setup-wizard/convertkit-setup/content-2.php:83
+#: views/backend/setup-wizard/convertkit-setup/content-2.php:119
+#: views/backend/setup-wizard/convertkit-setup/content-2.php:124
 msgid "Select a form above."
 msgstr ""
 
-#: views/backend/setup-wizard/convertkit-setup/content-3.php:80
+#: views/backend/setup-wizard/convertkit-setup/content-2.php:80
 msgid "to preview how this will look on individual posts."
 msgstr ""
 
-#: views/backend/setup-wizard/convertkit-setup/content-3.php:91
-msgid "Which form would you like to display below all Pages?"
+#: views/backend/setup-wizard/convertkit-setup/content-2.php:91
+msgid "Which form would you like to display below all pages?"
 msgstr ""
 
-#: views/backend/setup-wizard/convertkit-setup/content-3.php:105
+#: views/backend/setup-wizard/convertkit-setup/content-2.php:105
 msgid "Don't display an email subscription form on pages."
 msgstr ""
 
-#: views/backend/setup-wizard/convertkit-setup/content-3.php:121
+#: views/backend/setup-wizard/convertkit-setup/content-2.php:121
 msgid "to preview how this will look on individual pages."
 msgstr ""
 
-#: views/backend/setup-wizard/convertkit-setup/content-3.php:133
-msgid "To embed email subscriber forms in particular sections of your content on specific Pages or Posts, use the ConvertKit Form block or shortcode when editing a Page or Post."
+#: views/backend/setup-wizard/convertkit-setup/content-2.php:133
+msgid "To embed email subscriber forms in particular sections of your content on specific Pages or Posts, use the Kit Form block or shortcode when editing a Page or Post."
 msgstr ""
 
-#: views/backend/setup-wizard/convertkit-setup/content-4.php:11
-msgid "Setup complete"
+#: views/backend/setup-wizard/convertkit-setup/content-3.php:13
+msgid "The Kit for WordPress Plugin setup is complete."
 msgstr ""
 
-#: views/backend/setup-wizard/convertkit-setup/content-4.php:13
-msgid "The ConvertKit for WordPress Plugin setup is complete."
-msgstr ""
-
-#: views/backend/setup-wizard/convertkit-setup/content-4.php:19
+#: views/backend/setup-wizard/convertkit-setup/content-3.php:19
 msgid "Dashboard"
 msgstr ""
 
-#: views/backend/setup-wizard/convertkit-setup/content-4.php:21
+#: views/backend/setup-wizard/convertkit-setup/content-3.php:21
 msgid "Exit the wizard and load the WordPress Dashboard screen."
 msgstr ""
 
-#: views/backend/setup-wizard/convertkit-setup/content-4.php:28
+#: views/backend/setup-wizard/convertkit-setup/content-3.php:26
+msgid "Plugin Settings"
+msgstr ""
+
+#: views/backend/setup-wizard/convertkit-setup/content-3.php:28
 msgid "Exit the wizard and load the Plugin's settings screen."
 msgstr ""
 
@@ -1738,8 +1912,20 @@ msgid "Are you sure you want to exit the wizard? Setup is incomplete."
 msgstr ""
 
 #. translators: %1$s: Current Step, %2$s: Total Steps
-#: views/backend/setup-wizard/header.php:74
+#: views/backend/setup-wizard/header.php:77
 msgid "Step %1$s of %2$s"
+msgstr ""
+
+#: views/backend/subscription-dropdown-field.php:15
+msgid "(Do not subscribe)"
+msgstr ""
+
+#: views/backend/subscription-dropdown-field.php:36
+msgid "Forms"
+msgstr ""
+
+#: views/backend/subscription-dropdown-field.php:52
+msgid "Sequences"
 msgstr ""
 
 #: views/backend/term/fields-add.php:33
@@ -1753,12 +1939,24 @@ msgstr ""
 msgid "Any other option will display that form after the main content for Posts assigned to this %s."
 msgstr ""
 
-#: views/backend/tinymce/modal-field.php:80
-msgid "No"
+#: views/backend/term/fields-add.php:47
+#: views/backend/term/fields-edit.php:50
+msgid "Display Kit Form on Archive?"
 msgstr ""
 
-#: views/backend/tinymce/modal-field.php:81
-msgid "Yes"
+#: views/backend/term/fields-add.php:51
+#: views/backend/term/fields-edit.php:55
+msgid "Before Posts"
+msgstr ""
+
+#: views/backend/term/fields-add.php:52
+#: views/backend/term/fields-edit.php:56
+msgid "After Posts"
+msgstr ""
+
+#: views/backend/term/fields-add.php:56
+#: views/backend/term/fields-edit.php:60
+msgid "Whether to display the Form on this Category's archive page, above or below the main posts list."
 msgstr ""
 
 #: views/backend/tinymce/modal-missing.php:13
@@ -1780,12 +1978,12 @@ msgstr ""
 
 #: includes/blocks/broadcasts/block.json
 msgctxt "block title"
-msgid "ConvertKit Broadcasts"
+msgid "Kit Broadcasts"
 msgstr ""
 
 #: includes/blocks/broadcasts/block.json
 msgctxt "block description"
-msgid "Displays a list of your ConvertKit broadcasts."
+msgid "Displays a list of your Kit broadcasts."
 msgstr ""
 
 #: includes/blocks/broadcasts/block.json
@@ -1794,6 +1992,13 @@ msgstr ""
 #: includes/blocks/product/block.json
 msgctxt "block keyword"
 msgid "convertkit"
+msgstr ""
+
+#: includes/blocks/broadcasts/block.json
+#: includes/blocks/formtrigger/block.json
+#: includes/blocks/product/block.json
+msgctxt "block keyword"
+msgid "kit"
 msgstr ""
 
 #: includes/blocks/broadcasts/block.json
@@ -1808,12 +2013,12 @@ msgstr ""
 
 #: includes/blocks/form/block.json
 msgctxt "block title"
-msgid "ConvertKit Form"
+msgid "Kit Form"
 msgstr ""
 
 #: includes/blocks/form/block.json
 msgctxt "block description"
-msgid "Displays a ConvertKit Form."
+msgid "Displays a Kit Form."
 msgstr ""
 
 #: includes/blocks/form/block.json
@@ -1839,7 +2044,7 @@ msgstr ""
 
 #: includes/blocks/formtrigger/block.json
 msgctxt "block title"
-msgid "ConvertKit Form Trigger"
+msgid "Kit Form Trigger"
 msgstr ""
 
 #: includes/blocks/formtrigger/block.json
@@ -1849,12 +2054,12 @@ msgstr ""
 
 #: includes/blocks/product/block.json
 msgctxt "block title"
-msgid "ConvertKit Product"
+msgid "Kit Product"
 msgstr ""
 
 #: includes/blocks/product/block.json
 msgctxt "block description"
-msgid "Displays a button to purchase a ConvertKit product."
+msgid "Displays a button to purchase a Kit product."
 msgstr ""
 
 #: includes/blocks/product/block.json

@@ -15,7 +15,7 @@ class WPWidget extends \Codeception\Module
 	 * @since   1.9.7.6
 	 *
 	 * @param   AcceptanceTester $I                      Acceptance Tester.
-	 * @param   string           $blockName              Block Name (e.g. 'ConvertKit Form').
+	 * @param   string           $blockName              Block Name (e.g. 'Kit Form').
 	 * @param   string           $blockProgrammaticName  Programmatic Block Name (e.g. 'convertkit-form').
 	 * @param   bool|array       $blockConfiguration     Block Configuration (field => value key/value array).
 	 */
@@ -23,9 +23,6 @@ class WPWidget extends \Codeception\Module
 	{
 		// Navigate to Appearance > Widgets.
 		$I->amOnAdminPage('widgets.php');
-
-		// Dismiss welcome message.
-		$I->maybeCloseGutenbergWelcomeModal($I);
 
 		// Click Add Block Button.
 		$I->click('button.edit-widgets-header-toolbar__inserter-toggle');
@@ -102,7 +99,7 @@ class WPWidget extends \Codeception\Module
 	 * @since   1.9.7.6
 	 *
 	 * @param   AcceptanceTester $I                      Acceptance Tester.
-	 * @param   string           $blockName              Block Name (e.g. 'ConvertKit Form').
+	 * @param   string           $blockName              Block Name (e.g. 'Kit Form').
 	 * @param   string           $blockProgrammaticName  Programmatic Block Name (e.g. 'convertkit-form').
 	 * @param   bool|array       $blockConfiguration     Block Configuration (field => value key/value array).
 	 */
@@ -110,9 +107,6 @@ class WPWidget extends \Codeception\Module
 	{
 		// Navigate to Appearance > Widgets.
 		$I->amOnAdminPage('widgets.php');
-
-		// Dismiss welcome message.
-		$I->maybeCloseGutenbergWelcomeModal($I);
 
 		// Click Add Block Button.
 		$I->click('button.edit-widgets-header-toolbar__inserter-toggle');

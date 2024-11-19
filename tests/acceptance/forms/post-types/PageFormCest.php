@@ -57,7 +57,7 @@ class PageFormCest
 		$I->setupConvertKitPluginResources($I);
 
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form: Default: None');
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Form: Default: None');
 
 		// Check the order of the Form resources are alphabetical, with the Default and None options prepending the Forms.
 		$I->checkSelectFormOptionOrder(
@@ -100,7 +100,7 @@ class PageFormCest
 		$I->setupConvertKitPluginResources($I);
 
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form: Default');
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Form: Default');
 
 		// Configure metabox's Form setting = Default.
 		$I->configureMetaboxSettings(
@@ -116,7 +116,201 @@ class PageFormCest
 
 		// Confirm that one ConvertKit Form is output in the DOM.
 		// This confirms that there is only one script on the page for this form, which renders the form.
-		$I->seeNumberOfElementsInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]', 1);
+		$I->seeFormOutput($I, $_ENV['CONVERTKIT_API_FORM_ID']);
+	}
+
+	/**
+	 * Test that the Default Form specified in the Plugin Settings works when
+	 * creating and viewing a new WordPress Page, and its position is set
+	 * to after the Page content.
+	 *
+	 * @since   2.5.8
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testAddNewPageUsingDefaultFormBeforeContent(AcceptanceTester $I)
+	{
+		// Setup ConvertKit plugin with Default Form for Pages set to be output before the Page content.
+		$I->setupConvertKitPlugin(
+			$I,
+			[
+				'page_form_position' => 'before_content',
+			]
+		);
+		$I->setupConvertKitPluginResources($I);
+
+		// Add a Page using the Gutenberg editor.
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Form: Default: Before Content');
+
+		// Add paragraph to Page.
+		$I->addGutenbergParagraphBlock($I, 'Page content');
+
+		// Configure metabox's Form setting = Default.
+		$I->configureMetaboxSettings(
+			$I,
+			'wp-convertkit-meta-box',
+			[
+				'form' => [ 'select2', 'Default' ],
+			]
+		);
+
+		// Publish and view the Page on the frontend site.
+		$I->publishAndViewGutenbergPage($I);
+
+		// Confirm that one ConvertKit Form is output in the DOM after the Page content.
+		// This confirms that there is only one script on the page for this form, which renders the form.
+		$I->seeFormOutput($I, $_ENV['CONVERTKIT_API_FORM_ID'], 'before_content');
+	}
+
+	/**
+	 * Test that the Default Form specified in the Plugin Settings works when
+	 * creating and viewing a new WordPress Page, and its position is set
+	 * to before and after the Page content.
+	 *
+	 * @since   2.5.9
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testAddNewPageUsingDefaultFormBeforeAndAfterContent(AcceptanceTester $I)
+	{
+		// Setup ConvertKit plugin with Default Form for Pages set to be output before and after the Page content.
+		$I->setupConvertKitPlugin(
+			$I,
+			[
+				'page_form_position' => 'before_after_content',
+			]
+		);
+		$I->setupConvertKitPluginResources($I);
+
+		// Add a Page using the Gutenberg editor.
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Form: Default: Before and After Content');
+
+		// Add paragraph to Page.
+		$I->addGutenbergParagraphBlock($I, 'Page content');
+
+		// Configure metabox's Form setting = Default.
+		$I->configureMetaboxSettings(
+			$I,
+			'wp-convertkit-meta-box',
+			[
+				'form' => [ 'select2', 'Default' ],
+			]
+		);
+
+		// Publish and view the Page on the frontend site.
+		$I->publishAndViewGutenbergPage($I);
+
+		// Confirm that two ConvertKit Forms are output in the DOM before and after the Page content.
+		$I->seeFormOutput($I, $_ENV['CONVERTKIT_API_FORM_ID'], 'before_after_content');
+	}
+
+	/**
+	 * Test that the Default Form specified in the Plugin Settings works when
+	 * creating and viewing a new WordPress Page, and its position is set
+	 * to after the 3rd paragraph.
+	 *
+	 * @since   2.6.2
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testAddNewPageUsingDefaultFormAfterParagraphElement(AcceptanceTester $I)
+	{
+		// Setup ConvertKit plugin with Default Form for Pages set to be output after the 3rd paragraph of content.
+		$I->setupConvertKitPlugin(
+			$I,
+			[
+				'page_form'                        => $_ENV['CONVERTKIT_API_FORM_ID'],
+				'page_form_position'               => 'after_element',
+				'page_form_position_element'       => 'p',
+				'page_form_position_element_index' => 3,
+			]
+		);
+		$I->setupConvertKitPluginResources($I);
+
+		// Setup Page with placeholder content.
+		$pageID = $I->addGutenbergPageToDatabase($I, 'page', 'Kit: Page: Form: Default: After 3rd Paragraph Element');
+
+		// View the Page on the frontend site.
+		$I->amOnPage('?p=' . $pageID);
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Confirm that one ConvertKit Form is output in the DOM after the third paragraph.
+		$I->seeFormOutput($I, $_ENV['CONVERTKIT_API_FORM_ID'], 'after_element', 'p', 3);
+	}
+
+	/**
+	 * Test that the Default Form specified in the Plugin Settings works when
+	 * creating and viewing a new WordPress Page, and its position is set
+	 * to after the 2nd <img> element.
+	 *
+	 * @since   2.6.2
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testAddNewPageUsingDefaultFormAfterImageElement(AcceptanceTester $I)
+	{
+		// Setup ConvertKit plugin with Default Form for Posts set to be output after the 2nd <img> of content.
+		$I->setupConvertKitPlugin(
+			$I,
+			[
+				'page_form'                        => $_ENV['CONVERTKIT_API_FORM_ID'],
+				'page_form_position'               => 'after_element',
+				'page_form_position_element'       => 'img',
+				'page_form_position_element_index' => 2,
+			]
+		);
+		$I->setupConvertKitPluginResources($I);
+
+		// Setup Page with placeholder content.
+		$pageID = $I->addGutenbergPageToDatabase($I, 'page', 'Kit: Page: Form: Default: After 2nd H2 Element');
+
+		// View the Post on the frontend site.
+		$I->amOnPage('?p=' . $pageID);
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Confirm that one ConvertKit Form is output in the DOM after the second <img> element.
+		$I->seeFormOutput($I, $_ENV['CONVERTKIT_API_FORM_ID'], 'after_element', 'img', 2);
+	}
+
+	/**
+	 * Test that the Default Form specified in the Plugin Settings works when
+	 * creating and viewing a new WordPress Page, and its position is set
+	 * to a number greater than the number of elements in the content.
+	 *
+	 * @since   2.6.2
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testAddNewPageUsingDefaultFormAfterOutOfBoundsElement(AcceptanceTester $I)
+	{
+		// Setup ConvertKit plugin with Default Form for Pages set to be output after the 7rd paragraph of content.
+		$I->setupConvertKitPlugin(
+			$I,
+			[
+				'page_form'                        => $_ENV['CONVERTKIT_API_FORM_ID'],
+				'page_form_position'               => 'after_element',
+				'page_form_position_element'       => 'p',
+				'page_form_position_element_index' => 9,
+			]
+		);
+		$I->setupConvertKitPluginResources($I);
+
+		// Setup Page with placeholder content.
+		$pageID = $I->addGutenbergPageToDatabase($I, 'page', 'Kit: Page: Form: Default: After 9th Paragraph Element');
+
+		// View the Page on the frontend site.
+		$I->amOnPage('?p=' . $pageID);
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Confirm that one ConvertKit Form is output in the DOM after the content, as
+		// the number of paragraphs is less than the position.
+		$I->seeFormOutput($I, $_ENV['CONVERTKIT_API_FORM_ID'], 'after_content');
 	}
 
 	/**
@@ -129,19 +323,19 @@ class PageFormCest
 	 */
 	public function testAddNewPageUsingDefaultLegacyForm(AcceptanceTester $I)
 	{
-		// Setup ConvertKit plugin to use legacy Form as default for Pages.
+		// Setup Plugin with API Key and Secret, which is required for Legacy Forms to work.
 		$I->setupConvertKitPlugin(
 			$I,
 			[
-				'page_form'    => $_ENV['CONVERTKIT_API_LEGACY_FORM_ID'],
-				'post_form'    => '',
-				'product_form' => '',
+				'api_key'    => $_ENV['CONVERTKIT_API_KEY'],
+				'api_secret' => $_ENV['CONVERTKIT_API_SECRET'],
+				'page_form'  => $_ENV['CONVERTKIT_API_LEGACY_FORM_ID'],
 			]
 		);
 		$I->setupConvertKitPluginResources($I);
 
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form: Legacy: Default');
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Form: Legacy: Default');
 
 		// Configure metabox's Form setting = Default.
 		$I->configureMetaboxSettings(
@@ -156,7 +350,7 @@ class PageFormCest
 		$I->publishAndViewGutenbergPage($I);
 
 		// Confirm that the ConvertKit Default Legacy Form displays.
-		$I->seeInSource('<form id="ck_subscribe_form" class="ck_subscribe_form" action="https://api.convertkit.com/landing_pages/' . $_ENV['CONVERTKIT_API_LEGACY_FORM_ID'] . '/subscribe" data-remote="true">');
+		$I->seeInSource('<form id="ck_subscribe_form" class="ck_subscribe_form" action="https://api.kit.com/landing_pages/' . $_ENV['CONVERTKIT_API_LEGACY_FORM_ID'] . '/subscribe" data-remote="true">');
 
 		// Confirm that the Legacy Form title's character encoding is correct.
 		$I->seeInSource('Vantar þinn ungling sjálfstraust í stærðfræði?');
@@ -177,7 +371,7 @@ class PageFormCest
 		$I->setupConvertKitPluginResources($I);
 
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form: None');
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Form: None');
 
 		// Configure metabox's Form setting = None.
 		$I->configureMetaboxSettings(
@@ -210,7 +404,7 @@ class PageFormCest
 		$I->setupConvertKitPluginResources($I);
 
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form: ' . $_ENV['CONVERTKIT_API_FORM_NAME']);
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Form: ' . $_ENV['CONVERTKIT_API_FORM_NAME']);
 
 		// Configure metabox's Form setting = None.
 		$I->configureMetaboxSettings(
@@ -226,7 +420,7 @@ class PageFormCest
 
 		// Confirm that one ConvertKit Form is output in the DOM.
 		// This confirms that there is only one script on the page for this form, which renders the form.
-		$I->seeNumberOfElementsInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]', 1);
+		$I->seeFormOutput($I, $_ENV['CONVERTKIT_API_FORM_ID']);
 	}
 
 	/**
@@ -247,7 +441,7 @@ class PageFormCest
 		$I->activateThirdPartyPlugin($I, 'autoptimize');
 
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form: ' . $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_NAME'] . ': Autoptimize');
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Form: ' . $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_NAME'] . ': Autoptimize');
 
 		// Configure metabox's Form setting = None.
 		$I->configureMetaboxSettings(
@@ -292,7 +486,7 @@ class PageFormCest
 		$I->click('#inspector-toggle-control-1');
 
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form: ' . $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_NAME'] . ': Jetpack Boost');
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Form: ' . $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_NAME'] . ': Jetpack Boost');
 
 		// Configure metabox's Form setting = None.
 		$I->configureMetaboxSettings(
@@ -339,7 +533,7 @@ class PageFormCest
 		$I->click('Save Changes');
 
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form: ' . $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_NAME'] . ': LiteSpeed Cache');
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Form: ' . $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_NAME'] . ': LiteSpeed Cache');
 
 		// Configure metabox's Form setting = None.
 		$I->configureMetaboxSettings(
@@ -383,7 +577,7 @@ class PageFormCest
 		$I->haveOptionInDatabase('siteground_optimizer_combine_javascript', '1');
 
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form: ' . $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_NAME'] . ': Siteground Speed Optimizer');
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Form: ' . $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_NAME'] . ': Siteground Speed Optimizer');
 
 		// Configure metabox's Form setting = None.
 		$I->configureMetaboxSettings(
@@ -434,7 +628,7 @@ class PageFormCest
 		);
 
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form: ' . $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_NAME'] . ': WP Rocket');
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Form: ' . $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_NAME'] . ': Perfmatters');
 
 		// Configure metabox's Form setting = None.
 		$I->configureMetaboxSettings(
@@ -473,21 +667,11 @@ class PageFormCest
 		// Activate WP Rocket Plugin.
 		$I->activateThirdPartyPlugin($I, 'wp-rocket');
 
-		// Load WP Rocket settings screen.
-		$I->amOnAdminPage('options-general.php?page=wprocket#file_optimization');
-
-		// Enable Delay JavaScript execution.
-		$I->click('label[for=delay_js]');
-		$I->waitForElementVisible('.wpr-isOpen');
-
-		// Click Save Changes button.
-		$I->click('Save Changes');
-
-		// Confirm changes saved successfully.
-		$I->waitForElementVisible('#setting-error-settings_updated');
+		// Configure WP Rocket.
+		$I->enableWPRocketDelayJS($I);
 
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form: ' . $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_NAME'] . ': WP Rocket');
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Form: ' . $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_NAME'] . ': WP Rocket');
 
 		// Configure metabox's Form setting = None.
 		$I->configureMetaboxSettings(
@@ -519,12 +703,19 @@ class PageFormCest
 	 */
 	public function testAddNewPageUsingDefinedLegacyForm(AcceptanceTester $I)
 	{
-		// Setup ConvertKit plugin.
-		$I->setupConvertKitPlugin($I);
+		// Setup Plugin with API Key and Secret, which is required for Legacy Forms to work.
+		$I->setupConvertKitPlugin(
+			$I,
+			[
+				'api_key'    => $_ENV['CONVERTKIT_API_KEY'],
+				'api_secret' => $_ENV['CONVERTKIT_API_SECRET'],
+				'page_form'  => '',
+			]
+		);
 		$I->setupConvertKitPluginResources($I);
 
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form: ' . $_ENV['CONVERTKIT_API_LEGACY_FORM_NAME']);
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Form: ' . $_ENV['CONVERTKIT_API_LEGACY_FORM_NAME']);
 
 		// Configure metabox's Form setting = None.
 		$I->configureMetaboxSettings(
@@ -539,7 +730,7 @@ class PageFormCest
 		$I->publishAndViewGutenbergPage($I);
 
 		// Confirm that the ConvertKit Legacy Form displays.
-		$I->seeInSource('<form id="ck_subscribe_form" class="ck_subscribe_form" action="https://api.convertkit.com/landing_pages/' . $_ENV['CONVERTKIT_API_LEGACY_FORM_ID'] . '/subscribe" data-remote="true">');
+		$I->seeInSource('<form id="ck_subscribe_form" class="ck_subscribe_form" action="https://api.kit.com/landing_pages/' . $_ENV['CONVERTKIT_API_LEGACY_FORM_ID'] . '/subscribe" data-remote="true">');
 
 		// Confirm that the Legacy Form title's character encoding is correct.
 		$I->seeInSource('Vantar þinn ungling sjálfstraust í stærðfræði?');
@@ -569,7 +760,7 @@ class PageFormCest
 		$pageID = $I->havePostInDatabase(
 			[
 				'post_type'  => 'page',
-				'post_title' => 'ConvertKit: Page: Form: Specific: Invalid',
+				'post_title' => 'Kit: Page: Form: Specific: Invalid',
 				'meta_input' => [
 					'_wp_convertkit_post_meta' => [
 						'form'         => '11111',
@@ -591,7 +782,7 @@ class PageFormCest
 
 		// Confirm that one ConvertKit Form is output in the DOM.
 		// This confirms that there is only one script on the page for this form, which renders the form.
-		$I->seeNumberOfElementsInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]', 1);
+		$I->seeFormOutput($I, $_ENV['CONVERTKIT_API_FORM_ID']);
 	}
 
 	/**
@@ -612,7 +803,7 @@ class PageFormCest
 		$pageID = $I->havePostInDatabase(
 			[
 				'post_type'  => 'page',
-				'post_title' => 'ConvertKit: Page: Form: Default: Quick Edit',
+				'post_title' => 'Kit: Page: Form: Default: Quick Edit',
 			]
 		);
 
@@ -634,7 +825,7 @@ class PageFormCest
 
 		// Confirm that one ConvertKit Form is output in the DOM.
 		// This confirms that there is only one script on the page for this form, which renders the form.
-		$I->seeNumberOfElementsInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]', 1);
+		$I->seeFormOutput($I, $_ENV['CONVERTKIT_API_FORM_ID']);
 	}
 
 	/**
@@ -655,7 +846,7 @@ class PageFormCest
 		$pageID = $I->havePostInDatabase(
 			[
 				'post_type'  => 'page',
-				'post_title' => 'ConvertKit: Page: Form: ' . $_ENV['CONVERTKIT_API_FORM_NAME'] . ': Quick Edit',
+				'post_title' => 'Kit: Page: Form: ' . $_ENV['CONVERTKIT_API_FORM_NAME'] . ': Quick Edit',
 			]
 		);
 
@@ -677,7 +868,7 @@ class PageFormCest
 
 		// Confirm that one ConvertKit Form is output in the DOM.
 		// This confirms that there is only one script on the page for this form, which renders the form.
-		$I->seeNumberOfElementsInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]', 1);
+		$I->seeFormOutput($I, $_ENV['CONVERTKIT_API_FORM_ID']);
 	}
 
 	/**
@@ -699,13 +890,13 @@ class PageFormCest
 			$I->havePostInDatabase(
 				[
 					'post_type'  => 'page',
-					'post_title' => 'ConvertKit: Page: Form: Default: Bulk Edit #1',
+					'post_title' => 'Kit: Page: Form: Default: Bulk Edit #1',
 				]
 			),
 			$I->havePostInDatabase(
 				[
 					'post_type'  => 'page',
-					'post_title' => 'ConvertKit: Page: Form: Default: Bulk Edit #2',
+					'post_title' => 'Kit: Page: Form: Default: Bulk Edit #2',
 				]
 			),
 		);
@@ -730,7 +921,7 @@ class PageFormCest
 
 			// Confirm that one ConvertKit Form is output in the DOM.
 			// This confirms that there is only one script on the page for this form, which renders the form.
-			$I->seeNumberOfElementsInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]', 1);
+			$I->seeFormOutput($I, $_ENV['CONVERTKIT_API_FORM_ID']);
 		}
 	}
 
@@ -753,13 +944,13 @@ class PageFormCest
 			$I->havePostInDatabase(
 				[
 					'post_type'  => 'page',
-					'post_title' => 'ConvertKit: Page: Form: ' . $_ENV['CONVERTKIT_API_FORM_NAME'] . ': Bulk Edit #1',
+					'post_title' => 'Kit: Page: Form: ' . $_ENV['CONVERTKIT_API_FORM_NAME'] . ': Bulk Edit #1',
 				]
 			),
 			$I->havePostInDatabase(
 				[
 					'post_type'  => 'page',
-					'post_title' => 'ConvertKit: Page: Form: ' . $_ENV['CONVERTKIT_API_FORM_NAME'] . ': Bulk Edit #2',
+					'post_title' => 'Kit: Page: Form: ' . $_ENV['CONVERTKIT_API_FORM_NAME'] . ': Bulk Edit #2',
 				]
 			),
 		);
@@ -784,7 +975,7 @@ class PageFormCest
 
 			// Confirm that one ConvertKit Form is output in the DOM.
 			// This confirms that there is only one script on the page for this form, which renders the form.
-			$I->seeNumberOfElementsInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]', 1);
+			$I->seeFormOutput($I, $_ENV['CONVERTKIT_API_FORM_ID']);
 		}
 	}
 
@@ -807,7 +998,7 @@ class PageFormCest
 			$I->havePostInDatabase(
 				[
 					'post_type'  => 'page',
-					'post_title' => 'ConvertKit: Page: Form: ' . $_ENV['CONVERTKIT_API_FORM_NAME'] . ': Bulk Edit with No Change #1',
+					'post_title' => 'Kit: Page: Form: ' . $_ENV['CONVERTKIT_API_FORM_NAME'] . ': Bulk Edit with No Change #1',
 					'meta_input' => [
 						'_wp_convertkit_post_meta' => [
 							'form'         => $_ENV['CONVERTKIT_API_FORM_ID'],
@@ -820,7 +1011,7 @@ class PageFormCest
 			$I->havePostInDatabase(
 				[
 					'post_type'  => 'page',
-					'post_title' => 'ConvertKit: Page: Form: ' . $_ENV['CONVERTKIT_API_FORM_NAME'] . ': Bulk Edit with No Change #2',
+					'post_title' => 'Kit: Page: Form: ' . $_ENV['CONVERTKIT_API_FORM_NAME'] . ': Bulk Edit with No Change #2',
 					'meta_input' => [
 						'_wp_convertkit_post_meta' => [
 							'form'         => $_ENV['CONVERTKIT_API_FORM_ID'],
@@ -852,7 +1043,7 @@ class PageFormCest
 
 			// Confirm that one ConvertKit Form is output in the DOM.
 			// This confirms that there is only one script on the page for this form, which renders the form.
-			$I->seeNumberOfElementsInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]', 1);
+			$I->seeFormOutput($I, $_ENV['CONVERTKIT_API_FORM_ID']);
 		}
 	}
 

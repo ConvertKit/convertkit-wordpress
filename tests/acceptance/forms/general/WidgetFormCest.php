@@ -42,10 +42,21 @@ class WidgetFormCest
 	 */
 	public function testLegacyFormWidgetWithValidFormParameter(AcceptanceTester $I)
 	{
+		// Setup Plugin with API Key and Secret, which is required for Legacy Forms to work.
+		$I->setupConvertKitPlugin(
+			$I,
+			[
+				'api_key'    => $_ENV['CONVERTKIT_API_KEY'],
+				'api_secret' => $_ENV['CONVERTKIT_API_SECRET'],
+				'page_form'  => '',
+				'post_form'  => '',
+			]
+		);
+
 		// Add legacy widget, setting the Form setting to the value specified in the .env file.
 		$I->addLegacyWidget(
 			$I,
-			'ConvertKit Form (Legacy Widget)',
+			'Kit Form (Legacy Widget)',
 			'convertkit-form',
 			[
 				'form' => [ 'select', $_ENV['CONVERTKIT_API_FORM_NAME'] ],
@@ -69,10 +80,21 @@ class WidgetFormCest
 	 */
 	public function testLegacyFormWidgetWithValidLegacyFormParameter(AcceptanceTester $I)
 	{
+		// Setup Plugin with API Key and Secret, which is required for Legacy Forms to work.
+		$I->setupConvertKitPlugin(
+			$I,
+			[
+				'api_key'    => $_ENV['CONVERTKIT_API_KEY'],
+				'api_secret' => $_ENV['CONVERTKIT_API_SECRET'],
+				'page_form'  => '',
+				'post_form'  => '',
+			]
+		);
+
 		// Add legacy widget, setting the Form setting to the value specified in the .env file.
 		$I->addLegacyWidget(
 			$I,
-			'ConvertKit Form (Legacy Widget)',
+			'Kit Form (Legacy Widget)',
 			'convertkit-form',
 			[
 				'form' => [ 'select', $_ENV['CONVERTKIT_API_LEGACY_FORM_NAME'] ],
@@ -83,7 +105,7 @@ class WidgetFormCest
 		$I->amOnPage('/');
 
 		// Confirm that the widget displays.
-		$I->seeInSource('<form id="ck_subscribe_form" class="ck_subscribe_form" action="https://api.convertkit.com/landing_pages/' . $_ENV['CONVERTKIT_API_LEGACY_FORM_ID'] . '/subscribe" data-remote="true">');
+		$I->seeInSource('<form id="ck_subscribe_form" class="ck_subscribe_form" action="https://api.kit.com/landing_pages/' . $_ENV['CONVERTKIT_API_LEGACY_FORM_ID'] . '/subscribe" data-remote="true">');
 	}
 
 	/**
@@ -98,7 +120,7 @@ class WidgetFormCest
 		// Add block widget, setting the Form setting to the value specified in the .env file.
 		$I->addBlockWidget(
 			$I,
-			'ConvertKit Form',
+			'Kit Form',
 			'convertkit-form',
 			[
 				'form' => [ 'select', $_ENV['CONVERTKIT_API_FORM_NAME'] ],
@@ -118,10 +140,21 @@ class WidgetFormCest
 	 */
 	public function testBlockFormBlockWithValidLegacyFormParameter(AcceptanceTester $I)
 	{
+		// Setup Plugin with API Key and Secret, which is required for Legacy Forms to work.
+		$I->setupConvertKitPlugin(
+			$I,
+			[
+				'api_key'    => $_ENV['CONVERTKIT_API_KEY'],
+				'api_secret' => $_ENV['CONVERTKIT_API_SECRET'],
+				'page_form'  => '',
+				'post_form'  => '',
+			]
+		);
+
 		// Add block widget, setting the Form setting to the value specified in the .env file.
 		$I->addBlockWidget(
 			$I,
-			'ConvertKit Form',
+			'Kit Form',
 			'convertkit-form',
 			[
 				'form' => [ 'select', $_ENV['CONVERTKIT_API_LEGACY_FORM_NAME'] ],
@@ -132,7 +165,7 @@ class WidgetFormCest
 		$I->amOnPage('/');
 
 		// Confirm that the widget displays.
-		$I->seeInSource('<form id="ck_subscribe_form" class="ck_subscribe_form" action="https://api.convertkit.com/landing_pages/' . $_ENV['CONVERTKIT_API_LEGACY_FORM_ID'] . '/subscribe" data-remote="true">');
+		$I->seeInSource('<form id="ck_subscribe_form" class="ck_subscribe_form" action="https://api.kit.com/landing_pages/' . $_ENV['CONVERTKIT_API_LEGACY_FORM_ID'] . '/subscribe" data-remote="true">');
 	}
 
 	/**
@@ -148,7 +181,7 @@ class WidgetFormCest
 		// Add block widget, setting the Form setting to the value specified in the .env file.
 		$I->addBlockWidget(
 			$I,
-			'ConvertKit Form',
+			'Kit Form',
 			'convertkit-form',
 			[
 				'form' => [ 'select', $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_NAME'] ],
@@ -182,7 +215,7 @@ class WidgetFormCest
 		// Add block widget, setting the Form setting to the value specified in the .env file.
 		$I->addBlockWidget(
 			$I,
-			'ConvertKit Form',
+			'Kit Form',
 			'convertkit-form',
 			[
 				'form' => [ 'select', $_ENV['CONVERTKIT_API_FORM_FORMAT_SLIDE_IN_NAME'] ],
@@ -216,7 +249,7 @@ class WidgetFormCest
 		// Add block widget, setting the Form setting to the value specified in the .env file.
 		$I->addBlockWidget(
 			$I,
-			'ConvertKit Form',
+			'Kit Form',
 			'convertkit-form',
 			[
 				'form' => [ 'select', $_ENV['CONVERTKIT_API_FORM_FORMAT_STICKY_BAR_NAME'] ],

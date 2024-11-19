@@ -92,7 +92,7 @@ class ConvertKit_Pre_Publish_Action_Broadcast_Export extends ConvertKit_Pre_Publ
 	 */
 	public function get_description() {
 
-		return __( 'If enabled, creates a draft ConvertKit Broadcast using this Post\'s title, content and excerpt.', 'convertkit' );
+		return __( 'If enabled, creates a draft Kit Broadcast using this Post\'s title, content and excerpt.', 'convertkit' );
 
 	}
 

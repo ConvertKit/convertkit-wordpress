@@ -34,14 +34,14 @@ class ConvertKit_Subscriber {
 	public function get_subscriber_id() {
 
 		// If the subscriber ID is in the request URI, use it.
-		if ( isset( $_REQUEST[ $this->key ] ) ) { // phpcs:ignore WordPress.Security.NonceVerification
+		if ( isset( $_REQUEST[ $this->key ] ) && is_numeric( $_REQUEST[ $this->key ] ) ) { // phpcs:ignore WordPress.Security.NonceVerification
 			return $this->validate_and_store_subscriber_id( sanitize_text_field( $_REQUEST[ $this->key ] ) ); // phpcs:ignore WordPress.Security.NonceVerification
 		}
 
 		// If the subscriber ID is in a cookie, return it.
 		// For performance, we don't check that the subscriber ID exists every time, otherwise this would
 		// call the API on every page load.
-		if ( isset( $_COOKIE[ $this->key ] ) ) {
+		if ( isset( $_COOKIE[ $this->key ] ) && ! empty( $_COOKIE[ $this->key ] ) ) {
 			return $this->get_subscriber_id_from_cookie();
 		}
 
@@ -63,18 +63,25 @@ class ConvertKit_Subscriber {
 
 		// Bail if the API hasn't been configured.
 		$settings = new ConvertKit_Settings();
-		if ( ! $settings->has_api_key_and_secret() ) {
+		if ( ! $settings->has_access_and_refresh_token() ) {
 			return new WP_Error(
 				'convertkit_subscriber_get_subscriber_id_from_request_error',
-				__( 'API Key and Secret not configured in Plugin Settings.', 'convertkit' )
+				__( 'Access Token not configured in Plugin Settings.', 'convertkit' )
 			);
 		}
 
 		// Initialize the API.
-		$api = new ConvertKit_API( $settings->get_api_key(), $settings->get_api_secret(), $settings->debug_enabled() );
+		$api = new ConvertKit_API_V4(
+			CONVERTKIT_OAUTH_CLIENT_ID,
+			CONVERTKIT_OAUTH_CLIENT_REDIRECT_URI,
+			$settings->get_access_token(),
+			$settings->get_refresh_token(),
+			$settings->debug_enabled(),
+			'subscriber'
+		);
 
 		// Get subscriber by ID, to ensure they exist.
-		$subscriber = $api->get_subscriber_by_id( $subscriber_id );
+		$subscriber = $api->get_subscriber( absint( $subscriber_id ) );
 
 		// Bail if no subscriber exists with the given subscriber ID, or an error occured.
 		if ( is_wp_error( $subscriber ) ) {
@@ -86,10 +93,10 @@ class ConvertKit_Subscriber {
 		}
 
 		// Store the subscriber ID as a cookie.
-		$this->set( $subscriber['id'] );
+		$this->set( $subscriber['subscriber']['id'] );
 
 		// Return subscriber ID.
-		return $subscriber['id'];
+		return $subscriber['subscriber']['id'];
 
 	}
 
@@ -106,33 +113,40 @@ class ConvertKit_Subscriber {
 
 		// Bail if the API hasn't been configured.
 		$settings = new ConvertKit_Settings();
-		if ( ! $settings->has_api_key_and_secret() ) {
+		if ( ! $settings->has_access_and_refresh_token() ) {
 			return new WP_Error(
 				'convertkit_subscriber_get_subscriber_id_from_request_error',
-				__( 'API Key and Secret not configured in Plugin Settings.', 'convertkit' )
+				__( 'Access Token not configured in Plugin Settings.', 'convertkit' )
 			);
 		}
 
 		// Initialize the API.
-		$api = new ConvertKit_API( $settings->get_api_key(), $settings->get_api_secret(), $settings->debug_enabled() );
+		$api = new ConvertKit_API_V4(
+			CONVERTKIT_OAUTH_CLIENT_ID,
+			CONVERTKIT_OAUTH_CLIENT_REDIRECT_URI,
+			$settings->get_access_token(),
+			$settings->get_refresh_token(),
+			$settings->debug_enabled(),
+			'subscriber'
+		);
 
 		// Get subscriber by email, to ensure they exist.
-		$subscriber = $api->get_subscriber_by_email( $subscriber_email );
+		$subscriber_id = $api->get_subscriber_id( $subscriber_email );
 
 		// Bail if no subscriber exists with the given subscriber ID, or an error occured.
-		if ( is_wp_error( $subscriber ) ) {
+		if ( is_wp_error( $subscriber_id ) ) {
 			// Delete the cookie.
 			$this->forget();
 
 			// Return error.
-			return $subscriber;
+			return $subscriber_id;
 		}
 
 		// Store the subscriber ID as a cookie.
-		$this->set( $subscriber['id'] );
+		$this->set( $subscriber_id );
 
 		// Return subscriber ID.
-		return $subscriber['id'];
+		return $subscriber_id;
 
 	}
 

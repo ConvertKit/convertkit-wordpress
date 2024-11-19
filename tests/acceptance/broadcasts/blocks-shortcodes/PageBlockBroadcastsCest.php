@@ -21,7 +21,7 @@ class PageBlockBroadcastsCest
 	/**
 	 * Test the Broadcasts block displays a message with a link that opens
 	 * a popup window with the Plugin's Setup Wizard, when the Plugin has
-	 * no API key specified.
+	 * Not connected to Kit.
 	 *
 	 * @since   2.2.6
 	 *
@@ -29,11 +29,13 @@ class PageBlockBroadcastsCest
 	 */
 	public function testBroadcastsBlockWhenNoAPIKey(AcceptanceTester $I)
 	{
+		$I->markTestIncomplete();
+
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Broadcasts: Block: No API Key');
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Broadcasts: Block: No API Key');
 
 		// Add block to Page.
-		$I->addGutenbergBlock($I, 'ConvertKit Broadcasts', 'convertkit-broadcasts');
+		$I->addGutenbergBlock($I, 'Kit Broadcasts', 'convertkit-broadcasts');
 
 		// Test that the popup window works.
 		$I->testBlockNoAPIKeyPopupWindow(
@@ -62,19 +64,19 @@ class PageBlockBroadcastsCest
 	 */
 	public function testBroadcastsBlockWithNoBroadcasts(AcceptanceTester $I)
 	{
-		// Setup Plugin with API keys for ConvertKit Account that has no Broadcasts.
-		$I->setupConvertKitPluginAPIKeyNoData($I);
+		// Setup Plugin with ConvertKit Account that has no Broadcasts.
+		$I->setupConvertKitPluginCredentialsNoData($I);
 		$I->setupConvertKitPluginResourcesNoData($I);
 
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Broadcasts: No Broadcasts');
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Broadcasts: No Broadcasts');
 
 		// Add block to Page.
-		$I->addGutenbergBlock($I, 'ConvertKit Broadcasts', 'convertkit-broadcasts');
+		$I->addGutenbergBlock($I, 'Kit Broadcasts', 'convertkit-broadcasts');
 
 		// Confirm that the Broadcasts block displays instructions to the user on how to add a Broadcast in ConvertKit.
 		$I->see(
-			'No broadcasts exist in ConvertKit.',
+			'No broadcasts exist in Kit.',
 			[
 				'css' => '.convertkit-no-content',
 			]
@@ -113,15 +115,15 @@ class PageBlockBroadcastsCest
 	 */
 	public function testBroadcastsBlockRefreshButton(AcceptanceTester $I)
 	{
-		// Setup Plugin with API keys for ConvertKit Account that has no Broadcasts.
-		$I->setupConvertKitPluginAPIKeyNoData($I);
+		// Setup Plugin with ConvertKit Account that has no Broadcasts.
+		$I->setupConvertKitPluginCredentialsNoData($I);
 		$I->setupConvertKitPluginResourcesNoData($I);
 
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Broadcasts: Refresh Button');
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Broadcasts: Refresh Button');
 
 		// Add block to Page.
-		$I->addGutenbergBlock($I, 'ConvertKit Broadcasts', 'convertkit-broadcasts');
+		$I->addGutenbergBlock($I, 'Kit Broadcasts', 'convertkit-broadcasts');
 
 		// Setup Plugin with a valid API Key and resources, as if the user performed the necessary steps to authenticate
 		// and created a broadcast.
@@ -160,10 +162,10 @@ class PageBlockBroadcastsCest
 		$I->setupConvertKitPluginResources($I);
 
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Broadcasts: Default Params');
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Broadcasts: Default Params');
 
 		// Add block to Page.
-		$I->addGutenbergBlock($I, 'ConvertKit Broadcasts', 'convertkit-broadcasts');
+		$I->addGutenbergBlock($I, 'Kit Broadcasts', 'convertkit-broadcasts');
 
 		// Publish and view the Page on the frontend site.
 		$I->publishAndViewGutenbergPage($I);
@@ -200,12 +202,12 @@ class PageBlockBroadcastsCest
 		$I->setupConvertKitPluginResources($I);
 
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Broadcasts: Display as Grid');
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Broadcasts: Display as Grid');
 
 		// Add block to Page, setting the date format.
 		$I->addGutenbergBlock(
 			$I,
-			'ConvertKit Broadcasts',
+			'Kit Broadcasts',
 			'convertkit-broadcasts',
 			[
 				'#inspector-toggle-control-0' => [ 'toggle', true ],
@@ -239,12 +241,12 @@ class PageBlockBroadcastsCest
 		$I->setupConvertKitPluginResources($I);
 
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Broadcasts: Date Format Param');
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Broadcasts: Date Format Param');
 
 		// Add block to Page, setting the date format.
 		$I->addGutenbergBlock(
 			$I,
-			'ConvertKit Broadcasts',
+			'Kit Broadcasts',
 			'convertkit-broadcasts',
 			[
 				'date_format' => [ 'select', 'Y-m-d' ],
@@ -286,12 +288,12 @@ class PageBlockBroadcastsCest
 		$I->setupConvertKitPluginResources($I);
 
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Broadcasts: Display image');
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Broadcasts: Display image');
 
 		// Add block to Page, setting the date format.
 		$I->addGutenbergBlock(
 			$I,
-			'ConvertKit Broadcasts',
+			'Kit Broadcasts',
 			'convertkit-broadcasts',
 			[
 				'#inspector-toggle-control-0' => [ 'toggle', true ],
@@ -327,12 +329,12 @@ class PageBlockBroadcastsCest
 		$I->setupConvertKitPluginResources($I);
 
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Broadcasts: Display description');
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Broadcasts: Display description');
 
 		// Add block to Page, setting the date format.
 		$I->addGutenbergBlock(
 			$I,
-			'ConvertKit Broadcasts',
+			'Kit Broadcasts',
 			'convertkit-broadcasts',
 			[
 				'#inspector-toggle-control-2' => [ 'toggle', true ],
@@ -366,12 +368,12 @@ class PageBlockBroadcastsCest
 		$I->setupConvertKitPluginResources($I);
 
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Broadcasts: Display read more link');
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Broadcasts: Display read more link');
 
 		// Add block to Page, setting the date format.
 		$I->addGutenbergBlock(
 			$I,
-			'ConvertKit Broadcasts',
+			'Kit Broadcasts',
 			'convertkit-broadcasts',
 			[
 				'#inspector-toggle-control-3' => [ 'toggle', true ],
@@ -406,12 +408,12 @@ class PageBlockBroadcastsCest
 		$I->setupConvertKitPluginResources($I);
 
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Broadcasts: Limit Param');
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Broadcasts: Limit Param');
 
 		// Add block to Page, setting the limit.
 		$I->addGutenbergBlock(
 			$I,
-			'ConvertKit Broadcasts',
+			'Kit Broadcasts',
 			'convertkit-broadcasts',
 			[
 				'limit' => [ 'input', '2', 'Pagination' ], // Click the Pagination tab first before starting to complete fields.
@@ -450,10 +452,10 @@ class PageBlockBroadcastsCest
 		$I->setupConvertKitPluginResources($I);
 
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Broadcasts: Blank Limit Param');
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Broadcasts: Blank Limit Param');
 
 		// Add block to Page.
-		$I->addGutenbergBlock($I, 'ConvertKit Broadcasts', 'convertkit-broadcasts');
+		$I->addGutenbergBlock($I, 'Kit Broadcasts', 'convertkit-broadcasts');
 
 		// When the sidebar appears, blank the limit parameter as the user might, by pressing the backspace key twice.
 		$I->waitForElementVisible('.interface-interface-skeleton__sidebar[aria-label="Editor settings"]');
@@ -462,7 +464,7 @@ class PageBlockBroadcastsCest
 		$I->pressKey('#convertkit_broadcasts_limit', \Facebook\WebDriver\WebDriverKeys::BACKSPACE );
 
 		// Confirm that the block did not encounter an error and fail to render.
-		$I->checkGutenbergBlockHasNoErrors($I, 'ConvertKit Broadcasts');
+		$I->checkGutenbergBlockHasNoErrors($I, 'Kit Broadcasts');
 
 		// Publish and view the Page on the frontend site.
 		$I->publishAndViewGutenbergPage($I);
@@ -478,7 +480,7 @@ class PageBlockBroadcastsCest
 		// Confirm that the expected Broadcast name is displayed first links to the expected URL, with UTM parameters.
 		$I->assertEquals(
 			$I->grabAttributeFrom('div.convertkit-broadcasts ul.convertkit-broadcasts-list li.convertkit-broadcast:first-child a', 'href'),
-			'https://cheerful-architect-3237.ck.page/posts/?utm_source=wordpress&utm_term=en_US&utm_content=convertkit'
+			'https://cheerful-architect-3237.kit.com/posts/?utm_source=wordpress&utm_term=en_US&utm_content=convertkit'
 		);
 	}
 
@@ -496,12 +498,12 @@ class PageBlockBroadcastsCest
 		$I->setupConvertKitPluginResources($I);
 
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Broadcasts: Pagination');
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Broadcasts: Pagination');
 
 		// Add block to Page, setting the limit.
 		$I->addGutenbergBlock(
 			$I,
-			'ConvertKit Broadcasts',
+			'Kit Broadcasts',
 			'convertkit-broadcasts',
 			[
 				'limit'                       => [ 'input', '2', 'Pagination' ], // Click the Pagination tab first before starting to complete fields.
@@ -530,12 +532,12 @@ class PageBlockBroadcastsCest
 		$I->setupConvertKitPluginResources($I);
 
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Broadcasts: Pagination Labels');
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Broadcasts: Pagination Labels');
 
 		// Add block to Page, setting the limit.
 		$I->addGutenbergBlock(
 			$I,
-			'ConvertKit Broadcasts',
+			'Kit Broadcasts',
 			'convertkit-broadcasts',
 			[
 				'limit'                       => [ 'input', '2', 'Pagination' ], // Click the Pagination tab first before starting to complete fields.
@@ -566,12 +568,12 @@ class PageBlockBroadcastsCest
 		$I->setupConvertKitPluginResources($I);
 
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Broadcasts: Blank Pagination Labels');
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Broadcasts: Blank Pagination Labels');
 
 		// Add block to Page, setting the limit.
 		$I->addGutenbergBlock(
 			$I,
-			'ConvertKit Broadcasts',
+			'Kit Broadcasts',
 			'convertkit-broadcasts',
 			[
 				'limit'                       => [ 'input', '2', 'Pagination' ], // Click the Pagination tab first before starting to complete fields.

@@ -34,7 +34,7 @@ class PageLandingPageCest
 	public function testAddNewPageUsingNoLandingPage(AcceptanceTester $I)
 	{
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Landing Page: None');
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Landing Page: None');
 
 		// Check the order of the Landing Page resources are alphabetical, with the None option prepending the Landing Pages.
 		$I->checkSelectLandingPageOptionOrder(
@@ -63,7 +63,8 @@ class PageLandingPageCest
 
 	/**
 	 * Test that the Landing Page specified in the Page Settings works when
-	 * creating and viewing a new WordPress Page.
+	 * creating and viewing a new WordPress Page, and that the Landing Page's
+	 * "Redirect to an external page" setting in ConvertKit is honored.
 	 *
 	 * @since   1.9.6
 	 *
@@ -72,7 +73,7 @@ class PageLandingPageCest
 	public function testAddNewPageUsingDefinedLandingPage(AcceptanceTester $I)
 	{
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Landing Page: ' . $_ENV['CONVERTKIT_API_LANDING_PAGE_NAME']);
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Landing Page: ' . $_ENV['CONVERTKIT_API_LANDING_PAGE_NAME']);
 
 		// Configure metabox's Landing Page setting to value specified in the .env file.
 		$I->configureMetaboxSettings(
@@ -90,7 +91,7 @@ class PageLandingPageCest
 		$I->publishAndViewGutenbergPage($I);
 
 		// Confirm that the basic HTML structure is correct.
-		$this->_seeBasicHTMLStructure($I);
+		$I->seeLandingPageOutput($I, true);
 
 		// Confirm the ConvertKit Site Icon displays.
 		$I->seeInSource('<link rel="shortcut icon" type="image/x-icon" href="https://pages.convertkit.com/templates/favicon.ico">');
@@ -98,6 +99,10 @@ class PageLandingPageCest
 		// Confirm that the ConvertKit Landing Page displays.
 		$I->dontSeeElementInDOM('body.page'); // WordPress didn't load its template, which is correct.
 		$I->seeElementInDOM('form[data-sv-form="' . $landingPageID . '"]'); // ConvertKit injected its Landing Page Form, which is correct.
+
+		// Subscribe.
+		$I->fillField('email_address', $I->generateEmailAddress());
+		$I->click('button.formkit-submit');
 	}
 
 	/**
@@ -115,7 +120,7 @@ class PageLandingPageCest
 		$I->haveOptionInDatabase('site_icon', $imageID);
 
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Landing Page: Site Icon: ' . $_ENV['CONVERTKIT_API_LANDING_PAGE_NAME']);
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Landing Page: Site Icon: ' . $_ENV['CONVERTKIT_API_LANDING_PAGE_NAME']);
 
 		// Configure metabox's Landing Page setting to value specified in the .env file.
 		$I->configureMetaboxSettings(
@@ -133,7 +138,7 @@ class PageLandingPageCest
 		$I->publishAndViewGutenbergPage($I);
 
 		// Confirm that the basic HTML structure is correct.
-		$this->_seeBasicHTMLStructure($I);
+		$I->seeLandingPageOutput($I, true);
 
 		// Confirm the WordPress Site Icon displays.
 		$I->seeInSource('<link rel="icon" href="' . $_ENV['TEST_SITE_WP_URL'] . '/wp-content/uploads/' . date( 'Y' ) . '/' . date( 'm' ) . '/icon-150x150.png" sizes="32x32">');
@@ -157,7 +162,7 @@ class PageLandingPageCest
 	public function testLandingPageCharacterEncoding(AcceptanceTester $I)
 	{
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Landing Page: ' . $_ENV['CONVERTKIT_API_LANDING_PAGE_CHARACTER_ENCODING_NAME']);
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Landing Page: ' . $_ENV['CONVERTKIT_API_LANDING_PAGE_CHARACTER_ENCODING_NAME']);
 
 		// Configure metabox's Landing Page setting to value specified in the .env file.
 		$I->configureMetaboxSettings(
@@ -175,7 +180,7 @@ class PageLandingPageCest
 		$I->publishAndViewGutenbergPage($I);
 
 		// Confirm that the basic HTML structure is correct.
-		$this->_seeBasicHTMLStructure($I);
+		$I->seeLandingPageOutput($I, true);
 
 		// Confirm that the Landing Page title is the same as defined on ConvertKit i.e. that character encoding is correct.
 		$I->seeInSource('Vantar þinn ungling sjálfstraust í stærðfræði?');
@@ -192,7 +197,7 @@ class PageLandingPageCest
 	public function testAddNewPageUsingDefinedLegacyLandingPage(AcceptanceTester $I)
 	{
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Landing Page: ' . $_ENV['CONVERTKIT_API_LEGACY_LANDING_PAGE_NAME']);
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Landing Page: ' . $_ENV['CONVERTKIT_API_LEGACY_LANDING_PAGE_NAME']);
 
 		// Configure metabox's Landing Page setting to value specified in the .env file.
 		$I->configureMetaboxSettings(
@@ -210,11 +215,11 @@ class PageLandingPageCest
 		$I->publishAndViewGutenbergPage($I);
 
 		// Confirm that the basic HTML structure is correct.
-		$this->_seeBasicHTMLStructure($I);
+		$I->seeLandingPageOutput($I);
 
 		// Confirm that the ConvertKit Landing Page displays.
 		$I->dontSeeElementInDOM('body.page'); // WordPress didn't load its template, which is correct.
-		$I->seeInSource('<form id="ck_subscribe_form" class="ck_subscribe_form" action="https://app.convertkit.com/landing_pages/' . $_ENV['CONVERTKIT_API_LEGACY_LANDING_PAGE_ID'] . '/subscribe" data-remote="true">'); // ConvertKit injected its Landing Page Form, which is correct.
+		$I->seeInSource('<form id="ck_subscribe_form" class="ck_subscribe_form" action="https://app.kit.com/landing_pages/' . $_ENV['CONVERTKIT_API_LEGACY_LANDING_PAGE_ID'] . '/subscribe" data-remote="true">'); // ConvertKit injected its Landing Page Form, which is correct.
 	}
 
 	/**
@@ -232,7 +237,7 @@ class PageLandingPageCest
 		$I->haveOptionInDatabase('site_icon', $imageID);
 
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Legacy Landing Page: Site Icon: ' . $_ENV['CONVERTKIT_API_LEGACY_LANDING_PAGE_NAME']);
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Legacy Landing Page: Site Icon: ' . $_ENV['CONVERTKIT_API_LEGACY_LANDING_PAGE_NAME']);
 
 		// Configure metabox's Landing Page setting to value specified in the .env file.
 		$I->configureMetaboxSettings(
@@ -250,18 +255,18 @@ class PageLandingPageCest
 		$I->publishAndViewGutenbergPage($I);
 
 		// Confirm that the basic HTML structure is correct.
-		$this->_seeBasicHTMLStructure($I);
+		$I->seeLandingPageOutput($I);
 
 		// Confirm the WordPress Site Icon displays.
 		$I->seeInSource('<link rel="icon" href="' . $_ENV['TEST_SITE_WP_URL'] . '/wp-content/uploads/' . date( 'Y' ) . '/' . date( 'm' ) . '/icon-150x150.png" sizes="32x32">');
 		$I->seeInSource('<link rel="icon" href="' . $_ENV['TEST_SITE_WP_URL'] . '/wp-content/uploads/' . date( 'Y' ) . '/' . date( 'm' ) . '/icon-300x300.png" sizes="192x192">');
 		$I->seeInSource('<link rel="apple-touch-icon" href="' . $_ENV['TEST_SITE_WP_URL'] . '/wp-content/uploads/' . date( 'Y' ) . '/' . date( 'm' ) . '/icon-300x300.png">');
 		$I->seeInSource('<meta name="msapplication-TileImage" content="' . $_ENV['TEST_SITE_WP_URL'] . '/wp-content/uploads/' . date( 'Y' ) . '/' . date( 'm' ) . '/icon-300x300.png">');
-		$I->dontSeeInSource('<link rel="shortcut icon" type="image/x-icon" href="https://pages.convertkit.com/templates/favicon.ico">');
+		$I->dontSeeInSource('<link rel="shortcut icon" type="image/x-icon" href="https://pages.kit.com/templates/favicon.ico">');
 
 		// Confirm that the ConvertKit Landing Page displays.
 		$I->dontSeeElementInDOM('body.page'); // WordPress didn't load its template, which is correct.
-		$I->seeInSource('<form id="ck_subscribe_form" class="ck_subscribe_form" action="https://app.convertkit.com/landing_pages/' . $_ENV['CONVERTKIT_API_LEGACY_LANDING_PAGE_ID'] . '/subscribe" data-remote="true">'); // ConvertKit injected its Landing Page Form, which is correct.
+		$I->seeInSource('<form id="ck_subscribe_form" class="ck_subscribe_form" action="https://app.kit.com/landing_pages/' . $_ENV['CONVERTKIT_API_LEGACY_LANDING_PAGE_ID'] . '/subscribe" data-remote="true">'); // ConvertKit injected its Landing Page Form, which is correct.
 	}
 
 	/**
@@ -281,7 +286,7 @@ class PageLandingPageCest
 			[
 				'post_type'   => 'page',
 				'post_status' => 'publish',
-				'post_title'  => 'ConvertKit: Landing Page: Legacy URL',
+				'post_title'  => 'Kit: Landing Page: Legacy URL',
 				'post_name'   => 'convertkit-landing-page-legacy-url',
 				'meta_input'  => [
 					'_wp_convertkit_post_meta' => [
@@ -301,11 +306,73 @@ class PageLandingPageCest
 		$I->checkNoWarningsAndNoticesOnScreen($I);
 
 		// Confirm that the basic HTML structure is correct.
-		$this->_seeBasicHTMLStructure($I);
+		$I->seeLandingPageOutput($I);
 
 		// Confirm that the ConvertKit Landing Page displays.
 		$I->dontSeeElementInDOM('body.page'); // WordPress didn't load its template, which is correct.
-		$I->seeInSource('<form id="ck_subscribe_form" class="ck_subscribe_form" action="https://app.convertkit.com/landing_pages/' . $_ENV['CONVERTKIT_API_LEGACY_LANDING_PAGE_ID'] . '/subscribe" data-remote="true">'); // ConvertKit injected its Landing Page Form, which is correct.
+		$I->seeInSource('<form id="ck_subscribe_form" class="ck_subscribe_form" action="https://app.kit.com/landing_pages/' . $_ENV['CONVERTKIT_API_LEGACY_LANDING_PAGE_ID'] . '/subscribe" data-remote="true">'); // ConvertKit injected its Landing Page Form, which is correct.
+	}
+
+	/**
+	 * Test that the Landing Page specified in the Page Settings works when
+	 * creating and viewing a new WordPress Page, with Perfmatters active.
+	 *
+	 * @since   2.5.1
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testAddNewPageUsingDefinedLandingPageWithPerfmattersPlugin(AcceptanceTester $I)
+	{
+		// Setup Plugin and Resources.
+		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPluginResources($I);
+
+		// Activate Perfmatters Plugin.
+		$I->activateThirdPartyPlugin($I, 'perfmatters');
+
+		// Enable Lazy Loading.
+		$I->haveOptionInDatabase(
+			'perfmatters_options',
+			[
+				'lazyload' => [
+					'lazy_loading' => 1,
+				],
+			]
+		);
+
+		// Add a Page using the Gutenberg editor.
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Landing Page: Perfmatters: ' . $_ENV['CONVERTKIT_API_LANDING_PAGE_NAME']);
+
+		// Configure metabox's Landing Page setting to value specified in the .env file.
+		$I->configureMetaboxSettings(
+			$I,
+			'wp-convertkit-meta-box',
+			[
+				'landing_page' => [ 'select2', $_ENV['CONVERTKIT_API_LANDING_PAGE_NAME'] ],
+			]
+		);
+
+		// Get Landing Page ID.
+		$landingPageID = $I->grabValueFrom('#wp-convertkit-landing_page');
+
+		// Publish and view the Page on the frontend site.
+		$I->publishAndViewGutenbergPage($I);
+
+		// Confirm that the basic HTML structure is correct.
+		$I->seeLandingPageOutput($I, true);
+
+		// Confirm the ConvertKit Site Icon displays.
+		$I->seeInSource('<link rel="shortcut icon" type="image/x-icon" href="https://pages.convertkit.com/templates/favicon.ico">');
+
+		// Confirm that the ConvertKit Landing Page displays.
+		$I->dontSeeElementInDOM('body.page'); // WordPress didn't load its template, which is correct.
+		$I->seeElementInDOM('form[data-sv-form="' . $landingPageID . '"]'); // ConvertKit injected its Landing Page Form, which is correct.
+
+		// Confirm that Perfmatters has not lazy loaded assets.
+		$I->dontSeeElementInDOM('.perfmatters-lazy');
+
+		// Deactivate Perfmatters Plugin.
+		$I->deactivateThirdPartyPlugin($I, 'perfmatters');
 	}
 
 	/**
@@ -322,32 +389,12 @@ class PageLandingPageCest
 		// Activate WP Rocket Plugin.
 		$I->activateThirdPartyPlugin($I, 'wp-rocket');
 
-		// Load WP Rocket settings screen.
-		$I->amOnAdminPage('options-general.php?page=wprocket#file_optimization');
-
-		// Enable CSS minification.
-		$I->click('label[for=minify_css]');
-		$I->waitForElementVisible('.wpr-isOpen');
-		$I->click('Activate minify CSS');
-
-		// Enable JS minification.
-		$I->click('label[for=minify_js]');
-		$I->waitForElementVisible('.wpr-isOpen');
-		$I->click('Activate minify JavaScript');
-
-		// Enable image lazy loading.
-		$I->click('#wpr-nav-media');
-		$I->click('label[for=lazyload]');
-		$I->click('label[for=lazyload_css_bg_img]');
-
-		// Click Save Changes button.
-		$I->click('Save Changes');
-
-		// Confirm changes saved successfully.
-		$I->waitForElementVisible('#setting-error-settings_updated');
+		// Configure WP Rocket.
+		$I->enableWPRocketMinifyConcatenateJSAndCSS($I);
+		$I->enableWPRocketLazyLoad($I);
 
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Landing Page: WP Rocket: ' . $_ENV['CONVERTKIT_API_LANDING_PAGE_NAME']);
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Landing Page: WP Rocket: ' . $_ENV['CONVERTKIT_API_LANDING_PAGE_NAME']);
 
 		// Configure metabox's Landing Page setting to value specified in the .env file.
 		$I->configureMetaboxSettings(
@@ -371,7 +418,7 @@ class PageLandingPageCest
 		$I->amOnUrl($url);
 
 		// Confirm that the basic HTML structure is correct.
-		$this->_seeBasicHTMLStructure($I);
+		$I->seeLandingPageOutput($I, true);
 
 		// Confirm the ConvertKit Site Icon displays.
 		$I->seeInSource('<link rel="shortcut icon" type="image/x-icon" href="https://pages.convertkit.com/templates/favicon.ico">');
@@ -388,23 +435,6 @@ class PageLandingPageCest
 
 		// Deactivate WP Rocket Plugin.
 		$I->deactivateThirdPartyPlugin($I, 'wp-rocket');
-	}
-
-	/**
-	 * Helper method to assert that the expected landing page HTML is output.
-	 *
-	 * @since   1.9.7.5
-	 *
-	 * @param   AcceptanceTester $I  Tester.
-	 */
-	private function _seeBasicHTMLStructure($I)
-	{
-		$I->seeInSource('<html>');
-		$I->seeInSource('<head>');
-		$I->seeInSource('</head>');
-		$I->seeInSource('<body');
-		$I->seeInSource('</body>');
-		$I->seeInSource('</html>');
 	}
 
 	/**

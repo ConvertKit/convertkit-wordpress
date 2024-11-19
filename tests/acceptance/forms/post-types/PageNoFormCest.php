@@ -17,14 +17,11 @@ class PageNoFormCest
 	{
 		// Activate and Setup ConvertKit plugin.
 		$I->activateConvertKitPlugin($I);
-		$I->setupConvertKitPluginAPIKeyNoData($I);
+		$I->setupConvertKitPluginCredentialsNoData($I);
 		$I->setupConvertKitPluginResourcesNoData($I);
 
 		// Navigate to Pages > Add New.
 		$I->amOnAdminPage('post-new.php?post_type=page');
-
-		// Close the Gutenberg "Welcome to the block editor" dialog if it's displayed.
-		$I->maybeCloseGutenbergWelcomeModal($I);
 
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);
@@ -46,8 +43,8 @@ class PageNoFormCest
 		// Check that the metabox is displayed.
 		$I->seeElementInDOM('#wp-convertkit-meta-box');
 
-		// Confirm that UTM parameters exist for the 'sign in to ConvertKit' link.
-		$I->seeInSource('<a href="https://app.convertkit.com/?utm_source=wordpress&amp;utm_term=en_US&amp;utm_content=convertkit" target="_blank">sign in to ConvertKit</a>');
+		// Confirm that UTM parameters exist for the 'sign in to Kit' link.
+		$I->seeInSource('<a href="https://app.kit.com/?utm_source=wordpress&amp;utm_term=en_US&amp;utm_content=convertkit" target="_blank">sign in to Kit</a>');
 	}
 
 	/**

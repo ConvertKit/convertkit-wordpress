@@ -39,7 +39,7 @@ class WPClassicEditor extends \Codeception\Module
 	 * @since   1.9.7.5
 	 *
 	 * @param   AcceptanceTester $I                          Acceptance Tester.
-	 * @param   string           $shortcodeName              Shortcode Name (e.g. 'ConvertKit Form').
+	 * @param   string           $shortcodeName              Shortcode Name (e.g. 'Kit Form').
 	 * @param   bool|array       $shortcodeConfiguration     Shortcode Configuration (field => value key/value array).
 	 * @param   bool|string      $expectedShortcodeOutput    Expected Shortcode Output (e.g. [convertkit_form form="12345"]).
 	 * @param   string           $targetEditor               Target TinyMCE editor instance.
@@ -99,7 +99,7 @@ class WPClassicEditor extends \Codeception\Module
 	 * @since   2.2.4
 	 *
 	 * @param   AcceptanceTester $I                          Acceptance Tester.
-	 * @param   string           $shortcodeName              Shortcode Name (e.g. 'ConvertKit Form').
+	 * @param   string           $shortcodeName              Shortcode Name (e.g. 'Kit Form').
 	 * @param   string           $targetEditor               Target TinyMCE editor instance.
 	 */
 	public function openVisualEditorShortcodeModal($I, $shortcodeName, $targetEditor = 'content')
@@ -243,14 +243,13 @@ class WPClassicEditor extends \Codeception\Module
 	}
 
 	/**
-	 * Publish a Page, Post or Custom Post Type initiated by the addClassicEditorPage() function,
-	 * loading it on the frontend web site.
+	 * Publish a Page, Post or Custom Post Type initiated by the addClassicEditorPage() function.
 	 *
-	 * @since   1.9.7.5
+	 * @since   2.5.6
 	 *
-	 * @param   AcceptanceTester $I                      Acceptance Tester.
+	 * @param   AcceptanceTester $I     Acceptance Tester.
 	 */
-	public function publishAndViewClassicEditorPage($I)
+	public function publishClassicEditorPage($I)
 	{
 		// Scroll to Publish meta box, so its buttons are not hidden.
 		$I->scrollTo('#submitdiv');
@@ -263,6 +262,20 @@ class WPClassicEditor extends \Codeception\Module
 
 		// Wait for notice to display.
 		$I->waitForElementVisible('.notice-success');
+	}
+
+	/**
+	 * Publish a Page, Post or Custom Post Type initiated by the addClassicEditorPage() function,
+	 * loading it on the frontend web site.
+	 *
+	 * @since   1.9.7.5
+	 *
+	 * @param   AcceptanceTester $I     Acceptance Tester.
+	 */
+	public function publishAndViewClassicEditorPage($I)
+	{
+		// Publish Page.
+		$I->publishClassicEditorPage($I);
 
 		// Load the Page on the frontend site.
 		$I->click('.notice-success a');

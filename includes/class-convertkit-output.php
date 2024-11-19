@@ -67,13 +67,78 @@ class ConvertKit_Output {
 	 */
 	public function __construct() {
 
-		add_action( 'init', array( $this, 'get_subscriber_id_from_request' ), 1 );
+		add_action( 'init', array( $this, 'get_subscriber_id_from_request' ) );
+		add_action( 'wp', array( $this, 'maybe_tag_subscriber' ) );
 		add_action( 'template_redirect', array( $this, 'output_form' ) );
 		add_action( 'template_redirect', array( $this, 'page_takeover' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		add_filter( 'the_content', array( $this, 'append_form_to_content' ) );
+		add_filter( 'hooked_block_types', array( $this, 'maybe_register_form_block_on_category_archive' ), 10, 4 );
+		add_filter( 'hooked_block_convertkit/form', array( $this, 'append_form_block_to_category_archive' ), 10, 1 );
 		add_action( 'wp_footer', array( $this, 'output_global_non_inline_form' ), 1 );
 		add_action( 'wp_footer', array( $this, 'output_scripts_footer' ) );
+
+	}
+
+	/**
+	 * Tags the subscriber, if:
+	 * - a subscriber ID exists in the cookie or URL,
+	 * - the WordPress Page has the "Add a Tag" setting specified
+	 *
+	 * @since   2.4.9.1
+	 */
+	public function maybe_tag_subscriber() {
+
+		// Bail if no subscriber ID detected.
+		if ( ! $this->subscriber_id ) {
+			return;
+		}
+
+		// Bail if not a singular Post Type supported by ConvertKit.
+		if ( ! is_singular( convertkit_get_supported_post_types() ) ) {
+			return;
+		}
+
+		// Get Post ID.
+		$post_id = get_the_ID();
+
+		// Bail if a Post ID couldn't be identified.
+		if ( ! $post_id ) {
+			return;
+		}
+
+		// Get Settings, if they have not yet been loaded.
+		if ( ! $this->settings ) {
+			$this->settings = new ConvertKit_Settings();
+		}
+
+		// Bail if the API hasn't been configured.
+		if ( ! $this->settings->has_access_and_refresh_token() ) {
+			return;
+		}
+
+		// Get ConvertKit Post's Settings, if they have not yet been loaded.
+		if ( ! $this->post_settings ) {
+			$this->post_settings = new ConvertKit_Post( $post_id );
+		}
+
+		// Bail if no "Add a Tag" setting specified for this Page.
+		if ( ! $this->post_settings->has_tag() ) {
+			return;
+		}
+
+		// Initialize the API.
+		$api = new ConvertKit_API_V4(
+			CONVERTKIT_OAUTH_CLIENT_ID,
+			CONVERTKIT_OAUTH_CLIENT_REDIRECT_URI,
+			$this->settings->get_access_token(),
+			$this->settings->get_refresh_token(),
+			$this->settings->debug_enabled(),
+			'output'
+		);
+
+		// Tag subscriber.
+		$api->tag_subscriber( $this->post_settings->get_tag(), $this->subscriber_id );
 
 	}
 
@@ -184,7 +249,7 @@ class ConvertKit_Output {
 	}
 
 	/**
-	 * Appends a form to the singular Page, Post or Custom Post Type's Content.
+	 * Inserts a form to the singular Page, Post or Custom Post Type's Content.
 	 *
 	 * @param   string $content    Post Content.
 	 * @return  string              Post Content with Form Appended, if applicable
@@ -232,7 +297,7 @@ class ConvertKit_Output {
 		// Attempt to fallback to the default form for this Post Type.
 		if ( is_wp_error( $form ) ) {
 			if ( $this->settings->debug_enabled() ) {
-				$content .= '<!-- ConvertKit append_form_to_content(): ' . $form->get_error_message() . ' Attempting fallback to Default Form. -->';
+				$content .= '<!-- Kit append_form_to_content(): ' . $form->get_error_message() . ' Attempting fallback to Default Form. -->';
 			}
 
 			// Get Default Form ID for this Post's Type.
@@ -241,7 +306,7 @@ class ConvertKit_Output {
 			// If no Default Form is specified, just return the Post Content, unedited.
 			if ( ! $form_id ) {
 				if ( $this->settings->debug_enabled() ) {
-					$content .= '<!-- ConvertKit append_form_to_content(): No Default Form exists as a fallback. -->';
+					$content .= '<!-- Kit append_form_to_content(): No Default Form exists as a fallback. -->';
 				}
 
 				return $content;
@@ -254,7 +319,7 @@ class ConvertKit_Output {
 			// Just return the Post Content, unedited.
 			if ( is_wp_error( $form ) ) {
 				if ( $this->settings->debug_enabled() ) {
-					$content .= '<!-- ConvertKit append_form_to_content(): Default Form: ' . $form->get_error_message() . ' -->';
+					$content .= '<!-- Kit append_form_to_content(): Default Form: ' . $form->get_error_message() . ' -->';
 				}
 
 				return $content;
@@ -262,22 +327,260 @@ class ConvertKit_Output {
 		}
 
 		// If here, we have a ConvertKit Form.
-		// Append form to Post's Content.
-		$content = $content .= $form;
+		// Append form to Post's Content, based on the position setting.
+		$form_position = $this->settings->get_default_form_position( get_post_type( $post_id ) );
+		switch ( $form_position ) {
+			case 'before_after_content':
+				$content = $form . $content . $form;
+				break;
+
+			case 'before_content':
+				$content = $form . $content;
+				break;
+
+			case 'after_element':
+				$element = $this->settings->get_default_form_position_element( get_post_type( $post_id ) );
+				$index   = $this->settings->get_default_form_position_element_index( get_post_type( $post_id ) );
+
+				// Check if DOMDocument is installed.
+				// It should be installed as mosts hosts include php-dom and php-xml modules.
+				// If not, fallback to using preg_match_all(), which is less reliable.
+				if ( ! class_exists( 'DOMDocument' ) ) {
+					$content = $this->inject_form_after_element_fallback( $content, $element, $index, $form );
+					break;
+				}
+
+				// Use DOMDocument.
+				$content = $this->inject_form_after_element( $content, $element, $index, $form );
+				break;
+
+			case 'after_content':
+			default:
+				// Default behaviour < 2.5.8 was to append the Form after the content.
+				$content .= $form;
+				break;
+		}
 
 		/**
 		 * Filter the Post's Content, which includes a ConvertKit Form, immediately before it is output.
 		 *
 		 * @since   1.9.6
 		 *
-		 * @param   string  $content    Post Content
-		 * @param   string  $form       ConvertKit Form HTML
-		 * @param   int     $post_id    Post ID
-		 * @param   int     $form_id    ConvertKit Form ID
+		 * @param   string  $content        Post Content
+		 * @param   string  $form           ConvertKit Form HTML
+		 * @param   int     $post_id        Post ID
+		 * @param   int     $form_id        ConvertKit Form ID
+		 * @param   string  $form_position  Form Position setting for the Post's Type.
 		 */
-		$content = apply_filters( 'convertkit_frontend_append_form', $content, $form, $post_id, $form_id );
+		$content = apply_filters( 'convertkit_frontend_append_form', $content, $form, $post_id, $form_id, $form_position );
 
 		return $content;
+
+	}
+
+	/**
+	 * Injects the form after the given element and index, using DOMDocument.
+	 *
+	 * @since   2.6.2
+	 *
+	 * @param   string $content        Page / Post Content.
+	 * @param   string $tag            HTML tag to insert form after.
+	 * @param   int    $index          Number of $tag elements to find before inserting form.
+	 * @param   string $form           Form HTML to inject.
+	 * @return  string
+	 */
+	private function inject_form_after_element( $content, $tag, $index, $form ) {
+
+		// Load Page / Post content into DOMDocument.
+		libxml_use_internal_errors( true );
+		$html = new DOMDocument();
+		$html->loadHTML( $content, LIBXML_HTML_NODEFDTD );
+
+		// Find the element to append the form to.
+		// item() is a zero based index.
+		$element_node = $html->getElementsByTagName( $tag )->item( $index - 1 );
+
+		// If the element could not be found, either the number of elements by tag name is less
+		// than the requested position the form be inserted in, or no element exists.
+		// Append the form to the content and return.
+		if ( is_null( $element_node ) ) {
+			return $content . $form;
+		}
+
+		// Create new element for the Form.
+		$form_node = new DOMDocument();
+		$form_node->loadHTML( $form, LIBXML_HTML_NODEFDTD );
+
+		// Append the form to the specific element.
+		$element_node->parentNode->insertBefore( $html->importNode( $form_node->documentElement, true ), $element_node->nextSibling ); // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+
+		// Fetch HTML string.
+		$content = $html->saveHTML();
+
+		// Remove some HTML tags that DOMDocument adds, returning the output.
+		// We do this instead of using LIBXML_HTML_NOIMPLIED in loadHTML(), because Legacy Forms are not always contained in
+		// a single root / outer element, which is required for LIBXML_HTML_NOIMPLIED to correctly work.
+		$content = str_replace( '<html>', '', $content );
+		$content = str_replace( '</html>', '', $content );
+		$content = str_replace( '<head>', '', $content );
+		$content = str_replace( '</head>', '', $content );
+		$content = str_replace( '<body>', '', $content );
+		$content = str_replace( '</body>', '', $content );
+
+		return $content;
+
+	}
+
+	/**
+	 * Injects the form after the given element and index, using preg_match_all().
+	 * This is less reliable than DOMDocument, and is called if DOMDocument is
+	 * not installed on the server.
+	 *
+	 * @since   2.6.2
+	 *
+	 * @param   string $content        Page / Post Content.
+	 * @param   string $tag            HTML tag to insert form after.
+	 * @param   int    $index           Number of $tag elements to find before inserting form.
+	 * @param   string $form           Form HTML to inject.
+	 * @return  string
+	 */
+	private function inject_form_after_element_fallback( $content, $tag, $index, $form ) {
+
+		// Calculate tag length.
+		$tag_length = ( strlen( $tag ) + 3 );
+
+		// Find all closing elements.
+		preg_match_all( '/<\/' . $tag . '>/', $content, $matches );
+
+		// If no elements exist, just append the form.
+		if ( count( $matches[0] ) === 0 ) {
+			$content = $content . $form;
+			return $content;
+		}
+
+		// If the number of elements is less than the index, we don't have enough elements to add the form to.
+		// Just add the form after the content.
+		if ( count( $matches[0] ) <= $index ) {
+			$content = $content . $form;
+			return $content;
+		}
+
+		// Iterate through the content to find the element at the configured index e.g. find the 4th closing paragraph.
+		$offset = 0;
+		foreach ( $matches[0] as $element_index => $element ) {
+			$position = strpos( $content, $element, $offset );
+			if ( ( $element_index + 1 ) === $index ) {
+				return substr( $content, 0, $position + 4 ) . $form . substr( $content, $position + 4 );
+			}
+
+			// Increment offset.
+			$offset = $position + 1;
+		}
+
+		// If here, something went wrong.
+		// Just add the form after the content.
+		$content = $content . $form;
+		return $content;
+
+	}
+
+	/**
+	 * Registers the ConvertKit Form block to before or after the Query Loop block, when viewing a Category archive.
+	 *
+	 * See append_form_block_on_category_archive() configures the block to display the applicable category's Form.
+	 *
+	 * @since   2.4.9.1
+	 *
+	 * @param   array                           $hooked_blocks              The list of hooked block types.
+	 * @param   string                          $position                   The relative position of the hooked blocks.
+	 * @param   string                          $anchor_block               The anchor block type.
+	 * @param   WP_Block_Template|WP_Post|array $context                    The block template, template part, wp_navigation post type, or pattern that the anchor block belongs to.
+	 * @return  array
+	 */
+	public function maybe_register_form_block_on_category_archive( $hooked_blocks, $position, $anchor_block, $context ) {
+
+		// Don't append if we're not viewing a category archive.
+		if ( ! is_category() ) {
+			return $hooked_blocks;
+		}
+
+		if ( $context instanceof WP_Block_Template && $context->slug !== 'archive' ) {
+			return $hooked_blocks;
+		}
+
+		// Don't append if the anchor block isn't the Query Loop block.
+		if ( $anchor_block !== 'core/query' ) {
+			return $hooked_blocks;
+		}
+
+		// Don't append if the Category's form position setting is not defined.
+		$form_position = $this->get_term_form_position();
+		if ( ! $form_position ) {
+			// Unhook this function as we don't need to check again in this request, as we'll
+			// never output a form on the Category archive.
+			remove_filter( 'hooked_block_types', array( $this, 'maybe_register_form_block_on_category_archive' ), 10 );
+
+			return $hooked_blocks;
+		}
+
+		// Don't append if the position doesn't match.
+		if ( $form_position !== $position ) {
+			return $hooked_blocks;
+		}
+
+		// Hook the ConvertKit Form block.
+		$hooked_blocks[] = 'convertkit/form';
+
+		// Unhook this function as we don't need to check again in this request, as
+		// we have now appended the form.
+		remove_filter( 'hooked_block_types', array( $this, 'maybe_register_form_block_on_category_archive' ), 10 );
+
+		return $hooked_blocks;
+
+	}
+
+	/**
+	 * Configures the ConvertKit Form block that was hooked below the Query Loop block by maybe_register_form_block_on_category_archive,
+	 * defining the Form ID based on the current Category's Form ID.
+	 *
+	 * @since   2.4.9.1
+	 *
+	 * @param   array $parsed_hooked_block    The parsed block array for the given hooked block type, or null to suppress the block.
+	 * @return  null|array
+	 */
+	public function append_form_block_to_category_archive( $parsed_hooked_block ) {
+
+		// Sanity check that we're still viewing a Category archive.
+		if ( ! is_category() ) {
+			// Returning null will unregister the Form block from displaying.
+			return null;
+		}
+
+		// Get Category archive being viewed.
+		$category = get_category( get_query_var( 'cat' ) );
+
+		// Bail if the Category could be found.
+		if ( is_wp_error( $category ) || is_null( $category ) ) {
+			// Returning null will unregister the Form block from displaying.
+			return null;
+		}
+
+		// Load Term Settings.
+		$term_settings = new ConvertKit_Term( $category->term_id );
+
+		// Bail if no Form specified for the Category.
+		if ( ! $term_settings->has_form() ) {
+			// Returning null will unregister the Form block from displaying.
+			return null;
+		}
+
+		// Define the form block attributes to display the given Form ID.
+		$parsed_hooked_block['attrs'] = array(
+			'id' => absint( $term_settings->get_form() ),
+		);
+
+		// Return the Form block with its attributes.
+		return $parsed_hooked_block;
 
 	}
 
@@ -357,6 +660,37 @@ class ConvertKit_Output {
 	}
 
 	/**
+	 * Returns the Form Position setting for the currently viewed Category.
+	 *
+	 * @since   2.4.9.1
+	 *
+	 * @return  bool|string
+	 */
+	private function get_term_form_position() {
+
+		// Get Category archive being viewed.
+		$category = get_category( get_query_var( 'cat' ) );
+
+		// Bail if the Category could be found.
+		if ( is_wp_error( $category ) || is_null( $category ) ) {
+			return false;
+		}
+
+		// Load Term Settings.
+		$term_settings = new ConvertKit_Term( $category->term_id );
+
+		// Return false if no form position is defined i.e. we don't want to display
+		// it on the Category archive.
+		if ( ! $term_settings->has_form_position() ) {
+			return false;
+		}
+
+		// Return form position.
+		return $term_settings->get_form_position();
+
+	}
+
+	/**
 	 * Enqueue scripts.
 	 *
 	 * @since   1.9.6
@@ -391,8 +725,6 @@ class ConvertKit_Output {
 				'debug'         => $settings->debug_enabled(),
 				'nonce'         => wp_create_nonce( 'convertkit' ),
 				'subscriber_id' => $this->subscriber_id,
-				'tag'           => ( ( is_singular() && $convertkit_post->has_tag() ) ? $convertkit_post->get_tag() : false ),
-				'post_id'       => $post->ID,
 			)
 		);
 

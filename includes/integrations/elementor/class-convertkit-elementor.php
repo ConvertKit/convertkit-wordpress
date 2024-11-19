@@ -67,7 +67,7 @@ class ConvertKit_Elementor {
 		$elements_manager->add_category(
 			'convertkit',
 			array(
-				'title' => __( 'ConvertKit', 'convertkit' ),
+				'title' => __( 'Kit', 'convertkit' ),
 				'icon'  => 'fa fa-plug',
 			)
 		);

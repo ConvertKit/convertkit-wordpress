@@ -33,14 +33,14 @@ class ElementorFormCest
 	public function testFormWidgetIsRegistered(AcceptanceTester $I)
 	{
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Form: Elementor: Valid Form Param');
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Form: Elementor: Valid Form Param');
 
 		// Click Edit with Elementor button.
 		$I->click('#elementor-switch-mode-button');
 
 		// When Elementor loads, search for the ConvertKit Form block.
 		$I->waitForElementVisible('#elementor-panel-elements-search-input');
-		$I->fillField('#elementor-panel-elements-search-input', 'ConvertKit Form');
+		$I->fillField('#elementor-panel-elements-search-input', 'Kit Form');
 
 		// Confirm that the Form widget is displayed as an option.
 		$I->seeElementInDOM('#elementor-panel-elements .elementor-element');
@@ -56,7 +56,7 @@ class ElementorFormCest
 	public function testFormWidgetWithValidFormParameter(AcceptanceTester $I)
 	{
 		// Create Page with Form widget in Elementor.
-		$pageID = $this->_createPageWithFormWidget($I, 'ConvertKit: Page: Form: Elementor Widget: Valid Form Param', $_ENV['CONVERTKIT_API_FORM_ID']);
+		$pageID = $this->_createPageWithFormWidget($I, 'Kit: Page: Form: Elementor Widget: Valid Form Param', $_ENV['CONVERTKIT_API_FORM_ID']);
 
 		// Load Page.
 		$I->amOnPage('?p=' . $pageID);
@@ -66,7 +66,7 @@ class ElementorFormCest
 
 		// Confirm that one ConvertKit Form is output in the DOM.
 		// This confirms that there is only one script on the page for this form, which renders the form.
-		$I->seeNumberOfElementsInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_ID'] . '"]', 1);
+		$I->seeFormOutput($I, $_ENV['CONVERTKIT_API_FORM_ID']);
 	}
 
 	/**
@@ -78,8 +78,20 @@ class ElementorFormCest
 	 */
 	public function testFormWidgetWithValidLegacyFormParameter(AcceptanceTester $I)
 	{
+		// Setup Plugin with API Key and Secret, which is required for Legacy Forms to work.
+		$I->setupConvertKitPlugin(
+			$I,
+			[
+				'api_key'      => $_ENV['CONVERTKIT_API_KEY'],
+				'api_secret'   => $_ENV['CONVERTKIT_API_SECRET'],
+				'post_form'    => '',
+				'page_form'    => '',
+				'product_form' => '',
+			]
+		);
+
 		// Create Page with Form widget in Elementor.
-		$pageID = $this->_createPageWithFormWidget($I, 'ConvertKit: Legacy Form: Elementor Widget: Valid Form Param', $_ENV['CONVERTKIT_API_LEGACY_FORM_ID']);
+		$pageID = $this->_createPageWithFormWidget($I, 'Kit: Legacy Form: Elementor Widget: Valid Form Param', $_ENV['CONVERTKIT_API_LEGACY_FORM_ID']);
 
 		// Load Page.
 		$I->amOnPage('?p=' . $pageID);
@@ -88,7 +100,7 @@ class ElementorFormCest
 		$I->checkNoWarningsAndNoticesOnScreen($I);
 
 		// Confirm that the ConvertKit Form is displayed.
-		$I->seeInSource('<form id="ck_subscribe_form" class="ck_subscribe_form" action="https://api.convertkit.com/landing_pages/' . $_ENV['CONVERTKIT_API_LEGACY_FORM_ID'] . '/subscribe" data-remote="true">');
+		$I->seeInSource('<form id="ck_subscribe_form" class="ck_subscribe_form" action="https://api.kit.com/landing_pages/' . $_ENV['CONVERTKIT_API_LEGACY_FORM_ID'] . '/subscribe" data-remote="true">');
 	}
 
 	/**
@@ -101,7 +113,7 @@ class ElementorFormCest
 	public function testFormWidgetWithNoFormParameter(AcceptanceTester $I)
 	{
 		// Create Page with Form widget in Elementor.
-		$pageID = $this->_createPageWithFormWidget($I, 'ConvertKit: Page: Form: Elementor Widget: No Form Param', '');
+		$pageID = $this->_createPageWithFormWidget($I, 'Kit: Page: Form: Elementor Widget: No Form Param', '');
 
 		// Load Page.
 		$I->amOnPage('?p=' . $pageID);

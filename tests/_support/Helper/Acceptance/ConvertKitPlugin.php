@@ -37,7 +37,7 @@ class ConvertKitPlugin extends \Codeception\Module
 
 	/**
 	 * Helper method to programmatically setup the Plugin's settings, as if the
-	 * user configured the Plugin at `Settings > ConvertKit`.
+	 * user configured the Plugin at `Settings > Kit`.
 	 *
 	 * @since   1.9.6
 	 *
@@ -45,8 +45,8 @@ class ConvertKitPlugin extends \Codeception\Module
 	 * @param   bool|array       $options {
 	 *           Optional. An array of settings.
 	 *
-	 *     @type string $api_key            API Key (if specified, used instead of CONVERTKIT_API_KEY).
-	 *     @type string $api_secret         API Secret (if specified, used instead of CONVERTKIT_API_SECRET).
+	 *     @type string $access_token       Access Token (if specified, used instead of CONVERTKIT_OAUTH_ACCESS_TOKEN).
+	 *     @type string $refresh_token      Refresh Token (if specified, used instead of CONVERTKIT_OAUTH_REFRESH_TOKEN).
 	 *     @type string $debug              Enable debugging (default: on).
 	 *     @type string $no_scripts         Disable JS (default: off).
 	 *     @type string $no_css             Disable CSS (default: off).
@@ -60,8 +60,8 @@ class ConvertKitPlugin extends \Codeception\Module
 	{
 		// Define default options.
 		$defaults = [
-			'api_key'         => $_ENV['CONVERTKIT_API_KEY'],
-			'api_secret'      => $_ENV['CONVERTKIT_API_SECRET'],
+			'access_token'    => $_ENV['CONVERTKIT_OAUTH_ACCESS_TOKEN'],
+			'refresh_token'   => $_ENV['CONVERTKIT_OAUTH_REFRESH_TOKEN'],
 			'debug'           => 'on',
 			'no_scripts'      => '',
 			'no_css'          => '',
@@ -84,31 +84,30 @@ class ConvertKitPlugin extends \Codeception\Module
 
 	/**
 	 * Helper method to programmatically setup the Plugin's settings, as if the
-	 * user configured the Plugin at `Settings > ConvertKit` with a ConvertKit
-	 * API Key and Secret for a ConvertKit account that has no data (no forms,
-	 * products, tags etc).
+	 * user configured the Plugin at `Settings > Kit` with a ConvertKit
+	 * account that has no data (no forms, products, tags etc).
 	 *
 	 * @since   2.4.0
 	 *
 	 * @param   AcceptanceTester $I         AcceptanceTester.
 	 */
-	public function setupConvertKitPluginAPIKeyNoData($I)
+	public function setupConvertKitPluginCredentialsNoData($I)
 	{
 		$I->setupConvertKitPlugin(
 			$I,
 			[
-				'api_key'      => $_ENV['CONVERTKIT_API_KEY_NO_DATA'],
-				'api_secret'   => $_ENV['CONVERTKIT_API_SECRET_NO_DATA'],
-				'post_form'    => '',
-				'page_form'    => '',
-				'product_form' => '',
+				'access_token'  => $_ENV['CONVERTKIT_OAUTH_ACCESS_TOKEN_NO_DATA'],
+				'refresh_token' => $_ENV['CONVERTKIT_OAUTH_REFRESH_TOKEN_NO_DATA'],
+				'post_form'     => '',
+				'page_form'     => '',
+				'product_form'  => '',
 			]
 		);
 	}
 
 	/**
 	 * Helper method to programmatically setup the Plugin's settings, as if the
-	 * user configured the Plugin at `Settings > ConvertKit` with an invalid
+	 * user configured the Plugin at `Settings > Kit` with an invalid
 	 * ConvertKit API Key and Secret.
 	 *
 	 * @since   2.4.0
@@ -120,18 +119,18 @@ class ConvertKitPlugin extends \Codeception\Module
 		$I->setupConvertKitPlugin(
 			$I,
 			[
-				'api_key'      => 'fakeApiKey',
-				'api_secret'   => 'fakeApiSecret',
-				'post_form'    => '',
-				'page_form'    => '',
-				'product_form' => '',
+				'access_token'  => 'fakeAccessToken',
+				'refresh_token' => 'fakeRefreshToken',
+				'post_form'     => '',
+				'page_form'     => '',
+				'product_form'  => '',
 			]
 		);
 	}
 
 	/**
 	 * Helper method to programmatically setup the Plugin's settings, as if the
-	 * user configured the Plugin at `Settings > ConvertKit` with a ConvertKit
+	 * user configured the Plugin at `Settings > Kit` with a ConvertKit
 	 * API Key and Secret, and defined no default Forms for Posts, Pages and
 	 * WooCommerce Products.
 	 *
@@ -153,7 +152,7 @@ class ConvertKitPlugin extends \Codeception\Module
 
 	/**
 	 * Helper method to programmatically setup the Plugin's settings, as if the
-	 * user configured the Plugin at `Settings > ConvertKit` with a ConvertKit
+	 * user configured the Plugin at `Settings > Kit` with a ConvertKit
 	 * API Key and Secret, and disabled JS.
 	 *
 	 * @since   2.4.0
@@ -200,8 +199,8 @@ class ConvertKitPlugin extends \Codeception\Module
 					'created_at' => '2022-02-17T15:05:31.000Z',
 					'type'       => 'embed',
 					'format'     => 'inline',
-					'embed_js'   => 'https://cheerful-architect-3237.ck.page/71cbcc4042/index.js',
-					'embed_url'  => 'https://cheerful-architect-3237.ck.page/71cbcc4042',
+					'embed_js'   => 'https://cheerful-architect-3237.kit.com/71cbcc4042/index.js',
+					'embed_url'  => 'https://cheerful-architect-3237.kit.com/71cbcc4042',
 					'archived'   => false,
 					'uid'        => '71cbcc4042',
 				],
@@ -211,8 +210,8 @@ class ConvertKitPlugin extends \Codeception\Module
 					'created_at' => '2021-11-17T04:22:06.000Z',
 					'type'       => 'embed',
 					'format'     => 'modal',
-					'embed_js'   => 'https://cheerful-architect-3237.ck.page/397e876257/index.js',
-					'embed_url'  => 'https://cheerful-architect-3237.ck.page/397e876257',
+					'embed_js'   => 'https://cheerful-architect-3237.kit.com/397e876257/index.js',
+					'embed_url'  => 'https://cheerful-architect-3237.kit.com/397e876257',
 					'archived'   => false,
 					'uid'        => '397e876257',
 				],
@@ -222,8 +221,8 @@ class ConvertKitPlugin extends \Codeception\Module
 					'created_at' => '2021-11-17T04:22:24.000Z',
 					'type'       => 'embed',
 					'format'     => 'slide in',
-					'embed_js'   => 'https://cheerful-architect-3237.ck.page/e0d65bed9d/index.js',
-					'embed_url'  => 'https://cheerful-architect-3237.ck.page/e0d65bed9d',
+					'embed_js'   => 'https://cheerful-architect-3237.kit.com/e0d65bed9d/index.js',
+					'embed_url'  => 'https://cheerful-architect-3237.kit.com/e0d65bed9d',
 					'archived'   => false,
 					'uid'        => 'e0d65bed9d',
 				],
@@ -233,8 +232,8 @@ class ConvertKitPlugin extends \Codeception\Module
 					'created_at' => '2021-11-11T15:30:40.000Z',
 					'type'       => 'embed',
 					'format'     => 'inline',
-					'embed_js'   => 'https://cheerful-architect-3237.ck.page/85629c512d/index.js',
-					'embed_url'  => 'https://cheerful-architect-3237.ck.page/85629c512d',
+					'embed_js'   => 'https://cheerful-architect-3237.kit.com/85629c512d/index.js',
+					'embed_url'  => 'https://cheerful-architect-3237.kit.com/85629c512d',
 					'archived'   => false,
 					'uid'        => '85629c512d',
 				],
@@ -243,9 +242,9 @@ class ConvertKitPlugin extends \Codeception\Module
 					'name'                => 'Legacy Form',
 					'created_at'          => null,
 					'type'                => 'embed',
-					'url'                 => 'https://app.convertkit.com/landing_pages/470099',
-					'embed_js'            => 'https://api.convertkit.com/api/v3/forms/470099.js?api_key=' . $_ENV['CONVERTKIT_API_KEY'],
-					'embed_url'           => 'https://api.convertkit.com/api/v3/forms/470099.html?api_key=' . $_ENV['CONVERTKIT_API_KEY'],
+					'url'                 => 'https://app.kit.com/landing_pages/470099',
+					'embed_js'            => 'https://api.kit.com/api/v3/forms/470099.js?api_key=' . $_ENV['CONVERTKIT_API_KEY'],
+					'embed_url'           => 'https://api.kit.com/api/v3/forms/470099.html?api_key=' . $_ENV['CONVERTKIT_API_KEY'],
 					'title'               => 'Join the newsletter',
 					'description'         => '<p>Subscribe to get our latest content by email.</p>',
 					'sign_up_button_text' => 'Subscribe',
@@ -258,8 +257,8 @@ class ConvertKitPlugin extends \Codeception\Module
 					'created_at' => '2021-11-17T04:22:42.000Z',
 					'type'       => 'embed',
 					'format'     => 'sticky bar',
-					'embed_js'   => 'https://cheerful-architect-3237.ck.page/9f5c601482/index.js',
-					'embed_url'  => 'https://cheerful-architect-3237.ck.page/9f5c601482',
+					'embed_js'   => 'https://cheerful-architect-3237.kit.com/9f5c601482/index.js',
+					'embed_url'  => 'https://cheerful-architect-3237.kit.com/9f5c601482',
 					'archived'   => false,
 					'uid'        => '9f5c601482',
 				],
@@ -269,8 +268,8 @@ class ConvertKitPlugin extends \Codeception\Module
 					'created_at' => '2022-07-15T15:06:32.000Z',
 					'type'       => 'embed',
 					'format'     => 'inline',
-					'embed_js'   => 'https://cheerful-architect-3237.ck.page/3bb15822a2/index.js',
-					'embed_url'  => 'https://cheerful-architect-3237.ck.page/3bb15822a2',
+					'embed_js'   => 'https://cheerful-architect-3237.kit.com/3bb15822a2/index.js',
+					'embed_url'  => 'https://cheerful-architect-3237.kit.com/3bb15822a2',
 					'archived'   => false,
 					'uid'        => '3bb15822a2',
 				],
@@ -280,8 +279,8 @@ class ConvertKitPlugin extends \Codeception\Module
 					'created_at' => '2021-11-11T15:32:54.000Z',
 					'type'       => 'embed',
 					'format'     => 'inline',
-					'embed_js'   => 'https://cheerful-architect-3237.ck.page/7e238f3920/index.js',
-					'embed_url'  => 'https://cheerful-architect-3237.ck.page/7e238f3920',
+					'embed_js'   => 'https://cheerful-architect-3237.kit.com/7e238f3920/index.js',
+					'embed_url'  => 'https://cheerful-architect-3237.kit.com/7e238f3920',
 					'archived'   => false,
 					'uid'        => '7e238f3920',
 				],
@@ -298,8 +297,8 @@ class ConvertKitPlugin extends \Codeception\Module
 					'created_at' => '2021-11-11T15:45:33.000Z',
 					'type'       => 'hosted',
 					'format'     => null,
-					'embed_js'   => 'https://cheerful-architect-3237.ck.page/99f1db6843/index.js',
-					'embed_url'  => 'https://cheerful-architect-3237.ck.page/99f1db6843',
+					'embed_js'   => 'https://cheerful-architect-3237.kit.com/99f1db6843/index.js',
+					'embed_url'  => 'https://cheerful-architect-3237.kit.com/99f1db6843',
 					'archived'   => false,
 					'uid'        => '99f1db6843',
 				],
@@ -309,8 +308,8 @@ class ConvertKitPlugin extends \Codeception\Module
 					'created_at' => '2021-12-16T14:55:58.000Z',
 					'type'       => 'hosted',
 					'format'     => null,
-					'embed_js'   => 'https://cheerful-architect-3237.ck.page/cc5eb21744/index.js',
-					'embed_url'  => 'https://cheerful-architect-3237.ck.page/cc5eb21744',
+					'embed_js'   => 'https://cheerful-architect-3237.kit.com/cc5eb21744/index.js',
+					'embed_url'  => 'https://cheerful-architect-3237.kit.com/cc5eb21744',
 					'archived'   => false,
 					'uid'        => 'cc5eb21744',
 				],
@@ -319,9 +318,9 @@ class ConvertKitPlugin extends \Codeception\Module
 					'name'                => 'Legacy Landing Page',
 					'created_at'          => null,
 					'type'                => 'hosted',
-					'url'                 => 'https://app.convertkit.com/landing_pages/470103',
-					'embed_js'            => 'https://api.convertkit.com/api/v3/forms/470103.js?api_key=' . $_ENV['CONVERTKIT_API_KEY'],
-					'embed_url'           => 'https://api.convertkit.com/api/v3/forms/470103.html?api_key=' . $_ENV['CONVERTKIT_API_KEY'],
+					'url'                 => 'https://app.kit.com/landing_pages/470103',
+					'embed_js'            => 'https://api.kit.com/api/v3/forms/470103.js?api_key=' . $_ENV['CONVERTKIT_API_KEY'],
+					'embed_url'           => 'https://api.kit.com/api/v3/forms/470103.html?api_key=' . $_ENV['CONVERTKIT_API_KEY'],
 					'title'               => '',
 					'description'         => '',
 					'sign_up_button_text' => 'Register',
@@ -338,7 +337,7 @@ class ConvertKitPlugin extends \Codeception\Module
 				224758  => [
 					'id'            => 224758,
 					'title'         => 'Test Subject',
-					'url'           => 'https://cheerful-architect-3237.ck.page/posts/test-subject',
+					'url'           => 'https://cheerful-architect-3237.kit.com/posts/test-subject',
 					'published_at'  => '2022-01-24T00:00:00.000Z',
 					'description'   => 'Description text for Test Subject',
 					'thumbnail_url' => 'https://placehold.co/600x400',
@@ -348,7 +347,7 @@ class ConvertKitPlugin extends \Codeception\Module
 				489480  => [
 					'id'            => 489480,
 					'title'         => 'Broadcast 2',
-					'url'           => 'https://cheerful-architect-3237.ck.page/posts/broadcast-2',
+					'url'           => 'https://cheerful-architect-3237.kit.com/posts/broadcast-2',
 					'published_at'  => '2022-04-08T00:00:00.000Z',
 					'description'   => 'Description text for Broadcast 2',
 					'thumbnail_url' => 'https://placehold.co/600x400',
@@ -358,7 +357,7 @@ class ConvertKitPlugin extends \Codeception\Module
 				3175837 => [
 					'id'            => 3175837,
 					'title'         => 'HTML Template Test',
-					'url'           => 'https://cheerful-architect-3237.ck.page/posts/html-template-test',
+					'url'           => 'https://cheerful-architect-3237.kit.com/posts/html-template-test',
 					'published_at'  => '2023-08-02T16:34:51.000Z',
 					'description'   => "Heading 1\nParagraph\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi ultrices vehicula erat, eu faucibus ligula viverra sit amet. Nullam porta scelerisque lacus eu dignissim. Curabitur mattis dui est, sed gravida ex tincidunt sed.\nLorem ipsum dolor sit amet, consectetur adipiscing...",
 					'thumbnail_url' => 'https://embed.filekitcdn.com/e/pX62TATVeCKK5QzkXWNLw3/qM63x7vF3qN1whboGdEpuL',
@@ -368,7 +367,7 @@ class ConvertKitPlugin extends \Codeception\Module
 				572575  => [
 					'id'            => 572575,
 					'title'         => 'Paid Subscriber Broadcast',
-					'url'           => 'https://cheerful-architect-3237.ck.page/posts/paid-subscriber-broadcast',
+					'url'           => 'https://cheerful-architect-3237.kit.com/posts/paid-subscriber-broadcast',
 					'published_at'  => '2022-05-03T00:00:00.000Z',
 					'description'   => 'Description text for Paid Subscriber Broadcast',
 					'thumbnail_url' => 'https://placehold.co/600x400',
@@ -378,7 +377,7 @@ class ConvertKitPlugin extends \Codeception\Module
 				5395025 => [
 					'id'            => 5395025,
 					'title'         => 'New Broadcast',
-					'url'           => 'https://cheerful-architect-3237.ck.page/posts/',
+					'url'           => 'https://cheerful-architect-3237.kit.com/posts/',
 					'published_at'  => '2024-04-30T08:00:36.000Z',
 					'description'   => 'Test Content',
 					'thumbnail_url' => null,
@@ -392,10 +391,16 @@ class ConvertKitPlugin extends \Codeception\Module
 		$I->haveOptionInDatabase(
 			'convertkit_products',
 			[
+				42847 => [
+					'id'        => 42847,
+					'name'      => 'Example Tip Jar',
+					'url'       => 'https://cheerful-architect-3237.kit.com/products/example-tip-jar',
+					'published' => true,
+				],
 				36377 => [
 					'id'        => 36377,
 					'name'      => 'Newsletter Subscription',
-					'url'       => 'https://cheerful-architect-3237.ck.page/products/newsletter-subscription',
+					'url'       => 'https://cheerful-architect-3237.kit.com/products/newsletter-subscription',
 					'published' => true,
 				],
 			]
@@ -707,7 +712,7 @@ class ConvertKitPlugin extends \Codeception\Module
 	}
 
 	/**
-	 * Test that the 'Click here to add your API Key' link displays a popup window,
+	 * Test that the 'Click here to connect your Kit account' link displays a popup window,
 	 * when using a block with no API Keys specified.
 	 *
 	 * @since   2.2.6
@@ -720,7 +725,7 @@ class ConvertKitPlugin extends \Codeception\Module
 	{
 		// Confirm that the Form block displays instructions to the user on how to enter their API Key.
 		$I->see(
-			'No API Key specified.',
+			'Not connected to Kit.',
 			[
 				'css' => '.convertkit-no-content',
 			]
@@ -728,7 +733,7 @@ class ConvertKitPlugin extends \Codeception\Module
 
 		// Click the link to confirm it loads the Plugin's setup wizard.
 		$I->click(
-			'Click here to add your API Key.',
+			'Click here to connect your Kit account.',
 			[
 				'css' => '.convertkit-no-content',
 			]
@@ -747,7 +752,7 @@ class ConvertKitPlugin extends \Codeception\Module
 		$I->dontSeeElementInDOM('#convertkit-setup-wizard-exit-link');
 
 		// Confirm expected title is displayed.
-		$I->see('Welcome to the ConvertKit Setup Wizard');
+		$I->see('Welcome to the Kit Setup Wizard');
 
 		// Confirm Step text is correct.
 		$I->see('Step 1 of 2');
@@ -765,7 +770,7 @@ class ConvertKitPlugin extends \Codeception\Module
 		$I->dontSeeElementInDOM('#convertkit-setup-wizard-exit-link');
 
 		// Confirm expected title is displayed.
-		$I->see('Connect your ConvertKit account');
+		$I->see('Connect your Kit account');
 
 		// Confirm Step text is correct.
 		$I->see('Step 2 of 2');

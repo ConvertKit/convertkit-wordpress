@@ -12,7 +12,7 @@
  *
  * @since   1.9.6
  */
-class ConvertKit_Resource_Forms extends ConvertKit_Resource {
+class ConvertKit_Resource_Forms extends ConvertKit_Resource_V4 {
 
 	/**
 	 * Holds the Settings Key that stores site wide ConvertKit settings
@@ -37,12 +37,14 @@ class ConvertKit_Resource_Forms extends ConvertKit_Resource {
 	 */
 	public function __construct( $context = false ) {
 
-		// Initialize the API if the API Key and Secret have been defined in the Plugin Settings.
+		// Initialize the API if the Access Token has been defined in the Plugin Settings.
 		$settings = new ConvertKit_Settings();
-		if ( $settings->has_api_key_and_secret() ) {
-			$this->api = new ConvertKit_API(
-				$settings->get_api_key(),
-				$settings->get_api_secret(),
+		if ( $settings->has_access_and_refresh_token() ) {
+			$this->api = new ConvertKit_API_V4(
+				CONVERTKIT_OAUTH_CLIENT_ID,
+				CONVERTKIT_OAUTH_CLIENT_REDIRECT_URI,
+				$settings->get_access_token(),
+				$settings->get_refresh_token(),
 				$settings->debug_enabled(),
 				$context
 			);
@@ -85,6 +87,32 @@ class ConvertKit_Resource_Forms extends ConvertKit_Resource {
 	public function non_inline_exist() {
 
 		if ( ! $this->get_non_inline() ) {
+			return false;
+		}
+
+		return true;
+
+	}
+
+	/**
+	 * Determines if the given Form ID is a legacy Form or Landing Page.
+	 *
+	 * @since   2.5.0
+	 *
+	 * @param   int $id     Form or Landing Page ID.
+	 */
+	public function is_legacy( $id ) {
+
+		// Get Form.
+		$form = $this->get_by_id( (int) $id );
+
+		// Return false if no Form exists.
+		if ( ! $form ) {
+			return false;
+		}
+
+		// If the `format` key exists, this is not a legacy Form.
+		if ( array_key_exists( 'format', $form ) ) {
 			return false;
 		}
 
@@ -259,31 +287,40 @@ class ConvertKit_Resource_Forms extends ConvertKit_Resource {
 				'convertkit_resource_forms_get_html',
 				sprintf(
 					/* translators: ConvertKit Form ID */
-					__( 'ConvertKit Form ID %s does not exist on ConvertKit.', 'convertkit' ),
+					__( 'Kit Form ID %s does not exist on Kit.', 'convertkit' ),
 					$id
 				)
 			);
 		}
 
 		// If no uid is present in the Form API data, this is a legacy form that's served by directly fetching the HTML
-		// from forms.convertkit.com.
+		// from forms.kit.com.
 		if ( ! isset( $this->resources[ $id ]['uid'] ) ) {
 			// Initialize Settings.
 			$settings = new ConvertKit_Settings();
 
-			// Bail if no API Key is specified in the Plugin Settings.
-			if ( ! $settings->has_api_key() ) {
+			// Bail if no Access Token is specified in the Plugin Settings.
+			if ( ! $settings->has_access_token() ) {
 				return new WP_Error(
 					'convertkit_resource_forms_get_html',
-					__( 'ConvertKit Legacy Form could not be fetched as no API Key specified in Plugin Settings', 'convertkit' )
+					__( 'Kit Legacy Form could not be fetched as no Access Token specified in Plugin Settings', 'convertkit' )
 				);
 			}
 
 			// Initialize the API.
-			$api = new ConvertKit_API( $settings->get_api_key(), $settings->get_api_secret(), $settings->debug_enabled(), 'output_form' );
+			$api = new ConvertKit_API_V4(
+				CONVERTKIT_OAUTH_CLIENT_ID,
+				CONVERTKIT_OAUTH_CLIENT_REDIRECT_URI,
+				$settings->get_access_token(),
+				$settings->get_refresh_token(),
+				$settings->debug_enabled(),
+				'output_form'
+			);
 
 			// Return Legacy Form HTML.
-			return $api->get_form_html( $id );
+			// We now call get_html() with the `embed_url` property, instead of get_form_html() with the `id` property,
+			// because `embed_url` includes the API Key.
+			return $api->get_html( $this->resources[ $id ]['embed_url'] );
 		}
 
 		// If the form's format is not an inline form, add the inline script before the closing </body> tag.

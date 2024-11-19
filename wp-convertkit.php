@@ -1,41 +1,46 @@
 <?php
 /**
- * ConvertKit WordPress Plugin.
+ * Kit (formerly ConvertKit) WordPress Plugin.
  *
  * @package ConvertKit
  * @author ConvertKit
  *
  * @wordpress-plugin
- * Plugin Name: ConvertKit
- * Plugin URI: https://convertkit.com/
- * Description: Display ConvertKit email subscription forms, landing pages, products, broadcasts and more.
- * Version: 2.4.9
- * Author: ConvertKit
- * Author URI: https://convertkit.com/
+ * Plugin Name: Kit (formerly ConvertKit)
+ * Plugin URI: https://kit.com/
+ * Description: Display Kit (formerly ConvertKit) email subscription forms, landing pages, products, broadcasts and more.
+ * Version: 2.6.5
+ * Author: Kit
+ * Author URI: https://kit.com/
  * Text Domain: convertkit
  */
 
-// Bail if ConvertKit is alread loaded.
+// Bail if Kit is alread loaded.
 if ( class_exists( 'WP_ConvertKit' ) ) {
 	return;
 }
 
-// Define ConverKit Plugin paths and version number.
+// Define Kit Plugin paths and version number.
 define( 'CONVERTKIT_PLUGIN_NAME', 'ConvertKit' ); // Used for user-agent in API class.
 define( 'CONVERTKIT_PLUGIN_FILE', plugin_basename( __FILE__ ) );
 define( 'CONVERTKIT_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'CONVERTKIT_PLUGIN_PATH', __DIR__ );
-define( 'CONVERTKIT_PLUGIN_VERSION', '2.4.9' );
+define( 'CONVERTKIT_PLUGIN_VERSION', '2.6.5' );
+define( 'CONVERTKIT_OAUTH_CLIENT_ID', 'HXZlOCj-K5r0ufuWCtyoyo3f688VmMAYSsKg1eGvw0Y' );
+define( 'CONVERTKIT_OAUTH_CLIENT_REDIRECT_URI', 'https://app.kit.com/wordpress/redirect' );
 
-// Load shared classes, if they have not been included by another ConvertKit Plugin.
-if ( ! class_exists( 'ConvertKit_API' ) ) {
-	require_once CONVERTKIT_PLUGIN_PATH . '/vendor/convertkit/convertkit-wordpress-libraries/src/class-convertkit-api.php';
+// Load shared classes, if they have not been included by another Kit Plugin.
+if ( ! trait_exists( 'ConvertKit_API_Traits' ) ) {
+	require_once CONVERTKIT_PLUGIN_PATH . '/vendor/convertkit/convertkit-wordpress-libraries/src/class-convertkit-api-traits.php';
+}
+if ( ! class_exists( 'ConvertKit_API_V4' ) ) {
+	require_once CONVERTKIT_PLUGIN_PATH . '/vendor/convertkit/convertkit-wordpress-libraries/src/class-convertkit-api-v4.php';
 }
 if ( ! class_exists( 'ConvertKit_Log' ) ) {
 	require_once CONVERTKIT_PLUGIN_PATH . '/vendor/convertkit/convertkit-wordpress-libraries/src/class-convertkit-log.php';
 }
-if ( ! class_exists( 'ConvertKit_Resource' ) ) {
-	require_once CONVERTKIT_PLUGIN_PATH . '/vendor/convertkit/convertkit-wordpress-libraries/src/class-convertkit-resource.php';
+if ( ! class_exists( 'ConvertKit_Resource_V4' ) ) {
+	require_once CONVERTKIT_PLUGIN_PATH . '/vendor/convertkit/convertkit-wordpress-libraries/src/class-convertkit-resource-v4.php';
 }
 if ( ! class_exists( 'ConvertKit_Review_Request' ) ) {
 	require_once CONVERTKIT_PLUGIN_PATH . '/vendor/convertkit/convertkit-wordpress-libraries/src/class-convertkit-review-request.php';
@@ -61,6 +66,7 @@ require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-resource-forms
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-resource-landing-pages.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-resource-posts.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-resource-products.php';
+require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-resource-sequences.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-resource-tags.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-settings.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/class-convertkit-settings-broadcasts.php';
@@ -87,6 +93,9 @@ require_once CONVERTKIT_PLUGIN_PATH . '/includes/widgets/class-ck-widget-form.ph
 // Contact Form 7 Integration.
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/integrations/contactform7/class-convertkit-contactform7.php';
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/integrations/contactform7/class-convertkit-contactform7-settings.php';
+
+// Divi Integration.
+require_once CONVERTKIT_PLUGIN_PATH . '/includes/integrations/divi/class-convertkit-divi.php';
 
 // Elementor Integration.
 require_once CONVERTKIT_PLUGIN_PATH . '/includes/integrations/elementor/class-convertkit-elementor.php';
@@ -118,6 +127,7 @@ if ( is_admin() ) {
 	require_once CONVERTKIT_PLUGIN_PATH . '/admin/class-multi-value-field-table.php';
 	require_once CONVERTKIT_PLUGIN_PATH . '/admin/section/class-convertkit-settings-base.php';
 	require_once CONVERTKIT_PLUGIN_PATH . '/admin/section/class-convertkit-settings-general.php';
+	require_once CONVERTKIT_PLUGIN_PATH . '/admin/section/class-convertkit-settings-oauth.php';
 	require_once CONVERTKIT_PLUGIN_PATH . '/admin/section/class-convertkit-settings-tools.php';
 	require_once CONVERTKIT_PLUGIN_PATH . '/admin/setup-wizard/class-convertkit-admin-setup-wizard-plugin.php';
 
@@ -134,6 +144,10 @@ if ( is_admin() ) {
 	require_once CONVERTKIT_PLUGIN_PATH . '/admin/class-convertkit-admin-restrict-content.php';
 	require_once CONVERTKIT_PLUGIN_PATH . '/admin/class-convertkit-admin-settings-restrict-content.php';
 	require_once CONVERTKIT_PLUGIN_PATH . '/admin/setup-wizard/class-convertkit-admin-setup-wizard-restrict-content.php';
+
+	// Landing Page Integration.
+	require_once CONVERTKIT_PLUGIN_PATH . '/admin/class-convertkit-admin-landing-page.php';
+	require_once CONVERTKIT_PLUGIN_PATH . '/admin/setup-wizard/class-convertkit-admin-setup-wizard-landing-page.php';
 
 	// Broadcasts Integration.
 	require_once CONVERTKIT_PLUGIN_PATH . '/admin/section/class-convertkit-admin-settings-broadcasts.php';

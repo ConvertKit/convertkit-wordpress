@@ -84,12 +84,13 @@ class ConvertKit_Block_Form_Trigger extends ConvertKit_Block {
 		$settings         = new ConvertKit_Settings();
 
 		return array(
-			'title'                             => __( 'ConvertKit Form Trigger', 'convertkit' ),
+			'title'                             => __( 'Kit Form Trigger', 'convertkit' ),
 			'description'                       => __( 'Displays a modal, sticky bar or slide in form to display when the button is pressed.', 'convertkit' ),
 			'icon'                              => 'resources/backend/images/block-icon-formtrigger.svg',
 			'category'                          => 'convertkit',
 			'keywords'                          => array(
 				__( 'ConvertKit', 'convertkit' ),
+				__( 'Kit', 'convertkit' ),
 				__( 'Form', 'convertkit' ),
 			),
 
@@ -112,15 +113,17 @@ class ConvertKit_Block_Form_Trigger extends ConvertKit_Block {
 			'gutenberg_example_image'           => CONVERTKIT_PLUGIN_URL . 'resources/backend/images/block-example-formtrigger.png',
 
 			// Help descriptions, displayed when no API key / resources exist and this block/shortcode is added.
-			'no_api_key'                        => array(
-				'notice'    => __( 'No API Key specified.', 'convertkit' ),
-				'link'      => convertkit_get_setup_wizard_plugin_link(),
-				'link_text' => __( 'Click here to add your API Key.', 'convertkit' ),
+			'no_access_token'                   => array(
+				'notice'           => __( 'Not connected to Kit.', 'convertkit' ),
+				'link'             => convertkit_get_setup_wizard_plugin_link(),
+				'link_text'        => __( 'Click here to connect your Kit account.', 'convertkit' ),
+				'instruction_text' => __( 'Connect your Kit account at Settings > Kit, and then refresh this page to select a form.', 'convertkit' ),
 			),
 			'no_resources'                      => array(
-				'notice'    => __( 'No modal, sticky bar or slide in forms exist in ConvertKit.', 'convertkit' ),
-				'link'      => convertkit_get_new_form_url(),
-				'link_text' => __( 'Click here to create a form.', 'convertkit' ),
+				'notice'           => __( 'No modal, sticky bar or slide in forms exist in Kit.', 'convertkit' ),
+				'link'             => convertkit_get_new_form_url(),
+				'link_text'        => __( 'Click here to create a form.', 'convertkit' ),
+				'instruction_text' => __( 'Add a non-inline form to your Kit account, and then refresh this page to select a form.', 'convertkit' ),
 			),
 			'gutenberg_help_description'        => __( 'Select a Form using the Form option in the Gutenberg sidebar.', 'convertkit' ),
 
@@ -130,7 +133,7 @@ class ConvertKit_Block_Form_Trigger extends ConvertKit_Block {
 
 			// Whether an API Key exists in the Plugin, and are the required resources (non-inline forms) available.
 			// If no API Key is specified in the Plugin's settings, render the "No API Key" output.
-			'has_api_key'                       => $settings->has_api_key_and_secret(),
+			'has_access_token'                  => $settings->has_access_and_refresh_token(),
 			'has_resources'                     => $convertkit_forms->non_inline_exist(),
 		);
 
@@ -269,7 +272,7 @@ class ConvertKit_Block_Form_Trigger extends ConvertKit_Block {
 				'label'       => __( 'Form', 'convertkit' ),
 				'type'        => 'select',
 				'values'      => $forms,
-				'description' => __( 'The modal, sticky bar or slide in form to display when the button is pressed. To embed a form, use the ConvertKit Form block instead.', 'convertkit' ),
+				'description' => __( 'The modal, sticky bar or slide in form to display when the button is pressed. To embed a form, use the Kit Form block instead.', 'convertkit' ),
 			),
 			'text'             => array(
 				'label'       => __( 'Button Text', 'convertkit' ),
@@ -426,7 +429,7 @@ class ConvertKit_Block_Form_Trigger extends ConvertKit_Block {
 				'convertkit_block_form_trigger_get_html',
 				sprintf(
 					/* translators: ConvertKit Form ID */
-					__( 'ConvertKit Form ID %s does not exist on ConvertKit.', 'convertkit' ),
+					__( 'Kit Form ID %s does not exist on Kit.', 'convertkit' ),
 					$id
 				)
 			);
@@ -438,7 +441,7 @@ class ConvertKit_Block_Form_Trigger extends ConvertKit_Block {
 				'convertkit_block_form_trigger_get_html',
 				sprintf(
 					/* translators: ConvertKit Form ID */
-					__( 'ConvertKit Form ID %s has no uid property.', 'convertkit' ),
+					__( 'Kit Form ID %s has no uid property.', 'convertkit' ),
 					$id
 				)
 			);
@@ -448,7 +451,7 @@ class ConvertKit_Block_Form_Trigger extends ConvertKit_Block {
 				'convertkit_block_form_trigger_get_html',
 				sprintf(
 					/* translators: ConvertKit Form ID */
-					__( 'ConvertKit Form ID %s has no embed_js property.', 'convertkit' ),
+					__( 'Kit Form ID %s has no embed_js property.', 'convertkit' ),
 					$id
 				)
 			);
