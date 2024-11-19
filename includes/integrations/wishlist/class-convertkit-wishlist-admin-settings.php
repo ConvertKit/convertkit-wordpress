@@ -7,7 +7,7 @@
  */
 
 /**
- * Registers Wishlist Settings that can be edited at Settings > ConvertKit > Wishlist.
+ * Registers Wishlist Settings that can be edited at Settings > Kit > Wishlist.
  *
  * @package ConvertKit
  * @author ConvertKit
@@ -58,8 +58,23 @@ class ConvertKit_Wishlist_Admin_Settings extends ConvertKit_Settings_Base {
 		?>
 		<p>
 			<?php
-			esc_html_e( 'ConvertKit seamlessly integrates with WishList Member to let you capture all of your WishList Membership registrations within your ConvertKit forms.', 'convertkit' );
+			esc_html_e( 'Kit seamlessly integrates with WishList Member to let you capture all of your WishList Membership registrations within your Kit forms.', 'convertkit' );
 			?>
+		</p>
+		<p>
+			<?php esc_html_e( 'Each membership level has the following Kit options:', 'convertkit' ); ?>
+			<br />
+			<code><?php esc_html_e( 'Do not subscribe', 'convertkit' ); ?></code>: <?php esc_html_e( 'Do not subscribe the email address to Kit', 'convertkit' ); ?>
+			<br />
+			<code><?php esc_html_e( 'Subscribe', 'convertkit' ); ?></code>: <?php esc_html_e( 'Subscribes the email address to Kit', 'convertkit' ); ?>
+			<br />
+			<code><?php esc_html_e( 'Unsubscribe', 'convertkit' ); ?></code>: <?php esc_html_e( 'Unsubscribes the email address from Kit', 'convertkit' ); ?>
+			<br />
+			<code><?php esc_html_e( 'Form', 'convertkit' ); ?></code>: <?php esc_html_e( 'Subscribes the email address to Kit, and adds the subscriber to the Kit form', 'convertkit' ); ?>
+			<br />
+			<code><?php esc_html_e( 'Tag', 'convertkit' ); ?></code>: <?php esc_html_e( 'Subscribes the email address to Kit, tagging the subscriber', 'convertkit' ); ?>
+			<br />
+			<code><?php esc_html_e( 'Sequence', 'convertkit' ); ?></code>: <?php esc_html_e( 'Subscribes the email address to Kit, and adds the subscriber to the Kit sequence', 'convertkit' ); ?>
 		</p>
 		<?php
 
@@ -74,7 +89,7 @@ class ConvertKit_Wishlist_Admin_Settings extends ConvertKit_Settings_Base {
 	 */
 	public function documentation_url() {
 
-		return 'https://help.convertkit.com/en/articles/2502591-the-convertkit-wordpress-plugin';
+		return 'https://help.kit.com/en/articles/2502591-the-convertkit-wordpress-plugin';
 
 	}
 
@@ -101,57 +116,33 @@ class ConvertKit_Wishlist_Admin_Settings extends ConvertKit_Settings_Base {
 			return;
 		}
 
-		// Get Forms and Tags.
-		$forms = new ConvertKit_Resource_Forms( 'wishlist_member' );
-		$tags  = new ConvertKit_Resource_Tags( 'wishlist_member' );
-
-		// Bail with an error if no ConvertKit Forms exist.
-		if ( ! $forms->exist() ) {
-			$this->output_error( __( 'No Forms exist on ConvertKit.', 'convertkit' ) );
-			$this->render_container_end();
-			return;
-		}
-
-		// Bail with an error if no ConvertKit Tags exist.
-		if ( ! $tags->exist() ) {
-			$this->output_error( __( 'No Tags exist on ConvertKit.', 'convertkit' ) );
-			$this->render_container_end();
-			return;
-		}
-
-		// Build array of select options for Tags.
-		$tag_options = array(
-			'0' => __( 'None', 'convertkit' ),
-		);
-		foreach ( $tags->get() as $tag ) {
-			$tag_options[ esc_attr( $tag['id'] ) ] = esc_html( $tag['name'] );
-		}
-		$tag_options['unsubscribe'] = __( 'Unsubscribe from all', 'convertkit' );
-
 		// Setup WP_List_Table.
 		$table = new Multi_Value_Field_Table();
 		$table->add_column( 'title', __( 'WishList Membership Level', 'convertkit' ), true );
-		$table->add_column( 'form', __( 'ConvertKit Form', 'convertkit' ), false );
-		$table->add_column( 'unsubscribe', __( 'Unsubscribe Action', 'convertkit' ), false );
+		$table->add_column( 'add', __( 'Assign to member', 'convertkit' ), false );
+		$table->add_column( 'remove', __( 'Remove from member', 'convertkit' ), false );
 
 		// Iterate through WishList Member Levels, adding a table row for each Level.
 		foreach ( $wlm_levels as $wlm_level ) {
 			$table->add_item(
 				array(
-					'title'       => $wlm_level['name'],
-					'form'        => $forms->get_select_field_all(
-						'_wp_convertkit_integration_wishlistmember_settings[' . $wlm_level['id'] . '_form]',
-						'_wp_convertkit_integration_wishlistmember_settings_' . $wlm_level['id'] . '_form',
-						false,
-						(string) $this->settings->get_convertkit_form_id_by_wishlist_member_level_id( $wlm_level['id'] ),
-						array(
-							'default' => __( 'None', 'convertkit' ),
-						)
+					'title'  => $wlm_level['name'],
+					'add'    => convertkit_get_subscription_dropdown_field(
+						'_wp_convertkit_integration_wishlistmember_settings[' . $wlm_level['id'] . '_add]',
+						(string) $this->settings->get_convertkit_add_setting_by_wishlist_member_level_id( $wlm_level['id'] ),
+						'_wp_convertkit_integration_wishlistmember_settings_' . $wlm_level['id'] . '_add',
+						'widefat',
+						'wlm'
 					),
-					'unsubscribe' => $this->get_select_field(
-						$wlm_level['id'] . '_unsubscribe',
-						(string) $this->settings->get_convertkit_tag_id_by_wishlist_member_level_id( $wlm_level['id'] ),
-						$tag_options
+					'remove' => convertkit_get_subscription_dropdown_field(
+						'_wp_convertkit_integration_wishlistmember_settings[' . $wlm_level['id'] . '_remove]',
+						(string) $this->settings->get_convertkit_remove_setting_by_wishlist_member_level_id( $wlm_level['id'] ),
+						'_wp_convertkit_integration_wishlistmember_settings_' . $wlm_level['id'] . '_remove',
+						'widefat',
+						'wlm',
+						array(
+							'unsubscribe' => __( 'Unsubscribe', 'convertkit' ),
+						)
 					),
 				)
 			);
@@ -197,7 +188,7 @@ class ConvertKit_Wishlist_Admin_Settings extends ConvertKit_Settings_Base {
 add_filter(
 	'convertkit_admin_settings_register_sections',
 	/**
-	 * Register WishList Member as a section at Settings > ConvertKit.
+	 * Register WishList Member as a section at Settings > Kit.
 	 *
 	 * @param   array   $sections   Settings Sections.
 	 * @return  array
@@ -209,7 +200,7 @@ add_filter(
 			return $sections;
 		}
 
-		// Register this class as a section at Settings > ConvertKit.
+		// Register this class as a section at Settings > Kit.
 		$sections['wishlist-member'] = new ConvertKit_Wishlist_Admin_Settings();
 		return $sections;
 

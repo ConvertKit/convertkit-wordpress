@@ -28,6 +28,7 @@ class ConvertKitBroadcasts extends \Codeception\Module
 				switch ( $key ) {
 					case 'enabled':
 					case 'import_thumbnail':
+					case 'import_images':
 					case 'enabled_export':
 					case 'no_styles':
 						if ( $value ) {
@@ -193,7 +194,7 @@ class ConvertKitBroadcasts extends \Codeception\Module
 		$I->seeBroadcastsOutput(
 			$I,
 			[
-				'number_posts'              => 1,
+				'number_posts'              => 2,
 				'see_next_pagination_label' => $nextLabel,
 			]
 		);
@@ -209,7 +210,7 @@ class ConvertKitBroadcasts extends \Codeception\Module
 		$I->seeBroadcastsOutput(
 			$I,
 			[
-				'number_posts'              => 1,
+				'number_posts'              => 2,
 				'see_prev_pagination_label' => $previousLabel,
 			]
 		);
@@ -229,7 +230,7 @@ class ConvertKitBroadcasts extends \Codeception\Module
 		$I->seeBroadcastsOutput(
 			$I,
 			[
-				'number_posts'              => 1,
+				'number_posts'              => 2,
 				'see_next_pagination_label' => $nextLabel,
 			]
 		);

@@ -12,20 +12,24 @@
  *
  * @since 	2.2.4
  */
-jQuery( document ).ready(
-	function ( $ ) {
+document.addEventListener(
+	'DOMContentLoaded',
+	function () {
 
 		// Update settings and refresh UI when a setting is changed.
-		$( 'input#enabled' ).on(
-			'change',
-			function () {
+		const sourceInputs = document.querySelectorAll( '.convertkit-conditional-display' );
+		sourceInputs.forEach(
+			function ( input ) {
+				input.addEventListener(
+					'change',
+					function () {
+						convertKitConditionallyDisplaySettings( this );
+					}
+				);
 
-				convertKitConditionallyDisplaySettings( $( this ).attr( 'id' ), $( this ).prop( 'checked' ) );
-
+				convertKitConditionallyDisplaySettings( input );
 			}
 		);
-
-		convertKitConditionallyDisplaySettings( 'enabled', $( 'input#enabled' ).prop( 'checked' ) );
 
 	}
 );
@@ -35,36 +39,58 @@ jQuery( document ).ready(
  * table rows related to a setting, if that setting is disabled.
  *
  * @since 	2.2.4
+ *
+ * @param 	object  input 	Element interacted with
  */
-function convertKitConditionallyDisplaySettings( name, display ) {
+function convertKitConditionallyDisplaySettings( input ) {
 
-	( function ( $ ) {
+	const rows = document.querySelectorAll( 'table.form-table tr' );
 
-		// Show all rows.
-		$( 'table.form-table tr' ).show();
+	switch ( input.type ) {
+		case 'checkbox':
+			// Show all rows.
+			rows.forEach( row => row.style.display = '' );
 
-		// Don't do anything else if display is true.
-		if ( display ) {
-			return;
-		}
-
-		// Iterate through the table rows, hiding any settings.
-		$( 'table.form-table tr' ).each(
-			function () {
-
-				// Skip if this table row is for the setting we've just checked/unchecked.
-				if ( $( '[id="' + name + '"]', $( this ) ).length > 0 ) {
-					return;
-				}
-
-				// Hide this row if the input, select, link or span element within the row has the CSS class of the setting name.
-				if ( $( 'input, select, a, span', $( this ) ).hasClass( name ) ) {
-					$( this ).hide();
-				}
-
+			// Don't do anything else if the checkbox is checked.
+			if ( input.checked ) {
+				return;
 			}
-		);
 
-	} )( jQuery );
+			// Iterate through the table rows, hiding any settings.
+			rows.forEach(
+				function ( row ) {
+					// Skip if this table row is for the setting we've just checked/unchecked.
+					if ( row.querySelector( `[id = "${input.id}"]` ) ) {
+						return;
+					}
+
+					// Hide this row if the input, select, link or span element within the row has the CSS class of the setting ID.
+					if ( row.querySelector( `input.${input.id}, select.${input.id}, a.${input.id}, span.${input.id}` ) ) {
+						row.style.display = 'none';
+					}
+				}
+			);
+			break;
+
+		default:
+			// Iterate through the table rows, hiding any settings.
+			rows.forEach(
+				function ( row ) {
+					// Skip if this table row is for the setting we've just changed.
+					if ( row.querySelector( `[id = "${input.id}"]` ) ) {
+						return;
+					}
+
+					if ( row.querySelector( `input#${input.dataset.conditionalElement}` ) ) {
+						if ( input.value !== input.dataset.conditionalValue ) {
+							row.style.display = 'none';
+						} else {
+							row.style.display = '';
+						}
+					}
+				}
+			);
+			break;
+	}
 
 }

@@ -7,7 +7,7 @@
  */
 
 /**
- * Registers Tools for debugging and system information that can be accessed at Settings > ConvertKit > Tools.
+ * Registers Tools for debugging and system information that can be accessed at Settings > Kit > Tools.
  *
  * @package ConvertKit
  * @author ConvertKit
@@ -28,12 +28,38 @@ class ConvertKit_Settings_Tools extends ConvertKit_Settings_Base {
 		$this->title        = __( 'Tools', 'convertkit' );
 		$this->tab_text     = __( 'Tools', 'convertkit' );
 
-		// Output notices.
-		add_action( 'convertkit_settings_base_render_before', array( $this, 'maybe_output_notices' ) );
+		// Register and maybe output notices for this settings screen.
+		if ( $this->on_settings_screen( $this->name ) ) {
+			add_filter( 'convertkit_settings_base_register_notices', array( $this, 'register_notices' ) );
+			add_action( 'convertkit_settings_base_render_before', array( $this, 'maybe_output_notices' ) );
+		}
 
 		parent::__construct();
 
 		$this->maybe_perform_actions();
+	}
+
+	/**
+	 * Registers success and error notices for the Tools screen, to be displayed
+	 * depending on the action.
+	 *
+	 * @since   2.5.1
+	 *
+	 * @param   array $notices    Regsitered success and error notices.
+	 * @return  array
+	 */
+	public function register_notices( $notices ) {
+
+		return array_merge(
+			$notices,
+			array(
+				'import_configuration_upload_error'      => __( 'An error occured uploading the configuration file.', 'convertkit' ),
+				'import_configuration_invalid_file_type' => __( 'The uploaded configuration file isn\'t valid.', 'convertkit' ),
+				'import_configuration_empty'             => __( 'The uploaded configuration file contains no settings.', 'convertkit' ),
+				'import_configuration_success'           => __( 'Configuration imported successfully.', 'convertkit' ),
+			)
+		);
+
 	}
 
 	/**
@@ -206,7 +232,7 @@ class ConvertKit_Settings_Tools extends ConvertKit_Settings_Base {
 			$this->redirect();
 		}
 		if ( $_FILES['import']['error'] !== 0 ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
-			$this->redirect( 'import_configuration_upload_error' );
+			$this->redirect_with_error_notice( 'import_configuration_upload_error' );
 		}
 
 		// Read file.
@@ -217,12 +243,12 @@ class ConvertKit_Settings_Tools extends ConvertKit_Settings_Base {
 
 		// Bail if the data isn't JSON.
 		if ( is_null( $import ) ) {
-			$this->redirect( 'import_configuration_invalid_file_type' );
+			$this->redirect_with_error_notice( 'import_configuration_invalid_file_type' );
 		}
 
 		// Bail if no settings exist.
 		if ( ! array_key_exists( 'settings', $import ) ) {
-			$this->redirect( 'import_configuration_empty' );
+			$this->redirect_with_error_notice( 'import_configuration_empty' );
 		}
 
 		// Import: Settings.
@@ -238,7 +264,7 @@ class ConvertKit_Settings_Tools extends ConvertKit_Settings_Base {
 		}
 
 		// Redirect to Tools screen.
-		$this->redirect( false, 'import_configuration_success' );
+		$this->redirect_with_success_notice( 'import_configuration_success' );
 
 	}
 
@@ -268,33 +294,6 @@ class ConvertKit_Settings_Tools extends ConvertKit_Settings_Base {
 
 		// No fields are registered for the Debug Log.
 		// This function is deliberately blank.
-	}
-
-	/**
-	 * Outputs success and/or error notices if required.
-	 *
-	 * @since   2.0.0
-	 */
-	public function maybe_output_notices() {
-
-		// Define messages that might be displayed as a notification.
-		$messages = array(
-			'import_configuration_upload_error'      => __( 'An error occured uploading the configuration file.', 'convertkit' ),
-			'import_configuration_invalid_file_type' => __( 'The uploaded configuration file isn\'t valid.', 'convertkit' ),
-			'import_configuration_empty'             => __( 'The uploaded configuration file contains no settings.', 'convertkit' ),
-			'import_configuration_success'           => __( 'Configuration imported successfully.', 'convertkit' ),
-		);
-
-		// Output error notification if defined.
-		if ( isset( $_REQUEST['error'] ) && array_key_exists( sanitize_text_field( $_REQUEST['error'] ), $messages ) ) { // phpcs:ignore WordPress.Security.NonceVerification
-			$this->output_error( $messages[ sanitize_text_field( $_REQUEST['error'] ) ] ); // phpcs:ignore WordPress.Security.NonceVerification
-		}
-
-		// Output success notification if defined.
-		if ( isset( $_REQUEST['success'] ) && array_key_exists( sanitize_text_field( $_REQUEST['success'] ), $messages ) ) { // phpcs:ignore WordPress.Security.NonceVerification
-			$this->output_success( $messages[ sanitize_text_field( $_REQUEST['success'] ) ] ); // phpcs:ignore WordPress.Security.NonceVerification
-		}
-
 	}
 
 	/**
@@ -333,7 +332,7 @@ class ConvertKit_Settings_Tools extends ConvertKit_Settings_Base {
 	public function print_section_info() {
 
 		?>
-		<p><?php esc_html_e( 'Tools to help you manage ConvertKit on your site.', 'convertkit' ); ?></p>
+		<p><?php esc_html_e( 'Tools to help you manage Kit on your site.', 'convertkit' ); ?></p>
 		<?php
 
 	}
@@ -347,7 +346,7 @@ class ConvertKit_Settings_Tools extends ConvertKit_Settings_Base {
 	 */
 	public function documentation_url() {
 
-		return 'https://help.convertkit.com/en/articles/2502591-the-convertkit-wordpress-plugin';
+		return 'https://help.kit.com/en/articles/2502591-the-convertkit-wordpress-plugin';
 
 	}
 

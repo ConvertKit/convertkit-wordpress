@@ -32,12 +32,12 @@ class PageShortcodeCustomContentCest
 	public function testCustomContentShortcodeInVisualEditor(AcceptanceTester $I)
 	{
 		// Add a Page using the Classic Editor.
-		$I->addClassicEditorPage($I, 'page', 'ConvertKit: Page: Custom Content: Shortcode: Visual Editor');
+		$I->addClassicEditorPage($I, 'page', 'Kit: Page: Custom Content: Shortcode: Visual Editor');
 
 		// Add shortcode to Page, setting the Tag setting to the value specified in the .env file.
 		$I->addVisualEditorShortcode(
 			$I,
-			'ConvertKit Custom Content',
+			'Kit Custom Content',
 			[
 				'tag' => [ 'select', $_ENV['CONVERTKIT_API_TAG_NAME'] ],
 			],
@@ -58,7 +58,7 @@ class PageShortcodeCustomContentCest
 	public function testCustomContentShortcodeInTextEditor(AcceptanceTester $I)
 	{
 		// Add a Page using the Classic Editor.
-		$I->addClassicEditorPage($I, 'page', 'ConvertKit: Page: Custom Content: Shortcode: Text Editor');
+		$I->addClassicEditorPage($I, 'page', 'Kit: Page: Custom Content: Shortcode: Text Editor');
 
 		// Add shortcode to Page, setting the Tag setting to the value specified in the .env file.
 		$I->addTextEditorShortcode(
@@ -99,7 +99,7 @@ class PageShortcodeCustomContentCest
 		$I->checkNoWarningsAndNoticesOnScreen($I);
 
 		// Confirm that the Custom Content is not yet displayed.
-		$I->dontSee('ConvertKitCustomContent');
+		$I->dontSee('KitCustomContent');
 
 		// Reload the page, this time with an invalid subscriber ID .
 		$I->amOnPage('/convertkit-custom-content-shortcode-valid-tag-param-and-invalid-subscriber-id?ck_subscriber_id=1');
@@ -108,7 +108,7 @@ class PageShortcodeCustomContentCest
 		$I->checkNoWarningsAndNoticesOnScreen($I);
 
 		// Confirm that the Custom Content is not yet displayed.
-		$I->dontSee('ConvertKitCustomContent');
+		$I->dontSee('KitCustomContent');
 	}
 
 	/**
@@ -136,7 +136,7 @@ class PageShortcodeCustomContentCest
 		$I->checkNoWarningsAndNoticesOnScreen($I);
 
 		// Confirm that the Custom Content is not yet displayed.
-		$I->dontSee('ConvertKitCustomContent');
+		$I->dontSee('KitCustomContent');
 
 		// Reload the page, this time with a subscriber ID who is already subscribed to the tag.
 		$I->amOnPage('/convertkit-custom-content-shortcode-valid-tag-param-and-valid-subscriber-id?ck_subscriber_id=' . $_ENV['CONVERTKIT_API_SUBSCRIBER_ID']);
@@ -145,7 +145,7 @@ class PageShortcodeCustomContentCest
 		$I->checkNoWarningsAndNoticesOnScreen($I);
 
 		// Confirm that the Custom Content is now displayed.
-		$I->see('ConvertKitCustomContent');
+		$I->see('KitCustomContent');
 	}
 
 	/**

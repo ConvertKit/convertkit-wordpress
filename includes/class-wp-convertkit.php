@@ -68,12 +68,14 @@ class WP_ConvertKit {
 		$this->classes['admin_cache_plugins']                 = new ConvertKit_Admin_Cache_Plugins();
 		$this->classes['admin_category']                      = new ConvertKit_Admin_Category();
 		$this->classes['admin_deactivation']                  = new ConvertKit_Admin_Deactivation();
+		$this->classes['admin_landing_page']                  = new ConvertKit_Admin_Landing_Page();
 		$this->classes['admin_notices']                       = new ConvertKit_Admin_Notices();
 		$this->classes['admin_post']                          = new ConvertKit_Admin_Post();
 		$this->classes['admin_quick_edit']                    = new ConvertKit_Admin_Quick_Edit();
 		$this->classes['admin_refresh_resources']             = new ConvertKit_Admin_Refresh_Resources();
 		$this->classes['admin_restrict_content']              = new ConvertKit_Admin_Restrict_Content();
 		$this->classes['admin_settings']                      = new ConvertKit_Admin_Settings();
+		$this->classes['admin_setup_wizard_landing_page']     = new ConvertKit_Admin_Setup_Wizard_Landing_Page();
 		$this->classes['admin_setup_wizard_plugin']           = new ConvertKit_Admin_Setup_Wizard_Plugin();
 		$this->classes['admin_setup_wizard_restrict_content'] = new ConvertKit_Admin_Setup_Wizard_Restrict_Content();
 		$this->classes['admin_tinymce']                       = new ConvertKit_Admin_TinyMCE();
@@ -142,8 +144,8 @@ class WP_ConvertKit {
 			return;
 		}
 
-		$this->classes['output']    = new ConvertKit_Output();
-		$this->classes['wp_rocket'] = new ConvertKit_WP_Rocket();
+		$this->classes['cache_plugins'] = new ConvertKit_Cache_Plugins();
+		$this->classes['output']        = new ConvertKit_Output();
 
 		/**
 		 * Initialize integration classes for the frontend web site.
@@ -173,11 +175,12 @@ class WP_ConvertKit {
 		$this->classes['pre_publish_action_broadcast_export'] = new ConvertKit_Pre_Publish_Action_Broadcast_Export();
 		$this->classes['broadcasts_exporter']                 = new ConvertKit_Broadcasts_Exporter();
 		$this->classes['broadcasts_importer']                 = new ConvertKit_Broadcasts_Importer();
+		$this->classes['divi']                                = new ConvertKit_Divi();
 		$this->classes['elementor']                           = new ConvertKit_Elementor();
 		$this->classes['gutenberg']                           = new ConvertKit_Gutenberg();
 		$this->classes['media_library']                       = new ConvertKit_Media_Library();
 		$this->classes['output_restrict_content']             = new ConvertKit_Output_Restrict_Content();
-		$this->classes['review_request']                      = new ConvertKit_Review_Request( 'ConvertKit', 'convertkit', CONVERTKIT_PLUGIN_PATH );
+		$this->classes['review_request']                      = new ConvertKit_Review_Request( 'Kit', 'convertkit', CONVERTKIT_PLUGIN_PATH );
 		$this->classes['preview_output']                      = new ConvertKit_Preview_Output();
 		$this->classes['setup']                               = new ConvertKit_Setup();
 		$this->classes['shortcodes']                          = new ConvertKit_Shortcodes();
@@ -394,7 +397,7 @@ class WP_ConvertKit {
 				'convertkit_get_class',
 				sprintf(
 					/* translators: %1$s: PHP class name */
-					__( 'ConvertKit Error: Could not load Plugin class <strong>%1$s</strong>', 'convertkit' ),
+					__( 'Kit Error: Could not load Plugin class <strong>%1$s</strong>', 'convertkit' ),
 					$name
 				)
 			);
@@ -404,7 +407,7 @@ class WP_ConvertKit {
 			if ( is_admin() ) {
 				wp_die(
 					esc_attr( $error->get_error_message() ),
-					esc_html__( 'ConvertKit Error', 'convertkit' ),
+					esc_html__( 'Kit Error', 'convertkit' ),
 					array(
 						'back_link' => true,
 					)

@@ -2,6 +2,7 @@
 /.github
 /.scripts
 /.wordpress-org
+/log
 /tests
 /vendor/autoload.php
 /vendor/composer

@@ -32,7 +32,7 @@ class PageBlockFormatterProductLinkCest
 		$I->setupConvertKitPluginResources($I);
 
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Product Link Formatter');
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Product Link Formatter');
 
 		// Configure metabox's Form setting = None, ensuring we only test the block in Gutenberg.
 		$I->configureMetaboxSettings(
@@ -52,7 +52,7 @@ class PageBlockFormatterProductLinkCest
 		// Apply formatter to link the selected text.
 		$I->applyGutenbergFormatter(
 			$I,
-			'ConvertKit Product Trigger',
+			'Kit Product Trigger',
 			'convertkit-product-link',
 			[
 				// Product.
@@ -82,7 +82,7 @@ class PageBlockFormatterProductLinkCest
 		$I->setupConvertKitPluginResources($I);
 
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Product Link Formatter: Product Toggle');
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Product Link Formatter: Product Toggle');
 
 		// Configure metabox's Form setting = None, ensuring we only test the block in Gutenberg.
 		$I->configureMetaboxSettings(
@@ -102,7 +102,7 @@ class PageBlockFormatterProductLinkCest
 		// Apply formatter to link the selected text.
 		$I->applyGutenbergFormatter(
 			$I,
-			'ConvertKit Product Trigger',
+			'Kit Product Trigger',
 			'convertkit-product-link',
 			[
 				// Product.
@@ -113,7 +113,7 @@ class PageBlockFormatterProductLinkCest
 		// Apply the formatter again, this time selecting the 'None' option.
 		$I->applyGutenbergFormatter(
 			$I,
-			'ConvertKit Product Trigger',
+			'Kit Product Trigger',
 			'convertkit-product-link',
 			[
 				// Form.
@@ -142,7 +142,7 @@ class PageBlockFormatterProductLinkCest
 		$I->setupConvertKitPluginResources($I);
 
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Product Link Formatter: No Product');
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Product Link Formatter: No Product');
 
 		// Configure metabox's Form setting = None, ensuring we only test the block in Gutenberg.
 		$I->configureMetaboxSettings(
@@ -162,7 +162,7 @@ class PageBlockFormatterProductLinkCest
 		// Apply formatter to link the selected text.
 		$I->applyGutenbergFormatter(
 			$I,
-			'ConvertKit Product Trigger',
+			'Kit Product Trigger',
 			'convertkit-product-link',
 			[
 				// Form.
@@ -187,7 +187,7 @@ class PageBlockFormatterProductLinkCest
 	public function testProductLinkFormatterNotRegisteredWhenNoProductsExist(AcceptanceTester $I)
 	{
 		// Add a Page using the Gutenberg editor.
-		$I->addGutenbergPage($I, 'page', 'ConvertKit: Page: Product Link Formatter: No Products Exist');
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Product Link Formatter: No Products Exist');
 
 		// Add paragraph to Page.
 		$I->addGutenbergParagraphBlock($I, 'Subscribe');
@@ -196,7 +196,7 @@ class PageBlockFormatterProductLinkCest
 		$I->selectAllText($I, '.wp-block-post-content p[data-empty="false"]');
 
 		// Confirm the formatter is not registered.
-		$I->dontSeeGutenbergFormatter($I, 'ConvertKit Product Trigger');
+		$I->dontSeeGutenbergFormatter($I, 'Kit Product Trigger');
 
 		// Publish the page, to avoid an alert when navigating away.
 		$I->publishGutenbergPage($I);

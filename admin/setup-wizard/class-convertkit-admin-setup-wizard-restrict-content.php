@@ -162,8 +162,14 @@ class ConvertKit_Admin_Setup_Wizard_Restrict_Content extends ConvertKit_Admin_Se
 	 */
 	public function process_form( $step ) {
 
-		// phpcs:disable WordPress.Security.NonceVerification.Missing
-		// Nonce verification has been performed in ConvertKit_Admin_Setup_Wizard:process_form(), prior to calling this function.
+		// Run security checks.
+		if ( ! isset( $_REQUEST['_wpnonce'] ) ) {
+			return;
+		}
+		if ( ! wp_verify_nonce( sanitize_key( $_REQUEST['_wpnonce'] ), $this->page_name ) ) {
+			$this->error = __( 'Invalid nonce specified.', 'convertkit' );
+			return;
+		}
 
 		// Depending on the step, process the form data.
 		switch ( $step ) {
@@ -223,8 +229,8 @@ class ConvertKit_Admin_Setup_Wizard_Restrict_Content extends ConvertKit_Admin_Se
 		// This shouldn't happen, because the 'Add New Member Content' button is only displayed
 		// if valid credentials have been specified.
 		$settings = new ConvertKit_Settings();
-		if ( ! $settings->has_api_key_and_secret() ) {
-			wp_die( esc_html__( 'Add a valid API Key and Secret in the ConvertKit Plugin\'s settings to get started', 'convertkit' ) );
+		if ( ! $settings->has_access_and_refresh_token() ) {
+			wp_die( esc_html__( 'Connect your ConvertKit account in the ConvertKit Plugin\'s settings to get started', 'convertkit' ) );
 		}
 
 		// Bail if the Post Type isn't supported.
@@ -333,7 +339,7 @@ class ConvertKit_Admin_Setup_Wizard_Restrict_Content extends ConvertKit_Admin_Se
 			$configuration['title'],
 			$configuration['description'],
 			$configuration['post_type'],
-			__( 'The downloadable content (that is available when the visitor has paid for the ConvertKit product) goes here.', 'convertkit' ),
+			__( 'The downloadable content (that is available when the visitor has paid for the Kit product) goes here.', 'convertkit' ),
 			$configuration['restrict_content']
 		);
 
@@ -400,7 +406,7 @@ class ConvertKit_Admin_Setup_Wizard_Restrict_Content extends ConvertKit_Admin_Se
 					'%s %s %s',
 					esc_html__( 'Lesson', 'convertkit' ),
 					$i,
-					esc_html__( 'content (that is available when the visitor has paid for the ConvertKit product) goes here.', 'convertkit' )
+					esc_html__( 'content (that is available when the visitor has paid for the Kit product) goes here.', 'convertkit' )
 				),
 				$configuration['restrict_content'],
 				$i,

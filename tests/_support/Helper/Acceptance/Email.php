@@ -18,9 +18,9 @@ class Email extends \Codeception\Module
 	 *
 	 * @since   1.9.6.7
 	 *
-	 * @param   string $domain     Domain (default: convertkit.com).
+	 * @param   string $domain     Domain (default: kit.com).
 	 */
-	public function generateEmailAddress($domain = 'convertkit.com')
+	public function generateEmailAddress($domain = 'kit.com')
 	{
 		return 'wordpress-' . date( 'Y-m-d-H-i-s' ) . '-php-' . PHP_VERSION_ID . '@' . $domain;
 	}

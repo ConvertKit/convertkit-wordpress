@@ -32,10 +32,10 @@ class CK_Widget_Form extends WP_Widget {
 
 		parent::__construct(
 			'convertkit_form',
-			__( 'ConvertKit Form (Legacy Widget)', 'convertkit' ),
+			__( 'Kit Form (Legacy Widget)', 'convertkit' ),
 			array(
 				'classname'                   => 'convertkit widget_convertkit_form',
-				'description'                 => __( 'Display a ConvertKit form.', 'convertkit' ),
+				'description'                 => __( 'Display a Kit form.', 'convertkit' ),
 				'customize_selective_refresh' => true,
 			)
 		);
@@ -58,7 +58,7 @@ class CK_Widget_Form extends WP_Widget {
 		if ( ! $forms->exist() ) {
 			?>
 			<p>
-				<?php esc_html_e( 'To display a ConvertKit Form, at least one form must be defined in your ConvertKit Account.', 'convertkit' ); ?>
+				<?php esc_html_e( 'To display a Kit Form, at least one form must be defined in your Kit Account.', 'convertkit' ); ?>
 			</p>
 			<?php
 		}

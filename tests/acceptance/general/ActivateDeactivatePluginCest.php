@@ -38,7 +38,10 @@ class ActivateDeactivatePluginCest
 		// activating this Plugin will fail, therefore failing the test.
 		$I->activateConvertKitPlugin($I);
 
-		// Setup API Keys at Settings > ConvertKit, which will use WordPress Libraries and show errors
+		// Setup Plugin as if we performed OAuth.
+		$I->setupConvertKitPlugin($I);
+
+		// Use API by loading Settings screen, which will use WordPress Libraries and show errors
 		// if there's a conflict e.g. an older WordPress Library was loaded from another ConvertKit Plugin.
 		$I->setupConvertKitPlugin($I);
 
@@ -119,6 +122,9 @@ class ActivateDeactivatePluginCest
 
 		// Check that the Plugin deactivated successfully.
 		$I->seePluginDeactivated('convertkit');
+
+		// Click the Save Changes button.
+		$I->click('Save Changes');
 
 		// Check that no PHP warnings or notices were output.
 		$I->checkNoWarningsAndNoticesOnScreen($I);

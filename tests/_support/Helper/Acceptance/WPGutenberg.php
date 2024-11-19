@@ -10,30 +10,6 @@ namespace Helper\Acceptance;
 class WPGutenberg extends \Codeception\Module
 {
 	/**
-	 * Helper method to close the Gutenberg "Welcome to the block editor" dialog, which
-	 * might show for each Page/Post test performed due to there being no persistence
-	 * remembering that the user dismissed the dialog.
-	 *
-	 * @since   1.9.6
-	 *
-	 * @param   AcceptanceTester $I Acceptance Tester.
-	 */
-	public function maybeCloseGutenbergWelcomeModal($I)
-	{
-		try {
-			$I->performOn(
-				'.components-modal__screen-overlay',
-				[
-					'click' => '.components-modal__screen-overlay .components-modal__header button.components-button',
-				],
-				3
-			);
-		} catch ( \Facebook\WebDriver\Exception\TimeoutException $e ) { // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedCatch
-			// No modal exists, so nothing to dismiss.
-		}
-	}
-
-	/**
 	 * Add a Page, Post or Custom Post Type using Gutenberg in WordPress.
 	 *
 	 * @since   1.9.7.5
@@ -46,9 +22,6 @@ class WPGutenberg extends \Codeception\Module
 	{
 		// Navigate to Post Type (e.g. Pages / Posts) > Add New.
 		$I->amOnAdminPage('post-new.php?post_type=' . $postType);
-
-		// Close the Gutenberg "Welcome to the block editor" dialog if it's displayed.
-		$I->maybeCloseGutenbergWelcomeModal($I);
 
 		// Define the Title.
 		$I->fillField('.editor-post-title__input', $title);
@@ -63,14 +36,14 @@ class WPGutenberg extends \Codeception\Module
 	 * @since   1.9.7.4
 	 *
 	 * @param   AcceptanceTester $I                      Acceptance Tester.
-	 * @param   string           $blockName              Block Name (e.g. 'ConvertKit Form').
+	 * @param   string           $blockName              Block Name (e.g. 'Kit Form').
 	 * @param   string           $blockProgrammaticName  Programmatic Block Name (e.g. 'convertkit-form').
 	 * @param   bool|array       $blockConfiguration     Block Configuration (field => value key/value array).
 	 */
 	public function addGutenbergBlock($I, $blockName, $blockProgrammaticName, $blockConfiguration = false)
 	{
 		// Click Add Block Button.
-		$I->click('button.edit-post-header-toolbar__inserter-toggle');
+		$I->click('button.editor-document-tools__inserter-toggle');
 
 		// When the Blocks sidebar appears, search for the block.
 		$I->waitForElementVisible('.interface-interface-skeleton__secondary-sidebar[aria-label="Block Library"]');
@@ -87,7 +60,7 @@ class WPGutenberg extends \Codeception\Module
 		$I->click('.block-editor-inserter__panel-content button.editor-block-list-item-' . $blockProgrammaticName);
 
 		// Close block inserter.
-		$I->click('button.edit-post-header-toolbar__inserter-toggle');
+		$I->click('button.editor-document-tools__inserter-toggle');
 
 		// If a Block configuration is specified, apply it to the Block now.
 		if ($blockConfiguration) {
@@ -119,6 +92,10 @@ class WPGutenberg extends \Codeception\Module
 				}
 			}
 		}
+
+		// Ensure that the block inserter is fully closed before continuing;
+		// this ensures multiple calls to addGutenbergBlock work.
+		$I->waitForElementNotVisible('.interface-interface-skeleton__secondary-sidebar[aria-label="Block Library"]');
 	}
 
 	/**
@@ -197,12 +174,13 @@ class WPGutenberg extends \Codeception\Module
 	public function addGutenbergExcerpt($I, $excerpt)
 	{
 		// Click the Post tab.
-		$I->click('button[aria-label="Post"]');
+		$I->click('button[data-tab-id="edit-post/document"]');
 
-		// Click the Excerpt tab.
-		$I->click('Excerpt');
+		// Click the 'Add an excerpt' link.
+		$I->click('div.editor-post-excerpt__dropdown button');
 
 		// Insert the excerpt into the field.
+		$I->waitForElementVisible('.editor-post-excerpt');
 		$I->fillField('.editor-post-excerpt textarea', $excerpt);
 	}
 
@@ -241,7 +219,7 @@ class WPGutenberg extends \Codeception\Module
 	 * @since   2.2.0
 	 *
 	 * @param   AcceptanceTester $I                      Acceptance Tester.
-	 * @param   string           $formatterName          Formatter Name (e.g. 'ConvertKit Form Trigger').
+	 * @param   string           $formatterName          Formatter Name (e.g. 'Kit Form Trigger').
 	 * @param   string           $formatterProgrammaticName  Programmatic Formatter Name (e.g. 'convertkit-form-link').
 	 * @param   bool|array       $formatterConfiguration Block formatter's configuration (field => value key/value array).
 	 */
@@ -290,7 +268,7 @@ class WPGutenberg extends \Codeception\Module
 	 * @since   2.2.2
 	 *
 	 * @param   AcceptanceTester $I                      Acceptance Tester.
-	 * @param   string           $formatterName          Formatter Name (e.g. 'ConvertKit Form Trigger').
+	 * @param   string           $formatterName          Formatter Name (e.g. 'Kit Form Trigger').
 	 */
 	public function dontSeeGutenbergFormatter($I, $formatterName)
 	{
@@ -312,7 +290,7 @@ class WPGutenberg extends \Codeception\Module
 	 * @since   1.9.7.4
 	 *
 	 * @param   AcceptanceTester $I                      Acceptance Tester.
-	 * @param   string           $blockName              Block Name (e.g. 'ConvertKit Form').
+	 * @param   string           $blockName              Block Name (e.g. 'Kit Form').
 	 */
 	public function checkGutenbergBlockHasNoErrors($I, $blockName)
 	{
@@ -385,9 +363,125 @@ class WPGutenberg extends \Codeception\Module
 		);
 
 		// Wait for confirmation that the Page published.
-		$I->waitForElementVisible('.post-publish-panel__postpublish-buttons a.components-button');
+		$I->waitForElementVisible('.post-publish-panel__postpublish-buttons a.components-button', 30);
 
 		// Return URL from 'View page' button.
 		return $I->grabAttributeFrom('.post-publish-panel__postpublish-buttons a.components-button', 'href');
+	}
+
+	/**
+	 * Add a Page, Post or Custom Post Type directly to the WordPress database,
+	 * with dummy content used for testing.
+	 *
+	 * @since   2.6.2
+	 *
+	 * @param   AcceptanceTester $I                     Acceptance Tester.
+	 * @param   string           $postType              Post Type.
+	 * @param   string           $title                 Post Title.
+	 * @param   string           $formID                Meta Box `Form` value (-1: Default).
+	 */
+	public function addGutenbergPageToDatabase($I, $postType = 'page', $title = 'Gutenberg Title', $formID = '-1')
+	{
+		return $I->havePostInDatabase(
+			[
+				'post_title'   => $title,
+				'post_type'    => $postType,
+				'post_status'  => 'publish',
+				'meta_input'   => [
+					'_wp_convertkit_post_meta' => [
+						'form'         => $formID,
+						'landing_page' => '',
+						'tag'          => '',
+					],
+				],
+				'post_content' => '<!-- wp:columns -->
+<div class="wp-block-columns"><!-- wp:column -->
+<div class="wp-block-column"><!-- wp:paragraph -->
+<p>Item #1</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">Item #1</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Item #2</p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:column -->
+
+<!-- wp:column -->
+<div class="wp-block-column"><!-- wp:image {"id":4237,"sizeSlug":"large","linkDestination":"none"} -->
+<figure class="wp-block-image size-large"><img src="https://placehold.co/600x400" alt="Image #1" /></figure>
+<!-- /wp:image --></div>
+<!-- /wp:column --></div>
+<!-- /wp:columns -->
+
+<!-- wp:heading -->
+<h2 class="wp-block-heading">Item #2</h2>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Item #3</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:image {"id":4240,"aspectRatio":"1","scale":"cover","sizeSlug":"full","linkDestination":"none"} -->
+<figure class="wp-block-image size-full"><img src="https://placehold.co/600x400" alt="Image #2" /></figure>
+<!-- /wp:image -->
+
+<!-- wp:columns -->
+<div class="wp-block-columns"><!-- wp:column -->
+<div class="wp-block-column"><!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Item #1</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Item #4</p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:column -->
+
+<!-- wp:column -->
+<div class="wp-block-column"><!-- wp:heading {"level":4} -->
+<h4 class="wp-block-heading">Item #1</h4>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Item #5</p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:column --></div>
+<!-- /wp:columns -->
+
+<!-- wp:heading {"level":5} -->
+<h5 class="wp-block-heading">Item #1</h5>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Item #6</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":6} -->
+<h6 class="wp-block-heading">Item #1</h6>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>Item #7</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Item #2</h3>
+<!-- /wp:heading -->
+
+<!-- wp:heading {"level":4} -->
+<h4 class="wp-block-heading">Item #2</h4>
+<!-- /wp:heading -->
+
+<!-- wp:heading {"level":5} -->
+<h5 class="wp-block-heading">Item #2</h5>
+<!-- /wp:heading -->
+
+<!-- wp:heading {"level":6} -->
+<h6 class="wp-block-heading">Item #2</h6>
+<!-- /wp:heading -->',
+			]
+		);
 	}
 }

@@ -12,14 +12,7 @@
 <form class="convertkit-tinymce-popup wp-core-ui">
 	<input type="hidden" name="shortcode" value="convertkit_<?php echo esc_attr( $shortcode['name'] ); ?>" />
 	<input type="hidden" name="editor_type" value="<?php echo esc_attr( $editor_type ); // quicktags|tinymce. ?>" />
-
-	<?php
-	if ( $shortcode['shortcode_include_closing_tag'] ) {
-		?>
-		<input type="hidden" name="close_shortcode" value="1" />
-		<?php
-	}
-	?>
+	<input type="hidden" name="close_shortcode" value="<?php echo esc_attr( $shortcode['shortcode_include_closing_tag'] ? '1' : '0' ); ?>" />
 
 	<!-- Vertical Tabbed UI -->
 	<div class="convertkit-vertical-tabbed-ui">
@@ -27,11 +20,9 @@
 		<ul class="convertkit-nav-tabs convertkit-js-tabs" 
 			data-panels-container="#<?php echo esc_attr( $shortcode['name'] ); ?>-container"
 			data-panel=".<?php echo esc_attr( $shortcode['name'] ); ?>"
-			data-active="convertkit-nav-tab-vertical-active"
-			data-match-height="#convertkit-tinymce-modal-body">
+			data-active="convertkit-nav-tab-vertical-active">
 
 			<?php
-			// data-match-height="#convertkit-tinymce-modal-body" removed from above.
 			// Output each Tab.
 			$first_tab = true;
 			foreach ( $shortcode['panels'] as $modal_tab_name => $modal_tab ) {

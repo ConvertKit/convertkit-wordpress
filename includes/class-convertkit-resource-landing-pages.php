@@ -12,7 +12,7 @@
  *
  * @since   1.9.6
  */
-class ConvertKit_Resource_Landing_Pages extends ConvertKit_Resource {
+class ConvertKit_Resource_Landing_Pages extends ConvertKit_Resource_V4 {
 
 	/**
 	 * Holds the Settings Key that stores site wide ConvertKit settings
@@ -33,16 +33,18 @@ class ConvertKit_Resource_Landing_Pages extends ConvertKit_Resource {
 	 *
 	 * @since   1.9.8.4
 	 *
-	 * @param   bool|string $context    Context.
+	 * @param   string $context    Context.
 	 */
-	public function __construct( $context = false ) {
+	public function __construct( $context = 'landing_pages' ) {
 
-		// Initialize the API if the API Key and Secret have been defined in the Plugin Settings.
+		// Initialize the API if the Access Token has been defined in the Plugin Settings.
 		$settings = new ConvertKit_Settings();
-		if ( $settings->has_api_key_and_secret() ) {
-			$this->api = new ConvertKit_API(
-				$settings->get_api_key(),
-				$settings->get_api_secret(),
+		if ( $settings->has_access_and_refresh_token() ) {
+			$this->api = new ConvertKit_API_V4(
+				CONVERTKIT_OAUTH_CLIENT_ID,
+				CONVERTKIT_OAUTH_CLIENT_REDIRECT_URI,
+				$settings->get_access_token(),
+				$settings->get_refresh_token(),
 				$settings->debug_enabled(),
 				$context
 			);
@@ -64,15 +66,22 @@ class ConvertKit_Resource_Landing_Pages extends ConvertKit_Resource {
 	public function get_html( $id ) {
 
 		// Setup API.
-		$api      = new ConvertKit_API( false, false, true, 'output_landing_page' );
-		$settings = new ConvertKit_Settings();
+		$settings  = new ConvertKit_Settings();
+		$this->api = new ConvertKit_API_V4(
+			CONVERTKIT_OAUTH_CLIENT_ID,
+			CONVERTKIT_OAUTH_CLIENT_REDIRECT_URI,
+			$settings->get_access_token(),
+			$settings->get_refresh_token(),
+			$settings->debug_enabled(),
+			'output_landing_page'
+		);
 
 		// If the ID is a URL, this is a Legacy Landing Page defined for use on this Page
 		// in a Plugin version < 1.9.6.
 		// 1.9.6+ always uses a Landing Page ID.
 		if ( strstr( $id, 'http' ) ) {
 			// Return Legacy Landing Page HTML for url property.
-			return $api->get_landing_page_html( $id, $settings->debug_enabled() );
+			return $this->api->get_landing_page_html( $id, $settings->debug_enabled() );
 		}
 
 		// Cast ID to integer.
@@ -89,7 +98,7 @@ class ConvertKit_Resource_Landing_Pages extends ConvertKit_Resource {
 				'convertkit_resource_landing_pages_get_html',
 				sprintf(
 					/* translators: ConvertKit Landing Page ID */
-					__( 'ConvertKit Landing Page ID %s does not exist on ConvertKit.', 'convertkit' ),
+					__( 'ConvertKit Landing Page ID %s does not exist on Kit.', 'convertkit' ),
 					$id
 				)
 			);
@@ -98,11 +107,11 @@ class ConvertKit_Resource_Landing_Pages extends ConvertKit_Resource {
 		// If the resource has a 'url' property, this is a Legacy Landing Page, and the 'url' should be used.
 		if ( isset( $this->resources[ $id ]['url'] ) ) {
 			// Return Legacy Landing Page HTML for url property.
-			return $api->get_landing_page_html( $this->resources[ $id ]['url'], $settings->debug_enabled() );
+			return $this->api->get_landing_page_html( $this->resources[ $id ]['url'], $settings->debug_enabled() );
 		}
 
 		// Return Landing Page HTML for embed_url property.
-		return $api->get_landing_page_html( $this->resources[ $id ]['embed_url'], $settings->debug_enabled() );
+		return $this->api->get_landing_page_html( $this->resources[ $id ]['embed_url'], $settings->debug_enabled() );
 
 	}
 

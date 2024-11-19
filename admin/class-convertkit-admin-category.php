@@ -111,18 +111,13 @@ class ConvertKit_Admin_Category {
 		}
 
 		// Bail if we are not editing a Category.
-		if ( ! function_exists( 'get_current_screen' ) ) {
-			return false;
-		}
-		$screen = get_current_screen();
-
-		if ( $screen->id !== 'edit-category' ) {
+		if ( convertkit_get_current_screen( 'id' ) !== 'edit-category' ) {
 			return false;
 		}
 
 		// Bail if the API hasn't been configured.
 		$settings = new ConvertKit_Settings();
-		if ( ! $settings->has_api_key_and_secret() ) {
+		if ( ! $settings->has_access_and_refresh_token() ) {
 			return false;
 		}
 
@@ -138,7 +133,7 @@ class ConvertKit_Admin_Category {
 
 		// Don't show the form fields if the API hasn't been configured.
 		$settings = new ConvertKit_Settings();
-		if ( ! $settings->has_api_key_and_secret() ) {
+		if ( ! $settings->has_access_and_refresh_token() ) {
 			return;
 		}
 
@@ -161,7 +156,7 @@ class ConvertKit_Admin_Category {
 
 		// Don't show the form fields if the API hasn't been configured.
 		$settings = new ConvertKit_Settings();
-		if ( ! $settings->has_api_key_and_secret() ) {
+		if ( ! $settings->has_access_and_refresh_token() ) {
 			return;
 		}
 
@@ -199,7 +194,10 @@ class ConvertKit_Admin_Category {
 		}
 
 		// Build metadata.
-		$meta = ( isset( $_POST['wp-convertkit']['form'] ) ? intval( $_POST['wp-convertkit']['form'] ) : '' );
+		$meta = array(
+			'form'          => ( isset( $_POST['wp-convertkit']['form'] ) ? intval( $_POST['wp-convertkit']['form'] ) : '' ),
+			'form_position' => ( isset( $_POST['wp-convertkit']['form_position'] ) ? $_POST['wp-convertkit']['form_position'] : '' ),
+		);
 
 		// Save metadata.
 		$convertkit_term = new ConvertKit_Term( $term_id );

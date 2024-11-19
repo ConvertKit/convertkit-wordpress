@@ -1,4 +1,11 @@
 /**
+ * Body
+ */
+body.convertkit {
+	background: #f9f7f4;
+}
+
+/**
  * Container
  */
 #convertkit-setup-wizard {
@@ -15,8 +22,8 @@
  */
 #convertkit-setup-wizard-header {
 	height: 80px;
-	background: url(../images/convertkit-long.svg) center no-repeat;
-	background-size: 200px auto;
+	background: url(../images/kit-logo.svg) center no-repeat;
+	background-size: 75px auto;
 }
 #convertkit-setup-wizard-header h1 {
 	margin: 0;
