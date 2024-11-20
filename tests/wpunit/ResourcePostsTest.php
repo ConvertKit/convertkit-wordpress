@@ -116,7 +116,7 @@ class ResourcePostsTest extends \Codeception\TestCase\WPTestCase
 
 		// Run the update action as WordPress would when updating the Plugin to a newer version.
 		$convertkit = WP_ConvertKit();
-		$convertkit->update();
+		$convertkit->init();
 
 		// Confirm the Plugin version number matches the current version.
 		$this->assertEquals(get_option('convertkit_version'), CONVERTKIT_PLUGIN_VERSION);
