@@ -161,8 +161,8 @@ class ConvertKit_Setup {
 		foreach ( $query->terms as $term_id ) {
 			$term_settings = new ConvertKit_Term( $term_id );
 
-			// If the Form setting is 0, change it to -1.
-			if ( $term_settings->get_form() === 0 ) {
+			// If the Form setting is Default i.e. it does not have a formchange it from 0 to -1.
+			if ( ! $term_settings->has_form() ) {
 				$term_settings->save(
 					array(
 						'form' => -1,

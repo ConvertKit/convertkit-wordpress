@@ -154,7 +154,7 @@ class ConvertKit_Term {
 		$result = update_term_meta( $this->term_id, self::TERM_META_KEY, array_merge( $this->get(), $meta ) );
 
 		// Reload meta in class, to reflect changes.
-		$this->settings = get_term_meta( $term_id, self::TERM_META_KEY, true );
+		$this->settings = get_term_meta( $this->term_id, self::TERM_META_KEY, true );
 
 		return $result;
 
