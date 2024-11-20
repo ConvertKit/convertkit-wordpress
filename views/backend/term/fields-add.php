@@ -21,7 +21,7 @@
 			'-1',
 			array(
 				'-1' => esc_html__( 'Default', 'convertkit' ),
-				'0' => esc_html__( 'None', 'convertkit' ),
+				'0'  => esc_html__( 'None', 'convertkit' ),
 			)
 		);
 		?>

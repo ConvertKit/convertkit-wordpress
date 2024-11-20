@@ -23,7 +23,7 @@
 				esc_attr( $convertkit_term->get_form() ),
 				array(
 					'-1' => esc_html__( 'Default', 'convertkit' ),
-					'0' => esc_html__( 'None', 'convertkit' ),
+					'0'  => esc_html__( 'None', 'convertkit' ),
 				)
 			);
 			?>
