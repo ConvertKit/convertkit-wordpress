@@ -69,14 +69,25 @@ class BroadcastsToPostsCest
 		// Confirm Cron event exists.
 		$I->seeCronEvent($I, $this->cronEventName);
 
+		// Enable Broadcasts to Posts.
+		$I->setupConvertKitPluginBroadcasts(
+			$I,
+			[
+				'enabled' => true,
+			]
+		);
+
 		// Delete Cron event.
 		$I->deleteCronEvent($I, $this->cronEventName);
 
 		// Make a request.
-		$I->amOnAdminPage('edit.php');
+		$I->loadConvertKitSettingsBroadcastsScreen($I);
 
 		// Confirm Cron event was recreated.
 		$I->seeCronEvent($I, $this->cronEventName);
+
+		// Confirm Import Now button displays.
+		$I->see('Import now');
 	}
 
 	/**
