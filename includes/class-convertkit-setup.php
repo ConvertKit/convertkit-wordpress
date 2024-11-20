@@ -541,8 +541,8 @@ class ConvertKit_Setup {
 
 	/**
 	 * Schedules any Plugin specific CRON events, if they do not already exist.
-	 * 
-	 * @since 	2.6.6
+	 *
+	 * @since   2.6.6
 	 */
 	private function schedule_cron_events() {
 
@@ -553,11 +553,11 @@ class ConvertKit_Setup {
 
 	/**
 	 * Unschedules any Plugin specific CRON events, if they exist.
-	 * 
-	 * @since 	2.6.6
+	 *
+	 * @since   2.6.6
 	 */
 	private function unschedule_cron_events() {
-		
+
 		$posts = new ConvertKit_Resource_Posts( 'cron' );
 		$posts->unschedule_cron_event();
 

@@ -59,9 +59,9 @@ class BroadcastsToPostsCest
 	/**
 	 * Tests that the Broadcasts to Posts Cron Event is recreated when it is deleted
 	 * by e.g. a third party Plugin.
-	 * 
-	 * @since 	2.6.6
-	 * 
+	 *
+	 * @since   2.6.6
+	 *
 	 * @param   AcceptanceTester $I  Tester.
 	 */
 	public function testBroadcastsCronEventRecreatedWhenDeleted(AcceptanceTester $I)
