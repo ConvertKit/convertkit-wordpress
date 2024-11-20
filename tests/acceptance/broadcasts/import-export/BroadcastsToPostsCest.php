@@ -57,6 +57,29 @@ class BroadcastsToPostsCest
 	}
 
 	/**
+	 * Tests that the Broadcasts to Posts Cron Event is recreated when it is deleted
+	 * by e.g. a third party Plugin.
+	 * 
+	 * @since 	2.6.6
+	 * 
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testBroadcastsCronEventRecreatedWhenDeleted(AcceptanceTester $I)
+	{
+		// Confirm Cron event exists.
+		$I->seeCronEvent($I, $this->cronEventName);
+
+		// Delete Cron event.
+		$I->deleteCronEvent($I, $this->cronEventName);
+
+		// Make a request.
+		$I->amOnAdminPage('edit.php');
+
+		// Confirm Cron event was recreated.
+		$I->seeCronEvent($I, $this->cronEventName);
+	}
+
+	/**
 	 * Tests that Broadcasts do not import when disabled in the Plugin's settings.
 	 *
 	 * @since   2.2.9
@@ -65,7 +88,7 @@ class BroadcastsToPostsCest
 	 */
 	public function testBroadcastsImportWhenDisabled(AcceptanceTester $I)
 	{
-		// Enable Broadcasts to Posts.
+		// Disable Broadcasts to Posts.
 		$I->setupConvertKitPluginBroadcasts(
 			$I,
 			[

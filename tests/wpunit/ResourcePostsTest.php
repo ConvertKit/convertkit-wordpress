@@ -129,6 +129,35 @@ class ResourcePostsTest extends \Codeception\TestCase\WPTestCase
 	}
 
 	/**
+	 * Test that the WordPress Cron event for this resource was reinstated with the expected name,
+	 * matching the expected schedule as defined in the Resource's class, when it is deleted
+	 * by e.g. a third party Plugin.
+	 *
+	 * @since   2.6.6
+	 */
+	public function testCronEventRecreatedAfterDeleted()
+	{
+		// Confirm the event was scheduled.
+		$this->assertEquals(
+			wp_get_schedule('convertkit_resource_refresh_' . $this->resource->type),
+			$this->resource->wp_cron_schedule
+		);
+
+		// Delete scheduled event.
+		$this->resource->unschedule_cron_event();
+
+		// Initialize Plugin, as if a request was made.
+		$convertkit = WP_ConvertKit();
+		$convertkit->init();
+
+		// Confirm event was scheduled.
+		$this->assertEquals(
+			wp_get_schedule('convertkit_resource_refresh_' . $this->resource->type),
+			$this->resource->wp_cron_schedule
+		);
+	}
+
+	/**
 	 * Test that the WordPress Cron event for this resource works when valid API credentials
 	 * are specified in the Plugin's settings.
 	 *

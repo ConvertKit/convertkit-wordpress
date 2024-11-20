@@ -28,14 +28,24 @@ class ConvertKit_Setup {
 	}
 
 	/**
+	 * Runs routines on every Plugin request e.g.
+	 * ensuring WordPress Cron events are scheduled.
+	 *
+	 * @since   2.6.6
+	 */
+	public function initialize() {
+
+		// Call any functions to e.g. schedule WordPress Cron events now.
+		$this->schedule_cron_events();
+
+	}
+
+	/**
 	 * Runs routines if the Plugin version has been updated.
 	 *
 	 * @since   1.9.7.4
 	 */
 	public function update() {
-
-		// Call any functions to always run every time the Plugin loads e.g. ensuring WordPress Cron events are scheduled.
-		$this->schedule_cron_events();
 
 		// Get installed Plugin version.
 		$current_version = get_option( 'convertkit_version' );
