@@ -573,9 +573,9 @@ class CategoryFormCest
 			[
 				'meta' => [
 					'_wp_convertkit_term_meta' => array(
-						'form' => 0,
+						'form'          => 0,
 						'form_position' => '',
-					)
+					),
 				],
 			]
 		);
