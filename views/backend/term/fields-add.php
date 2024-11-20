@@ -18,9 +18,9 @@
 			array(
 				'convertkit-select2',
 			),
-			'0',
+			'-1',
 			array(
-				'0' => esc_html__( 'Default', 'convertkit' ),
+				'-1' => esc_html__( 'Default', 'convertkit' ),
 			)
 		);
 		?>

@@ -45,6 +45,14 @@ class ConvertKit_Setup {
 		}
 
 		/**
+		 * 2.6.6: Migrate 'Default' Form value in _wp_convertkit_term_meta[form] from 0 to -1,
+		 * to match Posts.
+		 */
+		if ( version_compare( $current_version, '2.6.6', '<' ) ) {
+			$this->migrate_term_default_form_settings();
+		}
+
+		/**
 		 * 2.5.4: Migrate WishList Member to ConvertKit Form Mappings
 		 */
 		if ( ! $current_version || version_compare( $current_version, '2.5.4', '<' ) ) {
@@ -118,6 +126,50 @@ class ConvertKit_Setup {
 
 		// Update the installed version number in the options table.
 		update_option( 'convertkit_version', CONVERTKIT_PLUGIN_VERSION );
+
+	}
+
+	/**
+	 * Change the Default value of 0 to -1 in wp_convertkit_term_meta[form], to
+	 * match how the Default value is stored in Posts.
+	 *
+	 * @since   2.6.6
+	 */
+	private function migrate_term_default_form_settings() {
+
+		// Get all Terms that have ConvertKit settings defined.
+		$query = new WP_Term_Query(
+			array(
+				'taxonomy'   => 'category',
+				'hide_empty' => false,
+				'fields'     => 'ids',
+				'meta_query' => array(
+					array(
+						'key'        => '_wp_convertkit_term_meta',
+						'comparison' => 'EXISTS',
+					),
+				),
+			)
+		);
+
+		// Bail if no Terms exist.
+		if ( ! $query->terms ) {
+			return;
+		}
+
+		// Iterate through Terms, mapping settings.
+		foreach ( $query->terms as $term_id ) {
+			$term_settings = new ConvertKit_Term( $term_id );
+
+			// If the Form setting is 0, change it to -1.
+			if ( $term_settings->get_form() === 0 ) {
+				$term_settings->save(
+					array(
+						'form' => -1,
+					)
+				);
+			}
+		}
 
 	}
 
