@@ -21,6 +21,7 @@
 			'-1',
 			array(
 				'-1' => esc_html__( 'Default', 'convertkit' ),
+				'0' => esc_html__( 'None', 'convertkit' ),
 			)
 		);
 		?>
@@ -32,6 +33,9 @@
 			<code><?php esc_html_e( 'Default', 'convertkit' ); ?></code>
 			<?php esc_html_e( ': Display a form based on the Post\'s settings.', 'convertkit' ); ?>
 			<br />
+				<code><?php esc_html_e( 'None', 'convertkit' ); ?></code>
+				<?php esc_html_e( ': do not display a form.', 'convertkit' ); ?>
+				<br />
 			<?php
 			printf(
 				/* translators: Taxonomy Name */
