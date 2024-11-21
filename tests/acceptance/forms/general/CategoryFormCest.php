@@ -48,6 +48,7 @@ class CategoryFormCest
 			'#wp-convertkit-form',
 			[
 				'Default',
+				'None',
 			]
 		);
 
@@ -184,6 +185,7 @@ class CategoryFormCest
 			'#wp-convertkit-form',
 			[
 				'Default',
+				'None',
 			]
 		);
 
@@ -441,6 +443,7 @@ class CategoryFormCest
 			'#wp-convertkit-form',
 			[
 				'Default',
+				'None',
 			]
 		);
 
@@ -521,6 +524,7 @@ class CategoryFormCest
 			'#wp-convertkit-form',
 			[
 				'Default',
+				'None',
 			]
 		);
 
