@@ -91,7 +91,7 @@ class CategoryFormCest
 	 *
 	 * @param   AcceptanceTester $I  Tester.
 	 */
-	public function testAddCategoryWithNoFormSetting(AcceptanceTester $I)
+	public function testAddCategoryWithNoneFormSetting(AcceptanceTester $I)
 	{
 		// Navigate to Posts > Categories.
 		$I->amOnAdminPage('edit-tags.php?taxonomy=category');
@@ -222,7 +222,7 @@ class CategoryFormCest
 	 *
 	 * @param   AcceptanceTester $I  Tester.
 	 */
-	public function testEditCategoryWithNoFormSetting(AcceptanceTester $I)
+	public function testEditCategoryWithNoneFormSetting(AcceptanceTester $I)
 	{
 		// Create Category.
 		$termID = $I->haveTermInDatabase( 'Kit: Edit Category: None', 'category' );
