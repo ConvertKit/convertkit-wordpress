@@ -391,6 +391,15 @@ class ConvertKit_Output {
 	 */
 	private function inject_form_after_element( $content, $tag, $index, $form ) {
 
+		// Wrap content in <html>, <head> and <body> tags now, so we can inject the UTF-8 Content-Type meta tag.
+		$content = '<html><head></head><body>' . $content . '</body></html>';
+
+		// Forcibly tell DOMDocument that this HTML uses the UTF-8 charset.
+		// <meta charset="utf-8"> isn't enough, as DOMDocument still interprets the HTML as ISO-8859, which breaks character encoding
+		// Use of mb_convert_encoding() with HTML-ENTITIES is deprecated in PHP 8.2, so we have to use this method.
+		// If we don't, special characters render incorrectly.
+		$content = str_replace( '<head>', '<head>' . "\n" . '<meta http-equiv="Content-Type" content="text/html; charset=utf-8">', $content );
+
 		// Load Page / Post content into DOMDocument.
 		libxml_use_internal_errors( true );
 		$html = new DOMDocument();
