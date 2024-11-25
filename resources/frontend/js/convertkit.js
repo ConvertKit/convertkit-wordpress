@@ -114,6 +114,8 @@ function convertStoreSubscriberEmailAsIDInCookie( emailAddress ) {
 			if ( convertkit.debug ) {
 				console.log( response );
 			}
+
+			return response.json();
 		}
 	)
 	.then(
@@ -121,6 +123,15 @@ function convertStoreSubscriberEmailAsIDInCookie( emailAddress ) {
 			if ( convertkit.debug ) {
 				console.log( result );
 			}
+
+			// Emit custom event with subscriber ID.
+			convertKitEmitCustomEvent(
+				'convertkit_user_subscribed',
+				{
+					id: result.data.id,
+					email: emailAddress
+				}
+			);
 		}
 	)
 	.catch(
@@ -178,6 +189,24 @@ function convertKitSleep( milliseconds ) {
 			break;
 		}
 	}
+
+}
+
+/**
+ * Emit a custom event with optional detail data.
+ *
+ * This function creates and dispatches a custom event with the specified
+ * event name and detail data.
+ *
+ * @since 2.5.0
+ *
+ * @param {string} eventName	The name of the custom event to emit.
+ * @param {Object} [detail={}] 	Optional detail data to include with the event.
+ */
+function convertKitEmitCustomEvent( eventName, detail ) {
+
+	const event = new CustomEvent( eventName, { detail } );
+	document.dispatchEvent( event );
 
 }
 
