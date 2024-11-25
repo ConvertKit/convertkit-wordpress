@@ -661,9 +661,15 @@ class ConvertKit_Output {
 			if ( $term_settings->has_form() ) {
 				return $term_settings->get_form();
 			}
+
+			// If the Term specifies that no Form should be used, return false.
+			if ( $term_settings->uses_no_form() ) {
+				return false;
+			}
 		}
 
-		// If here, use the Plugin's Default Form.
+		// If here, all Terms were set to display the Default Form.
+		// Therefore use the Plugin's Default Form.
 		return $this->settings->get_default_form( get_post_type( $post_id ) );
 
 	}

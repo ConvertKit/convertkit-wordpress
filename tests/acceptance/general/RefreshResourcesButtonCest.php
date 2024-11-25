@@ -300,6 +300,7 @@ class RefreshResourcesButtonCest
 			'#wp-convertkit-form',
 			[
 				'Default',
+				'None',
 			]
 		);
 
@@ -339,6 +340,7 @@ class RefreshResourcesButtonCest
 			'#wp-convertkit-form',
 			[
 				'Default',
+				'None',
 			]
 		);
 
