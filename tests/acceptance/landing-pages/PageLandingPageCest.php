@@ -328,6 +328,7 @@ class PageLandingPageCest
 		$I->setupConvertKitPluginResources($I);
 
 		// Activate Perfmatters Plugin.
+		$I->activateThirdPartyPlugin($I, 'disable-_load_textdomain_just_in_time-doing_it_wrong-notice');
 		$I->activateThirdPartyPlugin($I, 'perfmatters');
 
 		// Enable Lazy Loading.
@@ -373,6 +374,7 @@ class PageLandingPageCest
 
 		// Deactivate Perfmatters Plugin.
 		$I->deactivateThirdPartyPlugin($I, 'perfmatters');
+		$I->deactivateThirdPartyPlugin($I, 'disable-_load_textdomain_just_in_time-doing_it_wrong-notice');
 	}
 
 	/**
