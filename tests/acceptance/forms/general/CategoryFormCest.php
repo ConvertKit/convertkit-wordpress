@@ -48,6 +48,7 @@ class CategoryFormCest
 			'#wp-convertkit-form',
 			[
 				'Default',
+				'None',
 			]
 		);
 
@@ -80,6 +81,67 @@ class CategoryFormCest
 		// Confirm that one ConvertKit Form is output in the DOM.
 		// This confirms that there is only one script on the page for this form, which renders the form.
 		$I->seeFormOutput($I, $_ENV['CONVERTKIT_API_FORM_ID']);
+	}
+
+	/**
+	 * Test that no Form is displayed when the user:
+	 * - Creates a Category in WordPress, selecting 'None' as the ConvertKit Form to display,
+	 * - Creates a WordPress Post assigned to the created Category.
+	 *
+	 * @since   2.6.6
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testAddCategoryWithNoneFormSetting(AcceptanceTester $I)
+	{
+		// Navigate to Posts > Categories.
+		$I->amOnAdminPage('edit-tags.php?taxonomy=category');
+
+		// Confirm that settings have label[for] attributes.
+		$I->seeInSource('<label for="wp-convertkit-form">');
+
+		// Create Category.
+		$I->fillField('tag-name', 'Kit: Create Category: None');
+		$I->fillSelect2Field($I, '#select2-wp-convertkit-form-container', 'None');
+
+		// Check the order of the Form resources are alphabetical, with the Default option prepending the Forms.
+		$I->checkSelectFormOptionOrder(
+			$I,
+			'#wp-convertkit-form',
+			[
+				'Default',
+				'None',
+			]
+		);
+
+		// Save.
+		$I->click('Add New Category');
+
+		// Confirm Category saved.
+		$I->waitForElementVisible('.notice-success');
+
+		// Get the Category ID from the table.
+		$termID = (int) str_replace( 'tag-', '', $I->grabAttributeFrom('#the-list tr:first-child', 'id') );
+
+		// Create Post, assigned to ConvertKit Category.
+		$postID = $I->havePostInDatabase(
+			[
+				'post_type'  => 'post',
+				'post_title' => 'Kit: Inherit None Form from Add Category',
+				'tax_input'  => [
+					[ 'category' => (int) $termID ],
+				],
+			]
+		);
+
+		// Load the Post on the frontend site.
+		$I->amOnPage('/?p=' . $postID);
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Confirm that no ConvertKit Form is displayed.
+		$I->dontSeeElementInDOM('form[data-sv-form]');
 	}
 
 	/**
@@ -123,6 +185,7 @@ class CategoryFormCest
 			'#wp-convertkit-form',
 			[
 				'Default',
+				'None',
 			]
 		);
 
@@ -150,6 +213,76 @@ class CategoryFormCest
 		// Confirm that one ConvertKit Form is output in the DOM.
 		// This confirms that there is only one script on the page for this form, which renders the form.
 		$I->seeFormOutput($I, $_ENV['CONVERTKIT_API_FORM_ID']);
+	}
+
+	/**
+	 * Test that no Form is displayed when the user:
+	 * - Edits an existing Category in WordPress, selecting the 'None' ConvertKit Form option,
+	 * - Creates a WordPress Post assigned to the edited Category.
+	 *
+	 * @since   2.6.6
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testEditCategoryWithNoneFormSetting(AcceptanceTester $I)
+	{
+		// Create Category.
+		$termID = $I->haveTermInDatabase( 'Kit: Edit Category: None', 'category' );
+		$termID = $termID[0];
+
+		// Create Post, assigned to ConvertKit Category.
+		$postID = $I->havePostInDatabase(
+			[
+				'post_type'  => 'post',
+				'post_title' => 'Kit: Inherit No Form from Edit Category',
+				'tax_input'  => [
+					[ 'category' => (int) $termID ],
+				],
+			]
+		);
+
+		// Edit the Term, defining a Form.
+		$I->amOnAdminPage('term.php?taxonomy=category&tag_ID=' . $termID);
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Confirm that settings have label[for] attributes.
+		$I->seeInSource('<label for="wp-convertkit-form">');
+
+		// Check the order of the Form resources are alphabetical, with the Default option prepending the Forms.
+		$I->checkSelectFormOptionOrder(
+			$I,
+			'#wp-convertkit-form',
+			[
+				'Default',
+				'None',
+			]
+		);
+
+		// Change Form to None.
+		$I->fillSelect2Field($I, '#select2-wp-convertkit-form-container', 'None');
+
+		// Click Update.
+		$I->click('Update');
+
+		// Wait for the page to load.
+		$I->waitForElementVisible('#wpfooter');
+
+		// Check that the update succeeded.
+		$I->seeElementInDOM('div.notice-success');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Load the Post on the frontend site.
+		$I->amOnPage('/?p=' . $postID);
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Confirm that no ConvertKit Form is displayed.
+		$I->dontSeeElementInDOM('form[data-sv-form]');
 	}
 
 	/**
@@ -310,6 +443,7 @@ class CategoryFormCest
 			'#wp-convertkit-form',
 			[
 				'Default',
+				'None',
 			]
 		);
 
@@ -390,6 +524,7 @@ class CategoryFormCest
 			'#wp-convertkit-form',
 			[
 				'Default',
+				'None',
 			]
 		);
 
@@ -486,14 +621,14 @@ class CategoryFormCest
 	}
 
 	/**
-	 * Tests that existing Category settings stored in the Term Meta key [] are
-	 * automatically migrated when updating the Plugin to 2.4.9.1 or higher.
+	 * Tests that existing Category settings stored in the Term Meta key `ck_default_form` are
+	 * automatically migrated to the new key `_wp_convertkit_term_meta` when updating the Plugin to 2.4.9.1 or higher.
 	 *
 	 * @since   2.4.9.1
 	 *
 	 * @param   AcceptanceTester $I  Tester.
 	 */
-	public function testCategorySettingsMigratedOnUpgrade(AcceptanceTester $I)
+	public function testCategorySettingsMigratedToNewTermKeyOnUpgrade(AcceptanceTester $I)
 	{
 		// Create Category as if it were created / edited when the ConvertKit Plugin < 2.4.9.1
 		// was active.
@@ -550,6 +685,73 @@ class CategoryFormCest
 		$I->checkNoWarningsAndNoticesOnScreen($I);
 
 		// Confirm that one ConvertKit Form is output in the DOM.
+		// This confirms that there is only one script on the page for this form, which renders the form,
+		// and that the Category settings were correctly mapped.
+		$I->seeFormOutput($I, $_ENV['CONVERTKIT_API_FORM_ID']);
+	}
+
+	/**
+	 * Tests that existing Category settings set to 'Default' have their values automatically migrated
+	 * from 0 to -1, to match how Post settings are stored, when updating the Plugin to 2.6.6 or higher.
+	 *
+	 * @since   2.6.6
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testCategoryDefaultSettingsMigratedToNewValueOnUpgrade(AcceptanceTester $I)
+	{
+		// Create Category as if it were created / edited when the ConvertKit Plugin < 2.6.6
+		// was active.
+		$termID = $I->haveTermInDatabase(
+			'Kit 2.6.6 and earlier',
+			'category',
+			[
+				'meta' => [
+					'_wp_convertkit_term_meta' => array(
+						'form'          => 0,
+						'form_position' => '',
+					),
+				],
+			]
+		);
+		$termID = $termID[0];
+
+		// Create Post, assigned to Category.
+		$postID = $I->havePostInDatabase(
+			[
+				'post_type'  => 'post',
+				'post_title' => 'Kit: Default Form: Category Created before 2.6.6',
+				'tax_input'  => [
+					[ 'category' => $termID ],
+				],
+			]
+		);
+
+		// Downgrade the Plugin version to simulate an upgrade.
+		$I->haveOptionInDatabase('convertkit_version', '2.6.5');
+
+		// Load admin screen.
+		$I->amOnAdminPage('index.php');
+
+		// Check Category settings structure has been updated to the new meta key.
+		$I->seeTermMetaInDatabase(
+			[
+				'term_id'    => $termID,
+				'meta_key'   => '_wp_convertkit_term_meta',
+				'meta_value' => [
+					'form'          => -1,
+					'form_position' => '',
+				],
+			]
+		);
+
+		// Load the Post on the frontend site.
+		$I->amOnPage('/?p=' . $postID);
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Confirm that the default ConvertKit Form is output in the DOM.
 		// This confirms that there is only one script on the page for this form, which renders the form,
 		// and that the Category settings were correctly mapped.
 		$I->seeFormOutput($I, $_ENV['CONVERTKIT_API_FORM_ID']);
