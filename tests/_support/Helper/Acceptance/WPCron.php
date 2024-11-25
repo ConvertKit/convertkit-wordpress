@@ -10,6 +10,15 @@ namespace Helper\Acceptance;
 class WPCron extends \Codeception\Module
 {
 	/**
+	 * Holds the admin UI URL for WP Crontrol.
+	 *
+	 * @since   2.6.6
+	 *
+	 * @var     string
+	 */
+	private $adminURL = 'tools.php?page=wp-crontrol';
+	
+	/**
 	 * Asserts if the given event name is scheduled in WordPress' Cron.
 	 *
 	 * @since   2.2.8
@@ -49,7 +58,7 @@ class WPCron extends \Codeception\Module
 	public function runCronEvent($I, $name)
 	{
 		// List cron event in WP-Crontrol Plugin.
-		$I->amOnAdminPage('tools.php?page=crontrol_admin_manage_page&s=' . $name);
+		$I->amOnAdminPage($this->adminURL . '&s=' . $name);
 
 		// Hover mouse over event's name.
 		$I->moveMouseOver('#the-list tr');
@@ -74,7 +83,7 @@ class WPCron extends \Codeception\Module
 	public function deleteCronEvent($I, $name)
 	{
 		// List cron event in WP-Crontrol Plugin.
-		$I->amOnAdminPage('tools.php?page=crontrol_admin_manage_page&s=' . $name);
+		$I->amOnAdminPage($this->adminURL . '&s=' . $name);
 
 		// Hover mouse over event's name.
 		$I->moveMouseOver('#the-list tr');
