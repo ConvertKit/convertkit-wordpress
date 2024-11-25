@@ -137,13 +137,6 @@ jobs:
         working-directory: ${{ env.ROOT_DIR }}
         run: wp-cli plugin install ${{ env.INSTALL_PLUGINS_URLS }}
 
-      # Activates the Disable `_load_textdomain_just_in_time` `doing_it_wrong` notice Plugin,
-      # to prevent _load_textdomain_just_in_time PHP notices in WordPress 6.7+ due to third
-      # party Plugins.
-      - name: Activate "Disable `_load_textdomain_just_in_time` `doing_it_wrong` notice Plugin"
-        working-directory: ${{ env.ROOT_DIR }}
-        run: wp-cli plugin activate disable-doing-it-wrong-notices.php
-
       # These should be stored as a separated list of URLs in the repository Settings > Secrets > Repository Secret > CONVERTKIT_PAID_PLUGIN_URLS.
       # We cannot include the URLs in this file, as they're not Plugins we are permitted to distribute.
       - name: Install Paid Third Party WordPress Plugins
