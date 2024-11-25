@@ -16,6 +16,7 @@ class DiviFormCest
 	public function _before(AcceptanceTester $I)
 	{
 		$I->activateConvertKitPlugin($I);
+		$I->activateThirdPartyPlugin($I, 'disable-_load_textdomain_just_in_time-doing_it_wrong-notice');
 		$I->activateThirdPartyPlugin($I, 'divi-builder');
 	}
 
@@ -228,6 +229,7 @@ class DiviFormCest
 	public function _passed(AcceptanceTester $I)
 	{
 		$I->deactivateThirdPartyPlugin($I, 'divi-builder');
+		$I->deactivateThirdPartyPlugin($I, 'disable-_load_textdomain_just_in_time-doing_it_wrong-notice');
 		$I->deactivateConvertKitPlugin($I);
 		$I->resetConvertKitPlugin($I);
 	}
