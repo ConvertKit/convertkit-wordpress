@@ -142,7 +142,7 @@ jobs:
       # party Plugins.
       - name: Activate "Disable `_load_textdomain_just_in_time` `doing_it_wrong` notice Plugin"
         working-directory: ${{ env.ROOT_DIR }}
-        run: wp-cli-list && wp-cli plugin listwp-cli plugin activate disable-doing-it-wrong-notices
+        run: wp-cli plugin list && wp-cli plugin activate disable-doing-it-wrong-notices
 
       # These should be stored as a separated list of URLs in the repository Settings > Secrets > Repository Secret > CONVERTKIT_PAID_PLUGIN_URLS.
       # We cannot include the URLs in this file, as they're not Plugins we are permitted to distribute.
