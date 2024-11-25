@@ -114,6 +114,19 @@ class ConvertKit_Term {
 	}
 
 	/**
+	 * Whether the Post's Form setting is set to 'None'
+	 *
+	 * @since   2.6.6
+	 *
+	 * @return  bool
+	 */
+	public function uses_no_form() {
+
+		return ( $this->settings['form'] === 0 );
+
+	}
+
+	/**
 	 * Returns the form position setting for the Term
 	 * on the Term archive.
 	 *
