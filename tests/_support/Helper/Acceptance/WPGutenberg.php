@@ -405,7 +405,7 @@ class WPGutenberg extends \Codeception\Module
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
-<p>Item #2</p>
+<p>Item #2: Adhaésionés altéram improbis mi pariendarum sit stulti triarium</p>
 <!-- /wp:paragraph --></div>
 <!-- /wp:column -->
 
