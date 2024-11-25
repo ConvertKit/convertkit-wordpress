@@ -101,6 +101,32 @@ class ConvertKit_Term {
 	}
 
 	/**
+	 * Whether the Term is set to use the Plugin's Default Form Setting.
+	 *
+	 * @since   2.6.6
+	 *
+	 * @return  bool
+	 */
+	public function uses_default_form() {
+
+		return ( $this->settings['form'] === -1 );
+
+	}
+
+	/**
+	 * Whether the Post's Form setting is set to 'None'
+	 *
+	 * @since   2.6.6
+	 *
+	 * @return  bool
+	 */
+	public function uses_no_form() {
+
+		return ( $this->settings['form'] === 0 );
+
+	}
+
+	/**
 	 * Returns the form position setting for the Term
 	 * on the Term archive.
 	 *
@@ -138,7 +164,12 @@ class ConvertKit_Term {
 	 */
 	public function save( $meta ) {
 
-		return update_term_meta( $this->term_id, self::TERM_META_KEY, $meta );
+		$result = update_term_meta( $this->term_id, self::TERM_META_KEY, array_merge( $this->get(), $meta ) );
+
+		// Reload meta in class, to reflect changes.
+		$this->settings = get_term_meta( $this->term_id, self::TERM_META_KEY, true );
+
+		return $result;
 
 	}
 

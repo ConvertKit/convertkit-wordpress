@@ -188,7 +188,7 @@ class WP_ConvertKit {
 		// Run the setup's update process on WordPress' init hook.
 		// Doing this sooner may result in errors with WordPress functions that are not yet
 		// available to the update routine.
-		add_action( 'init', array( $this, 'update' ) );
+		add_action( 'init', array( $this, 'init' ) );
 
 		/**
 		 * Initialize integration classes for the frontend web site.
@@ -200,14 +200,15 @@ class WP_ConvertKit {
 	}
 
 	/**
-	 * Runs the Plugin's update routine, which checks if
+	 * Runs the Plugin's initialization and update routines, which checks if
 	 * the Plugin has just been updated to a newer version,
 	 * and if so runs any specific processes that might be needed.
 	 *
 	 * @since   1.9.7.4
 	 */
-	public function update() {
+	public function init() {
 
+		$this->get_class( 'setup' )->initialize();
 		$this->get_class( 'setup' )->update();
 
 	}

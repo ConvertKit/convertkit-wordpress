@@ -23,13 +23,25 @@ class ConvertKit_Setup {
 	public function activate() {
 
 		// Call any functions to e.g. schedule WordPress Cron events now.
-		$posts = new ConvertKit_Resource_Posts( 'cron' );
-		$posts->schedule_cron_event();
+		$this->schedule_cron_events();
 
 	}
 
 	/**
-	 * Runs routines when the Plugin version has been updated.
+	 * Runs routines on every Plugin request e.g.
+	 * ensuring WordPress Cron events are scheduled.
+	 *
+	 * @since   2.6.6
+	 */
+	public function initialize() {
+
+		// Call any functions to e.g. schedule WordPress Cron events now.
+		$this->schedule_cron_events();
+
+	}
+
+	/**
+	 * Runs routines if the Plugin version has been updated.
 	 *
 	 * @since   1.9.7.4
 	 */
@@ -42,6 +54,14 @@ class ConvertKit_Setup {
 		// need to run.
 		if ( $current_version === CONVERTKIT_PLUGIN_VERSION ) {
 			return;
+		}
+
+		/**
+		 * 2.6.6: Migrate 'Default' Form value in _wp_convertkit_term_meta[form] from 0 to -1,
+		 * to match Posts.
+		 */
+		if ( version_compare( $current_version, '2.6.6', '<' ) ) {
+			$this->migrate_term_default_form_settings();
 		}
 
 		/**
@@ -118,6 +138,50 @@ class ConvertKit_Setup {
 
 		// Update the installed version number in the options table.
 		update_option( 'convertkit_version', CONVERTKIT_PLUGIN_VERSION );
+
+	}
+
+	/**
+	 * Change the Default value of 0 to -1 in wp_convertkit_term_meta[form], to
+	 * match how the Default value is stored in Posts.
+	 *
+	 * @since   2.6.6
+	 */
+	private function migrate_term_default_form_settings() {
+
+		// Get all Terms that have ConvertKit settings defined.
+		$query = new WP_Term_Query(
+			array(
+				'taxonomy'   => 'category',
+				'hide_empty' => false,
+				'fields'     => 'ids',
+				'meta_query' => array(
+					array(
+						'key'        => '_wp_convertkit_term_meta',
+						'comparison' => 'EXISTS',
+					),
+				),
+			)
+		);
+
+		// Bail if no Terms exist.
+		if ( ! $query->terms ) {
+			return;
+		}
+
+		// Iterate through Terms, mapping settings.
+		foreach ( $query->terms as $term_id ) {
+			$term_settings = new ConvertKit_Term( $term_id );
+
+			// If the Form setting is Default i.e. it does not have a formchange it from 0 to -1.
+			if ( ! $term_settings->has_form() ) {
+				$term_settings->save(
+					array(
+						'form' => -1,
+					)
+				);
+			}
+		}
 
 	}
 
@@ -523,6 +587,29 @@ class ConvertKit_Setup {
 	public function deactivate() {
 
 		// Call any functions to e.g. unschedule WordPress Cron events now.
+		$this->unschedule_cron_events();
+
+	}
+
+	/**
+	 * Schedules any Plugin specific CRON events, if they do not already exist.
+	 *
+	 * @since   2.6.6
+	 */
+	private function schedule_cron_events() {
+
+		$posts = new ConvertKit_Resource_Posts( 'cron' );
+		$posts->schedule_cron_event();
+
+	}
+
+	/**
+	 * Unschedules any Plugin specific CRON events, if they exist.
+	 *
+	 * @since   2.6.6
+	 */
+	private function unschedule_cron_events() {
+
 		$posts = new ConvertKit_Resource_Posts( 'cron' );
 		$posts->unschedule_cron_event();
 
