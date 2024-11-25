@@ -17,7 +17,7 @@ class WPCron extends \Codeception\Module
 	 * @var     string
 	 */
 	private $adminURL = 'tools.php?page=wp-crontrol';
-	
+
 	/**
 	 * Asserts if the given event name is scheduled in WordPress' Cron.
 	 *
