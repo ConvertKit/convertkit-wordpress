@@ -23,13 +23,25 @@ class ConvertKit_Setup {
 	public function activate() {
 
 		// Call any functions to e.g. schedule WordPress Cron events now.
-		$posts = new ConvertKit_Resource_Posts( 'cron' );
-		$posts->schedule_cron_event();
+		$this->schedule_cron_events();
 
 	}
 
 	/**
-	 * Runs routines when the Plugin version has been updated.
+	 * Runs routines on every Plugin request e.g.
+	 * ensuring WordPress Cron events are scheduled.
+	 *
+	 * @since   2.6.6
+	 */
+	public function initialize() {
+
+		// Call any functions to e.g. schedule WordPress Cron events now.
+		$this->schedule_cron_events();
+
+	}
+
+	/**
+	 * Runs routines if the Plugin version has been updated.
 	 *
 	 * @since   1.9.7.4
 	 */
@@ -575,6 +587,29 @@ class ConvertKit_Setup {
 	public function deactivate() {
 
 		// Call any functions to e.g. unschedule WordPress Cron events now.
+		$this->unschedule_cron_events();
+
+	}
+
+	/**
+	 * Schedules any Plugin specific CRON events, if they do not already exist.
+	 *
+	 * @since   2.6.6
+	 */
+	private function schedule_cron_events() {
+
+		$posts = new ConvertKit_Resource_Posts( 'cron' );
+		$posts->schedule_cron_event();
+
+	}
+
+	/**
+	 * Unschedules any Plugin specific CRON events, if they exist.
+	 *
+	 * @since   2.6.6
+	 */
+	private function unschedule_cron_events() {
+
 		$posts = new ConvertKit_Resource_Posts( 'cron' );
 		$posts->unschedule_cron_event();
 
