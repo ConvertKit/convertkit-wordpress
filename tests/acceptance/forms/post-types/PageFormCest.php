@@ -254,22 +254,22 @@ class PageFormCest
 	 */
 	public function testAddNewPageUsingDefaultFormAfterHeadingElement(AcceptanceTester $I)
 	{
-		// Setup ConvertKit plugin with Default Form for CPTs set to be output after the 2nd <h2> of content.
+		// Setup ConvertKit plugin with Default Form for Pages set to be output after the 2nd <h2> of content.
 		$I->setupConvertKitPlugin(
 			$I,
 			[
-				'article_form'                        => $_ENV['CONVERTKIT_API_FORM_ID'],
-				'article_form_position'               => 'after_element',
-				'article_form_position_element'       => 'h2',
-				'article_form_position_element_index' => 2,
+				'page_form'                        => $_ENV['CONVERTKIT_API_FORM_ID'],
+				'page_form_position'               => 'after_element',
+				'page_form_position_element'       => 'h2',
+				'page_form_position_element_index' => 2,
 			]
 		);
 		$I->setupConvertKitPluginResources($I);
 
-		// Setup Article with placeholder content.
+		// Setup Page with placeholder content.
 		$pageID = $I->addGutenbergPageToDatabase($I, 'page', 'Kit: Page: Form: Default: After 2nd H2 Element');
 
-		// View the CPT on the frontend site.
+		// View the Page on the frontend site.
 		$I->amOnPage('?p=' . $pageID);
 
 		// Check that no PHP warnings or notices were output.
