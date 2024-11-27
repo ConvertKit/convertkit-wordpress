@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the Kit (formerly ConvertKit) plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: Kit (formerly ConvertKit) 2.6.5\n"
+"Project-Id-Version: Kit (formerly ConvertKit) 2.6.6\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/convertkit\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-11-13T02:19:55+00:00\n"
+"POT-Creation-Date: 2024-11-27T23:42:04+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.10.0\n"
 "X-Domain: convertkit\n"
@@ -387,6 +387,10 @@ msgstr ""
 #: views/backend/post/meta-box.php:116
 #: views/backend/post/quick-edit.php:24
 #: views/backend/post/quick-edit.php:39
+#: views/backend/term/fields-add.php:24
+#: views/backend/term/fields-add.php:36
+#: views/backend/term/fields-edit.php:26
+#: views/backend/term/fields-edit.php:38
 msgid "None"
 msgstr ""
 
@@ -1228,11 +1232,11 @@ msgid "Access Token not configured in Plugin Settings."
 msgstr ""
 
 #. translators: %1$s: PHP class name
-#: includes/class-wp-convertkit.php:399
+#: includes/class-wp-convertkit.php:400
 msgid "Kit Error: Could not load Plugin class <strong>%1$s</strong>"
 msgstr ""
 
-#: includes/class-wp-convertkit.php:409
+#: includes/class-wp-convertkit.php:410
 msgid "Kit Error"
 msgstr ""
 
@@ -1347,8 +1351,8 @@ msgid "(None)"
 msgstr ""
 
 #: includes/integrations/divi/class-convertkit-divi-module.php:159
-#: views/backend/term/fields-add.php:50
-#: views/backend/term/fields-edit.php:54
+#: views/backend/term/fields-add.php:54
+#: views/backend/term/fields-edit.php:58
 #: views/backend/tinymce/modal-field.php:80
 msgid "No"
 msgstr ""
@@ -1475,17 +1479,17 @@ msgstr ""
 #: views/backend/post/meta-box.php:38
 #: views/backend/post/quick-edit.php:23
 #: views/backend/term/fields-add.php:23
-#: views/backend/term/fields-add.php:32
+#: views/backend/term/fields-add.php:33
 #: views/backend/term/fields-edit.php:25
-#: views/backend/term/fields-edit.php:34
+#: views/backend/term/fields-edit.php:35
 msgid "Default"
 msgstr ""
 
 #: views/backend/post/bulk-edit.php:35
 #: views/backend/post/meta-box.php:34
 #: views/backend/post/quick-edit.php:29
-#: views/backend/term/fields-add.php:28
-#: views/backend/term/fields-edit.php:30
+#: views/backend/term/fields-add.php:29
+#: views/backend/term/fields-edit.php:31
 msgid "Refresh Forms from Kit account"
 msgstr ""
 
@@ -1538,6 +1542,8 @@ msgid "settings page"
 msgstr ""
 
 #: views/backend/post/meta-box.php:43
+#: views/backend/term/fields-add.php:37
+#: views/backend/term/fields-edit.php:39
 msgid ": do not display a form."
 msgstr ""
 
@@ -1928,34 +1934,34 @@ msgstr ""
 msgid "Sequences"
 msgstr ""
 
-#: views/backend/term/fields-add.php:33
-#: views/backend/term/fields-edit.php:35
+#: views/backend/term/fields-add.php:34
+#: views/backend/term/fields-edit.php:36
 msgid ": Display a form based on the Post's settings."
 msgstr ""
 
 #. translators: Taxonomy Name
-#: views/backend/term/fields-add.php:38
-#: views/backend/term/fields-edit.php:40
+#: views/backend/term/fields-add.php:42
+#: views/backend/term/fields-edit.php:44
 msgid "Any other option will display that form after the main content for Posts assigned to this %s."
 msgstr ""
 
-#: views/backend/term/fields-add.php:47
-#: views/backend/term/fields-edit.php:50
+#: views/backend/term/fields-add.php:51
+#: views/backend/term/fields-edit.php:54
 msgid "Display Kit Form on Archive?"
 msgstr ""
 
-#: views/backend/term/fields-add.php:51
-#: views/backend/term/fields-edit.php:55
+#: views/backend/term/fields-add.php:55
+#: views/backend/term/fields-edit.php:59
 msgid "Before Posts"
-msgstr ""
-
-#: views/backend/term/fields-add.php:52
-#: views/backend/term/fields-edit.php:56
-msgid "After Posts"
 msgstr ""
 
 #: views/backend/term/fields-add.php:56
 #: views/backend/term/fields-edit.php:60
+msgid "After Posts"
+msgstr ""
+
+#: views/backend/term/fields-add.php:60
+#: views/backend/term/fields-edit.php:64
 msgid "Whether to display the Form on this Category's archive page, above or below the main posts list."
 msgstr ""
 

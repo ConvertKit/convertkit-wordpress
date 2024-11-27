@@ -3,9 +3,9 @@ Contributors: nathanbarry, growdev, travisnorthcutt, ggwicz
 Donate link: https://kit.com
 Tags: email marketing, email newsletter, subscribers, block, form
 Requires at least: 5.0
-Tested up to: 6.7
+Tested up to: 6.7.1
 Requires PHP: 5.6.20
-Stable tag: 2.6.5
+Stable tag: 2.6.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -158,6 +158,13 @@ Full Plugin documentation can be found [here](https://help.kit.com/en/articles/2
 10. Track subscriber growth
 
 == Changelog ==
+
+### 2.6.6 2024-11-27
+* Added: Categories: `None` option added to specify no Form displays on Posts assigned to the Category
+* Added: Honor Block Visibility Plugin's conditions when used on a Kit Form block set to output a non-inline Form
+* Fix: Character encoding when a Form is set to display after a specific element at `Settings > Kit > Form Position`
+* Fix: Settings: Broadcasts: Ensure `Import Now` displays
+* Fix: Broadcasts: Automatically reschedule cron event for importing Broadcasts to WordPress Posts, if removed
 
 ### 2.6.5 2024-11-13
 * Added: OAuth: Issue site-specific Access and Refresh Token when using the same Kit account on multiple WordPress sites
