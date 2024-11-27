@@ -395,18 +395,18 @@ class ConvertKit_Output {
 		$meta_tag = '<meta http-equiv="Content-Type" content="text/html; charset=utf-8">';
 
 		// Wrap content in <html>, <head> and <body> tags now, so we can inject the UTF-8 Content-Type meta tag.
-		$content = '<html><head></head><body>' . $content . '</body></html>';
+		$modified_content = '<html><head></head><body>' . $content . '</body></html>';
 
 		// Forcibly tell DOMDocument that this HTML uses the UTF-8 charset.
 		// <meta charset="utf-8"> isn't enough, as DOMDocument still interprets the HTML as ISO-8859, which breaks character encoding
 		// Use of mb_convert_encoding() with HTML-ENTITIES is deprecated in PHP 8.2, so we have to use this method.
 		// If we don't, special characters render incorrectly.
-		$content = str_replace( '<head>', '<head>' . "\n" . $meta_tag, $content );
+		$modified_content = str_replace( '<head>', '<head>' . "\n" . $meta_tag, $modified_content );
 
 		// Load Page / Post content into DOMDocument.
 		libxml_use_internal_errors( true );
 		$html = new DOMDocument();
-		$html->loadHTML( $content, LIBXML_HTML_NODEFDTD );
+		$html->loadHTML( $modified_content, LIBXML_HTML_NODEFDTD );
 
 		// Find the element to append the form to.
 		// item() is a zero based index.
@@ -414,7 +414,7 @@ class ConvertKit_Output {
 
 		// If the element could not be found, either the number of elements by tag name is less
 		// than the requested position the form be inserted in, or no element exists.
-		// Append the form to the content and return.
+		// Append the form to the original content and return.
 		if ( is_null( $element_node ) ) {
 			return $content . $form;
 		}
@@ -427,20 +427,20 @@ class ConvertKit_Output {
 		$element_node->parentNode->insertBefore( $html->importNode( $form_node->documentElement, true ), $element_node->nextSibling ); // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 
 		// Fetch HTML string.
-		$content = $html->saveHTML();
+		$modified_content = $html->saveHTML();
 
 		// Remove some HTML tags that DOMDocument adds, returning the output.
 		// We do this instead of using LIBXML_HTML_NOIMPLIED in loadHTML(), because Legacy Forms are not always contained in
 		// a single root / outer element, which is required for LIBXML_HTML_NOIMPLIED to correctly work.
-		$content = str_replace( '<html>', '', $content );
-		$content = str_replace( '</html>', '', $content );
-		$content = str_replace( '<head>', '', $content );
-		$content = str_replace( '</head>', '', $content );
-		$content = str_replace( '<body>', '', $content );
-		$content = str_replace( '</body>', '', $content );
-		$content = str_replace( $meta_tag, '', $content );
+		$modified_content = str_replace( '<html>', '', $modified_content );
+		$modified_content = str_replace( '</html>', '', $modified_content );
+		$modified_content = str_replace( '<head>', '', $modified_content );
+		$modified_content = str_replace( '</head>', '', $modified_content );
+		$modified_content = str_replace( '<body>', '', $modified_content );
+		$modified_content = str_replace( '</body>', '', $modified_content );
+		$modified_content = str_replace( $meta_tag, '', $modified_content );
 
-		return $content;
+		return $modified_content;
 
 	}
 
