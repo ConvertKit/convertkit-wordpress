@@ -1027,6 +1027,55 @@ class PageBlockFormCest
 	}
 
 	/**
+	 * Test that a non-inline Form is not displayed when specified in the Form Block and the
+	 * Block Visibility Plugin sets the block to not display.
+	 *
+	 * @since   2.6.6
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testFormBlockWithNonInlineFormAndBlockVisibilityPlugin(AcceptanceTester $I)
+	{
+		// Setup Plugin and Resources.
+		$I->setupConvertKitPlugin($I);
+		$I->setupConvertKitPluginResources($I);
+
+		// Activate Block Visibility Plugin.
+		$I->activateThirdPartyPlugin($I, 'block-visibility');
+
+		// Create a Page as if it were create in Gutenberg with the Form block
+		// set to display a non-inline Form, and the Block Visibility Plugin
+		// set to hide the block.
+		$pageID = $I->havePostInDatabase(
+			[
+				'post_type'    => 'page',
+				'post_title'   => 'Kit: Page: Form: Block: Block Visibility',
+				'post_content' => '<!-- wp:convertkit/form {"form":"' . $_ENV['CONVERTKIT_API_FORM_FORMAT_STICKY_BAR_ID'] . '","blockVisibility":{"controlSets":[{"id":1,"enable":true,"controls":{"location":{"ruleSets":[{"enable":true,"rules":[{"field":"postType","operator":"any","value":["page"]}]}],"hideOnRuleSets":true}}}]}} /-->',
+				'meta_input'   => [
+					// Configure ConvertKit Plugin to not display a default Form.
+					'_wp_convertkit_post_meta' => [
+						'form'         => '0',
+						'landing_page' => '',
+						'tag'          => '',
+					],
+				],
+			]
+		);
+
+		// Load Page.
+		$I->amOnPage('?p=' . $pageID);
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Confirm that no ConvertKit Form is displayed.
+		$I->dontSeeElementInDOM('form[data-sv-form]');
+
+		// Deactivate Block Visibility Plugin.
+		$I->deactivateThirdPartyPlugin($I, 'block-visibility');
+	}
+
+	/**
 	 * Deactivate and reset Plugin(s) after each test, if the test passes.
 	 * We don't use _after, as this would provide a screenshot of the Plugin
 	 * deactivation and not the true test error.

@@ -382,4 +382,49 @@ class ConvertKit_Block {
 
 	}
 
+	/**
+	 * If the Block Visiblity Plugin is active, run the block through its conditions now.
+	 * We don't wait for Block Visibility to do this, as it performs this on the
+	 * `render_block` filter, by which time the code in this method has fully executed,
+	 * meaning any non-inline Forms will have had their scripts added to the
+	 * `convertkit_output_scripts_footer` hook.
+	 * As a result, the non-inline Form will always display, regardless of whether
+	 * Block Visibility's conditions are met.
+	 * We deliberately don't output non-inline Forms in their block, instead deferring
+	 * to the `convertkit_output_scripts_footer` hook, to ensure the non-inline Forms
+	 * styling are not constrained by the Theme's width, layout or other properties.
+	 *
+	 * @since   2.6.6
+	 *
+	 * @param   array $atts   Block Attributes.
+	 * @return  bool            Display Block
+	 */
+	public function is_block_visible( $atts ) {
+
+		// Display the block if the Block Visibility Plugin isn't active.
+		if ( ! function_exists( '\BlockVisibility\Frontend\render_with_visibility' ) ) {
+			return true;
+		}
+
+		// Determine whether the block should display.
+		$display_block = \BlockVisibility\Frontend\render_with_visibility(
+			'block',
+			array(
+				'blockName' => 'convertkit-' . $this->get_name(),
+				'attrs'     => $atts,
+			)
+		);
+
+		// If the content returned is a blank string, conditions on this block set
+		// by the user in the Block Visibility Plugin resulted in the block not displaying.
+		// Don't display it.
+		if ( empty( $display_block ) ) {
+			return false;
+		}
+
+		// If here, the block can be displayed.
+		return true;
+
+	}
+
 }
