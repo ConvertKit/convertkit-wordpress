@@ -280,6 +280,9 @@ class PageFormCest
 
 		// Confirm character encoding is not broken due to using DOMDocument.
 		$I->seeInSource('Adhaésionés altéram improbis mi pariendarum sit stulti triarium');
+
+		// Confirm no meta tag exists within the content.
+		$I->dontSeeInSource('<meta http-equiv="Content-Type" content="text/html; charset=utf-8">');
 	}
 
 	/**
