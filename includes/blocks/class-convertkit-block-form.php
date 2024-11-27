@@ -290,6 +290,13 @@ class ConvertKit_Block_Form extends ConvertKit_Block {
 	 */
 	public function render( $atts ) {
 
+		// Check if the Block Visibility Plugin permits displaying this block.
+		if ( ! $this->is_block_visible( $atts ) ) {
+			// Block should not be displayed due to Block Visibility Plugin conditions.
+			// Return a blank string now.
+			return '';
+		}
+
 		// Parse shortcode attributes, defining fallback defaults if required.
 		$atts = shortcode_atts(
 			$this->get_default_values(),

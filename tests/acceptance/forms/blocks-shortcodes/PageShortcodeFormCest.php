@@ -655,6 +655,7 @@ class PageShortcodeFormCest
 		$I->setupConvertKitPluginResources($I);
 
 		// Activate Perfmatters Plugin.
+		$I->activateThirdPartyPlugin($I, 'disable-_load_textdomain_just_in_time-doing_it_wrong-notice');
 		$I->activateThirdPartyPlugin($I, 'perfmatters');
 
 		// Enable Defer and Delay JavaScript.
@@ -700,6 +701,7 @@ class PageShortcodeFormCest
 
 		// Deactivate Perfmatters Plugin.
 		$I->deactivateThirdPartyPlugin($I, 'perfmatters');
+		$I->deactivateThirdPartyPlugin($I, 'disable-_load_textdomain_just_in_time-doing_it_wrong-notice');
 	}
 
 	/**
@@ -770,6 +772,7 @@ class PageShortcodeFormCest
 		$I->setupConvertKitPluginResources($I);
 
 		// Activate WP Rocket Plugin.
+		$I->activateThirdPartyPlugin($I, 'disable-_load_textdomain_just_in_time-doing_it_wrong-notice');
 		$I->activateThirdPartyPlugin($I, 'wp-rocket');
 
 		// Configure WP Rocket.
@@ -806,6 +809,7 @@ class PageShortcodeFormCest
 
 		// Deactivate WP Rocket Plugin.
 		$I->deactivateThirdPartyPlugin($I, 'wp-rocket');
+		$I->deactivateThirdPartyPlugin($I, 'disable-_load_textdomain_just_in_time-doing_it_wrong-notice');
 	}
 
 	/**

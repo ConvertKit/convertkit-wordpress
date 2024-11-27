@@ -314,6 +314,9 @@ class CPTFormCest
 
 		// Confirm that one ConvertKit Form is output in the DOM after the third paragraph.
 		$I->seeFormOutput($I, $_ENV['CONVERTKIT_API_FORM_ID'], 'after_element', 'p', 3);
+
+		// Confirm character encoding is not broken due to using DOMDocument.
+		$I->seeInSource('Adhaésionés altéram improbis mi pariendarum sit stulti triarium');
 	}
 
 	/**
@@ -350,6 +353,9 @@ class CPTFormCest
 
 		// Confirm that one ConvertKit Form is output in the DOM after the second <h2> element.
 		$I->seeFormOutput($I, $_ENV['CONVERTKIT_API_FORM_ID'], 'after_element', 'h2', 2);
+
+		// Confirm character encoding is not broken due to using DOMDocument.
+		$I->seeInSource('Adhaésionés altéram improbis mi pariendarum sit stulti triarium');
 	}
 
 	/**
@@ -386,6 +392,9 @@ class CPTFormCest
 
 		// Confirm that one ConvertKit Form is output in the DOM after the second <img> element.
 		$I->seeFormOutput($I, $_ENV['CONVERTKIT_API_FORM_ID'], 'after_element', 'img', 2);
+
+		// Confirm character encoding is not broken due to using DOMDocument.
+		$I->seeInSource('Adhaésionés altéram improbis mi pariendarum sit stulti triarium');
 	}
 
 	/**
@@ -423,6 +432,9 @@ class CPTFormCest
 		// Confirm that one ConvertKit Form is output in the DOM after the content, as
 		// the number of paragraphs is less than the position.
 		$I->seeFormOutput($I, $_ENV['CONVERTKIT_API_FORM_ID'], 'after_content');
+
+		// Confirm character encoding is not broken due to using DOMDocument.
+		$I->seeInSource('Adhaésionés altéram improbis mi pariendarum sit stulti triarium');
 	}
 
 	/**
