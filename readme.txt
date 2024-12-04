@@ -5,7 +5,7 @@ Tags: email marketing, email newsletter, subscribers, block, form
 Requires at least: 5.0
 Tested up to: 6.7.1
 Requires PHP: 5.6.20
-Stable tag: 2.6.6
+Stable tag: 2.6.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -158,6 +158,9 @@ Full Plugin documentation can be found [here](https://help.kit.com/en/articles/2
 10. Track subscriber growth
 
 == Changelog ==
+
+### 2.6.7 2024-12-04
+* Removed: `convertkit_store_subscriber_id_in_cookie` AJAX call, as logic exists server side
 
 ### 2.6.6 2024-11-27
 * Added: Categories: `None` option added to specify no Form displays on Posts assigned to the Category
