@@ -266,11 +266,6 @@ class ConvertKit_Admin_Cache_Plugins {
 		$config   = new WPO_Cache_Config();
 		$settings = $config->get();
 
-		// Check that we received an array of settings.
-		if ( ! is_array( $settings ) ) {
-			return;
-		}
-
 		// Check the exception cookies array key exists in the settings.
 		if ( ! array_key_exists( 'cache_exception_cookies', $settings ) ) {
 			$settings['cache_exception_cookies'] = array();

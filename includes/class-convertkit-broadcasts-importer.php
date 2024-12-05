@@ -157,7 +157,7 @@ class ConvertKit_Broadcasts_Importer {
 		// Check that we're using the ConvertKit WordPress Libraries 1.3.8 or higher.
 		// If another ConvertKit Plugin is active and out of date, its libraries might
 		// be loaded that don't have this method.
-		if ( ! method_exists( $api, 'get_post' ) ) {
+		if ( ! method_exists( $api, 'get_post' ) ) { // @phpstan-ignore-line Older WordPress Libraries won't have this function.
 			return new WP_Error(
 				'convertkit_broadcasts_importer_error',
 				__( 'Kit WordPress Libraries 1.3.7 or older detected, missing the `get_post` method.', 'convertkit' )

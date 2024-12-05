@@ -70,7 +70,7 @@ class ConvertKit_Divi_Module extends ET_Builder_Module {
 		$blocks = convertkit_get_blocks();
 
 		// Bail if no blocks are available.
-		if ( ! is_array( $blocks ) || ! count( $blocks ) ) {
+		if ( ! count( $blocks ) ) {
 			return;
 		}
 

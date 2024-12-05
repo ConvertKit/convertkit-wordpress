@@ -299,10 +299,6 @@ class ConvertKit_Block {
 	 */
 	public function sanitize_atts( $atts ) {
 
-		if ( ! is_array( $atts ) ) {
-			return $atts;
-		}
-
 		foreach ( $atts as $key => $value ) {
 			if ( is_array( $value ) ) {
 				continue;

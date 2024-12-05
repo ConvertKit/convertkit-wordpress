@@ -36,13 +36,12 @@ class ConvertKit_Shortcodes {
 		$shortcodes = convertkit_get_shortcodes();
 
 		// Bail if no shortcodes are available.
-		if ( ! is_array( $shortcodes ) || ! count( $shortcodes ) ) {
+		if ( ! count( $shortcodes ) ) {
 			return;
 		}
 
 		// Iterate through shortcodes, registering them as shortcodes.
 		foreach ( $shortcodes as $shortcode => $properties ) {
-
 			// Register shortcode.
 			add_shortcode(
 				'convertkit_' . $shortcode,

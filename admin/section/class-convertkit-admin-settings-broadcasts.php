@@ -342,7 +342,7 @@ class ConvertKit_Admin_Settings_Broadcasts extends ConvertKit_Settings_Base {
 
 		// If the DISABLE_WP_CRON constant exists and is true, display a warning that this functionality
 		// may not work.
-		if ( defined( 'DISABLE_WP_CRON' ) && DISABLE_WP_CRON === true ) {
+		if ( defined( 'DISABLE_WP_CRON' ) && DISABLE_WP_CRON === true ) { // @phpstan-ignore-line Constant is not always true.
 			?>
 			<div class="notice notice-info">
 				<p>

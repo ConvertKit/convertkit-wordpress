@@ -87,7 +87,7 @@ class ConvertKit_Gutenberg {
 		$blocks = convertkit_get_blocks();
 
 		// Bail if no blocks are available.
-		if ( ! is_array( $blocks ) || ! count( $blocks ) ) {
+		if ( ! count( $blocks ) ) {
 			return;
 		}
 
@@ -98,7 +98,7 @@ class ConvertKit_Gutenberg {
 		foreach ( $blocks as $block => $properties ) {
 
 			// Skip if this block has already been registered.
-			if ( is_array( $registered_blocks ) && in_array( 'convertkit/' . $block, $registered_blocks, true ) ) {
+			if ( in_array( 'convertkit/' . $block, $registered_blocks, true ) ) {
 				continue;
 			}
 

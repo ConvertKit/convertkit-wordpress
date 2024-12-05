@@ -97,7 +97,7 @@ class ConvertKit_Admin_TinyMCE {
 		$shortcodes = convertkit_get_shortcodes();
 
 		// Bail if no shortcode are available.
-		if ( ! is_array( $shortcodes ) || ! count( $shortcodes ) ) {
+		if ( ! count( $shortcodes ) ) {
 			return;
 		}
 
@@ -139,7 +139,7 @@ class ConvertKit_Admin_TinyMCE {
 		$shortcodes = convertkit_get_shortcodes();
 
 		// Bail if no shortcodes are available.
-		if ( ! is_array( $shortcodes ) || ! count( $shortcodes ) ) {
+		if ( ! count( $shortcodes ) ) {
 			return $plugins;
 		}
 
@@ -184,7 +184,7 @@ class ConvertKit_Admin_TinyMCE {
 		$shortcodes = convertkit_get_shortcodes();
 
 		// Bail if no shortcodes are available.
-		if ( ! is_array( $shortcodes ) || ! count( $shortcodes ) ) {
+		if ( ! count( $shortcodes ) ) {
 			return $buttons;
 		}
 
