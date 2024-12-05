@@ -21,6 +21,10 @@ parameters:
     scanDirectories:
         - /home/runner/work/convertkit-wordpress/convertkit-wordpress/wordpress/wp-content/plugins
 
+    # Location of constants for PHPStan to scan, building symbols.
+    scanFiles:
+        - /home/runner/work/convertkit-wordpress/convertkit-wordpress/wordpress/wp-config.php
+
     # Should not need to edit anything below here
     # Rule Level: https://phpstan.org/user-guide/rule-levels
     level: 5
