@@ -407,7 +407,7 @@ class ConvertKit_Admin_Settings_Restrict_Content extends ConvertKit_Settings_Bas
 			esc_attr( $args['min'] ),
 			esc_attr( $args['max'] ),
 			esc_attr( $args['step'] ),
-			esc_html( $args['description'] ),
+			$args['description'], // phpcs:ignore WordPress.Security.EscapeOutput
 			array(
 				'widefat',
 			)
