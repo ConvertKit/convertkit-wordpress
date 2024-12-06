@@ -144,6 +144,19 @@ class ConvertKit_Settings_Restrict_Content {
 	}
 
 	/**
+	 * Returns the reCAPTCHA minimum score Plugin setting.
+	 *
+	 * @since   2.6.8
+	 *
+	 * @return  float
+	 */
+	public function get_recaptcha_minimum_score() {
+
+		return (float) $this->settings['recaptcha_minimum_score'];
+
+	}
+
+	/**
 	 * Returns Restrict Content settings value for the given key.
 	 *
 	 * @since   2.1.0
@@ -183,8 +196,9 @@ class ConvertKit_Settings_Restrict_Content {
 			'permit_crawlers'        => '',
 
 			// Google reCAPTCHA.
-			'recaptcha_site_key'     => '',
-			'recaptcha_secret_key'   => '',
+			'recaptcha_site_key'      => '',
+			'recaptcha_secret_key'    => '',
+			'recaptcha_minimum_score' => '0.5',
 
 			// Restrict by Product.
 			'subscribe_heading'      => __( 'Read this post with a premium subscription', 'convertkit' ),

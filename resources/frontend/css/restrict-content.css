@@ -75,7 +75,8 @@
 
 
 /* Buttons */
-form#convertkit-restrict-content-form input[type=submit] {
+form#convertkit-restrict-content-form input[type=submit],
+form#convertkit-restrict-content-form button {
 	height: 42px;
 	line-height: 42px;
 	font-size: 15px;
@@ -118,7 +119,8 @@ form#convertkit-restrict-content-form div#convertkit-restrict-content-email-fiel
 	background: none;
 	border: none;
 }
-form#convertkit-restrict-content-form div#convertkit-restrict-content-email-field input[type=submit] {
+form#convertkit-restrict-content-form div#convertkit-restrict-content-email-field input[type=submit],
+form#convertkit-restrict-content-form div#convertkit-restrict-content-email-field button {
 	grid-area: button;
 }
 
