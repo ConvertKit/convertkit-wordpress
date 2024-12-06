@@ -78,6 +78,72 @@ class ConvertKit_Settings_Restrict_Content {
 	}
 
 	/**
+	 * Returns the reCAPTCHA Site Key Plugin setting.
+	 *
+	 * @since   2.6.8
+	 *
+	 * @return  string
+	 */
+	public function get_recaptcha_site_key() {
+
+		return $this->settings['recaptcha_site_key'];
+
+	}
+
+	/**
+	 * Returns whether the reCAPTCHA Site Key has been set in the Plugin settings.
+	 *
+	 * @since   2.6.8
+	 *
+	 * @return  bool
+	 */
+	public function has_recaptcha_site_key() {
+
+		return ! empty( $this->get_recaptcha_site_key() );
+
+	}
+
+	/**
+	 * Returns the reCAPTCHA Secret Key Plugin setting.
+	 *
+	 * @since   2.6.8
+	 *
+	 * @return  string
+	 */
+	public function get_recaptcha_secret_key() {
+
+		return $this->settings['recaptcha_secret_key'];
+
+	}
+
+	/**
+	 * Returns whether the reCAPTCHA Secret Key has been set in the Plugin settings.
+	 *
+	 * @since   2.6.8
+	 *
+	 * @return  bool
+	 */
+	public function has_recaptcha_secret_key() {
+
+		return ! empty( $this->get_recaptcha_secret_key() );
+
+	}
+
+	/**
+	 * Returns whether the reCAPTCH Site Key and Secret Key are defined
+	 * in the Plugin settings.
+	 *
+	 * @since   2.6.8
+	 *
+	 * @return  bool
+	 */
+	public function has_recaptcha_site_and_secret_keys() {
+
+		return $this->get_recaptcha_site_key() && $this->has_recaptcha_secret_key();
+
+	}
+
+	/**
 	 * Returns Restrict Content settings value for the given key.
 	 *
 	 * @since   2.1.0
@@ -116,6 +182,10 @@ class ConvertKit_Settings_Restrict_Content {
 			// Permit Crawlers.
 			'permit_crawlers'        => '',
 
+			// Google reCAPTCHA.
+			'recaptcha_site_key'	 => '',
+			'recaptcha_secret_key'	 => '',
+			
 			// Restrict by Product.
 			'subscribe_heading'      => __( 'Read this post with a premium subscription', 'convertkit' ),
 			'subscribe_text'         => __( 'This post is only available to premium subscribers. Join today to get access to all posts.', 'convertkit' ),

@@ -80,6 +80,36 @@ class ConvertKit_Admin_Settings_Restrict_Content extends ConvertKit_Settings_Bas
 			)
 		);
 
+		// reCAPTCHA.
+		add_settings_field(
+			'recaptcha_site_key',
+			__( 'reCAPTCHA: Site Key', 'convertkit' ),
+			array( $this, 'text_callback' ),
+			$this->settings_key,
+			$this->name,
+			array(
+				'name'        => 'recaptcha_site_key',
+				'label_for'   => 'recaptcha_site_key',
+				'description' => array(
+					__( 'Enter your Google reCAPTCHA v3 Site Key. When specified, this will be used in Member Content by Tag functionality to reduce spam signups.', 'convertkit' ),
+				),
+			)
+		);
+		add_settings_field(
+			'recaptcha_secret_key',
+			__( 'reCAPTCHA: Secret Key', 'convertkit' ),
+			array( $this, 'text_callback' ),
+			$this->settings_key,
+			$this->name,
+			array(
+				'name'        => 'recaptcha_secret_key',
+				'label_for'   => 'recaptcha_secret_key',
+				'description' => array(
+					__( 'Enter your Google reCAPTCHA v3 Secret Key. When specified, this will be used in Member Content by Tag functionality to reduce spam signups.', 'convertkit' ),
+				),
+			)
+		);
+
 		// Restrict by Product.
 		add_settings_field(
 			'subscribe_heading',
