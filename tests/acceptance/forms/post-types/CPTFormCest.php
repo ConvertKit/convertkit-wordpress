@@ -324,7 +324,7 @@ class CPTFormCest
 
 	/**
 	 * Test that specifying a non-inline Form specified in the Plugin Settings does not
-	 * result in a fatal error when creating and viewing a new WordPress Post, and its position is set
+	 * result in a fatal error when creating and viewing a new WordPress CPT, and its position is set
 	 * to after the 3rd paragraph.
 	 *
 	 * @since   2.6.8
