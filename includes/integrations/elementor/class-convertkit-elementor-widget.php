@@ -278,7 +278,7 @@ class ConvertKit_Elementor_Widget extends Elementor\Widget_Base {
 		$blocks = convertkit_get_blocks();
 
 		// Bail if no blocks are available.
-		if ( ! is_array( $blocks ) || ! count( $blocks ) ) {
+		if ( ! count( $blocks ) ) {
 			return new WP_Error( 'convertkit_elementor_widget_get_block_error', __( 'No blocks are registered. Register blocks using the `convertkit_blocks` filter.', 'convertkit' ) );
 		}
 

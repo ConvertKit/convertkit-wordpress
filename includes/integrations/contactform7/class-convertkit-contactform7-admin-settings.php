@@ -201,9 +201,6 @@ class ConvertKit_ContactForm7_Admin_Settings extends ConvertKit_Settings_Base {
 			)
 		);
 
-		if ( ! is_array( $result->posts ) ) {
-			return false;
-		}
 		if ( ! count( $result->posts ) ) {
 			return false;
 		}

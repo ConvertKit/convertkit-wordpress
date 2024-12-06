@@ -1,4 +1,4 @@
-# PHPStan configuration for local static analysis.
+# PHPStan configuration for GitHub Actions.
 
 # Include PHPStan for WordPress configuration.
 includes:
@@ -19,15 +19,15 @@ parameters:
 
     # Location of WordPress Plugins for PHPStan to scan, building symbols.
     scanDirectories:
-        - /Users/tim/Local Sites/convertkit-github/app/public/wp-content/plugins
+        - /home/runner/work/convertkit-wordpress/convertkit-wordpress/wordpress/wp-content/plugins
+
+    # Location of constants for PHPStan to scan, building symbols.
+    scanFiles:
+        - /home/runner/work/convertkit-wordpress/convertkit-wordpress/wordpress/wp-config.php
+
+    # Don't report unmatched ignored errors on older PHP versions (7.2, 7.3)
+    reportUnmatchedIgnoredErrors: false
 
     # Should not need to edit anything below here
     # Rule Level: https://phpstan.org/user-guide/rule-levels
     level: 5
-
-    # Ignore the following errors, as PHPStan and PHPStan for WordPress haven't registered symbols for them yet,
-    # so they're false positives.
-    ignoreErrors:
-        - '#Access to an undefined property WP_Theme::#'
-        - '#Constant WP_MEMORY_LIMIT not found.#'
-        - '#Function apply_filters invoked with#' # apply_filters() accepted a variable number of parameters, which PHPStan fails to detect

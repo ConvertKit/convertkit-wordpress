@@ -37,7 +37,7 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 	 *
 	 * @since   1.9.6
 	 *
-	 * @var     bool|ConvertKit_Resource_Forms;
+	 * @var     bool|ConvertKit_Resource_Forms
 	 */
 	private $forms = false;
 
