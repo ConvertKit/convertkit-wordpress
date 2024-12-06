@@ -183,9 +183,9 @@ class ConvertKit_Settings_Restrict_Content {
 			'permit_crawlers'        => '',
 
 			// Google reCAPTCHA.
-			'recaptcha_site_key'	 => '',
-			'recaptcha_secret_key'	 => '',
-			
+			'recaptcha_site_key'     => '',
+			'recaptcha_secret_key'   => '',
+
 			// Restrict by Product.
 			'subscribe_heading'      => __( 'Read this post with a premium subscription', 'convertkit' ),
 			'subscribe_text'         => __( 'This post is only available to premium subscribers. Join today to get access to all posts.', 'convertkit' ),

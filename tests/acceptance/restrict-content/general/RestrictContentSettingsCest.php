@@ -84,6 +84,10 @@ class RestrictContentSettingsCest
 			// Permit Crawlers.
 			'permit_crawlers'        => '',
 
+			// Google reCAPTCHA.
+			'recaptcha_site_key'     => '',
+			'recaptcha_secret_key'   => '',
+
 			// Restrict by Product.
 			'subscribe_heading'      => '',
 			'subscribe_text'         => '',
@@ -136,6 +140,10 @@ class RestrictContentSettingsCest
 		$settings = array(
 			// Permit Crawlers.
 			'permit_crawlers'        => true,
+
+			// Google reCAPTCHA.
+			'recaptcha_site_key'     => 'reCAPTCHASiteKey',
+			'recaptcha_secret_key'   => 'reCAPTCHASecretKey',
 
 			// Restrict by Product.
 			'subscribe_heading'      => 'Subscribe Heading',
