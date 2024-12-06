@@ -209,13 +209,16 @@ class ConvertKit_Output_Restrict_Content {
 			case 'tag':
 				// If Google reCAPTCHA is enabled, check if the submission is spam.
 				if ( $this->restrict_content_settings->has_recaptcha_site_and_secret_keys() ) {
-					$response = wp_remote_post( 'https://www.google.com/recaptcha/api/siteverify', array(
-						'body' => array(
-							'secret' => $this->restrict_content_settings->get_recaptcha_secret_key(),
-							'response' => $_POST['g-recaptcha-response'],
-							'remoteip' => $_SERVER['REMOTE_ADDR'],
+					$response = wp_remote_post(
+						'https://www.google.com/recaptcha/api/siteverify',
+						array(
+							'body' => array(
+								'secret'   => $this->restrict_content_settings->get_recaptcha_secret_key(),
+								'response' => $_POST['g-recaptcha-response'],
+								'remoteip' => $_SERVER['REMOTE_ADDR'],
+							),
 						)
-					) );
+					);
 
 					// Bail if an error occured.
 					if ( is_wp_error( $response ) ) {
@@ -231,6 +234,7 @@ class ConvertKit_Output_Restrict_Content {
 						$this->error = new WP_Error(
 							'convertkit_output_restrict_content_maybe_run_subscriber_authentication_error',
 							sprintf(
+								/* translators: Error codes */
 								__( 'Google reCAPTCHA failure: %s', 'convertkit' ),
 								implode( ', ', $body['error-codes'] )
 							)
