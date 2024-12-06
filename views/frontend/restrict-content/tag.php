@@ -29,18 +29,14 @@
 				// Output submit button, depending on whether Google reCAPTCHA is enabled.
 				if ( $this->restrict_content_settings->has_recaptcha_site_and_secret_keys() ) {
 					?>
-					<input type="submit"
-							class="wp-block-button__link wp-block-button__link g-recaptcha"
+					<input type="submit" class="wp-block-button__link wp-block-button__link g-recaptcha" value="<?php echo esc_attr( $this->restrict_content_settings->get_by_key( 'subscribe_button_label' ) ); ?>"
 							data-sitekey="<?php echo esc_attr( $this->restrict_content_settings->get_recaptcha_site_key() ); ?>"
 							data-callback="convertKitRestrictContentTagFormSubmit"
-							data-action="convertkit_restrict_content_tag"
-							value="<?php echo esc_attr( $this->restrict_content_settings->get_by_key( 'subscribe_button_label' ) ); ?>" />
+							data-action="convertkit_restrict_content_tag" />
 					<?php
 				} else {
 					?>
-					<input type="submit"
-							class="wp-block-button__link wp-block-button__link"
-							value="<?php echo esc_attr( $this->restrict_content_settings->get_by_key( 'subscribe_button_label' ) ); ?>" />
+					<input type="submit" class="wp-block-button__link wp-block-button__link" value="<?php echo esc_attr( $this->restrict_content_settings->get_by_key( 'subscribe_button_label' ) ); ?>" />
 					<?php
 				}
 				?>

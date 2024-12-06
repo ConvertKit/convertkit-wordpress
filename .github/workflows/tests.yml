@@ -46,6 +46,8 @@ jobs:
       KIT_OAUTH_REDIRECT_URI: ${{ secrets.KIT_OAUTH_REDIRECT_URI }}
       CONVERTKIT_API_SIGNED_SUBSCRIBER_ID: ${{ secrets.CONVERTKIT_API_SIGNED_SUBSCRIBER_ID }} # ConvertKit API Signed Subscriber ID, stored in the repository's Settings > Secrets
       CONVERTKIT_API_SIGNED_SUBSCRIBER_ID_NO_ACCESS: ${{ secrets.CONVERTKIT_API_SIGNED_SUBSCRIBER_ID_NO_ACCESS }} # ConvertKit API Signed Subscriber ID with no access to Products, stored in the repository's Settings > Secrets
+      CONVERTKIT_API_RECAPTCHA_SITE_KEY: ${{ secrets.CONVERTKIT_API_RECAPTCHA_SITE_KEY }} # Google reCAPTCHA v3 Site Key, stored in the repository's Settings > Secrets
+      CONVERTKIT_API_RECAPTCHA_SECRET_KEY: ${{ secrets.CONVERTKIT_API_RECAPTCHA_SECRET_KEY }} # Google reCAPTCHA v3 Secret Key, stored in the repository's Settings > Secrets
       
     # Defines the WordPress and PHP Versions matrix to run tests on
     # WooCommerce 5.9.0 requires WordPress 5.6 or greater, so we do not test on earlier versions
@@ -218,6 +220,9 @@ jobs:
             KIT_OAUTH_REDIRECT_URI=${{ env.KIT_OAUTH_REDIRECT_URI }}
             CONVERTKIT_API_SIGNED_SUBSCRIBER_ID=${{ env.CONVERTKIT_API_SIGNED_SUBSCRIBER_ID }}
             CONVERTKIT_API_SIGNED_SUBSCRIBER_ID_NO_ACCESS=${{ env.CONVERTKIT_API_SIGNED_SUBSCRIBER_ID_NO_ACCESS }}
+            CONVERTKIT_API_RECAPTCHA_SITE_KEY=${{ env.CONVERTKIT_API_RECAPTCHA_SITE_KEY }}
+            CONVERTKIT_API_RECAPTCHA_SECRET_KEY=${{ env.CONVERTKIT_API_RECAPTCHA_SECRET_KEY }}
+            
           write-mode: append
 
       # Installs wp-browser, Codeception, PHP CodeSniffer and anything else needed to run tests.
