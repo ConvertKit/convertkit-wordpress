@@ -87,7 +87,7 @@ class ConvertKit_Elementor {
 		$blocks = convertkit_get_blocks();
 
 		// Bail if no blocks are available.
-		if ( ! is_array( $blocks ) || ! count( $blocks ) ) {
+		if ( ! count( $blocks ) ) {
 			return;
 		}
 
@@ -106,7 +106,7 @@ class ConvertKit_Elementor {
 			$class_name = 'ConvertKit_Elementor_Widget_' . str_replace( '-', '_', $block );
 
 			// Register Widget, using applicable function depending on the Elementor version.
-			if ( method_exists( $widgets_manager, 'register' ) ) {
+			if ( method_exists( $widgets_manager, 'register' ) ) { // @phpstan-ignore-line - older versions of Elementor don't have this method.
 				// Use register() function, available in Elementor 3.5.0.
 				// Required per https://developers.elementor.com/docs/managers/registering-widgets/.
 				$widgets_manager->register( new $class_name() );

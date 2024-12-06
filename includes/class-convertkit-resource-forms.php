@@ -68,7 +68,7 @@ class ConvertKit_Resource_Forms extends ConvertKit_Resource_V4 {
 		// addon), or a WordPress site updates this Plugin before other ConvertKit Plugins,
 		// get_by() won't be available and will cause an E_ERROR, crashing the site.
 		// @see https://wordpress.org/support/topic/error-1795/.
-		if ( ! method_exists( $this, 'get_by' ) ) {
+		if ( ! method_exists( $this, 'get_by' ) ) { // @phpstan-ignore-line Older WordPress Libraries won't have this function.
 			return false;
 		}
 

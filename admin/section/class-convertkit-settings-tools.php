@@ -228,9 +228,6 @@ class ConvertKit_Settings_Tools extends ConvertKit_Settings_Base {
 		}
 
 		// Bail if no configuration file was supplied.
-		if ( ! is_array( $_FILES ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
-			$this->redirect();
-		}
 		if ( $_FILES['import']['error'] !== 0 ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
 			$this->redirect_with_error_notice( 'import_configuration_upload_error' );
 		}
