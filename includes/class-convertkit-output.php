@@ -326,9 +326,24 @@ class ConvertKit_Output {
 			}
 		}
 
+		// If the Form HTML is empty, it's a modal form that has been set to load in the footer of the site.
+		// We don't need to append anything to the content.
+		if ( empty( $form ) ) {
+			if ( $this->settings->debug_enabled() ) {
+				$content .= '<!-- Kit append_form_to_content(): Form is non-inline, appended to footer. -->';
+			}
+
+			return $content;
+		}
+
 		// If here, we have a ConvertKit Form.
 		// Append form to Post's Content, based on the position setting.
 		$form_position = $this->settings->get_default_form_position( get_post_type( $post_id ) );
+
+		if ( $this->settings->debug_enabled() ) {
+			$content .= '<!-- Kit append_form_to_content(): Form Position: ' . esc_html( $form_position ) . ' -->';
+		}
+
 		switch ( $form_position ) {
 			case 'before_after_content':
 				$content = $form . $content . $form;
@@ -390,6 +405,11 @@ class ConvertKit_Output {
 	 * @return  string
 	 */
 	private function inject_form_after_element( $content, $tag, $index, $form ) {
+
+		// If the form is empty, don't inject anything.
+		if ( empty( $form ) ) {
+			return $content;
+		}
 
 		// Define the meta tag.
 		$meta_tag = '<meta http-equiv="Content-Type" content="text/html; charset=utf-8">';
@@ -458,6 +478,11 @@ class ConvertKit_Output {
 	 * @return  string
 	 */
 	private function inject_form_after_element_fallback( $content, $tag, $index, $form ) {
+
+		// If the form is empty, don't inject anything.
+		if ( empty( $form ) ) {
+			return $content;
+		}
 
 		// Calculate tag length.
 		$tag_length = ( strlen( $tag ) + 3 );

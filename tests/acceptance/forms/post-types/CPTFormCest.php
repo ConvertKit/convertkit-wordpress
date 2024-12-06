@@ -323,6 +323,49 @@ class CPTFormCest
 	}
 
 	/**
+	 * Test that specifying a non-inline Form specified in the Plugin Settings does not
+	 * result in a fatal error when creating and viewing a new WordPress Post, and its position is set
+	 * to after the 3rd paragraph.
+	 *
+	 * @since   2.6.8
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testAddNewCPTUsingDefaultNonInlineFormAfterParagraphElement(AcceptanceTester $I)
+	{
+		// Setup ConvertKit plugin with Default Form for CPTs set to be output after the 3rd paragraph of content.
+		$I->setupConvertKitPlugin(
+			$I,
+			[
+				'article_form'                        => $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_ID'],
+				'article_form_position'               => 'after_element',
+				'article_form_position_element'       => 'p',
+				'article_form_position_element_index' => 3,
+			]
+		);
+		$I->setupConvertKitPluginResources($I);
+
+		// Setup CPT with placeholder content.
+		$pageID = $I->addGutenbergPageToDatabase($I, 'article', 'Kit: CPT: Non-Inline Form: Default: After 3rd Paragraph Element');
+
+		// View the Page on the frontend site.
+		$I->amOnPage('?p=' . $pageID);
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Confirm that one ConvertKit Form is output in the DOM.
+		// This confirms that there is only one script on the page for this form, which renders the form.
+		$I->seeNumberOfElementsInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_ID'] . '"]', 1);
+
+		// Confirm character encoding is not broken due to using DOMDocument.
+		$I->seeInSource('Adhaésionés altéram improbis mi pariendarum sit stulti triarium');
+
+		// Confirm no meta tag exists within the content.
+		$I->dontSeeInSource('<meta http-equiv="Content-Type" content="text/html; charset=utf-8">');
+	}
+
+	/**
 	 * Test that the Default Form specified in the Plugin Settings works when
 	 * creating and viewing a new WordPress CPT, and its position is set
 	 * to after the 2nd <h2> element.
