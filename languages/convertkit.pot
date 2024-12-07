@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the Kit (formerly ConvertKit) plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: Kit (formerly ConvertKit) 2.6.7\n"
+"Project-Id-Version: Kit (formerly ConvertKit) 2.6.8\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/convertkit\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-12-04T00:40:21+00:00\n"
+"POT-Creation-Date: 2024-12-07T02:15:15+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.10.0\n"
 "X-Domain: convertkit\n"
@@ -54,7 +54,7 @@ msgstr ""
 
 #: admin/class-convertkit-admin-cache-plugins.php:115
 #: admin/class-convertkit-admin-cache-plugins.php:186
-#: admin/class-convertkit-admin-cache-plugins.php:343
+#: admin/class-convertkit-admin-cache-plugins.php:338
 msgid "Kit: Member Content: Please add"
 msgstr ""
 
@@ -64,7 +64,7 @@ msgstr ""
 
 #: admin/class-convertkit-admin-cache-plugins.php:131
 #: admin/class-convertkit-admin-cache-plugins.php:202
-#: admin/class-convertkit-admin-cache-plugins.php:360
+#: admin/class-convertkit-admin-cache-plugins.php:355
 msgid "Failing to do so will result in errors."
 msgstr ""
 
@@ -72,7 +72,7 @@ msgstr ""
 msgid "to W3 Total Cache's \"Rejected Cookies\" setting by clicking here."
 msgstr ""
 
-#: admin/class-convertkit-admin-cache-plugins.php:358
+#: admin/class-convertkit-admin-cache-plugins.php:353
 msgid "to WP Super Cache's \"Rejected Cookies\" setting by clicking here."
 msgstr ""
 
@@ -619,11 +619,11 @@ msgstr ""
 msgid "Configuration imported successfully."
 msgstr ""
 
-#: admin/section/class-convertkit-settings-tools.php:335
+#: admin/section/class-convertkit-settings-tools.php:332
 msgid "Tools to help you manage Kit on your site."
 msgstr ""
 
-#: admin/section/class-convertkit-settings-tools.php:363
+#: admin/section/class-convertkit-settings-tools.php:360
 msgid "WordPress 5.2 or higher is required for system information report."
 msgstr ""
 
