@@ -177,6 +177,9 @@ class RestrictContentTagCest
 		$I->fillField('convertkit_email', $I->generateEmailAddress());
 		$I->click('input.wp-block-button__link');
 
+		// Wait for reCAPTCHA to fully load.
+		$I->wait(3);
+
 		// Confirm an error message is displayed.
 		$I->waitForElementVisible('#convertkit-restrict-content');
 		$I->seeInSource('<div class="convertkit-restrict-content-notice convertkit-restrict-content-notice-error">Google reCAPTCHA failed</div>');

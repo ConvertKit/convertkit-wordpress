@@ -390,8 +390,9 @@ class ConvertKitRestrictContent extends \Codeception\Module
 		$I->fillField('convertkit_email', $emailAddress);
 		$I->click('input.wp-block-button__link');
 
-		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen($I);
+		// Confirm cookie set.
+		$I->reloadPage();
+		$I->seeCookie('ck_subscriber_id');
 
 		// Confirm that the restricted content is now displayed.
 		$I->testRestrictContentDisplaysContent($I, $options);
