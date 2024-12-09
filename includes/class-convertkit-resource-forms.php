@@ -154,23 +154,23 @@ class ConvertKit_Resource_Forms extends ConvertKit_Resource_V4 {
 	 *
 	 * @since   2.3.9
 	 *
-	 * @param   string            $name            Name.
-	 * @param   string            $id              ID.
-	 * @param   bool|array        $css_classes     <select> CSS class(es).
-	 * @param   string            $selected_option <option> value to mark as selected.
-	 * @param   bool|array        $prepend_options <option> elements to prepend before resources.
-	 * @param   bool|array        $attributes      <select> attributes.
-	 * @param   bool|string|array $description     Description.
-	 * @return  string                             HTML Select Field
+	 * @param   string            $name             Name.
+	 * @param   string            $id               ID.
+	 * @param   bool|array        $css_classes      <select> CSS class(es).
+	 * @param   string            $selected_options <option> values to mark as selected.
+	 * @param   bool|array        $prepend_options  <option> elements to prepend before resources.
+	 * @param   bool|array        $attributes       <select> attributes.
+	 * @param   bool|string|array $description      Description.
+	 * @return  string                              HTML Select Field
 	 */
-	public function get_select_field_non_inline( $name, $id, $css_classes, $selected_option, $prepend_options = false, $attributes = false, $description = false ) {
+	public function get_select_field_non_inline( $name, $id, $css_classes, $selected_options, $prepend_options = false, $attributes = false, $description = false ) {
 
-		return $this->get_select_field(
+		return $this->get_multi_select_field(
 			$this->get_non_inline(),
 			$name,
 			$id,
 			$css_classes,
-			$selected_option,
+			$selected_options,
 			$prepend_options,
 			$attributes,
 			$description
@@ -236,6 +236,91 @@ class ConvertKit_Resource_Forms extends ConvertKit_Resource_V4 {
 					'<option value="%s"%s>%s [%s]</option>',
 					esc_attr( $form['id'] ),
 					selected( $selected_option, $form['id'], false ),
+					esc_attr( $form['name'] ),
+					( ! empty( $form['format'] ) ? esc_attr( $form['format'] ) : 'inline' )
+				);
+			}
+		}
+
+		// Close select.
+		$html .= '</select>';
+
+		// If no description is provided, return the select field now.
+		if ( ! $description ) {
+			return $html;
+		}
+
+		// Append description before returning field.
+		if ( ! is_array( $description ) ) {
+			return $html . '<p class="description">' . $description . '</p>';
+		}
+
+		// Return description lines in a paragraph, using breaklines for each description entry in the array.
+		return $html . '<p class="description">' . implode( '<br />', $description ) . '</p>';
+
+	}
+
+	/**
+	 * Returns a <select> field populated with the resources, based on the given parameters,
+	 * that supports multiple selection.
+	 *
+	 * @since   2.6.9
+	 *
+	 * @param   array             $forms            Forms.
+	 * @param   string            $name             Name.
+	 * @param   string            $id               ID.
+	 * @param   bool|array        $css_classes      <select> CSS class(es).
+	 * @param   array             $selected_options <option> values to mark as selected.
+	 * @param   bool|array        $prepend_options  <option> elements to prepend before resources.
+	 * @param   bool|array        $attributes       <select> attributes.
+	 * @param   bool|string|array $description      Description.
+	 * @return  string                              HTML Select Field
+	 */
+	private function get_multi_select_field( $forms, $name, $id, $css_classes, $selected_options = array(), $prepend_options = false, $attributes = false, $description = false ) {
+
+		$html = sprintf(
+			'<select name="%s[]" id="%s" class="%s" multiple',
+			esc_attr( $name ),
+			esc_attr( $id ),
+			esc_attr( ( is_array( $css_classes ) ? implode( ' ', $css_classes ) : '' ) )
+		);
+
+		// Append any attributes.
+		if ( $attributes ) {
+			foreach ( $attributes as $key => $value ) {
+				$html .= sprintf(
+					' %s="%s"',
+					esc_attr( $key ),
+					esc_attr( $value )
+				);
+			}
+		}
+
+		// Close select tag.
+		$html .= '>';
+
+		// If any prepended options exist, add them now.
+		if ( $prepend_options ) {
+			foreach ( $prepend_options as $value => $label ) {
+				$html .= sprintf(
+					'<option value="%s" data-preserve-on-refresh="1"%s>%s</option>',
+					esc_attr( $value ),
+					( in_array( $value, $selected_options, true ) ? ' selected' : '' ),
+					esc_attr( $label )
+				);
+			}
+		}
+
+		// Iterate through resources, if they exist, building <option> elements.
+		if ( $forms ) {
+			foreach ( $forms as $form ) {
+				var_dump( $form['id'] );
+
+				// Legacy forms don't include a `format` key, so define them as inline.
+				$html .= sprintf(
+					'<option value="%s"%s>%s [%s]</option>',
+					esc_attr( $form['id'] ),
+					( in_array( $form['id'], $selected_options, true ) ? ' selected' : '' ),
 					esc_attr( $form['name'] ),
 					( ! empty( $form['format'] ) ? esc_attr( $form['format'] ) : 'inline' )
 				);
