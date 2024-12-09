@@ -5,7 +5,7 @@ Tags: email marketing, email newsletter, subscribers, block, form
 Requires at least: 5.0
 Tested up to: 6.7.1
 Requires PHP: 5.6.20
-Stable tag: 2.6.7
+Stable tag: 2.6.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -158,6 +158,9 @@ Full Plugin documentation can be found [here](https://help.kit.com/en/articles/2
 10. Track subscriber growth
 
 == Changelog ==
+
+### 2.6.8 2024-12-07
+* Fix: Fatal error when a non-inline Form specified in Plugin, Post or Category settings and Form Position set to `After element`
 
 ### 2.6.7 2024-12-04
 * Removed: `convertkit_store_subscriber_id_in_cookie` AJAX call, as logic exists server side

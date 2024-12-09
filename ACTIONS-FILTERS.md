@@ -371,7 +371,7 @@ add_filter( 'convertkit_admin_post_register_add_new_buttons', function( $buttons
 </pre>
 <h3 id="convertkit_get_supported_post_types">
 						convertkit_get_supported_post_types
-						<code>includes/functions.php::143</code>
+						<code>includes/functions.php::140</code>
 					</h3><h4>Overview</h4>
 						<p>Defines the Post Types that support ConvertKit Forms.</p><h4>Parameters</h4>
 					<table>
@@ -398,7 +398,7 @@ add_filter( 'convertkit_get_supported_post_types', function( $post_types ) {
 </pre>
 <h3 id="convertkit_shortcodes">
 						convertkit_shortcodes
-						<code>includes/functions.php::182</code>
+						<code>includes/functions.php::179</code>
 					</h3><h4>Overview</h4>
 						<p>Registers shortcodes for the ConvertKit Plugin.</p><h4>Parameters</h4>
 					<table>
@@ -425,7 +425,7 @@ add_filter( 'convertkit_shortcodes', function( $shortcodes ) {
 </pre>
 <h3 id="convertkit_blocks">
 						convertkit_blocks
-						<code>includes/functions.php::206</code>
+						<code>includes/functions.php::203</code>
 					</h3><h4>Overview</h4>
 						<p>Registers blocks for the ConvertKit Plugin.</p><h4>Parameters</h4>
 					<table>
@@ -452,7 +452,7 @@ add_filter( 'convertkit_blocks', function( $blocks ) {
 </pre>
 <h3 id="convertkit_get_block_formatters">
 						convertkit_get_block_formatters
-						<code>includes/functions.php::230</code>
+						<code>includes/functions.php::227</code>
 					</h3><h4>Overview</h4>
 						<p>Registers block formatters in Gutenberg for the ConvertKit Plugin.</p><h4>Parameters</h4>
 					<table>
@@ -479,7 +479,7 @@ add_filter( 'convertkit_get_block_formatters', function( $block_formatters ) {
 </pre>
 <h3 id="convertkit_get_pre_publish_actions">
 						convertkit_get_pre_publish_actions
-						<code>includes/functions.php::254</code>
+						<code>includes/functions.php::251</code>
 					</h3><h4>Overview</h4>
 						<p>Registers pre-publish actions for the ConvertKit Plugin.</p><h4>Parameters</h4>
 					<table>
@@ -1238,7 +1238,7 @@ add_filter( 'convertkit_output_append_form_to_content_form_id', function( $form_
 </pre>
 <h3 id="convertkit_frontend_append_form">
 						convertkit_frontend_append_form
-						<code>includes/class-convertkit-output.php::374</code>
+						<code>includes/class-convertkit-output.php::389</code>
 					</h3><h4>Overview</h4>
 						<p>Filter the Post's Content, which includes a ConvertKit Form, immediately before it is output.</p><h4>Parameters</h4>
 					<table>
@@ -1281,7 +1281,7 @@ add_filter( 'convertkit_frontend_append_form', function( $content, $form, $post_
 </pre>
 <h3 id="convertkit_output_scripts_footer">
 						convertkit_output_scripts_footer
-						<code>includes/class-convertkit-output.php::842</code>
+						<code>includes/class-convertkit-output.php::867</code>
 					</h3><h4>Overview</h4>
 						<p>Define an array of scripts to output in the footer of the WordPress site.</p><h4>Parameters</h4>
 					<table>
@@ -1308,7 +1308,7 @@ add_filter( 'convertkit_output_scripts_footer', function( $scripts ) {
 </pre>
 <h3 id="convertkit_output_script_footer">
 						convertkit_output_script_footer
-						<code>includes/class-convertkit-output.php::861</code>
+						<code>includes/class-convertkit-output.php::886</code>
 					</h3><h4>Overview</h4>
 						<p>Filter the form <script> key/value pairs immediately before the script is output.</p><h4>Parameters</h4>
 					<table>
@@ -1725,7 +1725,7 @@ do_action( 'convertkit_settings_base_sanitize_settings', function( $name, $updat
 </pre>
 <h3 id="convertkit_settings_base_render_before">
 						convertkit_settings_base_render_before
-						<code>admin/section/class-convertkit-settings-tools.php::310</code>
+						<code>admin/section/class-convertkit-settings-tools.php::307</code>
 					</h3><h4>Parameters</h4>
 					<table>
 						<thead>
@@ -1745,7 +1745,7 @@ do_action( 'convertkit_settings_base_render_before', function(  ) {
 </pre>
 <h3 id="convertkit_settings_base_render_after">
 						convertkit_settings_base_render_after
-						<code>admin/section/class-convertkit-settings-tools.php::324</code>
+						<code>admin/section/class-convertkit-settings-tools.php::321</code>
 					</h3><h4>Parameters</h4>
 					<table>
 						<thead>
