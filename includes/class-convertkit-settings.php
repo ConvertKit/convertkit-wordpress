@@ -389,7 +389,7 @@ class ConvertKit_Settings {
 			return false;
 		}
 
-		return ( ! count( $this->settings['non_inline_form'] ) );
+		return ( count( $this->settings['non_inline_form'] ) );
 
 	}
 

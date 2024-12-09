@@ -305,7 +305,7 @@ class ConvertKit_Resource_Forms extends ConvertKit_Resource_V4 {
 				$html .= sprintf(
 					'<option value="%s" data-preserve-on-refresh="1"%s>%s</option>',
 					esc_attr( $value ),
-					( in_array( $value, $selected_options, true ) ? ' selected' : '' ),
+					( in_array( $value, $selected_options, false ) ? ' selected' : '' ),
 					esc_attr( $label )
 				);
 			}
@@ -314,13 +314,11 @@ class ConvertKit_Resource_Forms extends ConvertKit_Resource_V4 {
 		// Iterate through resources, if they exist, building <option> elements.
 		if ( $forms ) {
 			foreach ( $forms as $form ) {
-				var_dump( $form['id'] );
-
 				// Legacy forms don't include a `format` key, so define them as inline.
 				$html .= sprintf(
 					'<option value="%s"%s>%s [%s]</option>',
 					esc_attr( $form['id'] ),
-					( in_array( $form['id'], $selected_options, true ) ? ' selected' : '' ),
+					( in_array( $form['id'], $selected_options, false ) ? ' selected' : '' ),
 					esc_attr( $form['name'] ),
 					( ! empty( $form['format'] ) ? esc_attr( $form['format'] ) : 'inline' )
 				);
