@@ -118,9 +118,9 @@ class ConvertKit_Admin_Settings_Restrict_Content extends ConvertKit_Settings_Bas
 			array(
 				'name'        => 'recaptcha_minimum_score',
 				'label_for'   => 'recaptcha_minimum_score',
-				'min'         => '0',
-				'max'         => '1',
-				'step'        => '0.01',
+				'min'         => 0,
+				'max'         => 1,
+				'step'        => 0.01,
 				'description' => array(
 					__( 'Enter the minimum threshold for a subscriber to pass Google reCAPTCHA. A higher number will reduce spam signups (1.0 is very likely a good interaction, 0.0 is very likely a bot).', 'convertkit' ),
 				),
@@ -404,9 +404,9 @@ class ConvertKit_Admin_Settings_Restrict_Content extends ConvertKit_Settings_Bas
 		echo $this->get_number_field( // phpcs:ignore WordPress.Security.EscapeOutput
 			$args['name'],
 			esc_attr( $this->settings->get_by_key( $args['name'] ) ),
-			esc_attr( $args['min'] ),
-			esc_attr( $args['max'] ),
-			esc_attr( $args['step'] ),
+			$args['min'], // phpcs:ignore WordPress.Security.EscapeOutput
+			$args['max'], // phpcs:ignore WordPress.Security.EscapeOutput
+			$args['step'], // phpcs:ignore WordPress.Security.EscapeOutput
 			$args['description'], // phpcs:ignore WordPress.Security.EscapeOutput
 			array(
 				'widefat',
