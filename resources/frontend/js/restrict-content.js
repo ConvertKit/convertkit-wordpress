@@ -58,6 +58,13 @@ document.addEventListener(
 	}
 );
 
+function convertKitRestrictContentTagFormSubmit( token ) {
+
+	console.log( token );
+	document.getElementById( 'convertkit-restrict-content-form' ).submit();
+
+}
+
 /**
  * Handles Restrict Content form submission.
  *

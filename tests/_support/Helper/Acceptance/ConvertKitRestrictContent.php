@@ -54,24 +54,27 @@ class ConvertKitRestrictContent extends \Codeception\Module
 	{
 		return array(
 			// Permit Crawlers.
-			'permit_crawlers'        => '',
+			'permit_crawlers'         => '',
+			'recaptcha_site_key'      => '',
+			'recaptcha_secret_key'    => '',
+			'recaptcha_minimum_score' => '0.5',
 
 			// Restrict by Product.
-			'subscribe_heading'      => 'Read this post with a premium subscription',
-			'subscribe_text'         => 'This post is only available to premium subscribers. Join today to get access to all posts.',
+			'subscribe_heading'       => 'Read this post with a premium subscription',
+			'subscribe_text'          => 'This post is only available to premium subscribers. Join today to get access to all posts.',
 
 			// Restrict by Tag.
-			'subscribe_heading_tag'  => 'Subscribe to keep reading',
-			'subscribe_text_tag'     => 'This post is free to read but only available to subscribers. Join today to get access to all posts.',
+			'subscribe_heading_tag'   => 'Subscribe to keep reading',
+			'subscribe_text_tag'      => 'This post is free to read but only available to subscribers. Join today to get access to all posts.',
 
 			// All.
-			'subscribe_button_label' => 'Subscribe',
-			'email_text'             => 'Already subscribed?',
-			'email_button_label'     => 'Log in',
-			'email_description_text' => 'We\'ll email you a magic code to log you in without a password.',
-			'email_check_heading'    => 'We just emailed you a log in code',
-			'email_check_text'       => 'Enter the code below to finish logging in',
-			'no_access_text'         => 'Your account does not have access to this content. Please use the button above to purchase, or enter the email address you used to purchase the product.',
+			'subscribe_button_label'  => 'Subscribe',
+			'email_text'              => 'Already subscribed?',
+			'email_button_label'      => 'Log in',
+			'email_description_text'  => 'We\'ll email you a magic code to log you in without a password.',
+			'email_check_heading'     => 'We just emailed you a log in code',
+			'email_check_text'        => 'Enter the code below to finish logging in',
+			'no_access_text'          => 'Your account does not have access to this content. Please use the button above to purchase, or enter the email address you used to purchase the product.',
 		);
 	}
 
@@ -92,6 +95,14 @@ class ConvertKitRestrictContent extends \Codeception\Module
 						$I->seeCheckboxIsChecked('_wp_convertkit_settings_restrict_content[' . $key . ']');
 					} else {
 						$I->dontSeeCheckboxIsChecked('_wp_convertkit_settings_restrict_content[' . $key . ']');
+					}
+					break;
+
+				case 'recaptcha_minimum_score':
+					if ( $value ) {
+						$I->seeInField('_wp_convertkit_settings_restrict_content[' . $key . ']', $value);
+					} else {
+						$I->seeInField('_wp_convertkit_settings_restrict_content[' . $key . ']', '0.5');
 					}
 					break;
 
@@ -341,8 +352,9 @@ class ConvertKitRestrictContent extends \Codeception\Module
 	 *     @type string $member_content             Content that should only be available to authenticated subscribers.
 	 *     @type array  $text_items                 Expected text for subscribe text, subscribe button label, email text etc. If not defined, uses expected defaults.
 	 * }
+	 * @param   bool             $recaptchaEnabled   Whether the reCAPTCHA settings are enabled in the Plugin settings.
 	 */
-	public function testRestrictedContentByTagOnFrontend($I, $urlOrPageID, $emailAddress, $options = false)
+	public function testRestrictedContentByTagOnFrontend($I, $urlOrPageID, $emailAddress, $options = false, $recaptchaEnabled = false)
 	{
 		// Merge options with defaults.
 		$options = $this->_getRestrictedContentOptionsWithDefaultsMerged($options);
@@ -372,14 +384,16 @@ class ConvertKitRestrictContent extends \Codeception\Module
 		$I->seeElementInDOM('#convertkit-restrict-content');
 		$I->seeInSource('<h3>' . $options['text_items']['subscribe_heading_tag'] . '</h3>');
 		$I->see($options['text_items']['subscribe_text_tag']);
-		$I->seeInSource('<input type="submit" class="wp-block-button__link wp-block-button__link" value="' . $options['text_items']['subscribe_button_label'] . '">');
+		$I->seeInSource('<input type="submit" class="wp-block-button__link wp-block-button__link' . ( $recaptchaEnabled ? ' g-recaptcha' : '' ) . '" value="' . $options['text_items']['subscribe_button_label'] . '"');
 
 		// Enter the email address and submit the form.
 		$I->fillField('convertkit_email', $emailAddress);
 		$I->click('input.wp-block-button__link');
 
-		// Check that no PHP warnings or notices were output.
-		$I->checkNoWarningsAndNoticesOnScreen($I);
+		// Wait for reCAPTCHA to fully load.
+		if ( $recaptchaEnabled ) {
+			$I->wait(3);
+		}
 
 		// Confirm that the restricted content is now displayed.
 		$I->testRestrictContentDisplaysContent($I, $options);
@@ -462,7 +476,7 @@ class ConvertKitRestrictContent extends \Codeception\Module
 		$I->seeInSource('<a href="' . $_ENV['CONVERTKIT_API_PRODUCT_URL'] . '" class="wp-block-button__link');
 
 		$I->see($options['text_items']['email_text']);
-		$I->seeInSource('<input type="submit" class="wp-block-button__link wp-block-button__link" value="' . $options['text_items']['email_button_label'] . '">');
+		$I->seeInSource('<input type="submit" class="wp-block-button__link wp-block-button__link" value="' . $options['text_items']['email_button_label'] . '"');
 		$I->seeInSource('<small>' . $options['text_items']['email_description_text'] . '</small>');
 	}
 

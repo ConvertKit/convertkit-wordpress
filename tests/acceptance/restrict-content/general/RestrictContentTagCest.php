@@ -86,6 +86,107 @@ class RestrictContentTagCest
 
 	/**
 	 * Test that restricting content by a Tag specified in the Page Settings works when
+	 * creating and viewing a new WordPress Page, with Google's reCAPTCHA enabled.
+	 *
+	 * @since   2.6.8
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testRestrictContentByTagWithRecaptchaEnabled(AcceptanceTester $I)
+	{
+		// Setup Restrict Content functionality with reCAPTCHA enabled.
+		$I->setupConvertKitPluginRestrictContent(
+			$I,
+			[
+				'recaptcha_site_key'      => $_ENV['CONVERTKIT_API_RECAPTCHA_SITE_KEY'],
+				'recaptcha_secret_key'    => $_ENV['CONVERTKIT_API_RECAPTCHA_SECRET_KEY'],
+				'recaptcha_minimum_score' => '0.5',
+			]
+		);
+
+		// Add a Page using the Gutenberg editor.
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Restrict Content: Tag: reCAPTCHA');
+
+		// Configure metabox's Restrict Content setting = Tag name.
+		$I->configureMetaboxSettings(
+			$I,
+			'wp-convertkit-meta-box',
+			[
+				'form'             => [ 'select2', 'None' ],
+				'restrict_content' => [ 'select2', $_ENV['CONVERTKIT_API_TAG_NAME'] ],
+			]
+		);
+
+		// Add blocks.
+		$I->addGutenbergParagraphBlock($I, 'Visible content.');
+		$I->addGutenbergBlock($I, 'More', 'more');
+		$I->addGutenbergParagraphBlock($I, 'Member-only content.');
+
+		// Publish Page.
+		$url = $I->publishGutenbergPage($I);
+
+		// Test Restrict Content functionality.
+		$I->testRestrictedContentByTagOnFrontend($I, $url, $I->generateEmailAddress(), false, true);
+	}
+
+	/**
+	 * Test that restricting content by a Tag specified in the Page Settings works when
+	 * creating and viewing a new WordPress Page, with Google's reCAPTCHA enabled.
+	 *
+	 * @since   2.6.8
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testRestrictContentByTagWithRecaptchaEnabledWithHighMinimumScore(AcceptanceTester $I)
+	{
+		// Setup Restrict Content functionality with reCAPTCHA enabled.
+		$I->setupConvertKitPluginRestrictContent(
+			$I,
+			[
+				'recaptcha_site_key'      => $_ENV['CONVERTKIT_API_RECAPTCHA_SITE_KEY'],
+				'recaptcha_secret_key'    => $_ENV['CONVERTKIT_API_RECAPTCHA_SECRET_KEY'],
+				'recaptcha_minimum_score' => '0.99', // Set a high score to ensure reCAPTCHA blocks the subscriber.
+			]
+		);
+
+		// Add a Page using the Gutenberg editor.
+		$I->addGutenbergPage($I, 'page', 'Kit: Page: Restrict Content: Tag: reCAPTCHA High Min Score');
+
+		// Configure metabox's Restrict Content setting = Tag name.
+		$I->configureMetaboxSettings(
+			$I,
+			'wp-convertkit-meta-box',
+			[
+				'form'             => [ 'select2', 'None' ],
+				'restrict_content' => [ 'select2', $_ENV['CONVERTKIT_API_TAG_NAME'] ],
+			]
+		);
+
+		// Add blocks.
+		$I->addGutenbergParagraphBlock($I, 'Visible content.');
+		$I->addGutenbergBlock($I, 'More', 'more');
+		$I->addGutenbergParagraphBlock($I, 'Member-only content.');
+
+		// Publish Page.
+		$url = $I->publishGutenbergPage($I);
+
+		// Load page.
+		$I->amOnUrl($url);
+
+		// Enter the email address and submit the form.
+		$I->fillField('convertkit_email', $I->generateEmailAddress());
+		$I->click('input.wp-block-button__link');
+
+		// Wait for reCAPTCHA to fully load.
+		$I->wait(3);
+
+		// Confirm an error message is displayed.
+		$I->waitForElementVisible('#convertkit-restrict-content');
+		$I->seeInSource('<div class="convertkit-restrict-content-notice convertkit-restrict-content-notice-error">Google reCAPTCHA failed</div>');
+	}
+
+	/**
+	 * Test that restricting content by a Tag specified in the Page Settings works when
 	 * using the Quick Edit functionality.
 	 *
 	 * @since   2.3.2
