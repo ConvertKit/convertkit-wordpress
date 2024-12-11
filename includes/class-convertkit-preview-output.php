@@ -72,7 +72,7 @@ class ConvertKit_Preview_Output {
 	}
 
 	/**
-	 * Adds a non-inline form for display if the request is from a logged in user who has clicked a preview link
+	 * Adds non-inline form(s) for display if the request is from a logged in user who has clicked a preview link
 	 * and is viewing the home page.
 	 *
 	 * @since   2.3.3
@@ -99,33 +99,40 @@ class ConvertKit_Preview_Output {
 			return;
 		}
 
-		// Determine the form to preview.
-		$preview_form_id = (int) ( isset( $_REQUEST['convertkit_form_id'] ) ? sanitize_text_field( $_REQUEST['convertkit_form_id'] ) : 0 );
-
-		// Get form.
-		$convertkit_forms = new ConvertKit_Resource_Forms();
-		$form             = $convertkit_forms->get_by_id( $preview_form_id );
-
-		// Bail if the Form doesn't exist (this shouldn't happen, but you never know).
-		if ( ! $form ) {
+		// Bail if no form(s) to preview.
+		if ( ! isset( $_REQUEST['convertkit_form_id'] ) ) {
 			return;
 		}
 
-		// Add the form to the scripts array so it is included in the preview.
-		add_filter(
-			'convertkit_output_scripts_footer',
-			function ( $scripts ) use ( $form ) {
+		// Determine form ID(s) to preview.
+		$convertkit_forms = new ConvertKit_Resource_Forms();
+		$preview_form_ids = explode( ',', sanitize_text_field( $_REQUEST['convertkit_form_id'] ) );
 
-				$scripts[] = array(
-					'async'    => true,
-					'data-uid' => $form['uid'],
-					'src'      => $form['embed_js'],
-				);
+		foreach ( $preview_form_ids as $preview_form_id ) {
+			// Get form.
+			$form = $convertkit_forms->get_by_id( (int) $preview_form_id );
 
-				return $scripts;
-
+			// Bail if the Form doesn't exist (this shouldn't happen, but you never know).
+			if ( ! $form ) {
+				continue;
 			}
-		);
+
+			// Add the form to the scripts array so it is included in the preview.
+			add_filter(
+				'convertkit_output_scripts_footer',
+				function ( $scripts ) use ( $form ) {
+
+					$scripts[] = array(
+						'async'    => true,
+						'data-uid' => $form['uid'],
+						'src'      => $form['embed_js'],
+					);
+
+					return $scripts;
+
+				}
+			);
+		}
 
 	}
 

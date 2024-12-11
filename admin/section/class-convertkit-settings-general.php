@@ -337,7 +337,7 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 
 		add_settings_field(
 			'non_inline_form',
-			__( 'Default Form (Site Wide)', 'convertkit' ),
+			__( 'Default Forms (Site Wide)', 'convertkit' ),
 			array( $this, 'non_inline_form_callback' ),
 			$this->settings_key,
 			$this->name,
@@ -657,7 +657,7 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 		$preview_url = WP_ConvertKit()->get_class( 'preview_output' )->get_preview_form_home_url();
 		$description = sprintf(
 			'%s %s %s',
-			esc_html__( 'Select a non-inline modal, slide in or sticky bar form to automatically display site wide. Ignored if a non-inline form is specified in Default Form settings above, individual Post / Page settings, or any block / shortcode.', 'convertkit' ),
+			esc_html__( 'Select one or more non-inline modal, slide in or sticky bar forms to automatically display site wide. Ignored if a non-inline form is specified in Default Form settings above, individual Post / Page settings, or any block / shortcode.', 'convertkit' ),
 			'<a href="' . esc_url( $preview_url ) . '" id="convertkit-preview-non-inline-form" target="_blank">' . esc_html__( 'Click here', 'convertkit' ) . '</a>',
 			esc_html__( 'to preview how this will display.', 'convertkit' )
 		);
@@ -671,9 +671,7 @@ class ConvertKit_Settings_General extends ConvertKit_Settings_Base {
 				'convertkit-preview-output-link',
 			),
 			$this->settings->get_non_inline_form(),
-			array(
-				'' => esc_html__( 'None', 'convertkit' ),
-			),
+			false,
 			array(
 				'data-target' => '#convertkit-preview-non-inline-form',
 				'data-link'   => esc_attr( $preview_url ) . '&convertkit_form_id=',

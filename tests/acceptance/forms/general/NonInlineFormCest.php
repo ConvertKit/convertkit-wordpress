@@ -46,7 +46,7 @@ class NonInlineFormCest
 		$I->setupConvertKitPlugin(
 			$I,
 			[
-				'non_inline_form' => $_ENV['CONVERTKIT_API_FORM_FORMAT_STICKY_BAR_ID'],
+				'non_inline_form' => array( $_ENV['CONVERTKIT_API_FORM_FORMAT_STICKY_BAR_ID'] ),
 			]
 		);
 		$I->setupConvertKitPluginResources($I);
@@ -68,11 +68,57 @@ class NonInlineFormCest
 		$I->seeNumberOfElementsInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_FORMAT_STICKY_BAR_ID'] . '"]', 1);
 
 		// View Page.
-		$I->amOnPage('/convertkit-default-non-inline-global');
+		$I->amOnPage('/kit-default-non-inline-global');
 
 		// Confirm that one ConvertKit Form is output in the DOM.
 		// This confirms that there is only one script on the page for this form, which renders the form.
 		$I->seeNumberOfElementsInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_FORMAT_STICKY_BAR_ID'] . '"]', 1);
+	}
+
+	/**
+	 * Test that the defined default non-inline forms displays site wide
+	 * when more than one form is specified.
+	 *
+	 * @since   2.6.9
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testDefaultNonInlineForms(AcceptanceTester $I)
+	{
+		// Setup Plugin with a non-inline Default Form (Site Wide).
+		$I->setupConvertKitPlugin(
+			$I,
+			[
+				'non_inline_form' => array(
+					$_ENV['CONVERTKIT_API_FORM_FORMAT_STICKY_BAR_ID'],
+					$_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_ID'],
+				),
+			]
+		);
+		$I->setupConvertKitPluginResources($I);
+
+		// Create a Page in the database.
+		$I->havePostInDatabase(
+			[
+				'post_title'  => 'Kit: Default Non Inline Global Forms',
+				'post_type'   => 'page',
+				'post_status' => 'publish',
+			]
+		);
+
+		// View the home page.
+		$I->amOnPage('/');
+
+		// Confirm that two ConvertKit Forms are output in the DOM.
+		$I->seeNumberOfElementsInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_FORMAT_STICKY_BAR_ID'] . '"]', 1);
+		$I->seeNumberOfElementsInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_ID'] . '"]', 1);
+
+		// View Page.
+		$I->amOnPage('/kit-default-non-inline-global-forms');
+
+		// Confirm that two Kit Forms are output in the DOM.
+		$I->seeNumberOfElementsInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_FORMAT_STICKY_BAR_ID'] . '"]', 1);
+		$I->seeNumberOfElementsInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_ID'] . '"]', 1);
 	}
 
 	/**
@@ -111,7 +157,9 @@ class NonInlineFormCest
 			$I,
 			[
 				'page_form'       => $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_ID'],
-				'non_inline_form' => $_ENV['CONVERTKIT_API_FORM_FORMAT_STICKY_BAR_ID'],
+				'non_inline_form' => array(
+					$_ENV['CONVERTKIT_API_FORM_FORMAT_STICKY_BAR_ID'],
+				),
 			]
 		);
 
@@ -149,7 +197,9 @@ class NonInlineFormCest
 		$I->setupConvertKitPlugin(
 			$I,
 			[
-				'non_inline_form' => $_ENV['CONVERTKIT_API_FORM_FORMAT_STICKY_BAR_ID'],
+				'non_inline_form' => array(
+					$_ENV['CONVERTKIT_API_FORM_FORMAT_STICKY_BAR_ID'],
+				),
 			]
 		);
 
@@ -187,7 +237,9 @@ class NonInlineFormCest
 		$I->setupConvertKitPlugin(
 			$I,
 			[
-				'non_inline_form' => $_ENV['CONVERTKIT_API_FORM_FORMAT_STICKY_BAR_ID'],
+				'non_inline_form' => array(
+					$_ENV['CONVERTKIT_API_FORM_FORMAT_STICKY_BAR_ID'],
+				),
 			]
 		);
 
@@ -235,7 +287,9 @@ class NonInlineFormCest
 		$I->setupConvertKitPlugin(
 			$I,
 			[
-				'non_inline_form' => $_ENV['CONVERTKIT_API_FORM_FORMAT_STICKY_BAR_ID'],
+				'non_inline_form' => array(
+					$_ENV['CONVERTKIT_API_FORM_FORMAT_STICKY_BAR_ID'],
+				),
 			]
 		);
 
@@ -285,7 +339,9 @@ class NonInlineFormCest
 			$I,
 			[
 				'post_form'       => $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_ID'],
-				'non_inline_form' => $_ENV['CONVERTKIT_API_FORM_FORMAT_STICKY_BAR_ID'],
+				'non_inline_form' => array(
+					$_ENV['CONVERTKIT_API_FORM_FORMAT_STICKY_BAR_ID'],
+				),
 			]
 		);
 
@@ -323,7 +379,9 @@ class NonInlineFormCest
 		$I->setupConvertKitPlugin(
 			$I,
 			[
-				'non_inline_form' => $_ENV['CONVERTKIT_API_FORM_FORMAT_STICKY_BAR_ID'],
+				'non_inline_form' => array(
+					$_ENV['CONVERTKIT_API_FORM_FORMAT_STICKY_BAR_ID'],
+				),
 			]
 		);
 
@@ -361,7 +419,9 @@ class NonInlineFormCest
 		$I->setupConvertKitPlugin(
 			$I,
 			[
-				'non_inline_form' => $_ENV['CONVERTKIT_API_FORM_FORMAT_STICKY_BAR_ID'],
+				'non_inline_form' => array(
+					$_ENV['CONVERTKIT_API_FORM_FORMAT_STICKY_BAR_ID'],
+				),
 			]
 		);
 
@@ -399,6 +459,52 @@ class NonInlineFormCest
 		// Confirm that the modal form displays, and no sticky bar form displays.
 		$I->seeElementInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_ID'] . '"]');
 		$I->dontSeeElementInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_FORMAT_STICKY_BAR_ID'] . '"]');
+	}
+
+	/**
+	 * Test that the defined default non-inline form displays site wide
+	 * when stored as a string in the Plugin settings from older
+	 * Plugin versions < 2.6.9.
+	 *
+	 * @since   2.6.9
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testDefaultNonInlineFormOnUpgrade(AcceptanceTester $I)
+	{
+		// Setup Plugin with a non-inline Default Form (Site Wide).
+		$I->setupConvertKitPlugin(
+			$I,
+			[
+				'non_inline_form' => array(
+					$_ENV['CONVERTKIT_API_FORM_FORMAT_STICKY_BAR_ID'],
+				),
+			]
+		);
+		$I->setupConvertKitPluginResources($I);
+
+		// Create a Page in the database.
+		$I->havePostInDatabase(
+			[
+				'post_title'  => 'Kit: Default Non Inline Global Upgrade',
+				'post_type'   => 'page',
+				'post_status' => 'publish',
+			]
+		);
+
+		// View the home page.
+		$I->amOnPage('/');
+
+		// Confirm that one ConvertKit Form is output in the DOM.
+		// This confirms that there is only one script on the page for this form, which renders the form.
+		$I->seeNumberOfElementsInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_FORMAT_STICKY_BAR_ID'] . '"]', 1);
+
+		// View Page.
+		$I->amOnPage('/kit-default-non-inline-global-upgrade');
+
+		// Confirm that one ConvertKit Form is output in the DOM.
+		// This confirms that there is only one script on the page for this form, which renders the form.
+		$I->seeNumberOfElementsInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_FORMAT_STICKY_BAR_ID'] . '"]', 1);
 	}
 
 	/**

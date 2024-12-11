@@ -803,8 +803,8 @@ class ConvertKit_Output {
 	}
 
 	/**
-	 * Outputs a non-inline form if defined in the Plugin's settings >
-	 * Default Non-Inline Form (Global) setting.
+	 * Outputs a non-inline forms if defined in the Plugin's settings >
+	 * Default Forms (Site Wide) setting.
 	 *
 	 * @since   2.3.3
 	 */
@@ -822,28 +822,33 @@ class ConvertKit_Output {
 
 		// Get form.
 		$convertkit_forms = new ConvertKit_Resource_Forms();
-		$form             = $convertkit_forms->get_by_id( (int) $this->settings->get_non_inline_form() );
 
-		// Bail if the Form doesn't exist (this shouldn't happen, but you never know).
-		if ( ! $form ) {
-			return;
-		}
+		// Iterate through forms.
+		foreach ( $this->settings->get_non_inline_form() as $form_id ) {
+			// Get Form.
+			$form = $convertkit_forms->get_by_id( (int) $form_id );
 
-		// Add the form to the scripts array so it is included in the output.
-		add_filter(
-			'convertkit_output_scripts_footer',
-			function ( $scripts ) use ( $form ) {
-
-				$scripts[] = array(
-					'async'    => true,
-					'data-uid' => $form['uid'],
-					'src'      => $form['embed_js'],
-				);
-
-				return $scripts;
-
+			// Bail if the Form doesn't exist (this shouldn't happen, but you never know).
+			if ( ! $form ) {
+				continue;
 			}
-		);
+
+			// Add the form to the scripts array so it is included in the output.
+			add_filter(
+				'convertkit_output_scripts_footer',
+				function ( $scripts ) use ( $form ) {
+
+					$scripts[] = array(
+						'async'    => true,
+						'data-uid' => $form['uid'],
+						'src'      => $form['embed_js'],
+					);
+
+					return $scripts;
+
+				}
+			);
+		}
 
 	}
 

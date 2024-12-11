@@ -281,23 +281,6 @@ class PluginSettingsGeneralCest
 		// Close newly opened tab.
 		$I->closeTab();
 
-		// Select a non-inline form for the Default non-inline form setting.
-		$I->fillSelect2Field($I, '#select2-_wp_convertkit_settings_non_inline_form-container', $_ENV['CONVERTKIT_API_FORM_FORMAT_STICKY_BAR_NAME']);
-
-		// Open preview.
-		$I->click('a#convertkit-preview-non-inline-form');
-		$I->wait(2); // Required, otherwise switchToNextTab fails.
-
-		// Switch to newly opened tab.
-		$I->switchToNextTab();
-
-		// Confirm that one ConvertKit Form is output in the DOM.
-		// This confirms that there is only one script on the page for this form, which renders the form.
-		$I->seeNumberOfElementsInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_FORMAT_STICKY_BAR_ID'] . '"]', 1);
-
-		// Close newly opened tab.
-		$I->closeTab();
-
 		// Click the Save Changes button.
 		$I->click('Save Changes');
 
@@ -309,7 +292,81 @@ class PluginSettingsGeneralCest
 		$I->seeInField('_wp_convertkit_settings[page_form_position]', 'Before Page content');
 		$I->seeInField('_wp_convertkit_settings[post_form]', $_ENV['CONVERTKIT_API_FORM_NAME']);
 		$I->seeInField('_wp_convertkit_settings[post_form_position]', 'After Post content');
-		$I->seeInField('_wp_convertkit_settings[non_inline_form]', $_ENV['CONVERTKIT_API_FORM_FORMAT_STICKY_BAR_NAME']);
+	}
+
+	/**
+	 * Test that no PHP errors or notices are displayed on the Plugin's Setting screen,
+	 * when the Default Forms (Site Wide) setting is changed, and that the preview links
+	 * work when one or more Default Forms are chosen.
+	 *
+	 * @since   2.6.9
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testChangeDefaultSiteWideFormsSettingAndPreviewFormLinks(AcceptanceTester $I)
+	{
+		// Setup Plugin, without defining default Forms.
+		$I->setupConvertKitPluginNoDefaultForms($I);
+
+		// Go to the Plugin's Settings Screen.
+		$I->loadConvertKitSettingsGeneralScreen($I);
+
+		// Select the Sticky Bar Form for the Site Wide option.
+		$I->fillSelect2MultipleField($I, '#select2-_wp_convertkit_settings_non_inline_form-container', $_ENV['CONVERTKIT_API_FORM_FORMAT_STICKY_BAR_NAME']);
+
+		// Open preview.
+		$I->click('a#convertkit-preview-non-inline-form');
+		$I->wait(2); // Required, otherwise switchToNextTab fails.
+
+		// Switch to newly opened tab.
+		$I->switchToNextTab();
+
+		// Confirm that the preview is the Home Page.
+		$I->seeElementInDOM('body.home');
+
+		// Confirm that one Kit Form is output in the DOM.
+		// This confirms that there is only one script on the page for this form, which renders the form.
+		$I->seeNumberOfElementsInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_FORMAT_STICKY_BAR_ID'] . '"]', 1);
+
+		// Close newly opened tab.
+		$I->closeTab();
+
+		// Select a second Modal Form for the Site Wide option.
+		$I->fillSelect2MultipleField($I, '#select2-_wp_convertkit_settings_non_inline_form-container', $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_NAME']);
+
+		// Open preview.
+		$I->click('a#convertkit-preview-non-inline-form');
+		$I->wait(2); // Required, otherwise switchToNextTab fails.
+
+		// Switch to newly opened tab.
+		$I->switchToNextTab();
+
+		// Confirm that the preview is the Home Page.
+		$I->seeElementInDOM('body.home');
+
+		// Confirm that two Kit Forms are output in the DOM.
+		$I->seeNumberOfElementsInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_FORMAT_STICKY_BAR_ID'] . '"]', 1);
+		$I->seeNumberOfElementsInDOM('form[data-sv-form="' . $_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_ID'] . '"]', 1);
+
+		// Close newly opened tab.
+		$I->closeTab();
+
+		// Click the Save Changes button.
+		$I->click('Save Changes');
+
+		// Check that no PHP warnings or notices were output.
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Check the value of the fields match the inputs provided.
+		$I->seeInFormFields(
+			'form',
+			[
+				'_wp_convertkit_settings[non_inline_form][]' => [
+					$_ENV['CONVERTKIT_API_FORM_FORMAT_STICKY_BAR_NAME'],
+					$_ENV['CONVERTKIT_API_FORM_FORMAT_MODAL_NAME'],
+				],
+			]
+		);
 	}
 
 	/**
