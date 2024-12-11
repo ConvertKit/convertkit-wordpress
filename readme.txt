@@ -1,7 +1,7 @@
 === Kit (formerly ConvertKit) - Email Newsletter, Email Marketing, Subscribers and Landing Pages ===
 Contributors: nathanbarry, growdev, travisnorthcutt, ggwicz
 Donate link: https://kit.com
-Tags: email marketing, email newsletter, subscribers, block, form
+Tags: email marketing, email newsletter, subscribers, landing page, block
 Requires at least: 5.0
 Tested up to: 6.7.1
 Requires PHP: 5.6.20
@@ -11,100 +11,96 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Build your email subscriber lists, send email marketing newsletters, sell more products and build your membership site with Kit (formerly ConvertKit).
 
-== Description ==
+## Description ##
 
-[Kit](https://kit.com?utm_source=wordpress&utm_term=en_US&utm_content=readme) makes it easy to create, send and manage your email marketing campaigns; grow your email subscribers lists; send targeted email newsletters; sell more products and build your membership site - all by easily embedding email marketing / email subscriber forms anywhere on your WordPress web site.
+[Kit](https://kit.com?utm_source=wordpress&utm_term=en_US&utm_content=readme) makes it easy to create, send, and manage your email marketing campaigns; grow your email subscribers lists; send targeted email newsletters; sell more products and build your membership site — all by embedding email marketing / email subscriber forms on your WordPress website.
 
-**New to Kit? [Creating an account](https://app.kit.com/users/signup?plan=newsletter-free&utm_source=wordpress&utm_term=en_US&utm_content=readme) is 100% free for your first 10,000 subscribers, making Kit an email marketing solution for everyone - whether you're new to email marketing or a seasoned professional email marketer.**
+**New to Kit? [Create an account](https://app.kit.com/users/signup?plan=newsletter-free&utm_source=wordpress&utm_term=en_US&utm_content=readme) for free for your first 10,000 subscribers. Kit is the perfect email marketing solution for everyone — whether you're new to email marketing or a seasoned email newsletter pro.**
 
 ### Email Newsletter and Email Marketing Features
 
-- Design [email newsletter subscription forms](https://kit.com/features/forms?utm_source=wordpress&utm_term=en_US&utm_content=readme) in Kit, automatically appending them to any WordPress post or page, or displaying forms within your WordPress content using the supplied Gutenberg block and shortcode options. Perfect for building your email subscriber lists.
-- Build [landing pages](https://kit.com/features/landing-pages?utm_source=wordpress&utm_term=en_US&utm_content=readme) in Kit, and display them on a WordPress page to capture email subscribers
-- List past [email newsletters](https://kit.com/features/email-marketing?utm_source=wordpress&utm_term=en_US&utm_content=readme) on your WordPress site
+- Design [email newsletter subscription forms](https://kit.com/features/forms?utm_source=wordpress&utm_term=en_US&utm_content=readme) in Kit and append them to WordPress posts or pages, or display them within content using Gutenberg blocks or shortcodes. Build your email subscriber lists effortlessly.  
+- Create [landing pages](https://kit.com/features/landing-pages?utm_source=wordpress&utm_term=en_US&utm_content=readme) in Kit and showcase them on WordPress to attract new subscribers.  
+- Publish past [email newsletters](https://kit.com/features/email-marketing?utm_source=wordpress&utm_term=en_US&utm_content=readme) to your WordPress website to enhance visibility and engagement.
 
-= Forms =
+### Forms
 
-Design [forms](https://kit.com/features/forms?utm_source=wordpress&utm_term=en_US&utm_content=readme) in Kit, choosing from a variety of designs, customisable to your branding.
+Create customizable [forms](https://kit.com/features/forms?utm_source=wordpress&utm_term=en_US&utm_content=readme) in Kit, branded to suit your style, and optimized to grow your subscribers list.
 
-Sign up forms can be configured to:
+Forms can be configured to:
 
-- Send free content, such as a PDF
-- Display when the user is about to leave the page
-- Subscribe to an email newsletter, with powerful tagging and segmentation options
+- Send free content (e.g., PDFs)  
+- Display as exit-intent popups  
+- Subscribe users to your email newsletter with advanced tagging and segmentation options  
 
-Embedding Kit forms on your WordPress web site with the Kit Plugin is quick and simple:
+Embedding Kit forms on WordPress is seamless:  
 
-- Choose a default form to be displayed below each individual Post Type (Pages, Posts and other public Post Types, such as WooCommerce Products)
-- Choose a specific email marketing form to be displayed below a specific Page, Post or custom post type
-- Turn off form embedding at both site wide and/or individual Page/Post level
+- Assign a default email marketing form for Pages, Posts, or custom post types  
+- Use specific forms on individual Pages or Posts to grow your email subscribers  
+- Turn off forms site-wide or on specific content  
 
-For greater control, Kit's email marketing subscription forms can be displayed in specific sections of your WordPress site's content, sidebars and footers by:
+For more control, display forms in key sections like sidebars and footers using:  
 
-- Using the Kit Forms block in Gutenberg
-- Using the `[convertkit]` shortcode in the Classic Editor
+- The Kit Forms block in Gutenberg  
+- The `[convertkit]` shortcode  
 
-Start collecting email subscribers today!
+Start growing your email subscribers today!
 
 ### Send Email Newsletters
 
-Use Kit's [email marketing](https://kit.com/features/email-marketing?utm_source=wordpress&utm_term=en_US&utm_content=readme) feature to build and send email newsletters to your subscribers and leads, with options to send email newsletters to segments of your subscriber list.
+Leverage Kit's [email marketing](https://kit.com/features/email-marketing?utm_source=wordpress&utm_term=en_US&utm_content=readme) tools to create and send targeted email newsletters. Use segmentation to engage specific groups of subscribers effectively.  
 
-Embed existing email newsletters on your WordPress web site, ensuring visitors never miss your email newsletter content, by:
+You can also embed past email newsletters on your WordPress website to ensure visitors never miss your content. Embed them using:  
 
-- Using the Kit Broadcasts block in Gutenberg
-- Using the `[convertkit_broadcasts]` shortcode in the Classic Editor
+- The Kit Broadcasts block in Gutenberg  
+- The `[convertkit_broadcasts]` shortcode  
 
-= Landing Pages =
+### Landing Pages
 
-Design [landing pages](https://kit.com/features/landing-pages?utm_source=wordpress&utm_term=en_US&utm_content=readme) in Kit's intuitive editor, choosing from a variety of designs, customisable to your branding and ideal for building your email marketing list or selling a product.
+Design and publish engaging [landing pages](https://kit.com/features/landing-pages?utm_source=wordpress&utm_term=en_US&utm_content=readme) to grow your email subscribers or market products. Kit's editor offers customizable designs perfect for boosting your email marketing campaigns.  
 
-Landing pages can then be embedded on your WordPress web site. Simply create or edit a WordPress Page, choose the Kit landing page from the Kit meta box settings to display, and you're all set to begin growing your email subscribers list.
+Embed landing pages on WordPress easily by selecting a Kit landing page in the meta box settings of your WordPress Page.
 
-= Sell Products =
+### Sell Products
 
-Embed buttons (or link text) to sell your Kit Products in seconds - whether that's digital goods, paid email newsletters, music, coaching and more.
+Sell digital goods, such as paid email newsletters, coaching services, or music, with Kit’s e-commerce tools. Use buttons or links to integrate product sales seamlessly.
 
 ### List Email Newsletters
 
-Automatically publish your past email newsletters to WordPress Posts, defining a WordPress author, category and cut-off date within the Plugin's settings.
+Automatically publish your past email newsletters as WordPress Posts, categorizing and assigning authors. Alternatively, list broadcasts on your site using blocks or shortcodes.
 
-Prefer to just list existing broadcasts, each linked to your Kit profile? Use the Broadcasts block or shortcode to embed your existing newsletters in any WordPress Page, Post or Custom Post Type.
+### Paid (and Free) Membership Sites
 
-### Paid (and free) Membership Sites
+Transform WordPress content into exclusive membership pages. Require email subscribers to purchase [Kit Products](https://kit.com/features/commerce) or sign up for free to access premium content.  
 
-Require email subscribers to either purchase a [Kit Product](https://kit.com/features/commerce), or subscribe for free, to access your content with Kit's Member Content feature - whether that's a course, ebook, digital download, album, presets, coaching and more. 
+Subscribers receive a one-time passcode to log in, simplifying the process. Create unlimited products and assign them to Pages or Posts to restrict access for paid or free members.
 
-Subscribers access their membership by entering their email address, receiving a one time passcode by email and clicking the link in the email. That's it - no complex paid membership plugins or payment gateways to configure.
+### Plugin Integrations
 
-There's no limit to the number of Kit Products you can create, and each can be assigned to one or more WordPress Pages and Posts, instantly turning them into membership only content for your paid subscribers. 
+The Kit Plugin integrates with:  
 
-= Plugin Integrations =
+- Elementor: Embed forms and broadcasts effortlessly  
+- Contact Form 7: Automatically add new email subscribers  
+- WishList Member: Manage subscribers based on membership level  
 
-With the Kit for WordPress Plugin, you also get integrations with:
-
-- Elementor: Form and Broadcast widgets natively integrated with Elementor, to embed Kit forms and broadcast lists
-- Contact Form 7: Automatically add email subscribers to Kit when they submit a Contact Form 7 form
-- WishList Member: Automatically subscribe, unsubscribe and tag users based on their membership level
-
-Our other WordPress Plugins provide further integrations between WordPress and Kit:
+Our additional plugins offer:  
 
 - [Kit for WooCommerce](https://wordpress.org/plugins/convertkit-for-woocommerce/): Subscribe, tag and assign sequences to customers at checkout, and send order data to Kit
 - [Kit for Gravity Forms](https://wordpress.org/plugins/convertkit-gravity-forms/): Automatically add email subscribers to Kit when they submit a Gravity Form, with tagging options
 
-= What is Kit? =
+### What is Kit?
 
-Kit is the go-to email marketing hub for creators that helps you grow and monetize your audience with ease.
+Kit helps creators grow and monetize their audience.  
 
-**Grow your audience:** Increase subscribers with beautiful landing pages, sign up forms, and link pages that make your work stand out.
+**Grow your audience**: Build your subscribers list with beautiful landing pages, forms, and email newsletter tools.  
 
-**Automate your email marketing:** Create lasting connections and promote like a pro with our intuitive email editor, powerful sales funnels and subscriber list segmentation using tags.
+**Automate your email marketing**: Use segmentation and sales funnels to create impactful connections.  
 
-**Sell your digital products:** Market and sell your digital products and subscriptions with Kit to drive higher conversions and save big on fees.
+**Sell digital products**: Monetize content and save on fees.
 
-= Documentation =
+### Documentation
 
-Full Plugin documentation can be found [here](https://help.kit.com/en/articles/2502591-the-convertkit-wordpress-plugin?utm_source=wordpress&utm_term=en_US&utm_content=readme).
+Full Plugin documentation is available [here](https://help.kit.com/en/articles/2502591-the-convertkit-wordpress-plugin?utm_source=wordpress&utm_term=en_US&utm_content=readme).
 
 == Installation ==
 
