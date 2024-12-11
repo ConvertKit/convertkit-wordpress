@@ -443,9 +443,9 @@ abstract class ConvertKit_Settings_Base {
 	 *
 	 * @param   string            $name           Name.
 	 * @param   string            $value          Value.
-	 * @param   int               $min            `min` attribute value.
-	 * @param   int               $max            `max` attribute value.
-	 * @param   int               $step           `step` attribute value.
+	 * @param   int|float         $min            `min` attribute value.
+	 * @param   int|float         $max            `max` attribute value.
+	 * @param   int|float         $step           `step` attribute value.
 	 * @param   bool|string|array $description    Description (false|string|array).
 	 * @param   bool|array        $css_classes    CSS Classes (false|array).
 	 * @return  string                            HTML Field

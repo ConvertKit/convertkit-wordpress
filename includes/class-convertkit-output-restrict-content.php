@@ -207,6 +207,61 @@ class ConvertKit_Output_Restrict_Content {
 				break;
 
 			case 'tag':
+				// If Google reCAPTCHA is enabled, check if the submission is spam.
+				if ( $this->restrict_content_settings->has_recaptcha_site_and_secret_keys() ) {
+					$response = wp_remote_post(
+						'https://www.google.com/recaptcha/api/siteverify',
+						array(
+							'body' => array(
+								'secret'   => $this->restrict_content_settings->get_recaptcha_secret_key(),
+								'response' => $_POST['g-recaptcha-response'],
+								'remoteip' => $_SERVER['REMOTE_ADDR'],
+							),
+						)
+					);
+
+					// Bail if an error occured.
+					if ( is_wp_error( $response ) ) {
+						$this->error = $response;
+						return;
+					}
+
+					// Inspect response.
+					$body = json_decode( wp_remote_retrieve_body( $response ), true );
+
+					// If the request wasn't successful, throw an error.
+					if ( ! $body['success'] ) {
+						$this->error = new WP_Error(
+							'convertkit_output_restrict_content_maybe_run_subscriber_authentication_error',
+							sprintf(
+								/* translators: Error codes */
+								__( 'Google reCAPTCHA failure: %s', 'convertkit' ),
+								implode( ', ', $body['error-codes'] )
+							)
+						);
+						return;
+					}
+
+					// If the action doesn't match the Plugin action, this might not be a reCAPTCHA request
+					// for this Plugin.
+					if ( $body['action'] !== 'convertkit_restrict_content_tag' ) {
+						// Just silently return.
+						return;
+					}
+
+					// If the score is less than 0.5 (on a scale of 0.0 to 1.0, with 0.0 being a bot, 1.0 being very good),
+					// it's likely a spam submission.
+					if ( $body['score'] < $this->restrict_content_settings->get_recaptcha_minimum_score() ) {
+						$this->error = new WP_Error(
+							'convertkit_output_restrict_content_maybe_run_subscriber_authentication_error',
+							__( 'Google reCAPTCHA failed', 'convertkit' )
+						);
+						return;
+					}
+
+					// If here, the submission looks genuine. Continue the request.
+				}
+
 				// Tag the subscriber.
 				$result = $this->api->tag_subscribe( $this->resource_id, $email );
 
@@ -1051,6 +1106,22 @@ class ConvertKit_Output_Restrict_Content {
 				return trim( ob_get_clean() );
 
 			case 'tag':
+				// Enqueue Google reCAPTCHA JS if site and secret keys specified.
+				if ( $this->restrict_content_settings->has_recaptcha_site_and_secret_keys() ) {
+					add_filter(
+						'convertkit_output_scripts_footer',
+						function ( $scripts ) {
+
+							$scripts[] = array(
+								'src' => 'https://www.google.com/recaptcha/api.js?',
+							);
+
+							return $scripts;
+
+						}
+					);
+				}
+
 				// Output.
 				ob_start();
 				include CONVERTKIT_PLUGIN_PATH . '/views/frontend/restrict-content/tag.php';
