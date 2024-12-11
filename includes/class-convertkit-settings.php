@@ -364,10 +364,11 @@ class ConvertKit_Settings {
 
 		// 2.6.8 and earlier stored a single Form ID in a string.
 		if ( is_string( $this->settings['non_inline_form'] ) ) {
-			return array( $this->settings['non_inline_form'] );
+			return array( (int) $this->settings['non_inline_form'] );
 		}
 
-		return $this->settings['non_inline_form'];
+		// Cast values to integers and return.
+		return array_map( 'intval', $this->settings['non_inline_form'] );
 
 	}
 
@@ -383,13 +384,13 @@ class ConvertKit_Settings {
 		// 2.6.8 and earlier stored a single Form ID in a string.
 		if ( is_string( $this->settings['non_inline_form'] ) ) {
 			if ( ! empty( $this->settings['non_inline_form'] ) ) {
-				return array( $this->settings['non_inline_form'] );
+				return true;
 			}
 
 			return false;
 		}
 
-		return ( count( $this->settings['non_inline_form'] ) );
+		return ( count( $this->settings['non_inline_form'] ) > 0 ? true : false );
 
 	}
 

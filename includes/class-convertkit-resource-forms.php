@@ -157,7 +157,7 @@ class ConvertKit_Resource_Forms extends ConvertKit_Resource_V4 {
 	 * @param   string            $name             Name.
 	 * @param   string            $id               ID.
 	 * @param   bool|array        $css_classes      <select> CSS class(es).
-	 * @param   string            $selected_options <option> values to mark as selected.
+	 * @param   array             $selected_options <option> values to mark as selected.
 	 * @param   bool|array        $prepend_options  <option> elements to prepend before resources.
 	 * @param   bool|array        $attributes       <select> attributes.
 	 * @param   bool|string|array $description      Description.
@@ -305,7 +305,7 @@ class ConvertKit_Resource_Forms extends ConvertKit_Resource_V4 {
 				$html .= sprintf(
 					'<option value="%s" data-preserve-on-refresh="1"%s>%s</option>',
 					esc_attr( $value ),
-					( in_array( $value, $selected_options, false ) ? ' selected' : '' ),
+					( in_array( $value, $selected_options, true ) ? ' selected' : '' ),
 					esc_attr( $label )
 				);
 			}
@@ -318,7 +318,7 @@ class ConvertKit_Resource_Forms extends ConvertKit_Resource_V4 {
 				$html .= sprintf(
 					'<option value="%s"%s>%s [%s]</option>',
 					esc_attr( $form['id'] ),
-					( in_array( $form['id'], $selected_options, false ) ? ' selected' : '' ),
+					( in_array( $form['id'], $selected_options, true ) ? ' selected' : '' ),
 					esc_attr( $form['name'] ),
 					( ! empty( $form['format'] ) ? esc_attr( $form['format'] ) : 'inline' )
 				);
