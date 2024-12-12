@@ -859,7 +859,7 @@ add_filter( 'convertkit_settings_broadcasts_get_defaults', function( $defaults )
 </pre>
 <h3 id="convertkit_settings_restrict_content_get_defaults">
 						convertkit_settings_restrict_content_get_defaults
-						<code>includes/class-convertkit-settings-restrict-content.php::145</code>
+						<code>includes/class-convertkit-settings-restrict-content.php::229</code>
 					</h3><h4>Overview</h4>
 						<p>The default settings, used when the ConvertKit Restrict Content Settings haven't been saved e.g. on a new installation.</p><h4>Parameters</h4>
 					<table>
@@ -1025,7 +1025,7 @@ add_filter( 'convertkit_wishlist_settings_get_defaults', function( $defaults ) {
 </pre>
 <h3 id="convertkit_output_restrict_content_get_resource_type">
 						convertkit_output_restrict_content_get_resource_type
-						<code>includes/class-convertkit-output-restrict-content.php::661</code>
+						<code>includes/class-convertkit-output-restrict-content.php::716</code>
 					</h3><h4>Overview</h4>
 						<p>Define the ConvertKit Resource Type that the visitor must be subscribed against to access this content, overriding the Post setting. Return false or an empty string to not restrict content.</p><h4>Parameters</h4>
 					<table>
@@ -1056,7 +1056,7 @@ add_filter( 'convertkit_output_restrict_content_get_resource_type', function( $r
 </pre>
 <h3 id="convertkit_output_restrict_content_get_resource_id">
 						convertkit_output_restrict_content_get_resource_id
-						<code>includes/class-convertkit-output-restrict-content.php::699</code>
+						<code>includes/class-convertkit-output-restrict-content.php::754</code>
 					</h3><h4>Overview</h4>
 						<p>Define the ConvertKit Resource ID that the visitor must be subscribed against to access this content, overriding the Post setting. Return 0 to not restrict content.</p><h4>Parameters</h4>
 					<table>
@@ -1087,7 +1087,7 @@ add_filter( 'convertkit_output_restrict_content_get_resource_id', function( $res
 </pre>
 <h3 id="convertkit_output_restrict_content_content_preview">
 						convertkit_output_restrict_content_content_preview
-						<code>includes/class-convertkit-output-restrict-content.php::882</code>
+						<code>includes/class-convertkit-output-restrict-content.php::937</code>
 					</h3><h4>Overview</h4>
 						<p>Define the output for the content preview when the visitor is not an authenticated subscriber.</p><h4>Parameters</h4>
 					<table>
@@ -1118,7 +1118,7 @@ add_filter( 'convertkit_output_restrict_content_content_preview', function( $con
 </pre>
 <h3 id="convertkit_output_restrict_content_call_to_action">
 						convertkit_output_restrict_content_call_to_action
-						<code>includes/class-convertkit-output-restrict-content.php::896</code>
+						<code>includes/class-convertkit-output-restrict-content.php::951</code>
 					</h3><h4>Overview</h4>
 						<p>Define the output for the call to action, displayed below the content preview, when the visitor is not an authenticated subscriber.</p><h4>Parameters</h4>
 					<table>
@@ -1149,7 +1149,7 @@ add_filter( 'convertkit_output_restrict_content_call_to_action', function( $call
 </pre>
 <h3 id="convertkit_output_restrict_content_is_crawler_permitted_user_agent_ip_ranges">
 						convertkit_output_restrict_content_is_crawler_permitted_user_agent_ip_ranges
-						<code>includes/class-convertkit-output-restrict-content.php::1251</code>
+						<code>includes/class-convertkit-output-restrict-content.php::1322</code>
 					</h3><h4>Overview</h4>
 						<p>Define the permitted user agents and their IP address ranges that can bypass Restrict Content to index content for search engines.</p><h4>Parameters</h4>
 					<table>
@@ -1281,7 +1281,7 @@ add_filter( 'convertkit_frontend_append_form', function( $content, $form, $post_
 </pre>
 <h3 id="convertkit_output_scripts_footer">
 						convertkit_output_scripts_footer
-						<code>includes/class-convertkit-output.php::867</code>
+						<code>includes/class-convertkit-output.php::872</code>
 					</h3><h4>Overview</h4>
 						<p>Define an array of scripts to output in the footer of the WordPress site.</p><h4>Parameters</h4>
 					<table>
@@ -1308,7 +1308,7 @@ add_filter( 'convertkit_output_scripts_footer', function( $scripts ) {
 </pre>
 <h3 id="convertkit_output_script_footer">
 						convertkit_output_script_footer
-						<code>includes/class-convertkit-output.php::886</code>
+						<code>includes/class-convertkit-output.php::891</code>
 					</h3><h4>Overview</h4>
 						<p>Filter the form <script> key/value pairs immediately before the script is output.</p><h4>Parameters</h4>
 					<table>
@@ -1335,7 +1335,7 @@ add_filter( 'convertkit_output_script_footer', function( $script ) {
 </pre>
 <h3 id="convertkit_settings_get_defaults">
 						convertkit_settings_get_defaults
-						<code>includes/class-convertkit-settings.php::463</code>
+						<code>includes/class-convertkit-settings.php::478</code>
 					</h3><h4>Overview</h4>
 						<p>The default settings, used when the ConvertKit Plugin Settings haven't been saved e.g. on a new installation.</p><h4>Parameters</h4>
 					<table>
@@ -1389,7 +1389,7 @@ add_filter( 'convertkit_is_admin_or_frontend_editor', function( $is_admin_or_fro
 </pre>
 <h3 id="convertkit_resource_forms_output_script">
 						convertkit_resource_forms_output_script
-						<code>includes/class-convertkit-resource-forms.php::378</code>
+						<code>includes/class-convertkit-resource-forms.php::461</code>
 					</h3><h4>Overview</h4>
 						<p>Filter the form <script> key/value pairs immediately before the script is output.</p><h4>Parameters</h4>
 					<table>
