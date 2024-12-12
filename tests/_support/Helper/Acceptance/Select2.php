@@ -29,4 +29,23 @@ class Select2 extends \Codeception\Module
 		$I->waitForElementVisible('ul#select2-' . $fieldName . '-results li.select2-results__option--highlighted');
 		$I->pressKey('.select2-search__field[' . $ariaAttributeName . '="select2-' . $fieldName . '-results"]', \Facebook\WebDriver\WebDriverKeys::ENTER);
 	}
+
+	/**
+	 * Helper method to enter text into a jQuery Select2 multiple selection field, selecting the option that appears.
+	 *
+	 * @since   2.6.9
+	 *
+	 * @param   AcceptanceTester $I          Tester.
+	 * @param   string           $container  Field CSS Class / ID.
+	 * @param   string           $value      Field Value.
+	 * @param   string           $ariaAttributeName  Aria Attribute Name (aria-controls|aria-owns).
+	 */
+	public function fillSelect2MultipleField($I, $container, $value, $ariaAttributeName = 'aria-describedby')
+	{
+		$fieldID   = $I->grabAttributeFrom($container, 'id');
+		$fieldName = str_replace('-container', '', str_replace('select2-', '', $fieldID));
+		$I->fillField('.select2-search__field[' . $ariaAttributeName . '="select2-' . $fieldName . '-container"]', $value);
+		$I->waitForElementVisible('ul#select2-' . $fieldName . '-results li.select2-results__option--highlighted');
+		$I->pressKey('.select2-search__field[' . $ariaAttributeName . '="select2-' . $fieldName . '-container"]', \Facebook\WebDriver\WebDriverKeys::ENTER);
+	}
 }

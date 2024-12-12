@@ -68,7 +68,7 @@ class ConvertKitPlugin extends \Codeception\Module
 			'post_form'       => $_ENV['CONVERTKIT_API_FORM_ID'],
 			'page_form'       => $_ENV['CONVERTKIT_API_FORM_ID'],
 			'product_form'    => $_ENV['CONVERTKIT_API_FORM_ID'],
-			'non_inline_form' => '',
+			'non_inline_form' => array(),
 		];
 
 		// If supplied options are an array, merge them with the defaults.

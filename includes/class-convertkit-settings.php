@@ -353,16 +353,22 @@ class ConvertKit_Settings {
 	 *
 	 * @since   2.3.3
 	 *
-	 * @return  string|int       Non-inline Form (blank string|form id)
+	 * @return  array
 	 */
 	public function get_non_inline_form() {
 
-		// Return blank string if no inline form is specified.
+		// Return blank array if no inline form is specified.
 		if ( ! $this->has_non_inline_form() ) {
-			return '';
+			return array();
 		}
 
-		return $this->settings['non_inline_form'];
+		// 2.6.8 and earlier stored a single Form ID in a string.
+		if ( is_string( $this->settings['non_inline_form'] ) ) {
+			return array( (int) $this->settings['non_inline_form'] );
+		}
+
+		// Cast values to integers and return.
+		return array_map( 'intval', $this->settings['non_inline_form'] );
 
 	}
 
@@ -375,7 +381,16 @@ class ConvertKit_Settings {
 	 */
 	public function has_non_inline_form() {
 
-		return ( ! empty( $this->settings['non_inline_form'] ) ? true : false );
+		// 2.6.8 and earlier stored a single Form ID in a string.
+		if ( is_string( $this->settings['non_inline_form'] ) ) {
+			if ( ! empty( $this->settings['non_inline_form'] ) ) {
+				return true;
+			}
+
+			return false;
+		}
+
+		return ( count( $this->settings['non_inline_form'] ) > 0 ? true : false );
 
 	}
 
@@ -439,7 +454,7 @@ class ConvertKit_Settings {
 			'api_secret'      => '', // string.
 
 			// Settings.
-			'non_inline_form' => '', // string.
+			'non_inline_form' => array(), // array.
 			'debug'           => '', // blank|on.
 			'no_scripts'      => '', // blank|on.
 			'no_css'          => '', // blank|on.
