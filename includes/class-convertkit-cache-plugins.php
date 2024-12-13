@@ -79,6 +79,9 @@ class ConvertKit_Cache_Plugins {
 		add_filter( 'convertkit_output_script_footer', array( $this, 'wp_rocket_exclude_delay_js_execution' ) );
 		add_filter( 'convertkit_resource_forms_output_script', array( $this, 'wp_rocket_exclude_delay_js_execution' ) );
 
+		// WP Rocket: Add `ck_subscriber_id` to "Never Cache Cookies" setting.
+		add_filter( 'rocket_cache_reject_cookies', array( $this, 'wp_rocket_add_never_cache_cookies' ) );
+
 	}
 
 	/**
@@ -258,6 +261,22 @@ class ConvertKit_Cache_Plugins {
 				'nowprocket' => '',
 			)
 		);
+
+	}
+
+	/**
+	 * WP Rocket: Register `ck_subscriber_id` as a cookie that, when set, prevents
+	 * caching.
+	 * 
+	 * @since 	2.7.0
+	 * 
+	 * @param 	array 	$cookies 	Cookies.
+	 * @return  array
+	 */
+	public function wp_rocket_add_never_cache_cookies( $cookies ) {
+
+		$cookies[] = 'ck_subscriber_id';
+		return $cookies;
 
 	}
 
