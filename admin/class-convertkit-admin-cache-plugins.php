@@ -315,7 +315,7 @@ class ConvertKit_Admin_Cache_Plugins {
 		$settings[] = $this->key;
 
 		// Update configuration to include excluding caching for the ck_subscriber_id cookie.
-		return update_rocket_option( 'cache_reject_cookies', $settings );
+		update_rocket_option( 'cache_reject_cookies', $settings );
 
 	}
 
