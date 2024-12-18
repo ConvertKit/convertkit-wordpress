@@ -58,6 +58,7 @@ class ConvertKit_Admin_Cache_Plugins {
 		$this->w3_total_cache();
 		$this->wp_fastest_cache();
 		$this->wp_optimize();
+		$this->wp_rocket();
 		$this->wp_super_cache();
 
 	}
@@ -281,6 +282,40 @@ class ConvertKit_Admin_Cache_Plugins {
 
 		// Update configuration to include excluding caching for the ck_subscriber_id cookie.
 		return $config->update( $settings );
+
+	}
+
+	/**
+	 * Add a rule to WP Rocket to prevent caching when
+	 * the ck_subscriber_id cookie is present.
+	 *
+	 * @since   2.7.0
+	 */
+	public function wp_rocket() {
+
+		// Bail if the WP Rocket plugin is not active.
+		if ( ! is_plugin_active( 'wp-rocket/wp-rocket.php' ) ) {
+			return;
+		}
+
+		// Sanity check that we can access WP-Optimize's configuration class.
+		if ( ! function_exists( 'update_rocket_option' ) ) {
+			return;
+		}
+
+		// Fetch settings.
+		$settings = get_rocket_option( 'cache_reject_cookies', array() );
+
+		// If the cookie exception exists, no need to modify anything.
+		if ( in_array( $this->key, $settings, true ) ) {
+			return;
+		}
+
+		// Add cookie to exceptions.
+		$settings[] = $this->key;
+
+		// Update configuration to include excluding caching for the ck_subscriber_id cookie.
+		update_rocket_option( 'cache_reject_cookies', $settings );
 
 	}
 

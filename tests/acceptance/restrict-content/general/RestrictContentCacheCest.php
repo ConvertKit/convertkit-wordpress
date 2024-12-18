@@ -260,6 +260,46 @@ class RestrictContentCacheCest
 	}
 
 	/**
+	 * Tests that the WP RocketPlugin does not interfere with Restrict Content
+	 * output when a ck_subscriber_id cookie is present.
+	 *
+	 * @since   2.7.0
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testRestrictContentWPRocketCache(AcceptanceTester $I)
+	{
+		// Activate WP Rocket Plugin.
+		$I->activateThirdPartyPlugin($I, 'wp-rocket');
+
+		// Create Restricted Content Page.
+		$pageID = $I->createRestrictedContentPage(
+			$I,
+			[
+				'post_title'               => 'Kit: Restrict Content: Product: WP Rocket',
+				'restrict_content_setting' => 'product_' . $_ENV['CONVERTKIT_API_PRODUCT_ID'],
+			]
+		);
+
+		// Log out, so that caching is honored.
+		$I->logOut();
+
+		// Navigate to the page.
+		$I->amOnPage('?p=' . $pageID);
+
+		// Test that the restricted content CTA displays when no valid signed subscriber ID is used,
+		// to confirm caching does not show member-only content.
+		$I->testRestrictContentByProductHidesContentWithCTA($I);
+
+		// Test that the restricted content displays when a valid signed subscriber ID is used,
+		// to confirm caching does not show the incorrect content.
+		$I->testRestrictedContentShowsContentWithValidSubscriberID($I, $pageID);
+
+		// Deactivate WP Super Cache Plugin.
+		$I->deactivateThirdPartyPlugin($I, 'wp-rocket');
+	}
+
+	/**
 	 * Deactivate and reset Plugin(s) after each test, if the test passes.
 	 * We don't use _after, as this would provide a screenshot of the Plugin
 	 * deactivation and not the true test error.
