@@ -5,7 +5,7 @@ Tags: email marketing, email newsletter, subscribers, landing page, block
 Requires at least: 5.0
 Tested up to: 6.7.1
 Requires PHP: 5.6.20
-Stable tag: 2.6.9
+Stable tag: 2.7.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -158,6 +158,10 @@ Full Plugin documentation can be found [here](https://help.kit.com/en/articles/2
 10. Track subscriber growth and email newsletter performance
 
 == Changelog ==
+
+### 2.7.0 2024-12-18
+* Added: Member Content: Automatically configure WP Rocket to not cache when the `ck_subscriber_id` cookie is present, to ensure Member Content correctly displays
+* Fix: Don't strip hash from URL, ensuring anchor links work
 
 ### 2.6.9 2024-12-12
 * Added: Settings: Default Forms (Site Wide): Option to specify more than one non-inline site wide Form
