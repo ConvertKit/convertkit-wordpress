@@ -50,6 +50,7 @@ class SubscriberIDURLCest
 		$I->checkNoWarningsAndNoticesOnScreen($I);
 		$I->wait(2);
 		$I->assertStringNotContainsString('ck_subscriber_id=' . $_ENV['CONVERTKIT_API_SUBSCRIBER_ID'], $I->grabFromCurrentUrl());
+		$I->assertStringNotContainsString('#', $I->grabFromCurrentUrl());
 
 		// Load the Page with UTM parameters at the end.
 		$I->amOnPage('/convertkit-subscriber-id-url?ck_subscriber_id=' . $_ENV['CONVERTKIT_API_SUBSCRIBER_ID'] . '&utm_source=email&utm_medium=email');
@@ -57,6 +58,7 @@ class SubscriberIDURLCest
 		$I->wait(2);
 		$I->assertStringNotContainsString('ck_subscriber_id=' . $_ENV['CONVERTKIT_API_SUBSCRIBER_ID'], $I->grabFromCurrentUrl());
 		$I->assertStringContainsString('?utm_source=email&utm_medium=email', $I->grabFromCurrentUrl());
+		$I->assertStringNotContainsString('#', $I->grabFromCurrentUrl());
 
 		// Load the Page with UTM parameters at the start.
 		$I->amOnPage('/convertkit-subscriber-id-url?utm_source=email&utm_medium=email&ck_subscriber_id=' . $_ENV['CONVERTKIT_API_SUBSCRIBER_ID']);
@@ -64,6 +66,57 @@ class SubscriberIDURLCest
 		$I->wait(2);
 		$I->assertStringNotContainsString('ck_subscriber_id=' . $_ENV['CONVERTKIT_API_SUBSCRIBER_ID'], $I->grabFromCurrentUrl());
 		$I->assertStringContainsString('?utm_source=email&utm_medium=email', $I->grabFromCurrentUrl());
+		$I->assertStringNotContainsString('#', $I->grabFromCurrentUrl());
+	}
+
+	/**
+	 * Test that the ck_subscriber_id parameter is removed from the URL
+	 * and that a hash is retained if specified in the URL
+	 *
+	 * @since   2.7.0
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testSubscriberIDRemovedFromURLAndHashRetainedWhenSpecified(AcceptanceTester $I)
+	{
+		// Create Page.
+		$I->havePageInDatabase(
+			[
+				'post_name'    => 'convertkit-subscriber-id-url-hash',
+				'post_content' => 'Test',
+			]
+		);
+
+		// Confirm that a blank ck_subscriber_id does not cause a fatal error.
+		$I->amOnPage('/convertkit-subscriber-id-url-hash?ck_subscriber_id=#hash');
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Confirm that a non-numeric ck_subscriber_id does not cause a fatal error.
+		$I->amOnPage('/convertkit-subscriber-id-url-hash?ck_subscriber_id=abcde#hash');
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+
+		// Confirm that the ck_subscriber_id was removed.
+		$I->amOnPage('/convertkit-subscriber-id-url-hash?ck_subscriber_id=' . $_ENV['CONVERTKIT_API_SUBSCRIBER_ID'] . '#hash');
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+		$I->wait(2);
+		$I->assertStringNotContainsString('ck_subscriber_id=' . $_ENV['CONVERTKIT_API_SUBSCRIBER_ID'], $I->grabFromCurrentUrl());
+		$I->assertStringContainsString('#hash', $I->grabFromCurrentUrl());
+
+		// Load the Page with UTM parameters at the end.
+		$I->amOnPage('/convertkit-subscriber-id-url-hash?ck_subscriber_id=' . $_ENV['CONVERTKIT_API_SUBSCRIBER_ID'] . '&utm_source=email&utm_medium=email#hash');
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+		$I->wait(2);
+		$I->assertStringNotContainsString('ck_subscriber_id=' . $_ENV['CONVERTKIT_API_SUBSCRIBER_ID'], $I->grabFromCurrentUrl());
+		$I->assertStringContainsString('?utm_source=email&utm_medium=email', $I->grabFromCurrentUrl());
+		$I->assertStringContainsString('#hash', $I->grabFromCurrentUrl());
+
+		// Load the Page with UTM parameters at the start.
+		$I->amOnPage('/convertkit-subscriber-id-url-hash?utm_source=email&utm_medium=email&ck_subscriber_id=' . $_ENV['CONVERTKIT_API_SUBSCRIBER_ID'] . '#hash');
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+		$I->wait(2);
+		$I->assertStringNotContainsString('ck_subscriber_id=' . $_ENV['CONVERTKIT_API_SUBSCRIBER_ID'], $I->grabFromCurrentUrl());
+		$I->assertStringContainsString('?utm_source=email&utm_medium=email', $I->grabFromCurrentUrl());
+		$I->assertStringContainsString('#hash', $I->grabFromCurrentUrl());
 	}
 
 	/**
@@ -91,6 +144,36 @@ class SubscriberIDURLCest
 		$I->checkNoWarningsAndNoticesOnScreen($I);
 		$I->wait(2);
 		$I->assertStringNotContainsString('?', $I->grabFromCurrentUrl());
+		$I->assertStringNotContainsString('#', $I->grabFromCurrentUrl());
+	}
+
+	/**
+	 * Test that no query separator is appended to the URL when a valid ck_subscriber_id exists
+	 * and that a hash is retained if specified in the URL
+	 *
+	 * @since   2.7.0
+	 *
+	 * @param   AcceptanceTester $I  Tester.
+	 */
+	public function testQuerySeparatorNotAppendedToURLWhenCookieExistsAndHashRetainedWhenSpecified(AcceptanceTester $I)
+	{
+		// Create Page.
+		$I->havePageInDatabase(
+			[
+				'post_name'    => 'convertkit-subscriber-id-cookie-hash',
+				'post_content' => 'Test',
+			]
+		);
+
+		// Set the ck_subscriber_id cookie.
+		$I->setCookie('ck_subscriber_id', $_ENV['CONVERTKIT_API_SUBSCRIBER_ID']);
+
+		// Confirm that no query parameters does not append a separator/question mark.
+		$I->amOnPage('/convertkit-subscriber-id-url#hash');
+		$I->checkNoWarningsAndNoticesOnScreen($I);
+		$I->wait(2);
+		$I->assertStringNotContainsString('?', $I->grabFromCurrentUrl());
+		$I->assertStringContainsString('#hash', $I->grabFromCurrentUrl());
 	}
 
 	/**
